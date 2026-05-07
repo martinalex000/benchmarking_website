@@ -83,6 +83,16 @@ class ExtractionOutput(BaseModel):
     extraction_confidence: str = "LOW"
     extraction_notes: str = ""
 
+    @field_validator("proposed_model", mode="before")
+    @classmethod
+    def _require_model_name(cls, v: Any) -> Any:
+        """Discard proposed_model when the LLM returns name=null or name=''."""
+        if v is None:
+            return None
+        if isinstance(v, dict) and not v.get("name"):
+            return None
+        return v
+
 
 class FigureInfo(BaseModel):
     figure_id: str | None = None

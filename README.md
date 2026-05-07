@@ -50,6 +50,16 @@ Copy `.env.example` → `.env` and set `LLM_ENDPOINT` and `LLM_API_KEY` at minim
 Default model names, temperature, retry counts, and token limits live here.
 `.env` values override the YAML if both are set.
 
+### Check which models your endpoint actually serves
+
+```bash
+uv run python scripts/list_models.py
+```
+
+This queries `GET /v1/models`, prints all available model IDs, then checks
+whether your configured `primary`, `fallback`, and `small` model names match.
+Exits 1 if any are missing so you can update `.env` / `config/llm_config.yaml`.
+
 ---
 
 ## Pipeline commands
@@ -80,6 +90,17 @@ Process a single paper (useful for testing or re-processing):
 ```bash
 python scripts/run_manual.py 2206.08164
 python scripts/run_manual.py 2206.08164 --model fallback
+python scripts/run_manual.py 2206.08164 --skip-download   # re-extract only
+```
+
+The script prints download size (MB), whether an HTML version was available,
+which model is being used, and how many result rows were stored.
+
+If extraction fails with a model-not-found error, check what models your
+endpoint actually serves:
+
+```bash
+uv run python scripts/list_models.py
 ```
 
 ---
