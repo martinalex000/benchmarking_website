@@ -22,6 +22,8 @@ import json
 import logging
 import re
 import textwrap
+import urllib.request
+import xml.etree.ElementTree as ET
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -36,6 +38,28 @@ from backend.models import Paper, PipelineRun
 from backend.paper_storage import PaperStorage
 
 logger = logging.getLogger(__name__)
+
+_ARXIV_API = "https://export.arxiv.org/api/query?id_list={arxiv_id}"
+_ARXIV_NS = {"atom": "http://www.w3.org/2005/Atom"}
+
+
+def fetch_arxiv_metadata(arxiv_id: str) -> dict[str, str]:
+    """Fetch title and abstract from the arXiv Atom API. Returns {} on failure."""
+    try:
+        url = _ARXIV_API.format(arxiv_id=arxiv_id)
+        with urllib.request.urlopen(url, timeout=15) as resp:
+            xml_bytes = resp.read()
+        root = ET.fromstring(xml_bytes)
+        entry = root.find("atom:entry", _ARXIV_NS)
+        if entry is None:
+            return {}
+        title = (entry.find("atom:title", _ARXIV_NS).text or "").replace("\n", " ").strip()
+        abstract = (entry.find("atom:summary", _ARXIV_NS).text or "").replace("\n", " ").strip()
+        return {"title": title, "abstract": abstract}
+    except Exception as exc:
+        logger.warning("Could not fetch arXiv metadata for %s: %s", arxiv_id, exc)
+        return {}
+
 
 # ── Pydantic models for structured LLM output ─────────────────────────────────
 
@@ -94,6 +118,14 @@ class ExtractionOutput(BaseModel):
         return v
 
 
+class ScreenResult(BaseModel):
+    has_benchmark_results: bool = False
+    has_new_benchmark: bool = False
+    datasets_mentioned: list[str] = Field(default_factory=list)
+    confidence: float = 0.0
+    notes: str = ""
+
+
 class FigureInfo(BaseModel):
     figure_id: str | None = None
     figure_number: int | None = None
@@ -112,10 +144,15 @@ class ModelSizeEntry(BaseModel):
 
 # ── LLMExtractor ──────────────────────────────────────────────────────────────
 
-# Maximum characters of paper text sent to LLM in one chunk
-_CHUNK_SIZE = 28_000
-# Maximum characters for the tables-only section
+# Maximum characters of paper text that is sent in a single LLM call.
+# ~40k chars ≈ 10k tokens — safe for all models on the academic cloud endpoint.
+# Papers exceeding this are handled via a focused smart excerpt.
+_CHUNK_SIZE = 40_000
+# Maximum characters for the tables-only section appended to chunks
 _TABLE_CHUNK_SIZE = 16_000
+# Smart-excerpt parameters (used when full text > _CHUNK_SIZE)
+_SMART_INTRO_CHARS = 3_000
+_SMART_TABLES_CHARS = 30_000
 
 
 class LLMExtractor:
@@ -146,15 +183,35 @@ class LLMExtractor:
             max_tokens=max_tokens or cfg.llm_max_tokens,
             temperature=cfg.llm_temperature,
         )
-        return (response.choices[0].message.content or "").strip()
+        choice = response.choices[0]
+        content = (choice.message.content or "").strip()
+        if not content:
+            logger.debug(
+                "Model %r returned empty content (finish_reason=%r, input_chars=sys:%d+user:%d)",
+                self.model_name,
+                choice.finish_reason,
+                len(system_prompt),
+                len(user_content),
+            )
+        return content
 
     def _call_json(
         self, system_prompt: str, user_content: str, max_tokens: int | None = None
     ) -> Any:
-        """Call LLM and parse JSON from the response. Strips accidental fences."""
+        """Call LLM and parse JSON from the response. Strips markdown code fences."""
         raw = self._call(system_prompt, user_content, max_tokens)
-        clean = raw.lstrip("```json").lstrip("```").rstrip("```").strip()
-        return json.loads(clean)
+        if not raw:
+            raise ValueError(
+                f"Model {self.model_name!r} returned an empty response. "
+                "The input may be too long — check the model's context-window limit."
+            )
+        # Strip markdown code fences: ```json ... ``` or ``` ... ```
+        clean = re.sub(r"^```(?:json)?\s*", "", raw, flags=re.MULTILINE).rstrip("`").strip()
+        try:
+            return json.loads(clean)
+        except json.JSONDecodeError as exc:
+            logger.debug("Raw LLM response (first 500 chars): %s", raw[:500])
+            raise ValueError(f"JSON parse error from {self.model_name!r}: {exc}") from exc
 
     # ── Prompt loading ─────────────────────────────────────────────────────
 
@@ -167,21 +224,59 @@ class LLMExtractor:
 
     # ── Extraction tasks ───────────────────────────────────────────────────
 
-    def extract_results(self, paper_text: str, tables_text: str) -> ExtractionOutput:
-        """Extract all benchmark results from a paper.
+    def screen_paper(self, title: str, abstract: str) -> ScreenResult:
+        """Stage 1: decide from title+abstract whether a full extraction is warranted."""
+        prompt = self._read_prompt("benchmark_check.txt")
+        user_content = f"Title: {title}\n\nAbstract:\n{abstract}"
+        try:
+            raw = self._call_json(prompt, user_content, max_tokens=512)
+            return ScreenResult.model_validate(raw)
+        except Exception as exc:
+            logger.warning("Abstract screening failed: %s", exc)
+            # Fail open: if screening errors, proceed with full extraction
+            return ScreenResult(
+                has_benchmark_results=True,
+                has_new_benchmark=True,
+                confidence=0.0,
+                notes=f"Screening failed ({exc}); defaulting to full extraction",
+            )
 
-        Processes in chunks if the text is very long.
+    def extract_results(self, paper_text: str, tables_text: str) -> ExtractionOutput:
+        """Stage 2: extract all benchmark results from the full paper text.
+
+        Strategy:
+          - If combined text fits in _CHUNK_SIZE: single-shot extraction.
+          - Otherwise: try a smart excerpt (abstract intro + all table sections).
+          - Fallback: chunked extraction across the full text.
         """
         prompt = self._read_prompt("result_extraction.txt")
-        combined = self._build_extraction_input(paper_text, tables_text)
 
-        # Single-shot extraction for normal-length papers
+        tables_section = (
+            f"\n\n=== TABLES (deduplicated) ===\n{tables_text[:_TABLE_CHUNK_SIZE]}"
+            if tables_text.strip()
+            else ""
+        )
+        combined = paper_text + tables_section
+
+        # Single-shot for papers that fit in the context window
         if len(combined) <= _CHUNK_SIZE:
+            logger.info("Full-text extraction in one shot (%d chars)", len(combined))
             return self._extract_results_chunk(prompt, combined)
 
-        # Chunked: split into sections and merge
-        chunks = _split_into_chunks(combined, _CHUNK_SIZE)
-        logger.info("Paper text split into %d chunks for extraction", len(chunks))
+        # Smart excerpt: abstract + all result table sections
+        excerpt = _build_smart_excerpt(paper_text, tables_section)
+        logger.info(
+            "Paper too long (%d chars > %d); using smart excerpt (%d chars)",
+            len(combined),
+            _CHUNK_SIZE,
+            len(excerpt),
+        )
+        if len(excerpt) <= _CHUNK_SIZE:
+            return self._extract_results_chunk(prompt, excerpt)
+
+        # Last resort: chunked extraction across the full text
+        chunks = _split_into_chunks(paper_text, _CHUNK_SIZE - len(tables_section))
+        logger.info("Falling back to chunked extraction (%d chunks)", len(chunks))
 
         all_results: list[ResultEntry] = []
         proposed: ProposedModel | None = None
@@ -192,7 +287,7 @@ class LLMExtractor:
         for i, chunk in enumerate(chunks):
             logger.debug("Extracting chunk %d/%d", i + 1, len(chunks))
             try:
-                chunk_out = self._extract_results_chunk(prompt, chunk)
+                chunk_out = self._extract_results_chunk(prompt, chunk + tables_section)
                 all_results.extend(chunk_out.results)
                 if chunk_out.proposed_model and proposed is None:
                     proposed = chunk_out.proposed_model
@@ -330,16 +425,6 @@ class LLMExtractor:
 
         return output
 
-    @staticmethod
-    def _build_extraction_input(paper_text: str, tables_text: str) -> str:
-        """Combine paper text and tables into one LLM input string."""
-        tables_section = (
-            f"\n\n=== TABLES (deduplicated) ===\n{tables_text[:_TABLE_CHUNK_SIZE]}"
-            if tables_text.strip()
-            else ""
-        )
-        return paper_text[: _CHUNK_SIZE - len(tables_section)] + tables_section
-
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -362,6 +447,46 @@ def _split_into_chunks(text: str, chunk_size: int) -> list[str]:
     if current:
         chunks.append("\n\n".join(current))
     return chunks
+
+
+def _build_smart_excerpt(paper_text: str, tables_section: str) -> str:
+    """Build a focused excerpt for papers that exceed the single-shot limit.
+
+    Combines:
+    - The intro/abstract (first _SMART_INTRO_CHARS chars) for context.
+    - All paragraphs that look like result tables or baseline comparisons
+      (up to _SMART_TABLES_CHARS chars starting from the first result table).
+    - The tables_section (HTML-extracted markdown tables if available).
+    """
+    intro = paper_text[:_SMART_INTRO_CHARS]
+
+    # Find where the first result table starts. Look for "Table N:" followed
+    # by content that includes numeric values (results).
+    table_start = -1
+    for pattern in [
+        r"Table\s+\d+[:\.].*(?:baseline|result|performance|experiment)",
+        r"Table\s+[3-9][:\.]",  # Tables 3+ are usually results in ML papers
+        r"Table\s+[1-2][0-9][:\.]",  # Tables 10+
+    ]:
+        m = re.search(pattern, paper_text, re.IGNORECASE)
+        if m:
+            table_start = m.start()
+            break
+
+    if table_start == -1:
+        # No table found — fall back to latter half of paper
+        table_start = len(paper_text) // 2
+
+    results_section = paper_text[table_start : table_start + _SMART_TABLES_CHARS]
+
+    parts = [
+        f"=== ABSTRACT / INTRODUCTION ===\n{intro}",
+        f"\n\n=== RESULTS SECTION ===\n{results_section}",
+    ]
+    if tables_section:
+        parts.append(tables_section)
+
+    return "\n".join(parts)
 
 
 def _apply_sizes(extraction: ExtractionOutput, sizes: list[ModelSizeEntry]) -> None:
@@ -461,8 +586,25 @@ def _render_human_readable(
 # ── Standalone runner ─────────────────────────────────────────────────────────
 
 
-def run_extraction(arxiv_id: str, model_tier: str = "primary") -> bool:
-    """Full extraction for a single paper already downloaded to storage."""
+def run_extraction(
+    arxiv_id: str,
+    model_tier: str = "primary",
+    screen_first: bool = True,
+    fallback_on_failure: bool = True,
+) -> bool:
+    """Two-stage extraction for a single paper already downloaded to storage.
+
+    Stage 1 (cheap, small model): screens title+abstract from arXiv to confirm
+    this paper contains benchmark results worth extracting.
+    Stage 2 (full model): sends the complete paper text to the LLM.
+
+    Args:
+        arxiv_id: arXiv ID (no 'arXiv:' prefix).
+        model_tier: tier name or explicit model name to use for stage 2.
+        screen_first: if False, skip stage 1 and always run stage 2.
+        fallback_on_failure: if True (default) and primary fails, auto-retry with fallback tier.
+            Set to False when explicitly testing a specific tier (e.g. --compare-models).
+    """
     from backend.html_parser import parse_html_paper, save_text as html_save
     from backend.pdf_parser import parse_pdf_paper, save_text as pdf_save
 
@@ -478,13 +620,55 @@ def run_extraction(arxiv_id: str, model_tier: str = "primary") -> bool:
         paper = session.query(Paper).filter_by(arxiv_id=arxiv_id).first()
         paper_id = paper.id if paper else None
         paper_title = paper.title if paper else ""
+        paper_abstract = paper.abstract if paper else ""
 
-    # Parse text
+    # ── Stage 1: abstract screening ─────────────────────────────────────
+    if screen_first:
+        # Prefer stored abstract; fall back to fetching from arXiv API
+        if not paper_abstract or paper_title.startswith("arXiv:"):
+            logger.info("Fetching metadata from arXiv API for %s", arxiv_id)
+            meta = fetch_arxiv_metadata(arxiv_id)
+            paper_title = meta.get("title", paper_title)
+            paper_abstract = meta.get("abstract", paper_abstract)
+            # Persist to DB if we got fresh data
+            if paper_id and meta.get("title"):
+                with session_scope() as session:
+                    p = session.get(Paper, paper_id)
+                    if p:
+                        if p.title.startswith("arXiv:"):
+                            p.title = meta["title"]
+                        if not p.abstract:
+                            p.abstract = meta.get("abstract", "")
+
+        screener = LLMExtractor(model_tier="small")
+        screen = screener.screen_paper(paper_title, paper_abstract)
+        if screen.has_benchmark_results or screen.has_new_benchmark:
+            datasets_str = (
+                ", ".join(screen.datasets_mentioned) if screen.datasets_mentioned else "—"
+            )
+            logger.info(
+                "Stage 1 PASS (conf=%.2f) — datasets: %s%s",
+                screen.confidence,
+                datasets_str,
+                f" | {screen.notes}" if screen.notes else "",
+            )
+        else:
+            logger.warning(
+                "Stage 1 REJECT (conf=%.2f): no benchmark results detected in abstract. "
+                "Notes: %s. Skipping full extraction.",
+                screen.confidence,
+                screen.notes or "none",
+            )
+            return False
+
+    # ── Stage 2: full paper text extraction ─────────────────────────────
+    # Parse text from HTML (preferred) or PDF
     paper_text = ""
     tables_text = ""
     figures_list = []
 
     if storage.html_index_path.exists():
+        logger.info("Parsing HTML for arXiv:%s", arxiv_id)
         parsed = parse_html_paper(storage.html_index_path)
         html_save(parsed, storage.text_path)
         paper_text = parsed.full_text
@@ -493,6 +677,7 @@ def run_extraction(arxiv_id: str, model_tier: str = "primary") -> bool:
             {"caption": f.caption, "src": f.src, "element_id": f.element_id} for f in parsed.figures
         ]
     elif storage.pdf_path.exists():
+        logger.info("Parsing PDF for arXiv:%s", arxiv_id)
         parsed_pdf = parse_pdf_paper(storage.pdf_path, images_dir=storage.figures_dir)
         pdf_save(parsed_pdf, storage.text_path)
         paper_text = parsed_pdf.full_text
@@ -501,7 +686,13 @@ def run_extraction(arxiv_id: str, model_tier: str = "primary") -> bool:
         logger.error("No text extracted for arXiv:%s", arxiv_id)
         return False
 
-    # Run LLM extraction
+    logger.info(
+        "Text extracted: %d chars%s",
+        len(paper_text),
+        f" + {len(tables_text)} chars in tables" if tables_text else "",
+    )
+
+    # Run LLM extraction — try primary tier, auto-fall back to fallback tier on failure
     extractor = LLMExtractor(model_tier=model_tier)
     try:
         output = extractor.process_paper(
@@ -512,6 +703,16 @@ def run_extraction(arxiv_id: str, model_tier: str = "primary") -> bool:
             paper_title=paper_title,
         )
     except Exception as exc:
+        # If primary model fails (e.g. context-window too small), retry with fallback
+        if model_tier == "primary" and fallback_on_failure:
+            fallback = cfg.model_fallback
+            logger.warning("Primary model failed (%s); retrying with fallback=%s", exc, fallback)
+            return run_extraction(
+                arxiv_id,
+                model_tier="fallback",
+                screen_first=False,
+                fallback_on_failure=False,
+            )
         logger.error("LLM extraction failed for arXiv:%s: %s", arxiv_id, exc)
         if paper_id:
             with session_scope() as session:
