@@ -1,0 +1,72 @@
+{{ define "main" }}
+<article class="dataset-page">
+  <header>
+    <h1>{{ .Title }}</h1>
+    {{ with .Params.benchmark }}
+    <p class="dataset-meta">Benchmark: <strong>{{ . }}</strong></p>
+    {{ end }}
+    {{ with .Params.task_type }}
+    <p class="dataset-meta">Task: {{ . }}</p>
+    {{ end }}
+    {{ with .Params.description }}
+    <p>{{ . }}</p>
+    {{ end }}
+  </header>
+
+  {{/* Dataset variant selector */}}
+  {{ if gt (len .Params.variants) 1 }}
+  <div class="variant-selector">
+    <label for="variant-select">Split / Variant:</label>
+    <select id="variant-select" onchange="leaderboard.switchVariant(this.value)">
+      {{ range .Params.variants }}
+      <option value="{{ .slug }}" {{ if .is_standard }}selected{{ end }}>{{ .name }}</option>
+      {{ end }}
+    </select>
+  </div>
+  {{ end }}
+
+  {{/* Controls */}}
+  <div class="leaderboard-controls">
+    <label>
+      <input type="checkbox" id="show-std" checked onchange="leaderboard.toggleStd(this.checked)">
+      Show ± std
+    </label>
+    <label>
+      <input type="checkbox" id="show-baselines" checked onchange="leaderboard.toggleBaselines(this.checked)">
+      Show baselines
+    </label>
+  </div>
+
+  {{/* Best-over-time chart */}}
+  {{ range .Params.variants }}
+  <div class="chart-container variant-section" data-variant="{{ .slug }}" style="{{ if not .is_standard }}display:none{{ end }}">
+    <h2>Best {{ $.Params.primary_metric | upper }} over time — {{ .name }}</h2>
+    <canvas id="chart-{{ .slug }}" height="300"
+      data-milestones="{{ .milestones_json | jsonify }}"
+      data-metric="{{ $.Params.primary_metric }}"
+      data-higher-is-better="{{ $.Params.higher_is_better }}">
+    </canvas>
+  </div>
+  {{ end }}
+
+  {{/* Results table */}}
+  {{ range .Params.variants }}
+  <div class="leaderboard-section variant-section" data-variant="{{ .slug }}" style="{{ if not .is_standard }}display:none{{ end }}">
+    <h2>Leaderboard — {{ .name }}</h2>
+    {{ partial "result-table.html" (dict "results" .results "metric" $.Params.primary_metric "show_std" true "dataset_variant" .slug) }}
+  </div>
+  {{ end }}
+
+</article>
+
+{{ define "scripts" }}
+<script>
+window.leaderboardConfig = {
+  variants: {{ .Params.variants | jsonify }},
+  primaryMetric: {{ .Params.primary_metric | jsonify }},
+  higherIsBetter: {{ .Params.higher_is_better | jsonify }},
+};
+leaderboard.init();
+</script>
+{{ end }}
+{{ end }}

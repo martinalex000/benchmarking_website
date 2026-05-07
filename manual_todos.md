@@ -1,0 +1,9 @@
+- benchmarks for the heterogenous graphs, plus a comment on which of them are considered actually heterogenous (there is a v1 and v2 of such datasets)
+- the prompt for the decision which papers to look at does not really work. it should be a two-stage thing which is first fed the abstract and title and checks whether it is on graph learning at all (there could also be some extremely simple pattern matching as a very first stage). And then in the second step it should actually read the paper and extract the information, the info which datasets are used is typically not included in the abstract and often not even in the introduction. 
+- decide what to do with custom datasets, the information should be stored somewhere
+- there should also be a table that effectively tracks which papers are NOT about graph learning such that there is no need to evaluate that every single time again...
+- potentially we need a Vision-language-model in order to find out what the best figure is. so probably some pdf to jpg needed for that
+- I want a lot of tqdm progress bars and progress notifications on everything at the moment
+- dataset statistics is still mostly missing
+- the results table should be able to hold information on different metrics for several of the old datasets (future), all good datasets have clean metrics.
+- 

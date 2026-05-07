@@ -1,0 +1,137 @@
+# Seed data for the Graph Learning Benchmarks database.
+# Run with: python -m backend.seed_db
+
+benchmarks:
+
+  - name: LRGB
+    arxiv_id: "2206.08164"
+    url: "https://arxiv.org/abs/2206.08164"
+    description: >
+      Long Range Graph Benchmark — five graph ML tasks designed to test
+      long-range dependency modelling. Introduced by Dwivedi et al. (2022).
+    datasets:
+
+      - name: Peptides-func
+        task_type: graph_classification
+        description: Multi-label graph classification on peptide molecules (10 classes).
+        primary_metric: AP
+        higher_is_better: true
+        domain: chemistry
+        variants:
+          - name: Standard split
+            is_standard: true
+            notes: "Official random split (80/10/10). Metric: AP (Average Precision)."
+
+      - name: Peptides-struct
+        task_type: graph_regression
+        description: Multi-task graph regression on peptide structural properties (11 targets).
+        primary_metric: MAE
+        higher_is_better: false
+        domain: chemistry
+        variants:
+          - name: Standard split
+            is_standard: true
+            notes: "Official random split (80/10/10). Metric: MAE (lower is better)."
+
+      - name: PascalVOC-SP
+        task_type: node_classification
+        description: Node classification on superpixel graphs derived from PascalVOC 2011.
+        primary_metric: F1
+        higher_is_better: true
+        domain: computer_vision
+        variants:
+          - name: Standard split
+            is_standard: true
+            notes: "Official split. Metric: macro F1."
+
+      - name: COCO-SP
+        task_type: node_classification
+        description: Node classification on superpixel graphs derived from MS-COCO.
+        primary_metric: F1
+        higher_is_better: true
+        domain: computer_vision
+        variants:
+          - name: Standard split
+            is_standard: true
+            notes: "Official split. Metric: macro F1."
+
+      - name: PCQM-Contact
+        task_type: link_prediction
+        description: Link prediction of spatial atom contacts in quantum chemistry molecules.
+        primary_metric: "Hits@50"
+        higher_is_better: true
+        domain: chemistry
+        variants:
+          - name: Standard split
+            is_standard: true
+            notes: "Official split. Metric: Hits@50."
+
+  - name: GraphBench
+    arxiv_id: "2512.04475"
+    url: "https://arxiv.org/abs/2512.04475"
+    description: >
+      GraphBench — a comprehensive graph learning benchmark covering diverse
+      graph types and tasks.
+    datasets: []   # populated after paper extraction
+
+  - name: OGB
+    arxiv_id: null
+    url: "https://ogb.stanford.edu"
+    description: Open Graph Benchmark — large-scale standardised graph ML benchmarks.
+    datasets:
+
+      - name: ogbg-molhiv
+        task_type: graph_classification
+        description: Binary graph classification on HIV inhibition (molecules).
+        primary_metric: ROC-AUC
+        higher_is_better: true
+        domain: chemistry
+        variants:
+          - name: Standard split
+            is_standard: true
+            notes: "Scaffold split. Metric: ROC-AUC."
+
+      - name: ogbg-molpcba
+        task_type: graph_classification
+        description: Multi-label classification (128 tasks) on PubChem BioAssay.
+        primary_metric: AP
+        higher_is_better: true
+        domain: chemistry
+        variants:
+          - name: Standard split
+            is_standard: true
+            notes: "Scaffold split. Metric: AP (Average Precision)."
+
+  - name: Classic
+    arxiv_id: null
+    url: null
+    description: Classic node/graph classification and regression benchmarks.
+    datasets:
+
+      - name: Cora
+        task_type: node_classification
+        description: Citation network node classification (7 classes).
+        primary_metric: Accuracy
+        higher_is_better: true
+        domain: citation_networks
+        variants:
+          - name: Planetoid split
+            is_standard: true
+            notes: "Yang et al. 2016 fixed 20-per-class train split."
+          - name: Random 10-fold
+            is_standard: false
+            notes: "10-fold cross-validation; results not directly comparable to Planetoid."
+
+      - name: ZINC
+        task_type: graph_regression
+        description: Molecular property regression (constrained solubility).
+        primary_metric: MAE
+        higher_is_better: false
+        domain: chemistry
+        variants:
+          - name: "Subset (12k)"
+            is_standard: true
+            notes: "12,000 train molecules. Most commonly reported variant."
+          - name: Full
+            is_standard: false
+            notes: "250,000 train molecules."

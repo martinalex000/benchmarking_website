@@ -1,0 +1,20 @@
+baseURL = 'https://graphbench.example.com/'
+languageCode = 'en-us'
+title = 'Graph Learning Benchmarks'
+
+[params]
+  description = "Leaderboards for graph learning benchmarks"
+  chartjsCDN = "https://cdn.jsdelivr.net/npm/chart.js@4"
+
+[taxonomies]
+  benchmark = "benchmarks"
+  domain = "domains"
+  task_type = "task_types"
+
+[outputs]
+  home = ["HTML", "JSON"]
+  section = ["HTML", "JSON"]
+  page = ["HTML"]
+
+[markup.goldmark.renderer]
+  unsafe = true

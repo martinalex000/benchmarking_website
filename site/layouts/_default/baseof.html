@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ if .Title }}{{ .Title }} — {{ end }}{{ .Site.Title }}</title>
+  <meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <nav>
+    <a class="site-title" href="/">{{ .Site.Title }}</a>
+    <ul>
+      <li><a href="/papers/">Papers</a></li>
+      <li><a href="/datasets/">Datasets</a></li>
+    </ul>
+  </nav>
+</header>
+<main>
+  {{ block "main" . }}{{ end }}
+</main>
+<footer>
+  <p>Data extracted automatically. <a href="https://github.com/benchmarking-website">Source</a> · Corrections via overrides.yaml</p>
+</footer>
+<script src="{{ .Site.Params.chartjsCDN }}/dist/chart.umd.min.js"></script>
+<script src="/js/leaderboard.js"></script>
+{{ block "scripts" . }}{{ end }}
+</body>
+</html>

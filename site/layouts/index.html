@@ -1,0 +1,20 @@
+{{ define "main" }}
+<div class="home-hero">
+  <h1>Graph Learning Benchmarks</h1>
+  <p>Automated extraction of benchmark results from graph learning papers.</p>
+</div>
+
+<section class="benchmark-list">
+  {{ range .Site.Data.benchmarks }}
+  <div class="benchmark-card">
+    <h2><a href="/datasets/?benchmark={{ .slug }}">{{ .name }}</a></h2>
+    <p>{{ .description }}</p>
+    <ul>
+      {{ range .datasets }}
+      <li><a href="/datasets/{{ .slug }}/">{{ .name }}</a></li>
+      {{ end }}
+    </ul>
+  </div>
+  {{ end }}
+</section>
+{{ end }}

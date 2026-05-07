@@ -1,0 +1,60 @@
+{{/*
+  Partial: result-table.html
+  Context dict keys:
+    .results      – list of result objects (model, value, std, is_baseline, arxiv_id, etc.)
+    .metric       – metric name string
+    .show_std     – bool
+    .dataset_variant – variant slug (for data- attrs used by JS)
+*/}}
+{{ $results := .results }}
+{{ $metric  := .metric }}
+{{ $showStd := .show_std }}
+{{ $slug    := .dataset_variant }}
+
+{{ if $results }}
+<div class="result-table-wrapper" data-variant="{{ $slug }}">
+  <table class="result-table sortable" id="tbl-{{ $slug }}">
+    <thead>
+      <tr>
+        <th class="col-rank">#</th>
+        <th class="col-model sortable-col" data-col="model">Model</th>
+        <th class="col-value sortable-col" data-col="value">{{ $metric }}</th>
+        {{ if $showStd }}<th class="col-std">±Std</th>{{ end }}
+        <th class="col-params sortable-col" data-col="params">Params</th>
+        <th class="col-paper">Paper</th>
+        <th class="col-code">Code</th>
+        <th class="col-date sortable-col" data-col="date">Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{ range $i, $r := $results }}
+      <tr class="result-row {{ if $r.is_baseline }}row-baseline{{ else }}row-proposed{{ end }} {{ if $r.is_overridden }}row-overridden{{ end }}"
+          data-model="{{ $r.model }}"
+          data-value="{{ $r.value }}"
+          data-std="{{ $r.std }}"
+          data-params="{{ $r.params_millions }}"
+          data-date="{{ $r.date }}"
+          data-arxiv="{{ $r.arxiv_id }}">
+        <td class="col-rank">{{ add $i 1 }}</td>
+        <td class="col-model">
+          {{ $r.model }}
+          {{ if $r.is_overridden }}<span class="override-badge" title="{{ $r.override_reason }}">✎</span>{{ end }}
+        </td>
+        <td class="col-value">{{ printf "%.4f" $r.value }}</td>
+        {{ if $showStd }}
+        <td class="col-std">{{ if $r.std }}{{ printf "%.4f" $r.std }}{{ else }}—{{ end }}</td>
+        {{ end }}
+        <td class="col-params">{{ if $r.params_millions }}{{ printf "%.1f" $r.params_millions }}M{{ else }}—{{ end }}</td>
+        <td class="col-paper">
+          {{ if $r.arxiv_id }}<a href="/papers/{{ $r.arxiv_id }}/" title="{{ $r.title }}">arXiv:{{ $r.arxiv_id }}</a>{{ end }}
+        </td>
+        <td class="col-code">
+          {{ if $r.codebase_url }}<a href="{{ $r.codebase_url }}" target="_blank" rel="noopener">Code</a>{{ else }}—{{ end }}
+        </td>
+        <td class="col-date">{{ $r.date | default "—" }}</td>
+      </tr>
+      {{ end }}
+    </tbody>
+  </table>
+</div>
+{{ end }}

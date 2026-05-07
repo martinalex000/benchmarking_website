@@ -1,0 +1,50 @@
+{{ define "main" }}
+<article class="paper-page">
+  <header class="paper-header">
+    <h1>{{ .Title }}</h1>
+    {{ with .Params.authors }}
+    <p class="authors">{{ delimit . ", " }}</p>
+    {{ end }}
+    <div class="paper-meta">
+      {{ with .Params.arxiv_id }}
+      <a class="badge" href="https://arxiv.org/abs/{{ . }}" target="_blank" rel="noopener">arXiv:{{ . }}</a>
+      {{ end }}
+      {{ with .Params.codebase_url }}
+      <a class="badge" href="{{ . }}" target="_blank" rel="noopener">Code</a>
+      {{ end }}
+      {{ with .Params.published_date }}
+      <span class="badge">{{ . }}</span>
+      {{ end }}
+      {{ with .Params.extraction_model }}
+      <span class="badge muted">Extracted with {{ . }}</span>
+      {{ end }}
+    </div>
+  </header>
+
+  {{ with .Params.main_figure }}
+  <figure class="paper-figure">
+    <img src="{{ . }}" alt="Main figure" loading="lazy">
+  </figure>
+  {{ end }}
+
+  {{ with .Params.abstract }}
+  <section class="abstract">
+    <h2>Abstract</h2>
+    <p>{{ . }}</p>
+  </section>
+  {{ end }}
+
+  {{ if .Params.results }}
+  <section class="results-section">
+    <h2>Benchmark Results</h2>
+    {{ range .Params.results }}
+    {{ partial "result-table.html" . }}
+    {{ end }}
+  </section>
+  {{ end }}
+
+  {{ with .Content }}
+  <section class="notes">{{ . }}</section>
+  {{ end }}
+</article>
+{{ end }}
