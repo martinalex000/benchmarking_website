@@ -62,14 +62,14 @@ benchmarks:
       - name: PCQM-Contact
         task_type: link_prediction
         description: Link prediction of spatial atom contacts in quantum chemistry molecules.
-        primary_metric: "Hits@50"
+        primary_metric: "MRR"
         higher_is_better: true
         domain: chemistry
         pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.LRGBDataset.html"
         variants:
           - name: Standard split
             is_standard: true
-            notes: "Official split. Metric: Hits@50."
+            notes: "Official split. Metric: MRR (Mean Reciprocal Rank). Also reported: Hits@1, Hits@3, Hits@10."
 
   - name: GraphBench
     arxiv_id: "2512.04475"

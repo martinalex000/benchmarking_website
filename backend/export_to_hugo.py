@@ -175,19 +175,30 @@ def export_dataset(dataset_id: int) -> bool:
 
         variant_data: list[dict] = []
         for v in variants:
-            results_raw = (
+            all_results = (
                 session.query(Result)
                 .filter_by(dataset_variant_id=v.id)
                 .filter(Result.is_problematic.is_(None) | (Result.is_problematic == 0))
                 .all()
             )
 
-            if not results_raw:
+            if not all_results:
                 continue
 
-            metric = primary_metric or (results_raw[0].metric_name if results_raw else "")
-            if not primary_metric:
-                primary_metric = metric
+            # Determine which metric to display: prefer primary_metric if it exists in results
+            available_metrics = {r.metric_name for r in all_results}
+            if primary_metric and primary_metric in available_metrics:
+                metric = primary_metric
+            else:
+                # Fall back to the most-common metric among results
+                from collections import Counter
+
+                metric = Counter(r.metric_name for r in all_results).most_common(1)[0][0]
+                if not primary_metric:
+                    primary_metric = metric
+
+            # Filter to the chosen metric only
+            results_raw = [r for r in all_results if r.metric_name == metric]
             higher_is_better = bool(results_raw[0].higher_is_better) if results_raw else True
 
             # Sort by value
