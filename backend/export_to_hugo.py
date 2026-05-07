@@ -11,6 +11,7 @@ Usage::
     python -m backend.export_to_hugo
     python -m backend.export_to_hugo --paper 2206.08164
 """
+
 from __future__ import annotations
 
 import argparse
@@ -32,12 +33,13 @@ from backend.paper_storage import PaperStorage
 logger = logging.getLogger(__name__)
 
 _SITE_DIR = cfg.base_dir / "site"
-_CONTENT  = _SITE_DIR / "content"
+_CONTENT = _SITE_DIR / "content"
 _DATA_DIR = _SITE_DIR / "data"
-_STATIC   = _SITE_DIR / "static"
+_STATIC = _SITE_DIR / "static"
 
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
+
 
 def _slug(name: str) -> str:
     """Convert a string to a URL-safe slug."""
@@ -51,6 +53,7 @@ def _write_md(path: Path, front_matter: dict, body: str = "") -> None:
 
 
 # ── Paper export ──────────────────────────────────────────────────────────────
+
 
 def export_paper(arxiv_id: str) -> bool:
     """Export a single paper's page to Hugo content."""
@@ -72,24 +75,25 @@ def export_paper(arxiv_id: str) -> bool:
         for r in results:
             dv = r.dataset_variant
             ds_name = dv.dataset.name if dv else "Unknown"
-            result_groups.setdefault(ds_name, []).append({
-                "model": r.model.canonical_name if r.model else "",
-                "value": float(r.display_value) if r.display_value is not None else None,
-                "std": float(r.metric_std) if r.metric_std else None,
-                "metric": r.metric_name,
-                "is_baseline": bool(r.is_baseline),
-                "is_overridden": bool(r.is_overridden),
-                "override_reason": r.override_reason or "",
-                "params_millions": (
-                    r.model.size_params / 1_000_000 if r.model and r.model.size_params else None
-                ),
-                "table_ref": r.table_ref or "",
-                "source_ref": r.source_ref or "",
-            })
+            result_groups.setdefault(ds_name, []).append(
+                {
+                    "model": r.model.canonical_name if r.model else "",
+                    "value": float(r.display_value) if r.display_value is not None else None,
+                    "std": float(r.metric_std) if r.metric_std else None,
+                    "metric": r.metric_name,
+                    "is_baseline": bool(r.is_baseline),
+                    "is_overridden": bool(r.is_overridden),
+                    "override_reason": r.override_reason or "",
+                    "params_millions": (
+                        r.model.size_params / 1_000_000 if r.model and r.model.size_params else None
+                    ),
+                    "table_ref": r.table_ref or "",
+                    "source_ref": r.source_ref or "",
+                }
+            )
 
         results_for_fm: list[dict] = [
-            {"dataset": ds, "rows": rows}
-            for ds, rows in sorted(result_groups.items())
+            {"dataset": ds, "rows": rows} for ds, rows in sorted(result_groups.items())
         ]
 
         # Main figure
@@ -122,6 +126,7 @@ def export_paper(arxiv_id: str) -> bool:
 
 # ── Dataset export ────────────────────────────────────────────────────────────
 
+
 def export_dataset(dataset_id: int) -> bool:
     """Export a dataset page with all variants and leaderboard data."""
     with session_scope() as session:
@@ -149,9 +154,7 @@ def export_dataset(dataset_id: int) -> bool:
             results_raw = (
                 session.query(Result)
                 .filter_by(dataset_variant_id=v.id)
-                .filter(
-                    Result.is_problematic.is_(None) | (Result.is_problematic == 0)
-                )
+                .filter(Result.is_problematic.is_(None) | (Result.is_problematic == 0))
                 .all()
             )
 
@@ -173,33 +176,38 @@ def export_dataset(dataset_id: int) -> bool:
             rows: list[dict] = []
             for r in sorted_results:
                 paper = r.paper
-                rows.append({
-                    "model": r.model.canonical_name if r.model else "",
-                    "value": float(r.display_value),
-                    "std": float(r.metric_std) if r.metric_std else None,
-                    "is_baseline": bool(r.is_baseline),
-                    "is_overridden": bool(r.is_overridden),
-                    "override_reason": r.override_reason or "",
-                    "params_millions": (
-                        r.model.size_params / 1_000_000
-                        if r.model and r.model.size_params else None
-                    ),
-                    "arxiv_id": paper.arxiv_id if paper else "",
-                    "title": paper.title if paper else "",
-                    "date": str(paper.published_date) if paper and paper.published_date else "",
-                    "codebase_url": paper.codebase_url or "",
-                })
+                rows.append(
+                    {
+                        "model": r.model.canonical_name if r.model else "",
+                        "value": float(r.display_value),
+                        "std": float(r.metric_std) if r.metric_std else None,
+                        "is_baseline": bool(r.is_baseline),
+                        "is_overridden": bool(r.is_overridden),
+                        "override_reason": r.override_reason or "",
+                        "params_millions": (
+                            r.model.size_params / 1_000_000
+                            if r.model and r.model.size_params
+                            else None
+                        ),
+                        "arxiv_id": paper.arxiv_id if paper else "",
+                        "title": paper.title if paper else "",
+                        "date": str(paper.published_date) if paper and paper.published_date else "",
+                        "codebase_url": paper.codebase_url or "",
+                    }
+                )
 
             milestones = get_best_results_over_time(v.id, metric)
 
-            variant_data.append({
-                "slug": _slug(v.name),
-                "name": v.name,
-                "notes": v.notes or "",
-                "is_standard": bool(v.is_standard),
-                "results": rows,
-                "milestones_json": json.dumps(milestones),
-            })
+            variant_data.append(
+                {
+                    "slug": _slug(v.name),
+                    "name": v.name,
+                    "notes": v.notes or "",
+                    "is_standard": bool(v.is_standard),
+                    "results": rows,
+                    "milestones_json": json.dumps(milestones),
+                }
+            )
 
         if not variant_data:
             return False
@@ -213,6 +221,7 @@ def export_dataset(dataset_id: int) -> bool:
             "description": ds.description or "",
             "primary_metric": primary_metric,
             "higher_is_better": higher_is_better,
+            "pyg_url": ds.pyg_url or "",
             "variants": variant_data,
         }
 
@@ -223,6 +232,7 @@ def export_dataset(dataset_id: int) -> bool:
 
 
 # ── Benchmark data file ───────────────────────────────────────────────────────
+
 
 def export_benchmarks_data() -> None:
     """Write site/data/benchmarks.json for the homepage."""
@@ -235,19 +245,23 @@ def export_benchmarks_data() -> None:
             datasets_info = []
             for ds in b.datasets:
                 variants = [v for v in ds.variants if v.is_standard]
-                datasets_info.append({
-                    "name": ds.name,
-                    "slug": _slug(ds.name),
-                    "task_type": ds.task_type or "",
-                    "variants": [{"name": v.name, "slug": _slug(v.name)} for v in variants],
-                })
-            data.append({
-                "name": b.name,
-                "slug": _slug(b.name),
-                "description": b.description or "",
-                "arxiv_id": b.arxiv_id or "",
-                "datasets": datasets_info,
-            })
+                datasets_info.append(
+                    {
+                        "name": ds.name,
+                        "slug": _slug(ds.name),
+                        "task_type": ds.task_type or "",
+                        "variants": [{"name": v.name, "slug": _slug(v.name)} for v in variants],
+                    }
+                )
+            data.append(
+                {
+                    "name": b.name,
+                    "slug": _slug(b.name),
+                    "description": b.description or "",
+                    "arxiv_id": b.arxiv_id or "",
+                    "datasets": datasets_info,
+                }
+            )
 
     (_DATA_DIR / "benchmarks.json").write_text(
         json.dumps(data, indent=2, ensure_ascii=False), encoding="utf-8"
@@ -256,6 +270,7 @@ def export_benchmarks_data() -> None:
 
 
 # ── Full export ───────────────────────────────────────────────────────────────
+
 
 def export_all(arxiv_ids: list[str] | None = None) -> None:
     """Export all papers and datasets (or just the specified papers)."""
@@ -285,11 +300,13 @@ def export_all(arxiv_ids: list[str] | None = None) -> None:
 
 # ── CLI ───────────────────────────────────────────────────────────────────────
 
+
 def main(argv: list[str] | None = None) -> None:
     logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
     parser = argparse.ArgumentParser(description="Export DB to Hugo content files")
-    parser.add_argument("--paper", "-p", nargs="+", metavar="ARXIV_ID",
-                        help="Export only specific papers")
+    parser.add_argument(
+        "--paper", "-p", nargs="+", metavar="ARXIV_ID", help="Export only specific papers"
+    )
     args = parser.parse_args(argv)
     export_all(arxiv_ids=args.paper)
 

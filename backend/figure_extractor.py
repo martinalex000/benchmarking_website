@@ -4,6 +4,7 @@ For HTML papers: downloads the <img> src.
 For PDF papers: renders the identified page/region to a PNG at 300 dpi.
 TikZ / vector figures in PDF are handled by rendering the full page to PNG.
 """
+
 from __future__ import annotations
 
 import logging
@@ -19,8 +20,7 @@ logger = logging.getLogger(__name__)
 
 HEADERS = {
     "User-Agent": (
-        "Mozilla/5.0 (compatible; GraphBenchBot/1.0; "
-        "+https://github.com/benchmarking-website)"
+        "Mozilla/5.0 (compatible; GraphBenchBot/1.0; " "+https://github.com/benchmarking-website)"
     )
 }
 
@@ -75,7 +75,7 @@ def extract_from_html(
 
 def extract_from_pdf(
     storage: PaperStorage,
-    page_number: int,           # 0-indexed
+    page_number: int,  # 0-indexed
     dpi: int = 300,
     clip_rect: tuple[float, float, float, float] | None = None,
 ) -> Path | None:
@@ -99,7 +99,12 @@ def extract_from_pdf(
     try:
         doc = fitz.open(str(storage.pdf_path))
         if page_number >= len(doc):
-            logger.error("Page %d out of range for arXiv:%s (%d pages)", page_number, storage.arxiv_id, len(doc))
+            logger.error(
+                "Page %d out of range for arXiv:%s (%d pages)",
+                page_number,
+                storage.arxiv_id,
+                len(doc),
+            )
             doc.close()
             return None
 
@@ -114,7 +119,9 @@ def extract_from_pdf(
 
         pix.save(str(dest))
         doc.close()
-        logger.info("Rendered PDF page %d for arXiv:%s → %s", page_number, storage.arxiv_id, dest.name)
+        logger.info(
+            "Rendered PDF page %d for arXiv:%s → %s", page_number, storage.arxiv_id, dest.name
+        )
         return dest
     except Exception as exc:
         logger.error("Failed to render PDF page for arXiv:%s: %s", storage.arxiv_id, exc)
@@ -145,7 +152,9 @@ def extract_main_figure(
         clip = llm_figure_info.get("clip_rect")
         return extract_from_pdf(storage, page_num, clip_rect=tuple(clip) if clip else None)
 
-    logger.warning("Could not extract main figure for arXiv:%s — insufficient info", storage.arxiv_id)
+    logger.warning(
+        "Could not extract main figure for arXiv:%s — insufficient info", storage.arxiv_id
+    )
     return None
 
 

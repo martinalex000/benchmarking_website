@@ -25,8 +25,9 @@ CREATE TABLE IF NOT EXISTS datasets (
     description      TEXT,
     domain           TEXT,   -- e.g. chemistry, social, citation, computer_vision
     task_type        TEXT,   -- node_classification, graph_classification, link_prediction, graph_regression
-    default_metric   TEXT,   -- e.g. AP, Accuracy, MAE, F1
+    primary_metric   TEXT,   -- e.g. AP, Accuracy, MAE, F1
     higher_is_better INTEGER NOT NULL DEFAULT 1,  -- 1=higher better, 0=lower better
+    pyg_url          TEXT,   -- link to PyTorch Geometric dataset page, if available
     -- Canonical graph statistics (may differ across variants)
     num_graphs       INTEGER,
     avg_nodes        REAL,
@@ -66,7 +67,7 @@ CREATE TABLE IF NOT EXISTS papers (
     title              TEXT NOT NULL,
     authors            TEXT,                  -- JSON array of author name strings
     abstract           TEXT,
-    publication_date   TEXT,                  -- YYYY-MM-DD
+    published_date     TEXT,                  -- YYYY-MM-DD
     venue              TEXT,                  -- NeurIPS 2022, ICML 2023, …
     pdf_path           TEXT,                  -- relative to project root
     html_path          TEXT,                  -- path to downloaded HTML index file
@@ -121,6 +122,9 @@ CREATE TABLE IF NOT EXISTS results (
     -- When is_baseline=1 and the result comes from a cited paper, record source
     source_paper_id     INTEGER REFERENCES papers(id) ON DELETE SET NULL,
     higher_is_better    INTEGER NOT NULL DEFAULT 1,
+    table_ref           TEXT,               -- e.g. "Table 1"
+    source_ref          TEXT,               -- "this paper" or "Author Year"
+    extraction_model    TEXT,               -- model name used to extract this result
     -- Human correction system
     is_problematic      INTEGER NOT NULL DEFAULT 0,  -- shown in grey on leaderboard
     problematic_reason  TEXT,
@@ -143,7 +147,7 @@ CREATE TABLE IF NOT EXISTS pipeline_runs (
     status        TEXT NOT NULL,   -- success | failed | skipped
     model_used    TEXT,
     error_message TEXT,
-    run_at        TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%SZ', 'now'))
+    started_at    TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%SZ', 'now'))
 );
 
 -- ─────────────────────────────────────────────────────────────────────────────

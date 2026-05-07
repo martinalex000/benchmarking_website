@@ -13,6 +13,7 @@ Each paper lives under  papers/{arxiv_id}/
   └── figures/
       └── main_figure.{png|jpg}  ← gitignored
 """
+
 from __future__ import annotations
 
 import json

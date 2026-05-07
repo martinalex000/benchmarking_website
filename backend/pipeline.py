@@ -19,6 +19,7 @@ Usage examples::
     python -m backend.pipeline run-all --since 7d
     python -m backend.pipeline run-all --force
 """
+
 from __future__ import annotations
 
 import argparse
@@ -39,10 +40,13 @@ from backend.pipeline_state import record_run, should_process
 console = Console()
 logger = logging.getLogger(__name__)
 
-HUGO_BIN = str(cfg.base_dir / "bin" / "hugo") if (cfg.base_dir / "bin" / "hugo").exists() else "hugo"
+HUGO_BIN = (
+    str(cfg.base_dir / "bin" / "hugo") if (cfg.base_dir / "bin" / "hugo").exists() else "hugo"
+)
 
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
+
 
 def _get_papers(
     arxiv_ids: list[str] | None = None,
@@ -75,6 +79,7 @@ def _parse_since(value: str | None) -> timedelta | None:
 
 # ── Stage runners ─────────────────────────────────────────────────────────────
 
+
 def stage_discover(args: argparse.Namespace) -> None:
     console.print("[bold]Discover[/bold] — finding new papers…")
     tasks: list[str] = []
@@ -90,12 +95,14 @@ def stage_discover(args: argparse.Namespace) -> None:
 
     if "citations" in tasks:
         from backend.citation_finder import discover_citations
+
         benchmarks = args.benchmark or ["lrgb", "graphbench"]
         console.print(f"  Citation search for benchmarks: {benchmarks}")
         discover_citations(benchmarks)
 
     if "arxiv" in tasks:
         from backend.arxiv_scanner import scan
+
         days = getattr(args, "days", 7)
         dry_run = getattr(args, "dry_run", False)
         console.print(f"  ArXiv scan: last {days} days (dry_run={dry_run})")
@@ -214,6 +221,7 @@ def stage_run_all(args: argparse.Namespace) -> None:
 
 # ── CLI ───────────────────────────────────────────────────────────────────────
 
+
 def _build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(
         prog="python -m backend.pipeline",
@@ -239,8 +247,9 @@ def _build_parser() -> argparse.ArgumentParser:
 
     # extract
     ex = sub.add_parser("extract", help="Run LLM extraction")
-    ex.add_argument("--model", "-m", default="primary",
-                    help="Model tier (primary/fallback/small) or model name")
+    ex.add_argument(
+        "--model", "-m", default="primary", help="Model tier (primary/fallback/small) or model name"
+    )
     ex.add_argument("--paper", nargs="+", metavar="ARXIV_ID")
     ex.add_argument("--force", action="store_true")
 
@@ -261,8 +270,11 @@ def _build_parser() -> argparse.ArgumentParser:
 
     # run-all
     ra = sub.add_parser("run-all", help="Full end-to-end pipeline")
-    ra.add_argument("--since", metavar="DURATION",
-                    help="Only process papers added within this window (e.g. 7d, 24h)")
+    ra.add_argument(
+        "--since",
+        metavar="DURATION",
+        help="Only process papers added within this window (e.g. 7d, 24h)",
+    )
     ra.add_argument("--force", action="store_true", help="Re-process already completed stages")
     ra.add_argument("--model", "-m", default="primary")
     ra.add_argument("--paper", nargs="+", metavar="ARXIV_ID")

@@ -11,6 +11,7 @@ Usage::
     python -m backend.arxiv_scanner --days 14 --categories cs.LG cs.AI
     python -m backend.arxiv_scanner --days 3 --dry-run
 """
+
 from __future__ import annotations
 
 import argparse
@@ -42,7 +43,7 @@ class ScanResult:
     title: str
     authors: list[str] = field(default_factory=list)
     abstract: str = ""
-    published: str = ""   # YYYY-MM-DD
+    published: str = ""  # YYYY-MM-DD
     categories: list[str] = field(default_factory=list)
     # Stage results
     is_graph_learning: bool = False
@@ -162,7 +163,9 @@ def scan(
     init_db()
     cats = categories or DEFAULT_CATEGORIES
 
-    console.print(f"[bold]ArXiv scanner[/bold] — last [cyan]{days}[/cyan] days, categories: {', '.join(cats)}")
+    console.print(
+        f"[bold]ArXiv scanner[/bold] — last [cyan]{days}[/cyan] days, categories: {', '.join(cats)}"
+    )
 
     # Fetch from arXiv
     console.print("  Fetching papers from arXiv…")
@@ -242,7 +245,7 @@ def _store_results(results: list[ScanResult]) -> None:
                 arxiv_id=res.arxiv_id,
                 title=res.title,
                 abstract=res.abstract,
-                publication_date=res.published or None,
+                published_date=res.published or None,
                 extraction_status="pending",
                 discovery_source="arxiv_scanner",
                 is_benchmark_paper=1 if res.has_new_benchmark else 0,
@@ -269,9 +272,14 @@ def _store_results(results: list[ScanResult]) -> None:
 
 # ── CLI ───────────────────────────────────────────────────────────────────────
 
+
 def _build_parser() -> argparse.ArgumentParser:
-    p = argparse.ArgumentParser(description="Scan recent arXiv papers for graph learning benchmarks")
-    p.add_argument("--days", type=int, default=7, help="Scan papers from the last N days (default: 7)")
+    p = argparse.ArgumentParser(
+        description="Scan recent arXiv papers for graph learning benchmarks"
+    )
+    p.add_argument(
+        "--days", type=int, default=7, help="Scan papers from the last N days (default: 7)"
+    )
     p.add_argument(
         "--categories",
         nargs="+",
@@ -279,7 +287,9 @@ def _build_parser() -> argparse.ArgumentParser:
         metavar="CAT",
         help="arXiv categories to scan (default: cs.LG cs.AI stat.ML cs.SI)",
     )
-    p.add_argument("--max-results", type=int, default=500, help="Max papers to fetch from arXiv API")
+    p.add_argument(
+        "--max-results", type=int, default=500, help="Max papers to fetch from arXiv API"
+    )
     p.add_argument("--dry-run", action="store_true", help="Run filters but do not write to DB")
     # FUTURE: --update-versions flag (Phase 15)
     return p
@@ -297,7 +307,9 @@ def main(argv: list[str] | None = None) -> None:
     )
 
     suffix = " [dim](dry run — not saved)[/dim]" if args.dry_run else ""
-    console.print(f"\n[green]Done.[/green] [bold]{len(passed)}[/bold] papers queued for download.{suffix}")
+    console.print(
+        f"\n[green]Done.[/green] [bold]{len(passed)}[/bold] papers queued for download.{suffix}"
+    )
 
 
 if __name__ == "__main__":

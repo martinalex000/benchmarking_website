@@ -3,6 +3,7 @@
 Handles two-column layouts by sorting text blocks by position.
 Also extracts embedded raster images (stored temporarily for figure identification).
 """
+
 from __future__ import annotations
 
 import logging
@@ -17,7 +18,7 @@ logger = logging.getLogger(__name__)
 class ParsedPDFPaper:
     full_text: str = ""
     pages: list[str] = field(default_factory=list)
-    image_paths: list[Path] = field(default_factory=list)   # extracted raster images
+    image_paths: list[Path] = field(default_factory=list)  # extracted raster images
 
 
 def parse_pdf_paper(pdf_path: Path, images_dir: Path | None = None) -> ParsedPDFPaper:
@@ -46,10 +47,10 @@ def parse_pdf_paper(pdf_path: Path, images_dir: Path | None = None) -> ParsedPDF
 
         # Two-column heuristic: if text blocks span less than 60% of page width on average,
         # assume two-column and sort left column before right column.
-        avg_width = (
-            sum(b[2] - b[0] for b in [(b[0], b[1], b[2]) for b in blocks if b[6] == 0] or [(0, 0, width)])
-            / max(len([b for b in blocks if b[6] == 0]), 1)
-        )
+        avg_width = sum(
+            b[2] - b[0]
+            for b in [(b[0], b[1], b[2]) for b in blocks if b[6] == 0] or [(0, 0, width)]
+        ) / max(len([b for b in blocks if b[6] == 0]), 1)
         is_two_column = avg_width < (width * 0.55)
 
         if is_two_column:
@@ -82,7 +83,9 @@ def parse_pdf_paper(pdf_path: Path, images_dir: Path | None = None) -> ParsedPDF
                     img_path.write_bytes(img_bytes)
                     result.image_paths.append(img_path)
                 except Exception as exc:
-                    logger.debug("Could not extract image xref=%d on page %d: %s", xref, page_num + 1, exc)
+                    logger.debug(
+                        "Could not extract image xref=%d on page %d: %s", xref, page_num + 1, exc
+                    )
 
     doc.close()
 

@@ -5,6 +5,7 @@ a maximum retry count, and implements exponential backoff.
 
 Stage names: discover | download | extract | parse | export
 """
+
 from __future__ import annotations
 
 import logging
@@ -46,7 +47,9 @@ def should_process(paper_id: int, stage: str, force: bool = False) -> bool:
     if len(failures) >= MAX_RETRIES:
         logger.warning(
             "Paper %d stage '%s' has failed %d times — skipping",
-            paper_id, stage, len(failures),
+            paper_id,
+            stage,
+            len(failures),
         )
         return False
 
@@ -62,11 +65,13 @@ def record_run(
 ) -> None:
     """Record a pipeline stage run (success or failure)."""
     with session_scope() as session:
-        session.add(PipelineRun(
-            paper_id=paper_id,
-            stage=stage,
-            status=status,
-            model_used=model_used,
-            error_message=error_message,
-            started_at=datetime.now(timezone.utc),
-        ))
+        session.add(
+            PipelineRun(
+                paper_id=paper_id,
+                stage=stage,
+                status=status,
+                model_used=model_used,
+                error_message=error_message,
+                started_at=datetime.now(timezone.utc),
+            )
+        )

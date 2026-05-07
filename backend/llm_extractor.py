@@ -14,6 +14,7 @@ Usage::
     python -m backend.llm_extractor 2206.08164 --model fallback
     python -m backend.llm_extractor 2206.08164 --model minimax
 """
+
 from __future__ import annotations
 
 import argparse
@@ -37,6 +38,7 @@ from backend.paper_storage import PaperStorage
 logger = logging.getLogger(__name__)
 
 # ── Pydantic models for structured LLM output ─────────────────────────────────
+
 
 class ProposedModel(BaseModel):
     name: str
@@ -136,7 +138,9 @@ class LLMExtractor:
         )
         return (response.choices[0].message.content or "").strip()
 
-    def _call_json(self, system_prompt: str, user_content: str, max_tokens: int | None = None) -> Any:
+    def _call_json(
+        self, system_prompt: str, user_content: str, max_tokens: int | None = None
+    ) -> Any:
         """Call LLM and parse JSON from the response. Strips accidental fences."""
         raw = self._call(system_prompt, user_content, max_tokens)
         clean = raw.lstrip("```json").lstrip("```").rstrip("```").strip()
@@ -324,10 +328,11 @@ class LLMExtractor:
             if tables_text.strip()
             else ""
         )
-        return paper_text[:_CHUNK_SIZE - len(tables_section)] + tables_section
+        return paper_text[: _CHUNK_SIZE - len(tables_section)] + tables_section
 
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
+
 
 def _split_into_chunks(text: str, chunk_size: int) -> list[str]:
     """Split text at paragraph boundaries into chunks of at most chunk_size chars."""
@@ -376,7 +381,9 @@ def _render_human_readable(
     lines: list[str] = []
 
     lines.append(f"# Extraction: {title or arxiv_id}")
-    lines.append(f"**Model used**: `{model_name}`  **Date**: {now}  **Confidence**: {results_out.extraction_confidence}")
+    lines.append(
+        f"**Model used**: `{model_name}`  **Date**: {now}  **Confidence**: {results_out.extraction_confidence}"
+    )
     lines.append("")
 
     if results_out.proposed_model:
@@ -415,7 +422,9 @@ def _render_human_readable(
                 baseline_str = "Yes" if not e.is_proposed else "No"
                 source = e.source_ref or "this paper"
                 tbl = e.table_ref or "—"
-                lines.append(f"| {e.model} | {e.value:.4f} | {std_str} | {baseline_str} | {source} | {tbl} |")
+                lines.append(
+                    f"| {e.model} | {e.value:.4f} | {std_str} | {baseline_str} | {source} | {tbl} |"
+                )
             lines.append("")
 
     if results_out.baseline_models:
@@ -440,6 +449,7 @@ def _render_human_readable(
 
 
 # ── Standalone runner ─────────────────────────────────────────────────────────
+
 
 def run_extraction(arxiv_id: str, model_tier: str = "primary") -> bool:
     """Full extraction for a single paper already downloaded to storage."""
@@ -470,8 +480,7 @@ def run_extraction(arxiv_id: str, model_tier: str = "primary") -> bool:
         paper_text = parsed.full_text
         tables_text = "\n\n".join(t.markdown for t in parsed.tables)
         figures_list = [
-            {"caption": f.caption, "src": f.src, "element_id": f.element_id}
-            for f in parsed.figures
+            {"caption": f.caption, "src": f.src, "element_id": f.element_id} for f in parsed.figures
         ]
     elif storage.pdf_path.exists():
         parsed_pdf = parse_pdf_paper(storage.pdf_path, images_dir=storage.figures_dir)
@@ -496,10 +505,15 @@ def run_extraction(arxiv_id: str, model_tier: str = "primary") -> bool:
         logger.error("LLM extraction failed for arXiv:%s: %s", arxiv_id, exc)
         if paper_id:
             with session_scope() as session:
-                session.add(PipelineRun(
-                    paper_id=paper_id, stage="extract", status="failed",
-                    model_used=cfg.model_for_tier(model_tier), error_message=str(exc),
-                ))
+                session.add(
+                    PipelineRun(
+                        paper_id=paper_id,
+                        stage="extract",
+                        status="failed",
+                        model_used=cfg.model_for_tier(model_tier),
+                        error_message=str(exc),
+                    )
+                )
             _update_status(paper_id, "failed")
         return False
 
@@ -509,10 +523,14 @@ def run_extraction(arxiv_id: str, model_tier: str = "primary") -> bool:
             if p:
                 p.extraction_status = "extracted"
                 p.extraction_model = cfg.model_for_tier(model_tier)
-            session.add(PipelineRun(
-                paper_id=paper_id, stage="extract", status="success",
-                model_used=cfg.model_for_tier(model_tier),
-            ))
+            session.add(
+                PipelineRun(
+                    paper_id=paper_id,
+                    stage="extract",
+                    status="success",
+                    model_used=cfg.model_for_tier(model_tier),
+                )
+            )
 
     return True
 
@@ -526,11 +544,14 @@ def _update_status(paper_id: int, status: str) -> None:
 
 # ── CLI ───────────────────────────────────────────────────────────────────────
 
+
 def _build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(description="Run LLM extraction on a downloaded paper")
     p.add_argument("arxiv_ids", nargs="+", metavar="ARXIV_ID")
     p.add_argument(
-        "--model", "-m", default="primary",
+        "--model",
+        "-m",
+        default="primary",
         help="Model tier (primary/fallback/small) or explicit model name (default: primary)",
     )
     return p

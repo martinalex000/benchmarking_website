@@ -1,4 +1,5 @@
 """Unit tests for LLM extractor helpers (no actual LLM calls)."""
+
 import pytest
 from backend.llm_extractor import (
     ExtractionOutput,
@@ -31,10 +32,23 @@ def test_render_human_readable_basic():
     results_out = ExtractionOutput(
         proposed_model=ProposedModel(name="GraphGPS", params_millions=6.9),
         results=[
-            ResultEntry(model="GraphGPS", is_proposed=True, dataset="Peptides-func",
-                        metric="AP", value=0.6535, std=0.004, higher_is_better=True),
-            ResultEntry(model="GCN", is_proposed=False, dataset="Peptides-func",
-                        metric="AP", value=0.5930, higher_is_better=True),
+            ResultEntry(
+                model="GraphGPS",
+                is_proposed=True,
+                dataset="Peptides-func",
+                metric="AP",
+                value=0.6535,
+                std=0.004,
+                higher_is_better=True,
+            ),
+            ResultEntry(
+                model="GCN",
+                is_proposed=False,
+                dataset="Peptides-func",
+                metric="AP",
+                value=0.5930,
+                higher_is_better=True,
+            ),
         ],
         extraction_confidence="HIGH",
         extraction_notes="Clean tables.",

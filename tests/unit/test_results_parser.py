@@ -1,4 +1,5 @@
 """Unit tests for results_parser value parsing and fuzzy matching."""
+
 import pytest
 from backend.results_parser import parse_value_std, resolve_dataset_variant
 
@@ -45,8 +46,11 @@ def test_resolve_exact(tmp_path):
     from backend.results_parser import resolve_dataset_variant as rdv
 
     class FakeSession:
-        def query(self, *a): return self
-        def all(self): return []
+        def query(self, *a):
+            return self
+
+        def all(self):
+            return []
 
     result = rdv("Peptides-func", FakeSession(), variant_map)
     assert result == 10
@@ -56,8 +60,11 @@ def test_resolve_fuzzy(tmp_path):
     from backend.results_parser import resolve_dataset_variant as rdv
 
     class FakeSession:
-        def query(self, *a): return self
-        def all(self): return []
+        def query(self, *a):
+            return self
+
+        def all(self):
+            return []
 
     variant_map = {"peptides-func": 10}
     result = rdv("peptides func", FakeSession(), variant_map)
@@ -68,8 +75,11 @@ def test_resolve_no_match():
     from backend.results_parser import resolve_dataset_variant as rdv
 
     class FakeSession:
-        def query(self, *a): return self
-        def all(self): return []
+        def query(self, *a):
+            return self
+
+        def all(self):
+            return []
 
     result = rdv("completely_unknown_dataset_xyz", FakeSession(), {})
     assert result is None

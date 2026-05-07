@@ -6,6 +6,7 @@ tracked in git and NEVER overwritten by the pipeline.
 The pipeline calls apply_overrides() after every extraction run.
 Overridden results in the DB cannot be re-extracted (is_overridden=1 guard).
 """
+
 from __future__ import annotations
 
 import logging
@@ -20,6 +21,7 @@ logger = logging.getLogger(__name__)
 
 
 # ── Loading ───────────────────────────────────────────────────────────────────
+
 
 def load_overrides(arxiv_id: str, papers_root: Path | None = None) -> dict:
     """Read overrides.yaml for the given paper.
@@ -43,6 +45,7 @@ def load_overrides(arxiv_id: str, papers_root: Path | None = None) -> dict:
 
 
 # ── Application ───────────────────────────────────────────────────────────────
+
 
 def apply_overrides_to_results(
     results: list[dict],
@@ -90,6 +93,7 @@ def get_split_notes(overrides: dict) -> list[dict]:
 
 
 # ── DB application ────────────────────────────────────────────────────────────
+
 
 def apply_overrides_to_db(arxiv_id: str) -> int:
     """Load overrides.yaml and update matching Result rows in the database.
@@ -153,6 +157,7 @@ def apply_overrides_to_db(arxiv_id: str) -> int:
 
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
+
 
 def _result_key(model: str, dataset: str, metric: str) -> tuple[str, str, str]:
     return model.strip().lower(), dataset.strip().lower(), metric.strip().lower()

@@ -6,4 +6,5 @@
 - I want a lot of tqdm progress bars and progress notifications on everything at the moment
 - dataset statistics is still mostly missing
 - the results table should be able to hold information on different metrics for several of the old datasets (future), all good datasets have clean metrics.
-- 
+- extract available datasets from pyg
+- insert environment variables to get started on some models

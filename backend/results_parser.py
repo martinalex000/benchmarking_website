@@ -10,6 +10,7 @@ Handles:
 Usage::
     python -m backend.results_parser 2206.08164
 """
+
 from __future__ import annotations
 
 import argparse
@@ -37,7 +38,7 @@ logger = logging.getLogger(__name__)
 
 _PLUSMINUS_RE = re.compile(r"([\d.]+)\s*[±]\s*([\d.]+)")
 _PAREN_STD_RE = re.compile(r"([\d.]+)\s*\(\s*([\d.]+)\s*\)")
-_PM_AFTER_RE  = re.compile(r"([\d.]+)\s*±\s*([\d.]+)")
+_PM_AFTER_RE = re.compile(r"([\d.]+)\s*±\s*([\d.]+)")
 
 
 def parse_value_std(raw: Any) -> tuple[float | None, float | None]:
@@ -66,6 +67,7 @@ def parse_value_std(raw: Any) -> tuple[float | None, float | None]:
 
 
 # ── Dataset variant resolution ────────────────────────────────────────────────
+
 
 def _load_variant_map(session) -> dict[str, int]:
     """Build {name.lower() → variant_id} for all variants + their dataset names."""
@@ -99,7 +101,9 @@ def resolve_dataset_variant(
     if variant_map:
         best_match, score = fuzz_process.extractOne(key, list(variant_map.keys()))
         if score >= 75:
-            logger.debug("Fuzzy-matched dataset '%s' → '%s' (score=%d)", dataset_name, best_match, score)
+            logger.debug(
+                "Fuzzy-matched dataset '%s' → '%s' (score=%d)", dataset_name, best_match, score
+            )
             return variant_map[best_match]
 
     logger.warning("Could not resolve dataset variant '%s'", dataset_name)
@@ -107,6 +111,7 @@ def resolve_dataset_variant(
 
 
 # ── Model resolution ──────────────────────────────────────────────────────────
+
 
 def _load_model_map(session) -> tuple[dict[str, int], dict[str, int]]:
     """Returns (canonical_map, alias_map) both keyed on lowercased name → model_id."""
@@ -140,7 +145,9 @@ def resolve_or_create_model(
     if all_names:
         best_match, score = fuzz_process.extractOne(key, all_names)
         if score >= 88:
-            logger.debug("Fuzzy-matched model '%s' → '%s' (score=%d)", model_name, best_match, score)
+            logger.debug(
+                "Fuzzy-matched model '%s' → '%s' (score=%d)", model_name, best_match, score
+            )
             match_id = canonical_map.get(best_match) or alias_map.get(best_match)
             if match_id:
                 return match_id
@@ -158,6 +165,7 @@ def resolve_or_create_model(
 
 
 # ── Main parser ───────────────────────────────────────────────────────────────
+
 
 def parse_and_store(arxiv_id: str) -> int:
     """Parse LLM output for a paper and write Result rows to DB.
@@ -186,7 +194,9 @@ def parse_and_store(arxiv_id: str) -> int:
     # Build a sizes lookup from baseline info
     sizes_lookup: dict[str, float | None] = {}
     if proposed_model_info.get("name"):
-        sizes_lookup[proposed_model_info["name"].lower()] = proposed_model_info.get("params_millions")
+        sizes_lookup[proposed_model_info["name"].lower()] = proposed_model_info.get(
+            "params_millions"
+        )
     for bm in baseline_models_info:
         if bm.get("name"):
             sizes_lookup[bm["name"].lower()] = bm.get("params_millions")
@@ -204,14 +214,15 @@ def parse_and_store(arxiv_id: str) -> int:
 
         for entry in result_entries:
             dataset_name = entry.get("dataset", "")
-            model_name   = entry.get("model", "")
-            metric_name  = entry.get("metric", "")
+            model_name = entry.get("model", "")
+            metric_name = entry.get("metric", "")
 
             variant_id = resolve_dataset_variant(dataset_name, session, variant_map)
             if variant_id is None:
                 logger.warning(
                     "Skipping result (unknown dataset '%s') for arXiv:%s",
-                    dataset_name, arxiv_id,
+                    dataset_name,
+                    arxiv_id,
                 )
                 continue
 
@@ -239,7 +250,9 @@ def parse_and_store(arxiv_id: str) -> int:
             if existing and existing.is_overridden:
                 logger.debug(
                     "Skipping overridden result: %s / %s / %s",
-                    model_name, dataset_name, metric_name,
+                    model_name,
+                    dataset_name,
+                    metric_name,
                 )
                 continue
             if existing:
@@ -252,7 +265,9 @@ def parse_and_store(arxiv_id: str) -> int:
             if value is None:
                 logger.warning(
                     "Could not parse value for %s / %s / %s — skipping",
-                    model_name, dataset_name, metric_name,
+                    model_name,
+                    dataset_name,
+                    metric_name,
                 )
                 continue
 
@@ -284,7 +299,7 @@ def parse_and_store(arxiv_id: str) -> int:
 
 def _parse_entry_value(entry: dict) -> tuple[float | None, float | None]:
     value = entry.get("value")
-    std   = entry.get("std")
+    std = entry.get("std")
     if isinstance(value, str):
         value, parsed_std = parse_value_std(value)
         if std is None:
@@ -307,6 +322,7 @@ def _update_result(result: Result, entry: dict, model_name_used: str) -> None:
 
 
 # ── CLI ───────────────────────────────────────────────────────────────────────
+
 
 def _build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(description="Parse LLM output and store results in the DB")

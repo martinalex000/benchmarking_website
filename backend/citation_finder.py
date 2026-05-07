@@ -8,6 +8,7 @@ Usage::
     python -m backend.citation_finder --benchmark lrgb --benchmark graphbench
     python -m backend.citation_finder --all
 """
+
 from __future__ import annotations
 
 import argparse
@@ -146,7 +147,9 @@ def discover_citations(benchmark_keys: list[str]) -> list[DiscoveredPaper]:
             console.print(f"[red]Unknown benchmark key: {key}[/red]")
             continue
 
-        console.print(f"\n[bold]Fetching citations for {bm['title']} (arXiv:{bm['arxiv_id']})[/bold]")
+        console.print(
+            f"\n[bold]Fetching citations for {bm['title']} (arXiv:{bm['arxiv_id']})[/bold]"
+        )
         try:
             papers = _fetch_citing_papers(bm["arxiv_id"])
         except Exception as exc:
@@ -179,7 +182,7 @@ def _upsert_paper(disc: DiscoveredPaper) -> None:
         paper = Paper(
             title=disc.title,
             arxiv_id=disc.arxiv_id,
-            publication_date=f"{disc.year}-01-01" if disc.year else None,
+            published_date=f"{disc.year}-01-01" if disc.year else None,
             venue=disc.venue,
             codebase_url=None,
             extraction_status="pending",
@@ -204,11 +207,15 @@ def _upsert_paper(disc: DiscoveredPaper) -> None:
 
 # ── CLI ───────────────────────────────────────────────────────────────────────
 
+
 def _build_parser() -> argparse.ArgumentParser:
-    p = argparse.ArgumentParser(description="Discover papers citing known benchmarks via Google Scholar")
+    p = argparse.ArgumentParser(
+        description="Discover papers citing known benchmarks via Google Scholar"
+    )
     group = p.add_mutually_exclusive_group()
     group.add_argument(
-        "--benchmark", "-b",
+        "--benchmark",
+        "-b",
         action="append",
         dest="benchmarks",
         choices=list(BENCHMARKS.keys()),
@@ -216,7 +223,8 @@ def _build_parser() -> argparse.ArgumentParser:
         help="Benchmark to crawl (may be repeated). Choices: " + ", ".join(BENCHMARKS),
     )
     group.add_argument(
-        "--all", "-a",
+        "--all",
+        "-a",
         action="store_true",
         help="Crawl all configured benchmarks",
     )
@@ -229,7 +237,9 @@ def main(argv: list[str] | None = None) -> None:
 
     keys = list(BENCHMARKS.keys()) if args.all else (args.benchmarks or list(BENCHMARKS.keys()))
 
-    with Progress(SpinnerColumn(), TextColumn("[progress.description]{task.description}"), transient=True) as _prog:
+    with Progress(
+        SpinnerColumn(), TextColumn("[progress.description]{task.description}"), transient=True
+    ) as _prog:
         inserted = discover_citations(keys)
 
     console.print(f"\n[green]Done.[/green] Stored [bold]{len(inserted)}[/bold] new papers.")

@@ -7,6 +7,7 @@ Usage::
     python -m backend.arxiv_downloader 2206.08164
     python -m backend.arxiv_downloader 2206.08164 2512.04475 --force
 """
+
 from __future__ import annotations
 
 import argparse
@@ -36,8 +37,7 @@ ASSET_EXTENSIONS = {".png", ".jpg", ".jpeg", ".gif", ".svg", ".webp"}
 
 HEADERS = {
     "User-Agent": (
-        "Mozilla/5.0 (compatible; GraphBenchBot/1.0; "
-        "+https://github.com/benchmarking-website)"
+        "Mozilla/5.0 (compatible; GraphBenchBot/1.0; " "+https://github.com/benchmarking-website)"
     )
 }
 
@@ -180,13 +180,15 @@ def download_paper(arxiv_id: str, force: bool = False) -> bool:
                 paper.html_path = str(storage.html_index_path.relative_to(cfg.project_root))
             paper.extraction_status = "downloaded"
 
-    storage.update_metadata({
-        "arxiv_version": version,
-        "html_available": html_available,
-        "pdf_path": str(storage.pdf_path),
-        "html_path": str(storage.html_index_path) if html_available else None,
-        "status": "downloaded",
-    })
+    storage.update_metadata(
+        {
+            "arxiv_version": version,
+            "html_available": html_available,
+            "pdf_path": str(storage.pdf_path),
+            "html_path": str(storage.html_index_path) if html_available else None,
+            "status": "downloaded",
+        }
+    )
 
     _record_run(paper_id, "download", "success", None)
     logger.info("arXiv:%s downloaded (html=%s, version=%s)", arxiv_id, html_available, version)
@@ -202,15 +204,18 @@ def _update_paper_status(paper_id: int, status: str) -> None:
 
 def _record_run(paper_id: int, stage: str, status: str, error: str | None) -> None:
     with session_scope() as session:
-        session.add(PipelineRun(
-            paper_id=paper_id,
-            stage=stage,
-            status=status,
-            error_message=error,
-        ))
+        session.add(
+            PipelineRun(
+                paper_id=paper_id,
+                stage=stage,
+                status=status,
+                error_message=error,
+            )
+        )
 
 
 # ── CLI ───────────────────────────────────────────────────────────────────────
+
 
 def _build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(description="Download arXiv papers (HTML + PDF)")

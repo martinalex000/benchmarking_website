@@ -7,6 +7,7 @@ Called by export_to_hugo.py to populate the leaderboard tables.
 Usage::
     python -m backend.baseline_aggregator --dataset-variant 3 --metric AP
 """
+
 from __future__ import annotations
 
 import argparse
@@ -29,6 +30,7 @@ FUZZY_THRESHOLD = 85
 @dataclass
 class BaselineGroup:
     """Aggregate stats for a single canonical model on a dataset/metric."""
+
     canonical_name: str
     model_id: int
     values: list[float] = field(default_factory=list)
@@ -138,7 +140,8 @@ def get_baseline_summary(
             if effective_value is not None:
                 g.values.append(float(effective_value))
                 g.stds.append(
-                    float(r.override_std) if r.is_overridden and r.override_std is not None
+                    float(r.override_std)
+                    if r.is_overridden and r.override_std is not None
                     else (float(r.metric_std) if r.metric_std is not None else None)
                 )
                 paper = r.paper
@@ -202,19 +205,26 @@ def get_best_results_over_time(
             if is_new_best:
                 best_so_far = val
                 paper = r.paper
-                milestones.append({
-                    "value": val,
-                    "std": float(r.metric_std) if r.metric_std else None,
-                    "model": r.model.canonical_name if r.model else "",
-                    "arxiv_id": paper.arxiv_id if paper else "",
-                    "title": paper.title if paper else "",
-                    "date": paper.published_date.isoformat() if paper and paper.published_date else None,
-                })
+                milestones.append(
+                    {
+                        "value": val,
+                        "std": float(r.metric_std) if r.metric_std else None,
+                        "model": r.model.canonical_name if r.model else "",
+                        "arxiv_id": paper.arxiv_id if paper else "",
+                        "title": paper.title if paper else "",
+                        "date": (
+                            paper.published_date.isoformat()
+                            if paper and paper.published_date
+                            else None
+                        ),
+                    }
+                )
 
     return milestones
 
 
 # ── Fuzzy merge ───────────────────────────────────────────────────────────────
+
 
 def _merge_similar_groups(
     groups: list[BaselineGroup],
@@ -263,18 +273,23 @@ def _merge_similar_groups(
 
 # ── CLI ───────────────────────────────────────────────────────────────────────
 
+
 def main(argv: list[str] | None = None) -> None:
     logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
     parser = argparse.ArgumentParser(description="Compute baseline aggregation stats")
-    parser.add_argument("--dataset-variant", "-d", type=int, required=True, help="DatasetVariant ID")
+    parser.add_argument(
+        "--dataset-variant", "-d", type=int, required=True, help="DatasetVariant ID"
+    )
     parser.add_argument("--metric", "-m", required=True, help="Metric name (e.g. AP, MAE)")
     parser.add_argument("--baselines-only", action="store_true")
     parser.add_argument("--threshold", type=int, default=FUZZY_THRESHOLD)
     args = parser.parse_args(argv)
 
     import json as _json
+
     groups = get_baseline_summary(
-        args.dataset_variant, args.metric,
+        args.dataset_variant,
+        args.metric,
         fuzzy_threshold=args.threshold,
         baselines_only=args.baselines_only,
     )

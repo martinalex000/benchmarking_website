@@ -1,4 +1,5 @@
 """Unit tests for baseline aggregator helpers."""
+
 import pytest
 from backend.baseline_aggregator import BaselineGroup, _merge_similar_groups
 
@@ -38,7 +39,7 @@ def test_group_std_across_papers():
 def test_merge_similar_groups():
     g1 = make_group("GraphSAGE", [0.75], model_id=1)
     g2 = make_group("Graph SAGE", [0.76], model_id=2)  # similar name
-    g3 = make_group("GCN", [0.65], model_id=3)         # different
+    g3 = make_group("GCN", [0.65], model_id=3)  # different
 
     merged = _merge_similar_groups([g1, g2, g3], threshold=85)
     assert len(merged) == 2

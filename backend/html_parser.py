@@ -3,6 +3,7 @@
 ArXiv HTML papers (ar5iv format) have well-structured HTML with identifiable
 sections, figure captions, and result tables.
 """
+
 from __future__ import annotations
 
 import logging
@@ -16,6 +17,7 @@ logger = logging.getLogger(__name__)
 
 # ── Data classes ──────────────────────────────────────────────────────────────
 
+
 @dataclass
 class ParsedTable:
     caption: str
@@ -27,7 +29,7 @@ class ParsedTable:
 @dataclass
 class ParsedFigure:
     caption: str
-    src: str | None = None          # relative src of the <img>
+    src: str | None = None  # relative src of the <img>
     element_id: str | None = None
     section: str | None = None
 
@@ -36,7 +38,7 @@ class ParsedFigure:
 class ParsedPaper:
     title: str = ""
     abstract: str = ""
-    sections: list[tuple[str, str]] = field(default_factory=list)   # (heading, text)
+    sections: list[tuple[str, str]] = field(default_factory=list)  # (heading, text)
     tables: list[ParsedTable] = field(default_factory=list)
     figures: list[ParsedFigure] = field(default_factory=list)
     references: list[str] = field(default_factory=list)
@@ -44,6 +46,7 @@ class ParsedPaper:
 
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
+
 
 def _tag_text(tag: Tag) -> str:
     return tag.get_text(separator=" ", strip=True)
@@ -81,6 +84,7 @@ def _table_to_markdown(table_tag: Tag) -> str:
 
 # ── Main parser ───────────────────────────────────────────────────────────────
 
+
 def parse_html_paper(html_path: Path) -> ParsedPaper:
     """Parse an arXiv HTML paper and return a structured ParsedPaper."""
     raw = html_path.read_text(encoding="utf-8", errors="replace")
@@ -116,8 +120,7 @@ def parse_html_paper(html_path: Path) -> ParsedPaper:
                 text_blocks.append(text)
 
     result.sections = [
-        (heading, "\n".join(paragraphs))
-        for heading, paragraphs in section_texts.items()
+        (heading, "\n".join(paragraphs)) for heading, paragraphs in section_texts.items()
     ]
 
     # Tables
@@ -126,22 +129,20 @@ def parse_html_paper(html_path: Path) -> ParsedPaper:
         if cap_tag is None:
             # Look for a nearby figcaption or p.caption
             parent = table.parent
-            cap_tag = (
-                parent.find("figcaption")
-                if parent
-                else None
-            )
+            cap_tag = parent.find("figcaption") if parent else None
         caption = _tag_text(cap_tag) if cap_tag else ""
         md = _table_to_markdown(table)
         if md:
             # Guess enclosing section
             sec = _find_enclosing_section(table, soup)
-            result.tables.append(ParsedTable(
-                caption=caption,
-                markdown=md,
-                element_id=table.get("id"),
-                section=sec,
-            ))
+            result.tables.append(
+                ParsedTable(
+                    caption=caption,
+                    markdown=md,
+                    element_id=table.get("id"),
+                    section=sec,
+                )
+            )
 
     # Figures
     for fig in soup.find_all("figure"):
@@ -150,12 +151,14 @@ def parse_html_paper(html_path: Path) -> ParsedPaper:
         img_tag = fig.find("img")
         src = img_tag.get("src") if img_tag else None
         sec = _find_enclosing_section(fig, soup)
-        result.figures.append(ParsedFigure(
-            caption=caption,
-            src=src,
-            element_id=fig.get("id"),
-            section=sec,
-        ))
+        result.figures.append(
+            ParsedFigure(
+                caption=caption,
+                src=src,
+                element_id=fig.get("id"),
+                section=sec,
+            )
+        )
 
     # Full text (flat, for LLM ingestion)
     body = soup.find("body") or soup

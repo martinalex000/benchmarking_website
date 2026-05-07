@@ -6,6 +6,7 @@ Marks the download_source in paper metadata.
 Usage::
     python -m backend.alternative_downloader --paper-id 42 --url https://openreview.net/pdf?id=XYZ
 """
+
 from __future__ import annotations
 
 import argparse
@@ -105,7 +106,11 @@ def download_alternative(paper_id: int, url: str) -> bool:
     except Exception as exc:
         logger.error("Failed to download alternative PDF: %s", exc)
         with session_scope() as session:
-            session.add(PipelineRun(paper_id=paper_id, stage="download", status="failed", error_message=str(exc)))
+            session.add(
+                PipelineRun(
+                    paper_id=paper_id, stage="download", status="failed", error_message=str(exc)
+                )
+            )
         return False
 
     storage.root.mkdir(parents=True, exist_ok=True)
@@ -119,13 +124,15 @@ def download_alternative(paper_id: int, url: str) -> bool:
             paper.pdf_path = str(storage.pdf_path.relative_to(cfg.project_root))
             paper.extraction_status = "downloaded"
 
-    storage.update_metadata({
-        "download_source": source,
-        "download_url": url,
-        "pdf_path": str(storage.pdf_path),
-        "html_available": False,
-        "status": "downloaded",
-    })
+    storage.update_metadata(
+        {
+            "download_source": source,
+            "download_url": url,
+            "pdf_path": str(storage.pdf_path),
+            "html_available": False,
+            "status": "downloaded",
+        }
+    )
 
     with session_scope() as session:
         session.add(PipelineRun(paper_id=paper_id, stage="download", status="success"))
@@ -134,6 +141,7 @@ def download_alternative(paper_id: int, url: str) -> bool:
 
 
 # ── CLI ───────────────────────────────────────────────────────────────────────
+
 
 def _build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(description="Download a paper PDF from an alternative source")

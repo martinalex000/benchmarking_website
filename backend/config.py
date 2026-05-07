@@ -5,6 +5,7 @@ Usage:
 
 All paths are absolute Path objects resolved relative to the project root.
 """
+
 from __future__ import annotations
 
 import os
@@ -36,6 +37,8 @@ class Config:
 
     # ── Paths ──────────────────────────────────────────────────────────────
     project_root: Path = PROJECT_ROOT
+    # Backwards-compatible alias used by older code
+    base_dir: Path = PROJECT_ROOT
     data_dir: Path = PROJECT_ROOT / "data"
     papers_dir: Path = PROJECT_ROOT / "papers"
     logs_dir: Path = PROJECT_ROOT / "logs"
@@ -57,9 +60,7 @@ class Config:
     model_fallback: str = os.environ.get(
         "LLM_MODEL_FALLBACK", _llm_cfg.get("fallback_model", "minimax")
     )
-    model_small: str = os.environ.get(
-        "LLM_MODEL_SMALL", _llm_cfg.get("small_model", "gemma-3-27b")
-    )
+    model_small: str = os.environ.get("LLM_MODEL_SMALL", _llm_cfg.get("small_model", "gemma-3-27b"))
 
     # ── LLM generation parameters ──────────────────────────────────────────
     llm_max_tokens: int = int(_llm_cfg.get("max_tokens", 8192))

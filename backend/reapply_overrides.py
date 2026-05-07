@@ -7,6 +7,7 @@ Usage::
     python -m backend.reapply_overrides --paper 2206.08164
     python -m backend.reapply_overrides --paper 2206.08164 2512.04475
 """
+
 from __future__ import annotations
 
 import argparse
@@ -42,6 +43,7 @@ def reapply_all(arxiv_ids: list[str] | None = None) -> dict[str, int]:
                 arxiv_id = override_file.parent.name
                 # Only process if file has non-template content (i.e. has real keys)
                 import yaml
+
                 try:
                     data = yaml.safe_load(override_file.read_text(encoding="utf-8")) or {}
                     has_content = any(
@@ -69,7 +71,8 @@ def main(argv: list[str] | None = None) -> None:
     logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
     parser = argparse.ArgumentParser(description="Re-apply overrides.yaml files to the database")
     parser.add_argument(
-        "--paper", "-p",
+        "--paper",
+        "-p",
         nargs="+",
         metavar="ARXIV_ID",
         help="Specific paper arXiv IDs to process (default: all papers with overrides)",
