@@ -1,0 +1,22 @@
+# LLM model tier configuration
+# All tasks reference a tier name (primary / fallback / small).
+# Override individual values via environment variables in .env.
+
+primary_model: openai-gpt-oss120b    # Full table extraction, complex reasoning
+fallback_model: minimax               # If primary produces poor quality output
+small_model: gemma-3-27b              # Cheap tasks: relevance filter, abstract scan
+
+# Endpoint is read from LLM_ENDPOINT env var; set here as a fallback default
+endpoint: ""
+
+# Generation parameters
+max_tokens: 8192
+temperature: 0.1
+timeout_seconds: 120
+
+# Cost-control: max papers to process per pipeline run (0 = unlimited)
+max_papers_per_run: 0
+
+# Retry settings for LLM calls
+max_retries: 3
+retry_base_delay: 5   # seconds (exponential backoff)

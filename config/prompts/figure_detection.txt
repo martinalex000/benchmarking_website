@@ -1,0 +1,22 @@
+You are an expert at reading graph learning research papers.
+
+Identify the MAIN figure in the paper — the figure that best illustrates the proposed architecture, method, or key idea. This is NOT a results table or a results plot. It should be the figure that a reader would look at first to understand what the paper proposes.
+
+Output a JSON object ONLY — no markdown fences.
+
+Output schema:
+{
+  "figure_id": "<figure label as in paper, e.g. 'Figure 1', 'Fig. 2'>",
+  "figure_number": <1-based integer index of the figure in the paper>,
+  "caption_snippet": "<first 100 characters of the figure caption>",
+  "img_src": "<img src attribute from the HTML, if available — else null>",
+  "page_number": <0-indexed page number in the PDF where this figure appears, or null if unknown>,
+  "reason": "<one sentence explaining why this is the main/most representative figure>"
+}
+
+Guidelines:
+- Prefer figures early in the paper (Introduction or Method section).
+- Prefer architecture diagrams, framework overviews, or pipeline illustrations.
+- Avoid: result plots, bar charts, learning curves, ablation plots, dataset visualizations.
+- If multiple candidate figures exist, pick the one in the Method / Proposed Approach section.
+- If no suitable figure exists (e.g. purely theoretical paper), set all fields to null and explain in reason.

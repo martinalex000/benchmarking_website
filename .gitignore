@@ -1,0 +1,51 @@
+# ── Python ─────────────────────────────────────────────────────────────────
+.venv/
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+.mypy_cache/
+*.egg-info/
+dist/
+build/
+.ruff_cache/
+
+# ── Environment ─────────────────────────────────────────────────────────────
+.env
+.env.*
+!.env.example
+
+# ── Database ────────────────────────────────────────────────────────────────
+data/*.db
+data/*.db-shm
+data/*.db-wal
+data/*.db-journal
+
+# ── Logs ────────────────────────────────────────────────────────────────────
+logs/
+
+# ── Hugo build output ────────────────────────────────────────────────────────
+site/public/
+site/resources/
+site/.hugo_build.lock
+
+# ── Papers: ignore large/generated files, but TRACK correction files ─────────
+# Downloaded paper files (large, reproducible)
+papers/*/paper.pdf
+papers/*/html/
+papers/*/extracted/text.txt
+papers/*/extracted/llm_output.json
+papers/*/figures/
+
+# ALWAYS TRACK these (do NOT add to ignore):
+# papers/*/metadata.json        ← paper metadata
+# papers/*/overrides.yaml       ← human corrections
+# papers/*/extracted/results_human_readable.md  ← verification artifact
+
+# ── OS / Editor ─────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.idea/
+.vscode/settings.json

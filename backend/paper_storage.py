@@ -1,0 +1,164 @@
+"""Paper storage — manages the per-paper folder structure.
+
+Each paper lives under  papers/{arxiv_id}/
+  ├── metadata.json          ← tracked in git; written once, never overwritten
+  ├── overrides.yaml         ← tracked in git; human corrections; NEVER overwritten
+  ├── paper.pdf              ← gitignored (reproducible download)
+  ├── html/                  ← gitignored (reproducible download)
+  │   └── index.html (+ linked assets)
+  ├── extracted/
+  │   ├── text.txt           ← gitignored (derived)
+  │   ├── llm_output.json    ← gitignored (derived)
+  │   └── results_human_readable.md  ← TRACKED in git (verification artifact)
+  └── figures/
+      └── main_figure.{png|jpg}  ← gitignored
+"""
+from __future__ import annotations
+
+import json
+import logging
+from datetime import datetime, timezone
+from pathlib import Path
+
+from backend.config import cfg
+
+logger = logging.getLogger(__name__)
+
+OVERRIDES_TEMPLATE = """\
+# overrides.yaml — edit this file to correct extraction errors.
+# This file is NEVER overwritten by the pipeline.
+# Re-run `python -m backend.reapply_overrides --paper {arxiv_id}` after editing.
+
+paper_arxiv_id: "{arxiv_id}"
+
+# Mark results as problematic (shown in grey on the leaderboard).
+# problematic_results:
+#   - model: "GraphGPS"
+#     dataset: "Peptides-func"
+#     metric: "AP"
+#     reason: "Uses non-standard evaluation protocol"
+
+# Override extracted values with correct ones.
+# result_overrides:
+#   - model: "GraphGPS"
+#     dataset: "Peptides-func"
+#     metric: "AP"
+#     correct_value: 0.6534
+#     correct_std: 0.0042
+#     reason: "LLM read wrong table row — see Table 3 in paper"
+
+# Fix metadata (codebase URL, etc.).
+# metadata_overrides:
+#   codebase_url: "https://github.com/example/repo"
+
+# Notes about non-standard splits used in this paper.
+# dataset_split_notes:
+#   - dataset: "Cora"
+#     is_standard_split: false
+#     note: "Uses random 10-fold split, not the Planetoid public split"
+"""
+
+
+class PaperStorage:
+    """Manages the folder structure for a single paper."""
+
+    def __init__(self, arxiv_id: str, papers_root: Path | None = None) -> None:
+        self.arxiv_id = arxiv_id
+        self.root = (papers_root or cfg.papers_dir) / arxiv_id
+        self.html_dir = self.root / "html"
+        self.extracted_dir = self.root / "extracted"
+        self.figures_dir = self.root / "figures"
+
+    # ── Paths ─────────────────────────────────────────────────────────────
+    @property
+    def pdf_path(self) -> Path:
+        return self.root / "paper.pdf"
+
+    @property
+    def html_index_path(self) -> Path:
+        return self.html_dir / "index.html"
+
+    @property
+    def text_path(self) -> Path:
+        return self.extracted_dir / "text.txt"
+
+    @property
+    def llm_output_path(self) -> Path:
+        return self.extracted_dir / "llm_output.json"
+
+    @property
+    def human_readable_path(self) -> Path:
+        return self.extracted_dir / "results_human_readable.md"
+
+    @property
+    def metadata_path(self) -> Path:
+        return self.root / "metadata.json"
+
+    @property
+    def overrides_path(self) -> Path:
+        return self.root / "overrides.yaml"
+
+    @property
+    def main_figure_path(self) -> Path | None:
+        """Return path to the main figure if it exists, else None."""
+        for ext in ("png", "jpg", "jpeg", "svg"):
+            p = self.figures_dir / f"main_figure.{ext}"
+            if p.exists():
+                return p
+        return None
+
+    # ── Initialisation ────────────────────────────────────────────────────
+    def ensure_dirs(self) -> None:
+        """Create all subdirectories."""
+        for d in (self.root, self.html_dir, self.extracted_dir, self.figures_dir):
+            d.mkdir(parents=True, exist_ok=True)
+
+    def init_paper(self, metadata: dict) -> None:
+        """Create metadata.json and overrides.yaml template on first setup.
+
+        Idempotent — will not overwrite existing files.
+        """
+        self.ensure_dirs()
+
+        # metadata.json — written once; updated if explicitly called
+        if not self.metadata_path.exists():
+            meta = {
+                "arxiv_id": self.arxiv_id,
+                "created_at": datetime.now(timezone.utc).isoformat(),
+                **metadata,
+            }
+            self.metadata_path.write_text(
+                json.dumps(meta, indent=2, ensure_ascii=False), encoding="utf-8"
+            )
+            logger.info("Created metadata.json for %s", self.arxiv_id)
+
+        # overrides.yaml — created once, NEVER overwritten
+        if not self.overrides_path.exists():
+            self.overrides_path.write_text(
+                OVERRIDES_TEMPLATE.format(arxiv_id=self.arxiv_id), encoding="utf-8"
+            )
+            logger.info("Created overrides.yaml template for %s", self.arxiv_id)
+
+    def update_metadata(self, updates: dict) -> None:
+        """Merge updates into metadata.json."""
+        self.ensure_dirs()
+        existing: dict = {}
+        if self.metadata_path.exists():
+            try:
+                existing = json.loads(self.metadata_path.read_text(encoding="utf-8"))
+            except (ValueError, OSError):
+                pass
+        existing.update(updates)
+        existing["updated_at"] = datetime.now(timezone.utc).isoformat()
+        self.metadata_path.write_text(
+            json.dumps(existing, indent=2, ensure_ascii=False), encoding="utf-8"
+        )
+
+    def read_metadata(self) -> dict:
+        """Read metadata.json, return empty dict if not present."""
+        if not self.metadata_path.exists():
+            return {}
+        try:
+            return json.loads(self.metadata_path.read_text(encoding="utf-8"))
+        except (ValueError, OSError):
+            return {}

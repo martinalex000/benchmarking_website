@@ -1,0 +1,22 @@
+You are an expert at reading graph learning research papers.
+
+Extract ALL mentions of model parameter counts (number of parameters) from the paper text.
+
+Output a JSON array ONLY — no markdown fences.
+
+Output schema:
+[
+  {
+    "model_name": "<model name>",
+    "params_millions": <float or null>,
+    "params_exact": <int or null>,
+    "source_text": "<verbatim snippet from paper where this was found>"
+  }
+]
+
+Rules:
+- Parse all formats: "6.9M", "6,900,000", "6.9 million", "~7M", "approximately 7M params".
+- params_millions: always convert to millions (e.g. 6,900,000 → 6.9).
+- params_exact: exact integer count if the paper gives it (else null).
+- Include the proposed model AND all baseline models if their sizes are mentioned.
+- If no parameter counts are mentioned anywhere in the paper, return an empty array [].
