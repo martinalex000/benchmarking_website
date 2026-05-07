@@ -165,6 +165,55 @@ def resolve_or_create_model(
     return new_model.id
 
 
+# ── Metadata enrichment ───────────────────────────────────────────────────────
+
+# GitHub URLs to skip — known ML/graph libraries, not project repos
+_GH_SKIP = re.compile(
+    r"github\.com/(pytorch|pyg-team|dmlc|rusty1s|facebookresearch|google|"
+    r"microsoft|openai|shelhamer|snap-stanford|benedekrozemberczki|"
+    r"diningphil|asappresearch)/"
+)
+
+
+def _extract_github_url(text: str) -> str | None:
+    """Return the first project-specific GitHub URL found in text, or None."""
+    urls = re.findall(r"https?://github\.com/([a-zA-Z0-9_.-]+/[a-zA-Z0-9_.-]+)", text)
+    for path in urls:
+        if not _GH_SKIP.search("github.com/" + path):
+            return "https://github.com/" + path.rstrip("/.")
+    return None
+
+
+def _enrich_paper_metadata(arxiv_id: str, paper: Paper, storage: PaperStorage) -> None:
+    """Update Paper record with arXiv API metadata and GitHub URL from extracted text."""
+    from backend.llm_extractor import fetch_arxiv_metadata
+
+    meta = fetch_arxiv_metadata(arxiv_id)
+    if meta:
+        if meta.get("title"):
+            paper.title = meta["title"]
+        if meta.get("abstract"):
+            paper.abstract = meta["abstract"]
+        if meta.get("published_date") and not paper.published_date:
+            paper.published_date = meta["published_date"]
+
+    # Fallback: derive date from arXiv ID (e.g. 2206.08164 → 2022-06)
+    if not paper.published_date:
+        m = re.match(r"^(\d{2})(\d{2})\.\d+", arxiv_id)
+        if m:
+            year, month = int(m.group(1)) + 2000, int(m.group(2))
+            if 1 <= month <= 12:
+                paper.published_date = f"{year}-{month:02d}"
+
+    # Extract GitHub codebase URL from paper text if not already set
+    if not paper.codebase_url and storage.text_path.exists():
+        text = storage.text_path.read_text(encoding="utf-8", errors="ignore")
+        url = _extract_github_url(text)
+        if url:
+            paper.codebase_url = url
+            logger.info("Set codebase_url=%s for arXiv:%s", url, arxiv_id)
+
+
 # ── Main parser ───────────────────────────────────────────────────────────────
 
 
@@ -209,6 +258,8 @@ def parse_and_store(arxiv_id: str) -> int:
         if paper is None:
             logger.error("Paper arXiv:%s not in DB", arxiv_id)
             return 0
+
+        _enrich_paper_metadata(arxiv_id, paper, storage)
 
         variant_map = _load_variant_map(session)
         canonical_map, alias_map = _load_model_map(session)

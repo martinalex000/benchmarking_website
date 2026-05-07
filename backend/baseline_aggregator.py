@@ -215,9 +215,7 @@ def get_best_results_over_time(
                         "arxiv_id": paper.arxiv_id if paper else "",
                         "title": paper.title if paper else "",
                         "date": (
-                            paper.published_date.isoformat()
-                            if paper and paper.published_date
-                            else None
+                            paper.published_date[:10] if paper and paper.published_date else None
                         ),
                     }
                 )

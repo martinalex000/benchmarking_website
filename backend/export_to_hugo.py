@@ -19,6 +19,7 @@ import json
 import logging
 import re
 import shutil
+from datetime import datetime
 from pathlib import Path
 from typing import Any
 
@@ -46,6 +47,16 @@ def _slug(name: str) -> str:
     return re.sub(r"[^a-z0-9]+", "-", name.strip().lower()).strip("-")
 
 
+def _fmt_date(date_str: str | None) -> str:
+    """Format a YYYY-MM-DD date string as 'Mon YYYY' (e.g. 'Jun 2022'). Returns '' on failure."""
+    if not date_str:
+        return ""
+    try:
+        return datetime.fromisoformat(date_str[:10]).strftime("%b %Y")
+    except ValueError:
+        return date_str
+
+
 def _write_md(path: Path, front_matter: dict, body: str = "") -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     fm_str = yaml.dump(front_matter, allow_unicode=True, default_flow_style=False, sort_keys=False)
@@ -70,17 +81,24 @@ def export_paper(arxiv_id: str) -> bool:
             .all()
         )
 
-        # Group results by dataset name
+        # Group results by dataset name, tracking metric/direction per group
         result_groups: dict[str, list[dict]] = {}
+        result_group_meta: dict[str, dict] = {}
         for r in results:
             dv = r.dataset_variant
             ds_name = dv.dataset.name if dv else "Unknown"
+            if ds_name not in result_group_meta:
+                result_group_meta[ds_name] = {
+                    "metric": r.metric_name,
+                    "higher_is_better": bool(r.higher_is_better),
+                }
             result_groups.setdefault(ds_name, []).append(
                 {
                     "model": r.model.canonical_name if r.model else "",
                     "value": float(r.display_value) if r.display_value is not None else None,
                     "std": float(r.metric_std) if r.metric_std else None,
                     "metric": r.metric_name,
+                    "higher_is_better": bool(r.higher_is_better),
                     "is_baseline": bool(r.is_baseline),
                     "is_overridden": bool(r.is_overridden),
                     "override_reason": r.override_reason or "",
@@ -93,7 +111,13 @@ def export_paper(arxiv_id: str) -> bool:
             )
 
         results_for_fm: list[dict] = [
-            {"dataset": ds, "rows": rows} for ds, rows in sorted(result_groups.items())
+            {
+                "dataset": ds,
+                "rows": rows,
+                "metric": result_group_meta[ds]["metric"],
+                "higher_is_better": result_group_meta[ds]["higher_is_better"],
+            }
+            for ds, rows in sorted(result_groups.items())
         ]
 
         # Main figure
@@ -109,7 +133,7 @@ def export_paper(arxiv_id: str) -> bool:
             "title": paper.title or arxiv_id,
             "arxiv_id": arxiv_id,
             "authors": paper.authors or [],
-            "published_date": str(paper.published_date) if paper.published_date else "",
+            "published_date": _fmt_date(paper.published_date),
             "abstract": paper.abstract or "",
             "codebase_url": paper.codebase_url or "",
             "extraction_model": paper.extraction_model or "",
@@ -191,7 +215,7 @@ def export_dataset(dataset_id: int) -> bool:
                         ),
                         "arxiv_id": paper.arxiv_id if paper else "",
                         "title": paper.title if paper else "",
-                        "date": str(paper.published_date) if paper and paper.published_date else "",
+                        "date": _fmt_date(paper.published_date) if paper else "",
                         "codebase_url": paper.codebase_url or "",
                     }
                 )

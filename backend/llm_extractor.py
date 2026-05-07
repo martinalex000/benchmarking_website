@@ -19,6 +19,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import time
 import logging
 import re
 import textwrap
@@ -44,7 +45,7 @@ _ARXIV_NS = {"atom": "http://www.w3.org/2005/Atom"}
 
 
 def fetch_arxiv_metadata(arxiv_id: str) -> dict[str, str]:
-    """Fetch title and abstract from the arXiv Atom API. Returns {} on failure."""
+    """Fetch title, abstract, and published date from the arXiv Atom API. Returns {} on failure."""
     try:
         url = _ARXIV_API.format(arxiv_id=arxiv_id)
         with urllib.request.urlopen(url, timeout=15) as resp:
@@ -55,7 +56,11 @@ def fetch_arxiv_metadata(arxiv_id: str) -> dict[str, str]:
             return {}
         title = (entry.find("atom:title", _ARXIV_NS).text or "").replace("\n", " ").strip()
         abstract = (entry.find("atom:summary", _ARXIV_NS).text or "").replace("\n", " ").strip()
-        return {"title": title, "abstract": abstract}
+        published_elem = entry.find("atom:published", _ARXIV_NS)
+        published_date = ""
+        if published_elem is not None and published_elem.text:
+            published_date = published_elem.text[:10]  # "YYYY-MM-DD"
+        return {"title": title, "abstract": abstract, "published_date": published_date}
     except Exception as exc:
         logger.warning("Could not fetch arXiv metadata for %s: %s", arxiv_id, exc)
         return {}
@@ -174,24 +179,45 @@ class LLMExtractor:
         reraise=True,
     )
     def _call(self, system_prompt: str, user_content: str, max_tokens: int | None = None) -> str:
-        response = self._client.chat.completions.create(
-            model=self.model_name,
-            messages=[
-                {"role": "system", "content": system_prompt},
-                {"role": "user", "content": user_content},
-            ],
-            max_tokens=max_tokens or cfg.llm_max_tokens,
-            temperature=cfg.llm_temperature,
-        )
+        start = time.perf_counter()
+        try:
+            response = self._client.chat.completions.create(
+                model=self.model_name,
+                messages=[
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": user_content},
+                ],
+                max_tokens=max_tokens or cfg.llm_max_tokens,
+                temperature=cfg.llm_temperature,
+            )
+        except Exception as exc:
+            elapsed = time.perf_counter() - start
+            logger.warning(
+                "LLM request to %r failed in %.2f s: %s — will retry (tenacity/backoff applies)",
+                self.model_name,
+                elapsed,
+                exc,
+            )
+            raise
+
         choice = response.choices[0]
         content = (choice.message.content or "").strip()
+        elapsed = time.perf_counter() - start
         if not content:
             logger.debug(
-                "Model %r returned empty content (finish_reason=%r, input_chars=sys:%d+user:%d)",
+                "Model %r returned empty content (finish_reason=%r, input_chars=sys:%d+user:%d, duration=%.2f s)",
                 self.model_name,
                 choice.finish_reason,
                 len(system_prompt),
                 len(user_content),
+                elapsed,
+            )
+        else:
+            logger.debug(
+                "Model %r call completed in %.2f s; response length=%d chars",
+                self.model_name,
+                elapsed,
+                len(content),
             )
         return content
 
@@ -199,18 +225,23 @@ class LLMExtractor:
         self, system_prompt: str, user_content: str, max_tokens: int | None = None
     ) -> Any:
         """Call LLM and parse JSON from the response. Strips markdown code fences."""
+        start = time.perf_counter()
         raw = self._call(system_prompt, user_content, max_tokens)
+        elapsed = time.perf_counter() - start
         if not raw:
             raise ValueError(
-                f"Model {self.model_name!r} returned an empty response. "
+                f"Model {self.model_name!r} returned an empty response after {elapsed:.2f} s. "
                 "The input may be too long — check the model's context-window limit."
             )
+        logger.info("LLM %r responded in %.2f s; raw length=%d", self.model_name, elapsed, len(raw))
+
         # Strip markdown code fences: ```json ... ``` or ``` ... ```
         clean = re.sub(r"^```(?:json)?\s*", "", raw, flags=re.MULTILINE).rstrip("`").strip()
         try:
             return json.loads(clean)
         except json.JSONDecodeError as exc:
             logger.debug("Raw LLM response (first 500 chars): %s", raw[:500])
+            logger.error("JSON parse error from %r after %.2f s: %s", self.model_name, elapsed, exc)
             raise ValueError(f"JSON parse error from {self.model_name!r}: {exc}") from exc
 
     # ── Prompt loading ─────────────────────────────────────────────────────

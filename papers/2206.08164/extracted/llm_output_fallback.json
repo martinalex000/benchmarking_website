@@ -1,0 +1,777 @@
+{
+  "arxiv_id": "2206.08164",
+  "model_used": "glm-4.7",
+  "extracted_at": "2026-05-07T15:23:59.160875+00:00",
+  "results": {
+    "proposed_model": {
+      "name": "LRGB",
+      "params_millions": null,
+      "params_exact": null,
+      "model_type": "Other"
+    },
+    "baseline_models": [
+      {
+        "name": "GCN",
+        "params_millions": 0.496,
+        "original_paper_hint": "Kipf and Welling 2017"
+      },
+      {
+        "name": "GCNII",
+        "params_millions": 0.492,
+        "original_paper_hint": "Chen et al. 2020"
+      },
+      {
+        "name": "GINE",
+        "params_millions": 0.505,
+        "original_paper_hint": "Xu et al. 2019"
+      },
+      {
+        "name": "GatedGCN",
+        "params_millions": 0.502,
+        "original_paper_hint": "Bresson and Laurent 2017"
+      },
+      {
+        "name": "GatedGCN+LapPE",
+        "params_millions": 0.502,
+        "original_paper_hint": "Bresson and Laurent 2017"
+      },
+      {
+        "name": "Transformer+LapPE",
+        "params_millions": 0.501,
+        "original_paper_hint": "Dwivedi et al. 2020"
+      },
+      {
+        "name": "SAN+LapPE",
+        "params_millions": 0.531,
+        "original_paper_hint": "Kreuzer et al. 2021"
+      },
+      {
+        "name": "SAN+RWSE",
+        "params_millions": 0.468,
+        "original_paper_hint": "Kreuzer et al. 2021"
+      },
+      {
+        "name": "GatedGCN+RWSE",
+        "params_millions": 0.506,
+        "original_paper_hint": "Bresson and Laurent 2017"
+      }
+    ],
+    "results": [
+      {
+        "model": "GCN",
+        "is_proposed": false,
+        "dataset": "PascalVOC-SP",
+        "metric": "F1",
+        "value": 0.1268,
+        "std": 0.006,
+        "higher_is_better": true,
+        "table_ref": "Table 3",
+        "source_ref": "this paper"
+      },
+      {
+        "model": "GCN",
+        "is_proposed": false,
+        "dataset": "COCO-SP",
+        "metric": "F1",
+        "value": 0.0841,
+        "std": 0.001,
+        "higher_is_better": true,
+        "table_ref": "Table 3",
+        "source_ref": "this paper"
+      },
+      {
+        "model": "GCNII",
+        "is_proposed": false,
+        "dataset": "PascalVOC-SP",
+        "metric": "F1",
+        "value": 0.1698,
+        "std": 0.008,
+        "higher_is_better": true,
+        "table_ref": "Table 3",
+        "source_ref": "this paper"
+      },
+      {
+        "model": "GCNII",
+        "is_proposed": false,
+        "dataset": "COCO-SP",
+        "metric": "F1",
+        "value": 0.1404,
+        "std": 0.0011,
+        "higher_is_better": true,
+        "table_ref": "Table 3",
+        "source_ref": "this paper"
+      },
+      {
+        "model": "GINE",
+        "is_proposed": false,
+        "dataset": "PascalVOC-SP",
+        "metric": "F1",
+        "value": 0.1265,
+        "std": 0.0076,
+        "higher_is_better": true,
+        "table_ref": "Table 3",
+        "source_ref": "this paper"
+      },
+      {
+        "model": "GINE",
+        "is_proposed": false,
+        "dataset": "COCO-SP",
+        "metric": "F1",
+        "value": 0.1339,
+        "std": 0.0044,
+        "higher_is_better": true,
+        "table_ref": "Table 3",
+        "source_ref": "this paper"
+      },
+      {
+        "model": "GatedGCN",
+        "is_proposed": false,
+        "dataset": "PascalVOC-SP",
+        "metric": "F1",
+        "value": 0.2873,
+        "std": 0.0219,
+        "higher_is_better": true,
+        "table_ref": "Table 3",
+        "source_ref": "this paper"
+      },
+      {
+        "model": "GatedGCN",
+        "is_proposed": false,
+        "dataset": "COCO-SP",
+        "metric": "F1",
+        "value": 0.2641,
+        "std": 0.0045,
+        "higher_is_better": true,
+        "table_ref": "Table 3",
+        "source_ref": "this paper"
+      },
+      {
+        "model": "GatedGCN+LapPE",
+        "is_proposed": false,
+        "dataset": "PascalVOC-SP",
+        "metric": "F1",
+        "value": 0.286,
+        "std": 0.0085,
+        "higher_is_better": true,
+        "table_ref": "Table 3",
+        "source_ref": "this paper"
+      },
+      {
+        "model": "GatedGCN+LapPE",
+        "is_proposed": false,
+        "dataset": "COCO-SP",
+        "metric": "F1",
+        "value": 0.2574,
+        "std": 0.0034,
+        "higher_is_better": true,
+        "table_ref": "Table 3",
+        "source_ref": "this paper"
+      },
+      {
+        "model": "Transformer+LapPE",
+        "is_proposed": false,
+        "dataset": "PascalVOC-SP",
+        "metric": "F1",
+        "value": 0.2694,
+        "std": 0.0098,
+        "higher_is_better": true,
+        "table_ref": "Table 3",
+        "source_ref": "this paper"
+      },
+      {
+        "model": "Transformer+LapPE",
+        "is_proposed": false,
+        "dataset": "COCO-SP",
+        "metric": "F1",
+        "value": 0.2618,
+        "std": 0.0031,
+        "higher_is_better": true,
+        "table_ref": "Table 3",
+        "source_ref": "this paper"
+      },
+      {
+        "model": "SAN+LapPE",
+        "is_proposed": false,
+        "dataset": "PascalVOC-SP",
+        "metric": "F1",
+        "value": 0.323,
+        "std": 0.0039,
+        "higher_is_better": true,
+        "table_ref": "Table 3",
+        "source_ref": "this paper"
+      },
+      {
+        "model": "SAN+LapPE",
+        "is_proposed": false,
+        "dataset": "COCO-SP",
+        "metric": "F1",
+        "value": 0.2592,
+        "std": 0.0158,
+        "higher_is_better": true,
+        "table_ref": "Table 3",
+        "source_ref": "this paper"
+      },
+      {
+        "model": "SAN+RWSE",
+        "is_proposed": false,
+        "dataset": "PascalVOC-SP",
+        "metric": "F1",
+        "value": 0.3216,
+        "std": 0.0027,
+        "higher_is_better": true,
+        "table_ref": "Table 3",
+        "source_ref": "this paper"
+      },
+      {
+        "model": "SAN+RWSE",
+        "is_proposed": false,
+        "dataset": "COCO-SP",
+        "metric": "F1",
+        "value": 0.2434,
+        "std": 0.0156,
+        "higher_is_better": true,
+        "table_ref": "Table 3",
+        "source_ref": "this paper"
+      },
+      {
+        "model": "GCN",
+        "is_proposed": false,
+        "dataset": "Peptides-func",
+        "metric": "AP",
+        "value": 0.593,
+        "std": 0.0023,
+        "higher_is_better": true,
+        "table_ref": "Table 4",
+        "source_ref": "this paper"
+      },
+      {
+        "model": "GCN",
+        "is_proposed": false,
+        "dataset": "Peptides-struct",
+        "metric": "MAE",
+        "value": 0.3496,
+        "std": 0.0013,
+        "higher_is_better": false,
+        "table_ref": "Table 4",
+        "source_ref": "this paper"
+      },
+      {
+        "model": "GCNII",
+        "is_proposed": false,
+        "dataset": "Peptides-func",
+        "metric": "AP",
+        "value": 0.5543,
+        "std": 0.0078,
+        "higher_is_better": true,
+        "table_ref": "Table 4",
+        "source_ref": "this paper"
+      },
+      {
+        "model": "GCNII",
+        "is_proposed": false,
+        "dataset": "Peptides-struct",
+        "metric": "MAE",
+        "value": 0.3471,
+        "std": 0.001,
+        "higher_is_better": false,
+        "table_ref": "Table 4",
+        "source_ref": "this paper"
+      },
+      {
+        "model": "GINE",
+        "is_proposed": false,
+        "dataset": "Peptides-func",
+        "metric": "AP",
+        "value": 0.5498,
+        "std": 0.0079,
+        "higher_is_better": true,
+        "table_ref": "Table 4",
+        "source_ref": "this paper"
+      },
+      {
+        "model": "GINE",
+        "is_proposed": false,
+        "dataset": "Peptides-struct",
+        "metric": "MAE",
+        "value": 0.3547,
+        "std": 0.0045,
+        "higher_is_better": false,
+        "table_ref": "Table 4",
+        "source_ref": "this paper"
+      },
+      {
+        "model": "GatedGCN",
+        "is_proposed": false,
+        "dataset": "Peptides-func",
+        "metric": "AP",
+        "value": 0.5864,
+        "std": 0.0077,
+        "higher_is_better": true,
+        "table_ref": "Table 4",
+        "source_ref": "this paper"
+      },
+      {
+        "model": "GatedGCN",
+        "is_proposed": false,
+        "dataset": "Peptides-struct",
+        "metric": "MAE",
+        "value": 0.342,
+        "std": 0.0013,
+        "higher_is_better": false,
+        "table_ref": "Table 4",
+        "source_ref": "this paper"
+      },
+      {
+        "model": "GatedGCN+RWSE",
+        "is_proposed": false,
+        "dataset": "Peptides-func",
+        "metric": "AP",
+        "value": 0.6069,
+        "std": 0.0035,
+        "higher_is_better": true,
+        "table_ref": "Table 4",
+        "source_ref": "this paper"
+      },
+      {
+        "model": "GatedGCN+RWSE",
+        "is_proposed": false,
+        "dataset": "Peptides-struct",
+        "metric": "MAE",
+        "value": 0.3357,
+        "std": 0.0006,
+        "higher_is_better": false,
+        "table_ref": "Table 4",
+        "source_ref": "this paper"
+      },
+      {
+        "model": "Transformer+LapPE",
+        "is_proposed": false,
+        "dataset": "Peptides-func",
+        "metric": "AP",
+        "value": 0.6326,
+        "std": 0.0126,
+        "higher_is_better": true,
+        "table_ref": "Table 4",
+        "source_ref": "this paper"
+      },
+      {
+        "model": "Transformer+LapPE",
+        "is_proposed": false,
+        "dataset": "Peptides-struct",
+        "metric": "MAE",
+        "value": 0.2529,
+        "std": 0.0016,
+        "higher_is_better": false,
+        "table_ref": "Table 4",
+        "source_ref": "this paper"
+      },
+      {
+        "model": "SAN+LapPE",
+        "is_proposed": false,
+        "dataset": "Peptides-func",
+        "metric": "AP",
+        "value": 0.6384,
+        "std": 0.0121,
+        "higher_is_better": true,
+        "table_ref": "Table 4",
+        "source_ref": "this paper"
+      },
+      {
+        "model": "SAN+LapPE",
+        "is_proposed": false,
+        "dataset": "Peptides-struct",
+        "metric": "MAE",
+        "value": 0.2683,
+        "std": 0.0043,
+        "higher_is_better": false,
+        "table_ref": "Table 4",
+        "source_ref": "this paper"
+      },
+      {
+        "model": "SAN+RWSE",
+        "is_proposed": false,
+        "dataset": "Peptides-func",
+        "metric": "AP",
+        "value": 0.6439,
+        "std": 0.0075,
+        "higher_is_better": true,
+        "table_ref": "Table 4",
+        "source_ref": "this paper"
+      },
+      {
+        "model": "SAN+RWSE",
+        "is_proposed": false,
+        "dataset": "Peptides-struct",
+        "metric": "MAE",
+        "value": 0.2545,
+        "std": 0.0012,
+        "higher_is_better": false,
+        "table_ref": "Table 4",
+        "source_ref": "this paper"
+      },
+      {
+        "model": "GCN",
+        "is_proposed": false,
+        "dataset": "PCQM-Contact",
+        "metric": "Hits@1",
+        "value": 0.1321,
+        "std": 0.0007,
+        "higher_is_better": true,
+        "table_ref": "Table 5",
+        "source_ref": "this paper"
+      },
+      {
+        "model": "GCN",
+        "is_proposed": false,
+        "dataset": "PCQM-Contact",
+        "metric": "Hits@3",
+        "value": 0.3791,
+        "std": 0.0004,
+        "higher_is_better": true,
+        "table_ref": "Table 5",
+        "source_ref": "this paper"
+      },
+      {
+        "model": "GCN",
+        "is_proposed": false,
+        "dataset": "PCQM-Contact",
+        "metric": "Hits@10",
+        "value": 0.8256,
+        "std": 0.0006,
+        "higher_is_better": true,
+        "table_ref": "Table 5",
+        "source_ref": "this paper"
+      },
+      {
+        "model": "GCN",
+        "is_proposed": false,
+        "dataset": "PCQM-Contact",
+        "metric": "MRR",
+        "value": 0.3234,
+        "std": 0.0006,
+        "higher_is_better": true,
+        "table_ref": "Table 5",
+        "source_ref": "this paper"
+      },
+      {
+        "model": "GCNII",
+        "is_proposed": false,
+        "dataset": "PCQM-Contact",
+        "metric": "Hits@1",
+        "value": 0.1325,
+        "std": 0.0009,
+        "higher_is_better": true,
+        "table_ref": "Table 5",
+        "source_ref": "this paper"
+      },
+      {
+        "model": "GCNII",
+        "is_proposed": false,
+        "dataset": "PCQM-Contact",
+        "metric": "Hits@3",
+        "value": 0.3607,
+        "std": 0.0003,
+        "higher_is_better": true,
+        "table_ref": "Table 5",
+        "source_ref": "this paper"
+      },
+      {
+        "model": "GCNII",
+        "is_proposed": false,
+        "dataset": "PCQM-Contact",
+        "metric": "Hits@10",
+        "value": 0.8116,
+        "std": 0.0009,
+        "higher_is_better": true,
+        "table_ref": "Table 5",
+        "source_ref": "this paper"
+      },
+      {
+        "model": "GCNII",
+        "is_proposed": false,
+        "dataset": "PCQM-Contact",
+        "metric": "MRR",
+        "value": 0.3161,
+        "std": 0.0004,
+        "higher_is_better": true,
+        "table_ref": "Table 5",
+        "source_ref": "this paper"
+      },
+      {
+        "model": "GINE",
+        "is_proposed": false,
+        "dataset": "PCQM-Contact",
+        "metric": "Hits@1",
+        "value": 0.1337,
+        "std": 0.0013,
+        "higher_is_better": true,
+        "table_ref": "Table 5",
+        "source_ref": "this paper"
+      },
+      {
+        "model": "GINE",
+        "is_proposed": false,
+        "dataset": "PCQM-Contact",
+        "metric": "Hits@3",
+        "value": 0.3642,
+        "std": 0.0043,
+        "higher_is_better": true,
+        "table_ref": "Table 5",
+        "source_ref": "this paper"
+      },
+      {
+        "model": "GINE",
+        "is_proposed": false,
+        "dataset": "PCQM-Contact",
+        "metric": "Hits@10",
+        "value": 0.8147,
+        "std": 0.0062,
+        "higher_is_better": true,
+        "table_ref": "Table 5",
+        "source_ref": "this paper"
+      },
+      {
+        "model": "GINE",
+        "is_proposed": false,
+        "dataset": "PCQM-Contact",
+        "metric": "MRR",
+        "value": 0.318,
+        "std": 0.0027,
+        "higher_is_better": true,
+        "table_ref": "Table 5",
+        "source_ref": "this paper"
+      },
+      {
+        "model": "GatedGCN",
+        "is_proposed": false,
+        "dataset": "PCQM-Contact",
+        "metric": "Hits@1",
+        "value": 0.1279,
+        "std": 0.0018,
+        "higher_is_better": true,
+        "table_ref": "Table 5",
+        "source_ref": "this paper"
+      },
+      {
+        "model": "GatedGCN",
+        "is_proposed": false,
+        "dataset": "PCQM-Contact",
+        "metric": "Hits@3",
+        "value": 0.3783,
+        "std": 0.0004,
+        "higher_is_better": true,
+        "table_ref": "Table 5",
+        "source_ref": "this paper"
+      },
+      {
+        "model": "GatedGCN",
+        "is_proposed": false,
+        "dataset": "PCQM-Contact",
+        "metric": "Hits@10",
+        "value": 0.8433,
+        "std": 0.0011,
+        "higher_is_better": true,
+        "table_ref": "Table 5",
+        "source_ref": "this paper"
+      },
+      {
+        "model": "GatedGCN",
+        "is_proposed": false,
+        "dataset": "PCQM-Contact",
+        "metric": "MRR",
+        "value": 0.3218,
+        "std": 0.0011,
+        "higher_is_better": true,
+        "table_ref": "Table 5",
+        "source_ref": "this paper"
+      },
+      {
+        "model": "GatedGCN+RWSE",
+        "is_proposed": false,
+        "dataset": "PCQM-Contact",
+        "metric": "Hits@1",
+        "value": 0.1288,
+        "std": 0.0013,
+        "higher_is_better": true,
+        "table_ref": "Table 5",
+        "source_ref": "this paper"
+      },
+      {
+        "model": "GatedGCN+RWSE",
+        "is_proposed": false,
+        "dataset": "PCQM-Contact",
+        "metric": "Hits@3",
+        "value": 0.3808,
+        "std": 0.0006,
+        "higher_is_better": true,
+        "table_ref": "Table 5",
+        "source_ref": "this paper"
+      },
+      {
+        "model": "GatedGCN+RWSE",
+        "is_proposed": false,
+        "dataset": "PCQM-Contact",
+        "metric": "Hits@10",
+        "value": 0.8517,
+        "std": 0.0005,
+        "higher_is_better": true,
+        "table_ref": "Table 5",
+        "source_ref": "this paper"
+      },
+      {
+        "model": "GatedGCN+RWSE",
+        "is_proposed": false,
+        "dataset": "PCQM-Contact",
+        "metric": "MRR",
+        "value": 0.3242,
+        "std": 0.0008,
+        "higher_is_better": true,
+        "table_ref": "Table 5",
+        "source_ref": "this paper"
+      },
+      {
+        "model": "Transformer+LapPE",
+        "is_proposed": false,
+        "dataset": "PCQM-Contact",
+        "metric": "Hits@1",
+        "value": 0.1221,
+        "std": 0.0011,
+        "higher_is_better": true,
+        "table_ref": "Table 5",
+        "source_ref": "this paper"
+      },
+      {
+        "model": "Transformer+LapPE",
+        "is_proposed": false,
+        "dataset": "PCQM-Contact",
+        "metric": "Hits@3",
+        "value": 0.3679,
+        "std": 0.0033,
+        "higher_is_better": true,
+        "table_ref": "Table 5",
+        "source_ref": "this paper"
+      },
+      {
+        "model": "Transformer+LapPE",
+        "is_proposed": false,
+        "dataset": "PCQM-Contact",
+        "metric": "Hits@10",
+        "value": 0.8517,
+        "std": 0.0039,
+        "higher_is_better": true,
+        "table_ref": "Table 5",
+        "source_ref": "this paper"
+      },
+      {
+        "model": "Transformer+LapPE",
+        "is_proposed": false,
+        "dataset": "PCQM-Contact",
+        "metric": "MRR",
+        "value": 0.3174,
+        "std": 0.002,
+        "higher_is_better": true,
+        "table_ref": "Table 5",
+        "source_ref": "this paper"
+      },
+      {
+        "model": "SAN+LapPE",
+        "is_proposed": false,
+        "dataset": "PCQM-Contact",
+        "metric": "Hits@1",
+        "value": 0.1355,
+        "std": 0.0017,
+        "higher_is_better": true,
+        "table_ref": "Table 5",
+        "source_ref": "this paper"
+      },
+      {
+        "model": "SAN+LapPE",
+        "is_proposed": false,
+        "dataset": "PCQM-Contact",
+        "metric": "Hits@3",
+        "value": 0.4004,
+        "std": 0.0021,
+        "higher_is_better": true,
+        "table_ref": "Table 5",
+        "source_ref": "this paper"
+      },
+      {
+        "model": "SAN+LapPE",
+        "is_proposed": false,
+        "dataset": "PCQM-Contact",
+        "metric": "Hits@10",
+        "value": 0.8478,
+        "std": 0.0044,
+        "higher_is_better": true,
+        "table_ref": "Table 5",
+        "source_ref": "this paper"
+      },
+      {
+        "model": "SAN+LapPE",
+        "is_proposed": false,
+        "dataset": "PCQM-Contact",
+        "metric": "MRR",
+        "value": 0.335,
+        "std": 0.0003,
+        "higher_is_better": true,
+        "table_ref": "Table 5",
+        "source_ref": "this paper"
+      },
+      {
+        "model": "SAN+RWSE",
+        "is_proposed": false,
+        "dataset": "PCQM-Contact",
+        "metric": "Hits@1",
+        "value": 0.1312,
+        "std": 0.0016,
+        "higher_is_better": true,
+        "table_ref": "Table 5",
+        "source_ref": "this paper"
+      },
+      {
+        "model": "SAN+RWSE",
+        "is_proposed": false,
+        "dataset": "PCQM-Contact",
+        "metric": "Hits@3",
+        "value": 0.403,
+        "std": 0.0008,
+        "higher_is_better": true,
+        "table_ref": "Table 5",
+        "source_ref": "this paper"
+      },
+      {
+        "model": "SAN+RWSE",
+        "is_proposed": false,
+        "dataset": "PCQM-Contact",
+        "metric": "Hits@10",
+        "value": 0.855,
+        "std": 0.0024,
+        "higher_is_better": true,
+        "table_ref": "Table 5",
+        "source_ref": "this paper"
+      },
+      {
+        "model": "SAN+RWSE",
+        "is_proposed": false,
+        "dataset": "PCQM-Contact",
+        "metric": "MRR",
+        "value": 0.3341,
+        "std": 0.0006,
+        "higher_is_better": true,
+        "table_ref": "Table 5",
+        "source_ref": "this paper"
+      }
+    ],
+    "extraction_confidence": "HIGH",
+    "extraction_notes": "The paper presents a benchmark suite (LRGB) rather than a single proposed model. Therefore, 'proposed_model' is set to the benchmark name. All results are extracted from Tables 3, 4, and 5. Standard deviations were parsed from the '±' notation. Parameter counts were taken from the '# Params' column in the tables."
+  },
+  "figure": {
+    "figure_id": "Figure 1",
+    "figure_number": 1,
+    "caption_snippet": "Molecule with LRIs (dotted lines showing 3D atomic contact) that are not trivially captured by the graph structure.",
+    "img_src": null,
+    "page_number": 2,
+    "reason": "This figure visually illustrates the core concept of the paper—Long Range Interactions (LRI)—by showing a molecule where relevant connections (dotted lines) exist beyond the immediate graph structure, which is the fundamental problem the benchmark aims to address."
+  },
+  "model_sizes": []
+}

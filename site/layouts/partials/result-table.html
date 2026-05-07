@@ -1,15 +1,17 @@
 {{/*
   Partial: result-table.html
   Context dict keys:
-    .results      – list of result objects (model, value, std, is_baseline, arxiv_id, etc.)
-    .metric       – metric name string
-    .show_std     – bool
+    .results         – list of result objects (model, value, std, is_baseline, arxiv_id, etc.)
+    .metric          – metric name string
+    .higher_is_better – bool (true = ↑, false = ↓)
+    .show_std        – bool
     .dataset_variant – variant slug (for data- attrs used by JS)
 */}}
 {{ $results := .results }}
 {{ $metric  := .metric }}
 {{ $showStd := .show_std }}
 {{ $slug    := .dataset_variant }}
+{{ $hib     := .higher_is_better }}
 
 {{ if $results }}
 <div class="result-table-wrapper" data-variant="{{ $slug }}">
@@ -18,7 +20,8 @@
       <tr>
         <th class="col-rank">#</th>
         <th class="col-model sortable-col" data-col="model">Model</th>
-        <th class="col-value sortable-col" data-col="value">{{ $metric }}</th>
+        <th class="col-type">Type</th>
+        <th class="col-value sortable-col" data-col="value">{{ $metric }}{{ if $hib }} ↑{{ else }} ↓{{ end }}</th>
         {{ if $showStd }}<th class="col-std">±Std</th>{{ end }}
         <th class="col-params sortable-col" data-col="params">Params</th>
         <th class="col-paper">Paper</th>
@@ -40,13 +43,16 @@
           {{ $r.model }}
           {{ if $r.is_overridden }}<span class="override-badge" title="{{ $r.override_reason }}">✎</span>{{ end }}
         </td>
+        <td class="col-type">
+          {{ if $r.is_baseline }}<span class="tag-baseline">baseline</span>{{ else }}<span class="tag-proposed">★ proposed</span>{{ end }}
+        </td>
         <td class="col-value">{{ printf "%.4f" $r.value }}</td>
         {{ if $showStd }}
         <td class="col-std">{{ if $r.std }}{{ printf "%.4f" $r.std }}{{ else }}—{{ end }}</td>
         {{ end }}
         <td class="col-params">{{ if $r.params_millions }}{{ printf "%.1f" $r.params_millions }}M{{ else }}—{{ end }}</td>
         <td class="col-paper">
-          {{ if $r.arxiv_id }}<a href="/papers/{{ $r.arxiv_id }}/" title="{{ $r.title }}">arXiv:{{ $r.arxiv_id }}</a>{{ end }}
+          {{ if $r.arxiv_id }}<a href="/papers/{{ $r.arxiv_id }}/" title="arXiv:{{ $r.arxiv_id }}">{{ if $r.title }}{{ $r.title | truncate 45 }}{{ else }}arXiv:{{ $r.arxiv_id }}{{ end }}</a>{{ end }}
         </td>
         <td class="col-code">
           {{ if $r.codebase_url }}<a href="{{ $r.codebase_url }}" target="_blank" rel="noopener">Code</a>{{ else }}—{{ end }}

@@ -3,8 +3,9 @@
 - decide what to do with custom datasets, the information should be stored somewhere
 - there should also be a table that effectively tracks which papers are NOT about graph learning such that there is no need to evaluate that every single time again...
 - potentially we need a Vision-language-model in order to find out what the best figure is. so probably some pdf to jpg needed for that
-- I want a lot of tqdm progress bars and progress notifications on everything at the moment
 - dataset statistics is still mostly missing
 - the results table should be able to hold information on different metrics for several of the old datasets (future), all good datasets have clean metrics.
-- extract available datasets from pyg
-- insert environment variables to get started on some models
+<!-- - extract available datasets from pyg -->
+- make table extraction easier by finding the captions and then detecting the table around it.
+- when performing extraction on long papers, make sure to check for the context window size. Also do the extraction per page or in the case of html per section/subsection
+- something is off for the pcqm-contact leaderboard, it contains a large number of duplicates where it is unclear where stuff is from. Potentially its hits@50 @10 and @1 or something like that which are incorrectly accumulated.

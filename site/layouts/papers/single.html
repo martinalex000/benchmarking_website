@@ -38,7 +38,9 @@
   <section class="results-section">
     <h2>Benchmark Results</h2>
     {{ range .Params.results }}
-    {{ partial "result-table.html" . }}
+    {{ $group := . }}
+    <h3 class="dataset-heading">{{ $group.dataset }}</h3>
+    {{ partial "result-table.html" (dict "results" $group.rows "metric" $group.metric "show_std" true "dataset_variant" ($group.dataset | urlize) "higher_is_better" $group.higher_is_better) }}
     {{ end }}
   </section>
   {{ end }}

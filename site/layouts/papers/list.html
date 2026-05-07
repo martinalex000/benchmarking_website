@@ -1,0 +1,18 @@
+{{ define "main" }}
+<h1>Papers</h1>
+<p class="section-intro">{{ len .Pages }} paper(s) with extracted benchmark results.</p>
+<div class="paper-list">
+  {{ range .Pages }}
+  <div class="paper-list-item">
+    <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
+    <div class="paper-meta">
+      {{ with .Params.arxiv_id }}<a class="badge" href="https://arxiv.org/abs/{{ . }}" target="_blank" rel="noopener">arXiv:{{ . }}</a>{{ end }}
+      {{ with .Params.published_date }}<span class="badge">{{ . }}</span>{{ end }}
+      {{ with .Params.extraction_model }}<span class="badge muted">Extracted with {{ . }}</span>{{ end }}
+    </div>
+    {{ with .Params.authors }}<p class="authors">{{ delimit . ", " }}</p>{{ end }}
+    {{ with .Params.abstract }}<p class="abstract-excerpt">{{ . | truncate 220 }}</p>{{ end }}
+  </div>
+  {{ end }}
+</div>
+{{ end }}
