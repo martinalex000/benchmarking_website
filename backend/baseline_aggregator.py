@@ -18,6 +18,8 @@ from typing import Any
 
 from thefuzz import fuzz as _fuzz
 
+from sqlalchemy import text
+
 from backend.db import init_db, session_scope
 from backend.models import DatasetVariant, Model, ModelAlias, Result
 
@@ -180,7 +182,7 @@ def get_best_results_over_time(
             .filter_by(dataset_variant_id=dataset_variant_id, metric_name=metric_name)
             .filter(Result.is_problematic.is_(None) | (Result.is_problematic == 0))
             .join(Result.paper)
-            .order_by("papers.published_date")
+            .order_by(text("papers.published_date"))
             .all()
         )
 

@@ -154,6 +154,7 @@ def resolve_or_create_model(
 
     # Create new model
     new_model = Model(
+        name=model_name.strip(),
         canonical_name=model_name.strip(),
         size_params=int(params_millions * 1_000_000) if params_millions else None,
     )
