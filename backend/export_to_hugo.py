@@ -258,7 +258,7 @@ def export_benchmarks_data() -> None:
                     "name": b.name,
                     "slug": _slug(b.name),
                     "description": b.description or "",
-                    "arxiv_id": b.arxiv_id or "",
+                    "arxiv_id": b.paper.arxiv_id if b.paper else "",
                     "datasets": datasets_info,
                 }
             )
@@ -274,6 +274,8 @@ def export_benchmarks_data() -> None:
 
 def export_all(arxiv_ids: list[str] | None = None) -> None:
     """Export all papers and datasets (or just the specified papers)."""
+    from tqdm import tqdm
+
     init_db()
 
     export_benchmarks_data()
@@ -288,13 +290,20 @@ def export_all(arxiv_ids: list[str] | None = None) -> None:
         dataset_ids = [ds.id for ds in session.query(Dataset).all()]
 
     ok = 0
-    for arxiv_id in paper_ids:
+    for arxiv_id in tqdm(paper_ids, desc="Exporting papers", unit="paper", leave=True):
         if export_paper(arxiv_id):
+            tqdm.write(f"  ✓  {arxiv_id}")
             ok += 1
+        else:
+            tqdm.write(f"  ✗  {arxiv_id}  (skipped — no results)")
 
     logger.info("Exported %d/%d papers", ok, len(paper_ids))
 
-    ds_ok = sum(1 for did in dataset_ids if export_dataset(did))
+    ds_ok = 0
+    for did in tqdm(dataset_ids, desc="Exporting datasets", unit="dataset", leave=True):
+        if export_dataset(did):
+            ds_ok += 1
+
     logger.info("Exported %d/%d datasets", ds_ok, len(dataset_ids))
 
 

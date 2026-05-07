@@ -111,15 +111,22 @@ def stage_discover(args: argparse.Namespace) -> None:
 
 def stage_download(args: argparse.Namespace) -> None:
     from backend.arxiv_downloader import download_paper
+    from tqdm import tqdm
 
     force = getattr(args, "force", False)
     arxiv_ids = getattr(args, "paper", None)
     papers = _get_papers(arxiv_ids=arxiv_ids, status_filter="pending" if not arxiv_ids else None)
 
-    console.print(f"[bold]Download[/bold] — {len(papers)} paper(s)")
-    ok = 0
-    for p in papers:
+    console.print(f"[bold]Download[/bold] — {len(papers)} paper(s) to process")
+    if not papers:
+        console.print("  Nothing to download.")
+        return
+
+    ok = fail = skip = 0
+    for p in tqdm(papers, desc="Downloading", unit="paper", leave=True):
         if not should_process(p.id, "download", force=force):
+            tqdm.write(f"  skip  {p.arxiv_id}  (already downloaded)")
+            skip += 1
             continue
         try:
             result = download_paper(p.arxiv_id, force=force)
@@ -129,22 +136,37 @@ def stage_download(args: argparse.Namespace) -> None:
             status = "failed"
         record_run(p.id, "download", status)
         if status == "success":
+            tqdm.write(f"  ✓  {p.arxiv_id}  {p.title[:70]!r}")
             ok += 1
-    console.print(f"  Downloaded {ok}/{len(papers)}")
+        else:
+            tqdm.write(f"  ✗  {p.arxiv_id}  FAILED")
+            fail += 1
+
+    console.print(
+        f"  Done — [green]{ok} ok[/green], [red]{fail} failed[/red], [dim]{skip} skipped[/dim]"
+    )
 
 
 def stage_extract(args: argparse.Namespace) -> None:
     from backend.llm_extractor import run_extraction
+    from tqdm import tqdm
 
     model_tier = getattr(args, "model", "primary")
     force = getattr(args, "force", False)
     arxiv_ids = getattr(args, "paper", None)
     papers = _get_papers(arxiv_ids=arxiv_ids, status_filter="downloaded" if not arxiv_ids else None)
 
-    console.print(f"[bold]Extract[/bold] — model_tier={model_tier}, {len(papers)} paper(s)")
-    ok = 0
-    for p in papers:
+    model_name = cfg.model_for_tier(model_tier)
+    console.print(f"[bold]Extract[/bold] — {len(papers)} paper(s), model=[cyan]{model_name}[/cyan]")
+    if not papers:
+        console.print("  Nothing to extract.")
+        return
+
+    ok = fail = skip = 0
+    for p in tqdm(papers, desc="Extracting", unit="paper", leave=True):
         if not should_process(p.id, "extract", force=force):
+            tqdm.write(f"  skip  {p.arxiv_id}  (already extracted)")
+            skip += 1
             continue
         try:
             result = run_extraction(p.arxiv_id, model_tier=model_tier)
@@ -152,42 +174,64 @@ def stage_extract(args: argparse.Namespace) -> None:
         except Exception as exc:
             logger.error("Extraction failed for %s: %s", p.arxiv_id, exc)
             status = "failed"
-        record_run(p.id, "extract", status, model_used=cfg.model_for_tier(model_tier))
+        record_run(p.id, "extract", status, model_used=model_name)
         if status == "success":
+            tqdm.write(f"  ✓  {p.arxiv_id}  {p.title[:70]!r}")
             ok += 1
-    console.print(f"  Extracted {ok}/{len(papers)}")
+        else:
+            tqdm.write(f"  ✗  {p.arxiv_id}  FAILED")
+            fail += 1
+
+    console.print(
+        f"  Done — [green]{ok} ok[/green], [red]{fail} failed[/red], [dim]{skip} skipped[/dim]"
+    )
 
 
 def stage_parse(args: argparse.Namespace) -> None:
     from backend.results_parser import parse_and_store
+    from tqdm import tqdm
 
     force = getattr(args, "force", False)
     arxiv_ids = getattr(args, "paper", None)
     papers = _get_papers(arxiv_ids=arxiv_ids, status_filter="extracted" if not arxiv_ids else None)
 
     console.print(f"[bold]Parse[/bold] — {len(papers)} paper(s)")
-    ok = 0
-    for p in papers:
+    if not papers:
+        console.print("  Nothing to parse.")
+        return
+
+    ok = fail = skip = 0
+    for p in tqdm(papers, desc="Parsing", unit="paper", leave=True):
         if not should_process(p.id, "parse", force=force):
+            tqdm.write(f"  skip  {p.arxiv_id}  (already parsed)")
+            skip += 1
             continue
         try:
             n = parse_and_store(p.arxiv_id)
             status = "success"
+            tqdm.write(f"  ✓  {p.arxiv_id}  {n} results stored  {p.title[:55]!r}")
         except Exception as exc:
             logger.error("Parse failed for %s: %s", p.arxiv_id, exc)
             status = "failed"
             n = 0
+            tqdm.write(f"  ✗  {p.arxiv_id}  FAILED: {exc}")
         record_run(p.id, "parse", status)
         if status == "success":
             ok += 1
-    console.print(f"  Parsed {ok}/{len(papers)}")
+        else:
+            fail += 1
+
+    console.print(
+        f"  Done — [green]{ok} ok[/green], [red]{fail} failed[/red], [dim]{skip} skipped[/dim]"
+    )
 
 
 def stage_export(args: argparse.Namespace) -> None:
     from backend.export_to_hugo import export_all
 
     arxiv_ids = getattr(args, "paper", None)
-    console.print("[bold]Export[/bold] — writing Hugo content files")
+    n = f"for {len(arxiv_ids)} paper(s)" if arxiv_ids else "all papers + datasets"
+    console.print(f"[bold]Export[/bold] — writing Hugo content files ({n})")
     export_all(arxiv_ids=arxiv_ids)
 
 

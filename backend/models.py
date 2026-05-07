@@ -244,6 +244,66 @@ class PipelineRun(Base):
 
 
 # ─────────────────────────────────────────────────────────────────────────────
+class PaperCandidate(Base):
+    """Audit log of every paper seen during discovery — including those filtered out.
+
+    Tracks the full funnel:
+      arXiv / Scholar fetch → stage1 relevance filter → stage2 benchmark check → accepted
+    """
+
+    __tablename__ = "paper_candidates"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    arxiv_id = Column(String, unique=True)
+    title = Column(String, nullable=False)
+    abstract = Column(Text)
+    published_date = Column(String)
+    _authors = Column("authors", Text)  # JSON list
+    categories = Column(Text)  # JSON list of arXiv categories
+
+    # How the paper was discovered
+    discovery_source = Column(String)  # arxiv_scanner | lrgb_citation | graphbench_citation
+    discovery_detail = Column(Text)  # human-readable, e.g. "arXiv cs.LG sweep 7d"
+
+    # Stage 1 — cheap LLM relevance filter
+    stage1_passed = Column(Integer)  # NULL=not run, 0=failed, 1=passed
+    stage1_confidence = Column(Float)
+    stage1_reason = Column(Text)
+
+    # Stage 2 — LLM benchmark presence check
+    stage2_passed = Column(Integer)  # NULL=not run, 0=failed, 1=passed
+    stage2_confidence = Column(Float)
+    stage2_reason = Column(Text)
+    stage2_datasets = Column(Text)  # JSON list of mentioned dataset names
+
+    # Final disposition
+    final_status = Column(
+        String
+    )  # accepted | rejected_stage1 | rejected_stage2 | duplicate | already_known
+    paper_id = Column(Integer, ForeignKey("papers.id", ondelete="SET NULL"))
+
+    created_at = Column(String, nullable=False, default=_utcnow)
+
+    paper = relationship("Paper", foreign_keys=[paper_id])
+
+    @property
+    def authors(self) -> list[str]:
+        if self._authors is None:
+            return []
+        try:
+            return json.loads(self._authors)
+        except (ValueError, TypeError):
+            return [self._authors]
+
+    @authors.setter
+    def authors(self, value: list[str] | str) -> None:
+        if isinstance(value, list):
+            self._authors = json.dumps(value, ensure_ascii=False)
+        else:
+            self._authors = value
+
+
+# ─────────────────────────────────────────────────────────────────────────────
 # Auto-update updated_at on Paper saves
 # ─────────────────────────────────────────────────────────────────────────────
 @event.listens_for(Paper, "before_update")

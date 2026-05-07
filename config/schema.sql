@@ -160,3 +160,39 @@ CREATE INDEX IF NOT EXISTS idx_results_variant       ON results(dataset_variant_
 CREATE INDEX IF NOT EXISTS idx_results_model         ON results(model_id);
 CREATE INDEX IF NOT EXISTS idx_pipeline_paper_stage  ON pipeline_runs(paper_id, stage);
 CREATE INDEX IF NOT EXISTS idx_model_aliases_alias   ON model_aliases(alias);
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- paper_candidates — full discovery funnel (ALL papers seen, including rejects)
+-- ─────────────────────────────────────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS paper_candidates (
+    id                INTEGER PRIMARY KEY AUTOINCREMENT,
+    arxiv_id          TEXT UNIQUE,
+    title             TEXT NOT NULL,
+    abstract          TEXT,
+    published_date    TEXT,
+    authors           TEXT,           -- JSON list
+    categories        TEXT,           -- JSON list (arXiv categories)
+
+    -- How the paper was found
+    discovery_source  TEXT,           -- arxiv_scanner | lrgb_citation | graphbench_citation
+    discovery_detail  TEXT,           -- e.g. "arXiv cs.LG sweep 7d" or "cited by 2206.08164"
+
+    -- Stage 1 — cheap relevance filter (is this graph learning?)
+    stage1_passed     INTEGER,        -- NULL=not run, 0=failed, 1=passed
+    stage1_confidence REAL,
+    stage1_reason     TEXT,           -- LLM-provided explanation
+
+    -- Stage 2 — benchmark check (does it report new results?)
+    stage2_passed     INTEGER,        -- NULL=not run, 0=failed, 1=passed
+    stage2_confidence REAL,
+    stage2_reason     TEXT,
+    stage2_datasets   TEXT,           -- JSON list of dataset names mentioned
+
+    -- Final disposition
+    final_status      TEXT,           -- accepted | rejected_stage1 | rejected_stage2 | duplicate | already_known
+    paper_id          INTEGER REFERENCES papers(id) ON DELETE SET NULL,
+    created_at        TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%SZ', 'now'))
+);
+CREATE INDEX IF NOT EXISTS idx_candidates_arxiv_id     ON paper_candidates(arxiv_id);
+CREATE INDEX IF NOT EXISTS idx_candidates_final_status ON paper_candidates(final_status);
+CREATE INDEX IF NOT EXISTS idx_candidates_source       ON paper_candidates(discovery_source);

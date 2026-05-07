@@ -19,11 +19,11 @@ from dataclasses import dataclass, field
 
 from tenacity import retry, stop_after_attempt, wait_exponential
 from rich.console import Console
-from rich.progress import Progress, SpinnerColumn, TextColumn
+from tqdm import tqdm
 
 from backend.config import cfg
 from backend.db import session_scope, init_db
-from backend.models import Paper, PipelineRun
+from backend.models import Paper, PaperCandidate, PipelineRun
 
 logger = logging.getLogger(__name__)
 console = Console()
@@ -157,17 +157,29 @@ def discover_citations(benchmark_keys: list[str]) -> list[DiscoveredPaper]:
             continue
 
         console.print(f"  Found [cyan]{len(papers)}[/cyan] citing papers")
+        discovery_detail = f"cited by {bm['title']} (arXiv:{bm['arxiv_id']})"
 
-        for disc in papers:
+        new_count = dup_count = 0
+        for disc in tqdm(papers, desc=f"  Storing {key} citations", unit="paper", leave=True):
             disc.discovery_source = bm["discovery_source"]
-            _upsert_paper(disc)
-            inserted.append(disc)
+            tqdm.write(f"    → {disc.arxiv_id or '(no arXiv)':>15}  {disc.title[:70]!r}")
+            status = _upsert_paper(disc, discovery_detail=discovery_detail)
+            if status == "inserted":
+                inserted.append(disc)
+                new_count += 1
+            else:
+                dup_count += 1
+
+        console.print(
+            f"  [green]{new_count} new[/green] papers stored, "
+            f"[dim]{dup_count} already known[/dim]"
+        )
 
     return inserted
 
 
-def _upsert_paper(disc: DiscoveredPaper) -> None:
-    """Insert a discovered paper if not already in the DB."""
+def _upsert_paper(disc: DiscoveredPaper, discovery_detail: str = "") -> str:
+    """Insert a discovered paper if not already in the DB. Returns 'inserted' or 'duplicate'."""
     with session_scope() as session:
         # Deduplicate by arxiv_id (preferred) or exact title match
         existing = None
@@ -177,7 +189,11 @@ def _upsert_paper(disc: DiscoveredPaper) -> None:
             existing = session.query(Paper).filter_by(title=disc.title).first()
 
         if existing is not None:
-            return  # already known
+            # Record as duplicate in paper_candidates
+            _upsert_candidate(
+                disc, discovery_detail, final_status="duplicate", paper_id=existing.id
+            )
+            return "duplicate"
 
         paper = Paper(
             title=disc.title,
@@ -201,8 +217,41 @@ def _upsert_paper(disc: DiscoveredPaper) -> None:
         # paper_id will be set after flush
         session.flush()
         run.paper_id = paper.id
+        paper_id = paper.id
 
+    _upsert_candidate(disc, discovery_detail, final_status="accepted", paper_id=paper_id)
     logger.info("Discovered paper: %s (arXiv:%s)", disc.title, disc.arxiv_id)
+    return "inserted"
+
+
+def _upsert_candidate(
+    disc: DiscoveredPaper,
+    discovery_detail: str,
+    final_status: str,
+    paper_id: int | None = None,
+) -> None:
+    """Create or update a PaperCandidate row for a citation-discovered paper."""
+    with session_scope() as session:
+        cand = None
+        if disc.arxiv_id:
+            cand = session.query(PaperCandidate).filter_by(arxiv_id=disc.arxiv_id).first()
+        if cand is None and disc.title:
+            cand = session.query(PaperCandidate).filter_by(title=disc.title).first()
+
+        if cand is None:
+            cand = PaperCandidate(
+                arxiv_id=disc.arxiv_id,
+                title=disc.title,
+                published_date=f"{disc.year}-01-01" if disc.year else None,
+                discovery_source=disc.discovery_source,
+                discovery_detail=discovery_detail,
+            )
+            cand.authors = disc.authors
+            session.add(cand)
+
+        cand.final_status = final_status
+        if paper_id is not None:
+            cand.paper_id = paper_id
 
 
 # ── CLI ───────────────────────────────────────────────────────────────────────
@@ -236,12 +285,7 @@ def main(argv: list[str] | None = None) -> None:
     args = _build_parser().parse_args(argv)
 
     keys = list(BENCHMARKS.keys()) if args.all else (args.benchmarks or list(BENCHMARKS.keys()))
-
-    with Progress(
-        SpinnerColumn(), TextColumn("[progress.description]{task.description}"), transient=True
-    ) as _prog:
-        inserted = discover_citations(keys)
-
+    inserted = discover_citations(keys)
     console.print(f"\n[green]Done.[/green] Stored [bold]{len(inserted)}[/bold] new papers.")
 
 

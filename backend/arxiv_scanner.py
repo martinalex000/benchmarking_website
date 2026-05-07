@@ -24,12 +24,12 @@ from datetime import datetime, timedelta, timezone
 import arxiv  # type: ignore[import-untyped]
 from openai import OpenAI
 from rich.console import Console
-from rich.progress import BarColumn, Progress, TaskProgressColumn, TextColumn, TimeElapsedColumn
 from tenacity import retry, stop_after_attempt, wait_exponential
+from tqdm import tqdm
 
 from backend.config import cfg
 from backend.db import init_db, session_scope
-from backend.models import Paper, PipelineRun
+from backend.models import Paper, PaperCandidate, PipelineRun
 
 logger = logging.getLogger(__name__)
 console = Console()
@@ -51,7 +51,9 @@ class ScanResult:
     has_new_benchmark: bool = False
     datasets_mentioned: list[str] = field(default_factory=list)
     stage1_confidence: float = 0.0
+    stage1_reason: str = ""
     stage2_confidence: float = 0.0
+    stage2_reason: str = ""
 
 
 def _make_llm_client(model_tier: str = "small") -> tuple[OpenAI, str]:
@@ -97,9 +99,11 @@ def stage1_relevance(result: ScanResult, client: OpenAI, model: str, prompt: str
         parsed = _call_llm(client, model, prompt, user_content)
         result.is_graph_learning = bool(parsed.get("is_graph_learning", False))
         result.stage1_confidence = float(parsed.get("confidence", 0.0))
+        result.stage1_reason = str(parsed.get("reason", ""))
         return result.is_graph_learning
     except Exception as exc:
         logger.warning("Stage-1 LLM error for %s: %s", result.arxiv_id, exc)
+        result.stage1_reason = f"LLM error: {exc}"
         return False
 
 
@@ -112,9 +116,11 @@ def stage2_benchmark_check(result: ScanResult, client: OpenAI, model: str, promp
         result.has_new_benchmark = bool(parsed.get("has_new_benchmark", False))
         result.datasets_mentioned = parsed.get("datasets_mentioned", [])
         result.stage2_confidence = float(parsed.get("confidence", 0.0))
+        result.stage2_reason = str(parsed.get("reason", ""))
         return result.has_benchmark_results or result.has_new_benchmark
     except Exception as exc:
         logger.warning("Stage-2 LLM error for %s: %s", result.arxiv_id, exc)
+        result.stage2_reason = f"LLM error: {exc}"
         return False
 
 
@@ -153,6 +159,54 @@ def fetch_arxiv_papers(
     return results
 
 
+def _upsert_candidate(res: ScanResult, discovery_detail: str) -> None:
+    """Insert a fresh PaperCandidate row (called once per new paper, before filtering)."""
+    with session_scope() as session:
+        if session.query(PaperCandidate).filter_by(arxiv_id=res.arxiv_id).first():
+            return  # already recorded from a previous scan
+        cand = PaperCandidate(
+            arxiv_id=res.arxiv_id,
+            title=res.title,
+            abstract=res.abstract,
+            published_date=res.published or None,
+            categories=json.dumps(res.categories),
+            discovery_source="arxiv_scanner",
+            discovery_detail=discovery_detail,
+        )
+        cand.authors = res.authors
+        session.add(cand)
+
+
+def _set_candidate_status(
+    arxiv_id: str,
+    *,
+    final_status: str,
+    res: ScanResult | None = None,
+    paper_id: int | None = None,
+) -> None:
+    """Update a candidate's filter results and final status."""
+    with session_scope() as session:
+        cand = session.query(PaperCandidate).filter_by(arxiv_id=arxiv_id).first()
+        if cand is None:
+            return
+        if res is not None:
+            if res.stage1_confidence or res.stage1_reason:
+                cand.stage1_passed = 1 if res.is_graph_learning else 0
+                cand.stage1_confidence = res.stage1_confidence or None
+                cand.stage1_reason = res.stage1_reason or None
+            if res.stage2_confidence or res.stage2_reason:
+                cand.stage2_passed = (
+                    1 if (res.has_benchmark_results or res.has_new_benchmark) else 0
+                )
+                cand.stage2_confidence = res.stage2_confidence or None
+                cand.stage2_reason = res.stage2_reason or None
+                if res.datasets_mentioned:
+                    cand.stage2_datasets = json.dumps(res.datasets_mentioned)
+        cand.final_status = final_status
+        if paper_id is not None:
+            cand.paper_id = paper_id
+
+
 def scan(
     days: int = 7,
     categories: list[str] | None = None,
@@ -162,70 +216,97 @@ def scan(
     """Run the full two-stage scan. Returns papers that passed both stages."""
     init_db()
     cats = categories or DEFAULT_CATEGORIES
+    discovery_detail = f"arXiv sweep {days}d, cats: {', '.join(cats)}"
 
     console.print(
-        f"[bold]ArXiv scanner[/bold] — last [cyan]{days}[/cyan] days, categories: {', '.join(cats)}"
+        f"[bold]ArXiv scanner[/bold] — last [cyan]{days}[/cyan] days, "
+        f"categories: {', '.join(cats)}"
     )
 
-    # Fetch from arXiv
+    # ── Fetch from arXiv ──────────────────────────────────────────────────
     console.print("  Fetching papers from arXiv…")
     candidates = fetch_arxiv_papers(cats, days, max_results)
-    console.print(f"  Retrieved [cyan]{len(candidates)}[/cyan] papers")
+    console.print(f"  Retrieved [cyan]{len(candidates)}[/cyan] papers from arXiv")
 
-    # Filter out already-known papers
+    # ── Filter already-known papers ───────────────────────────────────────
     with session_scope() as session:
         known_ids = {
             r[0] for r in session.query(Paper.arxiv_id).filter(Paper.arxiv_id.isnot(None)).all()
         }
-    candidates = [c for c in candidates if c.arxiv_id not in known_ids]
-    console.print(f"  [cyan]{len(candidates)}[/cyan] new (not yet in DB)")
+    new_candidates = [c for c in candidates if c.arxiv_id not in known_ids]
+    already_known = len(candidates) - len(new_candidates)
+    console.print(
+        f"  [cyan]{len(new_candidates)}[/cyan] new  " f"([dim]{already_known} already in DB[/dim])"
+    )
 
-    if not candidates:
+    if not new_candidates:
         return []
 
-    # Stage 1 — cheap relevance filter
+    # ── Record initial candidate rows ─────────────────────────────────────
+    if not dry_run:
+        for res in new_candidates:
+            _upsert_candidate(res, discovery_detail)
+
+    # ── Stage 1 — cheap relevance filter ─────────────────────────────────
     small_client, small_model = _make_llm_client("small")
     relevance_prompt = _read_prompt("graph_relevance.txt")
 
+    console.print(f"\n  [bold]Stage 1[/bold] — graph learning relevance ([dim]{small_model}[/dim])")
     stage1_pass: list[ScanResult] = []
-    with Progress(
-        SpinnerColumn(),
-        TextColumn("[progress.description]{task.description}"),
-        BarColumn(),
-        TaskProgressColumn(),
-        TimeElapsedColumn(),
-        console=console,
-    ) as progress:
-        task = progress.add_task("Stage 1: relevance filter", total=len(candidates))
-        for res in candidates:
-            if stage1_relevance(res, small_client, small_model, relevance_prompt):
+    with tqdm(new_candidates, desc="  Stage 1", unit="paper", leave=True) as pbar:
+        for res in pbar:
+            pbar.set_postfix_str(res.arxiv_id)
+            passed = stage1_relevance(res, small_client, small_model, relevance_prompt)
+            icon = "✓" if passed else "✗"
+            tqdm.write(
+                f"    {icon} {res.arxiv_id}  conf={res.stage1_confidence:.2f}"
+                f"  {res.title[:70]!r}"
+            )
+            if not dry_run:
+                _set_candidate_status(
+                    res.arxiv_id,
+                    final_status="rejected_stage1" if not passed else "pending_stage2",
+                    res=res,
+                )
+            if passed:
                 stage1_pass.append(res)
-            progress.advance(task)
-            time.sleep(0.5)  # gentle rate limiting
+            time.sleep(0.5)
 
-    console.print(f"  Stage 1 passed: [cyan]{len(stage1_pass)}[/cyan] / {len(candidates)}")
+    console.print(
+        f"  Stage 1: [green]{len(stage1_pass)} passed[/green] / "
+        f"[red]{len(new_candidates) - len(stage1_pass)} rejected[/red]"
+    )
 
-    # Stage 2 — benchmark check
+    # ── Stage 2 — benchmark presence check ───────────────────────────────
     primary_client, primary_model = _make_llm_client("primary")
     benchmark_prompt = _read_prompt("benchmark_check.txt")
 
+    console.print(f"\n  [bold]Stage 2[/bold] — benchmark check ([dim]{primary_model}[/dim])")
     stage2_pass: list[ScanResult] = []
-    with Progress(
-        SpinnerColumn(),
-        TextColumn("[progress.description]{task.description}"),
-        BarColumn(),
-        TaskProgressColumn(),
-        TimeElapsedColumn(),
-        console=console,
-    ) as progress:
-        task = progress.add_task("Stage 2: benchmark check", total=len(stage1_pass))
-        for res in stage1_pass:
-            if stage2_benchmark_check(res, primary_client, primary_model, benchmark_prompt):
+    with tqdm(stage1_pass, desc="  Stage 2", unit="paper", leave=True) as pbar:
+        for res in pbar:
+            pbar.set_postfix_str(res.arxiv_id)
+            passed = stage2_benchmark_check(res, primary_client, primary_model, benchmark_prompt)
+            icon = "✓" if passed else "✗"
+            datasets_str = ", ".join(res.datasets_mentioned[:3]) if res.datasets_mentioned else "—"
+            tqdm.write(
+                f"    {icon} {res.arxiv_id}  conf={res.stage2_confidence:.2f}"
+                f"  datasets=[{datasets_str}]  {res.title[:55]!r}"
+            )
+            if not dry_run:
+                _set_candidate_status(
+                    res.arxiv_id,
+                    final_status="rejected_stage2" if not passed else "pending_store",
+                    res=res,
+                )
+            if passed:
                 stage2_pass.append(res)
-            progress.advance(task)
             time.sleep(1.0)
 
-    console.print(f"  Stage 2 passed: [cyan]{len(stage2_pass)}[/cyan] / {len(stage1_pass)}")
+    console.print(
+        f"  Stage 2: [green]{len(stage2_pass)} passed[/green] / "
+        f"[red]{len(stage1_pass) - len(stage2_pass)} rejected[/red]"
+    )
 
     if not dry_run:
         _store_results(stage2_pass)
@@ -234,11 +315,12 @@ def scan(
 
 
 def _store_results(results: list[ScanResult]) -> None:
-    """Persist passing papers to the database."""
+    """Persist passing papers to the database and mark candidates as accepted."""
     for res in results:
         with session_scope() as session:
             existing = session.query(Paper).filter_by(arxiv_id=res.arxiv_id).first()
             if existing is not None:
+                _set_candidate_status(res.arxiv_id, final_status="duplicate", res=res)
                 continue
 
             paper = Paper(
@@ -261,9 +343,12 @@ def _store_results(results: list[ScanResult]) -> None:
                 model_used=None,
             )
             session.add(run)
+            paper_id = paper.id
+
+        _set_candidate_status(res.arxiv_id, final_status="accepted", res=res, paper_id=paper_id)
 
         logger.info(
-            "Stored arXiv:%s — '%s' (datasets: %s)",
+            "Stored arXiv:%s — %r (datasets: %s)",
             res.arxiv_id,
             res.title[:60],
             ", ".join(res.datasets_mentioned) or "none",
