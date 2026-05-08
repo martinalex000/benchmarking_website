@@ -25,7 +25,7 @@ results:
     std: 0.0018
     metric: F1
     higher_is_better: true
-    is_baseline: false
+    is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: 0.496
@@ -73,7 +73,7 @@ results:
     std: 0.0004
     metric: MRR
     higher_is_better: true
-    is_baseline: false
+    is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: 0.496
@@ -110,7 +110,7 @@ results:
     std: 0.004
     metric: F1
     higher_is_better: true
-    is_baseline: false
+    is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: 0.496
@@ -180,7 +180,7 @@ results:
     std: 0.0047
     metric: AP
     higher_is_better: true
-    is_baseline: false
+    is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: 0.496
@@ -283,7 +283,7 @@ results:
     std: 0.0009
     metric: MAE
     higher_is_better: false
-    is_baseline: false
+    is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: 0.496

@@ -4,28 +4,7 @@
 
 paper_arxiv_id: "2309.00367"
 
-# Mark results as problematic (shown in grey on the leaderboard).
-# problematic_results:
-#   - model: "GraphGPS"
-#     dataset: "Peptides-func"
-#     metric: "AP"
-#     reason: "Uses non-standard evaluation protocol"
-
-# Override extracted values with correct ones.
-# result_overrides:
-#   - model: "GraphGPS"
-#     dataset: "Peptides-func"
-#     metric: "AP"
-#     correct_value: 0.6534
-#     correct_std: 0.0042
-#     reason: "LLM read wrong table row — see Table 3 in paper"
-
-# Fix metadata (codebase URL, etc.).
-# metadata_overrides:
-#   codebase_url: "https://github.com/example/repo"
-
-# Notes about non-standard splits used in this paper.
-# dataset_split_notes:
-#   - dataset: "Cora"
-#     is_standard_split: false
-#     note: "Uses random 10-fold split, not the Planetoid public split"
+# This paper is a benchmark analysis study — it does not propose a new model.
+# The LLM incorrectly identified GCN as the "proposed model". Reset all results
+# to baseline so nothing is highlighted as a new proposed approach.
+mark_all_as_baseline: true

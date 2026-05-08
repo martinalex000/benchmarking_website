@@ -41,7 +41,7 @@ variants:
     - null
     - null
   - model: GCN
-    is_baseline: false
+    is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: 0.496
@@ -116,11 +116,11 @@ variants:
     - 0.0016
     - 0.0024
     - 0.0008
-  - model: GCN
+  - model: GatedGCN+RWSE
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.496
+    params_millions: 0.506
     arxiv_id: '2206.08164'
     title: Long Range Graph Benchmark
     date: Jun 2022
@@ -135,6 +135,44 @@ variants:
     - 0.0013
     - 0.0005
     - 0.0006
+  - model: GCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.496
+    arxiv_id: '2206.08164'
+    title: Long Range Graph Benchmark
+    date: Jun 2022
+    codebase_url: https://github.com/vijaydwivedi75/lrgb
+    metric_values:
+    - 0.3234
+    - 0.1321
+    - 0.8256
+    - 0.3791
+    metric_stds:
+    - 0.0006
+    - 0.0007
+    - 0.0006
+    - 0.0004
+  - model: GatedGCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.502
+    arxiv_id: '2206.08164'
+    title: Long Range Graph Benchmark
+    date: Jun 2022
+    codebase_url: https://github.com/vijaydwivedi75/lrgb
+    metric_values:
+    - 0.3218
+    - 0.1279
+    - 0.8433
+    - 0.3783
+    metric_stds:
+    - 0.0011
+    - 0.0018
+    - 0.0011
+    - 0.0004
   - model: GINE
     is_baseline: true
     is_overridden: false
@@ -173,9 +211,28 @@ variants:
     - 0.0011
     - 0.0039
     - 0.0033
+  - model: GCNII
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.492
+    arxiv_id: '2206.08164'
+    title: Long Range Graph Benchmark
+    date: Jun 2022
+    codebase_url: https://github.com/vijaydwivedi75/lrgb
+    metric_values:
+    - 0.3161
+    - 0.1325
+    - 0.8116
+    - 0.3607
+    metric_stds:
+    - 0.0004
+    - 0.0009
+    - 0.0009
+    - 0.0003
   milestones:
-  - value: 0.3242
-    std: 0.0008
+  - value: 0.3234
+    std: 0.0006
     model: GCN
     arxiv_id: '2206.08164'
     title: Long Range Graph Benchmark

@@ -83,7 +83,7 @@ variants:
     metric_stds:
     - 0.0054
   - model: GCN
-    is_baseline: false
+    is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: 0.496
@@ -173,6 +173,19 @@ variants:
     - 0.6326
     metric_stds:
     - 0.0126
+  - model: GatedGCN+RWSE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.506
+    arxiv_id: '2206.08164'
+    title: Long Range Graph Benchmark
+    date: Jun 2022
+    codebase_url: https://github.com/vijaydwivedi75/lrgb
+    metric_values:
+    - 0.6069
+    metric_stds:
+    - 0.0035
   - model: GCN
     is_baseline: true
     is_overridden: false
@@ -183,9 +196,35 @@ variants:
     date: Jun 2022
     codebase_url: https://github.com/vijaydwivedi75/lrgb
     metric_values:
-    - 0.6069
+    - 0.593
     metric_stds:
-    - 0.0035
+    - 0.0023
+  - model: GatedGCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.502
+    arxiv_id: '2206.08164'
+    title: Long Range Graph Benchmark
+    date: Jun 2022
+    codebase_url: https://github.com/vijaydwivedi75/lrgb
+    metric_values:
+    - 0.5864
+    metric_stds:
+    - 0.0077
+  - model: GCNII
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.492
+    arxiv_id: '2206.08164'
+    title: Long Range Graph Benchmark
+    date: Jun 2022
+    codebase_url: https://github.com/vijaydwivedi75/lrgb
+    metric_values:
+    - 0.5543
+    metric_stds:
+    - 0.0078
   - model: GINE
     is_baseline: true
     is_overridden: false
@@ -200,8 +239,8 @@ variants:
     metric_stds:
     - 0.0079
   milestones:
-  - value: 0.6069
-    std: 0.0035
+  - value: 0.593
+    std: 0.0023
     model: GCN
     arxiv_id: '2206.08164'
     title: Long Range Graph Benchmark

@@ -44,7 +44,7 @@ variants:
     metric_stds:
     - 0.0008
   - model: GCN
-    is_baseline: false
+    is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: 0.496
@@ -56,6 +56,19 @@ variants:
     - 0.2922
     metric_stds:
     - 0.0018
+  - model: GatedGCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.502
+    arxiv_id: '2206.08164'
+    title: Long Range Graph Benchmark
+    date: Jun 2022
+    codebase_url: https://github.com/vijaydwivedi75/lrgb
+    metric_values:
+    - 0.2641
+    metric_stds:
+    - 0.0045
   - model: Transformer+LapPE
     is_baseline: true
     is_overridden: false
@@ -82,11 +95,11 @@ variants:
     - 0.2592
     metric_stds:
     - 0.0158
-  - model: GCN
+  - model: GatedGCN+LapPE
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.496
+    params_millions: 0.502
     arxiv_id: '2206.08164'
     title: Long Range Graph Benchmark
     date: Jun 2022
@@ -121,6 +134,19 @@ variants:
     - 0.2125
     metric_stds:
     - 0.0009
+  - model: GCNII
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.492
+    arxiv_id: '2206.08164'
+    title: Long Range Graph Benchmark
+    date: Jun 2022
+    codebase_url: https://github.com/vijaydwivedi75/lrgb
+    metric_values:
+    - 0.1404
+    metric_stds:
+    - 0.0011
   - model: GINE
     is_baseline: true
     is_overridden: false
@@ -134,16 +160,41 @@ variants:
     - 0.1339
     metric_stds:
     - 0.0044
+  - model: GCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.496
+    arxiv_id: '2206.08164'
+    title: Long Range Graph Benchmark
+    date: Jun 2022
+    codebase_url: https://github.com/vijaydwivedi75/lrgb
+    metric_values:
+    - 0.0841
+    metric_stds:
+    - 0.001
   milestones:
-  - value: 0.2574
-    std: 0.0034
+  - value: 0.0841
+    std: 0.001
     model: GCN
+    arxiv_id: '2206.08164'
+    title: Long Range Graph Benchmark
+    date: '2022-06-16'
+  - value: 0.1339
+    std: 0.0044
+    model: GINE
     arxiv_id: '2206.08164'
     title: Long Range Graph Benchmark
     date: '2022-06-16'
   - value: 0.2618
     std: 0.0031
     model: Transformer+LapPE
+    arxiv_id: '2206.08164'
+    title: Long Range Graph Benchmark
+    date: '2022-06-16'
+  - value: 0.2641
+    std: 0.0045
+    model: GatedGCN
     arxiv_id: '2206.08164'
     title: Long Range Graph Benchmark
     date: '2022-06-16'

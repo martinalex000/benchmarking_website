@@ -144,6 +144,10 @@ def apply_overrides_to_db(arxiv_id: str) -> int:
                 result.override_source = override_source
                 changed = True
 
+            if overrides.get("mark_all_as_baseline") and not result.is_baseline:
+                result.is_baseline = 1
+                changed = True
+
             if changed:
                 affected += 1
 

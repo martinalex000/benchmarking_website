@@ -19,6 +19,7 @@ import logging
 import re
 from typing import Any
 
+from thefuzz import fuzz as fuzz_lib
 from thefuzz import process as fuzz_process
 
 from backend.db import init_db, session_scope
@@ -140,10 +141,14 @@ def resolve_or_create_model(
     if key in alias_map:
         return alias_map[key]
 
-    # thefuzz against canonical names
+    # thefuzz against canonical names — use token_sort_ratio to avoid
+    # partial-substring false positives (e.g. "GCN" ⊂ "GatedGCN" scores 90
+    # with the default WRatio scorer because partial_ratio=100).
     all_names = list(canonical_map.keys()) + list(alias_map.keys())
     if all_names:
-        best_match, score = fuzz_process.extractOne(key, all_names)
+        best_match, score = fuzz_process.extractOne(
+            key, all_names, scorer=fuzz_lib.token_sort_ratio
+        )
         if score >= 88:
             logger.debug(
                 "Fuzzy-matched model '%s' → '%s' (score=%d)", model_name, best_match, score

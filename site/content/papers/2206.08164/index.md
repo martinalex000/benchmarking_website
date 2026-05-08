@@ -26,8 +26,8 @@ results:
 - dataset: COCO-SP
   rows:
   - model: GCN
-    value: 0.2574
-    std: 0.0034
+    value: 0.0841
+    std: 0.001
     metric: F1
     higher_is_better: true
     is_baseline: true
@@ -80,13 +80,46 @@ results:
     params_millions: 0.468
     table_ref: Table 3
     source_ref: this paper
+  - model: GCNII
+    value: 0.1404
+    std: 0.0011
+    metric: F1
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.492
+    table_ref: Table 3
+    source_ref: this paper
+  - model: GatedGCN
+    value: 0.2641
+    std: 0.0045
+    metric: F1
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.502
+    table_ref: Table 3
+    source_ref: this paper
+  - model: GatedGCN+LapPE
+    value: 0.2574
+    std: 0.0034
+    metric: F1
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.502
+    table_ref: Table 3
+    source_ref: this paper
   metric: F1
   higher_is_better: true
 - dataset: PCQM-Contact
   rows:
   - model: GCN
-    value: 0.1288
-    std: 0.0013
+    value: 0.1321
+    std: 0.0007
     metric: Hits@1
     higher_is_better: true
     is_baseline: true
@@ -96,8 +129,8 @@ results:
     table_ref: Table 5
     source_ref: this paper
   - model: GCN
-    value: 0.8517
-    std: 0.0005
+    value: 0.8256
+    std: 0.0006
     metric: Hits@10
     higher_is_better: true
     is_baseline: true
@@ -107,8 +140,8 @@ results:
     table_ref: Table 5
     source_ref: this paper
   - model: GCN
-    value: 0.3808
-    std: 0.0006
+    value: 0.3791
+    std: 0.0004
     metric: Hits@3
     higher_is_better: true
     is_baseline: true
@@ -118,8 +151,8 @@ results:
     table_ref: Table 5
     source_ref: this paper
   - model: GCN
-    value: 0.3242
-    std: 0.0008
+    value: 0.3234
+    std: 0.0006
     metric: MRR
     higher_is_better: true
     is_baseline: true
@@ -304,13 +337,145 @@ results:
     params_millions: 0.468
     table_ref: Table 5
     source_ref: this paper
+  - model: GCNII
+    value: 0.1325
+    std: 0.0009
+    metric: Hits@1
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.492
+    table_ref: Table 5
+    source_ref: this paper
+  - model: GCNII
+    value: 0.8116
+    std: 0.0009
+    metric: Hits@10
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.492
+    table_ref: Table 5
+    source_ref: this paper
+  - model: GCNII
+    value: 0.3607
+    std: 0.0003
+    metric: Hits@3
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.492
+    table_ref: Table 5
+    source_ref: this paper
+  - model: GCNII
+    value: 0.3161
+    std: 0.0004
+    metric: MRR
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.492
+    table_ref: Table 5
+    source_ref: this paper
+  - model: GatedGCN
+    value: 0.1279
+    std: 0.0018
+    metric: Hits@1
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.502
+    table_ref: Table 5
+    source_ref: this paper
+  - model: GatedGCN
+    value: 0.8433
+    std: 0.0011
+    metric: Hits@10
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.502
+    table_ref: Table 5
+    source_ref: this paper
+  - model: GatedGCN
+    value: 0.3783
+    std: 0.0004
+    metric: Hits@3
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.502
+    table_ref: Table 5
+    source_ref: this paper
+  - model: GatedGCN
+    value: 0.3218
+    std: 0.0011
+    metric: MRR
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.502
+    table_ref: Table 5
+    source_ref: this paper
+  - model: GatedGCN+RWSE
+    value: 0.1288
+    std: 0.0013
+    metric: Hits@1
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.506
+    table_ref: Table 5
+    source_ref: this paper
+  - model: GatedGCN+RWSE
+    value: 0.8517
+    std: 0.0005
+    metric: Hits@10
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.506
+    table_ref: Table 5
+    source_ref: this paper
+  - model: GatedGCN+RWSE
+    value: 0.3808
+    std: 0.0006
+    metric: Hits@3
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.506
+    table_ref: Table 5
+    source_ref: this paper
+  - model: GatedGCN+RWSE
+    value: 0.3242
+    std: 0.0008
+    metric: MRR
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.506
+    table_ref: Table 5
+    source_ref: this paper
   metric: Hits@1
   higher_is_better: true
 - dataset: PascalVOC-SP
   rows:
   - model: GCN
-    value: 0.286
-    std: 0.0085
+    value: 0.1268
+    std: 0.006
     metric: F1
     higher_is_better: true
     is_baseline: true
@@ -363,13 +528,46 @@ results:
     params_millions: 0.468
     table_ref: Table 3
     source_ref: this paper
+  - model: GCNII
+    value: 0.1698
+    std: 0.008
+    metric: F1
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.492
+    table_ref: Table 3
+    source_ref: this paper
+  - model: GatedGCN
+    value: 0.2873
+    std: 0.0219
+    metric: F1
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.502
+    table_ref: Table 3
+    source_ref: this paper
+  - model: GatedGCN+LapPE
+    value: 0.286
+    std: 0.0085
+    metric: F1
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.502
+    table_ref: Table 3
+    source_ref: this paper
   metric: F1
   higher_is_better: true
 - dataset: Peptides-func
   rows:
   - model: GCN
-    value: 0.6069
-    std: 0.0035
+    value: 0.593
+    std: 0.0023
     metric: AP
     higher_is_better: true
     is_baseline: true
@@ -422,13 +620,46 @@ results:
     params_millions: 0.468
     table_ref: Table 4
     source_ref: this paper
+  - model: GCNII
+    value: 0.5543
+    std: 0.0078
+    metric: AP
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.492
+    table_ref: Table 4
+    source_ref: this paper
+  - model: GatedGCN
+    value: 0.5864
+    std: 0.0077
+    metric: AP
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.502
+    table_ref: Table 4
+    source_ref: this paper
+  - model: GatedGCN+RWSE
+    value: 0.6069
+    std: 0.0035
+    metric: AP
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.506
+    table_ref: Table 4
+    source_ref: this paper
   metric: AP
   higher_is_better: true
 - dataset: Peptides-struct
   rows:
   - model: GCN
-    value: 0.3357
-    std: 0.0006
+    value: 0.3496
+    std: 0.0013
     metric: MAE
     higher_is_better: false
     is_baseline: true
@@ -479,6 +710,39 @@ results:
     is_overridden: false
     override_reason: ''
     params_millions: 0.468
+    table_ref: Table 4
+    source_ref: this paper
+  - model: GCNII
+    value: 0.3471
+    std: 0.001
+    metric: MAE
+    higher_is_better: false
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.492
+    table_ref: Table 4
+    source_ref: this paper
+  - model: GatedGCN
+    value: 0.342
+    std: 0.0013
+    metric: MAE
+    higher_is_better: false
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.502
+    table_ref: Table 4
+    source_ref: this paper
+  - model: GatedGCN+RWSE
+    value: 0.3357
+    std: 0.0006
+    metric: MAE
+    higher_is_better: false
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.506
     table_ref: Table 4
     source_ref: this paper
   metric: MAE
