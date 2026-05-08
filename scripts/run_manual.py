@@ -28,6 +28,7 @@ from __future__ import annotations
 import argparse
 import json
 import logging
+import re
 import sys
 from pathlib import Path
 
@@ -260,7 +261,10 @@ def main() -> None:
         description="Process a single arXiv paper manually end-to-end",
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
-    parser.add_argument("arxiv_id", help="arXiv ID, e.g. 2206.08164")
+    parser.add_argument(
+        "arxiv_id",
+        help="arXiv ID (e.g. 2206.08164) or full URL (e.g. https://arxiv.org/abs/2206.08164)",
+    )
     parser.add_argument(
         "--model",
         "-m",
@@ -291,7 +295,12 @@ def main() -> None:
     )
     args = parser.parse_args()
 
-    arxiv_id = args.arxiv_id.strip().lstrip("arXiv:").split("v")[0]
+    # Normalise: accept full arXiv URLs like https://arxiv.org/abs/2206.08164
+    raw = args.arxiv_id.strip()
+    m = re.match(r"https?://(?:www\.)?arxiv\.org/(?:abs|pdf)/([0-9]+\.[0-9]+)", raw)
+    if m:
+        raw = m.group(1)
+    arxiv_id = raw.lstrip("arXiv:").split("v")[0]
     force_extract = args.force or args.force_download
     force_download = args.force_download
     do_screen = not args.skip_screen

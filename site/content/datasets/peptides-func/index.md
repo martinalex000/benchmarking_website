@@ -17,6 +17,123 @@ variants:
   metrics:
   - AP
   rows:
+  - model: DREW
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2309.00367'
+    title: Where Did the Gap Go? Reassessing the Long-Range Graph Benchmark
+    date: Sep 2023
+    codebase_url: https://github.com/toenshoff/LRGB
+    metric_values:
+    - 0.715
+    metric_stds:
+    - 0.0044
+  - model: CRAWL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2309.00367'
+    title: Where Did the Gap Go? Reassessing the Long-Range Graph Benchmark
+    date: Sep 2023
+    codebase_url: https://github.com/toenshoff/LRGB
+    metric_values:
+    - 0.7074
+    metric_stds:
+    - 0.0032
+  - model: GRIT
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2309.00367'
+    title: Where Did the Gap Go? Reassessing the Long-Range Graph Benchmark
+    date: Sep 2023
+    codebase_url: https://github.com/toenshoff/LRGB
+    metric_values:
+    - 0.6988
+    metric_stds:
+    - 0.0082
+  - model: Graph ViT
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2309.00367'
+    title: Where Did the Gap Go? Reassessing the Long-Range Graph Benchmark
+    date: Sep 2023
+    codebase_url: https://github.com/toenshoff/LRGB
+    metric_values:
+    - 0.6942
+    metric_stds:
+    - 0.0075
+  - model: G-MLPMixer
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2309.00367'
+    title: Where Did the Gap Go? Reassessing the Long-Range Graph Benchmark
+    date: Sep 2023
+    codebase_url: https://github.com/toenshoff/LRGB
+    metric_values:
+    - 0.6921
+    metric_stds:
+    - 0.0054
+  - model: GCN
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.496
+    arxiv_id: '2309.00367'
+    title: Where Did the Gap Go? Reassessing the Long-Range Graph Benchmark
+    date: Sep 2023
+    codebase_url: https://github.com/toenshoff/LRGB
+    metric_values:
+    - 0.6765
+    metric_stds:
+    - 0.0047
+  - model: GINE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.505
+    arxiv_id: '2309.00367'
+    title: Where Did the Gap Go? Reassessing the Long-Range Graph Benchmark
+    date: Sep 2023
+    codebase_url: https://github.com/toenshoff/LRGB
+    metric_values:
+    - 0.6621
+    metric_stds:
+    - 0.0067
+  - model: GPS
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.5
+    arxiv_id: '2309.00367'
+    title: Where Did the Gap Go? Reassessing the Long-Range Graph Benchmark
+    date: Sep 2023
+    codebase_url: https://github.com/toenshoff/LRGB
+    metric_values:
+    - 0.6534
+    metric_stds:
+    - 0.0091
+  - model: Exphormer
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2309.00367'
+    title: Where Did the Gap Go? Reassessing the Long-Range Graph Benchmark
+    date: Sep 2023
+    codebase_url: https://github.com/toenshoff/LRGB
+    metric_values:
+    - 0.6527
+    metric_stds:
+    - 0.0043
   - model: SAN+RWSE
     is_baseline: true
     is_overridden: false
@@ -82,13 +199,48 @@ variants:
     - 0.5498
     metric_stds:
     - 0.0079
-  milestones_json: '[{"value": 0.6069, "std": 0.0035, "model": "GCN", "arxiv_id":
-    "2206.08164", "title": "Long Range Graph Benchmark", "date": "2022-06-16"}, {"value":
-    0.6326, "std": 0.0126, "model": "Transformer+LapPE", "arxiv_id": "2206.08164",
-    "title": "Long Range Graph Benchmark", "date": "2022-06-16"}, {"value": 0.6384,
-    "std": 0.0121, "model": "SAN+LapPE", "arxiv_id": "2206.08164", "title": "Long
-    Range Graph Benchmark", "date": "2022-06-16"}, {"value": 0.6439, "std": 0.0075,
-    "model": "SAN+RWSE", "arxiv_id": "2206.08164", "title": "Long Range Graph Benchmark",
-    "date": "2022-06-16"}]'
+  milestones:
+  - value: 0.6069
+    std: 0.0035
+    model: GCN
+    arxiv_id: '2206.08164'
+    title: Long Range Graph Benchmark
+    date: '2022-06-16'
+  - value: 0.6326
+    std: 0.0126
+    model: Transformer+LapPE
+    arxiv_id: '2206.08164'
+    title: Long Range Graph Benchmark
+    date: '2022-06-16'
+  - value: 0.6384
+    std: 0.0121
+    model: SAN+LapPE
+    arxiv_id: '2206.08164'
+    title: Long Range Graph Benchmark
+    date: '2022-06-16'
+  - value: 0.6439
+    std: 0.0075
+    model: SAN+RWSE
+    arxiv_id: '2206.08164'
+    title: Long Range Graph Benchmark
+    date: '2022-06-16'
+  - value: 0.6765
+    std: 0.0047
+    model: GCN
+    arxiv_id: '2309.00367'
+    title: Where Did the Gap Go? Reassessing the Long-Range Graph Benchmark
+    date: '2023-09-01'
+  - value: 0.7074
+    std: 0.0032
+    model: CRAWL
+    arxiv_id: '2309.00367'
+    title: Where Did the Gap Go? Reassessing the Long-Range Graph Benchmark
+    date: '2023-09-01'
+  - value: 0.715
+    std: 0.0044
+    model: DREW
+    arxiv_id: '2309.00367'
+    title: Where Did the Gap Go? Reassessing the Long-Range Graph Benchmark
+    date: '2023-09-01'
 ---
 

@@ -42,9 +42,9 @@
   <div class="chart-container variant-section" data-variant="{{ .slug }}" style="{{ if not .is_standard }}display:none{{ end }}">
     <h2>Best {{ $.Params.primary_metric | upper }} over time — {{ .name }}</h2>
     <canvas id="chart-{{ .slug }}" height="300"
-      data-milestones="{{ .milestones_json | jsonify }}"
-      data-metric="{{ $.Params.primary_metric }}"
-      data-higher-is-better="{{ $.Params.higher_is_better }}">
+      data-milestones='{{ .milestones | jsonify }}'
+      data-metric="{{ .primary_metric }}"
+      data-higher-is-better="{{ .higher_is_better }}">
     </canvas>
   </div>
   {{ end }}

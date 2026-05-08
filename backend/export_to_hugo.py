@@ -287,7 +287,7 @@ def export_dataset(dataset_id: int) -> bool:
                     "higher_is_better": higher_is_better,
                     "metrics": metrics_ordered,
                     "rows": rows,
-                    "milestones_json": json.dumps(milestones),
+                    "milestones": milestones,
                 }
             )
 
