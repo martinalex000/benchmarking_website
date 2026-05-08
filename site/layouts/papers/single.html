@@ -40,7 +40,11 @@
     {{ range .Params.results }}
     {{ $group := . }}
     <h3 class="dataset-heading">{{ $group.dataset }}</h3>
-    {{ partial "result-table.html" (dict "results" $group.rows "metric" $group.metric "show_std" true "dataset_variant" ($group.dataset | urlize) "higher_is_better" $group.higher_is_better) }}
+    {{ if $group.is_multi_metric }}
+      {{ partial "multi-metric-table.html" (dict "rows" $group.rows "metrics" $group.metrics "primary_metric" $group.primary_metric "higher_is_better" $group.higher_is_better "dataset_variant" ($group.dataset | urlize) "hide_meta_cols" true) }}
+    {{ else }}
+      {{ partial "result-table.html" (dict "results" $group.rows "metric" $group.metric "show_std" true "dataset_variant" ($group.dataset | urlize) "higher_is_better" $group.higher_is_better "hide_meta_cols" true) }}
+    {{ end }}
     {{ end }}
   </section>
   {{ end }}

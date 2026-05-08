@@ -6,12 +6,14 @@
     .higher_is_better – bool (true = ↑, false = ↓)
     .show_std        – bool
     .dataset_variant – variant slug (for data- attrs used by JS)
+    .hide_meta_cols  – bool: when true, hide Paper/Code/Date columns (paper context)
 */}}
 {{ $results := .results }}
 {{ $metric  := .metric }}
 {{ $showStd := .show_std }}
 {{ $slug    := .dataset_variant }}
 {{ $hib     := .higher_is_better }}
+{{ $hideMeta := .hide_meta_cols }}
 
 {{ if $results }}
 <div class="result-table-wrapper" data-variant="{{ $slug }}">
@@ -24,9 +26,9 @@
         <th class="col-value sortable-col" data-col="value">{{ $metric }}{{ if $hib }} ↑{{ else }} ↓{{ end }}</th>
         {{ if $showStd }}<th class="col-std">±Std</th>{{ end }}
         <th class="col-params sortable-col" data-col="params">Params</th>
-        <th class="col-paper">Paper</th>
-        <th class="col-code">Code</th>
-        <th class="col-date sortable-col" data-col="date">Date</th>
+        {{ if not $hideMeta }}<th class="col-paper">Paper</th>{{ end }}
+        {{ if not $hideMeta }}<th class="col-code">Code</th>{{ end }}
+        {{ if not $hideMeta }}<th class="col-date sortable-col" data-col="date">Date</th>{{ end }}
       </tr>
     </thead>
     <tbody>
@@ -51,6 +53,7 @@
         <td class="col-std">{{ if $r.std }}{{ printf "%.4f" $r.std }}{{ else }}—{{ end }}</td>
         {{ end }}
         <td class="col-params">{{ if $r.params_millions }}{{ printf "%.1f" $r.params_millions }}M{{ else }}—{{ end }}</td>
+        {{ if not $hideMeta }}
         <td class="col-paper">
           {{ if $r.arxiv_id }}<a href="/papers/{{ $r.arxiv_id }}/" title="arXiv:{{ $r.arxiv_id }}">{{ if $r.title }}{{ $r.title | truncate 45 }}{{ else }}arXiv:{{ $r.arxiv_id }}{{ end }}</a>{{ end }}
         </td>
@@ -58,6 +61,7 @@
           {{ if $r.codebase_url }}<a href="{{ $r.codebase_url }}" target="_blank" rel="noopener">Code</a>{{ else }}—{{ end }}
         </td>
         <td class="col-date">{{ $r.date | default "—" }}</td>
+        {{ end }}
       </tr>
       {{ end }}
     </tbody>

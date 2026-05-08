@@ -190,15 +190,31 @@ def get_best_results_over_time(
             return []
 
         higher = bool(results[0].higher_is_better)
-        best_so_far: float | None = None
-        milestones: list[dict[str, Any]] = []
 
+        # Group by month (YYYY-MM): keep only the best result per month
+        month_best: dict[str, tuple[float, Any]] = {}
         for r in results:
             val = r.display_value
             if val is None:
                 continue
             val = float(val)
+            paper = r.paper
+            if not paper or not paper.published_date:
+                continue
+            month = paper.published_date[:7]  # YYYY-MM
+            if month not in month_best:
+                month_best[month] = (val, r)
+            else:
+                cur_val, _ = month_best[month]
+                if (higher and val > cur_val) or (not higher and val < cur_val):
+                    month_best[month] = (val, r)
 
+        # Compute running record across months in chronological order
+        best_so_far: float | None = None
+        milestones: list[dict[str, Any]] = []
+
+        for month in sorted(month_best.keys()):
+            val, r = month_best[month]
             is_new_best = (
                 best_so_far is None
                 or (higher and val > best_so_far)

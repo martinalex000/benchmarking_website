@@ -253,24 +253,12 @@ variants:
     - 0.0009
     - 0.0003
   milestones:
-  - value: 0.3234
-    std: 0.0006
-    model: GCN
-    arxiv_id: '2206.08164'
-    title: Long Range Graph Benchmark
-    date: '2022-06-16'
   - value: 0.335
     std: 0.0003
     model: SAN+LapPE
     arxiv_id: '2206.08164'
     title: Long Range Graph Benchmark
     date: '2022-06-16'
-  - value: 0.467
-    std: 0.0004
-    model: GCN
-    arxiv_id: '2309.00367'
-    title: Where Did the Gap Go? Reassessing the Long-Range Graph Benchmark
-    date: '2023-09-01'
   - value: 0.4703
     std: 0.0014
     model: GPS

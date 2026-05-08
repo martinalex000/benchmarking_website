@@ -66,6 +66,64 @@ def _write_md(path: Path, front_matter: dict, body: str = "") -> None:
 # ── Paper export ──────────────────────────────────────────────────────────────
 
 
+def _pivot_paper_rows(rows: list[dict], primary_metric: str | None) -> dict:
+    """Pivot flat per-metric paper rows into multi-metric format (like dataset pages).
+
+    Input rows have fields: model, value, std, metric, is_baseline, params_millions, …
+    Output has each model once with metric_values / metric_stds parallel arrays.
+    """
+    # Collect metrics in order of first appearance; primary goes first
+    seen_metrics: list[str] = list(dict.fromkeys(r["metric"] for r in rows if r.get("metric")))
+    if primary_metric and primary_metric in seen_metrics:
+        seen_metrics = [primary_metric] + [m for m in seen_metrics if m != primary_metric]
+    elif not primary_metric and seen_metrics:
+        primary_metric = seen_metrics[0]
+
+    # Group by model (first appearance determines metadata)
+    seen_models: list[str] = []
+    model_first: dict[str, dict] = {}
+    model_vals: dict[str, dict[str, tuple]] = {}  # model -> {metric -> (val, std)}
+    for r in rows:
+        model = r.get("model") or ""
+        if model not in model_first:
+            seen_models.append(model)
+            model_first[model] = r
+            model_vals[model] = {}
+        m = r.get("metric") or ""
+        if m and m not in model_vals[model]:
+            model_vals[model][m] = (r.get("value"), r.get("std"))
+
+    # Sort by primary metric value
+    higher = bool(rows[0].get("higher_is_better", True)) if rows else True
+
+    def _sort_key(model: str) -> tuple:
+        pval = model_vals[model].get(primary_metric or "", (None, None))[0]
+        if pval is None:
+            return (1, 0.0)
+        return (0, -pval if higher else pval)
+
+    seen_models.sort(key=_sort_key)
+
+    pivoted: list[dict] = []
+    for model in seen_models:
+        first = model_first[model]
+        metric_values = [model_vals[model].get(m, (None, None))[0] for m in seen_metrics]
+        metric_stds = [model_vals[model].get(m, (None, None))[1] for m in seen_metrics]
+        pivoted.append(
+            {
+                "model": model,
+                "metric_values": metric_values,
+                "metric_stds": metric_stds,
+                "is_baseline": first.get("is_baseline", False),
+                "is_overridden": first.get("is_overridden", False),
+                "override_reason": first.get("override_reason", ""),
+                "params_millions": first.get("params_millions"),
+            }
+        )
+
+    return {"rows": pivoted, "metrics": seen_metrics, "primary_metric": primary_metric}
+
+
 def export_paper(arxiv_id: str) -> bool:
     """Export a single paper's page to Hugo content."""
     with session_scope() as session:
@@ -88,8 +146,14 @@ def export_paper(arxiv_id: str) -> bool:
             dv = r.dataset_variant
             ds_name = dv.dataset.name if dv else "Unknown"
             if ds_name not in result_group_meta:
+                # Prefer the dataset's declared primary_metric over the first result's metric
+                primary = (
+                    dv.dataset.primary_metric
+                    if dv and dv.dataset and dv.dataset.primary_metric
+                    else r.metric_name
+                )
                 result_group_meta[ds_name] = {
-                    "metric": r.metric_name,
+                    "metric": primary,
                     "higher_is_better": bool(r.higher_is_better),
                 }
             result_groups.setdefault(ds_name, []).append(
@@ -110,15 +174,31 @@ def export_paper(arxiv_id: str) -> bool:
                 }
             )
 
-        results_for_fm: list[dict] = [
-            {
-                "dataset": ds,
-                "rows": rows,
-                "metric": result_group_meta[ds]["metric"],
-                "higher_is_better": result_group_meta[ds]["higher_is_better"],
-            }
-            for ds, rows in sorted(result_groups.items())
-        ]
+        results_for_fm: list[dict] = []
+        for ds, rows in sorted(result_groups.items()):
+            meta = result_group_meta[ds]
+            distinct_metrics = list(dict.fromkeys(r["metric"] for r in rows if r.get("metric")))
+            if len(distinct_metrics) > 1:
+                pivoted = _pivot_paper_rows(rows, meta["metric"])
+                results_for_fm.append(
+                    {
+                        "dataset": ds,
+                        "is_multi_metric": True,
+                        "rows": pivoted["rows"],
+                        "metrics": pivoted["metrics"],
+                        "primary_metric": pivoted["primary_metric"],
+                        "higher_is_better": meta["higher_is_better"],
+                    }
+                )
+            else:
+                results_for_fm.append(
+                    {
+                        "dataset": ds,
+                        "rows": rows,
+                        "metric": meta["metric"],
+                        "higher_is_better": meta["higher_is_better"],
+                    }
+                )
 
         # Main figure
         storage = PaperStorage(arxiv_id)

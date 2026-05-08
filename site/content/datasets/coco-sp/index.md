@@ -198,36 +198,12 @@ variants:
     metric_stds:
     - 0.001
   milestones:
-  - value: 0.0841
-    std: 0.001
-    model: GCN
-    arxiv_id: '2206.08164'
-    title: Long Range Graph Benchmark
-    date: '2022-06-16'
-  - value: 0.1339
-    std: 0.0044
-    model: GINE
-    arxiv_id: '2206.08164'
-    title: Long Range Graph Benchmark
-    date: '2022-06-16'
-  - value: 0.2618
-    std: 0.0031
-    model: Transformer+LapPE
-    arxiv_id: '2206.08164'
-    title: Long Range Graph Benchmark
-    date: '2022-06-16'
   - value: 0.2641
     std: 0.0045
     model: GatedGCN
     arxiv_id: '2206.08164'
     title: Long Range Graph Benchmark
     date: '2022-06-16'
-  - value: 0.2922
-    std: 0.0018
-    model: GCN
-    arxiv_id: '2309.00367'
-    title: Where Did the Gap Go? Reassessing the Long-Range Graph Benchmark
-    date: '2023-09-01'
   - value: 0.3884
     std: 0.0055
     model: GPS
