@@ -11,6 +11,20 @@
     {{ with .Params.description }}
     <p>{{ . }}</p>
     {{ end }}
+
+    {{/* Dataset statistics */}}
+    {{ with .Params.stats }}
+    <div class="dataset-stats">
+      {{ with .num_graphs }}<div class="stat-item"><span class="stat-value">{{ lang.FormatNumberCustom 0 . "- . ," }}</span><span class="stat-label">Graphs</span></div>{{ end }}
+      {{ with .avg_nodes }}<div class="stat-item"><span class="stat-value">{{ lang.FormatNumberCustom 1 . "- . ," }}</span><span class="stat-label">Avg. Nodes</span></div>{{ end }}
+      {{ with .avg_edges }}<div class="stat-item"><span class="stat-value">{{ lang.FormatNumberCustom 1 . "- . ," }}</span><span class="stat-label">Avg. Edges</span></div>{{ end }}
+      {{ with .num_classes }}<div class="stat-item"><span class="stat-value">{{ . }}</span><span class="stat-label">Classes / Targets</span></div>{{ end }}
+    </div>
+    {{ end }}
+
+    {{ with .Params.pyg_url }}
+    <p class="dataset-meta"><a href="{{ . }}" target="_blank" rel="noopener">PyTorch Geometric ↗</a></p>
+    {{ end }}
   </header>
 
   {{/* Dataset variant selector */}}

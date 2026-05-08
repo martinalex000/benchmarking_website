@@ -379,5 +379,6 @@ results:
     source_ref: He et al. 2023
   metric: MAE
   higher_is_better: false
+main_figure: /figures/2309.00367/main_figure.png
 ---
 

@@ -392,6 +392,19 @@ def export_dataset(dataset_id: int) -> bool:
             "primary_metric": primary_metric,
             "higher_is_better": higher_is_better,
             "pyg_url": ds.pyg_url or "",
+            "stats": (
+                {
+                    "num_graphs": ds.num_graphs,
+                    "avg_nodes": round(ds.avg_nodes, 2) if ds.avg_nodes is not None else None,
+                    "avg_edges": round(ds.avg_edges, 2) if ds.avg_edges is not None else None,
+                    "num_classes": ds.num_classes,
+                }
+                if any(
+                    x is not None
+                    for x in [ds.num_graphs, ds.avg_nodes, ds.avg_edges, ds.num_classes]
+                )
+                else None
+            ),
             "variants": variant_data,
         }
 

@@ -7,6 +7,11 @@ description: Node classification on superpixel graphs derived from MS-COCO.
 primary_metric: F1
 higher_is_better: true
 pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.LRGBDataset.html
+stats:
+  num_graphs: 123286
+  avg_nodes: 476.88
+  avg_edges: 2693.67
+  num_classes: 81
 variants:
 - slug: standard-split
   name: Standard split

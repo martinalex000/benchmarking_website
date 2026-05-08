@@ -906,6 +906,17 @@ def run_extraction(
                 )
             )
 
+    # ── Figure extraction ─────────────────────────────────────────────
+    figure_info = output.get("figure") or {}
+    if figure_info.get("page_number") is not None or figure_info.get("img_src"):
+        from backend.figure_extractor import extract_main_figure as _extract_fig
+
+        fig_path = _extract_fig(storage, figure_info)
+        if fig_path:
+            logger.info("Main figure saved: %s", fig_path.name)
+        else:
+            logger.warning("Main figure extraction failed for arXiv:%s", arxiv_id)
+
     return True
 
 

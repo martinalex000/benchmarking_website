@@ -7,6 +7,11 @@ description: Multi-task graph regression on peptide structural properties (11 ta
 primary_metric: MAE
 higher_is_better: false
 pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.LRGBDataset.html
+stats:
+  num_graphs: 15535
+  avg_nodes: 150.94
+  avg_edges: 307.3
+  num_classes: 11
 variants:
 - slug: standard-split
   name: Standard split

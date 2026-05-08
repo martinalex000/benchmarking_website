@@ -7,6 +7,11 @@ description: Node classification on superpixel graphs derived from PascalVOC 201
 primary_metric: F1
 higher_is_better: true
 pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.LRGBDataset.html
+stats:
+  num_graphs: 11355
+  avg_nodes: 479.4
+  avg_edges: 2710.48
+  num_classes: 21
 variants:
 - slug: standard-split
   name: Standard split

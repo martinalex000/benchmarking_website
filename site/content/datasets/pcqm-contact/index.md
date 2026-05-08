@@ -7,6 +7,11 @@ description: Link prediction of spatial atom contacts in quantum chemistry molec
 primary_metric: MRR
 higher_is_better: true
 pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.LRGBDataset.html
+stats:
+  num_graphs: 529434
+  avg_nodes: 30.14
+  avg_edges: 61.09
+  num_classes: 1
 variants:
 - slug: standard-split
   name: Standard split

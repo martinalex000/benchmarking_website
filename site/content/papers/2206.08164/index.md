@@ -521,5 +521,6 @@ results:
     source_ref: this paper
   metric: MAE
   higher_is_better: false
+main_figure: /figures/2206.08164/main_figure.png
 ---
 

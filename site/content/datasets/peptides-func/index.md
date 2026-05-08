@@ -7,6 +7,11 @@ description: Multi-label graph classification on peptide molecules (10 classes).
 primary_metric: AP
 higher_is_better: true
 pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.LRGBDataset.html
+stats:
+  num_graphs: 15535
+  avg_nodes: 150.94
+  avg_edges: 307.3
+  num_classes: 10
 variants:
 - slug: standard-split
   name: Standard split
