@@ -64,9 +64,9 @@
 {{ define "scripts" }}
 <script>
 window.leaderboardConfig = {
-  variants: {{ .Params.variants | jsonify }},
-  primaryMetric: {{ .Params.primary_metric | jsonify }},
-  higherIsBetter: {{ .Params.higher_is_better | jsonify }},
+  variants: {{ .Params.variants | jsonify | safeJS }},
+  primaryMetric: {{ .Params.primary_metric | jsonify | safeJS }},
+  higherIsBetter: {{ .Params.higher_is_better | jsonify | safeJS }},
 };
 leaderboard.init();
 </script>

@@ -1,49 +1,44 @@
 {{ define "main" }}
 <h1>Datasets</h1>
 
-<div class="filter-bar">
-  <label for="benchmark-filter">Benchmark:</label>
-  <select id="benchmark-filter" onchange="filterDatasets(this.value)">
-    <option value="">All benchmarks</option>
-    {{ range .Site.Data.benchmarks }}
-    <option value="{{ .slug }}">{{ .name }}</option>
+{{ range .Site.Data.benchmarks }}
+{{ if .datasets }}
+<section class="benchmark-group" id="benchmark-{{ .slug }}">
+  <div class="benchmark-header">
+    <h2>{{ .name }}</h2>
+    {{ if .arxiv_id }}
+    <span class="benchmark-paper">
+      Introduced in:
+      {{ if .paper_title }}
+      <a href="/papers/{{ .arxiv_id }}/">{{ .paper_title }}</a>
+      {{ else }}
+      <a href="/papers/{{ .arxiv_id }}/">arXiv:{{ .arxiv_id }}</a>
+      {{ end }}
+    </span>
     {{ end }}
-  </select>
-</div>
-
-<div class="dataset-list" id="dataset-list">
-  {{ range .Pages }}
-  <div class="dataset-card" data-benchmark="{{ .Params.benchmark | lower | urlize }}">
-    <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
-    <div class="paper-meta">
-      {{ with .Params.benchmark }}<span class="badge">{{ . }}</span>{{ end }}
-      {{ with .Params.task_type }}<span class="badge">{{ . | replace "_" " " }}</span>{{ end }}
-      {{ with .Params.primary_metric }}<span class="badge">{{ . }}{{ if $.Params.higher_is_better }} ↑{{ else }} ↓{{ end }}</span>{{ end }}
-    </div>
-    {{ with .Params.description }}<p>{{ . }}</p>{{ end }}
   </div>
-  {{ end }}
-</div>
+
+  <div class="dataset-grid">
+    {{ $slug := .slug }}
+    {{ range .datasets }}
+    {{ $ds := . }}
+    {{ range $.Site.Pages }}
+    {{ if and (eq .Section "datasets") (eq .Params.slug $ds.slug) }}
+    {{ $page := . }}
+    <div class="dataset-card">
+      <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+      <div class="paper-meta">
+        {{ with .Params.task_type }}<span class="badge">{{ replace . "_" " " }}</span>{{ end }}
+        {{ with $page.Params.primary_metric }}<span class="badge">{{ . }}{{ if $page.Params.higher_is_better }} ↑{{ else }} ↓{{ end }}</span>{{ end }}
+      </div>
+      {{ with .Params.description }}<p>{{ . }}</p>{{ end }}
+    </div>
+    {{ end }}
+    {{ end }}
+    {{ end }}
+  </div>
+</section>
+{{ end }}
 {{ end }}
 
-{{ define "scripts" }}
-<script>
-function filterDatasets(slug) {
-  document.querySelectorAll('#dataset-list .dataset-card').forEach(function(card) {
-    card.style.display = (!slug || card.dataset.benchmark === slug) ? '' : 'none';
-  });
-  var url = new URL(window.location);
-  if (slug) url.searchParams.set('benchmark', slug);
-  else url.searchParams.delete('benchmark');
-  window.history.replaceState({}, '', url);
-}
-(function() {
-  var benchmark = new URLSearchParams(window.location.search).get('benchmark');
-  if (benchmark) {
-    var sel = document.getElementById('benchmark-filter');
-    if (sel) sel.value = benchmark;
-    filterDatasets(benchmark);
-  }
-})();
-</script>
 {{ end }}

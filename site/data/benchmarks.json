@@ -4,6 +4,7 @@
     "slug": "lrgb",
     "description": "Long Range Graph Benchmark — five graph ML tasks designed to test long-range dependency modelling. Introduced by Dwivedi et al. (2022).\n",
     "arxiv_id": "2206.08164",
+    "paper_title": "Long Range Graph Benchmark",
     "datasets": [
       {
         "name": "Peptides-func",
@@ -67,6 +68,7 @@
     "slug": "graphbench",
     "description": "GraphBench — a comprehensive graph learning benchmark covering diverse graph types and tasks.\n",
     "arxiv_id": "2512.04475",
+    "paper_title": "GraphBench",
     "datasets": []
   },
   {
@@ -74,6 +76,7 @@
     "slug": "ogb",
     "description": "Open Graph Benchmark — large-scale standardised graph ML benchmarks.",
     "arxiv_id": "",
+    "paper_title": "",
     "datasets": [
       {
         "name": "ogbg-molhiv",
@@ -104,6 +107,7 @@
     "slug": "classic",
     "description": "Classic node/graph classification and regression benchmarks.",
     "arxiv_id": "",
+    "paper_title": "",
     "datasets": [
       {
         "name": "Cora",

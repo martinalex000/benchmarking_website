@@ -341,6 +341,7 @@ def export_benchmarks_data() -> None:
                     "slug": _slug(b.name),
                     "description": b.description or "",
                     "arxiv_id": b.paper.arxiv_id if b.paper else "",
+                    "paper_title": b.paper.title if b.paper else "",
                     "datasets": datasets_info,
                 }
             )
