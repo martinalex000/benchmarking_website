@@ -150,9 +150,13 @@ class ModelSizeEntry(BaseModel):
 # ── LLMExtractor ──────────────────────────────────────────────────────────────
 
 # Maximum characters of paper text that is sent in a single LLM call.
-# ~40k chars ≈ 10k tokens — safe for all models on the academic cloud endpoint.
-# Papers exceeding this are handled via a focused smart excerpt.
+# ~40k chars ≈ 10k tokens — safe for most models on the academic cloud endpoint.
+# Papers exceeding this are handled via table-section chunks, then smart excerpt.
 _CHUNK_SIZE = 40_000
+# Tighter limit used for table-section chunks (keeps each LLM call ≤ ~2k tokens).
+# Primary model (openai-gpt-oss-120b) reliably returns results up to ~8k chars;
+# above that it often returns valid JSON but with an empty results list.
+_TABLE_SECTION_SIZE = 8_000
 # Maximum characters for the tables-only section appended to chunks
 _TABLE_CHUNK_SIZE = 16_000
 # Smart-excerpt parameters (used when full text > _CHUNK_SIZE)
@@ -276,11 +280,18 @@ class LLMExtractor:
         """Stage 2: extract all benchmark results from the full paper text.
 
         Strategy:
-          - If combined text fits in _CHUNK_SIZE: single-shot extraction.
-          - Otherwise: try a smart excerpt (abstract intro + all table sections).
-          - Fallback: chunked extraction across the full text.
+          1. Sanitize: strip non-printable chars that cause models to return empty.
+          2. If combined text fits in _CHUNK_SIZE: single-shot extraction.
+          3. Otherwise: split paper into table-section chunks (_TABLE_SECTION_SIZE)
+             and merge results (most reliable for models with ~20k effective limit).
+          4. Fallback: smart excerpt (abstract intro + all table sections).
+          5. Last resort: fixed-size text chunks across full paper.
         """
         prompt = self._read_prompt("result_extraction.txt")
+
+        # Sanitize: strip control characters that silently break some LLMs
+        paper_text = _sanitize_text(paper_text)
+        tables_text = _sanitize_text(tables_text)
 
         tables_section = (
             f"\n\n=== TABLES (deduplicated) ===\n{tables_text[:_TABLE_CHUNK_SIZE]}"
@@ -289,25 +300,35 @@ class LLMExtractor:
         )
         combined = paper_text + tables_section
 
-        # Single-shot for papers that fit in the context window
+        # 1. Single-shot for papers that fit in the context window
         if len(combined) <= _CHUNK_SIZE:
             logger.info("Full-text extraction in one shot (%d chars)", len(combined))
             return self._extract_results_chunk(prompt, combined)
 
-        # Smart excerpt: abstract + all result table sections
+        # 2. Table-section chunking: split on table headers, send each section
+        #    separately. This is the most reliable strategy because each call
+        #    focuses on one table and stays well within the effective model limit.
+        table_sections = _split_into_table_sections(paper_text, _TABLE_SECTION_SIZE)
+        if len(table_sections) > 1:
+            logger.info(
+                "Paper too long (%d chars); splitting into %d table sections",
+                len(combined),
+                len(table_sections),
+            )
+            return self._extract_from_sections(prompt, table_sections, tables_section)
+
+        # 3. Smart excerpt: abstract + all result table sections
         excerpt = _build_smart_excerpt(paper_text, tables_section)
         logger.info(
-            "Paper too long (%d chars > %d); using smart excerpt (%d chars)",
-            len(combined),
-            _CHUNK_SIZE,
+            "No distinct table sections found; using smart excerpt (%d chars)",
             len(excerpt),
         )
         if len(excerpt) <= _CHUNK_SIZE:
             return self._extract_results_chunk(prompt, excerpt)
 
-        # Last resort: chunked extraction across the full text
+        # 4. Last resort: chunked extraction across the full text
         chunks = _split_into_chunks(paper_text, _CHUNK_SIZE - len(tables_section))
-        logger.info("Falling back to chunked extraction (%d chunks)", len(chunks))
+        logger.info("Falling back to fixed-size chunked extraction (%d chunks)", len(chunks))
 
         all_results: list[ResultEntry] = []
         proposed: ProposedModel | None = None
@@ -369,6 +390,69 @@ class LLMExtractor:
     def _extract_results_chunk(self, prompt: str, text: str) -> ExtractionOutput:
         raw = self._call_json(prompt, text)
         return ExtractionOutput.model_validate(raw)
+
+    def _extract_from_sections(
+        self, prompt: str, sections: list[str], tables_section: str
+    ) -> ExtractionOutput:
+        """Run extraction on each table section independently and merge results.
+
+        Each section is sent in a separate LLM call, keeping the user content
+        small enough that even models with a low effective context limit respond.
+        """
+        all_results: list[ResultEntry] = []
+        proposed: ProposedModel | None = None
+        baselines: list[BaselineModelInfo] = []
+        notes_parts: list[str] = []
+        confidence_levels: list[str] = []
+
+        # Append the HTML-extracted tables to the last section so that
+        # cleaned table markup is always present in at least one call.
+        for i, section in enumerate(sections):
+            content = section
+            if i == len(sections) - 1 and tables_section:
+                content = section + tables_section
+            logger.debug("Extracting section %d/%d (%d chars)", i + 1, len(sections), len(content))
+            try:
+                out = self._extract_results_chunk(prompt, content)
+                all_results.extend(out.results)
+                if out.proposed_model and proposed is None:
+                    proposed = out.proposed_model
+                baselines.extend(out.baseline_models)
+                if out.extraction_notes:
+                    notes_parts.append(f"[Section {i + 1}] {out.extraction_notes}")
+                confidence_levels.append(out.extraction_confidence)
+            except Exception as exc:
+                logger.warning("Section %d extraction failed: %s", i + 1, exc)
+                notes_parts.append(f"[Section {i + 1}] failed: {exc}")
+
+        # Deduplicate results
+        seen: set[tuple] = set()
+        unique_results: list[ResultEntry] = []
+        for r in all_results:
+            key = (r.model.lower(), r.dataset.lower(), r.metric.lower())
+            if key not in seen:
+                seen.add(key)
+                unique_results.append(r)
+
+        # Deduplicate baselines
+        seen_b: set[str] = set()
+        unique_baselines = [
+            b for b in baselines if not (b.name.lower() in seen_b or seen_b.add(b.name.lower()))  # type: ignore[func-returns-value]
+        ]
+
+        final_confidence = (
+            "HIGH"
+            if confidence_levels and all(c == "HIGH" for c in confidence_levels)
+            else "MEDIUM" if confidence_levels and "LOW" not in confidence_levels else "LOW"
+        )
+
+        return ExtractionOutput(
+            proposed_model=proposed,
+            baseline_models=unique_baselines,
+            results=unique_results,
+            extraction_confidence=final_confidence,
+            extraction_notes="\n".join(notes_parts),
+        )
 
     def detect_figure(self, paper_text: str, figures_list: list[dict]) -> FigureInfo:
         """Identify the main architecture figure."""
@@ -458,6 +542,53 @@ class LLMExtractor:
 
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
+
+
+def _sanitize_text(text: str) -> str:
+    """Strip control characters that silently cause some LLMs to return empty.
+
+    Keeps newlines, tabs, and carriage returns; removes everything else in the
+    C0/C1 control range (ord < 32 except \\n \\t \\r, and ord 127-159).
+    These characters appear in PDF-extracted text (form feeds, DC2/DC3, etc.)
+    and reliably break openai-gpt-oss-120b responses.
+    """
+    return re.sub(r"[\x00-\x08\x0b\x0c\x0e-\x1f\x7f-\x9f]", "", text)
+
+
+def _split_into_table_sections(text: str, max_section_size: int) -> list[str]:
+    """Split paper text into sections anchored at table headers.
+
+    Each section starts just before a "Table N" header and runs until the
+    next table header (or end of text).  Sections that exceed max_section_size
+    are further split at paragraph boundaries.
+
+    Returns at least one section (the full text if no tables found).
+    """
+    # Find all table-header positions
+    positions: list[int] = [0]  # always start with a section from position 0
+    for m in re.finditer(r"\bTable\s+\d+[\.:]\s", text, re.IGNORECASE):
+        start = max(0, m.start() - 200)  # include ~200 chars of lead-in
+        if start > positions[-1] + 500:  # avoid micro-sections
+            positions.append(start)
+
+    if len(positions) <= 1:
+        return [text]  # no distinct tables found
+
+    # Build raw sections
+    raw_sections: list[str] = []
+    for i, pos in enumerate(positions):
+        end = positions[i + 1] if i + 1 < len(positions) else len(text)
+        raw_sections.append(text[pos:end])
+
+    # Sub-split sections that are still too long
+    final: list[str] = []
+    for sec in raw_sections:
+        if len(sec) <= max_section_size:
+            final.append(sec)
+        else:
+            final.extend(_split_into_chunks(sec, max_section_size))
+
+    return final
 
 
 def _split_into_chunks(text: str, chunk_size: int) -> list[str]:
