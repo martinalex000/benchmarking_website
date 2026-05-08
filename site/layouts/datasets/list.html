@@ -1,6 +1,23 @@
 {{ define "main" }}
 <h1>Datasets</h1>
 
+{{/* Collect distinct task types across all dataset pages */}}
+{{ $tasks := slice }}
+{{ range $.Site.Pages }}
+{{ if eq .Section "datasets" }}{{ with .Params.task_type }}{{ $tasks = $tasks | append . }}{{ end }}{{ end }}
+{{ end }}
+{{ $tasks = $tasks | uniq }}
+
+{{ if gt (len $tasks) 1 }}
+<div class="filter-bar task-filter-bar">
+  <span class="filter-label">Filter by task:</span>
+  <button class="task-filter active" data-task="">All</button>
+  {{ range $tasks }}
+  <button class="task-filter" data-task="{{ . }}">{{ replace . "_" " " | title }}</button>
+  {{ end }}
+</div>
+{{ end }}
+
 {{ range .Site.Data.benchmarks }}
 {{ if .datasets }}
 <section class="benchmark-group" id="benchmark-{{ .slug }}">
@@ -23,7 +40,7 @@
     {{ range $.Site.Pages }}
     {{ if and (eq .Section "datasets") (eq .Params.slug $ds.slug) }}
     {{ $page := . }}
-    <div class="dataset-card">
+    <div class="dataset-card" data-task="{{ .Params.task_type }}">
       <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
       <div class="paper-meta">
         {{ with .Params.task_type }}<span class="badge">{{ replace . "_" " " }}</span>{{ end }}
@@ -39,5 +56,30 @@
 {{ end }}
 {{ end }}
 
+{{ end }}
+
+{{ define "scripts" }}
+<script>
+(function () {
+  var btns = document.querySelectorAll(".task-filter");
+  btns.forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var task = this.dataset.task;
+      btns.forEach(function (b) { b.classList.remove("active"); });
+      this.classList.add("active");
+      // Show/hide cards
+      document.querySelectorAll(".dataset-card").forEach(function (card) {
+        card.style.display = (!task || card.dataset.task === task) ? "" : "none";
+      });
+      // Collapse benchmark sections that have no visible cards
+      document.querySelectorAll(".benchmark-group").forEach(function (section) {
+        var anyVisible = Array.from(section.querySelectorAll(".dataset-card"))
+          .some(function (c) { return c.style.display !== "none"; });
+        section.style.display = anyVisible ? "" : "none";
+      });
+    });
+  });
+})();
+</script>
 {{ end }}
 

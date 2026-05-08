@@ -130,9 +130,20 @@ footer { max-width: 1100px; margin: 3rem auto 1rem; padding: 0 1.5rem; color: va
 /* Dataset list page */
 .filter-bar { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
 .filter-bar select { padding: 4px 8px; border-radius: var(--radius); border: 1px solid var(--gray-300); }
+.filter-label { font-size: 0.875rem; color: var(--gray-600); white-space: nowrap; }
+.task-filter { padding: 4px 12px; border-radius: 999px; border: 1px solid var(--gray-300); background: transparent; cursor: pointer; font-size: 0.85rem; }
+.task-filter.active { background: var(--blue); color: #fff; border-color: var(--blue); }
+.task-filter:hover:not(.active) { background: var(--gray-100); }
+
+/* Benchmark groups on dataset list */
+.benchmark-group { margin-bottom: 2.5rem; }
+.benchmark-header { display: flex; align-items: baseline; gap: 1rem; margin-bottom: 1rem; border-bottom: 2px solid var(--gray-200); padding-bottom: 0.4rem; }
+.benchmark-header h2 { margin: 0; }
+.benchmark-paper { font-size: 0.85rem; color: var(--gray-600); }
+.dataset-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.25rem; }
 .dataset-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.25rem; }
 .dataset-card { border: 1px solid var(--gray-300); border-radius: var(--radius); padding: 1.25rem; }
-.dataset-card h2 { margin: 0 0 0.5rem; font-size: 1.05rem; }
+.dataset-card h2, .dataset-card h3 { margin: 0 0 0.5rem; font-size: 1.05rem; }
 .dataset-card p { margin: 0.5rem 0 0; color: var(--gray-600); font-size: 0.875rem; }
 
 /* Chart hover highlight (yellow ring via row) */

@@ -53,7 +53,8 @@
     document.querySelectorAll(".col-std").forEach(function (el) {
       el.style.display = enabled ? "" : "none";
     });
-    // No error bar plugin used; nothing to update in Chart.js datasets
+    // Re-render all charts so the error bars plugin shows/hides
+    Object.values(charts).forEach(function (chart) { chart.update("none"); });
   }
 
   /* ── Baseline toggle ────────────────────────────────────────────────── */
@@ -188,6 +189,49 @@
       },
     };
 
+    // ── afterDraw plugin: draw ± std error bars ───────────────────────
+    function _drawErrorBar(ctx, px, yScale, yVal, std, color, capHalf) {
+      var yHi = yScale.getPixelForValue(yVal + std);
+      var yLo = yScale.getPixelForValue(yVal - std);
+      ctx.save();
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 1.5;
+      // vertical stem
+      ctx.beginPath(); ctx.moveTo(px, yHi); ctx.lineTo(px, yLo); ctx.stroke();
+      // top cap
+      ctx.beginPath(); ctx.moveTo(px - capHalf, yHi); ctx.lineTo(px + capHalf, yHi); ctx.stroke();
+      // bottom cap
+      ctx.beginPath(); ctx.moveTo(px - capHalf, yLo); ctx.lineTo(px + capHalf, yLo); ctx.stroke();
+      ctx.restore();
+    }
+
+    var errorBarsPlugin = {
+      id: "errorBars_" + slug,
+      afterDatasetsDraw: function (chart) {
+        if (!showStd) return;
+        var ctx = chart.ctx;
+        var yScale = chart.scales.y;
+        // Scatter dataset (index 0)
+        var sm = chart.getDatasetMeta(0);
+        if (sm && !sm.hidden) {
+          sm.data.forEach(function (point, i) {
+            var d = scatterData[i];
+            if (!d || d.std == null) return;
+            _drawErrorBar(ctx, point.x, yScale, d.y, d.std, "rgba(107,114,128,0.55)", 5);
+          });
+        }
+        // Records dataset (index 1)
+        var rm = chart.getDatasetMeta(1);
+        if (rm && !rm.hidden) {
+          rm.data.forEach(function (point, i) {
+            var d = recordData[i];
+            if (!d || !d._isRecord || d.std == null) return;
+            _drawErrorBar(ctx, point.x, yScale, d.y, d.std, "rgba(37,99,235,0.7)", 7);
+          });
+        }
+      },
+    };
+
     var chart = new Chart(canvas, {
       type: "scatter",
       data: {
@@ -264,7 +308,7 @@
           _onChartHover(slug, elements, recordData, scatterData);
         },
       },
-      plugins: [labelPlugin],
+      plugins: [labelPlugin, errorBarsPlugin],
     });
 
     charts[slug] = chart;
