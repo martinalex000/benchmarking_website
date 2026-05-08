@@ -12,10 +12,12 @@ variants:
   name: Standard split
   notes: 'Official split. Metric: macro F1.'
   is_standard: true
-  results:
+  primary_metric: F1
+  higher_is_better: true
+  metrics:
+  - F1
+  rows:
   - model: SAN+LapPE
-    value: 0.323
-    std: 0.0039
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -24,9 +26,11 @@ variants:
     title: Long Range Graph Benchmark
     date: Jun 2022
     codebase_url: https://github.com/vijaydwivedi75/lrgb
+    metric_values:
+    - 0.323
+    metric_stds:
+    - 0.0039
   - model: SAN+RWSE
-    value: 0.3216
-    std: 0.0027
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -35,9 +39,11 @@ variants:
     title: Long Range Graph Benchmark
     date: Jun 2022
     codebase_url: https://github.com/vijaydwivedi75/lrgb
+    metric_values:
+    - 0.3216
+    metric_stds:
+    - 0.0027
   - model: GCN
-    value: 0.286
-    std: 0.0085
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -46,9 +52,11 @@ variants:
     title: Long Range Graph Benchmark
     date: Jun 2022
     codebase_url: https://github.com/vijaydwivedi75/lrgb
+    metric_values:
+    - 0.286
+    metric_stds:
+    - 0.0085
   - model: Transformer+LapPE
-    value: 0.2694
-    std: 0.0098
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -57,9 +65,11 @@ variants:
     title: Long Range Graph Benchmark
     date: Jun 2022
     codebase_url: https://github.com/vijaydwivedi75/lrgb
+    metric_values:
+    - 0.2694
+    metric_stds:
+    - 0.0098
   - model: GINE
-    value: 0.1265
-    std: 0.0076
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -68,6 +78,10 @@ variants:
     title: Long Range Graph Benchmark
     date: Jun 2022
     codebase_url: https://github.com/vijaydwivedi75/lrgb
+    metric_values:
+    - 0.1265
+    metric_stds:
+    - 0.0076
   milestones_json: '[{"value": 0.286, "std": 0.0085, "model": "GCN", "arxiv_id": "2206.08164",
     "title": "Long Range Graph Benchmark", "date": "2022-06-16"}, {"value": 0.323,
     "std": 0.0039, "model": "SAN+LapPE", "arxiv_id": "2206.08164", "title": "Long

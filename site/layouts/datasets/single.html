@@ -53,7 +53,7 @@
   {{ range .Params.variants }}
   <div class="leaderboard-section variant-section" data-variant="{{ .slug }}" style="{{ if not .is_standard }}display:none{{ end }}">
     <h2>Leaderboard — {{ .name }}</h2>
-    {{ partial "result-table.html" (dict "results" .results "metric" $.Params.primary_metric "show_std" true "dataset_variant" .slug) }}
+    {{ partial "multi-metric-table.html" (dict "rows" .rows "metrics" .metrics "primary_metric" .primary_metric "higher_is_better" .higher_is_better "dataset_variant" .slug) }}
   </div>
   {{ end }}
 

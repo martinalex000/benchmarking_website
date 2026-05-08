@@ -151,6 +151,81 @@ def export_paper(arxiv_id: str) -> bool:
 # ── Dataset export ────────────────────────────────────────────────────────────
 
 
+def _build_multi_metric_rows(
+    all_results: list,
+    primary_metric: str,
+) -> tuple[list[str], bool, list[dict]]:
+    """Pivot results by (canonical_model_name, arxiv_id) to produce a multi-metric table.
+
+    Returns:
+        metrics_ordered  – metric names, primary metric first then alphabetically
+        higher_is_better – derived from primary metric rows
+        rows             – one dict per (model, paper) with parallel metric_values / metric_stds
+    """
+    # Discover all distinct metrics; primary goes first
+    metric_set: set[str] = {r.metric_name for r in all_results}
+    metrics_ordered = sorted(metric_set - {primary_metric})
+    if primary_metric in metric_set:
+        metrics_ordered = [primary_metric] + metrics_ordered
+
+    # higher_is_better from the primary metric rows
+    hib = True
+    for r in all_results:
+        if r.metric_name == primary_metric and r.higher_is_better is not None:
+            hib = bool(r.higher_is_better)
+            break
+
+    # Group by (canonical_model_name, arxiv_id)
+    groups: dict[tuple, dict] = {}
+    for r in all_results:
+        model_name = r.model.canonical_name if r.model else ""
+        paper = r.paper
+        arxiv_id = paper.arxiv_id if paper else ""
+        key = (model_name, arxiv_id)
+        if key not in groups:
+            groups[key] = {
+                "model": model_name,
+                "is_baseline": bool(r.is_baseline),
+                "is_overridden": bool(r.is_overridden),
+                "override_reason": r.override_reason or "",
+                "params_millions": (
+                    r.model.size_params / 1_000_000 if r.model and r.model.size_params else None
+                ),
+                "arxiv_id": arxiv_id,
+                "title": paper.title if paper else "",
+                "date": _fmt_date(paper.published_date) if paper else "",
+                "codebase_url": paper.codebase_url or "",
+                "_vals": {},
+            }
+        val = float(r.display_value) if r.display_value is not None else None
+        std = float(r.metric_std) if r.metric_std is not None else None
+        groups[key]["_vals"][r.metric_name] = (val, std)
+
+    # Sort by primary metric value
+    def _sort_key(g: dict) -> tuple:
+        pval = g["_vals"].get(primary_metric, (None, None))[0]
+        if pval is None:
+            return (1, 0.0)
+        return (0, -pval if hib else pval)
+
+    sorted_groups = sorted(groups.values(), key=_sort_key)
+
+    rows: list[dict] = []
+    for g in sorted_groups:
+        metric_values = []
+        metric_stds = []
+        for m in metrics_ordered:
+            val, std = g["_vals"].get(m, (None, None))
+            metric_values.append(val)
+            metric_stds.append(std)
+        row = {k: v for k, v in g.items() if k != "_vals"}
+        row["metric_values"] = metric_values
+        row["metric_stds"] = metric_stds
+        rows.append(row)
+
+    return metrics_ordered, hib, rows
+
+
 def export_dataset(dataset_id: int) -> bool:
     """Export a dataset page with all variants and leaderboard data."""
     with session_scope() as session:
@@ -197,39 +272,8 @@ def export_dataset(dataset_id: int) -> bool:
                 if not primary_metric:
                     primary_metric = metric
 
-            # Filter to the chosen metric only
-            results_raw = [r for r in all_results if r.metric_name == metric]
-            higher_is_better = bool(results_raw[0].higher_is_better) if results_raw else True
-
-            # Sort by value
-            sorted_results = sorted(
-                [r for r in results_raw if r.display_value is not None],
-                key=lambda r: float(r.display_value),
-                reverse=higher_is_better,
-            )
-
-            rows: list[dict] = []
-            for r in sorted_results:
-                paper = r.paper
-                rows.append(
-                    {
-                        "model": r.model.canonical_name if r.model else "",
-                        "value": float(r.display_value),
-                        "std": float(r.metric_std) if r.metric_std else None,
-                        "is_baseline": bool(r.is_baseline),
-                        "is_overridden": bool(r.is_overridden),
-                        "override_reason": r.override_reason or "",
-                        "params_millions": (
-                            r.model.size_params / 1_000_000
-                            if r.model and r.model.size_params
-                            else None
-                        ),
-                        "arxiv_id": paper.arxiv_id if paper else "",
-                        "title": paper.title if paper else "",
-                        "date": _fmt_date(paper.published_date) if paper else "",
-                        "codebase_url": paper.codebase_url or "",
-                    }
-                )
+            # Build pivoted multi-metric rows (primary metric first, then sorted)
+            metrics_ordered, higher_is_better, rows = _build_multi_metric_rows(all_results, metric)
 
             milestones = get_best_results_over_time(v.id, metric)
 
@@ -239,7 +283,10 @@ def export_dataset(dataset_id: int) -> bool:
                     "name": v.name,
                     "notes": v.notes or "",
                     "is_standard": bool(v.is_standard),
-                    "results": rows,
+                    "primary_metric": metric,
+                    "higher_is_better": higher_is_better,
+                    "metrics": metrics_ordered,
+                    "rows": rows,
                     "milestones_json": json.dumps(milestones),
                 }
             )

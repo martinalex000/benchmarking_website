@@ -1,0 +1,78 @@
+{{/*
+  Partial: multi-metric-table.html
+
+  Context dict keys:
+    .rows            – list of row dicts with parallel arrays metric_values / metric_stds
+    .metrics         – ordered list of metric name strings (primary metric first)
+    .primary_metric  – string, name of primary metric (used for ↑/↓ and sort)
+    .higher_is_better – bool
+    .dataset_variant – variant slug (for id / data- attrs used by JS)
+*/}}
+{{ $rows    := .rows }}
+{{ $metrics := .metrics }}
+{{ $primary := .primary_metric }}
+{{ $hib     := .higher_is_better }}
+{{ $slug    := .dataset_variant }}
+
+{{ if $rows }}
+<div class="result-table-wrapper" data-variant="{{ $slug }}">
+  <table class="result-table sortable" id="tbl-{{ $slug }}">
+    <thead>
+      <tr>
+        <th class="col-rank">#</th>
+        <th class="col-model sortable-col" data-col="model">Model</th>
+        <th class="col-type">Type</th>
+        {{ range $metrics }}
+        {{ $isPrimary := eq . $primary }}
+        <th class="col-value{{ if $isPrimary }} col-primary sortable-col{{ end }}"
+            {{ if $isPrimary }}data-col="value"{{ end }}>
+          {{ . }}{{ if $isPrimary }}{{ if $hib }} ↑{{ else }} ↓{{ end }}{{ end }}
+        </th>
+        {{ end }}
+        <th class="col-params sortable-col" data-col="params">Params</th>
+        <th class="col-paper">Paper</th>
+        <th class="col-code">Code</th>
+        <th class="col-date sortable-col" data-col="date">Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{ range $i, $r := $rows }}
+      {{ $primary_val := index $r.metric_values 0 }}
+      <tr class="result-row {{ if $r.is_baseline }}row-baseline{{ else }}row-proposed{{ end }} {{ if $r.is_overridden }}row-overridden{{ end }}"
+          data-model="{{ $r.model }}"
+          data-value="{{ $primary_val }}"
+          data-params="{{ $r.params_millions }}"
+          data-date="{{ $r.date }}"
+          data-arxiv="{{ $r.arxiv_id }}">
+        <td class="col-rank">{{ add $i 1 }}</td>
+        <td class="col-model">
+          {{ $r.model }}
+          {{ if $r.is_overridden }}<span class="override-badge" title="{{ $r.override_reason }}">✎</span>{{ end }}
+        </td>
+        <td class="col-type">
+          {{ if $r.is_baseline }}<span class="tag-baseline">baseline</span>{{ else }}<span class="tag-proposed">★ proposed</span>{{ end }}
+        </td>
+        {{ range $j, $m := $metrics }}
+        {{ $val := index $r.metric_values $j }}
+        {{ $std := index $r.metric_stds $j }}
+        <td class="col-value{{ if eq $m $primary }} col-primary{{ end }}">
+          {{ if ne $val nil -}}
+            {{ printf "%.4f" $val }}
+            {{- if ne $std nil }} <span class="col-std">±{{ printf "%.4f" $std }}</span>{{ end }}
+          {{- else }}—{{ end }}
+        </td>
+        {{ end }}
+        <td class="col-params">{{ if $r.params_millions }}{{ printf "%.1f" $r.params_millions }}M{{ else }}—{{ end }}</td>
+        <td class="col-paper">
+          {{ if $r.arxiv_id }}<a href="/papers/{{ $r.arxiv_id }}/" title="arXiv:{{ $r.arxiv_id }}">{{ if $r.title }}{{ $r.title | truncate 45 }}{{ else }}arXiv:{{ $r.arxiv_id }}{{ end }}</a>{{ end }}
+        </td>
+        <td class="col-code">
+          {{ if $r.codebase_url }}<a href="{{ $r.codebase_url }}" target="_blank" rel="noopener">Code</a>{{ else }}—{{ end }}
+        </td>
+        <td class="col-date">{{ $r.date | default "—" }}</td>
+      </tr>
+      {{ end }}
+    </tbody>
+  </table>
+</div>
+{{ end }}

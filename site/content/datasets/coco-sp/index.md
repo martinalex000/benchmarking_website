@@ -12,10 +12,12 @@ variants:
   name: Standard split
   notes: 'Official split. Metric: macro F1.'
   is_standard: true
-  results:
+  primary_metric: F1
+  higher_is_better: true
+  metrics:
+  - F1
+  rows:
   - model: Transformer+LapPE
-    value: 0.2618
-    std: 0.0031
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -24,9 +26,11 @@ variants:
     title: Long Range Graph Benchmark
     date: Jun 2022
     codebase_url: https://github.com/vijaydwivedi75/lrgb
+    metric_values:
+    - 0.2618
+    metric_stds:
+    - 0.0031
   - model: SAN+LapPE
-    value: 0.2592
-    std: 0.0158
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -35,9 +39,11 @@ variants:
     title: Long Range Graph Benchmark
     date: Jun 2022
     codebase_url: https://github.com/vijaydwivedi75/lrgb
+    metric_values:
+    - 0.2592
+    metric_stds:
+    - 0.0158
   - model: GCN
-    value: 0.2574
-    std: 0.0034
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -46,9 +52,11 @@ variants:
     title: Long Range Graph Benchmark
     date: Jun 2022
     codebase_url: https://github.com/vijaydwivedi75/lrgb
+    metric_values:
+    - 0.2574
+    metric_stds:
+    - 0.0034
   - model: SAN+RWSE
-    value: 0.2434
-    std: 0.0156
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -57,9 +65,11 @@ variants:
     title: Long Range Graph Benchmark
     date: Jun 2022
     codebase_url: https://github.com/vijaydwivedi75/lrgb
+    metric_values:
+    - 0.2434
+    metric_stds:
+    - 0.0156
   - model: GINE
-    value: 0.1339
-    std: 0.0044
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -68,6 +78,10 @@ variants:
     title: Long Range Graph Benchmark
     date: Jun 2022
     codebase_url: https://github.com/vijaydwivedi75/lrgb
+    metric_values:
+    - 0.1339
+    metric_stds:
+    - 0.0044
   milestones_json: '[{"value": 0.2574, "std": 0.0034, "model": "GCN", "arxiv_id":
     "2206.08164", "title": "Long Range Graph Benchmark", "date": "2022-06-16"}, {"value":
     0.2618, "std": 0.0031, "model": "Transformer+LapPE", "arxiv_id": "2206.08164",
