@@ -17,9 +17,7 @@
     </span>
     {{ end }}
   </div>
-
   <div class="dataset-grid">
-    {{ $slug := .slug }}
     {{ range .datasets }}
     {{ $ds := . }}
     {{ range $.Site.Pages }}
@@ -42,3 +40,4 @@
 {{ end }}
 
 {{ end }}
+

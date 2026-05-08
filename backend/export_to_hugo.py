@@ -194,9 +194,17 @@ def _build_multi_metric_rows(
                 "arxiv_id": arxiv_id,
                 "title": paper.title if paper else "",
                 "date": _fmt_date(paper.published_date) if paper else "",
+                "date_iso": (paper.published_date[:10] if paper and paper.published_date else ""),
                 "codebase_url": paper.codebase_url or "",
+                "uses_external_data": None,
                 "_vals": {},
             }
+        # uses_external_data: prefer True > False > None across metrics for this (model, paper)
+        ued = r.uses_external_data
+        if ued == 1:
+            groups[key]["uses_external_data"] = True
+        elif ued == 0 and groups[key]["uses_external_data"] is None:
+            groups[key]["uses_external_data"] = False
         val = float(r.display_value) if r.display_value is not None else None
         std = float(r.metric_std) if r.metric_std is not None else None
         groups[key]["_vals"][r.metric_name] = (val, std)

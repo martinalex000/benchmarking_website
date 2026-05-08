@@ -90,6 +90,7 @@ class ResultEntry(BaseModel):
     value: float
     std: float | None = None
     higher_is_better: bool = True
+    uses_external_data: bool | None = None
     table_ref: str | None = None
     source_ref: str | None = "this paper"
 

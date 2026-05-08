@@ -53,13 +53,7 @@
     document.querySelectorAll(".col-std").forEach(function (el) {
       el.style.display = enabled ? "" : "none";
     });
-    Object.values(charts).forEach(function (chart) {
-      const ds = chart.data.datasets[0];
-      if (ds) {
-        ds.errorBarWhiskerRatio = enabled ? 0.5 : 0;
-        chart.update();
-      }
-    });
+    // No error bar plugin used; nothing to update in Chart.js datasets
   }
 
   /* ── Baseline toggle ────────────────────────────────────────────────── */
@@ -91,90 +85,207 @@
       milestones = JSON.parse(canvas.dataset.milestones || "[]");
     } catch (e) { /* ignore */ }
 
-    if (!milestones.length || typeof Chart === "undefined") return;
+    const cfg = window.leaderboardConfig || {};
+    const variant = (cfg.variants || []).find(function (v) { return v.slug === slug; }) || {};
+    const allRows = variant.rows || [];
 
-    const labels = milestones.map(function (m) { return m.date || ""; });
-    const values = milestones.map(function (m) { return m.value; });
+    if (!milestones.length && !allRows.length) return;
+    if (typeof Chart === "undefined") return;
 
-    // Build step dataset: each milestone is a point; lines are horizontal steps
-    const pointData = milestones.map(function (m, i) {
-      return { x: m.date, y: m.value, std: m.std, model: m.model, arxiv_id: m.arxiv_id };
+    // Snap any date string (YYYY-MM-DD, YYYY-MM, or "Jun 2022") to first-of-month UTC ms.
+    function monthTs(dateStr) {
+      if (!dateStr) return null;
+      // ISO prefix: "2022-06..." → "2022-06-01"
+      var iso = dateStr.match(/^(\d{4}-\d{2})/);
+      if (iso) return Date.UTC(+iso[1].slice(0, 4), +iso[1].slice(5, 7) - 1, 1);
+      // Formatted "Jun 2022"
+      var ts = Date.parse("1 " + dateStr);
+      if (!isNaN(ts)) {
+        var d = new Date(ts);
+        return Date.UTC(d.getFullYear(), d.getMonth(), 1);
+      }
+      return null;
+    }
+
+    function fmtTs(ts) {
+      var d = new Date(ts);
+      return d.toLocaleDateString("en-US", { month: "short", year: "numeric", timeZone: "UTC" });
+    }
+
+    // ── Scatter dataset: all rows ─────────────────────────────────────
+    var scatterData = [];
+    allRows.forEach(function (row) {
+      var val = row.metric_values && row.metric_values[0];
+      var ts = monthTs(row.date_iso || row.date);
+      if (val == null || ts == null) return;
+      scatterData.push({
+        x: ts, y: val,
+        std: row.metric_stds && row.metric_stds[0],
+        model: row.model,
+        arxiv_id: row.arxiv_id,
+        is_baseline: row.is_baseline,
+      });
     });
 
-    const chart = new Chart(canvas, {
-      type: "line",
+    // ── Records dataset: milestones (new bests over time) ─────────────
+    var recordData = milestones.map(function (m) {
+      return {
+        x: monthTs(m.date),
+        y: m.value,
+        std: m.std,
+        model: m.model,
+        arxiv_id: m.arxiv_id,
+        _isRecord: true,
+      };
+    });
+
+    // Extend step line to today so the horizontal rule reaches the right edge
+    var todayTs = (function () {
+      var n = new Date();
+      return Date.UTC(n.getUTCFullYear(), n.getUTCMonth(), 1);
+    })();
+    if (recordData.length > 0) {
+      recordData.push({
+        x: todayTs,
+        y: recordData[recordData.length - 1].y,
+        std: null, model: null, arxiv_id: null, _isRecord: false,
+      });
+    }
+
+    // ── X axis bounds ─────────────────────────────────────────────────
+    var allTs = scatterData.map(function (d) { return d.x; })
+      .concat(recordData.map(function (d) { return d.x; }))
+      .filter(Boolean);
+    var xMin = allTs.length ? Math.min.apply(null, allTs) : todayTs;
+    // Add one month of padding on each side
+    var xMinPad = xMin - 30 * 24 * 3600 * 1000;
+    var xMaxPad = todayTs + 30 * 24 * 3600 * 1000;
+
+    // ── Per-point styling for records line ────────────────────────────
+    var recordBg = recordData.map(function (d) { return d._isRecord ? "#2563eb" : "transparent"; });
+    var recordRadius = recordData.map(function (d) { return d._isRecord ? 7 : 0; });
+
+    // ── afterDraw plugin: label each record milestone ─────────────────
+    var labelPlugin = {
+      id: "recordLabels_" + slug,
+      afterDatasetsDraw: function (chart) {
+        var meta = chart.getDatasetMeta(1);
+        if (!meta || meta.hidden) return;
+        var ctx = chart.ctx;
+        ctx.save();
+        ctx.font = "bold 11px sans-serif";
+        ctx.textAlign = "left";
+        meta.data.forEach(function (point, i) {
+          var pd = recordData[i];
+          if (!pd || !pd._isRecord || !pd.model) return;
+          // Clamp label inside chart area
+          var chartArea = chart.chartArea;
+          var lx = Math.min(point.x + 5, chartArea.right - 80);
+          ctx.fillStyle = "#1d4ed8";
+          ctx.fillText(pd.model, lx, point.y - 8);
+        });
+        ctx.restore();
+      },
+    };
+
+    var chart = new Chart(canvas, {
+      type: "scatter",
       data: {
-        labels: labels,
-        datasets: [{
-          label: canvas.dataset.metric || "Score",
-          data: values,
-          stepped: "before",          // step chart
-          borderColor: "#2563eb",
-          backgroundColor: "rgba(37,99,235,0.1)",
-          pointBackgroundColor: "#2563eb",
-          pointRadius: 6,
-          pointHoverRadius: 9,
-          tension: 0,
-          fill: false,
-          _pointData: pointData,      // custom field for hover sync
-        }],
+        datasets: [
+          {
+            label: "All results",
+            data: scatterData,
+            type: "scatter",
+            backgroundColor: "rgba(156,163,175,0.55)",
+            borderColor: "rgba(107,114,128,0.7)",
+            pointRadius: 4,
+            pointHoverRadius: 7,
+            order: 2,
+          },
+          {
+            label: "Record",
+            data: recordData,
+            type: "line",
+            stepped: "before",
+            borderColor: "#2563eb",
+            backgroundColor: "rgba(37,99,235,0.07)",
+            pointBackgroundColor: recordBg,
+            pointRadius: recordRadius,
+            pointHoverRadius: 10,
+            tension: 0,
+            fill: false,
+            order: 1,
+          },
+        ],
       },
       options: {
         responsive: true,
-        interaction: { mode: "nearest", axis: "x", intersect: false },
+        interaction: { mode: "nearest", intersect: true },
         plugins: {
           tooltip: {
             callbacks: {
               title: function (items) {
-                const idx = items[0].dataIndex;
-                const pd = pointData[idx];
-                return pd ? pd.model + " (" + (pd.date || "") + ")" : "";
+                var item = items[0];
+                var d = item.dataset.data[item.dataIndex];
+                if (!d || !d.model) return fmtTs(item.parsed.x);
+                return d.model + " (" + fmtTs(item.parsed.x) + ")";
               },
               label: function (item) {
-                const idx = item.dataIndex;
-                const pd = pointData[idx];
-                const stdStr = (pd && pd.std != null) ? " ± " + pd.std.toFixed(4) : "";
-                return item.formattedValue + stdStr;
+                var d = item.dataset.data[item.dataIndex];
+                var label = (canvas.dataset.metric || "Score") + ": " + item.formattedValue;
+                if (d && d.std != null) label += " ± " + d.std.toFixed(4);
+                return label;
               },
               afterLabel: function (item) {
-                const idx = item.dataIndex;
-                const pd = pointData[idx];
-                return pd ? "arXiv:" + (pd.arxiv_id || "") : "";
+                var d = item.dataset.data[item.dataIndex];
+                return d && d.arxiv_id ? "arXiv:" + d.arxiv_id : "";
               },
             },
           },
           legend: { display: false },
         },
         scales: {
-          x: { title: { display: true, text: "Date" } },
+          x: {
+            type: "linear",
+            min: xMinPad,
+            max: xMaxPad,
+            title: { display: true, text: "Date" },
+            ticks: {
+              maxTicksLimit: 10,
+              callback: fmtTs,
+            },
+          },
           y: {
             title: { display: true, text: canvas.dataset.metric || "Score" },
             ticks: { precision: 4 },
           },
         },
         onHover: function (event, elements) {
-          _onChartHover(slug, elements, pointData);
+          _onChartHover(slug, elements, recordData, scatterData);
         },
       },
+      plugins: [labelPlugin],
     });
 
     charts[slug] = chart;
   }
 
   /* ── Chart → Table hover sync ───────────────────────────────────────── */
-  function _onChartHover(slug, elements, pointData) {
+  function _onChartHover(slug, elements, recordData, scatterData) {
     // Remove all existing highlights
     document.querySelectorAll("tr.chart-hover-highlight").forEach(function (row) {
       row.classList.remove("chart-hover-highlight");
     });
 
     if (!elements.length) return;
-    const idx = elements[0].index;
-    const pd = pointData[idx];
+    var el = elements[0];
+    // datasetIndex 0 = scatter (all), 1 = records line
+    var data = el.datasetIndex === 1 ? recordData : scatterData;
+    var pd = data[el.index];
     if (!pd || !pd.arxiv_id) return;
 
     // Find matching row in the table for this variant
-    const tbody = document.querySelector(
+    var tbody = document.querySelector(
       ".leaderboard-section[data-variant='" + slug + "'] .result-table tbody"
     );
     if (!tbody) return;

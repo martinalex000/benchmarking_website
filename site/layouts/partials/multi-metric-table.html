@@ -47,6 +47,7 @@
         <td class="col-rank">{{ add $i 1 }}</td>
         <td class="col-model">
           {{ $r.model }}
+          {{ if $r.uses_external_data }}<span class="ext-data-badge" title="Uses external data during training">†ext</span>{{ end }}
           {{ if $r.is_overridden }}<span class="override-badge" title="{{ $r.override_reason }}">✎</span>{{ end }}
         </td>
         <td class="col-type">

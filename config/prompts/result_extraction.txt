@@ -29,6 +29,7 @@ Output schema:
       "value": <float>,
       "std": <float or null>,
       "higher_is_better": <true|false>,
+      "uses_external_data": <true|false|null>,
       "table_ref": "<e.g. Table 1, Table 3>",
       "source_ref": "<if baseline from another paper: Author Year; else 'this paper'>"
     }
@@ -43,6 +44,9 @@ Rules:
 - If a value appears bold (indicating best), still extract it normally; do not skip it.
 - Metric names: normalise to the most common abbreviation (Accuracy not Acc., MAE not mean abs. error).
 - higher_is_better: true for Accuracy/F1/AP/ROC-AUC/Hits@K; false for MAE/RMSE/loss.
+- uses_external_data: true if the model was pre-trained or fine-tuned on data not included in
+  the benchmark (e.g. large language model pre-training, external knowledge graphs, ImageNet
+  pre-training). false if only the benchmark training data is used. null if unclear.
 - If you cannot determine is_proposed for a row, set it to false (treat as baseline).
 - dataset: use the exact name from the paper (e.g. "Peptides-func", not "Peptides").
 - extraction_confidence: HIGH if tables are clean; MEDIUM if some values are unclear; LOW if major ambiguity.

@@ -29,7 +29,9 @@ variants:
     arxiv_id: '2309.00367'
     title: Where Did the Gap Go? Reassessing the Long-Range Graph Benchmark
     date: Sep 2023
+    date_iso: '2023-09-01'
     codebase_url: https://github.com/toenshoff/LRGB
+    uses_external_data: null
     metric_values:
     - 0.4703
     - null
@@ -48,7 +50,9 @@ variants:
     arxiv_id: '2309.00367'
     title: Where Did the Gap Go? Reassessing the Long-Range Graph Benchmark
     date: Sep 2023
+    date_iso: '2023-09-01'
     codebase_url: https://github.com/toenshoff/LRGB
+    uses_external_data: null
     metric_values:
     - 0.467
     - null
@@ -67,7 +71,9 @@ variants:
     arxiv_id: '2309.00367'
     title: Where Did the Gap Go? Reassessing the Long-Range Graph Benchmark
     date: Sep 2023
+    date_iso: '2023-09-01'
     codebase_url: https://github.com/toenshoff/LRGB
+    uses_external_data: null
     metric_values:
     - 0.4617
     - null
@@ -86,7 +92,9 @@ variants:
     arxiv_id: '2206.08164'
     title: Long Range Graph Benchmark
     date: Jun 2022
+    date_iso: '2022-06-16'
     codebase_url: https://github.com/vijaydwivedi75/lrgb
+    uses_external_data: null
     metric_values:
     - 0.335
     - 0.1355
@@ -105,7 +113,9 @@ variants:
     arxiv_id: '2206.08164'
     title: Long Range Graph Benchmark
     date: Jun 2022
+    date_iso: '2022-06-16'
     codebase_url: https://github.com/vijaydwivedi75/lrgb
+    uses_external_data: null
     metric_values:
     - 0.3341
     - 0.1312
@@ -124,7 +134,9 @@ variants:
     arxiv_id: '2206.08164'
     title: Long Range Graph Benchmark
     date: Jun 2022
+    date_iso: '2022-06-16'
     codebase_url: https://github.com/vijaydwivedi75/lrgb
+    uses_external_data: null
     metric_values:
     - 0.3242
     - 0.1288
@@ -143,7 +155,9 @@ variants:
     arxiv_id: '2206.08164'
     title: Long Range Graph Benchmark
     date: Jun 2022
+    date_iso: '2022-06-16'
     codebase_url: https://github.com/vijaydwivedi75/lrgb
+    uses_external_data: null
     metric_values:
     - 0.3234
     - 0.1321
@@ -162,7 +176,9 @@ variants:
     arxiv_id: '2206.08164'
     title: Long Range Graph Benchmark
     date: Jun 2022
+    date_iso: '2022-06-16'
     codebase_url: https://github.com/vijaydwivedi75/lrgb
+    uses_external_data: null
     metric_values:
     - 0.3218
     - 0.1279
@@ -181,7 +197,9 @@ variants:
     arxiv_id: '2206.08164'
     title: Long Range Graph Benchmark
     date: Jun 2022
+    date_iso: '2022-06-16'
     codebase_url: https://github.com/vijaydwivedi75/lrgb
+    uses_external_data: null
     metric_values:
     - 0.318
     - 0.1337
@@ -200,7 +218,9 @@ variants:
     arxiv_id: '2206.08164'
     title: Long Range Graph Benchmark
     date: Jun 2022
+    date_iso: '2022-06-16'
     codebase_url: https://github.com/vijaydwivedi75/lrgb
+    uses_external_data: null
     metric_values:
     - 0.3174
     - 0.1221
@@ -219,7 +239,9 @@ variants:
     arxiv_id: '2206.08164'
     title: Long Range Graph Benchmark
     date: Jun 2022
+    date_iso: '2022-06-16'
     codebase_url: https://github.com/vijaydwivedi75/lrgb
+    uses_external_data: null
     metric_values:
     - 0.3161
     - 0.1325

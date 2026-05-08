@@ -43,8 +43,27 @@ def init_db(db_path: str | None = None) -> Engine:
     cfg.ensure_dirs()
     _engine = _get_engine(db_path)
     Base.metadata.create_all(_engine)
+    _migrate_db(_engine)
     _SessionFactory = sessionmaker(bind=_engine, expire_on_commit=False)
     return _engine
+
+
+def _migrate_db(engine: Engine) -> None:
+    """Apply lightweight schema migrations for columns added after initial creation."""
+    _add_column_if_missing(engine, "results", "uses_external_data", "INTEGER")
+
+
+def _add_column_if_missing(engine: Engine, table: str, column: str, col_type: str) -> None:
+    with engine.connect() as conn:
+        existing = {
+            row[1]
+            for row in conn.execute(__import__("sqlalchemy").text(f"PRAGMA table_info({table})"))
+        }
+        if column not in existing:
+            conn.execute(
+                __import__("sqlalchemy").text(f"ALTER TABLE {table} ADD COLUMN {column} {col_type}")
+            )
+            conn.commit()
 
 
 def get_engine() -> Engine:

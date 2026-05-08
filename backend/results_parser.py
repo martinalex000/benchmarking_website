@@ -337,6 +337,11 @@ def parse_and_store(arxiv_id: str) -> int:
                 metric_std=std,
                 higher_is_better=entry.get("higher_is_better", True),
                 is_baseline=not entry.get("is_proposed", False),
+                uses_external_data=(
+                    1
+                    if entry.get("uses_external_data") is True
+                    else 0 if entry.get("uses_external_data") is False else None
+                ),
                 table_ref=entry.get("table_ref"),
                 source_ref=entry.get("source_ref", "this paper"),
                 extraction_model=model_name_used,
@@ -375,6 +380,9 @@ def _update_result(result: Result, entry: dict, model_name_used: str) -> None:
         result.metric_value = value
     if std is not None:
         result.metric_std = std
+    if "uses_external_data" in entry and result.uses_external_data is None:
+        ued = entry["uses_external_data"]
+        result.uses_external_data = 1 if ued is True else 0 if ued is False else None
     result.extraction_model = model_name_used
 
 

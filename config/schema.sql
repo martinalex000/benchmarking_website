@@ -125,6 +125,7 @@ CREATE TABLE IF NOT EXISTS results (
     table_ref           TEXT,               -- e.g. "Table 1"
     source_ref          TEXT,               -- "this paper" or "Author Year"
     extraction_model    TEXT,               -- model name used to extract this result
+    uses_external_data  INTEGER,            -- 1=yes, 0=no, NULL=unknown
     -- Human correction system
     is_problematic      INTEGER NOT NULL DEFAULT 0,  -- shown in grey on leaderboard
     problematic_reason  TEXT,
