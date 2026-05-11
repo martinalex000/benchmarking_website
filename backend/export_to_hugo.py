@@ -47,6 +47,41 @@ def _slug(name: str) -> str:
     return re.sub(r"[^a-z0-9]+", "-", name.strip().lower()).strip("-")
 
 
+def _mark_is_best(
+    rows: list[dict],
+    primary_metric_key: str,
+    higher_is_better: bool,
+    val_getter: callable,
+    std_getter: callable,
+) -> None:
+    """Mutate rows in-place adding is_best flag.
+
+    A row is "best" when its confidence interval overlaps with the top performer's CI,
+    using the heuristic: |best_val - row_val| <= best_std + row_std.
+    Rows with no value are never best.
+    """
+    best_val: float | None = None
+    best_std: float | None = None
+    for r in rows:
+        v = val_getter(r)
+        if v is not None:
+            best_val = v
+            best_std = std_getter(r)
+            break
+
+    for r in rows:
+        v = val_getter(r)
+        if v is None or best_val is None:
+            r["is_best"] = False
+            continue
+        s = std_getter(r) or 0.0
+        bs = best_std or 0.0
+        if higher_is_better:
+            r["is_best"] = v + s >= best_val - bs
+        else:
+            r["is_best"] = v - s <= best_val + bs
+
+
 def _fmt_date(date_str: str | None) -> str:
     """Format a YYYY-MM-DD date string as 'Mon YYYY' (e.g. 'Jun 2022'). Returns '' on failure."""
     if not date_str:
@@ -121,6 +156,14 @@ def _pivot_paper_rows(rows: list[dict], primary_metric: str | None) -> dict:
             }
         )
 
+    _mark_is_best(
+        pivoted,
+        primary_metric or "",
+        higher,
+        lambda r: (r["metric_values"][0] if r["metric_values"] else None),
+        lambda r: (r["metric_stds"][0] if r["metric_stds"] else None),
+    )
+
     return {"rows": pivoted, "metrics": seen_metrics, "primary_metric": primary_metric}
 
 
@@ -191,12 +234,28 @@ def export_paper(arxiv_id: str) -> bool:
                     }
                 )
             else:
+                higher = meta["higher_is_better"]
+
+                def _row_sort_key(r: dict) -> tuple:
+                    v = r.get("value")
+                    if v is None:
+                        return (1, 0.0)
+                    return (0, -float(v) if higher else float(v))
+
+                rows.sort(key=_row_sort_key)
+                _mark_is_best(
+                    rows,
+                    meta["metric"],
+                    higher,
+                    lambda r: r.get("value"),
+                    lambda r: r.get("std"),
+                )
                 results_for_fm.append(
                     {
                         "dataset": ds,
                         "rows": rows,
                         "metric": meta["metric"],
-                        "higher_is_better": meta["higher_is_better"],
+                        "higher_is_better": higher,
                     }
                 )
 
@@ -298,6 +357,14 @@ def _build_multi_metric_rows(
 
     sorted_groups = sorted(groups.values(), key=_sort_key)
 
+    _mark_is_best(
+        sorted_groups,
+        primary_metric,
+        hib,
+        lambda g: g["_vals"].get(primary_metric, (None, None))[0],
+        lambda g: g["_vals"].get(primary_metric, (None, None))[1],
+    )
+
     rows: list[dict] = []
     for g in sorted_groups:
         metric_values = []
@@ -309,7 +376,7 @@ def _build_multi_metric_rows(
         row = {k: v for k, v in g.items() if k != "_vals"}
         row["metric_values"] = metric_values
         row["metric_stds"] = metric_stds
-        rows.append(row)
+        rows.append(row)  # is_best already set by _mark_is_best above
 
     return metrics_ordered, hib, rows
 
@@ -382,6 +449,23 @@ def export_dataset(dataset_id: int) -> bool:
         if not variant_data:
             return False
 
+        # Compute overview stats from the standard (or first) variant
+        std_vd = next((v for v in variant_data if v["is_standard"]), variant_data[0])
+        result_count = len(std_vd["rows"])
+        best_row = std_vd["rows"][0] if std_vd["rows"] else None
+        best_model_info: dict | None = None
+        if best_row:
+            primary_val = (
+                best_row["metric_values"][0]
+                if best_row.get("metric_values")
+                else best_row.get("value")
+            )
+            best_model_info = {
+                "model": best_row["model"],
+                "value": primary_val,
+                "metric": std_vd["primary_metric"],
+            }
+
         benchmark_name = ds.benchmark.name if ds.benchmark else ""
         front_matter: dict[str, Any] = {
             "title": ds.name,
@@ -405,6 +489,8 @@ def export_dataset(dataset_id: int) -> bool:
                 )
                 else None
             ),
+            "result_count": result_count,
+            "best_model": best_model_info,
             "variants": variant_data,
         }
 

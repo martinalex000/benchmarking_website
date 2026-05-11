@@ -20,28 +20,6 @@ extraction_model: glm-4.7
 results:
 - dataset: COCO-SP
   rows:
-  - model: GCN
-    value: 0.2922
-    std: 0.0018
-    metric: F1
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: 0.496
-    table_ref: Table 2a
-    source_ref: this paper
-  - model: GINE
-    value: 0.2125
-    std: 0.0009
-    metric: F1
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: 0.505
-    table_ref: Table 2a
-    source_ref: this paper
   - model: GPS
     value: 0.3884
     std: 0.0055
@@ -53,6 +31,7 @@ results:
     params_millions: 0.5
     table_ref: Table 2a
     source_ref: this paper
+    is_best: true
   - model: Exphormer
     value: 0.343
     std: 0.0008
@@ -64,32 +43,35 @@ results:
     params_millions: null
     table_ref: Table 2a
     source_ref: Shirzad et al. 2023
-  metric: F1
-  higher_is_better: true
-- dataset: PCQM-Contact
-  rows:
+    is_best: false
   - model: GCN
-    value: 0.467
-    std: 0.0004
-    metric: MRR
+    value: 0.2922
+    std: 0.0018
+    metric: F1
     higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: 0.496
-    table_ref: Figure 3
+    table_ref: Table 2a
     source_ref: this paper
+    is_best: false
   - model: GINE
-    value: 0.4617
-    std: 0.0005
-    metric: MRR
+    value: 0.2125
+    std: 0.0009
+    metric: F1
     higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: 0.505
-    table_ref: Figure 3
+    table_ref: Table 2a
     source_ref: this paper
+    is_best: false
+  metric: F1
+  higher_is_better: true
+- dataset: PCQM-Contact
+  rows:
   - model: GPS
     value: 0.4703
     std: 0.0014
@@ -101,43 +83,35 @@ results:
     params_millions: 0.5
     table_ref: Figure 3
     source_ref: this paper
-  metric: MRR
-  higher_is_better: true
-- dataset: PascalVOC-SP
-  rows:
+    is_best: true
   - model: GCN
-    value: 0.388
-    std: 0.004
-    metric: F1
+    value: 0.467
+    std: 0.0004
+    metric: MRR
     higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: 0.496
-    table_ref: Table 2a
+    table_ref: Figure 3
     source_ref: this paper
+    is_best: false
   - model: GINE
-    value: 0.2718
-    std: 0.0054
-    metric: F1
+    value: 0.4617
+    std: 0.0005
+    metric: MRR
     higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: 0.505
-    table_ref: Table 2a
+    table_ref: Figure 3
     source_ref: this paper
-  - model: GPS
-    value: 0.444
-    std: 0.0065
-    metric: F1
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: 0.5
-    table_ref: Table 2a
-    source_ref: this paper
+    is_best: false
+  metric: MRR
+  higher_is_better: true
+- dataset: PascalVOC-SP
+  rows:
   - model: CRAWL
     value: 0.4588
     std: 0.0079
@@ -149,17 +123,19 @@ results:
     params_millions: null
     table_ref: Table 2a
     source_ref: Tönshoff et al. 2021
-  - model: DREW
-    value: 0.3314
-    std: 0.0024
+    is_best: true
+  - model: GPS
+    value: 0.444
+    std: 0.0065
     metric: F1
     higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: null
+    params_millions: 0.5
     table_ref: Table 2a
-    source_ref: Gutteridge et al. 2023
+    source_ref: this paper
+    is_best: false
   - model: Exphormer
     value: 0.396
     std: 0.0027
@@ -171,54 +147,47 @@ results:
     params_millions: null
     table_ref: Table 2a
     source_ref: Shirzad et al. 2023
-  metric: F1
-  higher_is_better: true
-- dataset: Peptides-func
-  rows:
+    is_best: false
   - model: GCN
-    value: 0.6765
-    std: 0.0047
-    metric: AP
+    value: 0.388
+    std: 0.004
+    metric: F1
     higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: 0.496
-    table_ref: Table 1a
+    table_ref: Table 2a
     source_ref: this paper
-  - model: GINE
-    value: 0.6621
-    std: 0.0067
-    metric: AP
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: 0.505
-    table_ref: Table 1a
-    source_ref: this paper
-  - model: GPS
-    value: 0.6534
-    std: 0.0091
-    metric: AP
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: 0.5
-    table_ref: Table 1a
-    source_ref: this paper
-  - model: CRAWL
-    value: 0.7074
-    std: 0.0032
-    metric: AP
+    is_best: false
+  - model: DREW
+    value: 0.3314
+    std: 0.0024
+    metric: F1
     higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    table_ref: Table 1a
-    source_ref: Tönshoff et al. 2021
+    table_ref: Table 2a
+    source_ref: Gutteridge et al. 2023
+    is_best: false
+  - model: GINE
+    value: 0.2718
+    std: 0.0054
+    metric: F1
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.505
+    table_ref: Table 2a
+    source_ref: this paper
+    is_best: false
+  metric: F1
+  higher_is_better: true
+- dataset: Peptides-func
+  rows:
   - model: DREW
     value: 0.715
     std: 0.0044
@@ -230,9 +199,10 @@ results:
     params_millions: null
     table_ref: Table 1a
     source_ref: Gutteridge et al. 2023
-  - model: Exphormer
-    value: 0.6527
-    std: 0.0043
+    is_best: true
+  - model: CRAWL
+    value: 0.7074
+    std: 0.0032
     metric: AP
     higher_is_better: true
     is_baseline: true
@@ -240,7 +210,8 @@ results:
     override_reason: ''
     params_millions: null
     table_ref: Table 1a
-    source_ref: Shirzad et al. 2023
+    source_ref: Tönshoff et al. 2021
+    is_best: true
   - model: GRIT
     value: 0.6988
     std: 0.0082
@@ -252,6 +223,7 @@ results:
     params_millions: null
     table_ref: Table 1a
     source_ref: Ma et al. 2023
+    is_best: false
   - model: Graph ViT
     value: 0.6942
     std: 0.0075
@@ -263,6 +235,7 @@ results:
     params_millions: null
     table_ref: Table 1a
     source_ref: He et al. 2023
+    is_best: false
   - model: G-MLPMixer
     value: 0.6921
     std: 0.0054
@@ -274,87 +247,59 @@ results:
     params_millions: null
     table_ref: Table 1a
     source_ref: He et al. 2023
-  metric: AP
-  higher_is_better: true
-- dataset: Peptides-struct
-  rows:
+    is_best: false
   - model: GCN
-    value: 0.2477
-    std: 0.0009
-    metric: MAE
-    higher_is_better: false
+    value: 0.6765
+    std: 0.0047
+    metric: AP
+    higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: 0.496
     table_ref: Table 1a
     source_ref: this paper
+    is_best: false
   - model: GINE
-    value: 0.2473
-    std: 0.0017
-    metric: MAE
-    higher_is_better: false
+    value: 0.6621
+    std: 0.0067
+    metric: AP
+    higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: 0.505
     table_ref: Table 1a
     source_ref: this paper
+    is_best: false
   - model: GPS
-    value: 0.2509
-    std: 0.0014
-    metric: MAE
-    higher_is_better: false
+    value: 0.6534
+    std: 0.0091
+    metric: AP
+    higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: 0.5
     table_ref: Table 1a
     source_ref: this paper
-  - model: CRAWL
-    value: 0.2506
-    std: 0.0022
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1a
-    source_ref: Tönshoff et al. 2021
-  - model: DREW
-    value: 0.2536
-    std: 0.0015
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1a
-    source_ref: Gutteridge et al. 2023
+    is_best: false
   - model: Exphormer
-    value: 0.2481
-    std: 0.0007
-    metric: MAE
-    higher_is_better: false
+    value: 0.6527
+    std: 0.0043
+    metric: AP
+    higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
     table_ref: Table 1a
     source_ref: Shirzad et al. 2023
-  - model: GRIT
-    value: 0.246
-    std: 0.0012
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1a
-    source_ref: Ma et al. 2023
+    is_best: false
+  metric: AP
+  higher_is_better: true
+- dataset: Peptides-struct
+  rows:
   - model: Graph ViT
     value: 0.2449
     std: 0.0016
@@ -366,6 +311,31 @@ results:
     params_millions: null
     table_ref: Table 1a
     source_ref: He et al. 2023
+    is_best: true
+  - model: GRIT
+    value: 0.246
+    std: 0.0012
+    metric: MAE
+    higher_is_better: false
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1a
+    source_ref: Ma et al. 2023
+    is_best: true
+  - model: GINE
+    value: 0.2473
+    std: 0.0017
+    metric: MAE
+    higher_is_better: false
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.505
+    table_ref: Table 1a
+    source_ref: this paper
+    is_best: true
   - model: G-MLPMixer
     value: 0.2475
     std: 0.0015
@@ -377,6 +347,67 @@ results:
     params_millions: null
     table_ref: Table 1a
     source_ref: He et al. 2023
+    is_best: true
+  - model: GCN
+    value: 0.2477
+    std: 0.0009
+    metric: MAE
+    higher_is_better: false
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.496
+    table_ref: Table 1a
+    source_ref: this paper
+    is_best: false
+  - model: Exphormer
+    value: 0.2481
+    std: 0.0007
+    metric: MAE
+    higher_is_better: false
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1a
+    source_ref: Shirzad et al. 2023
+    is_best: false
+  - model: CRAWL
+    value: 0.2506
+    std: 0.0022
+    metric: MAE
+    higher_is_better: false
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1a
+    source_ref: Tönshoff et al. 2021
+    is_best: false
+  - model: GPS
+    value: 0.2509
+    std: 0.0014
+    metric: MAE
+    higher_is_better: false
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.5
+    table_ref: Table 1a
+    source_ref: this paper
+    is_best: false
+  - model: DREW
+    value: 0.2536
+    std: 0.0015
+    metric: MAE
+    higher_is_better: false
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1a
+    source_ref: Gutteridge et al. 2023
+    is_best: false
   metric: MAE
   higher_is_better: false
 main_figure: /figures/2309.00367/main_figure.png

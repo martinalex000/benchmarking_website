@@ -12,6 +12,11 @@ stats:
   avg_nodes: 150.94
   avg_edges: 307.3
   num_classes: 10
+result_count: 24
+best_model:
+  model: DREW
+  value: 0.715
+  metric: AP
 variants:
 - slug: standard-split
   name: Standard split
@@ -33,6 +38,7 @@ variants:
     date_iso: '2023-09-01'
     codebase_url: https://github.com/toenshoff/LRGB
     uses_external_data: null
+    is_best: true
     metric_values:
     - 0.715
     metric_stds:
@@ -48,6 +54,7 @@ variants:
     date_iso: '2023-09-01'
     codebase_url: https://github.com/toenshoff/LRGB
     uses_external_data: null
+    is_best: true
     metric_values:
     - 0.7074
     metric_stds:
@@ -63,10 +70,45 @@ variants:
     date_iso: '2023-09-01'
     codebase_url: https://github.com/toenshoff/LRGB
     uses_external_data: null
+    is_best: false
     metric_values:
     - 0.6988
     metric_stds:
     - 0.0082
+  - model: GRIT
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2405.16435'
+    title: 'Node Identifiers: Compact, Discrete Representations for Efficient Graph
+      Learning'
+    date: May 2024
+    date_iso: '2024-05-26'
+    codebase_url: https://github.com/LUOyk1999/NodeID
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - 0.6988
+    metric_stds:
+    - 0.0082
+  - model: Graph ViT
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2405.16435'
+    title: 'Node Identifiers: Compact, Discrete Representations for Efficient Graph
+      Learning'
+    date: May 2024
+    date_iso: '2024-05-26'
+    codebase_url: https://github.com/LUOyk1999/NodeID
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - 0.697
+    metric_stds:
+    - 0.008
   - model: Graph ViT
     is_baseline: true
     is_overridden: false
@@ -78,6 +120,7 @@ variants:
     date_iso: '2023-09-01'
     codebase_url: https://github.com/toenshoff/LRGB
     uses_external_data: null
+    is_best: false
     metric_values:
     - 0.6942
     metric_stds:
@@ -93,6 +136,7 @@ variants:
     date_iso: '2023-09-01'
     codebase_url: https://github.com/toenshoff/LRGB
     uses_external_data: null
+    is_best: false
     metric_values:
     - 0.6921
     metric_stds:
@@ -108,10 +152,28 @@ variants:
     date_iso: '2023-09-01'
     codebase_url: https://github.com/toenshoff/LRGB
     uses_external_data: null
+    is_best: false
     metric_values:
     - 0.6765
     metric_stds:
     - 0.0047
+  - model: GCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.496
+    arxiv_id: '2405.16435'
+    title: 'Node Identifiers: Compact, Discrete Representations for Efficient Graph
+      Learning'
+    date: May 2024
+    date_iso: '2024-05-26'
+    codebase_url: https://github.com/LUOyk1999/NodeID
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - 0.6762
+    metric_stds:
+    - 0.0053
   - model: GINE
     is_baseline: true
     is_overridden: false
@@ -123,10 +185,45 @@ variants:
     date_iso: '2023-09-01'
     codebase_url: https://github.com/toenshoff/LRGB
     uses_external_data: null
+    is_best: false
     metric_values:
     - 0.6621
     metric_stds:
     - 0.0067
+  - model: NID_GCN
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2405.16435'
+    title: 'Node Identifiers: Compact, Discrete Representations for Efficient Graph
+      Learning'
+    date: May 2024
+    date_iso: '2024-05-26'
+    codebase_url: https://github.com/LUOyk1999/NodeID
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - 0.6608
+    metric_stds:
+    - 0.0058
+  - model: GraphGPS
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2405.16435'
+    title: 'Node Identifiers: Compact, Discrete Representations for Efficient Graph
+      Learning'
+    date: May 2024
+    date_iso: '2024-05-26'
+    codebase_url: https://github.com/LUOyk1999/NodeID
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - 0.6535
+    metric_stds:
+    - 0.0041
   - model: GPS
     is_baseline: true
     is_overridden: false
@@ -138,6 +235,7 @@ variants:
     date_iso: '2023-09-01'
     codebase_url: https://github.com/toenshoff/LRGB
     uses_external_data: null
+    is_best: false
     metric_values:
     - 0.6534
     metric_stds:
@@ -153,6 +251,24 @@ variants:
     date_iso: '2023-09-01'
     codebase_url: https://github.com/toenshoff/LRGB
     uses_external_data: null
+    is_best: false
+    metric_values:
+    - 0.6527
+    metric_stds:
+    - 0.0043
+  - model: Exphormer
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2405.16435'
+    title: 'Node Identifiers: Compact, Discrete Representations for Efficient Graph
+      Learning'
+    date: May 2024
+    date_iso: '2024-05-26'
+    codebase_url: https://github.com/LUOyk1999/NodeID
+    uses_external_data: null
+    is_best: false
     metric_values:
     - 0.6527
     metric_stds:
@@ -168,6 +284,7 @@ variants:
     date_iso: '2022-06-16'
     codebase_url: https://github.com/vijaydwivedi75/lrgb
     uses_external_data: null
+    is_best: false
     metric_values:
     - 0.6439
     metric_stds:
@@ -183,6 +300,7 @@ variants:
     date_iso: '2022-06-16'
     codebase_url: https://github.com/vijaydwivedi75/lrgb
     uses_external_data: null
+    is_best: false
     metric_values:
     - 0.6384
     metric_stds:
@@ -198,6 +316,24 @@ variants:
     date_iso: '2022-06-16'
     codebase_url: https://github.com/vijaydwivedi75/lrgb
     uses_external_data: null
+    is_best: false
+    metric_values:
+    - 0.6326
+    metric_stds:
+    - 0.0126
+  - model: GT
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2405.16435'
+    title: 'Node Identifiers: Compact, Discrete Representations for Efficient Graph
+      Learning'
+    date: May 2024
+    date_iso: '2024-05-26'
+    codebase_url: https://github.com/LUOyk1999/NodeID
+    uses_external_data: null
+    is_best: false
     metric_values:
     - 0.6326
     metric_stds:
@@ -213,6 +349,7 @@ variants:
     date_iso: '2022-06-16'
     codebase_url: https://github.com/vijaydwivedi75/lrgb
     uses_external_data: null
+    is_best: false
     metric_values:
     - 0.6069
     metric_stds:
@@ -228,6 +365,7 @@ variants:
     date_iso: '2022-06-16'
     codebase_url: https://github.com/vijaydwivedi75/lrgb
     uses_external_data: null
+    is_best: false
     metric_values:
     - 0.593
     metric_stds:
@@ -243,6 +381,7 @@ variants:
     date_iso: '2022-06-16'
     codebase_url: https://github.com/vijaydwivedi75/lrgb
     uses_external_data: null
+    is_best: false
     metric_values:
     - 0.5864
     metric_stds:
@@ -258,6 +397,7 @@ variants:
     date_iso: '2022-06-16'
     codebase_url: https://github.com/vijaydwivedi75/lrgb
     uses_external_data: null
+    is_best: false
     metric_values:
     - 0.5543
     metric_stds:
@@ -273,6 +413,7 @@ variants:
     date_iso: '2022-06-16'
     codebase_url: https://github.com/vijaydwivedi75/lrgb
     uses_external_data: null
+    is_best: false
     metric_values:
     - 0.5498
     metric_stds:

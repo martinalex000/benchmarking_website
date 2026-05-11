@@ -45,8 +45,16 @@
       <div class="paper-meta">
         {{ with .Params.task_type }}<span class="badge">{{ replace . "_" " " }}</span>{{ end }}
         {{ with $page.Params.primary_metric }}<span class="badge">{{ . }}{{ if $page.Params.higher_is_better }} ↑{{ else }} ↓{{ end }}</span>{{ end }}
+        {{ with .Params.result_count }}<span class="badge muted">{{ . }} results</span>{{ end }}
       </div>
       {{ with .Params.description }}<p>{{ . }}</p>{{ end }}
+      {{ with .Params.best_model }}
+      <p class="dataset-card-best">
+        <span class="best-label">Best:</span>
+        <strong>{{ .model }}</strong>
+        <span class="best-value">{{ printf "%.4f" .value }} {{ $page.Params.primary_metric }}</span>
+      </p>
+      {{ end }}
     </div>
     {{ end }}
     {{ end }}

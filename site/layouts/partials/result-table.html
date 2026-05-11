@@ -1,16 +1,14 @@
 {{/*
   Partial: result-table.html
   Context dict keys:
-    .results         – list of result objects (model, value, std, is_baseline, arxiv_id, etc.)
+    .results         – list of result objects (model, value, std, is_baseline, is_best, arxiv_id, etc.)
     .metric          – metric name string
     .higher_is_better – bool (true = ↑, false = ↓)
-    .show_std        – bool
     .dataset_variant – variant slug (for data- attrs used by JS)
     .hide_meta_cols  – bool: when true, hide Paper/Code/Date columns (paper context)
 */}}
 {{ $results := .results }}
 {{ $metric  := .metric }}
-{{ $showStd := .show_std }}
 {{ $slug    := .dataset_variant }}
 {{ $hib     := .higher_is_better }}
 {{ $hideMeta := .hide_meta_cols }}
@@ -24,7 +22,6 @@
         <th class="col-model sortable-col" data-col="model">Model</th>
         <th class="col-type">Type</th>
         <th class="col-value sortable-col" data-col="value">{{ $metric }}{{ if $hib }} ↑{{ else }} ↓{{ end }}</th>
-        {{ if $showStd }}<th class="col-std">±Std</th>{{ end }}
         <th class="col-params sortable-col" data-col="params">Params</th>
         {{ if not $hideMeta }}<th class="col-paper">Paper</th>{{ end }}
         {{ if not $hideMeta }}<th class="col-code">Code</th>{{ end }}
@@ -33,7 +30,7 @@
     </thead>
     <tbody>
       {{ range $i, $r := $results }}
-      <tr class="result-row {{ if $r.is_baseline }}row-baseline{{ else }}row-proposed{{ end }} {{ if $r.is_overridden }}row-overridden{{ end }}"
+      <tr class="result-row {{ if $r.is_baseline }}row-baseline{{ else }}row-proposed{{ end }} {{ if $r.is_overridden }}row-overridden{{ end }}{{ if $r.is_best }} row-best{{ end }}"
           data-model="{{ $r.model }}"
           data-value="{{ $r.value }}"
           data-std="{{ $r.std }}"
@@ -48,10 +45,10 @@
         <td class="col-type">
           {{ if $r.is_baseline }}<span class="tag-baseline">baseline</span>{{ else }}<span class="tag-proposed">★ proposed</span>{{ end }}
         </td>
-        <td class="col-value">{{ printf "%.4f" $r.value }}</td>
-        {{ if $showStd }}
-        <td class="col-std">{{ if $r.std }}{{ printf "%.4f" $r.std }}{{ else }}—{{ end }}</td>
-        {{ end }}
+        <td class="col-value">
+          {{- printf "%.4f" $r.value -}}
+          {{- if $r.std }} <span class="inline-std">±{{ printf "%.4f" $r.std }}</span>{{ end -}}
+        </td>
         <td class="col-params">{{ if $r.params_millions }}{{ printf "%.1f" $r.params_millions }}M{{ else }}—{{ end }}</td>
         {{ if not $hideMeta }}
         <td class="col-paper">

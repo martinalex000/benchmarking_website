@@ -68,7 +68,7 @@
     "slug": "graphbench",
     "description": "GraphBench — a comprehensive graph learning benchmark covering diverse graph types and tasks.\n",
     "arxiv_id": "2512.04475",
-    "paper_title": "GraphBench",
+    "paper_title": "GraphBench: Next-generation graph learning benchmarking",
     "datasets": []
   },
   {

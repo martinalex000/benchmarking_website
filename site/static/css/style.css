@@ -173,3 +173,13 @@ tr.chart-hover-highlight { background: #fef9c3 !important; outline: 2px solid va
 .stat-item { display: flex; flex-direction: column; align-items: center; background: var(--gray-100); border-radius: var(--radius); padding: 0.6rem 1.1rem; min-width: 90px; }
 .stat-value { font-size: 1.3rem; font-weight: 700; color: var(--blue-600, #2563eb); line-height: 1.2; }
 .stat-label { font-size: 0.75rem; color: var(--gray-600); text-transform: uppercase; letter-spacing: 0.04em; margin-top: 2px; }
+
+/* Best-row highlighting */
+tr.row-best td { background: #fefce8; }
+tr.row-best td.col-value { font-weight: 700; }
+.inline-std { font-size: 0.82em; color: var(--gray-600); font-weight: 400; }
+
+/* Dataset card best-result line */
+.dataset-card-best { margin: 0.5rem 0 0; font-size: 0.875rem; color: var(--gray-600); }
+.best-label { font-weight: 600; color: var(--gray-800); margin-right: 0.25rem; }
+.best-value { color: var(--gray-600); margin-left: 0.25rem; }

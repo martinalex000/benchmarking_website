@@ -12,6 +12,11 @@ stats:
   avg_nodes: 30.14
   avg_edges: 61.09
   num_classes: 1
+result_count: 11
+best_model:
+  model: GPS
+  value: 0.4703
+  metric: MRR
 variants:
 - slug: standard-split
   name: Standard split
@@ -37,6 +42,7 @@ variants:
     date_iso: '2023-09-01'
     codebase_url: https://github.com/toenshoff/LRGB
     uses_external_data: null
+    is_best: true
     metric_values:
     - 0.4703
     - null
@@ -58,6 +64,7 @@ variants:
     date_iso: '2023-09-01'
     codebase_url: https://github.com/toenshoff/LRGB
     uses_external_data: null
+    is_best: false
     metric_values:
     - 0.467
     - null
@@ -79,6 +86,7 @@ variants:
     date_iso: '2023-09-01'
     codebase_url: https://github.com/toenshoff/LRGB
     uses_external_data: null
+    is_best: false
     metric_values:
     - 0.4617
     - null
@@ -100,6 +108,7 @@ variants:
     date_iso: '2022-06-16'
     codebase_url: https://github.com/vijaydwivedi75/lrgb
     uses_external_data: null
+    is_best: false
     metric_values:
     - 0.335
     - 0.1355
@@ -121,6 +130,7 @@ variants:
     date_iso: '2022-06-16'
     codebase_url: https://github.com/vijaydwivedi75/lrgb
     uses_external_data: null
+    is_best: false
     metric_values:
     - 0.3341
     - 0.1312
@@ -142,6 +152,7 @@ variants:
     date_iso: '2022-06-16'
     codebase_url: https://github.com/vijaydwivedi75/lrgb
     uses_external_data: null
+    is_best: false
     metric_values:
     - 0.3242
     - 0.1288
@@ -163,6 +174,7 @@ variants:
     date_iso: '2022-06-16'
     codebase_url: https://github.com/vijaydwivedi75/lrgb
     uses_external_data: null
+    is_best: false
     metric_values:
     - 0.3234
     - 0.1321
@@ -184,6 +196,7 @@ variants:
     date_iso: '2022-06-16'
     codebase_url: https://github.com/vijaydwivedi75/lrgb
     uses_external_data: null
+    is_best: false
     metric_values:
     - 0.3218
     - 0.1279
@@ -205,6 +218,7 @@ variants:
     date_iso: '2022-06-16'
     codebase_url: https://github.com/vijaydwivedi75/lrgb
     uses_external_data: null
+    is_best: false
     metric_values:
     - 0.318
     - 0.1337
@@ -226,6 +240,7 @@ variants:
     date_iso: '2022-06-16'
     codebase_url: https://github.com/vijaydwivedi75/lrgb
     uses_external_data: null
+    is_best: false
     metric_values:
     - 0.3174
     - 0.1221
@@ -247,6 +262,7 @@ variants:
     date_iso: '2022-06-16'
     codebase_url: https://github.com/vijaydwivedi75/lrgb
     uses_external_data: null
+    is_best: false
     metric_values:
     - 0.3161
     - 0.1325

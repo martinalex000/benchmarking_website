@@ -40,7 +40,7 @@
     <tbody>
       {{ range $i, $r := $rows }}
       {{ $primary_val := index $r.metric_values 0 }}
-      <tr class="result-row {{ if $r.is_baseline }}row-baseline{{ else }}row-proposed{{ end }} {{ if $r.is_overridden }}row-overridden{{ end }}"
+      <tr class="result-row {{ if $r.is_baseline }}row-baseline{{ else }}row-proposed{{ end }} {{ if $r.is_overridden }}row-overridden{{ end }}{{ if $r.is_best }} row-best{{ end }}"
           data-model="{{ $r.model }}"
           data-value="{{ $primary_val }}"
           data-params="{{ $r.params_millions }}"

@@ -25,72 +25,6 @@ extraction_model: glm-4.7
 results:
 - dataset: COCO-SP
   rows:
-  - model: GCN
-    value: 0.0841
-    std: 0.001
-    metric: F1
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: 0.496
-    table_ref: Table 3
-    source_ref: this paper
-  - model: GINE
-    value: 0.1339
-    std: 0.0044
-    metric: F1
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: 0.505
-    table_ref: Table 3
-    source_ref: this paper
-  - model: Transformer+LapPE
-    value: 0.2618
-    std: 0.0031
-    metric: F1
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: 0.501
-    table_ref: Table 3
-    source_ref: this paper
-  - model: SAN+LapPE
-    value: 0.2592
-    std: 0.0158
-    metric: F1
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: 0.531
-    table_ref: Table 3
-    source_ref: this paper
-  - model: SAN+RWSE
-    value: 0.2434
-    std: 0.0156
-    metric: F1
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: 0.468
-    table_ref: Table 3
-    source_ref: this paper
-  - model: GCNII
-    value: 0.1404
-    std: 0.0011
-    metric: F1
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: 0.492
-    table_ref: Table 3
-    source_ref: this paper
   - model: GatedGCN
     value: 0.2641
     std: 0.0045
@@ -102,6 +36,31 @@ results:
     params_millions: 0.502
     table_ref: Table 3
     source_ref: this paper
+    is_best: true
+  - model: Transformer+LapPE
+    value: 0.2618
+    std: 0.0031
+    metric: F1
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.501
+    table_ref: Table 3
+    source_ref: this paper
+    is_best: true
+  - model: SAN+LapPE
+    value: 0.2592
+    std: 0.0158
+    metric: F1
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.531
+    table_ref: Table 3
+    source_ref: this paper
+    is_best: true
   - model: GatedGCN+LapPE
     value: 0.2574
     std: 0.0034
@@ -113,6 +72,55 @@ results:
     params_millions: 0.502
     table_ref: Table 3
     source_ref: this paper
+    is_best: true
+  - model: SAN+RWSE
+    value: 0.2434
+    std: 0.0156
+    metric: F1
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.468
+    table_ref: Table 3
+    source_ref: this paper
+    is_best: false
+  - model: GCNII
+    value: 0.1404
+    std: 0.0011
+    metric: F1
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.492
+    table_ref: Table 3
+    source_ref: this paper
+    is_best: false
+  - model: GINE
+    value: 0.1339
+    std: 0.0044
+    metric: F1
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.505
+    table_ref: Table 3
+    source_ref: this paper
+    is_best: false
+  - model: GCN
+    value: 0.0841
+    std: 0.001
+    metric: F1
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.496
+    table_ref: Table 3
+    source_ref: this paper
+    is_best: false
   metric: F1
   higher_is_better: true
 - dataset: PCQM-Contact
@@ -133,6 +141,7 @@ results:
     is_overridden: false
     override_reason: ''
     params_millions: 0.531
+    is_best: true
   - model: SAN+RWSE
     metric_values:
     - 0.3341
@@ -148,6 +157,7 @@ results:
     is_overridden: false
     override_reason: ''
     params_millions: 0.468
+    is_best: true
   - model: GatedGCN+RWSE
     metric_values:
     - 0.3242
@@ -163,6 +173,7 @@ results:
     is_overridden: false
     override_reason: ''
     params_millions: 0.506
+    is_best: false
   - model: GCN
     metric_values:
     - 0.3234
@@ -178,6 +189,7 @@ results:
     is_overridden: false
     override_reason: ''
     params_millions: 0.496
+    is_best: false
   - model: GatedGCN
     metric_values:
     - 0.3218
@@ -193,6 +205,7 @@ results:
     is_overridden: false
     override_reason: ''
     params_millions: 0.502
+    is_best: false
   - model: GINE
     metric_values:
     - 0.318
@@ -208,6 +221,7 @@ results:
     is_overridden: false
     override_reason: ''
     params_millions: 0.505
+    is_best: false
   - model: Transformer+LapPE
     metric_values:
     - 0.3174
@@ -223,6 +237,7 @@ results:
     is_overridden: false
     override_reason: ''
     params_millions: 0.501
+    is_best: false
   - model: GCNII
     metric_values:
     - 0.3161
@@ -238,6 +253,7 @@ results:
     is_overridden: false
     override_reason: ''
     params_millions: 0.492
+    is_best: false
   metrics:
   - MRR
   - Hits@1
@@ -247,39 +263,6 @@ results:
   higher_is_better: true
 - dataset: PascalVOC-SP
   rows:
-  - model: GCN
-    value: 0.1268
-    std: 0.006
-    metric: F1
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: 0.496
-    table_ref: Table 3
-    source_ref: this paper
-  - model: GINE
-    value: 0.1265
-    std: 0.0076
-    metric: F1
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: 0.505
-    table_ref: Table 3
-    source_ref: this paper
-  - model: Transformer+LapPE
-    value: 0.2694
-    std: 0.0098
-    metric: F1
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: 0.501
-    table_ref: Table 3
-    source_ref: this paper
   - model: SAN+LapPE
     value: 0.323
     std: 0.0039
@@ -291,6 +274,7 @@ results:
     params_millions: 0.531
     table_ref: Table 3
     source_ref: this paper
+    is_best: true
   - model: SAN+RWSE
     value: 0.3216
     std: 0.0027
@@ -302,17 +286,7 @@ results:
     params_millions: 0.468
     table_ref: Table 3
     source_ref: this paper
-  - model: GCNII
-    value: 0.1698
-    std: 0.008
-    metric: F1
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: 0.492
-    table_ref: Table 3
-    source_ref: this paper
+    is_best: true
   - model: GatedGCN
     value: 0.2873
     std: 0.0219
@@ -324,6 +298,7 @@ results:
     params_millions: 0.502
     table_ref: Table 3
     source_ref: this paper
+    is_best: false
   - model: GatedGCN+LapPE
     value: 0.286
     std: 0.0085
@@ -335,54 +310,59 @@ results:
     params_millions: 0.502
     table_ref: Table 3
     source_ref: this paper
-  metric: F1
-  higher_is_better: true
-- dataset: Peptides-func
-  rows:
-  - model: GCN
-    value: 0.593
-    std: 0.0023
-    metric: AP
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: 0.496
-    table_ref: Table 4
-    source_ref: this paper
-  - model: GINE
-    value: 0.5498
-    std: 0.0079
-    metric: AP
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: 0.505
-    table_ref: Table 4
-    source_ref: this paper
+    is_best: false
   - model: Transformer+LapPE
-    value: 0.6326
-    std: 0.0126
-    metric: AP
+    value: 0.2694
+    std: 0.0098
+    metric: F1
     higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: 0.501
-    table_ref: Table 4
+    table_ref: Table 3
     source_ref: this paper
-  - model: SAN+LapPE
-    value: 0.6384
-    std: 0.0121
-    metric: AP
+    is_best: false
+  - model: GCNII
+    value: 0.1698
+    std: 0.008
+    metric: F1
     higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.531
-    table_ref: Table 4
+    params_millions: 0.492
+    table_ref: Table 3
     source_ref: this paper
+    is_best: false
+  - model: GCN
+    value: 0.1268
+    std: 0.006
+    metric: F1
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.496
+    table_ref: Table 3
+    source_ref: this paper
+    is_best: false
+  - model: GINE
+    value: 0.1265
+    std: 0.0076
+    metric: F1
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.505
+    table_ref: Table 3
+    source_ref: this paper
+    is_best: false
+  metric: F1
+  higher_is_better: true
+- dataset: Peptides-func
+  rows:
   - model: SAN+RWSE
     value: 0.6439
     std: 0.0075
@@ -394,28 +374,31 @@ results:
     params_millions: 0.468
     table_ref: Table 4
     source_ref: this paper
-  - model: GCNII
-    value: 0.5543
-    std: 0.0078
+    is_best: true
+  - model: SAN+LapPE
+    value: 0.6384
+    std: 0.0121
     metric: AP
     higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.492
+    params_millions: 0.531
     table_ref: Table 4
     source_ref: this paper
-  - model: GatedGCN
-    value: 0.5864
-    std: 0.0077
+    is_best: true
+  - model: Transformer+LapPE
+    value: 0.6326
+    std: 0.0126
     metric: AP
     higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.502
+    params_millions: 0.501
     table_ref: Table 4
     source_ref: this paper
+    is_best: true
   - model: GatedGCN+RWSE
     value: 0.6069
     std: 0.0035
@@ -427,32 +410,59 @@ results:
     params_millions: 0.506
     table_ref: Table 4
     source_ref: this paper
-  metric: AP
-  higher_is_better: true
-- dataset: Peptides-struct
-  rows:
+    is_best: false
   - model: GCN
-    value: 0.3496
-    std: 0.0013
-    metric: MAE
-    higher_is_better: false
+    value: 0.593
+    std: 0.0023
+    metric: AP
+    higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: 0.496
     table_ref: Table 4
     source_ref: this paper
+    is_best: false
+  - model: GatedGCN
+    value: 0.5864
+    std: 0.0077
+    metric: AP
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.502
+    table_ref: Table 4
+    source_ref: this paper
+    is_best: false
+  - model: GCNII
+    value: 0.5543
+    std: 0.0078
+    metric: AP
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.492
+    table_ref: Table 4
+    source_ref: this paper
+    is_best: false
   - model: GINE
-    value: 0.3547
-    std: 0.0045
-    metric: MAE
-    higher_is_better: false
+    value: 0.5498
+    std: 0.0079
+    metric: AP
+    higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: 0.505
     table_ref: Table 4
     source_ref: this paper
+    is_best: false
+  metric: AP
+  higher_is_better: true
+- dataset: Peptides-struct
+  rows:
   - model: Transformer+LapPE
     value: 0.2529
     std: 0.0016
@@ -464,17 +474,7 @@ results:
     params_millions: 0.501
     table_ref: Table 4
     source_ref: this paper
-  - model: SAN+LapPE
-    value: 0.2683
-    std: 0.0043
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: 0.531
-    table_ref: Table 4
-    source_ref: this paper
+    is_best: true
   - model: SAN+RWSE
     value: 0.2545
     std: 0.0012
@@ -486,28 +486,19 @@ results:
     params_millions: 0.468
     table_ref: Table 4
     source_ref: this paper
-  - model: GCNII
-    value: 0.3471
-    std: 0.001
+    is_best: true
+  - model: SAN+LapPE
+    value: 0.2683
+    std: 0.0043
     metric: MAE
     higher_is_better: false
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.492
+    params_millions: 0.531
     table_ref: Table 4
     source_ref: this paper
-  - model: GatedGCN
-    value: 0.342
-    std: 0.0013
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: 0.502
-    table_ref: Table 4
-    source_ref: this paper
+    is_best: false
   - model: GatedGCN+RWSE
     value: 0.3357
     std: 0.0006
@@ -519,6 +510,55 @@ results:
     params_millions: 0.506
     table_ref: Table 4
     source_ref: this paper
+    is_best: false
+  - model: GatedGCN
+    value: 0.342
+    std: 0.0013
+    metric: MAE
+    higher_is_better: false
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.502
+    table_ref: Table 4
+    source_ref: this paper
+    is_best: false
+  - model: GCNII
+    value: 0.3471
+    std: 0.001
+    metric: MAE
+    higher_is_better: false
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.492
+    table_ref: Table 4
+    source_ref: this paper
+    is_best: false
+  - model: GCN
+    value: 0.3496
+    std: 0.0013
+    metric: MAE
+    higher_is_better: false
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.496
+    table_ref: Table 4
+    source_ref: this paper
+    is_best: false
+  - model: GINE
+    value: 0.3547
+    std: 0.0045
+    metric: MAE
+    higher_is_better: false
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.505
+    table_ref: Table 4
+    source_ref: this paper
+    is_best: false
   metric: MAE
   higher_is_better: false
 main_figure: /figures/2206.08164/main_figure.png

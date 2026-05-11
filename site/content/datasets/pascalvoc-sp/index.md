@@ -12,6 +12,11 @@ stats:
   avg_nodes: 479.4
   avg_edges: 2710.48
   num_classes: 21
+result_count: 14
+best_model:
+  model: CRAWL
+  value: 0.4588
+  metric: F1
 variants:
 - slug: standard-split
   name: Standard split
@@ -33,6 +38,7 @@ variants:
     date_iso: '2023-09-01'
     codebase_url: https://github.com/toenshoff/LRGB
     uses_external_data: null
+    is_best: true
     metric_values:
     - 0.4588
     metric_stds:
@@ -48,6 +54,7 @@ variants:
     date_iso: '2023-09-01'
     codebase_url: https://github.com/toenshoff/LRGB
     uses_external_data: null
+    is_best: false
     metric_values:
     - 0.444
     metric_stds:
@@ -63,6 +70,7 @@ variants:
     date_iso: '2023-09-01'
     codebase_url: https://github.com/toenshoff/LRGB
     uses_external_data: null
+    is_best: false
     metric_values:
     - 0.396
     metric_stds:
@@ -78,6 +86,7 @@ variants:
     date_iso: '2023-09-01'
     codebase_url: https://github.com/toenshoff/LRGB
     uses_external_data: null
+    is_best: false
     metric_values:
     - 0.388
     metric_stds:
@@ -93,6 +102,7 @@ variants:
     date_iso: '2023-09-01'
     codebase_url: https://github.com/toenshoff/LRGB
     uses_external_data: null
+    is_best: false
     metric_values:
     - 0.3314
     metric_stds:
@@ -108,6 +118,7 @@ variants:
     date_iso: '2022-06-16'
     codebase_url: https://github.com/vijaydwivedi75/lrgb
     uses_external_data: null
+    is_best: false
     metric_values:
     - 0.323
     metric_stds:
@@ -123,6 +134,7 @@ variants:
     date_iso: '2022-06-16'
     codebase_url: https://github.com/vijaydwivedi75/lrgb
     uses_external_data: null
+    is_best: false
     metric_values:
     - 0.3216
     metric_stds:
@@ -138,6 +150,7 @@ variants:
     date_iso: '2022-06-16'
     codebase_url: https://github.com/vijaydwivedi75/lrgb
     uses_external_data: null
+    is_best: false
     metric_values:
     - 0.2873
     metric_stds:
@@ -153,6 +166,7 @@ variants:
     date_iso: '2022-06-16'
     codebase_url: https://github.com/vijaydwivedi75/lrgb
     uses_external_data: null
+    is_best: false
     metric_values:
     - 0.286
     metric_stds:
@@ -168,6 +182,7 @@ variants:
     date_iso: '2023-09-01'
     codebase_url: https://github.com/toenshoff/LRGB
     uses_external_data: null
+    is_best: false
     metric_values:
     - 0.2718
     metric_stds:
@@ -183,6 +198,7 @@ variants:
     date_iso: '2022-06-16'
     codebase_url: https://github.com/vijaydwivedi75/lrgb
     uses_external_data: null
+    is_best: false
     metric_values:
     - 0.2694
     metric_stds:
@@ -198,6 +214,7 @@ variants:
     date_iso: '2022-06-16'
     codebase_url: https://github.com/vijaydwivedi75/lrgb
     uses_external_data: null
+    is_best: false
     metric_values:
     - 0.1698
     metric_stds:
@@ -213,6 +230,7 @@ variants:
     date_iso: '2022-06-16'
     codebase_url: https://github.com/vijaydwivedi75/lrgb
     uses_external_data: null
+    is_best: false
     metric_values:
     - 0.1268
     metric_stds:
@@ -228,6 +246,7 @@ variants:
     date_iso: '2022-06-16'
     codebase_url: https://github.com/vijaydwivedi75/lrgb
     uses_external_data: null
+    is_best: false
     metric_values:
     - 0.1265
     metric_stds:
