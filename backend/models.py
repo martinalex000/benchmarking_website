@@ -165,6 +165,9 @@ class TodoPaper(Base):
     created_at = Column(String, nullable=False, default=_utcnow)
     cited_by_count = Column(Integer, nullable=False, default=0)
     cites_existing_count = Column(Integer, nullable=False, default=0)
+    seen_count = Column(Integer, nullable=False, default=0)
+    seen_from = Column(Text)
+    first_seen_at = Column(String)
 
 
 # ─────────────────────────────────────────────────────────────────────────────
