@@ -1329,6 +1329,61 @@ def _create_dev_pages() -> None:
         except Exception:
             logger.exception("Failed to create dev todo page")
 
+        # S2 crawl state page — which DB papers have been crawled and how many citations
+        try:
+            import sqlite3 as _sqlite3
+
+            _db_path = cfg.data_dir / "benchmarks.db"
+            if _db_path.exists():
+                _conn = _sqlite3.connect(str(_db_path))
+                _cur = _conn.cursor()
+                # Check table exists
+                _cur.execute(
+                    "SELECT name FROM sqlite_master WHERE type='table' AND name='s2_crawl_state'"
+                )
+                if _cur.fetchone():
+                    _cur.execute(
+                        "SELECT arxiv_id, crawled_at, citations_fetched, references_fetched,"
+                        " citations_capped, references_capped"
+                        " FROM s2_crawl_state ORDER BY crawled_at DESC"
+                    )
+                    crawl_rows = _cur.fetchall()
+                    _cur.execute("SELECT COUNT(*) FROM papers WHERE arxiv_id IS NOT NULL")
+                    total_db_papers = (_cur.fetchone() or [0])[0]
+                    _conn.close()
+
+                    capped_count = sum(1 for r in crawl_rows if r[4] or r[5])
+                    lines = [
+                        "## S2 Crawl State",
+                        "",
+                        f"**DB papers total:** {total_db_papers} &nbsp;|&nbsp;"
+                        f" **Crawled:** {len(crawl_rows)} &nbsp;|&nbsp;"
+                        f" **Uncrawled:** {total_db_papers - len(crawl_rows)} &nbsp;|&nbsp;"
+                        f" **Hit limit:** {capped_count}",
+                        "",
+                        "A row appears here once citations+references have been fetched for that paper."
+                        " ⚠ means the fetch hit the configured limit and may be incomplete.",
+                        "",
+                        "| arXiv | crawled_at | citations | references | capped |",
+                        "|---|---|---:|---:|:---:|",
+                    ]
+                    for aid, cat, cf, rf, cc, rc in crawl_rows:
+                        cap_marker = "⚠" if (cc or rc) else ""
+                        lines.append(
+                            f"| {aid or ''} | {(cat or '')[:10]} | {cf or 0} | {rf or 0} | {cap_marker} |"
+                        )
+                    _write_md(
+                        _CONTENT_DEV / "s2-crawl-state.md",
+                        {
+                            "title": "S2 Crawl State",
+                            "type": "dev",
+                            "description": "Which DB papers have been crawled on Semantic Scholar",
+                        },
+                        "\n".join(lines),
+                    )
+        except Exception:
+            logger.exception("Failed to create s2-crawl-state dev page")
+
         logger.info("Created development pages in %s", _CONTENT_DEV)
 
 

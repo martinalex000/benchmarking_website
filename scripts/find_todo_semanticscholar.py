@@ -5,6 +5,14 @@ Always writes discoveries into the SQLite database (default: data/benchmarks.db)
 Creates helper tables if missing: `s2_crawl_state`, `missing_papers`, `local_corpus`.
 
 Rate limit: minimum 1s between Semantic Scholar requests.
+
+API key is read from (in priority order):
+  1. --s2-key CLI argument
+  2. SEMANTIC_SCHOLAR_API_KEY env var (loaded from .env if present)
+  3. S2_API_KEY env var
+
+When --seed is omitted the script crawls ALL papers already in the `papers` table
+that have not yet been fully crawled (i.e. not present in `s2_crawl_state`).
 """
 
 from __future__ import annotations
@@ -23,6 +31,15 @@ from typing import Any, Dict, Iterable, List, Optional
 import requests
 from rich.console import Console
 from rich.table import Table
+
+# Load .env from project root (silently skip if python-dotenv is not installed)
+_PROJECT_ROOT = Path(__file__).resolve().parent.parent
+try:
+    from dotenv import load_dotenv as _load_dotenv
+
+    _load_dotenv(_PROJECT_ROOT / ".env", override=False)
+except ImportError:
+    pass
 
 console = Console()
 
@@ -145,13 +162,29 @@ def ensure_tables(conn: sqlite3.Connection) -> None:
     cur.execute(
         """
         CREATE TABLE IF NOT EXISTS s2_crawl_state (
-            paper_id TEXT PRIMARY KEY,
-            arxiv_id TEXT,
-            crawled_at TEXT,
-            seed_arxiv TEXT
+            paper_id           TEXT PRIMARY KEY,
+            arxiv_id           TEXT,
+            seed_arxiv         TEXT,
+            crawled_at         TEXT,
+            citations_fetched  INTEGER NOT NULL DEFAULT 0,
+            references_fetched INTEGER NOT NULL DEFAULT 0,
+            citations_capped   INTEGER NOT NULL DEFAULT 0,
+            references_capped  INTEGER NOT NULL DEFAULT 0
         )
         """
     )
+    # Migrate old s2_crawl_state that may lack the new columns
+    cur.execute("PRAGMA table_info(s2_crawl_state)")
+    crawl_cols = {r[1] for r in cur.fetchall()}
+    for col, defn in [
+        ("citations_fetched", "INTEGER NOT NULL DEFAULT 0"),
+        ("references_fetched", "INTEGER NOT NULL DEFAULT 0"),
+        ("citations_capped", "INTEGER NOT NULL DEFAULT 0"),
+        ("references_capped", "INTEGER NOT NULL DEFAULT 0"),
+    ]:
+        if col not in crawl_cols:
+            cur.execute(f"ALTER TABLE s2_crawl_state ADD COLUMN {col} {defn}")
+
     cur.execute(
         """
         CREATE TABLE IF NOT EXISTS missing_papers (
@@ -171,15 +204,16 @@ def ensure_tables(conn: sqlite3.Connection) -> None:
         )
         """
     )
-    # Ensure todo_papers has seen_count and seen_from columns
+    # Ensure todo_papers has the extra columns added during development
     cur.execute("PRAGMA table_info(todo_papers)")
-    cols = {r[1] for r in cur.fetchall()}
-    if "seen_count" not in cols:
-        cur.execute("ALTER TABLE todo_papers ADD COLUMN seen_count INTEGER NOT NULL DEFAULT 0")
-    if "seen_from" not in cols:
-        cur.execute("ALTER TABLE todo_papers ADD COLUMN seen_from TEXT")
-    if "first_seen_at" not in cols:
-        cur.execute("ALTER TABLE todo_papers ADD COLUMN first_seen_at TEXT")
+    todo_cols = {r[1] for r in cur.fetchall()}
+    for col, defn in [
+        ("seen_count", "INTEGER NOT NULL DEFAULT 0"),
+        ("seen_from", "TEXT"),
+        ("first_seen_at", "TEXT"),
+    ]:
+        if col not in todo_cols:
+            cur.execute(f"ALTER TABLE todo_papers ADD COLUMN {col} {defn}")
     conn.commit()
 
 
@@ -203,44 +237,35 @@ def load_local_corpus_from_papers_table(conn: sqlite3.Connection) -> None:
 
 
 def upsert_todo(conn: sqlite3.Connection, arxiv_id: str, title: str | None, seen_from: str) -> None:
+    """Insert or update a todo_papers row, incrementing seen_count on each observation."""
     cur = conn.cursor()
     now = _utcnow_iso()
-    # Insert if missing
     cur.execute(
-        "INSERT OR IGNORE INTO todo_papers(arxiv_id, title, reason, added_by, status, created_at, seen_count, seen_from, first_seen_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
-        (
-            arxiv_id,
-            title or "",
-            "semanticscholar",
-            "find_todo_s2",
-            "pending",
-            now,
-            0,
-            json.dumps([seen_from]),
-            now,
-        ),
+        "INSERT OR IGNORE INTO todo_papers"
+        "(arxiv_id, title, reason, added_by, status, created_at, seen_count, seen_from, first_seen_at)"
+        " VALUES (?, ?, 'semanticscholar', 'find_todo_s2', 'pending', ?, 0, ?, ?)",
+        (arxiv_id, title or "", now, json.dumps([seen_from]), now),
     )
-    # Increment seen_count and append seen_from
-    cur.execute("SELECT seen_count, seen_from FROM todo_papers WHERE arxiv_id = ?", (arxiv_id,))
+    # Fetch current state and increment
+    cur.execute(
+        "SELECT seen_count, seen_from, title FROM todo_papers WHERE arxiv_id = ?", (arxiv_id,)
+    )
     row = cur.fetchone()
     if row:
         count = row[0] or 0
-        seen_list = []
+        seen_list: list[str] = []
         if row[1]:
             try:
                 seen_list = json.loads(row[1])
             except Exception:
                 seen_list = [row[1]]
         seen_list.append(seen_from)
+        # Keep existing title if new one is absent; set title if row had none
+        effective_title = title or row[2] or ""
         cur.execute(
-            "UPDATE todo_papers SET seen_count = ?, seen_from = ?, title = COALESCE(NULLIF(title, ''), ?), updated_at = ? WHERE arxiv_id = ?",
-            (
-                count + 1,
-                json.dumps(seen_list),
-                title or row[2] if len(row) > 2 else title or "",
-                now,
-                arxiv_id,
-            ),
+            "UPDATE todo_papers SET seen_count = ?, seen_from = ?, title = COALESCE(NULLIF(?, ''), title)"
+            " WHERE arxiv_id = ?",
+            (count + 1, json.dumps(seen_list), effective_title, arxiv_id),
         )
     conn.commit()
 
@@ -258,13 +283,33 @@ def insert_missing(
 
 
 def mark_crawled(
-    conn: sqlite3.Connection, paper_id: str, arxiv_id: str | None, seed_arxiv: str
+    conn: sqlite3.Connection,
+    paper_id: str,
+    arxiv_id: str | None,
+    seed_arxiv: str,
+    citations_fetched: int = 0,
+    references_fetched: int = 0,
+    citations_capped: bool = False,
+    references_capped: bool = False,
 ) -> None:
+    """Record that we crawled paper_id and how many citations/references we fetched."""
     cur = conn.cursor()
     now = _utcnow_iso()
     cur.execute(
-        "INSERT OR REPLACE INTO s2_crawl_state(paper_id, arxiv_id, crawled_at, seed_arxiv) VALUES (?, ?, ?, ?)",
-        (paper_id, arxiv_id, now, seed_arxiv),
+        "INSERT OR REPLACE INTO s2_crawl_state"
+        "(paper_id, arxiv_id, seed_arxiv, crawled_at,"
+        " citations_fetched, references_fetched, citations_capped, references_capped)"
+        " VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+        (
+            paper_id,
+            arxiv_id,
+            seed_arxiv,
+            now,
+            citations_fetched,
+            references_fetched,
+            int(citations_capped),
+            int(references_capped),
+        ),
     )
     conn.commit()
 
@@ -275,8 +320,40 @@ def already_crawled(conn: sqlite3.Connection, paper_id: str) -> bool:
     return cur.fetchone() is not None
 
 
+def get_uncrawled_seeds(conn: sqlite3.Connection) -> List[str]:
+    """Return arxiv_ids from the papers table that have not yet been crawled."""
+    cur = conn.cursor()
+    # Check papers table exists
+    cur.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='papers'")
+    if not cur.fetchone():
+        return []
+    cur.execute(
+        """
+        SELECT p.arxiv_id
+        FROM papers p
+        WHERE p.arxiv_id IS NOT NULL
+          AND NOT EXISTS (
+            SELECT 1 FROM s2_crawl_state cs WHERE cs.arxiv_id = p.arxiv_id
+          )
+        ORDER BY p.created_at
+        """
+    )
+    return [r[0] for r in cur.fetchall()]
+
+
+def is_in_local_corpus(conn: sqlite3.Connection, arxiv_id: str) -> bool:
+    """Return True if the arxiv_id is already in the local corpus (papers table)."""
+    cur = conn.cursor()
+    cur.execute("SELECT 1 FROM local_corpus WHERE arxiv_id = ?", (arxiv_id,))
+    return cur.fetchone() is not None
+
+
 def process_seed(
-    s2: S2Client, conn: sqlite3.Connection, seed_arxiv: str, limit: int, force: bool
+    s2: S2Client,
+    conn: sqlite3.Connection,
+    seed_arxiv: str,
+    limit: int,
+    force: bool,
 ) -> None:
     console.print(f"\n[bold]Processing seed {seed_arxiv} (limit={limit})[/bold]")
     pid = s2.paper_id_for_arxiv(seed_arxiv)
@@ -284,31 +361,58 @@ def process_seed(
         console.print(f"[red]Could not resolve seed arXiv:{seed_arxiv} on Semantic Scholar[/red]")
         return
 
-    # Crawl citations
     if not force and already_crawled(conn, pid):
         console.print(f"[dim]Seed paperId {pid} already crawled — skipping[/dim]")
         return
 
+    # ── Citations (papers that cite this seed) ───────────────────────────
     citations = s2.fetch_citations(pid, limit)
-    console.print(f"  Found {len(citations)} citations")
+    citations_capped = len(citations) >= limit
+    console.print(
+        f"  Citations: {len(citations)}"
+        + (" [yellow](capped at limit)[/yellow]" if citations_capped else "")
+    )
+    cite_added = cite_missing = 0
     for c in citations:
         aid = infer_arxiv_id_from_s2(c)
         if aid:
-            upsert_todo(conn, aid, c.get("title"), f"cited_by:{seed_arxiv}")
+            if not is_in_local_corpus(conn, aid):
+                upsert_todo(conn, aid, c.get("title"), f"cited_by:{seed_arxiv}")
+                cite_added += 1
         else:
             insert_missing(conn, c.get("title"), seed_arxiv, c)
+            cite_missing += 1
+    console.print(f"    → {cite_added} added to todo, {cite_missing} missing arXiv IDs")
 
-    # Crawl references
+    # ── References (papers this seed cites) ─────────────────────────────
     references = s2.fetch_references(pid, limit)
-    console.print(f"  Found {len(references)} references")
+    references_capped = len(references) >= limit
+    console.print(
+        f"  References: {len(references)}"
+        + (" [yellow](capped at limit)[/yellow]" if references_capped else "")
+    )
+    ref_added = ref_missing = 0
     for r in references:
         aid = infer_arxiv_id_from_s2(r)
         if aid:
-            upsert_todo(conn, aid, r.get("title"), f"references_from:{seed_arxiv}")
+            if not is_in_local_corpus(conn, aid):
+                upsert_todo(conn, aid, r.get("title"), f"references_from:{seed_arxiv}")
+                ref_added += 1
         else:
             insert_missing(conn, r.get("title"), seed_arxiv, r)
+            ref_missing += 1
+    console.print(f"    → {ref_added} added to todo, {ref_missing} missing arXiv IDs")
 
-    mark_crawled(conn, pid, seed_arxiv, seed_arxiv)
+    mark_crawled(
+        conn,
+        pid,
+        seed_arxiv,
+        seed_arxiv,
+        citations_fetched=len(citations),
+        references_fetched=len(references),
+        citations_capped=citations_capped,
+        references_capped=references_capped,
+    )
 
 
 def top_report(conn: sqlite3.Connection, top_n: int = 20) -> None:
@@ -329,19 +433,43 @@ def top_report(conn: sqlite3.Connection, top_n: int = 20) -> None:
 
 
 def main(argv: Iterable[str] | None = None) -> None:
-    p = argparse.ArgumentParser(description="Seed todo_papers via Semantic Scholar crawl")
-    p.add_argument(
-        "--seed", "-s", action="append", required=True, help="Seed arXiv ID (repeatable)"
+    p = argparse.ArgumentParser(
+        description="Seed todo_papers via Semantic Scholar crawl",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog=(
+            "When --seed is omitted, all papers already in the database are used as seeds\n"
+            "(except those already crawled). The API key is read from SEMANTIC_SCHOLAR_API_KEY\n"
+            "in the environment / .env file."
+        ),
     )
     p.add_argument(
-        "--limit", "-n", type=int, default=5000, help="Max papers per seed (default: 5000)"
+        "--seed",
+        "-s",
+        action="append",
+        default=None,
+        help="Seed arXiv ID (repeatable). Omit to crawl all DB papers.",
+    )
+    p.add_argument(
+        "--limit",
+        "-n",
+        type=int,
+        default=5000,
+        help="Max citations/references fetched per seed (default: 5000)",
     )
     p.add_argument(
         "--db-path", default=None, help="Path to SQLite DB (defaults to data/benchmarks.db)"
     )
-    p.add_argument("--s2-key", default=None, help="Semantic Scholar API key")
-    p.add_argument("--force", action="store_true", help="Re-crawl seeds even if already crawled")
-    p.add_argument("--top", type=int, default=20, help="Show top-N after run")
+    p.add_argument(
+        "--s2-key",
+        default=None,
+        help="Semantic Scholar API key (overrides SEMANTIC_SCHOLAR_API_KEY env var)",
+    )
+    p.add_argument(
+        "--force",
+        action="store_true",
+        help="Re-crawl seeds even if already recorded in s2_crawl_state",
+    )
+    p.add_argument("--top", type=int, default=20, help="Show top-N todo papers after run")
     args = p.parse_args(list(argv) if argv is not None else None)
 
     project_root = Path(__file__).resolve().parent.parent
@@ -349,16 +477,37 @@ def main(argv: Iterable[str] | None = None) -> None:
     db_path.parent.mkdir(parents=True, exist_ok=True)
 
     s2 = S2Client(api_key=args.s2_key, min_delay=1.0)
-
+    key_source = (
+        "CLI --s2-key"
+        if args.s2_key
+        else (
+            "SEMANTIC_SCHOLAR_API_KEY env"
+            if os.environ.get("SEMANTIC_SCHOLAR_API_KEY")
+            else "S2_API_KEY env" if os.environ.get("S2_API_KEY") else "none (rate-limited)"
+        )
+    )
+    console.print(f"API key source: [dim]{key_source}[/dim]")
     console.print(f"Using DB: [cyan]{db_path}[/cyan]")
+
     conn = sqlite3.connect(str(db_path))
     conn.execute("PRAGMA foreign_keys = ON")
 
     ensure_tables(conn)
     load_local_corpus_from_papers_table(conn)
 
-    for seed in args.seed:
-        process_seed(s2, conn, seed, args.limit, args.force)
+    seeds = args.seed
+    if not seeds:
+        seeds = get_uncrawled_seeds(conn)
+        if seeds:
+            console.print(f"[dim]No --seed given: crawling {len(seeds)} uncrawled DB papers.[/dim]")
+        else:
+            console.print(
+                "[yellow]No seeds given and no uncrawled papers in DB. Nothing to do.[/yellow]"
+            )
+            return
+
+    for seed in seeds:
+        process_seed(s2, conn, seed.strip(), args.limit, args.force)
 
     console.print("\n[green]Crawl complete.[/green]")
     top_report(conn, args.top)
