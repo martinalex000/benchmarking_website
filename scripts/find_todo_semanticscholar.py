@@ -240,8 +240,9 @@ def upsert_todo(conn: sqlite3.Connection, arxiv_id: str, title: str | None, seen
     now = _utcnow_iso()
     cur.execute(
         "INSERT OR IGNORE INTO todo_papers"
-        "(arxiv_id, title, reason, added_by, status, created_at, seen_count, seen_from, first_seen_at)"
-        " VALUES (?, ?, 'semanticscholar', 'find_todo_s2', 'pending', ?, 0, ?, ?)",
+        "(arxiv_id, title, reason, added_by, status, attempts, cited_by_count,"
+        " cites_existing_count, created_at, seen_count, seen_from, first_seen_at)"
+        " VALUES (?, ?, 'semanticscholar', 'find_todo_s2', 'pending', 0, 0, 0, ?, 0, ?, ?)",
         (arxiv_id, title or "", now, json.dumps([seen_from]), now),
     )
     # Fetch current state and increment
