@@ -146,6 +146,28 @@ class Paper(Base):
 
 
 # ─────────────────────────────────────────────────────────────────────────────
+# todo_papers — administrative queue for papers to process
+# ─────────────────────────────────────────────────────────────────────────────
+class TodoPaper(Base):
+    __tablename__ = "todo_papers"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    arxiv_id = Column(String, unique=True, nullable=False)
+    title = Column(String)
+    reason = Column(Text)
+    added_by = Column(String)
+    status = Column(
+        String, nullable=False, default="pending"
+    )  # pending | processing | done | failed
+    attempts = Column(Integer, nullable=False, default=0)
+    last_attempt_at = Column(String)
+    note = Column(Text)
+    created_at = Column(String, nullable=False, default=_utcnow)
+    cited_by_count = Column(Integer, nullable=False, default=0)
+    cites_existing_count = Column(Integer, nullable=False, default=0)
+
+
+# ─────────────────────────────────────────────────────────────────────────────
 class Model(Base):
     __tablename__ = "models"
     __table_args__ = (UniqueConstraint("canonical_name"),)

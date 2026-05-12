@@ -51,6 +51,9 @@ def init_db(db_path: str | None = None) -> Engine:
 def _migrate_db(engine: Engine) -> None:
     """Apply lightweight schema migrations for columns added after initial creation."""
     _add_column_if_missing(engine, "results", "uses_external_data", "INTEGER")
+    # todo_papers counters
+    _add_column_if_missing(engine, "todo_papers", "cited_by_count", "INTEGER")
+    _add_column_if_missing(engine, "todo_papers", "cites_existing_count", "INTEGER")
 
 
 def _add_column_if_missing(engine: Engine, table: str, column: str, col_type: str) -> None:

@@ -197,3 +197,24 @@ CREATE TABLE IF NOT EXISTS paper_candidates (
 CREATE INDEX IF NOT EXISTS idx_candidates_arxiv_id     ON paper_candidates(arxiv_id);
 CREATE INDEX IF NOT EXISTS idx_candidates_final_status ON paper_candidates(final_status);
 CREATE INDEX IF NOT EXISTS idx_candidates_source       ON paper_candidates(discovery_source);
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- todo_papers — simple queue of arXiv papers to be processed by humans/scripts
+-- Entries here are lightweight and intended for administrative workflows.
+-- ─────────────────────────────────────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS todo_papers (
+    id               INTEGER PRIMARY KEY AUTOINCREMENT,
+    arxiv_id         TEXT UNIQUE NOT NULL,
+    title            TEXT,
+    reason           TEXT,   -- short note why this paper was added (e.g. 'cites LRGB')
+    added_by         TEXT,   -- username or script name that added the entry
+    status           TEXT NOT NULL DEFAULT 'pending', -- pending | processing | done | failed
+    attempts         INTEGER NOT NULL DEFAULT 0,
+    last_attempt_at  TEXT,
+    note             TEXT,   -- freeform admin notes
+    cited_by_count   INTEGER NOT NULL DEFAULT 0, -- how many existing DB papers cite this arXiv
+    cites_existing_count INTEGER NOT NULL DEFAULT 0, -- how many references from this paper point to our DB
+    created_at       TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%SZ', 'now'))
+);
+CREATE INDEX IF NOT EXISTS idx_todo_arxiv_id ON todo_papers(arxiv_id);
+CREATE INDEX IF NOT EXISTS idx_todo_status   ON todo_papers(status);
