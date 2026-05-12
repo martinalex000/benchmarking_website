@@ -1310,6 +1310,25 @@ def _create_dev_pages() -> None:
             "\n".join(lines),
         )
 
+        # Todo papers page (priority queue)
+        try:
+            todo_rows = session.query(TodoPaper).order_by(TodoPaper.seen_count.desc()).all()
+            lines = ["## Todo Papers (priority queue)", ""]
+            lines.append(f"**Total:** {len(todo_rows)} entries")
+            lines.append("")
+            lines.append("| arXiv | seen_count | status | title |")
+            lines.append("|---|---:|---|---")
+            for t in todo_rows[:500]:
+                title = _sanitize_title(t.title)
+                lines.append(
+                    f"| {t.arxiv_id or ''} | {int(t.seen_count or 0)} | {t.status or ''} | {title} |"
+                )
+            _write_md(
+                _CONTENT_DEV / "todo.md", {"title": "Todo Papers", "type": "dev"}, "\n".join(lines)
+            )
+        except Exception:
+            logger.exception("Failed to create dev todo page")
+
         logger.info("Created development pages in %s", _CONTENT_DEV)
 
 
