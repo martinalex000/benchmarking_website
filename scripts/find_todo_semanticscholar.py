@@ -6,10 +6,8 @@ Creates helper tables if missing: `s2_crawl_state`, `missing_papers`, `local_cor
 
 Rate limit: minimum 1s between Semantic Scholar requests.
 
-API key is read from (in priority order):
-  1. --s2-key CLI argument
-  2. SEMANTIC_SCHOLAR_API_KEY env var (loaded from .env if present)
-  3. S2_API_KEY env var
+API key is read from SEMANTIC_SCHOLAR_API_KEY (or S2_API_KEY) in the environment
+or from the .env file in the project root.
 
 When --seed is omitted the script crawls ALL papers already in the `papers` table
 that have not yet been fully crawled (i.e. not present in `s2_crawl_state`).
@@ -51,9 +49,9 @@ def _utcnow_iso() -> str:
 
 
 class S2Client:
-    def __init__(self, api_key: str | None = None, min_delay: float = 1.0):
+    def __init__(self, min_delay: float = 1.0):
         self.sess = requests.Session()
-        key = api_key or os.environ.get("SEMANTIC_SCHOLAR_API_KEY") or os.environ.get("S2_API_KEY")
+        key = os.environ.get("SEMANTIC_SCHOLAR_API_KEY") or os.environ.get("S2_API_KEY")
         if key:
             self.sess.headers["x-api-key"] = key
         self.min_delay = float(min_delay)
@@ -460,31 +458,24 @@ def main(argv: Iterable[str] | None = None) -> None:
         "--db-path", default=None, help="Path to SQLite DB (defaults to data/benchmarks.db)"
     )
     p.add_argument(
-        "--s2-key",
-        default=None,
-        help="Semantic Scholar API key (overrides SEMANTIC_SCHOLAR_API_KEY env var)",
-    )
-    p.add_argument(
         "--force",
         action="store_true",
         help="Re-crawl seeds even if already recorded in s2_crawl_state",
     )
-    p.add_argument("--top", type=int, default=20, help="Show top-N todo papers after run")
+    p.add_argument(
+        "--top", type=int, default=15, help="Show top-N todo papers after run (default: 15)"
+    )
     args = p.parse_args(list(argv) if argv is not None else None)
 
     project_root = Path(__file__).resolve().parent.parent
     db_path = Path(args.db_path) if args.db_path else project_root / "data" / "benchmarks.db"
     db_path.parent.mkdir(parents=True, exist_ok=True)
 
-    s2 = S2Client(api_key=args.s2_key, min_delay=1.0)
+    s2 = S2Client(min_delay=1.0)
     key_source = (
-        "CLI --s2-key"
-        if args.s2_key
-        else (
-            "SEMANTIC_SCHOLAR_API_KEY env"
-            if os.environ.get("SEMANTIC_SCHOLAR_API_KEY")
-            else "S2_API_KEY env" if os.environ.get("S2_API_KEY") else "none (rate-limited)"
-        )
+        "SEMANTIC_SCHOLAR_API_KEY"
+        if os.environ.get("SEMANTIC_SCHOLAR_API_KEY")
+        else "S2_API_KEY" if os.environ.get("S2_API_KEY") else "none (rate-limited)"
     )
     console.print(f"API key source: [dim]{key_source}[/dim]")
     console.print(f"Using DB: [cyan]{db_path}[/cyan]")
@@ -511,6 +502,82 @@ def main(argv: Iterable[str] | None = None) -> None:
 
     console.print("\n[green]Crawl complete.[/green]")
     top_report(conn, args.top)
+
+    # Update the website dev pages so todo/crawl-state pages reflect the new data
+    console.print("\n[dim]Updating website dev pages…[/dim]")
+    try:
+        import sqlite3 as _sqlite3
+        import pathlib as _pathlib
+        import json as _json
+
+        _content_dev = project_root / "site" / "content" / "dev"
+        _content_dev.mkdir(parents=True, exist_ok=True)
+
+        # todo.md
+        _cur = conn.cursor()
+        _cur.execute(
+            "SELECT arxiv_id, title, status, seen_count FROM todo_papers"
+            " ORDER BY COALESCE(seen_count, 0) DESC LIMIT 500"
+        )
+        todo_rows = _cur.fetchall()
+        lines = [
+            "---",
+            'title: "Todo Papers"',
+            "type: dev",
+            "---",
+            "",
+            "## Todo Papers (priority queue)",
+            "",
+            f"**Total:** {len(todo_rows)} entries",
+            "",
+            "| arXiv | seen_count | status | title |",
+            "|---|---:|---|---",
+        ]
+        for _aid, _title, _status, _seen in todo_rows:
+            _t = (_title or "").replace("\n", " ").strip()
+            _t = _t if len(_t) <= 180 else _t[:177] + "..."
+            lines.append(f"| {_aid or ''} | {_seen or 0} | {_status or ''} | {_t} |")
+        (_content_dev / "todo.md").write_text("\n".join(lines), encoding="utf-8")
+
+        # s2-crawl-state.md
+        _cur.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='s2_crawl_state'")
+        if _cur.fetchone():
+            _cur.execute(
+                "SELECT arxiv_id, crawled_at, citations_fetched, references_fetched,"
+                " citations_capped, references_capped"
+                " FROM s2_crawl_state ORDER BY crawled_at DESC"
+            )
+            crawl_rows = _cur.fetchall()
+            _cur.execute("SELECT COUNT(*) FROM papers WHERE arxiv_id IS NOT NULL")
+            total_db = (_cur.fetchone() or [0])[0]
+            capped = sum(1 for r in crawl_rows if r[4] or r[5])
+            lines = [
+                "---",
+                'title: "S2 Crawl State"',
+                "type: dev",
+                "---",
+                "",
+                "## S2 Crawl State",
+                "",
+                f"**DB papers total:** {total_db} | **Crawled:** {len(crawl_rows)}"
+                f" | **Uncrawled:** {total_db - len(crawl_rows)} | **Hit limit:** {capped}",
+                "",
+                "A row appears here once citations+references have been fetched for that paper."
+                " \u26a0 means the fetch hit the configured limit and may be incomplete.",
+                "",
+                "| arXiv | crawled_at | citations | references | capped |",
+                "|---|---|---:|---:|:---:|",
+            ]
+            for _aid, _cat, _cf, _rf, _cc, _rc in crawl_rows:
+                _cap = "\u26a0" if (_cc or _rc) else ""
+                lines.append(
+                    f"| {_aid or ''} | {(_cat or '')[:10]} | {_cf or 0} | {_rf or 0} | {_cap} |"
+                )
+            (_content_dev / "s2-crawl-state.md").write_text("\n".join(lines), encoding="utf-8")
+
+        console.print("[green]Website dev pages updated.[/green]")
+    except Exception as _exc:
+        console.print(f"[yellow]Could not update website pages: {_exc}[/yellow]")
 
 
 if __name__ == "__main__":
