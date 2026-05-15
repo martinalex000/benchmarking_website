@@ -9,13 +9,21 @@
   {{ end }}
 {{ end }}
 <article class="dataset-page">
-  <header>
-    {{ with .Params.benchmark }}
-    <p class="dataset-benchmark-overline">{{ . }}</p>
-    {{ end }}
-    <h1>{{ .Title }}</h1>
-    {{ with .Params.task_type }}
-    <p class="paper-meta"><span class="badge">Task: {{ replace . "_" " " | title }}</span></p>
+  <header class="dataset-header">
+    <div class="dataset-heading-line">
+      {{ with .Params.benchmark }}
+      <p class="dataset-benchmark-overline">{{ . }}</p>
+      {{ end }}
+      <h1>{{ .Title }}</h1>
+    </div>
+    {{ if or .Params.task_type .Params.pyg_url }}
+    <p class="paper-meta dataset-meta-line">
+      {{ with .Params.task_type }}<span class="badge">Task: {{ replace . "_" " " | title }}</span>{{ end }}
+      {{ with .Params.pyg_url }}
+      {{ $isPyg := or (in (lower .) "pytorch-geometric") (in (lower .) "pyg") }}
+      <a class="badge" href="{{ . }}" target="_blank" rel="noopener">{{ if $isPyg }}PyG dataset page ↗{{ else }}Dataset page ↗{{ end }}</a>
+      {{ end }}
+    </p>
     {{ end }}
     {{ with .Params.description }}
     <p>{{ . }}</p>
@@ -67,11 +75,6 @@
         </details>
       {{ end }}
     </div>
-
-    {{ with .Params.pyg_url }}
-    {{ $isPyg := or (in (lower .) "pytorch-geometric") (in (lower .) "pyg") }}
-    <p class="dataset-meta"><a href="{{ . }}" target="_blank" rel="noopener">{{ if $isPyg }}PyG dataset page ↗{{ else }}Dataset page ↗{{ end }}</a></p>
-    {{ end }}
   </header>
 
   {{/* Dataset variant selector */}}
@@ -141,6 +144,5 @@ window.leaderboardConfig = {
   primaryMetric: {{ .Params.primary_metric | jsonify | safeJS }},
   higherIsBetter: {{ .Params.higher_is_better | jsonify | safeJS }},
 };
-leaderboard.init();
 </script>
 {{ end }}

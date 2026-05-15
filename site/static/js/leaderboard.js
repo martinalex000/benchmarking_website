@@ -40,7 +40,9 @@
     }
 
     _applyModelColumnWidths();
+    _applyModelTooltips();
     window.addEventListener("resize", _applyModelColumnWidths);
+    window.addEventListener("resize", _applyModelTooltips);
   }
 
   /* ── Variant switching ──────────────────────────────────────────────── */
@@ -50,6 +52,7 @@
       el.style.display = el.dataset.variant === slug ? "" : "none";
     });
     _applyModelColumnWidths();
+    _applyModelTooltips();
   }
 
   /* ── Std toggle ─────────────────────────────────────────────────────── */
@@ -60,6 +63,8 @@
     });
     // Re-render all charts so the error bars plugin shows/hides
     Object.values(charts).forEach(function (chart) { chart.update("none"); });
+    _applyModelColumnWidths();
+    _applyModelTooltips();
   }
 
   /* ── Baseline toggle ────────────────────────────────────────────────── */
@@ -596,6 +601,7 @@
     var btn = document.getElementById("wide-table-btn");
     if (btn) btn.textContent = _wideTable ? "⤡ Compact width" : "⤢ Balanced width";
     _applyModelColumnWidths();
+    _applyModelTooltips();
   }
 
   function _percentile(sortedNums, p) {
@@ -626,11 +632,45 @@
       var wrapper = table.closest(".result-table-wrapper");
       if (wrapper) {
         table.style.setProperty("--model-col-width", targetChars + "ch");
+
+        var valueCells = Array.from(table.querySelectorAll("tbody td.col-value"));
+        var valueLens = valueCells
+          .map(function (td) { return (td.innerText || "").replace(/\s+/g, " ").trim().length; })
+          .filter(function (n) { return n > 0; })
+          .sort(function (a, b) { return a - b; });
+        if (valueLens.length) {
+          var vp90 = _percentile(valueLens, 0.9);
+          var valueChars = Math.max(11, Math.min(20, Math.ceil(vp90 * 1.1)));
+          if (_wideTable) {
+            valueChars = Math.min(24, valueChars + 2);
+          }
+          table.style.setProperty("--value-col-width", valueChars + "ch");
+        }
+
         if (_wideTable) {
           wrapper.classList.add("wide-table-mode");
         } else {
           wrapper.classList.remove("wide-table-mode");
         }
+      }
+    });
+  }
+
+  function _applyModelTooltips() {
+    document.querySelectorAll(".result-table tbody td.col-model").forEach(function (td) {
+      var row = td.closest("tr");
+      if (!row) return;
+      var fullModelName = row.dataset.model || "";
+      if (!fullModelName) return;
+
+      var anchor = td.querySelector("a");
+      var target = anchor || td;
+      var isTruncated = td.scrollWidth > td.clientWidth;
+
+      if (isTruncated) {
+        target.setAttribute("title", fullModelName);
+      } else {
+        target.removeAttribute("title");
       }
     });
   }

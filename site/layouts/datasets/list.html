@@ -1,7 +1,7 @@
 {{ define "main" }}
 <div class="home-hero">
   <h1>Datasets</h1>
-  <p>Benchmark families are grouped by source benchmark, while each card links to a dataset page with the best model, result count, and evaluation metric. Use the task filters to focus on one problem type at a time.</p>
+  <p>Benchmark families are grouped by source benchmark, while each card links to a dataset page with the best model and result count. Use the filters to focus on one problem type or dataset name.</p>
   {{ $datasets := where .Site.RegularPages "Section" "datasets" }}
   {{ $stats := newScratch }}
   {{ $stats.Set "resultCount" 0 }}
@@ -34,10 +34,14 @@
 </div>
 {{ end }}
 
+<div class="filter-bar dataset-search-bar">
+  <label class="filter-label" for="dataset-search">Search datasets:</label>
+  <input id="dataset-search" type="search" placeholder="Type a dataset name..." autocomplete="off">
+</div>
+
 {{ range .Site.Data.benchmarks }}
 {{ if .datasets }}
 <section class="benchmark-group" id="benchmark-{{ .slug }}">
-  {{ $benchmarkName := .name }}
   <div class="benchmark-header">
     <h2>{{ .name }}</h2>
     {{ if .arxiv_id }}
@@ -57,7 +61,7 @@
     {{ range $.Site.Pages }}
     {{ if and (eq .Section "datasets") (eq .Params.slug $ds.slug) }}
     {{ $page := . }}
-    <div class="dataset-card" data-task="{{ .Params.task_type }}">
+    <div class="dataset-card" data-task="{{ .Params.task_type }}" data-name="{{ .Title | lower }}">
       <h3>
         <a href="{{ .RelPermalink }}">{{ .Title }}</a>
       </h3>
@@ -67,10 +71,24 @@
       </div>
       {{ with .Params.description }}<p>{{ . }}</p>{{ end }}
       {{ with .Params.best_model }}
+      {{ $bestArxiv := .arxiv_id }}
+      {{ $bestTitle := .paper_title }}
+      {{ if not $bestArxiv }}
+      {{ with index $page.Params.variants 0 }}
+      {{ with index .rows 0 }}
+      {{ $bestArxiv = .arxiv_id }}
+      {{ $bestTitle = .title }}
+      {{ end }}
+      {{ end }}
+      {{ end }}
       <p class="dataset-card-best">
         <span class="best-label">Best:</span>
+        {{ if $bestArxiv }}
+        <strong><a href="/papers/{{ $bestArxiv }}/" title="{{ with $bestTitle }}{{ . }}{{ else }}arXiv:{{ $bestArxiv }}{{ end }}">{{ .model }}</a></strong>
+        {{ else }}
         <strong>{{ .model }}</strong>
-        <span class="best-value">{{ printf "%.4f" .value }} {{ $page.Params.primary_metric }}</span>
+        {{ end }}
+        <span class="best-value">{{ printf "%.4f" .value }}</span>
       </p>
       {{ end }}
     </div>
@@ -87,24 +105,41 @@
 {{ define "scripts" }}
 <script>
 (function () {
+  var activeTask = "";
+  var query = "";
   var btns = document.querySelectorAll(".task-filter");
+  var searchInput = document.getElementById("dataset-search");
+
+  function applyFilters() {
+    document.querySelectorAll(".dataset-card").forEach(function (card) {
+      var taskMatch = !activeTask || card.dataset.task === activeTask;
+      var name = (card.dataset.name || "").toLowerCase();
+      var queryMatch = !query || name.indexOf(query) !== -1;
+      card.style.display = (taskMatch && queryMatch) ? "" : "none";
+    });
+
+    document.querySelectorAll(".benchmark-group").forEach(function (section) {
+      var anyVisible = Array.from(section.querySelectorAll(".dataset-card"))
+        .some(function (c) { return c.style.display !== "none"; });
+      section.style.display = anyVisible ? "" : "none";
+    });
+  }
+
   btns.forEach(function (btn) {
     btn.addEventListener("click", function () {
-      var task = this.dataset.task;
+      activeTask = this.dataset.task;
       btns.forEach(function (b) { b.classList.remove("active"); });
       this.classList.add("active");
-      // Show/hide cards
-      document.querySelectorAll(".dataset-card").forEach(function (card) {
-        card.style.display = (!task || card.dataset.task === task) ? "" : "none";
-      });
-      // Collapse benchmark sections that have no visible cards
-      document.querySelectorAll(".benchmark-group").forEach(function (section) {
-        var anyVisible = Array.from(section.querySelectorAll(".dataset-card"))
-          .some(function (c) { return c.style.display !== "none"; });
-        section.style.display = anyVisible ? "" : "none";
-      });
+      applyFilters();
     });
   });
+
+  if (searchInput) {
+    searchInput.addEventListener("input", function () {
+      query = (this.value || "").trim().toLowerCase();
+      applyFilters();
+    });
+  }
 })();
 </script>
 {{ end }}

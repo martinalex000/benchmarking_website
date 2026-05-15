@@ -39,6 +39,7 @@ _SITE_DIR = cfg.base_dir / "site"
 _CONTENT = _SITE_DIR / "content"
 _DATA_DIR = _SITE_DIR / "data"
 _STATIC = _SITE_DIR / "static"
+_DATASET_OVERRIDES_FILE = cfg.base_dir / "config" / "dataset_overrides.yaml"
 
 _MODEL_SUFFIX_RE = re.compile(
     r"\s*\(\s*(?:ours?|base(?:line)?|proposed|retuned|re-?eval|none|l\s*=\s*\d+)\s*\)\s*$",
@@ -49,6 +50,7 @@ _LATEX_CITE_RE = re.compile(r"~?\\cite\{[^}]*\}")
 _TITLE_LINEBREAK_RE = re.compile(r"\\\\+")
 _TITLE_LATEX_CMD_RE = re.compile(r"\\[a-zA-Z]+\*?(?:\{[^}]*\})?")
 _MODEL_RENAME_CACHE: dict[str, dict[str, str]] = {}
+_DATASET_OVERRIDE_CACHE: dict[str, dict[str, Any]] = {}
 
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
@@ -94,6 +96,87 @@ def _sanitize_model(model_name: str | None, arxiv_id: str | None = None) -> str:
     m = re.sub(r"\s+", " ", m).strip()
     remap = _paper_model_renames(arxiv_id)
     return remap.get(m.lower(), m)
+
+
+def _load_dataset_overrides() -> dict[str, dict[str, Any]]:
+    """Load optional dataset-level display overrides from config/dataset_overrides.yaml."""
+    cache_key = "_all"
+    cached = _DATASET_OVERRIDE_CACHE.get(cache_key)
+    if cached is not None:
+        return cached
+
+    if not _DATASET_OVERRIDES_FILE.exists():
+        _DATASET_OVERRIDE_CACHE[cache_key] = {}
+        return {}
+
+    try:
+        raw = yaml.safe_load(_DATASET_OVERRIDES_FILE.read_text(encoding="utf-8")) or {}
+    except Exception as exc:
+        logger.warning("Failed to read dataset overrides file %s: %s", _DATASET_OVERRIDES_FILE, exc)
+        _DATASET_OVERRIDE_CACHE[cache_key] = {}
+        return {}
+
+    datasets_raw = raw.get("datasets") if isinstance(raw, dict) else None
+    if not isinstance(datasets_raw, dict):
+        _DATASET_OVERRIDE_CACHE[cache_key] = {}
+        return {}
+
+    normalized: dict[str, dict[str, Any]] = {}
+    for ds_name, ds_cfg in datasets_raw.items():
+        if not isinstance(ds_cfg, dict):
+            continue
+        key = str(ds_name).strip().lower()
+        if not key:
+            continue
+        normalized[key] = ds_cfg
+
+    _DATASET_OVERRIDE_CACHE[cache_key] = normalized
+    return normalized
+
+
+def _dataset_display_metrics(dataset_name: str) -> list[str] | None:
+    """Return optional ordered metric list to display for the dataset page."""
+    ds_cfg = _load_dataset_overrides().get(dataset_name.strip().lower(), {})
+    if not isinstance(ds_cfg, dict):
+        return None
+    metrics = ds_cfg.get("display_metrics")
+    if not isinstance(metrics, list):
+        return None
+    cleaned = [str(m).strip() for m in metrics if str(m).strip()]
+    return cleaned or None
+
+
+def _apply_display_metrics_filter(
+    metrics_ordered: list[str],
+    rows: list[dict],
+    display_metrics: list[str] | None,
+    primary_metric: str,
+) -> tuple[list[str], list[dict], str]:
+    """Filter metric columns in dataset pages according to display_metrics list."""
+    if not display_metrics:
+        return metrics_ordered, rows, primary_metric
+
+    filtered_metrics = [m for m in display_metrics if m in metrics_ordered]
+    if not filtered_metrics:
+        logger.warning(
+            "display_metrics=%s contains no metrics present in exported metrics=%s; keeping all",
+            display_metrics,
+            metrics_ordered,
+        )
+        return metrics_ordered, rows, primary_metric
+
+    idx_map = {m: i for i, m in enumerate(metrics_ordered)}
+    new_rows: list[dict] = []
+    for r in rows:
+        new_r = dict(r)
+        metric_values = r.get("metric_values") or []
+        metric_stds = r.get("metric_stds") or []
+        new_r["metric_values"] = [metric_values[idx_map[m]] for m in filtered_metrics]
+        new_r["metric_stds"] = [metric_stds[idx_map[m]] for m in filtered_metrics]
+        new_rows.append(new_r)
+
+    new_primary = primary_metric if primary_metric in filtered_metrics else filtered_metrics[0]
+    return filtered_metrics, new_rows, new_primary
 
 
 def _mark_is_best(
@@ -886,6 +969,15 @@ def export_dataset(dataset_id: int) -> bool:
             # Build pivoted multi-metric rows (primary metric first, then sorted)
             metrics_ordered, higher_is_better, rows = _build_multi_metric_rows(all_results, metric)
 
+            # Optional dataset-level display metric filtering (e.g. Texas -> Accuracy only)
+            display_metrics = _dataset_display_metrics(ds.name)
+            metrics_ordered, rows, metric = _apply_display_metrics_filter(
+                metrics_ordered,
+                rows,
+                display_metrics,
+                metric,
+            )
+
             milestones = get_best_results_over_time(v.id, metric)
 
             variant_data.append(
@@ -920,6 +1012,8 @@ def export_dataset(dataset_id: int) -> bool:
                 "model": best_row["model"],
                 "value": primary_val,
                 "metric": std_vd["primary_metric"],
+                "arxiv_id": best_row.get("arxiv_id") or "",
+                "paper_title": best_row.get("title") or "",
             }
 
         # Dataset-level stats are often missing; fall back to the standard variant stats.

@@ -195,6 +195,13 @@ footer { max-width: 1100px; margin: 3rem auto 1rem; padding: 0 1.5rem; color: va
 /* Dataset list page */
 .filter-bar { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
 .filter-bar select { padding: 4px 8px; border-radius: var(--radius); border: 1px solid var(--gray-300); }
+.filter-bar input[type="search"] {
+  width: min(30rem, 100%);
+  padding: 6px 10px;
+  border-radius: var(--radius);
+  border: 1px solid var(--gray-300);
+  font-size: 0.9rem;
+}
 .filter-label { font-size: 0.875rem; color: var(--gray-600); white-space: nowrap; }
 .task-filter { padding: 4px 12px; border-radius: 999px; border: 1px solid var(--gray-300); background: transparent; cursor: pointer; font-size: 0.85rem; }
 .task-filter.active { background: var(--accent); color: #fff; border-color: var(--accent); }
@@ -258,6 +265,26 @@ tr.chart-hover-highlight { background: #fef9c3 !important; outline: 2px solid va
 .stat-paper-list { margin: 0.6rem 0 0; padding-left: 1.05rem; max-height: 14rem; overflow-y: auto; }
 .stat-paper-list li { margin: 0.2rem 0; font-size: 0.8rem; }
 .dataset-benchmark-overline { margin: 0 0 0.15rem; color: var(--gray-600); font-size: 0.76rem; letter-spacing: 0.05em; text-transform: uppercase; }
+.dataset-header .dataset-heading-line {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.15rem;
+}
+.dataset-header .dataset-heading-line h1 {
+  margin: 0;
+}
+.dataset-header .dataset-benchmark-overline {
+  margin: 0;
+}
+.dataset-meta-line {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: 0.1rem;
+}
 .stat-value { font-size: 1.3rem; font-weight: 700; color: var(--blue-600, #2563eb); line-height: 1.2; }
 .stat-label { font-size: 0.75rem; color: var(--gray-600); text-transform: uppercase; letter-spacing: 0.04em; margin-top: 2px; }
 
@@ -266,6 +293,22 @@ tr.row-best td { background: #fefce8; }
 tr.row-best td.col-value { font-weight: 700; }
 .inline-std { font-size: 0.82em; color: var(--gray-600); font-weight: 400; }
 .result-table td.col-value { white-space: nowrap; }
+.result-table th.col-value,
+.result-table td.col-value {
+  width: var(--value-col-width, 14ch);
+  min-width: var(--value-col-width, 14ch);
+}
+.result-table th.col-type,
+.result-table td.col-type {
+  width: 12ch;
+  min-width: 12ch;
+  text-align: center;
+}
+.result-table th.col-date,
+.result-table td.col-date {
+  min-width: 10.5ch;
+  white-space: nowrap;
+}
 
 /* Global-context rows (top-ranked models injected from other papers) */
 tr.row-global-top td { background: #f0f9ff; color: var(--gray-600); }
@@ -304,17 +347,21 @@ tr.row-global-top.row-best td { background: #e0f2fe; }
 /* Wide table mode: only affect the table wrapper itself */
 .result-table-wrapper.wide-table-mode {
   width: 100%;
-  max-width: 100%;
-  overflow-x: hidden;
+  max-width: none;
+  overflow-x: auto;
 }
 .result-table-wrapper.wide-table-mode .result-table {
-  width: 100%;
-  min-width: 100%;
-  table-layout: fixed;
+  width: max-content;
+  min-width: 1400px;
+  table-layout: auto;
 }
 .result-table-wrapper.wide-table-mode .result-table th.col-model,
 .result-table-wrapper.wide-table-mode .result-table td.col-model {
   white-space: nowrap;
+}
+.result-table-wrapper.wide-table-mode .result-table th.col-date,
+.result-table-wrapper.wide-table-mode .result-table td.col-date {
+  min-width: 13ch;
 }
 
 /* Chart hover preview row */

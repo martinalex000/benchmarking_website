@@ -207,6 +207,64 @@ uv run python -m backend.reapply_overrides
 uv run python -m backend.export_to_hugo
 ```
 
+### Dataset-level display overrides (website presentation)
+
+Dataset page presentation overrides are configured in:
+
+`config/dataset_overrides.yaml`
+
+Use this file to control which metric columns are shown on dataset detail pages.
+
+```yaml
+datasets:
+  Texas:
+    display_metrics: ["Accuracy"]
+```
+
+After editing this file, re-export and rebuild:
+
+```bash
+uv run python -m backend.export_to_hugo
+cd site && /snap/bin/hugo --minify
+```
+
+This is dataset-level (not paper-level), and affects all dataset pages for that dataset.
+
+---
+
+## Editing dataset descriptive text
+
+Dataset descriptions shown on the website are sourced from the database field `Dataset.description`.
+
+Primary edit location:
+
+- `config/seed_data.yaml` (benchmark and dataset definitions, including `description`)
+
+How to apply description changes:
+
+```bash
+# if you changed seeded benchmark/dataset metadata
+uv run python -m backend.seed_db
+
+# regenerate Hugo content and static site
+uv run python -m backend.export_to_hugo
+cd site && /snap/bin/hugo --minify
+```
+
+If you only need to adjust website presentation (not DB semantic metadata), prefer `config/dataset_overrides.yaml` for display-only controls such as `display_metrics`.
+
+---
+
+## Statistics on landing page vs datasets page
+
+The two pages use different aggregation paths, so counts can differ:
+
+- Landing page: aggregates from `site/data/benchmarks.json` (raw DB-oriented counts with problematic rows excluded).
+- Datasets overview: aggregates from exported dataset pages in `site/content/datasets/` (deduplicated leaderboard rows and exported-page scope).
+
+For user-facing leaderboard presentation, the datasets-overview counts are typically the more conservative numbers.
+See Development page: `Development -> Statistics Sources & Discrepancies`.
+
 ---
 
 ## Local preview

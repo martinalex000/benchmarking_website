@@ -19,12 +19,17 @@
   plus {{ len $bench_papers }} benchmarking paper(s).
 </p>
 
+<div class="filter-bar papers-search-bar">
+  <label class="filter-label" for="paper-search">Search papers:</label>
+  <input id="paper-search" type="search" placeholder="Type title or arXiv id..." autocomplete="off">
+</div>
+
 {{ if $sorted_method }}
 <section class="papers-category">
   <h2 class="category-heading">Method Papers <span class="category-hint">sorted by MRR ↓</span></h2>
   <div class="paper-list">
     {{ range $sorted_method }}
-    <div class="paper-list-item">
+    <div class="paper-list-item" data-paper-search="{{ lower (printf "%s %s" .Title (.Params.arxiv_id | default "")) }}">
       <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
       <div class="paper-meta">
         {{ with .Params.arxiv_id }}<a class="badge" href="https://arxiv.org/abs/{{ . }}" target="_blank" rel="noopener">arXiv:{{ . }}</a>{{ end }}
@@ -46,7 +51,7 @@
   <h2 class="category-heading">Benchmarking Papers <span class="category-hint">no single proposed method</span></h2>
   <div class="paper-list">
     {{ range $bench_papers }}
-    <div class="paper-list-item">
+    <div class="paper-list-item" data-paper-search="{{ lower (printf "%s %s" .Title (.Params.arxiv_id | default "")) }}">
       <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
       <div class="paper-meta">
         {{ with .Params.arxiv_id }}<a class="badge" href="https://arxiv.org/abs/{{ . }}" target="_blank" rel="noopener">arXiv:{{ . }}</a>{{ end }}
@@ -60,4 +65,30 @@
   </div>
 </section>
 {{ end }}
+
+{{ end }}
+
+{{ define "scripts" }}
+<script>
+(function () {
+  var input = document.getElementById("paper-search");
+  if (!input) return;
+
+  function applyFilter() {
+    var query = (input.value || "").trim().toLowerCase();
+    document.querySelectorAll(".papers-category").forEach(function (section) {
+      var visible = 0;
+      section.querySelectorAll(".paper-list-item").forEach(function (card) {
+        var haystack = (card.dataset.paperSearch || "").toLowerCase();
+        var match = !query || haystack.indexOf(query) !== -1;
+        card.style.display = match ? "" : "none";
+        if (match) visible += 1;
+      });
+      section.style.display = visible > 0 ? "" : "none";
+    });
+  }
+
+  input.addEventListener("input", applyFilter);
+})();
+</script>
 {{ end }}

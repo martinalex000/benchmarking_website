@@ -1,0 +1,14 @@
+# Dataset-level website display overrides.
+# This file controls presentation for dataset pages, independent of per-paper overrides.
+#
+# Supported keys per dataset:
+#   display_metrics: ordered list of metric names to show on the dataset detail page.
+#
+# Example:
+# datasets:
+#   Texas:
+#     display_metrics: ["Accuracy"]
+
+datasets:
+  Texas:
+    display_metrics: ["Accuracy"]
