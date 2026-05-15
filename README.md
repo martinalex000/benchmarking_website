@@ -1,8 +1,9 @@
 # Graph Learning Benchmarking Website
 
 A self-hosted static website that tracks and visualises state-of-the-art results
-across graph learning benchmarks. Papers are discovered automatically via an
-LLM-powered pipeline; human corrections are applied through `overrides.yaml` files.
+across graph learning benchmarks. Papers are discovered automatically or added
+manually; an LLM pipeline extracts benchmark results; human corrections are applied
+through `overrides.yaml` files per paper.
 
 ---
 
@@ -12,7 +13,7 @@ LLM-powered pipeline; human corrections are applied through `overrides.yaml` fil
 git clone <repo-url>
 cd benchmarking_website
 
-# Copy the env template and fill in your LLM credentials (see section below)
+# Copy the env template and fill in your LLM credentials
 cp .env.example .env
 $EDITOR .env
 
@@ -20,124 +21,190 @@ $EDITOR .env
 uv sync --group dev
 
 # Seed the database with benchmark/dataset definitions
-python -m backend.seed_db
+uv run python -m backend.seed_db
 
-# Run the full pipeline (discover → download → extract → parse → aggregate → export → build)
-python -m backend.pipeline run-all
+# Process your first paper
+uv run python scripts/run_manual.py 2206.08164
 ```
 
 ---
 
 ## LLM configuration
 
-The pipeline uses an **OpenAI-compatible** API endpoint. All configuration lives
-in two places:
+The pipeline uses an **OpenAI-compatible** API endpoint.
 
-### 1. `.env` — secrets (never commit this file)
+### `.env` — secrets (never commit this file)
 
 | Variable | Required | Description |
 |---|---|---|
-| `LLM_ENDPOINT` | **yes** | Base URL of your LLM server, e.g. `https://api.example.com/v1` |
+| `LLM_ENDPOINT` | **yes** | Base URL, e.g. `https://api.example.com/v1` |
 | `LLM_API_KEY` | **yes** | API key for that endpoint |
-| `LLM_MODEL_PRIMARY` | no | Override the primary model (default: `openai-gpt-oss120b`) |
-| `LLM_MODEL_FALLBACK` | no | Override the fallback model (default: `minimax`) |
-| `LLM_MODEL_SMALL` | no | Override the small/cheap model (default: `gemma-3-27b`) |
+| `LLM_MODEL_PRIMARY` | no | Override primary model (default from `llm_config.yaml`) |
+| `LLM_MODEL_FALLBACK` | no | Override fallback model |
+| `LLM_MODEL_SMALL` | no | Override small/cheap model used for screening |
 
-Copy `.env.example` → `.env` and set `LLM_ENDPOINT` and `LLM_API_KEY` at minimum.
+### `config/llm_config.yaml` — non-secret model settings
 
-### 2. `config/llm_config.yaml` — non-secret model settings
+Default model names, temperature, token limits, and retry config.
+`.env` values override the YAML when both are set.
 
-Default model names, temperature, retry counts, and token limits live here.
-`.env` values override the YAML if both are set.
-
-### Check which models your endpoint actually serves
+### Verify your endpoint
 
 ```bash
+# List all models the endpoint serves and check your configured tiers
 uv run python scripts/list_models.py
-```
 
-This queries `GET /v1/models`, prints all available model IDs, then checks
-whether your configured `primary`, `fallback`, and `small` model names match.
-Exits 1 if any are missing so you can update `.env` / `config/llm_config.yaml`.
+# Point at a different endpoint
+uv run python scripts/list_models.py --endpoint https://api.example.com/v1 --api-key sk-xxx
+```
 
 ---
 
-## Pipeline commands
+## Main scripts
 
-All pipeline stages are sub-commands of `python -m backend.pipeline`:
+### `scripts/run_manual.py` — process a single paper
 
-```bash
-# Full end-to-end run
-python -m backend.pipeline run-all
-
-# Individual stages
-python -m backend.pipeline discover      # arXiv + citation scanning for new papers
-python -m backend.pipeline download      # fetch PDFs
-python -m backend.pipeline extract       # LLM extraction of results from PDFs
-python -m backend.pipeline parse         # write LLM output to SQLite
-python -m backend.pipeline aggregate     # compute leaderboard aggregates
-python -m backend.pipeline export        # write Hugo markdown + data files
-python -m backend.pipeline build         # run Hugo static site generator
-
-# Debug logging
-python -m backend.pipeline run-all --verbose
-```
-
-### Manual paper processing
-
-Process a single paper (useful for testing or re-processing):
+The primary interactive tool. Downloads, extracts, stores, and exports one paper.
+Prints live progress for every LLM call (call type, input/output size, TTFT,
+tok/s, discovered datasets, and tables selected).
 
 ```bash
-python scripts/run_manual.py 2206.08164
-python scripts/run_manual.py 2206.08164 --model fallback
-python scripts/run_manual.py 2206.08164 --skip-download   # re-extract only
+# Basic: download + extract + store + export
+uv run python scripts/run_manual.py 2206.08164
+
+# Full arXiv URL also works
+uv run python scripts/run_manual.py https://arxiv.org/abs/2206.08164
+
+# Re-run extraction only (keep existing download)
+uv run python scripts/run_manual.py 2206.08164 --skip-download --force
+
+# Skip the abstract screening step and go straight to full extraction
+uv run python scripts/run_manual.py 2206.08164 --skip-screen
+
+# Use a different model tier
+uv run python scripts/run_manual.py 2206.08164 --model fallback
+uv run python scripts/run_manual.py 2206.08164 --model small
+
+# Legacy single-shot extraction (no dataset discovery step)
+uv run python scripts/run_manual.py 2206.08164 --oneshot
+
+# Run all three model tiers and compare their outputs side by side
+uv run python scripts/run_manual.py 2206.08164 --compare-models
+
+# Re-download everything and re-extract
+uv run python scripts/run_manual.py 2206.08164 --force-download
+
+# Skip extraction and only re-parse + export (after manual override edits)
+uv run python scripts/run_manual.py 2206.08164 --skip-download --skip-extract
 ```
 
-The script prints download size (MB), whether an HTML version was available,
-which model is being used, and how many result rows were stored.
+If extraction fails, an `errors.log` entry and a full Markdown conversation log
+(`extraction_error_<timestamp>.md`) are written to `papers/<id>/extracted/`.
 
-If extraction fails with a model-not-found error, check what models your
-endpoint actually serves:
+---
+
+### `scripts/find_citing_papers.py` — discover papers that cite a benchmark
+
+Queries Semantic Scholar for all papers that cite a given arXiv paper, shows
+their processing status in the local DB, and lets you interactively queue them
+for processing via `run_manual.py`.
+
+```bash
+# Find papers citing the LRGB benchmark paper
+uv run python scripts/find_citing_papers.py 2206.08164
+
+# Limit to the 50 most recent citations
+uv run python scripts/find_citing_papers.py 2206.08164 --limit 50
+
+# Include papers already tracked in the DB
+uv run python scripts/find_citing_papers.py 2206.08164 --show-all
+```
+
+Set `S2_API_KEY` in your environment to avoid Semantic Scholar rate limits.
+
+---
+
+### `scripts/compare_models.py` — benchmark LLM extraction quality
+
+Runs every available model on papers that have a known-good baseline extraction
+and measures hits, misses, value errors, and hallucination rate. Outputs a rich
+recall/precision summary per model.
+
+```bash
+# Run all models on all papers with a baseline
+uv run python scripts/compare_models.py
+
+# Limit to specific papers or models
+uv run python scripts/compare_models.py --paper 2206.08164 2309.00367
+uv run python scripts/compare_models.py --model gemma-3-27b-it qwen3.5-27b
+
+# Skip slow or irrelevant models
+uv run python scripts/compare_models.py --skip-model teuken-7b-instruct-research
+
+# Save detailed results + full conversation logs
+uv run python scripts/compare_models.py \
+    --output experiments/comparison.json \
+    --log-dir experiments/logs
+```
+
+---
+
+### `scripts/set_dataset_stats.py` — update dataset statistics in the DB
+
+Writes graph count, node/edge counts, and class counts for LRGB and OGB
+datasets into the database. Run once after seeding, or when metadata changes.
+
+```bash
+uv run python scripts/set_dataset_stats.py
+
+# Also re-export Hugo content immediately after
+uv run python scripts/set_dataset_stats.py --export
+```
+
+---
+
+### `scripts/list_models.py` — check available models at your endpoint
 
 ```bash
 uv run python scripts/list_models.py
 ```
+
+Prints all model IDs from `GET /v1/models` and marks which configured tiers
+(primary / fallback / small) are present. Exits 1 if any are missing.
 
 ---
 
 ## Corrections and overrides
 
-Results are never edited directly in the database. Instead, create or edit an
-`overrides.yaml` file in the paper's data directory:
-
-```
-papers/
-└── 2206.08164/
-    ├── paper.pdf
-    ├── extraction.json        ← raw LLM output (do not edit)
-    └── overrides.yaml         ← your corrections go here
-```
-
-Example `overrides.yaml`:
+Results are never edited in the database directly. Create or edit
+`papers/<id>/overrides.yaml` to correct extraction errors. This file is never
+overwritten by the pipeline.
 
 ```yaml
-results:
-  - dataset: Peptides-func
-    model: GPS
-    metric_name: AP
-    metric_value: 0.6535
-    override_reason: "Typo in LLM extraction; corrected from paper Table 2"
+# papers/2206.08164/overrides.yaml
+paper_arxiv_id: "2206.08164"
+
+result_overrides:
+  - model: "GraphGPS"
+    dataset: "Peptides-func"
+    metric: "AP"
+    correct_value: 0.6534
+    correct_std: 0.0042
+    reason: "LLM read wrong table row — see Table 3"
+
+metadata_overrides:
+  codebase_url: "https://github.com/example/repo"
 ```
 
-After editing, re-apply overrides:
+After editing, re-apply overrides and re-export:
 
 ```bash
-# Re-apply overrides for one paper
-python -m backend.reapply_overrides --paper 2206.08164
+# One paper
+uv run python -m backend.reapply_overrides --paper 2206.08164
 
-# Re-apply all overrides, then re-export and rebuild
-python -m backend.reapply_overrides
-python -m backend.pipeline aggregate
+# All papers, then re-export
+uv run python -m backend.reapply_overrides
+uv run python -m backend.export_to_hugo
 ```
 
 ---
@@ -145,16 +212,38 @@ python -m backend.pipeline aggregate
 ## Local preview
 
 ```bash
-cd site
-/snap/bin/hugo server --buildDrafts
+cd site && /snap/bin/hugo server --bind 0.0.0.0 -p 1313
 # Open http://localhost:1313
 ```
 
 ---
 
+## Bulk pipeline (automated processing)
+
+For batch processing, all stages are sub-commands of `backend.pipeline`:
+
+```bash
+# Full end-to-end run
+uv run python -m backend.pipeline run-all
+
+# Individual stages
+uv run python -m backend.pipeline discover    # scan arXiv + citations for new papers
+uv run python -m backend.pipeline download    # fetch PDFs + HTML
+uv run python -m backend.pipeline extract     # LLM extraction (quiet/batch mode)
+uv run python -m backend.pipeline parse       # write LLM output to SQLite
+uv run python -m backend.pipeline aggregate   # compute leaderboard aggregates
+uv run python -m backend.pipeline export      # write Hugo markdown + data files
+uv run python -m backend.pipeline build       # run Hugo static site generator
+```
+
+Batch extraction runs with `verbose=False`. Use `run_manual.py` for interactive
+extraction with live call-by-call progress output.
+
+---
+
 ## Deployment
 
-Edit `DEPLOY_USER`, `DEPLOY_HOST`, and `DEPLOY_PATH` in `.env`, then:
+Set `DEPLOY_USER`, `DEPLOY_HOST`, and `DEPLOY_PATH` in `.env`, then:
 
 ```bash
 bash scripts/deploy.sh
@@ -164,29 +253,14 @@ bash scripts/deploy.sh
 
 ## Database
 
-SQLite database at `data/benchmarks.db` (WAL mode). Reset and re-seed:
+SQLite at `data/benchmarks.db`. Reset and re-seed:
 
 ```bash
 rm data/benchmarks.db
-python -m backend.seed_db
+uv run python -m backend.seed_db
 ```
 
 Schema source of truth: `config/schema.sql`. ORM: `backend/models.py`.
-
----
-
-## Code formatting
-
-All Python is formatted with **black** (line length 100). A pre-commit hook
-runs black automatically on every commit.
-
-```bash
-# Format manually
-uv run black .
-
-# Install the pre-commit hook (already done after uv sync)
-uv run pre-commit install
-```
 
 ---
 
@@ -194,31 +268,31 @@ uv run pre-commit install
 
 ```
 benchmarking_website/
-├── backend/               Python pipeline modules
-│   ├── models.py          SQLAlchemy ORM (source of truth for DB schema)
-│   ├── db.py              DB session management
-│   ├── pipeline.py        CLI entry point for all pipeline stages
-│   ├── arxiv_scanner.py   Discover papers from arXiv
-│   ├── citation_finder.py Follow citations to baseline papers
-│   ├── llm_extractor.py   LLM calls for result extraction
+├── scripts/               Interactive tools (primary workflow)
+│   ├── run_manual.py      Process a single paper end-to-end
+│   ├── find_citing_papers.py  Discover papers via Semantic Scholar
+│   ├── compare_models.py  Compare LLM extraction quality
+│   ├── set_dataset_stats.py   Update dataset statistics in DB
+│   └── list_models.py     Check available LLM models
+├── backend/               Pipeline modules (batch / automated use)
+│   ├── llm_extractor.py   All LLM calls + extraction orchestration
+│   ├── pipeline.py        CLI for all pipeline stages
 │   ├── results_parser.py  Parse LLM JSON → DB rows
-│   ├── baseline_aggregator.py  Leaderboard aggregation
 │   ├── export_to_hugo.py  Write Hugo content and data files
 │   ├── seed_db.py         Seed benchmarks/datasets from YAML
 │   └── reapply_overrides.py  Apply overrides.yaml files
 ├── config/
 │   ├── schema.sql         Authoritative SQL schema
 │   ├── seed_data.yaml     Benchmark/dataset definitions
-│   └── llm_config.yaml    LLM model config (non-secret)
+│   ├── llm_config.yaml    LLM model config (non-secret)
+│   └── prompts/           LLM system-prompt templates
 ├── site/                  Hugo static site
-│   ├── hugo.toml          Hugo configuration
+│   ├── hugo.toml
 │   ├── layouts/           HTML templates
-│   ├── assets/            CSS / JS
 │   └── content/           Generated markdown (do not edit manually)
-├── scripts/               Helper shell scripts
-├── tests/                 pytest test suite
+├── papers/                Per-paper folder (PDF, HTML, extracted/, overrides.yaml)
 ├── data/                  SQLite database (gitignored)
-├── papers/                Downloaded PDFs + per-paper overrides.yaml
+├── tests/                 pytest test suite
 ├── .env.example           Environment variable template
-└── pyproject.toml         Python project config
+└── pyproject.toml
 ```

@@ -33,9 +33,11 @@ site/.hugo_build.lock
 # Downloaded paper files (large, reproducible)
 papers/*/paper.pdf
 papers/*/html/
+papers/*/latex/
 papers/*/extracted/text.txt
-papers/*/extracted/llm_output.json
+papers/*/extracted/*.json
 papers/*/figures/
+papers/*/metadata.json
 
 # ALWAYS TRACK these (do NOT add to ignore):
 # papers/*/metadata.json        ← paper metadata

@@ -111,10 +111,13 @@ def stage_discover(args: argparse.Namespace) -> None:
 
 def stage_download(args: argparse.Namespace) -> None:
     from backend.arxiv_downloader import download_paper
+    from backend.llm_extractor import LLMExtractor, fetch_arxiv_metadata
+    from backend.paper_storage import PaperStorage
     from tqdm import tqdm
 
     force = getattr(args, "force", False)
     arxiv_ids = getattr(args, "paper", None)
+    screen_first = not getattr(args, "skip_screen", False)
     papers = _get_papers(arxiv_ids=arxiv_ids, status_filter="pending" if not arxiv_ids else None)
 
     console.print(f"[bold]Download[/bold] — {len(papers)} paper(s) to process")
@@ -122,13 +125,41 @@ def stage_download(args: argparse.Namespace) -> None:
         console.print("  Nothing to download.")
         return
 
-    ok = fail = skip = 0
+    ok = fail = skip = rejected = 0
+    screener = LLMExtractor(model_tier="small") if screen_first else None
+
     for p in tqdm(papers, desc="Downloading", unit="paper", leave=True):
         if not should_process(p.id, "download", force=force):
             tqdm.write(f"  skip  {p.arxiv_id}  (already downloaded)")
             skip += 1
             continue
         try:
+            storage = PaperStorage(p.arxiv_id)
+            already_local = (
+                storage.pdf_path.exists()
+                or storage.html_index_path.exists()
+                or (storage.latex_dir / "expanded.tex").exists()
+            )
+
+            # Screen abstract BEFORE downloading if paper is not yet local.
+            if screen_first and not already_local:
+                title = p.title or ""
+                abstract = p.abstract or ""
+                if not abstract or title.startswith("arXiv:"):
+                    meta = fetch_arxiv_metadata(p.arxiv_id)
+                    title = meta.get("title", title)
+                    abstract = meta.get("abstract", abstract)
+                if abstract:
+                    screen = screener.screen_paper(title, abstract)
+                    if not screen.has_benchmark_results and not screen.has_new_benchmark:
+                        tqdm.write(
+                            f"  ✗  {p.arxiv_id}  REJECTED by pre-screen"
+                            f" (conf={screen.confidence:.2f})"
+                        )
+                        record_run(p.id, "download", "rejected")
+                        rejected += 1
+                        continue
+
             result = download_paper(p.arxiv_id, force=force)
             status = "success" if result else "failed"
         except Exception as exc:
@@ -143,7 +174,8 @@ def stage_download(args: argparse.Namespace) -> None:
             fail += 1
 
     console.print(
-        f"  Done — [green]{ok} ok[/green], [red]{fail} failed[/red], [dim]{skip} skipped[/dim]"
+        f"  Done — [green]{ok} ok[/green], [red]{fail} failed[/red],"
+        f" [yellow]{rejected} rejected[/yellow], [dim]{skip} skipped[/dim]"
     )
 
 
@@ -169,7 +201,7 @@ def stage_extract(args: argparse.Namespace) -> None:
             skip += 1
             continue
         try:
-            result = run_extraction(p.arxiv_id, model_tier=model_tier)
+            result = run_extraction(p.arxiv_id, model_tier=model_tier, verbose=False)
             status = "success" if result else "failed"
         except Exception as exc:
             logger.error("Extraction failed for %s: %s", p.arxiv_id, exc)
@@ -288,6 +320,11 @@ def _build_parser() -> argparse.ArgumentParser:
     dl = sub.add_parser("download", help="Download papers")
     dl.add_argument("--paper", nargs="+", metavar="ARXIV_ID")
     dl.add_argument("--force", action="store_true")
+    dl.add_argument(
+        "--skip-screen",
+        action="store_true",
+        help="Skip abstract pre-screen and download all papers unconditionally",
+    )
 
     # extract
     ex = sub.add_parser("extract", help="Run LLM extraction")

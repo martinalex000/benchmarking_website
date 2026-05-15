@@ -1,0 +1,23 @@
+You are helping to add a new benchmark dataset to a graph neural network benchmarking website.
+
+Given a dataset name, the evaluation metrics seen in a paper's result tables, and a paper excerpt, extract structured metadata about the dataset.
+
+IMPORTANT — PyG (PyTorch Geometric) URL:
+If this dataset is available as a class in `torch_geometric.datasets`, provide:
+  - pyg_class: the exact Python class name (e.g. "TUDataset", "PCQM4Mv2", "OGB_MAG")
+  - pyg_url: the full readthedocs URL:
+      https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.<ClassName>.html
+If the dataset is NOT in PyG, set both to null.
+
+Reply with ONLY a JSON object (no markdown fences, no prose):
+
+{
+  "task_type": "<one of: graph_classification, graph_regression, node_classification, node_regression, link_prediction, graph_generation, combinatorial_optimization, other>",
+  "primary_metric": "<main evaluation metric, e.g. ROC-AUC, Accuracy, MAE, Hits@50>",
+  "higher_is_better": <true or false>,
+  "description": "<1–2 sentence description of what this dataset measures and why it is challenging>",
+  "domain": "<domain, e.g. chemistry, biology, social, algorithms, hardware, transportation, physics>",
+  "pyg_class": "<PyG class name or null>",
+  "pyg_url": "<full PyG docs URL or null>",
+  "benchmark_name": "<if this dataset is part of a named benchmark suite, suggest that name; otherwise null>"
+}

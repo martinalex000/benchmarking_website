@@ -37,9 +37,11 @@ _ARXIV_RE = re.compile(r"(\d{4}\.\d{4,5})")
 
 
 def _s2_session() -> requests.Session:
-    """Build a requests session with optional API key from S2_API_KEY env var."""
+    """Build a requests session with API key from config (SEMANTIC_SCHOLAR_API_KEY env var)."""
+    from backend.config import cfg
+
     sess = requests.Session()
-    key = os.environ.get("S2_API_KEY", "").strip()
+    key = cfg.semantic_scholar_api_key or os.environ.get("S2_API_KEY", "")
     if key:
         sess.headers["x-api-key"] = key
     return sess
@@ -141,6 +143,21 @@ def _get_processed_ids() -> dict[str, str]:
     with session_scope() as session:
         rows = session.query(Paper.arxiv_id, Paper.extraction_status).all()
         return {r.arxiv_id: r.extraction_status for r in rows if r.arxiv_id}
+
+
+def _get_rejected_ids() -> dict[str, str]:
+    """Return {arxiv_id: final_status} for papers rejected by the screening pipeline."""
+    from backend.db import init_db, session_scope
+    from backend.models import PaperCandidate
+
+    init_db()
+    with session_scope() as session:
+        rows = (
+            session.query(PaperCandidate.arxiv_id, PaperCandidate.final_status)
+            .filter(PaperCandidate.final_status.in_(["rejected_stage1", "rejected_stage2"]))
+            .all()
+        )
+        return {r.arxiv_id: r.final_status for r in rows if r.arxiv_id}
 
 
 def _has_local_extraction(arxiv_id: str) -> bool:
@@ -257,6 +274,7 @@ def main() -> None:
     # ── Step 3: Extract arXiv IDs & check DB ─────────────────────────────
     console.print("\n[bold]3. Checking processing status…[/bold]")
     processed = _get_processed_ids()
+    rejected = _get_rejected_ids()
 
     arxiv_papers: list[dict] = []
     no_arxiv: list[dict] = []
@@ -266,9 +284,14 @@ def main() -> None:
         if aid:
             has_extraction = _has_local_extraction(aid)
             db_status = processed.get(aid)
+            reject_status = rejected.get(aid)
 
             if db_status:
                 status = db_status  # "done", "pending", "failed", etc.
+            elif reject_status == "rejected_stage1":
+                status = "rejected_s1"
+            elif reject_status == "rejected_stage2":
+                status = "rejected_s2"
             elif has_extraction:
                 status = "extracted (not in DB)"
             else:
@@ -285,22 +308,24 @@ def main() -> None:
         else:
             no_arxiv.append(paper)
 
-    # Sort: new first, then by year desc
+    # Sort: new first, then rejected, then by year desc
     def _sort_key(p: dict) -> tuple:
-        is_new = p["status"] == "new"
-        year = p.get("year") or 0
-        return (0 if is_new else 1, -int(year) if year else 0)
+        order = {"new": 0, "rejected_s1": 1, "rejected_s2": 2}
+        s = p["status"]
+        return (order.get(s, 3), -int(p.get("year") or 0))
 
     arxiv_papers.sort(key=_sort_key)
 
     # ── Step 4: Display table ─────────────────────────────────────────────
     new_count = sum(1 for p in arxiv_papers if p["status"] == "new")
     done_count = sum(1 for p in arxiv_papers if p["status"] in ("done", "extracted (not in DB)"))
+    rejected_count = sum(1 for p in arxiv_papers if p["status"].startswith("rejected"))
 
     console.print(
         f"\n  [green]{len(arxiv_papers)}[/green] with arXiv IDs  "
         f"([yellow]{new_count}[/yellow] new, "
         f"[green]{done_count}[/green] already processed, "
+        f"[red]{rejected_count}[/red] rejected, "
         f"[dim]{len(no_arxiv)}[/dim] without arXiv ID)"
     )
 
@@ -311,14 +336,14 @@ def main() -> None:
     table.add_column("Status", width=24)
     table.add_column("Title")
 
-    candidates: list[dict] = []  # only unprocessed papers get a number
+    candidates: list[dict] = []  # only unprocessed (new + rejected) papers get a number
     all_rows = arxiv_papers
 
     for paper in all_rows:
         status = paper["status"]
         is_done = status in ("done", "extracted (not in DB)")
 
-        # Assign sequential index only to unprocessed papers
+        # Assign sequential index only to unprocessed papers (including rejected — can retry)
         if not is_done:
             candidates.append(paper)
             num = str(len(candidates))
@@ -335,6 +360,10 @@ def main() -> None:
             status_str = "[red]failed[/red]"
         elif status == "pending":
             status_str = "[yellow]pending[/yellow]"
+        elif status == "rejected_s1":
+            status_str = "[red]rejected (stage 1)[/red]"
+        elif status == "rejected_s2":
+            status_str = "[red]rejected (stage 2)[/red]"
         else:
             status_str = f"[dim]{status}[/dim]"
 

@@ -69,6 +69,7 @@ class PaperStorage:
         self.html_dir = self.root / "html"
         self.extracted_dir = self.root / "extracted"
         self.figures_dir = self.root / "figures"
+        self.latex_dir = self.root / "latex"
 
     # ── Paths ─────────────────────────────────────────────────────────────
     @property
@@ -111,7 +112,7 @@ class PaperStorage:
     # ── Initialisation ────────────────────────────────────────────────────
     def ensure_dirs(self) -> None:
         """Create all subdirectories."""
-        for d in (self.root, self.html_dir, self.extracted_dir, self.figures_dir):
+        for d in (self.root, self.html_dir, self.extracted_dir, self.figures_dir, self.latex_dir):
             d.mkdir(parents=True, exist_ok=True)
 
     def init_paper(self, metadata: dict) -> None:

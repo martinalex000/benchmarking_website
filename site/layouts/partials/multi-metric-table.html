@@ -40,35 +40,36 @@
     <tbody>
       {{ range $i, $r := $rows }}
       {{ $primary_val := index $r.metric_values 0 }}
-      <tr class="result-row {{ if $r.is_baseline }}row-baseline{{ else }}row-proposed{{ end }} {{ if $r.is_overridden }}row-overridden{{ end }}{{ if $r.is_best }} row-best{{ end }}"
+      <tr class="result-row {{ if $r.is_baseline }}row-baseline{{ else }}row-proposed{{ end }} {{ if $r.is_overridden }}row-overridden{{ end }}{{ if $r.is_best }} row-best{{ end }}{{ if $r.is_global_top }} row-global-top{{ end }}"
           data-model="{{ $r.model }}"
           data-value="{{ $primary_val }}"
           data-params="{{ $r.params_millions }}"
           data-date="{{ $r.date }}"
           data-arxiv="{{ $r.arxiv_id }}">
-        <td class="col-rank">{{ add $i 1 }}</td>
+        <td class="col-rank">{{ if $r.global_rank }}{{ $r.global_rank }}{{ else }}{{ add $i 1 }}{{ end }}</td>
         <td class="col-model">
-          {{ $r.model }}
+          {{ if and $r.is_global_top $r.arxiv_id }}<a href="/papers/{{ $r.arxiv_id }}/" title="{{ $r.title }}">{{ $r.model }}</a>{{ else }}{{ $r.model }}{{ end }}
+          {{ if $r.is_global_top }}<span class="global-top-badge" title="Top-ranked globally — from another paper">global</span>{{ end }}
           {{ if $r.uses_external_data }}<span class="ext-data-badge" title="Uses external data during training">†ext</span>{{ end }}
           {{ if $r.is_overridden }}<span class="override-badge" title="{{ $r.override_reason }}">✎</span>{{ end }}
         </td>
         <td class="col-type">
-          {{ if $r.is_baseline }}<span class="tag-baseline">baseline</span>{{ else }}<span class="tag-proposed">★ proposed</span>{{ end }}
+          {{ if not $r.is_global_top }}{{ if $r.is_baseline }}<span class="tag-baseline">baseline</span>{{ else }}<span class="tag-proposed">★ proposed</span>{{ end }}{{ end }}
         </td>
         {{ range $j, $m := $metrics }}
         {{ $val := index $r.metric_values $j }}
         {{ $std := index $r.metric_stds $j }}
         <td class="col-value{{ if eq $m $primary }} col-primary{{ end }}">
           {{ if ne $val nil -}}
-            {{ printf "%.4f" $val }}
-            {{- if ne $std nil }} <span class="col-std">±{{ printf "%.4f" $std }}</span>{{ end }}
+            {{- printf "%.4f" $val -}}
+            {{- if ne $std nil }}<span class="inline-std"> ±{{ printf "%.4f" $std }}</span>{{ end }}
           {{- else }}—{{ end }}
         </td>
         {{ end }}
         <td class="col-params">{{ if $r.params_millions }}{{ printf "%.1f" $r.params_millions }}M{{ else }}—{{ end }}</td>
         {{ if not $hideMeta }}
         <td class="col-paper">
-          {{ if $r.arxiv_id }}<a href="/papers/{{ $r.arxiv_id }}/" title="arXiv:{{ $r.arxiv_id }}">{{ if $r.title }}{{ $r.title | truncate 45 }}{{ else }}arXiv:{{ $r.arxiv_id }}{{ end }}</a>{{ end }}
+          {{ if $r.arxiv_id }}<a href="/papers/{{ $r.arxiv_id }}/" title="arXiv:{{ $r.arxiv_id }}{{ with $r.title }} — {{ . }}{{ end }}">{{ if $r.title }}{{ $r.title | truncate 45 }}{{ else }}arXiv:{{ $r.arxiv_id }}{{ end }}</a>{{ end }}
         </td>
         <td class="col-code">
           {{ if $r.codebase_url }}<a href="{{ $r.codebase_url }}" target="_blank" rel="noopener">Code</a>{{ else }}—{{ end }}

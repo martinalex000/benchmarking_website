@@ -37,7 +37,7 @@ from tenacity import retry, stop_after_attempt, wait_exponential
 
 from backend.config import cfg
 from backend.db import init_db, session_scope
-from backend.llm_model_options import extra_body_for_model
+from backend.llm_model_options import display_name_for_model, extra_body_for_model
 from backend.models import Paper, PipelineRun
 from backend.paper_storage import PaperStorage
 
@@ -1944,7 +1944,7 @@ class LLMExtractor:
         # Compose full output
         output = {
             "arxiv_id": arxiv_id,
-            "model_used": self.model_name,
+            "model_used": display_name_for_model(self.model_name),
             "extracted_at": datetime.now(timezone.utc).isoformat(),
             "results": results_out.model_dump(),
             "figure": figure_out.model_dump(),
@@ -2450,7 +2450,7 @@ def run_extraction(
                         paper_id=paper_id,
                         stage="extract",
                         status="failed",
-                        model_used=cfg.model_for_tier(model_tier),
+                        model_used=display_name_for_model(cfg.model_for_tier(model_tier)),
                         error_message=str(exc),
                     )
                 )
@@ -2462,13 +2462,13 @@ def run_extraction(
             p = session.get(Paper, paper_id)
             if p:
                 p.extraction_status = "extracted"
-                p.extraction_model = cfg.model_for_tier(model_tier)
+                p.extraction_model = display_name_for_model(cfg.model_for_tier(model_tier))
             session.add(
                 PipelineRun(
                     paper_id=paper_id,
                     stage="extract",
                     status="success",
-                    model_used=cfg.model_for_tier(model_tier),
+                    model_used=display_name_for_model(cfg.model_for_tier(model_tier)),
                 )
             )
 

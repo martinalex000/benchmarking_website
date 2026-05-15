@@ -1,20 +1,43 @@
 {{ define "main" }}
 <div class="home-hero">
   <h1>Graph Learning Benchmarks</h1>
-  <p>Automated extraction of benchmark results from graph learning papers.</p>
+  <p>A curated benchmark index for graph learning papers, with extracted results, leaderboard views, and dataset pages grouped by benchmark family.</p>
+  {{ $datasets := where .Site.RegularPages "Section" "datasets" }}
+  {{ $papers := where .Site.RegularPages "Section" "papers" }}
+  {{ $benchmarks := .Site.Data.benchmarks }}
+  {{ $stats := newScratch }}
+  {{ $stats.Set "resultCount" 0 }}
+  {{ $stats.Set "benchmarkCount" 0 }}
+  {{ $stats.Set "datasetCount" 0 }}
+  
+  {{ if $benchmarks }}
+    {{ $stats.Set "benchmarkCount" (len $benchmarks) }}
+    {{ range $benchmarks }}
+      {{ $stats.Add "datasetCount" (len .datasets) }}
+      {{ range .datasets }}
+        {{ $stats.Add "resultCount" .result_count }}
+      {{ end }}
+    {{ end }}
+  {{ else }}
+    {{ range $datasets }}
+      {{ with .Params.result_count }}
+        {{ $stats.Add "resultCount" . }}
+      {{ end }}
+    {{ end }}
+    {{ $stats.Set "benchmarkCount" (len (where .Site.RegularPages "Params.benchmark" "!=" "")) }}
+    {{ $stats.Set "datasetCount" (len $datasets) }}
+  {{ end }}
+  <div class="dataset-stats">
+    <div class="stat-item"><span class="stat-value">{{ $stats.Get "benchmarkCount" }}</span><span class="stat-label">benchmark groups</span></div>
+    <div class="stat-item"><span class="stat-value">{{ $stats.Get "datasetCount" }}</span><span class="stat-label">datasets</span></div>
+    <div class="stat-item"><span class="stat-value">{{ len $papers }}</span><span class="stat-label">papers</span></div>
+    <div class="stat-item"><span class="stat-value">{{ $stats.Get "resultCount" }}</span><span class="stat-label">model results</span></div>
+  </div>
+  
+  <div class="home-nav">
+    <a href="/datasets/" class="btn-primary">Browse Datasets</a>
+    <a href="/papers/" class="btn-primary">Browse Papers</a>
+  </div>
 </div>
 
-<section class="benchmark-list">
-  {{ range .Site.Data.benchmarks }}
-  <div class="benchmark-card">
-    <h2><a href="/datasets/?benchmark={{ .slug }}">{{ .name }}</a></h2>
-    <p>{{ .description }}</p>
-    <ul>
-      {{ range .datasets }}
-      <li><a href="/datasets/{{ .slug }}/">{{ .name }}</a></li>
-      {{ end }}
-    </ul>
-  </div>
-  {{ end }}
-</section>
 {{ end }}

@@ -12,10 +12,10 @@ stats:
   avg_nodes: 479.4
   avg_edges: 2710.48
   num_classes: 21
-result_count: 14
+result_count: 139
 best_model:
-  model: CRAWL
-  value: 0.4588
+  model: GRASS
+  value: 0.567
   metric: F1
 variants:
 - slug: standard-split
@@ -27,81 +27,1041 @@ variants:
   metrics:
   - F1
   rows:
-  - model: CRAWL
+  - model: GRASS
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.5
+    arxiv_id: '2407.05649'
+    title: 'Greener GRASS: Enhancing GNNs with , Rewiring, and Attention'
+    date: Jul 2024
+    date_iso: 2024-07
+    codebase_url: ''
+    uses_external_data: false
+    is_best: true
+    metric_values:
+    - 0.567
+    metric_stds:
+    - 0.0049
+  - model: NeuralWalker
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2406.03386'
+    title: Learning Long Range Dependencies on Graphs - via Random Walks
+    date: Jun 2024
+    date_iso: 2024-06
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.4912
+    metric_stds:
+    - 0.0042
+  - model: GENs
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.5
+    arxiv_id: '2401.01233'
+    title: 'GEN: A Practical Alternative to Graph Transformers for Long-Range Graph
+      Modeling'
+    date: Jan 2024
+    date_iso: 2024-01
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.4653
+    metric_stds:
+    - 0.0097
+  - model: GENs+RWSE
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2401.01233'
+    title: 'GEN: A Practical Alternative to Graph Transformers for Long-Range Graph
+      Modeling'
+    date: Jan 2024
+    date_iso: 2024-01
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.4653
+    metric_stds:
+    - 0.0097
+  - model: PPGT
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2504.12588'
+    title: Plain Transformers Can be Powerful Graph Learners
+    date: Apr 2025
+    date_iso: 2025-04
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.4641
+    metric_stds:
+    - 0.0033
+  - model: CRaWl
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2309.00367'
-    title: Where Did the Gap Go? Reassessing the Long-Range Graph Benchmark
+    title: Where Did the Gap Go? - Reassessing the Long-Range Graph Benchmark
     date: Sep 2023
-    date_iso: '2023-09-01'
+    date_iso: 2023-09
     codebase_url: https://github.com/toenshoff/LRGB
-    uses_external_data: null
-    is_best: true
+    uses_external_data: false
+    is_best: false
     metric_values:
     - 0.4588
     metric_stds:
     - 0.0079
+  - model: GSSC
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2502.09263'
+    title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks? Simple Architectures
+      Meet Excellence
+    date: Feb 2025
+    date_iso: 2025-02
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.4561
+    metric_stds:
+    - 0.0039
+  - model: GENs+LapPE
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2401.01233'
+    title: 'GEN: A Practical Alternative to Graph Transformers for Long-Range Graph
+      Modeling'
+    date: Jan 2024
+    date_iso: 2024-01
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.4523
+    metric_stds:
+    - 0.0162
+  - model: Graph transformer
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2604.03815'
+    title: k-Maximum Inner Product Attention for Graph Transformers and the Expressive
+      Power of GraphGPS
+    date: Apr 2026
+    date_iso: 2026-04
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.444
+    metric_stds:
+    - 0.006500000000000001
   - model: GPS
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.5
-    arxiv_id: '2309.00367'
-    title: Where Did the Gap Go? Reassessing the Long-Range Graph Benchmark
-    date: Sep 2023
-    date_iso: '2023-09-01'
-    codebase_url: https://github.com/toenshoff/LRGB
-    uses_external_data: null
+    params_millions: null
+    arxiv_id: '2401.01233'
+    title: 'GEN: A Practical Alternative to Graph Transformers for Long-Range Graph
+      Modeling'
+    date: Jan 2024
+    date_iso: 2024-01
+    codebase_url: ''
+    uses_external_data: false
     is_best: false
     metric_values:
     - 0.444
     metric_stds:
     - 0.0065
+  - model: GPS+LapPE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2407.05649'
+    title: 'Greener GRASS: Enhancing GNNs with , Rewiring, and Attention'
+    date: Jul 2024
+    date_iso: 2024-07
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.444
+    metric_stds:
+    - 0.0065
+  - model: GPS w/ Transformer
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2604.03815'
+    title: k-Maximum Inner Product Attention for Graph Transformers and the Expressive
+      Power of GraphGPS
+    date: Apr 2026
+    date_iso: 2026-04
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.444
+    metric_stds:
+    - 0.006500000000000001
+  - model: GMN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2401.01233'
+    title: 'GEN: A Practical Alternative to Graph Transformers for Long-Range Graph
+      Modeling'
+    date: Jan 2024
+    date_iso: 2024-01
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.4393
+    metric_stds:
+    - 0.0112
+  - model: Graph-Mamba (Node Level + Degree)
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2402.00789'
+    title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling with Selective
+      State Spaces'
+    date: '2024-02-01'
+    date_iso: '2024-02-01'
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.4314
+    metric_stds:
+    - null
+  - model: GPS + RandAlign
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2404.09774'
+    title: 'RandAlign: A Parameter-Free Method for Regularizing Graph Convolutional
+      Networks'
+    date: Apr 2024
+    date_iso: 2024-04
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.4288
+    metric_stds:
+    - 0.0062
+  - model: GatedGCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.502
+    arxiv_id: '2502.09263'
+    title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks? Simple Architectures
+      Meet Excellence
+    date: Feb 2025
+    date_iso: 2025-02
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.4263
+    metric_stds:
+    - 0.0057
+  - model: Ours
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2407.02758'
+    title: Differential Encoding for Improved Representation Learning over Graphs
+    date: Jul 2024
+    date_iso: 2024-07
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.4242
+    metric_stds:
+    - 0.0011
+  - model: GPS-GCCM
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2605.05689'
+    title: 'GCCM: Enhancing Generative Graph Prediction via Contrastive Consistency
+      Model'
+    date: May 2026
+    date_iso: 2026-05
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.4219
+    metric_stds:
+    - 0.0102
+  - model: GECO
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2406.12059'
+    title: A Scalable and Effective Alternative to Graph Transformers
+    date: Jun 2024
+    date_iso: 2024-06
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.421
+    metric_stds:
+    - 0.008
+  - model: GPS-PCL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2605.05689'
+    title: 'GCCM: Enhancing Generative Graph Prediction via Contrastive Consistency
+      Model'
+    date: May 2026
+    date_iso: 2026-05
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.4196
+    metric_stds:
+    - 0.0086
+  - model: Permutation-only
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2402.00789'
+    title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling with Selective
+      State Spaces'
+    date: '2024-02-01'
+    date_iso: '2024-02-01'
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.4193
+    metric_stds:
+    - null
+  - model: Graph Mamba-1
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2310.07430'
+    title: Non-backtracking Graph Neural Networks
+    date: Oct 2023
+    date_iso: 2023-10
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.4191
+    metric_stds:
+    - 0.0126
+  - model: Graph-Mamba
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2310.07430'
+    title: Non-backtracking Graph Neural Networks
+    date: Oct 2023
+    date_iso: 2023-10
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.4191
+    metric_stds:
+    - 0.0126
+  - model: IM-GatedGCN
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.5
+    arxiv_id: '2505.23185'
+    title: Improving the Effective Receptive Field of Message-Passing Neural Networks
+    date: '2025-05-29'
+    date_iso: '2025-05-29'
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.418
+    metric_stds:
+    - 0.0062
+  - model: M
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2405.13806'
+    title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
+    date: '2024-05-22'
+    date_iso: '2024-05-22'
+    codebase_url: ''
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - 0.4163
+    metric_stds:
+    - 0.0019
+  - model: GEN w/o HA
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2401.01233'
+    title: 'GEN: A Practical Alternative to Graph Transformers for Long-Range Graph
+      Modeling'
+    date: Jan 2024
+    date_iso: 2024-01
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.4055
+    metric_stds:
+    - 0.0124
+  - model: FloydNet
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2601.19094'
+    title: 'FloydNet: A Learning Paradigm for Global Relational Reasoning'
+    date: Jan 2026
+    date_iso: 2026-01
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.4046
+    metric_stds:
+    - null
+  - model: PST
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: 1.0
+    arxiv_id: '2405.02795'
+    title: Graph as Point Set
+    date: '2024-05-05'
+    date_iso: '2024-05-05'
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.401
+    metric_stds:
+    - 0.0072
+  - model: Nagphormer
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2401.01233'
+    title: 'GEN: A Practical Alternative to Graph Transformers for Long-Range Graph
+      Modeling'
+    date: Jan 2024
+    date_iso: 2024-01
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.4006
+    metric_stds:
+    - 0.0061
+  - model: Lie UniGCN
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2410.05499'
+    title: Unitary convolutions for learning on graphs and groups
+    date: '2024-10-07'
+    date_iso: '2024-10-07'
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.4005
+    metric_stds:
+    - 0.0067
+  - model: DIFFormer
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2502.09263'
+    title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks? Simple Architectures
+      Meet Excellence
+    date: Feb 2025
+    date_iso: 2025-02
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.3988
+    metric_stds:
+    - 0.0045
+  - model: GPS + k-MIP
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2604.03815'
+    title: k-Maximum Inner Product Attention for Graph Transformers and the Expressive
+      Power of GraphGPS
+    date: Apr 2026
+    date_iso: 2026-04
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.3969
+    metric_stds:
+    - 0.0092
+  - model: GatedGCN+LapPE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.502
+    arxiv_id: '2310.07430'
+    title: Non-backtracking Graph Neural Networks
+    date: Oct 2023
+    date_iso: 2023-10
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.3969
+    metric_stds:
+    - 0.0027
   - model: Exphormer
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2309.00367'
-    title: Where Did the Gap Go? Reassessing the Long-Range Graph Benchmark
+    title: Where Did the Gap Go? - Reassessing the Long-Range Graph Benchmark
     date: Sep 2023
-    date_iso: '2023-09-01'
+    date_iso: 2023-09
     codebase_url: https://github.com/toenshoff/LRGB
-    uses_external_data: null
+    uses_external_data: false
     is_best: false
     metric_values:
     - 0.396
     metric_stds:
     - 0.0027
-  - model: GCN
+  - model: GEAET
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.496
-    arxiv_id: '2309.00367'
-    title: Where Did the Gap Go? Reassessing the Long-Range Graph Benchmark
-    date: Sep 2023
-    date_iso: '2023-09-01'
-    codebase_url: https://github.com/toenshoff/LRGB
-    uses_external_data: null
+    params_millions: null
+    arxiv_id: '2502.09263'
+    title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks? Simple Architectures
+      Meet Excellence
+    date: Feb 2025
+    date_iso: 2025-02
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.3933
+    metric_stds:
+    - 0.0027
+  - model: GPS-LGD
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2605.05689'
+    title: 'GCCM: Enhancing Generative Graph Prediction via Contrastive Consistency
+      Model'
+    date: May 2026
+    date_iso: 2026-05
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.3912
+    metric_stds:
+    - 0.0207
+  - model: NBA-GatedGCN
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2310.07430'
+    title: Non-backtracking Graph Neural Networks
+    date: Oct 2023
+    date_iso: 2023-10
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.391
+    metric_stds:
+    - 0.001
+  - model: DRew(GatedGCN)
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2505.23185'
+    title: Improving the Effective Receptive Field of Message-Passing Neural Networks
+    date: '2025-05-29'
+    date_iso: '2025-05-29'
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.3909
+    metric_stds:
+    - 0.0051
+  - model: GEN w/o EA
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2401.01233'
+    title: 'GEN: A Practical Alternative to Graph Transformers for Long-Range Graph
+      Modeling'
+    date: Jan 2024
+    date_iso: 2024-01
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.3905
+    metric_stds:
+    - 0.0132
+  - model: GatedGCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.502
+    arxiv_id: '2401.01233'
+    title: 'GEN: A Practical Alternative to Graph Transformers for Long-Range Graph
+      Modeling'
+    date: Jan 2024
+    date_iso: 2024-01
+    codebase_url: ''
+    uses_external_data: false
     is_best: false
     metric_values:
     - 0.388
     metric_stds:
     - 0.004
-  - model: DREW
+  - model: GPS + BigBird
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2604.03815'
+    title: k-Maximum Inner Product Attention for Graph Transformers and the Expressive
+      Power of GraphGPS
+    date: Apr 2026
+    date_iso: 2026-04
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.3875
+    metric_stds:
+    - 0.0064
+  - model: + ReHub
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2412.01519'
+    title: ': Linear Complexity Graph Transformers Adaptive Hub-Spoke Reassignment'
+    date: Dec 2024
+    date_iso: 2024-12
+    codebase_url: ''
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - 0.386
+    metric_stds:
+    - 0.0172
+  - model: GPS + Performer
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2604.03815'
+    title: k-Maximum Inner Product Attention for Graph Transformers and the Expressive
+      Power of GraphGPS
+    date: Apr 2026
+    date_iso: 2026-04
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.37920000000000004
+    metric_stds:
+    - 0.0113
+  - model: GCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.496
+    arxiv_id: '2509.22259'
+    title: Rotary Position Encodings for Graphs
+    date: Sep 2025
+    date_iso: 2025-09
+    codebase_url: https://github.com/google-research/scenic
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.376
+    metric_stds:
+    - 0.001
+  - model: GPS
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2309.00367'
-    title: Where Did the Gap Go? Reassessing the Long-Range Graph Benchmark
+    title: Where Did the Gap Go? - Reassessing the Long-Range Graph Benchmark
     date: Sep 2023
-    date_iso: '2023-09-01'
+    date_iso: 2023-09
     codebase_url: https://github.com/toenshoff/LRGB
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.3748
+    metric_stds:
+    - 0.0109
+  - model: GraphGPS+LapPE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2310.07430'
+    title: Non-backtracking Graph Neural Networks
+    date: Oct 2023
+    date_iso: 2023-10
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.3748
+    metric_stds:
+    - 0.0109
+  - model: GPS w/ Transformer
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2406.12059'
+    title: A Scalable and Effective Alternative to Graph Transformers
+    date: Jun 2024
+    date_iso: 2024-06
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.3748
+    metric_stds:
+    - 0.0109
+  - model: GraphGPS
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2405.02795'
+    title: Graph as Point Set
+    date: '2024-05-05'
+    date_iso: '2024-05-05'
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.3748
+    metric_stds:
+    - 0.0109
+  - model: GAT
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2509.22259'
+    title: Rotary Position Encodings for Graphs
+    date: Sep 2025
+    date_iso: 2025-09
+    codebase_url: https://github.com/google-research/scenic
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.37
+    metric_stds:
+    - 0.001
+  - model: GraphGPS + k-MIP (k=1)
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2604.03815'
+    title: k-Maximum Inner Product Attention for Graph Transformers and the Expressive
+      Power of GraphGPS
+    date: Apr 2026
+    date_iso: 2026-04
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.369
+    metric_stds:
+    - 0.0033
+  - model: Transformer+DEG
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2509.22259'
+    title: Rotary Position Encodings for Graphs
+    date: Sep 2025
+    date_iso: 2025-09
+    codebase_url: https://github.com/google-research/scenic
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.367
+    metric_stds:
+    - 0.001
+  - model: DAGNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2401.01233'
+    title: 'GEN: A Practical Alternative to Graph Transformers for Long-Range Graph
+      Modeling'
+    date: Jan 2024
+    date_iso: 2024-01
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.3613
+    metric_stds:
+    - 0.0084
+  - model: DEFT
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2405.13806'
+    title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
+    date: '2024-05-22'
+    date_iso: '2024-05-22'
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.3598
+    metric_stds:
+    - 0.002
+  - model: MAGNA
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2401.01233'
+    title: 'GEN: A Practical Alternative to Graph Transformers for Long-Range Graph
+      Modeling'
+    date: Jan 2024
+    date_iso: 2024-01
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.3585
+    metric_stds:
+    - 0.0052
+  - model: PIGN + GraphSAGE
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2310.01618'
+    title: 'Operator Learning Meets Numerical Analysis: Improving Neural Networks
+      through Iterative Methods'
+    date: Oct 2023
+    date_iso: 2023-10
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.356
+    metric_stds:
+    - 0.0037
+  - model: + ReHub-FC
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2412.01519'
+    title: ': Linear Complexity Graph Transformers Adaptive Hub-Spoke Reassignment'
+    date: Dec 2024
+    date_iso: 2024-12
+    codebase_url: ''
     uses_external_data: null
+    is_best: false
+    metric_values:
+    - 0.3526
+    metric_stds:
+    - 0.0045
+  - model: UniGCN
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2410.05499'
+    title: Unitary convolutions for learning on graphs and groups
+    date: '2024-10-07'
+    date_iso: '2024-10-07'
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.3516
+    metric_stds:
+    - 0.007
+  - model: Exphormer
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2502.09263'
+    title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks? Simple Architectures
+      Meet Excellence
+    date: Feb 2025
+    date_iso: 2025-02
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.3446
+    metric_stds:
+    - 0.0064
+  - model: MixHop
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2401.01233'
+    title: 'GEN: A Practical Alternative to Graph Transformers for Long-Range Graph
+      Modeling'
+    date: Jan 2024
+    date_iso: 2024-01
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.3421
+    metric_stds:
+    - 0.0056
+  - model: GCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.496
+    arxiv_id: '2502.09263'
+    title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks? Simple Architectures
+      Meet Excellence
+    date: Feb 2025
+    date_iso: 2025-02
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.3357
+    metric_stds:
+    - 0.0087
+  - model: GAT
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2401.01233'
+    title: 'GEN: A Practical Alternative to Graph Transformers for Long-Range Graph
+      Modeling'
+    date: Jan 2024
+    date_iso: 2024-01
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.3335
+    metric_stds:
+    - 0.0045
+  - model: DRew
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2309.00367'
+    title: Where Did the Gap Go? - Reassessing the Long-Range Graph Benchmark
+    date: Sep 2023
+    date_iso: 2023-09
+    codebase_url: https://github.com/toenshoff/LRGB
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.3314
+    metric_stds:
+    - 0.0024
+  - model: DRew-GatedGCN+LapPE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2310.07430'
+    title: Non-backtracking Graph Neural Networks
+    date: Oct 2023
+    date_iso: 2023-10
+    codebase_url: ''
+    uses_external_data: false
     is_best: false
     metric_values:
     - 0.3314
@@ -113,43 +1073,255 @@ variants:
     override_reason: ''
     params_millions: 0.531
     arxiv_id: '2206.08164'
-    title: Long Range Graph Benchmark
+    title: LRGB
     date: Jun 2022
-    date_iso: '2022-06-16'
+    date_iso: 2022-06
     codebase_url: https://github.com/vijaydwivedi75/lrgb
-    uses_external_data: null
+    uses_external_data: false
     is_best: false
     metric_values:
     - 0.323
     metric_stds:
     - 0.0039
+  - model: SAN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2309.00367'
+    title: Where Did the Gap Go? - Reassessing the Long-Range Graph Benchmark
+    date: Sep 2023
+    date_iso: 2023-09
+    codebase_url: https://github.com/toenshoff/LRGB
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.323
+    metric_stds:
+    - 0.0039
+  - model: SAT
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2401.01233'
+    title: 'GEN: A Practical Alternative to Graph Transformers for Long-Range Graph
+      Modeling'
+    date: Jan 2024
+    date_iso: 2024-01
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.323
+    metric_stds:
+    - 0.0039
+  - model: NBA-GCN+LapPE
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2310.07430'
+    title: Non-backtracking Graph Neural Networks
+    date: Oct 2023
+    date_iso: 2023-10
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.3223
+    metric_stds:
+    - 0.001
   - model: SAN+RWSE
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: 0.468
     arxiv_id: '2206.08164'
-    title: Long Range Graph Benchmark
+    title: LRGB
     date: Jun 2022
-    date_iso: '2022-06-16'
+    date_iso: 2022-06
     codebase_url: https://github.com/vijaydwivedi75/lrgb
-    uses_external_data: null
+    uses_external_data: false
     is_best: false
     metric_values:
     - 0.3216
     metric_stds:
     - 0.0027
+  - model: DRew(GatedGCN)
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2407.05649'
+    title: 'Greener GRASS: Enhancing GNNs with , Rewiring, and Attention'
+    date: Jul 2024
+    date_iso: 2024-07
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.3214
+    metric_stds:
+    - 0.0021
+  - model: SEA-GWNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2405.13806'
+    title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
+    date: '2024-05-22'
+    date_iso: '2024-05-22'
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.3197
+    metric_stds:
+    - 0.0055
+  - model: GIN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2502.09263'
+    title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks? Simple Architectures
+      Meet Excellence
+    date: Feb 2025
+    date_iso: 2025-02
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.3189
+    metric_stds:
+    - 0.0105
+  - model: SGWT
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2405.13806'
+    title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
+    date: '2024-05-22'
+    date_iso: '2024-05-22'
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.3122
+    metric_stds:
+    - 0.0056
+  - model: UFGConvS
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2405.13806'
+    title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
+    date: '2024-05-22'
+    date_iso: '2024-05-22'
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.3108
+    metric_stds:
+    - 0.0033
+  - model: Baseline training procedure
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2402.00789'
+    title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling with Selective
+      State Spaces'
+    date: '2024-02-01'
+    date_iso: '2024-02-01'
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.3105
+    metric_stds:
+    - null
+  - model: Scattering GCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2405.13806'
+    title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
+    date: '2024-05-22'
+    date_iso: '2024-05-22'
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.3045
+    metric_stds:
+    - 0.0036
+  - model: NBA-GIN
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2310.07430'
+    title: Non-backtracking Graph Neural Networks
+    date: Oct 2023
+    date_iso: 2023-10
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.304
+    metric_stds:
+    - 0.0119
+  - model: GraphSAGE (w/o iterations)
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2310.01618'
+    title: 'Operator Learning Meets Numerical Analysis: Improving Neural Networks
+      through Iterative Methods'
+    date: Oct 2023
+    date_iso: 2023-10
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.3015
+    metric_stds:
+    - 0.0032
+  - model: DIGL+MPNN+LapPE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2310.07430'
+    title: Non-backtracking Graph Neural Networks
+    date: Oct 2023
+    date_iso: 2023-10
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.2921
+    metric_stds:
+    - 0.0038
   - model: GatedGCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: 0.502
     arxiv_id: '2206.08164'
-    title: Long Range Graph Benchmark
+    title: LRGB
     date: Jun 2022
-    date_iso: '2022-06-16'
+    date_iso: 2022-06
     codebase_url: https://github.com/vijaydwivedi75/lrgb
-    uses_external_data: null
+    uses_external_data: false
     is_best: false
     metric_values:
     - 0.2873
@@ -161,75 +1333,662 @@ variants:
     override_reason: ''
     params_millions: 0.502
     arxiv_id: '2206.08164'
-    title: Long Range Graph Benchmark
+    title: LRGB
     date: Jun 2022
-    date_iso: '2022-06-16'
+    date_iso: 2022-06
     codebase_url: https://github.com/vijaydwivedi75/lrgb
-    uses_external_data: null
+    uses_external_data: false
     is_best: false
     metric_values:
     - 0.286
     metric_stds:
     - 0.0085
+  - model: WaveNet
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2405.13806'
+    title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
+    date: '2024-05-22'
+    date_iso: '2024-05-22'
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.286
+    metric_stds:
+    - 0.0015
+  - model: GatedGCN+RWSE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.506
+    arxiv_id: '2404.09774'
+    title: 'RandAlign: A Parameter-Free Method for Regularizing Graph Convolutional
+      Networks'
+    date: Apr 2024
+    date_iso: 2024-04
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.286
+    metric_stds:
+    - 0.0085
+  - model: DIGL+MPNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2310.07430'
+    title: Non-backtracking Graph Neural Networks
+    date: Oct 2023
+    date_iso: 2023-10
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.2824
+    metric_stds:
+    - 0.0039
+  - model: IM-GINE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2505.23185'
+    title: Improving the Effective Receptive Field of Message-Passing Neural Networks
+    date: '2025-05-29'
+    date_iso: '2025-05-29'
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.2757
+    metric_stds:
+    - 0.0013
+  - model: Drew-GIN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2407.05649'
+    title: 'Greener GRASS: Enhancing GNNs with , Rewiring, and Attention'
+    date: Jul 2024
+    date_iso: 2024-07
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.2719
+    metric_stds:
+    - 0.0043
   - model: GINE
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: 0.505
-    arxiv_id: '2309.00367'
-    title: Where Did the Gap Go? Reassessing the Long-Range Graph Benchmark
-    date: Sep 2023
-    date_iso: '2023-09-01'
-    codebase_url: https://github.com/toenshoff/LRGB
-    uses_external_data: null
+    arxiv_id: '2407.05649'
+    title: 'Greener GRASS: Enhancing GNNs with , Rewiring, and Attention'
+    date: Jul 2024
+    date_iso: 2024-07
+    codebase_url: ''
+    uses_external_data: false
     is_best: false
     metric_values:
     - 0.2718
     metric_stds:
     - 0.0054
+  - model: GIN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2406.03386'
+    title: Learning Long Range Dependencies on Graphs - via Random Walks
+    date: Jun 2024
+    date_iso: 2024-06
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.2718
+    metric_stds:
+    - 0.0054
+  - model: GAT
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2604.03815'
+    title: k-Maximum Inner Product Attention for Graph Transformers and the Expressive
+      Power of GraphGPS
+    date: Apr 2026
+    date_iso: 2026-04
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.27149999999999996
+    metric_stds:
+    - 0.0049
   - model: Transformer+LapPE
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: 0.501
     arxiv_id: '2206.08164'
-    title: Long Range Graph Benchmark
+    title: LRGB
     date: Jun 2022
-    date_iso: '2022-06-16'
+    date_iso: 2022-06
     codebase_url: https://github.com/vijaydwivedi75/lrgb
-    uses_external_data: null
+    uses_external_data: false
     is_best: false
     metric_values:
     - 0.2694
     metric_stds:
     - 0.0098
+  - model: Transformer
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2309.00367'
+    title: Where Did the Gap Go? - Reassessing the Long-Range Graph Benchmark
+    date: Sep 2023
+    date_iso: 2023-09
+    codebase_url: https://github.com/toenshoff/LRGB
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.2694
+    metric_stds:
+    - 0.0098
+  - model: GT
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2502.09263'
+    title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks? Simple Architectures
+      Meet Excellence
+    date: Feb 2025
+    date_iso: 2025-02
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.2694
+    metric_stds:
+    - 0.0098
+  - model: DRew-GCN+LapPE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2310.07430'
+    title: Non-backtracking Graph Neural Networks
+    date: Oct 2023
+    date_iso: 2023-10
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.2692
+    metric_stds:
+    - 0.0059
+  - model: IM-GCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2505.23185'
+    title: Improving the Effective Receptive Field of Message-Passing Neural Networks
+    date: '2025-05-29'
+    date_iso: '2025-05-29'
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.2672
+    metric_stds:
+    - 0.0045
+  - model: Full Graph (Oracle)
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2405.17404'
+    title: Spectral Greedy Coresets for Graph Neural Networks
+    date: May 2024
+    date_iso: 2024-05
+    codebase_url: ''
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - 0.263
+    metric_stds:
+    - 0.006
+  - model: GWNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2405.13806'
+    title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
+    date: '2024-05-22'
+    date_iso: '2024-05-22'
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.256
+    metric_stds:
+    - 0.0056
+  - model: NBA-GCN
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2310.07430'
+    title: Non-backtracking Graph Neural Networks
+    date: Oct 2023
+    date_iso: 2023-10
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.2537
+    metric_stds:
+    - 0.0054
+  - model: MixHop-GCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2310.07430'
+    title: Non-backtracking Graph Neural Networks
+    date: Oct 2023
+    date_iso: 2023-10
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.2506
+    metric_stds:
+    - 0.0133
+  - model: DMD-GCN
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2410.05593'
+    title: When Graph Neural Networks Meet Dynamic Mode Decomposition
+    date: Oct 2024
+    date_iso: 2024-10
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.243
+    metric_stds:
+    - 0.014
+  - model: DMD++
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2410.05593'
+    title: When Graph Neural Networks Meet Dynamic Mode Decomposition
+    date: Oct 2024
+    date_iso: 2024-10
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.241
+    metric_stds:
+    - 0.017
+  - model: GCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.496
+    arxiv_id: '2410.05593'
+    title: When Graph Neural Networks Meet Dynamic Mode Decomposition
+    date: Oct 2024
+    date_iso: 2024-10
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.238
+    metric_stds:
+    - 0.016
+  - model: MixHop-GCN+LapPE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2310.07430'
+    title: Non-backtracking Graph Neural Networks
+    date: Oct 2023
+    date_iso: 2023-10
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.2218
+    metric_stds:
+    - 0.0174
+  - model: DMD-SGC
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2410.05593'
+    title: When Graph Neural Networks Meet Dynamic Mode Decomposition
+    date: Oct 2024
+    date_iso: 2024-10
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.217
+    metric_stds:
+    - 0.036
+  - model: SGC
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2410.05593'
+    title: When Graph Neural Networks Meet Dynamic Mode Decomposition
+    date: Oct 2024
+    date_iso: 2024-10
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.216
+    metric_stds:
+    - 0.039
+  - model: PSDS
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2405.02795'
+    title: Graph as Point Set
+    date: '2024-05-05'
+    date_iso: '2024-05-05'
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.2134
+    metric_stds:
+    - 0.005
+  - model: GCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.496
+    arxiv_id: '2401.01233'
+    title: 'GEN: A Practical Alternative to Graph Transformers for Long-Range Graph
+      Modeling'
+    date: Jan 2024
+    date_iso: 2024-01
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.2078
+    metric_stds:
+    - 0.0031
+  - model: WaveShrink-ChebNet
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2405.13806'
+    title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
+    date: '2024-05-22'
+    date_iso: '2024-05-22'
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.188
+    metric_stds:
+    - 0.0085
+  - model: PIGN + GCN
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2310.01618'
+    title: 'Operator Learning Meets Numerical Analysis: Improving Neural Networks
+      through Iterative Methods'
+    date: Oct 2023
+    date_iso: 2023-10
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.1831
+    metric_stds:
+    - 0.0038
+  - model: IterGNN + GraphSAGE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2310.01618'
+    title: 'Operator Learning Meets Numerical Analysis: Improving Neural Networks
+      through Iterative Methods'
+    date: Oct 2023
+    date_iso: 2023-10
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.1816
+    metric_stds:
+    - 0.0014
+  - model: Graph U-Net
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2505.23185'
+    title: Improving the Effective Receptive Field of Message-Passing Neural Networks
+    date: '2025-05-29'
+    date_iso: '2025-05-29'
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.1801
+    metric_stds:
+    - 0.0055
+  - model: IterGNN + GCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2310.01618'
+    title: 'Operator Learning Meets Numerical Analysis: Improving Neural Networks
+      through Iterative Methods'
+    date: Oct 2023
+    date_iso: 2023-10
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.1736
+    metric_stds:
+    - 0.0311
+  - model: PIGN + GAT
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2310.01618'
+    title: 'Operator Learning Meets Numerical Analysis: Improving Neural Networks
+      through Iterative Methods'
+    date: Oct 2023
+    date_iso: 2023-10
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.1706
+    metric_stds:
+    - 0.0046
   - model: GCNII
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: 0.492
     arxiv_id: '2206.08164'
-    title: Long Range Graph Benchmark
+    title: LRGB
     date: Jun 2022
-    date_iso: '2022-06-16'
+    date_iso: 2022-06
     codebase_url: https://github.com/vijaydwivedi75/lrgb
-    uses_external_data: null
+    uses_external_data: false
     is_best: false
     metric_values:
     - 0.1698
     metric_stds:
     - 0.008
+  - model: Scattering
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2405.13806'
+    title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
+    date: '2024-05-22'
+    date_iso: '2024-05-22'
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.1658
+    metric_stds:
+    - 0.0049
+  - model: GPRGNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2410.05593'
+    title: When Graph Neural Networks Meet Dynamic Mode Decomposition
+    date: Oct 2024
+    date_iso: 2024-10
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.152
+    metric_stds:
+    - 0.024
+  - model: GCN (AFR-3)
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2309.09384'
+    title: Mitigating Over-Smoothing and Over-Squashing using Augmentations of Forman-Ricci
+      Curvature
+    date: Sep 2023
+    date_iso: 2023-09
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.144
+    metric_stds:
+    - 0.014
+  - model: GCN + BORF
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2309.09384'
+    title: Mitigating Over-Smoothing and Over-Squashing using Augmentations of Forman-Ricci
+      Curvature
+    date: Sep 2023
+    date_iso: 2023-09
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.141
+    metric_stds:
+    - 0.011
+  - model: GCN + FoSR
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2309.09384'
+    title: Mitigating Over-Smoothing and Over-Squashing using Augmentations of Forman-Ricci
+      Curvature
+    date: Sep 2023
+    date_iso: 2023-09
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.138
+    metric_stds:
+    - 0.013
+  - model: GCN+LapPE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.501066
+    arxiv_id: '2310.07430'
+    title: Non-backtracking Graph Neural Networks
+    date: Oct 2023
+    date_iso: 2023-10
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.137
+    metric_stds:
+    - 0.0077
+  - model: GINE + LapPE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2310.07430'
+    title: Non-backtracking Graph Neural Networks
+    date: Oct 2023
+    date_iso: 2023-10
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.1302
+    metric_stds:
+    - 0.0105
   - model: GCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: 0.496
     arxiv_id: '2206.08164'
-    title: Long Range Graph Benchmark
+    title: LRGB
     date: Jun 2022
-    date_iso: '2022-06-16'
+    date_iso: 2022-06
     codebase_url: https://github.com/vijaydwivedi75/lrgb
-    uses_external_data: null
+    uses_external_data: false
     is_best: false
     metric_values:
     - 0.1268
@@ -241,28 +2000,339 @@ variants:
     override_reason: ''
     params_millions: 0.505
     arxiv_id: '2206.08164'
-    title: Long Range Graph Benchmark
+    title: LRGB
     date: Jun 2022
-    date_iso: '2022-06-16'
+    date_iso: 2022-06
     codebase_url: https://github.com/vijaydwivedi75/lrgb
-    uses_external_data: null
+    uses_external_data: false
     is_best: false
     metric_values:
     - 0.1265
     metric_stds:
     - 0.0076
+  - model: GIN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2310.07430'
+    title: Non-backtracking Graph Neural Networks
+    date: Oct 2023
+    date_iso: 2023-10
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.1265
+    metric_stds:
+    - 0.0076
+  - model: GCN (w/o iterations)
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2310.01618'
+    title: 'Operator Learning Meets Numerical Analysis: Improving Neural Networks
+      through Iterative Methods'
+    date: Oct 2023
+    date_iso: 2023-10
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.1204
+    metric_stds:
+    - 0.0127
+  - model: GCN + SDRF
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2309.09384'
+    title: Mitigating Over-Smoothing and Over-Squashing using Augmentations of Forman-Ricci
+      Curvature
+    date: Sep 2023
+    date_iso: 2023-09
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.117
+    metric_stds:
+    - 0.009
+  - model: MLP
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2410.05593'
+    title: When Graph Neural Networks Meet Dynamic Mode Decomposition
+    date: Oct 2024
+    date_iso: 2024-10
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.114
+    metric_stds:
+    - 0.023
+  - model: IterGNN + GAT
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2310.01618'
+    title: 'Operator Learning Meets Numerical Analysis: Improving Neural Networks
+      through Iterative Methods'
+    date: Oct 2023
+    date_iso: 2023-10
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.1099
+    metric_stds:
+    - 0.0459
+  - model: GCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2309.09384'
+    title: Mitigating Over-Smoothing and Over-Squashing using Augmentations of Forman-Ricci
+      Curvature
+    date: Sep 2023
+    date_iso: 2023-09
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.104
+    metric_stds:
+    - 0.006
+  - model: Our
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2406.02740'
+    title: Long Range Propagation on Continuous-Time Dynamic Graphs
+    date: '2024-06-04'
+    date_iso: '2024-06-04'
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.0998
+    metric_stds:
+    - 0.0033
+  - model: DyGFormer
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2406.02740'
+    title: Long Range Propagation on Continuous-Time Dynamic Graphs
+    date: '2024-06-04'
+    date_iso: '2024-06-04'
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.0807
+    metric_stds:
+    - 0.0027
+  - model: SGGC
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2405.17404'
+    title: Spectral Greedy Coresets for Graph Neural Networks
+    date: May 2024
+    date_iso: 2024-05
+    codebase_url: ''
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - 0.069
+    metric_stds:
+    - 0.011
+  - model: TGAT
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2406.02740'
+    title: Long Range Propagation on Continuous-Time Dynamic Graphs
+    date: '2024-06-04'
+    date_iso: '2024-06-04'
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.0604
+    metric_stds:
+    - 0.0026
+  - model: Uniform
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2405.17404'
+    title: Spectral Greedy Coresets for Graph Neural Networks
+    date: May 2024
+    date_iso: 2024-05
+    codebase_url: ''
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - 0.06
+    metric_stds:
+    - 0.015
+  - model: GraphMixer
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2406.02740'
+    title: Long Range Propagation on Continuous-Time Dynamic Graphs
+    date: '2024-06-04'
+    date_iso: '2024-06-04'
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.0588
+    metric_stds:
+    - 0.0008
+  - model: JODIE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2406.02740'
+    title: Long Range Propagation on Continuous-Time Dynamic Graphs
+    date: '2024-06-04'
+    date_iso: '2024-06-04'
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.0576
+    metric_stds:
+    - 0.0035
+  - model: TGN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2406.02740'
+    title: Long Range Propagation on Continuous-Time Dynamic Graphs
+    date: '2024-06-04'
+    date_iso: '2024-06-04'
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.0559
+    metric_stds:
+    - 0.0024
+  - model: DyRep
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2406.02740'
+    title: Long Range Propagation on Continuous-Time Dynamic Graphs
+    date: '2024-06-04'
+    date_iso: '2024-06-04'
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.0523
+    metric_stds:
+    - 0.0011
+  - model: k-Center
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2405.17404'
+    title: Spectral Greedy Coresets for Graph Neural Networks
+    date: May 2024
+    date_iso: 2024-05
+    codebase_url: ''
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - 0.05
+    metric_stds:
+    - 0.013
+  - model: Forgetting
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2405.17404'
+    title: Spectral Greedy Coresets for Graph Neural Networks
+    date: May 2024
+    date_iso: 2024-05
+    codebase_url: ''
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - 0.044
+    metric_stds:
+    - 0.009
+  - model: Herding
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2405.17404'
+    title: Spectral Greedy Coresets for Graph Neural Networks
+    date: May 2024
+    date_iso: 2024-05
+    codebase_url: ''
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - 0.04
+    metric_stds:
+    - 0.006
   milestones:
   - value: 0.323
     std: 0.0039
     model: SAN+LapPE
     arxiv_id: '2206.08164'
-    title: Long Range Graph Benchmark
-    date: '2022-06-16'
+    title: LRGB
+    date: 2022-06
   - value: 0.4588
     std: 0.0079
-    model: CRAWL
+    model: CRaWl
     arxiv_id: '2309.00367'
-    title: Where Did the Gap Go? Reassessing the Long-Range Graph Benchmark
-    date: '2023-09-01'
+    title: Where Did the Gap Go? - Reassessing the Long-Range Graph Benchmark
+    date: 2023-09
+  - value: 0.4653
+    std: 0.0097
+    model: GENs
+    arxiv_id: '2401.01233'
+    title: 'GEN: A Practical Alternative to Graph Transformers for Long-Range Graph
+      Modeling'
+    date: 2024-01
+  - value: 0.4912
+    std: 0.0042
+    model: NeuralWalker
+    arxiv_id: '2406.03386'
+    title: Learning Long Range Dependencies on Graphs - via Random Walks
+    date: 2024-06
+  - value: 0.567
+    std: 0.0049
+    model: GRASS
+    arxiv_id: '2407.05649'
+    title: 'Greener GRASS: Enhancing GNNs with , Rewiring, and Attention'
+    date: 2024-07
 ---
 

@@ -1,10 +1,11 @@
 # LLM model tier configuration
-# All tasks reference a tier name (primary / fallback / small).
+# All tasks reference a tier name (primary / fallback / small / vlm).
 # Override individual values via environment variables in .env.
 
-primary_model: openai-gpt-oss-120b    # Full table extraction, complex reasoning
+primary_model: qwen3.6-35b-a3b    # Full table extraction, complex reasoning
 fallback_model: glm-4.7               # If primary produces poor quality output
-small_model: gemma-3-27b-it              # Cheap tasks: relevance filter, abstract scan
+small_model: openai-gpt-oss-120b              # Cheap tasks: relevance filter, abstract scan
+vlm_model: qwen3.6-35b-a3b        # Vision-capable model for figure detection (must accept image inputs)
 
 # Endpoint is read from LLM_ENDPOINT env var; set here as a fallback default
 endpoint: ""

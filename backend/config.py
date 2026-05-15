@@ -61,6 +61,15 @@ class Config:
         "LLM_MODEL_FALLBACK", _llm_cfg.get("fallback_model", "minimax")
     )
     model_small: str = os.environ.get("LLM_MODEL_SMALL", _llm_cfg.get("small_model", "gemma-3-27b"))
+    # VLM tier: used exclusively for vision-based figure detection.
+    # Defaults to the primary model (which is usually vision-capable); override
+    # when the primary model lacks vision support or you want a cheaper vision model.
+    model_vlm: str = os.environ.get(
+        "LLM_MODEL_VLM",
+        _llm_cfg.get(
+            "vlm_model", os.environ.get("LLM_MODEL_PRIMARY", _llm_cfg.get("primary_model", ""))
+        ),
+    )
 
     # ── LLM generation parameters ──────────────────────────────────────────
     llm_max_tokens: int = int(_llm_cfg.get("max_tokens", 8192))
@@ -77,6 +86,9 @@ class Config:
     deploy_host: str = os.environ.get("DEPLOY_HOST", "")
     deploy_path: str = os.environ.get("DEPLOY_PATH", "")
 
+    # ── External APIs ──────────────────────────────────────────────────────
+    semantic_scholar_api_key: str = os.environ.get("SEMANTIC_SCHOLAR_API_KEY", "")
+
     def model_for_tier(self, tier: str) -> str:
         """Return the model name for a given tier string.
 
@@ -86,6 +98,7 @@ class Config:
             "primary": self.model_primary,
             "fallback": self.model_fallback,
             "small": self.model_small,
+            "vlm": self.model_vlm,
         }
         return mapping.get(tier, tier)  # fallback: treat tier as explicit model name
 

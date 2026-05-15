@@ -1,0 +1,31 @@
+{{ define "main" }}
+<div class="dev-page">
+  <h1>Development & Admin</h1>
+  <p class="lead">Debugging and administrative pages for the benchmarking website.</p>
+  
+  {{ $devPages := where .Site.RegularPages "Section" "dev" }}
+  
+  <div class="dev-index">
+    {{ range $devPages }}
+      {{ if ne .Title "Development & Admin" }}
+      <div class="dev-card">
+        <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
+        {{ if .Params.description }}<p>{{ .Params.Description }}</p>{{ end }}
+      </div>
+      {{ end }}
+    {{ end }}
+  </div>
+</div>
+
+<style>
+.dev-page { max-width: 1100px; margin: 0 auto; padding: 1.5rem; }
+.dev-page h1 { margin-bottom: 0.5rem; }
+.dev-page .lead { color: #666; font-size: 1.05rem; margin-bottom: 2rem; }
+.dev-index { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
+.dev-card { border: 1px solid #ddd; border-radius: 6px; padding: 1.5rem; background: #fafafa; }
+.dev-card h2 { margin: 0 0 0.5rem; font-size: 1.1rem; }
+.dev-card a { text-decoration: none; color: #2563eb; }
+.dev-card a:hover { text-decoration: underline; }
+.dev-card p { margin: 0.5rem 0 0; color: #666; font-size: 0.95rem; }
+</style>
+{{ end }}

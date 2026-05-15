@@ -1,29 +1,76 @@
 {{ define "main" }}
+{{ $defaultVariant := "" }}
+{{ with .Params.variants }}
+  {{ $std := where . "is_standard" true }}
+  {{ if gt (len $std) 0 }}
+    {{ $defaultVariant = (index $std 0).slug }}
+  {{ else }}
+    {{ $defaultVariant = (index . 0).slug }}
+  {{ end }}
+{{ end }}
 <article class="dataset-page">
   <header>
-    <h1>{{ .Title }}</h1>
     {{ with .Params.benchmark }}
-    <p class="dataset-meta">Benchmark: <strong>{{ . }}</strong></p>
+    <p class="dataset-benchmark-overline">{{ . }}</p>
     {{ end }}
+    <h1>{{ .Title }}</h1>
     {{ with .Params.task_type }}
-    <p class="dataset-meta">Task: {{ . }}</p>
+    <p class="paper-meta"><span class="badge">Task: {{ replace . "_" " " | title }}</span></p>
     {{ end }}
     {{ with .Params.description }}
     <p>{{ . }}</p>
     {{ end }}
 
     {{/* Dataset statistics */}}
+    {{ $hasStructuralStats := false }}
     {{ with .Params.stats }}
-    <div class="dataset-stats">
-      {{ with .num_graphs }}<div class="stat-item"><span class="stat-value">{{ lang.FormatNumberCustom 0 . "- . ," }}</span><span class="stat-label">Graphs</span></div>{{ end }}
-      {{ with .avg_nodes }}<div class="stat-item"><span class="stat-value">{{ lang.FormatNumberCustom 1 . "- . ," }}</span><span class="stat-label">Avg. Nodes</span></div>{{ end }}
-      {{ with .avg_edges }}<div class="stat-item"><span class="stat-value">{{ lang.FormatNumberCustom 1 . "- . ," }}</span><span class="stat-label">Avg. Edges</span></div>{{ end }}
-      {{ with .num_classes }}<div class="stat-item"><span class="stat-value">{{ . }}</span><span class="stat-label">Classes / Targets</span></div>{{ end }}
-    </div>
+      {{ if or .num_graphs .avg_nodes .avg_edges .num_classes }}
+        {{ $hasStructuralStats = true }}
+      {{ end }}
     {{ end }}
+    <div class="dataset-stats">
+      {{ if $hasStructuralStats }}
+        {{ with .Params.stats.num_graphs }}<div class="stat-item"><span class="stat-value">{{ lang.FormatNumberCustom 0 . "- . ," }}</span><span class="stat-label">Graphs</span></div>{{ end }}
+        {{ with .Params.stats.avg_nodes }}<div class="stat-item"><span class="stat-value">{{ lang.FormatNumberCustom 1 . "- . ," }}</span><span class="stat-label">Avg. Nodes</span></div>{{ end }}
+        {{ with .Params.stats.avg_edges }}<div class="stat-item"><span class="stat-value">{{ lang.FormatNumberCustom 1 . "- . ," }}</span><span class="stat-label">Avg. Edges</span></div>{{ end }}
+        {{ with .Params.stats.num_classes }}<div class="stat-item"><span class="stat-value">{{ . }}</span><span class="stat-label">Classes / Targets</span></div>{{ end }}
+      {{ else }}
+        {{ $papers := slice }}
+        {{ with index .Params.variants 0 }}
+          {{ range .rows }}
+            {{ if .arxiv_id }}
+              {{ $papers = $papers | append (dict "arxiv_id" .arxiv_id "title" (.title | default (printf "arXiv:%s" .arxiv_id)) "date_iso" (.date_iso | default "0000-00-00")) }}
+            {{ end }}
+          {{ end }}
+        {{ end }}
+        {{ $paperIds := slice }}
+        {{ $paperList := slice }}
+        {{ range sort $papers "date_iso" "desc" }}
+          {{ if not (in $paperIds .arxiv_id) }}
+            {{ $paperIds = $paperIds | append .arxiv_id }}
+            {{ $paperList = $paperList | append . }}
+          {{ end }}
+        {{ end }}
+        <div class="stat-item"><span class="stat-value">{{ .Params.result_count | default 0 }}</span><span class="stat-label">Results</span></div>
+        <div class="stat-item"><span class="stat-value">{{ len .Params.variants }}</span><span class="stat-label">Variants</span></div>
+        <details class="stat-item stat-item-interactive">
+          <summary><span class="stat-value">{{ len $paperList }}</span><span class="stat-label">Papers</span></summary>
+          <ul class="stat-paper-list">
+            {{ range $paperList }}
+            <li>
+              {{ $year := "—" }}
+              {{ if ge (len .date_iso) 4 }}{{ $year = substr .date_iso 0 4 }}{{ end }}
+              <a href="/papers/{{ .arxiv_id }}/">{{ $year }}: {{ .title }}</a>
+            </li>
+            {{ end }}
+          </ul>
+        </details>
+      {{ end }}
+    </div>
 
     {{ with .Params.pyg_url }}
-    <p class="dataset-meta"><a href="{{ . }}" target="_blank" rel="noopener">PyTorch Geometric ↗</a></p>
+    {{ $isPyg := or (in (lower .) "pytorch-geometric") (in (lower .) "pyg") }}
+    <p class="dataset-meta"><a href="{{ . }}" target="_blank" rel="noopener">{{ if $isPyg }}PyG dataset page ↗{{ else }}Dataset page ↗{{ end }}</a></p>
     {{ end }}
   </header>
 
@@ -33,7 +80,7 @@
     <label for="variant-select">Split / Variant:</label>
     <select id="variant-select" onchange="leaderboard.switchVariant(this.value)">
       {{ range .Params.variants }}
-      <option value="{{ .slug }}" {{ if .is_standard }}selected{{ end }}>{{ .name }}</option>
+      <option value="{{ .slug }}" {{ if eq .slug $defaultVariant }}selected{{ end }}>{{ .name }}</option>
       {{ end }}
     </select>
   </div>
@@ -49,27 +96,39 @@
       <input type="checkbox" id="show-baselines" checked onchange="leaderboard.toggleBaselines(this.checked)">
       Show baselines
     </label>
+    <button class="wide-table-btn" id="wide-table-btn" onclick="leaderboard.toggleWideTable()">⤢ Balanced width</button>
   </div>
 
   {{/* Best-over-time chart */}}
   {{ range .Params.variants }}
-  <div class="chart-container variant-section" data-variant="{{ .slug }}" style="{{ if not .is_standard }}display:none{{ end }}">
+  <div class="chart-container variant-section" data-variant="{{ .slug }}" style="{{ if ne .slug $defaultVariant }}display:none{{ end }}">
     <h2>Best {{ $.Params.primary_metric | upper }} over time — {{ .name }}</h2>
     <canvas id="chart-{{ .slug }}" height="300"
       data-milestones='{{ .milestones | jsonify }}'
       data-metric="{{ .primary_metric }}"
       data-higher-is-better="{{ .higher_is_better }}">
     </canvas>
+    <div class="chart-hover-preview" id="hover-preview-{{ .slug }}" style="display:none"></div>
   </div>
   {{ end }}
 
   {{/* Results table */}}
   {{ range .Params.variants }}
-  <div class="leaderboard-section variant-section" data-variant="{{ .slug }}" style="{{ if not .is_standard }}display:none{{ end }}">
+  <div class="leaderboard-section variant-section" data-variant="{{ .slug }}" style="{{ if ne .slug $defaultVariant }}display:none{{ end }}">
     <h2>Leaderboard — {{ .name }}</h2>
     {{ partial "multi-metric-table.html" (dict "rows" .rows "metrics" .metrics "primary_metric" .primary_metric "higher_is_better" .higher_is_better "dataset_variant" .slug) }}
   </div>
   {{ end }}
+
+  {{/* Color legend */}}
+  <div class="color-legend">
+    <h3 class="legend-title">Legend</h3>
+    <div class="legend-items">
+      <div class="legend-item"><span class="legend-swatch swatch-proposed"></span><span>★ Proposed-model result</span></div>
+      <div class="legend-item"><span class="legend-swatch swatch-baseline"></span><span>Baseline / comparison model</span></div>
+      <div class="legend-item"><span class="legend-swatch swatch-best"></span><span>Statistically best result (within std overlap)</span></div>
+    </div>
+  </div>
 
 </article>
 

@@ -64,6 +64,10 @@ def seed(dry_run: bool = False) -> None:
                     "higher_is_better": 1 if ds_data.get("higher_is_better", True) else 0,
                     "domain": ds_data.get("domain"),
                     "pyg_url": ds_data.get("pyg_url"),
+                    "num_graphs": ds_data.get("num_graphs"),
+                    "avg_nodes": ds_data.get("avg_nodes"),
+                    "avg_edges": ds_data.get("avg_edges"),
+                    "num_classes": ds_data.get("num_classes"),
                 }
                 ds = _upsert(
                     session, Dataset, {"name": ds_data["name"], "benchmark_id": bm.id}, ds_defaults

@@ -21,36 +21,80 @@
     </div>
   </header>
 
+  {{ with .Params.single_proposed_model }}
+  <div class="proposed-model-banner">
+    <span class="proposed-model-label">Proposed method:</span>
+    <strong class="proposed-model-name">{{ . }}</strong>
+    {{ if and $.Params.mrr (gt $.Params.mrr 0.0) }}
+    <span class="proposed-model-mrr">MRR {{ printf "%.3f" $.Params.mrr }}</span>
+    {{ end }}
+  </div>
+  {{ end }}
+
   {{ with .Params.main_figure }}
   <figure class="paper-figure">
+    {{ if $.Params.arxiv_id }}
+    <a href="https://arxiv.org/abs/{{ $.Params.arxiv_id }}" target="_blank" rel="noopener">
+      <img src="{{ . }}" alt="Main figure" loading="lazy">
+    </a>
+    {{ else }}
     <img src="{{ . }}" alt="Main figure" loading="lazy">
+    {{ end }}
   </figure>
   {{ end }}
 
   {{ with .Params.abstract }}
   <section class="abstract">
     <h2>Abstract</h2>
-    <p>{{ . }}</p>
+    <p>{{ replaceRE "(https?://\\S+)" "<a href=\"$1\" target=\"_blank\" rel=\"noopener\">$1</a>" . | safeHTML }}</p>
   </section>
   {{ end }}
 
   {{ if .Params.results }}
   <section class="results-section">
     <h2>Benchmark Results</h2>
-    {{ range .Params.results }}
-    {{ $group := . }}
-    <h3 class="dataset-heading">{{ $group.dataset }}</h3>
-    {{ if $group.is_multi_metric }}
-      {{ partial "multi-metric-table.html" (dict "rows" $group.rows "metrics" $group.metrics "primary_metric" $group.primary_metric "higher_is_better" $group.higher_is_better "dataset_variant" ($group.dataset | urlize) "hide_meta_cols" true) }}
+    {{ if .Params.results_grouped }}
+      {{ range .Params.results_grouped }}
+      <h3 class="benchmark-heading">{{ .benchmark }}</h3>
+      {{ range .datasets }}
+      {{ $group := . }}
+      <h4 class="dataset-heading">{{ $group.dataset }}</h4>
+      {{ if $group.is_multi_metric }}
+        {{ partial "multi-metric-table.html" (dict "rows" $group.rows "metrics" $group.metrics "primary_metric" $group.primary_metric "higher_is_better" $group.higher_is_better "dataset_variant" ($group.dataset | urlize) "hide_meta_cols" true) }}
+      {{ else }}
+        {{ partial "result-table.html" (dict "results" $group.rows "metric" $group.metric "dataset_variant" ($group.dataset | urlize) "higher_is_better" $group.higher_is_better "hide_meta_cols" true) }}
+      {{ end }}
+      {{ end }}
+      {{ end }}
     {{ else }}
-      {{ partial "result-table.html" (dict "results" $group.rows "metric" $group.metric "dataset_variant" ($group.dataset | urlize) "higher_is_better" $group.higher_is_better "hide_meta_cols" true) }}
-    {{ end }}
+      {{ range .Params.results }}
+      {{ $group := . }}
+      <h3 class="dataset-heading">{{ $group.dataset }}</h3>
+      {{ if $group.is_multi_metric }}
+        {{ partial "multi-metric-table.html" (dict "rows" $group.rows "metrics" $group.metrics "primary_metric" $group.primary_metric "higher_is_better" $group.higher_is_better "dataset_variant" ($group.dataset | urlize) "hide_meta_cols" true) }}
+      {{ else }}
+        {{ partial "result-table.html" (dict "results" $group.rows "metric" $group.metric "dataset_variant" ($group.dataset | urlize) "higher_is_better" $group.higher_is_better "hide_meta_cols" true) }}
+      {{ end }}
+      {{ end }}
     {{ end }}
   </section>
   {{ end }}
 
   {{ with .Content }}
   <section class="notes">{{ . }}</section>
+  {{ end }}
+
+  {{/* Color legend */}}
+  {{ if .Params.results }}
+  <div class="color-legend">
+    <h3 class="legend-title">Legend</h3>
+    <div class="legend-items">
+      <div class="legend-item"><span class="legend-swatch swatch-proposed"></span><span>★ Proposed method (from this paper)</span></div>
+      <div class="legend-item"><span class="legend-swatch swatch-baseline"></span><span>Baseline / comparison model</span></div>
+      <div class="legend-item"><span class="legend-swatch swatch-global"></span><span>Global top model (from another paper — for context)</span></div>
+      <div class="legend-item"><span class="legend-swatch swatch-best"></span><span>Statistically best result (within std overlap)</span></div>
+    </div>
+  </div>
   {{ end }}
 </article>
 {{ end }}

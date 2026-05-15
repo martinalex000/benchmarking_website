@@ -846,6 +846,11 @@ def main() -> None:
         help="Skip stage 1 abstract screening and always run full extraction",
     )
     parser.add_argument(
+        "--force-rescreen",
+        action="store_true",
+        help="Re-screen even if the paper was previously rejected (overrides rejection guard)",
+    )
+    parser.add_argument(
         "--oneshot",
         action="store_true",
         help="Use legacy single-shot extraction (no dataset discovery step)",
@@ -882,7 +887,7 @@ def main() -> None:
 
     # Ensure DB schema exists and seed benchmarks/datasets if the DB is fresh.
     from backend.db import init_db
-    from backend.models import Benchmark
+    from backend.models import Benchmark, PaperCandidate
     from backend.db import session_scope as _ss
 
     init_db()
@@ -893,6 +898,22 @@ def main() -> None:
         from backend.seed_db import seed as _seed
 
         _seed()
+
+    # ── Rejection guard ───────────────────────────────────────────────────
+    # If the paper was previously rejected by screening (and we're not forcing
+    # a re-screen), abort early to avoid wasting LLM calls.
+    if not args.force_rescreen and not args.skip_screen and not args.figure_only:
+        with _ss() as _s:
+            _cand = _s.query(PaperCandidate).filter_by(arxiv_id=arxiv_id).first()
+            if _cand and _cand.final_status in ("rejected_stage1", "rejected_stage2"):
+                stage = "stage 1" if _cand.final_status == "rejected_stage1" else "stage 2"
+                reason = (_cand.stage1_reason or _cand.stage2_reason or "no reason recorded")[:200]
+                console.print(
+                    f"  [yellow]Previously rejected at {stage}[/yellow]: {reason}\n"
+                    f"  Use [bold]--force-rescreen[/bold] to process anyway."
+                )
+                console.rule("[yellow]Skipped (previously rejected)[/yellow]")
+                sys.exit(2)
 
     # Print title as early as possible — check DB first, then LaTeX cache.
     def _resolve_title() -> str:
@@ -956,7 +977,7 @@ def main() -> None:
                 do_screen = False
             else:
                 console.rule("[yellow]Rejected[/yellow]")
-                sys.exit(0)
+                sys.exit(2)
         else:
             # --skip-screen: download unconditionally.
             _do_download(arxiv_id, force=force_download)

@@ -1,0 +1,23 @@
+{{ define "main" }}
+<div class="dev-page">
+  <h1>{{ .Title }}</h1>
+  {{ if .Params.description }}<p class="lead">{{ .Params.description }}</p>{{ end }}
+  
+  {{ .Content }}
+</div>
+
+<style>
+.dev-page { max-width: 1100px; margin: 0 auto; padding: 1.5rem; }
+.dev-page h1 { margin-bottom: 0.5rem; }
+.dev-page .lead { color: #666; font-size: 1.05rem; margin-bottom: 2rem; }
+.dev-page table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+.dev-page table th, .dev-page table td { padding: 0.75rem; text-align: left; border-bottom: 1px solid #ddd; }
+.dev-page table th { background: #f3f4f6; font-weight: 600; }
+.dev-page table tr:hover { background: #fafafa; }
+.dev-page .status-badge { display: inline-block; padding: 0.25rem 0.6rem; border-radius: 3px; font-size: 0.85rem; font-weight: 500; }
+.status-badge.extracted { background: #d1fae5; color: #065f46; }
+.status-badge.downloaded { background: #dbeafe; color: #1e40af; }
+.status-badge.pending { background: #fef3c7; color: #92400e; }
+.status-badge.failed { background: #fee2e2; color: #991b1b; }
+</style>
+{{ end }}

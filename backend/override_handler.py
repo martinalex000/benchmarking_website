@@ -92,6 +92,12 @@ def get_split_notes(overrides: dict) -> list[dict]:
     return overrides.get("dataset_split_notes") or []
 
 
+def get_model_renames(overrides: dict) -> dict[str, str]:
+    """Extract model_renames mapping (raw model name -> cleaned display name)."""
+    mapping = overrides.get("model_renames") or {}
+    return mapping if isinstance(mapping, dict) else {}
+
+
 # ── DB application ────────────────────────────────────────────────────────────
 
 

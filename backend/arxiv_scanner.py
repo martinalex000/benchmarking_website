@@ -29,6 +29,7 @@ from tqdm import tqdm
 
 from backend.config import cfg
 from backend.db import init_db, session_scope
+from backend.llm_model_options import extra_body_for_model
 from backend.models import Paper, PaperCandidate, PipelineRun
 
 logger = logging.getLogger(__name__)
@@ -77,6 +78,7 @@ def _read_prompt(filename: str) -> str:
 @retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=1, min=5, max=30), reraise=True)
 def _call_llm(client: OpenAI, model: str, system_prompt: str, user_content: str) -> dict:
     """Call the LLM and parse JSON from the response."""
+    extra_body = extra_body_for_model(model)
     response = client.chat.completions.create(
         model=model,
         messages=[
@@ -85,6 +87,7 @@ def _call_llm(client: OpenAI, model: str, system_prompt: str, user_content: str)
         ],
         max_tokens=512,
         temperature=cfg.llm_temperature,
+        extra_body=extra_body,
     )
     raw = response.choices[0].message.content or ""
     # Strip accidental markdown fences

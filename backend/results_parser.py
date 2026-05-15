@@ -23,6 +23,14 @@ from thefuzz import fuzz as fuzz_lib
 from thefuzz import process as fuzz_process
 
 from backend.db import init_db, session_scope
+
+# Patterns like "(ours)", "(base)", "(baseline)" are author annotations, not part
+# of the model name.  Strip them so "IPR-MPNN (ours)" and "IPR-MPNN" resolve to
+# the same canonical model.
+_ROLE_SUFFIX_RE = re.compile(
+    r"\s*\(\s*(?:ours?|base(?:line)?|our\s+model|our\s+method|proposed)\s*\)\s*$",
+    re.IGNORECASE,
+)
 from backend.models import (
     DatasetVariant,
     Model,
@@ -34,6 +42,60 @@ from backend.override_handler import apply_overrides_to_db
 from backend.paper_storage import PaperStorage
 
 logger = logging.getLogger(__name__)
+
+# ── Metric normalisation ──────────────────────────────────────────────────────
+
+# Metrics that should be in [0, 1] but are sometimes reported as percentages
+# (e.g. 44.2 instead of 0.442).  Matched as a substring of the metric name,
+# case-insensitively.  MAE/RMSE/loss intentionally excluded.
+_PERCENTAGE_METRIC_SUBSTRINGS: tuple[str, ...] = (
+    "accuracy",
+    "acc",
+    "f1",
+    "ap",
+    "auc",  # covers AUC, ROC-AUC, AUC-ROC
+    "auroc",  # AUROC
+    "mrr",
+    "hits@",
+)
+
+
+def _is_percentage_metric(metric_name: str) -> bool:
+    key = metric_name.strip().lower()
+    return any(sub in key for sub in _PERCENTAGE_METRIC_SUBSTRINGS)
+
+
+def normalize_percentage_metric(
+    metric_name: str,
+    value: float,
+    std: float | None,
+) -> tuple[float, float | None]:
+    """Convert percentage-scale metrics from [0, 100] to [0, 1].
+
+    If *value* > 1.0 and the metric is a known percentage-type metric,
+    divides both value and std by 100.  Returns unchanged values otherwise.
+    """
+    if value <= 1.0 or not _is_percentage_metric(metric_name):
+        return value, std
+    if value > 100.0:
+        logger.warning(
+            "Metric %r value %.4f is outside [0, 100] — skipping normalisation",
+            metric_name,
+            value,
+        )
+        return value, std
+    normalized = value / 100.0
+    normalized_std = std / 100.0 if std is not None else None
+    logger.debug(
+        "Normalised %r: %.4f±%s → %.6f±%s",
+        metric_name,
+        value,
+        std,
+        normalized,
+        normalized_std,
+    )
+    return normalized, normalized_std
+
 
 # ── Value parsing ─────────────────────────────────────────────────────────────
 
@@ -98,10 +160,12 @@ def resolve_dataset_variant(
     if key in variant_map:
         return variant_map[key]
 
-    # thefuzz fallback
+    # thefuzz fallback — use a higher threshold for very short query strings to
+    # avoid spurious matches (e.g. "covid" → "d&d" at WRatio=86).
     if variant_map:
+        min_score = 85 if len(key) <= 6 else 75
         best_match, score = fuzz_process.extractOne(key, list(variant_map.keys()))
-        if score >= 75:
+        if score >= min_score:
             logger.debug(
                 "Fuzzy-matched dataset '%s' → '%s' (score=%d)", dataset_name, best_match, score
             )
@@ -134,6 +198,8 @@ def resolve_or_create_model(
     alias_map: dict[str, int],
 ) -> int:
     """Find or create a Model record. Returns model_id."""
+    # Strip author-role annotations before lookup/creation
+    model_name = _ROLE_SUFFIX_RE.sub("", model_name).strip()
     key = model_name.strip().lower()
 
     if key in canonical_map:
@@ -190,17 +256,50 @@ def _extract_github_url(text: str) -> str | None:
 
 
 def _enrich_paper_metadata(arxiv_id: str, paper: Paper, storage: PaperStorage) -> None:
-    """Update Paper record with arXiv API metadata and GitHub URL from extracted text."""
-    from backend.llm_extractor import fetch_arxiv_metadata
+    """Update Paper record with metadata from local caches, then arXiv API if needed."""
+    need_meta = not paper.abstract or (paper.title or "").startswith("arXiv:")
 
-    meta = fetch_arxiv_metadata(arxiv_id)
-    if meta:
-        if meta.get("title"):
-            paper.title = meta["title"]
-        if meta.get("abstract"):
-            paper.abstract = meta["abstract"]
-        if meta.get("published_date") and not paper.published_date:
-            paper.published_date = meta["published_date"]
+    if need_meta:
+        # 1. Try local HTML — free, no rate limit
+        if storage.html_index_path.exists():
+            try:
+                from backend.html_parser import parse_html_paper
+
+                parsed = parse_html_paper(storage.html_index_path)
+                if parsed.title and not parsed.title.startswith("arXiv:"):
+                    paper.title = parsed.title
+                if parsed.abstract:
+                    paper.abstract = parsed.abstract
+                need_meta = not paper.abstract or (paper.title or "").startswith("arXiv:")
+            except Exception:
+                pass
+
+        # 2. Try cached LaTeX (expanded.tex)
+        if need_meta and storage.latex_dir.exists():
+            try:
+                from backend.llm_extractor import _extract_metadata_from_latex_cache
+
+                latex_meta = _extract_metadata_from_latex_cache(storage.latex_dir)
+                if latex_meta.get("title"):
+                    paper.title = latex_meta["title"]
+                if latex_meta.get("abstract"):
+                    paper.abstract = latex_meta["abstract"]
+                need_meta = not paper.abstract or (paper.title or "").startswith("arXiv:")
+            except Exception:
+                pass
+
+        # 3. Last resort: arXiv API
+        if need_meta:
+            from backend.llm_extractor import fetch_arxiv_metadata
+
+            meta = fetch_arxiv_metadata(arxiv_id)
+            if meta:
+                if meta.get("title"):
+                    paper.title = meta["title"]
+                if meta.get("abstract"):
+                    paper.abstract = meta["abstract"]
+                if meta.get("published_date") and not paper.published_date:
+                    paper.published_date = meta["published_date"]
 
     # Fallback: derive date from arXiv ID (e.g. 2206.08164 → 2022-06)
     if not paper.published_date:
@@ -261,8 +360,15 @@ def parse_and_store(arxiv_id: str) -> int:
     with session_scope() as session:
         paper = session.query(Paper).filter_by(arxiv_id=arxiv_id).first()
         if paper is None:
-            logger.error("Paper arXiv:%s not in DB", arxiv_id)
-            return 0
+            logger.warning("Paper arXiv:%s not in DB — creating stub", arxiv_id)
+            paper = Paper(
+                arxiv_id=arxiv_id,
+                title=f"arXiv:{arxiv_id}",
+                extraction_status="downloaded",
+                discovery_source="manual",
+            )
+            session.add(paper)
+            session.flush()
 
         _enrich_paper_metadata(arxiv_id, paper, storage)
 
@@ -371,6 +477,9 @@ def _parse_entry_value(entry: dict) -> tuple[float | None, float | None]:
             std = float(std)
         except (TypeError, ValueError):
             std = None
+    if value is not None:
+        metric_name = entry.get("metric", "")
+        value, std = normalize_percentage_metric(metric_name, float(value), std)
     return value, std
 
 

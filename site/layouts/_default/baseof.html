@@ -14,6 +14,9 @@
     <ul>
       <li><a href="/papers/">Papers</a></li>
       <li><a href="/datasets/">Datasets</a></li>
+      {{ if .Site.GetPage "section" "dev" }}
+      <li><a href="/dev/">Development</a></li>
+      {{ end }}
     </ul>
   </nav>
 </header>

@@ -13,6 +13,7 @@ from __future__ import annotations
 import argparse
 import logging
 import math
+import re
 from dataclasses import dataclass, field
 from typing import Any
 
@@ -24,6 +25,21 @@ from backend.db import init_db, session_scope
 from backend.models import DatasetVariant, Model, ModelAlias, Result
 
 logger = logging.getLogger(__name__)
+
+# Title sanitization (matches export_to_hugo.py)
+_TITLE_LINEBREAK_RE = re.compile(r"\s*\\{2,}\s*")
+_TITLE_LATEX_CMD_RE = re.compile(r"\\[a-zA-Z]+\{[^}]*\}")
+
+
+def _sanitize_title(title: str | None) -> str:
+    """Remove LaTeX artifacts and line breaks from paper titles."""
+    if not title:
+        return ""
+    t = _TITLE_LINEBREAK_RE.sub(" - ", str(title))
+    t = t.replace("\\", " ")
+    t = _TITLE_LATEX_CMD_RE.sub("", t)
+    return re.sub(r"\s+", " ", t).strip()
+
 
 # Similarity threshold for grouping model names (0-100)
 FUZZY_THRESHOLD = 85
@@ -229,7 +245,7 @@ def get_best_results_over_time(
                         "std": float(r.metric_std) if r.metric_std else None,
                         "model": r.model.canonical_name if r.model else "",
                         "arxiv_id": paper.arxiv_id if paper else "",
-                        "title": paper.title if paper else "",
+                        "title": _sanitize_title(paper.title if paper else ""),
                         "date": (
                             paper.published_date[:10] if paper and paper.published_date else None
                         ),

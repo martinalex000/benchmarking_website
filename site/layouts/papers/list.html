@@ -1,18 +1,63 @@
 {{ define "main" }}
 <h1>Papers</h1>
-<p class="section-intro">{{ len .Pages }} paper(s) with extracted benchmark results.</p>
-<div class="paper-list">
-  {{ range .Pages }}
-  <div class="paper-list-item">
-    <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
-    <div class="paper-meta">
-      {{ with .Params.arxiv_id }}<a class="badge" href="https://arxiv.org/abs/{{ . }}" target="_blank" rel="noopener">arXiv:{{ . }}</a>{{ end }}
-      {{ with .Params.published_date }}<span class="badge">{{ . }}</span>{{ end }}
-      {{ with .Params.extraction_model }}<span class="badge muted">Extracted with {{ . }}</span>{{ end }}
-    </div>
-    {{ with .Params.authors }}<p class="authors">{{ delimit . ", " }}</p>{{ end }}
-    {{ with .Params.abstract }}<p class="abstract-excerpt">{{ . | truncate 220 }}</p>{{ end }}
-  </div>
+
+{{/* Split papers into method papers (have proposed models) vs benchmarking papers */}}
+{{ $all := where .Pages "Params.has_results" true }}
+{{ $method_papers := slice }}
+{{ $bench_papers := slice }}
+{{ range $all }}
+  {{ if .Params.proposed_models }}
+    {{ $method_papers = $method_papers | append . }}
+  {{ else }}
+    {{ $bench_papers = $bench_papers | append . }}
   {{ end }}
-</div>
+{{ end }}
+{{ $sorted_method := sort $method_papers "Params.mrr" "desc" }}
+
+<p class="section-intro">
+  {{ len $method_papers }} method paper(s) ranked by mean reciprocal rank of their proposed model,
+  plus {{ len $bench_papers }} benchmarking paper(s).
+</p>
+
+{{ if $sorted_method }}
+<section class="papers-category">
+  <h2 class="category-heading">Method Papers <span class="category-hint">sorted by MRR ↓</span></h2>
+  <div class="paper-list">
+    {{ range $sorted_method }}
+    <div class="paper-list-item">
+      <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+      <div class="paper-meta">
+        {{ with .Params.arxiv_id }}<a class="badge" href="https://arxiv.org/abs/{{ . }}" target="_blank" rel="noopener">arXiv:{{ . }}</a>{{ end }}
+        {{ with .Params.published_date }}<span class="badge">{{ . }}</span>{{ end }}
+        {{ with .Params.single_proposed_model }}<span class="badge badge-proposed">Proposes: {{ . }}</span>{{ end }}
+        {{ if and .Params.mrr (gt .Params.mrr 0.0) }}<span class="badge muted">MRR {{ printf "%.3f" .Params.mrr }}</span>{{ end }}
+        {{ with .Params.extraction_model }}<span class="badge muted">Extracted with {{ . }}</span>{{ end }}
+      </div>
+      {{ with .Params.authors }}<p class="authors">{{ delimit . ", " }}</p>{{ end }}
+      {{ with .Params.abstract }}<p class="abstract-excerpt">{{ . | truncate 240 }}</p>{{ end }}
+    </div>
+    {{ end }}
+  </div>
+</section>
+{{ end }}
+
+{{ if $bench_papers }}
+<section class="papers-category">
+  <h2 class="category-heading">Benchmarking Papers <span class="category-hint">no single proposed method</span></h2>
+  <div class="paper-list">
+    {{ range $bench_papers }}
+    <div class="paper-list-item">
+      <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+      <div class="paper-meta">
+        {{ with .Params.arxiv_id }}<a class="badge" href="https://arxiv.org/abs/{{ . }}" target="_blank" rel="noopener">arXiv:{{ . }}</a>{{ end }}
+        {{ with .Params.published_date }}<span class="badge">{{ . }}</span>{{ end }}
+        {{ with .Params.extraction_model }}<span class="badge muted">Extracted with {{ . }}</span>{{ end }}
+      </div>
+      {{ with .Params.authors }}<p class="authors">{{ delimit . ", " }}</p>{{ end }}
+      {{ with .Params.abstract }}<p class="abstract-excerpt">{{ . | truncate 240 }}</p>{{ end }}
+    </div>
+    {{ end }}
+  </div>
+</section>
+{{ end }}
 {{ end }}

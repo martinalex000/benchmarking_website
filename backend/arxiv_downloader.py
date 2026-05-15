@@ -1,7 +1,8 @@
-"""ArXiv paper downloader — HTML preferred, PDF always downloaded.
+"""ArXiv paper downloader — LaTeX source first, then PDF.
 
-HTML version gives cleaner table structure for extraction.
-PDF is always downloaded too because it is needed for TikZ/vector figure rendering.
+Download order:
+  1. LaTeX source tarball (arxiv.org/src/) — best for extraction (structured tables).
+  2. PDF (arxiv.org/pdf/) — always downloaded as fallback and for figure rendering.
 
 Usage::
     python -m backend.arxiv_downloader 2206.08164
@@ -15,10 +16,8 @@ import logging
 import re
 import time
 from pathlib import Path
-from urllib.parse import urljoin, urlparse
 
 import requests
-from bs4 import BeautifulSoup
 from tenacity import retry, stop_after_attempt, wait_exponential
 
 from backend.config import cfg
@@ -28,12 +27,8 @@ from backend.paper_storage import PaperStorage
 
 logger = logging.getLogger(__name__)
 
-ARXIV_HTML_URL = "https://arxiv.org/html/{arxiv_id}"
 ARXIV_PDF_URL = "https://arxiv.org/pdf/{arxiv_id}"
 ARXIV_ABS_URL = "https://arxiv.org/abs/{arxiv_id}"
-
-# Only download these asset types from the HTML page
-ASSET_EXTENSIONS = {".png", ".jpg", ".jpeg", ".gif", ".svg", ".webp"}
 
 HEADERS = {
     "User-Agent": (
@@ -58,50 +53,31 @@ def _detect_version(response: requests.Response) -> int | None:
     return None
 
 
-def _download_html(arxiv_id: str, storage: PaperStorage) -> bool:
-    """Download the arXiv HTML version and its linked image assets.
+def _download_latex(arxiv_id: str, storage: PaperStorage) -> bool:
+    """Download and expand the arXiv LaTeX source tarball.
 
-    Returns True if HTML was available, False if not.
+    Returns True when the expanded.tex was successfully cached, False otherwise.
     """
-    url = ARXIV_HTML_URL.format(arxiv_id=arxiv_id)
     try:
-        resp = _get(url)
-    except requests.HTTPError as exc:
-        if exc.response is not None and exc.response.status_code in (404, 403):
-            logger.info("No HTML version available for arXiv:%s", arxiv_id)
-            return False
-        raise
+        from backend.latex_source import download_and_parse
 
-    storage.html_dir.mkdir(parents=True, exist_ok=True)
-    storage.html_index_path.write_bytes(resp.content)
-    logger.info("Downloaded HTML for arXiv:%s (%d bytes)", arxiv_id, len(resp.content))
-
-    # Download linked image assets
-    soup = BeautifulSoup(resp.content, "lxml")
-    base_url = resp.url
-    downloaded_assets = 0
-
-    for img_tag in soup.find_all("img", src=True):
-        src = img_tag["src"]
-        asset_url = urljoin(base_url, src)
-        parsed = urlparse(asset_url)
-        suffix = Path(parsed.path).suffix.lower()
-        if suffix not in ASSET_EXTENSIONS:
-            continue
-        asset_name = Path(parsed.path).name
-        dest = storage.html_dir / asset_name
-        if dest.exists():
-            continue
-        try:
-            asset_resp = _get(asset_url, timeout=30)
-            dest.write_bytes(asset_resp.content)
-            downloaded_assets += 1
-            time.sleep(0.3)
-        except Exception as exc:
-            logger.debug("Could not download asset %s: %s", asset_url, exc)
-
-    logger.info("Downloaded %d image assets for arXiv:%s", downloaded_assets, arxiv_id)
-    return True
+        result = download_and_parse(arxiv_id, storage.latex_dir)
+        if result is not None:
+            logger.info(
+                "LaTeX source cached for arXiv:%s (%d chars)",
+                arxiv_id,
+                len(
+                    (storage.latex_dir / "expanded.tex").read_text(errors="replace")
+                    if (storage.latex_dir / "expanded.tex").exists()
+                    else ""
+                ),
+            )
+            return True
+        logger.info("No LaTeX source available for arXiv:%s", arxiv_id)
+        return False
+    except Exception as exc:
+        logger.warning("LaTeX download failed for arXiv:%s: %s", arxiv_id, exc)
+        return False
 
 
 def _download_pdf(arxiv_id: str, storage: PaperStorage) -> int | None:
@@ -121,7 +97,11 @@ def _download_pdf(arxiv_id: str, storage: PaperStorage) -> int | None:
 
 
 def download_paper(arxiv_id: str, force: bool = False) -> bool:
-    """Download a paper (HTML + PDF) and update the database.
+    """Download a paper (LaTeX source + PDF) and update the database.
+
+    Download order:
+      1. LaTeX source (best for extraction — skipped silently if unavailable).
+      2. PDF (always downloaded; used for figure rendering and as text fallback).
 
     Returns True on success, False on failure.
     """
@@ -150,22 +130,19 @@ def download_paper(arxiv_id: str, force: bool = False) -> bool:
     # Initialise folder and tracking files
     storage.init_paper({"arxiv_id": arxiv_id, "status": "downloading"})
 
-    html_available = False
     version = None
-    success = True
+    latex_available = False
 
     try:
-        # Always download PDF first
-        version = _download_pdf(arxiv_id, storage)
-        time.sleep(3)
-
-        # Attempt HTML download
-        html_available = _download_html(arxiv_id, storage)
+        # Step 1: LaTeX source (best for extraction; silently skipped if unavailable)
+        latex_available = _download_latex(arxiv_id, storage)
         time.sleep(1)
+
+        # Step 2: PDF (always; needed for figure rendering and text fallback)
+        version = _download_pdf(arxiv_id, storage)
 
     except Exception as exc:
         logger.error("Download failed for arXiv:%s: %s", arxiv_id, exc)
-        success = False
         _record_run(paper_id, "download", "failed", str(exc))
         _update_paper_status(paper_id, "failed")
         return False
@@ -176,22 +153,24 @@ def download_paper(arxiv_id: str, force: bool = False) -> bool:
         if paper:
             paper.arxiv_version = version
             paper.pdf_path = str(storage.pdf_path.relative_to(cfg.project_root))
-            if html_available:
-                paper.html_path = str(storage.html_index_path.relative_to(cfg.project_root))
             paper.extraction_status = "downloaded"
 
     storage.update_metadata(
         {
             "arxiv_version": version,
-            "html_available": html_available,
+            "latex_available": latex_available,
             "pdf_path": str(storage.pdf_path),
-            "html_path": str(storage.html_index_path) if html_available else None,
             "status": "downloaded",
         }
     )
 
     _record_run(paper_id, "download", "success", None)
-    logger.info("arXiv:%s downloaded (html=%s, version=%s)", arxiv_id, html_available, version)
+    logger.info(
+        "arXiv:%s downloaded (latex=%s, version=%s)",
+        arxiv_id,
+        latex_available,
+        version,
+    )
     return True
 
 

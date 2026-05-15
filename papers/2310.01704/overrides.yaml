@@ -1,0 +1,31 @@
+# overrides.yaml — edit this file to correct extraction errors.
+# This file is NEVER overwritten by the pipeline.
+# Re-run `python -m backend.reapply_overrides --paper 2310.01704` after editing.
+
+paper_arxiv_id: "2310.01704"
+
+# Mark results as problematic (shown in grey on the leaderboard).
+# problematic_results:
+#   - model: "GraphGPS"
+#     dataset: "Peptides-func"
+#     metric: "AP"
+#     reason: "Uses non-standard evaluation protocol"
+
+# Override extracted values with correct ones.
+# result_overrides:
+#   - model: "GraphGPS"
+#     dataset: "Peptides-func"
+#     metric: "AP"
+#     correct_value: 0.6534
+#     correct_std: 0.0042
+#     reason: "LLM read wrong table row — see Table 3 in paper"
+
+# Fix metadata (codebase URL, etc.).
+# metadata_overrides:
+#   codebase_url: "https://github.com/example/repo"
+
+# Notes about non-standard splits used in this paper.
+# dataset_split_notes:
+#   - dataset: "Cora"
+#     is_standard_split: false
+#     note: "Uses random 10-fold split, not the Planetoid public split"

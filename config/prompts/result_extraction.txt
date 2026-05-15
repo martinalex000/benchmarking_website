@@ -40,6 +40,10 @@ Output schema:
 
 Rules:
 - Include ALL rows from ALL result tables (both the proposed model AND all baselines).
+- value normalisation: Accuracy, F1, AP, AUC, ROC-AUC, AUROC, MRR, and Hits@K are always
+  in the range [0, 1]. If a paper reports such a value as a percentage (e.g. 44.2 meaning
+  44.2%), divide by 100 and output 0.442. NEVER output values > 1 for these metrics.
+  MAE, RMSE, and loss values are NOT normalised (they can naturally exceed 1).
 - For std/error: parse "0.653 ± 0.004", "(±0.004)", "(0.004)" → value=0.653, std=0.004.
 - If a value appears bold (indicating best), still extract it normally; do not skip it.
 - Metric names: normalise to the most common abbreviation (Accuracy not Acc., MAE not mean abs. error).
@@ -48,5 +52,15 @@ Rules:
   the benchmark (e.g. large language model pre-training, external knowledge graphs, ImageNet
   pre-training). false if only the benchmark training data is used. null if unclear.
 - If you cannot determine is_proposed for a row, set it to false (treat as baseline).
+- metric focus: for each dataset, focus on its primary benchmark metric (e.g. MAE for
+  Peptides-struct, AP for Peptides-func, F1 for PascalVOC-SP, MRR for PCQM-Contact).
+  When a FOCUS instruction specifies a PRIMARY METRIC, treat it as guidance on which
+  metric column to prioritise. Do NOT skip rows of models — extract all model rows.
+  Do skip purely secondary diagnostics such as R², coefficient of determination, or loss
+  values that are not standard benchmark scores.
+- split: report ONLY test-set results. Skip train and validation results entirely. If a
+  table has columns like "Train F1 / Val F1 / Test F1", extract ONLY the "Test F1" column.
+- metric names: strip the split prefix when normalising. "Test F1" → "F1", "Test MAE" → "MAE".
+  Never include "train", "val", "valid", "test" in the metric name itself.
 - dataset: use the exact name from the paper (e.g. "Peptides-func", not "Peptides").
 - extraction_confidence: HIGH if tables are clean; MEDIUM if some values are unclear; LOW if major ambiguity.

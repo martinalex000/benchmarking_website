@@ -1,0 +1,14 @@
+{
+  "paper_status": {
+    "total": 224,
+    "by_status": {
+      "extracted": 211,
+      "pending": 7,
+      "downloaded": 6
+    }
+  },
+  "skipped": {
+    "stage1_count": 25,
+    "stage2_count": 0
+  }
+}

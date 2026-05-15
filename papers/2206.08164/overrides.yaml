@@ -4,6 +4,13 @@
 
 paper_arxiv_id: "2206.08164"
 
+model_renames:
+  "GCN (L=2)": "GCN"
+  "GCNII (L=2)": "GCNII"
+  "GINE (L=2)": "GINE"
+  "GatedGCN (L=2)": "GatedGCN"
+  "GatedGCN+RWSE (L=2)": "GatedGCN+RWSE"
+
 # Mark results as problematic (shown in grey on the leaderboard).
 # problematic_results:
 #   - model: "GraphGPS"
