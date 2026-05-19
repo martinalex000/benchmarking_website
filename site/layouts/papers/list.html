@@ -1,94 +1,136 @@
 {{ define "main" }}
+{{ $all := where .Pages "Params.has_results" true }}
+{{ $sorted_papers := sort $all "Params.adjusted_mrr" "desc" }}
+
 <h1>Papers</h1>
 
-{{/* Split papers into method papers (have proposed models) vs benchmarking papers */}}
-{{ $all := where .Pages "Params.has_results" true }}
-{{ $method_papers := slice }}
-{{ $bench_papers := slice }}
-{{ range $all }}
-  {{ if .Params.proposed_models }}
-    {{ $method_papers = $method_papers | append . }}
-  {{ else }}
-    {{ $bench_papers = $bench_papers | append . }}
-  {{ end }}
-{{ end }}
-{{ $sorted_method := sort $method_papers "Params.mrr" "desc" }}
-
 <p class="section-intro">
-  {{ len $method_papers }} method paper(s) ranked by mean reciprocal rank of their proposed model,
-  plus {{ len $bench_papers }} benchmarking paper(s).
+  {{ len $all }} paper(s).
+  The default ranking uses adjusted MRR with a three-dataset floor so papers evaluated on only one or two datasets do not dominate the overview.
 </p>
 
-<div class="filter-bar papers-search-bar">
-  <label class="filter-label" for="paper-search">Search papers:</label>
-  <input id="paper-search" type="search" placeholder="Type title or arXiv id..." autocomplete="off">
+<div class="papers-toolbar">
+  <div class="filter-bar papers-search-bar">
+    <label class="filter-label" for="paper-search">Search papers:</label>
+    <input id="paper-search" type="search" placeholder="Type title, arXiv id, or category..." autocomplete="off">
+  </div>
+  <div class="filter-bar papers-sort-bar">
+    <label class="filter-label" for="paper-sort">Sort by:</label>
+    <select id="paper-sort">
+      <option value="score">Adjusted MRR</option>
+      <option value="date">Date</option>
+    </select>
+  </div>
+  <div class="filter-bar papers-scope-bar">
+    <span class="filter-label">Experiments:</span>
+    <button class="task-filter active" type="button" data-scope-filter="">All</button>
+    <button class="task-filter" type="button" data-scope-filter="node-level">Node-level</button>
+    <button class="task-filter" type="button" data-scope-filter="graph-level">Graph-level</button>
+    <button class="task-filter" type="button" data-scope-filter="edge-level">Edge-level</button>
+  </div>
 </div>
 
-{{ if $sorted_method }}
-<section class="papers-category">
-  <h2 class="category-heading">Method Papers <span class="category-hint">sorted by MRR ↓</span></h2>
-  <div class="paper-list">
-    {{ range $sorted_method }}
-    <div class="paper-list-item" data-paper-search="{{ lower (printf "%s %s" .Title (.Params.arxiv_id | default "")) }}">
-      <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
-      <div class="paper-meta">
-        {{ with .Params.arxiv_id }}<a class="badge" href="https://arxiv.org/abs/{{ . }}" target="_blank" rel="noopener">arXiv:{{ . }}</a>{{ end }}
-        {{ with .Params.published_date }}<span class="badge">{{ . }}</span>{{ end }}
-        {{ with .Params.single_proposed_model }}<span class="badge badge-proposed">Proposes: {{ . }}</span>{{ end }}
-        {{ if and .Params.mrr (gt .Params.mrr 0.0) }}<span class="badge muted">MRR {{ printf "%.3f" .Params.mrr }}</span>{{ end }}
-        {{ with .Params.extraction_model }}<span class="badge muted">Extracted with {{ . }}</span>{{ end }}
-      </div>
-      {{ with .Params.authors }}<p class="authors">{{ delimit . ", " }}</p>{{ end }}
-      {{ with .Params.abstract }}<p class="abstract-excerpt">{{ . | truncate 240 }}</p>{{ end }}
+<div class="paper-list" id="paper-list">
+  {{ range $sorted_papers }}
+  {{ $searchText := lower (printf "%s %s %s %s %s" .Title (default "" .Params.arxiv_id) (delimit (default (slice) .Params.benchmark_categories) " ") (delimit (default (slice) .Params.task_categories) " ") (delimit (default (slice) .Params.experiment_scopes) " ")) }}
+  <div class="paper-list-item"
+       data-paper-search="{{ $searchText }}"
+       data-rank-score="{{ default -1 .Params.adjusted_mrr }}"
+       data-paper-date="{{ default "" .Params.published_date_iso }}"
+       data-paper-scopes="{{ delimit (default (slice) .Params.experiment_scopes) " " }}">
+    <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+    <div class="paper-meta">
+      {{ with .Params.source_url }}
+      <a class="badge" href="{{ . }}" target="_blank" rel="noopener">Paper</a>
+      {{ else }}
+      {{ with .Params.arxiv_id }}<a class="badge" href="https://arxiv.org/abs/{{ . }}" target="_blank" rel="noopener">arXiv:{{ . }}</a>{{ end }}
+      {{ end }}
+      {{ with .Params.published_date }}<span class="badge">{{ . }}</span>{{ end }}
+      {{ if and .Params.adjusted_mrr (gt .Params.adjusted_mrr 0.0) }}<span class="badge muted">Adj. MRR {{ printf "%.3f" .Params.adjusted_mrr }}</span>{{ end }}
+      {{ if gt (default 0 .Params.mrr_dataset_count) 0 }}<span class="badge muted">{{ .Params.mrr_dataset_count }} dataset{{ if ne .Params.mrr_dataset_count 1 }}s{{ end }}</span>{{ end }}
+    </div>
+    {{ with .Params.benchmark_categories }}
+    <div class="paper-category-badges">
+      {{ range . }}<span class="badge muted paper-dataset-badge">{{ . }}</span>{{ end }}
     </div>
     {{ end }}
-  </div>
-</section>
-{{ end }}
-
-{{ if $bench_papers }}
-<section class="papers-category">
-  <h2 class="category-heading">Benchmarking Papers <span class="category-hint">no single proposed method</span></h2>
-  <div class="paper-list">
-    {{ range $bench_papers }}
-    <div class="paper-list-item" data-paper-search="{{ lower (printf "%s %s" .Title (.Params.arxiv_id | default "")) }}">
-      <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
-      <div class="paper-meta">
-        {{ with .Params.arxiv_id }}<a class="badge" href="https://arxiv.org/abs/{{ . }}" target="_blank" rel="noopener">arXiv:{{ . }}</a>{{ end }}
-        {{ with .Params.published_date }}<span class="badge">{{ . }}</span>{{ end }}
-        {{ with .Params.extraction_model }}<span class="badge muted">Extracted with {{ . }}</span>{{ end }}
-      </div>
-      {{ with .Params.authors }}<p class="authors">{{ delimit . ", " }}</p>{{ end }}
-      {{ with .Params.abstract }}<p class="abstract-excerpt">{{ . | truncate 240 }}</p>{{ end }}
+    {{ with .Params.experiment_scopes }}
+    <div class="paper-category-badges">
+      {{ range . }}<span class="badge muted paper-experiment-badge">{{ . }}</span>{{ end }}
     </div>
     {{ end }}
+    {{ with .Params.authors }}<p class="authors">{{ delimit . ", " }}</p>{{ end }}
+    {{ with .Params.abstract }}<p class="abstract-excerpt">{{ . | truncate 240 }}</p>{{ end }}
   </div>
-</section>
-{{ end }}
+  {{ end }}
+</div>
 
+<p class="paper-empty-state" id="paper-empty-state" style="display:none">No papers match the current filters.</p>
 {{ end }}
 
 {{ define "scripts" }}
 <script>
 (function () {
   var input = document.getElementById("paper-search");
-  if (!input) return;
+  var sort = document.getElementById("paper-sort");
+  var list = document.getElementById("paper-list");
+  var empty = document.getElementById("paper-empty-state");
+  if (!input || !sort || !list) return;
 
-  function applyFilter() {
-    var query = (input.value || "").trim().toLowerCase();
-    document.querySelectorAll(".papers-category").forEach(function (section) {
-      var visible = 0;
-      section.querySelectorAll(".paper-list-item").forEach(function (card) {
-        var haystack = (card.dataset.paperSearch || "").toLowerCase();
-        var match = !query || haystack.indexOf(query) !== -1;
-        card.style.display = match ? "" : "none";
-        if (match) visible += 1;
-      });
-      section.style.display = visible > 0 ? "" : "none";
+  var scopeButtons = Array.from(document.querySelectorAll("[data-scope-filter]"));
+  var activeScope = "";
+
+  function activeCards() {
+    return Array.from(list.querySelectorAll(".paper-list-item"));
+  }
+
+  function sortCards(cards) {
+    var mode = sort.value || "score";
+    cards.sort(function (a, b) {
+      if (mode === "date") {
+        var dateCmp = (b.dataset.paperDate || "").localeCompare(a.dataset.paperDate || "");
+        if (dateCmp !== 0) return dateCmp;
+      }
+      var scoreCmp = parseFloat(b.dataset.rankScore || "-1") - parseFloat(a.dataset.rankScore || "-1");
+      if (scoreCmp !== 0) return scoreCmp;
+      return (b.dataset.paperDate || "").localeCompare(a.dataset.paperDate || "");
+    });
+    cards.forEach(function (card) {
+      list.appendChild(card);
     });
   }
 
-  input.addEventListener("input", applyFilter);
+  function applyControls() {
+    var cards = activeCards();
+    sortCards(cards);
+
+    var query = (input.value || "").trim().toLowerCase();
+    var visible = 0;
+    cards.forEach(function (card) {
+      var haystack = (card.dataset.paperSearch || "").toLowerCase();
+      var scopes = (card.dataset.paperScopes || "").split(/\s+/).filter(Boolean);
+      var scopeMatch = !activeScope || scopes.indexOf(activeScope) !== -1;
+      var textMatch = !query || haystack.indexOf(query) !== -1;
+      var match = scopeMatch && textMatch;
+      card.style.display = match ? "" : "none";
+      if (match) visible += 1;
+    });
+    if (empty) empty.style.display = visible ? "none" : "";
+  }
+
+  scopeButtons.forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      activeScope = btn.dataset.scopeFilter || "";
+      scopeButtons.forEach(function (other) {
+        other.classList.toggle("active", other === btn);
+      });
+      applyControls();
+    });
+  });
+
+  input.addEventListener("input", applyControls);
+  sort.addEventListener("change", applyControls);
+  applyControls();
 })();
 </script>
 {{ end }}

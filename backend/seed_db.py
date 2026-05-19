@@ -32,6 +32,35 @@ def _short_name(name: str) -> str:
     return s or "benchmark"
 
 
+def _merge_benchmark_aliases(session, alias_to_canonical: dict[str, str]) -> None:
+    for alias_name, canonical_name in alias_to_canonical.items():
+        alias = session.query(Benchmark).filter_by(name=alias_name).first()
+        canonical = session.query(Benchmark).filter_by(name=canonical_name).first()
+        if alias is None or canonical is None or alias.id == canonical.id:
+            continue
+
+        logger.info("Merging benchmark alias %s into %s", alias_name, canonical_name)
+        for dataset in list(alias.datasets):
+            existing = (
+                session.query(Dataset)
+                .filter_by(name=dataset.name, benchmark_id=canonical.id)
+                .first()
+            )
+            if existing is not None:
+                logger.warning(
+                    "Skipping duplicate dataset during benchmark merge: %s already exists under %s",
+                    dataset.name,
+                    canonical_name,
+                )
+                continue
+            dataset.benchmark_id = canonical.id
+
+        session.flush()
+        remaining = session.query(Dataset).filter_by(benchmark_id=alias.id).count()
+        if remaining == 0:
+            session.delete(alias)
+
+
 def seed(dry_run: bool = False) -> None:
     init_db()
 
@@ -74,8 +103,16 @@ def seed(dry_run: bool = False) -> None:
                 )
                 logger.info("  Dataset: %s (id=%s)", ds.name, ds.id)
 
+                seen_variant_names: set[str] = set()
                 for v_data in ds_data.get("variants", []):
+                    seen_variant_names.add(v_data["name"])
                     v_defaults = {
+                        "description": v_data.get("description"),
+                        "num_graphs": v_data.get("num_graphs"),
+                        "avg_nodes": v_data.get("avg_nodes"),
+                        "avg_edges": v_data.get("avg_edges"),
+                        "label_fraction": v_data.get("label_fraction"),
+                        "split_type": v_data.get("split_type"),
                         "is_standard": 1 if v_data.get("is_standard", False) else 0,
                         "notes": v_data.get("notes"),
                     }
@@ -86,6 +123,13 @@ def seed(dry_run: bool = False) -> None:
                         v_defaults,
                     )
                     logger.info("    Variant: %s (is_standard=%s)", v.name, v.is_standard)
+
+                for existing_variant in list(ds.variants):
+                    if existing_variant.name not in seen_variant_names:
+                        logger.info("    Removing stale variant: %s", existing_variant.name)
+                        session.delete(existing_variant)
+
+        _merge_benchmark_aliases(session, {"TUDataset": "TU Dortmund"})
 
         if dry_run:
             session.rollback()

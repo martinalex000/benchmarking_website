@@ -6,22 +6,23 @@ description: Overview of extraction status
 
 ## Paper Extraction Status
 
-**Total:** 224 papers
+**Total:** 225 papers
 
 This page tracks the extraction pipeline status for all papers in the benchmarking dataset. Each paper goes through several stages: first it must be downloaded from arXiv, then the full text is extracted and parsed (either from HTML, LaTeX source, or PDF), and finally results are extracted using an LLM. The extraction model shown indicates which LLM (if any) was used to extract results.
 
-### Downloaded (6)
+### Downloaded (7)
 
 Papers that have been downloaded but not yet processed for extraction.
 
 | ArXiv | Title | Model |
 |-------|-------|-------|
-| 2309.00367 | Where Did the Gap Go?\\ Reassessing the ... | — |
-| 2401.01233 | GEN: A Practical Alternative to Graph Tr... | — |
-| 2402.00789 | Graph-Mamba: Towards Long-Range Graph Se... | — |
-| 2406.18380 | KAGNNs: Kolmogorov-Arnold Networks meet ... | — |
+| 2309.00367 | Where Did the Gap Go? Reassessing the Lo... | qwen3.6-35b-a3b |
+| 2401.01233 | GEN: A Practical Alternative to Graph Tr... | qwen3.6-35b-a3b |
+| 2402.00789 | Graph-Mamba: Towards Long-Range Graph Se... | qwen3.6-35b-a3b |
+| 2406.18380 | KAGNNs: Kolmogorov-Arnold Networks meet ... | qwen3.6-35b-a3b |
 | 2512.12642 | Torch Geometric Pool: the PyTorch librar... | — |
 | 2604.00199 | QUEST: A robust attention formulation us... | — |
+| IAZXEX1dVV | LRIM: a Physics-Based Benchmark for Prov... | manual_openreview_table_extraction |
 
 ### Extracted (211)
 
@@ -54,7 +55,7 @@ Papers with successfully extracted results. These papers contribute to the leade
 | 2306.03561 | CIN++: Enhancing Topological Message Pas... | qwen3.6-35b-a3b |
 | 2306.04667 | Neural Embeddings for Protein Graphs | qwen3.6-35b-a3b |
 | 2306.05955 | Path Neural Networks: Expressive and Acc... | qwen3.6-35b-a3b |
-| 2306.08277 | : Frugal Spatio-temporal Forecasting on ... | qwen3.6-35b-a3b |
+| 2306.08277 | FRIGATE: Frugal Spatio-temporal Forecast... | qwen3.6-35b-a3b |
 | 2306.08385 | Align All the Nodes: Scalable Learning o... | qwen3.6-35b-a3b |
 | 2306.10759 | SGFormer: Simplifying and Empowering Tra... | qwen3.6-35b-a3b |
 | 2306.11681 | arXiv:2306.11681 | qwen3.6-35b-a3b |
@@ -80,8 +81,8 @@ Papers with successfully extracted results. These papers contribute to the leade
 | 2310.15543 | Symmetry-preserving graph attention netw... | qwen3.6-35b-a3b |
 | 2310.18777 | Improving Compositional Generalization u... | qwen3.6-35b-a3b |
 | 2310.19285 | Facilitating Graph Neural Networks with ... | qwen3.6-35b-a3b |
-| 2310.20519 | Enhancing Graph Neural Networks with \\ ... | qwen3.6-35b-a3b |
-| 2311.01276 | Neural Atoms: Propagating Long-range \\ ... | qwen3.6-35b-a3b |
+| 2310.20519 | Enhancing Graph Neural Networks with Qua... | qwen3.6-35b-a3b |
+| 2311.01276 | Neural Atoms: Propagating Long-range Int... | qwen3.6-35b-a3b |
 | 2311.04653 | Hybrid Focal and Full-Range Attention Ba... | qwen3.6-35b-a3b |
 | 2311.05964 | Multiscale Neural Operators for Solving ... | qwen3.6-35b-a3b |
 | 2311.07073 | arXiv:2311.07073 | qwen3.6-35b-a3b |
@@ -112,10 +113,10 @@ Papers with successfully extracted results. These papers contribute to the leade
 | 2404.13604 | arXiv:2404.13604 | qwen3.6-35b-a3b |
 | 2405.02795 | Graph as Point Set | qwen3.6-35b-a3b |
 | 2405.03481 | AnchorGT: Efficient and Flexible Attenti... | qwen3.6-35b-a3b |
-| 2405.11951 | Distinguished In Uniform:\\ Self-Attenti... | qwen3.6-35b-a3b |
+| 2405.11951 | Distinguished In Uniform: Self-Attention... | qwen3.6-35b-a3b |
 | 2405.13526 | Understanding Virtual Nodes: Oversquashi... | qwen3.6-35b-a3b |
 | 2405.13806 | A General Graph Spectral Wavelet Convolu... | qwen3.6-35b-a3b |
-| 2405.15540 | Bundle Neural Networks \\ for message di... | qwen3.6-35b-a3b |
+| 2405.15540 | Bundle Neural Networks for message diffu... | qwen3.6-35b-a3b |
 | 2405.17311 | Probabilistic Graph Rewiring via Virtual... | qwen3.6-35b-a3b |
 | 2405.17404 | Spectral Greedy Coresets for Graph Neura... | qwen3.6-35b-a3b |
 | 2405.19121 | Spatio-Spectral Graph Neural Networks | qwen3.6-35b-a3b |
@@ -128,7 +129,7 @@ Papers with successfully extracted results. These papers contribute to the leade
 | 2406.04377 | Combining Graph Neural Network and Mamba... | qwen3.6-35b-a3b |
 | 2406.05815 | What Can We Learn from State Space Model... | qwen3.6-35b-a3b |
 | 2406.06984 | On the Stability of Multiset and Graph N... | qwen3.6-35b-a3b |
-| 2406.08993 | Classic GNNs are Strong Baselines:\\ Rea... | glm-4.7 |
+| 2406.08993 | Classic GNNs are Strong Baselines: Reass... | glm-4.7 |
 | 2406.09291 | A Flexible, Equivariant Framework for Su... | qwen3.6-35b-a3b |
 | 2406.09639 | TGB 2.0: A Benchmark for Learning on Tem... | qwen3.6-35b-a3b |
 | 2406.12059 | A Scalable and Effective Alternative to ... | qwen3.6-35b-a3b |
@@ -137,7 +138,7 @@ Papers with successfully extracted results. These papers contribute to the leade
 | 2407.00494 | Graph Neural Networks Gone Hogwild | qwen3.6-35b-a3b |
 | 2407.02758 | Differential Encoding for Improved Repre... | qwen3.6-35b-a3b |
 | 2407.04236 | Graph Pooling via Ricci Flow | qwen3.6-35b-a3b |
-| 2407.05649 | Greener GRASS: Enhancing GNNs with \ , R... | qwen3.6-35b-a3b |
+| 2407.05649 | Greener GRASS: Enhancing GNNs with Encod... | qwen3.6-35b-a3b |
 | 2407.08762 | arXiv:2407.08762 | qwen3.6-35b-a3b |
 | 2407.12136 | Molecular Topological Profile (MOLTOP) -... | qwen3.6-35b-a3b |
 | 2407.12419 | Dirac--Bianconi Graph Neural Networks --... | qwen3.6-35b-a3b |
@@ -146,7 +147,7 @@ Papers with successfully extracted results. These papers contribute to the leade
 | 2408.12169 | arXiv:2408.12169 | Kimi-K2.6 |
 | 2409.08023 | arXiv:2409.08023 | Kimi-K2.6 |
 | 2409.11504 | Preventing Representational Rank Collaps... | Kimi-K2.6 |
-| 2409.19117 | Range-aware Positional Encoding via\\ Hi... | Kimi-K2.6 |
+| 2409.19117 | Range-aware Positional Encoding via High... | Kimi-K2.6 |
 | 2409.19414 | arXiv:2409.19414 | Kimi-K2.6 |
 | 2409.20212 | arXiv:2409.20212 | Kimi-K2.6 |
 | 2410.03424 | Cayley Graph Propagation | Kimi-K2.6 |
@@ -156,12 +157,12 @@ Papers with successfully extracted results. These papers contribute to the leade
 | 2410.06460 | A Benchmark on Directed Graph Representa... | MiniMaxAI/MiniMax-M2.5 |
 | 2410.09737 | Towards Stable, Globally Expressive Grap... | MiniMaxAI/MiniMax-M2.5 |
 | 2410.13798 | Learning Graph Quantized Tokenizers | MiniMaxAI/MiniMax-M2.5 |
-| 2410.18676 | Homomorphism Counts as Structural \\ Enc... | MiniMaxAI/MiniMax-M2.5 |
+| 2410.18676 | Homomorphism Counts as Structural Encodi... | MiniMaxAI/MiniMax-M2.5 |
 | 2410.20516 | A Cosmic-Scale Benchmark for Symmetry-Pr... | MiniMaxAI/MiniMax-M2.5 |
 | 2410.23686 | Towards Dynamic Message Passing on Graph... | MiniMaxAI/MiniMax-M2.5 |
 | 2411.15671 | Best of Both Worlds: Advantages of Hybri... | MiniMaxAI/MiniMax-M2.5 |
 | 2411.17296 | GrokFormer: Graph Fourier Kolmogorov-Arn... | MiniMaxAI/MiniMax-M2.5 |
-| 2412.01519 | : Linear Complexity Graph Transformers \... | MiniMaxAI/MiniMax-M2.5 |
+| 2412.01519 | ReHub: Linear Complexity Graph Transform... | MiniMaxAI/MiniMax-M2.5 |
 | 2412.03783 | Expressivity of Representation Learning ... | MiniMaxAI/MiniMax-M2.5 |
 | 2412.07188 | Graph Neural Networks Are More Than Filt... | MiniMaxAI/MiniMax-M2.5 |
 | 2412.17609 | arXiv:2412.17609 | MiniMaxAI/MiniMax-M2.5 |
@@ -172,12 +173,12 @@ Papers with successfully extracted results. These papers contribute to the leade
 | 2502.00282 | GraphMinNet: Learning Dependencies in Gr... | MiniMaxAI/MiniMax-M2.5 |
 | 2502.01122 | Learning Efficient Positional Encodings ... | MiniMaxAI/MiniMax-M2.5 |
 | 2502.02379 | No Metric to Rule Them All: Toward Princ... | MiniMaxAI/MiniMax-M2.5 |
-| 2502.07364 | Effects of Dropout on Performance in \\ ... | MiniMaxAI/MiniMax-M2.5 |
+| 2502.07364 | Effects of Dropout on Performance in Lon... | MiniMaxAI/MiniMax-M2.5 |
 | 2502.09263 | Can Classic GNNs Be Strong Baselines for... | MiniMaxAI/MiniMax-M2.5 |
 | 2502.09365 | Simple Path Structural Encoding for Grap... | MiniMaxAI/MiniMax-M2.5 |
 | 2502.09570 | Enhancing the Utility of Higher-Order In... | MiniMaxAI/MiniMax-M2.5 |
 | 2502.10818 | On Vanishing Gradients, Over-Smoothing, ... | qwen3.6-35b-a3b |
-| 2503.09008 | Towards Quantifying Long-Range Interacti... | MiniMaxAI/MiniMax-M2.5 |
+| 2503.09008 | City-Networks | MiniMaxAI/MiniMax-M2.5 |
 | 2504.12588 | Plain Transformers Can be Powerful Graph... | MiniMaxAI/MiniMax-M2.5 |
 | 2505.15405 | HOPSE: Scalable Higher-Order Positional ... | MiniMaxAI/MiniMax-M2.5 |
 | 2505.23185 | Improving the Effective Receptive Field ... | MiniMaxAI/MiniMax-M2.5 |
@@ -190,7 +191,7 @@ Papers with successfully extracted results. These papers contribute to the leade
 | 2506.08618 | HSG-12M | qwen3.6-35b-a3b |
 | 2506.11869 | How do Probabilistic Graphical Models an... | qwen3.6-35b-a3b |
 | 2506.13912 | Density-aware Walks for Coordinated Camp... | qwen3.6-35b-a3b |
-| 2506.14098 | Toward a Graph Foundation Model: \\ Pre-... | qwen3.6-35b-a3b |
+| 2506.14098 | Toward a Graph Foundation Model: Pre-Tra... | qwen3.6-35b-a3b |
 | 2506.19862 | DualEquiNet RNA Benchmarks | qwen3.6-35b-a3b |
 | 2506.22727 | Convergent Privacy Framework for Multi-l... | qwen3.6-35b-a3b |
 | 2507.00647 | Cooperative Sheaf Neural Networks | qwen3.6-35b-a3b |
@@ -202,7 +203,7 @@ Papers with successfully extracted results. These papers contribute to the leade
 | 2508.14097 | Non-Dissipative Graph Propagation for No... | qwen3.6-35b-a3b |
 | 2508.17630 | Quantum Graph Attention Network: A Novel... | qwen3.6-35b-a3b |
 | 2508.19071 | Dynamic Triangulation-Based Graph Rewiri... | qwen3.6-35b-a3b |
-| 2509.01254 | What Expressivity Theory Misses:\\ Messa... | qwen3.6-35b-a3b |
+| 2509.01254 | What Expressivity Theory Misses: Message... | qwen3.6-35b-a3b |
 | 2509.06743 | Long-Range Graph Wavelet Networks | qwen3.6-35b-a3b |
 | 2509.06777 | Asynchronous Message Passing for Address... | qwen3.6-35b-a3b |
 | 2509.22100 | SHAKE-GNN: Scalable Hierarchical Kirchho... | qwen3.6-35b-a3b |
@@ -226,7 +227,7 @@ Papers with successfully extracted results. These papers contribute to the leade
 | 2601.07419 | Position: Don't be Afraid of Over-Smooth... | qwen3.6-35b-a3b |
 | 2601.18917 | GraIP: A Benchmarking Framework For Neur... | qwen3.6-35b-a3b |
 | 2601.19094 | FloydNet: A Learning Paradigm for Global... | qwen3.6-35b-a3b |
-| 2602.02268 | HopFormer: Sparse Graph Transformers \ E... | qwen3.6-35b-a3b |
+| 2602.02268 | HopFormer: Sparse Graph Transformers wit... | qwen3.6-35b-a3b |
 | 2602.15239 | Size Transferability of Graph Transforme... | qwen3.6-35b-a3b |
 | 2602.17893 | COMBA: Cross Batch Aggregation for Learn... | qwen3.6-35b-a3b |
 | 2602.18837 | L2G-Net: Local to Global Spectral Graph ... | qwen3.6-35b-a3b |
@@ -253,4 +254,4 @@ Papers that have been identified but not yet downloaded from arXiv.
 | 2005.00687 | OGB-Link | — |
 | 2103.09430 | OGB-LSC | — |
 | 2110.14446 | LINKX Benchmarks | — |
-| 2312.16560 | Algorithmic Graph Tasks | — |
+| 2312.16560 | Algorithmic Graph Tasks | qwen3.6-35b-a3b |

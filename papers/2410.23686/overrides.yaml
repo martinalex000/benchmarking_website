@@ -12,13 +12,61 @@ paper_arxiv_id: "2410.23686"
 #     reason: "Uses non-standard evaluation protocol"
 
 # Override extracted values with correct ones.
-# result_overrides:
-#   - model: "GraphGPS"
-#     dataset: "Peptides-func"
-#     metric: "AP"
-#     correct_value: 0.6534
-#     correct_std: 0.0042
-#     reason: "LLM read wrong table row — see Table 3 in paper"
+result_overrides:
+  - model: "Exphormer"
+    dataset: "Peptides-struct"
+    metric: "MAE"
+    correct_value: 0.2481
+    correct_std: null
+    reason: "Peptides-struct MAE was reported on a x100 scale in extraction; corrected to the benchmark scale."
+  - model: "nsqure~"
+    dataset: "Peptides-struct"
+    metric: "MAE"
+    correct_value: 0.2512
+    correct_std: null
+    reason: "Peptides-struct MAE was reported on a x100 scale in extraction; corrected to the benchmark scale."
+  - model: "Drew-GIN"
+    dataset: "Peptides-struct"
+    metric: "MAE"
+    correct_value: 0.2536
+    correct_std: null
+    reason: "Peptides-struct MAE was reported on a x100 scale in extraction; corrected to the benchmark scale."
+  - model: "PathNN"
+    dataset: "Peptides-struct"
+    metric: "MAE"
+    correct_value: 0.2545
+    correct_std: null
+    reason: "Peptides-struct MAE was reported on a x100 scale in extraction; corrected to the benchmark scale."
+  - model: "SAN"
+    dataset: "Peptides-struct"
+    metric: "MAE"
+    correct_value: 0.2545
+    correct_std: null
+    reason: "Peptides-struct MAE was reported on a x100 scale in extraction; corrected to the benchmark scale."
+  - model: "GatedGCN"
+    dataset: "Peptides-struct"
+    metric: "MAE"
+    correct_value: 0.3357
+    correct_std: null
+    reason: "Peptides-struct MAE was reported on a x100 scale in extraction; corrected to the benchmark scale."
+  - model: "GCNII"
+    dataset: "Peptides-struct"
+    metric: "MAE"
+    correct_value: 0.3471
+    correct_std: null
+    reason: "Peptides-struct MAE was reported on a x100 scale in extraction; corrected to the benchmark scale."
+  - model: "GCN"
+    dataset: "Peptides-struct"
+    metric: "MAE"
+    correct_value: 0.3496
+    correct_std: null
+    reason: "Peptides-struct MAE was reported on a x100 scale in extraction; corrected to the benchmark scale."
+  - model: "GINE"
+    dataset: "Peptides-struct"
+    metric: "MAE"
+    correct_value: 0.3547
+    correct_std: null
+    reason: "Peptides-struct MAE was reported on a x100 scale in extraction; corrected to the benchmark scale."
 
 # Fix metadata (codebase URL, etc.).
 # metadata_overrides:

@@ -28,6 +28,8 @@ logs/
 site/public/
 site/resources/
 site/.hugo_build.lock
+site/content/datasets/
+site/content/papers/
 
 # ── Papers: ignore large/generated files, but TRACK correction files ─────────
 # Downloaded paper files (large, reproducible)

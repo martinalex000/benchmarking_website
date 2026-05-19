@@ -42,10 +42,10 @@ Source file: `/home/martin/git/benchmarking_website/data/pending_datasets.yaml`
 | pending | Shanghai | 2505.23185 | Accuracy |  |  |
 | pending | Los Angeles | 2505.23185 | Accuracy |  |  |
 | pending | H2 | 2505.23875 | MAE |  |  |
-| pending | BlogCatalog | 2505.23345 | Accuracy |  | yes |
+| approved | BlogCatalog | 2505.23345 | Accuracy |  | yes |
 | pending | molipo | 2505.23345 | RMSE |  |  |
 | pending | moltocx21 | 2505.23345 | ROC-AUC |  |  |
-| pending | Facebook | 2505.23345 | Accuracy |  | yes |
+| approved | Facebook | 2505.23345 | Accuracy |  | yes |
 | pending | NAME | 2505.15405 | F1 |  |  |
 | pending | ORIENT | 2505.15405 | F1 |  |  |
 | pending | β1 | 2505.15405 | F1 |  |  |
@@ -54,10 +54,10 @@ Source file: `/home/martin/git/benchmarking_website/data/pending_datasets.yaml`
 | pending | Paris | 2503.09008 | Accuracy |  |  |
 | pending | Shanghai | 2503.09008 | Accuracy |  |  |
 | pending | Los Angeles | 2503.09008 | Accuracy |  |  |
-| pending | AIDS | 2502.02379 | AUROC | TUDataset | yes |
+| approved | AIDS | 2502.02379 | AUROC | TU Dortmund | yes |
 | pending | User-post-comment | 2502.01122 | MAP |  |  |
-| pending | Blog | 2501.18739 | Accuracy |  | yes |
-| pending | Flickr | 2501.18739 | Accuracy |  | yes |
+| approved | Blog | 2501.18739 | Accuracy |  | yes |
+| approved | Flickr | 2501.18739 | Accuracy |  | yes |
 | pending | Flickr-S | 2501.18739 | Accuracy |  |  |
 | pending | EXP | 2501.18739 | Accuracy |  |  |
 | pending | SR25 | 2501.18739 | Accuracy |  |  |
@@ -65,13 +65,13 @@ Source file: `/home/martin/git/benchmarking_website/data/pending_datasets.yaml`
 | pending | CAMP | 2501.17901 | F1 |  |  |
 | pending | Average F1 | 2501.17901 | F1 |  |  |
 | pending | XUAMP | 2501.17901 | AUROC |  |  |
-| pending | Community | 2501.09821 | Accuracy |  | yes |
+| approved | Community | 2501.09821 | Accuracy |  | yes |
 | pending | Colors3 | 2501.09821 | Accuracy |  |  |
 | pending | TGBL-Coin | 2412.03783 | MRR | TGB |  |
 | pending | Cycle Check | 2411.15671 | Accuracy |  |  |
 | pending | Triangle Counting | 2411.15671 | RMSE |  |  |
 | pending | Genius | 2410.23686 | ROC-AUC |  |  |
-| pending | Alchemy | 2410.09737 | MAE |  | yes |
+| approved | Alchemy | 2410.09737 | MAE |  | yes |
 | pending | HLS | 2410.06460 | Ranking |  |  |
 | pending | SR | 2410.06460 | Ranking |  |  |
 | pending | TIME | 2410.06460 | Ranking |  |  |
@@ -79,13 +79,13 @@ Source file: `/home/martin/git/benchmarking_website/data/pending_datasets.yaml`
 | pending | WikiMath | 2410.05593 | MSE |  |  |
 | pending | Ele-fashion | 2406.16321 | Accuracy |  |  |
 | pending | ImageNet-1K | 2406.16722 | Accuracy |  |  |
-| pending | Flickr | 2406.12059 | Accuracy |  | yes |
-| pending | Yelp | 2406.12059 | Micro-F1 Score | OGB | yes |
+| approved | Flickr | 2406.12059 | Accuracy |  | yes |
+| approved | Yelp | 2406.12059 | Micro-F1 Score | OGB | yes |
 | pending | tkgl-polecat | 2406.09639 | MRR | TKGL |  |
 | pending | tkgl-icews | 2406.09639 | MRR | TKGL |  |
 | pending | thgl-software | 2406.09639 | MRR |  |  |
 | pending | thgl-forum | 2406.09639 | MRR |  |  |
-| pending | PTC | 2406.06984 | Accuracy | TUDataset | yes |
+| approved | PTC | 2406.06984 | Accuracy | TU Dortmund | yes |
 | pending | NLST | 2406.04377 | C-index |  |  |
 | pending | TCGA | 2406.04377 | C-index |  |  |
 | pending | LastFM | 2406.02740 | AUC |  |  |
@@ -93,16 +93,16 @@ Source file: `/home/martin/git/benchmarking_website/data/pending_datasets.yaml`
 | pending | tgbl-review-v2 | 2406.02740 | MRR | TGBL |  |
 | pending | TPUGraphs | 2405.19121 | Kendall tau |  |  |
 | pending | Distance Regression (DAGs) | 2405.19121 | MAE |  |  |
-| pending | Flickr | 2405.17404 | Accuracy |  | yes |
-| pending | QM8 | 2405.03481 | MAE |  | yes |
-| pending | Alchemy | 2404.03380 | MAE | OGB | yes |
+| approved | Flickr | 2405.17404 | Accuracy |  | yes |
+| approved | QM8 | 2405.03481 | MAE |  | yes |
+| approved | Alchemy | 2404.03380 | MAE | OGB | yes |
 | pending | Superblue | 2404.00477 | RMSE | Superblue |  |
 | pending | BREC | 2403.13749 | Num. of distinguished pairs | BREC |  |
 | pending | Synthetic Subgraph Counting | 2403.13749 | MAE |  |  |
 | pending | Shortest Path (Erdős–Rényi) (15k) | 2402.10793 | MCC | Graph Generation Benchmark |  |
 | pending | Shortest Path (Erdős–Rényi) (30k) | 2402.10793 | MCC | GraphGen |  |
 | pending | Alchemy-12k | 2402.08450 | MAE | Alchemy |  |
-| pending | FAUST | 2402.04821 | Accuracy |  | yes |
+| approved | FAUST | 2402.04821 | Accuracy |  | yes |
 | pending | TOSCA | 2402.04821 | Accuracy | TOSCA |  |
 | pending | N-UCLA-CIL | 2401.18054 | AOPD, MOPD | G-CLOOB |  |
 | pending | NTU-CIL | 2401.18054 | AOPD, MOPD | NTU-CIL |  |
@@ -125,7 +125,7 @@ Source file: `/home/martin/git/benchmarking_website/data/pending_datasets.yaml`
 | pending | LastFM | 2506.05393 | MRR |  |  |
 | pending | UCI | 2506.05393 | MRR |  |  |
 | pending | Enron | 2506.05393 | MRR |  |  |
-| pending | Flickr | 2410.05697 | Accuracy |  | yes |
+| approved | Flickr | 2410.05697 | Accuracy |  | yes |
 | pending | HCP-Task | 2407.18480 | Accuracy |  |  |
 | pending | HCP-Age | 2407.18480 | Accuracy |  |  |
 | pending | sr25 | 2407.18480 | Undistinguished Pairs | Graph Isomorphism Benchmark |  |
@@ -142,21 +142,21 @@ Source file: `/home/martin/git/benchmarking_website/data/pending_datasets.yaml`
 | pending | Magnetostatics Shape | 2311.05964 | MSE |  |  |
 | pending | Magnetostatics Superpositions | 2311.05964 | MSE |  |  |
 | pending | OE62 | 2311.01276 | MAE |  |  |
-| pending | Yelp | 2310.05174 | Macro-F1 |  | yes |
-| pending | MUV | 2310.03274 | ROC-AUC | MoleculeNet | yes |
+| approved | Yelp | 2310.05174 | Macro-F1 |  | yes |
+| approved | MUV | 2310.03274 | ROC-AUC | MoleculeNet | yes |
 | pending | sCIFAR | 2310.02980 | Accuracy |  |  |
-| pending | Alchemy | 2310.02156 | MAE | OGB | yes |
-| pending | PTC_MR | 2310.02156 | Accuracy | TUDataset | yes |
+| approved | Alchemy | 2310.02156 | MAE | OGB | yes |
+| approved | PTC_MR | 2310.02156 | Accuracy | TU Dortmund | yes |
 | pending | RootNeighbors | 2310.01267 | MAE | OOD-GNN |  |
 | pending | EXP | 2309.16014 | Accuracy |  |  |
 | pending | Synthetic | 2309.04941 | Normalized MAE |  |  |
 | pending | KIBA | 2309.16685 | MSE | KIBA |  |
 | pending | LBA | 2309.16685 | RMSE | OGB-LSC |  |
-| pending | MUV | 2307.07107 | AUROC | MoleculeNet | yes |
+| approved | MUV | 2307.07107 | AUROC | MoleculeNet | yes |
 | pending | EXP | 2307.07107 | ACC | Synthetic Benchmark |  |
 | pending | EXP-Class | 2306.05955 | Accuracy | EXP-Bench |  |
 | pending | SCOPe | 2306.04667 | F1-Score |  |  |
-| pending | PTC_MR | 2306.03561 | Accuracy | TUDataset | yes |
+| approved | PTC_MR | 2306.03561 | Accuracy | TU Dortmund | yes |
 | pending | GRAPH8c | 2306.02866 | GRAPH8c | GraphBench |  |
 | pending | EXP | 2306.02866 | EXP | OGB-LSC |  |
 | pending | EXP-classify | 2306.02866 | Accuracy |  |  |

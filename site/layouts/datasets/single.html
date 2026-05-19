@@ -1,5 +1,6 @@
 {{ define "main" }}
 {{ $defaultVariant := "" }}
+{{ $showAllVariants := eq .Params.slug "sat-solving" }}
 {{ with .Params.variants }}
   {{ $std := where . "is_standard" true }}
   {{ if gt (len $std) 0 }}
@@ -30,55 +31,65 @@
     {{ end }}
 
     {{/* Dataset statistics */}}
+    {{ $isNodeOrLink := or (hasPrefix .Params.task_type "node_") (hasPrefix .Params.task_type "link_") }}
+    {{ $papers := slice }}
+    {{ with index .Params.variants 0 }}
+      {{ range .rows }}
+        {{ if .arxiv_id }}
+          {{ $papers = $papers | append (dict "arxiv_id" .arxiv_id "title" (.title | default (printf "arXiv:%s" .arxiv_id)) "date_iso" (.date_iso | default "0000-00-00")) }}
+        {{ end }}
+      {{ end }}
+    {{ end }}
+    {{ $paperIds := slice }}
+    {{ $paperList := slice }}
+    {{ range sort $papers "date_iso" "desc" }}
+      {{ if not (in $paperIds .arxiv_id) }}
+        {{ $paperIds = $paperIds | append .arxiv_id }}
+        {{ $paperList = $paperList | append . }}
+      {{ end }}
+    {{ end }}
     {{ $hasStructuralStats := false }}
     {{ with .Params.stats }}
       {{ if or .num_graphs .avg_nodes .avg_edges .num_classes }}
         {{ $hasStructuralStats = true }}
       {{ end }}
     {{ end }}
-    <div class="dataset-stats">
+    <div class="dataset-stat-blocks">
+      <section class="dataset-stat-group dataset-stat-group-summary">
+        <h2 class="dataset-stat-heading">Coverage</h2>
+        <div class="dataset-stats">
+          <div class="stat-item"><span class="stat-value">{{ .Params.result_count | default 0 }}</span><span class="stat-label">Results</span></div>
+          <div class="stat-item"><span class="stat-value">{{ len .Params.variants }}</span><span class="stat-label">Variants</span></div>
+          <details class="stat-item stat-item-interactive">
+            <summary><span class="stat-value">{{ len $paperList }}</span><span class="stat-label">Papers</span></summary>
+            <ul class="stat-paper-list">
+              {{ range $paperList }}
+              <li>
+                {{ $year := "—" }}
+                {{ if ge (len .date_iso) 4 }}{{ $year = substr .date_iso 0 4 }}{{ end }}
+                <a href="/papers/{{ .arxiv_id }}/">{{ $year }}: {{ .title }}</a>
+              </li>
+              {{ end }}
+            </ul>
+          </details>
+        </div>
+      </section>
       {{ if $hasStructuralStats }}
-        {{ with .Params.stats.num_graphs }}<div class="stat-item"><span class="stat-value">{{ lang.FormatNumberCustom 0 . "- . ," }}</span><span class="stat-label">Graphs</span></div>{{ end }}
-        {{ with .Params.stats.avg_nodes }}<div class="stat-item"><span class="stat-value">{{ lang.FormatNumberCustom 1 . "- . ," }}</span><span class="stat-label">Avg. Nodes</span></div>{{ end }}
-        {{ with .Params.stats.avg_edges }}<div class="stat-item"><span class="stat-value">{{ lang.FormatNumberCustom 1 . "- . ," }}</span><span class="stat-label">Avg. Edges</span></div>{{ end }}
-        {{ with .Params.stats.num_classes }}<div class="stat-item"><span class="stat-value">{{ . }}</span><span class="stat-label">Classes / Targets</span></div>{{ end }}
-      {{ else }}
-        {{ $papers := slice }}
-        {{ with index .Params.variants 0 }}
-          {{ range .rows }}
-            {{ if .arxiv_id }}
-              {{ $papers = $papers | append (dict "arxiv_id" .arxiv_id "title" (.title | default (printf "arXiv:%s" .arxiv_id)) "date_iso" (.date_iso | default "0000-00-00")) }}
-            {{ end }}
-          {{ end }}
-        {{ end }}
-        {{ $paperIds := slice }}
-        {{ $paperList := slice }}
-        {{ range sort $papers "date_iso" "desc" }}
-          {{ if not (in $paperIds .arxiv_id) }}
-            {{ $paperIds = $paperIds | append .arxiv_id }}
-            {{ $paperList = $paperList | append . }}
-          {{ end }}
-        {{ end }}
-        <div class="stat-item"><span class="stat-value">{{ .Params.result_count | default 0 }}</span><span class="stat-label">Results</span></div>
-        <div class="stat-item"><span class="stat-value">{{ len .Params.variants }}</span><span class="stat-label">Variants</span></div>
-        <details class="stat-item stat-item-interactive">
-          <summary><span class="stat-value">{{ len $paperList }}</span><span class="stat-label">Papers</span></summary>
-          <ul class="stat-paper-list">
-            {{ range $paperList }}
-            <li>
-              {{ $year := "—" }}
-              {{ if ge (len .date_iso) 4 }}{{ $year = substr .date_iso 0 4 }}{{ end }}
-              <a href="/papers/{{ .arxiv_id }}/">{{ $year }}: {{ .title }}</a>
-            </li>
-            {{ end }}
-          </ul>
-        </details>
+      <section class="dataset-stat-group dataset-stat-group-structure">
+        <h2 class="dataset-stat-heading">Structure</h2>
+        <div class="dataset-stats">
+          {{ with .Params.stats.num_graphs }}<div class="stat-item"><span class="stat-value">{{ lang.FormatNumberCustom 0 . "- . ," }}</span><span class="stat-label">Graphs</span></div>{{ end }}
+          {{ with .Params.stats.avg_nodes }}<div class="stat-item"><span class="stat-value">{{ lang.FormatNumberCustom 0 . "- . ," }}</span><span class="stat-label">Nodes</span></div>{{ end }}
+          {{ with .Params.stats.avg_edges }}<div class="stat-item"><span class="stat-value">{{ lang.FormatNumberCustom 0 . "- . ," }}</span><span class="stat-label">Edges</span></div>{{ end }}
+          {{ with .Params.stats.num_classes }}<div class="stat-item"><span class="stat-value">{{ . }}</span><span class="stat-label">Classes / Targets</span></div>{{ end }}
+        </div>
+      </section>
       {{ end }}
     </div>
   </header>
 
   {{/* Dataset variant selector */}}
-  {{ if gt (len .Params.variants) 1 }}
+  {{ if and (gt (len .Params.variants) 1) (not $showAllVariants) }}
   <div class="variant-selector">
     <label for="variant-select">Split / Variant:</label>
     <select id="variant-select" onchange="leaderboard.switchVariant(this.value)">
@@ -87,6 +98,14 @@
       {{ end }}
     </select>
   </div>
+  {{ end }}
+  {{ if and (gt (len .Params.variants) 1) $showAllVariants }}
+  <nav class="variant-anchor-nav" aria-label="SAT-solving variants">
+    <span class="variant-anchor-label">Variants:</span>
+    {{ range .Params.variants }}
+    <a href="#variant-{{ .slug }}">{{ .name }}</a>
+    {{ end }}
+  </nav>
   {{ end }}
 
   {{/* Controls */}}
@@ -102,25 +121,52 @@
     <button class="wide-table-btn" id="wide-table-btn" onclick="leaderboard.toggleWideTable()">⤢ Balanced width</button>
   </div>
 
-  {{/* Best-over-time chart */}}
-  {{ range .Params.variants }}
-  <div class="chart-container variant-section" data-variant="{{ .slug }}" style="{{ if ne .slug $defaultVariant }}display:none{{ end }}">
-    <h2>Best {{ $.Params.primary_metric | upper }} over time — {{ .name }}</h2>
-    <canvas id="chart-{{ .slug }}" height="300"
-      data-milestones='{{ .milestones | jsonify }}'
-      data-metric="{{ .primary_metric }}"
-      data-higher-is-better="{{ .higher_is_better }}">
-    </canvas>
-    <div class="chart-hover-preview" id="hover-preview-{{ .slug }}" style="display:none"></div>
-  </div>
-  {{ end }}
+  {{/* Variant sections: chart + table together */}}
+  {{ range $index, $variant := .Params.variants }}
+  {{ if and $showAllVariants (gt $index 0) }}<hr class="variant-divider" style="margin: 2rem 0; border: none; border-top: 2px solid var(--gray-300);">{{ end }}
+  <section id="variant-{{ $variant.slug }}" class="variant-section" data-variant="{{ $variant.slug }}" style="{{ if and (not $showAllVariants) (ne $variant.slug $defaultVariant) }}display:none{{ end }}">
+    {{ $hasVariantStats := false }}
+    {{ with $variant.stats }}
+      {{ if or .num_graphs .avg_nodes .avg_edges }}
+        {{ $hasVariantStats = true }}
+      {{ end }}
+    {{ end }}
+    {{ if or $variant.notes $hasVariantStats }}
+    <div class="dataset-stat-blocks" style="margin-bottom: 1rem;">
+      {{ if $hasVariantStats }}
+      <section class="dataset-stat-group dataset-stat-group-structure">
+        <h2 class="dataset-stat-heading">Variant Structure</h2>
+        <div class="dataset-stats">
+          {{ with $variant.stats.num_graphs }}<div class="stat-item"><span class="stat-value">{{ lang.FormatNumberCustom 0 . "- . ," }}</span><span class="stat-label">Graphs</span></div>{{ end }}
+          {{ with $variant.stats.avg_nodes }}<div class="stat-item"><span class="stat-value">{{ lang.FormatNumberCustom 0 . "- . ," }}</span><span class="stat-label">Nodes</span></div>{{ end }}
+          {{ with $variant.stats.avg_edges }}<div class="stat-item"><span class="stat-value">{{ lang.FormatNumberCustom 0 . "- . ," }}</span><span class="stat-label">Edges</span></div>{{ end }}
+        </div>
+      </section>
+      {{ end }}
+      {{ with $variant.notes }}
+      <section class="dataset-stat-group dataset-stat-group-summary">
+        <h2 class="dataset-stat-heading">Variant Notes</h2>
+        <p>{{ . }}</p>
+      </section>
+      {{ end }}
+    </div>
+    {{ end }}
+    <div class="chart-container">
+      <h2>Best {{ $variant.primary_metric | upper }} over time — {{ $variant.name }}</h2>
+      <canvas id="chart-{{ $variant.slug }}" height="300"
+        data-milestones='{{ $variant.milestones | jsonify }}'
+        data-metric="{{ $variant.primary_metric }}"
+        data-higher-is-better="{{ $variant.higher_is_better }}">
+      </canvas>
+      <div class="chart-hover-preview" id="hover-preview-{{ $variant.slug }}" style="display:none"></div>
+    </div>
 
-  {{/* Results table */}}
-  {{ range .Params.variants }}
-  <div class="leaderboard-section variant-section" data-variant="{{ .slug }}" style="{{ if ne .slug $defaultVariant }}display:none{{ end }}">
-    <h2>Leaderboard — {{ .name }}</h2>
-    {{ partial "multi-metric-table.html" (dict "rows" .rows "metrics" .metrics "primary_metric" .primary_metric "higher_is_better" .higher_is_better "dataset_variant" .slug) }}
-  </div>
+    <div class="leaderboard-section" data-variant="{{ $variant.slug }}">
+      <h2>Leaderboard — {{ $variant.name }}</h2>
+      {{ $rowsLen := len $variant.rows }}
+      {{ partial "multi-metric-table.html" (dict "rows" $variant.rows "metrics" $variant.metrics "primary_metric" $variant.primary_metric "higher_is_better" $variant.higher_is_better "dataset_variant" $variant.slug "collapse_after" (cond (and (gt (len $.Params.variants) 1) (gt $rowsLen 50)) 50 0)) }}
+    </div>
+  </section>
   {{ end }}
 
   {{/* Color legend */}}
@@ -143,6 +189,7 @@ window.leaderboardConfig = {
   variants: {{ .Params.variants | jsonify | safeJS }},
   primaryMetric: {{ .Params.primary_metric | jsonify | safeJS }},
   higherIsBetter: {{ .Params.higher_is_better | jsonify | safeJS }},
+  showAllVariants: {{ if eq .Params.slug "sat-solving" }}true{{ else }}false{{ end }},
 };
 </script>
 {{ end }}

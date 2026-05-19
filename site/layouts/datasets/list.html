@@ -88,7 +88,7 @@
         {{ else }}
         <strong>{{ .model }}</strong>
         {{ end }}
-        <span class="best-value">{{ printf "%.4f" .value }}</span>
+        <span class="best-value">{{ .metric }}: {{ printf "%.2g" .value }}</span>
       </p>
       {{ end }}
     </div>

@@ -40,10 +40,20 @@ Output schema:
 
 Rules:
 - Include ALL rows from ALL result tables (both the proposed model AND all baselines).
+- For `params_millions`: return a number ONLY when that exact model's parameter count is explicitly
+  stated in this paper. Otherwise return null.
+- NEVER infer, estimate, back-solve, or borrow parameter counts from prior papers, common
+  architecture defaults, codebases, hidden sizes, or other models in the same family.
 - value normalisation: Accuracy, F1, AP, AUC, ROC-AUC, AUROC, MRR, and Hits@K are always
   in the range [0, 1]. If a paper reports such a value as a percentage (e.g. 44.2 meaning
   44.2%), divide by 100 and output 0.442. NEVER output values > 1 for these metrics.
   MAE, RMSE, and loss values are NOT normalised (they can naturally exceed 1).
+- scale annotations: pay close attention to table headers and benchmark conventions such as
+  "%", "x100", "x10^-2", "x10^-3", "1e-2", or omitted unit multipliers carried over from
+  standard leaderboard tables. Undo that scale in BOTH the value and std before output.
+  Example: if a Peptides-struct MAE table shows 24.81 on a x10^-2 / percentage-like scale,
+  output 0.2481, not 24.81. When a metric is usually reported near [0, 1] or a small decimal
+  range, compare against neighboring baselines and prefer the de-scaled interpretation.
 - For std/error: parse "0.653 ± 0.004", "(±0.004)", "(0.004)" → value=0.653, std=0.004.
 - If a value appears bold (indicating best), still extract it normally; do not skip it.
 - Metric names: normalise to the most common abbreviation (Accuracy not Acc., MAE not mean abs. error).

@@ -234,38 +234,107 @@ def load_local_corpus_from_papers_table(conn: sqlite3.Connection) -> None:
         conn.commit()
 
 
+def _load_seen_sources(raw: str | None) -> list[str]:
+    if not raw:
+        return []
+    try:
+        data = json.loads(raw)
+        if isinstance(data, list):
+            return [str(item) for item in data if item]
+    except Exception:
+        pass
+    return [raw]
+
+
+def _unique_seen_sources(sources: list[str]) -> list[str]:
+    unique: list[str] = []
+    seen: set[str] = set()
+    for source in sources:
+        source = str(source).strip()
+        if not source or source in seen:
+            continue
+        seen.add(source)
+        unique.append(source)
+    return unique
+
+
+def _directional_counts(seen_sources: list[str]) -> tuple[int, int]:
+    cited_by = 0
+    cites_existing = 0
+    for source in seen_sources:
+        if source.startswith("references_from:"):
+            cited_by += 1
+        elif source.startswith("cited_by:"):
+            cites_existing += 1
+    return cited_by, cites_existing
+
+
 def upsert_todo(conn: sqlite3.Connection, arxiv_id: str, title: str | None, seen_from: str) -> None:
-    """Insert or update a todo_papers row, incrementing seen_count on each observation."""
+    """Insert or update a todo_papers row from a unique citation/reference observation."""
     cur = conn.cursor()
     now = _utcnow_iso()
     cur.execute(
         "INSERT OR IGNORE INTO todo_papers"
         "(arxiv_id, title, reason, added_by, status, attempts, cited_by_count,"
         " cites_existing_count, created_at, seen_count, seen_from, first_seen_at)"
-        " VALUES (?, ?, 'semanticscholar', 'find_todo_s2', 'pending', 0, 0, 0, ?, 0, ?, ?)",
+        " VALUES (?, ?, 'semanticscholar', 'find_todo_s2', 'pending', 0, 0, 0, ?, 1, ?, ?)",
         (arxiv_id, title or "", now, json.dumps([seen_from]), now),
     )
-    # Fetch current state and increment
-    cur.execute(
-        "SELECT seen_count, seen_from, title FROM todo_papers WHERE arxiv_id = ?", (arxiv_id,)
-    )
+    # Fetch current state and recompute from the unique observation set.
+    cur.execute("SELECT seen_from, title FROM todo_papers WHERE arxiv_id = ?", (arxiv_id,))
     row = cur.fetchone()
     if row:
-        count = row[0] or 0
-        seen_list: list[str] = []
-        if row[1]:
-            try:
-                seen_list = json.loads(row[1])
-            except Exception:
-                seen_list = [row[1]]
-        seen_list.append(seen_from)
-        # Keep existing title if new one is absent; set title if row had none
-        effective_title = title or row[2] or ""
+        seen_list = _unique_seen_sources(_load_seen_sources(row[0]) + [seen_from])
+        seen_count = len(seen_list)
+        cited_by_count, cites_existing_count = _directional_counts(seen_list)
+        effective_title = title or row[1] or ""
         cur.execute(
-            "UPDATE todo_papers SET seen_count = ?, seen_from = ?, title = COALESCE(NULLIF(?, ''), title)"
+            "UPDATE todo_papers SET seen_count = ?, seen_from = ?, title = COALESCE(NULLIF(?, ''), title),"
+            " cited_by_count = ?, cites_existing_count = ?"
             " WHERE arxiv_id = ?",
-            (count + 1, json.dumps(seen_list), effective_title, arxiv_id),
+            (
+                seen_count,
+                json.dumps(seen_list),
+                effective_title,
+                cited_by_count,
+                cites_existing_count,
+                arxiv_id,
+            ),
         )
+    conn.commit()
+
+
+def repair_todo_counts(conn: sqlite3.Connection) -> None:
+    """Normalize todo rows so counts come from unique incoming/outgoing observations."""
+    cur = conn.cursor()
+    cur.execute("SELECT arxiv_id, seen_from FROM todo_papers")
+    rows = cur.fetchall()
+    for arxiv_id, seen_from in rows:
+        seen_list = _unique_seen_sources(_load_seen_sources(seen_from))
+        seen_count = len(seen_list)
+        cited_by_count, cites_existing_count = _directional_counts(seen_list)
+        cur.execute(
+            "UPDATE todo_papers SET seen_count = ?, seen_from = ?, cited_by_count = ?, cites_existing_count = ?"
+            " WHERE arxiv_id = ?",
+            (
+                seen_count,
+                json.dumps(seen_list),
+                cited_by_count,
+                cites_existing_count,
+                arxiv_id,
+            ),
+        )
+    conn.commit()
+
+
+def sync_todo_status_with_local_corpus(conn: sqlite3.Connection) -> None:
+    """Mark todo rows as done once the paper exists in the local corpus."""
+    cur = conn.cursor()
+    cur.execute(
+        "UPDATE todo_papers SET status = 'done'"
+        " WHERE arxiv_id IN (SELECT arxiv_id FROM local_corpus)"
+        " AND status IN ('pending', 'processing', 'failed')"
+    )
     conn.commit()
 
 
@@ -486,6 +555,8 @@ def main(argv: Iterable[str] | None = None) -> None:
 
     ensure_tables(conn)
     load_local_corpus_from_papers_table(conn)
+    repair_todo_counts(conn)
+    sync_todo_status_with_local_corpus(conn)
 
     seeds = args.seed
     if not seeds:
@@ -501,84 +572,22 @@ def main(argv: Iterable[str] | None = None) -> None:
     for seed in seeds:
         process_seed(s2, conn, seed.strip(), args.limit, args.force)
 
+    repair_todo_counts(conn)
+    sync_todo_status_with_local_corpus(conn)
+
     console.print("\n[green]Crawl complete.[/green]")
     top_report(conn, args.top)
 
-    # Update the website dev pages so todo/crawl-state pages reflect the new data
-    console.print("\n[dim]Updating website dev pages…[/dim]")
+    # Refresh generated development/admin outputs from the canonical exporter so
+    # the DB, site data, and dev pages stay in sync.
+    console.print("\n[dim]Refreshing generated dev data…[/dim]")
     try:
-        import sqlite3 as _sqlite3
-        import pathlib as _pathlib
-        import json as _json
+        from backend.export_to_hugo import export_development_data
 
-        _content_dev = project_root / "site" / "content" / "dev"
-        _content_dev.mkdir(parents=True, exist_ok=True)
-
-        # todo.md
-        _cur = conn.cursor()
-        _cur.execute(
-            "SELECT arxiv_id, title, status, seen_count FROM todo_papers"
-            " ORDER BY COALESCE(seen_count, 0) DESC LIMIT 500"
-        )
-        todo_rows = _cur.fetchall()
-        lines = [
-            "---",
-            'title: "Todo Papers"',
-            "type: dev",
-            "---",
-            "",
-            "## Todo Papers (priority queue)",
-            "",
-            f"**Total:** {len(todo_rows)} entries",
-            "",
-            "| arXiv | seen_count | status | title |",
-            "|---|---:|---|---",
-        ]
-        for _aid, _title, _status, _seen in todo_rows:
-            _t = (_title or "").replace("\n", " ").strip()
-            _t = _t if len(_t) <= 180 else _t[:177] + "..."
-            lines.append(f"| {_aid or ''} | {_seen or 0} | {_status or ''} | {_t} |")
-        (_content_dev / "todo.md").write_text("\n".join(lines), encoding="utf-8")
-
-        # s2-crawl-state.md
-        _cur.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='s2_crawl_state'")
-        if _cur.fetchone():
-            _cur.execute(
-                "SELECT arxiv_id, crawled_at, citations_fetched, references_fetched,"
-                " citations_capped, references_capped"
-                " FROM s2_crawl_state ORDER BY crawled_at DESC"
-            )
-            crawl_rows = _cur.fetchall()
-            _cur.execute("SELECT COUNT(*) FROM papers WHERE arxiv_id IS NOT NULL")
-            total_db = (_cur.fetchone() or [0])[0]
-            capped = sum(1 for r in crawl_rows if r[4] or r[5])
-            lines = [
-                "---",
-                'title: "S2 Crawl State"',
-                "type: dev",
-                "---",
-                "",
-                "## S2 Crawl State",
-                "",
-                f"**DB papers total:** {total_db} | **Crawled:** {len(crawl_rows)}"
-                f" | **Uncrawled:** {total_db - len(crawl_rows)} | **Hit limit:** {capped}",
-                "",
-                "A row appears here once citations+references have been fetched for that paper."
-                " \u26a0 means the fetch hit the configured limit and may be incomplete.",
-                "",
-                "| arXiv | crawled_at | citations | references | capped |",
-                "|---|---|---:|---:|:---:|",
-            ]
-            for _aid, _cat, _cf, _rf, _cc, _rc in crawl_rows:
-                _cap = "\u26a0" if (_cc or _rc) else ""
-                lines.append(
-                    f"| {_aid or ''} | {(_cat or '')[:10]} | {_cf or 0} | {_rf or 0} | {_cap} |"
-                )
-            (_content_dev / "s2-crawl-state.md").write_text("\n".join(lines), encoding="utf-8")
-
-        console.print("[green]Website dev pages updated.[/green]")
+        export_development_data()
+        console.print("[green]Generated dev data updated.[/green]")
     except Exception as _exc:
-        console.print(f"[yellow]Could not update website pages: {_exc}[/yellow]")
+        console.print(f"[yellow]Could not refresh generated dev data: {_exc}[/yellow]")
 
 
 if __name__ == "__main__":

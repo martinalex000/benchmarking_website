@@ -449,7 +449,7 @@
     pyg_class: BlogCatalog
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.BlogCatalog.html
     benchmark_name: null
-  status: pending
+  status: approved
 - arxiv_id: '2505.23345'
   paper_title: ''
   dataset: molipo
@@ -503,7 +503,7 @@
     pyg_class: FacebookPagePage
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.FacebookPagePage.html
     benchmark_name: null
-  status: pending
+  status: approved
 - arxiv_id: '2505.15405'
   paper_title: ''
   dataset: NAME
@@ -666,8 +666,8 @@
     domain: chemistry
     pyg_class: TUDataset
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.TUDataset.html
-    benchmark_name: TUDataset
-  status: pending
+    benchmark_name: TU Dortmund
+  status: approved
 - arxiv_id: '2502.01122'
   paper_title: ''
   dataset: User-post-comment
@@ -703,7 +703,7 @@
     pyg_class: BlogCatalog
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.BlogCatalog.html
     benchmark_name: null
-  status: pending
+  status: approved
 - arxiv_id: '2501.18739'
   paper_title: ''
   dataset: Flickr
@@ -721,7 +721,7 @@
     pyg_class: Flickr
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.Flickr.html
     benchmark_name: null
-  status: pending
+  status: approved
 - arxiv_id: '2501.18739'
   paper_title: ''
   dataset: Flickr-S
@@ -866,7 +866,7 @@
     pyg_class: Community
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.Community.html
     benchmark_name: null
-  status: pending
+  status: approved
 - arxiv_id: '2501.09821'
   paper_title: ''
   dataset: Colors3
@@ -977,7 +977,7 @@
     pyg_class: Alchemy
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.Alchemy.html
     benchmark_name: null
-  status: pending
+  status: approved
 - arxiv_id: '2410.06460'
   paper_title: ''
   dataset: HLS
@@ -1119,7 +1119,7 @@
     pyg_class: Flickr
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.Flickr.html
     benchmark_name: null
-  status: pending
+  status: approved
 - arxiv_id: '2406.12059'
   paper_title: ''
   dataset: Yelp
@@ -1137,7 +1137,7 @@
     pyg_class: Yelp
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.Yelp.html
     benchmark_name: OGB
-  status: pending
+  status: approved
 - arxiv_id: '2406.09639'
   paper_title: ''
   dataset: tkgl-polecat
@@ -1220,8 +1220,8 @@
     domain: chemistry
     pyg_class: PTC
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.PTC.html
-    benchmark_name: TUDataset
-  status: pending
+    benchmark_name: TU Dortmund
+  status: approved
 - arxiv_id: '2406.04377'
   paper_title: ''
   dataset: NLST
@@ -1362,7 +1362,7 @@
     pyg_class: Flickr
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.Flickr.html
     benchmark_name: null
-  status: pending
+  status: approved
 - arxiv_id: '2405.03481'
   paper_title: ''
   dataset: QM8
@@ -1379,7 +1379,7 @@
     pyg_class: QM8
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.QM8.html
     benchmark_name: null
-  status: pending
+  status: approved
 - arxiv_id: '2404.03380'
   paper_title: ''
   dataset: Alchemy
@@ -1397,7 +1397,7 @@
     pyg_class: Alchemy
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.Alchemy.html
     benchmark_name: OGB
-  status: pending
+  status: approved
 - arxiv_id: '2404.00477'
   paper_title: ''
   dataset: Superblue
@@ -1520,7 +1520,7 @@
     pyg_class: FAUST
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.FAUST.html
     benchmark_name: null
-  status: pending
+  status: approved
 - arxiv_id: '2402.04821'
   paper_title: ''
   dataset: TOSCA
@@ -1934,7 +1934,7 @@
     pyg_class: Flickr
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.Flickr.html
     benchmark_name: null
-  status: pending
+  status: approved
 - arxiv_id: '2407.18480'
   paper_title: Scalable Graph Compressed Convolutions
   dataset: HCP-Task
@@ -2234,7 +2234,7 @@
     pyg_class: Yelp
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.Yelp.html
     benchmark_name: null
-  status: pending
+  status: approved
 - arxiv_id: '2310.03274'
   paper_title: ''
   dataset: MUV
@@ -2254,7 +2254,7 @@
     pyg_class: MUV
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.MUV.html
     benchmark_name: MoleculeNet
-  status: pending
+  status: approved
 - arxiv_id: '2310.02980'
   paper_title: ''
   dataset: sCIFAR
@@ -2289,7 +2289,7 @@
     pyg_class: Alchemy
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.Alchemy.html
     benchmark_name: OGB
-  status: pending
+  status: approved
 - arxiv_id: '2310.02156'
   paper_title: ''
   dataset: PTC_MR
@@ -2304,8 +2304,8 @@
     domain: chemistry
     pyg_class: PTC
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.PTC.html
-    benchmark_name: TUDataset
-  status: pending
+    benchmark_name: TU Dortmund
+  status: approved
 - arxiv_id: '2310.01267'
   paper_title: ''
   dataset: RootNeighbors
@@ -2411,7 +2411,7 @@
     pyg_class: MUV
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.MUV.html
     benchmark_name: MoleculeNet
-  status: pending
+  status: approved
 - arxiv_id: '2307.07107'
   paper_title: ''
   dataset: EXP
@@ -2481,8 +2481,8 @@
     domain: chemistry
     pyg_class: PTC
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.PTC.html
-    benchmark_name: TUDataset
-  status: pending
+    benchmark_name: TU Dortmund
+  status: approved
 - arxiv_id: '2306.02866'
   paper_title: ''
   dataset: GRAPH8c

@@ -19,4 +19,7 @@ Rules:
 - params_millions: always convert to millions (e.g. 6,900,000 → 6.9).
 - params_exact: exact integer count if the paper gives it (else null).
 - Include the proposed model AND all baseline models if their sizes are mentioned.
+- ONLY extract sizes that are explicitly stated in the paper text or tables for that exact model.
+- NEVER infer, estimate, back-solve, or borrow sizes from previous papers, standard baselines,
+  code repositories, implementation defaults, or architecture families.
 - If no parameter counts are mentioned anywhere in the paper, return an empty array [].

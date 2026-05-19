@@ -4,11 +4,25 @@
 - there should also be a table that effectively tracks which papers are NOT about graph learning such that there is no need to evaluate that every single time again...
 
 
-extract datasets from OGB and pyg (find the papers and put them into a list of papers to be processed). Then I want a simple script that processes those papers one-by-one during off-peak hours (23PM until 7:30AM). 
+I want a simple script that processes those papers one-by-one during off-peak hours (23PM until 7:30AM). 
 
 Use TU Dresden models and compare their effectiveness (especially the minimax model) use 2406.08993 2210.07606 for that as teh qwen model struggled there.
 
-In some cases the result reported as a baseline in the paper and the best result for the model do not match. On the paper view indicate such places (I believe currently they are only evident by numbers being non-ascending - at least that is the only explanation i have for that behavior).
+todo papers queue sinnvoll updaten sobald ein neues paper eingefügt wurde
+
+dark mode
+
+shadcn/ui
+
+MLP baseline für fehlende Datensätze selbst berechnen
+
+## Script cleanup backlog
+
+- consolidate `scripts/find_todo_papers.py` and `scripts/process_todo_list.py` if both remain in use; right now the first is a manual queue manager while the second is the priority-queue batch runner
+- decide whether `scripts/test_model_ping.py` should stay as a committed diagnostic utility or move into docs-only troubleshooting notes once the endpoint/model situation stabilizes
+- review whether `scripts/run_pipeline.sh` should absorb the off-peak-hours scheduling logic directly, or whether that belongs in external cron/systemd config instead of the repo
+
+
 
 ╭────────────────────────────────────┬────────────┬─────────┬─────────┬───────┬─────────────────────────────────────────────────────────────────────┬────────╮
 │ Model                              │ Paper      │    Time │    TTFT │ tok/s │ Datasets found                                                      │ Status │

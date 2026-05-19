@@ -577,6 +577,10 @@ def _strip_latex(text: str) -> str:
     """Strip common LaTeX markup to produce readable plain text."""
     # Remove comments
     text = re.sub(r"%[^\n]*", "", text)
+    # Normalize explicit LaTeX line breaks before removing bare commands, or
+    # sequences like "\\with" lose the following word entirely.
+    text = re.sub(r"\\\\(?:\s*\[[^\]]*\])?", " ", text)
+    text = re.sub(r"\\(?:newline|linebreak)\b", " ", text)
     # Remove \footnote{...} (and similar whole-arg commands we don't want)
     for cmd in ("footnote", "footnotetext", "label", "cite", "citep", "citet", "ref", "url"):
         text = re.sub(r"\\" + cmd + r"\s*\{[^}]*\}", "", text)
@@ -593,5 +597,6 @@ def _strip_latex(text: str) -> str:
     text = re.sub(r"\\[a-zA-Z@]+\s*", " ", text)
     # Remove leftover braces
     text = text.replace("{", "").replace("}", "")
+    text = re.sub(r"\s+([:;,!.?])", r"\1", text)
     # Collapse whitespace
     return re.sub(r"\s+", " ", text).strip()

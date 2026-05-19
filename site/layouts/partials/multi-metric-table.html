@@ -15,6 +15,7 @@
 {{ $hib     := .higher_is_better }}
 {{ $slug    := .dataset_variant }}
 {{ $hideMeta := .hide_meta_cols }}
+{{ $collapseAfter := .collapse_after | default 0 }}
 
 {{ if $rows }}
 <div class="result-table-wrapper" data-variant="{{ $slug }}">
@@ -38,20 +39,43 @@
       </tr>
     </thead>
     <tbody>
-      {{ range $i, $r := $rows }}
+        {{ range $i, $r := $rows }}
       {{ $primary_val := index $r.metric_values 0 }}
-      <tr class="result-row {{ if $r.is_baseline }}row-baseline{{ else }}row-proposed{{ end }} {{ if $r.is_overridden }}row-overridden{{ end }}{{ if $r.is_best }} row-best{{ end }}{{ if $r.is_global_top }} row-global-top{{ end }}"
-          data-model="{{ $r.model }}"
-          data-value="{{ $primary_val }}"
+        <tr class="result-row {{ if $r.is_baseline }}row-baseline{{ else }}row-proposed{{ end }} {{ if $r.is_overridden }}row-overridden{{ end }}{{ if $r.is_best }} row-best{{ end }}{{ if $r.is_global_top }} row-global-top{{ end }}{{ if and (gt $collapseAfter 0) (ge $i $collapseAfter) }} row-collapsed{{ end }}"
+          data-model="{{ $r.model_plain | default $r.model }}"
+          data-value="{{ $r.sort_value | default $primary_val }}"
           data-params="{{ $r.params_millions }}"
-          data-date="{{ $r.date }}"
+          data-date="{{ $r.date_iso | default $r.date }}"
           data-arxiv="{{ $r.arxiv_id }}">
         <td class="col-rank">{{ if $r.global_rank }}{{ $r.global_rank }}{{ else }}{{ add $i 1 }}{{ end }}</td>
         <td class="col-model">
-          {{ if and $r.is_global_top $r.arxiv_id }}<a href="/papers/{{ $r.arxiv_id }}/" title="{{ $r.title }}">{{ $r.model }}</a>{{ else }}{{ $r.model }}{{ end }}
+          {{ if and $r.is_global_top $r.arxiv_id }}<a href="/papers/{{ $r.arxiv_id }}/" title="{{ $r.title }}">{{ $r.model | safeHTML }}</a>{{ else }}{{ $r.model | safeHTML }}{{ end }}
           {{ if $r.is_global_top }}<span class="global-top-badge" title="Top-ranked globally — from another paper">global</span>{{ end }}
           {{ if $r.uses_external_data }}<span class="ext-data-badge" title="Uses external data during training">†ext</span>{{ end }}
           {{ if $r.is_overridden }}<span class="override-badge" title="{{ $r.override_reason }}">✎</span>{{ end }}
+          {{ if $r.has_value_gap }}
+          <div class="model-discrepancy-meta">
+            {{ if and $r.value_gap_source_title $r.value_gap_source_arxiv (not $r.value_gap_source_is_current_paper) }}
+            <a class="model-source-paper" href="/papers/{{ $r.value_gap_source_arxiv }}/" title="Actual result source">{{ $r.value_gap_source_title }}</a>
+            {{ else if $r.value_gap_source_title }}
+            <span class="model-source-paper">{{ $r.value_gap_source_title }}</span>
+            {{ end }}
+            {{ if and $r.global_rank $r.paper_rank }}
+            <div class="rank-delta-note">
+              actual #{{ $r.global_rank }}
+              <span class="rank-delta-sep">vs</span>
+              paper #{{ $r.paper_rank }}
+              {{ if and $r.rank_delta_abs (gt $r.rank_delta_abs 0) }}
+              <span class="rank-delta-badge rank-delta-{{ $r.rank_delta_direction }}">
+                {{ $r.rank_delta_abs }} place{{ if ne $r.rank_delta_abs 1 }}s{{ end }} {{ $r.rank_delta_direction }}
+              </span>
+              {{ end }}
+            </div>
+            {{ end }}
+          </div>
+          {{ else if $r.has_value_note }}
+          <div class="model-discrepancy-meta subtle-note">minor difference within std</div>
+          {{ end }}
         </td>
         <td class="col-type">
           {{ if not $r.is_global_top }}{{ if $r.is_baseline }}<span class="tag-baseline">baseline</span>{{ else }}<span class="tag-proposed">★ proposed</span>{{ end }}{{ end }}
@@ -59,10 +83,23 @@
         {{ range $j, $m := $metrics }}
         {{ $val := index $r.metric_values $j }}
         {{ $std := index $r.metric_stds $j }}
-        <td class="col-value{{ if eq $m $primary }} col-primary{{ end }}">
+        <td class="col-value{{ if eq $m $primary }} col-primary{{ end }}{{ if and (eq $m $primary) $r.has_value_gap }} col-value-gap{{ end }}{{ if and (eq $m $primary) $r.has_value_note }} col-value-note{{ end }}">
           {{ if ne $val nil -}}
+            {{- if and (eq $m $primary) $r.has_value_gap -}}
+              <div class="value-gap-block">
+                <div class="value-gap-true">actual {{ printf "%.4f" $r.true_value }}{{ if $r.true_std }}<span class="inline-std"> ±{{ printf "%.4f" $r.true_std }}</span>{{ end }}</div>
+                <div class="value-gap-paper">paper {{ printf "%.4f" $val }}{{ if ne $std nil }}<span class="inline-std"> ±{{ printf "%.4f" $std }}</span>{{ end }}</div>
+                {{ if $r.value_gap }}<div class="value-gap-delta">value Δ{{ printf "%.4f" $r.value_gap }}</div>{{ end }}
+              </div>
+            {{- else if and (eq $m $primary) $r.has_value_note -}}
+              <div class="value-note-block">
+                <div>{{ printf "%.4f" $val }}{{ if ne $std nil }}<span class="inline-std"> ±{{ printf "%.4f" $std }}</span>{{ end }}</div>
+                <div class="value-note-text">{{ $r.value_note }}</div>
+              </div>
+            {{- else -}}
             {{- printf "%.4f" $val -}}
             {{- if ne $std nil }}<span class="inline-std"> ±{{ printf "%.4f" $std }}</span>{{ end }}
+            {{- end -}}
           {{- else }}—{{ end }}
         </td>
         {{ end }}
@@ -74,11 +111,18 @@
         <td class="col-code">
           {{ if $r.codebase_url }}<a href="{{ $r.codebase_url }}" target="_blank" rel="noopener">Code</a>{{ else }}—{{ end }}
         </td>
-        <td class="col-date">{{ $r.date | default "—" }}</td>
+        <td class="col-date">{{ $r.date_display | default $r.date | default "—" }}</td>
         {{ end }}
       </tr>
       {{ end }}
     </tbody>
   </table>
+  {{ if and (gt $collapseAfter 0) (gt (len $rows) $collapseAfter) }}
+  <div class="table-more-wrap">
+    <button type="button" class="table-more-btn" data-table-more="#tbl-{{ $slug }}" data-expanded="false">
+      More ({{ sub (len $rows) $collapseAfter }} hidden rows)
+    </button>
+  </div>
+  {{ end }}
 </div>
 {{ end }}

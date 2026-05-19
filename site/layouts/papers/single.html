@@ -1,13 +1,20 @@
 {{ define "main" }}
 <article class="paper-page">
+  <div class="paper-sticky-title">
+    <span title="{{ .Title }}">{{ .Title }}</span>
+  </div>
   <header class="paper-header">
     <h1>{{ .Title }}</h1>
     {{ with .Params.authors }}
     <p class="authors">{{ delimit . ", " }}</p>
     {{ end }}
     <div class="paper-meta">
+      {{ with .Params.source_url }}
+      <a class="badge" href="{{ . }}" target="_blank" rel="noopener">Paper</a>
+      {{ else }}
       {{ with .Params.arxiv_id }}
       <a class="badge" href="https://arxiv.org/abs/{{ . }}" target="_blank" rel="noopener">arXiv:{{ . }}</a>
+      {{ end }}
       {{ end }}
       {{ with .Params.codebase_url }}
       <a class="badge" href="{{ . }}" target="_blank" rel="noopener">Code</a>
@@ -33,7 +40,11 @@
 
   {{ with .Params.main_figure }}
   <figure class="paper-figure">
-    {{ if $.Params.arxiv_id }}
+    {{ if $.Params.source_url }}
+    <a href="{{ $.Params.source_url }}" target="_blank" rel="noopener">
+      <img src="{{ . }}" alt="Main figure" loading="lazy">
+    </a>
+    {{ else if $.Params.arxiv_id }}
     <a href="https://arxiv.org/abs/{{ $.Params.arxiv_id }}" target="_blank" rel="noopener">
       <img src="{{ . }}" alt="Main figure" loading="lazy">
     </a>
@@ -55,26 +66,32 @@
     <h2>Benchmark Results</h2>
     {{ if .Params.results_grouped }}
       {{ range .Params.results_grouped }}
-      <h3 class="benchmark-heading">{{ .benchmark }}</h3>
-      {{ range .datasets }}
-      {{ $group := . }}
-      <h4 class="dataset-heading">{{ $group.dataset }}</h4>
-      {{ if $group.is_multi_metric }}
-        {{ partial "multi-metric-table.html" (dict "rows" $group.rows "metrics" $group.metrics "primary_metric" $group.primary_metric "higher_is_better" $group.higher_is_better "dataset_variant" ($group.dataset | urlize) "hide_meta_cols" true) }}
-      {{ else }}
-        {{ partial "result-table.html" (dict "results" $group.rows "metric" $group.metric "dataset_variant" ($group.dataset | urlize) "higher_is_better" $group.higher_is_better "hide_meta_cols" true) }}
-      {{ end }}
-      {{ end }}
+      <section class="paper-benchmark-group">
+        <h3 class="benchmark-heading">{{ .benchmark }}</h3>
+        {{ range .datasets }}
+        {{ $group := . }}
+        <section class="paper-dataset-group">
+          <h4 class="dataset-heading">{{ $group.dataset }}</h4>
+          {{ if $group.is_multi_metric }}
+            {{ partial "multi-metric-table.html" (dict "rows" $group.rows "metrics" $group.metrics "primary_metric" $group.primary_metric "higher_is_better" $group.higher_is_better "dataset_variant" ($group.dataset | urlize) "hide_meta_cols" true) }}
+          {{ else }}
+            {{ partial "result-table.html" (dict "results" $group.rows "metric" $group.metric "dataset_variant" ($group.dataset | urlize) "higher_is_better" $group.higher_is_better "hide_meta_cols" true) }}
+          {{ end }}
+        </section>
+        {{ end }}
+      </section>
       {{ end }}
     {{ else }}
       {{ range .Params.results }}
       {{ $group := . }}
-      <h3 class="dataset-heading">{{ $group.dataset }}</h3>
-      {{ if $group.is_multi_metric }}
-        {{ partial "multi-metric-table.html" (dict "rows" $group.rows "metrics" $group.metrics "primary_metric" $group.primary_metric "higher_is_better" $group.higher_is_better "dataset_variant" ($group.dataset | urlize) "hide_meta_cols" true) }}
-      {{ else }}
-        {{ partial "result-table.html" (dict "results" $group.rows "metric" $group.metric "dataset_variant" ($group.dataset | urlize) "higher_is_better" $group.higher_is_better "hide_meta_cols" true) }}
-      {{ end }}
+      <section class="paper-dataset-group">
+        <h3 class="dataset-heading">{{ $group.dataset }}</h3>
+        {{ if $group.is_multi_metric }}
+          {{ partial "multi-metric-table.html" (dict "rows" $group.rows "metrics" $group.metrics "primary_metric" $group.primary_metric "higher_is_better" $group.higher_is_better "dataset_variant" ($group.dataset | urlize) "hide_meta_cols" true) }}
+        {{ else }}
+          {{ partial "result-table.html" (dict "results" $group.rows "metric" $group.metric "dataset_variant" ($group.dataset | urlize) "higher_is_better" $group.higher_is_better "hide_meta_cols" true) }}
+        {{ end }}
+      </section>
       {{ end }}
     {{ end }}
   </section>
@@ -93,6 +110,7 @@
       <div class="legend-item"><span class="legend-swatch swatch-baseline"></span><span>Baseline / comparison model</span></div>
       <div class="legend-item"><span class="legend-swatch swatch-global"></span><span>Global top model (from another paper — for context)</span></div>
       <div class="legend-item"><span class="legend-swatch swatch-best"></span><span>Statistically best result (within std overlap)</span></div>
+      <div class="legend-item"><span class="legend-swatch swatch-gap"></span><span>Paper result differs from the global benchmark result; cell shows actual value, paper value, source paper, and rank shift</span></div>
     </div>
   </div>
   {{ end }}

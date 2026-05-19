@@ -97,6 +97,24 @@ def normalize_percentage_metric(
     return normalized, normalized_std
 
 
+def normalize_dataset_scaled_metric(
+    dataset_name: str,
+    metric_name: str,
+    value: float,
+    std: float | None,
+) -> tuple[float, float | None]:
+    """Correct known dataset-specific scale conventions omitted by extraction.
+
+    Some papers report Peptides-struct MAE on a x100 scale while the benchmark
+    leaderboard and the rest of the repo store the native decimal value.
+    """
+    dataset_key = dataset_name.strip().lower()
+    metric_key = metric_name.strip().lower()
+    if dataset_key == "peptides-struct" and metric_key == "mae" and value > 2.0:
+        return value / 100.0, std / 100.0 if std is not None else None
+    return value, std
+
+
 # ── Value parsing ─────────────────────────────────────────────────────────────
 
 _PLUSMINUS_RE = re.compile(r"([\d.]+)\s*[±]\s*([\d.]+)")
@@ -227,7 +245,6 @@ def resolve_or_create_model(
     new_model = Model(
         name=model_name.strip(),
         canonical_name=model_name.strip(),
-        size_params=int(params_millions * 1_000_000) if params_millions else None,
     )
     session.add(new_model)
     session.flush()  # get the new id
@@ -257,7 +274,24 @@ def _extract_github_url(text: str) -> str | None:
 
 def _enrich_paper_metadata(arxiv_id: str, paper: Paper, storage: PaperStorage) -> None:
     """Update Paper record with metadata from local caches, then arXiv API if needed."""
-    need_meta = not paper.abstract or (paper.title or "").startswith("arXiv:")
+    metadata = storage.read_metadata()
+    if metadata:
+        if metadata.get("title"):
+            paper.title = metadata["title"]
+        if metadata.get("abstract"):
+            paper.abstract = metadata["abstract"]
+        if metadata.get("published_date") and not paper.published_date:
+            paper.published_date = metadata["published_date"]
+        if metadata.get("authors") and not paper.authors:
+            paper.authors = metadata["authors"]
+        if metadata.get("venue") and not paper.venue:
+            paper.venue = metadata["venue"]
+        if metadata.get("codebase_url") and not paper.codebase_url:
+            paper.codebase_url = metadata["codebase_url"]
+
+    from backend.llm_extractor import _title_looks_corrupted
+
+    need_meta = not paper.abstract or _title_looks_corrupted(paper.title)
 
     if need_meta:
         # 1. Try local HTML — free, no rate limit
@@ -266,11 +300,11 @@ def _enrich_paper_metadata(arxiv_id: str, paper: Paper, storage: PaperStorage) -
                 from backend.html_parser import parse_html_paper
 
                 parsed = parse_html_paper(storage.html_index_path)
-                if parsed.title and not parsed.title.startswith("arXiv:"):
+                if parsed.title and not _title_looks_corrupted(parsed.title):
                     paper.title = parsed.title
                 if parsed.abstract:
                     paper.abstract = parsed.abstract
-                need_meta = not paper.abstract or (paper.title or "").startswith("arXiv:")
+                need_meta = not paper.abstract or _title_looks_corrupted(paper.title)
             except Exception:
                 pass
 
@@ -284,7 +318,7 @@ def _enrich_paper_metadata(arxiv_id: str, paper: Paper, storage: PaperStorage) -
                     paper.title = latex_meta["title"]
                 if latex_meta.get("abstract"):
                     paper.abstract = latex_meta["abstract"]
-                need_meta = not paper.abstract or (paper.title or "").startswith("arXiv:")
+                need_meta = not paper.abstract or _title_looks_corrupted(paper.title)
             except Exception:
                 pass
 
@@ -369,6 +403,8 @@ def parse_and_store(arxiv_id: str) -> int:
             )
             session.add(paper)
             session.flush()
+
+        paper.extraction_model = model_name_used
 
         _enrich_paper_metadata(arxiv_id, paper, storage)
 
@@ -478,8 +514,10 @@ def _parse_entry_value(entry: dict) -> tuple[float | None, float | None]:
         except (TypeError, ValueError):
             std = None
     if value is not None:
+        dataset_name = entry.get("dataset", "")
         metric_name = entry.get("metric", "")
         value, std = normalize_percentage_metric(metric_name, float(value), std)
+        value, std = normalize_dataset_scaled_metric(dataset_name, metric_name, value, std)
     return value, std
 
 

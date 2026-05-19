@@ -12,13 +12,37 @@ paper_arxiv_id: "2509.06743"
 #     reason: "Uses non-standard evaluation protocol"
 
 # Override extracted values with correct ones.
-# result_overrides:
-#   - model: "GraphGPS"
-#     dataset: "Peptides-func"
-#     metric: "AP"
-#     correct_value: 0.6534
-#     correct_std: 0.0042
-#     reason: "LLM read wrong table row — see Table 3 in paper"
+result_overrides:
+  - model: "LR-GWN (ours)"
+    dataset: "Peptides-struct"
+    metric: "MAE"
+    correct_value: 0.2463
+    correct_std: 0.0007
+    reason: "Peptides-struct MAE was reported on a x100 scale in extraction; corrected to the benchmark scale."
+  - model: "WaveGC"
+    dataset: "Peptides-struct"
+    metric: "MAE"
+    correct_value: 0.2495
+    correct_std: 0.0007
+    reason: "Peptides-struct MAE was reported on a x100 scale in extraction; corrected to the benchmark scale."
+  - model: "DEFT"
+    dataset: "Peptides-struct"
+    metric: "MAE"
+    correct_value: 0.2506
+    correct_std: 0.0013
+    reason: "Peptides-struct MAE was reported on a x100 scale in extraction; corrected to the benchmark scale."
+  - model: "SGWT"
+    dataset: "Peptides-struct"
+    metric: "MAE"
+    correct_value: 0.2539
+    correct_std: 0.0021
+    reason: "Peptides-struct MAE was reported on a x100 scale in extraction; corrected to the benchmark scale."
+  - model: "GWNN"
+    dataset: "Peptides-struct"
+    metric: "MAE"
+    correct_value: 0.2734
+    correct_std: 0.0004
+    reason: "Peptides-struct MAE was reported on a x100 scale in extraction; corrected to the benchmark scale."
 
 # Fix metadata (codebase URL, etc.).
 # metadata_overrides:

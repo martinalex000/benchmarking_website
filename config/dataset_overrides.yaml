@@ -3,6 +3,8 @@
 #
 # Supported keys per dataset:
 #   display_metrics: ordered list of metric names to show on the dataset detail page.
+#   export_without_results: set true to keep a dataset visible on the site even before
+#     benchmark results have been parsed into the DB.
 #
 # Example:
 # datasets:
@@ -10,5 +12,7 @@
 #     display_metrics: ["Accuracy"]
 
 datasets:
+  LRIM:
+    export_without_results: true
   Texas:
     display_metrics: ["Accuracy"]

@@ -12,13 +12,85 @@ paper_arxiv_id: "2405.13806"
 #     reason: "Uses non-standard evaluation protocol"
 
 # Override extracted values with correct ones.
-# result_overrides:
-#   - model: "GraphGPS"
-#     dataset: "Peptides-func"
-#     metric: "AP"
-#     correct_value: 0.6534
-#     correct_std: 0.0042
-#     reason: "LLM read wrong table row — see Table 3 in paper"
+result_overrides:
+  - model: "M"
+    dataset: "Peptides-struct"
+    metric: "MAE"
+    correct_value: 0.2483
+    correct_std: 0.0011
+    reason: "Peptides-struct MAE was reported on a x100 scale in extraction; corrected to the benchmark scale."
+  - model: "DEFT"
+    dataset: "Peptides-struct"
+    metric: "MAE"
+    correct_value: 0.2506
+    correct_std: 0.0013
+    reason: "Peptides-struct MAE was reported on a x100 scale in extraction; corrected to the benchmark scale."
+  - model: "SGWT"
+    dataset: "Peptides-struct"
+    metric: "MAE"
+    correct_value: 0.2539
+    correct_std: 0.0021
+    reason: "Peptides-struct MAE was reported on a x100 scale in extraction; corrected to the benchmark scale."
+  - model: "SEA-GWNN"
+    dataset: "Peptides-struct"
+    metric: "MAE"
+    correct_value: 0.2564
+    correct_std: 0.0031
+    reason: "Peptides-struct MAE was reported on a x100 scale in extraction; corrected to the benchmark scale."
+  - model: "WaveNet"
+    dataset: "Peptides-struct"
+    metric: "MAE"
+    correct_value: 0.2588
+    correct_std: 0.0001
+    reason: "Peptides-struct MAE was reported on a x100 scale in extraction; corrected to the benchmark scale."
+  - model: "Scattering GCN"
+    dataset: "Peptides-struct"
+    metric: "MAE"
+    correct_value: 0.2643
+    correct_std: 0.002
+    reason: "Peptides-struct MAE was reported on a x100 scale in extraction; corrected to the benchmark scale."
+  - model: "Scattering"
+    dataset: "Peptides-struct"
+    metric: "MAE"
+    correct_value: 0.2677
+    correct_std: 0.0011
+    reason: "Peptides-struct MAE was reported on a x100 scale in extraction; corrected to the benchmark scale."
+  - model: "GWNN"
+    dataset: "Peptides-struct"
+    metric: "MAE"
+    correct_value: 0.2734
+    correct_std: 0.0004
+    reason: "Peptides-struct MAE was reported on a x100 scale in extraction; corrected to the benchmark scale."
+  - model: "WaveShrink-ChebNet"
+    dataset: "Peptides-struct"
+    metric: "MAE"
+    correct_value: 0.2745
+    correct_std: 0.0006
+    reason: "Peptides-struct MAE was reported on a x100 scale in extraction; corrected to the benchmark scale."
+  - model: "UFGConvS"
+    dataset: "Peptides-struct"
+    metric: "MAE"
+    correct_value: 0.275
+    correct_std: 0.0021
+    reason: "Peptides-struct MAE was reported on a x100 scale in extraction; corrected to the benchmark scale."
+  - model: "GatedGCN"
+    dataset: "Peptides-struct"
+    metric: "MAE"
+    correct_value: 0.342
+    correct_std: 0.0013
+    reason: "Peptides-struct MAE was reported on a x100 scale in extraction; corrected to the benchmark scale."
+  - model: "GCN"
+    dataset: "Peptides-struct"
+    metric: "MAE"
+    correct_value: 0.3496
+    correct_std: 0.0013
+    reason: "Peptides-struct MAE was reported on a x100 scale in extraction; corrected to the benchmark scale."
+  - model: "GINE"
+    dataset: "Peptides-struct"
+    metric: "MAE"
+    correct_value: 0.3547
+    correct_std: 0.0045
+    reason: "Peptides-struct MAE was reported on a x100 scale in extraction; corrected to the benchmark scale."
 
 # Fix metadata (codebase URL, etc.).
 # metadata_overrides:

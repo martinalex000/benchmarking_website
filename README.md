@@ -60,7 +60,7 @@ uv run python scripts/list_models.py --endpoint https://api.example.com/v1 --api
 
 ---
 
-## Main scripts
+## Script reference
 
 ### `scripts/run_manual.py` — process a single paper
 
@@ -100,6 +100,8 @@ uv run python scripts/run_manual.py 2206.08164 --skip-download --skip-extract
 
 If extraction fails, an `errors.log` entry and a full Markdown conversation log
 (`extraction_error_<timestamp>.md`) are written to `papers/<id>/extracted/`.
+The stored extraction model is the actual `model_used` from `llm_output.json`,
+so automatic fallback runs are recorded under the model that really produced the extraction.
 
 ---
 
@@ -108,6 +110,9 @@ If extraction fails, an `errors.log` entry and a full Markdown conversation log
 Queries Semantic Scholar for all papers that cite a given arXiv paper, shows
 their processing status in the local DB, and lets you interactively queue them
 for processing via `run_manual.py`.
+
+This is an interactive inspection tool. It does **not** maintain the persistent
+`todo_papers` queue; use `scripts/find_todo_semanticscholar.py` for that.
 
 ```bash
 # Find papers citing the LRGB benchmark paper
@@ -121,6 +126,77 @@ uv run python scripts/find_citing_papers.py 2206.08164 --show-all
 ```
 
 Set `S2_API_KEY` in your environment to avoid Semantic Scholar rate limits.
+
+---
+
+### `scripts/find_todo_semanticscholar.py` — canonical Semantic Scholar todo-queue updater
+
+This is the canonical script for keeping `todo_papers` current from Semantic Scholar.
+For each seed paper, it fetches both:
+
+- incoming links: papers that cite the seed (`cited_by:<seed>`)
+- outgoing links: papers referenced by the seed (`references_from:<seed>`)
+
+It adds newly discovered arXiv papers to `todo_papers`, de-duplicates repeated
+observations, recomputes:
+
+- `seen_count` from unique observations
+- `cited_by_count` from unique `references_from:*` links
+- `cites_existing_count` from unique `cited_by:*` links
+
+It also marks todo rows as `done` once the paper already exists in the local corpus,
+and refreshes generated development/admin exports such as `site/data/todo_papers.json`.
+
+```bash
+# Crawl a specific seed paper
+uv run python scripts/find_todo_semanticscholar.py --seed 2206.08164
+
+# Crawl several benchmark seeds in one run
+uv run python scripts/find_todo_semanticscholar.py \
+  --seed 2206.08164 \
+  --seed 2512.04475 \
+  --top 25
+
+# Re-crawl a seed even if it already appears in s2_crawl_state
+uv run python scripts/find_todo_semanticscholar.py --seed 2206.08164 --force
+```
+
+Important: if `--seed` is omitted, the script crawls **all uncrawled papers already in the DB**.
+That is useful for broad refreshes, but it is much heavier than a single-seed update.
+
+---
+
+### `scripts/find_todo_papers.py` — manual todo-queue management
+
+Small CRUD helper for manual queue management. Use it when you want to add or inspect
+specific `todo_papers` rows directly, without running a Semantic Scholar crawl.
+
+```bash
+# Add a paper manually
+uv run python scripts/find_todo_papers.py add 2406.08993 --reason "manually prioritized"
+
+# Inspect queue state
+uv run python scripts/find_todo_papers.py list --status all
+```
+
+---
+
+### `scripts/process_todo_list.py` — batch-process the todo queue
+
+Processes pending `todo_papers` in descending `seen_count` order by calling `run_manual.py`
+for each paper. This is the queue runner to use once `find_todo_semanticscholar.py`
+has populated and ranked the queue.
+
+```bash
+# Process the top 10 pending todo papers
+uv run python scripts/process_todo_list.py --limit 10
+
+# Dry-run the current queue order
+uv run python scripts/process_todo_list.py --dry-run --limit 20
+
+# Force re-processing with a different tier
+uv run python scripts/process_todo_list.py --model fallback --limit 5
+```
 
 ---
 
@@ -171,6 +247,61 @@ uv run python scripts/list_models.py
 
 Prints all model IDs from `GET /v1/models` and marks which configured tiers
 (primary / fallback / small) are present. Exits 1 if any are missing.
+
+---
+
+### `scripts/test_model_ping.py` — low-level endpoint/model diagnostic
+
+Use this when a model appears reachable but returns empty content, unusual finish
+reasons, or suspicious rate-limit behavior.
+
+```bash
+uv run python scripts/test_model_ping.py MiniMaxAI/MiniMax-M2.5
+uv run python scripts/test_model_ping.py moonshotai/Kimi-K2.6
+```
+
+It performs a minimal probe request and prints routed-model, finish-reason,
+token usage, and HTTP diagnostics.
+
+---
+
+### `scripts/repopulate_db.py` — re-extract or re-parse the existing corpus
+
+Maintenance script for bulk refreshes over the already-downloaded `papers/` corpus.
+Use it after major parser/extractor changes when you want to re-run extraction,
+re-parse existing artifacts, or rebuild from a clean database without re-downloading PDFs.
+
+```bash
+# Re-parse existing llm_output.json files without new LLM calls
+uv run python scripts/repopulate_db.py --skip-extract
+
+# Clean DB + re-extract everything with the fallback model, then export
+uv run python scripts/repopulate_db.py --clean --model fallback --export
+```
+
+---
+
+### `scripts/run_pipeline.sh` — cron-friendly batch runner
+
+Shell wrapper around `python -m backend.pipeline run-all --all` that activates the
+virtual environment and writes a timestamped log under `logs/`.
+
+```bash
+bash scripts/run_pipeline.sh
+bash scripts/run_pipeline.sh --model fallback
+```
+
+---
+
+### `scripts/deploy.sh` — build and deploy the static site
+
+Builds the Hugo site and rsyncs `site/public/` to the configured deployment target.
+
+```bash
+bash scripts/deploy.sh
+```
+
+Requires `DEPLOY_USER`, `DEPLOY_HOST`, and `DEPLOY_PATH` in `.env`.
 
 ---
 

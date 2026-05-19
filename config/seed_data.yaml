@@ -1,1768 +1,2071 @@
-# Seed data for the Graph Learning Benchmarks database.
-# Run with: python -m backend.seed_db
-
 benchmarks:
-
-  - name: LRGB
-    arxiv_id: "2206.08164"
-    url: "https://arxiv.org/abs/2206.08164"
-    description: >
-      Long Range Graph Benchmark — five graph ML tasks designed to test
-      long-range dependency modelling. Introduced by Dwivedi et al. (2022).
-    datasets:
-
-      - name: Peptides-func
-        task_type: graph_classification
-        description: Multi-label graph classification on peptide molecules (10 classes).
-        primary_metric: AP
-        higher_is_better: true
-        domain: chemistry
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.LRGBDataset.html"
-        variants:
-          - name: Standard split
-            is_standard: true
-            notes: "Official random split (80/10/10). Metric: AP (Average Precision)."
-
-      - name: Peptides-struct
-        task_type: graph_regression
-        description: Multi-task graph regression on peptide structural properties (11 targets).
-        primary_metric: MAE
-        higher_is_better: false
-        domain: chemistry
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.LRGBDataset.html"
-        variants:
-          - name: Standard split
-            is_standard: true
-            notes: "Official random split (80/10/10). Metric: MAE (lower is better)."
-
-      - name: PascalVOC-SP
-        task_type: node_classification
-        description: Node classification on superpixel graphs derived from PascalVOC 2011.
-        primary_metric: F1
-        higher_is_better: true
-        domain: computer_vision
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.LRGBDataset.html"
-        variants:
-          - name: Standard split
-            is_standard: true
-            notes: "Official split. Metric: macro F1."
-
-      - name: COCO-SP
-        task_type: node_classification
-        description: Node classification on superpixel graphs derived from MS-COCO.
-        primary_metric: F1
-        higher_is_better: true
-        domain: computer_vision
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.LRGBDataset.html"
-        variants:
-          - name: Standard split
-            is_standard: true
-            notes: "Official split. Metric: macro F1."
-
-      - name: PCQM-Contact
-        task_type: link_prediction
-        description: Link prediction of spatial atom contacts in quantum chemistry molecules.
-        primary_metric: "MRR"
-        higher_is_better: true
-        domain: chemistry
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.LRGBDataset.html"
-        variants:
-          - name: Standard split
-            is_standard: true
-            notes: "Official split. Metric: MRR (Mean Reciprocal Rank). Also reported: Hits@1, Hits@3, Hits@10."
-
-  - name: GraphBench
-    arxiv_id: "2512.04475"
-    url: "https://arxiv.org/abs/2512.04475"
-    description: >
-      GraphBench — a comprehensive graph learning benchmark covering diverse
-      graph types and tasks spanning social networks, hardware design, logic,
-      earth systems, and algorithmic reasoning.
-    datasets:
-
-      - name: BlueSky
-        task_type: node_classification
-        description: >
-          Dynamic directed graphs of Bluesky social network user interactions.
-          Node-level task: predict future engagement from past interactions and text embeddings.
-        primary_metric: MAE
-        higher_is_better: false
-        domain: social
-        pyg_url: "https://graphbench.github.io/website/datasets.html"
-        variants:
-          - name: Standard split
-            is_standard: true
-            notes: "3 graphs, 286K–580K nodes, 3M–17M edges. Node-level regression."
-
-      - name: Chip Design
-        task_type: graph_generation
-        description: >
-          Learning to generate small Boolean circuits (and-inverter graphs, AIGs).
-          Generation task: produce functionally equivalent, optimised circuits.
-        primary_metric: Accuracy
-        higher_is_better: true
-        domain: hardware
-        pyg_url: "https://graphbench.github.io/website/datasets.html"
-        variants:
-          - name: Standard split
-            is_standard: true
-            notes: "1.2M graphs, 23–335 nodes, 33–652 edges. Generation task."
-
-      - name: Electronic Circuits
-        task_type: graph_classification
-        description: >
-          Analog circuit topology design. Graph-level task: predict 2 continuous
-          performance metrics from graph structure across 3 circuit-size datasets.
-        primary_metric: MAE
-        higher_is_better: false
-        domain: hardware
-        pyg_url: "https://graphbench.github.io/website/datasets.html"
-        variants:
-          - name: Standard split
-            is_standard: true
-            notes: "93,000 graphs, 13–24 nodes, 30–56 edges. Graph-level regression."
-
-      - name: SAT Solving
-        task_type: node_classification
-        description: >
-          SAT problem instances represented as graphs. Multi-level node/edge/graph-level
-          tasks across 11 solvers and 3 instance-size scales.
-        primary_metric: Accuracy
-        higher_is_better: true
-        domain: algorithms
-        pyg_url: "https://graphbench.github.io/website/datasets.html"
-        variants:
-          - name: Standard split
-            is_standard: true
-            notes: "208,788 graphs, 3 scales. Node/edge/graph-level tasks."
-          - name: Small
-            is_standard: false
-            notes: "SAT solving performance prediction on small instances."
-          - name: Medium
-            is_standard: false
-            notes: "SAT solving performance prediction on medium-scale instances."
-          - name: Large
-            is_standard: false
-            notes: "SAT solving performance prediction on large-scale instances."
-
-      - name: Combinatorial Optimization
-        task_type: node_classification
-        description: >
-          Synthetically generated NP-hard optimization problems (3 families × 2 configs).
-          Node/edge/graph-level prediction of optimal solution costs.
-        primary_metric: Accuracy
-        higher_is_better: true
-        domain: algorithms
-        pyg_url: "https://graphbench.github.io/website/datasets.html"
-        variants:
-          - name: Standard split
-            is_standard: true
-            notes: "300,000 graphs, 200–1,200 nodes. Node/edge/graph-level tasks."
-
-      - name: Algorithmic Reasoning
-        task_type: graph_classification
-        description: >
-          Graphs from 6 generators with 7 algorithmic reasoning tasks (e.g. MST).
-          Size generalisation: train on size 16, test up to 2048 nodes.
-        primary_metric: Accuracy
-        higher_is_better: true
-        domain: algorithms
-        pyg_url: "https://graphbench.github.io/website/datasets.html"
-        variants:
-          - name: Standard split
-            is_standard: true
-            notes: "21M graphs, 3 difficulty levels. Graph/edge-level tasks."
-
-      - name: Weather Forecasting
-        task_type: node_classification
-        description: >
-          ERA5 reanalysis data on a 64×32 icosahedron grid. Node-level task:
-          predict 12h residual change in 11 atmospheric variables.
-        primary_metric: MAE
-        higher_is_better: false
-        domain: earth_systems
-        pyg_url: "https://graphbench.github.io/website/datasets.html"
-        variants:
-          - name: Standard split
-            is_standard: true
-            notes: "93,544 graphs, 4,610 nodes, 7,928 edges. Node-level regression."
-
-      # Graph topology types (Algorithmic Reasoning sub-tasks)
-      - name: BA graph
-        task_type: graph_classification
-        description: Node classification on Barabási–Albert random graphs (GraphBench algorithmic reasoning).
-        primary_metric: Accuracy
-        higher_is_better: true
-        domain: algorithms
-        pyg_url: "https://graphbench.github.io/website/datasets.html"
-        variants:
-          - name: Standard split
-            is_standard: true
-
-      - name: ER graph
-        task_type: graph_classification
-        description: Node classification on Erdős–Rényi random graphs (GraphBench algorithmic reasoning).
-        primary_metric: Accuracy
-        higher_is_better: true
-        domain: algorithms
-        pyg_url: "https://graphbench.github.io/website/datasets.html"
-        variants:
-          - name: Standard split
-            is_standard: true
-
-      - name: RB graph
-        task_type: graph_classification
-        description: Node classification on Random Bipartite graphs (GraphBench algorithmic reasoning).
-        primary_metric: Accuracy
-        higher_is_better: true
-        domain: algorithms
-        pyg_url: "https://graphbench.github.io/website/datasets.html"
-        variants:
-          - name: Standard split
-            is_standard: true
-
-      # Algorithmic tasks — easy/medium/hard difficulty variants of the same task
-      - name: MST
-        task_type: graph_classification
-        description: Minimum Spanning Tree edge prediction (GraphBench / CLRS-style algorithmic reasoning).
-        primary_metric: F1
-        higher_is_better: true
-        domain: algorithms
-        pyg_url: "https://graphbench.github.io/website/datasets.html"
-        variants:
-          - name: Standard split
-            is_standard: true
-          - name: Easy
-            is_standard: false
-            notes: "Small graph instances."
-          - name: Medium
-            is_standard: false
-            notes: "Medium-scale graph instances."
-          - name: Hard
-            is_standard: false
-            notes: "Large graph instances."
-
-      - name: Bridges
-        task_type: graph_classification
-        description: Bridge edge detection (GraphBench / CLRS-style algorithmic reasoning).
-        primary_metric: F1
-        higher_is_better: true
-        domain: algorithms
-        pyg_url: "https://graphbench.github.io/website/datasets.html"
-        variants:
-          - name: Standard split
-            is_standard: true
-          - name: Easy
-            is_standard: false
-            notes: "Small graph instances."
-          - name: Medium
-            is_standard: false
-            notes: "Medium-scale graph instances."
-          - name: Hard
-            is_standard: false
-            notes: "Large graph instances."
-
-      - name: Max Clique
-        task_type: graph_classification
-        description: Maximum clique node prediction (GraphBench algorithmic task).
-        primary_metric: F1
-        higher_is_better: true
-        domain: algorithms
-        pyg_url: "https://graphbench.github.io/website/datasets.html"
-        variants:
-          - name: Easy
-            is_standard: true
-            notes: "Small graph instances."
-          - name: Medium
-            is_standard: false
-            notes: "Medium-scale graph instances."
-          - name: Hard
-            is_standard: false
-            notes: "Large graph instances."
-
-      - name: Max Matching
-        task_type: graph_classification
-        description: Maximum matching edge prediction (GraphBench algorithmic task).
-        primary_metric: F1
-        higher_is_better: true
-        domain: algorithms
-        pyg_url: "https://graphbench.github.io/website/datasets.html"
-        variants:
-          - name: Easy
-            is_standard: true
-            notes: "Small graph instances."
-          - name: Medium
-            is_standard: false
-            notes: "Medium-scale graph instances."
-          - name: Hard
-            is_standard: false
-            notes: "Large graph instances."
-
-      - name: Steiner Trees
-        task_type: graph_classification
-        description: Steiner tree node prediction (GraphBench algorithmic task).
-        primary_metric: F1
-        higher_is_better: true
-        domain: algorithms
-        pyg_url: "https://graphbench.github.io/website/datasets.html"
-        variants:
-          - name: Easy
-            is_standard: true
-            notes: "Small graph instances."
-          - name: Medium
-            is_standard: false
-            notes: "Medium-scale graph instances."
-          - name: Hard
-            is_standard: false
-            notes: "Large graph instances."
-
-      - name: Topological Sorting
-        task_type: node_classification
-        description: Topological ordering node rank regression on DAGs (GraphBench algorithmic task).
-        primary_metric: MAE
-        higher_is_better: false
-        domain: algorithms
-        pyg_url: "https://graphbench.github.io/website/datasets.html"
-        variants:
-          - name: Easy
-            is_standard: true
-            notes: "Small DAGs."
-          - name: Medium
-            is_standard: false
-            notes: "Medium-scale DAGs."
-          - name: Hard
-            is_standard: false
-            notes: "Large DAGs."
-
-      - name: Flow
-        task_type: graph_regression
-        description: Network flow value prediction (GraphBench / CLRS-style algorithmic reasoning).
-        primary_metric: MAE
-        higher_is_better: false
-        domain: algorithms
-        pyg_url: "https://graphbench.github.io/website/datasets.html"
-        variants:
-          - name: Standard split
-            is_standard: true
-          - name: Easy
-            is_standard: false
-            notes: "Small graph instances."
-          - name: Medium
-            is_standard: false
-            notes: "Medium-scale graph instances."
-          - name: Hard
-            is_standard: false
-            notes: "Large graph instances."
-
-  - name: OGB
-    arxiv_id: null
-    url: "https://ogb.stanford.edu"
-    description: >
-      Open Graph Benchmark — large-scale standardised graph ML benchmarks covering
-      graph-level, node-level, and link-level prediction across diverse domains.
-    datasets:
-
-      # ── Graph-level ───────────────────────────────────────────────────────────
-      - name: ogbg-molhiv
-        task_type: graph_classification
-        description: >-
-          Binary graph classification on HIV inhibition (molecules).
-          Highly imbalanced dataset: only ~3.5% of molecules are active (HIV inhibitors).
-          Evaluated with ROC-AUC to account for class imbalance.
-        primary_metric: ROC-AUC
-        higher_is_better: true
-        domain: chemistry
-        pyg_url: "https://ogb.stanford.edu/docs/leader_graphprop/#ogbg-molhiv"
-        num_graphs: 41127
-        avg_nodes: 25.5
-        avg_edges: 27.5
-        num_classes: 2
-        variants:
-          - name: Standard split
-            is_standard: true
-            notes: "Scaffold split. Metric: ROC-AUC."
-
-      - name: ogbg-molpcba
-        task_type: graph_classification
-        description: Multi-label classification (128 tasks) on PubChem BioAssay.
-        primary_metric: AP
-        higher_is_better: true
-        domain: chemistry
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.OGBDataset.html"
-        variants:
-          - name: Standard split
-            is_standard: true
-            notes: "Scaffold split. Metric: AP (Average Precision)."
-
-      - name: Code
-        task_type: graph_classification
-        description: Code AST-level method name prediction (ogbg-code2). 143k Python snippets.
-        primary_metric: F1
-        higher_is_better: true
-        domain: code
-        pyg_url: "https://ogb.stanford.edu/docs/leader_graphprop/#ogbg-code2"
-        variants:
-          - name: Standard split
-            is_standard: true
-            notes: "Project-based split."
-
-      # ── Node-level ────────────────────────────────────────────────────────────
-      - name: ogbn-arxiv
-        task_type: node_classification
-        description: Node classification on arXiv citation network (40 subject areas).
-        primary_metric: Accuracy
-        higher_is_better: true
-        domain: citation_networks
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.OGBNodePropPredDataset.html"
-        variants:
-          - name: Standard split
-            is_standard: true
-            notes: "Time-based split. Metric: Accuracy."
-
-      - name: ogbn-proteins
-        task_type: node_classification
-        description: Multi-label binary node classification on protein association network (112 tasks).
-        primary_metric: ROC-AUC
-        higher_is_better: true
-        domain: biology
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.OGBNodePropPredDataset.html"
-        variants:
-          - name: Standard split
-            is_standard: true
-            notes: "Species-based split. Metric: ROC-AUC."
-
-      - name: ogbn-products
-        task_type: node_classification
-        description: Node classification on Amazon product co-purchase graph (47 categories).
-        primary_metric: Accuracy
-        higher_is_better: true
-        domain: e_commerce
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.OGBNodePropPredDataset.html"
-        variants:
-          - name: Standard split
-            is_standard: true
-            notes: "Sales-rank split. Metric: Accuracy."
-
-      - name: ogbn-papers100M
-        task_type: node_classification
-        description: Node classification on 111M academic paper citation network (172 subjects).
-        primary_metric: Accuracy
-        higher_is_better: true
-        domain: citation_networks
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.OGBNodePropPredDataset.html"
-        variants:
-          - name: Standard split
-            is_standard: true
-
-      - name: ogbn-mag
-        task_type: node_classification
-        description: Heterogeneous academic graph node classification (349 venue classes) from OGB.
-        primary_metric: Accuracy
-        higher_is_better: true
-        domain: citation_networks
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.OGB_MAG.html"
-        variants:
-          - name: Standard split
-            is_standard: true
-
-      # ── Link-level ────────────────────────────────────────────────────────────
-      - name: ogbl-collab
-        task_type: link_prediction
-        description: Link prediction on academic collaboration network (author co-authorship).
-        primary_metric: Hits@50
-        higher_is_better: true
-        domain: citation_networks
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.OGBLinkPropPredDataset.html"
-        variants:
-          - name: Standard split
-            is_standard: true
-            notes: "Time-based split. Metric: Hits@50."
-
-      - name: ogbl-ddi
-        task_type: link_prediction
-        description: Drug-drug interaction link prediction (binary, homogeneous graph).
-        primary_metric: Hits@20
-        higher_is_better: true
-        domain: biology
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.OGBLinkPropPredDataset.html"
-        variants:
-          - name: Standard split
-            is_standard: true
-            notes: "Metric: Hits@20."
-
-      - name: ogbl-citation2
-        task_type: link_prediction
-        description: Citation link prediction on arXiv/PubMed papers (directed).
-        primary_metric: MRR
-        higher_is_better: true
-        domain: citation_networks
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.OGBLinkPropPredDataset.html"
-        variants:
-          - name: Standard split
-            is_standard: true
-            notes: "Time-based split. Metric: MRR."
-
-      - name: ogbl-wikikg2
-        task_type: link_prediction
-        description: Knowledge graph link prediction on Wikidata (2.5M entities, 535 relations).
-        primary_metric: MRR
-        higher_is_better: true
-        domain: knowledge_graphs
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.OGBLinkPropPredDataset.html"
-        variants:
-          - name: Standard split
-            is_standard: true
-            notes: "Metric: MRR."
-
-      - name: ogbl-biokg
-        task_type: link_prediction
-        description: Biological knowledge graph link prediction (5 entity types, 51 relations).
-        primary_metric: MRR
-        higher_is_better: true
-        domain: biology
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.OGBLinkPropPredDataset.html"
-        variants:
-          - name: Standard split
-            is_standard: true
-            notes: "Metric: MRR."
-
-      # ── Large-Scale Challenge ────────────────────────────────────────────────
-      - name: PCQM4Mv2
-        task_type: graph_regression
-        description: Quantum chemistry graph regression — predict HOMO-LUMO gap of 3.8M molecules.
-        primary_metric: MAE
-        higher_is_better: false
-        domain: chemistry
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.PCQM4Mv2.html"
-        variants:
-          - name: Standard split
-            is_standard: true
-            notes: "Scaffold split. Metric: MAE on HOMO-LUMO gap (eV)."
-
-
-  - name: Classic
-    arxiv_id: null
-    url: null
-    description: Classic node/graph classification and regression benchmarks.
-    datasets:
-
-      - name: Cora
-        task_type: node_classification
-        description: Citation network node classification (7 classes).
-        primary_metric: Accuracy
-        higher_is_better: true
-        domain: citation_networks
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.Planetoid.html"
-        variants:
-          - name: Planetoid split
-            is_standard: true
-            notes: "Yang et al. 2016 fixed 20-per-class train split."
-          - name: Random 10-fold
-            is_standard: false
-            notes: "10-fold cross-validation; results not directly comparable to Planetoid."
-
-      - name: ZINC
-        task_type: graph_regression
-        description: Molecular property regression (constrained solubility).
-        primary_metric: MAE
-        higher_is_better: false
-        domain: chemistry
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.ZINC.html"
-        variants:
-          - name: "Subset (12k)"
-            is_standard: false
-            notes: "12,000 train molecules. Reported by many papers — most results in this leaderboard use this split."
-          - name: Full
-            is_standard: true
-            notes: "250,000 train molecules."
-
-      - name: CiteSeer
-        task_type: node_classification
-        description: Citation network node classification (6 classes).
-        primary_metric: Accuracy
-        higher_is_better: true
-        domain: citation_networks
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.Planetoid.html"
-        variants:
-          - name: Planetoid split
-            is_standard: true
-            notes: "Yang et al. 2016 fixed split."
-
-      - name: PubMed
-        task_type: node_classification
-        description: Citation network node classification (3 classes).
-        primary_metric: Accuracy
-        higher_is_better: true
-        domain: citation_networks
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.Planetoid.html"
-        variants:
-          - name: Planetoid split
-            is_standard: true
-            notes: "Yang et al. 2016 fixed split."
-
-      - name: Coauthor-CS
-        task_type: node_classification
-        description: Co-authorship graph (CS) node classification from the "Pitfalls of Graph Neural Network Evaluation" paper.
-        primary_metric: Accuracy
-        higher_is_better: true
-        domain: citation_networks
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.Coauthor.html"
-        variants:
-          - name: Standard split
-            is_standard: true
-
-      - name: Coauthor-Physics
-        task_type: node_classification
-        description: Co-authorship graph (Physics) node classification from the "Pitfalls of Graph Neural Network Evaluation" paper.
-        primary_metric: Accuracy
-        higher_is_better: true
-        domain: citation_networks
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.Coauthor.html"
-        variants:
-          - name: Standard split
-            is_standard: true
-
-      - name: Amazon-Computers
-        task_type: node_classification
-        description: Amazon co-purchase graph (Computers) node classification.
-        primary_metric: Accuracy
-        higher_is_better: true
-        domain: e_commerce
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.Amazon.html"
-        variants:
-          - name: Standard split
-            is_standard: true
-
-      - name: Amazon-Photo
-        task_type: node_classification
-        description: Amazon co-purchase graph (Photo) node classification.
-        primary_metric: Accuracy
-        higher_is_better: true
-        domain: e_commerce
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.Amazon.html"
-        variants:
-          - name: Standard split
-            is_standard: true
-
-      - name: Reddit
-        task_type: node_classification
-        description: Reddit posts node classification (41 community labels) from the GraphSAGE paper.
-        primary_metric: F1
-        higher_is_better: true
-        domain: social
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.Reddit.html"
-        variants:
-          - name: Standard split
-            is_standard: true
-
-      - name: PPI
-        task_type: node_classification
-        description: Protein-protein interaction node classification (121 GO labels, multi-label).
-        primary_metric: F1
-        higher_is_better: true
-        domain: biology
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.PPI.html"
-        variants:
-          - name: Standard split
-            is_standard: true
-
-      - name: WikiCS
-        task_type: node_classification
-        description: Wikipedia-based node classification (10 classes) with 20 train splits.
-        primary_metric: Accuracy
-        higher_is_better: true
-        domain: knowledge_graphs
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.WikiCS.html"
-        variants:
-          - name: Standard split
-            is_standard: true
-
-      - name: AQSOL
-        task_type: graph_regression
-        description: Aqueous solubility regression on 9,982 molecular graphs from the LRGB paper.
-        primary_metric: MAE
-        higher_is_better: false
-        domain: chemistry
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.AQSOL.html"
-        variants:
-          - name: Standard split
-            is_standard: true
-
-
-  - name: TU Dortmund
-    arxiv_id: null
-    url: "https://chrsmrrs.github.io/datasets/"
-    description: TU Dortmund graph kernel benchmark datasets for graph classification.
-    datasets:
-
-      - name: MUTAG
-        task_type: graph_classification
-        description: Graph classification of mutagenic aromatic and heteroaromatic nitro compounds (2 classes).
-        primary_metric: Accuracy
-        higher_is_better: true
-        domain: chemistry
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.TUDataset.html"
-        variants:
-          - name: 10-fold CV
-            is_standard: true
-            notes: "10-fold cross-validation (average ± std reported)."
-
-      - name: PROTEINS
-        task_type: graph_classification
-        description: Graph classification of proteins as enzyme or non-enzyme (2 classes).
-        primary_metric: Accuracy
-        higher_is_better: true
-        domain: biology
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.TUDataset.html"
-        variants:
-          - name: 10-fold CV
-            is_standard: true
-            notes: "10-fold cross-validation."
-
-      - name: D&D
-        task_type: graph_classification
-        description: Graph classification of proteins into enzymes and non-enzymes via D&D representation.
-        primary_metric: Accuracy
-        higher_is_better: true
-        domain: biology
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.TUDataset.html"
-        variants:
-          - name: 10-fold CV
-            is_standard: true
-
-      - name: NCI1
-        task_type: graph_classification
-        description: Graph classification of chemical compounds screened for anti-cancer activity.
-        primary_metric: Accuracy
-        higher_is_better: true
-        domain: chemistry
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.TUDataset.html"
-        variants:
-          - name: 10-fold CV
-            is_standard: true
-
-      - name: COLLAB
-        task_type: graph_classification
-        description: Graph classification of scientific collaboration networks (3 classes).
-        primary_metric: Accuracy
-        higher_is_better: true
-        domain: social
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.TUDataset.html"
-        variants:
-          - name: 10-fold CV
-            is_standard: true
-
-      - name: IMDB-BINARY
-        task_type: graph_classification
-        description: Binary graph classification of movie collaboration networks (action vs. romance).
-        primary_metric: Accuracy
-        higher_is_better: true
-        domain: social
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.TUDataset.html"
-        variants:
-          - name: 10-fold CV
-            is_standard: true
-
-      - name: IMDB-MULTI
-        task_type: graph_classification
-        description: Multi-class graph classification of movie collaboration networks (3 genres).
-        primary_metric: Accuracy
-        higher_is_better: true
-        domain: social
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.TUDataset.html"
-        variants:
-          - name: 10-fold CV
-            is_standard: true
-
-      - name: REDDIT-BINARY
-        task_type: graph_classification
-        description: Binary graph classification of Reddit discussion threads (question-answering vs. online discussion).
-        primary_metric: Accuracy
-        higher_is_better: true
-        domain: social
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.TUDataset.html"
-        variants:
-          - name: 10-fold CV
-            is_standard: true
-
-      - name: REDDIT-MULTI-5K
-        task_type: graph_classification
-        description: Multi-class graph classification of Reddit discussion threads (5 subreddits).
-        primary_metric: Accuracy
-        higher_is_better: true
-        domain: social
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.TUDataset.html"
-        variants:
-          - name: 10-fold CV
-            is_standard: true
-
-      - name: RDT-B
-        task_type: graph_classification
-        description: Alias for REDDIT-BINARY in some papers.
-        primary_metric: Accuracy
-        higher_is_better: true
-        domain: social
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.TUDataset.html"
-        variants:
-          - name: 10-fold CV
-            is_standard: true
-
-      - name: ENZYMES
-        task_type: graph_classification
-        description: TU Dortmund graph classification on 6 enzyme reaction classes (600 graphs, subset of BRENDA database).
-        primary_metric: Accuracy
-        higher_is_better: true
-        domain: biology
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.TUDataset.html"
-        variants:
-          - name: 10-fold CV
-            is_standard: true
-            notes: "10-fold cross-validation (average ± std reported)."
-
-  - name: GNNBenchmark
-    arxiv_id: "2003.00982"
-    url: "https://arxiv.org/abs/2003.00982"
-    description: Benchmarking Graph Neural Networks — artificially and semi-artificially generated graph datasets.
-    datasets:
-
-      - name: MNIST
-        task_type: graph_classification
-        description: Graph classification on MNIST superpixel graphs (10 digit classes, 70k graphs).
-        primary_metric: Accuracy
-        higher_is_better: true
-        domain: computer_vision
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.GNNBenchmarkDataset.html"
-        variants:
-          - name: Standard split
-            is_standard: true
-            notes: "Fixed 55k/5k/10k split."
-
-      - name: CIFAR10
-        task_type: graph_classification
-        description: Graph classification on CIFAR10 superpixel graphs (10 classes, 60k graphs).
-        primary_metric: Accuracy
-        higher_is_better: true
-        domain: computer_vision
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.GNNBenchmarkDataset.html"
-        variants:
-          - name: Standard split
-            is_standard: true
-            notes: "Fixed 45k/5k/10k split."
-
-      - name: CLUSTER
-        task_type: node_classification
-        description: Semi-supervised node classification on stochastic block model graphs (6 classes).
-        primary_metric: Accuracy
-        higher_is_better: true
-        domain: synthetic
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.GNNBenchmarkDataset.html"
-        variants:
-          - name: Standard split
-            is_standard: true
-
-      - name: PATTERN
-        task_type: node_classification
-        description: Semi-supervised node classification — detect specific graph patterns (2 classes).
-        primary_metric: Accuracy
-        higher_is_better: true
-        domain: synthetic
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.GNNBenchmarkDataset.html"
-        variants:
-          - name: Standard split
-            is_standard: true
-
-      - name: TSP
-        task_type: link_prediction
-        description: Travelling salesman problem — edge classification (in/not in optimal tour).
-        primary_metric: F1
-        higher_is_better: true
-        domain: synthetic
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.GNNBenchmarkDataset.html"
-        variants:
-          - name: Standard split
-            is_standard: true
-
-      - name: CSL
-        task_type: graph_classification
-        description: Circular skip link graphs — tests graph isomorphism discrimination (10 classes).
-        primary_metric: Accuracy
-        higher_is_better: true
-        domain: synthetic
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.GNNBenchmarkDataset.html"
-        variants:
-          - name: Standard split
-            is_standard: true
-
-  - name: Heterophilic Graphs
-    arxiv_id: "2110.14446"
-    url: "https://arxiv.org/abs/2110.14446"
-    description: Non-homophilous node classification benchmarks (WebKB, Wikipedia, LINKX, and related).
-    datasets:
-
-      - name: Texas
-        task_type: node_classification
-        description: WebKB node classification on Texas university webpages (5 classes).
-        primary_metric: Accuracy
-        higher_is_better: true
-        domain: web
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.WebKB.html"
-        variants:
-          - name: Standard split
-            is_standard: true
-            notes: "Geom-GCN 10 fixed splits; results typically averaged."
-
-      - name: Wisconsin
-        task_type: node_classification
-        description: WebKB node classification on Wisconsin university webpages (5 classes).
-        primary_metric: Accuracy
-        higher_is_better: true
-        domain: web
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.WebKB.html"
-        variants:
-          - name: Standard split
-            is_standard: true
-            notes: "Geom-GCN 10 fixed splits."
-
-      - name: Cornell
-        task_type: node_classification
-        description: WebKB node classification on Cornell university webpages (5 classes).
-        primary_metric: Accuracy
-        higher_is_better: true
-        domain: web
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.WebKB.html"
-        variants:
-          - name: Standard split
-            is_standard: true
-            notes: "Geom-GCN 10 fixed splits."
-
-      - name: Actor
-        task_type: node_classification
-        description: Actor co-occurrence node classification (5 classes) from the Geom-GCN paper.
-        primary_metric: Accuracy
-        higher_is_better: true
-        domain: social
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.Actor.html"
-        variants:
-          - name: Standard split
-            is_standard: true
-            notes: "Geom-GCN 10 fixed splits."
-
-      - name: Chameleon
-        task_type: node_classification
-        description: Wikipedia Chameleon page node classification (5 classes, heterophilic).
-        primary_metric: Accuracy
-        higher_is_better: true
-        domain: web
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.WikipediaNetwork.html"
-        variants:
-          - name: Standard split
-            is_standard: true
-            notes: "Geom-GCN 10 fixed splits."
-          - name: Filtered split
-            is_standard: false
-            notes: "Platonov et al. 2023 filtered version removing duplicates."
-
-      - name: Squirrel
-        task_type: node_classification
-        description: Wikipedia Squirrel page node classification (5 classes, heterophilic).
-        primary_metric: Accuracy
-        higher_is_better: true
-        domain: web
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.WikipediaNetwork.html"
-        variants:
-          - name: Standard split
-            is_standard: true
-            notes: "Geom-GCN 10 fixed splits."
-          - name: Filtered split
-            is_standard: false
-            notes: "Platonov et al. 2023 filtered version removing duplicates."
-
-      - name: Roman-empire
-        task_type: node_classification
-        description: Wikipedia Roman Empire article node classification (18 syntactic roles) from the heterophilic benchmark.
-        primary_metric: Accuracy
-        higher_is_better: true
-        domain: web
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.HeterophilousGraphDataset.html"
-        variants:
-          - name: Standard split
-            is_standard: true
-
-      - name: Amazon-ratings
-        task_type: node_classification
-        description: Amazon product co-purchase node classification (5 rating classes) from the heterophilic benchmark.
-        primary_metric: Accuracy
-        higher_is_better: true
-        domain: e_commerce
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.HeterophilousGraphDataset.html"
-        variants:
-          - name: Standard split
-            is_standard: true
-
-      - name: Minesweeper
-        task_type: node_classification
-        description: Synthetic Minesweeper grid graph binary node classification from the heterophilic benchmark.
-        primary_metric: ROC-AUC
-        higher_is_better: true
-        domain: synthetic
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.HeterophilousGraphDataset.html"
-        variants:
-          - name: Standard split
-            is_standard: true
-
-      - name: Tolokers
-        task_type: node_classification
-        description: Yandex Toloka worker network binary node classification from the heterophilic benchmark.
-        primary_metric: ROC-AUC
-        higher_is_better: true
-        domain: social
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.HeterophilousGraphDataset.html"
-        variants:
-          - name: Standard split
-            is_standard: true
-
-      - name: Questions
-        task_type: node_classification
-        description: Yandex Q&A expert network binary node classification from the heterophilic benchmark.
-        primary_metric: ROC-AUC
-        higher_is_better: true
-        domain: social
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.HeterophilousGraphDataset.html"
-        variants:
-          - name: Standard split
-            is_standard: true
-
-      - name: Deezer
-        task_type: node_classification
-        description: Deezer Europe user friendship graph binary node classification (like/dislike) from the heterophilic benchmark.
-        primary_metric: ROC-AUC
-        higher_is_better: true
-        domain: social
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.HeterophilousGraphDataset.html"
-        variants:
-          - name: Standard split
-            is_standard: true
-
-      - name: Film
-        task_type: node_classification
-        description: Film (Actor) co-occurrence node classification (5 classes). Same graph as Actor; referred to as "Film" in some papers.
-        primary_metric: Accuracy
-        higher_is_better: true
-        domain: social
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.Actor.html"
-        variants:
-          - name: Standard split
-            is_standard: true
-            notes: "Geom-GCN 10 fixed splits."
-
-  - name: LINKX Benchmarks
-    arxiv_id: "2110.14446"
-    url: "https://arxiv.org/abs/2110.14446"
-    description: Large-scale non-homophilous graph benchmarks from the LINKX paper.
-    datasets:
-
-      - name: Penn94
-        task_type: node_classification
-        description: Facebook100 Penn94 social network node classification (binary gender).
-        primary_metric: Accuracy
-        higher_is_better: true
-        domain: social
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.LINKXDataset.html"
-        variants:
-          - name: Standard split
-            is_standard: true
-
-      - name: Pokec
-        task_type: node_classification
-        description: Slovak social network Pokec node classification (binary gender, 1.6M nodes).
-        primary_metric: Accuracy
-        higher_is_better: true
-        domain: social
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.LINKXDataset.html"
-        variants:
-          - name: Standard split
-            is_standard: true
-
-      - name: snap-patents
-        task_type: node_classification
-        description: USPTO patent citation graph node classification (5 time-based classes).
-        primary_metric: Accuracy
-        higher_is_better: true
-        domain: citation_networks
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.LINKXDataset.html"
-        variants:
-          - name: Standard split
-            is_standard: true
-
-      - name: twitch-gamers
-        task_type: node_classification
-        description: Twitch streamer network binary node classification (streaming language).
-        primary_metric: Accuracy
-        higher_is_better: true
-        domain: social
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.LINKXDataset.html"
-        variants:
-          - name: Standard split
-            is_standard: true
-
-      - name: arxiv-year
-        task_type: node_classification
-        description: OGB-arXiv node classification by publication year (5 classes, heterophilic variant).
-        primary_metric: Accuracy
-        higher_is_better: true
-        domain: citation_networks
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.LINKXDataset.html"
-        variants:
-          - name: Standard split
-            is_standard: true
-
-  - name: MoleculeNet
-    arxiv_id: "1703.00564"
-    url: "https://moleculenet.org/"
-    description: MoleculeNet — benchmark collection for molecular machine learning.
-    datasets:
-
-      - name: BBBP
-        task_type: graph_classification
-        description: Binary classification — blood-brain barrier permeability of molecules.
-        primary_metric: ROC-AUC
-        higher_is_better: true
-        domain: chemistry
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.MoleculeNet.html"
-        variants:
-          - name: Scaffold split
-            is_standard: true
-
-      - name: Tox21
-        task_type: graph_classification
-        description: Multi-task toxicity prediction (12 tasks) on NCI Tox21 challenge compounds.
-        primary_metric: ROC-AUC
-        higher_is_better: true
-        domain: chemistry
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.MoleculeNet.html"
-        variants:
-          - name: Scaffold split
-            is_standard: true
-
-      - name: ToxCast
-        task_type: graph_classification
-        description: Multi-task toxicological profile prediction (617 tasks) from the EPA ToxCast program.
-        primary_metric: ROC-AUC
-        higher_is_better: true
-        domain: chemistry
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.MoleculeNet.html"
-        variants:
-          - name: Scaffold split
-            is_standard: true
-
-      - name: BACE
-        task_type: graph_classification
-        description: Binary classification — BACE-1 inhibitory activity (binding results for human beta-secretase 1).
-        primary_metric: ROC-AUC
-        higher_is_better: true
-        domain: chemistry
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.MoleculeNet.html"
-        variants:
-          - name: Scaffold split
-            is_standard: true
-
-      - name: SIDER
-        task_type: graph_classification
-        description: Multi-label classification of marketed drug side effects (27 tasks).
-        primary_metric: ROC-AUC
-        higher_is_better: true
-        domain: chemistry
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.MoleculeNet.html"
-        variants:
-          - name: Scaffold split
-            is_standard: true
-
-      - name: ClinTox
-        task_type: graph_classification
-        description: Clinical toxicity prediction — FDA-approved vs. failed drugs (2 tasks).
-        primary_metric: ROC-AUC
-        higher_is_better: true
-        domain: chemistry
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.MoleculeNet.html"
-        variants:
-          - name: Scaffold split
-            is_standard: true
-
-      - name: ESOL
-        task_type: graph_regression
-        description: Aqueous solubility regression (log mol/L) on 1,128 molecules.
-        primary_metric: RMSE
-        higher_is_better: false
-        domain: chemistry
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.MoleculeNet.html"
-        variants:
-          - name: Scaffold split
-            is_standard: true
-
-      - name: FreeSolv
-        task_type: graph_regression
-        description: Hydration free energy regression (kcal/mol) on 642 molecules.
-        primary_metric: RMSE
-        higher_is_better: false
-        domain: chemistry
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.MoleculeNet.html"
-        variants:
-          - name: Scaffold split
-            is_standard: true
-
-      - name: Lipophilicity
-        task_type: graph_regression
-        description: Octanol/water distribution coefficient (logD) regression on 4,200 molecules.
-        primary_metric: RMSE
-        higher_is_better: false
-        domain: chemistry
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.MoleculeNet.html"
-        variants:
-          - name: Scaffold split
-            is_standard: true
-
-  - name: Quantum Chemistry
-    arxiv_id: null
-    url: "https://pytorch-geometric.readthedocs.io/en/latest/modules/datasets.html"
-    description: Quantum chemistry molecular property prediction benchmarks.
-    datasets:
-
-      - name: QM9
-        task_type: graph_regression
-        description: Multi-target quantum property regression on 130k drug-like organic molecules (19 targets).
-        primary_metric: MAE
-        higher_is_better: false
-        domain: chemistry
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.QM9.html"
-        variants:
-          - name: Standard split
-            is_standard: true
-            notes: "Usually evaluated per-target; results reported for individual properties."
-
-      - name: QM7b
-        task_type: graph_regression
-        description: Quantum chemistry regression on 7,211 molecules (14 electronic and thermodynamic targets).
-        primary_metric: MAE
-        higher_is_better: false
-        domain: chemistry
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.QM7b.html"
-        variants:
-          - name: Standard split
-            is_standard: true
-
-      - name: MD17
-        task_type: graph_regression
-        description: Ab-initio molecular dynamics — predict energy and forces for small organic molecules.
-        primary_metric: MAE
-        higher_is_better: false
-        domain: chemistry
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.MD17.html"
-        variants:
-          - name: Standard split
-            is_standard: true
-            notes: "Results typically reported per-molecule (aspirin, benzene, ethanol, etc.)."
-
-  - name: Heterogeneous Graph Benchmarks
-    arxiv_id: "2002.01680"
-    url: "https://arxiv.org/abs/2002.01680"
-    description: Heterogeneous graph datasets from the MAGNN and HGB benchmark papers.
-    datasets:
-
-      - name: DBLP
-        task_type: node_classification
-        description: Heterogeneous academic graph — classify author nodes (4 research areas).
-        primary_metric: Micro-F1
-        higher_is_better: true
-        domain: citation_networks
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.DBLP.html"
-        variants:
-          - name: Standard split
-            is_standard: true
-
-      - name: IMDB
-        task_type: node_classification
-        description: Heterogeneous IMDB graph — classify movie nodes (3 genres).
-        primary_metric: Micro-F1
-        higher_is_better: true
-        domain: social
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.IMDB.html"
-        variants:
-          - name: Standard split
-            is_standard: true
-
-      - name: ACM
-        task_type: node_classification
-        description: Heterogeneous ACM academic graph — classify paper nodes (3 areas).
-        primary_metric: Micro-F1
-        higher_is_better: true
-        domain: citation_networks
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.HGBDataset.html"
-        variants:
-          - name: Standard split
-            is_standard: true
-
-      - name: Freebase
-        task_type: node_classification
-        description: Heterogeneous Freebase knowledge graph node classification (8 entity types).
-        primary_metric: Macro-F1
-        higher_is_better: true
-        domain: knowledge_graphs
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.HGBDataset.html"
-        variants:
-          - name: Standard split
-            is_standard: true
-
-      - name: RCDD
-        task_type: link_prediction
-        description: Heterogeneous risk commodity detection — link prediction on Alibaba e-commerce graph.
-        primary_metric: MRR
-        higher_is_better: true
-        domain: e_commerce
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.RCDD.html"
-        variants:
-          - name: Standard split
-            is_standard: true
-
-  - name: Knowledge Graphs
-    arxiv_id: null
-    url: "https://pytorch-geometric.readthedocs.io/en/latest/modules/datasets.html"
-    description: Knowledge graph completion and link prediction benchmarks.
-    datasets:
-
-      - name: FB15k-237
-        task_type: link_prediction
-        description: Knowledge graph link prediction on Freebase (14,541 entities, 237 relations).
-        primary_metric: MRR
-        higher_is_better: true
-        domain: knowledge_graphs
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.FB15k_237.html"
-        variants:
-          - name: Standard split
-            is_standard: true
-            notes: "Toutanova & Chen 2015 split. Also reports Hits@1, Hits@3, Hits@10."
-
-      - name: WN18RR
-        task_type: link_prediction
-        description: Knowledge graph link prediction on WordNet (40,943 entities, 11 relations).
-        primary_metric: MRR
-        higher_is_better: true
-        domain: knowledge_graphs
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.WordNet18RR.html"
-        variants:
-          - name: Standard split
-            is_standard: true
-            notes: "Also reports Hits@1, Hits@3, Hits@10."
-
-      - name: WN18
-        task_type: link_prediction
-        description: Knowledge graph link prediction on WordNet (full, 18 relations).
-        primary_metric: MRR
-        higher_is_better: true
-        domain: knowledge_graphs
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.WordNet18.html"
-        variants:
-          - name: Standard split
-            is_standard: true
-
-  - name: Hypergraph Benchmarks
-    arxiv_id: null
-    url: "https://arxiv.org/abs/2309.00367"
-    description: >
-      Hypergraph node classification benchmarks used in heterophily-aware and
-      non-dissipative hypergraph GNN papers (Yadati et al., Yang et al., etc.).
-    datasets:
-
-      - name: Congress
-        task_type: node_classification
-        description: US Congress bill co-sponsorship hypergraph node classification (2 classes).
-        primary_metric: Accuracy
-        higher_is_better: true
-        domain: social
-        variants:
-          - name: Standard split
-            is_standard: true
-
-      - name: House
-        task_type: node_classification
-        description: US House of Representatives voting hypergraph node classification (2 classes).
-        primary_metric: Accuracy
-        higher_is_better: true
-        domain: social
-        variants:
-          - name: Standard split
-            is_standard: true
-
-      - name: Senate
-        task_type: node_classification
-        description: US Senate voting hypergraph node classification (2 classes).
-        primary_metric: Accuracy
-        higher_is_better: true
-        domain: social
-        variants:
-          - name: Standard split
-            is_standard: true
-
-      - name: Walmart
-        task_type: node_classification
-        description: Walmart co-purchase trip hypergraph node classification (product category, 11 classes).
-        primary_metric: Accuracy
-        higher_is_better: true
-        domain: e_commerce
-        variants:
-          - name: Standard split
-            is_standard: true
-
-      - name: BAT
-        task_type: node_classification
-        description: Brazilian Airport Transactions hypergraph node classification (4 region classes, 131 nodes).
-        primary_metric: F1
-        higher_is_better: true
-        domain: transportation
-        variants:
-          - name: Standard split
-            is_standard: true
-
-      - name: UAT
-        task_type: node_classification
-        description: US Airport Transactions hypergraph node classification (4 region classes, 1190 nodes).
-        primary_metric: F1
-        higher_is_better: true
-        domain: transportation
-        variants:
-          - name: Standard split
-            is_standard: true
-
-      - name: EAT
-        task_type: node_classification
-        description: European Airport Transactions hypergraph node classification (4 region classes, 399 nodes).
-        primary_metric: F1
-        higher_is_better: true
-        domain: transportation
-        variants:
-          - name: Standard split
-            is_standard: true
-
-      - name: AMAP
-        task_type: node_classification
-        description: Amazon Photography co-purchase hypergraph node classification (8 categories).
-        primary_metric: F1
-        higher_is_better: true
-        domain: e_commerce
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.Amazon.html"
-        variants:
-          - name: Standard split
-            is_standard: true
-
-      - name: Cora-CA
-        task_type: node_classification
-        description: Cora co-authorship hypergraph node classification (7 subject classes).
-        primary_metric: Accuracy
-        higher_is_better: true
-        domain: citation_networks
-        variants:
-          - name: Standard split
-            is_standard: true
-
-      - name: DBLP-CA
-        task_type: node_classification
-        description: DBLP co-authorship hypergraph node classification (research area).
-        primary_metric: Accuracy
-        higher_is_better: true
-        domain: citation_networks
-        variants:
-          - name: Standard split
-            is_standard: true
-
-      - name: LEN
-        task_type: node_classification
-        description: >
-          Labeled Entity Network — large-scale coordinated campaign detection
-          graph for online social media analysis (node classification, 2 classes).
-        primary_metric: Accuracy
-        higher_is_better: true
-        domain: social
-        variants:
-          - name: Standard split
-            is_standard: true
-            notes: "Introduced in arXiv:2506.13912."
-
-  - name: Other Graph Benchmarks
-    arxiv_id: null
-    url: null
-    description: >
-      Miscellaneous graph learning datasets used across various papers:
-      malware detection, 3D point clouds, text graphs, and large-scale graphs.
-    datasets:
-
-      - name: MalNet-Tiny
-        task_type: graph_classification
-        description: >
-          Malware detection graph classification on a tiny (balanced 5-class) subset
-          of the MalNet-Large dataset. Graphs are function call graphs of Android apps.
-        primary_metric: Accuracy
-        higher_is_better: true
-        domain: cybersecurity
-        pyg_url: "https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.MalNetTiny.html"
-        variants:
-          - name: Standard split
-            is_standard: true
-            notes: "5 classes, ~1M graphs total. Metric: Accuracy."
-
-      - name: ShapeNet-Part
-        task_type: node_classification
-        description: >
-          3D point cloud part segmentation on ShapeNet objects. Graph-based part label
-          prediction on point cloud graphs (16 object categories, 50 part classes).
-        primary_metric: F1
-        higher_is_better: true
-        domain: computer_vision
-        variants:
-          - name: Standard split
-            is_standard: true
-            notes: "Metric: mean IoU / F1 across parts."
-
-      - name: 20News
-        task_type: graph_classification
-        description: >
-          20 Newsgroups text classification represented as a graph (nodes = documents,
-          edges = TF-IDF similarity). 20 classes.
-        primary_metric: Accuracy
-        higher_is_better: true
-        domain: text
-        variants:
-          - name: Standard split
-            is_standard: true
-            notes: "Used as a heterophilic benchmark in several GNN papers."
-
-      - name: Amazon2M
-        task_type: node_classification
-        description: >
-          Large-scale Amazon co-purchase graph with ~2M nodes. Node classification
-          (product category). Used to benchmark scalable GNNs and graph transformers.
-        primary_metric: Accuracy
-        higher_is_better: true
-        domain: e_commerce
-        variants:
-          - name: Standard split
-            is_standard: true
-            notes: "~2M nodes, ~61M edges."
-
-  - name: Algorithmic Graph Tasks
-    arxiv_id: "2312.16560"
-    url: "https://arxiv.org/abs/2312.16560"
-    description: >
-      Algorithmic graph property prediction tasks (SSSP, eccentricity, etc.)
-      used as benchmarks for expressive GNNs.
-    datasets:
-
-      - name: SSSP
-        task_type: graph_regression
-        description: Single Source Shortest Path prediction on synthetic graphs (node-level distances).
-        primary_metric: MSE
-        higher_is_better: false
-        domain: algorithms
-        variants:
-          - name: Standard split
-            is_standard: true
-
-      - name: Eccentricity
-        task_type: graph_regression
-        description: Graph eccentricity prediction — node-level task predicting max distance to any other node.
-        primary_metric: MSE
-        higher_is_better: false
-        domain: algorithms
-        variants:
-          - name: Standard split
-            is_standard: true
-
+- name: LRGB
+  arxiv_id: '2206.08164'
+  url: https://arxiv.org/abs/2206.08164
+  description: 'Long Range Graph Benchmark — five graph ML tasks designed to test
+    long-range dependency modelling. Introduced by Dwivedi et al. (2022).
+
+    '
+  datasets:
+  - name: Peptides-func
+    task_type: graph_classification
+    description: Multi-label graph classification on peptide molecules (10 classes).
+    primary_metric: AP
+    higher_is_better: true
+    domain: chemistry
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.LRGBDataset.html
+    variants:
+    - name: Standard split
+      is_standard: true
+      notes: 'Official random split (80/10/10). Metric: AP (Average Precision).'
+  - name: Peptides-struct
+    task_type: graph_regression
+    description: Multi-task graph regression on peptide structural properties (11
+      targets).
+    primary_metric: MAE
+    higher_is_better: false
+    domain: chemistry
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.LRGBDataset.html
+    variants:
+    - name: Standard split
+      is_standard: true
+      notes: 'Official random split (80/10/10). Metric: MAE (lower is better).'
+  - name: PascalVOC-SP
+    task_type: node_classification
+    description: Node classification on superpixel graphs derived from PascalVOC 2011.
+    primary_metric: F1
+    higher_is_better: true
+    domain: computer_vision
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.LRGBDataset.html
+    variants:
+    - name: Standard split
+      is_standard: true
+      notes: 'Official split. Metric: macro F1.'
+  - name: COCO-SP
+    task_type: node_classification
+    description: Node classification on superpixel graphs derived from MS-COCO.
+    primary_metric: F1
+    higher_is_better: true
+    domain: computer_vision
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.LRGBDataset.html
+    variants:
+    - name: Standard split
+      is_standard: true
+      notes: 'Official split. Metric: macro F1.'
+  - name: PCQM-Contact
+    task_type: link_prediction
+    description: Link prediction of spatial atom contacts in quantum chemistry molecules.
+    primary_metric: MRR
+    higher_is_better: true
+    domain: chemistry
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.LRGBDataset.html
+    variants:
+    - name: Standard split
+      is_standard: true
+      notes: 'Official split. Metric: MRR (Mean Reciprocal Rank). Also reported: Hits@1,
+        Hits@3, Hits@10.'
+- name: GraphBench
+  arxiv_id: '2512.04475'
+  url: https://arxiv.org/abs/2512.04475
+  description: 'GraphBench — a comprehensive graph learning benchmark covering diverse
+    graph types and tasks spanning social networks, hardware design, logic, earth
+    systems, and algorithmic reasoning.
+
+    '
+  datasets:
+  - name: BlueSky
+    task_type: node_classification
+    description: 'Dynamic directed graphs of Bluesky social network user interactions.
+      Node-level task: predict future engagement from past interactions and text embeddings.
+
+      '
+    primary_metric: MAE
+    higher_is_better: false
+    domain: social
+    pyg_url: https://graphbench.github.io/website/datasets.html
+    num_graphs: 3
+    avg_nodes: 433000.0
+    avg_edges: 10000000.0
+    variants:
+    - name: Standard split
+      is_standard: true
+      notes: 3 graphs, 286K–580K nodes, 3M–17M edges. Node-level regression.
+  - name: Chip Design
+    task_type: graph_generation
+    description: 'Learning to generate small Boolean circuits (and-inverter graphs,
+      AIGs). Generation task: produce functionally equivalent, optimised circuits.
+
+      '
+    primary_metric: Accuracy
+    higher_is_better: true
+    domain: hardware
+    pyg_url: https://graphbench.github.io/website/datasets.html
+    variants:
+    - name: Standard split
+      is_standard: true
+      notes: 1.2M graphs, 23–335 nodes, 33–652 edges. Generation task.
+  - name: Electronic Circuits
+    task_type: graph_classification
+    description: 'Analog circuit topology design. Graph-level task: predict 2 continuous
+      performance metrics from graph structure across 3 circuit-size datasets.
+
+      '
+    primary_metric: MAE
+    higher_is_better: false
+    domain: hardware
+    pyg_url: https://graphbench.github.io/website/datasets.html
+    num_graphs: 93000
+    avg_nodes: 18.5
+    avg_edges: 43.0
+    variants:
+    - name: Standard split
+      is_standard: true
+      notes: 93,000 graphs, 13–24 nodes, 30–56 edges. Graph-level regression.
+  - name: SAT Solving
+    task_type: node_classification
+    description: 'SAT problem instances represented as graphs. Multi-level node/edge/graph-level
+      tasks across 11 solvers and 3 instance-size scales.
+
+      '
+    primary_metric: Accuracy
+    higher_is_better: true
+    domain: algorithms
+    pyg_url: https://graphbench.github.io/website/datasets.html
+    num_graphs: 208788
+    avg_nodes: 10400.5
+    avg_edges: 2054969.0
+    variants:
+    - name: Standard split
+      is_standard: true
+      notes: 208,788 graphs, 3 scales. Node/edge/graph-level tasks.
+    - name: Small
+      is_standard: false
+      notes: SAT solving performance prediction on small instances.
+    - name: Medium
+      is_standard: false
+      notes: SAT solving performance prediction on medium-scale instances.
+    - name: Large
+      is_standard: false
+      notes: SAT solving performance prediction on large-scale instances.
+  - name: Combinatorial Optimization
+    task_type: node_classification
+    description: 'Synthetically generated NP-hard optimization problems (3 families
+      × 2 configs). Node/edge/graph-level prediction of optimal solution costs.
+
+      '
+    primary_metric: Accuracy
+    higher_is_better: true
+    domain: algorithms
+    pyg_url: https://graphbench.github.io/website/datasets.html
+    variants:
+    - name: Standard split
+      is_standard: true
+      notes: 300,000 graphs, 200–1,200 nodes. Node/edge/graph-level tasks.
+  - name: Algorithmic Reasoning
+    task_type: graph_classification
+    description: 'Graphs from 6 generators with 7 algorithmic reasoning tasks (e.g.
+      MST). Size generalisation: train on size 16, test up to 2048 nodes.
+
+      '
+    primary_metric: Accuracy
+    higher_is_better: true
+    domain: algorithms
+    pyg_url: https://graphbench.github.io/website/datasets.html
+    variants:
+    - name: Standard split
+      is_standard: true
+      notes: 21M graphs, 3 difficulty levels. Graph/edge-level tasks.
+  - name: Weather Forecasting
+    task_type: node_classification
+    description: 'ERA5 reanalysis data on a 64×32 icosahedron grid. Node-level task:
+      predict 12h residual change in 11 atmospheric variables.
+
+      '
+    primary_metric: MAE
+    higher_is_better: false
+    domain: earth_systems
+    pyg_url: https://graphbench.github.io/website/datasets.html
+    num_graphs: 93544
+    avg_nodes: 4610.0
+    avg_edges: 7928.0
+    variants:
+    - name: Standard split
+      is_standard: true
+      notes: 93,544 graphs, 4,610 nodes, 7,928 edges. Node-level regression.
+  - name: BA graph
+    task_type: graph_classification
+    description: Node classification on Barabási–Albert random graphs (GraphBench
+      algorithmic reasoning).
+    primary_metric: Accuracy
+    higher_is_better: true
+    domain: algorithms
+    pyg_url: https://graphbench.github.io/website/datasets.html
+    num_graphs: 21000000
+    avg_nodes: 264.0
+    avg_edges: 3667.0
+    variants:
+    - name: Standard split
+      is_standard: true
+  - name: ER graph
+    task_type: graph_classification
+    description: Node classification on Erdős–Rényi random graphs (GraphBench algorithmic
+      reasoning).
+    primary_metric: Accuracy
+    higher_is_better: true
+    domain: algorithms
+    pyg_url: https://graphbench.github.io/website/datasets.html
+    num_graphs: 21000000
+    avg_nodes: 264.0
+    avg_edges: 3667.0
+    variants:
+    - name: Standard split
+      is_standard: true
+  - name: RB graph
+    task_type: graph_classification
+    description: Node classification on Random Bipartite graphs (GraphBench algorithmic
+      reasoning).
+    primary_metric: Accuracy
+    higher_is_better: true
+    domain: algorithms
+    pyg_url: https://graphbench.github.io/website/datasets.html
+    num_graphs: 21000000
+    avg_nodes: 264.0
+    avg_edges: 3667.0
+    variants:
+    - name: Standard split
+      is_standard: true
+  - name: MST
+    task_type: graph_classification
+    description: Minimum Spanning Tree edge prediction (GraphBench / CLRS-style algorithmic
+      reasoning).
+    primary_metric: F1
+    higher_is_better: true
+    domain: algorithms
+    pyg_url: https://graphbench.github.io/website/datasets.html
+    num_graphs: 21000000
+    avg_nodes: 264.0
+    avg_edges: 3667.0
+    variants:
+    - name: Standard split
+      is_standard: true
+    - name: Easy
+      is_standard: false
+      notes: Small graph instances.
+    - name: Medium
+      is_standard: false
+      notes: Medium-scale graph instances.
+    - name: Hard
+      is_standard: false
+      notes: Large graph instances.
+  - name: Bridges
+    task_type: graph_classification
+    description: Bridge edge detection (GraphBench / CLRS-style algorithmic reasoning).
+    primary_metric: F1
+    higher_is_better: true
+    domain: algorithms
+    pyg_url: https://graphbench.github.io/website/datasets.html
+    num_graphs: 21000000
+    avg_nodes: 264.0
+    avg_edges: 3667.0
+    variants:
+    - name: Standard split
+      is_standard: true
+    - name: Easy
+      is_standard: false
+      notes: Small graph instances.
+    - name: Medium
+      is_standard: false
+      notes: Medium-scale graph instances.
+    - name: Hard
+      is_standard: false
+      notes: Large graph instances.
+  - name: Max Clique
+    task_type: graph_classification
+    description: Maximum clique node prediction (GraphBench algorithmic task).
+    primary_metric: F1
+    higher_is_better: true
+    domain: algorithms
+    pyg_url: https://graphbench.github.io/website/datasets.html
+    num_graphs: 21000000
+    avg_nodes: 264.0
+    avg_edges: 3667.0
+    variants:
+    - name: Easy
+      is_standard: true
+      notes: Small graph instances.
+    - name: Medium
+      is_standard: false
+      notes: Medium-scale graph instances.
+    - name: Hard
+      is_standard: false
+      notes: Large graph instances.
+  - name: Max Matching
+    task_type: graph_classification
+    description: Maximum matching edge prediction (GraphBench algorithmic task).
+    primary_metric: F1
+    higher_is_better: true
+    domain: algorithms
+    pyg_url: https://graphbench.github.io/website/datasets.html
+    num_graphs: 21000000
+    avg_nodes: 264.0
+    avg_edges: 3667.0
+    variants:
+    - name: Easy
+      is_standard: true
+      notes: Small graph instances.
+    - name: Medium
+      is_standard: false
+      notes: Medium-scale graph instances.
+    - name: Hard
+      is_standard: false
+      notes: Large graph instances.
+  - name: Steiner Trees
+    task_type: graph_classification
+    description: Steiner tree node prediction (GraphBench algorithmic task).
+    primary_metric: F1
+    higher_is_better: true
+    domain: algorithms
+    pyg_url: https://graphbench.github.io/website/datasets.html
+    num_graphs: 21000000
+    avg_nodes: 264.0
+    avg_edges: 3667.0
+    variants:
+    - name: Easy
+      is_standard: true
+      notes: Small graph instances.
+    - name: Medium
+      is_standard: false
+      notes: Medium-scale graph instances.
+    - name: Hard
+      is_standard: false
+      notes: Large graph instances.
+  - name: Topological Sorting
+    task_type: node_classification
+    description: Topological ordering node rank regression on DAGs (GraphBench algorithmic
+      task).
+    primary_metric: MAE
+    higher_is_better: false
+    domain: algorithms
+    pyg_url: https://graphbench.github.io/website/datasets.html
+    num_graphs: 21000000
+    avg_nodes: 264.0
+    avg_edges: 3667.0
+    variants:
+    - name: Easy
+      is_standard: true
+      notes: Small DAGs.
+    - name: Medium
+      is_standard: false
+      notes: Medium-scale DAGs.
+    - name: Hard
+      is_standard: false
+      notes: Large DAGs.
+  - name: Flow
+    task_type: graph_regression
+    description: Network flow value prediction (GraphBench / CLRS-style algorithmic
+      reasoning).
+    primary_metric: MAE
+    higher_is_better: false
+    domain: algorithms
+    pyg_url: https://graphbench.github.io/website/datasets.html
+    num_graphs: 21000000
+    avg_nodes: 264.0
+    avg_edges: 3667.0
+    variants:
+    - name: Standard split
+      is_standard: true
+    - name: Easy
+      is_standard: false
+      notes: Small graph instances.
+    - name: Medium
+      is_standard: false
+      notes: Medium-scale graph instances.
+    - name: Hard
+      is_standard: false
+      notes: Large graph instances.
+- name: OGB
+  arxiv_id: null
+  url: https://ogb.stanford.edu
+  description: 'Open Graph Benchmark — large-scale standardised graph ML benchmarks
+    covering graph-level, node-level, and link-level prediction across diverse domains.
+
+    '
+  datasets:
+  - name: ogbg-molhiv
+    task_type: graph_classification
+    description: 'Binary graph classification on HIV inhibition (molecules). Highly
+      imbalanced dataset: only ~3.5% of molecules are active (HIV inhibitors). Evaluated
+      with ROC-AUC to account for class imbalance.'
+    primary_metric: ROC-AUC
+    higher_is_better: true
+    domain: chemistry
+    pyg_url: https://ogb.stanford.edu/docs/leader_graphprop/#ogbg-molhiv
+    num_graphs: 41127
+    avg_nodes: 25.5
+    avg_edges: 27.5
+    num_classes: 2
+    variants:
+    - name: Standard split
+      is_standard: true
+      notes: 'Scaffold split. Metric: ROC-AUC.'
+  - name: ogbg-molpcba
+    task_type: graph_classification
+    description: Multi-label classification (128 tasks) on PubChem BioAssay.
+    primary_metric: AP
+    higher_is_better: true
+    domain: chemistry
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.OGBDataset.html
+    num_graphs: 437929
+    avg_nodes: 26.0
+    avg_edges: 28.1
+    num_classes: 128
+    variants:
+    - name: Standard split
+      is_standard: true
+      notes: 'Scaffold split. Metric: AP (Average Precision).'
+  - name: Code
+    task_type: graph_classification
+    description: Code AST-level method name prediction (ogbg-code2). 143k Python snippets.
+    primary_metric: F1
+    higher_is_better: true
+    domain: code
+    pyg_url: https://ogb.stanford.edu/docs/leader_graphprop/#ogbg-code2
+    num_graphs: 452741
+    avg_nodes: 125.2
+    avg_edges: 124.2
+    num_classes: 1
+    variants:
+    - name: Standard split
+      is_standard: true
+      notes: Project-based split.
+  - name: ogbn-arxiv
+    task_type: node_classification
+    description: Node classification on arXiv citation network (40 subject areas).
+    primary_metric: Accuracy
+    higher_is_better: true
+    domain: citation_networks
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.OGBNodePropPredDataset.html
+    num_graphs: 169343
+    avg_nodes: 1166243
+    num_classes: 1
+    variants:
+    - name: Standard split
+      is_standard: true
+      notes: 'Time-based split. Metric: Accuracy.'
+  - name: ogbn-proteins
+    task_type: node_classification
+    description: Multi-label binary node classification on protein association network
+      (112 tasks).
+    primary_metric: ROC-AUC
+    higher_is_better: true
+    domain: biology
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.OGBNodePropPredDataset.html
+    num_graphs: 132534
+    avg_nodes: 39561252
+    num_classes: 112
+    variants:
+    - name: Standard split
+      is_standard: true
+      notes: 'Species-based split. Metric: ROC-AUC.'
+  - name: ogbn-products
+    task_type: node_classification
+    description: Node classification on Amazon product co-purchase graph (47 categories).
+    primary_metric: Accuracy
+    higher_is_better: true
+    domain: e_commerce
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.OGBNodePropPredDataset.html
+    num_graphs: 2449029
+    avg_nodes: 61859140
+    num_classes: 1
+    variants:
+    - name: Standard split
+      is_standard: true
+      notes: 'Sales-rank split. Metric: Accuracy.'
+  - name: ogbn-papers100M
+    task_type: node_classification
+    description: Node classification on 111M academic paper citation network (172
+      subjects).
+    primary_metric: Accuracy
+    higher_is_better: true
+    domain: citation_networks
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.OGBNodePropPredDataset.html
+    num_graphs: 111059956
+    avg_nodes: 1615685872
+    num_classes: 1
+    variants:
+    - name: Standard split
+      is_standard: true
+  - name: ogbn-mag
+    task_type: node_classification
+    description: Heterogeneous academic graph node classification (349 venue classes)
+      from OGB.
+    primary_metric: Accuracy
+    higher_is_better: true
+    domain: citation_networks
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.OGB_MAG.html
+    num_graphs: 1939743
+    avg_nodes: 21111007
+    num_classes: 1
+    variants:
+    - name: Standard split
+      is_standard: true
+  - name: ogbl-collab
+    task_type: link_prediction
+    description: Link prediction on academic collaboration network (author co-authorship).
+    primary_metric: Hits@50
+    higher_is_better: true
+    domain: citation_networks
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.OGBLinkPropPredDataset.html
+    num_graphs: 235868
+    avg_nodes: 1285465
+    variants:
+    - name: Standard split
+      is_standard: true
+      notes: 'Time-based split. Metric: Hits@50.'
+  - name: ogbl-ddi
+    task_type: link_prediction
+    description: Drug-drug interaction link prediction (binary, homogeneous graph).
+    primary_metric: Hits@20
+    higher_is_better: true
+    domain: biology
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.OGBLinkPropPredDataset.html
+    num_graphs: 4267
+    avg_nodes: 1334889
+    variants:
+    - name: Standard split
+      is_standard: true
+      notes: 'Metric: Hits@20.'
+  - name: ogbl-citation2
+    task_type: link_prediction
+    description: Citation link prediction on arXiv/PubMed papers (directed).
+    primary_metric: MRR
+    higher_is_better: true
+    domain: citation_networks
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.OGBLinkPropPredDataset.html
+    num_graphs: 2927963
+    avg_nodes: 30561187
+    variants:
+    - name: Standard split
+      is_standard: true
+      notes: 'Time-based split. Metric: MRR.'
+  - name: ogbl-wikikg2
+    task_type: link_prediction
+    description: Knowledge graph link prediction on Wikidata (2.5M entities, 535 relations).
+    primary_metric: MRR
+    higher_is_better: true
+    domain: knowledge_graphs
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.OGBLinkPropPredDataset.html
+    num_graphs: 2500604
+    avg_nodes: 17137181
+    variants:
+    - name: Standard split
+      is_standard: true
+      notes: 'Metric: MRR.'
+  - name: ogbl-biokg
+    task_type: link_prediction
+    description: Biological knowledge graph link prediction (5 entity types, 51 relations).
+    primary_metric: MRR
+    higher_is_better: true
+    domain: biology
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.OGBLinkPropPredDataset.html
+    num_graphs: 93773
+    avg_nodes: 5088434
+    variants:
+    - name: Standard split
+      is_standard: true
+      notes: 'Metric: MRR.'
+  - name: PCQM4Mv2
+    task_type: graph_regression
+    description: Quantum chemistry graph regression — predict HOMO-LUMO gap of 3.8M
+      molecules.
+    primary_metric: MAE
+    higher_is_better: false
+    domain: chemistry
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.PCQM4Mv2.html
+    num_graphs: 3746619
+    variants:
+    - name: Standard split
+      is_standard: true
+      notes: 'Scaffold split. Metric: MAE on HOMO-LUMO gap (eV).'
+- name: Classic
+  arxiv_id: null
+  url: null
+  description: Classic node/graph classification and regression benchmarks.
+  datasets:
+  - name: Cora
+    task_type: node_classification
+    description: Citation network node classification (7 classes).
+    primary_metric: Accuracy
+    higher_is_better: true
+    domain: citation_networks
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.Planetoid.html
+    variants:
+    - name: Planetoid split
+      is_standard: true
+      notes: Yang et al. 2016 fixed 20-per-class train split.
+    - name: Random 10-fold
+      is_standard: false
+      notes: 10-fold cross-validation; results not directly comparable to Planetoid.
+  - name: ZINC
+    task_type: graph_regression
+    description: Molecular property regression (constrained solubility).
+    primary_metric: MAE
+    higher_is_better: false
+    domain: chemistry
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.ZINC.html
+    variants:
+    - name: Subset (12k)
+      is_standard: false
+      notes: 12,000 train molecules. Reported by many papers — most results in this
+        leaderboard use this split.
+    - name: Full
+      is_standard: true
+      notes: 250,000 train molecules.
+  - name: CiteSeer
+    task_type: node_classification
+    description: Citation network node classification (6 classes).
+    primary_metric: Accuracy
+    higher_is_better: true
+    domain: citation_networks
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.Planetoid.html
+    variants:
+    - name: Planetoid split
+      is_standard: true
+      notes: Yang et al. 2016 fixed split.
+  - name: PubMed
+    task_type: node_classification
+    description: Citation network node classification (3 classes).
+    primary_metric: Accuracy
+    higher_is_better: true
+    domain: citation_networks
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.Planetoid.html
+    variants:
+    - name: Planetoid split
+      is_standard: true
+      notes: Yang et al. 2016 fixed split.
+  - name: Coauthor-CS
+    task_type: node_classification
+    description: Co-authorship graph (CS) node classification from the "Pitfalls of
+      Graph Neural Network Evaluation" paper.
+    primary_metric: Accuracy
+    higher_is_better: true
+    domain: citation_networks
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.Coauthor.html
+    variants:
+    - name: Standard split
+      is_standard: true
+  - name: Coauthor-Physics
+    task_type: node_classification
+    description: Co-authorship graph (Physics) node classification from the "Pitfalls
+      of Graph Neural Network Evaluation" paper.
+    primary_metric: Accuracy
+    higher_is_better: true
+    domain: citation_networks
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.Coauthor.html
+    variants:
+    - name: Standard split
+      is_standard: true
+  - name: Amazon-Computers
+    task_type: node_classification
+    description: Amazon co-purchase graph (Computers) node classification.
+    primary_metric: Accuracy
+    higher_is_better: true
+    domain: e_commerce
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.Amazon.html
+    variants:
+    - name: Standard split
+      is_standard: true
+  - name: Amazon-Photo
+    task_type: node_classification
+    description: Amazon co-purchase graph (Photo) node classification.
+    primary_metric: Accuracy
+    higher_is_better: true
+    domain: e_commerce
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.Amazon.html
+    variants:
+    - name: Standard split
+      is_standard: true
+  - name: Reddit
+    task_type: node_classification
+    description: Reddit posts node classification (41 community labels) from the GraphSAGE
+      paper.
+    primary_metric: F1
+    higher_is_better: true
+    domain: social
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.Reddit.html
+    variants:
+    - name: Standard split
+      is_standard: true
+  - name: PPI
+    task_type: node_classification
+    description: Protein-protein interaction node classification (121 GO labels, multi-label).
+    primary_metric: F1
+    higher_is_better: true
+    domain: biology
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.PPI.html
+    variants:
+    - name: Standard split
+      is_standard: true
+  - name: WikiCS
+    task_type: node_classification
+    description: Wikipedia-based node classification (10 classes) with 20 train splits.
+    primary_metric: Accuracy
+    higher_is_better: true
+    domain: knowledge_graphs
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.WikiCS.html
+    variants:
+    - name: Standard split
+      is_standard: true
+    num_graphs: 1
+    avg_nodes: 11701
+    avg_edges: 297350
+    num_classes: 10
+  - name: AQSOL
+    task_type: graph_regression
+    description: Aqueous solubility regression on 9,982 molecular graphs from the
+      LRGB paper.
+    primary_metric: MAE
+    higher_is_better: false
+    domain: chemistry
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.AQSOL.html
+    variants:
+    - name: Standard split
+      is_standard: true
+- name: TU Dortmund
+  arxiv_id: null
+  url: https://chrsmrrs.github.io/datasets/
+  description: TU Dortmund graph kernel benchmark datasets for graph classification.
+  datasets:
+  - name: MUTAG
+    task_type: graph_classification
+    description: Graph classification of mutagenic aromatic and heteroaromatic nitro
+      compounds (2 classes).
+    primary_metric: Accuracy
+    higher_is_better: true
+    domain: chemistry
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.TUDataset.html
+    num_graphs: 188
+    avg_nodes: 17.93
+    avg_edges: 19.79
+    num_classes: 2
+    variants:
+    - name: 10-fold CV
+      is_standard: true
+      notes: 10-fold cross-validation (average ± std reported).
+  - name: PROTEINS
+    task_type: graph_classification
+    description: Graph classification of proteins as enzyme or non-enzyme (2 classes).
+    primary_metric: Accuracy
+    higher_is_better: true
+    domain: biology
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.TUDataset.html
+    num_graphs: 1113
+    avg_nodes: 39.06
+    avg_edges: 72.82
+    num_classes: 2
+    variants:
+    - name: 10-fold CV
+      is_standard: true
+      notes: 10-fold cross-validation.
+  - name: D&D
+    task_type: graph_classification
+    description: Graph classification of proteins into enzymes and non-enzymes via
+      D&D representation.
+    primary_metric: Accuracy
+    higher_is_better: true
+    domain: biology
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.TUDataset.html
+    variants:
+    - name: 10-fold CV
+      is_standard: true
+    num_graphs: 1178
+    avg_nodes: 284.3
+    avg_edges: 715.7
+    num_classes: 2
+  - name: NCI1
+    task_type: graph_classification
+    description: Graph classification of chemical compounds screened for anti-cancer
+      activity.
+    primary_metric: Accuracy
+    higher_is_better: true
+    domain: chemistry
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.TUDataset.html
+    num_graphs: 4110
+    avg_nodes: 29.87
+    avg_edges: 32.30
+    num_classes: 2
+    variants:
+    - name: 10-fold CV
+      is_standard: true
+  - name: COLLAB
+    task_type: graph_classification
+    description: Graph classification of scientific collaboration networks (3 classes).
+    primary_metric: Accuracy
+    higher_is_better: true
+    domain: social
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.TUDataset.html
+    variants:
+    - name: 10-fold CV
+      is_standard: true
+    num_graphs: 5000
+    avg_nodes: 74.5
+    avg_edges: 2457.8
+    num_classes: 2
+  - name: IMDB-BINARY
+    task_type: graph_classification
+    description: Binary graph classification of movie collaboration networks (action
+      vs. romance).
+    primary_metric: Accuracy
+    higher_is_better: true
+    domain: social
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.TUDataset.html
+    variants:
+    - name: 10-fold CV
+      is_standard: true
+    num_graphs: 1000
+    avg_nodes: 19.8
+    avg_edges: 96.5
+    num_classes: 2
+  - name: IMDB-MULTI
+    task_type: graph_classification
+    description: Multi-class graph classification of movie collaboration networks
+      (3 genres).
+    primary_metric: Accuracy
+    higher_is_better: true
+    domain: social
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.TUDataset.html
+    variants:
+    - name: 10-fold CV
+      is_standard: true
+    num_graphs: 1500
+    avg_nodes: 13.0
+    avg_edges: 65.9
+    num_classes: 3
+  - name: REDDIT-BINARY
+    task_type: graph_classification
+    description: Binary graph classification of Reddit discussion threads (question-answering
+      vs. online discussion).
+    primary_metric: Accuracy
+    higher_is_better: true
+    domain: social
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.TUDataset.html
+    num_graphs: 2000
+    avg_nodes: 429.63
+    avg_edges: 497.75
+    num_classes: 2
+    variants:
+    - name: 10-fold CV
+      is_standard: true
+  - name: REDDIT-MULTI-5K
+    task_type: graph_classification
+    description: Multi-class graph classification of Reddit discussion threads (5
+      subreddits).
+    primary_metric: Accuracy
+    higher_is_better: true
+    domain: social
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.TUDataset.html
+    num_graphs: 4999
+    avg_nodes: 508.52
+    avg_edges: 594.87
+    num_classes: 5
+    variants:
+    - name: 10-fold CV
+      is_standard: true
+  - name: RDT-B
+    task_type: graph_classification
+    description: Alias for REDDIT-BINARY in some papers.
+    primary_metric: Accuracy
+    higher_is_better: true
+    domain: social
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.TUDataset.html
+    num_graphs: 2000
+    avg_nodes: 429.63
+    avg_edges: 497.75
+    num_classes: 2
+    variants:
+    - name: 10-fold CV
+      is_standard: true
+  - name: ENZYMES
+    task_type: graph_classification
+    description: TU Dortmund graph classification on 6 enzyme reaction classes (600
+      graphs, subset of BRENDA database).
+    primary_metric: Accuracy
+    higher_is_better: true
+    domain: biology
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.TUDataset.html
+    variants:
+    - name: 10-fold CV
+      is_standard: true
+      notes: 10-fold cross-validation (average ± std reported).
+    num_graphs: 600
+    avg_nodes: 32.6
+    avg_edges: 62.1
+    num_classes: 6
+- name: GNNBenchmark
+  arxiv_id: '2003.00982'
+  url: https://arxiv.org/abs/2003.00982
+  description: Benchmarking Graph Neural Networks — artificially and semi-artificially
+    generated graph datasets.
+  datasets:
+  - name: MNIST
+    task_type: graph_classification
+    description: Graph classification on MNIST superpixel graphs (10 digit classes,
+      70k graphs).
+    primary_metric: Accuracy
+    higher_is_better: true
+    domain: computer_vision
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.GNNBenchmarkDataset.html
+    variants:
+    - name: Standard split
+      is_standard: true
+      notes: Fixed 55k/5k/10k split.
+  - name: CIFAR10
+    task_type: graph_classification
+    description: Graph classification on CIFAR10 superpixel graphs (10 classes, 60k
+      graphs).
+    primary_metric: Accuracy
+    higher_is_better: true
+    domain: computer_vision
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.GNNBenchmarkDataset.html
+    variants:
+    - name: Standard split
+      is_standard: true
+      notes: Fixed 45k/5k/10k split.
+  - name: CLUSTER
+    task_type: node_classification
+    description: Semi-supervised node classification on stochastic block model graphs
+      (6 classes).
+    primary_metric: Accuracy
+    higher_is_better: true
+    domain: synthetic
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.GNNBenchmarkDataset.html
+    variants:
+    - name: Standard split
+      is_standard: true
+  - name: PATTERN
+    task_type: node_classification
+    description: Semi-supervised node classification — detect specific graph patterns
+      (2 classes).
+    primary_metric: Accuracy
+    higher_is_better: true
+    domain: synthetic
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.GNNBenchmarkDataset.html
+    variants:
+    - name: Standard split
+      is_standard: true
+  - name: TSP
+    task_type: link_prediction
+    description: Travelling salesman problem — edge classification (in/not in optimal
+      tour).
+    primary_metric: F1
+    higher_is_better: true
+    domain: synthetic
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.GNNBenchmarkDataset.html
+    variants:
+    - name: Standard split
+      is_standard: true
+  - name: CSL
+    task_type: graph_classification
+    description: Circular skip link graphs — tests graph isomorphism discrimination
+      (10 classes).
+    primary_metric: Accuracy
+    higher_is_better: true
+    domain: synthetic
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.GNNBenchmarkDataset.html
+    variants:
+    - name: Standard split
+      is_standard: true
+- name: Heterophilic Graphs
+  arxiv_id: '2110.14446'
+  url: https://arxiv.org/abs/2110.14446
+  description: Non-homophilous node classification benchmarks (WebKB, Wikipedia, LINKX,
+    and related).
+  datasets:
+  - name: Texas
+    task_type: node_classification
+    description: WebKB node classification on Texas university webpages (5 classes).
+    primary_metric: Accuracy
+    higher_is_better: true
+    domain: web
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.WebKB.html
+    variants:
+    - name: Standard split
+      is_standard: true
+      notes: Geom-GCN 10 fixed splits; results typically averaged.
+  - name: Wisconsin
+    task_type: node_classification
+    description: WebKB node classification on Wisconsin university webpages (5 classes).
+    primary_metric: Accuracy
+    higher_is_better: true
+    domain: web
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.WebKB.html
+    variants:
+    - name: Standard split
+      is_standard: true
+      notes: Geom-GCN 10 fixed splits.
+  - name: Cornell
+    task_type: node_classification
+    description: WebKB node classification on Cornell university webpages (5 classes).
+    primary_metric: Accuracy
+    higher_is_better: true
+    domain: web
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.WebKB.html
+    variants:
+    - name: Standard split
+      is_standard: true
+      notes: Geom-GCN 10 fixed splits.
+  - name: Actor
+    task_type: node_classification
+    description: Actor co-occurrence node classification (5 classes) from the Geom-GCN
+      paper.
+    primary_metric: Accuracy
+    higher_is_better: true
+    domain: social
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.Actor.html
+    variants:
+    - name: Standard split
+      is_standard: true
+      notes: Geom-GCN 10 fixed splits.
+  - name: Chameleon
+    task_type: node_classification
+    description: Wikipedia Chameleon page node classification (5 classes, heterophilic).
+    primary_metric: Accuracy
+    higher_is_better: true
+    domain: web
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.WikipediaNetwork.html
+    variants:
+    - name: Standard split
+      is_standard: true
+      notes: Geom-GCN 10 fixed splits.
+    - name: Filtered split
+      is_standard: false
+      notes: Platonov et al. 2023 filtered version removing duplicates.
+    num_graphs: 1
+    avg_nodes: 2277
+    avg_edges: 36101
+    num_classes: 5
+  - name: Squirrel
+    task_type: node_classification
+    description: Wikipedia Squirrel page node classification (5 classes, heterophilic).
+    primary_metric: Accuracy
+    higher_is_better: true
+    domain: web
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.WikipediaNetwork.html
+    variants:
+    - name: Standard split
+      is_standard: true
+      notes: Geom-GCN 10 fixed splits.
+    - name: Filtered split
+      is_standard: false
+      notes: Platonov et al. 2023 filtered version removing duplicates.
+    num_graphs: 1
+    avg_nodes: 5201
+    avg_edges: 217073
+    num_classes: 5
+  - name: Roman-empire
+    task_type: node_classification
+    description: Wikipedia Roman Empire article node classification (18 syntactic
+      roles) from the heterophilic benchmark.
+    primary_metric: Accuracy
+    higher_is_better: true
+    domain: web
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.HeterophilousGraphDataset.html
+    variants:
+    - name: Standard split
+      is_standard: true
+  - name: Amazon-ratings
+    task_type: node_classification
+    description: Amazon product co-purchase node classification (5 rating classes)
+      from the heterophilic benchmark.
+    primary_metric: Accuracy
+    higher_is_better: true
+    domain: e_commerce
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.HeterophilousGraphDataset.html
+    variants:
+    - name: Standard split
+      is_standard: true
+  - name: Minesweeper
+    task_type: node_classification
+    description: Synthetic Minesweeper grid graph binary node classification from
+      the heterophilic benchmark.
+    primary_metric: ROC-AUC
+    higher_is_better: true
+    domain: synthetic
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.HeterophilousGraphDataset.html
+    variants:
+    - name: Standard split
+      is_standard: true
+  - name: Tolokers
+    task_type: node_classification
+    description: Yandex Toloka worker network binary node classification from the
+      heterophilic benchmark.
+    primary_metric: ROC-AUC
+    higher_is_better: true
+    domain: social
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.HeterophilousGraphDataset.html
+    num_graphs: 1
+    avg_nodes: 11758
+    avg_edges: 519000
+    num_classes: 2
+    variants:
+    - name: Standard split
+      is_standard: true
+  - name: Questions
+    task_type: node_classification
+    description: Yandex Q&A expert network binary node classification from the heterophilic
+      benchmark.
+    primary_metric: ROC-AUC
+    higher_is_better: true
+    domain: social
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.HeterophilousGraphDataset.html
+    variants:
+    - name: Standard split
+      is_standard: true
+  - name: Deezer
+    task_type: node_classification
+    description: Deezer Europe user friendship graph binary node classification (like/dislike)
+      from the heterophilic benchmark.
+    primary_metric: ROC-AUC
+    higher_is_better: true
+    domain: social
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.HeterophilousGraphDataset.html
+    variants:
+    - name: Standard split
+      is_standard: true
+    num_graphs: 1
+    avg_nodes: 28281
+    avg_edges: 1650703
+    num_classes: 2
+  - name: Film
+    task_type: node_classification
+    description: Film (Actor) co-occurrence node classification (5 classes). Same
+      graph as Actor; referred to as "Film" in some papers.
+    primary_metric: Accuracy
+    higher_is_better: true
+    domain: social
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.Actor.html
+    variants:
+    - name: Standard split
+      is_standard: true
+      notes: Geom-GCN 10 fixed splits.
+- name: LINKX Benchmarks
+  arxiv_id: '2110.14446'
+  url: https://arxiv.org/abs/2110.14446
+  description: Large-scale non-homophilous graph benchmarks from the LINKX paper.
+  datasets:
+  - name: Penn94
+    task_type: node_classification
+    description: Facebook100 Penn94 social network node classification (binary gender).
+    primary_metric: Accuracy
+    higher_is_better: true
+    domain: social
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.LINKXDataset.html
+    variants:
+    - name: Standard split
+      is_standard: true
+    num_graphs: 1
+    avg_nodes: 41554
+    avg_edges: 1362229
+    num_classes: 2
+  - name: Pokec
+    task_type: node_classification
+    description: Slovak social network Pokec node classification (binary gender, 1.6M
+      nodes).
+    primary_metric: Accuracy
+    higher_is_better: true
+    domain: social
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.LINKXDataset.html
+    variants:
+    - name: Standard split
+      is_standard: true
+    num_graphs: 1
+    avg_nodes: 662143
+    avg_edges: 13806079
+    num_classes: 2
+  - name: snap-patents
+    task_type: node_classification
+    description: USPTO patent citation graph node classification (5 time-based classes).
+    primary_metric: Accuracy
+    higher_is_better: true
+    domain: citation_networks
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.LINKXDataset.html
+    variants:
+    - name: Standard split
+      is_standard: true
+    num_graphs: 1
+    avg_nodes: 2745480
+    avg_edges: 12800500
+    num_classes: 5
+  - name: twitch-gamers
+    task_type: node_classification
+    description: Twitch streamer network binary node classification (streaming language).
+    primary_metric: Accuracy
+    higher_is_better: true
+    domain: social
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.LINKXDataset.html
+    variants:
+    - name: Standard split
+      is_standard: true
+    num_graphs: 1
+    avg_nodes: 168114
+    avg_edges: 6797557
+    num_classes: 2
+  - name: arxiv-year
+    task_type: node_classification
+    description: OGB-arXiv node classification by publication year (5 classes, heterophilic
+      variant).
+    primary_metric: Accuracy
+    higher_is_better: true
+    domain: citation_networks
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.LINKXDataset.html
+    variants:
+    - name: Standard split
+      is_standard: true
+    num_graphs: 1
+    avg_nodes: 169343
+    avg_edges: 1166243
+    num_classes: 40
+- name: MoleculeNet
+  arxiv_id: '1703.00564'
+  url: https://moleculenet.org/
+  description: MoleculeNet — benchmark collection for molecular machine learning.
+  datasets:
+  - name: BBBP
+    task_type: graph_classification
+    description: Binary classification — blood-brain barrier permeability of molecules.
+    primary_metric: ROC-AUC
+    higher_is_better: true
+    domain: chemistry
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.MoleculeNet.html
+    variants:
+    - name: Scaffold split
+      is_standard: true
+  - name: Tox21
+    task_type: graph_classification
+    description: Multi-task toxicity prediction (12 tasks) on NCI Tox21 challenge
+      compounds.
+    primary_metric: ROC-AUC
+    higher_is_better: true
+    domain: chemistry
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.MoleculeNet.html
+    variants:
+    - name: Scaffold split
+      is_standard: true
+  - name: ToxCast
+    task_type: graph_classification
+    description: Multi-task toxicological profile prediction (617 tasks) from the
+      EPA ToxCast program.
+    primary_metric: ROC-AUC
+    higher_is_better: true
+    domain: chemistry
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.MoleculeNet.html
+    variants:
+    - name: Scaffold split
+      is_standard: true
+  - name: BACE
+    task_type: graph_classification
+    description: Binary classification — BACE-1 inhibitory activity (binding results
+      for human beta-secretase 1).
+    primary_metric: ROC-AUC
+    higher_is_better: true
+    domain: chemistry
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.MoleculeNet.html
+    variants:
+    - name: Scaffold split
+      is_standard: true
+  - name: SIDER
+    task_type: graph_classification
+    description: Multi-label classification of marketed drug side effects (27 tasks).
+    primary_metric: ROC-AUC
+    higher_is_better: true
+    domain: chemistry
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.MoleculeNet.html
+    variants:
+    - name: Scaffold split
+      is_standard: true
+  - name: ClinTox
+    task_type: graph_classification
+    description: Clinical toxicity prediction — FDA-approved vs. failed drugs (2 tasks).
+    primary_metric: ROC-AUC
+    higher_is_better: true
+    domain: chemistry
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.MoleculeNet.html
+    variants:
+    - name: Scaffold split
+      is_standard: true
+  - name: ESOL
+    task_type: graph_regression
+    description: Aqueous solubility regression (log mol/L) on 1,128 molecules.
+    primary_metric: RMSE
+    higher_is_better: false
+    domain: chemistry
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.MoleculeNet.html
+    variants:
+    - name: Scaffold split
+      is_standard: true
+  - name: FreeSolv
+    task_type: graph_regression
+    description: Hydration free energy regression (kcal/mol) on 642 molecules.
+    primary_metric: RMSE
+    higher_is_better: false
+    domain: chemistry
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.MoleculeNet.html
+    variants:
+    - name: Scaffold split
+      is_standard: true
+  - name: Lipophilicity
+    task_type: graph_regression
+    description: Octanol/water distribution coefficient (logD) regression on 4,200
+      molecules.
+    primary_metric: RMSE
+    higher_is_better: false
+    domain: chemistry
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.MoleculeNet.html
+    variants:
+    - name: Scaffold split
+      is_standard: true
+- name: Quantum Chemistry
+  arxiv_id: null
+  url: https://pytorch-geometric.readthedocs.io/en/latest/modules/datasets.html
+  description: Quantum chemistry molecular property prediction benchmarks.
+  datasets:
+  - name: QM9
+    task_type: graph_regression
+    description: Multi-target quantum property regression on 130k drug-like organic
+      molecules (19 targets).
+    primary_metric: MAE
+    higher_is_better: false
+    domain: chemistry
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.QM9.html
+    variants:
+    - name: Standard split
+      is_standard: true
+      notes: Usually evaluated per-target; results reported for individual properties.
+  - name: QM7b
+    task_type: graph_regression
+    description: Quantum chemistry regression on 7,211 molecules (14 electronic and
+      thermodynamic targets).
+    primary_metric: MAE
+    higher_is_better: false
+    domain: chemistry
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.QM7b.html
+    variants:
+    - name: Standard split
+      is_standard: true
+  - name: MD17
+    task_type: graph_regression
+    description: Ab-initio molecular dynamics — predict energy and forces for small
+      organic molecules.
+    primary_metric: MAE
+    higher_is_better: false
+    domain: chemistry
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.MD17.html
+    variants:
+    - name: Standard split
+      is_standard: true
+      notes: Results typically reported per-molecule (aspirin, benzene, ethanol, etc.).
+- name: Heterogeneous Graph Benchmarks
+  arxiv_id: '2002.01680'
+  url: https://arxiv.org/abs/2002.01680
+  description: Heterogeneous graph datasets from the MAGNN and HGB benchmark papers.
+  datasets:
+  - name: DBLP
+    task_type: node_classification
+    description: Heterogeneous academic graph — classify author nodes (4 research
+      areas).
+    primary_metric: Micro-F1
+    higher_is_better: true
+    domain: citation_networks
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.DBLP.html
+    variants:
+    - name: Standard split
+      is_standard: true
+    num_graphs: 1
+    num_classes: 4
+  - name: IMDB
+    task_type: node_classification
+    description: Heterogeneous IMDB graph — classify movie nodes (3 genres).
+    primary_metric: Micro-F1
+    higher_is_better: true
+    domain: social
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.IMDB.html
+    variants:
+    - name: Standard split
+      is_standard: true
+    num_graphs: 1
+    num_classes: 3
+  - name: ACM
+    task_type: node_classification
+    description: Heterogeneous ACM academic graph — classify paper nodes (3 areas).
+    primary_metric: Micro-F1
+    higher_is_better: true
+    domain: citation_networks
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.HGBDataset.html
+    variants:
+    - name: Standard split
+      is_standard: true
+    num_graphs: 1
+    num_classes: 3
+  - name: Freebase
+    task_type: node_classification
+    description: Heterogeneous Freebase knowledge graph node classification (8 entity
+      types).
+    primary_metric: Macro-F1
+    higher_is_better: true
+    domain: knowledge_graphs
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.HGBDataset.html
+    variants:
+    - name: Standard split
+      is_standard: true
+  - name: RCDD
+    task_type: link_prediction
+    description: Heterogeneous risk commodity detection — link prediction on Alibaba
+      e-commerce graph.
+    primary_metric: MRR
+    higher_is_better: true
+    domain: e_commerce
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.RCDD.html
+    variants:
+    - name: Standard split
+      is_standard: true
+- name: Knowledge Graphs
+  arxiv_id: null
+  url: https://pytorch-geometric.readthedocs.io/en/latest/modules/datasets.html
+  description: Knowledge graph completion and link prediction benchmarks.
+  datasets:
+  - name: FB15k-237
+    task_type: link_prediction
+    description: Knowledge graph link prediction on Freebase (14,541 entities, 237
+      relations).
+    primary_metric: MRR
+    higher_is_better: true
+    domain: knowledge_graphs
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.FB15k_237.html
+    variants:
+    - name: Standard split
+      is_standard: true
+      notes: Toutanova & Chen 2015 split. Also reports Hits@1, Hits@3, Hits@10.
+    num_graphs: 1
+    avg_nodes: 14541
+    avg_edges: 272115
+    num_classes: 237
+  - name: WN18RR
+    task_type: link_prediction
+    description: Knowledge graph link prediction on WordNet (40,943 entities, 11 relations).
+    primary_metric: MRR
+    higher_is_better: true
+    domain: knowledge_graphs
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.WordNet18RR.html
+    variants:
+    - name: Standard split
+      is_standard: true
+      notes: Also reports Hits@1, Hits@3, Hits@10.
+    num_graphs: 1
+    avg_nodes: 40943
+    avg_edges: 93003
+    num_classes: 11
+  - name: WN18
+    task_type: link_prediction
+    description: Knowledge graph link prediction on WordNet (full, 18 relations).
+    primary_metric: MRR
+    higher_is_better: true
+    domain: knowledge_graphs
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.WordNet18.html
+    variants:
+    - name: Standard split
+      is_standard: true
+- name: Hypergraph Benchmarks
+  arxiv_id: null
+  url: https://arxiv.org/abs/2309.00367
+  description: 'Hypergraph node classification benchmarks used in heterophily-aware
+    and non-dissipative hypergraph GNN papers (Yadati et al., Yang et al., etc.).
+
+    '
+  datasets:
+  - name: Congress
+    task_type: node_classification
+    description: US Congress bill co-sponsorship hypergraph node classification (2
+      classes).
+    primary_metric: Accuracy
+    higher_is_better: true
+    domain: social
+    variants:
+    - name: Standard split
+      is_standard: true
+    num_graphs: 1
+    num_classes: 2
+  - name: House
+    task_type: node_classification
+    description: US House of Representatives voting hypergraph node classification
+      (2 classes).
+    primary_metric: Accuracy
+    higher_is_better: true
+    domain: social
+    variants:
+    - name: Standard split
+      is_standard: true
+    num_graphs: 1
+    num_classes: 2
+  - name: Senate
+    task_type: node_classification
+    description: US Senate voting hypergraph node classification (2 classes).
+    primary_metric: Accuracy
+    higher_is_better: true
+    domain: social
+    variants:
+    - name: Standard split
+      is_standard: true
+    num_graphs: 1
+    num_classes: 2
+  - name: Walmart
+    task_type: node_classification
+    description: Walmart co-purchase trip hypergraph node classification (product
+      category, 11 classes).
+    primary_metric: Accuracy
+    higher_is_better: true
+    domain: e_commerce
+    variants:
+    - name: Standard split
+      is_standard: true
+    num_graphs: 1
+    num_classes: 11
+  - name: BAT
+    task_type: node_classification
+    description: Brazilian Airport Transactions hypergraph node classification (4
+      region classes, 131 nodes).
+    primary_metric: F1
+    higher_is_better: true
+    domain: transportation
+    variants:
+    - name: Standard split
+      is_standard: true
+    num_graphs: 1
+    avg_nodes: 131
+    num_classes: 4
+  - name: UAT
+    task_type: node_classification
+    description: US Airport Transactions hypergraph node classification (4 region
+      classes, 1190 nodes).
+    primary_metric: F1
+    higher_is_better: true
+    domain: transportation
+    variants:
+    - name: Standard split
+      is_standard: true
+    num_graphs: 1
+    avg_nodes: 1190
+    num_classes: 4
+  - name: EAT
+    task_type: node_classification
+    description: European Airport Transactions hypergraph node classification (4 region
+      classes, 399 nodes).
+    primary_metric: F1
+    higher_is_better: true
+    domain: transportation
+    variants:
+    - name: Standard split
+      is_standard: true
+    num_graphs: 1
+    avg_nodes: 399
+    num_classes: 4
+  - name: AMAP
+    task_type: node_classification
+    description: Amazon Photography co-purchase hypergraph node classification (8
+      categories).
+    primary_metric: F1
+    higher_is_better: true
+    domain: e_commerce
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.Amazon.html
+    variants:
+    - name: Standard split
+      is_standard: true
+    num_graphs: 1
+    num_classes: 8
+  - name: Cora-CA
+    task_type: node_classification
+    description: Cora co-authorship hypergraph node classification (7 subject classes).
+    primary_metric: Accuracy
+    higher_is_better: true
+    domain: citation_networks
+    variants:
+    - name: Standard split
+      is_standard: true
+    num_graphs: 1
+    num_classes: 7
+  - name: DBLP-CA
+    task_type: node_classification
+    description: DBLP co-authorship hypergraph node classification (research area).
+    primary_metric: Accuracy
+    higher_is_better: true
+    domain: citation_networks
+    variants:
+    - name: Standard split
+      is_standard: true
+    num_graphs: 1
+  - name: LEN
+    task_type: node_classification
+    description: 'Labeled Entity Network — large-scale coordinated campaign detection
+      graph for online social media analysis (node classification, 2 classes).
+
+      '
+    primary_metric: Accuracy
+    higher_is_better: true
+    domain: social
+    variants:
+    - name: Standard split
+      is_standard: true
+      notes: Introduced in arXiv:2506.13912.
+    num_classes: 2
+- name: Other Graph Benchmarks
+  arxiv_id: null
+  url: null
+  description: 'Miscellaneous graph learning datasets used across various papers:
+    malware detection, 3D point clouds, text graphs, and large-scale graphs.
+
+    '
+  datasets:
+  - name: MalNet-Tiny
+    task_type: graph_classification
+    description: 'Malware detection graph classification on a tiny (balanced 5-class)
+      subset of the MalNet-Large dataset. Graphs are function call graphs of Android
+      apps.
+
+      '
+    primary_metric: Accuracy
+    higher_is_better: true
+    domain: cybersecurity
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.MalNetTiny.html
+    variants:
+    - name: Standard split
+      is_standard: true
+      notes: '5 classes, 5,000 graphs total. Metric: Accuracy.'
+    num_graphs: 5000
+    num_classes: 5
+  - name: ShapeNet-Part
+    task_type: node_classification
+    description: '3D point cloud part segmentation on ShapeNet objects. Graph-based
+      part label prediction on point cloud graphs (16 object categories, 50 part classes).
+
+      '
+    primary_metric: F1
+    higher_is_better: true
+    domain: computer_vision
+    variants:
+    - name: Standard split
+      is_standard: true
+      notes: 'Metric: mean IoU / F1 across parts.'
+    num_classes: 50
+  - name: 20News
+    task_type: graph_classification
+    description: '20 Newsgroups text classification represented as a graph (nodes
+      = documents, edges = TF-IDF similarity). 20 classes.
+
+      '
+    primary_metric: Accuracy
+    higher_is_better: true
+    domain: text
+    variants:
+    - name: Standard split
+      is_standard: true
+      notes: Used as a heterophilic benchmark in several GNN papers.
+    num_classes: 20
+  - name: Amazon2M
+    task_type: node_classification
+    description: 'Large-scale Amazon co-purchase graph with ~2M nodes. Node classification
+      (product category). Used to benchmark scalable GNNs and graph transformers.
+
+      '
+    primary_metric: Accuracy
+    higher_is_better: true
+    domain: e_commerce
+    variants:
+    - name: Standard split
+      is_standard: true
+      notes: ~2M nodes, ~61M edges.
+    num_graphs: 1
+    avg_nodes: 2000000
+    avg_edges: 61000000
+- name: Algorithmic Graph Tasks
+  arxiv_id: '2312.16560'
+  url: https://arxiv.org/abs/2312.16560
+  description: 'Algorithmic graph property prediction tasks (SSSP, eccentricity, etc.)
+    used as benchmarks for expressive GNNs.
+
+    '
+  datasets:
+  - name: SSSP
+    task_type: graph_regression
+    description: Single Source Shortest Path prediction on synthetic graphs (node-level
+      distances).
+    primary_metric: MSE
+    higher_is_better: false
+    domain: algorithms
+    variants:
+    - name: Standard split
+      is_standard: true
+    num_graphs: 7040
+  - name: Eccentricity
+    task_type: graph_regression
+    description: Graph eccentricity prediction — node-level task predicting max distance
+      to any other node.
+    primary_metric: MSE
+    higher_is_better: false
+    domain: algorithms
+    variants:
+    - name: Standard split
+      is_standard: true
+    num_graphs: 7040
+- name: HSG-12M
+  arxiv_id: '2506.08618'
+  url: https://arxiv.org/abs/2506.08618
+  description: 'HSG-12M — a large-scale benchmark of Heterogeneous Spatial Graphs
+    from real-world geospatial infrastructure data (transport, utilities, land-use).
+
+    '
+  datasets:
   - name: HSG-12M
-    arxiv_id: "2506.08618"
-    url: "https://arxiv.org/abs/2506.08618"
-    description: >
-      HSG-12M — a large-scale benchmark of Heterogeneous Spatial Graphs from real-world
-      geospatial infrastructure data (transport, utilities, land-use).
-    datasets:
+    task_type: graph_classification
+    description: Node classification on the HSG-12M large-scale heterogeneous spatial
+      graph (~12M edges).
+    primary_metric: Accuracy
+    higher_is_better: true
+    domain: geospatial
+    variants:
+    - name: Standard split
+      is_standard: true
+    num_graphs: 11601681
+    num_classes: 1401
+  - name: HSG-topology
+    task_type: graph_classification
+    description: Topology-based classification sub-task of the HSG-12M spatial graph
+      benchmark.
+    primary_metric: Accuracy
+    higher_is_better: true
+    domain: geospatial
+    variants:
+    - name: Standard split
+      is_standard: true
+    num_graphs: 1812325
+    num_classes: 1401
+- name: DualEquiNet RNA Benchmarks
+  arxiv_id: '2506.19862'
+  url: https://arxiv.org/abs/2506.19862
+  description: 'RNA 3D structure prediction benchmarks used in DualEquiNet (equivariant
+    graph network for biological molecule geometry). Includes ribosome and synthetic
+    RNA datasets.
 
-      - name: HSG-12M
-        task_type: graph_classification
-        description: Node classification on the HSG-12M large-scale heterogeneous spatial graph (~12M edges).
-        primary_metric: Accuracy
-        higher_is_better: true
-        domain: geospatial
-        variants:
-          - name: Standard split
-            is_standard: true
+    '
+  datasets:
+  - name: COVID
+    task_type: graph_regression
+    description: RNA structure prediction on the COVID-19 dataset from the EternaFold/Kaggle
+      Ribonanza challenge (RMSE metric, lower is better).
+    primary_metric: RMSE
+    higher_is_better: false
+    domain: biology
+    variants:
+    - name: Standard split
+      is_standard: true
+      notes: RMSE on reactivity prediction (lower is better).
+    num_graphs: 4082
+  - name: Ribonanza
+    task_type: graph_regression
+    description: RNA reactivity prediction on the Ribonanza benchmark (DMS/2A3 chemical
+      probing).
+    primary_metric: RMSE
+    higher_is_better: false
+    domain: biology
+    variants:
+    - name: Standard split
+      is_standard: true
+      notes: From Kaggle Ribonanza competition.
+    num_graphs: 2260
+  - name: Tc-Ribo
+    task_type: graph_regression
+    description: Thermostable ribosome structure prediction (graph regression, RMSE
+      metric).
+    primary_metric: RMSE
+    higher_is_better: false
+    domain: biology
+    variants:
+    - name: Standard split
+      is_standard: true
+    num_graphs: 355
+  - name: TorsionAngle
+    task_type: graph_regression
+    description: RNA backbone torsion angle prediction (circular regression task,
+      Circular MAE metric).
+    primary_metric: Circular MAE
+    higher_is_better: false
+    domain: biology
+    variants:
+    - name: Standard split
+      is_standard: true
+    num_graphs: 1018
+- name: CosmoBench
+  arxiv_id: '2507.03707'
+  url: https://arxiv.org/abs/2507.03707
+  description: 'CosmoBench — a multiscale, multiview, multitask cosmology benchmark
+    for graph neural networks on N-body simulation data (Quijote, CAMELS-SAM, CS-Trees).
 
-      - name: HSG-topology
-        task_type: graph_classification
-        description: Topology-based classification sub-task of the HSG-12M spatial graph benchmark.
-        primary_metric: Accuracy
-        higher_is_better: true
-        domain: geospatial
-        variants:
-          - name: Standard split
-            is_standard: true
+    '
+  datasets:
+  - name: Quijote
+    task_type: graph_regression
+    description: Cosmological parameter inference on Quijote N-body simulation data
+      (graph regression, R² metric).
+    primary_metric: R^2
+    higher_is_better: true
+    domain: physics
+    variants:
+    - name: Standard split
+      is_standard: true
+    num_graphs: 32752
+  - name: CAMELS-SAM
+    task_type: graph_regression
+    description: Galaxy property regression on CAMELS Semi-Analytic Model simulation
+      (R² metric).
+    primary_metric: R^2
+    higher_is_better: true
+    domain: physics
+    variants:
+    - name: Standard split
+      is_standard: true
+    num_graphs: 1000
+  - name: CS-Trees
+    task_type: graph_regression
+    description: Cosmic structure tree regression task from CosmoBench (R² metric).
+    primary_metric: R2
+    higher_is_better: true
+    domain: physics
+    variants:
+    - name: Standard split
+      is_standard: true
+    num_graphs: 24996
+  - name: CS-Trees-200
+    task_type: graph_classification
+    description: CS-Trees classification variant with 200-node graphs (Accuracy metric).
+    primary_metric: Accuracy
+    higher_is_better: true
+    domain: physics
+    variants:
+    - name: Standard split
+      is_standard: true
+    num_graphs: 200
+- name: ECHO Benchmark
+  arxiv_id: '2512.17762'
+  url: https://arxiv.org/abs/2512.17762
+  description: 'ECHO — a benchmark for long-range graph propagation in physical simulation
+    domains (synthetic, charge, and energy propagation tasks).
 
-  - name: DualEquiNet RNA Benchmarks
-    arxiv_id: "2506.19862"
-    url: "https://arxiv.org/abs/2506.19862"
-    description: >
-      RNA 3D structure prediction benchmarks used in DualEquiNet (equivariant graph network
-      for biological molecule geometry). Includes ribosome and synthetic RNA datasets.
-    datasets:
+    '
+  datasets:
+  - name: ECHO-Synth
+    task_type: graph_regression
+    description: ECHO synthetic propagation task — node-level regression on synthetic
+      long-range graphs.
+    primary_metric: MAE
+    higher_is_better: false
+    domain: physics
+    variants:
+    - name: Standard split
+      is_standard: true
+    num_graphs: 10080
+  - name: ECHO-Charge
+    task_type: graph_regression
+    description: ECHO charge propagation task — predicting charge distribution on
+      physical graphs.
+    primary_metric: MAE
+    higher_is_better: false
+    domain: physics
+    variants:
+    - name: Standard split
+      is_standard: true
+    num_graphs: 170000
+  - name: ECHO-Energy
+    task_type: graph_regression
+    description: ECHO energy propagation task — predicting energy distribution on
+      physical graphs.
+    primary_metric: MAE
+    higher_is_better: false
+    domain: physics
+    variants:
+    - name: Standard split
+      is_standard: true
+    num_graphs: 196000
+- name: City-Networks
+  arxiv_id: '2503.09008'
+  url: https://arxiv.org/abs/2503.09008
+  description: 'City-Networks — a large-scale long-range benchmark on real-world city road
+    graphs, introduced to test transductive node classification under very large graph diameters.
 
-      - name: COVID
-        task_type: graph_regression
-        description: RNA structure prediction on the COVID-19 dataset from the EternaFold/Kaggle Ribonanza challenge (RMSE metric, lower is better).
-        primary_metric: RMSE
-        higher_is_better: false
-        domain: biology
-        variants:
-          - name: Standard split
-            is_standard: true
-            notes: "RMSE on reactivity prediction (lower is better)."
+    '
+  datasets:
+  - name: Paris
+    task_type: node_classification
+    description: Paris road-network node classification from the City-Networks benchmark.
+      Labels are derived from long-range accessibility statistics on the city graph.
+    primary_metric: Accuracy
+    higher_is_better: true
+    domain: transportation
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.CityNetwork.html
+    num_graphs: 1
+    avg_nodes: 114000
+    avg_edges: 183000
+    variants:
+    - name: Standard split
+      is_standard: true
+      notes: Official transductive split (10/10/80) from City-Networks.
+  - name: Shanghai
+    task_type: node_classification
+    description: Shanghai road-network node classification from the City-Networks benchmark.
+      Labels are derived from long-range accessibility statistics on the city graph.
+    primary_metric: Accuracy
+    higher_is_better: true
+    domain: transportation
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.CityNetwork.html
+    num_graphs: 1
+    avg_nodes: 184000
+    avg_edges: 263000
+    variants:
+    - name: Standard split
+      is_standard: true
+      notes: Official transductive split (10/10/80) from City-Networks.
+  - name: Los Angeles
+    task_type: node_classification
+    description: Los Angeles road-network node classification from the City-Networks benchmark.
+      Labels are derived from long-range accessibility statistics on the city graph.
+    primary_metric: Accuracy
+    higher_is_better: true
+    domain: transportation
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.CityNetwork.html
+    num_graphs: 1
+    avg_nodes: 241000
+    avg_edges: 343000
+    variants:
+    - name: Standard split
+      is_standard: true
+      notes: Official transductive split (10/10/80) from City-Networks.
+  - name: London
+    task_type: node_classification
+    description: London road-network node classification from the City-Networks benchmark.
+      Labels are derived from long-range accessibility statistics on the city graph.
+    primary_metric: Accuracy
+    higher_is_better: true
+    domain: transportation
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.CityNetwork.html
+    num_graphs: 1
+    avg_nodes: 569000
+    avg_edges: 759000
+    variants:
+    - name: Standard split
+      is_standard: true
+      notes: Official transductive split (10/10/80) from City-Networks.
+- name: LRIM Graph Benchmark
+  url: https://lrim-graphbenchmark.com/
+  description: 'LRIM — the Long-Range Ising Model Graph Benchmark, a physics-grounded suite
+    for controlled long-range graph learning evaluation across ten datasets spanning multiple
+    graph sizes and difficulty levels.
 
-      - name: Ribonanza
-        task_type: graph_regression
-        description: RNA reactivity prediction on the Ribonanza benchmark (DMS/2A3 chemical probing).
-        primary_metric: RMSE
-        higher_is_better: false
-        domain: biology
-        variants:
-          - name: Standard split
-            is_standard: true
-            notes: "From Kaggle Ribonanza competition."
+    '
+  datasets:
+  - name: LRIM
+    task_type: node_regression
+    description: Long-Range Ising Model benchmark for per-node energy prediction on periodic
+      2D grid graphs with controllable long-range interactions.
+    primary_metric: log-MSE
+    higher_is_better: false
+    domain: physics
+    pyg_url: https://lrim-graphbenchmark.com/
+    num_graphs: 100000
+    variants:
+    - name: LRIM-16-hard
+      is_standard: true
+      num_graphs: 10000
+      avg_nodes: 256
+      avg_edges: 512
+      notes: 16x16 periodic grid benchmark, hard setting with sigma=0.6.
+    - name: LRIM-16-easy
+      is_standard: false
+      num_graphs: 10000
+      avg_nodes: 256
+      avg_edges: 512
+      notes: 16x16 periodic grid benchmark, easy setting with sigma=1.5.
+    - name: LRIM-32-hard
+      is_standard: false
+      num_graphs: 10000
+      avg_nodes: 1024
+      avg_edges: 2048
+      notes: 32x32 periodic grid benchmark, hard setting with sigma=0.6.
+    - name: LRIM-32-easy
+      is_standard: false
+      num_graphs: 10000
+      avg_nodes: 1024
+      avg_edges: 2048
+      notes: 32x32 periodic grid benchmark, easy setting with sigma=1.5.
+    - name: LRIM-64-hard
+      is_standard: false
+      num_graphs: 10000
+      avg_nodes: 4096
+      avg_edges: 8192
+      notes: 64x64 periodic grid benchmark, hard setting with sigma=0.6.
+    - name: LRIM-64-easy
+      is_standard: false
+      num_graphs: 10000
+      avg_nodes: 4096
+      avg_edges: 8192
+      notes: 64x64 periodic grid benchmark, easy setting with sigma=1.5.
+    - name: LRIM-128-hard
+      is_standard: false
+      num_graphs: 10000
+      avg_nodes: 16384
+      avg_edges: 32768
+      notes: 128x128 periodic grid benchmark, hard setting with sigma=0.6.
+    - name: LRIM-128-easy
+      is_standard: false
+      num_graphs: 10000
+      avg_nodes: 16384
+      avg_edges: 32768
+      notes: 128x128 periodic grid benchmark, easy setting with sigma=1.5.
+    - name: LRIM-256-hard
+      is_standard: false
+      num_graphs: 10000
+      avg_nodes: 65536
+      avg_edges: 131072
+      notes: 256x256 periodic grid benchmark, hard setting with sigma=0.6.
+    - name: LRIM-256-easy
+      is_standard: false
+      num_graphs: 10000
+      avg_nodes: 65536
+      avg_edges: 131072
+      notes: 256x256 periodic grid benchmark, easy setting with sigma=1.5.
+- name: Power Flow Benchmarks
+  arxiv_id: '2601.01387'
+  url: https://arxiv.org/abs/2601.01387
+  description: 'Power grid test cases for scale-adaptive power flow analysis with
+    graph neural networks. Cases correspond to standard IEEE power system test networks.
 
-      - name: Tc-Ribo
-        task_type: graph_regression
-        description: Thermostable ribosome structure prediction (graph regression, RMSE metric).
-        primary_metric: RMSE
-        higher_is_better: false
-        domain: biology
-        variants:
-          - name: Standard split
-            is_standard: true
-
-      - name: TorsionAngle
-        task_type: graph_regression
-        description: RNA backbone torsion angle prediction (circular regression task, Circular MAE metric).
-        primary_metric: Circular MAE
-        higher_is_better: false
-        domain: biology
-        variants:
-          - name: Standard split
-            is_standard: true
-
-  - name: CosmoBench
-    arxiv_id: "2507.03707"
-    url: "https://arxiv.org/abs/2507.03707"
-    description: >
-      CosmoBench — a multiscale, multiview, multitask cosmology benchmark for graph neural
-      networks on N-body simulation data (Quijote, CAMELS-SAM, CS-Trees).
-    datasets:
-
-      - name: Quijote
-        task_type: graph_regression
-        description: Cosmological parameter inference on Quijote N-body simulation data (graph regression, R² metric).
-        primary_metric: R^2
-        higher_is_better: true
-        domain: physics
-        variants:
-          - name: Standard split
-            is_standard: true
-
-      - name: CAMELS-SAM
-        task_type: graph_regression
-        description: Galaxy property regression on CAMELS Semi-Analytic Model simulation (R² metric).
-        primary_metric: R^2
-        higher_is_better: true
-        domain: physics
-        variants:
-          - name: Standard split
-            is_standard: true
-
-      - name: CS-Trees
-        task_type: graph_regression
-        description: Cosmic structure tree regression task from CosmoBench (R² metric).
-        primary_metric: R2
-        higher_is_better: true
-        domain: physics
-        variants:
-          - name: Standard split
-            is_standard: true
-
-      - name: CS-Trees-200
-        task_type: graph_classification
-        description: CS-Trees classification variant with 200-node graphs (Accuracy metric).
-        primary_metric: Accuracy
-        higher_is_better: true
-        domain: physics
-        variants:
-          - name: Standard split
-            is_standard: true
-
-  - name: ECHO Benchmark
-    arxiv_id: "2512.17762"
-    url: "https://arxiv.org/abs/2512.17762"
-    description: >
-      ECHO — a benchmark for long-range graph propagation in physical simulation
-      domains (synthetic, charge, and energy propagation tasks).
-    datasets:
-
-      - name: ECHO-Synth
-        task_type: graph_regression
-        description: ECHO synthetic propagation task — node-level regression on synthetic long-range graphs.
-        primary_metric: MAE
-        higher_is_better: false
-        domain: physics
-        variants:
-          - name: Standard split
-            is_standard: true
-
-      - name: ECHO-Charge
-        task_type: graph_regression
-        description: ECHO charge propagation task — predicting charge distribution on physical graphs.
-        primary_metric: MAE
-        higher_is_better: false
-        domain: physics
-        variants:
-          - name: Standard split
-            is_standard: true
-
-      - name: ECHO-Energy
-        task_type: graph_regression
-        description: ECHO energy propagation task — predicting energy distribution on physical graphs.
-        primary_metric: MAE
-        higher_is_better: false
-        domain: physics
-        variants:
-          - name: Standard split
-            is_standard: true
-
-  - name: Power Flow Benchmarks
-    arxiv_id: "2601.01387"
-    url: "https://arxiv.org/abs/2601.01387"
-    description: >
-      Power grid test cases for scale-adaptive power flow analysis with graph neural networks.
-      Cases correspond to standard IEEE power system test networks.
-    datasets:
-
-      - name: Case 1
-        task_type: graph_regression
-        description: Power flow analysis on IEEE test case 1 (small power grid, node-level regression).
-        primary_metric: Accuracy
-        higher_is_better: true
-        domain: power_systems
-        variants:
-          - name: Standard split
-            is_standard: true
-
-      - name: Case 2
-        task_type: graph_regression
-        description: Power flow analysis on IEEE test case 2 (medium power grid, node-level regression).
-        primary_metric: Accuracy
-        higher_is_better: true
-        domain: power_systems
-        variants:
-          - name: Standard split
-            is_standard: true
+    '
+  datasets:
+  - name: Case 1
+    task_type: graph_regression
+    description: Power flow analysis on IEEE test case 1 (small power grid, node-level
+      regression).
+    primary_metric: Accuracy
+    higher_is_better: true
+    domain: power_systems
+    variants:
+    - name: Standard split
+      is_standard: true
+    num_graphs: 1000000
+  - name: Case 2
+    task_type: graph_regression
+    description: Power flow analysis on IEEE test case 2 (medium power grid, node-level
+      regression).
+    primary_metric: Accuracy
+    higher_is_better: true
+    domain: power_systems
+    variants:
+    - name: Standard split
+      is_standard: true
+    num_graphs: 750000

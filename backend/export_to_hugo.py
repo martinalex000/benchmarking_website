@@ -19,6 +19,7 @@ import json
 import logging
 import re
 import shutil
+import statistics
 from datetime import datetime
 from pathlib import Path
 from typing import Any
@@ -49,8 +50,24 @@ _MODEL_FROM_REF_RE = re.compile(r"\s+from\s+ref\..*$", re.IGNORECASE)
 _LATEX_CITE_RE = re.compile(r"~?\\cite\{[^}]*\}")
 _TITLE_LINEBREAK_RE = re.compile(r"\\\\+")
 _TITLE_LATEX_CMD_RE = re.compile(r"\\[a-zA-Z]+\*?(?:\{[^}]*\})?")
+_MODEL_SUBSCRIPT_DOLLAR_RE = re.compile(r"\$_\{([^{}]+)\}\$")
+_MODEL_SUPERSCRIPT_DOLLAR_RE = re.compile(r"\$\^\{([^{}]+)\}\$")
+_MODEL_TEXTSUBSCRIPT_RE = re.compile(r"\\textsubscript\{([^{}]+)\}")
+_MODEL_TEXTSUPERSCRIPT_RE = re.compile(r"\\textsuperscript\{([^{}]+)\}")
+_HTML_TAG_RE = re.compile(r"<[^>]+>")
 _MODEL_RENAME_CACHE: dict[str, dict[str, str]] = {}
 _DATASET_OVERRIDE_CACHE: dict[str, dict[str, Any]] = {}
+_PAPER_PARAM_CACHE: dict[str, dict[str, float]] = {}
+_BOUNDED_METRIC_SUBSTRINGS: tuple[str, ...] = (
+    "accuracy",
+    "acc",
+    "f1",
+    "ap",
+    "auc",
+    "auroc",
+    "mrr",
+    "hits@",
+)
 
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
@@ -68,6 +85,24 @@ def _sanitize_title(title: str | None) -> str:
     t = t.replace("\\", " ")
     t = _TITLE_LATEX_CMD_RE.sub("", t)
     return re.sub(r"\s+", " ", t).strip()
+
+
+def _is_bounded_metric(metric_name: str | None) -> bool:
+    key = (metric_name or "").strip().lower()
+    return any(sub in key for sub in _BOUNDED_METRIC_SUBSTRINGS)
+
+
+def _normalize_model_family(model_name: str | None) -> str:
+    raw = (model_name or "").strip().lower()
+    if re.match(r"^gcn(?:\s|\(|$)", raw):
+        return "gcn"
+    if re.match(r"^gin(?:\s|\(|$)", raw):
+        return "gin"
+    if re.match(r"^(?:graphsage|sage)(?:\s|\(|$)", raw):
+        return "sage"
+    if re.match(r"^mlp(?:\s|\(|$)", raw):
+        return "mlp"
+    return ""
 
 
 def _paper_model_renames(arxiv_id: str | None) -> dict[str, str]:
@@ -93,9 +128,134 @@ def _sanitize_model(model_name: str | None, arxiv_id: str | None = None) -> str:
     m = _LATEX_CITE_RE.sub("", m)
     m = _MODEL_FROM_REF_RE.sub("", m)
     m = _MODEL_SUFFIX_RE.sub("", m)
+    m = _MODEL_SUBSCRIPT_DOLLAR_RE.sub(r"<sub>\\1</sub>", m)
+    m = _MODEL_SUPERSCRIPT_DOLLAR_RE.sub(r"<sup>\\1</sup>", m)
+    m = _MODEL_TEXTSUBSCRIPT_RE.sub(r"<sub>\\1</sub>", m)
+    m = _MODEL_TEXTSUPERSCRIPT_RE.sub(r"<sup>\\1</sup>", m)
+    m = m.replace("$", "")
     m = re.sub(r"\s+", " ", m).strip()
     remap = _paper_model_renames(arxiv_id)
     return remap.get(m.lower(), m)
+
+
+def _plain_model(model_name: str | None) -> str:
+    if not model_name:
+        return ""
+    return re.sub(r"\s+", " ", _HTML_TAG_RE.sub("", str(model_name))).strip()
+
+
+def _model_key(model_name: str | None) -> str:
+    return _plain_model(model_name).lower()
+
+
+def _paper_site_link(arxiv_id: str | None, label: str | None = None) -> str:
+    paper_id = (arxiv_id or "").strip()
+    if not paper_id:
+        return label or ""
+    text = (label or paper_id).replace("[", "\\[").replace("]", "\\]")
+    return f"[{text}](/papers/{paper_id}/)"
+
+
+def _has_paper_value_gap(
+    paper_value: float | None,
+    paper_std: float | None,
+    true_value: float | None,
+    true_std: float | None,
+) -> bool:
+    if paper_value is None or true_value is None:
+        return False
+    delta = abs(paper_value - true_value)
+    if paper_std is None and true_std is None:
+        return delta > 1e-12
+    if paper_std is not None and delta <= float(paper_std):
+        return False
+    if true_std is not None and delta <= float(true_std):
+        return False
+    return delta > 1e-12
+
+
+def _has_paper_value_difference(
+    paper_value: float | None,
+    true_value: float | None,
+) -> bool:
+    if paper_value is None or true_value is None:
+        return False
+    return abs(paper_value - true_value) > 1e-12
+
+
+def _rank_for_value(
+    global_rows: list[dict[str, Any]],
+    model_key: str,
+    candidate_value: float | None,
+    higher_is_better: bool,
+) -> int | None:
+    if not model_key or candidate_value is None:
+        return None
+
+    ranked_values: list[tuple[str, float]] = []
+    seen = False
+    for row in global_rows:
+        row_key = row.get("model_key", "")
+        row_value = row.get("value")
+        if row_value is None:
+            continue
+        if row_key == model_key:
+            ranked_values.append((model_key, float(candidate_value)))
+            seen = True
+        else:
+            ranked_values.append((row_key, float(row_value)))
+
+    if not seen:
+        ranked_values.append((model_key, float(candidate_value)))
+
+    ranked_values.sort(key=lambda item: -item[1] if higher_is_better else item[1])
+    for rank, (row_key, _) in enumerate(ranked_values, start=1):
+        if row_key == model_key:
+            return rank
+    return None
+
+
+def _paper_explicit_param_map(arxiv_id: str | None) -> dict[str, float]:
+    if not arxiv_id:
+        return {}
+    if arxiv_id in _PAPER_PARAM_CACHE:
+        return _PAPER_PARAM_CACHE[arxiv_id]
+
+    mapping: dict[str, float] = {}
+    try:
+        storage = PaperStorage(arxiv_id)
+        if storage.llm_output_path.exists():
+            raw = json.loads(storage.llm_output_path.read_text(encoding="utf-8"))
+            results = raw.get("results", {})
+            candidates: list[dict[str, Any]] = []
+            proposed = results.get("proposed_model")
+            if isinstance(proposed, dict):
+                candidates.append(proposed)
+            baselines = results.get("baseline_models") or []
+            if isinstance(baselines, list):
+                candidates.extend(item for item in baselines if isinstance(item, dict))
+
+            for item in candidates:
+                name = str(item.get("name") or "").strip()
+                params = item.get("params_millions")
+                if not name or params is None:
+                    continue
+                rendered = _sanitize_model(name, arxiv_id)
+                plain = _plain_model(rendered)
+                value = float(params)
+                mapping[rendered.lower()] = value
+                mapping[plain.lower()] = value
+    except Exception as exc:
+        logger.debug("Could not load paper-local param sizes for %s: %s", arxiv_id, exc)
+
+    _PAPER_PARAM_CACHE[arxiv_id] = mapping
+    return mapping
+
+
+def _paper_explicit_param_millions(arxiv_id: str | None, model_name: str | None) -> float | None:
+    if not arxiv_id or not model_name:
+        return None
+    return _paper_explicit_param_map(arxiv_id).get(str(model_name).strip().lower())
 
 
 def _load_dataset_overrides() -> dict[str, dict[str, Any]]:
@@ -144,6 +304,25 @@ def _dataset_display_metrics(dataset_name: str) -> list[str] | None:
         return None
     cleaned = [str(m).strip() for m in metrics if str(m).strip()]
     return cleaned or None
+
+
+def _dataset_force_export(dataset_name: str) -> bool:
+    """Return whether the dataset page should be emitted even without results."""
+    ds_cfg = _load_dataset_overrides().get(dataset_name.strip().lower(), {})
+    if not isinstance(ds_cfg, dict):
+        return False
+    return bool(ds_cfg.get("export_without_results"))
+
+
+def _paper_experiment_scope(task_type: str | None) -> str | None:
+    task_key = (task_type or "").strip().lower()
+    if task_key.startswith("node_"):
+        return "node-level"
+    if task_key.startswith("graph_"):
+        return "graph-level"
+    if task_key.startswith("edge_") or task_key == "link_prediction":
+        return "edge-level"
+    return None
 
 
 def _apply_display_metrics_filter(
@@ -232,6 +411,20 @@ def _fmt_date(date_str: str | None) -> str:
         return date_str
 
 
+def _fmt_month_year(date_str: str | None) -> str:
+    """Format a date string as Mon YYYY for table display."""
+    if not date_str:
+        return ""
+    try:
+        if re.match(r"^\d{4}-\d{2}-\d{2}$", date_str):
+            return datetime.fromisoformat(date_str[:10]).strftime("%b %Y")
+        if re.match(r"^\d{4}-\d{2}$", date_str):
+            return datetime.fromisoformat(date_str + "-01").strftime("%b %Y")
+        return _fmt_date(date_str)
+    except ValueError:
+        return date_str
+
+
 def _write_md(path: Path, front_matter: dict, body: str = "") -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     fm_str = yaml.dump(front_matter, allow_unicode=True, default_flow_style=False, sort_keys=False)
@@ -272,7 +465,17 @@ def _pivot_paper_rows(rows: list[dict], primary_metric: str | None) -> dict:
     higher = bool(rows[0].get("higher_is_better", True)) if rows else True
 
     def _sort_key(model: str) -> tuple:
-        pval = model_vals[model].get(primary_metric or "", (None, None))[0]
+        primary_row = next(
+            (
+                r
+                for r in rows
+                if (r.get("model") or "") == model and r.get("metric") == primary_metric
+            ),
+            model_first[model],
+        )
+        pval = primary_row.get("sort_value")
+        if pval is None:
+            pval = model_vals[model].get(primary_metric or "", (None, None))[0]
         if pval is None:
             return (1, 0.0)
         return (0, -pval if higher else pval)
@@ -282,17 +485,46 @@ def _pivot_paper_rows(rows: list[dict], primary_metric: str | None) -> dict:
     pivoted: list[dict] = []
     for model in seen_models:
         first = model_first[model]
+        primary_row = next(
+            (
+                r
+                for r in rows
+                if (r.get("model") or "") == model and r.get("metric") == primary_metric
+            ),
+            first,
+        )
         metric_values = [model_vals[model].get(m, (None, None))[0] for m in seen_metrics]
         metric_stds = [model_vals[model].get(m, (None, None))[1] for m in seen_metrics]
         pivoted.append(
             {
                 "model": model,
+                "model_key": first.get("model_key", _model_key(model)),
+                "model_plain": first.get("model_plain", _plain_model(model)),
                 "metric_values": metric_values,
                 "metric_stds": metric_stds,
                 "is_baseline": first.get("is_baseline", False),
                 "is_overridden": first.get("is_overridden", False),
                 "override_reason": first.get("override_reason", ""),
                 "params_millions": first.get("params_millions"),
+                "sort_value": primary_row.get("sort_value"),
+                "sort_std": primary_row.get("sort_std"),
+                "true_value": primary_row.get("true_value"),
+                "true_std": primary_row.get("true_std"),
+                "paper_value": primary_row.get("paper_value"),
+                "paper_std": primary_row.get("paper_std"),
+                "has_value_gap": primary_row.get("has_value_gap", False),
+                "has_value_note": primary_row.get("has_value_note", False),
+                "value_gap": primary_row.get("value_gap"),
+                "value_gap_source_arxiv": primary_row.get("value_gap_source_arxiv", ""),
+                "value_gap_source_title": primary_row.get("value_gap_source_title", ""),
+                "value_note": primary_row.get("value_note", ""),
+                "arxiv_id": first.get("arxiv_id", ""),
+                "title": first.get("title", ""),
+                "date": first.get("date", ""),
+                "date_display": first.get("date_display", ""),
+                "date_iso": first.get("date_iso", ""),
+                "codebase_url": first.get("codebase_url", ""),
+                "uses_external_data": first.get("uses_external_data"),
             }
         )
 
@@ -300,8 +532,16 @@ def _pivot_paper_rows(rows: list[dict], primary_metric: str | None) -> dict:
         pivoted,
         primary_metric or "",
         higher,
-        lambda r: (r["metric_values"][0] if r["metric_values"] else None),
-        lambda r: (r["metric_stds"][0] if r["metric_stds"] else None),
+        lambda r: (
+            r.get("sort_value")
+            if r.get("sort_value") is not None
+            else (r["metric_values"][0] if r["metric_values"] else None)
+        ),
+        lambda r: (
+            r.get("sort_std")
+            if r.get("sort_std") is not None
+            else (r["metric_stds"][0] if r["metric_stds"] else None)
+        ),
     )
 
     return {"rows": pivoted, "metrics": seen_metrics, "primary_metric": primary_metric}
@@ -312,8 +552,8 @@ def _global_ranks_for_dataset(
     ds_name: str,
     primary_metric: str,
     higher_is_better: bool,
-) -> tuple[dict[str, int], list[dict]]:
-    """Return (model_to_rank, sorted_rows) for *ds_name* on *primary_metric*.
+) -> tuple[dict[str, int], list[dict], dict[str, dict[str, Any]]]:
+    """Return (model_to_rank, sorted_rows, model_truth_map) for *ds_name* on *primary_metric*.
 
     Deduplicates by canonical model name (keeps the best result per model across
     all papers).  The returned rows are sorted best-first and already have
@@ -333,19 +573,19 @@ def _global_ranks_for_dataset(
     # Keep the best value per canonical model name
     model_best: dict[str, tuple[float, Any]] = {}
     for r in all_res:
-        m_name = (r.model.canonical_name if r.model else "") or ""
-        if not m_name:
+        model_key = _model_key(r.model.canonical_name if r.model else "")
+        if not model_key:
             continue
         v = float(r.display_value) if r.display_value is not None else None
         if v is None:
             continue
-        prev = model_best.get(m_name)
+        prev = model_best.get(model_key)
         if (
             prev is None
             or (higher_is_better and v > prev[0])
             or (not higher_is_better and v < prev[0])
         ):
-            model_best[m_name] = (v, r)
+            model_best[model_key] = (v, r)
 
     sorted_items = sorted(
         model_best.items(),
@@ -354,40 +594,52 @@ def _global_ranks_for_dataset(
     model_to_rank: dict[str, int] = {m: i + 1 for i, (m, _) in enumerate(sorted_items)}
 
     rows: list[dict] = []
-    for m_name, (val, r) in sorted_items:
+    truth_map: dict[str, dict[str, Any]] = {}
+    for model_key, (val, r) in sorted_items:
         p = r.paper
         ued = r.uses_external_data
-        rows.append(
-            {
-                "model": m_name,
-                "value": val,
-                "std": float(r.metric_std) if r.metric_std is not None else None,
-                "metric": primary_metric,
-                "higher_is_better": bool(r.higher_is_better),
-                "is_baseline": bool(r.is_baseline),
-                "is_overridden": bool(r.is_overridden),
-                "override_reason": r.override_reason or "",
-                "params_millions": (
-                    r.model.size_params / 1_000_000 if r.model and r.model.size_params else None
-                ),
-                "arxiv_id": p.arxiv_id if p else "",
-                "title": _sanitize_title(p.title if p else ""),
-                "date": _fmt_date(p.published_date) if p else "",
-                "codebase_url": p.codebase_url or "" if p else "",
-                "uses_external_data": (True if ued == 1 else (False if ued == 0 else None)),
-                "is_global_top": True,
-                "global_rank": model_to_rank.get(m_name),
-            }
+        rendered_name = _sanitize_model(
+            (r.model.canonical_name if r.model else "") or "",
+            p.arxiv_id if p else None,
         )
+        row = {
+            "model": rendered_name,
+            "model_key": model_key,
+            "model_plain": _plain_model(rendered_name),
+            "value": val,
+            "std": float(r.display_std) if r.display_std is not None else None,
+            "metric": primary_metric,
+            "higher_is_better": bool(r.higher_is_better),
+            "is_baseline": bool(r.is_baseline),
+            "is_overridden": bool(r.is_overridden),
+            "override_reason": r.override_reason or "",
+            "params_millions": _paper_explicit_param_millions(
+                p.arxiv_id if p else None,
+                rendered_name,
+            ),
+            "arxiv_id": p.arxiv_id if p else "",
+            "title": _sanitize_title(p.title if p else ""),
+            "date": _fmt_date(p.published_date) if p else "",
+            "date_display": _fmt_month_year(p.published_date) if p else "",
+            "date_iso": (p.published_date[:10] if p and p.published_date else ""),
+            "codebase_url": p.codebase_url or "" if p else "",
+            "uses_external_data": (True if ued == 1 else (False if ued == 0 else None)),
+            "is_global_top": True,
+            "global_rank": model_to_rank.get(model_key),
+            "sort_value": val,
+            "sort_std": float(r.display_std) if r.display_std is not None else None,
+        }
+        rows.append(row)
+        truth_map[model_key] = row
 
-    return model_to_rank, rows
+    return model_to_rank, rows, truth_map
 
 
 def _compute_paper_mrr(
     session: Any,
     paper: "Paper",
-) -> tuple[float | None, list[str]]:
-    """Return (MRR, proposed_model_names) for *paper*.
+) -> tuple[float | None, float | None, int, list[str]]:
+    """Return (raw_mrr, adjusted_mrr, dataset_count, proposed_model_names) for *paper*.
 
     MRR is the mean reciprocal rank of the paper's *primary* proposed model on
     each dataset's primary metric, ranked against ALL models globally (baselines
@@ -397,8 +649,12 @@ def _compute_paper_mrr(
     ``proposed_model.name`` field (read from llm_output.json).  Falls back to
     the first non-baseline model found if the JSON is unavailable.
 
-    Returns ``(None, [])`` for pure benchmarking papers (no non-baseline results).
-    Returns ``(0.0, names)`` when the paper has proposed models but none qualify.
+    Adjusted MRR uses a three-dataset floor, i.e. it divides the reciprocal-rank
+    sum by ``max(dataset_count, 3)``. This penalizes papers evaluated on very few
+    datasets without distorting the underlying per-dataset ranks.
+
+    Returns ``(None, None, 0, [])`` for pure benchmarking papers.
+    Returns ``(0.0, 0.0, 0, names)`` when the paper has proposed models but none qualify.
     """
     results = (
         session.query(Result)
@@ -407,7 +663,7 @@ def _compute_paper_mrr(
         .all()
     )
     if not results:
-        return None, []
+        return None, None, 0, []
 
     proposed_models: list[str] = list(
         dict.fromkeys(r.model.canonical_name for r in results if r.model and r.model.canonical_name)
@@ -453,7 +709,7 @@ def _compute_paper_mrr(
         primary_proposed = proposed_models[0]
 
     if primary_proposed is None:
-        return 0.0, proposed_models
+        return 0.0, 0.0, 0, proposed_models
 
     # Collect per-dataset best values for the primary proposed model only.
     ds_info: dict[str, dict] = {}
@@ -483,7 +739,7 @@ def _compute_paper_mrr(
     reciprocal_ranks: list[float] = []
     for ds_name, info in ds_info.items():
         try:
-            model_to_rank, global_rows = _global_ranks_for_dataset(
+            model_to_rank, global_rows, _ = _global_ranks_for_dataset(
                 session, ds_name, info["primary_metric"], info["hib"]
             )
         except Exception:
@@ -503,12 +759,212 @@ def _compute_paper_mrr(
         ) or 0
         if paper_count < 3:
             continue
-        rank = model_to_rank.get(primary_proposed)
+        rank = model_to_rank.get(_model_key(primary_proposed))
         if rank is not None:
             reciprocal_ranks.append(1.0 / rank)
 
-    mrr = round(sum(reciprocal_ranks) / len(reciprocal_ranks), 4) if reciprocal_ranks else 0.0
-    return mrr, proposed_models
+    dataset_count = len(reciprocal_ranks)
+    mrr = round(sum(reciprocal_ranks) / dataset_count, 4) if reciprocal_ranks else 0.0
+    adjusted_mrr = (
+        round(sum(reciprocal_ranks) / max(dataset_count, 3), 4) if reciprocal_ranks else 0.0
+    )
+    return mrr, adjusted_mrr, dataset_count, proposed_models
+
+
+def _collect_result_anomalies(session: Any) -> list[dict[str, Any]]:
+    """Return suspicious stored results for a development report."""
+    results = (
+        session.query(Result)
+        .filter(Result.is_problematic.is_(None) | (Result.is_problematic == 0))
+        .all()
+    )
+
+    grouped: dict[tuple[str, str], list[Result]] = {}
+    for result in results:
+        dv = result.dataset_variant
+        ds = dv.dataset if dv else None
+        if not ds:
+            continue
+        grouped.setdefault((ds.name, result.metric_name), []).append(result)
+
+    medians: dict[tuple[str, str], float] = {}
+    for key, items in grouped.items():
+        values = [float(r.display_value) for r in items if r.display_value is not None]
+        if len(values) >= 5:
+            medians[key] = statistics.median(values)
+
+    anomalies: list[dict[str, Any]] = []
+    for result in results:
+        dv = result.dataset_variant
+        ds = dv.dataset if dv else None
+        paper = result.paper
+        model = result.model
+        if not ds or not paper or not model or result.display_value is None:
+            continue
+
+        value = float(result.display_value)
+        metric = result.metric_name or ""
+        reasons: list[str] = []
+        median = medians.get((ds.name, metric))
+
+        if _is_bounded_metric(metric) and value > 1.0:
+            reasons.append("bounded metric above 1")
+
+        if median and median > 0:
+            if value == 0:
+                reasons.append("zero value against positive dataset median")
+            else:
+                ratio = value / median
+                if ratio >= 20:
+                    reasons.append(f"{ratio:.1f}x above dataset median")
+                elif ratio <= 0.05:
+                    reasons.append(f"{(median / value):.1f}x below dataset median")
+
+        if not reasons:
+            continue
+
+        anomalies.append(
+            {
+                "arxiv_id": paper.arxiv_id,
+                "title": _sanitize_title(paper.title),
+                "dataset": ds.name,
+                "metric": metric,
+                "model": model.canonical_name,
+                "value": value,
+                "median": median,
+                "reasons": reasons,
+            }
+        )
+
+    anomalies.sort(
+        key=lambda item: (item["arxiv_id"], item["dataset"], item["metric"], item["model"])
+    )
+    return anomalies
+
+
+def _collect_model_value_mismatches(session: Any) -> list[dict[str, Any]]:
+    """Return paper rows whose reported primary-metric model value materially disagrees with the global best."""
+    results = (
+        session.query(Result)
+        .join(Result.paper)
+        .join(Result.dataset_variant)
+        .join(DatasetVariant.dataset)
+        .filter(Result.is_problematic.is_(None) | (Result.is_problematic == 0))
+        .all()
+    )
+
+    truth_cache: dict[
+        tuple[str, str, bool], tuple[dict[str, int], list[dict], dict[str, dict[str, Any]]]
+    ] = {}
+    mismatches: list[dict[str, Any]] = []
+
+    for result in results:
+        paper = result.paper
+        dv = result.dataset_variant
+        ds = dv.dataset if dv else None
+        model = result.model
+        if not paper or not ds or not model:
+            continue
+
+        primary_metric = ds.primary_metric or result.metric_name
+        if result.metric_name != primary_metric:
+            continue
+
+        higher = bool(result.higher_is_better)
+        cache_key = (ds.name, primary_metric, higher)
+        if cache_key not in truth_cache:
+            truth_cache[cache_key] = _global_ranks_for_dataset(
+                session, ds.name, primary_metric, higher
+            )
+        model_to_rank, global_rows, truth_map = truth_cache[cache_key]
+
+        model_key = _model_key(model.canonical_name)
+        truth = truth_map.get(model_key)
+        if not truth:
+            continue
+
+        paper_value = float(result.display_value) if result.display_value is not None else None
+        paper_std = float(result.display_std) if result.display_std is not None else None
+        true_value = truth.get("value")
+        if not _has_paper_value_gap(paper_value, paper_std, true_value, truth.get("std")):
+            continue
+
+        global_rank = model_to_rank.get(model_key)
+        paper_rank = _rank_for_value(global_rows, model_key, paper_value, higher)
+        rank_delta = (
+            paper_rank - global_rank if paper_rank is not None and global_rank is not None else None
+        )
+        mismatches.append(
+            {
+                "arxiv_id": paper.arxiv_id,
+                "title": _sanitize_title(paper.title),
+                "dataset": ds.name,
+                "metric": primary_metric,
+                "model": _sanitize_model(model.canonical_name, paper.arxiv_id),
+                "paper_value": paper_value,
+                "paper_std": paper_std,
+                "true_value": true_value,
+                "true_std": truth.get("std"),
+                "source_arxiv_id": truth.get("arxiv_id", ""),
+                "source_title": truth.get("title", ""),
+                "global_rank": global_rank,
+                "paper_rank": paper_rank,
+                "rank_delta": rank_delta,
+                "value_gap": (
+                    abs(paper_value - true_value)
+                    if paper_value is not None and true_value is not None
+                    else None
+                ),
+            }
+        )
+
+    mismatches.sort(
+        key=lambda item: (
+            -(abs(item.get("rank_delta") or 0)),
+            -(item.get("value_gap") or 0.0),
+            item.get("arxiv_id") or "",
+            item.get("dataset") or "",
+            item.get("model") or "",
+        )
+    )
+    return mismatches
+
+
+def _collect_missing_baselines(session: Any) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+    """Return datasets missing core GNN baselines and datasets missing MLP baselines."""
+    core_missing: list[dict[str, Any]] = []
+    mlp_missing: list[dict[str, Any]] = []
+
+    for ds in session.query(Dataset).all():
+        families: set[str] = set()
+        result_count = 0
+        for variant in ds.variants:
+            for result in variant.results:
+                if result.is_problematic:
+                    continue
+                result_count += 1
+                family = _normalize_model_family(
+                    result.model.canonical_name if result.model else ""
+                )
+                if family:
+                    families.add(family)
+
+        item = {
+            "benchmark": ds.benchmark.name if ds.benchmark else "Other",
+            "dataset": ds.name,
+            "task_type": ds.task_type or "",
+            "primary_metric": ds.primary_metric or "",
+            "result_count": result_count,
+            "present_families": ", ".join(sorted(families)) or "—",
+        }
+        if not any(f in families for f in ("gcn", "gin", "sage")):
+            core_missing.append(item)
+        if "mlp" not in families:
+            mlp_missing.append(item)
+
+    core_missing.sort(key=lambda item: (item["benchmark"], item["dataset"]))
+    mlp_missing.sort(key=lambda item: (item["benchmark"], item["dataset"]))
+    return core_missing, mlp_missing
 
 
 def export_paper(arxiv_id: str) -> bool:
@@ -543,24 +999,37 @@ def export_paper(arxiv_id: str) -> bool:
                     "metric": primary,
                     "higher_is_better": bool(r.higher_is_better),
                 }
+            rendered_model = _sanitize_model(
+                r.model.canonical_name if r.model else "",
+                paper.arxiv_id,
+            )
+            display_value = float(r.display_value) if r.display_value is not None else None
+            display_std = float(r.display_std) if r.display_std is not None else None
             result_groups.setdefault(ds_name, []).append(
                 {
-                    "model": _sanitize_model(
-                        r.model.canonical_name if r.model else "",
-                        paper.arxiv_id,
-                    ),
-                    "value": float(r.display_value) if r.display_value is not None else None,
-                    "std": float(r.metric_std) if r.metric_std else None,
+                    "model": rendered_model,
+                    "model_key": _model_key(r.model.canonical_name if r.model else rendered_model),
+                    "model_plain": _plain_model(rendered_model),
+                    "value": display_value,
+                    "std": display_std,
+                    "paper_value": display_value,
+                    "paper_std": display_std,
                     "metric": r.metric_name,
                     "higher_is_better": bool(r.higher_is_better),
                     "is_baseline": bool(r.is_baseline),
                     "is_overridden": bool(r.is_overridden),
                     "override_reason": r.override_reason or "",
-                    "params_millions": (
-                        r.model.size_params / 1_000_000 if r.model and r.model.size_params else None
+                    "params_millions": _paper_explicit_param_millions(
+                        paper.arxiv_id if paper else None,
+                        rendered_model,
                     ),
                     "table_ref": r.table_ref or "",
                     "source_ref": r.source_ref or "",
+                    "date": _fmt_date(paper.published_date) if paper else "",
+                    "date_display": _fmt_month_year(paper.published_date) if paper else "",
+                    "date_iso": (
+                        paper.published_date[:10] if paper and paper.published_date else ""
+                    ),
                 }
             )
 
@@ -573,12 +1042,69 @@ def export_paper(arxiv_id: str) -> bool:
 
             # Global ranking for this dataset (best result per model, all papers)
             try:
-                model_to_rank, global_top_all = _global_ranks_for_dataset(
+                model_to_rank, global_top_all, truth_map = _global_ranks_for_dataset(
                     session, ds, primary_metric, higher
                 )
             except Exception as _exc:
                 logger.debug("Global rank lookup failed for %r: %s", ds, _exc)
-                model_to_rank, global_top_all = {}, []
+                model_to_rank, global_top_all, truth_map = {}, [], {}
+
+            for row in rows:
+                truth = truth_map.get(row.get("model_key", ""))
+                row["global_rank"] = model_to_rank.get(row.get("model_key", ""))
+                if row.get("metric") != primary_metric or not truth:
+                    row["sort_value"] = row.get("value")
+                    row["sort_std"] = row.get("std")
+                    continue
+                row["true_value"] = truth.get("value")
+                row["true_std"] = truth.get("std")
+                row["value_gap_source_arxiv"] = truth.get("arxiv_id", "")
+                row["value_gap_source_title"] = truth.get("title", "")
+                row["value_gap_source_is_current_paper"] = truth.get("arxiv_id", "") == arxiv_id
+                row["has_value_gap"] = _has_paper_value_gap(
+                    row.get("paper_value"),
+                    row.get("paper_std"),
+                    row.get("true_value"),
+                    row.get("true_std"),
+                )
+                row["has_value_note"] = _has_paper_value_difference(
+                    row.get("paper_value"), row.get("true_value")
+                ) and not row.get("has_value_gap")
+                row["value_gap"] = (
+                    abs(row["paper_value"] - row["true_value"])
+                    if _has_paper_value_difference(row.get("paper_value"), row.get("true_value"))
+                    and row.get("paper_value") is not None
+                    and row.get("true_value") is not None
+                    else None
+                )
+                row["value_note"] = (
+                    f"global {row['true_value']:.4f} within std"
+                    if row.get("has_value_note") and row.get("true_value") is not None
+                    else ""
+                )
+                row["paper_rank"] = _rank_for_value(
+                    global_top_all,
+                    row.get("model_key", ""),
+                    row.get("paper_value"),
+                    higher,
+                )
+                row["rank_delta"] = (
+                    row["paper_rank"] - row["global_rank"]
+                    if row.get("paper_rank") is not None and row.get("global_rank") is not None
+                    else None
+                )
+                row["rank_delta_abs"] = (
+                    abs(row["rank_delta"]) if row.get("rank_delta") is not None else None
+                )
+                if row.get("rank_delta") is not None:
+                    if row["rank_delta"] < 0:
+                        row["rank_delta_direction"] = "better"
+                    elif row["rank_delta"] > 0:
+                        row["rank_delta_direction"] = "worse"
+                    else:
+                        row["rank_delta_direction"] = "same"
+                row["sort_value"] = row.get("true_value")
+                row["sort_std"] = row.get("true_std")
 
             if len(distinct_metrics) > 1:
                 pivoted = _pivot_paper_rows(rows, primary_metric)
@@ -586,20 +1112,22 @@ def export_paper(arxiv_id: str) -> bool:
                 metrics_list = pivoted["metrics"]
 
                 # Attach global ranks to pivoted rows
-                paper_models: set[str] = {pr["model"] for pr in pv_rows}
+                paper_models: set[str] = {pr.get("model_key", "") for pr in pv_rows}
                 for pr in pv_rows:
-                    pr["global_rank"] = model_to_rank.get(pr["model"])
+                    pr["global_rank"] = model_to_rank.get(pr.get("model_key", ""))
 
                 # Inject up to 3 global-top models not in this paper
                 extra_rows: list[dict] = []
                 n_metrics = len(metrics_list)
                 for gr in global_top_all:
-                    if gr["model"] not in paper_models:
+                    if gr["model_key"] not in paper_models:
                         mv = [gr["value"] if i == 0 else None for i in range(n_metrics)]
                         ms = [gr["std"] if i == 0 else None for i in range(n_metrics)]
                         extra_rows.append(
                             {
                                 "model": gr["model"],
+                                "model_key": gr["model_key"],
+                                "model_plain": gr.get("model_plain") or _plain_model(gr["model"]),
                                 "metric_values": mv,
                                 "metric_stds": ms,
                                 "is_baseline": gr["is_baseline"],
@@ -609,12 +1137,21 @@ def export_paper(arxiv_id: str) -> bool:
                                 "arxiv_id": gr["arxiv_id"],
                                 "title": gr["title"],
                                 "date": gr["date"],
-                                "date_iso": "",
+                                "date_display": gr.get("date_display", ""),
+                                "date_iso": gr.get("date_iso", ""),
                                 "codebase_url": gr["codebase_url"],
                                 "uses_external_data": gr.get("uses_external_data"),
                                 "is_global_top": True,
                                 "global_rank": gr["global_rank"],
                                 "is_best": False,
+                                "sort_value": gr.get("sort_value", gr.get("value")),
+                                "sort_std": gr.get("sort_std", gr.get("std")),
+                                "has_value_gap": False,
+                                "has_value_note": False,
+                                "paper_rank": None,
+                                "rank_delta": None,
+                                "rank_delta_abs": None,
+                                "value_note": "",
                             }
                         )
                         if len(extra_rows) >= 3:
@@ -624,7 +1161,9 @@ def export_paper(arxiv_id: str) -> bool:
                     combined = pv_rows + extra_rows
 
                     def _pv_sort(r: dict, _hib: bool = higher) -> tuple:
-                        v = r["metric_values"][0] if r.get("metric_values") else None
+                        v = r.get("sort_value")
+                        if v is None:
+                            v = r["metric_values"][0] if r.get("metric_values") else None
                         if v is None:
                             return (1, 0.0)
                         return (0, -v if _hib else v)
@@ -634,8 +1173,16 @@ def export_paper(arxiv_id: str) -> bool:
                         combined,
                         primary_metric,
                         higher,
-                        lambda r: r["metric_values"][0] if r.get("metric_values") else None,
-                        lambda r: r["metric_stds"][0] if r.get("metric_stds") else None,
+                        lambda r: (
+                            r.get("sort_value")
+                            if r.get("sort_value") is not None
+                            else (r["metric_values"][0] if r.get("metric_values") else None)
+                        ),
+                        lambda r: (
+                            r.get("sort_std")
+                            if r.get("sort_std") is not None
+                            else (r["metric_stds"][0] if r.get("metric_stds") else None)
+                        ),
                     )
                     pv_rows = combined
 
@@ -652,7 +1199,9 @@ def export_paper(arxiv_id: str) -> bool:
             else:
 
                 def _row_sort_key(r: dict, _hib: bool = higher) -> tuple:
-                    v = r.get("value")
+                    v = r.get("sort_value")
+                    if v is None:
+                        v = r.get("value")
                     if v is None:
                         return (1, 0.0)
                     return (0, -float(v) if _hib else float(v))
@@ -660,14 +1209,12 @@ def export_paper(arxiv_id: str) -> bool:
                 rows.sort(key=_row_sort_key)
 
                 # Attach global ranks to paper rows
-                paper_models = {r.get("model", "") for r in rows}
-                for row in rows:
-                    row["global_rank"] = model_to_rank.get(row.get("model", ""))
+                paper_models = {r.get("model_key", "") for r in rows}
 
                 # Inject up to 3 global-top models not in this paper
                 extra_rows = []
                 for gr in global_top_all:
-                    if gr["model"] not in paper_models:
+                    if gr["model_key"] not in paper_models:
                         extra_rows.append(gr)
                         if len(extra_rows) >= 3:
                             break
@@ -680,8 +1227,10 @@ def export_paper(arxiv_id: str) -> bool:
                     rows,
                     primary_metric,
                     higher,
-                    lambda r: r.get("value"),
-                    lambda r: r.get("std"),
+                    lambda r: (
+                        r.get("sort_value") if r.get("sort_value") is not None else r.get("value")
+                    ),
+                    lambda r: r.get("sort_std") if r.get("sort_std") is not None else r.get("std"),
                 )
                 results_for_fm.append(
                     {
@@ -740,6 +1289,7 @@ def export_paper(arxiv_id: str) -> bool:
 
         # Main figure
         storage = PaperStorage(arxiv_id)
+        paper_metadata = storage.read_metadata()
         main_figure_hugo: str | None = None
         if storage.main_figure_path and storage.main_figure_path.exists():
             dest = _STATIC / "figures" / arxiv_id / storage.main_figure_path.name
@@ -747,7 +1297,7 @@ def export_paper(arxiv_id: str) -> bool:
             shutil.copy2(storage.main_figure_path, dest)
             main_figure_hugo = f"/figures/{arxiv_id}/{storage.main_figure_path.name}"
 
-        mrr, proposed_models = _compute_paper_mrr(session, paper)
+        mrr, adjusted_mrr, mrr_dataset_count, proposed_models = _compute_paper_mrr(session, paper)
         has_results = bool(results_for_fm)
 
         # Single proposed model: if all proposed results come from the same canonical name
@@ -755,17 +1305,43 @@ def export_paper(arxiv_id: str) -> bool:
         if len(proposed_models) == 1:
             single_proposed_model = proposed_models[0]
 
+        benchmark_categories = [group["benchmark"] for group in grouped_results]
+        task_categories = sorted(
+            {
+                dv.dataset.task_type
+                for r in results
+                for dv in [r.dataset_variant]
+                if dv and dv.dataset and dv.dataset.task_type
+            }
+        )
+        experiment_scopes = sorted(
+            {
+                scope
+                for scope in (_paper_experiment_scope(task_type) for task_type in task_categories)
+                if scope
+            }
+        )
+        paper_type = "method" if proposed_models else "dataset"
+
         front_matter: dict[str, Any] = {
             "title": _sanitize_title(paper.title) or arxiv_id,
             "arxiv_id": arxiv_id,
+            "source_url": paper_metadata.get("paper_url") or paper_metadata.get("source_url") or "",
             "authors": paper.authors or [],
             "published_date": _fmt_date(paper.published_date),
+            "published_date_iso": (paper.published_date[:10] if paper.published_date else ""),
             "abstract": paper.abstract or "",
             "codebase_url": paper.codebase_url or "",
             "extraction_model": paper.extraction_model or "",
             "has_results": has_results,
+            "paper_type": paper_type,
             "proposed_models": proposed_models,
             "mrr": mrr,
+            "adjusted_mrr": adjusted_mrr,
+            "mrr_dataset_count": mrr_dataset_count,
+            "benchmark_categories": benchmark_categories,
+            "task_categories": task_categories,
+            "experiment_scopes": experiment_scopes,
             "results": results_for_fm,
             "results_grouped": grouped_results,
         }
@@ -859,16 +1435,16 @@ def _build_multi_metric_rows(
         if key not in groups:
             groups[key] = {
                 "model": model_name,
+                "model_plain": _plain_model(model_name),
                 "is_baseline": bool(r.is_baseline),
                 "is_overridden": bool(r.is_overridden),
                 "override_reason": r.override_reason or "",
-                "params_millions": (
-                    r.model.size_params / 1_000_000 if r.model and r.model.size_params else None
-                ),
+                "params_millions": _paper_explicit_param_millions(arxiv_id, model_name),
                 "arxiv_id": arxiv_id,
                 "title": _sanitize_title(paper.title if paper else ""),
                 "date": _fmt_date(paper.published_date) if paper else "",
                 "date_iso": (paper.published_date[:10] if paper and paper.published_date else ""),
+                "date_display": _fmt_month_year(paper.published_date) if paper else "",
                 "codebase_url": paper.codebase_url or "",
                 "uses_external_data": None,
                 "_vals": {},
@@ -920,6 +1496,62 @@ def _build_multi_metric_rows(
     return metrics_ordered, hib, rows
 
 
+def _dataset_page_result_count(session: Any, dataset_id: int) -> int:
+    """Compute dataset result_count exactly as used on dataset pages.
+
+    This keeps landing-page counts aligned with per-dataset pages.
+    """
+    ds = session.get(Dataset, dataset_id)
+    if ds is None:
+        return 0
+
+    variants = (
+        session.query(DatasetVariant)
+        .filter_by(dataset_id=dataset_id)
+        .order_by(DatasetVariant.is_standard.desc(), DatasetVariant.name)
+        .all()
+    )
+    if not variants:
+        return 0
+
+    variant_counts: list[tuple[bool, int]] = []
+    primary_metric = ds.primary_metric or ""
+    for v in variants:
+        all_results = (
+            session.query(Result)
+            .filter_by(dataset_variant_id=v.id)
+            .filter(Result.is_problematic.is_(None) | (Result.is_problematic == 0))
+            .all()
+        )
+        if not all_results:
+            continue
+
+        available_metrics = {r.metric_name for r in all_results}
+        if primary_metric and primary_metric in available_metrics:
+            metric = primary_metric
+        else:
+            from collections import Counter
+
+            metric = Counter(r.metric_name for r in all_results).most_common(1)[0][0]
+            if not primary_metric:
+                primary_metric = metric
+
+        metrics_ordered, _hib, rows = _build_multi_metric_rows(all_results, metric)
+        display_metrics = _dataset_display_metrics(ds.name)
+        _metrics_ordered, rows, _metric = _apply_display_metrics_filter(
+            metrics_ordered,
+            rows,
+            display_metrics,
+            metric,
+        )
+        variant_counts.append((bool(v.is_standard), len(rows)))
+
+    if not variant_counts:
+        return 0
+    std = next((count for is_std, count in variant_counts if is_std), None)
+    return std if std is not None else variant_counts[0][1]
+
+
 def export_dataset(dataset_id: int) -> bool:
     """Export a dataset page with all variants and leaderboard data."""
     with session_scope() as session:
@@ -927,20 +1559,27 @@ def export_dataset(dataset_id: int) -> bool:
         if ds is None:
             return False
 
-        variants = (
-            session.query(DatasetVariant)
-            .filter_by(dataset_id=dataset_id)
-            .order_by(DatasetVariant.is_standard.desc(), DatasetVariant.name)
-            .all()
+        variants = session.query(DatasetVariant).filter_by(dataset_id=dataset_id).all()
+        variants = sorted(
+            variants,
+            key=lambda variant: (
+                0 if variant.is_standard else 1,
+                variant.num_graphs if variant.num_graphs is not None else 10**18,
+                variant.avg_nodes if variant.avg_nodes is not None else 10**18,
+                variant.name.lower(),
+            ),
         )
 
         if not variants:
             logger.debug("Dataset %s has no variants — skipping export", ds.name)
             return False
 
-        # Determine primary metric from the first variant that has results
+        force_export = _dataset_force_export(ds.name)
+
+        # Determine primary metric from the first variant that has results.
+        # For forced empty exports, fall back to the dataset-level direction.
         primary_metric = ds.primary_metric or ""
-        higher_is_better = True
+        higher_is_better = bool(ds.higher_is_better) if ds.higher_is_better is not None else True
 
         variant_data: list[dict] = []
         for v in variants:
@@ -951,7 +1590,28 @@ def export_dataset(dataset_id: int) -> bool:
                 .all()
             )
 
+            if not all_results and not force_export:
+                continue
+
             if not all_results:
+                variant_data.append(
+                    {
+                        "slug": _slug(v.name),
+                        "name": v.name,
+                        "notes": v.notes or "",
+                        "is_standard": bool(v.is_standard),
+                        "primary_metric": primary_metric,
+                        "higher_is_better": bool(ds.higher_is_better),
+                        "stats": {
+                            "num_graphs": v.num_graphs,
+                            "avg_nodes": v.avg_nodes,
+                            "avg_edges": v.avg_edges,
+                        },
+                        "metrics": [primary_metric] if primary_metric else [],
+                        "rows": [],
+                        "milestones": [],
+                    }
+                )
                 continue
 
             # Determine which metric to display: prefer primary_metric if it exists in results
@@ -988,6 +1648,11 @@ def export_dataset(dataset_id: int) -> bool:
                     "is_standard": bool(v.is_standard),
                     "primary_metric": metric,
                     "higher_is_better": higher_is_better,
+                    "stats": {
+                        "num_graphs": v.num_graphs,
+                        "avg_nodes": v.avg_nodes,
+                        "avg_edges": v.avg_edges,
+                    },
                     "metrics": metrics_ordered,
                     "rows": rows,
                     "milestones": milestones,
@@ -1067,15 +1732,10 @@ def export_benchmarks_data() -> None:
     _DATA_DIR.mkdir(parents=True, exist_ok=True)
 
     with session_scope() as session:
-        # Result count per dataset (for ordering datasets by activity)
-        ds_result_counts: dict[int, int] = dict(
-            session.query(Dataset.id, func.count(Result.id))
-            .join(Dataset.variants)
-            .join(DatasetVariant.results)
-            .filter(Result.is_problematic.is_(None) | (Result.is_problematic == 0))
-            .group_by(Dataset.id)
-            .all()
-        )
+        # Result count per dataset aligned with exported dataset pages.
+        ds_result_counts: dict[int, int] = {
+            ds.id: _dataset_page_result_count(session, ds.id) for ds in session.query(Dataset).all()
+        }
 
         benchmarks = session.query(Benchmark).all()
 
@@ -1190,6 +1850,8 @@ def export_development_data() -> None:
 
 def _create_dev_pages() -> None:
     """Generate development/admin pages."""
+    from sqlalchemy import func
+
     _CONTENT_DEV = _CONTENT / "dev"
     _CONTENT_DEV.mkdir(parents=True, exist_ok=True)
 
@@ -1404,6 +2066,376 @@ def _create_dev_pages() -> None:
             "\n".join(lines),
         )
 
+        try:
+            anomalies = _collect_result_anomalies(session)
+            by_paper = {item["arxiv_id"] for item in anomalies}
+            lines = [
+                "## Post-Extraction Anomalies",
+                "",
+                "This page flags suspicious stored results after overrides are applied.",
+                "",
+                "Checks currently included:",
+                "",
+                "- bounded metrics such as Accuracy/AP/AUC/F1/MRR/Hits@K must not exceed 1",
+                "- values roughly 20x away from the dataset-metric median are flagged as likely scale issues",
+                "",
+                f"**Flagged papers:** {len(by_paper)}",
+                f"**Flagged rows:** {len(anomalies)}",
+                "",
+            ]
+            if anomalies:
+                lines.append(
+                    "| ArXiv | Title | Dataset | Metric | Model | Value | Dataset Median | Reason |"
+                )
+                lines.append(
+                    "|-------|-------|---------|--------|-------|------:|---------------:|--------|"
+                )
+                for item in anomalies:
+                    median = "—" if item["median"] is None else f"{item['median']:.6g}"
+                    lines.append(
+                        f"| {item['arxiv_id']} | {item['title'][:48]} | {item['dataset']} | {item['metric']} | {item['model']} | {item['value']:.6g} | {median} | {'; '.join(item['reasons'])} |"
+                    )
+
+            _write_md(
+                _CONTENT_DEV / "extraction-anomalies.md",
+                {
+                    "title": "Extraction Anomalies",
+                    "type": "dev",
+                    "description": "Post-extraction anomaly checks over stored results",
+                },
+                "\n".join(lines),
+            )
+        except Exception:
+            logger.exception("Failed to create extraction-anomalies dev page")
+
+        try:
+            mismatches = _collect_model_value_mismatches(session)
+            by_paper: dict[str, dict[str, Any]] = {}
+            for item in mismatches:
+                bucket = by_paper.setdefault(
+                    item["arxiv_id"],
+                    {
+                        "title": item["title"],
+                        "rows": 0,
+                        "worst_rank_delta": 0,
+                        "datasets": set(),
+                        "models": set(),
+                    },
+                )
+                bucket["rows"] += 1
+                bucket["worst_rank_delta"] = max(
+                    bucket["worst_rank_delta"], abs(item.get("rank_delta") or 0)
+                )
+                bucket["datasets"].add(item["dataset"])
+                bucket["models"].add(item["model"])
+
+            paper_rows = sorted(
+                [
+                    {
+                        "arxiv_id": arxiv_id,
+                        "title": info["title"],
+                        "rows": info["rows"],
+                        "worst_rank_delta": info["worst_rank_delta"],
+                        "datasets": sorted(info["datasets"]),
+                        "models": sorted(info["models"]),
+                    }
+                    for arxiv_id, info in by_paper.items()
+                ],
+                key=lambda item: (-item["rows"], -item["worst_rank_delta"], item["arxiv_id"]),
+            )
+
+            lines = [
+                "## Page of Shame: Papers Using Wrong Model Values",
+                "",
+                "This page lists papers whose reported primary-metric value for a model disagrees with the stored global benchmark value by more than the reported std, or differs at all when no std is given.",
+                "",
+                f"**Flagged papers:** {len(paper_rows)}",
+                f"**Flagged rows:** {len(mismatches)}",
+                "",
+            ]
+            if paper_rows:
+                lines.append(
+                    "| ArXiv | Title | Wrong Rows | Worst Rank Shift | Datasets | Models |"
+                )
+                lines.append("|---|---|---:|---:|---|---|")
+                for item in paper_rows:
+                    lines.append(
+                        f"| {_paper_site_link(item['arxiv_id'])} | {_paper_site_link(item['arxiv_id'], item['title'][:64])} | {item['rows']} | {item['worst_rank_delta']} | {', '.join(item['datasets'][:4])} | {', '.join(item['models'][:4])} |"
+                    )
+
+            lines.extend(["", "### Flagged Rows", ""])
+            if mismatches:
+                lines.append(
+                    "| ArXiv | Dataset | Model | Actual | Paper | Rank Shift | Actual Source |"
+                )
+                lines.append("|---|---|---|---:|---:|---:|---|")
+                for item in mismatches[:500]:
+                    lines.append(
+                        f"| {_paper_site_link(item['arxiv_id'])} | {item['dataset']} | {item['model']} | {item['true_value']:.4f} | {item['paper_value']:.4f} | {abs(item.get('rank_delta') or 0)} | {_paper_site_link(item.get('source_arxiv_id', ''), item['source_title'][:56]) if item.get('source_arxiv_id') else item['source_title'][:56]} |"
+                    )
+
+            _write_md(
+                _CONTENT_DEV / "page-of-shame.md",
+                {
+                    "title": "Page of Shame",
+                    "type": "dev",
+                    "description": "Papers whose reported model values materially disagree with the stored benchmark values",
+                },
+                "\n".join(lines),
+            )
+        except Exception:
+            logger.exception("Failed to create page-of-shame dev page")
+
+        try:
+            core_missing, mlp_missing = _collect_missing_baselines(session)
+            lines = [
+                "## Baseline Coverage Gaps",
+                "",
+                "Datasets in this report are missing one of the baseline families we usually want on the leaderboard for context.",
+                "",
+                f"### No GCN/GIN/GraphSAGE Baseline ({len(core_missing)})",
+                "",
+            ]
+            if core_missing:
+                lines.append("| Benchmark | Dataset | Task | Metric | Results | Present Families |")
+                lines.append("|-----------|---------|------|--------|--------:|------------------|")
+                for item in core_missing:
+                    lines.append(
+                        f"| {item['benchmark']} | {item['dataset']} | {item['task_type']} | {item['primary_metric']} | {item['result_count']} | {item['present_families']} |"
+                    )
+            lines.extend(
+                [
+                    "",
+                    f"### No MLP Baseline ({len(mlp_missing)})",
+                    "",
+                ]
+            )
+            if mlp_missing:
+                lines.append("| Benchmark | Dataset | Task | Metric | Results | Present Families |")
+                lines.append("|-----------|---------|------|--------|--------:|------------------|")
+                for item in mlp_missing:
+                    lines.append(
+                        f"| {item['benchmark']} | {item['dataset']} | {item['task_type']} | {item['primary_metric']} | {item['result_count']} | {item['present_families']} |"
+                    )
+
+            _write_md(
+                _CONTENT_DEV / "baseline-coverage.md",
+                {
+                    "title": "Baseline Coverage Gaps",
+                    "type": "dev",
+                    "description": "Datasets missing common GNN or MLP baseline families",
+                },
+                "\n".join(lines),
+            )
+        except Exception:
+            logger.exception("Failed to create baseline-coverage dev page")
+
+        active_result_counts = {
+            int(dataset_id): int(result_count or 0)
+            for dataset_id, result_count in (
+                session.query(Dataset.id, func.count(Result.id))
+                .join(Dataset.variants)
+                .join(DatasetVariant.results)
+                .filter(Result.is_problematic.is_(None) | (Result.is_problematic == 0))
+                .group_by(Dataset.id)
+                .all()
+            )
+        }
+
+        stats_missing: list[dict[str, Any]] = []
+        for ds in session.query(Dataset).all():
+            entry_count = active_result_counts.get(int(ds.id), 0)
+            if entry_count <= 0:
+                continue
+            std_variant = next((v for v in ds.variants if v.is_standard), None)
+            stats_num_graphs = (
+                ds.num_graphs
+                if ds.num_graphs is not None
+                else (std_variant.num_graphs if std_variant else None)
+            )
+            stats_avg_nodes = (
+                ds.avg_nodes
+                if ds.avg_nodes is not None
+                else (std_variant.avg_nodes if std_variant else None)
+            )
+            stats_avg_edges = (
+                ds.avg_edges
+                if ds.avg_edges is not None
+                else (std_variant.avg_edges if std_variant else None)
+            )
+            stats_num_classes = ds.num_classes
+            if any(
+                x is not None
+                for x in [stats_num_graphs, stats_avg_nodes, stats_avg_edges, stats_num_classes]
+            ):
+                continue
+            stats_missing.append(
+                {
+                    "benchmark": ds.benchmark.name if ds.benchmark else "",
+                    "name": ds.name,
+                    "task_type": ds.task_type or "",
+                    "primary_metric": ds.primary_metric or "",
+                    "variants": len(ds.variants),
+                    "entry_count": entry_count,
+                }
+            )
+
+        stats_missing.sort(key=lambda item: (item["benchmark"], item["name"]))
+        lines = [
+            "## Datasets Without Structural Statistics",
+            "",
+            "These active datasets still have no structural counts available from either the dataset metadata or the standard variant fallback.",
+            "",
+            f"**Total:** {len(stats_missing)} datasets",
+            "",
+        ]
+        if stats_missing:
+            lines.append("| Benchmark | Dataset | Task | Metric | Variants | Benchmark Entries |")
+            lines.append("|---|---|---|---|---:|---:|")
+            for item in stats_missing:
+                lines.append(
+                    f"| {item['benchmark']} | {item['name']} | {item['task_type']} | {item['primary_metric']} | {item['variants']} | {item['entry_count']} |"
+                )
+
+        _write_md(
+            _CONTENT_DEV / "statistics-unavailable.md",
+            {
+                "title": "Statistics Unavailable",
+                "type": "dev",
+                "description": "Datasets that still have no structural statistics",
+            },
+            "\n".join(lines),
+        )
+
+        # Concrete statistics-source report:
+        # - current aligned counts (landing vs dataset pages)
+        # - legacy landing counts and how they differ
+        try:
+            landing_path = _DATA_DIR / "benchmarks.json"
+            landing_data = []
+            if landing_path.exists():
+                landing_data = json.loads(landing_path.read_text(encoding="utf-8"))
+
+            landing_counts: dict[str, int] = {}
+            for bm in landing_data if isinstance(landing_data, list) else []:
+                for ds_item in bm.get("datasets", []) or []:
+                    slug = str(ds_item.get("slug") or "")
+                    if not slug:
+                        continue
+                    landing_counts[slug] = int(ds_item.get("result_count") or 0)
+
+            dataset_page_counts: dict[str, int] = {}
+            datasets_dir = _CONTENT / "datasets"
+            if datasets_dir.exists():
+                for idx in datasets_dir.glob("*/index.md"):
+                    raw = idx.read_text(encoding="utf-8")
+                    if not raw.startswith("---\n"):
+                        continue
+                    parts = raw.split("---\n", 2)
+                    if len(parts) < 3:
+                        continue
+                    fm = yaml.safe_load(parts[1]) or {}
+                    slug = str(fm.get("slug") or idx.parent.name)
+                    dataset_page_counts[slug] = int(fm.get("result_count") or 0)
+
+            diffs: list[dict[str, Any]] = []
+            all_slugs = sorted(set(landing_counts) | set(dataset_page_counts))
+            for slug in all_slugs:
+                l = landing_counts.get(slug, 0)
+                d = dataset_page_counts.get(slug, 0)
+                if l != d:
+                    diffs.append({"slug": slug, "landing": l, "dataset": d, "delta": l - d})
+
+            landing_total = sum(landing_counts.values())
+            dataset_total = sum(dataset_page_counts.values())
+            delta_total = landing_total - dataset_total
+            missing_dataset_pages = len([s for s in landing_counts if s not in dataset_page_counts])
+
+            # Legacy (old) landing definition used raw result row counts across all variants.
+            legacy_rows = (
+                session.query(Dataset.id, Dataset.name, func.count(Result.id))
+                .join(Dataset.variants)
+                .join(DatasetVariant.results)
+                .filter(Result.is_problematic.is_(None) | (Result.is_problematic == 0))
+                .group_by(Dataset.id, Dataset.name)
+                .all()
+            )
+            legacy_counts_by_name = {name: int(cnt or 0) for _id, name, cnt in legacy_rows}
+            slug_to_name = {_slug(ds.name): ds.name for ds in session.query(Dataset).all()}
+            legacy_by_slug: dict[str, int] = {
+                slug: legacy_counts_by_name.get(name, 0) for slug, name in slug_to_name.items()
+            }
+            legacy_total = sum(legacy_by_slug.values())
+
+            legacy_diffs: list[dict[str, Any]] = []
+            for slug in sorted(set(legacy_by_slug) | set(landing_counts)):
+                old_val = legacy_by_slug.get(slug, 0)
+                new_val = landing_counts.get(slug, 0)
+                if old_val != new_val:
+                    legacy_diffs.append(
+                        {
+                            "slug": slug,
+                            "old": old_val,
+                            "new": new_val,
+                            "impact": old_val - new_val,
+                        }
+                    )
+
+            lines = [
+                "## Statistics Sources & Concrete Differences",
+                "",
+                "Current landing-page counts and dataset-page counts use the same definition, so they should match exactly.",
+                "",
+                f"**Landing total (current `benchmarks.json`):** {landing_total}",
+                f"**Dataset-page total (`content/datasets/*`):** {dataset_total}",
+                f"**Difference (landing - dataset pages):** {delta_total}",
+                f"**Datasets with non-zero differences:** {len(diffs)}",
+                f"**Datasets present in landing data but missing exported pages:** {missing_dataset_pages}",
+                "",
+                "### What changed vs the old landing statistics",
+                "",
+                "Old landing values counted raw result rows across all variants.",
+                "Current values count the same number shown on dataset pages: the exported standard-variant leaderboard rows.",
+                "",
+                f"**Legacy landing total (old method):** {legacy_total}",
+                f"**Current landing total (new method):** {landing_total}",
+                f"**Total impact (old - new):** {legacy_total - landing_total}",
+                f"**Datasets affected by counting-method change:** {len(legacy_diffs)}",
+                "",
+            ]
+
+            if diffs:
+                lines.append("| Dataset | Landing Count | Dataset Page Count | Delta |")
+                lines.append("|---|---:|---:|---:|")
+                for row in sorted(diffs, key=lambda x: abs(x["delta"]), reverse=True)[:300]:
+                    lines.append(
+                        f"| {row['slug']} | {row['landing']} | {row['dataset']} | {row['delta']} |"
+                    )
+            else:
+                lines.append("Current-definition check: no per-dataset deltas detected.")
+
+            lines.append("")
+            lines.append("### Legacy vs current per-dataset impact")
+            lines.append("")
+            lines.append(
+                "| Dataset | Legacy Landing (old) | Current Landing/Page (new) | Impact (old - new) |"
+            )
+            lines.append("|---|---:|---:|---:|")
+            for row in sorted(legacy_diffs, key=lambda x: abs(x["impact"]), reverse=True)[:300]:
+                lines.append(f"| {row['slug']} | {row['old']} | {row['new']} | {row['impact']} |")
+
+            _write_md(
+                _CONTENT_DEV / "statistics-sources.md",
+                {
+                    "title": "Statistics Sources & Discrepancies",
+                    "type": "dev",
+                    "description": "Current aligned counts plus legacy counting-method impact",
+                },
+                "\n".join(lines),
+            )
+        except Exception:
+            logger.exception("Failed to create statistics-sources dev page")
+
         # Todo papers page (priority queue)
         try:
             todo_rows = session.query(TodoPaper).order_by(TodoPaper.seen_count.desc()).all()
@@ -1437,9 +2469,12 @@ def _create_dev_pages() -> None:
                 )
                 if _cur.fetchone():
                     _cur.execute(
-                        "SELECT arxiv_id, crawled_at, citations_fetched, references_fetched,"
-                        " citations_capped, references_capped"
-                        " FROM s2_crawl_state ORDER BY crawled_at DESC"
+                        "SELECT s.arxiv_id, p.title, s.crawled_at, s.citations_fetched, s.references_fetched,"
+                        " s.citations_capped, s.references_capped,"
+                        " (COALESCE(s.citations_fetched, 0) + COALESCE(s.references_fetched, 0)) AS total_links"
+                        " FROM s2_crawl_state s"
+                        " LEFT JOIN papers p ON p.arxiv_id = s.arxiv_id"
+                        " ORDER BY total_links DESC, s.crawled_at DESC"
                     )
                     crawl_rows = _cur.fetchall()
                     _cur.execute("SELECT COUNT(*) FROM papers WHERE arxiv_id IS NOT NULL")
@@ -1458,13 +2493,16 @@ def _create_dev_pages() -> None:
                         "A row appears here once citations+references have been fetched for that paper."
                         " ⚠ means the fetch hit the configured limit and may be incomplete.",
                         "",
-                        "| arXiv | crawled_at | citations | references | capped |",
-                        "|---|---|---:|---:|:---:|",
+                        "| Paper | crawled_at | citations | references | total | capped |",
+                        "|---|---|---:|---:|---:|:---:|",
                     ]
-                    for aid, cat, cf, rf, cc, rc in crawl_rows:
+                    for aid, title, cat, cf, rf, cc, rc, total in crawl_rows:
                         cap_marker = "⚠" if (cc or rc) else ""
+                        paper_cell = (
+                            f"{_sanitize_title(title)}<br/><small>arXiv:{aid or ''}</small>"
+                        )
                         lines.append(
-                            f"| {aid or ''} | {(cat or '')[:10]} | {cf or 0} | {rf or 0} | {cap_marker} |"
+                            f"| {paper_cell} | {(cat or '')[:10]} | {cf or 0} | {rf or 0} | {total or 0} | {cap_marker} |"
                         )
                     _write_md(
                         _CONTENT_DEV / "s2-crawl-state.md",

@@ -54,6 +54,15 @@ _ARXIV_API = "https://export.arxiv.org/api/query?id_list={arxiv_id}"
 _ARXIV_NS = {"atom": "http://www.w3.org/2005/Atom"}
 
 
+def _title_looks_corrupted(title: str | None) -> bool:
+    t = (title or "").strip()
+    if not t:
+        return True
+    return (
+        t.startswith("arXiv:") or "\\" in t or t.startswith(": ") or " , " in t or t.count(":") > 1
+    )
+
+
 def _get_top_datasets_hint(limit: int = 50) -> str:
     """Return a formatted list of datasets in the DB ordered by result count.
 
@@ -101,7 +110,10 @@ def _extract_metadata_from_latex_cache(latex_dir: "Path") -> "dict[str, str]":
     if not expanded.exists() or expanded.stat().st_size < 100:
         return {}
     try:
+        from backend.latex_source import _expand_user_macros, _strip_latex
+
         tex = expanded.read_text(encoding="utf-8", errors="replace")[:40_000]
+        tex, _ = _expand_user_macros(tex)
 
         result: dict[str, str] = {}
 
@@ -119,12 +131,7 @@ def _extract_metadata_from_latex_cache(latex_dir: "Path") -> "dict[str, str]":
                     depth -= 1
                 pos += 1
             raw_title = tex[start : pos - 1]
-            # Strip basic LaTeX commands
-            clean = re.sub(r"%[^\n]*", "", raw_title)
-            clean = re.sub(r"\\[a-zA-Z@]+\s*(?:\[[^\]]*\])?\s*\{([^{}]*)\}", r"\1", clean)
-            clean = re.sub(r"\\[a-zA-Z@]+\s*", " ", clean)
-            clean = clean.replace("{", "").replace("}", "")
-            clean = re.sub(r"\s+", " ", clean).strip()
+            clean = _strip_latex(raw_title)
             if clean:
                 result["title"] = clean
 
@@ -132,11 +139,7 @@ def _extract_metadata_from_latex_cache(latex_dir: "Path") -> "dict[str, str]":
         m = re.search(r"\\begin\{abstract\}(.*?)\\end\{abstract\}", tex, re.DOTALL)
         if m:
             raw_abstract = m.group(1)
-            clean = re.sub(r"%[^\n]*", "", raw_abstract)
-            clean = re.sub(r"\\[a-zA-Z@]+\s*(?:\[[^\]]*\])?\s*\{([^{}]*)\}", r"\1", clean)
-            clean = re.sub(r"\\[a-zA-Z@]+\s*", " ", clean)
-            clean = clean.replace("{", "").replace("}", "")
-            clean = re.sub(r"\s+", " ", clean).strip()
+            clean = _strip_latex(raw_abstract)
             if clean:
                 result["abstract"] = clean
 
@@ -2243,7 +2246,7 @@ def run_extraction(
     if screen_first:
         # Only call the arXiv API when we genuinely lack a real title/abstract.
         # If the DB already has them (set during a prior run), skip the network call.
-        need_meta = not paper_abstract or (paper_title or "").startswith("arXiv:")
+        need_meta = not paper_abstract or _title_looks_corrupted(paper_title)
         if need_meta:
             # Try extracting from local HTML first — free, no rate-limit risk
             if storage.html_index_path.exists():
@@ -2253,7 +2256,7 @@ def run_extraction(
                         paper_title = _parsed_meta.title
                     if _parsed_meta.abstract:
                         paper_abstract = _parsed_meta.abstract
-                    need_meta = not paper_abstract or paper_title.startswith("arXiv:")
+                    need_meta = not paper_abstract or _title_looks_corrupted(paper_title)
                 except Exception:
                     pass
 
@@ -2264,7 +2267,7 @@ def run_extraction(
                     paper_title = latex_meta["title"]
                 if latex_meta.get("abstract"):
                     paper_abstract = latex_meta["abstract"]
-                need_meta = not paper_abstract or paper_title.startswith("arXiv:")
+                need_meta = not paper_abstract or _title_looks_corrupted(paper_title)
 
             if need_meta:
                 logger.info("Fetching metadata from arXiv API for %s", arxiv_id)
@@ -2275,16 +2278,16 @@ def run_extraction(
                 meta = {}
 
             # Persist to DB if we improved on the stub title
-            if paper_id and not (paper_title or "").startswith("arXiv:"):
+            if paper_id and not _title_looks_corrupted(paper_title):
                 with session_scope() as session:
                     p = session.get(Paper, paper_id)
                     if p:
-                        if (p.title or "").startswith("arXiv:"):
+                        if _title_looks_corrupted(p.title):
                             p.title = paper_title
                         if not p.abstract:
                             p.abstract = paper_abstract
 
-        if paper_title and not paper_title.startswith("arXiv:"):
+        if paper_title and not _title_looks_corrupted(paper_title):
             logger.info("Paper: %s", paper_title)
 
         screener = LLMExtractor(model_tier="small")
@@ -2457,18 +2460,22 @@ def run_extraction(
             _update_status(paper_id, "failed")
         return False
 
+    actual_model_used = output.get("model_used") or display_name_for_model(
+        cfg.model_for_tier(model_tier)
+    )
+
     if paper_id:
         with session_scope() as session:
             p = session.get(Paper, paper_id)
             if p:
                 p.extraction_status = "extracted"
-                p.extraction_model = display_name_for_model(cfg.model_for_tier(model_tier))
+                p.extraction_model = actual_model_used
             session.add(
                 PipelineRun(
                     paper_id=paper_id,
                     stage="extract",
                     status="success",
-                    model_used=display_name_for_model(cfg.model_for_tier(model_tier)),
+                    model_used=actual_model_used,
                 )
             )
 
