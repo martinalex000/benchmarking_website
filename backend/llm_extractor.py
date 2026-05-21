@@ -2043,6 +2043,7 @@ class LLMExtractor:
         # Task 3: Model sizes (merge back into results_out)
         sizes = self.extract_model_sizes(paper_text)
         _apply_sizes(results_out, sizes)
+        _stabilize_model_names(results_out)
 
         # Compose full output
         output = {
@@ -2276,6 +2277,47 @@ def _apply_sizes(extraction: ExtractionOutput, sizes: list[ModelSizeEntry]) -> N
             extraction.proposed_model.params_exact = s.params_exact
 
 
+def _normalise_model_name_text(name: str) -> str:
+    """Clean light LaTeX/math wrappers from extracted model names."""
+    clean = name.strip()
+    if not clean:
+        return clean
+
+    clean = re.sub(r"\\mathrm\{([^}]*)\}", r"\1", clean)
+    clean = clean.replace("$^{*}$", "*")
+    clean = clean.replace("$^*$", "*")
+    clean = clean.replace("$^*", "*")
+    clean = clean.replace("^{*}", "*")
+    clean = clean.replace("^*", "*")
+    clean = clean.replace("$", "")
+    clean = re.sub(r"\s+", " ", clean)
+    return clean.strip()
+
+
+def _stabilize_model_names(extraction: ExtractionOutput) -> None:
+    """Normalise model names and prefer an exact proposed row label when available."""
+    if extraction.proposed_model is not None:
+        extraction.proposed_model.name = _normalise_model_name_text(extraction.proposed_model.name)
+
+    for baseline in extraction.baseline_models:
+        baseline.name = _normalise_model_name_text(baseline.name)
+
+    for result in extraction.results:
+        result.model = _normalise_model_name_text(result.model)
+
+    proposed_rows = [r.model for r in extraction.results if r.is_proposed and r.model]
+    if not proposed_rows:
+        return
+
+    most_common_proposed = max(set(proposed_rows), key=proposed_rows.count)
+    if extraction.proposed_model is None:
+        extraction.proposed_model = ProposedModel(name=most_common_proposed)
+        return
+
+    if extraction.proposed_model.name not in proposed_rows:
+        extraction.proposed_model.name = most_common_proposed
+
+
 def _render_human_readable(
     arxiv_id: str,
     title: str,
@@ -2414,7 +2456,7 @@ def run_extraction(
     # the fallback model, never overwrite it with a different (usually weaker) model.
     # To explicitly re-process with a different model, pass model_tier="fallback".
     fallback_model_name = cfg.model_for_tier("fallback")
-    if model_tier != "fallback" and storage.llm_output_path.exists():
+    if experiment_label is None and model_tier != "fallback" and storage.llm_output_path.exists():
         try:
             existing = json.loads(storage.llm_output_path.read_text(encoding="utf-8"))
             if existing.get("model_used") == fallback_model_name:
@@ -2559,8 +2601,11 @@ def run_extraction(
     if latex_paper is not None:
         # LaTeX available (preferred) — use its intro text as the paper body; skip PDF parse
         logger.info("Using LaTeX text for arXiv:%s (skipping PDF parse)", arxiv_id)
-        paper_text = latex_paper.intro_text or latex_paper.main_tex[:20_000]
-        if storage.text_path.exists():
+        if extraction_strategy == "full":
+            paper_text = latex_paper.main_tex
+        else:
+            paper_text = latex_paper.intro_text or latex_paper.main_tex[:20_000]
+        if extraction_strategy != "full" and storage.text_path.exists():
             # Re-use previously saved text if present
             paper_text = storage.text_path.read_text(encoding="utf-8") or paper_text
     elif storage.pdf_path.exists():
