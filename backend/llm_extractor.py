@@ -1701,6 +1701,7 @@ class LLMExtractor:
             call_type=call_type,
             output_format=self.result_output_format,
         )
+        raw = _sanitize_extraction_payload(raw)
         return ExtractionOutput.model_validate(raw)
 
     def _extract_from_sections(
@@ -2124,6 +2125,44 @@ def _sanitize_text(text: str) -> str:
     and reliably break openai-gpt-oss-120b responses.
     """
     return re.sub(r"[\x00-\x08\x0b\x0c\x0e-\x1f\x7f-\x9f]", "", text)
+
+
+def _sanitize_extraction_payload(raw: Any) -> Any:
+    """Drop incomplete result rows before validating an extraction payload."""
+    if not isinstance(raw, dict):
+        return raw
+
+    results = raw.get("results")
+    if not isinstance(results, list):
+        return raw
+
+    cleaned_results: list[Any] = []
+    dropped_rows = 0
+    for entry in results:
+        if not isinstance(entry, dict):
+            dropped_rows += 1
+            continue
+
+        required_fields = [entry.get("model"), entry.get("dataset"), entry.get("metric")]
+        if any(value in (None, "") for value in required_fields) or entry.get("value") in (
+            None,
+            "",
+        ):
+            dropped_rows += 1
+            continue
+
+        cleaned_results.append(entry)
+
+    if not dropped_rows:
+        return raw
+
+    note = str(raw.get("extraction_notes") or "").strip()
+    extra_note = f"Dropped {dropped_rows} incomplete result row(s) before validation."
+    return {
+        **raw,
+        "results": cleaned_results,
+        "extraction_notes": f"{note}\n{extra_note}".strip(),
+    }
 
 
 def _split_into_table_sections(text: str, max_section_size: int) -> list[str]:

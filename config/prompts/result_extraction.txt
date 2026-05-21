@@ -40,6 +40,14 @@ Output schema:
 
 Rules:
 - Include ALL rows from ALL result tables (both the proposed model AND all baselines).
+- Model names: copy names VERBATIM from the paper/table whenever possible. Preserve hyphens,
+  slashes, spaces, plus signs, digits, and suffixes such as "-small", "+RWSE", "-PE",
+  "v2", "++", or "(ours)" when they are part of the displayed row label.
+- Never replace a specific model name with a generic family name. Example: keep "GraphGPS"
+  as "GraphGPS", not "Graph Transformer"; keep "GINE + RWSE" as "GINE + RWSE", not "GINE".
+- `proposed_model.name` must be the paper's actual proposed method name, not a generic model type.
+- `baseline_models[].name` should list distinct baseline names exactly as they appear in the
+  result tables or nearby explanatory text.
 - For `params_millions`: return a number ONLY when that exact model's parameter count is explicitly
   stated in this paper. Otherwise return null.
 - NEVER infer, estimate, back-solve, or borrow parameter counts from prior papers, common
