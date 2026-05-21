@@ -34,6 +34,7 @@ from typing import Any
 from openai import OpenAI, RateLimitError, APIStatusError
 from pydantic import BaseModel, Field, field_validator
 from tenacity import retry, stop_after_attempt, wait_exponential
+import yaml
 
 from backend.config import cfg
 from backend.db import init_db, session_scope
@@ -506,9 +507,15 @@ def _normalise_metrics(results: "list[ResultEntry]") -> "list[ResultEntry]":
 class LLMExtractor:
     """Extracts structured information from a paper using an LLM."""
 
-    def __init__(self, model_tier: str = "primary", streaming: bool = False) -> None:
+    def __init__(
+        self,
+        model_tier: str = "primary",
+        streaming: bool = False,
+        result_output_format: str = "json",
+    ) -> None:
         self.model_name = cfg.model_for_tier(model_tier)
         self.streaming = streaming
+        self.result_output_format = result_output_format.lower()
         self._call_log: list[CallRecord] = []
         self._progress_callback: Any = None  # called with (CallRecord,) after each LLM call
         self._last_progress_idx: int = -1  # tracks which record was last fired
@@ -773,6 +780,89 @@ class LLMExtractor:
         if not path.exists():
             raise FileNotFoundError(f"Prompt not found: {path}")
         return path.read_text(encoding="utf-8").strip()
+
+    def _read_result_prompt(self) -> str:
+        if self.result_output_format == "yaml":
+            yaml_path = cfg.prompts_dir / "result_extraction_yaml.txt"
+            if yaml_path.exists():
+                return yaml_path.read_text(encoding="utf-8").strip()
+        return self._read_prompt("result_extraction.txt")
+
+    def _parse_structured_response(self, raw: str, output_format: str) -> Any:
+        if not raw:
+            raise ValueError(
+                f"Model {self.model_name!r} returned an empty response. "
+                "The input may be too long — check the model's context-window limit."
+            )
+
+        clean = re.sub(r"<think>.*?</think>", "", raw, flags=re.DOTALL).strip()
+        clean = re.sub(r"^```(?:json|yaml|yml)?\s*", "", clean, flags=re.MULTILINE)
+        clean = re.sub(r"\s*```$", "", clean, flags=re.MULTILINE).strip()
+
+        parse_method = "direct"
+        fmt = output_format.lower()
+        parse_errors: list[str] = []
+        parsers: list[tuple[str, Any]] = []
+        if fmt == "yaml":
+            parsers = [("yaml", yaml.safe_load), ("json", json.loads)]
+        else:
+            parsers = [("json", json.loads), ("yaml", yaml.safe_load)]
+
+        for parser_name, parser in parsers:
+            try:
+                result = parser(clean)
+                if self._call_log:
+                    self._call_log[-1].parsed_result = result
+                    if parser_name != fmt:
+                        self._call_log[-1].extra = {
+                            **self._call_log[-1].extra,
+                            "structured_parse_method": parser_name,
+                        }
+                return result
+            except Exception as exc:
+                parse_errors.append(f"{parser_name}: {exc}")
+
+        # Regex fallback for JSON-shaped content embedded in extra prose.
+        for pattern in [r"\{[\s\S]*\}", r"\[[\s\S]*\]"]:
+            m = re.search(pattern, clean)
+            if not m:
+                continue
+            try:
+                result = json.loads(m.group(0))
+                if self._call_log:
+                    self._call_log[-1].parsed_result = result
+                    self._call_log[-1].extra = {
+                        **self._call_log[-1].extra,
+                        "structured_parse_method": "json_regex",
+                    }
+                return result
+            except Exception as exc:
+                parse_errors.append(f"json_regex: {exc}")
+
+        logger.debug("Raw LLM response (first 500 chars): %s", raw[:500])
+        if self._call_log:
+            self._call_log[-1].parse_error = "; ".join(parse_errors)[:500]
+        raise ValueError(
+            f"Structured parse error from {self.model_name!r}: could not parse as {output_format}"
+        )
+
+    def _call_structured(
+        self,
+        system_prompt: str,
+        user_content: str,
+        max_tokens: int | None = None,
+        call_type: str = "llm",
+        call_extra: dict | None = None,
+        output_format: str = "json",
+    ) -> Any:
+        raw = self._call(
+            system_prompt,
+            user_content,
+            max_tokens,
+            call_type=call_type,
+            call_extra={**(call_extra or {}), "requested_output_format": output_format},
+        )
+        return self._parse_structured_response(raw, output_format)
 
     # ── Extraction tasks ───────────────────────────────────────────────────
 
@@ -1500,7 +1590,7 @@ class LLMExtractor:
           4. Fallback: smart excerpt (abstract intro + all table sections).
           5. Last resort: fixed-size text chunks across full paper.
         """
-        prompt = self._read_prompt("result_extraction.txt")
+        prompt = self._read_result_prompt()
 
         # Sanitize: strip control characters that silently break some LLMs
         paper_text = _sanitize_text(paper_text)
@@ -1605,7 +1695,12 @@ class LLMExtractor:
     def _extract_results_chunk(
         self, prompt: str, text: str, call_type: str = "extract_results"
     ) -> ExtractionOutput:
-        raw = self._call_json(prompt, text, call_type=call_type)
+        raw = self._call_structured(
+            prompt,
+            text,
+            call_type=call_type,
+            output_format=self.result_output_format,
+        )
         return ExtractionOutput.model_validate(raw)
 
     def _extract_from_sections(
@@ -1900,7 +1995,8 @@ class LLMExtractor:
         paper_title: str = "",
         structured_tables: list | None = None,
         latex_paper: Any = None,
-        use_two_step: bool = True,
+        extraction_strategy: str = "auto",
+        experiment_label: str | None = None,
     ) -> dict:
         """Run all extraction tasks and save outputs.
 
@@ -1918,8 +2014,11 @@ class LLMExtractor:
 
         logger.info("Extracting results for arXiv:%s with model=%s", arxiv_id, self.model_name)
 
+        strategy = extraction_strategy.lower()
+        use_two_step = strategy != "full"
+
         # Task 1: Results — prefer LaTeX source, then HTML tables, then legacy path
-        if not use_two_step:
+        if strategy == "full":
             results_out = self.extract_results(paper_text, tables_text)
         elif latex_paper is not None:
             results_out = self.extract_results_two_step(paper_text, [], latex_paper=latex_paper)
@@ -1949,14 +2048,51 @@ class LLMExtractor:
             "arxiv_id": arxiv_id,
             "model_used": display_name_for_model(self.model_name),
             "extracted_at": datetime.now(timezone.utc).isoformat(),
+            "experiment": {
+                "label": experiment_label,
+                "strategy": strategy,
+                "result_output_format": self.result_output_format,
+            },
             "results": results_out.model_dump(),
             "figure": figure_out.model_dump(),
             "model_sizes": [s.model_dump() for s in sizes],
         }
 
+        if experiment_label:
+            artifact_dir = storage.extracted_dir / "experiments" / _slugify_label(experiment_label)
+        else:
+            artifact_dir = storage.extracted_dir
+        artifact_dir.mkdir(parents=True, exist_ok=True)
+        llm_output_path = artifact_dir / "llm_output.json"
+        human_readable_path = artifact_dir / "results_human_readable.md"
+        call_log_path = artifact_dir / "llm_calls.json"
+
         # Save raw JSON
-        storage.llm_output_path.write_text(
+        llm_output_path.write_text(
             json.dumps(output, indent=2, ensure_ascii=False), encoding="utf-8"
+        )
+        call_log_path.write_text(
+            json.dumps(
+                [
+                    {
+                        "call_type": rec.call_type,
+                        "input_chars": rec.input_chars,
+                        "output_chars": rec.output_chars,
+                        "duration_s": rec.duration_s,
+                        "ttft_s": rec.ttft_s,
+                        "tokens_per_sec": rec.tokens_per_sec,
+                        "prompt_tokens": rec.prompt_tokens,
+                        "completion_tokens": rec.completion_tokens,
+                        "success": rec.success,
+                        "parse_error": rec.parse_error,
+                        "extra": rec.extra,
+                    }
+                    for rec in self._call_log
+                ],
+                indent=2,
+                ensure_ascii=False,
+            ),
+            encoding="utf-8",
         )
 
         # Save human-readable markdown
@@ -1966,9 +2102,12 @@ class LLMExtractor:
             model_name=self.model_name,
             results_out=results_out,
             figure_out=figure_out,
+            extraction_strategy=strategy,
+            result_output_format=self.result_output_format,
+            experiment_label=experiment_label,
         )
-        storage.human_readable_path.write_text(md, encoding="utf-8")
-        logger.info("Saved human-readable extraction to %s", storage.human_readable_path)
+        human_readable_path.write_text(md, encoding="utf-8")
+        logger.info("Saved human-readable extraction to %s", human_readable_path)
 
         return output
 
@@ -2104,6 +2243,9 @@ def _render_human_readable(
     model_name: str,
     results_out: ExtractionOutput,
     figure_out: FigureInfo,
+    extraction_strategy: str,
+    result_output_format: str,
+    experiment_label: str | None,
 ) -> str:
     """Render a Markdown verification report."""
     now = datetime.now(timezone.utc).strftime("%Y-%m-%d")
@@ -2113,6 +2255,13 @@ def _render_human_readable(
     lines.append(
         f"**Model used**: `{model_name}`  **Date**: {now}  **Confidence**: {results_out.extraction_confidence}"
     )
+    details = [
+        f"Strategy: `{extraction_strategy}`",
+        f"Result format: `{result_output_format}`",
+    ]
+    if experiment_label:
+        details.append(f"Experiment: `{experiment_label}`")
+    lines.append("**Run details**: " + "  ".join(details))
     lines.append("")
 
     if results_out.proposed_model:
@@ -2185,7 +2334,9 @@ def run_extraction(
     model_tier: str = "primary",
     screen_first: bool = True,
     fallback_on_failure: bool = True,
-    two_step: bool = True,
+    extraction_strategy: str = "auto",
+    result_output_format: str = "json",
+    experiment_label: str | None = None,
     verbose: bool = True,
 ) -> bool:
     """Two-stage extraction for a single paper already downloaded to storage.
@@ -2200,8 +2351,10 @@ def run_extraction(
         screen_first: if False, skip stage 1 and always run stage 2.
         fallback_on_failure: if True (default) and primary fails, auto-retry with fallback tier.
             Set to False when explicitly testing a specific tier (e.g. --compare-models).
-        two_step: if False, use the legacy single-shot extraction path (no dataset
-            discovery step). Useful for debugging or when the paper has no LaTeX source.
+        extraction_strategy: one of auto, two-step, or full.
+        result_output_format: structured result format requested from the model.
+        experiment_label: optional label; when set, outputs are written under
+            papers/<id>/extracted/experiments/<label>/ instead of the default path.
         verbose: if True (default), print live per-call progress to the console using
             rich formatting (same style as compare_models.py).  Set to False in batch
             pipelines where this output would clutter logs.
@@ -2407,7 +2560,10 @@ def run_extraction(
     )
 
     # Run LLM extraction — try primary tier, auto-fall back to fallback tier on failure
-    extractor = LLMExtractor(model_tier=model_tier)
+    extractor = LLMExtractor(
+        model_tier=model_tier,
+        result_output_format=result_output_format,
+    )
     if verbose:
         _call_counter: list[int] = [0]
 
@@ -2426,7 +2582,8 @@ def run_extraction(
             latex_paper=latex_paper,
             figures_list=figures_list,
             paper_title=paper_title,
-            use_two_step=two_step,
+            extraction_strategy=extraction_strategy,
+            experiment_label=experiment_label,
         )
     except Exception as exc:
         # If primary model fails (e.g. context-window too small), retry with fallback
@@ -2438,7 +2595,9 @@ def run_extraction(
                 model_tier="fallback",
                 screen_first=False,
                 fallback_on_failure=False,
-                two_step=two_step,
+                extraction_strategy=extraction_strategy,
+                result_output_format=result_output_format,
+                experiment_label=experiment_label,
                 verbose=verbose,
             )
         logger.error("LLM extraction failed for arXiv:%s: %s", arxiv_id, exc)
@@ -2726,7 +2885,29 @@ def _build_parser() -> argparse.ArgumentParser:
         default="primary",
         help="Model tier (primary/fallback/small) or explicit model name (default: primary)",
     )
+    p.add_argument(
+        "--strategy",
+        choices=["auto", "two-step", "full"],
+        default="auto",
+        help="Extraction strategy: auto/two-step/full (default: auto)",
+    )
+    p.add_argument(
+        "--result-output-format",
+        choices=["json", "yaml"],
+        default="json",
+        help="Structured result format requested from the model (default: json)",
+    )
+    p.add_argument(
+        "--experiment-label",
+        default=None,
+        help="Optional label for experiment artifacts under extracted/experiments/",
+    )
     return p
+
+
+def _slugify_label(label: str) -> str:
+    slug = re.sub(r"[^a-zA-Z0-9._-]+", "-", label.strip()).strip("-._")
+    return slug or "experiment"
 
 
 def main(argv: list[str] | None = None) -> None:
@@ -2737,7 +2918,13 @@ def main(argv: list[str] | None = None) -> None:
     for arxiv_id in args.arxiv_ids:
         arxiv_id = arxiv_id.strip().lstrip("arXiv:").split("v")[0]
         total += 1
-        if run_extraction(arxiv_id, model_tier=args.model):
+        if run_extraction(
+            arxiv_id,
+            model_tier=args.model,
+            extraction_strategy=args.strategy,
+            result_output_format=args.result_output_format,
+            experiment_label=args.experiment_label,
+        ):
             ok += 1
 
     print(f"Extracted {ok}/{total} papers.")
