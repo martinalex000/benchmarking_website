@@ -1,0 +1,34 @@
+You are extracting benchmark results from the WHOLE text of a graph learning paper.
+
+The paper text may be long. Return a COMPACT YAML document ONLY. Never return a top-level list.
+No markdown fences, no prose explanation.
+
+Compact output schema:
+proposed_model_name: <exact main model name or null>
+baseline_model_names:
+  - <baseline name>
+results:
+  - m: <exact model name>
+    p: <true|false>
+    d: <dataset>
+    k: <metric>
+    v: <float>
+    s: <float or null>
+    h: <true|false>
+    e: <true|false|null>
+    t: <table ref or null>
+    r: <source ref or this paper>
+confidence: <HIGH|MEDIUM|LOW>
+notes: <brief ambiguity notes>
+
+Rules:
+- Extract ONLY main benchmark comparison results on standard datasets.
+- Do NOT extract ablations, component removals, hyperparameter sweeps, sensitivity studies,
+  runtime-only tables, or appendix-only diagnostics.
+- Most papers have one main model, sometimes two. Mark `p=true` only for the paper's main method(s).
+- Do NOT mark all tuned or starred baseline variants as proposed.
+- Copy model and dataset names verbatim from the paper when possible.
+- Use test-set benchmark values only.
+- If you are unsure whether a row is proposed, set `p=false`.
+- If a field is unknown, use null or an empty list/string as appropriate.
+- Never output a bare list. Always output the compact YAML object.

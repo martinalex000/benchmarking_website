@@ -6,15 +6,16 @@ headers, identify which tables contain numeric benchmark results for each datase
 INCLUDE a table for a dataset if it:
 - Reports model performance scores on that dataset (by name or common abbreviation)
 - Compares multiple models on a benchmark that includes that dataset
-- Contains ablation results for that dataset
 
-PREFER the main results table over appendix tables when both cover the same models.
+PREFER the main benchmark table over appendix tables, ablation tables, and diagnostic tables.
 
 EXCLUDE a table for a dataset if it:
 - Describes dataset statistics only (no model scores)
 - Lists hyperparameters or training configurations
 - Shows run times or compute costs
 - Reports results exclusively for other, unrelated datasets
+- Is an ablation, sensitivity, component-removal, hyperparameter, or diagnostic table, even if it
+  reports scores for that dataset
 - Shows results for optional variants or alternative configurations
   (e.g., different graph construction formats, SLIC values, resolution variants)
   when a main results table already covers the standard configuration
@@ -26,5 +27,6 @@ Each value is a list of integer table numbers.
 Example output (do not copy verbatim):
 {"Dataset-A": [3, 4], "Dataset-B": [3], "Dataset-C": [5, 6]}
 
-If genuinely unsure whether a table is relevant for a dataset, prefer to include it.
+If genuinely unsure between a main benchmark table and an ablation/diagnostic table, keep only the
+main benchmark table.
 Use an empty list [] only if you are certain no table contains results for that dataset.

@@ -1,6 +1,6 @@
 # One-Shot vs RAG Extraction Report
 
-Date: 2026-05-21
+Date: 2026-05-22
 Branch: `experiment/one-shot-vs-rag`
 
 ## Goal
@@ -16,6 +16,9 @@ Compare whole-paper one-shot extraction on expanded LaTeX (`paper.tex` / `main_t
 5. Allowed labeled experiment runs even when the default paper output was produced by the fallback model.
 6. Normalized model names (`$^*$` -> `*`, basic LaTeX cleanup) and stabilized `proposed_model.name` from extracted proposed rows.
 7. Fixed `full` mode so it actually uses the full expanded LaTeX source instead of the intro slice.
+8. Added dedicated compact full-paper prompts plus payload expansion rescue for `full` extraction.
+9. Tightened dataset discovery, table selection, and result extraction prompts to exclude ablations and diagnostic tables.
+10. Added post-processing heuristics so benchmarking/reassessment papers do not keep an invented single proposed model.
 
 ## Papers Tested
 
@@ -96,11 +99,27 @@ What worked after the name cleanup pass:
 - `GNN*` was corrected to `GCN*` in the qwen YAML RAG output for `2406.08993`.
 - LaTeX star markup such as `GraphGPS$^*$` was normalized to `GraphGPS*`.
 - `ACMII-GCN++` was preserved correctly for `2210.07606` in the two-step runs.
+- After the benchmarking-title heuristic fix, `2406.08993` no longer persists a fake single proposed model in the final qwen two-step YAML artifact.
 
 What still needs work:
 
-- `is_proposed` labeling is still noisy on `2406.08993`; several starred rows are treated as proposed in contexts where the paper is really comparing multiple tuned variants.
 - The fast model's dataset discovery sometimes prefers shorter aliases (`Computer`, `Photo`, `CS`) instead of the longer paper-local forms (`Amazon-Computers`, `Amazon-Photo`, `Coauthor-CS`). This did not block extraction, but it is less faithful.
+
+## Follow-Up Update (2026-05-22)
+
+The second pass focused on the two biggest weaknesses from the initial experiment: making whole-paper one-shot extraction at least testable, and preventing benchmarking papers from inventing a proposed model.
+
+Validated updates on `2406.08993`:
+
+- `qwen-two-step-yaml` now keeps only main benchmark-table results, excludes ablation-style rows, and finishes with `334` results across `17` datasets.
+- The final saved `qwen-two-step-yaml` artifact now has `proposed_model: null` and no `is_proposed` rows, which matches the paper's benchmarking/reassessment framing.
+- `qwen-full-json` no longer fails schema validation on the full-paper path. With the compact full prompt plus payload-expansion rescue, it saves a valid artifact with `16` results across `4` datasets from the main benchmark table and no proposed model.
+
+What this changes in the original conclusion:
+
+- Whole-paper one-shot is still much weaker than two-step RAG, but it is no longer completely unusable for qwen on this paper.
+- Ablation exclusion has to happen twice: once in table selection and again in result post-processing.
+- Proposed-model stabilization cannot rely only on the model output; benchmarking-title-aware cleanup is necessary.
 
 ## What Worked Well
 
@@ -120,7 +139,7 @@ What still needs work:
 1. Keep the default extraction path as multi-shot RAG.
 2. Prefer YAML over JSON for long papers with many datasets or long source references.
 3. Use `openai-gpt-oss-120b` only with two-step RAG; do not use it for whole-paper one-shot extraction.
-4. Treat whole-paper one-shot as an experimental path that still needs a dedicated prompt or post-processing rescue before it is trustworthy.
+4. Treat whole-paper one-shot as an experimental path that now has a workable rescue layer, but is still materially less complete than two-step RAG.
 
 ## Relevant Artifacts
 

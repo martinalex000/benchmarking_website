@@ -6,15 +6,16 @@ identify which tables contain numeric benchmark results for that dataset.
 INCLUDE a table if it:
 - Reports model performance scores on the target dataset (by name or common abbreviation)
 - Compares multiple models on a benchmark that includes the target dataset
-- Contains ablation results for the target dataset
 
-PREFER the main results table over appendix tables when both cover the same models.
+PREFER the main benchmark table over appendix tables, ablation tables, and diagnostic tables.
 
 EXCLUDE a table if it:
 - Describes dataset statistics (size, splits, number of graphs/nodes) — no model scores
 - Lists hyperparameters or training configurations
 - Shows run times or compute costs
 - Reports results exclusively for other, unrelated datasets
+- Is an ablation, sensitivity, component-removal, hyperparameter, or diagnostic table, even if it
+  reports scores on the target dataset
 - Shows results for optional variants or alternative configurations of the dataset
   (e.g., different graph construction formats, SLIC values, resolution variants)
   when a main results table already covers the standard configuration
@@ -22,5 +23,6 @@ EXCLUDE a table if it:
 Output a JSON object ONLY — no markdown fences, no explanation:
 {"relevant_table_numbers": [<integer>, ...]}
 
-If genuinely unsure whether a table is relevant, prefer to include it rather than exclude it.
+If genuinely unsure between a main benchmark table and an ablation/diagnostic table, keep only the
+main benchmark table.
 Return an empty list ONLY if you are certain no table contains results for the target dataset.

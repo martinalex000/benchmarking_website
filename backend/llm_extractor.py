@@ -781,12 +781,17 @@ class LLMExtractor:
             raise FileNotFoundError(f"Prompt not found: {path}")
         return path.read_text(encoding="utf-8").strip()
 
-    def _read_result_prompt(self) -> str:
+    def _read_result_prompt(self, full_mode: bool = False) -> str:
         if self.result_output_format == "yaml":
-            yaml_path = cfg.prompts_dir / "result_extraction_yaml.txt"
+            yaml_name = (
+                "full_result_extraction_yaml.txt" if full_mode else "result_extraction_yaml.txt"
+            )
+            yaml_path = cfg.prompts_dir / yaml_name
             if yaml_path.exists():
                 return yaml_path.read_text(encoding="utf-8").strip()
-        return self._read_prompt("result_extraction.txt")
+        return self._read_prompt(
+            "full_result_extraction.txt" if full_mode else "result_extraction.txt"
+        )
 
     def _parse_structured_response(self, raw: str, output_format: str) -> Any:
         if not raw:
@@ -1463,7 +1468,7 @@ class LLMExtractor:
             logger.debug("DB primary_metric lookup skipped: %s", _exc)
 
         # Step 2: per-dataset focused extraction
-        prompt = self._read_prompt("result_extraction.txt")
+        prompt = self._read_result_prompt()
         all_results: list[ResultEntry] = []
         proposed: ProposedModel | None = None
         baselines: list[BaselineModelInfo] = []
@@ -1590,7 +1595,7 @@ class LLMExtractor:
           4. Fallback: smart excerpt (abstract intro + all table sections).
           5. Last resort: fixed-size text chunks across full paper.
         """
-        prompt = self._read_result_prompt()
+        prompt = self._read_result_prompt(full_mode=True)
 
         # Sanitize: strip control characters that silently break some LLMs
         paper_text = _sanitize_text(paper_text)
@@ -1701,6 +1706,7 @@ class LLMExtractor:
             call_type=call_type,
             output_format=self.result_output_format,
         )
+        raw = _expand_extraction_payload(raw)
         raw = _sanitize_extraction_payload(raw)
         return ExtractionOutput.model_validate(raw)
 
@@ -2043,7 +2049,7 @@ class LLMExtractor:
         # Task 3: Model sizes (merge back into results_out)
         sizes = self.extract_model_sizes(paper_text)
         _apply_sizes(results_out, sizes)
-        _stabilize_model_names(results_out)
+        _stabilize_model_names(results_out, paper_title=paper_title)
 
         # Compose full output
         output = {
@@ -2163,6 +2169,78 @@ def _sanitize_extraction_payload(raw: Any) -> Any:
         **raw,
         "results": cleaned_results,
         "extraction_notes": f"{note}\n{extra_note}".strip(),
+    }
+
+
+def _expand_extraction_payload(raw: Any) -> Any:
+    """Expand compact or partially wrapped extraction payloads into the full schema."""
+    if isinstance(raw, list):
+        if raw and all(isinstance(item, dict) for item in raw):
+            sample = raw[0]
+            if {"model", "dataset", "metric", "value"}.issubset(sample):
+                return {
+                    "proposed_model": None,
+                    "baseline_models": [],
+                    "results": raw,
+                    "extraction_confidence": "LOW",
+                    "extraction_notes": "Wrapped bare result list into extraction object.",
+                }
+            if {"m", "d", "k", "v"}.issubset(sample):
+                return {
+                    "proposed_model": None,
+                    "baseline_models": [],
+                    "results": [_expand_compact_result_entry(item) for item in raw],
+                    "extraction_confidence": "LOW",
+                    "extraction_notes": "Wrapped bare compact result list into extraction object.",
+                }
+            if "name" in sample:
+                return {
+                    "proposed_model": None,
+                    "baseline_models": raw,
+                    "results": [],
+                    "extraction_confidence": "LOW",
+                    "extraction_notes": "Wrapped bare baseline-model list into extraction object.",
+                }
+        return raw
+
+    if not isinstance(raw, dict):
+        return raw
+
+    if "proposed_model_name" not in raw and not any(k in raw for k in ("confidence", "notes")):
+        return raw
+
+    baseline_names = raw.get("baseline_model_names") or []
+    return {
+        "proposed_model": (
+            {"name": raw.get("proposed_model_name")} if raw.get("proposed_model_name") else None
+        ),
+        "baseline_models": [
+            {"name": name, "params_millions": None, "original_paper_hint": None}
+            for name in baseline_names
+            if name
+        ],
+        "results": [_expand_compact_result_entry(item) for item in raw.get("results", [])],
+        "extraction_confidence": raw.get("confidence", "LOW"),
+        "extraction_notes": raw.get("notes", ""),
+    }
+
+
+def _expand_compact_result_entry(entry: Any) -> Any:
+    if not isinstance(entry, dict):
+        return entry
+    if "model" in entry:
+        return entry
+    return {
+        "model": entry.get("m"),
+        "is_proposed": entry.get("p", False),
+        "dataset": entry.get("d"),
+        "metric": entry.get("k"),
+        "value": entry.get("v"),
+        "std": entry.get("s"),
+        "higher_is_better": entry.get("h", True),
+        "uses_external_data": entry.get("e"),
+        "table_ref": entry.get("t"),
+        "source_ref": entry.get("r", "this paper"),
     }
 
 
@@ -2294,28 +2372,136 @@ def _normalise_model_name_text(name: str) -> str:
     return clean.strip()
 
 
-def _stabilize_model_names(extraction: ExtractionOutput) -> None:
-    """Normalise model names and prefer an exact proposed row label when available."""
+def _stabilize_model_names(extraction: ExtractionOutput, paper_title: str = "") -> None:
+    """Normalise model names, drop ablations, and stabilize the main proposed model."""
     if extraction.proposed_model is not None:
         extraction.proposed_model.name = _normalise_model_name_text(extraction.proposed_model.name)
 
     for baseline in extraction.baseline_models:
         baseline.name = _normalise_model_name_text(baseline.name)
 
+    filtered_results: list[ResultEntry] = []
+    dropped_ablation_rows = 0
     for result in extraction.results:
         result.model = _normalise_model_name_text(result.model)
+        if _looks_like_ablation_model(result.model):
+            dropped_ablation_rows += 1
+            continue
+        filtered_results.append(result)
+    extraction.results = filtered_results
+
+    extraction.baseline_models = [
+        baseline
+        for baseline in extraction.baseline_models
+        if not _looks_like_ablation_model(baseline.name)
+    ]
+
+    if dropped_ablation_rows:
+        note = f"Dropped {dropped_ablation_rows} ablation/diagnostic row(s)."
+        extraction.extraction_notes = f"{extraction.extraction_notes}\n{note}".strip()
 
     proposed_rows = [r.model for r in extraction.results if r.is_proposed and r.model]
-    if not proposed_rows:
+    proposed_name = _choose_primary_proposed_model_name(
+        extraction=extraction,
+        proposed_rows=proposed_rows,
+        paper_title=paper_title,
+    )
+    if not proposed_name:
+        extraction.proposed_model = None
+        for result in extraction.results:
+            result.is_proposed = False
         return
 
-    most_common_proposed = max(set(proposed_rows), key=proposed_rows.count)
+    proposed_key = _canonical_model_name_key(proposed_name)
+    exact_name = proposed_name
+    for result in extraction.results:
+        result.is_proposed = _canonical_model_name_key(result.model) == proposed_key
+        if result.is_proposed:
+            exact_name = result.model
+
     if extraction.proposed_model is None:
-        extraction.proposed_model = ProposedModel(name=most_common_proposed)
-        return
+        extraction.proposed_model = ProposedModel(name=exact_name)
+    else:
+        extraction.proposed_model.name = exact_name
 
-    if extraction.proposed_model.name not in proposed_rows:
-        extraction.proposed_model.name = most_common_proposed
+    extraction.baseline_models = [
+        baseline
+        for baseline in extraction.baseline_models
+        if _canonical_model_name_key(baseline.name) != proposed_key
+    ]
+
+
+def _choose_primary_proposed_model_name(
+    extraction: ExtractionOutput,
+    proposed_rows: list[str],
+    paper_title: str,
+) -> str | None:
+    title_lower = paper_title.lower()
+    is_benchmarking_title = _title_looks_like_benchmarking_study(title_lower)
+    unique_proposed_keys = {_canonical_model_name_key(name) for name in proposed_rows if name}
+    if (
+        extraction.proposed_model is not None
+        and not _is_generic_proposed_name(extraction.proposed_model.name)
+        and (
+            not is_benchmarking_title
+            or _model_name_appears_in_title(extraction.proposed_model.name, title_lower)
+        )
+    ):
+        return extraction.proposed_model.name
+
+    title_matches = [
+        name
+        for name in sorted(set(proposed_rows))
+        if _model_name_appears_in_title(name, title_lower)
+    ]
+    if title_matches:
+        return title_matches[0]
+
+    if is_benchmarking_title:
+        return None
+
+    if proposed_rows:
+        return max(set(proposed_rows), key=lambda name: (proposed_rows.count(name), len(name)))
+
+    if extraction.proposed_model is not None:
+        return extraction.proposed_model.name
+    return None
+
+
+def _model_name_appears_in_title(name: str, title_lower: str) -> bool:
+    base = _normalise_model_name_text(name).replace("*", "").strip().lower()
+    return bool(base) and base in title_lower
+
+
+def _is_generic_proposed_name(name: str) -> bool:
+    lower = _normalise_model_name_text(name).lower()
+    generic_terms = ("gnn", "model", "method", "baseline", "graph neural network")
+    return any(lower == term or lower.startswith(term + " ") for term in generic_terms)
+
+
+def _title_looks_like_benchmarking_study(title_lower: str) -> bool:
+    hints = ("baseline", "benchmark", "reassess", "comparison", "empirical", "study")
+    return any(hint in title_lower for hint in hints)
+
+
+def _canonical_model_name_key(name: str) -> str:
+    clean = _normalise_model_name_text(name).lower().strip()
+    clean = clean.rstrip("*")
+    clean = re.sub(r"\s*\([^)]*\)\s*$", "", clean)
+    clean = re.sub(r"[^a-z0-9]+", "", clean)
+    return clean
+
+
+def _looks_like_ablation_model(name: str) -> bool:
+    lower = _normalise_model_name_text(name).lower()
+    if "w/o" in lower or "without" in lower or "ablation" in lower:
+        return True
+    return bool(
+        re.search(
+            r"\((?:[^)]*dropout|[^)]*normalization|[^)]*normalisation|[^)]*residual|[^)]*remove|[^)]*minus|\s*-[^)]+)\)",
+            lower,
+        )
+    )
 
 
 def _render_human_readable(

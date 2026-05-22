@@ -21,8 +21,8 @@ Guidelines:
 - Include ONLY datasets with actual numeric experiment tables comparing model performance.
 - Do NOT include datasets only mentioned in the introduction or related work.
 - Use the exact name as it appears in the paper (e.g. keep "Peptides-func" not "Peptides").
-- table_refs: which table numbers contain results for this dataset (best guess from context).
-- If a dataset appears in multiple tables (main results + ablation), list all table refs.
+- table_refs: which MAIN benchmark table numbers contain results for this dataset (best guess from context).
+- Do NOT prefer ablation, appendix, or diagnostic tables when a main benchmark table exists.
 - Combine sub-tasks into one entry if they belong to the same benchmark
   (e.g. "Peptides-func" and "Peptides-struct" are separate entries).
 - primary_metric: the main comparison metric. Use standard abbreviations:
