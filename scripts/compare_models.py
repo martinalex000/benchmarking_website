@@ -212,6 +212,7 @@ def _run_extraction(
     extractor = LLMExtractor.__new__(LLMExtractor)
     extractor.model_name = model_name
     extractor.streaming = True  # enables TTFT + tok/s measurement
+    extractor.result_output_format = "yaml"
     extractor._call_log = []
     extractor._last_progress_idx = -1
     extractor._client = OpenAI(
@@ -273,6 +274,7 @@ def _run_oneshot_extraction(
     extractor = LLMExtractor.__new__(LLMExtractor)
     extractor.model_name = model_name
     extractor.streaming = True
+    extractor.result_output_format = "yaml"
     extractor._call_log = []
     extractor._last_progress_idx = -1
     extractor._client = OpenAI(
@@ -325,6 +327,7 @@ def _run_discovery_only(
     extractor = LLMExtractor.__new__(LLMExtractor)
     extractor.model_name = model_name
     extractor.streaming = True
+    extractor.result_output_format = "yaml"
     extractor._call_log = []
     extractor._last_progress_idx = -1
     extractor._client = OpenAI(

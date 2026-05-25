@@ -22,6 +22,8 @@ import json
 import time
 import logging
 import re
+import subprocess
+import tempfile
 import textwrap
 import urllib.error
 import urllib.request
@@ -98,6 +100,139 @@ def _get_top_datasets_hint(limit: int = 50) -> str:
     except Exception as exc:
         logger.debug("Could not query top datasets from DB: %s", exc)
         return ""
+
+
+_KNOWN_DATASET_NAMES_CACHE: list[str] | None = None
+
+
+def _get_known_dataset_names() -> list[str]:
+    """Return canonical dataset names from config/seed_data.yaml."""
+    global _KNOWN_DATASET_NAMES_CACHE
+    if _KNOWN_DATASET_NAMES_CACHE is not None:
+        return _KNOWN_DATASET_NAMES_CACHE
+
+    seed_path = Path(__file__).resolve().parents[1] / "config" / "seed_data.yaml"
+    try:
+        raw = yaml.safe_load(seed_path.read_text(encoding="utf-8")) or {}
+    except Exception as exc:
+        logger.debug("Could not load canonical dataset names from %s: %s", seed_path, exc)
+        _KNOWN_DATASET_NAMES_CACHE = []
+        return _KNOWN_DATASET_NAMES_CACHE
+
+    names: list[str] = []
+    seen: set[str] = set()
+    for benchmark in raw.get("benchmarks", []) or []:
+        for dataset in benchmark.get("datasets", []) or []:
+            name = str(dataset.get("name", "")).strip()
+            if not name:
+                continue
+            key = name.lower()
+            if key in seen:
+                continue
+            seen.add(key)
+            names.append(name)
+
+    _KNOWN_DATASET_NAMES_CACHE = names
+    return names
+
+
+def _ripgrep_dataset_name_hits(
+    text: str, source_path: Path | None = None, limit: int = 80
+) -> list[str]:
+    """Return canonical dataset names whose literal strings appear in the text."""
+    dataset_names = _get_known_dataset_names()
+    if not dataset_names:
+        return []
+
+    canonical_by_lower = {name.lower(): name for name in dataset_names}
+    target_path = source_path if source_path and source_path.exists() else None
+
+    try:
+        with tempfile.TemporaryDirectory(prefix="dataset-rg-") as tmpdir:
+            tmp_path = Path(tmpdir)
+            patterns_path = tmp_path / "datasets.regex"
+            pattern_lines = [
+                rf"(?<![A-Za-z0-9-]){re.escape(name)}(?![A-Za-z0-9-])" for name in dataset_names
+            ]
+            patterns_path.write_text("\n".join(pattern_lines), encoding="utf-8")
+
+            if target_path is None:
+                target_path = tmp_path / "input.txt"
+                target_path.write_text(text, encoding="utf-8", errors="replace")
+
+            proc = subprocess.run(
+                [
+                    "rg",
+                    "--pcre2",
+                    "--no-filename",
+                    "--only-matching",
+                    "--ignore-case",
+                    "--file",
+                    str(patterns_path),
+                    str(target_path),
+                ],
+                check=False,
+                capture_output=True,
+                text=True,
+            )
+    except FileNotFoundError:
+        logger.debug("ripgrep not available; skipping dataset-name precheck")
+        return []
+    except Exception as exc:
+        logger.debug("ripgrep dataset precheck failed: %s", exc)
+        return []
+
+    if proc.returncode not in (0, 1):
+        logger.debug("ripgrep dataset precheck returned %d: %s", proc.returncode, proc.stderr)
+        return []
+
+    context_markers = (
+        "dataset",
+        "datasets",
+        "benchmark",
+        "benchmarks",
+        "split",
+        "splits",
+        "accuracy",
+        "acc",
+        "f1",
+        "auc",
+        "roc",
+        "mae",
+        "rmse",
+        "mrr",
+        "ap",
+        "hits@",
+        "results",
+        "performance",
+        "classification",
+        "regression",
+        "prediction",
+        "table",
+    )
+    text_lower = text.lower()
+
+    def _has_benchmark_context(name: str) -> bool:
+        pattern = rf"(?<![A-Za-z0-9-]){re.escape(name)}(?![A-Za-z0-9-])"
+        for match in re.finditer(pattern, text, flags=re.IGNORECASE):
+            start = max(0, match.start() - 80)
+            end = min(len(text_lower), match.end() + 80)
+            window = text_lower[start:end]
+            if any(marker in window for marker in context_markers):
+                return True
+        return False
+
+    hits: list[str] = []
+    seen_hits: set[str] = set()
+    for line in proc.stdout.splitlines():
+        canonical = canonical_by_lower.get(line.strip().lower())
+        if not canonical or canonical in seen_hits or not _has_benchmark_context(canonical):
+            continue
+        seen_hits.add(canonical)
+        hits.append(canonical)
+        if len(hits) >= limit:
+            break
+    return hits
 
 
 def _extract_metadata_from_latex_cache(latex_dir: "Path") -> "dict[str, str]":
@@ -205,6 +340,22 @@ def fetch_arxiv_metadata(arxiv_id: str) -> dict[str, str]:
             time.sleep(_RETRY_INTERVAL)
     logger.warning("arXiv API gave up after %d attempts for %s", _MAX_ATTEMPTS, arxiv_id)
     return {}
+
+
+def _headers_to_dict(headers_obj: Any) -> dict[str, str]:
+    """Convert a response header container to a lowercase dict."""
+    if headers_obj is None:
+        return {}
+
+    try:
+        items = headers_obj.items()
+    except Exception:
+        try:
+            return {str(k).lower(): str(v) for k, v in dict(headers_obj).items()}
+        except Exception:
+            return {}
+
+    return {str(k).lower(): str(v) for k, v in items}
 
 
 # ── Call logging ───────────────────────────────────────────────────────────────
@@ -511,7 +662,7 @@ class LLMExtractor:
         self,
         model_tier: str = "primary",
         streaming: bool = False,
-        result_output_format: str = "json",
+        result_output_format: str = "yaml",
     ) -> None:
         self.model_name = cfg.model_for_tier(model_tier)
         self.streaming = streaming
@@ -543,6 +694,57 @@ class LLMExtractor:
         Uses the shared helper so behavior is consistent across scripts.
         """
         return extra_body_for_model(self.model_name)
+
+    def _probe_usage_limits(self) -> dict[str, Any]:
+        """Fetch a compact snapshot of endpoint request-limit headers."""
+        try:
+            raw = self._client.chat.completions.with_raw_response.create(
+                model=self.model_name,
+                messages=[
+                    {"role": "system", "content": "You are a helpful assistant. Respond briefly."},
+                    {"role": "user", "content": "Say 'OK' and nothing else."},
+                ],
+                max_tokens=8,
+                temperature=0.0,
+                extra_body=self._extra_body(),
+            )
+            headers = _headers_to_dict(getattr(raw, "headers", None))
+        except Exception as exc:
+            logger.debug("Usage limit probe failed for %s: %s", self.model_name, exc)
+            return {
+                "checked_at": datetime.now(timezone.utc).isoformat(),
+                "model": self.model_name,
+                "note": f"Usage limit probe failed: {exc}",
+            }
+
+        windows: dict[str, dict[str, str]] = {}
+        for window in ("second", "minute", "hour", "day", "month"):
+            limit = headers.get(f"x-ratelimit-limit-{window}")
+            remaining = headers.get(f"x-ratelimit-remaining-{window}")
+            if limit or remaining:
+                windows[window] = {
+                    "limit": limit or "?",
+                    "remaining": remaining or "?",
+                }
+
+        snapshot: dict[str, Any] = {
+            "checked_at": datetime.now(timezone.utc).isoformat(),
+            "model": self.model_name,
+            "windows": windows,
+        }
+        burst_limit = headers.get("ratelimit-limit")
+        burst_remaining = headers.get("ratelimit-remaining")
+        if burst_limit or burst_remaining:
+            snapshot["burst"] = {
+                "limit": burst_limit or "?",
+                "remaining": burst_remaining or "?",
+                "reset": headers.get("ratelimit-reset") or headers.get("retry-after"),
+            }
+        if not windows and "burst" not in snapshot:
+            snapshot["note"] = (
+                "Endpoint did not return explicit rate-limit headers on the probe request."
+            )
+        return snapshot
 
     @retry(
         stop=stop_after_attempt(3),
@@ -902,6 +1104,14 @@ class LLMExtractor:
         parts = [f"=== PAPER INTRO / ABSTRACT ===\n{intro}"]
         if tables_preview.strip():
             parts.append(f"=== TABLE PREVIEWS ===\n{tables_preview}")
+        precheck_source = "\n\n".join(part for part in [intro, tables_preview] if part.strip())
+        precheck_hits = _ripgrep_dataset_name_hits(precheck_source)
+        if precheck_hits:
+            parts.append(
+                "=== RIPGREP PRE-CHECK: CANONICAL DATASET NAMES FOUND IN THE INPUT TEXT ===\n"
+                "Use these as candidate dataset names when they correspond to real benchmark results in this paper.\n"
+                + "\n".join(f"- {name}" for name in precheck_hits)
+            )
         known_hint = _get_top_datasets_hint(50)
         if known_hint:
             parts.append(
@@ -926,6 +1136,7 @@ class LLMExtractor:
                 self._call_log[-1].extra = {
                     **self._call_log[-1].extra,
                     "discovered_datasets": [d.name for d in result.datasets],
+                    "dataset_precheck_hits": precheck_hits,
                 }
             self._fire_progress()
             return result
@@ -971,9 +1182,27 @@ class LLMExtractor:
             f"=== ALL TABLE CAPTIONS (with column headers and first-column model names) ===\n{table_catalogue}",
             f"=== SECTION HEADINGS ===\n{latex_paper.section_headings}",
         ]
+        exp_text = latex_paper.experiment_text
+        precheck_source_parts = [
+            latex_paper.intro_text,
+            latex_paper.all_table_captions,
+            latex_paper.section_headings,
+        ]
+        if exp_text:
+            precheck_source_parts.append(exp_text[:6000])
+        precheck_source = "\n\n".join(part for part in precheck_source_parts if part.strip())
+        precheck_hits = _ripgrep_dataset_name_hits(
+            precheck_source,
+        )
+        if precheck_hits:
+            parts.append(
+                "=== RIPGREP PRE-CHECK: CANONICAL DATASET NAMES FOUND IN expanded.tex ===\n"
+                "These are exact string hits against the website's canonical dataset list. Use them as candidate "
+                "dataset names only when the paper actually reports benchmark results for them.\n"
+                + "\n".join(f"- {name}" for name in precheck_hits)
+            )
         # Include a snippet of experiment-section text so the LLM can see dataset
         # names that appear only in the body (not in intro or table captions).
-        exp_text = latex_paper.experiment_text
         if exp_text:
             parts.append(
                 f"=== EXPERIMENT SECTION EXCERPT (first 6000 chars) ===\n{exp_text[:6000]}"
@@ -1003,6 +1232,7 @@ class LLMExtractor:
                 self._call_log[-1].extra = {
                     **self._call_log[-1].extra,
                     "discovered_datasets": [d.name for d in result.datasets],
+                    "dataset_precheck_hits": precheck_hits,
                 }
             self._fire_progress()
             return result
@@ -2050,6 +2280,7 @@ class LLMExtractor:
         sizes = self.extract_model_sizes(paper_text)
         _apply_sizes(results_out, sizes)
         _stabilize_model_names(results_out, paper_title=paper_title)
+        usage_summary = _summarize_call_usage(self._call_log, self._probe_usage_limits())
 
         # Compose full output
         output = {
@@ -2064,6 +2295,7 @@ class LLMExtractor:
             "results": results_out.model_dump(),
             "figure": figure_out.model_dump(),
             "model_sizes": [s.model_dump() for s in sizes],
+            "usage": usage_summary,
         }
 
         if experiment_label:
@@ -2113,6 +2345,7 @@ class LLMExtractor:
             extraction_strategy=strategy,
             result_output_format=self.result_output_format,
             experiment_label=experiment_label,
+            usage_summary=usage_summary,
         )
         human_readable_path.write_text(md, encoding="utf-8")
         logger.info("Saved human-readable extraction to %s", human_readable_path)
@@ -2513,6 +2746,7 @@ def _render_human_readable(
     extraction_strategy: str,
     result_output_format: str,
     experiment_label: str | None,
+    usage_summary: dict[str, Any] | None,
 ) -> str:
     """Render a Markdown verification report."""
     now = datetime.now(timezone.utc).strftime("%Y-%m-%d")
@@ -2530,6 +2764,46 @@ def _render_human_readable(
         details.append(f"Experiment: `{experiment_label}`")
     lines.append("**Run details**: " + "  ".join(details))
     lines.append("")
+
+    if usage_summary:
+        lines.append("## Usage")
+        lines.append("")
+        lines.append(
+            "- "
+            f"Extraction calls: {usage_summary.get('total_calls', 0)} total, "
+            f"{usage_summary.get('successful_calls', 0)} successful, "
+            f"{usage_summary.get('failed_calls', 0)} failed"
+        )
+        lines.append(
+            "- "
+            f"Token usage: prompt {usage_summary.get('prompt_tokens', 0)}, "
+            f"completion {usage_summary.get('completion_tokens', 0)}, "
+            f"total {usage_summary.get('total_tokens', 0)}"
+        )
+        quota = usage_summary.get("quota_snapshot") or {}
+        windows = quota.get("windows") or {}
+        if windows:
+            quota_bits = []
+            for window in ("second", "minute", "hour", "day", "month"):
+                values = windows.get(window)
+                if not values:
+                    continue
+                quota_bits.append(
+                    f"{window} {values.get('remaining', '?')}/{values.get('limit', '?')} remaining"
+                )
+            if quota_bits:
+                lines.append("- Endpoint request limits at end of run: " + "; ".join(quota_bits))
+        burst = quota.get("burst") or {}
+        if burst:
+            reset = burst.get("reset")
+            reset_text = f", resets in {reset}s" if reset else ""
+            lines.append(
+                "- "
+                f"Burst window: {burst.get('remaining', '?')}/{burst.get('limit', '?')} remaining{reset_text}"
+            )
+        if quota.get("note"):
+            lines.append(f"- {quota['note']}")
+        lines.append("")
 
     if results_out.proposed_model:
         pm = results_out.proposed_model
@@ -2593,6 +2867,29 @@ def _render_human_readable(
     return "\n".join(lines)
 
 
+def _summarize_call_usage(
+    call_log: list[CallRecord],
+    quota_snapshot: dict[str, Any] | None,
+) -> dict[str, Any]:
+    """Summarize per-call usage for the saved extraction artifact."""
+    prompt_tokens = sum(rec.prompt_tokens or 0 for rec in call_log)
+    completion_tokens = sum(rec.completion_tokens or 0 for rec in call_log)
+    successful_calls = sum(1 for rec in call_log if rec.success)
+    failed_calls = len(call_log) - successful_calls
+    return {
+        "total_calls": len(call_log),
+        "successful_calls": successful_calls,
+        "failed_calls": failed_calls,
+        "prompt_tokens": prompt_tokens,
+        "completion_tokens": completion_tokens,
+        "total_tokens": prompt_tokens + completion_tokens,
+        "total_input_chars": sum(rec.input_chars for rec in call_log),
+        "total_output_chars": sum(rec.output_chars for rec in call_log),
+        "total_duration_s": round(sum(rec.duration_s for rec in call_log), 2),
+        "quota_snapshot": quota_snapshot or {},
+    }
+
+
 # ── Standalone runner ─────────────────────────────────────────────────────────
 
 
@@ -2602,7 +2899,7 @@ def run_extraction(
     screen_first: bool = True,
     fallback_on_failure: bool = True,
     extraction_strategy: str = "auto",
-    result_output_format: str = "json",
+    result_output_format: str = "yaml",
     experiment_label: str | None = None,
     verbose: bool = True,
 ) -> bool:
@@ -3164,8 +3461,8 @@ def _build_parser() -> argparse.ArgumentParser:
     p.add_argument(
         "--result-output-format",
         choices=["json", "yaml"],
-        default="json",
-        help="Structured result format requested from the model (default: json)",
+        default="yaml",
+        help="Structured result format requested from the model (default: yaml)",
     )
     p.add_argument(
         "--experiment-label",

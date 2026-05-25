@@ -1,158 +1,158 @@
-# One-Shot vs RAG Extraction Report
+# Extraction Quality Report
 
-Date: 2026-05-22
-Branch: `experiment/one-shot-vs-rag`
+Date: 2026-05-25
+State: merged to `main`, then extended with a larger validation sweep
 
-## Goal
+## TL;DR
 
-Compare whole-paper one-shot extraction on expanded LaTeX (`paper.tex` / `main_tex`) against the current multi-shot RAG pipeline, and test whether YAML is a better structured output format than JSON for long result extraction runs.
+- Keep `two-step` RAG as the default extraction path.
+- Make YAML the default structured format. It is materially more robust than JSON on long, high-cardinality benchmark papers.
+- qwen is now the safest default for hard benchmark papers. The fast OpenAI model is competitive on some papers, but it is much less consistent on the hardest ones.
+- GLM is still useful as a comparison point, but it is not reliable enough to be treated as ground truth by itself.
+- Whole-paper one-shot remains experimental. The compact full-mode rescue helps, but it is still far less complete than two-step RAG.
 
-## Pipeline Changes Made
+## Pipeline State After This Pass
 
-1. Added explicit extraction strategy controls: `auto`, `two-step`, `full`.
-2. Added labeled experiment artifact directories under `papers/<id>/extracted/experiments/<label>/`.
-3. Added YAML result output mode plus structured parsing fallback.
-4. Hardened result parsing so incomplete rows do not fail an entire dataset extraction.
-5. Allowed labeled experiment runs even when the default paper output was produced by the fallback model.
-6. Normalized model names (`$^*$` -> `*`, basic LaTeX cleanup) and stabilized `proposed_model.name` from extracted proposed rows.
-7. Fixed `full` mode so it actually uses the full expanded LaTeX source instead of the intro slice.
-8. Added dedicated compact full-paper prompts plus payload expansion rescue for `full` extraction.
-9. Tightened dataset discovery, table selection, and result extraction prompts to exclude ablations and diagnostic tables.
-10. Added post-processing heuristics so benchmarking/reassessment papers do not keep an invented single proposed model.
+The extraction pipeline now includes:
 
-## Papers Tested
+1. YAML as the default `result_output_format`.
+2. A ripgrep-based dataset-name precheck before dataset discovery, using canonical names from `config/seed_data.yaml` and feeding those candidates into the discovery prompt.
+3. Compact full-paper prompts plus payload-expansion rescue for the `full` strategy.
+4. Stronger ablation exclusion in dataset discovery, table selection, extraction prompts, and result post-processing.
+5. Proposed-model stabilization that avoids inventing a single proposed model for benchmarking/reassessment papers.
+6. Per-artifact usage reporting: total extraction calls, token totals, and a post-run quota snapshot.
 
-- `2210.07606` — Revisiting Heterophily For Graph Neural Networks
+## Final Hard-Paper Set
+
+I screened eight new hard papers and kept the five where qwen was clearly stronger than the fast OpenAI model in two-step YAML mode.
+
+| arXiv ID | Paper | qwen rows / datasets | fast rows / datasets | qwen parse failures | fast parse failures |
+|---|---|---:|---:|---:|---:|
+| `2310.05174` | GSLB: The Graph Structure Learning Benchmark | `256 / 17` | `124 / 6` | `0` | `2` |
+| `2502.09263` | Can Classic GNNs Be Strong Baselines for Graph-level Tasks? Simple Architectures Meet Excellence | `184 / 11` | `111 / 10` | `2` | `0` |
+| `2410.05697` | Diffusing to the Top: Boost Graph Neural Networks with Minimal Hyperparameter Tuning | `74 / 8` | `26 / 4` | `6` | `0` |
+| `2407.18480` | Scalable Graph Compressed Convolutions | `219 / 15` | `114 / 10` | `1` | `0` |
+| `2310.02156` | Probabilistically Rewired Message-Passing Neural Networks | `177 / 14` | `55 / 9` | `2` | `1` |
+
+Aggregate over this final five-paper set:
+
+- qwen: `910` extracted rows, `65` dataset appearances, `726,887` tokens, `11` parse failures.
+- fast OpenAI: `430` extracted rows, `39` dataset appearances, `696,431` tokens, `3` parse failures.
+
+Interpretation:
+
+- On the hardest benchmark-heavy papers, qwen wins mostly by coverage.
+- The fast model is not failing by arithmetic transcription alone; it often drops whole datasets or large parts of the main benchmark tables.
+- Lower parse-failure counts for the fast model do not imply better extraction quality. Several fast runs were simply shorter and less complete.
+
+## Refreshed GLM-Backed Analysis
+
+I refreshed GLM runs on a five-paper batch and combined that with the already-valid `2406.08993` GLM-backed paper to get a six-paper comparison set:
+
 - `2406.08993` — Classic GNNs are Strong Baselines: Reassessing GNNs for Node Classification
+- `2310.05174` — GSLB: The Graph Structure Learning Benchmark
+- `2506.04765` — OpenGT: A Comprehensive Benchmark For Graph Transformers
+- `2502.09263` — Can Classic GNNs Be Strong Baselines for Graph-level Tasks? Simple Architectures Meet Excellence
+- `2406.09639` — TGB 2.0: A Benchmark for Learning on Temporal Knowledge Graphs and Heterogeneous Graphs
+- `2309.00367` — Where Did the Gap Go? Reassessing the Long-Range Graph Benchmark
 
-## Experiment Matrix
+Aggregate against the refreshed GLM references:
 
-### 2210.07606
+| Model | Baseline rows | Hits | Value errors | Misses | Hallucinations | Recall | Precision |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| qwen | `963` | `764` | `0` | `199` | `209` | `0.793` | `0.785` |
+| fast OpenAI | `963` | `624` | `4` | `335` | `217` | `0.648` | `0.738` |
 
-Valid post-fix runs:
+Per-paper headline result:
 
-| Run | Model | Strategy | Format | Outcome |
-|---|---|---|---|---|
-| `qwen-two-step-json` | `qwen3.6-35b-a3b` | two-step RAG | JSON | Success |
-| `smoke-2210-two-step-yaml` | `qwen3.6-35b-a3b` | two-step RAG | YAML | Success |
-| `qwen-full-json` | `qwen3.6-35b-a3b` | full whole-paper | JSON | Failed after full-mode fix |
-| `qwen-full-yaml` | `qwen3.6-35b-a3b` | full whole-paper | YAML | Failed after full-mode fix |
+- qwen clearly beats fast on `2310.05174` and `2502.09263`.
+- qwen slightly beats fast on `2406.09639`.
+- fast beats qwen on `2406.08993`, `2506.04765`, and `2309.00367` when scored against GLM.
 
-Key observations:
+Important caveat: these GLM-based scores are useful for coarse ranking, but they are not absolute truth.
 
-- Two-step RAG with qwen produced `296` results over `9` datasets in both JSON and YAML.
-- Overlap against the existing default qwen extraction was `261 / 264` result keys.
-- YAML brought no measurable gain on this paper.
-- Whole-paper one-shot was not usable after the `main_tex` fix:
-  - JSON failed with a top-level list response instead of the required object.
-  - YAML failed to parse at all.
-- The incomplete-row sanitizer mattered here: before it, a single `value: null` row caused the Wisconsin dataset call to fail entirely.
+## GPT-5.4 Verification
 
-Conclusion for this paper:
+I asked a GPT-5.4 subagent to inspect the LaTeX and extracted artifacts directly for three representative papers:
 
-- RAG is clearly better than one-shot.
-- JSON is fine when the paper is relatively small and the RAG calls are bounded per dataset.
+### 2310.05174
 
-### 2406.08993
+- Verdict: qwen best, GLM runner-up, fast clearly weakest.
+- Main issue in fast: major coverage loss across heterogeneous and graph-level benchmark tables.
 
-Valid post-fix runs:
+### 2502.09263
 
-| Run | Model | Strategy | Format | Results | Datasets | Parse Failures | Overlap vs GLM baseline |
-|---|---|---|---|---:|---:|---:|---:|
-| `qwen-two-step-json` | `qwen3.6-35b-a3b` | two-step RAG | JSON | 296 | 15 | 3 | 215 / 327 |
-| `qwen-two-step-yaml` | `qwen3.6-35b-a3b` | two-step RAG | YAML | 363 | 18 | 0 | 254 / 327 |
-| `fast-two-step-json` | `openai-gpt-oss-120b` | two-step RAG | JSON | 374 | 18 | 0 | 243 / 327 |
-| `fast-two-step-yaml` | `openai-gpt-oss-120b` | two-step RAG | YAML | 374 | 17 | 1 | 303 / 327 |
-| `qwen-full-json` | `qwen3.6-35b-a3b` | full whole-paper | JSON | failed | failed | n/a | n/a |
-| `qwen-full-yaml` | `qwen3.6-35b-a3b` | full whole-paper | YAML | failed | failed | n/a | n/a |
-| `fast-full-json` | `openai-gpt-oss-120b` | full whole-paper | JSON | failed | failed | n/a | n/a |
+- Verdict: GLM best, qwen runner-up, fast clearly weaker.
+- Main issue in fast: it drops large parts of the LRGB and OGB benchmark tables.
 
-Reference baseline already in the repo:
+### 2506.04765
 
-- Default extraction: `glm-4.7`
-- Result keys: `327`
+- Verdict: qwen best, fast runner-up, GLM weakest.
+- Main issue in GLM: wrong-table contamination and at least one invented numeric row from an OOM/missing entry.
 
-Key observations:
+What this means:
 
-- Whole-paper one-shot remained unstable even after fixing it to read the full `main_tex`.
-- qwen + RAG + JSON lost three entire dataset calls due to JSON escaping failures:
-  - `Minesweeper`
-  - `ogbn-proteins`
-  - `pokec`
-- Switching only the output format from JSON to YAML fixed those qwen parse failures completely and improved dataset coverage from `15` to `18`.
-- The fast model benefited strongly from RAG. Whole-paper full mode failed, but two-step RAG succeeded.
-- For the fast model, YAML was materially better than JSON on this paper:
-  - same total result count (`374`)
-  - one parse failure (`Physics`)
-  - much better overlap against the GLM baseline (`303` vs `243`)
-  - fewer extra keys (`69` vs `131`)
+- The quantitative metrics are directionally useful.
+- Coverage is the main error mode.
+- GLM should not be treated as unquestionable ground truth on dense benchmark papers.
+- When a paper mixes main tables with nearby positional-encoding variants, appendix tables, or OOM cells, paper-level verification is still necessary.
 
-Conclusion for this paper:
+## Whole-Paper One-Shot
 
-- RAG is necessary.
-- YAML is better than JSON for long, high-cardinality per-dataset extraction, especially when the model emits long tables or source references that trigger JSON escape issues.
+This remains a secondary path only.
 
-## Model Name Findings
+What improved:
 
-What worked after the name cleanup pass:
+- qwen full-mode extraction no longer immediately dies on schema validation for `2406.08993`.
+- The compact prompt plus payload-expansion rescue makes whole-paper full mode at least testable.
 
-- `GNN*` was corrected to `GCN*` in the qwen YAML RAG output for `2406.08993`.
-- LaTeX star markup such as `GraphGPS$^*$` was normalized to `GraphGPS*`.
-- `ACMII-GCN++` was preserved correctly for `2210.07606` in the two-step runs.
-- After the benchmarking-title heuristic fix, `2406.08993` no longer persists a fake single proposed model in the final qwen two-step YAML artifact.
+What did not change:
 
-What still needs work:
+- Two-step RAG is still far more complete and stable.
+- Full-mode one-shot still loses too much benchmark coverage to be the default.
 
-- The fast model's dataset discovery sometimes prefers shorter aliases (`Computer`, `Photo`, `CS`) instead of the longer paper-local forms (`Amazon-Computers`, `Amazon-Photo`, `Coauthor-CS`). This did not block extraction, but it is less faithful.
+## Usage Limits
 
-## Follow-Up Update (2026-05-22)
+The endpoint exposes request-limit headers. A representative live snapshot during this pass showed:
 
-The second pass focused on the two biggest weaknesses from the initial experiment: making whole-paper one-shot extraction at least testable, and preventing benchmarking papers from inventing a proposed model.
+- `2` requests per second
+- `10` requests per minute
+- `600` requests per hour
+- `1200` requests per day
+- `10000` requests per month
 
-Validated updates on `2406.08993`:
+The extractor now writes a short `Usage` section into each saved artifact with:
 
-- `qwen-two-step-yaml` now keeps only main benchmark-table results, excludes ablation-style rows, and finishes with `334` results across `17` datasets.
-- The final saved `qwen-two-step-yaml` artifact now has `proposed_model: null` and no `is_proposed` rows, which matches the paper's benchmarking/reassessment framing.
-- `qwen-full-json` no longer fails schema validation on the full-paper path. With the compact full prompt plus payload-expansion rescue, it saves a valid artifact with `16` results across `4` datasets from the main benchmark table and no proposed model.
+- extraction-call count
+- prompt/completion/total token usage
+- end-of-run quota snapshot
 
-What this changes in the original conclusion:
+This is a request-budget snapshot, not a billing report.
 
-- Whole-paper one-shot is still much weaker than two-step RAG, but it is no longer completely unusable for qwen on this paper.
-- Ablation exclusion has to happen twice: once in table selection and again in result post-processing.
-- Proposed-model stabilization cannot rely only on the model output; benchmarking-title-aware cleanup is necessary.
+## Recommendations
 
-## What Worked Well
-
-- Explicit experiment labels made it practical to run repeated comparisons without overwriting the default artifacts.
-- The incomplete-row sanitizer prevented single bad rows from invalidating a whole dataset call.
-- YAML was a real improvement for long RAG calls, not just a parser convenience.
-- Model-name normalization improved the saved artifacts enough that the proposed model is now readable and usable in the report.
-
-## What Did Not Work Well
-
-- Whole-paper one-shot extraction on full expanded LaTeX is not robust enough yet.
-- The current full-mode prompt/schema adherence collapses on large smart-excerpt calls, in both JSON and YAML.
-- RAG still produces some extra keys versus the strongest baseline, especially for the fast model.
-
-## Recommendation
-
-1. Keep the default extraction path as multi-shot RAG.
-2. Prefer YAML over JSON for long papers with many datasets or long source references.
-3. Use `openai-gpt-oss-120b` only with two-step RAG; do not use it for whole-paper one-shot extraction.
-4. Treat whole-paper one-shot as an experimental path that now has a workable rescue layer, but is still materially less complete than two-step RAG.
+1. Keep `two-step` RAG as the production default.
+2. Keep YAML as the default output format.
+3. Use qwen as the default model for hard benchmark papers with many datasets or wide tables.
+4. Keep the fast OpenAI model available as a second option, but verify it on hard papers before trusting it.
+5. Treat GLM as a comparison baseline, not as definitive truth.
+6. Keep whole-paper one-shot behind an experimental flag only.
 
 ## Relevant Artifacts
 
-Representative successful outputs:
+Direct hard-paper comparison set:
 
-- `papers/2210.07606/extracted/experiments/qwen-two-step-json/`
-- `papers/2210.07606/extracted/experiments/smoke-2210-two-step-yaml/`
-- `papers/2406.08993/extracted/experiments/qwen-two-step-yaml/`
-- `papers/2406.08993/extracted/experiments/fast-two-step-yaml/`
+- `papers/2310.05174/extracted/experiments/qwen-two-step-yaml-expanded/`
+- `papers/2502.09263/extracted/experiments/qwen-two-step-yaml-expanded/`
+- `papers/2410.05697/extracted/experiments/qwen-two-step-yaml-expanded-b/`
+- `papers/2407.18480/extracted/experiments/qwen-two-step-yaml-expanded-c/`
+- `papers/2310.02156/extracted/experiments/qwen-two-step-yaml-expanded-c/`
 
-Representative failure logs for valid whole-paper post-fix runs:
+Refreshed GLM-backed comparison set:
 
-- `papers/2210.07606/extracted/extraction_error_20260521_153825.md`
-- `papers/2210.07606/extracted/extraction_error_20260521_154333.md`
-- `papers/2406.08993/extracted/extraction_error_20260521_153935.md`
-- `papers/2406.08993/extracted/extraction_error_20260521_154152.md`
+- `papers/2406.08993/extracted/`
+- `papers/2310.05174/extracted/experiments/glm-two-step-yaml-expanded/`
+- `papers/2506.04765/extracted/experiments/glm-two-step-yaml-expanded/`
+- `papers/2502.09263/extracted/experiments/glm-two-step-yaml-expanded/`
+- `papers/2406.09639/extracted/experiments/glm-two-step-yaml-expanded/`
+- `papers/2309.00367/extracted/experiments/glm-two-step-yaml-expanded/`
