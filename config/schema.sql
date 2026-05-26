@@ -152,6 +152,11 @@ CREATE TABLE IF NOT EXISTS pipeline_runs (
     started_at    TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%SZ', 'now'))
 );
 
+CREATE TABLE IF NOT EXISTS schema_migrations (
+    name       TEXT PRIMARY KEY,
+    applied_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%SZ', 'now'))
+);
+
 -- ─────────────────────────────────────────────────────────────────────────────
 -- pending_datasets — unknown dataset queue discovered by extraction
 -- ─────────────────────────────────────────────────────────────────────────────
@@ -234,6 +239,9 @@ CREATE TABLE IF NOT EXISTS todo_papers (
     note             TEXT,   -- freeform admin notes
     cited_by_count   INTEGER NOT NULL DEFAULT 0, -- how many existing DB papers cite this arXiv
     cites_existing_count INTEGER NOT NULL DEFAULT 0, -- how many references from this paper point to our DB
+    seen_count       INTEGER NOT NULL DEFAULT 0,
+    seen_from        TEXT,
+    first_seen_at    TEXT,
     created_at       TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%SZ', 'now'))
 );
 CREATE INDEX IF NOT EXISTS idx_todo_arxiv_id ON todo_papers(arxiv_id);

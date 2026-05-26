@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from contextlib import contextmanager
+from dataclasses import dataclass
 from typing import Generator
 
 from sqlalchemy import create_engine, event, text
@@ -37,25 +38,18 @@ _engine: Engine | None = None
 _SessionFactory: sessionmaker | None = None
 
 
-def init_db(db_path: str | None = None) -> Engine:
-    """Create tables and return the engine. Safe to call multiple times."""
-    global _engine, _SessionFactory
-    cfg.ensure_dirs()
-    _engine = _get_engine(db_path)
-    Base.metadata.create_all(_engine)
-    _migrate_db(_engine)
-    _SessionFactory = sessionmaker(bind=_engine, expire_on_commit=False)
-    return _engine
+@dataclass(frozen=True)
+class Migration:
+    name: str
+    apply: callable
 
 
-def _migrate_db(engine: Engine) -> None:
-    """Apply lightweight schema migrations for columns added after initial creation."""
+def _migration_results_additional_columns(engine: Engine) -> None:
     _add_column_if_missing(engine, "results", "uses_external_data", "INTEGER")
     _add_column_if_missing(engine, "results", "variant_inference_reason", "TEXT")
-    # todo_papers counters
-    _add_column_if_missing(engine, "todo_papers", "cited_by_count", "INTEGER")
-    _add_column_if_missing(engine, "todo_papers", "cites_existing_count", "INTEGER")
-    # pending_datasets columns (table is created via metadata if missing)
+
+
+def _migration_pending_datasets_columns(engine: Engine) -> None:
     _add_column_if_missing(engine, "pending_datasets", "paper_title", "TEXT")
     _add_column_if_missing(engine, "pending_datasets", "metrics_seen", "TEXT")
     _add_column_if_missing(engine, "pending_datasets", "suggestion", "TEXT")
@@ -67,6 +61,22 @@ def _migrate_db(engine: Engine) -> None:
         "INTEGER REFERENCES datasets(id) ON DELETE SET NULL",
     )
     _add_column_if_missing(engine, "pending_datasets", "updated_at", "TEXT")
+
+
+def _migration_todo_queue_columns(engine: Engine) -> None:
+    _add_column_if_missing(engine, "todo_papers", "cited_by_count", "INTEGER NOT NULL DEFAULT 0")
+    _add_column_if_missing(
+        engine,
+        "todo_papers",
+        "cites_existing_count",
+        "INTEGER NOT NULL DEFAULT 0",
+    )
+    _add_column_if_missing(engine, "todo_papers", "seen_count", "INTEGER NOT NULL DEFAULT 0")
+    _add_column_if_missing(engine, "todo_papers", "seen_from", "TEXT")
+    _add_column_if_missing(engine, "todo_papers", "first_seen_at", "TEXT")
+
+
+def _migration_todo_queue_indexes(engine: Engine) -> None:
     _ensure_index(
         engine,
         "idx_todo_created_at",
@@ -77,6 +87,63 @@ def _migrate_db(engine: Engine) -> None:
         "idx_todo_seen_count",
         "CREATE INDEX IF NOT EXISTS idx_todo_seen_count ON todo_papers(seen_count)",
     )
+
+
+MIGRATIONS: tuple[Migration, ...] = (
+    Migration("001_results_additional_columns", _migration_results_additional_columns),
+    Migration("002_pending_datasets_columns", _migration_pending_datasets_columns),
+    Migration("003_todo_queue_columns", _migration_todo_queue_columns),
+    Migration("004_todo_queue_indexes", _migration_todo_queue_indexes),
+)
+
+
+def init_db(db_path: str | None = None) -> Engine:
+    """Create tables and return the engine. Safe to call multiple times."""
+    global _engine, _SessionFactory
+    cfg.ensure_dirs()
+    _engine = _get_engine(db_path)
+    Base.metadata.create_all(_engine)
+    _apply_migrations(_engine)
+    _SessionFactory = sessionmaker(bind=_engine, expire_on_commit=False)
+    return _engine
+
+
+def _apply_migrations(engine: Engine) -> None:
+    """Apply tracked schema migrations in order."""
+    _ensure_migration_table(engine)
+    applied = _get_applied_migrations(engine)
+    for migration in MIGRATIONS:
+        if migration.name in applied:
+            continue
+        migration.apply(engine)
+        _record_migration(engine, migration.name)
+
+
+def _ensure_migration_table(engine: Engine) -> None:
+    with engine.connect() as conn:
+        conn.execute(
+            text(
+                """
+                CREATE TABLE IF NOT EXISTS schema_migrations (
+                    name TEXT PRIMARY KEY,
+                    applied_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%SZ', 'now'))
+                )
+                """
+            )
+        )
+        conn.commit()
+
+
+def _get_applied_migrations(engine: Engine) -> set[str]:
+    with engine.connect() as conn:
+        rows = conn.execute(text("SELECT name FROM schema_migrations ORDER BY name")).fetchall()
+    return {row[0] for row in rows}
+
+
+def _record_migration(engine: Engine, name: str) -> None:
+    with engine.connect() as conn:
+        conn.execute(text("INSERT INTO schema_migrations(name) VALUES (:name)"), {"name": name})
+        conn.commit()
 
 
 def _add_column_if_missing(engine: Engine, table: str, column: str, col_type: str) -> None:
