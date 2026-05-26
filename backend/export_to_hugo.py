@@ -94,8 +94,8 @@ def _sanitize_title(title: str | None) -> str:
     if not title:
         return ""
     t = _TITLE_LINEBREAK_RE.sub(" - ", str(title))
-    t = t.replace("\\", " ")
     t = _TITLE_LATEX_CMD_RE.sub("", t)
+    t = t.replace("\\", " ")
     return re.sub(r"\s+", " ", t).strip()
 
 
@@ -150,10 +150,10 @@ def _sanitize_model(model_name: str | None, arxiv_id: str | None = None) -> str:
     m = _LATEX_CITE_RE.sub("", m)
     m = _MODEL_FROM_REF_RE.sub("", m)
     m = _MODEL_SUFFIX_RE.sub("", m)
-    m = _MODEL_SUBSCRIPT_DOLLAR_RE.sub(r"<sub>\\1</sub>", m)
-    m = _MODEL_SUPERSCRIPT_DOLLAR_RE.sub(r"<sup>\\1</sup>", m)
-    m = _MODEL_TEXTSUBSCRIPT_RE.sub(r"<sub>\\1</sub>", m)
-    m = _MODEL_TEXTSUPERSCRIPT_RE.sub(r"<sup>\\1</sup>", m)
+    m = _MODEL_SUBSCRIPT_DOLLAR_RE.sub(r"<sub>\1</sub>", m)
+    m = _MODEL_SUPERSCRIPT_DOLLAR_RE.sub(r"<sup>\1</sup>", m)
+    m = _MODEL_TEXTSUBSCRIPT_RE.sub(r"<sub>\1</sub>", m)
+    m = _MODEL_TEXTSUPERSCRIPT_RE.sub(r"<sup>\1</sup>", m)
     m = m.replace("$", "")
     m = re.sub(r"\s+", " ", m).strip()
     remap = _paper_model_renames(arxiv_id)
