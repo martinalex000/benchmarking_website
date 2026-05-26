@@ -38,14 +38,14 @@ def _utcnow() -> datetime:
 
 def _load_queue(limit: int, max_attempts: int) -> list:
     from backend.db import init_db, session_scope
-    from backend.models import TodoPaper
+    from backend.models import TodoPaper, TodoPaperStatus
 
     init_db()
     with session_scope() as session:
         q = (
             session.query(TodoPaper)
             .filter(
-                TodoPaper.status == "pending",
+                TodoPaper.status == TodoPaperStatus.PENDING.value,
                 TodoPaper.attempts < max_attempts,
             )
             .order_by(TodoPaper.seen_count.desc(), TodoPaper.created_at.asc())
@@ -68,13 +68,13 @@ def _load_queue(limit: int, max_attempts: int) -> list:
 
 def _mark_todo(todo_id: int, status: str, note: str | None = None) -> None:
     from backend.db import session_scope
-    from backend.models import TodoPaper
+    from backend.models import TodoPaper, TodoPaperStatus
 
     with session_scope() as session:
         row = session.query(TodoPaper).filter_by(id=todo_id).first()
         if row is None:
             return
-        if status == "failed":
+        if status == TodoPaperStatus.FAILED.value:
             row.attempts = (row.attempts or 0) + 1
         else:
             row.status = status
@@ -85,6 +85,8 @@ def _mark_todo(todo_id: int, status: str, note: str | None = None) -> None:
 
 def _run_paper(arxiv_id: str, model: str, dry_run: bool) -> str:
     """Run run_manual on a single paper. Returns 'done', 'rejected', or 'failed'."""
+    from backend.models import todo_paper_status_from_exit_code
+
     cmd = [
         sys.executable,
         str(Path(__file__).parent / "run_manual.py"),
@@ -97,12 +99,7 @@ def _run_paper(arxiv_id: str, model: str, dry_run: bool) -> str:
         return "dry-run"
 
     result = subprocess.run(cmd, capture_output=False)
-    if result.returncode == 0:
-        return "done"
-    elif result.returncode == 2:
-        return "rejected"
-    else:
-        return "failed"
+    return todo_paper_status_from_exit_code(result.returncode).value
 
 
 def main() -> None:

@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 from datetime import datetime, timezone
+from enum import Enum
 
 from sqlalchemy import (
     Boolean,
@@ -22,6 +23,25 @@ from sqlalchemy.orm import DeclarativeBase, relationship
 
 def _utcnow() -> str:
     return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+
+class TodoPaperStatus(str, Enum):
+    PENDING = "pending"
+    PROCESSING = "processing"
+    DONE = "done"
+    FAILED = "failed"
+    REJECTED = "rejected"
+
+
+TODO_PAPER_FILTER_VALUES = tuple(status.value for status in TodoPaperStatus) + ("all",)
+
+
+def todo_paper_status_from_exit_code(returncode: int) -> TodoPaperStatus:
+    if returncode == 0:
+        return TodoPaperStatus.DONE
+    if returncode == 2:
+        return TodoPaperStatus.REJECTED
+    return TodoPaperStatus.FAILED
 
 
 class Base(DeclarativeBase):
@@ -157,8 +177,8 @@ class TodoPaper(Base):
     reason = Column(Text)
     added_by = Column(String)
     status = Column(
-        String, nullable=False, default="pending"
-    )  # pending | processing | done | failed
+        String, nullable=False, default=TodoPaperStatus.PENDING.value
+    )  # pending | processing | done | failed | rejected
     attempts = Column(Integer, nullable=False, default=0)
     last_attempt_at = Column(String)
     note = Column(Text)

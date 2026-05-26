@@ -3,11 +3,11 @@
 
 Commands:
   add <arxiv_id> [--title TITLE] [--reason REASON] [--added-by NAME]
-  list [--status pending|processing|done|failed|all]
+    list [--status pending|processing|done|failed|rejected|all]
   process [--limit N] [--model primary] [--force]
 
 The `process` command will call `run_manual.py` for each pending entry and
-update the `todo_papers` table with success/failure state.
+update the `todo_papers` table with success, rejection, or failure state.
 """
 
 from __future__ import annotations
@@ -22,7 +22,14 @@ from typing import List
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from backend.db import init_db, session_scope
-from backend.models import TodoPaper, Paper, Result
+from backend.models import (
+    TODO_PAPER_FILTER_VALUES,
+    Paper,
+    Result,
+    TodoPaper,
+    TodoPaperStatus,
+    todo_paper_status_from_exit_code,
+)
 from rich.console import Console
 from rich.table import Table
 
@@ -48,7 +55,7 @@ def cmd_add(arxiv_id: str, title: str | None, reason: str | None, added_by: str 
             title=title,
             reason=reason,
             added_by=added_by,
-            status="pending",
+            status=TodoPaperStatus.PENDING.value,
             created_at=_utcnow_iso(),
         )
         session.add(tp)
@@ -103,7 +110,7 @@ def cmd_process(limit: int, model: str, force: bool) -> None:
     with session_scope() as session:
         pending = (
             session.query(TodoPaper)
-            .filter_by(status="pending")
+            .filter_by(status=TodoPaperStatus.PENDING.value)
             .order_by(TodoPaper.created_at.asc())
             .limit(limit)
             .all()
@@ -114,19 +121,17 @@ def cmd_process(limit: int, model: str, force: bool) -> None:
             return
 
         for tp in pending:
-            tp.status = "processing"
+            tp.status = TodoPaperStatus.PROCESSING.value
             tp.attempts = (tp.attempts or 0) + 1
             tp.last_attempt_at = _utcnow_iso()
             session.commit()
 
             rc = _run_manual_for(tp.arxiv_id, run_args)
+            outcome = todo_paper_status_from_exit_code(rc)
 
             with session_scope() as s2:
                 row = s2.query(TodoPaper).get(tp.id)
-                if rc == 0:
-                    row.status = "done"
-                else:
-                    row.status = "failed"
+                row.status = outcome.value
                 row.last_attempt_at = _utcnow_iso()
 
     console.print("[green]Processing complete.[/green]")
@@ -168,7 +173,12 @@ def main() -> None:
     a.add_argument("--added-by")
 
     l = sub.add_parser("list")
-    l.add_argument("--status", default="pending", help="pending|processing|done|failed|all")
+    l.add_argument(
+        "--status",
+        default=TodoPaperStatus.PENDING.value,
+        choices=TODO_PAPER_FILTER_VALUES,
+        help="pending|processing|done|failed|rejected|all",
+    )
 
     pr = sub.add_parser("process")
     pr.add_argument("--limit", type=int, default=10)
