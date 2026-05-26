@@ -170,6 +170,11 @@ class Paper(Base):
 # ─────────────────────────────────────────────────────────────────────────────
 class TodoPaper(Base):
     __tablename__ = "todo_papers"
+    __table_args__ = (
+        Index("idx_todo_status", "status"),
+        Index("idx_todo_created_at", "created_at"),
+        Index("idx_todo_seen_count", "seen_count"),
+    )
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     arxiv_id = Column(String, unique=True, nullable=False)

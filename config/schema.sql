@@ -228,7 +228,7 @@ CREATE TABLE IF NOT EXISTS todo_papers (
     title            TEXT,
     reason           TEXT,   -- short note why this paper was added (e.g. 'cites LRGB')
     added_by         TEXT,   -- username or script name that added the entry
-    status           TEXT NOT NULL DEFAULT 'pending', -- pending | processing | done | failed
+    status           TEXT NOT NULL DEFAULT 'pending', -- pending | processing | done | failed | rejected
     attempts         INTEGER NOT NULL DEFAULT 0,
     last_attempt_at  TEXT,
     note             TEXT,   -- freeform admin notes
@@ -238,3 +238,5 @@ CREATE TABLE IF NOT EXISTS todo_papers (
 );
 CREATE INDEX IF NOT EXISTS idx_todo_arxiv_id ON todo_papers(arxiv_id);
 CREATE INDEX IF NOT EXISTS idx_todo_status   ON todo_papers(status);
+CREATE INDEX IF NOT EXISTS idx_todo_created_at ON todo_papers(created_at);
+CREATE INDEX IF NOT EXISTS idx_todo_seen_count ON todo_papers(seen_count);

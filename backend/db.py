@@ -5,7 +5,7 @@ from __future__ import annotations
 from contextlib import contextmanager
 from typing import Generator
 
-from sqlalchemy import create_engine, event
+from sqlalchemy import create_engine, event, text
 from sqlalchemy.engine import Engine
 from sqlalchemy.orm import Session, sessionmaker
 
@@ -67,18 +67,37 @@ def _migrate_db(engine: Engine) -> None:
         "INTEGER REFERENCES datasets(id) ON DELETE SET NULL",
     )
     _add_column_if_missing(engine, "pending_datasets", "updated_at", "TEXT")
+    _ensure_index(
+        engine,
+        "idx_todo_created_at",
+        "CREATE INDEX IF NOT EXISTS idx_todo_created_at ON todo_papers(created_at)",
+    )
+    _ensure_index(
+        engine,
+        "idx_todo_seen_count",
+        "CREATE INDEX IF NOT EXISTS idx_todo_seen_count ON todo_papers(seen_count)",
+    )
 
 
 def _add_column_if_missing(engine: Engine, table: str, column: str, col_type: str) -> None:
     with engine.connect() as conn:
-        existing = {
-            row[1]
-            for row in conn.execute(__import__("sqlalchemy").text(f"PRAGMA table_info({table})"))
-        }
+        existing = {row[1] for row in conn.execute(text(f"PRAGMA table_info({table})"))}
         if column not in existing:
-            conn.execute(
-                __import__("sqlalchemy").text(f"ALTER TABLE {table} ADD COLUMN {column} {col_type}")
+            conn.execute(text(f"ALTER TABLE {table} ADD COLUMN {column} {col_type}"))
+            conn.commit()
+
+
+def _ensure_index(engine: Engine, index_name: str, create_sql: str) -> None:
+    with engine.connect() as conn:
+        existing = {
+            row[0]
+            for row in conn.execute(
+                text("SELECT name FROM sqlite_master WHERE type='index' AND name = :name"),
+                {"name": index_name},
             )
+        }
+        if index_name not in existing:
+            conn.execute(text(create_sql))
             conn.commit()
 
 
