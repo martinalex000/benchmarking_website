@@ -18,6 +18,9 @@ best_model:
   model: MPNN + HOPE-WavePE
   value: 0.868
   metric: ROC-AUC
+  arxiv_id: '2409.19117'
+  paper_title: 'Range-aware Positional Encoding via High-order Pretraining: Theory
+    and Practice'
 variants:
 - slug: scaffold-split
   name: Scaffold split
@@ -25,6 +28,10 @@ variants:
   is_standard: true
   primary_metric: ROC-AUC
   higher_is_better: true
+  stats:
+    num_graphs: null
+    avg_nodes: null
+    avg_edges: null
   metrics:
   - ROC-AUC
   - AUROC
@@ -33,15 +40,17 @@ variants:
   - RMSE F
   rows:
   - model: MPNN + HOPE-WavePE
+    model_plain: MPNN + HOPE-WavePE
     is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2409.19117'
-    title: 'Range-aware Positional Encoding via - High-order Pretraining: Theory and
+    title: 'Range-aware Positional Encoding via High-order Pretraining: Theory and
       Practice'
     date: Sep 2024
     date_iso: 2024-09
+    date_display: Sep 2024
     codebase_url: ''
     uses_external_data: false
     is_best: true
@@ -58,6 +67,7 @@ variants:
     - null
     - null
   - model: BiScale-GTR (Molecule)
+    model_plain: BiScale-GTR (Molecule)
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -67,6 +77,7 @@ variants:
       Representation Learning'
     date: Apr 2026
     date_iso: 2026-04
+    date_display: Apr 2026
     codebase_url: ''
     uses_external_data: true
     is_best: false
@@ -83,15 +94,17 @@ variants:
     - null
     - null
   - model: Subgraphormer
+    model_plain: Subgraphormer
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: null
+    params_millions: 0.293
     arxiv_id: '2402.08450'
     title: 'Subgraphormer: Unifying Subgraph GNNs and Graph Transformers via Graph
       Products'
     date: Feb 2024
     date_iso: 2024-02
+    date_display: Feb 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -108,6 +121,7 @@ variants:
     - null
     - null
   - model: SimSGT
+    model_plain: SimSGT
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -117,6 +131,7 @@ variants:
       Representation Learning'
     date: Apr 2026
     date_iso: 2026-04
+    date_display: Apr 2026
     codebase_url: ''
     uses_external_data: true
     is_best: false
@@ -133,6 +148,7 @@ variants:
     - null
     - null
   - model: BiScale-GTR (Fragment)
+    model_plain: BiScale-GTR (Fragment)
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -142,6 +158,7 @@ variants:
       Representation Learning'
     date: Apr 2026
     date_iso: 2026-04
+    date_display: Apr 2026
     codebase_url: ''
     uses_external_data: true
     is_best: false
@@ -158,6 +175,7 @@ variants:
     - null
     - null
   - model: GraphLoG
+    model_plain: GraphLoG
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -166,6 +184,7 @@ variants:
     title: Graph Positional and Structural Encoder
     date: '2023-07-14'
     date_iso: '2023-07-14'
+    date_display: Jul 2023
     codebase_url: ''
     uses_external_data: true
     is_best: false
@@ -181,32 +200,8 @@ variants:
     - null
     - null
     - null
-  - model: HyMN (GIN, T=2)
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2501.03113'
-    title: 'Balancing Efficiency and Expressiveness: Subgraph GNNs with Walk-Based
-      Centrality'
-    date: Jan 2025
-    date_iso: 2025-01
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.8321
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - 0.0051
-    - null
-    - null
-    - null
-    - null
   - model: GraphMAE
+    model_plain: GraphMAE
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -215,6 +210,7 @@ variants:
     title: Graph Positional and Structural Encoder
     date: '2023-07-14'
     date_iso: '2023-07-14'
+    date_display: Jul 2023
     codebase_url: ''
     uses_external_data: true
     is_best: false
@@ -231,6 +227,7 @@ variants:
     - null
     - null
   - model: MORE
+    model_plain: MORE
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -240,6 +237,7 @@ variants:
       Representation Learning'
     date: Apr 2026
     date_iso: 2026-04
+    date_display: Apr 2026
     codebase_url: ''
     uses_external_data: true
     is_best: false
@@ -256,15 +254,17 @@ variants:
     - null
     - null
   - model: GNN-SSWL+
+    model_plain: GNN-SSWL+
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: null
+    params_millions: 0.387
     arxiv_id: '2402.08450'
     title: 'Subgraphormer: Unifying Subgraph GNNs and Graph Transformers via Graph
       Products'
     date: Feb 2024
     date_iso: 2024-02
+    date_display: Feb 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -281,15 +281,17 @@ variants:
     - null
     - null
   - model: GROVERbase
+    model_plain: GROVERbase
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2409.19117'
-    title: 'Range-aware Positional Encoding via - High-order Pretraining: Theory and
+    title: 'Range-aware Positional Encoding via High-order Pretraining: Theory and
       Practice'
     date: Sep 2024
     date_iso: 2024-09
+    date_display: Sep 2024
     codebase_url: ''
     uses_external_data: true
     is_best: false
@@ -306,6 +308,7 @@ variants:
     - null
     - null
   - model: GraphGPS+LAC
+    model_plain: GraphGPS+LAC
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -315,6 +318,7 @@ variants:
       Representation Learning'
     date: Apr 2026
     date_iso: 2026-04
+    date_display: Apr 2026
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -331,6 +335,7 @@ variants:
     - null
     - null
   - model: GIN
+    model_plain: GIN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -339,6 +344,7 @@ variants:
     title: Fragment-based Pretraining and Finetuning on Molecular Graphs
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -355,6 +361,7 @@ variants:
     - null
     - null
   - model: GraphLoG augmented
+    model_plain: GraphLoG augmented
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -363,6 +370,7 @@ variants:
     title: Graph Positional and Structural Encoder
     date: '2023-07-14'
     date_iso: '2023-07-14'
+    date_display: Jul 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -379,6 +387,7 @@ variants:
     - null
     - null
   - model: MGSSL
+    model_plain: MGSSL
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -387,6 +396,7 @@ variants:
     title: Fragment-based Pretraining and Finetuning on Molecular Graphs
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -403,15 +413,17 @@ variants:
     - null
     - null
   - model: GROVER_large
+    model_plain: GROVER_large
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2409.19117'
-    title: 'Range-aware Positional Encoding via - High-order Pretraining: Theory and
+    title: 'Range-aware Positional Encoding via High-order Pretraining: Theory and
       Practice'
     date: Sep 2024
     date_iso: 2024-09
+    date_display: Sep 2024
     codebase_url: ''
     uses_external_data: true
     is_best: false
@@ -428,15 +440,17 @@ variants:
     - null
     - null
   - model: D-MPNN
+    model_plain: D-MPNN
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2409.19117'
-    title: 'Range-aware Positional Encoding via - High-order Pretraining: Theory and
+    title: 'Range-aware Positional Encoding via High-order Pretraining: Theory and
       Practice'
     date: Sep 2024
     date_iso: 2024-09
+    date_display: Sep 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -453,6 +467,7 @@ variants:
     - null
     - null
   - model: Mole-BERT
+    model_plain: Mole-BERT
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -462,6 +477,7 @@ variants:
       Representation Learning'
     date: Apr 2026
     date_iso: 2026-04
+    date_display: Apr 2026
     codebase_url: ''
     uses_external_data: true
     is_best: false
@@ -478,6 +494,7 @@ variants:
     - null
     - null
   - model: GPSE augmented
+    model_plain: GPSE augmented
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -486,6 +503,7 @@ variants:
     title: Graph Positional and Structural Encoder
     date: '2023-07-14'
     date_iso: '2023-07-14'
+    date_display: Jul 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -502,6 +520,7 @@ variants:
     - null
     - null
   - model: GraphFP
+    model_plain: GraphFP
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -510,6 +529,7 @@ variants:
     title: Fragment-based Pretraining and Finetuning on Molecular Graphs
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -525,7 +545,35 @@ variants:
     - null
     - null
     - null
+  - model: HyMN (GIN, T=2)
+    model_plain: HyMN (GIN, T=2)
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2501.03113'
+    title: 'Balancing Efficiency and Expressiveness: Subgraph GNNs with Walk-Based
+      Centrality'
+    date: Jan 2025
+    date_iso: 2025-01
+    date_display: Jan 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.8064
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0048
+    - null
+    - null
+    - null
+    - null
   - model: GraphFP_CP
+    model_plain: GraphFP_CP
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -534,6 +582,7 @@ variants:
     title: Fragment-based Pretraining and Finetuning on Molecular Graphs
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -550,6 +599,7 @@ variants:
     - null
     - null
   - model: Supervised
+    model_plain: Supervised
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -558,6 +608,7 @@ variants:
     title: Graph Positional Autoencoders as Self-supervised Learners
     date: May 2025
     date_iso: 2025-05
+    date_display: May 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -574,6 +625,7 @@ variants:
     - null
     - null
   - model: LapPE augmented
+    model_plain: LapPE augmented
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -582,6 +634,7 @@ variants:
     title: Graph Positional and Structural Encoder
     date: '2023-07-14'
     date_iso: '2023-07-14'
+    date_display: Jul 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -598,6 +651,7 @@ variants:
     - null
     - null
   - model: CP, alpha=0.1
+    model_plain: CP, alpha=0.1
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -606,6 +660,7 @@ variants:
     title: Fragment-based Pretraining and Finetuning on Molecular Graphs
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -622,15 +677,17 @@ variants:
     - null
     - null
   - model: PretrainGNN
+    model_plain: PretrainGNN
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2409.19117'
-    title: 'Range-aware Positional Encoding via - High-order Pretraining: Theory and
+    title: 'Range-aware Positional Encoding via High-order Pretraining: Theory and
       Practice'
     date: Sep 2024
     date_iso: 2024-09
+    date_display: Sep 2024
     codebase_url: ''
     uses_external_data: true
     is_best: false
@@ -647,6 +704,7 @@ variants:
     - null
     - null
   - model: Self-supervised pre-trained
+    model_plain: Self-supervised pre-trained
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -655,6 +713,7 @@ variants:
     title: Graph Positional and Structural Encoder
     date: '2023-07-14'
     date_iso: '2023-07-14'
+    date_display: Jul 2023
     codebase_url: ''
     uses_external_data: true
     is_best: false
@@ -671,6 +730,7 @@ variants:
     - null
     - null
   - model: CS-GNN (T = 2)
+    model_plain: CS-GNN (T = 2)
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -680,6 +740,7 @@ variants:
       Centrality'
     date: Jan 2025
     date_iso: 2025-01
+    date_display: Jan 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -696,6 +757,7 @@ variants:
     - null
     - null
   - model: ContextPred
+    model_plain: ContextPred
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -704,6 +766,7 @@ variants:
     title: Fragment-based Pretraining and Finetuning on Molecular Graphs
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -720,6 +783,7 @@ variants:
     - null
     - null
   - model: RWSE augmented
+    model_plain: RWSE augmented
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -728,6 +792,7 @@ variants:
     title: Graph Positional and Structural Encoder
     date: '2023-07-14'
     date_iso: '2023-07-14'
+    date_display: Jul 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -744,6 +809,7 @@ variants:
     - null
     - null
   - model: GIN_C (Vocab 200)
+    model_plain: GIN_C (Vocab 200)
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -752,6 +818,7 @@ variants:
     title: Fragment-based Pretraining and Finetuning on Molecular Graphs
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -768,6 +835,7 @@ variants:
     - null
     - null
   - model: AttrMasking
+    model_plain: AttrMasking
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -776,6 +844,7 @@ variants:
     title: Fragment-based Pretraining and Finetuning on Molecular Graphs
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -792,6 +861,7 @@ variants:
     - null
     - null
   - model: G-Contextual
+    model_plain: G-Contextual
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -800,6 +870,7 @@ variants:
     title: Fragment-based Pretraining and Finetuning on Molecular Graphs
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -816,15 +887,17 @@ variants:
     - null
     - null
   - model: N-GramXGB
+    model_plain: N-GramXGB
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2409.19117'
-    title: 'Range-aware Positional Encoding via - High-order Pretraining: Theory and
+    title: 'Range-aware Positional Encoding via High-order Pretraining: Theory and
       Practice'
     date: Sep 2024
     date_iso: 2024-09
+    date_display: Sep 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -840,7 +913,8 @@ variants:
     - null
     - null
     - null
-  - model: Sp$^2$GCL
+  - model: Sp^2GCL
+    model_plain: Sp^2GCL
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -849,6 +923,7 @@ variants:
     title: Graph Positional Autoencoders as Self-supervised Learners
     date: May 2025
     date_iso: 2025-05
+    date_display: May 2025
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -865,6 +940,7 @@ variants:
     - null
     - null
   - model: HyMN (GIN, T=2) no CSE
+    model_plain: HyMN (GIN, T=2) no CSE
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -874,6 +950,7 @@ variants:
       Centrality'
     date: Jan 2025
     date_iso: 2025-01
+    date_display: Jan 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -890,6 +967,7 @@ variants:
     - null
     - null
   - model: AUG-MAE
+    model_plain: AUG-MAE
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -898,6 +976,7 @@ variants:
     title: Graph Positional Autoencoders as Self-supervised Learners
     date: May 2025
     date_iso: 2025-05
+    date_display: May 2025
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -914,6 +993,7 @@ variants:
     - null
     - null
   - model: Full
+    model_plain: Full
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -923,6 +1003,7 @@ variants:
       Centrality'
     date: Jan 2025
     date_iso: 2025-01
+    date_display: Jan 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -939,15 +1020,17 @@ variants:
     - null
     - null
   - model: DSS-GNN
+    model_plain: DSS-GNN
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: null
+    params_millions: 0.1
     arxiv_id: '2402.08450'
     title: 'Subgraphormer: Unifying Subgraph GNNs and Graph Transformers via Graph
       Products'
     date: Feb 2024
     date_iso: 2024-02
+    date_display: Feb 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -964,15 +1047,17 @@ variants:
     - null
     - null
   - model: AttentiveFP
+    model_plain: AttentiveFP
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2409.19117'
-    title: 'Range-aware Positional Encoding via - High-order Pretraining: Theory and
+    title: 'Range-aware Positional Encoding via High-order Pretraining: Theory and
       Practice'
     date: Sep 2024
     date_iso: 2024-09
+    date_display: Sep 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -989,6 +1074,7 @@ variants:
     - null
     - null
   - model: POLICY-LEARN (T = 2)
+    model_plain: POLICY-LEARN (T = 2)
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -998,6 +1084,7 @@ variants:
       Centrality'
     date: Jan 2025
     date_iso: 2025-01
+    date_display: Jan 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1014,6 +1101,7 @@ variants:
     - null
     - null
   - model: GraphMAE
+    model_plain: GraphMAE
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1023,6 +1111,7 @@ variants:
       Representation Learning'
     date: Apr 2026
     date_iso: 2026-04
+    date_display: Apr 2026
     codebase_url: ''
     uses_external_data: true
     is_best: false
@@ -1039,6 +1128,7 @@ variants:
     - null
     - null
   - model: RANDOM (T = 2)
+    model_plain: RANDOM (T = 2)
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1048,6 +1138,7 @@ variants:
       Centrality'
     date: Jan 2025
     date_iso: 2025-01
+    date_display: Jan 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1064,6 +1155,7 @@ variants:
     - null
     - null
   - model: GraphSAGE
+    model_plain: GraphSAGE
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1072,6 +1164,7 @@ variants:
     title: Fragment-based Pretraining and Finetuning on Molecular Graphs
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -1088,15 +1181,17 @@ variants:
     - null
     - null
   - model: N-GramRF
+    model_plain: N-GramRF
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2409.19117'
-    title: 'Range-aware Positional Encoding via - High-order Pretraining: Theory and
+    title: 'Range-aware Positional Encoding via High-order Pretraining: Theory and
       Practice'
     date: Sep 2024
     date_iso: 2024-09
+    date_display: Sep 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1113,6 +1208,7 @@ variants:
     - null
     - null
   - model: GPT-GNN
+    model_plain: GPT-GNN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1121,6 +1217,7 @@ variants:
     title: Fragment-based Pretraining and Finetuning on Molecular Graphs
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -1137,6 +1234,7 @@ variants:
     - null
     - null
   - model: StructMAE
+    model_plain: StructMAE
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1145,6 +1243,7 @@ variants:
     title: Graph Positional Autoencoders as Self-supervised Learners
     date: May 2025
     date_iso: 2025-05
+    date_display: May 2025
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -1161,6 +1260,7 @@ variants:
     - null
     - null
   - model: JOAO
+    model_plain: JOAO
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1169,6 +1269,7 @@ variants:
     title: Fragment-based Pretraining and Finetuning on Molecular Graphs
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -1185,6 +1286,7 @@ variants:
     - null
     - null
   - model: AllPSE augmented
+    model_plain: AllPSE augmented
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1193,6 +1295,7 @@ variants:
     title: Graph Positional and Structural Encoder
     date: '2023-07-14'
     date_iso: '2023-07-14'
+    date_display: Jul 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1209,6 +1312,7 @@ variants:
     - null
     - null
   - model: GraphMVP
+    model_plain: GraphMVP
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1217,6 +1321,7 @@ variants:
     title: Fragment-based Pretraining and Finetuning on Molecular Graphs
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -1233,6 +1338,7 @@ variants:
     - null
     - null
   - model: Recon. GNN
+    model_plain: Recon. GNN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1242,6 +1348,7 @@ variants:
       Products'
     date: Feb 2024
     date_iso: 2024-02
+    date_display: Feb 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1258,6 +1365,7 @@ variants:
     - null
     - null
   - model: OSAN (T = 10)
+    model_plain: OSAN (T = 10)
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1267,6 +1375,7 @@ variants:
       Centrality'
     date: Jan 2025
     date_iso: 2025-01
+    date_display: Jan 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1283,14 +1392,16 @@ variants:
     - null
     - null
   - model: GCN
+    model_plain: GCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.496
+    params_millions: null
     arxiv_id: '2310.03274'
     title: Fragment-based Pretraining and Finetuning on Molecular Graphs
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -1307,6 +1418,7 @@ variants:
     - null
     - null
   - model: JOAOv2
+    model_plain: JOAOv2
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1315,6 +1427,7 @@ variants:
     title: Fragment-based Pretraining and Finetuning on Molecular Graphs
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -1331,6 +1444,7 @@ variants:
     - null
     - null
   - model: GraphCL
+    model_plain: GraphCL
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1339,6 +1453,7 @@ variants:
     title: Fragment-based Pretraining and Finetuning on Molecular Graphs
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -1355,6 +1470,7 @@ variants:
     - null
     - null
   - model: GraphLOG pretrained
+    model_plain: GraphLOG pretrained
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1363,6 +1479,7 @@ variants:
     title: Graph Positional and Structural Encoder
     date: '2023-07-14'
     date_iso: '2023-07-14'
+    date_display: Jul 2023
     codebase_url: ''
     uses_external_data: true
     is_best: false
@@ -1379,6 +1496,7 @@ variants:
     - null
     - null
   - model: MVGRL
+    model_plain: MVGRL
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1387,6 +1505,7 @@ variants:
     title: Graph Positional Autoencoders as Self-supervised Learners
     date: May 2025
     date_iso: 2025-05
+    date_display: May 2025
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -1403,6 +1522,7 @@ variants:
     - null
     - null
   - model: JOAO
+    model_plain: JOAO
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1411,6 +1531,7 @@ variants:
     title: Graph Positional Autoencoders as Self-supervised Learners
     date: May 2025
     date_iso: 2025-05
+    date_display: May 2025
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -1427,6 +1548,7 @@ variants:
     - null
     - null
   - model: GraphFP-JT_C
+    model_plain: GraphFP-JT_C
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -1435,6 +1557,7 @@ variants:
     title: Fragment-based Pretraining and Finetuning on Molecular Graphs
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -1451,6 +1574,7 @@ variants:
     - null
     - null
   - model: InfoGraph
+    model_plain: InfoGraph
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1459,6 +1583,7 @@ variants:
     title: Graph Positional Autoencoders as Self-supervised Learners
     date: May 2025
     date_iso: 2025-05
+    date_display: May 2025
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -1475,6 +1600,7 @@ variants:
     - null
     - null
   - model: G-Motif
+    model_plain: G-Motif
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1483,6 +1609,7 @@ variants:
     title: Fragment-based Pretraining and Finetuning on Molecular Graphs
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -1499,15 +1626,17 @@ variants:
     - null
     - null
   - model: GIN
+    model_plain: GIN
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: null
+    params_millions: 0.5
     arxiv_id: '2402.08450'
     title: 'Subgraphormer: Unifying Subgraph GNNs and Graph Transformers via Graph
       Products'
     date: Feb 2024
     date_iso: 2024-02
+    date_display: Feb 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1524,15 +1653,17 @@ variants:
     - null
     - null
   - model: OSAN
+    model_plain: OSAN
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: null
+    params_millions: 0.5
     arxiv_id: '2402.08450'
     title: 'Subgraphormer: Unifying Subgraph GNNs and Graph Transformers via Graph
       Products'
     date: Feb 2024
     date_iso: 2024-02
+    date_display: Feb 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1549,6 +1680,7 @@ variants:
     - null
     - null
   - model: No pre-training
+    model_plain: No pre-training
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1557,6 +1689,7 @@ variants:
     title: Graph Positional and Structural Encoder
     date: '2023-07-14'
     date_iso: '2023-07-14'
+    date_display: Jul 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1573,6 +1706,7 @@ variants:
     - null
     - null
   - model: JOAOv2 pre-trained
+    model_plain: JOAOv2 pre-trained
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1581,6 +1715,7 @@ variants:
     title: Graph Positional and Structural Encoder
     date: '2023-07-14'
     date_iso: '2023-07-14'
+    date_display: Jul 2023
     codebase_url: ''
     uses_external_data: true
     is_best: false
@@ -1597,6 +1732,7 @@ variants:
     - null
     - null
   - model: InfoGraph pretrained
+    model_plain: InfoGraph pretrained
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1605,6 +1741,7 @@ variants:
     title: Graph Positional and Structural Encoder
     date: '2023-07-14'
     date_iso: '2023-07-14'
+    date_display: Jul 2023
     codebase_url: ''
     uses_external_data: true
     is_best: false
@@ -1621,6 +1758,7 @@ variants:
     - null
     - null
   - model: MLP
+    model_plain: MLP
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1630,6 +1768,7 @@ variants:
       Effectively as We Expected'
     date: Nov 2025
     date_iso: 2025-11
+    date_display: Nov 2025
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -1646,6 +1785,7 @@ variants:
     - null
     - null
   - model: GIN
+    model_plain: GIN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1655,6 +1795,7 @@ variants:
       Effectively as We Expected'
     date: Nov 2025
     date_iso: 2025-11
+    date_display: Nov 2025
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -1671,15 +1812,17 @@ variants:
     - null
     - null
   - model: GCN
+    model_plain: GCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.496
+    params_millions: null
     arxiv_id: '2511.16767'
     title: 'When Structure Doesn’t Help: LLMs Do Not Read Text-Attributed Graphs as
       Effectively as We Expected'
     date: Nov 2025
     date_iso: 2025-11
+    date_display: Nov 2025
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -1696,6 +1839,7 @@ variants:
     - null
     - null
   - model: GAT
+    model_plain: GAT
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1705,6 +1849,7 @@ variants:
       Effectively as We Expected'
     date: Nov 2025
     date_iso: 2025-11
+    date_display: Nov 2025
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -1721,6 +1866,7 @@ variants:
     - null
     - null
   - model: D-MPNN
+    model_plain: D-MPNN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1729,6 +1875,7 @@ variants:
     title: Invariant-Based Diagnostics for Graph Benchmarks
     date: May 2026
     date_iso: 2026-05
+    date_display: May 2026
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1745,6 +1892,7 @@ variants:
     - null
     - null
   - model: AttentiveFP
+    model_plain: AttentiveFP
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1753,6 +1901,7 @@ variants:
     title: Invariant-Based Diagnostics for Graph Benchmarks
     date: May 2026
     date_iso: 2026-05
+    date_display: May 2026
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1769,6 +1918,7 @@ variants:
     - null
     - null
   - model: N-Gram_RF
+    model_plain: N-Gram_RF
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1777,6 +1927,7 @@ variants:
     title: Invariant-Based Diagnostics for Graph Benchmarks
     date: May 2026
     date_iso: 2026-05
+    date_display: May 2026
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1793,6 +1944,7 @@ variants:
     - null
     - null
   - model: N-Gram_XGB
+    model_plain: N-Gram_XGB
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1801,6 +1953,7 @@ variants:
     title: Invariant-Based Diagnostics for Graph Benchmarks
     date: May 2026
     date_iso: 2026-05
+    date_display: May 2026
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1817,6 +1970,7 @@ variants:
     - null
     - null
   - model: PretrainGNN
+    model_plain: PretrainGNN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1825,6 +1979,7 @@ variants:
     title: Invariant-Based Diagnostics for Graph Benchmarks
     date: May 2026
     date_iso: 2026-05
+    date_display: May 2026
     codebase_url: ''
     uses_external_data: true
     is_best: false
@@ -1841,6 +1996,7 @@ variants:
     - null
     - null
   - model: GROVER_base
+    model_plain: GROVER_base
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1849,6 +2005,7 @@ variants:
     title: Invariant-Based Diagnostics for Graph Benchmarks
     date: May 2026
     date_iso: 2026-05
+    date_display: May 2026
     codebase_url: ''
     uses_external_data: true
     is_best: false
@@ -1865,6 +2022,7 @@ variants:
     - null
     - null
   - model: GROVER_large
+    model_plain: GROVER_large
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1873,6 +2031,7 @@ variants:
     title: Invariant-Based Diagnostics for Graph Benchmarks
     date: May 2026
     date_iso: 2026-05
+    date_display: May 2026
     codebase_url: ''
     uses_external_data: true
     is_best: false
@@ -1889,6 +2048,7 @@ variants:
     - null
     - null
   - model: GraphMVP
+    model_plain: GraphMVP
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1897,6 +2057,7 @@ variants:
     title: Invariant-Based Diagnostics for Graph Benchmarks
     date: May 2026
     date_iso: 2026-05
+    date_display: May 2026
     codebase_url: ''
     uses_external_data: true
     is_best: false
@@ -1913,6 +2074,7 @@ variants:
     - null
     - null
   - model: MolCLR
+    model_plain: MolCLR
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1921,6 +2083,7 @@ variants:
     title: Invariant-Based Diagnostics for Graph Benchmarks
     date: May 2026
     date_iso: 2026-05
+    date_display: May 2026
     codebase_url: ''
     uses_external_data: true
     is_best: false
@@ -1937,6 +2100,7 @@ variants:
     - null
     - null
   - model: GEM
+    model_plain: GEM
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1945,6 +2109,7 @@ variants:
     title: Invariant-Based Diagnostics for Graph Benchmarks
     date: May 2026
     date_iso: 2026-05
+    date_display: May 2026
     codebase_url: ''
     uses_external_data: true
     is_best: false
@@ -1961,6 +2126,7 @@ variants:
     - null
     - null
   - model: Uni-Mol
+    model_plain: Uni-Mol
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1969,6 +2135,7 @@ variants:
     title: Invariant-Based Diagnostics for Graph Benchmarks
     date: May 2026
     date_iso: 2026-05
+    date_display: May 2026
     codebase_url: ''
     uses_external_data: true
     is_best: false
@@ -1985,6 +2152,7 @@ variants:
     - null
     - null
   - model: agg + I
+    model_plain: agg + I
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -1993,6 +2161,7 @@ variants:
     title: Invariant-Based Diagnostics for Graph Benchmarks
     date: May 2026
     date_iso: 2026-05
+    date_display: May 2026
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -2009,14 +2178,16 @@ variants:
     - null
     - null
   - model: Lorem
+    model_plain: Lorem
     is_baseline: false
     is_overridden: false
     override_reason: ''
-    params_millions: 1.020999
+    params_millions: 1.021
     arxiv_id: '2507.19382'
     title: Learning Long-Range Representations with Equivariant Messages
     date: Jul 2025
     date_iso: 2025-07
+    date_display: Jul 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -2033,6 +2204,7 @@ variants:
     - null
     - null
   - model: Cace-Les
+    model_plain: Cace-Les
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -2041,6 +2213,7 @@ variants:
     title: Learning Long-Range Representations with Equivariant Messages
     date: Jul 2025
     date_iso: 2025-07
+    date_display: Jul 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -2057,6 +2230,7 @@ variants:
     - null
     - null
   - model: Mace
+    model_plain: Mace
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -2065,6 +2239,7 @@ variants:
     title: Learning Long-Range Representations with Equivariant Messages
     date: Jul 2025
     date_iso: 2025-07
+    date_display: Jul 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -2081,6 +2256,7 @@ variants:
     - null
     - null
   - model: Pet
+    model_plain: Pet
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -2089,6 +2265,7 @@ variants:
     title: Learning Long-Range Representations with Equivariant Messages
     date: Jul 2025
     date_iso: 2025-07
+    date_display: Jul 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -2105,6 +2282,7 @@ variants:
     - null
     - null
   - model: 4G-NN
+    model_plain: 4G-NN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -2113,6 +2291,7 @@ variants:
     title: Learning Long-Range Representations with Equivariant Messages
     date: Jul 2025
     date_iso: 2025-07
+    date_display: Jul 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -2129,6 +2308,7 @@ variants:
     - null
     - null
   - model: SpookyNet
+    model_plain: SpookyNet
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -2137,6 +2317,7 @@ variants:
     title: Learning Long-Range Representations with Equivariant Messages
     date: Jul 2025
     date_iso: 2025-07
+    date_display: Jul 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -2170,7 +2351,7 @@ variants:
     std: 0.004
     model: MPNN + HOPE-WavePE
     arxiv_id: '2409.19117'
-    title: 'Range-aware Positional Encoding via - High-order Pretraining: Theory and
+    title: 'Range-aware Positional Encoding via High-order Pretraining: Theory and
       Practice'
     date: 2024-09
 ---

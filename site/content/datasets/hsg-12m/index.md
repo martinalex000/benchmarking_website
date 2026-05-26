@@ -8,12 +8,18 @@ description: Node classification on the HSG-12M large-scale heterogeneous spatia
 primary_metric: Accuracy
 higher_is_better: true
 pyg_url: ''
-stats: null
+stats:
+  num_graphs: 11601681
+  avg_nodes: null
+  avg_edges: null
+  num_classes: 1401
 result_count: 8
 best_model:
   model: GraphSAGE
   value: 0.546
   metric: Accuracy
+  arxiv_id: '2506.08618'
+  paper_title: HSG-12M
 variants:
 - slug: standard-split
   name: Standard split
@@ -21,10 +27,15 @@ variants:
   is_standard: true
   primary_metric: Accuracy
   higher_is_better: true
+  stats:
+    num_graphs: null
+    avg_nodes: null
+    avg_edges: null
   metrics:
   - Accuracy
   rows:
   - model: GraphSAGE
+    model_plain: GraphSAGE
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -33,6 +44,7 @@ variants:
     title: HSG-12M
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: false
     is_best: true
@@ -41,6 +53,7 @@ variants:
     metric_stds:
     - 0.004
   - model: CGCNN
+    model_plain: CGCNN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -49,6 +62,7 @@ variants:
     title: HSG-12M
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -57,14 +71,16 @@ variants:
     metric_stds:
     - 0.004
   - model: GINE
+    model_plain: GINE
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.505
+    params_millions: null
     arxiv_id: '2506.08618'
     title: HSG-12M
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -73,14 +89,16 @@ variants:
     metric_stds:
     - 0.025
   - model: GCN
+    model_plain: GCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.496
+    params_millions: null
     arxiv_id: '2506.08618'
     title: HSG-12M
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -89,6 +107,7 @@ variants:
     metric_stds:
     - 0.021
   - model: GAT
+    model_plain: GAT
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -97,6 +116,7 @@ variants:
     title: HSG-12M
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -105,6 +125,7 @@ variants:
     metric_stds:
     - 0.01
   - model: GATv2
+    model_plain: GATv2
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -113,6 +134,7 @@ variants:
     title: HSG-12M
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -121,6 +143,7 @@ variants:
     metric_stds:
     - 0.002
   - model: MF
+    model_plain: MF
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -129,6 +152,7 @@ variants:
     title: HSG-12M
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -137,6 +161,7 @@ variants:
     metric_stds:
     - 0.01
   - model: GIN
+    model_plain: GIN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -145,6 +170,7 @@ variants:
     title: HSG-12M
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false

@@ -279,6 +279,7 @@ class Result(Base):
     table_ref = Column(String)  # e.g. "Table 1"
     source_ref = Column(String)  # "this paper" or "Author Year"
     extraction_model = Column(String)  # model that extracted this result
+    variant_inference_reason = Column(Text)
     uses_external_data = Column(Integer)  # 1=yes, 0=no, NULL=unknown
     # Human correction columns
     is_problematic = Column(Integer, nullable=False, default=0)

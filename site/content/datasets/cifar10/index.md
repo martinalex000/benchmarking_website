@@ -12,11 +12,13 @@ stats:
   avg_nodes: 117.6
   avg_edges: 941.2
   num_classes: 10
-result_count: 119
+result_count: 122
 best_model:
   model: GRASS
   value: 0.8375
   metric: Accuracy
+  arxiv_id: '2407.05649'
+  paper_title: 'Greener GRASS: Enhancing GNNs with Encoding, Rewiring, and Attention'
 variants:
 - slug: standard-split
   name: Standard split
@@ -24,18 +26,24 @@ variants:
   is_standard: true
   primary_metric: Accuracy
   higher_is_better: true
+  stats:
+    num_graphs: null
+    avg_nodes: null
+    avg_edges: null
   metrics:
   - Accuracy
   rows:
   - model: GRASS
+    model_plain: GRASS
     is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: 0.5
     arxiv_id: '2407.05649'
-    title: 'Greener GRASS: Enhancing GNNs with , Rewiring, and Attention'
+    title: 'Greener GRASS: Enhancing GNNs with Encoding, Rewiring, and Attention'
     date: Jul 2024
     date_iso: 2024-07
+    date_display: Jul 2024
     codebase_url: ''
     uses_external_data: false
     is_best: true
@@ -44,14 +52,16 @@ variants:
     metric_stds:
     - 0.00141
   - model: NeuralWalker
+    model_plain: NeuralWalker
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2407.05649'
-    title: 'Greener GRASS: Enhancing GNNs with , Rewiring, and Attention'
+    title: 'Greener GRASS: Enhancing GNNs with Encoding, Rewiring, and Attention'
     date: Jul 2024
     date_iso: 2024-07
+    date_display: Jul 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -60,6 +70,7 @@ variants:
     metric_stds:
     - 0.00185
   - model: Ours
+    model_plain: Ours
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -68,6 +79,7 @@ variants:
     title: Differential Encoding for Improved Representation Learning over Graphs
     date: Jul 2024
     date_iso: 2024-07
+    date_display: Jul 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -76,6 +88,7 @@ variants:
     metric_stds:
     - 0.00269
   - model: PPGT
+    model_plain: PPGT
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -84,6 +97,7 @@ variants:
     title: Plain Transformers Can be Powerful Graph Learners
     date: Apr 2025
     date_iso: 2025-04
+    date_display: Apr 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -92,6 +106,7 @@ variants:
     metric_stds:
     - 0.007
   - model: MPNN + differential encoding
+    model_plain: MPNN + differential encoding
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -100,6 +115,7 @@ variants:
     title: Differential Encoding for Improved Representation Learning over Graphs
     date: Jul 2024
     date_iso: 2024-07
+    date_display: Jul 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -108,6 +124,7 @@ variants:
     metric_stds:
     - 0.00091
   - model: GSM++ (MoT)
+    model_plain: GSM++ (MoT)
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -116,6 +133,7 @@ variants:
     title: 'Best of Both Worlds: Advantages of Hybrid Graph Sequence Models'
     date: Nov 2024
     date_iso: 2024-11
+    date_display: Nov 2024
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -124,6 +142,7 @@ variants:
     metric_stds:
     - 0.0028
   - model: GSSC
+    model_plain: GSSC
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -132,6 +151,7 @@ variants:
     title: What Can We Learn from State Space Models for Machine Learning on Graphs?
     date: Jun 2024
     date_iso: 2024-06
+    date_display: Jun 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -140,15 +160,17 @@ variants:
     metric_stds:
     - 0.00456
   - model: GatedGCN
+    model_plain: GatedGCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.502
+    params_millions: null
     arxiv_id: '2502.09263'
     title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks? Simple Architectures
       Meet Excellence
     date: Feb 2025
     date_iso: 2025-02
+    date_display: Feb 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -157,6 +179,7 @@ variants:
     metric_stds:
     - 0.00381
   - model: GRIT-SPSE
+    model_plain: GRIT-SPSE
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -165,14 +188,16 @@ variants:
     title: Simple Path Structural Encoding for Graph Transformers
     date: '2025-02-13'
     date_iso: '2025-02-13'
+    date_display: Feb 2025
     codebase_url: ''
-    uses_external_data: null
+    uses_external_data: false
     is_best: false
     metric_values:
     - 0.77022
     metric_stds:
     - 0.0043
   - model: GSM++ (DFS)
+    model_plain: GSM++ (DFS)
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -181,6 +206,7 @@ variants:
     title: 'Best of Both Worlds: Advantages of Hybrid Graph Sequence Models'
     date: Nov 2024
     date_iso: 2024-11
+    date_display: Nov 2024
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -189,14 +215,16 @@ variants:
     metric_stds:
     - 0.0031
   - model: NeuralWalker
+    model_plain: NeuralWalker
     is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2406.03386'
-    title: Learning Long Range Dependencies on Graphs - via Random Walks
+    title: Learning Long Range Dependencies on Graphs via Random Walks
     date: Jun 2024
     date_iso: 2024-06
+    date_display: Jun 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -204,7 +232,26 @@ variants:
     - 0.76903
     metric_stds:
     - 0.00457
+  - model: GRED
+    model_plain: GRED
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.5
+    arxiv_id: '2312.01538'
+    title: Recurrent Distance Filtering for Graph Representation Learning
+    date: '2023-12-03'
+    date_iso: '2023-12-03'
+    date_display: Dec 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.76853
+    metric_stds:
+    - 0.00185
   - model: MPNN only
+    model_plain: MPNN only
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -213,6 +260,7 @@ variants:
     title: Differential Encoding for Improved Representation Learning over Graphs
     date: Jul 2024
     date_iso: 2024-07
+    date_display: Jul 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -221,6 +269,7 @@ variants:
     metric_stds:
     - 0.00219
   - model: GEAET
+    model_plain: GEAET
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -230,6 +279,7 @@ variants:
       Meet Excellence
     date: Feb 2025
     date_iso: 2025-02
+    date_display: Feb 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -238,6 +288,7 @@ variants:
     metric_stds:
     - 0.00427
   - model: GSM++ (BFS)
+    model_plain: GSM++ (BFS)
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -246,6 +297,7 @@ variants:
     title: 'Best of Both Worlds: Advantages of Hybrid Graph Sequence Models'
     date: Nov 2024
     date_iso: 2024-11
+    date_display: Nov 2024
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -254,6 +306,7 @@ variants:
     metric_stds:
     - 0.0024
   - model: GT + HDSE
+    model_plain: GT + HDSE
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -262,6 +315,7 @@ variants:
     title: Enhancing Graph Transformers with Hierarchical Distance Structural Encoding
     date: Aug 2023
     date_iso: 2023-08
+    date_display: Aug 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -270,6 +324,7 @@ variants:
     metric_stds:
     - 0.00429
   - model: GRIT
+    model_plain: GRIT
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -278,6 +333,7 @@ variants:
     title: Enhancing Graph Transformers with Hierarchical Distance Structural Encoding
     date: Aug 2023
     date_iso: 2023-08
+    date_display: Aug 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -286,14 +342,16 @@ variants:
     metric_stds:
     - 0.00881
   - model: GRIT 2-QiQRW
+    model_plain: GRIT 2-QiQRW
     is_baseline: false
     is_overridden: false
     override_reason: ''
-    params_millions: 0.5
+    params_millions: null
     arxiv_id: '2310.20519'
-    title: Enhancing Graph Neural Networks with - Quantum Computed Encodings
+    title: Enhancing Graph Neural Networks with Quantum Computed Encodings
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -302,6 +360,7 @@ variants:
     metric_stds:
     - 0.0107
   - model: GatedGCN + RandAlign
+    model_plain: GatedGCN + RandAlign
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -311,6 +370,7 @@ variants:
       Networks'
     date: Apr 2024
     date_iso: 2024-04
+    date_display: Apr 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -319,14 +379,16 @@ variants:
     metric_stds:
     - 0.00186
   - model: GRIT 1-CQRW
+    model_plain: GRIT 1-CQRW
     is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2310.20519'
-    title: Enhancing Graph Neural Networks with - Quantum Computed Encodings
+    title: Enhancing Graph Neural Networks with Quantum Computed Encodings
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -335,6 +397,7 @@ variants:
     metric_stds:
     - 0.00704
   - model: GRIT-RWSE
+    model_plain: GRIT-RWSE
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -343,22 +406,25 @@ variants:
     title: Simple Path Structural Encoding for Graph Transformers
     date: '2025-02-13'
     date_iso: '2025-02-13'
+    date_display: Feb 2025
     codebase_url: ''
-    uses_external_data: null
+    uses_external_data: false
     is_best: false
     metric_values:
     - 0.76246
     metric_stds:
     - 0.00954
   - model: GRIT (our run)
+    model_plain: GRIT (our run)
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2310.20519'
-    title: Enhancing Graph Neural Networks with - Quantum Computed Encodings
+    title: Enhancing Graph Neural Networks with Quantum Computed Encodings
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -367,6 +433,7 @@ variants:
     metric_stds:
     - 0.00744
   - model: GraphGPS + HDSE
+    model_plain: GraphGPS + HDSE
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -375,6 +442,7 @@ variants:
     title: Enhancing Graph Transformers with Hierarchical Distance Structural Encoding
     date: Aug 2023
     date_iso: 2023-08
+    date_display: Aug 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -383,6 +451,7 @@ variants:
     metric_stds:
     - 0.00277
   - model: EdgeGCN
+    model_plain: EdgeGCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -391,6 +460,7 @@ variants:
     title: Differential Encoding for Improved Representation Learning over Graphs
     date: Jul 2024
     date_iso: 2024-07
+    date_display: Jul 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -399,6 +469,7 @@ variants:
     metric_stds:
     - 0.00402
   - model: GRIT-GCCM
+    model_plain: GRIT-GCCM
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -408,6 +479,7 @@ variants:
       Model'
     date: May 2026
     date_iso: 2026-05
+    date_display: May 2026
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -415,7 +487,26 @@ variants:
     - 0.75905
     metric_stds:
     - 0.00842
+  - model: Tango_GPS
+    model_plain: Tango_GPS
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2508.05070'
+    title: 'Tango: Graph Neural Dynamics via Learned Energy and Tangential Flows'
+    date: Aug 2025
+    date_iso: 2025-08
+    date_display: Aug 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.75783
+    metric_stds:
+    - 0.00261
   - model: Graph-Mamba
+    model_plain: Graph-Mamba
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -424,6 +515,7 @@ variants:
     title: What Can We Learn from State Space Models for Machine Learning on Graphs?
     date: Jun 2024
     date_iso: 2024-06
+    date_display: Jun 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -432,6 +524,7 @@ variants:
     metric_stds:
     - 0.0042
   - model: GMN
+    model_plain: GMN
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -440,6 +533,7 @@ variants:
     title: 'Graph Mamba: Towards Learning on Graphs with State Space Models'
     date: '2024-02-13'
     date_iso: '2024-02-13'
+    date_display: Feb 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -448,6 +542,7 @@ variants:
     metric_stds:
     - 0.0042
   - model: GRIT-PCL
+    model_plain: GRIT-PCL
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -457,6 +552,7 @@ variants:
       Model'
     date: May 2026
     date_iso: 2026-05
+    date_display: May 2026
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -465,6 +561,7 @@ variants:
     metric_stds:
     - 0.00734
   - model: GraphGPS with k-MIP attention (k=1)
+    model_plain: GraphGPS with k-MIP attention (k=1)
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -474,6 +571,7 @@ variants:
       Power of GraphGPS
     date: Apr 2026
     date_iso: 2026-04
+    date_display: Apr 2026
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -481,23 +579,8 @@ variants:
     - 0.7565000000000001
     metric_stds:
     - 0.0044
-  - model: GRED
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2402.08678'
-    title: 'Graph Mamba: Towards Learning on Graphs with State Space Models'
-    date: '2024-02-13'
-    date_iso: '2024-02-13'
-    codebase_url: ''
-    uses_external_data: false
-    is_best: true
-    metric_values:
-    - 0.7537
-    metric_stds:
-    - 0.621
   - model: RandAlign + scaling (GatedGCN-8)
+    model_plain: RandAlign + scaling (GatedGCN-8)
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -507,6 +590,7 @@ variants:
       Networks'
     date: Apr 2024
     date_iso: 2024-04
+    date_display: Apr 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -515,14 +599,16 @@ variants:
     metric_stds:
     - 0.00177
   - model: GPS_big+MoSE_S
+    model_plain: GPS_big+MoSE_S
     is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2410.18676'
-    title: Homomorphism Counts as Structural - Encodings for Graph Learning
+    title: Homomorphism Counts as Structural Encodings for Graph Learning
     date: Oct 2024
     date_iso: 2024-10
+    date_display: Oct 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -531,14 +617,16 @@ variants:
     metric_stds:
     - 0.0059
   - model: GPS_big+MoSE_Omega
+    model_plain: GPS_big+MoSE_Omega
     is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2410.18676'
-    title: Homomorphism Counts as Structural - Encodings for Graph Learning
+    title: Homomorphism Counts as Structural Encodings for Graph Learning
     date: Oct 2024
     date_iso: 2024-10
+    date_display: Oct 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -547,6 +635,7 @@ variants:
     metric_stds:
     - 0.0064
   - model: Exphormer
+    model_plain: Exphormer
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -555,6 +644,7 @@ variants:
     title: Enhancing Graph Transformers with Hierarchical Distance Structural Encoding
     date: Aug 2023
     date_iso: 2023-08
+    date_display: Aug 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -563,6 +653,7 @@ variants:
     metric_stds:
     - 0.00125
   - model: GMN
+    model_plain: GMN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -571,6 +662,7 @@ variants:
     title: 'Best of Both Worlds: Advantages of Hybrid Graph Sequence Models'
     date: Nov 2024
     date_iso: 2024-11
+    date_display: Nov 2024
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -579,6 +671,7 @@ variants:
     metric_stds:
     - 0.0009
   - model: Graph ViT
+    model_plain: Graph ViT
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -587,14 +680,16 @@ variants:
     title: Simple Path Structural Encoding for Graph Transformers
     date: '2025-02-13'
     date_iso: '2025-02-13'
+    date_display: Feb 2025
     codebase_url: ''
-    uses_external_data: null
+    uses_external_data: false
     is_best: false
     metric_values:
     - 0.73961
     metric_stds:
     - 0.0033
   - model: Graph MLP-Mixer
+    model_plain: Graph MLP-Mixer
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -603,6 +698,7 @@ variants:
     title: Enhancing Graph Transformers with Hierarchical Distance Structural Encoding
     date: Aug 2023
     date_iso: 2023-08
+    date_display: Aug 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -611,6 +707,7 @@ variants:
     metric_stds:
     - 0.0033
   - model: TIGT
+    model_plain: TIGT
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -619,6 +716,7 @@ variants:
     title: Differential Encoding for Improved Representation Learning over Graphs
     date: Jul 2024
     date_iso: 2024-07
+    date_display: Jul 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -627,6 +725,7 @@ variants:
     metric_stds:
     - 0.0036
   - model: ARGNP
+    model_plain: ARGNP
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -635,6 +734,7 @@ variants:
     title: Differential Encoding for Improved Representation Learning over Graphs
     date: Jul 2024
     date_iso: 2024-07
+    date_display: Jul 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -643,6 +743,7 @@ variants:
     metric_stds:
     - 0.0015
   - model: CSA-SPSE
+    model_plain: CSA-SPSE
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -651,14 +752,16 @@ variants:
     title: Simple Path Structural Encoding for Graph Transformers
     date: '2025-02-13'
     date_iso: '2025-02-13'
+    date_display: Feb 2025
     codebase_url: ''
-    uses_external_data: null
+    uses_external_data: false
     is_best: false
     metric_values:
     - 0.73897
     metric_stds:
     - 0.00524
   - model: CSA-RWSE
+    model_plain: CSA-RWSE
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -667,14 +770,16 @@ variants:
     title: Simple Path Structural Encoding for Graph Transformers
     date: '2025-02-13'
     date_iso: '2025-02-13'
+    date_display: Feb 2025
     codebase_url: ''
-    uses_external_data: null
+    uses_external_data: false
     is_best: false
     metric_values:
     - 0.73885
     metric_stds:
     - 0.00348
   - model: Graph Mamba-1
+    model_plain: Graph Mamba-1
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -684,6 +789,7 @@ variants:
       State Spaces'
     date: '2024-02-01'
     date_iso: '2024-02-01'
+    date_display: Feb 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -692,15 +798,17 @@ variants:
     metric_stds:
     - 0.0034
   - model: Graph-Mamba
+    model_plain: Graph-Mamba
     is_baseline: false
     is_overridden: false
     override_reason: ''
-    params_millions: null
+    params_millions: 0.285
     arxiv_id: '2402.00789'
     title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling with Selective
       State Spaces'
     date: '2024-02-01'
     date_iso: '2024-02-01'
+    date_display: Feb 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -709,14 +817,16 @@ variants:
     metric_stds:
     - 0.0034
   - model: MOSE
+    model_plain: MOSE
     is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2410.18676'
-    title: Homomorphism Counts as Structural - Encodings for Graph Learning
+    title: Homomorphism Counts as Structural Encodings for Graph Learning
     date: Oct 2024
     date_iso: 2024-10
+    date_display: Oct 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -725,14 +835,34 @@ variants:
     metric_stds:
     - 0.0044
   - model: GPS_small+MoSE_Omega
+    model_plain: GPS_small+MoSE_Omega
     is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2410.18676'
-    title: Homomorphism Counts as Structural - Encodings for Graph Learning
+    title: Homomorphism Counts as Structural Encodings for Graph Learning
     date: Oct 2024
     date_iso: 2024-10
+    date_display: Oct 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.735
+    metric_stds:
+    - 0.0044
+  - model: GT+MoSE_Omega
+    model_plain: GT+MoSE_Omega
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2410.18676'
+    title: Homomorphism Counts as Structural Encodings for Graph Learning
+    date: Oct 2024
+    date_iso: 2024-10
+    date_display: Oct 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -741,6 +871,7 @@ variants:
     metric_stds:
     - 0.0044
   - model: GPS + Mamba
+    model_plain: GPS + Mamba
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -749,6 +880,7 @@ variants:
     title: 'Graph Mamba: Towards Learning on Graphs with State Space Models'
     date: '2024-02-13'
     date_iso: '2024-02-13'
+    date_display: Feb 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -757,14 +889,16 @@ variants:
     metric_stds:
     - 0.0015
   - model: GPS_small+MoSE_S
+    model_plain: GPS_small+MoSE_S
     is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2410.18676'
-    title: Homomorphism Counts as Structural - Encodings for Graph Learning
+    title: Homomorphism Counts as Structural Encodings for Graph Learning
     date: Oct 2024
     date_iso: 2024-10
+    date_display: Oct 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -773,15 +907,17 @@ variants:
     metric_stds:
     - 0.005
   - model: GPS + HOPE-WavePE
+    model_plain: GPS + HOPE-WavePE
     is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2409.19117'
-    title: 'Range-aware Positional Encoding via - High-order Pretraining: Theory and
+    title: 'Range-aware Positional Encoding via High-order Pretraining: Theory and
       Practice'
     date: Sep 2024
     date_iso: 2024-09
+    date_display: Sep 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -790,6 +926,7 @@ variants:
     metric_stds:
     - 0.0081
   - model: DGN
+    model_plain: DGN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -798,6 +935,7 @@ variants:
     title: Facilitating Graph Neural Networks with Random Walk on Simplicial Complexes
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -806,6 +944,7 @@ variants:
     metric_stds:
     - 0.00417
   - model: CKGCN
+    model_plain: CKGCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -814,6 +953,7 @@ variants:
     title: Plain Transformers Can be Powerful Graph Learners
     date: Apr 2025
     date_iso: 2025-04
+    date_display: Apr 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -822,6 +962,7 @@ variants:
     metric_stds:
     - 0.00436
   - model: GPS-GCCM
+    model_plain: GPS-GCCM
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -831,6 +972,7 @@ variants:
       Model'
     date: May 2026
     date_iso: 2026-05
+    date_display: May 2026
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -839,6 +981,7 @@ variants:
     metric_stds:
     - 0.0028699999999999997
   - model: Graph MLP-Mixer
+    model_plain: Graph MLP-Mixer
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -847,6 +990,7 @@ variants:
     title: Graph Positional and Structural Encoder
     date: '2023-07-14'
     date_iso: '2023-07-14'
+    date_display: Jul 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -855,6 +999,7 @@ variants:
     metric_stds:
     - 0.0036
   - model: GPS + GFSA
+    model_plain: GPS + GFSA
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -863,6 +1008,7 @@ variants:
     title: Graph Convolutions Enrich the Self-Attention in Transformers!
     date: Dec 2023
     date_iso: 2023-12
+    date_display: Dec 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -871,6 +1017,7 @@ variants:
     metric_stds:
     - 0.0048
   - model: GPS+EdgeRWSE
+    model_plain: GPS+EdgeRWSE
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -879,6 +1026,7 @@ variants:
     title: Facilitating Graph Neural Networks with Random Walk on Simplicial Complexes
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -887,14 +1035,16 @@ variants:
     metric_stds:
     - 0.00221
   - model: SignNet DeepSets
+    model_plain: SignNet DeepSets
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2410.18676'
-    title: Homomorphism Counts as Structural - Encodings for Graph Learning
+    title: Homomorphism Counts as Structural Encodings for Graph Learning
     date: Oct 2024
     date_iso: 2024-10
+    date_display: Oct 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -903,14 +1053,16 @@ variants:
     metric_stds:
     - 0.0034
   - model: LapPE
+    model_plain: LapPE
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2410.18676'
-    title: Homomorphism Counts as Structural - Encodings for Graph Learning
+    title: Homomorphism Counts as Structural Encodings for Graph Learning
     date: Oct 2024
     date_iso: 2024-10
+    date_display: Oct 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -919,14 +1071,16 @@ variants:
     metric_stds:
     - 0.0034
   - model: GPS+LapPE
+    model_plain: GPS+LapPE
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2410.18676'
-    title: Homomorphism Counts as Structural - Encodings for Graph Learning
+    title: Homomorphism Counts as Structural Encodings for Graph Learning
     date: Oct 2024
     date_iso: 2024-10
+    date_display: Oct 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -935,6 +1089,7 @@ variants:
     metric_stds:
     - 0.0034
   - model: GPSE + GPS
+    model_plain: GPSE + GPS
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -943,6 +1098,7 @@ variants:
     title: Graph Positional and Structural Encoder
     date: '2023-07-14'
     date_iso: '2023-07-14'
+    date_display: Jul 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -951,6 +1107,7 @@ variants:
     metric_stds:
     - 0.0025
   - model: GPS + (RWSE/LapPE)
+    model_plain: GPS + (RWSE/LapPE)
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -959,6 +1116,7 @@ variants:
     title: Graph Positional and Structural Encoder
     date: '2023-07-14'
     date_iso: '2023-07-14'
+    date_display: Jul 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -967,6 +1125,7 @@ variants:
     metric_stds:
     - 0.0036
   - model: GPS
+    model_plain: GPS
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -975,6 +1134,7 @@ variants:
     title: Facilitating Graph Neural Networks with Random Walk on Simplicial Complexes
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -983,6 +1143,7 @@ variants:
     metric_stds:
     - 0.00356
   - model: GraphGPS
+    model_plain: GraphGPS
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -991,6 +1152,7 @@ variants:
     title: Enhancing Graph Transformers with Hierarchical Distance Structural Encoding
     date: Aug 2023
     date_iso: 2023-08
+    date_display: Aug 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -999,6 +1161,7 @@ variants:
     metric_stds:
     - 0.00356
   - model: Graph transformer
+    model_plain: Graph transformer
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1008,6 +1171,7 @@ variants:
       State Spaces'
     date: '2024-02-01'
     date_iso: '2024-02-01'
+    date_display: Feb 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1016,6 +1180,7 @@ variants:
     metric_stds:
     - 0.0031
   - model: GPS w/ Transformer
+    model_plain: GPS w/ Transformer
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1025,6 +1190,7 @@ variants:
       State Spaces'
     date: '2024-02-01'
     date_iso: '2024-02-01'
+    date_display: Feb 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1033,6 +1199,7 @@ variants:
     metric_stds:
     - 0.0031
   - model: GIN-AK+
+    model_plain: GIN-AK+
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1041,6 +1208,7 @@ variants:
     title: Enhancing Graph Transformers with Hierarchical Distance Structural Encoding
     date: Aug 2023
     date_iso: 2023-08
+    date_display: Aug 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1049,14 +1217,16 @@ variants:
     metric_stds:
     - 0.0013
   - model: PEG^LapEig
+    model_plain: PEG^LapEig
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2410.18676'
-    title: Homomorphism Counts as Structural - Encodings for Graph Learning
+    title: Homomorphism Counts as Structural Encodings for Graph Learning
     date: Oct 2024
     date_iso: 2024-10
+    date_display: Oct 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1065,6 +1235,7 @@ variants:
     metric_stds:
     - 0.0046
   - model: GPS+AllPSE
+    model_plain: GPS+AllPSE
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1073,6 +1244,7 @@ variants:
     title: Graph Positional and Structural Encoder
     date: '2023-07-14'
     date_iso: '2023-07-14'
+    date_display: Jul 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1081,6 +1253,7 @@ variants:
     metric_stds:
     - 0.0035
   - model: GPS+Consistency+Contrastive
+    model_plain: GPS+Consistency+Contrastive
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1090,6 +1263,7 @@ variants:
       Model'
     date: May 2026
     date_iso: 2026-05
+    date_display: May 2026
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1098,14 +1272,16 @@ variants:
     metric_stds:
     - 0.00321
   - model: RWSE
+    model_plain: RWSE
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2410.18676'
-    title: Homomorphism Counts as Structural - Encodings for Graph Learning
+    title: Homomorphism Counts as Structural Encodings for Graph Learning
     date: Oct 2024
     date_iso: 2024-10
+    date_display: Oct 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1114,6 +1290,7 @@ variants:
     metric_stds:
     - 0.004
   - model: GatedGCN + SSFG
+    model_plain: GatedGCN + SSFG
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1123,6 +1300,7 @@ variants:
       Networks'
     date: Apr 2024
     date_iso: 2024-04
+    date_display: Apr 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1131,6 +1309,7 @@ variants:
     metric_stds:
     - 0.0019
   - model: GPS+Diffusion
+    model_plain: GPS+Diffusion
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1140,6 +1319,7 @@ variants:
       Model'
     date: May 2026
     date_iso: 2026-05
+    date_display: May 2026
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1148,6 +1328,7 @@ variants:
     metric_stds:
     - 0.0034699999999999996
   - model: GPS-PCL
+    model_plain: GPS-PCL
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1157,6 +1338,7 @@ variants:
       Model'
     date: May 2026
     date_iso: 2026-05
+    date_display: May 2026
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1165,6 +1347,7 @@ variants:
     metric_stds:
     - 0.00218
   - model: GPS+Consistency
+    model_plain: GPS+Consistency
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1174,6 +1357,7 @@ variants:
       Model'
     date: May 2026
     date_iso: 2026-05
+    date_display: May 2026
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1182,15 +1366,17 @@ variants:
     metric_stds:
     - 0.00218
   - model: GPS
+    model_plain: GPS
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2409.19117'
-    title: 'Range-aware Positional Encoding via - High-order Pretraining: Theory and
+    title: 'Range-aware Positional Encoding via High-order Pretraining: Theory and
       Practice'
     date: Sep 2024
     date_iso: 2024-09
+    date_display: Sep 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1199,14 +1385,16 @@ variants:
     metric_stds:
     - 0.0001
   - model: SignNet MLP
+    model_plain: SignNet MLP
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2410.18676'
-    title: Homomorphism Counts as Structural - Encodings for Graph Learning
+    title: Homomorphism Counts as Structural Encodings for Graph Learning
     date: Oct 2024
     date_iso: 2024-10
+    date_display: Oct 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1215,6 +1403,7 @@ variants:
     metric_stds:
     - 0.006
   - model: GPS
+    model_plain: GPS
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1223,6 +1412,7 @@ variants:
     title: Graph Positional and Structural Encoder
     date: '2023-07-14'
     date_iso: '2023-07-14'
+    date_display: Jul 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1231,6 +1421,7 @@ variants:
     metric_stds:
     - 0.0001
   - model: GatedGCN+PE-ViT
+    model_plain: GatedGCN+PE-ViT
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1239,6 +1430,7 @@ variants:
     title: 'Understanding Virtual Nodes: Oversquashing and Node Heterogeneity'
     date: May 2024
     date_iso: 2024-05
+    date_display: May 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1247,14 +1439,16 @@ variants:
     metric_stds:
     - 0.0009
   - model: None
+    model_plain: None
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2410.18676'
-    title: Homomorphism Counts as Structural - Encodings for Graph Learning
+    title: Homomorphism Counts as Structural Encodings for Graph Learning
     date: Oct 2024
     date_iso: 2024-10
+    date_display: Oct 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1263,6 +1457,7 @@ variants:
     metric_stds:
     - 0.0019
   - model: GPS + projection
+    model_plain: GPS + projection
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1271,6 +1466,7 @@ variants:
     title: 'Understanding Virtual Nodes: Oversquashing and Node Heterogeneity'
     date: May 2024
     date_iso: 2024-05
+    date_display: May 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1279,6 +1475,7 @@ variants:
     metric_stds:
     - 0.00513
   - model: GRIT-LGD
+    model_plain: GRIT-LGD
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1288,6 +1485,7 @@ variants:
       Model'
     date: May 2026
     date_iso: 2026-05
+    date_display: May 2026
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1295,7 +1493,26 @@ variants:
     - 0.71167
     metric_stds:
     - 0.01311
+  - model: Tango_GatedGCN
+    model_plain: Tango_GatedGCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2508.05070'
+    title: 'Tango: Graph Neural Dynamics via Learned Energy and Tangential Flows'
+    date: Aug 2025
+    date_iso: 2025-08
+    date_display: Aug 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.70894
+    metric_stds:
+    - 0.00329
   - model: GPS + Performer
+    model_plain: GPS + Performer
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1305,6 +1522,7 @@ variants:
       State Spaces'
     date: '2024-02-01'
     date_iso: '2024-02-01'
+    date_display: Feb 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1313,6 +1531,7 @@ variants:
     metric_stds:
     - 0.0033
   - model: S4G
+    model_plain: S4G
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1321,6 +1540,7 @@ variants:
     title: 'Graph Mamba: Towards Learning on Graphs with State Space Models'
     date: '2024-02-13'
     date_iso: '2024-02-13'
+    date_display: Feb 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1329,6 +1549,7 @@ variants:
     metric_stds:
     - 0.0033
   - model: GatedGCN+PE-Mixer
+    model_plain: GatedGCN+PE-Mixer
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1337,6 +1558,7 @@ variants:
     title: 'Understanding Virtual Nodes: Oversquashing and Node Heterogeneity'
     date: May 2024
     date_iso: 2024-05
+    date_display: May 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1345,6 +1567,7 @@ variants:
     metric_stds:
     - 0.0022
   - model: GPS + BigBird
+    model_plain: GPS + BigBird
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1354,6 +1577,7 @@ variants:
       State Spaces'
     date: '2024-02-01'
     date_iso: '2024-02-01'
+    date_display: Feb 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1362,6 +1586,7 @@ variants:
     metric_stds:
     - 0.001
   - model: PNA
+    model_plain: PNA
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1370,6 +1595,7 @@ variants:
     title: Facilitating Graph Neural Networks with Random Walk on Simplicial Complexes
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1378,6 +1604,7 @@ variants:
     metric_stds:
     - 0.0063
   - model: GatedGCN+PE+VN_G
+    model_plain: GatedGCN+PE+VN_G
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -1386,6 +1613,7 @@ variants:
     title: 'Understanding Virtual Nodes: Oversquashing and Node Heterogeneity'
     date: May 2024
     date_iso: 2024-05
+    date_display: May 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1394,6 +1622,7 @@ variants:
     metric_stds:
     - 0.0038
   - model: GatedGCN+EdgeRWSE
+    model_plain: GatedGCN+EdgeRWSE
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -1402,6 +1631,7 @@ variants:
     title: Facilitating Graph Neural Networks with Random Walk on Simplicial Complexes
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1410,6 +1640,7 @@ variants:
     metric_stds:
     - 0.00341
   - model: Eigenformer (feat.)
+    model_plain: Eigenformer (feat.)
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -1418,6 +1649,7 @@ variants:
     title: Graph Transformers without Positional Encodings
     date: Jan 2024
     date_iso: 2024-01
+    date_display: Jan 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1426,6 +1658,7 @@ variants:
     metric_stds:
     - null
   - model: GPS-LGD
+    model_plain: GPS-LGD
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1435,6 +1668,7 @@ variants:
       Model'
     date: May 2026
     date_iso: 2026-05
+    date_display: May 2026
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1443,14 +1677,16 @@ variants:
     metric_stds:
     - 0.00357
   - model: GatedGCN+LapPE
+    model_plain: GatedGCN+LapPE
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.502
+    params_millions: null
     arxiv_id: '2405.13526'
     title: 'Understanding Virtual Nodes: Oversquashing and Node Heterogeneity'
     date: May 2024
     date_iso: 2024-05
+    date_display: May 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1459,6 +1695,7 @@ variants:
     metric_stds:
     - 0.00499
   - model: GatedGCN+GPSE
+    model_plain: GatedGCN+GPSE
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1467,6 +1704,7 @@ variants:
     title: 'Understanding Virtual Nodes: Oversquashing and Node Heterogeneity'
     date: May 2024
     date_iso: 2024-05
+    date_display: May 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1475,6 +1713,7 @@ variants:
     metric_stds:
     - 0.00499
   - model: GAT + RandAlign
+    model_plain: GAT + RandAlign
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -1484,6 +1723,7 @@ variants:
       Networks'
     date: Apr 2024
     date_iso: 2024-04
+    date_display: Apr 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1492,6 +1732,7 @@ variants:
     metric_stds:
     - 0.00082
   - model: Graph-ViT + GFSA
+    model_plain: Graph-ViT + GFSA
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -1500,6 +1741,7 @@ variants:
     title: Graph Convolutions Enrich the Self-Attention in Transformers!
     date: Dec 2023
     date_iso: 2023-12
+    date_display: Dec 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1508,15 +1750,17 @@ variants:
     metric_stds:
     - 0.0028
   - model: GCN
+    model_plain: GCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.496
+    params_millions: null
     arxiv_id: '2502.09263'
     title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks? Simple Architectures
       Meet Excellence
     date: Feb 2025
     date_iso: 2025-02
+    date_display: Feb 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1525,6 +1769,7 @@ variants:
     metric_stds:
     - 0.00413
   - model: GatedGCN-8 w/o RandAlign
+    model_plain: GatedGCN-8 w/o RandAlign
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1534,6 +1779,7 @@ variants:
       Networks'
     date: Apr 2024
     date_iso: 2024-04
+    date_display: Apr 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1542,6 +1788,7 @@ variants:
     metric_stds:
     - 0.00421
   - model: Graph ViT
+    model_plain: Graph ViT
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1550,6 +1797,7 @@ variants:
     title: Graph Convolutions Enrich the Self-Attention in Transformers!
     date: Dec 2023
     date_iso: 2023-12
+    date_display: Dec 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1558,6 +1806,7 @@ variants:
     metric_stds:
     - 0.004
   - model: GIN
+    model_plain: GIN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1567,6 +1816,7 @@ variants:
       Meet Excellence
     date: Feb 2025
     date_iso: 2025-02
+    date_display: Feb 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1575,6 +1825,7 @@ variants:
     metric_stds:
     - 0.00287
   - model: GAT-8 + RandAlign (w/o scaling)
+    model_plain: GAT-8 + RandAlign (w/o scaling)
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -1584,6 +1835,7 @@ variants:
       Networks'
     date: Apr 2024
     date_iso: 2024-04
+    date_display: Apr 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1592,6 +1844,7 @@ variants:
     metric_stds:
     - 0.00438
   - model: CRaW1
+    model_plain: CRaW1
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1600,6 +1853,7 @@ variants:
     title: Graph Transformers without Positional Encodings
     date: Jan 2024
     date_iso: 2024-01
+    date_display: Jan 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1608,6 +1862,7 @@ variants:
     metric_stds:
     - 0.00259
   - model: CRaWl
+    model_plain: CRaWl
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1616,6 +1871,7 @@ variants:
     title: Facilitating Graph Neural Networks with Random Walk on Simplicial Complexes
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1624,6 +1880,7 @@ variants:
     metric_stds:
     - 0.00259
   - model: GCN+PE+VN
+    model_plain: GCN+PE+VN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1632,6 +1889,7 @@ variants:
     title: 'Understanding Virtual Nodes: Oversquashing and Node Heterogeneity'
     date: May 2024
     date_iso: 2024-05
+    date_display: May 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1640,6 +1898,7 @@ variants:
     metric_stds:
     - 0.00172
   - model: EGT
+    model_plain: EGT
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1648,6 +1907,7 @@ variants:
     title: Enhancing Graph Transformers with Hierarchical Distance Structural Encoding
     date: Aug 2023
     date_iso: 2023-08
+    date_display: Aug 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1656,6 +1916,7 @@ variants:
     metric_stds:
     - 0.00409
   - model: GCN + differential enc.
+    model_plain: GCN + differential enc.
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1664,6 +1925,7 @@ variants:
     title: Differential Encoding for Improved Representation Learning over Graphs
     date: Jul 2024
     date_iso: 2024-07
+    date_display: Jul 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1672,14 +1934,16 @@ variants:
     metric_stds:
     - 0.00415
   - model: Eigenformer
+    model_plain: Eigenformer
     is_baseline: false
     is_overridden: false
     override_reason: ''
-    params_millions: 0.5
+    params_millions: null
     arxiv_id: '2401.17791'
     title: Graph Transformers without Positional Encodings
     date: Jan 2024
     date_iso: 2024-01
+    date_display: Jan 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1688,6 +1952,7 @@ variants:
     metric_stds:
     - null
   - model: GatedGCN-16
+    model_plain: GatedGCN-16
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1697,6 +1962,7 @@ variants:
       Networks'
     date: Apr 2024
     date_iso: 2024-04
+    date_display: Apr 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1705,14 +1971,16 @@ variants:
     metric_stds:
     - 0.00311
   - model: GatedGCN
+    model_plain: GatedGCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.502
+    params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
     date: '2023-07-14'
     date_iso: '2023-07-14'
+    date_display: Jul 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1721,6 +1989,7 @@ variants:
     metric_stds:
     - 0.0031
   - model: GraphSAGE
+    model_plain: GraphSAGE
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1730,6 +1999,7 @@ variants:
       Networks'
     date: Apr 2024
     date_iso: 2024-04
+    date_display: Apr 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1738,6 +2008,7 @@ variants:
     metric_stds:
     - 0.00308
   - model: Global attention + differential encoding
+    model_plain: Global attention + differential encoding
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1746,6 +2017,7 @@ variants:
     title: Differential Encoding for Improved Representation Learning over Graphs
     date: Jul 2024
     date_iso: 2024-07
+    date_display: Jul 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1754,6 +2026,7 @@ variants:
     metric_stds:
     - 0.00537
   - model: GAT-8 w/o Lrn&Align
+    model_plain: GAT-8 w/o Lrn&Align
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1763,6 +2036,7 @@ variants:
       Networks'
     date: Apr 2024
     date_iso: 2024-04
+    date_display: Apr 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1771,6 +2045,7 @@ variants:
     metric_stds:
     - 0.00303
   - model: Cy2C-GNNs
+    model_plain: Cy2C-GNNs
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1779,6 +2054,7 @@ variants:
     title: Differential Encoding for Improved Representation Learning over Graphs
     date: Jul 2024
     date_iso: 2024-07
+    date_display: Jul 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1787,6 +2063,7 @@ variants:
     metric_stds:
     - 5.0e-05
   - model: GAT-16
+    model_plain: GAT-16
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1796,6 +2073,7 @@ variants:
       Networks'
     date: Apr 2024
     date_iso: 2024-04
+    date_display: Apr 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1804,6 +2082,7 @@ variants:
     metric_stds:
     - 0.00455
   - model: GAT
+    model_plain: GAT
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1812,6 +2091,7 @@ variants:
     title: Facilitating Graph Neural Networks with Random Walk on Simplicial Complexes
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1820,6 +2100,7 @@ variants:
     metric_stds:
     - 0.00455
   - model: GT
+    model_plain: GT
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1828,6 +2109,7 @@ variants:
     title: Enhancing Graph Transformers with Hierarchical Distance Structural Encoding
     date: Aug 2023
     date_iso: 2023-08
+    date_display: Aug 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1836,6 +2118,7 @@ variants:
     metric_stds:
     - 0.00293
   - model: 3WLGNN
+    model_plain: 3WLGNN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1845,6 +2128,7 @@ variants:
       Networks'
     date: Apr 2024
     date_iso: 2024-04
+    date_display: Apr 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1853,15 +2137,17 @@ variants:
     metric_stds:
     - 0.01593
   - model: GCNII
+    model_plain: GCNII
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.492
+    params_millions: null
     arxiv_id: '2404.09774'
     title: 'RandAlign: A Parameter-Free Method for Regularizing Graph Convolutional
       Networks'
     date: Apr 2024
     date_iso: 2024-04
+    date_display: Apr 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1870,14 +2156,16 @@ variants:
     metric_stds:
     - 0.00198
   - model: GCN
+    model_plain: GCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.496
+    params_millions: null
     arxiv_id: '2308.11129'
     title: Enhancing Graph Transformers with Hierarchical Distance Structural Encoding
     date: Aug 2023
     date_iso: 2023-08
+    date_display: Aug 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1886,6 +2174,7 @@ variants:
     metric_stds:
     - 0.00381
   - model: GCN + RandAlign
+    model_plain: GCN + RandAlign
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -1895,6 +2184,7 @@ variants:
       Networks'
     date: Apr 2024
     date_iso: 2024-04
+    date_display: Apr 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1903,6 +2193,7 @@ variants:
     metric_stds:
     - 0.00165
   - model: GIN
+    model_plain: GIN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1911,6 +2202,7 @@ variants:
     title: Graph Positional and Structural Encoder
     date: '2023-07-14'
     date_iso: '2023-07-14'
+    date_display: Jul 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1919,6 +2211,7 @@ variants:
     metric_stds:
     - 0.0153
   - model: MoNet
+    model_plain: MoNet
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1928,6 +2221,7 @@ variants:
       Networks'
     date: Apr 2024
     date_iso: 2024-04
+    date_display: Apr 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1936,6 +2230,7 @@ variants:
     metric_stds:
     - 0.00518
   - model: Global attention only
+    model_plain: Global attention only
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1944,6 +2239,7 @@ variants:
     title: Differential Encoding for Improved Representation Learning over Graphs
     date: Jul 2024
     date_iso: 2024-07
+    date_display: Jul 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1952,6 +2248,7 @@ variants:
     metric_stds:
     - 0.01349
   - model: SPN
+    model_plain: SPN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1960,6 +2257,7 @@ variants:
     title: 'Best of Both Worlds: Advantages of Hybrid Graph Sequence Models'
     date: Nov 2024
     date_iso: 2024-11
+    date_display: Nov 2024
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -1980,6 +2278,12 @@ variants:
     arxiv_id: '2308.11129'
     title: Enhancing Graph Transformers with Hierarchical Distance Structural Encoding
     date: 2023-08
+  - value: 0.76853
+    std: 0.00185
+    model: GRED
+    arxiv_id: '2312.01538'
+    title: Recurrent Distance Filtering for Graph Representation Learning
+    date: '2023-12-03'
   - value: 0.77642
     std: 0.00456
     model: GSSC
@@ -1990,7 +2294,7 @@ variants:
     std: 0.00141
     model: GRASS
     arxiv_id: '2407.05649'
-    title: 'Greener GRASS: Enhancing GNNs with , Rewiring, and Attention'
+    title: 'Greener GRASS: Enhancing GNNs with Encoding, Rewiring, and Attention'
     date: 2024-07
 ---
 

@@ -8,12 +8,18 @@ description: RNA backbone torsion angle prediction (circular regression task, Ci
 primary_metric: Circular MAE
 higher_is_better: false
 pyg_url: ''
-stats: null
+stats:
+  num_graphs: 1018
+  avg_nodes: null
+  avg_edges: null
+  num_classes: null
 result_count: 8
 best_model:
   model: DualEquiNet
   value: 15.87
   metric: Circular MAE
+  arxiv_id: '2506.19862'
+  paper_title: DualEquiNet RNA Benchmarks
 variants:
 - slug: standard-split
   name: Standard split
@@ -21,10 +27,15 @@ variants:
   is_standard: true
   primary_metric: Circular MAE
   higher_is_better: false
+  stats:
+    num_graphs: null
+    avg_nodes: null
+    avg_edges: null
   metrics:
   - Circular MAE
   rows:
   - model: DualEquiNet
+    model_plain: DualEquiNet
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -33,6 +44,7 @@ variants:
     title: DualEquiNet RNA Benchmarks
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: false
     is_best: true
@@ -41,6 +53,7 @@ variants:
     metric_stds:
     - 2.03
   - model: GotenNet
+    model_plain: GotenNet
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -49,6 +62,7 @@ variants:
     title: DualEquiNet RNA Benchmarks
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: false
     is_best: true
@@ -57,6 +71,7 @@ variants:
     metric_stds:
     - 1.19
   - model: GVPGNN
+    model_plain: GVPGNN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -65,6 +80,7 @@ variants:
     title: DualEquiNet RNA Benchmarks
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: false
     is_best: true
@@ -73,6 +89,7 @@ variants:
     metric_stds:
     - 0.21
   - model: EGNN
+    model_plain: EGNN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -81,6 +98,7 @@ variants:
     title: DualEquiNet RNA Benchmarks
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: false
     is_best: true
@@ -89,6 +107,7 @@ variants:
     metric_stds:
     - 0.61
   - model: HGNN
+    model_plain: HGNN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -97,6 +116,7 @@ variants:
     title: DualEquiNet RNA Benchmarks
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -105,6 +125,7 @@ variants:
     metric_stds:
     - 0.22
   - model: SchNet
+    model_plain: SchNet
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -113,6 +134,7 @@ variants:
     title: DualEquiNet RNA Benchmarks
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: false
     is_best: true
@@ -121,6 +143,7 @@ variants:
     metric_stds:
     - 0.86
   - model: FastEGNN
+    model_plain: FastEGNN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -129,6 +152,7 @@ variants:
     title: DualEquiNet RNA Benchmarks
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -137,6 +161,7 @@ variants:
     metric_stds:
     - 0.22
   - model: TFN
+    model_plain: TFN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -145,6 +170,7 @@ variants:
     title: DualEquiNet RNA Benchmarks
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false

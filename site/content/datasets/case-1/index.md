@@ -8,12 +8,18 @@ description: Power flow analysis on IEEE test case 1 (small power grid, node-lev
 primary_metric: Accuracy
 higher_is_better: true
 pyg_url: ''
-stats: null
+stats:
+  num_graphs: 1000000
+  avg_nodes: null
+  avg_edges: null
+  num_classes: null
 result_count: 4
 best_model:
   model: RMGL
   value: 0.9987
   metric: Accuracy
+  arxiv_id: '2601.01387'
+  paper_title: Power Flow Benchmarks
 variants:
 - slug: standard-split
   name: Standard split
@@ -21,10 +27,15 @@ variants:
   is_standard: true
   primary_metric: Accuracy
   higher_is_better: true
+  stats:
+    num_graphs: null
+    avg_nodes: null
+    avg_edges: null
   metrics:
   - Accuracy
   rows:
   - model: RMGL
+    model_plain: RMGL
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -33,6 +44,7 @@ variants:
     title: Power Flow Benchmarks
     date: Jan 2026
     date_iso: 2026-01
+    date_display: Jan 2026
     codebase_url: ''
     uses_external_data: null
     is_best: true
@@ -41,6 +53,7 @@ variants:
     metric_stds:
     - null
   - model: MGL
+    model_plain: MGL
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -49,6 +62,7 @@ variants:
     title: Power Flow Benchmarks
     date: Jan 2026
     date_iso: 2026-01
+    date_display: Jan 2026
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -57,6 +71,7 @@ variants:
     metric_stds:
     - null
   - model: GLR
+    model_plain: GLR
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -65,6 +80,7 @@ variants:
     title: Power Flow Benchmarks
     date: Jan 2026
     date_iso: 2026-01
+    date_display: Jan 2026
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -73,6 +89,7 @@ variants:
     metric_stds:
     - null
   - model: GLP
+    model_plain: GLP
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -81,6 +98,7 @@ variants:
     title: Power Flow Benchmarks
     date: Jan 2026
     date_iso: 2026-01
+    date_display: Jan 2026
     codebase_url: ''
     uses_external_data: null
     is_best: false

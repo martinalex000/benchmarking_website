@@ -10,12 +10,19 @@ description: 'Large-scale Amazon co-purchase graph with ~2M nodes. Node classifi
 primary_metric: Accuracy
 higher_is_better: true
 pyg_url: ''
-stats: null
+stats:
+  num_graphs: 1
+  avg_nodes: 2000000.0
+  avg_edges: 61000000.0
+  num_classes: null
 result_count: 13
 best_model:
   model: ParaFormer (a)
   value: 0.8936
   metric: Accuracy
+  arxiv_id: '2512.14619'
+  paper_title: 'ParaFormer: A Generalized PageRank Graph Transformer for Graph Representation
+    Learning'
 variants:
 - slug: standard-split
   name: Standard split
@@ -23,10 +30,15 @@ variants:
   is_standard: true
   primary_metric: Accuracy
   higher_is_better: true
+  stats:
+    num_graphs: null
+    avg_nodes: null
+    avg_edges: null
   metrics:
   - Accuracy
   rows:
   - model: ParaFormer (a)
+    model_plain: ParaFormer (a)
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -36,6 +48,7 @@ variants:
       Learning'
     date: Dec 2025
     date_iso: 2025-12
+    date_display: Dec 2025
     codebase_url: ''
     uses_external_data: false
     is_best: true
@@ -44,6 +57,7 @@ variants:
     metric_stds:
     - 0.0014000000000000002
   - model: SGFormer
+    model_plain: SGFormer
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -53,6 +67,7 @@ variants:
       Learning'
     date: Dec 2025
     date_iso: 2025-12
+    date_display: Dec 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -61,6 +76,7 @@ variants:
     metric_stds:
     - 0.001
   - model: NodeFormer
+    model_plain: NodeFormer
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -70,6 +86,7 @@ variants:
       Learning'
     date: Dec 2025
     date_iso: 2025-12
+    date_display: Dec 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -78,6 +95,7 @@ variants:
     metric_stds:
     - 0.0024
   - model: GAT-NSampler
+    model_plain: GAT-NSampler
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -87,6 +105,7 @@ variants:
       Learning'
     date: Dec 2025
     date_iso: 2025-12
+    date_display: Dec 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -95,15 +114,17 @@ variants:
     metric_stds:
     - 0.0032
   - model: GCN
+    model_plain: GCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.496
+    params_millions: null
     arxiv_id: '2512.14619'
     title: 'ParaFormer: A Generalized PageRank Graph Transformer for Graph Representation
       Learning'
     date: Dec 2025
     date_iso: 2025-12
+    date_display: Dec 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -112,6 +133,7 @@ variants:
     metric_stds:
     - 0.001
   - model: GCN-Nsampler
+    model_plain: GCN-Nsampler
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -121,6 +143,7 @@ variants:
       Learning'
     date: Dec 2025
     date_iso: 2025-12
+    date_display: Dec 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -129,6 +152,7 @@ variants:
     metric_stds:
     - 0.0042
   - model: SGC
+    model_plain: SGC
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -138,6 +162,7 @@ variants:
       Learning'
     date: Dec 2025
     date_iso: 2025-12
+    date_display: Dec 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -146,6 +171,7 @@ variants:
     metric_stds:
     - 0.0012
   - model: SIGN
+    model_plain: SIGN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -155,6 +181,7 @@ variants:
       Learning'
     date: Dec 2025
     date_iso: 2025-12
+    date_display: Dec 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -163,6 +190,7 @@ variants:
     metric_stds:
     - 0.0031
   - model: Nagphormer
+    model_plain: Nagphormer
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -171,6 +199,7 @@ variants:
     title: 'VCR-Graphormer: A Mini-batch Graph Transformer via Virtual Connections'
     date: Mar 2024
     date_iso: 2024-03
+    date_display: Mar 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -179,6 +208,7 @@ variants:
     metric_stds:
     - 0.0011
   - model: VCR-Graphormer
+    model_plain: VCR-Graphormer
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -187,6 +217,7 @@ variants:
     title: 'VCR-Graphormer: A Mini-batch Graph Transformer via Virtual Connections'
     date: Mar 2024
     date_iso: 2024-03
+    date_display: Mar 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -195,6 +226,7 @@ variants:
     metric_stds:
     - 0.0016
   - model: GRAND
+    model_plain: GRAND
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -203,6 +235,7 @@ variants:
     title: 'VCR-Graphormer: A Mini-batch Graph Transformer via Virtual Connections'
     date: Mar 2024
     date_iso: 2024-03
+    date_display: Mar 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -211,6 +244,7 @@ variants:
     metric_stds:
     - 0.0011
   - model: GraphSAINT
+    model_plain: GraphSAINT
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -219,6 +253,7 @@ variants:
     title: 'VCR-Graphormer: A Mini-batch Graph Transformer via Virtual Connections'
     date: Mar 2024
     date_iso: 2024-03
+    date_display: Mar 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -227,6 +262,7 @@ variants:
     metric_stds:
     - 0.0015
   - model: PPRGo
+    model_plain: PPRGo
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -235,6 +271,7 @@ variants:
     title: 'VCR-Graphormer: A Mini-batch Graph Transformer via Virtual Connections'
     date: Mar 2024
     date_iso: 2024-03
+    date_display: Mar 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false

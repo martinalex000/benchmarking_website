@@ -17,6 +17,8 @@ best_model:
   model: Supervised
   value: 0.8814
   metric: ROC-AUC
+  arxiv_id: '2505.23345'
+  paper_title: Graph Positional Autoencoders as Self-supervised Learners
 variants:
 - slug: scaffold-split
   name: Scaffold split
@@ -24,10 +26,15 @@ variants:
   is_standard: true
   primary_metric: ROC-AUC
   higher_is_better: true
+  stats:
+    num_graphs: null
+    avg_nodes: null
+    avg_edges: null
   metrics:
   - ROC-AUC
   rows:
   - model: Supervised
+    model_plain: Supervised
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -36,6 +43,7 @@ variants:
     title: Graph Positional Autoencoders as Self-supervised Learners
     date: May 2025
     date_iso: 2025-05
+    date_display: May 2025
     codebase_url: ''
     uses_external_data: false
     is_best: true
@@ -44,6 +52,7 @@ variants:
     metric_stds:
     - 0.0251
   - model: GraphGPS
+    model_plain: GraphGPS
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -52,6 +61,7 @@ variants:
     title: Graph Learning via Logic-Based Weisfeiler--Leman Variants and Tabularization
     date: Aug 2025
     date_iso: 2025-08
+    date_display: Aug 2025
     codebase_url: ''
     uses_external_data: false
     is_best: true
@@ -60,6 +70,7 @@ variants:
     metric_stds:
     - 0.04
   - model: GraphFP_CP
+    model_plain: GraphFP_CP
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -68,6 +79,7 @@ variants:
     title: Fragment-based Pretraining and Finetuning on Molecular Graphs
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: true
     is_best: true
@@ -76,6 +88,7 @@ variants:
     metric_stds:
     - 0.058
   - model: AUG-MAE
+    model_plain: AUG-MAE
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -84,6 +97,7 @@ variants:
     title: Graph Positional Autoencoders as Self-supervised Learners
     date: May 2025
     date_iso: 2025-05
+    date_display: May 2025
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -92,6 +106,7 @@ variants:
     metric_stds:
     - 0.0198
   - model: GraphMAE
+    model_plain: GraphMAE
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -100,6 +115,7 @@ variants:
     title: Graph Positional and Structural Encoder
     date: '2023-07-14'
     date_iso: '2023-07-14'
+    date_display: Jul 2023
     codebase_url: ''
     uses_external_data: true
     is_best: false
@@ -108,6 +124,7 @@ variants:
     metric_stds:
     - 0.012
   - model: JOAO
+    model_plain: JOAO
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -116,6 +133,7 @@ variants:
     title: Fragment-based Pretraining and Finetuning on Molecular Graphs
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: true
     is_best: false
@@ -124,6 +142,7 @@ variants:
     metric_stds:
     - 0.025
   - model: JOAOv2
+    model_plain: JOAOv2
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -132,6 +151,7 @@ variants:
     title: Fragment-based Pretraining and Finetuning on Molecular Graphs
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: true
     is_best: false
@@ -139,7 +159,8 @@ variants:
     - 0.81
     metric_stds:
     - 0.016
-  - model: Sp$^2$GCL
+  - model: Sp^2GCL
+    model_plain: Sp^2GCL
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -148,6 +169,7 @@ variants:
     title: Graph Positional Autoencoders as Self-supervised Learners
     date: May 2025
     date_iso: 2025-05
+    date_display: May 2025
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -156,6 +178,7 @@ variants:
     metric_stds:
     - 0.0386
   - model: StructMAE
+    model_plain: StructMAE
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -164,6 +187,7 @@ variants:
     title: Graph Positional Autoencoders as Self-supervised Learners
     date: May 2025
     date_iso: 2025-05
+    date_display: May 2025
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -172,6 +196,7 @@ variants:
     metric_stds:
     - 0.0456
   - model: CP, alpha=0.1
+    model_plain: CP, alpha=0.1
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -180,6 +205,7 @@ variants:
     title: Fragment-based Pretraining and Finetuning on Molecular Graphs
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: true
     is_best: false
@@ -188,6 +214,7 @@ variants:
     metric_stds:
     - 0.031
   - model: GraphMVP
+    model_plain: GraphMVP
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -196,6 +223,7 @@ variants:
     title: Fragment-based Pretraining and Finetuning on Molecular Graphs
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: true
     is_best: false
@@ -204,6 +232,7 @@ variants:
     metric_stds:
     - 0.025
   - model: GPSE augmented
+    model_plain: GPSE augmented
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -212,6 +241,7 @@ variants:
     title: Graph Positional and Structural Encoder
     date: '2023-07-14'
     date_iso: '2023-07-14'
+    date_display: Jul 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -220,14 +250,16 @@ variants:
     metric_stds:
     - 0.038
   - model: GCN
+    model_plain: GCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.496
+    params_millions: null
     arxiv_id: '2310.03274'
     title: Fragment-based Pretraining and Finetuning on Molecular Graphs
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: true
     is_best: false
@@ -236,6 +268,7 @@ variants:
     metric_stds:
     - 0.058
   - model: G-Motif
+    model_plain: G-Motif
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -244,6 +277,7 @@ variants:
     title: Fragment-based Pretraining and Finetuning on Molecular Graphs
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: true
     is_best: false
@@ -252,6 +286,7 @@ variants:
     metric_stds:
     - 0.027
   - model: GraphLoG
+    model_plain: GraphLoG
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -260,6 +295,7 @@ variants:
     title: Graph Positional and Structural Encoder
     date: '2023-07-14'
     date_iso: '2023-07-14'
+    date_display: Jul 2023
     codebase_url: ''
     uses_external_data: true
     is_best: false
@@ -268,6 +304,7 @@ variants:
     metric_stds:
     - 0.033
   - model: LapPE augmented
+    model_plain: LapPE augmented
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -276,6 +313,7 @@ variants:
     title: Graph Positional and Structural Encoder
     date: '2023-07-14'
     date_iso: '2023-07-14'
+    date_display: Jul 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -284,6 +322,7 @@ variants:
     metric_stds:
     - 0.023
   - model: GraphCL
+    model_plain: GraphCL
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -292,6 +331,7 @@ variants:
     title: Fragment-based Pretraining and Finetuning on Molecular Graphs
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: true
     is_best: false
@@ -300,6 +340,7 @@ variants:
     metric_stds:
     - 0.027
   - model: GraphLOG pretrained
+    model_plain: GraphLOG pretrained
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -308,6 +349,7 @@ variants:
     title: Graph Positional and Structural Encoder
     date: '2023-07-14'
     date_iso: '2023-07-14'
+    date_display: Jul 2023
     codebase_url: ''
     uses_external_data: true
     is_best: false
@@ -316,6 +358,7 @@ variants:
     metric_stds:
     - 0.027
   - model: GraphFP-JT_C
+    model_plain: GraphFP-JT_C
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -324,6 +367,7 @@ variants:
     title: Fragment-based Pretraining and Finetuning on Molecular Graphs
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: true
     is_best: false
@@ -332,6 +376,7 @@ variants:
     metric_stds:
     - 0.056
   - model: GIN_C (Vocab 200)
+    model_plain: GIN_C (Vocab 200)
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -340,6 +385,7 @@ variants:
     title: Fragment-based Pretraining and Finetuning on Molecular Graphs
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: true
     is_best: false
@@ -348,6 +394,7 @@ variants:
     metric_stds:
     - 0.059
   - model: RWSE augmented
+    model_plain: RWSE augmented
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -356,6 +403,7 @@ variants:
     title: Graph Positional and Structural Encoder
     date: '2023-07-14'
     date_iso: '2023-07-14'
+    date_display: Jul 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -364,6 +412,7 @@ variants:
     metric_stds:
     - 0.044
   - model: MVGRL
+    model_plain: MVGRL
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -372,6 +421,7 @@ variants:
     title: Graph Positional Autoencoders as Self-supervised Learners
     date: May 2025
     date_iso: 2025-05
+    date_display: May 2025
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -380,6 +430,7 @@ variants:
     metric_stds:
     - 0.0275
   - model: AllPSE augmented
+    model_plain: AllPSE augmented
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -388,6 +439,7 @@ variants:
     title: Graph Positional and Structural Encoder
     date: '2023-07-14'
     date_iso: '2023-07-14'
+    date_display: Jul 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -396,6 +448,7 @@ variants:
     metric_stds:
     - 0.043
   - model: GraphLoG augmented
+    model_plain: GraphLoG augmented
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -404,6 +457,7 @@ variants:
     title: Graph Positional and Structural Encoder
     date: '2023-07-14'
     date_iso: '2023-07-14'
+    date_display: Jul 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -412,6 +466,7 @@ variants:
     metric_stds:
     - 0.035
   - model: Q-WL-RF (Ours) Plain
+    model_plain: Q-WL-RF (Ours) Plain
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -420,6 +475,7 @@ variants:
     title: Graph Learning via Logic-Based Weisfeiler--Leman Variants and Tabularization
     date: Aug 2025
     date_iso: 2025-08
+    date_display: Aug 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -428,6 +484,7 @@ variants:
     metric_stds:
     - 0.02
   - model: AttrMasking
+    model_plain: AttrMasking
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -436,6 +493,7 @@ variants:
     title: Fragment-based Pretraining and Finetuning on Molecular Graphs
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: true
     is_best: false
@@ -444,6 +502,7 @@ variants:
     metric_stds:
     - 0.041
   - model: SSL AttrMasking pre-trained
+    model_plain: SSL AttrMasking pre-trained
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -452,6 +511,7 @@ variants:
     title: Graph Positional and Structural Encoder
     date: '2023-07-14'
     date_iso: '2023-07-14'
+    date_display: Jul 2023
     codebase_url: ''
     uses_external_data: true
     is_best: false
@@ -460,6 +520,7 @@ variants:
     metric_stds:
     - 0.041
   - model: JOAO
+    model_plain: JOAO
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -468,6 +529,7 @@ variants:
     title: Graph Positional Autoencoders as Self-supervised Learners
     date: May 2025
     date_iso: 2025-05
+    date_display: May 2025
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -476,6 +538,7 @@ variants:
     metric_stds:
     - 0.0412
   - model: Q-WL-RF (Ours) Maj.
+    model_plain: Q-WL-RF (Ours) Maj.
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -484,6 +547,7 @@ variants:
     title: Graph Learning via Logic-Based Weisfeiler--Leman Variants and Tabularization
     date: Aug 2025
     date_iso: 2025-08
+    date_display: Aug 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -492,6 +556,7 @@ variants:
     metric_stds:
     - 0.033
   - model: SSL InfoMax pre-trained
+    model_plain: SSL InfoMax pre-trained
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -500,6 +565,7 @@ variants:
     title: Graph Positional and Structural Encoder
     date: '2023-07-14'
     date_iso: '2023-07-14'
+    date_display: Jul 2023
     codebase_url: ''
     uses_external_data: true
     is_best: false
@@ -508,6 +574,7 @@ variants:
     metric_stds:
     - 0.003
   - model: GraphSAGE
+    model_plain: GraphSAGE
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -516,6 +583,7 @@ variants:
     title: Fragment-based Pretraining and Finetuning on Molecular Graphs
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: true
     is_best: false
@@ -524,6 +592,7 @@ variants:
     metric_stds:
     - 0.031
   - model: Q-WL-RF (Ours) Int.
+    model_plain: Q-WL-RF (Ours) Int.
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -532,6 +601,7 @@ variants:
     title: Graph Learning via Logic-Based Weisfeiler--Leman Variants and Tabularization
     date: Aug 2025
     date_iso: 2025-08
+    date_display: Aug 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -540,6 +610,7 @@ variants:
     metric_stds:
     - 0.03
   - model: Q-WL-RF (Ours) Hyb.
+    model_plain: Q-WL-RF (Ours) Hyb.
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -548,6 +619,7 @@ variants:
     title: Graph Learning via Logic-Based Weisfeiler--Leman Variants and Tabularization
     date: Aug 2025
     date_iso: 2025-08
+    date_display: Aug 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -556,6 +628,7 @@ variants:
     metric_stds:
     - 0.022
   - model: MGSSL
+    model_plain: MGSSL
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -564,6 +637,7 @@ variants:
     title: Fragment-based Pretraining and Finetuning on Molecular Graphs
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: true
     is_best: false
@@ -572,6 +646,7 @@ variants:
     metric_stds:
     - 0.055
   - model: InfoGraph pretrained
+    model_plain: InfoGraph pretrained
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -580,6 +655,7 @@ variants:
     title: Graph Positional and Structural Encoder
     date: '2023-07-14'
     date_iso: '2023-07-14'
+    date_display: Jul 2023
     codebase_url: ''
     uses_external_data: true
     is_best: false
@@ -588,6 +664,7 @@ variants:
     metric_stds:
     - 0.006
   - model: ContextPred
+    model_plain: ContextPred
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -596,6 +673,7 @@ variants:
     title: Fragment-based Pretraining and Finetuning on Molecular Graphs
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: true
     is_best: false
@@ -604,6 +682,7 @@ variants:
     metric_stds:
     - 0.038
   - model: SSL ContextPred pre-trained
+    model_plain: SSL ContextPred pre-trained
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -612,6 +691,7 @@ variants:
     title: Graph Positional and Structural Encoder
     date: '2023-07-14'
     date_iso: '2023-07-14'
+    date_display: Jul 2023
     codebase_url: ''
     uses_external_data: true
     is_best: false
@@ -620,6 +700,7 @@ variants:
     metric_stds:
     - 0.038
   - model: Q-WL-RF (Ours) Full
+    model_plain: Q-WL-RF (Ours) Full
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -628,6 +709,7 @@ variants:
     title: Graph Learning via Logic-Based Weisfeiler--Leman Variants and Tabularization
     date: Aug 2025
     date_iso: 2025-08
+    date_display: Aug 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -636,6 +718,7 @@ variants:
     metric_stds:
     - 0.013
   - model: GraphLoG
+    model_plain: GraphLoG
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -644,6 +727,7 @@ variants:
     title: Fragment-based Pretraining and Finetuning on Molecular Graphs
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: true
     is_best: false
@@ -652,6 +736,7 @@ variants:
     metric_stds:
     - 0.032
   - model: InfoGraph
+    model_plain: InfoGraph
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -660,6 +745,7 @@ variants:
     title: Graph Positional Autoencoders as Self-supervised Learners
     date: May 2025
     date_iso: 2025-05
+    date_display: May 2025
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -668,6 +754,7 @@ variants:
     metric_stds:
     - 0.0532
   - model: JOAOv2 pre-trained
+    model_plain: JOAOv2 pre-trained
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -676,6 +763,7 @@ variants:
     title: Graph Positional and Structural Encoder
     date: '2023-07-14'
     date_iso: '2023-07-14'
+    date_display: Jul 2023
     codebase_url: ''
     uses_external_data: true
     is_best: false
@@ -684,6 +772,7 @@ variants:
     metric_stds:
     - 0.009
   - model: SSL EdgePred pre-trained
+    model_plain: SSL EdgePred pre-trained
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -692,6 +781,7 @@ variants:
     title: Graph Positional and Structural Encoder
     date: '2023-07-14'
     date_iso: '2023-07-14'
+    date_display: Jul 2023
     codebase_url: ''
     uses_external_data: true
     is_best: false
@@ -700,6 +790,7 @@ variants:
     metric_stds:
     - 0.037
   - model: GIN
+    model_plain: GIN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -708,6 +799,7 @@ variants:
     title: Fragment-based Pretraining and Finetuning on Molecular Graphs
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: true
     is_best: false
@@ -716,6 +808,7 @@ variants:
     metric_stds:
     - 0.01
   - model: G-Contextual
+    model_plain: G-Contextual
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -724,6 +817,7 @@ variants:
     title: Fragment-based Pretraining and Finetuning on Molecular Graphs
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: true
     is_best: false
@@ -732,14 +826,16 @@ variants:
     metric_stds:
     - 0.052
   - model: GCN
+    model_plain: GCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.496
+    params_millions: null
     arxiv_id: '2508.10651'
     title: Graph Learning via Logic-Based Weisfeiler--Leman Variants and Tabularization
     date: Aug 2025
     date_iso: 2025-08
+    date_display: Aug 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -748,6 +844,7 @@ variants:
     metric_stds:
     - 0.021
   - model: GPT-GNN
+    model_plain: GPT-GNN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -756,6 +853,7 @@ variants:
     title: Fragment-based Pretraining and Finetuning on Molecular Graphs
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: true
     is_best: false
@@ -764,6 +862,7 @@ variants:
     metric_stds:
     - 0.052
   - model: No pre-training
+    model_plain: No pre-training
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -772,6 +871,7 @@ variants:
     title: Graph Positional and Structural Encoder
     date: '2023-07-14'
     date_iso: '2023-07-14'
+    date_display: Jul 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -780,6 +880,7 @@ variants:
     metric_stds:
     - 0.044
   - model: GraphFP
+    model_plain: GraphFP
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -788,6 +889,7 @@ variants:
     title: Fragment-based Pretraining and Finetuning on Molecular Graphs
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: true
     is_best: false
@@ -796,6 +898,7 @@ variants:
     metric_stds:
     - 0.038
   - model: Kern. WL
+    model_plain: Kern. WL
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -804,6 +907,7 @@ variants:
     title: Graph Learning via Logic-Based Weisfeiler--Leman Variants and Tabularization
     date: Aug 2025
     date_iso: 2025-08
+    date_display: Aug 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false

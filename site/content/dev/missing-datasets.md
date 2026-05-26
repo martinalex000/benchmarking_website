@@ -6,11 +6,11 @@ description: Datasets detected in extraction but not yet mapped into DB
 
 ## Datasets Still Missing From The DB
 
-This page now distinguishes between entries that are truly unresolved and stale pending entries that already resolve against the current benchmark database.
+This page distinguishes between entries that are truly unresolved and stale pending rows that already resolve against the current benchmark database.
 
-Source file: `/home/martin/git/benchmarking_website/data/pending_datasets.yaml`
+Source: pending_datasets table in benchmarks.db
 
-**Tracked entries in pending file:** 92
+**Tracked entries in DB:** 92
 **Still unresolved:** 92
 **Already covered now:** 0
 

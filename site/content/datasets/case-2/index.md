@@ -8,12 +8,18 @@ description: Power flow analysis on IEEE test case 2 (medium power grid, node-le
 primary_metric: Accuracy
 higher_is_better: true
 pyg_url: ''
-stats: null
-result_count: 6
+stats:
+  num_graphs: 750000
+  avg_nodes: null
+  avg_edges: null
+  num_classes: null
+result_count: 7
 best_model:
   model: RMGL
   value: 0.9928
   metric: Accuracy
+  arxiv_id: '2601.01387'
+  paper_title: Power Flow Benchmarks
 variants:
 - slug: standard-split
   name: Standard split
@@ -21,11 +27,16 @@ variants:
   is_standard: true
   primary_metric: Accuracy
   higher_is_better: true
+  stats:
+    num_graphs: null
+    avg_nodes: null
+    avg_edges: null
   metrics:
   - Accuracy
   - Perplexity
   rows:
   - model: RMGL
+    model_plain: RMGL
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -34,6 +45,7 @@ variants:
     title: Power Flow Benchmarks
     date: Jan 2026
     date_iso: 2026-01
+    date_display: Jan 2026
     codebase_url: ''
     uses_external_data: null
     is_best: true
@@ -44,6 +56,7 @@ variants:
     - null
     - null
   - model: MGL
+    model_plain: MGL
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -52,6 +65,7 @@ variants:
     title: Power Flow Benchmarks
     date: Jan 2026
     date_iso: 2026-01
+    date_display: Jan 2026
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -62,6 +76,7 @@ variants:
     - null
     - null
   - model: GLP
+    model_plain: GLP
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -70,6 +85,7 @@ variants:
     title: Power Flow Benchmarks
     date: Jan 2026
     date_iso: 2026-01
+    date_display: Jan 2026
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -80,6 +96,7 @@ variants:
     - null
     - null
   - model: GLR
+    model_plain: GLR
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -88,6 +105,7 @@ variants:
     title: Power Flow Benchmarks
     date: Jan 2026
     date_iso: 2026-01
+    date_display: Jan 2026
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -98,6 +116,7 @@ variants:
     - null
     - null
   - model: GPT2
+    model_plain: GPT2
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -106,6 +125,7 @@ variants:
     title: Graph Convolutions Enrich the Self-Attention in Transformers!
     date: Dec 2023
     date_iso: 2023-12
+    date_display: Dec 2023
     codebase_url: ''
     uses_external_data: true
     is_best: false
@@ -116,6 +136,7 @@ variants:
     - null
     - null
   - model: GPT2 + GFSA
+    model_plain: GPT2 + GFSA
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -124,6 +145,27 @@ variants:
     title: Graph Convolutions Enrich the Self-Attention in Transformers!
     date: Dec 2023
     date_iso: 2023-12
+    date_display: Dec 2023
+    codebase_url: ''
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - null
+    - 20.923
+    metric_stds:
+    - null
+    - null
+  - model: GPT2 + GFSA(K=2)
+    model_plain: GPT2 + GFSA(K=2)
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2312.04234'
+    title: Graph Convolutions Enrich the Self-Attention in Transformers!
+    date: Dec 2023
+    date_iso: 2023-12
+    date_display: Dec 2023
     codebase_url: ''
     uses_external_data: true
     is_best: false

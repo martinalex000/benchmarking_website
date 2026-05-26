@@ -1084,6 +1084,7 @@ def export_paper(arxiv_id: str) -> bool:
                     ),
                     "table_ref": r.table_ref or "",
                     "source_ref": r.source_ref or "",
+                    "variant_inference_reason": r.variant_inference_reason or "",
                     "date": _fmt_date(paper.published_date) if paper else "",
                     "date_display": _fmt_month_year(paper.published_date) if paper else "",
                     "date_iso": (

@@ -8,12 +8,19 @@ description: Deezer Europe user friendship graph binary node classification (lik
 primary_metric: ROC-AUC
 higher_is_better: true
 pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.HeterophilousGraphDataset.html
-stats: null
+stats:
+  num_graphs: 1
+  avg_nodes: 28281.0
+  avg_edges: 1650703.0
+  num_classes: 2
 result_count: 30
 best_model:
   model: ParaFormer_GPRGNN
   value: 0.677
   metric: Accuracy
+  arxiv_id: '2512.14619'
+  paper_title: 'ParaFormer: A Generalized PageRank Graph Transformer for Graph Representation
+    Learning'
 variants:
 - slug: standard-split
   name: Standard split
@@ -21,10 +28,15 @@ variants:
   is_standard: true
   primary_metric: Accuracy
   higher_is_better: true
+  stats:
+    num_graphs: null
+    avg_nodes: null
+    avg_edges: null
   metrics:
   - Accuracy
   rows:
   - model: ParaFormer_GPRGNN
+    model_plain: ParaFormer_GPRGNN
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -34,6 +46,7 @@ variants:
       Learning'
     date: Dec 2025
     date_iso: 2025-12
+    date_display: Dec 2025
     codebase_url: ''
     uses_external_data: false
     is_best: true
@@ -42,6 +55,7 @@ variants:
     metric_stds:
     - 0.005
   - model: Polynormer
+    model_plain: Polynormer
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -51,6 +65,7 @@ variants:
       Learning'
     date: Dec 2025
     date_iso: 2025-12
+    date_display: Dec 2025
     codebase_url: ''
     uses_external_data: false
     is_best: true
@@ -59,6 +74,7 @@ variants:
     metric_stds:
     - 0.004
   - model: GPM
+    model_plain: GPM
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -67,6 +83,7 @@ variants:
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
     date: '2025-01-30'
     date_iso: '2025-01-30'
+    date_display: Jan 2025
     codebase_url: ''
     uses_external_data: false
     is_best: true
@@ -75,6 +92,7 @@ variants:
     metric_stds:
     - 0.0022
   - model: SGFormer
+    model_plain: SGFormer
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -84,6 +102,7 @@ variants:
       Learning'
     date: Dec 2025
     date_iso: 2025-12
+    date_display: Dec 2025
     codebase_url: ''
     uses_external_data: false
     is_best: true
@@ -92,6 +111,7 @@ variants:
     metric_stds:
     - 0.011000000000000001
   - model: GPRGNN
+    model_plain: GPRGNN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -101,6 +121,7 @@ variants:
       Learning'
     date: Dec 2025
     date_iso: 2025-12
+    date_display: Dec 2025
     codebase_url: ''
     uses_external_data: false
     is_best: true
@@ -109,6 +130,7 @@ variants:
     metric_stds:
     - 0.005
   - model: MLP
+    model_plain: MLP
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -118,6 +140,7 @@ variants:
       Learning'
     date: Dec 2025
     date_iso: 2025-12
+    date_display: Dec 2025
     codebase_url: ''
     uses_external_data: false
     is_best: true
@@ -126,6 +149,7 @@ variants:
     metric_stds:
     - 0.006999999999999999
   - model: CoBFormer
+    model_plain: CoBFormer
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -135,6 +159,7 @@ variants:
       Learning'
     date: Dec 2025
     date_iso: 2025-12
+    date_display: Dec 2025
     codebase_url: ''
     uses_external_data: false
     is_best: true
@@ -143,6 +168,7 @@ variants:
     metric_stds:
     - 0.006999999999999999
   - model: NodeFormer
+    model_plain: NodeFormer
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -151,6 +177,7 @@ variants:
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
     date: '2025-01-30'
     date_iso: '2025-01-30'
+    date_display: Jan 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -159,6 +186,7 @@ variants:
     metric_stds:
     - 0.007
   - model: SIGN
+    model_plain: SIGN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -168,6 +196,7 @@ variants:
       Learning'
     date: Dec 2025
     date_iso: 2025-12
+    date_display: Dec 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -176,6 +205,7 @@ variants:
     metric_stds:
     - 0.003
   - model: H2GCN
+    model_plain: H2GCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -185,6 +215,7 @@ variants:
       Learning'
     date: Dec 2025
     date_iso: 2025-12
+    date_display: Dec 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -193,6 +224,7 @@ variants:
     metric_stds:
     - 0.008
   - model: OrderedGNN
+    model_plain: OrderedGNN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -201,6 +233,7 @@ variants:
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
     date: '2025-01-30'
     date_iso: '2025-01-30'
+    date_display: Jan 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -209,6 +242,7 @@ variants:
     metric_stds:
     - 0.0075
   - model: APPNP
+    model_plain: APPNP
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -217,6 +251,7 @@ variants:
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
     date: '2025-01-30'
     date_iso: '2025-01-30'
+    date_display: Jan 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -225,6 +260,7 @@ variants:
     metric_stds:
     - 0.006
   - model: CPGNN
+    model_plain: CPGNN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -234,6 +270,7 @@ variants:
       Learning'
     date: Dec 2025
     date_iso: 2025-12
+    date_display: Dec 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -242,6 +279,7 @@ variants:
     metric_stds:
     - 0.003
   - model: GLoGNN
+    model_plain: GLoGNN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -251,6 +289,7 @@ variants:
       Learning'
     date: Dec 2025
     date_iso: 2025-12
+    date_display: Dec 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -259,6 +298,7 @@ variants:
     metric_stds:
     - 0.008
   - model: ParaFormer_GCN
+    model_plain: ParaFormer_GCN
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -268,6 +308,7 @@ variants:
       Learning'
     date: Dec 2025
     date_iso: 2025-12
+    date_display: Dec 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -276,6 +317,7 @@ variants:
     metric_stds:
     - 0.009000000000000001
   - model: Nagphormer
+    model_plain: Nagphormer
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -284,6 +326,7 @@ variants:
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
     date: '2025-01-30'
     date_iso: '2025-01-30'
+    date_display: Jan 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -292,6 +335,7 @@ variants:
     metric_stds:
     - 0.0057
   - model: GOAT
+    model_plain: GOAT
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -300,6 +344,7 @@ variants:
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
     date: '2025-01-30'
     date_iso: '2025-01-30'
+    date_display: Jan 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -308,6 +353,7 @@ variants:
     metric_stds:
     - 0.0024
   - model: VCR-Graphormer
+    model_plain: VCR-Graphormer
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -316,6 +362,7 @@ variants:
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
     date: '2025-01-30'
     date_iso: '2025-01-30'
+    date_display: Jan 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -324,6 +371,7 @@ variants:
     metric_stds:
     - 0.0051
   - model: SGFormer
+    model_plain: SGFormer
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -332,6 +380,7 @@ variants:
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
     date: '2025-01-30'
     date_iso: '2025-01-30'
+    date_display: Jan 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -340,6 +389,7 @@ variants:
     metric_stds:
     - 0.0033
   - model: RAW-GNN
+    model_plain: RAW-GNN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -348,6 +398,7 @@ variants:
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
     date: '2025-01-30'
     date_iso: '2025-01-30'
+    date_display: Jan 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -356,6 +407,7 @@ variants:
     metric_stds:
     - 0.0064
   - model: SAN
+    model_plain: SAN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -364,6 +416,7 @@ variants:
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
     date: '2025-01-30'
     date_iso: '2025-01-30'
+    date_display: Jan 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -372,6 +425,7 @@ variants:
     metric_stds:
     - 0.0035
   - model: RUM
+    model_plain: RUM
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -380,6 +434,7 @@ variants:
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
     date: '2025-01-30'
     date_iso: '2025-01-30'
+    date_display: Jan 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -388,6 +443,7 @@ variants:
     metric_stds:
     - 0.0062
   - model: ParaFormer (a)
+    model_plain: ParaFormer (a)
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -397,6 +453,7 @@ variants:
       Learning'
     date: Dec 2025
     date_iso: 2025-12
+    date_display: Dec 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -405,6 +462,7 @@ variants:
     metric_stds:
     - null
   - model: Nagphormer
+    model_plain: Nagphormer
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -414,6 +472,7 @@ variants:
       Learning'
     date: Dec 2025
     date_iso: 2025-12
+    date_display: Dec 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -422,6 +481,7 @@ variants:
     metric_stds:
     - 0.006
   - model: GPRGNN
+    model_plain: GPRGNN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -430,6 +490,7 @@ variants:
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
     date: '2025-01-30'
     date_iso: '2025-01-30'
+    date_display: Jan 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -438,14 +499,16 @@ variants:
     metric_stds:
     - 0.0084
   - model: GCN
+    model_plain: GCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.496
+    params_millions: null
     arxiv_id: '2501.18739'
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
     date: '2025-01-30'
     date_iso: '2025-01-30'
+    date_display: Jan 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -454,6 +517,7 @@ variants:
     metric_stds:
     - 0.007
   - model: SGC
+    model_plain: SGC
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -463,6 +527,7 @@ variants:
       Learning'
     date: Dec 2025
     date_iso: 2025-12
+    date_display: Dec 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -471,6 +536,7 @@ variants:
     metric_stds:
     - 0.004
   - model: GAT
+    model_plain: GAT
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -479,6 +545,7 @@ variants:
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
     date: '2025-01-30'
     date_iso: '2025-01-30'
+    date_display: Jan 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -487,6 +554,7 @@ variants:
     metric_stds:
     - 0.008
   - model: JKNet
+    model_plain: JKNet
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -496,6 +564,7 @@ variants:
       Learning'
     date: Dec 2025
     date_iso: 2025-12
+    date_display: Dec 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -504,6 +573,7 @@ variants:
     metric_stds:
     - 0.004
   - model: GraphGPS
+    model_plain: GraphGPS
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -512,6 +582,7 @@ variants:
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
     date: '2025-01-30'
     date_iso: '2025-01-30'
+    date_display: Jan 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false

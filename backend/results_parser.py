@@ -236,33 +236,70 @@ def _infer_zinc_variant(
     entry: dict[str, Any],
     variant_map: dict[str, int],
     paper_text: str | None = None,
-) -> int | None:
+) -> tuple[int | None, str]:
     context = _collect_zinc_context(entry)
 
     if _ZINC_FULL_CUE_RE.search(context):
-        return _zinc_variant_id("full", variant_map)
+        return _zinc_variant_id("full", variant_map), "zinc: entry cue matched full"
     if _ZINC_SUBSET_CUE_RE.search(context):
-        return _zinc_variant_id("subset", variant_map)
+        return _zinc_variant_id("subset", variant_map), "zinc: entry cue matched subset"
 
     paper_text_lower = (paper_text or "").lower()
     if paper_text_lower:
         has_subset_cue = _ZINC_SUBSET_CUE_RE.search(paper_text_lower) is not None
         has_full_cue = _ZINC_FULL_CUE_RE.search(paper_text_lower) is not None
         if has_subset_cue and not has_full_cue:
-            return _zinc_variant_id("subset", variant_map)
+            return _zinc_variant_id("subset", variant_map), "zinc: paper text matched subset"
         if has_full_cue and not has_subset_cue:
-            return _zinc_variant_id("full", variant_map)
+            return _zinc_variant_id("full", variant_map), "zinc: paper text matched full"
 
     metric_key = str(entry.get("metric") or "").strip().lower()
     if metric_key == "mae":
         value = _extract_numeric_value(entry.get("value"))
         if value is not None:
             if value <= _ZINC_FULL_MAX_MAE:
-                return _zinc_variant_id("full", variant_map)
+                return (
+                    _zinc_variant_id("full", variant_map),
+                    f"zinc: mae fallback <= {_ZINC_FULL_MAX_MAE:.2f}",
+                )
             if value >= _ZINC_SUBSET_MIN_MAE:
-                return _zinc_variant_id("subset", variant_map)
+                return (
+                    _zinc_variant_id("subset", variant_map),
+                    f"zinc: mae fallback >= {_ZINC_SUBSET_MIN_MAE:.2f}",
+                )
 
-    return _zinc_variant_id("subset", variant_map)
+    return _zinc_variant_id("subset", variant_map), "zinc: default subset fallback"
+
+
+def resolve_dataset_variant_with_reason(
+    dataset_name: str,
+    session,
+    variant_map: dict[str, int] | None = None,
+    entry: dict[str, Any] | None = None,
+    paper_text: str | None = None,
+) -> tuple[int | None, str]:
+    if variant_map is None:
+        variant_map = _load_variant_map(session)
+
+    key = dataset_name.strip().lower()
+
+    if key == "zinc":
+        return _infer_zinc_variant(entry or {"dataset": dataset_name}, variant_map, paper_text)
+
+    if key in variant_map:
+        return variant_map[key], "dataset: exact match"
+
+    if variant_map:
+        min_score = 85 if len(key) <= 6 else 75
+        best_match, score = fuzz_process.extractOne(key, list(variant_map.keys()))
+        if score >= min_score:
+            logger.debug(
+                "Fuzzy-matched dataset '%s' → '%s' (score=%d)", dataset_name, best_match, score
+            )
+            return variant_map[best_match], f"dataset: fuzzy match to {best_match} (score={score})"
+
+    logger.warning("Could not resolve dataset variant '%s'", dataset_name)
+    return None, "dataset: unresolved"
 
 
 def resolve_dataset_variant(
@@ -277,31 +314,14 @@ def resolve_dataset_variant(
     Falls back to thefuzz similarity (threshold 75%) if exact match fails.
     Returns None if no match found.
     """
-    if variant_map is None:
-        variant_map = _load_variant_map(session)
-
-    key = dataset_name.strip().lower()
-
-    if key == "zinc":
-        return _infer_zinc_variant(entry or {"dataset": dataset_name}, variant_map, paper_text)
-
-    # Exact match
-    if key in variant_map:
-        return variant_map[key]
-
-    # thefuzz fallback — use a higher threshold for very short query strings to
-    # avoid spurious matches (e.g. "covid" → "d&d" at WRatio=86).
-    if variant_map:
-        min_score = 85 if len(key) <= 6 else 75
-        best_match, score = fuzz_process.extractOne(key, list(variant_map.keys()))
-        if score >= min_score:
-            logger.debug(
-                "Fuzzy-matched dataset '%s' → '%s' (score=%d)", dataset_name, best_match, score
-            )
-            return variant_map[best_match]
-
-    logger.warning("Could not resolve dataset variant '%s'", dataset_name)
-    return None
+    variant_id, _reason = resolve_dataset_variant_with_reason(
+        dataset_name,
+        session,
+        variant_map,
+        entry=entry,
+        paper_text=paper_text,
+    )
+    return variant_id
 
 
 # ── Model resolution ──────────────────────────────────────────────────────────
@@ -531,7 +551,7 @@ def parse_and_store(arxiv_id: str) -> int:
             model_name = entry.get("model", "")
             metric_name = entry.get("metric", "")
 
-            variant_id = resolve_dataset_variant(
+            variant_id, variant_reason = resolve_dataset_variant_with_reason(
                 dataset_name,
                 session,
                 variant_map,
@@ -545,6 +565,14 @@ def parse_and_store(arxiv_id: str) -> int:
                     arxiv_id,
                 )
                 continue
+            if dataset_name.strip().lower() == "zinc":
+                logger.info(
+                    "Resolved ZINC variant for arXiv:%s model=%s metric=%s via %s",
+                    arxiv_id,
+                    model_name,
+                    metric_name,
+                    variant_reason,
+                )
 
             params = sizes_lookup.get(model_name.lower())
             model_id = resolve_or_create_model(
@@ -578,6 +606,7 @@ def parse_and_store(arxiv_id: str) -> int:
             if existing:
                 # Update in-place
                 _update_result(existing, entry, model_name_used)
+                existing.variant_inference_reason = variant_reason
                 continue
 
             # Parse value/std
@@ -608,6 +637,7 @@ def parse_and_store(arxiv_id: str) -> int:
                 table_ref=entry.get("table_ref"),
                 source_ref=entry.get("source_ref", "this paper"),
                 extraction_model=model_name_used,
+                variant_inference_reason=variant_reason,
             )
             session.add(result)
             new_count += 1

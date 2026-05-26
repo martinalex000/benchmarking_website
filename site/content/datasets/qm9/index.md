@@ -13,11 +13,13 @@ stats:
   avg_nodes: 18.0
   avg_edges: 37.3
   num_classes: null
-result_count: 54
+result_count: 69
 best_model:
   model: Mace
   value: 0.02
   metric: MAE
+  arxiv_id: '2509.22259'
+  paper_title: Rotary Position Encodings for Graphs
 variants:
 - slug: standard-split
   name: Standard split
@@ -25,11 +27,16 @@ variants:
   is_standard: true
   primary_metric: MAE
   higher_is_better: false
+  stats:
+    num_graphs: null
+    avg_nodes: null
+    avg_edges: null
   metrics:
   - MAE
   - RMSE
   rows:
   - model: Mace
+    model_plain: Mace
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -38,6 +45,7 @@ variants:
     title: Rotary Position Encodings for Graphs
     date: Sep 2025
     date_iso: 2025-09
+    date_display: Sep 2025
     codebase_url: https://github.com/google-research/scenic
     uses_external_data: false
     is_best: true
@@ -47,7 +55,28 @@ variants:
     metric_stds:
     - null
     - null
+  - model: PST
+    model_plain: PST
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: 1.0
+    arxiv_id: '2405.02795'
+    title: Graph as Point Set
+    date: '2024-05-05'
+    date_iso: '2024-05-05'
+    date_display: May 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.023
+    - null
+    metric_stds:
+    - 0.001
+    - null
   - model: DropGIN
+    model_plain: DropGIN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -56,6 +85,7 @@ variants:
     title: An end-to-end attention-based approach for learning on graphs
     date: Feb 2024
     date_iso: 2024-02
+    date_display: Feb 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -66,6 +96,7 @@ variants:
     - 0.000867405321348238
     - 0.0017203168654583633
   - model: ESA
+    model_plain: ESA
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -74,6 +105,7 @@ variants:
     title: An end-to-end attention-based approach for learning on graphs
     date: Feb 2024
     date_iso: 2024-02
+    date_display: Feb 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -84,14 +116,16 @@ variants:
     - 0.000867405321348238
     - 0.0029945876029935353
   - model: SchNet
+    model_plain: SchNet
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: null
+    params_millions: 0.002
     arxiv_id: '2509.22259'
     title: Rotary Position Encodings for Graphs
     date: Sep 2025
     date_iso: 2025-09
+    date_display: Sep 2025
     codebase_url: https://github.com/google-research/scenic
     uses_external_data: false
     is_best: false
@@ -102,6 +136,7 @@ variants:
     - 0.002
     - null
   - model: DimeNet++
+    model_plain: DimeNet++
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -110,6 +145,7 @@ variants:
     title: Rotary Position Encodings for Graphs
     date: Sep 2025
     date_iso: 2025-09
+    date_display: Sep 2025
     codebase_url: https://github.com/google-research/scenic
     uses_external_data: false
     is_best: false
@@ -120,6 +156,7 @@ variants:
     - 0.002
     - null
   - model: TokenGT
+    model_plain: TokenGT
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -128,6 +165,7 @@ variants:
     title: An end-to-end attention-based approach for learning on graphs
     date: Feb 2024
     date_iso: 2024-02
+    date_display: Feb 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -138,6 +176,7 @@ variants:
     - 0.0005953300476479862
     - 0.00828174606274421
   - model: PNA
+    model_plain: PNA
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -146,6 +185,7 @@ variants:
     title: An end-to-end attention-based approach for learning on graphs
     date: Feb 2024
     date_iso: 2024-02
+    date_display: Feb 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -156,6 +196,7 @@ variants:
     - 0.0028074830084290074
     - 0.0012178706316662376
   - model: GATv2
+    model_plain: GATv2
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -164,6 +205,7 @@ variants:
     title: An end-to-end attention-based approach for learning on graphs
     date: Feb 2024
     date_iso: 2024-02
+    date_display: Feb 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -174,6 +216,7 @@ variants:
     - 0.0008736508385477724
     - 0.0023134325943648688
   - model: GAT
+    model_plain: GAT
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -182,6 +225,7 @@ variants:
     title: An end-to-end attention-based approach for learning on graphs
     date: Feb 2024
     date_iso: 2024-02
+    date_display: Feb 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -192,6 +236,7 @@ variants:
     - 0.0014504048065470119
     - 0.00274523474824748
   - model: M3GNet
+    model_plain: M3GNet
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -200,6 +245,7 @@ variants:
     title: Rotary Position Encodings for Graphs
     date: Sep 2025
     date_iso: 2025-09
+    date_display: Sep 2025
     codebase_url: https://github.com/google-research/scenic
     uses_external_data: false
     is_best: false
@@ -210,6 +256,7 @@ variants:
     - null
     - null
   - model: GPS
+    model_plain: GPS
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -218,6 +265,7 @@ variants:
     title: An end-to-end attention-based approach for learning on graphs
     date: Feb 2024
     date_iso: 2024-02
+    date_display: Feb 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -228,6 +276,7 @@ variants:
     - 0.005936661014408688
     - 0.0020226477696326695
   - model: CGCNN
+    model_plain: CGCNN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -236,6 +285,7 @@ variants:
     title: Rotary Position Encodings for Graphs
     date: Sep 2025
     date_iso: 2025-09
+    date_display: Sep 2025
     codebase_url: https://github.com/google-research/scenic
     uses_external_data: false
     is_best: false
@@ -246,6 +296,7 @@ variants:
     - null
     - null
   - model: Graphormer
+    model_plain: Graphormer
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -254,6 +305,7 @@ variants:
     title: An end-to-end attention-based approach for learning on graphs
     date: Feb 2024
     date_iso: 2024-02
+    date_display: Feb 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -264,6 +316,7 @@ variants:
     - 0.03095901400991143
     - 0.008689612096286428
   - model: BS-KAGCN
+    model_plain: BS-KAGCN
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -272,6 +325,7 @@ variants:
     title: 'KAGNNs: Kolmogorov-Arnold Networks meet Graph Learning'
     date: Jun 2024
     date_iso: 2024-06
+    date_display: Jun 2024
     codebase_url: https://github.com/RomanBresson/KAGNN
     uses_external_data: false
     is_best: false
@@ -282,6 +336,7 @@ variants:
     - 0.0007
     - null
   - model: cf
+    model_plain: cf
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -291,6 +346,7 @@ variants:
       Datasets'
     date: '2025-02-04'
     date_iso: '2025-02-04'
+    date_display: Feb 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -301,6 +357,7 @@ variants:
     - 0.01
     - null
   - model: RBF-KAGCN
+    model_plain: RBF-KAGCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -309,6 +366,7 @@ variants:
     title: 'KAGNNs: Kolmogorov-Arnold Networks meet Graph Learning'
     date: Jun 2024
     date_iso: 2024-06
+    date_display: Jun 2024
     codebase_url: https://github.com/RomanBresson/KAGNN
     uses_external_data: false
     is_best: false
@@ -319,6 +377,7 @@ variants:
     - 0.0023
     - null
   - model: GIN
+    model_plain: GIN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -327,6 +386,7 @@ variants:
     title: 'KAGNNs: Kolmogorov-Arnold Networks meet Graph Learning'
     date: Jun 2024
     date_iso: 2024-06
+    date_display: Jun 2024
     codebase_url: https://github.com/RomanBresson/KAGNN
     uses_external_data: false
     is_best: false
@@ -336,25 +396,257 @@ variants:
     metric_stds:
     - 0.0017
     - null
-  - model: PST
-    is_baseline: false
+  - model: PPGNs
+    model_plain: PPGNs
+    is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 1.0
-    arxiv_id: '2405.02795'
-    title: Graph as Point Set
-    date: '2024-05-05'
-    date_iso: '2024-05-05'
+    params_millions: null
+    arxiv_id: '2309.04941'
+    title: Distance-Restricted Folklore Weisfeiler-Leman GNNs with Provable Cycle
+      Counting Power
+    date: Sep 2023
+    date_iso: 2023-09
+    date_display: Sep 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.23
+    - 0.231
     - null
     metric_stds:
-    - 0.01
+    - null
+    - null
+  - model: DTNN*
+    model_plain: DTNN*
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2309.04941'
+    title: Distance-Restricted Folklore Weisfeiler-Leman GNNs with Provable Cycle
+      Counting Power
+    date: Sep 2023
+    date_iso: 2023-09
+    date_display: Sep 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.244
+    - null
+    metric_stds:
+    - null
+    - null
+  - model: Wu et al. 2018
+    model_plain: Wu et al. 2018
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2403.13749'
+    title: 'Weisfeiler and Leman Go Loopy: A New Hierarchy for Graph Representational
+      Learning'
+    date: Mar 2024
+    date_iso: 2024-03
+    date_display: Mar 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.244
+    - null
+    metric_stds:
+    - null
+    - null
+  - model: DF
+    model_plain: DF
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2405.02795'
+    title: Graph as Point Set
+    date: '2024-05-05'
+    date_iso: '2024-05-05'
+    date_display: May 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.346
+    - null
+    metric_stds:
+    - null
+    - null
+  - model: d-DRFWL(2) GNN
+    model_plain: d-DRFWL(2) GNN
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2309.04941'
+    title: Distance-Restricted Folklore Weisfeiler-Leman GNNs with Provable Cycle
+      Counting Power
+    date: Sep 2023
+    date_iso: 2023-09
+    date_display: Sep 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.346
+    - null
+    metric_stds:
+    - null
+    - null
+  - model: Zhou et al. 2023
+    model_plain: Zhou et al. 2023
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2403.13749'
+    title: 'Weisfeiler and Leman Go Loopy: A New Hierarchy for Graph Representational
+      Learning'
+    date: Mar 2024
+    date_iso: 2024-03
+    date_display: Mar 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.346
+    - null
+    metric_stds:
+    - null
+    - null
+  - model: 5-\ellGIN
+    model_plain: 5-\ellGIN
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2403.13749'
+    title: 'Weisfeiler and Leman Go Loopy: A New Hierarchy for Graph Representational
+      Learning'
+    date: Mar 2024
+    date_iso: 2024-03
+    date_display: Mar 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.35
+    - null
+    metric_stds:
+    - 0.011
+    - null
+  - model: PSDS
+    model_plain: PSDS
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2405.02795'
+    title: Graph as Point Set
+    date: '2024-05-05'
+    date_iso: '2024-05-05'
+    date_display: May 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.353
+    - null
+    metric_stds:
+    - 0.005
+    - null
+  - model: LRP
+    model_plain: LRP
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2405.02795'
+    title: Graph as Point Set
+    date: '2024-05-05'
+    date_iso: '2024-05-05'
+    date_display: May 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.364
+    - null
+    metric_stds:
+    - null
+    - null
+  - model: Deep LRP
+    model_plain: Deep LRP
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2309.04941'
+    title: Distance-Restricted Folklore Weisfeiler-Leman GNNs with Provable Cycle
+      Counting Power
+    date: Sep 2023
+    date_iso: 2023-09
+    date_display: Sep 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.364
+    - null
+    metric_stds:
+    - null
+    - null
+  - model: Chen et al. 2020
+    model_plain: Chen et al. 2020
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2403.13749'
+    title: 'Weisfeiler and Leman Go Loopy: A New Hierarchy for Graph Representational
+      Learning'
+    date: Mar 2024
+    date_iso: 2024-03
+    date_display: Mar 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.364
+    - null
+    metric_stds:
+    - null
+    - null
+  - model: Maron et al. 2019
+    model_plain: Maron et al. 2019
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2403.13749'
+    title: 'Weisfeiler and Leman Go Loopy: A New Hierarchy for Graph Representational
+      Learning'
+    date: Mar 2024
+    date_iso: 2024-03
+    date_display: Mar 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.382
+    - null
+    metric_stds:
+    - null
     - null
   - model: cg
+    model_plain: cg
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -364,6 +656,7 @@ variants:
       Datasets'
     date: '2025-02-04'
     date_iso: '2025-02-04'
+    date_display: Feb 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -373,7 +666,196 @@ variants:
     metric_stds:
     - 0.05
     - null
+  - model: SSWL+
+    model_plain: SSWL+
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2309.04941'
+    title: Distance-Restricted Folklore Weisfeiler-Leman GNNs with Provable Cycle
+      Counting Power
+    date: Sep 2023
+    date_iso: 2023-09
+    date_display: Sep 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.418
+    - null
+    metric_stds:
+    - null
+    - null
+  - model: NGNN
+    model_plain: NGNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2309.04941'
+    title: Distance-Restricted Folklore Weisfeiler-Leman GNNs with Provable Cycle
+      Counting Power
+    date: Sep 2023
+    date_iso: 2023-09
+    date_display: Sep 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.428
+    - null
+    metric_stds:
+    - null
+    - null
+  - model: I^2GNN
+    model_plain: I^2GNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2309.04941'
+    title: Distance-Restricted Folklore Weisfeiler-Leman GNNs with Provable Cycle
+      Counting Power
+    date: Sep 2023
+    date_iso: 2023-09
+    date_display: Sep 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.428
+    - null
+    metric_stds:
+    - null
+    - null
+  - model: Zhang et al. 2021
+    model_plain: Zhang et al. 2021
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2403.13749'
+    title: 'Weisfeiler and Leman Go Loopy: A New Hierarchy for Graph Representational
+      Learning'
+    date: Mar 2024
+    date_iso: 2024-03
+    date_display: Mar 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.428
+    - null
+    metric_stds:
+    - null
+    - null
+  - model: LFWL(2)
+    model_plain: LFWL(2)
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2309.04941'
+    title: Distance-Restricted Folklore Weisfeiler-Leman GNNs with Provable Cycle
+      Counting Power
+    date: Sep 2023
+    date_iso: 2023-09
+    date_display: Sep 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.435
+    - null
+    metric_stds:
+    - null
+    - null
+  - model: 123*
+    model_plain: 123*
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.929
+    arxiv_id: '2405.02795'
+    title: Graph as Point Set
+    date: '2024-05-05'
+    date_iso: '2024-05-05'
+    date_display: May 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.476
+    - null
+    metric_stds:
+    - null
+    - null
+  - model: Morris et al. 2019
+    model_plain: Morris et al. 2019
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2403.13749'
+    title: 'Weisfeiler and Leman Go Loopy: A New Hierarchy for Graph Representational
+      Learning'
+    date: Mar 2024
+    date_iso: 2024-03
+    date_display: Mar 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.476
+    - null
+    metric_stds:
+    - null
+    - null
+  - model: 1-GNN
+    model_plain: 1-GNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2309.04941'
+    title: Distance-Restricted Folklore Weisfeiler-Leman GNNs with Provable Cycle
+      Counting Power
+    date: Sep 2023
+    date_iso: 2023-09
+    date_display: Sep 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.493
+    - null
+    metric_stds:
+    - null
+    - null
+  - model: 1-2-3-GNN
+    model_plain: 1-2-3-GNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2309.04941'
+    title: Distance-Restricted Folklore Weisfeiler-Leman GNNs with Provable Cycle
+      Counting Power
+    date: Sep 2023
+    date_iso: 2023-09
+    date_display: Sep 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.493
+    - null
+    metric_stds:
+    - null
+    - null
   - model: XGBoost (agg_+_i)
+    model_plain: XGBoost (agg_+_i)
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -382,6 +864,7 @@ variants:
     title: Invariant-Based Diagnostics for Graph Benchmarks
     date: May 2026
     date_iso: 2026-05
+    date_display: May 2026
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -392,6 +875,7 @@ variants:
     - 0.0012
     - null
   - model: XGBoost (agg_+_subset)
+    model_plain: XGBoost (agg_+_subset)
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -400,6 +884,7 @@ variants:
     title: Invariant-Based Diagnostics for Graph Benchmarks
     date: May 2026
     date_iso: 2026-05
+    date_display: May 2026
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -410,6 +895,7 @@ variants:
     - 0.0012
     - null
   - model: o
+    model_plain: o
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -419,6 +905,7 @@ variants:
       Datasets'
     date: '2025-02-04'
     date_iso: '2025-02-04'
+    date_display: Feb 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -429,6 +916,7 @@ variants:
     - 0.02
     - null
   - model: XGBoost (feature_agg)
+    model_plain: XGBoost (feature_agg)
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -437,6 +925,7 @@ variants:
     title: Invariant-Based Diagnostics for Graph Benchmarks
     date: May 2026
     date_iso: 2026-05
+    date_display: May 2026
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -447,6 +936,7 @@ variants:
     - 0.0009
     - null
   - model: eg
+    model_plain: eg
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -456,6 +946,7 @@ variants:
       Datasets'
     date: '2025-02-04'
     date_iso: '2025-02-04'
+    date_display: Feb 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -466,6 +957,7 @@ variants:
     - 0.03
     - null
   - model: XGBoost (sum_+_i)
+    model_plain: XGBoost (sum_+_i)
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -474,6 +966,7 @@ variants:
     title: Invariant-Based Diagnostics for Graph Benchmarks
     date: May 2026
     date_iso: 2026-05
+    date_display: May 2026
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -484,6 +977,7 @@ variants:
     - 0.0002
     - null
   - model: XGBoost (sum_+_subset)
+    model_plain: XGBoost (sum_+_subset)
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -492,6 +986,7 @@ variants:
     title: Invariant-Based Diagnostics for Graph Benchmarks
     date: May 2026
     date_iso: 2026-05
+    date_display: May 2026
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -502,6 +997,7 @@ variants:
     - 0.0
     - null
   - model: GraphMAE
+    model_plain: GraphMAE
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -510,6 +1006,7 @@ variants:
     title: Graph Positional Autoencoders as Self-supervised Learners
     date: May 2025
     date_iso: 2025-05
+    date_display: May 2025
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -520,6 +1017,7 @@ variants:
     - null
     - null
   - model: XGBoost (feature_sum)
+    model_plain: XGBoost (feature_sum)
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -528,6 +1026,7 @@ variants:
     title: Invariant-Based Diagnostics for Graph Benchmarks
     date: May 2026
     date_iso: 2026-05
+    date_display: May 2026
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -538,6 +1037,7 @@ variants:
     - 0.0006
     - null
   - model: XGBoost (all_invariants)
+    model_plain: XGBoost (all_invariants)
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -546,6 +1046,7 @@ variants:
     title: Invariant-Based Diagnostics for Graph Benchmarks
     date: May 2026
     date_iso: 2026-05
+    date_display: May 2026
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -556,6 +1057,7 @@ variants:
     - 0.0001
     - null
   - model: XGBoost (invariants_subset)
+    model_plain: XGBoost (invariants_subset)
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -564,6 +1066,7 @@ variants:
     title: Invariant-Based Diagnostics for Graph Benchmarks
     date: May 2026
     date_iso: 2026-05
+    date_display: May 2026
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -574,6 +1077,7 @@ variants:
     - 0.0003
     - null
   - model: rg
+    model_plain: rg
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -583,6 +1087,7 @@ variants:
       Datasets'
     date: '2025-02-04'
     date_iso: '2025-02-04'
+    date_display: Feb 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -593,6 +1098,7 @@ variants:
     - 0.01
     - null
   - model: Mole-BERT
+    model_plain: Mole-BERT
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -601,6 +1107,7 @@ variants:
     title: Graph Positional Autoencoders as Self-supervised Learners
     date: May 2025
     date_iso: 2025-05
+    date_display: May 2025
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -611,6 +1118,7 @@ variants:
     - null
     - null
   - model: GraphCL
+    model_plain: GraphCL
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -619,6 +1127,7 @@ variants:
     title: Graph Positional Autoencoders as Self-supervised Learners
     date: May 2025
     date_iso: 2025-05
+    date_display: May 2025
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -629,6 +1138,7 @@ variants:
     - null
     - null
   - model: SimSGT
+    model_plain: SimSGT
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -637,6 +1147,7 @@ variants:
     title: Graph Positional Autoencoders as Self-supervised Learners
     date: May 2025
     date_iso: 2025-05
+    date_display: May 2025
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -647,6 +1158,7 @@ variants:
     - null
     - null
   - model: rf
+    model_plain: rf
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -656,6 +1168,7 @@ variants:
       Datasets'
     date: '2025-02-04'
     date_iso: '2025-02-04'
+    date_display: Feb 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -666,6 +1179,7 @@ variants:
     - 0.02
     - null
   - model: Drew-GIN
+    model_plain: Drew-GIN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -674,6 +1188,7 @@ variants:
     title: Probabilistic Graph Rewiring via Virtual Nodes
     date: May 2024
     date_iso: 2024-05
+    date_display: May 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -684,6 +1199,7 @@ variants:
     - 0.06
     - null
   - model: PR-MPNN
+    model_plain: PR-MPNN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -692,6 +1208,7 @@ variants:
     title: Probabilistic Graph Rewiring via Virtual Nodes
     date: May 2024
     date_iso: 2024-05
+    date_display: May 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -702,6 +1219,7 @@ variants:
     - 0.02
     - null
   - model: IPR-MPNN
+    model_plain: IPR-MPNN
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -710,6 +1228,7 @@ variants:
     title: Probabilistic Graph Rewiring via Virtual Nodes
     date: May 2024
     date_iso: 2024-05
+    date_display: May 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -719,25 +1238,8 @@ variants:
     metric_stds:
     - 0.01
     - null
-  - model: PPGNs
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2405.02795'
-    title: Graph as Point Set
-    date: '2024-05-05'
-    date_iso: '2024-05-05'
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 2.31
-    - null
-    metric_stds:
-    - null
-    - null
   - model: SPN
+    model_plain: SPN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -746,6 +1248,7 @@ variants:
     title: Probabilistic Graph Rewiring via Virtual Nodes
     date: May 2024
     date_iso: 2024-05
+    date_display: May 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -756,6 +1259,7 @@ variants:
     - 0.28
     - null
   - model: DTNN*
+    model_plain: DTNN*
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -764,6 +1268,7 @@ variants:
     title: Graph as Point Set
     date: '2024-05-05'
     date_iso: '2024-05-05'
+    date_display: May 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -774,6 +1279,7 @@ variants:
     - null
     - null
   - model: R-GIN+FA
+    model_plain: R-GIN+FA
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -782,6 +1288,7 @@ variants:
     title: Probabilistic Graph Rewiring via Virtual Nodes
     date: May 2024
     date_iso: 2024-05
+    date_display: May 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -792,6 +1299,7 @@ variants:
     - 0.09
     - null
   - model: GIN
+    model_plain: GIN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -800,6 +1308,7 @@ variants:
     title: Probabilistic Graph Rewiring via Virtual Nodes
     date: May 2024
     date_iso: 2024-05
+    date_display: May 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -809,79 +1318,8 @@ variants:
     metric_stds:
     - 0.01
     - null
-  - model: DF
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2405.02795'
-    title: Graph as Point Set
-    date: '2024-05-05'
-    date_iso: '2024-05-05'
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 3.46
-    - null
-    metric_stds:
-    - null
-    - null
-  - model: PSDS
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2405.02795'
-    title: Graph as Point Set
-    date: '2024-05-05'
-    date_iso: '2024-05-05'
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 3.53
-    - null
-    metric_stds:
-    - 0.05
-    - null
-  - model: LRP
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2405.02795'
-    title: Graph as Point Set
-    date: '2024-05-05'
-    date_iso: '2024-05-05'
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 3.64
-    - null
-    metric_stds:
-    - null
-    - null
-  - model: NGNN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2405.02795'
-    title: Graph as Point Set
-    date: '2024-05-05'
-    date_iso: '2024-05-05'
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 4.28
-    - null
-    metric_stds:
-    - null
-    - null
   - model: IGNN*
+    model_plain: IGNN*
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -890,34 +1328,18 @@ variants:
     title: Graph as Point Set
     date: '2024-05-05'
     date_iso: '2024-05-05'
+    date_display: May 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
     - 4.28
-    - null
-    metric_stds:
-    - null
-    - null
-  - model: 123*
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2405.02795'
-    title: Graph as Point Set
-    date: '2024-05-05'
-    date_iso: '2024-05-05'
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 4.76
     - null
     metric_stds:
     - null
     - null
   - model: 1-GNN
+    model_plain: 1-GNN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -926,6 +1348,7 @@ variants:
     title: Graph as Point Set
     date: '2024-05-05'
     date_iso: '2024-05-05'
+    date_display: May 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -936,6 +1359,7 @@ variants:
     - null
     - null
   - model: GraphGPS
+    model_plain: GraphGPS
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -944,6 +1368,7 @@ variants:
     title: An end-to-end attention-based approach for learning on graphs
     date: Feb 2024
     date_iso: 2024-02
+    date_display: Feb 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -954,14 +1379,16 @@ variants:
     - null
     - 0.0015081326201631
   - model: GCN
+    model_plain: GCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.496
+    params_millions: null
     arxiv_id: '2402.10793'
     title: An end-to-end attention-based approach for learning on graphs
     date: Feb 2024
     date_iso: 2024-02
+    date_display: Feb 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -972,6 +1399,7 @@ variants:
     - null
     - 0.003676356368918919
   - model: GIN
+    model_plain: GIN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -980,6 +1408,7 @@ variants:
     title: An end-to-end attention-based approach for learning on graphs
     date: Feb 2024
     date_iso: 2024-02
+    date_display: Feb 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -990,6 +1419,7 @@ variants:
     - null
     - 0.0016597907171188395
   - model: Grph.
+    model_plain: Grph.
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -998,6 +1428,7 @@ variants:
     title: An end-to-end attention-based approach for learning on graphs
     date: Feb 2024
     date_iso: 2024-02
+    date_display: Feb 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1008,12 +1439,25 @@ variants:
     - null
     - 0.005813449852960949
   milestones:
+  - value: 0.231
+    std: null
+    model: PPGNs
+    arxiv_id: '2309.04941'
+    title: Distance-Restricted Folklore Weisfeiler-Leman GNNs with Provable Cycle
+      Counting Power
+    date: 2023-09
   - value: 0.02578744427174226
     std: 0.000867405321348238
     model: DropGIN
     arxiv_id: '2402.10793'
     title: An end-to-end attention-based approach for learning on graphs
     date: 2024-02
+  - value: 0.023
+    std: 0.001
+    model: PST
+    arxiv_id: '2405.02795'
+    title: Graph as Point Set
+    date: '2024-05-05'
   - value: 0.02
     std: null
     model: Mace

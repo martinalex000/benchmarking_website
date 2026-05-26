@@ -10,20 +10,18 @@ description: Overview of extraction status
 
 This page tracks the extraction pipeline status for all papers in the benchmarking dataset. Each paper goes through several stages: first it must be downloaded from arXiv, then the full text is extracted and parsed (either from HTML, LaTeX source, or PDF), and finally results are extracted using an LLM. The extraction model shown indicates which LLM (if any) was used to extract results.
 
-### Downloaded (6)
+### Downloaded (4)
 
 Papers that have been downloaded but not yet processed for extraction.
 
 | ArXiv | Title | Model |
 |-------|-------|-------|
-| 2401.01233 | GEN: A Practical Alternative to Graph Transformers for... | qwen3.6-35b-a3b |
 | 2402.00789 | Graph-Mamba: Towards Long-Range Graph Sequence Modeling with Selective... | qwen3.6-35b-a3b |
-| 2406.18380 | KAGNNs: Kolmogorov-Arnold Networks meet Graph Learning | qwen3.6-35b-a3b |
 | 2512.12642 | Torch Geometric Pool: the PyTorch library for pooling... | — |
 | 2604.00199 | QUEST: A robust attention formulation using Query-modulated spherical... | — |
 | IAZXEX1dVV | LRIM: a Physics-Based Benchmark for Provably Evaluating Long-Range... | manual_openreview_table_extraction |
 
-### Extracted (213)
+### Extracted (215)
 
 Papers with successfully extracted results. These papers contribute to the leaderboards.
 
@@ -72,7 +70,7 @@ Papers with successfully extracted results. These papers contribute to the leade
 | 2310.01618 | Operator Learning Meets Numerical Analysis: Improving Neural Networks... | qwen3.6-35b-a3b |
 | 2310.01668 | Locality-Aware Graph Rewiring in GNNs | qwen3.6-35b-a3b |
 | 2310.01704 | Transformers are efficient hierarchical chemical graph learners | qwen3.6-35b-a3b |
-| 2310.02156 | Probabilistically Rewired Message-Passing Neural Networks | openai-gpt-oss-120b |
+| 2310.02156 | Probabilistically Rewired Message-Passing Neural Networks | qwen3.6-35b-a3b |
 | 2310.02980 | Never Train from Scratch: Fair Comparison of long-sequence... | qwen3.6-35b-a3b |
 | 2310.03274 | Fragment-based Pretraining and Finetuning on Molecular Graphs | qwen3.6-35b-a3b |
 | 2310.05174 | GSLB: The Graph Structure Learning Benchmark | glm-4.7 |
@@ -96,6 +94,7 @@ Papers with successfully extracted results. These papers contribute to the leade
 | 2312.11109 | Graph Transformers for Large Graphs | qwen3.6-35b-a3b |
 | 2312.11730 | Stronger Graph Transformer with Regularized Attention Scores | qwen3.6-35b-a3b |
 | 2312.16560 | Algorithmic Graph Tasks | openai-gpt-oss-120b |
+| 2401.01233 | GEN: A Practical Alternative to Graph Transformers for... | qwen3.6-35b-a3b |
 | 2401.03350 | Accurate and Scalable Estimation of Epistemic Uncertainty for... | qwen3.6-35b-a3b |
 | 2401.14580 | Design Your Own Universe: A Physics-Informed Agnostic Method... | qwen3.6-35b-a3b |
 | 2401.17791 | Graph Transformers without Positional Encodings | qwen3.6-35b-a3b |
@@ -136,6 +135,7 @@ Papers with successfully extracted results. These papers contribute to the leade
 | 2406.12059 | A Scalable and Effective Alternative to Graph Transformers | qwen3.6-35b-a3b |
 | 2406.16321 | Mosaic of Modalities: A Comprehensive Benchmark for Multimodal... | qwen3.6-35b-a3b |
 | 2406.16722 | center Venturing into Uncharted Waters: The Navigation Compass... | qwen3.6-35b-a3b |
+| 2406.18380 | KAGNNs: Kolmogorov-Arnold Networks meet Graph Learning | qwen3.6-35b-a3b |
 | 2407.00494 | Graph Neural Networks Gone Hogwild | qwen3.6-35b-a3b |
 | 2407.02758 | Differential Encoding for Improved Representation Learning over Graphs | qwen3.6-35b-a3b |
 | 2407.04236 | Graph Pooling via Ricci Flow | qwen3.6-35b-a3b |
@@ -147,8 +147,8 @@ Papers with successfully extracted results. These papers contribute to the leade
 | 2408.05822 | arXiv:2408.05822 | Kimi-K2.6 |
 | 2408.12169 | arXiv:2408.12169 | Kimi-K2.6 |
 | 2409.08023 | arXiv:2409.08023 | Kimi-K2.6 |
-| 2409.11504 | Preventing Representational Rank Collapse in MPNNs by Splitting... | Kimi-K2.6 |
-| 2409.19117 | Range-aware Positional Encoding via High-order Pretraining: Theory and... | Kimi-K2.6 |
+| 2409.11504 | Preventing Representational Rank Collapse in MPNNs by Splitting... | qwen3.6-35b-a3b |
+| 2409.19117 | Range-aware Positional Encoding via High-order Pretraining: Theory and... | qwen3.6-35b-a3b |
 | 2409.19414 | arXiv:2409.19414 | Kimi-K2.6 |
 | 2409.20212 | arXiv:2409.20212 | Kimi-K2.6 |
 | 2410.03424 | Cayley Graph Propagation | Kimi-K2.6 |
@@ -156,9 +156,9 @@ Papers with successfully extracted results. These papers contribute to the leade
 | 2410.05593 | When Graph Neural Networks Meet Dynamic Mode Decomposition | MiniMaxAI/MiniMax-M2.5 |
 | 2410.05697 | Diffusing to the Top: Boost Graph Neural Networks... | openai-gpt-oss-120b |
 | 2410.06460 | A Benchmark on Directed Graph Representation Learning in... | MiniMaxAI/MiniMax-M2.5 |
-| 2410.09737 | Towards Stable, Globally Expressive Graph Representations with Laplacian... | MiniMaxAI/MiniMax-M2.5 |
+| 2410.09737 | Towards Stable, Globally Expressive Graph Representations with Laplacian... | qwen3.6-35b-a3b |
 | 2410.13798 | Learning Graph Quantized Tokenizers | MiniMaxAI/MiniMax-M2.5 |
-| 2410.18676 | Homomorphism Counts as Structural Encodings for Graph Learning | MiniMaxAI/MiniMax-M2.5 |
+| 2410.18676 | Homomorphism Counts as Structural Encodings for Graph Learning | qwen3.6-35b-a3b |
 | 2410.20516 | A Cosmic-Scale Benchmark for Symmetry-Preserving Data Processing | MiniMaxAI/MiniMax-M2.5 |
 | 2410.23686 | Towards Dynamic Message Passing on Graphs | MiniMaxAI/MiniMax-M2.5 |
 | 2411.15671 | Best of Both Worlds: Advantages of Hybrid Graph... | MiniMaxAI/MiniMax-M2.5 |
@@ -167,25 +167,25 @@ Papers with successfully extracted results. These papers contribute to the leade
 | 2412.03783 | Expressivity of Representation Learning on Continuous-Time Dynamic Graphs:... | MiniMaxAI/MiniMax-M2.5 |
 | 2412.07188 | Graph Neural Networks Are More Than Filters: Revisiting... | MiniMaxAI/MiniMax-M2.5 |
 | 2412.17609 | arXiv:2412.17609 | MiniMaxAI/MiniMax-M2.5 |
-| 2501.03113 | Balancing Efficiency and Expressiveness: Subgraph GNNs with Walk-Based... | MiniMaxAI/MiniMax-M2.5 |
+| 2501.03113 | Balancing Efficiency and Expressiveness: Subgraph GNNs with Walk-Based... | qwen3.6-35b-a3b |
 | 2501.09821 | bnpool: Bayesian Nonparametric Pooling for Graphs | openai-gpt-oss-120b |
 | 2501.17901 | Molecular Fingerprints Are Strong Models for Peptide Function... | MiniMaxAI/MiniMax-M2.5 |
-| 2501.18739 | Beyond Message Passing: Neural Graph Pattern Machine | openai-gpt-oss-120b |
-| 2502.00282 | GraphMinNet: Learning Dependencies in Graphs with Light Complexity... | MiniMaxAI/MiniMax-M2.5 |
-| 2502.01122 | Learning Efficient Positional Encodings with Graph Neural Networks | MiniMaxAI/MiniMax-M2.5 |
-| 2502.02379 | No Metric to Rule Them All: Toward Principled... | MiniMaxAI/MiniMax-M2.5 |
+| 2501.18739 | Beyond Message Passing: Neural Graph Pattern Machine | qwen3.6-35b-a3b |
+| 2502.00282 | GraphMinNet: Learning Dependencies in Graphs with Light Complexity... | qwen3.6-35b-a3b |
+| 2502.01122 | Learning Efficient Positional Encodings with Graph Neural Networks | qwen3.6-35b-a3b |
+| 2502.02379 | No Metric to Rule Them All: Toward Principled... | qwen3.6-35b-a3b |
 | 2502.07364 | Effects of Dropout on Performance in Long-range Graph... | MiniMaxAI/MiniMax-M2.5 |
-| 2502.09263 | Can Classic GNNs Be Strong Baselines for Graph-level... | glm-4.7 |
-| 2502.09365 | Simple Path Structural Encoding for Graph Transformers | MiniMaxAI/MiniMax-M2.5 |
+| 2502.09263 | Can Classic GNNs Be Strong Baselines for Graph-level... | qwen3.6-35b-a3b |
+| 2502.09365 | Simple Path Structural Encoding for Graph Transformers | qwen3.6-35b-a3b |
 | 2502.09570 | Enhancing the Utility of Higher-Order Information in Relational... | MiniMaxAI/MiniMax-M2.5 |
 | 2502.10818 | On Vanishing Gradients, Over-Smoothing, and Over-Squashing in GNNs:... | qwen3.6-35b-a3b |
 | 2503.09008 | City-Networks | MiniMaxAI/MiniMax-M2.5 |
-| 2504.12588 | Plain Transformers Can be Powerful Graph Learners | MiniMaxAI/MiniMax-M2.5 |
-| 2505.15405 | HOPSE: Scalable Higher-Order Positional and Structural Encoder for... | MiniMaxAI/MiniMax-M2.5 |
+| 2504.12588 | Plain Transformers Can be Powerful Graph Learners | qwen3.6-35b-a3b |
+| 2505.15405 | HOPSE: Scalable Higher-Order Positional and Structural Encoder for... | qwen3.6-35b-a3b |
 | 2505.23185 | Improving the Effective Receptive Field of Message-Passing Neural... | MiniMaxAI/MiniMax-M2.5 |
 | 2505.23345 | Graph Positional Autoencoders as Self-supervised Learners | MiniMaxAI/MiniMax-M2.5 |
 | 2505.23875 | A Benchmark Dataset for Graph Regression with Homogeneous... | MiniMaxAI/MiniMax-M2.5 |
-| 2506.04765 | OpenGT: A Comprehensive Benchmark For Graph Transformers | glm-4.7 |
+| 2506.04765 | OpenGT: A Comprehensive Benchmark For Graph Transformers | qwen3.6-35b-a3b |
 | 2506.05393 | Are Large Language Models Good Temporal Graph Learners? | qwen3.6-35b-a3b |
 | 2506.05971 | On Measuring Long-Range Interactions in Graph Neural Networks | qwen3.6-35b-a3b |
 | 2506.07624 | Return of ChebNet: Understanding and Improving an Overlooked... | qwen3.6-35b-a3b |

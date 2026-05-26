@@ -8,12 +8,18 @@ description: Galaxy property regression on CAMELS Semi-Analytic Model simulation
 primary_metric: R^2
 higher_is_better: true
 pyg_url: ''
-stats: null
+stats:
+  num_graphs: 1000
+  avg_nodes: null
+  avg_edges: null
+  num_classes: null
 result_count: 7
 best_model:
   model: 2PCF
   value: 0.84
   metric: R^2
+  arxiv_id: '2507.03707'
+  paper_title: CosmoBench
 variants:
 - slug: standard-split
   name: Standard split
@@ -21,10 +27,15 @@ variants:
   is_standard: true
   primary_metric: R^2
   higher_is_better: true
+  stats:
+    num_graphs: null
+    avg_nodes: null
+    avg_edges: null
   metrics:
   - R^2
   rows:
   - model: 2PCF
+    model_plain: 2PCF
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -33,6 +44,7 @@ variants:
     title: CosmoBench
     date: Jul 2025
     date_iso: 2025-07
+    date_display: Jul 2025
     codebase_url: ''
     uses_external_data: false
     is_best: true
@@ -41,6 +53,7 @@ variants:
     metric_stds:
     - 0.02
   - model: GNN (w/o edgeMP)
+    model_plain: GNN (w/o edgeMP)
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -49,6 +62,7 @@ variants:
     title: CosmoBench
     date: Jul 2025
     date_iso: 2025-07
+    date_display: Jul 2025
     codebase_url: ''
     uses_external_data: false
     is_best: true
@@ -57,6 +71,7 @@ variants:
     metric_stds:
     - 0.02
   - model: LLS
+    model_plain: LLS
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -65,6 +80,7 @@ variants:
     title: CosmoBench
     date: Jul 2025
     date_iso: 2025-07
+    date_display: Jul 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -73,6 +89,7 @@ variants:
     metric_stds:
     - 0.03
   - model: GNN
+    model_plain: GNN
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -81,6 +98,7 @@ variants:
     title: CosmoBench
     date: Jul 2025
     date_iso: 2025-07
+    date_display: Jul 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -89,6 +107,7 @@ variants:
     metric_stds:
     - 0.03
   - model: Linear theory oracle
+    model_plain: Linear theory oracle
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -97,6 +116,7 @@ variants:
     title: CosmoBench
     date: Jul 2025
     date_iso: 2025-07
+    date_display: Jul 2025
     codebase_url: ''
     uses_external_data: true
     is_best: false
@@ -105,6 +125,7 @@ variants:
     metric_stds:
     - null
   - model: LLS w/ modification
+    model_plain: LLS w/ modification
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -113,6 +134,7 @@ variants:
     title: CosmoBench
     date: Jul 2025
     date_iso: 2025-07
+    date_display: Jul 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -121,6 +143,7 @@ variants:
     metric_stds:
     - null
   - model: Linear theory oracle w/ modification
+    model_plain: Linear theory oracle w/ modification
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -129,6 +152,7 @@ variants:
     title: CosmoBench
     date: Jul 2025
     date_iso: 2025-07
+    date_display: Jul 2025
     codebase_url: ''
     uses_external_data: true
     is_best: false

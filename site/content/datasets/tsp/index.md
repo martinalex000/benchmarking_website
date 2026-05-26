@@ -18,6 +18,8 @@ best_model:
   model: Proposed Method (Single Solution, Metric)
   value: 0.0
   metric: Gap
+  arxiv_id: '2601.19094'
+  paper_title: 'FloydNet: A Learning Paradigm for Global Relational Reasoning'
 variants:
 - slug: standard-split
   name: Standard split
@@ -25,10 +27,15 @@ variants:
   is_standard: true
   primary_metric: Gap
   higher_is_better: false
+  stats:
+    num_graphs: null
+    avg_nodes: null
+    avg_edges: null
   metrics:
   - Gap
   rows:
   - model: Proposed Method (Single Solution, Metric)
+    model_plain: Proposed Method (Single Solution, Metric)
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -37,6 +44,7 @@ variants:
     title: 'FloydNet: A Learning Paradigm for Global Relational Reasoning'
     date: Jan 2026
     date_iso: 2026-01
+    date_display: Jan 2026
     codebase_url: ''
     uses_external_data: false
     is_best: true
@@ -45,6 +53,7 @@ variants:
     metric_stds:
     - null
   - model: Proposed Method (Multi-Solution, Metric, k=1)
+    model_plain: Proposed Method (Multi-Solution, Metric, k=1)
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -53,6 +62,7 @@ variants:
     title: 'FloydNet: A Learning Paradigm for Global Relational Reasoning'
     date: Jan 2026
     date_iso: 2026-01
+    date_display: Jan 2026
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -61,6 +71,7 @@ variants:
     metric_stds:
     - null
   - model: Linkern
+    model_plain: Linkern
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -69,6 +80,7 @@ variants:
     title: 'FloydNet: A Learning Paradigm for Global Relational Reasoning'
     date: Jan 2026
     date_iso: 2026-01
+    date_display: Jan 2026
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -77,6 +89,7 @@ variants:
     metric_stds:
     - null
   - model: mGAT (s.)
+    model_plain: mGAT (s.)
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -86,6 +99,7 @@ variants:
       multiple resolutions
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -94,6 +108,7 @@ variants:
     metric_stds:
     - null
   - model: mGAT
+    model_plain: mGAT
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -103,6 +118,7 @@ variants:
       multiple resolutions
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -111,6 +127,7 @@ variants:
     metric_stds:
     - null
   - model: POMO
+    model_plain: POMO
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -120,6 +137,7 @@ variants:
       multiple resolutions
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -128,6 +146,7 @@ variants:
     metric_stds:
     - null
   - model: Ours
+    model_plain: Ours
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -137,6 +156,7 @@ variants:
       multiple resolutions
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -145,6 +165,7 @@ variants:
     metric_stds:
     - null
   - model: Sym-NCO
+    model_plain: Sym-NCO
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -154,6 +175,7 @@ variants:
       multiple resolutions
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false

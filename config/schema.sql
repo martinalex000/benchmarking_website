@@ -125,6 +125,7 @@ CREATE TABLE IF NOT EXISTS results (
     table_ref           TEXT,               -- e.g. "Table 1"
     source_ref          TEXT,               -- "this paper" or "Author Year"
     extraction_model    TEXT,               -- model name used to extract this result
+    variant_inference_reason TEXT,          -- why this dataset variant was selected
     uses_external_data  INTEGER,            -- 1=yes, 0=no, NULL=unknown
     -- Human correction system
     is_problematic      INTEGER NOT NULL DEFAULT 0,  -- shown in grey on leaderboard

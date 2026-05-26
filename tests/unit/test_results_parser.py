@@ -158,7 +158,9 @@ def test_infer_zinc_variant_from_table_ref_full():
 
     entry = {"dataset": "ZINC", "metric": "MAE", "value": 0.088, "table_ref": "tab:zinc_full"}
 
-    assert _infer_zinc_variant(entry, variant_map, paper_text="") == 22
+    variant_id, reason = _infer_zinc_variant(entry, variant_map, paper_text="")
+    assert variant_id == 22
+    assert "entry cue matched full" in reason
 
 
 def test_infer_zinc_variant_from_paper_stats_subset():
@@ -172,7 +174,9 @@ def test_infer_zinc_variant_from_paper_stats_subset():
     paper_text = "ZINC contains 12K molecular graphs from the ZINC database."
     entry = {"dataset": "ZINC", "metric": "MAE", "value": 0.11}
 
-    assert _infer_zinc_variant(entry, variant_map, paper_text=paper_text) == 21
+    variant_id, reason = _infer_zinc_variant(entry, variant_map, paper_text=paper_text)
+    assert variant_id == 21
+    assert "paper text matched subset" in reason
 
 
 def test_infer_zinc_variant_uses_value_fallback_when_paper_mentions_both():
@@ -188,5 +192,14 @@ def test_infer_zinc_variant_uses_value_fallback_when_paper_mentions_both():
     full_entry = {"dataset": "ZINC", "metric": "MAE", "value": 0.025}
     subset_entry = {"dataset": "ZINC", "metric": "MAE", "value": 0.123}
 
-    assert _infer_zinc_variant(full_entry, variant_map, paper_text=paper_text) == 22
-    assert _infer_zinc_variant(subset_entry, variant_map, paper_text=paper_text) == 21
+    full_variant_id, full_reason = _infer_zinc_variant(
+        full_entry, variant_map, paper_text=paper_text
+    )
+    subset_variant_id, subset_reason = _infer_zinc_variant(
+        subset_entry, variant_map, paper_text=paper_text
+    )
+
+    assert full_variant_id == 22
+    assert "mae fallback" in full_reason
+    assert subset_variant_id == 21
+    assert "mae fallback" in subset_reason

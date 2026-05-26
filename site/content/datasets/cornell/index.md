@@ -12,11 +12,13 @@ stats:
   avg_nodes: 183.0
   avg_edges: 298.0
   num_classes: 5
-result_count: 188
+result_count: 189
 best_model:
   model: ACM-Snowball-2
   value: 0.9525
   metric: Accuracy
+  arxiv_id: '2210.07606'
+  paper_title: Revisiting Heterophily For Graph Neural Networks
 variants:
 - slug: standard-split
   name: Standard split
@@ -24,12 +26,17 @@ variants:
   is_standard: true
   primary_metric: Accuracy
   higher_is_better: true
+  stats:
+    num_graphs: null
+    avg_nodes: null
+    avg_edges: null
   metrics:
   - Accuracy
   - F1
   - NMI
   rows:
   - model: ACM-Snowball-2
+    model_plain: ACM-Snowball-2
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -38,6 +45,7 @@ variants:
     title: Revisiting Heterophily For Graph Neural Networks
     date: Oct 2022
     date_iso: 2022-10
+    date_display: Oct 2022
     codebase_url: ''
     uses_external_data: false
     is_best: true
@@ -50,6 +58,7 @@ variants:
     - null
     - null
   - model: ACMGCN
+    model_plain: ACMGCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -58,6 +67,7 @@ variants:
     title: Revisiting Heterophily For Graph Neural Networks
     date: Oct 2022
     date_iso: 2022-10
+    date_display: Oct 2022
     codebase_url: ''
     uses_external_data: false
     is_best: true
@@ -70,6 +80,7 @@ variants:
     - null
     - null
   - model: ACM-SGC-1
+    model_plain: ACM-SGC-1
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -78,6 +89,7 @@ variants:
     title: Revisiting Heterophily For Graph Neural Networks
     date: Oct 2022
     date_iso: 2022-10
+    date_display: Oct 2022
     codebase_url: ''
     uses_external_data: false
     is_best: true
@@ -90,6 +102,7 @@ variants:
     - null
     - null
   - model: ACMII-Snowball-3
+    model_plain: ACMII-Snowball-3
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -98,6 +111,7 @@ variants:
     title: Revisiting Heterophily For Graph Neural Networks
     date: Oct 2022
     date_iso: 2022-10
+    date_display: Oct 2022
     codebase_url: ''
     uses_external_data: false
     is_best: true
@@ -110,6 +124,7 @@ variants:
     - null
     - null
   - model: ACM-GCNII
+    model_plain: ACM-GCNII
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -118,6 +133,7 @@ variants:
     title: Revisiting Heterophily For Graph Neural Networks
     date: Oct 2022
     date_iso: 2022-10
+    date_display: Oct 2022
     codebase_url: ''
     uses_external_data: false
     is_best: true
@@ -130,6 +146,7 @@ variants:
     - null
     - null
   - model: ACMII-GCN
+    model_plain: ACMII-GCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -138,6 +155,7 @@ variants:
     title: Revisiting Heterophily For Graph Neural Networks
     date: Oct 2022
     date_iso: 2022-10
+    date_display: Oct 2022
     codebase_url: ''
     uses_external_data: false
     is_best: true
@@ -150,6 +168,7 @@ variants:
     - null
     - null
   - model: BernNet
+    model_plain: BernNet
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -158,6 +177,7 @@ variants:
     title: Revisiting Heterophily For Graph Neural Networks
     date: Oct 2022
     date_iso: 2022-10
+    date_display: Oct 2022
     codebase_url: ''
     uses_external_data: false
     is_best: true
@@ -170,6 +190,7 @@ variants:
     - null
     - null
   - model: APPNP
+    model_plain: APPNP
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -178,6 +199,7 @@ variants:
     title: Revisiting Heterophily For Graph Neural Networks
     date: Oct 2022
     date_iso: 2022-10
+    date_display: Oct 2022
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -190,6 +212,7 @@ variants:
     - null
     - null
   - model: DMD++
+    model_plain: DMD++
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -198,6 +221,7 @@ variants:
     title: When Graph Neural Networks Meet Dynamic Mode Decomposition
     date: Oct 2024
     date_iso: 2024-10
+    date_display: Oct 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -210,6 +234,7 @@ variants:
     - null
     - null
   - model: GPRGNN
+    model_plain: GPRGNN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -218,6 +243,7 @@ variants:
     title: Revisiting Heterophily For Graph Neural Networks
     date: Oct 2022
     date_iso: 2022-10
+    date_display: Oct 2022
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -230,6 +256,7 @@ variants:
     - null
     - null
   - model: MLP-2
+    model_plain: MLP-2
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -238,6 +265,7 @@ variants:
     title: Revisiting Heterophily For Graph Neural Networks
     date: Oct 2022
     date_iso: 2022-10
+    date_display: Oct 2022
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -250,6 +278,7 @@ variants:
     - null
     - null
   - model: MLP
+    model_plain: MLP
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -258,6 +287,7 @@ variants:
     title: When Graph Neural Networks Meet Dynamic Mode Decomposition
     date: Oct 2024
     date_iso: 2024-10
+    date_display: Oct 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -270,14 +300,16 @@ variants:
     - null
     - null
   - model: GCNII
+    model_plain: GCNII
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.492
+    params_millions: null
     arxiv_id: '2210.07606'
     title: Revisiting Heterophily For Graph Neural Networks
     date: Oct 2022
     date_iso: 2022-10
+    date_display: Oct 2022
     codebase_url: ''
     uses_external_data: false
     is_best: true
@@ -290,6 +322,7 @@ variants:
     - null
     - null
   - model: APPNP
+    model_plain: APPNP
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -298,6 +331,7 @@ variants:
     title: When Graph Neural Networks Meet Dynamic Mode Decomposition
     date: Oct 2024
     date_iso: 2024-10
+    date_display: Oct 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -310,6 +344,7 @@ variants:
     - null
     - null
   - model: DMD-ACMP
+    model_plain: DMD-ACMP
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -318,6 +353,7 @@ variants:
     title: When Graph Neural Networks Meet Dynamic Mode Decomposition
     date: Oct 2024
     date_iso: 2024-10
+    date_display: Oct 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -330,6 +366,7 @@ variants:
     - null
     - null
   - model: FAGCN
+    model_plain: FAGCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -338,6 +375,7 @@ variants:
     title: Revisiting Heterophily For Graph Neural Networks
     date: Oct 2022
     date_iso: 2022-10
+    date_display: Oct 2022
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -350,6 +388,7 @@ variants:
     - null
     - null
   - model: FSGNN
+    model_plain: FSGNN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -358,6 +397,7 @@ variants:
     title: Cooperative Sheaf Neural Networks
     date: Jul 2025
     date_iso: 2025-07
+    date_display: Jul 2025
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -370,6 +410,7 @@ variants:
     - null
     - null
   - model: Diag-NSD
+    model_plain: Diag-NSD
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -378,6 +419,7 @@ variants:
     title: Cooperative Sheaf Neural Networks
     date: Jul 2025
     date_iso: 2025-07
+    date_display: Jul 2025
     codebase_url: ''
     uses_external_data: null
     is_best: true
@@ -390,6 +432,7 @@ variants:
     - null
     - null
   - model: H2GCN
+    model_plain: H2GCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -398,6 +441,7 @@ variants:
     title: Revisiting Heterophily For Graph Neural Networks
     date: Oct 2022
     date_iso: 2022-10
+    date_display: Oct 2022
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -410,6 +454,7 @@ variants:
     - null
     - null
   - model: CoCN vanilla
+    model_plain: CoCN vanilla
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -418,6 +463,7 @@ variants:
     title: Scalable Graph Compressed Convolutions
     date: Jul 2024
     date_iso: 2024-07
+    date_display: Jul 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -430,6 +476,7 @@ variants:
     - null
     - null
   - model: Gen-NSD
+    model_plain: Gen-NSD
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -438,6 +485,7 @@ variants:
     title: Cooperative Sheaf Neural Networks
     date: Jul 2025
     date_iso: 2025-07
+    date_display: Jul 2025
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -450,6 +498,7 @@ variants:
     - null
     - null
   - model: GGCN
+    model_plain: GGCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -458,6 +507,7 @@ variants:
     title: Scalable Graph Compressed Convolutions
     date: Jul 2024
     date_iso: 2024-07
+    date_display: Jul 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -470,6 +520,7 @@ variants:
     - null
     - null
   - model: ACMGCN
+    model_plain: ACMGCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -478,6 +529,7 @@ variants:
     title: Cooperative Sheaf Neural Networks
     date: Jul 2025
     date_iso: 2025-07
+    date_display: Jul 2025
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -490,6 +542,7 @@ variants:
     - null
     - null
   - model: O(d)-NSD
+    model_plain: O(d)-NSD
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -498,6 +551,7 @@ variants:
     title: Cooperative Sheaf Neural Networks
     date: Jul 2025
     date_iso: 2025-07
+    date_display: Jul 2025
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -510,6 +564,7 @@ variants:
     - null
     - null
   - model: DMD-GCN
+    model_plain: DMD-GCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -518,6 +573,7 @@ variants:
     title: When Graph Neural Networks Meet Dynamic Mode Decomposition
     date: Oct 2024
     date_iso: 2024-10
+    date_display: Oct 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -530,6 +586,7 @@ variants:
     - null
     - null
   - model: GLoGNN
+    model_plain: GLoGNN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -538,6 +595,7 @@ variants:
     title: Cooperative Sheaf Neural Networks
     date: Jul 2025
     date_iso: 2025-07
+    date_display: Jul 2025
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -550,6 +608,7 @@ variants:
     - null
     - null
   - model: CoCN expanded
+    model_plain: CoCN expanded
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -558,6 +617,7 @@ variants:
     title: Scalable Graph Compressed Convolutions
     date: Jul 2024
     date_iso: 2024-07
+    date_display: Jul 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -570,6 +630,7 @@ variants:
     - null
     - null
   - model: Snowball-2
+    model_plain: Snowball-2
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -578,6 +639,7 @@ variants:
     title: Revisiting Heterophily For Graph Neural Networks
     date: Oct 2022
     date_iso: 2022-10
+    date_display: Oct 2022
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -590,14 +652,16 @@ variants:
     - null
     - null
   - model: GCN
+    model_plain: GCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.496
+    params_millions: null
     arxiv_id: '2210.07606'
     title: Revisiting Heterophily For Graph Neural Networks
     date: Oct 2022
     date_iso: 2022-10
+    date_display: Oct 2022
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -610,6 +674,7 @@ variants:
     - null
     - null
   - model: CSNN
+    model_plain: CSNN
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -618,6 +683,7 @@ variants:
     title: Cooperative Sheaf Neural Networks
     date: Jul 2025
     date_iso: 2025-07
+    date_display: Jul 2025
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -630,6 +696,7 @@ variants:
     - null
     - null
   - model: AERO-GNN
+    model_plain: AERO-GNN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -638,6 +705,7 @@ variants:
     title: Scalable Graph Compressed Convolutions
     date: Jul 2024
     date_iso: 2024-07
+    date_display: Jul 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -650,6 +718,7 @@ variants:
     - null
     - null
   - model: GraphSAGE
+    model_plain: GraphSAGE
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -658,6 +727,7 @@ variants:
     title: Scalable Graph Compressed Convolutions
     date: Jul 2024
     date_iso: 2024-07
+    date_display: Jul 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -670,6 +740,7 @@ variants:
     - null
     - null
   - model: DMD-SGC
+    model_plain: DMD-SGC
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -678,6 +749,7 @@ variants:
     title: When Graph Neural Networks Meet Dynamic Mode Decomposition
     date: Oct 2024
     date_iso: 2024-10
+    date_display: Oct 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -690,6 +762,7 @@ variants:
     - null
     - null
   - model: GPRGCN
+    model_plain: GPRGCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -698,6 +771,7 @@ variants:
     title: Scalable Graph Compressed Convolutions
     date: Jul 2024
     date_iso: 2024-07
+    date_display: Jul 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -710,14 +784,16 @@ variants:
     - null
     - null
   - model: GCNII
+    model_plain: GCNII
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.492
+    params_millions: null
     arxiv_id: '2407.18480'
     title: Scalable Graph Compressed Convolutions
     date: Jul 2024
     date_iso: 2024-07
+    date_display: Jul 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -730,6 +806,7 @@ variants:
     - null
     - null
   - model: LINKX
+    model_plain: LINKX
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -738,6 +815,7 @@ variants:
     title: Scalable Graph Compressed Convolutions
     date: Jul 2024
     date_iso: 2024-07
+    date_display: Jul 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -750,6 +828,7 @@ variants:
     - null
     - null
   - model: GPRGNN
+    model_plain: GPRGNN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -758,6 +837,7 @@ variants:
     title: 'GSLB: The Graph Structure Learning Benchmark'
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -770,14 +850,38 @@ variants:
     - null
     - null
   - model: HopFormer
+    model_plain: HopFormer
     is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2602.02268'
-    title: 'HopFormer: Sparse Graph Transformers Explicit Receptive Field Control'
+    title: 'HopFormer: Sparse Graph Transformers with Explicit Receptive Field Control'
     date: Feb 2026
     date_iso: 2026-02
+    date_display: Feb 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7657
+    - null
+    - null
+    metric_stds:
+    - 0.0412
+    - null
+    - null
+  - model: Ours (HopFormer)
+    model_plain: Ours (HopFormer)
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2602.02268'
+    title: 'HopFormer: Sparse Graph Transformers with Explicit Receptive Field Control'
+    date: Feb 2026
+    date_iso: 2026-02
+    date_display: Feb 2026
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -790,6 +894,7 @@ variants:
     - null
     - null
   - model: IPR-MPNN
+    model_plain: IPR-MPNN
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -798,6 +903,7 @@ variants:
     title: Probabilistic Graph Rewiring via Virtual Nodes
     date: May 2024
     date_iso: 2024-05
+    date_display: May 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -810,6 +916,7 @@ variants:
     - null
     - null
   - model: GAT
+    model_plain: GAT
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -818,6 +925,7 @@ variants:
     title: Revisiting Heterophily For Graph Neural Networks
     date: Oct 2022
     date_iso: 2022-10
+    date_display: Oct 2022
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -830,6 +938,7 @@ variants:
     - null
     - null
   - model: GPRGNN_knn
+    model_plain: GPRGNN_knn
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -838,6 +947,7 @@ variants:
     title: 'GSLB: The Graph Structure Learning Benchmark'
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -850,6 +960,7 @@ variants:
     - null
     - null
   - model: GRAND
+    model_plain: GRAND
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -858,6 +969,7 @@ variants:
     title: When Graph Neural Networks Meet Dynamic Mode Decomposition
     date: Oct 2024
     date_iso: 2024-10
+    date_display: Oct 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -870,6 +982,7 @@ variants:
     - null
     - null
   - model: SpecFormer
+    model_plain: SpecFormer
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -878,6 +991,7 @@ variants:
     title: 'OpenGT: A Comprehensive Benchmark For Graph Transformers'
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -890,6 +1004,7 @@ variants:
     - null
     - null
   - model: SLAPS
+    model_plain: SLAPS
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -898,6 +1013,7 @@ variants:
     title: 'GSLB: The Graph Structure Learning Benchmark'
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -910,6 +1026,7 @@ variants:
     - null
     - null
   - model: GAT+JK
+    model_plain: GAT+JK
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -918,6 +1035,7 @@ variants:
     title: Revisiting Heterophily For Graph Neural Networks
     date: Oct 2022
     date_iso: 2022-10
+    date_display: Oct 2022
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -930,6 +1048,7 @@ variants:
     - null
     - null
   - model: GAT-kNN
+    model_plain: GAT-kNN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -938,6 +1057,7 @@ variants:
     title: 'GSLB: The Graph Structure Learning Benchmark'
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -950,6 +1070,7 @@ variants:
     - null
     - null
   - model: CO-GNN
+    model_plain: CO-GNN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -958,6 +1079,7 @@ variants:
     title: Cooperative Sheaf Neural Networks
     date: Jul 2025
     date_iso: 2025-07
+    date_display: Jul 2025
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -970,6 +1092,7 @@ variants:
     - null
     - null
   - model: IDGL_knn
+    model_plain: IDGL_knn
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -978,6 +1101,7 @@ variants:
     title: 'GSLB: The Graph Structure Learning Benchmark'
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -990,6 +1114,7 @@ variants:
     - null
     - null
   - model: SGC-2
+    model_plain: SGC-2
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -998,6 +1123,7 @@ variants:
     title: Revisiting Heterophily For Graph Neural Networks
     date: Oct 2022
     date_iso: 2022-10
+    date_display: Oct 2022
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1010,6 +1136,7 @@ variants:
     - null
     - null
   - model: Framelets
+    model_plain: Framelets
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1018,6 +1145,7 @@ variants:
     title: When Graph Neural Networks Meet Dynamic Mode Decomposition
     date: Oct 2024
     date_iso: 2024-10
+    date_display: Oct 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1030,6 +1158,7 @@ variants:
     - null
     - null
   - model: SGFormer
+    model_plain: SGFormer
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1038,6 +1167,7 @@ variants:
     title: 'OpenGT: A Comprehensive Benchmark For Graph Transformers'
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1050,6 +1180,7 @@ variants:
     - null
     - null
   - model: Transformer+DEG
+    model_plain: Transformer+DEG
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1059,6 +1190,7 @@ variants:
       Graph Transformers
     date: '2024-04-04'
     date_iso: '2024-04-04'
+    date_display: Apr 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1071,6 +1203,7 @@ variants:
     - null
     - null
   - model: GPS
+    model_plain: GPS
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1079,6 +1212,7 @@ variants:
     title: Probabilistic Graph Rewiring via Virtual Nodes
     date: May 2024
     date_iso: 2024-05
+    date_display: May 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1091,14 +1225,16 @@ variants:
     - null
     - null
   - model: GPS (DEG)
+    model_plain: GPS (DEG)
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2310.02156'
-    title: Probabilistically Rewired Message-Passing Networks
+    title: Probabilistically Rewired Message-Passing Neural Networks
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1111,6 +1247,7 @@ variants:
     - null
     - null
   - model: GraphSAGE
+    model_plain: GraphSAGE
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1119,6 +1256,7 @@ variants:
     title: Revisiting Heterophily For Graph Neural Networks
     date: Oct 2022
     date_iso: 2022-10
+    date_display: Oct 2022
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1131,6 +1269,7 @@ variants:
     - null
     - null
   - model: SAGE
+    model_plain: SAGE
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1139,6 +1278,7 @@ variants:
     title: When Graph Neural Networks Meet Dynamic Mode Decomposition
     date: Oct 2024
     date_iso: 2024-10
+    date_display: Oct 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1151,6 +1291,7 @@ variants:
     - null
     - null
   - model: MLP
+    model_plain: MLP
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1159,6 +1300,7 @@ variants:
     title: 'GSLB: The Graph Structure Learning Benchmark'
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1171,6 +1313,7 @@ variants:
     - null
     - null
   - model: ProGNN_knn
+    model_plain: ProGNN_knn
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1179,6 +1322,7 @@ variants:
     title: 'GSLB: The Graph Structure Learning Benchmark'
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1191,6 +1335,7 @@ variants:
     - null
     - null
   - model: CoBFormer
+    model_plain: CoBFormer
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1199,6 +1344,7 @@ variants:
     title: 'OpenGT: A Comprehensive Benchmark For Graph Transformers'
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1211,6 +1357,7 @@ variants:
     - null
     - null
   - model: GCN-kNN
+    model_plain: GCN-kNN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1219,6 +1366,7 @@ variants:
     title: 'GSLB: The Graph Structure Learning Benchmark'
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1231,6 +1379,7 @@ variants:
     - null
     - null
   - model: GEN_knn
+    model_plain: GEN_knn
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1239,6 +1388,7 @@ variants:
     title: 'GSLB: The Graph Structure Learning Benchmark'
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1251,6 +1401,7 @@ variants:
     - null
     - null
   - model: SGC-1
+    model_plain: SGC-1
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1259,6 +1410,7 @@ variants:
     title: Revisiting Heterophily For Graph Neural Networks
     date: Oct 2022
     date_iso: 2022-10
+    date_display: Oct 2022
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1271,6 +1423,7 @@ variants:
     - null
     - null
   - model: Transformer+RWSE
+    model_plain: Transformer+RWSE
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1280,6 +1433,7 @@ variants:
       Graph Transformers
     date: '2024-04-04'
     date_iso: '2024-04-04'
+    date_display: Apr 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1292,14 +1446,16 @@ variants:
     - null
     - null
   - model: GPS+RWSE
+    model_plain: GPS+RWSE
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2310.02156'
-    title: Probabilistically Rewired Message-Passing Networks
+    title: Probabilistically Rewired Message-Passing Neural Networks
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1312,6 +1468,7 @@ variants:
     - null
     - null
   - model: SUBLIME
+    model_plain: SUBLIME
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1320,6 +1477,7 @@ variants:
     title: 'GSLB: The Graph Structure Learning Benchmark'
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1331,7 +1489,8 @@ variants:
     - 0.0598
     - null
     - null
-  - model: $\mathcal {AS}_{0:1}$-dense+attn.bias
+  - model: \mathcal {AS}_{0:1}-dense+attn.bias
+    model_plain: \mathcal {AS}_{0:1}-dense+attn.bias
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -1341,6 +1500,7 @@ variants:
       Graph Transformers
     date: '2024-04-04'
     date_iso: '2024-04-04'
+    date_display: Apr 2024
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -1353,6 +1513,7 @@ variants:
     - null
     - null
   - model: CoGSL_knn
+    model_plain: CoGSL_knn
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1361,6 +1522,7 @@ variants:
     title: 'GSLB: The Graph Structure Learning Benchmark'
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1373,6 +1535,7 @@ variants:
     - null
     - null
   - model: GSR_knn
+    model_plain: GSR_knn
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1381,6 +1544,7 @@ variants:
     title: 'GSLB: The Graph Structure Learning Benchmark'
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1393,6 +1557,7 @@ variants:
     - null
     - null
   - model: ChebNet + NBA
+    model_plain: ChebNet + NBA
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1401,6 +1566,7 @@ variants:
     title: Non-backtracking Graph Neural Networks
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1413,6 +1579,7 @@ variants:
     - null
     - null
   - model: BS-KAGCN
+    model_plain: BS-KAGCN
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -1421,6 +1588,7 @@ variants:
     title: 'KAGNNs: Kolmogorov-Arnold Networks meet Graph Learning'
     date: Jun 2024
     date_iso: 2024-06
+    date_display: Jun 2024
     codebase_url: https://github.com/RomanBresson/KAGNN
     uses_external_data: false
     is_best: false
@@ -1429,19 +1597,21 @@ variants:
     - null
     - null
     metric_stds:
-    - 0.07400000000000001
+    - 0.074
     - null
     - null
   - model: Transformer+LapPE
+    model_plain: Transformer+LapPE
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.501
+    params_millions: null
     arxiv_id: '2404.03380'
     title: On the Theoretical Expressive Power and the Design Space of Higher-Order
       Graph Transformers
     date: '2024-04-04'
     date_iso: '2024-04-04'
+    date_display: Apr 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1454,6 +1624,7 @@ variants:
     - null
     - null
   - model: TRIGON
+    model_plain: TRIGON
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -1462,6 +1633,7 @@ variants:
     title: Dynamic Triangulation-Based Graph Rewiring for Graph Neural Networks
     date: Aug 2025
     date_iso: 2025-08
+    date_display: Aug 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1474,6 +1646,7 @@ variants:
     - null
     - null
   - model: GIN
+    model_plain: GIN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1482,6 +1655,7 @@ variants:
     title: 'KAGNNs: Kolmogorov-Arnold Networks meet Graph Learning'
     date: Jun 2024
     date_iso: 2024-06
+    date_display: Jun 2024
     codebase_url: https://github.com/RomanBresson/KAGNN
     uses_external_data: false
     is_best: false
@@ -1490,10 +1664,11 @@ variants:
     - null
     - null
     metric_stds:
-    - 0.048499999999999995
+    - 0.0485
     - null
     - null
   - model: DiffWire
+    model_plain: DiffWire
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1502,6 +1677,7 @@ variants:
     title: Probabilistic Graph Rewiring via Virtual Nodes
     date: May 2024
     date_iso: 2024-05
+    date_display: May 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1514,6 +1690,7 @@ variants:
     - null
     - null
   - model: Graphormer
+    model_plain: Graphormer
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1522,6 +1699,7 @@ variants:
     title: Probabilistic Graph Rewiring via Virtual Nodes
     date: May 2024
     date_iso: 2024-05
+    date_display: May 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1534,14 +1712,16 @@ variants:
     - null
     - null
   - model: Graphormer-GD
+    model_plain: Graphormer-GD
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2310.02156'
-    title: Probabilistically Rewired Message-Passing Networks
+    title: Probabilistically Rewired Message-Passing Neural Networks
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1554,14 +1734,16 @@ variants:
     - null
     - null
   - model: Graphormer+attn.bias
+    model_plain: Graphormer+attn.bias
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2310.02156'
-    title: Probabilistically Rewired Message-Passing Networks
+    title: Probabilistically Rewired Message-Passing Neural Networks
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1574,6 +1756,7 @@ variants:
     - null
     - null
   - model: BS-KAGAT
+    model_plain: BS-KAGAT
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -1582,6 +1765,7 @@ variants:
     title: 'KAGNNs: Kolmogorov-Arnold Networks meet Graph Learning'
     date: Jun 2024
     date_iso: 2024-06
+    date_display: Jun 2024
     codebase_url: https://github.com/RomanBresson/KAGNN
     uses_external_data: false
     is_best: false
@@ -1594,6 +1778,7 @@ variants:
     - null
     - null
   - model: ChebNet + NBA+LapPE
+    model_plain: ChebNet + NBA+LapPE
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1602,6 +1787,7 @@ variants:
     title: Non-backtracking Graph Neural Networks
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1614,6 +1800,7 @@ variants:
     - null
     - null
   - model: RBF-KAGCN
+    model_plain: RBF-KAGCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1622,11 +1809,12 @@ variants:
     title: 'KAGNNs: Kolmogorov-Arnold Networks meet Graph Learning'
     date: Jun 2024
     date_iso: 2024-06
+    date_display: Jun 2024
     codebase_url: https://github.com/RomanBresson/KAGNN
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.6729999999999999
+    - 0.673
     - null
     - null
     metric_stds:
@@ -1634,6 +1822,7 @@ variants:
     - null
     - null
   - model: DR
+    model_plain: DR
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1642,6 +1831,7 @@ variants:
     title: Dynamic Triangulation-Based Graph Rewiring for Graph Neural Networks
     date: Aug 2025
     date_iso: 2025-08
+    date_display: Aug 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1654,6 +1844,7 @@ variants:
     - null
     - null
   - model: GAT
+    model_plain: GAT
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1662,6 +1853,7 @@ variants:
     title: 'KAGNNs: Kolmogorov-Arnold Networks meet Graph Learning'
     date: Jun 2024
     date_iso: 2024-06
+    date_display: Jun 2024
     codebase_url: https://github.com/RomanBresson/KAGNN
     uses_external_data: false
     is_best: false
@@ -1674,6 +1866,7 @@ variants:
     - null
     - null
   - model: SAN
+    model_plain: SAN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1682,6 +1875,7 @@ variants:
     title: 'OpenGT: A Comprehensive Benchmark For Graph Transformers'
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1694,6 +1888,7 @@ variants:
     - null
     - null
   - model: GCN+JK
+    model_plain: GCN+JK
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1702,6 +1897,7 @@ variants:
     title: Revisiting Heterophily For Graph Neural Networks
     date: Oct 2022
     date_iso: 2022-10
+    date_display: Oct 2022
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1714,6 +1910,7 @@ variants:
     - null
     - null
   - model: GPS(GCN+Transformer)+LapPE
+    model_plain: GPS(GCN+Transformer)+LapPE
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1723,6 +1920,7 @@ variants:
       Graph Transformers
     date: '2024-04-04'
     date_iso: '2024-04-04'
+    date_display: Apr 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1735,6 +1933,7 @@ variants:
     - null
     - null
   - model: HES-GSL
+    model_plain: HES-GSL
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -1743,6 +1942,7 @@ variants:
     title: 'GSLB: The Graph Structure Learning Benchmark'
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1755,14 +1955,16 @@ variants:
     - null
     - null
   - model: GPS+LapPE
+    model_plain: GPS+LapPE
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2310.02156'
-    title: Probabilistically Rewired Message-Passing Networks
+    title: Probabilistically Rewired Message-Passing Neural Networks
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1775,6 +1977,7 @@ variants:
     - null
     - null
   - model: SIMPLE
+    model_plain: SIMPLE
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -1783,6 +1986,7 @@ variants:
     title: 'GraIP: A Benchmarking Framework For Neural Graph Inverse Problems'
     date: Jan 2026
     date_iso: 2026-01
+    date_display: Jan 2026
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1795,14 +1999,16 @@ variants:
     - null
     - null
   - model: PR-MPNN
+    model_plain: PR-MPNN
     is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2310.02156'
-    title: Probabilistically Rewired Message-Passing Networks
+    title: Probabilistically Rewired Message-Passing Neural Networks
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1815,6 +2021,7 @@ variants:
     - null
     - null
   - model: NodeFormer
+    model_plain: NodeFormer
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1823,6 +2030,7 @@ variants:
     title: 'OpenGT: A Comprehensive Benchmark For Graph Transformers'
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1835,6 +2043,7 @@ variants:
     - null
     - null
   - model: ChebNet + LapPE
+    model_plain: ChebNet + LapPE
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1843,6 +2052,7 @@ variants:
     title: Non-backtracking Graph Neural Networks
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1855,6 +2065,7 @@ variants:
     - null
     - null
   - model: GPS(GCN+Transformer)+RWSE
+    model_plain: GPS(GCN+Transformer)+RWSE
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1864,6 +2075,7 @@ variants:
       Graph Transformers
     date: '2024-04-04'
     date_iso: '2024-04-04'
+    date_display: Apr 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1876,6 +2088,7 @@ variants:
     - null
     - null
   - model: DIFFormer
+    model_plain: DIFFormer
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -1884,6 +2097,7 @@ variants:
     title: 'OpenGT: A Comprehensive Benchmark For Graph Transformers'
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1896,6 +2110,7 @@ variants:
     - null
     - null
   - model: GRIT
+    model_plain: GRIT
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1904,6 +2119,7 @@ variants:
     title: 'OpenGT: A Comprehensive Benchmark For Graph Transformers'
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1916,6 +2132,7 @@ variants:
     - null
     - null
   - model: ChebNet
+    model_plain: ChebNet
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1924,6 +2141,7 @@ variants:
     title: Non-backtracking Graph Neural Networks
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1936,6 +2154,7 @@ variants:
     - null
     - null
   - model: GraphSAGE + NBA
+    model_plain: GraphSAGE + NBA
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1944,6 +2163,7 @@ variants:
     title: Non-backtracking Graph Neural Networks
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1956,6 +2176,7 @@ variants:
     - null
     - null
   - model: RBF-KAGAT
+    model_plain: RBF-KAGAT
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1964,6 +2185,7 @@ variants:
     title: 'KAGNNs: Kolmogorov-Arnold Networks meet Graph Learning'
     date: Jun 2024
     date_iso: 2024-06
+    date_display: Jun 2024
     codebase_url: https://github.com/RomanBresson/KAGNN
     uses_external_data: false
     is_best: false
@@ -1972,10 +2194,11 @@ variants:
     - null
     - null
     metric_stds:
-    - 0.061399999999999996
+    - 0.0614
     - null
     - null
   - model: GPS(GCN+Transformer)+DEG
+    model_plain: GPS(GCN+Transformer)+DEG
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1985,6 +2208,7 @@ variants:
       Graph Transformers
     date: '2024-04-04'
     date_iso: '2024-04-04'
+    date_display: Apr 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1997,6 +2221,7 @@ variants:
     - null
     - null
   - model: NBA-GCN+LapPE
+    model_plain: NBA-GCN+LapPE
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -2005,6 +2230,7 @@ variants:
     title: Non-backtracking Graph Neural Networks
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -2017,6 +2243,7 @@ variants:
     - null
     - null
   - model: GraphSAGE + LapPE
+    model_plain: GraphSAGE + LapPE
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -2025,6 +2252,7 @@ variants:
     title: Non-backtracking Graph Neural Networks
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -2037,6 +2265,7 @@ variants:
     - null
     - null
   - model: CensNet
+    model_plain: CensNet
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -2045,6 +2274,7 @@ variants:
     title: Non-backtracking Graph Neural Networks
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -2057,6 +2287,7 @@ variants:
     - null
     - null
   - model: NBA-GCN
+    model_plain: NBA-GCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -2065,6 +2296,7 @@ variants:
     title: Non-backtracking Graph Neural Networks
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -2077,6 +2309,7 @@ variants:
     - null
     - null
   - model: Geom-GCN
+    model_plain: Geom-GCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -2085,6 +2318,7 @@ variants:
     title: Revisiting Heterophily For Graph Neural Networks
     date: Oct 2022
     date_iso: 2022-10
+    date_display: Oct 2022
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -2097,14 +2331,16 @@ variants:
     - null
     - null
   - model: Geom-GCN
+    model_plain: Geom-GCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2310.02156'
-    title: Probabilistically Rewired Message-Passing Networks
+    title: Probabilistically Rewired Message-Passing Neural Networks
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -2117,6 +2353,7 @@ variants:
     - null
     - null
   - model: MixHop
+    model_plain: MixHop
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -2125,6 +2362,7 @@ variants:
     title: Revisiting Heterophily For Graph Neural Networks
     date: Oct 2022
     date_iso: 2022-10
+    date_display: Oct 2022
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -2137,6 +2375,7 @@ variants:
     - null
     - null
   - model: GraphSAGE
+    model_plain: GraphSAGE
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -2145,6 +2384,7 @@ variants:
     title: Non-backtracking Graph Neural Networks
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -2157,6 +2397,7 @@ variants:
     - null
     - null
   - model: I-MLE
+    model_plain: I-MLE
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -2165,6 +2406,7 @@ variants:
     title: 'GraIP: A Benchmarking Framework For Neural Graph Inverse Problems'
     date: Jan 2026
     date_iso: 2026-01
+    date_display: Jan 2026
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -2177,14 +2419,16 @@ variants:
     - null
     - null
   - model: DIGL + Undirected
+    model_plain: DIGL + Undirected
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2310.02156'
-    title: Probabilistically Rewired Message-Passing Networks
+    title: Probabilistically Rewired Message-Passing Neural Networks
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -2197,14 +2441,16 @@ variants:
     - null
     - null
   - model: GCN
+    model_plain: GCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.496
+    params_millions: null
     arxiv_id: '2310.07430'
     title: Non-backtracking Graph Neural Networks
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -2217,6 +2463,7 @@ variants:
     - null
     - null
   - model: EGNN
+    model_plain: EGNN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -2225,6 +2472,7 @@ variants:
     title: Non-backtracking Graph Neural Networks
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -2237,6 +2485,7 @@ variants:
     - null
     - null
   - model: + PairNorm
+    model_plain: + PairNorm
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -2245,6 +2494,7 @@ variants:
     title: Cooperative Sheaf Neural Networks
     date: Jul 2025
     date_iso: 2025-07
+    date_display: Jul 2025
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -2257,6 +2507,7 @@ variants:
     - null
     - null
   - model: GAT + NBA
+    model_plain: GAT + NBA
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -2265,6 +2516,7 @@ variants:
     title: Non-backtracking Graph Neural Networks
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -2277,14 +2529,16 @@ variants:
     - null
     - null
   - model: + DIGL
+    model_plain: + DIGL
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2310.02156'
-    title: Probabilistically Rewired Message-Passing Networks
+    title: Probabilistically Rewired Message-Passing Neural Networks
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -2297,6 +2551,7 @@ variants:
     - null
     - null
   - model: GAT + NBA+LapPE
+    model_plain: GAT + NBA+LapPE
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -2305,6 +2560,7 @@ variants:
     title: Non-backtracking Graph Neural Networks
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -2317,14 +2573,16 @@ variants:
     - null
     - null
   - model: SDRF + Undirected
+    model_plain: SDRF + Undirected
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2310.02156'
-    title: Probabilistically Rewired Message-Passing Networks
+    title: Probabilistically Rewired Message-Passing Neural Networks
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -2337,6 +2595,7 @@ variants:
     - null
     - null
   - model: Baseline (GINE)
+    model_plain: Baseline (GINE)
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -2345,6 +2604,7 @@ variants:
     title: 'GraIP: A Benchmarking Framework For Neural Graph Inverse Problems'
     date: Jan 2026
     date_iso: 2026-01
+    date_display: Jan 2026
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -2357,14 +2617,16 @@ variants:
     - null
     - null
   - model: Base
+    model_plain: Base
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2310.02156'
-    title: Probabilistically Rewired Message-Passing Networks
+    title: Probabilistically Rewired Message-Passing Neural Networks
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -2377,6 +2639,7 @@ variants:
     - null
     - null
   - model: JDR
+    model_plain: JDR
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -2385,6 +2648,7 @@ variants:
     title: Dynamic Triangulation-Based Graph Rewiring for Graph Neural Networks
     date: Aug 2025
     date_iso: 2025-08
+    date_display: Aug 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -2397,14 +2661,16 @@ variants:
     - null
     - null
   - model: GCN+LapPE
+    model_plain: GCN+LapPE
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.501066
+    params_millions: null
     arxiv_id: '2310.07430'
     title: Non-backtracking Graph Neural Networks
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -2417,6 +2683,7 @@ variants:
     - null
     - null
   - model: GEN
+    model_plain: GEN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -2425,6 +2692,7 @@ variants:
     title: 'GSLB: The Graph Structure Learning Benchmark'
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -2437,6 +2705,7 @@ variants:
     - null
     - null
   - model: APPNP
+    model_plain: APPNP
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -2445,6 +2714,7 @@ variants:
     title: Scalable Graph Compressed Convolutions
     date: Jul 2024
     date_iso: 2024-07
+    date_display: Jul 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -2457,14 +2727,16 @@ variants:
     - null
     - null
   - model: SDRF
+    model_plain: SDRF
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2310.02156'
-    title: Probabilistically Rewired Message-Passing Networks
+    title: Probabilistically Rewired Message-Passing Neural Networks
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -2477,6 +2749,7 @@ variants:
     - null
     - null
   - model: GRCN
+    model_plain: GRCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -2485,6 +2758,7 @@ variants:
     title: 'GSLB: The Graph Structure Learning Benchmark'
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -2497,6 +2771,7 @@ variants:
     - null
     - null
   - model: Gumbel
+    model_plain: Gumbel
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -2505,6 +2780,7 @@ variants:
     title: 'GraIP: A Benchmarking Framework For Neural Graph Inverse Problems'
     date: Jan 2026
     date_iso: 2026-01
+    date_display: Jan 2026
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -2517,6 +2793,7 @@ variants:
     - null
     - null
   - model: Exphormer
+    model_plain: Exphormer
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -2525,6 +2802,7 @@ variants:
     title: 'OpenGT: A Comprehensive Benchmark For Graph Transformers'
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -2537,6 +2815,7 @@ variants:
     - null
     - null
   - model: ProGNN
+    model_plain: ProGNN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -2545,6 +2824,7 @@ variants:
     title: 'GSLB: The Graph Structure Learning Benchmark'
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -2557,14 +2837,16 @@ variants:
     - null
     - null
   - model: Base w. PE
+    model_plain: Base w. PE
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2310.02156'
-    title: Probabilistically Rewired Message-Passing Networks
+    title: Probabilistically Rewired Message-Passing Neural Networks
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -2577,6 +2859,7 @@ variants:
     - null
     - null
   - model: R-GCN (RWSE)
+    model_plain: R-GCN (RWSE)
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -2586,6 +2869,7 @@ variants:
       Graph Transformers
     date: '2024-04-04'
     date_iso: '2024-04-04'
+    date_display: Apr 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -2598,6 +2882,7 @@ variants:
     - null
     - null
   - model: GCN (DEG)
+    model_plain: GCN (DEG)
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -2607,6 +2892,7 @@ variants:
       Graph Transformers
     date: '2024-04-04'
     date_iso: '2024-04-04'
+    date_display: Apr 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -2619,6 +2905,7 @@ variants:
     - null
     - null
   - model: DeGTA
+    model_plain: DeGTA
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -2627,6 +2914,7 @@ variants:
     title: 'OpenGT: A Comprehensive Benchmark For Graph Transformers'
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -2639,14 +2927,16 @@ variants:
     - null
     - null
   - model: GatedGCN
+    model_plain: GatedGCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.502
+    params_millions: null
     arxiv_id: '2310.07430'
     title: Non-backtracking Graph Neural Networks
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -2659,6 +2949,7 @@ variants:
     - null
     - null
   - model: CoGSL
+    model_plain: CoGSL
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -2667,6 +2958,7 @@ variants:
     title: 'GSLB: The Graph Structure Learning Benchmark'
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -2679,6 +2971,7 @@ variants:
     - null
     - null
   - model: GCN (AFR-3)
+    model_plain: GCN (AFR-3)
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -2688,6 +2981,7 @@ variants:
       Curvature
     date: Sep 2023
     date_iso: 2023-09
+    date_display: Sep 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -2700,6 +2994,7 @@ variants:
     - null
     - null
   - model: GAT (LapPE)
+    model_plain: GAT (LapPE)
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -2708,6 +3003,7 @@ variants:
     title: Non-backtracking Graph Neural Networks
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -2720,6 +3016,7 @@ variants:
     - null
     - null
   - model: Random rewire
+    model_plain: Random rewire
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -2728,6 +3025,7 @@ variants:
     title: 'GraIP: A Benchmarking Framework For Neural Graph Inverse Problems'
     date: Jan 2026
     date_iso: 2026-01
+    date_display: Jan 2026
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -2740,6 +3038,7 @@ variants:
     - null
     - null
   - model: BORF
+    model_plain: BORF
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -2748,6 +3047,7 @@ variants:
     title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
     date: '2024-06-06'
     date_iso: '2024-06-06'
+    date_display: Jun 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -2760,6 +3060,7 @@ variants:
     - null
     - null
   - model: IDGL
+    model_plain: IDGL
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -2768,6 +3069,7 @@ variants:
     title: 'GSLB: The Graph Structure Learning Benchmark'
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -2780,6 +3082,7 @@ variants:
     - null
     - null
   - model: GCN + BORF
+    model_plain: GCN + BORF
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -2789,6 +3092,7 @@ variants:
       Curvature
     date: Sep 2023
     date_iso: 2023-09
+    date_display: Sep 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -2801,6 +3105,7 @@ variants:
     - null
     - null
   - model: LDS
+    model_plain: LDS
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -2809,6 +3114,7 @@ variants:
     title: 'GSLB: The Graph Structure Learning Benchmark'
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -2821,6 +3127,7 @@ variants:
     - null
     - null
   - model: SRDF
+    model_plain: SRDF
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -2829,6 +3136,7 @@ variants:
     title: Dynamic Triangulation-Based Graph Rewiring for Graph Neural Networks
     date: Aug 2025
     date_iso: 2025-08
+    date_display: Aug 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -2841,6 +3149,7 @@ variants:
     - null
     - null
   - model: GTR
+    model_plain: GTR
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -2849,6 +3158,7 @@ variants:
     title: Dynamic Triangulation-Based Graph Rewiring for Graph Neural Networks
     date: Aug 2025
     date_iso: 2025-08
+    date_display: Aug 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -2861,6 +3171,7 @@ variants:
     - null
     - null
   - model: + PANDA
+    model_plain: + PANDA
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -2869,6 +3180,7 @@ variants:
     title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
     date: '2024-06-06'
     date_iso: '2024-06-06'
+    date_display: Jun 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -2881,6 +3193,7 @@ variants:
     - null
     - null
   - model: GIN (AFR-4)
+    model_plain: GIN (AFR-4)
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -2890,6 +3203,7 @@ variants:
       Curvature
     date: Sep 2023
     date_iso: 2023-09
+    date_display: Sep 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -2902,6 +3216,7 @@ variants:
     - null
     - null
   - model: BORF
+    model_plain: BORF
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -2910,6 +3225,7 @@ variants:
     title: Dynamic Triangulation-Based Graph Rewiring for Graph Neural Networks
     date: Aug 2025
     date_iso: 2025-08
+    date_display: Aug 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -2922,6 +3238,7 @@ variants:
     - null
     - null
   - model: GCN
+    model_plain: GCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -2931,6 +3248,7 @@ variants:
       Curvature
     date: Sep 2023
     date_iso: 2023-09
+    date_display: Sep 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -2943,6 +3261,7 @@ variants:
     - null
     - null
   - model: GAT
+    model_plain: GAT
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -2951,6 +3270,7 @@ variants:
     title: 'GSLB: The Graph Structure Learning Benchmark'
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -2963,6 +3283,7 @@ variants:
     - null
     - null
   - model: Base (GAT)
+    model_plain: Base (GAT)
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -2971,6 +3292,7 @@ variants:
     title: Dynamic Triangulation-Based Graph Rewiring for Graph Neural Networks
     date: Aug 2025
     date_iso: 2025-08
+    date_display: Aug 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -2983,6 +3305,7 @@ variants:
     - null
     - null
   - model: FA
+    model_plain: FA
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -2991,6 +3314,7 @@ variants:
     title: Dynamic Triangulation-Based Graph Rewiring for Graph Neural Networks
     date: Aug 2025
     date_iso: 2025-08
+    date_display: Aug 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -3003,6 +3327,7 @@ variants:
     - null
     - null
   - model: FOSR
+    model_plain: FOSR
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -3011,6 +3336,7 @@ variants:
     title: Dynamic Triangulation-Based Graph Rewiring for Graph Neural Networks
     date: Aug 2025
     date_iso: 2025-08
+    date_display: Aug 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -3023,14 +3349,16 @@ variants:
     - null
     - null
   - model: GINE
+    model_plain: GINE
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.505
+    params_millions: null
     arxiv_id: '2405.17311'
     title: Probabilistic Graph Rewiring via Virtual Nodes
     date: May 2024
     date_iso: 2024-05
+    date_display: May 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -3043,6 +3371,7 @@ variants:
     - null
     - null
   - model: Base (GCN)
+    model_plain: Base (GCN)
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -3051,6 +3380,7 @@ variants:
     title: Dynamic Triangulation-Based Graph Rewiring for Graph Neural Networks
     date: Aug 2025
     date_iso: 2025-08
+    date_display: Aug 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -3063,6 +3393,7 @@ variants:
     - null
     - null
   - model: + DIGL
+    model_plain: + DIGL
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -3071,6 +3402,7 @@ variants:
     title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
     date: '2024-06-06'
     date_iso: '2024-06-06'
+    date_display: Jun 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -3083,6 +3415,7 @@ variants:
     - null
     - null
   - model: GSR
+    model_plain: GSR
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -3091,6 +3424,7 @@ variants:
     title: 'GSLB: The Graph Structure Learning Benchmark'
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -3103,6 +3437,7 @@ variants:
     - null
     - null
   - model: APPNP
+    model_plain: APPNP
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -3111,6 +3446,7 @@ variants:
     title: 'OpenGT: A Comprehensive Benchmark For Graph Transformers'
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -3123,6 +3459,7 @@ variants:
     - null
     - null
   - model: STABLE
+    model_plain: STABLE
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -3131,6 +3468,7 @@ variants:
     title: 'GSLB: The Graph Structure Learning Benchmark'
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -3143,6 +3481,7 @@ variants:
     - null
     - null
   - model: GCN + FoSR
+    model_plain: GCN + FoSR
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -3152,6 +3491,7 @@ variants:
       Curvature
     date: Sep 2023
     date_iso: 2023-09
+    date_display: Sep 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -3164,6 +3504,7 @@ variants:
     - null
     - null
   - model: GCN + SDRF
+    model_plain: GCN + SDRF
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -3173,6 +3514,7 @@ variants:
       Curvature
     date: Sep 2023
     date_iso: 2023-09
+    date_display: Sep 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -3185,6 +3527,7 @@ variants:
     - null
     - null
   - model: NodeFormer
+    model_plain: NodeFormer
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -3193,6 +3536,7 @@ variants:
     title: 'GSLB: The Graph Structure Learning Benchmark'
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -3205,6 +3549,7 @@ variants:
     - null
     - null
   - model: SDRF
+    model_plain: SDRF
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -3213,6 +3558,7 @@ variants:
     title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
     date: '2024-06-06'
     date_iso: '2024-06-06'
+    date_display: Jun 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -3225,6 +3571,7 @@ variants:
     - null
     - null
   - model: GCN
+    model_plain: GCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -3233,6 +3580,7 @@ variants:
     title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
     date: '2024-06-06'
     date_iso: '2024-06-06'
+    date_display: Jun 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -3245,6 +3593,7 @@ variants:
     - null
     - null
   - model: GIN-SDRF-R
+    model_plain: GIN-SDRF-R
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -3254,6 +3603,7 @@ variants:
       Curvature
     date: Sep 2023
     date_iso: 2023-09
+    date_display: Sep 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -3266,6 +3616,7 @@ variants:
     - null
     - null
   - model: FOSR
+    model_plain: FOSR
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -3274,6 +3625,7 @@ variants:
     title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
     date: '2024-06-06'
     date_iso: '2024-06-06'
+    date_display: Jun 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -3286,6 +3638,7 @@ variants:
     - null
     - null
   - model: Graph transformer
+    model_plain: Graph transformer
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -3294,6 +3647,7 @@ variants:
     title: 'OpenGT: A Comprehensive Benchmark For Graph Transformers'
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -3306,6 +3660,7 @@ variants:
     - null
     - null
   - model: GIN-E
+    model_plain: GIN-E
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -3315,6 +3670,7 @@ variants:
       Curvature
     date: Sep 2023
     date_iso: 2023-09
+    date_display: Sep 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -3327,6 +3683,7 @@ variants:
     - null
     - null
   - model: GIN-FOSR-R
+    model_plain: GIN-FOSR-R
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -3336,6 +3693,7 @@ variants:
       Curvature
     date: Sep 2023
     date_iso: 2023-09
+    date_display: Sep 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -3348,6 +3706,7 @@ variants:
     - null
     - null
   - model: GAT
+    model_plain: GAT
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -3356,6 +3715,7 @@ variants:
     title: 'OpenGT: A Comprehensive Benchmark For Graph Transformers'
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -3368,14 +3728,16 @@ variants:
     - null
     - null
   - model: GCN
+    model_plain: GCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.496
+    params_millions: null
     arxiv_id: '2506.04765'
     title: 'OpenGT: A Comprehensive Benchmark For Graph Transformers'
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -3388,6 +3750,7 @@ variants:
     - null
     - null
   - model: DAEGC
+    model_plain: DAEGC
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -3396,6 +3759,7 @@ variants:
     title: Non-Dissipative Graph Propagation for Non-Local Community Detection
     date: Aug 2025
     date_iso: 2025-08
+    date_display: Aug 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -3408,6 +3772,7 @@ variants:
     - 0.03
     - 0.02
   - model: DGI
+    model_plain: DGI
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -3416,6 +3781,7 @@ variants:
     title: Non-Dissipative Graph Propagation for Non-Local Community Detection
     date: Aug 2025
     date_iso: 2025-08
+    date_display: Aug 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -3428,6 +3794,7 @@ variants:
     - 0.06
     - 0.01
   - model: DMON
+    model_plain: DMON
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -3436,6 +3803,7 @@ variants:
     title: Non-Dissipative Graph Propagation for Non-Local Community Detection
     date: Aug 2025
     date_iso: 2025-08
+    date_display: Aug 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -3448,6 +3816,7 @@ variants:
     - 0.05
     - 0.07
   - model: GRACE
+    model_plain: GRACE
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -3456,6 +3825,7 @@ variants:
     title: Non-Dissipative Graph Propagation for Non-Local Community Detection
     date: Aug 2025
     date_iso: 2025-08
+    date_display: Aug 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -3468,6 +3838,7 @@ variants:
     - 0.03
     - 0.01
   - model: MVGRL
+    model_plain: MVGRL
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -3476,6 +3847,7 @@ variants:
     title: Non-Dissipative Graph Propagation for Non-Local Community Detection
     date: Aug 2025
     date_iso: 2025-08
+    date_display: Aug 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -3488,6 +3860,7 @@ variants:
     - 0.05
     - 0.02
   - model: SUBLIME
+    model_plain: SUBLIME
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -3496,6 +3869,7 @@ variants:
     title: Non-Dissipative Graph Propagation for Non-Local Community Detection
     date: Aug 2025
     date_iso: 2025-08
+    date_display: Aug 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -3508,6 +3882,7 @@ variants:
     - 0.03
     - 0.01
   - model: BGRL
+    model_plain: BGRL
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -3516,6 +3891,7 @@ variants:
     title: Non-Dissipative Graph Propagation for Non-Local Community Detection
     date: Aug 2025
     date_iso: 2025-08
+    date_display: Aug 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -3528,6 +3904,7 @@ variants:
     - 0.02
     - 0.01
   - model: VGAER
+    model_plain: VGAER
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -3536,6 +3913,7 @@ variants:
     title: Non-Dissipative Graph Propagation for Non-Local Community Detection
     date: Aug 2025
     date_iso: 2025-08
+    date_display: Aug 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -3548,6 +3926,7 @@ variants:
     - 0.02
     - 0.03
   - model: uAGNN
+    model_plain: uAGNN
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -3556,6 +3935,7 @@ variants:
     title: Non-Dissipative Graph Propagation for Non-Local Community Detection
     date: Aug 2025
     date_iso: 2025-08
+    date_display: Aug 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -3568,6 +3948,7 @@ variants:
     - 0.04
     - 0.07
   - model: MLP
+    model_plain: MLP
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -3577,6 +3958,7 @@ variants:
       Learning'
     date: Sep 2023
     date_iso: 2023-09
+    date_display: Sep 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -3589,15 +3971,17 @@ variants:
     - 0.0404
     - null
   - model: GCN
+    model_plain: GCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.496
+    params_millions: null
     arxiv_id: '2309.04082'
     title: 'Curve Your Attention: Mixed-Curvature Transformers for Graph Representation
       Learning'
     date: Sep 2023
     date_iso: 2023-09
+    date_display: Sep 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -3610,6 +3994,7 @@ variants:
     - 0.0177
     - null
   - model: GAT
+    model_plain: GAT
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -3619,6 +4004,7 @@ variants:
       Learning'
     date: Sep 2023
     date_iso: 2023-09
+    date_display: Sep 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -3631,6 +4017,7 @@ variants:
     - 0.018
     - null
   - model: SAGE
+    model_plain: SAGE
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -3640,6 +4027,7 @@ variants:
       Learning'
     date: Sep 2023
     date_iso: 2023-09
+    date_display: Sep 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -3652,6 +4040,7 @@ variants:
     - 0.0201
     - null
   - model: SGC
+    model_plain: SGC
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -3661,6 +4050,7 @@ variants:
       Learning'
     date: Sep 2023
     date_iso: 2023-09
+    date_display: Sep 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -3673,6 +4063,7 @@ variants:
     - 0.0287
     - null
   - model: TokenGT
+    model_plain: TokenGT
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -3682,6 +4073,7 @@ variants:
       Learning'
     date: Sep 2023
     date_iso: 2023-09
+    date_display: Sep 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -3694,6 +4086,7 @@ variants:
     - 0.0213
     - null
   - model: H2GCN
+    model_plain: H2GCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -3703,6 +4096,7 @@ variants:
       Learning'
     date: Sep 2023
     date_iso: 2023-09
+    date_display: Sep 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -3715,6 +4109,7 @@ variants:
     - 0.018
     - null
   - model: HGNN
+    model_plain: HGNN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -3724,6 +4119,7 @@ variants:
       Learning'
     date: Sep 2023
     date_iso: 2023-09
+    date_display: Sep 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -3736,6 +4132,7 @@ variants:
     - 0.0142
     - null
   - model: HAT
+    model_plain: HAT
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -3745,6 +4142,7 @@ variants:
       Learning'
     date: Sep 2023
     date_iso: 2023-09
+    date_display: Sep 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -3757,6 +4155,7 @@ variants:
     - 0.0167
     - null
   - model: \kappa-GCN
+    model_plain: \kappa-GCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -3766,6 +4165,7 @@ variants:
       Learning'
     date: Sep 2023
     date_iso: 2023-09
+    date_display: Sep 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -3778,6 +4178,7 @@ variants:
     - 0.0559
     - null
   - model: \mathcal{Q}-GCN
+    model_plain: \mathcal{Q}-GCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -3787,6 +4188,7 @@ variants:
       Learning'
     date: Sep 2023
     date_iso: 2023-09
+    date_display: Sep 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -3799,6 +4201,7 @@ variants:
     - 0.0285
     - null
   - model: \modelname{}
+    model_plain: \modelname{}
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -3808,6 +4211,7 @@ variants:
       Learning'
     date: Sep 2023
     date_iso: 2023-09
+    date_display: Sep 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false

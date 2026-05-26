@@ -7,12 +7,18 @@ description: CS-Trees classification variant with 200-node graphs (Accuracy metr
 primary_metric: Accuracy
 higher_is_better: true
 pyg_url: ''
-stats: null
+stats:
+  num_graphs: 200
+  avg_nodes: null
+  avg_edges: null
+  num_classes: null
 result_count: 10
 best_model:
   model: GNN (a)
   value: 0.7
   metric: Accuracy
+  arxiv_id: '2507.03707'
+  paper_title: CosmoBench
 variants:
 - slug: standard-split
   name: Standard split
@@ -20,10 +26,15 @@ variants:
   is_standard: true
   primary_metric: Accuracy
   higher_is_better: true
+  stats:
+    num_graphs: null
+    avg_nodes: null
+    avg_edges: null
   metrics:
   - Accuracy
   rows:
   - model: GNN (a)
+    model_plain: GNN (a)
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -32,6 +43,7 @@ variants:
     title: CosmoBench
     date: Jul 2025
     date_iso: 2025-07
+    date_display: Jul 2025
     codebase_url: ''
     uses_external_data: false
     is_best: true
@@ -40,6 +52,7 @@ variants:
     metric_stds:
     - 0.005
   - model: GNN (M,c,v_max,a)
+    model_plain: GNN (M,c,v_max,a)
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -48,6 +61,7 @@ variants:
     title: CosmoBench
     date: Jul 2025
     date_iso: 2025-07
+    date_display: Jul 2025
     codebase_url: ''
     uses_external_data: false
     is_best: true
@@ -56,6 +70,7 @@ variants:
     metric_stds:
     - 0.005
   - model: GNN (M)
+    model_plain: GNN (M)
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -64,6 +79,7 @@ variants:
     title: CosmoBench
     date: Jul 2025
     date_iso: 2025-07
+    date_display: Jul 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -72,6 +88,7 @@ variants:
     metric_stds:
     - 0.004
   - model: DeepSet (M,c,v_max,a)
+    model_plain: DeepSet (M,c,v_max,a)
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -80,6 +97,7 @@ variants:
     title: CosmoBench
     date: Jul 2025
     date_iso: 2025-07
+    date_display: Jul 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -88,6 +106,7 @@ variants:
     metric_stds:
     - 0.006
   - model: DeepSet (M)
+    model_plain: DeepSet (M)
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -96,6 +115,7 @@ variants:
     title: CosmoBench
     date: Jul 2025
     date_iso: 2025-07
+    date_display: Jul 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -104,6 +124,7 @@ variants:
     metric_stds:
     - 0.005
   - model: CO-GNN
+    model_plain: CO-GNN
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -112,6 +133,7 @@ variants:
     title: CosmoBench
     date: Jul 2025
     date_iso: 2025-07
+    date_display: Jul 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -120,6 +142,7 @@ variants:
     metric_stds:
     - 0.005
   - model: GNN (v_max)
+    model_plain: GNN (v_max)
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -128,6 +151,7 @@ variants:
     title: CosmoBench
     date: Jul 2025
     date_iso: 2025-07
+    date_display: Jul 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -136,6 +160,7 @@ variants:
     metric_stds:
     - 0.005
   - model: DeepSet (v_max)
+    model_plain: DeepSet (v_max)
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -144,6 +169,7 @@ variants:
     title: CosmoBench
     date: Jul 2025
     date_iso: 2025-07
+    date_display: Jul 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -152,6 +178,7 @@ variants:
     metric_stds:
     - 0.005
   - model: EPS
+    model_plain: EPS
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -160,6 +187,7 @@ variants:
     title: CosmoBench
     date: Jul 2025
     date_iso: 2025-07
+    date_display: Jul 2025
     codebase_url: ''
     uses_external_data: true
     is_best: false
@@ -168,6 +196,7 @@ variants:
     metric_stds:
     - 0.073
   - model: DeepSet (c)
+    model_plain: DeepSet (c)
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -176,6 +205,7 @@ variants:
     title: CosmoBench
     date: Jul 2025
     date_iso: 2025-07
+    date_display: Jul 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false

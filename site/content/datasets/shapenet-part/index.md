@@ -10,12 +10,19 @@ description: '3D point cloud part segmentation on ShapeNet objects. Graph-based 
 primary_metric: F1
 higher_is_better: true
 pyg_url: ''
-stats: null
+stats:
+  num_graphs: null
+  avg_nodes: null
+  avg_edges: null
+  num_classes: 50
 result_count: 8
 best_model:
   model: GPS + k-MIP
   value: 0.8268000000000001
   metric: F1
+  arxiv_id: '2604.03815'
+  paper_title: k-Maximum Inner Product Attention for Graph Transformers and the Expressive
+    Power of GraphGPS
 variants:
 - slug: standard-split
   name: Standard split
@@ -23,10 +30,15 @@ variants:
   is_standard: true
   primary_metric: F1
   higher_is_better: true
+  stats:
+    num_graphs: null
+    avg_nodes: null
+    avg_edges: null
   metrics:
   - F1
   rows:
   - model: GPS + k-MIP
+    model_plain: GPS + k-MIP
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -36,6 +48,7 @@ variants:
       Power of GraphGPS
     date: Apr 2026
     date_iso: 2026-04
+    date_display: Apr 2026
     codebase_url: ''
     uses_external_data: false
     is_best: true
@@ -44,6 +57,7 @@ variants:
     metric_stds:
     - 0.0064
   - model: Exphormer
+    model_plain: Exphormer
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -53,6 +67,7 @@ variants:
       Power of GraphGPS
     date: Apr 2026
     date_iso: 2026-04
+    date_display: Apr 2026
     codebase_url: ''
     uses_external_data: false
     is_best: true
@@ -61,6 +76,7 @@ variants:
     metric_stds:
     - 0.0031
   - model: GPS + BigBird
+    model_plain: GPS + BigBird
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -70,6 +86,7 @@ variants:
       Power of GraphGPS
     date: Apr 2026
     date_iso: 2026-04
+    date_display: Apr 2026
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -78,6 +95,7 @@ variants:
     metric_stds:
     - 0.0098
   - model: GPS + Performer
+    model_plain: GPS + Performer
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -87,6 +105,7 @@ variants:
       Power of GraphGPS
     date: Apr 2026
     date_iso: 2026-04
+    date_display: Apr 2026
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -95,40 +114,7 @@ variants:
     metric_stds:
     - 0.0123
   - model: GatedGCN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: 0.502
-    arxiv_id: '2604.03815'
-    title: k-Maximum Inner Product Attention for Graph Transformers and the Expressive
-      Power of GraphGPS
-    date: Apr 2026
-    date_iso: 2026-04
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.762
-    metric_stds:
-    - 0.0032
-  - model: GINE
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: 0.505
-    arxiv_id: '2604.03815'
-    title: k-Maximum Inner Product Attention for Graph Transformers and the Expressive
-      Power of GraphGPS
-    date: Apr 2026
-    date_iso: 2026-04
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.6456999999999999
-    metric_stds:
-    - 0.0034999999999999996
-  - model: GAT
+    model_plain: GatedGCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -138,6 +124,45 @@ variants:
       Power of GraphGPS
     date: Apr 2026
     date_iso: 2026-04
+    date_display: Apr 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.762
+    metric_stds:
+    - 0.0032
+  - model: GINE
+    model_plain: GINE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2604.03815'
+    title: k-Maximum Inner Product Attention for Graph Transformers and the Expressive
+      Power of GraphGPS
+    date: Apr 2026
+    date_iso: 2026-04
+    date_display: Apr 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.6456999999999999
+    metric_stds:
+    - 0.0034999999999999996
+  - model: GAT
+    model_plain: GAT
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2604.03815'
+    title: k-Maximum Inner Product Attention for Graph Transformers and the Expressive
+      Power of GraphGPS
+    date: Apr 2026
+    date_iso: 2026-04
+    date_display: Apr 2026
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -146,15 +171,17 @@ variants:
     metric_stds:
     - 0.0017000000000000001
   - model: GCN
+    model_plain: GCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.496
+    params_millions: null
     arxiv_id: '2604.03815'
     title: k-Maximum Inner Product Attention for Graph Transformers and the Expressive
       Power of GraphGPS
     date: Apr 2026
     date_iso: 2026-04
+    date_display: Apr 2026
     codebase_url: ''
     uses_external_data: false
     is_best: false

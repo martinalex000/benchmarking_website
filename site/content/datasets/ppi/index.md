@@ -17,6 +17,9 @@ best_model:
   model: QGAT
   value: 0.989
   metric: F1
+  arxiv_id: '2508.17630'
+  paper_title: 'Quantum Graph Attention Network: A Novel Quantum Multi-Head Attention
+    Mechanism for Graph Learning'
 variants:
 - slug: standard-split
   name: Standard split
@@ -24,10 +27,15 @@ variants:
   is_standard: true
   primary_metric: F1
   higher_is_better: true
+  stats:
+    num_graphs: null
+    avg_nodes: null
+    avg_edges: null
   metrics:
   - F1
   rows:
   - model: QGAT
+    model_plain: QGAT
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -37,6 +45,7 @@ variants:
       Mechanism for Graph Learning'
     date: Aug 2025
     date_iso: 2025-08
+    date_display: Aug 2025
     codebase_url: ''
     uses_external_data: false
     is_best: true
@@ -45,6 +54,7 @@ variants:
     metric_stds:
     - 0.0012
   - model: GATv2
+    model_plain: GATv2
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -54,6 +64,7 @@ variants:
       Mechanism for Graph Learning'
     date: Aug 2025
     date_iso: 2025-08
+    date_display: Aug 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -62,6 +73,7 @@ variants:
     metric_stds:
     - 0.0025
   - model: IGNN*
+    model_plain: IGNN*
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -70,6 +82,7 @@ variants:
     title: Graph Neural Networks Gone Hogwild
     date: Jul 2024
     date_iso: 2024-07
+    date_display: Jul 2024
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -78,6 +91,7 @@ variants:
     metric_stds:
     - null
   - model: GAT
+    model_plain: GAT
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -86,6 +100,7 @@ variants:
     title: Graph Neural Networks Gone Hogwild
     date: Jul 2024
     date_iso: 2024-07
+    date_display: Jul 2024
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -94,6 +109,7 @@ variants:
     metric_stds:
     - null
   - model: GraphSAGE
+    model_plain: GraphSAGE
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -102,6 +118,7 @@ variants:
     title: Graph Neural Networks Gone Hogwild
     date: Jul 2024
     date_iso: 2024-07
+    date_display: Jul 2024
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -110,6 +127,7 @@ variants:
     metric_stds:
     - null
   - model: Energy GNN (edge-wise)
+    model_plain: Energy GNN (edge-wise)
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -118,6 +136,7 @@ variants:
     title: Graph Neural Networks Gone Hogwild
     date: Jul 2024
     date_iso: 2024-07
+    date_display: Jul 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -126,6 +145,7 @@ variants:
     metric_stds:
     - null
   - model: GCN (5 layer)
+    model_plain: GCN (5 layer)
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -134,6 +154,7 @@ variants:
     title: Graph Neural Networks Gone Hogwild
     date: Jul 2024
     date_iso: 2024-07
+    date_display: Jul 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -142,6 +163,7 @@ variants:
     metric_stds:
     - null
   - model: Energy GNN + attention
+    model_plain: Energy GNN + attention
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -150,6 +172,7 @@ variants:
     title: Graph Neural Networks Gone Hogwild
     date: Jul 2024
     date_iso: 2024-07
+    date_display: Jul 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -158,6 +181,7 @@ variants:
     metric_stds:
     - null
   - model: GSD GNN
+    model_plain: GSD GNN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -166,6 +190,7 @@ variants:
     title: Graph Neural Networks Gone Hogwild
     date: Jul 2024
     date_iso: 2024-07
+    date_display: Jul 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -174,6 +199,7 @@ variants:
     metric_stds:
     - null
   - model: IGNN (1 layer)
+    model_plain: IGNN (1 layer)
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -182,6 +208,7 @@ variants:
     title: Graph Neural Networks Gone Hogwild
     date: Jul 2024
     date_iso: 2024-07
+    date_display: Jul 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -190,6 +217,7 @@ variants:
     metric_stds:
     - null
   - model: GAT (5 layer)
+    model_plain: GAT (5 layer)
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -198,6 +226,7 @@ variants:
     title: Graph Neural Networks Gone Hogwild
     date: Jul 2024
     date_iso: 2024-07
+    date_display: Jul 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -206,22 +235,7 @@ variants:
     metric_stds:
     - null
   - model: GCN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: 0.496
-    arxiv_id: '2407.00494'
-    title: Graph Neural Networks Gone Hogwild
-    date: Jul 2024
-    date_iso: 2024-07
-    codebase_url: ''
-    uses_external_data: null
-    is_best: false
-    metric_values:
-    - 0.592
-    metric_stds:
-    - null
-  - model: MLP
+    model_plain: GCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -230,6 +244,25 @@ variants:
     title: Graph Neural Networks Gone Hogwild
     date: Jul 2024
     date_iso: 2024-07
+    date_display: Jul 2024
+    codebase_url: ''
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - 0.592
+    metric_stds:
+    - null
+  - model: MLP
+    model_plain: MLP
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2407.00494'
+    title: Graph Neural Networks Gone Hogwild
+    date: Jul 2024
+    date_iso: 2024-07
+    date_display: Jul 2024
     codebase_url: ''
     uses_external_data: null
     is_best: false

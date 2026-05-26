@@ -7,12 +7,19 @@ description: Knowledge graph link prediction on Freebase (14,541 entities, 237 r
 primary_metric: MRR
 higher_is_better: true
 pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.FB15k_237.html
-stats: null
+stats:
+  num_graphs: 1
+  avg_nodes: 14541.0
+  avg_edges: 272115.0
+  num_classes: 237
 result_count: 10
 best_model:
   model: RWPT
   value: 0.9523
   metric: Accuracy
+  arxiv_id: '2506.14098'
+  paper_title: 'Toward a Graph Foundation Model: Pre-Training Transformers With Random
+    Walks'
 variants:
 - slug: standard-split
   name: Standard split
@@ -20,19 +27,25 @@ variants:
   is_standard: true
   primary_metric: Accuracy
   higher_is_better: true
+  stats:
+    num_graphs: null
+    avg_nodes: null
+    avg_edges: null
   metrics:
   - Accuracy
   rows:
   - model: RWPT
+    model_plain: RWPT
     is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2506.14098'
-    title: 'Toward a Graph Foundation Model: - Pre-Training Transformers With Random
+    title: 'Toward a Graph Foundation Model: Pre-Training Transformers With Random
       Walks'
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: false
     is_best: true
@@ -41,15 +54,17 @@ variants:
     metric_stds:
     - null
   - model: GFT
+    model_plain: GFT
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2506.14098'
-    title: 'Toward a Graph Foundation Model: - Pre-Training Transformers With Random
+    title: 'Toward a Graph Foundation Model: Pre-Training Transformers With Random
       Walks'
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -58,15 +73,17 @@ variants:
     metric_stds:
     - null
   - model: GAT
+    model_plain: GAT
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2506.14098'
-    title: 'Toward a Graph Foundation Model: - Pre-Training Transformers With Random
+    title: 'Toward a Graph Foundation Model: Pre-Training Transformers With Random
       Walks'
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -75,15 +92,17 @@ variants:
     metric_stds:
     - null
   - model: GIANT
+    model_plain: GIANT
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2506.14098'
-    title: 'Toward a Graph Foundation Model: - Pre-Training Transformers With Random
+    title: 'Toward a Graph Foundation Model: Pre-Training Transformers With Random
       Walks'
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -92,15 +111,17 @@ variants:
     metric_stds:
     - null
   - model: MLP
+    model_plain: MLP
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2506.14098'
-    title: 'Toward a Graph Foundation Model: - Pre-Training Transformers With Random
+    title: 'Toward a Graph Foundation Model: Pre-Training Transformers With Random
       Walks'
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -109,15 +130,17 @@ variants:
     metric_stds:
     - null
   - model: GraphMAE
+    model_plain: GraphMAE
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2506.14098'
-    title: 'Toward a Graph Foundation Model: - Pre-Training Transformers With Random
+    title: 'Toward a Graph Foundation Model: Pre-Training Transformers With Random
       Walks'
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -126,15 +149,17 @@ variants:
     metric_stds:
     - null
   - model: GIN
+    model_plain: GIN
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2506.14098'
-    title: 'Toward a Graph Foundation Model: - Pre-Training Transformers With Random
+    title: 'Toward a Graph Foundation Model: Pre-Training Transformers With Random
       Walks'
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -143,15 +168,17 @@ variants:
     metric_stds:
     - null
   - model: GCN
+    model_plain: GCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.496
+    params_millions: null
     arxiv_id: '2506.14098'
-    title: 'Toward a Graph Foundation Model: - Pre-Training Transformers With Random
+    title: 'Toward a Graph Foundation Model: Pre-Training Transformers With Random
       Walks'
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -160,15 +187,17 @@ variants:
     metric_stds:
     - null
   - model: DGI
+    model_plain: DGI
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2506.14098'
-    title: 'Toward a Graph Foundation Model: - Pre-Training Transformers With Random
+    title: 'Toward a Graph Foundation Model: Pre-Training Transformers With Random
       Walks'
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -177,15 +206,17 @@ variants:
     metric_stds:
     - null
   - model: BGRL
+    model_plain: BGRL
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2506.14098'
-    title: 'Toward a Graph Foundation Model: - Pre-Training Transformers With Random
+    title: 'Toward a Graph Foundation Model: Pre-Training Transformers With Random
       Walks'
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -198,7 +229,7 @@ variants:
     std: null
     model: RWPT
     arxiv_id: '2506.14098'
-    title: 'Toward a Graph Foundation Model: - Pre-Training Transformers With Random
+    title: 'Toward a Graph Foundation Model: Pre-Training Transformers With Random
       Walks'
     date: 2025-06
 ---

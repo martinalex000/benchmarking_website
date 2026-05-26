@@ -10,12 +10,18 @@ description: 'Analog circuit topology design. Graph-level task: predict 2 contin
 primary_metric: MAE
 higher_is_better: false
 pyg_url: https://graphbench.github.io/website/datasets.html
-stats: null
+stats:
+  num_graphs: 93000
+  avg_nodes: 18.5
+  avg_edges: 43.0
+  num_classes: null
 result_count: 4
 best_model:
   model: GT
   value: 0.07
   metric: MAE
+  arxiv_id: '2512.04475'
+  paper_title: GraphBench
 variants:
 - slug: standard-split
   name: Standard split
@@ -23,10 +29,15 @@ variants:
   is_standard: true
   primary_metric: MAE
   higher_is_better: false
+  stats:
+    num_graphs: null
+    avg_nodes: null
+    avg_edges: null
   metrics:
   - MAE
   rows:
   - model: GT
+    model_plain: GT
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -35,6 +46,7 @@ variants:
     title: GraphBench
     date: Dec 2025
     date_iso: 2025-12
+    date_display: Dec 2025
     codebase_url: https://github.com/graphbench/package
     uses_external_data: false
     is_best: true
@@ -43,6 +55,7 @@ variants:
     metric_stds:
     - 0.03
   - model: GIN
+    model_plain: GIN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -51,6 +64,7 @@ variants:
     title: GraphBench
     date: Dec 2025
     date_iso: 2025-12
+    date_display: Dec 2025
     codebase_url: https://github.com/graphbench/package
     uses_external_data: false
     is_best: true
@@ -59,6 +73,7 @@ variants:
     metric_stds:
     - 0.06
   - model: GAT
+    model_plain: GAT
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -67,6 +82,7 @@ variants:
     title: GraphBench
     date: Dec 2025
     date_iso: 2025-12
+    date_display: Dec 2025
     codebase_url: https://github.com/graphbench/package
     uses_external_data: false
     is_best: true
@@ -75,14 +91,16 @@ variants:
     metric_stds:
     - 0.05
   - model: GCN
+    model_plain: GCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.496
+    params_millions: null
     arxiv_id: '2512.04475'
     title: GraphBench
     date: Dec 2025
     date_iso: 2025-12
+    date_display: Dec 2025
     codebase_url: https://github.com/graphbench/package
     uses_external_data: false
     is_best: true

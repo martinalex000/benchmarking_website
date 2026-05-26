@@ -7,12 +7,18 @@ description: Network flow value prediction (GraphBench / CLRS-style algorithmic 
 primary_metric: MAE
 higher_is_better: false
 pyg_url: https://graphbench.github.io/website/datasets.html
-stats: null
+stats:
+  num_graphs: 21000000
+  avg_nodes: 264.0
+  avg_edges: 3667.0
+  num_classes: null
 result_count: 5
 best_model:
   model: RRWP
   value: 1.45
   metric: MAE
+  arxiv_id: '2511.08028'
+  paper_title: Generalizable Insights for Graph Transformers in Theory and Practice
 variants:
 - slug: standard-split
   name: Standard split
@@ -20,10 +26,15 @@ variants:
   is_standard: true
   primary_metric: MAE
   higher_is_better: false
+  stats:
+    num_graphs: null
+    avg_nodes: null
+    avg_edges: null
   metrics:
   - MAE
   rows:
   - model: RRWP
+    model_plain: RRWP
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -32,6 +43,7 @@ variants:
     title: Generalizable Insights for Graph Transformers in Theory and Practice
     date: Nov 2025
     date_iso: 2025-11
+    date_display: Nov 2025
     codebase_url: ''
     uses_external_data: false
     is_best: true
@@ -40,6 +52,7 @@ variants:
     metric_stds:
     - 0.06
   - model: RWSE
+    model_plain: RWSE
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -48,6 +61,7 @@ variants:
     title: Generalizable Insights for Graph Transformers in Theory and Practice
     date: Nov 2025
     date_iso: 2025-11
+    date_display: Nov 2025
     codebase_url: ''
     uses_external_data: false
     is_best: true
@@ -56,6 +70,7 @@ variants:
     metric_stds:
     - 0.02
   - model: NoPE
+    model_plain: NoPE
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -64,6 +79,7 @@ variants:
     title: Generalizable Insights for Graph Transformers in Theory and Practice
     date: Nov 2025
     date_iso: 2025-11
+    date_display: Nov 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -72,6 +88,7 @@ variants:
     metric_stds:
     - 0.09
   - model: LPE
+    model_plain: LPE
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -80,6 +97,7 @@ variants:
     title: Generalizable Insights for Graph Transformers in Theory and Practice
     date: Nov 2025
     date_iso: 2025-11
+    date_display: Nov 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -88,6 +106,7 @@ variants:
     metric_stds:
     - 0.12
   - model: SPE
+    model_plain: SPE
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -96,6 +115,7 @@ variants:
     title: Generalizable Insights for Graph Transformers in Theory and Practice
     date: Nov 2025
     date_iso: 2025-11
+    date_display: Nov 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -116,10 +136,15 @@ variants:
   is_standard: false
   primary_metric: MAE
   higher_is_better: false
+  stats:
+    num_graphs: null
+    avg_nodes: null
+    avg_edges: null
   metrics:
   - MAE
   rows:
   - model: agg + I
+    model_plain: agg + I
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -128,6 +153,7 @@ variants:
     title: Invariant-Based Diagnostics for Graph Benchmarks
     date: May 2026
     date_iso: 2026-05
+    date_display: May 2026
     codebase_url: ''
     uses_external_data: null
     is_best: true
@@ -136,6 +162,7 @@ variants:
     metric_stds:
     - 0.01
   - model: GIN
+    model_plain: GIN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -144,6 +171,7 @@ variants:
     title: GraphBench
     date: Dec 2025
     date_iso: 2025-12
+    date_display: Dec 2025
     codebase_url: https://github.com/graphbench/package
     uses_external_data: false
     is_best: false
@@ -152,6 +180,7 @@ variants:
     metric_stds:
     - 0.0631
   - model: Graph transformer
+    model_plain: Graph transformer
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -160,6 +189,7 @@ variants:
     title: Invariant-Based Diagnostics for Graph Benchmarks
     date: May 2026
     date_iso: 2026-05
+    date_display: May 2026
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -168,6 +198,7 @@ variants:
     metric_stds:
     - null
   - model: GT
+    model_plain: GT
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -176,6 +207,7 @@ variants:
     title: GraphBench
     date: Dec 2025
     date_iso: 2025-12
+    date_display: Dec 2025
     codebase_url: https://github.com/graphbench/package
     uses_external_data: false
     is_best: false
@@ -202,11 +234,16 @@ variants:
   is_standard: false
   primary_metric: MAE
   higher_is_better: false
+  stats:
+    num_graphs: null
+    avg_nodes: null
+    avg_edges: null
   metrics:
   - MAE
   - RMSE
   rows:
   - model: RRWP
+    model_plain: RRWP
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -215,6 +252,7 @@ variants:
     title: Generalizable Insights for Graph Transformers in Theory and Practice
     date: Nov 2025
     date_iso: 2025-11
+    date_display: Nov 2025
     codebase_url: ''
     uses_external_data: false
     is_best: true
@@ -225,6 +263,7 @@ variants:
     - 0.06
     - null
   - model: RWSE
+    model_plain: RWSE
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -233,6 +272,7 @@ variants:
     title: Generalizable Insights for Graph Transformers in Theory and Practice
     date: Nov 2025
     date_iso: 2025-11
+    date_display: Nov 2025
     codebase_url: ''
     uses_external_data: false
     is_best: true
@@ -243,6 +283,7 @@ variants:
     - 0.02
     - null
   - model: NoPE
+    model_plain: NoPE
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -251,6 +292,7 @@ variants:
     title: Generalizable Insights for Graph Transformers in Theory and Practice
     date: Nov 2025
     date_iso: 2025-11
+    date_display: Nov 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -261,6 +303,7 @@ variants:
     - 0.09
     - null
   - model: LPE
+    model_plain: LPE
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -269,6 +312,7 @@ variants:
     title: Generalizable Insights for Graph Transformers in Theory and Practice
     date: Nov 2025
     date_iso: 2025-11
+    date_display: Nov 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -279,6 +323,7 @@ variants:
     - 0.12
     - null
   - model: SPE
+    model_plain: SPE
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -287,6 +332,7 @@ variants:
     title: Generalizable Insights for Graph Transformers in Theory and Practice
     date: Nov 2025
     date_iso: 2025-11
+    date_display: Nov 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -297,6 +343,7 @@ variants:
     - 0.14
     - null
   - model: agg + I
+    model_plain: agg + I
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -305,6 +352,7 @@ variants:
     title: Invariant-Based Diagnostics for Graph Benchmarks
     date: May 2026
     date_iso: 2026-05
+    date_display: May 2026
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -315,6 +363,7 @@ variants:
     - 0.03
     - null
   - model: Graph transformer
+    model_plain: Graph transformer
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -323,6 +372,7 @@ variants:
     title: Invariant-Based Diagnostics for Graph Benchmarks
     date: May 2026
     date_iso: 2026-05
+    date_display: May 2026
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -333,6 +383,7 @@ variants:
     - null
     - null
   - model: GT
+    model_plain: GT
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -341,6 +392,7 @@ variants:
     title: GraphBench
     date: Dec 2025
     date_iso: 2025-12
+    date_display: Dec 2025
     codebase_url: https://github.com/graphbench/package
     uses_external_data: false
     is_best: false
@@ -351,6 +403,7 @@ variants:
     - 0.0869
     - null
   - model: GIN
+    model_plain: GIN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -359,6 +412,7 @@ variants:
     title: GraphBench
     date: Dec 2025
     date_iso: 2025-12
+    date_display: Dec 2025
     codebase_url: https://github.com/graphbench/package
     uses_external_data: false
     is_best: false
@@ -369,6 +423,7 @@ variants:
     - 0.1265
     - null
   - model: U-Net
+    model_plain: U-Net
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -377,6 +432,7 @@ variants:
     title: Multiscale Neural Operators for Solving Time-Independent PDEs
     date: Nov 2023
     date_iso: 2023-11
+    date_display: Nov 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -387,6 +443,7 @@ variants:
     - null
     - null
   - model: FNO
+    model_plain: FNO
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -395,6 +452,7 @@ variants:
     title: Multiscale Neural Operators for Solving Time-Independent PDEs
     date: Nov 2023
     date_iso: 2023-11
+    date_display: Nov 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -405,6 +463,7 @@ variants:
     - null
     - null
   - model: MGN
+    model_plain: MGN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -413,6 +472,7 @@ variants:
     title: Multiscale Neural Operators for Solving Time-Independent PDEs
     date: Nov 2023
     date_iso: 2023-11
+    date_display: Nov 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -423,6 +483,7 @@ variants:
     - null
     - 0.000523
   - model: MGN + Tree
+    model_plain: MGN + Tree
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -431,6 +492,7 @@ variants:
     title: Multiscale Neural Operators for Solving Time-Independent PDEs
     date: Nov 2023
     date_iso: 2023-11
+    date_display: Nov 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -441,6 +503,7 @@ variants:
     - null
     - 0.0147
   - model: BSMS
+    model_plain: BSMS
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -449,6 +512,7 @@ variants:
     title: Multiscale Neural Operators for Solving Time-Independent PDEs
     date: Nov 2023
     date_iso: 2023-11
+    date_display: Nov 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -459,6 +523,7 @@ variants:
     - null
     - 0.000818
   - model: Perceiver IO
+    model_plain: Perceiver IO
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -467,6 +532,7 @@ variants:
     title: Multiscale Neural Operators for Solving Time-Independent PDEs
     date: Nov 2023
     date_iso: 2023-11
+    date_display: Nov 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -477,6 +543,7 @@ variants:
     - null
     - 0.00116
   - model: Perceiver IO + GNN
+    model_plain: Perceiver IO + GNN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -485,6 +552,7 @@ variants:
     title: Multiscale Neural Operators for Solving Time-Independent PDEs
     date: Nov 2023
     date_iso: 2023-11
+    date_display: Nov 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -507,10 +575,15 @@ variants:
   is_standard: false
   primary_metric: MAE
   higher_is_better: false
+  stats:
+    num_graphs: null
+    avg_nodes: null
+    avg_edges: null
   metrics:
   - MAE
   rows:
   - model: agg + I
+    model_plain: agg + I
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -519,6 +592,7 @@ variants:
     title: Invariant-Based Diagnostics for Graph Benchmarks
     date: May 2026
     date_iso: 2026-05
+    date_display: May 2026
     codebase_url: ''
     uses_external_data: null
     is_best: true
@@ -527,6 +601,7 @@ variants:
     metric_stds:
     - 0.12
   - model: GT
+    model_plain: GT
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -535,6 +610,7 @@ variants:
     title: GraphBench
     date: Dec 2025
     date_iso: 2025-12
+    date_display: Dec 2025
     codebase_url: https://github.com/graphbench/package
     uses_external_data: false
     is_best: false
@@ -543,6 +619,7 @@ variants:
     metric_stds:
     - 0.4262
   - model: Graph transformer
+    model_plain: Graph transformer
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -551,6 +628,7 @@ variants:
     title: Invariant-Based Diagnostics for Graph Benchmarks
     date: May 2026
     date_iso: 2026-05
+    date_display: May 2026
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -559,6 +637,7 @@ variants:
     metric_stds:
     - null
   - model: GIN
+    model_plain: GIN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -567,6 +646,7 @@ variants:
     title: GraphBench
     date: Dec 2025
     date_iso: 2025-12
+    date_display: Dec 2025
     codebase_url: https://github.com/graphbench/package
     uses_external_data: false
     is_best: false
