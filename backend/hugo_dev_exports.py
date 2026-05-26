@@ -12,6 +12,7 @@ from backend.dataset_variant_resolver import (
     resolve_dataset_variant_quiet,
 )
 from backend.db import session_scope
+from backend.export_helpers import sanitize_title
 from backend.models import Paper, PaperCandidate, PendingDataset, TodoPaper
 
 logger = logging.getLogger(__name__)
@@ -58,7 +59,7 @@ def export_development_data() -> None:
                 todo_list.append(
                     {
                         "arxiv_id": row.arxiv_id,
-                        "title": hugo._sanitize_title(row.title),
+                        "title": sanitize_title(row.title),
                         "status": row.status,
                         "seen_count": int(row.seen_count or 0),
                         "seen_from": json.loads(row.seen_from) if row.seen_from else [],
@@ -642,7 +643,7 @@ def create_dev_pages() -> None:
             lines.append("| arXiv | seen_count | status | title |")
             lines.append("|---|---:|---|---")
             for row in todo_rows[:500]:
-                title = hugo._sanitize_title(row.title)
+                title = sanitize_title(row.title)
                 lines.append(
                     f"| {row.arxiv_id or ''} | {int(row.seen_count or 0)} | {row.status or ''} | {title} |"
                 )

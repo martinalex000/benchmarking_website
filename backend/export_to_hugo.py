@@ -33,6 +33,14 @@ from backend.dataset_variant_resolver import (
     resolve_dataset_variant_quiet,
 )
 from backend.db import init_db, session_scope
+from backend.export_helpers import (
+    has_paper_value_gap as _has_paper_value_gap,
+    plain_model as _plain_model,
+    rank_for_value as _rank_for_value,
+    sanitize_model as _sanitize_model_text,
+    sanitize_title as _sanitize_title,
+    truncate_words as _truncate_words,
+)
 from backend.models import (
     Benchmark,
     Dataset,
@@ -54,19 +62,6 @@ _DATA_DIR = _SITE_DIR / "data"
 _STATIC = _SITE_DIR / "static"
 _DATASET_OVERRIDES_FILE = cfg.base_dir / "config" / "dataset_overrides.yaml"
 
-_MODEL_SUFFIX_RE = re.compile(
-    r"\s*\(\s*(?:ours?|base(?:line)?|proposed|retuned|re-?eval|none|l\s*=\s*\d+)\s*\)\s*$",
-    re.IGNORECASE,
-)
-_MODEL_FROM_REF_RE = re.compile(r"\s+from\s+ref\..*$", re.IGNORECASE)
-_LATEX_CITE_RE = re.compile(r"~?\\cite\{[^}]*\}")
-_TITLE_LINEBREAK_RE = re.compile(r"\\\\+")
-_TITLE_LATEX_CMD_RE = re.compile(r"\\[a-zA-Z]+\*?(?:\{[^}]*\})?")
-_MODEL_SUBSCRIPT_DOLLAR_RE = re.compile(r"\$_\{([^{}]+)\}\$")
-_MODEL_SUPERSCRIPT_DOLLAR_RE = re.compile(r"\$\^\{([^{}]+)\}\$")
-_MODEL_TEXTSUBSCRIPT_RE = re.compile(r"\\textsubscript\{([^{}]+)\}")
-_MODEL_TEXTSUPERSCRIPT_RE = re.compile(r"\\textsuperscript\{([^{}]+)\}")
-_HTML_TAG_RE = re.compile(r"<[^>]+>")
 _MODEL_RENAME_CACHE: dict[str, dict[str, str]] = {}
 _DATASET_OVERRIDE_CACHE: dict[str, dict[str, Any]] = {}
 _PAPER_PARAM_CACHE: dict[str, dict[str, float]] = {}
@@ -88,25 +83,6 @@ _BOUNDED_METRIC_SUBSTRINGS: tuple[str, ...] = (
 def _slug(name: str) -> str:
     """Convert a string to a URL-safe slug."""
     return re.sub(r"[^a-z0-9]+", "-", name.strip().lower()).strip("-")
-
-
-def _sanitize_title(title: str | None) -> str:
-    if not title:
-        return ""
-    t = _TITLE_LINEBREAK_RE.sub(" - ", str(title))
-    t = _TITLE_LATEX_CMD_RE.sub("", t)
-    t = t.replace("\\", " ")
-    return re.sub(r"\s+", " ", t).strip()
-
-
-def _truncate_words(text: str | None, max_words: int) -> str:
-    cleaned = _sanitize_title(text)
-    if not cleaned:
-        return ""
-    words = cleaned.split()
-    if len(words) <= max_words:
-        return cleaned
-    return " ".join(words[:max_words]) + "..."
 
 
 def _is_bounded_metric(metric_name: str | None) -> bool:
@@ -144,26 +120,7 @@ def _paper_model_renames(arxiv_id: str | None) -> dict[str, str]:
 
 
 def _sanitize_model(model_name: str | None, arxiv_id: str | None = None) -> str:
-    if not model_name:
-        return ""
-    m = str(model_name)
-    m = _LATEX_CITE_RE.sub("", m)
-    m = _MODEL_FROM_REF_RE.sub("", m)
-    m = _MODEL_SUFFIX_RE.sub("", m)
-    m = _MODEL_SUBSCRIPT_DOLLAR_RE.sub(r"<sub>\1</sub>", m)
-    m = _MODEL_SUPERSCRIPT_DOLLAR_RE.sub(r"<sup>\1</sup>", m)
-    m = _MODEL_TEXTSUBSCRIPT_RE.sub(r"<sub>\1</sub>", m)
-    m = _MODEL_TEXTSUPERSCRIPT_RE.sub(r"<sup>\1</sup>", m)
-    m = m.replace("$", "")
-    m = re.sub(r"\s+", " ", m).strip()
-    remap = _paper_model_renames(arxiv_id)
-    return remap.get(m.lower(), m)
-
-
-def _plain_model(model_name: str | None) -> str:
-    if not model_name:
-        return ""
-    return re.sub(r"\s+", " ", _HTML_TAG_RE.sub("", str(model_name))).strip()
+    return _sanitize_model_text(model_name, remap=_paper_model_renames(arxiv_id))
 
 
 def _model_key(model_name: str | None) -> str:
@@ -178,24 +135,6 @@ def _paper_site_link(arxiv_id: str | None, label: str | None = None) -> str:
     return f"[{text}](/papers/{paper_id}/)"
 
 
-def _has_paper_value_gap(
-    paper_value: float | None,
-    paper_std: float | None,
-    true_value: float | None,
-    true_std: float | None,
-) -> bool:
-    if paper_value is None or true_value is None:
-        return False
-    delta = abs(paper_value - true_value)
-    if paper_std is None and true_std is None:
-        return delta > 1e-12
-    if paper_std is not None and delta <= float(paper_std):
-        return False
-    if true_std is not None and delta <= float(true_std):
-        return False
-    return delta > 1e-12
-
-
 def _has_paper_value_difference(
     paper_value: float | None,
     true_value: float | None,
@@ -203,38 +142,6 @@ def _has_paper_value_difference(
     if paper_value is None or true_value is None:
         return False
     return abs(paper_value - true_value) > 1e-12
-
-
-def _rank_for_value(
-    global_rows: list[dict[str, Any]],
-    model_key: str,
-    candidate_value: float | None,
-    higher_is_better: bool,
-) -> int | None:
-    if not model_key or candidate_value is None:
-        return None
-
-    ranked_values: list[tuple[str, float]] = []
-    seen = False
-    for row in global_rows:
-        row_key = row.get("model_key", "")
-        row_value = row.get("value")
-        if row_value is None:
-            continue
-        if row_key == model_key:
-            ranked_values.append((model_key, float(candidate_value)))
-            seen = True
-        else:
-            ranked_values.append((row_key, float(row_value)))
-
-    if not seen:
-        ranked_values.append((model_key, float(candidate_value)))
-
-    ranked_values.sort(key=lambda item: -item[1] if higher_is_better else item[1])
-    for rank, (row_key, _) in enumerate(ranked_values, start=1):
-        if row_key == model_key:
-            return rank
-    return None
 
 
 def _paper_explicit_param_map(arxiv_id: str | None) -> dict[str, float]:

@@ -199,37 +199,42 @@ That is useful for broad refreshes, but it is much heavier than a single-seed up
 
 ---
 
-### `scripts/find_todo_papers.py` — manual todo-queue management
+### `scripts/todo_queue.py` — unified todo-queue interface
 
-Small CRUD helper for manual queue management. Use it when you want to add or inspect
-specific `todo_papers` rows directly, without running a Semantic Scholar crawl.
+This is now the main user-facing interface for `todo_papers`.
+
+- Running it with no subcommand processes the next few pending papers.
+- `report` shows a concise queue summary and the top pending papers.
+- `list` shows raw queue rows.
+- `add` inserts manual priorities.
+- `recompute-counts` refreshes the queue counters from DB state.
 
 ```bash
+# Default behavior: process the next few pending papers
+uv run python scripts/todo_queue.py
+
+# Process more papers or use a different tier
+uv run python scripts/todo_queue.py process --limit 10
+uv run python scripts/todo_queue.py process --model fallback --limit 5
+
+# Preview what would be processed
+uv run python scripts/todo_queue.py process --dry-run --limit 20
+
+# Queue summary and top pending papers
+uv run python scripts/todo_queue.py report
+
 # Add a paper manually
-uv run python scripts/find_todo_papers.py add 2406.08993 --reason "manually prioritized"
+uv run python scripts/todo_queue.py add 2406.08993 --reason "manually prioritized"
 
 # Inspect queue state
-uv run python scripts/find_todo_papers.py list --status all
+uv run python scripts/todo_queue.py list --status all
 ```
 
 ---
 
-### `scripts/process_todo_list.py` — batch-process the todo queue
+### Legacy queue wrappers
 
-Processes pending `todo_papers` in descending `seen_count` order by calling `run_manual.py`
-for each paper. This is the queue runner to use once `find_todo_semanticscholar.py`
-has populated and ranked the queue.
-
-```bash
-# Process the top 10 pending todo papers
-uv run python scripts/process_todo_list.py --limit 10
-
-# Dry-run the current queue order
-uv run python scripts/process_todo_list.py --dry-run --limit 20
-
-# Force re-processing with a different tier
-uv run python scripts/process_todo_list.py --model fallback --limit 5
-```
+`scripts/find_todo_papers.py` and `scripts/process_todo_list.py` now forward into `scripts/todo_queue.py` for backwards compatibility. New usage should prefer the unified interface above.
 
 ---
 

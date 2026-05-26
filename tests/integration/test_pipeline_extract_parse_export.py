@@ -163,3 +163,74 @@ def test_pipeline_extract_parse_export_flow(monkeypatch, tmp_path):
     assert dataset_page.exists()
     assert "GraphGPS" in paper_page.read_text(encoding="utf-8")
     assert "Peptides-func" in dataset_page.read_text(encoding="utf-8")
+
+
+def test_pipeline_extract_failure_records_failed_run(monkeypatch, tmp_path):
+    _configure_temp_workspace(monkeypatch, tmp_path)
+    init_db()
+
+    with session_scope() as session:
+        session.add(
+            Paper(
+                arxiv_id="2402.00789",
+                title="Extraction Failure Paper",
+                abstract="Downloaded already but extraction will fail.",
+                extraction_status="downloaded",
+                discovery_source="integration-test",
+                published_date="2024-02-01",
+            )
+        )
+
+    from backend import pipeline
+
+    monkeypatch.setattr(
+        "backend.llm_extractor.run_extraction",
+        lambda arxiv_id, model_tier="primary", verbose=False: False,
+    )
+
+    pipeline.stage_extract(SimpleNamespace(model="primary", force=False, paper=["2402.00789"]))
+
+    with session_scope() as session:
+        paper = session.query(Paper).filter_by(arxiv_id="2402.00789").one()
+        runs = session.query(PipelineRun).filter_by(paper_id=paper.id).all()
+
+    assert paper.extraction_status == "downloaded"
+    assert {(run.stage, run.status) for run in runs} == {("extract", "failed")}
+
+
+def test_pipeline_parse_failure_still_exports_paper_page(monkeypatch, tmp_path):
+    _configure_temp_workspace(monkeypatch, tmp_path)
+    init_db()
+
+    with session_scope() as session:
+        session.add(
+            Paper(
+                arxiv_id="2402.04821",
+                title="Malformed Extraction Output",
+                abstract="This paper has malformed extraction output.",
+                extraction_status="extracted",
+                discovery_source="integration-test",
+                published_date="2024-02-02",
+            )
+        )
+
+    storage = PaperStorage("2402.04821")
+    storage.ensure_dirs()
+    storage.llm_output_path.write_text("{not valid json", encoding="utf-8")
+
+    from backend import pipeline
+
+    pipeline.stage_parse(SimpleNamespace(force=False, paper=["2402.04821"]))
+    pipeline.stage_export(SimpleNamespace(paper=["2402.04821"]))
+
+    with session_scope() as session:
+        paper = session.query(Paper).filter_by(arxiv_id="2402.04821").one()
+        runs = session.query(PipelineRun).filter_by(paper_id=paper.id).all()
+        results = session.query(Result).filter_by(paper_id=paper.id).all()
+
+    assert results == []
+    assert ("parse", "failed") in {(run.stage, run.status) for run in runs}
+
+    paper_page = cfg.site_dir / "content" / "papers" / "2402.04821" / "index.md"
+    assert paper_page.exists()
+    assert "has_results: false" in paper_page.read_text(encoding="utf-8")
