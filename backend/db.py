@@ -54,6 +54,18 @@ def _migrate_db(engine: Engine) -> None:
     # todo_papers counters
     _add_column_if_missing(engine, "todo_papers", "cited_by_count", "INTEGER")
     _add_column_if_missing(engine, "todo_papers", "cites_existing_count", "INTEGER")
+    # pending_datasets columns (table is created via metadata if missing)
+    _add_column_if_missing(engine, "pending_datasets", "paper_title", "TEXT")
+    _add_column_if_missing(engine, "pending_datasets", "metrics_seen", "TEXT")
+    _add_column_if_missing(engine, "pending_datasets", "suggestion", "TEXT")
+    _add_column_if_missing(engine, "pending_datasets", "status", "TEXT")
+    _add_column_if_missing(
+        engine,
+        "pending_datasets",
+        "resolved_dataset_id",
+        "INTEGER REFERENCES datasets(id) ON DELETE SET NULL",
+    )
+    _add_column_if_missing(engine, "pending_datasets", "updated_at", "TEXT")
 
 
 def _add_column_if_missing(engine: Engine, table: str, column: str, col_type: str) -> None:

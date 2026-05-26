@@ -46,6 +46,24 @@ The pipeline uses an **OpenAI-compatible** API endpoint.
 | `LLM_MODEL_PRIMARY` | no | Override primary model (default from `llm_config.yaml`) |
 | `LLM_MODEL_FALLBACK` | no | Override fallback model |
 | `LLM_MODEL_SMALL` | no | Override small/cheap model used for screening |
+| `LLM_MODEL_VLM` | no | Override vision model used for figure detection |
+
+### Local vLLM + Qwen example
+
+```bash
+# Start local OpenAI-compatible server
+vllm serve Qwen/Qwen3-32B --host 127.0.0.1 --port 8000 --api-key local-dev
+
+# .env values
+LLM_ENDPOINT=http://127.0.0.1:8000/v1
+LLM_API_KEY=local-dev
+LLM_MODEL_PRIMARY=Qwen/Qwen3-32B
+LLM_MODEL_FALLBACK=Qwen/Qwen3-32B
+LLM_MODEL_SMALL=Qwen/Qwen3-32B
+LLM_MODEL_VLM=Qwen/Qwen3-32B
+```
+
+Important: the `LLM_MODEL_*` values must match the exact model IDs returned by `GET /v1/models`.
 
 ### `config/llm_config.yaml` — non-secret model settings
 
@@ -100,6 +118,9 @@ uv run python scripts/run_manual.py 2206.08164 --force-download
 
 # Skip extraction and only re-parse + export (after manual override edits)
 uv run python scripts/run_manual.py 2206.08164 --skip-download --skip-extract
+
+# Review and import unresolved datasets queued during extraction
+uv run python scripts/run_manual.py --import-pending
 ```
 
 If extraction fails, an `errors.log` entry and a full Markdown conversation log
@@ -309,7 +330,8 @@ Operational notes:
 - The normal refresh loop is: crawl or process papers, run parsing/extraction, then
   `uv run python -m backend.export_to_hugo` and `hugo --source site`.
 - `uv run python -m backend.seed_db` is safe to re-run after dataset changes; it now also
-  prunes stale `data/pending_datasets.yaml` entries that already resolve in the DB.
+  imports legacy pending-dataset YAML entries (if present) and marks DB-backed pending rows
+  as `resolved` once they map to canonical datasets.
 - For a production deployment, serve `site/public/` behind nginx, Caddy, or another static
   web server after running Hugo.
 

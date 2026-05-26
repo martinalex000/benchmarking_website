@@ -10,6 +10,7 @@ Usage::
 from __future__ import annotations
 
 import argparse
+import json
 import logging
 
 import re
@@ -18,7 +19,7 @@ from thefuzz import process as fuzz_process
 
 from backend.config import cfg
 from backend.db import init_db, session_scope
-from backend.models import Benchmark, Dataset, DatasetVariant, Paper
+from backend.models import Benchmark, Dataset, DatasetVariant, Paper, PendingDataset
 
 logger = logging.getLogger(__name__)
 
@@ -62,16 +63,19 @@ def _merge_benchmark_aliases(session, alias_to_canonical: dict[str, str]) -> Non
             session.delete(alias)
 
 
-def _build_dataset_variant_lookup(session) -> dict[str, int]:
-    lookup: dict[str, int] = {}
+def _build_dataset_variant_lookup(session) -> dict[str, DatasetVariant]:
+    lookup: dict[str, DatasetVariant] = {}
     for variant in session.query(DatasetVariant).all():
-        lookup.setdefault(variant.name.lower(), variant.id)
+        lookup.setdefault(variant.name.lower(), variant)
         if variant.dataset:
-            lookup.setdefault(variant.dataset.name.lower(), variant.id)
+            lookup.setdefault(variant.dataset.name.lower(), variant)
     return lookup
 
 
-def _resolve_dataset_variant_quiet(dataset_name: str, variant_map: dict[str, int]) -> int | None:
+def _resolve_dataset_variant_quiet(
+    dataset_name: str,
+    variant_map: dict[str, DatasetVariant],
+) -> DatasetVariant | None:
     key = dataset_name.strip().lower()
     if not key:
         return None
@@ -85,8 +89,8 @@ def _resolve_dataset_variant_quiet(dataset_name: str, variant_map: dict[str, int
     return None
 
 
-def _prune_pending_datasets(session) -> int:
-    """Remove pending_datasets entries that now resolve against the DB."""
+def _migrate_pending_yaml_to_db(session) -> int:
+    """Import legacy data/pending_datasets.yaml entries into pending_datasets table."""
     pending_path = cfg.data_dir / "pending_datasets.yaml"
     if not pending_path.exists():
         return 0
@@ -97,34 +101,96 @@ def _prune_pending_datasets(session) -> int:
         logger.warning("Could not read %s for stale-pending cleanup: %s", pending_path, exc)
         return 0
 
-    if not isinstance(entries, list) or not entries:
+    if not isinstance(entries, list):
+        return 0
+
+    existing = {
+        (arxiv_id, dataset_name)
+        for arxiv_id, dataset_name in session.query(
+            PendingDataset.arxiv_id,
+            PendingDataset.dataset_name,
+        ).all()
+    }
+
+    imported = 0
+    for entry in entries:
+        if not isinstance(entry, dict):
+            continue
+        arxiv_id = str(entry.get("arxiv_id") or "").strip()
+        dataset_name = str(entry.get("dataset") or "").strip()
+        if not arxiv_id or not dataset_name:
+            continue
+        key = (arxiv_id, dataset_name)
+        if key in existing:
+            continue
+
+        metrics_seen = entry.get("metrics_seen")
+        if not isinstance(metrics_seen, list):
+            metrics_seen = []
+
+        suggestion = entry.get("suggestion")
+        if not isinstance(suggestion, dict):
+            suggestion = {}
+
+        status = str(entry.get("status") or "pending").strip().lower() or "pending"
+
+        session.add(
+            PendingDataset(
+                arxiv_id=arxiv_id,
+                paper_title=str(entry.get("paper_title") or "").strip() or None,
+                dataset_name=dataset_name,
+                metrics_seen=json.dumps(metrics_seen, ensure_ascii=False),
+                suggestion=json.dumps(suggestion, ensure_ascii=False),
+                status=status,
+            )
+        )
+        existing.add(key)
+        imported += 1
+
+    if imported:
+        logger.info(
+            "Imported %d legacy pending dataset entr%s from %s into DB",
+            imported,
+            "y" if imported == 1 else "ies",
+            pending_path,
+        )
+    return imported
+
+
+def _prune_pending_datasets(session) -> int:
+    """Mark pending_datasets rows as resolved when they now map to canonical datasets."""
+    rows = session.query(PendingDataset).all()
+    if not rows:
         return 0
 
     variant_map = _build_dataset_variant_lookup(session)
-    kept_entries: list[dict] = []
-    removed = 0
-    for entry in entries:
-        if not isinstance(entry, dict):
-            kept_entries.append(entry)
-            continue
-        dataset_name = str(entry.get("dataset") or "").strip()
-        if dataset_name and _resolve_dataset_variant_quiet(dataset_name, variant_map) is not None:
-            removed += 1
-            continue
-        kept_entries.append(entry)
+    updated = 0
 
-    if removed:
-        pending_path.write_text(
-            yaml.dump(kept_entries, allow_unicode=True, sort_keys=False, default_flow_style=False),
-            encoding="utf-8",
+    for row in rows:
+        resolved_variant = _resolve_dataset_variant_quiet(row.dataset_name or "", variant_map)
+        resolved_dataset_id = (
+            resolved_variant.dataset.id if resolved_variant and resolved_variant.dataset else None
         )
+
+        if resolved_dataset_id is not None:
+            if row.status != "resolved" or row.resolved_dataset_id != resolved_dataset_id:
+                row.status = "resolved"
+                row.resolved_dataset_id = resolved_dataset_id
+                updated += 1
+            continue
+
+        if row.status == "resolved" or row.resolved_dataset_id is not None:
+            row.status = "pending"
+            row.resolved_dataset_id = None
+            updated += 1
+
+    if updated:
         logger.info(
-            "Removed %d stale pending dataset entr%s from %s",
-            removed,
-            "y" if removed == 1 else "ies",
-            pending_path,
+            "Updated %d pending dataset entr%s status based on canonical DB coverage",
+            updated,
+            "y" if updated == 1 else "ies",
         )
-    return removed
+    return updated
 
 
 def seed(dry_run: bool = False) -> None:
@@ -199,6 +265,7 @@ def seed(dry_run: bool = False) -> None:
         session.flush()
 
         if not dry_run:
+            _migrate_pending_yaml_to_db(session)
             _prune_pending_datasets(session)
 
         if dry_run:

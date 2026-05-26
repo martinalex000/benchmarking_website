@@ -59,6 +59,37 @@ _PERCENTAGE_METRIC_SUBSTRINGS: tuple[str, ...] = (
     "hits@",
 )
 
+_ZINC_SUBSET_ALIASES: tuple[str, ...] = (
+    "zinc",
+    "zinc subset",
+    "zinc subset (12k)",
+    "zinc 12k",
+    "zinc-12k",
+    "zinc12k",
+)
+_ZINC_FULL_ALIASES: tuple[str, ...] = (
+    "zinc full",
+    "full zinc",
+    "zinc-full",
+    "zinc 250k",
+    "zinc full dataset",
+)
+_ZINC_SUBSET_CUE_RE = re.compile(
+    r"(?:zinc[^\n]{0,120}(?:12k|12,000|12000|subset)|"
+    r"(?:12k|12,000|12000)[^\n]{0,120}zinc|"
+    r"benchmarking graph neural networks|"
+    r"arxiv:?\s*2003\.00982)",
+    re.IGNORECASE,
+)
+_ZINC_FULL_CUE_RE = re.compile(
+    r"(?:zinc[^\n]{0,120}(?:249,456|249456|250,000|250000|full)|"
+    r"(?:249,456|249456|250,000|250000)[^\n]{0,120}zinc|"
+    r"tab[:_ -]*zinc[_ -]*full)",
+    re.IGNORECASE,
+)
+_ZINC_FULL_MAX_MAE = 0.06
+_ZINC_SUBSET_MIN_MAE = 0.07
+
 
 def _is_percentage_metric(metric_name: str) -> bool:
     key = metric_name.strip().lower()
@@ -153,16 +184,93 @@ def parse_value_std(raw: Any) -> tuple[float | None, float | None]:
 def _load_variant_map(session) -> dict[str, int]:
     """Build {name.lower() → variant_id} for all variants + their dataset names."""
     mapping: dict[str, int] = {}
+    zinc_variants: dict[str, int] = {}
     for v in session.query(DatasetVariant).all():
         mapping[v.name.lower()] = v.id
-        mapping[v.dataset.name.lower()] = v.id
+        dataset_key = v.dataset.name.lower()
+        mapping[dataset_key] = v.id
+        if dataset_key == "zinc":
+            variant_key = v.name.lower()
+            zinc_variants[variant_key] = v.id
+            mapping[f"zinc {variant_key}"] = v.id
+
+    zinc_subset_id = zinc_variants.get("subset (12k)")
+    zinc_full_id = zinc_variants.get("full")
+    if zinc_subset_id is not None:
+        for alias in _ZINC_SUBSET_ALIASES:
+            mapping[alias] = zinc_subset_id
+    if zinc_full_id is not None:
+        for alias in _ZINC_FULL_ALIASES:
+            mapping[alias] = zinc_full_id
+    if zinc_subset_id is not None:
+        mapping["zinc"] = zinc_subset_id
+    elif zinc_full_id is not None:
+        mapping["zinc"] = zinc_full_id
     return mapping
+
+
+def _zinc_variant_id(kind: str, variant_map: dict[str, int]) -> int | None:
+    if kind == "subset":
+        return variant_map.get("zinc subset") or variant_map.get("subset (12k)")
+    if kind == "full":
+        return variant_map.get("zinc full") or variant_map.get("full")
+    return None
+
+
+def _collect_zinc_context(entry: dict[str, Any]) -> str:
+    parts = [
+        str(entry.get("dataset") or ""),
+        str(entry.get("table_ref") or ""),
+        str(entry.get("source_ref") or ""),
+        str(entry.get("notes") or ""),
+    ]
+    return " ".join(part for part in parts if part).strip().lower()
+
+
+def _extract_numeric_value(raw: Any) -> float | None:
+    value, _std = parse_value_std(raw)
+    return value
+
+
+def _infer_zinc_variant(
+    entry: dict[str, Any],
+    variant_map: dict[str, int],
+    paper_text: str | None = None,
+) -> int | None:
+    context = _collect_zinc_context(entry)
+
+    if _ZINC_FULL_CUE_RE.search(context):
+        return _zinc_variant_id("full", variant_map)
+    if _ZINC_SUBSET_CUE_RE.search(context):
+        return _zinc_variant_id("subset", variant_map)
+
+    paper_text_lower = (paper_text or "").lower()
+    if paper_text_lower:
+        has_subset_cue = _ZINC_SUBSET_CUE_RE.search(paper_text_lower) is not None
+        has_full_cue = _ZINC_FULL_CUE_RE.search(paper_text_lower) is not None
+        if has_subset_cue and not has_full_cue:
+            return _zinc_variant_id("subset", variant_map)
+        if has_full_cue and not has_subset_cue:
+            return _zinc_variant_id("full", variant_map)
+
+    metric_key = str(entry.get("metric") or "").strip().lower()
+    if metric_key == "mae":
+        value = _extract_numeric_value(entry.get("value"))
+        if value is not None:
+            if value <= _ZINC_FULL_MAX_MAE:
+                return _zinc_variant_id("full", variant_map)
+            if value >= _ZINC_SUBSET_MIN_MAE:
+                return _zinc_variant_id("subset", variant_map)
+
+    return _zinc_variant_id("subset", variant_map)
 
 
 def resolve_dataset_variant(
     dataset_name: str,
     session,
     variant_map: dict[str, int] | None = None,
+    entry: dict[str, Any] | None = None,
+    paper_text: str | None = None,
 ) -> int | None:
     """Return the DatasetVariant.id best matching dataset_name.
 
@@ -173,6 +281,9 @@ def resolve_dataset_variant(
         variant_map = _load_variant_map(session)
 
     key = dataset_name.strip().lower()
+
+    if key == "zinc":
+        return _infer_zinc_variant(entry or {"dataset": dataset_name}, variant_map, paper_text)
 
     # Exact match
     if key in variant_map:
@@ -379,6 +490,10 @@ def parse_and_store(arxiv_id: str) -> int:
         logger.warning("No result entries in LLM output for arXiv:%s", arxiv_id)
         return 0
 
+    paper_text = ""
+    if storage.text_path.exists():
+        paper_text = storage.text_path.read_text(encoding="utf-8", errors="ignore")
+
     # Build a sizes lookup from baseline info
     sizes_lookup: dict[str, float | None] = {}
     if proposed_model_info.get("name"):
@@ -416,7 +531,13 @@ def parse_and_store(arxiv_id: str) -> int:
             model_name = entry.get("model", "")
             metric_name = entry.get("metric", "")
 
-            variant_id = resolve_dataset_variant(dataset_name, session, variant_map)
+            variant_id = resolve_dataset_variant(
+                dataset_name,
+                session,
+                variant_map,
+                entry=entry,
+                paper_text=paper_text,
+            )
             if variant_id is None:
                 logger.warning(
                     "Skipping result (unknown dataset '%s') for arXiv:%s",

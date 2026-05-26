@@ -1,0 +1,7 @@
+{{- $payload := dict
+  "title" .Site.Title
+  "description" .Site.Params.description
+  "baseURL" .Site.BaseURL
+  "generated_at" (now.UTC.Format "2006-01-02T15:04:05Z")
+-}}
+{{- $payload | jsonify -}}

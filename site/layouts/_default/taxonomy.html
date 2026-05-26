@@ -1,0 +1,15 @@
+{{ define "main" }}
+<div class="home-hero">
+  <h1>{{ .Title }}</h1>
+  <p>Pages in this taxonomy:</p>
+</div>
+
+<div class="dataset-grid">
+  {{ range .Pages }}
+  <article class="dataset-card">
+    <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+    {{ with .Description }}<p>{{ . }}</p>{{ end }}
+  </article>
+  {{ end }}
+</div>
+{{ end }}

@@ -152,6 +152,23 @@ CREATE TABLE IF NOT EXISTS pipeline_runs (
 );
 
 -- ─────────────────────────────────────────────────────────────────────────────
+-- pending_datasets — unknown dataset queue discovered by extraction
+-- ─────────────────────────────────────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS pending_datasets (
+    id                  INTEGER PRIMARY KEY AUTOINCREMENT,
+    arxiv_id            TEXT NOT NULL,
+    paper_title         TEXT,
+    dataset_name        TEXT NOT NULL,
+    metrics_seen        TEXT,   -- JSON list
+    suggestion          TEXT,   -- JSON object
+    status              TEXT NOT NULL DEFAULT 'pending', -- pending | approved | skipped | resolved
+    resolved_dataset_id INTEGER REFERENCES datasets(id) ON DELETE SET NULL,
+    created_at          TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%SZ', 'now')),
+    updated_at          TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%SZ', 'now')),
+    UNIQUE(arxiv_id, dataset_name)
+);
+
+-- ─────────────────────────────────────────────────────────────────────────────
 -- Indexes
 -- ─────────────────────────────────────────────────────────────────────────────
 CREATE INDEX IF NOT EXISTS idx_papers_arxiv_id       ON papers(arxiv_id);
@@ -161,6 +178,8 @@ CREATE INDEX IF NOT EXISTS idx_results_variant       ON results(dataset_variant_
 CREATE INDEX IF NOT EXISTS idx_results_model         ON results(model_id);
 CREATE INDEX IF NOT EXISTS idx_pipeline_paper_stage  ON pipeline_runs(paper_id, stage);
 CREATE INDEX IF NOT EXISTS idx_model_aliases_alias   ON model_aliases(alias);
+CREATE INDEX IF NOT EXISTS idx_pending_status         ON pending_datasets(status);
+CREATE INDEX IF NOT EXISTS idx_pending_dataset_name   ON pending_datasets(dataset_name);
 
 -- ─────────────────────────────────────────────────────────────────────────────
 -- paper_candidates — full discovery funnel (ALL papers seen, including rejects)

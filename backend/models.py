@@ -171,6 +171,62 @@ class TodoPaper(Base):
 
 
 # ─────────────────────────────────────────────────────────────────────────────
+class PendingDataset(Base):
+    """Queue of datasets discovered by extraction but not yet canonicalized."""
+
+    __tablename__ = "pending_datasets"
+    __table_args__ = (
+        UniqueConstraint("arxiv_id", "dataset_name"),
+        Index("idx_pending_datasets_status", "status"),
+    )
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    arxiv_id = Column(String, nullable=False)
+    paper_title = Column(String)
+    dataset_name = Column(String, nullable=False)
+    metrics_seen = Column(Text)  # JSON list[str]
+    suggestion = Column(Text)  # JSON object from dataset_autoseed prompt
+    status = Column(String, nullable=False, default="pending")
+    resolved_dataset_id = Column(Integer, ForeignKey("datasets.id", ondelete="SET NULL"))
+    created_at = Column(String, nullable=False, default=_utcnow)
+    updated_at = Column(String, nullable=False, default=_utcnow)
+
+    resolved_dataset = relationship("Dataset", foreign_keys=[resolved_dataset_id])
+
+    @property
+    def metrics_seen_list(self) -> list[str]:
+        if not self.metrics_seen:
+            return []
+        try:
+            loaded = json.loads(self.metrics_seen)
+            if isinstance(loaded, list):
+                return [str(item) for item in loaded if str(item).strip()]
+        except (ValueError, TypeError):
+            return []
+        return []
+
+    @metrics_seen_list.setter
+    def metrics_seen_list(self, value: list[str]) -> None:
+        self.metrics_seen = json.dumps(value, ensure_ascii=False)
+
+    @property
+    def suggestion_obj(self) -> dict:
+        if not self.suggestion:
+            return {}
+        try:
+            loaded = json.loads(self.suggestion)
+            if isinstance(loaded, dict):
+                return loaded
+        except (ValueError, TypeError):
+            return {}
+        return {}
+
+    @suggestion_obj.setter
+    def suggestion_obj(self, value: dict) -> None:
+        self.suggestion = json.dumps(value, ensure_ascii=False)
+
+
+# ─────────────────────────────────────────────────────────────────────────────
 class Model(Base):
     __tablename__ = "models"
     __table_args__ = (UniqueConstraint("canonical_name"),)
@@ -334,4 +390,9 @@ class PaperCandidate(Base):
 # ─────────────────────────────────────────────────────────────────────────────
 @event.listens_for(Paper, "before_update")
 def _paper_before_update(mapper, connection, target):  # noqa: ARG001
+    target.updated_at = _utcnow()
+
+
+@event.listens_for(PendingDataset, "before_update")
+def _pending_dataset_before_update(mapper, connection, target):  # noqa: ARG001
     target.updated_at = _utcnow()

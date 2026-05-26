@@ -30,7 +30,15 @@ import yaml
 from backend.baseline_aggregator import get_baseline_summary, get_best_results_over_time
 from backend.config import cfg
 from backend.db import init_db, session_scope
-from backend.models import Benchmark, Dataset, DatasetVariant, Paper, Result, TodoPaper
+from backend.models import (
+    Benchmark,
+    Dataset,
+    DatasetVariant,
+    Paper,
+    PendingDataset,
+    Result,
+    TodoPaper,
+)
 from backend.override_handler import get_model_renames, load_overrides
 from backend.paper_storage import PaperStorage
 from backend.models import PaperCandidate, PipelineRun
@@ -2067,26 +2075,18 @@ def _create_dev_pages() -> None:
             "\n".join(lines),
         )
 
-        # Missing datasets page from data/pending_datasets.yaml
-        pending_path = cfg.data_dir / "pending_datasets.yaml"
-        pending_entries: list[dict] = []
-        if pending_path.exists():
-            try:
-                loaded = yaml.safe_load(pending_path.read_text(encoding="utf-8"))
-                if isinstance(loaded, list):
-                    pending_entries = loaded
-            except Exception:
-                pending_entries = []
+        # Missing datasets page from pending_datasets DB table
+        pending_rows = session.query(PendingDataset).all()
 
         dataset_lookup = _build_dataset_variant_lookup(session)
         unresolved_entries: list[dict[str, str]] = []
         covered_entries: list[dict[str, str]] = []
-        for e in pending_entries:
-            status = str(e.get("status") or "pending")
-            dataset = str(e.get("dataset") or "")
-            paper = str(e.get("arxiv_id") or "")
-            metrics = ", ".join(e.get("metrics_seen") or [])
-            suggestion = e.get("suggestion") or {}
+        for row in pending_rows:
+            status = str(row.status or "pending")
+            dataset = str(row.dataset_name or "")
+            paper = str(row.arxiv_id or "")
+            metrics = ", ".join(row.metrics_seen_list)
+            suggestion = row.suggestion_obj
             benchmark_name = str(suggestion.get("benchmark_name") or "")
             pyg_url = str(suggestion.get("pyg_url") or "")
             pyg_marker = "yes" if pyg_url else ""
@@ -2132,11 +2132,11 @@ def _create_dev_pages() -> None:
         lines = [
             "## Datasets Still Missing From The DB",
             "",
-            "This page now distinguishes between entries that are truly unresolved and stale pending entries that already resolve against the current benchmark database.",
+            "This page distinguishes between entries that are truly unresolved and stale pending rows that already resolve against the current benchmark database.",
             "",
-            f"Source file: `{pending_path}`",
+            "Source: pending_datasets table in benchmarks.db",
             "",
-            f"**Tracked entries in pending file:** {len(pending_entries)}",
+            f"**Tracked entries in DB:** {len(pending_rows)}",
             f"**Still unresolved:** {len(unresolved_entries)}",
             f"**Already covered now:** {len(covered_entries)}",
             "",
@@ -2156,7 +2156,7 @@ def _create_dev_pages() -> None:
                     "",
                     "### Already covered now",
                     "",
-                    "These entries remain in `pending_datasets.yaml`, but they already resolve against the current DB and should not be treated as missing coverage.",
+                    "These rows remain in pending_datasets, but they already resolve against the current DB and should not be treated as missing coverage.",
                     "",
                     "| Pending Name | Paper | Resolves To | Benchmark | Pending Status |",
                     "|--------------|-------|-------------|-----------|----------------|",

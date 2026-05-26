@@ -4,7 +4,7 @@
   <p>A curated benchmark index for graph learning papers, with extracted results, leaderboard views, and dataset pages grouped by benchmark family.</p>
   {{ $datasets := where .Site.RegularPages "Section" "datasets" }}
   {{ $papers := where .Site.RegularPages "Section" "papers" }}
-  {{ $benchmarks := .Site.Data.benchmarks }}
+  {{ $benchmarks := hugo.Data.benchmarks }}
   {{ $stats := newScratch }}
   {{ $stats.Set "resultCount" 0 }}
   {{ $stats.Set "benchmarkCount" 0 }}
