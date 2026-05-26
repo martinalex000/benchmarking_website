@@ -55,9 +55,42 @@ logger = logging.getLogger(__name__)
 
 _ARXIV_API = "https://export.arxiv.org/api/query?id_list={arxiv_id}"
 _ARXIV_NS = {"atom": "http://www.w3.org/2005/Atom"}
+_TOP_DATASETS_HINT_LIMIT = 50
+_DATASET_RG_MATCH_LIMIT = 80
+_DATASET_CONTEXT_WINDOW = 80
+_DATASET_BENCHMARK_CONTEXT_MARKERS = (
+    "dataset",
+    "datasets",
+    "benchmark",
+    "benchmarks",
+    "split",
+    "splits",
+    "accuracy",
+    "acc",
+    "f1",
+    "auc",
+    "roc",
+    "mae",
+    "rmse",
+    "mrr",
+    "ap",
+    "hits@",
+    "results",
+    "performance",
+    "classification",
+    "regression",
+    "prediction",
+    "table",
+)
 
 
 def _title_looks_corrupted(title: str | None) -> bool:
+    """Return True when a stored title looks like a degraded metadata fallback.
+
+    The current checks intentionally catch the most common bad states we saw in
+    cached metadata: raw `arXiv:` placeholders, stray LaTeX backslashes, broken
+    leading punctuation, and duplicated colon fragments from malformed parsing.
+    """
     t = (title or "").strip()
     if not t:
         return True
@@ -66,7 +99,7 @@ def _title_looks_corrupted(title: str | None) -> bool:
     )
 
 
-def _get_top_datasets_hint(limit: int = 50) -> str:
+def _get_top_datasets_hint(limit: int = _TOP_DATASETS_HINT_LIMIT) -> str:
     """Return a formatted list of datasets in the DB ordered by result count.
 
     Includes datasets with zero results (i.e. seeded but not yet extracted) so
@@ -147,7 +180,7 @@ def _get_known_dataset_names_hint(limit: int | None = None) -> str:
 
 
 def _ripgrep_dataset_name_hits(
-    text: str, source_path: Path | None = None, limit: int = 80
+    text: str, source_path: Path | None = None, limit: int = _DATASET_RG_MATCH_LIMIT
 ) -> list[str]:
     """Return canonical dataset names whose literal strings appear in the text."""
     dataset_names = _get_known_dataset_names()
@@ -196,39 +229,15 @@ def _ripgrep_dataset_name_hits(
         logger.debug("ripgrep dataset precheck returned %d: %s", proc.returncode, proc.stderr)
         return []
 
-    context_markers = (
-        "dataset",
-        "datasets",
-        "benchmark",
-        "benchmarks",
-        "split",
-        "splits",
-        "accuracy",
-        "acc",
-        "f1",
-        "auc",
-        "roc",
-        "mae",
-        "rmse",
-        "mrr",
-        "ap",
-        "hits@",
-        "results",
-        "performance",
-        "classification",
-        "regression",
-        "prediction",
-        "table",
-    )
     text_lower = text.lower()
 
     def _has_benchmark_context(name: str) -> bool:
         pattern = rf"(?<![A-Za-z0-9-]){re.escape(name)}(?![A-Za-z0-9-])"
         for match in re.finditer(pattern, text, flags=re.IGNORECASE):
-            start = max(0, match.start() - 80)
-            end = min(len(text_lower), match.end() + 80)
+            start = max(0, match.start() - _DATASET_CONTEXT_WINDOW)
+            end = min(len(text_lower), match.end() + _DATASET_CONTEXT_WINDOW)
             window = text_lower[start:end]
-            if any(marker in window for marker in context_markers):
+            if any(marker in window for marker in _DATASET_BENCHMARK_CONTEXT_MARKERS):
                 return True
         return False
 

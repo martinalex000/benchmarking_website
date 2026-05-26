@@ -10,6 +10,7 @@ from backend.llm_extractor import (
     _merge_extraction_outputs,
     _render_human_readable,
     _split_into_chunks,
+    _title_looks_corrupted,
     FigureInfo,
 )
 
@@ -107,3 +108,18 @@ def test_merge_extraction_outputs_dedupes_and_normalizes():
     assert len(merged.results) == 1
     assert merged.results[0].metric == "AP"
     assert merged.results[0].value == pytest.approx(0.6)
+
+
+@pytest.mark.parametrize(
+    ("title", "expected"),
+    [
+        (None, True),
+        ("", True),
+        ("arXiv:2401.17791", True),
+        (": Broken Title", True),
+        ("Graph\\Learning", True),
+        ("Graph Learning: Benchmarks", False),
+    ],
+)
+def test_title_looks_corrupted(title, expected):
+    assert _title_looks_corrupted(title) is expected
