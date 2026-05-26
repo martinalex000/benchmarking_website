@@ -128,6 +128,14 @@ If extraction fails, an `errors.log` entry and a full Markdown conversation log
 The stored extraction model is the actual `model_used` from `llm_output.json`,
 so automatic fallback runs are recorded under the model that really produced the extraction.
 
+Cache semantics:
+
+- The canonical extraction artifact is `papers/<id>/extracted/llm_output.json`.
+- Normal parsing and export read that main file, not anything under `papers/<id>/extracted/experiments/`.
+- If the main `llm_output.json` was produced by the configured fallback tier, a later `--model primary`
+  run will intentionally skip overwriting it. If you want to force a new primary/qwen extraction for that paper,
+  delete the main `papers/<id>/extracted/llm_output.json` first and rerun extraction.
+
 ---
 
 ### `scripts/find_citing_papers.py` — discover papers that cite a benchmark
@@ -362,6 +370,14 @@ uv run python scripts/repopulate_db.py --skip-extract
 # Clean DB + re-extract everything with the fallback model, then export
 uv run python scripts/repopulate_db.py --clean --model fallback --export
 ```
+
+Notes:
+
+- `--skip-extract` only re-reads the main `papers/<id>/extracted/llm_output.json` artifacts.
+- Files under `papers/<id>/extracted/experiments/<label>/` are side-by-side comparison artifacts and do not affect
+  the normal parse/export path unless you explicitly copy or promote them yourself.
+- If a paper's main `llm_output.json` was produced by the fallback tier, bulk `--model primary` runs will skip it by design.
+  Remove that main file first if you want `repopulate_db.py` to replace it with a fresh primary/qwen extraction.
 
 ---
 

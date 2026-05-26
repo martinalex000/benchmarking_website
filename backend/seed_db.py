@@ -15,9 +15,12 @@ import logging
 
 import re
 import yaml
-from thefuzz import process as fuzz_process
 
 from backend.config import cfg
+from backend.dataset_variant_resolver import (
+    build_dataset_variant_lookup,
+    resolve_dataset_variant_quiet,
+)
 from backend.db import init_db, session_scope
 from backend.models import Benchmark, Dataset, DatasetVariant, Paper, PendingDataset
 
@@ -61,32 +64,6 @@ def _merge_benchmark_aliases(session, alias_to_canonical: dict[str, str]) -> Non
         remaining = session.query(Dataset).filter_by(benchmark_id=alias.id).count()
         if remaining == 0:
             session.delete(alias)
-
-
-def _build_dataset_variant_lookup(session) -> dict[str, DatasetVariant]:
-    lookup: dict[str, DatasetVariant] = {}
-    for variant in session.query(DatasetVariant).all():
-        lookup.setdefault(variant.name.lower(), variant)
-        if variant.dataset:
-            lookup.setdefault(variant.dataset.name.lower(), variant)
-    return lookup
-
-
-def _resolve_dataset_variant_quiet(
-    dataset_name: str,
-    variant_map: dict[str, DatasetVariant],
-) -> DatasetVariant | None:
-    key = dataset_name.strip().lower()
-    if not key:
-        return None
-    if key in variant_map:
-        return variant_map[key]
-    if variant_map:
-        min_score = 85 if len(key) <= 6 else 75
-        best_match, score = fuzz_process.extractOne(key, list(variant_map.keys()))
-        if score >= min_score:
-            return variant_map[best_match]
-    return None
 
 
 def _migrate_pending_yaml_to_db(session) -> int:
@@ -163,11 +140,11 @@ def _prune_pending_datasets(session) -> int:
     if not rows:
         return 0
 
-    variant_map = _build_dataset_variant_lookup(session)
+    variant_map = build_dataset_variant_lookup(session)
     updated = 0
 
     for row in rows:
-        resolved_variant = _resolve_dataset_variant_quiet(row.dataset_name or "", variant_map)
+        resolved_variant = resolve_dataset_variant_quiet(row.dataset_name or "", variant_map)
         resolved_dataset_id = (
             resolved_variant.dataset.id if resolved_variant and resolved_variant.dataset else None
         )

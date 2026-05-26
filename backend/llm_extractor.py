@@ -665,6 +665,61 @@ def _normalise_metrics(results: "list[ResultEntry]") -> "list[ResultEntry]":
     return kept
 
 
+def _dedupe_result_entries(results: "list[ResultEntry]") -> "list[ResultEntry]":
+    """Keep the first result for each (model, dataset, metric) key."""
+    seen: set[tuple[str, str, str]] = set()
+    unique_results: list[ResultEntry] = []
+    for result in results:
+        key = (result.model.lower(), result.dataset.lower(), result.metric.lower())
+        if key in seen:
+            continue
+        seen.add(key)
+        unique_results.append(result)
+    return unique_results
+
+
+def _dedupe_baselines(baselines: "list[BaselineModelInfo]") -> "list[BaselineModelInfo]":
+    """Keep the first baseline entry for each model name."""
+    seen_names: set[str] = set()
+    unique_baselines: list[BaselineModelInfo] = []
+    for baseline in baselines:
+        key = baseline.name.lower()
+        if key in seen_names:
+            continue
+        seen_names.add(key)
+        unique_baselines.append(baseline)
+    return unique_baselines
+
+
+def _collapse_confidence_levels(confidence_levels: list[str]) -> str:
+    """Return a conservative aggregate confidence across partial extraction calls."""
+    if confidence_levels and all(level == "HIGH" for level in confidence_levels):
+        return "HIGH"
+    if confidence_levels and "LOW" not in confidence_levels:
+        return "MEDIUM"
+    return "LOW"
+
+
+def _merge_extraction_outputs(
+    *,
+    proposed_model: "ProposedModel | None",
+    baselines: "list[BaselineModelInfo]",
+    results: "list[ResultEntry]",
+    confidence_levels: list[str],
+    notes_parts: list[str],
+    normalise_metrics: bool = False,
+) -> "ExtractionOutput":
+    """Build a single ExtractionOutput from partial extraction fragments."""
+    merged_results = _normalise_metrics(results) if normalise_metrics else results
+    return ExtractionOutput(
+        proposed_model=proposed_model,
+        baseline_models=_dedupe_baselines(baselines),
+        results=_dedupe_result_entries(merged_results),
+        extraction_confidence=_collapse_confidence_levels(confidence_levels),
+        extraction_notes="\n".join(notes_parts),
+    )
+
+
 class LLMExtractor:
     """Extracts structured information from a paper using an LLM."""
 
@@ -1792,38 +1847,13 @@ class LLMExtractor:
                 self._fire_progress()
                 notes_parts.append(f"[{ds.name}] failed: {exc}")
 
-        # Normalise metric names: strip split prefixes and drop non-test results
-        all_results = _normalise_metrics(all_results)
-
-        # Deduplicate results by (model, dataset, metric) key
-        seen: set[tuple] = set()
-        unique_results: list[ResultEntry] = []
-        for r in all_results:
-            key = (r.model.lower(), r.dataset.lower(), r.metric.lower())
-            if key not in seen:
-                seen.add(key)
-                unique_results.append(r)
-
-        # Deduplicate baselines by name
-        seen_b: set[str] = set()
-        unique_baselines = [
-            b
-            for b in baselines
-            if not (b.name.lower() in seen_b or seen_b.add(b.name.lower()))  # type: ignore[func-returns-value]
-        ]
-
-        final_confidence = (
-            "HIGH"
-            if confidence_levels and all(c == "HIGH" for c in confidence_levels)
-            else "MEDIUM" if confidence_levels and "LOW" not in confidence_levels else "LOW"
-        )
-
-        return ExtractionOutput(
+        return _merge_extraction_outputs(
             proposed_model=proposed,
-            baseline_models=unique_baselines,
-            results=unique_results,
-            extraction_confidence=final_confidence,
-            extraction_notes="\n".join(notes_parts),
+            baselines=baselines,
+            results=all_results,
+            confidence_levels=confidence_levels,
+            notes_parts=notes_parts,
+            normalise_metrics=True,
         )
 
     def extract_results(self, paper_text: str, tables_text: str) -> ExtractionOutput:
@@ -1903,40 +1933,12 @@ class LLMExtractor:
                 logger.warning("Chunk %d extraction failed: %s", i + 1, exc)
                 notes_parts.append(f"[Chunk {i+1}] Extraction failed: {exc}")
 
-        # Deduplicate results
-        seen: set[tuple] = set()
-        unique_results: list[ResultEntry] = []
-        for r in all_results:
-            key = (r.model.lower(), r.dataset.lower(), r.metric.lower())
-            if key not in seen:
-                seen.add(key)
-                unique_results.append(r)
-
-        # Deduplicate baselines
-        seen_baselines: set[str] = set()
-        unique_baselines: list[BaselineModelInfo] = []
-        for b in baselines:
-            if b.name.lower() not in seen_baselines:
-                seen_baselines.add(b.name.lower())
-                unique_baselines.append(b)
-
-        # Pick lowest confidence (most conservative)
-        final_confidence = "LOW"
-        for level in ["HIGH", "MEDIUM", "LOW"]:
-            if level not in confidence_levels:
-                continue
-            if level == "HIGH" and all(c == "HIGH" for c in confidence_levels):
-                final_confidence = "HIGH"
-            elif level in ("HIGH", "MEDIUM") and "LOW" not in confidence_levels:
-                final_confidence = "MEDIUM"
-            break
-
-        return ExtractionOutput(
+        return _merge_extraction_outputs(
             proposed_model=proposed,
-            baseline_models=unique_baselines,
-            results=unique_results,
-            extraction_confidence=final_confidence,
-            extraction_notes="\n".join(notes_parts),
+            baselines=baselines,
+            results=all_results,
+            confidence_levels=confidence_levels,
+            notes_parts=notes_parts,
         )
 
     def _extract_results_chunk(
@@ -1988,33 +1990,12 @@ class LLMExtractor:
                 logger.warning("Section %d extraction failed: %s", i + 1, exc)
                 notes_parts.append(f"[Section {i + 1}] failed: {exc}")
 
-        # Deduplicate results
-        seen: set[tuple] = set()
-        unique_results: list[ResultEntry] = []
-        for r in all_results:
-            key = (r.model.lower(), r.dataset.lower(), r.metric.lower())
-            if key not in seen:
-                seen.add(key)
-                unique_results.append(r)
-
-        # Deduplicate baselines
-        seen_b: set[str] = set()
-        unique_baselines = [
-            b for b in baselines if not (b.name.lower() in seen_b or seen_b.add(b.name.lower()))  # type: ignore[func-returns-value]
-        ]
-
-        final_confidence = (
-            "HIGH"
-            if confidence_levels and all(c == "HIGH" for c in confidence_levels)
-            else "MEDIUM" if confidence_levels and "LOW" not in confidence_levels else "LOW"
-        )
-
-        return ExtractionOutput(
+        return _merge_extraction_outputs(
             proposed_model=proposed,
-            baseline_models=unique_baselines,
-            results=unique_results,
-            extraction_confidence=final_confidence,
-            extraction_notes="\n".join(notes_parts),
+            baselines=baselines,
+            results=all_results,
+            confidence_levels=confidence_levels,
+            notes_parts=notes_parts,
         )
 
     def detect_figure(self, paper_text: str, figures_list: list[dict]) -> FigureInfo:

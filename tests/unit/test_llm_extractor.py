@@ -6,6 +6,8 @@ from backend.llm_extractor import (
     LLMExtractor,
     ProposedModel,
     ResultEntry,
+    BaselineModelInfo,
+    _merge_extraction_outputs,
     _render_human_readable,
     _split_into_chunks,
     FigureInfo,
@@ -60,6 +62,10 @@ def test_render_human_readable_basic():
         model_name="openai-gpt-oss120b",
         results_out=results_out,
         figure_out=figure_out,
+        extraction_strategy="two-step",
+        result_output_format="yaml",
+        experiment_label=None,
+        usage_summary={},
     )
     assert "GraphGPS" in md
     assert "6.9M params" in md
@@ -76,3 +82,28 @@ def test_result_entry_coerces_string_value():
 def test_result_entry_coerces_none_std():
     r = ResultEntry(model="M", dataset="D", metric="AP", value=0.5, std=None)
     assert r.std is None
+
+
+def test_merge_extraction_outputs_dedupes_and_normalizes():
+    merged = _merge_extraction_outputs(
+        proposed_model=ProposedModel(name="GraphGPS"),
+        baselines=[
+            BaselineModelInfo(name="GCN"),
+            BaselineModelInfo(name="gcn"),
+        ],
+        results=[
+            ResultEntry(model="GCN", dataset="Peptides-func", metric="Test AP", value=0.6),
+            ResultEntry(model="GCN", dataset="Peptides-func", metric="AP", value=0.61),
+            ResultEntry(model="GraphGPS", dataset="Peptides-func", metric="Val AP", value=0.7),
+        ],
+        confidence_levels=["HIGH", "MEDIUM"],
+        notes_parts=["part one", "part two"],
+        normalise_metrics=True,
+    )
+
+    assert merged.extraction_confidence == "MEDIUM"
+    assert merged.extraction_notes == "part one\npart two"
+    assert [baseline.name for baseline in merged.baseline_models] == ["GCN"]
+    assert len(merged.results) == 1
+    assert merged.results[0].metric == "AP"
+    assert merged.results[0].value == pytest.approx(0.6)

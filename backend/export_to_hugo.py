@@ -24,11 +24,14 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
-from thefuzz import process as fuzz_process
 import yaml
 
 from backend.baseline_aggregator import get_baseline_summary, get_best_results_over_time
 from backend.config import cfg
+from backend.dataset_variant_resolver import (
+    build_dataset_variant_lookup,
+    resolve_dataset_variant_quiet,
+)
 from backend.db import init_db, session_scope
 from backend.models import (
     Benchmark,
@@ -104,32 +107,6 @@ def _truncate_words(text: str | None, max_words: int) -> str:
     if len(words) <= max_words:
         return cleaned
     return " ".join(words[:max_words]) + "..."
-
-
-def _build_dataset_variant_lookup(session: Any) -> dict[str, DatasetVariant]:
-    lookup: dict[str, DatasetVariant] = {}
-    for variant in session.query(DatasetVariant).all():
-        lookup.setdefault(variant.name.lower(), variant)
-        if variant.dataset:
-            lookup.setdefault(variant.dataset.name.lower(), variant)
-    return lookup
-
-
-def _resolve_dataset_variant_quiet(
-    dataset_name: str,
-    dataset_lookup: dict[str, DatasetVariant],
-) -> DatasetVariant | None:
-    key = dataset_name.strip().lower()
-    if not key:
-        return None
-    if key in dataset_lookup:
-        return dataset_lookup[key]
-    if dataset_lookup:
-        min_score = 85 if len(key) <= 6 else 75
-        best_match, score = fuzz_process.extractOne(key, list(dataset_lookup.keys()))
-        if score >= min_score:
-            return dataset_lookup[best_match]
-    return None
 
 
 def _is_bounded_metric(metric_name: str | None) -> bool:
@@ -2079,7 +2056,7 @@ def _create_dev_pages() -> None:
         # Missing datasets page from pending_datasets DB table
         pending_rows = session.query(PendingDataset).all()
 
-        dataset_lookup = _build_dataset_variant_lookup(session)
+        dataset_lookup = build_dataset_variant_lookup(session)
         unresolved_entries: list[dict[str, str]] = []
         covered_entries: list[dict[str, str]] = []
         for row in pending_rows:
@@ -2091,7 +2068,7 @@ def _create_dev_pages() -> None:
             benchmark_name = str(suggestion.get("benchmark_name") or "")
             pyg_url = str(suggestion.get("pyg_url") or "")
             pyg_marker = "yes" if pyg_url else ""
-            resolved_variant = _resolve_dataset_variant_quiet(dataset, dataset_lookup)
+            resolved_variant = resolve_dataset_variant_quiet(dataset, dataset_lookup)
             if resolved_variant is not None:
                 resolved_dataset = resolved_variant.dataset.name if resolved_variant.dataset else ""
                 resolved_benchmark = (
