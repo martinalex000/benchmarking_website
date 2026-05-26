@@ -14,6 +14,7 @@ import logging
 
 import re
 import yaml
+from thefuzz import process as fuzz_process
 
 from backend.config import cfg
 from backend.db import init_db, session_scope
@@ -59,6 +60,71 @@ def _merge_benchmark_aliases(session, alias_to_canonical: dict[str, str]) -> Non
         remaining = session.query(Dataset).filter_by(benchmark_id=alias.id).count()
         if remaining == 0:
             session.delete(alias)
+
+
+def _build_dataset_variant_lookup(session) -> dict[str, int]:
+    lookup: dict[str, int] = {}
+    for variant in session.query(DatasetVariant).all():
+        lookup.setdefault(variant.name.lower(), variant.id)
+        if variant.dataset:
+            lookup.setdefault(variant.dataset.name.lower(), variant.id)
+    return lookup
+
+
+def _resolve_dataset_variant_quiet(dataset_name: str, variant_map: dict[str, int]) -> int | None:
+    key = dataset_name.strip().lower()
+    if not key:
+        return None
+    if key in variant_map:
+        return variant_map[key]
+    if variant_map:
+        min_score = 85 if len(key) <= 6 else 75
+        best_match, score = fuzz_process.extractOne(key, list(variant_map.keys()))
+        if score >= min_score:
+            return variant_map[best_match]
+    return None
+
+
+def _prune_pending_datasets(session) -> int:
+    """Remove pending_datasets entries that now resolve against the DB."""
+    pending_path = cfg.data_dir / "pending_datasets.yaml"
+    if not pending_path.exists():
+        return 0
+
+    try:
+        entries = yaml.safe_load(pending_path.read_text(encoding="utf-8")) or []
+    except Exception as exc:
+        logger.warning("Could not read %s for stale-pending cleanup: %s", pending_path, exc)
+        return 0
+
+    if not isinstance(entries, list) or not entries:
+        return 0
+
+    variant_map = _build_dataset_variant_lookup(session)
+    kept_entries: list[dict] = []
+    removed = 0
+    for entry in entries:
+        if not isinstance(entry, dict):
+            kept_entries.append(entry)
+            continue
+        dataset_name = str(entry.get("dataset") or "").strip()
+        if dataset_name and _resolve_dataset_variant_quiet(dataset_name, variant_map) is not None:
+            removed += 1
+            continue
+        kept_entries.append(entry)
+
+    if removed:
+        pending_path.write_text(
+            yaml.dump(kept_entries, allow_unicode=True, sort_keys=False, default_flow_style=False),
+            encoding="utf-8",
+        )
+        logger.info(
+            "Removed %d stale pending dataset entr%s from %s",
+            removed,
+            "y" if removed == 1 else "ies",
+            pending_path,
+        )
+    return removed
 
 
 def seed(dry_run: bool = False) -> None:
@@ -130,6 +196,10 @@ def seed(dry_run: bool = False) -> None:
                         session.delete(existing_variant)
 
         _merge_benchmark_aliases(session, {"TUDataset": "TU Dortmund"})
+        session.flush()
+
+        if not dry_run:
+            _prune_pending_datasets(session)
 
         if dry_run:
             session.rollback()

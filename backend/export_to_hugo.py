@@ -24,6 +24,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
+from thefuzz import process as fuzz_process
 import yaml
 
 from backend.baseline_aggregator import get_baseline_summary, get_best_results_over_time
@@ -85,6 +86,42 @@ def _sanitize_title(title: str | None) -> str:
     t = t.replace("\\", " ")
     t = _TITLE_LATEX_CMD_RE.sub("", t)
     return re.sub(r"\s+", " ", t).strip()
+
+
+def _truncate_words(text: str | None, max_words: int) -> str:
+    cleaned = _sanitize_title(text)
+    if not cleaned:
+        return ""
+    words = cleaned.split()
+    if len(words) <= max_words:
+        return cleaned
+    return " ".join(words[:max_words]) + "..."
+
+
+def _build_dataset_variant_lookup(session: Any) -> dict[str, DatasetVariant]:
+    lookup: dict[str, DatasetVariant] = {}
+    for variant in session.query(DatasetVariant).all():
+        lookup.setdefault(variant.name.lower(), variant)
+        if variant.dataset:
+            lookup.setdefault(variant.dataset.name.lower(), variant)
+    return lookup
+
+
+def _resolve_dataset_variant_quiet(
+    dataset_name: str,
+    dataset_lookup: dict[str, DatasetVariant],
+) -> DatasetVariant | None:
+    key = dataset_name.strip().lower()
+    if not key:
+        return None
+    if key in dataset_lookup:
+        return dataset_lookup[key]
+    if dataset_lookup:
+        min_score = 85 if len(key) <= 6 else 75
+        best_match, score = fuzz_process.extractOne(key, list(dataset_lookup.keys()))
+        if score >= min_score:
+            return dataset_lookup[best_match]
+    return None
 
 
 def _is_bounded_metric(metric_name: str | None) -> bool:
@@ -894,10 +931,22 @@ def _collect_model_value_mismatches(session: Any) -> list[dict[str, Any]]:
         rank_delta = (
             paper_rank - global_rank if paper_rank is not None and global_rank is not None else None
         )
+        paper_date_iso = paper.published_date[:10] if paper.published_date else ""
+        source_arxiv_id = truth.get("arxiv_id", "")
+        source_date_iso = truth.get("date_iso", "")
+        if source_arxiv_id and source_arxiv_id == paper.arxiv_id:
+            source_timing = "same-paper"
+        elif source_date_iso and paper_date_iso:
+            source_timing = (
+                "already-known" if source_date_iso <= paper_date_iso else "published-later"
+            )
+        else:
+            source_timing = "unknown"
         mismatches.append(
             {
                 "arxiv_id": paper.arxiv_id,
                 "title": _sanitize_title(paper.title),
+                "paper_date_iso": paper_date_iso,
                 "dataset": ds.name,
                 "metric": primary_metric,
                 "model": _sanitize_model(model.canonical_name, paper.arxiv_id),
@@ -905,8 +954,10 @@ def _collect_model_value_mismatches(session: Any) -> list[dict[str, Any]]:
                 "paper_std": paper_std,
                 "true_value": true_value,
                 "true_std": truth.get("std"),
-                "source_arxiv_id": truth.get("arxiv_id", ""),
+                "source_arxiv_id": source_arxiv_id,
                 "source_title": truth.get("title", ""),
+                "source_date_iso": source_date_iso,
+                "source_timing": source_timing,
                 "global_rank": global_rank,
                 "paper_rank": paper_rank,
                 "rank_delta": rank_delta,
@@ -1907,7 +1958,7 @@ def _create_dev_pages() -> None:
                 lines.append("| ArXiv | Title | Model |")
                 lines.append("|-------|-------|-------|")
                 for p in sorted(by_status[status], key=lambda x: x.arxiv_id):
-                    title = (p.title[:40] + "...") if len(p.title or "") > 40 else (p.title or "")
+                    title = _truncate_words(p.title, 8)
                     model = p.extraction_model or "—"
                     lines.append(f"| {p.arxiv_id} | {title} | {model} |")
                 lines.append("")
@@ -1959,7 +2010,7 @@ def _create_dev_pages() -> None:
             lines.append("|-------|-------|--------|")
             for c in skipped_s1:
                 reason = (c.stage1_reason or "—")[:80]
-                title = (c.title or "")[:40]
+                title = _truncate_words(c.title, 8)
                 lines.append(f"| {c.arxiv_id or '—'} | {title} | {reason} |")
         lines.append("")
         lines.append(f"### Stage 2 Rejections: {len(skipped_s2)}")
@@ -1985,7 +2036,7 @@ def _create_dev_pages() -> None:
                             ds_count = len([x for x in parsed if str(x).strip()])
                     except Exception:
                         ds_count = 0
-                title = (c.title or "")[:40]
+                title = _truncate_words(c.title, 8)
                 lines.append(f"| {c.arxiv_id or '—'} | {title} | {ds_count} | {reason} |")
 
         lines.append("")
@@ -2002,7 +2053,7 @@ def _create_dev_pages() -> None:
             lines.append("| ArXiv | Title | Stage 2 Reason |")
             lines.append("|-------|-------|----------------|")
             for c in zero_dataset_candidates:
-                title = (c.title or "")[:48]
+                title = _truncate_words(c.title, 10)
                 reason = (c.stage2_reason or "—")[:96]
                 lines.append(f"| {c.arxiv_id or '—'} | {title} | {reason} |")
 
@@ -2027,33 +2078,93 @@ def _create_dev_pages() -> None:
             except Exception:
                 pending_entries = []
 
+        dataset_lookup = _build_dataset_variant_lookup(session)
+        unresolved_entries: list[dict[str, str]] = []
+        covered_entries: list[dict[str, str]] = []
+        for e in pending_entries:
+            status = str(e.get("status") or "pending")
+            dataset = str(e.get("dataset") or "")
+            paper = str(e.get("arxiv_id") or "")
+            metrics = ", ".join(e.get("metrics_seen") or [])
+            suggestion = e.get("suggestion") or {}
+            benchmark_name = str(suggestion.get("benchmark_name") or "")
+            pyg_url = str(suggestion.get("pyg_url") or "")
+            pyg_marker = "yes" if pyg_url else ""
+            resolved_variant = _resolve_dataset_variant_quiet(dataset, dataset_lookup)
+            if resolved_variant is not None:
+                resolved_dataset = resolved_variant.dataset.name if resolved_variant.dataset else ""
+                resolved_benchmark = (
+                    resolved_variant.dataset.benchmark.name
+                    if resolved_variant.dataset and resolved_variant.dataset.benchmark
+                    else ""
+                )
+                covered_entries.append(
+                    {
+                        "status": status,
+                        "dataset": dataset,
+                        "paper": paper,
+                        "metrics": metrics,
+                        "resolved_dataset": resolved_dataset,
+                        "resolved_benchmark": resolved_benchmark,
+                    }
+                )
+                continue
+            unresolved_entries.append(
+                {
+                    "status": status,
+                    "dataset": dataset,
+                    "paper": paper,
+                    "metrics": metrics,
+                    "benchmark_name": benchmark_name,
+                    "pyg_marker": pyg_marker,
+                }
+            )
+
+        unresolved_entries.sort(
+            key=lambda item: (
+                0 if item["status"] == "pending" else 1,
+                item["dataset"].lower(),
+                item["paper"],
+            )
+        )
+        covered_entries.sort(key=lambda item: (item["dataset"].lower(), item["paper"]))
+
         lines = [
-            "## Datasets Detected But Not In DB",
+            "## Datasets Still Missing From The DB",
             "",
-            "During result extraction, the LLM sometimes detects dataset names that are not yet in our benchmarking database. "
-            "This page lists those datasets. Each entry includes the datasets that were detected in the papers, along with suggested "
-            "benchmark categories and whether a PyG (PyTorch Geometric) dataset definition is available. These pending datasets should be "
-            "reviewed for integration into the main benchmark suite.",
+            "This page now distinguishes between entries that are truly unresolved and stale pending entries that already resolve against the current benchmark database.",
             "",
             f"Source file: `{pending_path}`",
             "",
-            f"**Total pending entries:** {len(pending_entries)}",
+            f"**Tracked entries in pending file:** {len(pending_entries)}",
+            f"**Still unresolved:** {len(unresolved_entries)}",
+            f"**Already covered now:** {len(covered_entries)}",
             "",
         ]
-        if pending_entries:
+        if unresolved_entries:
+            lines.append("### Still unresolved")
+            lines.append("")
             lines.append("| Status | Dataset | Paper | Metrics Seen | Suggested Benchmark | PyG |")
             lines.append("|--------|---------|-------|--------------|---------------------|-----|")
-            for e in pending_entries:
-                status = str(e.get("status") or "pending")
-                dataset = str(e.get("dataset") or "")
-                paper = str(e.get("arxiv_id") or "")
-                metrics = ", ".join(e.get("metrics_seen") or [])
-                suggestion = e.get("suggestion") or {}
-                benchmark_name = str(suggestion.get("benchmark_name") or "")
-                pyg_url = str(suggestion.get("pyg_url") or "")
-                pyg_marker = "yes" if pyg_url else ""
+            for entry in unresolved_entries:
                 lines.append(
-                    f"| {status} | {dataset} | {paper} | {metrics} | {benchmark_name} | {pyg_marker} |"
+                    f"| {entry['status']} | {entry['dataset']} | {entry['paper']} | {entry['metrics']} | {entry['benchmark_name']} | {entry['pyg_marker']} |"
+                )
+        if covered_entries:
+            lines.extend(
+                [
+                    "",
+                    "### Already covered now",
+                    "",
+                    "These entries remain in `pending_datasets.yaml`, but they already resolve against the current DB and should not be treated as missing coverage.",
+                    "",
+                    "| Pending Name | Paper | Resolves To | Benchmark | Pending Status |",
+                    "|--------------|-------|-------------|-----------|----------------|",
+                ]
+            )
+            for entry in covered_entries:
+                lines.append(
+                    f"| {entry['dataset']} | {entry['paper']} | {entry['resolved_dataset']} | {entry['resolved_benchmark']} | {entry['status']} |"
                 )
 
         _write_md(
@@ -2118,6 +2229,9 @@ def _create_dev_pages() -> None:
                         "title": item["title"],
                         "rows": 0,
                         "worst_rank_delta": 0,
+                        "already_known_rows": 0,
+                        "published_later_rows": 0,
+                        "unknown_timing_rows": 0,
                         "datasets": set(),
                         "models": set(),
                     },
@@ -2128,6 +2242,61 @@ def _create_dev_pages() -> None:
                 )
                 bucket["datasets"].add(item["dataset"])
                 bucket["models"].add(item["model"])
+                if item.get("source_timing") == "already-known":
+                    bucket["already_known_rows"] += 1
+                elif item.get("source_timing") == "published-later":
+                    bucket["published_later_rows"] += 1
+                elif item.get("source_timing") == "unknown":
+                    bucket["unknown_timing_rows"] += 1
+
+            by_dataset: dict[str, dict[str, Any]] = {}
+            by_model: dict[str, dict[str, Any]] = {}
+            timing_counts = {
+                "already-known": 0,
+                "published-later": 0,
+                "same-paper": 0,
+                "unknown": 0,
+            }
+            for item in mismatches:
+                timing_counts[item.get("source_timing") or "unknown"] += 1
+
+                dataset_bucket = by_dataset.setdefault(
+                    item["dataset"],
+                    {
+                        "rows": 0,
+                        "papers": set(),
+                        "models": set(),
+                        "worst_rank_delta": 0,
+                        "already_known_rows": 0,
+                    },
+                )
+                dataset_bucket["rows"] += 1
+                dataset_bucket["papers"].add(item["arxiv_id"])
+                dataset_bucket["models"].add(item["model"])
+                dataset_bucket["worst_rank_delta"] = max(
+                    dataset_bucket["worst_rank_delta"], abs(item.get("rank_delta") or 0)
+                )
+                if item.get("source_timing") == "already-known":
+                    dataset_bucket["already_known_rows"] += 1
+
+                model_bucket = by_model.setdefault(
+                    item["model"],
+                    {
+                        "rows": 0,
+                        "papers": set(),
+                        "datasets": set(),
+                        "worst_rank_delta": 0,
+                        "already_known_rows": 0,
+                    },
+                )
+                model_bucket["rows"] += 1
+                model_bucket["papers"].add(item["arxiv_id"])
+                model_bucket["datasets"].add(item["dataset"])
+                model_bucket["worst_rank_delta"] = max(
+                    model_bucket["worst_rank_delta"], abs(item.get("rank_delta") or 0)
+                )
+                if item.get("source_timing") == "already-known":
+                    model_bucket["already_known_rows"] += 1
 
             paper_rows = sorted(
                 [
@@ -2136,12 +2305,44 @@ def _create_dev_pages() -> None:
                         "title": info["title"],
                         "rows": info["rows"],
                         "worst_rank_delta": info["worst_rank_delta"],
+                        "already_known_rows": info["already_known_rows"],
+                        "published_later_rows": info["published_later_rows"],
+                        "unknown_timing_rows": info["unknown_timing_rows"],
                         "datasets": sorted(info["datasets"]),
                         "models": sorted(info["models"]),
                     }
                     for arxiv_id, info in by_paper.items()
                 ],
                 key=lambda item: (-item["rows"], -item["worst_rank_delta"], item["arxiv_id"]),
+            )
+
+            dataset_rows = sorted(
+                [
+                    {
+                        "dataset": name,
+                        "rows": info["rows"],
+                        "paper_count": len(info["papers"]),
+                        "model_count": len(info["models"]),
+                        "worst_rank_delta": info["worst_rank_delta"],
+                        "already_known_rows": info["already_known_rows"],
+                    }
+                    for name, info in by_dataset.items()
+                ],
+                key=lambda item: (-item["rows"], -item["worst_rank_delta"], item["dataset"]),
+            )
+            model_rows = sorted(
+                [
+                    {
+                        "model": name,
+                        "rows": info["rows"],
+                        "paper_count": len(info["papers"]),
+                        "dataset_count": len(info["datasets"]),
+                        "worst_rank_delta": info["worst_rank_delta"],
+                        "already_known_rows": info["already_known_rows"],
+                    }
+                    for name, info in by_model.items()
+                ],
+                key=lambda item: (-item["rows"], -item["worst_rank_delta"], item["model"]),
             )
 
             lines = [
@@ -2151,27 +2352,67 @@ def _create_dev_pages() -> None:
                 "",
                 f"**Flagged papers:** {len(paper_rows)}",
                 f"**Flagged rows:** {len(mismatches)}",
+                f"**Rows where a better value was already known at publication time:** {timing_counts['already-known']}",
+                f"**Rows whose current best source is from a later paper:** {timing_counts['published-later']}",
+                f"**Rows whose current best source is the same paper:** {timing_counts['same-paper']}",
+                f"**Rows with unknown timing:** {timing_counts['unknown']}",
                 "",
             ]
+            if dataset_rows:
+                lines.extend(
+                    [
+                        "### Most affected datasets",
+                        "",
+                        "| Dataset | Wrong Rows | Papers | Models | Worst Rank Shift | Earlier-known Rows |",
+                        "|---|---:|---:|---:|---:|---:|",
+                    ]
+                )
+                for item in dataset_rows[:25]:
+                    lines.append(
+                        f"| {item['dataset']} | {item['rows']} | {item['paper_count']} | {item['model_count']} | {item['worst_rank_delta']} | {item['already_known_rows']} |"
+                    )
+                lines.append("")
+            if model_rows:
+                lines.extend(
+                    [
+                        "### Most affected models",
+                        "",
+                        "| Model | Wrong Rows | Papers | Datasets | Worst Rank Shift | Earlier-known Rows |",
+                        "|---|---:|---:|---:|---:|---:|",
+                    ]
+                )
+                for item in model_rows[:25]:
+                    lines.append(
+                        f"| {item['model']} | {item['rows']} | {item['paper_count']} | {item['dataset_count']} | {item['worst_rank_delta']} | {item['already_known_rows']} |"
+                    )
+                lines.append("")
             if paper_rows:
                 lines.append(
-                    "| ArXiv | Title | Wrong Rows | Worst Rank Shift | Datasets | Models |"
+                    "| ArXiv | Title | Wrong Rows | Earlier-known Rows | Worst Rank Shift | Datasets | Models |"
                 )
-                lines.append("|---|---|---:|---:|---|---|")
+                lines.append("|---|---|---:|---:|---:|---|---|")
                 for item in paper_rows:
                     lines.append(
-                        f"| {_paper_site_link(item['arxiv_id'])} | {_paper_site_link(item['arxiv_id'], item['title'][:64])} | {item['rows']} | {item['worst_rank_delta']} | {', '.join(item['datasets'][:4])} | {', '.join(item['models'][:4])} |"
+                        f"| {_paper_site_link(item['arxiv_id'])} | {_paper_site_link(item['arxiv_id'], _truncate_words(item['title'], 10))} | {item['rows']} | {item['already_known_rows']} | {item['worst_rank_delta']} | {', '.join(item['datasets'][:4])} | {', '.join(item['models'][:4])} |"
                     )
 
             lines.extend(["", "### Flagged Rows", ""])
             if mismatches:
                 lines.append(
-                    "| ArXiv | Dataset | Model | Actual | Paper | Rank Shift | Actual Source |"
+                    "| ArXiv | Dataset | Model | Actual | Paper | Rank Shift | Actual Source | Timing |"
                 )
-                lines.append("|---|---|---|---:|---:|---:|---|")
+                lines.append("|---|---|---|---:|---:|---:|---|---|")
                 for item in mismatches[:500]:
+                    if item.get("source_timing") == "already-known":
+                        timing_label = f"already known ({item.get('source_date_iso') or 'date?'})"
+                    elif item.get("source_timing") == "published-later":
+                        timing_label = f"published later ({item.get('source_date_iso') or 'date?'})"
+                    elif item.get("source_timing") == "same-paper":
+                        timing_label = "same paper"
+                    else:
+                        timing_label = "date unknown"
                     lines.append(
-                        f"| {_paper_site_link(item['arxiv_id'])} | {item['dataset']} | {item['model']} | {item['true_value']:.4f} | {item['paper_value']:.4f} | {abs(item.get('rank_delta') or 0)} | {_paper_site_link(item.get('source_arxiv_id', ''), item['source_title'][:56]) if item.get('source_arxiv_id') else item['source_title'][:56]} |"
+                        f"| {_paper_site_link(item['arxiv_id'])} | {item['dataset']} | {item['model']} | {item['true_value']:.4f} | {item['paper_value']:.4f} | {abs(item.get('rank_delta') or 0)} | {_paper_site_link(item.get('source_arxiv_id', ''), _truncate_words(item['source_title'], 8)) if item.get('source_arxiv_id') else _truncate_words(item['source_title'], 8)} | {timing_label} |"
                     )
 
             _write_md(
@@ -2203,13 +2444,9 @@ def _create_dev_pages() -> None:
                     lines.append(
                         f"| {item['benchmark']} | {item['dataset']} | {item['task_type']} | {item['primary_metric']} | {item['result_count']} | {item['present_families']} |"
                     )
-            lines.extend(
-                [
-                    "",
-                    f"### No MLP Baseline ({len(mlp_missing)})",
-                    "",
-                ]
-            )
+            lines.append("")
+            lines.append(f"### No MLP Baseline ({len(mlp_missing)})")
+            lines.append("")
             if mlp_missing:
                 lines.append("| Benchmark | Dataset | Task | Metric | Results | Present Families |")
                 lines.append("|-----------|---------|------|--------|--------:|------------------|")
@@ -2230,212 +2467,6 @@ def _create_dev_pages() -> None:
         except Exception:
             logger.exception("Failed to create baseline-coverage dev page")
 
-        active_result_counts = {
-            int(dataset_id): int(result_count or 0)
-            for dataset_id, result_count in (
-                session.query(Dataset.id, func.count(Result.id))
-                .join(Dataset.variants)
-                .join(DatasetVariant.results)
-                .filter(Result.is_problematic.is_(None) | (Result.is_problematic == 0))
-                .group_by(Dataset.id)
-                .all()
-            )
-        }
-
-        stats_missing: list[dict[str, Any]] = []
-        for ds in session.query(Dataset).all():
-            entry_count = active_result_counts.get(int(ds.id), 0)
-            if entry_count <= 0:
-                continue
-            std_variant = next((v for v in ds.variants if v.is_standard), None)
-            stats_num_graphs = (
-                ds.num_graphs
-                if ds.num_graphs is not None
-                else (std_variant.num_graphs if std_variant else None)
-            )
-            stats_avg_nodes = (
-                ds.avg_nodes
-                if ds.avg_nodes is not None
-                else (std_variant.avg_nodes if std_variant else None)
-            )
-            stats_avg_edges = (
-                ds.avg_edges
-                if ds.avg_edges is not None
-                else (std_variant.avg_edges if std_variant else None)
-            )
-            stats_num_classes = ds.num_classes
-            if any(
-                x is not None
-                for x in [stats_num_graphs, stats_avg_nodes, stats_avg_edges, stats_num_classes]
-            ):
-                continue
-            stats_missing.append(
-                {
-                    "benchmark": ds.benchmark.name if ds.benchmark else "",
-                    "name": ds.name,
-                    "task_type": ds.task_type or "",
-                    "primary_metric": ds.primary_metric or "",
-                    "variants": len(ds.variants),
-                    "entry_count": entry_count,
-                }
-            )
-
-        stats_missing.sort(key=lambda item: (item["benchmark"], item["name"]))
-        lines = [
-            "## Datasets Without Structural Statistics",
-            "",
-            "These active datasets still have no structural counts available from either the dataset metadata or the standard variant fallback.",
-            "",
-            f"**Total:** {len(stats_missing)} datasets",
-            "",
-        ]
-        if stats_missing:
-            lines.append("| Benchmark | Dataset | Task | Metric | Variants | Benchmark Entries |")
-            lines.append("|---|---|---|---|---:|---:|")
-            for item in stats_missing:
-                lines.append(
-                    f"| {item['benchmark']} | {item['name']} | {item['task_type']} | {item['primary_metric']} | {item['variants']} | {item['entry_count']} |"
-                )
-
-        _write_md(
-            _CONTENT_DEV / "statistics-unavailable.md",
-            {
-                "title": "Statistics Unavailable",
-                "type": "dev",
-                "description": "Datasets that still have no structural statistics",
-            },
-            "\n".join(lines),
-        )
-
-        # Concrete statistics-source report:
-        # - current aligned counts (landing vs dataset pages)
-        # - legacy landing counts and how they differ
-        try:
-            landing_path = _DATA_DIR / "benchmarks.json"
-            landing_data = []
-            if landing_path.exists():
-                landing_data = json.loads(landing_path.read_text(encoding="utf-8"))
-
-            landing_counts: dict[str, int] = {}
-            for bm in landing_data if isinstance(landing_data, list) else []:
-                for ds_item in bm.get("datasets", []) or []:
-                    slug = str(ds_item.get("slug") or "")
-                    if not slug:
-                        continue
-                    landing_counts[slug] = int(ds_item.get("result_count") or 0)
-
-            dataset_page_counts: dict[str, int] = {}
-            datasets_dir = _CONTENT / "datasets"
-            if datasets_dir.exists():
-                for idx in datasets_dir.glob("*/index.md"):
-                    raw = idx.read_text(encoding="utf-8")
-                    if not raw.startswith("---\n"):
-                        continue
-                    parts = raw.split("---\n", 2)
-                    if len(parts) < 3:
-                        continue
-                    fm = yaml.safe_load(parts[1]) or {}
-                    slug = str(fm.get("slug") or idx.parent.name)
-                    dataset_page_counts[slug] = int(fm.get("result_count") or 0)
-
-            diffs: list[dict[str, Any]] = []
-            all_slugs = sorted(set(landing_counts) | set(dataset_page_counts))
-            for slug in all_slugs:
-                l = landing_counts.get(slug, 0)
-                d = dataset_page_counts.get(slug, 0)
-                if l != d:
-                    diffs.append({"slug": slug, "landing": l, "dataset": d, "delta": l - d})
-
-            landing_total = sum(landing_counts.values())
-            dataset_total = sum(dataset_page_counts.values())
-            delta_total = landing_total - dataset_total
-            missing_dataset_pages = len([s for s in landing_counts if s not in dataset_page_counts])
-
-            # Legacy (old) landing definition used raw result row counts across all variants.
-            legacy_rows = (
-                session.query(Dataset.id, Dataset.name, func.count(Result.id))
-                .join(Dataset.variants)
-                .join(DatasetVariant.results)
-                .filter(Result.is_problematic.is_(None) | (Result.is_problematic == 0))
-                .group_by(Dataset.id, Dataset.name)
-                .all()
-            )
-            legacy_counts_by_name = {name: int(cnt or 0) for _id, name, cnt in legacy_rows}
-            slug_to_name = {_slug(ds.name): ds.name for ds in session.query(Dataset).all()}
-            legacy_by_slug: dict[str, int] = {
-                slug: legacy_counts_by_name.get(name, 0) for slug, name in slug_to_name.items()
-            }
-            legacy_total = sum(legacy_by_slug.values())
-
-            legacy_diffs: list[dict[str, Any]] = []
-            for slug in sorted(set(legacy_by_slug) | set(landing_counts)):
-                old_val = legacy_by_slug.get(slug, 0)
-                new_val = landing_counts.get(slug, 0)
-                if old_val != new_val:
-                    legacy_diffs.append(
-                        {
-                            "slug": slug,
-                            "old": old_val,
-                            "new": new_val,
-                            "impact": old_val - new_val,
-                        }
-                    )
-
-            lines = [
-                "## Statistics Sources & Concrete Differences",
-                "",
-                "Current landing-page counts and dataset-page counts use the same definition, so they should match exactly.",
-                "",
-                f"**Landing total (current `benchmarks.json`):** {landing_total}",
-                f"**Dataset-page total (`content/datasets/*`):** {dataset_total}",
-                f"**Difference (landing - dataset pages):** {delta_total}",
-                f"**Datasets with non-zero differences:** {len(diffs)}",
-                f"**Datasets present in landing data but missing exported pages:** {missing_dataset_pages}",
-                "",
-                "### What changed vs the old landing statistics",
-                "",
-                "Old landing values counted raw result rows across all variants.",
-                "Current values count the same number shown on dataset pages: the exported standard-variant leaderboard rows.",
-                "",
-                f"**Legacy landing total (old method):** {legacy_total}",
-                f"**Current landing total (new method):** {landing_total}",
-                f"**Total impact (old - new):** {legacy_total - landing_total}",
-                f"**Datasets affected by counting-method change:** {len(legacy_diffs)}",
-                "",
-            ]
-
-            if diffs:
-                lines.append("| Dataset | Landing Count | Dataset Page Count | Delta |")
-                lines.append("|---|---:|---:|---:|")
-                for row in sorted(diffs, key=lambda x: abs(x["delta"]), reverse=True)[:300]:
-                    lines.append(
-                        f"| {row['slug']} | {row['landing']} | {row['dataset']} | {row['delta']} |"
-                    )
-            else:
-                lines.append("Current-definition check: no per-dataset deltas detected.")
-
-            lines.append("")
-            lines.append("### Legacy vs current per-dataset impact")
-            lines.append("")
-            lines.append(
-                "| Dataset | Legacy Landing (old) | Current Landing/Page (new) | Impact (old - new) |"
-            )
-            lines.append("|---|---:|---:|---:|")
-            for row in sorted(legacy_diffs, key=lambda x: abs(x["impact"]), reverse=True)[:300]:
-                lines.append(f"| {row['slug']} | {row['old']} | {row['new']} | {row['impact']} |")
-
-            _write_md(
-                _CONTENT_DEV / "statistics-sources.md",
-                {
-                    "title": "Statistics Sources & Discrepancies",
-                    "type": "dev",
-                    "description": "Current aligned counts plus legacy counting-method impact",
-                },
-                "\n".join(lines),
-            )
-        except Exception:
-            logger.exception("Failed to create statistics-sources dev page")
-
         # Todo papers page (priority queue)
         try:
             todo_rows = session.query(TodoPaper).order_by(TodoPaper.seen_count.desc()).all()
@@ -2449,72 +2480,48 @@ def _create_dev_pages() -> None:
                 lines.append(
                     f"| {t.arxiv_id or ''} | {int(t.seen_count or 0)} | {t.status or ''} | {title} |"
                 )
+
+            try:
+                import sqlite3 as _sqlite3
+
+                db_path = cfg.data_dir / "benchmarks.db"
+                if db_path.exists():
+                    conn = _sqlite3.connect(str(db_path))
+                    cur = conn.cursor()
+                    cur.execute(
+                        "SELECT name FROM sqlite_master WHERE type='table' AND name='s2_crawl_state'"
+                    )
+                    if cur.fetchone():
+                        cur.execute("SELECT COUNT(*) FROM s2_crawl_state")
+                        crawled_count = int((cur.fetchone() or [0])[0] or 0)
+                        cur.execute("SELECT COUNT(*) FROM papers WHERE arxiv_id IS NOT NULL")
+                        total_db_papers = int((cur.fetchone() or [0])[0] or 0)
+                        cur.execute(
+                            "SELECT COUNT(*) FROM s2_crawl_state WHERE citations_capped = 1 OR references_capped = 1"
+                        )
+                        capped_count = int((cur.fetchone() or [0])[0] or 0)
+                        conn.close()
+                        lines.extend(
+                            [
+                                "",
+                                "### Semantic Scholar crawl summary",
+                                "",
+                                "The standalone S2 crawl page was removed to keep the development surface smaller. These counts retain the only high-signal summary from that page.",
+                                "",
+                                f"**DB papers total:** {total_db_papers}",
+                                f"**Crawled:** {crawled_count}",
+                                f"**Uncrawled:** {max(total_db_papers - crawled_count, 0)}",
+                                f"**Hit crawl limits:** {capped_count}",
+                            ]
+                        )
+            except Exception:
+                logger.exception("Failed to add crawl summary to todo page")
+
             _write_md(
                 _CONTENT_DEV / "todo.md", {"title": "Todo Papers", "type": "dev"}, "\n".join(lines)
             )
         except Exception:
             logger.exception("Failed to create dev todo page")
-
-        # S2 crawl state page — which DB papers have been crawled and how many citations
-        try:
-            import sqlite3 as _sqlite3
-
-            _db_path = cfg.data_dir / "benchmarks.db"
-            if _db_path.exists():
-                _conn = _sqlite3.connect(str(_db_path))
-                _cur = _conn.cursor()
-                # Check table exists
-                _cur.execute(
-                    "SELECT name FROM sqlite_master WHERE type='table' AND name='s2_crawl_state'"
-                )
-                if _cur.fetchone():
-                    _cur.execute(
-                        "SELECT s.arxiv_id, p.title, s.crawled_at, s.citations_fetched, s.references_fetched,"
-                        " s.citations_capped, s.references_capped,"
-                        " (COALESCE(s.citations_fetched, 0) + COALESCE(s.references_fetched, 0)) AS total_links"
-                        " FROM s2_crawl_state s"
-                        " LEFT JOIN papers p ON p.arxiv_id = s.arxiv_id"
-                        " ORDER BY total_links DESC, s.crawled_at DESC"
-                    )
-                    crawl_rows = _cur.fetchall()
-                    _cur.execute("SELECT COUNT(*) FROM papers WHERE arxiv_id IS NOT NULL")
-                    total_db_papers = (_cur.fetchone() or [0])[0]
-                    _conn.close()
-
-                    capped_count = sum(1 for r in crawl_rows if r[4] or r[5])
-                    lines = [
-                        "## S2 Crawl State",
-                        "",
-                        f"**DB papers total:** {total_db_papers} &nbsp;|&nbsp;"
-                        f" **Crawled:** {len(crawl_rows)} &nbsp;|&nbsp;"
-                        f" **Uncrawled:** {total_db_papers - len(crawl_rows)} &nbsp;|&nbsp;"
-                        f" **Hit limit:** {capped_count}",
-                        "",
-                        "A row appears here once citations+references have been fetched for that paper."
-                        " ⚠ means the fetch hit the configured limit and may be incomplete.",
-                        "",
-                        "| Paper | crawled_at | citations | references | total | capped |",
-                        "|---|---|---:|---:|---:|:---:|",
-                    ]
-                    for aid, title, cat, cf, rf, cc, rc, total in crawl_rows:
-                        cap_marker = "⚠" if (cc or rc) else ""
-                        paper_cell = (
-                            f"{_sanitize_title(title)}<br/><small>arXiv:{aid or ''}</small>"
-                        )
-                        lines.append(
-                            f"| {paper_cell} | {(cat or '')[:10]} | {cf or 0} | {rf or 0} | {total or 0} | {cap_marker} |"
-                        )
-                    _write_md(
-                        _CONTENT_DEV / "s2-crawl-state.md",
-                        {
-                            "title": "S2 Crawl State",
-                            "type": "dev",
-                            "description": "Which DB papers have been crawled on Semantic Scholar",
-                        },
-                        "\n".join(lines),
-                    )
-        except Exception:
-            logger.exception("Failed to create s2-crawl-state dev page")
 
         logger.info("Created development pages in %s", _CONTENT_DEV)
 

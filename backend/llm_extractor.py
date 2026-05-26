@@ -136,6 +136,16 @@ def _get_known_dataset_names() -> list[str]:
     return names
 
 
+def _get_known_dataset_names_hint(limit: int | None = None) -> str:
+    """Return canonical dataset names from seed_data.yaml as a newline list."""
+    names = _get_known_dataset_names()
+    if limit is not None:
+        names = names[:limit]
+    if not names:
+        return ""
+    return "\n".join(f"- {name}" for name in names)
+
+
 def _ripgrep_dataset_name_hits(
     text: str, source_path: Path | None = None, limit: int = 80
 ) -> list[str]:
@@ -1112,11 +1122,12 @@ class LLMExtractor:
                 "Use these as candidate dataset names when they correspond to real benchmark results in this paper.\n"
                 + "\n".join(f"- {name}" for name in precheck_hits)
             )
-        known_hint = _get_top_datasets_hint(50)
+        known_hint = _get_known_dataset_names_hint()
         if known_hint:
             parts.append(
-                f"=== DATASETS ALREADY IN OUR DATABASE (most common, for reference) ===\n"
-                f"Match these names exactly when the paper uses the same dataset:\n{known_hint}"
+                "=== CANONICAL DATASET NAMES ALREADY IN OUR DATABASE ===\n"
+                "When the paper uses one of these datasets, return that canonical name exactly instead of inventing a variant spelling.\n"
+                f"{known_hint}"
             )
         user_content = "\n\n".join(parts)
         try:
@@ -1208,11 +1219,12 @@ class LLMExtractor:
                 f"=== EXPERIMENT SECTION EXCERPT (first 6000 chars) ===\n{exp_text[:6000]}"
             )
         # Inject known-dataset hints from the DB so the model matches canonical names.
-        known_hint = _get_top_datasets_hint(50)
+        known_hint = _get_known_dataset_names_hint()
         if known_hint:
             parts.append(
-                f"=== DATASETS ALREADY IN OUR DATABASE (most common, for reference) ===\n"
-                f"Match these names exactly when the paper uses the same dataset:\n{known_hint}"
+                "=== CANONICAL DATASET NAMES ALREADY IN OUR DATABASE ===\n"
+                "When the paper uses one of these datasets, return that canonical name exactly instead of inventing a variant spelling.\n"
+                f"{known_hint}"
             )
         user_content = "\n\n".join(parts)
         try:

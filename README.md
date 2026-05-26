@@ -27,6 +27,10 @@ uv run python -m backend.seed_db
 uv run python scripts/run_manual.py 2206.08164
 ```
 
+The repository now keeps `papers/` as a local workspace directory only. Generated
+downloads, extracted artifacts, and overrides live there on each instance, but are
+not committed to git.
+
 ---
 
 ## LLM configuration
@@ -258,6 +262,64 @@ reasons, or suspicious rate-limit behavior.
 ```bash
 uv run python scripts/test_model_ping.py MiniMaxAI/MiniMax-M2.5
 uv run python scripts/test_model_ping.py moonshotai/Kimi-K2.6
+
+---
+
+## Fresh server setup
+
+Starting from a plain git clone, the minimum setup for a real instance is:
+
+```bash
+git clone <repo-url>
+cd benchmarking_website
+
+# 1. Install system dependencies
+#    - Python 3.12+
+#    - uv
+#    - Hugo (extended is fine too)
+#    - ripgrep
+
+# 2. Install Python dependencies
+uv sync --group dev
+
+# 3. Configure secrets
+cp .env.example .env
+$EDITOR .env
+
+# 4. Seed canonical benchmark + dataset metadata
+uv run python -m backend.seed_db
+
+# 5. Build local generated state
+uv run python -m backend.export_to_hugo
+hugo --source site
+
+# 6. Run one paper as a smoke test
+uv run python scripts/run_manual.py 2206.08164
+
+# 7. Re-export and rebuild the site after extraction
+uv run python -m backend.export_to_hugo
+hugo --source site
+```
+
+Operational notes:
+
+- Keep `.env`, `papers/`, `logs/`, and `benchmarks.db` on persistent local storage.
+- `papers/` is intentionally git-ignored; this is where downloads, extraction artifacts,
+  and local overrides live on the server.
+- The normal refresh loop is: crawl or process papers, run parsing/extraction, then
+  `uv run python -m backend.export_to_hugo` and `hugo --source site`.
+- `uv run python -m backend.seed_db` is safe to re-run after dataset changes; it now also
+  prunes stale `data/pending_datasets.yaml` entries that already resolve in the DB.
+- For a production deployment, serve `site/public/` behind nginx, Caddy, or another static
+  web server after running Hugo.
+
+Suggested production shape:
+
+1. Create a dedicated Unix user for the service.
+2. Put the repo on persistent disk and keep `.env` outside shell history.
+3. Add a systemd service or timer for your update workflow.
+4. Run Hugo after each successful extraction/import batch.
+5. Serve `site/public/` via nginx or Caddy.
 ```
 
 It performs a minimal probe request and prints routed-model, finish-reason,
