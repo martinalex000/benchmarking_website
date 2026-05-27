@@ -234,3 +234,35 @@ def test_pipeline_parse_failure_still_exports_paper_page(monkeypatch, tmp_path):
     paper_page = cfg.site_dir / "content" / "papers" / "2402.04821" / "index.md"
     assert paper_page.exists()
     assert "has_results: false" in paper_page.read_text(encoding="utf-8")
+
+
+def test_export_paper_cleans_abstract_artifacts(monkeypatch, tmp_path):
+    _configure_temp_workspace(monkeypatch, tmp_path)
+    init_db()
+
+    with session_scope() as session:
+        session.add(
+            Paper(
+                arxiv_id="2407.18480",
+                title="Scalable Graph Compressed Convolutions",
+                abstract=(
+                    "Designing effective graph neural networks~(GNNs) is challenging. "
+                    "Code is available at~https://example.com."
+                ),
+                extraction_status="extracted",
+                discovery_source="integration-test",
+                published_date="2024-07-01",
+            )
+        )
+
+    from backend.export_to_hugo import export_paper
+
+    assert export_paper("2407.18480") is True
+
+    paper_page = cfg.site_dir / "content" / "papers" / "2407.18480" / "index.md"
+    page_text = paper_page.read_text(encoding="utf-8")
+
+    assert "graph neural networks~(GNNs)" not in page_text
+    assert "at~https://example.com" not in page_text
+    assert "graph neural networks (GNNs) is challenging." in page_text
+    assert "available at https://example.com." in page_text

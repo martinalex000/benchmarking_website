@@ -3,21 +3,18 @@ title: Graph Pooling via Ricci Flow
 arxiv_id: '2407.04236'
 authors: []
 published_date: Jul 2024
-abstract: Graph Machine Learning often involves the clustering of nodes based on similarity
-  structure encoded in the graph's topology and the nodes' attributes. On homophilous
-  graphs, the integration of pooling layers has been shown to enhance the performance
-  of Graph Neural Networks by accounting for inherent multi-scale structure. Here,
-  similar nodes are grouped together to coarsen the graph and reduce the input size
-  in subsequent layers in deeper architectures. In both settings, the underlying clustering
-  approach can be implemented via graph pooling operators, which often rely on classical
-  tools from Graph Theory. In this work, we introduce a graph pooling operator ( ),
-  which utilizes a characterization of the graph's geometry via Ollivier's discrete
-  Ricci curvature and an associated geometric flow. Previous Ricci flow based clustering
-  approaches have shown great promise across several domains, but are by construction
-  unable to account for similarity structure encoded in the node attributes. However,
-  in many ML applications, such information is vital for downstream tasks. ~extends
-  such clustering approaches to attributed graphs, allowing for the integration of
-  geometric coarsening into Graph Neural Networks as a pooling layer.
+abstract: Graph Machine Learning often involves the clustering of nodes based on similarity structure
+  encoded in the graph's topology and the nodes' attributes. On homophilous graphs, the integration of
+  pooling layers has been shown to enhance the performance of Graph Neural Networks by accounting for
+  inherent multi-scale structure. Here, similar nodes are grouped together to coarsen the graph and reduce
+  the input size in subsequent layers in deeper architectures. In both settings, the underlying clustering
+  approach can be implemented via graph pooling operators, which often rely on classical tools from Graph
+  Theory. In this work, we introduce a graph pooling operator, which utilizes a characterization of the
+  graph's geometry via Ollivier's discrete Ricci curvature and an associated geometric flow. Previous
+  Ricci flow based clustering approaches have shown great promise across several domains, but are by construction
+  unable to account for similarity structure encoded in the node attributes. However, in many ML applications,
+  such information is vital for downstream tasks. extends such clustering approaches to attributed graphs,
+  allowing for the integration of geometric coarsening into Graph Neural Networks as a pooling layer.
 codebase_url: ''
 extraction_model: qwen3.6-35b-a3b
 has_results: true

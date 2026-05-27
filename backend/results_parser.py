@@ -42,6 +42,7 @@ from backend.models import (
 )
 from backend.override_handler import apply_overrides_to_db
 from backend.paper_storage import PaperStorage
+from backend.text_cleanup import abstract_has_latex_artifacts, clean_extracted_text
 
 logger = logging.getLogger(__name__)
 
@@ -428,6 +429,8 @@ def _extract_github_url(text: str) -> str | None:
 
 def _enrich_paper_metadata(arxiv_id: str, paper: Paper, storage: PaperStorage) -> bool:
     """Update Paper record with metadata from local caches, then arXiv API if needed."""
+    abstract_has_artifacts = abstract_has_latex_artifacts(paper.abstract)
+    paper.abstract = clean_extracted_text(paper.abstract)
     before = (
         paper.title,
         paper.abstract,
@@ -441,7 +444,11 @@ def _enrich_paper_metadata(arxiv_id: str, paper: Paper, storage: PaperStorage) -
         if metadata.get("title"):
             paper.title = metadata["title"]
         if metadata.get("abstract"):
-            paper.abstract = metadata["abstract"]
+            raw_abstract = metadata["abstract"]
+            abstract_has_artifacts = abstract_has_artifacts or abstract_has_latex_artifacts(
+                raw_abstract
+            )
+            paper.abstract = clean_extracted_text(raw_abstract)
         if metadata.get("published_date") and not paper.published_date:
             paper.published_date = metadata["published_date"]
         if metadata.get("authors") and not paper.authors:
@@ -453,7 +460,7 @@ def _enrich_paper_metadata(arxiv_id: str, paper: Paper, storage: PaperStorage) -
 
     from backend.llm_extractor import _title_looks_corrupted
 
-    need_meta = not paper.abstract or _title_looks_corrupted(paper.title)
+    need_meta = not paper.abstract or abstract_has_artifacts or _title_looks_corrupted(paper.title)
 
     if need_meta:
         # 1. Try local HTML — free, no rate limit
@@ -466,7 +473,12 @@ def _enrich_paper_metadata(arxiv_id: str, paper: Paper, storage: PaperStorage) -
                     paper.title = parsed.title
                 if parsed.abstract:
                     paper.abstract = parsed.abstract
-                need_meta = not paper.abstract or _title_looks_corrupted(paper.title)
+                    abstract_has_artifacts = abstract_has_latex_artifacts(parsed.abstract)
+                need_meta = (
+                    not paper.abstract
+                    or abstract_has_artifacts
+                    or _title_looks_corrupted(paper.title)
+                )
             except Exception:
                 pass
 
@@ -480,7 +492,12 @@ def _enrich_paper_metadata(arxiv_id: str, paper: Paper, storage: PaperStorage) -
                     paper.title = latex_meta["title"]
                 if latex_meta.get("abstract"):
                     paper.abstract = latex_meta["abstract"]
-                need_meta = not paper.abstract or _title_looks_corrupted(paper.title)
+                    abstract_has_artifacts = abstract_has_latex_artifacts(latex_meta["abstract"])
+                need_meta = (
+                    not paper.abstract
+                    or abstract_has_artifacts
+                    or _title_looks_corrupted(paper.title)
+                )
             except Exception:
                 pass
 
@@ -494,6 +511,7 @@ def _enrich_paper_metadata(arxiv_id: str, paper: Paper, storage: PaperStorage) -
                     paper.title = meta["title"]
                 if meta.get("abstract"):
                     paper.abstract = meta["abstract"]
+                    abstract_has_artifacts = abstract_has_latex_artifacts(meta["abstract"])
                 if meta.get("published_date") and not paper.published_date:
                     paper.published_date = meta["published_date"]
 

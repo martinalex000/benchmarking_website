@@ -13,6 +13,8 @@ from pathlib import Path
 
 from bs4 import BeautifulSoup, Tag
 
+from backend.text_cleanup import clean_extracted_text
+
 logger = logging.getLogger(__name__)
 
 # ── Data classes ──────────────────────────────────────────────────────────────
@@ -103,7 +105,7 @@ def parse_html_paper(html_path: Path) -> ParsedPaper:
         or soup.find("section", id=re.compile(r"abstract", re.I))
     )
     if abstract_tag:
-        result.abstract = _tag_text(abstract_tag)
+        result.abstract = clean_extracted_text(_tag_text(abstract_tag))
 
     # Sections — look for <section> or heading-based structure
     current_section = "Introduction"

@@ -53,6 +53,7 @@ from backend.models import (
 from backend.override_handler import get_model_renames, load_overrides
 from backend.paper_storage import PaperStorage
 from backend.models import PaperCandidate, PipelineRun
+from backend.text_cleanup import clean_extracted_text
 
 logger = logging.getLogger(__name__)
 
@@ -1274,7 +1275,7 @@ def export_paper(arxiv_id: str) -> bool:
             "authors": paper.authors or [],
             "published_date": _fmt_date(paper.published_date),
             "published_date_iso": (paper.published_date[:10] if paper.published_date else ""),
-            "abstract": paper.abstract or "",
+            "abstract": clean_extracted_text(paper.abstract),
             "codebase_url": paper.codebase_url or "",
             "extraction_model": paper.extraction_model or "",
             "has_results": has_results,

@@ -3,24 +3,21 @@ title: LRGB
 arxiv_id: '2206.08164'
 authors: []
 published_date: Jun 2022
-abstract: 'Graph Neural Networks (GNNs) that are based on the message passing (MP)
-  paradigm generally exchange information between 1-hop neighbors to build node representations
-  at each layer. In principle, such networks are not able to capture long-range interactions
-  (LRI) that may be desired or necessary for learning a given task on graphs. Recently,
-  there has been an increasing interest in development of Transformer-based methods
-  for graphs that can consider full node connectivity beyond the original sparse structure,
-  thus enabling the modeling of LRI. However, MP-GNNs that simply rely on 1-hop message
-  passing often fare better in several existing graph benchmarks when combined with
-  positional feature representations, among other innovations, hence limiting the
-  perceived utility and ranking of Transformer-like architectures. Here, we present
-  the Long Range Graph Benchmark (LRGB) Open-sourced at https://github.com/vijaydwivedi75/lrgb
-  and deposited at https://doi.org/10.5281/zenodo.6975830Zenodo~dwivedi_vijay_prakash_2022_6975830.
-  with 5 graph learning datasets: , , , and that arguably require LRI reasoning to
-  achieve strong performance in a given task. We benchmark both baseline GNNs and
-  Graph Transformer networks to verify that the models which capture long-range dependencies
-  perform significantly better on these tasks. Therefore, these datasets are suitable
-  for benchmarking and exploration of MP-GNNs and Graph Transformer architectures
-  that are intended to capture LRI.'
+abstract: Graph Neural Networks (GNNs) that are based on the message passing (MP) paradigm generally exchange
+  information between 1-hop neighbors to build node representations at each layer. In principle, such
+  networks are not able to capture long-range interactions (LRI) that may be desired or necessary for
+  learning a given task on graphs. Recently, there has been an increasing interest in development of Transformer-based
+  methods for graphs that can consider full node connectivity beyond the original sparse structure, thus
+  enabling the modeling of LRI. However, MP-GNNs that simply rely on 1-hop message passing often fare
+  better in several existing graph benchmarks when combined with positional feature representations, among
+  other innovations, hence limiting the perceived utility and ranking of Transformer-like architectures.
+  Here, we present the Long Range Graph Benchmark (LRGB) Open-sourced at https://github.com/vijaydwivedi75/lrgb
+  and deposited at https://doi.org/10.5281/zenodo.6975830Zenodo dwivedi_vijay_prakash_2022_6975830. with
+  5 graph learning datasets:,,, and that arguably require LRI reasoning to achieve strong performance
+  in a given task. We benchmark both baseline GNNs and Graph Transformer networks to verify that the models
+  which capture long-range dependencies perform significantly better on these tasks. Therefore, these
+  datasets are suitable for benchmarking and exploration of MP-GNNs and Graph Transformer architectures
+  that are intended to capture LRI.
 codebase_url: https://github.com/vijaydwivedi75/lrgb
 extraction_model: qwen3.6-35b-a3b
 has_results: true

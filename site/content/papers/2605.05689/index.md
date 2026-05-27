@@ -5,35 +5,23 @@ source_url: ''
 authors: []
 published_date: May 2026
 published_date_iso: 2026-05
-abstract: 'Abstract Conditional generative models, particularly diffusion-based methods,
-  have recently been applied to graph prediction by modeling the target as a conditional
-  distribution given the input graph, yielding competitive results compared to deterministic
-  predictor.
-
-  However, existing diffusion-based prediction methods typically require expensive
-  iterative denoising at inference and often suffer from unstable sampling, which
-  motivates recent efforts to reduce inference denoising steps and enable stable sampling
-  via techniques such as consistency training.
-
-  Despite this progress, we find that existing consistency training methods for graph
-  prediction could potentially fall into a shortcut solution: the model may attempt
-  to satisfy the self-consistency constraint by ignoring the noisy target (i.e., assigning
-  it negligible weight), ultimately collapsing into a purely deterministic predictor.
-
-  To mitigate such shortcut solution, we propose GCCM, a graph contrastive consistency
-  model that goes beyond isolated pairwise matching between the same target at different
-  noise levels by introducing negative pairs into a contrastive consistency objective.
-
-  This adds an additional separation requirement, making the shortcut solution no
-  longer trivially sufficient to satisfy the proposed objective.
-
-  Moreover, we apply feature perturbation to the input node/edge features to break
-  identical conditioning on the input graph, so that the shortcut no longer yields
-  the same predictions across noise levels and becomes less attractive.
-
-  Extensive experiments on benchmark datasets demonstrate that GCCM mitigates the
-  shortcut solution and yields consistent performance improvements in graph prediction
-  compared to deterministic predictors.'
+abstract: 'Abstract Conditional generative models, particularly diffusion-based methods, have recently
+  been applied to graph prediction by modeling the target as a conditional distribution given the input
+  graph, yielding competitive results compared to deterministic predictor. However, existing diffusion-based
+  prediction methods typically require expensive iterative denoising at inference and often suffer from
+  unstable sampling, which motivates recent efforts to reduce inference denoising steps and enable stable
+  sampling via techniques such as consistency training. Despite this progress, we find that existing consistency
+  training methods for graph prediction could potentially fall into a shortcut solution: the model may
+  attempt to satisfy the self-consistency constraint by ignoring the noisy target (i.e., assigning it
+  negligible weight), ultimately collapsing into a purely deterministic predictor. To mitigate such shortcut
+  solution, we propose GCCM, a graph contrastive consistency model that goes beyond isolated pairwise
+  matching between the same target at different noise levels by introducing negative pairs into a contrastive
+  consistency objective. This adds an additional separation requirement, making the shortcut solution
+  no longer trivially sufficient to satisfy the proposed objective. Moreover, we apply feature perturbation
+  to the input node/edge features to break identical conditioning on the input graph, so that the shortcut
+  no longer yields the same predictions across noise levels and becomes less attractive. Extensive experiments
+  on benchmark datasets demonstrate that GCCM mitigates the shortcut solution and yields consistent performance
+  improvements in graph prediction compared to deterministic predictors.'
 codebase_url: ''
 extraction_model: qwen3.6-35b-a3b
 has_results: true

@@ -5,21 +5,18 @@ source_url: ''
 authors: []
 published_date: Sep 2025
 published_date_iso: 2025-09
-abstract: 'Expressivity theory, characterizing which graphs a GNN can distinguish,
-  has become the predominant framework for analyzing GNNs, with new models striving
-  for higher expressivity. However, we argue that this focus is misguided: First,
-  higher expressivity is not necessary for most real-world tasks as these tasks rarely
-  require expressivity beyond the basic WL test. Second, expressivity theory''s binary
-  characterization and idealized assumptions fail to reflect GNNs'' practical capabilities.
-  To overcome these limitations, we propose Message Passing Complexity (): a continuous
-  measure that quantifies the difficulty for a GNN architecture to solve a given task
-  through message passing. captures practical limitations like over-squashing while
-  preserving theoretical impossibility results from expressivity theory, effectively
-  narrowing the gap between theory and practice. Through extensive validation on fundamental
-  GNN tasks, we show that ''s theoretical predictions correlate with empirical performance,
-  successfully explaining architectural successes and failures. Thereby, advances
-  beyond expressivity theory to provide a more powerful and nuanced framework for
-  understanding and improving GNN architectures.'
+abstract: 'Expressivity theory, characterizing which graphs a GNN can distinguish, has become the predominant
+  framework for analyzing GNNs, with new models striving for higher expressivity. However, we argue that
+  this focus is misguided: First, higher expressivity is not necessary for most real-world tasks as these
+  tasks rarely require expressivity beyond the basic WL test. Second, expressivity theory''s binary characterization
+  and idealized assumptions fail to reflect GNNs'' practical capabilities. To overcome these limitations,
+  we propose Message Passing Complexity: a continuous measure that quantifies the difficulty for a GNN
+  architecture to solve a given task through message passing. captures practical limitations like over-squashing
+  while preserving theoretical impossibility results from expressivity theory, effectively narrowing the
+  gap between theory and practice. Through extensive validation on fundamental GNN tasks, we show that
+  ''s theoretical predictions correlate with empirical performance, successfully explaining architectural
+  successes and failures. Thereby, advances beyond expressivity theory to provide a more powerful and
+  nuanced framework for understanding and improving GNN architectures.'
 codebase_url: ''
 extraction_model: qwen3.6-35b-a3b
 has_results: true

@@ -3,23 +3,20 @@ title: Towards Dynamic Message Passing on Graphs
 arxiv_id: '2410.23686'
 authors: []
 published_date: Oct 2024
-abstract: Message passing plays a vital role in graph neural networks (GNNs) for effective
-  feature learning. However, the over-reliance on input topology diminishes the efficacy
-  of message passing and restricts the ability of GNNs. Despite efforts to mitigate
-  the reliance, existing study encounters message-passing bottlenecks or high computational
-  expense problems, which invokes the demands for flexible message passing with low
-  complexity. In this paper, we propose a novel dynamic message-passing mechanism
-  for GNNs. It projects graph nodes and learnable pseudo nodes into a common space
-  with measurable spatial relations between them. With nodes moving in the space,
-  their evolving relations facilitate flexible pathway construction for a dynamic
-  message-passing process. Associating pseudo nodes to input graphs with their measured
-  relations, graph nodes can communicate with each other intermediately through pseudo
-  nodes under linear complexity. We further develop a GNN model named ~based on our
-  dynamic message-passing mechanism. ~employs a single recurrent layer to recursively
-  generate the displacements of nodes and construct optimal dynamic pathways. Evaluation
-  on eighteen benchmarks demonstrates the superior performance of ~over popular GNNs.
-  ~successfully scales to large-scale benchmarks and requires significantly fewer
-  parameters for graph classification with the shared recurrent layer.
+abstract: Message passing plays a vital role in graph neural networks (GNNs) for effective feature learning.
+  However, the over-reliance on input topology diminishes the efficacy of message passing and restricts
+  the ability of GNNs. Despite efforts to mitigate the reliance, existing study encounters message-passing
+  bottlenecks or high computational expense problems, which invokes the demands for flexible message passing
+  with low complexity. In this paper, we propose a novel dynamic message-passing mechanism for GNNs. It
+  projects graph nodes and learnable pseudo nodes into a common space with measurable spatial relations
+  between them. With nodes moving in the space, their evolving relations facilitate flexible pathway construction
+  for a dynamic message-passing process. Associating pseudo nodes to input graphs with their measured
+  relations, graph nodes can communicate with each other intermediately through pseudo nodes under linear
+  complexity. We further develop a GNN model named based on our dynamic message-passing mechanism. employs
+  a single recurrent layer to recursively generate the displacements of nodes and construct optimal dynamic
+  pathways. Evaluation on eighteen benchmarks demonstrates the superior performance of over popular GNNs.
+  successfully scales to large-scale benchmarks and requires significantly fewer parameters for graph
+  classification with the shared recurrent layer.
 codebase_url: ''
 extraction_model: MiniMaxAI/MiniMax-M2.5
 has_results: true

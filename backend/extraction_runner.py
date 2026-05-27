@@ -21,6 +21,7 @@ from backend.llm_extractor import (
 )
 from backend.models import Paper, PipelineRun
 from backend.paper_storage import PaperStorage
+from backend.text_cleanup import abstract_has_latex_artifacts, clean_extracted_text
 
 logger = logging.getLogger(__name__)
 
@@ -66,10 +67,14 @@ def run_extraction(
         paper = session.query(Paper).filter_by(arxiv_id=arxiv_id).first()
         paper_id = paper.id if paper else None
         paper_title = paper.title if paper else ""
-        paper_abstract = paper.abstract if paper else ""
+        raw_paper_abstract = paper.abstract if paper else ""
+        paper_abstract = clean_extracted_text(raw_paper_abstract)
+        abstract_has_artifacts = abstract_has_latex_artifacts(raw_paper_abstract)
 
     if screen_first:
-        need_meta = not paper_abstract or _title_looks_corrupted(paper_title)
+        need_meta = (
+            not paper_abstract or abstract_has_artifacts or _title_looks_corrupted(paper_title)
+        )
         if need_meta:
             if storage.html_index_path.exists():
                 try:
@@ -78,7 +83,12 @@ def run_extraction(
                         paper_title = parsed_meta.title
                     if parsed_meta.abstract:
                         paper_abstract = parsed_meta.abstract
-                    need_meta = not paper_abstract or _title_looks_corrupted(paper_title)
+                        abstract_has_artifacts = abstract_has_latex_artifacts(parsed_meta.abstract)
+                    need_meta = (
+                        not paper_abstract
+                        or abstract_has_artifacts
+                        or _title_looks_corrupted(paper_title)
+                    )
                 except Exception:
                     pass
 
@@ -88,7 +98,12 @@ def run_extraction(
                     paper_title = latex_meta["title"]
                 if latex_meta.get("abstract"):
                     paper_abstract = latex_meta["abstract"]
-                need_meta = not paper_abstract or _title_looks_corrupted(paper_title)
+                    abstract_has_artifacts = abstract_has_latex_artifacts(latex_meta["abstract"])
+                need_meta = (
+                    not paper_abstract
+                    or abstract_has_artifacts
+                    or _title_looks_corrupted(paper_title)
+                )
 
             if need_meta:
                 logger.info("Fetching metadata from arXiv API for %s", arxiv_id)
@@ -102,7 +117,7 @@ def run_extraction(
                     if p:
                         if _title_looks_corrupted(p.title):
                             p.title = paper_title
-                        if not p.abstract:
+                        if not p.abstract or abstract_has_latex_artifacts(p.abstract):
                             p.abstract = paper_abstract
 
         if paper_title and not _title_looks_corrupted(paper_title):
@@ -199,7 +214,7 @@ def run_extraction(
         if not paper_title or paper_title.startswith("arXiv:"):
             if parsed.title:
                 paper_title = parsed.title
-        if not paper_abstract and parsed.abstract:
+        if (not paper_abstract or abstract_has_latex_artifacts(paper_abstract)) and parsed.abstract:
             paper_abstract = parsed.abstract
 
     if not paper_text:

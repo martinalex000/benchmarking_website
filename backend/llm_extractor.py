@@ -43,6 +43,7 @@ from backend.db import init_db, session_scope
 from backend.llm_model_options import display_name_for_model, extra_body_for_model
 from backend.models import Paper, PipelineRun
 from backend.paper_storage import PaperStorage
+from backend.text_cleanup import clean_extracted_text
 
 # ParsedTable is imported lazily inside run_extraction to avoid slow startup,
 # but type-annotated here for clarity.
@@ -324,7 +325,9 @@ def fetch_arxiv_metadata(arxiv_id: str) -> dict[str, str]:
             if entry is None:
                 return {}
             title = (entry.find("atom:title", _ARXIV_NS).text or "").replace("\n", " ").strip()
-            abstract = (entry.find("atom:summary", _ARXIV_NS).text or "").replace("\n", " ").strip()
+            abstract = clean_extracted_text(
+                (entry.find("atom:summary", _ARXIV_NS).text or "").replace("\n", " ").strip()
+            )
             published_elem = entry.find("atom:published", _ARXIV_NS)
             published_date = ""
             if published_elem is not None and published_elem.text:

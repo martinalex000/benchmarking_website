@@ -3,21 +3,19 @@ title: Learning Long-Range Representations with Equivariant Messages
 arxiv_id: '2507.19382'
 authors: []
 published_date: Jul 2025
-abstract: Machine learning interatomic potentials trained on first-principles reference
-  data are becoming valuable tools for computational physics, biology, and chemistry.
-  Equivariant message-passing neural networks, including transformers, achieve state-of-the-art
-  accuracy but rely on cutoff-based graphs, limiting their ability to capture long-range
-  effects such as electrostatics or dispersion, as well as electron delocalization.
-  While long-range correction schemes based on inverse power laws of interatomic distances
-  have been proposed, they are unable to communicate higher-order geometric information
-  and are thus limited in applicability. To address this shortcoming, we propose the
-  use of equivariant, rather than scalar, charges for long-range interactions, and
-  design a graph neural network architecture, , around this long-range message passing
-  mechanism. We consider several datasets specifically designed to highlight non-local
-  physical effects, and compare short-range message passing with different receptive
-  fields to invariant and equivariant long-range message passing. Even though most
-  approaches work for careful dataset-specific choices of their model hyperparameters,
-  works consistently without such changes, with excellent benchmark performance.
+abstract: Machine learning interatomic potentials trained on first-principles reference data are becoming
+  valuable tools for computational physics, biology, and chemistry. Equivariant message-passing neural
+  networks, including transformers, achieve state-of-the-art accuracy but rely on cutoff-based graphs,
+  limiting their ability to capture long-range effects such as electrostatics or dispersion, as well as
+  electron delocalization. While long-range correction schemes based on inverse power laws of interatomic
+  distances have been proposed, they are unable to communicate higher-order geometric information and
+  are thus limited in applicability. To address this shortcoming, we propose the use of equivariant, rather
+  than scalar, charges for long-range interactions, and design a graph neural network architecture,, around
+  this long-range message passing mechanism. We consider several datasets specifically designed to highlight
+  non-local physical effects, and compare short-range message passing with different receptive fields
+  to invariant and equivariant long-range message passing. Even though most approaches work for careful
+  dataset-specific choices of their model hyperparameters, works consistently without such changes, with
+  excellent benchmark performance.
 codebase_url: ''
 extraction_model: qwen3.6-35b-a3b
 has_results: true

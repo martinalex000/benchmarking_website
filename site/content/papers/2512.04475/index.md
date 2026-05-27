@@ -3,18 +3,15 @@ title: GraphBench
 arxiv_id: '2512.04475'
 authors: []
 published_date: Dec 2025
-abstract: Machine learning on graphs has recently achieved impressive progress in
-  various domains, including molecular property prediction and chip design. However,
-  benchmarking practices remain fragmented, often relying on narrow, task-specific
-  datasets and inconsistent evaluation protocols, which hampers reproducibility and
-  broader progress. To address this, we introduce , a comprehensive benchmarking suite
-  that spans diverse domains and prediction tasks, including node-level, edge-level,
-  graph-level, and generative settings. provides standardized evaluation protocols---with
-  consistent dataset splits and performance metrics that account for out-of-distribution
-  generalization---as well as a unified hyperparameter tuning framework. Additionally,
-  we benchmark using message-passing neural networks and graph transformer models,
-  providing principled baselines and establishing a reference performance. See www.graphbench.io
-  for further details.
+abstract: Machine learning on graphs has recently achieved impressive progress in various domains, including
+  molecular property prediction and chip design. However, benchmarking practices remain fragmented, often
+  relying on narrow, task-specific datasets and inconsistent evaluation protocols, which hampers reproducibility
+  and broader progress. To address this, we introduce, a comprehensive benchmarking suite that spans diverse
+  domains and prediction tasks, including node-level, edge-level, graph-level, and generative settings.
+  provides standardized evaluation protocols---with consistent dataset splits and performance metrics
+  that account for out-of-distribution generalization---as well as a unified hyperparameter tuning framework.
+  Additionally, we benchmark using message-passing neural networks and graph transformer models, providing
+  principled baselines and establishing a reference performance. See www.graphbench.io for further details.
 codebase_url: https://github.com/graphbench/package
 extraction_model: qwen3.6-35b-a3b
 has_results: true
