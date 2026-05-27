@@ -357,8 +357,9 @@ _EXPANSION_BODY = r"(?:[^{}]|\{(?:[^{}]|\{[^{}]*\})*\})*"
 
 _NEWCMD_RE = re.compile(
     r"\\(?:new|renew)command\s*\*?\s*"
-    r"\{\\([a-zA-Z]{3,})\}"  # {\cmdname}  — ≥ 3 chars to skip \l, \a …
-    r"\s*(?!\[)"  # NOT followed by [N]  (would mean N arguments)
+    r"(?:\{\\([a-zA-Z]{3,})\}|\\([a-zA-Z]{3,}))"  # {\cmdname} or \cmdname
+    r"\s*(?:\[0\])?"  # explicit zero-arg form like \newcommand\foo[0]{...}
+    r"\s*(?!\[[1-9])"  # NOT followed by [N] for N>=1 arguments
     r"\{(" + _EXPANSION_BODY + r")\}",
 )
 
@@ -384,7 +385,9 @@ def _expand_user_macros(tex: str) -> tuple[str, dict[str, str]]:
     macro_map: dict[str, str] = {}
 
     for m in _NEWCMD_RE.finditer(tex):
-        macro_map[m.group(1)] = m.group(2)
+        name = m.group(1) or m.group(2)
+        expansion = m.group(3)
+        macro_map[name] = expansion
 
     for m in _DEF_RE.finditer(tex):
         if m.group(1) not in macro_map:  # \newcommand takes priority over \def

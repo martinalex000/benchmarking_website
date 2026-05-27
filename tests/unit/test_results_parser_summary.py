@@ -7,7 +7,7 @@ from pathlib import Path
 
 from backend.config import cfg
 from backend.db import init_db, session_scope
-from backend.models import Benchmark, Dataset, DatasetVariant, Paper
+from backend.models import Benchmark, Dataset, DatasetVariant, Paper, Result
 from backend.paper_storage import PaperStorage
 from backend.results_parser import parse_and_store_with_summary
 
@@ -113,3 +113,72 @@ def test_parse_and_store_with_summary_reports_side_effects(monkeypatch, tmp_path
 
     assert paper.title == "Summary Test Paper"
     assert paper.codebase_url == "https://github.com/example/project"
+
+
+def test_parse_and_store_with_summary_quarantines_suspicious_method_names(monkeypatch, tmp_path):
+    _configure_temp_workspace(monkeypatch, tmp_path)
+    init_db()
+
+    with session_scope() as session:
+        benchmark = Benchmark(name="Citation Benchmark", short_name="citation")
+        session.add(benchmark)
+        session.flush()
+        dataset = Dataset(
+            benchmark_id=benchmark.id,
+            name="Cora",
+            task_type="node_classification",
+            primary_metric="Accuracy",
+            higher_is_better=1,
+        )
+        session.add(dataset)
+        session.flush()
+        session.add(DatasetVariant(dataset_id=dataset.id, name="Standard", is_standard=1))
+
+    storage = PaperStorage("2309.04082")
+    storage.ensure_dirs()
+    storage.metadata_path.write_text(
+        json.dumps(
+            {
+                "title": "Curve Your Attention: Mixed-Curvature Transformers for Graph Representation Learning"
+            }
+        ),
+        encoding="utf-8",
+    )
+    storage.text_path.write_text(
+        "We propose FPS-T for graph representation learning.", encoding="utf-8"
+    )
+    storage.llm_output_path.write_text(
+        json.dumps(
+            {
+                "model_used": "fake-primary",
+                "results": {
+                    "proposed_model": {"name": r"\modelname{}"},
+                    "results": [
+                        {
+                            "model": r"\modelname{}",
+                            "is_proposed": True,
+                            "dataset": "Cora",
+                            "metric": "Accuracy",
+                            "value": 0.91,
+                            "higher_is_better": True,
+                        }
+                    ],
+                },
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    summary = parse_and_store_with_summary("2309.04082")
+
+    assert summary.quarantined is True
+    assert "proposed model name still contains LaTeX or citation text" in summary.quarantine_reasons
+    assert r"\modelname" in summary.quarantine_model_names
+    assert summary.new_results == 0
+
+    with session_scope() as session:
+        paper = session.query(Paper).filter_by(arxiv_id="2309.04082").one()
+        result_count = session.query(Result).count()
+
+    assert paper.extraction_status == "quarantined_method_name"
+    assert result_count == 0

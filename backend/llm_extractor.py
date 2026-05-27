@@ -1695,6 +1695,10 @@ class LLMExtractor:
                 section headings) and per-dataset RAG (experiment-section text
                 instead of the full paper).
         """
+        intro_model_hint = _extract_proposed_model_hint(
+            "", _paper_intro_text(paper_text, latex_paper)
+        )
+
         # ── Choose tables and text source ─────────────────────────────────
         if latex_paper is not None:
             # Filter out formula/alignment environments masquerading as tables:
@@ -1823,7 +1827,13 @@ class LLMExtractor:
                 f"Skip results for optional variants (e.g. different graph formats, "
                 f"SLIC values, or other construction options) if the table shows "
                 f"multiple configurations.\n"
-                f"{metric_constraint}\n"
+                + (
+                    f'PROPOSED MODEL HINT: The introduction names the paper\'s main proposed method as "{intro_model_hint}". '
+                    f'Use that exact name instead of placeholders like "Ours" when the row refers to the paper\'s method.\n'
+                    if intro_model_hint
+                    else ""
+                )
+                + f"{metric_constraint}\n"
                 f"{context}"
             )
             logger.info(
@@ -2281,6 +2291,14 @@ class LLMExtractor:
         # Task 3: Model sizes (merge back into results_out)
         sizes = self.extract_model_sizes(paper_text)
         _apply_sizes(results_out, sizes)
+        intro_model_hint = _extract_proposed_model_hint(
+            paper_title,
+            _paper_intro_text(paper_text, latex_paper),
+        )
+        _rename_generic_proposed_rows(results_out, intro_model_hint)
+        if intro_model_hint:
+            note = f"Intro-derived proposed-model hint: {intro_model_hint}."
+            results_out.extraction_notes = f"{results_out.extraction_notes}\n{note}".strip()
         _stabilize_model_names(results_out, paper_title=paper_title)
         usage_summary = _summarize_call_usage(self._call_log, self._probe_usage_limits())
 
@@ -2603,8 +2621,177 @@ def _normalise_model_name_text(name: str) -> str:
     clean = clean.replace("^{*}", "*")
     clean = clean.replace("^*", "*")
     clean = clean.replace("$", "")
+    clean = clean.replace("\\text{-}", "-")
+    clean = re.sub(r"\\textsubscript\{([^}]*)\}", r"-\1", clean)
+    greek_map = {
+        r"\alpha": "α",
+        r"\beta": "β",
+        r"\gamma": "γ",
+        r"\delta": "δ",
+        r"\Delta": "Δ",
+        r"\kappa": "κ",
+        r"\lambda": "λ",
+        r"\mu": "μ",
+        r"\Sigma": "Σ",
+        r"\sigma": "σ",
+        r"\ell": "ℓ",
+    }
+    for latex, unicode_value in greek_map.items():
+        clean = clean.replace(latex, unicode_value)
+    clean = clean.replace("{}", "")
     clean = re.sub(r"\s+", " ", clean)
     return clean.strip()
+
+
+_INTRO_METHOD_PATTERNS: tuple[re.Pattern[str], ...] = (
+    re.compile(
+        r"(?P<long>[A-Z][A-Za-z0-9+\-/ ]{2,100})\s*\((?P<short>[A-Z][A-Za-z0-9+\-]{1,30})\)"
+    ),
+    re.compile(
+        r"which we name(?: as)?\s+(?:the\s+resulting\s+model\s+)?(?P<name>[A-Z][^.;:\n]{1,120})",
+        re.IGNORECASE,
+    ),
+    re.compile(
+        r"we (?:propose|introduce|develop|present|call|name)\s+(?:an?\s+|our\s+)?(?:model|method|architecture|framework)?\s*(?P<name>[A-Z][^.;:\n]{1,120})",
+        re.IGNORECASE,
+    ),
+)
+_TITLE_METHOD_PREFIX_RE = re.compile(r"^([A-Z][A-Za-z0-9+\-]{2,40})\s*:")
+
+
+def _paper_intro_text(paper_text: str, latex_paper: Any = None) -> str:
+    if latex_paper is not None and getattr(latex_paper, "intro_text", ""):
+        return latex_paper.intro_text
+    return (paper_text or "")[:8_000]
+
+
+def _clean_intro_model_candidate(value: str | None) -> str | None:
+    if not value:
+        return None
+    candidate = _normalise_model_name_text(value)
+    candidate = re.split(
+        r"\b(?:takes advantage|that|which|for graph|for node|for molecular|to reduce|with|on the)\b",
+        candidate,
+        maxsplit=1,
+        flags=re.IGNORECASE,
+    )[0]
+    candidate = candidate.strip(" .,;:()[]{}")
+    if not candidate:
+        return None
+    if _is_generic_proposed_name(candidate):
+        return None
+    if len(candidate.split()) > 8:
+        return None
+    return candidate
+
+
+def _extract_proposed_model_hint(paper_title: str, intro_text: str) -> str | None:
+    title_match = _TITLE_METHOD_PREFIX_RE.match((paper_title or "").strip())
+    if title_match:
+        candidate = _clean_intro_model_candidate(title_match.group(1))
+        if candidate:
+            return candidate
+
+    source = _normalise_model_name_text(intro_text or "")
+    for pattern in _INTRO_METHOD_PATTERNS:
+        for match in pattern.finditer(source[:8_000]):
+            short_name = match.groupdict().get("short")
+            if short_name:
+                candidate = _clean_intro_model_candidate(short_name)
+                if candidate:
+                    return candidate
+            group_name = "name" if "name" in match.groupdict() else "long"
+            candidate = _clean_intro_model_candidate(match.group(group_name))
+            if candidate:
+                return candidate
+    return None
+
+
+def _proposed_name_aliases(name: str) -> set[str]:
+    normalized = _normalise_model_name_text(name)
+    aliases: set[str] = set()
+    full_key = _canonical_model_name_key(normalized)
+    if full_key:
+        aliases.add(full_key)
+
+    for token in re.split(r"[^A-Za-z0-9]+", normalized):
+        token = token.strip()
+        if len(token) < 3:
+            continue
+        token_key = _canonical_model_name_key(token)
+        if token_key and not _is_generic_proposed_name(token):
+            aliases.add(token_key)
+        m = re.match(
+            r"(?P<prefix>[A-Za-z0-9]{2,})(?:GNNs?|GCN|GAT|GIN|SAGE)$", token, re.IGNORECASE
+        )
+        if m:
+            aliases.add(_canonical_model_name_key(m.group("prefix")))
+
+    paren = re.search(r"\(([^)]{2,30})\)", normalized)
+    if paren:
+        paren_key = _canonical_model_name_key(paren.group(1))
+        if paren_key:
+            aliases.add(paren_key)
+
+    return {alias for alias in aliases if alias}
+
+
+def _matches_proposed_model_name(row_name: str, proposed_name: str) -> bool:
+    row_norm = _normalise_model_name_text(row_name)
+    row_key = _canonical_model_name_key(row_norm)
+    if not row_key:
+        return False
+    for alias in _proposed_name_aliases(proposed_name):
+        if row_key == alias:
+            return True
+        if len(alias) >= 4 and alias in row_key:
+            return True
+        row_tokens = {token for token in re.split(r"[^a-z0-9]+", row_key) if token}
+        if alias in row_tokens:
+            return True
+    return False
+
+
+def _rename_generic_model_name(name: str, proposed_hint: str) -> str | None:
+    clean = _normalise_model_name_text(name or "")
+    if not clean:
+        return None
+    lowered = clean.lower()
+    if clean == "\\modelname{}" or lowered == "ours":
+        return proposed_hint
+    if lowered.startswith("ours("):
+        return proposed_hint + clean[4:]
+    if lowered.startswith("ours "):
+        remainder = clean[5:].strip()
+        if remainder.startswith("(") and remainder.endswith(")"):
+            inner = remainder[1:-1].strip()
+            if inner and _canonical_model_name_key(inner) == _canonical_model_name_key(
+                proposed_hint
+            ):
+                return proposed_hint
+        return f"{proposed_hint} {remainder}".strip()
+    return None
+
+
+def _rename_generic_proposed_rows(extraction: ExtractionOutput, proposed_hint: str | None) -> None:
+    if not proposed_hint:
+        return
+    for result in extraction.results:
+        if not result.is_proposed:
+            continue
+        renamed = _rename_generic_model_name(result.model, proposed_hint)
+        if renamed:
+            result.model = renamed
+
+    if extraction.proposed_model is None:
+        extraction.proposed_model = ProposedModel(name=proposed_hint)
+        return
+
+    renamed = _rename_generic_model_name(extraction.proposed_model.name, proposed_hint)
+    if renamed:
+        extraction.proposed_model.name = renamed
+    elif _is_generic_proposed_name(extraction.proposed_model.name):
+        extraction.proposed_model.name = proposed_hint
 
 
 def _stabilize_model_names(extraction: ExtractionOutput, paper_title: str = "") -> None:
@@ -2649,15 +2836,22 @@ def _stabilize_model_names(extraction: ExtractionOutput, paper_title: str = "") 
 
     proposed_key = _canonical_model_name_key(proposed_name)
     exact_name = proposed_name
+    matched_exact = False
+    matched_family = False
     for result in extraction.results:
         result.is_proposed = _canonical_model_name_key(result.model) == proposed_key
+        if not result.is_proposed and _matches_proposed_model_name(result.model, proposed_name):
+            result.is_proposed = True
+            matched_family = True
         if result.is_proposed:
-            exact_name = result.model
+            if _canonical_model_name_key(result.model) == proposed_key:
+                exact_name = result.model
+                matched_exact = True
 
     if extraction.proposed_model is None:
         extraction.proposed_model = ProposedModel(name=exact_name)
     else:
-        extraction.proposed_model.name = exact_name
+        extraction.proposed_model.name = exact_name if matched_exact else proposed_name
 
     extraction.baseline_models = [
         baseline
@@ -2710,8 +2904,32 @@ def _model_name_appears_in_title(name: str, title_lower: str) -> bool:
 
 def _is_generic_proposed_name(name: str) -> bool:
     lower = _normalise_model_name_text(name).lower()
-    generic_terms = ("gnn", "model", "method", "baseline", "graph neural network")
-    return any(lower == term or lower.startswith(term + " ") for term in generic_terms)
+    generic_terms = (
+        "gnn",
+        "gnns",
+        "model",
+        "method",
+        "approach",
+        "novel approach",
+        "new approach",
+        "our approach",
+        "framework",
+        "architecture",
+        "baseline",
+        "graph neural network",
+        "graph neural networks",
+        "ours",
+        "our model",
+        "our method",
+        "proposed model",
+        "proposed method",
+    )
+    return any(
+        lower == term
+        or lower.startswith(term + " ")
+        or (term in {"gnn", "gnns"} and lower.startswith(term))
+        for term in generic_terms
+    )
 
 
 def _title_looks_like_benchmarking_study(title_lower: str) -> bool:

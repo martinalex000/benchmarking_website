@@ -24,6 +24,7 @@ from thefuzz import fuzz as fuzz_lib
 from thefuzz import process as fuzz_process
 
 from backend.db import init_db, session_scope
+from backend.method_name_audit import audit_extraction_payload
 
 # Patterns like "(ours)", "(base)", "(baseline)" are author annotations, not part
 # of the model name.  Strip them so "IPR-MPNN (ours)" and "IPR-MPNN" resolve to
@@ -108,6 +109,9 @@ class ParseStoreSummary:
     created_stub_paper: bool = False
     metadata_changed: bool = False
     overrides_applied: int = 0
+    quarantined: bool = False
+    quarantine_reasons: list[str] = field(default_factory=list)
+    quarantine_model_names: list[str] = field(default_factory=list)
 
 
 def _is_percentage_metric(metric_name: str) -> bool:
@@ -577,6 +581,37 @@ def parse_and_store_with_summary(arxiv_id: str) -> ParseStoreSummary:
         paper.extraction_model = model_name_used
 
         summary.metadata_changed = _enrich_paper_metadata(arxiv_id, paper, storage)
+
+        overrides: dict[str, Any] = {}
+        if storage.overrides_path.exists():
+            try:
+                import yaml
+
+                overrides = yaml.safe_load(storage.overrides_path.read_text(encoding="utf-8")) or {}
+            except Exception:
+                overrides = {}
+
+        finding = audit_extraction_payload(
+            arxiv_id=arxiv_id,
+            title=paper.title or f"arXiv:{arxiv_id}",
+            results_payload=extraction,
+            overrides=overrides,
+        )
+        if finding is not None:
+            paper.extraction_status = "quarantined_method_name"
+            summary.quarantined = True
+            summary.quarantine_reasons = list(finding.reasons)
+            summary.quarantine_model_names = [
+                name for name in [finding.proposed_name, *finding.suspicious_result_names] if name
+            ]
+            logger.warning(
+                "Quarantining arXiv:%s due to suspicious method names: %s",
+                arxiv_id,
+                "; ".join(finding.reasons),
+            )
+            return summary
+
+        paper.extraction_status = "extracted"
 
         variant_map = _load_variant_map(session)
         canonical_map, alias_map = _load_model_map(session)

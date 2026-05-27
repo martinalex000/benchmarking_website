@@ -364,7 +364,7 @@ def _do_extract(
     if not two_step:
         console.print("  [dim]Mode: one-shot (--oneshot)[/dim]")
 
-    ok = run_extraction(arxiv_id, model_tier=model_tier, screen_first=screen, two_step=two_step)
+    ok = run_extraction(arxiv_id, model_tier=model_tier, screen_first=screen)
     if not ok:
         console.print(
             f"\n[red]Extraction failed or stage-1 rejected.[/red]\n"
@@ -1039,10 +1039,21 @@ def main() -> None:
     # Collect unknown datasets non-interactively; user reviews later
     _collect_unknown_datasets(arxiv_id, paper_title)
 
-    from backend.results_parser import parse_and_store
+    from backend.results_parser import parse_and_store_with_summary
 
-    n = parse_and_store(arxiv_id)
-    console.print(f"  [green]{n}[/green] result row(s) stored.")
+    summary = parse_and_store_with_summary(arxiv_id)
+    if summary.quarantined:
+        console.print("  [yellow]Paper quarantined due to suspicious method names.[/yellow]")
+        if summary.quarantine_model_names:
+            console.print(
+                "  [dim]Suspicious names: "
+                + ", ".join(summary.quarantine_model_names[:8])
+                + "[/dim]"
+            )
+        if summary.quarantine_reasons:
+            console.print("  [dim]Reasons: " + "; ".join(summary.quarantine_reasons) + "[/dim]")
+    else:
+        console.print(f"  [green]{summary.new_results}[/green] result row(s) stored.")
 
     # ── Export ────────────────────────────────────────────────────────────
     console.print("\n[bold]4. Export to Hugo[/bold]")

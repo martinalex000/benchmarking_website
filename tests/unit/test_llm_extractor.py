@@ -8,11 +8,16 @@ from backend.llm_extractor import (
     ResultEntry,
     BaselineModelInfo,
     _merge_extraction_outputs,
+    _extract_proposed_model_hint,
+    _matches_proposed_model_name,
+    _normalise_model_name_text,
+    _rename_generic_proposed_rows,
     _render_human_readable,
     _split_into_chunks,
     _title_looks_corrupted,
     FigureInfo,
 )
+from backend.latex_source import _expand_user_macros
 
 
 def test_split_into_chunks_small():
@@ -108,6 +113,64 @@ def test_merge_extraction_outputs_dedupes_and_normalizes():
     assert len(merged.results) == 1
     assert merged.results[0].metric == "AP"
     assert merged.results[0].value == pytest.approx(0.6)
+
+
+def test_expand_user_macros_supports_zero_arg_unbraced_newcommand():
+    tex, macro_map = _expand_user_macros(
+        r"\newcommand\modelname[0]{FPS-T}\nThe method is \modelname{}."
+    )
+
+    assert macro_map["modelname"] == "FPS-T"
+    assert "FPS-T{}" in tex or "FPS-T" in tex
+
+
+def test_extract_proposed_model_hint_prefers_title_prefix():
+    hint = _extract_proposed_model_hint(
+        "GraphMinNet: Learning Dependencies in Graphs with Light Complexity Minimal Architecture",
+        "We compare our method against GraphGPS and GIN.",
+    )
+
+    assert hint == "GraphMinNet"
+
+
+def test_extract_proposed_model_hint_prefers_short_abbreviation_from_intro():
+    hint = _extract_proposed_model_hint(
+        "Curve Your Attention: Mixed-Curvature Transformers for Graph Representation Learning",
+        "The resulting model, which we name as Fully Product-Stereographic Transformer (FPS-T), takes advantage of long-range interactions.",
+    )
+
+    assert hint == "FPS-T"
+
+
+def test_normalise_model_name_text_converts_common_greek_to_unicode():
+    assert _normalise_model_name_text(r"G-\DeltaUQ") == "G-ΔUQ"
+    assert _normalise_model_name_text(r"\kappa-GCN") == "κ-GCN"
+
+
+def test_matches_proposed_model_name_accepts_variant_rows():
+    assert _matches_proposed_model_name("GCN + RandAlign", "RandAlign") is True
+    assert _matches_proposed_model_name("LargeGT-local", "LargeGT") is True
+    assert _matches_proposed_model_name("PIGN + GCN", "PIGN") is True
+
+
+def test_rename_generic_proposed_rows_uses_intro_hint():
+    extraction = ExtractionOutput(
+        proposed_model=ProposedModel(name="Ours"),
+        results=[
+            ResultEntry(
+                model="Ours", is_proposed=True, dataset="MNIST", metric="Accuracy", value=0.9
+            ),
+            ResultEntry(
+                model="GCN", is_proposed=False, dataset="MNIST", metric="Accuracy", value=0.8
+            ),
+        ],
+    )
+
+    _rename_generic_proposed_rows(extraction, "GraphMinNet")
+
+    assert extraction.proposed_model is not None
+    assert extraction.proposed_model.name == "GraphMinNet"
+    assert extraction.results[0].model == "GraphMinNet"
 
 
 @pytest.mark.parametrize(
