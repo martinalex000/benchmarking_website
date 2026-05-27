@@ -11,7 +11,7 @@ stats:
   num_graphs: 169343
   avg_nodes: 1166243.0
   avg_edges: null
-  num_classes: 1
+  num_classes: 40
 result_count: 157
 best_model:
   model: GLEM-GNN

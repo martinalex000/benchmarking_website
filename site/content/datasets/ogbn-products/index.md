@@ -11,7 +11,7 @@ stats:
   num_graphs: 2449029
   avg_nodes: 61859140.0
   avg_edges: null
-  num_classes: 1
+  num_classes: 47
 result_count: 53
 best_model:
   model: SAGE

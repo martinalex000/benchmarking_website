@@ -119,8 +119,8 @@
   </table>
   {{ if and (gt $collapseAfter 0) (gt (len $rows) $collapseAfter) }}
   <div class="table-more-wrap">
-    <button type="button" class="table-more-btn" data-table-more="#tbl-{{ $slug }}" data-expanded="false">
-      More ({{ sub (len $rows) $collapseAfter }} hidden rows)
+    <button type="button" class="table-more-btn" data-table-more="#tbl-{{ $slug }}" data-expanded="false" aria-expanded="false">
+      Show all {{ len $rows }} rows ({{ sub (len $rows) $collapseAfter }} hidden)
     </button>
   </div>
   {{ end }}

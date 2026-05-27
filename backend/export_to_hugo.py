@@ -244,6 +244,106 @@ def _dataset_force_export(dataset_name: str) -> bool:
     return bool(ds_cfg.get("export_without_results"))
 
 
+_CLASS_TARGET_COUNT_PATTERNS: tuple[re.Pattern[str], ...] = (
+    re.compile(
+        r"\b(\d+)\s+(?:subject\s+areas?|subjects?|classes?|targets?|tasks?|labels?)\b", re.I
+    ),
+    re.compile(r"\b(\d+)\s+(?:venue|community|go)\s+labels?\b", re.I),
+    re.compile(r"\b(\d+)\s+categories?\b", re.I),
+)
+
+
+def _description_class_target_count(description: str | None) -> int | None:
+    text = " ".join(str(description or "").split())
+    if not text:
+        return None
+
+    for pattern in _CLASS_TARGET_COUNT_PATTERNS:
+        match = pattern.search(text)
+        if match:
+            try:
+                count = int(match.group(1))
+            except (TypeError, ValueError):
+                continue
+            if count > 0:
+                return count
+    return None
+
+
+def _summary_num_classes(dataset: Dataset) -> int | None:
+    raw_count = dataset.num_classes
+    desc_count = _description_class_target_count(dataset.description)
+    if desc_count is None:
+        return raw_count
+    if raw_count is None or raw_count <= 1:
+        return desc_count
+    return raw_count
+
+
+def _dataset_page_export_metadata(session: Any, dataset_id: int) -> dict[str, Any]:
+    """Return whether a dataset page exports and the aligned overview result count."""
+    ds = session.get(Dataset, dataset_id)
+    if ds is None:
+        return {"exportable": False, "result_count": 0}
+
+    variants = (
+        session.query(DatasetVariant)
+        .filter_by(dataset_id=dataset_id)
+        .order_by(DatasetVariant.is_standard.desc(), DatasetVariant.name)
+        .all()
+    )
+    if not variants:
+        return {"exportable": False, "result_count": 0}
+
+    force_export = _dataset_force_export(ds.name)
+    variant_counts: list[tuple[bool, int]] = []
+    exportable = False
+    primary_metric = ds.primary_metric or ""
+
+    for v in variants:
+        all_results = (
+            session.query(Result)
+            .filter_by(dataset_variant_id=v.id)
+            .filter(Result.is_problematic.is_(None) | (Result.is_problematic == 0))
+            .all()
+        )
+
+        if not all_results:
+            if force_export:
+                exportable = True
+            continue
+
+        exportable = True
+        available_metrics = {r.metric_name for r in all_results}
+        if primary_metric and primary_metric in available_metrics:
+            metric = primary_metric
+        else:
+            from collections import Counter
+
+            metric = Counter(r.metric_name for r in all_results).most_common(1)[0][0]
+            if not primary_metric:
+                primary_metric = metric
+
+        metrics_ordered, _hib, rows = _build_multi_metric_rows(all_results, metric)
+        display_metrics = _dataset_display_metrics(ds.name)
+        _metrics_ordered, rows, _metric = _apply_display_metrics_filter(
+            metrics_ordered,
+            rows,
+            display_metrics,
+            metric,
+        )
+        variant_counts.append((bool(v.is_standard), len(rows)))
+
+    if not exportable:
+        return {"exportable": False, "result_count": 0}
+
+    std_count = next((count for is_std, count in variant_counts if is_std), None)
+    result_count = (
+        std_count if std_count is not None else (variant_counts[0][1] if variant_counts else 0)
+    )
+    return {"exportable": True, "result_count": result_count}
+
+
 def _paper_experiment_scope(task_type: str | None) -> str | None:
     task_key = (task_type or "").strip().lower()
     if task_key.startswith("node_"):
@@ -1446,55 +1546,7 @@ def _dataset_page_result_count(session: Any, dataset_id: int) -> int:
 
     This keeps landing-page counts aligned with per-dataset pages.
     """
-    ds = session.get(Dataset, dataset_id)
-    if ds is None:
-        return 0
-
-    variants = (
-        session.query(DatasetVariant)
-        .filter_by(dataset_id=dataset_id)
-        .order_by(DatasetVariant.is_standard.desc(), DatasetVariant.name)
-        .all()
-    )
-    if not variants:
-        return 0
-
-    variant_counts: list[tuple[bool, int]] = []
-    primary_metric = ds.primary_metric or ""
-    for v in variants:
-        all_results = (
-            session.query(Result)
-            .filter_by(dataset_variant_id=v.id)
-            .filter(Result.is_problematic.is_(None) | (Result.is_problematic == 0))
-            .all()
-        )
-        if not all_results:
-            continue
-
-        available_metrics = {r.metric_name for r in all_results}
-        if primary_metric and primary_metric in available_metrics:
-            metric = primary_metric
-        else:
-            from collections import Counter
-
-            metric = Counter(r.metric_name for r in all_results).most_common(1)[0][0]
-            if not primary_metric:
-                primary_metric = metric
-
-        metrics_ordered, _hib, rows = _build_multi_metric_rows(all_results, metric)
-        display_metrics = _dataset_display_metrics(ds.name)
-        _metrics_ordered, rows, _metric = _apply_display_metrics_filter(
-            metrics_ordered,
-            rows,
-            display_metrics,
-            metric,
-        )
-        variant_counts.append((bool(v.is_standard), len(rows)))
-
-    if not variant_counts:
-        return 0
-    std = next((count for is_std, count in variant_counts if is_std), None)
-    return std if std is not None else variant_counts[0][1]
+    return int(_dataset_page_export_metadata(session, dataset_id)["result_count"])
 
 
 def export_dataset(dataset_id: int) -> bool:
@@ -1631,7 +1683,7 @@ def export_dataset(dataset_id: int) -> bool:
         stats_num_graphs = ds.num_graphs if ds.num_graphs is not None else std_variant.num_graphs
         stats_avg_nodes = ds.avg_nodes if ds.avg_nodes is not None else std_variant.avg_nodes
         stats_avg_edges = ds.avg_edges if ds.avg_edges is not None else std_variant.avg_edges
-        stats_num_classes = ds.num_classes
+        stats_num_classes = _summary_num_classes(ds)
 
         benchmark_name = ds.benchmark.name if ds.benchmark else ""
         front_matter: dict[str, Any] = {
@@ -1678,8 +1730,14 @@ def export_benchmarks_data() -> None:
 
     with session_scope() as session:
         # Result count per dataset aligned with exported dataset pages.
+        dataset_export_metadata: dict[int, dict[str, Any]] = {
+            ds.id: _dataset_page_export_metadata(session, ds.id)
+            for ds in session.query(Dataset).all()
+        }
         ds_result_counts: dict[int, int] = {
-            ds.id: _dataset_page_result_count(session, ds.id) for ds in session.query(Dataset).all()
+            dataset_id: int(meta["result_count"])
+            for dataset_id, meta in dataset_export_metadata.items()
+            if meta["exportable"]
         }
 
         benchmarks = session.query(Benchmark).all()
@@ -1694,9 +1752,15 @@ def export_benchmarks_data() -> None:
         for b in benchmarks:
             # Sort datasets within this benchmark by cumulated result count (descending)
             sorted_datasets = sorted(
-                b.datasets,
+                [
+                    ds
+                    for ds in b.datasets
+                    if dataset_export_metadata.get(ds.id, {}).get("exportable")
+                ],
                 key=lambda ds: -ds_result_counts.get(ds.id, 0),
             )
+            if not sorted_datasets:
+                continue
             datasets_info = []
             for ds in sorted_datasets:
                 variants = ds.variants  # all variants (not just standard)

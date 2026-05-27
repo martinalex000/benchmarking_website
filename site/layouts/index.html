@@ -4,34 +4,31 @@
   <p>A curated benchmark index for graph learning papers, with extracted results, leaderboard views, and dataset pages grouped by benchmark family.</p>
   {{ $datasets := where .Site.RegularPages "Section" "datasets" }}
   {{ $papers := where .Site.RegularPages "Section" "papers" }}
+  {{ $papersWithResults := where $papers "Params.has_results" true }}
   {{ $benchmarks := hugo.Data.benchmarks }}
-  {{ $stats := newScratch }}
-  {{ $stats.Set "resultCount" 0 }}
-  {{ $stats.Set "benchmarkCount" 0 }}
-  {{ $stats.Set "datasetCount" 0 }}
-  
+  {{ $resultCount := 0 }}
+  {{ range $datasets }}
+    {{ with .Params.result_count }}
+      {{ $resultCount = add $resultCount . }}
+    {{ end }}
+  {{ end }}
+  {{ $benchmarkCount := 0 }}
   {{ if $benchmarks }}
-    {{ $stats.Set "benchmarkCount" (len $benchmarks) }}
-    {{ range $benchmarks }}
-      {{ $stats.Add "datasetCount" (len .datasets) }}
-      {{ range .datasets }}
-        {{ $stats.Add "resultCount" .result_count }}
-      {{ end }}
-    {{ end }}
+    {{ $benchmarkCount = len $benchmarks }}
   {{ else }}
+    {{ $benchmarkNames := slice }}
     {{ range $datasets }}
-      {{ with .Params.result_count }}
-        {{ $stats.Add "resultCount" . }}
+      {{ with .Params.benchmark }}
+        {{ $benchmarkNames = $benchmarkNames | append . }}
       {{ end }}
     {{ end }}
-    {{ $stats.Set "benchmarkCount" (len (where .Site.RegularPages "Params.benchmark" "!=" "")) }}
-    {{ $stats.Set "datasetCount" (len $datasets) }}
+    {{ $benchmarkCount = len ($benchmarkNames | uniq) }}
   {{ end }}
   <div class="dataset-stats">
-    <div class="stat-item"><span class="stat-value">{{ $stats.Get "benchmarkCount" }}</span><span class="stat-label">benchmark groups</span></div>
-    <div class="stat-item"><span class="stat-value">{{ $stats.Get "datasetCount" }}</span><span class="stat-label">datasets</span></div>
-    <div class="stat-item"><span class="stat-value">{{ len $papers }}</span><span class="stat-label">papers</span></div>
-    <div class="stat-item"><span class="stat-value">{{ $stats.Get "resultCount" }}</span><span class="stat-label">model results</span></div>
+    <div class="stat-item"><span class="stat-value">{{ $benchmarkCount }}</span><span class="stat-label">benchmark groups</span></div>
+    <div class="stat-item"><span class="stat-value">{{ len $datasets }}</span><span class="stat-label">datasets</span></div>
+    <div class="stat-item"><span class="stat-value">{{ len $papersWithResults }}</span><span class="stat-label">papers</span></div>
+    <div class="stat-item"><span class="stat-value">{{ $resultCount }}</span><span class="stat-label">model results</span></div>
   </div>
   
   <div class="home-nav">

@@ -12,7 +12,7 @@ stats:
   num_graphs: 130831
   avg_nodes: 18.0
   avg_edges: 37.3
-  num_classes: null
+  num_classes: 19
 result_count: 69
 best_model:
   model: Mace

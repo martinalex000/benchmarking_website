@@ -1016,7 +1016,13 @@
         return !(!showBaselines && row.classList.contains("row-baseline"));
       }).length > collapseAfter;
       moreBtn.hidden = !canCollapse;
-      moreBtn.textContent = expanded ? "Show less" : "More (" + hiddenCount + " hidden rows)";
+      moreBtn.setAttribute("aria-expanded", expanded ? "true" : "false");
+      var visibleTotal = rows.filter(function (row) {
+        return !(!showBaselines && row.classList.contains("row-baseline"));
+      }).length;
+      moreBtn.textContent = expanded
+        ? "Hide rows past row " + collapseAfter
+        : "Show all " + visibleTotal + " rows (" + hiddenCount + " hidden)";
     }
   }
 
@@ -1029,6 +1035,7 @@
         if (!table) return;
         var expand = btn.getAttribute("data-expanded") !== "true";
         btn.setAttribute("data-expanded", expand ? "true" : "false");
+        btn.setAttribute("aria-expanded", expand ? "true" : "false");
         _syncTableRows(table);
         _rerank();
       });

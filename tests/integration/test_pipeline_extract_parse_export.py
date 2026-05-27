@@ -8,7 +8,7 @@ from types import SimpleNamespace
 
 from backend.config import cfg
 from backend.db import init_db, session_scope
-from backend.models import Benchmark, Dataset, DatasetVariant, Paper, PipelineRun, Result
+from backend.models import Benchmark, Dataset, DatasetVariant, Model, Paper, PipelineRun, Result
 from backend.paper_storage import PaperStorage
 
 
@@ -276,3 +276,80 @@ def test_export_paper_cleans_abstract_artifacts(monkeypatch, tmp_path):
         in normalized_page_text
     )
     assert "available at https://example.com." in normalized_page_text
+
+
+def test_dataset_export_sanitizes_summary_stats_and_benchmark_data(monkeypatch, tmp_path):
+    _configure_temp_workspace(monkeypatch, tmp_path)
+    init_db()
+
+    from backend import export_to_hugo
+
+    with session_scope() as session:
+        benchmark = Benchmark(name="OGB", short_name="ogb")
+        session.add(benchmark)
+        session.flush()
+
+        dataset = Dataset(
+            benchmark_id=benchmark.id,
+            name="ogbn-arxiv",
+            task_type="node_classification",
+            description="Node classification on arXiv citation network (40 subject areas).",
+            primary_metric="Accuracy",
+            higher_is_better=1,
+            num_graphs=169343,
+            avg_nodes=1166243,
+            num_classes=1,
+        )
+        empty_dataset = Dataset(
+            benchmark_id=benchmark.id,
+            name="No Results Yet",
+            task_type="node_classification",
+            description="Placeholder dataset.",
+            primary_metric="Accuracy",
+            higher_is_better=1,
+        )
+        session.add_all((dataset, empty_dataset))
+        session.flush()
+
+        variant = DatasetVariant(dataset_id=dataset.id, name="Standard split", is_standard=1)
+        empty_variant = DatasetVariant(
+            dataset_id=empty_dataset.id, name="Standard split", is_standard=1
+        )
+        model = Model(name="GLEM-GNN", canonical_name="glem-gnn", paper_id=None, is_baseline=0)
+        paper = Paper(
+            arxiv_id="2307.03393",
+            title="Graph LLMs on Graphs",
+            extraction_status="extracted",
+            published_date="2023-07-01",
+        )
+        session.add_all((variant, empty_variant, model, paper))
+        session.flush()
+
+        result = Result(
+            paper_id=paper.id,
+            model_id=model.id,
+            dataset_variant_id=variant.id,
+            metric_name="Accuracy",
+            metric_value=0.7593,
+            metric_std=0.0019,
+            higher_is_better=1,
+            is_baseline=0,
+        )
+        session.add(result)
+        session.flush()
+
+        dataset_id = dataset.id
+
+    assert export_to_hugo.export_dataset(dataset_id)
+    export_to_hugo.export_benchmarks_data()
+
+    dataset_page = cfg.site_dir / "content" / "datasets" / "ogbn-arxiv" / "index.md"
+    benchmarks_data = cfg.site_dir / "data" / "benchmarks.json"
+
+    assert dataset_page.exists()
+    dataset_text = dataset_page.read_text(encoding="utf-8")
+    assert "num_classes: 40" in dataset_text
+    assert "num_classes: 1" not in dataset_text
+
+    data = json.loads(benchmarks_data.read_text(encoding="utf-8"))
+    assert [dataset_info["name"] for dataset_info in data[0]["datasets"]] == ["ogbn-arxiv"]

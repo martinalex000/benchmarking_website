@@ -144,7 +144,7 @@
     <div class="leaderboard-section" data-variant="{{ $variant.slug }}">
       <h2>Leaderboard — {{ $variant.name }}</h2>
       {{ $rowsLen := len $variant.rows }}
-      {{ partial "multi-metric-table.html" (dict "rows" $variant.rows "metrics" $variant.metrics "primary_metric" $variant.primary_metric "higher_is_better" $variant.higher_is_better "dataset_variant" $variant.slug "collapse_after" (cond (and (gt (len $.Params.variants) 1) (gt $rowsLen 50)) 50 0)) }}
+      {{ partial "multi-metric-table.html" (dict "rows" $variant.rows "metrics" $variant.metrics "primary_metric" $variant.primary_metric "higher_is_better" $variant.higher_is_better "dataset_variant" $variant.slug "collapse_after" (cond (gt $rowsLen 50) 50 0)) }}
     </div>
   </section>
   {{ end }}

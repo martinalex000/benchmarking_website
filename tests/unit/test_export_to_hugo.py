@@ -3,6 +3,7 @@
 import pytest
 
 from backend.export_to_hugo import (
+    _description_class_target_count,
     _has_paper_value_difference,
     _has_paper_value_gap,
     _plain_model,
@@ -54,3 +55,19 @@ def test_rank_for_value_replaces_existing_model_and_inserts_new_one():
     assert _rank_for_value(rows, "gin", 0.85, higher_is_better=True) == 1
     assert _rank_for_value(rows, "mae-model", 0.09, higher_is_better=False) == 1
     assert _rank_for_value(rows, "", 0.7, higher_is_better=True) is None
+
+
+@pytest.mark.parametrize(
+    ("description", "expected"),
+    [
+        ("Node classification on arXiv citation network (40 subject areas).", 40),
+        ("Node classification on Amazon product co-purchase graph (47 categories).", 47),
+        ("Protein-protein interaction node classification (121 GO labels, multi-label).", 121),
+        ("Multi-task graph regression on peptide structural properties (11 targets).", 11),
+        ("Analog circuit topology design across 3 circuit-size datasets.", None),
+    ],
+)
+def test_description_class_target_count_extracts_only_relevant_summary_counts(
+    description, expected
+):
+    assert _description_class_target_count(description) == expected

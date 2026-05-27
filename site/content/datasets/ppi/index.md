@@ -11,7 +11,7 @@ stats:
   num_graphs: 20
   avg_nodes: 2245.3
   avg_edges: 61318.4
-  num_classes: null
+  num_classes: 121
 result_count: 13
 best_model:
   model: QGAT

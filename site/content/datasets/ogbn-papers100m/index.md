@@ -11,7 +11,7 @@ stats:
   num_graphs: 111059956
   avg_nodes: 1615685872.0
   avg_edges: null
-  num_classes: 1
+  num_classes: 172
 result_count: 10
 best_model:
   model: GT + HDSE

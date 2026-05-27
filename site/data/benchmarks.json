@@ -145,18 +145,6 @@
             "slug": "standard-split"
           }
         ]
-      },
-      {
-        "name": "AQSOL",
-        "slug": "aqsol",
-        "task_type": "graph_regression",
-        "result_count": 0,
-        "variants": [
-          {
-            "name": "Standard split",
-            "slug": "standard-split"
-          }
-        ]
       }
     ]
   },
@@ -461,18 +449,6 @@
         ]
       },
       {
-        "name": "PTC_MR",
-        "slug": "ptc-mr",
-        "task_type": "graph_classification",
-        "result_count": 19,
-        "variants": [
-          {
-            "name": "Standard split",
-            "slug": "standard-split"
-          }
-        ]
-      },
-      {
         "name": "RDT-B",
         "slug": "rdt-b",
         "task_type": "graph_classification",
@@ -481,30 +457,6 @@
           {
             "name": "10-fold CV",
             "slug": "10-fold-cv"
-          }
-        ]
-      },
-      {
-        "name": "AIDS",
-        "slug": "aids",
-        "task_type": "graph_classification",
-        "result_count": 0,
-        "variants": [
-          {
-            "name": "Standard split",
-            "slug": "standard-split"
-          }
-        ]
-      },
-      {
-        "name": "PTC",
-        "slug": "ptc",
-        "task_type": "graph_classification",
-        "result_count": 0,
-        "variants": [
-          {
-            "name": "Standard split",
-            "slug": "standard-split"
           }
         ]
       }
@@ -707,70 +659,10 @@
         ]
       },
       {
-        "name": "Alchemy",
-        "slug": "alchemy",
-        "task_type": "graph_regression",
-        "result_count": 6,
-        "variants": [
-          {
-            "name": "Standard split",
-            "slug": "standard-split"
-          }
-        ]
-      },
-      {
         "name": "ogbl-citation2",
         "slug": "ogbl-citation2",
         "task_type": "link_prediction",
         "result_count": 4,
-        "variants": [
-          {
-            "name": "Standard split",
-            "slug": "standard-split"
-          }
-        ]
-      },
-      {
-        "name": "ogbn-mag",
-        "slug": "ogbn-mag",
-        "task_type": "node_classification",
-        "result_count": 0,
-        "variants": [
-          {
-            "name": "Standard split",
-            "slug": "standard-split"
-          }
-        ]
-      },
-      {
-        "name": "ogbl-ddi",
-        "slug": "ogbl-ddi",
-        "task_type": "link_prediction",
-        "result_count": 0,
-        "variants": [
-          {
-            "name": "Standard split",
-            "slug": "standard-split"
-          }
-        ]
-      },
-      {
-        "name": "ogbl-biokg",
-        "slug": "ogbl-biokg",
-        "task_type": "link_prediction",
-        "result_count": 0,
-        "variants": [
-          {
-            "name": "Standard split",
-            "slug": "standard-split"
-          }
-        ]
-      },
-      {
-        "name": "Yelp",
-        "slug": "yelp",
-        "task_type": "node_classification",
-        "result_count": 0,
         "variants": [
           {
             "name": "Standard split",
@@ -945,42 +837,6 @@
         "slug": "esol",
         "task_type": "graph_regression",
         "result_count": 16,
-        "variants": [
-          {
-            "name": "Scaffold split",
-            "slug": "scaffold-split"
-          }
-        ]
-      },
-      {
-        "name": "MUV",
-        "slug": "muv",
-        "task_type": "graph_classification",
-        "result_count": 10,
-        "variants": [
-          {
-            "name": "Standard split",
-            "slug": "standard-split"
-          }
-        ]
-      },
-      {
-        "name": "FreeSolv",
-        "slug": "freesolv",
-        "task_type": "graph_regression",
-        "result_count": 0,
-        "variants": [
-          {
-            "name": "Scaffold split",
-            "slug": "scaffold-split"
-          }
-        ]
-      },
-      {
-        "name": "Lipophilicity",
-        "slug": "lipophilicity",
-        "task_type": "graph_regression",
-        "result_count": 0,
         "variants": [
           {
             "name": "Scaffold split",
@@ -1242,30 +1098,6 @@
             "slug": "standard-split"
           }
         ]
-      },
-      {
-        "name": "Freebase",
-        "slug": "freebase",
-        "task_type": "node_classification",
-        "result_count": 0,
-        "variants": [
-          {
-            "name": "Standard split",
-            "slug": "standard-split"
-          }
-        ]
-      },
-      {
-        "name": "RCDD",
-        "slug": "rcdd",
-        "task_type": "link_prediction",
-        "result_count": 0,
-        "variants": [
-          {
-            "name": "Standard split",
-            "slug": "standard-split"
-          }
-        ]
       }
     ]
   },
@@ -1281,30 +1113,6 @@
         "slug": "qm9",
         "task_type": "graph_regression",
         "result_count": 69,
-        "variants": [
-          {
-            "name": "Standard split",
-            "slug": "standard-split"
-          }
-        ]
-      },
-      {
-        "name": "QM7b",
-        "slug": "qm7b",
-        "task_type": "graph_regression",
-        "result_count": 0,
-        "variants": [
-          {
-            "name": "Standard split",
-            "slug": "standard-split"
-          }
-        ]
-      },
-      {
-        "name": "MD17",
-        "slug": "md17",
-        "task_type": "graph_regression",
-        "result_count": 0,
         "variants": [
           {
             "name": "Standard split",
@@ -1568,54 +1376,6 @@
             "slug": "medium"
           }
         ]
-      },
-      {
-        "name": "Social Networks",
-        "slug": "social-networks",
-        "task_type": "node_classification",
-        "result_count": 0,
-        "variants": [
-          {
-            "name": "Standard split",
-            "slug": "standard-split"
-          }
-        ]
-      },
-      {
-        "name": "Chip Design",
-        "slug": "chip-design",
-        "task_type": "graph_generation",
-        "result_count": 0,
-        "variants": [
-          {
-            "name": "Standard split",
-            "slug": "standard-split"
-          }
-        ]
-      },
-      {
-        "name": "Combinatorial Optimization",
-        "slug": "combinatorial-optimization",
-        "task_type": "node_classification",
-        "result_count": 0,
-        "variants": [
-          {
-            "name": "Standard split",
-            "slug": "standard-split"
-          }
-        ]
-      },
-      {
-        "name": "Algorithmic Reasoning",
-        "slug": "algorithmic-reasoning",
-        "task_type": "graph_classification",
-        "result_count": 0,
-        "variants": [
-          {
-            "name": "Standard split",
-            "slug": "standard-split"
-          }
-        ]
       }
     ]
   },
@@ -1724,180 +1484,6 @@
         "slug": "torsionangle",
         "task_type": "graph_regression",
         "result_count": 8,
-        "variants": [
-          {
-            "name": "Standard split",
-            "slug": "standard-split"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "name": "City-Networks",
-    "slug": "city-networks",
-    "description": "City-Networks — a large-scale long-range benchmark on real-world city road graphs, introduced to test transductive node classification under very large graph diameters.\n",
-    "arxiv_id": "2503.09008",
-    "paper_title": "City-Networks",
-    "datasets": [
-      {
-        "name": "Paris",
-        "slug": "paris",
-        "task_type": "node_classification",
-        "result_count": 12,
-        "variants": [
-          {
-            "name": "Standard split",
-            "slug": "standard-split"
-          }
-        ]
-      },
-      {
-        "name": "Shanghai",
-        "slug": "shanghai",
-        "task_type": "node_classification",
-        "result_count": 12,
-        "variants": [
-          {
-            "name": "Standard split",
-            "slug": "standard-split"
-          }
-        ]
-      },
-      {
-        "name": "Los Angeles",
-        "slug": "los-angeles",
-        "task_type": "node_classification",
-        "result_count": 12,
-        "variants": [
-          {
-            "name": "Standard split",
-            "slug": "standard-split"
-          }
-        ]
-      },
-      {
-        "name": "London",
-        "slug": "london",
-        "task_type": "node_classification",
-        "result_count": 11,
-        "variants": [
-          {
-            "name": "Standard split",
-            "slug": "standard-split"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "name": "PyG Imported Datasets",
-    "slug": "pyg-imported-datasets",
-    "description": "Auto-created from pending PyG dataset approvals.",
-    "arxiv_id": "",
-    "paper_title": "",
-    "datasets": [
-      {
-        "name": "Blog",
-        "slug": "blog",
-        "task_type": "node_classification",
-        "result_count": 15,
-        "variants": [
-          {
-            "name": "Standard split",
-            "slug": "standard-split"
-          }
-        ]
-      },
-      {
-        "name": "Flickr",
-        "slug": "flickr",
-        "task_type": "node_classification",
-        "result_count": 14,
-        "variants": [
-          {
-            "name": "Standard split",
-            "slug": "standard-split"
-          }
-        ]
-      },
-      {
-        "name": "QM8",
-        "slug": "qm8",
-        "task_type": "graph_regression",
-        "result_count": 9,
-        "variants": [
-          {
-            "name": "Standard split",
-            "slug": "standard-split"
-          }
-        ]
-      },
-      {
-        "name": "BlogCatalog",
-        "slug": "blogcatalog",
-        "task_type": "node_classification",
-        "result_count": 0,
-        "variants": [
-          {
-            "name": "Standard split",
-            "slug": "standard-split"
-          }
-        ]
-      },
-      {
-        "name": "Facebook",
-        "slug": "facebook",
-        "task_type": "node_classification",
-        "result_count": 0,
-        "variants": [
-          {
-            "name": "Standard split",
-            "slug": "standard-split"
-          }
-        ]
-      },
-      {
-        "name": "Community",
-        "slug": "community",
-        "task_type": "node_classification",
-        "result_count": 0,
-        "variants": [
-          {
-            "name": "Standard split",
-            "slug": "standard-split"
-          }
-        ]
-      },
-      {
-        "name": "Alchemy",
-        "slug": "alchemy",
-        "task_type": "graph_regression",
-        "result_count": 0,
-        "variants": [
-          {
-            "name": "Standard split",
-            "slug": "standard-split"
-          }
-        ]
-      },
-      {
-        "name": "FAUST",
-        "slug": "faust",
-        "task_type": "graph_classification",
-        "result_count": 0,
-        "variants": [
-          {
-            "name": "Standard split",
-            "slug": "standard-split"
-          }
-        ]
-      },
-      {
-        "name": "Yelp",
-        "slug": "yelp",
-        "task_type": "node_classification",
-        "result_count": 0,
         "variants": [
           {
             "name": "Standard split",
@@ -2126,112 +1712,7 @@
             "slug": "standard-split"
           }
         ]
-      },
-      {
-        "name": "WN18RR",
-        "slug": "wn18rr",
-        "task_type": "link_prediction",
-        "result_count": 0,
-        "variants": [
-          {
-            "name": "Standard split",
-            "slug": "standard-split"
-          }
-        ]
-      },
-      {
-        "name": "WN18",
-        "slug": "wn18",
-        "task_type": "link_prediction",
-        "result_count": 0,
-        "variants": [
-          {
-            "name": "Standard split",
-            "slug": "standard-split"
-          }
-        ]
       }
     ]
-  },
-  {
-    "name": "LRIM Graph Benchmark",
-    "slug": "lrim-graph-benchmark",
-    "description": "LRIM — the Long-Range Ising Model Graph Benchmark, a physics-grounded suite for controlled long-range graph learning evaluation across ten datasets spanning multiple graph sizes and difficulty levels.\n",
-    "arxiv_id": "",
-    "paper_title": "",
-    "datasets": [
-      {
-        "name": "LRIM",
-        "slug": "lrim",
-        "task_type": "node_regression",
-        "result_count": 6,
-        "variants": [
-          {
-            "name": "LRIM-128-easy",
-            "slug": "lrim-128-easy"
-          },
-          {
-            "name": "LRIM-128-hard",
-            "slug": "lrim-128-hard"
-          },
-          {
-            "name": "LRIM-16-easy",
-            "slug": "lrim-16-easy"
-          },
-          {
-            "name": "LRIM-16-hard",
-            "slug": "lrim-16-hard"
-          },
-          {
-            "name": "LRIM-256-easy",
-            "slug": "lrim-256-easy"
-          },
-          {
-            "name": "LRIM-256-hard",
-            "slug": "lrim-256-hard"
-          },
-          {
-            "name": "LRIM-32-easy",
-            "slug": "lrim-32-easy"
-          },
-          {
-            "name": "LRIM-32-hard",
-            "slug": "lrim-32-hard"
-          },
-          {
-            "name": "LRIM-64-easy",
-            "slug": "lrim-64-easy"
-          },
-          {
-            "name": "LRIM-64-hard",
-            "slug": "lrim-64-hard"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "name": "OGB-Node",
-    "slug": "ogb-node",
-    "description": "Open Graph Benchmark — large-scale node property prediction datasets.",
-    "arxiv_id": "2005.00687",
-    "paper_title": "OGB-Link",
-    "datasets": []
-  },
-  {
-    "name": "OGB-Link",
-    "slug": "ogb-link",
-    "description": "Open Graph Benchmark — large-scale link property prediction datasets.",
-    "arxiv_id": "2005.00687",
-    "paper_title": "OGB-Link",
-    "datasets": []
-  },
-  {
-    "name": "OGB-LSC",
-    "slug": "ogb-lsc",
-    "description": "OGB Large-Scale Challenge — extremely large graph ML datasets.",
-    "arxiv_id": "2103.09430",
-    "paper_title": "OGB-LSC",
-    "datasets": []
   }
 ]
