@@ -15,13 +15,6 @@ build/
 .env.*
 !.env.example
 
-# ── Database ────────────────────────────────────────────────────────────────
-benchmarks.db
-benchmarks.db-*
-data/*.db
-data/*.db-shm
-data/*.db-wal
-data/*.db-journal
 
 # ── Logs ────────────────────────────────────────────────────────────────────
 logs/
