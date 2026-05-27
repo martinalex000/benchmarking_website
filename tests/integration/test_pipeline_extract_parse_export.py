@@ -247,7 +247,9 @@ def test_export_paper_cleans_abstract_artifacts(monkeypatch, tmp_path):
                 title="Scalable Graph Compressed Convolutions",
                 abstract=(
                     "Designing effective graph neural networks~(GNNs) is challenging. "
-                    "Code is available at~https://example.com."
+                    r"GQT (\textbf{G}raph \textbf{Q}uantized \textbf{T}okenizer) improves "
+                    r"results by 82.47\% over a 10\times range. Code is available "
+                    "at~https://example.com."
                 ),
                 extraction_status="extracted",
                 discovery_source="integration-test",
@@ -261,8 +263,16 @@ def test_export_paper_cleans_abstract_artifacts(monkeypatch, tmp_path):
 
     paper_page = cfg.site_dir / "content" / "papers" / "2407.18480" / "index.md"
     page_text = paper_page.read_text(encoding="utf-8")
+    normalized_page_text = page_text.replace("\n  ", " ")
 
     assert "graph neural networks~(GNNs)" not in page_text
     assert "at~https://example.com" not in page_text
-    assert "graph neural networks (GNNs) is challenging." in page_text
-    assert "available at https://example.com." in page_text
+    assert r"\textbf{G}" not in page_text
+    assert r"\%" not in page_text
+    assert r"\times" not in page_text
+    assert "graph neural networks (GNNs) is challenging." in normalized_page_text
+    assert (
+        "GQT (Graph Quantized Tokenizer) improves results by 82.47% over a 10 x range."
+        in normalized_page_text
+    )
+    assert "available at https://example.com." in normalized_page_text

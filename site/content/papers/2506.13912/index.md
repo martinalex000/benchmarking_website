@@ -21,7 +21,7 @@ abstract: Coordinated campaigns frequently exploit social media platforms by art
   are encoded using the Skip-gram model, producing density-aware structural embeddings
   for the nodes. Training message-passing neural networks (MPNNs) on these density-aware
   embeddings yields superior results compared to the simpler node features available
-  in the dataset, with nearly a 12\% and 5\% improvement in accuracy for binary and
+  in the dataset, with nearly a 12% and 5% improvement in accuracy for binary and
   multiclass classification, respectively. Our findings demonstrate that incorporating
   density-aware structural encoding with MPNNs provides a robust framework for identifying
   coordinated inauthentic behavior on social media networks such as Twitter.

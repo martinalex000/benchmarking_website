@@ -18,7 +18,7 @@ abstract: 'Developing models capable of complex, multi-step reasoning is a centr
   for capturing long-range dependencies. Theoretically, we prove that FloydNet achieves
   3-WL expressive power (equivalently, 2-FWL), and that its higher-order generalization
   aligns with the k-FWL hierarchy. FloydNet demonstrates state-of-the-art performance
-  across challenging domains: it achieves near-perfect scores (often >99\%) on the
+  across challenging domains: it achieves near-perfect scores (often >99%) on the
   CLRS-30 algorithmic benchmark, finds exact optimal solutions for the general Traveling
   Salesman Problem (TSP) at rates significantly exceeding strong heuristics, and empirically
   matches the 3-WL test on the BREC benchmark. Our results establish this learned,
@@ -208,7 +208,7 @@ results:
     override_reason: ''
     params_millions: null
     table_ref: Table 1
-    source_ref: Rampásek et al. 2022
+    source_ref: "Ramp\xE1sek et al. 2022"
     variant_inference_reason: 'dataset: exact match'
     date: Jan 2026
     date_display: Jan 2026
@@ -406,7 +406,7 @@ results:
     override_reason: ''
     params_millions: null
     table_ref: Table 1
-    source_ref: Rampásek et al. 2022
+    source_ref: "Ramp\xE1sek et al. 2022"
     variant_inference_reason: 'dataset: exact match'
     date: Jan 2026
     date_display: Jan 2026
@@ -982,7 +982,7 @@ results:
     override_reason: ''
     params_millions: null
     table_ref: Table 1
-    source_ref: Rampásek et al. 2022
+    source_ref: "Ramp\xE1sek et al. 2022"
     variant_inference_reason: 'dataset: exact match'
     date: Jan 2026
     date_display: Jan 2026
@@ -1274,7 +1274,7 @@ results:
     override_reason: ''
     params_millions: null
     table_ref: Table 1
-    source_ref: Rampásek et al. 2022
+    source_ref: "Ramp\xE1sek et al. 2022"
     variant_inference_reason: 'dataset: exact match'
     date: Jan 2026
     date_display: Jan 2026

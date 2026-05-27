@@ -10,6 +10,7 @@ from backend.llm_extractor import _extract_metadata_from_latex_cache
 from backend.models import Paper
 from backend.paper_storage import PaperStorage
 from backend.results_parser import _enrich_paper_metadata
+from backend.text_cleanup import abstract_has_latex_artifacts, clean_extracted_text
 
 
 def _configure_temp_workspace(monkeypatch, tmp_path: Path) -> None:
@@ -97,3 +98,15 @@ Designing effective graph neural networks~(GNNs) is challenging.
         "Designing effective graph neural networks (GNNs) is challenging. "
         "CoCN learns Euclidean-style convolutions on graphs."
     )
+
+
+def test_clean_extracted_text_removes_inline_latex_formatting():
+    cleaned = clean_extracted_text(
+        r"GQT (\textbf{G}raph \textbf{Q}uantized \textbf{T}okenizer) applies \textit{curvature shift} and improves by 82.47\% over a 10\times range."
+    )
+
+    assert cleaned == (
+        "GQT (Graph Quantized Tokenizer) applies curvature shift and improves by "
+        "82.47% over a 10 x range."
+    )
+    assert abstract_has_latex_artifacts(cleaned) is False

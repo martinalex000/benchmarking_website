@@ -8,14 +8,13 @@ abstract: Transformers serve as the backbone architectures of Foundational Model
   (GTs) have recently emerged as leading models in geometric deep learning, outperforming
   Graph Neural Networks (GNNs) in various graph learning tasks. However, the development
   of tokenizers for graphs has lagged behind other modalities. To address this, we
-  introduce GQT (\textbf{G}raph \textbf{Q}uantized \textbf{T}okenizer), which decouples
-  tokenizer training from Transformer training by leveraging multi-task graph self-supervised
-  learning, yielding robust and generalizable graph tokens. Furthermore, the GQT utilizes
-  Residual Vector Quantization (RVQ) to learn hierarchical discrete tokens, resulting
-  in significantly reduced memory requirements and improved generalization capabilities.
-  By combining the GQT with token modulation, a Transformer encoder achieves state-of-the-art
-  performance on 20 out of 22 benchmarks, including large-scale homophilic and heterophilic
-  datasets.
+  introduce GQT (Graph Quantized Tokenizer), which decouples tokenizer training from
+  Transformer training by leveraging multi-task graph self-supervised learning, yielding
+  robust and generalizable graph tokens. Furthermore, the GQT utilizes Residual Vector
+  Quantization (RVQ) to learn hierarchical discrete tokens, resulting in significantly
+  reduced memory requirements and improved generalization capabilities. By combining
+  the GQT with token modulation, a Transformer encoder achieves state-of-the-art performance
+  on 20 out of 22 benchmarks, including large-scale homophilic and heterophilic datasets.
 codebase_url: ''
 extraction_model: MiniMaxAI/MiniMax-M2.5
 has_results: true
@@ -1079,8 +1078,8 @@ results:
     override_reason: ''
     params_millions: null
     arxiv_id: '2511.16767'
-    title: 'When Structure Doesn’t Help: LLMs Do Not Read Text-Attributed Graphs as
-      Effectively as We Expected'
+    title: "When Structure Doesn\u2019t Help: LLMs Do Not Read Text-Attributed Graphs\
+      \ as Effectively as We Expected"
     date: Nov 2025
     codebase_url: ''
     uses_external_data: null
@@ -1097,8 +1096,8 @@ results:
     override_reason: ''
     params_millions: null
     arxiv_id: '2511.16767'
-    title: 'When Structure Doesn’t Help: LLMs Do Not Read Text-Attributed Graphs as
-      Effectively as We Expected'
+    title: "When Structure Doesn\u2019t Help: LLMs Do Not Read Text-Attributed Graphs\
+      \ as Effectively as We Expected"
     date: Nov 2025
     codebase_url: ''
     uses_external_data: null
@@ -1115,8 +1114,8 @@ results:
     override_reason: ''
     params_millions: null
     arxiv_id: '2511.16767'
-    title: 'When Structure Doesn’t Help: LLMs Do Not Read Text-Attributed Graphs as
-      Effectively as We Expected'
+    title: "When Structure Doesn\u2019t Help: LLMs Do Not Read Text-Attributed Graphs\
+      \ as Effectively as We Expected"
     date: Nov 2025
     codebase_url: ''
     uses_external_data: null

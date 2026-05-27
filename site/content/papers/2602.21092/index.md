@@ -12,10 +12,9 @@ abstract: 'Curvature notions on graphs provide a theoretical description of grap
   this correspondence. Our findings on synthetic graphs and molecular benchmarks reveal
   that MAs do not preferentially concentrate on curvature extremes, despite their
   theoretical link to information flow. On the Long Range Graph Benchmark, we identify
-  a systemic \textit{curvature shift}: global attention mechanisms exacerbate topological
-  bottlenecks, drastically increasing the prevalence of negative curvature. Our work
-  reframes curvature as a diagnostic probe for understanding when and why graph learning
-  fails.'
+  a systemic curvature shift: global attention mechanisms exacerbate topological bottlenecks,
+  drastically increasing the prevalence of negative curvature. Our work reframes curvature
+  as a diagnostic probe for understanding when and why graph learning fails.'
 codebase_url: ''
 extraction_model: qwen3.6-35b-a3b
 has_results: false
