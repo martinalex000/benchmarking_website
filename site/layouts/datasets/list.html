@@ -48,9 +48,9 @@
     <span class="benchmark-paper">
       Introduced in:
       {{ if .paper_title }}
-      <a href="/papers/{{ .arxiv_id }}/">{{ .paper_title }}</a>
+      <a href="{{ printf "papers/%s/" .arxiv_id | relURL }}">{{ .paper_title }}</a>
       {{ else }}
-      <a href="/papers/{{ .arxiv_id }}/">arXiv:{{ .arxiv_id }}</a>
+      <a href="{{ printf "papers/%s/" .arxiv_id | relURL }}">arXiv:{{ .arxiv_id }}</a>
       {{ end }}
     </span>
     {{ end }}
@@ -84,7 +84,7 @@
       <p class="dataset-card-best">
         <span class="best-label">Best:</span>
         {{ if $bestArxiv }}
-        <strong><a href="/papers/{{ $bestArxiv }}/" title="{{ with $bestTitle }}{{ . }}{{ else }}arXiv:{{ $bestArxiv }}{{ end }}">{{ .model }}</a></strong>
+        <strong><a href="{{ printf "papers/%s/" $bestArxiv | relURL }}" title="{{ with $bestTitle }}{{ . }}{{ else }}arXiv:{{ $bestArxiv }}{{ end }}">{{ .model }}</a></strong>
         {{ else }}
         <strong>{{ .model }}</strong>
         {{ end }}
@@ -143,4 +143,3 @@
 })();
 </script>
 {{ end }}
-

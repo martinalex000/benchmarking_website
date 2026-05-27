@@ -67,7 +67,7 @@
               <li>
                 {{ $year := "—" }}
                 {{ if ge (len .date_iso) 4 }}{{ $year = substr .date_iso 0 4 }}{{ end }}
-                <a href="/papers/{{ .arxiv_id }}/">{{ $year }}: {{ .title }}</a>
+                <a href="{{ printf "papers/%s/" .arxiv_id | relURL }}">{{ $year }}: {{ .title }}</a>
               </li>
               {{ end }}
             </ul>

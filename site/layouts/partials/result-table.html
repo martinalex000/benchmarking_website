@@ -40,13 +40,13 @@
           data-arxiv="{{ $r.arxiv_id }}">
         <td class="col-rank">{{ if $r.global_rank }}{{ $r.global_rank }}{{ else }}{{ add $i 1 }}{{ end }}</td>
         <td class="col-model">
-          {{ if and $r.is_global_top $r.arxiv_id }}<a href="/papers/{{ $r.arxiv_id }}/" title="{{ $r.title }}">{{ $r.model | safeHTML }}</a>{{ else }}{{ $r.model | safeHTML }}{{ end }}
+          {{ if and $r.is_global_top $r.arxiv_id }}<a href="{{ printf "papers/%s/" $r.arxiv_id | relURL }}" title="{{ $r.title }}">{{ $r.model | safeHTML }}</a>{{ else }}{{ $r.model | safeHTML }}{{ end }}
           {{ if $r.is_global_top }}<span class="global-top-badge" title="Top-ranked globally — from another paper">global</span>{{ end }}
           {{ if $r.is_overridden }}<span class="override-badge" title="{{ $r.override_reason }}">✎</span>{{ end }}
           {{ if $r.has_value_gap }}
           <div class="model-discrepancy-meta">
             {{ if and $r.value_gap_source_title $r.value_gap_source_arxiv (not $r.value_gap_source_is_current_paper) }}
-            <a class="model-source-paper" href="/papers/{{ $r.value_gap_source_arxiv }}/" title="Actual result source">{{ $r.value_gap_source_title }}</a>
+            <a class="model-source-paper" href="{{ printf "papers/%s/" $r.value_gap_source_arxiv | relURL }}" title="Actual result source">{{ $r.value_gap_source_title }}</a>
             {{ else if $r.value_gap_source_title }}
             <span class="model-source-paper">{{ $r.value_gap_source_title }}</span>
             {{ end }}
@@ -90,7 +90,7 @@
         <td class="col-params">{{ if $r.params_millions }}{{ printf "%.1f" $r.params_millions }}M{{ else }}—{{ end }}</td>
         {{ if not $hideMeta }}
         <td class="col-paper">
-          {{ if $r.arxiv_id }}<a href="/papers/{{ $r.arxiv_id }}/" title="arXiv:{{ $r.arxiv_id }}{{ with $r.title }} — {{ . }}{{ end }}">{{ if $r.title }}{{ $r.title | truncate 45 }}{{ else }}arXiv:{{ $r.arxiv_id }}{{ end }}</a>{{ end }}
+          {{ if $r.arxiv_id }}<a href="{{ printf "papers/%s/" $r.arxiv_id | relURL }}" title="arXiv:{{ $r.arxiv_id }}{{ with $r.title }} — {{ . }}{{ end }}">{{ if $r.title }}{{ $r.title | truncate 45 }}{{ else }}arXiv:{{ $r.arxiv_id }}{{ end }}</a>{{ end }}
         </td>
         <td class="col-code">
           {{ if $r.codebase_url }}<a href="{{ $r.codebase_url }}" target="_blank" rel="noopener">Code</a>{{ else }}—{{ end }}
