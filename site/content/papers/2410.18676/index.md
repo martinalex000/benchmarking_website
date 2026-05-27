@@ -5,19 +5,17 @@ source_url: ''
 authors: []
 published_date: Oct 2024
 published_date_iso: 2024-10
-abstract: Graph Transformers are popular neural networks that extend the well-known
-  Transformer architecture to the graph domain. These architectures operate by applying
-  self-attention on graph nodes and incorporating graph structure through the use
-  of positional encodings (e.g., Laplacian positional encoding) or structural encodings
-  (e.g., random-walk structural encoding). The quality of such encodings is critical,
-  since they provide the necessary graph inductive biases to condition the model on
-  graph structure. In this work, we propose motif structural encoding ( ) as a flexible
-  and powerful structural encoding framework based on counting graph homomorphisms.
-  Theoretically, we compare the expressive power of to random-walk structural encoding
-  and relate both encodings to the expressive power of standard message passing neural
-  networks. Empirically, we observe that outperforms other well-known positional and
-  structural encodings across a range of architectures, and it achieves state-of-the-art
-  performance on a widely studied molecular property prediction dataset.
+abstract: Graph Transformers are popular neural networks that extend the well-known Transformer architecture
+  to the graph domain. These architectures operate by applying self-attention on graph nodes and incorporating
+  graph structure through the use of positional encodings (e.g., Laplacian positional encoding) or structural
+  encodings (e.g., random-walk structural encoding). The quality of such encodings is critical, since
+  they provide the necessary graph inductive biases to condition the model on graph structure. In this
+  work, we propose motif structural encoding as a flexible and powerful structural encoding framework
+  based on counting graph homomorphisms. Theoretically, we compare the expressive power of to random-walk
+  structural encoding and relate both encodings to the expressive power of standard message passing neural
+  networks. Empirically, we observe that outperforms other well-known positional and structural encodings
+  across a range of architectures, and it achieves state-of-the-art performance on a widely studied molecular
+  property prediction dataset.
 codebase_url: ''
 extraction_model: qwen3.6-35b-a3b
 has_results: true

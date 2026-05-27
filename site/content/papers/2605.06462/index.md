@@ -3,26 +3,18 @@ title: Invariant-Based Diagnostics for Graph Benchmarks
 arxiv_id: '2605.06462'
 authors: []
 published_date: May 2026
-abstract: 'Abstract Progress on graph foundation models is hindered by benchmark practices
-  that conflate the contributions of node features and graph structure, making it
-  hard to tell whether a model actually learns from connectivity, or whether it even
-  needs to.
-
-  We propose addressing this using graph invariants , i.e., permutation-invariant,
-  task-agnostic structural descriptors that serve as a diagnostic framework for graph
-  benchmarks.
-
-  We show that (i) invariants are more expressive than standard GNNs, (ii) invariants
-  characterize structural heterogeneity within and across benchmark datasets, (iii)
-  invariants predict multi-task performance, and (iv) simple invariant-based models
-  are competitive with, and sometimes exceed, transformer and message-passing baselines
-  across 26 datasets. Our results suggest that expressivity is not the main driver
-  of predictive performance, and that on tasks where structure matters, a non-trainable
-  structural proxy often matches trained message-passing models.
-
-  We thus posit that invariant baselines should become a standard for evaluating whether
-  structure is required for a task and whether a model picks up on it, serving as
-  a stepping stone towards graph foundation models.'
+abstract: Abstract Progress on graph foundation models is hindered by benchmark practices that conflate
+  the contributions of node features and graph structure, making it hard to tell whether a model actually
+  learns from connectivity, or whether it even needs to. We propose addressing this using graph invariants,
+  i.e., permutation-invariant, task-agnostic structural descriptors that serve as a diagnostic framework
+  for graph benchmarks. We show that (i) invariants are more expressive than standard GNNs, (ii) invariants
+  characterize structural heterogeneity within and across benchmark datasets, (iii) invariants predict
+  multi-task performance, and (iv) simple invariant-based models are competitive with, and sometimes exceed,
+  transformer and message-passing baselines across 26 datasets. Our results suggest that expressivity
+  is not the main driver of predictive performance, and that on tasks where structure matters, a non-trainable
+  structural proxy often matches trained message-passing models. We thus posit that invariant baselines
+  should become a standard for evaluating whether structure is required for a task and whether a model
+  picks up on it, serving as a stepping stone towards graph foundation models.
 codebase_url: ''
 extraction_model: qwen3.6-35b-a3b
 has_results: true

@@ -37,6 +37,8 @@ from pathlib import Path
 
 import urllib.request
 
+from backend.text_cleanup import clean_extracted_text
+
 logger = logging.getLogger(__name__)
 
 _ARXIV_SRC_URL = "https://arxiv.org/src/{arxiv_id}"
@@ -577,17 +579,19 @@ def _strip_latex(text: str) -> str:
     """Strip common LaTeX markup to produce readable plain text."""
     # Remove comments
     text = re.sub(r"%[^\n]*", "", text)
+    text = text.replace("~", " ")
     # Normalize explicit LaTeX line breaks before removing bare commands, or
     # sequences like "\\with" lose the following word entirely.
     text = re.sub(r"\\\\(?:\s*\[[^\]]*\])?", " ", text)
     text = re.sub(r"\\(?:newline|linebreak)\b", " ", text)
+    text = re.sub(r"\\xspace\b", " ", text)
     # Remove \footnote{...} (and similar whole-arg commands we don't want)
     for cmd in ("footnote", "footnotetext", "label", "cite", "citep", "citet", "ref", "url"):
         text = re.sub(r"\\" + cmd + r"\s*\{[^}]*\}", "", text)
     # Keep content of formatting commands: \textbf{x} → x
     for _ in range(3):  # iterate to handle nested
         text = re.sub(
-            r"\\(?:textbf|textit|texttt|emph|text|mathbf|mathrm|mathit)\s*\{([^{}]*)\}",
+            r"\\(?:text[a-zA-Z]+|emph|mbox|mathbf|mathrm|mathit|mathsf|mathtt|operatorname)\s*\{([^{}]*)\}",
             r"\1",
             text,
         )
@@ -598,5 +602,4 @@ def _strip_latex(text: str) -> str:
     # Remove leftover braces
     text = text.replace("{", "").replace("}", "")
     text = re.sub(r"\s+([:;,!.?])", r"\1", text)
-    # Collapse whitespace
-    return re.sub(r"\s+", " ", text).strip()
+    return clean_extracted_text(text)

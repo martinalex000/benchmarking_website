@@ -6,42 +6,19 @@ source_url: ''
 authors: []
 published_date: Apr 2026
 published_date_iso: 2026-04
-abstract: 'Abstract. Graph transformers achieve strong results on molecular and long-range
-
-  reasoning tasks, yet remain hampered by over-smoothing (the progressive
-
-  collapse of node representations with depth) and attention entropy
-
-  degeneration. We observe that these pathologies share a root cause with
-
-  attention sinks in large language models: softmax attention’s sum-to-one
-
-  constraint forces every node to attend somewhere, even when no
-
-  informative signal exists. Motivated by recent findings that element-wise
-
-  sigmoid gating eliminates attention sinks in large language models, we
-
-  propose SigGate-GT , a graph transformer that applies learned, per-head
-
-  sigmoid gates to the attention output within the GraphGPS framework.
-
-  Each gate can suppress activations toward zero, enabling heads to
-
-  selectively silence uninformative connections. On five standard
-
-  benchmarks, SigGate-GT matches the prior best on ZINC ( 0.059 0.059 MAE)
-
-  and sets new state-of-the-art on ogbg-molhiv ( 82.47 % 82.47\% ROC-AUC), with
-
-  statistically significant gains over GraphGPS across all five datasets
-
-  ( p < 0.05 p<0.05 ). Ablations show that gating reduces over-smoothing by 30 % 30\%
-  (mean relative MAD gain across 4–16 layers), increases
-
-  attention entropy, and stabilizes training across a 10 × 10\times learning
-
-  rate range, with about 1 % 1\% parameter overhead on OGB.'
+abstract: 'Abstract. Graph transformers achieve strong results on molecular and long-range reasoning tasks,
+  yet remain hampered by over-smoothing (the progressive collapse of node representations with depth)
+  and attention entropy degeneration. We observe that these pathologies share a root cause with attention
+  sinks in large language models: softmax attention’s sum-to-one constraint forces every node to attend
+  somewhere, even when no informative signal exists. Motivated by recent findings that element-wise sigmoid
+  gating eliminates attention sinks in large language models, we propose SigGate-GT, a graph transformer
+  that applies learned, per-head sigmoid gates to the attention output within the GraphGPS framework.
+  Each gate can suppress activations toward zero, enabling heads to selectively silence uninformative
+  connections. On five standard benchmarks, SigGate-GT matches the prior best on ZINC (0.059 0.059 MAE)
+  and sets new state-of-the-art on ogbg-molhiv (82.47 % 82.47\% ROC-AUC), with statistically significant
+  gains over GraphGPS across all five datasets (p < 0.05 p<0.05). Ablations show that gating reduces over-smoothing
+  by 30 % 30\% (mean relative MAD gain across 4–16 layers), increases attention entropy, and stabilizes
+  training across a 10 × 10\times learning rate range, with about 1 % 1\% parameter overhead on OGB.'
 codebase_url: https://github.com/bettyguo/SigGate-GT
 extraction_model: qwen3.6-35b-a3b
 has_results: true

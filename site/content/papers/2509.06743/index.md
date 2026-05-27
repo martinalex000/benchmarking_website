@@ -3,19 +3,16 @@ title: Long-Range Graph Wavelet Networks
 arxiv_id: '2509.06743'
 authors: []
 published_date: Sep 2025
-abstract: Modeling long-range interactions, the propagation of information across
-  distant parts of a graph, is a central challenge in graph machine learning. Graph
-  wavelets, inspired by multi-resolution signal processing, provide a principled way
-  to capture both local and global structures. However, existing wavelet-based graph
-  neural networks rely on finite-order polynomial approximations, which limit their
-  receptive fields and hinder long-range propagation. We propose Long-Range Graph
-  Wavelet Networks (), which decompose wavelet filters into complementary local and
-  global components. Local aggregation is handled with efficient low-order polynomials,
-  while long-range interactions are captured through a flexible spectral-domain parameterization.
-  This hybrid design unifies short- and long-distance information flow within a principled
-  wavelet framework. Experiments show that achieves state-of-the-art performance among
-  wavelet-based methods on long-range benchmarks, while remaining competitive on short-range
-  datasets.
+abstract: Modeling long-range interactions, the propagation of information across distant parts of a graph,
+  is a central challenge in graph machine learning. Graph wavelets, inspired by multi-resolution signal
+  processing, provide a principled way to capture both local and global structures. However, existing
+  wavelet-based graph neural networks rely on finite-order polynomial approximations, which limit their
+  receptive fields and hinder long-range propagation. We propose Long-Range Graph Wavelet Networks, which
+  decompose wavelet filters into complementary local and global components. Local aggregation is handled
+  with efficient low-order polynomials, while long-range interactions are captured through a flexible
+  spectral-domain parameterization. This hybrid design unifies short- and long-distance information flow
+  within a principled wavelet framework. Experiments show that achieves state-of-the-art performance among
+  wavelet-based methods on long-range benchmarks, while remaining competitive on short-range datasets.
 codebase_url: ''
 extraction_model: qwen3.6-35b-a3b
 has_results: true

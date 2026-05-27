@@ -3,21 +3,18 @@ title: A Scalable and Effective Alternative to Graph Transformers
 arxiv_id: '2406.12059'
 authors: []
 published_date: Jun 2024
-abstract: Graph Neural Networks (GNNs) have shown impressive performance in graph
-  representation learning, but they face challenges in capturing long-range dependencies
-  due to their limited expressive power. To address this, Graph Transformers (GTs)
-  were introduced, utilizing self-attention mechanism to effectively model pairwise
-  node relationships. Despite their advantages, GTs suffer from quadratic complexity
-  w.r.t. the number of nodes in the graph, hindering their applicability to large
-  graphs. In this work, we present ( ), a scalable and effective alternative to GTs
-  that leverages neighborhood propagation and global convolutions to effectively capture
-  local and global dependencies in quasiliniear time. Our study on synthetic datasets
-  reveals that reaches $169 $ speedup on a graph with 2M nodes w.r.t. optimized attention.
-  Further evaluations on diverse range of benchmarks showcase that scales to large
-  graphs where traditional GTs often face memory and time limitations. Notably, consistently
-  achieves comparable or superior quality compared to baselines, improving the SOTA
-  up to $4.5\ and offering a scalable and effective solution for large-scale graph
-  learning.
+abstract: Graph Neural Networks (GNNs) have shown impressive performance in graph representation learning,
+  but they face challenges in capturing long-range dependencies due to their limited expressive power.
+  To address this, Graph Transformers (GTs) were introduced, utilizing self-attention mechanism to effectively
+  model pairwise node relationships. Despite their advantages, GTs suffer from quadratic complexity w.r.t.
+  the number of nodes in the graph, hindering their applicability to large graphs. In this work, we present,
+  a scalable and effective alternative to GTs that leverages neighborhood propagation and global convolutions
+  to effectively capture local and global dependencies in quasiliniear time. Our study on synthetic datasets
+  reveals that reaches $169 $ speedup on a graph with 2M nodes w.r.t. optimized attention. Further evaluations
+  on diverse range of benchmarks showcase that scales to large graphs where traditional GTs often face
+  memory and time limitations. Notably, consistently achieves comparable or superior quality compared
+  to baselines, improving the SOTA up to $4.5\ and offering a scalable and effective solution for large-scale
+  graph learning.
 codebase_url: ''
 extraction_model: qwen3.6-35b-a3b
 has_results: true

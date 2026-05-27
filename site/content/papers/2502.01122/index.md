@@ -5,27 +5,23 @@ source_url: ''
 authors: []
 published_date: Feb 2025
 published_date_iso: 2025-02
-abstract: 'Positional encodings (PEs) are essential for effective graph representation
-  learning because they provide position awareness in inherently position-agnostic
-  transformer architectures and increase the expressive capacity of Graph Neural Networks
-  (GNNs). However, designing powerful and efficient PEs for graphs poses significant
-  challenges due to the absence of canonical node ordering and the scale of the graph.
-  In this work, we identify four key properties that graph PEs should satisfy: stability,
-  expressive power, scalability, and genericness. We find that existing eigenvector-based
-  PE methods often fall short of jointly satisfying these criteria. To address this
-  gap, we introduce , a novel framework of learnable PEs for graphs. Our primary insight
-  is that message-passing GNNs function as nonlinear mappings of eigenvectors, enabling
-  the design of GNN architectures for generating powerful and efficient PEs. A crucial
-  challenge lies in initializing node attributes in a manner that is both expressive
-  and permutation equivariant. We tackle this by initializing GNNs with random node
-  inputs or standard basis vectors, thereby unlocking the expressive power of message-passing
-  operations, while employing statistical pooling functions to maintain permutation
-  equivariance. Our analysis demonstrates that ~approximates equivariant functions
-  of eigenvectors with linear complexity, while rigorously establishing its stability
-  and high expressive power. Experimental evaluations show that ~outperforms lightweight
-  versions of eigenvector-based PEs and achieves comparable performance to full eigenvector-based
-  PEs, but with one or two orders of magnitude lower complexity. Our code is available
-  at~https://github.com/ehejin/Pearl-PE.'
+abstract: 'Positional encodings (PEs) are essential for effective graph representation learning because
+  they provide position awareness in inherently position-agnostic transformer architectures and increase
+  the expressive capacity of Graph Neural Networks (GNNs). However, designing powerful and efficient PEs
+  for graphs poses significant challenges due to the absence of canonical node ordering and the scale
+  of the graph. In this work, we identify four key properties that graph PEs should satisfy: stability,
+  expressive power, scalability, and genericness. We find that existing eigenvector-based PE methods often
+  fall short of jointly satisfying these criteria. To address this gap, we introduce, a novel framework
+  of learnable PEs for graphs. Our primary insight is that message-passing GNNs function as nonlinear
+  mappings of eigenvectors, enabling the design of GNN architectures for generating powerful and efficient
+  PEs. A crucial challenge lies in initializing node attributes in a manner that is both expressive and
+  permutation equivariant. We tackle this by initializing GNNs with random node inputs or standard basis
+  vectors, thereby unlocking the expressive power of message-passing operations, while employing statistical
+  pooling functions to maintain permutation equivariance. Our analysis demonstrates that approximates
+  equivariant functions of eigenvectors with linear complexity, while rigorously establishing its stability
+  and high expressive power. Experimental evaluations show that outperforms lightweight versions of eigenvector-based
+  PEs and achieves comparable performance to full eigenvector-based PEs, but with one or two orders of
+  magnitude lower complexity. Our code is available at https://github.com/ehejin/Pearl-PE.'
 codebase_url: ''
 extraction_model: qwen3.6-35b-a3b
 has_results: true

@@ -3,24 +3,21 @@ title: On The Expressive Power of GNN Derivatives
 arxiv_id: '2510.02565'
 authors: []
 published_date: Oct 2025
-abstract: Despite significant advances in Graph Neural Networks (GNNs), their limited
-  expressivity remains a fundamental challenge. Research on GNN expressivity has produced
-  many expressive architectures, leading to architecture hierarchies with models of
-  increasing expressive power. Separately, derivatives of GNNs with respect to node
-  features have been widely studied in the context of the oversquashing and over-smoothing
-  phenomena, GNN explainability, and more. To date, these derivatives remain unexplored
-  as a means to enhance GNN expressivity. In this paper, we show that these derivatives
-  provide a natural way to enhance the expressivity of GNNs. We introduce High-Order
-  Derivative GNN ( ), a novel method that enhances the expressivity of Message Passing
-  Neural Networks (MPNNs) by leveraging high-order node derivatives of the base model.
-  These derivatives generate expressive structure-aware node embeddings processed
-  by a second GNN in an end-to-end trainable architecture. Theoretically, we show
-  that the resulting architecture family's expressive power aligns with the WL hierarchy.
-  We also draw deep connections between , Subgraph GNNs, and popular structural encoding
-  schemes. For computational efficiency, we develop a message-passing algorithm for
-  computing high-order derivatives of MPNNs that exploits graph sparsity and parallelism.
-  Evaluations on multiple graph learning benchmarks demonstrate ’s excellent performance
-  on popular graph learning tasks.
+abstract: Despite significant advances in Graph Neural Networks (GNNs), their limited expressivity remains
+  a fundamental challenge. Research on GNN expressivity has produced many expressive architectures, leading
+  to architecture hierarchies with models of increasing expressive power. Separately, derivatives of GNNs
+  with respect to node features have been widely studied in the context of the oversquashing and over-smoothing
+  phenomena, GNN explainability, and more. To date, these derivatives remain unexplored as a means to
+  enhance GNN expressivity. In this paper, we show that these derivatives provide a natural way to enhance
+  the expressivity of GNNs. We introduce High-Order Derivative GNN, a novel method that enhances the expressivity
+  of Message Passing Neural Networks (MPNNs) by leveraging high-order node derivatives of the base model.
+  These derivatives generate expressive structure-aware node embeddings processed by a second GNN in an
+  end-to-end trainable architecture. Theoretically, we show that the resulting architecture family's expressive
+  power aligns with the WL hierarchy. We also draw deep connections between, Subgraph GNNs, and popular
+  structural encoding schemes. For computational efficiency, we develop a message-passing algorithm for
+  computing high-order derivatives of MPNNs that exploits graph sparsity and parallelism. Evaluations
+  on multiple graph learning benchmarks demonstrate ’s excellent performance on popular graph learning
+  tasks.
 codebase_url: ''
 extraction_model: qwen3.6-35b-a3b
 has_results: true

@@ -3,28 +3,23 @@ title: Scalable Graph Compressed Convolutions
 arxiv_id: '2407.18480'
 authors: []
 published_date: Jul 2024
-abstract: Designing effective graph neural networks~(GNNs) with message passing has
-  two fundamental challenges, i.e., determining optimal message-passing pathways and
-  designing local aggregators. Previous methods of designing optimal pathways are
-  limited with information loss on the input features. On the other hand, existing
-  local aggregators generally fail to extract multi-scale features and approximate
-  diverse operators under limited parameter scales. In contrast to these methods,
-  Euclidean convolution has been proven as an expressive aggregator, making it a perfect
-  candidate for GNN construction. However, the challenges of generalizing Euclidean
-  convolution to graphs arise from the irregular structure of graphs. To bridge the
-  gap between Euclidean space and graph topology, we propose a differentiable method
-  that applies permutations to calibrate input graphs for Euclidean convolution. The
-  permutations constrain all nodes in a row regardless of their input order and therefore
-  enable the flexible generalization of Euclidean convolution to graphs. Based on
-  the graph calibration, we propose the Compressed Convolution Network (CoCN) for
-  hierarchical graph representation learning. CoCN follows local feature-learning
-  and global parameter-sharing mechanisms of convolution neural networks. The whole
-  model can be trained end-to-end, with compressed convolution applied to learn individual
-  node features and their corresponding structure features. CoCN can further borrow
-  successful practices from Euclidean convolution, including residual connection and
-  inception mechanism. We validate CoCN on both node-level and graph-level benchmarks.
-  CoCN achieves superior performance over competitive GNN baselines. Codes are available
-  at https://github.com/sunjss/CoCN.
+abstract: Designing effective graph neural networks (GNNs) with message passing has two fundamental challenges,
+  i.e., determining optimal message-passing pathways and designing local aggregators. Previous methods
+  of designing optimal pathways are limited with information loss on the input features. On the other
+  hand, existing local aggregators generally fail to extract multi-scale features and approximate diverse
+  operators under limited parameter scales. In contrast to these methods, Euclidean convolution has been
+  proven as an expressive aggregator, making it a perfect candidate for GNN construction. However, the
+  challenges of generalizing Euclidean convolution to graphs arise from the irregular structure of graphs.
+  To bridge the gap between Euclidean space and graph topology, we propose a differentiable method that
+  applies permutations to calibrate input graphs for Euclidean convolution. The permutations constrain
+  all nodes in a row regardless of their input order and therefore enable the flexible generalization
+  of Euclidean convolution to graphs. Based on the graph calibration, we propose the Compressed Convolution
+  Network (CoCN) for hierarchical graph representation learning. CoCN follows local feature-learning and
+  global parameter-sharing mechanisms of convolution neural networks. The whole model can be trained end-to-end,
+  with compressed convolution applied to learn individual node features and their corresponding structure
+  features. CoCN can further borrow successful practices from Euclidean convolution, including residual
+  connection and inception mechanism. We validate CoCN on both node-level and graph-level benchmarks.
+  CoCN achieves superior performance over competitive GNN baselines. Codes are available at https://github.com/sunjss/CoCN.
 codebase_url: ''
 extraction_model: qwen3.6-35b-a3b
 has_results: true

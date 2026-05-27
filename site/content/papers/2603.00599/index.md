@@ -3,33 +3,26 @@ title: Heterophily-Agnostic Hypergraph Neural Networks with Riemannian Local Exc
 arxiv_id: '2603.00599'
 authors: []
 published_date: Mar 2026
-abstract: 'Abstract. Hypergraphs are the natural description of higher-order interactions
-  among objects, widely applied in social network analysis, cross-modal retrieval,
-  etc. Hypergraph Neural Networks (HGNNs) have become the dominant solution for learning
-  on hypergraphs. Traditional HGNNs are extended from message passing graph neural
-  networks, following the homophily assumption, and thus struggle with the prevalent
-  heterophilic hypergraphs that call for long-range dependence modeling. Existing
-  solutions enlarge the message flow through the hypergraph bottleneck, mitigating
-  the oversquashing issue and capturing long-range dependence. However, they often
-  accelerate the loss of representation distinguishability in the
-
-  repeated aggregations, leading to oversmoothing. This dilemma motivates an interesting
-  question: Can we develop a unified mechanism that is agnostic to both homophilic
-  and heterophilic hypergraphs? In this paper, we achieve the best of both worlds
-  through the lens of Riemannian geometry, which provides the potential to adjust
-  the message passing behavior in different regions. The key insight lies in the connection
-  between oversquashing and hypergraph bottleneck within the framework of Riemannian
-  manifold heat flow. Building on this, we propose the novel idea of locally adapting
-  the bottlenecks of different subhypergraphs. The core innovation of the proposed
-  mechanism is the design of an adaptive local (heat) exchanger . Specifically, it
-  captures the rich long-range dependencies via the Robin condition, and preserves
-  the representation distinguishability via source terms, thereby enabling heterophily-agnostic
-  message passing with theoretical guarantees. Based on this theoretical foundation,
-  we present a novel H eat- E xchanger with A daptive L ocality for Hypergraph Neural
-  Network ( HealHGNN ), designed as a node-hyperedge bidirectional systems with linear
-  complexity in the number of nodes and hyperedges. Extensive experiments on both
-  homophilic and heterophilic cases show that HealHGNN achieves the state-of-the-art
-  performance.'
+abstract: 'Abstract. Hypergraphs are the natural description of higher-order interactions among objects,
+  widely applied in social network analysis, cross-modal retrieval, etc. Hypergraph Neural Networks (HGNNs)
+  have become the dominant solution for learning on hypergraphs. Traditional HGNNs are extended from message
+  passing graph neural networks, following the homophily assumption, and thus struggle with the prevalent
+  heterophilic hypergraphs that call for long-range dependence modeling. Existing solutions enlarge the
+  message flow through the hypergraph bottleneck, mitigating the oversquashing issue and capturing long-range
+  dependence. However, they often accelerate the loss of representation distinguishability in the repeated
+  aggregations, leading to oversmoothing. This dilemma motivates an interesting question: Can we develop
+  a unified mechanism that is agnostic to both homophilic and heterophilic hypergraphs? In this paper,
+  we achieve the best of both worlds through the lens of Riemannian geometry, which provides the potential
+  to adjust the message passing behavior in different regions. The key insight lies in the connection
+  between oversquashing and hypergraph bottleneck within the framework of Riemannian manifold heat flow.
+  Building on this, we propose the novel idea of locally adapting the bottlenecks of different subhypergraphs.
+  The core innovation of the proposed mechanism is the design of an adaptive local (heat) exchanger. Specifically,
+  it captures the rich long-range dependencies via the Robin condition, and preserves the representation
+  distinguishability via source terms, thereby enabling heterophily-agnostic message passing with theoretical
+  guarantees. Based on this theoretical foundation, we present a novel H eat- E xchanger with A daptive
+  L ocality for Hypergraph Neural Network (HealHGNN), designed as a node-hyperedge bidirectional systems
+  with linear complexity in the number of nodes and hyperedges. Extensive experiments on both homophilic
+  and heterophilic cases show that HealHGNN achieves the state-of-the-art performance.'
 codebase_url: https://github.com/Mingzhang21/HealHGNN
 extraction_model: qwen3.6-35b-a3b
 has_results: true

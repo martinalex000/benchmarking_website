@@ -3,31 +3,26 @@ title: CosmoBench
 arxiv_id: '2507.03707'
 authors: []
 published_date: Jul 2025
-abstract: 'Cosmological simulations provide a wealth of data in the form of point
-  clouds and directed trees. A crucial goal is to extract insights from this data
-  that shed light on the nature and composition of the Universe. In this paper we
-  introduce CosmoBench, a benchmark dataset curated from state-of-the-art cosmological
-  simulations whose runs required more than 41 million core-hours and generated over
-  two petabytes of data. CosmoBench is the largest dataset of its kind: it contains
-  34 thousand point clouds from simulations of dark matter halos and galaxies at three
-  different length scales, as well as 25 thousand directed trees that record the formation
-  history of halos on two different time scales. The data in CosmoBench can be used
-  for multiple tasks---to predict cosmological parameters from point clouds and merger
-  trees, to predict the velocities of individual halos and galaxies from their collective
-  positions, and to reconstruct merger trees on finer time scales from those on coarser
-  time scales. We provide multiple baselines on these tasks, some based on established
-  approaches from cosmological modeling and others rooted in machine learning. For
-  the latter, we study different approaches---from simple linear models that are minimally
-  constrained by symmetries to much larger and more computationally-demanding models
-  in deep learning, such as graph neural networks. We find that least-squares fits
-  with a handful of invariant features sometimes outperform deep architectures with
-  many more parameters and far longer training times. Still there remains tremendous
-  potential to improve these baselines by combining machine learning and cosmological
-  modeling in a more principled way, one that fully exploits the structure in the
-  data. CosmoBench sets the stage for bridging cosmology and geometric deep learning
-  at scale. We invite the community to push the frontier of scientific discovery by
-  engaging with this challenging, high-impact dataset. The data and code are available
-  at~https://cosmobench.streamlit.app/this URL.'
+abstract: 'Cosmological simulations provide a wealth of data in the form of point clouds and directed
+  trees. A crucial goal is to extract insights from this data that shed light on the nature and composition
+  of the Universe. In this paper we introduce CosmoBench, a benchmark dataset curated from state-of-the-art
+  cosmological simulations whose runs required more than 41 million core-hours and generated over two
+  petabytes of data. CosmoBench is the largest dataset of its kind: it contains 34 thousand point clouds
+  from simulations of dark matter halos and galaxies at three different length scales, as well as 25 thousand
+  directed trees that record the formation history of halos on two different time scales. The data in
+  CosmoBench can be used for multiple tasks---to predict cosmological parameters from point clouds and
+  merger trees, to predict the velocities of individual halos and galaxies from their collective positions,
+  and to reconstruct merger trees on finer time scales from those on coarser time scales. We provide multiple
+  baselines on these tasks, some based on established approaches from cosmological modeling and others
+  rooted in machine learning. For the latter, we study different approaches---from simple linear models
+  that are minimally constrained by symmetries to much larger and more computationally-demanding models
+  in deep learning, such as graph neural networks. We find that least-squares fits with a handful of invariant
+  features sometimes outperform deep architectures with many more parameters and far longer training times.
+  Still there remains tremendous potential to improve these baselines by combining machine learning and
+  cosmological modeling in a more principled way, one that fully exploits the structure in the data. CosmoBench
+  sets the stage for bridging cosmology and geometric deep learning at scale. We invite the community
+  to push the frontier of scientific discovery by engaging with this challenging, high-impact dataset.
+  The data and code are available at https://cosmobench.streamlit.app/this URL.'
 codebase_url: ''
 extraction_model: qwen3.6-35b-a3b
 has_results: true

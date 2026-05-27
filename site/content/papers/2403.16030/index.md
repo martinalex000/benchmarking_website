@@ -3,30 +3,26 @@ title: 'VCR-Graphormer: A Mini-batch Graph Transformer via Virtual Connections'
 arxiv_id: '2403.16030'
 authors: []
 published_date: Mar 2024
-abstract: -2mm Graph transformer has been proven as an effective graph learning method
-  for its adoption of attention mechanism that is capable of capturing expressive
-  representations from complex topological and feature information of graphs. Graph
-  transformer conventionally performs dense attention (or global attention) for every
-  pair of nodes to learn node representation vectors, resulting in quadratic computational
-  costs that are unaffordable for large-scale graph data. Therefore, mini-batch training
-  for graph transformers is a promising direction, but limited samples in each mini-batch
-  can not support effective dense attention to encode informative representations.
-  Facing this bottleneck, (1) we start by assigning each node a token list that is
-  sampled by personalized PageRank (PPR) and then apply standard multi-head self-attention
-  only on this list to compute its node representations. This PPR tokenization method
-  decouples model training from complex graph topological information and makes heavy
-  feature engineering offline and independent, such that mini-batch training of graph
-  transformers is possible by loading each node's token list in batches. We further
-  prove this PPR tokenization is viable as a graph convolution network with a fixed
-  polynomial filter and jumping knowledge. However, only using personalized PageRank
-  may limit information carried by a token list, which could not support different
-  graph inductive biases for model training. To this end, (2) we rewire graphs by
-  introducing multiple types of virtual connections through structure- and content-based
-  super nodes that enable PPR tokenization to encode local and global contexts, long-range
-  interaction, and heterophilous information into each node's token list, and then
-  formalize our Virtual Connection Ranking based Graph Trans former (VCR-Graphormer).
-  Overall, VCR-Graphormer needs $O(m+klogk)$ complexity for graph tokenization as
-  compared to $O(n^3)$ of previous works. The code is provided~ https://github.com/DongqiFu/VCR-Graphormer.
+abstract: -2mm Graph transformer has been proven as an effective graph learning method for its adoption
+  of attention mechanism that is capable of capturing expressive representations from complex topological
+  and feature information of graphs. Graph transformer conventionally performs dense attention (or global
+  attention) for every pair of nodes to learn node representation vectors, resulting in quadratic computational
+  costs that are unaffordable for large-scale graph data. Therefore, mini-batch training for graph transformers
+  is a promising direction, but limited samples in each mini-batch can not support effective dense attention
+  to encode informative representations. Facing this bottleneck, (1) we start by assigning each node a
+  token list that is sampled by personalized PageRank (PPR) and then apply standard multi-head self-attention
+  only on this list to compute its node representations. This PPR tokenization method decouples model
+  training from complex graph topological information and makes heavy feature engineering offline and
+  independent, such that mini-batch training of graph transformers is possible by loading each node's
+  token list in batches. We further prove this PPR tokenization is viable as a graph convolution network
+  with a fixed polynomial filter and jumping knowledge. However, only using personalized PageRank may
+  limit information carried by a token list, which could not support different graph inductive biases
+  for model training. To this end, (2) we rewire graphs by introducing multiple types of virtual connections
+  through structure- and content-based super nodes that enable PPR tokenization to encode local and global
+  contexts, long-range interaction, and heterophilous information into each node's token list, and then
+  formalize our Virtual Connection Ranking based Graph Trans former (VCR-Graphormer). Overall, VCR-Graphormer
+  needs $O(m+klogk)$ complexity for graph tokenization as compared to $O(n^3)$ of previous works. The
+  code is provided https://github.com/DongqiFu/VCR-Graphormer.
 codebase_url: ''
 extraction_model: qwen3.6-35b-a3b
 has_results: true

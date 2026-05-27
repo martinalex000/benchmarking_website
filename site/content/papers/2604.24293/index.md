@@ -6,18 +6,16 @@ source_url: ''
 authors: []
 published_date: Apr 2026
 published_date_iso: 2026-04
-abstract: 'Abstract Graph neural ordinary differential equations (Graph ODEs) extend
-  graph learning from discrete message-passing layers to continuous-time representation
-  flows. While it supports adaptive long-range propagation, we show that Graph ODEs
-  with strictly positive irreducible mixing operators face an inherent monostability
-  trap : in the long-time regime, information leakage is unavoidable and the dynamics
-  converge to a single global consensus attractor. We propose the Hysteresis Graph
-  ODE (HGODE) , which couples feature evolution with a latent topological potential
-  driven by a learned pairwise force. A double-well edge potential and bipolarized
-  gate allow edge states to polarize into connected or insulated phases while preserving
-  differentiability. We provide asymptotic analysis of the collapse mechanism and
-  the proposed hysteretic topology dynamics, and validate HGODE on theory-driven synthetic
-  diagnostics and real-world graph benchmarks.'
+abstract: 'Abstract Graph neural ordinary differential equations (Graph ODEs) extend graph learning from
+  discrete message-passing layers to continuous-time representation flows. While it supports adaptive
+  long-range propagation, we show that Graph ODEs with strictly positive irreducible mixing operators
+  face an inherent monostability trap: in the long-time regime, information leakage is unavoidable and
+  the dynamics converge to a single global consensus attractor. We propose the Hysteresis Graph ODE (HGODE),
+  which couples feature evolution with a latent topological potential driven by a learned pairwise force.
+  A double-well edge potential and bipolarized gate allow edge states to polarize into connected or insulated
+  phases while preserving differentiability. We provide asymptotic analysis of the collapse mechanism
+  and the proposed hysteretic topology dynamics, and validate HGODE on theory-driven synthetic diagnostics
+  and real-world graph benchmarks.'
 codebase_url: ''
 extraction_model: qwen3.6-35b-a3b
 has_results: true
