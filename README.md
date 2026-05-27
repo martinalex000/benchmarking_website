@@ -303,6 +303,12 @@ bash scripts/deploy.sh
 
 Requires `DEPLOY_USER`, `DEPLOY_HOST`, and `DEPLOY_PATH` in `.env`.
 
+If you deploy under a subpath such as `https://somedomain.com/graphlearningbenchmarks/`, also set:
+
+```bash
+HUGO_BASE_URL=https://somedomain.com/graphlearningbenchmarks/
+```
+
 ---
 
 ## Corrections and overrides
@@ -403,6 +409,12 @@ See Development page: `Development -> Statistics Sources & Discrepancies`.
 ```bash
 cd site && /snap/bin/hugo server --bind 0.0.0.0 -p 1313
 # Open http://localhost:1313
+```
+
+To preview subpath deployments locally, pass the same base URL you will deploy with:
+
+```bash
+cd site && /snap/bin/hugo server --bind 0.0.0.0 -p 1313 --baseURL http://localhost:1313/graphlearningbenchmarks/
 ```
 
 ---

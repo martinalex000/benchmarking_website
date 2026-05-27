@@ -5,17 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{ if .Title }}{{ .Title }} — {{ end }}{{ .Site.Title }}</title>
   <meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
-  <link rel="stylesheet" href="/css/style.css?v={{ now.Unix }}">
+  <link rel="stylesheet" href="{{ "css/style.css" | relURL }}?v={{ now.Unix }}">
 </head>
 <body>
 <header class="site-header">
   <nav>
-    <a class="site-title" href="/">{{ .Site.Title }}</a>
+    <a class="site-title" href="{{ .Site.Home.RelPermalink }}">{{ .Site.Title }}</a>
     <ul>
-      <li><a href="/datasets/">Datasets</a></li>
-      <li><a href="/papers/">Papers</a></li>
+      <li><a href="{{ "datasets/" | relURL }}">Datasets</a></li>
+      <li><a href="{{ "papers/" | relURL }}">Papers</a></li>
       {{ if .Site.GetPage "section" "dev" }}
-      <li><a href="/dev/">Development</a></li>
+      <li><a href="{{ "dev/" | relURL }}">Development</a></li>
       {{ end }}
     </ul>
   </nav>
@@ -27,7 +27,7 @@
   <p>Data extracted automatically. <a href="https://github.com/benchmarking-website">Source</a> · Corrections via overrides.yaml</p>
 </footer>
 <script src="{{ .Site.Params.chartjsCDN }}/dist/chart.umd.min.js"></script>
-<script src="/js/leaderboard.js"></script>
+<script src="{{ "js/leaderboard.js" | relURL }}"></script>
 {{ block "scripts" . }}{{ end }}
 </body>
 </html>
