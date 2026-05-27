@@ -14,24 +14,20 @@ Checks currently included:
 - values roughly 20x away from the dataset-metric median are flagged as likely scale issues
 
 **Flagged papers:** 11
-**Flagged rows:** 34
+**Flagged rows:** 27
 
 | ArXiv | Title | Dataset | Metric | Model | Value | Dataset Median | Reason |
 |-------|-------|---------|--------|-------|------:|---------------:|--------|
 | 2309.16014 | Graph-level Representation Learning with Joint-E | IMDB-BINARY | Accuracy | BGRL | 0.005 | 0.71 | 142.0x below dataset median |
+| 2309.16014 | Graph-level Representation Learning with Joint-E | IMDB-MULTI | Accuracy | BGRL | 0.0033 | 0.4987 | 151.1x below dataset median |
 | 2312.16560 | Algorithmic Graph Tasks | D&D | MSE | A-DGN | -0.453 | 0.0444 | -0.1x below dataset median |
 | 2312.16560 | Algorithmic Graph Tasks | D&D | MSE | AMP_ADGN | -0.5891 | 0.0444 | -0.1x below dataset median |
 | 2312.16560 | Algorithmic Graph Tasks | D&D | MSE | AMP_GCN | -0.1072 | 0.0444 | -0.4x below dataset median |
 | 2312.16560 | Algorithmic Graph Tasks | D&D | MSE | AMP_GIN | -0.4874 | 0.0444 | -0.1x below dataset median |
 | 2312.16560 | Algorithmic Graph Tasks | D&D | MSE | GAT | 1.4367 | 0.0444 | 32.4x above dataset median |
 | 2312.16560 | Algorithmic Graph Tasks | D&D | MSE | GRAND | 0.9477 | 0.0444 | 21.3x above dataset median |
-| 2402.10793 | An end-to-end attention-based approach for learn | QM9 | MAE | DropGIN | 0.0257874 | 0.67285 | 26.1x below dataset median |
-| 2402.10793 | An end-to-end attention-based approach for learn | QM9 | MAE | ESA | 0.0257874 | 0.67285 | 26.1x below dataset median |
-| 2402.10793 | An end-to-end attention-based approach for learn | QM9 | MAE | GAT | 0.0329 | 0.67285 | 20.5x below dataset median |
-| 2402.10793 | An end-to-end attention-based approach for learn | QM9 | MAE | GATv2 | 0.0321978 | 0.67285 | 20.9x below dataset median |
-| 2402.10793 | An end-to-end attention-based approach for learn | QM9 | MAE | GPS | 0.033076 | 0.67285 | 20.3x below dataset median |
-| 2402.10793 | An end-to-end attention-based approach for learn | QM9 | MAE | PNA | 0.0317493 | 0.67285 | 21.2x below dataset median |
-| 2402.10793 | An end-to-end attention-based approach for learn | QM9 | MAE | TokenGT | 0.030389 | 0.67285 | 22.1x below dataset median |
+| 2405.03481 | AnchorGT: Efficient and Flexible Attention Archi | QM8 | MAE | GraphGPS | 0.705 | 0.0279 | 25.3x above dataset median |
+| 2405.03481 | AnchorGT: Efficient and Flexible Attention Archi | QM8 | MAE | GraphGPS-AnchorGT | 0.665 | 0.0279 | 23.8x above dataset median |
 | 2505.23875 | A Benchmark Dataset for Graph Regression with Ho | D&D | MAE | Cheb | 0.15 | 3.7605 | 25.1x below dataset median |
 | 2505.23875 | A Benchmark Dataset for Graph Regression with Ho | D&D | MAE | Code2Vec | 0.15 | 3.7605 | 25.1x below dataset median |
 | 2505.23875 | A Benchmark Dataset for Graph Regression with Ho | D&D | MAE | CodeBERT | 0.15 | 3.7605 | 25.1x below dataset median |
@@ -42,10 +38,7 @@ Checks currently included:
 | 2505.23875 | A Benchmark Dataset for Graph Regression with Ho | D&D | MAE | PNA | 0.11 | 3.7605 | 34.2x below dataset median |
 | 2506.05393 | Are Large Language Models Good Temporal Graph Le | ogbl-wikikg2 | MRR | TGTalker (with no components) | 0.008 | 0.6 | 75.0x below dataset median |
 | 2507.19382 | Learning Long-Range Representations with Equivar | CLUSTER | RMSE F | SpookyNet | 1.052 | 21.282 | 20.2x below dataset median |
-| 2509.22259 | Rotary Position Encodings for Graphs | QM9 | MAE | DimeNet++ | 0.027 | 0.67285 | 24.9x below dataset median |
-| 2509.22259 | Rotary Position Encodings for Graphs | QM9 | MAE | M3GNet | 0.033 | 0.67285 | 20.4x below dataset median |
-| 2509.22259 | Rotary Position Encodings for Graphs | QM9 | MAE | Mace | 0.02 | 0.67285 | 33.6x below dataset median |
-| 2509.22259 | Rotary Position Encodings for Graphs | QM9 | MAE | SchNet | 0.026 | 0.67285 | 25.9x below dataset median |
+| 2509.22259 | Rotary Position Encodings for Graphs | QM9 | MAE | Mace | 0.02 | 0.428 | 21.4x below dataset median |
 | 2511.08028 | Generalizable Insights for Graph Transformers in | PCQM-Contact | MAE | SOTA (Range) | 0.0809 | 92.8 | 1147.1x below dataset median |
 | 2512.04475 | GraphBench | SAT Solving | Gap Closed | Multi-class Classification | -0.32 | 0.28 | -0.9x below dataset median |
 | 2512.04475 | GraphBench | SAT Solving | Gap Closed | Multi-class Classification | -0.13 | 0.28 | -2.2x below dataset median |

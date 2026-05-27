@@ -125,6 +125,7 @@ CREATE TABLE IF NOT EXISTS results (
     table_ref           TEXT,               -- e.g. "Table 1"
     source_ref          TEXT,               -- "this paper" or "Author Year"
     extraction_model    TEXT,               -- model name used to extract this result
+    variant_inference_reason TEXT,          -- why this dataset variant was selected
     uses_external_data  INTEGER,            -- 1=yes, 0=no, NULL=unknown
     -- Human correction system
     is_problematic      INTEGER NOT NULL DEFAULT 0,  -- shown in grey on leaderboard
@@ -151,6 +152,28 @@ CREATE TABLE IF NOT EXISTS pipeline_runs (
     started_at    TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%SZ', 'now'))
 );
 
+CREATE TABLE IF NOT EXISTS schema_migrations (
+    name       TEXT PRIMARY KEY,
+    applied_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%SZ', 'now'))
+);
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- pending_datasets — unknown dataset queue discovered by extraction
+-- ─────────────────────────────────────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS pending_datasets (
+    id                  INTEGER PRIMARY KEY AUTOINCREMENT,
+    arxiv_id            TEXT NOT NULL,
+    paper_title         TEXT,
+    dataset_name        TEXT NOT NULL,
+    metrics_seen        TEXT,   -- JSON list
+    suggestion          TEXT,   -- JSON object
+    status              TEXT NOT NULL DEFAULT 'pending', -- pending | approved | skipped | resolved
+    resolved_dataset_id INTEGER REFERENCES datasets(id) ON DELETE SET NULL,
+    created_at          TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%SZ', 'now')),
+    updated_at          TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%SZ', 'now')),
+    UNIQUE(arxiv_id, dataset_name)
+);
+
 -- ─────────────────────────────────────────────────────────────────────────────
 -- Indexes
 -- ─────────────────────────────────────────────────────────────────────────────
@@ -161,6 +184,8 @@ CREATE INDEX IF NOT EXISTS idx_results_variant       ON results(dataset_variant_
 CREATE INDEX IF NOT EXISTS idx_results_model         ON results(model_id);
 CREATE INDEX IF NOT EXISTS idx_pipeline_paper_stage  ON pipeline_runs(paper_id, stage);
 CREATE INDEX IF NOT EXISTS idx_model_aliases_alias   ON model_aliases(alias);
+CREATE INDEX IF NOT EXISTS idx_pending_status         ON pending_datasets(status);
+CREATE INDEX IF NOT EXISTS idx_pending_dataset_name   ON pending_datasets(dataset_name);
 
 -- ─────────────────────────────────────────────────────────────────────────────
 -- paper_candidates — full discovery funnel (ALL papers seen, including rejects)
@@ -208,13 +233,18 @@ CREATE TABLE IF NOT EXISTS todo_papers (
     title            TEXT,
     reason           TEXT,   -- short note why this paper was added (e.g. 'cites LRGB')
     added_by         TEXT,   -- username or script name that added the entry
-    status           TEXT NOT NULL DEFAULT 'pending', -- pending | processing | done | failed
+    status           TEXT NOT NULL DEFAULT 'pending', -- pending | processing | done | failed | rejected
     attempts         INTEGER NOT NULL DEFAULT 0,
     last_attempt_at  TEXT,
     note             TEXT,   -- freeform admin notes
     cited_by_count   INTEGER NOT NULL DEFAULT 0, -- how many existing DB papers cite this arXiv
     cites_existing_count INTEGER NOT NULL DEFAULT 0, -- how many references from this paper point to our DB
+    seen_count       INTEGER NOT NULL DEFAULT 0,
+    seen_from        TEXT,
+    first_seen_at    TEXT,
     created_at       TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%SZ', 'now'))
 );
 CREATE INDEX IF NOT EXISTS idx_todo_arxiv_id ON todo_papers(arxiv_id);
 CREATE INDEX IF NOT EXISTS idx_todo_status   ON todo_papers(status);
+CREATE INDEX IF NOT EXISTS idx_todo_created_at ON todo_papers(created_at);
+CREATE INDEX IF NOT EXISTS idx_todo_seen_count ON todo_papers(seen_count);

@@ -1,7 +1,12 @@
 """Unit tests for results_parser value parsing and fuzzy matching."""
 
 import pytest
-from backend.results_parser import parse_value_std, resolve_dataset_variant
+from backend.results_parser import (
+    _infer_zinc_variant,
+    _load_variant_map,
+    parse_value_std,
+    resolve_dataset_variant,
+)
 
 
 def test_parse_plain_float():
@@ -83,3 +88,118 @@ def test_resolve_no_match():
 
     result = rdv("completely_unknown_dataset_xyz", FakeSession(), {})
     assert result is None
+
+
+class _FakeDataset:
+    def __init__(self, name: str):
+        self.name = name
+
+
+class _FakeVariant:
+    def __init__(self, variant_id: int, name: str, dataset_name: str):
+        self.id = variant_id
+        self.name = name
+        self.dataset = _FakeDataset(dataset_name)
+
+
+class _FakeSessionWithVariants:
+    def __init__(self, variants):
+        self._variants = variants
+
+    def query(self, *args):
+        return self
+
+    def all(self):
+        return self._variants
+
+
+def test_load_variant_map_prefers_zinc_subset_for_plain_name():
+    session = _FakeSessionWithVariants(
+        [
+            _FakeVariant(21, "Subset (12k)", "ZINC"),
+            _FakeVariant(22, "Full", "ZINC"),
+        ]
+    )
+
+    variant_map = _load_variant_map(session)
+
+    assert variant_map["zinc"] == 21
+    assert variant_map["zinc subset"] == 21
+    assert variant_map["zinc full"] == 22
+
+
+def test_resolve_zinc_plain_name_uses_subset_variant():
+    variant_map = {
+        "zinc": 21,
+        "subset (12k)": 21,
+        "zinc subset": 21,
+        "full": 22,
+        "zinc full": 22,
+    }
+
+    class FakeSession:
+        def query(self, *a):
+            return self
+
+        def all(self):
+            return []
+
+    assert resolve_dataset_variant("ZINC", FakeSession(), variant_map) == 21
+    assert resolve_dataset_variant("ZINC full", FakeSession(), variant_map) == 22
+
+
+def test_infer_zinc_variant_from_table_ref_full():
+    variant_map = {
+        "zinc subset": 21,
+        "subset (12k)": 21,
+        "zinc full": 22,
+        "full": 22,
+    }
+
+    entry = {"dataset": "ZINC", "metric": "MAE", "value": 0.088, "table_ref": "tab:zinc_full"}
+
+    variant_id, reason = _infer_zinc_variant(entry, variant_map, paper_text="")
+    assert variant_id == 22
+    assert "entry cue matched full" in reason
+
+
+def test_infer_zinc_variant_from_paper_stats_subset():
+    variant_map = {
+        "zinc subset": 21,
+        "subset (12k)": 21,
+        "zinc full": 22,
+        "full": 22,
+    }
+
+    paper_text = "ZINC contains 12K molecular graphs from the ZINC database."
+    entry = {"dataset": "ZINC", "metric": "MAE", "value": 0.11}
+
+    variant_id, reason = _infer_zinc_variant(entry, variant_map, paper_text=paper_text)
+    assert variant_id == 21
+    assert "paper text matched subset" in reason
+
+
+def test_infer_zinc_variant_uses_value_fallback_when_paper_mentions_both():
+    variant_map = {
+        "zinc subset": 21,
+        "subset (12k)": 21,
+        "zinc full": 22,
+        "full": 22,
+    }
+
+    paper_text = "ZINC subset has 12,000 graphs while ZINC Full has 249,456 graphs."
+
+    full_entry = {"dataset": "ZINC", "metric": "MAE", "value": 0.025}
+    subset_entry = {"dataset": "ZINC", "metric": "MAE", "value": 0.123}
+
+    full_variant_id, full_reason = _infer_zinc_variant(
+        full_entry, variant_map, paper_text=paper_text
+    )
+    subset_variant_id, subset_reason = _infer_zinc_variant(
+        subset_entry, variant_map, paper_text=paper_text
+    )
+
+    assert full_variant_id == 22
+    assert "mae fallback" in full_reason
+    assert subset_variant_id == 21
+    assert "mae fallback" in subset_reason

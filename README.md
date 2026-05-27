@@ -27,6 +27,10 @@ uv run python -m backend.seed_db
 uv run python scripts/run_manual.py 2206.08164
 ```
 
+The repository now keeps `papers/` as a local workspace directory only. Generated
+downloads, extracted artifacts, and overrides live there on each instance, but are
+not committed to git.
+
 ---
 
 ## LLM configuration
@@ -42,6 +46,24 @@ The pipeline uses an **OpenAI-compatible** API endpoint.
 | `LLM_MODEL_PRIMARY` | no | Override primary model (default from `llm_config.yaml`) |
 | `LLM_MODEL_FALLBACK` | no | Override fallback model |
 | `LLM_MODEL_SMALL` | no | Override small/cheap model used for screening |
+| `LLM_MODEL_VLM` | no | Override vision model used for figure detection |
+
+### Local vLLM + Qwen example
+
+```bash
+# Start local OpenAI-compatible server
+vllm serve Qwen/Qwen3-32B --host 127.0.0.1 --port 8000 --api-key local-dev
+
+# .env values
+LLM_ENDPOINT=http://127.0.0.1:8000/v1
+LLM_API_KEY=local-dev
+LLM_MODEL_PRIMARY=Qwen/Qwen3-32B
+LLM_MODEL_FALLBACK=Qwen/Qwen3-32B
+LLM_MODEL_SMALL=Qwen/Qwen3-32B
+LLM_MODEL_VLM=Qwen/Qwen3-32B
+```
+
+Important: the `LLM_MODEL_*` values must match the exact model IDs returned by `GET /v1/models`.
 
 ### `config/llm_config.yaml` — non-secret model settings
 
@@ -96,12 +118,23 @@ uv run python scripts/run_manual.py 2206.08164 --force-download
 
 # Skip extraction and only re-parse + export (after manual override edits)
 uv run python scripts/run_manual.py 2206.08164 --skip-download --skip-extract
+
+# Review and import unresolved datasets queued during extraction
+uv run python scripts/run_manual.py --import-pending
 ```
 
 If extraction fails, an `errors.log` entry and a full Markdown conversation log
 (`extraction_error_<timestamp>.md`) are written to `papers/<id>/extracted/`.
 The stored extraction model is the actual `model_used` from `llm_output.json`,
 so automatic fallback runs are recorded under the model that really produced the extraction.
+
+Cache semantics:
+
+- The canonical extraction artifact is `papers/<id>/extracted/llm_output.json`.
+- Normal parsing and export read that main file, not anything under `papers/<id>/extracted/experiments/`.
+- If the main `llm_output.json` was produced by the configured fallback tier, a later `--model primary`
+  run will intentionally skip overwriting it. If you want to force a new primary/qwen extraction for that paper,
+  delete the main `papers/<id>/extracted/llm_output.json` first and rerun extraction.
 
 ---
 
@@ -166,37 +199,42 @@ That is useful for broad refreshes, but it is much heavier than a single-seed up
 
 ---
 
-### `scripts/find_todo_papers.py` — manual todo-queue management
+### `scripts/todo_queue.py` — unified todo-queue interface
 
-Small CRUD helper for manual queue management. Use it when you want to add or inspect
-specific `todo_papers` rows directly, without running a Semantic Scholar crawl.
+This is now the main user-facing interface for `todo_papers`.
+
+- Running it with no subcommand processes the next few pending papers.
+- `report` shows a concise queue summary and the top pending papers.
+- `list` shows raw queue rows.
+- `add` inserts manual priorities.
+- `recompute-counts` refreshes the queue counters from DB state.
 
 ```bash
+# Default behavior: process the next few pending papers
+uv run python scripts/todo_queue.py
+
+# Process more papers or use a different tier
+uv run python scripts/todo_queue.py process --limit 10
+uv run python scripts/todo_queue.py process --model fallback --limit 5
+
+# Preview what would be processed
+uv run python scripts/todo_queue.py process --dry-run --limit 20
+
+# Queue summary and top pending papers
+uv run python scripts/todo_queue.py report
+
 # Add a paper manually
-uv run python scripts/find_todo_papers.py add 2406.08993 --reason "manually prioritized"
+uv run python scripts/todo_queue.py add 2406.08993 --reason "manually prioritized"
 
 # Inspect queue state
-uv run python scripts/find_todo_papers.py list --status all
+uv run python scripts/todo_queue.py list --status all
 ```
 
 ---
 
-### `scripts/process_todo_list.py` — batch-process the todo queue
+### Legacy queue wrappers
 
-Processes pending `todo_papers` in descending `seen_count` order by calling `run_manual.py`
-for each paper. This is the queue runner to use once `find_todo_semanticscholar.py`
-has populated and ranked the queue.
-
-```bash
-# Process the top 10 pending todo papers
-uv run python scripts/process_todo_list.py --limit 10
-
-# Dry-run the current queue order
-uv run python scripts/process_todo_list.py --dry-run --limit 20
-
-# Force re-processing with a different tier
-uv run python scripts/process_todo_list.py --model fallback --limit 5
-```
+`scripts/find_todo_papers.py` and `scripts/process_todo_list.py` now forward into `scripts/todo_queue.py` for backwards compatibility. New usage should prefer the unified interface above.
 
 ---
 
@@ -258,6 +296,65 @@ reasons, or suspicious rate-limit behavior.
 ```bash
 uv run python scripts/test_model_ping.py MiniMaxAI/MiniMax-M2.5
 uv run python scripts/test_model_ping.py moonshotai/Kimi-K2.6
+
+---
+
+## Fresh server setup
+
+Starting from a plain git clone, the minimum setup for a real instance is:
+
+```bash
+git clone <repo-url>
+cd benchmarking_website
+
+# 1. Install system dependencies
+#    - Python 3.12+
+#    - uv
+#    - Hugo (extended is fine too)
+#    - ripgrep
+
+# 2. Install Python dependencies
+uv sync --group dev
+
+# 3. Configure secrets
+cp .env.example .env
+$EDITOR .env
+
+# 4. Seed canonical benchmark + dataset metadata
+uv run python -m backend.seed_db
+
+# 5. Build local generated state
+uv run python -m backend.export_to_hugo
+hugo --source site
+
+# 6. Run one paper as a smoke test
+uv run python scripts/run_manual.py 2206.08164
+
+# 7. Re-export and rebuild the site after extraction
+uv run python -m backend.export_to_hugo
+hugo --source site
+```
+
+Operational notes:
+
+- Keep `.env`, `papers/`, `logs/`, and `benchmarks.db` on persistent local storage.
+- `papers/` is intentionally git-ignored; this is where downloads, extraction artifacts,
+  and local overrides live on the server.
+- The normal refresh loop is: crawl or process papers, run parsing/extraction, then
+  `uv run python -m backend.export_to_hugo` and `hugo --source site`.
+- `uv run python -m backend.seed_db` is safe to re-run after dataset changes; it now also
+  imports legacy pending-dataset YAML entries (if present) and marks DB-backed pending rows
+  as `resolved` once they map to canonical datasets.
+- For a production deployment, serve `site/public/` behind nginx, Caddy, or another static
+  web server after running Hugo.
+
+Suggested production shape:
+
+1. Create a dedicated Unix user for the service.
+2. Put the repo on persistent disk and keep `.env` outside shell history.
+3. Add a systemd service or timer for your update workflow.
+4. Run Hugo after each successful extraction/import batch.
+5. Serve `site/public/` via nginx or Caddy.
 ```
 
 It performs a minimal probe request and prints routed-model, finish-reason,
@@ -278,6 +375,14 @@ uv run python scripts/repopulate_db.py --skip-extract
 # Clean DB + re-extract everything with the fallback model, then export
 uv run python scripts/repopulate_db.py --clean --model fallback --export
 ```
+
+Notes:
+
+- `--skip-extract` only re-reads the main `papers/<id>/extracted/llm_output.json` artifacts.
+- Files under `papers/<id>/extracted/experiments/<label>/` are side-by-side comparison artifacts and do not affect
+  the normal parse/export path unless you explicitly copy or promote them yourself.
+- If a paper's main `llm_output.json` was produced by the fallback tier, bulk `--model primary` runs will skip it by design.
+  Remove that main file first if you want `repopulate_db.py` to replace it with a fresh primary/qwen extraction.
 
 ---
 

@@ -7,12 +7,19 @@ description: Citation link prediction on arXiv/PubMed papers (directed).
 primary_metric: MRR
 higher_is_better: true
 pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.OGBLinkPropPredDataset.html
-stats: null
+stats:
+  num_graphs: 2927963
+  avg_nodes: 30561187.0
+  avg_edges: null
+  num_classes: null
 result_count: 4
 best_model:
   model: QGAT
   value: 0.822
   metric: MRR
+  arxiv_id: '2508.17630'
+  paper_title: 'Quantum Graph Attention Network: A Novel Quantum Multi-Head Attention
+    Mechanism for Graph Learning'
 variants:
 - slug: standard-split
   name: Standard split
@@ -20,11 +27,16 @@ variants:
   is_standard: true
   primary_metric: MRR
   higher_is_better: true
+  stats:
+    num_graphs: null
+    avg_nodes: null
+    avg_edges: null
   metrics:
   - MRR
   - Accuracy
   rows:
   - model: QGAT
+    model_plain: QGAT
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -34,6 +46,7 @@ variants:
       Mechanism for Graph Learning'
     date: Aug 2025
     date_iso: 2025-08
+    date_display: Aug 2025
     codebase_url: ''
     uses_external_data: false
     is_best: true
@@ -44,6 +57,7 @@ variants:
     - 0.0127
     - null
   - model: GATv2
+    model_plain: GATv2
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -53,6 +67,7 @@ variants:
       Mechanism for Graph Learning'
     date: Aug 2025
     date_iso: 2025-08
+    date_display: Aug 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -63,6 +78,7 @@ variants:
     - 0.0071
     - null
   - model: GAT
+    model_plain: GAT
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -72,6 +88,7 @@ variants:
       Mechanism for Graph Learning'
     date: Aug 2025
     date_iso: 2025-08
+    date_display: Aug 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -82,15 +99,17 @@ variants:
     - 0.0131
     - null
   - model: HOPE-WavePE
+    model_plain: HOPE-WavePE
     is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2409.19117'
-    title: 'Range-aware Positional Encoding via - High-order Pretraining: Theory and
+    title: 'Range-aware Positional Encoding via High-order Pretraining: Theory and
       Practice'
     date: Sep 2024
     date_iso: 2024-09
+    date_display: Sep 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false

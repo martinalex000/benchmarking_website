@@ -17,6 +17,7 @@ import argparse
 import json
 import logging
 import re
+from dataclasses import dataclass, field
 from typing import Any
 
 from thefuzz import fuzz as fuzz_lib
@@ -58,6 +59,55 @@ _PERCENTAGE_METRIC_SUBSTRINGS: tuple[str, ...] = (
     "mrr",
     "hits@",
 )
+
+_ZINC_SUBSET_ALIASES: tuple[str, ...] = (
+    "zinc",
+    "zinc subset",
+    "zinc subset (12k)",
+    "zinc 12k",
+    "zinc-12k",
+    "zinc12k",
+)
+_ZINC_FULL_ALIASES: tuple[str, ...] = (
+    "zinc full",
+    "full zinc",
+    "zinc-full",
+    "zinc 250k",
+    "zinc full dataset",
+)
+_ZINC_SUBSET_CUE_RE = re.compile(
+    r"(?:zinc[^\n]{0,120}(?:12k|12,000|12000|subset)|"
+    r"(?:12k|12,000|12000)[^\n]{0,120}zinc|"
+    r"benchmarking graph neural networks|"
+    r"arxiv:?\s*2003\.00982)",
+    re.IGNORECASE,
+)
+_ZINC_FULL_CUE_RE = re.compile(
+    r"(?:zinc[^\n]{0,120}(?:249,456|249456|250,000|250000|full)|"
+    r"(?:249,456|249456|250,000|250000)[^\n]{0,120}zinc|"
+    r"tab[:_ -]*zinc[_ -]*full)",
+    re.IGNORECASE,
+)
+_ZINC_FULL_MAX_MAE = 0.06
+_ZINC_SUBSET_MIN_MAE = 0.07
+# token_sort_ratio >= 88 matched the current model set well enough to reuse
+# obvious variants like punctuation or spacing changes without collapsing short
+# families such as GCN into unrelated names like GatedGCN.
+_MODEL_FUZZY_MATCH_MIN_SCORE = 88
+
+
+@dataclass
+class ParseStoreSummary:
+    arxiv_id: str
+    extraction_model: str = "unknown"
+    new_results: int = 0
+    updated_results: int = 0
+    skipped_unknown_datasets: list[str] = field(default_factory=list)
+    skipped_invalid_values: list[str] = field(default_factory=list)
+    created_models: list[str] = field(default_factory=list)
+    created_stub_paper: bool = False
+    metadata_changed: bool = False
+    overrides_applied: int = 0
 
 
 def _is_percentage_metric(metric_name: str) -> bool:
@@ -153,33 +203,111 @@ def parse_value_std(raw: Any) -> tuple[float | None, float | None]:
 def _load_variant_map(session) -> dict[str, int]:
     """Build {name.lower() → variant_id} for all variants + their dataset names."""
     mapping: dict[str, int] = {}
+    zinc_variants: dict[str, int] = {}
     for v in session.query(DatasetVariant).all():
         mapping[v.name.lower()] = v.id
-        mapping[v.dataset.name.lower()] = v.id
+        dataset_key = v.dataset.name.lower()
+        mapping[dataset_key] = v.id
+        if dataset_key == "zinc":
+            variant_key = v.name.lower()
+            zinc_variants[variant_key] = v.id
+            mapping[f"zinc {variant_key}"] = v.id
+
+    zinc_subset_id = zinc_variants.get("subset (12k)")
+    zinc_full_id = zinc_variants.get("full")
+    if zinc_subset_id is not None:
+        for alias in _ZINC_SUBSET_ALIASES:
+            mapping[alias] = zinc_subset_id
+    if zinc_full_id is not None:
+        for alias in _ZINC_FULL_ALIASES:
+            mapping[alias] = zinc_full_id
+    if zinc_subset_id is not None:
+        mapping["zinc"] = zinc_subset_id
+    elif zinc_full_id is not None:
+        mapping["zinc"] = zinc_full_id
     return mapping
 
 
-def resolve_dataset_variant(
+def _zinc_variant_id(kind: str, variant_map: dict[str, int]) -> int | None:
+    if kind == "subset":
+        return variant_map.get("zinc subset") or variant_map.get("subset (12k)")
+    if kind == "full":
+        return variant_map.get("zinc full") or variant_map.get("full")
+    return None
+
+
+def _collect_zinc_context(entry: dict[str, Any]) -> str:
+    parts = [
+        str(entry.get("dataset") or ""),
+        str(entry.get("table_ref") or ""),
+        str(entry.get("source_ref") or ""),
+        str(entry.get("notes") or ""),
+    ]
+    return " ".join(part for part in parts if part).strip().lower()
+
+
+def _extract_numeric_value(raw: Any) -> float | None:
+    value, _std = parse_value_std(raw)
+    return value
+
+
+def _infer_zinc_variant(
+    entry: dict[str, Any],
+    variant_map: dict[str, int],
+    paper_text: str | None = None,
+) -> tuple[int | None, str]:
+    context = _collect_zinc_context(entry)
+
+    if _ZINC_FULL_CUE_RE.search(context):
+        return _zinc_variant_id("full", variant_map), "zinc: entry cue matched full"
+    if _ZINC_SUBSET_CUE_RE.search(context):
+        return _zinc_variant_id("subset", variant_map), "zinc: entry cue matched subset"
+
+    paper_text_lower = (paper_text or "").lower()
+    if paper_text_lower:
+        has_subset_cue = _ZINC_SUBSET_CUE_RE.search(paper_text_lower) is not None
+        has_full_cue = _ZINC_FULL_CUE_RE.search(paper_text_lower) is not None
+        if has_subset_cue and not has_full_cue:
+            return _zinc_variant_id("subset", variant_map), "zinc: paper text matched subset"
+        if has_full_cue and not has_subset_cue:
+            return _zinc_variant_id("full", variant_map), "zinc: paper text matched full"
+
+    metric_key = str(entry.get("metric") or "").strip().lower()
+    if metric_key == "mae":
+        value = _extract_numeric_value(entry.get("value"))
+        if value is not None:
+            if value <= _ZINC_FULL_MAX_MAE:
+                return (
+                    _zinc_variant_id("full", variant_map),
+                    f"zinc: mae fallback <= {_ZINC_FULL_MAX_MAE:.2f}",
+                )
+            if value >= _ZINC_SUBSET_MIN_MAE:
+                return (
+                    _zinc_variant_id("subset", variant_map),
+                    f"zinc: mae fallback >= {_ZINC_SUBSET_MIN_MAE:.2f}",
+                )
+
+    return _zinc_variant_id("subset", variant_map), "zinc: default subset fallback"
+
+
+def resolve_dataset_variant_with_reason(
     dataset_name: str,
     session,
     variant_map: dict[str, int] | None = None,
-) -> int | None:
-    """Return the DatasetVariant.id best matching dataset_name.
-
-    Falls back to thefuzz similarity (threshold 75%) if exact match fails.
-    Returns None if no match found.
-    """
+    entry: dict[str, Any] | None = None,
+    paper_text: str | None = None,
+) -> tuple[int | None, str]:
     if variant_map is None:
         variant_map = _load_variant_map(session)
 
     key = dataset_name.strip().lower()
 
-    # Exact match
-    if key in variant_map:
-        return variant_map[key]
+    if key == "zinc":
+        return _infer_zinc_variant(entry or {"dataset": dataset_name}, variant_map, paper_text)
 
-    # thefuzz fallback — use a higher threshold for very short query strings to
-    # avoid spurious matches (e.g. "covid" → "d&d" at WRatio=86).
+    if key in variant_map:
+        return variant_map[key], "dataset: exact match"
+
     if variant_map:
         min_score = 85 if len(key) <= 6 else 75
         best_match, score = fuzz_process.extractOne(key, list(variant_map.keys()))
@@ -187,10 +315,32 @@ def resolve_dataset_variant(
             logger.debug(
                 "Fuzzy-matched dataset '%s' → '%s' (score=%d)", dataset_name, best_match, score
             )
-            return variant_map[best_match]
+            return variant_map[best_match], f"dataset: fuzzy match to {best_match} (score={score})"
 
     logger.warning("Could not resolve dataset variant '%s'", dataset_name)
-    return None
+    return None, "dataset: unresolved"
+
+
+def resolve_dataset_variant(
+    dataset_name: str,
+    session,
+    variant_map: dict[str, int] | None = None,
+    entry: dict[str, Any] | None = None,
+    paper_text: str | None = None,
+) -> int | None:
+    """Return the DatasetVariant.id best matching dataset_name.
+
+    Falls back to thefuzz similarity (threshold 75%) if exact match fails.
+    Returns None if no match found.
+    """
+    variant_id, _reason = resolve_dataset_variant_with_reason(
+        dataset_name,
+        session,
+        variant_map,
+        entry=entry,
+        paper_text=paper_text,
+    )
+    return variant_id
 
 
 # ── Model resolution ──────────────────────────────────────────────────────────
@@ -214,16 +364,16 @@ def resolve_or_create_model(
     session,
     canonical_map: dict[str, int],
     alias_map: dict[str, int],
-) -> int:
-    """Find or create a Model record. Returns model_id."""
+) -> tuple[int, bool]:
+    """Find or create a Model record. Returns ``(model_id, created_new)``."""
     # Strip author-role annotations before lookup/creation
     model_name = _ROLE_SUFFIX_RE.sub("", model_name).strip()
     key = model_name.strip().lower()
 
     if key in canonical_map:
-        return canonical_map[key]
+        return canonical_map[key], False
     if key in alias_map:
-        return alias_map[key]
+        return alias_map[key], False
 
     # thefuzz against canonical names — use token_sort_ratio to avoid
     # partial-substring false positives (e.g. "GCN" ⊂ "GatedGCN" scores 90
@@ -233,13 +383,13 @@ def resolve_or_create_model(
         best_match, score = fuzz_process.extractOne(
             key, all_names, scorer=fuzz_lib.token_sort_ratio
         )
-        if score >= 88:
+        if score >= _MODEL_FUZZY_MATCH_MIN_SCORE:
             logger.debug(
                 "Fuzzy-matched model '%s' → '%s' (score=%d)", model_name, best_match, score
             )
             match_id = canonical_map.get(best_match) or alias_map.get(best_match)
             if match_id:
-                return match_id
+                return match_id, False
 
     # Create new model
     new_model = Model(
@@ -250,7 +400,7 @@ def resolve_or_create_model(
     session.flush()  # get the new id
     canonical_map[key] = new_model.id
     logger.info("Created new model: '%s' (id=%d)", model_name, new_model.id)
-    return new_model.id
+    return new_model.id, True
 
 
 # ── Metadata enrichment ───────────────────────────────────────────────────────
@@ -272,8 +422,16 @@ def _extract_github_url(text: str) -> str | None:
     return None
 
 
-def _enrich_paper_metadata(arxiv_id: str, paper: Paper, storage: PaperStorage) -> None:
+def _enrich_paper_metadata(arxiv_id: str, paper: Paper, storage: PaperStorage) -> bool:
     """Update Paper record with metadata from local caches, then arXiv API if needed."""
+    before = (
+        paper.title,
+        paper.abstract,
+        paper.published_date,
+        json.dumps(paper.authors, ensure_ascii=False),
+        paper.venue,
+        paper.codebase_url,
+    )
     metadata = storage.read_metadata()
     if metadata:
         if metadata.get("title"):
@@ -351,25 +509,34 @@ def _enrich_paper_metadata(arxiv_id: str, paper: Paper, storage: PaperStorage) -
             paper.codebase_url = url
             logger.info("Set codebase_url=%s for arXiv:%s", url, arxiv_id)
 
+    after = (
+        paper.title,
+        paper.abstract,
+        paper.published_date,
+        json.dumps(paper.authors, ensure_ascii=False),
+        paper.venue,
+        paper.codebase_url,
+    )
+    return before != after
+
 
 # ── Main parser ───────────────────────────────────────────────────────────────
 
 
-def parse_and_store(arxiv_id: str) -> int:
-    """Parse LLM output for a paper and write Result rows to DB.
-
-    Returns number of new Result rows created.
-    """
+def parse_and_store_with_summary(arxiv_id: str) -> ParseStoreSummary:
+    """Parse LLM output for a paper and report the side effects explicitly."""
     init_db()
     storage = PaperStorage(arxiv_id)
+    summary = ParseStoreSummary(arxiv_id=arxiv_id)
 
     if not storage.llm_output_path.exists():
         logger.error("No LLM output found for arXiv:%s — run extractor first", arxiv_id)
-        return 0
+        return summary
 
     raw = json.loads(storage.llm_output_path.read_text(encoding="utf-8"))
     extraction = raw.get("results", {})
     model_name_used = raw.get("model_used", "unknown")
+    summary.extraction_model = model_name_used
 
     result_entries: list[dict] = extraction.get("results", [])
     proposed_model_info: dict = extraction.get("proposed_model") or {}
@@ -377,7 +544,11 @@ def parse_and_store(arxiv_id: str) -> int:
 
     if not result_entries:
         logger.warning("No result entries in LLM output for arXiv:%s", arxiv_id)
-        return 0
+        return summary
+
+    paper_text = ""
+    if storage.text_path.exists():
+        paper_text = storage.text_path.read_text(encoding="utf-8", errors="ignore")
 
     # Build a sizes lookup from baseline info
     sizes_lookup: dict[str, float | None] = {}
@@ -388,8 +559,6 @@ def parse_and_store(arxiv_id: str) -> int:
     for bm in baseline_models_info:
         if bm.get("name"):
             sizes_lookup[bm["name"].lower()] = bm.get("params_millions")
-
-    new_count = 0
 
     with session_scope() as session:
         paper = session.query(Paper).filter_by(arxiv_id=arxiv_id).first()
@@ -403,10 +572,11 @@ def parse_and_store(arxiv_id: str) -> int:
             )
             session.add(paper)
             session.flush()
+            summary.created_stub_paper = True
 
         paper.extraction_model = model_name_used
 
-        _enrich_paper_metadata(arxiv_id, paper, storage)
+        summary.metadata_changed = _enrich_paper_metadata(arxiv_id, paper, storage)
 
         variant_map = _load_variant_map(session)
         canonical_map, alias_map = _load_model_map(session)
@@ -416,17 +586,33 @@ def parse_and_store(arxiv_id: str) -> int:
             model_name = entry.get("model", "")
             metric_name = entry.get("metric", "")
 
-            variant_id = resolve_dataset_variant(dataset_name, session, variant_map)
+            variant_id, variant_reason = resolve_dataset_variant_with_reason(
+                dataset_name,
+                session,
+                variant_map,
+                entry=entry,
+                paper_text=paper_text,
+            )
             if variant_id is None:
                 logger.warning(
                     "Skipping result (unknown dataset '%s') for arXiv:%s",
                     dataset_name,
                     arxiv_id,
                 )
+                if dataset_name and dataset_name not in summary.skipped_unknown_datasets:
+                    summary.skipped_unknown_datasets.append(dataset_name)
                 continue
+            if dataset_name.strip().lower() == "zinc":
+                logger.info(
+                    "Resolved ZINC variant for arXiv:%s model=%s metric=%s via %s",
+                    arxiv_id,
+                    model_name,
+                    metric_name,
+                    variant_reason,
+                )
 
             params = sizes_lookup.get(model_name.lower())
-            model_id = resolve_or_create_model(
+            model_id, created_model = resolve_or_create_model(
                 model_name,
                 is_proposed=entry.get("is_proposed", False),
                 params_millions=params,
@@ -434,6 +620,8 @@ def parse_and_store(arxiv_id: str) -> int:
                 canonical_map=canonical_map,
                 alias_map=alias_map,
             )
+            if created_model and model_name not in summary.created_models:
+                summary.created_models.append(model_name)
 
             # Check for duplicate (same paper + variant + model + metric)
             existing = (
@@ -457,6 +645,8 @@ def parse_and_store(arxiv_id: str) -> int:
             if existing:
                 # Update in-place
                 _update_result(existing, entry, model_name_used)
+                existing.variant_inference_reason = variant_reason
+                summary.updated_results += 1
                 continue
 
             # Parse value/std
@@ -467,6 +657,9 @@ def parse_and_store(arxiv_id: str) -> int:
                     model_name,
                     dataset_name,
                     metric_name,
+                )
+                summary.skipped_invalid_values.append(
+                    f"{model_name} / {dataset_name} / {metric_name}"
                 )
                 continue
 
@@ -487,18 +680,28 @@ def parse_and_store(arxiv_id: str) -> int:
                 table_ref=entry.get("table_ref"),
                 source_ref=entry.get("source_ref", "this paper"),
                 extraction_model=model_name_used,
+                variant_inference_reason=variant_reason,
             )
             session.add(result)
-            new_count += 1
+            summary.new_results += 1
 
-    logger.info("Stored %d new Result rows for arXiv:%s", new_count, arxiv_id)
+    logger.info("Stored %d new Result rows for arXiv:%s", summary.new_results, arxiv_id)
 
     # Always re-apply overrides after inserting fresh results
     overridden = apply_overrides_to_db(arxiv_id)
+    summary.overrides_applied = overridden
     if overridden:
         logger.info("Applied %d overrides for arXiv:%s", overridden, arxiv_id)
 
-    return new_count
+    return summary
+
+
+def parse_and_store(arxiv_id: str) -> int:
+    """Parse LLM output for a paper and write Result rows to DB.
+
+    Returns number of new Result rows created.
+    """
+    return parse_and_store_with_summary(arxiv_id).new_results
 
 
 def _parse_entry_value(entry: dict) -> tuple[float | None, float | None]:

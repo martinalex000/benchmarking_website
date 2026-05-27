@@ -1,0 +1,13 @@
+{{- $items := slice -}}
+{{- range .Pages -}}
+  {{- $items = $items | append (dict
+    "title" .Title
+    "permalink" .Permalink
+    "section" .Section
+  ) -}}
+{{- end -}}
+{{- dict
+  "section" .Section
+  "count" (len .Pages)
+  "items" $items
+| jsonify -}}

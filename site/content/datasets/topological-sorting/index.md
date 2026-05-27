@@ -8,12 +8,18 @@ description: Topological ordering node rank regression on DAGs (GraphBench algor
 primary_metric: MAE
 higher_is_better: false
 pyg_url: https://graphbench.github.io/website/datasets.html
-stats: null
+stats:
+  num_graphs: 21000000
+  avg_nodes: 264.0
+  avg_edges: 3667.0
+  num_classes: null
 result_count: 2
 best_model:
   model: GIN
   value: 0.1001
   metric: MAE
+  arxiv_id: '2512.04475'
+  paper_title: GraphBench
 variants:
 - slug: easy
   name: Easy
@@ -21,10 +27,15 @@ variants:
   is_standard: true
   primary_metric: MAE
   higher_is_better: false
+  stats:
+    num_graphs: null
+    avg_nodes: null
+    avg_edges: null
   metrics:
   - MAE
   rows:
   - model: GIN
+    model_plain: GIN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -33,6 +44,7 @@ variants:
     title: GraphBench
     date: Dec 2025
     date_iso: 2025-12
+    date_display: Dec 2025
     codebase_url: https://github.com/graphbench/package
     uses_external_data: false
     is_best: true
@@ -41,6 +53,7 @@ variants:
     metric_stds:
     - 0.0089
   - model: GT
+    model_plain: GT
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -49,6 +62,7 @@ variants:
     title: GraphBench
     date: Dec 2025
     date_iso: 2025-12
+    date_display: Dec 2025
     codebase_url: https://github.com/graphbench/package
     uses_external_data: false
     is_best: false
@@ -69,10 +83,15 @@ variants:
   is_standard: false
   primary_metric: MAE
   higher_is_better: false
+  stats:
+    num_graphs: null
+    avg_nodes: null
+    avg_edges: null
   metrics:
   - MAE
   rows:
   - model: GIN
+    model_plain: GIN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -81,6 +100,7 @@ variants:
     title: GraphBench
     date: Dec 2025
     date_iso: 2025-12
+    date_display: Dec 2025
     codebase_url: https://github.com/graphbench/package
     uses_external_data: false
     is_best: true
@@ -89,6 +109,7 @@ variants:
     metric_stds:
     - 0.0046
   - model: GT
+    model_plain: GT
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -97,6 +118,7 @@ variants:
     title: GraphBench
     date: Dec 2025
     date_iso: 2025-12
+    date_display: Dec 2025
     codebase_url: https://github.com/graphbench/package
     uses_external_data: false
     is_best: true
@@ -117,10 +139,15 @@ variants:
   is_standard: false
   primary_metric: MAE
   higher_is_better: false
+  stats:
+    num_graphs: null
+    avg_nodes: null
+    avg_edges: null
   metrics:
   - MAE
   rows:
   - model: GT
+    model_plain: GT
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -129,6 +156,7 @@ variants:
     title: GraphBench
     date: Dec 2025
     date_iso: 2025-12
+    date_display: Dec 2025
     codebase_url: https://github.com/graphbench/package
     uses_external_data: false
     is_best: true
@@ -137,6 +165,7 @@ variants:
     metric_stds:
     - 0.0094
   - model: GIN
+    model_plain: GIN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -145,6 +174,7 @@ variants:
     title: GraphBench
     date: Dec 2025
     date_iso: 2025-12
+    date_display: Dec 2025
     codebase_url: https://github.com/graphbench/package
     uses_external_data: false
     is_best: false

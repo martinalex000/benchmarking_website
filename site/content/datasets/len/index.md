@@ -10,12 +10,18 @@ description: 'Labeled Entity Network — large-scale coordinated campaign detect
 primary_metric: Accuracy
 higher_is_better: true
 pyg_url: ''
-stats: null
+stats:
+  num_graphs: null
+  avg_nodes: null
+  avg_edges: null
+  num_classes: 2
 result_count: 26
 best_model:
   model: SAGE (RWW, Degree, 0.5)
   value: 0.852
   metric: Accuracy
+  arxiv_id: '2506.13912'
+  paper_title: Density-aware Walks for Coordinated Campaign Detection
 variants:
 - slug: standard-split
   name: Standard split
@@ -23,12 +29,17 @@ variants:
   is_standard: true
   primary_metric: Accuracy
   higher_is_better: true
+  stats:
+    num_graphs: null
+    avg_nodes: null
+    avg_edges: null
   metrics:
   - Accuracy
   - RMSE E
   - RMSE F
   rows:
   - model: SAGE (RWW, Degree, 0.5)
+    model_plain: SAGE (RWW, Degree, 0.5)
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -37,6 +48,7 @@ variants:
     title: Density-aware Walks for Coordinated Campaign Detection
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: false
     is_best: true
@@ -49,6 +61,7 @@ variants:
     - null
     - null
   - model: SAGE (RWW, Truss, 0.5)
+    model_plain: SAGE (RWW, Truss, 0.5)
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -57,6 +70,7 @@ variants:
     title: Density-aware Walks for Coordinated Campaign Detection
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -69,6 +83,7 @@ variants:
     - null
     - null
   - model: GAT (RWW, Core, mid)
+    model_plain: GAT (RWW, Core, mid)
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -77,6 +92,7 @@ variants:
     title: Density-aware Walks for Coordinated Campaign Detection
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -89,6 +105,7 @@ variants:
     - null
     - null
   - model: GCN (NF+RWW, Truss, 0.5)
+    model_plain: GCN (NF+RWW, Truss, 0.5)
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -97,6 +114,7 @@ variants:
     title: Density-aware Walks for Coordinated Campaign Detection
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -109,6 +127,7 @@ variants:
     - null
     - null
   - model: GCN (RWW, Truss, median)
+    model_plain: GCN (RWW, Truss, median)
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -117,6 +136,7 @@ variants:
     title: Density-aware Walks for Coordinated Campaign Detection
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -129,6 +149,7 @@ variants:
     - null
     - null
   - model: GAT (RWW, Degree, median)
+    model_plain: GAT (RWW, Degree, median)
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -137,6 +158,7 @@ variants:
     title: Density-aware Walks for Coordinated Campaign Detection
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -149,6 +171,7 @@ variants:
     - null
     - null
   - model: GAT (NF+RWW, Truss, median)
+    model_plain: GAT (NF+RWW, Truss, median)
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -157,6 +180,7 @@ variants:
     title: Density-aware Walks for Coordinated Campaign Detection
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -169,6 +193,7 @@ variants:
     - null
     - null
   - model: GIN (NF+RWW, Core, mid)
+    model_plain: GIN (NF+RWW, Core, mid)
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -177,6 +202,7 @@ variants:
     title: Density-aware Walks for Coordinated Campaign Detection
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -189,6 +215,7 @@ variants:
     - null
     - null
   - model: SAGE (NF+RWW, Core, 0.5)
+    model_plain: SAGE (NF+RWW, Core, 0.5)
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -197,6 +224,7 @@ variants:
     title: Density-aware Walks for Coordinated Campaign Detection
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -209,6 +237,7 @@ variants:
     - null
     - null
   - model: GCN (RWW, Core, 0.5)
+    model_plain: GCN (RWW, Core, 0.5)
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -217,6 +246,7 @@ variants:
     title: Density-aware Walks for Coordinated Campaign Detection
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -229,6 +259,7 @@ variants:
     - null
     - null
   - model: GAT (NF+RWW, Core, 0.5)
+    model_plain: GAT (NF+RWW, Core, 0.5)
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -237,6 +268,7 @@ variants:
     title: Density-aware Walks for Coordinated Campaign Detection
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -249,6 +281,7 @@ variants:
     - null
     - null
   - model: GCN (RWW, Degree, mid)
+    model_plain: GCN (RWW, Degree, mid)
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -257,6 +290,7 @@ variants:
     title: Density-aware Walks for Coordinated Campaign Detection
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -269,6 +303,7 @@ variants:
     - null
     - null
   - model: GIN (NF+RWW, Truss, mid)
+    model_plain: GIN (NF+RWW, Truss, mid)
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -277,6 +312,7 @@ variants:
     title: Density-aware Walks for Coordinated Campaign Detection
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -289,6 +325,7 @@ variants:
     - null
     - null
   - model: SAGE (RWW, Core, mid)
+    model_plain: SAGE (RWW, Core, mid)
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -297,6 +334,7 @@ variants:
     title: Density-aware Walks for Coordinated Campaign Detection
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -309,6 +347,7 @@ variants:
     - null
     - null
   - model: GIN (RWW, Truss, 0.5)
+    model_plain: GIN (RWW, Truss, 0.5)
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -317,6 +356,7 @@ variants:
     title: Density-aware Walks for Coordinated Campaign Detection
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -329,6 +369,7 @@ variants:
     - null
     - null
   - model: GCN (NF+RWW, Core, median)
+    model_plain: GCN (NF+RWW, Core, median)
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -337,6 +378,7 @@ variants:
     title: Density-aware Walks for Coordinated Campaign Detection
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -349,6 +391,7 @@ variants:
     - null
     - null
   - model: SAGE (NF+RWW, Degree, median)
+    model_plain: SAGE (NF+RWW, Degree, median)
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -357,6 +400,7 @@ variants:
     title: Density-aware Walks for Coordinated Campaign Detection
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -369,6 +413,7 @@ variants:
     - null
     - null
   - model: GIN (RWW, Degree, 0.5)
+    model_plain: GIN (RWW, Degree, 0.5)
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -377,6 +422,7 @@ variants:
     title: Density-aware Walks for Coordinated Campaign Detection
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -389,6 +435,7 @@ variants:
     - null
     - null
   - model: GAT (NF)
+    model_plain: GAT (NF)
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -397,6 +444,7 @@ variants:
     title: Density-aware Walks for Coordinated Campaign Detection
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -409,6 +457,7 @@ variants:
     - null
     - null
   - model: SAGE (NF)
+    model_plain: SAGE (NF)
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -417,6 +466,7 @@ variants:
     title: Density-aware Walks for Coordinated Campaign Detection
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -429,6 +479,7 @@ variants:
     - null
     - null
   - model: GCN (NF)
+    model_plain: GCN (NF)
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -437,6 +488,7 @@ variants:
     title: Density-aware Walks for Coordinated Campaign Detection
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -449,6 +501,7 @@ variants:
     - null
     - null
   - model: GIN (NF)
+    model_plain: GIN (NF)
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -457,6 +510,7 @@ variants:
     title: Density-aware Walks for Coordinated Campaign Detection
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -469,14 +523,16 @@ variants:
     - null
     - null
   - model: Lorem
+    model_plain: Lorem
     is_baseline: false
     is_overridden: false
     override_reason: ''
-    params_millions: 1.020999
+    params_millions: 1.021
     arxiv_id: '2507.19382'
     title: Learning Long-Range Representations with Equivariant Messages
     date: Jul 2025
     date_iso: 2025-07
+    date_display: Jul 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -489,6 +545,7 @@ variants:
     - null
     - null
   - model: Cace-Les
+    model_plain: Cace-Les
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -497,6 +554,7 @@ variants:
     title: Learning Long-Range Representations with Equivariant Messages
     date: Jul 2025
     date_iso: 2025-07
+    date_display: Jul 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -509,6 +567,7 @@ variants:
     - null
     - null
   - model: Mace
+    model_plain: Mace
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -517,6 +576,7 @@ variants:
     title: Learning Long-Range Representations with Equivariant Messages
     date: Jul 2025
     date_iso: 2025-07
+    date_display: Jul 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -529,6 +589,7 @@ variants:
     - null
     - null
   - model: Pet
+    model_plain: Pet
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -537,6 +598,7 @@ variants:
     title: Learning Long-Range Representations with Equivariant Messages
     date: Jul 2025
     date_iso: 2025-07
+    date_display: Jul 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false

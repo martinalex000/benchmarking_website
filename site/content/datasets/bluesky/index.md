@@ -10,12 +10,18 @@ description: 'Dynamic directed graphs of Bluesky social network user interaction
 primary_metric: MAE
 higher_is_better: false
 pyg_url: https://graphbench.github.io/website/datasets.html
-stats: null
+stats:
+  num_graphs: 3
+  avg_nodes: 433000.0
+  avg_edges: 10000000.0
+  num_classes: null
 result_count: 3
 best_model:
   model: GNN
   value: 0.768
   metric: MAE
+  arxiv_id: '2512.04475'
+  paper_title: GraphBench
 variants:
 - slug: standard-split
   name: Standard split
@@ -23,18 +29,24 @@ variants:
   is_standard: true
   primary_metric: MAE
   higher_is_better: false
+  stats:
+    num_graphs: null
+    avg_nodes: null
+    avg_edges: null
   metrics:
   - MAE
   rows:
   - model: GNN
+    model_plain: GNN
     is_baseline: false
     is_overridden: false
     override_reason: ''
-    params_millions: 1.26
+    params_millions: null
     arxiv_id: '2512.04475'
     title: GraphBench
     date: Dec 2025
     date_iso: 2025-12
+    date_display: Dec 2025
     codebase_url: https://github.com/graphbench/package
     uses_external_data: false
     is_best: true
@@ -43,6 +55,7 @@ variants:
     metric_stds:
     - 0.002
   - model: MLP
+    model_plain: MLP
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -51,6 +64,7 @@ variants:
     title: GraphBench
     date: Dec 2025
     date_iso: 2025-12
+    date_display: Dec 2025
     codebase_url: https://github.com/graphbench/package
     uses_external_data: false
     is_best: false
@@ -59,6 +73,7 @@ variants:
     metric_stds:
     - 0.001
   - model: DeepSets
+    model_plain: DeepSets
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -67,6 +82,7 @@ variants:
     title: GraphBench
     date: Dec 2025
     date_iso: 2025-12
+    date_display: Dec 2025
     codebase_url: https://github.com/graphbench/package
     uses_external_data: false
     is_best: false

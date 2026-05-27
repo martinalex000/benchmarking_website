@@ -16,6 +16,8 @@ build/
 !.env.example
 
 # ── Database ────────────────────────────────────────────────────────────────
+benchmarks.db
+benchmarks.db-*
 data/*.db
 data/*.db-shm
 data/*.db-wal
@@ -31,20 +33,9 @@ site/.hugo_build.lock
 site/content/datasets/
 site/content/papers/
 
-# ── Papers: ignore large/generated files, but TRACK correction files ─────────
-# Downloaded paper files (large, reproducible)
-papers/*/paper.pdf
-papers/*/html/
-papers/*/latex/
-papers/*/extracted/text.txt
-papers/*/extracted/*.json
-papers/*/figures/
-papers/*/metadata.json
-
-# ALWAYS TRACK these (do NOT add to ignore):
-# papers/*/metadata.json        ← paper metadata
-# papers/*/overrides.yaml       ← human corrections
-# papers/*/extracted/results_human_readable.md  ← verification artifact
+# ── Papers: keep local workspace data out of git ────────────────────────────
+papers/*
+!papers/.gitkeep
 
 # ── OS / Editor ─────────────────────────────────────────────────────────────
 .DS_Store

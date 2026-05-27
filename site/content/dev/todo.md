@@ -509,3 +509,12 @@ type: dev
 | 2102.10757 | 5 | pending | Self-Supervised Learning of Graph Neural Networks: A Unified Review |
 | 2002.09518 | 5 | pending | Memory-Based Graph Networks |
 | 1906.09427 | 5 | pending | Alchemy: A Quantum Chemistry Dataset for Benchmarking AI Models |
+
+### Semantic Scholar crawl summary
+
+The standalone S2 crawl page was removed to keep the development surface smaller. These counts retain the only high-signal summary from that page.
+
+**DB papers total:** 225
+**Crawled:** 224
+**Uncrawled:** 1
+**Hit crawl limits:** 1

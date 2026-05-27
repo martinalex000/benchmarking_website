@@ -11,7 +11,7 @@
     {{ end }}
   {{ end }}
   <div class="dataset-stats">
-    <div class="stat-item"><span class="stat-value">{{ len .Site.Data.benchmarks }}</span><span class="stat-label">benchmark groups</span></div>
+    <div class="stat-item"><span class="stat-value">{{ len hugo.Data.benchmarks }}</span><span class="stat-label">benchmark groups</span></div>
     <div class="stat-item"><span class="stat-value">{{ len $datasets }}</span><span class="stat-label">datasets</span></div>
     <div class="stat-item"><span class="stat-value">{{ $stats.Get "resultCount" }}</span><span class="stat-label">results</span></div>
   </div>
@@ -39,7 +39,7 @@
   <input id="dataset-search" type="search" placeholder="Type a dataset name..." autocomplete="off">
 </div>
 
-{{ range .Site.Data.benchmarks }}
+{{ range hugo.Data.benchmarks }}
 {{ if .datasets }}
 <section class="benchmark-group" id="benchmark-{{ .slug }}">
   <div class="benchmark-header">

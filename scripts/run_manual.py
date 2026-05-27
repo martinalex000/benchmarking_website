@@ -18,8 +18,9 @@ Extraction is two-stage:
     the paper has benchmark results before spending tokens on full extraction.
   Stage 2 (chosen model): sends the complete paper text to the LLM.
 
-Unknown datasets found during extraction are written to data/pending_datasets.yaml
-for later review.  Use --import-pending to interactively add them to the DB.
+Unknown datasets found during extraction are queued in the pending_datasets DB
+table for later review. Use --import-pending to interactively add them to
+seed_data.yaml and reseed the DB.
 
 If a model is not found at the endpoint, run:
     uv run python scripts/list_models.py
@@ -511,15 +512,15 @@ def _llm_suggest_dataset(
 
 
 def _collect_unknown_datasets(arxiv_id: str, paper_title: str = "") -> int:
-    """Find unknown datasets in the extraction, collect LLM suggestions, append to pending file.
+    """Find unknown datasets in extraction and queue them in pending_datasets table.
 
-    Runs entirely non-interactively.  Unknown datasets are written to
-    data/pending_datasets.yaml for later review via --import-pending.
+    Runs entirely non-interactively. Unknown datasets are stored in the DB and
+    can later be reviewed via --import-pending.
 
-    Returns the number of new entries added to the pending file.
+    Returns the number of newly queued DB rows.
     """
-    import yaml
     from backend.db import init_db, session_scope
+    from backend.models import PendingDataset
     from backend.paper_storage import PaperStorage
     from backend.results_parser import _load_variant_map, resolve_dataset_variant
 
@@ -542,33 +543,29 @@ def _collect_unknown_datasets(arxiv_id: str, paper_title: str = "") -> int:
 
     init_db()
     unknown: list[tuple[str, set[str]]] = []
+    already_queued: set[tuple[str, str]] = set()
     with session_scope() as session:
         variant_map = _load_variant_map(session)
         for ds_name, metrics in seen.items():
             if resolve_dataset_variant(ds_name, session, variant_map) is None:
                 unknown.append((ds_name, metrics))
+        already_queued = {
+            (row_arxiv_id, row_dataset_name)
+            for row_arxiv_id, row_dataset_name in session.query(
+                PendingDataset.arxiv_id,
+                PendingDataset.dataset_name,
+            ).filter(PendingDataset.arxiv_id == arxiv_id)
+        }
 
     if not unknown:
         return 0
-
-    # Load existing pending file (create empty list if missing)
-    pending_path = cfg.data_dir / "pending_datasets.yaml"
-    pending_path.parent.mkdir(parents=True, exist_ok=True)
-    existing: list[dict] = []
-    if pending_path.exists():
-        try:
-            existing = yaml.safe_load(pending_path.read_text(encoding="utf-8")) or []
-        except Exception:
-            existing = []
-
-    already_queued = {(e.get("arxiv_id"), e.get("dataset")) for e in existing}
 
     # Load paper text for LLM context
     paper_text = ""
     if storage.text_path.exists():
         paper_text = storage.text_path.read_text(encoding="utf-8")
 
-    added = 0
+    candidates_to_add: list[dict] = []
     for ds_name, metrics in unknown:
         if (arxiv_id, ds_name) in already_queued:
             continue  # already tracked
@@ -577,16 +574,17 @@ def _collect_unknown_datasets(arxiv_id: str, paper_title: str = "") -> int:
         suggestion = _llm_suggest_dataset(ds_name, metrics, paper_text)
         console.print(" [green]done[/green]" if suggestion else " [yellow]unavailable[/yellow]")
 
+        metrics_seen = sorted(m for m in metrics if m)
         entry: dict = {
             "arxiv_id": arxiv_id,
             "paper_title": paper_title,
-            "dataset": ds_name,
-            "metrics_seen": sorted(metrics),
+            "dataset_name": ds_name,
+            "metrics_seen": metrics_seen,
             "suggestion": {
                 "task_type": suggestion.get("task_type", "graph_classification"),
                 "primary_metric": (
                     suggestion.get("primary_metric")
-                    or (sorted(metrics)[0] if metrics else "Accuracy")
+                    or (metrics_seen[0] if metrics_seen else "Accuracy")
                 ),
                 "higher_is_better": bool(suggestion.get("higher_is_better", True)),
                 "description": suggestion.get("description", ""),
@@ -597,19 +595,39 @@ def _collect_unknown_datasets(arxiv_id: str, paper_title: str = "") -> int:
             },
             "status": "pending",
         }
-        existing.append(entry)
+        candidates_to_add.append(entry)
         already_queued.add((arxiv_id, ds_name))
-        added += 1
+
+    added = 0
+    if candidates_to_add:
+        with session_scope() as session:
+            for entry in candidates_to_add:
+                exists = (
+                    session.query(PendingDataset.id)
+                    .filter_by(
+                        arxiv_id=entry["arxiv_id"],
+                        dataset_name=entry["dataset_name"],
+                    )
+                    .first()
+                )
+                if exists is not None:
+                    continue
+                row = PendingDataset(
+                    arxiv_id=entry["arxiv_id"],
+                    paper_title=entry["paper_title"],
+                    dataset_name=entry["dataset_name"],
+                    status=entry["status"],
+                )
+                row.metrics_seen_list = entry["metrics_seen"]
+                row.suggestion_obj = entry["suggestion"]
+                session.add(row)
+                added += 1
 
     if added:
-        pending_path.write_text(
-            yaml.dump(existing, allow_unicode=True, sort_keys=False, default_flow_style=False),
-            encoding="utf-8",
-        )
         console.print(
             f"\n  [yellow]⚠  {len(unknown)} unknown dataset(s) found —"
-            f" {added} new entr{'y' if added == 1 else 'ies'} added to"
-            f" [bold]data/pending_datasets.yaml[/bold][/yellow]"
+            f" {added} new entr{'y' if added == 1 else 'ies'} queued in"
+            " [bold]pending_datasets[/bold] (DB table)[/yellow]"
         )
         console.print(
             "  Results for unknown datasets are [dim]skipped during parsing[/dim].\n"
@@ -618,155 +636,158 @@ def _collect_unknown_datasets(arxiv_id: str, paper_title: str = "") -> int:
         )
     elif unknown:
         console.print(
-            f"  [dim]{len(unknown)} unknown dataset(s) already in pending file — skipped.[/dim]"
+            f"  [dim]{len(unknown)} unknown dataset(s) already in pending_datasets — skipped.[/dim]"
         )
 
     return added
 
 
 def _import_pending_datasets() -> None:
-    """Interactively review data/pending_datasets.yaml and import approved entries into the DB."""
+    """Interactively review pending_datasets DB rows and import approved entries."""
     import yaml
     from rich.table import Table as _RTable
 
-    from backend.db import init_db
+    from backend.db import init_db, session_scope
+    from backend.models import PendingDataset
 
-    pending_path = cfg.data_dir / "pending_datasets.yaml"
-    if not pending_path.exists():
-        console.print("[yellow]No pending_datasets.yaml found in data/.[/yellow]")
-        return
-
-    entries: list[dict] = yaml.safe_load(pending_path.read_text(encoding="utf-8")) or []
-    pending = [e for e in entries if e.get("status") == "pending"]
-
-    if not pending:
-        console.print("[green]No pending datasets to review.[/green]")
-        return
-
-    console.print(f"\n[bold]{len(pending)} pending dataset(s) to review:[/bold]\n")
-
-    # Overview table
-    overview = _RTable(show_header=True, header_style="bold", show_lines=True)
-    overview.add_column("#", style="dim", width=3)
-    overview.add_column("Dataset", style="cyan")
-    overview.add_column("Paper (arXiv ID)", style="dim", max_width=45)
-    overview.add_column("Metrics seen")
-    overview.add_column("Suggested benchmark", style="green")
-    for i, e in enumerate(pending, 1):
-        overview.add_row(
-            str(i),
-            e.get("dataset", ""),
-            e.get("paper_title") or e.get("arxiv_id", ""),
-            ", ".join(e.get("metrics_seen", [])),
-            e.get("suggestion", {}).get("benchmark_name", "?"),
+    init_db()
+    with session_scope() as session:
+        pending = (
+            session.query(PendingDataset)
+            .filter(PendingDataset.status == "pending")
+            .order_by(PendingDataset.created_at.asc(), PendingDataset.id.asc())
+            .all()
         )
-    console.print(overview)
 
-    # Load seed_data.yaml
-    seed_path = Path(__file__).parent.parent / "config" / "seed_data.yaml"
-    with seed_path.open(encoding="utf-8") as f:
-        seed_data = yaml.safe_load(f)
-    benchmarks: list[dict] = seed_data.get("benchmarks", [])
-    bm_names = [bm["name"] for bm in benchmarks]
+        if not pending:
+            console.print("[green]No pending datasets to review.[/green]")
+            return
 
-    approved_datasets: list[str] = []
+        console.print(f"\n[bold]{len(pending)} pending dataset(s) to review:[/bold]\n")
 
-    for e in pending:
-        ds_name = e.get("dataset", "")
-        arxiv_id_e = e.get("arxiv_id", "")
-        sug = e.get("suggestion", {})
-
-        console.print(f"\n  [bold cyan]{ds_name}[/bold cyan]  [dim](arXiv:{arxiv_id_e})[/dim]")
-        console.print(f"    task_type:        [cyan]{sug.get('task_type', '?')}[/cyan]")
-        console.print(f"    primary_metric:   [cyan]{sug.get('primary_metric', '?')}[/cyan]")
-        console.print(f"    higher_is_better: [cyan]{sug.get('higher_is_better', True)}[/cyan]")
-        if sug.get("description"):
-            console.print(f"    description:      [dim]{sug['description']}[/dim]")
-        if sug.get("benchmark_name"):
-            bm_marker = (
-                "[green](in DB)[/green]"
-                if sug["benchmark_name"] in bm_names
-                else "[yellow](new)[/yellow]"
+        # Overview table
+        overview = _RTable(show_header=True, header_style="bold", show_lines=True)
+        overview.add_column("#", style="dim", width=3)
+        overview.add_column("Dataset", style="cyan")
+        overview.add_column("Paper (arXiv ID)", style="dim", max_width=45)
+        overview.add_column("Metrics seen")
+        overview.add_column("Suggested benchmark", style="green")
+        for i, row in enumerate(pending, 1):
+            overview.add_row(
+                str(i),
+                row.dataset_name or "",
+                row.paper_title or row.arxiv_id or "",
+                ", ".join(row.metrics_seen_list),
+                row.suggestion_obj.get("benchmark_name", "?"),
             )
-            console.print(
-                f"    benchmark:        [green]{sug['benchmark_name']}[/green] {bm_marker}"
+        console.print(overview)
+
+        # Load seed_data.yaml
+        seed_path = Path(__file__).parent.parent / "config" / "seed_data.yaml"
+        with seed_path.open(encoding="utf-8") as f:
+            seed_data = yaml.safe_load(f)
+        benchmarks: list[dict] = seed_data.get("benchmarks", [])
+        bm_names = [bm["name"] for bm in benchmarks]
+
+        approved_datasets: list[str] = []
+        approved_arxiv_ids: set[str] = set()
+
+        for row in pending:
+            ds_name = row.dataset_name or ""
+            arxiv_id_e = row.arxiv_id or ""
+            sug = row.suggestion_obj
+
+            console.print(f"\n  [bold cyan]{ds_name}[/bold cyan]  [dim](arXiv:{arxiv_id_e})[/dim]")
+            console.print(f"    task_type:        [cyan]{sug.get('task_type', '?')}[/cyan]")
+            console.print(f"    primary_metric:   [cyan]{sug.get('primary_metric', '?')}[/cyan]")
+            console.print(f"    higher_is_better: [cyan]{sug.get('higher_is_better', True)}[/cyan]")
+            if sug.get("description"):
+                console.print(f"    description:      [dim]{sug['description']}[/dim]")
+            if sug.get("benchmark_name"):
+                bm_marker = (
+                    "[green](in DB)[/green]"
+                    if sug["benchmark_name"] in bm_names
+                    else "[yellow](new)[/yellow]"
+                )
+                console.print(
+                    f"    benchmark:        [green]{sug['benchmark_name']}[/green] {bm_marker}"
+                )
+            if sug.get("pyg_url"):
+                console.print(f"    pyg_url:          [dim]{sug['pyg_url']}[/dim]")
+
+            ans = (
+                console.input("  [a]pprove / [s]kip / [b]enchmark list? [a/s/b]: ").strip().lower()
             )
-        if sug.get("pyg_url"):
-            console.print(f"    pyg_url:          [dim]{sug['pyg_url']}[/dim]")
+            if ans == "s":
+                row.status = "skipped"
+                continue
 
-        ans = console.input("  [a]pprove / [s]kip / [b]enchmark list? [a/s/b]: ").strip().lower()
-        if ans == "s":
-            e["status"] = "skipped"
-            continue
+            # Determine benchmark assignment
+            suggested_bm = sug.get("benchmark_name", "")
+            if ans == "b" or (suggested_bm and suggested_bm not in bm_names and ans != "a"):
+                # Show benchmark list
+                console.print("  Benchmarks:")
+                for i, name in enumerate(bm_names, 1):
+                    console.print(f"    [{i}] {name}")
+                console.print("    [N] Create new")
+                bm_choice = console.input("  Choice: ").strip()
+                bm_idx: int | None = None
+                new_bm_name: str | None = None
+                try:
+                    idx = int(bm_choice) - 1
+                    if 0 <= idx < len(bm_names):
+                        bm_idx = idx
+                except ValueError:
+                    pass
+                if bm_idx is None:
+                    new_bm_name = console.input("  New benchmark name: ").strip()
+                    if not new_bm_name:
+                        console.print("  [yellow]Skipped.[/yellow]")
+                        row.status = "skipped"
+                        continue
+            elif suggested_bm in bm_names:
+                bm_idx = bm_names.index(suggested_bm)
+                new_bm_name = None
+            else:
+                # Auto-create benchmark from suggestion
+                bm_idx = None
+                new_bm_name = suggested_bm or f"Paper {arxiv_id_e}"
 
-        # Determine benchmark assignment
-        suggested_bm = sug.get("benchmark_name", "")
-        if ans == "b" or (suggested_bm and suggested_bm not in bm_names and ans != "a"):
-            # Show benchmark list
-            console.print("  Benchmarks:")
-            for i, name in enumerate(bm_names, 1):
-                console.print(f"    [{i}] {name}")
-            console.print("    [N] Create new")
-            bm_choice = console.input("  Choice: ").strip()
-            bm_idx: int | None = None
-            new_bm_name: str | None = None
-            try:
-                idx = int(bm_choice) - 1
-                if 0 <= idx < len(bm_names):
-                    bm_idx = idx
-            except ValueError:
-                pass
-            if bm_idx is None:
-                new_bm_name = console.input("  New benchmark name: ").strip()
-                if not new_bm_name:
-                    console.print("  [yellow]Skipped.[/yellow]")
-                    continue
-        elif suggested_bm in bm_names:
-            bm_idx = bm_names.index(suggested_bm)
-            new_bm_name = None
-        else:
-            # Auto-create benchmark from suggestion
-            bm_idx = None
-            new_bm_name = suggested_bm or f"Paper {arxiv_id_e}"
+            # Build dataset entry
+            new_dataset: dict = {
+                "name": ds_name,
+                "task_type": sug.get("task_type", "graph_classification"),
+                "primary_metric": sug.get("primary_metric", "Accuracy"),
+                "higher_is_better": bool(sug.get("higher_is_better", True)),
+                "variants": [{"name": "Standard split", "is_standard": True}],
+            }
+            if sug.get("description"):
+                new_dataset["description"] = sug["description"]
+            if sug.get("pyg_url"):
+                new_dataset["pyg_url"] = sug["pyg_url"]
+            if sug.get("domain"):
+                new_dataset["domain"] = sug["domain"]
 
-        # Build dataset entry
-        new_dataset: dict = {
-            "name": ds_name,
-            "task_type": sug.get("task_type", "graph_classification"),
-            "primary_metric": sug.get("primary_metric", "Accuracy"),
-            "higher_is_better": bool(sug.get("higher_is_better", True)),
-            "variants": [{"name": "Standard split", "is_standard": True}],
-        }
-        if sug.get("description"):
-            new_dataset["description"] = sug["description"]
-        if sug.get("pyg_url"):
-            new_dataset["pyg_url"] = sug["pyg_url"]
-        if sug.get("domain"):
-            new_dataset["domain"] = sug["domain"]
+            if bm_idx is not None:
+                benchmarks[bm_idx].setdefault("datasets", []).append(new_dataset)
+            else:
+                benchmarks.append(
+                    {
+                        "name": new_bm_name,
+                        "arxiv_id": arxiv_id_e,
+                        "url": f"https://arxiv.org/abs/{arxiv_id_e}",
+                        "description": f"Benchmark introduced in arXiv:{arxiv_id_e}.",
+                        "datasets": [new_dataset],
+                    }
+                )
+                bm_names.append(new_bm_name)
 
-        if bm_idx is not None:
-            benchmarks[bm_idx].setdefault("datasets", []).append(new_dataset)
-        else:
-            benchmarks.append(
-                {
-                    "name": new_bm_name,
-                    "arxiv_id": arxiv_id_e,
-                    "url": f"https://arxiv.org/abs/{arxiv_id_e}",
-                    "description": f"Benchmark introduced in arXiv:{arxiv_id_e}.",
-                    "datasets": [new_dataset],
-                }
-            )
-            bm_names.append(new_bm_name)
-
-        e["status"] = "approved"
-        approved_datasets.append(ds_name)
-        console.print(f"  [green]✓ {ds_name} approved.[/green]")
-
-    # Always save the updated pending file (with skipped/approved statuses)
-    pending_path.write_text(
-        yaml.dump(entries, allow_unicode=True, sort_keys=False, default_flow_style=False),
-        encoding="utf-8",
-    )
+            row.status = "approved"
+            row.resolved_dataset_id = None
+            approved_datasets.append(ds_name)
+            if arxiv_id_e:
+                approved_arxiv_ids.add(arxiv_id_e)
+            console.print(f"  [green]✓ {ds_name} approved.[/green]")
 
     if not approved_datasets:
         console.print("[dim]No datasets approved.[/dim]")
@@ -786,7 +807,7 @@ def _import_pending_datasets() -> None:
     console.print("  [green]DB seeded.[/green]")
 
     # Re-parse and re-export all affected papers
-    affected = list({e.get("arxiv_id", "") for e in entries if e.get("status") == "approved"})
+    affected = sorted(approved_arxiv_ids)
     if affected:
         console.print(f"\n  Re-parsing {len(affected)} paper(s) and exporting...")
         from backend.export_to_hugo import export_all
@@ -815,7 +836,7 @@ def main() -> None:
     parser.add_argument(
         "--import-pending",
         action="store_true",
-        help="Interactively review and import datasets from data/pending_datasets.yaml",
+        help="Interactively review and import datasets from the pending_datasets DB table",
     )
     parser.add_argument(
         "--model",

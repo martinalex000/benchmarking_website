@@ -10,12 +10,18 @@ description: 'SAT problem instances represented as graphs. Multi-level node/edge
 primary_metric: Accuracy
 higher_is_better: true
 pyg_url: https://graphbench.github.io/website/datasets.html
-stats: null
+stats:
+  num_graphs: 208788
+  avg_nodes: 10400.5
+  avg_edges: 2054969.0
+  num_classes: null
 result_count: 5
 best_model:
   model: Pairwise Regression
   value: 0.54
   metric: Gap Closed
+  arxiv_id: '2512.04475'
+  paper_title: GraphBench
 variants:
 - slug: standard-split
   name: Standard split
@@ -23,11 +29,16 @@ variants:
   is_standard: true
   primary_metric: Gap Closed
   higher_is_better: true
+  stats:
+    num_graphs: null
+    avg_nodes: null
+    avg_edges: null
   metrics:
   - Gap Closed
   - RMSE
   rows:
   - model: Pairwise Regression
+    model_plain: Pairwise Regression
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -36,6 +47,7 @@ variants:
     title: GraphBench
     date: Dec 2025
     date_iso: 2025-12
+    date_display: Dec 2025
     codebase_url: https://github.com/graphbench/package
     uses_external_data: false
     is_best: true
@@ -46,6 +58,7 @@ variants:
     - 0.02
     - null
   - model: Pairwise Classification
+    model_plain: Pairwise Classification
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -54,6 +67,7 @@ variants:
     title: GraphBench
     date: Dec 2025
     date_iso: 2025-12
+    date_display: Dec 2025
     codebase_url: https://github.com/graphbench/package
     uses_external_data: false
     is_best: false
@@ -64,6 +78,7 @@ variants:
     - 0.01
     - null
   - model: Multi-class Classification
+    model_plain: Multi-class Classification
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -72,6 +87,7 @@ variants:
     title: GraphBench
     date: Dec 2025
     date_iso: 2025-12
+    date_display: Dec 2025
     codebase_url: https://github.com/graphbench/package
     uses_external_data: false
     is_best: false
@@ -82,6 +98,7 @@ variants:
     - 0.02
     - null
   - model: Random Forest
+    model_plain: Random Forest
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -90,6 +107,7 @@ variants:
     title: GraphBench
     date: Dec 2025
     date_iso: 2025-12
+    date_display: Dec 2025
     codebase_url: https://github.com/graphbench/package
     uses_external_data: false
     is_best: false
@@ -100,6 +118,7 @@ variants:
     - null
     - 0.0
   - model: XGBoost
+    model_plain: XGBoost
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -108,6 +127,7 @@ variants:
     title: GraphBench
     date: Dec 2025
     date_iso: 2025-12
+    date_display: Dec 2025
     codebase_url: https://github.com/graphbench/package
     uses_external_data: false
     is_best: false
@@ -130,11 +150,16 @@ variants:
   is_standard: false
   primary_metric: RMSE
   higher_is_better: false
+  stats:
+    num_graphs: null
+    avg_nodes: null
+    avg_edges: null
   metrics:
   - RMSE
   - Gap Closed
   rows:
   - model: Random Forest
+    model_plain: Random Forest
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -143,6 +168,7 @@ variants:
     title: GraphBench
     date: Dec 2025
     date_iso: 2025-12
+    date_display: Dec 2025
     codebase_url: https://github.com/graphbench/package
     uses_external_data: false
     is_best: true
@@ -153,6 +179,7 @@ variants:
     - 0.0
     - null
   - model: XGBoost
+    model_plain: XGBoost
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -161,6 +188,7 @@ variants:
     title: GraphBench
     date: Dec 2025
     date_iso: 2025-12
+    date_display: Dec 2025
     codebase_url: https://github.com/graphbench/package
     uses_external_data: false
     is_best: false
@@ -171,6 +199,7 @@ variants:
     - 0.0
     - null
   - model: UniMol
+    model_plain: UniMol
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -180,6 +209,7 @@ variants:
       Representation Learning'
     date: Apr 2026
     date_iso: 2026-04
+    date_display: Apr 2026
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -190,6 +220,7 @@ variants:
     - null
     - null
   - model: FPGNN
+    model_plain: FPGNN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -199,6 +230,7 @@ variants:
       Representation Learning'
     date: Apr 2026
     date_iso: 2026-04
+    date_display: Apr 2026
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -209,6 +241,7 @@ variants:
     - null
     - null
   - model: MPG
+    model_plain: MPG
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -218,6 +251,7 @@ variants:
       Representation Learning'
     date: Apr 2026
     date_iso: 2026-04
+    date_display: Apr 2026
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -228,6 +262,7 @@ variants:
     - null
     - null
   - model: KANO
+    model_plain: KANO
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -237,6 +272,7 @@ variants:
       Representation Learning'
     date: Apr 2026
     date_iso: 2026-04
+    date_display: Apr 2026
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -247,6 +283,7 @@ variants:
     - null
     - null
   - model: DTNN*
+    model_plain: DTNN*
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -256,6 +293,7 @@ variants:
       Representation Learning'
     date: Apr 2026
     date_iso: 2026-04
+    date_display: Apr 2026
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -266,6 +304,7 @@ variants:
     - null
     - null
   - model: XGBoost
+    model_plain: XGBoost
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -275,6 +314,7 @@ variants:
       Representation Learning'
     date: Apr 2026
     date_iso: 2026-04
+    date_display: Apr 2026
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -285,6 +325,7 @@ variants:
     - null
     - null
   - model: Trans-M
+    model_plain: Trans-M
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -294,6 +335,7 @@ variants:
       Representation Learning'
     date: Apr 2026
     date_iso: 2026-04
+    date_display: Apr 2026
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -304,6 +346,7 @@ variants:
     - null
     - null
   - model: MPNN
+    model_plain: MPNN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -313,6 +356,7 @@ variants:
       Representation Learning'
     date: Apr 2026
     date_iso: 2026-04
+    date_display: Apr 2026
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -323,6 +367,7 @@ variants:
     - null
     - null
   - model: FragFormer
+    model_plain: FragFormer
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -332,6 +377,7 @@ variants:
       Representation Learning'
     date: Apr 2026
     date_iso: 2026-04
+    date_display: Apr 2026
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -342,6 +388,7 @@ variants:
     - null
     - null
   - model: rf
+    model_plain: rf
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -351,6 +398,7 @@ variants:
       Representation Learning'
     date: Apr 2026
     date_iso: 2026-04
+    date_display: Apr 2026
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -361,6 +409,7 @@ variants:
     - null
     - null
   - model: PharmHGT
+    model_plain: PharmHGT
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -370,6 +419,7 @@ variants:
       Representation Learning'
     date: Apr 2026
     date_iso: 2026-04
+    date_display: Apr 2026
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -380,6 +430,7 @@ variants:
     - null
     - null
   - model: BiScale-GTR (Molecule)
+    model_plain: BiScale-GTR (Molecule)
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -389,6 +440,7 @@ variants:
       Representation Learning'
     date: Apr 2026
     date_iso: 2026-04
+    date_display: Apr 2026
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -399,6 +451,7 @@ variants:
     - null
     - null
   - model: KP-GPT
+    model_plain: KP-GPT
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -408,6 +461,7 @@ variants:
       Representation Learning'
     date: Apr 2026
     date_iso: 2026-04
+    date_display: Apr 2026
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -418,6 +472,7 @@ variants:
     - null
     - null
   - model: FraGAT
+    model_plain: FraGAT
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -427,6 +482,7 @@ variants:
       Representation Learning'
     date: Apr 2026
     date_iso: 2026-04
+    date_display: Apr 2026
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -437,6 +493,7 @@ variants:
     - null
     - null
   - model: GraphFP
+    model_plain: GraphFP
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -446,6 +503,7 @@ variants:
       Representation Learning'
     date: Apr 2026
     date_iso: 2026-04
+    date_display: Apr 2026
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -456,6 +514,7 @@ variants:
     - null
     - null
   - model: Pairwise Regression
+    model_plain: Pairwise Regression
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -464,6 +523,7 @@ variants:
     title: GraphBench
     date: Dec 2025
     date_iso: 2025-12
+    date_display: Dec 2025
     codebase_url: https://github.com/graphbench/package
     uses_external_data: false
     is_best: false
@@ -474,6 +534,7 @@ variants:
     - null
     - 0.02
   - model: Pairwise Classification
+    model_plain: Pairwise Classification
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -482,6 +543,7 @@ variants:
     title: GraphBench
     date: Dec 2025
     date_iso: 2025-12
+    date_display: Dec 2025
     codebase_url: https://github.com/graphbench/package
     uses_external_data: false
     is_best: false
@@ -492,6 +554,7 @@ variants:
     - null
     - 0.01
   - model: Multi-class Classification
+    model_plain: Multi-class Classification
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -500,6 +563,7 @@ variants:
     title: GraphBench
     date: Dec 2025
     date_iso: 2025-12
+    date_display: Dec 2025
     codebase_url: https://github.com/graphbench/package
     uses_external_data: false
     is_best: false
@@ -522,11 +586,16 @@ variants:
   is_standard: false
   primary_metric: Gap Closed
   higher_is_better: true
+  stats:
+    num_graphs: null
+    avg_nodes: null
+    avg_edges: null
   metrics:
   - Gap Closed
   - RMSE
   rows:
   - model: Pairwise Regression
+    model_plain: Pairwise Regression
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -535,6 +604,7 @@ variants:
     title: GraphBench
     date: Dec 2025
     date_iso: 2025-12
+    date_display: Dec 2025
     codebase_url: https://github.com/graphbench/package
     uses_external_data: false
     is_best: true
@@ -545,6 +615,7 @@ variants:
     - 0.02
     - null
   - model: Pairwise Classification
+    model_plain: Pairwise Classification
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -553,6 +624,7 @@ variants:
     title: GraphBench
     date: Dec 2025
     date_iso: 2025-12
+    date_display: Dec 2025
     codebase_url: https://github.com/graphbench/package
     uses_external_data: false
     is_best: false
@@ -563,6 +635,7 @@ variants:
     - 0.02
     - null
   - model: Multi-class Classification
+    model_plain: Multi-class Classification
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -571,6 +644,7 @@ variants:
     title: GraphBench
     date: Dec 2025
     date_iso: 2025-12
+    date_display: Dec 2025
     codebase_url: https://github.com/graphbench/package
     uses_external_data: false
     is_best: false
@@ -581,6 +655,7 @@ variants:
     - 0.02
     - null
   - model: Random Forest
+    model_plain: Random Forest
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -589,6 +664,7 @@ variants:
     title: GraphBench
     date: Dec 2025
     date_iso: 2025-12
+    date_display: Dec 2025
     codebase_url: https://github.com/graphbench/package
     uses_external_data: false
     is_best: false
@@ -599,6 +675,7 @@ variants:
     - null
     - 0.0
   - model: XGBoost
+    model_plain: XGBoost
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -607,6 +684,7 @@ variants:
     title: GraphBench
     date: Dec 2025
     date_iso: 2025-12
+    date_display: Dec 2025
     codebase_url: https://github.com/graphbench/package
     uses_external_data: false
     is_best: false
@@ -629,12 +707,17 @@ variants:
   is_standard: false
   primary_metric: MRR
   higher_is_better: true
+  stats:
+    num_graphs: null
+    avg_nodes: null
+    avg_edges: null
   metrics:
   - MRR
   - Gap Closed
   - RMSE
   rows:
   - model: CEN
+    model_plain: CEN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -644,6 +727,7 @@ variants:
       Graphs'
     date: Jun 2024
     date_iso: 2024-06
+    date_display: Jun 2024
     codebase_url: ''
     uses_external_data: false
     is_best: true
@@ -656,6 +740,7 @@ variants:
     - null
     - null
   - model: RecB_train
+    model_plain: RecB_train
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -665,6 +750,7 @@ variants:
       Graphs'
     date: Jun 2024
     date_iso: 2024-06
+    date_display: Jun 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -677,6 +763,7 @@ variants:
     - null
     - null
   - model: TLogic
+    model_plain: TLogic
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -686,6 +773,7 @@ variants:
       Graphs'
     date: Jun 2024
     date_iso: 2024-06
+    date_display: Jun 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -698,6 +786,7 @@ variants:
     - null
     - null
   - model: RE-GCN
+    model_plain: RE-GCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -707,6 +796,7 @@ variants:
       Graphs'
     date: Jun 2024
     date_iso: 2024-06
+    date_display: Jun 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -719,6 +809,7 @@ variants:
     - null
     - null
   - model: RecB_default
+    model_plain: RecB_default
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -728,6 +819,7 @@ variants:
       Graphs'
     date: Jun 2024
     date_iso: 2024-06
+    date_display: Jun 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -740,6 +832,7 @@ variants:
     - null
     - null
   - model: EdgeBank_tw
+    model_plain: EdgeBank_tw
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -749,6 +842,7 @@ variants:
       Graphs'
     date: Jun 2024
     date_iso: 2024-06
+    date_display: Jun 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -761,6 +855,7 @@ variants:
     - null
     - null
   - model: EdgeBank_inf
+    model_plain: EdgeBank_inf
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -770,6 +865,7 @@ variants:
       Graphs'
     date: Jun 2024
     date_iso: 2024-06
+    date_display: Jun 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -782,6 +878,7 @@ variants:
     - null
     - null
   - model: Random Forest
+    model_plain: Random Forest
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -790,6 +887,7 @@ variants:
     title: GraphBench
     date: Dec 2025
     date_iso: 2025-12
+    date_display: Dec 2025
     codebase_url: https://github.com/graphbench/package
     uses_external_data: false
     is_best: false
@@ -802,6 +900,7 @@ variants:
     - null
     - 0.0
   - model: XGBoost
+    model_plain: XGBoost
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -810,6 +909,7 @@ variants:
     title: GraphBench
     date: Dec 2025
     date_iso: 2025-12
+    date_display: Dec 2025
     codebase_url: https://github.com/graphbench/package
     uses_external_data: false
     is_best: false
@@ -822,6 +922,7 @@ variants:
     - null
     - 0.0
   - model: Pairwise Regression
+    model_plain: Pairwise Regression
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -830,6 +931,7 @@ variants:
     title: GraphBench
     date: Dec 2025
     date_iso: 2025-12
+    date_display: Dec 2025
     codebase_url: https://github.com/graphbench/package
     uses_external_data: false
     is_best: false
@@ -842,6 +944,7 @@ variants:
     - 0.03
     - null
   - model: Pairwise Classification
+    model_plain: Pairwise Classification
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -850,6 +953,7 @@ variants:
     title: GraphBench
     date: Dec 2025
     date_iso: 2025-12
+    date_display: Dec 2025
     codebase_url: https://github.com/graphbench/package
     uses_external_data: false
     is_best: false
@@ -862,6 +966,7 @@ variants:
     - 0.02
     - null
   - model: Multi-class Classification
+    model_plain: Multi-class Classification
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -870,6 +975,7 @@ variants:
     title: GraphBench
     date: Dec 2025
     date_iso: 2025-12
+    date_display: Dec 2025
     codebase_url: https://github.com/graphbench/package
     uses_external_data: false
     is_best: false

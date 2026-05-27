@@ -1,12 +1,6 @@
-- benchmarks for the heterogenous graphs, plus a comment on which of them are considered actually heterogenous (there is a v1 and v2 of such datasets)
-- the prompt for the decision which papers to look at does not really work. it should be a two-stage thing which is first fed the abstract and title and checks whether it is on graph learning at all (there could also be some extremely simple pattern matching as a very first stage). And then in the second step it should actually read the paper and extract the information, the info which datasets are used is typically not included in the abstract and often not even in the introduction. 
-- decide what to do with custom datasets, the information should be stored somewhere
-- there should also be a table that effectively tracks which papers are NOT about graph learning such that there is no need to evaluate that every single time again...
-
-
 I want a simple script that processes those papers one-by-one during off-peak hours (23PM until 7:30AM). 
 
-Use TU Dresden models and compare their effectiveness (especially the minimax model) use 2406.08993 2210.07606 for that as teh qwen model struggled there.
+vllm serve einrichten und dann dagegen verbinden. 
 
 todo papers queue sinnvoll updaten sobald ein neues paper eingefügt wurde
 
@@ -16,13 +10,22 @@ shadcn/ui
 
 MLP baseline für fehlende Datensätze selbst berechnen
 
+also extract and store in the database whether a suggested model is a transformer or message-passing whenever that is clearly stated.
+
+3rd party data with pretraining and finetuning (use of external data) could be interesting too
+
+Used hardware for the experiments and potentially runtime (even though thats usually not the big tiebreaker)
+
+
+
+
 ## Script cleanup backlog
 
 - consolidate `scripts/find_todo_papers.py` and `scripts/process_todo_list.py` if both remain in use; right now the first is a manual queue manager while the second is the priority-queue batch runner
 - decide whether `scripts/test_model_ping.py` should stay as a committed diagnostic utility or move into docs-only troubleshooting notes once the endpoint/model situation stabilizes
 - review whether `scripts/run_pipeline.sh` should absorb the off-peak-hours scheduling logic directly, or whether that belongs in external cron/systemd config instead of the repo
 
-
+at some point in the future: add generation benchmarks/metrics etc. But this feels more like a paper than a normal benchmarking overview since everything is extremely scattered.
 
 ╭────────────────────────────────────┬────────────┬─────────┬─────────┬───────┬─────────────────────────────────────────────────────────────────────┬────────╮
 │ Model                              │ Paper      │    Time │    TTFT │ tok/s │ Datasets found                                                      │ Status │

@@ -7,12 +7,18 @@ description: Knowledge graph link prediction on Wikidata (2.5M entities, 535 rel
 primary_metric: MRR
 higher_is_better: true
 pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.OGBLinkPropPredDataset.html
-stats: null
+stats:
+  num_graphs: 2500604
+  avg_nodes: 17137181.0
+  avg_edges: null
+  num_classes: null
 result_count: 35
 best_model:
   model: DyGFormer
   value: 0.7983
   metric: MRR
+  arxiv_id: '2406.02740'
+  paper_title: Long Range Propagation on Continuous-Time Dynamic Graphs
 variants:
 - slug: standard-split
   name: Standard split
@@ -20,10 +26,15 @@ variants:
   is_standard: true
   primary_metric: MRR
   higher_is_better: true
+  stats:
+    num_graphs: null
+    avg_nodes: null
+    avg_edges: null
   metrics:
   - MRR
   rows:
   - model: DyGFormer
+    model_plain: DyGFormer
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -32,6 +43,7 @@ variants:
     title: Long Range Propagation on Continuous-Time Dynamic Graphs
     date: '2024-06-04'
     date_iso: '2024-06-04'
+    date_display: Jun 2024
     codebase_url: ''
     uses_external_data: false
     is_best: true
@@ -40,6 +52,7 @@ variants:
     metric_stds:
     - 0.0042
   - model: TCL
+    model_plain: TCL
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -48,6 +61,7 @@ variants:
     title: Long Range Propagation on Continuous-Time Dynamic Graphs
     date: '2024-06-04'
     date_iso: '2024-06-04'
+    date_display: Jun 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -56,6 +70,7 @@ variants:
     metric_stds:
     - 0.002
   - model: CAWN
+    model_plain: CAWN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -64,6 +79,7 @@ variants:
     title: Long Range Propagation on Continuous-Time Dynamic Graphs
     date: '2024-06-04'
     date_iso: '2024-06-04'
+    date_display: Jun 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -72,6 +88,7 @@ variants:
     metric_stds:
     - 0.006
   - model: TNCN
+    model_plain: TNCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -80,6 +97,7 @@ variants:
     title: Are Large Language Models Good Temporal Graph Learners?
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -88,6 +106,7 @@ variants:
     metric_stds:
     - 0.007
   - model: TGN
+    model_plain: TGN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -96,6 +115,7 @@ variants:
     title: Long Range Propagation on Continuous-Time Dynamic Graphs
     date: '2024-06-04'
     date_iso: '2024-06-04'
+    date_display: Jun 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -104,6 +124,7 @@ variants:
     metric_stds:
     - 0.0053
   - model: CTAN
+    model_plain: CTAN
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -112,6 +133,7 @@ variants:
     title: Long Range Propagation on Continuous-Time Dynamic Graphs
     date: '2024-06-04'
     date_iso: '2024-06-04'
+    date_display: Jun 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -120,6 +142,7 @@ variants:
     metric_stds:
     - 0.0074
   - model: TGTalker (nbr = 2)
+    model_plain: TGTalker (nbr = 2)
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -128,6 +151,7 @@ variants:
     title: Are Large Language Models Good Temporal Graph Learners?
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: true
     is_best: false
@@ -136,6 +160,7 @@ variants:
     metric_stds:
     - null
   - model: Qwen3-8B
+    model_plain: Qwen3-8B
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -144,6 +169,7 @@ variants:
     title: Are Large Language Models Good Temporal Graph Learners?
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: true
     is_best: false
@@ -152,6 +178,7 @@ variants:
     metric_stds:
     - null
   - model: TGTalker (All components)
+    model_plain: TGTalker (All components)
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -160,6 +187,7 @@ variants:
     title: Are Large Language Models Good Temporal Graph Learners?
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: true
     is_best: false
@@ -168,6 +196,7 @@ variants:
     metric_stds:
     - null
   - model: Qwen2.5-7B
+    model_plain: Qwen2.5-7B
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -176,6 +205,7 @@ variants:
     title: Are Large Language Models Good Temporal Graph Learners?
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: true
     is_best: false
@@ -184,6 +214,7 @@ variants:
     metric_stds:
     - null
   - model: TGTalker (w/o Background Set)
+    model_plain: TGTalker (w/o Background Set)
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -192,6 +223,7 @@ variants:
     title: Are Large Language Models Good Temporal Graph Learners?
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: true
     is_best: false
@@ -200,6 +232,7 @@ variants:
     metric_stds:
     - null
   - model: TGTalker (w/o In Context Learning)
+    model_plain: TGTalker (w/o In Context Learning)
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -208,6 +241,7 @@ variants:
     title: Are Large Language Models Good Temporal Graph Learners?
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: true
     is_best: false
@@ -216,6 +250,7 @@ variants:
     metric_stds:
     - null
   - model: JODIE
+    model_plain: JODIE
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -224,6 +259,7 @@ variants:
     title: Long Range Propagation on Continuous-Time Dynamic Graphs
     date: '2024-06-04'
     date_iso: '2024-06-04'
+    date_display: Jun 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -232,6 +268,7 @@ variants:
     metric_stds:
     - 0.0169
   - model: CTAN
+    model_plain: CTAN
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -241,6 +278,7 @@ variants:
       An Information-Flow Centric Review'
     date: Dec 2024
     date_iso: 2024-12
+    date_display: Dec 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -249,6 +287,7 @@ variants:
     metric_stds:
     - 0.011
   - model: Qwen3-1.7B
+    model_plain: Qwen3-1.7B
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -257,6 +296,7 @@ variants:
     title: Are Large Language Models Good Temporal Graph Learners?
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: true
     is_best: false
@@ -265,6 +305,7 @@ variants:
     metric_stds:
     - null
   - model: Mistral-7B-v0.3
+    model_plain: Mistral-7B-v0.3
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -273,6 +314,7 @@ variants:
     title: Are Large Language Models Good Temporal Graph Learners?
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: true
     is_best: false
@@ -281,6 +323,7 @@ variants:
     metric_stds:
     - null
   - model: Llama3-8B
+    model_plain: Llama3-8B
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -289,6 +332,7 @@ variants:
     title: Are Large Language Models Good Temporal Graph Learners?
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: true
     is_best: false
@@ -297,6 +341,7 @@ variants:
     metric_stds:
     - null
   - model: EdgeBank_tw
+    model_plain: EdgeBank_tw
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -305,6 +350,7 @@ variants:
     title: Are Large Language Models Good Temporal Graph Learners?
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -313,6 +359,7 @@ variants:
     metric_stds:
     - null
   - model: TGAT
+    model_plain: TGAT
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -321,6 +368,7 @@ variants:
     title: Long Range Propagation on Continuous-Time Dynamic Graphs
     date: '2024-06-04'
     date_iso: '2024-06-04'
+    date_display: Jun 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -329,6 +377,7 @@ variants:
     metric_stds:
     - 0.0163
   - model: GraphMixer
+    model_plain: GraphMixer
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -337,6 +386,7 @@ variants:
     title: Long Range Propagation on Continuous-Time Dynamic Graphs
     date: '2024-06-04'
     date_iso: '2024-06-04'
+    date_display: Jun 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -345,6 +395,7 @@ variants:
     metric_stds:
     - 0.0039
   - model: TGN
+    model_plain: TGN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -354,6 +405,7 @@ variants:
       An Information-Flow Centric Review'
     date: Dec 2024
     date_iso: 2024-12
+    date_display: Dec 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -362,6 +414,7 @@ variants:
     metric_stds:
     - 0.015
   - model: EdgeBank
+    model_plain: EdgeBank
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -370,6 +423,7 @@ variants:
     title: Long Range Propagation on Continuous-Time Dynamic Graphs
     date: '2024-06-04'
     date_iso: '2024-06-04'
+    date_display: Jun 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -378,6 +432,7 @@ variants:
     metric_stds:
     - null
   - model: DyRep
+    model_plain: DyRep
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -386,6 +441,7 @@ variants:
     title: Long Range Propagation on Continuous-Time Dynamic Graphs
     date: '2024-06-04'
     date_iso: '2024-06-04'
+    date_display: Jun 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -394,6 +450,7 @@ variants:
     metric_stds:
     - 0.0195
   - model: EdgeBank_inf
+    model_plain: EdgeBank_inf
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -402,6 +459,7 @@ variants:
     title: Are Large Language Models Good Temporal Graph Learners?
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -410,6 +468,7 @@ variants:
     metric_stds:
     - null
   - model: HTGN (UTG)
+    model_plain: HTGN (UTG)
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -418,6 +477,7 @@ variants:
     title: Are Large Language Models Good Temporal Graph Learners?
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -426,6 +486,7 @@ variants:
     metric_stds:
     - 0.005
   - model: GPT-4.1-mini
+    model_plain: GPT-4.1-mini
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -434,6 +495,7 @@ variants:
     title: Are Large Language Models Good Temporal Graph Learners?
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: true
     is_best: false
@@ -442,6 +504,7 @@ variants:
     metric_stds:
     - null
   - model: TGN
+    model_plain: TGN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -450,6 +513,7 @@ variants:
     title: Are Large Language Models Good Temporal Graph Learners?
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -458,6 +522,7 @@ variants:
     metric_stds:
     - 0.06
   - model: GCLSTM (UTG)
+    model_plain: GCLSTM (UTG)
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -466,6 +531,7 @@ variants:
     title: Are Large Language Models Good Temporal Graph Learners?
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -474,6 +540,7 @@ variants:
     metric_stds:
     - 0.01
   - model: GCN (UTG)
+    model_plain: GCN (UTG)
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -482,6 +549,7 @@ variants:
     title: Are Large Language Models Good Temporal Graph Learners?
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -490,6 +558,7 @@ variants:
     metric_stds:
     - 0.009
   - model: TGTalker (w/o Temporal Neighbours)
+    model_plain: TGTalker (w/o Temporal Neighbours)
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -498,6 +567,7 @@ variants:
     title: Are Large Language Models Good Temporal Graph Learners?
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: true
     is_best: false
@@ -506,6 +576,7 @@ variants:
     metric_stds:
     - null
   - model: TGAT
+    model_plain: TGAT
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -515,6 +586,7 @@ variants:
       An Information-Flow Centric Review'
     date: Dec 2024
     date_iso: 2024-12
+    date_display: Dec 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -523,6 +595,7 @@ variants:
     metric_stds:
     - 0.022
   - model: DyRep
+    model_plain: DyRep
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -532,6 +605,7 @@ variants:
       An Information-Flow Centric Review'
     date: Dec 2024
     date_iso: 2024-12
+    date_display: Dec 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -540,6 +614,7 @@ variants:
     metric_stds:
     - 0.005
   - model: JODIE
+    model_plain: JODIE
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -549,6 +624,7 @@ variants:
       An Information-Flow Centric Review'
     date: Dec 2024
     date_iso: 2024-12
+    date_display: Dec 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -557,6 +633,7 @@ variants:
     metric_stds:
     - 0.123
   - model: GraphMixer
+    model_plain: GraphMixer
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -565,6 +642,7 @@ variants:
     title: Are Large Language Models Good Temporal Graph Learners?
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -573,6 +651,7 @@ variants:
     metric_stds:
     - 0.002
   - model: TGTalker (with no components)
+    model_plain: TGTalker (with no components)
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -581,6 +660,7 @@ variants:
     title: Are Large Language Models Good Temporal Graph Learners?
     date: Jun 2025
     date_iso: 2025-06
+    date_display: Jun 2025
     codebase_url: ''
     uses_external_data: true
     is_best: false

@@ -17,6 +17,8 @@ best_model:
   model: GAT
   value: 0.9409
   metric: Accuracy
+  arxiv_id: '2406.08993'
+  paper_title: 'Classic GNNs are Strong Baselines: Reassessing GNNs for Node Classification'
 variants:
 - slug: standard-split
   name: Standard split
@@ -24,19 +26,25 @@ variants:
   is_standard: true
   primary_metric: Accuracy
   higher_is_better: true
+  stats:
+    num_graphs: null
+    avg_nodes: null
+    avg_edges: null
   metrics:
   - Accuracy
   - F1
   rows:
   - model: GAT
+    model_plain: GAT
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2406.08993'
-    title: 'Classic GNNs are Strong Baselines: - Reassessing GNNs for Node Classification'
+    title: 'Classic GNNs are Strong Baselines: Reassessing GNNs for Node Classification'
     date: Jun 2024
     date_iso: 2024-06
+    date_display: Jun 2024
     codebase_url: ''
     uses_external_data: false
     is_best: true
@@ -47,14 +55,16 @@ variants:
     - 0.0037
     - null
   - model: GCN
+    model_plain: GCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.496
+    params_millions: null
     arxiv_id: '2406.08993'
-    title: 'Classic GNNs are Strong Baselines: - Reassessing GNNs for Node Classification'
+    title: 'Classic GNNs are Strong Baselines: Reassessing GNNs for Node Classification'
     date: Jun 2024
     date_iso: 2024-06
+    date_display: Jun 2024
     codebase_url: ''
     uses_external_data: false
     is_best: true
@@ -65,14 +75,16 @@ variants:
     - 0.0012
     - null
   - model: Polynormer
+    model_plain: Polynormer
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2406.08993'
-    title: 'Classic GNNs are Strong Baselines: - Reassessing GNNs for Node Classification'
+    title: 'Classic GNNs are Strong Baselines: Reassessing GNNs for Node Classification'
     date: Jun 2024
     date_iso: 2024-06
+    date_display: Jun 2024
     codebase_url: ''
     uses_external_data: false
     is_best: true
@@ -83,14 +95,16 @@ variants:
     - 0.001
     - null
   - model: GCN* (-) Dropout
+    model_plain: GCN* (-) Dropout
     is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2406.08993'
-    title: 'Classic GNNs are Strong Baselines: - Reassessing GNNs for Node Classification'
+    title: 'Classic GNNs are Strong Baselines: Reassessing GNNs for Node Classification'
     date: Jun 2024
     date_iso: 2024-06
+    date_display: Jun 2024
     codebase_url: ''
     uses_external_data: false
     is_best: true
@@ -101,14 +115,16 @@ variants:
     - 0.0026
     - null
   - model: GraphSAGE
+    model_plain: GraphSAGE
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2406.08993'
-    title: 'Classic GNNs are Strong Baselines: - Reassessing GNNs for Node Classification'
+    title: 'Classic GNNs are Strong Baselines: Reassessing GNNs for Node Classification'
     date: Jun 2024
     date_iso: 2024-06
+    date_display: Jun 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -119,14 +135,16 @@ variants:
     - 0.0014
     - null
   - model: GraphSAGE* (-) Normalization
+    model_plain: GraphSAGE* (-) Normalization
     is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2406.08993'
-    title: 'Classic GNNs are Strong Baselines: - Reassessing GNNs for Node Classification'
+    title: 'Classic GNNs are Strong Baselines: Reassessing GNNs for Node Classification'
     date: Jun 2024
     date_iso: 2024-06
+    date_display: Jun 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -137,14 +155,16 @@ variants:
     - 0.0063
     - null
   - model: GCN* (-) Normalization
+    model_plain: GCN* (-) Normalization
     is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2406.08993'
-    title: 'Classic GNNs are Strong Baselines: - Reassessing GNNs for Node Classification'
+    title: 'Classic GNNs are Strong Baselines: Reassessing GNNs for Node Classification'
     date: Jun 2024
     date_iso: 2024-06
+    date_display: Jun 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -155,14 +175,16 @@ variants:
     - 0.0014
     - null
   - model: SGFormer
+    model_plain: SGFormer
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2406.08993'
-    title: 'Classic GNNs are Strong Baselines: - Reassessing GNNs for Node Classification'
+    title: 'Classic GNNs are Strong Baselines: Reassessing GNNs for Node Classification'
     date: Jun 2024
     date_iso: 2024-06
+    date_display: Jun 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -173,14 +195,16 @@ variants:
     - 0.0066
     - null
   - model: GOAT
+    model_plain: GOAT
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2406.08993'
-    title: 'Classic GNNs are Strong Baselines: - Reassessing GNNs for Node Classification'
+    title: 'Classic GNNs are Strong Baselines: Reassessing GNNs for Node Classification'
     date: Jun 2024
     date_iso: 2024-06
+    date_display: Jun 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -191,6 +215,7 @@ variants:
     - 0.0037
     - null
   - model: GPM
+    model_plain: GPM
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -199,6 +224,7 @@ variants:
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
     date: '2025-01-30'
     date_iso: '2025-01-30'
+    date_display: Jan 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -209,6 +235,7 @@ variants:
     - 0.0039
     - null
   - model: M
+    model_plain: M
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -217,6 +244,7 @@ variants:
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
     date: '2024-05-22'
     date_iso: '2024-05-22'
+    date_display: May 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -227,6 +255,7 @@ variants:
     - 0.0018
     - null
   - model: WaveNet
+    model_plain: WaveNet
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -235,6 +264,7 @@ variants:
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
     date: '2024-05-22'
     date_iso: '2024-05-22'
+    date_display: May 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -245,6 +275,7 @@ variants:
     - 0.0033
     - null
   - model: OrderedGNN
+    model_plain: OrderedGNN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -253,6 +284,7 @@ variants:
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
     date: '2025-01-30'
     date_iso: '2025-01-30'
+    date_display: Jan 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -263,14 +295,16 @@ variants:
     - 0.0013
     - null
   - model: GraphSAGE* (-) Dropout
+    model_plain: GraphSAGE* (-) Dropout
     is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2406.08993'
-    title: 'Classic GNNs are Strong Baselines: - Reassessing GNNs for Node Classification'
+    title: 'Classic GNNs are Strong Baselines: Reassessing GNNs for Node Classification'
     date: Jun 2024
     date_iso: 2024-06
+    date_display: Jun 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -281,14 +315,16 @@ variants:
     - 0.0035
     - null
   - model: Exphormer
+    model_plain: Exphormer
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2406.08993'
-    title: 'Classic GNNs are Strong Baselines: - Reassessing GNNs for Node Classification'
+    title: 'Classic GNNs are Strong Baselines: Reassessing GNNs for Node Classification'
     date: Jun 2024
     date_iso: 2024-06
+    date_display: Jun 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -299,14 +335,16 @@ variants:
     - 0.0035
     - null
   - model: GraphGPS
+    model_plain: GraphGPS
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2406.08993'
-    title: 'Classic GNNs are Strong Baselines: - Reassessing GNNs for Node Classification'
+    title: 'Classic GNNs are Strong Baselines: Reassessing GNNs for Node Classification'
     date: Jun 2024
     date_iso: 2024-06
+    date_display: Jun 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -317,14 +355,16 @@ variants:
     - 0.0063
     - null
   - model: Nagphormer
+    model_plain: Nagphormer
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2406.08993'
-    title: 'Classic GNNs are Strong Baselines: - Reassessing GNNs for Node Classification'
+    title: 'Classic GNNs are Strong Baselines: Reassessing GNNs for Node Classification'
     date: Jun 2024
     date_iso: 2024-06
+    date_display: Jun 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -335,6 +375,7 @@ variants:
     - 0.003
     - null
   - model: DEFT
+    model_plain: DEFT
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -343,6 +384,7 @@ variants:
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
     date: '2024-05-22'
     date_iso: '2024-05-22'
+    date_display: May 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -353,6 +395,7 @@ variants:
     - 0.0052
     - null
   - model: Nagphormer
+    model_plain: Nagphormer
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -361,6 +404,7 @@ variants:
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
     date: '2025-01-30'
     date_iso: '2025-01-30'
+    date_display: Jan 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -371,6 +415,7 @@ variants:
     - 0.0014
     - null
   - model: VCR-Graphormer
+    model_plain: VCR-Graphormer
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -379,6 +424,7 @@ variants:
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
     date: '2025-01-30'
     date_iso: '2025-01-30'
+    date_display: Jan 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -389,6 +435,7 @@ variants:
     - 0.0012
     - null
   - model: RAW-GNN
+    model_plain: RAW-GNN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -397,6 +444,7 @@ variants:
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
     date: '2025-01-30'
     date_iso: '2025-01-30'
+    date_display: Jan 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -407,6 +455,7 @@ variants:
     - 0.0073
     - null
   - model: GOAT
+    model_plain: GOAT
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -415,6 +464,7 @@ variants:
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
     date: '2025-01-30'
     date_iso: '2025-01-30'
+    date_display: Jan 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -425,6 +475,7 @@ variants:
     - 0.009
     - null
   - model: GAT
+    model_plain: GAT
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -433,6 +484,7 @@ variants:
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
     date: '2024-05-22'
     date_iso: '2024-05-22'
+    date_display: May 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -443,6 +495,7 @@ variants:
     - 0.0013
     - null
   - model: GWNN
+    model_plain: GWNN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -451,6 +504,7 @@ variants:
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
     date: '2024-05-22'
     date_iso: '2024-05-22'
+    date_display: May 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -461,6 +515,7 @@ variants:
     - 0.0059
     - null
   - model: RUM
+    model_plain: RUM
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -469,6 +524,7 @@ variants:
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
     date: '2025-01-30'
     date_iso: '2025-01-30'
+    date_display: Jan 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -479,6 +535,7 @@ variants:
     - 0.0024
     - null
   - model: APPNP
+    model_plain: APPNP
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -487,6 +544,7 @@ variants:
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
     date: '2024-05-22'
     date_iso: '2024-05-22'
+    date_display: May 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -497,6 +555,7 @@ variants:
     - 0.0017
     - null
   - model: SEA-GWNN
+    model_plain: SEA-GWNN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -505,6 +564,7 @@ variants:
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
     date: '2024-05-22'
     date_iso: '2024-05-22'
+    date_display: May 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -515,6 +575,7 @@ variants:
     - 0.0064
     - null
   - model: SAN
+    model_plain: SAN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -523,6 +584,7 @@ variants:
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
     date: '2025-01-30'
     date_iso: '2025-01-30'
+    date_display: Jan 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -533,14 +595,16 @@ variants:
     - 0.0016
     - null
   - model: GCN
+    model_plain: GCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.496
+    params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
     date: '2024-05-22'
     date_iso: '2024-05-22'
+    date_display: May 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -551,6 +615,7 @@ variants:
     - 0.0052
     - null
   - model: ParaFormer (a)
+    model_plain: ParaFormer (a)
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -560,6 +625,7 @@ variants:
       Learning'
     date: Dec 2025
     date_iso: 2025-12
+    date_display: Dec 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -570,6 +636,7 @@ variants:
     - 0.0014000000000000002
     - null
   - model: GPRGNN
+    model_plain: GPRGNN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -578,6 +645,7 @@ variants:
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
     date: '2025-01-30'
     date_iso: '2025-01-30'
+    date_display: Jan 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -588,6 +656,7 @@ variants:
     - 0.0029
     - null
   - model: UFGConvS
+    model_plain: UFGConvS
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -596,6 +665,7 @@ variants:
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
     date: '2024-05-22'
     date_iso: '2024-05-22'
+    date_display: May 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -606,6 +676,7 @@ variants:
     - 0.0046
     - null
   - model: SGFormer
+    model_plain: SGFormer
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -615,6 +686,7 @@ variants:
       Learning'
     date: Dec 2025
     date_iso: 2025-12
+    date_display: Dec 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -625,6 +697,7 @@ variants:
     - 0.001
     - null
   - model: Scattering GCN
+    model_plain: Scattering GCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -633,6 +706,7 @@ variants:
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
     date: '2024-05-22'
     date_iso: '2024-05-22'
+    date_display: May 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -643,6 +717,7 @@ variants:
     - 0.0044
     - null
   - model: WaveShrink-ChebNet
+    model_plain: WaveShrink-ChebNet
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -651,6 +726,7 @@ variants:
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
     date: '2024-05-22'
     date_iso: '2024-05-22'
+    date_display: May 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -661,14 +737,16 @@ variants:
     - 0.0065
     - null
   - model: NodeFormer
+    model_plain: NodeFormer
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2406.08993'
-    title: 'Classic GNNs are Strong Baselines: - Reassessing GNNs for Node Classification'
+    title: 'Classic GNNs are Strong Baselines: Reassessing GNNs for Node Classification'
     date: Jun 2024
     date_iso: 2024-06
+    date_display: Jun 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -679,6 +757,7 @@ variants:
     - 0.0058
     - null
   - model: Scattering
+    model_plain: Scattering
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -687,6 +766,7 @@ variants:
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
     date: '2024-05-22'
     date_iso: '2024-05-22'
+    date_display: May 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -697,6 +777,7 @@ variants:
     - 0.0071
     - null
   - model: SGWT
+    model_plain: SGWT
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -705,6 +786,7 @@ variants:
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
     date: '2024-05-22'
     date_iso: '2024-05-22'
+    date_display: May 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -715,6 +797,7 @@ variants:
     - 0.0059
     - null
   - model: GAT-NSampler
+    model_plain: GAT-NSampler
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -724,6 +807,7 @@ variants:
       Learning'
     date: Dec 2025
     date_iso: 2025-12
+    date_display: Dec 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -734,15 +818,17 @@ variants:
     - 0.0032
     - null
   - model: GCN
+    model_plain: GCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.496
+    params_millions: null
     arxiv_id: '2512.14619'
     title: 'ParaFormer: A Generalized PageRank Graph Transformer for Graph Representation
       Learning'
     date: Dec 2025
     date_iso: 2025-12
+    date_display: Dec 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -753,6 +839,7 @@ variants:
     - 0.001
     - null
   - model: GCN-Nsampler
+    model_plain: GCN-Nsampler
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -762,6 +849,7 @@ variants:
       Learning'
     date: Dec 2025
     date_iso: 2025-12
+    date_display: Dec 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -772,6 +860,7 @@ variants:
     - 0.0042
     - null
   - model: APPNP
+    model_plain: APPNP
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -781,6 +870,7 @@ variants:
       Tuning'
     date: Oct 2024
     date_iso: 2024-10
+    date_display: Oct 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -791,6 +881,7 @@ variants:
     - 0.0155
     - null
   - model: GAT
+    model_plain: GAT
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -800,6 +891,7 @@ variants:
       Tuning'
     date: Oct 2024
     date_iso: 2024-10
+    date_display: Oct 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -810,15 +902,17 @@ variants:
     - 0.0085
     - null
   - model: GCN
+    model_plain: GCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.496
+    params_millions: null
     arxiv_id: '2410.05697'
     title: 'Diffusing to the Top: Boost Graph Neural Networks with Minimal Hyperparameter
       Tuning'
     date: Oct 2024
     date_iso: 2024-10
+    date_display: Oct 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -829,6 +923,7 @@ variants:
     - 0.0078
     - null
   - model: GPRGNN
+    model_plain: GPRGNN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -838,6 +933,7 @@ variants:
       Tuning'
     date: Oct 2024
     date_iso: 2024-10
+    date_display: Oct 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -848,6 +944,7 @@ variants:
     - 0.006
     - null
   - model: EGP (GCN)
+    model_plain: EGP (GCN)
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -856,6 +953,7 @@ variants:
     title: 'Position: Don''t be Afraid of Over-Smoothing And Over-Squashing'
     date: Jan 2026
     date_iso: 2026-01
+    date_display: Jan 2026
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -866,6 +964,7 @@ variants:
     - 0.016
     - null
   - model: SIGN
+    model_plain: SIGN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -875,6 +974,7 @@ variants:
       Learning'
     date: Dec 2025
     date_iso: 2025-12
+    date_display: Dec 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -885,6 +985,7 @@ variants:
     - 0.0031
     - null
   - model: SGC
+    model_plain: SGC
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -894,6 +995,7 @@ variants:
       Tuning'
     date: Oct 2024
     date_iso: 2024-10
+    date_display: Oct 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -904,6 +1006,7 @@ variants:
     - 0.0165
     - null
   - model: SAGE
+    model_plain: SAGE
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -913,6 +1016,7 @@ variants:
       Tuning'
     date: Oct 2024
     date_iso: 2024-10
+    date_display: Oct 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -923,14 +1027,16 @@ variants:
     - 0.0189
     - null
   - model: GCN
+    model_plain: GCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.496
+    params_millions: null
     arxiv_id: '2601.07419'
     title: 'Position: Don''t be Afraid of Over-Smoothing And Over-Squashing'
     date: Jan 2026
     date_iso: 2026-01
+    date_display: Jan 2026
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -941,6 +1047,7 @@ variants:
     - 0.037000000000000005
     - null
   - model: H2GCN
+    model_plain: H2GCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -950,6 +1057,7 @@ variants:
       Tuning'
     date: Oct 2024
     date_iso: 2024-10
+    date_display: Oct 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -960,6 +1068,7 @@ variants:
     - 0.0136
     - null
   - model: GCN + SDRF
+    model_plain: GCN + SDRF
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -968,6 +1077,7 @@ variants:
     title: 'Position: Don''t be Afraid of Over-Smoothing And Over-Squashing'
     date: Jan 2026
     date_iso: 2026-01
+    date_display: Jan 2026
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -978,6 +1088,7 @@ variants:
     - 0.026000000000000002
     - null
   - model: ChebNet
+    model_plain: ChebNet
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -987,6 +1098,7 @@ variants:
       Tuning'
     date: Oct 2024
     date_iso: 2024-10
+    date_display: Oct 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -997,6 +1109,7 @@ variants:
     - 0.0277
     - null
   - model: MixHop
+    model_plain: MixHop
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1006,6 +1119,7 @@ variants:
       Tuning'
     date: Oct 2024
     date_iso: 2024-10
+    date_display: Oct 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1016,6 +1130,7 @@ variants:
     - 0.0144
     - null
   - model: GNNDiff
+    model_plain: GNNDiff
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -1025,6 +1140,7 @@ variants:
       Tuning'
     date: Oct 2024
     date_iso: 2024-10
+    date_display: Oct 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1035,6 +1151,7 @@ variants:
     - 0.0016
     - null
   - model: MLP
+    model_plain: MLP
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1044,6 +1161,7 @@ variants:
       Tuning'
     date: Oct 2024
     date_iso: 2024-10
+    date_display: Oct 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1054,6 +1172,7 @@ variants:
     - 0.0218
     - null
   - model: DAEGC
+    model_plain: DAEGC
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1062,6 +1181,7 @@ variants:
     title: Non-Dissipative Graph Propagation for Non-Local Community Detection
     date: Aug 2025
     date_iso: 2025-08
+    date_display: Aug 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1072,6 +1192,7 @@ variants:
     - null
     - 0.02
   - model: DGI
+    model_plain: DGI
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1080,6 +1201,7 @@ variants:
     title: Non-Dissipative Graph Propagation for Non-Local Community Detection
     date: Aug 2025
     date_iso: 2025-08
+    date_display: Aug 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1090,6 +1212,7 @@ variants:
     - null
     - 0.06
   - model: DMON
+    model_plain: DMON
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1098,6 +1221,7 @@ variants:
     title: Non-Dissipative Graph Propagation for Non-Local Community Detection
     date: Aug 2025
     date_iso: 2025-08
+    date_display: Aug 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1108,6 +1232,7 @@ variants:
     - null
     - 0.1
   - model: GRACE
+    model_plain: GRACE
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1116,6 +1241,7 @@ variants:
     title: Non-Dissipative Graph Propagation for Non-Local Community Detection
     date: Aug 2025
     date_iso: 2025-08
+    date_display: Aug 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1126,6 +1252,7 @@ variants:
     - null
     - 0.09
   - model: MVGRL
+    model_plain: MVGRL
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1134,6 +1261,7 @@ variants:
     title: Non-Dissipative Graph Propagation for Non-Local Community Detection
     date: Aug 2025
     date_iso: 2025-08
+    date_display: Aug 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1144,6 +1272,7 @@ variants:
     - null
     - 0.03
   - model: SUBLIME
+    model_plain: SUBLIME
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1152,6 +1281,7 @@ variants:
     title: Non-Dissipative Graph Propagation for Non-Local Community Detection
     date: Aug 2025
     date_iso: 2025-08
+    date_display: Aug 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1162,6 +1292,7 @@ variants:
     - null
     - 0.07
   - model: BGRL
+    model_plain: BGRL
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1170,6 +1301,7 @@ variants:
     title: Non-Dissipative Graph Propagation for Non-Local Community Detection
     date: Aug 2025
     date_iso: 2025-08
+    date_display: Aug 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1180,6 +1312,7 @@ variants:
     - null
     - 0.1
   - model: VGAER
+    model_plain: VGAER
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1188,6 +1321,7 @@ variants:
     title: Non-Dissipative Graph Propagation for Non-Local Community Detection
     date: Aug 2025
     date_iso: 2025-08
+    date_display: Aug 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1198,6 +1332,7 @@ variants:
     - null
     - 0.16
   - model: uAGNN
+    model_plain: uAGNN
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -1206,6 +1341,7 @@ variants:
     title: Non-Dissipative Graph Propagation for Non-Local Community Detection
     date: Aug 2025
     date_iso: 2025-08
+    date_display: Aug 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1226,7 +1362,7 @@ variants:
     std: 0.0037
     model: GAT
     arxiv_id: '2406.08993'
-    title: 'Classic GNNs are Strong Baselines: - Reassessing GNNs for Node Classification'
+    title: 'Classic GNNs are Strong Baselines: Reassessing GNNs for Node Classification'
     date: 2024-06
 ---
 

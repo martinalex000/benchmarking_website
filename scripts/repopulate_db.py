@@ -238,7 +238,7 @@ def main() -> None:
                 model_tier=args.model,
                 screen_first=not args.skip_screen,
                 fallback_on_failure=(args.model == "primary"),
-                two_step=True,
+                extraction_strategy="two-step",
                 verbose=True,
             )
             if not ok:

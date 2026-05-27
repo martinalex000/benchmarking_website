@@ -8,12 +8,18 @@ description: TU Dortmund graph classification on 6 enzyme reaction classes (600 
 primary_metric: Accuracy
 higher_is_better: true
 pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.TUDataset.html
-stats: null
-result_count: 130
+stats:
+  num_graphs: 600
+  avg_nodes: 32.6
+  avg_edges: 62.1
+  num_classes: 6
+result_count: 134
 best_model:
   model: PathNN-P (K=1)
   value: 0.73
   metric: Accuracy
+  arxiv_id: '2306.05955'
+  paper_title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
 variants:
 - slug: 10-fold-cv
   name: 10-fold CV
@@ -21,10 +27,15 @@ variants:
   is_standard: true
   primary_metric: Accuracy
   higher_is_better: true
+  stats:
+    num_graphs: null
+    avg_nodes: null
+    avg_edges: null
   metrics:
   - Accuracy
   rows:
   - model: PathNN-P (K=1)
+    model_plain: PathNN-P (K=1)
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -33,6 +44,7 @@ variants:
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
     date: '2023-06-09'
     date_iso: '2023-06-09'
+    date_display: Jun 2023
     codebase_url: ''
     uses_external_data: false
     is_best: true
@@ -40,7 +52,44 @@ variants:
     - 0.73
     metric_stds:
     - 0.052
+  - model: PathNN-\mathcal{P\phantom{S}}\phantom{^+} \, (K=1)
+    model_plain: PathNN-\mathcal{P\phantom{S}}\phantom{^+} \, (K=1)
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2306.05955'
+    title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
+    date: '2023-06-09'
+    date_iso: '2023-06-09'
+    date_display: Jun 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: true
+    metric_values:
+    - 0.73
+    metric_stds:
+    - 0.052
+  - model: PathNN-\mathcal{SP}\phantom{^+} \, (K=2)
+    model_plain: PathNN-\mathcal{SP}\phantom{^+} \, (K=2)
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2306.05955'
+    title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
+    date: '2023-06-09'
+    date_iso: '2023-06-09'
+    date_display: Jun 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: true
+    metric_values:
+    - 0.718
+    metric_stds:
+    - 0.048
   - model: PathNN-SP (K=2)
+    model_plain: PathNN-SP (K=2)
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -49,6 +98,25 @@ variants:
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
     date: '2023-06-09'
     date_iso: '2023-06-09'
+    date_display: Jun 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: true
+    metric_values:
+    - 0.704
+    metric_stds:
+    - 0.031
+  - model: PathNN-\mathcal{SP}
+    model_plain: PathNN-\mathcal{SP}
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2306.05955'
+    title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
+    date: '2023-06-09'
+    date_iso: '2023-06-09'
+    date_display: Jun 2023
     codebase_url: ''
     uses_external_data: false
     is_best: true
@@ -57,6 +125,7 @@ variants:
     metric_stds:
     - 0.031
   - model: SPN(k=5)
+    model_plain: SPN(k=5)
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -65,6 +134,7 @@ variants:
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
     date: '2023-06-09'
     date_iso: '2023-06-09'
+    date_display: Jun 2023
     codebase_url: ''
     uses_external_data: false
     is_best: true
@@ -73,6 +143,7 @@ variants:
     metric_stds:
     - 0.062
   - model: PathNet (N=10, K=2)
+    model_plain: PathNet (N=10, K=2)
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -81,6 +152,7 @@ variants:
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
     date: '2023-06-09'
     date_iso: '2023-06-09'
+    date_display: Jun 2023
     codebase_url: ''
     uses_external_data: false
     is_best: true
@@ -89,6 +161,7 @@ variants:
     metric_stds:
     - 0.054
   - model: PathNN-AP (K=2)
+    model_plain: PathNN-AP (K=2)
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -97,6 +170,7 @@ variants:
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
     date: '2023-06-09'
     date_iso: '2023-06-09'
+    date_display: Jun 2023
     codebase_url: ''
     uses_external_data: false
     is_best: true
@@ -104,7 +178,26 @@ variants:
     - 0.69
     metric_stds:
     - 0.053
-  - model: CO-GNN($\mu$, $\mu$)
+  - model: PathNN-\mathcal{AP}\phantom{*} \, (K=3)
+    model_plain: PathNN-\mathcal{AP}\phantom{*} \, (K=3)
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2306.05955'
+    title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
+    date: '2023-06-09'
+    date_iso: '2023-06-09'
+    date_display: Jun 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: true
+    metric_values:
+    - 0.69
+    metric_stds:
+    - 0.053
+  - model: CO-GNN(\mu, \mu)
+    model_plain: CO-GNN(\mu, \mu)
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -113,6 +206,7 @@ variants:
     title: Cooperative Graph Neural Networks
     date: '2023-10-02'
     date_iso: '2023-10-02'
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: true
@@ -121,6 +215,7 @@ variants:
     metric_stds:
     - 0.057
   - model: SPN (K=1)
+    model_plain: SPN (K=1)
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -129,6 +224,7 @@ variants:
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
     date: '2023-06-09'
     date_iso: '2023-06-09'
+    date_display: Jun 2023
     codebase_url: ''
     uses_external_data: false
     is_best: true
@@ -136,7 +232,8 @@ variants:
     - 0.675
     metric_stds:
     - 0.055
-  - model: CO-GNN($\Sigma$, $\Sigma$)
+  - model: CO-GNN(\Sigma, \Sigma)
+    model_plain: CO-GNN(\Sigma, \Sigma)
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -145,6 +242,7 @@ variants:
     title: Cooperative Graph Neural Networks
     date: '2023-10-02'
     date_iso: '2023-10-02'
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: true
@@ -153,6 +251,7 @@ variants:
     metric_stds:
     - 0.049
   - model: GIN
+    model_plain: GIN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -161,6 +260,7 @@ variants:
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
     date: '2023-06-09'
     date_iso: '2023-06-09'
+    date_display: Jun 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -169,6 +269,7 @@ variants:
     metric_stds:
     - 0.045
   - model: DiffPool
+    model_plain: DiffPool
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -177,6 +278,7 @@ variants:
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
     date: '2023-06-09'
     date_iso: '2023-06-09'
+    date_display: Jun 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -185,6 +287,7 @@ variants:
     metric_stds:
     - 0.056
   - model: GCN + BORF
+    model_plain: GCN + BORF
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -193,6 +296,7 @@ variants:
     title: 'Position: Don''t be Afraid of Over-Smoothing And Over-Squashing'
     date: Jan 2026
     date_iso: 2026-01
+    date_display: Jan 2026
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -201,6 +305,7 @@ variants:
     metric_stds:
     - 0.021
   - model: GraphSAGE
+    model_plain: GraphSAGE
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -209,6 +314,7 @@ variants:
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
     date: '2023-06-09'
     date_iso: '2023-06-09'
+    date_display: Jun 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -217,15 +323,17 @@ variants:
     metric_stds:
     - 0.06
   - model: GCN
+    model_plain: GCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.496
+    params_millions: null
     arxiv_id: '2502.02379'
     title: 'No Metric to Rule Them All: Toward Principled Evaluations of Graph-Learning
       Datasets'
     date: '2025-02-04'
     date_iso: '2025-02-04'
+    date_display: Feb 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -234,6 +342,7 @@ variants:
     metric_stds:
     - 0.036
   - model: BNPool
+    model_plain: BNPool
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -242,6 +351,7 @@ variants:
     title: 'bnpool: Bayesian Nonparametric Pooling for Graphs'
     date: Jan 2025
     date_iso: 2025-01
+    date_display: Jan 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -250,6 +360,7 @@ variants:
     metric_stds:
     - 0.07
   - model: BS-KAGAT
+    model_plain: BS-KAGAT
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -258,6 +369,7 @@ variants:
     title: 'KAGNNs: Kolmogorov-Arnold Networks meet Graph Learning'
     date: Jun 2024
     date_iso: 2024-06
+    date_display: Jun 2024
     codebase_url: https://github.com/RomanBresson/KAGNN
     uses_external_data: false
     is_best: false
@@ -266,14 +378,16 @@ variants:
     metric_stds:
     - 0.129
   - model: GPS (EN H-19-RWPE)
+    model_plain: GPS (EN H-19-RWPE)
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2502.09570'
-    title: Enhancing the Utility of Higher-Order Information Relational Learning
+    title: Enhancing the Utility of Higher-Order Information in Relational Learning
     date: Feb 2025
     date_iso: 2025-02
+    date_display: Feb 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -282,14 +396,16 @@ variants:
     metric_stds:
     - 0.0112
   - model: GPS (19-RWPE)
+    model_plain: GPS (19-RWPE)
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2502.09570'
-    title: Enhancing the Utility of Higher-Order Information Relational Learning
+    title: Enhancing the Utility of Higher-Order Information in Relational Learning
     date: Feb 2025
     date_iso: 2025-02
+    date_display: Feb 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -298,6 +414,7 @@ variants:
     metric_stds:
     - 0.0164
   - model: GCN + SDRF
+    model_plain: GCN + SDRF
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -306,6 +423,7 @@ variants:
     title: 'Position: Don''t be Afraid of Over-Smoothing And Over-Squashing'
     date: Jan 2026
     date_iso: 2026-01
+    date_display: Jan 2026
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -314,6 +432,7 @@ variants:
     metric_stds:
     - 0.026000000000000002
   - model: GIN-SDRF-R
+    model_plain: GIN-SDRF-R
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -322,6 +441,7 @@ variants:
     title: 'Position: Don''t be Afraid of Over-Smoothing And Over-Squashing'
     date: Jan 2026
     date_iso: 2026-01
+    date_display: Jan 2026
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -330,6 +450,7 @@ variants:
     metric_stds:
     - 0.026000000000000002
   - model: EGP (GIN)
+    model_plain: EGP (GIN)
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -338,6 +459,7 @@ variants:
     title: 'Position: Don''t be Afraid of Over-Smoothing And Over-Squashing'
     date: Jan 2026
     date_iso: 2026-01
+    date_display: Jan 2026
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -346,6 +468,7 @@ variants:
     metric_stds:
     - 0.027000000000000003
   - model: RBF-KAGAT
+    model_plain: RBF-KAGAT
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -354,6 +477,7 @@ variants:
     title: 'KAGNNs: Kolmogorov-Arnold Networks meet Graph Learning'
     date: Jun 2024
     date_iso: 2024-06
+    date_display: Jun 2024
     codebase_url: https://github.com/RomanBresson/KAGNN
     uses_external_data: false
     is_best: false
@@ -362,6 +486,7 @@ variants:
     metric_stds:
     - 0.0765
   - model: GAT
+    model_plain: GAT
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -370,6 +495,7 @@ variants:
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
     date: '2023-06-09'
     date_iso: '2023-06-09'
+    date_display: Jun 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -378,14 +504,16 @@ variants:
     metric_stds:
     - 0.089
   - model: GPS (LCP-ORC)
+    model_plain: GPS (LCP-ORC)
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2502.09570'
-    title: Enhancing the Utility of Higher-Order Information Relational Learning
+    title: Enhancing the Utility of Higher-Order Information in Relational Learning
     date: Feb 2025
     date_iso: 2025-02
+    date_display: Feb 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -394,14 +522,16 @@ variants:
     metric_stds:
     - 0.0131
   - model: GCN (Norm. H-20-LAPE)
+    model_plain: GCN (Norm. H-20-LAPE)
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2502.09570'
-    title: Enhancing the Utility of Higher-Order Information Relational Learning
+    title: Enhancing the Utility of Higher-Order Information in Relational Learning
     date: Feb 2025
     date_iso: 2025-02
+    date_display: Feb 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -410,14 +540,16 @@ variants:
     metric_stds:
     - 0.0098
   - model: GPS (LCP-FRC)
+    model_plain: GPS (LCP-FRC)
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2502.09570'
-    title: Enhancing the Utility of Higher-Order Information Relational Learning
+    title: Enhancing the Utility of Higher-Order Information in Relational Learning
     date: Feb 2025
     date_iso: 2025-02
+    date_display: Feb 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -426,14 +558,16 @@ variants:
     metric_stds:
     - 0.0092
   - model: GCN (Hodge H-20-LAPE)
+    model_plain: GCN (Hodge H-20-LAPE)
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2502.09570'
-    title: Enhancing the Utility of Higher-Order Information Relational Learning
+    title: Enhancing the Utility of Higher-Order Information in Relational Learning
     date: Feb 2025
     date_iso: 2025-02
+    date_display: Feb 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -442,14 +576,16 @@ variants:
     metric_stds:
     - 0.0116
   - model: GPS (No Encoding)
+    model_plain: GPS (No Encoding)
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2502.09570'
-    title: Enhancing the Utility of Higher-Order Information Relational Learning
+    title: Enhancing the Utility of Higher-Order Information in Relational Learning
     date: Feb 2025
     date_iso: 2025-02
+    date_display: Feb 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -458,6 +594,7 @@ variants:
     metric_stds:
     - 0.0114
   - model: CAMP-GCN (Closeness)
+    model_plain: CAMP-GCN (Closeness)
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -467,6 +604,7 @@ variants:
       Networks
     date: Sep 2025
     date_iso: 2025-09
+    date_display: Sep 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -475,6 +613,7 @@ variants:
     metric_stds:
     - 0.0226
   - model: AMP_GIN
+    model_plain: AMP_GIN
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -484,6 +623,7 @@ variants:
       Networks
     date: Sep 2025
     date_iso: 2025-09
+    date_display: Sep 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -492,6 +632,7 @@ variants:
     metric_stds:
     - 0.0226
   - model: GCN + PANDA
+    model_plain: GCN + PANDA
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -501,6 +642,7 @@ variants:
       Networks
     date: Sep 2025
     date_iso: 2025-09
+    date_display: Sep 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -509,6 +651,7 @@ variants:
     metric_stds:
     - 0.0141
   - model: RBF-KAGCN
+    model_plain: RBF-KAGCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -517,14 +660,16 @@ variants:
     title: 'KAGNNs: Kolmogorov-Arnold Networks meet Graph Learning'
     date: Jun 2024
     date_iso: 2024-06
+    date_display: Jun 2024
     codebase_url: https://github.com/RomanBresson/KAGNN
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.44780000000000003
+    - 0.4478
     metric_stds:
     - 0.0958
   - model: BS-KAGCN
+    model_plain: BS-KAGCN
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -533,14 +678,16 @@ variants:
     title: 'KAGNNs: Kolmogorov-Arnold Networks meet Graph Learning'
     date: Jun 2024
     date_iso: 2024-06
+    date_display: Jun 2024
     codebase_url: https://github.com/RomanBresson/KAGNN
     uses_external_data: false
     is_best: false
     metric_values:
     - 0.445
     metric_stds:
-    - 0.08529999999999999
+    - 0.0853
   - model: CAMP-GCN (Degree)
+    model_plain: CAMP-GCN (Degree)
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -550,6 +697,7 @@ variants:
       Networks
     date: Sep 2025
     date_iso: 2025-09
+    date_display: Sep 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -558,14 +706,16 @@ variants:
     metric_stds:
     - 0.0288
   - model: GPS (20-LAPE)
+    model_plain: GPS (20-LAPE)
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2502.09570'
-    title: Enhancing the Utility of Higher-Order Information Relational Learning
+    title: Enhancing the Utility of Higher-Order Information in Relational Learning
     date: Feb 2025
     date_iso: 2025-02
+    date_display: Feb 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -574,6 +724,7 @@ variants:
     metric_stds:
     - 0.0135
   - model: EGP (GraphSAGE)
+    model_plain: EGP (GraphSAGE)
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -582,6 +733,7 @@ variants:
     title: 'Position: Don''t be Afraid of Over-Smoothing And Over-Squashing'
     date: Jan 2026
     date_iso: 2026-01
+    date_display: Jan 2026
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -590,6 +742,7 @@ variants:
     metric_stds:
     - 0.033
   - model: Wide Unitary GCN
+    model_plain: Wide Unitary GCN
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -598,6 +751,7 @@ variants:
     title: Unitary convolutions for learning on graphs and groups
     date: '2024-10-07'
     date_iso: '2024-10-07'
+    date_display: Oct 2024
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -606,6 +760,7 @@ variants:
     metric_stds:
     - 0.015
   - model: CAMP-GCN (Betweenness)
+    model_plain: CAMP-GCN (Betweenness)
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -615,6 +770,7 @@ variants:
       Networks
     date: Sep 2025
     date_iso: 2025-09
+    date_display: Sep 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -623,6 +779,7 @@ variants:
     metric_stds:
     - 0.0262
   - model: Unitary GCN
+    model_plain: Unitary GCN
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -631,6 +788,7 @@ variants:
     title: Unitary convolutions for learning on graphs and groups
     date: '2024-10-07'
     date_iso: '2024-10-07'
+    date_display: Oct 2024
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -639,6 +797,7 @@ variants:
     metric_stds:
     - 0.016
   - model: CAMP-GCN (PageRank)
+    model_plain: CAMP-GCN (PageRank)
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -648,6 +807,7 @@ variants:
       Networks
     date: Sep 2025
     date_iso: 2025-09
+    date_display: Sep 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -656,6 +816,7 @@ variants:
     metric_stds:
     - 0.0254
   - model: SepPool
+    model_plain: SepPool
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -664,6 +825,7 @@ variants:
     title: 'bnpool: Bayesian Nonparametric Pooling for Graphs'
     date: Jan 2025
     date_iso: 2025-01
+    date_display: Jan 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -672,6 +834,7 @@ variants:
     metric_stds:
     - 0.06
   - model: DMON
+    model_plain: DMON
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -680,6 +843,7 @@ variants:
     title: Graph Pooling via Ricci Flow
     date: Jul 2024
     date_iso: 2024-07
+    date_display: Jul 2024
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -688,6 +852,7 @@ variants:
     metric_stds:
     - 0.04
   - model: CAMP-GCN (Load)
+    model_plain: CAMP-GCN (Load)
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -697,6 +862,7 @@ variants:
       Networks
     date: Sep 2025
     date_iso: 2025-09
+    date_display: Sep 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -705,6 +871,7 @@ variants:
     metric_stds:
     - 0.024399999999999998
   - model: JBGNN
+    model_plain: JBGNN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -713,6 +880,7 @@ variants:
     title: 'bnpool: Bayesian Nonparametric Pooling for Graphs'
     date: Jan 2025
     date_iso: 2025-01
+    date_display: Jan 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -721,6 +889,7 @@ variants:
     metric_stds:
     - 0.06
   - model: EigenPool
+    model_plain: EigenPool
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -729,6 +898,7 @@ variants:
     title: 'bnpool: Bayesian Nonparametric Pooling for Graphs'
     date: Jan 2025
     date_iso: 2025-01
+    date_display: Jan 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -737,6 +907,7 @@ variants:
     metric_stds:
     - 0.06
   - model: DGCNN
+    model_plain: DGCNN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -745,6 +916,7 @@ variants:
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
     date: '2023-06-09'
     date_iso: '2023-06-09'
+    date_display: Jun 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -753,6 +925,7 @@ variants:
     metric_stds:
     - 0.057
   - model: GraphSAGE + SDRF
+    model_plain: GraphSAGE + SDRF
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -761,6 +934,7 @@ variants:
     title: 'Position: Don''t be Afraid of Over-Smoothing And Over-Squashing'
     date: Jan 2026
     date_iso: 2026-01
+    date_display: Jan 2026
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -769,6 +943,7 @@ variants:
     metric_stds:
     - 0.022000000000000002
   - model: G² (GATv2)
+    model_plain: G² (GATv2)
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -777,6 +952,7 @@ variants:
     title: 'Position: Don''t be Afraid of Over-Smoothing And Over-Squashing'
     date: Jan 2026
     date_iso: 2026-01
+    date_display: Jan 2026
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -785,6 +961,7 @@ variants:
     metric_stds:
     - 0.022000000000000002
   - model: ORC
+    model_plain: ORC
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -793,6 +970,7 @@ variants:
     title: Graph Pooling via Ricci Flow
     date: Jul 2024
     date_iso: 2024-07
+    date_display: Jul 2024
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -801,6 +979,7 @@ variants:
     metric_stds:
     - 0.06
   - model: GATv2
+    model_plain: GATv2
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -809,6 +988,7 @@ variants:
     title: 'Position: Don''t be Afraid of Over-Smoothing And Over-Squashing'
     date: Jan 2026
     date_iso: 2026-01
+    date_display: Jan 2026
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -817,6 +997,7 @@ variants:
     metric_stds:
     - 0.027999999999999997
   - model: GCN with AFR-3
+    model_plain: GCN with AFR-3
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -826,6 +1007,7 @@ variants:
       Curvature
     date: Sep 2023
     date_iso: 2023-09
+    date_display: Sep 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -834,6 +1016,7 @@ variants:
     metric_stds:
     - 0.012
   - model: GATv2 + BORF
+    model_plain: GATv2 + BORF
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -842,6 +1025,7 @@ variants:
     title: 'Position: Don''t be Afraid of Over-Smoothing And Over-Squashing'
     date: Jan 2026
     date_iso: 2026-01
+    date_display: Jan 2026
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -850,6 +1034,7 @@ variants:
     metric_stds:
     - 0.040999999999999995
   - model: MinCut
+    model_plain: MinCut
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -858,6 +1043,7 @@ variants:
     title: Graph Pooling via Ricci Flow
     date: Jul 2024
     date_iso: 2024-07
+    date_display: Jul 2024
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -866,6 +1052,7 @@ variants:
     metric_stds:
     - 0.05
   - model: TV
+    model_plain: TV
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -874,6 +1061,7 @@ variants:
     title: Graph Pooling via Ricci Flow
     date: Jul 2024
     date_iso: 2024-07
+    date_display: Jul 2024
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -882,6 +1070,7 @@ variants:
     metric_stds:
     - 0.05
   - model: DiffPool
+    model_plain: DiffPool
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -890,6 +1079,7 @@ variants:
     title: 'bnpool: Bayesian Nonparametric Pooling for Graphs'
     date: Jan 2025
     date_iso: 2025-01
+    date_display: Jan 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -898,6 +1088,7 @@ variants:
     metric_stds:
     - 0.07
   - model: HOSC
+    model_plain: HOSC
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -906,6 +1097,7 @@ variants:
     title: 'bnpool: Bayesian Nonparametric Pooling for Graphs'
     date: Jan 2025
     date_iso: 2025-01
+    date_display: Jan 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -914,6 +1106,7 @@ variants:
     metric_stds:
     - 0.09
   - model: GIN-SDRF-R
+    model_plain: GIN-SDRF-R
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -922,6 +1115,7 @@ variants:
     title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
     date: '2024-06-06'
     date_iso: '2024-06-06'
+    date_display: Jun 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -930,6 +1124,7 @@ variants:
     metric_stds:
     - 0.01094
   - model: GCN + DIGL
+    model_plain: GCN + DIGL
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -938,6 +1133,7 @@ variants:
     title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
     date: '2024-06-06'
     date_iso: '2024-06-06'
+    date_display: Jun 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -946,6 +1142,7 @@ variants:
     metric_stds:
     - 0.01198
   - model: GCN + BORF
+    model_plain: GCN + BORF
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -954,6 +1151,7 @@ variants:
     title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
     date: '2024-06-06'
     date_iso: '2024-06-06'
+    date_display: Jun 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -962,6 +1160,7 @@ variants:
     metric_stds:
     - 0.012
   - model: GCN (LCP)
+    model_plain: GCN (LCP)
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -970,6 +1169,7 @@ variants:
     title: Effective Structural Encodings via Local Curvature Profiles
     date: Nov 2023
     date_iso: 2023-11
+    date_display: Nov 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -978,6 +1178,7 @@ variants:
     metric_stds:
     - 0.026
   - model: GATv2 + SDRF
+    model_plain: GATv2 + SDRF
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -986,6 +1187,7 @@ variants:
     title: 'Position: Don''t be Afraid of Over-Smoothing And Over-Squashing'
     date: Jan 2026
     date_iso: 2026-01
+    date_display: Jan 2026
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -994,6 +1196,7 @@ variants:
     metric_stds:
     - 0.031
   - model: GAT (LCP, RW)
+    model_plain: GAT (LCP, RW)
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -1002,6 +1205,7 @@ variants:
     title: Effective Structural Encodings via Local Curvature Profiles
     date: Nov 2023
     date_iso: 2023-11
+    date_display: Nov 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1010,6 +1214,7 @@ variants:
     metric_stds:
     - 0.024
   - model: ECPool
+    model_plain: ECPool
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1018,6 +1223,7 @@ variants:
     title: 'bnpool: Bayesian Nonparametric Pooling for Graphs'
     date: Jan 2025
     date_iso: 2025-01
+    date_display: Jan 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1026,6 +1232,7 @@ variants:
     metric_stds:
     - 0.08
   - model: GAT (LCP)
+    model_plain: GAT (LCP)
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -1034,6 +1241,7 @@ variants:
     title: Effective Structural Encodings via Local Curvature Profiles
     date: Nov 2023
     date_iso: 2023-11
+    date_display: Nov 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1042,6 +1250,7 @@ variants:
     metric_stds:
     - 0.02
   - model: LASER
+    model_plain: LASER
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -1050,6 +1259,7 @@ variants:
     title: Locality-Aware Graph Rewiring in GNNs
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1058,6 +1268,7 @@ variants:
     metric_stds:
     - 0.06936
   - model: GIN-E
+    model_plain: GIN-E
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1066,6 +1277,7 @@ variants:
     title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
     date: '2024-06-06'
     date_iso: '2024-06-06'
+    date_display: Jun 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1074,6 +1286,7 @@ variants:
     metric_stds:
     - 0.00115
   - model: GCN (LCP, LA)
+    model_plain: GCN (LCP, LA)
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -1082,6 +1295,7 @@ variants:
     title: Effective Structural Encodings via Local Curvature Profiles
     date: Nov 2023
     date_iso: 2023-11
+    date_display: Nov 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1090,6 +1304,7 @@ variants:
     metric_stds:
     - 0.027
   - model: GAT (LCP, LA)
+    model_plain: GAT (LCP, LA)
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -1098,6 +1313,7 @@ variants:
     title: Effective Structural Encodings via Local Curvature Profiles
     date: Nov 2023
     date_iso: 2023-11
+    date_display: Nov 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1106,6 +1322,7 @@ variants:
     metric_stds:
     - 0.021
   - model: R-GCN + Every Layer FA
+    model_plain: R-GCN + Every Layer FA
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1114,6 +1331,7 @@ variants:
     title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
     date: '2024-06-06'
     date_iso: '2024-06-06'
+    date_display: Jun 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1122,6 +1340,7 @@ variants:
     metric_stds:
     - 0.01142
   - model: --
+    model_plain: --
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1130,6 +1349,7 @@ variants:
     title: 'bnpool: Bayesian Nonparametric Pooling for Graphs'
     date: Jan 2025
     date_iso: 2025-01
+    date_display: Jan 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1138,6 +1358,7 @@ variants:
     metric_stds:
     - 0.13
   - model: Graclus
+    model_plain: Graclus
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1146,6 +1367,7 @@ variants:
     title: 'bnpool: Bayesian Nonparametric Pooling for Graphs'
     date: Jan 2025
     date_iso: 2025-01
+    date_display: Jan 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1154,6 +1376,7 @@ variants:
     metric_stds:
     - 0.07
   - model: KMIS
+    model_plain: KMIS
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1162,6 +1385,7 @@ variants:
     title: 'bnpool: Bayesian Nonparametric Pooling for Graphs'
     date: Jan 2025
     date_iso: 2025-01
+    date_display: Jan 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1170,14 +1394,16 @@ variants:
     metric_stds:
     - 0.08
   - model: GCN (LCP-ORC)
+    model_plain: GCN (LCP-ORC)
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2502.09570'
-    title: Enhancing the Utility of Higher-Order Information Relational Learning
+    title: Enhancing the Utility of Higher-Order Information in Relational Learning
     date: Feb 2025
     date_iso: 2025-02
+    date_display: Feb 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1186,6 +1412,7 @@ variants:
     metric_stds:
     - 0.0136
   - model: GIN (LCP)
+    model_plain: GIN (LCP)
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -1194,6 +1421,7 @@ variants:
     title: Effective Structural Encodings via Local Curvature Profiles
     date: Nov 2023
     date_iso: 2023-11
+    date_display: Nov 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1202,6 +1430,7 @@ variants:
     metric_stds:
     - 0.016
   - model: GIN with AFR-4
+    model_plain: GIN with AFR-4
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -1211,6 +1440,7 @@ variants:
       Curvature
     date: Sep 2023
     date_iso: 2023-09
+    date_display: Sep 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1219,6 +1449,7 @@ variants:
     metric_stds:
     - 0.014
   - model: GCN with BORF
+    model_plain: GCN with BORF
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -1228,6 +1459,7 @@ variants:
       Curvature
     date: Sep 2023
     date_iso: 2023-09
+    date_display: Sep 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1236,6 +1468,7 @@ variants:
     metric_stds:
     - 0.012
   - model: GCN + CAMP
+    model_plain: GCN + CAMP
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -1245,6 +1478,7 @@ variants:
       Networks
     date: Sep 2025
     date_iso: 2025-09
+    date_display: Sep 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1253,6 +1487,7 @@ variants:
     metric_stds:
     - 0.023
   - model: GCN (LCP, RW)
+    model_plain: GCN (LCP, RW)
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -1261,6 +1496,7 @@ variants:
     title: Effective Structural Encodings via Local Curvature Profiles
     date: Nov 2023
     date_iso: 2023-11
+    date_display: Nov 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1269,6 +1505,7 @@ variants:
     metric_stds:
     - 0.024
   - model: GCN + PANDA
+    model_plain: GCN + PANDA
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -1277,6 +1514,7 @@ variants:
     title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
     date: '2024-06-06'
     date_iso: '2024-06-06'
+    date_display: Jun 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1285,6 +1523,7 @@ variants:
     metric_stds:
     - 0.0123
   - model: PANDA-GCN (PageRank)
+    model_plain: PANDA-GCN (PageRank)
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -1293,6 +1532,7 @@ variants:
     title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
     date: '2024-06-06'
     date_iso: '2024-06-06'
+    date_display: Jun 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1301,6 +1541,7 @@ variants:
     metric_stds:
     - 0.0123
   - model: GIN
+    model_plain: GIN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1309,6 +1550,7 @@ variants:
     title: Unitary convolutions for learning on graphs and groups
     date: '2024-10-07'
     date_iso: '2024-10-07'
+    date_display: Oct 2024
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -1317,6 +1559,7 @@ variants:
     metric_stds:
     - 0.011
   - model: Nested-GNN
+    model_plain: Nested-GNN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1325,6 +1568,7 @@ variants:
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
     date: '2023-06-09'
     date_iso: '2023-06-09'
+    date_display: Jun 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1333,6 +1577,7 @@ variants:
     metric_stds:
     - 0.067
   - model: PANDA-GCN (Degree)
+    model_plain: PANDA-GCN (Degree)
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -1341,6 +1586,7 @@ variants:
     title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
     date: '2024-06-06'
     date_iso: '2024-06-06'
+    date_display: Jun 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1349,6 +1595,7 @@ variants:
     metric_stds:
     - 0.01258
   - model: GraphSAGE + BORF
+    model_plain: GraphSAGE + BORF
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1357,6 +1604,7 @@ variants:
     title: 'Position: Don''t be Afraid of Over-Smoothing And Over-Squashing'
     date: Jan 2026
     date_iso: 2026-01
+    date_display: Jan 2026
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1365,6 +1613,7 @@ variants:
     metric_stds:
     - 0.025
   - model: Diff
+    model_plain: Diff
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1373,6 +1622,7 @@ variants:
     title: Graph Pooling via Ricci Flow
     date: Jul 2024
     date_iso: 2024-07
+    date_display: Jul 2024
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -1381,6 +1631,7 @@ variants:
     metric_stds:
     - 0.03
   - model: GCN (SUB)
+    model_plain: GCN (SUB)
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1389,6 +1640,7 @@ variants:
     title: Effective Structural Encodings via Local Curvature Profiles
     date: Nov 2023
     date_iso: 2023-11
+    date_display: Nov 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1397,14 +1649,16 @@ variants:
     metric_stds:
     - 0.022
   - model: GCN (EE H-19-RWPE)
+    model_plain: GCN (EE H-19-RWPE)
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2502.09570'
-    title: Enhancing the Utility of Higher-Order Information Relational Learning
+    title: Enhancing the Utility of Higher-Order Information in Relational Learning
     date: Feb 2025
     date_iso: 2025-02
+    date_display: Feb 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1413,14 +1667,16 @@ variants:
     metric_stds:
     - 0.0127
   - model: GCN (LCP-FRC)
+    model_plain: GCN (LCP-FRC)
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2502.09570'
-    title: Enhancing the Utility of Higher-Order Information Relational Learning
+    title: Enhancing the Utility of Higher-Order Information in Relational Learning
     date: Feb 2025
     date_iso: 2025-02
+    date_display: Feb 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1429,14 +1685,16 @@ variants:
     metric_stds:
     - 0.0138
   - model: GCN (19-RWPE)
+    model_plain: GCN (19-RWPE)
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2502.09570'
-    title: Enhancing the Utility of Higher-Order Information Relational Learning
+    title: Enhancing the Utility of Higher-Order Information in Relational Learning
     date: Feb 2025
     date_iso: 2025-02
+    date_display: Feb 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1445,6 +1703,7 @@ variants:
     metric_stds:
     - 0.0178
   - model: GIN + GTR
+    model_plain: GIN + GTR
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1453,6 +1712,7 @@ variants:
     title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
     date: '2024-06-06'
     date_iso: '2024-06-06'
+    date_display: Jun 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1461,6 +1721,7 @@ variants:
     metric_stds:
     - 0.0142
   - model: SDRF
+    model_plain: SDRF
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1469,6 +1730,7 @@ variants:
     title: Locality-Aware Graph Rewiring in GNNs
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1477,6 +1739,7 @@ variants:
     metric_stds:
     - 0.06188
   - model: BORF
+    model_plain: BORF
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1485,6 +1748,7 @@ variants:
     title: Locality-Aware Graph Rewiring in GNNs
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1493,6 +1757,7 @@ variants:
     metric_stds:
     - 0.06593
   - model: PANDA-GCN (Closeness)
+    model_plain: PANDA-GCN (Closeness)
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -1501,6 +1766,7 @@ variants:
     title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
     date: '2024-06-06'
     date_iso: '2024-06-06'
+    date_display: Jun 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1509,6 +1775,7 @@ variants:
     metric_stds:
     - 0.01231
   - model: GCN (RW)
+    model_plain: GCN (RW)
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1517,6 +1784,7 @@ variants:
     title: Effective Structural Encodings via Local Curvature Profiles
     date: Nov 2023
     date_iso: 2023-11
+    date_display: Nov 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1525,6 +1793,7 @@ variants:
     metric_stds:
     - 0.025
   - model: GIN (NO)
+    model_plain: GIN (NO)
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1533,6 +1802,7 @@ variants:
     title: Effective Structural Encodings via Local Curvature Profiles
     date: Nov 2023
     date_iso: 2023-11
+    date_display: Nov 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1541,6 +1811,7 @@ variants:
     metric_stds:
     - 0.011
   - model: PANDA-GCN (Betweenness)
+    model_plain: PANDA-GCN (Betweenness)
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -1549,6 +1820,7 @@ variants:
     title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
     date: '2024-06-06'
     date_iso: '2024-06-06'
+    date_display: Jun 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1557,6 +1829,7 @@ variants:
     metric_stds:
     - 0.01208
   - model: ECC
+    model_plain: ECC
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1565,6 +1838,7 @@ variants:
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
     date: '2023-06-09'
     date_iso: '2023-06-09'
+    date_display: Jun 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1573,6 +1847,7 @@ variants:
     metric_stds:
     - 0.082
   - model: GIN-FOSR-R
+    model_plain: GIN-FOSR-R
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1581,6 +1856,7 @@ variants:
     title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
     date: '2024-06-06'
     date_iso: '2024-06-06'
+    date_display: Jun 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1589,6 +1865,7 @@ variants:
     metric_stds:
     - 0.01367
   - model: TopK
+    model_plain: TopK
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1597,6 +1874,7 @@ variants:
     title: 'bnpool: Bayesian Nonparametric Pooling for Graphs'
     date: Jan 2025
     date_iso: 2025-01
+    date_display: Jan 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1605,6 +1883,7 @@ variants:
     metric_stds:
     - 0.07
   - model: None
+    model_plain: None
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1613,6 +1892,7 @@ variants:
     title: Locality-Aware Graph Rewiring in GNNs
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1621,6 +1901,7 @@ variants:
     metric_stds:
     - 0.05297
   - model: GCN (SUB, RW)
+    model_plain: GCN (SUB, RW)
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1629,6 +1910,7 @@ variants:
     title: Effective Structural Encodings via Local Curvature Profiles
     date: Nov 2023
     date_iso: 2023-11
+    date_display: Nov 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1637,6 +1919,7 @@ variants:
     metric_stds:
     - 0.024
   - model: GCN
+    model_plain: GCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1645,6 +1928,7 @@ variants:
     title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
     date: '2024-06-06'
     date_iso: '2024-06-06'
+    date_display: Jun 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1653,6 +1937,7 @@ variants:
     metric_stds:
     - 0.01186
   - model: RE-GCN
+    model_plain: RE-GCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1661,6 +1946,7 @@ variants:
     title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
     date: '2024-06-06'
     date_iso: '2024-06-06'
+    date_display: Jun 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1669,6 +1955,7 @@ variants:
     metric_stds:
     - 0.01186
   - model: FOSR
+    model_plain: FOSR
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1677,6 +1964,7 @@ variants:
     title: Locality-Aware Graph Rewiring in GNNs
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1685,6 +1973,7 @@ variants:
     metric_stds:
     - 0.05253
   - model: DiffWire
+    model_plain: DiffWire
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1693,6 +1982,7 @@ variants:
     title: Locality-Aware Graph Rewiring in GNNs
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1701,14 +1991,16 @@ variants:
     metric_stds:
     - 0.04475
   - model: GCN (20-LAPE)
+    model_plain: GCN (20-LAPE)
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2502.09570'
-    title: Enhancing the Utility of Higher-Order Information Relational Learning
+    title: Enhancing the Utility of Higher-Order Information in Relational Learning
     date: Feb 2025
     date_iso: 2025-02
+    date_display: Feb 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1717,6 +2009,7 @@ variants:
     metric_stds:
     - 0.0116
   - model: Every Layer FA
+    model_plain: Every Layer FA
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1725,6 +2018,7 @@ variants:
     title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
     date: '2024-06-06'
     date_iso: '2024-06-06'
+    date_display: Jun 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1733,6 +2027,7 @@ variants:
     metric_stds:
     - 0.01052
   - model: GCN + SDRF
+    model_plain: GCN + SDRF
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1741,6 +2036,7 @@ variants:
     title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
     date: '2024-06-06'
     date_iso: '2024-06-06'
+    date_display: Jun 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1749,6 +2045,7 @@ variants:
     metric_stds:
     - 0.01174
   - model: GCN (SUB, LA)
+    model_plain: GCN (SUB, LA)
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1757,6 +2054,7 @@ variants:
     title: Effective Structural Encodings via Local Curvature Profiles
     date: Nov 2023
     date_iso: 2023-11
+    date_display: Nov 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1765,6 +2063,7 @@ variants:
     metric_stds:
     - 0.019
   - model: GCN + Last Layer FA
+    model_plain: GCN + Last Layer FA
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1773,6 +2072,7 @@ variants:
     title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
     date: '2024-06-06'
     date_iso: '2024-06-06'
+    date_display: Jun 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1781,6 +2081,7 @@ variants:
     metric_stds:
     - 0.01138
   - model: PANDA-GCN (Load)
+    model_plain: PANDA-GCN (Load)
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -1789,6 +2090,7 @@ variants:
     title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
     date: '2024-06-06'
     date_iso: '2024-06-06'
+    date_display: Jun 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1797,14 +2099,16 @@ variants:
     metric_stds:
     - 0.0109
   - model: GCN (No Encoding)
+    model_plain: GCN (No Encoding)
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2502.09570'
-    title: Enhancing the Utility of Higher-Order Information Relational Learning
+    title: Enhancing the Utility of Higher-Order Information in Relational Learning
     date: Feb 2025
     date_iso: 2025-02
+    date_display: Feb 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1813,6 +2117,7 @@ variants:
     metric_stds:
     - 0.0115
   - model: GIN (RW)
+    model_plain: GIN (RW)
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1821,6 +2126,7 @@ variants:
     title: Effective Structural Encodings via Local Curvature Profiles
     date: Nov 2023
     date_iso: 2023-11
+    date_display: Nov 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1829,6 +2135,7 @@ variants:
     metric_stds:
     - 0.014
   - model: GCN + GTR
+    model_plain: GCN + GTR
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1837,6 +2144,7 @@ variants:
     title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
     date: '2024-06-06'
     date_iso: '2024-06-06'
+    date_display: Jun 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1845,6 +2153,7 @@ variants:
     metric_stds:
     - 0.0099
   - model: GIN (SUB)
+    model_plain: GIN (SUB)
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1853,6 +2162,7 @@ variants:
     title: Effective Structural Encodings via Local Curvature Profiles
     date: Nov 2023
     date_iso: 2023-11
+    date_display: Nov 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1861,6 +2171,7 @@ variants:
     metric_stds:
     - 0.021
   - model: GAT
+    model_plain: GAT
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1869,6 +2180,7 @@ variants:
     title: Unitary convolutions for learning on graphs and groups
     date: '2024-10-07'
     date_iso: '2024-10-07'
+    date_display: Oct 2024
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -1877,6 +2189,7 @@ variants:
     metric_stds:
     - 0.012
   - model: GIN (LA)
+    model_plain: GIN (LA)
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1885,6 +2198,7 @@ variants:
     title: Effective Structural Encodings via Local Curvature Profiles
     date: Nov 2023
     date_iso: 2023-11
+    date_display: Nov 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1893,6 +2207,7 @@ variants:
     metric_stds:
     - 0.019
   - model: GCN (LA)
+    model_plain: GCN (LA)
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1901,6 +2216,7 @@ variants:
     title: Effective Structural Encodings via Local Curvature Profiles
     date: Nov 2023
     date_iso: 2023-11
+    date_display: Nov 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1909,6 +2225,7 @@ variants:
     metric_stds:
     - 0.011
   - model: GAT (SUB, RW)
+    model_plain: GAT (SUB, RW)
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1917,6 +2234,7 @@ variants:
     title: Effective Structural Encodings via Local Curvature Profiles
     date: Nov 2023
     date_iso: 2023-11
+    date_display: Nov 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1925,6 +2243,7 @@ variants:
     metric_stds:
     - 0.013
   - model: GTR
+    model_plain: GTR
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1933,6 +2252,7 @@ variants:
     title: Locality-Aware Graph Rewiring in GNNs
     date: Oct 2023
     date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1941,14 +2261,16 @@ variants:
     metric_stds:
     - 0.05821
   - model: GCN
+    model_plain: GCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.496
+    params_millions: null
     arxiv_id: '2410.05499'
     title: Unitary convolutions for learning on graphs and groups
     date: '2024-10-07'
     date_iso: '2024-10-07'
+    date_display: Oct 2024
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -1957,6 +2279,7 @@ variants:
     metric_stds:
     - 0.012
   - model: GCN (NO)
+    model_plain: GCN (NO)
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1965,6 +2288,7 @@ variants:
     title: Effective Structural Encodings via Local Curvature Profiles
     date: Nov 2023
     date_iso: 2023-11
+    date_display: Nov 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1973,6 +2297,7 @@ variants:
     metric_stds:
     - 0.013
   - model: GCN + FoSR
+    model_plain: GCN + FoSR
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1981,6 +2306,7 @@ variants:
     title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
     date: '2024-06-06'
     date_iso: '2024-06-06'
+    date_display: Jun 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -1989,6 +2315,7 @@ variants:
     metric_stds:
     - 0.00994
   - model: GAT (SUB)
+    model_plain: GAT (SUB)
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1997,6 +2324,7 @@ variants:
     title: Effective Structural Encodings via Local Curvature Profiles
     date: Nov 2023
     date_iso: 2023-11
+    date_display: Nov 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -2005,6 +2333,7 @@ variants:
     metric_stds:
     - 0.014
   - model: GAT (RW)
+    model_plain: GAT (RW)
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -2013,6 +2342,7 @@ variants:
     title: Effective Structural Encodings via Local Curvature Profiles
     date: Nov 2023
     date_iso: 2023-11
+    date_display: Nov 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -2021,6 +2351,7 @@ variants:
     metric_stds:
     - 0.017
   - model: GAT (LA)
+    model_plain: GAT (LA)
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -2029,6 +2360,7 @@ variants:
     title: Effective Structural Encodings via Local Curvature Profiles
     date: Nov 2023
     date_iso: 2023-11
+    date_display: Nov 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -2037,6 +2369,7 @@ variants:
     metric_stds:
     - 0.013
   - model: GAT (SUB, LA)
+    model_plain: GAT (SUB, LA)
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -2045,6 +2378,7 @@ variants:
     title: Effective Structural Encodings via Local Curvature Profiles
     date: Nov 2023
     date_iso: 2023-11
+    date_display: Nov 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -2053,6 +2387,7 @@ variants:
     metric_stds:
     - 0.018
   - model: GAT (NO)
+    model_plain: GAT (NO)
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -2061,6 +2396,7 @@ variants:
     title: Effective Structural Encodings via Local Curvature Profiles
     date: Nov 2023
     date_iso: 2023-11
+    date_display: Nov 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -2069,22 +2405,7 @@ variants:
     metric_stds:
     - 0.017
   - model: GCN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: 0.496
-    arxiv_id: '2406.18380'
-    title: 'KAGNNs: Kolmogorov-Arnold Networks meet Graph Learning'
-    date: Jun 2024
-    date_iso: 2024-06
-    codebase_url: https://github.com/RomanBresson/KAGNN
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.20559999999999998
-    metric_stds:
-    - 0.037000000000000005
-  - model: GAT
+    model_plain: GCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -2093,14 +2414,34 @@ variants:
     title: 'KAGNNs: Kolmogorov-Arnold Networks meet Graph Learning'
     date: Jun 2024
     date_iso: 2024-06
+    date_display: Jun 2024
     codebase_url: https://github.com/RomanBresson/KAGNN
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.18170000000000003
+    - 0.2056
+    metric_stds:
+    - 0.037
+  - model: GAT
+    model_plain: GAT
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2406.18380'
+    title: 'KAGNNs: Kolmogorov-Arnold Networks meet Graph Learning'
+    date: Jun 2024
+    date_iso: 2024-06
+    date_display: Jun 2024
+    codebase_url: https://github.com/RomanBresson/KAGNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.1817
     metric_stds:
     - 0.0134
   - model: GCN + CT-Layer
+    model_plain: GCN + CT-Layer
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -2109,6 +2450,7 @@ variants:
     title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
     date: '2024-06-06'
     date_iso: '2024-06-06'
+    date_display: Jun 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false

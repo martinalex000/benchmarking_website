@@ -28,8 +28,28 @@ import yaml
 
 from backend.baseline_aggregator import get_baseline_summary, get_best_results_over_time
 from backend.config import cfg
+from backend.dataset_variant_resolver import (
+    build_dataset_variant_lookup,
+    resolve_dataset_variant_quiet,
+)
 from backend.db import init_db, session_scope
-from backend.models import Benchmark, Dataset, DatasetVariant, Paper, Result, TodoPaper
+from backend.export_helpers import (
+    has_paper_value_gap as _has_paper_value_gap,
+    plain_model as _plain_model,
+    rank_for_value as _rank_for_value,
+    sanitize_model as _sanitize_model_text,
+    sanitize_title as _sanitize_title,
+    truncate_words as _truncate_words,
+)
+from backend.models import (
+    Benchmark,
+    Dataset,
+    DatasetVariant,
+    Paper,
+    PendingDataset,
+    Result,
+    TodoPaper,
+)
 from backend.override_handler import get_model_renames, load_overrides
 from backend.paper_storage import PaperStorage
 from backend.models import PaperCandidate, PipelineRun
@@ -42,19 +62,6 @@ _DATA_DIR = _SITE_DIR / "data"
 _STATIC = _SITE_DIR / "static"
 _DATASET_OVERRIDES_FILE = cfg.base_dir / "config" / "dataset_overrides.yaml"
 
-_MODEL_SUFFIX_RE = re.compile(
-    r"\s*\(\s*(?:ours?|base(?:line)?|proposed|retuned|re-?eval|none|l\s*=\s*\d+)\s*\)\s*$",
-    re.IGNORECASE,
-)
-_MODEL_FROM_REF_RE = re.compile(r"\s+from\s+ref\..*$", re.IGNORECASE)
-_LATEX_CITE_RE = re.compile(r"~?\\cite\{[^}]*\}")
-_TITLE_LINEBREAK_RE = re.compile(r"\\\\+")
-_TITLE_LATEX_CMD_RE = re.compile(r"\\[a-zA-Z]+\*?(?:\{[^}]*\})?")
-_MODEL_SUBSCRIPT_DOLLAR_RE = re.compile(r"\$_\{([^{}]+)\}\$")
-_MODEL_SUPERSCRIPT_DOLLAR_RE = re.compile(r"\$\^\{([^{}]+)\}\$")
-_MODEL_TEXTSUBSCRIPT_RE = re.compile(r"\\textsubscript\{([^{}]+)\}")
-_MODEL_TEXTSUPERSCRIPT_RE = re.compile(r"\\textsuperscript\{([^{}]+)\}")
-_HTML_TAG_RE = re.compile(r"<[^>]+>")
 _MODEL_RENAME_CACHE: dict[str, dict[str, str]] = {}
 _DATASET_OVERRIDE_CACHE: dict[str, dict[str, Any]] = {}
 _PAPER_PARAM_CACHE: dict[str, dict[str, float]] = {}
@@ -76,15 +83,6 @@ _BOUNDED_METRIC_SUBSTRINGS: tuple[str, ...] = (
 def _slug(name: str) -> str:
     """Convert a string to a URL-safe slug."""
     return re.sub(r"[^a-z0-9]+", "-", name.strip().lower()).strip("-")
-
-
-def _sanitize_title(title: str | None) -> str:
-    if not title:
-        return ""
-    t = _TITLE_LINEBREAK_RE.sub(" - ", str(title))
-    t = t.replace("\\", " ")
-    t = _TITLE_LATEX_CMD_RE.sub("", t)
-    return re.sub(r"\s+", " ", t).strip()
 
 
 def _is_bounded_metric(metric_name: str | None) -> bool:
@@ -122,26 +120,7 @@ def _paper_model_renames(arxiv_id: str | None) -> dict[str, str]:
 
 
 def _sanitize_model(model_name: str | None, arxiv_id: str | None = None) -> str:
-    if not model_name:
-        return ""
-    m = str(model_name)
-    m = _LATEX_CITE_RE.sub("", m)
-    m = _MODEL_FROM_REF_RE.sub("", m)
-    m = _MODEL_SUFFIX_RE.sub("", m)
-    m = _MODEL_SUBSCRIPT_DOLLAR_RE.sub(r"<sub>\\1</sub>", m)
-    m = _MODEL_SUPERSCRIPT_DOLLAR_RE.sub(r"<sup>\\1</sup>", m)
-    m = _MODEL_TEXTSUBSCRIPT_RE.sub(r"<sub>\\1</sub>", m)
-    m = _MODEL_TEXTSUPERSCRIPT_RE.sub(r"<sup>\\1</sup>", m)
-    m = m.replace("$", "")
-    m = re.sub(r"\s+", " ", m).strip()
-    remap = _paper_model_renames(arxiv_id)
-    return remap.get(m.lower(), m)
-
-
-def _plain_model(model_name: str | None) -> str:
-    if not model_name:
-        return ""
-    return re.sub(r"\s+", " ", _HTML_TAG_RE.sub("", str(model_name))).strip()
+    return _sanitize_model_text(model_name, remap=_paper_model_renames(arxiv_id))
 
 
 def _model_key(model_name: str | None) -> str:
@@ -156,24 +135,6 @@ def _paper_site_link(arxiv_id: str | None, label: str | None = None) -> str:
     return f"[{text}](/papers/{paper_id}/)"
 
 
-def _has_paper_value_gap(
-    paper_value: float | None,
-    paper_std: float | None,
-    true_value: float | None,
-    true_std: float | None,
-) -> bool:
-    if paper_value is None or true_value is None:
-        return False
-    delta = abs(paper_value - true_value)
-    if paper_std is None and true_std is None:
-        return delta > 1e-12
-    if paper_std is not None and delta <= float(paper_std):
-        return False
-    if true_std is not None and delta <= float(true_std):
-        return False
-    return delta > 1e-12
-
-
 def _has_paper_value_difference(
     paper_value: float | None,
     true_value: float | None,
@@ -181,38 +142,6 @@ def _has_paper_value_difference(
     if paper_value is None or true_value is None:
         return False
     return abs(paper_value - true_value) > 1e-12
-
-
-def _rank_for_value(
-    global_rows: list[dict[str, Any]],
-    model_key: str,
-    candidate_value: float | None,
-    higher_is_better: bool,
-) -> int | None:
-    if not model_key or candidate_value is None:
-        return None
-
-    ranked_values: list[tuple[str, float]] = []
-    seen = False
-    for row in global_rows:
-        row_key = row.get("model_key", "")
-        row_value = row.get("value")
-        if row_value is None:
-            continue
-        if row_key == model_key:
-            ranked_values.append((model_key, float(candidate_value)))
-            seen = True
-        else:
-            ranked_values.append((row_key, float(row_value)))
-
-    if not seen:
-        ranked_values.append((model_key, float(candidate_value)))
-
-    ranked_values.sort(key=lambda item: -item[1] if higher_is_better else item[1])
-    for rank, (row_key, _) in enumerate(ranked_values, start=1):
-        if row_key == model_key:
-            return rank
-    return None
 
 
 def _paper_explicit_param_map(arxiv_id: str | None) -> dict[str, float]:
@@ -894,10 +823,22 @@ def _collect_model_value_mismatches(session: Any) -> list[dict[str, Any]]:
         rank_delta = (
             paper_rank - global_rank if paper_rank is not None and global_rank is not None else None
         )
+        paper_date_iso = paper.published_date[:10] if paper.published_date else ""
+        source_arxiv_id = truth.get("arxiv_id", "")
+        source_date_iso = truth.get("date_iso", "")
+        if source_arxiv_id and source_arxiv_id == paper.arxiv_id:
+            source_timing = "same-paper"
+        elif source_date_iso and paper_date_iso:
+            source_timing = (
+                "already-known" if source_date_iso <= paper_date_iso else "published-later"
+            )
+        else:
+            source_timing = "unknown"
         mismatches.append(
             {
                 "arxiv_id": paper.arxiv_id,
                 "title": _sanitize_title(paper.title),
+                "paper_date_iso": paper_date_iso,
                 "dataset": ds.name,
                 "metric": primary_metric,
                 "model": _sanitize_model(model.canonical_name, paper.arxiv_id),
@@ -905,8 +846,10 @@ def _collect_model_value_mismatches(session: Any) -> list[dict[str, Any]]:
                 "paper_std": paper_std,
                 "true_value": true_value,
                 "true_std": truth.get("std"),
-                "source_arxiv_id": truth.get("arxiv_id", ""),
+                "source_arxiv_id": source_arxiv_id,
                 "source_title": truth.get("title", ""),
+                "source_date_iso": source_date_iso,
+                "source_timing": source_timing,
                 "global_rank": global_rank,
                 "paper_rank": paper_rank,
                 "rank_delta": rank_delta,
@@ -1025,6 +968,7 @@ def export_paper(arxiv_id: str) -> bool:
                     ),
                     "table_ref": r.table_ref or "",
                     "source_ref": r.source_ref or "",
+                    "variant_inference_reason": r.variant_inference_reason or "",
                     "date": _fmt_date(paper.published_date) if paper else "",
                     "date_display": _fmt_month_year(paper.published_date) if paper else "",
                     "date_iso": (
@@ -1783,740 +1727,16 @@ def export_benchmarks_data() -> None:
 
 def export_development_data() -> None:
     """Write development data files for debugging/admin purposes."""
-    _DATA_DIR.mkdir(parents=True, exist_ok=True)
+    from backend.hugo_dev_exports import export_development_data as _export_development_data
 
-    with session_scope() as session:
-        # Extraction status summary
-        status_counts = {}
-        papers = session.query(Paper).all()
-        for p in papers:
-            status_counts[p.extraction_status] = status_counts.get(p.extraction_status, 0) + 1
-
-        # Skipped papers with reasons
-        skipped_papers = (
-            session.query(PaperCandidate).filter(PaperCandidate.stage1_passed == 0).all()
-        )
-
-        # Papers with both stages failed
-        stage2_skipped = (
-            session.query(PaperCandidate).filter(PaperCandidate.stage2_passed == 0).all()
-        )
-
-        # Papers "to be processed" - papers cited by existing ones
-        # This would require querying cited_by relationships (if stored)
-        # For now, create a placeholder
-
-        dev_data = {
-            "paper_status": {
-                "total": len(papers),
-                "by_status": status_counts,
-            },
-            "skipped": {
-                "stage1_count": len(skipped_papers),
-                "stage2_count": len(stage2_skipped),
-            },
-        }
-
-        (_DATA_DIR / "development.json").write_text(
-            json.dumps(dev_data, indent=2, ensure_ascii=False), encoding="utf-8"
-        )
-        logger.info("Wrote %s", _DATA_DIR / "development.json")
-
-        # Export todo_papers table for admin view
-        try:
-            todo_rows = session.query(TodoPaper).order_by(TodoPaper.seen_count.desc()).all()
-            todo_list = []
-            for t in todo_rows:
-                todo_list.append(
-                    {
-                        "arxiv_id": t.arxiv_id,
-                        "title": _sanitize_title(t.title),
-                        "status": t.status,
-                        "seen_count": int(t.seen_count or 0),
-                        "seen_from": json.loads(t.seen_from) if t.seen_from else [],
-                        "first_seen_at": t.first_seen_at,
-                    }
-                )
-            (_DATA_DIR / "todo_papers.json").write_text(
-                json.dumps(todo_list, indent=2, ensure_ascii=False), encoding="utf-8"
-            )
-            logger.info("Wrote %s", _DATA_DIR / "todo_papers.json")
-        except Exception:
-            logger.exception("Failed to export todo_papers.json")
-
-    # Create development pages
-    _create_dev_pages()
+    _export_development_data()
 
 
 def _create_dev_pages() -> None:
-    """Generate development/admin pages."""
-    from sqlalchemy import func
+    """Compatibility wrapper for the dedicated dev-export module."""
+    from backend.hugo_dev_exports import create_dev_pages
 
-    _CONTENT_DEV = _CONTENT / "dev"
-    _CONTENT_DEV.mkdir(parents=True, exist_ok=True)
-
-    with session_scope() as session:
-        # Index page
-        _write_md(_CONTENT_DEV / "_index.md", {"title": "Development", "type": "dev"}, "")
-
-        # Paper status page
-        papers = session.query(Paper).all()
-        by_status = {}
-        for p in papers:
-            if p.extraction_status not in by_status:
-                by_status[p.extraction_status] = []
-            by_status[p.extraction_status].append(p)
-
-        lines = [
-            "## Paper Extraction Status",
-            "",
-            f"**Total:** {len(papers)} papers",
-            "",
-            "This page tracks the extraction pipeline status for all papers in the benchmarking dataset. "
-            "Each paper goes through several stages: first it must be downloaded from arXiv, then the full text "
-            "is extracted and parsed (either from HTML, LaTeX source, or PDF), and finally results are extracted "
-            "using an LLM. The extraction model shown indicates which LLM (if any) was used to extract results.",
-            "",
-        ]
-        for status in sorted(by_status.keys()):
-            count = len(by_status[status])
-            lines.append(f"### {status.capitalize()} ({count})")
-            lines.append("")
-
-            # Add status-specific descriptions
-            if status == "pending":
-                lines.append("Papers that have been identified but not yet downloaded from arXiv.")
-                lines.append("")
-            elif status == "downloaded":
-                lines.append(
-                    "Papers that have been downloaded but not yet processed for extraction."
-                )
-                lines.append("")
-            elif status == "extracted":
-                lines.append(
-                    "Papers with successfully extracted results. These papers contribute to the leaderboards."
-                )
-                lines.append("")
-            elif status == "failed":
-                lines.append(
-                    "Papers where extraction failed. These may have parsing errors, missing datasets, or LLM errors."
-                )
-                lines.append("")
-
-            if by_status[status]:
-                lines.append("| ArXiv | Title | Model |")
-                lines.append("|-------|-------|-------|")
-                for p in sorted(by_status[status], key=lambda x: x.arxiv_id):
-                    title = (p.title[:40] + "...") if len(p.title or "") > 40 else (p.title or "")
-                    model = p.extraction_model or "—"
-                    lines.append(f"| {p.arxiv_id} | {title} | {model} |")
-                lines.append("")
-
-        _write_md(
-            _CONTENT_DEV / "paper-status.md",
-            {
-                "title": "Paper Extraction Status",
-                "type": "dev",
-                "description": "Overview of extraction status",
-            },
-            "\n".join(lines),
-        )
-
-        # Skipped papers page
-        skipped_s1 = session.query(PaperCandidate).filter(PaperCandidate.stage1_passed == 0).all()
-        skipped_s2 = session.query(PaperCandidate).filter(PaperCandidate.stage2_passed == 0).all()
-
-        zero_dataset_candidates = []
-        for c in skipped_s2:
-            raw = c.stage2_datasets or ""
-            ds_list: list[str] = []
-            if raw:
-                try:
-                    parsed = json.loads(raw)
-                    if isinstance(parsed, list):
-                        ds_list = [str(x).strip() for x in parsed if str(x).strip()]
-                except Exception:
-                    ds_list = []
-            if not ds_list:
-                zero_dataset_candidates.append(c)
-
-        lines = [
-            "## Skipped Papers",
-            "",
-            "This page shows papers that were identified but rejected by the LLM screening pipeline. "
-            "The screening happens in two stages: Stage 1 filters for general relevance to graph neural network "
-            "research, and Stage 2 checks whether the paper evaluates results on known benchmarks. Papers that pass "
-            "both stages proceed to full result extraction.",
-            "",
-            f"### Stage 1 Rejections: {len(skipped_s1)}",
-            "",
-            "Stage 1 rejects papers that are deemed not relevant to graph neural networks. These are typically papers "
-            "in unrelated fields that happened to mention GNNs or graph concepts, but don't focus on benchmarking graph neural network models.",
-            "",
-        ]
-        if skipped_s1:
-            lines.append("| ArXiv | Title | Reason |")
-            lines.append("|-------|-------|--------|")
-            for c in skipped_s1:
-                reason = (c.stage1_reason or "—")[:80]
-                title = (c.title or "")[:40]
-                lines.append(f"| {c.arxiv_id or '—'} | {title} | {reason} |")
-        lines.append("")
-        lines.append(f"### Stage 2 Rejections: {len(skipped_s2)}")
-        lines.append("")
-        lines.append(
-            "Stage 2 rejects papers that are relevant to GNNs but don't evaluate models on any known benchmarks. "
-            "This includes position papers, theoretical papers, survey papers, or papers that only propose new "
-            "datasets without evaluating existing models. The 'Datasets Found' column shows how many benchmark datasets "
-            "the LLM detected in the paper (if any)."
-        )
-        lines.append("")
-        if skipped_s2:
-            lines.append("| ArXiv | Title | Datasets Found | Reason |")
-            lines.append("|-------|-------|----------------|--------|")
-            for c in skipped_s2:
-                reason = (c.stage2_reason or "—")[:80]
-                ds_count = 0
-                raw = c.stage2_datasets or ""
-                if raw:
-                    try:
-                        parsed = json.loads(raw)
-                        if isinstance(parsed, list):
-                            ds_count = len([x for x in parsed if str(x).strip()])
-                    except Exception:
-                        ds_count = 0
-                title = (c.title or "")[:40]
-                lines.append(f"| {c.arxiv_id or '—'} | {title} | {ds_count} | {reason} |")
-
-        lines.append("")
-        lines.append(f"### No Datasets/Results Discovered: {len(zero_dataset_candidates)}")
-        lines.append("")
-        lines.append(
-            "These papers passed Stage 2 screening (were deemed relevant and benchmarking-focused) but the extraction "
-            "pipeline was unable to discover any benchmark datasets or results. This could mean: the paper's results are "
-            "too noisy for extraction, the datasets used have non-standard names, or the extraction model failed to parse "
-            "the paper format. These papers may still be worth investigating manually."
-        )
-        lines.append("")
-        if zero_dataset_candidates:
-            lines.append("| ArXiv | Title | Stage 2 Reason |")
-            lines.append("|-------|-------|----------------|")
-            for c in zero_dataset_candidates:
-                title = (c.title or "")[:48]
-                reason = (c.stage2_reason or "—")[:96]
-                lines.append(f"| {c.arxiv_id or '—'} | {title} | {reason} |")
-
-        _write_md(
-            _CONTENT_DEV / "skipped-papers.md",
-            {
-                "title": "Skipped Papers",
-                "type": "dev",
-                "description": "Papers rejected by LLM screening",
-            },
-            "\n".join(lines),
-        )
-
-        # Missing datasets page from data/pending_datasets.yaml
-        pending_path = cfg.data_dir / "pending_datasets.yaml"
-        pending_entries: list[dict] = []
-        if pending_path.exists():
-            try:
-                loaded = yaml.safe_load(pending_path.read_text(encoding="utf-8"))
-                if isinstance(loaded, list):
-                    pending_entries = loaded
-            except Exception:
-                pending_entries = []
-
-        lines = [
-            "## Datasets Detected But Not In DB",
-            "",
-            "During result extraction, the LLM sometimes detects dataset names that are not yet in our benchmarking database. "
-            "This page lists those datasets. Each entry includes the datasets that were detected in the papers, along with suggested "
-            "benchmark categories and whether a PyG (PyTorch Geometric) dataset definition is available. These pending datasets should be "
-            "reviewed for integration into the main benchmark suite.",
-            "",
-            f"Source file: `{pending_path}`",
-            "",
-            f"**Total pending entries:** {len(pending_entries)}",
-            "",
-        ]
-        if pending_entries:
-            lines.append("| Status | Dataset | Paper | Metrics Seen | Suggested Benchmark | PyG |")
-            lines.append("|--------|---------|-------|--------------|---------------------|-----|")
-            for e in pending_entries:
-                status = str(e.get("status") or "pending")
-                dataset = str(e.get("dataset") or "")
-                paper = str(e.get("arxiv_id") or "")
-                metrics = ", ".join(e.get("metrics_seen") or [])
-                suggestion = e.get("suggestion") or {}
-                benchmark_name = str(suggestion.get("benchmark_name") or "")
-                pyg_url = str(suggestion.get("pyg_url") or "")
-                pyg_marker = "yes" if pyg_url else ""
-                lines.append(
-                    f"| {status} | {dataset} | {paper} | {metrics} | {benchmark_name} | {pyg_marker} |"
-                )
-
-        _write_md(
-            _CONTENT_DEV / "missing-datasets.md",
-            {
-                "title": "Missing Datasets",
-                "type": "dev",
-                "description": "Datasets detected in extraction but not yet mapped into DB",
-            },
-            "\n".join(lines),
-        )
-
-        try:
-            anomalies = _collect_result_anomalies(session)
-            by_paper = {item["arxiv_id"] for item in anomalies}
-            lines = [
-                "## Post-Extraction Anomalies",
-                "",
-                "This page flags suspicious stored results after overrides are applied.",
-                "",
-                "Checks currently included:",
-                "",
-                "- bounded metrics such as Accuracy/AP/AUC/F1/MRR/Hits@K must not exceed 1",
-                "- values roughly 20x away from the dataset-metric median are flagged as likely scale issues",
-                "",
-                f"**Flagged papers:** {len(by_paper)}",
-                f"**Flagged rows:** {len(anomalies)}",
-                "",
-            ]
-            if anomalies:
-                lines.append(
-                    "| ArXiv | Title | Dataset | Metric | Model | Value | Dataset Median | Reason |"
-                )
-                lines.append(
-                    "|-------|-------|---------|--------|-------|------:|---------------:|--------|"
-                )
-                for item in anomalies:
-                    median = "—" if item["median"] is None else f"{item['median']:.6g}"
-                    lines.append(
-                        f"| {item['arxiv_id']} | {item['title'][:48]} | {item['dataset']} | {item['metric']} | {item['model']} | {item['value']:.6g} | {median} | {'; '.join(item['reasons'])} |"
-                    )
-
-            _write_md(
-                _CONTENT_DEV / "extraction-anomalies.md",
-                {
-                    "title": "Extraction Anomalies",
-                    "type": "dev",
-                    "description": "Post-extraction anomaly checks over stored results",
-                },
-                "\n".join(lines),
-            )
-        except Exception:
-            logger.exception("Failed to create extraction-anomalies dev page")
-
-        try:
-            mismatches = _collect_model_value_mismatches(session)
-            by_paper: dict[str, dict[str, Any]] = {}
-            for item in mismatches:
-                bucket = by_paper.setdefault(
-                    item["arxiv_id"],
-                    {
-                        "title": item["title"],
-                        "rows": 0,
-                        "worst_rank_delta": 0,
-                        "datasets": set(),
-                        "models": set(),
-                    },
-                )
-                bucket["rows"] += 1
-                bucket["worst_rank_delta"] = max(
-                    bucket["worst_rank_delta"], abs(item.get("rank_delta") or 0)
-                )
-                bucket["datasets"].add(item["dataset"])
-                bucket["models"].add(item["model"])
-
-            paper_rows = sorted(
-                [
-                    {
-                        "arxiv_id": arxiv_id,
-                        "title": info["title"],
-                        "rows": info["rows"],
-                        "worst_rank_delta": info["worst_rank_delta"],
-                        "datasets": sorted(info["datasets"]),
-                        "models": sorted(info["models"]),
-                    }
-                    for arxiv_id, info in by_paper.items()
-                ],
-                key=lambda item: (-item["rows"], -item["worst_rank_delta"], item["arxiv_id"]),
-            )
-
-            lines = [
-                "## Page of Shame: Papers Using Wrong Model Values",
-                "",
-                "This page lists papers whose reported primary-metric value for a model disagrees with the stored global benchmark value by more than the reported std, or differs at all when no std is given.",
-                "",
-                f"**Flagged papers:** {len(paper_rows)}",
-                f"**Flagged rows:** {len(mismatches)}",
-                "",
-            ]
-            if paper_rows:
-                lines.append(
-                    "| ArXiv | Title | Wrong Rows | Worst Rank Shift | Datasets | Models |"
-                )
-                lines.append("|---|---|---:|---:|---|---|")
-                for item in paper_rows:
-                    lines.append(
-                        f"| {_paper_site_link(item['arxiv_id'])} | {_paper_site_link(item['arxiv_id'], item['title'][:64])} | {item['rows']} | {item['worst_rank_delta']} | {', '.join(item['datasets'][:4])} | {', '.join(item['models'][:4])} |"
-                    )
-
-            lines.extend(["", "### Flagged Rows", ""])
-            if mismatches:
-                lines.append(
-                    "| ArXiv | Dataset | Model | Actual | Paper | Rank Shift | Actual Source |"
-                )
-                lines.append("|---|---|---|---:|---:|---:|---|")
-                for item in mismatches[:500]:
-                    lines.append(
-                        f"| {_paper_site_link(item['arxiv_id'])} | {item['dataset']} | {item['model']} | {item['true_value']:.4f} | {item['paper_value']:.4f} | {abs(item.get('rank_delta') or 0)} | {_paper_site_link(item.get('source_arxiv_id', ''), item['source_title'][:56]) if item.get('source_arxiv_id') else item['source_title'][:56]} |"
-                    )
-
-            _write_md(
-                _CONTENT_DEV / "page-of-shame.md",
-                {
-                    "title": "Page of Shame",
-                    "type": "dev",
-                    "description": "Papers whose reported model values materially disagree with the stored benchmark values",
-                },
-                "\n".join(lines),
-            )
-        except Exception:
-            logger.exception("Failed to create page-of-shame dev page")
-
-        try:
-            core_missing, mlp_missing = _collect_missing_baselines(session)
-            lines = [
-                "## Baseline Coverage Gaps",
-                "",
-                "Datasets in this report are missing one of the baseline families we usually want on the leaderboard for context.",
-                "",
-                f"### No GCN/GIN/GraphSAGE Baseline ({len(core_missing)})",
-                "",
-            ]
-            if core_missing:
-                lines.append("| Benchmark | Dataset | Task | Metric | Results | Present Families |")
-                lines.append("|-----------|---------|------|--------|--------:|------------------|")
-                for item in core_missing:
-                    lines.append(
-                        f"| {item['benchmark']} | {item['dataset']} | {item['task_type']} | {item['primary_metric']} | {item['result_count']} | {item['present_families']} |"
-                    )
-            lines.extend(
-                [
-                    "",
-                    f"### No MLP Baseline ({len(mlp_missing)})",
-                    "",
-                ]
-            )
-            if mlp_missing:
-                lines.append("| Benchmark | Dataset | Task | Metric | Results | Present Families |")
-                lines.append("|-----------|---------|------|--------|--------:|------------------|")
-                for item in mlp_missing:
-                    lines.append(
-                        f"| {item['benchmark']} | {item['dataset']} | {item['task_type']} | {item['primary_metric']} | {item['result_count']} | {item['present_families']} |"
-                    )
-
-            _write_md(
-                _CONTENT_DEV / "baseline-coverage.md",
-                {
-                    "title": "Baseline Coverage Gaps",
-                    "type": "dev",
-                    "description": "Datasets missing common GNN or MLP baseline families",
-                },
-                "\n".join(lines),
-            )
-        except Exception:
-            logger.exception("Failed to create baseline-coverage dev page")
-
-        active_result_counts = {
-            int(dataset_id): int(result_count or 0)
-            for dataset_id, result_count in (
-                session.query(Dataset.id, func.count(Result.id))
-                .join(Dataset.variants)
-                .join(DatasetVariant.results)
-                .filter(Result.is_problematic.is_(None) | (Result.is_problematic == 0))
-                .group_by(Dataset.id)
-                .all()
-            )
-        }
-
-        stats_missing: list[dict[str, Any]] = []
-        for ds in session.query(Dataset).all():
-            entry_count = active_result_counts.get(int(ds.id), 0)
-            if entry_count <= 0:
-                continue
-            std_variant = next((v for v in ds.variants if v.is_standard), None)
-            stats_num_graphs = (
-                ds.num_graphs
-                if ds.num_graphs is not None
-                else (std_variant.num_graphs if std_variant else None)
-            )
-            stats_avg_nodes = (
-                ds.avg_nodes
-                if ds.avg_nodes is not None
-                else (std_variant.avg_nodes if std_variant else None)
-            )
-            stats_avg_edges = (
-                ds.avg_edges
-                if ds.avg_edges is not None
-                else (std_variant.avg_edges if std_variant else None)
-            )
-            stats_num_classes = ds.num_classes
-            if any(
-                x is not None
-                for x in [stats_num_graphs, stats_avg_nodes, stats_avg_edges, stats_num_classes]
-            ):
-                continue
-            stats_missing.append(
-                {
-                    "benchmark": ds.benchmark.name if ds.benchmark else "",
-                    "name": ds.name,
-                    "task_type": ds.task_type or "",
-                    "primary_metric": ds.primary_metric or "",
-                    "variants": len(ds.variants),
-                    "entry_count": entry_count,
-                }
-            )
-
-        stats_missing.sort(key=lambda item: (item["benchmark"], item["name"]))
-        lines = [
-            "## Datasets Without Structural Statistics",
-            "",
-            "These active datasets still have no structural counts available from either the dataset metadata or the standard variant fallback.",
-            "",
-            f"**Total:** {len(stats_missing)} datasets",
-            "",
-        ]
-        if stats_missing:
-            lines.append("| Benchmark | Dataset | Task | Metric | Variants | Benchmark Entries |")
-            lines.append("|---|---|---|---|---:|---:|")
-            for item in stats_missing:
-                lines.append(
-                    f"| {item['benchmark']} | {item['name']} | {item['task_type']} | {item['primary_metric']} | {item['variants']} | {item['entry_count']} |"
-                )
-
-        _write_md(
-            _CONTENT_DEV / "statistics-unavailable.md",
-            {
-                "title": "Statistics Unavailable",
-                "type": "dev",
-                "description": "Datasets that still have no structural statistics",
-            },
-            "\n".join(lines),
-        )
-
-        # Concrete statistics-source report:
-        # - current aligned counts (landing vs dataset pages)
-        # - legacy landing counts and how they differ
-        try:
-            landing_path = _DATA_DIR / "benchmarks.json"
-            landing_data = []
-            if landing_path.exists():
-                landing_data = json.loads(landing_path.read_text(encoding="utf-8"))
-
-            landing_counts: dict[str, int] = {}
-            for bm in landing_data if isinstance(landing_data, list) else []:
-                for ds_item in bm.get("datasets", []) or []:
-                    slug = str(ds_item.get("slug") or "")
-                    if not slug:
-                        continue
-                    landing_counts[slug] = int(ds_item.get("result_count") or 0)
-
-            dataset_page_counts: dict[str, int] = {}
-            datasets_dir = _CONTENT / "datasets"
-            if datasets_dir.exists():
-                for idx in datasets_dir.glob("*/index.md"):
-                    raw = idx.read_text(encoding="utf-8")
-                    if not raw.startswith("---\n"):
-                        continue
-                    parts = raw.split("---\n", 2)
-                    if len(parts) < 3:
-                        continue
-                    fm = yaml.safe_load(parts[1]) or {}
-                    slug = str(fm.get("slug") or idx.parent.name)
-                    dataset_page_counts[slug] = int(fm.get("result_count") or 0)
-
-            diffs: list[dict[str, Any]] = []
-            all_slugs = sorted(set(landing_counts) | set(dataset_page_counts))
-            for slug in all_slugs:
-                l = landing_counts.get(slug, 0)
-                d = dataset_page_counts.get(slug, 0)
-                if l != d:
-                    diffs.append({"slug": slug, "landing": l, "dataset": d, "delta": l - d})
-
-            landing_total = sum(landing_counts.values())
-            dataset_total = sum(dataset_page_counts.values())
-            delta_total = landing_total - dataset_total
-            missing_dataset_pages = len([s for s in landing_counts if s not in dataset_page_counts])
-
-            # Legacy (old) landing definition used raw result row counts across all variants.
-            legacy_rows = (
-                session.query(Dataset.id, Dataset.name, func.count(Result.id))
-                .join(Dataset.variants)
-                .join(DatasetVariant.results)
-                .filter(Result.is_problematic.is_(None) | (Result.is_problematic == 0))
-                .group_by(Dataset.id, Dataset.name)
-                .all()
-            )
-            legacy_counts_by_name = {name: int(cnt or 0) for _id, name, cnt in legacy_rows}
-            slug_to_name = {_slug(ds.name): ds.name for ds in session.query(Dataset).all()}
-            legacy_by_slug: dict[str, int] = {
-                slug: legacy_counts_by_name.get(name, 0) for slug, name in slug_to_name.items()
-            }
-            legacy_total = sum(legacy_by_slug.values())
-
-            legacy_diffs: list[dict[str, Any]] = []
-            for slug in sorted(set(legacy_by_slug) | set(landing_counts)):
-                old_val = legacy_by_slug.get(slug, 0)
-                new_val = landing_counts.get(slug, 0)
-                if old_val != new_val:
-                    legacy_diffs.append(
-                        {
-                            "slug": slug,
-                            "old": old_val,
-                            "new": new_val,
-                            "impact": old_val - new_val,
-                        }
-                    )
-
-            lines = [
-                "## Statistics Sources & Concrete Differences",
-                "",
-                "Current landing-page counts and dataset-page counts use the same definition, so they should match exactly.",
-                "",
-                f"**Landing total (current `benchmarks.json`):** {landing_total}",
-                f"**Dataset-page total (`content/datasets/*`):** {dataset_total}",
-                f"**Difference (landing - dataset pages):** {delta_total}",
-                f"**Datasets with non-zero differences:** {len(diffs)}",
-                f"**Datasets present in landing data but missing exported pages:** {missing_dataset_pages}",
-                "",
-                "### What changed vs the old landing statistics",
-                "",
-                "Old landing values counted raw result rows across all variants.",
-                "Current values count the same number shown on dataset pages: the exported standard-variant leaderboard rows.",
-                "",
-                f"**Legacy landing total (old method):** {legacy_total}",
-                f"**Current landing total (new method):** {landing_total}",
-                f"**Total impact (old - new):** {legacy_total - landing_total}",
-                f"**Datasets affected by counting-method change:** {len(legacy_diffs)}",
-                "",
-            ]
-
-            if diffs:
-                lines.append("| Dataset | Landing Count | Dataset Page Count | Delta |")
-                lines.append("|---|---:|---:|---:|")
-                for row in sorted(diffs, key=lambda x: abs(x["delta"]), reverse=True)[:300]:
-                    lines.append(
-                        f"| {row['slug']} | {row['landing']} | {row['dataset']} | {row['delta']} |"
-                    )
-            else:
-                lines.append("Current-definition check: no per-dataset deltas detected.")
-
-            lines.append("")
-            lines.append("### Legacy vs current per-dataset impact")
-            lines.append("")
-            lines.append(
-                "| Dataset | Legacy Landing (old) | Current Landing/Page (new) | Impact (old - new) |"
-            )
-            lines.append("|---|---:|---:|---:|")
-            for row in sorted(legacy_diffs, key=lambda x: abs(x["impact"]), reverse=True)[:300]:
-                lines.append(f"| {row['slug']} | {row['old']} | {row['new']} | {row['impact']} |")
-
-            _write_md(
-                _CONTENT_DEV / "statistics-sources.md",
-                {
-                    "title": "Statistics Sources & Discrepancies",
-                    "type": "dev",
-                    "description": "Current aligned counts plus legacy counting-method impact",
-                },
-                "\n".join(lines),
-            )
-        except Exception:
-            logger.exception("Failed to create statistics-sources dev page")
-
-        # Todo papers page (priority queue)
-        try:
-            todo_rows = session.query(TodoPaper).order_by(TodoPaper.seen_count.desc()).all()
-            lines = ["## Todo Papers (priority queue)", ""]
-            lines.append(f"**Total:** {len(todo_rows)} entries")
-            lines.append("")
-            lines.append("| arXiv | seen_count | status | title |")
-            lines.append("|---|---:|---|---")
-            for t in todo_rows[:500]:
-                title = _sanitize_title(t.title)
-                lines.append(
-                    f"| {t.arxiv_id or ''} | {int(t.seen_count or 0)} | {t.status or ''} | {title} |"
-                )
-            _write_md(
-                _CONTENT_DEV / "todo.md", {"title": "Todo Papers", "type": "dev"}, "\n".join(lines)
-            )
-        except Exception:
-            logger.exception("Failed to create dev todo page")
-
-        # S2 crawl state page — which DB papers have been crawled and how many citations
-        try:
-            import sqlite3 as _sqlite3
-
-            _db_path = cfg.data_dir / "benchmarks.db"
-            if _db_path.exists():
-                _conn = _sqlite3.connect(str(_db_path))
-                _cur = _conn.cursor()
-                # Check table exists
-                _cur.execute(
-                    "SELECT name FROM sqlite_master WHERE type='table' AND name='s2_crawl_state'"
-                )
-                if _cur.fetchone():
-                    _cur.execute(
-                        "SELECT s.arxiv_id, p.title, s.crawled_at, s.citations_fetched, s.references_fetched,"
-                        " s.citations_capped, s.references_capped,"
-                        " (COALESCE(s.citations_fetched, 0) + COALESCE(s.references_fetched, 0)) AS total_links"
-                        " FROM s2_crawl_state s"
-                        " LEFT JOIN papers p ON p.arxiv_id = s.arxiv_id"
-                        " ORDER BY total_links DESC, s.crawled_at DESC"
-                    )
-                    crawl_rows = _cur.fetchall()
-                    _cur.execute("SELECT COUNT(*) FROM papers WHERE arxiv_id IS NOT NULL")
-                    total_db_papers = (_cur.fetchone() or [0])[0]
-                    _conn.close()
-
-                    capped_count = sum(1 for r in crawl_rows if r[4] or r[5])
-                    lines = [
-                        "## S2 Crawl State",
-                        "",
-                        f"**DB papers total:** {total_db_papers} &nbsp;|&nbsp;"
-                        f" **Crawled:** {len(crawl_rows)} &nbsp;|&nbsp;"
-                        f" **Uncrawled:** {total_db_papers - len(crawl_rows)} &nbsp;|&nbsp;"
-                        f" **Hit limit:** {capped_count}",
-                        "",
-                        "A row appears here once citations+references have been fetched for that paper."
-                        " ⚠ means the fetch hit the configured limit and may be incomplete.",
-                        "",
-                        "| Paper | crawled_at | citations | references | total | capped |",
-                        "|---|---|---:|---:|---:|:---:|",
-                    ]
-                    for aid, title, cat, cf, rf, cc, rc, total in crawl_rows:
-                        cap_marker = "⚠" if (cc or rc) else ""
-                        paper_cell = (
-                            f"{_sanitize_title(title)}<br/><small>arXiv:{aid or ''}</small>"
-                        )
-                        lines.append(
-                            f"| {paper_cell} | {(cat or '')[:10]} | {cf or 0} | {rf or 0} | {total or 0} | {cap_marker} |"
-                        )
-                    _write_md(
-                        _CONTENT_DEV / "s2-crawl-state.md",
-                        {
-                            "title": "S2 Crawl State",
-                            "type": "dev",
-                            "description": "Which DB papers have been crawled on Semantic Scholar",
-                        },
-                        "\n".join(lines),
-                    )
-        except Exception:
-            logger.exception("Failed to create s2-crawl-state dev page")
-
-        logger.info("Created development pages in %s", _CONTENT_DEV)
+    create_dev_pages()
 
 
 # ── Full export ───────────────────────────────────────────────────────────────

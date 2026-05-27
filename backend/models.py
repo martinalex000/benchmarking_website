@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 from datetime import datetime, timezone
+from enum import Enum
 
 from sqlalchemy import (
     Boolean,
@@ -22,6 +23,25 @@ from sqlalchemy.orm import DeclarativeBase, relationship
 
 def _utcnow() -> str:
     return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+
+class TodoPaperStatus(str, Enum):
+    PENDING = "pending"
+    PROCESSING = "processing"
+    DONE = "done"
+    FAILED = "failed"
+    REJECTED = "rejected"
+
+
+TODO_PAPER_FILTER_VALUES = tuple(status.value for status in TodoPaperStatus) + ("all",)
+
+
+def todo_paper_status_from_exit_code(returncode: int) -> TodoPaperStatus:
+    if returncode == 0:
+        return TodoPaperStatus.DONE
+    if returncode == 2:
+        return TodoPaperStatus.REJECTED
+    return TodoPaperStatus.FAILED
 
 
 class Base(DeclarativeBase):
@@ -150,6 +170,11 @@ class Paper(Base):
 # ─────────────────────────────────────────────────────────────────────────────
 class TodoPaper(Base):
     __tablename__ = "todo_papers"
+    __table_args__ = (
+        Index("idx_todo_status", "status"),
+        Index("idx_todo_created_at", "created_at"),
+        Index("idx_todo_seen_count", "seen_count"),
+    )
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     arxiv_id = Column(String, unique=True, nullable=False)
@@ -157,8 +182,8 @@ class TodoPaper(Base):
     reason = Column(Text)
     added_by = Column(String)
     status = Column(
-        String, nullable=False, default="pending"
-    )  # pending | processing | done | failed
+        String, nullable=False, default=TodoPaperStatus.PENDING.value
+    )  # pending | processing | done | failed | rejected
     attempts = Column(Integer, nullable=False, default=0)
     last_attempt_at = Column(String)
     note = Column(Text)
@@ -168,6 +193,62 @@ class TodoPaper(Base):
     seen_count = Column(Integer, nullable=False, default=0)
     seen_from = Column(Text)
     first_seen_at = Column(String)
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+class PendingDataset(Base):
+    """Queue of datasets discovered by extraction but not yet canonicalized."""
+
+    __tablename__ = "pending_datasets"
+    __table_args__ = (
+        UniqueConstraint("arxiv_id", "dataset_name"),
+        Index("idx_pending_datasets_status", "status"),
+    )
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    arxiv_id = Column(String, nullable=False)
+    paper_title = Column(String)
+    dataset_name = Column(String, nullable=False)
+    metrics_seen = Column(Text)  # JSON list[str]
+    suggestion = Column(Text)  # JSON object from dataset_autoseed prompt
+    status = Column(String, nullable=False, default="pending")
+    resolved_dataset_id = Column(Integer, ForeignKey("datasets.id", ondelete="SET NULL"))
+    created_at = Column(String, nullable=False, default=_utcnow)
+    updated_at = Column(String, nullable=False, default=_utcnow)
+
+    resolved_dataset = relationship("Dataset", foreign_keys=[resolved_dataset_id])
+
+    @property
+    def metrics_seen_list(self) -> list[str]:
+        if not self.metrics_seen:
+            return []
+        try:
+            loaded = json.loads(self.metrics_seen)
+            if isinstance(loaded, list):
+                return [str(item) for item in loaded if str(item).strip()]
+        except (ValueError, TypeError):
+            return []
+        return []
+
+    @metrics_seen_list.setter
+    def metrics_seen_list(self, value: list[str]) -> None:
+        self.metrics_seen = json.dumps(value, ensure_ascii=False)
+
+    @property
+    def suggestion_obj(self) -> dict:
+        if not self.suggestion:
+            return {}
+        try:
+            loaded = json.loads(self.suggestion)
+            if isinstance(loaded, dict):
+                return loaded
+        except (ValueError, TypeError):
+            return {}
+        return {}
+
+    @suggestion_obj.setter
+    def suggestion_obj(self, value: dict) -> None:
+        self.suggestion = json.dumps(value, ensure_ascii=False)
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -223,6 +304,7 @@ class Result(Base):
     table_ref = Column(String)  # e.g. "Table 1"
     source_ref = Column(String)  # "this paper" or "Author Year"
     extraction_model = Column(String)  # model that extracted this result
+    variant_inference_reason = Column(Text)
     uses_external_data = Column(Integer)  # 1=yes, 0=no, NULL=unknown
     # Human correction columns
     is_problematic = Column(Integer, nullable=False, default=0)
@@ -334,4 +416,9 @@ class PaperCandidate(Base):
 # ─────────────────────────────────────────────────────────────────────────────
 @event.listens_for(Paper, "before_update")
 def _paper_before_update(mapper, connection, target):  # noqa: ARG001
+    target.updated_at = _utcnow()
+
+
+@event.listens_for(PendingDataset, "before_update")
+def _pending_dataset_before_update(mapper, connection, target):  # noqa: ARG001
     target.updated_at = _utcnow()
