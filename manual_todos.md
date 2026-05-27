@@ -16,7 +16,11 @@ also extract and store in the database whether a suggested model is a transforme
 
 Used hardware for the experiments and potentially runtime (even though thats usually not the big tiebreaker)
 
+show the number of stars on github when there is a github link?
 
+impressum ergänzen
+
+logos einbinden der jeweiligen benchmarks
 
 
 ## Script cleanup backlog

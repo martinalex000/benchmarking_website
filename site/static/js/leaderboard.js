@@ -7,7 +7,7 @@
  *  - Show/hide std columns
  *  - Show/hide baseline rows
  *  - Hover sync between chart dots and table rows (yellow ring / row highlight)
- *  - Dataset variant switching
+ *  - Dataset variant anchor navigation
  */
 (function () {
   "use strict";
@@ -76,8 +76,8 @@
   /* ── Baseline toggle ────────────────────────────────────────────────── */
   function toggleBaselines(enabled) {
     showBaselines = enabled;
-    document.querySelectorAll("tr.row-baseline").forEach(function (row) {
-      row.style.display = enabled ? "" : "none";
+    document.querySelectorAll(".result-table").forEach(function (table) {
+      _syncTableRows(table);
     });
     Object.values(charts).forEach(function (chart) {
       _applyChartFilters(chart);
@@ -844,6 +844,7 @@
     });
 
     rows.forEach(function (row) { tbody.appendChild(row); });
+    _syncTableRows(table);
     _rerank();
   }
 
@@ -975,6 +976,50 @@
     });
   }
 
+  function _findMoreButton(table) {
+    if (!table || !table.id) return null;
+    return document.querySelector("button[data-table-more='#" + table.id + "']");
+  }
+
+  function _syncTableRows(table) {
+    if (!table) return;
+    var tbody = table.querySelector("tbody");
+    if (!tbody) return;
+
+    var collapseAfter = parseInt(table.dataset.collapseAfter || "0", 10);
+    var moreBtn = _findMoreButton(table);
+    var expanded = !moreBtn || moreBtn.getAttribute("data-expanded") === "true";
+    var rows = Array.from(tbody.querySelectorAll("tr"));
+    var collapsibleRows = [];
+    var visibleIndex = 0;
+
+    rows.forEach(function (row) {
+      var hideBaseline = !showBaselines && row.classList.contains("row-baseline");
+      var shouldCollapse = collapseAfter > 0 && !expanded && !hideBaseline && visibleIndex >= collapseAfter;
+
+      row.classList.toggle("row-collapsed", shouldCollapse);
+      row.style.display = hideBaseline || shouldCollapse ? "none" : "";
+
+      if (shouldCollapse) {
+        collapsibleRows.push(row);
+      }
+      if (!hideBaseline && !shouldCollapse) {
+        visibleIndex += 1;
+      }
+    });
+
+    if (moreBtn) {
+      var hiddenCount = collapsibleRows.length;
+      var canCollapse = collapseAfter > 0 && rows.some(function (row) {
+        return !row.classList.contains("row-baseline") || showBaselines;
+      }) && rows.filter(function (row) {
+        return !(!showBaselines && row.classList.contains("row-baseline"));
+      }).length > collapseAfter;
+      moreBtn.hidden = !canCollapse;
+      moreBtn.textContent = expanded ? "Show less" : "More (" + hiddenCount + " hidden rows)";
+    }
+  }
+
   function _initTableExpanders() {
     document.querySelectorAll("button[data-table-more]").forEach(function (btn) {
       btn.addEventListener("click", function () {
@@ -983,16 +1028,14 @@
         var table = document.querySelector(selector);
         if (!table) return;
         var expand = btn.getAttribute("data-expanded") !== "true";
-        table.querySelectorAll("tbody tr.row-collapsed").forEach(function (row) {
-          row.style.display = expand ? "" : "none";
-        });
         btn.setAttribute("data-expanded", expand ? "true" : "false");
-        btn.textContent = expand ? "Show less" : (btn.getAttribute("data-default-label") || "More");
+        _syncTableRows(table);
         _rerank();
       });
 
-      // Persist original label for toggling back.
-      btn.setAttribute("data-default-label", btn.textContent.trim());
+      var selector = btn.getAttribute("data-table-more");
+      var table = selector ? document.querySelector(selector) : null;
+      _syncTableRows(table);
     });
   }
 

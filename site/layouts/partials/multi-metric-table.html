@@ -19,7 +19,7 @@
 
 {{ if $rows }}
 <div class="result-table-wrapper" data-variant="{{ $slug }}">
-  <table class="result-table sortable" id="tbl-{{ $slug }}">
+  <table class="result-table sortable" id="tbl-{{ $slug }}" data-collapse-after="{{ $collapseAfter }}">
     <thead>
       <tr>
         <th class="col-rank">#</th>

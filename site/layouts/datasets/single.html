@@ -1,14 +1,5 @@
 {{ define "main" }}
-{{ $defaultVariant := "" }}
-{{ $showAllVariants := eq .Params.slug "sat-solving" }}
-{{ with .Params.variants }}
-  {{ $std := where . "is_standard" true }}
-  {{ if gt (len $std) 0 }}
-    {{ $defaultVariant = (index $std 0).slug }}
-  {{ else }}
-    {{ $defaultVariant = (index . 0).slug }}
-  {{ end }}
-{{ end }}
+{{ $showAllVariants := gt (len .Params.variants) 1 }}
 <article class="dataset-page">
   <header class="dataset-header">
     <div class="dataset-heading-line">
@@ -88,19 +79,8 @@
     </div>
   </header>
 
-  {{/* Dataset variant selector */}}
-  {{ if and (gt (len .Params.variants) 1) (not $showAllVariants) }}
-  <div class="variant-selector">
-    <label for="variant-select">Split / Variant:</label>
-    <select id="variant-select" onchange="leaderboard.switchVariant(this.value)">
-      {{ range .Params.variants }}
-      <option value="{{ .slug }}" {{ if eq .slug $defaultVariant }}selected{{ end }}>{{ .name }}</option>
-      {{ end }}
-    </select>
-  </div>
-  {{ end }}
-  {{ if and (gt (len .Params.variants) 1) $showAllVariants }}
-  <nav class="variant-anchor-nav" aria-label="SAT-solving variants">
+  {{ if $showAllVariants }}
+  <nav class="variant-anchor-nav" aria-label="Dataset variants">
     <span class="variant-anchor-label">Variants:</span>
     {{ range .Params.variants }}
     <a href="#variant-{{ .slug }}">{{ .name }}</a>
@@ -124,7 +104,7 @@
   {{/* Variant sections: chart + table together */}}
   {{ range $index, $variant := .Params.variants }}
   {{ if and $showAllVariants (gt $index 0) }}<hr class="variant-divider" style="margin: 2rem 0; border: none; border-top: 2px solid var(--gray-300);">{{ end }}
-  <section id="variant-{{ $variant.slug }}" class="variant-section" data-variant="{{ $variant.slug }}" style="{{ if and (not $showAllVariants) (ne $variant.slug $defaultVariant) }}display:none{{ end }}">
+  <section id="variant-{{ $variant.slug }}" class="variant-section" data-variant="{{ $variant.slug }}">
     {{ $hasVariantStats := false }}
     {{ with $variant.stats }}
       {{ if or .num_graphs .avg_nodes .avg_edges }}
@@ -189,7 +169,7 @@ window.leaderboardConfig = {
   variants: {{ .Params.variants | jsonify | safeJS }},
   primaryMetric: {{ .Params.primary_metric | jsonify | safeJS }},
   higherIsBetter: {{ .Params.higher_is_better | jsonify | safeJS }},
-  showAllVariants: {{ if eq .Params.slug "sat-solving" }}true{{ else }}false{{ end }},
+  showAllVariants: {{ if gt (len .Params.variants) 1 }}true{{ else }}false{{ end }},
 };
 </script>
 {{ end }}
