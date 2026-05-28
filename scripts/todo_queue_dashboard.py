@@ -11,6 +11,7 @@ Example:
 from __future__ import annotations
 
 import argparse
+import random
 import select
 import re
 import subprocess
@@ -123,6 +124,7 @@ class DashboardState:
         self.total_failed = 0
         self.queue_total: int = 0
         self.queue_max_refs: int = 0
+        self.lock_contention_drops: int = 0
         self._render_cache: dict = {
             "snapshot": [],
             "events": [],
@@ -134,6 +136,7 @@ class DashboardState:
             "drain_requests": 0,
             "queue_total": 0,
             "queue_max_refs": 0,
+            "lock_contention_drops": 0,
         }
 
     def add_event(self, message: str) -> None:
@@ -142,6 +145,18 @@ class DashboardState:
                 self.events.append(message)
             finally:
                 self.lock.release()
+
+    def mutate(self, fn, timeout: float = 0.05) -> bool:
+        """Best-effort shared-state update that never blocks callers indefinitely."""
+        if self.lock.acquire(timeout=timeout):
+            try:
+                fn()
+                return True
+            finally:
+                self.lock.release()
+        # Keep this lock-free so a wedged lock never blocks the caller path.
+        self.lock_contention_drops += 1
+        return False
 
     def add_finished_line(self, line: str) -> None:
         if self.lock.acquire(timeout=0.05):
@@ -244,6 +259,7 @@ class DashboardState:
                     "drain_requests": self.drain_requests,
                     "queue_total": self.queue_total,
                     "queue_max_refs": self.queue_max_refs,
+                    "lock_contention_drops": self.lock_contention_drops,
                 }
                 self._render_cache = data
                 return data, False
@@ -300,6 +316,23 @@ def _queue_stats_snapshot() -> tuple[int, int]:
         return total_rows, max_refs
     except Exception:
         return 0, 0
+
+
+def _pending_ready_count(max_attempts: int) -> int:
+    """Return number of currently claimable pending rows."""
+    try:
+        with session_scope() as session:
+            return int(
+                session.query(func.count(TodoPaper.id))
+                .filter(
+                    TodoPaper.status == "pending",
+                    TodoPaper.attempts < max_attempts,
+                )
+                .scalar()
+                or 0
+            )
+    except Exception:
+        return 0
 
 
 def _detect_status_from_line(line: str) -> str | None:
@@ -416,6 +449,7 @@ def _render_dashboard(dash: DashboardState) -> Group:
     drain_requests = snap["drain_requests"]
     queue_total = snap["queue_total"]
     queue_max_refs = snap["queue_max_refs"]
+    contention_drops = snap.get("lock_contention_drops", 0)
 
     table = Table(expand=True)
     table.add_column("W", width=3, justify="right", no_wrap=True)
@@ -467,6 +501,7 @@ def _render_dashboard(dash: DashboardState) -> Group:
         f"ui_tick={ui_tick}{stale_note}   "
         f"done={total_done}   failed={total_failed}   "
         f"queue_total={queue_total}   queue_max_refs={queue_max_refs}   "
+        f"lock_drops={contention_drops}   "
         f"target_workers={desired_workers}   draining={drain_requests}   "
         "ctrl+c stop   arrows/j,k scroll finished   +/- scale workers",
         style="bold",
@@ -577,20 +612,25 @@ def _run_manual_streaming(
             last_activity = time.monotonic()
             output_lines.append(line)
 
-            with dash.lock:
+            def _on_line() -> None:
                 _update_state_from_line(worker_state, line)
                 worker_state.last_update_at = time.time()
                 dash.events.append(f"w{worker_state.worker_id} {arxiv_id}: {line[:180]}")
+
+            dash.mutate(_on_line)
             continue
 
         if inactivity_timeout_s and (time.monotonic() - last_activity) > inactivity_timeout_s:
-            with dash.lock:
+
+            def _on_timeout() -> None:
                 dash.events.append(
                     f"w{worker_state.worker_id} {arxiv_id}: timed out after "
                     f"{int(inactivity_timeout_s)}s of inactivity"
                 )
                 worker_state.status = "timed out"
                 worker_state.last_update_at = time.time()
+
+            dash.mutate(_on_timeout)
 
             proc.terminate()
             try:
@@ -611,10 +651,13 @@ def _run_manual_streaming(
         if not line:
             continue
         output_lines.append(line)
-        with dash.lock:
+
+        def _on_tail_line() -> None:
             _update_state_from_line(worker_state, line)
             worker_state.last_update_at = time.time()
             dash.events.append(f"w{worker_state.worker_id} {arxiv_id}: {line[:180]}")
+
+        dash.mutate(_on_tail_line)
 
     stdout = "\n".join(output_lines)
     return TodoQueueRunResult(returncode=proc.returncode or 0, stdout=stdout, stderr="")
@@ -637,22 +680,25 @@ def _worker_loop(
     while not dash.stop_event.is_set():
         # Draining happens only between jobs so active work finishes gracefully.
         if dash.consume_drain_slot():
-            with dash.lock:
+
+            def _on_drain() -> None:
                 state.status = "drained"
                 state.started_at = 0.0
                 state.drained_at = time.time()
                 state.last_update_at = time.time()
                 dash.events.append(f"w{worker_id} drained and exited")
+
+            dash.mutate(_on_drain)
             return
 
         if max_papers > 0 and handled >= max_papers:
-            with dash.lock:
-                state.status = "done (limit reached)"
+            dash.mutate(lambda: setattr(state, "status", "done (limit reached)"))
             return
 
         def _on_start(entry, _index, _total):
             queue_total, queue_max_refs = _queue_stats_snapshot()
-            with dash.lock:
+
+            def _start_update() -> None:
                 dash.queue_total = queue_total
                 dash.queue_max_refs = queue_max_refs
                 state.arxiv_id = entry.arxiv_id
@@ -674,6 +720,8 @@ def _worker_loop(
                 state.last_line = ""
                 dash.events.append(f"w{worker_id} claimed {entry.arxiv_id}")
 
+            dash.mutate(_start_update)
+
         def _runner(arxiv_id: str, *, model: str, force: bool) -> TodoQueueRunResult:
             return _run_manual_streaming(
                 arxiv_id=arxiv_id,
@@ -686,7 +734,8 @@ def _worker_loop(
 
         def _on_finish(_entry, status, _result, _index, _total):
             dataset_breakdown = _dataset_breakdown_from_output(state.arxiv_id)
-            with dash.lock:
+
+            def _finish_update() -> None:
                 if status == "done":
                     dash.total_done += 1
                     state.completed += 1
@@ -707,6 +756,8 @@ def _worker_loop(
                 finished_line = f"{state.arxiv_id:<12}  {(_trim(state.title, 30) or '-'):30}  {status_prefix}{finished_summary}"
                 dash.finished_lines.append(finished_line)
 
+            dash.mutate(_finish_update)
+
         summary = process_queue(
             limit=1,
             model=model,
@@ -721,18 +772,35 @@ def _worker_loop(
 
         if summary.total_selected == 0:
             empty_claims += 1
-            with dash.lock:
-                state.status = "waiting for claim"
+
+            pending_ready = _pending_ready_count(max_attempts)
+
+            def _waiting_update() -> None:
+                if pending_ready > 0:
+                    state.status = f"waiting for claim ({pending_ready} ready)"
+                else:
+                    state.status = "waiting for claim"
                 state.started_at = 0.0
                 state.last_update_at = time.time()
 
+            dash.mutate(_waiting_update)
+
+            # If pending rows still exist, treat this as transient contention and keep retrying.
+            if pending_ready > 0:
+                empty_claims = 0
+                time.sleep(EMPTY_CLAIM_RETRY_SLEEP_S + random.uniform(0.0, 0.25))
+                continue
+
             if empty_claims >= EMPTY_CLAIM_RETRIES:
-                with dash.lock:
+
+                def _idle_update() -> None:
                     state.status = "idle (queue empty)"
                     state.last_update_at = time.time()
+
+                dash.mutate(_idle_update)
                 return
 
-            time.sleep(EMPTY_CLAIM_RETRY_SLEEP_S)
+            time.sleep(EMPTY_CLAIM_RETRY_SLEEP_S + random.uniform(0.0, 0.25))
             continue
 
         empty_claims = 0
