@@ -11,6 +11,8 @@ Example:
 from __future__ import annotations
 
 import argparse
+import faulthandler
+import logging
 import random
 import select
 import re
@@ -49,6 +51,8 @@ DRAINED_ROW_TTL_S = 30.0
 STALE_UPDATE_SECONDS = 10.0
 EMPTY_CLAIM_RETRIES = 12
 EMPTY_CLAIM_RETRY_SLEEP_S = 0.5
+
+LOGGER = logging.getLogger("todo_queue_dashboard")
 
 
 @dataclass
@@ -125,6 +129,9 @@ class DashboardState:
         self.queue_total: int = 0
         self.queue_max_refs: int = 0
         self.lock_contention_drops: int = 0
+        self.ui_last_render_at: float = time.monotonic()
+        self.ui_loop_iterations: int = 0
+        self.render_cache_uses: int = 0
         self._render_cache: dict = {
             "snapshot": [],
             "events": [],
@@ -266,6 +273,34 @@ class DashboardState:
             finally:
                 self.lock.release()
         return self._render_cache, True
+
+
+def _configure_logger(log_path: str) -> logging.Logger:
+    path = Path(log_path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+
+    logger = logging.getLogger("todo_queue_dashboard")
+    logger.setLevel(logging.INFO)
+    logger.handlers.clear()
+    logger.propagate = False
+
+    handler = logging.FileHandler(path, encoding="utf-8")
+    handler.setFormatter(
+        logging.Formatter("%(asctime)s %(levelname)s [%(threadName)s] %(message)s")
+    )
+    logger.addHandler(handler)
+    return logger
+
+
+def _dump_all_thread_stacks(log_path: str, reason: str) -> None:
+    path = Path(log_path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("a", encoding="utf-8") as fp:
+        fp.write("\n")
+        fp.write(f"===== THREAD DUMP ({reason}) =====\n")
+        faulthandler.dump_traceback(file=fp, all_threads=True)
+        fp.write("===== END THREAD DUMP =====\n")
+        fp.write("\n")
 
 
 def _trim(text: str, max_len: int) -> str:
@@ -496,12 +531,14 @@ def _render_dashboard(dash: DashboardState) -> Group:
 
     ui_tick = time.strftime("%H:%M:%S", time.localtime(now))
     stale_note = "  [snapshot cached]" if using_cache else ""
+    if using_cache:
+        dash.render_cache_uses += 1
     header = Text(
         "todo_queue dashboard   "
         f"ui_tick={ui_tick}{stale_note}   "
         f"done={total_done}   failed={total_failed}   "
         f"queue_total={queue_total}   queue_max_refs={queue_max_refs}   "
-        f"lock_drops={contention_drops}   "
+        f"lock_drops={contention_drops} cache_uses={dash.render_cache_uses}   "
         f"target_workers={desired_workers}   draining={drain_requests}   "
         "ctrl+c stop   arrows/j,k scroll finished   +/- scale workers",
         style="bold",
@@ -618,6 +655,7 @@ def _run_manual_streaming(
                 dash.events.append(f"w{worker_state.worker_id} {arxiv_id}: {line[:180]}")
 
             dash.mutate(_on_line)
+            LOGGER.debug("worker=%s arxiv=%s line=%s", worker_state.worker_id, arxiv_id, line[:180])
             continue
 
         if inactivity_timeout_s and (time.monotonic() - last_activity) > inactivity_timeout_s:
@@ -631,6 +669,12 @@ def _run_manual_streaming(
                 worker_state.last_update_at = time.time()
 
             dash.mutate(_on_timeout)
+            LOGGER.warning(
+                "worker=%s arxiv=%s timed out after %.1fs inactivity",
+                worker_state.worker_id,
+                arxiv_id,
+                inactivity_timeout_s,
+            )
 
             proc.terminate()
             try:
@@ -689,10 +733,12 @@ def _worker_loop(
                 dash.events.append(f"w{worker_id} drained and exited")
 
             dash.mutate(_on_drain)
+            LOGGER.info("worker=%s drained and exiting", worker_id)
             return
 
         if max_papers > 0 and handled >= max_papers:
             dash.mutate(lambda: setattr(state, "status", "done (limit reached)"))
+            LOGGER.info("worker=%s hit max-papers limit and exited", worker_id)
             return
 
         def _on_start(entry, _index, _total):
@@ -721,6 +767,14 @@ def _worker_loop(
                 dash.events.append(f"w{worker_id} claimed {entry.arxiv_id}")
 
             dash.mutate(_start_update)
+            LOGGER.info(
+                "worker=%s claimed arxiv=%s refs_at_start=%s queue_total=%s queue_max_refs=%s",
+                worker_id,
+                entry.arxiv_id,
+                entry.seen_count or 0,
+                queue_total,
+                queue_max_refs,
+            )
 
         def _runner(arxiv_id: str, *, model: str, force: bool) -> TodoQueueRunResult:
             return _run_manual_streaming(
@@ -757,6 +811,13 @@ def _worker_loop(
                 dash.finished_lines.append(finished_line)
 
             dash.mutate(_finish_update)
+            LOGGER.info(
+                "worker=%s finished arxiv=%s status=%s summary=%s",
+                worker_id,
+                state.arxiv_id,
+                status,
+                (state.summary_short() or state.last_line[:120]),
+            )
 
         summary = process_queue(
             limit=1,
@@ -784,6 +845,12 @@ def _worker_loop(
                 state.last_update_at = time.time()
 
             dash.mutate(_waiting_update)
+            LOGGER.info(
+                "worker=%s empty-claim retry=%s pending_ready=%s",
+                worker_id,
+                empty_claims,
+                pending_ready,
+            )
 
             # If pending rows still exist, treat this as transient contention and keep retrying.
             if pending_ready > 0:
@@ -798,6 +865,7 @@ def _worker_loop(
                     state.last_update_at = time.time()
 
                 dash.mutate(_idle_update)
+                LOGGER.info("worker=%s went idle (queue empty)", worker_id)
                 return
 
             time.sleep(EMPTY_CLAIM_RETRY_SLEEP_S + random.uniform(0.0, 0.25))
@@ -846,11 +914,80 @@ def build_parser() -> argparse.ArgumentParser:
         metavar="MIN",
         help="Terminate a worker's run_manual subprocess after MIN minutes without output (0 disables)",
     )
+    parser.add_argument(
+        "--diag-log-path",
+        default="logs/todo_queue_dashboard.log",
+        metavar="PATH",
+        help="Diagnostic log file path (default: logs/todo_queue_dashboard.log)",
+    )
+    parser.add_argument(
+        "--diag-heartbeat-sec",
+        type=float,
+        default=2.0,
+        metavar="SEC",
+        help="Diagnostic heartbeat interval in seconds (default: 2)",
+    )
+    parser.add_argument(
+        "--diag-stall-sec",
+        type=float,
+        default=15.0,
+        metavar="SEC",
+        help="If UI render loop is inactive for this long, write thread dump (default: 15)",
+    )
     return parser
+
+
+def _diagnostics_watchdog(
+    *,
+    dash: DashboardState,
+    log_path: str,
+    heartbeat_sec: float,
+    stall_sec: float,
+) -> None:
+    """Emit heartbeats and dump stacks when UI render loop appears stalled."""
+    last_dump_at = 0.0
+    while not dash.stop_event.is_set():
+        time.sleep(max(0.2, heartbeat_sec))
+        now = time.monotonic()
+        last_render_age = now - dash.ui_last_render_at
+        desired_workers, drain_requests = dash.snapshot_counts()
+        snap, using_cache = dash.snapshot_for_render(time.time())
+        active_workers = len(
+            [s for s in snap.get("snapshot", []) if str(getattr(s, "status", "")) != "drained"]
+        )
+
+        LOGGER.info(
+            "heartbeat loop_iter=%s last_render_age=%.2fs active_workers=%s desired=%s draining=%s "
+            "queue_total=%s queue_max_refs=%s lock_drops=%s cache_uses=%s using_cache=%s",
+            dash.ui_loop_iterations,
+            last_render_age,
+            active_workers,
+            desired_workers,
+            drain_requests,
+            snap.get("queue_total", 0),
+            snap.get("queue_max_refs", 0),
+            snap.get("lock_contention_drops", 0),
+            dash.render_cache_uses,
+            using_cache,
+        )
+
+        if last_render_age >= stall_sec and (now - last_dump_at) >= stall_sec:
+            reason = f"ui render stalled for {last_render_age:.2f}s"
+            LOGGER.error(reason)
+            _dump_all_thread_stacks(log_path, reason)
+            last_dump_at = now
 
 
 def main(argv: list[str] | None = None) -> None:
     args = build_parser().parse_args(argv)
+    _configure_logger(args.diag_log_path)
+    LOGGER.info(
+        "starting dashboard workers=%s model=%s max_attempts=%s inactivity_timeout_min=%s",
+        args.workers,
+        args.model,
+        args.max_attempts,
+        args.inactivity_timeout_min,
+    )
 
     if args.workers <= 0:
         raise SystemExit("--workers must be >= 1")
@@ -892,6 +1029,19 @@ def main(argv: list[str] | None = None) -> None:
     )
     key_thread.start()
 
+    diag_thread = threading.Thread(
+        target=_diagnostics_watchdog,
+        kwargs={
+            "dash": dash,
+            "log_path": args.diag_log_path,
+            "heartbeat_sec": args.diag_heartbeat_sec,
+            "stall_sec": args.diag_stall_sec,
+        },
+        daemon=True,
+        name="todo-dashboard-diag",
+    )
+    diag_thread.start()
+
     try:
         with Live(_render_dashboard(dash), refresh_per_second=4, screen=True) as live:
             while True:
@@ -905,6 +1055,8 @@ def main(argv: list[str] | None = None) -> None:
                 threads[:] = [t for t in threads if t.is_alive()]
 
                 live.update(_render_dashboard(dash))
+                dash.ui_last_render_at = time.monotonic()
+                dash.ui_loop_iterations += 1
 
                 desired_workers, _ = dash.snapshot_counts()
                 if not threads and desired_workers <= 0:
@@ -916,11 +1068,14 @@ def main(argv: list[str] | None = None) -> None:
             live.update(_render_dashboard(dash))
     except KeyboardInterrupt:
         dash.stop_event.set()
+        LOGGER.info("keyboard interrupt received; shutting down")
         for t in threads:
             t.join(timeout=1.0)
     finally:
         dash.stop_event.set()
         key_thread.join(timeout=0.5)
+        diag_thread.join(timeout=0.5)
+        LOGGER.info("dashboard stopped")
 
 
 if __name__ == "__main__":

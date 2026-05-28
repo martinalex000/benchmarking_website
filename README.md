@@ -274,6 +274,12 @@ uv run python scripts/todo_queue_dashboard.py --workers 10 --model primary
 # Optional: kill workers that produce no output for too long (default: 20 min)
 uv run python scripts/todo_queue_dashboard.py --workers 10 --model primary \
   --inactivity-timeout-min 20
+
+# Diagnostics: heartbeat + automatic thread dump when UI render loop stalls
+uv run python scripts/todo_queue_dashboard.py --workers 10 --model primary \
+  --diag-log-path logs/todo_queue_dashboard.log \
+  --diag-heartbeat-sec 2 \
+  --diag-stall-sec 15
 ```
 
 It shows, per worker: arXiv ID, paper title (truncated), current phase
@@ -295,6 +301,11 @@ claimed):
 The header also includes a live `ui_tick` clock. If shared state is briefly
 contended, the dashboard keeps rendering from a cached snapshot and labels this
 state, so the interface remains interactive instead of freezing.
+
+For freeze investigations, the dashboard writes diagnostics to
+`logs/todo_queue_dashboard.log` (configurable via `--diag-log-path`). When the
+UI render loop appears stalled longer than `--diag-stall-sec`, it appends a
+full all-thread Python stack dump to that same log file.
 
 Use **Up/Down** arrow keys (or **k/j**) to scroll only the Finished papers
 window while the rest of the dashboard keeps updating live.
