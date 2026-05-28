@@ -265,6 +265,17 @@ seq 1 200 | xargs -P 10 -I{} \
   uv run python scripts/todo_queue.py worker --model primary
 ```
 
+If you prefer a single live UI (Docker-pull style) with one persistent row per
+worker, use the dashboard runner:
+
+```bash
+uv run python scripts/todo_queue_dashboard.py --workers 10 --model primary
+```
+
+It shows, per worker: arXiv ID, paper title (truncated), current phase
+(download/pre-screen/discovery/per-dataset extraction), elapsed time, and a
+rolling summary (datasets, results, proposed model).
+
 After all workers finish, refresh the Hugo data files once:
 
 ```bash
