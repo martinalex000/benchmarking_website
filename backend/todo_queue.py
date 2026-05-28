@@ -236,6 +236,7 @@ def _mark_processing(todo_id: int) -> None:
 
 
 WORKER_LOCK_TIMEOUT_MINUTES = 15
+_CLAIM_RACE_RETRY_LIMIT = 24
 
 
 def release_stale_processing_papers(stale_minutes: int = WORKER_LOCK_TIMEOUT_MINUTES) -> int:
@@ -275,32 +276,35 @@ def _claim_one_pending(max_attempts: int) -> int | None:
     now_iso = _utcnow_iso()
 
     with engine.connect() as conn:
-        row = conn.execute(
-            _sql_text(
-                "SELECT id FROM todo_papers"
-                " WHERE status = 'pending' AND attempts < :max_attempts"
-                " ORDER BY seen_count DESC, created_at ASC"
-                " LIMIT 1"
-            ),
-            {"max_attempts": max_attempts},
-        ).first()
+        for _ in range(_CLAIM_RACE_RETRY_LIMIT):
+            row = conn.execute(
+                _sql_text(
+                    "SELECT id FROM todo_papers"
+                    " WHERE status = 'pending' AND attempts < :max_attempts"
+                    " ORDER BY seen_count DESC, created_at ASC"
+                    " LIMIT 1"
+                ),
+                {"max_attempts": max_attempts},
+            ).first()
 
-        if row is None:
-            return None
+            if row is None:
+                return None
 
-        candidate_id = row[0]
+            candidate_id = row[0]
+            result = conn.execute(
+                _sql_text(
+                    "UPDATE todo_papers"
+                    " SET status = 'processing', attempts = attempts + 1, last_attempt_at = :now"
+                    " WHERE id = :id AND status = 'pending'"
+                ),
+                {"now": now_iso, "id": candidate_id},
+            )
+            conn.commit()
 
-        result = conn.execute(
-            _sql_text(
-                "UPDATE todo_papers"
-                " SET status = 'processing', attempts = attempts + 1, last_attempt_at = :now"
-                " WHERE id = :id AND status = 'pending'"
-            ),
-            {"now": now_iso, "id": candidate_id},
-        )
-        conn.commit()
+            if result.rowcount > 0:
+                return candidate_id
 
-        return candidate_id if result.rowcount > 0 else None
+        return None
 
 
 def _get_entry_by_id(todo_id: int) -> TodoQueueEntry | None:
