@@ -30,6 +30,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from rich.console import Group
 from rich.live import Live
+from rich.markup import escape
 from rich.panel import Panel
 from rich.table import Table
 from rich.text import Text
@@ -499,13 +500,13 @@ def _render_dashboard(dash: DashboardState) -> Group:
         status_text = st.status
         if st.status == "idle":
             status_text = "idle / waiting"
-        elif st.status == "drained":
-            status_text = "[grey62]drained[/grey62]"
+
         summary_text = st.summary_short() or st.last_line[:60]
         age_s = None
         if st.last_update_at is not None:
             age_s = max(0.0, now - st.last_update_at)
         age_text = _format_age(age_s)
+        age_style: str | None = None
         if (
             age_s is not None
             and age_s >= STALE_UPDATE_SECONDS
@@ -518,15 +519,21 @@ def _render_dashboard(dash: DashboardState) -> Group:
                 "rejected",
             }
         ):
-            age_text = f"[yellow]{age_text}[/yellow]"
+            age_style = "yellow"
+
+        status_cell = Text(status_text)
+        if st.status == "drained":
+            status_cell.stylize("grey62")
+        age_cell = Text(age_text, style=age_style)
+
         table.add_row(
             str(st.worker_id),
-            st.arxiv_id,
-            _trim(st.title_short(), 30),
-            status_text,
+            escape(st.arxiv_id),
+            escape(_trim(st.title_short(), 30)),
+            status_cell,
             _format_elapsed(st.elapsed_s()),
-            age_text,
-            summary_text,
+            age_cell,
+            Text(summary_text),
         )
 
     ui_tick = time.strftime("%H:%M:%S", time.localtime(now))
@@ -552,13 +559,13 @@ def _render_dashboard(dash: DashboardState) -> Group:
         visible_finished = ["(no finished papers yet)"]
     finished_title = f"Finished papers ({len(finished_lines)})" f"  scroll={finished_scroll}"
     finished_panel = Panel(
-        "\n".join(visible_finished),
+        Text("\n".join(visible_finished)),
         title=finished_title,
         border_style="green",
     )
 
     log_lines = events[-16:] if events else ["(no worker log lines yet)"]
-    log_panel = Panel("\n".join(log_lines), title="Recent worker output", border_style="cyan")
+    log_panel = Panel(Text("\n".join(log_lines)), title="Recent worker output", border_style="cyan")
 
     workers_title = Text("Workers", style="bold")
     return Group(header, workers_title, table, finished_panel, log_panel)
@@ -804,9 +811,9 @@ def _worker_loop(
                 finished_summary = state.summary_short() or _trim(state.last_line, 80)
                 status_prefix = ""
                 if status == "rejected":
-                    status_prefix = "[yellow]REJECTED[/yellow] "
+                    status_prefix = "REJECTED "
                 elif status == "failed":
-                    status_prefix = "[red]FAILED[/red] "
+                    status_prefix = "FAILED "
                 finished_line = f"{state.arxiv_id:<12}  {(_trim(state.title, 30) or '-'):30}  {status_prefix}{finished_summary}"
                 dash.finished_lines.append(finished_line)
 
