@@ -455,31 +455,23 @@ def _print_extraction_summary(path: Path) -> None:
 
 
 def _do_extract(
-    arxiv_id: str, model_tier: str, force: bool, screen: bool, two_step: bool = True
+    arxiv_id: str,
+    model_tier: str,
+    force: bool,
+    screen: bool,
+    two_step: bool = True,
+    phase_transition_callback=None,
 ) -> bool:
     from backend.paper_storage import PaperStorage
 
     storage = PaperStorage(arxiv_id)
     model_name = cfg.model_for_tier(model_tier)
 
-    # Describe text source (LaTeX preferred, PDF fallback)
+    # Validate downloaded content exists.
     expanded_tex = storage.latex_dir / "expanded.tex"
     has_latex = expanded_tex.exists() and expanded_tex.stat().st_size > 100
-    if has_latex and storage.pdf_path.exists():
-        console.print(
-            f"  Source: [bold green]LaTeX[/bold green]  {_fmt_bytes(expanded_tex.stat().st_size)}"
-            f"  +  PDF  {_fmt_bytes(storage.pdf_path.stat().st_size)}"
-        )
-    elif has_latex:
-        console.print(
-            f"  Source: [bold green]LaTeX[/bold green]  {_fmt_bytes(expanded_tex.stat().st_size)}"
-        )
-    elif storage.pdf_path.exists():
-        console.print(
-            f"  Source: [yellow]PDF[/yellow]  {_fmt_bytes(storage.pdf_path.stat().st_size)}"
-            f"  [dim](no LaTeX source — may reduce extraction quality)[/dim]"
-        )
-    else:
+    has_pdf = storage.pdf_path.exists()
+    if not has_latex and not has_pdf:
         console.print("  [red]No downloaded content — run without --skip-download[/red]")
         sys.exit(1)
 
@@ -487,7 +479,20 @@ def _do_extract(
     if not force and _show_existing_extraction(arxiv_id, model_name):
         return True  # use existing
 
-    console.print(f"  Model: [cyan]{model_name}[/cyan]  (tier={model_tier})")
+    strategy = "auto" if two_step else "full"
+    mode_label = "two-step" if two_step else "one-shot"
+    console.print(
+        f"  [dim]Run path: mode={mode_label}, extraction_strategy={strategy}, "
+        f"screen_first={screen}, output={_MANUAL_RESULT_OUTPUT_FORMAT}[/dim]"
+    )
+    if two_step:
+        console.print(
+            "  [dim]Expected calls: discover_datasets* → select_tables* → extract_dataset*[/dim]"
+        )
+    else:
+        console.print(
+            "  [dim]Expected calls: extract_full / extract_section* (no dataset discovery)[/dim]"
+        )
     if not two_step:
         console.print("  [dim]Mode: one-shot (--oneshot)[/dim]")
 
@@ -495,13 +500,14 @@ def _do_extract(
         arxiv_id,
         model_tier=model_tier,
         screen_first=screen,
-        extraction_strategy="auto" if two_step else "full",
+        extraction_strategy=strategy,
         result_output_format=_MANUAL_RESULT_OUTPUT_FORMAT,
+        phase_transition_callback=phase_transition_callback,
     )
     if not ok:
         console.print(
-            f"\n[red]Extraction failed or stage-1 rejected.[/red]\n"
-            f"  • Stage 1 may have determined no benchmark results in abstract\n"
+            f"\n[red]Extraction failed or pre-screen rejected.[/red]\n"
+            f"  • Pre-screen may have determined no benchmark results in abstract\n"
             f"    → run with [bold]--skip-screen[/bold] to bypass\n"
             f"  • Manual runs request [cyan]{_MANUAL_RESULT_OUTPUT_FORMAT}[/cyan] output from the model\n"
             f"  • Or check that [cyan]{model_name}[/cyan] is available:\n"
@@ -1171,8 +1177,17 @@ def main() -> None:
     # Refresh local-download state after optional download step.
     already_downloaded = _is_paper_downloaded(arxiv_id)
 
-    # ── Stage 1: relevance + RAG context + citation expansion ─────────────
-    console.print("\n[bold]2. Stage 1 — Relevance, RAG Context, Citations[/bold]")
+    # ── 2. Preliminaries ──────────────────────────────────────────────────
+    console.print("\n[bold]2. Preliminaries[/bold]")
+    console.print(
+        f"  Models: pre-screen=[cyan]{cfg.model_for_tier('small')}[/cyan], "
+        f"extraction=[cyan]{cfg.model_for_tier(args.model)}[/cyan] (tier={args.model})"
+    )
+    console.print(
+        "  [dim]Path: "
+        + ("two-step" if do_two_step else "one-shot")
+        + f", pre-screen={'on' if do_screen else 'off'}, force_extract={force_extract}[/dim]"
+    )
     if do_screen:
         from backend.paper_storage import PaperStorage
 
@@ -1194,8 +1209,6 @@ def main() -> None:
     else:
         console.print("  [dim]Relevance pre-screen skipped (--skip-screen).[/dim]")
 
-    # Show RAG source stats up front (before model calls start).
-    _show_latex_stats(arxiv_id)
     _run_semantic_scholar_enrichment(arxiv_id)
 
     # ── Compare-models mode ───────────────────────────────────────────────
@@ -1206,17 +1219,30 @@ def main() -> None:
         console.rule("[green]Comparison done[/green]")
         return
 
-    # ── Stage 2 + Stage 3 extraction ─────────────────────────────────────
+    # ── 3/4. Extraction ───────────────────────────────────────────────────
     if not args.skip_extract:
-        console.print("\n[bold]3. Stage 2 — Dataset Discovery + Table Assignment[/bold]")
-        console.print("[bold]4. Stage 3 — Per-Dataset Result Extraction[/bold]")
+        console.print("\n[bold]3. Dataset Discovery + Table Assignment[/bold]")
+
+        seen_phase4 = False
+
+        def _on_extraction_phase(phase: str) -> None:
+            nonlocal seen_phase4
+            if phase == "dataset_extraction" and not seen_phase4:
+                console.print("\n[bold]4. Per-Dataset Result Extraction[/bold]")
+                seen_phase4 = True
+
         ok = _do_extract(
             arxiv_id,
             model_tier=args.model,
             force=force_extract,
             screen=False,
             two_step=do_two_step,
+            phase_transition_callback=_on_extraction_phase,
         )
+        if do_two_step and not seen_phase4:
+            console.print(
+                "  [yellow]No per-dataset extraction calls were executed (dataset discovery likely produced no candidates).[/yellow]"
+            )
         if ok:
             console.print("  [green]Extraction complete.[/green]")
             from backend.paper_storage import PaperStorage
@@ -1225,10 +1251,10 @@ def main() -> None:
         else:
             sys.exit(1)
     else:
-        console.print("\n[dim]3/4. Stage 2/3 extraction — skipped[/dim]")
+        console.print("\n[dim]3/4. Extraction — skipped[/dim]")
 
-    # ── Stage 4 parse ─────────────────────────────────────────────────────
-    console.print("\n[bold]5. Stage 4 — Parse Results into DB[/bold]")
+    # ── 5. Parse ──────────────────────────────────────────────────────────
+    console.print("\n[bold]5. Parse Results into DB[/bold]")
 
     # Collect unknown datasets non-interactively; user reviews later
     _collect_unknown_datasets(arxiv_id, paper_title)
@@ -1238,8 +1264,8 @@ def main() -> None:
     summary = parse_and_store_with_summary(arxiv_id)
     _print_parse_summary(summary)
 
-    # ── Stage 5 export ────────────────────────────────────────────────────
-    console.print("\n[bold]6. Stage 5 — Build Hugo Pages[/bold]")
+    # ── 6. Export ─────────────────────────────────────────────────────────
+    console.print("\n[bold]6. Build Hugo Pages[/bold]")
     from backend.export_to_hugo import export_all
 
     export_all(arxiv_ids=[arxiv_id])

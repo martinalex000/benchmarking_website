@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import logging
+from collections.abc import Callable
 from datetime import datetime, timezone
 
 from backend.config import cfg
@@ -35,6 +36,7 @@ def run_extraction(
     result_output_format: str = "yaml",
     experiment_label: str | None = None,
     verbose: bool = True,
+    phase_transition_callback: Callable[[str], None] | None = None,
 ) -> bool:
     """Two-stage extraction for a single paper already downloaded to storage."""
     from backend.html_parser import parse_html_paper, save_text as html_save
@@ -230,8 +232,24 @@ def run_extraction(
     extractor = LLMExtractor(model_tier=model_tier, result_output_format=result_output_format)
     if verbose:
         call_counter: list[int] = [0]
+        phase_state: dict[str, str | None] = {"current": None}
+
+        def _call_phase(call_type: str) -> str | None:
+            if call_type.startswith("discover_datasets") or call_type.startswith("select_tables"):
+                return "discovery"
+            if call_type.startswith("extract_dataset") or call_type.startswith("extract_section"):
+                return "dataset_extraction"
+            return None
 
         def _on_call(rec: CallRecord) -> None:
+            phase = _call_phase(rec.call_type or "")
+            if (
+                phase is not None
+                and phase_transition_callback is not None
+                and phase_state["current"] != phase
+            ):
+                phase_state["current"] = phase
+                phase_transition_callback(phase)
             call_counter[0] += 1
             _print_call_progress(rec, call_counter[0])
 

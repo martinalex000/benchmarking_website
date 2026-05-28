@@ -449,11 +449,11 @@ def _print_call_progress(rec: "CallRecord", call_index: int) -> None:
     call_type = rec.call_type or ""
     stage_prefix = ""
     if call_type.startswith("screen_paper"):
-        stage_prefix = "[Stage 1] "
+        stage_prefix = "[2] "
     elif call_type.startswith("discover_datasets") or call_type.startswith("select_tables"):
-        stage_prefix = "[Stage 2] "
+        stage_prefix = "[3] "
     elif call_type.startswith("extract_dataset") or call_type.startswith("extract_section"):
-        stage_prefix = "[Stage 3] "
+        stage_prefix = "[4] "
 
     if _use_rich:
         status = "[green]✓[/green]" if rec.success else "[red]✗[/red]"
@@ -3115,6 +3115,7 @@ def run_extraction(
     result_output_format: str = "yaml",
     experiment_label: str | None = None,
     verbose: bool = True,
+    phase_transition_callback=None,
 ) -> bool:
     """Compatibility wrapper for the extraction runner module."""
     from backend.extraction_runner import run_extraction as _run_extraction
@@ -3128,6 +3129,7 @@ def run_extraction(
         result_output_format=result_output_format,
         experiment_label=experiment_label,
         verbose=verbose,
+        phase_transition_callback=phase_transition_callback,
     )
 
 
