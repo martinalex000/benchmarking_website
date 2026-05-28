@@ -29,6 +29,11 @@ Rules:
 - Most papers have one main model, sometimes two. Mark `p=true` only for the paper's main method(s).
 - Do NOT mark all tuned or starred baseline variants as proposed.
 - Copy model and dataset names verbatim from the paper when possible.
+- Determine `proposed_model_name` from explicit wording in THIS paper
+  (title/abstract/intro/method phrases like "we propose", "we present", "called", "named").
+- If the title contains a specific method name, use that exact title name unless
+  the paper clearly states a different final method name.
+- Never import proposed-model names from unrelated papers or benchmark context.
 - Use test-set benchmark values only.
 - If you are unsure whether a row is proposed, set `p=false`.
 - If a field is unknown, use null or an empty list/string as appropriate.

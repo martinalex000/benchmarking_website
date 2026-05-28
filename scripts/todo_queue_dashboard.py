@@ -231,7 +231,7 @@ def _render_dashboard(dash: DashboardState) -> Group:
     table.add_column("Title", width=30, no_wrap=True)
     table.add_column("Status", width=40, no_wrap=True)
     table.add_column("Elapsed", width=8, justify="right", no_wrap=True)
-    table.add_column("Summary")
+    table.add_column("Summary", ratio=1, min_width=20)
 
     for st in snapshot:
         status_text = st.status
@@ -270,7 +270,14 @@ def _render_dashboard(dash: DashboardState) -> Group:
     log_lines = events[-16:] if events else ["(no worker log lines yet)"]
     log_panel = Panel("\n".join(log_lines), title="Recent worker output", border_style="cyan")
 
-    return Group(header, table, finished_panel, log_panel)
+    worker_panel = Panel(
+        table,
+        title="Workers",
+        border_style="blue",
+        expand=True,
+    )
+
+    return Group(header, worker_panel, finished_panel, log_panel)
 
 
 def _keyboard_listener(dash: DashboardState) -> None:

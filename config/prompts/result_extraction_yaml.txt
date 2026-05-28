@@ -42,6 +42,13 @@ Rules:
 - Never replace a specific model name with a generic family name. Example: keep "GraphGPS"
   as "GraphGPS", not "Graph Transformer"; keep "GINE + RWSE" as "GINE + RWSE", not "GINE".
 - `proposed_model.name` must be the paper's actual proposed method name, not a generic model type.
+- Determine `proposed_model.name` from explicit self-identification in THIS paper
+  (title, abstract, intro, or method sections with phrases like "we propose",
+  "we present", "our model", "called", "named"). Copy that name EXACTLY.
+- If the title contains a specific method name, prefer that exact title name for
+  `proposed_model.name` unless the paper clearly introduces a different final name.
+- Never carry over method names from unrelated papers or nearby benchmark context.
+  If unsure, prefer the title-derived method name rather than a modern baseline.
 - `baseline_models[].name` should list distinct baseline names exactly as they appear in the
   result tables or nearby explanatory text.
 - For `params_millions`: return a number ONLY when that exact model's parameter count is explicitly

@@ -1798,6 +1798,7 @@ class LLMExtractor:
         paper_text: str,
         tables: list,
         latex_paper: Any = None,
+        paper_title: str = "",
     ) -> ExtractionOutput:
         """Two-step extraction: first discover datasets, then extract per dataset.
 
@@ -1813,7 +1814,8 @@ class LLMExtractor:
                 instead of the full paper).
         """
         intro_model_hint = _extract_proposed_model_hint(
-            "", _paper_intro_text(paper_text, latex_paper)
+            paper_title,
+            _paper_intro_text(paper_text, latex_paper),
         )
 
         # ── Choose tables and text source ─────────────────────────────────
@@ -2231,9 +2233,18 @@ class LLMExtractor:
         if strategy == "full":
             results_out = self.extract_results(paper_text, tables_text)
         elif latex_paper is not None:
-            results_out = self.extract_results_two_step(paper_text, [], latex_paper=latex_paper)
+            results_out = self.extract_results_two_step(
+                paper_text,
+                [],
+                latex_paper=latex_paper,
+                paper_title=paper_title,
+            )
         elif structured_tables is not None:
-            results_out = self.extract_results_two_step(paper_text, structured_tables)
+            results_out = self.extract_results_two_step(
+                paper_text,
+                structured_tables,
+                paper_title=paper_title,
+            )
         else:
             results_out = self.extract_results(paper_text, tables_text)
 
@@ -2688,6 +2699,18 @@ def _extract_proposed_model_hint(paper_title: str, intro_text: str) -> str | Non
     title_match = _TITLE_METHOD_PREFIX_RE.match((paper_title or "").strip())
     if title_match:
         candidate = _clean_intro_model_candidate(title_match.group(1))
+        if candidate:
+            return candidate
+
+    normalized_title = _normalise_model_name_text(paper_title or "")
+    title_phrase_match = re.search(
+        r"([A-Za-z][A-Za-z0-9+\-]*(?:\s+[A-Za-z][A-Za-z0-9+\-]*){0,5}\s+"
+        r"(?:ConvNets?|GCNs?|GATs?|GNNs?|Transformers?|GraphSAGE|Graphormer))",
+        normalized_title,
+        flags=re.IGNORECASE,
+    )
+    if title_phrase_match:
+        candidate = _clean_intro_model_candidate(title_phrase_match.group(1))
         if candidate:
             return candidate
 
