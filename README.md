@@ -37,13 +37,11 @@ not committed to git.
 
 ## LLM configuration
 
-The pipeline uses an **OpenAI-compatible** API endpoint.
-
 ### `.env` — secrets (never commit this file)
 
 | Variable | Required | Description |
 |---|---|---|
-| `LLM_ENDPOINT` | **yes** | Base URL, e.g. `https://api.example.com/v1` |
+| `LLM_ENDPOINT` | **yes** | Base URL, e.g. `https://api.example.com/v1` (openai-compatible)|
 | `LLM_API_KEY` | **yes** | API key for that endpoint |
 | `LLM_MODEL_PRIMARY` | no | Primary model for extraction and complex reasoning |
 | `LLM_MODEL_FALLBACK` | no | Fallback model if the primary output is poor |
@@ -52,36 +50,24 @@ The pipeline uses an **OpenAI-compatible** API endpoint.
 ### Local vLLM + Qwen example
 
 ```bash
-# Start local OpenAI-compatible server
-vllm serve Qwen/Qwen3-32B --host 127.0.0.1 --port 8000 --api-key local-dev
-
-# .env values
+# .env values for local server (see above)
 LLM_ENDPOINT=http://127.0.0.1:8000/v1
 LLM_API_KEY=local-dev
-LLM_MODEL_PRIMARY=Qwen/Qwen3-32B
-LLM_MODEL_FALLBACK=Qwen/Qwen3-32B
-LLM_MODEL_SMALL=Qwen/Qwen3-32B
+LLM_MODEL_PRIMARY=Qwen/Qwen3.6-35B-A3B-FP8
+LLM_MODEL_FALLBACK=Qwen/Qwen3.6-35B-A3B-FP8
+LLM_MODEL_SMALL=Qwen/Qwen3.6-35B-A3B-FP8
 ```
 
 Important: the configured `LLM_MODEL_*` values must match the exact model IDs returned by `GET /v1/models`.
-
-### `config/llm_config.yaml` — non-secret runtime settings
-
-Temperature, token limits, retry config, and other non-secret runtime settings.
-Model names are configured only in `.env`.
 
 ### Verify your endpoint
 
 ```bash
 # List all models the endpoint serves and check your configured tiers
 uv run python scripts/list_models.py
-
-# Point at a different endpoint
-uv run python scripts/list_models.py --endpoint https://api.example.com/v1 --api-key sk-xxx
 ```
 
 ---
-
 ## Script reference
 
 ### `scripts/run_manual.py` — process a single paper
@@ -201,17 +187,31 @@ That is useful for broad refreshes, but it is much heavier than a single-seed up
 
 ### `scripts/todo_queue.py` — unified todo-queue interface
 
-This is now the main user-facing interface for `todo_papers`.
-
-- Running it with no subcommand processes the next few pending papers.
-- `report` shows a concise queue summary and the top pending papers.
-- `list` shows raw queue rows.
-- `add` inserts manual priorities.
-- `recompute-counts` refreshes the queue counters from DB state.
+This is the main user-facing interface for `todo_papers`.
 
 ```bash
-# Default behavior: process the next few pending papers
-uv run python scripts/todo_queue.py
+# Show all subcommands and options
+uv run python scripts/todo_queue.py --help
+
+# Subcommand-specific help
+uv run python scripts/todo_queue.py worker --help
+uv run python scripts/todo_queue.py process --help
+```
+
+Subcommands:
+
+| Subcommand | Purpose |
+|---|---|
+| `worker` | Atomically claim and process one pending paper, then exit (parallel-safe) |
+| `process` | Sequentially process the next N pending papers |
+| `report` | Queue summary and top pending papers |
+| `list` | Raw queue rows |
+| `add` | Insert a manual priority paper |
+| `recompute-counts` | Refresh citation counters from DB state |
+
+```bash
+# Queue summary and top pending papers
+uv run python scripts/todo_queue.py report
 
 # Process more papers or use a different tier
 uv run python scripts/todo_queue.py process --limit 10
@@ -220,15 +220,59 @@ uv run python scripts/todo_queue.py process --model fallback --limit 5
 # Preview what would be processed
 uv run python scripts/todo_queue.py process --dry-run --limit 20
 
-# Queue summary and top pending papers
-uv run python scripts/todo_queue.py report
-
 # Add a paper manually
 uv run python scripts/todo_queue.py add 2406.08993 --reason "manually prioritized"
 
 # Inspect queue state
 uv run python scripts/todo_queue.py list --status all
 ```
+
+#### Running many workers in parallel
+
+Use the `worker` subcommand to saturate your GPU with concurrent extractions.
+Each worker atomically claims exactly one pending paper before starting, so no
+two workers will ever process the same paper.  Workers that crash or are killed
+leave papers in a `processing` state; these are automatically released back to
+`pending` after 15 minutes so the next worker can retry them.
+
+```bash
+# Launch 10 parallel workers, each writing its own log file
+for i in $(seq 1 10); do
+  uv run python scripts/todo_queue.py worker --model primary \
+    >> logs/worker_$i.log 2>&1 &
+done
+wait
+echo "All workers finished."
+```
+
+Each worker invocation processes exactly one paper and exits, so the loop above
+runs all 10 workers concurrently.  To keep feeding papers to idle GPUs, wrap the
+worker in a loop:
+
+```bash
+# Continuous worker: keeps running until the queue is empty
+while true; do
+  uv run python scripts/todo_queue.py worker --model primary >> logs/worker.log 2>&1
+  # Exit if nothing was processed (queue exhausted)
+  grep -q "No pending todo papers" logs/worker.log && break
+done
+```
+
+Or use GNU `parallel` / `xargs` for a fixed pool:
+
+```bash
+seq 1 200 | xargs -P 10 -I{} \
+  uv run python scripts/todo_queue.py worker --model primary
+```
+
+After all workers finish, refresh the Hugo data files once:
+
+```bash
+uv run python -m backend.export_to_hugo
+```
+
+> **Note:** Workers always skip per-paper Hugo export (`--skip-export` is
+> passed automatically) to avoid redundant rebuilds during batch runs.
 
 ---
 

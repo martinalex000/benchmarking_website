@@ -20,11 +20,13 @@ from rich.table import Table
 
 from backend.models import TODO_PAPER_FILTER_VALUES, TodoPaperStatus
 from backend.todo_queue import (
+    WORKER_LOCK_TIMEOUT_MINUTES,
     add_todo_paper,
     build_queue_report,
     load_queue_entries,
     process_queue,
     recompute_queue_counts,
+    release_stale_processing_papers,
 )
 
 console = Console()
@@ -148,7 +150,20 @@ def cmd_process(args: argparse.Namespace) -> None:
 
 
 def cmd_worker(args: argparse.Namespace) -> None:
-    """Process exactly one top-priority pending paper and exit."""
+    """Process exactly one top-priority pending paper and exit.
+
+    Safe to run in parallel: papers are claimed atomically so two concurrent
+    workers will never process the same paper.  Papers that have been stuck in
+    'processing' for more than WORKER_LOCK_TIMEOUT_MINUTES minutes are
+    automatically released back to 'pending' before the claim is attempted.
+    """
+    released = release_stale_processing_papers()
+    if released:
+        console.print(
+            f"[dim]Released {released} stale processing lock(s) "
+            f"(>{WORKER_LOCK_TIMEOUT_MINUTES} min).[/dim]"
+        )
+
     worker_args = argparse.Namespace(
         limit=1,
         model=args.model,
@@ -203,48 +218,131 @@ def cmd_recompute_counts(_args: argparse.Namespace) -> None:
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="Unified todo_papers queue interface")
-    sub = parser.add_subparsers(dest="command")
+    parser = argparse.ArgumentParser(
+        description=(
+            "Unified todo_papers queue interface.\n\n"
+            "Run 'worker' in parallel to process papers with multiple GPU workers. "
+            "Each worker atomically claims one paper so two workers never process the same paper."
+        ),
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
+    sub = parser.add_subparsers(dest="command", metavar="COMMAND")
 
-    process_parser = sub.add_parser("process", help="Process the next pending papers")
-    process_parser.add_argument("--limit", type=int, default=5, metavar="N")
-    process_parser.add_argument("--model", default="primary", metavar="TIER")
-    process_parser.add_argument("--force", action="store_true")
-    process_parser.add_argument("--max-attempts", type=int, default=3, metavar="N")
-    process_parser.add_argument("--dry-run", action="store_true")
-    process_parser.add_argument("--no-export", action="store_true")
+    process_parser = sub.add_parser(
+        "process",
+        help="Process the next N pending papers (sequential batch)",
+        description=(
+            "Fetch and process up to --limit pending papers in sequence. "
+            "Export is skipped for each paper; run 'uv run -m backend.export_to_hugo' afterwards."
+        ),
+    )
+    process_parser.add_argument(
+        "--limit",
+        type=int,
+        default=5,
+        metavar="N",
+        help="Maximum number of papers to process (default: 5)",
+    )
+    process_parser.add_argument(
+        "--model",
+        default="primary",
+        metavar="TIER",
+        help="LLM tier to use: primary, fallback, or small (default: primary)",
+    )
+    process_parser.add_argument(
+        "--force", action="store_true", help="Re-extract even if extraction already exists"
+    )
+    process_parser.add_argument(
+        "--max-attempts",
+        type=int,
+        default=3,
+        metavar="N",
+        help="Skip papers that have already failed this many times (default: 3)",
+    )
+    process_parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="Show what would be processed without running anything",
+    )
+    process_parser.add_argument(
+        "--no-export",
+        action="store_true",
+        help="Skip refreshing development exports after processing",
+    )
 
     worker_parser = sub.add_parser(
-        "worker", help="Process exactly one top-priority pending paper and exit"
+        "worker",
+        help="Claim and process exactly one pending paper, then exit (parallel-safe)",
+        description=(
+            "Atomically claims the top-priority pending paper, processes it, and exits. "
+            "Safe to run many instances in parallel — each worker gets a different paper. "
+            f"Papers stuck in 'processing' for >{WORKER_LOCK_TIMEOUT_MINUTES} min are "
+            "automatically released before each claim attempt."
+        ),
     )
-    worker_parser.add_argument("--model", default="primary", metavar="TIER")
-    worker_parser.add_argument("--force", action="store_true")
-    worker_parser.add_argument("--max-attempts", type=int, default=3, metavar="N")
-    worker_parser.add_argument("--dry-run", action="store_true")
+    worker_parser.add_argument(
+        "--model",
+        default="primary",
+        metavar="TIER",
+        help="LLM tier to use: primary, fallback, or small (default: primary)",
+    )
+    worker_parser.add_argument(
+        "--force", action="store_true", help="Re-extract even if extraction already exists"
+    )
+    worker_parser.add_argument(
+        "--max-attempts",
+        type=int,
+        default=3,
+        metavar="N",
+        help="Skip papers that have already failed this many times (default: 3)",
+    )
+    worker_parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="Show what would be processed without running anything",
+    )
     worker_parser.add_argument(
         "--export",
         action="store_true",
-        help="Also refresh development exports after this single-item run",
+        help="Also refresh development exports after this single-item run (off by default for workers)",
     )
 
     report_parser = sub.add_parser("report", help="Show queue summary and top pending papers")
-    report_parser.add_argument("--limit", type=int, default=10, metavar="N")
-    report_parser.add_argument("--max-attempts", type=int, default=3, metavar="N")
+    report_parser.add_argument(
+        "--limit", type=int, default=10, metavar="N", help="Number of rows to show (default: 10)"
+    )
+    report_parser.add_argument(
+        "--max-attempts",
+        type=int,
+        default=3,
+        metavar="N",
+        help="Treat papers with ≥ N attempts as exhausted (default: 3)",
+    )
 
     list_parser = sub.add_parser("list", help="Show raw queue rows")
-    list_parser.add_argument("--status", default="all", choices=TODO_PAPER_FILTER_VALUES)
-    list_parser.add_argument("--limit", type=int, default=25, metavar="N")
     list_parser.add_argument(
-        "--order", default="priority", choices=("priority", "recent", "last-attempt")
+        "--status",
+        default="all",
+        choices=TODO_PAPER_FILTER_VALUES,
+        help="Filter by status (default: all)",
+    )
+    list_parser.add_argument(
+        "--limit", type=int, default=25, metavar="N", help="Maximum rows to show (default: 25)"
+    )
+    list_parser.add_argument(
+        "--order",
+        default="priority",
+        choices=("priority", "recent", "last-attempt"),
+        help="Sort order (default: priority)",
     )
 
     add_parser = sub.add_parser("add", help="Add a paper to the queue")
-    add_parser.add_argument("arxiv_id")
-    add_parser.add_argument("--title")
-    add_parser.add_argument("--reason")
-    add_parser.add_argument("--added-by")
+    add_parser.add_argument("arxiv_id", help="arXiv paper ID to enqueue")
+    add_parser.add_argument("--title", help="Optional paper title")
+    add_parser.add_argument("--reason", help="Why this paper is being added")
+    add_parser.add_argument("--added-by", help="Who added the paper")
 
-    sub.add_parser("recompute-counts", help="Recompute queue citation counters")
+    sub.add_parser("recompute-counts", help="Recompute queue citation counters from DB state")
 
     return parser
 
@@ -252,7 +350,11 @@ def build_parser() -> argparse.ArgumentParser:
 def main(argv: list[str] | None = None) -> None:
     parser = build_parser()
     args = parser.parse_args(argv)
-    command = args.command or "process"
+    command = args.command
+
+    if command is None:
+        parser.print_help()
+        sys.exit(0)
 
     if command == "process":
         cmd_process(args)

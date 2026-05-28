@@ -15,19 +15,18 @@ def _load_todo_queue_module():
     return module
 
 
-def test_todo_queue_defaults_to_process(monkeypatch):
+def test_todo_queue_no_args_shows_help(capsys):
+    """Running with no subcommand should print help and exit 0."""
+    import pytest
+
     module = _load_todo_queue_module()
 
-    called = {"process": False}
-    monkeypatch.setattr(module, "cmd_process", lambda args: called.__setitem__("process", True))
-    monkeypatch.setattr(module, "cmd_report", lambda args: None)
-    monkeypatch.setattr(module, "cmd_list", lambda args: None)
-    monkeypatch.setattr(module, "cmd_add", lambda args: None)
-    monkeypatch.setattr(module, "cmd_recompute_counts", lambda args: None)
+    with pytest.raises(SystemExit) as exc_info:
+        module.main([])
 
-    module.main([])
-
-    assert called["process"] is True
+    assert exc_info.value.code == 0
+    captured = capsys.readouterr()
+    assert "worker" in captured.out or "process" in captured.out
 
 
 def test_todo_queue_report_dispatch(monkeypatch):

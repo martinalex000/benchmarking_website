@@ -8,7 +8,9 @@ from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
 
-from backend.db import init_db, session_scope
+from sqlalchemy import text as _sql_text
+
+from backend.db import get_engine, init_db, session_scope
 from backend.models import (
     TODO_PAPER_FILTER_VALUES,
     Paper,
@@ -211,6 +213,7 @@ def run_manual_subprocess(arxiv_id: str, *, model: str, force: bool) -> TodoQueu
         arxiv_id,
         "--model",
         model,
+        "--skip-export",  # workers never trigger Hugo export; run export_to_hugo separately
     ]
     if force:
         cmd.append("--force")
@@ -230,6 +233,80 @@ def _mark_processing(todo_id: int) -> None:
         row.status = TodoPaperStatus.PROCESSING.value
         row.attempts = (row.attempts or 0) + 1
         row.last_attempt_at = _utcnow_iso()
+
+
+WORKER_LOCK_TIMEOUT_MINUTES = 15
+
+
+def release_stale_processing_papers(stale_minutes: int = WORKER_LOCK_TIMEOUT_MINUTES) -> int:
+    """Reset 'processing' papers stuck longer than *stale_minutes* back to 'pending'.
+
+    Call this at the start of each worker run so papers from crashed workers become
+    available again for the next worker.
+    """
+    from datetime import timedelta
+
+    init_db()
+    cutoff = (datetime.now(timezone.utc) - timedelta(minutes=stale_minutes)).strftime(
+        "%Y-%m-%dT%H:%M:%SZ"
+    )
+    with session_scope() as session:
+        stale_rows = (
+            session.query(TodoPaper)
+            .filter(
+                TodoPaper.status == TodoPaperStatus.PROCESSING.value,
+                TodoPaper.last_attempt_at < cutoff,
+            )
+            .all()
+        )
+        for row in stale_rows:
+            row.status = TodoPaperStatus.PENDING.value
+        return len(stale_rows)
+
+
+def _claim_one_pending(max_attempts: int) -> int | None:
+    """Atomically claim the top-priority pending paper. Returns the claimed row ID or None.
+
+    Uses a raw SQL UPDATE with a WHERE status='pending' guard so that concurrent
+    workers (multiple processes) cannot both claim the same paper.  SQLite
+    serialises writes, so exactly one writer succeeds when two processes race.
+    """
+    engine = get_engine()
+    now_iso = _utcnow_iso()
+
+    with engine.connect() as conn:
+        row = conn.execute(
+            _sql_text(
+                "SELECT id FROM todo_papers"
+                " WHERE status = 'pending' AND attempts < :max_attempts"
+                " ORDER BY seen_count DESC, created_at ASC"
+                " LIMIT 1"
+            ),
+            {"max_attempts": max_attempts},
+        ).first()
+
+        if row is None:
+            return None
+
+        candidate_id = row[0]
+
+        result = conn.execute(
+            _sql_text(
+                "UPDATE todo_papers"
+                " SET status = 'processing', attempts = attempts + 1, last_attempt_at = :now"
+                " WHERE id = :id AND status = 'pending'"
+            ),
+            {"now": now_iso, "id": candidate_id},
+        )
+        conn.commit()
+
+        return candidate_id if result.rowcount > 0 else None
+
+
+def _get_entry_by_id(todo_id: int) -> TodoQueueEntry | None:
+    with session_scope() as session:
+        row = session.query(TodoPaper).filter_by(id=todo_id).first()
+        return _row_to_entry(row) if row else None
 
 
 def _finalize_todo(todo_id: int, status: TodoPaperStatus, note: str) -> None:
@@ -254,21 +331,38 @@ def process_queue(
     on_start=None,
     on_finish=None,
 ) -> TodoQueueProcessSummary:
-    selected = load_queue_entries(
-        status=TodoPaperStatus.PENDING.value,
-        limit=limit,
-        max_attempts=max_attempts,
-        order="priority",
-    )
-    summary = TodoQueueProcessSummary(total_selected=len(selected))
+    init_db()
 
-    if dry_run or not selected:
+    # Release any papers stuck in 'processing' from crashed workers before selecting new ones
+    release_stale_processing_papers()
+
+    summary = TodoQueueProcessSummary(total_selected=0)
+
+    if dry_run:
+        selected = load_queue_entries(
+            status=TodoPaperStatus.PENDING.value,
+            limit=limit,
+            max_attempts=max_attempts,
+        )
+        summary.total_selected = len(selected)
         return summary
 
-    for index, entry in enumerate(selected, start=1):
-        _mark_processing(entry.id)
+    processed_count = 0
+    while processed_count < limit:
+        # Atomically claim the next pending paper; safe across concurrent workers
+        candidate_id = _claim_one_pending(max_attempts)
+        if candidate_id is None:
+            break  # No more eligible pending papers
+
+        entry = _get_entry_by_id(candidate_id)
+        if entry is None:
+            continue  # Shouldn't happen; skip defensively
+
+        processed_count += 1
+        summary.total_selected += 1
+
         if on_start:
-            on_start(entry, index, len(selected))
+            on_start(entry, processed_count, limit)
 
         try:
             result = runner(entry.arxiv_id, model=model, force=force)
@@ -288,7 +382,7 @@ def process_queue(
             TodoQueueProcessItem(arxiv_id=entry.arxiv_id, status=status.value, note=note)
         )
         if on_finish:
-            on_finish(entry, status.value, result, index, len(selected))
+            on_finish(entry, status.value, result, processed_count, limit)
 
     if refresh_dev_exports:
         try:
@@ -304,6 +398,7 @@ def process_queue(
 
 __all__ = [
     "TODO_PAPER_FILTER_VALUES",
+    "WORKER_LOCK_TIMEOUT_MINUTES",
     "TodoQueueEntry",
     "TodoQueueProcessSummary",
     "TodoQueueReport",
@@ -313,5 +408,6 @@ __all__ = [
     "load_queue_entries",
     "process_queue",
     "recompute_queue_counts",
+    "release_stale_processing_papers",
     "run_manual_subprocess",
 ]
