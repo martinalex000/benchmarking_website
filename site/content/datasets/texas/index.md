@@ -12,7 +12,7 @@ stats:
   avg_nodes: 183.0
   avg_edges: 325.0
   num_classes: 5
-result_count: 218
+result_count: 220
 best_model:
   model: ACMGCN
   value: 0.9656
@@ -113,7 +113,7 @@ variants:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_iso: '2024-11-26'
     date_display: Nov 2024
     codebase_url: ''
@@ -131,7 +131,7 @@ variants:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_iso: '2024-11-26'
     date_display: Nov 2024
     codebase_url: ''
@@ -167,7 +167,7 @@ variants:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_iso: '2024-11-26'
     date_display: Nov 2024
     codebase_url: ''
@@ -257,7 +257,7 @@ variants:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_iso: '2024-11-26'
     date_display: Nov 2024
     codebase_url: ''
@@ -311,7 +311,7 @@ variants:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_iso: '2024-11-26'
     date_display: Nov 2024
     codebase_url: ''
@@ -329,7 +329,7 @@ variants:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_iso: '2024-11-26'
     date_display: Nov 2024
     codebase_url: ''
@@ -365,7 +365,7 @@ variants:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_iso: '2024-11-26'
     date_display: Nov 2024
     codebase_url: ''
@@ -393,6 +393,25 @@ variants:
     - 0.894
     metric_stds:
     - 0.038
+  - model: FPS-T
+    model_plain: FPS-T
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2309.04082'
+    title: 'Curve Your Attention: Mixed-Curvature Transformers for Graph Representation
+      Learning'
+    date: Sep 2023
+    date_iso: 2023-09
+    date_display: Sep 2023
+    codebase_url: ''
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - 0.8919
+    metric_stds:
+    - 0.0237
   - model: HopGNN
     model_plain: HopGNN
     is_baseline: true
@@ -401,7 +420,7 @@ variants:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_iso: '2024-11-26'
     date_display: Nov 2024
     codebase_url: ''
@@ -419,7 +438,7 @@ variants:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_iso: '2024-11-26'
     date_display: Nov 2024
     codebase_url: ''
@@ -455,7 +474,7 @@ variants:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_iso: '2024-11-26'
     date_display: Nov 2024
     codebase_url: ''
@@ -465,6 +484,25 @@ variants:
     - 0.8875
     metric_stds:
     - 0.063
+  - model: TokenGT
+    model_plain: TokenGT
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2309.04082'
+    title: 'Curve Your Attention: Mixed-Curvature Transformers for Graph Representation
+      Learning'
+    date: Sep 2023
+    date_iso: 2023-09
+    date_display: Sep 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.8865
+    metric_stds:
+    - 0.0206
   - model: GCNII
     model_plain: GCNII
     is_baseline: true
@@ -491,7 +529,7 @@ variants:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_iso: '2024-11-26'
     date_display: Nov 2024
     codebase_url: ''
@@ -581,7 +619,7 @@ variants:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_iso: '2024-11-26'
     date_display: Nov 2024
     codebase_url: ''
@@ -743,7 +781,7 @@ variants:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_iso: '2024-11-26'
     date_display: Nov 2024
     codebase_url: ''
@@ -851,7 +889,7 @@ variants:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_iso: '2024-11-26'
     date_display: Nov 2024
     codebase_url: ''
@@ -1005,6 +1043,25 @@ variants:
     - 0.8216
     metric_stds:
     - 0.0528
+  - model: HAT
+    model_plain: HAT
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2309.04082'
+    title: 'Curve Your Attention: Mixed-Curvature Transformers for Graph Representation
+      Learning'
+    date: Sep 2023
+    date_iso: 2023-09
+    date_display: Sep 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.8216
+    metric_stds:
+    - 0.0252
   - model: AMP_GCN
     model_plain: AMP_GCN
     is_baseline: false
@@ -1356,7 +1413,7 @@ variants:
     arxiv_id: '2404.03380'
     title: On the Theoretical Expressive Power and the Design Space of Higher-Order
       Graph Transformers
-    date: '2024-04-04'
+    date: Apr 4, 2024
     date_iso: '2024-04-04'
     date_display: Apr 2024
     codebase_url: ''
@@ -1411,7 +1468,7 @@ variants:
     arxiv_id: '2404.03380'
     title: On the Theoretical Expressive Power and the Design Space of Higher-Order
       Graph Transformers
-    date: '2024-04-04'
+    date: Apr 4, 2024
     date_iso: '2024-04-04'
     date_display: Apr 2024
     codebase_url: ''
@@ -1484,7 +1541,7 @@ variants:
     arxiv_id: '2404.03380'
     title: On the Theoretical Expressive Power and the Design Space of Higher-Order
       Graph Transformers
-    date: '2024-04-04'
+    date: Apr 4, 2024
     date_iso: '2024-04-04'
     date_display: Apr 2024
     codebase_url: ''
@@ -1539,11 +1596,30 @@ variants:
     arxiv_id: '2404.03380'
     title: On the Theoretical Expressive Power and the Design Space of Higher-Order
       Graph Transformers
-    date: '2024-04-04'
+    date: Apr 4, 2024
     date_iso: '2024-04-04'
     date_display: Apr 2024
     codebase_url: ''
     uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7684
+    metric_stds:
+    - 0.0166
+  - model: AS0:1-dense+attn.bias
+    model_plain: AS0:1-dense+attn.bias
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2404.03380'
+    title: On the Theoretical Expressive Power and the Design Space of Higher-Order
+      Graph Transformers
+    date: Apr 4, 2024
+    date_iso: '2024-04-04'
+    date_display: Apr 2024
+    codebase_url: ''
+    uses_external_data: null
     is_best: false
     metric_values:
     - 0.7684
@@ -1756,7 +1832,7 @@ variants:
     arxiv_id: '2404.03380'
     title: On the Theoretical Expressive Power and the Design Space of Higher-Order
       Graph Transformers
-    date: '2024-04-04'
+    date: Apr 4, 2024
     date_iso: '2024-04-04'
     date_display: Apr 2024
     codebase_url: ''
@@ -1991,7 +2067,7 @@ variants:
     arxiv_id: '2404.03380'
     title: On the Theoretical Expressive Power and the Design Space of Higher-Order
       Graph Transformers
-    date: '2024-04-04'
+    date: Apr 4, 2024
     date_iso: '2024-04-04'
     date_display: Apr 2024
     codebase_url: ''
@@ -2010,7 +2086,7 @@ variants:
     arxiv_id: '2404.03380'
     title: On the Theoretical Expressive Power and the Design Space of Higher-Order
       Graph Transformers
-    date: '2024-04-04'
+    date: Apr 4, 2024
     date_iso: '2024-04-04'
     date_display: Apr 2024
     codebase_url: ''
@@ -2182,6 +2258,25 @@ variants:
     - 0.7108
     metric_stds:
     - 0.0556
+  - model: MLP
+    model_plain: MLP
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2309.04082'
+    title: 'Curve Your Attention: Mixed-Curvature Transformers for Graph Representation
+      Learning'
+    date: Sep 2023
+    date_iso: 2023-09
+    date_display: Sep 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7054
+    metric_stds:
+    - 0.03
   - model: DR
     model_plain: DR
     is_baseline: true
@@ -2309,6 +2404,25 @@ variants:
     - 0.687
     metric_stds:
     - 0.031
+  - model: SAGE
+    model_plain: SAGE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2309.04082'
+    title: 'Curve Your Attention: Mixed-Curvature Transformers for Graph Representation
+      Learning'
+    date: Sep 2023
+    date_iso: 2023-09
+    date_display: Sep 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.6838
+    metric_stds:
+    - 0.0354
   - model: NBA-GCN+LapPE
     model_plain: NBA-GCN+LapPE
     is_baseline: false
@@ -2444,7 +2558,7 @@ variants:
     arxiv_id: '2404.03380'
     title: On the Theoretical Expressive Power and the Design Space of Higher-Order
       Graph Transformers
-    date: '2024-04-04'
+    date: Apr 4, 2024
     date_iso: '2024-04-04'
     date_display: Apr 2024
     codebase_url: ''
@@ -2535,7 +2649,7 @@ variants:
     arxiv_id: '2404.03380'
     title: On the Theoretical Expressive Power and the Design Space of Higher-Order
       Graph Transformers
-    date: '2024-04-04'
+    date: Apr 4, 2024
     date_iso: '2024-04-04'
     date_display: Apr 2024
     codebase_url: ''
@@ -2699,7 +2813,7 @@ variants:
     arxiv_id: '2404.03380'
     title: On the Theoretical Expressive Power and the Design Space of Higher-Order
       Graph Transformers
-    date: '2024-04-04'
+    date: Apr 4, 2024
     date_iso: '2024-04-04'
     date_display: Apr 2024
     codebase_url: ''
@@ -2962,6 +3076,25 @@ variants:
     - 0.5946
     metric_stds:
     - 0.0436
+  - model: GAT
+    model_plain: GAT
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2309.04082'
+    title: 'Curve Your Attention: Mixed-Curvature Transformers for Graph Representation
+      Learning'
+    date: Sep 2023
+    date_iso: 2023-09
+    date_display: Sep 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.5946
+    metric_stds:
+    - 0.0112
   - model: LDS
     model_plain: LDS
     is_baseline: true
@@ -3004,18 +3137,38 @@ variants:
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2310.05174'
-    title: 'GSLB: The Graph Structure Learning Benchmark'
-    date: Oct 2023
-    date_iso: 2023-10
-    date_display: Oct 2023
+    arxiv_id: '2309.04082'
+    title: 'Curve Your Attention: Mixed-Curvature Transformers for Graph Representation
+      Learning'
+    date: Sep 2023
+    date_iso: 2023-09
+    date_display: Sep 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.5783
+    - 0.5784
     metric_stds:
-    - 0.0276
+    - 0.0162
+  - model: SGC
+    model_plain: SGC
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2309.04082'
+    title: 'Curve Your Attention: Mixed-Curvature Transformers for Graph Representation
+      Learning'
+    date: Sep 2023
+    date_iso: 2023-09
+    date_display: Sep 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.5757
+    metric_stds:
+    - 0.0296
   - model: LRGB
     model_plain: LRGB
     is_baseline: true
@@ -3089,6 +3242,25 @@ variants:
     - 0.563
     metric_stds:
     - 0.0161
+  - model: \kappa-GCN
+    model_plain: \kappa-GCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2309.04082'
+    title: 'Curve Your Attention: Mixed-Curvature Transformers for Graph Representation
+      Learning'
+    date: Sep 2023
+    date_iso: 2023-09
+    date_display: Sep 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.5622
+    metric_stds:
+    - 0.0438
   - model: Base (GCN)
     model_plain: Base (GCN)
     is_baseline: true
@@ -3152,7 +3324,7 @@ variants:
     params_millions: null
     arxiv_id: '2406.03671'
     title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
-    date: '2024-06-06'
+    date: Jun 6, 2024
     date_iso: '2024-06-06'
     date_display: Jun 2024
     codebase_url: ''
@@ -3198,6 +3370,25 @@ variants:
     - 0.551
     metric_stds:
     - 0.0623
+  - model: H2GCN
+    model_plain: H2GCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2309.04082'
+    title: 'Curve Your Attention: Mixed-Curvature Transformers for Graph Representation
+      Learning'
+    date: Sep 2023
+    date_iso: 2023-09
+    date_display: Sep 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.5459
+    metric_stds:
+    - 0.0393
   - model: CaCoSE
     model_plain: CaCoSE
     is_baseline: false
@@ -3236,24 +3427,6 @@ variants:
     - 0.5421
     metric_stds:
     - null
-  - model: GAT
-    model_plain: GAT
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2310.05174'
-    title: 'GSLB: The Graph Structure Learning Benchmark'
-    date: Oct 2023
-    date_iso: 2023-10
-    date_display: Oct 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.5405
-    metric_stds:
-    - 0.0735
   - model: GIN-E
     model_plain: GIN-E
     is_baseline: true
@@ -3281,7 +3454,7 @@ variants:
     params_millions: null
     arxiv_id: '2406.03671'
     title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
-    date: '2024-06-06'
+    date: Jun 6, 2024
     date_iso: '2024-06-06'
     date_display: Jun 2024
     codebase_url: ''
@@ -3308,6 +3481,25 @@ variants:
     is_best: false
     metric_values:
     - 0.5263
+    metric_stds:
+    - null
+  - model: GAT
+    model_plain: GAT
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2603.27529'
+    title: Cross-attentive Cohesive Subgraph Embedding to Mitigate Oversquashing in
+      GNNs
+    date: Mar 2026
+    date_iso: 2026-03
+    date_display: Mar 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.5236999999999999
     metric_stds:
     - null
   - model: FOSR
@@ -3367,6 +3559,44 @@ variants:
     - 0.5236
     metric_stds:
     - null
+  - model: \mathcal{Q}-GCN
+    model_plain: \mathcal{Q}-GCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2309.04082'
+    title: 'Curve Your Attention: Mixed-Curvature Transformers for Graph Representation
+      Learning'
+    date: Sep 2023
+    date_iso: 2023-09
+    date_display: Sep 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.5135
+    metric_stds:
+    - 0.0344
+  - model: HGNN
+    model_plain: HGNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2309.04082'
+    title: 'Curve Your Attention: Mixed-Curvature Transformers for Graph Representation
+      Learning'
+    date: Sep 2023
+    date_iso: 2023-09
+    date_display: Sep 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.5081
+    metric_stds:
+    - 0.036
   - model: GIN-SDRF-R
     model_plain: GIN-SDRF-R
     is_baseline: true
@@ -3394,7 +3624,7 @@ variants:
     params_millions: null
     arxiv_id: '2406.03671'
     title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
-    date: '2024-06-06'
+    date: Jun 6, 2024
     date_iso: '2024-06-06'
     date_display: Jun 2024
     codebase_url: ''
@@ -3468,7 +3698,7 @@ variants:
     params_millions: null
     arxiv_id: '2406.03671'
     title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
-    date: '2024-06-06'
+    date: Jun 6, 2024
     date_iso: '2024-06-06'
     date_display: Jun 2024
     codebase_url: ''
@@ -3523,7 +3753,7 @@ variants:
     params_millions: null
     arxiv_id: '2406.03671'
     title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
-    date: '2024-06-06'
+    date: Jun 6, 2024
     date_iso: '2024-06-06'
     date_display: Jun 2024
     codebase_url: ''
@@ -3589,6 +3819,24 @@ variants:
     - 0.371
     metric_stds:
     - null
+  - model: GAT
+    model_plain: GAT
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2506.04765'
+    title: 'OpenGT: A Comprehensive Benchmark For Graph Transformers'
+    date: Jun 2025
+    date_iso: 2025-06
+    date_display: Jun 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.3604
+    metric_stds:
+    - 0.1469
   - model: LASER
     model_plain: LASER
     is_baseline: true
@@ -3763,215 +4011,6 @@ variants:
     date: Aug 2025
     date_iso: 2025-08
     date_display: Aug 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    metric_stds:
-    - null
-  - model: MLP
-    model_plain: MLP
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2309.04082'
-    title: 'Curve Your Attention: Mixed-Curvature Transformers for Graph Representation
-      Learning'
-    date: Sep 2023
-    date_iso: 2023-09
-    date_display: Sep 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    metric_stds:
-    - null
-  - model: GCN
-    model_plain: GCN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2309.04082'
-    title: 'Curve Your Attention: Mixed-Curvature Transformers for Graph Representation
-      Learning'
-    date: Sep 2023
-    date_iso: 2023-09
-    date_display: Sep 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    metric_stds:
-    - null
-  - model: GAT
-    model_plain: GAT
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2309.04082'
-    title: 'Curve Your Attention: Mixed-Curvature Transformers for Graph Representation
-      Learning'
-    date: Sep 2023
-    date_iso: 2023-09
-    date_display: Sep 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    metric_stds:
-    - null
-  - model: SAGE
-    model_plain: SAGE
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2309.04082'
-    title: 'Curve Your Attention: Mixed-Curvature Transformers for Graph Representation
-      Learning'
-    date: Sep 2023
-    date_iso: 2023-09
-    date_display: Sep 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    metric_stds:
-    - null
-  - model: SGC
-    model_plain: SGC
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2309.04082'
-    title: 'Curve Your Attention: Mixed-Curvature Transformers for Graph Representation
-      Learning'
-    date: Sep 2023
-    date_iso: 2023-09
-    date_display: Sep 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    metric_stds:
-    - null
-  - model: TokenGT
-    model_plain: TokenGT
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2309.04082'
-    title: 'Curve Your Attention: Mixed-Curvature Transformers for Graph Representation
-      Learning'
-    date: Sep 2023
-    date_iso: 2023-09
-    date_display: Sep 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    metric_stds:
-    - null
-  - model: H2GCN
-    model_plain: H2GCN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2309.04082'
-    title: 'Curve Your Attention: Mixed-Curvature Transformers for Graph Representation
-      Learning'
-    date: Sep 2023
-    date_iso: 2023-09
-    date_display: Sep 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    metric_stds:
-    - null
-  - model: HGNN
-    model_plain: HGNN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2309.04082'
-    title: 'Curve Your Attention: Mixed-Curvature Transformers for Graph Representation
-      Learning'
-    date: Sep 2023
-    date_iso: 2023-09
-    date_display: Sep 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    metric_stds:
-    - null
-  - model: HAT
-    model_plain: HAT
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2309.04082'
-    title: 'Curve Your Attention: Mixed-Curvature Transformers for Graph Representation
-      Learning'
-    date: Sep 2023
-    date_iso: 2023-09
-    date_display: Sep 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    metric_stds:
-    - null
-  - model: \kappa-GCN
-    model_plain: \kappa-GCN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2309.04082'
-    title: 'Curve Your Attention: Mixed-Curvature Transformers for Graph Representation
-      Learning'
-    date: Sep 2023
-    date_iso: 2023-09
-    date_display: Sep 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    metric_stds:
-    - null
-  - model: \mathcal{Q}-GCN
-    model_plain: \mathcal{Q}-GCN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2309.04082'
-    title: 'Curve Your Attention: Mixed-Curvature Transformers for Graph Representation
-      Learning'
-    date: Sep 2023
-    date_iso: 2023-09
-    date_display: Sep 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false

@@ -5,17 +5,19 @@ source_url: ''
 authors: []
 published_date: Oct 2024
 published_date_iso: 2024-10
-abstract: Graph Transformers are popular neural networks that extend the well-known Transformer architecture
-  to the graph domain. These architectures operate by applying self-attention on graph nodes and incorporating
-  graph structure through the use of positional encodings (e.g., Laplacian positional encoding) or structural
-  encodings (e.g., random-walk structural encoding). The quality of such encodings is critical, since
-  they provide the necessary graph inductive biases to condition the model on graph structure. In this
-  work, we propose motif structural encoding as a flexible and powerful structural encoding framework
-  based on counting graph homomorphisms. Theoretically, we compare the expressive power of to random-walk
-  structural encoding and relate both encodings to the expressive power of standard message passing neural
-  networks. Empirically, we observe that outperforms other well-known positional and structural encodings
-  across a range of architectures, and it achieves state-of-the-art performance on a widely studied molecular
-  property prediction dataset.
+abstract: Graph Transformers are popular neural networks that extend the well-known
+  Transformer architecture to the graph domain. These architectures operate by applying
+  self-attention on graph nodes and incorporating graph structure through the use
+  of positional encodings (e.g., Laplacian positional encoding) or structural encodings
+  (e.g., random-walk structural encoding). The quality of such encodings is critical,
+  since they provide the necessary graph inductive biases to condition the model on
+  graph structure. In this work, we propose motif structural encoding as a flexible
+  and powerful structural encoding framework based on counting graph homomorphisms.
+  Theoretically, we compare the expressive power of to random-walk structural encoding
+  and relate both encodings to the expressive power of standard message passing neural
+  networks. Empirically, we observe that outperforms other well-known positional and
+  structural encodings across a range of architectures, and it achieves state-of-the-art
+  performance on a widely studied molecular property prediction dataset.
 codebase_url: ''
 extraction_model: qwen3.6-35b-a3b
 has_results: true
@@ -35,8 +37,8 @@ proposed_models:
 - GPS_big+MoSE_Omega
 - GT+MoSE_S
 - GT+MoSE_Omega
-mrr: 0.025
-adjusted_mrr: 0.025
+mrr: 0.0243
+adjusted_mrr: 0.0243
 mrr_dataset_count: 3
 benchmark_categories:
 - Classic
@@ -98,28 +100,29 @@ results:
     sort_value: 0.80027
     sort_std: 0.00185
     is_best: false
-  - model: Ours
-    model_key: ours
-    model_plain: Ours
-    value: 0.79067
-    std: 0.00269
+  - model: RandAlign (4 layers)
+    model_key: randalign (4 layers)
+    model_plain: RandAlign (4 layers)
+    value: 0.7942
+    std: 0.00072
     metric: Accuracy
     higher_is_better: true
     is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2407.02758'
-    title: Differential Encoding for Improved Representation Learning over Graphs
-    date: Jul 2024
-    date_display: Jul 2024
-    date_iso: 2024-07
+    arxiv_id: '2404.09774'
+    title: 'RandAlign: A Parameter-Free Method for Regularizing Graph Convolutional
+      Networks'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
     global_rank: 3
-    sort_value: 0.79067
-    sort_std: 0.00269
+    sort_value: 0.7942
+    sort_std: 0.00072
     is_best: false
   - model: GPS_big+MoSE_S
     model_key: gps_big+mose_s
@@ -140,7 +143,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 31
+    global_rank: 35
     true_value: 0.75
     true_std: 0.0059
     value_gap_source_arxiv: '2410.18676'
@@ -151,7 +154,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 31
+    paper_rank: 35
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -177,7 +180,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 33
+    global_rank: 37
     true_value: 0.7473
     true_std: 0.0064
     value_gap_source_arxiv: '2410.18676'
@@ -188,7 +191,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 33
+    paper_rank: 37
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -214,7 +217,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 41
+    global_rank: 45
     true_value: 0.735
     true_std: 0.0044
     value_gap_source_arxiv: '2410.18676'
@@ -225,7 +228,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 41
+    paper_rank: 45
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -251,7 +254,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 42
+    global_rank: 46
     true_value: 0.735
     true_std: 0.0044
     value_gap_source_arxiv: '2410.18676'
@@ -262,7 +265,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 42
+    paper_rank: 46
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -288,7 +291,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 43
+    global_rank: 47
     true_value: 0.735
     true_std: 0.0044
     value_gap_source_arxiv: '2410.18676'
@@ -299,7 +302,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 43
+    paper_rank: 47
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -325,7 +328,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 45
+    global_rank: 49
     true_value: 0.7334
     true_std: 0.005
     value_gap_source_arxiv: '2410.18676'
@@ -336,7 +339,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 45
+    paper_rank: 49
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -362,7 +365,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 52
+    global_rank: 56
     true_value: 0.7237
     true_std: 0.0034
     value_gap_source_arxiv: '2410.18676'
@@ -373,7 +376,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 52
+    paper_rank: 56
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -399,7 +402,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 56
+    global_rank: 60
     true_value: 0.7231
     true_std: 0.0034
     value_gap_source_arxiv: '2410.18676'
@@ -410,7 +413,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 56
+    paper_rank: 60
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -436,7 +439,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 55
+    global_rank: 59
     true_value: 0.7231
     true_std: 0.0034
     value_gap_source_arxiv: '2410.18676'
@@ -447,7 +450,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 55
+    paper_rank: 59
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -473,7 +476,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 62
+    global_rank: 67
     true_value: 0.721
     true_std: 0.0046
     value_gap_source_arxiv: '2410.18676'
@@ -484,7 +487,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 62
+    paper_rank: 67
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -510,7 +513,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 65
+    global_rank: 70
     true_value: 0.7196
     true_std: 0.004
     value_gap_source_arxiv: '2410.18676'
@@ -521,7 +524,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 65
+    paper_rank: 70
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -547,7 +550,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 71
+    global_rank: 76
     true_value: 0.7174
     true_std: 0.006
     value_gap_source_arxiv: '2410.18676'
@@ -558,7 +561,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 71
+    paper_rank: 76
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -584,7 +587,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 73
+    global_rank: 78
     true_value: 0.7149
     true_std: 0.0019
     value_gap_source_arxiv: '2410.18676'
@@ -595,7 +598,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 73
+    paper_rank: 78
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -695,7 +698,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 28
+    global_rank: 32
     true_value: 0.98285
     true_std: 0.00103
     value_gap_source_arxiv: '2502.09263'
@@ -706,7 +709,7 @@ results:
     has_value_note: false
     value_gap: 0.018000000000000016
     value_note: ''
-    paper_rank: 84
+    paper_rank: 88
     rank_delta: 56
     rank_delta_abs: 56
     rank_delta_direction: worse
@@ -732,7 +735,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 41
+    global_rank: 44
     true_value: 0.98173
     true_std: 0.00087
     value_gap_source_arxiv: '2605.05689'
@@ -743,7 +746,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 41
+    paper_rank: 44
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -769,7 +772,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 46
+    global_rank: 49
     true_value: 0.98135
     true_std: 2.0e-05
     value_gap_source_arxiv: '2410.18676'
@@ -780,7 +783,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 46
+    paper_rank: 49
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -806,7 +809,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 54
+    global_rank: 57
     true_value: 0.98108
     true_std: 0.00111
     value_gap_source_arxiv: '2605.05689'
@@ -817,7 +820,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 54
+    paper_rank: 57
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -843,7 +846,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 61
+    global_rank: 64
     true_value: 0.98051
     true_std: 0.00126
     value_gap_source_arxiv: '2410.18676'
@@ -854,7 +857,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 61
+    paper_rank: 64
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -880,7 +883,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 69
+    global_rank: 72
     true_value: 0.97944
     true_std: 0.0005
     value_gap_source_arxiv: '2504.12588'
@@ -890,7 +893,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 69
+    paper_rank: 72
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -916,7 +919,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 87
+    global_rank: 92
     true_value: 0.9554
     true_std: 0.0021
     value_gap_source_arxiv: '2411.15671'
@@ -927,7 +930,7 @@ results:
     has_value_note: true
     value_gap: 4.999999999999449e-05
     value_note: global 0.9554 within std
-    paper_rank: 87
+    paper_rank: 92
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -952,7 +955,7 @@ results:
     params_millions: null
     arxiv_id: '2502.09365'
     title: Simple Path Structural Encoding for Graph Transformers
-    date: '2025-02-13'
+    date: Feb 13, 2025
     date_display: Feb 2025
     date_iso: '2025-02-13'
     codebase_url: ''
@@ -975,7 +978,7 @@ results:
     params_millions: null
     arxiv_id: '2502.09365'
     title: Simple Path Structural Encoding for Graph Transformers
-    date: '2025-02-13'
+    date: Feb 13, 2025
     date_display: Feb 2025
     date_iso: '2025-02-13'
     codebase_url: ''
@@ -1285,7 +1288,7 @@ results:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_display: Jan 2025
     date_iso: '2025-01-29'
     codebase_url: ''
@@ -1308,7 +1311,7 @@ results:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_display: Jan 2025
     date_iso: '2025-01-29'
     codebase_url: ''
@@ -1331,7 +1334,7 @@ results:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_display: Jan 2025
     date_iso: '2025-01-29'
     codebase_url: ''
@@ -1360,7 +1363,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 213
+    global_rank: 215
     true_value: 0.635
     true_std: 0.011
     value_gap_source_arxiv: '2410.18676'
@@ -1371,7 +1374,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 213
+    paper_rank: 215
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1397,7 +1400,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 222
+    global_rank: 224
     true_value: 0.629
     true_std: 0.011
     value_gap_source_arxiv: '2410.18676'
@@ -1408,7 +1411,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 222
+    paper_rank: 224
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1434,7 +1437,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 228
+    global_rank: 230
     true_value: 0.625
     true_std: 0.012
     value_gap_source_arxiv: '2410.18676'
@@ -1445,7 +1448,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 228
+    paper_rank: 230
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1471,7 +1474,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 305
+    global_rank: 307
     true_value: 0.447
     true_std: 0.017
     value_gap_source_arxiv: '2410.18676'
@@ -1482,7 +1485,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 305
+    paper_rank: 307
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1583,7 +1586,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 281
+    global_rank: 286
     true_value: 0.318
     true_std: 0.01
     value_gap_source_arxiv: '2410.18676'
@@ -1594,7 +1597,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 281
+    paper_rank: 286
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1620,7 +1623,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 288
+    global_rank: 293
     true_value: 0.339
     true_std: 0.007
     value_gap_source_arxiv: '2410.18676'
@@ -1631,7 +1634,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 288
+    paper_rank: 293
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1657,7 +1660,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 294
+    global_rank: 299
     true_value: 0.344
     true_std: 0.009
     value_gap_source_arxiv: '2410.18676'
@@ -1668,7 +1671,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 294
+    paper_rank: 299
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1694,7 +1697,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 332
+    global_rank: 337
     true_value: 0.454
     true_std: 0.027
     value_gap_source_arxiv: '2410.18676'
@@ -1705,7 +1708,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 332
+    paper_rank: 337
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1776,7 +1779,7 @@ results:
     params_millions: 1.0
     arxiv_id: '2405.02795'
     title: Graph as Point Set
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
     codebase_url: ''
@@ -1815,9 +1818,9 @@ results:
     has_value_note: false
     value_gap: 0.057
     value_note: ''
-    paper_rank: 137
-    rank_delta: 130
-    rank_delta_abs: 130
+    paper_rank: 144
+    rank_delta: 137
+    rank_delta_abs: 137
     rank_delta_direction: worse
     sort_value: 0.022
     sort_std: 0.002
@@ -1889,9 +1892,9 @@ results:
     has_value_note: false
     value_gap: 0.046158000000000005
     value_note: ''
-    paper_rank: 104
-    rank_delta: 91
-    rank_delta_abs: 91
+    paper_rank: 107
+    rank_delta: 94
+    rank_delta_abs: 94
     rank_delta_direction: worse
     sort_value: 0.023842
     sort_std: 0.0069779309254248125
@@ -2063,7 +2066,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 88
+    global_rank: 90
     true_value: 0.068
     true_std: 0.004
     value_gap_source_arxiv: '2410.18676'
@@ -2074,7 +2077,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 88
+    paper_rank: 90
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2100,7 +2103,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 93
+    global_rank: 95
     true_value: 0.0681
     true_std: 0.0004
     value_gap_source_arxiv: '2602.02268'
@@ -2111,7 +2114,7 @@ results:
     has_value_note: true
     value_gap: 0.0009000000000000119
     value_note: global 0.0681 within std
-    paper_rank: 93
+    paper_rank: 95
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2137,7 +2140,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 105
+    global_rank: 108
     true_value: 0.07
     true_std: 0.002
     value_gap_source_arxiv: '2410.18676'
@@ -2148,7 +2151,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 105
+    paper_rank: 108
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2174,7 +2177,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 121
+    global_rank: 125
     true_value: 0.074
     true_std: 0.003
     value_gap_source_arxiv: '2310.19285'
@@ -2185,9 +2188,9 @@ results:
     has_value_note: false
     value_gap: 0.048
     value_note: ''
-    paper_rank: 198
-    rank_delta: 77
-    rank_delta_abs: 77
+    paper_rank: 210
+    rank_delta: 85
+    rank_delta_abs: 85
     rank_delta_direction: worse
     sort_value: 0.074
     sort_std: 0.003
@@ -2211,7 +2214,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 138
+    global_rank: 145
     true_value: 0.079
     true_std: 0.006
     value_gap_source_arxiv: '2410.18676'
@@ -2222,7 +2225,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 138
+    paper_rank: 145
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2248,7 +2251,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 154
+    global_rank: 163
     true_value: 0.085
     true_std: 0.003
     value_gap_source_arxiv: '2410.18676'
@@ -2259,7 +2262,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 154
+    paper_rank: 163
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2285,7 +2288,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 162
+    global_rank: 172
     true_value: 0.089
     true_std: 0.018
     value_gap_source_arxiv: '2410.18676'
@@ -2296,7 +2299,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 162
+    paper_rank: 172
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2322,7 +2325,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 164
+    global_rank: 174
     true_value: 0.09
     true_std: 0.007
     value_gap_source_arxiv: '2410.18676'
@@ -2333,7 +2336,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 164
+    paper_rank: 174
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2359,7 +2362,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 176
+    global_rank: 188
     true_value: 0.101
     true_std: 0.01
     value_gap_source_arxiv: '2501.03113'
@@ -2370,7 +2373,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 176
+    paper_rank: 188
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2396,7 +2399,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 180
+    global_rank: 192
     true_value: 0.104
     true_std: 0.025
     value_gap_source_arxiv: '2410.18676'
@@ -2407,7 +2410,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 180
+    paper_rank: 192
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2433,7 +2436,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 187
+    global_rank: 199
     true_value: 0.113
     true_std: 0.007
     value_gap_source_arxiv: '2410.18676'
@@ -2444,7 +2447,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 187
+    paper_rank: 199
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2470,7 +2473,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 190
+    global_rank: 202
     true_value: 0.116
     true_std: 0.009
     value_gap_source_arxiv: '2410.18676'
@@ -2481,7 +2484,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 190
+    paper_rank: 202
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2507,7 +2510,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 192
+    global_rank: 204
     true_value: 0.118
     true_std: 0.007
     value_gap_source_arxiv: '2410.18676'
@@ -2518,7 +2521,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 192
+    paper_rank: 204
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2544,7 +2547,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 194
+    global_rank: 206
     true_value: 0.119
     true_std: 0.011
     value_gap_source_arxiv: '2410.18676'
@@ -2555,7 +2558,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 194
+    paper_rank: 206
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2581,7 +2584,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 219
+    global_rank: 232
     true_value: 0.151
     true_std: 0.006
     value_gap_source_arxiv: '2410.18676'
@@ -2592,7 +2595,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 219
+    paper_rank: 232
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2618,7 +2621,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 231
+    global_rank: 244
     true_value: 0.161
     true_std: 0.006
     value_gap_source_arxiv: '2410.18676'
@@ -2629,7 +2632,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 231
+    paper_rank: 244
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2655,7 +2658,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 239
+    global_rank: 253
     true_value: 0.188
     true_std: 0.005
     value_gap_source_arxiv: '2410.18676'
@@ -2666,7 +2669,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 239
+    paper_rank: 253
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2692,7 +2695,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 242
+    global_rank: 256
     true_value: 0.195
     true_std: 0.025
     value_gap_source_arxiv: '2410.18676'
@@ -2703,7 +2706,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 242
+    paper_rank: 256
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2729,7 +2732,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 243
+    global_rank: 257
     true_value: 0.195
     true_std: 0.025
     value_gap_source_arxiv: '2410.18676'
@@ -2740,7 +2743,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 243
+    paper_rank: 257
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2766,7 +2769,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 244
+    global_rank: 258
     true_value: 0.197
     true_std: 0.004
     value_gap_source_arxiv: '2410.18676'
@@ -2777,7 +2780,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 244
+    paper_rank: 258
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2803,7 +2806,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 247
+    global_rank: 261
     true_value: 0.207
     true_std: 0.007
     value_gap_source_arxiv: '2410.18676'
@@ -2814,7 +2817,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 247
+    paper_rank: 261
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2840,7 +2843,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 252
+    global_rank: 266
     true_value: 0.243
     true_std: 0.006
     value_gap_source_arxiv: '2410.18676'
@@ -2851,7 +2854,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 252
+    paper_rank: 266
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2877,7 +2880,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 265
+    global_rank: 279
     true_value: 0.347
     true_std: 0.003
     value_gap_source_arxiv: '2410.18676'
@@ -2888,7 +2891,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 265
+    paper_rank: 279
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2914,7 +2917,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 270
+    global_rank: 284
     true_value: 0.361
     true_std: 0.01
     value_gap_source_arxiv: '2410.18676'
@@ -2925,7 +2928,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 270
+    paper_rank: 284
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2951,7 +2954,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 276
+    global_rank: 290
     true_value: 0.413
     true_std: 0.005
     value_gap_source_arxiv: '2410.18676'
@@ -2962,7 +2965,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 276
+    paper_rank: 290
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2988,7 +2991,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 285
+    global_rank: 299
     true_value: 0.606
     true_std: 0.002
     value_gap_source_arxiv: '2410.18676'
@@ -2999,7 +3002,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 285
+    paper_rank: 299
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same

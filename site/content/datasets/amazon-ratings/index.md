@@ -13,7 +13,7 @@ stats:
   avg_nodes: 24492.0
   avg_edges: 93050.0
   num_classes: 5
-result_count: 104
+result_count: 109
 best_model:
   model: GENs
   value: 0.5592
@@ -148,7 +148,7 @@ variants:
     params_millions: null
     arxiv_id: '2505.23185'
     title: Improving the Effective Receptive Field of Message-Passing Neural Networks
-    date: '2025-05-29'
+    date: May 29, 2025
     date_iso: '2025-05-29'
     date_display: May 2025
     codebase_url: ''
@@ -188,7 +188,7 @@ variants:
     params_millions: null
     arxiv_id: '2505.23185'
     title: Improving the Effective Receptive Field of Message-Passing Neural Networks
-    date: '2025-05-29'
+    date: May 29, 2025
     date_iso: '2025-05-29'
     date_display: May 2025
     codebase_url: ''
@@ -208,7 +208,7 @@ variants:
     params_millions: null
     arxiv_id: '2310.01267'
     title: Cooperative Graph Neural Networks
-    date: '2023-10-02'
+    date: Oct 2, 2023
     date_iso: '2023-10-02'
     date_display: Oct 2023
     codebase_url: ''
@@ -249,7 +249,7 @@ variants:
     params_millions: null
     arxiv_id: '2402.08678'
     title: 'Graph Mamba: Towards Learning on Graphs with State Space Models'
-    date: '2024-02-13'
+    date: Feb 13, 2024
     date_iso: '2024-02-13'
     date_display: Feb 2024
     codebase_url: ''
@@ -269,7 +269,7 @@ variants:
     params_millions: 0.5
     arxiv_id: '2505.23185'
     title: Improving the Effective Receptive Field of Message-Passing Neural Networks
-    date: '2025-05-29'
+    date: May 29, 2025
     date_iso: '2025-05-29'
     date_display: May 2025
     codebase_url: ''
@@ -289,7 +289,7 @@ variants:
     params_millions: null
     arxiv_id: '2505.23185'
     title: Improving the Effective Receptive Field of Message-Passing Neural Networks
-    date: '2025-05-29'
+    date: May 29, 2025
     date_iso: '2025-05-29'
     date_display: May 2025
     codebase_url: ''
@@ -321,8 +321,8 @@ variants:
     metric_stds:
     - 0.0104
     - null
-  - model: Tango<sub>\1</sub>
-    model_plain: Tango\1
+  - model: Tango<sub>GPS</sub>
+    model_plain: TangoGPS
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -450,7 +450,7 @@ variants:
     params_millions: null
     arxiv_id: '2310.01267'
     title: Cooperative Graph Neural Networks
-    date: '2023-10-02'
+    date: Oct 2, 2023
     date_iso: '2023-10-02'
     date_display: Oct 2023
     codebase_url: ''
@@ -490,7 +490,7 @@ variants:
     params_millions: null
     arxiv_id: '2402.08678'
     title: 'Graph Mamba: Towards Learning on Graphs with State Space Models'
-    date: '2024-02-13'
+    date: Feb 13, 2024
     date_iso: '2024-02-13'
     date_display: Feb 2024
     codebase_url: ''
@@ -611,7 +611,7 @@ variants:
     params_millions: null
     arxiv_id: '2402.08678'
     title: 'Graph Mamba: Towards Learning on Graphs with State Space Models'
-    date: '2024-02-13'
+    date: Feb 13, 2024
     date_iso: '2024-02-13'
     date_display: Feb 2024
     codebase_url: ''
@@ -631,7 +631,7 @@ variants:
     params_millions: null
     arxiv_id: '2505.23185'
     title: Improving the Effective Receptive Field of Message-Passing Neural Networks
-    date: '2025-05-29'
+    date: May 29, 2025
     date_iso: '2025-05-29'
     date_display: May 2025
     codebase_url: ''
@@ -651,7 +651,7 @@ variants:
     params_millions: null
     arxiv_id: '2402.08678'
     title: 'Graph Mamba: Towards Learning on Graphs with State Space Models'
-    date: '2024-02-13'
+    date: Feb 13, 2024
     date_iso: '2024-02-13'
     date_display: Feb 2024
     codebase_url: ''
@@ -671,7 +671,7 @@ variants:
     params_millions: null
     arxiv_id: '2402.08678'
     title: 'Graph Mamba: Towards Learning on Graphs with State Space Models'
-    date: '2024-02-13'
+    date: Feb 13, 2024
     date_iso: '2024-02-13'
     date_display: Feb 2024
     codebase_url: ''
@@ -691,7 +691,7 @@ variants:
     params_millions: null
     arxiv_id: '2402.08678'
     title: 'Graph Mamba: Towards Learning on Graphs with State Space Models'
-    date: '2024-02-13'
+    date: Feb 13, 2024
     date_iso: '2024-02-13'
     date_display: Feb 2024
     codebase_url: ''
@@ -711,7 +711,7 @@ variants:
     params_millions: null
     arxiv_id: '2505.23185'
     title: Improving the Effective Receptive Field of Message-Passing Neural Networks
-    date: '2025-05-29'
+    date: May 29, 2025
     date_iso: '2025-05-29'
     date_display: May 2025
     codebase_url: ''
@@ -764,6 +764,26 @@ variants:
     metric_stds:
     - 0.0062
     - null
+  - model: Tango<sub>GatedGCN</sub>
+    model_plain: TangoGatedGCN
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2508.05070'
+    title: 'Tango: Graph Neural Dynamics via Learned Energy and Tangential Flows'
+    date: Aug 2025
+    date_iso: 2025-08
+    date_display: Aug 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.526
+    - null
+    metric_stds:
+    - 0.0053
+    - null
   - model: IM-GCN
     model_plain: IM-GCN
     is_baseline: false
@@ -772,7 +792,7 @@ variants:
     params_millions: null
     arxiv_id: '2505.23185'
     title: Improving the Effective Receptive Field of Message-Passing Neural Networks
-    date: '2025-05-29'
+    date: May 29, 2025
     date_iso: '2025-05-29'
     date_display: May 2025
     codebase_url: ''
@@ -792,7 +812,7 @@ variants:
     params_millions: null
     arxiv_id: '2310.01267'
     title: Cooperative Graph Neural Networks
-    date: '2023-10-02'
+    date: Oct 2, 2023
     date_iso: '2023-10-02'
     date_display: Oct 2023
     codebase_url: ''
@@ -853,7 +873,7 @@ variants:
     params_millions: null
     arxiv_id: '2505.23185'
     title: Improving the Effective Receptive Field of Message-Passing Neural Networks
-    date: '2025-05-29'
+    date: May 29, 2025
     date_iso: '2025-05-29'
     date_display: May 2025
     codebase_url: ''
@@ -873,7 +893,7 @@ variants:
     params_millions: null
     arxiv_id: '2505.23185'
     title: Improving the Effective Receptive Field of Message-Passing Neural Networks
-    date: '2025-05-29'
+    date: May 29, 2025
     date_iso: '2025-05-29'
     date_display: May 2025
     codebase_url: ''
@@ -893,7 +913,7 @@ variants:
     params_millions: null
     arxiv_id: '2310.01267'
     title: Cooperative Graph Neural Networks
-    date: '2023-10-02'
+    date: Oct 2, 2023
     date_iso: '2023-10-02'
     date_display: Oct 2023
     codebase_url: ''
@@ -913,7 +933,7 @@ variants:
     params_millions: null
     arxiv_id: '2402.08678'
     title: 'Graph Mamba: Towards Learning on Graphs with State Space Models'
-    date: '2024-02-13'
+    date: Feb 13, 2024
     date_iso: '2024-02-13'
     date_display: Feb 2024
     codebase_url: ''
@@ -933,7 +953,7 @@ variants:
     params_millions: null
     arxiv_id: '2310.01267'
     title: Cooperative Graph Neural Networks
-    date: '2023-10-02'
+    date: Oct 2, 2023
     date_iso: '2023-10-02'
     date_display: Oct 2023
     codebase_url: ''
@@ -953,7 +973,7 @@ variants:
     params_millions: null
     arxiv_id: '2505.23185'
     title: Improving the Effective Receptive Field of Message-Passing Neural Networks
-    date: '2025-05-29'
+    date: May 29, 2025
     date_iso: '2025-05-29'
     date_display: May 2025
     codebase_url: ''
@@ -965,8 +985,8 @@ variants:
     metric_stds:
     - 0.0055
     - null
-  - model: GPS<sub>\1</sub> (DEG)
-    model_plain: GPS\1 (DEG)
+  - model: GPS<sub>GCN+Performer</sub> (DEG)
+    model_plain: GPSGCN+Performer (DEG)
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -993,7 +1013,7 @@ variants:
     params_millions: null
     arxiv_id: '2505.23185'
     title: Improving the Effective Receptive Field of Message-Passing Neural Networks
-    date: '2025-05-29'
+    date: May 29, 2025
     date_iso: '2025-05-29'
     date_display: May 2025
     codebase_url: ''
@@ -1004,6 +1024,26 @@ variants:
     - null
     metric_stds:
     - 0.006
+    - null
+  - model: Sp. CoCN
+    model_plain: Sp. CoCN
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2407.18480'
+    title: Scalable Graph Compressed Convolutions
+    date: Jul 2024
+    date_iso: 2024-07
+    date_display: Jul 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.5074
+    - null
+    metric_stds:
+    - 0.0015
     - null
   - model: COMBA
     model_plain: COMBA
@@ -1026,6 +1066,26 @@ variants:
     metric_stds:
     - 0.0025
     - null
+  - model: SGC
+    model_plain: SGC
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2407.18480'
+    title: Scalable Graph Compressed Convolutions
+    date: Jul 2024
+    date_iso: 2024-07
+    date_display: Jul 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.5066
+    - null
+    metric_stds:
+    - 0.0048
+    - null
   - model: GMN w/o bidirectional Mamba
     model_plain: GMN w/o bidirectional Mamba
     is_baseline: true
@@ -1034,7 +1094,7 @@ variants:
     params_millions: null
     arxiv_id: '2402.08678'
     title: 'Graph Mamba: Towards Learning on Graphs with State Space Models'
-    date: '2024-02-13'
+    date: Feb 13, 2024
     date_iso: '2024-02-13'
     date_display: Feb 2024
     codebase_url: ''
@@ -1054,7 +1114,7 @@ variants:
     params_millions: null
     arxiv_id: '2505.23185'
     title: Improving the Effective Receptive Field of Message-Passing Neural Networks
-    date: '2025-05-29'
+    date: May 29, 2025
     date_iso: '2025-05-29'
     date_display: May 2025
     codebase_url: ''
@@ -1066,8 +1126,8 @@ variants:
     metric_stds:
     - 0.0069
     - null
-  - model: GPS<sub>\1</sub> (RWSE)
-    model_plain: GPS\1 (RWSE)
+  - model: GPS<sub>GAT+Performer</sub> (RWSE)
+    model_plain: GPSGAT+Performer (RWSE)
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1094,7 +1154,7 @@ variants:
     params_millions: null
     arxiv_id: '2505.23185'
     title: Improving the Effective Receptive Field of Message-Passing Neural Networks
-    date: '2025-05-29'
+    date: May 29, 2025
     date_iso: '2025-05-29'
     date_display: May 2025
     codebase_url: ''
@@ -1114,7 +1174,7 @@ variants:
     params_millions: null
     arxiv_id: '2310.01267'
     title: Cooperative Graph Neural Networks
-    date: '2023-10-02'
+    date: Oct 2, 2023
     date_iso: '2023-10-02'
     date_display: Oct 2023
     codebase_url: ''
@@ -1155,7 +1215,7 @@ variants:
     params_millions: null
     arxiv_id: '2505.23185'
     title: Improving the Effective Receptive Field of Message-Passing Neural Networks
-    date: '2025-05-29'
+    date: May 29, 2025
     date_iso: '2025-05-29'
     date_display: May 2025
     codebase_url: ''
@@ -1167,8 +1227,8 @@ variants:
     metric_stds:
     - 0.0047
     - null
-  - model: GPS<sub>\1</sub> (LapPE)
-    model_plain: GPS\1 (LapPE)
+  - model: GPS<sub>GCN+Performer</sub> (LapPE)
+    model_plain: GPSGCN+Performer (LapPE)
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1195,7 +1255,7 @@ variants:
     params_millions: null
     arxiv_id: '2505.23185'
     title: Improving the Effective Receptive Field of Message-Passing Neural Networks
-    date: '2025-05-29'
+    date: May 29, 2025
     date_iso: '2025-05-29'
     date_display: May 2025
     codebase_url: ''
@@ -1235,7 +1295,7 @@ variants:
     params_millions: null
     arxiv_id: '2310.01267'
     title: Cooperative Graph Neural Networks
-    date: '2023-10-02'
+    date: Oct 2, 2023
     date_iso: '2023-10-02'
     date_display: Oct 2023
     codebase_url: ''
@@ -1255,7 +1315,7 @@ variants:
     params_millions: null
     arxiv_id: '2505.23185'
     title: Improving the Effective Receptive Field of Message-Passing Neural Networks
-    date: '2025-05-29'
+    date: May 29, 2025
     date_iso: '2025-05-29'
     date_display: May 2025
     codebase_url: ''
@@ -1275,7 +1335,7 @@ variants:
     params_millions: null
     arxiv_id: '2505.23185'
     title: Improving the Effective Receptive Field of Message-Passing Neural Networks
-    date: '2025-05-29'
+    date: May 29, 2025
     date_iso: '2025-05-29'
     date_display: May 2025
     codebase_url: ''
@@ -1315,7 +1375,7 @@ variants:
     params_millions: null
     arxiv_id: '2505.23185'
     title: Improving the Effective Receptive Field of Message-Passing Neural Networks
-    date: '2025-05-29'
+    date: May 29, 2025
     date_iso: '2025-05-29'
     date_display: May 2025
     codebase_url: ''
@@ -1376,7 +1436,7 @@ variants:
     params_millions: null
     arxiv_id: '2505.23185'
     title: Improving the Effective Receptive Field of Message-Passing Neural Networks
-    date: '2025-05-29'
+    date: May 29, 2025
     date_iso: '2025-05-29'
     date_display: May 2025
     codebase_url: ''
@@ -1498,7 +1558,7 @@ variants:
     params_millions: null
     arxiv_id: '2505.23185'
     title: Improving the Effective Receptive Field of Message-Passing Neural Networks
-    date: '2025-05-29'
+    date: May 29, 2025
     date_iso: '2025-05-29'
     date_display: May 2025
     codebase_url: ''
@@ -1518,7 +1578,7 @@ variants:
     params_millions: null
     arxiv_id: '2505.23185'
     title: Improving the Effective Receptive Field of Message-Passing Neural Networks
-    date: '2025-05-29'
+    date: May 29, 2025
     date_iso: '2025-05-29'
     date_display: May 2025
     codebase_url: ''
@@ -1559,7 +1619,7 @@ variants:
     params_millions: null
     arxiv_id: '2505.23185'
     title: Improving the Effective Receptive Field of Message-Passing Neural Networks
-    date: '2025-05-29'
+    date: May 29, 2025
     date_iso: '2025-05-29'
     date_display: May 2025
     codebase_url: ''
@@ -1579,7 +1639,7 @@ variants:
     params_millions: null
     arxiv_id: '2402.08678'
     title: 'Graph Mamba: Towards Learning on Graphs with State Space Models'
-    date: '2024-02-13'
+    date: Feb 13, 2024
     date_iso: '2024-02-13'
     date_display: Feb 2024
     codebase_url: ''
@@ -1599,7 +1659,7 @@ variants:
     params_millions: null
     arxiv_id: '2505.23185'
     title: Improving the Effective Receptive Field of Message-Passing Neural Networks
-    date: '2025-05-29'
+    date: May 29, 2025
     date_iso: '2025-05-29'
     date_display: May 2025
     codebase_url: ''
@@ -1640,11 +1700,31 @@ variants:
     params_millions: null
     arxiv_id: '2505.23185'
     title: Improving the Effective Receptive Field of Message-Passing Neural Networks
-    date: '2025-05-29'
+    date: May 29, 2025
     date_iso: '2025-05-29'
     date_display: May 2025
     codebase_url: ''
     uses_external_data: null
+    is_best: false
+    metric_values:
+    - 0.4488
+    - null
+    metric_stds:
+    - 0.0034
+    - null
+  - model: GPRGCN
+    model_plain: GPRGCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2407.18480'
+    title: Scalable Graph Compressed Convolutions
+    date: Jul 2024
+    date_iso: 2024-07
+    date_display: Jul 2024
+    codebase_url: ''
+    uses_external_data: false
     is_best: false
     metric_values:
     - 0.4488
@@ -1660,7 +1740,7 @@ variants:
     params_millions: null
     arxiv_id: '2402.08678'
     title: 'Graph Mamba: Towards Learning on Graphs with State Space Models'
-    date: '2024-02-13'
+    date: Feb 13, 2024
     date_iso: '2024-02-13'
     date_display: Feb 2024
     codebase_url: ''
@@ -1680,7 +1760,7 @@ variants:
     params_millions: null
     arxiv_id: '2505.23185'
     title: Improving the Effective Receptive Field of Message-Passing Neural Networks
-    date: '2025-05-29'
+    date: May 29, 2025
     date_iso: '2025-05-29'
     date_display: May 2025
     codebase_url: ''
@@ -1698,13 +1778,13 @@ variants:
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2505.23185'
-    title: Improving the Effective Receptive Field of Message-Passing Neural Networks
-    date: '2025-05-29'
-    date_iso: '2025-05-29'
-    date_display: May 2025
+    arxiv_id: '2407.18480'
+    title: Scalable Graph Compressed Convolutions
+    date: Jul 2024
+    date_iso: 2024-07
+    date_display: Jul 2024
     codebase_url: ''
-    uses_external_data: null
+    uses_external_data: false
     is_best: false
     metric_values:
     - 0.4412
@@ -1741,7 +1821,7 @@ variants:
     params_millions: null
     arxiv_id: '2505.23185'
     title: Improving the Effective Receptive Field of Message-Passing Neural Networks
-    date: '2025-05-29'
+    date: May 29, 2025
     date_iso: '2025-05-29'
     date_display: May 2025
     codebase_url: ''
@@ -1753,6 +1833,26 @@ variants:
     metric_stds:
     - 0.0048
     - null
+  - model: Seg. CoCN
+    model_plain: Seg. CoCN
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2407.18480'
+    title: Scalable Graph Compressed Convolutions
+    date: Jul 2024
+    date_iso: 2024-07
+    date_display: Jul 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.4306
+    - null
+    metric_stds:
+    - 0.0021
+    - null
   - model: GatedGCN
     model_plain: GatedGCN
     is_baseline: true
@@ -1761,7 +1861,7 @@ variants:
     params_millions: null
     arxiv_id: '2402.08678'
     title: 'Graph Mamba: Towards Learning on Graphs with State Space Models'
-    date: '2024-02-13'
+    date: Feb 13, 2024
     date_iso: '2024-02-13'
     date_display: Feb 2024
     codebase_url: ''
@@ -2031,7 +2131,7 @@ variants:
     params_millions: null
     arxiv_id: '2410.05499'
     title: Unitary convolutions for learning on graphs and groups
-    date: '2024-10-07'
+    date: Oct 7, 2024
     date_iso: '2024-10-07'
     date_display: Oct 2024
     codebase_url: ''
@@ -2051,7 +2151,7 @@ variants:
     params_millions: null
     arxiv_id: '2410.05499'
     title: Unitary convolutions for learning on graphs and groups
-    date: '2024-10-07'
+    date: Oct 7, 2024
     date_iso: '2024-10-07'
     date_display: Oct 2024
     codebase_url: ''
@@ -2071,7 +2171,7 @@ variants:
     params_millions: null
     arxiv_id: '2410.05499'
     title: Unitary convolutions for learning on graphs and groups
-    date: '2024-10-07'
+    date: Oct 7, 2024
     date_iso: '2024-10-07'
     date_display: Oct 2024
     codebase_url: ''
@@ -2091,7 +2191,7 @@ variants:
     params_millions: null
     arxiv_id: '2410.05499'
     title: Unitary convolutions for learning on graphs and groups
-    date: '2024-10-07'
+    date: Oct 7, 2024
     date_iso: '2024-10-07'
     date_display: Oct 2024
     codebase_url: ''
@@ -2111,7 +2211,7 @@ variants:
     params_millions: null
     arxiv_id: '2410.05499'
     title: Unitary convolutions for learning on graphs and groups
-    date: '2024-10-07'
+    date: Oct 7, 2024
     date_iso: '2024-10-07'
     date_display: Oct 2024
     codebase_url: ''
@@ -2131,7 +2231,7 @@ variants:
     params_millions: null
     arxiv_id: '2410.05499'
     title: Unitary convolutions for learning on graphs and groups
-    date: '2024-10-07'
+    date: Oct 7, 2024
     date_iso: '2024-10-07'
     date_display: Oct 2024
     codebase_url: ''

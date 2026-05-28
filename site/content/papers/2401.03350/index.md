@@ -771,7 +771,7 @@ results:
     codebase_url: ''
     uses_external_data: null
     is_best: false
-    global_rank: 61
+    global_rank: 64
   - model: GPS-DENS + LPE
     model_key: gps-dens + lpe
     model_plain: GPS-DENS + LPE
@@ -808,7 +808,7 @@ results:
     codebase_url: ''
     uses_external_data: null
     is_best: false
-    global_rank: 65
+    global_rank: 68
   - model: GPS + LPE + G-\DeltaUQ
     model_key: gps + lpe + g-$\delta$uq
     model_plain: GPS + LPE + G-\DeltaUQ
@@ -845,7 +845,7 @@ results:
     codebase_url: ''
     uses_external_data: null
     is_best: false
-    global_rank: 73
+    global_rank: 76
   - model: GPS (Pretrained) + LPE + G-\DeltaUQ
     model_key: gps (pretrained) + lpe + g-$\delta$uq
     model_plain: GPS (Pretrained) + LPE + G-\DeltaUQ
@@ -882,7 +882,7 @@ results:
     codebase_url: ''
     uses_external_data: null
     is_best: false
-    global_rank: 82
+    global_rank: 86
   - model: GatedGCN-DENS + LPE
     model_key: gatedgcn-dens + lpe
     model_plain: GatedGCN-DENS + LPE
@@ -919,7 +919,7 @@ results:
     codebase_url: ''
     uses_external_data: null
     is_best: false
-    global_rank: 84
+    global_rank: 88
   - model: GatedGCN-DENS
     model_key: gatedgcn-dens
     model_plain: GatedGCN-DENS
@@ -956,7 +956,7 @@ results:
     codebase_url: ''
     uses_external_data: null
     is_best: false
-    global_rank: 86
+    global_rank: 90
   - model: GatedGCN-DENS + LPE + G-\DeltaUQ
     model_key: gatedgcn-dens + lpe + g-$\delta$uq
     model_plain: GatedGCN-DENS + LPE + G-\DeltaUQ
@@ -993,7 +993,7 @@ results:
     codebase_url: ''
     uses_external_data: null
     is_best: false
-    global_rank: 89
+    global_rank: 95
   - model: GatedGCN+LapPE
     model_key: gatedgcn+lappe
     model_plain: GatedGCN+LapPE
@@ -1030,7 +1030,7 @@ results:
     codebase_url: ''
     uses_external_data: null
     is_best: false
-    global_rank: 92
+    global_rank: 98
   - model: GatedGCN + G-\DeltaUQ
     model_key: gatedgcn + g-$\delta$uq
     model_plain: GatedGCN + G-\DeltaUQ
@@ -1067,7 +1067,7 @@ results:
     codebase_url: ''
     uses_external_data: null
     is_best: false
-    global_rank: 91
+    global_rank: 97
   - model: Pretr. G-\Delta UQ
     model_key: pretr. g-\delta uq
     model_plain: Pretr. G-\Delta UQ

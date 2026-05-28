@@ -94,28 +94,29 @@ results:
     sort_value: 0.80027
     sort_std: 0.00185
     is_best: false
-  - model: Ours
-    model_key: ours
-    model_plain: Ours
-    value: 0.79067
-    std: 0.00269
+  - model: RandAlign (4 layers)
+    model_key: randalign (4 layers)
+    model_plain: RandAlign (4 layers)
+    value: 0.7942
+    std: 0.00072
     metric: Accuracy
     higher_is_better: true
     is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2407.02758'
-    title: Differential Encoding for Improved Representation Learning over Graphs
-    date: Jul 2024
-    date_display: Jul 2024
-    date_iso: 2024-07
+    arxiv_id: '2404.09774'
+    title: 'RandAlign: A Parameter-Free Method for Regularizing Graph Convolutional
+      Networks'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
     global_rank: 3
-    sort_value: 0.79067
-    sort_std: 0.00269
+    sort_value: 0.7942
+    sort_std: 0.00072
     is_best: false
   - model: GatedGCN
     model_key: gatedgcn
@@ -136,7 +137,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 8
+    global_rank: 12
     true_value: 0.77218
     true_std: 0.00381
     value_gap_source_arxiv: '2502.09263'
@@ -147,9 +148,9 @@ results:
     has_value_note: false
     value_gap: 0.09905999999999993
     value_note: ''
-    paper_rank: 99
-    rank_delta: 91
-    rank_delta_abs: 91
+    paper_rank: 104
+    rank_delta: 92
+    rank_delta_abs: 92
     rank_delta_direction: worse
     sort_value: 0.77218
     sort_std: 0.00381
@@ -173,7 +174,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 47
+    global_rank: 51
     true_value: 0.72838
     true_std: 0.00417
     value_gap_source_arxiv: '2504.12588'
@@ -183,7 +184,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 47
+    paper_rank: 51
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -209,7 +210,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 51
+    global_rank: 55
     true_value: 0.72417
     true_std: 0.00221
     value_gap_source_arxiv: '2310.19285'
@@ -220,7 +221,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 51
+    paper_rank: 55
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -246,7 +247,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 53
+    global_rank: 57
     true_value: 0.72356
     true_std: 0.0032300000000000002
     value_gap_source_arxiv: '2605.05689'
@@ -257,7 +258,7 @@ results:
     has_value_note: true
     value_gap: 0.0005800000000000249
     value_note: global 0.7236 within std
-    paper_rank: 57
+    paper_rank: 61
     rank_delta: 4
     rank_delta_abs: 4
     rank_delta_direction: worse
@@ -283,7 +284,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 61
+    global_rank: 66
     true_value: 0.7219
     true_std: 0.0013
     value_gap_source_arxiv: '2605.05689'
@@ -294,7 +295,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 61
+    paper_rank: 66
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -320,7 +321,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 81
+    global_rank: 86
     true_value: 0.7035
     true_std: 0.0063
     value_gap_source_arxiv: '2504.12588'
@@ -330,7 +331,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 81
+    paper_rank: 86
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -356,7 +357,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 83
+    global_rank: 88
     true_value: 0.7026
     true_std: 0.00341
     value_gap_source_arxiv: '2310.19285'
@@ -367,7 +368,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 83
+    paper_rank: 88
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -393,7 +394,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 90
+    global_rank: 95
     true_value: 0.69824
     true_std: 0.00413
     value_gap_source_arxiv: '2502.09263'
@@ -404,7 +405,7 @@ results:
     has_value_note: false
     value_gap: 0.14113999999999993
     value_note: ''
-    paper_rank: 109
+    paper_rank: 114
     rank_delta: 19
     rank_delta_abs: 19
     rank_delta_direction: worse
@@ -430,7 +431,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 92
+    global_rank: 97
     true_value: 0.69592
     true_std: 0.00287
     value_gap_source_arxiv: '2502.09263'
@@ -441,7 +442,7 @@ results:
     has_value_note: false
     value_gap: 0.14337
     value_note: ''
-    paper_rank: 110
+    paper_rank: 115
     rank_delta: 18
     rank_delta_abs: 18
     rank_delta_direction: worse
@@ -467,7 +468,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 95
+    global_rank: 100
     true_value: 0.69013
     true_std: 0.00259
     value_gap_source_arxiv: '2407.02758'
@@ -478,7 +479,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 95
+    paper_rank: 100
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -504,7 +505,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 97
+    global_rank: 102
     true_value: 0.68702
     true_std: 0.00409
     value_gap_source_arxiv: '2605.05689'
@@ -515,7 +516,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 97
+    paper_rank: 102
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -541,7 +542,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 105
+    global_rank: 110
     true_value: 0.64223
     true_std: 0.00455
     value_gap_source_arxiv: '2605.05689'
@@ -552,7 +553,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 105
+    paper_rank: 110
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -663,9 +664,9 @@ results:
     has_value_note: false
     value_gap: 0.013719999999999954
     value_note: ''
-    paper_rank: 77
-    rank_delta: 73
-    rank_delta_abs: 73
+    paper_rank: 80
+    rank_delta: 76
+    rank_delta_abs: 76
     rank_delta_direction: worse
     sort_value: 0.98712
     sort_std: 0.00137
@@ -689,7 +690,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 22
+    global_rank: 26
     true_value: 0.98382
     true_std: 0.00095
     value_gap_source_arxiv: '2502.09263'
@@ -700,9 +701,9 @@ results:
     has_value_note: false
     value_gap: 0.07677
     value_note: ''
-    paper_rank: 94
-    rank_delta: 72
-    rank_delta_abs: 72
+    paper_rank: 100
+    rank_delta: 74
+    rank_delta_abs: 74
     rank_delta_direction: worse
     sort_value: 0.98382
     sort_std: 0.00095
@@ -726,7 +727,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 28
+    global_rank: 32
     true_value: 0.98285
     true_std: 0.00103
     value_gap_source_arxiv: '2502.09263'
@@ -737,7 +738,7 @@ results:
     has_value_note: false
     value_gap: 0.018000000000000016
     value_note: ''
-    paper_rank: 84
+    paper_rank: 88
     rank_delta: 56
     rank_delta_abs: 56
     rank_delta_direction: worse
@@ -763,7 +764,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 33
+    global_rank: 36
     true_value: 0.98245
     true_std: 0.0007
     value_gap_source_arxiv: '2310.19285'
@@ -774,7 +775,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 33
+    paper_rank: 36
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -800,7 +801,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 41
+    global_rank: 44
     true_value: 0.98173
     true_std: 0.00087
     value_gap_source_arxiv: '2605.05689'
@@ -811,7 +812,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 41
+    paper_rank: 44
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -837,7 +838,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 51
+    global_rank: 54
     true_value: 0.9811
     true_std: 0.0011
     value_gap_source_arxiv: '2411.15671'
@@ -848,7 +849,7 @@ results:
     has_value_note: true
     value_gap: 0.0005899999999999794
     value_note: global 0.9811 within std
-    paper_rank: 59
+    paper_rank: 62
     rank_delta: 8
     rank_delta_abs: 8
     rank_delta_direction: worse
@@ -874,7 +875,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 59
+    global_rank: 62
     true_value: 0.98069
     true_std: 0.00115
     value_gap_source_arxiv: '2310.19285'
@@ -885,7 +886,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 59
+    paper_rank: 62
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -911,7 +912,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 70
+    global_rank: 73
     true_value: 0.97944
     true_std: 0.0005
     value_gap_source_arxiv: '2407.02758'
@@ -922,7 +923,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 70
+    paper_rank: 73
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -948,7 +949,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 71
+    global_rank: 74
     true_value: 0.9794
     true_std: 0.0012
     value_gap_source_arxiv: '2605.05689'
@@ -959,7 +960,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 71
+    paper_rank: 74
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -985,7 +986,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 87
+    global_rank: 92
     true_value: 0.9554
     true_std: 0.0021
     value_gap_source_arxiv: '2411.15671'
@@ -996,7 +997,7 @@ results:
     has_value_note: true
     value_gap: 4.999999999999449e-05
     value_note: global 0.9554 within std
-    paper_rank: 87
+    paper_rank: 92
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1107,9 +1108,9 @@ results:
     has_value_note: false
     value_gap: 0.1366
     value_note: ''
-    paper_rank: 47
-    rank_delta: 43
-    rank_delta_abs: 43
+    paper_rank: 48
+    rank_delta: 44
+    rank_delta_abs: 44
     rank_delta_direction: worse
     sort_value: 0.4703
     sort_std: 0.0014
@@ -1144,9 +1145,9 @@ results:
     has_value_note: false
     value_gap: 0.14520000000000005
     value_note: ''
-    paper_rank: 60
-    rank_delta: 55
-    rank_delta_abs: 55
+    paper_rank: 61
+    rank_delta: 56
+    rank_delta_abs: 56
     rank_delta_direction: worse
     sort_value: 0.467
     sort_std: 0.0004
@@ -1181,9 +1182,9 @@ results:
     has_value_note: false
     value_gap: 0.12919999999999998
     value_note: ''
-    paper_rank: 59
-    rank_delta: 52
-    rank_delta_abs: 52
+    paper_rank: 60
+    rank_delta: 53
+    rank_delta_abs: 53
     rank_delta_direction: worse
     sort_value: 0.4526
     sort_std: 0.0006
@@ -1218,9 +1219,9 @@ results:
     has_value_note: false
     value_gap: 0.032899999999999985
     value_note: ''
-    paper_rank: 60
-    rank_delta: 43
-    rank_delta_abs: 43
+    paper_rank: 61
+    rank_delta: 44
+    rank_delta_abs: 44
     rank_delta_direction: worse
     sort_value: 0.3509
     sort_std: 0.0006
@@ -1244,7 +1245,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 34
+    global_rank: 35
     true_value: 0.3408
     true_std: 0.0003
     value_gap_source_arxiv: '2310.19285'
@@ -1255,7 +1256,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 34
+    paper_rank: 35
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1281,7 +1282,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 35
+    global_rank: 36
     true_value: 0.3407
     true_std: 0.0004
     value_gap_source_arxiv: '2310.19285'
@@ -1292,7 +1293,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 35
+    paper_rank: 36
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1318,7 +1319,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 44
+    global_rank: 45
     true_value: 0.335
     true_std: 0.0003
     value_gap_source_arxiv: '2206.08164'
@@ -1328,7 +1329,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 44
+    paper_rank: 45
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1354,7 +1355,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 45
+    global_rank: 46
     true_value: 0.335
     true_std: 0.0003
     value_gap_source_arxiv: '2310.19285'
@@ -1365,7 +1366,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 45
+    paper_rank: 46
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1391,7 +1392,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 47
+    global_rank: 48
     true_value: 0.3342
     true_std: 0.0008
     value_gap_source_arxiv: '2310.19285'
@@ -1402,7 +1403,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 47
+    paper_rank: 48
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1428,7 +1429,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 50
+    global_rank: 51
     true_value: 0.3336
     true_std: 0.0004
     value_gap_source_arxiv: '2310.19285'
@@ -1439,7 +1440,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 50
+    paper_rank: 51
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1465,7 +1466,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 61
+    global_rank: 62
     true_value: 0.3174
     true_std: 0.002
     value_gap_source_arxiv: '2206.08164'
@@ -1475,7 +1476,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 61
+    paper_rank: 62
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1500,7 +1501,7 @@ results:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_display: Jan 2025
     date_iso: '2025-01-29'
     codebase_url: ''
@@ -1523,7 +1524,7 @@ results:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_display: Jan 2025
     date_iso: '2025-01-29'
     codebase_url: ''
@@ -1546,7 +1547,7 @@ results:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_display: Jan 2025
     date_iso: '2025-01-29'
     codebase_url: ''
@@ -1586,9 +1587,9 @@ results:
     has_value_note: false
     value_gap: 0.1331
     value_note: ''
-    paper_rank: 259
-    rank_delta: 250
-    rank_delta_abs: 250
+    paper_rank: 261
+    rank_delta: 252
+    rank_delta_abs: 252
     rank_delta_direction: worse
     sort_value: 0.7261
     sort_std: 0.0067
@@ -1612,7 +1613,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 48
+    global_rank: 49
     true_value: 0.7006
     true_std: 0.0033
     value_gap_source_arxiv: '2502.09263'
@@ -1623,9 +1624,9 @@ results:
     has_value_note: false
     value_gap: 0.11419999999999997
     value_note: ''
-    paper_rank: 271
-    rank_delta: 223
-    rank_delta_abs: 223
+    paper_rank: 273
+    rank_delta: 224
+    rank_delta_abs: 224
     rank_delta_direction: worse
     sort_value: 0.7006
     sort_std: 0.0033
@@ -1649,7 +1650,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 139
+    global_rank: 140
     true_value: 0.6625
     true_std: 0.0042
     value_gap_source_arxiv: '2310.19285'
@@ -1660,7 +1661,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 139
+    paper_rank: 140
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1686,7 +1687,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 141
+    global_rank: 142
     true_value: 0.6621
     true_std: 0.0067
     value_gap_source_arxiv: '2309.00367'
@@ -1697,9 +1698,9 @@ results:
     has_value_note: false
     value_gap: 0.11230000000000007
     value_note: ''
-    paper_rank: 286
-    rank_delta: 145
-    rank_delta_abs: 145
+    paper_rank: 288
+    rank_delta: 146
+    rank_delta_abs: 146
     rank_delta_direction: worse
     sort_value: 0.6621
     sort_std: 0.0067
@@ -1723,7 +1724,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 152
+    global_rank: 154
     true_value: 0.6601
     true_std: 0.0061
     value_gap_source_arxiv: '2502.09365'
@@ -1733,7 +1734,7 @@ results:
     has_value_note: false
     value_gap: 0.00660000000000005
     value_note: ''
-    paper_rank: 166
+    paper_rank: 168
     rank_delta: 14
     rank_delta_abs: 14
     rank_delta_direction: worse
@@ -1759,7 +1760,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 158
+    global_rank: 160
     true_value: 0.6584
     true_std: 0.0033
     value_gap_source_arxiv: '2310.19285'
@@ -1770,7 +1771,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 158
+    paper_rank: 160
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1796,7 +1797,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 198
+    global_rank: 200
     true_value: 0.644
     true_std: 0.008
     value_gap_source_arxiv: '2309.16014'
@@ -1807,7 +1808,7 @@ results:
     has_value_note: true
     value_gap: 9.999999999998899e-05
     value_note: global 0.6440 within std
-    paper_rank: 199
+    paper_rank: 201
     rank_delta: 1
     rank_delta_abs: 1
     rank_delta_direction: worse
@@ -1833,7 +1834,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 210
+    global_rank: 212
     true_value: 0.6384000000000001
     true_std: 0.0121
     value_gap_source_arxiv: '2510.02565'
@@ -1843,7 +1844,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 210
+    paper_rank: 212
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1869,7 +1870,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 215
+    global_rank: 217
     true_value: 0.6326
     true_std: 0.0126
     value_gap_source_arxiv: '2206.08164'
@@ -1879,7 +1880,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 215
+    paper_rank: 217
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1905,7 +1906,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 247
+    global_rank: 249
     true_value: 0.6002
     true_std: 0.0048
     value_gap_source_arxiv: '2310.19285'
@@ -1916,7 +1917,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 247
+    paper_rank: 249
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1942,7 +1943,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 266
+    global_rank: 268
     true_value: 0.5926
     true_std: 0.0059
     value_gap_source_arxiv: '2310.19285'
@@ -1953,7 +1954,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 266
+    paper_rank: 268
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2041,9 +2042,9 @@ results:
     has_value_note: false
     value_gap: 0.10750000000000001
     value_note: ''
-    paper_rank: 299
-    rank_delta: 296
-    rank_delta_abs: 296
+    paper_rank: 304
+    rank_delta: 301
+    rank_delta_abs: 301
     rank_delta_direction: worse
     sort_value: 0.2421
     sort_std: 0.0016
@@ -2101,9 +2102,9 @@ results:
     has_value_note: false
     value_gap: 0.09890000000000002
     value_note: ''
-    paper_rank: 292
-    rank_delta: 280
-    rank_delta_abs: 280
+    paper_rank: 297
+    rank_delta: 285
+    rank_delta_abs: 285
     rank_delta_direction: worse
     sort_value: 0.2431
     sort_std: 0.002
@@ -2127,7 +2128,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 78
+    global_rank: 79
     true_value: 0.2473
     true_std: 0.0017
     value_gap_source_arxiv: '2604.03815'
@@ -2138,9 +2139,9 @@ results:
     has_value_note: false
     value_gap: 0.10740000000000002
     value_note: ''
-    paper_rank: 306
-    rank_delta: 228
-    rank_delta_abs: 228
+    paper_rank: 311
+    rank_delta: 232
+    rank_delta_abs: 232
     rank_delta_direction: worse
     sort_value: 0.2473
     sort_std: 0.0017
@@ -2164,7 +2165,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 132
+    global_rank: 135
     true_value: 0.25
     true_std: 0.0005
     value_gap_source_arxiv: '2605.06462'
@@ -2174,7 +2175,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 132
+    paper_rank: 135
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2200,7 +2201,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 140
+    global_rank: 143
     true_value: 0.2501
     true_std: 0.0012
     value_gap_source_arxiv: '2310.19285'
@@ -2211,7 +2212,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 140
+    paper_rank: 143
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2237,7 +2238,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 142
+    global_rank: 145
     true_value: 0.2505
     true_std: 0.0014
     value_gap_source_arxiv: '2310.19285'
@@ -2248,7 +2249,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 142
+    paper_rank: 145
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2274,7 +2275,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 165
+    global_rank: 168
     true_value: 0.2529
     true_std: 0.0016
     value_gap_source_arxiv: '2206.08164'
@@ -2284,7 +2285,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 165
+    paper_rank: 168
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2310,7 +2311,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 184
+    global_rank: 188
     true_value: 0.2545
     true_std: 0.0012
     value_gap_source_arxiv: '2206.08164'
@@ -2320,7 +2321,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 184
+    paper_rank: 188
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2346,7 +2347,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 222
+    global_rank: 227
     true_value: 0.2632
     true_std: 0.0008
     value_gap_source_arxiv: '2310.19285'
@@ -2357,7 +2358,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 222
+    paper_rank: 227
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2383,7 +2384,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 236
+    global_rank: 241
     true_value: 0.2679
     true_std: 0.0015
     value_gap_source_arxiv: '2310.19285'
@@ -2394,7 +2395,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 236
+    paper_rank: 241
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2420,7 +2421,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 237
+    global_rank: 242
     true_value: 0.268
     true_std: 0.004
     value_gap_source_arxiv: '2502.01122'
@@ -2431,7 +2432,7 @@ results:
     has_value_note: true
     value_gap: 0.00029999999999996696
     value_note: global 0.2680 within std
-    paper_rank: 237
+    paper_rank: 242
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2502,7 +2503,7 @@ results:
     params_millions: 1.0
     arxiv_id: '2405.02795'
     title: Graph as Point Set
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
     codebase_url: ''
@@ -2541,45 +2542,9 @@ results:
     has_value_note: false
     value_gap: 0.057
     value_note: ''
-    paper_rank: 137
-    rank_delta: 130
-    rank_delta_abs: 130
-    rank_delta_direction: worse
-    sort_value: 0.022
-    sort_std: 0.002
-    is_best: false
-  - model: CIN
-    model_key: cin
-    model_plain: CIN
-    value: 0.079
-    std: 0.006
-    paper_value: 0.079
-    paper_std: 0.006
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Oct 2023
-    date_display: Oct 2023
-    date_iso: 2023-10
-    global_rank: 7
-    true_value: 0.022
-    true_std: 0.002
-    value_gap_source_arxiv: '2405.02795'
-    value_gap_source_title: Graph as Point Set
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.057
-    value_note: ''
-    paper_rank: 137
-    rank_delta: 130
-    rank_delta_abs: 130
+    paper_rank: 144
+    rank_delta: 137
+    rank_delta_abs: 137
     rank_delta_direction: worse
     sort_value: 0.022
     sort_std: 0.002
@@ -2613,45 +2578,9 @@ results:
     has_value_note: false
     value_gap: 0.04800000000000001
     value_note: ''
-    paper_rank: 104
-    rank_delta: 98
-    rank_delta_abs: 98
-    rank_delta_direction: worse
-    sort_value: 0.022
-    sort_std: 0.002
-    is_best: false
-  - model: SSWL+
-    model_key: sswl+
-    model_plain: SSWL+
-    value: 0.07
-    std: 0.005
-    paper_value: 0.07
-    paper_std: 0.005
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Oct 2023
-    date_display: Oct 2023
-    date_iso: 2023-10
-    global_rank: 6
-    true_value: 0.022
-    true_std: 0.002
-    value_gap_source_arxiv: '2405.02795'
-    value_gap_source_title: Graph as Point Set
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.04800000000000001
-    value_note: ''
-    paper_rank: 104
-    rank_delta: 98
-    rank_delta_abs: 98
+    paper_rank: 107
+    rank_delta: 101
+    rank_delta_abs: 101
     rank_delta_direction: worse
     sort_value: 0.022
     sort_std: 0.002
@@ -2686,46 +2615,9 @@ results:
     has_value_note: false
     value_gap: 0.126
     value_note: ''
-    paper_rank: 218
-    rank_delta: 209
-    rank_delta_abs: 209
-    rank_delta_direction: worse
-    sort_value: 0.023
-    sort_std: 0.001
-    is_best: false
-  - model: GRIT
-    model_key: grit
-    model_plain: GRIT
-    value: 0.149
-    std: 0.008
-    paper_value: 0.149
-    paper_std: 0.008
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Oct 2023
-    date_display: Oct 2023
-    date_iso: 2023-10
-    global_rank: 9
-    true_value: 0.023
-    true_std: 0.001
-    value_gap_source_arxiv: '2310.20519'
-    value_gap_source_title: Enhancing Graph Neural Networks with Quantum Computed
-      Encodings
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.126
-    value_note: ''
-    paper_rank: 218
-    rank_delta: 209
-    rank_delta_abs: 209
+    paper_rank: 231
+    rank_delta: 222
+    rank_delta_abs: 222
     rank_delta_direction: worse
     sort_value: 0.023
     sort_std: 0.001
@@ -2760,46 +2652,9 @@ results:
     has_value_note: false
     value_gap: 0.089158
     value_note: ''
-    paper_rank: 186
-    rank_delta: 173
-    rank_delta_abs: 173
-    rank_delta_direction: worse
-    sort_value: 0.023842
-    sort_std: 0.0069779309254248125
-    is_best: false
-  - model: GPS
-    model_key: gps
-    model_plain: GPS
-    value: 0.113
-    std: 0.005
-    paper_value: 0.113
-    paper_std: 0.005
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Oct 2023
-    date_display: Oct 2023
-    date_iso: 2023-10
-    global_rank: 13
-    true_value: 0.023842
-    true_std: 0.0069779309254248125
-    value_gap_source_arxiv: '2402.10793'
-    value_gap_source_title: An end-to-end attention-based approach for learning on
-      graphs
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.089158
-    value_note: ''
-    paper_rank: 186
-    rank_delta: 173
-    rank_delta_abs: 173
+    paper_rank: 198
+    rank_delta: 185
+    rank_delta_abs: 185
     rank_delta_direction: worse
     sort_value: 0.023842
     sort_std: 0.0069779309254248125
@@ -2833,45 +2688,9 @@ results:
     has_value_note: false
     value_gap: 0.097
     value_note: ''
-    paper_rank: 198
-    rank_delta: 180
-    rank_delta_abs: 180
-    rank_delta_direction: worse
-    sort_value: 0.025
-    sort_std: 0.004
-    is_best: false
-  - model: Graphormer
-    model_key: graphormer
-    model_plain: Graphormer
-    value: 0.122
-    std: 0.006
-    paper_value: 0.122
-    paper_std: 0.006
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Oct 2023
-    date_display: Oct 2023
-    date_iso: 2023-10
-    global_rank: 18
-    true_value: 0.025
-    true_std: 0.004
-    value_gap_source_arxiv: '2501.18739'
-    value_gap_source_title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.097
-    value_note: ''
-    paper_rank: 198
-    rank_delta: 180
-    rank_delta_abs: 180
+    paper_rank: 210
+    rank_delta: 192
+    rank_delta_abs: 192
     rank_delta_direction: worse
     sort_value: 0.025
     sort_std: 0.004
@@ -2980,46 +2799,9 @@ results:
     has_value_note: false
     value_gap: 0.13072978921109524
     value_note: ''
-    paper_rank: 238
-    rank_delta: 190
-    rank_delta_abs: 190
-    rank_delta_direction: worse
-    sort_value: 0.05727021078890476
-    sort_std: 0.006639614126119909
-    is_best: false
-  - model: PNA
-    model_key: pna
-    model_plain: PNA
-    value: 0.188
-    std: 0.004
-    paper_value: 0.188
-    paper_std: 0.004
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Oct 2023
-    date_display: Oct 2023
-    date_iso: 2023-10
-    global_rank: 48
-    true_value: 0.05727021078890476
-    true_std: 0.006639614126119909
-    value_gap_source_arxiv: '2402.10793'
-    value_gap_source_title: An end-to-end attention-based approach for learning on
-      graphs
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.13072978921109524
-    value_note: ''
-    paper_rank: 238
-    rank_delta: 190
-    rank_delta_abs: 190
+    paper_rank: 252
+    rank_delta: 204
+    rank_delta_abs: 204
     rank_delta_direction: worse
     sort_value: 0.05727021078890476
     sort_std: 0.006639614126119909
@@ -3040,43 +2822,6 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2023
-    date_display: Oct 2023
-    date_iso: 2023-10
-    global_rank: 49
-    true_value: 0.058
-    true_std: 0.002
-    value_gap_source_arxiv: '2310.19285'
-    value_gap_source_title: Facilitating Graph Neural Networks with Random Walk on
-      Simplicial Complexes
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 49
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.058
-    sort_std: 0.002
-    is_best: false
-  - model: GRIT + RRWP + EdgeRWSE(undirected)
-    model_key: grit + rrwp + edgerwse(undirected)
-    model_plain: GRIT + RRWP + EdgeRWSE(undirected)
-    value: 0.058
-    std: 0.002
-    paper_value: 0.058
-    paper_std: 0.002
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
@@ -3135,43 +2880,6 @@ results:
     sort_value: 0.059
     sort_std: 0.002
     is_best: false
-  - model: GRIT+RRWP
-    model_key: grit+rrwp
-    model_plain: GRIT+RRWP
-    value: 0.059
-    std: 0.002
-    paper_value: 0.059
-    paper_std: 0.002
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Oct 2023
-    date_display: Oct 2023
-    date_iso: 2023-10
-    global_rank: 57
-    true_value: 0.059
-    true_std: 0.002
-    value_gap_source_arxiv: '2410.18676'
-    value_gap_source_title: Homomorphism Counts as Structural Encodings for Graph
-      Learning
-    value_gap_source_is_current_paper: false
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 57
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.059
-    sort_std: 0.002
-    is_best: false
   - model: GRIT + RDPE
     model_key: grit + rdpe
     model_plain: GRIT + RDPE
@@ -3188,43 +2896,6 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2023
-    date_display: Oct 2023
-    date_iso: 2023-10
-    global_rank: 58
-    true_value: 0.059
-    true_std: 0.003
-    value_gap_source_arxiv: '2310.19285'
-    value_gap_source_title: Facilitating Graph Neural Networks with Random Walk on
-      Simplicial Complexes
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 58
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.059
-    sort_std: 0.003
-    is_best: false
-  - model: GRIT + RDPE
-    model_key: grit + rdpe
-    model_plain: GRIT + RDPE
-    value: 0.059
-    std: 0.003
-    paper_value: 0.059
-    paper_std: 0.003
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
@@ -3265,7 +2936,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 70
+    global_rank: 72
     true_value: 0.064
     true_std: 0.003
     value_gap_source_arxiv: '2310.19285'
@@ -3276,44 +2947,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 70
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.064
-    sort_std: 0.003
-    is_best: false
-  - model: GPS + RWSE + Hodge1Lap(project)
-    model_key: gps + rwse + hodge1lap(project)
-    model_plain: GPS + RWSE + Hodge1Lap(project)
-    value: 0.064
-    std: 0.003
-    paper_value: 0.064
-    paper_std: 0.003
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Oct 2023
-    date_display: Oct 2023
-    date_iso: 2023-10
-    global_rank: 70
-    true_value: 0.064
-    true_std: 0.003
-    value_gap_source_arxiv: '2310.19285'
-    value_gap_source_title: Facilitating Graph Neural Networks with Random Walk on
-      Simplicial Complexes
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 70
+    paper_rank: 72
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -3339,7 +2973,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 73
+    global_rank: 75
     true_value: 0.065
     true_std: 0.004
     value_gap_source_arxiv: '2502.09263'
@@ -3350,46 +2984,9 @@ results:
     has_value_note: false
     value_gap: 0.461
     value_note: ''
-    paper_rank: 279
-    rank_delta: 206
-    rank_delta_abs: 206
-    rank_delta_direction: worse
-    sort_value: 0.065
-    sort_std: 0.004
-    is_best: false
-  - model: GIN
-    model_key: gin
-    model_plain: GIN
-    value: 0.526
-    std: 0.051
-    paper_value: 0.526
-    paper_std: 0.051
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Oct 2023
-    date_display: Oct 2023
-    date_iso: 2023-10
-    global_rank: 73
-    true_value: 0.065
-    true_std: 0.004
-    value_gap_source_arxiv: '2502.09263'
-    value_gap_source_title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks?
-      Simple Architectures Meet Excellence
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.461
-    value_note: ''
-    paper_rank: 279
-    rank_delta: 206
-    rank_delta_abs: 206
+    paper_rank: 293
+    rank_delta: 218
+    rank_delta_abs: 218
     rank_delta_direction: worse
     sort_value: 0.065
     sort_std: 0.004
@@ -3413,7 +3010,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 74
+    global_rank: 76
     true_value: 0.065
     true_std: 0.005
     value_gap_source_arxiv: '2502.09365'
@@ -3423,45 +3020,9 @@ results:
     has_value_note: false
     value_gap: 0.016
     value_note: ''
-    paper_rank: 142
-    rank_delta: 68
-    rank_delta_abs: 68
-    rank_delta_direction: worse
-    sort_value: 0.065
-    sort_std: 0.005
-    is_best: false
-  - model: GRIT-RWSE
-    model_key: grit-rwse
-    model_plain: GRIT-RWSE
-    value: 0.081
-    std: 0.01
-    paper_value: 0.081
-    paper_std: 0.01
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Oct 2023
-    date_display: Oct 2023
-    date_iso: 2023-10
-    global_rank: 74
-    true_value: 0.065
-    true_std: 0.005
-    value_gap_source_arxiv: '2502.09365'
-    value_gap_source_title: Simple Path Structural Encoding for Graph Transformers
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.016
-    value_note: ''
-    paper_rank: 142
-    rank_delta: 68
-    rank_delta_abs: 68
+    paper_rank: 150
+    rank_delta: 74
+    rank_delta_abs: 74
     rank_delta_direction: worse
     sort_value: 0.065
     sort_std: 0.005
@@ -3485,87 +3046,13 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 76
-    true_value: 0.066
-    true_std: 0.003
-    value_gap_source_arxiv: '2502.09263'
-    value_gap_source_title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks?
-      Simple Architectures Meet Excellence
-    value_gap_source_is_current_paper: false
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 76
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.066
-    sort_std: 0.003
-    is_best: false
-  - model: SpecFormer
-    model_key: specformer
-    model_plain: SpecFormer
-    value: 0.066
-    std: 0.003
-    paper_value: 0.066
-    paper_std: 0.003
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Oct 2023
-    date_display: Oct 2023
-    date_iso: 2023-10
-    global_rank: 76
-    true_value: 0.066
-    true_std: 0.003
-    value_gap_source_arxiv: '2502.09263'
-    value_gap_source_title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks?
-      Simple Architectures Meet Excellence
-    value_gap_source_is_current_paper: false
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 76
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.066
-    sort_std: 0.003
-    is_best: false
-  - model: GINE + RWSE + Hodge1Lap(project) + RWMP
-    model_key: gine + rwse + hodge1lap(project) + rwmp
-    model_plain: GINE + RWSE + Hodge1Lap(project) + RWMP
-    value: 0.066
-    std: 0.003
-    paper_value: 0.066
-    paper_std: 0.003
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: 'dataset: exact match'
-    date: Oct 2023
-    date_display: Oct 2023
-    date_iso: 2023-10
     global_rank: 78
     true_value: 0.066
     true_std: 0.003
-    value_gap_source_arxiv: '2310.19285'
-    value_gap_source_title: Facilitating Graph Neural Networks with Random Walk on
-      Simplicial Complexes
-    value_gap_source_is_current_paper: true
+    value_gap_source_arxiv: '2502.09263'
+    value_gap_source_title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks?
+      Simple Architectures Meet Excellence
+    value_gap_source_is_current_paper: false
     has_value_gap: false
     has_value_note: false
     value_gap: null
@@ -3592,11 +3079,11 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 78
+    global_rank: 80
     true_value: 0.066
     true_std: 0.003
     value_gap_source_arxiv: '2310.19285'
@@ -3607,7 +3094,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 78
+    paper_rank: 80
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -3633,7 +3120,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 79
+    global_rank: 81
     true_value: 0.066
     true_std: 0.003
     value_gap_source_arxiv: '2310.19285'
@@ -3644,44 +3131,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 79
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.066
-    sort_std: 0.003
-    is_best: false
-  - model: SSWL+ + Hodge1Lap(project)
-    model_key: sswl+ + hodge1lap(project)
-    model_plain: SSWL+ + Hodge1Lap(project)
-    value: 0.066
-    std: 0.003
-    paper_value: 0.066
-    paper_std: 0.003
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Oct 2023
-    date_display: Oct 2023
-    date_iso: 2023-10
-    global_rank: 79
-    true_value: 0.066
-    true_std: 0.003
-    value_gap_source_arxiv: '2310.19285'
-    value_gap_source_title: Facilitating Graph Neural Networks with Random Walk on
-      Simplicial Complexes
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 79
+    paper_rank: 81
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -3707,7 +3157,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 83
+    global_rank: 85
     true_value: 0.067
     true_std: 0.005
     value_gap_source_arxiv: '2310.19285'
@@ -3718,44 +3168,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 83
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.067
-    sort_std: 0.005
-    is_best: false
-  - model: SSWL+ + EdgeRWSE(undirected)
-    model_key: sswl+ + edgerwse(undirected)
-    model_plain: SSWL+ + EdgeRWSE(undirected)
-    value: 0.067
-    std: 0.005
-    paper_value: 0.067
-    paper_std: 0.005
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Oct 2023
-    date_display: Oct 2023
-    date_iso: 2023-10
-    global_rank: 83
-    true_value: 0.067
-    true_std: 0.005
-    value_gap_source_arxiv: '2310.19285'
-    value_gap_source_title: Facilitating Graph Neural Networks with Random Walk on
-      Simplicial Complexes
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 83
+    paper_rank: 85
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -3781,7 +3194,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 84
+    global_rank: 86
     true_value: 0.067
     true_std: 0.002
     value_gap_source_arxiv: '2310.19285'
@@ -3792,44 +3205,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 84
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.067
-    sort_std: 0.002
-    is_best: false
-  - model: GRIT + SPDPE
-    model_key: grit + spdpe
-    model_plain: GRIT + SPDPE
-    value: 0.067
-    std: 0.002
-    paper_value: 0.067
-    paper_std: 0.002
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Oct 2023
-    date_display: Oct 2023
-    date_iso: 2023-10
-    global_rank: 84
-    true_value: 0.067
-    true_std: 0.002
-    value_gap_source_arxiv: '2310.19285'
-    value_gap_source_title: Facilitating Graph Neural Networks with Random Walk on
-      Simplicial Complexes
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 84
+    paper_rank: 86
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -3839,154 +3215,6 @@ results:
   - model: GINE + Hodge1Lap(abs)
     model_key: gine + hodge1lap(abs)
     model_plain: GINE + Hodge1Lap(abs)
-    value: 0.068
-    std: 0.003
-    paper_value: 0.068
-    paper_std: 0.003
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: 'dataset: exact match'
-    date: Oct 2023
-    date_display: Oct 2023
-    date_iso: 2023-10
-    global_rank: 89
-    true_value: 0.068
-    true_std: 0.003
-    value_gap_source_arxiv: '2310.19285'
-    value_gap_source_title: Facilitating Graph Neural Networks with Random Walk on
-      Simplicial Complexes
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 89
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.068
-    sort_std: 0.003
-    is_best: false
-  - model: GINE + Hodge1Lap(abs)
-    model_key: gine + hodge1lap(abs)
-    model_plain: GINE + Hodge1Lap(abs)
-    value: 0.068
-    std: 0.003
-    paper_value: 0.068
-    paper_std: 0.003
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Oct 2023
-    date_display: Oct 2023
-    date_iso: 2023-10
-    global_rank: 89
-    true_value: 0.068
-    true_std: 0.003
-    value_gap_source_arxiv: '2310.19285'
-    value_gap_source_title: Facilitating Graph Neural Networks with Random Walk on
-      Simplicial Complexes
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 89
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.068
-    sort_std: 0.003
-    is_best: false
-  - model: GINE + RWSE + RWMP
-    model_key: gine + rwse + rwmp
-    model_plain: GINE + RWSE + RWMP
-    value: 0.068
-    std: 0.003
-    paper_value: 0.068
-    paper_std: 0.003
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: 'dataset: exact match'
-    date: Oct 2023
-    date_display: Oct 2023
-    date_iso: 2023-10
-    global_rank: 90
-    true_value: 0.068
-    true_std: 0.003
-    value_gap_source_arxiv: '2310.19285'
-    value_gap_source_title: Facilitating Graph Neural Networks with Random Walk on
-      Simplicial Complexes
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 90
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.068
-    sort_std: 0.003
-    is_best: false
-  - model: GINE + RWSE + RWMP
-    model_key: gine + rwse + rwmp
-    model_plain: GINE + RWSE + RWMP
-    value: 0.068
-    std: 0.003
-    paper_value: 0.068
-    paper_std: 0.003
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Oct 2023
-    date_display: Oct 2023
-    date_iso: 2023-10
-    global_rank: 90
-    true_value: 0.068
-    true_std: 0.003
-    value_gap_source_arxiv: '2310.19285'
-    value_gap_source_title: Facilitating Graph Neural Networks with Random Walk on
-      Simplicial Complexes
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 90
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.068
-    sort_std: 0.003
-    is_best: false
-  - model: GINE + RWSE + CellularRWSE
-    model_key: gine + rwse + cellularrwse
-    model_plain: GINE + RWSE + CellularRWSE
     value: 0.068
     std: 0.003
     paper_value: 0.068
@@ -4021,6 +3249,43 @@ results:
     sort_value: 0.068
     sort_std: 0.003
     is_best: false
+  - model: GINE + RWSE + RWMP
+    model_key: gine + rwse + rwmp
+    model_plain: GINE + RWSE + RWMP
+    value: 0.068
+    std: 0.003
+    paper_value: 0.068
+    paper_std: 0.003
+    metric: MAE
+    higher_is_better: false
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Oct 2023
+    date_display: Oct 2023
+    date_iso: 2023-10
+    global_rank: 92
+    true_value: 0.068
+    true_std: 0.003
+    value_gap_source_arxiv: '2310.19285'
+    value_gap_source_title: Facilitating Graph Neural Networks with Random Walk on
+      Simplicial Complexes
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 92
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.068
+    sort_std: 0.003
+    is_best: false
   - model: GINE + RWSE + CellularRWSE
     model_key: gine + rwse + cellularrwse
     model_plain: GINE + RWSE + CellularRWSE
@@ -4036,11 +3301,11 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 91
+    global_rank: 93
     true_value: 0.068
     true_std: 0.003
     value_gap_source_arxiv: '2310.19285'
@@ -4051,7 +3316,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 91
+    paper_rank: 93
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -4077,7 +3342,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 92
+    global_rank: 94
     true_value: 0.068
     true_std: 0.004
     value_gap_source_arxiv: '2310.19285'
@@ -4088,44 +3353,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 92
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.068
-    sort_std: 0.004
-    is_best: false
-  - model: GPS + RWSE + EdgeRWSE(undirected)
-    model_key: gps + rwse + edgerwse(undirected)
-    model_plain: GPS + RWSE + EdgeRWSE(undirected)
-    value: 0.068
-    std: 0.004
-    paper_value: 0.068
-    paper_std: 0.004
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Oct 2023
-    date_display: Oct 2023
-    date_iso: 2023-10
-    global_rank: 92
-    true_value: 0.068
-    true_std: 0.004
-    value_gap_source_arxiv: '2310.19285'
-    value_gap_source_title: Facilitating Graph Neural Networks with Random Walk on
-      Simplicial Complexes
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 92
+    paper_rank: 94
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -4151,7 +3379,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 93
+    global_rank: 95
     true_value: 0.0681
     true_std: 0.0004
     value_gap_source_arxiv: '2602.02268'
@@ -4162,46 +3390,9 @@ results:
     has_value_note: true
     value_gap: 0.0019000000000000128
     value_note: global 0.0681 within std
-    paper_rank: 104
-    rank_delta: 11
-    rank_delta_abs: 11
-    rank_delta_direction: worse
-    sort_value: 0.0681
-    sort_std: 0.0004
-    is_best: false
-  - model: GPS+RWSE
-    model_key: gps+rwse
-    model_plain: GPS+RWSE
-    value: 0.07
-    std: 0.004
-    paper_value: 0.07
-    paper_std: 0.004
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Oct 2023
-    date_display: Oct 2023
-    date_iso: 2023-10
-    global_rank: 93
-    true_value: 0.0681
-    true_std: 0.0004
-    value_gap_source_arxiv: '2602.02268'
-    value_gap_source_title: 'HopFormer: Sparse Graph Transformers with Explicit Receptive
-      Field Control'
-    value_gap_source_is_current_paper: false
-    has_value_gap: false
-    has_value_note: true
-    value_gap: 0.0019000000000000128
-    value_note: global 0.0681 within std
-    paper_rank: 104
-    rank_delta: 11
-    rank_delta_abs: 11
+    paper_rank: 107
+    rank_delta: 12
+    rank_delta_abs: 12
     rank_delta_direction: worse
     sort_value: 0.0681
     sort_std: 0.0004
@@ -4225,7 +3416,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 101
+    global_rank: 103
     true_value: 0.069
     true_std: 0.003
     value_gap_source_arxiv: '2310.19285'
@@ -4236,44 +3427,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 101
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.069
-    sort_std: 0.003
-    is_best: false
-  - model: GINE + RWSE + Full-EdgeRWSE
-    model_key: gine + rwse + full-edgerwse
-    model_plain: GINE + RWSE + Full-EdgeRWSE
-    value: 0.069
-    std: 0.003
-    paper_value: 0.069
-    paper_std: 0.003
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Oct 2023
-    date_display: Oct 2023
-    date_iso: 2023-10
-    global_rank: 101
-    true_value: 0.069
-    true_std: 0.003
-    value_gap_source_arxiv: '2310.19285'
-    value_gap_source_title: Facilitating Graph Neural Networks with Random Walk on
-      Simplicial Complexes
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 101
+    paper_rank: 103
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -4299,7 +3453,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 107
+    global_rank: 110
     true_value: 0.07
     true_std: 0.003
     value_gap_source_arxiv: '2310.19285'
@@ -4310,44 +3464,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 107
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.07
-    sort_std: 0.003
-    is_best: false
-  - model: GINE + EdgeRWSE(directed)
-    model_key: gine + edgerwse(directed)
-    model_plain: GINE + EdgeRWSE(directed)
-    value: 0.07
-    std: 0.003
-    paper_value: 0.07
-    paper_std: 0.003
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Oct 2023
-    date_display: Oct 2023
-    date_iso: 2023-10
-    global_rank: 107
-    true_value: 0.07
-    true_std: 0.003
-    value_gap_source_arxiv: '2310.19285'
-    value_gap_source_title: Facilitating Graph Neural Networks with Random Walk on
-      Simplicial Complexes
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 107
+    paper_rank: 110
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -4373,7 +3490,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 121
+    global_rank: 125
     true_value: 0.074
     true_std: 0.003
     value_gap_source_arxiv: '2310.19285'
@@ -4384,44 +3501,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 121
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.074
-    sort_std: 0.003
-    is_best: false
-  - model: GIN + RWSE
-    model_key: gin + rwse
-    model_plain: GIN + RWSE
-    value: 0.074
-    std: 0.003
-    paper_value: 0.074
-    paper_std: 0.003
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Oct 2023
-    date_display: Oct 2023
-    date_iso: 2023-10
-    global_rank: 121
-    true_value: 0.074
-    true_std: 0.003
-    value_gap_source_arxiv: '2310.19285'
-    value_gap_source_title: Facilitating Graph Neural Networks with Random Walk on
-      Simplicial Complexes
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 121
+    paper_rank: 125
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -4447,7 +3527,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 122
+    global_rank: 126
     true_value: 0.074
     true_std: 0.005
     value_gap_source_arxiv: '2310.19285'
@@ -4458,44 +3538,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 122
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.074
-    sort_std: 0.005
-    is_best: false
-  - model: PNA + Hodge1Lap(project)
-    model_key: pna + hodge1lap(project)
-    model_plain: PNA + Hodge1Lap(project)
-    value: 0.074
-    std: 0.005
-    paper_value: 0.074
-    paper_std: 0.005
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Oct 2023
-    date_display: Oct 2023
-    date_iso: 2023-10
-    global_rank: 122
-    true_value: 0.074
-    true_std: 0.005
-    value_gap_source_arxiv: '2310.19285'
-    value_gap_source_title: Facilitating Graph Neural Networks with Random Walk on
-      Simplicial Complexes
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 122
+    paper_rank: 126
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -4521,7 +3564,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 135
+    global_rank: 142
     true_value: 0.0776354896230479
     true_std: 0.005512609666895327
     value_gap_source_arxiv: '2402.10793'
@@ -4532,46 +3575,9 @@ results:
     has_value_note: false
     value_gap: 0.3063645103769521
     value_note: ''
-    paper_rank: 271
-    rank_delta: 136
-    rank_delta_abs: 136
-    rank_delta_direction: worse
-    sort_value: 0.0776354896230479
-    sort_std: 0.005512609666895327
-    is_best: false
-  - model: GAT
-    model_key: gat
-    model_plain: GAT
-    value: 0.384
-    std: 0.007
-    paper_value: 0.384
-    paper_std: 0.007
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Oct 2023
-    date_display: Oct 2023
-    date_iso: 2023-10
-    global_rank: 135
-    true_value: 0.0776354896230479
-    true_std: 0.005512609666895327
-    value_gap_source_arxiv: '2402.10793'
-    value_gap_source_title: An end-to-end attention-based approach for learning on
-      graphs
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.3063645103769521
-    value_note: ''
-    paper_rank: 271
-    rank_delta: 136
-    rank_delta_abs: 136
+    paper_rank: 285
+    rank_delta: 143
+    rank_delta_abs: 143
     rank_delta_direction: worse
     sort_value: 0.0776354896230479
     sort_std: 0.005512609666895327
@@ -4595,7 +3601,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 140
+    global_rank: 147
     true_value: 0.08
     true_std: 0.001
     value_gap_source_arxiv: '2605.05689'
@@ -4606,44 +3612,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 140
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.08
-    sort_std: 0.001
-    is_best: false
-  - model: GIN-AK+
-    model_key: gin-ak+
-    model_plain: GIN-AK+
-    value: 0.08
-    std: 0.001
-    paper_value: 0.08
-    paper_std: 0.001
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Oct 2023
-    date_display: Oct 2023
-    date_iso: 2023-10
-    global_rank: 140
-    true_value: 0.08
-    true_std: 0.001
-    value_gap_source_arxiv: '2605.05689'
-    value_gap_source_title: 'GCCM: Enhancing Generative Graph Prediction via Contrastive
-      Consistency Model'
-    value_gap_source_is_current_paper: false
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 140
+    paper_rank: 147
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -4669,7 +3638,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 144
+    global_rank: 152
     true_value: 0.083
     true_std: 0.006
     value_gap_source_arxiv: '2310.19285'
@@ -4680,7 +3649,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 144
+    paper_rank: 152
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -4706,7 +3675,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 146
+    global_rank: 154
     true_value: 0.083
     true_std: 0.006
     value_gap_source_arxiv: '2310.19285'
@@ -4717,7 +3686,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 146
+    paper_rank: 154
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -4743,7 +3712,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 157
+    global_rank: 166
     true_value: 0.086
     true_std: 0.005
     value_gap_source_arxiv: '2310.19285'
@@ -4754,44 +3723,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 157
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.086
-    sort_std: 0.005
-    is_best: false
-  - model: GINE + Hodge1Lap(project)
-    model_key: gine + hodge1lap(project)
-    model_plain: GINE + Hodge1Lap(project)
-    value: 0.086
-    std: 0.005
-    paper_value: 0.086
-    paper_std: 0.005
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Oct 2023
-    date_display: Oct 2023
-    date_iso: 2023-10
-    global_rank: 157
-    true_value: 0.086
-    true_std: 0.005
-    value_gap_source_arxiv: '2310.19285'
-    value_gap_source_title: Facilitating Graph Neural Networks with Random Walk on
-      Simplicial Complexes
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 157
+    paper_rank: 166
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -4817,7 +3749,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 175
+    global_rank: 187
     true_value: 0.101
     true_std: 0.004
     value_gap_source_arxiv: '2405.17311'
@@ -4827,45 +3759,9 @@ results:
     has_value_note: false
     value_gap: 0.032
     value_note: ''
-    paper_rank: 210
-    rank_delta: 35
-    rank_delta_abs: 35
-    rank_delta_direction: worse
-    sort_value: 0.101
-    sort_std: 0.004
-    is_best: false
-  - model: GINE
-    model_key: gine
-    model_plain: GINE
-    value: 0.133
-    std: 0.002
-    paper_value: 0.133
-    paper_std: 0.002
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Oct 2023
-    date_display: Oct 2023
-    date_iso: 2023-10
-    global_rank: 175
-    true_value: 0.101
-    true_std: 0.004
-    value_gap_source_arxiv: '2405.17311'
-    value_gap_source_title: Probabilistic Graph Rewiring via Virtual Nodes
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.032
-    value_note: ''
-    paper_rank: 210
-    rank_delta: 35
-    rank_delta_abs: 35
+    paper_rank: 223
+    rank_delta: 36
+    rank_delta_abs: 36
     rank_delta_direction: worse
     sort_value: 0.101
     sort_std: 0.004
@@ -4889,7 +3785,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 176
+    global_rank: 188
     true_value: 0.101
     true_std: 0.01
     value_gap_source_arxiv: '2501.03113'
@@ -4900,44 +3796,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 176
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.101
-    sort_std: 0.01
-    is_best: false
-  - model: GSN
-    model_key: gsn
-    model_plain: GSN
-    value: 0.101
-    std: 0.01
-    paper_value: 0.101
-    paper_std: 0.01
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Oct 2023
-    date_display: Oct 2023
-    date_iso: 2023-10
-    global_rank: 176
-    true_value: 0.101
-    true_std: 0.01
-    value_gap_source_arxiv: '2501.03113'
-    value_gap_source_title: 'Balancing Efficiency and Expressiveness: Subgraph GNNs
-      with Walk-Based Centrality'
-    value_gap_source_is_current_paper: false
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 176
+    paper_rank: 188
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -4963,7 +3822,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 178
+    global_rank: 190
     true_value: 0.103
     true_std: 0.006
     value_gap_source_arxiv: '2310.19285'
@@ -4974,44 +3833,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 178
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.103
-    sort_std: 0.006
-    is_best: false
-  - model: GINE + EdgeRWSE(undirected)
-    model_key: gine + edgerwse(undirected)
-    model_plain: GINE + EdgeRWSE(undirected)
-    value: 0.103
-    std: 0.006
-    paper_value: 0.103
-    paper_std: 0.006
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Oct 2023
-    date_display: Oct 2023
-    date_iso: 2023-10
-    global_rank: 178
-    true_value: 0.103
-    true_std: 0.006
-    value_gap_source_arxiv: '2310.19285'
-    value_gap_source_title: Facilitating Graph Neural Networks with Random Walk on
-      Simplicial Complexes
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 178
+    paper_rank: 190
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -5037,7 +3859,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 197
+    global_rank: 209
     true_value: 0.12
     true_std: 0.005
     value_gap_source_arxiv: '2310.19285'
@@ -5048,44 +3870,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 197
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.12
-    sort_std: 0.005
-    is_best: false
-  - model: GINE + LapPE
-    model_key: gine + lappe
-    model_plain: GINE + LapPE
-    value: 0.12
-    std: 0.005
-    paper_value: 0.12
-    paper_std: 0.005
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Oct 2023
-    date_display: Oct 2023
-    date_iso: 2023-10
-    global_rank: 197
-    true_value: 0.12
-    true_std: 0.005
-    value_gap_source_arxiv: '2310.19285'
-    value_gap_source_title: Facilitating Graph Neural Networks with Random Walk on
-      Simplicial Complexes
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 197
+    paper_rank: 209
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -5111,7 +3896,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 211
+    global_rank: 224
     true_value: 0.1341
     true_std: 0.0063
     value_gap_source_arxiv: '2602.02268'
@@ -5122,44 +3907,7 @@ results:
     has_value_note: true
     value_gap: 0.0049000000000000155
     value_note: global 0.1341 within std
-    paper_rank: 212
-    rank_delta: 1
-    rank_delta_abs: 1
-    rank_delta_direction: worse
-    sort_value: 0.1341
-    sort_std: 0.0063
-    is_best: false
-  - model: SAN
-    model_key: san
-    model_plain: SAN
-    value: 0.139
-    std: 0.006
-    paper_value: 0.139
-    paper_std: 0.006
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Oct 2023
-    date_display: Oct 2023
-    date_iso: 2023-10
-    global_rank: 211
-    true_value: 0.1341
-    true_std: 0.0063
-    value_gap_source_arxiv: '2602.02268'
-    value_gap_source_title: 'HopFormer: Sparse Graph Transformers with Explicit Receptive
-      Field Control'
-    value_gap_source_is_current_paper: false
-    has_value_gap: false
-    has_value_note: true
-    value_gap: 0.0049000000000000155
-    value_note: global 0.1341 within std
-    paper_rank: 212
+    paper_rank: 225
     rank_delta: 1
     rank_delta_abs: 1
     rank_delta_direction: worse
@@ -5299,7 +4047,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 21
+    global_rank: 22
     true_value: 0.8039
     true_std: 0.009
     value_gap_source_arxiv: '2407.12136'
@@ -5310,7 +4058,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 21
+    paper_rank: 22
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -5336,7 +4084,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 28
+    global_rank: 29
     true_value: 0.8021
     true_std: 0.0154
     value_gap_source_arxiv: '2310.19285'
@@ -5347,7 +4095,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 28
+    paper_rank: 29
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -5373,7 +4121,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 45
+    global_rank: 46
     true_value: 0.7961
     true_std: 0.0119
     value_gap_source_arxiv: '2404.09774'
@@ -5384,7 +4132,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 45
+    paper_rank: 46
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -5410,7 +4158,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 58
+    global_rank: 63
     true_value: 0.7905
     true_std: 0.0132
     value_gap_source_arxiv: '2604.17324'
@@ -5421,7 +4169,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 58
+    paper_rank: 63
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -5447,7 +4195,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 65
+    global_rank: 70
     true_value: 0.7891
     true_std: 0.0118
     value_gap_source_arxiv: '2310.19285'
@@ -5458,7 +4206,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 65
+    paper_rank: 70
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -5484,7 +4232,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 66
+    global_rank: 72
     true_value: 0.7889
     true_std: 0.0124
     value_gap_source_arxiv: '2502.09263'
@@ -5495,7 +4243,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 66
+    paper_rank: 72
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -5521,7 +4269,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 70
+    global_rank: 76
     true_value: 0.788
     true_std: 0.01
     value_gap_source_arxiv: '2405.17311'
@@ -5531,7 +4279,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 70
+    paper_rank: 76
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -5557,7 +4305,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 111
+    global_rank: 122
     true_value: 0.7785
     true_std: 0.247
     value_gap_source_arxiv: '2502.09263'
@@ -5568,7 +4316,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 111
+    paper_rank: 122
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -5594,7 +4342,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 128
+    global_rank: 139
     true_value: 0.7707
     true_std: 0.0149
     value_gap_source_arxiv: '2404.03380'
@@ -5605,7 +4353,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 128
+    paper_rank: 139
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same

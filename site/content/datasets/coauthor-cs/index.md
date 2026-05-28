@@ -114,7 +114,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -186,7 +186,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -222,7 +222,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -240,7 +240,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -258,7 +258,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -276,7 +276,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -294,7 +294,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -312,7 +312,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -330,7 +330,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -348,7 +348,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -402,7 +402,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -420,7 +420,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -438,7 +438,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''

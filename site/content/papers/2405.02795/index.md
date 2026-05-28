@@ -3,7 +3,7 @@ title: Graph as Point Set
 arxiv_id: '2405.02795'
 source_url: ''
 authors: []
-published_date: '2024-05-05'
+published_date: May 5, 2024
 published_date_iso: '2024-05-05'
 abstract: Graph is a fundamental data structure to model interconnections between
   entities. Set, on the contrary, stores independent elements. To learn graph representations,
@@ -29,8 +29,8 @@ has_results: true
 paper_type: method
 proposed_models:
 - PST
-mrr: 0.1569
-adjusted_mrr: 0.1569
+mrr: 0.156
+adjusted_mrr: 0.156
 mrr_dataset_count: 6
 benchmark_categories:
 - Classic
@@ -134,10 +134,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
-    global_rank: 17
+    global_rank: 19
     true_value: 0.4263
     true_std: 0.0057
     value_gap_source_arxiv: '2502.09263'
@@ -148,9 +148,9 @@ results:
     has_value_note: false
     value_gap: 0.14030000000000004
     value_note: ''
-    paper_rank: 71
-    rank_delta: 54
-    rank_delta_abs: 54
+    paper_rank: 74
+    rank_delta: 55
+    rank_delta_abs: 55
     rank_delta_direction: worse
     sort_value: 0.4263
     sort_std: 0.0057
@@ -171,10 +171,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
-    global_rank: 28
+    global_rank: 31
     true_value: 0.401
     true_std: 0.0072
     value_gap_source_arxiv: '2405.02795'
@@ -184,7 +184,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 28
+    paper_rank: 31
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -207,10 +207,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
-    global_rank: 32
+    global_rank: 35
     true_value: 0.3975
     true_std: 0.0037
     value_gap_source_arxiv: '2604.03815'
@@ -221,7 +221,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 32
+    paper_rank: 35
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -244,10 +244,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
-    global_rank: 43
+    global_rank: 46
     true_value: 0.376
     true_std: 0.001
     value_gap_source_arxiv: '2509.22259'
@@ -257,7 +257,7 @@ results:
     has_value_note: false
     value_gap: 0.2492
     value_note: ''
-    paper_rank: 106
+    paper_rank: 109
     rank_delta: 63
     rank_delta_abs: 63
     rank_delta_direction: worse
@@ -280,10 +280,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
-    global_rank: 45
+    global_rank: 48
     true_value: 0.3748
     true_std: 0.0109
     value_gap_source_arxiv: '2502.09263'
@@ -294,7 +294,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 45
+    paper_rank: 48
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -317,10 +317,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
-    global_rank: 59
+    global_rank: 62
     true_value: 0.323
     true_std: 0.0039
     value_gap_source_arxiv: '2605.05689'
@@ -331,7 +331,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 59
+    paper_rank: 62
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -354,10 +354,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
-    global_rank: 77
+    global_rank: 80
     true_value: 0.2718
     true_std: 0.0054
     value_gap_source_arxiv: '2604.03815'
@@ -368,7 +368,7 @@ results:
     has_value_note: false
     value_gap: 0.14529999999999998
     value_note: ''
-    paper_rank: 106
+    paper_rank: 109
     rank_delta: 29
     rank_delta_abs: 29
     rank_delta_direction: worse
@@ -391,10 +391,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
-    global_rank: 79
+    global_rank: 82
     true_value: 0.2694
     true_std: 0.0098
     value_gap_source_arxiv: '2309.00367'
@@ -405,7 +405,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 79
+    paper_rank: 82
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -428,10 +428,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
-    global_rank: 92
+    global_rank: 95
     true_value: 0.2134
     true_std: 0.005
     value_gap_source_arxiv: '2405.02795'
@@ -441,7 +441,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 92
+    paper_rank: 95
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -466,7 +466,7 @@ results:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_display: Jan 2025
     date_iso: '2025-01-29'
     codebase_url: ''
@@ -489,7 +489,7 @@ results:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_display: Jan 2025
     date_iso: '2025-01-29'
     codebase_url: ''
@@ -512,7 +512,7 @@ results:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_display: Jan 2025
     date_iso: '2025-01-29'
     codebase_url: ''
@@ -538,7 +538,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
     global_rank: 9
@@ -552,9 +552,9 @@ results:
     has_value_note: false
     value_gap: 0.1331
     value_note: ''
-    paper_rank: 259
-    rank_delta: 250
-    rank_delta_abs: 250
+    paper_rank: 261
+    rank_delta: 252
+    rank_delta_abs: 252
     rank_delta_direction: worse
     sort_value: 0.7261
     sort_std: 0.0067
@@ -575,10 +575,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
-    global_rank: 48
+    global_rank: 49
     true_value: 0.7006
     true_std: 0.0033
     value_gap_source_arxiv: '2502.09263'
@@ -589,9 +589,9 @@ results:
     has_value_note: false
     value_gap: 0.0937
     value_note: ''
-    paper_rank: 237
-    rank_delta: 189
-    rank_delta_abs: 189
+    paper_rank: 239
+    rank_delta: 190
+    rank_delta_abs: 190
     rank_delta_direction: worse
     sort_value: 0.7006
     sort_std: 0.0033
@@ -612,10 +612,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
-    global_rank: 52
+    global_rank: 53
     true_value: 0.6988
     true_std: 0.0082
     value_gap_source_arxiv: '2605.06462'
@@ -625,7 +625,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 52
+    paper_rank: 53
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -648,10 +648,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
-    global_rank: 54
+    global_rank: 55
     true_value: 0.6984
     true_std: 0.0051
     value_gap_source_arxiv: '2405.02795'
@@ -661,7 +661,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 54
+    paper_rank: 55
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -684,10 +684,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
-    global_rank: 60
+    global_rank: 61
     true_value: 0.697
     true_std: 0.008
     value_gap_source_arxiv: '2502.09365'
@@ -697,7 +697,7 @@ results:
     has_value_note: true
     value_gap: 0.0027999999999999137
     value_note: global 0.6970 within std
-    paper_rank: 73
+    paper_rank: 74
     rank_delta: 13
     rank_delta_abs: 13
     rank_delta_direction: worse
@@ -720,10 +720,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
-    global_rank: 61
+    global_rank: 62
     true_value: 0.697
     true_std: 0.008
     value_gap_source_arxiv: '2405.02795'
@@ -733,7 +733,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 61
+    paper_rank: 62
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -756,10 +756,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: ''
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
-    global_rank: 63
+    global_rank: 64
     true_value: 0.697
     true_std: 0.008
     value_gap_source_arxiv: '2405.02795'
@@ -769,7 +769,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 63
+    paper_rank: 64
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -792,10 +792,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
-    global_rank: 141
+    global_rank: 142
     true_value: 0.6621
     true_std: 0.0067
     value_gap_source_arxiv: '2309.00367'
@@ -806,9 +806,9 @@ results:
     has_value_note: false
     value_gap: 0.11230000000000007
     value_note: ''
-    paper_rank: 286
-    rank_delta: 145
-    rank_delta_abs: 145
+    paper_rank: 288
+    rank_delta: 146
+    rank_delta_abs: 146
     rank_delta_direction: worse
     sort_value: 0.6621
     sort_std: 0.0067
@@ -829,10 +829,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
-    global_rank: 164
+    global_rank: 166
     true_value: 0.655
     true_std: 0.004
     value_gap_source_arxiv: '2604.24293'
@@ -843,7 +843,7 @@ results:
     has_value_note: true
     value_gap: 0.0015000000000000568
     value_note: global 0.6550 within std
-    paper_rank: 166
+    paper_rank: 168
     rank_delta: 2
     rank_delta_abs: 2
     rank_delta_direction: worse
@@ -866,10 +866,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
-    global_rank: 176
+    global_rank: 178
     true_value: 0.6527
     true_std: 0.0043
     value_gap_source_arxiv: '2605.06462'
@@ -879,7 +879,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 176
+    paper_rank: 178
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -902,10 +902,10 @@ results:
     table_ref: Table 3
     source_ref: this paper
     variant_inference_reason: ''
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
-    global_rank: 178
+    global_rank: 180
     true_value: 0.6517
     true_std: 0.0076
     value_gap_source_arxiv: '2405.02795'
@@ -915,7 +915,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 178
+    paper_rank: 180
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -938,10 +938,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
-    global_rank: 200
+    global_rank: 202
     true_value: 0.6439
     true_std: 0.0075
     value_gap_source_arxiv: '2312.16560'
@@ -951,7 +951,7 @@ results:
     has_value_note: true
     value_gap: 0.00550000000000006
     value_note: global 0.6439 within std
-    paper_rank: 210
+    paper_rank: 212
     rank_delta: 10
     rank_delta_abs: 10
     rank_delta_direction: worse
@@ -974,10 +974,10 @@ results:
     table_ref: Table 3
     source_ref: this paper
     variant_inference_reason: ''
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
-    global_rank: 201
+    global_rank: 203
     true_value: 0.6439
     true_std: 0.0342
     value_gap_source_arxiv: '2405.02795'
@@ -987,7 +987,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 201
+    paper_rank: 203
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1010,10 +1010,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
-    global_rank: 216
+    global_rank: 218
     true_value: 0.6326
     true_std: 0.0126
     value_gap_source_arxiv: '2312.16560'
@@ -1023,7 +1023,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 216
+    paper_rank: 218
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1046,10 +1046,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
-    global_rank: 253
+    global_rank: 255
     true_value: 0.5965
     true_std: 0.0064
     value_gap_source_arxiv: '2405.02795'
@@ -1059,7 +1059,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 253
+    paper_rank: 255
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1133,7 +1133,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
     global_rank: 3
@@ -1147,9 +1147,9 @@ results:
     has_value_note: false
     value_gap: 0.10750000000000001
     value_note: ''
-    paper_rank: 299
-    rank_delta: 296
-    rank_delta_abs: 296
+    paper_rank: 304
+    rank_delta: 301
+    rank_delta_abs: 301
     rank_delta_direction: worse
     sort_value: 0.2421
     sort_std: 0.0016
@@ -1193,7 +1193,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
     global_rank: 12
@@ -1207,9 +1207,9 @@ results:
     has_value_note: false
     value_gap: 0.09259999999999999
     value_note: ''
-    paper_rank: 284
-    rank_delta: 272
-    rank_delta_abs: 272
+    paper_rank: 289
+    rank_delta: 277
+    rank_delta_abs: 277
     rank_delta_direction: worse
     sort_value: 0.2431
     sort_std: 0.002
@@ -1230,10 +1230,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
-    global_rank: 30
+    global_rank: 31
     true_value: 0.2449
     true_std: 0.0016
     value_gap_source_arxiv: '2605.06462'
@@ -1243,7 +1243,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 30
+    paper_rank: 31
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1266,10 +1266,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
-    global_rank: 55
+    global_rank: 56
     true_value: 0.246
     true_std: 0.0012
     value_gap_source_arxiv: '2605.06462'
@@ -1279,7 +1279,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 55
+    paper_rank: 56
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1302,10 +1302,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
-    global_rank: 72
+    global_rank: 73
     true_value: 0.247
     true_std: 0.0015
     value_gap_source_arxiv: '2405.02795'
@@ -1315,7 +1315,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 72
+    paper_rank: 73
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1338,10 +1338,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
-    global_rank: 78
+    global_rank: 79
     true_value: 0.2473
     true_std: 0.0017
     value_gap_source_arxiv: '2604.03815'
@@ -1352,9 +1352,9 @@ results:
     has_value_note: false
     value_gap: 0.10740000000000002
     value_note: ''
-    paper_rank: 306
-    rank_delta: 228
-    rank_delta_abs: 228
+    paper_rank: 311
+    rank_delta: 232
+    rank_delta_abs: 232
     rank_delta_direction: worse
     sort_value: 0.2473
     sort_std: 0.0017
@@ -1375,10 +1375,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
-    global_rank: 83
+    global_rank: 84
     true_value: 0.2475
     true_std: 0.0015
     value_gap_source_arxiv: '2605.06462'
@@ -1388,7 +1388,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 83
+    paper_rank: 84
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1411,10 +1411,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
-    global_rank: 101
+    global_rank: 102
     true_value: 0.2481
     true_std: 0.0007
     value_gap_source_arxiv: '2605.06462'
@@ -1424,7 +1424,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 101
+    paper_rank: 102
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1447,10 +1447,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
-    global_rank: 133
+    global_rank: 136
     true_value: 0.25
     true_std: 0.0012
     value_gap_source_arxiv: '2604.17324'
@@ -1461,7 +1461,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 133
+    paper_rank: 136
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1484,10 +1484,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
-    global_rank: 166
+    global_rank: 169
     true_value: 0.2529
     true_std: 0.0016
     value_gap_source_arxiv: '2312.16560'
@@ -1497,7 +1497,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 166
+    paper_rank: 169
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1520,10 +1520,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
-    global_rank: 185
+    global_rank: 189
     true_value: 0.2545
     true_std: 0.0012
     value_gap_source_arxiv: '2312.16560'
@@ -1533,9 +1533,9 @@ results:
     has_value_note: false
     value_gap: 0.013799999999999979
     value_note: ''
-    paper_rank: 237
-    rank_delta: 52
-    rank_delta_abs: 52
+    paper_rank: 242
+    rank_delta: 53
+    rank_delta_abs: 53
     rank_delta_direction: worse
     sort_value: 0.2545
     sort_std: 0.0012
@@ -1556,10 +1556,10 @@ results:
     table_ref: Table 3
     source_ref: this paper
     variant_inference_reason: ''
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
-    global_rank: 196
+    global_rank: 200
     true_value: 0.2564
     true_std: 0.012
     value_gap_source_arxiv: '2405.02795'
@@ -1569,7 +1569,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 196
+    paper_rank: 200
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1592,10 +1592,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
-    global_rank: 217
+    global_rank: 222
     true_value: 0.2621
     true_std: 0.0036
     value_gap_source_arxiv: '2405.02795'
@@ -1605,7 +1605,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 217
+    paper_rank: 222
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1628,10 +1628,10 @@ results:
     table_ref: Table 3
     source_ref: this paper
     variant_inference_reason: ''
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
-    global_rank: 223
+    global_rank: 228
     true_value: 0.2634
     true_std: 0.0019
     value_gap_source_arxiv: '2405.02795'
@@ -1641,7 +1641,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 223
+    paper_rank: 228
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1692,7 +1692,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
     global_rank: 2
@@ -1774,7 +1774,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
     global_rank: 19
@@ -1810,7 +1810,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: ''
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
     global_rank: 20
@@ -1847,7 +1847,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
     global_rank: 22
@@ -1883,7 +1883,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
     global_rank: 26
@@ -1919,7 +1919,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
     global_rank: 27
@@ -1955,7 +1955,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
     global_rank: 34
@@ -1992,7 +1992,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
     global_rank: 33
@@ -2028,7 +2028,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
     global_rank: 37
@@ -2064,7 +2064,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: ''
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
     global_rank: 39
@@ -2101,7 +2101,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: ''
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
     global_rank: 62
@@ -2188,7 +2188,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'zinc: default subset fallback'
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
     global_rank: 3
@@ -2224,7 +2224,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: ''
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
     global_rank: 3
@@ -2284,7 +2284,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
     global_rank: 7
@@ -2297,9 +2297,9 @@ results:
     has_value_note: false
     value_gap: 0.057
     value_note: ''
-    paper_rank: 137
-    rank_delta: 130
-    rank_delta_abs: 130
+    paper_rank: 144
+    rank_delta: 137
+    rank_delta_abs: 137
     rank_delta_direction: worse
     sort_value: 0.022
     sort_std: 0.002
@@ -2320,7 +2320,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: ''
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
     global_rank: 7
@@ -2356,7 +2356,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
     global_rank: 6
@@ -2369,9 +2369,9 @@ results:
     has_value_note: false
     value_gap: 0.061000000000000006
     value_note: ''
-    paper_rank: 142
-    rank_delta: 136
-    rank_delta_abs: 136
+    paper_rank: 150
+    rank_delta: 144
+    rank_delta_abs: 144
     rank_delta_direction: worse
     sort_value: 0.022
     sort_std: 0.002
@@ -2392,7 +2392,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: ''
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
     global_rank: 6
@@ -2428,7 +2428,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'zinc: mae fallback <= 0.06'
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
     global_rank: 9
@@ -2465,7 +2465,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
     global_rank: 13
@@ -2479,46 +2479,9 @@ results:
     has_value_note: false
     value_gap: 0.046158000000000005
     value_note: ''
-    paper_rank: 104
-    rank_delta: 91
-    rank_delta_abs: 91
-    rank_delta_direction: worse
-    sort_value: 0.023842
-    sort_std: 0.0069779309254248125
-    is_best: false
-  - model: GPS
-    model_key: gps
-    model_plain: GPS
-    value: 0.07
-    std: 0.004
-    paper_value: 0.07
-    paper_std: 0.004
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: 0.5
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: '2024-05-05'
-    date_display: May 2024
-    date_iso: '2024-05-05'
-    global_rank: 13
-    true_value: 0.023842
-    true_std: 0.0069779309254248125
-    value_gap_source_arxiv: '2402.10793'
-    value_gap_source_title: An end-to-end attention-based approach for learning on
-      graphs
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.046158000000000005
-    value_note: ''
-    paper_rank: 104
-    rank_delta: 91
-    rank_delta_abs: 91
+    paper_rank: 107
+    rank_delta: 94
+    rank_delta_abs: 94
     rank_delta_direction: worse
     sort_value: 0.023842
     sort_std: 0.0069779309254248125
@@ -2539,7 +2502,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
     global_rank: 15
@@ -2552,9 +2515,9 @@ results:
     has_value_note: false
     value_gap: 0.060000000000000005
     value_note: ''
-    paper_rank: 146
-    rank_delta: 131
-    rank_delta_abs: 131
+    paper_rank: 154
+    rank_delta: 139
+    rank_delta_abs: 139
     rank_delta_direction: worse
     sort_value: 0.024
     sort_std: 0.003
@@ -2575,7 +2538,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: ''
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
     global_rank: 15
@@ -2611,7 +2574,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
     global_rank: 14
@@ -2624,9 +2587,9 @@ results:
     has_value_note: false
     value_gap: 0.059000000000000004
     value_note: ''
-    paper_rank: 142
-    rank_delta: 128
-    rank_delta_abs: 128
+    paper_rank: 150
+    rank_delta: 136
+    rank_delta_abs: 136
     rank_delta_direction: worse
     sort_value: 0.024
     sort_std: 0.003
@@ -2647,7 +2610,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: ''
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
     global_rank: 14
@@ -2683,7 +2646,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
     global_rank: 18
@@ -2696,9 +2659,9 @@ results:
     has_value_note: false
     value_gap: 0.097
     value_note: ''
-    paper_rank: 198
-    rank_delta: 180
-    rank_delta_abs: 180
+    paper_rank: 210
+    rank_delta: 192
+    rank_delta_abs: 192
     rank_delta_direction: worse
     sort_value: 0.025
     sort_std: 0.004
@@ -2719,7 +2682,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: ''
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
     global_rank: 18
@@ -2755,7 +2718,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
     global_rank: 20
@@ -2768,9 +2731,9 @@ results:
     has_value_note: false
     value_gap: 0.052
     value_note: ''
-    paper_rank: 126
-    rank_delta: 106
-    rank_delta_abs: 106
+    paper_rank: 131
+    rank_delta: 111
+    rank_delta_abs: 111
     rank_delta_direction: worse
     sort_value: 0.025
     sort_std: 0.003
@@ -2791,7 +2754,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: ''
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
     global_rank: 20
@@ -2827,7 +2790,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
     global_rank: 28
@@ -2840,9 +2803,9 @@ results:
     has_value_note: false
     value_gap: 0.082
     value_note: ''
-    paper_rank: 186
-    rank_delta: 158
-    rank_delta_abs: 158
+    paper_rank: 198
+    rank_delta: 170
+    rank_delta_abs: 170
     rank_delta_direction: worse
     sort_value: 0.029
     sort_std: 0.001
@@ -2863,7 +2826,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: ''
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
     global_rank: 28
@@ -2899,7 +2862,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
     global_rank: 30
@@ -2912,9 +2875,9 @@ results:
     has_value_note: false
     value_gap: 0.073
     value_note: ''
-    paper_rank: 176
-    rank_delta: 146
-    rank_delta_abs: 146
+    paper_rank: 188
+    rank_delta: 158
+    rank_delta_abs: 158
     rank_delta_direction: worse
     sort_value: 0.029
     sort_std: 0.003
@@ -2935,7 +2898,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: ''
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
     global_rank: 30
@@ -2971,7 +2934,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
     global_rank: 33
@@ -2984,45 +2947,9 @@ results:
     has_value_note: false
     value_gap: 0.046
     value_note: ''
-    paper_rank: 139
-    rank_delta: 106
-    rank_delta_abs: 106
-    rank_delta_direction: worse
-    sort_value: 0.034
-    sort_std: 0.007
-    is_best: false
-  - model: GNN (a)
-    model_key: gnn (a)
-    model_plain: GNN (a)
-    value: 0.08
-    std: 0.001
-    paper_value: 0.08
-    paper_std: 0.001
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: '2024-05-05'
-    date_display: May 2024
-    date_iso: '2024-05-05'
-    global_rank: 33
-    true_value: 0.034
-    true_std: 0.007
-    value_gap_source_arxiv: '2501.18739'
-    value_gap_source_title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.046
-    value_note: ''
-    paper_rank: 139
-    rank_delta: 106
-    rank_delta_abs: 106
+    paper_rank: 146
+    rank_delta: 113
+    rank_delta_abs: 113
     rank_delta_direction: worse
     sort_value: 0.034
     sort_std: 0.007
@@ -3043,7 +2970,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
     global_rank: 42
@@ -3056,9 +2983,9 @@ results:
     has_value_note: false
     value_gap: 0.113
     value_note: ''
-    paper_rank: 232
-    rank_delta: 190
-    rank_delta_abs: 190
+    paper_rank: 245
+    rank_delta: 203
+    rank_delta_abs: 203
     rank_delta_direction: worse
     sort_value: 0.049
     sort_std: 0.002
@@ -3079,7 +3006,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: ''
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
     global_rank: 42
@@ -3115,10 +3042,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
-    global_rank: 73
+    global_rank: 75
     true_value: 0.065
     true_std: 0.004
     value_gap_source_arxiv: '2502.09263'
@@ -3129,9 +3056,9 @@ results:
     has_value_note: false
     value_gap: 0.098
     value_note: ''
-    paper_rank: 233
-    rank_delta: 160
-    rank_delta_abs: 160
+    paper_rank: 246
+    rank_delta: 171
+    rank_delta_abs: 171
     rank_delta_direction: worse
     sort_value: 0.065
     sort_std: 0.004
@@ -3152,10 +3079,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: ''
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
-    global_rank: 73
+    global_rank: 75
     true_value: 0.065
     true_std: 0.004
     value_gap_source_arxiv: '2502.09263'
@@ -3166,9 +3093,9 @@ results:
     has_value_note: false
     value_gap: 0.022999999999999993
     value_note: ''
-    paper_rank: 160
-    rank_delta: 87
-    rank_delta_abs: 87
+    paper_rank: 170
+    rank_delta: 95
+    rank_delta_abs: 95
     rank_delta_direction: worse
     sort_value: 0.065
     sort_std: 0.004
@@ -3189,10 +3116,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'zinc: default subset fallback'
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
-    global_rank: 76
+    global_rank: 78
     true_value: 0.066
     true_std: 0.003
     value_gap_source_arxiv: '2502.09263'
@@ -3203,44 +3130,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 76
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.066
-    sort_std: 0.003
-    is_best: false
-  - model: SpecFormer
-    model_key: specformer
-    model_plain: SpecFormer
-    value: 0.066
-    std: 0.003
-    paper_value: 0.066
-    paper_std: 0.003
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: 0.5
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: '2024-05-05'
-    date_display: May 2024
-    date_iso: '2024-05-05'
-    global_rank: 76
-    true_value: 0.066
-    true_std: 0.003
-    value_gap_source_arxiv: '2502.09263'
-    value_gap_source_title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks?
-      Simple Architectures Meet Excellence
-    value_gap_source_is_current_paper: false
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 76
+    paper_rank: 78
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -3263,10 +3153,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
-    global_rank: 129
+    global_rank: 134
     true_value: 0.077
     true_std: 0.003
     value_gap_source_arxiv: '2504.12588'
@@ -3276,43 +3166,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 129
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.077
-    sort_std: 0.003
-    is_best: false
-  - model: G-MLPMixer
-    model_key: g-mlpmixer
-    model_plain: G-MLPMixer
-    value: 0.077
-    std: 0.003
-    paper_value: 0.077
-    paper_std: 0.003
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: '2024-05-05'
-    date_display: May 2024
-    date_iso: '2024-05-05'
-    global_rank: 129
-    true_value: 0.077
-    true_std: 0.003
-    value_gap_source_arxiv: '2504.12588'
-    value_gap_source_title: Plain Transformers Can be Powerful Graph Learners
-    value_gap_source_is_current_paper: false
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 129
+    paper_rank: 134
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -3335,10 +3189,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
-    global_rank: 211
+    global_rank: 224
     true_value: 0.1341
     true_std: 0.0063
     value_gap_source_arxiv: '2602.02268'
@@ -3349,44 +3203,7 @@ results:
     has_value_note: true
     value_gap: 0.0049000000000000155
     value_note: global 0.1341 within std
-    paper_rank: 212
-    rank_delta: 1
-    rank_delta_abs: 1
-    rank_delta_direction: worse
-    sort_value: 0.1341
-    sort_std: 0.0063
-    is_best: false
-  - model: SAN
-    model_key: san
-    model_plain: SAN
-    value: 0.139
-    std: 0.006
-    paper_value: 0.139
-    paper_std: 0.006
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: 0.5
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: '2024-05-05'
-    date_display: May 2024
-    date_iso: '2024-05-05'
-    global_rank: 211
-    true_value: 0.1341
-    true_std: 0.0063
-    value_gap_source_arxiv: '2602.02268'
-    value_gap_source_title: 'HopFormer: Sparse Graph Transformers with Explicit Receptive
-      Field Control'
-    value_gap_source_is_current_paper: false
-    has_value_gap: false
-    has_value_note: true
-    value_gap: 0.0049000000000000155
-    value_note: global 0.1341 within std
-    paper_rank: 212
+    paper_rank: 225
     rank_delta: 1
     rank_delta_abs: 1
     rank_delta_direction: worse
@@ -3486,7 +3303,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
     global_rank: 4
@@ -3500,9 +3317,9 @@ results:
     has_value_note: false
     value_gap: 0.19729999999999992
     value_note: ''
-    paper_rank: 126
-    rank_delta: 122
-    rank_delta_abs: 122
+    paper_rank: 137
+    rank_delta: 133
+    rank_delta_abs: 133
     rank_delta_direction: worse
     sort_value: 0.968
     sort_std: 0.002
@@ -3523,7 +3340,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
     global_rank: 9
@@ -3560,10 +3377,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
-    global_rank: 15
+    global_rank: 16
     true_value: 0.8051
     true_std: 0.0053
     value_gap_source_arxiv: '2604.17324'
@@ -3574,7 +3391,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 15
+    paper_rank: 16
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -3597,10 +3414,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
-    global_rank: 25
+    global_rank: 26
     true_value: 0.8032
     true_std: 0.0071
     value_gap_source_arxiv: '2405.02795'
@@ -3610,7 +3427,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 25
+    paper_rank: 26
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -3633,10 +3450,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
-    global_rank: 31
+    global_rank: 32
     true_value: 0.8003
     true_std: 0.0055
     value_gap_source_arxiv: '2501.03113'
@@ -3647,7 +3464,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 31
+    paper_rank: 32
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -3670,10 +3487,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
-    global_rank: 35
+    global_rank: 36
     true_value: 0.7997
     true_std: 0.0102
     value_gap_source_arxiv: '2405.02795'
@@ -3683,7 +3500,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 35
+    paper_rank: 36
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -3706,10 +3523,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
-    global_rank: 44
+    global_rank: 45
     true_value: 0.7961
     true_std: 0.0119
     value_gap_source_arxiv: '2501.03113'
@@ -3720,7 +3537,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 44
+    paper_rank: 45
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -3743,10 +3560,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
-    global_rank: 47
+    global_rank: 48
     true_value: 0.7958
     true_std: 0.0035
     value_gap_source_arxiv: '2405.02795'
@@ -3756,7 +3573,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 47
+    paper_rank: 48
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -3779,10 +3596,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
-    global_rank: 66
+    global_rank: 72
     true_value: 0.7889
     true_std: 0.0124
     value_gap_source_arxiv: '2502.09263'
@@ -3793,7 +3610,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 66
+    paper_rank: 72
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -3816,10 +3633,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
-    global_rank: 70
+    global_rank: 76
     true_value: 0.788
     true_std: 0.01
     value_gap_source_arxiv: '2405.17311'
@@ -3829,7 +3646,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 70
+    paper_rank: 76
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -3852,10 +3669,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
-    global_rank: 88
+    global_rank: 94
     true_value: 0.7834
     true_std: 0.0186
     value_gap_source_arxiv: '2405.02795'
@@ -3865,7 +3682,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 88
+    paper_rank: 94
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -3888,10 +3705,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
-    global_rank: 91
+    global_rank: 98
     true_value: 0.7825
     true_std: 0.0098
     value_gap_source_arxiv: '2405.02795'
@@ -3901,7 +3718,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 91
+    paper_rank: 98
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -3924,10 +3741,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
-    global_rank: 95
+    global_rank: 102
     true_value: 0.7818
     true_std: 0.0219
     value_gap_source_arxiv: '2405.02795'
@@ -3937,7 +3754,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 95
+    paper_rank: 102
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -3960,10 +3777,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
-    global_rank: 111
+    global_rank: 122
     true_value: 0.7785
     true_std: 0.247
     value_gap_source_arxiv: '2502.09263'
@@ -3974,7 +3791,7 @@ results:
     has_value_note: true
     value_gap: 0.0010000000000000009
     value_note: global 0.7785 within std
-    paper_rank: 111
+    paper_rank: 122
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -3997,10 +3814,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
-    global_rank: 173
+    global_rank: 188
     true_value: 0.7492
     true_std: 0.0118
     value_gap_source_arxiv: '2405.02795'
@@ -4010,7 +3827,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 173
+    paper_rank: 188
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same

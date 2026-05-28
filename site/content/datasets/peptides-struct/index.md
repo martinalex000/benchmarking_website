@@ -12,7 +12,7 @@ stats:
   avg_nodes: 150.94
   avg_edges: 307.3
   num_classes: 11
-result_count: 368
+result_count: 373
 best_model:
   model: ESA
   value: 0.2393
@@ -320,7 +320,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_iso: '2025-01-29'
     date_display: Jan 2025
     codebase_url: ''
@@ -338,7 +338,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_iso: '2025-01-29'
     date_display: Jan 2025
     codebase_url: ''
@@ -450,7 +450,7 @@ variants:
     arxiv_id: '2502.00282'
     title: 'GraphMinNet: Learning Dependencies in Graphs with Light Complexity Minimal
       Architecture'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_iso: '2025-02-01'
     date_display: Feb 2025
     codebase_url: ''
@@ -468,7 +468,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_iso: '2025-01-29'
     date_display: Jan 2025
     codebase_url: ''
@@ -487,7 +487,26 @@ variants:
     arxiv_id: '2502.00282'
     title: 'GraphMinNet: Learning Dependencies in Graphs with Light Complexity Minimal
       Architecture'
-    date: '2025-02-01'
+    date: Feb 1, 2025
+    date_iso: '2025-02-01'
+    date_display: Feb 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.2438
+    metric_stds:
+    - 0.0014
+  - model: novel approach
+    model_plain: novel approach
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2502.00282'
+    title: 'GraphMinNet: Learning Dependencies in Graphs with Light Complexity Minimal
+      Architecture'
+    date: Feb 1, 2025
     date_iso: '2025-02-01'
     date_display: Feb 2025
     codebase_url: ''
@@ -505,7 +524,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_iso: '2025-01-29'
     date_display: Jan 2025
     codebase_url: ''
@@ -523,7 +542,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_iso: '2025-01-29'
     date_display: Jan 2025
     codebase_url: ''
@@ -577,7 +596,7 @@ variants:
     params_millions: null
     arxiv_id: '2502.09365'
     title: Simple Path Structural Encoding for Graph Transformers
-    date: '2025-02-13'
+    date: Feb 13, 2025
     date_iso: '2025-02-13'
     date_display: Feb 2025
     codebase_url: ''
@@ -667,7 +686,7 @@ variants:
     params_millions: null
     arxiv_id: '2410.13798'
     title: Learning Graph Quantized Tokenizers
-    date: '2024-10-17'
+    date: Oct 17, 2024
     date_iso: '2024-10-17'
     date_display: Oct 2024
     codebase_url: ''
@@ -685,7 +704,7 @@ variants:
     params_millions: null
     arxiv_id: '2505.23185'
     title: Improving the Effective Receptive Field of Message-Passing Neural Networks
-    date: '2025-05-29'
+    date: May 29, 2025
     date_iso: '2025-05-29'
     date_display: May 2025
     codebase_url: ''
@@ -795,7 +814,7 @@ variants:
     params_millions: null
     arxiv_id: '2312.01538'
     title: Recurrent Distance Filtering for Graph Representation Learning
-    date: '2023-12-03'
+    date: Dec 3, 2023
     date_iso: '2023-12-03'
     date_display: Dec 2023
     codebase_url: ''
@@ -813,7 +832,7 @@ variants:
     params_millions: 0.5
     arxiv_id: '2505.23185'
     title: Improving the Effective Receptive Field of Message-Passing Neural Networks
-    date: '2025-05-29'
+    date: May 29, 2025
     date_iso: '2025-05-29'
     date_display: May 2025
     codebase_url: ''
@@ -941,7 +960,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_iso: '2025-01-29'
     date_display: Jan 2025
     codebase_url: ''
@@ -959,7 +978,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_iso: '2025-01-29'
     date_display: Jan 2025
     codebase_url: ''
@@ -1286,7 +1305,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_iso: '2025-01-29'
     date_display: Jan 2025
     codebase_url: ''
@@ -1340,7 +1359,7 @@ variants:
     params_millions: 1.0
     arxiv_id: '2405.02795'
     title: Graph as Point Set
-    date: '2024-05-05'
+    date: May 5, 2024
     date_iso: '2024-05-05'
     date_display: May 2024
     codebase_url: ''
@@ -1358,7 +1377,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_iso: '2025-01-29'
     date_display: Jan 2025
     codebase_url: ''
@@ -1616,7 +1635,7 @@ variants:
     params_millions: null
     arxiv_id: '2312.01538'
     title: Recurrent Distance Filtering for Graph Representation Learning
-    date: '2023-12-03'
+    date: Dec 3, 2023
     date_iso: '2023-12-03'
     date_display: Dec 2023
     codebase_url: ''
@@ -1688,7 +1707,7 @@ variants:
     params_millions: null
     arxiv_id: '2505.23185'
     title: Improving the Effective Receptive Field of Message-Passing Neural Networks
-    date: '2025-05-29'
+    date: May 29, 2025
     date_iso: '2025-05-29'
     date_display: May 2025
     codebase_url: ''
@@ -1835,7 +1854,7 @@ variants:
     params_millions: null
     arxiv_id: '2502.09365'
     title: Simple Path Structural Encoding for Graph Transformers
-    date: '2025-02-13'
+    date: Feb 13, 2025
     date_iso: '2025-02-13'
     date_display: Feb 2025
     codebase_url: ''
@@ -1926,7 +1945,7 @@ variants:
     params_millions: null
     arxiv_id: '2502.09365'
     title: Simple Path Structural Encoding for Graph Transformers
-    date: '2025-02-13'
+    date: Feb 13, 2025
     date_iso: '2025-02-13'
     date_display: Feb 2025
     codebase_url: ''
@@ -1964,7 +1983,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -2019,7 +2038,7 @@ variants:
     params_millions: null
     arxiv_id: '2402.08678'
     title: 'Graph Mamba: Towards Learning on Graphs with State Space Models'
-    date: '2024-02-13'
+    date: Feb 13, 2024
     date_iso: '2024-02-13'
     date_display: Feb 2024
     codebase_url: ''
@@ -2056,7 +2075,7 @@ variants:
     params_millions: null
     arxiv_id: '2502.09365'
     title: Simple Path Structural Encoding for Graph Transformers
-    date: '2025-02-13'
+    date: Feb 13, 2025
     date_iso: '2025-02-13'
     date_display: Feb 2025
     codebase_url: ''
@@ -2075,7 +2094,7 @@ variants:
     arxiv_id: '2404.03380'
     title: On the Theoretical Expressive Power and the Design Space of Higher-Order
       Graph Transformers
-    date: '2024-04-04'
+    date: Apr 4, 2024
     date_iso: '2024-04-04'
     date_display: Apr 2024
     codebase_url: ''
@@ -2094,7 +2113,7 @@ variants:
     arxiv_id: '2404.03380'
     title: On the Theoretical Expressive Power and the Design Space of Higher-Order
       Graph Transformers
-    date: '2024-04-04'
+    date: Apr 4, 2024
     date_iso: '2024-04-04'
     date_display: Apr 2024
     codebase_url: ''
@@ -2142,6 +2161,42 @@ variants:
     - 0.0011
   - model: Ours(567k)
     model_plain: Ours(567k)
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2310.01704'
+    title: Transformers are efficient hierarchical chemical graph learners
+    date: Oct 2023
+    date_iso: 2023-10
+    date_display: Oct 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.2487
+    metric_stds:
+    - 0.0009
+  - model: GNNs(567k)
+    model_plain: GNNs(567k)
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2310.01704'
+    title: Transformers are efficient hierarchical chemical graph learners
+    date: Oct 2023
+    date_iso: 2023-10
+    date_display: Oct 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.2487
+    metric_stds:
+    - 0.0009
+  - model: Graph neural networks(580k)
+    model_plain: Graph neural networks(580k)
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -2606,7 +2661,7 @@ variants:
     params_millions: 0.5
     arxiv_id: '2312.01538'
     title: Recurrent Distance Filtering for Graph Representation Learning
-    date: '2023-12-03'
+    date: Dec 3, 2023
     date_iso: '2023-12-03'
     date_display: Dec 2023
     codebase_url: ''
@@ -2697,7 +2752,7 @@ variants:
     params_millions: null
     arxiv_id: '2502.09365'
     title: Simple Path Structural Encoding for Graph Transformers
-    date: '2025-02-13'
+    date: Feb 13, 2025
     date_iso: '2025-02-13'
     date_display: Feb 2025
     codebase_url: ''
@@ -2716,7 +2771,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -2918,7 +2973,7 @@ variants:
     params_millions: null
     arxiv_id: '2410.13798'
     title: Learning Graph Quantized Tokenizers
-    date: '2024-10-17'
+    date: Oct 17, 2024
     date_iso: '2024-10-17'
     date_display: Oct 2024
     codebase_url: ''
@@ -2936,7 +2991,7 @@ variants:
     params_millions: null
     arxiv_id: '2402.08678'
     title: 'Graph Mamba: Towards Learning on Graphs with State Space Models'
-    date: '2024-02-13'
+    date: Feb 13, 2024
     date_iso: '2024-02-13'
     date_display: Feb 2024
     codebase_url: ''
@@ -3083,7 +3138,7 @@ variants:
     arxiv_id: '2404.03380'
     title: On the Theoretical Expressive Power and the Design Space of Higher-Order
       Graph Transformers
-    date: '2024-04-04'
+    date: Apr 4, 2024
     date_iso: '2024-04-04'
     date_display: Apr 2024
     codebase_url: ''
@@ -3102,7 +3157,7 @@ variants:
     arxiv_id: '2404.03380'
     title: On the Theoretical Expressive Power and the Design Space of Higher-Order
       Graph Transformers
-    date: '2024-04-04'
+    date: Apr 4, 2024
     date_iso: '2024-04-04'
     date_display: Apr 2024
     codebase_url: ''
@@ -3176,7 +3231,7 @@ variants:
     arxiv_id: '2404.03380'
     title: On the Theoretical Expressive Power and the Design Space of Higher-Order
       Graph Transformers
-    date: '2024-04-04'
+    date: Apr 4, 2024
     date_iso: '2024-04-04'
     date_display: Apr 2024
     codebase_url: ''
@@ -3306,7 +3361,7 @@ variants:
     params_millions: null
     arxiv_id: '2312.01538'
     title: Recurrent Distance Filtering for Graph Representation Learning
-    date: '2023-12-03'
+    date: Dec 3, 2023
     date_iso: '2023-12-03'
     date_display: Dec 2023
     codebase_url: ''
@@ -3361,7 +3416,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -3451,7 +3506,25 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
+    date_iso: '2023-06-09'
+    date_display: Jun 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.254
+    metric_stds:
+    - 0.0046
+  - model: PathNN-\mathcal{SP}
+    model_plain: PathNN-\mathcal{SP}
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2306.05955'
+    title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -3710,7 +3783,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -3728,7 +3801,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.02795'
     title: Graph as Point Set
-    date: '2024-05-05'
+    date: May 5, 2024
     date_iso: '2024-05-05'
     date_display: May 2024
     codebase_url: ''
@@ -3784,7 +3857,25 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
+    date_iso: '2023-06-09'
+    date_display: Jun 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.2569
+    metric_stds:
+    - 0.003
+  - model: PathNN-\mathcal{AP}
+    model_plain: PathNN-\mathcal{AP}
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2306.05955'
+    title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -3966,7 +4057,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -3984,7 +4075,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.09660'
     title: Neural Priority Queues for Graph Neural Networks
-    date: '2023-07-18'
+    date: Jul 18, 2023
     date_iso: '2023-07-18'
     date_display: Jul 2023
     codebase_url: ''
@@ -4058,7 +4149,7 @@ variants:
     arxiv_id: '2404.03380'
     title: On the Theoretical Expressive Power and the Design Space of Higher-Order
       Graph Transformers
-    date: '2024-04-04'
+    date: Apr 4, 2024
     date_iso: '2024-04-04'
     date_display: Apr 2024
     codebase_url: ''
@@ -4185,7 +4276,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.02795'
     title: Graph as Point Set
-    date: '2024-05-05'
+    date: May 5, 2024
     date_iso: '2024-05-05'
     date_display: May 2024
     codebase_url: ''
@@ -4295,7 +4386,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.02795'
     title: Graph as Point Set
-    date: '2024-05-05'
+    date: May 5, 2024
     date_iso: '2024-05-05'
     date_display: May 2024
     codebase_url: ''
@@ -4369,7 +4460,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -4496,7 +4587,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.09660'
     title: Neural Priority Queues for Graph Neural Networks
-    date: '2023-07-18'
+    date: Jul 18, 2023
     date_iso: '2023-07-18'
     date_display: Jul 2023
     codebase_url: ''
@@ -4515,7 +4606,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -4588,7 +4679,7 @@ variants:
     params_millions: 0.5
     arxiv_id: '2405.02795'
     title: Graph as Point Set
-    date: '2024-05-05'
+    date: May 5, 2024
     date_iso: '2024-05-05'
     date_display: May 2024
     codebase_url: ''
@@ -4662,7 +4753,7 @@ variants:
     arxiv_id: '2404.03380'
     title: On the Theoretical Expressive Power and the Design Space of Higher-Order
       Graph Transformers
-    date: '2024-04-04'
+    date: Apr 4, 2024
     date_iso: '2024-04-04'
     date_display: Apr 2024
     codebase_url: ''
@@ -4700,7 +4791,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -4737,7 +4828,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -4756,7 +4847,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -4847,7 +4938,7 @@ variants:
     params_millions: null
     arxiv_id: '2312.01538'
     title: Recurrent Distance Filtering for Graph Representation Learning
-    date: '2023-12-03'
+    date: Dec 3, 2023
     date_iso: '2023-12-03'
     date_display: Dec 2023
     codebase_url: ''
@@ -4955,7 +5046,7 @@ variants:
     params_millions: null
     arxiv_id: '2402.08678'
     title: 'Graph Mamba: Towards Learning on Graphs with State Space Models'
-    date: '2024-02-13'
+    date: Feb 13, 2024
     date_iso: '2024-02-13'
     date_display: Feb 2024
     codebase_url: ''
@@ -4992,7 +5083,7 @@ variants:
     arxiv_id: '2407.12419'
     title: Dirac--Bianconi Graph Neural Networks -- Enabling Non-Diffusive Long-Range
       Graph Predictions
-    date: '2024-07-17'
+    date: Jul 17, 2024
     date_iso: '2024-07-17'
     date_display: Jul 2024
     codebase_url: ''
@@ -5173,7 +5264,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.09660'
     title: Neural Priority Queues for Graph Neural Networks
-    date: '2023-07-18'
+    date: Jul 18, 2023
     date_iso: '2023-07-18'
     date_display: Jul 2023
     codebase_url: ''
@@ -5309,18 +5400,17 @@ variants:
     - 0.3078
     metric_stds:
     - 0.0026
-  - model: GraphFP
-    model_plain: GraphFP
-    is_baseline: true
+  - model: GraphFP_CP
+    model_plain: GraphFP_CP
+    is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2604.06336'
-    title: 'BiScale-GTR: Fragment-Aware Graph Transformers for Multi-Scale Molecular
-      Representation Learning'
-    date: Apr 2026
-    date_iso: 2026-04
-    date_display: Apr 2026
+    arxiv_id: '2310.03274'
+    title: Fragment-based Pretraining and Finetuning on Molecular Graphs
+    date: Oct 2023
+    date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -5328,8 +5418,8 @@ variants:
     - 0.3137
     metric_stds:
     - 0.0019
-  - model: GraphFP_CP
-    model_plain: GraphFP_CP
+  - model: GraphFP
+    model_plain: GraphFP
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -5373,7 +5463,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.09660'
     title: Neural Priority Queues for Graph Neural Networks
-    date: '2023-07-18'
+    date: Jul 18, 2023
     date_iso: '2023-07-18'
     date_display: Jul 2023
     codebase_url: ''
@@ -5499,7 +5589,7 @@ variants:
     params_millions: null
     arxiv_id: '2406.03671'
     title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
-    date: '2024-06-06'
+    date: Jun 6, 2024
     date_iso: '2024-06-06'
     date_display: Jun 2024
     codebase_url: ''
@@ -5860,7 +5950,7 @@ variants:
     params_millions: null
     arxiv_id: '2406.03671'
     title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
-    date: '2024-06-06'
+    date: Jun 6, 2024
     date_iso: '2024-06-06'
     date_display: Jun 2024
     codebase_url: ''
@@ -5878,7 +5968,7 @@ variants:
     params_millions: null
     arxiv_id: '2406.03671'
     title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
-    date: '2024-06-06'
+    date: Jun 6, 2024
     date_iso: '2024-06-06'
     date_display: Jun 2024
     codebase_url: ''
@@ -6004,7 +6094,7 @@ variants:
     params_millions: null
     arxiv_id: '2406.03671'
     title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
-    date: '2024-06-06'
+    date: Jun 6, 2024
     date_iso: '2024-06-06'
     date_display: Jun 2024
     codebase_url: ''
@@ -6040,7 +6130,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.09660'
     title: Neural Priority Queues for Graph Neural Networks
-    date: '2023-07-18'
+    date: Jul 18, 2023
     date_iso: '2023-07-18'
     date_display: Jul 2023
     codebase_url: ''
@@ -6113,7 +6203,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''

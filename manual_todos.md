@@ -18,13 +18,14 @@ Used hardware for the experiments and potentially runtime (even though thats usu
 
 show the number of stars on github when there is a github link?
 
-impressum ergänzen
 
 logos einbinden der jeweiligen benchmarks
 
+zinc still does a lot of odd stuff - the leaderboard for the full zinc seems to include the other entries as well - at least at the first glance it looks like there are too many terrible appraoches for the full zinc one.
+
 http://localhost:1313/datasets/zinc/ hier gibt es verdammt grosse Zahlen gemixt unter die anderen - wo kommen die her und wie werde ich die los? Und schaffe ich es die y-achse so zu skalieren, dass man mehr sehen kann?
 
-The hidden rows button does not work at the moment. Thus, also the scroll to row does not work.
+the leaderboard needs a tiny legend indicating what the used colors mean.
 
 Add clear benchmark-selection guidance. Right now the site helps browse results, but not decide which benchmarks are worth testing on. It should surface benchmark relevance, popularity/adoption, recency, task fit, dataset scale, and a “recommended benchmark suite” view.
 

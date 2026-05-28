@@ -2,9 +2,10 @@
   "paper_status": {
     "total": 225,
     "by_status": {
-      "extracted": 215,
+      "extracted": 214,
       "pending": 6,
-      "downloaded": 4
+      "downloaded": 4,
+      "quarantined_method_name": 1
     }
   },
   "skipped": {

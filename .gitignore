@@ -23,11 +23,14 @@ logs/
 site/public/
 site/resources/
 site/.hugo_build.lock
+site/content/dev/
 site/content/datasets/
 site/content/papers/
+site/data/*.json
 
 # ── Papers: keep local workspace data out of git ────────────────────────────
 papers/*
+papers/.*
 !papers/.gitkeep
 
 # ── OS / Editor ─────────────────────────────────────────────────────────────

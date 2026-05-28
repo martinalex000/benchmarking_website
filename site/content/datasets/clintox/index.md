@@ -12,7 +12,7 @@ stats:
   avg_nodes: 26.1
   avg_edges: 55.5
   num_classes: 2
-result_count: 49
+result_count: 57
 best_model:
   model: Supervised
   value: 0.8814
@@ -69,6 +69,24 @@ variants:
     - 0.859
     metric_stds:
     - 0.04
+  - model: GPS
+    model_plain: GPS
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2508.10651'
+    title: Graph Learning via Logic-Based Weisfeiler--Leman Variants and Tabularization
+    date: Aug 2025
+    date_iso: 2025-08
+    date_display: Aug 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: true
+    metric_values:
+    - 0.859
+    metric_stds:
+    - 0.04
   - model: GraphFP_CP
     model_plain: GraphFP_CP
     is_baseline: false
@@ -87,6 +105,24 @@ variants:
     - 0.847
     metric_stds:
     - 0.058
+  - model: CP, \(α = 0.1\)
+    model_plain: CP, \(α = 0.1\)
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2310.03274'
+    title: Fragment-based Pretraining and Finetuning on Molecular Graphs
+    date: Oct 2023
+    date_iso: 2023-10
+    date_display: Oct 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: true
+    metric_values:
+    - 0.847
+    metric_stds:
+    - 0.088
   - model: AUG-MAE
     model_plain: AUG-MAE
     is_baseline: true
@@ -113,7 +149,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -213,6 +249,24 @@ variants:
     - 0.793
     metric_stds:
     - 0.031
+  - model: CPF, \(α = 0.2\)
+    model_plain: CPF, \(α = 0.2\)
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2310.03274'
+    title: Fragment-based Pretraining and Finetuning on Molecular Graphs
+    date: Oct 2023
+    date_iso: 2023-10
+    date_display: Oct 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.793
+    metric_stds:
+    - 0.031
   - model: GraphMVP
     model_plain: GraphMVP
     is_baseline: true
@@ -239,7 +293,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -293,7 +347,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -311,7 +365,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -347,7 +401,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -401,7 +455,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -437,7 +491,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -455,7 +509,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -509,7 +563,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -519,6 +573,24 @@ variants:
     - 0.718
     metric_stds:
     - 0.041
+  - model: Q-WL-RF (Plain)
+    model_plain: Q-WL-RF (Plain)
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2508.10651'
+    title: Graph Learning via Logic-Based Weisfeiler--Leman Variants and Tabularization
+    date: Aug 2025
+    date_iso: 2025-08
+    date_display: Aug 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.718
+    metric_stds:
+    - 0.02
   - model: JOAO
     model_plain: JOAO
     is_baseline: true
@@ -555,6 +627,24 @@ variants:
     - 0.706
     metric_stds:
     - 0.033
+  - model: Q-WL-RF (Maj.)
+    model_plain: Q-WL-RF (Maj.)
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2508.10651'
+    title: Graph Learning via Logic-Based Weisfeiler--Leman Variants and Tabularization
+    date: Aug 2025
+    date_iso: 2025-08
+    date_display: Aug 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.706
+    metric_stds:
+    - 0.033
   - model: SSL InfoMax pre-trained
     model_plain: SSL InfoMax pre-trained
     is_baseline: true
@@ -563,7 +653,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -609,9 +699,45 @@ variants:
     - 0.695
     metric_stds:
     - 0.03
+  - model: Q-WL-RF (Int.)
+    model_plain: Q-WL-RF (Int.)
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2508.10651'
+    title: Graph Learning via Logic-Based Weisfeiler--Leman Variants and Tabularization
+    date: Aug 2025
+    date_iso: 2025-08
+    date_display: Aug 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.695
+    metric_stds:
+    - 0.03
   - model: Q-WL-RF (Ours) Hyb.
     model_plain: Q-WL-RF (Ours) Hyb.
     is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2508.10651'
+    title: Graph Learning via Logic-Based Weisfeiler--Leman Variants and Tabularization
+    date: Aug 2025
+    date_iso: 2025-08
+    date_display: Aug 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.68
+    metric_stds:
+    - 0.022
+  - model: Q-WL-RF (Hyb.)
+    model_plain: Q-WL-RF (Hyb.)
+    is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
@@ -653,7 +779,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -689,7 +815,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -702,6 +828,24 @@ variants:
   - model: Q-WL-RF (Ours) Full
     model_plain: Q-WL-RF (Ours) Full
     is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2508.10651'
+    title: Graph Learning via Logic-Based Weisfeiler--Leman Variants and Tabularization
+    date: Aug 2025
+    date_iso: 2025-08
+    date_display: Aug 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.656
+    metric_stds:
+    - 0.013
+  - model: Q-WL-RF (Full)
+    model_plain: Q-WL-RF (Full)
+    is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
@@ -761,7 +905,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -779,7 +923,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -869,7 +1013,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''

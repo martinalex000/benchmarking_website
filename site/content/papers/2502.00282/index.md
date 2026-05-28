@@ -4,7 +4,7 @@ title: 'GraphMinNet: Learning Dependencies in Graphs with Light Complexity Minim
 arxiv_id: '2502.00282'
 source_url: ''
 authors: []
-published_date: '2025-02-01'
+published_date: Feb 1, 2025
 published_date_iso: '2025-02-01'
 abstract: Graph Neural Networks (GNNs) have demonstrated remarkable success in various
   applications, yet they often struggle to capture long-range dependencies (LRD) effectively.
@@ -29,8 +29,8 @@ proposed_models:
 - Ours
 - GraphMinNet
 - novel approach
-mrr: 0.0891
-adjusted_mrr: 0.0891
+mrr: 0.0866
+adjusted_mrr: 0.0866
 mrr_dataset_count: 7
 benchmark_categories:
 - Classic
@@ -95,6 +95,30 @@ results:
     sort_value: 0.80027
     sort_std: 0.00185
     is_best: false
+  - model: RandAlign (4 layers)
+    model_key: randalign (4 layers)
+    model_plain: RandAlign (4 layers)
+    value: 0.7942
+    std: 0.00072
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2404.09774'
+    title: 'RandAlign: A Parameter-Free Method for Regularizing Graph Convolutional
+      Networks'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    codebase_url: ''
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 3
+    sort_value: 0.7942
+    sort_std: 0.00072
+    is_best: false
   - model: Ours
     model_key: ours
     model_plain: Ours
@@ -111,10 +135,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 3
+    global_rank: 4
     true_value: 0.79067
     true_std: 0.00269
     value_gap_source_arxiv: '2407.02758'
@@ -125,33 +149,10 @@ results:
     has_value_note: false
     value_gap: 0.009989999999999943
     value_note: ''
-    paper_rank: 5
+    paper_rank: 6
     rank_delta: 2
     rank_delta_abs: 2
     rank_delta_direction: worse
-    sort_value: 0.79067
-    sort_std: 0.00269
-    is_best: false
-  - model: WL
-    model_key: wl
-    model_plain: WL
-    value: 0.79067
-    std: 0.00269
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2407.02758'
-    title: Differential Encoding for Improved Representation Learning over Graphs
-    date: Jul 2024
-    date_display: Jul 2024
-    date_iso: 2024-07
-    codebase_url: ''
-    uses_external_data: false
-    is_global_top: true
-    global_rank: 4
     sort_value: 0.79067
     sort_std: 0.00269
     is_best: false
@@ -171,10 +172,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 7
+    global_rank: 8
     true_value: 0.78068
     true_std: 0.00785
     value_gap_source_arxiv: '2502.00282'
@@ -185,7 +186,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 7
+    paper_rank: 8
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -208,10 +209,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 6
+    global_rank: 7
     true_value: 0.78068
     true_std: 0.00785
     value_gap_source_arxiv: '2502.00282'
@@ -222,7 +223,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 6
+    paper_rank: 7
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -245,10 +246,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 10
+    global_rank: 11
     true_value: 0.77642
     true_std: 0.00456
     value_gap_source_arxiv: '2502.00282'
@@ -259,7 +260,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 10
+    paper_rank: 11
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -282,10 +283,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 11
+    global_rank: 12
     true_value: 0.77218
     true_std: 0.00381
     value_gap_source_arxiv: '2502.09263'
@@ -296,7 +297,7 @@ results:
     has_value_note: false
     value_gap: 0.09905999999999993
     value_note: ''
-    paper_rank: 103
+    paper_rank: 104
     rank_delta: 92
     rank_delta_abs: 92
     rank_delta_direction: worse
@@ -319,10 +320,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 14
+    global_rank: 15
     true_value: 0.76853
     true_std: 0.00185
     value_gap_source_arxiv: '2502.09263'
@@ -333,7 +334,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 14
+    paper_rank: 15
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -356,10 +357,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 19
+    global_rank: 20
     true_value: 0.76468
     true_std: 0.00881
     value_gap_source_arxiv: '2605.05689'
@@ -370,7 +371,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 19
+    paper_rank: 20
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -393,10 +394,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 30
+    global_rank: 31
     true_value: 0.7576
     true_std: 0.0042
     value_gap_source_arxiv: '2406.05815'
@@ -407,7 +408,7 @@ results:
     has_value_note: false
     value_gap: 0.020600000000000063
     value_note: ''
-    paper_rank: 42
+    paper_rank: 43
     rank_delta: 12
     rank_delta_abs: 12
     rank_delta_direction: worse
@@ -430,10 +431,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 35
+    global_rank: 36
     true_value: 0.74754
     true_std: 0.00194
     value_gap_source_arxiv: '2502.09263'
@@ -444,7 +445,7 @@ results:
     has_value_note: true
     value_gap: 0.0006399999999999739
     value_note: global 0.7475 within std
-    paper_rank: 36
+    paper_rank: 37
     rank_delta: 1
     rank_delta_abs: 1
     rank_delta_direction: worse
@@ -467,10 +468,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 61
+    global_rank: 62
     true_value: 0.72298
     true_std: 0.00356
     value_gap_source_arxiv: '2502.09263'
@@ -481,7 +482,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 61
+    paper_rank: 62
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -504,10 +505,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 94
+    global_rank: 95
     true_value: 0.69824
     true_std: 0.00413
     value_gap_source_arxiv: '2502.09263'
@@ -518,7 +519,7 @@ results:
     has_value_note: false
     value_gap: 0.14113999999999993
     value_note: ''
-    paper_rank: 113
+    paper_rank: 114
     rank_delta: 19
     rank_delta_abs: 19
     rank_delta_direction: worse
@@ -541,10 +542,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 96
+    global_rank: 97
     true_value: 0.69592
     true_std: 0.00287
     value_gap_source_arxiv: '2502.09263'
@@ -555,7 +556,7 @@ results:
     has_value_note: false
     value_gap: 0.14337
     value_note: ''
-    paper_rank: 114
+    paper_rank: 115
     rank_delta: 18
     rank_delta_abs: 18
     rank_delta_direction: worse
@@ -578,10 +579,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 109
+    global_rank: 110
     true_value: 0.64223
     true_std: 0.00455
     value_gap_source_arxiv: '2605.05689'
@@ -592,7 +593,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 109
+    paper_rank: 110
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -643,7 +644,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 2
@@ -725,7 +726,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 11
@@ -762,7 +763,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 13
@@ -799,7 +800,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 12
@@ -836,7 +837,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 15
@@ -873,7 +874,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 16
@@ -910,7 +911,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 27
@@ -947,7 +948,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 37
@@ -983,7 +984,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 41
@@ -1020,7 +1021,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 53
@@ -1057,7 +1058,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 55
@@ -1094,7 +1095,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 57
@@ -1131,7 +1132,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 61
@@ -1168,7 +1169,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 63
@@ -1279,7 +1280,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 4
@@ -1316,7 +1317,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 6
@@ -1353,7 +1354,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 8
@@ -1390,7 +1391,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 7
@@ -1427,7 +1428,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 10
@@ -1463,7 +1464,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 14
@@ -1500,10 +1501,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 22
+    global_rank: 23
     true_value: 0.9842
     true_std: 0.0008
     value_gap_source_arxiv: '2502.09263'
@@ -1514,7 +1515,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 22
+    paper_rank: 23
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1537,10 +1538,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 24
+    global_rank: 25
     true_value: 0.98383
     true_std: 0.00012
     value_gap_source_arxiv: '2502.09263'
@@ -1551,7 +1552,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 24
+    paper_rank: 25
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1574,10 +1575,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 25
+    global_rank: 26
     true_value: 0.98382
     true_std: 0.00095
     value_gap_source_arxiv: '2502.09263'
@@ -1588,9 +1589,9 @@ results:
     has_value_note: false
     value_gap: 0.07677
     value_note: ''
-    paper_rank: 97
-    rank_delta: 72
-    rank_delta_abs: 72
+    paper_rank: 100
+    rank_delta: 74
+    rank_delta_abs: 74
     rank_delta_direction: worse
     sort_value: 0.98382
     sort_std: 0.00095
@@ -1611,10 +1612,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 31
+    global_rank: 32
     true_value: 0.98285
     true_std: 0.00103
     value_gap_source_arxiv: '2502.09263'
@@ -1625,7 +1626,7 @@ results:
     has_value_note: false
     value_gap: 0.018000000000000016
     value_note: ''
-    paper_rank: 87
+    paper_rank: 88
     rank_delta: 56
     rank_delta_abs: 56
     rank_delta_direction: worse
@@ -1648,7 +1649,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 57
@@ -1685,7 +1686,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 63
@@ -1722,10 +1723,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 90
+    global_rank: 92
     true_value: 0.9554
     true_std: 0.0021
     value_gap_source_arxiv: '2411.15671'
@@ -1736,7 +1737,7 @@ results:
     has_value_note: true
     value_gap: 4.999999999999449e-05
     value_note: global 0.9554 within std
-    paper_rank: 90
+    paper_rank: 92
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1787,7 +1788,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 2
@@ -1870,7 +1871,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 6
@@ -1907,7 +1908,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 7
@@ -1944,7 +1945,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 9
@@ -1981,7 +1982,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 11
@@ -2018,7 +2019,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 10
@@ -2055,7 +2056,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 12
@@ -2092,7 +2093,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 13
@@ -2129,7 +2130,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 15
@@ -2166,7 +2167,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 16
@@ -2203,7 +2204,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 20
@@ -2314,7 +2315,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 7
@@ -2351,7 +2352,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 9
@@ -2388,7 +2389,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 8
@@ -2425,7 +2426,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 10
@@ -2462,7 +2463,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 20
@@ -2499,7 +2500,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 23
@@ -2536,7 +2537,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 25
@@ -2573,7 +2574,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 26
@@ -2610,7 +2611,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 40
@@ -2647,7 +2648,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 47
@@ -2684,7 +2685,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 48
@@ -2720,7 +2721,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 57
@@ -2757,7 +2758,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 66
@@ -2794,7 +2795,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 88
@@ -2906,7 +2907,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 7
@@ -2943,7 +2944,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 14
@@ -2980,7 +2981,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 16
@@ -3017,7 +3018,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 15
@@ -3054,7 +3055,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 19
@@ -3091,7 +3092,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 26
@@ -3128,7 +3129,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 35
@@ -3165,7 +3166,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 46
@@ -3201,7 +3202,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 48
@@ -3238,7 +3239,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 62
@@ -3275,7 +3276,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 67
@@ -3314,7 +3315,7 @@ results:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_display: Jan 2025
     date_iso: '2025-01-29'
     codebase_url: ''
@@ -3337,7 +3338,7 @@ results:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_display: Jan 2025
     date_iso: '2025-01-29'
     codebase_url: ''
@@ -3360,7 +3361,7 @@ results:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_display: Jan 2025
     date_iso: '2025-01-29'
     codebase_url: ''
@@ -3386,7 +3387,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 9
@@ -3423,7 +3424,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 16
@@ -3460,7 +3461,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 17
@@ -3497,7 +3498,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 31
@@ -3534,7 +3535,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 36
@@ -3571,7 +3572,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 41
@@ -3608,7 +3609,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 49
@@ -3645,7 +3646,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 53
@@ -3681,7 +3682,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 118
@@ -3718,7 +3719,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 166
@@ -3755,7 +3756,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 178
@@ -3791,7 +3792,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 202
@@ -3878,7 +3879,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 3
@@ -3892,9 +3893,9 @@ results:
     has_value_note: false
     value_gap: 0.10750000000000001
     value_note: ''
-    paper_rank: 303
-    rank_delta: 300
-    rank_delta_abs: 300
+    paper_rank: 304
+    rank_delta: 301
+    rank_delta_abs: 301
     rank_delta_direction: worse
     sort_value: 0.2421
     sort_std: 0.0016
@@ -3938,7 +3939,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 9
@@ -3952,9 +3953,9 @@ results:
     has_value_note: false
     value_gap: 0.11180000000000001
     value_note: ''
-    paper_rank: 310
-    rank_delta: 301
-    rank_delta_abs: 301
+    paper_rank: 311
+    rank_delta: 302
+    rank_delta_abs: 302
     rank_delta_direction: worse
     sort_value: 0.2429
     sort_std: 0.0019
@@ -3975,7 +3976,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 12
@@ -3989,9 +3990,9 @@ results:
     has_value_note: false
     value_gap: 0.09890000000000002
     value_note: ''
-    paper_rank: 296
-    rank_delta: 284
-    rank_delta_abs: 284
+    paper_rank: 297
+    rank_delta: 285
+    rank_delta_abs: 285
     rank_delta_direction: worse
     sort_value: 0.2431
     sort_std: 0.002
@@ -4012,7 +4013,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: ''
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 24
@@ -4049,7 +4050,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 26
@@ -4086,7 +4087,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 27
@@ -4123,7 +4124,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 43
@@ -4160,7 +4161,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 51
@@ -4197,7 +4198,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 56
@@ -4233,7 +4234,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 97
@@ -4270,7 +4271,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 102
@@ -4306,10 +4307,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 135
+    global_rank: 136
     true_value: 0.25
     true_std: 0.0012
     value_gap_source_arxiv: '2604.17324'
@@ -4320,7 +4321,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 135
+    paper_rank: 136
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -4343,10 +4344,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 188
+    global_rank: 189
     true_value: 0.2545
     true_std: 0.0012
     value_gap_source_arxiv: '2312.16560'
@@ -4356,7 +4357,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 188
+    paper_rank: 189
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -4427,7 +4428,7 @@ results:
     params_millions: 1.0
     arxiv_id: '2405.02795'
     title: Graph as Point Set
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
     codebase_url: ''
@@ -4453,7 +4454,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'zinc: mae fallback <= 0.06'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 9
@@ -4490,44 +4491,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'zinc: default subset fallback'
-    date: '2025-02-01'
-    date_display: Feb 2025
-    date_iso: '2025-02-01'
-    global_rank: 66
-    true_value: 0.063
-    true_std: 0.001
-    value_gap_source_arxiv: '2502.00282'
-    value_gap_source_title: 'GraphMinNet: Learning Dependencies in Graphs with Light
-      Complexity Minimal Architecture'
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 66
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.063
-    sort_std: 0.001
-    is_best: false
-  - model: Ours
-    model_key: ours
-    model_plain: Ours
-    value: 0.063
-    std: 0.001
-    paper_value: 0.063
-    paper_std: 0.001
-    metric: MAE
-    higher_is_better: false
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 66
@@ -4564,7 +4528,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'zinc: default subset fallback'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 69
@@ -4601,7 +4565,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'zinc: default subset fallback'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 68
@@ -4638,44 +4602,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'zinc: default subset fallback'
-    date: '2025-02-01'
-    date_display: Feb 2025
-    date_iso: '2025-02-01'
-    global_rank: 70
-    true_value: 0.064
-    true_std: 0.002
-    value_gap_source_arxiv: '2502.00282'
-    value_gap_source_title: 'GraphMinNet: Learning Dependencies in Graphs with Light
-      Complexity Minimal Architecture'
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 70
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.064
-    sort_std: 0.002
-    is_best: false
-  - model: GSSC
-    model_key: gssc
-    model_plain: GSSC
-    value: 0.064
-    std: 0.002
-    paper_value: 0.064
-    paper_std: 0.002
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 70
@@ -4712,7 +4639,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 75
@@ -4726,46 +4653,9 @@ results:
     has_value_note: false
     value_gap: 0.461
     value_note: ''
-    paper_rank: 290
-    rank_delta: 215
-    rank_delta_abs: 215
-    rank_delta_direction: worse
-    sort_value: 0.065
-    sort_std: 0.004
-    is_best: false
-  - model: GIN
-    model_key: gin
-    model_plain: GIN
-    value: 0.526
-    std: 0.051
-    paper_value: 0.526
-    paper_std: 0.051
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: '2025-02-01'
-    date_display: Feb 2025
-    date_iso: '2025-02-01'
-    global_rank: 75
-    true_value: 0.065
-    true_std: 0.004
-    value_gap_source_arxiv: '2502.09263'
-    value_gap_source_title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks?
-      Simple Architectures Meet Excellence
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.461
-    value_note: ''
-    paper_rank: 290
-    rank_delta: 215
-    rank_delta_abs: 215
+    paper_rank: 293
+    rank_delta: 218
+    rank_delta_abs: 218
     rank_delta_direction: worse
     sort_value: 0.065
     sort_std: 0.004
@@ -4786,7 +4676,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 77
@@ -4800,46 +4690,9 @@ results:
     has_value_note: false
     value_gap: 0.045
     value_note: ''
-    paper_rank: 195
-    rank_delta: 118
-    rank_delta_abs: 118
-    rank_delta_direction: worse
-    sort_value: 0.066
-    sort_std: 0.003
-    is_best: false
-  - model: Exphormer
-    model_key: exphormer
-    model_plain: Exphormer
-    value: 0.111
-    std: 0.007
-    paper_value: 0.111
-    paper_std: 0.007
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: '2025-02-01'
-    date_display: Feb 2025
-    date_iso: '2025-02-01'
-    global_rank: 77
-    true_value: 0.066
-    true_std: 0.003
-    value_gap_source_arxiv: '2604.17324'
-    value_gap_source_title: 'SigGate-GT: Taming Over-Smoothing in Graph Transformers
-      via Sigmoid-Gated Attention'
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.045
-    value_note: ''
-    paper_rank: 195
-    rank_delta: 118
-    rank_delta_abs: 118
+    paper_rank: 198
+    rank_delta: 121
+    rank_delta_abs: 121
     rank_delta_direction: worse
     sort_value: 0.066
     sort_std: 0.003
@@ -4860,44 +4713,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'zinc: default subset fallback'
-    date: '2025-02-01'
-    date_display: Feb 2025
-    date_iso: '2025-02-01'
-    global_rank: 83
-    true_value: 0.067
-    true_std: 0.002
-    value_gap_source_arxiv: '2502.00282'
-    value_gap_source_title: 'GraphMinNet: Learning Dependencies in Graphs with Light
-      Complexity Minimal Architecture'
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 83
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.067
-    sort_std: 0.002
-    is_best: false
-  - model: Graph-Mamba
-    model_key: graph-mamba
-    model_plain: Graph-Mamba
-    value: 0.067
-    std: 0.002
-    paper_value: 0.067
-    paper_std: 0.002
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 83
@@ -4934,44 +4750,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: '2025-02-01'
-    date_display: Feb 2025
-    date_iso: '2025-02-01'
-    global_rank: 98
-    true_value: 0.069
-    true_std: 0.008
-    value_gap_source_arxiv: '2604.24293'
-    value_gap_source_title: 'Latent-Hysteresis Graph ODEs: Modeling Coupled Topology-Feature
-      Evolution via Continuous Phase Transitions'
-    value_gap_source_is_current_paper: false
-    has_value_gap: false
-    has_value_note: true
-    value_gap: 0.0010000000000000009
-    value_note: global 0.0690 within std
-    paper_rank: 107
-    rank_delta: 9
-    rank_delta_abs: 9
-    rank_delta_direction: worse
-    sort_value: 0.069
-    sort_std: 0.008
-    is_best: false
-  - model: GraphGPS
-    model_key: graphgps
-    model_plain: GraphGPS
-    value: 0.07
-    std: 0.004
-    paper_value: 0.07
-    paper_std: 0.004
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 98
@@ -5008,7 +4787,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 131
@@ -5022,46 +4801,9 @@ results:
     has_value_note: false
     value_gap: 0.291
     value_note: ''
-    paper_rank: 282
-    rank_delta: 151
-    rank_delta_abs: 151
-    rank_delta_direction: worse
-    sort_value: 0.076
-    sort_std: 0.009
-    is_best: false
-  - model: GCN
-    model_key: gcn
-    model_plain: GCN
-    value: 0.367
-    std: 0.011
-    paper_value: 0.367
-    paper_std: 0.011
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: '2025-02-01'
-    date_display: Feb 2025
-    date_iso: '2025-02-01'
-    global_rank: 131
-    true_value: 0.076
-    true_std: 0.009
-    value_gap_source_arxiv: '2502.09263'
-    value_gap_source_title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks?
-      Simple Architectures Meet Excellence
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.291
-    value_note: ''
-    paper_rank: 282
-    rank_delta: 151
-    rank_delta_abs: 151
+    paper_rank: 285
+    rank_delta: 154
+    rank_delta_abs: 154
     rank_delta_direction: worse
     sort_value: 0.076
     sort_std: 0.009
@@ -5082,44 +4824,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: '2025-02-01'
-    date_display: Feb 2025
-    date_iso: '2025-02-01'
-    global_rank: 135
-    true_value: 0.077
-    true_std: 0.002
-    value_gap_source_arxiv: '2502.09263'
-    value_gap_source_title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks?
-      Simple Architectures Meet Excellence
-    value_gap_source_is_current_paper: false
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 135
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.077
-    sort_std: 0.002
-    is_best: false
-  - model: GRED
-    model_key: gred
-    model_plain: GRED
-    value: 0.077
-    std: 0.002
-    paper_value: 0.077
-    paper_std: 0.002
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     global_rank: 135
@@ -5156,10 +4861,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 141
+    global_rank: 142
     true_value: 0.0776354896230479
     true_std: 0.005512609666895327
     value_gap_source_arxiv: '2402.10793'
@@ -5170,46 +4875,9 @@ results:
     has_value_note: false
     value_gap: 0.3063645103769521
     value_note: ''
-    paper_rank: 282
-    rank_delta: 141
-    rank_delta_abs: 141
-    rank_delta_direction: worse
-    sort_value: 0.0776354896230479
-    sort_std: 0.005512609666895327
-    is_best: false
-  - model: GAT
-    model_key: gat
-    model_plain: GAT
-    value: 0.384
-    std: 0.007
-    paper_value: 0.384
-    paper_std: 0.007
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: '2025-02-01'
-    date_display: Feb 2025
-    date_iso: '2025-02-01'
-    global_rank: 141
-    true_value: 0.0776354896230479
-    true_std: 0.005512609666895327
-    value_gap_source_arxiv: '2402.10793'
-    value_gap_source_title: An end-to-end attention-based approach for learning on
-      graphs
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.3063645103769521
-    value_note: ''
-    paper_rank: 282
-    rank_delta: 141
-    rank_delta_abs: 141
+    paper_rank: 285
+    rank_delta: 143
+    rank_delta_abs: 143
     rank_delta_direction: worse
     sort_value: 0.0776354896230479
     sort_std: 0.005512609666895327
@@ -5230,10 +4898,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 221
+    global_rank: 224
     true_value: 0.1341
     true_std: 0.0063
     value_gap_source_arxiv: '2602.02268'
@@ -5244,44 +4912,7 @@ results:
     has_value_note: true
     value_gap: 0.0049000000000000155
     value_note: global 0.1341 within std
-    paper_rank: 222
-    rank_delta: 1
-    rank_delta_abs: 1
-    rank_delta_direction: worse
-    sort_value: 0.1341
-    sort_std: 0.0063
-    is_best: false
-  - model: SAN
-    model_key: san
-    model_plain: SAN
-    value: 0.139
-    std: 0.006
-    paper_value: 0.139
-    paper_std: 0.006
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: '2025-02-01'
-    date_display: Feb 2025
-    date_iso: '2025-02-01'
-    global_rank: 221
-    true_value: 0.1341
-    true_std: 0.0063
-    value_gap_source_arxiv: '2602.02268'
-    value_gap_source_title: 'HopFormer: Sparse Graph Transformers with Explicit Receptive
-      Field Control'
-    value_gap_source_is_current_paper: false
-    has_value_gap: false
-    has_value_note: true
-    value_gap: 0.0049000000000000155
-    value_note: global 0.1341 within std
-    paper_rank: 222
+    paper_rank: 225
     rank_delta: 1
     rank_delta_abs: 1
     rank_delta_direction: worse
@@ -5386,7 +5017,7 @@ results:
     value_note: ''
     arxiv_id: ''
     title: ''
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     codebase_url: ''
@@ -5421,7 +5052,7 @@ results:
     value_note: ''
     arxiv_id: ''
     title: ''
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     codebase_url: ''
@@ -5487,7 +5118,7 @@ results:
     value_note: ''
     arxiv_id: ''
     title: ''
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     codebase_url: ''
@@ -5522,7 +5153,7 @@ results:
     value_note: ''
     arxiv_id: ''
     title: ''
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     codebase_url: ''
@@ -5557,7 +5188,7 @@ results:
     value_note: ''
     arxiv_id: ''
     title: ''
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     codebase_url: ''
@@ -5592,7 +5223,7 @@ results:
     value_note: ''
     arxiv_id: ''
     title: ''
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     codebase_url: ''
@@ -5627,7 +5258,7 @@ results:
     value_note: ''
     arxiv_id: ''
     title: ''
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     codebase_url: ''
@@ -5662,13 +5293,13 @@ results:
     value_note: ''
     arxiv_id: ''
     title: ''
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     codebase_url: ''
     uses_external_data: null
     is_best: false
-    global_rank: 72
+    global_rank: 75
   - model: Graph-Mamba
     model_key: graph-mamba
     model_plain: Graph-Mamba
@@ -5697,13 +5328,13 @@ results:
     value_note: ''
     arxiv_id: ''
     title: ''
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     codebase_url: ''
     uses_external_data: null
     is_best: false
-    global_rank: 95
+    global_rank: 99
   - model: SAN
     model_key: san
     model_plain: SAN
@@ -5732,13 +5363,13 @@ results:
     value_note: ''
     arxiv_id: ''
     title: ''
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_display: Feb 2025
     date_iso: '2025-02-01'
     codebase_url: ''
     uses_external_data: null
     is_best: true
-    global_rank: 116
+    global_rank: 122
   metrics:
   - ROC-AUC
   - AUROC

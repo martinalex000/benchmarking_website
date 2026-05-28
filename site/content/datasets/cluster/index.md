@@ -13,7 +13,7 @@ stats:
   avg_nodes: 117.2
   avg_edges: 4303.9
   num_classes: 6
-result_count: 92
+result_count: 94
 best_model:
   model: Tango_GPS
   value: 0.80113
@@ -259,7 +259,7 @@ variants:
     params_millions: null
     arxiv_id: '2502.09365'
     title: Simple Path Structural Encoding for Graph Transformers
-    date: '2025-02-13'
+    date: Feb 13, 2025
     date_iso: '2025-02-13'
     date_display: Feb 2025
     codebase_url: ''
@@ -289,7 +289,7 @@ variants:
     params_millions: null
     arxiv_id: '2502.09365'
     title: Simple Path Structural Encoding for Graph Transformers
-    date: '2025-02-13'
+    date: Feb 13, 2025
     date_iso: '2025-02-13'
     date_display: Feb 2025
     codebase_url: ''
@@ -350,7 +350,69 @@ variants:
     arxiv_id: '2502.00282'
     title: 'GraphMinNet: Learning Dependencies in Graphs with Light Complexity Minimal
       Architecture'
-    date: '2025-02-01'
+    date: Feb 1, 2025
+    date_iso: '2025-02-01'
+    date_display: Feb 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.79284
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.00122
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: novel approach
+    model_plain: novel approach
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2502.00282'
+    title: 'GraphMinNet: Learning Dependencies in Graphs with Light Complexity Minimal
+      Architecture'
+    date: Feb 1, 2025
+    date_iso: '2025-02-01'
+    date_display: Feb 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.79284
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.00122
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: GraphMinNet
+    model_plain: GraphMinNet
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2502.00282'
+    title: 'GraphMinNet: Learning Dependencies in Graphs with Light Complexity Minimal
+      Architecture'
+    date: Feb 1, 2025
     date_iso: '2025-02-01'
     date_display: Feb 2025
     codebase_url: ''
@@ -411,7 +473,7 @@ variants:
     arxiv_id: '2502.00282'
     title: 'GraphMinNet: Learning Dependencies in Graphs with Light Complexity Minimal
       Architecture'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_iso: '2025-02-01'
     date_display: Feb 2025
     codebase_url: ''
@@ -472,7 +534,7 @@ variants:
     params_millions: null
     arxiv_id: '2502.09365'
     title: Simple Path Structural Encoding for Graph Transformers
-    date: '2025-02-13'
+    date: Feb 13, 2025
     date_iso: '2025-02-13'
     date_display: Feb 2025
     codebase_url: ''
@@ -532,7 +594,7 @@ variants:
     params_millions: null
     arxiv_id: '2502.09365'
     title: Simple Path Structural Encoding for Graph Transformers
-    date: '2025-02-13'
+    date: Feb 13, 2025
     date_iso: '2025-02-13'
     date_display: Feb 2025
     codebase_url: ''
@@ -776,7 +838,7 @@ variants:
     params_millions: 0.5
     arxiv_id: '2312.01538'
     title: Recurrent Distance Filtering for Graph Representation Learning
-    date: '2023-12-03'
+    date: Dec 3, 2023
     date_iso: '2023-12-03'
     date_display: Dec 2023
     codebase_url: ''
@@ -837,7 +899,7 @@ variants:
     params_millions: null
     arxiv_id: '2502.09365'
     title: Simple Path Structural Encoding for Graph Transformers
-    date: '2025-02-13'
+    date: Feb 13, 2025
     date_iso: '2025-02-13'
     date_display: Feb 2025
     codebase_url: ''
@@ -899,7 +961,7 @@ variants:
     arxiv_id: '2402.00789'
     title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling with Selective
       State Spaces'
-    date: '2024-02-01'
+    date: Feb 1, 2024
     date_iso: '2024-02-01'
     date_display: Feb 2024
     codebase_url: ''
@@ -1082,7 +1144,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.19121'
     title: Spatio-Spectral Graph Neural Networks
-    date: '2024-05-29'
+    date: May 29, 2024
     date_iso: '2024-05-29'
     date_display: May 2024
     codebase_url: ''
@@ -1142,7 +1204,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.19121'
     title: Spatio-Spectral Graph Neural Networks
-    date: '2024-05-29'
+    date: May 29, 2024
     date_iso: '2024-05-29'
     date_display: May 2024
     codebase_url: ''
@@ -1172,7 +1234,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.19121'
     title: Spatio-Spectral Graph Neural Networks
-    date: '2024-05-29'
+    date: May 29, 2024
     date_iso: '2024-05-29'
     date_display: May 2024
     codebase_url: ''
@@ -1263,7 +1325,7 @@ variants:
     arxiv_id: '2402.00789'
     title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling with Selective
       State Spaces'
-    date: '2024-02-01'
+    date: Feb 1, 2024
     date_iso: '2024-02-01'
     date_display: Feb 2024
     codebase_url: ''
@@ -1294,7 +1356,7 @@ variants:
     arxiv_id: '2402.00789'
     title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling with Selective
       State Spaces'
-    date: '2024-02-01'
+    date: Feb 1, 2024
     date_iso: '2024-02-01'
     date_display: Feb 2024
     codebase_url: ''
@@ -1478,7 +1540,7 @@ variants:
     arxiv_id: '2402.00789'
     title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling with Selective
       State Spaces'
-    date: '2024-02-01'
+    date: Feb 1, 2024
     date_iso: '2024-02-01'
     date_display: Feb 2024
     codebase_url: ''
@@ -1538,7 +1600,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.19121'
     title: Spatio-Spectral Graph Neural Networks
-    date: '2024-05-29'
+    date: May 29, 2024
     date_iso: '2024-05-29'
     date_display: May 2024
     codebase_url: ''
@@ -1630,7 +1692,7 @@ variants:
     arxiv_id: '2402.00789'
     title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling with Selective
       State Spaces'
-    date: '2024-02-01'
+    date: Feb 1, 2024
     date_iso: '2024-02-01'
     date_display: Feb 2024
     codebase_url: ''
@@ -1661,7 +1723,7 @@ variants:
     arxiv_id: '2402.00789'
     title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling with Selective
       State Spaces'
-    date: '2024-02-01'
+    date: Feb 1, 2024
     date_iso: '2024-02-01'
     date_display: Feb 2024
     codebase_url: ''
@@ -1722,7 +1784,7 @@ variants:
     params_millions: null
     arxiv_id: '2502.09365'
     title: Simple Path Structural Encoding for Graph Transformers
-    date: '2025-02-13'
+    date: Feb 13, 2025
     date_iso: '2025-02-13'
     date_display: Feb 2025
     codebase_url: ''
@@ -2210,7 +2272,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.19121'
     title: Spatio-Spectral Graph Neural Networks
-    date: '2024-05-29'
+    date: May 29, 2024
     date_iso: '2024-05-29'
     date_display: May 2024
     codebase_url: ''
@@ -2240,7 +2302,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.19121'
     title: Spatio-Spectral Graph Neural Networks
-    date: '2024-05-29'
+    date: May 29, 2024
     date_iso: '2024-05-29'
     date_display: May 2024
     codebase_url: ''
@@ -2301,7 +2363,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.19121'
     title: Spatio-Spectral Graph Neural Networks
-    date: '2024-05-29'
+    date: May 29, 2024
     date_iso: '2024-05-29'
     date_display: May 2024
     codebase_url: ''
@@ -2331,7 +2393,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.19121'
     title: Spatio-Spectral Graph Neural Networks
-    date: '2024-05-29'
+    date: May 29, 2024
     date_iso: '2024-05-29'
     date_display: May 2024
     codebase_url: ''

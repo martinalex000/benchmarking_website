@@ -6,24 +6,26 @@ source_url: ''
 authors: []
 published_date: Apr 2026
 published_date_iso: 2026-04
-abstract: 'Abstract Graph neural ordinary differential equations (Graph ODEs) extend graph learning from
-  discrete message-passing layers to continuous-time representation flows. While it supports adaptive
-  long-range propagation, we show that Graph ODEs with strictly positive irreducible mixing operators
-  face an inherent monostability trap: in the long-time regime, information leakage is unavoidable and
-  the dynamics converge to a single global consensus attractor. We propose the Hysteresis Graph ODE (HGODE),
-  which couples feature evolution with a latent topological potential driven by a learned pairwise force.
-  A double-well edge potential and bipolarized gate allow edge states to polarize into connected or insulated
-  phases while preserving differentiability. We provide asymptotic analysis of the collapse mechanism
-  and the proposed hysteretic topology dynamics, and validate HGODE on theory-driven synthetic diagnostics
-  and real-world graph benchmarks.'
+abstract: 'Abstract Graph neural ordinary differential equations (Graph ODEs) extend
+  graph learning from discrete message-passing layers to continuous-time representation
+  flows. While it supports adaptive long-range propagation, we show that Graph ODEs
+  with strictly positive irreducible mixing operators face an inherent monostability
+  trap: in the long-time regime, information leakage is unavoidable and the dynamics
+  converge to a single global consensus attractor. We propose the Hysteresis Graph
+  ODE (HGODE), which couples feature evolution with a latent topological potential
+  driven by a learned pairwise force. A double-well edge potential and bipolarized
+  gate allow edge states to polarize into connected or insulated phases while preserving
+  differentiability. We provide asymptotic analysis of the collapse mechanism and
+  the proposed hysteretic topology dynamics, and validate HGODE on theory-driven synthetic
+  diagnostics and real-world graph benchmarks.'
 codebase_url: ''
 extraction_model: qwen3.6-35b-a3b
 has_results: true
 paper_type: method
 proposed_models:
 - HGODE
-mrr: 0.0786
-adjusted_mrr: 0.0786
+mrr: 0.0774
+adjusted_mrr: 0.0774
 mrr_dataset_count: 6
 benchmark_categories:
 - Classic
@@ -130,7 +132,7 @@ results:
     date: Apr 2026
     date_display: Apr 2026
     date_iso: 2026-04
-    global_rank: 18
+    global_rank: 20
     true_value: 0.7256
     true_std: 0.0124
     value_gap_source_arxiv: '2604.24293'
@@ -141,7 +143,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 18
+    paper_rank: 20
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -167,7 +169,7 @@ results:
     date: Apr 2026
     date_display: Apr 2026
     date_iso: 2026-04
-    global_rank: 56
+    global_rank: 62
     true_value: 0.6144
     true_std: 0.0137
     value_gap_source_arxiv: '2411.17296'
@@ -177,9 +179,9 @@ results:
     has_value_note: false
     value_gap: 0.15669999999999995
     value_note: ''
-    paper_rank: 106
-    rank_delta: 50
-    rank_delta_abs: 50
+    paper_rank: 115
+    rank_delta: 53
+    rank_delta_abs: 53
     rank_delta_direction: worse
     sort_value: 0.6144
     sort_std: 0.0137
@@ -203,7 +205,7 @@ results:
     date: Apr 2026
     date_display: Apr 2026
     date_iso: 2026-04
-    global_rank: 64
+    global_rank: 70
     true_value: 0.6017
     true_std: 0.0139
     value_gap_source_arxiv: '2411.17296'
@@ -213,9 +215,9 @@ results:
     has_value_note: false
     value_gap: 0.18480000000000002
     value_note: ''
-    paper_rank: 114
-    rank_delta: 50
-    rank_delta_abs: 50
+    paper_rank: 123
+    rank_delta: 53
+    rank_delta_abs: 53
     rank_delta_direction: worse
     sort_value: 0.6017
     sort_std: 0.0139
@@ -239,7 +241,7 @@ results:
     date: Apr 2026
     date_display: Apr 2026
     date_iso: 2026-04
-    global_rank: 103
+    global_rank: 112
     true_value: 0.4607
     true_std: 0.0151
     value_gap_source_arxiv: '2411.17296'
@@ -249,7 +251,7 @@ results:
     has_value_note: false
     value_gap: 0.05030000000000001
     value_note: ''
-    paper_rank: 114
+    paper_rank: 123
     rank_delta: 11
     rank_delta_abs: 11
     rank_delta_direction: worse
@@ -320,7 +322,7 @@ results:
     params_millions: null
     arxiv_id: '2501.18739'
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     codebase_url: ''
@@ -496,7 +498,7 @@ results:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_display: Jan 2025
     date_iso: '2025-01-29'
     codebase_url: ''
@@ -519,7 +521,7 @@ results:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_display: Jan 2025
     date_iso: '2025-01-29'
     codebase_url: ''
@@ -542,7 +544,7 @@ results:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_display: Jan 2025
     date_iso: '2025-01-29'
     codebase_url: ''
@@ -571,7 +573,7 @@ results:
     date: Apr 2026
     date_display: Apr 2026
     date_iso: 2026-04
-    global_rank: 29
+    global_rank: 30
     true_value: 0.714
     true_std: 0.022
     value_gap_source_arxiv: '2604.24293'
@@ -582,7 +584,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 29
+    paper_rank: 30
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -608,7 +610,7 @@ results:
     date: Apr 2026
     date_display: Apr 2026
     date_iso: 2026-04
-    global_rank: 148
+    global_rank: 149
     true_value: 0.661
     true_std: 0.005
     value_gap_source_arxiv: '2604.24293'
@@ -619,7 +621,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 148
+    paper_rank: 149
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -645,7 +647,7 @@ results:
     date: Apr 2026
     date_display: Apr 2026
     date_iso: 2026-04
-    global_rank: 164
+    global_rank: 166
     true_value: 0.655
     true_std: 0.004
     value_gap_source_arxiv: '2604.24293'
@@ -656,7 +658,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 164
+    paper_rank: 166
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -727,7 +729,7 @@ results:
     params_millions: 1.0
     arxiv_id: '2405.02795'
     title: Graph as Point Set
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
     codebase_url: ''
@@ -767,46 +769,9 @@ results:
     has_value_note: false
     value_gap: 0.059000000000000004
     value_note: ''
-    paper_rank: 142
-    rank_delta: 131
-    rank_delta_abs: 131
-    rank_delta_direction: worse
-    sort_value: 0.023
-    sort_std: 0.001
-    is_best: false
-  - model: Subgraphormer
-    model_key: subgraphormer
-    model_plain: Subgraphormer
-    value: 0.082
-    std: 0.04
-    paper_value: 0.082
-    paper_std: 0.04
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Apr 2026
-    date_display: Apr 2026
-    date_iso: 2026-04
-    global_rank: 11
-    true_value: 0.023
-    true_std: 0.001
-    value_gap_source_arxiv: '2402.08450'
-    value_gap_source_title: 'Subgraphormer: Unifying Subgraph GNNs and Graph Transformers
-      via Graph Products'
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.059000000000000004
-    value_note: ''
-    paper_rank: 142
-    rank_delta: 131
-    rank_delta_abs: 131
+    paper_rank: 150
+    rank_delta: 139
+    rank_delta_abs: 139
     rank_delta_direction: worse
     sort_value: 0.023
     sort_std: 0.001
@@ -830,7 +795,7 @@ results:
     date: Apr 2026
     date_display: Apr 2026
     date_iso: 2026-04
-    global_rank: 96
+    global_rank: 98
     true_value: 0.069
     true_std: 0.008
     value_gap_source_arxiv: '2604.24293'
@@ -841,44 +806,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 96
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.069
-    sort_std: 0.008
-    is_best: false
-  - model: GraphGPS
-    model_key: graphgps
-    model_plain: GraphGPS
-    value: 0.069
-    std: 0.008
-    paper_value: 0.069
-    paper_std: 0.008
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Apr 2026
-    date_display: Apr 2026
-    date_iso: 2026-04
-    global_rank: 96
-    true_value: 0.069
-    true_std: 0.008
-    value_gap_source_arxiv: '2604.24293'
-    value_gap_source_title: 'Latent-Hysteresis Graph ODEs: Modeling Coupled Topology-Feature
-      Evolution via Continuous Phase Transitions'
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 96
+    paper_rank: 98
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -904,7 +832,7 @@ results:
     date: Apr 2026
     date_display: Apr 2026
     date_iso: 2026-04
-    global_rank: 136
+    global_rank: 143
     true_value: 0.078
     true_std: 0.025
     value_gap_source_arxiv: '2604.24293'
@@ -915,44 +843,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 136
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.078
-    sort_std: 0.025
-    is_best: false
-  - model: HGODE
-    model_key: hgode
-    model_plain: HGODE
-    value: 0.078
-    std: 0.025
-    paper_value: 0.078
-    paper_std: 0.025
-    metric: MAE
-    higher_is_better: false
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Apr 2026
-    date_display: Apr 2026
-    date_iso: 2026-04
-    global_rank: 136
-    true_value: 0.078
-    true_std: 0.025
-    value_gap_source_arxiv: '2604.24293'
-    value_gap_source_title: 'Latent-Hysteresis Graph ODEs: Modeling Coupled Topology-Feature
-      Evolution via Continuous Phase Transitions'
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 136
+    paper_rank: 143
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same

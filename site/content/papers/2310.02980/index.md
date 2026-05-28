@@ -2,8 +2,10 @@
 title: 'Never Train from Scratch: Fair Comparison of long-sequence models requires
   data-driven priors'
 arxiv_id: '2310.02980'
+source_url: ''
 authors: []
 published_date: Oct 2023
+published_date_iso: 2023-10
 abstract: Modeling long-range dependencies across sequences is a longstanding goal
   in machine learning and has led to architectures, such as state space models, that
   dramatically outperform Transformers on long sequences. However, these impressive
@@ -24,16 +26,27 @@ abstract: Modeling long-range dependencies across sequences is a longstanding go
 codebase_url: ''
 extraction_model: qwen3.6-35b-a3b
 has_results: true
+paper_type: method
 proposed_models:
 - S4 + SPT
 - Transformers + SPT
 mrr: 0.0909
+adjusted_mrr: 0.0303
+mrr_dataset_count: 1
+benchmark_categories:
+- TU Dortmund
+task_categories:
+- graph_classification
+experiment_scopes:
+- graph-level
 results:
 - &id001
   dataset: D&D
   is_multi_metric: true
   rows:
   - model: MPNN
+    model_key: mpnn
+    model_plain: MPNN
     metric_values:
     - 0.989
     - null
@@ -47,13 +60,24 @@ results:
     arxiv_id: '2411.15671'
     title: 'Best of Both Worlds: Advantages of Hybrid Graph Sequence Models'
     date: Nov 2024
-    date_iso: ''
+    date_display: Nov 2024
+    date_iso: 2024-11
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
     global_rank: 1
     is_best: true
+    sort_value: 0.989
+    sort_std: null
+    has_value_gap: false
+    has_value_note: false
+    paper_rank: null
+    rank_delta: null
+    rank_delta_abs: null
+    value_note: ''
   - model: HAC (BFS)
+    model_key: hac (bfs)
+    model_plain: HAC (BFS)
     metric_values:
     - 0.981
     - null
@@ -67,13 +91,24 @@ results:
     arxiv_id: '2411.15671'
     title: 'Best of Both Worlds: Advantages of Hybrid Graph Sequence Models'
     date: Nov 2024
-    date_iso: ''
+    date_display: Nov 2024
+    date_iso: 2024-11
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
     global_rank: 2
     is_best: false
+    sort_value: 0.981
+    sort_std: null
+    has_value_gap: false
+    has_value_note: false
+    paper_rank: null
+    rank_delta: null
+    rank_delta_abs: null
+    value_note: ''
   - model: k-hop
+    model_key: k-hop
+    model_plain: k-hop
     metric_values:
     - 0.976
     - null
@@ -87,13 +122,24 @@ results:
     arxiv_id: '2411.15671'
     title: 'Best of Both Worlds: Advantages of Hybrid Graph Sequence Models'
     date: Nov 2024
-    date_iso: ''
+    date_display: Nov 2024
+    date_iso: 2024-11
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
     global_rank: 3
     is_best: false
+    sort_value: 0.976
+    sort_std: null
+    has_value_gap: false
+    has_value_note: false
+    paper_rank: null
+    rank_delta: null
+    rank_delta_abs: null
+    value_note: ''
   - model: S4 + SPT
+    model_key: s4 + spt
+    model_plain: S4 + SPT
     metric_values:
     - 0.9509
     - 0.999
@@ -104,9 +150,31 @@ results:
     is_overridden: false
     override_reason: ''
     params_millions: null
+    sort_value: 0.9509
+    sort_std: null
+    true_value: 0.9509
+    true_std: null
+    paper_value: 0.9509
+    paper_std: null
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_gap_source_arxiv: '2310.02980'
+    value_gap_source_title: 'Never Train from Scratch: Fair Comparison of long-sequence
+      models requires data-driven priors'
+    value_note: ''
+    arxiv_id: ''
+    title: ''
+    date: Oct 2023
+    date_display: Oct 2023
+    date_iso: 2023-10
+    codebase_url: ''
+    uses_external_data: null
     is_best: false
     global_rank: 4
   - model: S4
+    model_key: s4
+    model_plain: S4
     metric_values:
     - 0.936
     - 0.999
@@ -117,9 +185,31 @@ results:
     is_overridden: false
     override_reason: ''
     params_millions: null
+    sort_value: 0.936
+    sort_std: null
+    true_value: 0.936
+    true_std: null
+    paper_value: 0.936
+    paper_std: null
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_gap_source_arxiv: '2310.02980'
+    value_gap_source_title: 'Never Train from Scratch: Fair Comparison of long-sequence
+      models requires data-driven priors'
+    value_note: ''
+    arxiv_id: ''
+    title: ''
+    date: Oct 2023
+    date_display: Oct 2023
+    date_iso: 2023-10
+    codebase_url: ''
+    uses_external_data: null
     is_best: false
     global_rank: 5
   - model: Transformers + SPT
+    model_key: transformers + spt
+    model_plain: Transformers + SPT
     metric_values:
     - 0.8613
     - 0.992
@@ -130,9 +220,31 @@ results:
     is_overridden: false
     override_reason: ''
     params_millions: null
+    sort_value: 0.8613
+    sort_std: null
+    true_value: 0.8613
+    true_std: null
+    paper_value: 0.8613
+    paper_std: null
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_gap_source_arxiv: '2310.02980'
+    value_gap_source_title: 'Never Train from Scratch: Fair Comparison of long-sequence
+      models requires data-driven priors'
+    value_note: ''
+    arxiv_id: ''
+    title: ''
+    date: Oct 2023
+    date_display: Oct 2023
+    date_iso: 2023-10
+    codebase_url: ''
+    uses_external_data: null
     is_best: false
     global_rank: 11
   - model: Transformer
+    model_key: transformer
+    model_plain: Transformer
     metric_values:
     - 0.8455
     - 0.998
@@ -143,6 +255,26 @@ results:
     is_overridden: false
     override_reason: ''
     params_millions: null
+    sort_value: 0.8455
+    sort_std: null
+    true_value: 0.8455
+    true_std: null
+    paper_value: 0.8455
+    paper_std: null
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_gap_source_arxiv: '2310.02980'
+    value_gap_source_title: 'Never Train from Scratch: Fair Comparison of long-sequence
+      models requires data-driven priors'
+    value_note: ''
+    arxiv_id: ''
+    title: ''
+    date: Oct 2023
+    date_display: Oct 2023
+    date_iso: 2023-10
+    codebase_url: ''
+    uses_external_data: null
     is_best: false
     global_rank: 15
   metrics:

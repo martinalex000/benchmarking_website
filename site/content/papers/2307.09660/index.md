@@ -3,7 +3,7 @@ title: Neural Priority Queues for Graph Neural Networks
 arxiv_id: '2307.09660'
 source_url: ''
 authors: []
-published_date: '2023-07-18'
+published_date: Jul 18, 2023
 published_date_iso: '2023-07-18'
 abstract: Graph Neural Networks (GNNs) have shown considerable success in neural algorithmic
   reasoning. Many traditional algorithms make use of an explicit memory in the form
@@ -122,7 +122,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: ''
-    date: '2023-07-18'
+    date: Jul 18, 2023
     date_display: Jul 2023
     date_iso: '2023-07-18'
     global_rank: 212
@@ -158,7 +158,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: ''
-    date: '2023-07-18'
+    date: Jul 18, 2023
     date_display: Jul 2023
     date_iso: '2023-07-18'
     global_rank: 239
@@ -194,7 +194,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: ''
-    date: '2023-07-18'
+    date: Jul 18, 2023
     date_display: Jul 2023
     date_iso: '2023-07-18'
     global_rank: 272
@@ -230,7 +230,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: ''
-    date: '2023-07-18'
+    date: Jul 18, 2023
     date_display: Jul 2023
     date_iso: '2023-07-18'
     global_rank: 282
@@ -266,7 +266,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: ''
-    date: '2023-07-18'
+    date: Jul 18, 2023
     date_display: Jul 2023
     date_iso: '2023-07-18'
     global_rank: 310

@@ -1,8 +1,10 @@
 ---
 title: Neural Embeddings for Protein Graphs
 arxiv_id: '2306.04667'
+source_url: ''
 authors: []
 published_date: Jun 2023
+published_date_iso: 2023-06
 abstract: Proteins perform much of the work in living organisms, and consequently
   the development of efficient computational methods for protein representation is
   essential for advancing large-scale biological research. Most current approaches
@@ -20,8 +22,14 @@ abstract: Proteins perform much of the work in living organisms, and consequentl
 codebase_url: ''
 extraction_model: qwen3.6-35b-a3b
 has_results: false
+paper_type: dataset
 proposed_models: []
 mrr: null
+adjusted_mrr: null
+mrr_dataset_count: 0
+benchmark_categories: []
+task_categories: []
+experiment_scopes: []
 results: []
 results_grouped: []
 main_figure: /figures/2306.04667/main_figure.png

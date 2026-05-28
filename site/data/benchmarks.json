@@ -10,7 +10,7 @@
         "name": "Cora",
         "slug": "cora",
         "task_type": "node_classification",
-        "result_count": 413,
+        "result_count": 414,
         "variants": [
           {
             "name": "Planetoid split",
@@ -42,7 +42,7 @@
         "name": "CiteSeer",
         "slug": "citeseer",
         "task_type": "node_classification",
-        "result_count": 308,
+        "result_count": 310,
         "variants": [
           {
             "name": "Planetoid split",
@@ -54,7 +54,7 @@
         "name": "PubMed",
         "slug": "pubmed",
         "task_type": "node_classification",
-        "result_count": 248,
+        "result_count": 250,
         "variants": [
           {
             "name": "Planetoid split",
@@ -66,7 +66,7 @@
         "name": "Reddit",
         "slug": "reddit",
         "task_type": "node_classification",
-        "result_count": 115,
+        "result_count": 116,
         "variants": [
           {
             "name": "Standard split",
@@ -159,7 +159,7 @@
         "name": "Texas",
         "slug": "texas",
         "task_type": "node_classification",
-        "result_count": 218,
+        "result_count": 220,
         "variants": [
           {
             "name": "Standard split",
@@ -171,7 +171,7 @@
         "name": "Cornell",
         "slug": "cornell",
         "task_type": "node_classification",
-        "result_count": 189,
+        "result_count": 191,
         "variants": [
           {
             "name": "Standard split",
@@ -183,19 +183,7 @@
         "name": "Wisconsin",
         "slug": "wisconsin",
         "task_type": "node_classification",
-        "result_count": 181,
-        "variants": [
-          {
-            "name": "Standard split",
-            "slug": "standard-split"
-          }
-        ]
-      },
-      {
-        "name": "Actor",
-        "slug": "actor",
-        "task_type": "node_classification",
-        "result_count": 167,
+        "result_count": 186,
         "variants": [
           {
             "name": "Standard split",
@@ -207,7 +195,7 @@
         "name": "Chameleon",
         "slug": "chameleon",
         "task_type": "node_classification",
-        "result_count": 162,
+        "result_count": 177,
         "variants": [
           {
             "name": "Filtered split",
@@ -220,10 +208,22 @@
         ]
       },
       {
+        "name": "Actor",
+        "slug": "actor",
+        "task_type": "node_classification",
+        "result_count": 168,
+        "variants": [
+          {
+            "name": "Standard split",
+            "slug": "standard-split"
+          }
+        ]
+      },
+      {
         "name": "Squirrel",
         "slug": "squirrel",
         "task_type": "node_classification",
-        "result_count": 135,
+        "result_count": 153,
         "variants": [
           {
             "name": "Filtered split",
@@ -239,7 +239,7 @@
         "name": "Roman-empire",
         "slug": "roman-empire",
         "task_type": "node_classification",
-        "result_count": 122,
+        "result_count": 123,
         "variants": [
           {
             "name": "Standard split",
@@ -251,7 +251,7 @@
         "name": "Amazon-ratings",
         "slug": "amazon-ratings",
         "task_type": "node_classification",
-        "result_count": 104,
+        "result_count": 109,
         "variants": [
           {
             "name": "Standard split",
@@ -263,7 +263,7 @@
         "name": "Minesweeper",
         "slug": "minesweeper",
         "task_type": "node_classification",
-        "result_count": 103,
+        "result_count": 104,
         "variants": [
           {
             "name": "Standard split",
@@ -275,7 +275,7 @@
         "name": "Tolokers",
         "slug": "tolokers",
         "task_type": "node_classification",
-        "result_count": 86,
+        "result_count": 87,
         "variants": [
           {
             "name": "Standard split",
@@ -287,7 +287,7 @@
         "name": "Questions",
         "slug": "questions",
         "task_type": "node_classification",
-        "result_count": 64,
+        "result_count": 65,
         "variants": [
           {
             "name": "Standard split",
@@ -356,7 +356,7 @@
         "name": "MUTAG",
         "slug": "mutag",
         "task_type": "graph_classification",
-        "result_count": 182,
+        "result_count": 189,
         "variants": [
           {
             "name": "10-fold CV",
@@ -368,7 +368,7 @@
         "name": "IMDB-BINARY",
         "slug": "imdb-binary",
         "task_type": "graph_classification",
-        "result_count": 167,
+        "result_count": 184,
         "variants": [
           {
             "name": "10-fold CV",
@@ -380,7 +380,7 @@
         "name": "ENZYMES",
         "slug": "enzymes",
         "task_type": "graph_classification",
-        "result_count": 134,
+        "result_count": 144,
         "variants": [
           {
             "name": "10-fold CV",
@@ -392,7 +392,7 @@
         "name": "COLLAB",
         "slug": "collab",
         "task_type": "graph_classification",
-        "result_count": 111,
+        "result_count": 112,
         "variants": [
           {
             "name": "10-fold CV",
@@ -404,7 +404,7 @@
         "name": "NCI1",
         "slug": "nci1",
         "task_type": "graph_classification",
-        "result_count": 98,
+        "result_count": 102,
         "variants": [
           {
             "name": "10-fold CV",
@@ -440,11 +440,23 @@
         "name": "REDDIT-MULTI-5K",
         "slug": "reddit-multi-5k",
         "task_type": "graph_classification",
-        "result_count": 32,
+        "result_count": 34,
         "variants": [
           {
             "name": "10-fold CV",
             "slug": "10-fold-cv"
+          }
+        ]
+      },
+      {
+        "name": "PTC_MR",
+        "slug": "ptc-mr",
+        "task_type": "graph_classification",
+        "result_count": 19,
+        "variants": [
+          {
+            "name": "Standard split",
+            "slug": "standard-split"
           }
         ]
       },
@@ -473,7 +485,7 @@
         "name": "Peptides-struct",
         "slug": "peptides-struct",
         "task_type": "graph_regression",
-        "result_count": 368,
+        "result_count": 373,
         "variants": [
           {
             "name": "Standard split",
@@ -485,7 +497,7 @@
         "name": "Peptides-func",
         "slug": "peptides-func",
         "task_type": "graph_classification",
-        "result_count": 367,
+        "result_count": 369,
         "variants": [
           {
             "name": "Standard split",
@@ -497,7 +509,7 @@
         "name": "PascalVOC-SP",
         "slug": "pascalvoc-sp",
         "task_type": "node_classification",
-        "result_count": 140,
+        "result_count": 143,
         "variants": [
           {
             "name": "Standard split",
@@ -509,7 +521,7 @@
         "name": "COCO-SP",
         "slug": "coco-sp",
         "task_type": "node_classification",
-        "result_count": 98,
+        "result_count": 99,
         "variants": [
           {
             "name": "Standard split",
@@ -521,7 +533,7 @@
         "name": "PCQM-Contact",
         "slug": "pcqm-contact",
         "task_type": "link_prediction",
-        "result_count": 91,
+        "result_count": 92,
         "variants": [
           {
             "name": "Standard split",
@@ -542,7 +554,7 @@
         "name": "ogbg-molhiv",
         "slug": "ogbg-molhiv",
         "task_type": "graph_classification",
-        "result_count": 266,
+        "result_count": 284,
         "variants": [
           {
             "name": "Standard split",
@@ -566,7 +578,7 @@
         "name": "ogbg-molpcba",
         "slug": "ogbg-molpcba",
         "task_type": "graph_classification",
-        "result_count": 101,
+        "result_count": 103,
         "variants": [
           {
             "name": "Standard split",
@@ -659,6 +671,18 @@
         ]
       },
       {
+        "name": "Alchemy",
+        "slug": "alchemy",
+        "task_type": "graph_regression",
+        "result_count": 9,
+        "variants": [
+          {
+            "name": "Standard split",
+            "slug": "standard-split"
+          }
+        ]
+      },
+      {
         "name": "ogbl-citation2",
         "slug": "ogbl-citation2",
         "task_type": "link_prediction",
@@ -683,7 +707,7 @@
         "name": "CIFAR10",
         "slug": "cifar10",
         "task_type": "graph_classification",
-        "result_count": 122,
+        "result_count": 127,
         "variants": [
           {
             "name": "Standard split",
@@ -695,7 +719,7 @@
         "name": "MNIST",
         "slug": "mnist",
         "task_type": "graph_classification",
-        "result_count": 118,
+        "result_count": 125,
         "variants": [
           {
             "name": "Standard split",
@@ -707,7 +731,7 @@
         "name": "PATTERN",
         "slug": "pattern",
         "task_type": "node_classification",
-        "result_count": 96,
+        "result_count": 98,
         "variants": [
           {
             "name": "Standard split",
@@ -719,7 +743,7 @@
         "name": "CLUSTER",
         "slug": "cluster",
         "task_type": "node_classification",
-        "result_count": 92,
+        "result_count": 94,
         "variants": [
           {
             "name": "Standard split",
@@ -731,7 +755,7 @@
         "name": "CSL",
         "slug": "csl",
         "task_type": "graph_classification",
-        "result_count": 36,
+        "result_count": 44,
         "variants": [
           {
             "name": "Standard split",
@@ -776,7 +800,7 @@
         "name": "Tox21",
         "slug": "tox21",
         "task_type": "graph_classification",
-        "result_count": 78,
+        "result_count": 82,
         "variants": [
           {
             "name": "Scaffold split",
@@ -800,7 +824,7 @@
         "name": "ToxCast",
         "slug": "toxcast",
         "task_type": "graph_classification",
-        "result_count": 54,
+        "result_count": 58,
         "variants": [
           {
             "name": "Scaffold split",
@@ -812,7 +836,7 @@
         "name": "ClinTox",
         "slug": "clintox",
         "task_type": "graph_classification",
-        "result_count": 49,
+        "result_count": 57,
         "variants": [
           {
             "name": "Scaffold split",
@@ -824,11 +848,23 @@
         "name": "SIDER",
         "slug": "sider",
         "task_type": "graph_classification",
-        "result_count": 45,
+        "result_count": 47,
         "variants": [
           {
             "name": "Scaffold split",
             "slug": "scaffold-split"
+          }
+        ]
+      },
+      {
+        "name": "MUV",
+        "slug": "muv",
+        "task_type": "graph_classification",
+        "result_count": 33,
+        "variants": [
+          {
+            "name": "Standard split",
+            "slug": "standard-split"
           }
         ]
       },
@@ -1390,7 +1426,7 @@
         "name": "MalNet-Tiny",
         "slug": "malnet-tiny",
         "task_type": "graph_classification",
-        "result_count": 25,
+        "result_count": 27,
         "variants": [
           {
             "name": "Standard split",
@@ -1484,6 +1520,108 @@
         "slug": "torsionangle",
         "task_type": "graph_regression",
         "result_count": 8,
+        "variants": [
+          {
+            "name": "Standard split",
+            "slug": "standard-split"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "City-Networks",
+    "slug": "city-networks",
+    "description": "City-Networks — a large-scale long-range benchmark on real-world city road graphs, introduced to test transductive node classification under very large graph diameters.\n",
+    "arxiv_id": "2503.09008",
+    "paper_title": "City-Networks",
+    "datasets": [
+      {
+        "name": "Paris",
+        "slug": "paris",
+        "task_type": "node_classification",
+        "result_count": 12,
+        "variants": [
+          {
+            "name": "Standard split",
+            "slug": "standard-split"
+          }
+        ]
+      },
+      {
+        "name": "Shanghai",
+        "slug": "shanghai",
+        "task_type": "node_classification",
+        "result_count": 12,
+        "variants": [
+          {
+            "name": "Standard split",
+            "slug": "standard-split"
+          }
+        ]
+      },
+      {
+        "name": "Los Angeles",
+        "slug": "los-angeles",
+        "task_type": "node_classification",
+        "result_count": 12,
+        "variants": [
+          {
+            "name": "Standard split",
+            "slug": "standard-split"
+          }
+        ]
+      },
+      {
+        "name": "London",
+        "slug": "london",
+        "task_type": "node_classification",
+        "result_count": 11,
+        "variants": [
+          {
+            "name": "Standard split",
+            "slug": "standard-split"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "PyG Imported Datasets",
+    "slug": "pyg-imported-datasets",
+    "description": "Auto-created from pending PyG dataset approvals.",
+    "arxiv_id": "",
+    "paper_title": "",
+    "datasets": [
+      {
+        "name": "Blog",
+        "slug": "blog",
+        "task_type": "node_classification",
+        "result_count": 15,
+        "variants": [
+          {
+            "name": "Standard split",
+            "slug": "standard-split"
+          }
+        ]
+      },
+      {
+        "name": "Flickr",
+        "slug": "flickr",
+        "task_type": "node_classification",
+        "result_count": 14,
+        "variants": [
+          {
+            "name": "Standard split",
+            "slug": "standard-split"
+          }
+        ]
+      },
+      {
+        "name": "QM8",
+        "slug": "qm8",
+        "task_type": "graph_regression",
+        "result_count": 9,
         "variants": [
           {
             "name": "Standard split",
@@ -1710,6 +1848,63 @@
           {
             "name": "Standard split",
             "slug": "standard-split"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "LRIM Graph Benchmark",
+    "slug": "lrim-graph-benchmark",
+    "description": "LRIM — the Long-Range Ising Model Graph Benchmark, a physics-grounded suite for controlled long-range graph learning evaluation across ten datasets spanning multiple graph sizes and difficulty levels.\n",
+    "arxiv_id": "",
+    "paper_title": "",
+    "datasets": [
+      {
+        "name": "LRIM",
+        "slug": "lrim",
+        "task_type": "node_regression",
+        "result_count": 6,
+        "variants": [
+          {
+            "name": "LRIM-128-easy",
+            "slug": "lrim-128-easy"
+          },
+          {
+            "name": "LRIM-128-hard",
+            "slug": "lrim-128-hard"
+          },
+          {
+            "name": "LRIM-16-easy",
+            "slug": "lrim-16-easy"
+          },
+          {
+            "name": "LRIM-16-hard",
+            "slug": "lrim-16-hard"
+          },
+          {
+            "name": "LRIM-256-easy",
+            "slug": "lrim-256-easy"
+          },
+          {
+            "name": "LRIM-256-hard",
+            "slug": "lrim-256-hard"
+          },
+          {
+            "name": "LRIM-32-easy",
+            "slug": "lrim-32-easy"
+          },
+          {
+            "name": "LRIM-32-hard",
+            "slug": "lrim-32-hard"
+          },
+          {
+            "name": "LRIM-64-easy",
+            "slug": "lrim-64-easy"
+          },
+          {
+            "name": "LRIM-64-hard",
+            "slug": "lrim-64-hard"
           }
         ]
       }

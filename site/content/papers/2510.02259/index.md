@@ -1,8 +1,10 @@
 ---
 title: Transformers Discover Molecular Structure Without Graph Priors
 arxiv_id: '2510.02259'
+source_url: ''
 authors: []
 published_date: ''
+published_date_iso: ''
 abstract: 'Graph Neural Networks (GNNs) are the dominant architecture for molecular
   machine learning, particularly for molecular property prediction and machine learning
   interatomic potentials (MLIPs). GNNs perform message passing on predefined graphs
@@ -27,8 +29,14 @@ abstract: 'Graph Neural Networks (GNNs) are the dominant architecture for molecu
 codebase_url: ''
 extraction_model: qwen3.6-35b-a3b
 has_results: false
+paper_type: dataset
 proposed_models: []
 mrr: null
+adjusted_mrr: null
+mrr_dataset_count: 0
+benchmark_categories: []
+task_categories: []
+experiment_scopes: []
 results: []
 results_grouped: []
 main_figure: /figures/2510.02259/main_figure.png

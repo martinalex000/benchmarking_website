@@ -4,7 +4,7 @@ title: 'No Metric to Rule Them All: Toward Principled Evaluations of Graph-Learn
 arxiv_id: '2502.02379'
 source_url: ''
 authors: []
-published_date: '2025-02-04'
+published_date: Feb 4, 2025
 published_date_iso: '2025-02-04'
 abstract: 'Benchmark datasets have proved pivotal to the success of graph learning,
   and good benchmark datasets are crucial to guide the development of the field. Recent
@@ -32,7 +32,7 @@ has_results: true
 paper_type: method
 proposed_models:
 - o
-mrr: 0.0034
+mrr: 0.0033
 adjusted_mrr: 0.0011
 mrr_dataset_count: 1
 benchmark_categories:
@@ -136,7 +136,7 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: ''
-    date: '2025-02-04'
+    date: Feb 4, 2025
     date_display: Feb 2025
     date_iso: '2025-02-04'
     global_rank: 5
@@ -173,7 +173,7 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: ''
-    date: '2025-02-04'
+    date: Feb 4, 2025
     date_display: Feb 2025
     date_iso: '2025-02-04'
     global_rank: 7
@@ -210,7 +210,7 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: ''
-    date: '2025-02-04'
+    date: Feb 4, 2025
     date_display: Feb 2025
     date_iso: '2025-02-04'
     global_rank: 14
@@ -232,7 +232,7 @@ results:
     is_best: false
   metric: Accuracy
   higher_is_better: true
-- &id007
+- &id006
   dataset: ENZYMES
   rows:
   - model: PathNN-P (K=1)
@@ -248,7 +248,7 @@ results:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_display: Jun 2023
     date_iso: '2023-06-09'
     codebase_url: ''
@@ -271,7 +271,7 @@ results:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_display: Jun 2023
     date_iso: '2023-06-09'
     codebase_url: ''
@@ -294,7 +294,7 @@ results:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_display: Jun 2023
     date_iso: '2023-06-09'
     codebase_url: ''
@@ -320,7 +320,7 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: ''
-    date: '2025-02-04'
+    date: Feb 4, 2025
     date_display: Feb 2025
     date_iso: '2025-02-04'
     global_rank: 13
@@ -356,7 +356,7 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: ''
-    date: '2025-02-04'
+    date: Feb 4, 2025
     date_display: Feb 2025
     date_iso: '2025-02-04'
     global_rank: 17
@@ -393,10 +393,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: ''
-    date: '2025-02-04'
+    date: Feb 4, 2025
     date_display: Feb 2025
     date_iso: '2025-02-04'
-    global_rank: 26
+    global_rank: 27
     true_value: 0.495
     true_std: 0.089
     value_gap_source_arxiv: '2306.05955'
@@ -407,9 +407,9 @@ results:
     has_value_note: true
     value_gap: 0.025000000000000022
     value_note: global 0.4950 within std
-    paper_rank: 30
-    rank_delta: 4
-    rank_delta_abs: 4
+    paper_rank: 32
+    rank_delta: 5
+    rank_delta_abs: 5
     rank_delta_direction: worse
     sort_value: 0.495
     sort_std: 0.089
@@ -432,7 +432,7 @@ results:
     params_millions: null
     arxiv_id: '2501.18739'
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     codebase_url: ''
@@ -455,7 +455,7 @@ results:
     params_millions: null
     arxiv_id: '2501.18739'
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     codebase_url: ''
@@ -504,7 +504,7 @@ results:
     table_ref: Table 3
     source_ref: this paper
     variant_inference_reason: ''
-    date: '2025-02-04'
+    date: Feb 4, 2025
     date_display: Feb 2025
     date_iso: '2025-02-04'
     global_rank: 12
@@ -527,7 +527,7 @@ results:
     table_ref: Table 3
     source_ref: this paper
     variant_inference_reason: ''
-    date: '2025-02-04'
+    date: Feb 4, 2025
     date_display: Feb 2025
     date_iso: '2025-02-04'
     global_rank: 25
@@ -550,7 +550,7 @@ results:
     table_ref: Table 3
     source_ref: this paper
     variant_inference_reason: ''
-    date: '2025-02-04'
+    date: Feb 4, 2025
     date_display: Feb 2025
     date_iso: '2025-02-04'
     global_rank: 61
@@ -647,7 +647,7 @@ results:
     table_ref: Table 3
     source_ref: this paper
     variant_inference_reason: ''
-    date: '2025-02-04'
+    date: Feb 4, 2025
     date_display: Feb 2025
     date_iso: '2025-02-04'
     global_rank: 21
@@ -670,7 +670,7 @@ results:
     table_ref: Table 3
     source_ref: this paper
     variant_inference_reason: ''
-    date: '2025-02-04'
+    date: Feb 4, 2025
     date_display: Feb 2025
     date_iso: '2025-02-04'
     global_rank: 54
@@ -693,7 +693,7 @@ results:
     table_ref: Table 3
     source_ref: this paper
     variant_inference_reason: ''
-    date: '2025-02-04'
+    date: Feb 4, 2025
     date_display: Feb 2025
     date_iso: '2025-02-04'
     global_rank: 22
@@ -790,7 +790,7 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-04'
+    date: Feb 4, 2025
     date_display: Feb 2025
     date_iso: '2025-02-04'
     global_rank: 22
@@ -804,9 +804,9 @@ results:
     has_value_note: false
     value_gap: 0.15700000000000003
     value_note: ''
-    paper_rank: 137
-    rank_delta: 115
-    rank_delta_abs: 115
+    paper_rank: 139
+    rank_delta: 117
+    rank_delta_abs: 117
     rank_delta_direction: worse
     sort_value: 0.901
     sort_std: null
@@ -827,7 +827,7 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-04'
+    date: Feb 4, 2025
     date_display: Feb 2025
     date_iso: '2025-02-04'
     global_rank: 28
@@ -863,10 +863,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-04'
+    date: Feb 4, 2025
     date_display: Feb 2025
     date_iso: '2025-02-04'
-    global_rank: 113
+    global_rank: 117
     true_value: 0.7871
     true_std: 0.0751
     value_gap_source_arxiv: '2310.05174'
@@ -876,9 +876,9 @@ results:
     has_value_note: true
     value_gap: 0.051100000000000034
     value_note: global 0.7871 within std
-    paper_rank: 142
-    rank_delta: 29
-    rank_delta_abs: 29
+    paper_rank: 144
+    rank_delta: 27
+    rank_delta_abs: 27
     rank_delta_direction: worse
     sort_value: 0.7871
     sort_std: 0.0751
@@ -899,10 +899,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-04'
+    date: Feb 4, 2025
     date_display: Feb 2025
     date_iso: '2025-02-04'
-    global_rank: 166
+    global_rank: 170
     true_value: 0.57
     true_std: 0.176
     value_gap_source_arxiv: '2502.02379'
@@ -913,7 +913,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 166
+    paper_rank: 170
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -922,7 +922,7 @@ results:
     is_best: false
   metric: Accuracy
   higher_is_better: true
-- &id006
+- &id007
   dataset: NCI1
   rows:
   - model: IPR-MPNN
@@ -1011,7 +1011,7 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-04'
+    date: Feb 4, 2025
     date_display: Feb 2025
     date_iso: '2025-02-04'
     global_rank: 18
@@ -1025,9 +1025,9 @@ results:
     has_value_note: false
     value_gap: 0.05799999999999994
     value_note: ''
-    paper_rank: 50
-    rank_delta: 32
-    rank_delta_abs: 32
+    paper_rank: 54
+    rank_delta: 36
+    rank_delta_abs: 36
     rank_delta_direction: worse
     sort_value: 0.827
     sort_std: 0.017
@@ -1048,10 +1048,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-04'
+    date: Feb 4, 2025
     date_display: Feb 2025
     date_iso: '2025-02-04'
-    global_rank: 30
+    global_rank: 33
     true_value: 0.802
     true_std: 0.02
     value_gap_source_arxiv: '2406.06984'
@@ -1061,9 +1061,9 @@ results:
     has_value_note: false
     value_gap: 0.08500000000000008
     value_note: ''
-    paper_rank: 72
-    rank_delta: 42
-    rank_delta_abs: 42
+    paper_rank: 76
+    rank_delta: 43
+    rank_delta_abs: 43
     rank_delta_direction: worse
     sort_value: 0.802
     sort_std: 0.02
@@ -1084,10 +1084,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-04'
+    date: Feb 4, 2025
     date_display: Feb 2025
     date_iso: '2025-02-04'
-    global_rank: 47
+    global_rank: 51
     true_value: 0.773
     true_std: 0.025
     value_gap_source_arxiv: '2306.05955'
@@ -1098,7 +1098,7 @@ results:
     has_value_note: false
     value_gap: 0.22299999999999998
     value_note: ''
-    paper_rank: 83
+    paper_rank: 87
     rank_delta: 36
     rank_delta_abs: 36
     rank_delta_direction: worse
@@ -1121,10 +1121,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-04'
+    date: Feb 4, 2025
     date_display: Feb 2025
     date_iso: '2025-02-04'
-    global_rank: 84
+    global_rank: 88
     true_value: 0.492
     true_std: 0.034
     value_gap_source_arxiv: '2502.02379'
@@ -1135,7 +1135,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 84
+    paper_rank: 88
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1269,7 +1269,7 @@ results:
     value_note: ''
     arxiv_id: ''
     title: ''
-    date: '2025-02-04'
+    date: Feb 4, 2025
     date_display: Feb 2025
     date_iso: '2025-02-04'
     codebase_url: ''
@@ -1303,7 +1303,7 @@ results:
     value_note: ''
     arxiv_id: ''
     title: ''
-    date: '2025-02-04'
+    date: Feb 4, 2025
     date_display: Feb 2025
     date_iso: '2025-02-04'
     codebase_url: ''
@@ -1337,7 +1337,7 @@ results:
     value_note: ''
     arxiv_id: ''
     title: ''
-    date: '2025-02-04'
+    date: Feb 4, 2025
     date_display: Feb 2025
     date_iso: '2025-02-04'
     codebase_url: ''
@@ -1372,7 +1372,7 @@ results:
     value_note: ''
     arxiv_id: ''
     title: ''
-    date: '2025-02-04'
+    date: Feb 4, 2025
     date_display: Feb 2025
     date_iso: '2025-02-04'
     codebase_url: ''
@@ -1423,7 +1423,7 @@ results:
     params_millions: 1.0
     arxiv_id: '2405.02795'
     title: Graph as Point Set
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
     codebase_url: ''
@@ -1472,7 +1472,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-04'
+    date: Feb 4, 2025
     date_display: Feb 2025
     date_iso: '2025-02-04'
     global_rank: 16
@@ -1509,7 +1509,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-04'
+    date: Feb 4, 2025
     date_display: Feb 2025
     date_iso: '2025-02-04'
     global_rank: 31
@@ -1546,7 +1546,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-04'
+    date: Feb 4, 2025
     date_display: Feb 2025
     date_iso: '2025-02-04'
     global_rank: 43
@@ -1583,7 +1583,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-04'
+    date: Feb 4, 2025
     date_display: Feb 2025
     date_iso: '2025-02-04'
     global_rank: 45
@@ -1620,7 +1620,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-04'
+    date: Feb 4, 2025
     date_display: Feb 2025
     date_iso: '2025-02-04'
     global_rank: 52
@@ -1657,7 +1657,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-04'
+    date: Feb 4, 2025
     date_display: Feb 2025
     date_iso: '2025-02-04'
     global_rank: 56
@@ -1768,7 +1768,7 @@ results:
     table_ref: Table 3
     source_ref: this paper
     variant_inference_reason: ''
-    date: '2025-02-04'
+    date: Feb 4, 2025
     date_display: Feb 2025
     date_iso: '2025-02-04'
     global_rank: null
@@ -1791,7 +1791,7 @@ results:
     table_ref: Table 3
     source_ref: this paper
     variant_inference_reason: ''
-    date: '2025-02-04'
+    date: Feb 4, 2025
     date_display: Feb 2025
     date_iso: '2025-02-04'
     global_rank: null
@@ -1814,7 +1814,7 @@ results:
     table_ref: Table 3
     source_ref: this paper
     variant_inference_reason: ''
-    date: '2025-02-04'
+    date: Feb 4, 2025
     date_display: Feb 2025
     date_iso: '2025-02-04'
     global_rank: null
@@ -1885,7 +1885,7 @@ results:
     params_millions: 1.0
     arxiv_id: '2405.02795'
     title: Graph as Point Set
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
     codebase_url: ''
@@ -1911,10 +1911,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-04'
+    date: Feb 4, 2025
     date_display: Feb 2025
     date_iso: '2025-02-04'
-    global_rank: 290
+    global_rank: 304
     true_value: 0.8
     true_std: 0.03
     value_gap_source_arxiv: '2502.02379'
@@ -1925,7 +1925,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 290
+    paper_rank: 304
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1948,10 +1948,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: ''
-    date: '2025-02-04'
+    date: Feb 4, 2025
     date_display: Feb 2025
     date_iso: '2025-02-04'
-    global_rank: 290
+    global_rank: 304
     true_value: 0.8
     true_std: 0.03
     value_gap_source_arxiv: '2502.02379'
@@ -1962,7 +1962,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 290
+    paper_rank: 304
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1985,10 +1985,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-04'
+    date: Feb 4, 2025
     date_display: Feb 2025
     date_iso: '2025-02-04'
-    global_rank: 293
+    global_rank: 307
     true_value: 0.98
     true_std: 0.03
     value_gap_source_arxiv: '2502.02379'
@@ -1999,44 +1999,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 293
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.98
-    sort_std: 0.03
-    is_best: false
-  - model: eg
-    model_key: eg
-    model_plain: eg
-    value: 0.98
-    std: 0.03
-    paper_value: 0.98
-    paper_std: 0.03
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: '2025-02-04'
-    date_display: Feb 2025
-    date_iso: '2025-02-04'
-    global_rank: 293
-    true_value: 0.98
-    true_std: 0.03
-    value_gap_source_arxiv: '2502.02379'
-    value_gap_source_title: 'No Metric to Rule Them All: Toward Principled Evaluations
-      of Graph-Learning Datasets'
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 293
+    paper_rank: 307
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2059,10 +2022,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-04'
+    date: Feb 4, 2025
     date_display: Feb 2025
     date_iso: '2025-02-04'
-    global_rank: 295
+    global_rank: 309
     true_value: 1.31
     true_std: 0.02
     value_gap_source_arxiv: '2502.02379'
@@ -2073,44 +2036,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 295
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 1.31
-    sort_std: 0.02
-    is_best: false
-  - model: cg
-    model_key: cg
-    model_plain: cg
-    value: 1.31
-    std: 0.02
-    paper_value: 1.31
-    paper_std: 0.02
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: '2025-02-04'
-    date_display: Feb 2025
-    date_iso: '2025-02-04'
-    global_rank: 295
-    true_value: 1.31
-    true_std: 0.02
-    value_gap_source_arxiv: '2502.02379'
-    value_gap_source_title: 'No Metric to Rule Them All: Toward Principled Evaluations
-      of Graph-Learning Datasets'
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 295
+    paper_rank: 309
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2133,10 +2059,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-04'
+    date: Feb 4, 2025
     date_display: Feb 2025
     date_iso: '2025-02-04'
-    global_rank: 296
+    global_rank: 310
     true_value: 1.39
     true_std: 0.02
     value_gap_source_arxiv: '2502.02379'
@@ -2147,44 +2073,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 296
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 1.39
-    sort_std: 0.02
-    is_best: false
-  - model: rg
-    model_key: rg
-    model_plain: rg
-    value: 1.39
-    std: 0.02
-    paper_value: 1.39
-    paper_std: 0.02
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: '2025-02-04'
-    date_display: Feb 2025
-    date_iso: '2025-02-04'
-    global_rank: 296
-    true_value: 1.39
-    true_std: 0.02
-    value_gap_source_arxiv: '2502.02379'
-    value_gap_source_title: 'No Metric to Rule Them All: Toward Principled Evaluations
-      of Graph-Learning Datasets'
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 296
+    paper_rank: 310
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2207,10 +2096,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-04'
+    date: Feb 4, 2025
     date_display: Feb 2025
     date_iso: '2025-02-04'
-    global_rank: 297
+    global_rank: 311
     true_value: 1.4
     true_std: 0.02
     value_gap_source_arxiv: '2502.02379'
@@ -2221,44 +2110,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 297
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 1.4
-    sort_std: 0.02
-    is_best: false
-  - model: cf
-    model_key: cf
-    model_plain: cf
-    value: 1.4
-    std: 0.02
-    paper_value: 1.4
-    paper_std: 0.02
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: '2025-02-04'
-    date_display: Feb 2025
-    date_iso: '2025-02-04'
-    global_rank: 297
-    true_value: 1.4
-    true_std: 0.02
-    value_gap_source_arxiv: '2502.02379'
-    value_gap_source_title: 'No Metric to Rule Them All: Toward Principled Evaluations
-      of Graph-Learning Datasets'
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 297
+    paper_rank: 311
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2281,10 +2133,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-02-04'
+    date: Feb 4, 2025
     date_display: Feb 2025
     date_iso: '2025-02-04'
-    global_rank: 298
+    global_rank: 312
     true_value: 1.48
     true_std: 0.01
     value_gap_source_arxiv: '2502.02379'
@@ -2295,44 +2147,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 298
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 1.48
-    sort_std: 0.01
-    is_best: false
-  - model: rf
-    model_key: rf
-    model_plain: rf
-    value: 1.48
-    std: 0.01
-    paper_value: 1.48
-    paper_std: 0.01
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: '2025-02-04'
-    date_display: Feb 2025
-    date_iso: '2025-02-04'
-    global_rank: 298
-    true_value: 1.48
-    true_std: 0.01
-    value_gap_source_arxiv: '2502.02379'
-    value_gap_source_title: 'No Metric to Rule Them All: Toward Principled Evaluations
-      of Graph-Learning Datasets'
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 298
+    paper_rank: 312
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2384,7 +2199,7 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: ''
-    date: '2025-02-04'
+    date: Feb 4, 2025
     date_display: Feb 2025
     date_iso: '2025-02-04'
     global_rank: 2
@@ -2421,7 +2236,7 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: ''
-    date: '2025-02-04'
+    date: Feb 4, 2025
     date_display: Feb 2025
     date_iso: '2025-02-04'
     global_rank: 3
@@ -2458,7 +2273,7 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: ''
-    date: '2025-02-04'
+    date: Feb 4, 2025
     date_display: Feb 2025
     date_iso: '2025-02-04'
     global_rank: 4

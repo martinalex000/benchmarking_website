@@ -793,7 +793,7 @@ results:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_display: Nov 2024
     date_iso: '2024-11-26'
     codebase_url: ''
@@ -1338,7 +1338,7 @@ results:
     params_millions: null
     arxiv_id: '2501.18739'
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     codebase_url: ''
@@ -3342,9 +3342,9 @@ results:
     has_value_note: false
     value_gap: 0.17049999999999998
     value_note: ''
-    paper_rank: 83
-    rank_delta: 72
-    rank_delta_abs: 72
+    paper_rank: 86
+    rank_delta: 75
+    rank_delta_abs: 75
     rank_delta_direction: worse
     sort_value: 0.9295
     sort_std: 0.0131
@@ -3450,9 +3450,9 @@ results:
     has_value_note: false
     value_gap: 0.059900000000000064
     value_note: ''
-    paper_rank: 31
-    rank_delta: 14
-    rank_delta_abs: 14
+    paper_rank: 33
+    rank_delta: 16
+    rank_delta_abs: 16
     rank_delta_direction: worse
     sort_value: 0.9189
     sort_std: 0.0393
@@ -3486,9 +3486,9 @@ results:
     has_value_note: false
     value_gap: 0.07280000000000009
     value_note: ''
-    paper_rank: 40
-    rank_delta: 21
-    rank_delta_abs: 21
+    paper_rank: 42
+    rank_delta: 23
+    rank_delta_abs: 23
     rank_delta_direction: worse
     sort_value: 0.9118
     sort_std: 0.007
@@ -3548,7 +3548,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 40
+    global_rank: 42
     true_value: 0.842
     true_std: 0.026
     value_gap_source_arxiv: '2410.05593'
@@ -3558,7 +3558,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 40
+    paper_rank: 42
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -3584,7 +3584,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 44
+    global_rank: 46
     true_value: 0.8311
     true_std: 0.032
     value_gap_source_arxiv: '2210.07606'
@@ -3594,9 +3594,9 @@ results:
     has_value_note: false
     value_gap: 0.07409999999999994
     value_note: ''
-    paper_rank: 84
-    rank_delta: 40
-    rank_delta_abs: 40
+    paper_rank: 87
+    rank_delta: 41
+    rank_delta_abs: 41
     rank_delta_direction: worse
     sort_value: 0.8311
     sort_std: 0.032
@@ -3620,7 +3620,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 50
+    global_rank: 52
     true_value: 0.823
     true_std: 0.025
     value_gap_source_arxiv: '2410.05593'
@@ -3630,7 +3630,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 50
+    paper_rank: 52
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -3656,7 +3656,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 53
+    global_rank: 56
     true_value: 0.814
     true_std: 0.035
     value_gap_source_arxiv: '2410.05593'
@@ -3666,7 +3666,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 53
+    paper_rank: 56
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -3692,7 +3692,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 56
+    global_rank: 59
     true_value: 0.812
     true_std: 0.025
     value_gap_source_arxiv: '2410.05593'
@@ -3702,7 +3702,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 56
+    paper_rank: 59
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -3728,7 +3728,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 58
+    global_rank: 61
     true_value: 0.8082
     true_std: 0.0213
     value_gap_source_arxiv: '2411.17296'
@@ -3738,7 +3738,7 @@ results:
     has_value_note: true
     value_gap: 0.020199999999999996
     value_note: global 0.8082 within std
-    paper_rank: 64
+    paper_rank: 67
     rank_delta: 6
     rank_delta_abs: 6
     rank_delta_direction: worse
@@ -3764,7 +3764,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 62
+    global_rank: 65
     true_value: 0.793
     true_std: 0.012
     value_gap_source_arxiv: '2410.05593'
@@ -3774,7 +3774,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 62
+    paper_rank: 65
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same

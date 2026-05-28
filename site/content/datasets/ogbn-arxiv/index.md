@@ -204,7 +204,7 @@ variants:
     arxiv_id: '2401.14580'
     title: 'Design Your Own Universe: A Physics-Informed Agnostic Method for Enhancing
       Graph Neural Networks'
-    date: '2024-01-26'
+    date: Jan 26, 2024
     date_iso: '2024-01-26'
     date_display: Jan 2024
     codebase_url: ''
@@ -427,7 +427,7 @@ variants:
     arxiv_id: '2401.14580'
     title: 'Design Your Own Universe: A Physics-Informed Agnostic Method for Enhancing
       Graph Neural Networks'
-    date: '2024-01-26'
+    date: Jan 26, 2024
     date_iso: '2024-01-26'
     date_display: Jan 2024
     codebase_url: ''
@@ -516,7 +516,7 @@ variants:
     params_millions: null
     arxiv_id: '2410.13798'
     title: Learning Graph Quantized Tokenizers
-    date: '2024-10-17'
+    date: Oct 17, 2024
     date_iso: '2024-10-17'
     date_display: Oct 2024
     codebase_url: ''
@@ -606,7 +606,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -650,7 +650,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.18739'
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_iso: '2025-01-30'
     date_display: Jan 2025
     codebase_url: ''
@@ -696,7 +696,7 @@ variants:
     arxiv_id: '2401.14580'
     title: 'Design Your Own Universe: A Physics-Informed Agnostic Method for Enhancing
       Graph Neural Networks'
-    date: '2024-01-26'
+    date: Jan 26, 2024
     date_iso: '2024-01-26'
     date_display: Jan 2024
     codebase_url: ''
@@ -786,7 +786,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -875,7 +875,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.18739'
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_iso: '2025-01-30'
     date_display: Jan 2025
     codebase_url: ''
@@ -1077,7 +1077,7 @@ variants:
     arxiv_id: '2401.14580'
     title: 'Design Your Own Universe: A Physics-Informed Agnostic Method for Enhancing
       Graph Neural Networks'
-    date: '2024-01-26'
+    date: Jan 26, 2024
     date_iso: '2024-01-26'
     date_display: Jan 2024
     codebase_url: ''
@@ -1188,7 +1188,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -1255,7 +1255,7 @@ variants:
     arxiv_id: '2401.14580'
     title: 'Design Your Own Universe: A Physics-Informed Agnostic Method for Enhancing
       Graph Neural Networks'
-    date: '2024-01-26'
+    date: Jan 26, 2024
     date_iso: '2024-01-26'
     date_display: Jan 2024
     codebase_url: ''
@@ -1277,7 +1277,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -1388,7 +1388,7 @@ variants:
     arxiv_id: '2401.14580'
     title: 'Design Your Own Universe: A Physics-Informed Agnostic Method for Enhancing
       Graph Neural Networks'
-    date: '2024-01-26'
+    date: Jan 26, 2024
     date_iso: '2024-01-26'
     date_display: Jan 2024
     codebase_url: ''
@@ -1636,7 +1636,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -1703,7 +1703,7 @@ variants:
     arxiv_id: '2401.14580'
     title: 'Design Your Own Universe: A Physics-Informed Agnostic Method for Enhancing
       Graph Neural Networks'
-    date: '2024-01-26'
+    date: Jan 26, 2024
     date_iso: '2024-01-26'
     date_display: Jan 2024
     codebase_url: ''
@@ -1725,7 +1725,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -1769,7 +1769,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -1858,7 +1858,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.18739'
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_iso: '2025-01-30'
     date_display: Jan 2025
     codebase_url: ''
@@ -1903,7 +1903,7 @@ variants:
     arxiv_id: '2401.14580'
     title: 'Design Your Own Universe: A Physics-Informed Agnostic Method for Enhancing
       Graph Neural Networks'
-    date: '2024-01-26'
+    date: Jan 26, 2024
     date_iso: '2024-01-26'
     date_display: Jan 2024
     codebase_url: ''
@@ -1926,7 +1926,7 @@ variants:
     arxiv_id: '2401.14580'
     title: 'Design Your Own Universe: A Physics-Informed Agnostic Method for Enhancing
       Graph Neural Networks'
-    date: '2024-01-26'
+    date: Jan 26, 2024
     date_iso: '2024-01-26'
     date_display: Jan 2024
     codebase_url: ''
@@ -2081,7 +2081,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -2104,7 +2104,7 @@ variants:
     arxiv_id: '2401.14580'
     title: 'Design Your Own Universe: A Physics-Informed Agnostic Method for Enhancing
       Graph Neural Networks'
-    date: '2024-01-26'
+    date: Jan 26, 2024
     date_iso: '2024-01-26'
     date_display: Jan 2024
     codebase_url: ''
@@ -2415,7 +2415,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -2459,7 +2459,7 @@ variants:
     params_millions: null
     arxiv_id: '2410.13798'
     title: Learning Graph Quantized Tokenizers
-    date: '2024-10-17'
+    date: Oct 17, 2024
     date_iso: '2024-10-17'
     date_display: Oct 2024
     codebase_url: ''
@@ -2504,7 +2504,7 @@ variants:
     arxiv_id: '2401.14580'
     title: 'Design Your Own Universe: A Physics-Informed Agnostic Method for Enhancing
       Graph Neural Networks'
-    date: '2024-01-26'
+    date: Jan 26, 2024
     date_iso: '2024-01-26'
     date_display: Jan 2024
     codebase_url: ''
@@ -3216,7 +3216,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -3238,7 +3238,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -3260,7 +3260,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -3282,7 +3282,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -3304,7 +3304,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -3326,7 +3326,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -3348,7 +3348,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -3370,7 +3370,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -3392,7 +3392,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -3414,7 +3414,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -3436,7 +3436,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -3458,7 +3458,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -3480,7 +3480,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -3502,7 +3502,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -3524,7 +3524,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''

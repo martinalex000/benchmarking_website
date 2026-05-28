@@ -687,7 +687,7 @@ results:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_display: Jan 2025
     date_iso: '2025-01-29'
     codebase_url: ''
@@ -710,7 +710,7 @@ results:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_display: Jan 2025
     date_iso: '2025-01-29'
     codebase_url: ''
@@ -733,7 +733,7 @@ results:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_display: Jan 2025
     date_iso: '2025-01-29'
     codebase_url: ''
@@ -1159,9 +1159,9 @@ results:
     has_value_note: false
     value_gap: 0.23109999999999997
     value_note: ''
-    paper_rank: 197
-    rank_delta: 194
-    rank_delta_abs: 194
+    paper_rank: 198
+    rank_delta: 195
+    rank_delta_abs: 195
     rank_delta_direction: worse
     sort_value: 0.9681
     sort_std: 0.0003
@@ -1196,9 +1196,9 @@ results:
     has_value_note: false
     value_gap: 0.23099999999999998
     value_note: ''
-    paper_rank: 197
-    rank_delta: 193
-    rank_delta_abs: 193
+    paper_rank: 198
+    rank_delta: 194
+    rank_delta_abs: 194
     rank_delta_direction: worse
     sort_value: 0.968
     sort_std: 0.002
@@ -1293,9 +1293,9 @@ results:
     has_value_note: false
     value_gap: 0.020000000000000018
     value_note: ''
-    paper_rank: 142
-    rank_delta: 66
-    rank_delta_abs: 66
+    paper_rank: 143
+    rank_delta: 67
+    rank_delta_abs: 67
     rank_delta_direction: worse
     sort_value: 0.788
     sort_std: 0.01
@@ -1393,7 +1393,7 @@ results:
     date: Aug 2025
     date_display: Aug 2025
     date_iso: 2025-08
-    global_rank: 171
+    global_rank: 172
     true_value: 0.756
     true_std: 0.013
     value_gap_source_arxiv: '2508.10651'
@@ -1404,7 +1404,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 171
+    paper_rank: 172
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1430,7 +1430,7 @@ results:
     date: Aug 2025
     date_display: Aug 2025
     date_iso: 2025-08
-    global_rank: 177
+    global_rank: 178
     true_value: 0.753
     true_std: 0.01
     value_gap_source_arxiv: '2508.10651'
@@ -1441,7 +1441,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 177
+    paper_rank: 178
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same

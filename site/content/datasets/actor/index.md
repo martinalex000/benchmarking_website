@@ -13,7 +13,7 @@ stats:
   avg_nodes: 7600.0
   avg_edges: 30019.0
   num_classes: 5
-result_count: 167
+result_count: 168
 best_model:
   model: GrokFormer
   value: 0.4298
@@ -43,7 +43,7 @@ variants:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_iso: '2024-11-26'
     date_display: Nov 2024
     codebase_url: ''
@@ -63,7 +63,7 @@ variants:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_iso: '2024-11-26'
     date_display: Nov 2024
     codebase_url: ''
@@ -83,7 +83,7 @@ variants:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_iso: '2024-11-26'
     date_display: Nov 2024
     codebase_url: ''
@@ -103,7 +103,7 @@ variants:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_iso: '2024-11-26'
     date_display: Nov 2024
     codebase_url: ''
@@ -123,7 +123,7 @@ variants:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_iso: '2024-11-26'
     date_display: Nov 2024
     codebase_url: ''
@@ -143,7 +143,7 @@ variants:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_iso: '2024-11-26'
     date_display: Nov 2024
     codebase_url: ''
@@ -163,7 +163,7 @@ variants:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_iso: '2024-11-26'
     date_display: Nov 2024
     codebase_url: ''
@@ -183,7 +183,7 @@ variants:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_iso: '2024-11-26'
     date_display: Nov 2024
     codebase_url: ''
@@ -203,7 +203,7 @@ variants:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_iso: '2024-11-26'
     date_display: Nov 2024
     codebase_url: ''
@@ -223,7 +223,7 @@ variants:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_iso: '2024-11-26'
     date_display: Nov 2024
     codebase_url: ''
@@ -243,7 +243,7 @@ variants:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_iso: '2024-11-26'
     date_display: Nov 2024
     codebase_url: ''
@@ -263,7 +263,7 @@ variants:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_iso: '2024-11-26'
     date_display: Nov 2024
     codebase_url: ''
@@ -283,7 +283,7 @@ variants:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_iso: '2024-11-26'
     date_display: Nov 2024
     codebase_url: ''
@@ -405,7 +405,7 @@ variants:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_iso: '2024-11-26'
     date_display: Nov 2024
     codebase_url: ''
@@ -2193,7 +2193,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_iso: '2025-01-29'
     date_display: Jan 2025
     codebase_url: ''
@@ -2213,7 +2213,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_iso: '2025-01-29'
     date_display: Jan 2025
     codebase_url: ''
@@ -2233,7 +2233,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_iso: '2025-01-29'
     date_display: Jan 2025
     codebase_url: ''
@@ -2253,7 +2253,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_iso: '2025-01-29'
     date_display: Jan 2025
     codebase_url: ''
@@ -2273,7 +2273,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_iso: '2025-01-29'
     date_display: Jan 2025
     codebase_url: ''
@@ -2293,7 +2293,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_iso: '2025-01-29'
     date_display: Jan 2025
     codebase_url: ''
@@ -2313,7 +2313,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_iso: '2025-01-29'
     date_display: Jan 2025
     codebase_url: ''
@@ -2333,7 +2333,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_iso: '2025-01-29'
     date_display: Jan 2025
     codebase_url: ''
@@ -2353,7 +2353,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_iso: '2025-01-29'
     date_display: Jan 2025
     codebase_url: ''
@@ -2373,7 +2373,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_iso: '2025-01-29'
     date_display: Jan 2025
     codebase_url: ''
@@ -2393,7 +2393,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_iso: '2025-01-29'
     date_display: Jan 2025
     codebase_url: ''
@@ -2413,7 +2413,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_iso: '2025-01-29'
     date_display: Jan 2025
     codebase_url: ''
@@ -2433,7 +2433,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_iso: '2025-01-29'
     date_display: Jan 2025
     codebase_url: ''
@@ -2453,7 +2453,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_iso: '2025-01-29'
     date_display: Jan 2025
     codebase_url: ''
@@ -2473,7 +2473,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_iso: '2025-01-29'
     date_display: Jan 2025
     codebase_url: ''
@@ -2493,7 +2493,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_iso: '2025-01-29'
     date_display: Jan 2025
     codebase_url: ''
@@ -2513,7 +2513,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_iso: '2025-01-29'
     date_display: Jan 2025
     codebase_url: ''
@@ -2533,7 +2533,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_iso: '2025-01-29'
     date_display: Jan 2025
     codebase_url: ''
@@ -2553,7 +2553,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_iso: '2025-01-29'
     date_display: Jan 2025
     codebase_url: ''
@@ -2573,7 +2573,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_iso: '2025-01-29'
     date_display: Jan 2025
     codebase_url: ''
@@ -2593,7 +2593,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_iso: '2025-01-29'
     date_display: Jan 2025
     codebase_url: ''
@@ -2613,7 +2613,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_iso: '2025-01-29'
     date_display: Jan 2025
     codebase_url: ''
@@ -2633,7 +2633,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_iso: '2025-01-29'
     date_display: Jan 2025
     codebase_url: ''
@@ -2653,7 +2653,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_iso: '2025-01-29'
     date_display: Jan 2025
     codebase_url: ''
@@ -2673,7 +2673,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_iso: '2025-01-29'
     date_display: Jan 2025
     codebase_url: ''
@@ -2693,7 +2693,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_iso: '2025-01-29'
     date_display: Jan 2025
     codebase_url: ''
@@ -2713,7 +2713,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_iso: '2025-01-29'
     date_display: Jan 2025
     codebase_url: ''
@@ -2733,7 +2733,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_iso: '2025-01-29'
     date_display: Jan 2025
     codebase_url: ''
@@ -2753,7 +2753,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_iso: '2025-01-29'
     date_display: Jan 2025
     codebase_url: ''
@@ -2773,7 +2773,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_iso: '2025-01-29'
     date_display: Jan 2025
     codebase_url: ''
@@ -2793,7 +2793,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_iso: '2025-01-29'
     date_display: Jan 2025
     codebase_url: ''
@@ -2813,7 +2813,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_iso: '2025-01-29'
     date_display: Jan 2025
     codebase_url: ''
@@ -2833,7 +2833,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_iso: '2025-01-29'
     date_display: Jan 2025
     codebase_url: ''
@@ -2853,7 +2853,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_iso: '2025-01-29'
     date_display: Jan 2025
     codebase_url: ''
@@ -2873,7 +2873,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_iso: '2025-01-29'
     date_display: Jan 2025
     codebase_url: ''
@@ -2893,7 +2893,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_iso: '2025-01-29'
     date_display: Jan 2025
     codebase_url: ''
@@ -2913,7 +2913,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_iso: '2025-01-29'
     date_display: Jan 2025
     codebase_url: ''
@@ -2933,7 +2933,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_iso: '2025-01-29'
     date_display: Jan 2025
     codebase_url: ''
@@ -2953,7 +2953,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_iso: '2025-01-29'
     date_display: Jan 2025
     codebase_url: ''
@@ -2973,7 +2973,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_iso: '2025-01-29'
     date_display: Jan 2025
     codebase_url: ''
@@ -2993,7 +2993,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_iso: '2025-01-29'
     date_display: Jan 2025
     codebase_url: ''
@@ -3013,7 +3013,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_iso: '2025-01-29'
     date_display: Jan 2025
     codebase_url: ''
@@ -3033,7 +3033,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_iso: '2025-01-29'
     date_display: Jan 2025
     codebase_url: ''
@@ -3053,7 +3053,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_iso: '2025-01-29'
     date_display: Jan 2025
     codebase_url: ''
@@ -3073,7 +3073,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_iso: '2025-01-29'
     date_display: Jan 2025
     codebase_url: ''
@@ -3093,7 +3093,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_iso: '2025-01-29'
     date_display: Jan 2025
     codebase_url: ''
@@ -3113,7 +3113,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_iso: '2025-01-29'
     date_display: Jan 2025
     codebase_url: ''
@@ -3133,7 +3133,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_iso: '2025-01-29'
     date_display: Jan 2025
     codebase_url: ''
@@ -3390,6 +3390,27 @@ variants:
     date_display: Sep 2023
     codebase_url: ''
     uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.3961
+    metric_stds:
+    - null
+    - 0.0054
+  - model: FPS-T
+    model_plain: FPS-T
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2309.04082'
+    title: 'Curve Your Attention: Mixed-Curvature Transformers for Graph Representation
+      Learning'
+    date: Sep 2023
+    date_iso: 2023-09
+    date_display: Sep 2023
+    codebase_url: ''
+    uses_external_data: null
     is_best: false
     metric_values:
     - null

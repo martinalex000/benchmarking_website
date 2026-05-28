@@ -10,14 +10,15 @@ This page distinguishes between entries that are truly unresolved and stale pend
 
 Source: pending_datasets table in benchmarks.db
 
-**Tracked entries in DB:** 92
-**Still unresolved:** 92
+**Tracked entries in DB:** 97
+**Still unresolved:** 97
 **Already covered now:** 0
 
 ### Still unresolved
 
 | Status | Dataset | Paper | Metrics Seen | Suggested Benchmark | PyG |
 |--------|---------|-------|--------------|---------------------|-----|
+| pending | Airport | 2309.04082 | F1 |  |  |
 | pending | APD | 2501.17901 | F1 |  |  |
 | pending | Average F1 | 2501.17901 | F1 |  |  |
 | pending | BREC | 2403.13749 | Num. of distinguished pairs | BREC |  |
@@ -25,6 +26,7 @@ Source: pending_datasets table in benchmarks.db
 | pending | BREC | 2601.19094 | Accuracy | BREC |  |
 | pending | CAMP | 2501.17901 | F1 |  |  |
 | pending | Chickenpox | 2410.05593 | MSE |  |  |
+| pending | CLRS-30 | 2307.09660 | MAE | CLRS Benchmark |  |
 | pending | CLRS-30 | 2601.19094 | Accuracy | CLRS Benchmark |  |
 | pending | Colors3 | 2501.09821 | Accuracy |  |  |
 | pending | Cycle Check | 2411.15671 | Accuracy |  |  |
@@ -67,6 +69,8 @@ Source: pending_datasets table in benchmarks.db
 | pending | molipo | 2505.23345 | RMSE |  |  |
 | pending | moltocx21 | 2505.23345 | ROC-AUC |  |  |
 | pending | MOOC | 2406.02740 | AUC |  |  |
+| pending | MotifLPE (Basis) | 2401.03350 | AUROC | MotifLPE |  |
+| pending | MotifLPE (Size) | 2401.03350 | AUROC | MotifLPE |  |
 | pending | Motor | 2311.05964 | RMSE |  |  |
 | pending | N-UCLA-CIL | 2401.18054 | AOPD, MOPD | G-CLOOB |  |
 | pending | NAME | 2505.15405 | F1 |  |  |
@@ -89,6 +93,7 @@ Source: pending_datasets table in benchmarks.db
 | pending | SR | 2410.06460 | Ranking |  |  |
 | pending | sr25 | 2407.18480 | Undistinguished Pairs | Graph Isomorphism Benchmark |  |
 | pending | SR25 | 2501.18739 | Accuracy |  |  |
+| pending | SST2 | 2401.03350 | AUROC |  | yes |
 | pending | Superblue | 2404.00477 | RMSE | Superblue |  |
 | pending | Synthetic | 2309.04941 | Normalized MAE |  |  |
 | pending | Synthetic Subgraph Counting | 2403.13749 | MAE |  |  |

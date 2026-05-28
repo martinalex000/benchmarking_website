@@ -755,7 +755,7 @@ results:
     date: Sep 2025
     date_display: Sep 2025
     date_iso: 2025-09
-    global_rank: 82
+    global_rank: 83
     true_value: 0.787
     true_std: null
     value_gap_source_arxiv: '2509.22100'
@@ -766,7 +766,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 82
+    paper_rank: 83
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same

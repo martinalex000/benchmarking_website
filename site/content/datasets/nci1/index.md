@@ -12,7 +12,7 @@ stats:
   avg_nodes: 29.87
   avg_edges: 32.3
   num_classes: 2
-result_count: 98
+result_count: 102
 best_model:
   model: IPR-MPNN
   value: 0.865
@@ -485,7 +485,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -507,7 +507,51 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
+    date_iso: '2023-06-09'
+    date_display: Jun 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.823
+    - null
+    - null
+    metric_stds:
+    - 0.017
+    - null
+    - null
+  - model: PathNN-\mathcal{SP}
+    model_plain: PathNN-\mathcal{SP}
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2306.05955'
+    title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
+    date: Jun 9, 2023
+    date_iso: '2023-06-09'
+    date_display: Jun 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.823
+    - null
+    - null
+    metric_stds:
+    - 0.019
+    - null
+    - null
+  - model: PathNN-\mathcal{AP}\phantom{*} \, (K=3)
+    model_plain: PathNN-\mathcal{AP}\phantom{*} \, (K=3)
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2306.05955'
+    title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -541,6 +585,28 @@ variants:
     - null
     metric_stds:
     - 0.014
+    - null
+    - null
+  - model: PathNN-\mathcal{SP}\phantom{^+} \, (K=2)
+    model_plain: PathNN-\mathcal{SP}\phantom{^+} \, (K=2)
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2306.05955'
+    title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
+    date: Jun 9, 2023
+    date_iso: '2023-06-09'
+    date_display: Jun 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.822
+    - null
+    - null
+    metric_stds:
+    - 0.017
     - null
     - null
   - model: PR-MPNN (train/val/test)
@@ -617,7 +683,7 @@ variants:
     params_millions: null
     arxiv_id: '2310.01267'
     title: Cooperative Graph Neural Networks
-    date: '2023-10-02'
+    date: Oct 2, 2023
     date_iso: '2023-10-02'
     date_display: Oct 2023
     codebase_url: ''
@@ -705,7 +771,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -727,7 +793,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -771,7 +837,7 @@ variants:
     params_millions: null
     arxiv_id: '2310.01267'
     title: Cooperative Graph Neural Networks
-    date: '2023-10-02'
+    date: Oct 2, 2023
     date_iso: '2023-10-02'
     date_display: Oct 2023
     codebase_url: ''
@@ -881,7 +947,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -993,7 +1059,29 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
+    date_iso: '2023-06-09'
+    date_display: Jun 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.775
+    - null
+    - null
+    metric_stds:
+    - 0.016
+    - null
+    - null
+  - model: PathNN-\mathcal{P\phantom{S}}\phantom{^+} \, (K=1)
+    model_plain: PathNN-\mathcal{P\phantom{S}}\phantom{^+} \, (K=1)
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2306.05955'
+    title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -1038,7 +1126,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -1126,7 +1214,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -1239,7 +1327,7 @@ variants:
     params_millions: null
     arxiv_id: '2310.01267'
     title: Cooperative Graph Neural Networks
-    date: '2023-10-02'
+    date: Oct 2, 2023
     date_iso: '2023-10-02'
     date_display: Oct 2023
     codebase_url: ''
@@ -1283,7 +1371,7 @@ variants:
     params_millions: null
     arxiv_id: '2310.01267'
     title: Cooperative Graph Neural Networks
-    date: '2023-10-02'
+    date: Oct 2, 2023
     date_iso: '2023-10-02'
     date_display: Oct 2023
     codebase_url: ''
@@ -1305,7 +1393,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -1371,7 +1459,7 @@ variants:
     params_millions: null
     arxiv_id: '2310.01267'
     title: Cooperative Graph Neural Networks
-    date: '2023-10-02'
+    date: Oct 2, 2023
     date_iso: '2023-10-02'
     date_display: Oct 2023
     codebase_url: ''
@@ -1393,7 +1481,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -1415,7 +1503,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -1683,7 +1771,7 @@ variants:
     arxiv_id: '2502.02379'
     title: 'No Metric to Rule Them All: Toward Principled Evaluations of Graph-Learning
       Datasets'
-    date: '2025-02-04'
+    date: Feb 4, 2025
     date_iso: '2025-02-04'
     date_display: Feb 2025
     codebase_url: ''
@@ -1907,7 +1995,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -2018,7 +2106,7 @@ variants:
     arxiv_id: '2502.02379'
     title: 'No Metric to Rule Them All: Toward Principled Evaluations of Graph-Learning
       Datasets'
-    date: '2025-02-04'
+    date: Feb 4, 2025
     date_iso: '2025-02-04'
     date_display: Feb 2025
     codebase_url: ''

@@ -41,6 +41,18 @@ def _configure_temp_workspace(monkeypatch, tmp_path: Path) -> None:
 def test_parse_and_store_with_summary_reports_side_effects(monkeypatch, tmp_path):
     _configure_temp_workspace(monkeypatch, tmp_path)
     init_db()
+    monkeypatch.setattr(
+        "backend.results_parser.find_verified_repository_link",
+        lambda **_kwargs: {
+            "verified_url": "https://github.com/example/project",
+            "confidence": 0.91,
+            "reason": "README matches the paper title.",
+            "verification_model": "fake-small",
+            "source_kind": "latex",
+            "candidate_urls": ["https://github.com/example/project"],
+            "checked_candidates": [],
+        },
+    )
 
     with session_scope() as session:
         benchmark = Benchmark(name="Long Range Graph Benchmark", short_name="lrgb")
@@ -64,12 +76,11 @@ def test_parse_and_store_with_summary_reports_side_effects(monkeypatch, tmp_path
             {
                 "title": "Summary Test Paper",
                 "abstract": "GraphGPS on Peptides-func.",
-                "codebase_url": "https://github.com/example/project",
             }
         ),
         encoding="utf-8",
     )
-    storage.text_path.write_text(
+    (storage.latex_dir / "expanded.tex").write_text(
         "GraphGPS on Peptides-func with source code at https://github.com/example/project",
         encoding="utf-8",
     )

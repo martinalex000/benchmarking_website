@@ -5,23 +5,28 @@ source_url: ''
 authors: []
 published_date: Jul 2024
 published_date_iso: 2024-07
-abstract: Designing effective graph neural networks (GNNs) with message passing has two fundamental challenges,
-  i.e., determining optimal message-passing pathways and designing local aggregators. Previous methods
-  of designing optimal pathways are limited with information loss on the input features. On the other
-  hand, existing local aggregators generally fail to extract multi-scale features and approximate diverse
-  operators under limited parameter scales. In contrast to these methods, Euclidean convolution has been
-  proven as an expressive aggregator, making it a perfect candidate for GNN construction. However, the
-  challenges of generalizing Euclidean convolution to graphs arise from the irregular structure of graphs.
-  To bridge the gap between Euclidean space and graph topology, we propose a differentiable method that
-  applies permutations to calibrate input graphs for Euclidean convolution. The permutations constrain
-  all nodes in a row regardless of their input order and therefore enable the flexible generalization
-  of Euclidean convolution to graphs. Based on the graph calibration, we propose the Compressed Convolution
-  Network (CoCN) for hierarchical graph representation learning. CoCN follows local feature-learning and
-  global parameter-sharing mechanisms of convolution neural networks. The whole model can be trained end-to-end,
-  with compressed convolution applied to learn individual node features and their corresponding structure
-  features. CoCN can further borrow successful practices from Euclidean convolution, including residual
-  connection and inception mechanism. We validate CoCN on both node-level and graph-level benchmarks.
-  CoCN achieves superior performance over competitive GNN baselines. Codes are available at https://github.com/sunjss/CoCN.
+abstract: Designing effective graph neural networks (GNNs) with message passing has
+  two fundamental challenges, i.e., determining optimal message-passing pathways and
+  designing local aggregators. Previous methods of designing optimal pathways are
+  limited with information loss on the input features. On the other hand, existing
+  local aggregators generally fail to extract multi-scale features and approximate
+  diverse operators under limited parameter scales. In contrast to these methods,
+  Euclidean convolution has been proven as an expressive aggregator, making it a perfect
+  candidate for GNN construction. However, the challenges of generalizing Euclidean
+  convolution to graphs arise from the irregular structure of graphs. To bridge the
+  gap between Euclidean space and graph topology, we propose a differentiable method
+  that applies permutations to calibrate input graphs for Euclidean convolution. The
+  permutations constrain all nodes in a row regardless of their input order and therefore
+  enable the flexible generalization of Euclidean convolution to graphs. Based on
+  the graph calibration, we propose the Compressed Convolution Network (CoCN) for
+  hierarchical graph representation learning. CoCN follows local feature-learning
+  and global parameter-sharing mechanisms of convolution neural networks. The whole
+  model can be trained end-to-end, with compressed convolution applied to learn individual
+  node features and their corresponding structure features. CoCN can further borrow
+  successful practices from Euclidean convolution, including residual connection and
+  inception mechanism. We validate CoCN on both node-level and graph-level benchmarks.
+  CoCN achieves superior performance over competitive GNN baselines. Codes are available
+  at https://github.com/sunjss/CoCN.
 codebase_url: ''
 extraction_model: qwen3.6-35b-a3b
 has_results: true
@@ -32,8 +37,8 @@ proposed_models:
 - CoCN exp.
 - Sp. CoCN
 - Seg. CoCN
-mrr: 0.0942
-adjusted_mrr: 0.0942
+mrr: 0.0941
+adjusted_mrr: 0.0941
 mrr_dataset_count: 12
 benchmark_categories:
 - Heterophilic Graphs
@@ -64,7 +69,7 @@ results:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_display: Nov 2024
     date_iso: '2024-11-26'
     codebase_url: ''
@@ -87,7 +92,7 @@ results:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_display: Nov 2024
     date_iso: '2024-11-26'
     codebase_url: ''
@@ -110,7 +115,7 @@ results:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_display: Nov 2024
     date_iso: '2024-11-26'
     codebase_url: ''
@@ -1278,7 +1283,7 @@ results:
     arxiv_id: '2502.02379'
     title: 'No Metric to Rule Them All: Toward Principled Evaluations of Graph-Learning
       Datasets'
-    date: '2025-02-04'
+    date: Feb 4, 2025
     date_display: Feb 2025
     date_iso: '2025-02-04'
     codebase_url: ''
@@ -3621,7 +3626,7 @@ results:
     params_millions: null
     arxiv_id: '2501.18739'
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     codebase_url: ''
@@ -3644,7 +3649,7 @@ results:
     params_millions: null
     arxiv_id: '2501.18739'
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     codebase_url: ''
@@ -4094,7 +4099,7 @@ results:
     date: Jul 2024
     date_display: Jul 2024
     date_iso: 2024-07
-    global_rank: 74
+    global_rank: 75
     true_value: 0.7158
     true_std: 0.0095
     value_gap_source_arxiv: '2410.23686'
@@ -4104,7 +4109,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 74
+    paper_rank: 75
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -4130,7 +4135,7 @@ results:
     date: Jul 2024
     date_display: Jul 2024
     date_iso: 2024-07
-    global_rank: 84
+    global_rank: 85
     true_value: 0.71
     true_std: 0.0229
     value_gap_source_arxiv: '2410.23686'
@@ -4140,7 +4145,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 84
+    paper_rank: 85
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -4166,7 +4171,7 @@ results:
     date: Jul 2024
     date_display: Jul 2024
     date_iso: 2024-07
-    global_rank: 94
+    global_rank: 95
     true_value: 0.704
     true_std: 0.038
     value_gap_source_arxiv: '2407.18480'
@@ -4176,7 +4181,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 94
+    paper_rank: 95
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -4202,7 +4207,7 @@ results:
     date: Jul 2024
     date_display: Jul 2024
     date_iso: 2024-07
-    global_rank: 106
+    global_rank: 108
     true_value: 0.688
     true_std: 0.045
     value_gap_source_arxiv: '2410.23686'
@@ -4212,7 +4217,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 106
+    paper_rank: 108
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -7997,9 +8002,9 @@ results:
     has_value_note: false
     value_gap: 0.07989999999999997
     value_note: ''
-    paper_rank: 29
-    rank_delta: 25
-    rank_delta_abs: 25
+    paper_rank: 31
+    rank_delta: 27
+    rank_delta_abs: 27
     rank_delta_direction: worse
     sort_value: 0.9475
     sort_std: 0.0291
@@ -8056,9 +8061,9 @@ results:
     has_value_note: false
     value_gap: 0.3608
     value_note: ''
-    paper_rank: 155
-    rank_delta: 136
-    rank_delta_abs: 136
+    paper_rank: 160
+    rank_delta: 141
+    rank_delta_abs: 141
     rank_delta_direction: worse
     sort_value: 0.9118
     sort_std: 0.007
@@ -8082,7 +8087,7 @@ results:
     date: Jul 2024
     date_display: Jul 2024
     date_iso: 2024-07
-    global_rank: 24
+    global_rank: 25
     true_value: 0.8885
     true_std: 0.0439
     value_gap_source_arxiv: '2210.07606'
@@ -8092,9 +8097,9 @@ results:
     has_value_note: false
     value_gap: 0.12359999999999993
     value_note: ''
-    paper_rank: 82
-    rank_delta: 58
-    rank_delta_abs: 58
+    paper_rank: 85
+    rank_delta: 60
+    rank_delta_abs: 60
     rank_delta_direction: worse
     sort_value: 0.8885
     sort_std: 0.0439
@@ -8118,7 +8123,7 @@ results:
     date: Jul 2024
     date_display: Jul 2024
     date_iso: 2024-07
-    global_rank: 26
+    global_rank: 28
     true_value: 0.8852
     true_std: 0.0302
     value_gap_source_arxiv: '2210.07606'
@@ -8128,9 +8133,9 @@ results:
     has_value_note: false
     value_gap: 0.08130000000000004
     value_note: ''
-    paper_rank: 60
-    rank_delta: 34
-    rank_delta_abs: 34
+    paper_rank: 63
+    rank_delta: 35
+    rank_delta_abs: 35
     rank_delta_direction: worse
     sort_value: 0.8852
     sort_std: 0.0302
@@ -8154,7 +8159,7 @@ results:
     date: Jul 2024
     date_display: Jul 2024
     date_iso: 2024-07
-    global_rank: 30
+    global_rank: 32
     true_value: 0.8622
     true_std: 0.0245
     value_gap_source_arxiv: '2411.17296'
@@ -8164,9 +8169,9 @@ results:
     has_value_note: false
     value_gap: 0.08919999999999995
     value_note: ''
-    paper_rank: 73
-    rank_delta: 43
-    rank_delta_abs: 43
+    paper_rank: 76
+    rank_delta: 44
+    rank_delta_abs: 44
     rank_delta_direction: worse
     sort_value: 0.8622
     sort_std: 0.0245
@@ -8190,7 +8195,7 @@ results:
     date: Jul 2024
     date_display: Jul 2024
     date_iso: 2024-07
-    global_rank: 33
+    global_rank: 35
     true_value: 0.8521
     true_std: 0.0049
     value_gap_source_arxiv: '2407.18480'
@@ -8200,7 +8205,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 33
+    paper_rank: 35
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -8226,7 +8231,7 @@ results:
     date: Jul 2024
     date_display: Jul 2024
     date_iso: 2024-07
-    global_rank: 34
+    global_rank: 36
     true_value: 0.849
     true_std: 0.0105
     value_gap_source_arxiv: '2407.18480'
@@ -8236,7 +8241,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 34
+    paper_rank: 36
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -8262,7 +8267,7 @@ results:
     date: Jul 2024
     date_display: Jul 2024
     date_iso: 2024-07
-    global_rank: 35
+    global_rank: 37
     true_value: 0.8486
     true_std: 0.0455
     value_gap_source_arxiv: '2507.00647'
@@ -8272,7 +8277,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 35
+    paper_rank: 37
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -8298,7 +8303,7 @@ results:
     date: Jul 2024
     date_display: Jul 2024
     date_iso: 2024-07
-    global_rank: 38
+    global_rank: 40
     true_value: 0.8435
     true_std: 0.052
     value_gap_source_arxiv: '2407.18480'
@@ -8308,7 +8313,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 38
+    paper_rank: 40
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -8334,7 +8339,7 @@ results:
     date: Jul 2024
     date_display: Jul 2024
     date_iso: 2024-07
-    global_rank: 44
+    global_rank: 46
     true_value: 0.8311
     true_std: 0.032
     value_gap_source_arxiv: '2210.07606'
@@ -8344,9 +8349,9 @@ results:
     has_value_note: false
     value_gap: 0.23649999999999993
     value_note: ''
-    paper_rank: 145
-    rank_delta: 101
-    rank_delta_abs: 101
+    paper_rank: 148
+    rank_delta: 102
+    rank_delta_abs: 102
     rank_delta_direction: worse
     sort_value: 0.8311
     sort_std: 0.032
@@ -8370,7 +8375,7 @@ results:
     date: Jul 2024
     date_display: Jul 2024
     date_iso: 2024-07
-    global_rank: 49
+    global_rank: 51
     true_value: 0.8243
     true_std: 0.061399999999999996
     value_gap_source_arxiv: '2507.00647'
@@ -8380,9 +8385,9 @@ results:
     has_value_note: true
     value_gap: 0.0040000000000000036
     value_note: global 0.8243 within std
-    paper_rank: 51
-    rank_delta: 2
-    rank_delta_abs: 2
+    paper_rank: 54
+    rank_delta: 3
+    rank_delta_abs: 3
     rank_delta_direction: worse
     sort_value: 0.8243
     sort_std: 0.061399999999999996
@@ -8406,7 +8411,7 @@ results:
     date: Jul 2024
     date_display: Jul 2024
     date_iso: 2024-07
-    global_rank: 54
+    global_rank: 57
     true_value: 0.8135
     true_std: 0.0532
     value_gap_source_arxiv: '2407.18480'
@@ -8416,7 +8421,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 54
+    paper_rank: 57
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -8442,7 +8447,7 @@ results:
     date: Jul 2024
     date_display: Jul 2024
     date_iso: 2024-07
-    global_rank: 67
+    global_rank: 70
     true_value: 0.7784
     true_std: 0.07730000000000001
     value_gap_source_arxiv: '2507.00647'
@@ -8452,7 +8457,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 67
+    paper_rank: 70
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -8478,7 +8483,7 @@ results:
     date: Jul 2024
     date_display: Jul 2024
     date_iso: 2024-07
-    global_rank: 91
+    global_rank: 94
     true_value: 0.746
     true_std: 0.0837
     value_gap_source_arxiv: '2407.18480'
@@ -8488,7 +8493,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 91
+    paper_rank: 94
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -8514,7 +8519,7 @@ results:
     date: Jul 2024
     date_display: Jul 2024
     date_iso: 2024-07
-    global_rank: 116
+    global_rank: 119
     true_value: 0.676
     true_std: null
     value_gap_source_arxiv: '2405.17311'
@@ -8524,7 +8529,7 @@ results:
     has_value_note: true
     value_gap: 0.008400000000000074
     value_note: global 0.6760 within std
-    paper_rank: 119
+    paper_rank: 122
     rank_delta: 3
     rank_delta_abs: 3
     rank_delta_direction: worse

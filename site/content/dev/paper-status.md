@@ -21,7 +21,7 @@ Papers that have been downloaded but not yet processed for extraction.
 | 2604.00199 | QUEST: A robust attention formulation using Query-modulated spherical... | — |
 | IAZXEX1dVV | LRIM: a Physics-Based Benchmark for Provably Evaluating Long-Range... | manual_openreview_table_extraction |
 
-### Extracted (215)
+### Extracted (214)
 
 Papers with successfully extracted results. These papers contribute to the leaderboards.
 
@@ -58,10 +58,9 @@ Papers with successfully extracted results. These papers contribute to the leade
 | 2306.11681 | arXiv:2306.11681 | qwen3.6-35b-a3b |
 | 2307.03393 | Exploring the Potential of Large Language Models (LLMs)... | qwen3.6-35b-a3b |
 | 2307.07107 | Graph Positional and Structural Encoder | qwen3.6-35b-a3b |
-| 2307.09660 | Neural Priority Queues for Graph Neural Networks | qwen3.6-35b-a3b |
 | 2308.11129 | Enhancing Graph Transformers with Hierarchical Distance Structural Encoding | qwen3.6-35b-a3b |
 | 2309.00367 | Where Did the Gap Go? Reassessing the Long-Range... | glm-4.7 |
-| 2309.04082 | Curve Your Attention: Mixed-Curvature Transformers for Graph Representation... | qwen3.6-35b-a3b |
+| 2309.04082 | Curve Your Attention: Mixed-Curvature Transformers for Graph Representation... | glm-4.7 |
 | 2309.04941 | Distance-Restricted Folklore Weisfeiler-Leman GNNs with Provable Cycle Counting... | qwen3.6-35b-a3b |
 | 2309.09384 | Mitigating Over-Smoothing and Over-Squashing using Augmentations of Forman-Ricci... | qwen3.6-35b-a3b |
 | 2309.16014 | Graph-level Representation Learning with Joint-Embedding Predictive Architectures | qwen3.6-35b-a3b |
@@ -108,7 +107,7 @@ Papers with successfully extracted results. These papers contribute to the leade
 | 2403.13749 | Weisfeiler and Leman Go Loopy: A New Hierarchy... | qwen3.6-35b-a3b |
 | 2403.16030 | VCR-Graphormer: A Mini-batch Graph Transformer via Virtual Connections | qwen3.6-35b-a3b |
 | 2404.00477 | DE-HNN: An effective neural model for Circuit Netlist... | qwen3.6-35b-a3b |
-| 2404.03380 | On the Theoretical Expressive Power and the Design... | qwen3.6-35b-a3b |
+| 2404.03380 | On the Theoretical Expressive Power and the Design... | glm-4.7 |
 | 2404.09774 | RandAlign: A Parameter-Free Method for Regularizing Graph Convolutional... | qwen3.6-35b-a3b |
 | 2404.13604 | arXiv:2404.13604 | qwen3.6-35b-a3b |
 | 2405.02795 | Graph as Point Set | qwen3.6-35b-a3b |
@@ -255,3 +254,9 @@ Papers that have been identified but not yet downloaded from arXiv.
 | 2005.00687 | OGB-Link | — |
 | 2103.09430 | OGB-LSC | — |
 | 2110.14446 | LINKX Benchmarks | — |
+
+### Quarantined_method_name (1)
+
+| ArXiv | Title | Model |
+|-------|-------|-------|
+| 2307.09660 | Neural Priority Queues for Graph Neural Networks | qwen3.6-35b-a3b |

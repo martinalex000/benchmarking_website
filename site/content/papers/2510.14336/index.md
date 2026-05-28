@@ -2,8 +2,10 @@
 title: 'DARTS-GT: Differentiable Architecture Search for Graph Transformers with Quantifiable
   Instance-Specific Interpretability Analysis'
 arxiv_id: '2510.14336'
+source_url: ''
 authors: []
 published_date: ''
+published_date_iso: ''
 abstract: 'Graph Transformers (GTs) have emerged as powerful architectures for graph-structured
   data, yet remain constrained by rigid designs and lack quantifiable interpretability
   methods. Current state-of-the-art GTs commit to fixed GNN types across all layers,
@@ -33,8 +35,14 @@ abstract: 'Graph Transformers (GTs) have emerged as powerful architectures for g
 codebase_url: ''
 extraction_model: qwen3.6-35b-a3b
 has_results: false
+paper_type: dataset
 proposed_models: []
 mrr: null
+adjusted_mrr: null
+mrr_dataset_count: 0
+benchmark_categories: []
+task_categories: []
+experiment_scopes: []
 results: []
 results_grouped: []
 main_figure: /figures/2510.14336/main_figure.png
