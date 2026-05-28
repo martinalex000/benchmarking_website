@@ -1,30 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  {{ $title := .Site.Title }}
+  {{ if not .IsHome }}
+    {{ with .Title }}{{ $title = printf "%s — %s" . $.Site.Title }}{{ end }}
+  {{ end }}
+  {{ $description := .Site.Params.description }}
+  {{ with .Params.abstract }}{{ $description = . | plainify | truncate 190 }}{{ end }}
+  {{ with .Description }}{{ $description = . | plainify }}{{ end }}
+  {{ with .Params.description }}{{ $description = . | plainify }}{{ end }}
+  {{ $canonicalURL := .Permalink }}
+  {{ $socialImage := "" }}
+  {{ with .Params.main_figure }}{{ $socialImage = (strings.TrimPrefix "/" . | absURL) }}{{ end }}
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{ if .Title }}{{ .Title }} — {{ end }}{{ .Site.Title }}</title>
-  <meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
+  <title>{{ $title }}</title>
+  <meta name="description" content="{{ $description }}">
+  <link rel="canonical" href="{{ $canonicalURL }}">
+  <meta property="og:title" content="{{ $title }}">
+  <meta property="og:description" content="{{ $description }}">
+  <meta property="og:url" content="{{ $canonicalURL }}">
+  <meta property="og:site_name" content="{{ .Site.Title }}">
+  <meta property="og:type" content="{{ if eq .Section "papers" }}article{{ else }}website{{ end }}">
+  {{ with $socialImage }}<meta property="og:image" content="{{ . }}">{{ end }}
+  <meta name="twitter:card" content="{{ if $socialImage }}summary_large_image{{ else }}summary{{ end }}">
+  <meta name="twitter:title" content="{{ $title }}">
+  <meta name="twitter:description" content="{{ $description }}">
+  {{ with $socialImage }}<meta name="twitter:image" content="{{ . }}">{{ end }}
   <link rel="stylesheet" href="{{ "css/style.css" | relURL }}?v={{ now.Unix }}">
 </head>
 <body>
 <header class="site-header">
   <nav>
     <a class="site-title" href="{{ .Site.Home.RelPermalink }}">{{ .Site.Title }}</a>
-    <ul>
+    <ul class="site-nav-links">
       <li><a href="{{ "datasets/" | relURL }}">Datasets</a></li>
       <li><a href="{{ "papers/" | relURL }}">Papers</a></li>
-      {{ if .Site.GetPage "section" "dev" }}
-      <li><a href="{{ "dev/" | relURL }}">Development</a></li>
-      {{ end }}
     </ul>
+    {{ if .Site.GetPage "section" "dev" }}
+    <div class="site-nav-utility">
+      <a class="site-dev-link" href="{{ "dev/" | relURL }}">Development</a>
+    </div>
+    {{ end }}
   </nav>
 </header>
 <main>
   {{ block "main" . }}{{ end }}
 </main>
 <footer>
-  <p>Data extracted automatically. <a href="https://github.com/benchmarking-website">Source</a> · Corrections via overrides.yaml</p>
+  <p>Data extracted automatically. <a href="{{ .Site.Params.repoURL }}">Source</a> · Corrections via overrides.yaml</p>
 </footer>
 <script src="{{ .Site.Params.chartjsCDN }}/dist/chart.umd.min.js"></script>
 <script src="{{ "js/leaderboard.js" | relURL }}"></script>

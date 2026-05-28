@@ -4,6 +4,8 @@ import pytest
 
 from backend.export_to_hugo import (
     _description_class_target_count,
+    _dedup_result_rows,
+    _fmt_date,
     _has_paper_value_difference,
     _has_paper_value_gap,
     _plain_model,
@@ -71,3 +73,93 @@ def test_description_class_target_count_extracts_only_relevant_summary_counts(
     description, expected
 ):
     assert _description_class_target_count(description) == expected
+
+
+def test_fmt_date_uses_consistent_human_readable_output():
+    assert _fmt_date("2025-01-30") == "Jan 30, 2025"
+    assert _fmt_date("2025-01") == "Jan 2025"
+
+
+def test_dedup_result_rows_preserves_first_row_and_keeps_meaningful_differences():
+    rows = [
+        {
+            "model_key": "signnet",
+            "model": "SignNet",
+            "metric": "MAE",
+            "value": 0.024,
+            "std": 0.0026,
+            "paper_value": 0.0853,
+            "paper_std": 0.0026,
+            "true_value": 0.024,
+            "true_std": 0.003,
+            "sort_value": 0.024,
+            "sort_std": 0.003,
+            "is_baseline": True,
+            "has_value_gap": True,
+            "has_value_note": False,
+            "value_gap_source_arxiv": "2405.02795",
+            "rank_delta": 140,
+        },
+        {
+            "model_key": "signnet",
+            "model": "SignNet",
+            "metric": "MAE",
+            "value": 0.024,
+            "std": 0.0026,
+            "paper_value": 0.0853,
+            "paper_std": 0.0026,
+            "true_value": 0.024,
+            "true_std": 0.003,
+            "sort_value": 0.024,
+            "sort_std": 0.003,
+            "is_baseline": True,
+            "has_value_gap": True,
+            "has_value_note": False,
+            "value_gap_source_arxiv": "2405.02795",
+            "rank_delta": 140,
+        },
+        {
+            "model_key": "signnet",
+            "model": "SignNet",
+            "metric": "MAE",
+            "value": 0.024,
+            "std": 0.0026,
+            "paper_value": 0.0853,
+            "paper_std": 0.0026,
+            "true_value": 0.024,
+            "true_std": 0.003,
+            "sort_value": 0.024,
+            "sort_std": 0.003,
+            "is_baseline": False,
+            "has_value_gap": True,
+            "has_value_note": False,
+            "value_gap_source_arxiv": "2405.02795",
+            "rank_delta": 140,
+        },
+    ]
+
+    unique = _dedup_result_rows(
+        rows,
+        (
+            "model_key",
+            "model",
+            "metric",
+            "value",
+            "std",
+            "paper_value",
+            "paper_std",
+            "true_value",
+            "true_std",
+            "sort_value",
+            "sort_std",
+            "is_baseline",
+            "has_value_gap",
+            "has_value_note",
+            "value_gap_source_arxiv",
+            "rank_delta",
+        ),
+    )
+
+    assert len(unique) == 2
+    assert unique[0]["is_baseline"] is True
+    assert unique[1]["is_baseline"] is False

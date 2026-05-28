@@ -5,6 +5,7 @@ title = 'Graph Learning Benchmarks'
 [params]
   description = "Leaderboards for graph learning benchmarks"
   chartjsCDN = "https://cdn.jsdelivr.net/npm/chart.js@4"
+  repoURL = "https://github.com/martinalex000/benchmarking_website"
 
 [taxonomies]
   benchmark = "benchmarks"

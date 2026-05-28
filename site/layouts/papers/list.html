@@ -4,10 +4,15 @@
 
 <h1>Papers</h1>
 
-<p class="section-intro">
-  {{ len $all }} paper(s).
-  The default ranking uses adjusted MRR with a three-dataset floor so papers evaluated on only one or two datasets do not dominate the overview.
-</p>
+<div class="section-intro">
+  <p>{{ len $all }} paper(s).</p>
+  <p>
+    The default ranking is <strong>coverage-adjusted MRR</strong>: for each paper, the site takes the paper's primary proposed model, computes its reciprocal rank on each dataset's primary metric against all tracked results, and averages across qualifying datasets.
+  </p>
+  <p>
+    Only datasets with at least 10 tracked results and 3 distinct papers count, and the final score is divided by <code>max(dataset_count, 3)</code> so papers evaluated on just one or two datasets do not dominate the overview. Use <strong>Date</strong> sorting when you want the newest papers instead.
+  </p>
+</div>
 
 <div class="papers-toolbar">
   <div class="filter-bar papers-search-bar">
@@ -46,7 +51,7 @@
       {{ with .Params.arxiv_id }}<a class="badge" href="https://arxiv.org/abs/{{ . }}" target="_blank" rel="noopener">arXiv:{{ . }}</a>{{ end }}
       {{ end }}
       {{ with .Params.published_date }}<span class="badge">{{ . }}</span>{{ end }}
-      {{ if and .Params.adjusted_mrr (gt .Params.adjusted_mrr 0.0) }}<span class="badge muted">Adj. MRR {{ printf "%.3f" .Params.adjusted_mrr }}</span>{{ end }}
+      {{ if and .Params.adjusted_mrr (gt .Params.adjusted_mrr 0.0) }}<span class="badge muted" title="Mean reciprocal rank of the paper's primary proposed model across qualifying datasets, divided by max(dataset_count, 3).">Coverage-adjusted MRR {{ printf "%.3f" .Params.adjusted_mrr }}</span>{{ end }}
       {{ if gt (default 0 .Params.mrr_dataset_count) 0 }}<span class="badge muted">{{ .Params.mrr_dataset_count }} dataset{{ if ne .Params.mrr_dataset_count 1 }}s{{ end }}</span>{{ end }}
     </div>
     {{ with .Params.benchmark_categories }}

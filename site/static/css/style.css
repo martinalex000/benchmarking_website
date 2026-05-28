@@ -39,13 +39,31 @@ a:hover { color: var(--accent-dark); }
   margin: 0 auto;
   display: flex;
   align-items: center;
-  height: 56px;
+  min-height: 56px;
+  padding: 0.75rem 0;
   gap: 2rem;
+  flex-wrap: wrap;
 }
 .site-title { color: #fff; text-decoration: none; font-weight: 700; font-size: 1.1rem; }
 .site-header nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 1.5rem; }
 .site-header nav ul a { color: var(--gray-300); text-decoration: none; font-size: 0.95rem; }
 .site-header nav ul a:hover { color: #fff; }
+.site-nav-links { flex-wrap: wrap; }
+.site-nav-utility { margin-left: auto; }
+.site-dev-link {
+  display: inline-block;
+  padding: 0.35rem 0.8rem;
+  border: 1px solid rgba(209, 213, 219, 0.45);
+  border-radius: 999px;
+  font-size: 0.8rem;
+  color: var(--gray-300);
+  text-decoration: none;
+}
+.site-dev-link:hover {
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.55);
+  background: rgba(255, 255, 255, 0.06);
+}
 /* Override global link color inside header */
 .site-header a { color: inherit; }
 .site-header a, .site-header a:hover { color: inherit; }
@@ -201,6 +219,7 @@ footer { max-width: 1100px; margin: 3rem auto 1rem; padding: 0 1.5rem; color: va
 
 /* Paper list page */
 .section-intro { color: var(--gray-600); margin-bottom: 1.5rem; }
+.section-intro p { margin: 0.4rem 0; max-width: 78ch; }
 .papers-category { margin-bottom: 2.5rem; }
 .category-heading { margin: 0 0 1rem; font-size: 1.15rem; border-bottom: 2px solid var(--gray-200); padding-bottom: 0.4rem; }
 .category-hint { font-size: 0.8rem; color: var(--gray-600); font-weight: 400; margin-left: 0.5rem; }
@@ -363,6 +382,17 @@ tr.chart-scroll-highlight { box-shadow: inset 0 0 0 9999px rgba(251, 191, 36, 0.
 /* Home */
 .home-hero { margin-bottom: 2.5rem; }
 .benchmark-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; }
+.home-section { margin: 2.5rem 0; }
+.home-section h2 { margin-bottom: 1rem; }
+.home-guide-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1rem; }
+.home-guide-card {
+  border: 1px solid var(--gray-300);
+  border-radius: var(--radius);
+  padding: 1.1rem 1.15rem;
+  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+}
+.home-guide-card h3 { margin: 0 0 0.45rem; font-size: 1rem; }
+.home-guide-card p { margin: 0; color: var(--gray-600); font-size: 0.92rem; }
 
 .home-nav { display: flex; gap: 1rem; margin-top: 1.5rem; justify-content: center; flex-wrap: wrap; }
 .btn-primary {
@@ -378,8 +408,18 @@ tr.chart-scroll-highlight { box-shadow: inset 0 0 0 9999px rgba(251, 191, 36, 0.
 .btn-primary:hover { background: #1d4ed8; }
 
 .benchmark-card { border: 1px solid var(--gray-300); border-radius: var(--radius); padding: 1.25rem; }
-.benchmark-card h2 { margin: 0 0 0.5rem; font-size: 1.1rem; }
+.benchmark-card h2, .benchmark-card h3 { margin: 0 0 0.5rem; font-size: 1.1rem; }
 .benchmark-card ul { padding-left: 1.2rem; margin: 0.5rem 0 0; }
+.home-benchmark-meta {
+  margin: 0 0 0.45rem;
+  color: var(--gray-600);
+  font-size: 0.85rem;
+}
+.home-benchmark-datasets {
+  margin: 0.6rem 0 0;
+  color: var(--gray-600);
+  font-size: 0.9rem;
+}
 
 /* Dataset statistics row */
 .dataset-stats { display: flex; gap: 1rem; margin: 0.75rem 0; flex-wrap: wrap; }
@@ -760,6 +800,16 @@ tr.row-global-top.row-best td { background: #e0f2fe; }
 .preview-val { color: var(--gray-800); font-weight: 500; }
 
 @media (max-width: 720px) {
+  .site-header nav {
+    gap: 0.75rem 1rem;
+  }
+  .site-nav-utility {
+    width: 100%;
+    margin-left: 0;
+  }
+  .site-dev-link {
+    float: right;
+  }
   .preview-top {
     align-items: flex-start;
     flex-direction: column;

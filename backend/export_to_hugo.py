@@ -424,19 +424,15 @@ def _mark_is_best(
 
 
 def _fmt_date(date_str: str | None) -> str:
-    """Format date strings for display while preserving day precision when available.
-
-    - YYYY-MM-DD -> YYYY-MM-DD
-    - YYYY-MM    -> Mon YYYY
-    """
+    """Format date strings consistently for public display."""
     if not date_str:
         return ""
     try:
         if re.match(r"^\d{4}-\d{2}-\d{2}$", date_str):
-            return date_str
+            return datetime.fromisoformat(date_str).strftime("%b %d, %Y").replace(" 0", " ")
         if re.match(r"^\d{4}-\d{2}$", date_str):
             return datetime.fromisoformat(date_str + "-01").strftime("%b %Y")
-        return datetime.fromisoformat(date_str[:10]).strftime("%Y-%m-%d")
+        return datetime.fromisoformat(date_str[:10]).strftime("%b %d, %Y").replace(" 0", " ")
     except ValueError:
         return date_str
 
@@ -459,6 +455,38 @@ def _write_md(path: Path, front_matter: dict, body: str = "") -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     fm_str = yaml.dump(front_matter, allow_unicode=True, default_flow_style=False, sort_keys=False)
     path.write_text(f"---\n{fm_str}---\n\n{body}", encoding="utf-8")
+
+
+def _sanitize_abstract(text: str | None) -> str:
+    """Light cleanup for public-facing abstracts exported from extraction artifacts."""
+    if not text:
+        return ""
+    cleaned = str(text)
+    cleaned = cleaned.replace("~https://", " https://").replace("~http://", " http://")
+    cleaned = cleaned.replace("~", " ")
+    cleaned = re.sub(r"\s+", " ", cleaned).strip()
+    cleaned = re.sub(r"\s+([,.;:])", r"\1", cleaned)
+    return cleaned
+
+
+def _dedup_result_rows(rows: list[dict], signature_fields: tuple[str, ...]) -> list[dict]:
+    """Remove exact duplicate exported rows while preserving first-seen order."""
+    unique_rows: list[dict] = []
+    seen: set[tuple[Any, ...]] = set()
+    for row in rows:
+        signature: list[Any] = []
+        for field in signature_fields:
+            value = row.get(field)
+            if isinstance(value, (list, dict)):
+                signature.append(json.dumps(value, sort_keys=True, ensure_ascii=False))
+            else:
+                signature.append(value)
+        signature_tuple = tuple(signature)
+        if signature_tuple in seen:
+            continue
+        seen.add(signature_tuple)
+        unique_rows.append(row)
+    return unique_rows
 
 
 # ── Paper export ──────────────────────────────────────────────────────────────
@@ -1151,6 +1179,28 @@ def export_paper(arxiv_id: str) -> bool:
                 row["sort_value"] = row.get("true_value")
                 row["sort_std"] = row.get("true_std")
 
+            rows = _dedup_result_rows(
+                rows,
+                (
+                    "model_key",
+                    "model",
+                    "metric",
+                    "value",
+                    "std",
+                    "paper_value",
+                    "paper_std",
+                    "true_value",
+                    "true_std",
+                    "sort_value",
+                    "sort_std",
+                    "is_baseline",
+                    "has_value_gap",
+                    "has_value_note",
+                    "value_gap_source_arxiv",
+                    "rank_delta",
+                ),
+            )
+
             if len(distinct_metrics) > 1:
                 pivoted = _pivot_paper_rows(rows, primary_metric)
                 pv_rows = pivoted["rows"]
@@ -1231,6 +1281,24 @@ def export_paper(arxiv_id: str) -> bool:
                     )
                     pv_rows = combined
 
+                pv_rows = _dedup_result_rows(
+                    pv_rows,
+                    (
+                        "model_key",
+                        "model",
+                        "metric_values",
+                        "metric_stds",
+                        "sort_value",
+                        "sort_std",
+                        "is_baseline",
+                        "is_global_top",
+                        "has_value_gap",
+                        "has_value_note",
+                        "rank_delta",
+                        "value_gap_source_arxiv",
+                    ),
+                )
+
                 results_for_fm.append(
                     {
                         "dataset": ds,
@@ -1266,6 +1334,28 @@ def export_paper(arxiv_id: str) -> bool:
 
                 if extra_rows:
                     rows = rows + extra_rows
+                    rows = _dedup_result_rows(
+                        rows,
+                        (
+                            "model_key",
+                            "model",
+                            "metric",
+                            "value",
+                            "std",
+                            "paper_value",
+                            "paper_std",
+                            "true_value",
+                            "true_std",
+                            "sort_value",
+                            "sort_std",
+                            "is_baseline",
+                            "is_global_top",
+                            "has_value_gap",
+                            "has_value_note",
+                            "rank_delta",
+                            "value_gap_source_arxiv",
+                        ),
+                    )
                     rows.sort(key=_row_sort_key)
 
                 _mark_is_best(
@@ -1375,7 +1465,7 @@ def export_paper(arxiv_id: str) -> bool:
             "authors": paper.authors or [],
             "published_date": _fmt_date(paper.published_date),
             "published_date_iso": (paper.published_date[:10] if paper.published_date else ""),
-            "abstract": clean_extracted_text(paper.abstract),
+            "abstract": _sanitize_abstract(clean_extracted_text(paper.abstract)),
             "codebase_url": paper.codebase_url or "",
             "extraction_model": paper.extraction_model or "",
             "has_results": has_results,
