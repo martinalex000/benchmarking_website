@@ -2,11 +2,16 @@
 """Unified user-facing todo queue interface.
 
 Default behavior with no subcommand: process the next few pending papers.
+Use ``worker`` to process exactly one top-priority pending paper and exit.
 """
 
 from __future__ import annotations
 
 import argparse
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from rich import box
 from rich.console import Console
@@ -142,6 +147,19 @@ def cmd_process(args: argparse.Namespace) -> None:
         console.print(table)
 
 
+def cmd_worker(args: argparse.Namespace) -> None:
+    """Process exactly one top-priority pending paper and exit."""
+    worker_args = argparse.Namespace(
+        limit=1,
+        model=args.model,
+        force=args.force,
+        max_attempts=args.max_attempts,
+        dry_run=args.dry_run,
+        no_export=not args.export,
+    )
+    cmd_process(worker_args)
+
+
 def cmd_report(args: argparse.Namespace) -> None:
     report = build_queue_report(limit=args.limit, max_attempts=args.max_attempts)
     console.print(
@@ -196,6 +214,19 @@ def build_parser() -> argparse.ArgumentParser:
     process_parser.add_argument("--dry-run", action="store_true")
     process_parser.add_argument("--no-export", action="store_true")
 
+    worker_parser = sub.add_parser(
+        "worker", help="Process exactly one top-priority pending paper and exit"
+    )
+    worker_parser.add_argument("--model", default="primary", metavar="TIER")
+    worker_parser.add_argument("--force", action="store_true")
+    worker_parser.add_argument("--max-attempts", type=int, default=3, metavar="N")
+    worker_parser.add_argument("--dry-run", action="store_true")
+    worker_parser.add_argument(
+        "--export",
+        action="store_true",
+        help="Also refresh development exports after this single-item run",
+    )
+
     report_parser = sub.add_parser("report", help="Show queue summary and top pending papers")
     report_parser.add_argument("--limit", type=int, default=10, metavar="N")
     report_parser.add_argument("--max-attempts", type=int, default=3, metavar="N")
@@ -225,6 +256,8 @@ def main(argv: list[str] | None = None) -> None:
 
     if command == "process":
         cmd_process(args)
+    elif command == "worker":
+        cmd_worker(args)
     elif command == "report":
         cmd_report(args)
     elif command == "list":

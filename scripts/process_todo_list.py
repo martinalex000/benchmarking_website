@@ -34,7 +34,10 @@ def _run_paper(arxiv_id: str, model: str, dry_run: bool) -> str:
 
 
 def main() -> None:
-    todo_queue_main(["process", *sys.argv[1:]])
+    if len(sys.argv) > 1 and sys.argv[1] == "worker":
+        todo_queue_main(sys.argv[1:])
+    else:
+        todo_queue_main(["process", *sys.argv[1:]])
 
 
 if __name__ == "__main__":

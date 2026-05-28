@@ -11,6 +11,7 @@ Usage::
     uv run python scripts/run_manual.py 2206.08164 --force-download  # re-download files
     uv run python scripts/run_manual.py 2206.08164 --skip-download
     uv run python scripts/run_manual.py 2206.08164 --skip-extract    uv run python scripts/run_manual.py 2206.08164 --oneshot   # legacy single-shot extraction    uv run python scripts/run_manual.py 2206.08164 --compare-models  # run all 3 tiers
+    uv run python scripts/run_manual.py 2206.08164 --skip-export
     uv run python scripts/run_manual.py --import-pending            # review pending datasets
 
 Extraction is two-stage:
@@ -1066,6 +1067,11 @@ def main() -> None:
         action="store_true",
         help="Re-run figure detection only (requires existing extraction); skips all other steps",
     )
+    parser.add_argument(
+        "--skip-export",
+        action="store_true",
+        help="Skip the Hugo export step (useful for batch runs)",
+    )
     args = parser.parse_args()
 
     # ── Import-pending mode (no paper required) ───────────────────────────
@@ -1146,8 +1152,10 @@ def main() -> None:
         return ""
 
     paper_title = _resolve_title()
+    title_printed = False
     if paper_title:
         console.print(f"  [bold magenta]{paper_title}[/bold magenta]")
+        title_printed = True
 
     # ── Figure-only mode ──────────────────────────────────────────────────
     if args.figure_only:
@@ -1176,6 +1184,12 @@ def main() -> None:
             _do_download(arxiv_id, force=force_download)
         else:
             _do_download(arxiv_id, force=force_download)
+
+        if not title_printed:
+            paper_title = _resolve_title()
+            if paper_title:
+                console.print(f"  [bold magenta]{paper_title}[/bold magenta]")
+                title_printed = True
     else:
         console.print("\n[dim]1. Download — skipped[/dim]")
 
@@ -1276,7 +1290,9 @@ def main() -> None:
     if pending_added:
         changes_detected = True
 
-    if changes_detected:
+    if args.skip_export:
+        console.print("\n[dim]6. Build Hugo Pages — skipped (--skip-export)[/dim]")
+    elif changes_detected:
         console.print("\n[bold]6. Build Hugo Pages[/bold]")
         from backend.export_to_hugo import export_all
 
