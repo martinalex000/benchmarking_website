@@ -16,6 +16,7 @@
   const charts = {};           // variant slug -> Chart instance
   let showStd = true;
   let showBaselines = true;
+  let showSecondaryMetrics = false;
   let activeVariant = null;
 
   /* ── Init ───────────────────────────────────────────────────────────── */
@@ -33,6 +34,9 @@
 
     _initSortableColumns();
     _initTableExpanders();
+
+    var secondaryToggle = document.getElementById("show-secondary-metrics");
+    toggleSecondaryMetrics(secondaryToggle ? !!secondaryToggle.checked : false);
 
     // Set initial active variant (first standard one)
     const standard = variants.find(function (v) { return v.is_standard; }) || variants[0];
@@ -69,6 +73,18 @@
     });
     // Re-render all charts so the error bars plugin shows/hides
     Object.values(charts).forEach(function (chart) { chart.update("none"); });
+    _applyModelColumnWidths();
+    _applyModelTooltips();
+  }
+
+  /* ── Secondary-metrics toggle ─────────────────────────────────────── */
+  function toggleSecondaryMetrics(enabled) {
+    showSecondaryMetrics = !!enabled;
+    document.querySelectorAll(".result-table").forEach(function (table) {
+      table.querySelectorAll("th.col-value:not(.col-primary), td.col-value:not(.col-primary)").forEach(function (cell) {
+        cell.style.display = showSecondaryMetrics ? "" : "none";
+      });
+    });
     _applyModelColumnWidths();
     _applyModelTooltips();
   }
@@ -264,17 +280,143 @@
     return best;
   }
 
+  function _quantile(sortedNums, q) {
+    if (!sortedNums || !sortedNums.length) return null;
+    var qq = Math.max(0, Math.min(1, q));
+    var idx = Math.floor(qq * (sortedNums.length - 1));
+    return sortedNums[idx];
+  }
+
+  function _computeFocusedYBounds(scatterData, recordData, refs, higherIsBetter) {
+    var allVals = (scatterData || []).map(function (d) { return d && d.y; }).filter(function (v) {
+      return typeof v === "number" && isFinite(v);
+    }).sort(function (a, b) { return a - b; });
+
+    var focusVals = [];
+    (recordData || []).forEach(function (d) {
+      if (d && d._isRecord && typeof d.y === "number" && isFinite(d.y)) focusVals.push(d.y);
+    });
+    (refs || []).forEach(function (ref) {
+      if (ref && typeof ref.value === "number" && isFinite(ref.value)) focusVals.push(ref.value);
+    });
+
+    if (!allVals.length && !focusVals.length) return null;
+    if (!focusVals.length) focusVals = allVals.slice();
+
+    var focusMin = Math.min.apply(null, focusVals);
+    var focusMax = Math.max.apply(null, focusVals);
+
+    var badSide = higherIsBetter
+      ? _quantile(allVals, 0.28)
+      : _quantile(allVals, 0.72);
+    var goodTail = higherIsBetter
+      ? _quantile(allVals, 0.97)
+      : _quantile(allVals, 0.03);
+
+    var yMin;
+    var yMax;
+    if (higherIsBetter) {
+      yMin = Math.min(focusMin, badSide == null ? focusMin : badSide);
+      yMax = Math.max(focusMax, goodTail == null ? focusMax : goodTail);
+    } else {
+      yMin = Math.min(focusMin, goodTail == null ? focusMin : goodTail);
+      yMax = Math.max(focusMax, badSide == null ? focusMax : badSide);
+    }
+
+    var span = yMax - yMin;
+    var base = Math.max(Math.abs(focusMin), Math.abs(focusMax), 1);
+    var pad = span > 1e-9 ? span * 0.09 : base * 0.02;
+
+    var isUnitScale = allVals.length && allVals.every(function (v) { return v >= 0 && v <= 1; });
+    if (higherIsBetter && isUnitScale && refs && refs.length) {
+      var minRef = Math.min.apply(null, refs.map(function (ref) { return ref.value; }));
+      yMin = Math.max(yMin, Math.max(0, minRef - 0.07));
+      span = yMax - yMin;
+      pad = span > 1e-9 ? span * 0.09 : base * 0.02;
+    }
+
+    return {
+      min: yMin - pad,
+      max: yMax + pad,
+    };
+  }
+
+  function _semanticPointColors(datum) {
+    if (datum && datum._isRecord) {
+      return {
+        fill: "#2563eb",
+        stroke: "rgba(37,99,235,0.9)",
+        error: "rgba(37,99,235,0.95)",
+      };
+    }
+    if (datum && datum._isSotaMatch) {
+      return {
+        fill: "#d97706",
+        stroke: "rgba(180,83,9,0.95)",
+        error: "rgba(180,83,9,0.95)",
+      };
+    }
+    return {
+      fill: "rgba(156,163,175,0.55)",
+      stroke: "rgba(107,114,128,0.7)",
+      error: "rgba(107,114,128,0.85)",
+    };
+  }
+
+  function _stdIntervalsOverlap(aValue, aStd, bValue, bStd) {
+    if (aValue == null || bValue == null || aStd == null || bStd == null) return false;
+    var aMin = aValue - aStd;
+    var aMax = aValue + aStd;
+    var bMin = bValue - bStd;
+    var bMax = bValue + bStd;
+    return aMin <= bMax && bMin <= aMax;
+  }
+
+  function _decorateHistoricalSotaRows(slug, scatterData) {
+    var tbody = document.querySelector(".leaderboard-section[data-variant='" + slug + "'] .result-table tbody");
+    if (!tbody) return;
+
+    Array.from(tbody.querySelectorAll("tr")).forEach(function (row) {
+      row.classList.remove("row-historical-record");
+      row.classList.remove("row-historical-sota-match");
+    });
+
+    (scatterData || []).forEach(function (datum) {
+      if (!datum) return;
+      var row = _findRowForDatum(slug, datum);
+      if (!row) return;
+      if (datum._isRecord) {
+        row.classList.add("row-historical-record");
+      } else if (datum._isSotaMatch) {
+        row.classList.add("row-historical-sota-match");
+      }
+    });
+  }
+
   function _applyChartFilters(chart) {
     if (!chart || !chart._scatterAll || !chart._recordAll) return;
     var visibleScatter = showBaselines
       ? chart._scatterAll.slice()
-      : chart._scatterAll.filter(function (d) { return !d.is_baseline; });
+      : chart._scatterAll.filter(function (d) { return !d.is_baseline || d._isRecord || d._isSotaMatch; });
     var visibleRecord = showBaselines
       ? chart._recordAll.slice()
-      : chart._recordAll.filter(function (d) { return !d.is_baseline; });
+      : chart._recordAll.slice();
 
     chart.data.datasets[0].data = visibleScatter;
     chart.data.datasets[1].data = visibleRecord;
+
+    chart.data.datasets[0].pointBackgroundColor = visibleScatter.map(function (d) {
+      return _semanticPointColors(d).fill;
+    });
+    chart.data.datasets[0].borderColor = visibleScatter.map(function (d) {
+      return _semanticPointColors(d).stroke;
+    });
+    chart.data.datasets[0].pointHoverBackgroundColor = visibleScatter.map(function (d) {
+      return _semanticPointColors(d).fill;
+    });
+    chart.data.datasets[0].pointHoverBorderColor = visibleScatter.map(function (d) {
+      return _semanticPointColors(d).stroke;
+    });
 
     chart.data.datasets[1].pointBackgroundColor = visibleRecord.map(function (d) {
       return d && d._isRecord ? "#2563eb" : "transparent";
@@ -307,6 +449,11 @@
       _syncPinnedHighlight(chart);
       if (chart._slug) _updatePreview(chart._slug, chart);
     }
+  }
+
+  function _isSotaBaselineRow(row) {
+    if (!row || !row.classList) return false;
+    return row.classList.contains("row-best") || row.classList.contains("row-global-top");
   }
 
   /* ── Re-rank visible rows ───────────────────────────────────────────── */
@@ -367,21 +514,77 @@
     var gnnReference = _pickBestReference(allRows, higherIsBetter, ["gcn", "gin", "graphsage"]);
     var mlpReference = _pickBestReference(allRows, higherIsBetter, "mlp");
 
+    var recordKeys = {};
+    milestones.forEach(function (m) {
+      var ts = dateTs(m.date);
+      if (ts == null || m.value == null || !m.model || !m.arxiv_id) return;
+      var key = [String(m.arxiv_id), String(m.model), String(ts), Number(m.value).toFixed(10)].join("|");
+      recordKeys[key] = true;
+    });
+
+    var milestoneTimeline = milestones.map(function (m) {
+      return {
+        x: dateTs(m.date),
+        y: m.value,
+        std: m.std,
+        arxiv_id: m.arxiv_id,
+        model: m.model,
+      };
+    }).filter(function (m) {
+      return m.x != null && typeof m.y === "number" && isFinite(m.y);
+    }).sort(function (a, b) { return a.x - b.x; });
+
+    function classifyHistoricalSota(ts, value, std, arxivId, model) {
+      if (ts == null || value == null) return { isRecord: false, isSotaMatch: false };
+      var applicableMilestones = [];
+      for (var i = 0; i < milestoneTimeline.length; i++) {
+        var m = milestoneTimeline[i];
+        if (m.x > ts) break;
+        applicableMilestones.push(m);
+      }
+      if (!applicableMilestones.length) return { isRecord: false, isSotaMatch: false };
+
+      var selfIsMilestone = applicableMilestones.some(function (m) {
+        return m.x === ts && m.arxiv_id === arxivId && m.model === model && Math.abs(m.y - value) <= 1e-9;
+      });
+
+      if (selfIsMilestone) {
+        return { isRecord: true, isSotaMatch: false };
+      }
+
+      var matchesAnyHistoricalSota = applicableMilestones.some(function (m) {
+        var exactMatch = Math.abs(value - m.y) <= 1e-9;
+        var overlapMatch = _stdIntervalsOverlap(value, std, m.y, m.std);
+        return exactMatch || overlapMatch;
+      });
+      return {
+        isRecord: false,
+        isSotaMatch: matchesAnyHistoricalSota,
+      };
+    }
+
     // ── Scatter dataset: all rows ─────────────────────────────────────
     var scatterData = [];
     var modelBaselineMap = {};
     allRows.forEach(function (row) {
       var val = row.metric_values && row.metric_values[0];
+      var std = row.metric_stds && row.metric_stds[0];
       var ts = dateTs(row.date_iso || row.date);
       if (val == null || ts == null) return;
       modelBaselineMap[row.model] = !!row.is_baseline;
+      var key = [String(row.arxiv_id || ""), String(row.model || ""), String(ts), Number(val).toFixed(10)].join("|");
+      var historicalClass = classifyHistoricalSota(ts, val, std, row.arxiv_id || "", row.model || "");
+      var isRecordPoint = !!recordKeys[key] || historicalClass.isRecord;
+      var isTieSotaPoint = historicalClass.isSotaMatch;
       scatterData.push({
         x: ts, y: val,
-        std: row.metric_stds && row.metric_stds[0],
+        std: std,
         model: row.model,
         arxiv_id: row.arxiv_id,
         title: row.title || "",
         is_baseline: row.is_baseline,
+        _isRecord: isRecordPoint,
+        _isSotaMatch: isTieSotaPoint,
       });
     });
 
@@ -419,7 +622,25 @@
     var xMin = allTs.length ? Math.min.apply(null, allTs) : todayTs;
     // Add one month of padding on each side
     var xMinPad = xMin - 30 * 24 * 3600 * 1000;
-    var xMaxPad = todayTs + 30 * 24 * 3600 * 1000;
+    var xMaxPad = todayTs;
+
+    var references = [
+      gnnReference ? {
+        value: gnnReference.value,
+        color: "rgba(15,118,110,0.9)",
+        dash: [8, 4],
+        label: gnnReference.label + " " + _formatMetricValue(gnnReference.value),
+        position: "below",
+      } : null,
+      mlpReference ? {
+        value: mlpReference.value,
+        color: "rgba(107,114,128,0.9)",
+        dash: [3, 4],
+        label: mlpReference.label + " " + _formatMetricValue(mlpReference.value),
+        position: "above",
+      } : null,
+    ].filter(Boolean);
+    var focusedYBounds = _computeFocusedYBounds(scatterData, recordData, references, higherIsBetter);
 
     // ── Per-point styling for records line ────────────────────────────
     var recordBg = recordData.map(function (d) { return d._isRecord ? "#2563eb" : "transparent"; });
@@ -552,29 +773,14 @@
         var activeDatum = activeDs.data[hp.index];
         if (!activeDatum || activeDatum.std == null) return;
         var activePoint = activeMeta.data[hp.index];
-        _drawErrorBar(ctx, activePoint.x, yScale, activeDatum.y, activeDatum.std, "rgba(251,191,36,0.95)", 9);
+        _drawErrorBar(ctx, activePoint.x, yScale, activeDatum.y, activeDatum.std, _semanticPointColors(activeDatum).error, 9);
       },
     };
 
     var referenceLinesPlugin = {
       id: "referenceLines_" + slug,
       afterDatasetsDraw: function (chart) {
-        var refs = [
-          gnnReference ? {
-            value: gnnReference.value,
-            color: "rgba(15,118,110,0.9)",
-            dash: [8, 4],
-            label: gnnReference.label + " " + _formatMetricValue(gnnReference.value),
-            position: "below",
-          } : null,
-          mlpReference ? {
-            value: mlpReference.value,
-            color: "rgba(107,114,128,0.9)",
-            dash: [3, 4],
-            label: mlpReference.label + " " + _formatMetricValue(mlpReference.value),
-            position: "above",
-          } : null,
-        ].filter(Boolean);
+        var refs = references;
         if (!refs.length) return;
 
         var ctx = chart.ctx;
@@ -582,7 +788,8 @@
         var area = chart.chartArea;
         ctx.save();
         ctx.font = "600 11px sans-serif";
-        refs.forEach(function (ref, idx) {
+        var refsByValue = refs.slice().sort(function (a, b) { return b.value - a.value; });
+        refs.forEach(function (ref) {
           var py = yScale.getPixelForValue(ref.value);
           if (!isFinite(py) || py < area.top || py > area.bottom) return;
           ctx.save();
@@ -597,7 +804,8 @@
 
           var textWidth = ctx.measureText(ref.label).width;
           var labelX = Math.max(area.left + 8, area.right - textWidth - 12);
-          var offset = ref.position === "below" ? 16 + idx * 14 : -6 - idx * 14;
+          var order = refsByValue.findIndex(function (candidate) { return candidate === ref; });
+          var offset = order <= 0 ? -6 : 16 + (order - 1) * 14;
           var unclampedY = py + offset;
           var labelY = Math.min(area.bottom - 4, Math.max(area.top + 12, unclampedY));
           ctx.fillStyle = "rgba(255,255,255,0.88)";
@@ -617,12 +825,20 @@
             label: "All results",
             data: scatterData,
             type: "scatter",
-            backgroundColor: "rgba(156,163,175,0.55)",
-            borderColor: "rgba(107,114,128,0.7)",
+            backgroundColor: scatterData.map(function (d) {
+              return _semanticPointColors(d).fill;
+            }),
+            borderColor: scatterData.map(function (d) {
+              return _semanticPointColors(d).stroke;
+            }),
             pointRadius: 4,
             pointHoverRadius: 7,
-            pointHoverBackgroundColor: "#f59e0b",
-            pointHoverBorderColor: "#fbbf24",
+            pointHoverBackgroundColor: scatterData.map(function (d) {
+              return _semanticPointColors(d).fill;
+            }),
+            pointHoverBorderColor: scatterData.map(function (d) {
+              return _semanticPointColors(d).stroke;
+            }),
             pointHoverBorderWidth: 2,
             order: 2,
           },
@@ -702,6 +918,8 @@
             },
           },
           y: {
+            min: focusedYBounds ? focusedYBounds.min : undefined,
+            max: focusedYBounds ? focusedYBounds.max : undefined,
             title: { display: true, text: canvas.dataset.metric || "Score" },
             ticks: { precision: 4 },
           },
@@ -719,6 +937,7 @@
     chart._scatterAll = scatterData.slice();
     chart._recordAll = recordData.slice();
     chart._slug = slug;
+    _decorateHistoricalSotaRows(slug, scatterData);
     _applyChartFilters(chart);
     chart.update("none");
 
@@ -727,13 +946,25 @@
 
   /* ── Chart → Table hover sync ───────────────────────────────────────── */
   function _onChartHover(slug, elements, chart) {
+    function setHoveredPoint(nextPoint) {
+      var cur = chart._highlightedPoint;
+      var changed = !cur || !nextPoint || cur.datasetIndex !== nextPoint.datasetIndex || cur.index !== nextPoint.index;
+      if (changed) {
+        chart._highlightedPoint = nextPoint;
+        chart.update("none");
+      }
+    }
+
     _clearRowHighlights("chart-hover-highlight");
 
     if (!elements.length) {
       chart._lastHoverSelection = null;
+      setHoveredPoint(null);
       _updatePreview(slug, chart);
       return;
     }
+
+    setHoveredPoint({ datasetIndex: elements[0].datasetIndex, index: elements[0].index });
     var selection = _selectionFromElement(slug, chart, elements[0]);
     chart._lastHoverSelection = selection;
     if (!selection || !selection.row) {
@@ -900,9 +1131,10 @@
         .map(function (td) { return (td.innerText || "").replace(/\s+/g, " ").trim().length; })
         .filter(function (n) { return n > 0; })
         .sort(function (a, b) { return a - b; });
-      var modelP90 = modelLens.length ? _percentile(modelLens, 0.9) : 0;
-      var modelChars = Math.ceil(modelP90 * 1.12);
-      modelChars = Math.max(11, Math.min(_wideTable ? 24 : 20, modelChars));
+      var modelQuantile = _wideTable ? 0.78 : 0.88;
+      var modelPx = modelLens.length ? _percentile(modelLens, modelQuantile) : 0;
+      var modelChars = Math.ceil(modelPx * (_wideTable ? 1.03 : 1.08));
+      modelChars = Math.max(10, Math.min(_wideTable ? 18 : 20, modelChars));
 
       // Calculate value column width (metric values are typically short)
       var valueCells = Array.from(table.querySelectorAll("tbody td.col-value"));
@@ -946,7 +1178,7 @@
         var viewportCap = Math.max(320, window.innerWidth - 56);
         var fitCap = Math.max(300, viewportCap - 8);
         var minPaper = 18;
-        var minModel = 10;
+        var minModel = 8;
         var minValue = 7;
         var guard = 0;
 
@@ -994,7 +1226,7 @@
     var visibleIndex = 0;
 
     rows.forEach(function (row) {
-      var hideBaseline = !showBaselines && row.classList.contains("row-baseline");
+      var hideBaseline = !showBaselines && row.classList.contains("row-baseline") && !_isSotaBaselineRow(row);
       var shouldCollapse = collapseAfter > 0 && !expanded && !hideBaseline && visibleIndex >= collapseAfter;
 
       row.classList.toggle("row-collapsed", shouldCollapse);
@@ -1070,6 +1302,7 @@
     init: init,
     switchVariant: switchVariant,
     toggleStd: toggleStd,
+    toggleSecondaryMetrics: toggleSecondaryMetrics,
     toggleBaselines: toggleBaselines,
     toggleWideTable: toggleWideTable,
   };

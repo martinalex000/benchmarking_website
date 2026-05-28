@@ -91,6 +91,10 @@
   {{/* Controls */}}
   <div class="leaderboard-controls">
     <label>
+      <input type="checkbox" id="show-secondary-metrics" onchange="leaderboard.toggleSecondaryMetrics(this.checked)">
+      Show non-primary metrics
+    </label>
+    <label>
       <input type="checkbox" id="show-std" checked onchange="leaderboard.toggleStd(this.checked)">
       Show ± std
     </label>
@@ -155,7 +159,10 @@
     <div class="legend-items">
       <div class="legend-item"><span class="legend-swatch swatch-proposed"></span><span>★ Proposed-model result</span></div>
       <div class="legend-item"><span class="legend-swatch swatch-baseline"></span><span>Baseline / comparison model</span></div>
+      <div class="legend-item"><span class="legend-swatch swatch-sota-tie"></span><span>Also reaches SOTA (without setting a new record)</span></div>
       <div class="legend-item"><span class="legend-swatch swatch-best"></span><span>Statistically best result (within std overlap)</span></div>
+      <div class="legend-item"><span class="table-marker marker-record"></span><span>Blue dot in table: record-setting SOTA at its time</span></div>
+      <div class="legend-item"><span class="table-marker marker-sota-match"></span><span>Amber ring in table: matches a prior or current SOTA at its time</span></div>
     </div>
   </div>
 
