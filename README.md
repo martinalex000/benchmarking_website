@@ -284,6 +284,10 @@ The dashboard also includes:
 Use **Up/Down** arrow keys (or **k/j**) to scroll only the Finished papers
 window while the rest of the dashboard keeps updating live.
 
+Use **+** to add one worker at runtime.
+Use **-** to drain one worker at runtime (it exits gracefully after finishing
+its current paper and does not claim another).
+
 After all workers finish, refresh the Hugo data files once:
 
 ```bash

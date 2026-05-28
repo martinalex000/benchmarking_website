@@ -100,6 +100,10 @@ class DashboardState:
         self.lock = threading.Lock()
         self.stop_event = threading.Event()
         self.worker_states = [WorkerState(worker_id=i + 1) for i in range(workers)]
+        self.next_worker_id = workers + 1
+        self.desired_workers = workers
+        self.drain_requests = 0
+        self.scale_up_requests = 0
         self.events: deque[str] = deque(maxlen=event_lines)
         self.finished_lines: list[str] = []
         self.finished_scroll: int = 0
@@ -118,6 +122,45 @@ class DashboardState:
         with self.lock:
             max_scroll = max(0, len(self.finished_lines) - 1)
             self.finished_scroll = max(0, min(max_scroll, self.finished_scroll + delta))
+
+    def request_scale_up(self) -> None:
+        with self.lock:
+            self.scale_up_requests += 1
+            self.desired_workers += 1
+            self.events.append("scale up requested (+1 worker)")
+
+    def request_scale_down(self) -> None:
+        with self.lock:
+            if self.desired_workers <= 0:
+                self.events.append("scale down ignored (already at 0 workers)")
+                return
+            self.desired_workers -= 1
+            self.drain_requests += 1
+            self.events.append("scale down requested (drain 1 worker)")
+
+    def consume_scale_up_requests(self) -> int:
+        with self.lock:
+            requested = self.scale_up_requests
+            self.scale_up_requests = 0
+            return requested
+
+    def reserve_new_worker_id(self) -> int:
+        with self.lock:
+            worker_id = self.next_worker_id
+            self.next_worker_id += 1
+            self.worker_states.append(WorkerState(worker_id=worker_id))
+            return worker_id
+
+    def consume_drain_slot(self) -> bool:
+        with self.lock:
+            if self.drain_requests <= 0:
+                return False
+            self.drain_requests -= 1
+            return True
+
+    def snapshot_counts(self) -> tuple[int, int]:
+        with self.lock:
+            return self.desired_workers, self.drain_requests
 
 
 def _trim(text: str, max_len: int) -> str:
@@ -260,6 +303,8 @@ def _render_dashboard(dash: DashboardState) -> Group:
         finished_scroll = dash.finished_scroll
         total_done = dash.total_done
         total_failed = dash.total_failed
+        desired_workers = dash.desired_workers
+        drain_requests = dash.drain_requests
 
     table = Table(expand=True)
     table.add_column("W", width=3, justify="right", no_wrap=True)
@@ -286,7 +331,8 @@ def _render_dashboard(dash: DashboardState) -> Group:
     header = Text(
         "todo_queue dashboard   "
         f"done={total_done}   failed={total_failed}   "
-        "ctrl+c to stop   arrows/j,k scroll finished papers",
+        f"target_workers={desired_workers}   draining={drain_requests}   "
+        "ctrl+c stop   arrows/j,k scroll finished   +/- scale workers",
         style="bold",
     )
 
@@ -344,6 +390,10 @@ def _keyboard_listener(dash: DashboardState) -> None:
                 dash.scroll_finished(+1)
             elif ch in {"j", "J"}:
                 dash.scroll_finished(-1)
+            elif ch in {"+", "="}:
+                dash.request_scale_up()
+            elif ch in {"-", "_"}:
+                dash.request_scale_down()
     finally:
         termios.tcsetattr(fd, termios.TCSADRAIN, old_attrs)
 
@@ -406,6 +456,14 @@ def _worker_loop(
 
     handled = 0
     while not dash.stop_event.is_set():
+        # Draining happens only between jobs so active work finishes gracefully.
+        if dash.consume_drain_slot():
+            with dash.lock:
+                state.status = "drained"
+                state.started_at = 0.0
+                dash.events.append(f"w{worker_id} drained and exited")
+            return
+
         if max_papers > 0 and handled >= max_papers:
             with dash.lock:
                 state.status = "done (limit reached)"
@@ -524,11 +582,12 @@ def main(argv: list[str] | None = None) -> None:
     dash = DashboardState(workers=args.workers)
 
     threads: list[threading.Thread] = []
-    for idx in range(1, args.workers + 1):
+
+    def _spawn_worker(worker_id: int) -> None:
         t = threading.Thread(
             target=_worker_loop,
             kwargs={
-                "worker_id": idx,
+                "worker_id": worker_id,
                 "dash": dash,
                 "model": args.model,
                 "force": args.force,
@@ -536,10 +595,13 @@ def main(argv: list[str] | None = None) -> None:
                 "max_papers": args.max_papers_per_worker,
             },
             daemon=True,
-            name=f"todo-worker-{idx}",
+            name=f"todo-worker-{worker_id}",
         )
         threads.append(t)
         t.start()
+
+    for idx in range(1, args.workers + 1):
+        _spawn_worker(idx)
 
     key_thread = threading.Thread(
         target=_keyboard_listener,
@@ -551,8 +613,23 @@ def main(argv: list[str] | None = None) -> None:
 
     try:
         with Live(_render_dashboard(dash), refresh_per_second=4, screen=True) as live:
-            while any(t.is_alive() for t in threads):
+            while True:
+                for _ in range(dash.consume_scale_up_requests()):
+                    new_worker_id = dash.reserve_new_worker_id()
+                    _spawn_worker(new_worker_id)
+                    with dash.lock:
+                        dash.events.append(f"w{new_worker_id} spawned")
+
+                threads[:] = [t for t in threads if t.is_alive()]
+
                 live.update(_render_dashboard(dash))
+
+                desired_workers, _ = dash.snapshot_counts()
+                if not threads and desired_workers <= 0:
+                    break
+                if not threads and desired_workers > 0:
+                    break
+
                 time.sleep(0.25)
             live.update(_render_dashboard(dash))
     except KeyboardInterrupt:
