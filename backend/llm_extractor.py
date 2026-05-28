@@ -446,11 +446,20 @@ def _print_call_progress(rec: "CallRecord", call_index: int) -> None:
             f"prompt={rec.prompt_tokens or '?'}  " f"completion={rec.completion_tokens or '?'}  "
         )
 
+    call_type = rec.call_type or ""
+    stage_prefix = ""
+    if call_type.startswith("screen_paper"):
+        stage_prefix = "[Stage 1] "
+    elif call_type.startswith("discover_datasets") or call_type.startswith("select_tables"):
+        stage_prefix = "[Stage 2] "
+    elif call_type.startswith("extract_dataset") or call_type.startswith("extract_section"):
+        stage_prefix = "[Stage 3] "
+
     if _use_rich:
         status = "[green]✓[/green]" if rec.success else "[red]✗[/red]"
         _con.print(
             f"  {status} Call {call_index} "
-            f"[bold cyan]{rec.call_type}[/bold cyan]  "
+            f"{stage_prefix}[bold cyan]{rec.call_type}[/bold cyan]  "
             f"in={rec.input_chars:,} chars  out={rec.output_chars:,} chars  "
             f"{ttft_str}{tps_str}{tok_str}"
             f"[dim]{rec.duration_s:.1f}s total[/dim]"
@@ -506,7 +515,7 @@ def _print_call_progress(rec: "CallRecord", call_index: int) -> None:
     else:
         status = "✓" if rec.success else "✗"
         print(
-            f"  {status} Call {call_index} {rec.call_type}  "
+            f"  {status} Call {call_index} {stage_prefix}{rec.call_type}  "
             f"in={rec.input_chars:,}  out={rec.output_chars:,}  {rec.duration_s:.1f}s"
         )
         discovered = rec.extra.get("discovered_datasets")
@@ -889,7 +898,6 @@ class LLMExtractor:
         chunks: list[str] = []
         prompt_tokens: int | None = None
         completion_tokens: int | None = None
-
         extra_body = self._extra_body()
         try:
             if self.streaming:

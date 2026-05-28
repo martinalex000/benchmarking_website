@@ -33,6 +33,7 @@ import argparse
 import json
 import logging
 import re
+import sqlite3
 import sys
 from pathlib import Path
 
@@ -107,7 +108,7 @@ def _record_candidate(
             cand.final_status = "accepted"
 
 
-def _pre_screen(arxiv_id: str) -> bool:
+def _pre_screen(arxiv_id: str, allow_arxiv_api: bool = True) -> bool:
     """Fetch abstract from DB/local/arXiv API and run stage-1 screening.
 
     Returns True if the paper passes screening (or if screening cannot be run),
@@ -142,7 +143,7 @@ def _pre_screen(arxiv_id: str) -> bool:
             except Exception:
                 pass
 
-    if not abstract or title.startswith("arXiv:"):
+    if (not abstract or title.startswith("arXiv:")) and allow_arxiv_api:
         console.print("  [dim]Fetching abstract from arXiv API for pre-screen…[/dim]")
         from backend.llm_extractor import fetch_arxiv_metadata
 
@@ -151,8 +152,10 @@ def _pre_screen(arxiv_id: str) -> bool:
         abstract = meta.get("abstract", abstract)
 
     if not abstract:
+        source_note = "(local-only mode)" if not allow_arxiv_api else ""
         console.print(
-            "  [yellow]Could not fetch abstract — skipping pre-screen, will download[/yellow]"
+            "  [yellow]Could not fetch abstract"
+            f" {source_note} — skipping pre-screen, will continue[/yellow]"
         )
         return True  # can't screen, proceed with download
 
@@ -223,6 +226,111 @@ def _do_download(arxiv_id: str, force: bool) -> None:
         console.print("  [yellow]No LaTeX source on arXiv — will use PDF text extraction[/yellow]")
     if storage.pdf_path.exists():
         console.print(f"  [green]PDF[/green]   {_fmt_bytes(storage.pdf_path.stat().st_size)}")
+
+
+def _run_semantic_scholar_enrichment(arxiv_id: str, limit: int = 5000) -> None:
+    """Seed citation/ref candidates from Semantic Scholar and print explicit counts."""
+    try:
+        from scripts.find_todo_semanticscholar import (
+            S2Client,
+            ensure_tables,
+            infer_arxiv_id_from_s2,
+            is_in_local_corpus,
+            load_local_corpus_from_papers_table,
+            mark_crawled,
+            upsert_todo,
+        )
+    except Exception as exc:
+        console.print(f"  [yellow]Semantic Scholar integration unavailable: {exc}[/yellow]")
+        return
+
+    key = cfg.semantic_scholar_api_key
+    if not key:
+        console.print(
+            "  [yellow]Semantic Scholar key missing (SEMANTIC_SCHOLAR_API_KEY) — skipping citation expansion.[/yellow]"
+        )
+        return
+
+    try:
+        conn = sqlite3.connect(str(cfg.db_path))
+        conn.execute("PRAGMA foreign_keys = ON")
+        ensure_tables(conn)
+        load_local_corpus_from_papers_table(conn)
+
+        s2 = S2Client(min_delay=1.0)
+        paper_id = s2.paper_id_for_arxiv(arxiv_id)
+        if not paper_id:
+            console.print(
+                f"  [yellow]Semantic Scholar has no paperId for arXiv:{arxiv_id} — skipping citation expansion.[/yellow]"
+            )
+            conn.close()
+            return
+
+        cur = conn.cursor()
+        cur.execute("SELECT COUNT(*) FROM todo_papers")
+        before_todo = int(cur.fetchone()[0])
+
+        citations = s2.fetch_citations(paper_id, limit)
+        references = s2.fetch_references(paper_id, limit)
+
+        def _todo_exists(aid: str) -> bool:
+            cur.execute("SELECT 1 FROM todo_papers WHERE arxiv_id = ?", (aid,))
+            return cur.fetchone() is not None
+
+        incoming_added = incoming_no_arxiv = 0
+        incoming_known = 0
+        for c in citations:
+            aid = infer_arxiv_id_from_s2(c)
+            if not aid:
+                incoming_no_arxiv += 1
+                continue
+            if is_in_local_corpus(conn, aid):
+                incoming_known += 1
+                continue
+            existed = _todo_exists(aid)
+            upsert_todo(conn, aid, c.get("title"), f"cited_by:{arxiv_id}")
+            if not existed:
+                incoming_added += 1
+
+        outgoing_added = outgoing_no_arxiv = 0
+        outgoing_known = 0
+        for r in references:
+            aid = infer_arxiv_id_from_s2(r)
+            if not aid:
+                outgoing_no_arxiv += 1
+                continue
+            if is_in_local_corpus(conn, aid):
+                outgoing_known += 1
+                continue
+            existed = _todo_exists(aid)
+            upsert_todo(conn, aid, r.get("title"), f"references_from:{arxiv_id}")
+            if not existed:
+                outgoing_added += 1
+
+        mark_crawled(
+            conn,
+            paper_id,
+            arxiv_id,
+            arxiv_id,
+            citations_fetched=len(citations),
+            references_fetched=len(references),
+            citations_capped=len(citations) >= limit,
+            references_capped=len(references) >= limit,
+        )
+
+        cur.execute("SELECT COUNT(*) FROM todo_papers")
+        after_todo = int(cur.fetchone()[0])
+        new_papers = max(0, after_todo - before_todo)
+        conn.close()
+
+        console.print(
+            "  [dim]Semantic Scholar:[/dim] "
+            f"incoming citations={len(citations)} (new={incoming_added}, known={incoming_known}, no-arXiv={incoming_no_arxiv}); "
+            f"outgoing references={len(references)} (new={outgoing_added}, known={outgoing_known}, no-arXiv={outgoing_no_arxiv}); "
+            f"new papers queued={new_papers}"
+        )
+    except Exception as exc:
+        console.print(f"  [yellow]Semantic Scholar enrichment failed: {exc}[/yellow]")
 
 
 # ── Extraction ────────────────────────────────────────────────────────────────
@@ -321,6 +429,11 @@ def _print_extraction_summary(path: Path) -> None:
             console.print("  [yellow]No result rows extracted.[/yellow]")
             if notes:
                 console.print(f"  [dim]{notes[:400]}[/dim]")
+                if "Dataset discovery returned no datasets" in notes:
+                    console.print(
+                        "  [red]Dataset discovery failed to produce any dataset candidates. "
+                        "No per-dataset extraction calls were executed.[/red]"
+                    )
     except Exception as exc:
         console.print(f"  [dim]Could not parse output: {exc}[/dim]")
 
@@ -360,9 +473,9 @@ def _do_extract(
 
     console.print(f"  Model: [cyan]{model_name}[/cyan]  (tier={model_tier})")
     if screen:
-        console.print("  [dim]Stage 1: screening abstract via arXiv API...[/dim]")
+        console.print("  [dim]Pre-screening is enabled and will run before extraction.[/dim]")
     else:
-        console.print("  [dim]Stage 1 screening skipped (--skip-screen)[/dim]")
+        console.print("  [dim]Pre-screening already completed or skipped.[/dim]")
     if not two_step:
         console.print("  [dim]Mode: one-shot (--oneshot)[/dim]")
 
@@ -383,9 +496,6 @@ def _do_extract(
             f"  • Try: [bold]--model fallback[/bold]  or  [bold]--model small[/bold]"
         )
         return False
-
-    # Show LaTeX source stats (from cache — instant)
-    _show_latex_stats(arxiv_id)
     return True
 
 
@@ -1033,28 +1143,47 @@ def main() -> None:
         console.rule("[green]Done[/green]")
         return
 
-    # ── Download (with pre-screen for papers not yet local) ──────────────
+    # ── Download ───────────────────────────────────────────────────────────
+    already_downloaded = _is_paper_downloaded(arxiv_id)
     if not args.skip_download:
         console.print("\n[bold]1. Download[/bold]")
-        already_downloaded = _is_paper_downloaded(arxiv_id)
         if already_downloaded:
             # Paper is already local — re-use it, no need to hit arxiv.
             _do_download(arxiv_id, force=force_download)
-        elif do_screen:
-            # Paper not yet local — screen the abstract BEFORE downloading.
-            screen_passed = _pre_screen(arxiv_id)
-            if screen_passed:
-                _do_download(arxiv_id, force=force_download)
-                # Abstract screening already done; skip it inside run_extraction.
-                do_screen = False
-            else:
-                console.rule("[yellow]Rejected[/yellow]")
-                sys.exit(2)
         else:
-            # --skip-screen: download unconditionally.
             _do_download(arxiv_id, force=force_download)
     else:
         console.print("\n[dim]1. Download — skipped[/dim]")
+
+    # Refresh local-download state after optional download step.
+    already_downloaded = _is_paper_downloaded(arxiv_id)
+
+    # ── Stage 1: relevance + RAG context + citation expansion ─────────────
+    console.print("\n[bold]2. Stage 1 — Relevance, RAG Context, Citations[/bold]")
+    if do_screen:
+        from backend.paper_storage import PaperStorage
+
+        _stage1_storage = PaperStorage(arxiv_id)
+        has_local_latex = (_stage1_storage.latex_dir / "expanded.tex").exists()
+        allow_arxiv_api = not has_local_latex
+        if has_local_latex:
+            console.print(
+                "  [dim]Using cached LaTeX metadata for pre-screen (no arXiv API request).[/dim]"
+            )
+        else:
+            console.print(
+                "  [dim]No local LaTeX abstract available — using arXiv API fallback for pre-screen metadata.[/dim]"
+            )
+        screen_passed = _pre_screen(arxiv_id, allow_arxiv_api=allow_arxiv_api)
+        if not screen_passed:
+            console.rule("[yellow]Rejected[/yellow]")
+            sys.exit(2)
+    else:
+        console.print("  [dim]Relevance pre-screen skipped (--skip-screen).[/dim]")
+
+    # Show RAG source stats up front (before model calls start).
+    _show_latex_stats(arxiv_id)
+    _run_semantic_scholar_enrichment(arxiv_id)
 
     # ── Compare-models mode ───────────────────────────────────────────────
     if args.compare_models:
@@ -1064,14 +1193,16 @@ def main() -> None:
         console.rule("[green]Comparison done[/green]")
         return
 
-    # ── Extract ───────────────────────────────────────────────────────────
+    # ── Stage 2 + Stage 3 extraction ─────────────────────────────────────
     if not args.skip_extract:
-        console.print("\n[bold]2. LLM Extraction[/bold]")
+        console.print(
+            "\n[bold]3. Stage 2/3 — Dataset Discovery, Table Assignment, Result Extraction[/bold]"
+        )
         ok = _do_extract(
             arxiv_id,
             model_tier=args.model,
             force=force_extract,
-            screen=do_screen,
+            screen=False,
             two_step=do_two_step,
         )
         if ok:
@@ -1082,10 +1213,10 @@ def main() -> None:
         else:
             sys.exit(1)
     else:
-        console.print("\n[dim]2. LLM Extraction — skipped[/dim]")
+        console.print("\n[dim]3. Stage 2/3 extraction — skipped[/dim]")
 
-    # ── Parse ─────────────────────────────────────────────────────────────
-    console.print("\n[bold]3. Parse results into DB[/bold]")
+    # ── Stage 4 parse ─────────────────────────────────────────────────────
+    console.print("\n[bold]4. Stage 4 — Parse Results into DB[/bold]")
 
     # Collect unknown datasets non-interactively; user reviews later
     _collect_unknown_datasets(arxiv_id, paper_title)
@@ -1095,8 +1226,8 @@ def main() -> None:
     summary = parse_and_store_with_summary(arxiv_id)
     _print_parse_summary(summary)
 
-    # ── Export ────────────────────────────────────────────────────────────
-    console.print("\n[bold]4. Export to Hugo[/bold]")
+    # ── Stage 5 export ────────────────────────────────────────────────────
+    console.print("\n[bold]5. Stage 5 — Build Hugo Pages[/bold]")
     from backend.export_to_hugo import export_all
 
     export_all(arxiv_ids=[arxiv_id])
