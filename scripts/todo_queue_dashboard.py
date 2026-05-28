@@ -416,6 +416,7 @@ def _run_manual_streaming(
     arxiv_id: str,
     model: str,
     force: bool,
+    inactivity_timeout_s: float | None,
     worker_state: WorkerState,
     dash: DashboardState,
 ) -> TodoQueueRunResult:
@@ -441,17 +442,60 @@ def _run_manual_streaming(
 
     output_lines: list[str] = []
     assert proc.stdout is not None
+    stdout_fd = proc.stdout.fileno()
+    last_activity = time.monotonic()
+
+    while True:
+        if proc.poll() is not None:
+            break
+
+        ready, _, _ = select.select([stdout_fd], [], [], 0.25)
+        if ready:
+            raw_line = proc.stdout.readline()
+            if not raw_line:
+                continue
+            line = _strip_ansi(raw_line)
+            if not line:
+                continue
+            last_activity = time.monotonic()
+            output_lines.append(line)
+
+            with dash.lock:
+                _update_state_from_line(worker_state, line)
+                dash.events.append(f"w{worker_state.worker_id} {arxiv_id}: {line[:180]}")
+            continue
+
+        if inactivity_timeout_s and (time.monotonic() - last_activity) > inactivity_timeout_s:
+            with dash.lock:
+                dash.events.append(
+                    f"w{worker_state.worker_id} {arxiv_id}: timed out after "
+                    f"{int(inactivity_timeout_s)}s of inactivity"
+                )
+                worker_state.status = "timed out"
+
+            proc.terminate()
+            try:
+                proc.wait(timeout=5)
+            except subprocess.TimeoutExpired:
+                proc.kill()
+                proc.wait(timeout=5)
+
+            return TodoQueueRunResult(
+                returncode=1,
+                stdout="\n".join(output_lines),
+                stderr=f"Timed out after {int(inactivity_timeout_s)}s of inactivity",
+            )
+
+    # Drain any remaining buffered output after process exit.
     for raw_line in proc.stdout:
         line = _strip_ansi(raw_line)
         if not line:
             continue
         output_lines.append(line)
-
         with dash.lock:
             _update_state_from_line(worker_state, line)
             dash.events.append(f"w{worker_state.worker_id} {arxiv_id}: {line[:180]}")
 
-    proc.wait()
     stdout = "\n".join(output_lines)
     return TodoQueueRunResult(returncode=proc.returncode or 0, stdout=stdout, stderr="")
 
@@ -464,6 +508,7 @@ def _worker_loop(
     force: bool,
     max_attempts: int,
     max_papers: int,
+    inactivity_timeout_s: float | None,
 ) -> None:
     state = dash.worker_states[worker_id - 1]
 
@@ -507,6 +552,7 @@ def _worker_loop(
                 arxiv_id=arxiv_id,
                 model=model,
                 force=force,
+                inactivity_timeout_s=inactivity_timeout_s,
                 worker_state=state,
                 dash=dash,
             )
@@ -585,6 +631,13 @@ def build_parser() -> argparse.ArgumentParser:
         metavar="N",
         help="Stop each worker after N papers (0 = until queue empty)",
     )
+    parser.add_argument(
+        "--inactivity-timeout-min",
+        type=float,
+        default=20.0,
+        metavar="MIN",
+        help="Terminate a worker's run_manual subprocess after MIN minutes without output (0 disables)",
+    )
     return parser
 
 
@@ -593,6 +646,10 @@ def main(argv: list[str] | None = None) -> None:
 
     if args.workers <= 0:
         raise SystemExit("--workers must be >= 1")
+
+    inactivity_timeout_s: float | None = None
+    if args.inactivity_timeout_min and args.inactivity_timeout_min > 0:
+        inactivity_timeout_s = args.inactivity_timeout_min * 60.0
 
     dash = DashboardState(workers=args.workers)
 
@@ -608,6 +665,7 @@ def main(argv: list[str] | None = None) -> None:
                 "force": args.force,
                 "max_attempts": args.max_attempts,
                 "max_papers": args.max_papers_per_worker,
+                "inactivity_timeout_s": inactivity_timeout_s,
             },
             daemon=True,
             name=f"todo-worker-{worker_id}",

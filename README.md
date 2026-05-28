@@ -270,6 +270,10 @@ worker, use the dashboard runner:
 
 ```bash
 uv run python scripts/todo_queue_dashboard.py --workers 10 --model primary
+
+# Optional: kill workers that produce no output for too long (default: 20 min)
+uv run python scripts/todo_queue_dashboard.py --workers 10 --model primary \
+  --inactivity-timeout-min 20
 ```
 
 It shows, per worker: arXiv ID, paper title (truncated), current phase
