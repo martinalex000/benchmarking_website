@@ -1043,7 +1043,14 @@ def main(argv: list[str] | None = None) -> None:
     diag_thread.start()
 
     try:
-        with Live(_render_dashboard(dash), refresh_per_second=4, screen=True) as live:
+        # Use manual refresh to avoid dependence on Live's internal refresh thread.
+        # If that thread wedges under load, the UI can look frozen while work continues.
+        with Live(
+            _render_dashboard(dash),
+            refresh_per_second=4,
+            screen=True,
+            auto_refresh=False,
+        ) as live:
             while True:
                 for _ in range(dash.consume_scale_up_requests()):
                     new_worker_id = dash.reserve_new_worker_id()
@@ -1054,7 +1061,7 @@ def main(argv: list[str] | None = None) -> None:
 
                 threads[:] = [t for t in threads if t.is_alive()]
 
-                live.update(_render_dashboard(dash))
+                live.update(_render_dashboard(dash), refresh=True)
                 dash.ui_last_render_at = time.monotonic()
                 dash.ui_loop_iterations += 1
 
@@ -1065,7 +1072,7 @@ def main(argv: list[str] | None = None) -> None:
                     break
 
                 time.sleep(0.25)
-            live.update(_render_dashboard(dash))
+            live.update(_render_dashboard(dash), refresh=True)
     except KeyboardInterrupt:
         dash.stop_event.set()
         LOGGER.info("keyboard interrupt received; shutting down")
