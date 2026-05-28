@@ -41,6 +41,7 @@ RESULTS_RE = re.compile(r"Results:\s*(\d+)")
 PROPOSED_RE = re.compile(r"Proposed:\s*([^\n]+)$")
 NEW_RESULTS_RE = re.compile(r"(\d+)\s+new result row")
 UPDATED_RESULTS_RE = re.compile(r"(\d+)\s+existing result row\(s\) updated")
+DRAINED_ROW_TTL_S = 30.0
 
 
 @dataclass
@@ -61,6 +62,7 @@ class WorkerState:
     started_at: float = 0.0
     completed: int = 0
     failed: int = 0
+    drained_at: float | None = None
     last_line: str = ""
 
     def elapsed_s(self) -> float:
@@ -296,8 +298,17 @@ def _format_elapsed(seconds: float) -> str:
 
 
 def _render_dashboard(dash: DashboardState) -> Group:
+    now = time.time()
     with dash.lock:
-        snapshot = [s for s in dash.worker_states]
+        snapshot = [
+            s
+            for s in dash.worker_states
+            if not (
+                s.status == "drained"
+                and s.drained_at is not None
+                and (now - s.drained_at) >= DRAINED_ROW_TTL_S
+            )
+        ]
         events = list(dash.events)
         finished_lines = list(dash.finished_lines)
         finished_scroll = dash.finished_scroll
@@ -318,6 +329,8 @@ def _render_dashboard(dash: DashboardState) -> Group:
         status_text = st.status
         if st.status == "idle":
             status_text = "idle / waiting"
+        elif st.status == "drained":
+            status_text = "[grey62]drained[/grey62]"
         summary_text = st.summary_short() or st.last_line[:60]
         table.add_row(
             str(st.worker_id),
@@ -461,6 +474,7 @@ def _worker_loop(
             with dash.lock:
                 state.status = "drained"
                 state.started_at = 0.0
+                state.drained_at = time.time()
                 dash.events.append(f"w{worker_id} drained and exited")
             return
 
@@ -484,6 +498,7 @@ def _worker_loop(
                 state.dataset_breakdown = ""
                 state.new_results = 0
                 state.updated_results = 0
+                state.drained_at = None
                 state.last_line = ""
                 dash.events.append(f"w{worker_id} claimed {entry.arxiv_id}")
 
