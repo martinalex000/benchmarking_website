@@ -262,7 +262,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.19121'
     title: Spatio-Spectral Graph Neural Networks
-    date: '2024-05-29'
+    date: May 29, 2024
     date_iso: '2024-05-29'
     date_display: May 2024
     codebase_url: ''
@@ -282,7 +282,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.19121'
     title: Spatio-Spectral Graph Neural Networks
-    date: '2024-05-29'
+    date: May 29, 2024
     date_iso: '2024-05-29'
     date_display: May 2024
     codebase_url: ''
@@ -302,7 +302,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.19121'
     title: Spatio-Spectral Graph Neural Networks
-    date: '2024-05-29'
+    date: May 29, 2024
     date_iso: '2024-05-29'
     date_display: May 2024
     codebase_url: ''

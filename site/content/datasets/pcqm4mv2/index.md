@@ -41,7 +41,7 @@ variants:
     params_millions: null
     arxiv_id: '2502.09365'
     title: Simple Path Structural Encoding for Graph Transformers
-    date: '2025-02-13'
+    date: Feb 13, 2025
     date_iso: '2025-02-13'
     date_display: Feb 2025
     codebase_url: ''
@@ -59,7 +59,7 @@ variants:
     params_millions: null
     arxiv_id: '2502.09365'
     title: Simple Path Structural Encoding for Graph Transformers
-    date: '2025-02-13'
+    date: Feb 13, 2025
     date_iso: '2025-02-13'
     date_display: Feb 2025
     codebase_url: ''
@@ -349,7 +349,7 @@ variants:
     params_millions: null
     arxiv_id: '2502.09365'
     title: Simple Path Structural Encoding for Graph Transformers
-    date: '2025-02-13'
+    date: Feb 13, 2025
     date_iso: '2025-02-13'
     date_display: Feb 2025
     codebase_url: ''
@@ -367,7 +367,7 @@ variants:
     params_millions: null
     arxiv_id: '2502.09365'
     title: Simple Path Structural Encoding for Graph Transformers
-    date: '2025-02-13'
+    date: Feb 13, 2025
     date_iso: '2025-02-13'
     date_display: Feb 2025
     codebase_url: ''
@@ -385,7 +385,7 @@ variants:
     params_millions: null
     arxiv_id: '2502.09365'
     title: Simple Path Structural Encoding for Graph Transformers
-    date: '2025-02-13'
+    date: Feb 13, 2025
     date_iso: '2025-02-13'
     date_display: Feb 2025
     codebase_url: ''
@@ -439,7 +439,7 @@ variants:
     params_millions: null
     arxiv_id: '2502.09365'
     title: Simple Path Structural Encoding for Graph Transformers
-    date: '2025-02-13'
+    date: Feb 13, 2025
     date_iso: '2025-02-13'
     date_display: Feb 2025
     codebase_url: ''
@@ -694,7 +694,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -712,7 +712,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -766,7 +766,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -803,7 +803,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -821,7 +821,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -839,7 +839,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -857,7 +857,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -875,7 +875,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -893,7 +893,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -948,7 +948,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -966,7 +966,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -984,7 +984,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -1002,7 +1002,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''

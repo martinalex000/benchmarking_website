@@ -626,7 +626,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -666,7 +666,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -867,7 +867,7 @@ variants:
     params_millions: null
     arxiv_id: '2310.01267'
     title: Cooperative Graph Neural Networks
-    date: '2023-10-02'
+    date: Oct 2, 2023
     date_iso: '2023-10-02'
     date_display: Oct 2023
     codebase_url: ''
@@ -927,7 +927,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -1008,7 +1008,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -1028,7 +1028,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -1108,7 +1108,7 @@ variants:
     params_millions: null
     arxiv_id: '2310.01267'
     title: Cooperative Graph Neural Networks
-    date: '2023-10-02'
+    date: Oct 2, 2023
     date_iso: '2023-10-02'
     date_display: Oct 2023
     codebase_url: ''
@@ -1248,7 +1248,7 @@ variants:
     params_millions: null
     arxiv_id: '2310.01267'
     title: Cooperative Graph Neural Networks
-    date: '2023-10-02'
+    date: Oct 2, 2023
     date_iso: '2023-10-02'
     date_display: Oct 2023
     codebase_url: ''
@@ -1268,7 +1268,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -1328,7 +1328,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -1388,7 +1388,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -1428,7 +1428,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -1448,7 +1448,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -1550,7 +1550,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -1716,7 +1716,7 @@ variants:
     arxiv_id: '2502.02379'
     title: 'No Metric to Rule Them All: Toward Principled Evaluations of Graph-Learning
       Datasets'
-    date: '2025-02-04'
+    date: Feb 4, 2025
     date_iso: '2025-02-04'
     date_display: Feb 2025
     codebase_url: ''
@@ -1737,7 +1737,7 @@ variants:
     arxiv_id: '2502.02379'
     title: 'No Metric to Rule Them All: Toward Principled Evaluations of Graph-Learning
       Datasets'
-    date: '2025-02-04'
+    date: Feb 4, 2025
     date_iso: '2025-02-04'
     date_display: Feb 2025
     codebase_url: ''
@@ -1758,7 +1758,7 @@ variants:
     arxiv_id: '2502.02379'
     title: 'No Metric to Rule Them All: Toward Principled Evaluations of Graph-Learning
       Datasets'
-    date: '2025-02-04'
+    date: Feb 4, 2025
     date_iso: '2025-02-04'
     date_display: Feb 2025
     codebase_url: ''

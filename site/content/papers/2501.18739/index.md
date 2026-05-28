@@ -3,7 +3,7 @@ title: 'Beyond Message Passing: Neural Graph Pattern Machine'
 arxiv_id: '2501.18739'
 source_url: ''
 authors: []
-published_date: '2025-01-30'
+published_date: Jan 30, 2025
 published_date_iso: '2025-01-30'
 abstract: 'Graph learning tasks often hinge on identifying key substructure patterns
   -- such as triadic closures in social networks or benzene rings in molecular graphs
@@ -28,8 +28,8 @@ proposed_models:
 - GPM
 - GPM + DANN
 - GPM + SSReg
-mrr: 0.1588
-adjusted_mrr: 0.1588
+mrr: 0.1581
+adjusted_mrr: 0.1581
 mrr_dataset_count: 11
 benchmark_categories:
 - Classic
@@ -68,7 +68,7 @@ results:
     table_ref: Table 1
     source_ref: velickovic2018graph
     variant_inference_reason: 'dataset: fuzzy match to amazon-computers (score=90)'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 1
@@ -105,7 +105,7 @@ results:
     table_ref: Table 1
     source_ref: kipf2017semisupervised
     variant_inference_reason: 'dataset: fuzzy match to amazon-computers (score=90)'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 2
@@ -211,7 +211,7 @@ results:
     table_ref: Table 1
     source_ref: chen2024leveraging
     variant_inference_reason: 'dataset: fuzzy match to amazon-computers (score=90)'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 8
@@ -248,7 +248,7 @@ results:
     table_ref: Table 1
     source_ref: kong2023goat
     variant_inference_reason: 'dataset: fuzzy match to amazon-computers (score=90)'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 9
@@ -285,7 +285,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to amazon-computers (score=90)'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 10
@@ -321,7 +321,7 @@ results:
     table_ref: Table 1
     source_ref: song2023ordered
     variant_inference_reason: 'dataset: fuzzy match to amazon-computers (score=90)'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 13
@@ -357,7 +357,7 @@ results:
     table_ref: Table 1
     source_ref: rampasek2022recipe
     variant_inference_reason: 'dataset: fuzzy match to amazon-computers (score=90)'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 16
@@ -394,7 +394,7 @@ results:
     table_ref: Table 1
     source_ref: chen2023nagphormer
     variant_inference_reason: 'dataset: fuzzy match to amazon-computers (score=90)'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 17
@@ -431,7 +431,7 @@ results:
     table_ref: Table 1
     source_ref: fu2024vcrgraphormer
     variant_inference_reason: 'dataset: fuzzy match to amazon-computers (score=90)'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 19
@@ -467,7 +467,7 @@ results:
     table_ref: Table 1
     source_ref: jin2022raw
     variant_inference_reason: 'dataset: fuzzy match to amazon-computers (score=90)'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 20
@@ -503,7 +503,7 @@ results:
     table_ref: Table 1
     source_ref: wang2024nonconvolutional
     variant_inference_reason: 'dataset: fuzzy match to amazon-computers (score=90)'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 22
@@ -539,7 +539,7 @@ results:
     table_ref: Table 1
     source_ref: gasteiger2018combining
     variant_inference_reason: 'dataset: fuzzy match to amazon-computers (score=90)'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 23
@@ -575,7 +575,7 @@ results:
     table_ref: Table 1
     source_ref: kreuzer2021rethinking
     variant_inference_reason: 'dataset: fuzzy match to amazon-computers (score=90)'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 25
@@ -611,7 +611,7 @@ results:
     table_ref: Table 1
     source_ref: chien2021adaptive
     variant_inference_reason: 'dataset: fuzzy match to amazon-computers (score=90)'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 27
@@ -647,7 +647,7 @@ results:
     table_ref: Table 1
     source_ref: wu2022nodeformer
     variant_inference_reason: 'dataset: fuzzy match to amazon-computers (score=90)'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 31
@@ -689,7 +689,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 1
@@ -725,7 +725,7 @@ results:
     table_ref: Table 1
     source_ref: chen2024leveraging
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 2
@@ -761,7 +761,7 @@ results:
     table_ref: Table 1
     source_ref: song2023ordered
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 3
@@ -797,7 +797,7 @@ results:
     table_ref: Table 1
     source_ref: jin2022raw
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 4
@@ -833,7 +833,7 @@ results:
     table_ref: Table 1
     source_ref: gasteiger2018combining
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 5
@@ -869,7 +869,7 @@ results:
     table_ref: Table 1
     source_ref: chen2023nagphormer
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 6
@@ -905,7 +905,7 @@ results:
     table_ref: Table 1
     source_ref: kong2023goat
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 7
@@ -941,7 +941,7 @@ results:
     table_ref: Table 1
     source_ref: chien2021adaptive
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 8
@@ -977,7 +977,7 @@ results:
     table_ref: Table 1
     source_ref: rampasek2022recipe
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 9
@@ -1013,7 +1013,7 @@ results:
     table_ref: Table 1
     source_ref: wang2024nonconvolutional
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 10
@@ -1049,7 +1049,7 @@ results:
     table_ref: Table 1
     source_ref: kipf2017semisupervised
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 11
@@ -1085,7 +1085,7 @@ results:
     table_ref: Table 1
     source_ref: fu2024vcrgraphormer
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 12
@@ -1121,7 +1121,7 @@ results:
     table_ref: Table 1
     source_ref: wu2022nodeformer
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 13
@@ -1157,7 +1157,7 @@ results:
     table_ref: Table 1
     source_ref: velickovic2018graph
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 14
@@ -1193,7 +1193,7 @@ results:
     table_ref: Table 1
     source_ref: kreuzer2021rethinking
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 15
@@ -1303,7 +1303,7 @@ results:
     table_ref: Table 1
     source_ref: baek2021accurate
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 12
@@ -1339,7 +1339,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 13
@@ -1375,7 +1375,7 @@ results:
     table_ref: Table 1
     source_ref: xu2018how
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 14
@@ -1411,7 +1411,7 @@ results:
     table_ref: Table 1
     source_ref: ying2021transformers
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 16
@@ -1447,7 +1447,7 @@ results:
     table_ref: Table 1
     source_ref: he2023generalization
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 17
@@ -1483,7 +1483,7 @@ results:
     table_ref: Table 1
     source_ref: chen2022structure
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 20
@@ -1519,7 +1519,7 @@ results:
     table_ref: Table 1
     source_ref: rampasek2022recipe
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 26
@@ -1555,7 +1555,7 @@ results:
     table_ref: Table 1
     source_ref: zhao2022from
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 27
@@ -1591,7 +1591,7 @@ results:
     table_ref: Table 1
     source_ref: martinkus2023agentbased
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 28
@@ -1627,7 +1627,7 @@ results:
     table_ref: Table 1
     source_ref: tonshoff2023walking
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 31
@@ -1663,7 +1663,7 @@ results:
     table_ref: Table 1
     source_ref: wang2024nonconvolutional
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 34
@@ -1699,10 +1699,10 @@ results:
     table_ref: Table 1
     source_ref: corso2020principal
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
-    global_rank: 38
+    global_rank: 39
     true_value: 0.7473
     true_std: 0.0109
     value_gap_source_arxiv: '2501.18739'
@@ -1712,7 +1712,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 38
+    paper_rank: 39
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1735,10 +1735,10 @@ results:
     table_ref: Table 1
     source_ref: kreuzer2021rethinking
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
-    global_rank: 39
+    global_rank: 40
     true_value: 0.7445
     true_std: 0.0246
     value_gap_source_arxiv: '2501.18739'
@@ -1748,7 +1748,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 39
+    paper_rank: 40
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1771,10 +1771,10 @@ results:
     table_ref: Table 1
     source_ref: ivanov2018anonymous
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
-    global_rank: 43
+    global_rank: 44
     true_value: 0.7393
     true_std: 0.0194
     value_gap_source_arxiv: '2501.18739'
@@ -1784,7 +1784,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 43
+    paper_rank: 44
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1807,10 +1807,10 @@ results:
     table_ref: Table 1
     source_ref: yanardag2015deep
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
-    global_rank: 49
+    global_rank: 50
     true_value: 0.7309
     true_std: 0.0025
     value_gap_source_arxiv: '2501.18739'
@@ -1820,7 +1820,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 49
+    paper_rank: 50
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1848,7 +1848,7 @@ results:
     table_ref: Table 1
     source_ref: He 2023
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 19
@@ -1884,7 +1884,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 21
@@ -1920,7 +1920,7 @@ results:
     table_ref: Table 1
     source_ref: Yan 2024
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 20
@@ -2000,7 +2000,7 @@ results:
     arxiv_id: '2404.03380'
     title: On the Theoretical Expressive Power and the Design Space of Higher-Order
       Graph Transformers
-    date: '2024-04-04'
+    date: Apr 4, 2024
     date_display: Apr 2024
     date_iso: '2024-04-04'
     codebase_url: ''
@@ -2026,10 +2026,10 @@ results:
     table_ref: Table 1
     source_ref: Morris 2019
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
-    global_rank: 23
+    global_rank: 29
     true_value: 0.957
     true_std: null
     value_gap_source_arxiv: '2501.18739'
@@ -2039,7 +2039,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 23
+    paper_rank: 29
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2062,10 +2062,10 @@ results:
     table_ref: Table 1
     source_ref: Kipf 2017
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
-    global_rank: 34
+    global_rank: 41
     true_value: 0.1
     true_std: null
     value_gap_source_arxiv: '2501.18739'
@@ -2075,7 +2075,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 34
+    paper_rank: 41
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2098,10 +2098,10 @@ results:
     table_ref: Table 1
     source_ref: Bresson 2017
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
-    global_rank: 35
+    global_rank: 42
     true_value: 0.1
     true_std: null
     value_gap_source_arxiv: '2501.18739'
@@ -2111,7 +2111,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 35
+    paper_rank: 42
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2134,10 +2134,10 @@ results:
     table_ref: Table 1
     source_ref: Dwivedi 2020
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
-    global_rank: 36
+    global_rank: 43
     true_value: 0.1
     true_std: null
     value_gap_source_arxiv: '2501.18739'
@@ -2147,7 +2147,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 36
+    paper_rank: 43
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2221,7 +2221,7 @@ results:
     table_ref: Table 1
     source_ref: guo2023linkless
     variant_inference_reason: ''
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 3
@@ -2280,7 +2280,7 @@ results:
     table_ref: Table 1
     source_ref: wu2022nodeformer
     variant_inference_reason: 'dataset: fuzzy match to cora (score=90)'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 20
@@ -2317,7 +2317,7 @@ results:
     table_ref: Table 1
     source_ref: chien2021adaptive
     variant_inference_reason: 'dataset: fuzzy match to cora (score=90)'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 25
@@ -2353,7 +2353,7 @@ results:
     table_ref: Table 1
     source_ref: velickovic2018graph
     variant_inference_reason: 'dataset: fuzzy match to cora (score=90)'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 31
@@ -2390,7 +2390,7 @@ results:
     table_ref: Table 1
     source_ref: chen2023nagphormer
     variant_inference_reason: 'dataset: fuzzy match to cora (score=90)'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 33
@@ -2427,7 +2427,7 @@ results:
     table_ref: Table 1
     source_ref: chen2024leveraging
     variant_inference_reason: 'dataset: fuzzy match to cora (score=90)'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 37
@@ -2464,7 +2464,7 @@ results:
     table_ref: Table 1
     source_ref: gasteiger2018combining
     variant_inference_reason: 'dataset: fuzzy match to cora (score=90)'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 39
@@ -2501,7 +2501,7 @@ results:
     table_ref: Table 1
     source_ref: kipf2017semisupervised
     variant_inference_reason: 'dataset: fuzzy match to cora (score=90)'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 48
@@ -2537,7 +2537,7 @@ results:
     table_ref: Table 1
     source_ref: rampasek2022recipe
     variant_inference_reason: 'dataset: fuzzy match to cora (score=90)'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 114
@@ -2574,7 +2574,7 @@ results:
     table_ref: Table 1
     source_ref: kong2023goat
     variant_inference_reason: 'dataset: fuzzy match to cora (score=90)'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 125
@@ -2611,7 +2611,7 @@ results:
     table_ref: Table 1
     source_ref: kreuzer2021rethinking
     variant_inference_reason: 'dataset: fuzzy match to cora (score=90)'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 143
@@ -2647,7 +2647,7 @@ results:
     table_ref: Table 1
     source_ref: fu2024vcrgraphormer
     variant_inference_reason: 'dataset: fuzzy match to cora (score=90)'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 233
@@ -2683,7 +2683,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to cora (score=90)'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 235
@@ -2719,7 +2719,7 @@ results:
     table_ref: Table 1
     source_ref: wang2024nonconvolutional
     variant_inference_reason: 'dataset: fuzzy match to cora (score=90)'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 241
@@ -2755,7 +2755,7 @@ results:
     table_ref: Table 1
     source_ref: song2023ordered
     variant_inference_reason: 'dataset: fuzzy match to cora (score=90)'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 251
@@ -2791,7 +2791,7 @@ results:
     table_ref: Table 1
     source_ref: jin2022raw
     variant_inference_reason: 'dataset: fuzzy match to cora (score=90)'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 253
@@ -2832,7 +2832,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: null
@@ -2855,7 +2855,7 @@ results:
     table_ref: Table 1
     source_ref: wu2022nodeformer
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: null
@@ -2878,7 +2878,7 @@ results:
     table_ref: Table 1
     source_ref: song2023ordered
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: null
@@ -2901,7 +2901,7 @@ results:
     table_ref: Table 1
     source_ref: gasteiger2018combining
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: null
@@ -2924,7 +2924,7 @@ results:
     table_ref: Table 1
     source_ref: chen2023nagphormer
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: null
@@ -2947,7 +2947,7 @@ results:
     table_ref: Table 1
     source_ref: kong2023goat
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: null
@@ -2970,7 +2970,7 @@ results:
     table_ref: Table 1
     source_ref: fu2024vcrgraphormer
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: null
@@ -2993,7 +2993,7 @@ results:
     table_ref: Table 1
     source_ref: chen2024leveraging
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: null
@@ -3016,7 +3016,7 @@ results:
     table_ref: Table 1
     source_ref: jin2022raw
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: null
@@ -3039,7 +3039,7 @@ results:
     table_ref: Table 1
     source_ref: kreuzer2021rethinking
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: null
@@ -3062,7 +3062,7 @@ results:
     table_ref: Table 1
     source_ref: wang2024nonconvolutional
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: null
@@ -3085,7 +3085,7 @@ results:
     table_ref: Table 1
     source_ref: chien2021adaptive
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: null
@@ -3108,7 +3108,7 @@ results:
     table_ref: Table 1
     source_ref: kipf2017semisupervised
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: null
@@ -3131,7 +3131,7 @@ results:
     table_ref: Table 1
     source_ref: velickovic2018graph
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: null
@@ -3154,7 +3154,7 @@ results:
     table_ref: Table 1
     source_ref: rampasek2022recipe
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: null
@@ -3182,7 +3182,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to flickr (score=95)'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 1
@@ -3218,7 +3218,7 @@ results:
     table_ref: Table 1
     source_ref: Song 2023
     variant_inference_reason: 'dataset: fuzzy match to flickr (score=95)'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 2
@@ -3254,7 +3254,7 @@ results:
     table_ref: Table 1
     source_ref: Wu 2022
     variant_inference_reason: 'dataset: fuzzy match to flickr (score=95)'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 3
@@ -3290,7 +3290,7 @@ results:
     table_ref: Table 1
     source_ref: Kong 2023
     variant_inference_reason: 'dataset: fuzzy match to flickr (score=95)'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 4
@@ -3326,7 +3326,7 @@ results:
     table_ref: Table 1
     source_ref: Chen 2024
     variant_inference_reason: 'dataset: fuzzy match to flickr (score=95)'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 5
@@ -3362,7 +3362,7 @@ results:
     table_ref: Table 1
     source_ref: Wang 2024
     variant_inference_reason: 'dataset: fuzzy match to flickr (score=95)'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 6
@@ -3398,7 +3398,7 @@ results:
     table_ref: Table 1
     source_ref: Chen 2023
     variant_inference_reason: 'dataset: fuzzy match to flickr (score=95)'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 7
@@ -3434,7 +3434,7 @@ results:
     table_ref: Table 1
     source_ref: Jin 2022
     variant_inference_reason: 'dataset: fuzzy match to flickr (score=95)'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 8
@@ -3470,7 +3470,7 @@ results:
     table_ref: Table 1
     source_ref: Fu 2024
     variant_inference_reason: 'dataset: fuzzy match to flickr (score=95)'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 9
@@ -3506,7 +3506,7 @@ results:
     table_ref: Table 1
     source_ref: Chien 2021
     variant_inference_reason: 'dataset: fuzzy match to flickr (score=95)'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 10
@@ -3542,7 +3542,7 @@ results:
     table_ref: Table 1
     source_ref: Veličković 2018
     variant_inference_reason: 'dataset: fuzzy match to flickr (score=95)'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 11
@@ -3578,7 +3578,7 @@ results:
     table_ref: Table 1
     source_ref: Gasteiger 2018
     variant_inference_reason: 'dataset: fuzzy match to flickr (score=95)'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 12
@@ -3614,7 +3614,7 @@ results:
     table_ref: Table 1
     source_ref: Kipf 2017
     variant_inference_reason: 'dataset: fuzzy match to flickr (score=95)'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 13
@@ -3650,7 +3650,7 @@ results:
     table_ref: Table 1
     source_ref: Rampasek 2022
     variant_inference_reason: 'dataset: fuzzy match to flickr (score=95)'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 14
@@ -3691,7 +3691,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 1
@@ -3727,7 +3727,7 @@ results:
     table_ref: Table 1
     source_ref: wang2024nonconvolutional
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 2
@@ -3786,7 +3786,7 @@ results:
     table_ref: Table 1
     source_ref: chen2022structure
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 4
@@ -3822,7 +3822,7 @@ results:
     table_ref: Table 1
     source_ref: he2023generalization
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 5
@@ -3905,7 +3905,7 @@ results:
     table_ref: Table 1
     source_ref: rampasek2022recipe
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 8
@@ -3941,7 +3941,7 @@ results:
     table_ref: Table 1
     source_ref: ying2021transformers
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 15
@@ -3977,7 +3977,7 @@ results:
     table_ref: Table 1
     source_ref: kreuzer2021rethinking
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 16
@@ -4013,7 +4013,7 @@ results:
     table_ref: Table 1
     source_ref: martinkus2023agentbased
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 18
@@ -4049,7 +4049,7 @@ results:
     table_ref: Table 1
     source_ref: xu2018how
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 25
@@ -4086,7 +4086,7 @@ results:
     table_ref: Table 1
     source_ref: zhao2022from
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 26
@@ -4122,7 +4122,7 @@ results:
     table_ref: Table 1
     source_ref: ivanov2018anonymous
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 28
@@ -4158,7 +4158,7 @@ results:
     table_ref: Table 1
     source_ref: tonshoff2023walking
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 35
@@ -4194,7 +4194,7 @@ results:
     table_ref: Table 1
     source_ref: baek2021accurate
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 43
@@ -4230,7 +4230,7 @@ results:
     table_ref: Table 1
     source_ref: corso2020principal
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 60
@@ -4266,10 +4266,10 @@ results:
     table_ref: Table 1
     source_ref: yanardag2015deep
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
-    global_rank: 114
+    global_rank: 120
     true_value: 0.6696
     true_std: 0.0056
     value_gap_source_arxiv: '2501.18739'
@@ -4279,7 +4279,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 114
+    paper_rank: 120
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -4379,7 +4379,7 @@ results:
     table_ref: Table 1
     source_ref: kipf2017semisupervised
     variant_inference_reason: ''
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 5
@@ -4416,7 +4416,7 @@ results:
     table_ref: Table 1
     source_ref: chen2023nagphormer
     variant_inference_reason: ''
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 27
@@ -4453,7 +4453,7 @@ results:
     table_ref: Table 1
     source_ref: wu2022nodeformer
     variant_inference_reason: ''
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 38
@@ -4489,7 +4489,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: ''
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 63
@@ -4525,7 +4525,7 @@ results:
     table_ref: Table 1
     source_ref: guo2023linkless
     variant_inference_reason: ''
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 87
@@ -4561,7 +4561,7 @@ results:
     table_ref: Table 1
     source_ref: wang2024nonconvolutional
     variant_inference_reason: ''
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 98
@@ -4648,7 +4648,7 @@ results:
     table_ref: Table 1
     source_ref: Xu et al. 2018
     variant_inference_reason: 'dataset: fuzzy match to reddit-multi-5k (score=90)'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 3
@@ -4662,9 +4662,9 @@ results:
     has_value_note: false
     value_gap: 0.17529999999999996
     value_note: ''
-    paper_rank: 26
-    rank_delta: 23
-    rank_delta_abs: 23
+    paper_rank: 28
+    rank_delta: 25
+    rank_delta_abs: 25
     rank_delta_direction: worse
     sort_value: 0.569
     sort_std: 0.02
@@ -4708,10 +4708,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to reddit-multi-5k (score=90)'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
-    global_rank: 16
+    global_rank: 18
     true_value: 0.4307
     true_std: 0.0029
     value_gap_source_arxiv: '2501.18739'
@@ -4721,7 +4721,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 16
+    paper_rank: 18
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -4744,10 +4744,10 @@ results:
     table_ref: Table 1
     source_ref: Martinkus et al. 2023
     variant_inference_reason: 'dataset: fuzzy match to reddit-multi-5k (score=90)'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
-    global_rank: 17
+    global_rank: 19
     true_value: 0.4215
     true_std: 0.0013
     value_gap_source_arxiv: '2501.18739'
@@ -4757,7 +4757,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 17
+    paper_rank: 19
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -4780,10 +4780,10 @@ results:
     table_ref: Table 1
     source_ref: Chen et al. 2022
     variant_inference_reason: 'dataset: fuzzy match to reddit-multi-5k (score=90)'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
-    global_rank: 18
+    global_rank: 20
     true_value: 0.4214
     true_std: 0.0007
     value_gap_source_arxiv: '2501.18739'
@@ -4793,7 +4793,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 18
+    paper_rank: 20
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -4816,10 +4816,10 @@ results:
     table_ref: Table 1
     source_ref: Wang et al. 2024
     variant_inference_reason: 'dataset: fuzzy match to reddit-multi-5k (score=90)'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
-    global_rank: 19
+    global_rank: 21
     true_value: 0.4166
     true_std: 0.0015
     value_gap_source_arxiv: '2501.18739'
@@ -4829,7 +4829,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 19
+    paper_rank: 21
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -4852,10 +4852,10 @@ results:
     table_ref: Table 1
     source_ref: Rampasek et al. 2022
     variant_inference_reason: 'dataset: fuzzy match to reddit-multi-5k (score=90)'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
-    global_rank: 20
+    global_rank: 22
     true_value: 0.4155
     true_std: 0.0016
     value_gap_source_arxiv: '2501.18739'
@@ -4865,7 +4865,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 20
+    paper_rank: 22
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -4888,10 +4888,10 @@ results:
     table_ref: Table 1
     source_ref: Ying et al. 2021
     variant_inference_reason: 'dataset: fuzzy match to reddit-multi-5k (score=90)'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
-    global_rank: 21
+    global_rank: 23
     true_value: 0.4142
     true_std: 0.0042
     value_gap_source_arxiv: '2501.18739'
@@ -4901,7 +4901,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 21
+    paper_rank: 23
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -4924,10 +4924,10 @@ results:
     table_ref: Table 1
     source_ref: Tonshoff et al. 2023
     variant_inference_reason: 'dataset: fuzzy match to reddit-multi-5k (score=90)'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
-    global_rank: 22
+    global_rank: 24
     true_value: 0.4072
     true_std: 0.0065
     value_gap_source_arxiv: '2501.18739'
@@ -4937,7 +4937,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 22
+    paper_rank: 24
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -4960,10 +4960,10 @@ results:
     table_ref: Table 1
     source_ref: Baek et al. 2021
     variant_inference_reason: 'dataset: fuzzy match to reddit-multi-5k (score=90)'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
-    global_rank: 23
+    global_rank: 25
     true_value: 0.4063
     true_std: 0.0094
     value_gap_source_arxiv: '2501.18739'
@@ -4973,7 +4973,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 23
+    paper_rank: 25
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -4996,10 +4996,10 @@ results:
     table_ref: Table 1
     source_ref: Zhao et al. 2022
     variant_inference_reason: 'dataset: fuzzy match to reddit-multi-5k (score=90)'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
-    global_rank: 24
+    global_rank: 26
     true_value: 0.406
     true_std: 0.0099
     value_gap_source_arxiv: '2501.18739'
@@ -5009,7 +5009,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 24
+    paper_rank: 26
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -5032,10 +5032,10 @@ results:
     table_ref: Table 1
     source_ref: He et al. 2023
     variant_inference_reason: 'dataset: fuzzy match to reddit-multi-5k (score=90)'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
-    global_rank: 25
+    global_rank: 27
     true_value: 0.4017
     true_std: 0.0052
     value_gap_source_arxiv: '2501.18739'
@@ -5045,7 +5045,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 25
+    paper_rank: 27
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -5068,10 +5068,10 @@ results:
     table_ref: Table 1
     source_ref: Kreuzer et al. 2021
     variant_inference_reason: 'dataset: fuzzy match to reddit-multi-5k (score=90)'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
-    global_rank: 26
+    global_rank: 28
     true_value: 0.3992
     true_std: 0.0102
     value_gap_source_arxiv: '2501.18739'
@@ -5081,7 +5081,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 26
+    paper_rank: 28
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -5104,10 +5104,10 @@ results:
     table_ref: Table 1
     source_ref: Ivanov et al. 2018
     variant_inference_reason: 'dataset: fuzzy match to reddit-multi-5k (score=90)'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
-    global_rank: 27
+    global_rank: 29
     true_value: 0.392
     true_std: 0.0209
     value_gap_source_arxiv: '2501.18739'
@@ -5117,7 +5117,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 27
+    paper_rank: 29
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -5140,10 +5140,10 @@ results:
     table_ref: Table 1
     source_ref: Corso et al. 2020
     variant_inference_reason: 'dataset: fuzzy match to reddit-multi-5k (score=90)'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
-    global_rank: 28
+    global_rank: 30
     true_value: 0.3857
     true_std: 0.0186
     value_gap_source_arxiv: '2501.18739'
@@ -5153,7 +5153,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 28
+    paper_rank: 30
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -5176,10 +5176,10 @@ results:
     table_ref: Table 1
     source_ref: Yanardag and Vishwanathan 2015
     variant_inference_reason: 'dataset: fuzzy match to reddit-multi-5k (score=90)'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
-    global_rank: 29
+    global_rank: 31
     true_value: 0.3222
     true_std: 0.001
     value_gap_source_arxiv: '2501.18739'
@@ -5189,7 +5189,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 29
+    paper_rank: 31
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -5286,7 +5286,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: ''
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: null
@@ -5309,7 +5309,7 @@ results:
     table_ref: Table 1
     source_ref: martinkus2023agentbased
     variant_inference_reason: ''
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: null
@@ -5332,7 +5332,7 @@ results:
     table_ref: Table 1
     source_ref: chen2022structure
     variant_inference_reason: ''
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: null
@@ -5355,7 +5355,7 @@ results:
     table_ref: Table 1
     source_ref: wang2024nonconvolutional
     variant_inference_reason: ''
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: null
@@ -5378,7 +5378,7 @@ results:
     table_ref: Table 1
     source_ref: rampasek2022recipe
     variant_inference_reason: ''
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: null
@@ -5401,7 +5401,7 @@ results:
     table_ref: Table 1
     source_ref: ying2021transformers
     variant_inference_reason: ''
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: null
@@ -5424,7 +5424,7 @@ results:
     table_ref: Table 1
     source_ref: tonshoff2023walking
     variant_inference_reason: ''
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: null
@@ -5447,7 +5447,7 @@ results:
     table_ref: Table 1
     source_ref: baek2021accurate
     variant_inference_reason: ''
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: null
@@ -5470,7 +5470,7 @@ results:
     table_ref: Table 1
     source_ref: zhao2022from
     variant_inference_reason: ''
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: null
@@ -5493,7 +5493,7 @@ results:
     table_ref: Table 1
     source_ref: he2023generalization
     variant_inference_reason: ''
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: null
@@ -5516,7 +5516,7 @@ results:
     table_ref: Table 1
     source_ref: kreuzer2021rethinking
     variant_inference_reason: ''
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: null
@@ -5539,7 +5539,7 @@ results:
     table_ref: Table 1
     source_ref: xu2018how
     variant_inference_reason: ''
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: null
@@ -5562,7 +5562,7 @@ results:
     table_ref: Table 1
     source_ref: ivanov2018anonymous
     variant_inference_reason: ''
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: null
@@ -5585,7 +5585,7 @@ results:
     table_ref: Table 1
     source_ref: corso2020principal
     variant_inference_reason: ''
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: null
@@ -5608,7 +5608,7 @@ results:
     table_ref: Table 1
     source_ref: yanardag2015deep
     variant_inference_reason: ''
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: null
@@ -5633,7 +5633,7 @@ results:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_display: Nov 2024
     date_iso: '2024-11-26'
     codebase_url: ''
@@ -5656,7 +5656,7 @@ results:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_display: Nov 2024
     date_iso: '2024-11-26'
     codebase_url: ''
@@ -5679,7 +5679,7 @@ results:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_display: Nov 2024
     date_iso: '2024-11-26'
     codebase_url: ''
@@ -5705,7 +5705,7 @@ results:
     table_ref: Table 1
     source_ref: chen2023nagphormer
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 8
@@ -5741,7 +5741,7 @@ results:
     table_ref: Table 1
     source_ref: velickovic2018graph
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 9
@@ -5777,7 +5777,7 @@ results:
     table_ref: Table 1
     source_ref: chen2024leveraging
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 12
@@ -5813,7 +5813,7 @@ results:
     table_ref: Table 1
     source_ref: chien2021adaptive
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 13
@@ -5849,7 +5849,7 @@ results:
     table_ref: Table 1
     source_ref: kipf2017semisupervised
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 14
@@ -5885,7 +5885,7 @@ results:
     table_ref: Table 1
     source_ref: wu2022nodeformer
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 16
@@ -5921,7 +5921,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 28
@@ -5957,7 +5957,7 @@ results:
     table_ref: Table 1
     source_ref: rampasek2022recipe
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 39
@@ -5993,7 +5993,7 @@ results:
     table_ref: Table 1
     source_ref: song2023ordered
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 41
@@ -6029,7 +6029,7 @@ results:
     table_ref: Table 1
     source_ref: gasteiger2018combining
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 42
@@ -6065,7 +6065,7 @@ results:
     table_ref: Table 1
     source_ref: kreuzer2021rethinking
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 44
@@ -6101,7 +6101,7 @@ results:
     table_ref: Table 1
     source_ref: wang2024nonconvolutional
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 45
@@ -6137,7 +6137,7 @@ results:
     table_ref: Table 1
     source_ref: jin2022raw
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 46
@@ -6173,7 +6173,7 @@ results:
     table_ref: Table 1
     source_ref: kong2023goat
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 47
@@ -6210,7 +6210,7 @@ results:
     table_ref: Table 1
     source_ref: fu2024vcrgraphormer
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 48
@@ -6294,7 +6294,7 @@ results:
     params_millions: 1.0
     arxiv_id: '2405.02795'
     title: Graph as Point Set
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
     codebase_url: ''
@@ -6320,7 +6320,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'zinc: default subset fallback'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 5
@@ -6333,9 +6333,9 @@ results:
     has_value_note: false
     value_gap: 0.043
     value_note: ''
-    paper_rank: 67
-    rank_delta: 62
-    rank_delta_abs: 62
+    paper_rank: 69
+    rank_delta: 64
+    rank_delta_abs: 64
     rank_delta_direction: worse
     sort_value: 0.021
     sort_std: 0.002
@@ -6356,7 +6356,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 5
@@ -6392,7 +6392,7 @@ results:
     table_ref: Table 1
     source_ref: Rampásek et al. 2022
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 13
@@ -6406,46 +6406,9 @@ results:
     has_value_note: false
     value_gap: 0.046158000000000005
     value_note: ''
-    paper_rank: 104
-    rank_delta: 91
-    rank_delta_abs: 91
-    rank_delta_direction: worse
-    sort_value: 0.023842
-    sort_std: 0.0069779309254248125
-    is_best: false
-  - model: GPS
-    model_key: gps
-    model_plain: GPS
-    value: 0.07
-    std: 0.004
-    paper_value: 0.07
-    paper_std: 0.004
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: rampasek2022recipe
-    variant_inference_reason: ''
-    date: '2025-01-30'
-    date_display: Jan 2025
-    date_iso: '2025-01-30'
-    global_rank: 13
-    true_value: 0.023842
-    true_std: 0.0069779309254248125
-    value_gap_source_arxiv: '2402.10793'
-    value_gap_source_title: An end-to-end attention-based approach for learning on
-      graphs
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.046158000000000005
-    value_note: ''
-    paper_rank: 104
-    rank_delta: 91
-    rank_delta_abs: 91
+    paper_rank: 107
+    rank_delta: 94
+    rank_delta_abs: 94
     rank_delta_direction: worse
     sort_value: 0.023842
     sort_std: 0.0069779309254248125
@@ -6466,7 +6429,7 @@ results:
     table_ref: Table 1
     source_ref: Ying et al. 2021
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 18
@@ -6479,9 +6442,9 @@ results:
     has_value_note: false
     value_gap: 0.097
     value_note: ''
-    paper_rank: 198
-    rank_delta: 180
-    rank_delta_abs: 180
+    paper_rank: 210
+    rank_delta: 192
+    rank_delta_abs: 192
     rank_delta_direction: worse
     sort_value: 0.025
     sort_std: 0.004
@@ -6502,7 +6465,7 @@ results:
     table_ref: Table 1
     source_ref: ying2021transformers
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 18
@@ -6538,7 +6501,7 @@ results:
     table_ref: Table 1
     source_ref: Zhao et al. 2022
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 33
@@ -6551,9 +6514,9 @@ results:
     has_value_note: false
     value_gap: 0.046
     value_note: ''
-    paper_rank: 139
-    rank_delta: 106
-    rank_delta_abs: 106
+    paper_rank: 146
+    rank_delta: 113
+    rank_delta_abs: 113
     rank_delta_direction: worse
     sort_value: 0.034
     sort_std: 0.007
@@ -6574,7 +6537,7 @@ results:
     table_ref: Table 1
     source_ref: zhao2022from
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 33
@@ -6610,7 +6573,7 @@ results:
     table_ref: Table 1
     source_ref: He et al. 2023
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 34
@@ -6623,9 +6586,9 @@ results:
     has_value_note: false
     value_gap: 0.03799999999999999
     value_note: ''
-    paper_rank: 113
-    rank_delta: 79
-    rank_delta_abs: 79
+    paper_rank: 116
+    rank_delta: 82
+    rank_delta_abs: 82
     rank_delta_direction: worse
     sort_value: 0.035
     sort_std: 0.005
@@ -6646,7 +6609,7 @@ results:
     table_ref: Table 1
     source_ref: he2023generalization
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 34
@@ -6682,7 +6645,7 @@ results:
     table_ref: Table 1
     source_ref: Tonshoff et al. 2023
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 36
@@ -6695,9 +6658,9 @@ results:
     has_value_note: false
     value_gap: 0.04900000000000001
     value_note: ''
-    paper_rank: 150
-    rank_delta: 114
-    rank_delta_abs: 114
+    paper_rank: 159
+    rank_delta: 123
+    rank_delta_abs: 123
     rank_delta_direction: worse
     sort_value: 0.036
     sort_std: 0.005
@@ -6718,7 +6681,7 @@ results:
     table_ref: Table 1
     source_ref: tonshoff2023walking
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 36
@@ -6754,7 +6717,7 @@ results:
     table_ref: Table 1
     source_ref: Chen et al. 2022
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 35
@@ -6767,9 +6730,9 @@ results:
     has_value_note: false
     value_gap: 0.058
     value_note: ''
-    paper_rank: 171
-    rank_delta: 136
-    rank_delta_abs: 136
+    paper_rank: 181
+    rank_delta: 146
+    rank_delta_abs: 146
     rank_delta_direction: worse
     sort_value: 0.036
     sort_std: 0.002
@@ -6790,7 +6753,7 @@ results:
     table_ref: Table 1
     source_ref: chen2022structure
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 35
@@ -6826,7 +6789,7 @@ results:
     table_ref: Table 1
     source_ref: Martinkus et al. 2023
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 38
@@ -6839,9 +6802,9 @@ results:
     has_value_note: false
     value_gap: 0.10399999999999998
     value_note: ''
-    paper_rank: 217
-    rank_delta: 179
-    rank_delta_abs: 179
+    paper_rank: 230
+    rank_delta: 192
+    rank_delta_abs: 192
     rank_delta_direction: worse
     sort_value: 0.04
     sort_std: 0.006
@@ -6862,7 +6825,7 @@ results:
     table_ref: Table 1
     source_ref: martinkus2023agentbased
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 38
@@ -6898,7 +6861,7 @@ results:
     table_ref: Table 1
     source_ref: Corso et al. 2020
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 48
@@ -6912,9 +6875,9 @@ results:
     has_value_note: false
     value_gap: 0.08472978921109522
     value_note: ''
-    paper_rank: 217
-    rank_delta: 169
-    rank_delta_abs: 169
+    paper_rank: 230
+    rank_delta: 182
+    rank_delta_abs: 182
     rank_delta_direction: worse
     sort_value: 0.05727021078890476
     sort_std: 0.006639614126119909
@@ -6935,7 +6898,7 @@ results:
     table_ref: Table 1
     source_ref: corso2020principal
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 48
@@ -6949,9 +6912,9 @@ results:
     has_value_note: false
     value_gap: 0.009729789211095241
     value_note: ''
-    paper_rank: 79
-    rank_delta: 31
-    rank_delta_abs: 31
+    paper_rank: 81
+    rank_delta: 33
+    rank_delta_abs: 33
     rank_delta_direction: worse
     sort_value: 0.05727021078890476
     sort_std: 0.006639614126119909
@@ -6972,7 +6935,7 @@ results:
     table_ref: Table 1
     source_ref: Ivanov et al. 2018
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 56
@@ -6985,9 +6948,9 @@ results:
     has_value_note: false
     value_gap: 0.035
     value_note: ''
-    paper_rank: 171
-    rank_delta: 115
-    rank_delta_abs: 115
+    paper_rank: 181
+    rank_delta: 125
+    rank_delta_abs: 125
     rank_delta_direction: worse
     sort_value: 0.059
     sort_std: 0.005
@@ -7008,7 +6971,7 @@ results:
     table_ref: Table 1
     source_ref: ivanov2018anonymous
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 56
@@ -7044,10 +7007,10 @@ results:
     table_ref: Table 1
     source_ref: Xu et al. 2018
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
-    global_rank: 73
+    global_rank: 75
     true_value: 0.065
     true_std: 0.004
     value_gap_source_arxiv: '2502.09263'
@@ -7058,9 +7021,9 @@ results:
     has_value_note: false
     value_gap: 0.461
     value_note: ''
-    paper_rank: 279
-    rank_delta: 206
-    rank_delta_abs: 206
+    paper_rank: 293
+    rank_delta: 218
+    rank_delta_abs: 218
     rank_delta_direction: worse
     sort_value: 0.065
     sort_std: 0.004
@@ -7081,10 +7044,10 @@ results:
     table_ref: Table 1
     source_ref: xu2018how
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
-    global_rank: 73
+    global_rank: 75
     true_value: 0.065
     true_std: 0.004
     value_gap_source_arxiv: '2502.09263'
@@ -7095,9 +7058,9 @@ results:
     has_value_note: false
     value_gap: 0.022999999999999993
     value_note: ''
-    paper_rank: 160
-    rank_delta: 87
-    rank_delta_abs: 87
+    paper_rank: 170
+    rank_delta: 95
+    rank_delta_abs: 95
     rank_delta_direction: worse
     sort_value: 0.065
     sort_std: 0.004
@@ -7118,10 +7081,10 @@ results:
     table_ref: Table 1
     source_ref: Zhao et al. 2023
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
-    global_rank: 111
+    global_rank: 114
     true_value: 0.072
     true_std: 0.004
     value_gap_source_arxiv: '2501.18739'
@@ -7131,43 +7094,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 111
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.072
-    sort_std: 0.004
-    is_best: false
-  - model: DeepGraph
-    model_key: deepgraph
-    model_plain: DeepGraph
-    value: 0.072
-    std: 0.004
-    paper_value: 0.072
-    paper_std: 0.004
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: zhao2023are
-    variant_inference_reason: ''
-    date: '2025-01-30'
-    date_display: Jan 2025
-    date_iso: '2025-01-30'
-    global_rank: 111
-    true_value: 0.072
-    true_std: 0.004
-    value_gap_source_arxiv: '2501.18739'
-    value_gap_source_title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 111
+    paper_rank: 114
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -7190,10 +7117,10 @@ results:
     table_ref: Table 1
     source_ref: Kreuzer et al. 2021
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
-    global_rank: 211
+    global_rank: 224
     true_value: 0.1341
     true_std: 0.0063
     value_gap_source_arxiv: '2602.02268'
@@ -7204,44 +7131,7 @@ results:
     has_value_note: true
     value_gap: 0.0049000000000000155
     value_note: global 0.1341 within std
-    paper_rank: 212
-    rank_delta: 1
-    rank_delta_abs: 1
-    rank_delta_direction: worse
-    sort_value: 0.1341
-    sort_std: 0.0063
-    is_best: false
-  - model: SAN
-    model_key: san
-    model_plain: SAN
-    value: 0.139
-    std: 0.006
-    paper_value: 0.139
-    paper_std: 0.006
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: kreuzer2021rethinking
-    variant_inference_reason: ''
-    date: '2025-01-30'
-    date_display: Jan 2025
-    date_iso: '2025-01-30'
-    global_rank: 211
-    true_value: 0.1341
-    true_std: 0.0063
-    value_gap_source_arxiv: '2602.02268'
-    value_gap_source_title: 'HopFormer: Sparse Graph Transformers with Explicit Receptive
-      Field Control'
-    value_gap_source_is_current_paper: false
-    has_value_gap: false
-    has_value_note: true
-    value_gap: 0.0049000000000000155
-    value_note: global 0.1341 within std
-    paper_rank: 212
+    paper_rank: 225
     rank_delta: 1
     rank_delta_abs: 1
     rank_delta_direction: worse
@@ -7264,10 +7154,10 @@ results:
     table_ref: Table 1
     source_ref: Liang et al. 2024
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
-    global_rank: 241
+    global_rank: 255
     true_value: 0.193
     true_std: 0.001
     value_gap_source_arxiv: '2501.18739'
@@ -7277,43 +7167,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 241
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.193
-    sort_std: 0.001
-    is_best: false
-  - model: GEAET
-    model_key: geaet
-    model_plain: GEAET
-    value: 0.193
-    std: 0.001
-    paper_value: 0.193
-    paper_std: 0.001
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: liang2024graph
-    variant_inference_reason: ''
-    date: '2025-01-30'
-    date_display: Jan 2025
-    date_iso: '2025-01-30'
-    global_rank: 241
-    true_value: 0.193
-    true_std: 0.001
-    value_gap_source_arxiv: '2501.18739'
-    value_gap_source_title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 241
+    paper_rank: 255
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -7365,7 +7219,7 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: ''
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 3
@@ -7401,7 +7255,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 2
@@ -7461,7 +7315,7 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: ''
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 5
@@ -7497,7 +7351,7 @@ results:
     table_ref: Table 1
     source_ref: guo2023linkless
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 6
@@ -7533,7 +7387,7 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: ''
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 7
@@ -7569,7 +7423,7 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: ''
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 8
@@ -7605,7 +7459,7 @@ results:
     table_ref: Table 1
     source_ref: wang2024nonconvolutional
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 9
@@ -7641,7 +7495,7 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: ''
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 10
@@ -7677,7 +7531,7 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: ''
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 11
@@ -7713,7 +7567,7 @@ results:
     table_ref: Table 1
     source_ref: chen2023nagphormer
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 12
@@ -7773,7 +7627,7 @@ results:
     table_ref: Table 1
     source_ref: wu2022nodeformer
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 14
@@ -7809,7 +7663,7 @@ results:
     table_ref: Table 1
     source_ref: kipf2017semisupervised
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 15
@@ -7922,7 +7776,7 @@ results:
     table_ref: Table 1
     source_ref: kipf2017semisupervised
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 14
@@ -7959,7 +7813,7 @@ results:
     table_ref: Table 1
     source_ref: velickovic2018graph
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 17
@@ -7996,7 +7850,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 27
@@ -8032,7 +7886,7 @@ results:
     table_ref: Table 1
     source_ref: kong2023goat
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 33
@@ -8069,7 +7923,7 @@ results:
     table_ref: Table 1
     source_ref: behrouz2024graph
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 38
@@ -8105,7 +7959,7 @@ results:
     table_ref: Table 1
     source_ref: gasteiger2018combining
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 58
@@ -8142,7 +7996,7 @@ results:
     table_ref: Table 1
     source_ref: chen2023nagphormer
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 67
@@ -8179,7 +8033,7 @@ results:
     table_ref: Table 1
     source_ref: rampasek2022recipe
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 71
@@ -8216,7 +8070,7 @@ results:
     table_ref: Table 1
     source_ref: chien2021adaptive
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 75
@@ -8252,7 +8106,7 @@ results:
     table_ref: Table 1
     source_ref: wang2024nonconvolutional
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 76
@@ -8288,7 +8142,7 @@ results:
     table_ref: Table 1
     source_ref: wu2022nodeformer
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 89
@@ -8354,7 +8208,7 @@ results:
     table_ref: Table 1
     source_ref: kipf2017semisupervised
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 2
@@ -8439,7 +8293,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 6
@@ -8475,7 +8329,7 @@ results:
     table_ref: Table 1
     source_ref: kong2023goat
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 9
@@ -8511,7 +8365,7 @@ results:
     table_ref: Table 1
     source_ref: velickovic2018graph
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 19
@@ -8547,7 +8401,7 @@ results:
     table_ref: Table 1
     source_ref: chien2021adaptive
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 20
@@ -8583,7 +8437,7 @@ results:
     table_ref: Table 1
     source_ref: wang2024nonconvolutional
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 25
@@ -8619,7 +8473,7 @@ results:
     table_ref: Table 1
     source_ref: gasteiger2018combining
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 29
@@ -8655,7 +8509,7 @@ results:
     table_ref: Table 1
     source_ref: chen2023nagphormer
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 37
@@ -8691,7 +8545,7 @@ results:
     table_ref: Table 1
     source_ref: wu2022nodeformer
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 42
@@ -8732,7 +8586,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 1
@@ -8768,7 +8622,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 2
@@ -8804,7 +8658,7 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 3
@@ -8840,7 +8694,7 @@ results:
     table_ref: Table 1
     source_ref: liu2023structural
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 4
@@ -8876,7 +8730,7 @@ results:
     table_ref: Table 1
     source_ref: ganin2016domain
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 5
@@ -8912,7 +8766,7 @@ results:
     table_ref: Table 1
     source_ref: you2023graph
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 6
@@ -8948,7 +8802,7 @@ results:
     table_ref: Table 1
     source_ref: zhu2021shift
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 7
@@ -8984,7 +8838,7 @@ results:
     table_ref: Table 1
     source_ref: wang2024nonconvolutional
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 8
@@ -9020,7 +8874,7 @@ results:
     table_ref: Table 1
     source_ref: velickovic2018graph
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 9
@@ -9056,7 +8910,7 @@ results:
     table_ref: Table 1
     source_ref: kipf2017semisupervised
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 10
@@ -9092,7 +8946,7 @@ results:
     table_ref: Table 1
     source_ref: gasteiger2018combining
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 11
@@ -9128,7 +8982,7 @@ results:
     table_ref: Table 1
     source_ref: chen2023nagphormer
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 12
@@ -9164,7 +9018,7 @@ results:
     table_ref: Table 1
     source_ref: wu2022nodeformer
     variant_inference_reason: 'dataset: exact match'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
     global_rank: 13

@@ -2,8 +2,10 @@
 title: Benchmarking Sensitivity of Continual Graph Learning for Skeleton-Based Action
   Recognition
 arxiv_id: '2401.18054'
+source_url: ''
 authors: []
-published_date: '2024-01-31'
+published_date: Jan 31, 2024
+published_date_iso: '2024-01-31'
 abstract: Continual learning (CL) is the research field that aims to build machine
   learning models that can accumulate knowledge continuously over different tasks
   without retraining from scratch. Previous studies have shown that pre-training graph
@@ -22,8 +24,14 @@ abstract: Continual learning (CL) is the research field that aims to build machi
 codebase_url: ''
 extraction_model: qwen3.6-35b-a3b
 has_results: false
+paper_type: dataset
 proposed_models: []
 mrr: null
+adjusted_mrr: null
+mrr_dataset_count: 0
+benchmark_categories: []
+task_categories: []
+experiment_scopes: []
 results: []
 results_grouped: []
 main_figure: /figures/2401.18054/main_figure.png

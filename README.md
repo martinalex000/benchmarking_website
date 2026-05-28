@@ -300,42 +300,33 @@ uv run python scripts/test_model_ping.py moonshotai/Kimi-K2.6
 ---
 
 ## Fresh server setup
-
-Starting from a plain git clone, the minimum setup for a real instance is:
-
 ```bash
 git clone <repo-url>
 cd benchmarking_website
 
-# 1. Install system dependencies
-#    - Python 3.12+
-#    - uv
-#    - Hugo (extended is fine too)
-#    - ripgrep
-
 # 2. Install Python dependencies
-uv sync --group dev
+uv sync
 
 # 3. Configure secrets
 cp .env.example .env
 $EDITOR .env
 
 # 4. Seed canonical benchmark + dataset metadata
-uv run python -m backend.seed_db
+uv run -m backend.seed_db
 
-# 5. Build local generated state
-uv run python -m backend.export_to_hugo
+# 5. Build local generated state (note the "-m")
+uv run -m backend.export_to_hugo
 hugo --source site
 
 # 6. Run one paper as a smoke test
-uv run python scripts/run_manual.py 2206.08164
+uv run scripts/run_manual.py 2206.08164
 
 # 7. Re-export and rebuild the site after extraction
-uv run python -m backend.export_to_hugo
+uv run -m backend.export_to_hugo
 hugo --source site
 ```
 
-Operational notes:
+Notes:
 
 - Keep `.env`, `papers/`, `logs/`, and `benchmarks.db` on persistent local storage.
 - `papers/` is intentionally git-ignored; this is where downloads, extraction artifacts,
@@ -345,20 +336,8 @@ Operational notes:
 - `uv run python -m backend.seed_db` is safe to re-run after dataset changes; it now also
   imports legacy pending-dataset YAML entries (if present) and marks DB-backed pending rows
   as `resolved` once they map to canonical datasets.
-- For a production deployment, serve `site/public/` behind nginx, Caddy, or another static
-  web server after running Hugo.
-
-Suggested production shape:
-
-1. Create a dedicated Unix user for the service.
-2. Put the repo on persistent disk and keep `.env` outside shell history.
-3. Add a systemd service or timer for your update workflow.
-4. Run Hugo after each successful extraction/import batch.
-5. Serve `site/public/` via nginx or Caddy.
+- For a production deployment, serve `site/public/` as static pages
 ```
-
-It performs a minimal probe request and prints routed-model, finish-reason,
-token usage, and HTTP diagnostics.
 
 ---
 
@@ -490,10 +469,12 @@ uv run python -m backend.seed_db
 
 # regenerate Hugo content and static site
 uv run python -m backend.export_to_hugo
-cd site && /snap/bin/hugo --minify
+cd site && ruv run hugo
 ```
 
 If you only need to adjust website presentation (not DB semantic metadata), prefer `config/dataset_overrides.yaml` for display-only controls such as `display_metrics`.
+
+*Note*: the landing page text is in `site/layouts/index.html`.
 
 ---
 

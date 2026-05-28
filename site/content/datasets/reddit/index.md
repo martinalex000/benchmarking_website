@@ -13,7 +13,7 @@ stats:
   avg_nodes: 232965.0
   avg_edges: 114615892.0
   num_classes: 41
-result_count: 115
+result_count: 116
 best_model:
   model: GCN (LCP-ORC)
   value: 0.8719
@@ -697,7 +697,7 @@ variants:
     arxiv_id: '2502.02379'
     title: 'No Metric to Rule Them All: Toward Principled Evaluations of Graph-Learning
       Datasets'
-    date: '2025-02-04'
+    date: Feb 4, 2025
     date_iso: '2025-02-04'
     date_display: Feb 2025
     codebase_url: ''
@@ -724,7 +724,7 @@ variants:
     arxiv_id: '2502.02379'
     title: 'No Metric to Rule Them All: Toward Principled Evaluations of Graph-Learning
       Datasets'
-    date: '2025-02-04'
+    date: Feb 4, 2025
     date_iso: '2025-02-04'
     date_display: Feb 2025
     codebase_url: ''
@@ -751,7 +751,7 @@ variants:
     arxiv_id: '2502.02379'
     title: 'No Metric to Rule Them All: Toward Principled Evaluations of Graph-Learning
       Datasets'
-    date: '2025-02-04'
+    date: Feb 4, 2025
     date_iso: '2025-02-04'
     date_display: Feb 2025
     codebase_url: ''
@@ -933,7 +933,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.18739'
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_iso: '2025-01-30'
     date_display: Jan 2025
     codebase_url: ''
@@ -959,7 +959,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.18739'
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_iso: '2025-01-30'
     date_display: Jan 2025
     codebase_url: ''
@@ -985,7 +985,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.18739'
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_iso: '2025-01-30'
     date_display: Jan 2025
     codebase_url: ''
@@ -1011,7 +1011,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.18739'
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_iso: '2025-01-30'
     date_display: Jan 2025
     codebase_url: ''
@@ -1037,7 +1037,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.18739'
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_iso: '2025-01-30'
     date_display: Jan 2025
     codebase_url: ''
@@ -1063,7 +1063,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.18739'
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_iso: '2025-01-30'
     date_display: Jan 2025
     codebase_url: ''
@@ -1089,7 +1089,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.18739'
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_iso: '2025-01-30'
     date_display: Jan 2025
     codebase_url: ''
@@ -1115,7 +1115,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.18739'
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_iso: '2025-01-30'
     date_display: Jan 2025
     codebase_url: ''
@@ -1141,7 +1141,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.18739'
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_iso: '2025-01-30'
     date_display: Jan 2025
     codebase_url: ''
@@ -1167,7 +1167,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.18739'
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_iso: '2025-01-30'
     date_display: Jan 2025
     codebase_url: ''
@@ -1193,7 +1193,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.18739'
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_iso: '2025-01-30'
     date_display: Jan 2025
     codebase_url: ''
@@ -1219,7 +1219,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.18739'
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_iso: '2025-01-30'
     date_display: Jan 2025
     codebase_url: ''
@@ -1245,7 +1245,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.18739'
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_iso: '2025-01-30'
     date_display: Jan 2025
     codebase_url: ''
@@ -1271,7 +1271,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.18739'
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_iso: '2025-01-30'
     date_display: Jan 2025
     codebase_url: ''
@@ -1297,7 +1297,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.18739'
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_iso: '2025-01-30'
     date_display: Jan 2025
     codebase_url: ''
@@ -1921,7 +1921,7 @@ variants:
     params_millions: null
     arxiv_id: '2406.02740'
     title: Long Range Propagation on Continuous-Time Dynamic Graphs
-    date: '2024-06-04'
+    date: Jun 4, 2024
     date_iso: '2024-06-04'
     date_display: Jun 2024
     codebase_url: ''
@@ -1947,7 +1947,7 @@ variants:
     params_millions: null
     arxiv_id: '2406.02740'
     title: Long Range Propagation on Continuous-Time Dynamic Graphs
-    date: '2024-06-04'
+    date: Jun 4, 2024
     date_iso: '2024-06-04'
     date_display: Jun 2024
     codebase_url: ''
@@ -1973,7 +1973,7 @@ variants:
     params_millions: null
     arxiv_id: '2406.02740'
     title: Long Range Propagation on Continuous-Time Dynamic Graphs
-    date: '2024-06-04'
+    date: Jun 4, 2024
     date_iso: '2024-06-04'
     date_display: Jun 2024
     codebase_url: ''
@@ -1999,7 +1999,7 @@ variants:
     params_millions: null
     arxiv_id: '2406.02740'
     title: Long Range Propagation on Continuous-Time Dynamic Graphs
-    date: '2024-06-04'
+    date: Jun 4, 2024
     date_iso: '2024-06-04'
     date_display: Jun 2024
     codebase_url: ''
@@ -2025,7 +2025,7 @@ variants:
     params_millions: null
     arxiv_id: '2406.02740'
     title: Long Range Propagation on Continuous-Time Dynamic Graphs
-    date: '2024-06-04'
+    date: Jun 4, 2024
     date_iso: '2024-06-04'
     date_display: Jun 2024
     codebase_url: ''
@@ -2051,7 +2051,7 @@ variants:
     params_millions: null
     arxiv_id: '2406.02740'
     title: Long Range Propagation on Continuous-Time Dynamic Graphs
-    date: '2024-06-04'
+    date: Jun 4, 2024
     date_iso: '2024-06-04'
     date_display: Jun 2024
     codebase_url: ''
@@ -2736,7 +2736,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -2762,7 +2762,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -2788,7 +2788,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -2814,7 +2814,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -2840,7 +2840,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -2866,7 +2866,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -2892,7 +2892,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -2918,7 +2918,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -2944,7 +2944,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -2970,7 +2970,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -2996,7 +2996,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -3022,7 +3022,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -3039,6 +3039,32 @@ variants:
     - null
     - null
     - 0.044
+    - null
+  - model: S² GCN
+    model_plain: S² GCN
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2509.22100'
+    title: 'SHAKE-GNN: Scalable Hierarchical Kirchhoff-Forest Graph Neural Network'
+    date: Sep 2025
+    date_iso: 2025-09
+    date_display: Sep 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - 0.749
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
     - null
   milestones:
   - value: 0.8719

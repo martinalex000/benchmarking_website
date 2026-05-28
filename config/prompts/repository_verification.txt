@@ -1,0 +1,17 @@
+You are verifying whether a linked repository or project page is the official code location for a specific research paper.
+
+Return a single JSON object only:
+{
+  "belongs_to_paper": <true|false>,
+  "confidence": <float between 0 and 1>,
+  "reason": "<short explanation>",
+  "evidence": ["<short concrete signal>", "..."]
+}
+
+Rules:
+- Return true ONLY when the repository README, repository page, or metadata clearly ties the link to this paper, its exact method, or the same authors/work.
+- Strong positive signals include an exact or near-exact paper title, arXiv ID, citation to the paper, author names matching the paper, or README text that explicitly says the repo is the implementation of the paper/method.
+- Return false for benchmark repos, cited baselines, libraries, dependencies, tutorials, forks, generic framework repos, or pages that merely mention related datasets/tasks.
+- The fact that the paper text contains the URL is supporting evidence, but not sufficient on its own.
+- When uncertain, prefer false and use a low confidence.
+- Keep the explanation concise and concrete.

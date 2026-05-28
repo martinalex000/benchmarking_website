@@ -5,23 +5,27 @@ source_url: ''
 authors: []
 published_date: Feb 2025
 published_date_iso: 2025-02
-abstract: 'Positional encodings (PEs) are essential for effective graph representation learning because
-  they provide position awareness in inherently position-agnostic transformer architectures and increase
-  the expressive capacity of Graph Neural Networks (GNNs). However, designing powerful and efficient PEs
-  for graphs poses significant challenges due to the absence of canonical node ordering and the scale
-  of the graph. In this work, we identify four key properties that graph PEs should satisfy: stability,
-  expressive power, scalability, and genericness. We find that existing eigenvector-based PE methods often
-  fall short of jointly satisfying these criteria. To address this gap, we introduce, a novel framework
-  of learnable PEs for graphs. Our primary insight is that message-passing GNNs function as nonlinear
-  mappings of eigenvectors, enabling the design of GNN architectures for generating powerful and efficient
-  PEs. A crucial challenge lies in initializing node attributes in a manner that is both expressive and
-  permutation equivariant. We tackle this by initializing GNNs with random node inputs or standard basis
-  vectors, thereby unlocking the expressive power of message-passing operations, while employing statistical
-  pooling functions to maintain permutation equivariance. Our analysis demonstrates that approximates
-  equivariant functions of eigenvectors with linear complexity, while rigorously establishing its stability
-  and high expressive power. Experimental evaluations show that outperforms lightweight versions of eigenvector-based
-  PEs and achieves comparable performance to full eigenvector-based PEs, but with one or two orders of
-  magnitude lower complexity. Our code is available at https://github.com/ehejin/Pearl-PE.'
+abstract: 'Positional encodings (PEs) are essential for effective graph representation
+  learning because they provide position awareness in inherently position-agnostic
+  transformer architectures and increase the expressive capacity of Graph Neural Networks
+  (GNNs). However, designing powerful and efficient PEs for graphs poses significant
+  challenges due to the absence of canonical node ordering and the scale of the graph.
+  In this work, we identify four key properties that graph PEs should satisfy: stability,
+  expressive power, scalability, and genericness. We find that existing eigenvector-based
+  PE methods often fall short of jointly satisfying these criteria. To address this
+  gap, we introduce, a novel framework of learnable PEs for graphs. Our primary insight
+  is that message-passing GNNs function as nonlinear mappings of eigenvectors, enabling
+  the design of GNN architectures for generating powerful and efficient PEs. A crucial
+  challenge lies in initializing node attributes in a manner that is both expressive
+  and permutation equivariant. We tackle this by initializing GNNs with random node
+  inputs or standard basis vectors, thereby unlocking the expressive power of message-passing
+  operations, while employing statistical pooling functions to maintain permutation
+  equivariance. Our analysis demonstrates that approximates equivariant functions
+  of eigenvectors with linear complexity, while rigorously establishing its stability
+  and high expressive power. Experimental evaluations show that outperforms lightweight
+  versions of eigenvector-based PEs and achieves comparable performance to full eigenvector-based
+  PEs, but with one or two orders of magnitude lower complexity. Our code is available
+  at https://github.com/ehejin/Pearl-PE.'
 codebase_url: ''
 extraction_model: qwen3.6-35b-a3b
 has_results: true
@@ -30,8 +34,8 @@ proposed_models:
 - SignNet
 - R-method
 - B-method
-mrr: 0.6699
-adjusted_mrr: 0.6699
+mrr: 0.6698
+adjusted_mrr: 0.6698
 mrr_dataset_count: 3
 benchmark_categories:
 - Classic
@@ -137,7 +141,7 @@ results:
     arxiv_id: '2404.03380'
     title: On the Theoretical Expressive Power and the Design Space of Higher-Order
       Graph Transformers
-    date: '2024-04-04'
+    date: Apr 4, 2024
     date_display: Apr 2024
     date_iso: '2024-04-04'
     codebase_url: ''
@@ -161,7 +165,7 @@ results:
     arxiv_id: '2404.03380'
     title: On the Theoretical Expressive Power and the Design Space of Higher-Order
       Graph Transformers
-    date: '2024-04-04'
+    date: Apr 4, 2024
     date_display: Apr 2024
     date_iso: '2024-04-04'
     codebase_url: ''
@@ -185,7 +189,7 @@ results:
     arxiv_id: '2404.03380'
     title: On the Theoretical Expressive Power and the Design Space of Higher-Order
       Graph Transformers
-    date: '2024-04-04'
+    date: Apr 4, 2024
     date_display: Apr 2024
     date_iso: '2024-04-04'
     codebase_url: ''
@@ -214,7 +218,7 @@ results:
     date: Feb 2025
     date_display: Feb 2025
     date_iso: 2025-02
-    global_rank: 30
+    global_rank: 37
     true_value: 0.1
     true_std: null
     value_gap_source_arxiv: '2502.01122'
@@ -225,7 +229,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 30
+    paper_rank: 37
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -734,7 +738,7 @@ results:
     date: Feb 2025
     date_display: Feb 2025
     date_iso: 2025-02
-    global_rank: 30
+    global_rank: 31
     true_value: 0.2449
     true_std: 0.0016
     value_gap_source_arxiv: '2605.06462'
@@ -744,7 +748,7 @@ results:
     has_value_note: true
     value_gap: 9.999999999998899e-05
     value_note: global 0.2449 within std
-    paper_rank: 32
+    paper_rank: 33
     rank_delta: 2
     rank_delta_abs: 2
     rank_delta_direction: worse
@@ -770,7 +774,7 @@ results:
     date: Feb 2025
     date_display: Feb 2025
     date_iso: 2025-02
-    global_rank: 71
+    global_rank: 72
     true_value: 0.247
     true_std: 0.001
     value_gap_source_arxiv: '2502.01122'
@@ -781,7 +785,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 71
+    paper_rank: 72
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -807,7 +811,7 @@ results:
     date: Feb 2025
     date_display: Feb 2025
     date_iso: 2025-02
-    global_rank: 99
+    global_rank: 100
     true_value: 0.248
     true_std: 0.001
     value_gap_source_arxiv: '2502.01122'
@@ -818,7 +822,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 99
+    paper_rank: 100
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -844,7 +848,7 @@ results:
     date: Feb 2025
     date_display: Feb 2025
     date_iso: 2025-02
-    global_rank: 128
+    global_rank: 131
     true_value: 0.2498
     true_std: 0.0008
     value_gap_source_arxiv: '2311.04653'
@@ -854,7 +858,7 @@ results:
     has_value_note: true
     value_gap: 0.00020000000000000573
     value_note: global 0.2498 within std
-    paper_rank: 131
+    paper_rank: 134
     rank_delta: 3
     rank_delta_abs: 3
     rank_delta_direction: worse
@@ -880,7 +884,7 @@ results:
     date: Feb 2025
     date_display: Feb 2025
     date_iso: 2025-02
-    global_rank: 132
+    global_rank: 135
     true_value: 0.25
     true_std: 0.0005
     value_gap_source_arxiv: '2605.06462'
@@ -890,7 +894,7 @@ results:
     has_value_note: false
     value_gap: 0.0020000000000000018
     value_note: ''
-    paper_rank: 155
+    paper_rank: 158
     rank_delta: 23
     rank_delta_abs: 23
     rank_delta_direction: worse
@@ -916,7 +920,7 @@ results:
     date: Feb 2025
     date_display: Feb 2025
     date_iso: 2025-02
-    global_rank: 184
+    global_rank: 188
     true_value: 0.2545
     true_std: 0.0012
     value_gap_source_arxiv: '2206.08164'
@@ -926,7 +930,7 @@ results:
     has_value_note: true
     value_gap: 0.0005000000000000004
     value_note: global 0.2545 within std
-    paper_rank: 186
+    paper_rank: 190
     rank_delta: 2
     rank_delta_abs: 2
     rank_delta_direction: worse
@@ -952,7 +956,7 @@ results:
     date: Feb 2025
     date_display: Feb 2025
     date_iso: 2025-02
-    global_rank: 237
+    global_rank: 242
     true_value: 0.268
     true_std: 0.004
     value_gap_source_arxiv: '2502.01122'
@@ -963,7 +967,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 237
+    paper_rank: 242
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -989,7 +993,7 @@ results:
     date: Feb 2025
     date_display: Feb 2025
     date_iso: 2025-02
-    global_rank: 245
+    global_rank: 250
     true_value: 0.274
     true_std: 0.0
     value_gap_source_arxiv: '2502.01122'
@@ -1000,7 +1004,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 245
+    paper_rank: 250
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1581,7 +1585,7 @@ results:
     date: Feb 2025
     date_display: Feb 2025
     date_iso: 2025-02
-    global_rank: 31
+    global_rank: 33
     true_value: 0.2
     true_std: 0.0
     value_gap_source_arxiv: '2502.01122'
@@ -1592,7 +1596,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 31
+    paper_rank: 33
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1875,7 +1879,7 @@ results:
     params_millions: 1.0
     arxiv_id: '2405.02795'
     title: Graph as Point Set
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
     codebase_url: ''
@@ -1914,45 +1918,9 @@ results:
     has_value_note: false
     value_gap: 0.0613
     value_note: ''
-    paper_rank: 155
-    rank_delta: 140
-    rank_delta_abs: 140
-    rank_delta_direction: worse
-    sort_value: 0.024
-    sort_std: 0.003
-    is_best: false
-  - model: SignNet
-    model_key: signnet
-    model_plain: SignNet
-    value: 0.0853
-    std: 0.0026
-    paper_value: 0.0853
-    paper_std: 0.0026
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: "Table \ref{tab:stability_expressiveness}"
-    source_ref: limsign
-    variant_inference_reason: ''
-    date: Feb 2025
-    date_display: Feb 2025
-    date_iso: 2025-02
-    global_rank: 15
-    true_value: 0.024
-    true_std: 0.003
-    value_gap_source_arxiv: '2405.02795'
-    value_gap_source_title: Graph as Point Set
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.0613
-    value_note: ''
-    paper_rank: 155
-    rank_delta: 140
-    rank_delta_abs: 140
+    paper_rank: 164
+    rank_delta: 149
+    rank_delta_abs: 149
     rank_delta_direction: worse
     sort_value: 0.024
     sort_std: 0.003
@@ -1976,7 +1944,7 @@ results:
     date: Feb 2025
     date_display: Feb 2025
     date_iso: 2025-02
-    global_rank: 72
+    global_rank: 74
     true_value: 0.0644
     true_std: 0.001
     value_gap_source_arxiv: '2502.01122'
@@ -1987,7 +1955,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 72
+    paper_rank: 74
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2013,7 +1981,7 @@ results:
     date: Feb 2025
     date_display: Feb 2025
     date_iso: 2025-02
-    global_rank: 72
+    global_rank: 74
     true_value: 0.0644
     true_std: 0.001
     value_gap_source_arxiv: '2502.01122'
@@ -2024,7 +1992,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 72
+    paper_rank: 74
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2050,7 +2018,7 @@ results:
     date: Feb 2025
     date_display: Feb 2025
     date_iso: 2025-02
-    global_rank: 73
+    global_rank: 75
     true_value: 0.065
     true_std: 0.004
     value_gap_source_arxiv: '2502.09263'
@@ -2061,46 +2029,9 @@ results:
     has_value_note: false
     value_gap: 0.144
     value_note: ''
-    paper_rank: 247
-    rank_delta: 174
-    rank_delta_abs: 174
-    rank_delta_direction: worse
-    sort_value: 0.065
-    sort_std: 0.004
-    is_best: false
-  - model: GIN
-    model_key: gin
-    model_plain: GIN
-    value: 0.209
-    std: 0.018
-    paper_value: 0.209
-    paper_std: 0.018
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: "Table \ref{tab:stability_expressiveness}"
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Feb 2025
-    date_display: Feb 2025
-    date_iso: 2025-02
-    global_rank: 73
-    true_value: 0.065
-    true_std: 0.004
-    value_gap_source_arxiv: '2502.09263'
-    value_gap_source_title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks?
-      Simple Architectures Meet Excellence
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.144
-    value_note: ''
-    paper_rank: 247
-    rank_delta: 174
-    rank_delta_abs: 174
+    paper_rank: 261
+    rank_delta: 186
+    rank_delta_abs: 186
     rank_delta_direction: worse
     sort_value: 0.065
     sort_std: 0.004
@@ -2124,7 +2055,7 @@ results:
     date: Feb 2025
     date_display: Feb 2025
     date_iso: 2025-02
-    global_rank: 103
+    global_rank: 106
     true_value: 0.0693
     true_std: 0.004
     value_gap_source_arxiv: '2502.01122'
@@ -2135,44 +2066,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 103
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.0693
-    sort_std: 0.004
-    is_best: false
-  - model: SPE
-    model_key: spe
-    model_plain: SPE
-    value: 0.0693
-    std: 0.004
-    paper_value: 0.0693
-    paper_std: 0.004
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: "Table \ref{tab:stability_expressiveness}"
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Feb 2025
-    date_display: Feb 2025
-    date_iso: 2025-02
-    global_rank: 103
-    true_value: 0.0693
-    true_std: 0.004
-    value_gap_source_arxiv: '2502.01122'
-    value_gap_source_title: Learning Efficient Positional Encodings with Graph Neural
-      Networks
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 103
+    paper_rank: 106
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2198,7 +2092,7 @@ results:
     date: Feb 2025
     date_display: Feb 2025
     date_iso: 2025-02
-    global_rank: 104
+    global_rank: 107
     true_value: 0.0699
     true_std: 0.002
     value_gap_source_arxiv: '2502.01122'
@@ -2209,44 +2103,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 104
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.0699
-    sort_std: 0.002
-    is_best: false
-  - model: R-method
-    model_key: r-method
-    model_plain: R-method
-    value: 0.0699
-    std: 0.002
-    paper_value: 0.0699
-    paper_std: 0.002
-    metric: MAE
-    higher_is_better: false
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: "Table \ref{tab:stability_expressiveness}"
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Feb 2025
-    date_display: Feb 2025
-    date_iso: 2025-02
-    global_rank: 104
-    true_value: 0.0699
-    true_std: 0.002
-    value_gap_source_arxiv: '2502.01122'
-    value_gap_source_title: Learning Efficient Positional Encodings with Graph Neural
-      Networks
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 104
+    paper_rank: 107
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2272,7 +2129,7 @@ results:
     date: Feb 2025
     date_display: Feb 2025
     date_iso: 2025-02
-    global_rank: 119
+    global_rank: 123
     true_value: 0.0736
     true_std: 0.0007
     value_gap_source_arxiv: '2502.01122'
@@ -2283,44 +2140,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 119
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.0736
-    sort_std: 0.0007
-    is_best: false
-  - model: SPE-8S
-    model_key: spe-8s
-    model_plain: SPE-8S
-    value: 0.0736
-    std: 0.0007
-    paper_value: 0.0736
-    paper_std: 0.0007
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: "Table \ref{tab:stability_expressiveness}"
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Feb 2025
-    date_display: Feb 2025
-    date_iso: 2025-02
-    global_rank: 119
-    true_value: 0.0736
-    true_std: 0.0007
-    value_gap_source_arxiv: '2502.01122'
-    value_gap_source_title: Learning Efficient Positional Encodings with Graph Neural
-      Networks
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 119
+    paper_rank: 123
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2346,7 +2166,7 @@ results:
     date: Feb 2025
     date_display: Feb 2025
     date_iso: 2025-02
-    global_rank: 126
+    global_rank: 131
     true_value: 0.076
     true_std: 0.009
     value_gap_source_arxiv: '2502.09263'
@@ -2357,46 +2177,9 @@ results:
     has_value_note: false
     value_gap: 0.39299999999999996
     value_note: ''
-    paper_rank: 279
-    rank_delta: 153
-    rank_delta_abs: 153
-    rank_delta_direction: worse
-    sort_value: 0.076
-    sort_std: 0.009
-    is_best: false
-  - model: GCN
-    model_key: gcn
-    model_plain: GCN
-    value: 0.469
-    std: 0.002
-    paper_value: 0.469
-    paper_std: 0.002
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: "Table \ref{tab:stability_expressiveness}"
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Feb 2025
-    date_display: Feb 2025
-    date_iso: 2025-02
-    global_rank: 126
-    true_value: 0.076
-    true_std: 0.009
-    value_gap_source_arxiv: '2502.09263'
-    value_gap_source_title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks?
-      Simple Architectures Meet Excellence
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.39299999999999996
-    value_note: ''
-    paper_rank: 279
-    rank_delta: 153
-    rank_delta_abs: 153
+    paper_rank: 293
+    rank_delta: 162
+    rank_delta_abs: 162
     rank_delta_direction: worse
     sort_value: 0.076
     sort_std: 0.009
@@ -2420,7 +2203,7 @@ results:
     date: Feb 2025
     date_display: Feb 2025
     date_iso: 2025-02
-    global_rank: 179
+    global_rank: 191
     true_value: 0.1034
     true_std: 0.0056
     value_gap_source_arxiv: '2502.01122'
@@ -2431,44 +2214,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 179
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.1034
-    sort_std: 0.0056
-    is_best: false
-  - model: SignNet-8S
-    model_key: signnet-8s
-    model_plain: SignNet-8S
-    value: 0.1034
-    std: 0.0056
-    paper_value: 0.1034
-    paper_std: 0.0056
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: "Table \ref{tab:stability_expressiveness}"
-    source_ref: limsign
-    variant_inference_reason: ''
-    date: Feb 2025
-    date_display: Feb 2025
-    date_iso: 2025-02
-    global_rank: 179
-    true_value: 0.1034
-    true_std: 0.0056
-    value_gap_source_arxiv: '2502.01122'
-    value_gap_source_title: Learning Efficient Positional Encodings with Graph Neural
-      Networks
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 179
+    paper_rank: 191
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2494,7 +2240,7 @@ results:
     date: Feb 2025
     date_display: Feb 2025
     date_iso: 2025-02
-    global_rank: 189
+    global_rank: 201
     true_value: 0.115
     true_std: 0.012
     value_gap_source_arxiv: '2502.01122'
@@ -2505,44 +2251,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 189
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.115
-    sort_std: 0.012
-    is_best: false
-  - model: GSN with cycles
-    model_key: gsn with cycles
-    model_plain: GSN with cycles
-    value: 0.115
-    std: 0.012
-    paper_value: 0.115
-    paper_std: 0.012
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: "Table \ref{tab:stability_expressiveness}"
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Feb 2025
-    date_display: Feb 2025
-    date_iso: 2025-02
-    global_rank: 189
-    true_value: 0.115
-    true_std: 0.012
-    value_gap_source_arxiv: '2502.01122'
-    value_gap_source_title: Learning Efficient Positional Encodings with Graph Neural
-      Networks
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 189
+    paper_rank: 201
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2568,7 +2277,7 @@ results:
     date: Feb 2025
     date_display: Feb 2025
     date_iso: 2025-02
-    global_rank: 227
+    global_rank: 240
     true_value: 0.1554
     true_std: 0.0048
     value_gap_source_arxiv: '2502.01122'
@@ -2579,44 +2288,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 227
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.1554
-    sort_std: 0.0048
-    is_best: false
-  - model: BasisNet-8S
-    model_key: basisnet-8s
-    model_plain: BasisNet-8S
-    value: 0.1554
-    std: 0.0048
-    paper_value: 0.1554
-    paper_std: 0.0048
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: "Table \ref{tab:stability_expressiveness}"
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Feb 2025
-    date_display: Feb 2025
-    date_iso: 2025-02
-    global_rank: 227
-    true_value: 0.1554
-    true_std: 0.0048
-    value_gap_source_arxiv: '2502.01122'
-    value_gap_source_title: Learning Efficient Positional Encodings with Graph Neural
-      Networks
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 227
+    paper_rank: 240
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2642,7 +2314,7 @@ results:
     date: Feb 2025
     date_display: Feb 2025
     date_iso: 2025-02
-    global_rank: 228
+    global_rank: 241
     true_value: 0.1555
     true_std: 0.0124
     value_gap_source_arxiv: '2502.01122'
@@ -2653,44 +2325,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 228
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.1555
-    sort_std: 0.0124
-    is_best: false
-  - model: BasisNet
-    model_key: basisnet
-    model_plain: BasisNet
-    value: 0.1555
-    std: 0.0124
-    paper_value: 0.1555
-    paper_std: 0.0124
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: "Table \ref{tab:stability_expressiveness}"
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Feb 2025
-    date_display: Feb 2025
-    date_iso: 2025-02
-    global_rank: 228
-    true_value: 0.1555
-    true_std: 0.0124
-    value_gap_source_arxiv: '2502.01122'
-    value_gap_source_title: Learning Efficient Positional Encodings with Graph Neural
-      Networks
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 228
+    paper_rank: 241
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2716,7 +2351,7 @@ results:
     date: Feb 2025
     date_display: Feb 2025
     date_iso: 2025-02
-    global_rank: 235
+    global_rank: 248
     true_value: 0.1772
     true_std: 0.004
     value_gap_source_arxiv: '2502.01122'
@@ -2727,44 +2362,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 235
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.1772
-    sort_std: 0.004
-    is_best: false
-  - model: NoPE
-    model_key: nope
-    model_plain: NoPE
-    value: 0.1772
-    std: 0.004
-    paper_value: 0.1772
-    paper_std: 0.004
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: "Table \ref{tab:stability_expressiveness}"
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Feb 2025
-    date_display: Feb 2025
-    date_iso: 2025-02
-    global_rank: 235
-    true_value: 0.1772
-    true_std: 0.004
-    value_gap_source_arxiv: '2502.01122'
-    value_gap_source_title: Learning Efficient Positional Encodings with Graph Neural
-      Networks
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 235
+    paper_rank: 248
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2790,7 +2388,7 @@ results:
     date: Feb 2025
     date_display: Feb 2025
     date_iso: 2025-02
-    global_rank: 256
+    global_rank: 270
     true_value: 0.279
     true_std: 0.023
     value_gap_source_arxiv: '2502.01122'
@@ -2801,44 +2399,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 256
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.279
-    sort_std: 0.023
-    is_best: false
-  - model: GIN + rand id
-    model_key: gin + rand id
-    model_plain: GIN + rand id
-    value: 0.279
-    std: 0.023
-    paper_value: 0.279
-    paper_std: 0.023
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: "Table \ref{tab:stability_expressiveness}"
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Feb 2025
-    date_display: Feb 2025
-    date_iso: 2025-02
-    global_rank: 256
-    true_value: 0.279
-    true_std: 0.023
-    value_gap_source_arxiv: '2502.01122'
-    value_gap_source_title: Learning Efficient Positional Encodings with Graph Neural
-      Networks
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 256
+    paper_rank: 270
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same

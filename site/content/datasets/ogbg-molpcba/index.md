@@ -12,7 +12,7 @@ stats:
   avg_nodes: 26.0
   avg_edges: 28.1
   num_classes: 128
-result_count: 101
+result_count: 103
 best_model:
   model: GatedGCN + VN
   value: 0.3141
@@ -164,7 +164,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -311,7 +311,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -506,7 +506,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -554,7 +554,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -627,7 +627,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -699,7 +699,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -798,7 +798,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -1161,7 +1161,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -1379,7 +1379,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -1741,7 +1741,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -2484,6 +2484,54 @@ variants:
     - null
     - null
     - 0.8103
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+  - model: WL
+    model_plain: WL
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2407.02758'
+    title: Differential Encoding for Improved Representation Learning over Graphs
+    date: Jul 2024
+    date_iso: 2024-07
+    date_display: Jul 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - 0.8096
+    - null
+    metric_stds:
+    - null
+    - null
+    - 0.0029
+    - null
+  - model: S² GCN
+    model_plain: S² GCN
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2509.22100'
+    title: 'SHAKE-GNN: Scalable Hierarchical Kirchhoff-Forest Graph Neural Network'
+    date: Sep 2025
+    date_iso: 2025-09
+    date_display: Sep 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - 0.767
     metric_stds:
     - null
     - null

@@ -224,7 +224,7 @@ variants:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_iso: '2024-11-26'
     date_display: Nov 2024
     codebase_url: ''
@@ -304,7 +304,7 @@ variants:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_iso: '2024-11-26'
     date_display: Nov 2024
     codebase_url: ''
@@ -324,7 +324,7 @@ variants:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_iso: '2024-11-26'
     date_display: Nov 2024
     codebase_url: ''
@@ -384,7 +384,7 @@ variants:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_iso: '2024-11-26'
     date_display: Nov 2024
     codebase_url: ''
@@ -607,7 +607,7 @@ variants:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_iso: '2024-11-26'
     date_display: Nov 2024
     codebase_url: ''
@@ -991,7 +991,7 @@ variants:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_iso: '2024-11-26'
     date_display: Nov 2024
     codebase_url: ''
@@ -1375,7 +1375,7 @@ variants:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_iso: '2024-11-26'
     date_display: Nov 2024
     codebase_url: ''
@@ -1415,7 +1415,7 @@ variants:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_iso: '2024-11-26'
     date_display: Nov 2024
     codebase_url: ''
@@ -1578,7 +1578,7 @@ variants:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_iso: '2024-11-26'
     date_display: Nov 2024
     codebase_url: ''
@@ -1681,7 +1681,7 @@ variants:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_iso: '2024-11-26'
     date_display: Nov 2024
     codebase_url: ''
@@ -1886,7 +1886,7 @@ variants:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_iso: '2024-11-26'
     date_display: Nov 2024
     codebase_url: ''
@@ -1986,7 +1986,7 @@ variants:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_iso: '2024-11-26'
     date_display: Nov 2024
     codebase_url: ''
@@ -2711,7 +2711,7 @@ variants:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_iso: '2024-11-26'
     date_display: Nov 2024
     codebase_url: ''
@@ -2731,7 +2731,7 @@ variants:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_iso: '2024-11-26'
     date_display: Nov 2024
     codebase_url: ''

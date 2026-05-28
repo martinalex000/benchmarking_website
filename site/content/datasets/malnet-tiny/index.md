@@ -15,7 +15,7 @@ stats:
   avg_nodes: null
   avg_edges: null
   num_classes: 5
-result_count: 25
+result_count: 27
 best_model:
   model: ESA
   value: 0.948
@@ -117,7 +117,7 @@ variants:
     params_millions: null
     arxiv_id: '2402.08678'
     title: 'Graph Mamba: Towards Learning on Graphs with State Space Models'
-    date: '2024-02-13'
+    date: Feb 13, 2024
     date_iso: '2024-02-13'
     date_display: Feb 2024
     codebase_url: ''
@@ -153,7 +153,7 @@ variants:
     params_millions: null
     arxiv_id: '2402.08678'
     title: 'Graph Mamba: Towards Learning on Graphs with State Space Models'
-    date: '2024-02-13'
+    date: Feb 13, 2024
     date_iso: '2024-02-13'
     date_display: Feb 2024
     codebase_url: ''
@@ -190,7 +190,45 @@ variants:
     arxiv_id: '2502.00282'
     title: 'GraphMinNet: Learning Dependencies in Graphs with Light Complexity Minimal
       Architecture'
-    date: '2025-02-01'
+    date: Feb 1, 2025
+    date_iso: '2025-02-01'
+    date_display: Feb 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.9372
+    metric_stds:
+    - 0.0029
+  - model: novel approach
+    model_plain: novel approach
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2502.00282'
+    title: 'GraphMinNet: Learning Dependencies in Graphs with Light Complexity Minimal
+      Architecture'
+    date: Feb 1, 2025
+    date_iso: '2025-02-01'
+    date_display: Feb 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.9372
+    metric_stds:
+    - 0.0029
+  - model: GraphMinNet
+    model_plain: GraphMinNet
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2502.00282'
+    title: 'GraphMinNet: Learning Dependencies in Graphs with Light Complexity Minimal
+      Architecture'
+    date: Feb 1, 2025
     date_iso: '2025-02-01'
     date_display: Feb 2025
     codebase_url: ''
@@ -319,7 +357,7 @@ variants:
     params_millions: null
     arxiv_id: '2402.08678'
     title: 'Graph Mamba: Towards Learning on Graphs with State Space Models'
-    date: '2024-02-13'
+    date: Feb 13, 2024
     date_iso: '2024-02-13'
     date_display: Feb 2024
     codebase_url: ''
@@ -337,7 +375,7 @@ variants:
     params_millions: null
     arxiv_id: '2402.08678'
     title: 'Graph Mamba: Towards Learning on Graphs with State Space Models'
-    date: '2024-02-13'
+    date: Feb 13, 2024
     date_iso: '2024-02-13'
     date_display: Feb 2024
     codebase_url: ''
@@ -355,7 +393,7 @@ variants:
     params_millions: null
     arxiv_id: '2402.08678'
     title: 'Graph Mamba: Towards Learning on Graphs with State Space Models'
-    date: '2024-02-13'
+    date: Feb 13, 2024
     date_iso: '2024-02-13'
     date_display: Feb 2024
     codebase_url: ''
@@ -373,7 +411,7 @@ variants:
     params_millions: null
     arxiv_id: '2402.08678'
     title: 'Graph Mamba: Towards Learning on Graphs with State Space Models'
-    date: '2024-02-13'
+    date: Feb 13, 2024
     date_iso: '2024-02-13'
     date_display: Feb 2024
     codebase_url: ''
@@ -409,7 +447,7 @@ variants:
     params_millions: null
     arxiv_id: '2402.08678'
     title: 'Graph Mamba: Towards Learning on Graphs with State Space Models'
-    date: '2024-02-13'
+    date: Feb 13, 2024
     date_iso: '2024-02-13'
     date_display: Feb 2024
     codebase_url: ''
@@ -463,7 +501,7 @@ variants:
     params_millions: null
     arxiv_id: '2402.08678'
     title: 'Graph Mamba: Towards Learning on Graphs with State Space Models'
-    date: '2024-02-13'
+    date: Feb 13, 2024
     date_iso: '2024-02-13'
     date_display: Feb 2024
     codebase_url: ''

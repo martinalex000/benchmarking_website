@@ -1,7 +1,7 @@
 {{ define "main" }}
 <div class="home-hero">
-  <h1>Graph Learning Benchmarks</h1>
-  <p>Compare graph-learning papers across benchmark families, inspect per-dataset leaderboards, and quickly identify which benchmark groups are mature enough to be useful evaluation targets.</p>
+  <h1>Graph Learning Leaderboards</h1>
+  <p>Quickly identify the SOTA for common graph-learning benchmarks. Identify core baselines to test against. </p>
   {{ $datasets := where .Site.RegularPages "Section" "datasets" }}
   {{ $papers := where .Site.RegularPages "Section" "papers" }}
   {{ $papersWithResults := where $papers "Params.has_results" true }}
@@ -38,19 +38,23 @@
 </div>
 
 <section class="home-section">
-  <h2>How to use this site</h2>
+  <h2>Core Features</h2>
   <div class="home-guide-grid">
     <article class="home-guide-card">
-      <h3>1. Pick a benchmark family</h3>
-      <p>Start with benchmark groups that already have multiple datasets and many tracked results so comparisons are less sensitive to single-paper noise.</p>
+      <h3>SOTA over time</h3>
+      <p>For each benchmark, plots how the SOTA developed over time.</p>
     </article>
     <article class="home-guide-card">
-      <h3>2. Inspect the dataset page</h3>
-      <p>Use the per-dataset leaderboard, publication timeline, and coverage stats to see whether a benchmark is saturated, still moving, or dominated by a narrow set of methods.</p>
+      <h3>GCN and MLP baselines</h3>
+      <p>GCN/GIN and MLP performance is specifically highlighted to see lower bounds.</p>
     </article>
     <article class="home-guide-card">
-      <h3>3. Check paper breadth</h3>
-      <p>Browse papers by coverage-adjusted ranking to find methods evaluated across several benchmark settings instead of only one favorable dataset.</p>
+      <h3>Baselines included</h3>
+      <p>Benchmark list also contains baseline results reported in the paper.</p>
+    </article>
+    <article class="home-guide-card">
+      <h3>Papers in context</h3>
+      <p>Paper pages contain all reported results from it together with information on the SOTA models.</p>
     </article>
   </div>
 </section>

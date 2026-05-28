@@ -2,8 +2,10 @@
 title: 'Align All the Nodes: Scalable Learning of Flexible Latent Structure for Graph
   Neural Networks'
 arxiv_id: '2306.08385'
+source_url: ''
 authors: []
 published_date: ''
+published_date_iso: ''
 abstract: Graph neural networks have been extensively studied for learning with inter-connected
   data. Despite this, recent evidence has revealed GNNs' deficiencies related to over-squashing,
   heterophily, handling long-range dependencies, edge incompleteness and particularly,
@@ -24,8 +26,14 @@ abstract: Graph neural networks have been extensively studied for learning with 
 codebase_url: ''
 extraction_model: qwen3.6-35b-a3b
 has_results: false
+paper_type: dataset
 proposed_models: []
 mrr: null
+adjusted_mrr: null
+mrr_dataset_count: 0
+benchmark_categories: []
+task_categories: []
+experiment_scopes: []
 results: []
 results_grouped: []
 main_figure: /figures/2306.08385/main_figure.png

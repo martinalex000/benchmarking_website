@@ -41,7 +41,7 @@ variants:
     params_millions: null
     arxiv_id: '2406.02740'
     title: Long Range Propagation on Continuous-Time Dynamic Graphs
-    date: '2024-06-04'
+    date: Jun 4, 2024
     date_iso: '2024-06-04'
     date_display: Jun 2024
     codebase_url: ''
@@ -59,7 +59,7 @@ variants:
     params_millions: 0.9
     arxiv_id: '2406.02740'
     title: Long Range Propagation on Continuous-Time Dynamic Graphs
-    date: '2024-06-04'
+    date: Jun 4, 2024
     date_iso: '2024-06-04'
     date_display: Jun 2024
     codebase_url: ''
@@ -77,7 +77,7 @@ variants:
     params_millions: 4.0
     arxiv_id: '2406.02740'
     title: Long Range Propagation on Continuous-Time Dynamic Graphs
-    date: '2024-06-04'
+    date: Jun 4, 2024
     date_iso: '2024-06-04'
     date_display: Jun 2024
     codebase_url: ''
@@ -113,7 +113,7 @@ variants:
     params_millions: null
     arxiv_id: '2406.02740'
     title: Long Range Propagation on Continuous-Time Dynamic Graphs
-    date: '2024-06-04'
+    date: Jun 4, 2024
     date_iso: '2024-06-04'
     date_display: Jun 2024
     codebase_url: ''
@@ -131,7 +131,7 @@ variants:
     params_millions: null
     arxiv_id: '2406.02740'
     title: Long Range Propagation on Continuous-Time Dynamic Graphs
-    date: '2024-06-04'
+    date: Jun 4, 2024
     date_iso: '2024-06-04'
     date_display: Jun 2024
     codebase_url: ''
@@ -257,7 +257,7 @@ variants:
     params_millions: null
     arxiv_id: '2406.02740'
     title: Long Range Propagation on Continuous-Time Dynamic Graphs
-    date: '2024-06-04'
+    date: Jun 4, 2024
     date_iso: '2024-06-04'
     date_display: Jun 2024
     codebase_url: ''
@@ -366,7 +366,7 @@ variants:
     params_millions: null
     arxiv_id: '2406.02740'
     title: Long Range Propagation on Continuous-Time Dynamic Graphs
-    date: '2024-06-04'
+    date: Jun 4, 2024
     date_iso: '2024-06-04'
     date_display: Jun 2024
     codebase_url: ''
@@ -384,7 +384,7 @@ variants:
     params_millions: null
     arxiv_id: '2406.02740'
     title: Long Range Propagation on Continuous-Time Dynamic Graphs
-    date: '2024-06-04'
+    date: Jun 4, 2024
     date_iso: '2024-06-04'
     date_display: Jun 2024
     codebase_url: ''
@@ -421,7 +421,7 @@ variants:
     params_millions: null
     arxiv_id: '2406.02740'
     title: Long Range Propagation on Continuous-Time Dynamic Graphs
-    date: '2024-06-04'
+    date: Jun 4, 2024
     date_iso: '2024-06-04'
     date_display: Jun 2024
     codebase_url: ''
@@ -439,7 +439,7 @@ variants:
     params_millions: null
     arxiv_id: '2406.02740'
     title: Long Range Propagation on Continuous-Time Dynamic Graphs
-    date: '2024-06-04'
+    date: Jun 4, 2024
     date_iso: '2024-06-04'
     date_display: Jun 2024
     codebase_url: ''

@@ -23,6 +23,7 @@ from typing import Any
 from thefuzz import fuzz as fuzz_lib
 from thefuzz import process as fuzz_process
 
+from backend.config import cfg
 from backend.db import init_db, session_scope
 from backend.method_name_audit import audit_extraction_payload
 
@@ -42,6 +43,7 @@ from backend.models import (
 )
 from backend.override_handler import apply_overrides_to_db
 from backend.paper_storage import PaperStorage
+from backend.repository_linking import find_verified_repository_link, repository_source_from_storage
 from backend.text_cleanup import abstract_has_latex_artifacts, clean_extracted_text
 
 logger = logging.getLogger(__name__)
@@ -457,6 +459,18 @@ def _enrich_paper_metadata(arxiv_id: str, paper: Paper, storage: PaperStorage) -
             paper.venue = metadata["venue"]
         if metadata.get("codebase_url") and not paper.codebase_url:
             paper.codebase_url = metadata["codebase_url"]
+        repo_meta = metadata.get("repository")
+        if isinstance(repo_meta, dict) and repo_meta.get("verified_url") and not paper.codebase_url:
+            paper.codebase_url = str(repo_meta["verified_url"]).strip()
+
+    if not paper.codebase_url and storage.llm_output_path.exists():
+        try:
+            raw_output = json.loads(storage.llm_output_path.read_text(encoding="utf-8"))
+            repository = raw_output.get("repository")
+            if isinstance(repository, dict) and repository.get("verified_url"):
+                paper.codebase_url = str(repository["verified_url"]).strip()
+        except (ValueError, OSError):
+            pass
 
     from backend.llm_extractor import _title_looks_corrupted
 
@@ -524,12 +538,45 @@ def _enrich_paper_metadata(arxiv_id: str, paper: Paper, storage: PaperStorage) -
                 paper.published_date = f"{year}-{month:02d}"
 
     # Extract GitHub codebase URL from paper text if not already set
+    if not paper.codebase_url:
+        repo_source_text, repo_source_kind = repository_source_from_storage(storage)
+        if repo_source_text:
+            try:
+                from backend.llm_extractor import LLMExtractor
+
+                verifier = (
+                    LLMExtractor(model_tier="small")
+                    if cfg.llm_endpoint and cfg.llm_api_key
+                    else None
+                )
+                repository = find_verified_repository_link(
+                    llm_verifier=verifier,
+                    arxiv_id=arxiv_id,
+                    paper_title=paper.title or "",
+                    paper_abstract=paper.abstract or "",
+                    source_text=repo_source_text,
+                    source_kind=repo_source_kind,
+                )
+                if repository.get("verified_url"):
+                    paper.codebase_url = str(repository["verified_url"]).strip()
+                    storage.update_metadata(
+                        {
+                            "codebase_url": paper.codebase_url,
+                            "repository": repository,
+                        }
+                    )
+                    logger.info(
+                        "Set verified codebase_url=%s for arXiv:%s", paper.codebase_url, arxiv_id
+                    )
+            except Exception as exc:
+                logger.warning("Verified repo extraction failed for arXiv:%s: %s", arxiv_id, exc)
+
     if not paper.codebase_url and storage.text_path.exists():
         text = storage.text_path.read_text(encoding="utf-8", errors="ignore")
         url = _extract_github_url(text)
         if url:
             paper.codebase_url = url
-            logger.info("Set codebase_url=%s for arXiv:%s", url, arxiv_id)
+            logger.info("Set heuristic codebase_url=%s for arXiv:%s", url, arxiv_id)
 
     after = (
         paper.title,

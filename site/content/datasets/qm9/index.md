@@ -63,7 +63,7 @@ variants:
     params_millions: 1.0
     arxiv_id: '2405.02795'
     title: Graph as Point Set
-    date: '2024-05-05'
+    date: May 5, 2024
     date_iso: '2024-05-05'
     date_display: May 2024
     codebase_url: ''
@@ -344,7 +344,7 @@ variants:
     arxiv_id: '2502.02379'
     title: 'No Metric to Rule Them All: Toward Principled Evaluations of Graph-Learning
       Datasets'
-    date: '2025-02-04'
+    date: Feb 4, 2025
     date_iso: '2025-02-04'
     date_display: Feb 2025
     codebase_url: ''
@@ -467,7 +467,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.02795'
     title: Graph as Point Set
-    date: '2024-05-05'
+    date: May 5, 2024
     date_iso: '2024-05-05'
     date_display: May 2024
     codebase_url: ''
@@ -550,7 +550,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.02795'
     title: Graph as Point Set
-    date: '2024-05-05'
+    date: May 5, 2024
     date_iso: '2024-05-05'
     date_display: May 2024
     codebase_url: ''
@@ -570,7 +570,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.02795'
     title: Graph as Point Set
-    date: '2024-05-05'
+    date: May 5, 2024
     date_iso: '2024-05-05'
     date_display: May 2024
     codebase_url: ''
@@ -654,7 +654,7 @@ variants:
     arxiv_id: '2502.02379'
     title: 'No Metric to Rule Them All: Toward Principled Evaluations of Graph-Learning
       Datasets'
-    date: '2025-02-04'
+    date: Feb 4, 2025
     date_iso: '2025-02-04'
     date_display: Feb 2025
     codebase_url: ''
@@ -779,7 +779,7 @@ variants:
     params_millions: 0.929
     arxiv_id: '2405.02795'
     title: Graph as Point Set
-    date: '2024-05-05'
+    date: May 5, 2024
     date_iso: '2024-05-05'
     date_display: May 2024
     codebase_url: ''
@@ -903,7 +903,7 @@ variants:
     arxiv_id: '2502.02379'
     title: 'No Metric to Rule Them All: Toward Principled Evaluations of Graph-Learning
       Datasets'
-    date: '2025-02-04'
+    date: Feb 4, 2025
     date_iso: '2025-02-04'
     date_display: Feb 2025
     codebase_url: ''
@@ -944,7 +944,7 @@ variants:
     arxiv_id: '2502.02379'
     title: 'No Metric to Rule Them All: Toward Principled Evaluations of Graph-Learning
       Datasets'
-    date: '2025-02-04'
+    date: Feb 4, 2025
     date_iso: '2025-02-04'
     date_display: Feb 2025
     codebase_url: ''
@@ -1085,7 +1085,7 @@ variants:
     arxiv_id: '2502.02379'
     title: 'No Metric to Rule Them All: Toward Principled Evaluations of Graph-Learning
       Datasets'
-    date: '2025-02-04'
+    date: Feb 4, 2025
     date_iso: '2025-02-04'
     date_display: Feb 2025
     codebase_url: ''
@@ -1166,7 +1166,7 @@ variants:
     arxiv_id: '2502.02379'
     title: 'No Metric to Rule Them All: Toward Principled Evaluations of Graph-Learning
       Datasets'
-    date: '2025-02-04'
+    date: Feb 4, 2025
     date_iso: '2025-02-04'
     date_display: Feb 2025
     codebase_url: ''
@@ -1266,7 +1266,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.02795'
     title: Graph as Point Set
-    date: '2024-05-05'
+    date: May 5, 2024
     date_iso: '2024-05-05'
     date_display: May 2024
     codebase_url: ''
@@ -1326,7 +1326,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.02795'
     title: Graph as Point Set
-    date: '2024-05-05'
+    date: May 5, 2024
     date_iso: '2024-05-05'
     date_display: May 2024
     codebase_url: ''
@@ -1346,7 +1346,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.02795'
     title: Graph as Point Set
-    date: '2024-05-05'
+    date: May 5, 2024
     date_iso: '2024-05-05'
     date_display: May 2024
     codebase_url: ''

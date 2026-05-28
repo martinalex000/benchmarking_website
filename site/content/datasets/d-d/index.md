@@ -321,7 +321,7 @@ variants:
     params_millions: null
     arxiv_id: '2402.04821'
     title: E(3)-Equivariant Mesh Neural Networks
-    date: '2024-02-07'
+    date: Feb 7, 2024
     date_iso: '2024-02-07'
     date_display: Feb 2024
     codebase_url: ''
@@ -373,7 +373,7 @@ variants:
     params_millions: null
     arxiv_id: '2402.04821'
     title: E(3)-Equivariant Mesh Neural Networks
-    date: '2024-02-07'
+    date: Feb 7, 2024
     date_iso: '2024-02-07'
     date_display: Feb 2024
     codebase_url: ''
@@ -425,7 +425,7 @@ variants:
     params_millions: null
     arxiv_id: '2402.04821'
     title: E(3)-Equivariant Mesh Neural Networks
-    date: '2024-02-07'
+    date: Feb 7, 2024
     date_iso: '2024-02-07'
     date_display: Feb 2024
     codebase_url: ''
@@ -477,7 +477,7 @@ variants:
     params_millions: null
     arxiv_id: '2402.04821'
     title: E(3)-Equivariant Mesh Neural Networks
-    date: '2024-02-07'
+    date: Feb 7, 2024
     date_iso: '2024-02-07'
     date_display: Feb 2024
     codebase_url: ''
@@ -529,7 +529,7 @@ variants:
     params_millions: null
     arxiv_id: '2402.04821'
     title: E(3)-Equivariant Mesh Neural Networks
-    date: '2024-02-07'
+    date: Feb 7, 2024
     date_iso: '2024-02-07'
     date_display: Feb 2024
     codebase_url: ''
@@ -634,7 +634,7 @@ variants:
     params_millions: null
     arxiv_id: '2402.04821'
     title: E(3)-Equivariant Mesh Neural Networks
-    date: '2024-02-07'
+    date: Feb 7, 2024
     date_iso: '2024-02-07'
     date_display: Feb 2024
     codebase_url: ''
@@ -686,7 +686,7 @@ variants:
     params_millions: null
     arxiv_id: '2402.04821'
     title: E(3)-Equivariant Mesh Neural Networks
-    date: '2024-02-07'
+    date: Feb 7, 2024
     date_iso: '2024-02-07'
     date_display: Feb 2024
     codebase_url: ''
@@ -738,7 +738,7 @@ variants:
     params_millions: null
     arxiv_id: '2402.04821'
     title: E(3)-Equivariant Mesh Neural Networks
-    date: '2024-02-07'
+    date: Feb 7, 2024
     date_iso: '2024-02-07'
     date_display: Feb 2024
     codebase_url: ''
@@ -895,7 +895,7 @@ variants:
     params_millions: null
     arxiv_id: '2402.04821'
     title: E(3)-Equivariant Mesh Neural Networks
-    date: '2024-02-07'
+    date: Feb 7, 2024
     date_iso: '2024-02-07'
     date_display: Feb 2024
     codebase_url: ''
@@ -1103,7 +1103,7 @@ variants:
     params_millions: null
     arxiv_id: '2402.04821'
     title: E(3)-Equivariant Mesh Neural Networks
-    date: '2024-02-07'
+    date: Feb 7, 2024
     date_iso: '2024-02-07'
     date_display: Feb 2024
     codebase_url: ''
@@ -1155,7 +1155,7 @@ variants:
     params_millions: null
     arxiv_id: '2402.04821'
     title: E(3)-Equivariant Mesh Neural Networks
-    date: '2024-02-07'
+    date: Feb 7, 2024
     date_iso: '2024-02-07'
     date_display: Feb 2024
     codebase_url: ''
@@ -1415,7 +1415,7 @@ variants:
     params_millions: null
     arxiv_id: '2402.04821'
     title: E(3)-Equivariant Mesh Neural Networks
-    date: '2024-02-07'
+    date: Feb 7, 2024
     date_iso: '2024-02-07'
     date_display: Feb 2024
     codebase_url: ''
@@ -1467,7 +1467,7 @@ variants:
     params_millions: null
     arxiv_id: '2402.04821'
     title: E(3)-Equivariant Mesh Neural Networks
-    date: '2024-02-07'
+    date: Feb 7, 2024
     date_iso: '2024-02-07'
     date_display: Feb 2024
     codebase_url: ''
@@ -3669,7 +3669,7 @@ variants:
     params_millions: null
     arxiv_id: '2505.23185'
     title: Improving the Effective Receptive Field of Message-Passing Neural Networks
-    date: '2025-05-29'
+    date: May 29, 2025
     date_iso: '2025-05-29'
     date_display: May 2025
     codebase_url: ''
@@ -4137,7 +4137,7 @@ variants:
     params_millions: null
     arxiv_id: '2505.23185'
     title: Improving the Effective Receptive Field of Message-Passing Neural Networks
-    date: '2025-05-29'
+    date: May 29, 2025
     date_iso: '2025-05-29'
     date_display: May 2025
     codebase_url: ''
@@ -7474,7 +7474,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_iso: '2025-01-29'
     date_display: Jan 2025
     codebase_url: ''
@@ -7526,7 +7526,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_iso: '2025-01-29'
     date_display: Jan 2025
     codebase_url: ''
@@ -7578,7 +7578,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_iso: '2025-01-29'
     date_display: Jan 2025
     codebase_url: ''
@@ -7630,7 +7630,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_iso: '2025-01-29'
     date_display: Jan 2025
     codebase_url: ''
@@ -7682,7 +7682,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_iso: '2025-01-29'
     date_display: Jan 2025
     codebase_url: ''
@@ -7734,7 +7734,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_iso: '2025-01-29'
     date_display: Jan 2025
     codebase_url: ''
@@ -7786,7 +7786,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_iso: '2025-01-29'
     date_display: Jan 2025
     codebase_url: ''
@@ -7838,7 +7838,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_iso: '2025-01-29'
     date_display: Jan 2025
     codebase_url: ''
@@ -7890,7 +7890,7 @@ variants:
     params_millions: 420.0
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_iso: '2025-01-29'
     date_display: Jan 2025
     codebase_url: ''
@@ -7942,7 +7942,7 @@ variants:
     params_millions: 150.0
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_iso: '2025-01-29'
     date_display: Jan 2025
     codebase_url: ''
@@ -7994,7 +7994,7 @@ variants:
     params_millions: 3000.0
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_iso: '2025-01-29'
     date_display: Jan 2025
     codebase_url: ''
@@ -8046,7 +8046,7 @@ variants:
     params_millions: 8.0
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_iso: '2025-01-29'
     date_display: Jan 2025
     codebase_url: ''
@@ -8098,7 +8098,7 @@ variants:
     params_millions: 35.0
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_iso: '2025-01-29'
     date_display: Jan 2025
     codebase_url: ''
@@ -8150,7 +8150,7 @@ variants:
     params_millions: 650.0
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_iso: '2025-01-29'
     date_display: Jan 2025
     codebase_url: ''
@@ -8202,7 +8202,7 @@ variants:
     params_millions: 3000.0
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_iso: '2025-01-29'
     date_display: Jan 2025
     codebase_url: ''
@@ -8930,7 +8930,7 @@ variants:
     params_millions: null
     arxiv_id: '2406.02740'
     title: Long Range Propagation on Continuous-Time Dynamic Graphs
-    date: '2024-06-04'
+    date: Jun 4, 2024
     date_iso: '2024-06-04'
     date_display: Jun 2024
     codebase_url: ''
@@ -8982,7 +8982,7 @@ variants:
     params_millions: null
     arxiv_id: '2406.02740'
     title: Long Range Propagation on Continuous-Time Dynamic Graphs
-    date: '2024-06-04'
+    date: Jun 4, 2024
     date_iso: '2024-06-04'
     date_display: Jun 2024
     codebase_url: ''
@@ -9034,7 +9034,7 @@ variants:
     params_millions: null
     arxiv_id: '2406.02740'
     title: Long Range Propagation on Continuous-Time Dynamic Graphs
-    date: '2024-06-04'
+    date: Jun 4, 2024
     date_iso: '2024-06-04'
     date_display: Jun 2024
     codebase_url: ''
@@ -9086,7 +9086,7 @@ variants:
     params_millions: null
     arxiv_id: '2406.02740'
     title: Long Range Propagation on Continuous-Time Dynamic Graphs
-    date: '2024-06-04'
+    date: Jun 4, 2024
     date_iso: '2024-06-04'
     date_display: Jun 2024
     codebase_url: ''
@@ -9138,7 +9138,7 @@ variants:
     params_millions: null
     arxiv_id: '2406.02740'
     title: Long Range Propagation on Continuous-Time Dynamic Graphs
-    date: '2024-06-04'
+    date: Jun 4, 2024
     date_iso: '2024-06-04'
     date_display: Jun 2024
     codebase_url: ''
@@ -9190,7 +9190,7 @@ variants:
     params_millions: null
     arxiv_id: '2406.02740'
     title: Long Range Propagation on Continuous-Time Dynamic Graphs
-    date: '2024-06-04'
+    date: Jun 4, 2024
     date_iso: '2024-06-04'
     date_display: Jun 2024
     codebase_url: ''
@@ -9242,7 +9242,7 @@ variants:
     params_millions: null
     arxiv_id: '2406.02740'
     title: Long Range Propagation on Continuous-Time Dynamic Graphs
-    date: '2024-06-04'
+    date: Jun 4, 2024
     date_iso: '2024-06-04'
     date_display: Jun 2024
     codebase_url: ''
@@ -12719,7 +12719,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -12771,7 +12771,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -12823,7 +12823,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -12875,7 +12875,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -12927,7 +12927,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -13447,7 +13447,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -13499,7 +13499,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''

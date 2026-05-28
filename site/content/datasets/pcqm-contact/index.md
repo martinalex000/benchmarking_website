@@ -12,7 +12,7 @@ stats:
   avg_nodes: 30.14
   avg_edges: 61.09
   num_classes: 1
-result_count: 91
+result_count: 92
 best_model:
   model: FloydNet
   value: 0.6143
@@ -224,7 +224,7 @@ variants:
     arxiv_id: '2402.00789'
     title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling with Selective
       State Spaces'
-    date: '2024-02-01'
+    date: Feb 1, 2024
     date_iso: '2024-02-01'
     date_display: Feb 2024
     codebase_url: ''
@@ -522,6 +522,26 @@ variants:
     metric_stds:
     - 0.0005
     - null
+  - model: WL
+    model_plain: WL
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2407.02758'
+    title: Differential Encoding for Improved Representation Learning over Graphs
+    date: Jul 2024
+    date_iso: 2024-07
+    date_display: Jul 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.3459
+    - null
+    metric_stds:
+    - 0.0005
+    - null
   - model: M
     model_plain: M
     is_baseline: false
@@ -530,7 +550,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -592,7 +612,7 @@ variants:
     arxiv_id: '2402.00789'
     title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling with Selective
       State Spaces'
-    date: '2024-02-01'
+    date: Feb 1, 2024
     date_iso: '2024-02-01'
     date_display: Feb 2024
     codebase_url: ''
@@ -613,7 +633,7 @@ variants:
     arxiv_id: '2402.00789'
     title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling with Selective
       State Spaces'
-    date: '2024-02-01'
+    date: Feb 1, 2024
     date_iso: '2024-02-01'
     date_display: Feb 2024
     codebase_url: ''
@@ -676,7 +696,7 @@ variants:
     arxiv_id: '2402.00789'
     title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling with Selective
       State Spaces'
-    date: '2024-02-01'
+    date: Feb 1, 2024
     date_iso: '2024-02-01'
     date_display: Feb 2024
     codebase_url: ''
@@ -716,7 +736,7 @@ variants:
     params_millions: null
     arxiv_id: '2410.13798'
     title: Learning Graph Quantized Tokenizers
-    date: '2024-10-17'
+    date: Oct 17, 2024
     date_iso: '2024-10-17'
     date_display: Oct 2024
     codebase_url: ''
@@ -736,7 +756,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -797,7 +817,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -857,7 +877,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -920,7 +940,7 @@ variants:
     arxiv_id: '2402.00789'
     title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling with Selective
       State Spaces'
-    date: '2024-02-01'
+    date: Feb 1, 2024
     date_iso: '2024-02-01'
     date_display: Feb 2024
     codebase_url: ''
@@ -940,7 +960,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -980,7 +1000,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -1223,7 +1243,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -1284,7 +1304,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -1345,7 +1365,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -1466,7 +1486,7 @@ variants:
     arxiv_id: '2402.00789'
     title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling with Selective
       State Spaces'
-    date: '2024-02-01'
+    date: Feb 1, 2024
     date_iso: '2024-02-01'
     date_display: Feb 2024
     codebase_url: ''
@@ -1628,7 +1648,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''

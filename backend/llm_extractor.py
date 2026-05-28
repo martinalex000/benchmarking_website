@@ -2245,6 +2245,7 @@ class LLMExtractor:
         tables_text: str,
         figures_list: list[dict],
         paper_title: str = "",
+        paper_abstract: str = "",
         structured_tables: list | None = None,
         latex_paper: Any = None,
         extraction_strategy: str = "auto",
@@ -2303,6 +2304,44 @@ class LLMExtractor:
             note = f"Intro-derived proposed-model hint: {intro_model_hint}."
             results_out.extraction_notes = f"{results_out.extraction_notes}\n{note}".strip()
         _stabilize_model_names(results_out, paper_title=paper_title)
+
+        repository_out = {
+            "verified_url": None,
+            "confidence": 0.0,
+            "reason": "",
+            "verification_model": "",
+            "source_kind": "none",
+            "candidate_urls": [],
+            "checked_candidates": [],
+        }
+        try:
+            from backend.repository_linking import find_verified_repository_link
+
+            repo_source_text = latex_paper.main_tex if latex_paper is not None else paper_text
+            repo_source_kind = "latex" if latex_paper is not None else "paper_text"
+            if repo_source_text.strip():
+                repo_verifier = (
+                    LLMExtractor(model_tier="small", streaming=self.streaming)
+                    if cfg.llm_endpoint and cfg.llm_api_key
+                    else None
+                )
+                repository_out = find_verified_repository_link(
+                    llm_verifier=repo_verifier,
+                    arxiv_id=arxiv_id,
+                    paper_title=paper_title,
+                    paper_abstract=paper_abstract,
+                    source_text=repo_source_text,
+                    source_kind=repo_source_kind,
+                )
+                if repo_verifier is not None:
+                    self._call_log.extend(repo_verifier._call_log)
+                storage_updates = {"repository": repository_out}
+                if repository_out.get("verified_url"):
+                    storage_updates["codebase_url"] = repository_out["verified_url"]
+                storage.update_metadata(storage_updates)
+        except Exception as exc:
+            logger.warning("Repository verification failed for %s: %s", arxiv_id, exc)
+
         usage_summary = _summarize_call_usage(self._call_log, self._probe_usage_limits())
 
         # Compose full output
@@ -2317,6 +2356,7 @@ class LLMExtractor:
             },
             "results": results_out.model_dump(),
             "figure": figure_out.model_dump(),
+            "repository": repository_out,
             "model_sizes": [s.model_dump() for s in sizes],
             "usage": usage_summary,
         }

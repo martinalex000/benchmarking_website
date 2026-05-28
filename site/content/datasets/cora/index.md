@@ -12,7 +12,7 @@ stats:
   avg_nodes: 2708.0
   avg_edges: 10556.0
   num_classes: 7
-result_count: 413
+result_count: 414
 best_model:
   model: TRIGON
   value: 0.9170999999999999
@@ -87,7 +87,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.18739'
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_iso: '2025-01-30'
     date_display: Jan 2025
     codebase_url: ''
@@ -131,7 +131,7 @@ variants:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_iso: '2024-11-26'
     date_display: Nov 2024
     codebase_url: ''
@@ -286,7 +286,7 @@ variants:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_iso: '2024-11-26'
     date_display: Nov 2024
     codebase_url: ''
@@ -330,7 +330,7 @@ variants:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_iso: '2024-11-26'
     date_display: Nov 2024
     codebase_url: ''
@@ -352,7 +352,7 @@ variants:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_iso: '2024-11-26'
     date_display: Nov 2024
     codebase_url: ''
@@ -553,7 +553,7 @@ variants:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_iso: '2024-11-26'
     date_display: Nov 2024
     codebase_url: ''
@@ -575,7 +575,7 @@ variants:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_iso: '2024-11-26'
     date_display: Nov 2024
     codebase_url: ''
@@ -1090,7 +1090,7 @@ variants:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_iso: '2024-11-26'
     date_display: Nov 2024
     codebase_url: ''
@@ -1335,7 +1335,7 @@ variants:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_iso: '2024-11-26'
     date_display: Nov 2024
     codebase_url: ''
@@ -1514,7 +1514,7 @@ variants:
     params_millions: null
     arxiv_id: '2406.03671'
     title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
-    date: '2024-06-06'
+    date: Jun 6, 2024
     date_iso: '2024-06-06'
     date_display: Jun 2024
     codebase_url: ''
@@ -3120,7 +3120,7 @@ variants:
     params_millions: null
     arxiv_id: '2406.03671'
     title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
-    date: '2024-06-06'
+    date: Jun 6, 2024
     date_iso: '2024-06-06'
     date_display: Jun 2024
     codebase_url: ''
@@ -3463,11 +3463,11 @@ variants:
     is_best: false
     metric_values:
     - 0.8232
-    - null
+    - 0.8232
     - null
     metric_stds:
     - 0.007
-    - null
+    - 0.007
     - null
   - model: DMD++
     model_plain: DMD++
@@ -3865,11 +3865,11 @@ variants:
     is_best: false
     metric_values:
     - 0.8142
-    - null
+    - 0.8142
     - null
     metric_stds:
     - 0.0079
-    - null
+    - 0.0079
     - null
   - model: GCN-SSM (eig(Lambda)=1)
     model_plain: GCN-SSM (eig(Lambda)=1)
@@ -4047,11 +4047,11 @@ variants:
     is_best: false
     metric_values:
     - 0.804
-    - null
+    - 0.804
     - null
     metric_stds:
     - 0.0053
-    - null
+    - 0.0053
     - null
   - model: ProGNN
     model_plain: ProGNN
@@ -4225,11 +4225,11 @@ variants:
     is_best: false
     metric_values:
     - 0.8
-    - null
+    - 0.8
     - null
     metric_stds:
     - 0.0085
-    - null
+    - 0.0085
     - null
   - model: HAT
     model_plain: HAT
@@ -4248,11 +4248,11 @@ variants:
     is_best: false
     metric_values:
     - 0.7981
-    - null
+    - 0.7981
     - null
     metric_stds:
     - 0.0058
-    - null
+    - 0.0058
     - null
   - model: GIN (LCP)
     model_plain: GIN (LCP)
@@ -4293,11 +4293,11 @@ variants:
     is_best: false
     metric_values:
     - 0.7963
-    - null
+    - 0.7963
     - null
     metric_stds:
     - 0.0057
-    - null
+    - 0.0057
     - null
   - model: GPRGNN
     model_plain: GPRGNN
@@ -4473,11 +4473,11 @@ variants:
     is_best: false
     metric_values:
     - 0.793
-    - null
+    - 0.793
     - null
     metric_stds:
     - 0.0051
-    - null
+    - 0.0051
     - null
   - model: PIGN with GAT
     model_plain: PIGN with GAT
@@ -4541,11 +4541,11 @@ variants:
     is_best: false
     metric_values:
     - 0.7888
-    - null
+    - 0.7888
     - null
     metric_stds:
     - 0.0087
-    - null
+    - 0.0087
     - null
   - model: RWPT (Pre-Train w/ Arxiv + FB15k237 + ChEMBL)
     model_plain: RWPT (Pre-Train w/ Arxiv + FB15k237 + ChEMBL)
@@ -4870,7 +4870,7 @@ variants:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_iso: '2024-11-26'
     date_display: Nov 2024
     codebase_url: ''
@@ -5816,11 +5816,11 @@ variants:
     is_best: false
     metric_values:
     - 0.737
-    - null
+    - 0.737
     - null
     metric_stds:
     - 0.0069
-    - null
+    - 0.0069
     - null
   - model: HES-GSL
     model_plain: HES-GSL
@@ -6363,7 +6363,7 @@ variants:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_iso: '2024-11-26'
     date_display: Nov 2024
     codebase_url: ''
@@ -6385,7 +6385,7 @@ variants:
     params_millions: null
     arxiv_id: '2410.13798'
     title: Learning Graph Quantized Tokenizers
-    date: '2024-10-17'
+    date: Oct 17, 2024
     date_iso: '2024-10-17'
     date_display: Oct 2024
     codebase_url: ''
@@ -6407,7 +6407,7 @@ variants:
     params_millions: null
     arxiv_id: '2410.13798'
     title: Learning Graph Quantized Tokenizers
-    date: '2024-10-17'
+    date: Oct 17, 2024
     date_iso: '2024-10-17'
     date_display: Oct 2024
     codebase_url: ''
@@ -6429,7 +6429,7 @@ variants:
     params_millions: null
     arxiv_id: '2410.13798'
     title: Learning Graph Quantized Tokenizers
-    date: '2024-10-17'
+    date: Oct 17, 2024
     date_iso: '2024-10-17'
     date_display: Oct 2024
     codebase_url: ''
@@ -6473,7 +6473,7 @@ variants:
     params_millions: null
     arxiv_id: '2410.13798'
     title: Learning Graph Quantized Tokenizers
-    date: '2024-10-17'
+    date: Oct 17, 2024
     date_iso: '2024-10-17'
     date_display: Oct 2024
     codebase_url: ''
@@ -6495,7 +6495,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.18739'
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_iso: '2025-01-30'
     date_display: Jan 2025
     codebase_url: ''
@@ -6585,7 +6585,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.18739'
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_iso: '2025-01-30'
     date_display: Jan 2025
     codebase_url: ''
@@ -6673,7 +6673,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.18739'
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_iso: '2025-01-30'
     date_display: Jan 2025
     codebase_url: ''
@@ -6807,7 +6807,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.18739'
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_iso: '2025-01-30'
     date_display: Jan 2025
     codebase_url: ''
@@ -6917,7 +6917,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.18739'
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_iso: '2025-01-30'
     date_display: Jan 2025
     codebase_url: ''
@@ -6939,7 +6939,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -6961,7 +6961,7 @@ variants:
     params_millions: null
     arxiv_id: '2410.13798'
     title: Learning Graph Quantized Tokenizers
-    date: '2024-10-17'
+    date: Oct 17, 2024
     date_iso: '2024-10-17'
     date_display: Oct 2024
     codebase_url: ''
@@ -6983,7 +6983,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.18739'
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_iso: '2025-01-30'
     date_display: Jan 2025
     codebase_url: ''
@@ -7005,7 +7005,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.18739'
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_iso: '2025-01-30'
     date_display: Jan 2025
     codebase_url: ''
@@ -7027,7 +7027,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.18739'
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_iso: '2025-01-30'
     date_display: Jan 2025
     codebase_url: ''
@@ -7049,7 +7049,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -7138,7 +7138,7 @@ variants:
     params_millions: null
     arxiv_id: '2410.13798'
     title: Learning Graph Quantized Tokenizers
-    date: '2024-10-17'
+    date: Oct 17, 2024
     date_iso: '2024-10-17'
     date_display: Oct 2024
     codebase_url: ''
@@ -7292,7 +7292,7 @@ variants:
     params_millions: null
     arxiv_id: '2410.13798'
     title: Learning Graph Quantized Tokenizers
-    date: '2024-10-17'
+    date: Oct 17, 2024
     date_iso: '2024-10-17'
     date_display: Oct 2024
     codebase_url: ''
@@ -7403,7 +7403,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -7557,7 +7557,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -7601,7 +7601,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -7623,7 +7623,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -7668,7 +7668,7 @@ variants:
     params_millions: null
     arxiv_id: '2410.13798'
     title: Learning Graph Quantized Tokenizers
-    date: '2024-10-17'
+    date: Oct 17, 2024
     date_iso: '2024-10-17'
     date_display: Oct 2024
     codebase_url: ''
@@ -7780,7 +7780,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -7802,7 +7802,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -7846,7 +7846,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -7891,7 +7891,7 @@ variants:
     params_millions: null
     arxiv_id: '2410.13798'
     title: Learning Graph Quantized Tokenizers
-    date: '2024-10-17'
+    date: Oct 17, 2024
     date_iso: '2024-10-17'
     date_display: Oct 2024
     codebase_url: ''
@@ -8120,7 +8120,7 @@ variants:
     params_millions: null
     arxiv_id: '2410.13798'
     title: Learning Graph Quantized Tokenizers
-    date: '2024-10-17'
+    date: Oct 17, 2024
     date_iso: '2024-10-17'
     date_display: Oct 2024
     codebase_url: ''
@@ -8142,7 +8142,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -8253,7 +8253,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -8275,7 +8275,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -8341,7 +8341,7 @@ variants:
     params_millions: null
     arxiv_id: '2410.13798'
     title: Learning Graph Quantized Tokenizers
-    date: '2024-10-17'
+    date: Oct 17, 2024
     date_iso: '2024-10-17'
     date_display: Oct 2024
     codebase_url: ''
@@ -8407,7 +8407,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -8507,11 +8507,11 @@ variants:
     is_best: false
     metric_values:
     - 0.5244
-    - null
+    - 0.5244
     - null
     metric_stds:
     - 0.0108
-    - null
+    - 0.0108
     - null
   - model: DiffPool
     model_plain: DiffPool
@@ -9096,7 +9096,7 @@ variants:
     params_millions: null
     arxiv_id: '2406.02740'
     title: Long Range Propagation on Continuous-Time Dynamic Graphs
-    date: '2024-06-04'
+    date: Jun 4, 2024
     date_iso: '2024-06-04'
     date_display: Jun 2024
     codebase_url: ''
@@ -9118,7 +9118,7 @@ variants:
     params_millions: null
     arxiv_id: '2406.02740'
     title: Long Range Propagation on Continuous-Time Dynamic Graphs
-    date: '2024-06-04'
+    date: Jun 4, 2024
     date_iso: '2024-06-04'
     date_display: Jun 2024
     codebase_url: ''
@@ -9140,7 +9140,7 @@ variants:
     params_millions: null
     arxiv_id: '2406.02740'
     title: Long Range Propagation on Continuous-Time Dynamic Graphs
-    date: '2024-06-04'
+    date: Jun 4, 2024
     date_iso: '2024-06-04'
     date_display: Jun 2024
     codebase_url: ''
@@ -9162,7 +9162,7 @@ variants:
     params_millions: null
     arxiv_id: '2406.02740'
     title: Long Range Propagation on Continuous-Time Dynamic Graphs
-    date: '2024-06-04'
+    date: Jun 4, 2024
     date_iso: '2024-06-04'
     date_display: Jun 2024
     codebase_url: ''
@@ -9184,7 +9184,7 @@ variants:
     params_millions: null
     arxiv_id: '2406.02740'
     title: Long Range Propagation on Continuous-Time Dynamic Graphs
-    date: '2024-06-04'
+    date: Jun 4, 2024
     date_iso: '2024-06-04'
     date_display: Jun 2024
     codebase_url: ''
@@ -9206,7 +9206,7 @@ variants:
     params_millions: null
     arxiv_id: '2406.02740'
     title: Long Range Propagation on Continuous-Time Dynamic Graphs
-    date: '2024-06-04'
+    date: Jun 4, 2024
     date_iso: '2024-06-04'
     date_display: Jun 2024
     codebase_url: ''
@@ -9228,7 +9228,7 @@ variants:
     params_millions: null
     arxiv_id: '2406.02740'
     title: Long Range Propagation on Continuous-Time Dynamic Graphs
-    date: '2024-06-04'
+    date: Jun 4, 2024
     date_iso: '2024-06-04'
     date_display: Jun 2024
     codebase_url: ''
@@ -9241,6 +9241,29 @@ variants:
     metric_stds:
     - null
     - 0.0033
+    - null
+  - model: FPS-T
+    model_plain: FPS-T
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2309.04082'
+    title: 'Curve Your Attention: Mixed-Curvature Transformers for Graph Representation
+      Learning'
+    date: Sep 2023
+    date_iso: 2023-09
+    date_display: Sep 2023
+    codebase_url: ''
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - null
+    - 0.8232
+    - null
+    metric_stds:
+    - null
+    - 0.007
     - null
   milestones:
   - value: 0.8952

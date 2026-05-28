@@ -13,7 +13,7 @@ stats:
   avg_nodes: 41.0
   avg_edges: 164.0
   num_classes: 10
-result_count: 36
+result_count: 44
 best_model:
   model: B-method
   value: 1.0
@@ -79,7 +79,7 @@ variants:
     arxiv_id: '2404.03380'
     title: On the Theoretical Expressive Power and the Design Space of Higher-Order
       Graph Transformers
-    date: '2024-04-04'
+    date: Apr 4, 2024
     date_iso: '2024-04-04'
     date_display: Apr 2024
     codebase_url: ''
@@ -98,7 +98,7 @@ variants:
     arxiv_id: '2404.03380'
     title: On the Theoretical Expressive Power and the Design Space of Higher-Order
       Graph Transformers
-    date: '2024-04-04'
+    date: Apr 4, 2024
     date_iso: '2024-04-04'
     date_display: Apr 2024
     codebase_url: ''
@@ -117,7 +117,7 @@ variants:
     arxiv_id: '2404.03380'
     title: On the Theoretical Expressive Power and the Design Space of Higher-Order
       Graph Transformers
-    date: '2024-04-04'
+    date: Apr 4, 2024
     date_iso: '2024-04-04'
     date_display: Apr 2024
     codebase_url: ''
@@ -136,7 +136,7 @@ variants:
     arxiv_id: '2404.03380'
     title: On the Theoretical Expressive Power and the Design Space of Higher-Order
       Graph Transformers
-    date: '2024-04-04'
+    date: Apr 4, 2024
     date_iso: '2024-04-04'
     date_display: Apr 2024
     codebase_url: ''
@@ -155,7 +155,7 @@ variants:
     arxiv_id: '2404.03380'
     title: On the Theoretical Expressive Power and the Design Space of Higher-Order
       Graph Transformers
-    date: '2024-04-04'
+    date: Apr 4, 2024
     date_iso: '2024-04-04'
     date_display: Apr 2024
     codebase_url: ''
@@ -174,7 +174,7 @@ variants:
     arxiv_id: '2404.03380'
     title: On the Theoretical Expressive Power and the Design Space of Higher-Order
       Graph Transformers
-    date: '2024-04-04'
+    date: Apr 4, 2024
     date_iso: '2024-04-04'
     date_display: Apr 2024
     codebase_url: ''
@@ -193,7 +193,7 @@ variants:
     arxiv_id: '2404.03380'
     title: On the Theoretical Expressive Power and the Design Space of Higher-Order
       Graph Transformers
-    date: '2024-04-04'
+    date: Apr 4, 2024
     date_iso: '2024-04-04'
     date_display: Apr 2024
     codebase_url: ''
@@ -212,7 +212,7 @@ variants:
     arxiv_id: '2404.03380'
     title: On the Theoretical Expressive Power and the Design Space of Higher-Order
       Graph Transformers
-    date: '2024-04-04'
+    date: Apr 4, 2024
     date_iso: '2024-04-04'
     date_display: Apr 2024
     codebase_url: ''
@@ -231,7 +231,7 @@ variants:
     arxiv_id: '2404.03380'
     title: On the Theoretical Expressive Power and the Design Space of Higher-Order
       Graph Transformers
-    date: '2024-04-04'
+    date: Apr 4, 2024
     date_iso: '2024-04-04'
     date_display: Apr 2024
     codebase_url: ''
@@ -250,7 +250,7 @@ variants:
     arxiv_id: '2404.03380'
     title: On the Theoretical Expressive Power and the Design Space of Higher-Order
       Graph Transformers
-    date: '2024-04-04'
+    date: Apr 4, 2024
     date_iso: '2024-04-04'
     date_display: Apr 2024
     codebase_url: ''
@@ -269,7 +269,7 @@ variants:
     arxiv_id: '2404.03380'
     title: On the Theoretical Expressive Power and the Design Space of Higher-Order
       Graph Transformers
-    date: '2024-04-04'
+    date: Apr 4, 2024
     date_iso: '2024-04-04'
     date_display: Apr 2024
     codebase_url: ''
@@ -287,7 +287,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -305,7 +305,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -323,7 +323,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -341,7 +341,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -359,7 +359,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -377,7 +377,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.18739'
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_iso: '2025-01-30'
     date_display: Jan 2025
     codebase_url: ''
@@ -395,7 +395,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.18739'
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_iso: '2025-01-30'
     date_display: Jan 2025
     codebase_url: ''
@@ -413,7 +413,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.18739'
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_iso: '2025-01-30'
     date_display: Jan 2025
     codebase_url: ''
@@ -423,6 +423,120 @@ variants:
     - 1.0
     metric_stds:
     - null
+  - model: \mathcal A_{2}+LapPE
+    model_plain: \mathcal A_{2}+LapPE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2404.03380'
+    title: On the Theoretical Expressive Power and the Design Space of Higher-Order
+      Graph Transformers
+    date: Apr 4, 2024
+    date_iso: '2024-04-04'
+    date_display: Apr 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: true
+    metric_values:
+    - 1.0
+    metric_stds:
+    - 0.0
+  - model: \mathcal A_{2}+RWSE
+    model_plain: \mathcal A_{2}+RWSE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2404.03380'
+    title: On the Theoretical Expressive Power and the Design Space of Higher-Order
+      Graph Transformers
+    date: Apr 4, 2024
+    date_iso: '2024-04-04'
+    date_display: Apr 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: true
+    metric_values:
+    - 1.0
+    metric_stds:
+    - 0.0
+  - model: \mathcal A_{2}^{\mathsf {LN}}
+    model_plain: \mathcal A_{2}^{\mathsf {LN}}
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2404.03380'
+    title: On the Theoretical Expressive Power and the Design Space of Higher-Order
+      Graph Transformers
+    date: Apr 4, 2024
+    date_iso: '2024-04-04'
+    date_display: Apr 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: true
+    metric_values:
+    - 1.0
+    metric_stds:
+    - 0.0
+  - model: \mathcal {AS}_{0:1}+attn.bias+LapPE
+    model_plain: \mathcal {AS}_{0:1}+attn.bias+LapPE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2404.03380'
+    title: On the Theoretical Expressive Power and the Design Space of Higher-Order
+      Graph Transformers
+    date: Apr 4, 2024
+    date_iso: '2024-04-04'
+    date_display: Apr 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: true
+    metric_values:
+    - 1.0
+    metric_stds:
+    - 0.0
+  - model: \mathcal {AS}_{0:1}+attn.bias+RWSE
+    model_plain: \mathcal {AS}_{0:1}+attn.bias+RWSE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2404.03380'
+    title: On the Theoretical Expressive Power and the Design Space of Higher-Order
+      Graph Transformers
+    date: Apr 4, 2024
+    date_iso: '2024-04-04'
+    date_display: Apr 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: true
+    metric_values:
+    - 1.0
+    metric_stds:
+    - 0.0
+  - model: \mathcal {AS}_{0:1}^{\mathsf {SN}}
+    model_plain: \mathcal {AS}_{0:1}^{\mathsf {SN}}
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2404.03380'
+    title: On the Theoretical Expressive Power and the Design Space of Higher-Order
+      Graph Transformers
+    date: Apr 4, 2024
+    date_iso: '2024-04-04'
+    date_display: Apr 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: true
+    metric_values:
+    - 1.0
+    metric_stds:
+    - 0.0
   - model: 3WLGNN
     model_plain: 3WLGNN
     is_baseline: true
@@ -431,7 +545,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -449,7 +563,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.18739'
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_iso: '2025-01-30'
     date_display: Jan 2025
     codebase_url: ''
@@ -467,7 +581,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -486,7 +600,7 @@ variants:
     arxiv_id: '2404.03380'
     title: On the Theoretical Expressive Power and the Design Space of Higher-Order
       Graph Transformers
-    date: '2024-04-04'
+    date: Apr 4, 2024
     date_iso: '2024-04-04'
     date_display: Apr 2024
     codebase_url: ''
@@ -504,7 +618,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -523,7 +637,26 @@ variants:
     arxiv_id: '2404.03380'
     title: On the Theoretical Expressive Power and the Design Space of Higher-Order
       Graph Transformers
-    date: '2024-04-04'
+    date: Apr 4, 2024
+    date_iso: '2024-04-04'
+    date_display: Apr 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.3667
+    metric_stds:
+    - 0.0
+  - model: \mathcal {AS}_{0:1}-dense+attn.bias
+    model_plain: \mathcal {AS}_{0:1}-dense+attn.bias
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2404.03380'
+    title: On the Theoretical Expressive Power and the Design Space of Higher-Order
+      Graph Transformers
+    date: Apr 4, 2024
     date_iso: '2024-04-04'
     date_display: Apr 2024
     codebase_url: ''
@@ -542,7 +675,7 @@ variants:
     arxiv_id: '2404.03380'
     title: On the Theoretical Expressive Power and the Design Space of Higher-Order
       Graph Transformers
-    date: '2024-04-04'
+    date: Apr 4, 2024
     date_iso: '2024-04-04'
     date_display: Apr 2024
     codebase_url: ''
@@ -560,7 +693,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -597,7 +730,7 @@ variants:
     arxiv_id: '2404.03380'
     title: On the Theoretical Expressive Power and the Design Space of Higher-Order
       Graph Transformers
-    date: '2024-04-04'
+    date: Apr 4, 2024
     date_iso: '2024-04-04'
     date_display: Apr 2024
     codebase_url: ''
@@ -616,7 +749,7 @@ variants:
     arxiv_id: '2404.03380'
     title: On the Theoretical Expressive Power and the Design Space of Higher-Order
       Graph Transformers
-    date: '2024-04-04'
+    date: Apr 4, 2024
     date_iso: '2024-04-04'
     date_display: Apr 2024
     codebase_url: ''
@@ -634,7 +767,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -652,7 +785,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.18739'
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_iso: '2025-01-30'
     date_display: Jan 2025
     codebase_url: ''
@@ -670,7 +803,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.18739'
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_iso: '2025-01-30'
     date_display: Jan 2025
     codebase_url: ''
@@ -688,7 +821,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.18739'
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_iso: '2025-01-30'
     date_display: Jan 2025
     codebase_url: ''
@@ -698,6 +831,25 @@ variants:
     - 0.1
     metric_stds:
     - null
+  - model: \mathcal A_{2}
+    model_plain: \mathcal A_{2}
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2404.03380'
+    title: On the Theoretical Expressive Power and the Design Space of Higher-Order
+      Graph Transformers
+    date: Apr 4, 2024
+    date_iso: '2024-04-04'
+    date_display: Apr 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.1
+    metric_stds:
+    - 0.0
   milestones:
   - value: 1.0
     std: null

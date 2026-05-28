@@ -77,7 +77,7 @@ variants:
     params_millions: 1.0
     arxiv_id: '2405.02795'
     title: Graph as Point Set
-    date: '2024-05-05'
+    date: May 5, 2024
     date_iso: '2024-05-05'
     date_display: May 2024
     codebase_url: ''
@@ -114,7 +114,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.18739'
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_iso: '2025-01-30'
     date_display: Jan 2025
     codebase_url: ''
@@ -132,7 +132,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.02795'
     title: Graph as Point Set
-    date: '2024-05-05'
+    date: May 5, 2024
     date_iso: '2024-05-05'
     date_display: May 2024
     codebase_url: ''
@@ -353,7 +353,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.18739'
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_iso: '2025-01-30'
     date_display: Jan 2025
     codebase_url: ''
@@ -371,7 +371,7 @@ variants:
     params_millions: 0.5
     arxiv_id: '2405.02795'
     title: Graph as Point Set
-    date: '2024-05-05'
+    date: May 5, 2024
     date_iso: '2024-05-05'
     date_display: May 2024
     codebase_url: ''
@@ -535,7 +535,7 @@ variants:
     params_millions: 0.5
     arxiv_id: '2405.02795'
     title: Graph as Point Set
-    date: '2024-05-05'
+    date: May 5, 2024
     date_iso: '2024-05-05'
     date_display: May 2024
     codebase_url: ''
@@ -628,7 +628,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.18739'
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_iso: '2025-01-30'
     date_display: Jan 2025
     codebase_url: ''
@@ -646,7 +646,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.18739'
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_iso: '2025-01-30'
     date_display: Jan 2025
     codebase_url: ''
@@ -664,7 +664,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.18739'
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_iso: '2025-01-30'
     date_display: Jan 2025
     codebase_url: ''
@@ -682,7 +682,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.18739'
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_iso: '2025-01-30'
     date_display: Jan 2025
     codebase_url: ''
@@ -737,7 +737,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.18739'
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_iso: '2025-01-30'
     date_display: Jan 2025
     codebase_url: ''
@@ -810,7 +810,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.02795'
     title: Graph as Point Set
-    date: '2024-05-05'
+    date: May 5, 2024
     date_iso: '2024-05-05'
     date_display: May 2024
     codebase_url: ''
@@ -1065,7 +1065,7 @@ variants:
     params_millions: null
     arxiv_id: '2502.09365'
     title: Simple Path Structural Encoding for Graph Transformers
-    date: '2025-02-13'
+    date: Feb 13, 2025
     date_iso: '2025-02-13'
     date_display: Feb 2025
     codebase_url: ''
@@ -1083,7 +1083,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.18739'
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_iso: '2025-01-30'
     date_display: Jan 2025
     codebase_url: ''
@@ -1173,7 +1173,7 @@ variants:
     params_millions: null
     arxiv_id: '2502.09365'
     title: Simple Path Structural Encoding for Graph Transformers
-    date: '2025-02-13'
+    date: Feb 13, 2025
     date_iso: '2025-02-13'
     date_display: Feb 2025
     codebase_url: ''
@@ -1283,7 +1283,7 @@ variants:
     arxiv_id: '2502.00282'
     title: 'GraphMinNet: Learning Dependencies in Graphs with Light Complexity Minimal
       Architecture'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_iso: '2025-02-01'
     date_display: Feb 2025
     codebase_url: ''
@@ -1340,7 +1340,7 @@ variants:
     arxiv_id: '2502.00282'
     title: 'GraphMinNet: Learning Dependencies in Graphs with Light Complexity Minimal
       Architecture'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_iso: '2025-02-01'
     date_display: Feb 2025
     codebase_url: ''
@@ -1431,7 +1431,7 @@ variants:
     params_millions: null
     arxiv_id: '2502.09365'
     title: Simple Path Structural Encoding for Graph Transformers
-    date: '2025-02-13'
+    date: Feb 13, 2025
     date_iso: '2025-02-13'
     date_display: Feb 2025
     codebase_url: ''
@@ -1578,7 +1578,7 @@ variants:
     arxiv_id: '2502.00282'
     title: 'GraphMinNet: Learning Dependencies in Graphs with Light Complexity Minimal
       Architecture'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_iso: '2025-02-01'
     date_display: Feb 2025
     codebase_url: ''
@@ -1688,7 +1688,7 @@ variants:
     params_millions: null
     arxiv_id: '2502.09365'
     title: Simple Path Structural Encoding for Graph Transformers
-    date: '2025-02-13'
+    date: Feb 13, 2025
     date_iso: '2025-02-13'
     date_display: Feb 2025
     codebase_url: ''
@@ -1834,7 +1834,7 @@ variants:
     params_millions: null
     arxiv_id: '2502.09365'
     title: Simple Path Structural Encoding for Graph Transformers
-    date: '2025-02-13'
+    date: Feb 13, 2025
     date_iso: '2025-02-13'
     date_display: Feb 2025
     codebase_url: ''
@@ -1872,7 +1872,7 @@ variants:
     arxiv_id: '2404.03380'
     title: On the Theoretical Expressive Power and the Design Space of Higher-Order
       Graph Transformers
-    date: '2024-04-04'
+    date: Apr 4, 2024
     date_iso: '2024-04-04'
     date_display: Apr 2024
     codebase_url: ''
@@ -2165,7 +2165,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.18739'
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_iso: '2025-01-30'
     date_display: Jan 2025
     codebase_url: ''
@@ -2221,7 +2221,7 @@ variants:
     params_millions: null
     arxiv_id: '2502.09365'
     title: Simple Path Structural Encoding for Graph Transformers
-    date: '2025-02-13'
+    date: Feb 13, 2025
     date_iso: '2025-02-13'
     date_display: Feb 2025
     codebase_url: ''
@@ -2259,7 +2259,7 @@ variants:
     arxiv_id: '2404.03380'
     title: On the Theoretical Expressive Power and the Design Space of Higher-Order
       Graph Transformers
-    date: '2024-04-04'
+    date: Apr 4, 2024
     date_iso: '2024-04-04'
     date_display: Apr 2024
     codebase_url: ''
@@ -2369,7 +2369,7 @@ variants:
     arxiv_id: '2404.03380'
     title: On the Theoretical Expressive Power and the Design Space of Higher-Order
       Graph Transformers
-    date: '2024-04-04'
+    date: Apr 4, 2024
     date_iso: '2024-04-04'
     date_display: Apr 2024
     codebase_url: ''
@@ -2462,7 +2462,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.02795'
     title: Graph as Point Set
-    date: '2024-05-05'
+    date: May 5, 2024
     date_iso: '2024-05-05'
     date_display: May 2024
     codebase_url: ''
@@ -2536,7 +2536,7 @@ variants:
     params_millions: 0.5
     arxiv_id: '2312.01538'
     title: Recurrent Distance Filtering for Graph Representation Learning
-    date: '2023-12-03'
+    date: Dec 3, 2023
     date_iso: '2023-12-03'
     date_display: Dec 2023
     codebase_url: ''
@@ -2645,7 +2645,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -2681,7 +2681,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.02795'
     title: Graph as Point Set
-    date: '2024-05-05'
+    date: May 5, 2024
     date_iso: '2024-05-05'
     date_display: May 2024
     codebase_url: ''
@@ -2700,7 +2700,7 @@ variants:
     arxiv_id: '2404.03380'
     title: On the Theoretical Expressive Power and the Design Space of Higher-Order
       Graph Transformers
-    date: '2024-04-04'
+    date: Apr 4, 2024
     date_iso: '2024-04-04'
     date_display: Apr 2024
     codebase_url: ''
@@ -3065,7 +3065,7 @@ variants:
     arxiv_id: '2404.03380'
     title: On the Theoretical Expressive Power and the Design Space of Higher-Order
       Graph Transformers
-    date: '2024-04-04'
+    date: Apr 4, 2024
     date_iso: '2024-04-04'
     date_display: Apr 2024
     codebase_url: ''
@@ -3267,7 +3267,7 @@ variants:
     params_millions: null
     arxiv_id: '2312.01538'
     title: Recurrent Distance Filtering for Graph Representation Learning
-    date: '2023-12-03'
+    date: Dec 3, 2023
     date_iso: '2023-12-03'
     date_display: Dec 2023
     codebase_url: ''
@@ -3285,7 +3285,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -3359,7 +3359,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -3543,7 +3543,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -3747,7 +3747,7 @@ variants:
     arxiv_id: '2502.00282'
     title: 'GraphMinNet: Learning Dependencies in Graphs with Light Complexity Minimal
       Architecture'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_iso: '2025-02-01'
     date_display: Feb 2025
     codebase_url: ''
@@ -4114,7 +4114,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -4318,7 +4318,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -4392,7 +4392,7 @@ variants:
     params_millions: null
     arxiv_id: '2502.09365'
     title: Simple Path Structural Encoding for Graph Transformers
-    date: '2025-02-13'
+    date: Feb 13, 2025
     date_iso: '2025-02-13'
     date_display: Feb 2025
     codebase_url: ''
@@ -4703,7 +4703,7 @@ variants:
     arxiv_id: '2404.03380'
     title: On the Theoretical Expressive Power and the Design Space of Higher-Order
       Graph Transformers
-    date: '2024-04-04'
+    date: Apr 4, 2024
     date_iso: '2024-04-04'
     date_display: Apr 2024
     codebase_url: ''
@@ -4793,7 +4793,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -4940,7 +4940,7 @@ variants:
     arxiv_id: '2404.03380'
     title: On the Theoretical Expressive Power and the Design Space of Higher-Order
       Graph Transformers
-    date: '2024-04-04'
+    date: Apr 4, 2024
     date_iso: '2024-04-04'
     date_display: Apr 2024
     codebase_url: ''
@@ -5049,7 +5049,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.18739'
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_iso: '2025-01-30'
     date_display: Jan 2025
     codebase_url: ''
@@ -5323,7 +5323,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -5359,7 +5359,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -5377,7 +5377,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -5431,7 +5431,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -5449,7 +5449,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -5634,7 +5634,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -5744,7 +5744,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -5762,7 +5762,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -5837,7 +5837,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -5873,7 +5873,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -5965,7 +5965,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -6259,7 +6259,7 @@ variants:
     arxiv_id: '2502.02379'
     title: 'No Metric to Rule Them All: Toward Principled Evaluations of Graph-Learning
       Datasets'
-    date: '2025-02-04'
+    date: Feb 4, 2025
     date_iso: '2025-02-04'
     date_display: Feb 2025
     codebase_url: ''
@@ -6314,7 +6314,7 @@ variants:
     arxiv_id: '2502.02379'
     title: 'No Metric to Rule Them All: Toward Principled Evaluations of Graph-Learning
       Datasets'
-    date: '2025-02-04'
+    date: Feb 4, 2025
     date_iso: '2025-02-04'
     date_display: Feb 2025
     codebase_url: ''
@@ -6351,7 +6351,7 @@ variants:
     arxiv_id: '2502.02379'
     title: 'No Metric to Rule Them All: Toward Principled Evaluations of Graph-Learning
       Datasets'
-    date: '2025-02-04'
+    date: Feb 4, 2025
     date_iso: '2025-02-04'
     date_display: Feb 2025
     codebase_url: ''
@@ -6370,7 +6370,7 @@ variants:
     arxiv_id: '2502.02379'
     title: 'No Metric to Rule Them All: Toward Principled Evaluations of Graph-Learning
       Datasets'
-    date: '2025-02-04'
+    date: Feb 4, 2025
     date_iso: '2025-02-04'
     date_display: Feb 2025
     codebase_url: ''
@@ -6389,7 +6389,7 @@ variants:
     arxiv_id: '2502.02379'
     title: 'No Metric to Rule Them All: Toward Principled Evaluations of Graph-Learning
       Datasets'
-    date: '2025-02-04'
+    date: Feb 4, 2025
     date_iso: '2025-02-04'
     date_display: Feb 2025
     codebase_url: ''
@@ -6408,7 +6408,7 @@ variants:
     arxiv_id: '2502.02379'
     title: 'No Metric to Rule Them All: Toward Principled Evaluations of Graph-Learning
       Datasets'
-    date: '2025-02-04'
+    date: Feb 4, 2025
     date_iso: '2025-02-04'
     date_display: Feb 2025
     codebase_url: ''
@@ -6544,7 +6544,7 @@ variants:
     params_millions: null
     arxiv_id: '2312.01538'
     title: Recurrent Distance Filtering for Graph Representation Learning
-    date: '2023-12-03'
+    date: Dec 3, 2023
     date_iso: '2023-12-03'
     date_display: Dec 2023
     codebase_url: ''
@@ -6581,7 +6581,7 @@ variants:
     params_millions: null
     arxiv_id: '2502.09365'
     title: Simple Path Structural Encoding for Graph Transformers
-    date: '2025-02-13'
+    date: Feb 13, 2025
     date_iso: '2025-02-13'
     date_display: Feb 2025
     codebase_url: ''
@@ -6654,7 +6654,7 @@ variants:
     params_millions: 1.0
     arxiv_id: '2405.02795'
     title: Graph as Point Set
-    date: '2024-05-05'
+    date: May 5, 2024
     date_iso: '2024-05-05'
     date_display: May 2024
     codebase_url: ''
@@ -6673,7 +6673,45 @@ variants:
     arxiv_id: '2502.00282'
     title: 'GraphMinNet: Learning Dependencies in Graphs with Light Complexity Minimal
       Architecture'
-    date: '2025-02-01'
+    date: Feb 1, 2025
+    date_iso: '2025-02-01'
+    date_display: Feb 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.063
+    metric_stds:
+    - 0.001
+  - model: novel approach
+    model_plain: novel approach
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2502.00282'
+    title: 'GraphMinNet: Learning Dependencies in Graphs with Light Complexity Minimal
+      Architecture'
+    date: Feb 1, 2025
+    date_iso: '2025-02-01'
+    date_display: Feb 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.063
+    metric_stds:
+    - 0.001
+  - model: GraphMinNet
+    model_plain: GraphMinNet
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2502.00282'
+    title: 'GraphMinNet: Learning Dependencies in Graphs with Light Complexity Minimal
+      Architecture'
+    date: Feb 1, 2025
     date_iso: '2025-02-01'
     date_display: Feb 2025
     codebase_url: ''
@@ -6728,7 +6766,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.18739'
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_iso: '2025-01-30'
     date_display: Jan 2025
     codebase_url: ''
@@ -6747,7 +6785,7 @@ variants:
     arxiv_id: '2502.00282'
     title: 'GraphMinNet: Learning Dependencies in Graphs with Light Complexity Minimal
       Architecture'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_iso: '2025-02-01'
     date_display: Feb 2025
     codebase_url: ''
@@ -6801,7 +6839,7 @@ variants:
     params_millions: null
     arxiv_id: '2502.09365'
     title: Simple Path Structural Encoding for Graph Transformers
-    date: '2025-02-13'
+    date: Feb 13, 2025
     date_iso: '2025-02-13'
     date_display: Feb 2025
     codebase_url: ''
@@ -7003,7 +7041,7 @@ variants:
     arxiv_id: '2502.00282'
     title: 'GraphMinNet: Learning Dependencies in Graphs with Light Complexity Minimal
       Architecture'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_iso: '2025-02-01'
     date_display: Feb 2025
     codebase_url: ''
@@ -7111,7 +7149,7 @@ variants:
     params_millions: null
     arxiv_id: '2502.09365'
     title: Simple Path Structural Encoding for Graph Transformers
-    date: '2025-02-13'
+    date: Feb 13, 2025
     date_iso: '2025-02-13'
     date_display: Feb 2025
     codebase_url: ''
@@ -7148,7 +7186,7 @@ variants:
     arxiv_id: '2404.03380'
     title: On the Theoretical Expressive Power and the Design Space of Higher-Order
       Graph Transformers
-    date: '2024-04-04'
+    date: Apr 4, 2024
     date_iso: '2024-04-04'
     date_display: Apr 2024
     codebase_url: ''
@@ -7185,7 +7223,7 @@ variants:
     params_millions: null
     arxiv_id: '2502.09365'
     title: Simple Path Structural Encoding for Graph Transformers
-    date: '2025-02-13'
+    date: Feb 13, 2025
     date_iso: '2025-02-13'
     date_display: Feb 2025
     codebase_url: ''
@@ -7214,6 +7252,25 @@ variants:
     - 0.069
     metric_stds:
     - 0.001
+  - model: A2^LN+VT
+    model_plain: A2^LN+VT
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2404.03380'
+    title: On the Theoretical Expressive Power and the Design Space of Higher-Order
+      Graph Transformers
+    date: Apr 4, 2024
+    date_iso: '2024-04-04'
+    date_display: Apr 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.069
+    metric_stds:
+    - 0.005
   - model: SPE
     model_plain: SPE
     is_baseline: true
@@ -7461,7 +7518,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.18739'
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_iso: '2025-01-30'
     date_display: Jan 2025
     codebase_url: ''
@@ -7498,7 +7555,7 @@ variants:
     arxiv_id: '2404.03380'
     title: On the Theoretical Expressive Power and the Design Space of Higher-Order
       Graph Transformers
-    date: '2024-04-04'
+    date: Apr 4, 2024
     date_iso: '2024-04-04'
     date_display: Apr 2024
     codebase_url: ''
@@ -7535,7 +7592,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.18739'
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_iso: '2025-01-30'
     date_display: Jan 2025
     codebase_url: ''
@@ -7545,6 +7602,25 @@ variants:
     - 0.073
     metric_stds:
     - 0.001
+  - model: AS0:1^SN+VS
+    model_plain: AS0:1^SN+VS
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2404.03380'
+    title: On the Theoretical Expressive Power and the Design Space of Higher-Order
+      Graph Transformers
+    date: Apr 4, 2024
+    date_iso: '2024-04-04'
+    date_display: Apr 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.073
+    metric_stds:
+    - 0.004
   - model: SPE-8S
     model_plain: SPE-8S
     is_baseline: true
@@ -7626,7 +7702,26 @@ variants:
     arxiv_id: '2404.03380'
     title: On the Theoretical Expressive Power and the Design Space of Higher-Order
       Graph Transformers
-    date: '2024-04-04'
+    date: Apr 4, 2024
+    date_iso: '2024-04-04'
+    date_display: Apr 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.075
+    metric_stds:
+    - 0.005
+  - model: A2^Ngbh
+    model_plain: A2^Ngbh
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2404.03380'
+    title: On the Theoretical Expressive Power and the Design Space of Higher-Order
+      Graph Transformers
+    date: Apr 4, 2024
     date_iso: '2024-04-04'
     date_display: Apr 2024
     codebase_url: ''
@@ -7674,24 +7769,6 @@ variants:
     - 0.077
     metric_stds:
     - 0.002
-  - model: Ours(dual readout,VN, 567k)
-    model_plain: Ours(dual readout,VN, 567k)
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2310.01704'
-    title: Transformers are efficient hierarchical chemical graph learners
-    date: Oct 2023
-    date_iso: 2023-10
-    date_display: Oct 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.077
-    metric_stds:
-    - 0.003
   - model: GRED
     model_plain: GRED
     is_baseline: false
@@ -7700,7 +7777,7 @@ variants:
     params_millions: 0.5
     arxiv_id: '2312.01538'
     title: Recurrent Distance Filtering for Graph Representation Learning
-    date: '2023-12-03'
+    date: Dec 3, 2023
     date_iso: '2023-12-03'
     date_display: Dec 2023
     codebase_url: ''
@@ -7736,7 +7813,7 @@ variants:
     params_millions: 0.5
     arxiv_id: '2405.02795'
     title: Graph as Point Set
-    date: '2024-05-05'
+    date: May 5, 2024
     date_iso: '2024-05-05'
     date_display: May 2024
     codebase_url: ''
@@ -7754,7 +7831,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.02795'
     title: Graph as Point Set
-    date: '2024-05-05'
+    date: May 5, 2024
     date_iso: '2024-05-05'
     date_display: May 2024
     codebase_url: ''
@@ -7802,6 +7879,42 @@ variants:
     - 0.077
     metric_stds:
     - 0.005
+  - model: GNNs(dual readout,567k)
+    model_plain: GNNs(dual readout,567k)
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2310.01704'
+    title: Transformers are efficient hierarchical chemical graph learners
+    date: Oct 2023
+    date_iso: 2023-10
+    date_display: Oct 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.077
+    metric_stds:
+    - 0.003
+  - model: Graph neural networks(dual readout,VN, 567k)
+    model_plain: Graph neural networks(dual readout,VN, 567k)
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2310.01704'
+    title: Transformers are efficient hierarchical chemical graph learners
+    date: Oct 2023
+    date_iso: 2023-10
+    date_display: Oct 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.077
+    metric_stds:
+    - 0.003
   - model: GAT
     model_plain: GAT
     is_baseline: true
@@ -7820,6 +7933,24 @@ variants:
     - 0.0776354896230479
     metric_stds:
     - 0.005512609666895327
+  - model: Ours(dual readout,VN, 567k)
+    model_plain: Ours(dual readout,VN, 567k)
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2310.01704'
+    title: Transformers are efficient hierarchical chemical graph learners
+    date: Oct 2023
+    date_iso: 2023-10
+    date_display: Oct 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.078
+    metric_stds:
+    - 0.003
   - model: FragNet
     model_plain: FragNet
     is_baseline: true
@@ -7865,7 +7996,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -7938,7 +8069,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.02795'
     title: Graph as Point Set
-    date: '2024-05-05'
+    date: May 5, 2024
     date_iso: '2024-05-05'
     date_display: May 2024
     codebase_url: ''
@@ -7948,6 +8079,25 @@ variants:
     - 0.08
     metric_stds:
     - 0.001
+  - model: AS0:1^SN
+    model_plain: AS0:1^SN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2404.03380'
+    title: On the Theoretical Expressive Power and the Design Space of Higher-Order
+      Graph Transformers
+    date: Apr 4, 2024
+    date_iso: '2024-04-04'
+    date_display: Apr 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.08
+    metric_stds:
+    - 0.004
   - model: Graphormer-GD
     model_plain: Graphormer-GD
     is_baseline: true
@@ -8048,7 +8198,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.02795'
     title: Graph as Point Set
-    date: '2024-05-05'
+    date: May 5, 2024
     date_iso: '2024-05-05'
     date_display: May 2024
     codebase_url: ''
@@ -8139,7 +8289,7 @@ variants:
     params_millions: 0.5
     arxiv_id: '2405.02795'
     title: Graph as Point Set
-    date: '2024-05-05'
+    date: May 5, 2024
     date_iso: '2024-05-05'
     date_display: May 2024
     codebase_url: ''
@@ -8167,6 +8317,24 @@ variants:
     - 0.084
     metric_stds:
     - 0.002
+  - model: Graph neural networks(dual readout,slim,200k)
+    model_plain: Graph neural networks(dual readout,slim,200k)
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2310.01704'
+    title: Transformers are efficient hierarchical chemical graph learners
+    date: Oct 2023
+    date_iso: 2023-10
+    date_display: Oct 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.084
+    metric_stds:
+    - 0.004
   - model: Graph ViT
     model_plain: Graph ViT
     is_baseline: true
@@ -8342,7 +8510,26 @@ variants:
     arxiv_id: '2404.03380'
     title: On the Theoretical Expressive Power and the Design Space of Higher-Order
       Graph Transformers
-    date: '2024-04-04'
+    date: Apr 4, 2024
+    date_iso: '2024-04-04'
+    date_display: Apr 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.086
+    metric_stds:
+    - 0.006
+  - model: A2^LN
+    model_plain: A2^LN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2404.03380'
+    title: On the Theoretical Expressive Power and the Design Space of Higher-Order
+      Graph Transformers
+    date: Apr 4, 2024
     date_iso: '2024-04-04'
     date_display: Apr 2024
     codebase_url: ''
@@ -8397,7 +8584,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -8415,7 +8602,7 @@ variants:
     params_millions: null
     arxiv_id: '2312.01538'
     title: Recurrent Distance Filtering for Graph Representation Learning
-    date: '2023-12-03'
+    date: Dec 3, 2023
     date_iso: '2023-12-03'
     date_display: Dec 2023
     codebase_url: ''
@@ -8489,7 +8676,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -8580,7 +8767,7 @@ variants:
     params_millions: null
     arxiv_id: '2312.01538'
     title: Recurrent Distance Filtering for Graph Representation Learning
-    date: '2023-12-03'
+    date: Dec 3, 2023
     date_iso: '2023-12-03'
     date_display: Dec 2023
     codebase_url: ''
@@ -8598,7 +8785,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.18739'
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_iso: '2025-01-30'
     date_display: Jan 2025
     codebase_url: ''
@@ -8608,6 +8795,42 @@ variants:
     - 0.094
     metric_stds:
     - 0.005
+  - model: GNNs(580k)
+    model_plain: GNNs(580k)
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2310.01704'
+    title: Transformers are efficient hierarchical chemical graph learners
+    date: Oct 2023
+    date_iso: 2023-10
+    date_display: Oct 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.094
+    metric_stds:
+    - 0.003
+  - model: Graph neural networks(580k)
+    model_plain: Graph neural networks(580k)
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2310.01704'
+    title: Transformers are efficient hierarchical chemical graph learners
+    date: Oct 2023
+    date_iso: 2023-10
+    date_display: Oct 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.094
+    metric_stds:
+    - 0.003
   - model: GRPE
     model_plain: GRPE
     is_baseline: true
@@ -8652,7 +8875,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -8838,7 +9061,7 @@ variants:
     arxiv_id: '2502.00282'
     title: 'GraphMinNet: Learning Dependencies in Graphs with Light Complexity Minimal
       Architecture'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_iso: '2025-02-01'
     date_display: Feb 2025
     codebase_url: ''
@@ -9041,7 +9264,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -9106,6 +9329,24 @@ variants:
     - 0.1306
     metric_stds:
     - 0.0194
+  - model: Ours (HopFormer)
+    model_plain: Ours (HopFormer)
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2602.02268'
+    title: 'HopFormer: Sparse Graph Transformers with Explicit Receptive Field Control'
+    date: Feb 2026
+    date_iso: 2026-02
+    date_display: Feb 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.1306
+    metric_stds:
+    - 0.0194
   - model: PathNN-\mathcal{SP}
     model_plain: PathNN-\mathcal{SP}
     is_baseline: false
@@ -9114,7 +9355,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -9242,7 +9483,7 @@ variants:
     params_millions: null
     arxiv_id: '2502.09365'
     title: Simple Path Structural Encoding for Graph Transformers
-    date: '2025-02-13'
+    date: Feb 13, 2025
     date_iso: '2025-02-13'
     date_display: Feb 2025
     codebase_url: ''
@@ -9278,7 +9519,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.18739'
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_iso: '2025-01-30'
     date_display: Jan 2025
     codebase_url: ''
@@ -9296,7 +9537,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.18739'
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_iso: '2025-01-30'
     date_display: Jan 2025
     codebase_url: ''
@@ -9425,7 +9666,7 @@ variants:
     arxiv_id: '2404.03380'
     title: On the Theoretical Expressive Power and the Design Space of Higher-Order
       Graph Transformers
-    date: '2024-04-04'
+    date: Apr 4, 2024
     date_iso: '2024-04-04'
     date_display: Apr 2024
     codebase_url: ''
@@ -9454,6 +9695,25 @@ variants:
     - 0.155
     metric_stds:
     - 0.007
+  - model: A_2-Performer
+    model_plain: A_2-Performer
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2404.03380'
+    title: On the Theoretical Expressive Power and the Design Space of Higher-Order
+      Graph Transformers
+    date: Apr 4, 2024
+    date_iso: '2024-04-04'
+    date_display: Apr 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.155
+    metric_stds:
+    - 0.008
   - model: BasisNet-8S
     model_plain: BasisNet-8S
     is_baseline: true
@@ -9552,7 +9812,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -9570,7 +9830,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.02795'
     title: Graph as Point Set
-    date: '2024-05-05'
+    date: May 5, 2024
     date_iso: '2024-05-05'
     date_display: May 2024
     codebase_url: ''
@@ -9654,6 +9914,25 @@ variants:
     - 0.1789
     metric_stds:
     - 0.0071
+  - model: A2^VT
+    model_plain: A2^VT
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2404.03380'
+    title: On the Theoretical Expressive Power and the Design Space of Higher-Order
+      Graph Transformers
+    date: Apr 4, 2024
+    date_iso: '2024-04-04'
+    date_display: Apr 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.186
+    metric_stds:
+    - 0.009
   - model: OSAN
     model_plain: OSAN
     is_baseline: true
@@ -9735,7 +10014,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.18739'
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_iso: '2025-01-30'
     date_display: Jan 2025
     codebase_url: ''
@@ -9843,7 +10122,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -9861,7 +10140,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -9879,7 +10158,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -9915,7 +10194,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -9951,7 +10230,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -10099,7 +10378,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -10172,7 +10451,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -10190,7 +10469,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -10246,7 +10525,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -10282,7 +10561,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -10338,7 +10617,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -10541,7 +10820,7 @@ variants:
     arxiv_id: '2502.02379'
     title: 'No Metric to Rule Them All: Toward Principled Evaluations of Graph-Learning
       Datasets'
-    date: '2025-02-04'
+    date: Feb 4, 2025
     date_iso: '2025-02-04'
     date_display: Feb 2025
     codebase_url: ''
@@ -10560,7 +10839,7 @@ variants:
     arxiv_id: '2502.02379'
     title: 'No Metric to Rule Them All: Toward Principled Evaluations of Graph-Learning
       Datasets'
-    date: '2025-02-04'
+    date: Feb 4, 2025
     date_iso: '2025-02-04'
     date_display: Feb 2025
     codebase_url: ''
@@ -10579,7 +10858,7 @@ variants:
     arxiv_id: '2502.02379'
     title: 'No Metric to Rule Them All: Toward Principled Evaluations of Graph-Learning
       Datasets'
-    date: '2025-02-04'
+    date: Feb 4, 2025
     date_iso: '2025-02-04'
     date_display: Feb 2025
     codebase_url: ''
@@ -10598,7 +10877,7 @@ variants:
     arxiv_id: '2502.02379'
     title: 'No Metric to Rule Them All: Toward Principled Evaluations of Graph-Learning
       Datasets'
-    date: '2025-02-04'
+    date: Feb 4, 2025
     date_iso: '2025-02-04'
     date_display: Feb 2025
     codebase_url: ''
@@ -10617,7 +10896,7 @@ variants:
     arxiv_id: '2502.02379'
     title: 'No Metric to Rule Them All: Toward Principled Evaluations of Graph-Learning
       Datasets'
-    date: '2025-02-04'
+    date: Feb 4, 2025
     date_iso: '2025-02-04'
     date_display: Feb 2025
     codebase_url: ''
@@ -10636,7 +10915,7 @@ variants:
     arxiv_id: '2502.02379'
     title: 'No Metric to Rule Them All: Toward Principled Evaluations of Graph-Learning
       Datasets'
-    date: '2025-02-04'
+    date: Feb 4, 2025
     date_iso: '2025-02-04'
     date_display: Feb 2025
     codebase_url: ''

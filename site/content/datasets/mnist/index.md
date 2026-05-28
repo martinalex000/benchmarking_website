@@ -13,7 +13,7 @@ stats:
   avg_nodes: 70.6
   avg_edges: 564.5
   num_classes: 10
-result_count: 118
+result_count: 125
 best_model:
   model: GRASS
   value: 0.98932
@@ -158,8 +158,82 @@ variants:
     - null
     - null
     - null
+  - model: novel approach
+    model_plain: novel approach
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2502.00282'
+    title: 'GraphMinNet: Learning Dependencies in Graphs with Light Complexity Minimal
+      Architecture'
+    date: Feb 1, 2025
+    date_iso: '2025-02-01'
+    date_display: Feb 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.98598
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.00138
+    - null
+    - null
+    - null
+  - model: GraphMinNet
+    model_plain: GraphMinNet
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2502.00282'
+    title: 'GraphMinNet: Learning Dependencies in Graphs with Light Complexity Minimal
+      Architecture'
+    date: Feb 1, 2025
+    date_iso: '2025-02-01'
+    date_display: Feb 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.98598
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.00138
+    - null
+    - null
+    - null
   - model: Ours
     model_plain: Ours
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2407.02758'
+    title: Differential Encoding for Improved Representation Learning over Graphs
+    date: Jul 2024
+    date_iso: 2024-07
+    date_display: Jul 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.98558
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.00057
+    - null
+    - null
+    - null
+  - model: WL
+    model_plain: WL
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -353,6 +427,31 @@ variants:
     - null
     - null
     - null
+  - model: RandAlign + scaling (GatedGCN-8)
+    model_plain: RandAlign + scaling (GatedGCN-8)
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2404.09774'
+    title: 'RandAlign: A Parameter-Free Method for Regularizing Graph Convolutional
+      Networks'
+    date: Apr 2024
+    date_iso: 2024-04
+    date_display: Apr 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.98463
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.00079
+    - null
+    - null
+    - null
   - model: EdgeGCN
     model_plain: EdgeGCN
     is_baseline: true
@@ -386,7 +485,7 @@ variants:
     arxiv_id: '2402.00789'
     title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling with Selective
       State Spaces'
-    date: '2024-02-01'
+    date: Feb 1, 2024
     date_iso: '2024-02-01'
     date_display: Feb 2024
     codebase_url: ''
@@ -459,7 +558,7 @@ variants:
     arxiv_id: '2402.00789'
     title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling with Selective
       State Spaces'
-    date: '2024-02-01'
+    date: Feb 1, 2024
     date_iso: '2024-02-01'
     date_display: Feb 2024
     codebase_url: ''
@@ -484,7 +583,7 @@ variants:
     arxiv_id: '2402.00789'
     title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling with Selective
       State Spaces'
-    date: '2024-02-01'
+    date: Feb 1, 2024
     date_iso: '2024-02-01'
     date_display: Feb 2024
     codebase_url: ''
@@ -508,7 +607,7 @@ variants:
     params_millions: null
     arxiv_id: '2402.08678'
     title: 'Graph Mamba: Towards Learning on Graphs with State Space Models'
-    date: '2024-02-13'
+    date: Feb 13, 2024
     date_iso: '2024-02-13'
     date_display: Feb 2024
     codebase_url: ''
@@ -532,7 +631,7 @@ variants:
     params_millions: 0.5
     arxiv_id: '2312.01538'
     title: Recurrent Distance Filtering for Graph Representation Learning
-    date: '2023-12-03'
+    date: Dec 3, 2023
     date_iso: '2023-12-03'
     date_display: Dec 2023
     codebase_url: ''
@@ -629,7 +728,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -654,7 +753,7 @@ variants:
     arxiv_id: '2402.00789'
     title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling with Selective
       State Spaces'
-    date: '2024-02-01'
+    date: Feb 1, 2024
     date_iso: '2024-02-01'
     date_display: Feb 2024
     codebase_url: ''
@@ -678,7 +777,7 @@ variants:
     params_millions: null
     arxiv_id: '2502.09365'
     title: Simple Path Structural Encoding for Graph Transformers
-    date: '2025-02-13'
+    date: Feb 13, 2025
     date_iso: '2025-02-13'
     date_display: Feb 2025
     codebase_url: ''
@@ -775,7 +874,7 @@ variants:
     params_millions: null
     arxiv_id: '2502.09365'
     title: Simple Path Structural Encoding for Graph Transformers
-    date: '2025-02-13'
+    date: Feb 13, 2025
     date_iso: '2025-02-13'
     date_display: Feb 2025
     codebase_url: ''
@@ -812,31 +911,6 @@ variants:
     - null
     metric_stds:
     - 0.0004
-    - null
-    - null
-    - null
-  - model: RandAlign + scaling (GatedGCN-8)
-    model_plain: RandAlign + scaling (GatedGCN-8)
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2404.09774'
-    title: 'RandAlign: A Parameter-Free Method for Regularizing Graph Convolutional
-      Networks'
-    date: Apr 2024
-    date_iso: 2024-04
-    date_display: Apr 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.98247
-    - null
-    - null
-    - null
-    metric_stds:
-    - 0.00018
     - null
     - null
     - null
@@ -897,7 +971,7 @@ variants:
     params_millions: null
     arxiv_id: '2502.09365'
     title: Simple Path Structural Encoding for Graph Transformers
-    date: '2025-02-13'
+    date: Feb 13, 2025
     date_iso: '2025-02-13'
     date_display: Feb 2025
     codebase_url: ''
@@ -945,7 +1019,7 @@ variants:
     params_millions: null
     arxiv_id: '2402.08678'
     title: 'Graph Mamba: Towards Learning on Graphs with State Space Models'
-    date: '2024-02-13'
+    date: Feb 13, 2024
     date_iso: '2024-02-13'
     date_display: Feb 2024
     codebase_url: ''
@@ -1066,7 +1140,7 @@ variants:
     arxiv_id: '2402.00789'
     title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling with Selective
       State Spaces'
-    date: '2024-02-01'
+    date: Feb 1, 2024
     date_iso: '2024-02-01'
     date_display: Feb 2024
     codebase_url: ''
@@ -1187,7 +1261,7 @@ variants:
     params_millions: null
     arxiv_id: '2502.09365'
     title: Simple Path Structural Encoding for Graph Transformers
-    date: '2025-02-13'
+    date: Feb 13, 2025
     date_iso: '2025-02-13'
     date_display: Feb 2025
     codebase_url: ''
@@ -1287,7 +1361,7 @@ variants:
     arxiv_id: '2402.00789'
     title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling with Selective
       State Spaces'
-    date: '2024-02-01'
+    date: Feb 1, 2024
     date_iso: '2024-02-01'
     date_display: Feb 2024
     codebase_url: ''
@@ -1312,7 +1386,7 @@ variants:
     arxiv_id: '2402.00789'
     title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling with Selective
       State Spaces'
-    date: '2024-02-01'
+    date: Feb 1, 2024
     date_iso: '2024-02-01'
     date_display: Feb 2024
     codebase_url: ''
@@ -1409,7 +1483,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -1433,7 +1507,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -1553,7 +1627,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -1577,7 +1651,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -1689,6 +1763,31 @@ variants:
     - null
     metric_stds:
     - 0.00032
+    - null
+    - null
+    - null
+  - model: GatedGCN
+    model_plain: GatedGCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2404.09774'
+    title: 'RandAlign: A Parameter-Free Method for Regularizing Graph Convolutional
+      Networks'
+    date: Apr 2024
+    date_iso: 2024-04
+    date_display: Apr 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.9795
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.00023
     - null
     - null
     - null
@@ -1942,7 +2041,7 @@ variants:
     params_millions: null
     arxiv_id: '2502.09365'
     title: Simple Path Structural Encoding for Graph Transformers
-    date: '2025-02-13'
+    date: Feb 13, 2025
     date_iso: '2025-02-13'
     date_display: Feb 2025
     codebase_url: ''
@@ -1990,7 +2089,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -2003,6 +2102,31 @@ variants:
     - null
     metric_stds:
     - 0.0014
+    - null
+    - null
+    - null
+  - model: GatedGCN-16
+    model_plain: GatedGCN-16
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2404.09774'
+    title: 'RandAlign: A Parameter-Free Method for Regularizing Graph Convolutional
+      Networks'
+    date: Apr 2024
+    date_iso: 2024-04
+    date_display: Apr 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.9734
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.00143
     - null
     - null
     - null
@@ -2028,6 +2152,31 @@ variants:
     - null
     metric_stds:
     - 0.00097
+    - null
+    - null
+    - null
+  - model: GAT-8 + RandAlign (w/o scaling)
+    model_plain: GAT-8 + RandAlign (w/o scaling)
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2404.09774'
+    title: 'RandAlign: A Parameter-Free Method for Regularizing Graph Convolutional
+      Networks'
+    date: Apr 2024
+    date_iso: 2024-04
+    date_display: Apr 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.9725
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.00049
     - null
     - null
     - null
@@ -2103,31 +2252,6 @@ variants:
     - 0.001
     - null
     - 0.001
-    - null
-  - model: GAT-8 + RandAlign (w/o scaling)
-    model_plain: GAT-8 + RandAlign (w/o scaling)
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2404.09774'
-    title: 'RandAlign: A Parameter-Free Method for Regularizing Graph Convolutional
-      Networks'
-    date: Apr 2024
-    date_iso: 2024-04
-    date_display: Apr 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.96977
-    - null
-    - null
-    - null
-    metric_stds:
-    - 0.00021
-    - null
-    - null
     - null
   - model: GPS (Pretrained) + LPE + G-\DeltaUQ
     model_plain: GPS (Pretrained) + LPE + G-\DeltaUQ
@@ -2212,7 +2336,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -2236,7 +2360,7 @@ variants:
     params_millions: null
     arxiv_id: '2402.08678'
     title: 'Graph Mamba: Towards Learning on Graphs with State Space Models'
-    date: '2024-02-13'
+    date: Feb 13, 2024
     date_iso: '2024-02-13'
     date_display: Feb 2024
     codebase_url: ''
@@ -2277,6 +2401,31 @@ variants:
     - null
     - null
     - null
+  - model: GAT-8
+    model_plain: GAT-8
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2404.09774'
+    title: 'RandAlign: A Parameter-Free Method for Regularizing Graph Convolutional
+      Networks'
+    date: Apr 2024
+    date_iso: 2024-04
+    date_display: Apr 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.96065
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.00093
+    - null
+    - null
+    - null
   - model: GAT
     model_plain: GAT
     is_baseline: true
@@ -2288,6 +2437,31 @@ variants:
     date: Oct 2023
     date_iso: 2023-10
     date_display: Oct 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.95535
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.00205
+    - null
+    - null
+    - null
+  - model: GAT-16
+    model_plain: GAT-16
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2404.09774'
+    title: 'RandAlign: A Parameter-Free Method for Regularizing Graph Convolutional
+      Networks'
+    date: Apr 2024
+    date_iso: 2024-04
+    date_display: Apr 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -2606,7 +2780,7 @@ variants:
     params_millions: null
     arxiv_id: '2502.09365'
     title: Simple Path Structural Encoding for Graph Transformers
-    date: '2025-02-13'
+    date: Feb 13, 2025
     date_iso: '2025-02-13'
     date_display: Feb 2025
     codebase_url: ''

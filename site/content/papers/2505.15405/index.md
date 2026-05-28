@@ -31,8 +31,8 @@ paper_type: method
 proposed_models:
 - HOPSE-M
 - HOPSE-G
-mrr: 0.015
-adjusted_mrr: 0.015
+mrr: 0.0145
+adjusted_mrr: 0.0145
 mrr_dataset_count: 4
 benchmark_categories:
 - Classic
@@ -145,9 +145,9 @@ results:
     has_value_note: false
     value_gap: 0.20310000000000006
     value_note: ''
-    paper_rank: 156
-    rank_delta: 134
-    rank_delta_abs: 134
+    paper_rank: 160
+    rank_delta: 138
+    rank_delta_abs: 138
     rank_delta_direction: worse
     sort_value: 0.901
     sort_std: null
@@ -181,9 +181,9 @@ results:
     has_value_note: false
     value_gap: 0.09830000000000005
     value_note: ''
-    paper_rank: 103
-    rank_delta: 75
-    rank_delta_abs: 75
+    paper_rank: 106
+    rank_delta: 78
+    rank_delta_abs: 78
     rank_delta_direction: worse
     sort_value: 0.894
     sort_std: 0.056
@@ -318,7 +318,7 @@ results:
     date: May 2025
     date_display: May 2025
     date_iso: 2025-05
-    global_rank: 66
+    global_rank: 67
     true_value: 0.8426
     true_std: 0.0356
     value_gap_source_arxiv: '2505.15405'
@@ -329,7 +329,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 66
+    paper_rank: 67
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -355,7 +355,7 @@ results:
     date: May 2025
     date_display: May 2025
     date_iso: 2025-05
-    global_rank: 96
+    global_rank: 99
     true_value: 0.8043
     true_std: 0.0178
     value_gap_source_arxiv: '2505.15405'
@@ -366,7 +366,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 96
+    paper_rank: 99
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -392,7 +392,7 @@ results:
     date: May 2025
     date_display: May 2025
     date_iso: 2025-05
-    global_rank: 97
+    global_rank: 100
     true_value: 0.8043
     true_std: 0.0508
     value_gap_source_arxiv: '2505.15405'
@@ -403,7 +403,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 97
+    paper_rank: 100
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -429,7 +429,7 @@ results:
     date: May 2025
     date_display: May 2025
     date_iso: 2025-05
-    global_rank: 104
+    global_rank: 107
     true_value: 0.7957
     true_std: 0.0356
     value_gap_source_arxiv: '2505.15405'
@@ -440,7 +440,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 104
+    paper_rank: 107
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -466,7 +466,7 @@ results:
     date: May 2025
     date_display: May 2025
     date_iso: 2025-05
-    global_rank: 113
+    global_rank: 117
     true_value: 0.7871
     true_std: 0.0751
     value_gap_source_arxiv: '2310.05174'
@@ -476,9 +476,9 @@ results:
     has_value_note: true
     value_gap: 0.05940000000000001
     value_note: global 0.7871 within std
-    paper_rank: 146
-    rank_delta: 33
-    rank_delta_abs: 33
+    paper_rank: 148
+    rank_delta: 31
+    rank_delta_abs: 31
     rank_delta_direction: worse
     sort_value: 0.7871
     sort_std: 0.0751
@@ -502,7 +502,7 @@ results:
     date: May 2025
     date_display: May 2025
     date_iso: 2025-05
-    global_rank: 124
+    global_rank: 126
     true_value: 0.7702
     true_std: 0.0932
     value_gap_source_arxiv: '2505.15405'
@@ -513,7 +513,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 124
+    paper_rank: 126
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -539,7 +539,7 @@ results:
     date: May 2025
     date_display: May 2025
     date_iso: 2025-05
-    global_rank: 128
+    global_rank: 130
     true_value: 0.7617
     true_std: 0.0663
     value_gap_source_arxiv: '2505.15405'
@@ -550,7 +550,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 128
+    paper_rank: 130
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -576,7 +576,7 @@ results:
     date: May 2025
     date_display: May 2025
     date_iso: 2025-05
-    global_rank: 142
+    global_rank: 144
     true_value: 0.7362
     true_std: 0.0613
     value_gap_source_arxiv: '2505.15405'
@@ -587,7 +587,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 142
+    paper_rank: 144
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -762,7 +762,7 @@ results:
     codebase_url: ''
     uses_external_data: null
     is_best: false
-    global_rank: 30
+    global_rank: 33
   - model: GAT+PSEs
     model_key: gat+pses
     model_plain: GAT+PSEs
@@ -797,7 +797,7 @@ results:
     codebase_url: ''
     uses_external_data: null
     is_best: false
-    global_rank: 42
+    global_rank: 45
   - model: HOPSE-G
     model_key: hopse-g
     model_plain: HOPSE-G
@@ -832,7 +832,7 @@ results:
     codebase_url: ''
     uses_external_data: null
     is_best: false
-    global_rank: 43
+    global_rank: 46
   - model: HOPSE-M
     model_key: hopse-m
     model_plain: HOPSE-M
@@ -867,7 +867,7 @@ results:
     codebase_url: ''
     uses_external_data: null
     is_best: false
-    global_rank: 46
+    global_rank: 50
   - model: GAT
     model_key: gat
     model_plain: GAT
@@ -902,7 +902,7 @@ results:
     codebase_url: ''
     uses_external_data: null
     is_best: false
-    global_rank: 47
+    global_rank: 51
   - model: GCCN
     model_key: gccn
     model_plain: GCCN
@@ -937,7 +937,7 @@ results:
     codebase_url: ''
     uses_external_data: null
     is_best: false
-    global_rank: 52
+    global_rank: 56
   - model: CCCN
     model_key: cccn
     model_plain: CCCN
@@ -972,7 +972,7 @@ results:
     codebase_url: ''
     uses_external_data: null
     is_best: false
-    global_rank: 53
+    global_rank: 57
   - model: SCCNN
     model_key: sccnn
     model_plain: SCCNN
@@ -1007,7 +1007,7 @@ results:
     codebase_url: ''
     uses_external_data: null
     is_best: false
-    global_rank: 54
+    global_rank: 58
   - model: GPSE + GCN
     model_key: gpse + gcn
     model_plain: GPSE + GCN
@@ -1042,7 +1042,7 @@ results:
     codebase_url: ''
     uses_external_data: null
     is_best: false
-    global_rank: 64
+    global_rank: 68
   - model: SCN
     model_key: scn
     model_plain: SCN
@@ -1077,7 +1077,7 @@ results:
     codebase_url: ''
     uses_external_data: null
     is_best: false
-    global_rank: 65
+    global_rank: 69
   - model: CWN
     model_key: cwn
     model_plain: CWN
@@ -1112,7 +1112,7 @@ results:
     codebase_url: ''
     uses_external_data: null
     is_best: false
-    global_rank: 66
+    global_rank: 70
   - model: SaNN
     model_key: sann
     model_plain: SaNN
@@ -1147,7 +1147,7 @@ results:
     codebase_url: ''
     uses_external_data: null
     is_best: false
-    global_rank: 76
+    global_rank: 80
   metrics:
   - Accuracy
   - ACC
@@ -1768,7 +1768,7 @@ results:
     params_millions: 1.0
     arxiv_id: '2405.02795'
     title: Graph as Point Set
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
     codebase_url: ''
@@ -1797,7 +1797,7 @@ results:
     date: May 2025
     date_display: May 2025
     date_iso: 2025-05
-    global_rank: 73
+    global_rank: 75
     true_value: 0.065
     true_std: 0.004
     value_gap_source_arxiv: '2502.09263'
@@ -1808,46 +1808,9 @@ results:
     has_value_note: false
     value_gap: 0.5049999999999999
     value_note: ''
-    paper_rank: 282
-    rank_delta: 209
-    rank_delta_abs: 209
-    rank_delta_direction: worse
-    sort_value: 0.065
-    sort_std: 0.004
-    is_best: false
-  - model: GIN
-    model_key: gin
-    model_plain: GIN
-    value: 0.57
-    std: 0.04
-    paper_value: 0.57
-    paper_std: 0.04
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: May 2025
-    date_display: May 2025
-    date_iso: 2025-05
-    global_rank: 73
-    true_value: 0.065
-    true_std: 0.004
-    value_gap_source_arxiv: '2502.09263'
-    value_gap_source_title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks?
-      Simple Architectures Meet Excellence
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.5049999999999999
-    value_note: ''
-    paper_rank: 282
-    rank_delta: 209
-    rank_delta_abs: 209
+    paper_rank: 296
+    rank_delta: 221
+    rank_delta_abs: 221
     rank_delta_direction: worse
     sort_value: 0.065
     sort_std: 0.004
@@ -1871,7 +1834,7 @@ results:
     date: May 2025
     date_display: May 2025
     date_iso: 2025-05
-    global_rank: 126
+    global_rank: 131
     true_value: 0.076
     true_std: 0.009
     value_gap_source_arxiv: '2502.09263'
@@ -1882,46 +1845,9 @@ results:
     has_value_note: false
     value_gap: 0.544
     value_note: ''
-    paper_rank: 285
-    rank_delta: 159
-    rank_delta_abs: 159
-    rank_delta_direction: worse
-    sort_value: 0.076
-    sort_std: 0.009
-    is_best: false
-  - model: GCN
-    model_key: gcn
-    model_plain: GCN
-    value: 0.62
-    std: 0.01
-    paper_value: 0.62
-    paper_std: 0.01
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: May 2025
-    date_display: May 2025
-    date_iso: 2025-05
-    global_rank: 126
-    true_value: 0.076
-    true_std: 0.009
-    value_gap_source_arxiv: '2502.09263'
-    value_gap_source_title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks?
-      Simple Architectures Meet Excellence
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.544
-    value_note: ''
-    paper_rank: 285
-    rank_delta: 159
-    rank_delta_abs: 159
+    paper_rank: 299
+    rank_delta: 168
+    rank_delta_abs: 168
     rank_delta_direction: worse
     sort_value: 0.076
     sort_std: 0.009
@@ -1945,7 +1871,7 @@ results:
     date: May 2025
     date_display: May 2025
     date_iso: 2025-05
-    global_rank: 135
+    global_rank: 142
     true_value: 0.0776354896230479
     true_std: 0.005512609666895327
     value_gap_source_arxiv: '2402.10793'
@@ -1956,46 +1882,9 @@ results:
     has_value_note: false
     value_gap: 0.5323645103769521
     value_note: ''
-    paper_rank: 285
-    rank_delta: 150
-    rank_delta_abs: 150
-    rank_delta_direction: worse
-    sort_value: 0.0776354896230479
-    sort_std: 0.005512609666895327
-    is_best: false
-  - model: GAT
-    model_key: gat
-    model_plain: GAT
-    value: 0.61
-    std: 0.01
-    paper_value: 0.61
-    paper_std: 0.01
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: May 2025
-    date_display: May 2025
-    date_iso: 2025-05
-    global_rank: 135
-    true_value: 0.0776354896230479
-    true_std: 0.005512609666895327
-    value_gap_source_arxiv: '2402.10793'
-    value_gap_source_title: An end-to-end attention-based approach for learning on
-      graphs
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.5323645103769521
-    value_note: ''
-    paper_rank: 285
-    rank_delta: 150
-    rank_delta_abs: 150
+    paper_rank: 299
+    rank_delta: 157
+    rank_delta_abs: 157
     rank_delta_direction: worse
     sort_value: 0.0776354896230479
     sort_std: 0.005512609666895327
@@ -2019,7 +1908,7 @@ results:
     date: May 2025
     date_display: May 2025
     date_iso: 2025-05
-    global_rank: 263
+    global_rank: 277
     true_value: 0.34
     true_std: 0.02
     value_gap_source_arxiv: '2505.15405'
@@ -2030,44 +1919,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 263
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.34
-    sort_std: 0.02
-    is_best: false
-  - model: CCCN
-    model_key: cccn
-    model_plain: CCCN
-    value: 0.34
-    std: 0.02
-    paper_value: 0.34
-    paper_std: 0.02
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: May 2025
-    date_display: May 2025
-    date_iso: 2025-05
-    global_rank: 263
-    true_value: 0.34
-    true_std: 0.02
-    value_gap_source_arxiv: '2505.15405'
-    value_gap_source_title: 'HOPSE: Scalable Higher-Order Positional and Structural
-      Encoder for Combinatorial Representations'
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 263
+    paper_rank: 277
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2093,7 +1945,7 @@ results:
     date: May 2025
     date_display: May 2025
     date_iso: 2025-05
-    global_rank: 264
+    global_rank: 278
     true_value: 0.34
     true_std: 0.01
     value_gap_source_arxiv: '2505.15405'
@@ -2104,44 +1956,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 264
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.34
-    sort_std: 0.01
-    is_best: false
-  - model: CWN
-    model_key: cwn
-    model_plain: CWN
-    value: 0.34
-    std: 0.01
-    paper_value: 0.34
-    paper_std: 0.01
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: May 2025
-    date_display: May 2025
-    date_iso: 2025-05
-    global_rank: 264
-    true_value: 0.34
-    true_std: 0.01
-    value_gap_source_arxiv: '2505.15405'
-    value_gap_source_title: 'HOPSE: Scalable Higher-Order Positional and Structural
-      Encoder for Combinatorial Representations'
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 264
+    paper_rank: 278
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2167,7 +1982,7 @@ results:
     date: May 2025
     date_display: May 2025
     date_iso: 2025-05
-    global_rank: 266
+    global_rank: 280
     true_value: 0.35
     true_std: 0.01
     value_gap_source_arxiv: '2505.15405'
@@ -2178,44 +1993,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 266
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.35
-    sort_std: 0.01
-    is_best: false
-  - model: GCCN
-    model_key: gccn
-    model_plain: GCCN
-    value: 0.35
-    std: 0.01
-    paper_value: 0.35
-    paper_std: 0.01
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: May 2025
-    date_display: May 2025
-    date_iso: 2025-05
-    global_rank: 266
-    true_value: 0.35
-    true_std: 0.01
-    value_gap_source_arxiv: '2505.15405'
-    value_gap_source_title: 'HOPSE: Scalable Higher-Order Positional and Structural
-      Encoder for Combinatorial Representations'
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 266
+    paper_rank: 280
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2241,7 +2019,7 @@ results:
     date: May 2025
     date_display: May 2025
     date_iso: 2025-05
-    global_rank: 269
+    global_rank: 283
     true_value: 0.36
     true_std: 0.02
     value_gap_source_arxiv: '2505.15405'
@@ -2252,44 +2030,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 269
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.36
-    sort_std: 0.02
-    is_best: false
-  - model: SCCNN
-    model_key: sccnn
-    model_plain: SCCNN
-    value: 0.36
-    std: 0.02
-    paper_value: 0.36
-    paper_std: 0.02
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: May 2025
-    date_display: May 2025
-    date_iso: 2025-05
-    global_rank: 269
-    true_value: 0.36
-    true_std: 0.02
-    value_gap_source_arxiv: '2505.15405'
-    value_gap_source_title: 'HOPSE: Scalable Higher-Order Positional and Structural
-      Encoder for Combinatorial Representations'
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 269
+    paper_rank: 283
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2315,7 +2056,7 @@ results:
     date: May 2025
     date_display: May 2025
     date_iso: 2025-05
-    global_rank: 272
+    global_rank: 286
     true_value: 0.39
     true_std: 0.02
     value_gap_source_arxiv: '2505.15405'
@@ -2326,7 +2067,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 272
+    paper_rank: 286
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2352,7 +2093,7 @@ results:
     date: May 2025
     date_display: May 2025
     date_iso: 2025-05
-    global_rank: 272
+    global_rank: 286
     true_value: 0.39
     true_std: 0.02
     value_gap_source_arxiv: '2505.15405'
@@ -2363,7 +2104,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 272
+    paper_rank: 286
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2389,7 +2130,7 @@ results:
     date: May 2025
     date_display: May 2025
     date_iso: 2025-05
-    global_rank: 273
+    global_rank: 287
     true_value: 0.39
     true_std: 0.02
     value_gap_source_arxiv: '2505.15405'
@@ -2400,44 +2141,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 273
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.39
-    sort_std: 0.02
-    is_best: false
-  - model: GAT+PSEs
-    model_key: gat+pses
-    model_plain: GAT+PSEs
-    value: 0.39
-    std: 0.02
-    paper_value: 0.39
-    paper_std: 0.02
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table main_table_TDL
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: May 2025
-    date_display: May 2025
-    date_iso: 2025-05
-    global_rank: 273
-    true_value: 0.39
-    true_std: 0.02
-    value_gap_source_arxiv: '2505.15405'
-    value_gap_source_title: 'HOPSE: Scalable Higher-Order Positional and Structural
-      Encoder for Combinatorial Representations'
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 273
+    paper_rank: 287
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2463,7 +2167,7 @@ results:
     date: May 2025
     date_display: May 2025
     date_iso: 2025-05
-    global_rank: 278
+    global_rank: 292
     true_value: 0.43
     true_std: 0.03
     value_gap_source_arxiv: '2505.15405'
@@ -2474,44 +2178,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 278
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.43
-    sort_std: 0.03
-    is_best: false
-  - model: GPSE + GCN
-    model_key: gpse + gcn
-    model_plain: GPSE + GCN
-    value: 0.43
-    std: 0.03
-    paper_value: 0.43
-    paper_std: 0.03
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table main_table_TDL
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: May 2025
-    date_display: May 2025
-    date_iso: 2025-05
-    global_rank: 278
-    true_value: 0.43
-    true_std: 0.03
-    value_gap_source_arxiv: '2505.15405'
-    value_gap_source_title: 'HOPSE: Scalable Higher-Order Positional and Structural
-      Encoder for Combinatorial Representations'
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 278
+    paper_rank: 292
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2537,7 +2204,7 @@ results:
     date: May 2025
     date_display: May 2025
     date_iso: 2025-05
-    global_rank: 277
+    global_rank: 291
     true_value: 0.43
     true_std: 0.01
     value_gap_source_arxiv: '2505.15405'
@@ -2548,7 +2215,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 277
+    paper_rank: 291
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2574,7 +2241,7 @@ results:
     date: May 2025
     date_display: May 2025
     date_iso: 2025-05
-    global_rank: 277
+    global_rank: 291
     true_value: 0.43
     true_std: 0.01
     value_gap_source_arxiv: '2505.15405'
@@ -2585,7 +2252,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 277
+    paper_rank: 291
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2611,7 +2278,7 @@ results:
     date: May 2025
     date_display: May 2025
     date_iso: 2025-05
-    global_rank: 280
+    global_rank: 294
     true_value: 0.53
     true_std: 0.04
     value_gap_source_arxiv: '2505.15405'
@@ -2622,44 +2289,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 280
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.53
-    sort_std: 0.04
-    is_best: false
-  - model: SCN
-    model_key: scn
-    model_plain: SCN
-    value: 0.53
-    std: 0.04
-    paper_value: 0.53
-    paper_std: 0.04
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: May 2025
-    date_display: May 2025
-    date_iso: 2025-05
-    global_rank: 280
-    true_value: 0.53
-    true_std: 0.04
-    value_gap_source_arxiv: '2505.15405'
-    value_gap_source_title: 'HOPSE: Scalable Higher-Order Positional and Structural
-      Encoder for Combinatorial Representations'
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 280
+    paper_rank: 294
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2685,7 +2315,7 @@ results:
     date: May 2025
     date_display: May 2025
     date_iso: 2025-05
-    global_rank: 282
+    global_rank: 296
     true_value: 0.55
     true_std: 0.01
     value_gap_source_arxiv: '2505.15405'
@@ -2696,44 +2326,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 282
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.55
-    sort_std: 0.01
-    is_best: false
-  - model: SaNN
-    model_key: sann
-    model_plain: SaNN
-    value: 0.55
-    std: 0.01
-    paper_value: 0.55
-    paper_std: 0.01
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: May 2025
-    date_display: May 2025
-    date_iso: 2025-05
-    global_rank: 282
-    true_value: 0.55
-    true_std: 0.01
-    value_gap_source_arxiv: '2505.15405'
-    value_gap_source_title: 'HOPSE: Scalable Higher-Order Positional and Structural
-      Encoder for Combinatorial Representations'
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 282
+    paper_rank: 296
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same

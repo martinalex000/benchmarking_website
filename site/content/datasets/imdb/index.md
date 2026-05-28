@@ -395,7 +395,7 @@ variants:
     params_millions: null
     arxiv_id: '2410.05499'
     title: Unitary convolutions for learning on graphs and groups
-    date: '2024-10-07'
+    date: Oct 7, 2024
     date_iso: '2024-10-07'
     date_display: Oct 2024
     codebase_url: ''
@@ -417,7 +417,7 @@ variants:
     params_millions: null
     arxiv_id: '2410.05499'
     title: Unitary convolutions for learning on graphs and groups
-    date: '2024-10-07'
+    date: Oct 7, 2024
     date_iso: '2024-10-07'
     date_display: Oct 2024
     codebase_url: ''
@@ -439,7 +439,7 @@ variants:
     params_millions: null
     arxiv_id: '2410.05499'
     title: Unitary convolutions for learning on graphs and groups
-    date: '2024-10-07'
+    date: Oct 7, 2024
     date_iso: '2024-10-07'
     date_display: Oct 2024
     codebase_url: ''
@@ -461,7 +461,7 @@ variants:
     params_millions: null
     arxiv_id: '2410.05499'
     title: Unitary convolutions for learning on graphs and groups
-    date: '2024-10-07'
+    date: Oct 7, 2024
     date_iso: '2024-10-07'
     date_display: Oct 2024
     codebase_url: ''
@@ -483,7 +483,7 @@ variants:
     params_millions: null
     arxiv_id: '2410.05499'
     title: Unitary convolutions for learning on graphs and groups
-    date: '2024-10-07'
+    date: Oct 7, 2024
     date_iso: '2024-10-07'
     date_display: Oct 2024
     codebase_url: ''

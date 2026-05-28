@@ -246,6 +246,7 @@ def run_extraction(
             latex_paper=latex_paper,
             figures_list=figures_list,
             paper_title=paper_title,
+            paper_abstract=paper_abstract,
             extraction_strategy=extraction_strategy,
             experiment_label=experiment_label,
         )

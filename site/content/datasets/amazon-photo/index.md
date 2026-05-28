@@ -232,7 +232,7 @@ variants:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_iso: '2024-11-26'
     date_display: Nov 2024
     codebase_url: ''
@@ -252,7 +252,7 @@ variants:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_iso: '2024-11-26'
     date_display: Nov 2024
     codebase_url: ''
@@ -272,7 +272,7 @@ variants:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_iso: '2024-11-26'
     date_display: Nov 2024
     codebase_url: ''
@@ -292,7 +292,7 @@ variants:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_iso: '2024-11-26'
     date_display: Nov 2024
     codebase_url: ''
@@ -312,7 +312,7 @@ variants:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_iso: '2024-11-26'
     date_display: Nov 2024
     codebase_url: ''
@@ -332,7 +332,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -352,7 +352,7 @@ variants:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_iso: '2024-11-26'
     date_display: Nov 2024
     codebase_url: ''
@@ -372,7 +372,7 @@ variants:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_iso: '2024-11-26'
     date_display: Nov 2024
     codebase_url: ''
@@ -392,7 +392,7 @@ variants:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_iso: '2024-11-26'
     date_display: Nov 2024
     codebase_url: ''
@@ -433,7 +433,7 @@ variants:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_iso: '2024-11-26'
     date_display: Nov 2024
     codebase_url: ''
@@ -453,7 +453,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -473,7 +473,7 @@ variants:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_iso: '2024-11-26'
     date_display: Nov 2024
     codebase_url: ''
@@ -493,7 +493,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -513,7 +513,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -533,7 +533,7 @@ variants:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_iso: '2024-11-26'
     date_display: Nov 2024
     codebase_url: ''
@@ -553,7 +553,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -594,7 +594,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -614,7 +614,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -634,7 +634,7 @@ variants:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_iso: '2024-11-26'
     date_display: Nov 2024
     codebase_url: ''
@@ -654,7 +654,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -674,7 +674,7 @@ variants:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_iso: '2024-11-26'
     date_display: Nov 2024
     codebase_url: ''
@@ -694,7 +694,7 @@ variants:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_iso: '2024-11-26'
     date_display: Nov 2024
     codebase_url: ''
@@ -714,7 +714,7 @@ variants:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_iso: '2024-11-26'
     date_display: Nov 2024
     codebase_url: ''
@@ -734,7 +734,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -775,7 +775,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -837,7 +837,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -899,7 +899,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -940,7 +940,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -1086,7 +1086,7 @@ variants:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_iso: '2024-11-26'
     date_display: Nov 2024
     codebase_url: ''
@@ -1106,7 +1106,7 @@ variants:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_iso: '2024-11-26'
     date_display: Nov 2024
     codebase_url: ''
@@ -1126,7 +1126,7 @@ variants:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_iso: '2024-11-26'
     date_display: Nov 2024
     codebase_url: ''
@@ -1146,7 +1146,7 @@ variants:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_iso: '2024-11-26'
     date_display: Nov 2024
     codebase_url: ''

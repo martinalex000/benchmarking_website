@@ -1,8 +1,10 @@
 ---
 title: 'Torch Geometric Pool: the PyTorch library for pooling in Graph Neural Networks'
 arxiv_id: '2512.12642'
+source_url: ''
 authors: []
 published_date: ''
+published_date_iso: ''
 abstract: Torch Geometric Pool (tgp) is a pooling library built on top of PyTorch
   Geometric. Graph pooling methods differ in how they assign nodes to supernodes,
   how they handle batches, what they return after pooling, and whether they expose
@@ -16,8 +18,14 @@ abstract: Torch Geometric Pool (tgp) is a pooling library built on top of PyTorc
 codebase_url: ''
 extraction_model: ''
 has_results: false
+paper_type: dataset
 proposed_models: []
 mrr: null
+adjusted_mrr: null
+mrr_dataset_count: 0
+benchmark_categories: []
+task_categories: []
+experiment_scopes: []
 results: []
 results_grouped: []
 ---

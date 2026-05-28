@@ -1,8 +1,10 @@
 ---
 title: 'DE-HNN: An effective neural model for Circuit Netlist representation'
 arxiv_id: '2404.00477'
+source_url: ''
 authors: []
-published_date: '2024-03-30'
+published_date: Mar 30, 2024
+published_date_iso: '2024-03-30'
 abstract: The run-time for optimization tools used in chip design has grown with the
   complexity of designs to the point where it can take several days to go through
   one design cycle which has become a bottleneck. Designers want fast tools that can
@@ -28,8 +30,14 @@ abstract: The run-time for optimization tools used in chip design has grown with
 codebase_url: ''
 extraction_model: qwen3.6-35b-a3b
 has_results: false
+paper_type: dataset
 proposed_models: []
 mrr: null
+adjusted_mrr: null
+mrr_dataset_count: 0
+benchmark_categories: []
+task_categories: []
+experiment_scopes: []
 results: []
 results_grouped: []
 main_figure: /figures/2404.00477/main_figure.png

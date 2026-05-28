@@ -142,6 +142,12 @@
         data-metric="{{ $variant.primary_metric }}"
         data-higher-is-better="{{ $variant.higher_is_better }}">
       </canvas>
+      <div class="chart-mini-legend" aria-label="Chart color legend">
+        <span class="legend-item"><span class="chart-dot chart-dot-record"></span><span>new SOTA</span></span>
+        <span class="legend-item"><span class="chart-dot chart-dot-sota-match"></span><span>matches SOTA at that time</span></span>
+        <span class="legend-item"><span class="chart-dot chart-dot-proposed"></span><span>other proposed result</span></span>
+        <span class="legend-item"><span class="chart-dot chart-dot-baseline"></span><span>other baseline result</span></span>
+      </div>
       <div class="chart-hover-preview" id="hover-preview-{{ $variant.slug }}" style="display:none"></div>
     </div>
 
@@ -149,22 +155,15 @@
       <h2>Leaderboard — {{ $variant.name }}</h2>
       {{ $rowsLen := len $variant.rows }}
       {{ partial "multi-metric-table.html" (dict "rows" $variant.rows "metrics" $variant.metrics "primary_metric" $variant.primary_metric "higher_is_better" $variant.higher_is_better "dataset_variant" $variant.slug "collapse_after" (cond (gt $rowsLen 50) 50 0)) }}
+      <div class="table-explainer-legend" aria-label="Table legend">
+        <span class="legend-item"><span class="legend-swatch swatch-record"></span><span>current SOTA</span></span>
+        <span class="legend-item"><span class="legend-swatch swatch-best"></span><span>matches current SOTA</span></span>
+        <span class="legend-item"><span class="table-marker marker-record"></span><span>set a new SOTA at the time</span></span>
+        <span class="legend-item"><span class="table-marker marker-sota-match"></span><span>matched the SOTA at the time</span></span>
+      </div>
     </div>
   </section>
   {{ end }}
-
-  {{/* Color legend */}}
-  <div class="color-legend">
-    <h3 class="legend-title">Legend</h3>
-    <div class="legend-items">
-      <div class="legend-item"><span class="legend-swatch swatch-proposed"></span><span>★ Proposed-model result</span></div>
-      <div class="legend-item"><span class="legend-swatch swatch-baseline"></span><span>Baseline / comparison model</span></div>
-      <div class="legend-item"><span class="legend-swatch swatch-sota-tie"></span><span>Also reaches SOTA (without setting a new record)</span></div>
-      <div class="legend-item"><span class="legend-swatch swatch-best"></span><span>Statistically best result (within std overlap)</span></div>
-      <div class="legend-item"><span class="table-marker marker-record"></span><span>Blue dot in table: record-setting SOTA at its time</span></div>
-      <div class="legend-item"><span class="table-marker marker-sota-match"></span><span>Amber ring in table: matches a prior or current SOTA at its time</span></div>
-    </div>
-  </div>
 
 </article>
 

@@ -222,7 +222,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.18739'
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_iso: '2025-01-30'
     date_display: Jan 2025
     codebase_url: ''
@@ -242,7 +242,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -262,7 +262,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -282,7 +282,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.18739'
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_iso: '2025-01-30'
     date_display: Jan 2025
     codebase_url: ''
@@ -382,7 +382,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -402,7 +402,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.18739'
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_iso: '2025-01-30'
     date_display: Jan 2025
     codebase_url: ''
@@ -422,7 +422,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.18739'
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_iso: '2025-01-30'
     date_display: Jan 2025
     codebase_url: ''
@@ -442,7 +442,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.18739'
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_iso: '2025-01-30'
     date_display: Jan 2025
     codebase_url: ''
@@ -462,7 +462,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.18739'
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_iso: '2025-01-30'
     date_display: Jan 2025
     codebase_url: ''
@@ -482,7 +482,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -502,7 +502,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -522,7 +522,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.18739'
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_iso: '2025-01-30'
     date_display: Jan 2025
     codebase_url: ''
@@ -542,7 +542,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -562,7 +562,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -582,7 +582,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.18739'
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_iso: '2025-01-30'
     date_display: Jan 2025
     codebase_url: ''
@@ -602,7 +602,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -643,7 +643,7 @@ variants:
     params_millions: null
     arxiv_id: '2501.18739'
     title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: '2025-01-30'
+    date: Jan 30, 2025
     date_iso: '2025-01-30'
     date_display: Jan 2025
     codebase_url: ''
@@ -663,7 +663,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -704,7 +704,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -724,7 +724,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -764,7 +764,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''
@@ -784,7 +784,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: '2024-05-22'
+    date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: ''

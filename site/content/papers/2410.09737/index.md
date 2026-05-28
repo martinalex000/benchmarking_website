@@ -38,8 +38,8 @@ proposed_models:
 - GINE, with OGE-Aug
 - GPS, with OGE-Aug
 - GPS & OGE-Aug
-mrr: 0.013
-adjusted_mrr: 0.0043
+mrr: 0.0127
+adjusted_mrr: 0.0042
 mrr_dataset_count: 1
 benchmark_categories:
 - Classic
@@ -92,6 +92,78 @@ results:
     sort_value: 0.087
     sort_std: 0.001
     is_best: true
+  - model: \mathcal {AS}_{0:1}^{\mathsf {SN}}
+    model_key: \mathcal {as}_{0:1}^{\mathsf {sn}}
+    model_plain: \mathcal {AS}_{0:1}^{\mathsf {SN}}
+    value: 0.087
+    std: 0.001
+    metric: MAE
+    higher_is_better: false
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2404.03380'
+    title: On the Theoretical Expressive Power and the Design Space of Higher-Order
+      Graph Transformers
+    date: Apr 4, 2024
+    date_display: Apr 2024
+    date_iso: '2024-04-04'
+    codebase_url: ''
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 2
+    sort_value: 0.087
+    sort_std: 0.001
+    is_best: true
+  - model: \mathcal A_{2}^{\mathsf {VT}}
+    model_key: \mathcal a_{2}^{\mathsf {vt}}
+    model_plain: \mathcal A_{2}^{\mathsf {VT}}
+    value: 0.09
+    std: 0.001
+    metric: MAE
+    higher_is_better: false
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2404.03380'
+    title: On the Theoretical Expressive Power and the Design Space of Higher-Order
+      Graph Transformers
+    date: Apr 4, 2024
+    date_display: Apr 2024
+    date_iso: '2024-04-04'
+    codebase_url: ''
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 3
+    sort_value: 0.09
+    sort_std: 0.001
+    is_best: false
+  - model: \mathcal A_{2}^{\mathsf {Ngbh}}
+    model_key: \mathcal a_{2}^{\mathsf {ngbh}}
+    model_plain: \mathcal A_{2}^{\mathsf {Ngbh}}
+    value: 0.094
+    std: 0.001
+    metric: MAE
+    higher_is_better: false
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2404.03380'
+    title: On the Theoretical Expressive Power and the Design Space of Higher-Order
+      Graph Transformers
+    date: Apr 4, 2024
+    date_display: Apr 2024
+    date_iso: '2024-04-04'
+    codebase_url: ''
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 4
+    sort_value: 0.094
+    sort_std: 0.001
+    is_best: false
   - model: GIN + SPE (All)
     model_key: gin + spe (all)
     model_plain: GIN + SPE (All)
@@ -111,7 +183,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 2
+    global_rank: 5
     true_value: 0.108
     true_std: 0.001
     value_gap_source_arxiv: '2410.09737'
@@ -122,7 +194,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 2
+    paper_rank: 5
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -148,7 +220,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 3
+    global_rank: 6
     true_value: 0.11
     true_std: 0.001
     value_gap_source_arxiv: '2410.09737'
@@ -159,7 +231,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 3
+    paper_rank: 6
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -185,7 +257,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 4
+    global_rank: 7
     true_value: 0.112
     true_std: 0.001
     value_gap_source_arxiv: '2410.09737'
@@ -196,7 +268,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 4
+    paper_rank: 7
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -222,7 +294,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 5
+    global_rank: 8
     true_value: 0.113
     true_std: 0.002
     value_gap_source_arxiv: '2410.09737'
@@ -233,7 +305,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 5
+    paper_rank: 8
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -259,7 +331,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 6
+    global_rank: 9
     true_value: 0.114
     true_std: 0.001
     value_gap_source_arxiv: '2410.09737'
@@ -270,7 +342,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 6
+    paper_rank: 9
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -381,9 +453,9 @@ results:
     has_value_note: false
     value_gap: 0.1366
     value_note: ''
-    paper_rank: 47
-    rank_delta: 43
-    rank_delta_abs: 43
+    paper_rank: 48
+    rank_delta: 44
+    rank_delta_abs: 44
     rank_delta_direction: worse
     sort_value: 0.4703
     sort_std: 0.0014
@@ -418,9 +490,9 @@ results:
     has_value_note: false
     value_gap: 0.14520000000000005
     value_note: ''
-    paper_rank: 60
-    rank_delta: 55
-    rank_delta_abs: 55
+    paper_rank: 61
+    rank_delta: 56
+    rank_delta_abs: 56
     rank_delta_direction: worse
     sort_value: 0.467
     sort_std: 0.0004
@@ -455,9 +527,9 @@ results:
     has_value_note: false
     value_gap: 0.12919999999999998
     value_note: ''
-    paper_rank: 59
-    rank_delta: 52
-    rank_delta_abs: 52
+    paper_rank: 60
+    rank_delta: 53
+    rank_delta_abs: 53
     rank_delta_direction: worse
     sort_value: 0.4526
     sort_std: 0.0006
@@ -529,9 +601,9 @@ results:
     has_value_note: false
     value_gap: 0.032899999999999985
     value_note: ''
-    paper_rank: 60
-    rank_delta: 43
-    rank_delta_abs: 43
+    paper_rank: 61
+    rank_delta: 44
+    rank_delta_abs: 44
     rank_delta_direction: worse
     sort_value: 0.3509
     sort_std: 0.0006
@@ -555,7 +627,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 34
+    global_rank: 35
     true_value: 0.3408
     true_std: 0.0003
     value_gap_source_arxiv: '2310.19285'
@@ -566,7 +638,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 34
+    paper_rank: 35
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -592,7 +664,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 35
+    global_rank: 36
     true_value: 0.3407
     true_std: 0.0004
     value_gap_source_arxiv: '2310.19285'
@@ -603,7 +675,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 35
+    paper_rank: 36
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -629,7 +701,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 45
+    global_rank: 46
     true_value: 0.335
     true_std: 0.0003
     value_gap_source_arxiv: '2310.19285'
@@ -640,7 +712,7 @@ results:
     has_value_note: false
     value_gap: 0.0009000000000000119
     value_note: ''
-    paper_rank: 47
+    paper_rank: 48
     rank_delta: 2
     rank_delta_abs: 2
     rank_delta_direction: worse
@@ -666,7 +738,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 46
+    global_rank: 47
     true_value: 0.335
     true_std: 0.0003
     value_gap_source_arxiv: '2410.09737'
@@ -677,7 +749,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 46
+    paper_rank: 47
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -703,7 +775,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 49
+    global_rank: 50
     true_value: 0.3337
     true_std: 0.0006
     value_gap_source_arxiv: '2410.09737'
@@ -714,7 +786,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 49
+    paper_rank: 50
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -740,7 +812,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 62
+    global_rank: 63
     true_value: 0.3174
     true_std: 0.002
     value_gap_source_arxiv: '2410.09737'
@@ -751,7 +823,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 62
+    paper_rank: 63
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -822,7 +894,7 @@ results:
     params_millions: 1.0
     arxiv_id: '2405.02795'
     title: Graph as Point Set
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
     codebase_url: ''
@@ -861,45 +933,9 @@ results:
     has_value_note: false
     value_gap: 0.057
     value_note: ''
-    paper_rank: 137
-    rank_delta: 130
-    rank_delta_abs: 130
-    rank_delta_direction: worse
-    sort_value: 0.022
-    sort_std: 0.002
-    is_best: false
-  - model: CIN
-    model_key: cin
-    model_plain: CIN
-    value: 0.079
-    std: 0.006
-    paper_value: 0.079
-    paper_std: 0.006
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table_zinc
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Oct 2024
-    date_display: Oct 2024
-    date_iso: 2024-10
-    global_rank: 7
-    true_value: 0.022
-    true_std: 0.002
-    value_gap_source_arxiv: '2405.02795'
-    value_gap_source_title: Graph as Point Set
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.057
-    value_note: ''
-    paper_rank: 137
-    rank_delta: 130
-    rank_delta_abs: 130
+    paper_rank: 144
+    rank_delta: 137
+    rank_delta_abs: 137
     rank_delta_direction: worse
     sort_value: 0.022
     sort_std: 0.002
@@ -934,46 +970,9 @@ results:
     has_value_note: false
     value_gap: 0.046158000000000005
     value_note: ''
-    paper_rank: 104
-    rank_delta: 91
-    rank_delta_abs: 91
-    rank_delta_direction: worse
-    sort_value: 0.023842
-    sort_std: 0.0069779309254248125
-    is_best: false
-  - model: GPS
-    model_key: gps
-    model_plain: GPS
-    value: 0.07
-    std: 0.004
-    paper_value: 0.07
-    paper_std: 0.004
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table_zinc
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Oct 2024
-    date_display: Oct 2024
-    date_iso: 2024-10
-    global_rank: 13
-    true_value: 0.023842
-    true_std: 0.0069779309254248125
-    value_gap_source_arxiv: '2402.10793'
-    value_gap_source_title: An end-to-end attention-based approach for learning on
-      graphs
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.046158000000000005
-    value_note: ''
-    paper_rank: 104
-    rank_delta: 91
-    rank_delta_abs: 91
+    paper_rank: 107
+    rank_delta: 94
+    rank_delta_abs: 94
     rank_delta_direction: worse
     sort_value: 0.023842
     sort_std: 0.0069779309254248125
@@ -1007,45 +1006,9 @@ results:
     has_value_note: false
     value_gap: 0.097
     value_note: ''
-    paper_rank: 198
-    rank_delta: 180
-    rank_delta_abs: 180
-    rank_delta_direction: worse
-    sort_value: 0.025
-    sort_std: 0.004
-    is_best: false
-  - model: Graphormer
-    model_key: graphormer
-    model_plain: Graphormer
-    value: 0.122
-    std: 0.006
-    paper_value: 0.122
-    paper_std: 0.006
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table_zinc
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Oct 2024
-    date_display: Oct 2024
-    date_iso: 2024-10
-    global_rank: 18
-    true_value: 0.025
-    true_std: 0.004
-    value_gap_source_arxiv: '2501.18739'
-    value_gap_source_title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.097
-    value_note: ''
-    paper_rank: 198
-    rank_delta: 180
-    rank_delta_abs: 180
+    paper_rank: 210
+    rank_delta: 192
+    rank_delta_abs: 192
     rank_delta_direction: worse
     sort_value: 0.025
     sort_std: 0.004
@@ -1079,45 +1042,9 @@ results:
     has_value_note: false
     value_gap: 0.046
     value_note: ''
-    paper_rank: 139
-    rank_delta: 106
-    rank_delta_abs: 106
-    rank_delta_direction: worse
-    sort_value: 0.034
-    sort_std: 0.007
-    is_best: false
-  - model: GNN (a)
-    model_key: gnn (a)
-    model_plain: GNN (a)
-    value: 0.08
-    std: 0.001
-    paper_value: 0.08
-    paper_std: 0.001
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table_zinc
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Oct 2024
-    date_display: Oct 2024
-    date_iso: 2024-10
-    global_rank: 33
-    true_value: 0.034
-    true_std: 0.007
-    value_gap_source_arxiv: '2501.18739'
-    value_gap_source_title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.046
-    value_note: ''
-    paper_rank: 139
-    rank_delta: 106
-    rank_delta_abs: 106
+    paper_rank: 146
+    rank_delta: 113
+    rank_delta_abs: 113
     rank_delta_direction: worse
     sort_value: 0.034
     sort_std: 0.007
@@ -1152,46 +1079,9 @@ results:
     has_value_note: false
     value_gap: 0.13072978921109524
     value_note: ''
-    paper_rank: 238
-    rank_delta: 190
-    rank_delta_abs: 190
-    rank_delta_direction: worse
-    sort_value: 0.05727021078890476
-    sort_std: 0.006639614126119909
-    is_best: false
-  - model: PNA
-    model_key: pna
-    model_plain: PNA
-    value: 0.188
-    std: 0.004
-    paper_value: 0.188
-    paper_std: 0.004
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table_zinc
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Oct 2024
-    date_display: Oct 2024
-    date_iso: 2024-10
-    global_rank: 48
-    true_value: 0.05727021078890476
-    true_std: 0.006639614126119909
-    value_gap_source_arxiv: '2402.10793'
-    value_gap_source_title: An end-to-end attention-based approach for learning on
-      graphs
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.13072978921109524
-    value_note: ''
-    paper_rank: 238
-    rank_delta: 190
-    rank_delta_abs: 190
+    paper_rank: 252
+    rank_delta: 204
+    rank_delta_abs: 204
     rank_delta_direction: worse
     sort_value: 0.05727021078890476
     sort_std: 0.006639614126119909
@@ -1215,7 +1105,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 69
+    global_rank: 71
     true_value: 0.064
     true_std: 0.003
     value_gap_source_arxiv: '2410.09737'
@@ -1226,7 +1116,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 69
+    paper_rank: 71
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1252,7 +1142,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 69
+    global_rank: 71
     true_value: 0.064
     true_std: 0.003
     value_gap_source_arxiv: '2410.09737'
@@ -1263,7 +1153,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 69
+    paper_rank: 71
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1289,7 +1179,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 73
+    global_rank: 75
     true_value: 0.065
     true_std: 0.004
     value_gap_source_arxiv: '2502.09263'
@@ -1300,46 +1190,9 @@ results:
     has_value_note: false
     value_gap: 0.098
     value_note: ''
-    paper_rank: 233
-    rank_delta: 160
-    rank_delta_abs: 160
-    rank_delta_direction: worse
-    sort_value: 0.065
-    sort_std: 0.004
-    is_best: false
-  - model: GIN
-    model_key: gin
-    model_plain: GIN
-    value: 0.163
-    std: 0.004
-    paper_value: 0.163
-    paper_std: 0.004
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table_zinc
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Oct 2024
-    date_display: Oct 2024
-    date_iso: 2024-10
-    global_rank: 73
-    true_value: 0.065
-    true_std: 0.004
-    value_gap_source_arxiv: '2502.09263'
-    value_gap_source_title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks?
-      Simple Architectures Meet Excellence
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.098
-    value_note: ''
-    paper_rank: 233
-    rank_delta: 160
-    rank_delta_abs: 160
+    paper_rank: 246
+    rank_delta: 171
+    rank_delta_abs: 171
     rank_delta_direction: worse
     sort_value: 0.065
     sort_std: 0.004
@@ -1363,7 +1216,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 76
+    global_rank: 78
     true_value: 0.066
     true_std: 0.003
     value_gap_source_arxiv: '2502.09263'
@@ -1374,44 +1227,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 76
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.066
-    sort_std: 0.003
-    is_best: false
-  - model: SpecFormer
-    model_key: specformer
-    model_plain: SpecFormer
-    value: 0.066
-    std: 0.003
-    paper_value: 0.066
-    paper_std: 0.003
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table_zinc
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Oct 2024
-    date_display: Oct 2024
-    date_iso: 2024-10
-    global_rank: 76
-    true_value: 0.066
-    true_std: 0.003
-    value_gap_source_arxiv: '2502.09263'
-    value_gap_source_title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks?
-      Simple Architectures Meet Excellence
-    value_gap_source_is_current_paper: false
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 76
+    paper_rank: 78
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1437,7 +1253,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 77
+    global_rank: 79
     true_value: 0.066
     true_std: 0.002
     value_gap_source_arxiv: '2410.09737'
@@ -1448,7 +1264,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 77
+    paper_rank: 79
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1474,7 +1290,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 77
+    global_rank: 79
     true_value: 0.066
     true_std: 0.002
     value_gap_source_arxiv: '2410.09737'
@@ -1485,7 +1301,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 77
+    paper_rank: 79
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1511,7 +1327,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 98
+    global_rank: 100
     true_value: 0.069
     true_std: 0.004
     value_gap_source_arxiv: '2410.09737'
@@ -1522,44 +1338,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 98
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.069
-    sort_std: 0.004
-    is_best: false
-  - model: GIN, with PEG
-    model_key: gin, with peg
-    model_plain: GIN, with PEG
-    value: 0.069
-    std: 0.004
-    paper_value: 0.069
-    paper_std: 0.004
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table_zinc
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Oct 2024
-    date_display: Oct 2024
-    date_iso: 2024-10
-    global_rank: 98
-    true_value: 0.069
-    true_std: 0.004
-    value_gap_source_arxiv: '2410.09737'
-    value_gap_source_title: Towards Stable, Globally Expressive Graph Representations
-      with Laplacian Eigenvectors
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 98
+    paper_rank: 100
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1585,7 +1364,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 155
+    global_rank: 164
     true_value: 0.085
     true_std: 0.003
     value_gap_source_arxiv: '2410.09737'
@@ -1596,44 +1375,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 155
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.085
-    sort_std: 0.003
-    is_best: false
-  - model: GIN, with SignNet
-    model_key: gin, with signnet
-    model_plain: GIN, with SignNet
-    value: 0.085
-    std: 0.003
-    paper_value: 0.085
-    paper_std: 0.003
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table_zinc
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Oct 2024
-    date_display: Oct 2024
-    date_iso: 2024-10
-    global_rank: 155
-    true_value: 0.085
-    true_std: 0.003
-    value_gap_source_arxiv: '2410.09737'
-    value_gap_source_title: Towards Stable, Globally Expressive Graph Representations
-      with Laplacian Eigenvectors
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 155
+    paper_rank: 164
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1659,7 +1401,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 170
+    global_rank: 180
     true_value: 0.093
     true_std: 0.007
     value_gap_source_arxiv: '2312.01538'
@@ -1670,46 +1412,9 @@ results:
     has_value_note: false
     value_gap: 0.025999999999999995
     value_note: ''
-    paper_rank: 193
-    rank_delta: 23
-    rank_delta_abs: 23
-    rank_delta_direction: worse
-    sort_value: 0.093
-    sort_std: 0.007
-    is_best: false
-  - model: KP-GIN+
-    model_key: kp-gin+
-    model_plain: KP-GIN+
-    value: 0.119
-    std: 0.002
-    paper_value: 0.119
-    paper_std: 0.002
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table_zinc
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Oct 2024
-    date_display: Oct 2024
-    date_iso: 2024-10
-    global_rank: 170
-    true_value: 0.093
-    true_std: 0.007
-    value_gap_source_arxiv: '2312.01538'
-    value_gap_source_title: Recurrent Distance Filtering for Graph Representation
-      Learning
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.025999999999999995
-    value_note: ''
-    paper_rank: 193
-    rank_delta: 23
-    rank_delta_abs: 23
+    paper_rank: 205
+    rank_delta: 25
+    rank_delta_abs: 25
     rank_delta_direction: worse
     sort_value: 0.093
     sort_std: 0.007
@@ -1733,7 +1438,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 176
+    global_rank: 188
     true_value: 0.101
     true_std: 0.01
     value_gap_source_arxiv: '2501.03113'
@@ -1744,44 +1449,7 @@ results:
     has_value_note: false
     value_gap: 0.013999999999999999
     value_note: ''
-    paper_rank: 187
-    rank_delta: 11
-    rank_delta_abs: 11
-    rank_delta_direction: worse
-    sort_value: 0.101
-    sort_std: 0.01
-    is_best: false
-  - model: GSN
-    model_key: gsn
-    model_plain: GSN
-    value: 0.115
-    std: 0.012
-    paper_value: 0.115
-    paper_std: 0.012
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table_zinc
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Oct 2024
-    date_display: Oct 2024
-    date_iso: 2024-10
-    global_rank: 176
-    true_value: 0.101
-    true_std: 0.01
-    value_gap_source_arxiv: '2501.03113'
-    value_gap_source_title: 'Balancing Efficiency and Expressiveness: Subgraph GNNs
-      with Walk-Based Centrality'
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.013999999999999999
-    value_note: ''
-    paper_rank: 187
+    paper_rank: 199
     rank_delta: 11
     rank_delta_abs: 11
     rank_delta_direction: worse
@@ -1807,7 +1475,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 211
+    global_rank: 224
     true_value: 0.1341
     true_std: 0.0063
     value_gap_source_arxiv: '2602.02268'
@@ -1818,44 +1486,7 @@ results:
     has_value_note: true
     value_gap: 0.0049000000000000155
     value_note: global 0.1341 within std
-    paper_rank: 212
-    rank_delta: 1
-    rank_delta_abs: 1
-    rank_delta_direction: worse
-    sort_value: 0.1341
-    sort_std: 0.0063
-    is_best: false
-  - model: SAN
-    model_key: san
-    model_plain: SAN
-    value: 0.139
-    std: 0.006
-    paper_value: 0.139
-    paper_std: 0.006
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table_zinc
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Oct 2024
-    date_display: Oct 2024
-    date_iso: 2024-10
-    global_rank: 211
-    true_value: 0.1341
-    true_std: 0.0063
-    value_gap_source_arxiv: '2602.02268'
-    value_gap_source_title: 'HopFormer: Sparse Graph Transformers with Explicit Receptive
-      Field Control'
-    value_gap_source_is_current_paper: false
-    has_value_gap: false
-    has_value_note: true
-    value_gap: 0.0049000000000000155
-    value_note: global 0.1341 within std
-    paper_rank: 212
+    paper_rank: 225
     rank_delta: 1
     rank_delta_abs: 1
     rank_delta_direction: worse
@@ -1881,7 +1512,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 223
+    global_rank: 236
     true_value: 0.154
     true_std: 0.008
     value_gap_source_arxiv: '2402.08450'
@@ -1892,46 +1523,9 @@ results:
     has_value_note: false
     value_gap: 0.033
     value_note: ''
-    paper_rank: 238
-    rank_delta: 15
-    rank_delta_abs: 15
-    rank_delta_direction: worse
-    sort_value: 0.154
-    sort_std: 0.008
-    is_best: false
-  - model: OSAN
-    model_key: osan
-    model_plain: OSAN
-    value: 0.187
-    std: 0.004
-    paper_value: 0.187
-    paper_std: 0.004
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table_zinc
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Oct 2024
-    date_display: Oct 2024
-    date_iso: 2024-10
-    global_rank: 223
-    true_value: 0.154
-    true_std: 0.008
-    value_gap_source_arxiv: '2402.08450'
-    value_gap_source_title: 'Subgraphormer: Unifying Subgraph GNNs and Graph Transformers
-      via Graph Products'
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.033
-    value_note: ''
-    paper_rank: 238
-    rank_delta: 15
-    rank_delta_abs: 15
+    paper_rank: 252
+    rank_delta: 16
+    rank_delta_abs: 16
     rank_delta_direction: worse
     sort_value: 0.154
     sort_std: 0.008
@@ -1955,7 +1549,7 @@ results:
     date: Oct 2024
     date_display: Oct 2024
     date_iso: 2024-10
-    global_rank: 224
+    global_rank: 237
     true_value: 0.155
     true_std: 0.007
     value_gap_source_arxiv: '2410.09737'
@@ -1966,44 +1560,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 224
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.155
-    sort_std: 0.007
-    is_best: false
-  - model: GIN, with BasisNet
-    model_key: gin, with basisnet
-    model_plain: GIN, with BasisNet
-    value: 0.155
-    std: 0.007
-    paper_value: 0.155
-    paper_std: 0.007
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table_zinc
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Oct 2024
-    date_display: Oct 2024
-    date_iso: 2024-10
-    global_rank: 224
-    true_value: 0.155
-    true_std: 0.007
-    value_gap_source_arxiv: '2410.09737'
-    value_gap_source_title: Towards Stable, Globally Expressive Graph Representations
-      with Laplacian Eigenvectors
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 224
+    paper_rank: 237
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same

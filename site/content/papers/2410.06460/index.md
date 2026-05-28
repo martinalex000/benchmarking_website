@@ -1,8 +1,10 @@
 ---
 title: A Benchmark on Directed Graph Representation Learning in Hardware Designs
 arxiv_id: '2410.06460'
+source_url: ''
 authors: []
 published_date: Oct 2024
+published_date_iso: 2024-10
 abstract: 'To keep pace with the rapid advancements in design complexity within modern
   computing systems, directed graph representation learning (DGRL) has become crucial,
   particularly for encoding circuit netlists, computational graphs, and developing
@@ -23,8 +25,14 @@ abstract: 'To keep pace with the rapid advancements in design complexity within 
 codebase_url: ''
 extraction_model: MiniMaxAI/MiniMax-M2.5
 has_results: false
+paper_type: dataset
 proposed_models: []
 mrr: null
+adjusted_mrr: null
+mrr_dataset_count: 0
+benchmark_categories: []
+task_categories: []
+experiment_scopes: []
 results: []
 results_grouped: []
 main_figure: /figures/2410.06460/main_figure.png

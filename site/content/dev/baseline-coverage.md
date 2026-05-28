@@ -71,8 +71,8 @@ Datasets in this report are missing one of the baseline families we usually want
 | Classic | AQSOL | graph_regression | MAE | 0 | — |
 | Classic | Coauthor-CS | node_classification | Accuracy | 49 | gcn, gin, sage |
 | Classic | Coauthor-Physics | node_classification | Accuracy | 40 | gcn, gin, sage |
-| Classic | Reddit | node_classification | F1 | 115 | gcn, gin, sage |
-| Classic | ZINC | graph_regression | MAE | 1063 | gcn, gin, sage |
+| Classic | Reddit | node_classification | F1 | 116 | gcn, gin, sage |
+| Classic | ZINC | graph_regression | MAE | 1078 | gcn, gin, sage |
 | CosmoBench | CAMELS-SAM | graph_regression | R^2 | 7 | — |
 | CosmoBench | CS-Trees | graph_regression | R2 | 14 | — |
 | CosmoBench | CS-Trees-200 | graph_classification | Accuracy | 10 | — |
@@ -83,11 +83,11 @@ Datasets in this report are missing one of the baseline families we usually want
 | ECHO Benchmark | ECHO-Charge | graph_regression | MAE | 11 | gcn, gin |
 | ECHO Benchmark | ECHO-Energy | graph_regression | MAE | 11 | gcn, gin |
 | ECHO Benchmark | ECHO-Synth | graph_regression | MAE | 10 | gcn, gin |
-| GNNBenchmark | CIFAR10 | graph_classification | Accuracy | 307 | gcn, gin, sage |
-| GNNBenchmark | CLUSTER | node_classification | Accuracy | 234 | gcn, gin, sage |
-| GNNBenchmark | CSL | graph_classification | Accuracy | 38 | gcn, gin |
-| GNNBenchmark | MNIST | graph_classification | Accuracy | 294 | gcn, gin, sage |
-| GNNBenchmark | PATTERN | node_classification | Accuracy | 254 | gcn, gin, sage |
+| GNNBenchmark | CIFAR10 | graph_classification | Accuracy | 312 | gcn, gin, sage |
+| GNNBenchmark | CLUSTER | node_classification | Accuracy | 236 | gcn, gin, sage |
+| GNNBenchmark | CSL | graph_classification | Accuracy | 46 | gcn, gin |
+| GNNBenchmark | MNIST | graph_classification | Accuracy | 301 | gcn, gin, sage |
+| GNNBenchmark | PATTERN | node_classification | Accuracy | 256 | gcn, gin, sage |
 | GNNBenchmark | TSP | link_prediction | F1 | 8 | — |
 | GraphBench | Algorithmic Reasoning | graph_classification | Accuracy | 0 | — |
 | GraphBench | Bridges | graph_classification | F1 | 16 | gin |
@@ -127,17 +127,17 @@ Datasets in this report are missing one of the baseline families we usually want
 | Knowledge Graphs | WN18RR | link_prediction | MRR | 0 | — |
 | LINKX Benchmarks | Pokec | node_classification | Accuracy | 13 | gcn |
 | LINKX Benchmarks | twitch-gamers | node_classification | Accuracy | 13 | gcn |
-| LRGB | PCQM-Contact | link_prediction | MRR | 171 | gcn, gin |
+| LRGB | PCQM-Contact | link_prediction | MRR | 172 | gcn, gin |
 | LRIM Graph Benchmark | LRIM | node_regression | log-MSE | 39 | gin |
-| MoleculeNet | ClinTox | graph_classification | ROC-AUC | 52 | gcn, gin, sage |
+| MoleculeNet | ClinTox | graph_classification | ROC-AUC | 60 | gcn, gin, sage |
 | MoleculeNet | ESOL | graph_regression | RMSE | 16 | gcn, gin |
 | MoleculeNet | FreeSolv | graph_regression | RMSE | 0 | — |
 | MoleculeNet | Lipophilicity | graph_regression | RMSE | 0 | — |
-| MoleculeNet | MUV | graph_classification | AUROC | 10 | gcn, gin |
-| MoleculeNet | SIDER | graph_classification | ROC-AUC | 50 | gcn, gin, sage |
-| MoleculeNet | Tox21 | graph_classification | ROC-AUC | 87 | gcn, gin, sage |
-| MoleculeNet | ToxCast | graph_classification | ROC-AUC | 58 | gcn, gin, sage |
-| OGB | Alchemy | graph_regression | MAE | 6 | gin |
+| MoleculeNet | MUV | graph_classification | AUROC | 33 | gcn, gin, sage |
+| MoleculeNet | SIDER | graph_classification | ROC-AUC | 52 | gcn, gin, sage |
+| MoleculeNet | Tox21 | graph_classification | ROC-AUC | 91 | gcn, gin, sage |
+| MoleculeNet | ToxCast | graph_classification | ROC-AUC | 62 | gcn, gin, sage |
+| OGB | Alchemy | graph_regression | MAE | 10 | gin |
 | OGB | Code | graph_classification | F1 | 31 | gcn, gin |
 | OGB | PCQM4Mv2 | graph_regression | MAE | 69 | gcn, gin |
 | OGB | Yelp | node_classification | Micro-F1 Score | 0 | — |
@@ -151,7 +151,7 @@ Datasets in this report are missing one of the baseline families we usually want
 | OGB | ogbn-products | node_classification | Accuracy | 61 | gcn, sage |
 | Other Graph Benchmarks | 20News | graph_classification | Accuracy | 9 | — |
 | Other Graph Benchmarks | Amazon2M | node_classification | Accuracy | 13 | gcn |
-| Other Graph Benchmarks | MalNet-Tiny | graph_classification | Accuracy | 47 | gcn, gin, sage |
+| Other Graph Benchmarks | MalNet-Tiny | graph_classification | Accuracy | 49 | gcn, gin, sage |
 | Other Graph Benchmarks | ShapeNet-Part | node_classification | F1 | 8 | gcn |
 | Power Flow Benchmarks | Case 1 | graph_regression | Accuracy | 4 | — |
 | Power Flow Benchmarks | Case 2 | graph_regression | Accuracy | 7 | — |
@@ -168,15 +168,15 @@ Datasets in this report are missing one of the baseline families we usually want
 | Quantum Chemistry | QM7b | graph_regression | MAE | 0 | — |
 | Quantum Chemistry | QM9 | graph_regression | MAE | 81 | gcn, gin |
 | TU Dortmund | AIDS | graph_classification | AUROC | 0 | — |
-| TU Dortmund | COLLAB | graph_classification | Accuracy | 125 | gcn, gin, sage |
-| TU Dortmund | ENZYMES | graph_classification | Accuracy | 157 | gcn, gin, sage |
-| TU Dortmund | IMDB-BINARY | graph_classification | Accuracy | 208 | gcn, gin, sage |
+| TU Dortmund | COLLAB | graph_classification | Accuracy | 126 | gcn, gin, sage |
+| TU Dortmund | ENZYMES | graph_classification | Accuracy | 174 | gcn, gin, sage |
+| TU Dortmund | IMDB-BINARY | graph_classification | Accuracy | 231 | gcn, gin, sage |
 | TU Dortmund | IMDB-MULTI | graph_classification | Accuracy | 119 | gcn, gin, sage |
-| TU Dortmund | MUTAG | graph_classification | Accuracy | 240 | gcn, gin, sage |
-| TU Dortmund | NCI1 | graph_classification | Accuracy | 161 | gcn, gin, sage |
+| TU Dortmund | MUTAG | graph_classification | Accuracy | 257 | gcn, gin, sage |
+| TU Dortmund | NCI1 | graph_classification | Accuracy | 165 | gcn, gin, sage |
 | TU Dortmund | PROTEINS | graph_classification | Accuracy | 339 | gcn, gin, sage |
 | TU Dortmund | PTC | graph_classification | Accuracy | 0 | — |
 | TU Dortmund | PTC_MR | graph_classification | Accuracy | 32 | gin |
 | TU Dortmund | RDT-B | graph_classification | Accuracy | 6 | gin |
 | TU Dortmund | REDDIT-BINARY | graph_classification | Accuracy | 39 | gcn, gin |
-| TU Dortmund | REDDIT-MULTI-5K | graph_classification | Accuracy | 32 | gcn, gin |
+| TU Dortmund | REDDIT-MULTI-5K | graph_classification | Accuracy | 34 | gcn, gin |

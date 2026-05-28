@@ -2,8 +2,10 @@
 title: Target-aware Variational Auto-encoders for Ligand Generation with Multimodal
   Protein Representation Learning
 arxiv_id: '2309.16685'
+source_url: ''
 authors: []
 published_date: Sep 2023
+published_date_iso: 2023-09
 abstract: Without knowledge of specific pockets, generating ligands based on the global
   structure of a protein target plays a crucial role in drug discovery as it helps
   reduce the search space for potential drug-like candidates in the pipeline. However,
@@ -24,14 +26,25 @@ abstract: Without knowledge of specific pockets, generating ligands based on the
 codebase_url: ''
 extraction_model: qwen3.6-35b-a3b
 has_results: true
+paper_type: method
 proposed_models:
 - PMN
 mrr: 0.0
+adjusted_mrr: 0.0
+mrr_dataset_count: 0
+benchmark_categories:
+- TU Dortmund
+task_categories:
+- graph_classification
+experiment_scopes:
+- graph-level
 results:
 - &id001
   dataset: D&D
   rows:
   - model: GIN
+    model_key: gin
+    model_plain: GIN
     value: 0.05
     std: 0.021
     metric: Accuracy
@@ -43,12 +56,18 @@ results:
     arxiv_id: '2506.08618'
     title: HSG-12M
     date: Jun 2025
+    date_display: Jun 2025
+    date_iso: 2025-06
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
     global_rank: 1
+    sort_value: 0.05
+    sort_std: 0.021
     is_best: true
   - model: GCN
+    model_key: gcn
+    model_plain: GCN
     value: 0.093
     std: null
     metric: Accuracy
@@ -56,18 +75,26 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.496
+    params_millions: null
     arxiv_id: '2411.15671'
     title: 'Best of Both Worlds: Advantages of Hybrid Graph Sequence Models'
     date: Nov 2024
+    date_display: Nov 2024
+    date_iso: 2024-11
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
     global_rank: 2
+    sort_value: 0.093
+    sort_std: null
     is_best: false
   - model: PMN
+    model_key: pmn
+    model_plain: PMN
     value: 0.202
     std: 0.007
+    paper_value: 0.202
+    paper_std: 0.007
     metric: MSE
     higher_is_better: false
     is_baseline: false
@@ -76,11 +103,21 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
+    variant_inference_reason: ''
+    date: Sep 2023
+    date_display: Sep 2023
+    date_iso: 2023-09
     global_rank: null
+    sort_value: 0.202
+    sort_std: 0.007
     is_best: false
   - model: AttentionDTA
+    model_key: attentiondta
+    model_plain: AttentionDTA
     value: 0.216
     std: null
+    paper_value: 0.216
+    paper_std: null
     metric: MSE
     higher_is_better: false
     is_baseline: true
@@ -89,11 +126,21 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: zhao2019attentiondta
+    variant_inference_reason: ''
+    date: Sep 2023
+    date_display: Sep 2023
+    date_iso: 2023-09
     global_rank: null
+    sort_value: 0.216
+    sort_std: null
     is_best: false
   - model: FusionDTA
+    model_key: fusiondta
+    model_plain: FusionDTA
     value: 0.22
     std: null
+    paper_value: 0.22
+    paper_std: null
     metric: MSE
     higher_is_better: false
     is_baseline: true
@@ -102,11 +149,21 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: 10.1093/bib/bbab506
+    variant_inference_reason: ''
+    date: Sep 2023
+    date_display: Sep 2023
+    date_iso: 2023-09
     global_rank: null
+    sort_value: 0.22
+    sort_std: null
     is_best: false
   - model: MATT-DTI
+    model_key: matt-dti
+    model_plain: MATT-DTI
     value: 0.227
     std: null
+    paper_value: 0.227
+    paper_std: null
     metric: MSE
     higher_is_better: false
     is_baseline: true
@@ -115,11 +172,21 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: 10.1093/bib/bbab117
+    variant_inference_reason: ''
+    date: Sep 2023
+    date_display: Sep 2023
+    date_iso: 2023-09
     global_rank: null
+    sort_value: 0.227
+    sort_std: null
     is_best: false
   - model: BiCompDTA
+    model_key: bicompdta
+    model_plain: BiCompDTA
     value: 0.237
     std: null
+    paper_value: 0.237
+    paper_std: null
     metric: MSE
     higher_is_better: false
     is_baseline: true
@@ -128,11 +195,21 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: 10.1371/journal.pcbi.1011036
+    variant_inference_reason: ''
+    date: Sep 2023
+    date_display: Sep 2023
+    date_iso: 2023-09
     global_rank: null
+    sort_value: 0.237
+    sort_std: null
     is_best: false
   - model: GraphDTA
+    model_key: graphdta
+    model_plain: GraphDTA
     value: 0.258
     std: null
+    paper_value: 0.258
+    paper_std: null
     metric: MSE
     higher_is_better: false
     is_baseline: true
@@ -141,11 +218,21 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: D3RA00281K
+    variant_inference_reason: ''
+    date: Sep 2023
+    date_display: Sep 2023
+    date_iso: 2023-09
     global_rank: null
+    sort_value: 0.258
+    sort_std: null
     is_best: false
   - model: DeepDTA
+    model_key: deepdta
+    model_plain: DeepDTA
     value: 0.261
     std: null
+    paper_value: 0.261
+    paper_std: null
     metric: MSE
     higher_is_better: false
     is_baseline: true
@@ -154,9 +241,17 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: 10.1093/bioinformatics/bty593
+    variant_inference_reason: ''
+    date: Sep 2023
+    date_display: Sep 2023
+    date_iso: 2023-09
     global_rank: null
+    sort_value: 0.261
+    sort_std: null
     is_best: false
   - model: MF
+    model_key: mf
+    model_plain: MF
     value: 0.271
     std: 0.004
     metric: Accuracy
@@ -168,14 +263,22 @@ results:
     arxiv_id: '2506.08618'
     title: HSG-12M
     date: Jun 2025
+    date_display: Jun 2025
+    date_iso: 2025-06
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
     global_rank: 3
+    sort_value: 0.271
+    sort_std: 0.004
     is_best: false
   - model: SimBoost
+    model_key: simboost
+    model_plain: SimBoost
     value: 0.282
     std: null
+    paper_value: 0.282
+    paper_std: null
     metric: MSE
     higher_is_better: false
     is_baseline: true
@@ -184,11 +287,21 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: He2017
+    variant_inference_reason: ''
+    date: Sep 2023
+    date_display: Sep 2023
+    date_iso: 2023-09
     global_rank: null
+    sort_value: 0.282
+    sort_std: null
     is_best: false
   - model: SimCNN-DTA
+    model_key: simcnn-dta
+    model_plain: SimCNN-DTA
     value: 0.319
     std: null
+    paper_value: 0.319
+    paper_std: null
     metric: MSE
     higher_is_better: false
     is_baseline: true
@@ -197,11 +310,21 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: shim2021prediction
+    variant_inference_reason: ''
+    date: Sep 2023
+    date_display: Sep 2023
+    date_iso: 2023-09
     global_rank: null
+    sort_value: 0.319
+    sort_std: null
     is_best: false
   - model: KronRLS
+    model_key: kronrls
+    model_plain: KronRLS
     value: 0.379
     std: null
+    paper_value: 0.379
+    paper_std: null
     metric: MSE
     higher_is_better: false
     is_baseline: true
@@ -210,11 +333,21 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: nascimento2016multiple
+    variant_inference_reason: ''
+    date: Sep 2023
+    date_display: Sep 2023
+    date_iso: 2023-09
     global_rank: null
+    sort_value: 0.379
+    sort_std: null
     is_best: false
   - model: WideDTA
+    model_key: widedta
+    model_plain: WideDTA
     value: 0.886
     std: null
+    paper_value: 0.886
+    paper_std: null
     metric: MSE
     higher_is_better: false
     is_baseline: true
@@ -223,7 +356,13 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: ozturk2019widedta
+    variant_inference_reason: ''
+    date: Sep 2023
+    date_display: Sep 2023
+    date_iso: 2023-09
     global_rank: null
+    sort_value: 0.886
+    sort_std: null
     is_best: false
   metric: Accuracy
   higher_is_better: false

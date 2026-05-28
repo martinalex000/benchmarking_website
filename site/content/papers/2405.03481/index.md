@@ -32,8 +32,8 @@ paper_type: method
 proposed_models:
 - Graphormer-AnchorGT-SPD
 - ANS-GT-AnchorGT
-mrr: 0.0057
-adjusted_mrr: 0.0057
+mrr: 0.0056
+adjusted_mrr: 0.0056
 mrr_dataset_count: 3
 benchmark_categories:
 - Classic
@@ -88,7 +88,7 @@ results:
     params_millions: null
     arxiv_id: '2405.19121'
     title: Spatio-Spectral Graph Neural Networks
-    date: '2024-05-29'
+    date: May 29, 2024
     date_display: May 2024
     date_iso: '2024-05-29'
     codebase_url: ''
@@ -140,7 +140,7 @@ results:
     date: May 2024
     date_display: May 2024
     date_iso: 2024-05
-    global_rank: 14
+    global_rank: 16
     true_value: 0.79128
     true_std: 0.00235
     value_gap_source_arxiv: '2502.09263'
@@ -151,7 +151,7 @@ results:
     has_value_note: false
     value_gap: 0.05288000000000004
     value_note: ''
-    paper_rank: 59
+    paper_rank: 61
     rank_delta: 45
     rank_delta_abs: 45
     rank_delta_direction: worse
@@ -177,7 +177,7 @@ results:
     date: May 2024
     date_display: May 2024
     date_iso: 2024-05
-    global_rank: 20
+    global_rank: 22
     true_value: 0.78802
     true_std: 0.00252
     value_gap_source_arxiv: '2405.03481'
@@ -188,7 +188,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 20
+    paper_rank: 22
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -214,7 +214,7 @@ results:
     date: May 2024
     date_display: May 2024
     date_iso: 2024-05
-    global_rank: 39
+    global_rank: 41
     true_value: 0.78016
     true_std: 0.0018
     value_gap_source_arxiv: '2502.09263'
@@ -225,7 +225,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 39
+    paper_rank: 41
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -251,7 +251,7 @@ results:
     date: May 2024
     date_display: May 2024
     date_iso: 2024-05
-    global_rank: 43
+    global_rank: 45
     true_value: 0.77856
     true_std: 0.00104
     value_gap_source_arxiv: '2502.09263'
@@ -262,7 +262,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 43
+    paper_rank: 45
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -288,7 +288,7 @@ results:
     date: May 2024
     date_display: May 2024
     date_iso: 2024-05
-    global_rank: 45
+    global_rank: 47
     true_value: 0.77552
     true_std: 0.00546
     value_gap_source_arxiv: '2405.03481'
@@ -299,7 +299,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 45
+    paper_rank: 47
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -325,7 +325,7 @@ results:
     date: May 2024
     date_display: May 2024
     date_iso: 2024-05
-    global_rank: 51
+    global_rank: 53
     true_value: 0.77109
     true_std: 0.00872
     value_gap_source_arxiv: '2502.09263'
@@ -336,7 +336,7 @@ results:
     has_value_note: false
     value_gap: 0.08611000000000002
     value_note: ''
-    paper_rank: 63
+    paper_rank: 65
     rank_delta: 12
     rank_delta_abs: 12
     rank_delta_direction: worse
@@ -362,7 +362,7 @@ results:
     date: May 2024
     date_display: May 2024
     date_iso: 2024-05
-    global_rank: 57
+    global_rank: 59
     true_value: 0.76691
     true_std: 0.0065
     value_gap_source_arxiv: '2405.03481'
@@ -373,7 +373,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 57
+    paper_rank: 59
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -399,7 +399,7 @@ results:
     date: May 2024
     date_display: May 2024
     date_iso: 2024-05
-    global_rank: 61
+    global_rank: 63
     true_value: 0.70587
     true_std: 0.00447
     value_gap_source_arxiv: '2605.05689'
@@ -410,7 +410,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 61
+    paper_rank: 63
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -436,7 +436,7 @@ results:
     date: May 2024
     date_display: May 2024
     date_iso: 2024-05
-    global_rank: 66
+    global_rank: 68
     true_value: 0.64716
     true_std: 0.01553
     value_gap_source_arxiv: '2405.03481'
@@ -447,7 +447,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 66
+    paper_rank: 68
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -532,7 +532,7 @@ results:
     params_millions: null
     arxiv_id: '2411.17296'
     title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: '2024-11-26'
+    date: Nov 26, 2024
     date_display: Nov 2024
     date_iso: '2024-11-26'
     codebase_url: ''
@@ -840,7 +840,7 @@ results:
     params_millions: null
     arxiv_id: '2502.09365'
     title: Simple Path Structural Encoding for Graph Transformers
-    date: '2025-02-13'
+    date: Feb 13, 2025
     date_display: Feb 2025
     date_iso: '2025-02-13'
     codebase_url: ''
@@ -863,7 +863,7 @@ results:
     params_millions: null
     arxiv_id: '2502.09365'
     title: Simple Path Structural Encoding for Graph Transformers
-    date: '2025-02-13'
+    date: Feb 13, 2025
     date_display: Feb 2025
     date_iso: '2025-02-13'
     codebase_url: ''
@@ -1098,7 +1098,7 @@ results:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_display: Jan 2025
     date_iso: '2025-01-29'
     codebase_url: ''
@@ -1121,7 +1121,7 @@ results:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_display: Jan 2025
     date_iso: '2025-01-29'
     codebase_url: ''
@@ -1144,7 +1144,7 @@ results:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_display: Jan 2025
     date_iso: '2025-01-29'
     codebase_url: ''
@@ -1184,9 +1184,9 @@ results:
     has_value_note: false
     value_gap: 0.1331
     value_note: ''
-    paper_rank: 259
-    rank_delta: 250
-    rank_delta_abs: 250
+    paper_rank: 261
+    rank_delta: 252
+    rank_delta_abs: 252
     rank_delta_direction: worse
     sort_value: 0.7261
     sort_std: 0.0067
@@ -1210,7 +1210,7 @@ results:
     date: May 2024
     date_display: May 2024
     date_iso: 2024-05
-    global_rank: 48
+    global_rank: 49
     true_value: 0.7006
     true_std: 0.0033
     value_gap_source_arxiv: '2502.09263'
@@ -1221,9 +1221,9 @@ results:
     has_value_note: false
     value_gap: 0.11419999999999997
     value_note: ''
-    paper_rank: 271
-    rank_delta: 223
-    rank_delta_abs: 223
+    paper_rank: 273
+    rank_delta: 224
+    rank_delta_abs: 224
     rank_delta_direction: worse
     sort_value: 0.7006
     sort_std: 0.0033
@@ -1247,7 +1247,7 @@ results:
     date: May 2024
     date_display: May 2024
     date_iso: 2024-05
-    global_rank: 164
+    global_rank: 166
     true_value: 0.655
     true_std: 0.004
     value_gap_source_arxiv: '2604.24293'
@@ -1258,7 +1258,7 @@ results:
     has_value_note: true
     value_gap: 0.0015000000000000568
     value_note: global 0.6550 within std
-    paper_rank: 166
+    paper_rank: 168
     rank_delta: 2
     rank_delta_abs: 2
     rank_delta_direction: worse
@@ -1284,7 +1284,7 @@ results:
     date: May 2024
     date_display: May 2024
     date_iso: 2024-05
-    global_rank: 177
+    global_rank: 179
     true_value: 0.652
     true_std: 0.0264
     value_gap_source_arxiv: '2405.03481'
@@ -1295,7 +1295,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 177
+    paper_rank: 179
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1321,7 +1321,7 @@ results:
     date: May 2024
     date_display: May 2024
     date_iso: 2024-05
-    global_rank: 192
+    global_rank: 194
     true_value: 0.646
     true_std: 0.0031
     value_gap_source_arxiv: '2405.03481'
@@ -1332,7 +1332,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 192
+    paper_rank: 194
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1358,7 +1358,7 @@ results:
     date: May 2024
     date_display: May 2024
     date_iso: 2024-05
-    global_rank: 195
+    global_rank: 197
     true_value: 0.6453
     true_std: 0.0121
     value_gap_source_arxiv: '2405.03481'
@@ -1369,7 +1369,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 195
+    paper_rank: 197
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1395,7 +1395,7 @@ results:
     date: May 2024
     date_display: May 2024
     date_iso: 2024-05
-    global_rank: 210
+    global_rank: 212
     true_value: 0.6384000000000001
     true_std: 0.0121
     value_gap_source_arxiv: '2510.02565'
@@ -1405,7 +1405,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 210
+    paper_rank: 212
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1431,7 +1431,7 @@ results:
     date: May 2024
     date_display: May 2024
     date_iso: 2024-05
-    global_rank: 211
+    global_rank: 213
     true_value: 0.6384
     true_std: 0.0121
     value_gap_source_arxiv: '2401.01233'
@@ -1442,7 +1442,7 @@ results:
     has_value_note: false
     value_gap: 0.37829999999999997
     value_note: ''
-    paper_rank: 320
+    paper_rank: 322
     rank_delta: 109
     rank_delta_abs: 109
     rank_delta_direction: worse
@@ -1468,7 +1468,7 @@ results:
     date: May 2024
     date_display: May 2024
     date_iso: 2024-05
-    global_rank: 283
+    global_rank: 285
     true_value: 0.5543
     true_std: 0.0078
     value_gap_source_arxiv: '2206.08164'
@@ -1478,7 +1478,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 283
+    paper_rank: 285
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1504,7 +1504,7 @@ results:
     date: May 2024
     date_display: May 2024
     date_iso: 2024-05
-    global_rank: 287
+    global_rank: 289
     true_value: 0.5498
     true_std: 0.0079
     value_gap_source_arxiv: '2405.03481'
@@ -1515,7 +1515,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 287
+    paper_rank: 289
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1603,9 +1603,9 @@ results:
     has_value_note: false
     value_gap: 0.10750000000000001
     value_note: ''
-    paper_rank: 299
-    rank_delta: 296
-    rank_delta_abs: 296
+    paper_rank: 304
+    rank_delta: 301
+    rank_delta_abs: 301
     rank_delta_direction: worse
     sort_value: 0.2421
     sort_std: 0.0016
@@ -1663,9 +1663,9 @@ results:
     has_value_note: false
     value_gap: 0.09890000000000002
     value_note: ''
-    paper_rank: 292
-    rank_delta: 280
-    rank_delta_abs: 280
+    paper_rank: 297
+    rank_delta: 285
+    rank_delta_abs: 285
     rank_delta_direction: worse
     sort_value: 0.2431
     sort_std: 0.002
@@ -1726,7 +1726,7 @@ results:
     date: May 2024
     date_display: May 2024
     date_iso: 2024-05
-    global_rank: 133
+    global_rank: 136
     true_value: 0.25
     true_std: 0.0012
     value_gap_source_arxiv: '2604.17324'
@@ -1737,7 +1737,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 133
+    paper_rank: 136
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1763,7 +1763,7 @@ results:
     date: May 2024
     date_display: May 2024
     date_iso: 2024-05
-    global_rank: 155
+    global_rank: 158
     true_value: 0.2519
     true_std: 0.0033
     value_gap_source_arxiv: '2405.03481'
@@ -1774,7 +1774,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 155
+    paper_rank: 158
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1800,7 +1800,7 @@ results:
     date: May 2024
     date_display: May 2024
     date_iso: 2024-05
-    global_rank: 237
+    global_rank: 242
     true_value: 0.268
     true_std: 0.004
     value_gap_source_arxiv: '2502.01122'
@@ -1811,7 +1811,7 @@ results:
     has_value_note: true
     value_gap: 0.00029999999999996696
     value_note: global 0.2680 within std
-    paper_rank: 237
+    paper_rank: 242
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1837,7 +1837,7 @@ results:
     date: May 2024
     date_display: May 2024
     date_iso: 2024-05
-    global_rank: 238
+    global_rank: 243
     true_value: 0.2683
     true_std: 0.0043
     value_gap_source_arxiv: '2401.01233'
@@ -1848,7 +1848,7 @@ results:
     has_value_note: false
     value_gap: 0.379
     value_note: ''
-    paper_rank: 333
+    paper_rank: 338
     rank_delta: 95
     rank_delta_abs: 95
     rank_delta_direction: worse
@@ -1874,7 +1874,7 @@ results:
     date: May 2024
     date_display: May 2024
     date_iso: 2024-05
-    global_rank: 243
+    global_rank: 248
     true_value: 0.2705
     true_std: 0.0045
     value_gap_source_arxiv: '2405.03481'
@@ -1885,7 +1885,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 243
+    paper_rank: 248
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1911,7 +1911,7 @@ results:
     date: May 2024
     date_display: May 2024
     date_iso: 2024-05
-    global_rank: 295
+    global_rank: 300
     true_value: 0.3471
     true_std: 0.001
     value_gap_source_arxiv: '2206.08164'
@@ -1921,7 +1921,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 295
+    paper_rank: 300
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1947,7 +1947,7 @@ results:
     date: May 2024
     date_display: May 2024
     date_iso: 2024-05
-    global_rank: 307
+    global_rank: 312
     true_value: 0.3547
     true_std: 0.0045
     value_gap_source_arxiv: '2405.03481'
@@ -1958,7 +1958,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 307
+    paper_rank: 312
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2367,7 +2367,7 @@ results:
     params_millions: 1.0
     arxiv_id: '2405.02795'
     title: Graph as Point Set
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
     codebase_url: ''
@@ -2406,45 +2406,9 @@ results:
     has_value_note: false
     value_gap: 0.095
     value_note: ''
-    paper_rank: 194
-    rank_delta: 176
-    rank_delta_abs: 176
-    rank_delta_direction: worse
-    sort_value: 0.025
-    sort_std: 0.004
-    is_best: false
-  - model: Graphormer
-    model_key: graphormer
-    model_plain: Graphormer
-    value: 0.12
-    std: 0.008
-    paper_value: 0.12
-    paper_std: 0.008
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: May 2024
-    date_display: May 2024
-    date_iso: 2024-05
-    global_rank: 18
-    true_value: 0.025
-    true_std: 0.004
-    value_gap_source_arxiv: '2501.18739'
-    value_gap_source_title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.095
-    value_note: ''
-    paper_rank: 194
-    rank_delta: 176
-    rank_delta_abs: 176
+    paper_rank: 206
+    rank_delta: 188
+    rank_delta_abs: 188
     rank_delta_direction: worse
     sort_value: 0.025
     sort_std: 0.004
@@ -2468,7 +2432,7 @@ results:
     date: May 2024
     date_display: May 2024
     date_iso: 2024-05
-    global_rank: 126
+    global_rank: 131
     true_value: 0.076
     true_std: 0.009
     value_gap_source_arxiv: '2502.09263'
@@ -2479,46 +2443,9 @@ results:
     has_value_note: false
     value_gap: 0.0619
     value_note: ''
-    paper_rank: 212
-    rank_delta: 86
-    rank_delta_abs: 86
-    rank_delta_direction: worse
-    sort_value: 0.076
-    sort_std: 0.009
-    is_best: false
-  - model: GCN
-    model_key: gcn
-    model_plain: GCN
-    value: 0.1379
-    std: null
-    paper_value: 0.1379
-    paper_std: null
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: May 2024
-    date_display: May 2024
-    date_iso: 2024-05
-    global_rank: 126
-    true_value: 0.076
-    true_std: 0.009
-    value_gap_source_arxiv: '2502.09263'
-    value_gap_source_title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks?
-      Simple Architectures Meet Excellence
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.0619
-    value_note: ''
-    paper_rank: 212
-    rank_delta: 86
-    rank_delta_abs: 86
+    paper_rank: 225
+    rank_delta: 94
+    rank_delta_abs: 94
     rank_delta_direction: worse
     sort_value: 0.076
     sort_std: 0.009
@@ -2542,7 +2469,7 @@ results:
     date: May 2024
     date_display: May 2024
     date_iso: 2024-05
-    global_rank: 198
+    global_rank: 210
     true_value: 0.1218
     true_std: null
     value_gap_source_arxiv: '2405.03481'
@@ -2553,44 +2480,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 198
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.1218
-    sort_std: null
-    is_best: false
-  - model: GIN (GINE)
-    model_key: gin (gine)
-    model_plain: GIN (GINE)
-    value: 0.1218
-    std: null
-    paper_value: 0.1218
-    paper_std: null
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: May 2024
-    date_display: May 2024
-    date_iso: 2024-05
-    global_rank: 198
-    true_value: 0.1218
-    true_std: null
-    value_gap_source_arxiv: '2405.03481'
-    value_gap_source_title: 'AnchorGT: Efficient and Flexible Attention Architecture
-      for Scalable Graph Transformers'
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 198
+    paper_rank: 210
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2616,7 +2506,7 @@ results:
     date: May 2024
     date_display: May 2024
     date_iso: 2024-05
-    global_rank: 199
+    global_rank: 211
     true_value: 0.122
     true_std: 0.006
     value_gap_source_arxiv: '2405.03481'
@@ -2627,44 +2517,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 199
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.122
-    sort_std: 0.006
-    is_best: false
-  - model: Graphormer-AnchorGT-SPD
-    model_key: graphormer-anchorgt-spd
-    model_plain: Graphormer-AnchorGT-SPD
-    value: 0.122
-    std: 0.006
-    paper_value: 0.122
-    paper_std: 0.006
-    metric: MAE
-    higher_is_better: false
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: May 2024
-    date_display: May 2024
-    date_iso: 2024-05
-    global_rank: 199
-    true_value: 0.122
-    true_std: 0.006
-    value_gap_source_arxiv: '2405.03481'
-    value_gap_source_title: 'AnchorGT: Efficient and Flexible Attention Architecture
-      for Scalable Graph Transformers'
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 199
+    paper_rank: 211
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2690,7 +2543,7 @@ results:
     date: May 2024
     date_display: May 2024
     date_iso: 2024-05
-    global_rank: 214
+    global_rank: 227
     true_value: 0.139
     true_std: 0.006
     value_gap_source_arxiv: '2405.03481'
@@ -2701,44 +2554,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 214
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.139
-    sort_std: 0.006
-    is_best: false
-  - model: SAN+LapPE
-    model_key: san+lappe
-    model_plain: SAN+LapPE
-    value: 0.139
-    std: 0.006
-    paper_value: 0.139
-    paper_std: 0.006
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: May 2024
-    date_display: May 2024
-    date_iso: 2024-05
-    global_rank: 214
-    true_value: 0.139
-    true_std: 0.006
-    value_gap_source_arxiv: '2405.03481'
-    value_gap_source_title: 'AnchorGT: Efficient and Flexible Attention Architecture
-      for Scalable Graph Transformers'
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 214
+    paper_rank: 227
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2764,7 +2580,7 @@ results:
     date: May 2024
     date_display: May 2024
     date_iso: 2024-05
-    global_rank: 250
+    global_rank: 264
     true_value: 0.226
     true_std: 0.014
     value_gap_source_arxiv: '2502.09263'
@@ -2775,44 +2591,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 250
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.226
-    sort_std: 0.014
-    is_best: false
-  - model: GT
-    model_key: gt
-    model_plain: GT
-    value: 0.226
-    std: 0.01
-    paper_value: 0.226
-    paper_std: 0.01
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: May 2024
-    date_display: May 2024
-    date_iso: 2024-05
-    global_rank: 250
-    true_value: 0.226
-    true_std: 0.014
-    value_gap_source_arxiv: '2502.09263'
-    value_gap_source_title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks?
-      Simple Architectures Meet Excellence
-    value_gap_source_is_current_paper: false
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 250
+    paper_rank: 264
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same

@@ -13,7 +13,7 @@ stats:
   avg_nodes: 48921.0
   avg_edges: 153540.0
   num_classes: 2
-result_count: 64
+result_count: 65
 best_model:
   model: IM-CO-GNN(Σ,Σ)
   value: 0.8049
@@ -42,7 +42,7 @@ variants:
     params_millions: null
     arxiv_id: '2505.23185'
     title: Improving the Effective Receptive Field of Message-Passing Neural Networks
-    date: '2025-05-29'
+    date: May 29, 2025
     date_iso: '2025-05-29'
     date_display: May 2025
     codebase_url: ''
@@ -70,8 +70,26 @@ variants:
     - 0.8039000000000001
     metric_stds:
     - 0.0104
-  - model: Tango<sub>\1</sub>
-    model_plain: Tango\1
+  - model: Tango<sub>GatedGCN</sub>
+    model_plain: TangoGatedGCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2508.05070'
+    title: 'Tango: Graph Neural Dynamics via Learned Energy and Tangential Flows'
+    date: Aug 2025
+    date_iso: 2025-08
+    date_display: Aug 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: true
+    metric_values:
+    - 0.8039
+    metric_stds:
+    - 0.0104
+  - model: Tango<sub>GPS</sub>
+    model_plain: TangoGPS
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -114,7 +132,7 @@ variants:
     params_millions: null
     arxiv_id: '2310.01267'
     title: Cooperative Graph Neural Networks
-    date: '2023-10-02'
+    date: Oct 2, 2023
     date_iso: '2023-10-02'
     date_display: Oct 2023
     codebase_url: ''
@@ -150,7 +168,7 @@ variants:
     params_millions: null
     arxiv_id: '2410.05499'
     title: Unitary convolutions for learning on graphs and groups
-    date: '2024-10-07'
+    date: Oct 7, 2024
     date_iso: '2024-10-07'
     date_display: Oct 2024
     codebase_url: ''
@@ -186,7 +204,7 @@ variants:
     params_millions: 0.5
     arxiv_id: '2505.23185'
     title: Improving the Effective Receptive Field of Message-Passing Neural Networks
-    date: '2025-05-29'
+    date: May 29, 2025
     date_iso: '2025-05-29'
     date_display: May 2025
     codebase_url: ''
@@ -223,7 +241,7 @@ variants:
     params_millions: null
     arxiv_id: '2410.05499'
     title: Unitary convolutions for learning on graphs and groups
-    date: '2024-10-07'
+    date: Oct 7, 2024
     date_iso: '2024-10-07'
     date_display: Oct 2024
     codebase_url: ''
@@ -279,7 +297,7 @@ variants:
     params_millions: null
     arxiv_id: '2505.23185'
     title: Improving the Effective Receptive Field of Message-Passing Neural Networks
-    date: '2025-05-29'
+    date: May 29, 2025
     date_iso: '2025-05-29'
     date_display: May 2025
     codebase_url: ''
@@ -352,7 +370,7 @@ variants:
     params_millions: null
     arxiv_id: '2505.23185'
     title: Improving the Effective Receptive Field of Message-Passing Neural Networks
-    date: '2025-05-29'
+    date: May 29, 2025
     date_iso: '2025-05-29'
     date_display: May 2025
     codebase_url: ''
@@ -370,7 +388,7 @@ variants:
     params_millions: null
     arxiv_id: '2505.23185'
     title: Improving the Effective Receptive Field of Message-Passing Neural Networks
-    date: '2025-05-29'
+    date: May 29, 2025
     date_iso: '2025-05-29'
     date_display: May 2025
     codebase_url: ''
@@ -388,7 +406,7 @@ variants:
     params_millions: null
     arxiv_id: '2310.01267'
     title: Cooperative Graph Neural Networks
-    date: '2023-10-02'
+    date: Oct 2, 2023
     date_iso: '2023-10-02'
     date_display: Oct 2023
     codebase_url: ''
@@ -406,7 +424,7 @@ variants:
     params_millions: null
     arxiv_id: '2505.23185'
     title: Improving the Effective Receptive Field of Message-Passing Neural Networks
-    date: '2025-05-29'
+    date: May 29, 2025
     date_iso: '2025-05-29'
     date_display: May 2025
     codebase_url: ''
@@ -424,7 +442,7 @@ variants:
     params_millions: null
     arxiv_id: '2310.01267'
     title: Cooperative Graph Neural Networks
-    date: '2023-10-02'
+    date: Oct 2, 2023
     date_iso: '2023-10-02'
     date_display: Oct 2023
     codebase_url: ''
@@ -442,7 +460,7 @@ variants:
     params_millions: null
     arxiv_id: '2505.23185'
     title: Improving the Effective Receptive Field of Message-Passing Neural Networks
-    date: '2025-05-29'
+    date: May 29, 2025
     date_iso: '2025-05-29'
     date_display: May 2025
     codebase_url: ''
@@ -460,7 +478,7 @@ variants:
     params_millions: null
     arxiv_id: '2505.23185'
     title: Improving the Effective Receptive Field of Message-Passing Neural Networks
-    date: '2025-05-29'
+    date: May 29, 2025
     date_iso: '2025-05-29'
     date_display: May 2025
     codebase_url: ''
@@ -478,7 +496,7 @@ variants:
     params_millions: null
     arxiv_id: '2505.23185'
     title: Improving the Effective Receptive Field of Message-Passing Neural Networks
-    date: '2025-05-29'
+    date: May 29, 2025
     date_iso: '2025-05-29'
     date_display: May 2025
     codebase_url: ''
@@ -496,7 +514,7 @@ variants:
     params_millions: null
     arxiv_id: '2505.23185'
     title: Improving the Effective Receptive Field of Message-Passing Neural Networks
-    date: '2025-05-29'
+    date: May 29, 2025
     date_iso: '2025-05-29'
     date_display: May 2025
     codebase_url: ''
@@ -514,7 +532,7 @@ variants:
     params_millions: null
     arxiv_id: '2505.23185'
     title: Improving the Effective Receptive Field of Message-Passing Neural Networks
-    date: '2025-05-29'
+    date: May 29, 2025
     date_iso: '2025-05-29'
     date_display: May 2025
     codebase_url: ''
@@ -532,7 +550,7 @@ variants:
     params_millions: null
     arxiv_id: '2505.23185'
     title: Improving the Effective Receptive Field of Message-Passing Neural Networks
-    date: '2025-05-29'
+    date: May 29, 2025
     date_iso: '2025-05-29'
     date_display: May 2025
     codebase_url: ''
@@ -550,7 +568,7 @@ variants:
     params_millions: null
     arxiv_id: '2505.23185'
     title: Improving the Effective Receptive Field of Message-Passing Neural Networks
-    date: '2025-05-29'
+    date: May 29, 2025
     date_iso: '2025-05-29'
     date_display: May 2025
     codebase_url: ''
@@ -568,7 +586,7 @@ variants:
     params_millions: null
     arxiv_id: '2310.01267'
     title: Cooperative Graph Neural Networks
-    date: '2023-10-02'
+    date: Oct 2, 2023
     date_iso: '2023-10-02'
     date_display: Oct 2023
     codebase_url: ''
@@ -586,7 +604,7 @@ variants:
     params_millions: null
     arxiv_id: '2505.23185'
     title: Improving the Effective Receptive Field of Message-Passing Neural Networks
-    date: '2025-05-29'
+    date: May 29, 2025
     date_iso: '2025-05-29'
     date_display: May 2025
     codebase_url: ''
@@ -641,7 +659,7 @@ variants:
     params_millions: null
     arxiv_id: '2505.23185'
     title: Improving the Effective Receptive Field of Message-Passing Neural Networks
-    date: '2025-05-29'
+    date: May 29, 2025
     date_iso: '2025-05-29'
     date_display: May 2025
     codebase_url: ''
@@ -651,8 +669,8 @@ variants:
     - 0.7714
     metric_stds:
     - 0.0149
-  - model: GPS<sub>\1</sub> (RWSE)
-    model_plain: GPS\1 (RWSE)
+  - model: GPS<sub>GAT+Performer</sub> (RWSE)
+    model_plain: GPSGAT+Performer (RWSE)
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -677,7 +695,7 @@ variants:
     params_millions: null
     arxiv_id: '2505.23185'
     title: Improving the Effective Receptive Field of Message-Passing Neural Networks
-    date: '2025-05-29'
+    date: May 29, 2025
     date_iso: '2025-05-29'
     date_display: May 2025
     codebase_url: ''
@@ -695,7 +713,7 @@ variants:
     params_millions: null
     arxiv_id: '2505.23185'
     title: Improving the Effective Receptive Field of Message-Passing Neural Networks
-    date: '2025-05-29'
+    date: May 29, 2025
     date_iso: '2025-05-29'
     date_display: May 2025
     codebase_url: ''
@@ -713,7 +731,7 @@ variants:
     params_millions: null
     arxiv_id: '2505.23185'
     title: Improving the Effective Receptive Field of Message-Passing Neural Networks
-    date: '2025-05-29'
+    date: May 29, 2025
     date_iso: '2025-05-29'
     date_display: May 2025
     codebase_url: ''
@@ -731,7 +749,7 @@ variants:
     params_millions: null
     arxiv_id: '2505.23185'
     title: Improving the Effective Receptive Field of Message-Passing Neural Networks
-    date: '2025-05-29'
+    date: May 29, 2025
     date_iso: '2025-05-29'
     date_display: May 2025
     codebase_url: ''
@@ -749,7 +767,7 @@ variants:
     params_millions: null
     arxiv_id: '2505.23185'
     title: Improving the Effective Receptive Field of Message-Passing Neural Networks
-    date: '2025-05-29'
+    date: May 29, 2025
     date_iso: '2025-05-29'
     date_display: May 2025
     codebase_url: ''
@@ -767,7 +785,7 @@ variants:
     params_millions: null
     arxiv_id: '2310.01267'
     title: Cooperative Graph Neural Networks
-    date: '2023-10-02'
+    date: Oct 2, 2023
     date_iso: '2023-10-02'
     date_display: Oct 2023
     codebase_url: ''
@@ -803,7 +821,7 @@ variants:
     params_millions: null
     arxiv_id: '2505.23185'
     title: Improving the Effective Receptive Field of Message-Passing Neural Networks
-    date: '2025-05-29'
+    date: May 29, 2025
     date_iso: '2025-05-29'
     date_display: May 2025
     codebase_url: ''
@@ -821,7 +839,7 @@ variants:
     params_millions: null
     arxiv_id: '2505.23185'
     title: Improving the Effective Receptive Field of Message-Passing Neural Networks
-    date: '2025-05-29'
+    date: May 29, 2025
     date_iso: '2025-05-29'
     date_display: May 2025
     codebase_url: ''
@@ -839,7 +857,7 @@ variants:
     params_millions: null
     arxiv_id: '2310.01267'
     title: Cooperative Graph Neural Networks
-    date: '2023-10-02'
+    date: Oct 2, 2023
     date_iso: '2023-10-02'
     date_display: Oct 2023
     codebase_url: ''
@@ -857,7 +875,7 @@ variants:
     params_millions: null
     arxiv_id: '2310.01267'
     title: Cooperative Graph Neural Networks
-    date: '2023-10-02'
+    date: Oct 2, 2023
     date_iso: '2023-10-02'
     date_display: Oct 2023
     codebase_url: ''
@@ -893,7 +911,7 @@ variants:
     params_millions: null
     arxiv_id: '2505.23185'
     title: Improving the Effective Receptive Field of Message-Passing Neural Networks
-    date: '2025-05-29'
+    date: May 29, 2025
     date_iso: '2025-05-29'
     date_display: May 2025
     codebase_url: ''
@@ -930,7 +948,7 @@ variants:
     params_millions: null
     arxiv_id: '2505.23185'
     title: Improving the Effective Receptive Field of Message-Passing Neural Networks
-    date: '2025-05-29'
+    date: May 29, 2025
     date_iso: '2025-05-29'
     date_display: May 2025
     codebase_url: ''
@@ -948,7 +966,7 @@ variants:
     params_millions: null
     arxiv_id: '2505.23185'
     title: Improving the Effective Receptive Field of Message-Passing Neural Networks
-    date: '2025-05-29'
+    date: May 29, 2025
     date_iso: '2025-05-29'
     date_display: May 2025
     codebase_url: ''
@@ -984,7 +1002,7 @@ variants:
     params_millions: null
     arxiv_id: '2505.23185'
     title: Improving the Effective Receptive Field of Message-Passing Neural Networks
-    date: '2025-05-29'
+    date: May 29, 2025
     date_iso: '2025-05-29'
     date_display: May 2025
     codebase_url: ''
@@ -1188,7 +1206,7 @@ variants:
     params_millions: null
     arxiv_id: '2505.23185'
     title: Improving the Effective Receptive Field of Message-Passing Neural Networks
-    date: '2025-05-29'
+    date: May 29, 2025
     date_iso: '2025-05-29'
     date_display: May 2025
     codebase_url: ''

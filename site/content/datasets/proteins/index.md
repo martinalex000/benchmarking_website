@@ -766,7 +766,7 @@ variants:
     params_millions: null
     arxiv_id: '2406.03671'
     title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
-    date: '2024-06-06'
+    date: Jun 6, 2024
     date_iso: '2024-06-06'
     date_display: Jun 2024
     codebase_url: ''
@@ -786,7 +786,7 @@ variants:
     params_millions: null
     arxiv_id: '2406.03671'
     title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
-    date: '2024-06-06'
+    date: Jun 6, 2024
     date_iso: '2024-06-06'
     date_display: Jun 2024
     codebase_url: ''
@@ -806,7 +806,7 @@ variants:
     params_millions: null
     arxiv_id: '2406.03671'
     title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
-    date: '2024-06-06'
+    date: Jun 6, 2024
     date_iso: '2024-06-06'
     date_display: Jun 2024
     codebase_url: ''
@@ -947,7 +947,7 @@ variants:
     params_millions: null
     arxiv_id: '2410.05499'
     title: Unitary convolutions for learning on graphs and groups
-    date: '2024-10-07'
+    date: Oct 7, 2024
     date_iso: '2024-10-07'
     date_display: Oct 2024
     codebase_url: ''
@@ -1008,7 +1008,7 @@ variants:
     params_millions: null
     arxiv_id: '2406.03671'
     title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
-    date: '2024-06-06'
+    date: Jun 6, 2024
     date_iso: '2024-06-06'
     date_display: Jun 2024
     codebase_url: ''
@@ -1129,7 +1129,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -1230,7 +1230,7 @@ variants:
     params_millions: null
     arxiv_id: '2406.03671'
     title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
-    date: '2024-06-06'
+    date: Jun 6, 2024
     date_iso: '2024-06-06'
     date_display: Jun 2024
     codebase_url: ''
@@ -1250,7 +1250,7 @@ variants:
     params_millions: null
     arxiv_id: '2410.05499'
     title: Unitary convolutions for learning on graphs and groups
-    date: '2024-10-07'
+    date: Oct 7, 2024
     date_iso: '2024-10-07'
     date_display: Oct 2024
     codebase_url: ''
@@ -1512,7 +1512,7 @@ variants:
     params_millions: null
     arxiv_id: '2406.03671'
     title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
-    date: '2024-06-06'
+    date: Jun 6, 2024
     date_iso: '2024-06-06'
     date_display: Jun 2024
     codebase_url: ''
@@ -1632,7 +1632,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -1652,7 +1652,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -1693,7 +1693,7 @@ variants:
     params_millions: null
     arxiv_id: '2406.03671'
     title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
-    date: '2024-06-06'
+    date: Jun 6, 2024
     date_iso: '2024-06-06'
     date_display: Jun 2024
     codebase_url: ''
@@ -1753,7 +1753,7 @@ variants:
     params_millions: null
     arxiv_id: '2406.03671'
     title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
-    date: '2024-06-06'
+    date: Jun 6, 2024
     date_iso: '2024-06-06'
     date_display: Jun 2024
     codebase_url: ''
@@ -1995,7 +1995,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -2055,7 +2055,7 @@ variants:
     params_millions: null
     arxiv_id: '2406.03671'
     title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
-    date: '2024-06-06'
+    date: Jun 6, 2024
     date_iso: '2024-06-06'
     date_display: Jun 2024
     codebase_url: ''
@@ -2196,7 +2196,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -2216,7 +2216,7 @@ variants:
     params_millions: null
     arxiv_id: '2406.03671'
     title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
-    date: '2024-06-06'
+    date: Jun 6, 2024
     date_iso: '2024-06-06'
     date_display: Jun 2024
     codebase_url: ''
@@ -2236,7 +2236,7 @@ variants:
     params_millions: null
     arxiv_id: '2310.01267'
     title: Cooperative Graph Neural Networks
-    date: '2023-10-02'
+    date: Oct 2, 2023
     date_iso: '2023-10-02'
     date_display: Oct 2023
     codebase_url: ''
@@ -2256,7 +2256,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -2397,7 +2397,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -2600,7 +2600,7 @@ variants:
     params_millions: null
     arxiv_id: '2406.03671'
     title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
-    date: '2024-06-06'
+    date: Jun 6, 2024
     date_iso: '2024-06-06'
     date_display: Jun 2024
     codebase_url: ''
@@ -2741,7 +2741,7 @@ variants:
     params_millions: null
     arxiv_id: '2406.03671'
     title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
-    date: '2024-06-06'
+    date: Jun 6, 2024
     date_iso: '2024-06-06'
     date_display: Jun 2024
     codebase_url: ''
@@ -2822,7 +2822,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -3265,7 +3265,7 @@ variants:
     params_millions: null
     arxiv_id: '2310.01267'
     title: Cooperative Graph Neural Networks
-    date: '2023-10-02'
+    date: Oct 2, 2023
     date_iso: '2023-10-02'
     date_display: Oct 2023
     codebase_url: ''
@@ -3345,7 +3345,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -3385,7 +3385,7 @@ variants:
     params_millions: null
     arxiv_id: '2406.03671'
     title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
-    date: '2024-06-06'
+    date: Jun 6, 2024
     date_iso: '2024-06-06'
     date_display: Jun 2024
     codebase_url: ''
@@ -3425,7 +3425,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -3485,7 +3485,7 @@ variants:
     params_millions: null
     arxiv_id: '2406.03671'
     title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
-    date: '2024-06-06'
+    date: Jun 6, 2024
     date_iso: '2024-06-06'
     date_display: Jun 2024
     codebase_url: ''
@@ -3526,7 +3526,7 @@ variants:
     params_millions: null
     arxiv_id: '2406.03671'
     title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
-    date: '2024-06-06'
+    date: Jun 6, 2024
     date_iso: '2024-06-06'
     date_display: Jun 2024
     codebase_url: ''
@@ -3586,7 +3586,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -3626,7 +3626,7 @@ variants:
     params_millions: null
     arxiv_id: '2406.03671'
     title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
-    date: '2024-06-06'
+    date: Jun 6, 2024
     date_iso: '2024-06-06'
     date_display: Jun 2024
     codebase_url: ''
@@ -3726,7 +3726,7 @@ variants:
     params_millions: null
     arxiv_id: '2406.03671'
     title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
-    date: '2024-06-06'
+    date: Jun 6, 2024
     date_iso: '2024-06-06'
     date_display: Jun 2024
     codebase_url: ''
@@ -3786,7 +3786,7 @@ variants:
     params_millions: null
     arxiv_id: '2406.03671'
     title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
-    date: '2024-06-06'
+    date: Jun 6, 2024
     date_iso: '2024-06-06'
     date_display: Jun 2024
     codebase_url: ''
@@ -4170,7 +4170,7 @@ variants:
     params_millions: null
     arxiv_id: '2406.03671'
     title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
-    date: '2024-06-06'
+    date: Jun 6, 2024
     date_iso: '2024-06-06'
     date_display: Jun 2024
     codebase_url: ''
@@ -4211,7 +4211,7 @@ variants:
     arxiv_id: '2502.02379'
     title: 'No Metric to Rule Them All: Toward Principled Evaluations of Graph-Learning
       Datasets'
-    date: '2025-02-04'
+    date: Feb 4, 2025
     date_iso: '2025-02-04'
     date_display: Feb 2025
     codebase_url: ''
@@ -4334,7 +4334,7 @@ variants:
     arxiv_id: '2502.02379'
     title: 'No Metric to Rule Them All: Toward Principled Evaluations of Graph-Learning
       Datasets'
-    date: '2025-02-04'
+    date: Feb 4, 2025
     date_iso: '2025-02-04'
     date_display: Feb 2025
     codebase_url: ''
@@ -4374,7 +4374,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -4394,7 +4394,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -4414,7 +4414,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -4434,7 +4434,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -4454,7 +4454,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -4474,7 +4474,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -4494,7 +4494,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -4514,7 +4514,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -4534,7 +4534,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -4554,7 +4554,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -4574,7 +4574,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -4594,7 +4594,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -4614,7 +4614,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -4634,7 +4634,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -4654,7 +4654,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''

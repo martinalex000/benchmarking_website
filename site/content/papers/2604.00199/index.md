@@ -1,8 +1,10 @@
 ---
 title: 'QUEST: A robust attention formulation using Query-modulated spherical attention'
 arxiv_id: '2604.00199'
+source_url: ''
 authors: []
 published_date: ''
+published_date_iso: ''
 abstract: Abstract The Transformer model architecture has become one of the most widely
   used in deep learning and the attention mechanism is at its core. The standard attention
   formulation uses a softmax operation applied to a scaled dot product between query
@@ -20,8 +22,14 @@ abstract: Abstract The Transformer model architecture has become one of the most
 codebase_url: ''
 extraction_model: ''
 has_results: false
+paper_type: dataset
 proposed_models: []
 mrr: null
+adjusted_mrr: null
+mrr_dataset_count: 0
+benchmark_categories: []
+task_categories: []
+experiment_scopes: []
 results: []
 results_grouped: []
 ---

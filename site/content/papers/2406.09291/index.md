@@ -32,8 +32,8 @@ has_results: true
 paper_type: method
 proposed_models:
 - CS-GNN
-mrr: 0.0054
-adjusted_mrr: 0.0018
+mrr: 0.0051
+adjusted_mrr: 0.0017
 mrr_dataset_count: 1
 benchmark_categories:
 - Classic
@@ -104,7 +104,7 @@ results:
     params_millions: 1.0
     arxiv_id: '2405.02795'
     title: Graph as Point Set
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
     codebase_url: ''
@@ -144,46 +144,9 @@ results:
     has_value_note: false
     value_gap: 0.04800000000000001
     value_note: ''
-    paper_rank: 104
-    rank_delta: 96
-    rank_delta_abs: 96
-    rank_delta_direction: worse
-    sort_value: 0.022
-    sort_std: 0.001
-    is_best: false
-  - model: GNN-SSWL+
-    model_key: gnn-sswl+
-    model_plain: GNN-SSWL+
-    value: 0.07
-    std: 0.005
-    paper_value: 0.07
-    paper_std: 0.005
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Jun 2024
-    date_display: Jun 2024
-    date_iso: 2024-06
-    global_rank: 8
-    true_value: 0.022
-    true_std: 0.001
-    value_gap_source_arxiv: '2402.08450'
-    value_gap_source_title: 'Subgraphormer: Unifying Subgraph GNNs and Graph Transformers
-      via Graph Products'
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.04800000000000001
-    value_note: ''
-    paper_rank: 104
-    rank_delta: 96
-    rank_delta_abs: 96
+    paper_rank: 107
+    rank_delta: 99
+    rank_delta_abs: 99
     rank_delta_direction: worse
     sort_value: 0.022
     sort_std: 0.001
@@ -204,43 +167,6 @@ results:
     table_ref: Table 1
     source_ref: Bar-Shalom et al. 2024
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2024
-    date_display: Jun 2024
-    date_iso: 2024-06
-    global_rank: 11
-    true_value: 0.023
-    true_std: 0.001
-    value_gap_source_arxiv: '2402.08450'
-    value_gap_source_title: 'Subgraphormer: Unifying Subgraph GNNs and Graph Transformers
-      via Graph Products'
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.04
-    value_note: ''
-    paper_rank: 64
-    rank_delta: 53
-    rank_delta_abs: 53
-    rank_delta_direction: worse
-    sort_value: 0.023
-    sort_std: 0.001
-    is_best: false
-  - model: Subgraphormer
-    model_key: subgraphormer
-    model_plain: Subgraphormer
-    value: 0.063
-    std: 0.001
-    paper_value: 0.063
-    paper_std: 0.001
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
     date: Jun 2024
     date_display: Jun 2024
     date_iso: 2024-06
@@ -291,45 +217,9 @@ results:
     has_value_note: false
     value_gap: 0.059000000000000004
     value_note: ''
-    paper_rank: 142
-    rank_delta: 128
-    rank_delta_abs: 128
-    rank_delta_direction: worse
-    sort_value: 0.024
-    sort_std: 0.003
-    is_best: false
-  - model: SUN
-    model_key: sun
-    model_plain: SUN
-    value: 0.083
-    std: 0.003
-    paper_value: 0.083
-    paper_std: 0.003
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 2
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Jun 2024
-    date_display: Jun 2024
-    date_iso: 2024-06
-    global_rank: 14
-    true_value: 0.024
-    true_std: 0.003
-    value_gap_source_arxiv: '2405.02795'
-    value_gap_source_title: Graph as Point Set
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.059000000000000004
-    value_note: ''
-    paper_rank: 142
-    rank_delta: 128
-    rank_delta_abs: 128
+    paper_rank: 150
+    rank_delta: 136
+    rank_delta_abs: 136
     rank_delta_direction: worse
     sort_value: 0.024
     sort_std: 0.003
@@ -364,46 +254,9 @@ results:
     has_value_note: false
     value_gap: 0.073
     value_note: ''
-    paper_rank: 176
-    rank_delta: 147
-    rank_delta_abs: 147
-    rank_delta_direction: worse
-    sort_value: 0.029
-    sort_std: 0.003
-    is_best: false
-  - model: DSS-GNN
-    model_key: dss-gnn
-    model_plain: DSS-GNN
-    value: 0.102
-    std: 0.003
-    paper_value: 0.102
-    paper_std: 0.003
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 2
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Jun 2024
-    date_display: Jun 2024
-    date_iso: 2024-06
-    global_rank: 29
-    true_value: 0.029
-    true_std: 0.003
-    value_gap_source_arxiv: '2402.08450'
-    value_gap_source_title: 'Subgraphormer: Unifying Subgraph GNNs and Graph Transformers
-      via Graph Products'
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.073
-    value_note: ''
-    paper_rank: 176
-    rank_delta: 147
-    rank_delta_abs: 147
+    paper_rank: 188
+    rank_delta: 159
+    rank_delta_abs: 159
     rank_delta_direction: worse
     sort_value: 0.029
     sort_std: 0.003
@@ -437,45 +290,9 @@ results:
     has_value_note: false
     value_gap: 0.082
     value_note: ''
-    paper_rank: 186
-    rank_delta: 158
-    rank_delta_abs: 158
-    rank_delta_direction: worse
-    sort_value: 0.029
-    sort_std: 0.001
-    is_best: false
-  - model: NGNN
-    model_key: ngnn
-    model_plain: NGNN
-    value: 0.111
-    std: 0.003
-    paper_value: 0.111
-    paper_std: 0.003
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 2
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Jun 2024
-    date_display: Jun 2024
-    date_iso: 2024-06
-    global_rank: 28
-    true_value: 0.029
-    true_std: 0.001
-    value_gap_source_arxiv: '2405.02795'
-    value_gap_source_title: Graph as Point Set
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.082
-    value_note: ''
-    paper_rank: 186
-    rank_delta: 158
-    rank_delta_abs: 158
+    paper_rank: 198
+    rank_delta: 170
+    rank_delta_abs: 170
     rank_delta_direction: worse
     sort_value: 0.029
     sort_std: 0.001
@@ -509,45 +326,9 @@ results:
     has_value_note: false
     value_gap: 0.056999999999999995
     value_note: ''
-    paper_rank: 168
-    rank_delta: 135
-    rank_delta_abs: 135
-    rank_delta_direction: worse
-    sort_value: 0.034
-    sort_std: 0.007
-    is_best: false
-  - model: GNN (a)
-    model_key: gnn (a)
-    model_plain: GNN (a)
-    value: 0.091
-    std: 0.002
-    paper_value: 0.091
-    paper_std: 0.002
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 2
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Jun 2024
-    date_display: Jun 2024
-    date_iso: 2024-06
-    global_rank: 33
-    true_value: 0.034
-    true_std: 0.007
-    value_gap_source_arxiv: '2501.18739'
-    value_gap_source_title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.056999999999999995
-    value_note: ''
-    paper_rank: 168
-    rank_delta: 135
-    rank_delta_abs: 135
+    paper_rank: 178
+    rank_delta: 145
+    rank_delta_abs: 145
     rank_delta_direction: worse
     sort_value: 0.034
     sort_std: 0.007
@@ -571,7 +352,7 @@ results:
     date: Jun 2024
     date_display: Jun 2024
     date_iso: 2024-06
-    global_rank: 73
+    global_rank: 75
     true_value: 0.065
     true_std: 0.004
     value_gap_source_arxiv: '2502.09263'
@@ -582,46 +363,9 @@ results:
     has_value_note: false
     value_gap: 0.098
     value_note: ''
-    paper_rank: 233
-    rank_delta: 160
-    rank_delta_abs: 160
-    rank_delta_direction: worse
-    sort_value: 0.065
-    sort_std: 0.004
-    is_best: false
-  - model: GIN
-    model_key: gin
-    model_plain: GIN
-    value: 0.163
-    std: 0.004
-    paper_value: 0.163
-    paper_std: 0.004
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Jun 2024
-    date_display: Jun 2024
-    date_iso: 2024-06
-    global_rank: 73
-    true_value: 0.065
-    true_std: 0.004
-    value_gap_source_arxiv: '2502.09263'
-    value_gap_source_title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks?
-      Simple Architectures Meet Excellence
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.098
-    value_note: ''
-    paper_rank: 233
-    rank_delta: 160
-    rank_delta_abs: 160
+    paper_rank: 246
+    rank_delta: 171
+    rank_delta_abs: 171
     rank_delta_direction: worse
     sort_value: 0.065
     sort_std: 0.004
@@ -645,7 +389,7 @@ results:
     date: Jun 2024
     date_display: Jun 2024
     date_iso: 2024-06
-    global_rank: 126
+    global_rank: 131
     true_value: 0.076
     true_std: 0.009
     value_gap_source_arxiv: '2502.09263'
@@ -656,46 +400,9 @@ results:
     has_value_note: false
     value_gap: 0.245
     value_note: ''
-    paper_rank: 262
-    rank_delta: 136
-    rank_delta_abs: 136
-    rank_delta_direction: worse
-    sort_value: 0.076
-    sort_std: 0.009
-    is_best: false
-  - model: GCN
-    model_key: gcn
-    model_plain: GCN
-    value: 0.321
-    std: 0.009
-    paper_value: 0.321
-    paper_std: 0.009
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 2
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Jun 2024
-    date_display: Jun 2024
-    date_iso: 2024-06
-    global_rank: 126
-    true_value: 0.076
-    true_std: 0.009
-    value_gap_source_arxiv: '2502.09263'
-    value_gap_source_title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks?
-      Simple Architectures Meet Excellence
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.245
-    value_note: ''
-    paper_rank: 262
-    rank_delta: 136
-    rank_delta_abs: 136
+    paper_rank: 276
+    rank_delta: 145
+    rank_delta_abs: 145
     rank_delta_direction: worse
     sort_value: 0.076
     sort_std: 0.009
@@ -719,7 +426,7 @@ results:
     date: Jun 2024
     date_display: Jun 2024
     date_iso: 2024-06
-    global_rank: 183
+    global_rank: 195
     true_value: 0.106
     true_std: 0.014
     value_gap_source_arxiv: '2406.09291'
@@ -730,44 +437,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 183
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.106
-    sort_std: 0.014
-    is_best: false
-  - model: Mag-GNN
-    model_key: mag-gnn
-    model_plain: Mag-GNN
-    value: 0.106
-    std: 0.014
-    paper_value: 0.106
-    paper_std: 0.014
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Jun 2024
-    date_display: Jun 2024
-    date_iso: 2024-06
-    global_rank: 183
-    true_value: 0.106
-    true_std: 0.014
-    value_gap_source_arxiv: '2406.09291'
-    value_gap_source_title: A Flexible, Equivariant Framework for Subgraph GNNs via
-      Graph Products and Graph Coarsening
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 183
+    paper_rank: 195
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -793,7 +463,7 @@ results:
     date: Jun 2024
     date_display: Jun 2024
     date_iso: 2024-06
-    global_rank: 186
+    global_rank: 198
     true_value: 0.109
     true_std: 0.005
     value_gap_source_arxiv: '2406.09291'
@@ -804,44 +474,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 186
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.109
-    sort_std: 0.005
-    is_best: false
-  - model: CS-GNN
-    model_key: cs-gnn
-    model_plain: CS-GNN
-    value: 0.109
-    std: 0.005
-    paper_value: 0.109
-    paper_std: 0.005
-    metric: MAE
-    higher_is_better: false
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Jun 2024
-    date_display: Jun 2024
-    date_iso: 2024-06
-    global_rank: 186
-    true_value: 0.109
-    true_std: 0.005
-    value_gap_source_arxiv: '2406.09291'
-    value_gap_source_title: A Flexible, Equivariant Framework for Subgraph GNNs via
-      Graph Products and Graph Coarsening
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 186
+    paper_rank: 198
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -867,7 +500,7 @@ results:
     date: Jun 2024
     date_display: Jun 2024
     date_iso: 2024-06
-    global_rank: 196
+    global_rank: 208
     true_value: 0.12
     true_std: 0.003
     value_gap_source_arxiv: '2406.09291'
@@ -878,44 +511,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 196
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.12
-    sort_std: 0.003
-    is_best: false
-  - model: PL
-    model_key: pl
-    model_plain: PL
-    value: 0.12
-    std: 0.003
-    paper_value: 0.12
-    paper_std: 0.003
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Jun 2024
-    date_display: Jun 2024
-    date_iso: 2024-06
-    global_rank: 196
-    true_value: 0.12
-    true_std: 0.003
-    value_gap_source_arxiv: '2406.09291'
-    value_gap_source_title: A Flexible, Equivariant Framework for Subgraph GNNs via
-      Graph Products and Graph Coarsening
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 196
+    paper_rank: 208
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -941,7 +537,7 @@ results:
     date: Jun 2024
     date_display: Jun 2024
     date_iso: 2024-06
-    global_rank: 207
+    global_rank: 220
     true_value: 0.131
     true_std: 0.005
     value_gap_source_arxiv: '2406.09291'
@@ -952,44 +548,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 207
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.131
-    sort_std: 0.005
-    is_best: false
-  - model: Random
-    model_key: random
-    model_plain: Random
-    value: 0.131
-    std: 0.005
-    paper_value: 0.131
-    paper_std: 0.005
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Jun 2024
-    date_display: Jun 2024
-    date_iso: 2024-06
-    global_rank: 207
-    true_value: 0.131
-    true_std: 0.005
-    value_gap_source_arxiv: '2406.09291'
-    value_gap_source_title: A Flexible, Equivariant Framework for Subgraph GNNs via
-      Graph Products and Graph Coarsening
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 207
+    paper_rank: 220
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1015,7 +574,7 @@ results:
     date: Jun 2024
     date_display: Jun 2024
     date_iso: 2024-06
-    global_rank: 223
+    global_rank: 236
     true_value: 0.154
     true_std: 0.008
     value_gap_source_arxiv: '2402.08450'
@@ -1026,44 +585,7 @@ results:
     has_value_note: false
     value_gap: 0.022999999999999993
     value_note: ''
-    paper_rank: 234
-    rank_delta: 11
-    rank_delta_abs: 11
-    rank_delta_direction: worse
-    sort_value: 0.154
-    sort_std: 0.008
-    is_best: false
-  - model: OSAN
-    model_key: osan
-    model_plain: OSAN
-    value: 0.177
-    std: 0.016
-    paper_value: 0.177
-    paper_std: 0.016
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Jun 2024
-    date_display: Jun 2024
-    date_iso: 2024-06
-    global_rank: 223
-    true_value: 0.154
-    true_std: 0.008
-    value_gap_source_arxiv: '2402.08450'
-    value_gap_source_title: 'Subgraphormer: Unifying Subgraph GNNs and Graph Transformers
-      via Graph Products'
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.022999999999999993
-    value_note: ''
-    paper_rank: 234
+    paper_rank: 247
     rank_delta: 11
     rank_delta_abs: 11
     rank_delta_direction: worse

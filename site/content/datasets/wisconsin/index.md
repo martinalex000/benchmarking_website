@@ -12,7 +12,7 @@ stats:
   avg_nodes: 251.0
   avg_edges: 515.0
   num_classes: 5
-result_count: 181
+result_count: 186
 best_model:
   model: DMD++
   value: 0.919
@@ -865,7 +865,7 @@ variants:
     arxiv_id: '2404.03380'
     title: On the Theoretical Expressive Power and the Design Space of Higher-Order
       Graph Transformers
-    date: '2024-04-04'
+    date: Apr 4, 2024
     date_iso: '2024-04-04'
     date_display: Apr 2024
     codebase_url: ''
@@ -926,7 +926,7 @@ variants:
     arxiv_id: '2404.03380'
     title: On the Theoretical Expressive Power and the Design Space of Higher-Order
       Graph Transformers
-    date: '2024-04-04'
+    date: Apr 4, 2024
     date_iso: '2024-04-04'
     date_display: Apr 2024
     codebase_url: ''
@@ -1308,7 +1308,7 @@ variants:
     arxiv_id: '2404.03380'
     title: On the Theoretical Expressive Power and the Design Space of Higher-Order
       Graph Transformers
-    date: '2024-04-04'
+    date: Apr 4, 2024
     date_iso: '2024-04-04'
     date_display: Apr 2024
     codebase_url: ''
@@ -1389,11 +1389,32 @@ variants:
     arxiv_id: '2404.03380'
     title: On the Theoretical Expressive Power and the Design Space of Higher-Order
       Graph Transformers
-    date: '2024-04-04'
+    date: Apr 4, 2024
     date_iso: '2024-04-04'
     date_display: Apr 2024
     codebase_url: ''
     uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7745
+    - null
+    metric_stds:
+    - 0.0098
+    - null
+  - model: AS0:1-dense+attn.bias
+    model_plain: AS0:1-dense+attn.bias
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2404.03380'
+    title: On the Theoretical Expressive Power and the Design Space of Higher-Order
+      Graph Transformers
+    date: Apr 4, 2024
+    date_iso: '2024-04-04'
+    date_display: Apr 2024
+    codebase_url: ''
+    uses_external_data: null
     is_best: false
     metric_values:
     - 0.7745
@@ -1590,7 +1611,7 @@ variants:
     arxiv_id: '2404.03380'
     title: On the Theoretical Expressive Power and the Design Space of Higher-Order
       Graph Transformers
-    date: '2024-04-04'
+    date: Apr 4, 2024
     date_iso: '2024-04-04'
     date_display: Apr 2024
     codebase_url: ''
@@ -1652,7 +1673,7 @@ variants:
     arxiv_id: '2404.03380'
     title: On the Theoretical Expressive Power and the Design Space of Higher-Order
       Graph Transformers
-    date: '2024-04-04'
+    date: Apr 4, 2024
     date_iso: '2024-04-04'
     date_display: Apr 2024
     codebase_url: ''
@@ -1793,7 +1814,7 @@ variants:
     arxiv_id: '2404.03380'
     title: On the Theoretical Expressive Power and the Design Space of Higher-Order
       Graph Transformers
-    date: '2024-04-04'
+    date: Apr 4, 2024
     date_iso: '2024-04-04'
     date_display: Apr 2024
     codebase_url: ''
@@ -2154,7 +2175,7 @@ variants:
     arxiv_id: '2404.03380'
     title: On the Theoretical Expressive Power and the Design Space of Higher-Order
       Graph Transformers
-    date: '2024-04-04'
+    date: Apr 4, 2024
     date_iso: '2024-04-04'
     date_display: Apr 2024
     codebase_url: ''
@@ -2235,7 +2256,7 @@ variants:
     arxiv_id: '2404.03380'
     title: On the Theoretical Expressive Power and the Design Space of Higher-Order
       Graph Transformers
-    date: '2024-04-04'
+    date: Apr 4, 2024
     date_iso: '2024-04-04'
     date_display: Apr 2024
     codebase_url: ''
@@ -2256,7 +2277,7 @@ variants:
     arxiv_id: '2404.03380'
     title: On the Theoretical Expressive Power and the Design Space of Higher-Order
       Graph Transformers
-    date: '2024-04-04'
+    date: Apr 4, 2024
     date_iso: '2024-04-04'
     date_display: Apr 2024
     codebase_url: ''
@@ -2576,7 +2597,7 @@ variants:
     params_millions: null
     arxiv_id: '2406.03671'
     title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
-    date: '2024-06-06'
+    date: Jun 6, 2024
     date_iso: '2024-06-06'
     date_display: Jun 2024
     codebase_url: ''
@@ -2958,7 +2979,7 @@ variants:
     params_millions: null
     arxiv_id: '2406.03671'
     title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
-    date: '2024-06-06'
+    date: Jun 6, 2024
     date_iso: '2024-06-06'
     date_display: Jun 2024
     codebase_url: ''
@@ -2978,7 +2999,7 @@ variants:
     params_millions: null
     arxiv_id: '2406.03671'
     title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
-    date: '2024-06-06'
+    date: Jun 6, 2024
     date_iso: '2024-06-06'
     date_display: Jun 2024
     codebase_url: ''
@@ -3680,6 +3701,90 @@ variants:
     date_display: Sep 2023
     codebase_url: ''
     uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.836
+    metric_stds:
+    - null
+    - 0.0114
+  - model: \kappa-GCN
+    model_plain: \kappa-GCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2309.04082'
+    title: 'Curve Your Attention: Mixed-Curvature Transformers for Graph Representation
+      Learning'
+    date: Sep 2023
+    date_iso: 2023-09
+    date_display: Sep 2023
+    codebase_url: ''
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - null
+    - 0.466
+    metric_stds:
+    - null
+    - 0.0241
+  - model: \mathcal{Q}-GCN
+    model_plain: \mathcal{Q}-GCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2309.04082'
+    title: 'Curve Your Attention: Mixed-Curvature Transformers for Graph Representation
+      Learning'
+    date: Sep 2023
+    date_iso: 2023-09
+    date_display: Sep 2023
+    codebase_url: ''
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - null
+    - 0.528
+    metric_stds:
+    - null
+    - 0.022
+  - model: \modelname{}
+    model_plain: \modelname{}
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2309.04082'
+    title: 'Curve Your Attention: Mixed-Curvature Transformers for Graph Representation
+      Learning'
+    date: Sep 2023
+    date_iso: 2023-09
+    date_display: Sep 2023
+    codebase_url: ''
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - null
+    - 0.836
+    metric_stds:
+    - null
+    - 0.0114
+  - model: FPS-T
+    model_plain: FPS-T
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2309.04082'
+    title: 'Curve Your Attention: Mixed-Curvature Transformers for Graph Representation
+      Learning'
+    date: Sep 2023
+    date_iso: 2023-09
+    date_display: Sep 2023
+    codebase_url: ''
+    uses_external_data: null
     is_best: false
     metric_values:
     - null

@@ -14,7 +14,7 @@ stats:
   avg_nodes: 25.5
   avg_edges: 27.5
   num_classes: 2
-result_count: 266
+result_count: 284
 best_model:
   model: MLP
   value: 0.9685
@@ -88,7 +88,7 @@ variants:
     arxiv_id: '2502.02379'
     title: 'No Metric to Rule Them All: Toward Principled Evaluations of Graph-Learning
       Datasets'
-    date: '2025-02-04'
+    date: Feb 4, 2025
     date_iso: '2025-02-04'
     date_display: Feb 2025
     codebase_url: ''
@@ -109,7 +109,7 @@ variants:
     arxiv_id: '2502.02379'
     title: 'No Metric to Rule Them All: Toward Principled Evaluations of Graph-Learning
       Datasets'
-    date: '2025-02-04'
+    date: Feb 4, 2025
     date_iso: '2025-02-04'
     date_display: Feb 2025
     codebase_url: ''
@@ -130,7 +130,7 @@ variants:
     arxiv_id: '2502.02379'
     title: 'No Metric to Rule Them All: Toward Principled Evaluations of Graph-Learning
       Datasets'
-    date: '2025-02-04'
+    date: Feb 4, 2025
     date_iso: '2025-02-04'
     date_display: Feb 2025
     codebase_url: ''
@@ -235,7 +235,28 @@ variants:
     arxiv_id: '2502.00282'
     title: 'GraphMinNet: Learning Dependencies in Graphs with Light Complexity Minimal
       Architecture'
-    date: '2025-02-01'
+    date: Feb 1, 2025
+    date_iso: '2025-02-01'
+    date_display: Feb 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.8086
+    - null
+    metric_stds:
+    - 0.0056
+    - null
+  - model: novel approach
+    model_plain: novel approach
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2502.00282'
+    title: 'GraphMinNet: Learning Dependencies in Graphs with Light Complexity Minimal
+      Architecture'
+    date: Feb 1, 2025
     date_iso: '2025-02-01'
     date_display: Feb 2025
     codebase_url: ''
@@ -380,7 +401,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -525,7 +546,7 @@ variants:
     params_millions: 1.0
     arxiv_id: '2405.02795'
     title: Graph as Point Set
-    date: '2024-05-05'
+    date: May 5, 2024
     date_iso: '2024-05-05'
     date_display: May 2024
     codebase_url: ''
@@ -732,7 +753,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.02795'
     title: Graph as Point Set
-    date: '2024-05-05'
+    date: May 5, 2024
     date_iso: '2024-05-05'
     date_display: May 2024
     codebase_url: ''
@@ -793,7 +814,7 @@ variants:
     arxiv_id: '2404.03380'
     title: On the Theoretical Expressive Power and the Design Space of Higher-Order
       Graph Transformers
-    date: '2024-04-04'
+    date: Apr 4, 2024
     date_iso: '2024-04-04'
     date_display: Apr 2024
     codebase_url: ''
@@ -814,7 +835,7 @@ variants:
     arxiv_id: '2404.03380'
     title: On the Theoretical Expressive Power and the Design Space of Higher-Order
       Graph Transformers
-    date: '2024-04-04'
+    date: Apr 4, 2024
     date_iso: '2024-04-04'
     date_display: Apr 2024
     codebase_url: ''
@@ -835,7 +856,7 @@ variants:
     arxiv_id: '2404.03380'
     title: On the Theoretical Expressive Power and the Design Space of Higher-Order
       Graph Transformers
-    date: '2024-04-04'
+    date: Apr 4, 2024
     date_iso: '2024-04-04'
     date_display: Apr 2024
     codebase_url: ''
@@ -856,7 +877,7 @@ variants:
     arxiv_id: '2404.03380'
     title: On the Theoretical Expressive Power and the Design Space of Higher-Order
       Graph Transformers
-    date: '2024-04-04'
+    date: Apr 4, 2024
     date_iso: '2024-04-04'
     date_display: Apr 2024
     codebase_url: ''
@@ -1000,7 +1021,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.02795'
     title: Graph as Point Set
-    date: '2024-05-05'
+    date: May 5, 2024
     date_iso: '2024-05-05'
     date_display: May 2024
     codebase_url: ''
@@ -1073,6 +1094,46 @@ variants:
     metric_stds:
     - 0.009
     - null
+  - model: GNNs
+    model_plain: GNNs
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2310.01704'
+    title: Transformers are efficient hierarchical chemical graph learners
+    date: Oct 2023
+    date_iso: 2023-10
+    date_display: Oct 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.795
+    - null
+    metric_stds:
+    - 0.008
+    - null
+  - model: Graph neural networks(580k)
+    model_plain: Graph neural networks(580k)
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2310.01704'
+    title: Transformers are efficient hierarchical chemical graph learners
+    date: Oct 2023
+    date_iso: 2023-10
+    date_display: Oct 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.795
+    - null
+    metric_stds:
+    - 0.008
+    - null
   - model: Subgraphormer
     model_plain: Subgraphormer
     is_baseline: false
@@ -1097,6 +1158,26 @@ variants:
   - model: Original Graph
     model_plain: Original Graph
     is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2509.22100'
+    title: 'SHAKE-GNN: Scalable Hierarchical Kirchhoff-Forest Graph Neural Network'
+    date: Sep 2025
+    date_iso: 2025-09
+    date_display: Sep 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.794
+    - null
+    metric_stds:
+    - null
+    - null
+  - model: S² GCN
+    model_plain: S² GCN
+    is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
@@ -1155,6 +1236,26 @@ variants:
     metric_stds:
     - 0.006
     - null
+  - model: Kernel SVM
+    model_plain: Kernel SVM
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2310.01704'
+    title: Transformers are efficient hierarchical chemical graph learners
+    date: Oct 2023
+    date_iso: 2023-10
+    date_display: Oct 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.792
+    - null
+    metric_stds:
+    - 0.0
+    - null
   - model: PathNN-SP (K=2)
     model_plain: PathNN-SP (K=2)
     is_baseline: true
@@ -1163,7 +1264,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -1183,11 +1284,11 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
-    uses_external_data: null
+    uses_external_data: false
     is_best: false
     metric_values:
     - 0.7917
@@ -1286,7 +1387,7 @@ variants:
     arxiv_id: '2404.03380'
     title: On the Theoretical Expressive Power and the Design Space of Higher-Order
       Graph Transformers
-    date: '2024-04-04'
+    date: Apr 4, 2024
     date_iso: '2024-04-04'
     date_display: Apr 2024
     codebase_url: ''
@@ -1307,7 +1408,7 @@ variants:
     arxiv_id: '2404.03380'
     title: On the Theoretical Expressive Power and the Design Space of Higher-Order
       Graph Transformers
-    date: '2024-04-04'
+    date: Apr 4, 2024
     date_iso: '2024-04-04'
     date_display: Apr 2024
     codebase_url: ''
@@ -1401,6 +1502,26 @@ variants:
     metric_stds:
     - 0.0118
     - null
+  - model: Q-WL-RF (Ours) Full
+    model_plain: Q-WL-RF (Ours) Full
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2508.10651'
+    title: Graph Learning via Logic-Based Weisfeiler--Leman Variants and Tabularization
+    date: Aug 2025
+    date_iso: 2025-08
+    date_display: Aug 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.789
+    - null
+    metric_stds:
+    - 0.004
+    - null
   - model: SpecFormer
     model_plain: SpecFormer
     is_baseline: true
@@ -1429,7 +1550,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -1449,11 +1570,11 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
-    uses_external_data: null
+    uses_external_data: false
     is_best: false
     metric_values:
     - 0.7884
@@ -1480,27 +1601,6 @@ variants:
     - null
     metric_stds:
     - 0.006
-    - null
-  - model: GraphGPS
-    model_plain: GraphGPS
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2502.09263'
-    title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks? Simple Architectures
-      Meet Excellence
-    date: Feb 2025
-    date_iso: 2025-02
-    date_display: Feb 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.788
-    - null
-    metric_stds:
-    - 0.0101
     - null
   - model: WIRE Performer
     model_plain: WIRE Performer
@@ -1602,6 +1702,26 @@ variants:
     metric_stds:
     - 0.006
     - null
+  - model: GraphGPS
+    model_plain: GraphGPS
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2310.01704'
+    title: Transformers are efficient hierarchical chemical graph learners
+    date: Oct 2023
+    date_iso: 2023-10
+    date_display: Oct 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.788
+    - null
+    metric_stds:
+    - 0.01
+    - null
   - model: GraphGPS baseline
     model_plain: GraphGPS baseline
     is_baseline: true
@@ -1672,11 +1792,11 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
-    uses_external_data: null
+    uses_external_data: false
     is_best: false
     metric_values:
     - 0.7862
@@ -1795,7 +1915,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -1899,7 +2019,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -1931,6 +2051,26 @@ variants:
     metric_stds:
     - 0.0109
     - null
+  - model: Q-WL-RF (Ours) Hyb.
+    model_plain: Q-WL-RF (Ours) Hyb.
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2508.10651'
+    title: Graph Learning via Logic-Based Weisfeiler--Leman Variants and Tabularization
+    date: Aug 2025
+    date_iso: 2025-08
+    date_display: Aug 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.783
+    - null
+    metric_stds:
+    - 0.01
+    - null
   - model: GatedGCN
     model_plain: GatedGCN
     is_baseline: true
@@ -1960,7 +2100,7 @@ variants:
     arxiv_id: '2502.00282'
     title: 'GraphMinNet: Learning Dependencies in Graphs with Light Complexity Minimal
       Architecture'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_iso: '2025-02-01'
     date_display: Feb 2025
     codebase_url: ''
@@ -2022,7 +2162,7 @@ variants:
     params_millions: 0.5
     arxiv_id: '2405.02795'
     title: Graph as Point Set
-    date: '2024-05-05'
+    date: May 5, 2024
     date_iso: '2024-05-05'
     date_display: May 2024
     codebase_url: ''
@@ -2054,6 +2194,26 @@ variants:
     - null
     metric_stds:
     - 0.0219
+    - null
+  - model: Random Forest
+    model_plain: Random Forest
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2310.01704'
+    title: Transformers are efficient hierarchical chemical graph learners
+    date: Oct 2023
+    date_iso: 2023-10
+    date_display: Oct 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.781
+    - null
+    metric_stds:
+    - 0.006
     - null
   - model: BNPool
     model_plain: BNPool
@@ -2208,7 +2368,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -2219,6 +2379,46 @@ variants:
     - null
     metric_stds:
     - 0.0142
+    - null
+  - model: AUTOBAHN
+    model_plain: AUTOBAHN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2310.01704'
+    title: Transformers are efficient hierarchical chemical graph learners
+    date: Oct 2023
+    date_iso: 2023-10
+    date_display: Oct 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.78
+    - null
+    metric_stds:
+    - 0.015
+    - null
+  - model: Q-WL-RF (Ours) Plain
+    model_plain: Q-WL-RF (Ours) Plain
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2508.10651'
+    title: Graph Learning via Logic-Based Weisfeiler--Leman Variants and Tabularization
+    date: Aug 2025
+    date_iso: 2025-08
+    date_display: Aug 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.78
+    - null
+    metric_stds:
+    - 0.005
     - null
   - model: ExpC
     model_plain: ExpC
@@ -2284,6 +2484,26 @@ variants:
     - null
   - model: GCN + CGP
     model_plain: GCN + CGP
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2410.03424'
+    title: Cayley Graph Propagation
+    date: Oct 2024
+    date_iso: 2024-10
+    date_display: Oct 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7794
+    - null
+    metric_stds:
+    - 0.0122
+    - null
+  - model: CGP
+    model_plain: CGP
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -2677,7 +2897,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -2833,6 +3053,26 @@ variants:
     metric_stds:
     - 0.006
     - null
+  - model: GPS
+    model_plain: GPS
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2508.10651'
+    title: Graph Learning via Logic-Based Weisfeiler--Leman Variants and Tabularization
+    date: Aug 2025
+    date_iso: 2025-08
+    date_display: Aug 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.768
+    - null
+    metric_stds:
+    - 0.008
+    - null
   - model: GCN+PE+VN
     model_plain: GCN+PE+VN
     is_baseline: true
@@ -2983,7 +3223,7 @@ variants:
     params_millions: null
     arxiv_id: '2306.05955'
     title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
+    date: Jun 9, 2023
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
@@ -3378,6 +3618,66 @@ variants:
     metric_stds:
     - 0.013
     - null
+  - model: XGBoost
+    model_plain: XGBoost
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2310.01704'
+    title: Transformers are efficient hierarchical chemical graph learners
+    date: Oct 2023
+    date_iso: 2023-10
+    date_display: Oct 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.756
+    - null
+    metric_stds:
+    - 0.0
+    - null
+  - model: Ours(dual readout)
+    model_plain: Ours(dual readout)
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2310.01704'
+    title: Transformers are efficient hierarchical chemical graph learners
+    date: Oct 2023
+    date_iso: 2023-10
+    date_display: Oct 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.756
+    - null
+    metric_stds:
+    - 0.007
+    - null
+  - model: Q-WL-RF (Ours) Maj.
+    model_plain: Q-WL-RF (Ours) Maj.
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2508.10651'
+    title: Graph Learning via Logic-Based Weisfeiler--Leman Variants and Tabularization
+    date: Aug 2025
+    date_iso: 2025-08
+    date_display: Aug 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.756
+    - null
+    metric_stds:
+    - 0.013
+    - null
   - model: Plain GIN
     model_plain: Plain GIN
     is_baseline: true
@@ -3477,6 +3777,26 @@ variants:
     - null
     metric_stds:
     - 0.011
+    - null
+  - model: Q-WL-RF (Ours) Int.
+    model_plain: Q-WL-RF (Ours) Int.
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2508.10651'
+    title: Graph Learning via Logic-Based Weisfeiler--Leman Variants and Tabularization
+    date: Aug 2025
+    date_iso: 2025-08
+    date_display: Aug 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.753
+    - null
+    metric_stds:
+    - 0.01
     - null
   - model: RWPT (Walk, k=16, l=2)
     model_plain: RWPT (Walk, k=16, l=2)
@@ -3670,7 +3990,7 @@ variants:
     params_millions: null
     arxiv_id: '2405.02795'
     title: Graph as Point Set
-    date: '2024-05-05'
+    date: May 5, 2024
     date_iso: '2024-05-05'
     date_display: May 2024
     codebase_url: ''
@@ -3944,6 +4264,26 @@ variants:
     metric_stds:
     - 0.009
     - null
+  - model: GIN
+    model_plain: GIN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2508.10651'
+    title: Graph Learning via Logic-Based Weisfeiler--Leman Variants and Tabularization
+    date: Aug 2025
+    date_iso: 2025-08
+    date_display: Aug 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.737
+    - null
+    metric_stds:
+    - 0.017
+    - null
   - model: RWPT (Pre-Train w/ FB15k237)
     model_plain: RWPT (Pre-Train w/ FB15k237)
     is_baseline: false
@@ -4169,6 +4509,26 @@ variants:
     - null
     metric_stds:
     - 0.0103
+    - null
+  - model: Logistic Regression
+    model_plain: Logistic Regression
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2310.01704'
+    title: Transformers are efficient hierarchical chemical graph learners
+    date: Oct 2023
+    date_iso: 2023-10
+    date_display: Oct 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.702
+    - null
+    metric_stds:
+    - 0.018
     - null
   - model: DiffPool
     model_plain: DiffPool
@@ -4787,7 +5147,7 @@ variants:
     arxiv_id: '2502.00282'
     title: 'GraphMinNet: Learning Dependencies in Graphs with Light Complexity Minimal
       Architecture'
-    date: '2025-02-01'
+    date: Feb 1, 2025
     date_iso: '2025-02-01'
     date_display: Feb 2025
     codebase_url: ''
@@ -4807,7 +5167,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -4827,7 +5187,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -4847,7 +5207,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -4867,7 +5227,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -4887,7 +5247,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -4907,7 +5267,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -4927,7 +5287,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -4947,7 +5307,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -4967,7 +5327,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -4987,7 +5347,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -5007,7 +5367,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -5027,7 +5387,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -5047,7 +5407,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -5067,7 +5427,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -5087,7 +5447,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -5107,7 +5467,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -5127,7 +5487,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -5147,7 +5507,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -5167,7 +5527,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -5187,7 +5547,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -5207,7 +5567,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -5227,7 +5587,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -5247,7 +5607,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -5267,7 +5627,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -5287,7 +5647,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -5307,7 +5667,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -5327,7 +5687,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -5347,7 +5707,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -5367,7 +5727,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -5387,7 +5747,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -5407,7 +5767,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -5427,7 +5787,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''
@@ -5447,7 +5807,7 @@ variants:
     params_millions: null
     arxiv_id: '2307.07107'
     title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    date: Jul 14, 2023
     date_iso: '2023-07-14'
     date_display: Jul 2023
     codebase_url: ''

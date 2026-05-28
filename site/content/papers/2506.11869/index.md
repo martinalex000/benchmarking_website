@@ -2,8 +2,10 @@
 title: How do Probabilistic Graphical Models and Graph Neural Networks Look at Network
   Data?
 arxiv_id: '2506.11869'
+source_url: ''
 authors: []
 published_date: ''
+published_date_iso: ''
 abstract: 'Graphs are a powerful data structure for representing relational data and
   are widely used to describe complex real-world systems. Probabilistic Graphical
   Models (PGMs) and Graph Neural Networks (GNNs) can both leverage graph-structured
@@ -23,8 +25,14 @@ abstract: 'Graphs are a powerful data structure for representing relational data
 codebase_url: ''
 extraction_model: qwen3.6-35b-a3b
 has_results: false
+paper_type: dataset
 proposed_models: []
 mrr: null
+adjusted_mrr: null
+mrr_dataset_count: 0
+benchmark_categories: []
+task_categories: []
+experiment_scopes: []
 results: []
 results_grouped: []
 main_figure: /figures/2506.11869/main_figure.png

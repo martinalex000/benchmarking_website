@@ -6,23 +6,22 @@ source_url: ''
 authors: []
 published_date: Apr 2026
 published_date_iso: 2026-04
-abstract: "Abstract. Graph transformers achieve strong results on molecular and long-range\
-  \ reasoning tasks, yet remain hampered by over-smoothing (the progressive collapse\
-  \ of node representations with depth) and attention entropy degeneration. We observe\
-  \ that these pathologies share a root cause with attention sinks in large language\
-  \ models: softmax attention\u2019s sum-to-one constraint forces every node to attend\
-  \ somewhere, even when no informative signal exists. Motivated by recent findings\
-  \ that element-wise sigmoid gating eliminates attention sinks in large language\
-  \ models, we propose SigGate-GT, a graph transformer that applies learned, per-head\
-  \ sigmoid gates to the attention output within the GraphGPS framework. Each gate\
-  \ can suppress activations toward zero, enabling heads to selectively silence uninformative\
-  \ connections. On five standard benchmarks, SigGate-GT matches the prior best on\
-  \ ZINC (0.059 0.059 MAE) and sets new state-of-the-art on ogbg-molhiv (82.47 % 82.47%\
-  \ ROC-AUC), with statistically significant gains over GraphGPS across all five datasets\
-  \ (p < 0.05 p<0.05). Ablations show that gating reduces over-smoothing by 30 % 30%\
-  \ (mean relative MAD gain across 4\u201316 layers), increases attention entropy,\
-  \ and stabilizes training across a 10 \xD7 10 x learning rate range, with about\
-  \ 1 % 1% parameter overhead on OGB."
+abstract: 'Abstract. Graph transformers achieve strong results on molecular and long-range
+  reasoning tasks, yet remain hampered by over-smoothing (the progressive collapse
+  of node representations with depth) and attention entropy degeneration. We observe
+  that these pathologies share a root cause with attention sinks in large language
+  models: softmax attention’s sum-to-one constraint forces every node to attend somewhere,
+  even when no informative signal exists. Motivated by recent findings that element-wise
+  sigmoid gating eliminates attention sinks in large language models, we propose SigGate-GT,
+  a graph transformer that applies learned, per-head sigmoid gates to the attention
+  output within the GraphGPS framework. Each gate can suppress activations toward
+  zero, enabling heads to selectively silence uninformative connections. On five standard
+  benchmarks, SigGate-GT matches the prior best on ZINC (0.059 0.059 MAE) and sets
+  new state-of-the-art on ogbg-molhiv (82.47 % 82.47% ROC-AUC), with statistically
+  significant gains over GraphGPS across all five datasets (p < 0.05 p<0.05). Ablations
+  show that gating reduces over-smoothing by 30 % 30% (mean relative MAD gain across
+  4–16 layers), increases attention entropy, and stabilizes training across a 10 ×
+  10 x learning rate range, with about 1 % 1% parameter overhead on OGB.'
 codebase_url: https://github.com/bettyguo/SigGate-GT
 extraction_model: qwen3.6-35b-a3b
 has_results: true
@@ -31,8 +30,8 @@ proposed_models:
 - SigGate-GT
 - G1
 - Per-head
-mrr: 0.0907
-adjusted_mrr: 0.0907
+mrr: 0.0906
+adjusted_mrr: 0.0906
 mrr_dataset_count: 5
 benchmark_categories:
 - Classic
@@ -60,7 +59,7 @@ results:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_display: Jan 2025
     date_iso: '2025-01-29'
     codebase_url: ''
@@ -83,7 +82,7 @@ results:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_display: Jan 2025
     date_iso: '2025-01-29'
     codebase_url: ''
@@ -106,7 +105,7 @@ results:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_display: Jan 2025
     date_iso: '2025-01-29'
     codebase_url: ''
@@ -135,7 +134,7 @@ results:
     date: Apr 2026
     date_display: Apr 2026
     date_iso: 2026-04
-    global_rank: 48
+    global_rank: 49
     true_value: 0.7006
     true_std: 0.0033
     value_gap_source_arxiv: '2502.09263'
@@ -146,7 +145,7 @@ results:
     has_value_note: false
     value_gap: 0.02410000000000001
     value_note: ''
-    paper_rank: 110
+    paper_rank: 111
     rank_delta: 62
     rank_delta_abs: 62
     rank_delta_direction: worse
@@ -172,7 +171,7 @@ results:
     date: Apr 2026
     date_display: Apr 2026
     date_iso: 2026-04
-    global_rank: 52
+    global_rank: 53
     true_value: 0.6988
     true_std: 0.0082
     value_gap_source_arxiv: '2605.06462'
@@ -182,7 +181,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 52
+    paper_rank: 53
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -208,7 +207,7 @@ results:
     date: Apr 2026
     date_display: Apr 2026
     date_iso: 2026-04
-    global_rank: 72
+    global_rank: 73
     true_value: 0.6947
     true_std: 0.0037
     value_gap_source_arxiv: '2604.17324'
@@ -219,7 +218,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 72
+    paper_rank: 73
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -245,7 +244,7 @@ results:
     date: Apr 2026
     date_display: Apr 2026
     date_iso: 2026-04
-    global_rank: 87
+    global_rank: 88
     true_value: 0.686
     true_std: 0.005
     value_gap_source_arxiv: '2605.06462'
@@ -255,7 +254,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 87
+    paper_rank: 88
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -276,12 +275,12 @@ results:
     override_reason: ''
     params_millions: null
     table_ref: Table 1
-    source_ref: "Ramp\xE1sek et al."
+    source_ref: Rampásek et al.
     variant_inference_reason: 'dataset: exact match'
     date: Apr 2026
     date_display: Apr 2026
     date_iso: 2026-04
-    global_rank: 164
+    global_rank: 166
     true_value: 0.655
     true_std: 0.004
     value_gap_source_arxiv: '2604.24293'
@@ -292,7 +291,7 @@ results:
     has_value_note: true
     value_gap: 0.0015000000000000568
     value_note: global 0.6550 within std
-    paper_rank: 166
+    paper_rank: 168
     rank_delta: 2
     rank_delta_abs: 2
     rank_delta_direction: worse
@@ -318,7 +317,7 @@ results:
     date: Apr 2026
     date_display: Apr 2026
     date_iso: 2026-04
-    global_rank: 176
+    global_rank: 178
     true_value: 0.6527
     true_std: 0.0043
     value_gap_source_arxiv: '2605.06462'
@@ -328,7 +327,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 176
+    paper_rank: 178
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -477,9 +476,9 @@ results:
     has_value_note: false
     value_gap: 0.004599999999999993
     value_note: ''
-    paper_rank: 88
-    rank_delta: 76
-    rank_delta_abs: 76
+    paper_rank: 89
+    rank_delta: 77
+    rank_delta_abs: 77
     rank_delta_direction: worse
     sort_value: 0.2431
     sort_std: 0.002
@@ -577,7 +576,7 @@ results:
     date: Apr 2026
     date_display: Apr 2026
     date_iso: 2026-04
-    global_rank: 55
+    global_rank: 56
     true_value: 0.246
     true_std: 0.0012
     value_gap_source_arxiv: '2605.06462'
@@ -587,7 +586,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 55
+    paper_rank: 56
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -613,7 +612,7 @@ results:
     date: Apr 2026
     date_display: Apr 2026
     date_iso: 2026-04
-    global_rank: 54
+    global_rank: 55
     true_value: 0.246
     true_std: 0.0007
     value_gap_source_arxiv: '2605.06462'
@@ -623,7 +622,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 54
+    paper_rank: 55
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -649,7 +648,7 @@ results:
     date: Apr 2026
     date_display: Apr 2026
     date_iso: 2026-04
-    global_rank: 101
+    global_rank: 102
     true_value: 0.2481
     true_std: 0.0007
     value_gap_source_arxiv: '2605.06462'
@@ -659,7 +658,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 101
+    paper_rank: 102
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -685,7 +684,7 @@ results:
     date: Apr 2026
     date_display: Apr 2026
     date_iso: 2026-04
-    global_rank: 116
+    global_rank: 119
     true_value: 0.2488
     true_std: 0.0015
     value_gap_source_arxiv: '2604.17324'
@@ -696,7 +695,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 116
+    paper_rank: 119
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -722,7 +721,7 @@ results:
     date: Apr 2026
     date_display: Apr 2026
     date_iso: 2026-04
-    global_rank: 123
+    global_rank: 126
     true_value: 0.2491
     true_std: 0.0011
     value_gap_source_arxiv: '2604.17324'
@@ -733,7 +732,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 123
+    paper_rank: 126
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -754,12 +753,12 @@ results:
     override_reason: ''
     params_millions: null
     table_ref: Table 1
-    source_ref: "Ramp\xE1sek et al. 2022"
+    source_ref: Rampásek et al. 2022
     variant_inference_reason: 'dataset: exact match'
     date: Apr 2026
     date_display: Apr 2026
     date_iso: 2026-04
-    global_rank: 133
+    global_rank: 136
     true_value: 0.25
     true_std: 0.0012
     value_gap_source_arxiv: '2604.17324'
@@ -770,7 +769,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 133
+    paper_rank: 136
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -796,7 +795,7 @@ results:
     date: Apr 2026
     date_display: Apr 2026
     date_iso: 2026-04
-    global_rank: 134
+    global_rank: 137
     true_value: 0.25
     true_std: 0.0012
     value_gap_source_arxiv: '2604.17324'
@@ -807,7 +806,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 134
+    paper_rank: 137
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -878,7 +877,7 @@ results:
     params_millions: 1.0
     arxiv_id: '2405.02795'
     title: Graph as Point Set
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
     codebase_url: ''
@@ -904,43 +903,6 @@ results:
     table_ref: Table 1
     source_ref: Ma 2023
     variant_inference_reason: 'zinc: paper text matched subset'
-    date: Apr 2026
-    date_display: Apr 2026
-    date_iso: 2026-04
-    global_rank: 9
-    true_value: 0.023
-    true_std: 0.001
-    value_gap_source_arxiv: '2310.20519'
-    value_gap_source_title: Enhancing Graph Neural Networks with Quantum Computed
-      Encodings
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.036
-    value_note: ''
-    paper_rank: 49
-    rank_delta: 40
-    rank_delta_abs: 40
-    rank_delta_direction: worse
-    sort_value: 0.023
-    sort_std: 0.001
-    is_best: false
-  - model: GRIT
-    model_key: grit
-    model_plain: GRIT
-    value: 0.059
-    std: 0.002
-    paper_value: 0.059
-    paper_std: 0.002
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
     date: Apr 2026
     date_display: Apr 2026
     date_iso: 2026-04
@@ -991,45 +953,9 @@ results:
     has_value_note: false
     value_gap: 0.097
     value_note: ''
-    paper_rank: 198
-    rank_delta: 180
-    rank_delta_abs: 180
-    rank_delta_direction: worse
-    sort_value: 0.025
-    sort_std: 0.004
-    is_best: false
-  - model: Graphormer
-    model_key: graphormer
-    model_plain: Graphormer
-    value: 0.122
-    std: 0.006
-    paper_value: 0.122
-    paper_std: 0.006
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Apr 2026
-    date_display: Apr 2026
-    date_iso: 2026-04
-    global_rank: 18
-    true_value: 0.025
-    true_std: 0.004
-    value_gap_source_arxiv: '2501.18739'
-    value_gap_source_title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.097
-    value_note: ''
-    paper_rank: 198
-    rank_delta: 180
-    rank_delta_abs: 180
+    paper_rank: 210
+    rank_delta: 192
+    rank_delta_abs: 192
     rank_delta_direction: worse
     sort_value: 0.025
     sort_std: 0.004
@@ -1064,46 +990,9 @@ results:
     has_value_note: false
     value_gap: 0.13072978921109524
     value_note: ''
-    paper_rank: 238
-    rank_delta: 190
-    rank_delta_abs: 190
-    rank_delta_direction: worse
-    sort_value: 0.05727021078890476
-    sort_std: 0.006639614126119909
-    is_best: false
-  - model: PNA
-    model_key: pna
-    model_plain: PNA
-    value: 0.188
-    std: 0.004
-    paper_value: 0.188
-    paper_std: 0.004
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Apr 2026
-    date_display: Apr 2026
-    date_iso: 2026-04
-    global_rank: 48
-    true_value: 0.05727021078890476
-    true_std: 0.006639614126119909
-    value_gap_source_arxiv: '2402.10793'
-    value_gap_source_title: An end-to-end attention-based approach for learning on
-      graphs
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.13072978921109524
-    value_note: ''
-    paper_rank: 238
-    rank_delta: 190
-    rank_delta_abs: 190
+    paper_rank: 252
+    rank_delta: 204
+    rank_delta_abs: 204
     rank_delta_direction: worse
     sort_value: 0.05727021078890476
     sort_std: 0.006639614126119909
@@ -1124,43 +1013,6 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'zinc: paper text matched subset'
-    date: Apr 2026
-    date_display: Apr 2026
-    date_iso: 2026-04
-    global_rank: 51
-    true_value: 0.059
-    true_std: 0.002
-    value_gap_source_arxiv: '2604.17324'
-    value_gap_source_title: 'SigGate-GT: Taming Over-Smoothing in Graph Transformers
-      via Sigmoid-Gated Attention'
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 51
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.059
-    sort_std: 0.002
-    is_best: false
-  - model: SigGate-GT
-    model_key: siggate-gt
-    model_plain: SigGate-GT
-    value: 0.059
-    std: 0.002
-    paper_value: 0.059
-    paper_std: 0.002
-    metric: MAE
-    higher_is_better: false
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
     date: Apr 2026
     date_display: Apr 2026
     date_iso: 2026-04
@@ -1201,7 +1053,7 @@ results:
     date: Apr 2026
     date_display: Apr 2026
     date_iso: 2026-04
-    global_rank: 75
+    global_rank: 77
     true_value: 0.066
     true_std: 0.003
     value_gap_source_arxiv: '2604.17324'
@@ -1212,44 +1064,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 75
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.066
-    sort_std: 0.003
-    is_best: false
-  - model: Exphormer
-    model_key: exphormer
-    model_plain: Exphormer
-    value: 0.066
-    std: 0.003
-    paper_value: 0.066
-    paper_std: 0.003
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Apr 2026
-    date_display: Apr 2026
-    date_iso: 2026-04
-    global_rank: 75
-    true_value: 0.066
-    true_std: 0.003
-    value_gap_source_arxiv: '2604.17324'
-    value_gap_source_title: 'SigGate-GT: Taming Over-Smoothing in Graph Transformers
-      via Sigmoid-Gated Attention'
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 75
+    paper_rank: 77
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1270,12 +1085,12 @@ results:
     override_reason: ''
     params_millions: null
     table_ref: Table 1
-    source_ref: "Ramp\xE1sek 2022"
+    source_ref: Rampásek 2022
     variant_inference_reason: 'zinc: paper text matched subset'
     date: Apr 2026
     date_display: Apr 2026
     date_iso: 2026-04
-    global_rank: 96
+    global_rank: 98
     true_value: 0.069
     true_std: 0.008
     value_gap_source_arxiv: '2604.24293'
@@ -1286,46 +1101,9 @@ results:
     has_value_note: true
     value_gap: 0.0010000000000000009
     value_note: global 0.0690 within std
-    paper_rank: 104
-    rank_delta: 8
-    rank_delta_abs: 8
-    rank_delta_direction: worse
-    sort_value: 0.069
-    sort_std: 0.008
-    is_best: false
-  - model: GraphGPS
-    model_key: graphgps
-    model_plain: GraphGPS
-    value: 0.07
-    std: 0.004
-    paper_value: 0.07
-    paper_std: 0.004
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Apr 2026
-    date_display: Apr 2026
-    date_iso: 2026-04
-    global_rank: 96
-    true_value: 0.069
-    true_std: 0.008
-    value_gap_source_arxiv: '2604.24293'
-    value_gap_source_title: 'Latent-Hysteresis Graph ODEs: Modeling Coupled Topology-Feature
-      Evolution via Continuous Phase Transitions'
-    value_gap_source_is_current_paper: false
-    has_value_gap: false
-    has_value_note: true
-    value_gap: 0.0010000000000000009
-    value_note: global 0.0690 within std
-    paper_rank: 104
-    rank_delta: 8
-    rank_delta_abs: 8
+    paper_rank: 107
+    rank_delta: 9
+    rank_delta_abs: 9
     rank_delta_direction: worse
     sort_value: 0.069
     sort_std: 0.008
@@ -1349,7 +1127,7 @@ results:
     date: Apr 2026
     date_display: Apr 2026
     date_iso: 2026-04
-    global_rank: 126
+    global_rank: 131
     true_value: 0.076
     true_std: 0.009
     value_gap_source_arxiv: '2502.09263'
@@ -1360,46 +1138,9 @@ results:
     has_value_note: false
     value_gap: 0.291
     value_note: ''
-    paper_rank: 271
-    rank_delta: 145
-    rank_delta_abs: 145
-    rank_delta_direction: worse
-    sort_value: 0.076
-    sort_std: 0.009
-    is_best: false
-  - model: GCN
-    model_key: gcn
-    model_plain: GCN
-    value: 0.367
-    std: 0.011
-    paper_value: 0.367
-    paper_std: 0.011
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Apr 2026
-    date_display: Apr 2026
-    date_iso: 2026-04
-    global_rank: 126
-    true_value: 0.076
-    true_std: 0.009
-    value_gap_source_arxiv: '2502.09263'
-    value_gap_source_title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks?
-      Simple Architectures Meet Excellence
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.291
-    value_note: ''
-    paper_rank: 271
-    rank_delta: 145
-    rank_delta_abs: 145
+    paper_rank: 285
+    rank_delta: 154
+    rank_delta_abs: 154
     rank_delta_direction: worse
     sort_value: 0.076
     sort_std: 0.009
@@ -1423,7 +1164,7 @@ results:
     date: Apr 2026
     date_display: Apr 2026
     date_iso: 2026-04
-    global_rank: 127
+    global_rank: 132
     true_value: 0.077
     true_std: 0.005
     value_gap_source_arxiv: '2502.09263'
@@ -1434,46 +1175,9 @@ results:
     has_value_note: false
     value_gap: 0.20499999999999996
     value_note: ''
-    paper_rank: 256
-    rank_delta: 129
-    rank_delta_abs: 129
-    rank_delta_direction: worse
-    sort_value: 0.077
-    sort_std: 0.005
-    is_best: false
-  - model: GatedGCN
-    model_key: gatedgcn
-    model_plain: GatedGCN
-    value: 0.282
-    std: 0.015
-    paper_value: 0.282
-    paper_std: 0.015
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Apr 2026
-    date_display: Apr 2026
-    date_iso: 2026-04
-    global_rank: 127
-    true_value: 0.077
-    true_std: 0.005
-    value_gap_source_arxiv: '2502.09263'
-    value_gap_source_title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks?
-      Simple Architectures Meet Excellence
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.20499999999999996
-    value_note: ''
-    paper_rank: 256
-    rank_delta: 129
-    rank_delta_abs: 129
+    paper_rank: 270
+    rank_delta: 138
+    rank_delta_abs: 138
     rank_delta_direction: worse
     sort_value: 0.077
     sort_std: 0.005
@@ -1497,7 +1201,7 @@ results:
     date: Apr 2026
     date_display: Apr 2026
     date_iso: 2026-04
-    global_rank: 211
+    global_rank: 224
     true_value: 0.1341
     true_std: 0.0063
     value_gap_source_arxiv: '2602.02268'
@@ -1508,44 +1212,7 @@ results:
     has_value_note: true
     value_gap: 0.0049000000000000155
     value_note: global 0.1341 within std
-    paper_rank: 212
-    rank_delta: 1
-    rank_delta_abs: 1
-    rank_delta_direction: worse
-    sort_value: 0.1341
-    sort_std: 0.0063
-    is_best: false
-  - model: SAN
-    model_key: san
-    model_plain: SAN
-    value: 0.139
-    std: 0.006
-    paper_value: 0.139
-    paper_std: 0.006
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Apr 2026
-    date_display: Apr 2026
-    date_iso: 2026-04
-    global_rank: 211
-    true_value: 0.1341
-    true_std: 0.0063
-    value_gap_source_arxiv: '2602.02268'
-    value_gap_source_title: 'HopFormer: Sparse Graph Transformers with Explicit Receptive
-      Field Control'
-    value_gap_source_is_current_paper: false
-    has_value_gap: false
-    has_value_note: true
-    value_gap: 0.0049000000000000155
-    value_note: global 0.1341 within std
-    paper_rank: 212
+    paper_rank: 225
     rank_delta: 1
     rank_delta_abs: 1
     rank_delta_direction: worse
@@ -1569,8 +1236,8 @@ results:
     override_reason: ''
     params_millions: null
     arxiv_id: '2511.16767'
-    title: "When Structure Doesn\u2019t Help: LLMs Do Not Read Text-Attributed Graphs\
-      \ as Effectively as We Expected"
+    title: 'When Structure Doesn’t Help: LLMs Do Not Read Text-Attributed Graphs as
+      Effectively as We Expected'
     date: Nov 2025
     date_display: Nov 2025
     date_iso: 2025-11
@@ -1593,8 +1260,8 @@ results:
     override_reason: ''
     params_millions: null
     arxiv_id: '2511.16767'
-    title: "When Structure Doesn\u2019t Help: LLMs Do Not Read Text-Attributed Graphs\
-      \ as Effectively as We Expected"
+    title: 'When Structure Doesn’t Help: LLMs Do Not Read Text-Attributed Graphs as
+      Effectively as We Expected'
     date: Nov 2025
     date_display: Nov 2025
     date_iso: 2025-11
@@ -1628,16 +1295,16 @@ results:
     true_value: 0.9681
     true_std: 0.0003
     value_gap_source_arxiv: '2511.16767'
-    value_gap_source_title: "When Structure Doesn\u2019t Help: LLMs Do Not Read Text-Attributed\
-      \ Graphs as Effectively as We Expected"
+    value_gap_source_title: 'When Structure Doesn’t Help: LLMs Do Not Read Text-Attributed
+      Graphs as Effectively as We Expected'
     value_gap_source_is_current_paper: false
     has_value_gap: true
     has_value_note: false
     value_gap: 0.2074999999999999
     value_note: ''
-    paper_rank: 150
-    rank_delta: 147
-    rank_delta_abs: 147
+    paper_rank: 161
+    rank_delta: 158
+    rank_delta_abs: 158
     rank_delta_direction: worse
     sort_value: 0.9681
     sort_std: 0.0003
@@ -1656,7 +1323,7 @@ results:
     arxiv_id: '2502.02379'
     title: 'No Metric to Rule Them All: Toward Principled Evaluations of Graph-Learning
       Datasets'
-    date: '2025-02-04'
+    date: Feb 4, 2025
     date_display: Feb 2025
     date_iso: '2025-02-04'
     codebase_url: ''
@@ -1796,7 +1463,7 @@ results:
     date: Apr 2026
     date_display: Apr 2026
     date_iso: 2026-04
-    global_rank: 11
+    global_rank: 12
     true_value: 0.8075
     true_std: 0.0094
     value_gap_source_arxiv: '2604.17324'
@@ -1807,7 +1474,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 11
+    paper_rank: 12
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1833,7 +1500,7 @@ results:
     date: Apr 2026
     date_display: Apr 2026
     date_iso: 2026-04
-    global_rank: 14
+    global_rank: 15
     true_value: 0.8058
     true_std: null
     value_gap_source_arxiv: '2604.17324'
@@ -1844,7 +1511,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 14
+    paper_rank: 15
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1870,7 +1537,7 @@ results:
     date: Apr 2026
     date_display: Apr 2026
     date_iso: 2026-04
-    global_rank: 15
+    global_rank: 16
     true_value: 0.8051
     true_std: 0.0053
     value_gap_source_arxiv: '2604.17324'
@@ -1881,7 +1548,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 15
+    paper_rank: 16
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1907,7 +1574,7 @@ results:
     date: Apr 2026
     date_display: Apr 2026
     date_iso: 2026-04
-    global_rank: 30
+    global_rank: 31
     true_value: 0.8012
     true_std: null
     value_gap_source_arxiv: '2604.17324'
@@ -1918,7 +1585,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 30
+    paper_rank: 31
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1944,7 +1611,7 @@ results:
     date: Apr 2026
     date_display: Apr 2026
     date_iso: 2026-04
-    global_rank: 58
+    global_rank: 63
     true_value: 0.7905
     true_std: 0.0132
     value_gap_source_arxiv: '2604.17324'
@@ -1955,7 +1622,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 58
+    paper_rank: 63
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1976,12 +1643,12 @@ results:
     override_reason: ''
     params_millions: null
     table_ref: Table 1
-    source_ref: "Ramp\xE1sek et al. 2022"
+    source_ref: Rampásek et al. 2022
     variant_inference_reason: 'dataset: exact match'
     date: Apr 2026
     date_display: Apr 2026
     date_iso: 2026-04
-    global_rank: 69
+    global_rank: 75
     true_value: 0.788
     true_std: 0.0101
     value_gap_source_arxiv: '2604.17324'
@@ -1992,7 +1659,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 69
+    paper_rank: 75
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2013,12 +1680,12 @@ results:
     override_reason: ''
     params_millions: null
     table_ref: Table 2
-    source_ref: "Ramp\xE1sek et al. 2022"
+    source_ref: Rampásek et al. 2022
     variant_inference_reason: ''
     date: Apr 2026
     date_display: Apr 2026
     date_iso: 2026-04
-    global_rank: 76
+    global_rank: 82
     true_value: 0.7879999999999999
     true_std: null
     value_gap_source_arxiv: '2604.17324'
@@ -2029,7 +1696,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 76
+    paper_rank: 82
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2055,7 +1722,7 @@ results:
     date: Apr 2026
     date_display: Apr 2026
     date_iso: 2026-04
-    global_rank: 81
+    global_rank: 87
     true_value: 0.7858
     true_std: 0.01
     value_gap_source_arxiv: '2604.17324'
@@ -2066,7 +1733,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 81
+    paper_rank: 87
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2092,7 +1759,7 @@ results:
     date: Apr 2026
     date_display: Apr 2026
     date_iso: 2026-04
-    global_rank: 106
+    global_rank: 116
     true_value: 0.7795000000000001
     true_std: null
     value_gap_source_arxiv: '2604.17324'
@@ -2103,7 +1770,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 106
+    paper_rank: 116
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2272,7 +1939,7 @@ results:
     override_reason: ''
     params_millions: null
     table_ref: Table 1
-    source_ref: "Ramp\xE1sek 2022"
+    source_ref: Rampásek 2022
     variant_inference_reason: 'dataset: exact match'
     date: Apr 2026
     date_display: Apr 2026

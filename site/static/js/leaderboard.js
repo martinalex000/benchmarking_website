@@ -255,10 +255,10 @@
 
   function _normalizeModelFamily(name) {
     var raw = String(name || "").trim().toLowerCase();
-    if (/^gcn(?:\s|\(|$)/.test(raw)) return "gcn";
-    if (/^gin(?:\s|\(|$)/.test(raw)) return "gin";
-    if (/^graphsage(?:\s|\(|$)/.test(raw)) return "graphsage";
-    if (/^mlp(?:\s|\(|$)/.test(raw)) return "mlp";
+    if (raw === "gcn") return "gcn";
+    if (raw === "gin") return "gin";
+    if (raw === "graphsage") return "graphsage";
+    if (raw === "mlp") return "mlp";
     return "";
   }
 
@@ -356,11 +356,36 @@
         error: "rgba(180,83,9,0.95)",
       };
     }
+    if (datum && !datum.is_baseline) {
+      return {
+        fill: "rgba(107,114,128,0.68)",
+        stroke: "rgba(75,85,99,0.9)",
+        error: "rgba(75,85,99,0.82)",
+      };
+    }
     return {
-      fill: "rgba(156,163,175,0.55)",
-      stroke: "rgba(107,114,128,0.7)",
-      error: "rgba(107,114,128,0.85)",
+      fill: "rgba(209,213,219,0.78)",
+      stroke: "rgba(156,163,175,0.9)",
+      error: "rgba(156,163,175,0.78)",
     };
+  }
+
+  function _scatterPriority(datum) {
+    if (!datum) return 0;
+    if (datum._isRecord) return 3;
+    if (datum._isSotaMatch) return 2;
+    if (!datum.is_baseline) return 1;
+    return 0;
+  }
+
+  function _sortScatterByPriority(data) {
+    return (data || []).slice().sort(function (a, b) {
+      var pa = _scatterPriority(a);
+      var pb = _scatterPriority(b);
+      if (pa !== pb) return pa - pb;
+      if (a.x !== b.x) return a.x - b.x;
+      return a.y - b.y;
+    });
   }
 
   function _stdIntervalsOverlap(aValue, aStd, bValue, bStd) {
@@ -398,6 +423,7 @@
     var visibleScatter = showBaselines
       ? chart._scatterAll.slice()
       : chart._scatterAll.filter(function (d) { return !d.is_baseline || d._isRecord || d._isSotaMatch; });
+    visibleScatter = _sortScatterByPriority(visibleScatter);
     var visibleRecord = showBaselines
       ? chart._recordAll.slice()
       : chart._recordAll.slice();
@@ -719,18 +745,33 @@
     };
 
     // ── afterDraw plugin: draw ± std error bars ───────────────────────
-    function _drawErrorBar(ctx, px, yScale, yVal, std, color, capHalf) {
+    function _drawErrorBar(ctx, chartArea, px, yScale, yVal, std, color, capHalf) {
       var yHi = yScale.getPixelForValue(yVal + std);
       var yLo = yScale.getPixelForValue(yVal - std);
+      if (![px, yHi, yLo].every(function (v) { return typeof v === "number" && isFinite(v); })) return;
+      if (px < chartArea.left || px > chartArea.right) return;
+      if (Math.max(yHi, yLo) < chartArea.top || Math.min(yHi, yLo) > chartArea.bottom) return;
+
+      var clippedHi = Math.max(chartArea.top, Math.min(chartArea.bottom, yHi));
+      var clippedLo = Math.max(chartArea.top, Math.min(chartArea.bottom, yLo));
+      if (Math.abs(clippedHi - clippedLo) < 0.5) return;
+
       ctx.save();
+      ctx.beginPath();
+      ctx.rect(chartArea.left, chartArea.top, chartArea.right - chartArea.left, chartArea.bottom - chartArea.top);
+      ctx.clip();
       ctx.strokeStyle = color;
       ctx.lineWidth = 1.5;
       // vertical stem
-      ctx.beginPath(); ctx.moveTo(px, yHi); ctx.lineTo(px, yLo); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(px, clippedHi); ctx.lineTo(px, clippedLo); ctx.stroke();
       // top cap
-      ctx.beginPath(); ctx.moveTo(px - capHalf, yHi); ctx.lineTo(px + capHalf, yHi); ctx.stroke();
+      if (yHi >= chartArea.top && yHi <= chartArea.bottom) {
+        ctx.beginPath(); ctx.moveTo(px - capHalf, clippedHi); ctx.lineTo(px + capHalf, clippedHi); ctx.stroke();
+      }
       // bottom cap
-      ctx.beginPath(); ctx.moveTo(px - capHalf, yLo); ctx.lineTo(px + capHalf, yLo); ctx.stroke();
+      if (yLo >= chartArea.top && yLo <= chartArea.bottom) {
+        ctx.beginPath(); ctx.moveTo(px - capHalf, clippedLo); ctx.lineTo(px + capHalf, clippedLo); ctx.stroke();
+      }
       ctx.restore();
     }
 
@@ -740,6 +781,7 @@
         if (!showStd) return;
         var ctx = chart.ctx;
         var yScale = chart.scales.y;
+        var chartArea = chart.chartArea;
         // Scatter dataset (index 0)
         var scatterDataset = chart.data.datasets[0];
         var scatterPoints = scatterDataset && scatterDataset.data ? scatterDataset.data : [];
@@ -748,7 +790,7 @@
           sm.data.forEach(function (point, i) {
             var d = scatterPoints[i];
             if (!d || d.std == null) return;
-            _drawErrorBar(ctx, point.x, yScale, d.y, d.std, _semanticPointColors(d).error, 5);
+            _drawErrorBar(ctx, chartArea, point.x, yScale, d.y, d.std, _semanticPointColors(d).error, 5);
           });
         }
         // Records dataset (index 1)
@@ -759,7 +801,7 @@
           rm.data.forEach(function (point, i) {
             var d = recordPoints[i];
             if (!d || !d._isRecord || d.std == null) return;
-            _drawErrorBar(ctx, point.x, yScale, d.y, d.std, "rgba(37,99,235,0.7)", 7);
+            _drawErrorBar(ctx, chartArea, point.x, yScale, d.y, d.std, "rgba(37,99,235,0.7)", 7);
           });
         }
 
@@ -771,7 +813,7 @@
         var activeDatum = activeDs.data[hp.index];
         if (!activeDatum || activeDatum.std == null) return;
         var activePoint = activeMeta.data[hp.index];
-        _drawErrorBar(ctx, activePoint.x, yScale, activeDatum.y, activeDatum.std, _semanticPointColors(activeDatum).error, 9);
+        _drawErrorBar(ctx, chartArea, activePoint.x, yScale, activeDatum.y, activeDatum.std, _semanticPointColors(activeDatum).error, 9);
       },
     };
 
@@ -785,8 +827,6 @@
         var yScale = chart.scales.y;
         var area = chart.chartArea;
         ctx.save();
-        ctx.font = "600 11px sans-serif";
-        var refsByValue = refs.slice().sort(function (a, b) { return b.value - a.value; });
         refs.forEach(function (ref) {
           var py = yScale.getPixelForValue(ref.value);
           if (!isFinite(py) || py < area.top || py > area.bottom) return;
@@ -799,7 +839,26 @@
           ctx.lineTo(area.right, py);
           ctx.stroke();
           ctx.restore();
+        });
+        ctx.restore();
+      },
+    };
 
+    var referenceLabelsPlugin = {
+      id: "referenceLabels_" + slug,
+      afterDatasetsDraw: function (chart) {
+        var refs = references;
+        if (!refs.length) return;
+
+        var ctx = chart.ctx;
+        var yScale = chart.scales.y;
+        var area = chart.chartArea;
+        ctx.save();
+        ctx.font = "600 11px sans-serif";
+        var refsByValue = refs.slice().sort(function (a, b) { return b.value - a.value; });
+        refs.forEach(function (ref) {
+          var py = yScale.getPixelForValue(ref.value);
+          if (!isFinite(py) || py < area.top || py > area.bottom) return;
           var textWidth = ctx.measureText(ref.label).width;
           var labelX = Math.max(area.left + 8, area.right - textWidth - 12);
           var order = refsByValue.findIndex(function (candidate) { return candidate === ref; });
@@ -929,7 +988,7 @@
           _onChartClick(slug, elements, chart);
         },
       },
-      plugins: [yearLinesPlugin, referenceLinesPlugin, labelPlugin, errorBarsPlugin],
+      plugins: [yearLinesPlugin, referenceLinesPlugin, errorBarsPlugin, referenceLabelsPlugin, labelPlugin],
     });
 
     chart._scatterAll = scatterData.slice();

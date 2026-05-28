@@ -59,7 +59,7 @@ results:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_display: Jan 2025
     date_iso: '2025-01-29'
     codebase_url: ''
@@ -90,7 +90,7 @@ results:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_display: Jan 2025
     date_iso: '2025-01-29'
     codebase_url: ''
@@ -121,7 +121,7 @@ results:
     params_millions: null
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: '2025-01-29'
+    date: Jan 29, 2025
     date_display: Jan 2025
     date_iso: '2025-01-29'
     codebase_url: ''
@@ -171,7 +171,7 @@ results:
     codebase_url: ''
     uses_external_data: null
     is_best: false
-    global_rank: 161
+    global_rank: 163
   - model: 7-\ell{}GIN
     model_key: 7-\ell{}gin
     model_plain: 7-\ell{}GIN
@@ -206,7 +206,7 @@ results:
     codebase_url: ''
     uses_external_data: null
     is_best: false
-    global_rank: 162
+    global_rank: 164
   - model: Kipf et al.
     model_key: kipf et al.
     model_plain: Kipf et al.
@@ -241,7 +241,7 @@ results:
     codebase_url: ''
     uses_external_data: null
     is_best: false
-    global_rank: 262
+    global_rank: 264
   - model: Hu et al.
     model_key: hu et al.
     model_plain: Hu et al.
@@ -276,7 +276,7 @@ results:
     codebase_url: ''
     uses_external_data: null
     is_best: false
-    global_rank: 263
+    global_rank: 265
   - model: Kipf et al. (GCN)
     model_key: kipf et al. (gcn)
     model_plain: Kipf et al. (GCN)
@@ -311,7 +311,7 @@ results:
     codebase_url: ''
     uses_external_data: null
     is_best: false
-    global_rank: 264
+    global_rank: 266
   - model: Hu et al. (Graphormer-like/Strategies)
     model_key: hu et al. (graphormer-like/strategies)
     model_plain: Hu et al. (Graphormer-like/Strategies)
@@ -346,7 +346,7 @@ results:
     codebase_url: ''
     uses_external_data: null
     is_best: false
-    global_rank: 265
+    global_rank: 267
   - model: Bresson et al.
     model_key: bresson et al.
     model_plain: Bresson et al.
@@ -381,7 +381,7 @@ results:
     codebase_url: ''
     uses_external_data: null
     is_best: false
-    global_rank: 272
+    global_rank: 274
   metrics:
   - AP
   - MAE
@@ -426,7 +426,7 @@ results:
     params_millions: 1.0
     arxiv_id: '2405.02795'
     title: Graph as Point Set
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
     codebase_url: ''
@@ -819,7 +819,7 @@ results:
     params_millions: 1.0
     arxiv_id: '2405.02795'
     title: Graph as Point Set
-    date: '2024-05-05'
+    date: May 5, 2024
     date_display: May 2024
     date_iso: '2024-05-05'
     codebase_url: ''
@@ -848,7 +848,7 @@ results:
     date: Mar 2024
     date_display: Mar 2024
     date_iso: 2024-03
-    global_rank: 112
+    global_rank: 115
     true_value: 0.072
     true_std: 0.002
     value_gap_source_arxiv: '2403.13749'
@@ -859,7 +859,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 112
+    paper_rank: 115
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -885,7 +885,7 @@ results:
     date: Mar 2024
     date_display: Mar 2024
     date_iso: 2024-03
-    global_rank: 131
+    global_rank: 136
     true_value: 0.077
     true_std: 0.001
     value_gap_source_arxiv: '2403.13749'
@@ -896,7 +896,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 131
+    paper_rank: 136
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -922,7 +922,7 @@ results:
     date: Mar 2024
     date_display: Mar 2024
     date_iso: 2024-03
-    global_rank: 132
+    global_rank: 137
     true_value: 0.077
     true_std: 0.0
     value_gap_source_arxiv: '2403.13749'
@@ -933,7 +933,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 132
+    paper_rank: 137
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -959,7 +959,7 @@ results:
     date: Mar 2024
     date_display: Mar 2024
     date_iso: 2024-03
-    global_rank: 237
+    global_rank: 250
     true_value: 0.184
     true_std: 0.007
     value_gap_source_arxiv: '2403.13749'
@@ -970,7 +970,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 237
+    paper_rank: 250
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -996,7 +996,7 @@ results:
     date: Mar 2024
     date_display: Mar 2024
     date_iso: 2024-03
-    global_rank: 245
+    global_rank: 259
     true_value: 0.198
     true_std: 0.008
     value_gap_source_arxiv: '2403.13749'
@@ -1007,7 +1007,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 245
+    paper_rank: 259
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1033,7 +1033,7 @@ results:
     date: Mar 2024
     date_display: Mar 2024
     date_iso: 2024-03
-    global_rank: 246
+    global_rank: 260
     true_value: 0.201
     true_std: 0.004
     value_gap_source_arxiv: '2403.13749'
@@ -1044,7 +1044,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 246
+    paper_rank: 260
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1070,7 +1070,7 @@ results:
     date: Mar 2024
     date_display: Mar 2024
     date_iso: 2024-03
-    global_rank: 248
+    global_rank: 262
     true_value: 0.209
     true_std: 0.007
     value_gap_source_arxiv: '2403.13749'
@@ -1081,7 +1081,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 248
+    paper_rank: 262
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
