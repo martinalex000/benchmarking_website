@@ -292,6 +292,10 @@ claimed):
 - total papers currently in `todo_papers`
 - maximum `seen_count` (max references observed so far)
 
+The header also includes a live `ui_tick` clock. If shared state is briefly
+contended, the dashboard keeps rendering from a cached snapshot and labels this
+state, so the interface remains interactive instead of freezing.
+
 Use **Up/Down** arrow keys (or **k/j**) to scroll only the Finished papers
 window while the rest of the dashboard keeps updating live.
 

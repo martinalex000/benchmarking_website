@@ -123,58 +123,133 @@ class DashboardState:
         self.total_failed = 0
         self.queue_total: int = 0
         self.queue_max_refs: int = 0
+        self._render_cache: dict = {
+            "snapshot": [],
+            "events": [],
+            "finished_lines": [],
+            "finished_scroll": 0,
+            "total_done": 0,
+            "total_failed": 0,
+            "desired_workers": workers,
+            "drain_requests": 0,
+            "queue_total": 0,
+            "queue_max_refs": 0,
+        }
 
     def add_event(self, message: str) -> None:
-        with self.lock:
-            self.events.append(message)
+        if self.lock.acquire(timeout=0.05):
+            try:
+                self.events.append(message)
+            finally:
+                self.lock.release()
 
     def add_finished_line(self, line: str) -> None:
-        with self.lock:
-            self.finished_lines.append(line)
+        if self.lock.acquire(timeout=0.05):
+            try:
+                self.finished_lines.append(line)
+            finally:
+                self.lock.release()
 
     def scroll_finished(self, delta: int) -> None:
-        with self.lock:
-            max_scroll = max(0, len(self.finished_lines) - 1)
-            self.finished_scroll = max(0, min(max_scroll, self.finished_scroll + delta))
+        if self.lock.acquire(timeout=0.05):
+            try:
+                max_scroll = max(0, len(self.finished_lines) - 1)
+                self.finished_scroll = max(0, min(max_scroll, self.finished_scroll + delta))
+            finally:
+                self.lock.release()
 
     def request_scale_up(self) -> None:
-        with self.lock:
-            self.scale_up_requests += 1
-            self.desired_workers += 1
-            self.events.append("scale up requested (+1 worker)")
+        if self.lock.acquire(timeout=0.05):
+            try:
+                self.scale_up_requests += 1
+                self.desired_workers += 1
+                self.events.append("scale up requested (+1 worker)")
+            finally:
+                self.lock.release()
 
     def request_scale_down(self) -> None:
-        with self.lock:
-            if self.desired_workers <= 0:
-                self.events.append("scale down ignored (already at 0 workers)")
-                return
-            self.desired_workers -= 1
-            self.drain_requests += 1
-            self.events.append("scale down requested (drain 1 worker)")
+        if self.lock.acquire(timeout=0.05):
+            try:
+                if self.desired_workers <= 0:
+                    self.events.append("scale down ignored (already at 0 workers)")
+                    return
+                self.desired_workers -= 1
+                self.drain_requests += 1
+                self.events.append("scale down requested (drain 1 worker)")
+            finally:
+                self.lock.release()
 
     def consume_scale_up_requests(self) -> int:
-        with self.lock:
-            requested = self.scale_up_requests
-            self.scale_up_requests = 0
-            return requested
+        if self.lock.acquire(timeout=0.05):
+            try:
+                requested = self.scale_up_requests
+                self.scale_up_requests = 0
+                return requested
+            finally:
+                self.lock.release()
+        return 0
 
     def reserve_new_worker_id(self) -> int:
-        with self.lock:
-            worker_id = self.next_worker_id
-            self.next_worker_id += 1
-            self.worker_states.append(WorkerState(worker_id=worker_id))
-            return worker_id
+        if self.lock.acquire(timeout=0.05):
+            try:
+                worker_id = self.next_worker_id
+                self.next_worker_id += 1
+                self.worker_states.append(WorkerState(worker_id=worker_id))
+                return worker_id
+            finally:
+                self.lock.release()
+        return -1
 
     def consume_drain_slot(self) -> bool:
-        with self.lock:
-            if self.drain_requests <= 0:
-                return False
-            self.drain_requests -= 1
-            return True
+        if self.lock.acquire(timeout=0.05):
+            try:
+                if self.drain_requests <= 0:
+                    return False
+                self.drain_requests -= 1
+                return True
+            finally:
+                self.lock.release()
+        return False
 
     def snapshot_counts(self) -> tuple[int, int]:
-        with self.lock:
-            return self.desired_workers, self.drain_requests
+        if self.lock.acquire(timeout=0.05):
+            try:
+                return self.desired_workers, self.drain_requests
+            finally:
+                self.lock.release()
+        cache = self._render_cache
+        return int(cache.get("desired_workers", 0)), int(cache.get("drain_requests", 0))
+
+    def snapshot_for_render(self, now: float) -> tuple[dict, bool]:
+        """Return a safe render snapshot without ever blocking the UI thread."""
+        if self.lock.acquire(timeout=0.05):
+            try:
+                snapshot = [
+                    WorkerState(**vars(s))
+                    for s in self.worker_states
+                    if not (
+                        s.status == "drained"
+                        and s.drained_at is not None
+                        and (now - s.drained_at) >= DRAINED_ROW_TTL_S
+                    )
+                ]
+                data = {
+                    "snapshot": snapshot,
+                    "events": list(self.events),
+                    "finished_lines": list(self.finished_lines),
+                    "finished_scroll": self.finished_scroll,
+                    "total_done": self.total_done,
+                    "total_failed": self.total_failed,
+                    "desired_workers": self.desired_workers,
+                    "drain_requests": self.drain_requests,
+                    "queue_total": self.queue_total,
+                    "queue_max_refs": self.queue_max_refs,
+                }
+                self._render_cache = data
+                return data, False
+            finally:
+                self.lock.release()
+        return self._render_cache, True
 
 
 def _trim(text: str, max_len: int) -> str:
@@ -330,25 +405,17 @@ def _format_age(seconds: float | None) -> str:
 
 def _render_dashboard(dash: DashboardState) -> Group:
     now = time.time()
-    with dash.lock:
-        snapshot = [
-            s
-            for s in dash.worker_states
-            if not (
-                s.status == "drained"
-                and s.drained_at is not None
-                and (now - s.drained_at) >= DRAINED_ROW_TTL_S
-            )
-        ]
-        events = list(dash.events)
-        finished_lines = list(dash.finished_lines)
-        finished_scroll = dash.finished_scroll
-        total_done = dash.total_done
-        total_failed = dash.total_failed
-        desired_workers = dash.desired_workers
-        drain_requests = dash.drain_requests
-        queue_total = dash.queue_total
-        queue_max_refs = dash.queue_max_refs
+    snap, using_cache = dash.snapshot_for_render(now)
+    snapshot = snap["snapshot"]
+    events = snap["events"]
+    finished_lines = snap["finished_lines"]
+    finished_scroll = snap["finished_scroll"]
+    total_done = snap["total_done"]
+    total_failed = snap["total_failed"]
+    desired_workers = snap["desired_workers"]
+    drain_requests = snap["drain_requests"]
+    queue_total = snap["queue_total"]
+    queue_max_refs = snap["queue_max_refs"]
 
     table = Table(expand=True)
     table.add_column("W", width=3, justify="right", no_wrap=True)
@@ -393,8 +460,11 @@ def _render_dashboard(dash: DashboardState) -> Group:
             summary_text,
         )
 
+    ui_tick = time.strftime("%H:%M:%S", time.localtime(now))
+    stale_note = "  [snapshot cached]" if using_cache else ""
     header = Text(
         "todo_queue dashboard   "
+        f"ui_tick={ui_tick}{stale_note}   "
         f"done={total_done}   failed={total_failed}   "
         f"queue_total={queue_total}   queue_max_refs={queue_max_refs}   "
         f"target_workers={desired_workers}   draining={drain_requests}   "
@@ -759,9 +829,10 @@ def main(argv: list[str] | None = None) -> None:
             while True:
                 for _ in range(dash.consume_scale_up_requests()):
                     new_worker_id = dash.reserve_new_worker_id()
+                    if new_worker_id < 0:
+                        continue
                     _spawn_worker(new_worker_id)
-                    with dash.lock:
-                        dash.events.append(f"w{new_worker_id} spawned")
+                    dash.add_event(f"w{new_worker_id} spawned")
 
                 threads[:] = [t for t in threads if t.is_alive()]
 
