@@ -156,7 +156,7 @@ def audit_single_paper(
     if not storage.llm_output_path.exists():
         return None
 
-    raw = json.loads(storage.llm_output_path.read_text(encoding="utf-8"))
+    raw = storage.load_llm_output()
     results_payload = raw.get("results") or {}
     title = _load_title(storage, raw)
     overrides = _load_overrides(storage.overrides_path)

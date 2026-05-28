@@ -40,6 +40,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+import yaml
+
 # Allow running from project root without installing
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
@@ -154,12 +156,15 @@ def _values_match(a: float, b: float) -> bool:
 
 
 def _load_baseline(arxiv_id: str) -> list[dict]:
-    path = cfg.papers_dir / arxiv_id / "extracted" / "llm_output.json"
+    yaml_path = cfg.papers_dir / arxiv_id / "extracted" / "llm_output.yaml"
+    json_path = cfg.papers_dir / arxiv_id / "extracted" / "llm_output.json"
+    path = yaml_path if yaml_path.exists() else json_path
     if not path.exists():
         return []
     try:
-        data = json.loads(path.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError) as exc:
+        text = path.read_text(encoding="utf-8")
+        data = yaml.safe_load(text) if path.suffix == ".yaml" else json.loads(text)
+    except (OSError, json.JSONDecodeError, yaml.YAMLError) as exc:
         logger.warning("Could not load baseline for %s: %s", arxiv_id, exc)
         return []
     if data.get("model_used") != _BASELINE_MODEL:
@@ -468,14 +473,17 @@ def _find_papers_with_baseline() -> list[str]:
     for p in sorted(cfg.papers_dir.iterdir()):
         if not p.is_dir():
             continue
-        path = p / "extracted" / "llm_output.json"
+        yaml_path = p / "extracted" / "llm_output.yaml"
+        json_path = p / "extracted" / "llm_output.json"
+        path = yaml_path if yaml_path.exists() else json_path
         if not path.exists():
             continue
         try:
-            data = json.loads(path.read_text(encoding="utf-8"))
+            text = path.read_text(encoding="utf-8")
+            data = yaml.safe_load(text) if path.suffix == ".yaml" else json.loads(text)
             if data.get("model_used") == _BASELINE_MODEL:
                 ids.append(p.name)
-        except (OSError, json.JSONDecodeError):
+        except (OSError, json.JSONDecodeError, yaml.YAMLError):
             pass
     return ids
 

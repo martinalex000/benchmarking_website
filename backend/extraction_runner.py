@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import json
 import logging
 from collections.abc import Callable
 from datetime import datetime, timezone
@@ -61,7 +60,7 @@ def run_extraction(
         and storage.llm_output_path.exists()
     ):
         try:
-            existing = json.loads(storage.llm_output_path.read_text(encoding="utf-8"))
+            existing = storage.load_llm_output()
             if existing.get("model_used") == fallback_model_name:
                 logger.info(
                     "Fallback results already exist for %s (model=%s) — skipping. "
@@ -381,14 +380,12 @@ def run_figure_detection(arxiv_id: str, model_tier: str = "primary") -> bool:
         return False
 
     try:
-        output = json.loads(storage.llm_output_path.read_text(encoding="utf-8"))
+        output = storage.load_llm_output()
         output["figure"] = figure_out.model_dump()
-        storage.llm_output_path.write_text(
-            json.dumps(output, indent=2, ensure_ascii=False), encoding="utf-8"
-        )
+        storage.save_llm_output(output)
         logger.info("Updated figure info in %s", storage.llm_output_path.name)
     except Exception as exc:
-        logger.error("Could not update llm_output.json: %s", exc)
+        logger.error("Could not update extraction output: %s", exc)
         return False
 
     figure_info = figure_out.model_dump()

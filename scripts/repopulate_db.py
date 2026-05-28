@@ -20,7 +20,7 @@ Usage::
     # Re-extract without wiping DB (upserts results, keeps overrides)
     uv run python scripts/repopulate_db.py
 
-    # Re-parse only (skip LLM calls, re-read existing llm_output.json files)
+    # Re-parse only (skip LLM calls, re-read existing llm_output artifacts)
     uv run python scripts/repopulate_db.py --skip-extract
 
     # Extract only, don't touch the DB yet
@@ -100,7 +100,7 @@ def main() -> None:
         "--clean",
         action="store_true",
         help=(
-            "Start from a clean slate: delete the database and all previous llm_output*.json "
+            "Start from a clean slate: delete the database and all previous llm_output*.yaml/json "
             "files before re-running.  Downloads (PDF/HTML/LaTeX) are kept.  The DB is "
             "re-seeded from config/seed_data.yaml after the wipe."
         ),
@@ -108,7 +108,7 @@ def main() -> None:
     parser.add_argument(
         "--skip-extract",
         action="store_true",
-        help="Skip LLM extraction; only re-parse existing llm_output.json files",
+        help="Skip LLM extraction; only re-parse existing llm_output artifacts",
     )
     parser.add_argument(
         "--skip-parse",
@@ -164,7 +164,9 @@ def main() -> None:
 
             for aid in arxiv_ids:
                 s = PaperStorage(aid)
-                for f in s.extracted_dir.glob("llm_output*.json"):
+                for f in list(s.extracted_dir.glob("llm_output*.yaml")) + list(
+                    s.extracted_dir.glob("llm_output*.json")
+                ):
                     console.print(f"  • {f.relative_to(cfg.project_root)}")
             console.print()
 
@@ -198,12 +200,15 @@ def main() -> None:
             cfg.db_path.unlink()
             console.print(f"  Deleted [dim]{cfg.db_path}[/dim]")
 
-        # Delete all llm_output*.json files for the affected papers
+        # Delete all llm_output artifacts for the affected papers
         from backend.paper_storage import PaperStorage
 
         for aid in arxiv_ids:
             s = PaperStorage(aid)
-            for f in sorted(s.extracted_dir.glob("llm_output*.json")):
+            for f in sorted(
+                list(s.extracted_dir.glob("llm_output*.yaml"))
+                + list(s.extracted_dir.glob("llm_output*.json"))
+            ):
                 f.unlink()
                 console.print(f"  Deleted [dim]{f.relative_to(cfg.project_root)}[/dim]")
 
@@ -252,7 +257,7 @@ def main() -> None:
 
             s = PaperStorage(aid)
             if not s.llm_output_path.exists():
-                console.print(f"  [yellow]Skip parse[/yellow] — no llm_output.json")
+                console.print(f"  [yellow]Skip parse[/yellow] — no llm_output artifact")
                 skip_count += 1
                 continue
             try:

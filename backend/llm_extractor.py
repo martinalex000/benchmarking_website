@@ -1,12 +1,12 @@
 """LLM extraction pipeline.
 
 Orchestrates LLM calls to extract from a paper:
-  1. Benchmark results (tables → structured JSON)
+    1. Benchmark results (tables → structured YAML)
   2. Main figure identification
   3. Model parameter counts
 
 Saves:
-  - papers/{id}/extracted/llm_output.json   (raw, gitignored)
+    - papers/{id}/extracted/llm_output.yaml   (raw, gitignored)
   - papers/{id}/extracted/results_human_readable.md  (TRACKED in git)
 
 Usage::
@@ -2166,8 +2166,12 @@ class LLMExtractor:
         """Extract model parameter counts."""
         prompt = self._read_prompt("model_size.txt")
         try:
-            raw = self._call_json(
-                prompt, paper_text[:_CHUNK_SIZE], max_tokens=1024, call_type="model_sizes"
+            raw = self._call_structured(
+                prompt,
+                paper_text[:_CHUNK_SIZE],
+                max_tokens=1024,
+                call_type="model_sizes",
+                output_format=self.result_output_format,
             )
             if isinstance(raw, list):
                 return [ModelSizeEntry.model_validate(item) for item in raw]
@@ -2304,16 +2308,16 @@ class LLMExtractor:
         else:
             artifact_dir = storage.extracted_dir
         artifact_dir.mkdir(parents=True, exist_ok=True)
-        llm_output_path = artifact_dir / "llm_output.json"
+        llm_output_path = artifact_dir / "llm_output.yaml"
         human_readable_path = artifact_dir / "results_human_readable.md"
-        call_log_path = artifact_dir / "llm_calls.json"
+        call_log_path = artifact_dir / "llm_calls.yaml"
 
-        # Save raw JSON
+        # Save raw YAML
         llm_output_path.write_text(
-            json.dumps(output, indent=2, ensure_ascii=False), encoding="utf-8"
+            yaml.safe_dump(output, allow_unicode=True, sort_keys=False), encoding="utf-8"
         )
         call_log_path.write_text(
-            json.dumps(
+            yaml.safe_dump(
                 [
                     {
                         "call_type": rec.call_type,
@@ -2330,8 +2334,8 @@ class LLMExtractor:
                     }
                     for rec in self._call_log
                 ],
-                indent=2,
-                ensure_ascii=False,
+                allow_unicode=True,
+                sort_keys=False,
             ),
             encoding="utf-8",
         )
@@ -3170,7 +3174,7 @@ def _build_parser() -> argparse.ArgumentParser:
     )
     p.add_argument(
         "--result-output-format",
-        choices=["json", "yaml"],
+        choices=["yaml"],
         default="yaml",
         help="Structured result format requested from the model (default: yaml)",
     )

@@ -161,7 +161,7 @@ def _get_rejected_ids() -> dict[str, str]:
 
 
 def _has_local_extraction(arxiv_id: str) -> bool:
-    """True if the paper has an llm_output.json on disk (even if not in DB yet)."""
+    """True if the paper has an llm_output artifact on disk (even if not in DB yet)."""
     from backend.paper_storage import PaperStorage
 
     return PaperStorage(arxiv_id).llm_output_path.exists()

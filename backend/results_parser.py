@@ -465,7 +465,7 @@ def _enrich_paper_metadata(arxiv_id: str, paper: Paper, storage: PaperStorage) -
 
     if not paper.codebase_url and storage.llm_output_path.exists():
         try:
-            raw_output = json.loads(storage.llm_output_path.read_text(encoding="utf-8"))
+            raw_output = storage.load_llm_output()
             repository = raw_output.get("repository")
             if isinstance(repository, dict) and repository.get("verified_url"):
                 paper.codebase_url = str(repository["verified_url"]).strip()
@@ -602,7 +602,7 @@ def parse_and_store_with_summary(arxiv_id: str) -> ParseStoreSummary:
         logger.error("No LLM output found for arXiv:%s — run extractor first", arxiv_id)
         return summary
 
-    raw = json.loads(storage.llm_output_path.read_text(encoding="utf-8"))
+    raw = storage.load_llm_output()
     extraction = raw.get("results", {})
     model_name_used = raw.get("model_used", "unknown")
     summary.extraction_model = model_name_used

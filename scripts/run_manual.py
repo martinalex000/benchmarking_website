@@ -360,8 +360,7 @@ def _show_existing_extraction(arxiv_id: str, requested_model: str) -> bool:
     if not storage.llm_output_path.exists():
         return False
     try:
-        with storage.llm_output_path.open() as f:
-            data = json.load(f)
+        data = storage.load_llm_output()
         existing_model = data.get("model_used", "unknown")
         extracted_at = (data.get("extracted_at") or "")[:10]
         n_results = len(data.get("results", {}).get("results", []))
@@ -398,13 +397,18 @@ def _show_existing_extraction(arxiv_id: str, requested_model: str) -> bool:
 
 
 def _print_extraction_summary(path: Path) -> None:
-    """Pretty-print results from an llm_output.json file."""
+    """Pretty-print results from an llm_output YAML/JSON file."""
     if not path.exists():
         console.print("  [red]No output file found.[/red]")
         return
     try:
-        with path.open() as f:
-            data = json.load(f)
+        import yaml
+
+        text = path.read_text(encoding="utf-8")
+        if path.suffix.lower() in {".yaml", ".yml"}:
+            data = yaml.safe_load(text) or {}
+        else:
+            data = json.loads(text)
         results = data.get("results", {})
         rows = results.get("results", [])
         confidence = results.get("extraction_confidence", "?")
@@ -598,7 +602,7 @@ def _run_for_tier(arxiv_id: str, model_tier: str, force: bool) -> None:
     console.print(f"\n[bold]── {model_name} (tier={model_tier}) ──[/bold]")
 
     storage = PaperStorage(arxiv_id)
-    tier_out = storage.llm_output_path.parent / f"llm_output_{model_tier}.json"
+    tier_out = storage.llm_output_path.parent / f"llm_output_{model_tier}.yaml"
 
     if not force and tier_out.exists():
         console.print("  [dim]Cached — showing existing result[/dim]")
@@ -613,7 +617,7 @@ def _run_for_tier(arxiv_id: str, model_tier: str, force: bool) -> None:
         result_output_format=_MANUAL_RESULT_OUTPUT_FORMAT,
     )
 
-    # Copy main llm_output.json to tier-specific file so runs don't overwrite each other
+    # Copy main llm_output artifact to tier-specific file so runs don't overwrite each other
     if ok and storage.llm_output_path.exists():
         shutil.copy2(storage.llm_output_path, tier_out)
         _print_extraction_summary(tier_out)
@@ -709,7 +713,7 @@ def _collect_unknown_datasets(arxiv_id: str, paper_title: str = "") -> int:
     if not storage.llm_output_path.exists():
         return 0
 
-    raw = json.loads(storage.llm_output_path.read_text(encoding="utf-8"))
+    raw = storage.load_llm_output()
     result_entries = raw.get("results", {}).get("results", [])
     if not result_entries:
         return 0

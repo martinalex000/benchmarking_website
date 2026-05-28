@@ -8,7 +8,8 @@ Each paper lives under  papers/{arxiv_id}/
   │   └── index.html (+ linked assets)
   ├── extracted/
   │   ├── text.txt           ← gitignored (derived)
-  │   ├── llm_output.json    ← gitignored (derived)
+    │   ├── llm_output.yaml    ← gitignored (derived, default)
+    │   ├── llm_output.json    ← legacy fallback (compatibility)
   │   └── results_human_readable.md  ← TRACKED in git (verification artifact)
   └── figures/
       └── main_figure.{png|jpg}  ← gitignored
@@ -20,6 +21,8 @@ import json
 import logging
 from datetime import datetime, timezone
 from pathlib import Path
+
+import yaml
 
 from backend.config import cfg
 
@@ -86,6 +89,20 @@ class PaperStorage:
 
     @property
     def llm_output_path(self) -> Path:
+        yaml_path = self.extracted_dir / "llm_output.yaml"
+        json_path = self.extracted_dir / "llm_output.json"
+        if yaml_path.exists():
+            return yaml_path
+        if json_path.exists():
+            return json_path
+        return yaml_path
+
+    @property
+    def llm_output_yaml_path(self) -> Path:
+        return self.extracted_dir / "llm_output.yaml"
+
+    @property
+    def llm_output_json_path(self) -> Path:
         return self.extracted_dir / "llm_output.json"
 
     @property
@@ -164,3 +181,26 @@ class PaperStorage:
             return json.loads(self.metadata_path.read_text(encoding="utf-8"))
         except (ValueError, OSError):
             return {}
+
+    def load_llm_output(self) -> dict:
+        """Load extraction output, preferring YAML and falling back to JSON."""
+        path = self.llm_output_path
+        if not path.exists():
+            return {}
+        try:
+            text = path.read_text(encoding="utf-8")
+            if path.suffix.lower() in {".yaml", ".yml"}:
+                return yaml.safe_load(text) or {}
+            return json.loads(text)
+        except (ValueError, OSError, yaml.YAMLError):
+            return {}
+
+    def save_llm_output(self, payload: dict) -> Path:
+        """Save extraction output in YAML format (project default)."""
+        self.extracted_dir.mkdir(parents=True, exist_ok=True)
+        out_path = self.llm_output_yaml_path
+        out_path.write_text(
+            yaml.safe_dump(payload, allow_unicode=True, sort_keys=False),
+            encoding="utf-8",
+        )
+        return out_path

@@ -155,7 +155,7 @@ def _paper_explicit_param_map(arxiv_id: str | None) -> dict[str, float]:
     try:
         storage = PaperStorage(arxiv_id)
         if storage.llm_output_path.exists():
-            raw = json.loads(storage.llm_output_path.read_text(encoding="utf-8"))
+            raw = storage.load_llm_output()
             results = raw.get("results", {})
             candidates: list[dict[str, Any]] = []
             proposed = results.get("proposed_model")
@@ -704,8 +704,8 @@ def _compute_paper_mrr(
     included).  Only datasets that have ≥10 global entries count toward MRR.
 
     "Primary proposed model" = the model named in the LLM extraction's
-    ``proposed_model.name`` field (read from llm_output.json).  Falls back to
-    the first non-baseline model found if the JSON is unavailable.
+    ``proposed_model.name`` field (read from llm_output artifact). Falls back to
+    the first non-baseline model found if the artifact is unavailable.
 
     Adjusted MRR uses a three-dataset floor, i.e. it divides the reciprocal-rank
     sum by ``max(dataset_count, 3)``. This penalizes papers evaluated on very few
@@ -735,9 +735,7 @@ def _compute_paper_mrr(
 
         storage = PaperStorage(paper.arxiv_id)
         if storage.llm_output_path.exists():
-            import json as _json
-
-            raw = _json.loads(storage.llm_output_path.read_text(encoding="utf-8"))
+            raw = storage.load_llm_output()
             proposed_info = raw.get("results", {}).get("proposed_model") or {}
             raw_name = (proposed_info.get("name") or "").strip()
             if raw_name:
