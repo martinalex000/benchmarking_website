@@ -1,7 +1,11 @@
 """Unit tests for LLM extractor helpers (no actual LLM calls)."""
 
+from types import SimpleNamespace
+
 import pytest
 from backend.llm_extractor import (
+    DatasetInfo,
+    DatasetList,
     ExtractionOutput,
     LLMExtractor,
     ProposedModel,
@@ -186,3 +190,77 @@ def test_rename_generic_proposed_rows_uses_intro_hint():
 )
 def test_title_looks_corrupted(title, expected):
     assert _title_looks_corrupted(title) is expected
+
+
+def test_extract_results_two_step_retries_after_empty_latex_discovery(monkeypatch):
+    extractor = LLMExtractor()
+    fallback_calls: list[tuple[str, str]] = []
+
+    latex_paper = SimpleNamespace(
+        tables=[],
+        experiment_text="We evaluate CRAWL on ZINC and a subgraph counting task.",
+        intro_text="",
+        all_table_captions="Performance on ZINC and subgraph counting.",
+        section_headings="Experiments\nAppendix Results",
+    )
+
+    monkeypatch.setattr(
+        extractor,
+        "discover_datasets_from_latex",
+        lambda paper: DatasetList(),
+    )
+
+    def fake_discover_datasets(paper_text: str, tables_text: str) -> DatasetList:
+        fallback_calls.append((paper_text, tables_text))
+        return DatasetList(
+            datasets=[
+                DatasetInfo(name="subgraph counting"),
+                DatasetInfo(name="ZINC"),
+            ]
+        )
+
+    monkeypatch.setattr(extractor, "discover_datasets", fake_discover_datasets)
+    monkeypatch.setattr(
+        "backend.llm_extractor._ripgrep_dataset_name_hits",
+        lambda text, source_path=None, limit=80: ["ZINC"],
+    )
+    monkeypatch.setattr(extractor, "_read_result_prompt", lambda full_mode=False: "prompt")
+    monkeypatch.setattr(
+        extractor,
+        "_build_rag_context",
+        lambda rag_text, ds_tables, ds_name, already_selected=False: (
+            f"context for {ds_name}",
+            {
+                "paragraphs_selected": 1,
+                "paragraphs_total": 1,
+                "tables_selected": 0,
+                "tables_total": 0,
+                "table_selection_mode": "all",
+                "context_total_chars": 10,
+            },
+        ),
+    )
+
+    def fake_extract_results_chunk(prompt: str, text: str, call_type: str = "extract_results"):
+        dataset = text.split('FOCUS: Extract results ONLY for the dataset "', 1)[1].split('".', 1)[
+            0
+        ]
+        return ExtractionOutput(
+            results=[
+                ResultEntry(
+                    model="CRAWL", is_proposed=True, dataset=dataset, metric="AP", value=0.8
+                )
+            ]
+        )
+
+    monkeypatch.setattr(extractor, "_extract_results_chunk", fake_extract_results_chunk)
+
+    result = extractor.extract_results_two_step(
+        paper_text="CRAWL evaluates on ZINC.",
+        tables=[],
+        latex_paper=latex_paper,
+    )
+
+    assert len(fallback_calls) == 1
+    assert {entry.dataset for entry in result.results} == {"ZINC", "subgraph counting"}
+    assert result.extraction_notes != "Dataset discovery returned no datasets."

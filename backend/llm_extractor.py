@@ -255,6 +255,26 @@ def _ripgrep_dataset_name_hits(
     return hits
 
 
+def _discovery_text_excerpts(text: str, chunk_size: int = 6_000) -> list[str]:
+    """Return head/tail excerpts for discovery prompts without dropping appendices."""
+    clean = text.strip()
+    if not clean:
+        return []
+    if len(clean) <= chunk_size * 2:
+        return [clean]
+    return [clean[:chunk_size], clean[-chunk_size:]]
+
+
+def _noncanonical_dataset_hints(text: str) -> list[str]:
+    """Return common non-canonical dataset/task names seen in appendix tables."""
+    hints: list[str] = []
+    if re.search(r"\bsubgraph counting\b", text, flags=re.IGNORECASE):
+        hints.append("subgraph counting")
+    if re.search(r"\breddit-bin(?:ary)?\b", text, flags=re.IGNORECASE):
+        hints.append("REDDIT-BINARY")
+    return hints
+
+
 def _extract_metadata_from_latex_cache(latex_dir: "Path") -> "dict[str, str]":
     """Read title and abstract from a cached expanded.tex without a full parse.
 
@@ -572,6 +592,34 @@ class DatasetInfo(BaseModel):
 class DatasetList(BaseModel):
     datasets: list[DatasetInfo] = Field(default_factory=list)
     notes: str = ""
+
+
+def _merge_dataset_lists(*dataset_lists: DatasetList) -> DatasetList:
+    """Merge dataset discovery results while preserving first-seen order."""
+    merged: list[DatasetInfo] = []
+    seen: dict[str, DatasetInfo] = {}
+    notes: list[str] = []
+
+    for dataset_list in dataset_lists:
+        if dataset_list.notes:
+            notes.append(dataset_list.notes)
+        for ds in dataset_list.datasets:
+            key = ds.name.strip().lower()
+            if not key:
+                continue
+            existing = seen.get(key)
+            if existing is None:
+                clone = DatasetInfo.model_validate(ds.model_dump())
+                merged.append(clone)
+                seen[key] = clone
+                continue
+            if ds.primary_metric and not existing.primary_metric:
+                existing.primary_metric = ds.primary_metric
+            for table_ref in ds.table_refs:
+                if table_ref not in existing.table_refs:
+                    existing.table_refs.append(table_ref)
+
+    return DatasetList(datasets=merged, notes="\n".join(note for note in notes if note))
 
 
 class FigureInfo(BaseModel):
@@ -1261,16 +1309,17 @@ class LLMExtractor:
             f"=== SECTION HEADINGS ===\n{latex_paper.section_headings}",
         ]
         exp_text = latex_paper.experiment_text
-        precheck_source_parts = [
-            latex_paper.intro_text,
+        exp_excerpts = _discovery_text_excerpts(exp_text)
+        high_precision_source_parts = [
             latex_paper.all_table_captions,
-            latex_paper.section_headings,
+            table_catalogue,
         ]
-        if exp_text:
-            precheck_source_parts.append(exp_text[:6000])
-        precheck_source = "\n\n".join(part for part in precheck_source_parts if part.strip())
-        precheck_hits = _ripgrep_dataset_name_hits(
-            precheck_source,
+        high_precision_source = "\n\n".join(
+            part for part in high_precision_source_parts if part.strip()
+        )
+        precheck_hits = _ripgrep_dataset_name_hits(high_precision_source)
+        precheck_hits = list(
+            dict.fromkeys(precheck_hits + _noncanonical_dataset_hints(high_precision_source))
         )
         if precheck_hits:
             parts.append(
@@ -1279,12 +1328,12 @@ class LLMExtractor:
                 "dataset names only when the paper actually reports benchmark results for them.\n"
                 + "\n".join(f"- {name}" for name in precheck_hits)
             )
-        # Include a snippet of experiment-section text so the LLM can see dataset
-        # names that appear only in the body (not in intro or table captions).
-        if exp_text:
-            parts.append(
-                f"=== EXPERIMENT SECTION EXCERPT (first 6000 chars) ===\n{exp_text[:6000]}"
-            )
+        # Include experiment-section excerpts so the LLM can see dataset names
+        # that appear only in the body or appendix (not in intro or captions).
+        if exp_excerpts:
+            parts.append(f"=== EXPERIMENT SECTION EXCERPT (head) ===\n{exp_excerpts[0]}")
+            if len(exp_excerpts) > 1:
+                parts.append(f"=== EXPERIMENT SECTION EXCERPT (tail) ===\n{exp_excerpts[1]}")
         # Inject known-dataset hints from the DB so the model matches canonical names.
         known_hint = _get_known_dataset_names_hint()
         if known_hint:
@@ -1302,6 +1351,11 @@ class LLMExtractor:
                 call_type="discover_datasets_latex",
             )
             result = DatasetList.model_validate(raw)
+            if precheck_hits:
+                result = _merge_dataset_lists(
+                    result,
+                    DatasetList(datasets=[DatasetInfo(name=name) for name in precheck_hits]),
+                )
             logger.info(
                 "LaTeX dataset discovery: found %d dataset(s): %s",
                 len(result.datasets),
@@ -1319,6 +1373,55 @@ class LLMExtractor:
             logger.warning("LaTeX dataset discovery failed: %s", exc)
             self._fire_progress()
             return DatasetList()
+
+    def _discover_datasets_from_latex_fallback(
+        self,
+        latex_paper: Any,
+        paper_text: str,
+        effective_tables: list[Any],
+    ) -> DatasetList:
+        """Retry discovery with compact text/table previews when LaTeX discovery misses."""
+        fallback_parts = [
+            latex_paper.intro_text,
+            latex_paper.section_headings,
+            latex_paper.experiment_text,
+            paper_text,
+        ]
+        fallback_paper_text = "\n\n".join(part for part in fallback_parts if part and part.strip())
+        if effective_tables:
+            fallback_tables_text = "\n\n".join(
+                f"[{getattr(t, 'caption', '') or ''}]\n{getattr(t, 'markdown', str(t))}"
+                for t in effective_tables
+            )
+        else:
+            fallback_tables_text = latex_paper.all_table_captions or ""
+
+        fallback_result = self.discover_datasets(fallback_paper_text, fallback_tables_text)
+
+        exact_hit_source = "\n\n".join(
+            part
+            for part in [
+                latex_paper.intro_text,
+                latex_paper.section_headings,
+                latex_paper.all_table_captions,
+                latex_paper.experiment_text,
+                paper_text,
+            ]
+            if part and part.strip()
+        )
+        exact_hits = DatasetList(
+            datasets=[
+                DatasetInfo(name=name) for name in _ripgrep_dataset_name_hits(exact_hit_source)
+            ]
+        )
+        merged = _merge_dataset_lists(fallback_result, exact_hits)
+        if merged.datasets:
+            logger.info(
+                "Fallback dataset discovery recovered %d dataset(s): %s",
+                len(merged.datasets),
+                [d.name for d in merged.datasets],
+            )
+        return merged
 
     @staticmethod
     def _table_header(table: Any) -> str:
@@ -1731,6 +1834,13 @@ class LLMExtractor:
         # ── Step 1: discover datasets ──────────────────────────────────────
         if latex_paper is not None:
             datasets = self.discover_datasets_from_latex(latex_paper)
+            if not datasets.datasets:
+                logger.warning(
+                    "LaTeX discovery returned no datasets; retrying with generic discovery fallback"
+                )
+                datasets = self._discover_datasets_from_latex_fallback(
+                    latex_paper, paper_text, effective_tables
+                )
         elif effective_tables:
             tables_text = "\n\n".join(
                 f"[{getattr(t, 'caption', '') or ''}]\n{getattr(t, 'markdown', str(t))}"
@@ -1745,7 +1855,7 @@ class LLMExtractor:
             datasets = self.discover_datasets(paper_text, tables_text)
 
         if not datasets.datasets:
-            logger.warning("Step 1 returned no datasets — returning empty result (no fallback)")
+            logger.warning("Step 1 returned no datasets after fallback — returning empty result")
             return ExtractionOutput(
                 results=[],
                 extraction_notes="Dataset discovery returned no datasets.",
