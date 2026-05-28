@@ -220,7 +220,7 @@ def stage_extract(args: argparse.Namespace) -> None:
 
 
 def stage_parse(args: argparse.Namespace) -> None:
-    from backend.results_parser import parse_and_store
+    from backend.results_parser import parse_and_store_with_summary
     from tqdm import tqdm
 
     force = getattr(args, "force", False)
@@ -239,9 +239,15 @@ def stage_parse(args: argparse.Namespace) -> None:
             skip += 1
             continue
         try:
-            n = parse_and_store(p.arxiv_id)
+            summary = parse_and_store_with_summary(p.arxiv_id)
+            n = summary.new_results
             status = "success"
-            tqdm.write(f"  ✓  {p.arxiv_id}  {n} results stored  {p.title[:55]!r}")
+            if summary.quarantined:
+                tqdm.write(
+                    f"  !  {p.arxiv_id}  QUARANTINED ({'; '.join(summary.quarantine_reasons[:2])})  {p.title[:55]!r}"
+                )
+            else:
+                tqdm.write(f"  ✓  {p.arxiv_id}  {n} results stored  {p.title[:55]!r}")
         except Exception as exc:
             logger.error("Parse failed for %s: %s", p.arxiv_id, exc)
             status = "failed"

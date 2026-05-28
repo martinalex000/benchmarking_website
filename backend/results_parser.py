@@ -607,6 +607,44 @@ def parse_and_store_with_summary(arxiv_id: str) -> ParseStoreSummary:
     model_name_used = raw.get("model_used", "unknown")
     summary.extraction_model = model_name_used
 
+    call_log = storage.load_llm_calls()
+    parse_failures: list[str] = []
+    for call in call_log:
+        if not isinstance(call, dict):
+            continue
+        call_type = str(call.get("call_type") or "")
+        parse_error = str(call.get("parse_error") or "").strip()
+        if parse_error and (
+            call_type.startswith("extract_") or call_type.startswith("extract_dataset")
+        ):
+            parse_failures.append(f"{call_type}: {parse_error}")
+
+    if parse_failures:
+        with session_scope() as session:
+            paper = session.query(Paper).filter_by(arxiv_id=arxiv_id).first()
+            if paper is None:
+                paper = Paper(
+                    arxiv_id=arxiv_id,
+                    title=f"arXiv:{arxiv_id}",
+                    extraction_status="downloaded",
+                    discovery_source="manual",
+                )
+                session.add(paper)
+                session.flush()
+                summary.created_stub_paper = True
+
+            paper.extraction_model = model_name_used
+            paper.extraction_status = "quarantined_yaml_parse"
+
+        summary.quarantined = True
+        summary.quarantine_reasons = parse_failures[:5]
+        logger.warning(
+            "Quarantining arXiv:%s due to structured YAML parse failure(s): %s",
+            arxiv_id,
+            "; ".join(parse_failures[:2]),
+        )
+        return summary
+
     result_entries: list[dict] = extraction.get("results", [])
     proposed_model_info: dict = extraction.get("proposed_model") or {}
     baseline_models_info: list[dict] = extraction.get("baseline_models") or []
@@ -787,6 +825,12 @@ def parse_and_store_with_summary(arxiv_id: str) -> ParseStoreSummary:
             summary.new_results += 1
 
     logger.info("Stored %d new Result rows for arXiv:%s", summary.new_results, arxiv_id)
+    if summary.updated_results:
+        logger.info(
+            "Updated %d existing Result row(s) for arXiv:%s — usually duplicate model/dataset/metric keys in the extraction output",
+            summary.updated_results,
+            arxiv_id,
+        )
 
     # Always re-apply overrides after inserting fresh results
     overridden = apply_overrides_to_db(arxiv_id)

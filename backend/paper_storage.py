@@ -106,6 +106,10 @@ class PaperStorage:
         return self.extracted_dir / "llm_output.json"
 
     @property
+    def llm_calls_path(self) -> Path:
+        return self.extracted_dir / "llm_calls.yaml"
+
+    @property
     def human_readable_path(self) -> Path:
         return self.extracted_dir / "results_human_readable.md"
 
@@ -204,3 +208,13 @@ class PaperStorage:
             encoding="utf-8",
         )
         return out_path
+
+    def load_llm_calls(self) -> list[dict]:
+        """Load structured call logs for the most recent extraction, if present."""
+        if not self.llm_calls_path.exists():
+            return []
+        try:
+            loaded = yaml.safe_load(self.llm_calls_path.read_text(encoding="utf-8")) or []
+        except (ValueError, OSError, yaml.YAMLError):
+            return []
+        return loaded if isinstance(loaded, list) else []

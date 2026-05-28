@@ -554,7 +554,15 @@ def _show_latex_stats(arxiv_id: str) -> None:
 
 def _print_parse_summary(summary) -> None:
     if summary.quarantined:
-        console.print("  [yellow]Paper quarantined due to suspicious method names.[/yellow]")
+        if summary.quarantine_reasons and any(
+            "parse" in reason.lower() or "yaml" in reason.lower()
+            for reason in summary.quarantine_reasons
+        ):
+            console.print(
+                "  [yellow]Paper quarantined due to YAML extraction parse failure.[/yellow]"
+            )
+        else:
+            console.print("  [yellow]Paper quarantined due to suspicious method names.[/yellow]")
         if summary.quarantine_model_names:
             console.print(
                 "  [dim]Suspicious names: "
@@ -1287,6 +1295,8 @@ def main() -> None:
     changes_detected = (
         summary.new_results > 0 or summary.updated_results > 0 or summary.overrides_applied > 0
     )
+    if summary.quarantined or summary.metadata_changed:
+        changes_detected = True
     if pending_added:
         changes_detected = True
 
