@@ -744,9 +744,10 @@ def parse_and_store_with_summary(arxiv_id: str) -> ParseStoreSummary:
                 continue
             if existing:
                 # Update in-place
-                _update_result(existing, entry, model_name_used)
+                changed = _update_result(existing, entry, model_name_used)
                 existing.variant_inference_reason = variant_reason
-                summary.updated_results += 1
+                if changed:
+                    summary.updated_results += 1
                 continue
 
             # Parse value/std
@@ -824,16 +825,23 @@ def _parse_entry_value(entry: dict) -> tuple[float | None, float | None]:
     return value, std
 
 
-def _update_result(result: Result, entry: dict, model_name_used: str) -> None:
+def _update_result(result: Result, entry: dict, model_name_used: str) -> bool:
+    changed = False
     value, std = _parse_entry_value(entry)
-    if value is not None:
+    if value is not None and result.metric_value != value:
         result.metric_value = value
-    if std is not None:
+        changed = True
+    if std is not None and result.metric_std != std:
         result.metric_std = std
+        changed = True
     if "uses_external_data" in entry and result.uses_external_data is None:
         ued = entry["uses_external_data"]
         result.uses_external_data = 1 if ued is True else 0 if ued is False else None
-    result.extraction_model = model_name_used
+        changed = True
+    if result.extraction_model != model_name_used:
+        result.extraction_model = model_name_used
+        changed = True
+    return changed
 
 
 # ── CLI ───────────────────────────────────────────────────────────────────────

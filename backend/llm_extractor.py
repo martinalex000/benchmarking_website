@@ -2087,24 +2087,12 @@ class LLMExtractor:
     def _extract_results_chunk(
         self, prompt: str, text: str, call_type: str = "extract_results"
     ) -> ExtractionOutput:
-        try:
-            raw = self._call_structured(
-                prompt,
-                text,
-                call_type=call_type,
-                output_format=self.result_output_format,
-            )
-        except Exception:
-            # Some models occasionally emit invalid YAML for long outputs; retry once as JSON.
-            if self.result_output_format != "yaml":
-                raise
-            logger.warning("%s returned invalid YAML; retrying once with JSON format", call_type)
-            raw = self._call_structured(
-                prompt,
-                text,
-                call_type=f"{call_type}:json_retry",
-                output_format="json",
-            )
+        raw = self._call_structured(
+            prompt,
+            text,
+            call_type=call_type,
+            output_format=self.result_output_format,
+        )
         raw = _expand_extraction_payload(raw)
         raw = _sanitize_extraction_payload(raw)
         return ExtractionOutput.model_validate(raw)
@@ -3111,6 +3099,7 @@ def run_extraction(
     model_tier: str = "primary",
     screen_first: bool = True,
     fallback_on_failure: bool = True,
+    allow_cached_fallback_skip: bool = True,
     extraction_strategy: str = "auto",
     result_output_format: str = "yaml",
     experiment_label: str | None = None,
@@ -3125,6 +3114,7 @@ def run_extraction(
         model_tier=model_tier,
         screen_first=screen_first,
         fallback_on_failure=fallback_on_failure,
+        allow_cached_fallback_skip=allow_cached_fallback_skip,
         extraction_strategy=extraction_strategy,
         result_output_format=result_output_format,
         experiment_label=experiment_label,

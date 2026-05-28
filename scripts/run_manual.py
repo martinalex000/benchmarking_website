@@ -500,6 +500,7 @@ def _do_extract(
         arxiv_id,
         model_tier=model_tier,
         screen_first=screen,
+        allow_cached_fallback_skip=not force,
         extraction_strategy=strategy,
         result_output_format=_MANUAL_RESULT_OUTPUT_FORMAT,
         phase_transition_callback=phase_transition_callback,
@@ -1257,7 +1258,7 @@ def main() -> None:
     console.print("\n[bold]5. Parse Results into DB[/bold]")
 
     # Collect unknown datasets non-interactively; user reviews later
-    _collect_unknown_datasets(arxiv_id, paper_title)
+    pending_added = _collect_unknown_datasets(arxiv_id, paper_title)
 
     from backend.results_parser import parse_and_store_with_summary
 
@@ -1265,10 +1266,19 @@ def main() -> None:
     _print_parse_summary(summary)
 
     # ── 6. Export ─────────────────────────────────────────────────────────
-    console.print("\n[bold]6. Build Hugo Pages[/bold]")
-    from backend.export_to_hugo import export_all
+    changes_detected = (
+        summary.new_results > 0 or summary.updated_results > 0 or summary.overrides_applied > 0
+    )
+    if pending_added:
+        changes_detected = True
 
-    export_all(arxiv_ids=[arxiv_id])
+    if changes_detected:
+        console.print("\n[bold]6. Build Hugo Pages[/bold]")
+        from backend.export_to_hugo import export_all
+
+        export_all(arxiv_ids=[arxiv_id])
+    else:
+        console.print("\n[dim]6. Build Hugo Pages — skipped (no DB/content changes detected)[/dim]")
 
     console.rule("[green]Done[/green]")
     console.print("Preview: [bold]cd site && /snap/bin/hugo server[/bold]")

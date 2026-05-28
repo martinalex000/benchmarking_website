@@ -32,6 +32,7 @@ def run_extraction(
     model_tier: str = "primary",
     screen_first: bool = True,
     fallback_on_failure: bool = True,
+    allow_cached_fallback_skip: bool = True,
     extraction_strategy: str = "auto",
     result_output_format: str = "yaml",
     experiment_label: str | None = None,
@@ -51,7 +52,14 @@ def run_extraction(
         return False
 
     fallback_model_name = cfg.model_for_tier("fallback")
-    if experiment_label is None and model_tier != "fallback" and storage.llm_output_path.exists():
+    requested_model_name = cfg.model_for_tier(model_tier)
+    if (
+        allow_cached_fallback_skip
+        and experiment_label is None
+        and model_tier != "fallback"
+        and requested_model_name != fallback_model_name
+        and storage.llm_output_path.exists()
+    ):
         try:
             existing = json.loads(storage.llm_output_path.read_text(encoding="utf-8"))
             if existing.get("model_used") == fallback_model_name:
