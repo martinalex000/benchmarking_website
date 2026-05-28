@@ -536,30 +536,28 @@
 
     function classifyHistoricalSota(ts, value, std, arxivId, model) {
       if (ts == null || value == null) return { isRecord: false, isSotaMatch: false };
-      var applicableMilestones = [];
+      var activeMilestone = null;
       for (var i = 0; i < milestoneTimeline.length; i++) {
         var m = milestoneTimeline[i];
         if (m.x > ts) break;
-        applicableMilestones.push(m);
+        activeMilestone = m;
       }
-      if (!applicableMilestones.length) return { isRecord: false, isSotaMatch: false };
+      if (!activeMilestone) return { isRecord: false, isSotaMatch: false };
 
-      var selfIsMilestone = applicableMilestones.some(function (m) {
-        return m.x === ts && m.arxiv_id === arxivId && m.model === model && Math.abs(m.y - value) <= 1e-9;
-      });
+      var selfIsMilestone = activeMilestone.x === ts &&
+        activeMilestone.arxiv_id === arxivId &&
+        activeMilestone.model === model &&
+        Math.abs(activeMilestone.y - value) <= 1e-9;
 
       if (selfIsMilestone) {
         return { isRecord: true, isSotaMatch: false };
       }
 
-      var matchesAnyHistoricalSota = applicableMilestones.some(function (m) {
-        var exactMatch = Math.abs(value - m.y) <= 1e-9;
-        var overlapMatch = _stdIntervalsOverlap(value, std, m.y, m.std);
-        return exactMatch || overlapMatch;
-      });
+      var exactMatch = Math.abs(value - activeMilestone.y) <= 1e-9;
+      var overlapMatch = _stdIntervalsOverlap(value, std, activeMilestone.y, activeMilestone.std);
       return {
         isRecord: false,
-        isSotaMatch: matchesAnyHistoricalSota,
+        isSotaMatch: exactMatch || overlapMatch,
       };
     }
 
@@ -750,7 +748,7 @@
           sm.data.forEach(function (point, i) {
             var d = scatterPoints[i];
             if (!d || d.std == null) return;
-            _drawErrorBar(ctx, point.x, yScale, d.y, d.std, "rgba(107,114,128,0.55)", 5);
+            _drawErrorBar(ctx, point.x, yScale, d.y, d.std, _semanticPointColors(d).error, 5);
           });
         }
         // Records dataset (index 1)
