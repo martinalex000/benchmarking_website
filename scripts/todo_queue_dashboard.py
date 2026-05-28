@@ -30,6 +30,7 @@ from rich.live import Live
 from rich.panel import Panel
 from rich.table import Table
 from rich.text import Text
+import yaml
 
 from backend.todo_queue import TodoQueueRunResult, process_queue
 
@@ -54,6 +55,7 @@ class WorkerState:
     confidence: str = ""
     results_count: int | None = None
     proposed_model: str = ""
+    dataset_breakdown: str = ""
     new_results: int = 0
     updated_results: int = 0
     started_at: float = 0.0
@@ -76,7 +78,9 @@ class WorkerState:
 
     def summary_short(self) -> str:
         bits: list[str] = []
-        if self.dataset_total:
+        if self.dataset_breakdown:
+            bits.append(f"datasets={self.dataset_breakdown}")
+        elif self.dataset_total:
             bits.append(f"datasets={self.dataset_total}")
         if self.results_count is not None:
             bits.append(f"results={self.results_count}")
@@ -121,6 +125,38 @@ def _trim(text: str, max_len: int) -> str:
     if len(text) <= max_len:
         return text
     return text[: max_len - 3] + "..."
+
+
+def _dataset_breakdown_from_output(arxiv_id: str) -> str:
+    """Return datasets sorted by extracted row count (descending)."""
+    output_path = (
+        Path(__file__).resolve().parents[1] / "papers" / arxiv_id / "extracted" / "llm_output.yaml"
+    )
+    if not output_path.exists():
+        return ""
+
+    try:
+        raw = yaml.safe_load(output_path.read_text(encoding="utf-8")) or {}
+        rows = raw.get("results", {}).get("results", [])
+        if not isinstance(rows, list):
+            return ""
+
+        counts: dict[str, int] = {}
+        for row in rows:
+            if not isinstance(row, dict):
+                continue
+            ds = str(row.get("dataset") or "").strip()
+            if not ds:
+                continue
+            counts[ds] = counts.get(ds, 0) + 1
+
+        if not counts:
+            return ""
+
+        ranked = sorted(counts.items(), key=lambda item: (-item[1], item[0].lower()))
+        return ", ".join(f"{name}({count})" for name, count in ranked)
+    except Exception:
+        return ""
 
 
 def _detect_status_from_line(line: str) -> str | None:
@@ -387,6 +423,7 @@ def _worker_loop(
                 state.confidence = ""
                 state.results_count = None
                 state.proposed_model = ""
+                state.dataset_breakdown = ""
                 state.new_results = 0
                 state.updated_results = 0
                 state.last_line = ""
@@ -402,6 +439,7 @@ def _worker_loop(
             )
 
         def _on_finish(_entry, status, _result, _index, _total):
+            dataset_breakdown = _dataset_breakdown_from_output(state.arxiv_id)
             with dash.lock:
                 if status == "done":
                     dash.total_done += 1
@@ -411,12 +449,15 @@ def _worker_loop(
                     dash.total_failed += 1
                     state.failed += 1
                     state.status = status
+                state.dataset_breakdown = dataset_breakdown
                 dash.events.append(f"w{worker_id} finished {state.arxiv_id} => {status}")
                 finished_summary = state.summary_short() or _trim(state.last_line, 80)
-                finished_line = (
-                    f"{state.arxiv_id:<12}  {(_trim(state.title, 30) or '-'):30}  "
-                    f"{status:<8}  {finished_summary}"
-                )
+                status_prefix = ""
+                if status == "rejected":
+                    status_prefix = "[yellow]REJECTED[/yellow] "
+                elif status == "failed":
+                    status_prefix = "[red]FAILED[/red] "
+                finished_line = f"{state.arxiv_id:<12}  {(_trim(state.title, 30) or '-'):30}  {status_prefix}{finished_summary}"
                 dash.finished_lines.append(finished_line)
 
         summary = process_queue(
