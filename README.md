@@ -277,13 +277,20 @@ uv run python scripts/todo_queue_dashboard.py --workers 10 --model primary \
 ```
 
 It shows, per worker: arXiv ID, paper title (truncated), current phase
-(download/pre-screen/discovery/per-dataset extraction), elapsed time, and a
-rolling summary (datasets, results, proposed model).
+(download/pre-screen/discovery/per-dataset extraction), elapsed time,
+last-update age (`Upd`), and a rolling summary (including refs-at-start,
+datasets, results, and proposed model).
 
 The dashboard also includes:
 
 - a **Finished papers** window (one line per completed paper with summary)
 - a **Recent worker output** window for rolling raw log lines
+
+The header also shows queue statistics (refreshed whenever a new job is
+claimed):
+
+- total papers currently in `todo_papers`
+- maximum `seen_count` (max references observed so far)
 
 Use **Up/Down** arrow keys (or **k/j**) to scroll only the Finished papers
 window while the rest of the dashboard keeps updating live.

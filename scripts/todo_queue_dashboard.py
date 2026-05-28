@@ -30,8 +30,11 @@ from rich.live import Live
 from rich.panel import Panel
 from rich.table import Table
 from rich.text import Text
+from sqlalchemy import func
 import yaml
 
+from backend.db import session_scope
+from backend.models import TodoPaper
 from backend.todo_queue import TodoQueueRunResult, process_queue
 
 ANSI_RE = re.compile(r"\x1B\[[0-?]*[ -/]*[@-~]")
@@ -57,9 +60,11 @@ class WorkerState:
     results_count: int | None = None
     proposed_model: str = ""
     dataset_breakdown: str = ""
+    refs_at_start: int = 0
     new_results: int = 0
     updated_results: int = 0
     started_at: float = 0.0
+    last_update_at: float | None = None
     completed: int = 0
     failed: int = 0
     drained_at: float | None = None
@@ -80,6 +85,8 @@ class WorkerState:
 
     def summary_short(self) -> str:
         bits: list[str] = []
+        if self.refs_at_start:
+            bits.append(f"refs={self.refs_at_start}")
         if self.dataset_breakdown:
             bits.append(f"datasets={self.dataset_breakdown}")
         elif self.dataset_total:
@@ -111,6 +118,8 @@ class DashboardState:
         self.finished_scroll: int = 0
         self.total_done = 0
         self.total_failed = 0
+        self.queue_total: int = 0
+        self.queue_max_refs: int = 0
 
     def add_event(self, message: str) -> None:
         with self.lock:
@@ -202,6 +211,17 @@ def _dataset_breakdown_from_output(arxiv_id: str) -> str:
         return ", ".join(f"{name}({count})" for name, count in ranked)
     except Exception:
         return ""
+
+
+def _queue_stats_snapshot() -> tuple[int, int]:
+    """Return (total rows in queue, max seen_count)."""
+    try:
+        with session_scope() as session:
+            total_rows = int(session.query(func.count(TodoPaper.id)).scalar() or 0)
+            max_refs = int(session.query(func.max(TodoPaper.seen_count)).scalar() or 0)
+        return total_rows, max_refs
+    except Exception:
+        return 0, 0
 
 
 def _detect_status_from_line(line: str) -> str | None:
@@ -297,6 +317,14 @@ def _format_elapsed(seconds: float) -> str:
     return f"{mins:02d}:{secs:02d}"
 
 
+def _format_age(seconds: float | None) -> str:
+    if seconds is None or seconds < 0:
+        return "--:--"
+    mins = int(seconds // 60)
+    secs = int(seconds % 60)
+    return f"{mins:02d}:{secs:02d}"
+
+
 def _render_dashboard(dash: DashboardState) -> Group:
     now = time.time()
     with dash.lock:
@@ -316,6 +344,8 @@ def _render_dashboard(dash: DashboardState) -> Group:
         total_failed = dash.total_failed
         desired_workers = dash.desired_workers
         drain_requests = dash.drain_requests
+        queue_total = dash.queue_total
+        queue_max_refs = dash.queue_max_refs
 
     table = Table(expand=True)
     table.add_column("W", width=3, justify="right", no_wrap=True)
@@ -323,6 +353,7 @@ def _render_dashboard(dash: DashboardState) -> Group:
     table.add_column("Title", width=30, no_wrap=True)
     table.add_column("Status", width=40, no_wrap=True)
     table.add_column("Elapsed", width=8, justify="right", no_wrap=True)
+    table.add_column("Upd", width=7, justify="right", no_wrap=True)
     table.add_column("Summary", ratio=1, min_width=20)
 
     for st in snapshot:
@@ -332,18 +363,23 @@ def _render_dashboard(dash: DashboardState) -> Group:
         elif st.status == "drained":
             status_text = "[grey62]drained[/grey62]"
         summary_text = st.summary_short() or st.last_line[:60]
+        age_s = None
+        if st.last_update_at is not None:
+            age_s = max(0.0, now - st.last_update_at)
         table.add_row(
             str(st.worker_id),
             st.arxiv_id,
             _trim(st.title_short(), 30),
             status_text,
             _format_elapsed(st.elapsed_s()),
+            _format_age(age_s),
             summary_text,
         )
 
     header = Text(
         "todo_queue dashboard   "
         f"done={total_done}   failed={total_failed}   "
+        f"queue_total={queue_total}   queue_max_refs={queue_max_refs}   "
         f"target_workers={desired_workers}   draining={drain_requests}   "
         "ctrl+c stop   arrows/j,k scroll finished   +/- scale workers",
         style="bold",
@@ -365,14 +401,8 @@ def _render_dashboard(dash: DashboardState) -> Group:
     log_lines = events[-16:] if events else ["(no worker log lines yet)"]
     log_panel = Panel("\n".join(log_lines), title="Recent worker output", border_style="cyan")
 
-    worker_panel = Panel(
-        table,
-        title="Workers",
-        border_style="blue",
-        expand=True,
-    )
-
-    return Group(header, worker_panel, finished_panel, log_panel)
+    workers_title = Text("Workers", style="bold")
+    return Group(header, workers_title, table, finished_panel, log_panel)
 
 
 def _keyboard_listener(dash: DashboardState) -> None:
@@ -462,6 +492,7 @@ def _run_manual_streaming(
 
             with dash.lock:
                 _update_state_from_line(worker_state, line)
+                worker_state.last_update_at = time.time()
                 dash.events.append(f"w{worker_state.worker_id} {arxiv_id}: {line[:180]}")
             continue
 
@@ -472,6 +503,7 @@ def _run_manual_streaming(
                     f"{int(inactivity_timeout_s)}s of inactivity"
                 )
                 worker_state.status = "timed out"
+                worker_state.last_update_at = time.time()
 
             proc.terminate()
             try:
@@ -494,6 +526,7 @@ def _run_manual_streaming(
         output_lines.append(line)
         with dash.lock:
             _update_state_from_line(worker_state, line)
+            worker_state.last_update_at = time.time()
             dash.events.append(f"w{worker_state.worker_id} {arxiv_id}: {line[:180]}")
 
     stdout = "\n".join(output_lines)
@@ -520,6 +553,7 @@ def _worker_loop(
                 state.status = "drained"
                 state.started_at = 0.0
                 state.drained_at = time.time()
+                state.last_update_at = time.time()
                 dash.events.append(f"w{worker_id} drained and exited")
             return
 
@@ -529,11 +563,15 @@ def _worker_loop(
             return
 
         def _on_start(entry, _index, _total):
+            queue_total, queue_max_refs = _queue_stats_snapshot()
             with dash.lock:
+                dash.queue_total = queue_total
+                dash.queue_max_refs = queue_max_refs
                 state.arxiv_id = entry.arxiv_id
                 state.title = entry.title or ""
                 state.status = "claimed"
                 state.started_at = time.time()
+                state.last_update_at = state.started_at
                 state.dataset_current = ""
                 state.dataset_index = 0
                 state.dataset_total = 0
@@ -541,6 +579,7 @@ def _worker_loop(
                 state.results_count = None
                 state.proposed_model = ""
                 state.dataset_breakdown = ""
+                state.refs_at_start = entry.seen_count or 0
                 state.new_results = 0
                 state.updated_results = 0
                 state.drained_at = None
@@ -569,6 +608,7 @@ def _worker_loop(
                     state.failed += 1
                     state.status = status
                 state.dataset_breakdown = dataset_breakdown
+                state.last_update_at = time.time()
                 dash.events.append(f"w{worker_id} finished {state.arxiv_id} => {status}")
                 finished_summary = state.summary_short() or _trim(state.last_line, 80)
                 status_prefix = ""
@@ -595,6 +635,7 @@ def _worker_loop(
             with dash.lock:
                 state.status = "idle (queue empty)"
                 state.started_at = 0.0
+                state.last_update_at = time.time()
             return
 
         handled += summary.total_selected
