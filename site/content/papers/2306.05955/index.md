@@ -31,9 +31,9 @@ proposed_models:
 - PathNN-SP (K=2)
 - PathNN-AP (K=2)
 - PathNN-\mathcal{SP}
-mrr: 0.0704
-adjusted_mrr: 0.0704
-mrr_dataset_count: 4
+mrr: 0.0548
+adjusted_mrr: 0.0548
+mrr_dataset_count: 6
 benchmark_categories:
 - Classic
 - LRGB
@@ -598,7 +598,7 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: '2023-06-09'
     date_display: Jun 2023
     date_iso: '2023-06-09'
@@ -709,7 +709,7 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: '2023-06-09'
     date_display: Jun 2023
     date_iso: '2023-06-09'
@@ -856,7 +856,7 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: '2023-06-09'
     date_display: Jun 2023
     date_iso: '2023-06-09'
@@ -2294,9 +2294,9 @@ results:
     has_value_note: false
     value_gap: 0.026999999999999913
     value_note: ''
-    paper_rank: 30
-    rank_delta: 12
-    rank_delta_abs: 12
+    paper_rank: 33
+    rank_delta: 15
+    rank_delta_abs: 15
     rank_delta_direction: worse
     sort_value: 0.827
     sort_std: 0.017
@@ -2375,6 +2375,117 @@ results:
     sort_value: 0.823
     sort_std: 0.017
     is_best: false
+  - model: PathNN-\mathcal{SP}
+    model_key: pathnn-\mathcal{sp}
+    model_plain: PathNN-\mathcal{SP}
+    value: 0.823
+    std: 0.019
+    paper_value: 0.823
+    paper_std: 0.019
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: '2023-06-09'
+    date_display: Jun 2023
+    date_iso: '2023-06-09'
+    global_rank: 24
+    true_value: 0.823
+    true_std: 0.019
+    value_gap_source_arxiv: '2306.05955'
+    value_gap_source_title: 'Path Neural Networks: Expressive and Accurate Graph Neural
+      Networks'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 24
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.823
+    sort_std: 0.019
+    is_best: false
+  - model: PathNN-\mathcal{AP}\phantom{*} \, (K=3)
+    model_key: pathnn-\mathcal{ap}\phantom{*} \, (k=3)
+    model_plain: PathNN-\mathcal{AP}\phantom{*} \, (K=3)
+    value: 0.823
+    std: 0.017
+    paper_value: 0.823
+    paper_std: 0.017
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: '2023-06-09'
+    date_display: Jun 2023
+    date_iso: '2023-06-09'
+    global_rank: 25
+    true_value: 0.823
+    true_std: 0.017
+    value_gap_source_arxiv: '2306.05955'
+    value_gap_source_title: 'Path Neural Networks: Expressive and Accurate Graph Neural
+      Networks'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 25
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.823
+    sort_std: 0.017
+    is_best: false
+  - model: PathNN-\mathcal{SP}\phantom{^+} \, (K=2)
+    model_key: pathnn-\mathcal{sp}\phantom{^+} \, (k=2)
+    model_plain: PathNN-\mathcal{SP}\phantom{^+} \, (K=2)
+    value: 0.822
+    std: 0.017
+    paper_value: 0.822
+    paper_std: 0.017
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: '2023-06-09'
+    date_display: Jun 2023
+    date_iso: '2023-06-09'
+    global_rank: 27
+    true_value: 0.822
+    true_std: 0.017
+    value_gap_source_arxiv: '2306.05955'
+    value_gap_source_title: 'Path Neural Networks: Expressive and Accurate Graph Neural
+      Networks'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 27
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.822
+    sort_std: 0.017
+    is_best: false
   - model: SPN (K=1)
     model_key: spn (k=1)
     model_plain: SPN (K=1)
@@ -2394,7 +2505,7 @@ results:
     date: '2023-06-09'
     date_display: Jun 2023
     date_iso: '2023-06-09'
-    global_rank: 32
+    global_rank: 35
     true_value: 0.8
     true_std: 0.015
     value_gap_source_arxiv: '2306.05955'
@@ -2405,7 +2516,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 32
+    paper_rank: 35
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2431,7 +2542,7 @@ results:
     date: '2023-06-09'
     date_display: Jun 2023
     date_iso: '2023-06-09'
-    global_rank: 39
+    global_rank: 42
     true_value: 0.786
     true_std: 0.017
     value_gap_source_arxiv: '2310.01267'
@@ -2441,7 +2552,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 39
+    paper_rank: 42
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2467,7 +2578,7 @@ results:
     date: '2023-06-09'
     date_display: Jun 2023
     date_iso: '2023-06-09'
-    global_rank: 44
+    global_rank: 47
     true_value: 0.777
     true_std: 0.015
     value_gap_source_arxiv: '2406.06984'
@@ -2477,9 +2588,9 @@ results:
     has_value_note: true
     value_gap: 0.017000000000000015
     value_note: global 0.7770 within std
-    paper_rank: 61
-    rank_delta: 17
-    rank_delta_abs: 17
+    paper_rank: 65
+    rank_delta: 18
+    rank_delta_abs: 18
     rank_delta_direction: worse
     sort_value: 0.777
     sort_std: 0.015
@@ -2503,7 +2614,7 @@ results:
     date: '2023-06-09'
     date_display: Jun 2023
     date_iso: '2023-06-09'
-    global_rank: 45
+    global_rank: 48
     true_value: 0.775
     true_std: 0.016
     value_gap_source_arxiv: '2306.05955'
@@ -2514,7 +2625,44 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 45
+    paper_rank: 48
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.775
+    sort_std: 0.016
+    is_best: false
+  - model: PathNN-\mathcal{P\phantom{S}}\phantom{^+} \, (K=1)
+    model_key: pathnn-\mathcal{p\phantom{s}}\phantom{^+} \, (k=1)
+    model_plain: PathNN-\mathcal{P\phantom{S}}\phantom{^+} \, (K=1)
+    value: 0.775
+    std: 0.016
+    paper_value: 0.775
+    paper_std: 0.016
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: '2023-06-09'
+    date_display: Jun 2023
+    date_iso: '2023-06-09'
+    global_rank: 49
+    true_value: 0.775
+    true_std: 0.016
+    value_gap_source_arxiv: '2306.05955'
+    value_gap_source_title: 'Path Neural Networks: Expressive and Accurate Graph Neural
+      Networks'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 49
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2540,7 +2688,7 @@ results:
     date: '2023-06-09'
     date_display: Jun 2023
     date_iso: '2023-06-09'
-    global_rank: 47
+    global_rank: 51
     true_value: 0.773
     true_std: 0.025
     value_gap_source_arxiv: '2306.05955'
@@ -2551,7 +2699,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 47
+    paper_rank: 51
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2577,7 +2725,7 @@ results:
     date: '2023-06-09'
     date_display: Jun 2023
     date_iso: '2023-06-09'
-    global_rank: 51
+    global_rank: 55
     true_value: 0.769
     true_std: 0.019
     value_gap_source_arxiv: '2310.01267'
@@ -2587,7 +2735,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 51
+    paper_rank: 55
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2613,7 +2761,7 @@ results:
     date: '2023-06-09'
     date_display: Jun 2023
     date_iso: '2023-06-09'
-    global_rank: 57
+    global_rank: 61
     true_value: 0.764
     true_std: 0.017
     value_gap_source_arxiv: '2310.01267'
@@ -2623,7 +2771,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 57
+    paper_rank: 61
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2649,7 +2797,7 @@ results:
     date: '2023-06-09'
     date_display: Jun 2023
     date_iso: '2023-06-09'
-    global_rank: 60
+    global_rank: 64
     true_value: 0.762
     true_std: 0.014
     value_gap_source_arxiv: '2310.01267'
@@ -2659,7 +2807,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 60
+    paper_rank: 64
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2685,7 +2833,7 @@ results:
     date: '2023-06-09'
     date_display: Jun 2023
     date_iso: '2023-06-09'
-    global_rank: 82
+    global_rank: 86
     true_value: 0.641
     true_std: 0.023
     value_gap_source_arxiv: '2306.05955'
@@ -2696,7 +2844,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 82
+    paper_rank: 86
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -3318,7 +3466,7 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: Kipf 2017
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: '2023-06-09'
     date_display: Jun 2023
     date_iso: '2023-06-09'
@@ -3333,9 +3481,9 @@ results:
     has_value_note: false
     value_gap: 0.10750000000000001
     value_note: ''
-    paper_rank: 299
-    rank_delta: 296
-    rank_delta_abs: 296
+    paper_rank: 301
+    rank_delta: 298
+    rank_delta_abs: 298
     rank_delta_direction: worse
     sort_value: 0.2421
     sort_std: 0.0016
@@ -3378,7 +3526,7 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: Xu 2019
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: '2023-06-09'
     date_display: Jun 2023
     date_iso: '2023-06-09'
@@ -3393,9 +3541,9 @@ results:
     has_value_note: false
     value_gap: 0.11180000000000001
     value_note: ''
-    paper_rank: 306
-    rank_delta: 297
-    rank_delta_abs: 297
+    paper_rank: 308
+    rank_delta: 299
+    rank_delta_abs: 299
     rank_delta_direction: worse
     sort_value: 0.2429
     sort_std: 0.0019
@@ -3415,7 +3563,7 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: Bresson 2017
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: '2023-06-09'
     date_display: Jun 2023
     date_iso: '2023-06-09'
@@ -3430,9 +3578,9 @@ results:
     has_value_note: false
     value_gap: 0.09890000000000002
     value_note: ''
-    paper_rank: 292
-    rank_delta: 280
-    rank_delta_abs: 280
+    paper_rank: 294
+    rank_delta: 282
+    rank_delta_abs: 282
     rank_delta_direction: worse
     sort_value: 0.2431
     sort_std: 0.002
@@ -3474,6 +3622,43 @@ results:
     sort_value: 0.254
     sort_std: 0.0046
     is_best: false
+  - model: PathNN-\mathcal{SP}
+    model_key: pathnn-\mathcal{sp}
+    model_plain: PathNN-\mathcal{SP}
+    value: 0.254
+    std: 0.0046
+    paper_value: 0.254
+    paper_std: 0.0046
+    metric: MAE
+    higher_is_better: false
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: '2023-06-09'
+    date_display: Jun 2023
+    date_iso: '2023-06-09'
+    global_rank: 183
+    true_value: 0.254
+    true_std: 0.0046
+    value_gap_source_arxiv: '2306.05955'
+    value_gap_source_title: 'Path Neural Networks: Expressive and Accurate Graph Neural
+      Networks'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 183
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.254
+    sort_std: 0.0046
+    is_best: false
   - model: PathNN-AP
     model_key: pathnn-ap
     model_plain: PathNN-AP
@@ -3493,7 +3678,7 @@ results:
     date: '2023-06-09'
     date_display: Jun 2023
     date_iso: '2023-06-09'
-    global_rank: 199
+    global_rank: 200
     true_value: 0.2569
     true_std: 0.003
     value_gap_source_arxiv: '2306.05955'
@@ -3504,7 +3689,44 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 199
+    paper_rank: 200
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.2569
+    sort_std: 0.003
+    is_best: false
+  - model: PathNN-\mathcal{AP}
+    model_key: pathnn-\mathcal{ap}
+    model_plain: PathNN-\mathcal{AP}
+    value: 0.2569
+    std: 0.003
+    paper_value: 0.2569
+    paper_std: 0.003
+    metric: MAE
+    higher_is_better: false
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: '2023-06-09'
+    date_display: Jun 2023
+    date_iso: '2023-06-09'
+    global_rank: 201
+    true_value: 0.2569
+    true_std: 0.003
+    value_gap_source_arxiv: '2306.05955'
+    value_gap_source_title: 'Path Neural Networks: Expressive and Accurate Graph Neural
+      Networks'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 201
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same

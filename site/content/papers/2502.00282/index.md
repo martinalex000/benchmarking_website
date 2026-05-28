@@ -27,9 +27,11 @@ has_results: true
 paper_type: method
 proposed_models:
 - Ours
-mrr: 0.1216
-adjusted_mrr: 0.1216
-mrr_dataset_count: 8
+- GraphMinNet
+- novel approach
+mrr: 0.0891
+adjusted_mrr: 0.0891
+mrr_dataset_count: 7
 benchmark_categories:
 - Classic
 - LRGB
@@ -123,35 +125,109 @@ results:
     has_value_note: false
     value_gap: 0.009989999999999943
     value_note: ''
-    paper_rank: 4
-    rank_delta: 1
-    rank_delta_abs: 1
+    paper_rank: 5
+    rank_delta: 2
+    rank_delta_abs: 2
     rank_delta_direction: worse
     sort_value: 0.79067
     sort_std: 0.00269
     is_best: false
-  - model: PPGT
-    model_key: ppgt
-    model_plain: PPGT
-    value: 0.7856
-    std: 0.007
+  - model: WL
+    model_key: wl
+    model_plain: WL
+    value: 0.79067
+    std: 0.00269
     metric: Accuracy
     higher_is_better: true
     is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2504.12588'
-    title: Plain Transformers Can be Powerful Graph Learners
-    date: Apr 2025
-    date_display: Apr 2025
-    date_iso: 2025-04
+    arxiv_id: '2407.02758'
+    title: Differential Encoding for Improved Representation Learning over Graphs
+    date: Jul 2024
+    date_display: Jul 2024
+    date_iso: 2024-07
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
     global_rank: 4
-    sort_value: 0.7856
-    sort_std: 0.007
+    sort_value: 0.79067
+    sort_std: 0.00269
+    is_best: false
+  - model: GraphMinNet
+    model_key: graphminnet
+    model_plain: GraphMinNet
+    value: 0.78068
+    std: 0.00785
+    paper_value: 0.78068
+    paper_std: 0.00785
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: '2025-02-01'
+    date_display: Feb 2025
+    date_iso: '2025-02-01'
+    global_rank: 7
+    true_value: 0.78068
+    true_std: 0.00785
+    value_gap_source_arxiv: '2502.00282'
+    value_gap_source_title: 'GraphMinNet: Learning Dependencies in Graphs with Light
+      Complexity Minimal Architecture'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 7
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.78068
+    sort_std: 0.00785
+    is_best: false
+  - model: novel approach
+    model_key: novel approach
+    model_plain: novel approach
+    value: 0.78068
+    std: 0.00785
+    paper_value: 0.78068
+    paper_std: 0.00785
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: '2025-02-01'
+    date_display: Feb 2025
+    date_iso: '2025-02-01'
+    global_rank: 6
+    true_value: 0.78068
+    true_std: 0.00785
+    value_gap_source_arxiv: '2502.00282'
+    value_gap_source_title: 'GraphMinNet: Learning Dependencies in Graphs with Light
+      Complexity Minimal Architecture'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 6
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.78068
+    sort_std: 0.00785
     is_best: false
   - model: GSSC
     model_key: gssc
@@ -172,7 +248,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 7
+    global_rank: 10
     true_value: 0.77642
     true_std: 0.00456
     value_gap_source_arxiv: '2502.00282'
@@ -183,7 +259,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 7
+    paper_rank: 10
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -209,7 +285,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 8
+    global_rank: 11
     true_value: 0.77218
     true_std: 0.00381
     value_gap_source_arxiv: '2502.09263'
@@ -220,9 +296,9 @@ results:
     has_value_note: false
     value_gap: 0.09905999999999993
     value_note: ''
-    paper_rank: 99
-    rank_delta: 91
-    rank_delta_abs: 91
+    paper_rank: 103
+    rank_delta: 92
+    rank_delta_abs: 92
     rank_delta_direction: worse
     sort_value: 0.77218
     sort_std: 0.00381
@@ -246,7 +322,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 11
+    global_rank: 14
     true_value: 0.76853
     true_std: 0.00185
     value_gap_source_arxiv: '2502.09263'
@@ -257,7 +333,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 11
+    paper_rank: 14
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -283,7 +359,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 16
+    global_rank: 19
     true_value: 0.76468
     true_std: 0.00881
     value_gap_source_arxiv: '2605.05689'
@@ -294,7 +370,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 16
+    paper_rank: 19
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -320,7 +396,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 27
+    global_rank: 30
     true_value: 0.7576
     true_std: 0.0042
     value_gap_source_arxiv: '2406.05815'
@@ -331,7 +407,7 @@ results:
     has_value_note: false
     value_gap: 0.020600000000000063
     value_note: ''
-    paper_rank: 39
+    paper_rank: 42
     rank_delta: 12
     rank_delta_abs: 12
     rank_delta_direction: worse
@@ -357,7 +433,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 32
+    global_rank: 35
     true_value: 0.74754
     true_std: 0.00194
     value_gap_source_arxiv: '2502.09263'
@@ -368,7 +444,7 @@ results:
     has_value_note: true
     value_gap: 0.0006399999999999739
     value_note: global 0.7475 within std
-    paper_rank: 33
+    paper_rank: 36
     rank_delta: 1
     rank_delta_abs: 1
     rank_delta_direction: worse
@@ -394,7 +470,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 58
+    global_rank: 61
     true_value: 0.72298
     true_std: 0.00356
     value_gap_source_arxiv: '2502.09263'
@@ -405,7 +481,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 58
+    paper_rank: 61
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -431,7 +507,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 90
+    global_rank: 94
     true_value: 0.69824
     true_std: 0.00413
     value_gap_source_arxiv: '2502.09263'
@@ -442,7 +518,7 @@ results:
     has_value_note: false
     value_gap: 0.14113999999999993
     value_note: ''
-    paper_rank: 109
+    paper_rank: 113
     rank_delta: 19
     rank_delta_abs: 19
     rank_delta_direction: worse
@@ -468,7 +544,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 92
+    global_rank: 96
     true_value: 0.69592
     true_std: 0.00287
     value_gap_source_arxiv: '2502.09263'
@@ -479,7 +555,7 @@ results:
     has_value_note: false
     value_gap: 0.14337
     value_note: ''
-    paper_rank: 110
+    paper_rank: 114
     rank_delta: 18
     rank_delta_abs: 18
     rank_delta_direction: worse
@@ -505,7 +581,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 105
+    global_rank: 109
     true_value: 0.64223
     true_std: 0.00455
     value_gap_source_arxiv: '2605.05689'
@@ -516,7 +592,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 105
+    paper_rank: 109
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -670,6 +746,80 @@ results:
     sort_value: 0.79284
     sort_std: 0.00122
     is_best: false
+  - model: GraphMinNet
+    model_key: graphminnet
+    model_plain: GraphMinNet
+    value: 0.79284
+    std: 0.00122
+    paper_value: 0.79284
+    paper_std: 0.00122
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: '2025-02-01'
+    date_display: Feb 2025
+    date_iso: '2025-02-01'
+    global_rank: 13
+    true_value: 0.79284
+    true_std: 0.00122
+    value_gap_source_arxiv: '2502.00282'
+    value_gap_source_title: 'GraphMinNet: Learning Dependencies in Graphs with Light
+      Complexity Minimal Architecture'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 13
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.79284
+    sort_std: 0.00122
+    is_best: false
+  - model: novel approach
+    model_key: novel approach
+    model_plain: novel approach
+    value: 0.79284
+    std: 0.00122
+    paper_value: 0.79284
+    paper_std: 0.00122
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: '2025-02-01'
+    date_display: Feb 2025
+    date_iso: '2025-02-01'
+    global_rank: 12
+    true_value: 0.79284
+    true_std: 0.00122
+    value_gap_source_arxiv: '2502.00282'
+    value_gap_source_title: 'GraphMinNet: Learning Dependencies in Graphs with Light
+      Complexity Minimal Architecture'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 12
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.79284
+    sort_std: 0.00122
+    is_best: false
   - model: GSSC
     model_key: gssc
     model_plain: GSSC
@@ -689,7 +839,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 13
+    global_rank: 15
     true_value: 0.79156
     true_std: 0.00152
     value_gap_source_arxiv: '2502.00282'
@@ -700,7 +850,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 13
+    paper_rank: 15
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -726,7 +876,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 14
+    global_rank: 16
     true_value: 0.79128
     true_std: 0.00235
     value_gap_source_arxiv: '2502.09263'
@@ -737,7 +887,7 @@ results:
     has_value_note: false
     value_gap: 0.05288000000000004
     value_note: ''
-    paper_rank: 59
+    paper_rank: 61
     rank_delta: 45
     rank_delta_abs: 45
     rank_delta_direction: worse
@@ -763,7 +913,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 25
+    global_rank: 27
     true_value: 0.78495
     true_std: 0.00103
     value_gap_source_arxiv: '2502.09263'
@@ -774,7 +924,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 25
+    paper_rank: 27
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -800,7 +950,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 35
+    global_rank: 37
     true_value: 0.78071
     true_std: 0.00037
     value_gap_source_arxiv: '2502.09365'
@@ -810,7 +960,7 @@ results:
     has_value_note: true
     value_gap: 1.0000000000065512e-05
     value_note: global 0.7807 within std
-    paper_rank: 35
+    paper_rank: 37
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -836,7 +986,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 39
+    global_rank: 41
     true_value: 0.78016
     true_std: 0.0018
     value_gap_source_arxiv: '2502.09263'
@@ -847,7 +997,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 39
+    paper_rank: 41
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -873,7 +1023,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 51
+    global_rank: 53
     true_value: 0.77109
     true_std: 0.00872
     value_gap_source_arxiv: '2502.09263'
@@ -884,7 +1034,7 @@ results:
     has_value_note: false
     value_gap: 0.08611000000000002
     value_note: ''
-    paper_rank: 63
+    paper_rank: 65
     rank_delta: 12
     rank_delta_abs: 12
     rank_delta_direction: worse
@@ -910,7 +1060,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 53
+    global_rank: 55
     true_value: 0.768
     true_std: 0.0036
     value_gap_source_arxiv: '2502.09263'
@@ -921,7 +1071,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 53
+    paper_rank: 55
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -947,7 +1097,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 55
+    global_rank: 57
     true_value: 0.76691
     true_std: 0.0065
     value_gap_source_arxiv: '2605.05689'
@@ -958,7 +1108,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 55
+    paper_rank: 57
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -984,7 +1134,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 59
+    global_rank: 61
     true_value: 0.74794
     true_std: 0.00213
     value_gap_source_arxiv: '2502.09263'
@@ -995,7 +1145,7 @@ results:
     has_value_note: false
     value_gap: 0.10078000000000009
     value_note: ''
-    paper_rank: 65
+    paper_rank: 67
     rank_delta: 6
     rank_delta_abs: 6
     rank_delta_direction: worse
@@ -1021,7 +1171,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 61
+    global_rank: 63
     true_value: 0.70587
     true_std: 0.00447
     value_gap_source_arxiv: '2605.05689'
@@ -1032,7 +1182,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 61
+    paper_rank: 63
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1143,9 +1293,9 @@ results:
     has_value_note: false
     value_gap: 0.013719999999999954
     value_note: ''
-    paper_rank: 77
-    rank_delta: 73
-    rank_delta_abs: 73
+    paper_rank: 80
+    rank_delta: 76
+    rank_delta_abs: 76
     rank_delta_direction: worse
     sort_value: 0.98712
     sort_std: 0.00137
@@ -1187,6 +1337,80 @@ results:
     sort_value: 0.98598
     sort_std: 0.00138
     is_best: false
+  - model: GraphMinNet
+    model_key: graphminnet
+    model_plain: GraphMinNet
+    value: 0.98598
+    std: 0.00138
+    paper_value: 0.98598
+    paper_std: 0.00138
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: '2025-02-01'
+    date_display: Feb 2025
+    date_iso: '2025-02-01'
+    global_rank: 8
+    true_value: 0.98598
+    true_std: 0.00138
+    value_gap_source_arxiv: '2502.00282'
+    value_gap_source_title: 'GraphMinNet: Learning Dependencies in Graphs with Light
+      Complexity Minimal Architecture'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 8
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.98598
+    sort_std: 0.00138
+    is_best: false
+  - model: novel approach
+    model_key: novel approach
+    model_plain: novel approach
+    value: 0.98598
+    std: 0.00138
+    paper_value: 0.98598
+    paper_std: 0.00138
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: '2025-02-01'
+    date_display: Feb 2025
+    date_iso: '2025-02-01'
+    global_rank: 7
+    true_value: 0.98598
+    true_std: 0.00138
+    value_gap_source_arxiv: '2502.00282'
+    value_gap_source_title: 'GraphMinNet: Learning Dependencies in Graphs with Light
+      Complexity Minimal Architecture'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 7
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.98598
+    sort_std: 0.00138
+    is_best: false
   - model: Exphormer
     model_key: exphormer
     model_plain: Exphormer
@@ -1206,7 +1430,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 7
+    global_rank: 10
     true_value: 0.9855
     true_std: 0.00039
     value_gap_source_arxiv: '2502.09365'
@@ -1216,7 +1440,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 7
+    paper_rank: 10
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1242,7 +1466,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 11
+    global_rank: 14
     true_value: 0.98492
     true_std: 0.00051
     value_gap_source_arxiv: '2502.00282'
@@ -1253,7 +1477,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 11
+    paper_rank: 14
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1279,7 +1503,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 19
+    global_rank: 22
     true_value: 0.9842
     true_std: 0.0008
     value_gap_source_arxiv: '2502.09263'
@@ -1290,7 +1514,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 19
+    paper_rank: 22
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1316,7 +1540,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 21
+    global_rank: 24
     true_value: 0.98383
     true_std: 0.00012
     value_gap_source_arxiv: '2502.09263'
@@ -1327,7 +1551,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 21
+    paper_rank: 24
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1353,7 +1577,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 22
+    global_rank: 25
     true_value: 0.98382
     true_std: 0.00095
     value_gap_source_arxiv: '2502.09263'
@@ -1364,7 +1588,7 @@ results:
     has_value_note: false
     value_gap: 0.07677
     value_note: ''
-    paper_rank: 94
+    paper_rank: 97
     rank_delta: 72
     rank_delta_abs: 72
     rank_delta_direction: worse
@@ -1390,7 +1614,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 28
+    global_rank: 31
     true_value: 0.98285
     true_std: 0.00103
     value_gap_source_arxiv: '2502.09263'
@@ -1401,7 +1625,7 @@ results:
     has_value_note: false
     value_gap: 0.018000000000000016
     value_note: ''
-    paper_rank: 84
+    paper_rank: 87
     rank_delta: 56
     rank_delta_abs: 56
     rank_delta_direction: worse
@@ -1427,7 +1651,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 54
+    global_rank: 57
     true_value: 0.98108
     true_std: 0.00111
     value_gap_source_arxiv: '2605.05689'
@@ -1438,7 +1662,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 54
+    paper_rank: 57
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1464,7 +1688,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 60
+    global_rank: 63
     true_value: 0.98051
     true_std: 0.00126
     value_gap_source_arxiv: '2502.09263'
@@ -1475,7 +1699,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 60
+    paper_rank: 63
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1501,7 +1725,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 87
+    global_rank: 90
     true_value: 0.9554
     true_std: 0.0021
     value_gap_source_arxiv: '2411.15671'
@@ -1512,7 +1736,7 @@ results:
     has_value_note: true
     value_gap: 4.999999999999449e-05
     value_note: global 0.9554 within std
-    paper_rank: 87
+    paper_rank: 90
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1577,9 +1801,9 @@ results:
     has_value_note: false
     value_gap: 0.023699999999999943
     value_note: ''
-    paper_rank: 17
-    rank_delta: 15
-    rank_delta_abs: 15
+    paper_rank: 19
+    rank_delta: 17
+    rank_delta_abs: 17
     rank_delta_direction: worse
     sort_value: 0.946
     sort_std: 0.0057
@@ -1741,6 +1965,80 @@ results:
     sort_value: 0.9372
     sort_std: 0.0029
     is_best: false
+  - model: GraphMinNet
+    model_key: graphminnet
+    model_plain: GraphMinNet
+    value: 0.9372
+    std: 0.0029
+    paper_value: 0.9372
+    paper_std: 0.0029
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: '2025-02-01'
+    date_display: Feb 2025
+    date_iso: '2025-02-01'
+    global_rank: 11
+    true_value: 0.9372
+    true_std: 0.0029
+    value_gap_source_arxiv: '2502.00282'
+    value_gap_source_title: 'GraphMinNet: Learning Dependencies in Graphs with Light
+      Complexity Minimal Architecture'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 11
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.9372
+    sort_std: 0.0029
+    is_best: false
+  - model: novel approach
+    model_key: novel approach
+    model_plain: novel approach
+    value: 0.9372
+    std: 0.0029
+    paper_value: 0.9372
+    paper_std: 0.0029
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: '2025-02-01'
+    date_display: Feb 2025
+    date_iso: '2025-02-01'
+    global_rank: 10
+    true_value: 0.9372
+    true_std: 0.0029
+    value_gap_source_arxiv: '2502.00282'
+    value_gap_source_title: 'GraphMinNet: Learning Dependencies in Graphs with Light
+      Complexity Minimal Architecture'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 10
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.9372
+    sort_std: 0.0029
+    is_best: false
   - model: GCN
     model_key: gcn
     model_plain: GCN
@@ -1760,7 +2058,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 10
+    global_rank: 12
     true_value: 0.9354
     true_std: 0.0045
     value_gap_source_arxiv: '2502.09263'
@@ -1771,7 +2069,7 @@ results:
     has_value_note: false
     value_gap: 0.12539999999999996
     value_note: ''
-    paper_rank: 19
+    paper_rank: 21
     rank_delta: 9
     rank_delta_abs: 9
     rank_delta_direction: worse
@@ -1797,7 +2095,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 11
+    global_rank: 13
     true_value: 0.935
     true_std: 0.0041
     value_gap_source_arxiv: '2502.09263'
@@ -1808,7 +2106,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 11
+    paper_rank: 13
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1834,7 +2132,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 13
+    global_rank: 15
     true_value: 0.934
     true_std: 0.0027
     value_gap_source_arxiv: '2502.09263'
@@ -1845,7 +2143,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 13
+    paper_rank: 15
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1871,7 +2169,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 14
+    global_rank: 16
     true_value: 0.9325
     true_std: 0.004
     value_gap_source_arxiv: '2502.09263'
@@ -1882,7 +2180,7 @@ results:
     has_value_note: false
     value_gap: 0.04269999999999996
     value_note: ''
-    paper_rank: 18
+    paper_rank: 20
     rank_delta: 4
     rank_delta_abs: 4
     rank_delta_direction: worse
@@ -1908,7 +2206,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 18
+    global_rank: 20
     true_value: 0.921
     true_std: 0.0024
     value_gap_source_arxiv: '2502.00282'
@@ -1919,7 +2217,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 18
+    paper_rank: 20
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2037,6 +2335,80 @@ results:
     sort_value: 0.87552
     sort_std: 0.00123
     is_best: false
+  - model: GraphMinNet
+    model_key: graphminnet
+    model_plain: GraphMinNet
+    value: 0.87552
+    std: 0.00123
+    paper_value: 0.87552
+    paper_std: 0.00123
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: '2025-02-01'
+    date_display: Feb 2025
+    date_iso: '2025-02-01'
+    global_rank: 9
+    true_value: 0.87552
+    true_std: 0.00123
+    value_gap_source_arxiv: '2502.00282'
+    value_gap_source_title: 'GraphMinNet: Learning Dependencies in Graphs with Light
+      Complexity Minimal Architecture'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 9
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.87552
+    sort_std: 0.00123
+    is_best: false
+  - model: novel approach
+    model_key: novel approach
+    model_plain: novel approach
+    value: 0.87552
+    std: 0.00123
+    paper_value: 0.87552
+    paper_std: 0.00123
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: '2025-02-01'
+    date_display: Feb 2025
+    date_iso: '2025-02-01'
+    global_rank: 8
+    true_value: 0.87552
+    true_std: 0.00123
+    value_gap_source_arxiv: '2502.00282'
+    value_gap_source_title: 'GraphMinNet: Learning Dependencies in Graphs with Light
+      Complexity Minimal Architecture'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 8
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.87552
+    sort_std: 0.00123
+    is_best: false
   - model: GSSC
     model_key: gssc
     model_plain: GSSC
@@ -2056,7 +2428,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 8
+    global_rank: 10
     true_value: 0.8751
     true_std: 0.00082
     value_gap_source_arxiv: '2502.00282'
@@ -2067,7 +2439,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 8
+    paper_rank: 10
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2093,7 +2465,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 18
+    global_rank: 20
     true_value: 0.87196
     true_std: 0.00076
     value_gap_source_arxiv: '2605.05689'
@@ -2104,7 +2476,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 18
+    paper_rank: 20
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2130,7 +2502,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 21
+    global_rank: 23
     true_value: 0.8714
     true_std: 0.0012
     value_gap_source_arxiv: '2406.05815'
@@ -2141,7 +2513,7 @@ results:
     has_value_note: false
     value_gap: 0.0042999999999999705
     value_note: ''
-    paper_rank: 50
+    paper_rank: 52
     rank_delta: 29
     rank_delta_abs: 29
     rank_delta_direction: worse
@@ -2167,7 +2539,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 23
+    global_rank: 25
     true_value: 0.87029
     true_std: 0.00037
     value_gap_source_arxiv: '2502.09263'
@@ -2178,7 +2550,7 @@ results:
     has_value_note: false
     value_gap: 0.014610000000000012
     value_note: ''
-    paper_rank: 77
+    paper_rank: 79
     rank_delta: 54
     rank_delta_abs: 54
     rank_delta_direction: worse
@@ -2204,7 +2576,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 24
+    global_rank: 26
     true_value: 0.87021
     true_std: 0.00095
     value_gap_source_arxiv: '2502.09263'
@@ -2215,7 +2587,7 @@ results:
     has_value_note: false
     value_gap: 0.15129000000000004
     value_note: ''
-    paper_rank: 87
+    paper_rank: 89
     rank_delta: 63
     rank_delta_abs: 63
     rank_delta_direction: worse
@@ -2241,7 +2613,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 38
+    global_rank: 40
     true_value: 0.86842
     true_std: 0.00048
     value_gap_source_arxiv: '2502.09263'
@@ -2252,7 +2624,7 @@ results:
     has_value_note: false
     value_gap: 0.014549999999999952
     value_note: ''
-    paper_rank: 78
+    paper_rank: 80
     rank_delta: 40
     rank_delta_abs: 40
     rank_delta_direction: worse
@@ -2278,7 +2650,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 45
+    global_rank: 47
     true_value: 0.8676
     true_std: 0.02
     value_gap_source_arxiv: '2402.08678'
@@ -2289,7 +2661,7 @@ results:
     has_value_note: true
     value_gap: 1.0000000000065512e-05
     value_note: global 0.8676 within std
-    paper_rank: 45
+    paper_rank: 47
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2315,7 +2687,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 46
+    global_rank: 48
     true_value: 0.86742
     true_std: 0.00015
     value_gap_source_arxiv: '2502.09365'
@@ -2325,7 +2697,7 @@ results:
     has_value_note: true
     value_gap: 2.0000000000020002e-05
     value_note: global 0.8674 within std
-    paper_rank: 47
+    paper_rank: 49
     rank_delta: 1
     rank_delta_abs: 1
     rank_delta_direction: worse
@@ -2351,7 +2723,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 55
+    global_rank: 57
     true_value: 0.86685
     true_std: 0.00059
     value_gap_source_arxiv: '2502.09263'
@@ -2362,7 +2734,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 55
+    paper_rank: 57
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2388,7 +2760,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 64
+    global_rank: 66
     true_value: 0.86581
     true_std: 0.00037
     value_gap_source_arxiv: '2605.05689'
@@ -2399,7 +2771,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 64
+    paper_rank: 66
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2425,7 +2797,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 86
+    global_rank: 88
     true_value: 0.78271
     true_std: 0.00186
     value_gap_source_arxiv: '2605.05689'
@@ -2436,7 +2808,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 86
+    paper_rank: 88
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2592,6 +2964,80 @@ results:
     sort_value: 0.4352
     sort_std: 0.003
     is_best: false
+  - model: GraphMinNet
+    model_key: graphminnet
+    model_plain: GraphMinNet
+    value: 0.4352
+    std: 0.003
+    paper_value: 0.4352
+    paper_std: 0.003
+    metric: F1
+    higher_is_better: true
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: '2025-02-01'
+    date_display: Feb 2025
+    date_iso: '2025-02-01'
+    global_rank: 16
+    true_value: 0.4352
+    true_std: 0.003
+    value_gap_source_arxiv: '2502.00282'
+    value_gap_source_title: 'GraphMinNet: Learning Dependencies in Graphs with Light
+      Complexity Minimal Architecture'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 16
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.4352
+    sort_std: 0.003
+    is_best: false
+  - model: novel approach
+    model_key: novel approach
+    model_plain: novel approach
+    value: 0.4352
+    std: 0.003
+    paper_value: 0.4352
+    paper_std: 0.003
+    metric: F1
+    higher_is_better: true
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: '2025-02-01'
+    date_display: Feb 2025
+    date_iso: '2025-02-01'
+    global_rank: 15
+    true_value: 0.4352
+    true_std: 0.003
+    value_gap_source_arxiv: '2502.00282'
+    value_gap_source_title: 'GraphMinNet: Learning Dependencies in Graphs with Light
+      Complexity Minimal Architecture'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 15
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.4352
+    sort_std: 0.003
+    is_best: false
   - model: GatedGCN
     model_key: gatedgcn
     model_plain: GatedGCN
@@ -2611,7 +3057,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 17
+    global_rank: 19
     true_value: 0.4263
     true_std: 0.0057
     value_gap_source_arxiv: '2502.09263'
@@ -2622,9 +3068,9 @@ results:
     has_value_note: false
     value_gap: 0.139
     value_note: ''
-    paper_rank: 71
-    rank_delta: 54
-    rank_delta_abs: 54
+    paper_rank: 74
+    rank_delta: 55
+    rank_delta_abs: 55
     rank_delta_direction: worse
     sort_value: 0.4263
     sort_std: 0.0057
@@ -2648,7 +3094,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 23
+    global_rank: 26
     true_value: 0.4191
     true_std: 0.0126
     value_gap_source_arxiv: '2502.09263'
@@ -2659,7 +3105,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 23
+    paper_rank: 26
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2685,7 +3131,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 32
+    global_rank: 35
     true_value: 0.3975
     true_std: 0.0037
     value_gap_source_arxiv: '2604.03815'
@@ -2696,7 +3142,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 32
+    paper_rank: 35
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2722,7 +3168,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 43
+    global_rank: 46
     true_value: 0.376
     true_std: 0.001
     value_gap_source_arxiv: '2509.22259'
@@ -2732,7 +3178,7 @@ results:
     has_value_note: false
     value_gap: 0.2492
     value_note: ''
-    paper_rank: 106
+    paper_rank: 109
     rank_delta: 63
     rank_delta_abs: 63
     rank_delta_direction: worse
@@ -2758,7 +3204,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 45
+    global_rank: 48
     true_value: 0.3748
     true_std: 0.0109
     value_gap_source_arxiv: '2502.09263'
@@ -2769,7 +3215,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 45
+    paper_rank: 48
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2795,7 +3241,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 59
+    global_rank: 62
     true_value: 0.323
     true_std: 0.0039
     value_gap_source_arxiv: '2605.05689'
@@ -2806,7 +3252,7 @@ results:
     has_value_note: true
     value_gap: 0.0014000000000000123
     value_note: global 0.3230 within std
-    paper_rank: 61
+    paper_rank: 64
     rank_delta: 2
     rank_delta_abs: 2
     rank_delta_direction: worse
@@ -2832,7 +3278,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 64
+    global_rank: 67
     true_value: 0.3189
     true_std: 0.0105
     value_gap_source_arxiv: '2502.09263'
@@ -2843,7 +3289,7 @@ results:
     has_value_note: false
     value_gap: 0.19240000000000002
     value_note: ''
-    paper_rank: 106
+    paper_rank: 109
     rank_delta: 42
     rank_delta_abs: 42
     rank_delta_direction: worse
@@ -2954,9 +3400,9 @@ results:
     has_value_note: false
     value_gap: 0.1331
     value_note: ''
-    paper_rank: 259
-    rank_delta: 250
-    rank_delta_abs: 250
+    paper_rank: 261
+    rank_delta: 252
+    rank_delta_abs: 252
     rank_delta_direction: worse
     sort_value: 0.7261
     sort_std: 0.0067
@@ -2998,6 +3444,43 @@ results:
     sort_value: 0.7182
     sort_std: 0.0024
     is_best: false
+  - model: novel approach
+    model_key: novel approach
+    model_plain: novel approach
+    value: 0.7182
+    std: 0.0024
+    paper_value: 0.7182
+    paper_std: 0.0024
+    metric: AP
+    higher_is_better: true
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: '2025-02-01'
+    date_display: Feb 2025
+    date_iso: '2025-02-01'
+    global_rank: 17
+    true_value: 0.7182
+    true_std: 0.0024
+    value_gap_source_arxiv: '2502.00282'
+    value_gap_source_title: 'GraphMinNet: Learning Dependencies in Graphs with Light
+      Complexity Minimal Architecture'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 17
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.7182
+    sort_std: 0.0024
+    is_best: false
   - model: GRED
     model_key: gred
     model_plain: GRED
@@ -3017,7 +3500,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 30
+    global_rank: 31
     true_value: 0.7133
     true_std: 0.0011
     value_gap_source_arxiv: '2502.09263'
@@ -3028,7 +3511,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 30
+    paper_rank: 31
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -3054,7 +3537,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 35
+    global_rank: 36
     true_value: 0.7081
     true_std: 0.0062
     value_gap_source_arxiv: '2502.09263'
@@ -3065,7 +3548,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 35
+    paper_rank: 36
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -3091,7 +3574,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 40
+    global_rank: 41
     true_value: 0.7059
     true_std: 0.0089
     value_gap_source_arxiv: '2502.09263'
@@ -3102,9 +3585,9 @@ results:
     has_value_note: false
     value_gap: 0.15610000000000002
     value_note: ''
-    paper_rank: 286
-    rank_delta: 246
-    rank_delta_abs: 246
+    paper_rank: 288
+    rank_delta: 247
+    rank_delta_abs: 247
     rank_delta_direction: worse
     sort_value: 0.7059
     sort_std: 0.0089
@@ -3128,7 +3611,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 48
+    global_rank: 49
     true_value: 0.7006
     true_std: 0.0033
     value_gap_source_arxiv: '2502.09263'
@@ -3139,9 +3622,9 @@ results:
     has_value_note: false
     value_gap: 0.11419999999999997
     value_note: ''
-    paper_rank: 271
-    rank_delta: 223
-    rank_delta_abs: 223
+    paper_rank: 273
+    rank_delta: 224
+    rank_delta_abs: 224
     rank_delta_direction: worse
     sort_value: 0.7006
     sort_std: 0.0033
@@ -3165,7 +3648,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 52
+    global_rank: 53
     true_value: 0.6988
     true_std: 0.0082
     value_gap_source_arxiv: '2605.06462'
@@ -3175,7 +3658,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 52
+    paper_rank: 53
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -3201,7 +3684,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 117
+    global_rank: 118
     true_value: 0.6739
     true_std: 0.0087
     value_gap_source_arxiv: '2502.09263'
@@ -3212,7 +3695,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 117
+    paper_rank: 118
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -3238,7 +3721,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 164
+    global_rank: 166
     true_value: 0.655
     true_std: 0.004
     value_gap_source_arxiv: '2604.24293'
@@ -3249,7 +3732,7 @@ results:
     has_value_note: true
     value_gap: 0.0015000000000000568
     value_note: global 0.6550 within std
-    paper_rank: 166
+    paper_rank: 168
     rank_delta: 2
     rank_delta_abs: 2
     rank_delta_direction: worse
@@ -3275,7 +3758,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 176
+    global_rank: 178
     true_value: 0.6527
     true_std: 0.0043
     value_gap_source_arxiv: '2605.06462'
@@ -3285,7 +3768,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 176
+    paper_rank: 178
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -3311,7 +3794,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 200
+    global_rank: 202
     true_value: 0.6439
     true_std: 0.0075
     value_gap_source_arxiv: '2312.16560'
@@ -3321,7 +3804,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 200
+    paper_rank: 202
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -3409,9 +3892,9 @@ results:
     has_value_note: false
     value_gap: 0.10750000000000001
     value_note: ''
-    paper_rank: 299
-    rank_delta: 296
-    rank_delta_abs: 296
+    paper_rank: 303
+    rank_delta: 300
+    rank_delta_abs: 300
     rank_delta_direction: worse
     sort_value: 0.2421
     sort_std: 0.0016
@@ -3469,9 +3952,9 @@ results:
     has_value_note: false
     value_gap: 0.11180000000000001
     value_note: ''
-    paper_rank: 306
-    rank_delta: 297
-    rank_delta_abs: 297
+    paper_rank: 310
+    rank_delta: 301
+    rank_delta_abs: 301
     rank_delta_direction: worse
     sort_value: 0.2429
     sort_std: 0.0019
@@ -3506,9 +3989,9 @@ results:
     has_value_note: false
     value_gap: 0.09890000000000002
     value_note: ''
-    paper_rank: 292
-    rank_delta: 280
-    rank_delta_abs: 280
+    paper_rank: 296
+    rank_delta: 284
+    rank_delta_abs: 284
     rank_delta_direction: worse
     sort_value: 0.2431
     sort_std: 0.002
@@ -3587,6 +4070,43 @@ results:
     sort_value: 0.2438
     sort_std: 0.0014
     is_best: false
+  - model: novel approach
+    model_key: novel approach
+    model_plain: novel approach
+    value: 0.2438
+    std: 0.0014
+    paper_value: 0.2438
+    paper_std: 0.0014
+    metric: MAE
+    higher_is_better: false
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: '2025-02-01'
+    date_display: Feb 2025
+    date_iso: '2025-02-01'
+    global_rank: 27
+    true_value: 0.2438
+    true_std: 0.0014
+    value_gap_source_arxiv: '2502.00282'
+    value_gap_source_title: 'GraphMinNet: Learning Dependencies in Graphs with Light
+      Complexity Minimal Architecture'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 27
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.2438
+    sort_std: 0.0014
+    is_best: false
   - model: GRED
     model_key: gred
     model_plain: GRED
@@ -3606,7 +4126,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 42
+    global_rank: 43
     true_value: 0.2455
     true_std: 0.0013
     value_gap_source_arxiv: '2502.09263'
@@ -3617,7 +4137,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 42
+    paper_rank: 43
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -3643,7 +4163,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 50
+    global_rank: 51
     true_value: 0.2459
     true_std: 0.002
     value_gap_source_arxiv: '2502.09263'
@@ -3654,7 +4174,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 50
+    paper_rank: 51
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -3680,7 +4200,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 55
+    global_rank: 56
     true_value: 0.246
     true_std: 0.0012
     value_gap_source_arxiv: '2605.06462'
@@ -3690,7 +4210,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 55
+    paper_rank: 56
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -3716,7 +4236,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 96
+    global_rank: 97
     true_value: 0.2478
     true_std: 0.0016
     value_gap_source_arxiv: '2502.09263'
@@ -3727,7 +4247,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 96
+    paper_rank: 97
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -3753,7 +4273,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 101
+    global_rank: 102
     true_value: 0.2481
     true_std: 0.0007
     value_gap_source_arxiv: '2605.06462'
@@ -3763,7 +4283,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 101
+    paper_rank: 102
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -3789,7 +4309,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 133
+    global_rank: 135
     true_value: 0.25
     true_std: 0.0012
     value_gap_source_arxiv: '2604.17324'
@@ -3800,7 +4320,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 133
+    paper_rank: 135
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -3826,7 +4346,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 185
+    global_rank: 188
     true_value: 0.2545
     true_std: 0.0012
     value_gap_source_arxiv: '2312.16560'
@@ -3836,7 +4356,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 185
+    paper_rank: 188
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -4028,6 +4548,80 @@ results:
     sort_value: 0.063
     sort_std: 0.001
     is_best: false
+  - model: GraphMinNet
+    model_key: graphminnet
+    model_plain: GraphMinNet
+    value: 0.063
+    std: 0.001
+    paper_value: 0.063
+    paper_std: 0.001
+    metric: MAE
+    higher_is_better: false
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'zinc: default subset fallback'
+    date: '2025-02-01'
+    date_display: Feb 2025
+    date_iso: '2025-02-01'
+    global_rank: 69
+    true_value: 0.063
+    true_std: 0.001
+    value_gap_source_arxiv: '2502.00282'
+    value_gap_source_title: 'GraphMinNet: Learning Dependencies in Graphs with Light
+      Complexity Minimal Architecture'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 69
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.063
+    sort_std: 0.001
+    is_best: false
+  - model: novel approach
+    model_key: novel approach
+    model_plain: novel approach
+    value: 0.063
+    std: 0.001
+    paper_value: 0.063
+    paper_std: 0.001
+    metric: MAE
+    higher_is_better: false
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'zinc: default subset fallback'
+    date: '2025-02-01'
+    date_display: Feb 2025
+    date_iso: '2025-02-01'
+    global_rank: 68
+    true_value: 0.063
+    true_std: 0.001
+    value_gap_source_arxiv: '2502.00282'
+    value_gap_source_title: 'GraphMinNet: Learning Dependencies in Graphs with Light
+      Complexity Minimal Architecture'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 68
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.063
+    sort_std: 0.001
+    is_best: false
   - model: GSSC
     model_key: gssc
     model_plain: GSSC
@@ -4047,7 +4641,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 68
+    global_rank: 70
     true_value: 0.064
     true_std: 0.002
     value_gap_source_arxiv: '2502.00282'
@@ -4058,7 +4652,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 68
+    paper_rank: 70
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -4084,7 +4678,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 68
+    global_rank: 70
     true_value: 0.064
     true_std: 0.002
     value_gap_source_arxiv: '2502.00282'
@@ -4095,7 +4689,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 68
+    paper_rank: 70
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -4121,7 +4715,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 73
+    global_rank: 75
     true_value: 0.065
     true_std: 0.004
     value_gap_source_arxiv: '2502.09263'
@@ -4132,9 +4726,9 @@ results:
     has_value_note: false
     value_gap: 0.461
     value_note: ''
-    paper_rank: 279
-    rank_delta: 206
-    rank_delta_abs: 206
+    paper_rank: 290
+    rank_delta: 215
+    rank_delta_abs: 215
     rank_delta_direction: worse
     sort_value: 0.065
     sort_std: 0.004
@@ -4158,7 +4752,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 73
+    global_rank: 75
     true_value: 0.065
     true_std: 0.004
     value_gap_source_arxiv: '2502.09263'
@@ -4169,9 +4763,9 @@ results:
     has_value_note: false
     value_gap: 0.461
     value_note: ''
-    paper_rank: 279
-    rank_delta: 206
-    rank_delta_abs: 206
+    paper_rank: 290
+    rank_delta: 215
+    rank_delta_abs: 215
     rank_delta_direction: worse
     sort_value: 0.065
     sort_std: 0.004
@@ -4195,7 +4789,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 75
+    global_rank: 77
     true_value: 0.066
     true_std: 0.003
     value_gap_source_arxiv: '2604.17324'
@@ -4206,9 +4800,9 @@ results:
     has_value_note: false
     value_gap: 0.045
     value_note: ''
-    paper_rank: 186
-    rank_delta: 111
-    rank_delta_abs: 111
+    paper_rank: 195
+    rank_delta: 118
+    rank_delta_abs: 118
     rank_delta_direction: worse
     sort_value: 0.066
     sort_std: 0.003
@@ -4232,7 +4826,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 75
+    global_rank: 77
     true_value: 0.066
     true_std: 0.003
     value_gap_source_arxiv: '2604.17324'
@@ -4243,9 +4837,9 @@ results:
     has_value_note: false
     value_gap: 0.045
     value_note: ''
-    paper_rank: 186
-    rank_delta: 111
-    rank_delta_abs: 111
+    paper_rank: 195
+    rank_delta: 118
+    rank_delta_abs: 118
     rank_delta_direction: worse
     sort_value: 0.066
     sort_std: 0.003
@@ -4269,7 +4863,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 81
+    global_rank: 83
     true_value: 0.067
     true_std: 0.002
     value_gap_source_arxiv: '2502.00282'
@@ -4280,7 +4874,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 81
+    paper_rank: 83
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -4306,7 +4900,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 81
+    global_rank: 83
     true_value: 0.067
     true_std: 0.002
     value_gap_source_arxiv: '2502.00282'
@@ -4317,7 +4911,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 81
+    paper_rank: 83
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -4343,7 +4937,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 96
+    global_rank: 98
     true_value: 0.069
     true_std: 0.008
     value_gap_source_arxiv: '2604.24293'
@@ -4354,9 +4948,9 @@ results:
     has_value_note: true
     value_gap: 0.0010000000000000009
     value_note: global 0.0690 within std
-    paper_rank: 104
-    rank_delta: 8
-    rank_delta_abs: 8
+    paper_rank: 107
+    rank_delta: 9
+    rank_delta_abs: 9
     rank_delta_direction: worse
     sort_value: 0.069
     sort_std: 0.008
@@ -4380,7 +4974,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 96
+    global_rank: 98
     true_value: 0.069
     true_std: 0.008
     value_gap_source_arxiv: '2604.24293'
@@ -4391,9 +4985,9 @@ results:
     has_value_note: true
     value_gap: 0.0010000000000000009
     value_note: global 0.0690 within std
-    paper_rank: 104
-    rank_delta: 8
-    rank_delta_abs: 8
+    paper_rank: 107
+    rank_delta: 9
+    rank_delta_abs: 9
     rank_delta_direction: worse
     sort_value: 0.069
     sort_std: 0.008
@@ -4417,7 +5011,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 126
+    global_rank: 131
     true_value: 0.076
     true_std: 0.009
     value_gap_source_arxiv: '2502.09263'
@@ -4428,9 +5022,9 @@ results:
     has_value_note: false
     value_gap: 0.291
     value_note: ''
-    paper_rank: 271
-    rank_delta: 145
-    rank_delta_abs: 145
+    paper_rank: 282
+    rank_delta: 151
+    rank_delta_abs: 151
     rank_delta_direction: worse
     sort_value: 0.076
     sort_std: 0.009
@@ -4454,7 +5048,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 126
+    global_rank: 131
     true_value: 0.076
     true_std: 0.009
     value_gap_source_arxiv: '2502.09263'
@@ -4465,9 +5059,9 @@ results:
     has_value_note: false
     value_gap: 0.291
     value_note: ''
-    paper_rank: 271
-    rank_delta: 145
-    rank_delta_abs: 145
+    paper_rank: 282
+    rank_delta: 151
+    rank_delta_abs: 151
     rank_delta_direction: worse
     sort_value: 0.076
     sort_std: 0.009
@@ -4491,7 +5085,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 130
+    global_rank: 135
     true_value: 0.077
     true_std: 0.002
     value_gap_source_arxiv: '2502.09263'
@@ -4502,7 +5096,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 130
+    paper_rank: 135
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -4528,7 +5122,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 130
+    global_rank: 135
     true_value: 0.077
     true_std: 0.002
     value_gap_source_arxiv: '2502.09263'
@@ -4539,7 +5133,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 130
+    paper_rank: 135
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -4565,7 +5159,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 135
+    global_rank: 141
     true_value: 0.0776354896230479
     true_std: 0.005512609666895327
     value_gap_source_arxiv: '2402.10793'
@@ -4576,9 +5170,9 @@ results:
     has_value_note: false
     value_gap: 0.3063645103769521
     value_note: ''
-    paper_rank: 271
-    rank_delta: 136
-    rank_delta_abs: 136
+    paper_rank: 282
+    rank_delta: 141
+    rank_delta_abs: 141
     rank_delta_direction: worse
     sort_value: 0.0776354896230479
     sort_std: 0.005512609666895327
@@ -4602,7 +5196,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 135
+    global_rank: 141
     true_value: 0.0776354896230479
     true_std: 0.005512609666895327
     value_gap_source_arxiv: '2402.10793'
@@ -4613,9 +5207,9 @@ results:
     has_value_note: false
     value_gap: 0.3063645103769521
     value_note: ''
-    paper_rank: 271
-    rank_delta: 136
-    rank_delta_abs: 136
+    paper_rank: 282
+    rank_delta: 141
+    rank_delta_abs: 141
     rank_delta_direction: worse
     sort_value: 0.0776354896230479
     sort_std: 0.005512609666895327
@@ -4639,7 +5233,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 211
+    global_rank: 221
     true_value: 0.1341
     true_std: 0.0063
     value_gap_source_arxiv: '2602.02268'
@@ -4650,7 +5244,7 @@ results:
     has_value_note: true
     value_gap: 0.0049000000000000155
     value_note: global 0.1341 within std
-    paper_rank: 212
+    paper_rank: 222
     rank_delta: 1
     rank_delta_abs: 1
     rank_delta_direction: worse
@@ -4676,7 +5270,7 @@ results:
     date: '2025-02-01'
     date_display: Feb 2025
     date_iso: '2025-02-01'
-    global_rank: 211
+    global_rank: 221
     true_value: 0.1341
     true_std: 0.0063
     value_gap_source_arxiv: '2602.02268'
@@ -4687,7 +5281,7 @@ results:
     has_value_note: true
     value_gap: 0.0049000000000000155
     value_note: global 0.1341 within std
-    paper_rank: 212
+    paper_rank: 222
     rank_delta: 1
     rank_delta_abs: 1
     rank_delta_direction: worse
@@ -4935,6 +5529,41 @@ results:
     uses_external_data: null
     is_best: false
     global_rank: 10
+  - model: novel approach
+    model_key: novel approach
+    model_plain: novel approach
+    metric_values:
+    - 0.8086
+    - null
+    metric_stds:
+    - 0.0056
+    - null
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    sort_value: 0.8086
+    sort_std: 0.0056
+    true_value: 0.8086
+    true_std: 0.0056
+    paper_value: 0.8086
+    paper_std: 0.0056
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_gap_source_arxiv: '2502.00282'
+    value_gap_source_title: 'GraphMinNet: Learning Dependencies in Graphs with Light
+      Complexity Minimal Architecture'
+    value_note: ''
+    arxiv_id: ''
+    title: ''
+    date: '2025-02-01'
+    date_display: Feb 2025
+    date_iso: '2025-02-01'
+    codebase_url: ''
+    uses_external_data: null
+    is_best: false
+    global_rank: 11
   - model: Exphormer
     model_key: exphormer
     model_plain: Exphormer
@@ -4969,7 +5598,7 @@ results:
     codebase_url: ''
     uses_external_data: null
     is_best: false
-    global_rank: 11
+    global_rank: 12
   - model: GSSC
     model_key: gssc
     model_plain: GSSC
@@ -5004,7 +5633,7 @@ results:
     codebase_url: ''
     uses_external_data: null
     is_best: false
-    global_rank: 23
+    global_rank: 24
   - model: GraphGPS
     model_key: graphgps
     model_plain: GraphGPS
@@ -5039,7 +5668,7 @@ results:
     codebase_url: ''
     uses_external_data: null
     is_best: false
-    global_rank: 69
+    global_rank: 72
   - model: Graph-Mamba
     model_key: graph-mamba
     model_plain: Graph-Mamba
@@ -5074,7 +5703,7 @@ results:
     codebase_url: ''
     uses_external_data: null
     is_best: false
-    global_rank: 92
+    global_rank: 95
   - model: SAN
     model_key: san
     model_plain: SAN
@@ -5109,7 +5738,7 @@ results:
     codebase_url: ''
     uses_external_data: null
     is_best: true
-    global_rank: 111
+    global_rank: 116
   metrics:
   - ROC-AUC
   - AUROC
@@ -5136,7 +5765,6 @@ results_grouped:
 - benchmark: Other Graph Benchmarks
   datasets:
   - *id010
-single_proposed_model: Ours
 main_figure: /figures/2502.00282/main_figure.png
 ---
 

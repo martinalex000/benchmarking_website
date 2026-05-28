@@ -13,7 +13,7 @@ stats:
   avg_nodes: 17.93
   avg_edges: 19.79
   num_classes: 2
-result_count: 182
+result_count: 189
 best_model:
   model: PR-MPNN
   value: 0.984
@@ -1263,6 +1263,26 @@ variants:
     metric_stds:
     - 0.0277
     - null
+  - model: GIN + CGP
+    model_plain: GIN + CGP
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2410.03424'
+    title: Cayley Graph Propagation
+    date: Oct 2024
+    date_iso: 2024-10
+    date_display: Oct 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.8525
+    - null
+    metric_stds:
+    - 0.032
+    - null
   - model: VIB-GSL (GCN)
     model_plain: VIB-GSL (GCN)
     is_baseline: true
@@ -1464,6 +1484,26 @@ variants:
     metric_stds:
     - 0.13
     - null
+  - model: GCN + CGP
+    model_plain: GCN + CGP
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2410.03424'
+    title: Cayley Graph Propagation
+    date: Oct 2024
+    date_iso: 2024-10
+    date_display: Oct 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.8375
+    - null
+    metric_stds:
+    - 0.03597
+    - null
   - model: GMT
     model_plain: GMT
     is_baseline: true
@@ -1504,6 +1544,26 @@ variants:
     - null
     metric_stds:
     - 0.0395
+    - null
+  - model: GCN + PANDA
+    model_plain: GCN + PANDA
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2410.03424'
+    title: Cayley Graph Propagation
+    date: Oct 2024
+    date_iso: 2024-10
+    date_display: Oct 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.8325
+    - null
+    metric_stds:
+    - 0.03262
     - null
   - model: GCN (LCP-ORC)
     model_plain: GCN (LCP-ORC)
@@ -1825,6 +1885,26 @@ variants:
     metric_stds:
     - 0.07964
     - null
+  - model: EGP (GIN)
+    model_plain: EGP (GIN)
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2410.03424'
+    title: Cayley Graph Propagation
+    date: Oct 2024
+    date_iso: 2024-10
+    date_display: Oct 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.815
+    - null
+    metric_stds:
+    - 0.04696
+    - null
   - model: GK (k=3)
     model_plain: GK (k=3)
     is_baseline: true
@@ -1945,26 +2025,45 @@ variants:
     metric_stds:
     - 0.0177
     - null
-  - model: GCN + BORF
-    model_plain: GCN + BORF
+  - model: GIN-SDRF-R
+    model_plain: GIN-SDRF-R
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2509.06777'
-    title: Asynchronous Message Passing for Addressing Oversquashing in Graph Neural
-      Networks
-    date: Sep 2025
-    date_iso: 2025-09
-    date_display: Sep 2025
+    arxiv_id: '2410.03424'
+    title: Cayley Graph Propagation
+    date: Oct 2024
+    date_iso: 2024-10
+    date_display: Oct 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.8079999999999999
+    - 0.805
     - null
     metric_stds:
-    - 0.025
+    - 0.04177
+    - null
+  - model: GIN-FOSR-R
+    model_plain: GIN-FOSR-R
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2410.03424'
+    title: Cayley Graph Propagation
+    date: Oct 2024
+    date_iso: 2024-10
+    date_display: Oct 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.805
+    - null
+    metric_stds:
+    - 0.04738
     - null
   - model: CWN
     model_plain: CWN
@@ -2048,6 +2147,26 @@ variants:
     metric_stds:
     - 0.0153
     - null
+  - model: GIN + FA
+    model_plain: GIN + FA
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2410.03424'
+    title: Cayley Graph Propagation
+    date: Oct 2024
+    date_iso: 2024-10
+    date_display: Oct 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.8025
+    - null
+    metric_stds:
+    - 0.05314
+    - null
   - model: GPS (19-RWPE)
     model_plain: GPS (19-RWPE)
     is_baseline: true
@@ -2067,27 +2186,6 @@ variants:
     - null
     metric_stds:
     - 0.0165
-    - null
-  - model: GCN + FoSR
-    model_plain: GCN + FoSR
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2509.06777'
-    title: Asynchronous Message Passing for Addressing Oversquashing in Graph Neural
-      Networks
-    date: Sep 2025
-    date_iso: 2025-09
-    date_display: Sep 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.8
-    - null
-    metric_stds:
-    - 0.015700000000000002
     - null
   - model: CAMP-GCN (Degree)
     model_plain: CAMP-GCN (Degree)
@@ -2109,27 +2207,6 @@ variants:
     - null
     metric_stds:
     - 0.0436
-    - null
-  - model: GCN + DIGL
-    model_plain: GCN + DIGL
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2509.06777'
-    title: Asynchronous Message Passing for Addressing Oversquashing in Graph Neural
-      Networks
-    date: Sep 2025
-    date_iso: 2025-09
-    date_display: Sep 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.797
-    - null
-    metric_stds:
-    - 0.0215
     - null
   - model: SaNN
     model_plain: SaNN
@@ -2212,6 +2289,26 @@ variants:
     metric_stds:
     - 0.019
     - null
+  - model: GCN + BORF
+    model_plain: GCN + BORF
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2410.03424'
+    title: Cayley Graph Propagation
+    date: Oct 2024
+    date_iso: 2024-10
+    date_display: Oct 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7925
+    - null
+    metric_stds:
+    - 0.00038
+    - null
   - model: DiffPool
     model_plain: DiffPool
     is_baseline: true
@@ -2272,27 +2369,6 @@ variants:
     metric_stds:
     - 0.021
     - null
-  - model: GCN + GTR
-    model_plain: GCN + GTR
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2509.06777'
-    title: Asynchronous Message Passing for Addressing Oversquashing in Graph Neural
-      Networks
-    date: Sep 2025
-    date_iso: 2025-09
-    date_display: Sep 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.7909999999999999
-    - null
-    metric_stds:
-    - 0.018600000000000002
-    - null
   - model: EigenPool
     model_plain: EigenPool
     is_baseline: true
@@ -2332,6 +2408,26 @@ variants:
     - null
     metric_stds:
     - 0.029
+    - null
+  - model: GIN + GTR
+    model_plain: GIN + GTR
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2410.03424'
+    title: Cayley Graph Propagation
+    date: Oct 2024
+    date_iso: 2024-10
+    date_display: Oct 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.79
+    - null
+    metric_stds:
+    - 0.03847
     - null
   - model: GAT
     model_plain: GAT
@@ -2373,6 +2469,26 @@ variants:
     metric_stds:
     - 0.06201
     - null
+  - model: GCN + DIGL
+    model_plain: GCN + DIGL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2410.03424'
+    title: Cayley Graph Propagation
+    date: Oct 2024
+    date_iso: 2024-10
+    date_display: Oct 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.785
+    - null
+    metric_stds:
+    - 0.04189
+    - null
   - model: GSD GNN
     model_plain: GSD GNN
     is_baseline: true
@@ -2392,48 +2508,6 @@ variants:
     - null
     metric_stds:
     - 0.022
-    - null
-  - model: GIN-SDRF-R
-    model_plain: GIN-SDRF-R
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2509.06777'
-    title: Asynchronous Message Passing for Addressing Oversquashing in Graph Neural
-      Networks
-    date: Sep 2025
-    date_iso: 2025-09
-    date_display: Sep 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.784
-    - null
-    metric_stds:
-    - 0.027999999999999997
-    - null
-  - model: GIN-FOSR-R
-    model_plain: GIN-FOSR-R
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2509.06777'
-    title: Asynchronous Message Passing for Addressing Oversquashing in Graph Neural
-      Networks
-    date: Sep 2025
-    date_iso: 2025-09
-    date_display: Sep 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.784
-    - null
-    metric_stds:
-    - 0.027999999999999997
     - null
   - model: --
     model_plain: --
@@ -2515,27 +2589,6 @@ variants:
     - null
     metric_stds:
     - 0.0036
-    - null
-  - model: GIN + GTR
-    model_plain: GIN + GTR
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2509.06777'
-    title: Asynchronous Message Passing for Addressing Oversquashing in Graph Neural
-      Networks
-    date: Sep 2025
-    date_iso: 2025-09
-    date_display: Sep 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.7759999999999999
-    - null
-    metric_stds:
-    - 0.028399999999999998
     - null
   - model: VIB-GSL (GAT)
     model_plain: VIB-GSL (GAT)
@@ -2639,6 +2692,26 @@ variants:
     - null
     metric_stds:
     - null
+    - null
+  - model: GCN + GTR
+    model_plain: GCN + GTR
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2410.03424'
+    title: Cayley Graph Propagation
+    date: Oct 2024
+    date_iso: 2024-10
+    date_display: Oct 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.765
+    - null
+    metric_stds:
+    - 0.04189
     - null
   - model: CAMP-GCN (Closeness)
     model_plain: CAMP-GCN (Closeness)
@@ -2824,6 +2897,26 @@ variants:
     metric_stds:
     - 0.028
     - null
+  - model: GCN + FoSR
+    model_plain: GCN + FoSR
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2410.03424'
+    title: Cayley Graph Propagation
+    date: Oct 2024
+    date_iso: 2024-10
+    date_display: Oct 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7525
+    - null
+    metric_stds:
+    - 0.05722
+    - null
   - model: BGRL
     model_plain: BGRL
     is_baseline: true
@@ -2945,6 +3038,26 @@ variants:
     - null
     metric_stds:
     - 0.014
+    - null
+  - model: GCN + SDRF
+    model_plain: GCN + SDRF
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2410.03424'
+    title: Cayley Graph Propagation
+    date: Oct 2024
+    date_iso: 2024-10
+    date_display: Oct 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.74
+    - null
+    metric_stds:
+    - 0.03462
     - null
   - model: GCN
     model_plain: GCN
@@ -3188,27 +3301,6 @@ variants:
     metric_stds:
     - 0.028
     - null
-  - model: GCN + SDRF
-    model_plain: GCN + SDRF
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2509.06777'
-    title: Asynchronous Message Passing for Addressing Oversquashing in Graph Neural
-      Networks
-    date: Sep 2025
-    date_iso: 2025-09
-    date_display: Sep 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.7105
-    - null
-    metric_stds:
-    - 0.0187
-    - null
   - model: DR
     model_plain: DR
     is_baseline: true
@@ -3310,6 +3402,46 @@ variants:
     - null
     metric_stds:
     - 0.024
+    - null
+  - model: EGP (GCN)
+    model_plain: EGP (GCN)
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2410.03424'
+    title: Cayley Graph Propagation
+    date: Oct 2024
+    date_iso: 2024-10
+    date_display: Oct 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.705
+    - null
+    metric_stds:
+    - 0.04738
+    - null
+  - model: FAGCN
+    model_plain: FAGCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2410.03424'
+    title: Cayley Graph Propagation
+    date: Oct 2024
+    date_iso: 2024-10
+    date_display: Oct 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7025
+    - null
+    metric_stds:
+    - 0.04608
     - null
   - model: Eigen
     model_plain: Eigen

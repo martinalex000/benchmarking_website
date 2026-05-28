@@ -143,7 +143,7 @@ Papers with successfully extracted results. These papers contribute to the leade
 | 2407.08762 | arXiv:2407.08762 | qwen3.6-35b-a3b |
 | 2407.12136 | Molecular Topological Profile (MOLTOP) - Simple and Strong... | qwen3.6-35b-a3b |
 | 2407.12419 | Dirac--Bianconi Graph Neural Networks -- Enabling Non-Diffusive Long-Range... | qwen3.6-35b-a3b |
-| 2407.18480 | Scalable Graph Compressed Convolutions | openai-gpt-oss-120b |
+| 2407.18480 | Scalable Graph Compressed Convolutions | qwen3.6-35b-a3b |
 | 2408.05822 | arXiv:2408.05822 | Kimi-K2.6 |
 | 2408.12169 | arXiv:2408.12169 | Kimi-K2.6 |
 | 2409.08023 | arXiv:2409.08023 | Kimi-K2.6 |
@@ -151,9 +151,9 @@ Papers with successfully extracted results. These papers contribute to the leade
 | 2409.19117 | Range-aware Positional Encoding via High-order Pretraining: Theory and... | qwen3.6-35b-a3b |
 | 2409.19414 | arXiv:2409.19414 | Kimi-K2.6 |
 | 2409.20212 | arXiv:2409.20212 | Kimi-K2.6 |
-| 2410.03424 | Cayley Graph Propagation | Kimi-K2.6 |
+| 2410.03424 | Cayley Graph Propagation | qwen3.6-35b-a3b |
 | 2410.05499 | Unitary convolutions for learning on graphs and groups | Kimi-K2.6 |
-| 2410.05593 | When Graph Neural Networks Meet Dynamic Mode Decomposition | MiniMaxAI/MiniMax-M2.5 |
+| 2410.05593 | When Graph Neural Networks Meet Dynamic Mode Decomposition | qwen3.6-35b-a3b |
 | 2410.05697 | Diffusing to the Top: Boost Graph Neural Networks... | openai-gpt-oss-120b |
 | 2410.06460 | A Benchmark on Directed Graph Representation Learning in... | MiniMaxAI/MiniMax-M2.5 |
 | 2410.09737 | Towards Stable, Globally Expressive Graph Representations with Laplacian... | qwen3.6-35b-a3b |

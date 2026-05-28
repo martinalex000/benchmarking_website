@@ -13,7 +13,7 @@ stats:
   avg_nodes: 32.6
   avg_edges: 62.1
   num_classes: 6
-result_count: 134
+result_count: 144
 best_model:
   model: PathNN-P (K=1)
   value: 0.73
@@ -467,6 +467,24 @@ variants:
     - 0.502
     metric_stds:
     - 0.027000000000000003
+  - model: GIN + CGP
+    model_plain: GIN + CGP
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2410.03424'
+    title: Cayley Graph Propagation
+    date: Oct 2024
+    date_iso: 2024-10
+    date_display: Oct 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.50083
+    metric_stds:
+    - 0.02242
   - model: RBF-KAGAT
     model_plain: RBF-KAGAT
     is_baseline: true
@@ -521,6 +539,24 @@ variants:
     - 0.4819
     metric_stds:
     - 0.0131
+  - model: GIN + FA
+    model_plain: GIN + FA
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2410.03424'
+    title: Cayley Graph Propagation
+    date: Oct 2024
+    date_iso: 2024-10
+    date_display: Oct 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.47833
+    metric_stds:
+    - 0.02529
   - model: GCN (Norm. H-20-LAPE)
     model_plain: GCN (Norm. H-20-LAPE)
     is_baseline: true
@@ -741,6 +777,24 @@ variants:
     - 0.42700000000000005
     metric_stds:
     - 0.033
+  - model: GCN + PANDA
+    model_plain: GCN + PANDA
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2410.03424'
+    title: Cayley Graph Propagation
+    date: Oct 2024
+    date_iso: 2024-10
+    date_display: Oct 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.42167
+    metric_stds:
+    - 0.02286
   - model: Wide Unitary GCN
     model_plain: Wide Unitary GCN
     is_baseline: false
@@ -796,6 +850,24 @@ variants:
     - 0.415
     metric_stds:
     - 0.016
+  - model: GCN + DIGL
+    model_plain: GCN + DIGL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2410.03424'
+    title: Cayley Graph Propagation
+    date: Oct 2024
+    date_iso: 2024-10
+    date_display: Oct 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.415
+    metric_stds:
+    - 0.03063
   - model: CAMP-GCN (PageRank)
     model_plain: CAMP-GCN (PageRank)
     is_baseline: true
@@ -815,6 +887,24 @@ variants:
     - 0.41
     metric_stds:
     - 0.0254
+  - model: EGP (GIN)
+    model_plain: EGP (GIN)
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2410.03424'
+    title: Cayley Graph Propagation
+    date: Oct 2024
+    date_iso: 2024-10
+    date_display: Oct 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.40667
+    metric_stds:
+    - 0.03095
   - model: SepPool
     model_plain: SepPool
     is_baseline: true
@@ -1141,6 +1231,24 @@ variants:
     - 0.35717
     metric_stds:
     - 0.01198
+  - model: GIN
+    model_plain: GIN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2410.03424'
+    title: Cayley Graph Propagation
+    date: Oct 2024
+    date_iso: 2024-10
+    date_display: Oct 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.35667
+    metric_stds:
+    - 0.02803
   - model: GCN + BORF
     model_plain: GCN + BORF
     is_baseline: true
@@ -1267,6 +1375,24 @@ variants:
     - 0.34333
     metric_stds:
     - 0.06936
+  - model: GCN + BORF
+    model_plain: GCN + BORF
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2410.03424'
+    title: Cayley Graph Propagation
+    date: Oct 2024
+    date_iso: 2024-10
+    date_display: Oct 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.34167
+    metric_stds:
+    - 0.00029
   - model: GIN-E
     model_plain: GIN-E
     is_baseline: true
@@ -1648,6 +1774,24 @@ variants:
     - 0.31
     metric_stds:
     - 0.022
+  - model: GCN + CGP
+    model_plain: GCN + CGP
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2410.03424'
+    title: Cayley Graph Propagation
+    date: Oct 2024
+    date_iso: 2024-10
+    date_display: Oct 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.31
+    metric_stds:
+    - 0.02397
   - model: GCN (EE H-19-RWPE)
     model_plain: GCN (EE H-19-RWPE)
     is_baseline: true
@@ -1918,6 +2062,24 @@ variants:
     - 0.287
     metric_stds:
     - 0.024
+  - model: FAGCN
+    model_plain: FAGCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2410.03424'
+    title: Cayley Graph Propagation
+    date: Oct 2024
+    date_iso: 2024-10
+    date_display: Oct 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.28667
+    metric_stds:
+    - 0.03693
   - model: GCN
     model_plain: GCN
     is_baseline: true
@@ -2134,6 +2296,24 @@ variants:
     - 0.277
     metric_stds:
     - 0.014
+  - model: EGP (GCN)
+    model_plain: EGP (GCN)
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2410.03424'
+    title: Cayley Graph Propagation
+    date: Oct 2024
+    date_iso: 2024-10
+    date_display: Oct 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.27583
+    metric_stds:
+    - 0.03262
   - model: GCN + GTR
     model_plain: GCN + GTR
     is_baseline: true

@@ -22,6 +22,49 @@ impressum ergänzen
 
 logos einbinden der jeweiligen benchmarks
 
+http://localhost:1313/datasets/zinc/ hier gibt es verdammt grosse Zahlen gemixt unter die anderen - wo kommen die her und wie werde ich die los? Und schaffe ich es die y-achse so zu skalieren, dass man mehr sehen kann?
+
+The hidden rows button does not work at the moment. Thus, also the scroll to row does not work.
+
+Add clear benchmark-selection guidance. Right now the site helps browse results, but not decide which benchmarks are worth testing on. It should surface benchmark relevance, popularity/adoption, recency, task fit, dataset scale, and a “recommended benchmark suite” view.
+
+Fix inconsistent headline numbers. The homepage and section pages use different counts, e.g. 224 papers on the homepage vs 159 papers on the papers page, and result totals also differ. That undermines trust immediately.
+
+Tighten data-quality checks on dataset summaries. Some displayed stats look misleading; for example, ogbn-arxiv is described as having 40 subject areas but shows Classes / Targets = 1. Researchers will question the whole site if overview stats are wrong.
+
+Complete core paper metadata. Paper pages are missing important scholarly context: author lists are empty on many/all pages, code links are absent, and dates are inconsistently formatted. That makes literature scanning much harder.
+
+Make comparison fairness more explicit. Leaderboards should more clearly distinguish results that are not directly comparable: external data, different splits, fine-tuning vs from-scratch, and nonstandard evaluation setups.
+
+Explain ranking logic in simpler terms. “Adjusted MRR with a three-dataset floor” is not self-evident. It needs a plainer explanation and likely an alternate ranking/sorting mode that matches common researcher questions. This should be explained in more detail.
+
+The mobile view of the table is terrible. It is all squeezed together in a way that is not helpful instead of collapsing in a sensible way into a multiline-entry. 
+
+Remove or downplay pipeline-internal terminology. Labels like “Extracted with qwen…” and footer text about automatic extraction/overrides feel internal. Researchers care more about provenance, confidence, and curation quality than the extraction pipeline details.
+
+now the button to hide rows past row 50 is simply gone. Please bring it back.
+
+the names of methods are terribly inconsistent and way too often wrong. Lets manually re-evaluate the most obvious cases (there have been significant improvements to the prompt). 
+
+
+Improve homepage orientation. The homepage is too sparse: just a short blurb, counters, and two buttons. For researchers, it should surface starting points like benchmark families, task types, “recommended standard benchmarks,” recently updated benchmarks, and high-coverage / high-activity datasets.
+
+Add benchmark-selection support, not just leaderboards. Right now the site is better at showing scores than helping decide what to test on. Dataset pages should expose signals like:
+standard vs non-standard split
+benchmark maturity / number of tracked papers
+recent activity
+code availability
+dataset scale / cost
+task scope
+whether results are saturated or still moving
+
+the abstracts shown on the paper often contain latex artifacts that reduce trust. Make sure they are properly cleaned. The most common indicator for latex artefacts are ~ symbols that would resolve to spaces - use them to find which papers are affected when checking whether re-extracting the abstract from the latex source worked successfully.
+
+Improve metadata completeness on paper pages. Coverage is weak: 
+224 paper pages have empty authors
+216 have no code link
+46 have no source URL
+Missing authors, venue, DOI/BibTeX, and code links makes pages less useful for literature review.
 
 ## Script cleanup backlog
 

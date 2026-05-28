@@ -325,7 +325,7 @@ results:
     params_millions: null
     table_ref: Table 2
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
     date: Jan 2026
     date_display: Jan 2026
     date_iso: 2026-01
@@ -348,7 +348,7 @@ results:
     params_millions: null
     table_ref: Table 2
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
     date: Jan 2026
     date_display: Jan 2026
     date_iso: 2026-01
@@ -371,7 +371,7 @@ results:
     params_millions: null
     table_ref: Table 2
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
     date: Jan 2026
     date_display: Jan 2026
     date_iso: 2026-01

@@ -13,7 +13,7 @@ stats:
   avg_nodes: 19.8
   avg_edges: 96.5
   num_classes: 2
-result_count: 167
+result_count: 184
 best_model:
   model: GPM
   value: 0.8267
@@ -1406,6 +1406,46 @@ variants:
     metric_stds:
     - 0.036
     - null
+  - model: GCN (RW) [BORF]
+    model_plain: GCN (RW) [BORF]
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2311.14864'
+    title: Effective Structural Encodings via Local Curvature Profiles
+    date: Nov 2023
+    date_iso: 2023-11
+    date_display: Nov 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.717
+    - null
+    metric_stds:
+    - 0.024
+    - null
+  - model: GIN + CGP
+    model_plain: GIN + CGP
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2410.03424'
+    title: Cayley Graph Propagation
+    date: Oct 2024
+    date_iso: 2024-10
+    date_display: Oct 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7165
+    - null
+    metric_stds:
+    - 0.01532
+    - null
   - model: PR-MPNN (train/val/test)
     model_plain: PR-MPNN (train/val/test)
     is_baseline: false
@@ -1930,6 +1970,26 @@ variants:
     metric_stds:
     - null
     - null
+  - model: GCN (LA) [BORF]
+    model_plain: GCN (LA) [BORF]
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2311.14864'
+    title: Effective Structural Encodings via Local Curvature Profiles
+    date: Nov 2023
+    date_iso: 2023-11
+    date_display: Nov 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.702
+    - null
+    metric_stds:
+    - 0.021
+    - null
   - model: GIN-E
     model_plain: GIN-E
     is_baseline: true
@@ -2172,6 +2232,26 @@ variants:
     metric_stds:
     - 0.033
     - null
+  - model: GCN + PANDA
+    model_plain: GCN + PANDA
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2410.03424'
+    title: Cayley Graph Propagation
+    date: Oct 2024
+    date_iso: 2024-10
+    date_display: Oct 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.6835
+    - null
+    metric_stds:
+    - 0.02346
+    - null
   - model: GCN (SUB, LA)
     model_plain: GCN (SUB, LA)
     is_baseline: true
@@ -2191,6 +2271,26 @@ variants:
     - null
     metric_stds:
     - 0.014
+    - null
+  - model: EGP (GIN)
+    model_plain: EGP (GIN)
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2410.03424'
+    title: Cayley Graph Propagation
+    date: Oct 2024
+    date_iso: 2024-10
+    date_display: Oct 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.6825
+    - null
+    metric_stds:
+    - 0.01121
     - null
   - model: GIN (SUB)
     model_plain: GIN (SUB)
@@ -2271,6 +2371,26 @@ variants:
     - null
     metric_stds:
     - 0.028
+    - null
+  - model: GCN (NO) [BORF]
+    model_plain: GCN (NO) [BORF]
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2311.14864'
+    title: Effective Structural Encodings via Local Curvature Profiles
+    date: Nov 2023
+    date_iso: 2023-11
+    date_display: Nov 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.677
+    - null
+    metric_stds:
+    - 0.015
     - null
   - model: CaCoSE (DMon)
     model_plain: CaCoSE (DMon)
@@ -2696,6 +2816,46 @@ variants:
     metric_stds:
     - 0.03877
     - null
+  - model: GCN + GTR
+    model_plain: GCN + GTR
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2410.03424'
+    title: Cayley Graph Propagation
+    date: Oct 2024
+    date_iso: 2024-10
+    date_display: Oct 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.607
+    - null
+    metric_stds:
+    - 0.02079
+    - null
+  - model: GCN
+    model_plain: GCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2410.03424'
+    title: Cayley Graph Propagation
+    date: Oct 2024
+    date_iso: 2024-10
+    date_display: Oct 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.605
+    - null
+    metric_stds:
+    - 0.02729
+    - null
   - model: FOSR
     model_plain: FOSR
     is_baseline: true
@@ -2735,6 +2895,46 @@ variants:
     - null
     metric_stds:
     - 0.01153
+    - null
+  - model: GCN + FoSR
+    model_plain: GCN + FoSR
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2410.03424'
+    title: Cayley Graph Propagation
+    date: Oct 2024
+    date_iso: 2024-10
+    date_display: Oct 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.5975
+    - null
+    metric_stds:
+    - 0.02357
+    - null
+  - model: EGP (GCN)
+    model_plain: EGP (GCN)
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2410.03424'
+    title: Cayley Graph Propagation
+    date: Oct 2024
+    date_iso: 2024-10
+    date_display: Oct 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.597
+    - null
+    metric_stds:
+    - 0.02371
     - null
   - model: PANDA-GCN (Betweenness)
     model_plain: PANDA-GCN (Betweenness)
@@ -2776,6 +2976,26 @@ variants:
     metric_stds:
     - 0.03847
     - null
+  - model: GCN + SDRF
+    model_plain: GCN + SDRF
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2410.03424'
+    title: Cayley Graph Propagation
+    date: Oct 2024
+    date_iso: 2024-10
+    date_display: Oct 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.59
+    - null
+    metric_stds:
+    - 0.02254
+    - null
   - model: SDRF
     model_plain: SDRF
     is_baseline: true
@@ -2795,6 +3015,26 @@ variants:
     - null
     metric_stds:
     - 0.03201
+    - null
+  - model: GCN + CGP
+    model_plain: GCN + CGP
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2410.03424'
+    title: Cayley Graph Propagation
+    date: Oct 2024
+    date_iso: 2024-10
+    date_display: Oct 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.562
+    - null
+    metric_stds:
+    - 0.01825
     - null
   - model: TV
     model_plain: TV
@@ -2857,6 +3097,46 @@ variants:
     metric_stds:
     - 0.008
     - null
+  - model: GAT (LA) [BORF]
+    model_plain: GAT (LA) [BORF]
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2311.14864'
+    title: Effective Structural Encodings via Local Curvature Profiles
+    date: Nov 2023
+    date_iso: 2023-11
+    date_display: Nov 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.529
+    - null
+    metric_stds:
+    - 0.012
+    - null
+  - model: GCN + DIGL
+    model_plain: GCN + DIGL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2410.03424'
+    title: Cayley Graph Propagation
+    date: Oct 2024
+    date_iso: 2024-10
+    date_display: Oct 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.5265
+    - null
+    metric_stds:
+    - 0.0215
+    - null
   - model: GTR
     model_plain: GTR
     is_baseline: true
@@ -2876,6 +3156,26 @@ variants:
     - null
     metric_stds:
     - 0.04104
+    - null
+  - model: GAT (RW) [BORF]
+    model_plain: GAT (RW) [BORF]
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2311.14864'
+    title: Effective Structural Encodings via Local Curvature Profiles
+    date: Nov 2023
+    date_iso: 2023-11
+    date_display: Nov 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.521
+    - null
+    metric_stds:
+    - 0.009
     - null
   - model: GCN (SUB)
     model_plain: GCN (SUB)
@@ -3242,6 +3542,26 @@ variants:
     metric_stds:
     - 0.017
     - null
+  - model: FAGCN
+    model_plain: FAGCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2410.03424'
+    title: Cayley Graph Propagation
+    date: Oct 2024
+    date_iso: 2024-10
+    date_display: Oct 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.4895
+    - null
+    metric_stds:
+    - 0.01652
+    - null
   - model: GCN (NO)
     model_plain: GCN (NO)
     is_baseline: true
@@ -3301,6 +3621,26 @@ variants:
     - null
     metric_stds:
     - 0.012
+    - null
+  - model: GAT (NO) [BORF]
+    model_plain: GAT (NO) [BORF]
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2311.14864'
+    title: Effective Structural Encodings via Local Curvature Profiles
+    date: Nov 2023
+    date_iso: 2023-11
+    date_display: Nov 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.471
+    - null
+    metric_stds:
+    - 0.016
     - null
   - model: GAT (NO)
     model_plain: GAT (NO)

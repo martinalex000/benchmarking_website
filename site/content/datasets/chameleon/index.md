@@ -12,7 +12,7 @@ stats:
   avg_nodes: 2277.0
   avg_edges: 36101.0
   num_classes: 5
-result_count: 162
+result_count: 177
 best_model:
   model: GraphMAE
   value: 0.8051
@@ -116,6 +116,46 @@ variants:
     metric_stds:
     - 0.0126
     - null
+  - model: CoCN expanded
+    model_plain: CoCN expanded
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2407.18480'
+    title: Scalable Graph Compressed Convolutions
+    date: Jul 2024
+    date_iso: 2024-07
+    date_display: Jul 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: true
+    metric_values:
+    - 0.7935
+    - null
+    metric_stds:
+    - 0.0142
+    - null
+  - model: CoCN vanilla
+    model_plain: CoCN vanilla
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2407.18480'
+    title: Scalable Graph Compressed Convolutions
+    date: Jul 2024
+    date_iso: 2024-07
+    date_display: Jul 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: true
+    metric_values:
+    - 0.7917
+    - null
+    metric_stds:
+    - 0.0017
+    - null
   - model: Sp^2GCL
     model_plain: Sp^2GCL
     is_baseline: true
@@ -142,20 +182,19 @@ variants:
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2409.11504'
-    title: Preventing Representational Rank Collapse in MPNNs by Splitting the Computational
-      Graph
-    date: Sep 2024
-    date_iso: 2024-09
-    date_display: Sep 2024
+    arxiv_id: '2407.18480'
+    title: Scalable Graph Compressed Convolutions
+    date: Jul 2024
+    date_iso: 2024-07
+    date_display: Jul 2024
     codebase_url: ''
     uses_external_data: false
-    is_best: true
+    is_best: false
     metric_values:
-    - 0.7827
+    - 0.7785
     - null
     metric_stds:
-    - 0.0128
+    - null
     - null
   - model: ACMII-GCN
     model_plain: ACMII-GCN
@@ -398,6 +437,26 @@ variants:
     metric_stds:
     - 0.0124
     - null
+  - model: AERO-GNN
+    model_plain: AERO-GNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2407.18480'
+    title: Scalable Graph Compressed Convolutions
+    date: Jul 2024
+    date_iso: 2024-07
+    date_display: Jul 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7158
+    - null
+    metric_stds:
+    - 0.024
+    - null
   - model: Grad. Gating
     model_plain: Grad. Gating
     is_baseline: true
@@ -419,26 +478,45 @@ variants:
     metric_stds:
     - 0.0238
     - null
-  - model: GLoGNN
-    model_plain: GLoGNN
+  - model: GGCN
+    model_plain: GGCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2409.11504'
-    title: Preventing Representational Rank Collapse in MPNNs by Splitting the Computational
-      Graph
-    date: Sep 2024
-    date_iso: 2024-09
-    date_display: Sep 2024
+    arxiv_id: '2407.18480'
+    title: Scalable Graph Compressed Convolutions
+    date: Jul 2024
+    date_iso: 2024-07
+    date_display: Jul 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.7121
+    - 0.7114
     - null
     metric_stds:
     - 0.0184
+    - null
+  - model: ResNet+adj
+    model_plain: ResNet+adj
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2407.18480'
+    title: Scalable Graph Compressed Convolutions
+    date: Jul 2024
+    date_iso: 2024-07
+    date_display: Jul 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7107
+    - null
+    metric_stds:
+    - null
     - null
   - model: AUG-MAE
     model_plain: AUG-MAE
@@ -459,6 +537,26 @@ variants:
     - null
     metric_stds:
     - 0.0188
+    - null
+  - model: GLoGNN
+    model_plain: GLoGNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2407.18480'
+    title: Scalable Graph Compressed Convolutions
+    date: Jul 2024
+    date_iso: 2024-07
+    date_display: Jul 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7004
+    - null
+    metric_stds:
+    - null
     - null
   - model: CaCoSE
     model_plain: CaCoSE
@@ -521,18 +619,37 @@ variants:
     metric_stds:
     - 0.0045
     - null
+  - model: ACMII-GCN
+    model_plain: ACMII-GCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2407.18480'
+    title: Scalable Graph Compressed Convolutions
+    date: Jul 2024
+    date_iso: 2024-07
+    date_display: Jul 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.6846
+    - null
+    metric_stds:
+    - 0.017
+    - null
   - model: LINKX
     model_plain: LINKX
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2409.11504'
-    title: Preventing Representational Rank Collapse in MPNNs by Splitting the Computational
-      Graph
-    date: Sep 2024
-    date_iso: 2024-09
-    date_display: Sep 2024
+    arxiv_id: '2407.18480'
+    title: Scalable Graph Compressed Convolutions
+    date: Jul 2024
+    date_iso: 2024-07
+    date_display: Jul 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -541,6 +658,26 @@ variants:
     - null
     metric_stds:
     - 0.0138
+    - null
+  - model: JacobiConv
+    model_plain: JacobiConv
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2407.18480'
+    title: Scalable Graph Compressed Convolutions
+    date: Jul 2024
+    date_iso: 2024-07
+    date_display: Jul 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.6833
+    - null
+    metric_stds:
+    - null
     - null
   - model: BernNet
     model_plain: BernNet
@@ -1108,6 +1245,26 @@ variants:
     - null
     metric_stds:
     - null
+    - null
+  - model: GPRGCN
+    model_plain: GPRGCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2407.18480'
+    title: Scalable Graph Compressed Convolutions
+    date: Jul 2024
+    date_iso: 2024-07
+    date_display: Jul 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.6259
+    - null
+    metric_stds:
+    - 0.0204
     - null
   - model: GRPE-FFGT
     model_plain: GRPE-FFGT
@@ -1801,6 +1958,26 @@ variants:
     metric_stds:
     - 0.0276
     - null
+  - model: ChebNet
+    model_plain: ChebNet
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2407.18480'
+    title: Scalable Graph Compressed Convolutions
+    date: Jul 2024
+    date_iso: 2024-07
+    date_display: Jul 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.5524
+    - null
+    metric_stds:
+    - 0.0276
+    - null
   - model: Nagphormer
     model_plain: Nagphormer
     is_baseline: true
@@ -2062,6 +2239,26 @@ variants:
     metric_stds:
     - 0.0068
     - null
+  - model: GBK-GNN
+    model_plain: GBK-GNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2407.18480'
+    title: Scalable Graph Compressed Convolutions
+    date: Jul 2024
+    date_iso: 2024-07
+    date_display: Jul 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.5136
+    - null
+    metric_stds:
+    - null
+    - null
   - model: CoBFormer
     model_plain: CoBFormer
     is_baseline: true
@@ -2102,6 +2299,26 @@ variants:
     metric_stds:
     - 0.001
     - null
+  - model: ResNet+SGC
+    model_plain: ResNet+SGC
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2407.18480'
+    title: Scalable Graph Compressed Convolutions
+    date: Jul 2024
+    date_iso: 2024-07
+    date_display: Jul 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.4993
+    - null
+    metric_stds:
+    - null
+    - null
   - model: APPNP
     model_plain: APPNP
     is_baseline: true
@@ -2121,6 +2338,26 @@ variants:
     - null
     metric_stds:
     - 0.01
+    - null
+  - model: ResNet
+    model_plain: ResNet
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2407.18480'
+    title: Scalable Graph Compressed Convolutions
+    date: Jul 2024
+    date_iso: 2024-07
+    date_display: Jul 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.4952
+    - null
+    metric_stds:
+    - null
     - null
   - model: FAGCN
     model_plain: FAGCN
@@ -2242,6 +2479,26 @@ variants:
     metric_stds:
     - 0.0058
     - null
+  - model: GPRGNN
+    model_plain: GPRGNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2407.18480'
+    title: Scalable Graph Compressed Convolutions
+    date: Jul 2024
+    date_iso: 2024-07
+    date_display: Jul 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.4726
+    - null
+    metric_stds:
+    - null
+    - null
   - model: GRIT
     model_plain: GRIT
     is_baseline: true
@@ -2343,6 +2600,26 @@ variants:
     - null
     metric_stds:
     - 0.0252
+    - null
+  - model: H2GCN
+    model_plain: H2GCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2407.18480'
+    title: Scalable Graph Compressed Convolutions
+    date: Jul 2024
+    date_iso: 2024-07
+    date_display: Jul 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.4627
+    - null
+    metric_stds:
+    - null
     - null
   - model: GAT
     model_plain: GAT
@@ -2465,6 +2742,26 @@ variants:
     - null
     metric_stds:
     - 0.018
+    - null
+  - model: GAT
+    model_plain: GAT
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2407.18480'
+    title: Scalable Graph Compressed Convolutions
+    date: Jul 2024
+    date_iso: 2024-07
+    date_display: Jul 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.4502
+    - null
+    metric_stds:
+    - null
     - null
   - model: SGFormer
     model_plain: SGFormer
@@ -2795,6 +3092,26 @@ variants:
     metric_stds:
     - 0.0297
     - null
+  - model: APPNP
+    model_plain: APPNP
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2407.18480'
+    title: Scalable Graph Compressed Convolutions
+    date: Jul 2024
+    date_iso: 2024-07
+    date_display: Jul 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.4044
+    - null
+    metric_stds:
+    - 0.0202
+    - null
   - model: GLoGNN
     model_plain: GLoGNN
     is_baseline: true
@@ -2938,27 +3255,6 @@ variants:
     - null
     metric_stds:
     - 0.033
-    - null
-  - model: APPNP
-    model_plain: APPNP
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2512.14619'
-    title: 'ParaFormer: A Generalized PageRank Graph Transformer for Graph Representation
-      Learning'
-    date: Dec 2025
-    date_iso: 2025-12
-    date_display: Dec 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.384
-    - null
-    metric_stds:
-    - 0.035
     - null
   - model: H2GCN
     model_plain: H2GCN
@@ -3333,6 +3629,12 @@ variants:
     arxiv_id: '2210.07606'
     title: Revisiting Heterophily For Graph Neural Networks
     date: 2022-10
+  - value: 0.7935
+    std: 0.0142
+    model: CoCN expanded
+    arxiv_id: '2407.18480'
+    title: Scalable Graph Compressed Convolutions
+    date: 2024-07
   - value: 0.8017
     std: 0.0188
     model: MRS-Dir-GCN_DA

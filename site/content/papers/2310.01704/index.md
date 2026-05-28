@@ -28,12 +28,21 @@ proposed_models:
 - Ours(dual readout,VN, 567k)
 - Ours(567k)
 - Ours(dual readout)
-mrr: 0.0057
-adjusted_mrr: 0.0019
-mrr_dataset_count: 1
+- GNNs(580k)
+- GNNs(dual readout,567k)
+- GNNs(567k)
+- GNNs
+- GNNs (dual readout, VN)
+- Graph neural networks(580k)
+- Graph neural networks(dual readout,slim,200k)
+- Graph neural networks(dual readout,VN, 567k)
+mrr: 0.0447
+adjusted_mrr: 0.0447
+mrr_dataset_count: 5
 benchmark_categories:
 - Classic
 - LRGB
+- OGB
 - MoleculeNet
 task_categories:
 - graph_classification
@@ -41,7 +50,7 @@ task_categories:
 experiment_scopes:
 - graph-level
 results:
-- &id005
+- &id006
   dataset: MUV
   rows:
   - model: Ours(dual readout)
@@ -67,6 +76,52 @@ results:
     sort_value: 0.182
     sort_std: 0.019
     is_best: true
+  - model: GNNs (dual readout, VN)
+    model_key: gnns (dual readout, vn)
+    model_plain: GNNs (dual readout, VN)
+    value: 0.182
+    std: 0.019
+    paper_value: 0.182
+    paper_std: 0.019
+    metric: AP
+    higher_is_better: true
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Oct 2023
+    date_display: Oct 2023
+    date_iso: 2023-10
+    global_rank: null
+    sort_value: 0.182
+    sort_std: 0.019
+    is_best: true
+  - model: Graph neural networks(dual readout,VN, 567k)
+    model_key: graph neural networks(dual readout,vn, 567k)
+    model_plain: Graph neural networks(dual readout,VN, 567k)
+    value: 0.182
+    std: 0.019
+    paper_value: 0.182
+    paper_std: 0.019
+    metric: AP
+    higher_is_better: true
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Oct 2023
+    date_display: Oct 2023
+    date_iso: 2023-10
+    global_rank: null
+    sort_value: 0.182
+    sort_std: 0.019
+    is_best: true
   - model: Ours
     model_key: ours
     model_plain: Ours
@@ -77,6 +132,52 @@ results:
     metric: AP
     higher_is_better: true
     is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Oct 2023
+    date_display: Oct 2023
+    date_iso: 2023-10
+    global_rank: null
+    sort_value: 0.143
+    sort_std: 0.026
+    is_best: true
+  - model: GNNs
+    model_key: gnns
+    model_plain: GNNs
+    value: 0.143
+    std: 0.026
+    paper_value: 0.143
+    paper_std: 0.026
+    metric: AP
+    higher_is_better: true
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Oct 2023
+    date_display: Oct 2023
+    date_iso: 2023-10
+    global_rank: null
+    sort_value: 0.143
+    sort_std: 0.026
+    is_best: true
+  - model: Graph neural networks(580k)
+    model_key: graph neural networks(580k)
+    model_plain: Graph neural networks(580k)
+    value: 0.143
+    std: 0.026
+    paper_value: 0.143
+    paper_std: 0.026
+    metric: AP
+    higher_is_better: true
+    is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
@@ -355,9 +456,9 @@ results:
     has_value_note: false
     value_gap: 0.10750000000000001
     value_note: ''
-    paper_rank: 299
-    rank_delta: 296
-    rank_delta_abs: 296
+    paper_rank: 304
+    rank_delta: 301
+    rank_delta_abs: 301
     rank_delta_direction: worse
     sort_value: 0.2421
     sort_std: 0.0016
@@ -415,9 +516,9 @@ results:
     has_value_note: false
     value_gap: 0.11180000000000001
     value_note: ''
-    paper_rank: 306
-    rank_delta: 297
-    rank_delta_abs: 297
+    paper_rank: 311
+    rank_delta: 302
+    rank_delta_abs: 302
     rank_delta_direction: worse
     sort_value: 0.2429
     sort_std: 0.0019
@@ -441,7 +542,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 115
+    global_rank: 116
     true_value: 0.2487
     true_std: 0.0009
     value_gap_source_arxiv: '2310.01704'
@@ -452,7 +553,81 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 115
+    paper_rank: 116
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.2487
+    sort_std: 0.0009
+    is_best: false
+  - model: GNNs(567k)
+    model_key: gnns(567k)
+    model_plain: GNNs(567k)
+    value: 0.2487
+    std: 0.0009
+    paper_value: 0.2487
+    paper_std: 0.0009
+    metric: MAE
+    higher_is_better: false
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1 (right)
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Oct 2023
+    date_display: Oct 2023
+    date_iso: 2023-10
+    global_rank: 117
+    true_value: 0.2487
+    true_std: 0.0009
+    value_gap_source_arxiv: '2310.01704'
+    value_gap_source_title: Transformers are efficient hierarchical chemical graph
+      learners
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 117
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.2487
+    sort_std: 0.0009
+    is_best: false
+  - model: Graph neural networks(580k)
+    model_key: graph neural networks(580k)
+    model_plain: Graph neural networks(580k)
+    value: 0.2487
+    std: 0.0009
+    paper_value: 0.2487
+    paper_std: 0.0009
+    metric: MAE
+    higher_is_better: false
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1 (right)
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Oct 2023
+    date_display: Oct 2023
+    date_iso: 2023-10
+    global_rank: 118
+    true_value: 0.2487
+    true_std: 0.0009
+    value_gap_source_arxiv: '2310.01704'
+    value_gap_source_title: Transformers are efficient hierarchical chemical graph
+      learners
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 118
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -478,7 +653,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 133
+    global_rank: 136
     true_value: 0.25
     true_std: 0.0012
     value_gap_source_arxiv: '2604.17324'
@@ -489,7 +664,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 133
+    paper_rank: 136
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -515,7 +690,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 167
+    global_rank: 170
     true_value: 0.2529
     true_std: 0.0016
     value_gap_source_arxiv: '2502.09263'
@@ -526,7 +701,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 167
+    paper_rank: 170
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -552,7 +727,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 185
+    global_rank: 189
     true_value: 0.2545
     true_std: 0.0012
     value_gap_source_arxiv: '2312.16560'
@@ -562,7 +737,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 185
+    paper_rank: 189
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -571,7 +746,7 @@ results:
     is_best: false
   metric: MAE
   higher_is_better: false
-- &id003
+- &id004
   dataset: Tox21
   rows:
   - model: HIMP
@@ -648,6 +823,80 @@ results:
     sort_value: 0.851
     sort_std: 0.008
     is_best: false
+  - model: GNNs (dual readout, VN)
+    model_key: gnns (dual readout, vn)
+    model_plain: GNNs (dual readout, VN)
+    value: 0.851
+    std: 0.008
+    paper_value: 0.851
+    paper_std: 0.008
+    metric: ROC-AUC
+    higher_is_better: true
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Oct 2023
+    date_display: Oct 2023
+    date_iso: 2023-10
+    global_rank: 3
+    true_value: 0.851
+    true_std: 0.008
+    value_gap_source_arxiv: '2310.01704'
+    value_gap_source_title: Transformers are efficient hierarchical chemical graph
+      learners
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 3
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.851
+    sort_std: 0.008
+    is_best: false
+  - model: Graph neural networks(dual readout,VN, 567k)
+    model_key: graph neural networks(dual readout,vn, 567k)
+    model_plain: Graph neural networks(dual readout,VN, 567k)
+    value: 0.851
+    std: 0.008
+    paper_value: 0.851
+    paper_std: 0.008
+    metric: ROC-AUC
+    higher_is_better: true
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Oct 2023
+    date_display: Oct 2023
+    date_iso: 2023-10
+    global_rank: 4
+    true_value: 0.851
+    true_std: 0.008
+    value_gap_source_arxiv: '2310.01704'
+    value_gap_source_title: Transformers are efficient hierarchical chemical graph
+      learners
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 4
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.851
+    sort_std: 0.008
+    is_best: false
   - model: GIN
     model_key: gin
     model_plain: GIN
@@ -667,7 +916,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 3
+    global_rank: 5
     true_value: 0.85
     true_std: 0.009
     value_gap_source_arxiv: '2310.01704'
@@ -678,7 +927,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 3
+    paper_rank: 5
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -704,7 +953,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 5
+    global_rank: 7
     true_value: 0.849
     true_std: null
     value_gap_source_arxiv: '2310.01704'
@@ -715,7 +964,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 5
+    paper_rank: 7
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -741,7 +990,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 4
+    global_rank: 6
     true_value: 0.849
     true_std: 0.003
     value_gap_source_arxiv: '2310.01704'
@@ -752,7 +1001,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 4
+    paper_rank: 6
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -778,7 +1027,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 6
+    global_rank: 8
     true_value: 0.844
     true_std: 0.006
     value_gap_source_arxiv: '2310.01704'
@@ -789,7 +1038,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 6
+    paper_rank: 8
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -815,7 +1064,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 7
+    global_rank: 9
     true_value: 0.841
     true_std: 0.003
     value_gap_source_arxiv: '2310.01704'
@@ -826,7 +1075,81 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 7
+    paper_rank: 9
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.841
+    sort_std: 0.003
+    is_best: false
+  - model: GNNs
+    model_key: gnns
+    model_plain: GNNs
+    value: 0.841
+    std: 0.003
+    paper_value: 0.841
+    paper_std: 0.003
+    metric: ROC-AUC
+    higher_is_better: true
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Oct 2023
+    date_display: Oct 2023
+    date_iso: 2023-10
+    global_rank: 10
+    true_value: 0.841
+    true_std: 0.003
+    value_gap_source_arxiv: '2310.01704'
+    value_gap_source_title: Transformers are efficient hierarchical chemical graph
+      learners
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 10
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.841
+    sort_std: 0.003
+    is_best: false
+  - model: Graph neural networks(580k)
+    model_key: graph neural networks(580k)
+    model_plain: Graph neural networks(580k)
+    value: 0.841
+    std: 0.003
+    paper_value: 0.841
+    paper_std: 0.003
+    metric: ROC-AUC
+    higher_is_better: true
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Oct 2023
+    date_display: Oct 2023
+    date_iso: 2023-10
+    global_rank: 11
+    true_value: 0.841
+    true_std: 0.003
+    value_gap_source_arxiv: '2310.01704'
+    value_gap_source_title: Transformers are efficient hierarchical chemical graph
+      learners
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 11
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -852,7 +1175,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 8
+    global_rank: 12
     true_value: 0.84
     true_std: 0.004
     value_gap_source_arxiv: '2310.01704'
@@ -863,7 +1186,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 8
+    paper_rank: 12
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -889,7 +1212,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 9
+    global_rank: 13
     true_value: 0.822
     true_std: 0.006
     value_gap_source_arxiv: '2310.01704'
@@ -900,7 +1223,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 9
+    paper_rank: 13
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -926,7 +1249,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 10
+    global_rank: 14
     true_value: 0.794
     true_std: 0.014
     value_gap_source_arxiv: '2310.01704'
@@ -937,7 +1260,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 10
+    paper_rank: 14
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -963,7 +1286,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 11
+    global_rank: 15
     true_value: 0.794
     true_std: 0.015
     value_gap_source_arxiv: '2310.01704'
@@ -974,7 +1297,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 11
+    paper_rank: 15
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1000,7 +1323,7 @@ results:
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
-    global_rank: 12
+    global_rank: 16
     sort_value: 0.7895
     sort_std: 0.0069
     is_best: false
@@ -1023,7 +1346,7 @@ results:
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
-    global_rank: 13
+    global_rank: 17
     sort_value: 0.7851
     sort_std: 0.0077
     is_best: false
@@ -1047,7 +1370,7 @@ results:
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
-    global_rank: 14
+    global_rank: 18
     sort_value: 0.78
     sort_std: 0.001
     is_best: false
@@ -1070,7 +1393,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 23
+    global_rank: 27
     true_value: 0.769
     true_std: 0.015
     value_gap_source_arxiv: '2310.01704'
@@ -1081,7 +1404,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 23
+    paper_rank: 27
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1090,7 +1413,7 @@ results:
     is_best: false
   metric: ROC-AUC
   higher_is_better: true
-- &id004
+- &id005
   dataset: ToxCast
   rows:
   - model: Ours(dual readout)
@@ -1130,6 +1453,80 @@ results:
     sort_value: 0.752
     sort_std: 0.003
     is_best: true
+  - model: GNNs (dual readout, VN)
+    model_key: gnns (dual readout, vn)
+    model_plain: GNNs (dual readout, VN)
+    value: 0.752
+    std: 0.003
+    paper_value: 0.752
+    paper_std: 0.003
+    metric: ROC-AUC
+    higher_is_better: true
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Oct 2023
+    date_display: Oct 2023
+    date_iso: 2023-10
+    global_rank: 2
+    true_value: 0.752
+    true_std: 0.003
+    value_gap_source_arxiv: '2310.01704'
+    value_gap_source_title: Transformers are efficient hierarchical chemical graph
+      learners
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 2
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.752
+    sort_std: 0.003
+    is_best: true
+  - model: Graph neural networks(dual readout,VN, 567k)
+    model_key: graph neural networks(dual readout,vn, 567k)
+    model_plain: Graph neural networks(dual readout,VN, 567k)
+    value: 0.752
+    std: 0.003
+    paper_value: 0.752
+    paper_std: 0.003
+    metric: ROC-AUC
+    higher_is_better: true
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Oct 2023
+    date_display: Oct 2023
+    date_iso: 2023-10
+    global_rank: 3
+    true_value: 0.752
+    true_std: 0.003
+    value_gap_source_arxiv: '2310.01704'
+    value_gap_source_title: Transformers are efficient hierarchical chemical graph
+      learners
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 3
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.752
+    sort_std: 0.003
+    is_best: true
   - model: ChemRL-GEM
     model_key: chemrl-gem
     model_plain: ChemRL-GEM
@@ -1149,7 +1546,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 2
+    global_rank: 4
     true_value: 0.742
     true_std: 0.004
     value_gap_source_arxiv: '2310.01704'
@@ -1160,7 +1557,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 2
+    paper_rank: 4
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1186,7 +1583,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 3
+    global_rank: 5
     true_value: 0.741
     true_std: 0.004
     value_gap_source_arxiv: '2310.01704'
@@ -1197,7 +1594,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 3
+    paper_rank: 5
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1224,7 +1621,7 @@ results:
     codebase_url: ''
     uses_external_data: null
     is_global_top: true
-    global_rank: 4
+    global_rank: 6
     sort_value: 0.737
     sort_std: null
     is_best: false
@@ -1247,7 +1644,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 5
+    global_rank: 7
     true_value: 0.735
     true_std: 0.002
     value_gap_source_arxiv: '2310.01704'
@@ -1258,7 +1655,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 5
+    paper_rank: 7
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1284,7 +1681,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 6
+    global_rank: 8
     true_value: 0.733
     true_std: 0.001
     value_gap_source_arxiv: '2310.01704'
@@ -1295,7 +1692,81 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 6
+    paper_rank: 8
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.733
+    sort_std: 0.001
+    is_best: false
+  - model: GNNs
+    model_key: gnns
+    model_plain: GNNs
+    value: 0.733
+    std: 0.001
+    paper_value: 0.733
+    paper_std: 0.001
+    metric: ROC-AUC
+    higher_is_better: true
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Oct 2023
+    date_display: Oct 2023
+    date_iso: 2023-10
+    global_rank: 9
+    true_value: 0.733
+    true_std: 0.001
+    value_gap_source_arxiv: '2310.01704'
+    value_gap_source_title: Transformers are efficient hierarchical chemical graph
+      learners
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 9
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.733
+    sort_std: 0.001
+    is_best: false
+  - model: Graph neural networks(580k)
+    model_key: graph neural networks(580k)
+    model_plain: Graph neural networks(580k)
+    value: 0.733
+    std: 0.001
+    paper_value: 0.733
+    paper_std: 0.001
+    metric: ROC-AUC
+    higher_is_better: true
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Oct 2023
+    date_display: Oct 2023
+    date_iso: 2023-10
+    global_rank: 10
+    true_value: 0.733
+    true_std: 0.001
+    value_gap_source_arxiv: '2310.01704'
+    value_gap_source_title: Transformers are efficient hierarchical chemical graph
+      learners
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 10
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1321,7 +1792,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 7
+    global_rank: 11
     true_value: 0.721
     true_std: 0.004
     value_gap_source_arxiv: '2310.01704'
@@ -1332,7 +1803,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 7
+    paper_rank: 11
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1358,7 +1829,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 8
+    global_rank: 12
     true_value: 0.719
     true_std: null
     value_gap_source_arxiv: '2310.01704'
@@ -1369,7 +1840,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 8
+    paper_rank: 12
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1395,7 +1866,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 9
+    global_rank: 13
     true_value: 0.669
     true_std: 0.014
     value_gap_source_arxiv: '2310.01704'
@@ -1406,7 +1877,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 9
+    paper_rank: 13
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1433,7 +1904,7 @@ results:
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
-    global_rank: 10
+    global_rank: 14
     sort_value: 0.669
     sort_std: 0.005
     is_best: false
@@ -1456,7 +1927,7 @@ results:
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
-    global_rank: 11
+    global_rank: 15
     sort_value: 0.663
     sort_std: 0.008
     is_best: false
@@ -1479,7 +1950,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 25
+    global_rank: 29
     true_value: 0.64
     true_std: 0.005
     value_gap_source_arxiv: '2310.01704'
@@ -1490,7 +1961,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 25
+    paper_rank: 29
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1516,7 +1987,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 48
+    global_rank: 52
     true_value: 0.605
     true_std: 0.003
     value_gap_source_arxiv: '2310.01704'
@@ -1527,7 +1998,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 48
+    paper_rank: 52
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1637,9 +2108,9 @@ results:
     has_value_note: false
     value_gap: 0.097
     value_note: ''
-    paper_rank: 198
-    rank_delta: 180
-    rank_delta_abs: 180
+    paper_rank: 210
+    rank_delta: 192
+    rank_delta_abs: 192
     rank_delta_direction: worse
     sort_value: 0.025
     sort_std: 0.004
@@ -1673,9 +2144,9 @@ results:
     has_value_note: false
     value_gap: 0.097
     value_note: ''
-    paper_rank: 198
-    rank_delta: 180
-    rank_delta_abs: 180
+    paper_rank: 210
+    rank_delta: 192
+    rank_delta_abs: 192
     rank_delta_direction: worse
     sort_value: 0.025
     sort_std: 0.004
@@ -1710,9 +2181,9 @@ results:
     has_value_note: false
     value_gap: 0.11499999999999999
     value_note: ''
-    paper_rank: 218
-    rank_delta: 181
-    rank_delta_abs: 181
+    paper_rank: 231
+    rank_delta: 194
+    rank_delta_abs: 194
     rank_delta_direction: worse
     sort_value: 0.036
     sort_std: 0.002
@@ -1747,9 +2218,9 @@ results:
     has_value_note: false
     value_gap: 0.11499999999999999
     value_note: ''
-    paper_rank: 218
-    rank_delta: 181
-    rank_delta_abs: 181
+    paper_rank: 231
+    rank_delta: 194
+    rank_delta_abs: 194
     rank_delta_direction: worse
     sort_value: 0.036
     sort_std: 0.002
@@ -1773,7 +2244,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 73
+    global_rank: 75
     true_value: 0.065
     true_std: 0.004
     value_gap_source_arxiv: '2502.09263'
@@ -1784,9 +2255,9 @@ results:
     has_value_note: false
     value_gap: 0.34299999999999997
     value_note: ''
-    paper_rank: 275
-    rank_delta: 202
-    rank_delta_abs: 202
+    paper_rank: 289
+    rank_delta: 214
+    rank_delta_abs: 214
     rank_delta_direction: worse
     sort_value: 0.065
     sort_std: 0.004
@@ -1810,7 +2281,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 73
+    global_rank: 75
     true_value: 0.065
     true_std: 0.004
     value_gap_source_arxiv: '2502.09263'
@@ -1821,9 +2292,9 @@ results:
     has_value_note: false
     value_gap: 0.34299999999999997
     value_note: ''
-    paper_rank: 275
-    rank_delta: 202
-    rank_delta_abs: 202
+    paper_rank: 289
+    rank_delta: 214
+    rank_delta_abs: 214
     rank_delta_direction: worse
     sort_value: 0.065
     sort_std: 0.004
@@ -1847,7 +2318,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 96
+    global_rank: 98
     true_value: 0.069
     true_std: 0.008
     value_gap_source_arxiv: '2604.24293'
@@ -1858,9 +2329,9 @@ results:
     has_value_note: true
     value_gap: 0.0010000000000000009
     value_note: global 0.0690 within std
-    paper_rank: 104
-    rank_delta: 8
-    rank_delta_abs: 8
+    paper_rank: 107
+    rank_delta: 9
+    rank_delta_abs: 9
     rank_delta_direction: worse
     sort_value: 0.069
     sort_std: 0.008
@@ -1884,7 +2355,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 96
+    global_rank: 98
     true_value: 0.069
     true_std: 0.008
     value_gap_source_arxiv: '2604.24293'
@@ -1895,9 +2366,9 @@ results:
     has_value_note: true
     value_gap: 0.0010000000000000009
     value_note: global 0.0690 within std
-    paper_rank: 104
-    rank_delta: 8
-    rank_delta_abs: 8
+    paper_rank: 107
+    rank_delta: 9
+    rank_delta_abs: 9
     rank_delta_direction: worse
     sort_value: 0.069
     sort_std: 0.008
@@ -1921,7 +2392,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 126
+    global_rank: 131
     true_value: 0.076
     true_std: 0.009
     value_gap_source_arxiv: '2502.09263'
@@ -1932,9 +2403,9 @@ results:
     has_value_note: false
     value_gap: 0.291
     value_note: ''
-    paper_rank: 271
-    rank_delta: 145
-    rank_delta_abs: 145
+    paper_rank: 285
+    rank_delta: 154
+    rank_delta_abs: 154
     rank_delta_direction: worse
     sort_value: 0.076
     sort_std: 0.009
@@ -1958,7 +2429,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 126
+    global_rank: 131
     true_value: 0.076
     true_std: 0.009
     value_gap_source_arxiv: '2502.09263'
@@ -1969,9 +2440,9 @@ results:
     has_value_note: false
     value_gap: 0.291
     value_note: ''
-    paper_rank: 271
-    rank_delta: 145
-    rank_delta_abs: 145
+    paper_rank: 285
+    rank_delta: 154
+    rank_delta_abs: 154
     rank_delta_direction: worse
     sort_value: 0.076
     sort_std: 0.009
@@ -1979,9 +2450,9 @@ results:
   - model: Ours(dual readout,VN, 567k)
     model_key: ours(dual readout,vn, 567k)
     model_plain: Ours(dual readout,VN, 567k)
-    value: 0.077
+    value: 0.078
     std: 0.003
-    paper_value: 0.077
+    paper_value: 0.078
     paper_std: 0.003
     metric: MAE
     higher_is_better: false
@@ -1995,7 +2466,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 134
+    global_rank: 139
     true_value: 0.077
     true_std: 0.003
     value_gap_source_arxiv: '2310.01704'
@@ -2003,13 +2474,13 @@ results:
       learners
     value_gap_source_is_current_paper: true
     has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 134
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
+    has_value_note: true
+    value_gap: 0.0010000000000000009
+    value_note: global 0.0770 within std
+    paper_rank: 142
+    rank_delta: 3
+    rank_delta_abs: 3
+    rank_delta_direction: worse
     sort_value: 0.077
     sort_std: 0.003
     is_best: false
@@ -2032,7 +2503,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 134
+    global_rank: 139
     true_value: 0.077
     true_std: 0.003
     value_gap_source_arxiv: '2310.01704'
@@ -2043,7 +2514,81 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 134
+    paper_rank: 139
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.077
+    sort_std: 0.003
+    is_best: false
+  - model: GNNs(dual readout,567k)
+    model_key: gnns(dual readout,567k)
+    model_plain: GNNs(dual readout,567k)
+    value: 0.077
+    std: 0.003
+    paper_value: 0.077
+    paper_std: 0.003
+    metric: MAE
+    higher_is_better: false
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'zinc: mae fallback >= 0.07'
+    date: Oct 2023
+    date_display: Oct 2023
+    date_iso: 2023-10
+    global_rank: 140
+    true_value: 0.077
+    true_std: 0.003
+    value_gap_source_arxiv: '2310.01704'
+    value_gap_source_title: Transformers are efficient hierarchical chemical graph
+      learners
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 140
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.077
+    sort_std: 0.003
+    is_best: false
+  - model: Graph neural networks(dual readout,VN, 567k)
+    model_key: graph neural networks(dual readout,vn, 567k)
+    model_plain: Graph neural networks(dual readout,VN, 567k)
+    value: 0.077
+    std: 0.003
+    paper_value: 0.077
+    paper_std: 0.003
+    metric: MAE
+    higher_is_better: false
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'zinc: mae fallback >= 0.07'
+    date: Oct 2023
+    date_display: Oct 2023
+    date_iso: 2023-10
+    global_rank: 141
+    true_value: 0.077
+    true_std: 0.003
+    value_gap_source_arxiv: '2310.01704'
+    value_gap_source_title: Transformers are efficient hierarchical chemical graph
+      learners
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 141
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2069,7 +2614,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 135
+    global_rank: 142
     true_value: 0.0776354896230479
     true_std: 0.005512609666895327
     value_gap_source_arxiv: '2402.10793'
@@ -2080,9 +2625,9 @@ results:
     has_value_note: false
     value_gap: 0.3063645103769521
     value_note: ''
-    paper_rank: 271
-    rank_delta: 136
-    rank_delta_abs: 136
+    paper_rank: 285
+    rank_delta: 143
+    rank_delta_abs: 143
     rank_delta_direction: worse
     sort_value: 0.0776354896230479
     sort_std: 0.005512609666895327
@@ -2106,7 +2651,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 135
+    global_rank: 142
     true_value: 0.0776354896230479
     true_std: 0.005512609666895327
     value_gap_source_arxiv: '2402.10793'
@@ -2117,9 +2662,9 @@ results:
     has_value_note: false
     value_gap: 0.3063645103769521
     value_note: ''
-    paper_rank: 271
-    rank_delta: 136
-    rank_delta_abs: 136
+    paper_rank: 285
+    rank_delta: 143
+    rank_delta_abs: 143
     rank_delta_direction: worse
     sort_value: 0.0776354896230479
     sort_std: 0.005512609666895327
@@ -2143,7 +2688,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 148
+    global_rank: 156
     true_value: 0.084
     true_std: 0.004
     value_gap_source_arxiv: '2310.01704'
@@ -2154,7 +2699,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 148
+    paper_rank: 156
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2180,7 +2725,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 148
+    global_rank: 156
     true_value: 0.084
     true_std: 0.004
     value_gap_source_arxiv: '2310.01704'
@@ -2191,7 +2736,44 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 148
+    paper_rank: 156
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.084
+    sort_std: 0.004
+    is_best: false
+  - model: Graph neural networks(dual readout,slim,200k)
+    model_key: graph neural networks(dual readout,slim,200k)
+    model_plain: Graph neural networks(dual readout,slim,200k)
+    value: 0.084
+    std: 0.004
+    paper_value: 0.084
+    paper_std: 0.004
+    metric: MAE
+    higher_is_better: false
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'zinc: mae fallback >= 0.07'
+    date: Oct 2023
+    date_display: Oct 2023
+    date_iso: 2023-10
+    global_rank: 158
+    true_value: 0.084
+    true_std: 0.004
+    value_gap_source_arxiv: '2310.01704'
+    value_gap_source_title: Transformers are efficient hierarchical chemical graph
+      learners
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 158
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2217,7 +2799,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 174
+    global_rank: 184
     true_value: 0.094
     true_std: 0.003
     value_gap_source_arxiv: '2310.01704'
@@ -2228,7 +2810,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 174
+    paper_rank: 184
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2254,7 +2836,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 174
+    global_rank: 184
     true_value: 0.094
     true_std: 0.003
     value_gap_source_arxiv: '2310.01704'
@@ -2265,7 +2847,81 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 174
+    paper_rank: 184
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.094
+    sort_std: 0.003
+    is_best: false
+  - model: GNNs(580k)
+    model_key: gnns(580k)
+    model_plain: GNNs(580k)
+    value: 0.094
+    std: 0.003
+    paper_value: 0.094
+    paper_std: 0.003
+    metric: MAE
+    higher_is_better: false
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'zinc: mae fallback >= 0.07'
+    date: Oct 2023
+    date_display: Oct 2023
+    date_iso: 2023-10
+    global_rank: 185
+    true_value: 0.094
+    true_std: 0.003
+    value_gap_source_arxiv: '2310.01704'
+    value_gap_source_title: Transformers are efficient hierarchical chemical graph
+      learners
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 185
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.094
+    sort_std: 0.003
+    is_best: false
+  - model: Graph neural networks(580k)
+    model_key: graph neural networks(580k)
+    model_plain: Graph neural networks(580k)
+    value: 0.094
+    std: 0.003
+    paper_value: 0.094
+    paper_std: 0.003
+    metric: MAE
+    higher_is_better: false
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'zinc: mae fallback >= 0.07'
+    date: Oct 2023
+    date_display: Oct 2023
+    date_iso: 2023-10
+    global_rank: 186
+    true_value: 0.094
+    true_std: 0.003
+    value_gap_source_arxiv: '2310.01704'
+    value_gap_source_title: Transformers are efficient hierarchical chemical graph
+      learners
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 186
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2291,7 +2947,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 184
+    global_rank: 196
     true_value: 0.106
     true_std: 0.004
     value_gap_source_arxiv: '2310.01704'
@@ -2302,7 +2958,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 184
+    paper_rank: 196
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2328,7 +2984,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 184
+    global_rank: 196
     true_value: 0.106
     true_std: 0.004
     value_gap_source_arxiv: '2310.01704'
@@ -2339,7 +2995,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 184
+    paper_rank: 196
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2365,7 +3021,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 211
+    global_rank: 224
     true_value: 0.1341
     true_std: 0.0063
     value_gap_source_arxiv: '2602.02268'
@@ -2376,7 +3032,7 @@ results:
     has_value_note: true
     value_gap: 0.0049000000000000155
     value_note: global 0.1341 within std
-    paper_rank: 212
+    paper_rank: 225
     rank_delta: 1
     rank_delta_abs: 1
     rank_delta_direction: worse
@@ -2402,7 +3058,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 211
+    global_rank: 224
     true_value: 0.1341
     true_std: 0.0063
     value_gap_source_arxiv: '2602.02268'
@@ -2413,7 +3069,7 @@ results:
     has_value_note: true
     value_gap: 0.0049000000000000155
     value_note: global 0.1341 within std
-    paper_rank: 212
+    paper_rank: 225
     rank_delta: 1
     rank_delta_abs: 1
     rank_delta_direction: worse
@@ -2439,7 +3095,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 250
+    global_rank: 264
     true_value: 0.226
     true_std: 0.014
     value_gap_source_arxiv: '2502.09263'
@@ -2450,7 +3106,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 250
+    paper_rank: 264
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2476,7 +3132,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 250
+    global_rank: 264
     true_value: 0.226
     true_std: 0.014
     value_gap_source_arxiv: '2502.09263'
@@ -2487,7 +3143,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 250
+    paper_rank: 264
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2496,6 +3152,527 @@ results:
     is_best: false
   metric: MAE
   higher_is_better: false
+- &id003
+  dataset: ogbg-molhiv
+  rows:
+  - model: MLP
+    model_key: mlp
+    model_plain: MLP
+    value: 0.9685
+    std: 0.0001
+    metric: ROC-AUC
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2511.16767'
+    title: 'When Structure Doesn’t Help: LLMs Do Not Read Text-Attributed Graphs as
+      Effectively as We Expected'
+    date: Nov 2025
+    date_display: Nov 2025
+    date_iso: 2025-11
+    codebase_url: ''
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 1
+    sort_value: 0.9685
+    sort_std: 0.0001
+    is_best: true
+  - model: GAT
+    model_key: gat
+    model_plain: GAT
+    value: 0.9682
+    std: 0.0003
+    metric: ROC-AUC
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2511.16767'
+    title: 'When Structure Doesn’t Help: LLMs Do Not Read Text-Attributed Graphs as
+      Effectively as We Expected'
+    date: Nov 2025
+    date_display: Nov 2025
+    date_iso: 2025-11
+    codebase_url: ''
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 2
+    sort_value: 0.9682
+    sort_std: 0.0003
+    is_best: true
+  - model: GCN
+    model_key: gcn
+    model_plain: GCN
+    value: 0.761
+    std: 0.01
+    paper_value: 0.761
+    paper_std: 0.01
+    metric: ROC-AUC
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: fuzzy match to ogbg-molhiv (score=90)'
+    date: Oct 2023
+    date_display: Oct 2023
+    date_iso: 2023-10
+    global_rank: 3
+    true_value: 0.9681
+    true_std: 0.0003
+    value_gap_source_arxiv: '2511.16767'
+    value_gap_source_title: 'When Structure Doesn’t Help: LLMs Do Not Read Text-Attributed
+      Graphs as Effectively as We Expected'
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
+    has_value_note: false
+    value_gap: 0.20709999999999995
+    value_note: ''
+    paper_rank: 155
+    rank_delta: 152
+    rank_delta_abs: 152
+    rank_delta_direction: worse
+    sort_value: 0.9681
+    sort_std: 0.0003
+    is_best: false
+  - model: GIN
+    model_key: gin
+    model_plain: GIN
+    value: 0.756
+    std: 0.014
+    paper_value: 0.756
+    paper_std: 0.014
+    metric: ROC-AUC
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: fuzzy match to ogbg-molhiv (score=90)'
+    date: Oct 2023
+    date_display: Oct 2023
+    date_iso: 2023-10
+    global_rank: 4
+    true_value: 0.968
+    true_std: 0.002
+    value_gap_source_arxiv: '2502.02379'
+    value_gap_source_title: 'No Metric to Rule Them All: Toward Principled Evaluations
+      of Graph-Learning Datasets'
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
+    has_value_note: false
+    value_gap: 0.21199999999999997
+    value_note: ''
+    paper_rank: 164
+    rank_delta: 160
+    rank_delta_abs: 160
+    rank_delta_direction: worse
+    sort_value: 0.968
+    sort_std: 0.002
+    is_best: true
+  - model: SigGate-GT
+    model_key: siggate-gt
+    model_plain: SigGate-GT
+    value: 0.8247
+    std: 0.0063
+    metric: ROC-AUC
+    higher_is_better: true
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2604.17324'
+    title: 'SigGate-GT: Taming Over-Smoothing in Graph Transformers via Sigmoid-Gated
+      Attention'
+    date: Apr 2026
+    date_display: Apr 2026
+    date_iso: 2026-04
+    codebase_url: https://github.com/bettyguo/SigGate-GT
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 5
+    sort_value: 0.8247
+    sort_std: 0.0063
+    is_best: false
+  - model: GNNs
+    model_key: gnns
+    model_plain: GNNs
+    value: 0.795
+    std: 0.008
+    paper_value: 0.795
+    paper_std: 0.008
+    metric: ROC-AUC
+    higher_is_better: true
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: fuzzy match to ogbg-molhiv (score=90)'
+    date: Oct 2023
+    date_display: Oct 2023
+    date_iso: 2023-10
+    global_rank: 52
+    true_value: 0.795
+    true_std: 0.008
+    value_gap_source_arxiv: '2310.01704'
+    value_gap_source_title: Transformers are efficient hierarchical chemical graph
+      learners
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 52
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.795
+    sort_std: 0.008
+    is_best: false
+  - model: Graph neural networks(580k)
+    model_key: graph neural networks(580k)
+    model_plain: Graph neural networks(580k)
+    value: 0.795
+    std: 0.008
+    paper_value: 0.795
+    paper_std: 0.008
+    metric: ROC-AUC
+    higher_is_better: true
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: fuzzy match to ogbg-molhiv (score=90)'
+    date: Oct 2023
+    date_display: Oct 2023
+    date_iso: 2023-10
+    global_rank: 53
+    true_value: 0.795
+    true_std: 0.008
+    value_gap_source_arxiv: '2310.01704'
+    value_gap_source_title: Transformers are efficient hierarchical chemical graph
+      learners
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 53
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.795
+    sort_std: 0.008
+    is_best: false
+  - model: Kernel SVM
+    model_key: kernel svm
+    model_plain: Kernel SVM
+    value: 0.792
+    std: 0.0
+    paper_value: 0.792
+    paper_std: 0.0
+    metric: ROC-AUC
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: fuzzy match to ogbg-molhiv (score=90)'
+    date: Oct 2023
+    date_display: Oct 2023
+    date_iso: 2023-10
+    global_rank: 57
+    true_value: 0.792
+    true_std: 0.0
+    value_gap_source_arxiv: '2310.01704'
+    value_gap_source_title: Transformers are efficient hierarchical chemical graph
+      learners
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 57
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.792
+    sort_std: 0.0
+    is_best: false
+  - model: GraphGPS
+    model_key: graphgps
+    model_plain: GraphGPS
+    value: 0.788
+    std: 0.01
+    paper_value: 0.788
+    paper_std: 0.01
+    metric: ROC-AUC
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: rampavsek2022recipe
+    variant_inference_reason: 'dataset: fuzzy match to ogbg-molhiv (score=90)'
+    date: Oct 2023
+    date_display: Oct 2023
+    date_iso: 2023-10
+    global_rank: 73
+    true_value: 0.788
+    true_std: 0.0101
+    value_gap_source_arxiv: '2604.17324'
+    value_gap_source_title: 'SigGate-GT: Taming Over-Smoothing in Graph Transformers
+      via Sigmoid-Gated Attention'
+    value_gap_source_is_current_paper: false
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 73
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.788
+    sort_std: 0.0101
+    is_best: false
+  - model: HIMP
+    model_key: himp
+    model_plain: HIMP
+    value: 0.788
+    std: 0.08
+    paper_value: 0.788
+    paper_std: 0.08
+    metric: ROC-AUC
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: HIMP2020
+    variant_inference_reason: 'dataset: fuzzy match to ogbg-molhiv (score=90)'
+    date: Oct 2023
+    date_display: Oct 2023
+    date_iso: 2023-10
+    global_rank: 78
+    true_value: 0.788
+    true_std: 0.0082
+    value_gap_source_arxiv: '2309.04941'
+    value_gap_source_title: Distance-Restricted Folklore Weisfeiler-Leman GNNs with
+      Provable Cycle Counting Power
+    value_gap_source_is_current_paper: false
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 78
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.788
+    sort_std: 0.0082
+    is_best: false
+  - model: Random Forest
+    model_key: random forest
+    model_plain: Random Forest
+    value: 0.781
+    std: 0.006
+    paper_value: 0.781
+    paper_std: 0.006
+    metric: ROC-AUC
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: fuzzy match to ogbg-molhiv (score=90)'
+    date: Oct 2023
+    date_display: Oct 2023
+    date_iso: 2023-10
+    global_rank: 101
+    true_value: 0.781
+    true_std: 0.006
+    value_gap_source_arxiv: '2310.01704'
+    value_gap_source_title: Transformers are efficient hierarchical chemical graph
+      learners
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 101
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.781
+    sort_std: 0.006
+    is_best: false
+  - model: AUTOBAHN
+    model_key: autobahn
+    model_plain: AUTOBAHN
+    value: 0.78
+    std: 0.015
+    paper_value: 0.78
+    paper_std: 0.015
+    metric: ROC-AUC
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: thiede2021autobahn
+    variant_inference_reason: 'dataset: fuzzy match to ogbg-molhiv (score=90)'
+    date: Oct 2023
+    date_display: Oct 2023
+    date_iso: 2023-10
+    global_rank: 110
+    true_value: 0.78
+    true_std: 0.015
+    value_gap_source_arxiv: '2310.01704'
+    value_gap_source_title: Transformers are efficient hierarchical chemical graph
+      learners
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 110
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.78
+    sort_std: 0.015
+    is_best: false
+  - model: XGBoost
+    model_key: xgboost
+    model_plain: XGBoost
+    value: 0.756
+    std: 0.0
+    paper_value: 0.756
+    paper_std: 0.0
+    metric: ROC-AUC
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: fuzzy match to ogbg-molhiv (score=90)'
+    date: Oct 2023
+    date_display: Oct 2023
+    date_iso: 2023-10
+    global_rank: 165
+    true_value: 0.756
+    true_std: 0.0
+    value_gap_source_arxiv: '2310.01704'
+    value_gap_source_title: Transformers are efficient hierarchical chemical graph
+      learners
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 165
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.756
+    sort_std: 0.0
+    is_best: false
+  - model: Ours(dual readout)
+    model_key: ours(dual readout)
+    model_plain: Ours(dual readout)
+    value: 0.756
+    std: 0.007
+    paper_value: 0.756
+    paper_std: 0.007
+    metric: ROC-AUC
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: fuzzy match to ogbg-molhiv (score=90)'
+    date: Oct 2023
+    date_display: Oct 2023
+    date_iso: 2023-10
+    global_rank: 166
+    true_value: 0.756
+    true_std: 0.007
+    value_gap_source_arxiv: '2310.01704'
+    value_gap_source_title: Transformers are efficient hierarchical chemical graph
+      learners
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 166
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.756
+    sort_std: 0.007
+    is_best: false
+  - model: Logistic Regression
+    model_key: logistic regression
+    model_plain: Logistic Regression
+    value: 0.702
+    std: 0.018
+    paper_value: 0.702
+    paper_std: 0.018
+    metric: ROC-AUC
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: fuzzy match to ogbg-molhiv (score=90)'
+    date: Oct 2023
+    date_display: Oct 2023
+    date_iso: 2023-10
+    global_rank: 203
+    true_value: 0.702
+    true_std: 0.018
+    value_gap_source_arxiv: '2310.01704'
+    value_gap_source_title: Transformers are efficient hierarchical chemical graph
+      learners
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 203
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.702
+    sort_std: 0.018
+    is_best: false
+  metric: ROC-AUC
+  higher_is_better: true
 results_grouped:
 - benchmark: Classic
   datasets:
@@ -2503,11 +3680,14 @@ results_grouped:
 - benchmark: LRGB
   datasets:
   - *id002
-- benchmark: MoleculeNet
+- benchmark: OGB
   datasets:
   - *id003
+- benchmark: MoleculeNet
+  datasets:
   - *id004
   - *id005
+  - *id006
 main_figure: /figures/2310.01704/main_figure.png
 ---
 

@@ -1,8 +1,10 @@
 ---
 title: 'RandAlign: A Parameter-Free Method for Regularizing Graph Convolutional Networks'
 arxiv_id: '2404.09774'
+source_url: ''
 authors: []
 published_date: Apr 2024
+published_date_iso: 2024-04
 abstract: Studies continually find that message-passing graph convolutional networks
   suffer from the over-smoothing issue. Basically, the issue of over-smoothing refers
   to the phenomenon that the learned embeddings for all nodes can become very similar
@@ -28,6 +30,7 @@ abstract: Studies continually find that message-passing graph convolutional netw
 codebase_url: ''
 extraction_model: qwen3.6-35b-a3b
 has_results: true
+paper_type: method
 proposed_models:
 - GCN + RandAlign
 - GAT + RandAlign
@@ -36,12 +39,27 @@ proposed_models:
 - RandAlign + scaling (GatedGCN-8)
 - GPS + RandAlign
 - SAN + RandAlign
-mrr: 0.01
+- RandAlign (4 layers)
+mrr: 0.3333
+adjusted_mrr: 0.1111
+mrr_dataset_count: 1
+benchmark_categories:
+- LRGB
+- GNNBenchmark
+- OGB
+task_categories:
+- graph_classification
+- node_classification
+experiment_scopes:
+- graph-level
+- node-level
 results:
 - &id003
   dataset: CIFAR10
   rows:
   - model: GRASS
+    model_key: grass
+    model_plain: GRASS
     value: 0.8375
     std: 0.00141
     metric: Accuracy
@@ -51,14 +69,20 @@ results:
     override_reason: ''
     params_millions: 0.5
     arxiv_id: '2407.05649'
-    title: 'Greener GRASS: Enhancing GNNs with , Rewiring, and Attention'
+    title: 'Greener GRASS: Enhancing GNNs with Encoding, Rewiring, and Attention'
     date: Jul 2024
+    date_display: Jul 2024
+    date_iso: 2024-07
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
     global_rank: 1
+    sort_value: 0.8375
+    sort_std: 0.00141
     is_best: true
   - model: NeuralWalker
+    model_key: neuralwalker
+    model_plain: NeuralWalker
     value: 0.80027
     std: 0.00185
     metric: Accuracy
@@ -68,14 +92,57 @@ results:
     override_reason: ''
     params_millions: null
     arxiv_id: '2407.05649'
-    title: 'Greener GRASS: Enhancing GNNs with , Rewiring, and Attention'
+    title: 'Greener GRASS: Enhancing GNNs with Encoding, Rewiring, and Attention'
     date: Jul 2024
+    date_display: Jul 2024
+    date_iso: 2024-07
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
     global_rank: 2
+    sort_value: 0.80027
+    sort_std: 0.00185
+    is_best: false
+  - model: RandAlign (4 layers)
+    model_key: randalign (4 layers)
+    model_plain: RandAlign (4 layers)
+    value: 0.7942
+    std: 0.00072
+    paper_value: 0.7942
+    paper_std: 0.00072
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 3
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 3
+    true_value: 0.7942
+    true_std: 0.00072
+    value_gap_source_arxiv: '2404.09774'
+    value_gap_source_title: 'RandAlign: A Parameter-Free Method for Regularizing Graph
+      Convolutional Networks'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 3
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.7942
+    sort_std: 0.00072
     is_best: false
   - model: Ours
+    model_key: ours
+    model_plain: Ours
     value: 0.79067
     std: 0.00269
     metric: Accuracy
@@ -87,14 +154,59 @@ results:
     arxiv_id: '2407.02758'
     title: Differential Encoding for Improved Representation Learning over Graphs
     date: Jul 2024
+    date_display: Jul 2024
+    date_iso: 2024-07
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
-    global_rank: 3
+    global_rank: 4
+    sort_value: 0.79067
+    sort_std: 0.00269
+    is_best: false
+  - model: GatedGCN
+    model_key: gatedgcn
+    model_plain: GatedGCN
+    value: 0.67312
+    std: 0.00311
+    paper_value: 0.67312
+    paper_std: 0.00311
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: ''
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 12
+    true_value: 0.77218
+    true_std: 0.00381
+    value_gap_source_arxiv: '2502.09263'
+    value_gap_source_title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks?
+      Simple Architectures Meet Excellence
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
+    has_value_note: false
+    value_gap: 0.09905999999999993
+    value_note: ''
+    paper_rank: 104
+    rank_delta: 92
+    rank_delta_abs: 92
+    rank_delta_direction: worse
+    sort_value: 0.77218
+    sort_std: 0.00381
     is_best: false
   - model: GatedGCN + RandAlign
+    model_key: gatedgcn + randalign
+    model_plain: GatedGCN + RandAlign
     value: 0.76395
     std: 0.00186
+    paper_value: 0.76395
+    paper_std: 0.00186
     metric: Accuracy
     higher_is_better: true
     is_baseline: false
@@ -103,11 +215,35 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    global_rank: 18
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 22
+    true_value: 0.76395
+    true_std: 0.00186
+    value_gap_source_arxiv: '2404.09774'
+    value_gap_source_title: 'RandAlign: A Parameter-Free Method for Regularizing Graph
+      Convolutional Networks'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 22
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.76395
+    sort_std: 0.00186
     is_best: false
   - model: RandAlign + scaling (GatedGCN-8)
+    model_key: randalign + scaling (gatedgcn-8)
+    model_plain: RandAlign + scaling (GatedGCN-8)
     value: 0.75015
     std: 0.00177
+    paper_value: 0.75015
+    paper_std: 0.00177
     metric: Accuracy
     higher_is_better: true
     is_baseline: false
@@ -116,11 +252,35 @@ results:
     params_millions: null
     table_ref: Table 4
     source_ref: this paper
-    global_rank: 29
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 34
+    true_value: 0.75015
+    true_std: 0.00177
+    value_gap_source_arxiv: '2404.09774'
+    value_gap_source_title: 'RandAlign: A Parameter-Free Method for Regularizing Graph
+      Convolutional Networks'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 34
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.75015
+    sort_std: 0.00177
     is_best: false
   - model: DGN
+    model_key: dgn
+    model_plain: DGN
     value: 0.72838
     std: 0.00417
+    paper_value: 0.72838
+    paper_std: 0.00417
     metric: Accuracy
     higher_is_better: true
     is_baseline: true
@@ -129,11 +289,34 @@ results:
     params_millions: null
     table_ref: Table 2
     source_ref: Beaini 2021
-    global_rank: 45
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 51
+    true_value: 0.72838
+    true_std: 0.00417
+    value_gap_source_arxiv: '2504.12588'
+    value_gap_source_title: Plain Transformers Can be Powerful Graph Learners
+    value_gap_source_is_current_paper: false
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 51
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.72838
+    sort_std: 0.00417
     is_best: false
   - model: GPS
+    model_key: gps
+    model_plain: GPS
     value: 0.72298
     std: 0.00356
+    paper_value: 0.72298
+    paper_std: 0.00356
     metric: Accuracy
     higher_is_better: true
     is_baseline: true
@@ -142,11 +325,35 @@ results:
     params_millions: null
     table_ref: Table 2
     source_ref: Rampasek 2022
-    global_rank: 51
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 57
+    true_value: 0.72356
+    true_std: 0.0032300000000000002
+    value_gap_source_arxiv: '2605.05689'
+    value_gap_source_title: 'GCCM: Enhancing Generative Graph Prediction via Contrastive
+      Consistency Model'
+    value_gap_source_is_current_paper: false
+    has_value_gap: false
+    has_value_note: true
+    value_gap: 0.0005800000000000249
+    value_note: global 0.7236 within std
+    paper_rank: 61
+    rank_delta: 4
+    rank_delta_abs: 4
+    rank_delta_direction: worse
+    sort_value: 0.72356
+    sort_std: 0.0032300000000000002
     is_best: false
   - model: GIN-AK+
+    model_key: gin-ak+
+    model_plain: GIN-AK+
     value: 0.7219
     std: 0.0013
+    paper_value: 0.7219
+    paper_std: 0.0013
     metric: Accuracy
     higher_is_better: true
     is_baseline: true
@@ -155,11 +362,35 @@ results:
     params_millions: null
     table_ref: Table 2
     source_ref: Zhao 2021
-    global_rank: 59
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 66
+    true_value: 0.7219
+    true_std: 0.0013
+    value_gap_source_arxiv: '2605.05689'
+    value_gap_source_title: 'GCCM: Enhancing Generative Graph Prediction via Contrastive
+      Consistency Model'
+    value_gap_source_is_current_paper: false
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 66
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.7219
+    sort_std: 0.0013
     is_best: false
   - model: GatedGCN + SSFG
+    model_key: gatedgcn + ssfg
+    model_plain: GatedGCN + SSFG
     value: 0.71938
     std: 0.0019
+    paper_value: 0.71938
+    paper_std: 0.0019
     metric: Accuracy
     higher_is_better: true
     is_baseline: true
@@ -168,11 +399,35 @@ results:
     params_millions: null
     table_ref: Table 2
     source_ref: Zhang 2022
-    global_rank: 64
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 71
+    true_value: 0.71938
+    true_std: 0.0019
+    value_gap_source_arxiv: '2407.02758'
+    value_gap_source_title: Differential Encoding for Improved Representation Learning
+      over Graphs
+    value_gap_source_is_current_paper: false
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 71
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.71938
+    sort_std: 0.0019
     is_best: false
   - model: PNA
+    model_key: pna
+    model_plain: PNA
     value: 0.7035
     std: 0.0063
+    paper_value: 0.7035
+    paper_std: 0.0063
     metric: Accuracy
     higher_is_better: true
     is_baseline: true
@@ -181,11 +436,34 @@ results:
     params_millions: null
     table_ref: Table 2
     source_ref: Corso 2020
-    global_rank: 78
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 86
+    true_value: 0.7035
+    true_std: 0.0063
+    value_gap_source_arxiv: '2504.12588'
+    value_gap_source_title: Plain Transformers Can be Powerful Graph Learners
+    value_gap_source_is_current_paper: false
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 86
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.7035
+    sort_std: 0.0063
     is_best: false
   - model: GAT + RandAlign
+    model_key: gat + randalign
+    model_plain: GAT + RandAlign
     value: 0.6992
     std: 0.00082
+    paper_value: 0.6992
+    paper_std: 0.00082
     metric: Accuracy
     higher_is_better: true
     is_baseline: false
@@ -194,193 +472,109 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    global_rank: 85
-    is_best: false
-  - model: GatedGCN-8 w/o RandAlign
-    value: 0.69808
-    std: 0.00421
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 4
-    source_ref: this paper
-    global_rank: 88
-    is_best: false
-  - model: GAT-8 + RandAlign (w/o scaling)
-    value: 0.69158
-    std: 0.00438
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 4
-    source_ref: this paper
-    global_rank: 90
-    is_best: false
-  - model: CRaWl
-    value: 0.69013
-    std: 0.00259
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 2
-    source_ref: Toenshoff 2021
-    global_rank: 92
-    is_best: false
-  - model: EGT
-    value: 0.68702
-    std: 0.00409
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 2
-    source_ref: Hussain 2022
-    global_rank: 94
-    is_best: false
-  - model: GatedGCN
-    value: 0.67312
-    std: 0.00311
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: 0.502
-    table_ref: Table 1
-    source_ref: this paper
-    global_rank: 8
-    is_best: false
-  - model: GatedGCN-16
-    value: 0.67312
-    std: 0.00311
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 2
-    source_ref: Bresson 2017
-    global_rank: 97
-    is_best: false
-  - model: GraphSAGE
-    value: 0.65767
-    std: 0.00308
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 2
-    source_ref: Hamilton 2017
-    global_rank: 98
-    is_best: false
-  - model: GAT-8 w/o Lrn&Align
-    value: 0.64452
-    std: 0.00303
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 4
-    source_ref: this paper
-    global_rank: 100
-    is_best: false
-  - model: GAT
-    value: 0.64223
-    std: 0.00455
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    global_rank: 102
-    is_best: false
-  - model: GAT-16
-    value: 0.64223
-    std: 0.00455
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 2
-    source_ref: Velickovic 2018
-    global_rank: 103
-    is_best: false
-  - model: 3WLGNN
-    value: 0.59175
-    std: 0.01593
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 2
-    source_ref: Maron 2019
-    global_rank: 105
-    is_best: false
-  - model: GCNII
-    value: 0.56081
-    std: 0.00198
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: 0.492
-    table_ref: Table 2
-    source_ref: Chen 2020
-    global_rank: 106
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 93
+    true_value: 0.6992
+    true_std: 0.00082
+    value_gap_source_arxiv: '2404.09774'
+    value_gap_source_title: 'RandAlign: A Parameter-Free Method for Regularizing Graph
+      Convolutional Networks'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 93
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.6992
+    sort_std: 0.00082
     is_best: false
   - model: GCN
+    model_key: gcn
+    model_plain: GCN
     value: 0.5571
     std: 0.00381
+    paper_value: 0.5571
+    paper_std: 0.00381
     metric: Accuracy
     higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.496
+    params_millions: null
     table_ref: Table 2
     source_ref: Kipf 2016
-    global_rank: 87
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 95
+    true_value: 0.69824
+    true_std: 0.00413
+    value_gap_source_arxiv: '2502.09263'
+    value_gap_source_title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks?
+      Simple Architectures Meet Excellence
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
+    has_value_note: false
+    value_gap: 0.14113999999999993
+    value_note: ''
+    paper_rank: 114
+    rank_delta: 19
+    rank_delta_abs: 19
+    rank_delta_direction: worse
+    sort_value: 0.69824
+    sort_std: 0.00413
     is_best: false
-  - model: GCN + RandAlign
-    value: 0.55275
-    std: 0.00165
+  - model: GatedGCN-8 w/o RandAlign
+    model_key: gatedgcn-8 w/o randalign
+    model_plain: GatedGCN-8 w/o RandAlign
+    value: 0.69808
+    std: 0.00421
+    paper_value: 0.69808
+    paper_std: 0.00421
     metric: Accuracy
     higher_is_better: true
-    is_baseline: false
+    is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    table_ref: Table 1
+    table_ref: Table 4
     source_ref: this paper
-    global_rank: 107
+    variant_inference_reason: ''
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 96
+    true_value: 0.69808
+    true_std: 0.00421
+    value_gap_source_arxiv: '2404.09774'
+    value_gap_source_title: 'RandAlign: A Parameter-Free Method for Regularizing Graph
+      Convolutional Networks'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 96
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.69808
+    sort_std: 0.00421
     is_best: false
   - model: GIN
+    model_key: gin
+    model_plain: GIN
     value: 0.55255
     std: 0.01527
+    paper_value: 0.55255
+    paper_std: 0.01527
     metric: Accuracy
     higher_is_better: true
     is_baseline: true
@@ -389,11 +583,442 @@ results:
     params_millions: null
     table_ref: Table 2
     source_ref: Xu 2019
-    global_rank: 89
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 97
+    true_value: 0.69592
+    true_std: 0.00287
+    value_gap_source_arxiv: '2502.09263'
+    value_gap_source_title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks?
+      Simple Architectures Meet Excellence
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
+    has_value_note: false
+    value_gap: 0.14337
+    value_note: ''
+    paper_rank: 115
+    rank_delta: 18
+    rank_delta_abs: 18
+    rank_delta_direction: worse
+    sort_value: 0.69592
+    sort_std: 0.00287
+    is_best: false
+  - model: GAT-8 + RandAlign (w/o scaling)
+    model_key: gat-8 + randalign (w/o scaling)
+    model_plain: GAT-8 + RandAlign (w/o scaling)
+    value: 0.69158
+    std: 0.00438
+    paper_value: 0.69158
+    paper_std: 0.00438
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 4
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 98
+    true_value: 0.69158
+    true_std: 0.00438
+    value_gap_source_arxiv: '2404.09774'
+    value_gap_source_title: 'RandAlign: A Parameter-Free Method for Regularizing Graph
+      Convolutional Networks'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 98
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.69158
+    sort_std: 0.00438
+    is_best: false
+  - model: CRaWl
+    model_key: crawl
+    model_plain: CRaWl
+    value: 0.69013
+    std: 0.00259
+    paper_value: 0.69013
+    paper_std: 0.00259
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 2
+    source_ref: Toenshoff 2021
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 100
+    true_value: 0.69013
+    true_std: 0.00259
+    value_gap_source_arxiv: '2407.02758'
+    value_gap_source_title: Differential Encoding for Improved Representation Learning
+      over Graphs
+    value_gap_source_is_current_paper: false
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 100
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.69013
+    sort_std: 0.00259
+    is_best: false
+  - model: EGT
+    model_key: egt
+    model_plain: EGT
+    value: 0.68702
+    std: 0.00409
+    paper_value: 0.68702
+    paper_std: 0.00409
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 2
+    source_ref: Hussain 2022
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 102
+    true_value: 0.68702
+    true_std: 0.00409
+    value_gap_source_arxiv: '2605.05689'
+    value_gap_source_title: 'GCCM: Enhancing Generative Graph Prediction via Contrastive
+      Consistency Model'
+    value_gap_source_is_current_paper: false
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 102
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.68702
+    sort_std: 0.00409
+    is_best: false
+  - model: GatedGCN-16
+    model_key: gatedgcn-16
+    model_plain: GatedGCN-16
+    value: 0.67312
+    std: 0.00311
+    paper_value: 0.67312
+    paper_std: 0.00311
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 2
+    source_ref: Bresson 2017
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 105
+    true_value: 0.67312
+    true_std: 0.00311
+    value_gap_source_arxiv: '2404.09774'
+    value_gap_source_title: 'RandAlign: A Parameter-Free Method for Regularizing Graph
+      Convolutional Networks'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 105
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.67312
+    sort_std: 0.00311
+    is_best: false
+  - model: GraphSAGE
+    model_key: graphsage
+    model_plain: GraphSAGE
+    value: 0.65767
+    std: 0.00308
+    paper_value: 0.65767
+    paper_std: 0.00308
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 2
+    source_ref: Hamilton 2017
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 106
+    true_value: 0.6577
+    true_std: 0.003
+    value_gap_source_arxiv: '2411.15671'
+    value_gap_source_title: 'Best of Both Worlds: Advantages of Hybrid Graph Sequence
+      Models'
+    value_gap_source_is_current_paper: false
+    has_value_gap: false
+    has_value_note: true
+    value_gap: 2.999999999997449e-05
+    value_note: global 0.6577 within std
+    paper_rank: 106
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.6577
+    sort_std: 0.003
+    is_best: false
+  - model: GAT-8 w/o Lrn&Align
+    model_key: gat-8 w/o lrn&align
+    model_plain: GAT-8 w/o Lrn&Align
+    value: 0.64452
+    std: 0.00303
+    paper_value: 0.64452
+    paper_std: 0.00303
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 4
+    source_ref: this paper
+    variant_inference_reason: ''
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 108
+    true_value: 0.64452
+    true_std: 0.00303
+    value_gap_source_arxiv: '2404.09774'
+    value_gap_source_title: 'RandAlign: A Parameter-Free Method for Regularizing Graph
+      Convolutional Networks'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 108
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.64452
+    sort_std: 0.00303
+    is_best: false
+  - model: GAT
+    model_key: gat
+    model_plain: GAT
+    value: 0.64223
+    std: 0.00455
+    paper_value: 0.64223
+    paper_std: 0.00455
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: ''
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 110
+    true_value: 0.64223
+    true_std: 0.00455
+    value_gap_source_arxiv: '2605.05689'
+    value_gap_source_title: 'GCCM: Enhancing Generative Graph Prediction via Contrastive
+      Consistency Model'
+    value_gap_source_is_current_paper: false
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 110
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.64223
+    sort_std: 0.00455
+    is_best: false
+  - model: GAT-16
+    model_key: gat-16
+    model_plain: GAT-16
+    value: 0.64223
+    std: 0.00455
+    paper_value: 0.64223
+    paper_std: 0.00455
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 2
+    source_ref: Velickovic 2018
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 111
+    true_value: 0.64223
+    true_std: 0.00455
+    value_gap_source_arxiv: '2404.09774'
+    value_gap_source_title: 'RandAlign: A Parameter-Free Method for Regularizing Graph
+      Convolutional Networks'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 111
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.64223
+    sort_std: 0.00455
+    is_best: false
+  - model: 3WLGNN
+    model_key: 3wlgnn
+    model_plain: 3WLGNN
+    value: 0.59175
+    std: 0.01593
+    paper_value: 0.59175
+    paper_std: 0.01593
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 2
+    source_ref: Maron 2019
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 113
+    true_value: 0.59175
+    true_std: 0.01593
+    value_gap_source_arxiv: '2407.02758'
+    value_gap_source_title: Differential Encoding for Improved Representation Learning
+      over Graphs
+    value_gap_source_is_current_paper: false
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 113
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.59175
+    sort_std: 0.01593
+    is_best: false
+  - model: GCNII
+    model_key: gcnii
+    model_plain: GCNII
+    value: 0.56081
+    std: 0.00198
+    paper_value: 0.56081
+    paper_std: 0.00198
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 2
+    source_ref: Chen 2020
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 114
+    true_value: 0.56081
+    true_std: 0.00198
+    value_gap_source_arxiv: '2407.02758'
+    value_gap_source_title: Differential Encoding for Improved Representation Learning
+      over Graphs
+    value_gap_source_is_current_paper: false
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 114
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.56081
+    sort_std: 0.00198
+    is_best: false
+  - model: GCN + RandAlign
+    model_key: gcn + randalign
+    model_plain: GCN + RandAlign
+    value: 0.55275
+    std: 0.00165
+    paper_value: 0.55275
+    paper_std: 0.00165
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: ''
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 115
+    true_value: 0.55275
+    true_std: 0.00165
+    value_gap_source_arxiv: '2404.09774'
+    value_gap_source_title: 'RandAlign: A Parameter-Free Method for Regularizing Graph
+      Convolutional Networks'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 115
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.55275
+    sort_std: 0.00165
     is_best: false
   - model: MoNet
+    model_key: monet
+    model_plain: MoNet
     value: 0.54655
     std: 0.00518
+    paper_value: 0.54655
+    paper_std: 0.00518
     metric: Accuracy
     higher_is_better: true
     is_baseline: true
@@ -402,7 +1027,27 @@ results:
     params_millions: null
     table_ref: Table 2
     source_ref: Monti 2017
-    global_rank: 108
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 116
+    true_value: 0.54655
+    true_std: 0.00518
+    value_gap_source_arxiv: '2407.02758'
+    value_gap_source_title: Differential Encoding for Improved Representation Learning
+      over Graphs
+    value_gap_source_is_current_paper: false
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 116
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.54655
+    sort_std: 0.00518
     is_best: false
   metric: Accuracy
   higher_is_better: true
@@ -410,6 +1055,8 @@ results:
   dataset: CLUSTER
   rows:
   - model: Tango_GPS
+    model_key: tango_gps
+    model_plain: Tango_GPS
     value: 0.80113
     std: 0.0013800000000000002
     metric: Accuracy
@@ -421,12 +1068,18 @@ results:
     arxiv_id: '2508.05070'
     title: 'Tango: Graph Neural Dynamics via Learned Energy and Tangential Flows'
     date: Aug 2025
+    date_display: Aug 2025
+    date_iso: 2025-08
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
     global_rank: 1
+    sort_value: 0.80113
+    sort_std: 0.0013800000000000002
     is_best: true
   - model: GRIT
+    model_key: grit
+    model_plain: GRIT
     value: 0.8003
     std: 0.0028
     metric: Accuracy
@@ -438,12 +1091,18 @@ results:
     arxiv_id: '2405.19121'
     title: Spatio-Spectral Graph Neural Networks
     date: '2024-05-29'
+    date_display: May 2024
+    date_iso: '2024-05-29'
     codebase_url: ''
     uses_external_data: null
     is_global_top: true
     global_rank: 2
+    sort_value: 0.8003
+    sort_std: 0.0028
     is_best: true
   - model: PPGT
+    model_key: ppgt
+    model_plain: PPGT
     value: 0.80027
     std: 0.00114
     metric: Accuracy
@@ -455,14 +1114,59 @@ results:
     arxiv_id: '2504.12588'
     title: Plain Transformers Can be Powerful Graph Learners
     date: Apr 2025
+    date_display: Apr 2025
+    date_iso: 2025-04
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
     global_rank: 3
+    sort_value: 0.80027
+    sort_std: 0.00114
     is_best: true
+  - model: GatedGCN
+    model_key: gatedgcn
+    model_plain: GatedGCN
+    value: 0.7384
+    std: 0.00326
+    paper_value: 0.7384
+    paper_std: 0.00326
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: Bresson 2017
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 16
+    true_value: 0.79128
+    true_std: 0.00235
+    value_gap_source_arxiv: '2502.09263'
+    value_gap_source_title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks?
+      Simple Architectures Meet Excellence
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
+    has_value_note: false
+    value_gap: 0.05288000000000004
+    value_note: ''
+    paper_rank: 61
+    rank_delta: 45
+    rank_delta_abs: 45
+    rank_delta_direction: worse
+    sort_value: 0.79128
+    sort_std: 0.00235
+    is_best: false
   - model: GPS + RandAlign
+    model_key: gps + randalign
+    model_plain: GPS + RandAlign
     value: 0.78592
     std: 0.00052
+    paper_value: 0.78592
+    paper_std: 0.00052
     metric: Accuracy
     higher_is_better: true
     is_baseline: false
@@ -471,11 +1175,35 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    global_rank: 19
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 24
+    true_value: 0.78592
+    true_std: 0.00052
+    value_gap_source_arxiv: '2404.09774'
+    value_gap_source_title: 'RandAlign: A Parameter-Free Method for Regularizing Graph
+      Convolutional Networks'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 24
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.78592
+    sort_std: 0.00052
     is_best: false
   - model: GPS
+    model_key: gps
+    model_plain: GPS
     value: 0.78016
     std: 0.0018
+    paper_value: 0.78016
+    paper_std: 0.0018
     metric: Accuracy
     higher_is_better: true
     is_baseline: true
@@ -484,11 +1212,34 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: Rampasek 2022
-    global_rank: 35
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 40
+    true_value: 0.7802
+    true_std: 0.0018
+    value_gap_source_arxiv: '2405.19121'
+    value_gap_source_title: Spatio-Spectral Graph Neural Networks
+    value_gap_source_is_current_paper: false
+    has_value_gap: false
+    has_value_note: true
+    value_gap: 4.0000000000040004e-05
+    value_note: global 0.7802 within std
+    paper_rank: 40
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.7802
+    sort_std: 0.0018
     is_best: false
   - model: K-Subgraph SAT
+    model_key: k-subgraph sat
+    model_plain: K-Subgraph SAT
     value: 0.77856
     std: 0.00104
+    paper_value: 0.77856
+    paper_std: 0.00104
     metric: Accuracy
     higher_is_better: true
     is_baseline: true
@@ -497,11 +1248,34 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: Chen 2022
-    global_rank: 39
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 44
+    true_value: 0.77856
+    true_std: 0.00104
+    value_gap_source_arxiv: '2504.12588'
+    value_gap_source_title: Plain Transformers Can be Powerful Graph Learners
+    value_gap_source_is_current_paper: false
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 44
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.77856
+    sort_std: 0.00104
     is_best: false
   - model: SAN + RandAlign
+    model_key: san + randalign
+    model_plain: SAN + RandAlign
     value: 0.77847
     std: 0.00073
+    paper_value: 0.77847
+    paper_std: 0.00073
     metric: Accuracy
     higher_is_better: true
     is_baseline: true
@@ -510,11 +1284,72 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    global_rank: 41
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 46
+    true_value: 0.77847
+    true_std: 0.00073
+    value_gap_source_arxiv: '2404.09774'
+    value_gap_source_title: 'RandAlign: A Parameter-Free Method for Regularizing Graph
+      Convolutional Networks'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 46
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.77847
+    sort_std: 0.00073
+    is_best: false
+  - model: GCN
+    model_key: gcn
+    model_plain: GCN
+    value: 0.68498
+    std: 0.00976
+    paper_value: 0.68498
+    paper_std: 0.00976
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: Kipf 2016
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 53
+    true_value: 0.77109
+    true_std: 0.00872
+    value_gap_source_arxiv: '2502.09263'
+    value_gap_source_title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks?
+      Simple Architectures Meet Excellence
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
+    has_value_note: false
+    value_gap: 0.08611000000000002
+    value_note: ''
+    paper_rank: 65
+    rank_delta: 12
+    rank_delta_abs: 12
+    rank_delta_direction: worse
+    sort_value: 0.77109
+    sort_std: 0.00872
     is_best: false
   - model: SAN
+    model_key: san
+    model_plain: SAN
     value: 0.76691
     std: 0.0065
+    paper_value: 0.76691
+    paper_std: 0.0065
     metric: Accuracy
     higher_is_better: true
     is_baseline: true
@@ -523,11 +1358,35 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: Kreuzer 2021
-    global_rank: 52
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 57
+    true_value: 0.76691
+    true_std: 0.0065
+    value_gap_source_arxiv: '2605.05689'
+    value_gap_source_title: 'GCCM: Enhancing Generative Graph Prediction via Contrastive
+      Consistency Model'
+    value_gap_source_is_current_paper: false
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 57
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.76691
+    sort_std: 0.0065
     is_best: false
   - model: GatedGCN + SSFG
+    model_key: gatedgcn + ssfg
+    model_plain: GatedGCN + SSFG
     value: 0.7596
     std: 0.0002
+    paper_value: 0.7596
+    paper_std: 0.0002
     metric: Accuracy
     higher_is_better: true
     is_baseline: true
@@ -536,63 +1395,35 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: Zhang 2022
-    global_rank: 55
-    is_best: false
-  - model: GatedGCN
-    value: 0.7384
-    std: 0.00326
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: 0.502
-    table_ref: Table 1
-    source_ref: Bresson 2017
-    global_rank: 12
-    is_best: false
-  - model: GAT
-    value: 0.70587
-    std: 0.00447
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: Velickovic 2018
-    global_rank: 58
-    is_best: false
-  - model: GCN
-    value: 0.68498
-    std: 0.00976
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: 0.496
-    table_ref: Table 1
-    source_ref: Kipf 2016
-    global_rank: 48
-    is_best: false
-  - model: MoNet
-    value: 0.66407
-    std: 0.0054
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: Monti 2017
-    global_rank: 61
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 60
+    true_value: 0.7596
+    true_std: 0.0002
+    value_gap_source_arxiv: '2404.09774'
+    value_gap_source_title: 'RandAlign: A Parameter-Free Method for Regularizing Graph
+      Convolutional Networks'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 60
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.7596
+    sort_std: 0.0002
     is_best: false
   - model: GIN
+    model_key: gin
+    model_plain: GIN
     value: 0.64716
     std: 0.01553
+    paper_value: 0.64716
+    paper_std: 0.01553
     metric: Accuracy
     higher_is_better: true
     is_baseline: true
@@ -601,11 +1432,109 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: Xu 2019
-    global_rank: 56
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 61
+    true_value: 0.74794
+    true_std: 0.00213
+    value_gap_source_arxiv: '2502.09263'
+    value_gap_source_title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks?
+      Simple Architectures Meet Excellence
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
+    has_value_note: false
+    value_gap: 0.10078000000000009
+    value_note: ''
+    paper_rank: 67
+    rank_delta: 6
+    rank_delta_abs: 6
+    rank_delta_direction: worse
+    sort_value: 0.74794
+    sort_std: 0.00213
+    is_best: false
+  - model: GAT
+    model_key: gat
+    model_plain: GAT
+    value: 0.70587
+    std: 0.00447
+    paper_value: 0.70587
+    paper_std: 0.00447
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: Velickovic 2018
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 63
+    true_value: 0.70587
+    true_std: 0.00447
+    value_gap_source_arxiv: '2605.05689'
+    value_gap_source_title: 'GCCM: Enhancing Generative Graph Prediction via Contrastive
+      Consistency Model'
+    value_gap_source_is_current_paper: false
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 63
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.70587
+    sort_std: 0.00447
+    is_best: false
+  - model: MoNet
+    model_key: monet
+    model_plain: MoNet
+    value: 0.66407
+    std: 0.0054
+    paper_value: 0.66407
+    paper_std: 0.0054
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: Monti 2017
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 66
+    true_value: 0.66407
+    true_std: 0.0054
+    value_gap_source_arxiv: '2404.09774'
+    value_gap_source_title: 'RandAlign: A Parameter-Free Method for Regularizing Graph
+      Convolutional Networks'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 66
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.66407
+    sort_std: 0.0054
     is_best: false
   - model: GraphSAGE
+    model_key: graphsage
+    model_plain: GraphSAGE
     value: 0.63844
     std: 0.0011
+    paper_value: 0.63844
+    paper_std: 0.0011
     metric: Accuracy
     higher_is_better: true
     is_baseline: true
@@ -614,11 +1543,35 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: Hamilton 2017
-    global_rank: 64
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 69
+    true_value: 0.63844
+    true_std: 0.0011
+    value_gap_source_arxiv: '2404.09774'
+    value_gap_source_title: 'RandAlign: A Parameter-Free Method for Regularizing Graph
+      Convolutional Networks'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 69
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.63844
+    sort_std: 0.0011
     is_best: false
   - model: RingGNN
+    model_key: ringgnn
+    model_plain: RingGNN
     value: 0.42418
     std: 0.20063
+    paper_value: 0.42418
+    paper_std: 0.20063
     metric: Accuracy
     higher_is_better: true
     is_baseline: true
@@ -627,7 +1580,27 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: Chen 2019
-    global_rank: 67
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 72
+    true_value: 0.42418
+    true_std: 0.20063
+    value_gap_source_arxiv: '2404.09774'
+    value_gap_source_title: 'RandAlign: A Parameter-Free Method for Regularizing Graph
+      Convolutional Networks'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 72
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.42418
+    sort_std: 0.20063
     is_best: false
   metric: Accuracy
   higher_is_better: true
@@ -635,6 +1608,8 @@ results:
   dataset: MNIST
   rows:
   - model: GRASS
+    model_key: grass
+    model_plain: GRASS
     value: 0.98932
     std: 0.00076
     metric: Accuracy
@@ -644,14 +1619,20 @@ results:
     override_reason: ''
     params_millions: 0.5
     arxiv_id: '2407.05649'
-    title: 'Greener GRASS: Enhancing GNNs with , Rewiring, and Attention'
+    title: 'Greener GRASS: Enhancing GNNs with Encoding, Rewiring, and Attention'
     date: Jul 2024
+    date_display: Jul 2024
+    date_iso: 2024-07
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
     global_rank: 1
+    sort_value: 0.98932
+    sort_std: 0.00076
     is_best: true
   - model: GSM++ (MoT)
+    model_key: gsm++ (mot)
+    model_plain: GSM++ (MoT)
     value: 0.9884
     std: 0.0015
     metric: Accuracy
@@ -663,12 +1644,18 @@ results:
     arxiv_id: '2411.15671'
     title: 'Best of Both Worlds: Advantages of Hybrid Graph Sequence Models'
     date: Nov 2024
+    date_display: Nov 2024
+    date_iso: 2024-11
     codebase_url: ''
     uses_external_data: null
     is_global_top: true
     global_rank: 2
+    sort_value: 0.9884
+    sort_std: 0.0015
     is_best: true
   - model: NeuralWalker
+    model_key: neuralwalker
+    model_plain: NeuralWalker
     value: 0.9876
     std: 0.00079
     metric: Accuracy
@@ -678,146 +1665,98 @@ results:
     override_reason: ''
     params_millions: null
     arxiv_id: '2407.05649'
-    title: 'Greener GRASS: Enhancing GNNs with , Rewiring, and Attention'
+    title: 'Greener GRASS: Enhancing GNNs with Encoding, Rewiring, and Attention'
     date: Jul 2024
+    date_display: Jul 2024
+    date_iso: 2024-07
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
     global_rank: 3
-    is_best: false
-  - model: GatedGCN + RandAlign
-    value: 0.98512
-    std: 0.00033
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 2
-    source_ref: this paper
-    global_rank: 10
-    is_best: false
-  - model: RandAlign + scaling (GatedGCN-8)
-    value: 0.98247
-    std: 0.00018
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 4
-    source_ref: this paper
-    global_rank: 32
-    is_best: false
-  - model: EGT
-    value: 0.98173
-    std: 0.00087
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 2
-    source_ref: Hussain 2022
-    global_rank: 40
-    is_best: false
-  - model: GPS
-    value: 0.98051
-    std: 0.00126
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 2
-    source_ref: Rampásek 2022
-    global_rank: 50
-    is_best: false
-  - model: GatedGCN + SSFG
-    value: 0.97985
-    std: 0.00032
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 2
-    source_ref: Zhang 2022
-    global_rank: 67
-    is_best: false
-  - model: CRaWl
-    value: 0.97944
-    std: 0.0005
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 2
-    source_ref: Toenshoff 2021
-    global_rank: 69
-    is_best: false
-  - model: PNA
-    value: 0.9794
-    std: 0.0012
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 2
-    source_ref: Corso 2020
-    global_rank: 70
-    is_best: false
-  - model: GAT + RandAlign
-    value: 0.97553
-    std: 0.00034
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 2
-    source_ref: this paper
-    global_rank: 75
+    sort_value: 0.9876
+    sort_std: 0.00079
     is_best: false
   - model: GatedGCN
-    value: 0.9734
-    std: 0.00143
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: 0.502
-    table_ref: Table 1
-    source_ref: Bresson 2017
-    global_rank: 4
-    is_best: false
-  - model: GraphSAGE
-    value: 0.97312
-    std: 0.00097
+    model_key: gatedgcn
+    model_plain: GatedGCN
+    value: 0.9795
+    std: 0.00023
+    paper_value: 0.9795
+    paper_std: 0.00023
     metric: Accuracy
     higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    table_ref: Table 2
-    source_ref: Hamilton 2017
-    global_rank: 76
+    table_ref: Table 1
+    source_ref: Bresson 2017
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 4
+    true_value: 0.98712
+    true_std: 0.00137
+    value_gap_source_arxiv: '2502.09263'
+    value_gap_source_title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks?
+      Simple Architectures Meet Excellence
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
+    has_value_note: false
+    value_gap: 0.00761999999999996
+    value_note: ''
+    paper_rank: 71
+    rank_delta: 67
+    rank_delta_abs: 67
+    rank_delta_direction: worse
+    sort_value: 0.98712
+    sort_std: 0.00137
     is_best: false
-  - model: GAT-8 + RandAlign (w/o scaling)
-    value: 0.96977
-    std: 0.00021
+  - model: GatedGCN + RandAlign
+    model_key: gatedgcn + randalign
+    model_plain: GatedGCN + RandAlign
+    value: 0.98512
+    std: 0.00033
+    paper_value: 0.98512
+    paper_std: 0.00033
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 2
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 13
+    true_value: 0.98512
+    true_std: 0.00033
+    value_gap_source_arxiv: '2404.09774'
+    value_gap_source_title: 'RandAlign: A Parameter-Free Method for Regularizing Graph
+      Convolutional Networks'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 13
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.98512
+    sort_std: 0.00033
+    is_best: false
+  - model: RandAlign + scaling (GatedGCN-8)
+    model_key: randalign + scaling (gatedgcn-8)
+    model_plain: RandAlign + scaling (GatedGCN-8)
+    value: 0.98463
+    std: 0.00079
+    paper_value: 0.98463
+    paper_std: 0.00079
     metric: Accuracy
     higher_is_better: true
     is_baseline: false
@@ -826,11 +1765,72 @@ results:
     params_millions: null
     table_ref: Table 4
     source_ref: this paper
-    global_rank: 79
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 17
+    true_value: 0.98463
+    true_std: 0.00079
+    value_gap_source_arxiv: '2404.09774'
+    value_gap_source_title: 'RandAlign: A Parameter-Free Method for Regularizing Graph
+      Convolutional Networks'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 17
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.98463
+    sort_std: 0.00079
+    is_best: false
+  - model: GCN
+    model_key: gcn
+    model_plain: GCN
+    value: 0.90705
+    std: 0.00218
+    paper_value: 0.90705
+    paper_std: 0.00218
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 2
+    source_ref: Kipf 2016
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 26
+    true_value: 0.98382
+    true_std: 0.00095
+    value_gap_source_arxiv: '2502.09263'
+    value_gap_source_title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks?
+      Simple Architectures Meet Excellence
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
+    has_value_note: false
+    value_gap: 0.07677
+    value_note: ''
+    paper_rank: 100
+    rank_delta: 74
+    rank_delta_abs: 74
+    rank_delta_direction: worse
+    sort_value: 0.98382
+    sort_std: 0.00095
     is_best: false
   - model: GIN
+    model_key: gin
+    model_plain: GIN
     value: 0.96485
     std: 0.00252
+    paper_value: 0.96485
+    paper_std: 0.00252
     metric: Accuracy
     higher_is_better: true
     is_baseline: true
@@ -839,11 +1839,405 @@ results:
     params_millions: null
     table_ref: Table 2
     source_ref: Xu 2019
-    global_rank: 28
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 32
+    true_value: 0.98285
+    true_std: 0.00103
+    value_gap_source_arxiv: '2502.09263'
+    value_gap_source_title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks?
+      Simple Architectures Meet Excellence
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
+    has_value_note: false
+    value_gap: 0.018000000000000016
+    value_note: ''
+    paper_rank: 88
+    rank_delta: 56
+    rank_delta_abs: 56
+    rank_delta_direction: worse
+    sort_value: 0.98285
+    sort_std: 0.00103
+    is_best: false
+  - model: EGT
+    model_key: egt
+    model_plain: EGT
+    value: 0.98173
+    std: 0.00087
+    paper_value: 0.98173
+    paper_std: 0.00087
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 2
+    source_ref: Hussain 2022
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 44
+    true_value: 0.98173
+    true_std: 0.00087
+    value_gap_source_arxiv: '2605.05689'
+    value_gap_source_title: 'GCCM: Enhancing Generative Graph Prediction via Contrastive
+      Consistency Model'
+    value_gap_source_is_current_paper: false
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 44
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.98173
+    sort_std: 0.00087
+    is_best: false
+  - model: GPS
+    model_key: gps
+    model_plain: GPS
+    value: 0.98051
+    std: 0.00126
+    paper_value: 0.98051
+    paper_std: 0.00126
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 2
+    source_ref: Rampásek 2022
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 54
+    true_value: 0.9811
+    true_std: 0.0011
+    value_gap_source_arxiv: '2411.15671'
+    value_gap_source_title: 'Best of Both Worlds: Advantages of Hybrid Graph Sequence
+      Models'
+    value_gap_source_is_current_paper: false
+    has_value_gap: false
+    has_value_note: true
+    value_gap: 0.0005899999999999794
+    value_note: global 0.9811 within std
+    paper_rank: 62
+    rank_delta: 8
+    rank_delta_abs: 8
+    rank_delta_direction: worse
+    sort_value: 0.9811
+    sort_std: 0.0011
+    is_best: false
+  - model: GatedGCN + SSFG
+    model_key: gatedgcn + ssfg
+    model_plain: GatedGCN + SSFG
+    value: 0.97985
+    std: 0.00032
+    paper_value: 0.97985
+    paper_std: 0.00032
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 2
+    source_ref: Zhang 2022
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 71
+    true_value: 0.97985
+    true_std: 0.00032
+    value_gap_source_arxiv: '2407.02758'
+    value_gap_source_title: Differential Encoding for Improved Representation Learning
+      over Graphs
+    value_gap_source_is_current_paper: false
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 71
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.97985
+    sort_std: 0.00032
+    is_best: false
+  - model: CRaWl
+    model_key: crawl
+    model_plain: CRaWl
+    value: 0.97944
+    std: 0.0005
+    paper_value: 0.97944
+    paper_std: 0.0005
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 2
+    source_ref: Toenshoff 2021
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 73
+    true_value: 0.97944
+    true_std: 0.0005
+    value_gap_source_arxiv: '2407.02758'
+    value_gap_source_title: Differential Encoding for Improved Representation Learning
+      over Graphs
+    value_gap_source_is_current_paper: false
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 73
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.97944
+    sort_std: 0.0005
+    is_best: false
+  - model: PNA
+    model_key: pna
+    model_plain: PNA
+    value: 0.9794
+    std: 0.0012
+    paper_value: 0.9794
+    paper_std: 0.0012
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 2
+    source_ref: Corso 2020
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 74
+    true_value: 0.9794
+    true_std: 0.0012
+    value_gap_source_arxiv: '2605.05689'
+    value_gap_source_title: 'GCCM: Enhancing Generative Graph Prediction via Contrastive
+      Consistency Model'
+    value_gap_source_is_current_paper: false
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 74
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.9794
+    sort_std: 0.0012
+    is_best: false
+  - model: GAT + RandAlign
+    model_key: gat + randalign
+    model_plain: GAT + RandAlign
+    value: 0.97553
+    std: 0.00034
+    paper_value: 0.97553
+    paper_std: 0.00034
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 2
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 80
+    true_value: 0.97553
+    true_std: 0.00034
+    value_gap_source_arxiv: '2404.09774'
+    value_gap_source_title: 'RandAlign: A Parameter-Free Method for Regularizing Graph
+      Convolutional Networks'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 80
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.97553
+    sort_std: 0.00034
+    is_best: false
+  - model: GatedGCN-16
+    model_key: gatedgcn-16
+    model_plain: GatedGCN-16
+    value: 0.9734
+    std: 0.00143
+    paper_value: 0.9734
+    paper_std: 0.00143
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 2
+    source_ref: Bresson 2017
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 81
+    true_value: 0.9734
+    true_std: 0.00143
+    value_gap_source_arxiv: '2404.09774'
+    value_gap_source_title: 'RandAlign: A Parameter-Free Method for Regularizing Graph
+      Convolutional Networks'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 81
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.9734
+    sort_std: 0.00143
+    is_best: false
+  - model: GraphSAGE
+    model_key: graphsage
+    model_plain: GraphSAGE
+    value: 0.97312
+    std: 0.00097
+    paper_value: 0.97312
+    paper_std: 0.00097
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 2
+    source_ref: Hamilton 2017
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 82
+    true_value: 0.97312
+    true_std: 0.00097
+    value_gap_source_arxiv: '2407.02758'
+    value_gap_source_title: Differential Encoding for Improved Representation Learning
+      over Graphs
+    value_gap_source_is_current_paper: false
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 82
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.97312
+    sort_std: 0.00097
+    is_best: false
+  - model: GAT-8 + RandAlign (w/o scaling)
+    model_key: gat-8 + randalign (w/o scaling)
+    model_plain: GAT-8 + RandAlign (w/o scaling)
+    value: 0.9725
+    std: 0.00049
+    paper_value: 0.9725
+    paper_std: 0.00049
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 4
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 83
+    true_value: 0.9725
+    true_std: 0.00049
+    value_gap_source_arxiv: '2404.09774'
+    value_gap_source_title: 'RandAlign: A Parameter-Free Method for Regularizing Graph
+      Convolutional Networks'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 83
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.9725
+    sort_std: 0.00049
+    is_best: false
+  - model: GAT-8
+    model_key: gat-8
+    model_plain: GAT-8
+    value: 0.96065
+    std: 0.00093
+    paper_value: 0.96065
+    paper_std: 0.00093
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 4
+    source_ref: Veličković 2018
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 91
+    true_value: 0.96065
+    true_std: 0.00093
+    value_gap_source_arxiv: '2404.09774'
+    value_gap_source_title: 'RandAlign: A Parameter-Free Method for Regularizing Graph
+      Convolutional Networks'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 91
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.96065
+    sort_std: 0.00093
     is_best: false
   - model: GAT
+    model_key: gat
+    model_plain: GAT
     value: 0.95535
     std: 0.00205
+    paper_value: 0.95535
+    paper_std: 0.00205
     metric: Accuracy
     higher_is_better: true
     is_baseline: true
@@ -852,11 +2246,72 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: Veličković 2018
-    global_rank: 85
+    variant_inference_reason: ''
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 92
+    true_value: 0.9554
+    true_std: 0.0021
+    value_gap_source_arxiv: '2411.15671'
+    value_gap_source_title: 'Best of Both Worlds: Advantages of Hybrid Graph Sequence
+      Models'
+    value_gap_source_is_current_paper: false
+    has_value_gap: false
+    has_value_note: true
+    value_gap: 4.999999999999449e-05
+    value_note: global 0.9554 within std
+    paper_rank: 92
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.9554
+    sort_std: 0.0021
+    is_best: false
+  - model: GAT-16
+    model_key: gat-16
+    model_plain: GAT-16
+    value: 0.95535
+    std: 0.00205
+    paper_value: 0.95535
+    paper_std: 0.00205
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 2
+    source_ref: Veličković 2018
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 93
+    true_value: 0.95535
+    true_std: 0.00205
+    value_gap_source_arxiv: '2404.09774'
+    value_gap_source_title: 'RandAlign: A Parameter-Free Method for Regularizing Graph
+      Convolutional Networks'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 93
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.95535
+    sort_std: 0.00205
     is_best: false
   - model: 3WLGNN
+    model_key: 3wlgnn
+    model_plain: 3WLGNN
     value: 0.95075
     std: 0.00961
+    paper_value: 0.95075
+    paper_std: 0.00961
     metric: Accuracy
     higher_is_better: true
     is_baseline: true
@@ -865,11 +2320,35 @@ results:
     params_millions: null
     table_ref: Table 2
     source_ref: Maron 2019
-    global_rank: 88
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 96
+    true_value: 0.95075
+    true_std: 0.00961
+    value_gap_source_arxiv: '2407.02758'
+    value_gap_source_title: Differential Encoding for Improved Representation Learning
+      over Graphs
+    value_gap_source_is_current_paper: false
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 96
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.95075
+    sort_std: 0.00961
     is_best: false
   - model: MoNet
+    model_key: monet
+    model_plain: MoNet
     value: 0.90805
     std: 0.00032
+    paper_value: 0.90805
+    paper_std: 0.00032
     metric: Accuracy
     higher_is_better: true
     is_baseline: true
@@ -878,37 +2357,72 @@ results:
     params_millions: null
     table_ref: Table 2
     source_ref: Monti 2017
-    global_rank: 92
-    is_best: false
-  - model: GCN
-    value: 0.90705
-    std: 0.00218
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: 0.496
-    table_ref: Table 2
-    source_ref: Kipf 2016
-    global_rank: 22
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 100
+    true_value: 0.90805
+    true_std: 0.00032
+    value_gap_source_arxiv: '2407.02758'
+    value_gap_source_title: Differential Encoding for Improved Representation Learning
+      over Graphs
+    value_gap_source_is_current_paper: false
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 100
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.90805
+    sort_std: 0.00032
     is_best: false
   - model: GCNII
+    model_key: gcnii
+    model_plain: GCNII
     value: 0.90667
     std: 0.00143
+    paper_value: 0.90667
+    paper_std: 0.00143
     metric: Accuracy
     higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.492
+    params_millions: null
     table_ref: Table 2
     source_ref: Chen 2020
-    global_rank: 93
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 101
+    true_value: 0.90667
+    true_std: 0.00143
+    value_gap_source_arxiv: '2407.02758'
+    value_gap_source_title: Differential Encoding for Improved Representation Learning
+      over Graphs
+    value_gap_source_is_current_paper: false
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 101
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.90667
+    sort_std: 0.00143
     is_best: false
   - model: GCN + RandAlign
+    model_key: gcn + randalign
+    model_plain: GCN + RandAlign
     value: 0.90305
     std: 0.0014
+    paper_value: 0.90305
+    paper_std: 0.0014
     metric: Accuracy
     higher_is_better: true
     is_baseline: false
@@ -917,7 +2431,27 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    global_rank: 94
+    variant_inference_reason: ''
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 102
+    true_value: 0.90305
+    true_std: 0.0014
+    value_gap_source_arxiv: '2404.09774'
+    value_gap_source_title: 'RandAlign: A Parameter-Free Method for Regularizing Graph
+      Convolutional Networks'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 102
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.90305
+    sort_std: 0.0014
     is_best: false
   metric: Accuracy
   higher_is_better: true
@@ -925,6 +2459,8 @@ results:
   dataset: PATTERN
   rows:
   - model: GRIT (our run)
+    model_key: grit (our run)
+    model_plain: GRIT (our run)
     value: 0.90405
     std: 0.00232
     metric: Accuracy
@@ -934,14 +2470,20 @@ results:
     override_reason: ''
     params_millions: null
     arxiv_id: '2310.20519'
-    title: Enhancing Graph Neural Networks with - Quantum Computed Encodings
+    title: Enhancing Graph Neural Networks with Quantum Computed Encodings
     date: Oct 2023
+    date_display: Oct 2023
+    date_iso: 2023-10
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
     global_rank: 1
+    sort_value: 0.90405
+    sort_std: 0.00232
     is_best: true
   - model: GRIT 2-QiQRW
+    model_key: grit 2-qiqrw
+    model_plain: GRIT 2-QiQRW
     value: 0.90165
     std: 0.00446
     metric: Accuracy
@@ -949,16 +2491,22 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.5
+    params_millions: null
     arxiv_id: '2310.20519'
-    title: Enhancing Graph Neural Networks with - Quantum Computed Encodings
+    title: Enhancing Graph Neural Networks with Quantum Computed Encodings
     date: Oct 2023
+    date_display: Oct 2023
+    date_iso: 2023-10
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
     global_rank: 2
+    sort_value: 0.90165
+    sort_std: 0.00446
     is_best: true
   - model: PPGT
+    model_key: ppgt
+    model_plain: PPGT
     value: 0.89752
     std: 0.0003
     metric: Accuracy
@@ -970,14 +2518,96 @@ results:
     arxiv_id: '2504.12588'
     title: Plain Transformers Can be Powerful Graph Learners
     date: Apr 2025
+    date_display: Apr 2025
+    date_iso: 2025-04
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
     global_rank: 3
+    sort_value: 0.89752
+    sort_std: 0.0003
+    is_best: false
+  - model: GatedGCN
+    model_key: gatedgcn
+    model_plain: GatedGCN
+    value: 0.85568
+    std: 0.00088
+    paper_value: 0.85568
+    paper_std: 0.00088
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 2
+    source_ref: Bresson 2017
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 25
+    true_value: 0.87029
+    true_std: 0.00037
+    value_gap_source_arxiv: '2502.09263'
+    value_gap_source_title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks?
+      Simple Architectures Meet Excellence
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
+    has_value_note: false
+    value_gap: 0.014610000000000012
+    value_note: ''
+    paper_rank: 79
+    rank_delta: 54
+    rank_delta_abs: 54
+    rank_delta_direction: worse
+    sort_value: 0.87029
+    sort_std: 0.00037
+    is_best: false
+  - model: GCN
+    model_key: gcn
+    model_plain: GCN
+    value: 0.71892
+    std: 0.00334
+    paper_value: 0.71892
+    paper_std: 0.00334
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 2
+    source_ref: Kipf 2017
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 26
+    true_value: 0.87021
+    true_std: 0.00095
+    value_gap_source_arxiv: '2502.09263'
+    value_gap_source_title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks?
+      Simple Architectures Meet Excellence
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
+    has_value_note: false
+    value_gap: 0.15129000000000004
+    value_note: ''
+    paper_rank: 89
+    rank_delta: 63
+    rank_delta_abs: 63
+    rank_delta_direction: worse
+    sort_value: 0.87021
+    sort_std: 0.00095
     is_best: false
   - model: GPS + RandAlign
+    model_key: gps + randalign
+    model_plain: GPS + RandAlign
     value: 0.86858
     std: 0.0001
+    paper_value: 0.86858
+    paper_std: 0.0001
     metric: Accuracy
     higher_is_better: true
     is_baseline: false
@@ -986,11 +2616,35 @@ results:
     params_millions: null
     table_ref: Table 2
     source_ref: this paper
-    global_rank: 34
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 36
+    true_value: 0.86858
+    true_std: 0.0001
+    value_gap_source_arxiv: '2404.09774'
+    value_gap_source_title: 'RandAlign: A Parameter-Free Method for Regularizing Graph
+      Convolutional Networks'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 36
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.86858
+    sort_std: 0.0001
     is_best: false
   - model: K-Subgraph SAT
+    model_key: k-subgraph sat
+    model_plain: K-Subgraph SAT
     value: 0.86848
     std: 0.00037
+    paper_value: 0.86848
+    paper_std: 0.00037
     metric: Accuracy
     higher_is_better: true
     is_baseline: true
@@ -999,115 +2653,34 @@ results:
     params_millions: null
     table_ref: Table 2
     source_ref: Chen 2022
-    global_rank: 36
-    is_best: false
-  - model: SAN + RandAlign
-    value: 0.8677
-    std: 0.00067
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 2
-    source_ref: this paper
-    global_rank: 43
-    is_best: false
-  - model: GPS
-    value: 0.86685
-    std: 0.00059
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 2
-    source_ref: Rampasek 2022
-    global_rank: 54
-    is_best: false
-  - model: DGN
-    value: 0.8668
-    std: 0.00034
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 2
-    source_ref: Beaini 2021
-    global_rank: 57
-    is_best: false
-  - model: SAN
-    value: 0.86581
-    std: 0.00037
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 2
-    source_ref: Kreuzer 2021
-    global_rank: 64
-    is_best: false
-  - model: RingGNN
-    value: 0.86245
-    std: 0.00013
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 2
-    source_ref: Chen 2019
-    global_rank: 69
-    is_best: false
-  - model: GatedGCN + SSFG
-    value: 0.85723
-    std: 0.00069
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 2
-    source_ref: Zhang 2022
-    global_rank: 74
-    is_best: false
-  - model: MoNet
-    value: 0.85582
-    std: 0.00038
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 2
-    source_ref: Monti 2017
-    global_rank: 77
-    is_best: false
-  - model: GatedGCN
-    value: 0.85568
-    std: 0.00088
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: 0.502
-    table_ref: Table 2
-    source_ref: Bresson 2017
-    global_rank: 23
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 38
+    true_value: 0.86848
+    true_std: 0.00037
+    value_gap_source_arxiv: '2504.12588'
+    value_gap_source_title: Plain Transformers Can be Powerful Graph Learners
+    value_gap_source_is_current_paper: false
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 38
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.86848
+    sort_std: 0.00037
     is_best: false
   - model: GIN
+    model_key: gin
+    model_plain: GIN
     value: 0.85387
     std: 0.00136
+    paper_value: 0.85387
+    paper_std: 0.00136
     metric: Accuracy
     higher_is_better: true
     is_baseline: true
@@ -1116,11 +2689,293 @@ results:
     params_millions: null
     table_ref: Table 2
     source_ref: Xu 2019
-    global_rank: 38
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 40
+    true_value: 0.86842
+    true_std: 0.00048
+    value_gap_source_arxiv: '2502.09263'
+    value_gap_source_title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks?
+      Simple Architectures Meet Excellence
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
+    has_value_note: false
+    value_gap: 0.014549999999999952
+    value_note: ''
+    paper_rank: 80
+    rank_delta: 40
+    rank_delta_abs: 40
+    rank_delta_direction: worse
+    sort_value: 0.86842
+    sort_std: 0.00048
+    is_best: false
+  - model: SAN + RandAlign
+    model_key: san + randalign
+    model_plain: SAN + RandAlign
+    value: 0.8677
+    std: 0.00067
+    paper_value: 0.8677
+    paper_std: 0.00067
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 2
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 45
+    true_value: 0.8677
+    true_std: 0.00067
+    value_gap_source_arxiv: '2404.09774'
+    value_gap_source_title: 'RandAlign: A Parameter-Free Method for Regularizing Graph
+      Convolutional Networks'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 45
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.8677
+    sort_std: 0.00067
+    is_best: false
+  - model: GPS
+    model_key: gps
+    model_plain: GPS
+    value: 0.86685
+    std: 0.00059
+    paper_value: 0.86685
+    paper_std: 0.00059
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 2
+    source_ref: Rampasek 2022
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 56
+    true_value: 0.86688
+    true_std: 0.00073
+    value_gap_source_arxiv: '2502.09365'
+    value_gap_source_title: Simple Path Structural Encoding for Graph Transformers
+    value_gap_source_is_current_paper: false
+    has_value_gap: false
+    has_value_note: true
+    value_gap: 2.999999999997449e-05
+    value_note: global 0.8669 within std
+    paper_rank: 56
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.86688
+    sort_std: 0.00073
+    is_best: false
+  - model: DGN
+    model_key: dgn
+    model_plain: DGN
+    value: 0.8668
+    std: 0.00034
+    paper_value: 0.8668
+    paper_std: 0.00034
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 2
+    source_ref: Beaini 2021
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 59
+    true_value: 0.8668
+    true_std: 0.00034
+    value_gap_source_arxiv: '2605.05689'
+    value_gap_source_title: 'GCCM: Enhancing Generative Graph Prediction via Contrastive
+      Consistency Model'
+    value_gap_source_is_current_paper: false
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 59
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.8668
+    sort_std: 0.00034
+    is_best: false
+  - model: SAN
+    model_key: san
+    model_plain: SAN
+    value: 0.86581
+    std: 0.00037
+    paper_value: 0.86581
+    paper_std: 0.00037
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 2
+    source_ref: Kreuzer 2021
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 66
+    true_value: 0.86581
+    true_std: 0.00037
+    value_gap_source_arxiv: '2605.05689'
+    value_gap_source_title: 'GCCM: Enhancing Generative Graph Prediction via Contrastive
+      Consistency Model'
+    value_gap_source_is_current_paper: false
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 66
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.86581
+    sort_std: 0.00037
+    is_best: false
+  - model: RingGNN
+    model_key: ringgnn
+    model_plain: RingGNN
+    value: 0.86245
+    std: 0.00013
+    paper_value: 0.86245
+    paper_std: 0.00013
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 2
+    source_ref: Chen 2019
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 71
+    true_value: 0.86245
+    true_std: 0.00013
+    value_gap_source_arxiv: '2404.09774'
+    value_gap_source_title: 'RandAlign: A Parameter-Free Method for Regularizing Graph
+      Convolutional Networks'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 71
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.86245
+    sort_std: 0.00013
+    is_best: false
+  - model: GatedGCN + SSFG
+    model_key: gatedgcn + ssfg
+    model_plain: GatedGCN + SSFG
+    value: 0.85723
+    std: 0.00069
+    paper_value: 0.85723
+    paper_std: 0.00069
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 2
+    source_ref: Zhang 2022
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 76
+    true_value: 0.85723
+    true_std: 0.00069
+    value_gap_source_arxiv: '2404.09774'
+    value_gap_source_title: 'RandAlign: A Parameter-Free Method for Regularizing Graph
+      Convolutional Networks'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 76
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.85723
+    sort_std: 0.00069
+    is_best: false
+  - model: MoNet
+    model_key: monet
+    model_plain: MoNet
+    value: 0.85582
+    std: 0.00038
+    paper_value: 0.85582
+    paper_std: 0.00038
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 2
+    source_ref: Monti 2017
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 79
+    true_value: 0.85582
+    true_std: 0.00038
+    value_gap_source_arxiv: '2404.09774'
+    value_gap_source_title: 'RandAlign: A Parameter-Free Method for Regularizing Graph
+      Convolutional Networks'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 79
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.85582
+    sort_std: 0.00038
     is_best: false
   - model: GAT
+    model_key: gat
+    model_plain: GAT
     value: 0.78271
     std: 0.00186
+    paper_value: 0.78271
+    paper_std: 0.00186
     metric: Accuracy
     higher_is_better: true
     is_baseline: true
@@ -1129,24 +2984,35 @@ results:
     params_millions: null
     table_ref: Table 2
     source_ref: Velickovic 2018
-    global_rank: 86
-    is_best: false
-  - model: GCN
-    value: 0.71892
-    std: 0.00334
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: 0.496
-    table_ref: Table 2
-    source_ref: Kipf 2017
-    global_rank: 24
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 88
+    true_value: 0.78271
+    true_std: 0.00186
+    value_gap_source_arxiv: '2605.05689'
+    value_gap_source_title: 'GCCM: Enhancing Generative Graph Prediction via Contrastive
+      Consistency Model'
+    value_gap_source_is_current_paper: false
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 88
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.78271
+    sort_std: 0.00186
     is_best: false
   - model: GraphSAGE
+    model_key: graphsage
+    model_plain: GraphSAGE
     value: 0.50492
     std: 1.0e-05
+    paper_value: 0.50492
+    paper_std: 1.0e-05
     metric: Accuracy
     higher_is_better: true
     is_baseline: true
@@ -1155,7 +3021,27 @@ results:
     params_millions: null
     table_ref: Table 2
     source_ref: Hamilton 2017
-    global_rank: 89
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 91
+    true_value: 0.50492
+    true_std: 1.0e-05
+    value_gap_source_arxiv: '2404.09774'
+    value_gap_source_title: 'RandAlign: A Parameter-Free Method for Regularizing Graph
+      Convolutional Networks'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 91
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.50492
+    sort_std: 1.0e-05
     is_best: false
   metric: Accuracy
   higher_is_better: true
@@ -1163,6 +3049,8 @@ results:
   dataset: PascalVOC-SP
   rows:
   - model: GRASS
+    model_key: grass
+    model_plain: GRASS
     value: 0.567
     std: 0.0049
     metric: F1
@@ -1172,14 +3060,20 @@ results:
     override_reason: ''
     params_millions: 0.5
     arxiv_id: '2407.05649'
-    title: 'Greener GRASS: Enhancing GNNs with , Rewiring, and Attention'
+    title: 'Greener GRASS: Enhancing GNNs with Encoding, Rewiring, and Attention'
     date: Jul 2024
+    date_display: Jul 2024
+    date_iso: 2024-07
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
     global_rank: 1
+    sort_value: 0.567
+    sort_std: 0.0049
     is_best: true
   - model: NeuralWalker
+    model_key: neuralwalker
+    model_plain: NeuralWalker
     value: 0.4912
     std: 0.0042
     metric: F1
@@ -1189,14 +3083,20 @@ results:
     override_reason: ''
     params_millions: null
     arxiv_id: '2407.05649'
-    title: 'Greener GRASS: Enhancing GNNs with , Rewiring, and Attention'
+    title: 'Greener GRASS: Enhancing GNNs with Encoding, Rewiring, and Attention'
     date: Jul 2024
+    date_display: Jul 2024
+    date_iso: 2024-07
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
     global_rank: 2
+    sort_value: 0.4912
+    sort_std: 0.0042
     is_best: false
   - model: GENs
+    model_key: gens
+    model_plain: GENs
     value: 0.4653
     std: 0.0097
     metric: F1
@@ -1204,32 +3104,27 @@ results:
     is_baseline: false
     is_overridden: false
     override_reason: ''
-    params_millions: 0.5
+    params_millions: null
     arxiv_id: '2401.01233'
     title: 'GEN: A Practical Alternative to Graph Transformers for Long-Range Graph
       Modeling'
     date: Jan 2024
+    date_display: Jan 2024
+    date_iso: 2024-01
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
     global_rank: 3
-    is_best: false
-  - model: GPS + RandAlign
-    value: 0.4288
-    std: 0.0062
-    metric: F1
-    higher_is_better: true
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    global_rank: 15
+    sort_value: 0.4653
+    sort_std: 0.0097
     is_best: false
   - model: GPS
+    model_key: gps
+    model_plain: GPS
     value: 0.3748
     std: 0.0109
+    paper_value: 0.3748
+    paper_std: 0.0109
     metric: F1
     higher_is_better: true
     is_baseline: true
@@ -1238,98 +3133,319 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: Rampasek 2022
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
     global_rank: 9
+    true_value: 0.444
+    true_std: 0.0065
+    value_gap_source_arxiv: '2401.01233'
+    value_gap_source_title: 'GEN: A Practical Alternative to Graph Transformers for
+      Long-Range Graph Modeling'
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
+    has_value_note: false
+    value_gap: 0.06919999999999998
+    value_note: ''
+    paper_rank: 46
+    rank_delta: 37
+    rank_delta_abs: 37
+    rank_delta_direction: worse
+    sort_value: 0.444
+    sort_std: 0.0065
     is_best: false
-  - model: SAN+LapPE
-    value: 0.323
-    std: 0.0039
+  - model: GPS + RandAlign
+    model_key: gps + randalign
+    model_plain: GPS + RandAlign
+    value: 0.4288
+    std: 0.0062
+    paper_value: 0.4288
+    paper_std: 0.0062
     metric: F1
     higher_is_better: true
-    is_baseline: true
+    is_baseline: false
     is_overridden: false
     override_reason: ''
-    params_millions: 0.531
+    params_millions: null
     table_ref: Table 1
-    source_ref: Dwivedi 2022
-    global_rank: 58
-    is_best: false
-  - model: SAN+RWSE
-    value: 0.3216
-    std: 0.0027
-    metric: F1
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: 0.468
-    table_ref: Table 1
-    source_ref: Dwivedi 2022
-    global_rank: 62
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 18
+    true_value: 0.4288
+    true_std: 0.0062
+    value_gap_source_arxiv: '2404.09774'
+    value_gap_source_title: 'RandAlign: A Parameter-Free Method for Regularizing Graph
+      Convolutional Networks'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 18
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.4288
+    sort_std: 0.0062
     is_best: false
   - model: GatedGCN
+    model_key: gatedgcn
+    model_plain: GatedGCN
     value: 0.2873
     std: 0.0219
+    paper_value: 0.2873
+    paper_std: 0.0219
     metric: F1
     higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.502
+    params_millions: null
     table_ref: Table 1
     source_ref: Bresson 2017
-    global_rank: 16
-    is_best: false
-  - model: GatedGCN+RWSE
-    value: 0.286
-    std: 0.0085
-    metric: F1
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: 0.506
-    table_ref: Table 1
-    source_ref: Dwivedi 2021
-    global_rank: 72
-    is_best: false
-  - model: Transformer+LapPE
-    value: 0.2694
-    std: 0.0098
-    metric: F1
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: 0.501
-    table_ref: Table 1
-    source_ref: Dwivedi 2022
-    global_rank: 78
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 19
+    true_value: 0.4263
+    true_std: 0.0057
+    value_gap_source_arxiv: '2502.09263'
+    value_gap_source_title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks?
+      Simple Architectures Meet Excellence
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
+    has_value_note: false
+    value_gap: 0.139
+    value_note: ''
+    paper_rank: 74
+    rank_delta: 55
+    rank_delta_abs: 55
+    rank_delta_direction: worse
+    sort_value: 0.4263
+    sort_std: 0.0057
     is_best: false
   - model: GCN
+    model_key: gcn
+    model_plain: GCN
     value: 0.1268
     std: 0.006
+    paper_value: 0.1268
+    paper_std: 0.006
     metric: F1
     higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.496
+    params_millions: null
     table_ref: Table 1
     source_ref: Kipf 2016
-    global_rank: 43
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 46
+    true_value: 0.376
+    true_std: 0.001
+    value_gap_source_arxiv: '2509.22259'
+    value_gap_source_title: Rotary Position Encodings for Graphs
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
+    has_value_note: false
+    value_gap: 0.2492
+    value_note: ''
+    paper_rank: 109
+    rank_delta: 63
+    rank_delta_abs: 63
+    rank_delta_direction: worse
+    sort_value: 0.376
+    sort_std: 0.001
     is_best: false
-  - model: GINE
-    value: 0.1265
-    std: 0.0076
+  - model: SAN+LapPE
+    model_key: san+lappe
+    model_plain: SAN+LapPE
+    value: 0.323
+    std: 0.0039
+    paper_value: 0.323
+    paper_std: 0.0039
     metric: F1
     higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.505
+    params_millions: null
+    table_ref: Table 1
+    source_ref: Dwivedi 2022
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 61
+    true_value: 0.323
+    true_std: 0.0039
+    value_gap_source_arxiv: '2206.08164'
+    value_gap_source_title: LRGB
+    value_gap_source_is_current_paper: false
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 61
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.323
+    sort_std: 0.0039
+    is_best: false
+  - model: SAN+RWSE
+    model_key: san+rwse
+    model_plain: SAN+RWSE
+    value: 0.3216
+    std: 0.0027
+    paper_value: 0.3216
+    paper_std: 0.0027
+    metric: F1
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: Dwivedi 2022
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 65
+    true_value: 0.3216
+    true_std: 0.0027
+    value_gap_source_arxiv: '2206.08164'
+    value_gap_source_title: LRGB
+    value_gap_source_is_current_paper: false
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 65
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.3216
+    sort_std: 0.0027
+    is_best: false
+  - model: GatedGCN+RWSE
+    model_key: gatedgcn+rwse
+    model_plain: GatedGCN+RWSE
+    value: 0.286
+    std: 0.0085
+    paper_value: 0.286
+    paper_std: 0.0085
+    metric: F1
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: Dwivedi 2021
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 75
+    true_value: 0.286
+    true_std: 0.0085
+    value_gap_source_arxiv: '2407.02758'
+    value_gap_source_title: Differential Encoding for Improved Representation Learning
+      over Graphs
+    value_gap_source_is_current_paper: false
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 75
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.286
+    sort_std: 0.0085
+    is_best: false
+  - model: GINE
+    model_key: gine
+    model_plain: GINE
+    value: 0.1265
+    std: 0.0076
+    paper_value: 0.1265
+    paper_std: 0.0076
+    metric: F1
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
     table_ref: Table 1
     source_ref: Hu 2019
-    global_rank: 77
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 80
+    true_value: 0.2718
+    true_std: 0.0054
+    value_gap_source_arxiv: '2604.03815'
+    value_gap_source_title: k-Maximum Inner Product Attention for Graph Transformers
+      and the Expressive Power of GraphGPS
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
+    has_value_note: false
+    value_gap: 0.14529999999999998
+    value_note: ''
+    paper_rank: 109
+    rank_delta: 29
+    rank_delta_abs: 29
+    rank_delta_direction: worse
+    sort_value: 0.2718
+    sort_std: 0.0054
+    is_best: false
+  - model: Transformer+LapPE
+    model_key: transformer+lappe
+    model_plain: Transformer+LapPE
+    value: 0.2694
+    std: 0.0098
+    paper_value: 0.2694
+    paper_std: 0.0098
+    metric: F1
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: Dwivedi 2022
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 81
+    true_value: 0.2694
+    true_std: 0.0098
+    value_gap_source_arxiv: '2206.08164'
+    value_gap_source_title: LRGB
+    value_gap_source_is_current_paper: false
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 81
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.2694
+    sort_std: 0.0098
     is_best: false
   metric: F1
   higher_is_better: true
@@ -1337,6 +3453,8 @@ results:
   dataset: Peptides-func
   rows:
   - model: LightGBM (ECFP)
+    model_key: lightgbm (ecfp)
+    model_plain: LightGBM (ECFP)
     value: 0.746
     std: null
     metric: AP
@@ -1348,12 +3466,18 @@ results:
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
     date: '2025-01-29'
+    date_display: Jan 2025
+    date_iso: '2025-01-29'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
     global_rank: 1
+    sort_value: 0.746
+    sort_std: null
     is_best: true
   - model: Random Forest (ECFP)
+    model_key: random forest (ecfp)
+    model_plain: Random Forest (ECFP)
     value: 0.7355
     std: 0.001
     metric: AP
@@ -1365,12 +3489,18 @@ results:
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
     date: '2025-01-29'
+    date_display: Jan 2025
+    date_iso: '2025-01-29'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
     global_rank: 2
+    sort_value: 0.7355
+    sort_std: 0.001
     is_best: false
   - model: LightGBM (TT)
+    model_key: lightgbm (tt)
+    model_plain: LightGBM (TT)
     value: 0.7318
     std: null
     metric: AP
@@ -1382,14 +3512,133 @@ results:
     arxiv_id: '2501.17901'
     title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
     date: '2025-01-29'
+    date_display: Jan 2025
+    date_iso: '2025-01-29'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
     global_rank: 3
+    sort_value: 0.7318
+    sort_std: null
+    is_best: false
+  - model: GCN
+    model_key: gcn
+    model_plain: GCN
+    value: 0.593
+    std: 0.0023
+    paper_value: 0.593
+    paper_std: 0.0023
+    metric: AP
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: Kipf 2016
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 9
+    true_value: 0.7261
+    true_std: 0.0067
+    value_gap_source_arxiv: '2502.09263'
+    value_gap_source_title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks?
+      Simple Architectures Meet Excellence
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
+    has_value_note: false
+    value_gap: 0.1331
+    value_note: ''
+    paper_rank: 261
+    rank_delta: 252
+    rank_delta_abs: 252
+    rank_delta_direction: worse
+    sort_value: 0.7261
+    sort_std: 0.0067
+    is_best: false
+  - model: GatedGCN
+    model_key: gatedgcn
+    model_plain: GatedGCN
+    value: 0.5864
+    std: 0.0077
+    paper_value: 0.5864
+    paper_std: 0.0077
+    metric: AP
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: Bresson 2017
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 49
+    true_value: 0.7006
+    true_std: 0.0033
+    value_gap_source_arxiv: '2502.09263'
+    value_gap_source_title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks?
+      Simple Architectures Meet Excellence
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
+    has_value_note: false
+    value_gap: 0.11419999999999997
+    value_note: ''
+    paper_rank: 273
+    rank_delta: 224
+    rank_delta_abs: 224
+    rank_delta_direction: worse
+    sort_value: 0.7006
+    sort_std: 0.0033
+    is_best: false
+  - model: GatedGCN+RWSE
+    model_key: gatedgcn+rwse
+    model_plain: GatedGCN+RWSE
+    value: 0.6069
+    std: 0.0035
+    paper_value: 0.6069
+    paper_std: 0.0035
+    metric: AP
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: Dwivedi 2021
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 133
+    true_value: 0.6685
+    true_std: 0.0062
+    value_gap_source_arxiv: '2409.19117'
+    value_gap_source_title: 'Range-aware Positional Encoding via High-order Pretraining:
+      Theory and Practice'
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
+    has_value_note: false
+    value_gap: 0.06159999999999999
+    value_note: ''
+    paper_rank: 239
+    rank_delta: 106
+    rank_delta_abs: 106
+    rank_delta_direction: worse
+    sort_value: 0.6685
+    sort_std: 0.0062
     is_best: false
   - model: GPS + RandAlign
+    model_key: gps + randalign
+    model_plain: GPS + RandAlign
     value: 0.663
     std: 0.0005
+    paper_value: 0.663
+    paper_std: 0.0005
     metric: AP
     higher_is_better: true
     is_baseline: false
@@ -1398,11 +3647,72 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    global_rank: 136
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 138
+    true_value: 0.663
+    true_std: 0.0005
+    value_gap_source_arxiv: '2404.09774'
+    value_gap_source_title: 'RandAlign: A Parameter-Free Method for Regularizing Graph
+      Convolutional Networks'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 138
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.663
+    sort_std: 0.0005
+    is_best: false
+  - model: GINE
+    model_key: gine
+    model_plain: GINE
+    value: 0.5498
+    std: 0.0079
+    paper_value: 0.5498
+    paper_std: 0.0079
+    metric: AP
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: Hu 2019
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 142
+    true_value: 0.6621
+    true_std: 0.0067
+    value_gap_source_arxiv: '2309.00367'
+    value_gap_source_title: Where Did the Gap Go? Reassessing the Long-Range Graph
+      Benchmark
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
+    has_value_note: false
+    value_gap: 0.11230000000000007
+    value_note: ''
+    paper_rank: 288
+    rank_delta: 146
+    rank_delta_abs: 146
+    rank_delta_direction: worse
+    sort_value: 0.6621
+    sort_std: 0.0067
     is_best: false
   - model: GPS
+    model_key: gps
+    model_plain: GPS
     value: 0.6535
     std: 0.0041
+    paper_value: 0.6535
+    paper_std: 0.0041
     metric: AP
     higher_is_better: true
     is_baseline: true
@@ -1411,98 +3721,135 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: Rampasek 2022
-    global_rank: 151
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 154
+    true_value: 0.6601
+    true_std: 0.0061
+    value_gap_source_arxiv: '2502.09365'
+    value_gap_source_title: Simple Path Structural Encoding for Graph Transformers
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
+    has_value_note: false
+    value_gap: 0.00660000000000005
+    value_note: ''
+    paper_rank: 168
+    rank_delta: 14
+    rank_delta_abs: 14
+    rank_delta_direction: worse
+    sort_value: 0.6601
+    sort_std: 0.0061
     is_best: false
   - model: SAN+RWSE
+    model_key: san+rwse
+    model_plain: SAN+RWSE
     value: 0.6439
     std: 0.0075
+    paper_value: 0.6439
+    paper_std: 0.0075
     metric: AP
     higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.468
+    params_millions: null
     table_ref: Table 1
     source_ref: Dwivedi 2022
-    global_rank: 193
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 200
+    true_value: 0.644
+    true_std: 0.008
+    value_gap_source_arxiv: '2309.16014'
+    value_gap_source_title: Graph-level Representation Learning with Joint-Embedding
+      Predictive Architectures
+    value_gap_source_is_current_paper: false
+    has_value_gap: false
+    has_value_note: true
+    value_gap: 9.999999999998899e-05
+    value_note: global 0.6440 within std
+    paper_rank: 201
+    rank_delta: 1
+    rank_delta_abs: 1
+    rank_delta_direction: worse
+    sort_value: 0.644
+    sort_std: 0.008
     is_best: false
   - model: SAN+LapPE
+    model_key: san+lappe
+    model_plain: SAN+LapPE
     value: 0.6384
     std: 0.0121
+    paper_value: 0.6384
+    paper_std: 0.0121
     metric: AP
     higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.531
+    params_millions: null
     table_ref: Table 1
     source_ref: Dwivedi 2022
-    global_rank: 204
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 212
+    true_value: 0.6384000000000001
+    true_std: 0.0121
+    value_gap_source_arxiv: '2510.02565'
+    value_gap_source_title: On The Expressive Power of GNN Derivatives
+    value_gap_source_is_current_paper: false
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 212
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.6384000000000001
+    sort_std: 0.0121
     is_best: false
   - model: Transformer+LapPE
+    model_key: transformer+lappe
+    model_plain: Transformer+LapPE
     value: 0.6326
     std: 0.0126
+    paper_value: 0.6326
+    paper_std: 0.0126
     metric: AP
     higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.501
+    params_millions: null
     table_ref: Table 1
     source_ref: Dwivedi 2022
-    global_rank: 209
-    is_best: false
-  - model: GatedGCN+RWSE
-    value: 0.6069
-    std: 0.0035
-    metric: AP
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: 0.506
-    table_ref: Table 1
-    source_ref: Dwivedi 2021
-    global_rank: 131
-    is_best: false
-  - model: GCN
-    value: 0.593
-    std: 0.0023
-    metric: AP
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: 0.496
-    table_ref: Table 1
-    source_ref: Kipf 2016
-    global_rank: 9
-    is_best: false
-  - model: GatedGCN
-    value: 0.5864
-    std: 0.0077
-    metric: AP
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: 0.502
-    table_ref: Table 1
-    source_ref: Bresson 2017
-    global_rank: 47
-    is_best: false
-  - model: GINE
-    value: 0.5498
-    std: 0.0079
-    metric: AP
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: 0.505
-    table_ref: Table 1
-    source_ref: Hu 2019
-    global_rank: 140
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 217
+    true_value: 0.6326
+    true_std: 0.0126
+    value_gap_source_arxiv: '2206.08164'
+    value_gap_source_title: LRGB
+    value_gap_source_is_current_paper: false
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 217
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.6326
+    sort_std: 0.0126
     is_best: false
   metric: AP
   higher_is_better: true
@@ -1510,6 +3857,8 @@ results:
   dataset: ogbg-molhiv
   rows:
   - model: MLP
+    model_key: mlp
+    model_plain: MLP
     value: 0.9685
     std: 0.0001
     metric: ROC-AUC
@@ -1522,12 +3871,18 @@ results:
     title: 'When Structure Doesn’t Help: LLMs Do Not Read Text-Attributed Graphs as
       Effectively as We Expected'
     date: Nov 2025
+    date_display: Nov 2025
+    date_iso: 2025-11
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
     global_rank: 1
+    sort_value: 0.9685
+    sort_std: 0.0001
     is_best: true
   - model: GAT
+    model_key: gat
+    model_plain: GAT
     value: 0.9682
     std: 0.0003
     metric: ROC-AUC
@@ -1540,12 +3895,92 @@ results:
     title: 'When Structure Doesn’t Help: LLMs Do Not Read Text-Attributed Graphs as
       Effectively as We Expected'
     date: Nov 2025
+    date_display: Nov 2025
+    date_iso: 2025-11
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
     global_rank: 2
+    sort_value: 0.9682
+    sort_std: 0.0003
+    is_best: true
+  - model: GCN
+    model_key: gcn
+    model_plain: GCN
+    value: 0.7599
+    std: 0.0119
+    paper_value: 0.7599
+    paper_std: 0.0119
+    metric: ROC-AUC
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: Kipf 2016
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 3
+    true_value: 0.9681
+    true_std: 0.0003
+    value_gap_source_arxiv: '2511.16767'
+    value_gap_source_title: 'When Structure Doesn’t Help: LLMs Do Not Read Text-Attributed
+      Graphs as Effectively as We Expected'
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
+    has_value_note: false
+    value_gap: 0.20819999999999994
+    value_note: ''
+    paper_rank: 166
+    rank_delta: 163
+    rank_delta_abs: 163
+    rank_delta_direction: worse
+    sort_value: 0.9681
+    sort_std: 0.0003
+    is_best: false
+  - model: GIN
+    model_key: gin
+    model_plain: GIN
+    value: 0.7707
+    std: 0.0149
+    paper_value: 0.7707
+    paper_std: 0.0149
+    metric: ROC-AUC
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: Xu 2019
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 4
+    true_value: 0.968
+    true_std: 0.002
+    value_gap_source_arxiv: '2502.02379'
+    value_gap_source_title: 'No Metric to Rule Them All: Toward Principled Evaluations
+      of Graph-Learning Datasets'
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
+    has_value_note: false
+    value_gap: 0.19729999999999992
+    value_note: ''
+    paper_rank: 137
+    rank_delta: 133
+    rank_delta_abs: 133
+    rank_delta_direction: worse
+    sort_value: 0.968
+    sort_std: 0.002
     is_best: true
   - model: SigGate-GT
+    model_key: siggate-gt
+    model_plain: SigGate-GT
     value: 0.8247
     std: 0.0063
     metric: ROC-AUC
@@ -1558,14 +3993,22 @@ results:
     title: 'SigGate-GT: Taming Over-Smoothing in Graph Transformers via Sigmoid-Gated
       Attention'
     date: Apr 2026
+    date_display: Apr 2026
+    date_iso: 2026-04
     codebase_url: https://github.com/bettyguo/SigGate-GT
     uses_external_data: false
     is_global_top: true
     global_rank: 5
+    sort_value: 0.8247
+    sort_std: 0.0063
     is_best: false
   - model: GPS + RandAlign
+    model_key: gps + randalign
+    model_plain: GPS + RandAlign
     value: 0.8021
     std: 0.0305
+    paper_value: 0.8021
+    paper_std: 0.0305
     metric: ROC-AUC
     higher_is_better: true
     is_baseline: false
@@ -1574,11 +4017,35 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    global_rank: 27
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 28
+    true_value: 0.8021
+    true_std: 0.0305
+    value_gap_source_arxiv: '2404.09774'
+    value_gap_source_title: 'RandAlign: A Parameter-Free Method for Regularizing Graph
+      Convolutional Networks'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 28
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.8021
+    sort_std: 0.0305
     is_best: false
   - model: DGN
+    model_key: dgn
+    model_plain: DGN
     value: 0.797
     std: 0.0097
+    paper_value: 0.797
+    paper_std: 0.0097
     metric: ROC-AUC
     higher_is_better: true
     is_baseline: true
@@ -1587,11 +4054,35 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: Beaini 2021
-    global_rank: 38
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 43
+    true_value: 0.797
+    true_std: 0.0097
+    value_gap_source_arxiv: '2404.09774'
+    value_gap_source_title: 'RandAlign: A Parameter-Free Method for Regularizing Graph
+      Convolutional Networks'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 43
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.797
+    sort_std: 0.0097
     is_best: false
   - model: GIN-AK+
+    model_key: gin-ak+
+    model_plain: GIN-AK+
     value: 0.7961
     std: 0.0119
+    paper_value: 0.7961
+    paper_std: 0.0119
     metric: ROC-AUC
     higher_is_better: true
     is_baseline: true
@@ -1600,11 +4091,35 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: Zhao 2022
-    global_rank: 41
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 46
+    true_value: 0.7961
+    true_std: 0.0119
+    value_gap_source_arxiv: '2404.09774'
+    value_gap_source_title: 'RandAlign: A Parameter-Free Method for Regularizing Graph
+      Convolutional Networks'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 46
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.7961
+    sort_std: 0.0119
     is_best: false
   - model: PNA
+    model_key: pna
+    model_plain: PNA
     value: 0.7905
     std: 0.0132
+    paper_value: 0.7905
+    paper_std: 0.0132
     metric: ROC-AUC
     higher_is_better: true
     is_baseline: true
@@ -1613,11 +4128,35 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: Corso 2020
-    global_rank: 53
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 63
+    true_value: 0.7905
+    true_std: 0.0132
+    value_gap_source_arxiv: '2604.17324'
+    value_gap_source_title: 'SigGate-GT: Taming Over-Smoothing in Graph Transformers
+      via Sigmoid-Gated Attention'
+    value_gap_source_is_current_paper: false
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 63
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.7905
+    sort_std: 0.0132
     is_best: false
   - model: GPS
+    model_key: gps
+    model_plain: GPS
     value: 0.788
     std: 0.0101
+    paper_value: 0.788
+    paper_std: 0.0101
     metric: ROC-AUC
     higher_is_better: true
     is_baseline: true
@@ -1626,11 +4165,34 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: Rampasek 2022
-    global_rank: 63
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 76
+    true_value: 0.788
+    true_std: 0.01
+    value_gap_source_arxiv: '2405.17311'
+    value_gap_source_title: Probabilistic Graph Rewiring via Virtual Nodes
+    value_gap_source_is_current_paper: false
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 76
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.788
+    sort_std: 0.01
     is_best: false
   - model: DeeperGCN
+    model_key: deepergcn
+    model_plain: DeeperGCN
     value: 0.7858
     std: 0.0117
+    paper_value: 0.7858
+    paper_std: 0.0117
     metric: ROC-AUC
     higher_is_better: true
     is_baseline: true
@@ -1639,11 +4201,35 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: Li 2020
-    global_rank: 72
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 87
+    true_value: 0.7858
+    true_std: 0.01
+    value_gap_source_arxiv: '2604.17324'
+    value_gap_source_title: 'SigGate-GT: Taming Over-Smoothing in Graph Transformers
+      via Sigmoid-Gated Attention'
+    value_gap_source_is_current_paper: false
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 87
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.7858
+    sort_std: 0.01
     is_best: false
   - model: ExpC
+    model_key: expc
+    model_plain: ExpC
     value: 0.7799
     std: 0.0082
+    paper_value: 0.7799
+    paper_std: 0.0082
     metric: ROC-AUC
     higher_is_better: true
     is_baseline: true
@@ -1652,11 +4238,35 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: Yang 2022
-    global_rank: 94
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 115
+    true_value: 0.7799
+    true_std: 0.0082
+    value_gap_source_arxiv: '2404.09774'
+    value_gap_source_title: 'RandAlign: A Parameter-Free Method for Regularizing Graph
+      Convolutional Networks'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 115
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.7799
+    sort_std: 0.0082
     is_best: false
   - model: SAN
+    model_key: san
+    model_plain: SAN
     value: 0.7785
     std: 0.247
+    paper_value: 0.7785
+    paper_std: 0.247
     metric: ROC-AUC
     higher_is_better: true
     is_baseline: true
@@ -1665,34 +4275,28 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: Kreuzer 2021
-    global_rank: 100
+    variant_inference_reason: 'dataset: exact match'
+    date: Apr 2024
+    date_display: Apr 2024
+    date_iso: 2024-04
+    global_rank: 122
+    true_value: 0.7785
+    true_std: 0.247
+    value_gap_source_arxiv: '2502.09263'
+    value_gap_source_title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks?
+      Simple Architectures Meet Excellence
+    value_gap_source_is_current_paper: false
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 122
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.7785
+    sort_std: 0.247
     is_best: true
-  - model: GIN
-    value: 0.7707
-    std: 0.0149
-    metric: ROC-AUC
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: Xu 2019
-    global_rank: 4
-    is_best: false
-  - model: GCN
-    value: 0.7599
-    std: 0.0119
-    metric: ROC-AUC
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: 0.496
-    table_ref: Table 1
-    source_ref: Kipf 2016
-    global_rank: 3
-    is_best: false
   metric: ROC-AUC
   higher_is_better: true
 results_grouped:
