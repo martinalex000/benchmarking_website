@@ -4,6 +4,9 @@ Given the text of a paper (including its tables), extract ALL quantitative resul
 Focus on benchmark datasets (LRGB, OGB, Cora, ZINC, QM9, etc.).
 
 Output a single YAML document ONLY — no markdown fences, no prose explanation.
+The document root must be a mapping/object. Never output a top-level list.
+If you need multiple rows, put them under the `results:` key.
+If `extraction_notes` contains punctuation such as colons, use a block scalar (`|`) or keep it short.
 
 Output schema:
 proposed_model:

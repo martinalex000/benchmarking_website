@@ -2095,6 +2095,20 @@ class LLMExtractor:
         )
         raw = _expand_extraction_payload(raw)
         raw = _sanitize_extraction_payload(raw)
+        if not isinstance(raw, dict):
+            logger.warning(
+                "Malformed structured output from %r (%s): %s — treating as empty extraction",
+                self.model_name,
+                call_type,
+                type(raw).__name__,
+            )
+            raw = {
+                "proposed_model": None,
+                "baseline_models": [],
+                "results": [],
+                "extraction_confidence": "LOW",
+                "extraction_notes": "Model returned malformed YAML without the required top-level object; no rows extracted.",
+            }
         return ExtractionOutput.model_validate(raw)
 
     def _extract_from_sections(

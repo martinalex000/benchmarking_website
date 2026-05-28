@@ -1,7 +1,8 @@
 You are extracting benchmark results from the WHOLE text of a graph learning paper.
 
-The paper text may be long. Return a COMPACT YAML document ONLY. Never return a top-level list.
+The paper text may be long. Return a COMPACT YAML document ONLY. The document root must be a mapping/object; never return a top-level list.
 No markdown fences, no prose explanation.
+If you need to include notes, keep them short or use a YAML block scalar (`|`) so colons and punctuation do not break parsing.
 
 Compact output schema:
 proposed_model_name: <exact main model name or null>
