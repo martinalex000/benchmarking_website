@@ -45,6 +45,9 @@ PROPOSED_RE = re.compile(r"Proposed:\s*([^\n]+)$")
 NEW_RESULTS_RE = re.compile(r"(\d+)\s+new result row")
 UPDATED_RESULTS_RE = re.compile(r"(\d+)\s+existing result row\(s\) updated")
 DRAINED_ROW_TTL_S = 30.0
+STALE_UPDATE_SECONDS = 10.0
+EMPTY_CLAIM_RETRIES = 12
+EMPTY_CLAIM_RETRY_SLEEP_S = 0.5
 
 
 @dataclass
@@ -366,13 +369,27 @@ def _render_dashboard(dash: DashboardState) -> Group:
         age_s = None
         if st.last_update_at is not None:
             age_s = max(0.0, now - st.last_update_at)
+        age_text = _format_age(age_s)
+        if (
+            age_s is not None
+            and age_s >= STALE_UPDATE_SECONDS
+            and st.status
+            not in {
+                "idle",
+                "drained",
+                "done",
+                "failed",
+                "rejected",
+            }
+        ):
+            age_text = f"[yellow]{age_text}[/yellow]"
         table.add_row(
             str(st.worker_id),
             st.arxiv_id,
             _trim(st.title_short(), 30),
             status_text,
             _format_elapsed(st.elapsed_s()),
-            _format_age(age_s),
+            age_text,
             summary_text,
         )
 
@@ -546,6 +563,7 @@ def _worker_loop(
     state = dash.worker_states[worker_id - 1]
 
     handled = 0
+    empty_claims = 0
     while not dash.stop_event.is_set():
         # Draining happens only between jobs so active work finishes gracefully.
         if dash.consume_drain_slot():
@@ -632,11 +650,22 @@ def _worker_loop(
         )
 
         if summary.total_selected == 0:
+            empty_claims += 1
             with dash.lock:
-                state.status = "idle (queue empty)"
+                state.status = "waiting for claim"
                 state.started_at = 0.0
                 state.last_update_at = time.time()
-            return
+
+            if empty_claims >= EMPTY_CLAIM_RETRIES:
+                with dash.lock:
+                    state.status = "idle (queue empty)"
+                    state.last_update_at = time.time()
+                return
+
+            time.sleep(EMPTY_CLAIM_RETRY_SLEEP_S)
+            continue
+
+        empty_claims = 0
 
         handled += summary.total_selected
 

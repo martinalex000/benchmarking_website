@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import subprocess
 import sys
+import time
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
@@ -237,6 +238,8 @@ def _mark_processing(todo_id: int) -> None:
 
 WORKER_LOCK_TIMEOUT_MINUTES = 15
 _CLAIM_RACE_RETRY_LIMIT = 24
+_PROCESS_QUEUE_EMPTY_RETRIES = 8
+_PROCESS_QUEUE_EMPTY_RETRY_SLEEP_S = 0.25
 
 
 def release_stale_processing_papers(stale_minutes: int = WORKER_LOCK_TIMEOUT_MINUTES) -> int:
@@ -279,32 +282,39 @@ def _claim_one_pending(max_attempts: int) -> int | None:
         for _ in range(_CLAIM_RACE_RETRY_LIMIT):
             row = conn.execute(
                 _sql_text(
-                    "SELECT id FROM todo_papers"
-                    " WHERE status = 'pending' AND attempts < :max_attempts"
-                    " ORDER BY seen_count DESC, created_at ASC"
-                    " LIMIT 1"
+                    "WITH candidate AS ("
+                    "  SELECT id FROM todo_papers"
+                    "  WHERE status = 'pending' AND attempts < :max_attempts"
+                    "  ORDER BY seen_count DESC, created_at ASC"
+                    "  LIMIT 1"
+                    ") "
+                    "UPDATE todo_papers "
+                    "SET status = 'processing', attempts = attempts + 1, last_attempt_at = :now "
+                    "WHERE id = (SELECT id FROM candidate) AND status = 'pending' "
+                    "RETURNING id"
                 ),
-                {"max_attempts": max_attempts},
+                {"max_attempts": max_attempts, "now": now_iso},
             ).first()
-
-            if row is None:
-                return None
-
-            candidate_id = row[0]
-            result = conn.execute(
-                _sql_text(
-                    "UPDATE todo_papers"
-                    " SET status = 'processing', attempts = attempts + 1, last_attempt_at = :now"
-                    " WHERE id = :id AND status = 'pending'"
-                ),
-                {"now": now_iso, "id": candidate_id},
-            )
             conn.commit()
 
-            if result.rowcount > 0:
-                return candidate_id
+            if row is not None:
+                return int(row[0])
 
         return None
+
+
+def _has_pending_candidates(max_attempts: int) -> bool:
+    engine = get_engine()
+    with engine.connect() as conn:
+        row = conn.execute(
+            _sql_text(
+                "SELECT 1 FROM todo_papers"
+                " WHERE status = 'pending' AND attempts < :max_attempts"
+                " LIMIT 1"
+            ),
+            {"max_attempts": max_attempts},
+        ).first()
+    return row is not None
 
 
 def _get_entry_by_id(todo_id: int) -> TodoQueueEntry | None:
@@ -352,11 +362,22 @@ def process_queue(
         return summary
 
     processed_count = 0
+    empty_retries = 0
     while processed_count < limit:
         # Atomically claim the next pending paper; safe across concurrent workers
         candidate_id = _claim_one_pending(max_attempts)
         if candidate_id is None:
+            # Avoid false "queue empty" under high contention by retrying when
+            # pending rows still exist but another worker won this instant.
+            if empty_retries < _PROCESS_QUEUE_EMPTY_RETRIES and _has_pending_candidates(
+                max_attempts
+            ):
+                empty_retries += 1
+                time.sleep(_PROCESS_QUEUE_EMPTY_RETRY_SLEEP_S)
+                continue
             break  # No more eligible pending papers
+
+        empty_retries = 0
 
         entry = _get_entry_by_id(candidate_id)
         if entry is None:

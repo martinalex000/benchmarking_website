@@ -299,6 +299,11 @@ Use **+** to add one worker at runtime.
 Use **-** to drain one worker at runtime (it exits gracefully after finishing
 its current paper and does not claim another).
 
+When a worker has not produced output for 10 seconds, its `Upd` value is
+highlighted to make potential stalls visible immediately.
+Workers also retry transient empty-queue claim races before switching to idle,
+which avoids false "queue empty" exits under high concurrency.
+
 After all workers finish, refresh the Hugo data files once:
 
 ```bash
