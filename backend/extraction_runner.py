@@ -314,7 +314,7 @@ def run_extraction(
     return True
 
 
-def run_figure_detection(arxiv_id: str, model_tier: str = "vlm") -> bool:
+def run_figure_detection(arxiv_id: str, model_tier: str = "primary") -> bool:
     """Re-extract the main figure for an already-extracted paper (--figure-only mode)."""
     from backend.html_parser import parse_html_paper
 

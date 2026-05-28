@@ -31,6 +31,10 @@ def _read_llm_config() -> dict:
 
 _llm_cfg = _read_llm_config()
 
+_DEFAULT_MODEL_PRIMARY = "openai-gpt-oss120b"
+_DEFAULT_MODEL_FALLBACK = "minimax"
+_DEFAULT_MODEL_SMALL = "gemma-3-27b"
+
 
 class Config:
     """Single object holding all runtime configuration."""
@@ -53,23 +57,10 @@ class Config:
     llm_api_key: str = os.environ.get("LLM_API_KEY", "")
 
     # ── Model tiers ────────────────────────────────────────────────────────
-    # Environment variables override yaml values.
-    model_primary: str = os.environ.get(
-        "LLM_MODEL_PRIMARY", _llm_cfg.get("primary_model", "openai-gpt-oss120b")
-    )
-    model_fallback: str = os.environ.get(
-        "LLM_MODEL_FALLBACK", _llm_cfg.get("fallback_model", "minimax")
-    )
-    model_small: str = os.environ.get("LLM_MODEL_SMALL", _llm_cfg.get("small_model", "gemma-3-27b"))
-    # VLM tier: used exclusively for vision-based figure detection.
-    # Defaults to the primary model (which is usually vision-capable); override
-    # when the primary model lacks vision support or you want a cheaper vision model.
-    model_vlm: str = os.environ.get(
-        "LLM_MODEL_VLM",
-        _llm_cfg.get(
-            "vlm_model", os.environ.get("LLM_MODEL_PRIMARY", _llm_cfg.get("primary_model", ""))
-        ),
-    )
+    # Model tiers are configured only through environment variables.
+    model_primary: str = os.environ.get("LLM_MODEL_PRIMARY", _DEFAULT_MODEL_PRIMARY)
+    model_fallback: str = os.environ.get("LLM_MODEL_FALLBACK", _DEFAULT_MODEL_FALLBACK)
+    model_small: str = os.environ.get("LLM_MODEL_SMALL", _DEFAULT_MODEL_SMALL)
 
     # ── LLM generation parameters ──────────────────────────────────────────
     llm_max_tokens: int = int(_llm_cfg.get("max_tokens", 8192))
@@ -98,7 +89,6 @@ class Config:
             "primary": self.model_primary,
             "fallback": self.model_fallback,
             "small": self.model_small,
-            "vlm": self.model_vlm,
         }
         return mapping.get(tier, tier)  # fallback: treat tier as explicit model name
 

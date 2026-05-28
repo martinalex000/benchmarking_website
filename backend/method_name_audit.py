@@ -100,7 +100,7 @@ def audit_extraction_payload(
     proposed_key = _canonical_model_name_key(proposed_name) if proposed_name else ""
     candidate_keys = {_canonical_model_name_key(name): name for name in candidate_names if name}
 
-    if benchmark_title and proposed_name:
+    if benchmark_title and proposed_name and _is_generic_or_placeholder(proposed_name):
         reasons.append("benchmark paper has a proposed model name")
 
     if not proposed_name and candidate_names:
@@ -226,7 +226,9 @@ def _is_generic_or_placeholder(name: str) -> bool:
     lowered = _clean_name(name).lower()
     if not lowered:
         return True
-    return lowered in _GENERIC_RESULT_NAMES or _is_generic_proposed_name(name)
+    if lowered in _GENERIC_RESULT_NAMES or _is_generic_proposed_name(name):
+        return True
+    return "benchmark" in lowered or "dataset" in lowered or "datasets" in lowered
 
 
 def _looks_like_rendering_artifact(name: str) -> bool:

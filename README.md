@@ -24,6 +24,8 @@ uv sync --group dev
 uv run python -m backend.seed_db
 
 # Process your first paper
+uv run vllm serve Qwen/Qwen3.6-35B-A3B-FP8   --tensor-parallel-size 2   --max-model-len 32768   --gpu-memory-utilization 0.92   --enable-chunked-prefill   --max-num-seqs 128   --reasoning-parser qwen3
+
 uv run python scripts/run_manual.py 2206.08164
 ```
 
@@ -43,10 +45,9 @@ The pipeline uses an **OpenAI-compatible** API endpoint.
 |---|---|---|
 | `LLM_ENDPOINT` | **yes** | Base URL, e.g. `https://api.example.com/v1` |
 | `LLM_API_KEY` | **yes** | API key for that endpoint |
-| `LLM_MODEL_PRIMARY` | no | Override primary model (default from `llm_config.yaml`) |
-| `LLM_MODEL_FALLBACK` | no | Override fallback model |
-| `LLM_MODEL_SMALL` | no | Override small/cheap model used for screening |
-| `LLM_MODEL_VLM` | no | Override vision model used for figure detection |
+| `LLM_MODEL_PRIMARY` | no | Primary model for extraction and complex reasoning |
+| `LLM_MODEL_FALLBACK` | no | Fallback model if the primary output is poor |
+| `LLM_MODEL_SMALL` | no | Small/cheap model used for screening |
 
 ### Local vLLM + Qwen example
 
@@ -60,15 +61,14 @@ LLM_API_KEY=local-dev
 LLM_MODEL_PRIMARY=Qwen/Qwen3-32B
 LLM_MODEL_FALLBACK=Qwen/Qwen3-32B
 LLM_MODEL_SMALL=Qwen/Qwen3-32B
-LLM_MODEL_VLM=Qwen/Qwen3-32B
 ```
 
-Important: the `LLM_MODEL_*` values must match the exact model IDs returned by `GET /v1/models`.
+Important: the configured `LLM_MODEL_*` values must match the exact model IDs returned by `GET /v1/models`.
 
-### `config/llm_config.yaml` — non-secret model settings
+### `config/llm_config.yaml` — non-secret runtime settings
 
-Default model names, temperature, token limits, and retry config.
-`.env` values override the YAML when both are set.
+Temperature, token limits, retry config, and other non-secret runtime settings.
+Model names are configured only in `.env`.
 
 ### Verify your endpoint
 
@@ -571,7 +571,7 @@ benchmarking_website/
 ├── config/
 │   ├── schema.sql         Authoritative SQL schema
 │   ├── seed_data.yaml     Benchmark/dataset definitions
-│   ├── llm_config.yaml    LLM model config (non-secret)
+│   ├── llm_config.yaml    LLM runtime settings (non-secret)
 │   └── prompts/           LLM system-prompt templates
 ├── site/                  Hugo static site
 │   ├── hugo.toml

@@ -2023,9 +2023,7 @@ class LLMExtractor:
     def detect_figure(self, paper_text: str, figures_list: list[dict]) -> FigureInfo:
         """Identify the main architecture figure (text-based heuristic).
 
-        Sends paper intro + figure captions to the LLM.  Prefer
-        ``detect_figure_vlm()`` when a vision-capable model is configured —
-        this text-only fallback is used when no images are available.
+        Sends paper intro + figure captions to the LLM as a text-only fallback.
         """
         prompt = self._read_prompt("figure_detection.txt")
         figures_summary = "\n".join(
@@ -2042,186 +2040,6 @@ class LLMExtractor:
         except Exception as exc:
             logger.warning("Figure detection failed: %s", exc)
             return FigureInfo()
-
-    def detect_figure_vlm(
-        self,
-        storage: "PaperStorage",
-        figures_list: list[dict],
-        max_pages: int = 6,
-    ) -> FigureInfo:
-        """Vision-based main figure detection.
-
-        Renders the first *max_pages* pages of the PDF (or collects HTML images)
-        to JPEG, then sends them to the VLM with a short prompt asking which is
-        the primary architecture/overview figure.
-
-        Requires:
-          - The configured model to support vision inputs (e.g. qwen3.6, gpt-4o).
-          - PyMuPDF (``fitz``) for PDF rendering.
-
-        Falls back silently to ``FigureInfo()`` if the model or libraries are
-        not available.
-        """
-        import base64
-
-        images: list[dict] = []  # [{data: b64, media_type: str, label: str}]
-
-        # ── Collect images ────────────────────────────────────────────────
-        if storage.html_index_path.exists() and figures_list:
-            # For HTML papers: use the local HTML image assets (already downloaded)
-            html_dir = storage.html_dir
-            for i, fig in enumerate(figures_list[:max_pages]):
-                src = fig.get("src", "")
-                if not src:
-                    continue
-                candidate = html_dir / src
-                if candidate.exists():
-                    data = candidate.read_bytes()
-                    suffix = candidate.suffix.lower().lstrip(".")
-                    media_type = f"image/{'jpeg' if suffix in ('jpg', 'jpeg') else suffix or 'png'}"
-                    images.append(
-                        {
-                            "data": base64.b64encode(data).decode(),
-                            "media_type": media_type,
-                            "label": f"Figure {i+1} (src={src}): {fig.get('caption','')[:80]}",
-                        }
-                    )
-        elif storage.pdf_path.exists():
-            # For PDF papers: render pages to JPEG at 96 dpi (low-res for speed)
-            try:
-                import fitz  # PyMuPDF
-            except ImportError:
-                logger.warning("PyMuPDF not installed — VLM figure detection skipped")
-                return FigureInfo()
-
-            try:
-                doc = fitz.open(str(storage.pdf_path))
-                for page_idx in range(min(max_pages, len(doc))):
-                    page = doc[page_idx]
-                    mat = fitz.Matrix(96 / 72, 96 / 72)
-                    pix = page.get_pixmap(matrix=mat)
-                    jpeg_bytes = pix.tobytes("jpeg")
-                    images.append(
-                        {
-                            "data": base64.b64encode(jpeg_bytes).decode(),
-                            "media_type": "image/jpeg",
-                            "label": f"Page {page_idx + 1}",
-                        }
-                    )
-                doc.close()
-            except Exception as exc:
-                logger.warning("PDF rendering for VLM failed: %s", exc)
-                return FigureInfo()
-
-        if not images:
-            logger.debug("VLM figure detection: no images to send")
-            return FigureInfo()
-
-        # ── Build multimodal message ──────────────────────────────────────
-        content: list[dict] = [
-            {
-                "type": "text",
-                "text": (
-                    "You are analyzing a machine learning paper. "
-                    "Your task: identify the MAIN figure — an overview diagram, architecture "
-                    "illustration, or method pipeline figure that visually explains the paper's "
-                    "core contribution.\n\n"
-                    "CRITICAL RULES:\n"
-                    "  1. You MUST select an image that is clearly a FIGURE (diagram, illustration, "
-                    "flowchart, graph, photo). Do NOT select math equations, formula blocks, or "
-                    "text even if they describe the model.\n"
-                    "  2. Prefer the EARLIEST figure that qualifies (lowest page/figure number).\n"
-                    "  3. If no clear architecture/overview figure exists, pick the earliest "
-                    "figure that is not a plain results table.\n"
-                    "  4. Never select a page or image that is only text or mathematical notation.\n\n"
-                    "Reply with ONLY a JSON object (no markdown fences):\n"
-                    '{"figure_label": "<exact label from the list below>", '
-                    '"caption_snippet": "<first ~15 words of its caption>", '
-                    '"reason": "<one sentence>"}\n\n'
-                    "Images provided:\n" + "\n".join(f"  - {img['label']}" for img in images)
-                ),
-            }
-        ]
-        for img in images:
-            content.append(
-                {
-                    "type": "image_url",
-                    "image_url": {
-                        "url": f"data:{img['media_type']};base64,{img['data']}",
-                    },
-                }
-            )
-
-        extra_body = self._extra_body()
-        # Always use the dedicated VLM tier for vision calls — the fallback and
-        # small models typically lack vision support.
-        vlm_model = cfg.model_vlm or self.model_name
-        try:
-            response = self._client.chat.completions.create(
-                model=vlm_model,
-                messages=[{"role": "user", "content": content}],
-                max_tokens=256,
-                temperature=0.0,
-                extra_body=extra_body,
-            )
-            raw = (response.choices[0].message.content or "").strip()
-        except Exception as exc:
-            logger.warning("VLM figure detection API call failed (model=%s): %s", vlm_model, exc)
-            return FigureInfo()
-
-        # Parse the JSON response
-        try:
-            clean = re.sub(r"<think>.*?</think>", "", raw, flags=re.DOTALL).strip()
-            clean = re.sub(r"^```(?:json)?\s*", "", clean, flags=re.MULTILINE)
-            clean = re.sub(r"\s*```$", "", clean, flags=re.MULTILINE).strip()
-            parsed = json.loads(clean)
-        except Exception:
-            m = re.search(r"\{[\s\S]*\}", raw)
-            if m:
-                try:
-                    parsed = json.loads(m.group(0))
-                except Exception:
-                    logger.warning("VLM figure response parse failed: %s", raw[:200])
-                    return FigureInfo()
-            else:
-                logger.warning("VLM figure response has no JSON: %s", raw[:200])
-                return FigureInfo()
-
-        label: str = parsed.get("figure_label", "")
-        caption_snippet: str = parsed.get("caption_snippet", "")
-        reason: str = parsed.get("reason", "")
-
-        # Map label back to a FigureInfo (img_src for HTML or page_number for PDF)
-        img_src: str | None = None
-        page_number: int | None = None
-
-        if storage.html_index_path.exists() and figures_list:
-            # Find the matching figure by label (e.g. "Figure 2 (src=x3.png): …")
-            for i, fig in enumerate(figures_list[:max_pages]):
-                expected_label = f"Figure {i+1} (src={fig.get('src','')}):"
-                if label.startswith(f"Figure {i+1}"):
-                    img_src = fig.get("src")
-                    break
-        else:
-            # Extract page number from label "Page N"
-            m = re.search(r"Page\s+(\d+)", label)
-            if m:
-                page_number = int(m.group(1)) - 1  # convert to 0-indexed
-
-        result = FigureInfo(
-            img_src=img_src,
-            page_number=page_number,
-            caption_snippet=caption_snippet,
-            reason=reason,
-        )
-        logger.info(
-            "VLM figure detection: label=%r img_src=%r page=%s reason=%s",
-            label,
-            img_src,
-            page_number,
-            reason,
-        )
-        return result
 
     def extract_model_sizes(self, paper_text: str) -> list[ModelSizeEntry]:
         """Extract model parameter counts."""
@@ -2281,7 +2099,6 @@ class LLMExtractor:
             results_out = self.extract_results(paper_text, tables_text)
 
         # Task 2: Main figure — always use the title page (first figure from list or PDF page 0).
-        # VLM-based detection was unreliable and has been removed.
         if figures_list:
             figure_out = FigureInfo(
                 img_src=figures_list[0].get("src"),
@@ -3181,7 +2998,7 @@ def run_extraction(
     )
 
 
-def run_figure_detection(arxiv_id: str, model_tier: str = "vlm") -> bool:
+def run_figure_detection(arxiv_id: str, model_tier: str = "primary") -> bool:
     """Compatibility wrapper for the extraction runner module."""
     from backend.extraction_runner import run_figure_detection as _run_figure_detection
 

@@ -35,6 +35,27 @@ def test_audit_flags_benchmark_paper_with_proposed_model(tmp_path):
     assert finding.benchmark_title is True
 
 
+def test_audit_does_not_flag_benchmark_paper_with_only_valid_baselines(tmp_path):
+    _write_paper(
+        tmp_path,
+        "2206.08164",
+        "LRGB: A Large-Scale Benchmark for Graph Neural Networks",
+        {
+            "proposed_model": {"name": "LRGB Benchmark (Proposed Datasets)"},
+            "results": [
+                {"model": "SAN", "is_proposed": False},
+                {"model": "GCN", "is_proposed": False},
+            ],
+        },
+    )
+
+    finding = audit_single_paper("2206.08164", papers_root=tmp_path)
+
+    assert finding is not None
+    assert "benchmark paper has a proposed model name" in finding.reasons
+    assert finding.suspicious_result_names == []
+
+
 def test_audit_suggests_single_proposed_row_when_proposed_model_missing(tmp_path):
     _write_paper(
         tmp_path,
