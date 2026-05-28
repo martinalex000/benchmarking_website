@@ -11,13 +11,16 @@ Example:
 from __future__ import annotations
 
 import argparse
+import select
 import re
 import subprocess
 import sys
+import termios
 import threading
 import time
+import tty
 from collections import deque
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
@@ -94,12 +97,30 @@ class DashboardState:
         self.stop_event = threading.Event()
         self.worker_states = [WorkerState(worker_id=i + 1) for i in range(workers)]
         self.events: deque[str] = deque(maxlen=event_lines)
+        self.finished_lines: list[str] = []
+        self.finished_scroll: int = 0
         self.total_done = 0
         self.total_failed = 0
 
     def add_event(self, message: str) -> None:
         with self.lock:
             self.events.append(message)
+
+    def add_finished_line(self, line: str) -> None:
+        with self.lock:
+            self.finished_lines.append(line)
+
+    def scroll_finished(self, delta: int) -> None:
+        with self.lock:
+            max_scroll = max(0, len(self.finished_lines) - 1)
+            self.finished_scroll = max(0, min(max_scroll, self.finished_scroll + delta))
+
+
+def _trim(text: str, max_len: int) -> str:
+    text = (text or "").strip()
+    if len(text) <= max_len:
+        return text
+    return text[: max_len - 3] + "..."
 
 
 def _detect_status_from_line(line: str) -> str | None:
@@ -199,15 +220,17 @@ def _render_dashboard(dash: DashboardState) -> Group:
     with dash.lock:
         snapshot = [s for s in dash.worker_states]
         events = list(dash.events)
+        finished_lines = list(dash.finished_lines)
+        finished_scroll = dash.finished_scroll
         total_done = dash.total_done
         total_failed = dash.total_failed
 
     table = Table(expand=True)
-    table.add_column("W", width=3, justify="right")
-    table.add_column("arXiv", width=12)
-    table.add_column("Title", width=33)
-    table.add_column("Status", width=32)
-    table.add_column("Elapsed", width=8, justify="right")
+    table.add_column("W", width=3, justify="right", no_wrap=True)
+    table.add_column("arXiv", width=12, no_wrap=True)
+    table.add_column("Title", width=30, no_wrap=True)
+    table.add_column("Status", width=40, no_wrap=True)
+    table.add_column("Elapsed", width=8, justify="right", no_wrap=True)
     table.add_column("Summary")
 
     for st in snapshot:
@@ -218,21 +241,68 @@ def _render_dashboard(dash: DashboardState) -> Group:
         table.add_row(
             str(st.worker_id),
             st.arxiv_id,
-            st.title_short(),
+            _trim(st.title_short(), 30),
             status_text,
             _format_elapsed(st.elapsed_s()),
             summary_text,
         )
 
     header = Text(
-        f"todo_queue dashboard   done={total_done}   failed={total_failed}   " f"ctrl+c to stop",
+        "todo_queue dashboard   "
+        f"done={total_done}   failed={total_failed}   "
+        "ctrl+c to stop   arrows/j,k scroll finished papers",
         style="bold",
+    )
+
+    finished_window_lines = 12
+    finished_end = max(0, len(finished_lines) - finished_scroll)
+    finished_start = max(0, finished_end - finished_window_lines)
+    visible_finished = finished_lines[finished_start:finished_end]
+    if not visible_finished:
+        visible_finished = ["(no finished papers yet)"]
+    finished_title = f"Finished papers ({len(finished_lines)})" f"  scroll={finished_scroll}"
+    finished_panel = Panel(
+        "\n".join(visible_finished),
+        title=finished_title,
+        border_style="green",
     )
 
     log_lines = events[-16:] if events else ["(no worker log lines yet)"]
     log_panel = Panel("\n".join(log_lines), title="Recent worker output", border_style="cyan")
 
-    return Group(header, table, log_panel)
+    return Group(header, table, finished_panel, log_panel)
+
+
+def _keyboard_listener(dash: DashboardState) -> None:
+    """Listen for arrow key input and scroll the finished-paper window.
+
+    Keeps focus on the finished pane only; other panels ignore key input.
+    """
+    if not sys.stdin.isatty():
+        return
+
+    fd = sys.stdin.fileno()
+    old_attrs = termios.tcgetattr(fd)
+    try:
+        tty.setcbreak(fd)
+        while not dash.stop_event.is_set():
+            ready, _, _ = select.select([sys.stdin], [], [], 0.2)
+            if not ready:
+                continue
+
+            ch = sys.stdin.read(1)
+            if ch == "\x1b":
+                seq = sys.stdin.read(2)
+                if seq == "[A":
+                    dash.scroll_finished(+1)
+                elif seq == "[B":
+                    dash.scroll_finished(-1)
+            elif ch in {"k", "K"}:
+                dash.scroll_finished(+1)
+            elif ch in {"j", "J"}:
+                dash.scroll_finished(-1)
+    finally:
+        termios.tcsetattr(fd, termios.TCSADRAIN, old_attrs)
 
 
 def _run_manual_streaming(
@@ -335,6 +405,12 @@ def _worker_loop(
                     state.failed += 1
                     state.status = status
                 dash.events.append(f"w{worker_id} finished {state.arxiv_id} => {status}")
+                finished_summary = state.summary_short() or _trim(state.last_line, 80)
+                finished_line = (
+                    f"{state.arxiv_id:<12}  {(_trim(state.title, 30) or '-'):30}  "
+                    f"{status:<8}  {finished_summary}"
+                )
+                dash.finished_lines.append(finished_line)
 
         summary = process_queue(
             limit=1,
@@ -417,6 +493,14 @@ def main(argv: list[str] | None = None) -> None:
         threads.append(t)
         t.start()
 
+    key_thread = threading.Thread(
+        target=_keyboard_listener,
+        kwargs={"dash": dash},
+        daemon=True,
+        name="todo-dashboard-keys",
+    )
+    key_thread.start()
+
     try:
         with Live(_render_dashboard(dash), refresh_per_second=4, screen=True) as live:
             while any(t.is_alive() for t in threads):
@@ -427,6 +511,9 @@ def main(argv: list[str] | None = None) -> None:
         dash.stop_event.set()
         for t in threads:
             t.join(timeout=1.0)
+    finally:
+        dash.stop_event.set()
+        key_thread.join(timeout=0.5)
 
 
 if __name__ == "__main__":

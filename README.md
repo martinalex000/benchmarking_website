@@ -276,6 +276,14 @@ It shows, per worker: arXiv ID, paper title (truncated), current phase
 (download/pre-screen/discovery/per-dataset extraction), elapsed time, and a
 rolling summary (datasets, results, proposed model).
 
+The dashboard also includes:
+
+- a **Finished papers** window (one line per completed paper with summary)
+- a **Recent worker output** window for rolling raw log lines
+
+Use **Up/Down** arrow keys (or **k/j**) to scroll only the Finished papers
+window while the rest of the dashboard keeps updating live.
+
 After all workers finish, refresh the Hugo data files once:
 
 ```bash
