@@ -44,7 +44,13 @@ from rich.table import Table
 
 from backend.config import cfg
 from backend.llm_model_options import extra_body_for_model
-from backend.llm_extractor import fetch_arxiv_metadata, run_extraction, run_figure_detection
+from backend.llm_extractor import (
+    CallRecord,
+    _print_call_progress,
+    fetch_arxiv_metadata,
+    run_extraction,
+    run_figure_detection,
+)
 
 console = Console()
 
@@ -162,6 +168,16 @@ def _pre_screen(arxiv_id: str, allow_arxiv_api: bool = True) -> bool:
     from backend.llm_extractor import LLMExtractor
 
     screener = LLMExtractor(model_tier="small")
+    # Mirror extraction-stage telemetry so Stage 1 LLM behavior is visible.
+    _screen_call_index = 0
+
+    def _on_screen_call(rec: CallRecord) -> None:
+        nonlocal _screen_call_index
+        _screen_call_index += 1
+        _print_call_progress(rec, _screen_call_index)
+
+    screener._progress_callback = _on_screen_call
+    screener.streaming = True
     screen = screener.screen_paper(title, abstract)
     if screen.has_benchmark_results or screen.has_new_benchmark:
         datasets_str = ", ".join(screen.datasets_mentioned) if screen.datasets_mentioned else "—"
@@ -472,10 +488,6 @@ def _do_extract(
         return True  # use existing
 
     console.print(f"  Model: [cyan]{model_name}[/cyan]  (tier={model_tier})")
-    if screen:
-        console.print("  [dim]Pre-screening is enabled and will run before extraction.[/dim]")
-    else:
-        console.print("  [dim]Pre-screening already completed or skipped.[/dim]")
     if not two_step:
         console.print("  [dim]Mode: one-shot (--oneshot)[/dim]")
 
@@ -483,6 +495,7 @@ def _do_extract(
         arxiv_id,
         model_tier=model_tier,
         screen_first=screen,
+        extraction_strategy="auto" if two_step else "full",
         result_output_format=_MANUAL_RESULT_OUTPUT_FORMAT,
     )
     if not ok:
@@ -1195,9 +1208,8 @@ def main() -> None:
 
     # ── Stage 2 + Stage 3 extraction ─────────────────────────────────────
     if not args.skip_extract:
-        console.print(
-            "\n[bold]3. Stage 2/3 — Dataset Discovery, Table Assignment, Result Extraction[/bold]"
-        )
+        console.print("\n[bold]3. Stage 2 — Dataset Discovery + Table Assignment[/bold]")
+        console.print("[bold]4. Stage 3 — Per-Dataset Result Extraction[/bold]")
         ok = _do_extract(
             arxiv_id,
             model_tier=args.model,
@@ -1213,10 +1225,10 @@ def main() -> None:
         else:
             sys.exit(1)
     else:
-        console.print("\n[dim]3. Stage 2/3 extraction — skipped[/dim]")
+        console.print("\n[dim]3/4. Stage 2/3 extraction — skipped[/dim]")
 
     # ── Stage 4 parse ─────────────────────────────────────────────────────
-    console.print("\n[bold]4. Stage 4 — Parse Results into DB[/bold]")
+    console.print("\n[bold]5. Stage 4 — Parse Results into DB[/bold]")
 
     # Collect unknown datasets non-interactively; user reviews later
     _collect_unknown_datasets(arxiv_id, paper_title)
@@ -1227,7 +1239,7 @@ def main() -> None:
     _print_parse_summary(summary)
 
     # ── Stage 5 export ────────────────────────────────────────────────────
-    console.print("\n[bold]5. Stage 5 — Build Hugo Pages[/bold]")
+    console.print("\n[bold]6. Stage 5 — Build Hugo Pages[/bold]")
     from backend.export_to_hugo import export_all
 
     export_all(arxiv_ids=[arxiv_id])

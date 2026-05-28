@@ -1212,9 +1212,12 @@ class LLMExtractor:
         user_content = f"Title: {title}\n\nAbstract:\n{abstract}"
         try:
             raw = self._call_json(prompt, user_content, max_tokens=512, call_type="screen_paper")
-            return ScreenResult.model_validate(raw)
+            result = ScreenResult.model_validate(raw)
+            self._fire_progress()
+            return result
         except Exception as exc:
             logger.warning("Abstract screening failed: %s", exc)
+            self._fire_progress()
             # Fail open: if screening errors, proceed with full extraction
             return ScreenResult(
                 has_benchmark_results=True,
@@ -2084,12 +2087,24 @@ class LLMExtractor:
     def _extract_results_chunk(
         self, prompt: str, text: str, call_type: str = "extract_results"
     ) -> ExtractionOutput:
-        raw = self._call_structured(
-            prompt,
-            text,
-            call_type=call_type,
-            output_format=self.result_output_format,
-        )
+        try:
+            raw = self._call_structured(
+                prompt,
+                text,
+                call_type=call_type,
+                output_format=self.result_output_format,
+            )
+        except Exception:
+            # Some models occasionally emit invalid YAML for long outputs; retry once as JSON.
+            if self.result_output_format != "yaml":
+                raise
+            logger.warning("%s returned invalid YAML; retrying once with JSON format", call_type)
+            raw = self._call_structured(
+                prompt,
+                text,
+                call_type=f"{call_type}:json_retry",
+                output_format="json",
+            )
         raw = _expand_extraction_payload(raw)
         raw = _sanitize_extraction_payload(raw)
         return ExtractionOutput.model_validate(raw)
