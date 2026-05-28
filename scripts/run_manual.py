@@ -50,6 +50,8 @@ console = Console()
 # Only show WARNING+ from backend modules; rich console handles all user-facing output.
 logging.basicConfig(level=logging.WARNING, format="%(levelname)-8s %(message)s")
 
+_MANUAL_RESULT_OUTPUT_FORMAT = "yaml"
+
 
 def _fmt_bytes(n: int) -> str:
     if n >= 1_048_576:
@@ -364,12 +366,18 @@ def _do_extract(
     if not two_step:
         console.print("  [dim]Mode: one-shot (--oneshot)[/dim]")
 
-    ok = run_extraction(arxiv_id, model_tier=model_tier, screen_first=screen)
+    ok = run_extraction(
+        arxiv_id,
+        model_tier=model_tier,
+        screen_first=screen,
+        result_output_format=_MANUAL_RESULT_OUTPUT_FORMAT,
+    )
     if not ok:
         console.print(
             f"\n[red]Extraction failed or stage-1 rejected.[/red]\n"
             f"  • Stage 1 may have determined no benchmark results in abstract\n"
             f"    → run with [bold]--skip-screen[/bold] to bypass\n"
+            f"  • Manual runs request [cyan]{_MANUAL_RESULT_OUTPUT_FORMAT}[/cyan] output from the model\n"
             f"  • Or check that [cyan]{model_name}[/cyan] is available:\n"
             f"    [bold]uv run python scripts/list_models.py[/bold]\n"
             f"  • Try: [bold]--model fallback[/bold]  or  [bold]--model small[/bold]"
@@ -409,6 +417,45 @@ def _show_latex_stats(arxiv_id: str) -> None:
         pass
 
 
+def _print_parse_summary(summary) -> None:
+    if summary.quarantined:
+        console.print("  [yellow]Paper quarantined due to suspicious method names.[/yellow]")
+        if summary.quarantine_model_names:
+            console.print(
+                "  [dim]Suspicious names: "
+                + ", ".join(summary.quarantine_model_names[:8])
+                + "[/dim]"
+            )
+        if summary.quarantine_reasons:
+            console.print("  [dim]Reasons: " + "; ".join(summary.quarantine_reasons) + "[/dim]")
+        return
+
+    total_processed = summary.new_results + summary.updated_results
+    if summary.new_results:
+        console.print(f"  [green]{summary.new_results}[/green] new result row(s) stored.")
+    elif summary.updated_results:
+        console.print(
+            f"  [yellow]0[/yellow] new result row(s) stored; "
+            f"[yellow]{summary.updated_results}[/yellow] existing result row(s) updated."
+        )
+    else:
+        console.print("  [yellow]0[/yellow] new result row(s) stored.")
+
+    if total_processed:
+        console.print(
+            f"  [dim]Parsed {total_processed} extracted row(s): "
+            f"{summary.new_results} new, {summary.updated_results} updated.[/dim]"
+        )
+    if summary.skipped_unknown_datasets:
+        skipped = ", ".join(summary.skipped_unknown_datasets[:8])
+        suffix = " ..." if len(summary.skipped_unknown_datasets) > 8 else ""
+        console.print(f"  [dim]Skipped unknown dataset(s): {skipped}{suffix}[/dim]")
+    if summary.skipped_invalid_values:
+        skipped = ", ".join(summary.skipped_invalid_values[:8])
+        suffix = " ..." if len(summary.skipped_invalid_values) > 8 else ""
+        console.print(f"  [dim]Skipped invalid value(s): {skipped}{suffix}[/dim]")
+
+
 # ── Compare-models helper ─────────────────────────────────────────────────────
 
 
@@ -429,7 +476,11 @@ def _run_for_tier(arxiv_id: str, model_tier: str, force: bool) -> None:
         return
 
     ok = run_extraction(
-        arxiv_id, model_tier=model_tier, screen_first=False, fallback_on_failure=False
+        arxiv_id,
+        model_tier=model_tier,
+        screen_first=False,
+        fallback_on_failure=False,
+        result_output_format=_MANUAL_RESULT_OUTPUT_FORMAT,
     )
 
     # Copy main llm_output.json to tier-specific file so runs don't overwrite each other
@@ -1042,18 +1093,7 @@ def main() -> None:
     from backend.results_parser import parse_and_store_with_summary
 
     summary = parse_and_store_with_summary(arxiv_id)
-    if summary.quarantined:
-        console.print("  [yellow]Paper quarantined due to suspicious method names.[/yellow]")
-        if summary.quarantine_model_names:
-            console.print(
-                "  [dim]Suspicious names: "
-                + ", ".join(summary.quarantine_model_names[:8])
-                + "[/dim]"
-            )
-        if summary.quarantine_reasons:
-            console.print("  [dim]Reasons: " + "; ".join(summary.quarantine_reasons) + "[/dim]")
-    else:
-        console.print(f"  [green]{summary.new_results}[/green] result row(s) stored.")
+    _print_parse_summary(summary)
 
     # ── Export ────────────────────────────────────────────────────────────
     console.print("\n[bold]4. Export to Hugo[/bold]")
