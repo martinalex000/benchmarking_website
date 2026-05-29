@@ -15,14 +15,14 @@ stats:
   avg_nodes: null
   avg_edges: null
   num_classes: 20
-result_count: 12
+result_count: 27
 best_model:
-  model: Multinomial Naive Bayes
-  value: 0.6851
+  model: IDGL
+  value: 0.836
   metric: Accuracy
-  arxiv_id: '1606.09375'
-  paper_title: Convolutional Neural Networks on Graphs with Fast Localized Spectral
-    Filtering
+  arxiv_id: '2006.13009'
+  paper_title: 'Iterative Deep Graph Learning for Graph Neural Networks: Better and
+    Robust Node Embeddings'
 variants:
 - slug: standard-split
   name: Standard split
@@ -37,6 +37,272 @@ variants:
   metrics:
   - Accuracy
   rows:
+  - model: IDGL
+    model_plain: IDGL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2006.13009'
+    title: 'Iterative Deep Graph Learning for Graph Neural Networks: Better and Robust
+      Node Embeddings'
+    date: Jun 2020
+    date_iso: 2020-06
+    date_display: Jun 2020
+    codebase_url: https://github.com/hugochan/IDGL
+    uses_external_data: false
+    is_best: true
+    metric_values:
+    - 0.836
+    metric_stds:
+    - 0.004
+  - model: IDGL-Anch
+    model_plain: IDGL-Anch
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2006.13009'
+    title: 'Iterative Deep Graph Learning for Graph Neural Networks: Better and Robust
+      Node Embeddings'
+    date: Jun 2020
+    date_iso: 2020-06
+    date_display: Jun 2020
+    codebase_url: https://github.com/hugochan/IDGL
+    uses_external_data: false
+    is_best: true
+    metric_values:
+    - 0.829
+    metric_stds:
+    - 0.003
+  - model: GCN_kNN
+    model_plain: GCN_kNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2006.13009'
+    title: 'Iterative Deep Graph Learning for Graph Neural Networks: Better and Robust
+      Node Embeddings'
+    date: Jun 2020
+    date_iso: 2020-06
+    date_display: Jun 2020
+    codebase_url: https://github.com/hugochan/IDGL
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.813
+    metric_stds:
+    - 0.006
+  - model: UniGCN
+    model_plain: UniGCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2206.04739'
+    title: 'I''m Me, We''re Us, and I''m Us: Tri-directional Contrastive Learning
+      on Hypergraphs'
+    date: Jun 2022
+    date_iso: 2022-06
+    date_display: Jun 2022
+    codebase_url: https://github.com/wooner49/TriCL
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.8024
+    metric_stds:
+    - 0.004
+  - model: TriCL-N
+    model_plain: TriCL-N
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2206.04739'
+    title: 'I''m Me, We''re Us, and I''m Us: Tri-directional Contrastive Learning
+      on Hypergraphs'
+    date: Jun 2022
+    date_iso: 2022-06
+    date_display: Jun 2022
+    codebase_url: https://github.com/wooner49/TriCL
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.8018
+    metric_stds:
+    - 0.002
+  - model: DHGNN
+    model_plain: DHGNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2206.04739'
+    title: 'I''m Me, We''re Us, and I''m Us: Tri-directional Contrastive Learning
+      on Hypergraphs'
+    date: Jun 2022
+    date_iso: 2022-06
+    date_display: Jun 2022
+    codebase_url: https://github.com/wooner49/TriCL
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.8015
+    metric_stds:
+    - 0.003
+  - model: TriCL
+    model_plain: TriCL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2206.04739'
+    title: 'I''m Me, We''re Us, and I''m Us: Tri-directional Contrastive Learning
+      on Hypergraphs'
+    date: Jun 2022
+    date_iso: 2022-06
+    date_display: Jun 2022
+    codebase_url: https://github.com/wooner49/TriCL
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.8014
+    metric_stds:
+    - 0.002
+  - model: BiLSTM
+    model_plain: BiLSTM
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2006.13009'
+    title: 'Iterative Deep Graph Learning for Graph Neural Networks: Better and Robust
+      Node Embeddings'
+    date: Jun 2020
+    date_iso: 2020-06
+    date_display: Jun 2020
+    codebase_url: https://github.com/hugochan/IDGL
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.8
+    metric_stds:
+    - 0.004
+  - model: AllSet
+    model_plain: AllSet
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2206.04739'
+    title: 'I''m Me, We''re Us, and I''m Us: Tri-directional Contrastive Learning
+      on Hypergraphs'
+    date: Jun 2022
+    date_iso: 2022-06
+    date_display: Jun 2022
+    codebase_url: https://github.com/wooner49/TriCL
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.799
+    metric_stds:
+    - 0.004
+  - model: HyperConv
+    model_plain: HyperConv
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2206.04739'
+    title: 'I''m Me, We''re Us, and I''m Us: Tri-directional Contrastive Learning
+      on Hypergraphs'
+    date: Jun 2022
+    date_iso: 2022-06
+    date_display: Jun 2022
+    codebase_url: https://github.com/wooner49/TriCL
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7983
+    metric_stds:
+    - 0.004
+  - model: S2-HHGR
+    model_plain: S2-HHGR
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2206.04739'
+    title: 'I''m Me, We''re Us, and I''m Us: Tri-directional Contrastive Learning
+      on Hypergraphs'
+    date: Jun 2022
+    date_iso: 2022-06
+    date_display: Jun 2022
+    codebase_url: https://github.com/wooner49/TriCL
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7975
+    metric_stds:
+    - 0.003
+  - model: HNHN
+    model_plain: HNHN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2206.04739'
+    title: 'I''m Me, We''re Us, and I''m Us: Tri-directional Contrastive Learning
+      on Hypergraphs'
+    date: Jun 2022
+    date_iso: 2022-06
+    date_display: Jun 2022
+    codebase_url: https://github.com/wooner49/TriCL
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7951
+    metric_stds:
+    - 0.004
+  - model: MLP
+    model_plain: MLP
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2206.04739'
+    title: 'I''m Me, We''re Us, and I''m Us: Tri-directional Contrastive Learning
+      on Hypergraphs'
+    date: Jun 2022
+    date_iso: 2022-06
+    date_display: Jun 2022
+    codebase_url: https://github.com/wooner49/TriCL
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7919
+    metric_stds:
+    - 0.005
+  - model: HyperGCN
+    model_plain: HyperGCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2206.04739'
+    title: 'I''m Me, We''re Us, and I''m Us: Tri-directional Contrastive Learning
+      on Hypergraphs'
+    date: Jun 2022
+    date_iso: 2022-06
+    date_display: Jun 2022
+    codebase_url: https://github.com/wooner49/TriCL
+    uses_external_data: false
+    is_best: true
+    metric_values:
+    - 0.7731
+    metric_stds:
+    - 0.06
   - model: Multinomial Naive Bayes
     model_plain: Multinomial Naive Bayes
     is_baseline: true
@@ -50,7 +316,7 @@ variants:
     date_display: Jun 2016
     codebase_url: https://github.com/mdeff/cnn_graph
     uses_external_data: false
-    is_best: true
+    is_best: false
     metric_values:
     - 0.6851
     metric_stds:
@@ -259,6 +525,25 @@ variants:
     - 0.6406
     metric_stds:
     - 0.0044
+  - model: Node2Vec
+    model_plain: Node2Vec
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2206.04739'
+    title: 'I''m Me, We''re Us, and I''m Us: Tri-directional Contrastive Learning
+      on Hypergraphs'
+    date: Jun 2022
+    date_iso: 2022-06
+    date_display: Jun 2022
+    codebase_url: https://github.com/wooner49/TriCL
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.6335
+    metric_stds:
+    - 0.017
   milestones:
   - value: 0.6851
     std: null
@@ -266,5 +551,12 @@ variants:
     arxiv_id: '1606.09375'
     title: Convolutional Neural Networks on Graphs with Fast Localized Spectral Filtering
     date: 2016-06
+  - value: 0.836
+    std: 0.004
+    model: IDGL
+    arxiv_id: '2006.13009'
+    title: 'Iterative Deep Graph Learning for Graph Neural Networks: Better and Robust
+      Node Embeddings'
+    date: 2020-06
 ---
 

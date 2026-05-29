@@ -40,114 +40,54 @@ experiment_scopes:
 - graph-level
 - node-level
 results:
-- &id009
+- &id011
   dataset: Code
   rows:
-  - model: AST (Data-flow, Magnetic Lap., w/ GNN)
-    model_key: ast (data-flow, magnetic lap., w/ gnn)
-    model_plain: AST (Data-flow, Magnetic Lap., w/ GNN)
-    value: 0.2222
-    std: 0.001
-    metric: F1
-    higher_is_better: true
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2302.00049'
-    title: Transformers Meet Directed Graphs
-    date: Jan 31, 2023
-    date_display: Jan 2023
-    date_iso: '2023-01-31'
-    codebase_url: ''
-    uses_external_data: false
-    is_global_top: true
-    global_rank: 1
-    sort_value: 0.2222
-    sort_std: 0.001
-    is_best: true
-  - model: AST (Data-flow, Random walk, w/ GNN)
-    model_key: ast (data-flow, random walk, w/ gnn)
-    model_plain: AST (Data-flow, Random walk, w/ GNN)
-    value: 0.2182
-    std: 0.002
-    metric: F1
-    higher_is_better: true
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2302.00049'
-    title: Transformers Meet Directed Graphs
-    date: Jan 31, 2023
-    date_display: Jan 2023
-    date_iso: '2023-01-31'
-    codebase_url: ''
-    uses_external_data: false
-    is_global_top: true
-    global_rank: 2
-    sort_value: 0.2182
-    sort_std: 0.002
-    is_best: false
-  - model: AST (Data-flow, w/ GNN)
-    model_key: ast (data-flow, w/ gnn)
-    model_plain: AST (Data-flow, w/ GNN)
-    value: 0.2161
-    std: 0.0012
-    metric: F1
-    higher_is_better: true
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2302.00049'
-    title: Transformers Meet Directed Graphs
-    date: Jan 31, 2023
-    date_display: Jan 2023
-    date_iso: '2023-01-31'
-    codebase_url: ''
-    uses_external_data: false
-    is_global_top: true
-    global_rank: 3
-    sort_value: 0.2161
-    sort_std: 0.0012
-    is_best: false
-  - model: GCN+virtual node
-    model_key: gcn+virtual node
-    model_plain: GCN+virtual node
-    value: 0.1581
-    std: 0.0026
-    paper_value: 0.1581
-    paper_std: 0.0026
+  - model: ExpC-s
+    model_key: expc-s
+    model_plain: ExpC-s
+    value: 0.3318
+    std: 0.0017
     metric: F1
     higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: 'dataset: fuzzy match to code (score=90)'
-    date: May 2020
-    date_display: May 2020
-    date_iso: 2020-05
-    global_rank: 11
-    true_value: 0.1581
-    true_std: 0.0026
-    value_gap_source_arxiv: '2005.00687'
-    value_gap_source_title: 'Open Graph Benchmark: Datasets for Machine Learning on
-      Graphs'
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 11
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.1581
-    sort_std: 0.0026
+    arxiv_id: '2012.07219'
+    title: Breaking the Expressive Bottlenecks of Graph Neural Networks
+    date: Dec 2020
+    date_display: Dec 2020
+    date_iso: 2020-12
+    codebase_url: https://github.com/qslim/epcb-gnns
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 1
+    sort_value: 0.3318
+    sort_std: 0.0017
+    is_best: true
+  - model: CombC
+    model_key: combc
+    model_plain: CombC
+    value: 0.3276
+    std: 0.0015
+    metric: F1
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2012.07219'
+    title: Breaking the Expressive Bottlenecks of Graph Neural Networks
+    date: Dec 2020
+    date_display: Dec 2020
+    date_iso: 2020-12
+    codebase_url: https://github.com/qslim/epcb-gnns
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 2
+    sort_value: 0.3276
+    sort_std: 0.0015
     is_best: false
   - model: GCN
     model_key: gcn
@@ -168,22 +108,21 @@ results:
     date: May 2020
     date_display: May 2020
     date_iso: 2020-05
-    global_rank: 13
-    true_value: 0.1507
+    global_rank: 3
+    true_value: 0.3163
     true_std: 0.0018
-    value_gap_source_arxiv: '2005.00687'
-    value_gap_source_title: 'Open Graph Benchmark: Datasets for Machine Learning on
-      Graphs'
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
+    value_gap_source_arxiv: '2012.07219'
+    value_gap_source_title: Breaking the Expressive Bottlenecks of Graph Neural Networks
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
     has_value_note: false
-    value_gap: null
+    value_gap: 0.16560000000000002
     value_note: ''
-    paper_rank: 13
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.1507
+    paper_rank: 25
+    rank_delta: 22
+    rank_delta_abs: 22
+    rank_delta_direction: worse
+    sort_value: 0.3163
     sort_std: 0.0018
     is_best: false
   - model: GIN
@@ -205,9 +144,68 @@ results:
     date: May 2020
     date_display: May 2020
     date_iso: 2020-05
-    global_rank: 15
-    true_value: 0.1495
-    true_std: 0.0023
+    global_rank: 4
+    true_value: 0.3163
+    true_std: 0.002
+    value_gap_source_arxiv: '2012.07219'
+    value_gap_source_title: Breaking the Expressive Bottlenecks of Graph Neural Networks
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
+    has_value_note: false
+    value_gap: 0.16680000000000003
+    value_note: ''
+    paper_rank: 26
+    rank_delta: 22
+    rank_delta_abs: 22
+    rank_delta_direction: worse
+    sort_value: 0.3163
+    sort_std: 0.002
+    is_best: false
+  - model: multi-head GAT
+    model_key: multi-head gat
+    model_plain: multi-head GAT
+    value: 0.311
+    std: null
+    metric: F1
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2012.07219'
+    title: Breaking the Expressive Bottlenecks of Graph Neural Networks
+    date: Dec 2020
+    date_display: Dec 2020
+    date_iso: 2020-12
+    codebase_url: https://github.com/qslim/epcb-gnns
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 5
+    sort_value: 0.311
+    sort_std: null
+    is_best: false
+  - model: GCN+virtual node
+    model_key: gcn+virtual node
+    model_plain: GCN+virtual node
+    value: 0.1581
+    std: 0.0026
+    paper_value: 0.1581
+    paper_std: 0.0026
+    metric: F1
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: fuzzy match to code (score=90)'
+    date: May 2020
+    date_display: May 2020
+    date_iso: 2020-05
+    global_rank: 24
+    true_value: 0.1581
+    true_std: 0.0026
     value_gap_source_arxiv: '2005.00687'
     value_gap_source_title: 'Open Graph Benchmark: Datasets for Machine Learning on
       Graphs'
@@ -216,18 +214,41 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 15
+    paper_rank: 24
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
-    sort_value: 0.1495
-    sort_std: 0.0023
+    sort_value: 0.1581
+    sort_std: 0.0026
     is_best: false
   metric: F1
   higher_is_better: true
-- &id003
+- &id002
   dataset: ogbg-molhiv
   rows:
+  - model: ML
+    model_key: ml
+    model_plain: ML
+    value: 0.997
+    std: 0.002
+    metric: ROC-AUC
+    higher_is_better: true
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2210.08443'
+    title: 'CLEAR: Generative Counterfactual Explanations on Graphs'
+    date: Oct 2022
+    date_display: Oct 2022
+    date_iso: 2022-10
+    codebase_url: ''
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 1
+    sort_value: 0.997
+    sort_std: 0.002
+    is_best: true
   - model: ILLS
     model_key: ills
     model_plain: ILLS
@@ -247,10 +268,10 @@ results:
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
-    global_rank: 1
+    global_rank: 2
     sort_value: 0.862
     sort_std: 0.002
-    is_best: true
+    is_best: false
   - model: GraphGPS
     model_key: graphgps
     model_plain: GraphGPS
@@ -270,31 +291,8 @@ results:
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
-    global_rank: 2
-    sort_value: 0.858
-    sort_std: 0.002
-    is_best: true
-  - model: SAN
-    model_key: san
-    model_plain: SAN
-    value: 0.855
-    std: 0.002
-    metric: ROC-AUC
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2305.17589'
-    title: Graph Inductive Biases in Transformers without Message Passing
-    date: May 27, 2023
-    date_display: May 2023
-    date_iso: '2023-05-27'
-    codebase_url: ''
-    uses_external_data: false
-    is_global_top: true
     global_rank: 3
-    sort_value: 0.855
+    sort_value: 0.858
     sort_std: 0.002
     is_best: false
   - model: GIN
@@ -316,7 +314,7 @@ results:
     date: May 2020
     date_display: May 2020
     date_iso: 2020-05
-    global_rank: 6
+    global_rank: 9
     true_value: 0.848
     true_std: 0.003
     value_gap_source_arxiv: '2305.17589'
@@ -327,9 +325,9 @@ results:
     has_value_note: false
     value_gap: 0.09599999999999997
     value_note: ''
-    paper_rank: 41
-    rank_delta: 35
-    rank_delta_abs: 35
+    paper_rank: 143
+    rank_delta: 134
+    rank_delta_abs: 134
     rank_delta_direction: worse
     sort_value: 0.848
     sort_std: 0.003
@@ -353,7 +351,7 @@ results:
     date: May 2020
     date_display: May 2020
     date_iso: 2020-05
-    global_rank: 9
+    global_rank: 13
     true_value: 0.839
     true_std: 0.006
     value_gap_source_arxiv: '2305.17589'
@@ -364,16 +362,16 @@ results:
     has_value_note: false
     value_gap: 0.09719999999999995
     value_note: ''
-    paper_rank: 43
-    rank_delta: 34
-    rank_delta_abs: 34
+    paper_rank: 153
+    rank_delta: 140
+    rank_delta_abs: 140
     rank_delta_direction: worse
     sort_value: 0.839
     sort_std: 0.006
     is_best: false
   metric: ROC-AUC
   higher_is_better: true
-- &id001
+- &id004
   dataset: ogbg-molpcba
   is_multi_metric: true
   rows:
@@ -410,7 +408,7 @@ results:
     codebase_url: ''
     uses_external_data: null
     is_best: true
-    global_rank: null
+    global_rank: 37
   - model: novel dynamic message-passing mechanism
     model_key: novel dynamic message-passing mechanism
     model_plain: novel dynamic message-passing mechanism
@@ -442,62 +440,63 @@ results:
     rank_delta: null
     rank_delta_abs: null
     value_note: ''
-  - model: Graphormer
-    model_key: graphormer
-    model_plain: Graphormer
+  - model: unified method + FLAG
+    model_key: unified method + flag
+    model_plain: unified method + FLAG
     metric_values:
-    - 0.3139
+    - 0.3174
     - null
     metric_stds:
-    - 0.0032
     - null
-    is_baseline: true
+    - null
+    is_baseline: false
     is_overridden: false
     override_reason: ''
-    params_millions: 119.529
-    arxiv_id: '2410.23686'
-    title: Towards Dynamic Message Passing on Graphs
-    date: Oct 2024
-    date_display: Oct 2024
-    date_iso: 2024-10
-    codebase_url: https://github.com/sunjss/N2
+    params_millions: null
+    arxiv_id: '2207.08806'
+    title: Unified 2D and 3D Pre-Training of Molecular Representations
+    date: Jul 2022
+    date_display: Jul 2022
+    date_iso: 2022-07
+    codebase_url: https://github.com/teslacool/UnifiedMolPretrain
     uses_external_data: false
     is_global_top: true
     global_rank: 2
     is_best: false
-    sort_value: 0.3139
-    sort_std: 0.0032
+    sort_value: 0.3174
+    sort_std: null
     has_value_gap: false
     has_value_note: false
     paper_rank: null
     rank_delta: null
     rank_delta_abs: null
     value_note: ''
-  - model: Graphormer-FLAG
-    model_key: graphormer-flag
-    model_plain: Graphormer-FLAG
+  - model: TGT-Ag+TGT-At-DP
+    model_key: tgt-ag+tgt-at-dp
+    model_plain: TGT-Ag+TGT-At-DP
     metric_values:
-    - 0.3139
+    - 0.3167
     - null
     metric_stds:
-    - 0.0032
+    - 0.0031
     - null
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2106.05234'
-    title: Do Transformers Really Perform Bad for Graph Representation?
-    date: Jun 2021
-    date_display: Jun 2021
-    date_iso: 2021-06
-    codebase_url: https://github.com/microsoft/Graphormer
-    uses_external_data: false
+    arxiv_id: '2402.04538'
+    title: 'Triplet Interaction Improves Graph Transformers: Accurate Molecular Graph
+      Learning with Triplet Graph Transformers'
+    date: Feb 7, 2024
+    date_display: Feb 2024
+    date_iso: '2024-02-07'
+    codebase_url: https://github.com/shamim-hussain/tgt
+    uses_external_data: true
     is_global_top: true
     global_rank: 3
     is_best: false
-    sort_value: 0.3139
-    sort_std: 0.0032
+    sort_value: 0.3167
+    sort_std: 0.0031
     has_value_gap: false
     has_value_note: false
     paper_rank: null
@@ -538,7 +537,7 @@ results:
     codebase_url: ''
     uses_external_data: null
     is_best: false
-    global_rank: 24
+    global_rank: 35
   - model: GCN
     model_key: gcn
     model_plain: GCN
@@ -573,13 +572,13 @@ results:
     codebase_url: ''
     uses_external_data: null
     is_best: false
-    global_rank: 32
+    global_rank: 46
   metrics:
   - AP
   - Accuracy
   primary_metric: AP
   higher_is_better: true
-- &id011
+- &id012
   dataset: ogbl-biokg
   rows:
   - model: ComplEx
@@ -801,10 +800,103 @@ results:
     is_best: false
   metric: MRR
   higher_is_better: true
-- &id007
+- &id006
   dataset: ogbl-citation2
   is_multi_metric: true
   rows:
+  - model: MPLP
+    model_key: mplp
+    model_plain: MPLP
+    metric_values:
+    - 0.9072
+    - null
+    metric_stds:
+    - 0.0012
+    - null
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2309.00976'
+    title: Pure Message Passing Can Estimate Common Neighbor for Link Prediction
+    date: Sep 2023
+    date_display: Sep 2023
+    date_iso: 2023-09
+    codebase_url: https://github.com/Barcavin/efficient-node-labelling
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 1
+    is_best: true
+    sort_value: 0.9072
+    sort_std: 0.0012
+    has_value_gap: false
+    has_value_note: false
+    paper_rank: null
+    rank_delta: null
+    rank_delta_abs: null
+    value_note: ''
+  - model: NCNC
+    model_key: ncnc
+    model_plain: NCNC
+    metric_values:
+    - 0.8912
+    - null
+    metric_stds:
+    - 0.004
+    - null
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2309.00976'
+    title: Pure Message Passing Can Estimate Common Neighbor for Link Prediction
+    date: Sep 2023
+    date_display: Sep 2023
+    date_iso: 2023-09
+    codebase_url: https://github.com/Barcavin/efficient-node-labelling
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 2
+    is_best: false
+    sort_value: 0.8912
+    sort_std: 0.004
+    has_value_gap: false
+    has_value_note: false
+    paper_rank: null
+    rank_delta: null
+    rank_delta_abs: null
+    value_note: ''
+  - model: SEAL
+    model_key: seal
+    model_plain: SEAL
+    metric_values:
+    - 0.8767
+    - null
+    metric_stds:
+    - 0.0032
+    - null
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2303.00170'
+    title: Asymmetric Learning for Graph Neural Network based Link Prediction
+    date: Mar 2023
+    date_display: Mar 2023
+    date_iso: 2023-03
+    codebase_url: ''
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 3
+    is_best: false
+    sort_value: 0.8767
+    sort_std: 0.0032
+    has_value_gap: false
+    has_value_note: false
+    paper_rank: null
+    rank_delta: null
+    rank_delta_abs: null
+    value_note: ''
   - model: GCN
     model_key: gcn
     model_plain: GCN
@@ -818,19 +910,19 @@ results:
     is_overridden: false
     override_reason: ''
     params_millions: null
-    sort_value: 0.8474
-    sort_std: 0.0021
-    true_value: 0.8474
-    true_std: 0.0021
+    sort_value: 0.8479
+    sort_std: 0.0024
+    true_value: 0.8479
+    true_std: 0.0024
     paper_value: 0.8474
     paper_std: 0.0021
     has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_gap_source_arxiv: '2005.00687'
-    value_gap_source_title: 'Open Graph Benchmark: Datasets for Machine Learning on
-      Graphs'
-    value_note: ''
+    has_value_note: true
+    value_gap: 0.0004999999999999449
+    value_gap_source_arxiv: '2206.04216'
+    value_gap_source_title: 'Neo-GNNs: Neighborhood Overlap-aware Graph Neural Networks
+      for Link Prediction'
+    value_note: global 0.8479 within std
     arxiv_id: ''
     title: ''
     date: May 2020
@@ -838,8 +930,8 @@ results:
     date_iso: 2020-05
     codebase_url: ''
     uses_external_data: null
-    is_best: true
-    global_rank: 1
+    is_best: false
+    global_rank: 12
   - model: GraphSAGE
     model_key: graphsage
     model_plain: GraphSAGE
@@ -853,19 +945,19 @@ results:
     is_overridden: false
     override_reason: ''
     params_millions: null
-    sort_value: 0.826
-    sort_std: 0.0036
-    true_value: 0.826
-    true_std: 0.0036
+    sort_value: 0.8264
+    sort_std: 0.0001
+    true_value: 0.8264
+    true_std: 0.0001
     paper_value: 0.826
     paper_std: 0.0036
     has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_gap_source_arxiv: '2005.00687'
-    value_gap_source_title: 'Open Graph Benchmark: Datasets for Machine Learning on
-      Graphs'
-    value_note: ''
+    has_value_note: true
+    value_gap: 0.00040000000000006697
+    value_gap_source_arxiv: '2206.04216'
+    value_gap_source_title: 'Neo-GNNs: Neighborhood Overlap-aware Graph Neural Networks
+      for Link Prediction'
+    value_note: global 0.8264 within std
     arxiv_id: ''
     title: ''
     date: May 2020
@@ -874,69 +966,7 @@ results:
     codebase_url: ''
     uses_external_data: null
     is_best: false
-    global_rank: 2
-  - model: ILLS
-    model_key: ills
-    model_plain: ILLS
-    metric_values:
-    - 0.812
-    - null
-    metric_stds:
-    - 0.001
-    - null
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2305.17589'
-    title: Graph Inductive Biases in Transformers without Message Passing
-    date: May 27, 2023
-    date_display: May 2023
-    date_iso: '2023-05-27'
-    codebase_url: ''
-    uses_external_data: false
-    is_global_top: true
-    global_rank: 3
-    is_best: false
-    sort_value: 0.812
-    sort_std: 0.001
-    has_value_gap: false
-    has_value_note: false
-    paper_rank: null
-    rank_delta: null
-    rank_delta_abs: null
-    value_note: ''
-  - model: OpenGNN
-    model_key: opengnn
-    model_plain: OpenGNN
-    metric_values:
-    - 0.805
-    - null
-    metric_stds:
-    - 0.001
-    - null
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2305.17589'
-    title: Graph Inductive Biases in Transformers without Message Passing
-    date: May 27, 2023
-    date_display: May 2023
-    date_iso: '2023-05-27'
-    codebase_url: ''
-    uses_external_data: false
-    is_global_top: true
-    global_rank: 4
-    is_best: false
-    sort_value: 0.805
-    sort_std: 0.001
-    has_value_gap: false
-    has_value_note: false
-    paper_rank: null
-    rank_delta: null
-    rank_delta_abs: null
-    value_note: ''
+    global_rank: 16
   - model: Neighbor Sampling (NS)
     model_key: neighbor sampling (ns)
     model_plain: Neighbor Sampling (NS)
@@ -971,38 +1001,7 @@ results:
     codebase_url: ''
     uses_external_data: null
     is_best: false
-    global_rank: 5
-  - model: GraphGPS
-    model_key: graphgps
-    model_plain: GraphGPS
-    metric_values:
-    - 0.801
-    - null
-    metric_stds:
-    - 0.002
-    - null
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2305.17589'
-    title: Graph Inductive Biases in Transformers without Message Passing
-    date: May 27, 2023
-    date_display: May 2023
-    date_iso: '2023-05-27'
-    codebase_url: ''
-    uses_external_data: false
-    is_global_top: true
-    global_rank: 6
-    is_best: false
-    sort_value: 0.801
-    sort_std: 0.002
-    has_value_gap: false
-    has_value_note: false
-    paper_rank: null
-    rank_delta: null
-    rank_delta_abs: null
-    value_note: ''
+    global_rank: 20
   - model: Cluster-GCN
     model_key: cluster-gcn
     model_plain: Cluster-GCN
@@ -1037,7 +1036,7 @@ results:
     codebase_url: ''
     uses_external_data: null
     is_best: false
-    global_rank: 7
+    global_rank: 22
   - model: GraphSAINT
     model_key: graphsaint
     model_plain: GraphSAINT
@@ -1072,7 +1071,7 @@ results:
     codebase_url: ''
     uses_external_data: null
     is_best: false
-    global_rank: 8
+    global_rank: 23
   - model: Node2Vec
     model_key: node2vec
     model_plain: Node2Vec
@@ -1107,7 +1106,7 @@ results:
     codebase_url: ''
     uses_external_data: null
     is_best: false
-    global_rank: 15
+    global_rank: 37
   - model: MatrixFactorization
     model_key: matrixfactorization
     model_plain: MatrixFactorization
@@ -1142,7 +1141,7 @@ results:
     codebase_url: ''
     uses_external_data: null
     is_best: false
-    global_rank: 16
+    global_rank: 42
   - model: MLP
     model_key: mlp
     model_plain: MLP
@@ -1156,19 +1155,19 @@ results:
     is_overridden: false
     override_reason: ''
     params_millions: null
-    sort_value: 0.2895
-    sort_std: 0.0014
-    true_value: 0.2895
-    true_std: 0.0014
+    sort_value: 0.2899
+    sort_std: 0.0016
+    true_value: 0.2899
+    true_std: 0.0016
     paper_value: 0.2895
     paper_std: 0.0014
     has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_gap_source_arxiv: '2005.00687'
-    value_gap_source_title: 'Open Graph Benchmark: Datasets for Machine Learning on
-      Graphs'
-    value_note: ''
+    has_value_note: true
+    value_gap: 0.00040000000000001146
+    value_gap_source_arxiv: '2206.04216'
+    value_gap_source_title: 'Neo-GNNs: Neighborhood Overlap-aware Graph Neural Networks
+      for Link Prediction'
+    value_note: global 0.2899 within std
     arxiv_id: ''
     title: ''
     date: May 2020
@@ -1177,13 +1176,13 @@ results:
     codebase_url: ''
     uses_external_data: null
     is_best: false
-    global_rank: 17
+    global_rank: 47
   metrics:
   - MRR
   - Hits@100
   primary_metric: MRR
   higher_is_better: true
-- &id012
+- &id010
   dataset: ogbl-ddi
   rows:
   - model: ILLS
@@ -1285,9 +1284,9 @@ results:
     has_value_note: false
     value_gap: 0.20199999999999996
     value_note: ''
-    paper_rank: 7
-    rank_delta: 1
-    rank_delta_abs: 1
+    paper_rank: 12
+    rank_delta: 6
+    rank_delta_abs: 6
     rank_delta_direction: worse
     sort_value: 0.741
     sort_std: 0.002
@@ -1322,10 +1321,10 @@ results:
     has_value_note: false
     value_gap: 0.3643
     value_note: ''
-    paper_rank: 7
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
+    paper_rank: 15
+    rank_delta: 8
+    rank_delta_abs: 8
+    rank_delta_direction: worse
     sort_value: 0.735
     sort_std: 0.003
     is_best: false
@@ -1348,7 +1347,7 @@ results:
     date: May 2020
     date_display: May 2020
     date_iso: 2020-05
-    global_rank: 8
+    global_rank: 22
     true_value: 0.2326
     true_std: 0.0209
     value_gap_source_arxiv: '2005.00687'
@@ -1359,7 +1358,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 8
+    paper_rank: 22
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1385,7 +1384,7 @@ results:
     date: May 2020
     date_display: May 2020
     date_iso: 2020-05
-    global_rank: 9
+    global_rank: 28
     true_value: 0.1368
     true_std: 0.0475
     value_gap_source_arxiv: '2005.00687'
@@ -1396,7 +1395,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 9
+    paper_rank: 28
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1405,7 +1404,7 @@ results:
     is_best: false
   metric: Hits@20
   higher_is_better: true
-- &id004
+- &id007
   dataset: ogbl-wikikg2
   rows:
   - model: DyGFormer
@@ -1775,115 +1774,79 @@ results:
     is_best: false
   metric: MRR
   higher_is_better: true
-- &id002
+- &id001
   dataset: ogbn-arxiv
   rows:
-  - model: Stable-ChebNet
-    model_key: stable-chebnet
-    model_plain: Stable-ChebNet
-    value: 0.7573
-    std: 0.0051
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2506.07624'
-    title: 'Return of ChebNet: Understanding and Improving an Overlooked GNN on Long-Range
-      Tasks'
-    date: Jun 2025
-    date_display: Jun 2025
-    date_iso: 2025-06
-    codebase_url: https://github.com/ahariri13/Stable-ChebNet
-    uses_external_data: false
-    is_global_top: true
-    global_rank: 1
-    sort_value: 0.7573
-    sort_std: 0.0051
-    is_best: true
-  - model: Llama-7b
-    model_key: llama-7b
-    model_plain: Llama-7b
-    value: 0.757
-    std: 0.0012
+  - model: KCoT
+    model_key: kcot
+    model_plain: KCoT
+    value: 0.7925
+    std: null
     metric: Accuracy
     higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2308.07134'
-    title: Language is All a Graph Needs
+    arxiv_id: '2605.24867'
+    title: 'Clustering as Reasoning: A $k$-Means Interpretation of Chain-of-Thought
+      Graph Learning'
+    date: May 24, 2026
+    date_display: May 2026
+    date_iso: '2026-05-24'
+    codebase_url: https://github.com/Uncnbb/KCoT
+    uses_external_data: true
+    is_global_top: true
+    global_rank: 1
+    sort_value: 0.7925
+    sort_std: null
+    is_best: true
+  - model: TAPE + SimTeG
+    model_key: tape + simteg
+    model_plain: TAPE + SimTeG
+    value: 0.7803
+    std: 0.0007
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2308.02565'
+    title: 'SimTeG: A Frustratingly ple Approach Improves xtual raph Learning'
     date: Aug 2023
     date_display: Aug 2023
     date_iso: 2023-08
-    codebase_url: https://github.com/agiresearch/InstructGLM
-    uses_external_data: true
+    codebase_url: https://github.com/vermouthdky/SimTeG
+    uses_external_data: null
     is_global_top: true
     global_rank: 2
-    sort_value: 0.757
-    sort_std: 0.0012
-    is_best: true
-  - model: ILLS
-    model_key: ills
-    model_plain: ILLS
-    value: 0.752
-    std: 0.002
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2305.17589'
-    title: Graph Inductive Biases in Transformers without Message Passing
-    date: May 27, 2023
-    date_display: May 2023
-    date_iso: '2023-05-27'
-    codebase_url: ''
-    uses_external_data: false
-    is_global_top: true
-    global_rank: 3
-    sort_value: 0.752
-    sort_std: 0.002
-    is_best: true
-  - model: GCN
-    model_key: gcn
-    model_plain: GCN
-    value: 0.7174
-    std: 0.0029
-    paper_value: 0.7174
-    paper_std: 0.0029
+    sort_value: 0.7803
+    sort_std: 0.0007
+    is_best: false
+  - model: OFA
+    model_key: ofa
+    model_plain: OFA
+    value: 0.7751
+    std: 0.0017
     metric: Accuracy
     higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: 'dataset: exact match'
-    date: May 2020
-    date_display: May 2020
-    date_iso: 2020-05
-    global_rank: 21
-    true_value: 0.731
-    true_std: 0.003
-    value_gap_source_arxiv: '2305.17589'
-    value_gap_source_title: Graph Inductive Biases in Transformers without Message
-      Passing
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.013599999999999945
-    value_note: ''
-    paper_rank: 40
-    rank_delta: 19
-    rank_delta_abs: 19
-    rank_delta_direction: worse
-    sort_value: 0.731
-    sort_std: 0.003
+    arxiv_id: '2412.19211'
+    title: 'Large Language Models Meet Graph Neural Networks: A Perspective of Graph
+      Mining'
+    date: Dec 2024
+    date_display: Dec 2024
+    date_iso: 2024-12
+    codebase_url: ''
+    uses_external_data: true
+    is_global_top: true
+    global_rank: 3
+    sort_value: 0.7751
+    sort_std: 0.0017
     is_best: false
   - model: GraphSAGE
     model_key: graphsage
@@ -1905,22 +1868,58 @@ results:
     date_display: May 2020
     date_iso: 2020-05
     global_rank: 26
-    true_value: 0.728
-    true_std: 0.005
-    value_gap_source_arxiv: '2305.17589'
-    value_gap_source_title: Graph Inductive Biases in Transformers without Message
-      Passing
+    true_value: 0.7629
+    true_std: null
+    value_gap_source_arxiv: '2402.08170'
+    value_gap_source_title: arXiv:2402.08170
     value_gap_source_is_current_paper: false
     has_value_gap: true
     has_value_note: false
-    value_gap: 0.0131
+    value_gap: 0.04800000000000004
     value_note: ''
-    paper_rank: 42
-    rank_delta: 16
-    rank_delta_abs: 16
+    paper_rank: 252
+    rank_delta: 226
+    rank_delta_abs: 226
     rank_delta_direction: worse
-    sort_value: 0.728
-    sort_std: 0.005
+    sort_value: 0.7629
+    sort_std: null
+    is_best: false
+  - model: GCN
+    model_key: gcn
+    model_plain: GCN
+    value: 0.7174
+    std: 0.0029
+    paper_value: 0.7174
+    paper_std: 0.0029
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: May 2020
+    date_display: May 2020
+    date_iso: 2020-05
+    global_rank: 57
+    true_value: 0.752
+    true_std: 0.0003
+    value_gap_source_arxiv: '2509.14863'
+    value_gap_source_title: 'Exploring the Global-to-Local Attention Scheme in Graph
+      Transformers: An Empirical Study'
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
+    has_value_note: false
+    value_gap: 0.034599999999999964
+    value_note: ''
+    paper_rank: 234
+    rank_delta: 177
+    rank_delta_abs: 177
+    rank_delta_direction: worse
+    sort_value: 0.752
+    sort_std: 0.0003
     is_best: false
   - model: Node2Vec
     model_key: node2vec
@@ -1941,23 +1940,23 @@ results:
     date: May 2020
     date_display: May 2020
     date_iso: 2020-05
-    global_rank: 51
-    true_value: 0.7007
-    true_std: 0.0013
-    value_gap_source_arxiv: '2005.00687'
-    value_gap_source_title: 'Open Graph Benchmark: Datasets for Machine Learning on
-      Graphs'
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
+    global_rank: 260
+    true_value: 0.713
+    true_std: 0.001
+    value_gap_source_arxiv: '2111.12952'
+    value_gap_source_title: 'AutoHEnsGNN: Winning Solution to AutoGraph Challenge
+      for KDD Cup 2020'
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
     has_value_note: false
-    value_gap: null
+    value_gap: 0.012299999999999978
     value_note: ''
-    paper_rank: 51
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.7007
-    sort_std: 0.0013
+    paper_rank: 295
+    rank_delta: 35
+    rank_delta_abs: 35
+    rank_delta_direction: worse
+    sort_value: 0.713
+    sort_std: 0.001
     is_best: false
   - model: MLP
     model_key: mlp
@@ -1978,29 +1977,52 @@ results:
     date: May 2020
     date_display: May 2020
     date_iso: 2020-05
-    global_rank: 57
-    true_value: 0.555
-    true_std: 0.0023
-    value_gap_source_arxiv: '2005.00687'
-    value_gap_source_title: 'Open Graph Benchmark: Datasets for Machine Learning on
-      Graphs'
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
+    global_rank: 356
+    true_value: 0.6291
+    true_std: 0.006
+    value_gap_source_arxiv: '2304.10668'
+    value_gap_source_title: 'Train Your Own GNN Teacher: Graph-Aware Distillation
+      on Textual Graphs'
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
     has_value_note: false
-    value_gap: null
+    value_gap: 0.07409999999999994
     value_note: ''
-    paper_rank: 57
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.555
-    sort_std: 0.0023
+    paper_rank: 389
+    rank_delta: 33
+    rank_delta_abs: 33
+    rank_delta_direction: worse
+    sort_value: 0.6291
+    sort_std: 0.006
     is_best: false
   metric: Accuracy
   higher_is_better: true
-- &id008
+- &id009
   dataset: ogbn-mag
   rows:
+  - model: CoE
+    model_key: coe
+    model_plain: CoE
+    value: 0.7837
+    std: 0.0016
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2505.20853'
+    title: arXiv:2505.20853
+    date: May 2025
+    date_display: May 2025
+    date_iso: 2025-05
+    codebase_url: https://github.com/strangeAlan/CoE
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 1
+    sort_value: 0.7837
+    sort_std: 0.0016
+    is_best: true
   - model: ILSS
     model_key: ilss
     model_plain: ILSS
@@ -2020,7 +2042,7 @@ results:
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
-    global_rank: 1
+    global_rank: 2
     sort_value: 0.781
     sort_std: 0.003
     is_best: true
@@ -2043,32 +2065,9 @@ results:
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
-    global_rank: 2
+    global_rank: 3
     sort_value: 0.775
     sort_std: 0.002
-    is_best: false
-  - model: PNA
-    model_key: pna
-    model_plain: PNA
-    value: 0.772
-    std: 0.003
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2305.17589'
-    title: Graph Inductive Biases in Transformers without Message Passing
-    date: May 27, 2023
-    date_display: May 2023
-    date_iso: '2023-05-27'
-    codebase_url: ''
-    uses_external_data: false
-    is_global_top: true
-    global_rank: 3
-    sort_value: 0.772
-    sort_std: 0.003
     is_best: false
   - model: GraphSAGE
     model_key: graphsage
@@ -2089,7 +2088,7 @@ results:
     date: May 2020
     date_display: May 2020
     date_iso: 2020-05
-    global_rank: 5
+    global_rank: 10
     true_value: 0.761
     true_std: 0.003
     value_gap_source_arxiv: '2305.17589'
@@ -2100,9 +2099,9 @@ results:
     has_value_note: false
     value_gap: 0.4457
     value_note: ''
-    paper_rank: 17
-    rank_delta: 12
-    rank_delta_abs: 12
+    paper_rank: 45
+    rank_delta: 35
+    rank_delta_abs: 35
     rank_delta_direction: worse
     sort_value: 0.761
     sort_std: 0.003
@@ -2126,7 +2125,7 @@ results:
     date: May 2020
     date_display: May 2020
     date_iso: 2020-05
-    global_rank: 7
+    global_rank: 12
     true_value: 0.753
     true_std: 0.002
     value_gap_source_arxiv: '2305.17589'
@@ -2137,12 +2136,48 @@ results:
     has_value_note: false
     value_gap: 0.4487
     value_note: ''
-    paper_rank: 17
-    rank_delta: 10
-    rank_delta_abs: 10
+    paper_rank: 45
+    rank_delta: 33
+    rank_delta_abs: 33
     rank_delta_direction: worse
     sort_value: 0.753
     sort_std: 0.002
+    is_best: false
+  - model: R-GCN
+    model_key: r-gcn
+    model_plain: R-GCN
+    value: 0.3977
+    std: 0.0046
+    paper_value: 0.3977
+    paper_std: 0.0046
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: May 2020
+    date_display: May 2020
+    date_iso: 2020-05
+    global_rank: 39
+    true_value: 0.5
+    true_std: 0.001
+    value_gap_source_arxiv: '2011.09679'
+    value_gap_source_title: Scalable Graph Neural Networks for Heterogeneous Graphs
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
+    has_value_note: false
+    value_gap: 0.1023
+    value_note: ''
+    paper_rank: 42
+    rank_delta: 3
+    rank_delta_abs: 3
+    rank_delta_direction: worse
+    sort_value: 0.5
+    sort_std: 0.001
     is_best: false
   - model: GraphSAINT
     model_key: graphsaint
@@ -2163,7 +2198,7 @@ results:
     date: May 2020
     date_display: May 2020
     date_iso: 2020-05
-    global_rank: 13
+    global_rank: 41
     true_value: 0.4751
     true_std: 0.0022
     value_gap_source_arxiv: '2005.00687'
@@ -2174,7 +2209,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 13
+    paper_rank: 41
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2200,7 +2235,7 @@ results:
     date: May 2020
     date_display: May 2020
     date_iso: 2020-05
-    global_rank: 14
+    global_rank: 42
     true_value: 0.4678
     true_std: 0.0067
     value_gap_source_arxiv: '2005.00687'
@@ -2211,49 +2246,12 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 14
+    paper_rank: 42
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 0.4678
     sort_std: 0.0067
-    is_best: false
-  - model: R-GCN
-    model_key: r-gcn
-    model_plain: R-GCN
-    value: 0.3977
-    std: 0.0046
-    paper_value: 0.3977
-    paper_std: 0.0046
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: 'dataset: exact match'
-    date: May 2020
-    date_display: May 2020
-    date_iso: 2020-05
-    global_rank: 15
-    true_value: 0.3977
-    true_std: 0.0046
-    value_gap_source_arxiv: '2005.00687'
-    value_gap_source_title: 'Open Graph Benchmark: Datasets for Machine Learning on
-      Graphs'
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 15
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.3977
-    sort_std: 0.0046
     is_best: false
   - model: Cluster-GCN
     model_key: cluster-gcn
@@ -2274,7 +2272,7 @@ results:
     date: May 2020
     date_display: May 2020
     date_iso: 2020-05
-    global_rank: 16
+    global_rank: 43
     true_value: 0.3732
     true_std: 0.0037
     value_gap_source_arxiv: '2005.00687'
@@ -2285,7 +2283,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 16
+    paper_rank: 43
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2311,7 +2309,7 @@ results:
     date: May 2020
     date_display: May 2020
     date_iso: 2020-05
-    global_rank: 17
+    global_rank: 45
     true_value: 0.3544
     true_std: 0.0036
     value_gap_source_arxiv: '2005.00687'
@@ -2322,7 +2320,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 17
+    paper_rank: 45
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2348,7 +2346,7 @@ results:
     date: May 2020
     date_display: May 2020
     date_iso: 2020-05
-    global_rank: 18
+    global_rank: 46
     true_value: 0.2692
     true_std: 0.0026
     value_gap_source_arxiv: '2005.00687'
@@ -2359,7 +2357,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 18
+    paper_rank: 46
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2368,7 +2366,7 @@ results:
     is_best: false
   metric: Accuracy
   higher_is_better: true
-- &id010
+- &id005
   dataset: ogbn-papers100M
   rows:
   - model: ILSS
@@ -2394,6 +2392,30 @@ results:
     sort_value: 0.782
     sort_std: 0.001
     is_best: true
+  - model: Graver
+    model_key: graver
+    model_plain: Graver
+    value: 0.7762
+    std: 0.0294
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2511.05592'
+    title: 'Graver: Generative Graph Vocabularies for Robust Graph Foundation Models
+      Fine-tuning'
+    date: Nov 2025
+    date_display: Nov 2025
+    date_iso: 2025-11
+    codebase_url: https://github.com/RingBDStack/GRAVER
+    uses_external_data: true
+    is_global_top: true
+    global_rank: 2
+    sort_value: 0.7762
+    sort_std: 0.0294
+    is_best: true
   - model: GraphSAINT + RWSE
     model_key: graphsaint + rwse
     model_plain: GraphSAINT + RWSE
@@ -2413,32 +2435,9 @@ results:
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
-    global_rank: 2
+    global_rank: 3
     sort_value: 0.775
     sort_std: 0.002
-    is_best: false
-  - model: Neighbor Sampling (NS)
-    model_key: neighbor sampling (ns)
-    model_plain: Neighbor Sampling (NS)
-    value: 0.773
-    std: 0.001
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2305.17589'
-    title: Graph Inductive Biases in Transformers without Message Passing
-    date: May 27, 2023
-    date_display: May 2023
-    date_iso: '2023-05-27'
-    codebase_url: ''
-    uses_external_data: false
-    is_global_top: true
-    global_rank: 3
-    sort_value: 0.773
-    sort_std: 0.001
     is_best: false
   - model: SGC
     model_key: sgc
@@ -2459,23 +2458,23 @@ results:
     date: May 2020
     date_display: May 2020
     date_iso: 2020-05
-    global_rank: 12
-    true_value: 0.6329
-    true_std: 0.0019
-    value_gap_source_arxiv: '2005.00687'
-    value_gap_source_title: 'Open Graph Benchmark: Datasets for Machine Learning on
-      Graphs'
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
+    global_rank: 30
+    true_value: 0.679
+    true_std: 0.0
+    value_gap_source_arxiv: '2511.06443'
+    value_gap_source_title: How Wide and How Deep? Mitigating Over-Squashing of GNNs
+      via Channel Capacity Constrained Estimation
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
     has_value_note: false
-    value_gap: null
+    value_gap: 0.04610000000000003
     value_note: ''
-    paper_rank: 12
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.6329
-    sort_std: 0.0019
+    paper_rank: 57
+    rank_delta: 27
+    rank_delta_abs: 27
+    rank_delta_direction: worse
+    sort_value: 0.679
+    sort_std: 0.0
     is_best: false
   - model: MLP
     model_key: mlp
@@ -2496,7 +2495,7 @@ results:
     date: May 2020
     date_display: May 2020
     date_iso: 2020-05
-    global_rank: 15
+    global_rank: 68
     true_value: 0.4724
     true_std: 0.0031
     value_gap_source_arxiv: '2005.00687'
@@ -2507,7 +2506,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 15
+    paper_rank: 68
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2516,59 +2515,61 @@ results:
     is_best: false
   metric: Accuracy
   higher_is_better: true
-- &id005
+- &id003
   dataset: ogbn-products
   rows:
-  - model: ILLS
-    model_key: ills
-    model_plain: ILLS
-    value: 0.835
-    std: 0.001
+  - model: GTs
+    model_key: gts
+    model_plain: GTs
+    value: 0.9037
+    std: 0.0005
     metric: Accuracy
     higher_is_better: true
     is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2305.17589'
-    title: Graph Inductive Biases in Transformers without Message Passing
-    date: May 27, 2023
-    date_display: May 2023
-    date_iso: '2023-05-27'
+    arxiv_id: '2509.14863'
+    title: 'Exploring the Global-to-Local Attention Scheme in Graph Transformers:
+      An Empirical Study'
+    date: Sep 2025
+    date_display: Sep 2025
+    date_iso: 2025-09
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
     global_rank: 1
-    sort_value: 0.835
-    sort_std: 0.001
+    sort_value: 0.9037
+    sort_std: 0.0005
     is_best: true
-  - model: PNA
-    model_key: pna
-    model_plain: PNA
-    value: 0.83
-    std: 0.001
+  - model: Polynormer
+    model_key: polynormer
+    model_plain: Polynormer
+    value: 0.9017
+    std: 0.0016
     metric: Accuracy
     higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2305.17589'
-    title: Graph Inductive Biases in Transformers without Message Passing
-    date: May 27, 2023
-    date_display: May 2023
-    date_iso: '2023-05-27'
+    arxiv_id: '2509.14863'
+    title: 'Exploring the Global-to-Local Attention Scheme in Graph Transformers:
+      An Empirical Study'
+    date: Sep 2025
+    date_display: Sep 2025
+    date_iso: 2025-09
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
     global_rank: 2
-    sort_value: 0.83
-    sort_std: 0.001
-    is_best: false
-  - model: APPNP
-    model_key: appnp
-    model_plain: APPNP
-    value: 0.827
+    sort_value: 0.9017
+    sort_std: 0.0016
+    is_best: true
+  - model: SGFormer
+    model_key: sgformer
+    model_plain: SGFormer
+    value: 0.8909
     std: 0.001
     metric: Accuracy
     higher_is_better: true
@@ -2576,53 +2577,17 @@ results:
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2305.17589'
-    title: Graph Inductive Biases in Transformers without Message Passing
-    date: May 27, 2023
-    date_display: May 2023
-    date_iso: '2023-05-27'
+    arxiv_id: '2509.14863'
+    title: 'Exploring the Global-to-Local Attention Scheme in Graph Transformers:
+      An Empirical Study'
+    date: Sep 2025
+    date_display: Sep 2025
+    date_iso: 2025-09
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
     global_rank: 3
-    sort_value: 0.827
-    sort_std: 0.001
-    is_best: false
-  - model: GraphSAGE
-    model_key: graphsage
-    model_plain: GraphSAGE
-    value: 0.785
-    std: 0.0014
-    paper_value: 0.785
-    paper_std: 0.0014
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: 'dataset: exact match'
-    date: May 2020
-    date_display: May 2020
-    date_iso: 2020-05
-    global_rank: 7
-    true_value: 0.825
-    true_std: 0.001
-    value_gap_source_arxiv: '2305.17589'
-    value_gap_source_title: Graph Inductive Biases in Transformers without Message
-      Passing
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.039999999999999925
-    value_note: ''
-    paper_rank: 19
-    rank_delta: 12
-    rank_delta_abs: 12
-    rank_delta_direction: worse
-    sort_value: 0.825
+    sort_value: 0.8909
     sort_std: 0.001
     is_best: false
   - model: GCN
@@ -2644,23 +2609,60 @@ results:
     date: May 2020
     date_display: May 2020
     date_iso: 2020-05
-    global_rank: 9
-    true_value: 0.823
-    true_std: 0.001
-    value_gap_source_arxiv: '2305.17589'
-    value_gap_source_title: Graph Inductive Biases in Transformers without Message
-      Passing
+    global_rank: 22
+    true_value: 0.8435
+    true_std: 0.0009
+    value_gap_source_arxiv: '2210.14709'
+    value_gap_source_title: Learning on Large-scale Text-attributed Graphs via Variational
+      Inference
     value_gap_source_is_current_paper: false
     has_value_gap: true
     has_value_note: false
-    value_gap: 0.06659999999999999
+    value_gap: 0.08710000000000007
     value_note: ''
-    paper_rank: 19
-    rank_delta: 10
-    rank_delta_abs: 10
+    paper_rank: 86
+    rank_delta: 64
+    rank_delta_abs: 64
     rank_delta_direction: worse
-    sort_value: 0.823
-    sort_std: 0.001
+    sort_value: 0.8435
+    sort_std: 0.0009
+    is_best: false
+  - model: GraphSAGE
+    model_key: graphsage
+    model_plain: GraphSAGE
+    value: 0.785
+    std: 0.0014
+    paper_value: 0.785
+    paper_std: 0.0014
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: May 2020
+    date_display: May 2020
+    date_iso: 2020-05
+    global_rank: 27
+    true_value: 0.8316
+    true_std: 0.0019
+    value_gap_source_arxiv: '2210.14709'
+    value_gap_source_title: Learning on Large-scale Text-attributed Graphs via Variational
+      Inference
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
+    has_value_note: false
+    value_gap: 0.046599999999999975
+    value_note: ''
+    paper_rank: 73
+    rank_delta: 46
+    rank_delta_abs: 46
+    rank_delta_direction: worse
+    sort_value: 0.8316
+    sort_std: 0.0019
     is_best: false
   - model: GraphSAINT
     model_key: graphsaint
@@ -2681,7 +2683,7 @@ results:
     date: May 2020
     date_display: May 2020
     date_iso: 2020-05
-    global_rank: 13
+    global_rank: 54
     true_value: 0.8027
     true_std: 0.0026
     value_gap_source_arxiv: '2009.03509'
@@ -2692,9 +2694,9 @@ results:
     has_value_note: false
     value_gap: 0.011900000000000022
     value_note: ''
-    paper_rank: 16
-    rank_delta: 3
-    rank_delta_abs: 3
+    paper_rank: 69
+    rank_delta: 15
+    rank_delta_abs: 15
     rank_delta_direction: worse
     sort_value: 0.8027
     sort_std: 0.0026
@@ -2718,23 +2720,23 @@ results:
     date: May 2020
     date_display: May 2020
     date_iso: 2020-05
-    global_rank: 17
-    true_value: 0.7897
-    true_std: 0.0033
-    value_gap_source_arxiv: '2005.00687'
-    value_gap_source_title: 'Open Graph Benchmark: Datasets for Machine Learning on
-      Graphs'
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
+    global_rank: 63
+    true_value: 0.7962
+    true_std: null
+    value_gap_source_arxiv: '2502.19693'
+    value_gap_source_title: Accurate and Scalable Graph Neural Networks via Message
+      Invariance
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
     has_value_note: false
-    value_gap: null
+    value_gap: 0.006500000000000061
     value_note: ''
-    paper_rank: 17
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.7897
-    sort_std: 0.0033
+    paper_rank: 69
+    rank_delta: 6
+    rank_delta_abs: 6
+    rank_delta_direction: worse
+    sort_value: 0.7962
+    sort_std: null
     is_best: false
   - model: Neighbor Sampling (NS)
     model_key: neighbor sampling (ns)
@@ -2755,7 +2757,7 @@ results:
     date: May 2020
     date_display: May 2020
     date_iso: 2020-05
-    global_rank: 18
+    global_rank: 70
     true_value: 0.787
     true_std: 0.0036
     value_gap_source_arxiv: '2005.00687'
@@ -2766,7 +2768,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 18
+    paper_rank: 70
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2792,7 +2794,7 @@ results:
     date: May 2020
     date_display: May 2020
     date_iso: 2020-05
-    global_rank: 23
+    global_rank: 119
     true_value: 0.7249
     true_std: 0.001
     value_gap_source_arxiv: '2005.00687'
@@ -2803,7 +2805,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 23
+    paper_rank: 119
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2829,7 +2831,7 @@ results:
     date: May 2020
     date_display: May 2020
     date_iso: 2020-05
-    global_rank: 24
+    global_rank: 137
     true_value: 0.6106
     true_std: 0.0008
     value_gap_source_arxiv: '2005.00687'
@@ -2840,7 +2842,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 24
+    paper_rank: 137
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2849,7 +2851,7 @@ results:
     is_best: false
   metric: Accuracy
   higher_is_better: true
-- &id006
+- &id008
   dataset: ogbn-proteins
   rows:
   - model: RevGNN-Wide
@@ -2908,7 +2910,7 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 1.96
+    params_millions: null
     arxiv_id: '2106.07476'
     title: Training Graph Neural Networks with 1000 Layers
     date: Jun 14, 2021
@@ -2951,9 +2953,9 @@ results:
     has_value_note: false
     value_gap: 0.0411999999999999
     value_note: ''
-    paper_rank: 15
-    rank_delta: 3
-    rank_delta_abs: 3
+    paper_rank: 19
+    rank_delta: 7
+    rank_delta_abs: 7
     rank_delta_direction: worse
     sort_value: 0.818
     sort_std: 0.004
@@ -2988,9 +2990,9 @@ results:
     has_value_note: false
     value_gap: 0.08989999999999998
     value_note: ''
-    paper_rank: 15
-    rank_delta: 2
-    rank_delta_abs: 2
+    paper_rank: 27
+    rank_delta: 14
+    rank_delta_abs: 14
     rank_delta_direction: worse
     sort_value: 0.815
     sort_std: 0.003
@@ -3014,7 +3016,7 @@ results:
     date: May 2020
     date_display: May 2020
     date_iso: 2020-05
-    global_rank: 16
+    global_rank: 29
     true_value: 0.7204
     true_std: 0.0048
     value_gap_source_arxiv: '2005.00687'
@@ -3025,7 +3027,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 16
+    paper_rank: 29
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -3051,7 +3053,7 @@ results:
     date: May 2020
     date_display: May 2020
     date_iso: 2020-05
-    global_rank: 17
+    global_rank: 33
     true_value: 0.6881
     true_std: 0.0065
     value_gap_source_arxiv: '2005.00687'
@@ -3062,7 +3064,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 17
+    paper_rank: 33
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -3086,6 +3088,5 @@ results_grouped:
   - *id010
   - *id011
   - *id012
-main_figure: /figures/2005.00687/main_figure.png
 ---
 

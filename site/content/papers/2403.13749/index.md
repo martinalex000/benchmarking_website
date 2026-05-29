@@ -32,74 +32,74 @@ results:
 - &id001
   dataset: QM9
   rows:
-  - model: ILLS
-    model_key: ills
-    model_plain: ILLS
-    value: 0.025
-    std: 0.001
+  - model: TensorNet 0L
+    model_key: tensornet 0l
+    model_plain: TensorNet 0L
+    value: 0.0039
+    std: null
     metric: MAE
     higher_is_better: false
     is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2305.17589'
-    title: Graph Inductive Biases in Transformers without Message Passing
-    date: May 27, 2023
-    date_display: May 2023
-    date_iso: '2023-05-27'
-    codebase_url: ''
+    arxiv_id: '2402.17660'
+    title: 'TorchMD-Net 2.0: Fast Neural Network Potentials for Molecular Simulations'
+    date: Feb 2024
+    date_display: Feb 2024
+    date_iso: 2024-02
+    codebase_url: https://github.com/torchmd/torchmd-net
     uses_external_data: false
     is_global_top: true
     global_rank: 1
-    sort_value: 0.025
-    sort_std: 0.001
+    sort_value: 0.0039
+    sort_std: null
     is_best: true
-  - model: SphereNet
-    model_key: spherenet
-    model_plain: SphereNet
-    value: 0.026
-    std: 0.001
+  - model: MACE
+    model_key: mace
+    model_plain: MACE
+    value: 0.0041
+    std: null
     metric: MAE
     higher_is_better: false
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2305.17589'
-    title: Graph Inductive Biases in Transformers without Message Passing
-    date: May 27, 2023
-    date_display: May 2023
-    date_iso: '2023-05-27'
-    codebase_url: ''
+    arxiv_id: '2402.17660'
+    title: 'TorchMD-Net 2.0: Fast Neural Network Potentials for Molecular Simulations'
+    date: Feb 2024
+    date_display: Feb 2024
+    date_iso: 2024-02
+    codebase_url: https://github.com/torchmd/torchmd-net
     uses_external_data: false
     is_global_top: true
     global_rank: 2
-    sort_value: 0.026
-    sort_std: 0.001
-    is_best: true
-  - model: PaiNN
-    model_key: painn
-    model_plain: PaiNN
-    value: 0.028
-    std: 0.001
+    sort_value: 0.0041
+    sort_std: null
+    is_best: false
+  - model: Allegro
+    model_key: allegro
+    model_plain: Allegro
+    value: 0.0047
+    std: null
     metric: MAE
     higher_is_better: false
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2305.17589'
-    title: Graph Inductive Biases in Transformers without Message Passing
-    date: May 27, 2023
-    date_display: May 2023
-    date_iso: '2023-05-27'
-    codebase_url: ''
+    arxiv_id: '2402.17660'
+    title: 'TorchMD-Net 2.0: Fast Neural Network Potentials for Molecular Simulations'
+    date: Feb 2024
+    date_display: Feb 2024
+    date_iso: 2024-02
+    codebase_url: https://github.com/torchmd/torchmd-net
     uses_external_data: false
     is_global_top: true
     global_rank: 3
-    sort_value: 0.028
-    sort_std: 0.001
+    sort_value: 0.0047
+    sort_std: null
     is_best: false
   - model: Maron et al. (2019)
     model_key: maron et al. (2019)
@@ -120,7 +120,7 @@ results:
     date: Mar 2024
     date_display: Mar 2024
     date_iso: 2024-03
-    global_rank: 15
+    global_rank: 111
     true_value: 0.231
     true_std: null
     value_gap_source_arxiv: '2403.13749'
@@ -131,7 +131,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 15
+    paper_rank: 111
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -157,7 +157,7 @@ results:
     date: Mar 2024
     date_display: Mar 2024
     date_iso: 2024-03
-    global_rank: 16
+    global_rank: 112
     true_value: 0.244
     true_std: null
     value_gap_source_arxiv: '2403.13749'
@@ -168,7 +168,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 16
+    paper_rank: 112
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -194,7 +194,7 @@ results:
     date: Mar 2024
     date_display: Mar 2024
     date_iso: 2024-03
-    global_rank: 17
+    global_rank: 117
     true_value: 0.346
     true_std: null
     value_gap_source_arxiv: '2403.13749'
@@ -205,7 +205,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 17
+    paper_rank: 117
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -231,7 +231,7 @@ results:
     date: Mar 2024
     date_display: Mar 2024
     date_iso: 2024-03
-    global_rank: 18
+    global_rank: 118
     true_value: 0.35
     true_std: 0.011
     value_gap_source_arxiv: '2403.13749'
@@ -242,7 +242,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 18
+    paper_rank: 118
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -268,7 +268,7 @@ results:
     date: Mar 2024
     date_display: Mar 2024
     date_iso: 2024-03
-    global_rank: 20
+    global_rank: 120
     true_value: 0.364
     true_std: null
     value_gap_source_arxiv: '2403.13749'
@@ -279,7 +279,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 20
+    paper_rank: 120
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -305,7 +305,7 @@ results:
     date: Mar 2024
     date_display: Mar 2024
     date_iso: 2024-03
-    global_rank: 21
+    global_rank: 122
     true_value: 0.428
     true_std: null
     value_gap_source_arxiv: '2403.13749'
@@ -316,7 +316,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 21
+    paper_rank: 122
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -342,7 +342,7 @@ results:
     date: Mar 2024
     date_display: Mar 2024
     date_iso: 2024-03
-    global_rank: 25
+    global_rank: 128
     true_value: 0.476
     true_std: null
     value_gap_source_arxiv: '2403.13749'
@@ -353,7 +353,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 25
+    paper_rank: 128
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -379,7 +379,7 @@ results:
     date: Mar 2024
     date_display: Mar 2024
     date_iso: 2024-03
-    global_rank: 26
+    global_rank: 129
     true_value: 0.493
     true_std: null
     value_gap_source_arxiv: '2110.13197'
@@ -389,7 +389,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 26
+    paper_rank: 129
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same

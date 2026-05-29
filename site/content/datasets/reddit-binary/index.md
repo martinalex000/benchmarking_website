@@ -13,11 +13,7 @@ stats:
   avg_nodes: 429.63
   avg_edges: 497.75
   num_classes: 2
-<<<<<<< Updated upstream
-result_count: 42
-=======
-result_count: 27
->>>>>>> Stashed changes
+result_count: 87
 best_model:
   model: PEs
   value: 0.945
@@ -56,99 +52,114 @@ variants:
     - 0.945
     metric_stds:
     - 0.004
-<<<<<<< Updated upstream
-  - model: CRaWl
-    model_plain: CRaWl
+  - model: Base
+    model_plain: Base
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2209.03473'
+    title: Higher-order Clustering and Pooling for Graph Neural Networks
+    date: Sep 2022
+    date_iso: 2022-09
+    date_display: Sep 2022
+    codebase_url: https://github.com/AlexDuvalinho/HoscPool
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.936
+    metric_stds:
+    - null
+  - model: CapsNets
+    model_plain: CapsNets
     is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2102.08786'
-    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
-      Passing'
-    date: Feb 2021
-    date_iso: 2021-02
-    date_display: Feb 2021
-    codebase_url: https://github.com/toenshoff/CRaWl
+    arxiv_id: '2012.08734'
+    title: Hierarchical Graph Capsule Network
+    date: Dec 2020
+    date_iso: 2020-12
+    date_display: Dec 2020
+    codebase_url: https://github.com/uta-smile/HGCN
     uses_external_data: false
     is_best: true
     metric_values:
-    - 0.9275
+    - 0.9315
     metric_stds:
-    - 0.0216
-=======
->>>>>>> Stashed changes
+    - 0.0158
+  - model: TDA
+    model_plain: TDA
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2410.01778'
+    title: 'TopER: Topological Embeddings in Graph Representation Learning'
+    date: Oct 2024
+    date_iso: 2024-10
+    date_display: Oct 2024
+    codebase_url: https://github.com/AstritTola/TopER
+    uses_external_data: false
+    is_best: true
+    metric_values:
+    - 0.927
+    metric_stds:
+    - 0.0238
   - model: GIN
     model_plain: GIN
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-<<<<<<< Updated upstream
-    arxiv_id: '2102.08786'
-    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
-      Passing'
-    date: Feb 2021
-    date_iso: 2021-02
-    date_display: Feb 2021
-    codebase_url: https://github.com/toenshoff/CRaWl
+    arxiv_id: '2012.08734'
+    title: Hierarchical Graph Capsule Network
+    date: Dec 2020
+    date_iso: 2020-12
+    date_display: Dec 2020
+    codebase_url: https://github.com/uta-smile/HGCN
     uses_external_data: false
     is_best: true
     metric_values:
     - 0.924
     metric_stds:
     - 0.025
-  - model: WEGL
-    model_plain: WEGL
+  - model: SAGE
+    model_plain: SAGE
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2102.08786'
-    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
-      Passing'
-    date: Feb 2021
-    date_iso: 2021-02
-    date_display: Feb 2021
-    codebase_url: https://github.com/toenshoff/CRaWl
+    arxiv_id: '2209.03473'
+    title: Higher-order Clustering and Pooling for Graph Neural Networks
+    date: Sep 2022
+    date_iso: 2022-09
+    date_display: Sep 2022
+    codebase_url: https://github.com/AlexDuvalinho/HoscPool
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.92
+    - 0.924
     metric_stds:
-    - 0.008
-  - model: Graph-JEPA
-    model_plain: Graph-JEPA
+    - null
+  - model: GCN-1-TOGL-1 (static)
+    model_plain: GCN-1-TOGL-1 (static)
     is_baseline: false
     is_overridden: false
     override_reason: ''
-    params_millions: 19.22
-    arxiv_id: '2309.16014'
-    title: Graph-level Representation Learning with Joint-Embedding Predictive Architectures
-    date: Sep 2023
-    date_iso: 2023-09
-    date_display: Sep 2023
-    codebase_url: ''
+    params_millions: null
+    arxiv_id: '2102.07835'
+    title: Topological Graph Neural Networks
+    date: Feb 2021
+    date_iso: 2021-02
+    date_display: Feb 2021
+    codebase_url: https://github.com/BorgwardtLab/TOGL
     uses_external_data: false
-    is_best: false
+    is_best: true
     metric_values:
-    - 0.9199
+    - 0.923
     metric_stds:
-    - 0.0159
-=======
-    arxiv_id: '2502.01122'
-    title: Learning Efficient Positional Encodings with Graph Neural Networks
-    date: Feb 2025
-    date_iso: 2025-02
-    date_display: Feb 2025
-    codebase_url: https://github.com/ehejin/Pearl-PE
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.918
-    metric_stds:
-    - 0.01
->>>>>>> Stashed changes
+    - 0.023
   - model: GIN + rand id
     model_plain: GIN + rand id
     is_baseline: true
@@ -167,6 +178,42 @@ variants:
     - 0.918
     metric_stds:
     - 0.016
+  - model: JOAOv2
+    model_plain: JOAOv2
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2205.09802'
+    title: Label-invariant Augmentation for Semi-Supervised Graph Classification
+    date: May 2022
+    date_iso: 2022-05
+    date_display: May 2022
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.9165
+    metric_stds:
+    - 0.0015
+  - model: GAT
+    model_plain: GAT
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2209.03473'
+    title: Higher-order Clustering and Pooling for Graph Neural Networks
+    date: Sep 2022
+    date_iso: 2022-09
+    date_display: Sep 2022
+    codebase_url: https://github.com/AlexDuvalinho/HoscPool
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.915
+    metric_stds:
+    - null
   - model: GSN with cliques
     model_plain: GSN with cliques
     is_baseline: true
@@ -185,6 +232,42 @@ variants:
     - 0.911
     metric_stds:
     - 0.018
+  - model: GLA
+    model_plain: GLA
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2205.09802'
+    title: Label-invariant Augmentation for Semi-Supervised Graph Classification
+    date: May 2022
+    date_iso: 2022-05
+    date_display: May 2022
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.9105
+    metric_stds:
+    - 0.0025
+  - model: EMP
+    model_plain: EMP
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2410.01778'
+    title: 'TopER: Topological Embeddings in Graph Representation Learning'
+    date: Oct 2024
+    date_iso: 2024-10
+    date_display: Oct 2024
+    codebase_url: https://github.com/AstritTola/TopER
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.9103
+    metric_stds:
+    - 0.0022
   - model: R-GIN + FoSR
     model_plain: R-GIN + FoSR
     is_baseline: true
@@ -203,6 +286,60 @@ variants:
     - 0.9094
     metric_stds:
     - 0.0047
+  - model: GAE
+    model_plain: GAE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2205.09802'
+    title: Label-invariant Augmentation for Semi-Supervised Graph Classification
+    date: May 2022
+    date_iso: 2022-05
+    date_display: May 2022
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.9075
+    metric_stds:
+    - 0.0017
+  - model: Infomax
+    model_plain: Infomax
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2205.09802'
+    title: Label-invariant Augmentation for Semi-Supervised Graph Classification
+    date: May 2022
+    date_iso: 2022-05
+    date_display: May 2022
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.9065
+    metric_stds:
+    - 0.0017
+  - model: SimGRACE
+    model_plain: SimGRACE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2205.09802'
+    title: Label-invariant Augmentation for Semi-Supervised Graph Classification
+    date: May 2022
+    date_iso: 2022-05
+    date_display: May 2022
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.906
+    metric_stds:
+    - 0.0017
   - model: GIN + GTR
     model_plain: GIN + GTR
     is_baseline: true
@@ -221,6 +358,96 @@ variants:
     - 0.9041
     metric_stds:
     - 0.0041
+  - model: TopoGCL
+    model_plain: TopoGCL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2410.01778'
+    title: 'TopER: Topological Embeddings in Graph Representation Learning'
+    date: Oct 2024
+    date_iso: 2024-10
+    date_display: Oct 2024
+    codebase_url: https://github.com/AstritTola/TopER
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.904
+    metric_stds:
+    - 0.0053
+  - model: GraphCL
+    model_plain: GraphCL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2205.09802'
+    title: Label-invariant Augmentation for Semi-Supervised Graph Classification
+    date: May 2022
+    date_iso: 2022-05
+    date_display: May 2022
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.9035
+    metric_stds:
+    - 0.0018
+  - model: RGCL
+    model_plain: RGCL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2306.03506'
+    title: Subgraph Networks Based Contrastive Learning
+    date: Jun 2023
+    date_iso: 2023-06
+    date_display: Jun 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.9034
+    metric_stds:
+    - 0.0058
+  - model: 1-GIN (GFL)
+    model_plain: 1-GIN (GFL)
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2410.01778'
+    title: 'TopER: Topological Embeddings in Graph Representation Learning'
+    date: Oct 2024
+    date_iso: 2024-10
+    date_display: Oct 2024
+    codebase_url: https://github.com/AstritTola/TopER
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.902
+    metric_stds:
+    - 0.028
+  - model: AD-GCL
+    model_plain: AD-GCL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2306.03506'
+    title: Subgraph Networks Based Contrastive Learning
+    date: Jun 2023
+    date_iso: 2023-06
+    date_display: Jun 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.9007
+    metric_stds:
+    - 0.0085
   - model: R-GIN + Last FA
     model_plain: R-GIN + Last FA
     is_baseline: true
@@ -239,6 +466,78 @@ variants:
     - 0.9
     metric_stds:
     - 0.0065
+  - model: GCN-3-TOGL-1
+    model_plain: GCN-3-TOGL-1
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2102.07835'
+    title: Topological Graph Neural Networks
+    date: Feb 2021
+    date_iso: 2021-02
+    date_display: Feb 2021
+    codebase_url: https://github.com/BorgwardtLab/TOGL
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.9
+    metric_stds:
+    - 0.028
+  - model: 6 GNNs
+    model_plain: 6 GNNs
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2410.01778'
+    title: 'TopER: Topological Embeddings in Graph Representation Learning'
+    date: Oct 2024
+    date_iso: 2024-10
+    date_display: Oct 2024
+    codebase_url: https://github.com/AstritTola/TopER
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.899
+    metric_stds:
+    - 0.019
+  - model: SGCL
+    model_plain: SGCL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2306.03506'
+    title: Subgraph Networks Based Contrastive Learning
+    date: Jun 2023
+    date_iso: 2023-06
+    date_display: Jun 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.8966
+    metric_stds:
+    - 0.0106
+  - model: FC-V
+    model_plain: FC-V
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2410.01778'
+    title: 'TopER: Topological Embeddings in Graph Representation Learning'
+    date: Oct 2024
+    date_iso: 2024-10
+    date_display: Oct 2024
+    codebase_url: https://github.com/AstritTola/TopER
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.8941
+    metric_stds:
+    - 0.0024
   - model: ILLS
     model_plain: ILLS
     is_baseline: false
@@ -257,6 +556,42 @@ variants:
     - 0.894
     metric_stds:
     - 0.002
+  - model: GCN-3-TOGL-1 (interaction)
+    model_plain: GCN-3-TOGL-1 (interaction)
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2102.07835'
+    title: Topological Graph Neural Networks
+    date: Feb 2021
+    date_iso: 2021-02
+    date_display: Feb 2021
+    codebase_url: https://github.com/BorgwardtLab/TOGL
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.894
+    metric_stds:
+    - 0.021
+  - model: GCN-3-TOGL-1 (static - interaction)
+    model_plain: GCN-3-TOGL-1 (static - interaction)
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2102.07835'
+    title: Topological Graph Neural Networks
+    date: Feb 2021
+    date_iso: 2021-02
+    date_display: Feb 2021
+    codebase_url: https://github.com/BorgwardtLab/TOGL
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.894
+    metric_stds:
+    - 0.021
   - model: SignNet-8S
     model_plain: SignNet-8S
     is_baseline: true
@@ -293,6 +628,24 @@ variants:
     - 0.889
     metric_stds:
     - 0.002
+  - model: AutoGCL
+    model_plain: AutoGCL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2410.01778'
+    title: 'TopER: Topological Embeddings in Graph Representation Learning'
+    date: Oct 2024
+    date_iso: 2024-10
+    date_display: Oct 2024
+    codebase_url: https://github.com/AstritTola/TopER
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.8858
+    metric_stds:
+    - 0.0149
   - model: PNA
     model_plain: PNA
     is_baseline: true
@@ -311,6 +664,24 @@ variants:
     - 0.885
     metric_stds:
     - 0.003
+  - model: MVGRL
+    model_plain: MVGRL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2205.09802'
+    title: Label-invariant Augmentation for Semi-Supervised Graph Classification
+    date: May 2022
+    date_iso: 2022-05
+    date_display: May 2022
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.882
+    metric_stds:
+    - 0.0016
   - model: GIN
     model_plain: GIN
     is_baseline: true
@@ -329,6 +700,24 @@ variants:
     - 0.881
     metric_stds:
     - 0.004
+  - model: ORC
+    model_plain: ORC
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2407.04236'
+    title: Graph Pooling via Ricci Flow
+    date: Jul 2024
+    date_iso: 2024-07
+    date_display: Jul 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.88
+    metric_stds:
+    - 0.02
   - model: R-GIN + None
     model_plain: R-GIN + None
     is_baseline: true
@@ -347,6 +736,24 @@ variants:
     - 0.8797
     metric_stds:
     - 0.0056
+  - model: AWE
+    model_plain: AWE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2012.08734'
+    title: Hierarchical Graph Capsule Network
+    date: Dec 2020
+    date_iso: 2020-12
+    date_display: Dec 2020
+    codebase_url: https://github.com/uta-smile/HGCN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.8789
+    metric_stds:
+    - 0.0253
   - model: GAT
     model_plain: GAT
     is_baseline: true
@@ -365,6 +772,24 @@ variants:
     - 0.878
     metric_stds:
     - 0.003
+  - model: GCAPS-CNN
+    model_plain: GCAPS-CNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2012.08734'
+    title: Hierarchical Graph Capsule Network
+    date: Dec 2020
+    date_iso: 2020-12
+    date_display: Dec 2020
+    codebase_url: https://github.com/uta-smile/HGCN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.8761
+    metric_stds:
+    - 0.0251
   - model: GraphSAGE
     model_plain: GraphSAGE
     is_baseline: true
@@ -383,6 +808,24 @@ variants:
     - 0.872
     metric_stds:
     - 0.004
+  - model: MinCutPool
+    model_plain: MinCutPool
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2410.01778'
+    title: 'TopER: Topological Embeddings in Graph Representation Learning'
+    date: Oct 2024
+    date_iso: 2024-10
+    date_display: Oct 2024
+    codebase_url: https://github.com/AstritTola/TopER
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.872
+    metric_stds:
+    - 0.05
   - model: R-GIN + SDRF
     model_plain: R-GIN + SDRF
     is_baseline: true
@@ -400,10 +843,117 @@ variants:
     metric_values:
     - 0.8683
     metric_stds:
-<<<<<<< Updated upstream
+    - 0.0052
+  - model: GCN
+    model_plain: GCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_iso: '2023-05-27'
+    date_display: May 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.865
+    metric_stds:
+    - 0.005
+  - model: PSCN
+    model_plain: PSCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2012.08734'
+    title: Hierarchical Graph Capsule Network
+    date: Dec 2020
+    date_iso: 2020-12
+    date_display: Dec 2020
+    codebase_url: https://github.com/uta-smile/HGCN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.863
+    metric_stds:
+    - 0.0158
+  - model: DMP
+    model_plain: DMP
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2410.01778'
+    title: 'TopER: Topological Embeddings in Graph Representation Learning'
+    date: Oct 2024
+    date_iso: 2024-10
+    date_display: Oct 2024
+    codebase_url: https://github.com/AstritTola/TopER
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.862
+    metric_stds:
+    - 0.068
+  - model: Diff
+    model_plain: Diff
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2407.04236'
+    title: Graph Pooling via Ricci Flow
+    date: Jul 2024
+    date_iso: 2024-07
+    date_display: Jul 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.86
+    metric_stds:
     - 0.02
-  - model: DMON
-    model_plain: DMON
+  - model: JOAO
+    model_plain: JOAO
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2306.03506'
+    title: Subgraph Networks Based Contrastive Learning
+    date: Jun 2023
+    date_iso: 2023-06
+    date_display: Jun 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.8529
+    metric_stds:
+    - 0.0135
+  - model: Mincut
+    model_plain: Mincut
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2407.04236'
+    title: Graph Pooling via Ricci Flow
+    date: Jul 2024
+    date_iso: 2024-07
+    date_display: Jul 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.85
+    metric_stds:
+    - 0.02
+  - model: DMoN
+    model_plain: DMoN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -438,298 +988,96 @@ variants:
     - 0.85
     metric_stds:
     - 0.03
-  - model: MVGRL
-    model_plain: MVGRL
+  - model: SAGPool
+    model_plain: SAGPool
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2309.16014'
-    title: Graph-level Representation Learning with Joint-Embedding Predictive Architectures
-    date: Sep 2023
-    date_iso: 2023-09
-    date_display: Sep 2023
-    codebase_url: ''
+    arxiv_id: '2410.01778'
+    title: 'TopER: Topological Embeddings in Graph Representation Learning'
+    date: Oct 2024
+    date_iso: 2024-10
+    date_display: Oct 2024
+    codebase_url: https://github.com/AstritTola/TopER
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.845
+    - 0.847
     metric_stds:
-    - 0.006
-  - model: GraphCL
-    model_plain: GraphCL
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2309.16014'
-    title: Graph-level Representation Learning with Joint-Embedding Predictive Architectures
-    date: Sep 2023
-    date_iso: 2023-09
-    date_display: Sep 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.8263
-    metric_stds:
-    - 0.0099
-  - model: Kern. WL
-    model_plain: Kern. WL
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2102.08786'
-    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
-      Passing'
-    date: Feb 2021
-    date_iso: 2021-02
-    date_display: Feb 2021
-    codebase_url: https://github.com/toenshoff/CRaWl
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.81
-    metric_stds:
-    - 0.031
-  - model: + PANDA
-    model_plain: + PANDA
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2406.03671'
-    title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
-    date: Jun 6, 2024
-    date_iso: '2024-06-06'
-    date_display: Jun 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.8069
-    metric_stds:
-    - 0.00721
-  - model: GCN + PANDA
-    model_plain: GCN + PANDA
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2406.03671'
-    title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
-    date: Jun 6, 2024
-    date_iso: '2024-06-06'
-    date_display: Jun 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.8069
-    metric_stds:
-    - 0.00721
-  - model: PANDA-GCN (Degree)
-    model_plain: PANDA-GCN (Degree)
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2406.03671'
-    title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
-    date: Jun 6, 2024
-    date_iso: '2024-06-06'
-    date_display: Jun 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.8069
-    metric_stds:
-    - 0.00721
-  - model: PANDA-GCN (PageRank)
-    model_plain: PANDA-GCN (PageRank)
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2406.03671'
-    title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
-    date: Jun 6, 2024
-    date_iso: '2024-06-06'
-    date_display: Jun 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.8034
-    metric_stds:
-    - 0.00826
-  - model: PANDA-GCN (Betweenness)
-    model_plain: PANDA-GCN (Betweenness)
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2406.03671'
-    title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
-    date: Jun 6, 2024
-    date_iso: '2024-06-06'
-    date_display: Jun 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.8
-    metric_stds:
-    - 0.00659
-  - model: PANDA-GCN (Closeness)
-    model_plain: PANDA-GCN (Closeness)
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2406.03671'
-    title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
-    date: Jun 6, 2024
-    date_iso: '2024-06-06'
-    date_display: Jun 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.797
-    metric_stds:
-    - 0.00664
-  - model: PANDA-GCN (Load)
-    model_plain: PANDA-GCN (Load)
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2406.03671'
-    title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
-    date: Jun 6, 2024
-    date_iso: '2024-06-06'
-    date_display: Jun 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.795
-    metric_stds:
-    - 0.00732
+    - 0.044
   - model: InfoGraph
     model_plain: InfoGraph
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2309.16014'
-    title: Graph-level Representation Learning with Joint-Embedding Predictive Architectures
-    date: Sep 2023
-    date_iso: 2023-09
-    date_display: Sep 2023
+    arxiv_id: '2306.03506'
+    title: Subgraph Networks Based Contrastive Learning
+    date: Jun 2023
+    date_iso: 2023-06
+    date_display: Jun 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.7879
+    - 0.825
     metric_stds:
-    - 0.0214
-  - model: FOSR
-    model_plain: FOSR
+    - 0.0142
+  - model: MVGRL
+    model_plain: MVGRL
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2406.03671'
-    title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
-    date: Jun 6, 2024
-    date_iso: '2024-06-06'
-    date_display: Jun 2024
+    arxiv_id: '2306.03506'
+    title: Subgraph Networks Based Contrastive Learning
+    date: Jun 2023
+    date_iso: 2023-06
+    date_display: Jun 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.7033
+    - 0.82
     metric_stds:
-    - 0.00727
-  - model: GTR
-    model_plain: GTR
+    - 0.011
+  - model: WL
+    model_plain: WL
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2406.03671'
-    title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
-    date: Jun 6, 2024
-    date_iso: '2024-06-06'
-    date_display: Jun 2024
-    codebase_url: ''
+    arxiv_id: '2012.08734'
+    title: Hierarchical Graph Capsule Network
+    date: Dec 2020
+    date_iso: 2020-12
+    date_display: Dec 2020
+    codebase_url: https://github.com/uta-smile/HGCN
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.6899
+    - 0.811
     metric_stds:
-    - 0.0061
-  - model: SDRF
-    model_plain: SDRF
+    - 0.019
+  - model: GPSE
+    model_plain: GPSE
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2406.03671'
-    title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
-    date: Jun 6, 2024
-    date_iso: '2024-06-06'
-    date_display: Jun 2024
-    codebase_url: ''
+    arxiv_id: '2410.01778'
+    title: 'TopER: Topological Embeddings in Graph Representation Learning'
+    date: Oct 2024
+    date_iso: 2024-10
+    date_display: Oct 2024
+    codebase_url: https://github.com/AstritTola/TopER
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.6862
+    - 0.804
     metric_stds:
-    - 0.00851
-  - model: Last Layer FA
-    model_plain: Last Layer FA
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2406.03671'
-    title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
-    date: Jun 6, 2024
-    date_iso: '2024-06-06'
-    date_display: Jun 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.68485
-    metric_stds:
-    - 0.00945
-=======
-    - 0.0052
->>>>>>> Stashed changes
-  - model: GCN
-    model_plain: GCN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2305.17589'
-    title: Graph Inductive Biases in Transformers without Message Passing
-    date: May 27, 2023
-    date_iso: '2023-05-27'
-    date_display: May 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.865
-    metric_stds:
-    - 0.005
+    - 0.034
   - model: GCN + GTR
     model_plain: GCN + GTR
     is_baseline: true
@@ -748,6 +1096,78 @@ variants:
     - 0.8018
     metric_stds:
     - 0.006
+  - model: Top-k
+    model_plain: Top-k
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2410.01778'
+    title: 'TopER: Topological Embeddings in Graph Representation Learning'
+    date: Oct 2024
+    date_iso: 2024-10
+    date_display: Oct 2024
+    codebase_url: https://github.com/AstritTola/TopER
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.794
+    metric_stds:
+    - 0.074
+  - model: DiffPool
+    model_plain: DiffPool
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2410.01778'
+    title: 'TopER: Topological Embeddings in Graph Representation Learning'
+    date: Oct 2024
+    date_iso: 2024-10
+    date_display: Oct 2024
+    codebase_url: https://github.com/AstritTola/TopER
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.79
+    metric_stds:
+    - 0.011
+  - model: DGK
+    model_plain: DGK
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2012.08734'
+    title: Hierarchical Graph Capsule Network
+    date: Dec 2020
+    date_iso: 2020-12
+    date_display: Dec 2020
+    codebase_url: https://github.com/uta-smile/HGCN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7804
+    metric_stds:
+    - 0.0039
+  - model: GMG
+    model_plain: GMG
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2506.03674'
+    title: Out-of-Distribution Graph Models Merging
+    date: Jun 2025
+    date_iso: 2025-06
+    date_display: Jun 2025
+    codebase_url: ''
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - 0.7698
+    metric_stds:
+    - 0.0519
   - model: GCN + DIGL
     model_plain: GCN + DIGL
     is_baseline: true
@@ -766,6 +1186,24 @@ variants:
     - 0.7604
     metric_stds:
     - 0.0078
+  - model: DGCNN
+    model_plain: DGCNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2012.08734'
+    title: Hierarchical Graph Capsule Network
+    date: Dec 2020
+    date_iso: 2020-12
+    date_display: Dec 2020
+    codebase_url: https://github.com/uta-smile/HGCN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7602
+    metric_stds:
+    - 0.0173
   - model: R-GIN + DIGL
     model_plain: R-GIN + DIGL
     is_baseline: true
@@ -856,6 +1294,78 @@ variants:
     - 0.6826
     metric_stds:
     - 0.011
+  - model: GCN (bb.)
+    model_plain: GCN (bb.)
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2506.03674'
+    title: Out-of-Distribution Graph Models Merging
+    date: Jun 2025
+    date_iso: 2025-06
+    date_display: Jun 2025
+    codebase_url: ''
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - 0.661
+    metric_stds:
+    - 0.0359
+  - model: GK
+    model_plain: GK
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2012.08734'
+    title: Hierarchical Graph Capsule Network
+    date: Dec 2020
+    date_iso: 2020-12
+    date_display: Dec 2020
+    codebase_url: https://github.com/uta-smile/HGCN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.6587
+    metric_stds:
+    - 0.0098
+  - model: GAT-B
+    model_plain: GAT-B
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2506.03674'
+    title: Out-of-Distribution Graph Models Merging
+    date: Jun 2025
+    date_iso: 2025-06
+    date_display: Jun 2025
+    codebase_url: ''
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - 0.6178
+    metric_stds:
+    - 0.2686
+  - model: GIN-B
+    model_plain: GIN-B
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2506.03674'
+    title: Out-of-Distribution Graph Models Merging
+    date: Jun 2025
+    date_iso: 2025-06
+    date_display: Jun 2025
+    codebase_url: ''
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - 0.588
+    metric_stds:
+    - 0.1856
   - model: R-GIN + Every FA
     model_plain: R-GIN + Every FA
     is_baseline: true
@@ -874,6 +1384,60 @@ variants:
     - 0.5686
     metric_stds:
     - 0.0094
+  - model: Inverse-X
+    model_plain: Inverse-X
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2506.03674'
+    title: Out-of-Distribution Graph Models Merging
+    date: Jun 2025
+    date_iso: 2025-06
+    date_display: Jun 2025
+    codebase_url: ''
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - 0.5621
+    metric_stds:
+    - 0.2712
+  - model: Multi-GFKD
+    model_plain: Multi-GFKD
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2506.03674'
+    title: Out-of-Distribution Graph Models Merging
+    date: Jun 2025
+    date_iso: 2025-06
+    date_display: Jun 2025
+    codebase_url: ''
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - 0.5435
+    metric_stds:
+    - 0.114
+  - model: Avg-PTM
+    model_plain: Avg-PTM
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2506.03674'
+    title: Out-of-Distribution Graph Models Merging
+    date: Jun 2025
+    date_iso: 2025-06
+    date_display: Jun 2025
+    codebase_url: ''
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - 0.5247
+    metric_stds:
+    - 0.0546
   - model: GCN
     model_plain: GCN
     is_baseline: true
@@ -910,23 +1474,145 @@ variants:
     - 0.4849
     metric_stds:
     - 0.0104
+  - model: Greedy-Soup
+    model_plain: Greedy-Soup
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2506.03674'
+    title: Out-of-Distribution Graph Models Merging
+    date: Jun 2025
+    date_iso: 2025-06
+    date_display: Jun 2025
+    codebase_url: ''
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - 0.4735
+    metric_stds:
+    - 0.0889
+  - model: Ens-HighConf
+    model_plain: Ens-HighConf
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2506.03674'
+    title: Out-of-Distribution Graph Models Merging
+    date: Jun 2025
+    date_iso: 2025-06
+    date_display: Jun 2025
+    codebase_url: ''
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - 0.4446
+    metric_stds:
+    - 0.29
+  - model: Uni-Soup
+    model_plain: Uni-Soup
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2506.03674'
+    title: Out-of-Distribution Graph Models Merging
+    date: Jun 2025
+    date_iso: 2025-06
+    date_display: Jun 2025
+    codebase_url: ''
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - 0.4326
+    metric_stds:
+    - 0.1409
+  - model: Ens-Prob
+    model_plain: Ens-Prob
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2506.03674'
+    title: Out-of-Distribution Graph Models Merging
+    date: Jun 2025
+    date_iso: 2025-06
+    date_display: Jun 2025
+    codebase_url: ''
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - 0.3365
+    metric_stds:
+    - 0.2566
+  - model: AS-GCN
+    model_plain: AS-GCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2506.03674'
+    title: Out-of-Distribution Graph Models Merging
+    date: Jun 2025
+    date_iso: 2025-06
+    date_display: Jun 2025
+    codebase_url: ''
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - 0.2503
+    metric_stds:
+    - 0.0667
+  - model: AD-GAT
+    model_plain: AD-GAT
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2506.03674'
+    title: Out-of-Distribution Graph Models Merging
+    date: Jun 2025
+    date_iso: 2025-06
+    date_display: Jun 2025
+    codebase_url: ''
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - 0.2421
+    metric_stds:
+    - 0.102
+  - model: GIN-AK+
+    model_plain: GIN-AK+
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2506.03674'
+    title: Out-of-Distribution Graph Models Merging
+    date: Jun 2025
+    date_iso: 2025-06
+    date_display: Jun 2025
+    codebase_url: ''
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - 0.2246
+    metric_stds:
+    - 0.0828
   milestones:
-<<<<<<< Updated upstream
-  - value: 0.9275
-    std: 0.0216
-    model: CRaWl
-    arxiv_id: '2102.08786'
-    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
-      Passing'
-    date: 2021-02
-=======
-  - value: 0.9094
-    std: 0.0047
-    model: R-GIN + FoSR
-    arxiv_id: '2302.06835'
-    title: Understanding Oversquashing in GNNs through the Lens of Effective Resistance
-    date: '2023-02-14'
->>>>>>> Stashed changes
+  - value: 0.9315
+    std: 0.0158
+    model: CapsNets
+    arxiv_id: '2012.08734'
+    title: Hierarchical Graph Capsule Network
+    date: 2020-12
+  - value: 0.936
+    std: null
+    model: Base
+    arxiv_id: '2209.03473'
+    title: Higher-order Clustering and Pooling for Graph Neural Networks
+    date: 2022-09
   - value: 0.945
     std: 0.004
     model: PEs

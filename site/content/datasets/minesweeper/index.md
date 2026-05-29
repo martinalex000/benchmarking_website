@@ -9,7 +9,7 @@ primary_metric: ROC-AUC
 higher_is_better: true
 pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.HeterophilousGraphDataset.html
 stats: null
-result_count: 30
+result_count: 45
 best_model:
   model: CSNN
   value: 0.9907
@@ -504,6 +504,42 @@ variants:
     - 0.8754
     metric_stds:
     - 0.0122
+  - model: SpaM
+    model_plain: SpaM
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2601.01207'
+    title: Sparse Bayesian Message Passing under Structural Uncertainty
+    date: Jan 2026
+    date_iso: 2026-01
+    date_display: Jan 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.872
+    metric_stds:
+    - 0.0095
+  - model: CPGNN
+    model_plain: CPGNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2601.01207'
+    title: Sparse Bayesian Message Passing under Structural Uncertainty
+    date: Jan 2026
+    date_iso: 2026-01
+    date_display: Jan 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.866
+    metric_stds:
+    - 0.0153
   - model: GPR-GNN
     model_plain: GPR-GNN
     is_baseline: true
@@ -522,6 +558,186 @@ variants:
     - 0.8624
     metric_stds:
     - 0.0061
+  - model: Dir-GNN
+    model_plain: Dir-GNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2601.01207'
+    title: Sparse Bayesian Message Passing under Structural Uncertainty
+    date: Jan 2026
+    date_iso: 2026-01
+    date_display: Jan 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.862
+    metric_stds:
+    - 0.0146
+  - model: ACMGCN
+    model_plain: ACMGCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2601.01207'
+    title: Sparse Bayesian Message Passing under Structural Uncertainty
+    date: Jan 2026
+    date_iso: 2026-01
+    date_display: Jan 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.861
+    metric_stds:
+    - 0.0134
+  - model: TFE-GNN
+    model_plain: TFE-GNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2601.01207'
+    title: Sparse Bayesian Message Passing under Structural Uncertainty
+    date: Jan 2026
+    date_iso: 2026-01
+    date_display: Jan 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.861
+    metric_stds:
+    - 0.015
+  - model: Auto-HeG
+    model_plain: Auto-HeG
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2601.01207'
+    title: Sparse Bayesian Message Passing under Structural Uncertainty
+    date: Jan 2026
+    date_iso: 2026-01
+    date_display: Jan 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.86
+    metric_stds:
+    - 0.0138
+  - model: GloGNN
+    model_plain: GloGNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2601.01207'
+    title: Sparse Bayesian Message Passing under Structural Uncertainty
+    date: Jan 2026
+    date_iso: 2026-01
+    date_display: Jan 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.857
+    metric_stds:
+    - 0.0127
+  - model: L2DGCN
+    model_plain: L2DGCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2601.01207'
+    title: Sparse Bayesian Message Passing under Structural Uncertainty
+    date: Jan 2026
+    date_iso: 2026-01
+    date_display: Jan 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.857
+    metric_stds:
+    - 0.0137
+  - model: MagNet
+    model_plain: MagNet
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2601.01207'
+    title: Sparse Bayesian Message Passing under Structural Uncertainty
+    date: Jan 2026
+    date_iso: 2026-01
+    date_display: Jan 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.856
+    metric_stds:
+    - 0.0148
+  - model: GPRGNN
+    model_plain: GPRGNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2601.01207'
+    title: Sparse Bayesian Message Passing under Structural Uncertainty
+    date: Jan 2026
+    date_iso: 2026-01
+    date_display: Jan 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.853
+    metric_stds:
+    - 0.0119
+  - model: H2GCN
+    model_plain: H2GCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2601.01207'
+    title: Sparse Bayesian Message Passing under Structural Uncertainty
+    date: Jan 2026
+    date_iso: 2026-01
+    date_display: Jan 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.849
+    metric_stds:
+    - 0.013
+  - model: GCNII
+    model_plain: GCNII
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2601.01207'
+    title: Sparse Bayesian Message Passing under Structural Uncertainty
+    date: Jan 2026
+    date_iso: 2026-01
+    date_display: Jan 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.848
+    metric_stds:
+    - 0.0135
   - model: NAGphormer
     model_plain: NAGphormer
     is_baseline: true
@@ -540,6 +756,42 @@ variants:
     - 0.8419
     metric_stds:
     - 0.0066
+  - model: FAGCN
+    model_plain: FAGCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2601.01207'
+    title: Sparse Bayesian Message Passing under Structural Uncertainty
+    date: Jan 2026
+    date_iso: 2026-01
+    date_display: Jan 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.835
+    metric_stds:
+    - 0.0126
+  - model: GCN
+    model_plain: GCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2601.01207'
+    title: Sparse Bayesian Message Passing under Structural Uncertainty
+    date: Jan 2026
+    date_iso: 2026-01
+    date_display: Jan 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.814
+    metric_stds:
+    - 0.0098
   - model: GOAT
     model_plain: GOAT
     is_baseline: true
@@ -558,6 +810,24 @@ variants:
     - 0.8109
     metric_stds:
     - 0.0102
+  - model: GAT
+    model_plain: GAT
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2601.01207'
+    title: Sparse Bayesian Message Passing under Structural Uncertainty
+    date: Jan 2026
+    date_iso: 2026-01
+    date_display: Jan 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.8
+    metric_stds:
+    - 0.0108
   - model: GloGNN
     model_plain: GloGNN
     is_baseline: true

@@ -13,7 +13,7 @@ stats:
   avg_nodes: null
   avg_edges: null
   num_classes: 2
-result_count: 60
+result_count: 80
 best_model:
   model: DGN
   value: 0.96
@@ -198,6 +198,42 @@ variants:
     - 0.8751
     metric_stds:
     - 0.00082
+  - model: GRIT-SPSE
+    model_plain: GRIT-SPSE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2502.09365'
+    title: Simple Path Structural Encoding for Graph Transformers
+    date: Feb 13, 2025
+    date_iso: '2025-02-13'
+    date_display: Feb 2025
+    codebase_url: https://github.com/LouisBearing/Graph-SPSE-Encoding
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.87235
+    metric_stds:
+    - 0.0004
+  - model: GRIT-RWSE
+    model_plain: GRIT-RWSE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2502.09365'
+    title: Simple Path Structural Encoding for Graph Transformers
+    date: Feb 13, 2025
+    date_iso: '2025-02-13'
+    date_display: Feb 2025
+    codebase_url: https://github.com/LouisBearing/Graph-SPSE-Encoding
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.87229
+    metric_stds:
+    - 0.00056
   - model: GRIT
     model_plain: GRIT
     is_baseline: true
@@ -234,6 +270,42 @@ variants:
     - 0.87182
     metric_stds:
     - 0.00063
+  - model: CSA-SPSE
+    model_plain: CSA-SPSE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2502.09365'
+    title: Simple Path Structural Encoding for Graph Transformers
+    date: Feb 13, 2025
+    date_iso: '2025-02-13'
+    date_display: Feb 2025
+    codebase_url: https://github.com/LouisBearing/Graph-SPSE-Encoding
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.87064
+    metric_stds:
+    - 0.00052
+  - model: CSA-RWSE
+    model_plain: CSA-RWSE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2502.09365'
+    title: Simple Path Structural Encoding for Graph Transformers
+    date: Feb 13, 2025
+    date_iso: '2025-02-13'
+    date_display: Feb 2025
+    codebase_url: https://github.com/LouisBearing/Graph-SPSE-Encoding
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.87008
+    metric_stds:
+    - 0.00062
   - model: MoNet
     model_plain: MoNet
     is_baseline: true
@@ -306,6 +378,24 @@ variants:
     - 0.86848
     metric_stds:
     - 0.00037
+  - model: GPS + GPSE
+    model_plain: GPS + GPSE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2502.09365'
+    title: Simple Path Structural Encoding for Graph Transformers
+    date: Feb 13, 2025
+    date_iso: '2025-02-13'
+    date_display: Feb 2025
+    codebase_url: https://github.com/LouisBearing/Graph-SPSE-Encoding
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.86834
+    metric_stds:
+    - 0.00025
   - model: EGT
     model_plain: EGT
     is_baseline: true
@@ -329,7 +419,7 @@ variants:
     is_baseline: false
     is_overridden: false
     override_reason: ''
-    params_millions: null
+    params_millions: 0.5
     arxiv_id: '2312.01538'
     title: Recurrent Distance Filtering for Graph Representation Learning
     date: Dec 3, 2023
@@ -347,7 +437,7 @@ variants:
     is_baseline: false
     is_overridden: false
     override_reason: ''
-    params_millions: 0.1
+    params_millions: null
     arxiv_id: '2201.12674'
     title: Rewiring with Positional Encodings for Graph Neural Networks
     date: Jan 2022
@@ -401,7 +491,7 @@ variants:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.1
+    params_millions: null
     arxiv_id: '2201.12674'
     title: Rewiring with Positional Encodings for Graph Neural Networks
     date: Jan 2022
@@ -419,7 +509,7 @@ variants:
     is_baseline: false
     is_overridden: false
     override_reason: ''
-    params_millions: 0.285125
+    params_millions: 0.285
     arxiv_id: '2402.00789'
     title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling with Selective
       State Spaces'
@@ -546,7 +636,7 @@ variants:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.286725
+    params_millions: 0.287
     arxiv_id: '2402.00789'
     title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling with Selective
       State Spaces'
@@ -560,6 +650,24 @@ variants:
     - 0.8664
     metric_stds:
     - 0.0011
+  - model: SAN+RWSE
+    model_plain: SAN+RWSE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2502.09365'
+    title: Simple Path Structural Encoding for Graph Transformers
+    date: Feb 13, 2025
+    date_iso: '2025-02-13'
+    date_display: Feb 2025
+    codebase_url: https://github.com/LouisBearing/Graph-SPSE-Encoding
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.86581
+    metric_stds:
+    - 0.00037
   - model: SAN
     model_plain: SAN
     is_baseline: true
@@ -578,6 +686,24 @@ variants:
     - 0.8658
     metric_stds:
     - 0.00037
+  - model: FactorGCN
+    model_plain: FactorGCN
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2010.05421'
+    title: Factorizable Graph Convolutional Networks
+    date: Oct 2020
+    date_iso: 2020-10
+    date_display: Oct 2020
+    codebase_url: https://github.com/ihollywhy/FactorGCN.PyTorch
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.8657
+    metric_stds:
+    - 0.0002
   - model: PNA
     model_plain: PNA
     is_baseline: true
@@ -601,7 +727,7 @@ variants:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.5
+    params_millions: null
     arxiv_id: '2201.12674'
     title: Rewiring with Positional Encodings for Graph Neural Networks
     date: Jan 2022
@@ -687,6 +813,42 @@ variants:
     - 0.85825
     metric_stds:
     - null
+  - model: SoGCN
+    model_plain: SoGCN
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2110.07141'
+    title: 'SoGCN: Second-Order Graph Convolutional Networks'
+    date: Oct 14, 2021
+    date_iso: '2021-10-14'
+    date_display: Oct 2021
+    codebase_url: https://github.com/yuehaowang/SoGCN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.85735
+    metric_stds:
+    - 0.00037
+  - model: SoGCN-GRU
+    model_plain: SoGCN-GRU
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2110.07141'
+    title: 'SoGCN: Second-Order Graph Convolutional Networks'
+    date: Oct 14, 2021
+    date_iso: '2021-10-14'
+    date_display: Oct 2021
+    codebase_url: https://github.com/yuehaowang/SoGCN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.85711
+    metric_stds:
+    - 0.00047
   - model: PPGN, 3 layers
     model_plain: PPGN, 3 layers
     is_baseline: true
@@ -705,6 +867,24 @@ variants:
     - 0.85661
     metric_stds:
     - null
+  - model: 3WLGNN
+    model_plain: 3WLGNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2110.07141'
+    title: 'SoGCN: Second-Order Graph Convolutional Networks'
+    date: Oct 14, 2021
+    date_iso: '2021-10-14'
+    date_display: Oct 2021
+    codebase_url: https://github.com/yuehaowang/SoGCN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.85661
+    metric_stds:
+    - 0.00353
   - model: GCN
     model_plain: GCN
     is_baseline: true
@@ -723,12 +903,30 @@ variants:
     - 0.85614
     metric_stds:
     - 0.00032
+  - model: GCN-4
+    model_plain: GCN-4
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2102.07835'
+    title: Topological Graph Neural Networks
+    date: Feb 2021
+    date_iso: 2021-02
+    date_display: Feb 2021
+    codebase_url: https://github.com/BorgwardtLab/TOGL
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.856
+    metric_stds:
+    - 0.0
   - model: GIN(100K)
     model_plain: GIN(100K)
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.1
+    params_millions: null
     arxiv_id: '2201.12674'
     title: Rewiring with Positional Encodings for Graph Neural Networks
     date: Jan 2022
@@ -747,18 +945,18 @@ variants:
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2108.03348'
-    title: Global Self-Attention as a Replacement for Graph Convolution
-    date: Aug 2021
-    date_iso: 2021-08
-    date_display: Aug 2021
-    codebase_url: https://github.com/shamim-hussain/egt
+    arxiv_id: '2010.05421'
+    title: Factorizable Graph Convolutional Networks
+    date: Oct 2020
+    date_iso: 2020-10
+    date_display: Oct 2020
+    codebase_url: https://github.com/ihollywhy/FactorGCN.PyTorch
     uses_external_data: false
     is_best: false
     metric_values:
     - 0.8559
     metric_stds:
-    - 0.00011
+    - 0.0001
   - model: GatedGCN
     model_plain: GatedGCN
     is_baseline: true
@@ -800,7 +998,7 @@ variants:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.1
+    params_millions: null
     arxiv_id: '2201.12674'
     title: Rewiring with Positional Encodings for Graph Neural Networks
     date: Jan 2022
@@ -813,6 +1011,24 @@ variants:
     - 0.85482
     metric_stds:
     - 0.00037
+  - model: MoNet
+    model_plain: MoNet
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2010.05421'
+    title: Factorizable Graph Convolutional Networks
+    date: Oct 2020
+    date_iso: 2020-10
+    date_display: Oct 2020
+    codebase_url: https://github.com/ihollywhy/FactorGCN.PyTorch
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.8548
+    metric_stds:
+    - 0.0004
   - model: GIN
     model_plain: GIN
     is_baseline: true
@@ -867,12 +1083,48 @@ variants:
     - 0.84808
     metric_stds:
     - 0.00068
+  - model: GCN-3-TOGL-1
+    model_plain: GCN-3-TOGL-1
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2102.07835'
+    title: Topological Graph Neural Networks
+    date: Feb 2021
+    date_iso: 2021-02
+    date_display: Feb 2021
+    codebase_url: https://github.com/BorgwardtLab/TOGL
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.848
+    metric_stds:
+    - 0.0
+  - model: GIN-4
+    model_plain: GIN-4
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2102.07835'
+    title: Topological Graph Neural Networks
+    date: Feb 2021
+    date_iso: 2021-02
+    date_display: Feb 2021
+    codebase_url: https://github.com/BorgwardtLab/TOGL
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.848
+    metric_stds:
+    - 0.0
   - model: GatedGCN(100K)
     model_plain: GatedGCN(100K)
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.1
+    params_millions: null
     arxiv_id: '2201.12674'
     title: Rewiring with Positional Encodings for Graph Neural Networks
     date: Jan 2022
@@ -891,18 +1143,18 @@ variants:
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2108.03348'
-    title: Global Self-Attention as a Replacement for Graph Convolution
-    date: Aug 2021
-    date_iso: 2021-08
-    date_display: Aug 2021
-    codebase_url: https://github.com/shamim-hussain/egt
+    arxiv_id: '2010.05421'
+    title: Factorizable Graph Convolutional Networks
+    date: Oct 2020
+    date_iso: 2020-10
+    date_display: Oct 2020
+    codebase_url: https://github.com/ihollywhy/FactorGCN.PyTorch
     uses_external_data: false
     is_best: false
     metric_values:
     - 0.8448
     metric_stds:
-    - 0.00122
+    - 0.0012
   - model: GPS+Performer
     model_plain: GPS+Performer
     is_baseline: true
@@ -940,6 +1192,24 @@ variants:
     - 0.8322
     metric_stds:
     - 0.00057
+  - model: IPDGN
+    model_plain: IPDGN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2010.05421'
+    title: Factorizable Graph Convolutional Networks
+    date: Oct 2020
+    date_iso: 2020-10
+    date_display: Oct 2020
+    codebase_url: https://github.com/ihollywhy/FactorGCN.PyTorch
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.787
+    metric_stds:
+    - 0.0011
   - model: GAT, 16 layers
     model_plain: GAT, 16 layers
     is_baseline: true
@@ -981,7 +1251,7 @@ variants:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.1
+    params_millions: null
     arxiv_id: '2201.12674'
     title: Rewiring with Positional Encodings for Graph Neural Networks
     date: Jan 2022
@@ -1012,6 +1282,24 @@ variants:
     - 0.75824
     metric_stds:
     - 0.01823
+  - model: DisenGCN
+    model_plain: DisenGCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2010.05421'
+    title: Factorizable Graph Convolutional Networks
+    date: Oct 2020
+    date_iso: 2020-10
+    date_display: Oct 2020
+    codebase_url: https://github.com/ihollywhy/FactorGCN.PyTorch
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7501
+    metric_stds:
+    - 0.0015
   - model: GCN
     model_plain: GCN
     is_baseline: true
@@ -1048,30 +1336,102 @@ variants:
     - 0.71377
     metric_stds:
     - null
-  - model: GCN
-    model_plain: GCN
+  - model: Vanilla GCN + GRU
+    model_plain: Vanilla GCN + GRU
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2108.03348'
-    title: Global Self-Attention as a Replacement for Graph Convolution
-    date: Aug 2021
-    date_iso: 2021-08
-    date_display: Aug 2021
-    codebase_url: https://github.com/shamim-hussain/egt
+    arxiv_id: '2110.07141'
+    title: 'SoGCN: Second-Order Graph Convolutional Networks'
+    date: Oct 14, 2021
+    date_iso: '2021-10-14'
+    date_display: Oct 2021
+    codebase_url: https://github.com/yuehaowang/SoGCN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.70194
+    metric_stds:
+    - 0.00216
+  - model: GCN + Vanilla
+    model_plain: GCN + Vanilla
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2110.07141'
+    title: 'SoGCN: Second-Order Graph Convolutional Networks'
+    date: Oct 14, 2021
+    date_iso: '2021-10-14'
+    date_display: Oct 2021
+    codebase_url: https://github.com/yuehaowang/SoGCN
     uses_external_data: false
     is_best: false
     metric_values:
     - 0.6388
     metric_stds:
     - 0.00074
+  - model: GCN
+    model_plain: GCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2010.05421'
+    title: Factorizable Graph Convolutional Networks
+    date: Oct 2020
+    date_iso: 2020-10
+    date_display: Oct 2020
+    codebase_url: https://github.com/ihollywhy/FactorGCN.PyTorch
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.6388
+    metric_stds:
+    - 0.0007
+  - model: GAT-4
+    model_plain: GAT-4
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2102.07835'
+    title: Topological Graph Neural Networks
+    date: Feb 2021
+    date_iso: 2021-02
+    date_display: Feb 2021
+    codebase_url: https://github.com/BorgwardtLab/TOGL
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.583
+    metric_stds:
+    - 0.088
+  - model: GAT-3-TOGL-1
+    model_plain: GAT-3-TOGL-1
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2102.07835'
+    title: Topological Graph Neural Networks
+    date: Feb 2021
+    date_iso: 2021-02
+    date_display: Feb 2021
+    codebase_url: https://github.com/BorgwardtLab/TOGL
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.583
+    metric_stds:
+    - 0.088
   - model: GraphTransformer(500K)
     model_plain: GraphTransformer(500K)
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.5
+    params_millions: null
     arxiv_id: '2201.12674'
     title: Rewiring with Positional Encodings for Graph Neural Networks
     date: Jan 2022
@@ -1089,7 +1449,7 @@ variants:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.1
+    params_millions: null
     arxiv_id: '2201.12674'
     title: Rewiring with Positional Encodings for Graph Neural Networks
     date: Jan 2022

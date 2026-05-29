@@ -43,75 +43,78 @@ results:
 - &id001
   dataset: D&D
   rows:
-  - model: KNN graph-convolution
-    model_key: knn graph-convolution
-    model_plain: KNN graph-convolution
-    value: 0.58
-    std: 0.02
+  - model: DGI
+    model_key: dgi
+    model_plain: DGI
+    value: 0.0222
+    std: null
     metric: Accuracy
     higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '1703.06114'
-    title: Deep Sets
-    date: Mar 2017
-    date_display: Mar 2017
-    date_iso: 2017-03
-    codebase_url: ''
+    arxiv_id: '2502.11836'
+    title: 'Model Generalization on Text Attribute Graphs: Principles with Large Language
+      Models'
+    date: Feb 17, 2025
+    date_display: Feb 2025
+    date_iso: '2025-02-17'
+    codebase_url: https://github.com/Graph-COM/LLM_BP
     uses_external_data: false
     is_global_top: true
     global_rank: 1
-    sort_value: 0.58
-    sort_std: 0.02
+    sort_value: 0.0222
+    sort_std: null
     is_best: true
-  - model: MMGCN + ImageBind/ImageBind
-    model_key: mmgcn + imagebind/imagebind
-    model_plain: MMGCN + ImageBind/ImageBind
-    value: 0.5875
-    std: 0.0005
+  - model: OFA
+    model_key: ofa
+    model_plain: OFA
+    value: 0.0305
+    std: null
     metric: Accuracy
     higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2406.16321'
-    title: 'Mosaic of Modalities: A Comprehensive Benchmark for Multimodal Graph Learning'
-    date: Jun 2024
-    date_display: Jun 2024
-    date_iso: 2024-06
-    codebase_url: ''
-    uses_external_data: true
+    arxiv_id: '2502.11836'
+    title: 'Model Generalization on Text Attribute Graphs: Principles with Large Language
+      Models'
+    date: Feb 17, 2025
+    date_display: Feb 2025
+    date_iso: '2025-02-17'
+    codebase_url: https://github.com/Graph-COM/LLM_BP
+    uses_external_data: false
     is_global_top: true
     global_rank: 2
-    sort_value: 0.5875
-    sort_std: 0.0005
-    is_best: true
-  - model: DGCNN(L8)
-    model_key: dgcnn(l8)
-    model_plain: DGCNN(L8)
-    value: 0.6163
-    std: 0.0533
+    sort_value: 0.0305
+    sort_std: null
+    is_best: false
+  - model: Dino
+    model_key: dino
+    model_plain: Dino
+    value: 0.047
+    std: null
     metric: Accuracy
     higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2302.08671'
-    title: Search to Capture Long-range Dependency with Stacking GNNs for Graph Classification
-    date: Feb 2023
-    date_display: Feb 2023
-    date_iso: 2023-02
-    codebase_url: https://github.com/LARS-research/LRGNN
+    arxiv_id: '2408.13661'
+    title: Hierarchical Network Fusion for Multi-Modal Electron Micrograph Representation
+      Learning with Foundational Large Language Models
+    date: Aug 2024
+    date_display: Aug 2024
+    date_iso: 2024-08
+    codebase_url: ''
     uses_external_data: false
     is_global_top: true
     global_rank: 3
-    sort_value: 0.6163
-    sort_std: 0.0533
-    is_best: true
+    sort_value: 0.047
+    sort_std: null
+    is_best: false
   - model: Frigate
     model_key: frigate
     model_plain: Frigate

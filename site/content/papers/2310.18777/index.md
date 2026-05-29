@@ -26,8 +26,8 @@ has_results: true
 paper_type: method
 proposed_models:
 - GCN SEM-IL
-mrr: 0.0722
-adjusted_mrr: 0.0722
+mrr: 0.0269
+adjusted_mrr: 0.0269
 mrr_dataset_count: 3
 benchmark_categories:
 - OGB
@@ -40,33 +40,34 @@ results:
 - &id003
   dataset: PCQM4Mv2
   rows:
-  - model: GPS-medium
-    model_key: gps-medium
-    model_plain: GPS-medium
-    value: 0.0858
+  - model: DeMol
+    model_key: demol
+    model_plain: DeMol
+    value: 0.0603
     std: null
     metric: MAE
     higher_is_better: false
-    is_baseline: true
+    is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2205.12454'
-    title: Recipe for a General, Powerful, Scalable Graph Transformer
-    date: May 2022
-    date_display: May 2022
-    date_iso: 2022-05
-    codebase_url: https://github.com/rampasek/GraphGPS
+    arxiv_id: '2603.00568'
+    title: Enhancing Molecular Property Predictions by Learning from Bond Modelling
+      and Interactions
+    date: Mar 2026
+    date_display: Mar 2026
+    date_iso: 2026-03
+    codebase_url: ''
     uses_external_data: false
     is_global_top: true
     global_rank: 1
-    sort_value: 0.0858
+    sort_value: 0.0603
     sort_std: null
     is_best: true
-  - model: Graphormer
-    model_key: graphormer
-    model_plain: Graphormer
-    value: 0.0864
+  - model: TGT-At
+    model_key: tgt-at
+    model_plain: TGT-At
+    value: 0.0671
     std: null
     metric: MAE
     higher_is_better: false
@@ -74,22 +75,23 @@ results:
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2205.12454'
-    title: Recipe for a General, Powerful, Scalable Graph Transformer
-    date: May 2022
-    date_display: May 2022
-    date_iso: 2022-05
-    codebase_url: https://github.com/rampasek/GraphGPS
+    arxiv_id: '2603.00568'
+    title: Enhancing Molecular Property Predictions by Learning from Bond Modelling
+      and Interactions
+    date: Mar 2026
+    date_display: Mar 2026
+    date_iso: 2026-03
+    codebase_url: ''
     uses_external_data: false
     is_global_top: true
     global_rank: 2
-    sort_value: 0.0864
+    sort_value: 0.0671
     sort_std: null
     is_best: false
-  - model: EGT
-    model_key: egt
-    model_plain: EGT
-    value: 0.0872
+  - model: Unimol+
+    model_key: unimol+
+    model_plain: Unimol+
+    value: 0.0693
     std: null
     metric: MAE
     higher_is_better: false
@@ -97,16 +99,17 @@ results:
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2205.12454'
-    title: Recipe for a General, Powerful, Scalable Graph Transformer
-    date: May 2022
-    date_display: May 2022
-    date_iso: 2022-05
-    codebase_url: https://github.com/rampasek/GraphGPS
+    arxiv_id: '2603.00568'
+    title: Enhancing Molecular Property Predictions by Learning from Bond Modelling
+      and Interactions
+    date: Mar 2026
+    date_display: Mar 2026
+    date_iso: 2026-03
+    codebase_url: ''
     uses_external_data: false
     is_global_top: true
     global_rank: 3
-    sort_value: 0.0872
+    sort_value: 0.0693
     sort_std: null
     is_best: false
   - model: GCN SEM-IL
@@ -128,7 +131,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 8
+    global_rank: 35
     true_value: 0.098
     true_std: 0.005
     value_gap_source_arxiv: '2310.18777'
@@ -139,7 +142,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 8
+    paper_rank: 35
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -165,7 +168,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 9
+    global_rank: 38
     true_value: 0.106
     true_std: 0.004
     value_gap_source_arxiv: '2310.18777'
@@ -176,7 +179,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 9
+    paper_rank: 38
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -202,7 +205,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 10
+    global_rank: 39
     true_value: 0.108
     true_std: 0.003
     value_gap_source_arxiv: '2310.18777'
@@ -213,7 +216,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 10
+    paper_rank: 39
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -222,9 +225,32 @@ results:
     is_best: false
   metric: MAE
   higher_is_better: false
-- &id002
+- &id001
   dataset: ogbg-molhiv
   rows:
+  - model: ML
+    model_key: ml
+    model_plain: ML
+    value: 0.997
+    std: 0.002
+    metric: ROC-AUC
+    higher_is_better: true
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2210.08443'
+    title: 'CLEAR: Generative Counterfactual Explanations on Graphs'
+    date: Oct 2022
+    date_display: Oct 2022
+    date_iso: 2022-10
+    codebase_url: ''
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 1
+    sort_value: 0.997
+    sort_std: 0.002
+    is_best: true
   - model: ILLS
     model_key: ills
     model_plain: ILLS
@@ -244,10 +270,10 @@ results:
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
-    global_rank: 1
+    global_rank: 2
     sort_value: 0.862
     sort_std: 0.002
-    is_best: true
+    is_best: false
   - model: GraphGPS
     model_key: graphgps
     model_plain: GraphGPS
@@ -267,31 +293,8 @@ results:
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
-    global_rank: 2
-    sort_value: 0.858
-    sort_std: 0.002
-    is_best: true
-  - model: SAN
-    model_key: san
-    model_plain: SAN
-    value: 0.855
-    std: 0.002
-    metric: ROC-AUC
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2305.17589'
-    title: Graph Inductive Biases in Transformers without Message Passing
-    date: May 27, 2023
-    date_display: May 2023
-    date_iso: '2023-05-27'
-    codebase_url: ''
-    uses_external_data: false
-    is_global_top: true
     global_rank: 3
-    sort_value: 0.855
+    sort_value: 0.858
     sort_std: 0.002
     is_best: false
   - model: GCN SEM-IL
@@ -313,7 +316,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 24
+    global_rank: 57
     true_value: 0.7861
     true_std: 0.0073
     value_gap_source_arxiv: '2310.18777'
@@ -324,7 +327,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 24
+    paper_rank: 57
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -350,7 +353,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 28
+    global_rank: 67
     true_value: 0.7821
     true_std: 0.0078
     value_gap_source_arxiv: '2310.18777'
@@ -361,7 +364,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 28
+    paper_rank: 67
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -387,7 +390,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 37
+    global_rank: 105
     true_value: 0.7701
     true_std: 0.0094
     value_gap_source_arxiv: '2310.18777'
@@ -398,7 +401,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 37
+    paper_rank: 105
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -407,7 +410,7 @@ results:
     is_best: false
   metric: ROC-AUC
   higher_is_better: true
-- &id001
+- &id002
   dataset: ogbg-molpcba
   rows:
   - model: novel dynamic message-passing mechanism
@@ -433,51 +436,52 @@ results:
     sort_value: 0.339
     sort_std: 0.0073
     is_best: true
-  - model: Graphormer
-    model_key: graphormer
-    model_plain: Graphormer
-    value: 0.3139
-    std: 0.0032
+  - model: unified method + FLAG
+    model_key: unified method + flag
+    model_plain: unified method + FLAG
+    value: 0.3174
+    std: null
     metric: AP
     higher_is_better: true
-    is_baseline: true
+    is_baseline: false
     is_overridden: false
     override_reason: ''
-    params_millions: 119.529
-    arxiv_id: '2410.23686'
-    title: Towards Dynamic Message Passing on Graphs
-    date: Oct 2024
-    date_display: Oct 2024
-    date_iso: 2024-10
-    codebase_url: https://github.com/sunjss/N2
+    params_millions: null
+    arxiv_id: '2207.08806'
+    title: Unified 2D and 3D Pre-Training of Molecular Representations
+    date: Jul 2022
+    date_display: Jul 2022
+    date_iso: 2022-07
+    codebase_url: https://github.com/teslacool/UnifiedMolPretrain
     uses_external_data: false
     is_global_top: true
     global_rank: 2
-    sort_value: 0.3139
-    sort_std: 0.0032
+    sort_value: 0.3174
+    sort_std: null
     is_best: false
-  - model: Graphormer-FLAG
-    model_key: graphormer-flag
-    model_plain: Graphormer-FLAG
-    value: 0.3139
-    std: 0.0032
+  - model: TGT-Ag+TGT-At-DP
+    model_key: tgt-ag+tgt-at-dp
+    model_plain: TGT-Ag+TGT-At-DP
+    value: 0.3167
+    std: 0.0031
     metric: AP
     higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2106.05234'
-    title: Do Transformers Really Perform Bad for Graph Representation?
-    date: Jun 2021
-    date_display: Jun 2021
-    date_iso: 2021-06
-    codebase_url: https://github.com/microsoft/Graphormer
-    uses_external_data: false
+    arxiv_id: '2402.04538'
+    title: 'Triplet Interaction Improves Graph Transformers: Accurate Molecular Graph
+      Learning with Triplet Graph Transformers'
+    date: Feb 7, 2024
+    date_display: Feb 2024
+    date_iso: '2024-02-07'
+    codebase_url: https://github.com/shamim-hussain/tgt
+    uses_external_data: true
     is_global_top: true
     global_rank: 3
-    sort_value: 0.3139
-    sort_std: 0.0032
+    sort_value: 0.3167
+    sort_std: 0.0031
     is_best: false
   - model: GCN SEM-IL
     model_key: gcn sem-il
@@ -498,7 +502,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 20
+    global_rank: 29
     true_value: 0.2802
     true_std: 0.0061
     value_gap_source_arxiv: '2310.18777'
@@ -509,7 +513,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 20
+    paper_rank: 29
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -535,7 +539,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 30
+    global_rank: 44
     true_value: 0.2566
     true_std: 0.0047
     value_gap_source_arxiv: '2310.18777'
@@ -546,7 +550,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 30
+    paper_rank: 44
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -572,7 +576,7 @@ results:
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 39
+    global_rank: 55
     true_value: 0.2291
     true_std: 0.004
     value_gap_source_arxiv: '2310.18777'
@@ -583,7 +587,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 39
+    paper_rank: 55
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same

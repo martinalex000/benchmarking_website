@@ -42,74 +42,76 @@ results:
 - &id001
   dataset: Amazon-Photo
   rows:
-  - model: SGT
-    model_key: sgt
-    model_plain: SGT
-    value: 0.9537
-    std: 0.0044
+  - model: Joint
+    model_key: joint
+    model_plain: Joint
+    value: 0.973
+    std: 0.001
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2312.14439'
+    title: 'PUMA: Efficient Continual Graph Learning for Node Classification with
+      Graph Condensation'
+    date: Dec 2023
+    date_display: Dec 2023
+    date_iso: 2023-12
+    codebase_url: https://github.com/superallen13/PUMA
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 1
+    sort_value: 0.973
+    sort_std: 0.001
+    is_best: true
+  - model: DAM-GT
+    model_key: dam-gt
+    model_plain: DAM-GT
+    value: 0.9666
+    std: 0.0013
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2505.17660'
+    title: 'DAM-GT: Dual Positional Encoding-Based Attention Masking Graph Transformer
+      for Node Classification'
+    date: May 2025
+    date_display: May 2025
+    date_iso: 2025-05
+    codebase_url: ''
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 2
+    sort_value: 0.9666
+    sort_std: 0.0013
+    is_best: false
+  - model: novel graph MLP mixer
+    model_key: novel graph mlp mixer
+    model_plain: novel graph MLP mixer
+    value: 0.9619
+    std: 0.0017
     metric: Accuracy
     higher_is_better: true
     is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2405.13806'
-    title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: May 22, 2024
-    date_display: May 2024
-    date_iso: '2024-05-22'
-    codebase_url: https://github.com/liun-online/WaveGC
-    uses_external_data: false
-    is_global_top: true
-    global_rank: 1
-    sort_value: 0.9537
-    sort_std: 0.0044
-    is_best: true
-  - model: GWNN
-    model_key: gwnn
-    model_plain: GWNN
-    value: 0.9445
-    std: 0.0045
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2405.13806'
-    title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: May 22, 2024
-    date_display: May 2024
-    date_iso: '2024-05-22'
-    codebase_url: https://github.com/liun-online/WaveGC
-    uses_external_data: false
-    is_global_top: true
-    global_rank: 2
-    sort_value: 0.9445
-    sort_std: 0.0045
-    is_best: false
-  - model: DEFT
-    model_key: deft
-    model_plain: DEFT
-    value: 0.9435
-    std: 0.0044
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2405.13806'
-    title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: May 22, 2024
-    date_display: May 2024
-    date_iso: '2024-05-22'
-    codebase_url: https://github.com/liun-online/WaveGC
+    arxiv_id: '2403.16358'
+    title: 'ChebMixer: Efficient Graph Representation Learning with MLP Mixer'
+    date: Mar 2024
+    date_display: Mar 2024
+    date_iso: 2024-03
+    codebase_url: ''
     uses_external_data: false
     is_global_top: true
     global_rank: 3
-    sort_value: 0.9435
-    sort_std: 0.0044
+    sort_value: 0.9619
+    sort_std: 0.0017
     is_best: false
   - model: SAGE + ImageBind
     model_key: sage + imagebind
@@ -622,52 +624,52 @@ results:
     sort_value: 1.0
     sort_std: null
     is_best: true
-  - model: VRN Ensemble
-    model_key: vrn ensemble
-    model_plain: VRN Ensemble
-    value: 0.9554
-    std: null
+  - model: DC-GSAT
+    model_key: dc-gsat
+    model_plain: DC-GSAT
+    value: 1.0
+    std: 0.0
     metric: Accuracy
     higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '1703.06114'
-    title: Deep Sets
-    date: Mar 2017
-    date_display: Mar 2017
-    date_iso: 2017-03
-    codebase_url: ''
+    arxiv_id: '2502.02719'
+    title: 'Beyond Topological Self-Explainable GNNs: A Formal Explainability Perspective'
+    date: Feb 4, 2025
+    date_display: Feb 2025
+    date_iso: '2025-02-04'
+    codebase_url: https://github.com/steveazzolin/beyond-topo-segnns
     uses_external_data: false
     is_global_top: true
     global_rank: 2
-    sort_value: 0.9554
-    sort_std: null
-    is_best: false
-  - model: MVCNN
-    model_key: mvcnn
-    model_plain: MVCNN
-    value: 0.901
-    std: null
+    sort_value: 1.0
+    sort_std: 0.0
+    is_best: true
+  - model: DC-SMGNN
+    model_key: dc-smgnn
+    model_plain: DC-SMGNN
+    value: 1.0
+    std: 0.0
     metric: Accuracy
     higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '1703.06114'
-    title: Deep Sets
-    date: Mar 2017
-    date_display: Mar 2017
-    date_iso: 2017-03
-    codebase_url: ''
+    arxiv_id: '2502.02719'
+    title: 'Beyond Topological Self-Explainable GNNs: A Formal Explainability Perspective'
+    date: Feb 4, 2025
+    date_display: Feb 2025
+    date_iso: '2025-02-04'
+    codebase_url: https://github.com/steveazzolin/beyond-topo-segnns
     uses_external_data: false
     is_global_top: true
     global_rank: 3
-    sort_value: 0.901
-    sort_std: null
-    is_best: false
+    sort_value: 1.0
+    sort_std: 0.0
+    is_best: true
   - model: SAGE + CLIP/CLIP
     model_key: sage + clip/clip
     model_plain: SAGE + CLIP/CLIP
@@ -687,7 +689,7 @@ results:
     date: Jun 2024
     date_display: Jun 2024
     date_iso: 2024-06
-    global_rank: 7
+    global_rank: 45
     true_value: 0.833
     true_std: 0.0002
     value_gap_source_arxiv: '2406.16321'
@@ -698,7 +700,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 7
+    paper_rank: 45
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -724,7 +726,7 @@ results:
     date: Jun 2024
     date_display: Jun 2024
     date_iso: 2024-06
-    global_rank: 10
+    global_rank: 48
     true_value: 0.8303
     true_std: 0.0004
     value_gap_source_arxiv: '2406.16321'
@@ -735,7 +737,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 10
+    paper_rank: 48
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -761,7 +763,7 @@ results:
     date: Jun 2024
     date_display: Jun 2024
     date_iso: 2024-06
-    global_rank: 12
+    global_rank: 50
     true_value: 0.8299
     true_std: 0.0008
     value_gap_source_arxiv: '2406.16321'
@@ -772,7 +774,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 12
+    paper_rank: 50
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -798,7 +800,7 @@ results:
     date: Jun 2024
     date_display: Jun 2024
     date_iso: 2024-06
-    global_rank: 16
+    global_rank: 61
     true_value: 0.8171
     true_std: 0.0003
     value_gap_source_arxiv: '2406.16321'
@@ -809,7 +811,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 16
+    paper_rank: 61
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -835,7 +837,7 @@ results:
     date: Jun 2024
     date_display: Jun 2024
     date_iso: 2024-06
-    global_rank: 17
+    global_rank: 62
     true_value: 0.8167
     true_std: 0.0003
     value_gap_source_arxiv: '2406.16321'
@@ -846,7 +848,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 17
+    paper_rank: 62
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -872,7 +874,7 @@ results:
     date: Jun 2024
     date_display: Jun 2024
     date_iso: 2024-06
-    global_rank: 18
+    global_rank: 63
     true_value: 0.8161
     true_std: 0.0001
     value_gap_source_arxiv: '2406.16321'
@@ -883,7 +885,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 18
+    paper_rank: 63
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -909,7 +911,7 @@ results:
     date: Jun 2024
     date_display: Jun 2024
     date_iso: 2024-06
-    global_rank: 21
+    global_rank: 74
     true_value: 0.8039
     true_std: 0.0021
     value_gap_source_arxiv: '2406.16321'
@@ -920,7 +922,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 21
+    paper_rank: 74
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -946,7 +948,7 @@ results:
     date: Jun 2024
     date_display: Jun 2024
     date_iso: 2024-06
-    global_rank: 30
+    global_rank: 99
     true_value: 0.7891
     true_std: 0.0004
     value_gap_source_arxiv: '2406.16321'
@@ -957,7 +959,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 30
+    paper_rank: 99
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -983,7 +985,7 @@ results:
     date: Jun 2024
     date_display: Jun 2024
     date_iso: 2024-06
-    global_rank: 49
+    global_rank: 163
     true_value: 0.7648
     true_std: 0.0059
     value_gap_source_arxiv: '2406.16321'
@@ -994,7 +996,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 49
+    paper_rank: 163
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1020,7 +1022,7 @@ results:
     date: Jun 2024
     date_display: Jun 2024
     date_iso: 2024-06
-    global_rank: 59
+    global_rank: 183
     true_value: 0.7543
     true_std: 0.0076
     value_gap_source_arxiv: '2406.16321'
@@ -1031,7 +1033,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 59
+    paper_rank: 183
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1057,7 +1059,7 @@ results:
     date: Jun 2024
     date_display: Jun 2024
     date_iso: 2024-06
-    global_rank: 61
+    global_rank: 189
     true_value: 0.7498
     true_std: 0.0123
     value_gap_source_arxiv: '2406.16321'
@@ -1068,7 +1070,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 61
+    paper_rank: 189
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1094,7 +1096,7 @@ results:
     date: Jun 2024
     date_display: Jun 2024
     date_iso: 2024-06
-    global_rank: 71
+    global_rank: 228
     true_value: 0.7229
     true_std: 0.0002
     value_gap_source_arxiv: '2406.16321'
@@ -1105,7 +1107,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 71
+    paper_rank: 228
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1131,7 +1133,7 @@ results:
     date: Jun 2024
     date_display: Jun 2024
     date_iso: 2024-06
-    global_rank: 77
+    global_rank: 255
     true_value: 0.6883
     true_std: 0.0003
     value_gap_source_arxiv: '2406.16321'
@@ -1142,7 +1144,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 77
+    paper_rank: 255
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1168,7 +1170,7 @@ results:
     date: Jun 2024
     date_display: Jun 2024
     date_iso: 2024-06
-    global_rank: 78
+    global_rank: 259
     true_value: 0.6782
     true_std: 0.0007
     value_gap_source_arxiv: '2406.16321'
@@ -1179,7 +1181,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 78
+    paper_rank: 259
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1205,7 +1207,7 @@ results:
     date: Jun 2024
     date_display: Jun 2024
     date_iso: 2024-06
-    global_rank: 80
+    global_rank: 308
     true_value: 0.5875
     true_std: 0.0005
     value_gap_source_arxiv: '2406.16321'
@@ -1216,7 +1218,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 80
+    paper_rank: 308
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same

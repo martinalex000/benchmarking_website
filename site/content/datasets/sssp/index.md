@@ -13,13 +13,13 @@ stats:
   avg_nodes: null
   avg_edges: null
   num_classes: null
-result_count: 11
+result_count: 9
 best_model:
-  model: AMP_ADGN
-  value: -3.9579
+  model: A-DGN
+  value: 4.0e-07
   metric: MSE
-  arxiv_id: '2312.16560'
-  paper_title: Algorithmic Graph Tasks
+  arxiv_id: '2510.08450'
+  paper_title: ': Mitigating by Increasing Storage Capacity'
 variants:
 - slug: standard-split
   name: Standard split
@@ -34,210 +34,174 @@ variants:
   metrics:
   - MSE
   rows:
-  - model: AMP_ADGN
-    model_plain: AMP_ADGN
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2312.16560'
-    title: Algorithmic Graph Tasks
-    date: Dec 2023
-    date_iso: 2023-12
-    date_display: Dec 2023
-    codebase_url: https://github.com/nec-research/Adaptive-Message-Passing
-    uses_external_data: false
-    is_best: true
-    metric_values:
-    - -3.9579
-    metric_stds:
-    - 0.0769
   - model: A-DGN
     model_plain: A-DGN
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2312.16560'
-    title: Algorithmic Graph Tasks
-    date: Dec 2023
-    date_iso: 2023-12
-    date_display: Dec 2023
-    codebase_url: https://github.com/nec-research/Adaptive-Message-Passing
+    arxiv_id: '2510.08450'
+    title: ': Mitigating by Increasing Storage Capacity'
+    date: Oct 2025
+    date_iso: 2025-10
+    date_display: Oct 2025
+    codebase_url: https://github.com/HughBlayney/gLSTM
     uses_external_data: false
-    is_best: false
+    is_best: true
     metric_values:
-    - -3.5448
+    - 4.0e-07
     metric_stds:
-    - 0.2749
-  - model: AMP_GIN
-    model_plain: AMP_GIN
+    - 3.0e-07
+  - model: gLSTM
+    model_plain: gLSTM
     is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2312.16560'
-    title: Algorithmic Graph Tasks
-    date: Dec 2023
-    date_iso: 2023-12
-    date_display: Dec 2023
-    codebase_url: https://github.com/nec-research/Adaptive-Message-Passing
+    arxiv_id: '2510.08450'
+    title: ': Mitigating by Increasing Storage Capacity'
+    date: Oct 2025
+    date_iso: 2025-10
+    date_display: Oct 2025
+    codebase_url: https://github.com/HughBlayney/gLSTM
     uses_external_data: false
-    is_best: false
+    is_best: true
     metric_values:
-    - -3.0628
+    - 1.5e-06
     metric_stds:
-    - 0.3159
-  - model: GraphSAGE
-    model_plain: GraphSAGE
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2312.16560'
-    title: Algorithmic Graph Tasks
-    date: Dec 2023
-    date_iso: 2023-12
-    date_display: Dec 2023
-    codebase_url: https://github.com/nec-research/Adaptive-Message-Passing
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - -1.0139
-    metric_stds:
-    - 0.012
+    - 9.0e-06
   - model: GCNII
     model_plain: GCNII
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2312.16560'
-    title: Algorithmic Graph Tasks
-    date: Dec 2023
-    date_iso: 2023-12
-    date_display: Dec 2023
-    codebase_url: https://github.com/nec-research/Adaptive-Message-Passing
+    arxiv_id: '2510.08450'
+    title: ': Mitigating by Increasing Storage Capacity'
+    date: Oct 2025
+    date_iso: 2025-10
+    date_display: Oct 2025
+    codebase_url: https://github.com/HughBlayney/gLSTM
     uses_external_data: false
     is_best: false
     metric_values:
-    - -0.9172
+    - 7.4e-06
     metric_stds:
-    - 0.4396
+    - 1.0e-07
   - model: GIN
     model_plain: GIN
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2312.16560'
-    title: Algorithmic Graph Tasks
-    date: Dec 2023
-    date_iso: 2023-12
-    date_display: Dec 2023
-    codebase_url: https://github.com/nec-research/Adaptive-Message-Passing
+    arxiv_id: '2510.08450'
+    title: ': Mitigating by Increasing Storage Capacity'
+    date: Oct 2025
+    date_iso: 2025-10
+    date_display: Oct 2025
+    codebase_url: https://github.com/HughBlayney/gLSTM
     uses_external_data: false
-    is_best: false
+    is_best: true
     metric_values:
-    - -0.2648
+    - 0.00029
     metric_stds:
-    - 0.4437
-  - model: DGC
-    model_plain: DGC
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2312.16560'
-    title: Algorithmic Graph Tasks
-    date: Dec 2023
-    date_iso: 2023-12
-    date_display: Dec 2023
-    codebase_url: https://github.com/nec-research/Adaptive-Message-Passing
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - -0.0254
-    metric_stds:
-    - 0.0077
-  - model: GRAND
-    model_plain: GRAND
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2312.16560'
-    title: Algorithmic Graph Tasks
-    date: Dec 2023
-    date_iso: 2023-12
-    date_display: Dec 2023
-    codebase_url: https://github.com/nec-research/Adaptive-Message-Passing
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.1909
-    metric_stds:
-    - 0.3103
-  - model: AMP_GCN
-    model_plain: AMP_GCN
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2312.16560'
-    title: Algorithmic Graph Tasks
-    date: Dec 2023
-    date_iso: 2023-12
-    date_display: Dec 2023
-    codebase_url: https://github.com/nec-research/Adaptive-Message-Passing
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.544
-    metric_stds:
-    - 0.0108
+    - 0.0026
   - model: GAT
     model_plain: GAT
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2312.16560'
-    title: Algorithmic Graph Tasks
-    date: Dec 2023
-    date_iso: 2023-12
-    date_display: Dec 2023
-    codebase_url: https://github.com/nec-research/Adaptive-Message-Passing
+    arxiv_id: '2510.08450'
+    title: ': Mitigating by Increasing Storage Capacity'
+    date: Oct 2025
+    date_iso: 2025-10
+    date_display: Oct 2025
+    codebase_url: https://github.com/HughBlayney/gLSTM
+    uses_external_data: false
+    is_best: true
+    metric_values:
+    - 0.002
+    metric_stds:
+    - 0.0071
+  - model: GraphSAGE
+    model_plain: GraphSAGE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2510.08450'
+    title: ': Mitigating by Increasing Storage Capacity'
+    date: Oct 2025
+    date_iso: 2025-10
+    date_display: Oct 2025
+    codebase_url: https://github.com/HughBlayney/gLSTM
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.607
+    - 0.0062
     metric_stds:
-    - 0.0375
+    - 0.00015
+  - model: DGC
+    model_plain: DGC
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2510.08450'
+    title: ': Mitigating by Increasing Storage Capacity'
+    date: Oct 2025
+    date_iso: 2025-10
+    date_display: Oct 2025
+    codebase_url: https://github.com/HughBlayney/gLSTM
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.0071
+    metric_stds:
+    - 5.0e-05
+  - model: GRAND
+    model_plain: GRAND
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2510.08450'
+    title: ': Mitigating by Increasing Storage Capacity'
+    date: Oct 2025
+    date_iso: 2025-10
+    date_display: Oct 2025
+    codebase_url: https://github.com/HughBlayney/gLSTM
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.008
+    metric_stds:
+    - 0.0046
   - model: GCN
     model_plain: GCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2312.16560'
-    title: Algorithmic Graph Tasks
-    date: Dec 2023
-    date_iso: 2023-12
-    date_display: Dec 2023
-    codebase_url: https://github.com/nec-research/Adaptive-Message-Passing
+    arxiv_id: '2510.08450'
+    title: ': Mitigating by Increasing Storage Capacity'
+    date: Oct 2025
+    date_iso: 2025-10
+    date_display: Oct 2025
+    codebase_url: https://github.com/HughBlayney/gLSTM
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.9132
+    - 0.0089
     metric_stds:
-    - 0.0051
+    - 0.0
   milestones:
-  - value: -3.9579
-    std: 0.0769
-    model: AMP_ADGN
-    arxiv_id: '2312.16560'
-    title: Algorithmic Graph Tasks
-    date: 2023-12
+  - value: 4.0e-07
+    std: 3.0e-07
+    model: A-DGN
+    arxiv_id: '2510.08450'
+    title: ': Mitigating by Increasing Storage Capacity'
+    date: 2025-10
 ---
 

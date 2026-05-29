@@ -4,34 +4,22 @@ title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Mes
 arxiv_id: '2102.08786'
 source_url: ''
 authors: []
-<<<<<<< Updated upstream
 published_date: Feb 2021
 published_date_iso: 2021-02
-=======
-published_date: ''
-published_date_iso: ''
->>>>>>> Stashed changes
 abstract: We propose CRaWl, a novel neural network architecture for graph learning.
   Like graph neural networks, CRaWl layers update node features on a graph and thus
   can freely be combined or interleaved with GNN layers. Yet CRaWl operates fundamentally
   different from message passing graph neural networks. CRaWl layers extract and aggregate
   information on subgraphs appearing along random walks through a graph using 1D Convolutions.
-<<<<<<< Updated upstream
   Thereby, it detects long range interactions and computes non-local features. As
   the theoretical basis for our approach, we prove a theorem stating that the expressiveness
-=======
-  Thereby it detects long range interactions and computes non-local features. As the
-  theoretical basis for our approach, we prove a theorem stating that the expressiveness
->>>>>>> Stashed changes
   of CRaWl is incomparable with that of the Weisfeiler Leman algorithm and hence with
   graph neural networks. That is, there are functions expressible by CRaWl, but not
   by GNNs and vice versa. This result extends to higher levels of the Weisfeiler Leman
   hierarchy and thus to higher-order GNNs. Empirically, we show that CRaWl matches
   state-of-the-art GNN architectures across a multitude of benchmark datasets for
   classification and regression on graphs.
-<<<<<<< Updated upstream
 codebase_url: https://github.com/toenshoff/CRaWl
-extraction_model: qwen3.6-35b-a3b
 has_results: true
 paper_type: method
 proposed_models:
@@ -3723,21 +3711,7 @@ results_grouped:
   datasets:
   - *id010
 single_proposed_model: CRaWl
-=======
-codebase_url: ''
 extraction_model: Qwen/Qwen3.6-35B-A3B-FP8
-has_results: false
-paper_type: dataset
-proposed_models: []
-mrr: null
-adjusted_mrr: null
-mrr_dataset_count: 0
-benchmark_categories: []
-task_categories: []
-experiment_scopes: []
-results: []
-results_grouped: []
->>>>>>> Stashed changes
 main_figure: /figures/2102.08786/main_figure.png
 ---
 

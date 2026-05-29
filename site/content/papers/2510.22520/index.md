@@ -1,29 +1,13 @@
 ---
-title: Random Search Neural Networks for Efficient and Expressive Graph Learning
+title: arXiv:2510.22520
 arxiv_id: '2510.22520'
 source_url: ''
 authors: []
 published_date: ''
 published_date_iso: ''
-abstract: Random walk neural networks (RWNNs) have emerged as a promising approach
-  for graph representation learning, leveraging recent advances in sequence models
-  to process random walks. However, under realistic sampling constraints, RWNNs often
-  fail to capture global structure even in small graphs due to incomplete node and
-  edge coverage, limiting their expressivity. To address this, we propose random search
-  neural networks (RSNNs), which operate on random searches, each of which guarantees
-  full node coverage. Theoretically, we demonstrate that in sparse graphs, only $O(|V|)$
-  searches are needed to achieve full edge coverage, substantially reducing sampling
-  complexity compared to the $O(|V|)$ walks required by RWNNs (assuming walk lengths
-  scale with graph size). Furthermore, when paired with universal sequence models,
-  RSNNs are universal approximators. We lastly show RSNNs are probabilistically invariant
-  to graph isomorphisms, ensuring their expectation is an isomorphism-invariant graph
-  function. Empirically, RSNNs consistently outperform RWNNs on molecular and protein
-  benchmarks, achieving comparable or superior performance with up to 16$ $ fewer
-  sampled sequences. Our work bridges theoretical and practical advances in random
-  walk based approaches, offering an efficient and expressive framework for learning
-  on sparse graphs.
+abstract: ''
 codebase_url: ''
-extraction_model: qwen3.6-35b-a3b
+extraction_model: Qwen/Qwen3.6-35B-A3B-FP8
 has_results: false
 paper_type: dataset
 proposed_models: []

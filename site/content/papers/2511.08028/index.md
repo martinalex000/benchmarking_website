@@ -28,9 +28,9 @@ paper_type: method
 proposed_models:
 - RRWP
 - GDT + RRWP
-mrr: 0.2
-adjusted_mrr: 0.0667
-mrr_dataset_count: 1
+mrr: 0.1714
+adjusted_mrr: 0.1143
+mrr_dataset_count: 2
 benchmark_categories:
 - LRGB
 - GraphBench
@@ -57,7 +57,7 @@ results:
     is_baseline: false
     is_overridden: false
     override_reason: ''
-    params_millions: 16.0
+    params_millions: null
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
@@ -395,7 +395,7 @@ results:
     is_baseline: false
     is_overridden: false
     override_reason: ''
-    params_millions: 16.0
+    params_millions: null
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to coco-sp (score=90)'
@@ -420,80 +420,152 @@ results:
     sort_value: 0.3991
     sort_std: 0.0107
     is_best: false
-  - model: SGT
-    model_key: sgt
-    model_plain: SGT
-    value: 0.3596
-    std: 0.0022
-    metric: F1
-    higher_is_better: true
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2405.13806'
-    title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: May 22, 2024
-    date_display: May 2024
-    date_iso: '2024-05-22'
-    codebase_url: https://github.com/liun-online/WaveGC
-    uses_external_data: false
-    is_global_top: true
-    global_rank: 6
-    sort_value: 0.3596
-    sort_std: 0.0022
-    is_best: false
-  - model: Exphormer
-    model_key: exphormer
-    model_plain: Exphormer
-    value: 0.3455
-    std: 0.0009
-    metric: F1
-    higher_is_better: true
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2303.06147'
-    title: 'Exphormer: Sparse Transformers for Graphs'
-    date: Mar 10, 2023
-    date_display: Mar 2023
-    date_iso: '2023-03-10'
-    codebase_url: https://github.com/hamed1375/Exphormer
-    uses_external_data: false
-    is_global_top: true
-    global_rank: 7
-    sort_value: 0.3455
-    sort_std: 0.0009
-    is_best: false
   - model: GTs
     model_key: gts
     model_plain: GTs
-    value: 0.3412
-    std: 0.0044
+    value: 0.3943
+    std: 0.0038
+    metric: F1
+    higher_is_better: true
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2509.14863'
+    title: 'Exploring the Global-to-Local Attention Scheme in Graph Transformers:
+      An Empirical Study'
+    date: Sep 2025
+    date_display: Sep 2025
+    date_iso: 2025-09
+    codebase_url: ''
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 6
+    sort_value: 0.3943
+    sort_std: 0.0038
+    is_best: false
+  - model: GMN
+    model_key: gmn
+    model_plain: GMN
+    value: 0.3909
+    std: 0.0128
     metric: F1
     higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2205.12454'
-    title: Recipe for a General, Powerful, Scalable Graph Transformer
-    date: May 2022
-    date_display: May 2022
-    date_iso: 2022-05
-    codebase_url: https://github.com/rampasek/GraphGPS
+    arxiv_id: '2509.14863'
+    title: 'Exploring the Global-to-Local Attention Scheme in Graph Transformers:
+      An Empirical Study'
+    date: Sep 2025
+    date_display: Sep 2025
+    date_iso: 2025-09
+    codebase_url: ''
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 7
+    sort_value: 0.3909
+    sort_std: 0.0128
+    is_best: false
+  - model: GPS + Mamba
+    model_key: gps + mamba
+    model_plain: GPS + Mamba
+    value: 0.3895
+    std: 0.0125
+    metric: F1
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2509.14863'
+    title: 'Exploring the Global-to-Local Attention Scheme in Graph Transformers:
+      An Empirical Study'
+    date: Sep 2025
+    date_display: Sep 2025
+    date_iso: 2025-09
+    codebase_url: ''
     uses_external_data: false
     is_global_top: true
     global_rank: 8
-    sort_value: 0.3412
-    sort_std: 0.0044
+    sort_value: 0.3895
+    sort_std: 0.0125
     is_best: false
   metric: F1
   higher_is_better: true
 - &id002
   dataset: Flow
   rows:
+  - model: Graphormer
+    model_key: graphormer
+    model_plain: Graphormer
+    value: 0.062
+    std: 0.001
+    metric: MAE
+    higher_is_better: false
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1710.10321'
+    title: arXiv:1710.10321
+    date: Oct 2017
+    date_display: Oct 2017
+    date_iso: 2017-10
+    codebase_url: ''
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 1
+    sort_value: 0.062
+    sort_std: 0.001
+    is_best: true
+  - model: SphereNet
+    model_key: spherenet
+    model_plain: SphereNet
+    value: 0.065
+    std: 0.001
+    metric: MAE
+    higher_is_better: false
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1710.10321'
+    title: arXiv:1710.10321
+    date: Oct 2017
+    date_display: Oct 2017
+    date_iso: 2017-10
+    codebase_url: ''
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 2
+    sort_value: 0.065
+    sort_std: 0.001
+    is_best: false
+  - model: DimeNet++
+    model_key: dimenet++
+    model_plain: DimeNet++
+    value: 0.068
+    std: 0.002
+    metric: MAE
+    higher_is_better: false
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1710.10321'
+    title: arXiv:1710.10321
+    date: Oct 2017
+    date_display: Oct 2017
+    date_iso: 2017-10
+    codebase_url: ''
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 3
+    sort_value: 0.068
+    sort_std: 0.002
+    is_best: false
   - model: RRWP
     model_key: rrwp
     model_plain: RRWP
@@ -506,14 +578,14 @@ results:
     is_baseline: false
     is_overridden: false
     override_reason: ''
-    params_millions: 16.0
+    params_millions: null
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
     date: Nov 2025
     date_display: Nov 2025
     date_iso: 2025-11
-    global_rank: 1
+    global_rank: 7
     true_value: 1.45
     true_std: 0.06
     value_gap_source_arxiv: '2511.08028'
@@ -524,13 +596,13 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 1
+    paper_rank: 7
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 1.45
     sort_std: 0.06
-    is_best: true
+    is_best: false
   - model: RWSE
     model_key: rwse
     model_plain: RWSE
@@ -550,7 +622,7 @@ results:
     date: Nov 2025
     date_display: Nov 2025
     date_iso: 2025-11
-    global_rank: 2
+    global_rank: 8
     true_value: 1.49
     true_std: 0.02
     value_gap_source_arxiv: '2511.08028'
@@ -561,13 +633,13 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 2
+    paper_rank: 8
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 1.49
     sort_std: 0.02
-    is_best: true
+    is_best: false
   - model: NoPE
     model_key: nope
     model_plain: NoPE
@@ -587,7 +659,7 @@ results:
     date: Nov 2025
     date_display: Nov 2025
     date_iso: 2025-11
-    global_rank: 3
+    global_rank: 9
     true_value: 1.73
     true_std: 0.09
     value_gap_source_arxiv: '2511.08028'
@@ -598,7 +670,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 3
+    paper_rank: 9
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -624,7 +696,7 @@ results:
     date: Nov 2025
     date_display: Nov 2025
     date_iso: 2025-11
-    global_rank: 4
+    global_rank: 10
     true_value: 1.75
     true_std: 0.12
     value_gap_source_arxiv: '2511.08028'
@@ -635,35 +707,12 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 4
+    paper_rank: 10
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 1.75
     sort_std: 0.12
-    is_best: false
-  - model: agg + I
-    model_key: agg + i
-    model_plain: agg + I
-    value: 1.83
-    std: 0.01
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2605.06462'
-    title: Invariant-Based Diagnostics for Graph Benchmarks
-    date: May 2026
-    date_display: May 2026
-    date_iso: 2026-05
-    codebase_url: ''
-    uses_external_data: false
-    is_global_top: true
-    global_rank: 5
-    sort_value: 1.83
-    sort_std: 0.01
     is_best: false
   - model: SPE
     model_key: spe
@@ -684,7 +733,7 @@ results:
     date: Nov 2025
     date_display: Nov 2025
     date_iso: 2025-11
-    global_rank: 6
+    global_rank: 12
     true_value: 1.98
     true_std: 0.14
     value_gap_source_arxiv: '2511.08028'
@@ -695,58 +744,12 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 6
+    paper_rank: 12
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 1.98
     sort_std: 0.14
-    is_best: false
-  - model: GIN
-    model_key: gin
-    model_plain: GIN
-    value: 3.44
-    std: null
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2605.06462'
-    title: Invariant-Based Diagnostics for Graph Benchmarks
-    date: May 2026
-    date_display: May 2026
-    date_iso: 2026-05
-    codebase_url: ''
-    uses_external_data: false
-    is_global_top: true
-    global_rank: 7
-    sort_value: 3.44
-    sort_std: null
-    is_best: false
-  - model: Graphtransformer
-    model_key: graphtransformer
-    model_plain: Graphtransformer
-    value: 4.27
-    std: null
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2605.06462'
-    title: Invariant-Based Diagnostics for Graph Benchmarks
-    date: May 2026
-    date_display: May 2026
-    date_iso: 2026-05
-    codebase_url: ''
-    uses_external_data: false
-    is_global_top: true
-    global_rank: 8
-    sort_value: 4.27
-    sort_std: null
     is_best: false
   metric: MAE
   higher_is_better: false

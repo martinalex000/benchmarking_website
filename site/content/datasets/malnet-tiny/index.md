@@ -15,7 +15,7 @@ stats:
   avg_nodes: null
   avg_edges: null
   num_classes: 5
-result_count: 12
+result_count: 14
 best_model:
   model: Exphormer
   value: 0.9422
@@ -117,7 +117,7 @@ variants:
     is_baseline: false
     is_overridden: false
     override_reason: ''
-    params_millions: 0.285125
+    params_millions: 0.285
     arxiv_id: '2402.00789'
     title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling with Selective
       State Spaces'
@@ -244,6 +244,42 @@ variants:
     - 0.8898
     metric_stds:
     - 0.0055
+  - model: Feather
+    model_plain: Feather
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2011.07682'
+    title: A Large-Scale Database for Graph Representation Learning
+    date: Nov 2020
+    date_iso: 2020-11
+    date_display: Nov 2020
+    codebase_url: https://github.com/safreita1/malnet-graph
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.86
+    metric_stds:
+    - null
+  - model: LDP
+    model_plain: LDP
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2011.07682'
+    title: A Large-Scale Database for Graph Representation Learning
+    date: Nov 2020
+    date_iso: 2020-11
+    date_display: Nov 2020
+    codebase_url: https://github.com/safreita1/malnet-graph
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.86
+    metric_stds:
+    - null
   - model: GCN
     model_plain: GCN
     is_baseline: true
@@ -264,6 +300,12 @@ variants:
     metric_stds:
     - null
   milestones:
+  - value: 0.86
+    std: null
+    model: Feather
+    arxiv_id: '2011.07682'
+    title: A Large-Scale Database for Graph Representation Learning
+    date: 2020-11
   - value: 0.9345
     std: 0.0041
     model: DAG+GraphGPS

@@ -25,14 +25,14 @@ has_results: true
 paper_type: method
 proposed_models:
 - DGNs
-mrr: 0.0233
-adjusted_mrr: 0.0078
-mrr_dataset_count: 1
+mrr: 0.0807
+adjusted_mrr: 0.0538
+mrr_dataset_count: 2
 benchmark_categories:
 - Classic
 - TU Dortmund
-- LRGB
 - OGB
+- LRGB
 - GraphBench
 task_categories:
 - graph_classification
@@ -298,6 +298,29 @@ results:
     sort_value: 1.0
     sort_std: 0.0
     is_best: true
+  - model: GraphGPS
+    model_key: graphgps
+    model_plain: GraphGPS
+    value: 0.98
+    std: 0.005
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1710.10321'
+    title: arXiv:1710.10321
+    date: Oct 2017
+    date_display: Oct 2017
+    date_iso: 2017-10
+    codebase_url: ''
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 8
+    sort_value: 0.98
+    sort_std: 0.005
+    is_best: false
   - model: RoGN
     model_key: rogn
     model_plain: RoGN
@@ -317,129 +340,106 @@ results:
     codebase_url: https://github.com/Fra0013To/GINN
     uses_external_data: false
     is_global_top: true
-    global_rank: 8
-    sort_value: 0.968
-    sort_std: 0.001
-    is_best: false
-  - model: GraphGPS
-    model_key: graphgps
-    model_plain: GraphGPS
-    value: 0.955
-    std: 0.001
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2409.08023'
-    title: Edge-Wise Graph-Instructed Neural Networks
-    date: Sep 2024
-    date_display: Sep 2024
-    date_iso: 2024-09
-    codebase_url: https://github.com/Fra0013To/GINN
-    uses_external_data: false
-    is_global_top: true
     global_rank: 9
-    sort_value: 0.955
+    sort_value: 0.968
     sort_std: 0.001
     is_best: false
   - model: SAN
     model_key: san
     model_plain: SAN
-    value: 0.948
-    std: 0.001
+    value: 0.96
+    std: 0.01
     metric: Accuracy
     higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2409.08023'
-    title: Edge-Wise Graph-Instructed Neural Networks
-    date: Sep 2024
-    date_display: Sep 2024
-    date_iso: 2024-09
-    codebase_url: https://github.com/Fra0013To/GINN
+    arxiv_id: '1710.10321'
+    title: arXiv:1710.10321
+    date: Oct 2017
+    date_display: Oct 2017
+    date_iso: 2017-10
+    codebase_url: ''
     uses_external_data: false
     is_global_top: true
     global_rank: 10
-    sort_value: 0.948
-    sort_std: 0.001
+    sort_value: 0.96
+    sort_std: 0.01
     is_best: false
   metric: Accuracy
   higher_is_better: true
 - &id001
   dataset: Cora
   rows:
-  - model: GPM
-    model_key: gpm
-    model_plain: GPM
-    value: 0.9285
-    std: 0.0054
+  - model: Self-Explainable GNN
+    model_key: self-explainable gnn
+    model_plain: Self-Explainable GNN
+    value: 0.977
+    std: 0.016
     metric: Accuracy
     higher_is_better: true
     is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2501.18739'
-    title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: Jan 30, 2025
-    date_display: Jan 2025
-    date_iso: '2025-01-30'
-    codebase_url: https://github.com/Zehong-Wang/GPM
-    uses_external_data: null
-    is_global_top: true
-    global_rank: 1
-    sort_value: 0.9285
-    sort_std: 0.0054
-    is_best: true
-  - model: TRIGON
-    model_key: trigon
-    model_plain: TRIGON
-    value: 0.9171
-    std: 0.0029
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2508.19071'
-    title: Dynamic Triangulation-Based Graph Rewiring for Graph Neural Networks
-    date: Aug 2025
-    date_display: Aug 2025
-    date_iso: 2025-08
-    codebase_url: https://github.com/Hugo-Attali/TRIGON-CIKM-2025
+    arxiv_id: '2108.12055'
+    title: Towards Self-Explainable Graph Neural Network
+    date: Aug 2021
+    date_display: Aug 2021
+    date_iso: 2021-08
+    codebase_url: https://github.com/EnyanDai/SEGNN
     uses_external_data: false
     is_global_top: true
-    global_rank: 2
-    sort_value: 0.9171
-    sort_std: 0.0029
-    is_best: false
-  - model: DR
-    model_key: dr
-    model_plain: DR
-    value: 0.9139
-    std: 0.0024
+    global_rank: 1
+    sort_value: 0.977
+    sort_std: 0.016
+    is_best: true
+  - model: GCN-K
+    model_key: gcn-k
+    model_plain: GCN-K
+    value: 0.948
+    std: 0.007
     metric: Accuracy
     higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2508.19071'
-    title: Dynamic Triangulation-Based Graph Rewiring for Graph Neural Networks
-    date: Aug 2025
-    date_display: Aug 2025
-    date_iso: 2025-08
-    codebase_url: https://github.com/Hugo-Attali/TRIGON-CIKM-2025
+    arxiv_id: '2108.12055'
+    title: Towards Self-Explainable Graph Neural Network
+    date: Aug 2021
+    date_display: Aug 2021
+    date_iso: 2021-08
+    codebase_url: https://github.com/EnyanDai/SEGNN
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 2
+    sort_value: 0.948
+    sort_std: 0.007
+    is_best: false
+  - model: KP-GIN
+    model_key: kp-gin
+    model_plain: KP-GIN
+    value: 0.946
+    std: 0.007
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2108.12055'
+    title: Towards Self-Explainable Graph Neural Network
+    date: Aug 2021
+    date_display: Aug 2021
+    date_iso: 2021-08
+    codebase_url: https://github.com/EnyanDai/SEGNN
     uses_external_data: false
     is_global_top: true
     global_rank: 3
-    sort_value: 0.9139
-    sort_std: 0.0024
+    sort_value: 0.946
+    sort_std: 0.007
     is_best: false
   - model: DyGFormer
     model_key: dygformer
@@ -506,7 +506,7 @@ results:
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
-    global_rank: null
+    global_rank: 306
     sort_value: 0.066
     sort_std: 0.0011
     is_best: false
@@ -630,6 +630,52 @@ results:
     sort_value: 1.0
     sort_std: null
     is_best: true
+  - model: DC-GSAT
+    model_key: dc-gsat
+    model_plain: DC-GSAT
+    value: 1.0
+    std: 0.0
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2502.02719'
+    title: 'Beyond Topological Self-Explainable GNNs: A Formal Explainability Perspective'
+    date: Feb 4, 2025
+    date_display: Feb 2025
+    date_iso: '2025-02-04'
+    codebase_url: https://github.com/steveazzolin/beyond-topo-segnns
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 2
+    sort_value: 1.0
+    sort_std: 0.0
+    is_best: true
+  - model: DC-SMGNN
+    model_key: dc-smgnn
+    model_plain: DC-SMGNN
+    value: 1.0
+    std: 0.0
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2502.02719'
+    title: 'Beyond Topological Self-Explainable GNNs: A Formal Explainability Perspective'
+    date: Feb 4, 2025
+    date_display: Feb 2025
+    date_iso: '2025-02-04'
+    codebase_url: https://github.com/steveazzolin/beyond-topo-segnns
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 3
+    sort_value: 1.0
+    sort_std: 0.0
+    is_best: true
   - model: DGNs
     model_key: dgns
     model_plain: DGNs
@@ -672,32 +718,9 @@ results:
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
-    global_rank: null
+    global_rank: 378
     sort_value: 0.956
     sort_std: 0.0018
-    is_best: false
-  - model: VRN Ensemble
-    model_key: vrn ensemble
-    model_plain: VRN Ensemble
-    value: 0.9554
-    std: null
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '1703.06114'
-    title: Deep Sets
-    date: Mar 2017
-    date_display: Mar 2017
-    date_iso: 2017-03
-    codebase_url: ''
-    uses_external_data: false
-    is_global_top: true
-    global_rank: 2
-    sort_value: 0.9554
-    sort_std: null
     is_best: false
   - model: TGAT
     model_key: tgat
@@ -718,7 +741,7 @@ results:
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
-    global_rank: null
+    global_rank: 164
     sort_value: 0.9491
     sort_std: 0.0025
     is_best: false
@@ -741,32 +764,9 @@ results:
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
-    global_rank: null
+    global_rank: 383
     sort_value: 0.9468
     sort_std: 0.0105
-    is_best: false
-  - model: MVCNN
-    model_key: mvcnn
-    model_plain: MVCNN
-    value: 0.901
-    std: null
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '1703.06114'
-    title: Deep Sets
-    date: Mar 2017
-    date_display: Mar 2017
-    date_iso: 2017-03
-    codebase_url: ''
-    uses_external_data: false
-    is_global_top: true
-    global_rank: 3
-    sort_value: 0.901
-    sort_std: null
     is_best: false
   - model: DyRep
     model_key: dyrep
@@ -793,9 +793,32 @@ results:
     is_best: false
   metric: Accuracy
   higher_is_better: true
-- &id004
+- &id005
   dataset: PascalVOC-SP
   rows:
+  - model: PGMs
+    model_key: pgms
+    model_plain: PGMs
+    value: 0.806
+    std: null
+    metric: F1
+    higher_is_better: true
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2308.00887'
+    title: Factor Graph Neural Networks
+    date: Aug 2023
+    date_display: Aug 2023
+    date_iso: 2023-08
+    codebase_url: https://github.com/andre-martins/AD3
+    uses_external_data: true
+    is_global_top: true
+    global_rank: 1
+    sort_value: 0.806
+    sort_std: null
+    is_best: true
   - model: GSSC
     model_key: gssc
     model_plain: GSSC
@@ -816,57 +839,33 @@ results:
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
-    global_rank: 1
+    global_rank: 2
     sort_value: 0.4561
     sort_std: 0.0039
-    is_best: true
-  - model: LRDs
-    model_key: lrds
-    model_plain: LRDs
-    value: 0.4352
-    std: 0.003
+    is_best: false
+  - model: GTs
+    model_key: gts
+    model_plain: GTs
+    value: 0.4375
+    std: 0.0029
     metric: F1
     higher_is_better: true
     is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2502.00282'
-    title: 'GraphMinNet: Learning Dependencies in Graphs with Light Complexity Minimal
-      Architecture'
-    date: Feb 1, 2025
-    date_display: Feb 2025
-    date_iso: '2025-02-01'
-    codebase_url: ''
-    uses_external_data: false
-    is_global_top: true
-    global_rank: 2
-    sort_value: 0.4352
-    sort_std: 0.003
-    is_best: false
-  - model: Graph-Mamba
-    model_key: graph-mamba
-    model_plain: Graph-Mamba
-    value: 0.4191
-    std: 0.0126
-    metric: F1
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2502.00282'
-    title: 'GraphMinNet: Learning Dependencies in Graphs with Light Complexity Minimal
-      Architecture'
-    date: Feb 1, 2025
-    date_display: Feb 2025
-    date_iso: '2025-02-01'
+    arxiv_id: '2509.14863'
+    title: 'Exploring the Global-to-Local Attention Scheme in Graph Transformers:
+      An Empirical Study'
+    date: Sep 2025
+    date_display: Sep 2025
+    date_iso: 2025-09
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
     global_rank: 3
-    sort_value: 0.4191
-    sort_std: 0.0126
+    sort_value: 0.4375
+    sort_std: 0.0029
     is_best: false
   - model: DGNs
     model_key: dgns
@@ -887,7 +886,7 @@ results:
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
-    global_rank: 43
+    global_rank: 54
     true_value: 0.0998
     true_std: 0.0033
     value_gap_source_arxiv: '2406.02740'
@@ -897,7 +896,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 43
+    paper_rank: 54
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -923,7 +922,7 @@ results:
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
-    global_rank: 44
+    global_rank: 55
     true_value: 0.0807
     true_std: 0.0027
     value_gap_source_arxiv: '2406.02740'
@@ -933,7 +932,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 44
+    paper_rank: 55
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -959,7 +958,7 @@ results:
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
-    global_rank: 45
+    global_rank: 56
     true_value: 0.0604
     true_std: 0.0026
     value_gap_source_arxiv: '2406.02740'
@@ -969,7 +968,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 45
+    paper_rank: 56
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -995,7 +994,7 @@ results:
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
-    global_rank: 46
+    global_rank: 57
     true_value: 0.0588
     true_std: 0.0008
     value_gap_source_arxiv: '2406.02740'
@@ -1005,7 +1004,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 46
+    paper_rank: 57
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1031,7 +1030,7 @@ results:
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
-    global_rank: 47
+    global_rank: 58
     true_value: 0.0576
     true_std: 0.0035
     value_gap_source_arxiv: '2406.02740'
@@ -1041,7 +1040,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 47
+    paper_rank: 58
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1067,7 +1066,7 @@ results:
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
-    global_rank: 48
+    global_rank: 59
     true_value: 0.0559
     true_std: 0.0024
     value_gap_source_arxiv: '2406.02740'
@@ -1077,7 +1076,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 48
+    paper_rank: 59
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1103,7 +1102,7 @@ results:
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
-    global_rank: 49
+    global_rank: 60
     true_value: 0.0523
     true_std: 0.0011
     value_gap_source_arxiv: '2406.02740'
@@ -1113,7 +1112,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 49
+    paper_rank: 60
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1190,7 +1189,7 @@ results:
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
-    global_rank: null
+    global_rank: 108
     sort_value: 0.9818
     sort_std: 0.0005
     is_best: false
@@ -1240,52 +1239,53 @@ results:
     sort_value: 0.968
     sort_std: 0.0
     is_best: false
-  - model: Cluster-GCN
-    model_key: cluster-gcn
-    model_plain: Cluster-GCN
-    value: 0.966
-    std: null
+  - model: Neighbor2Seq+Conv
+    model_key: neighbor2seq+conv
+    model_plain: Neighbor2Seq+Conv
+    value: 0.967
+    std: 0.0
     metric: F1
     higher_is_better: true
-    is_baseline: true
+    is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '1905.07953'
-    title: 'Cluster-GCN: An Efficient Algorithm for Training Deep and Large Graph
-      Convolutional Networks'
-    date: May 2019
-    date_display: May 2019
-    date_iso: 2019-05
-    codebase_url: https://github.com/google-research/google-research
+    arxiv_id: '2202.03341'
+    title: 'Neighbor2Seq: Deep Learning on Massive Graphs by Transforming Neighbors
+      to Sequences'
+    date: Feb 2022
+    date_display: Feb 2022
+    date_iso: 2022-02
+    codebase_url: https://github.com/divelab/Neighbor2Seq
     uses_external_data: false
     is_global_top: true
     global_rank: 2
-    sort_value: 0.966
-    sort_std: null
+    sort_value: 0.967
+    sort_std: 0.0
     is_best: false
-  - model: GraphSAINT
-    model_key: graphsaint
-    model_plain: GraphSAINT
-    value: 0.966
-    std: 0.001
+  - model: Neighbor2Seq+Attn
+    model_key: neighbor2seq+attn
+    model_plain: Neighbor2Seq+Attn
+    value: 0.967
+    std: 0.0
     metric: F1
     higher_is_better: true
-    is_baseline: true
+    is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2004.11198'
-    title: 'SIGN: Scalable Inception Graph Neural Networks'
-    date: Apr 2020
-    date_display: Apr 2020
-    date_iso: 2020-04
-    codebase_url: ''
+    arxiv_id: '2202.03341'
+    title: 'Neighbor2Seq: Deep Learning on Massive Graphs by Transforming Neighbors
+      to Sequences'
+    date: Feb 2022
+    date_display: Feb 2022
+    date_iso: 2022-02
+    codebase_url: https://github.com/divelab/Neighbor2Seq
     uses_external_data: false
     is_global_top: true
     global_rank: 3
-    sort_value: 0.966
-    sort_std: 0.001
+    sort_value: 0.967
+    sort_std: 0.0
     is_best: false
   - model: JODIE
     model_key: jodie
@@ -1312,7 +1312,7 @@ results:
     is_best: false
   metric: F1
   higher_is_better: true
-- &id005
+- &id004
   dataset: ogbl-wikikg2
   rows:
   - model: DyGFormer
@@ -1862,10 +1862,10 @@ results_grouped:
 - benchmark: TU Dortmund
   datasets:
   - *id003
-- benchmark: LRGB
+- benchmark: OGB
   datasets:
   - *id004
-- benchmark: OGB
+- benchmark: LRGB
   datasets:
   - *id005
 - benchmark: GraphBench

@@ -41,7 +41,7 @@ task_categories:
 experiment_scopes:
 - graph-level
 results:
-- &id001
+- &id002
   dataset: COVID
   rows:
   - model: DualEquiNet
@@ -305,7 +305,7 @@ results:
     is_best: false
   metric: RMSE
   higher_is_better: false
-- &id002
+- &id003
   dataset: Ribonanza
   rows:
   - model: EU
@@ -569,7 +569,7 @@ results:
     is_best: false
   metric: RMSE
   higher_is_better: false
-- &id003
+- &id004
   dataset: Tc-Ribo
   rows:
   - model: DualEquiNet
@@ -833,7 +833,7 @@ results:
     is_best: false
   metric: RMSE
   higher_is_better: false
-- &id004
+- &id001
   dataset: TorsionAngle
   rows:
   - model: DualEquiNet

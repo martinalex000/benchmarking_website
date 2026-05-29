@@ -41,114 +41,79 @@ task_categories:
 experiment_scopes:
 - graph-level
 results:
-- &id003
+- &id002
   dataset: MUTAG
   rows:
-  - model: MPNN
-    model_key: mpnn
-    model_plain: MPNN
-    value: 0.939
-    std: 0.04
+  - model: RC-Explainer
+    model_key: rc-explainer
+    model_plain: RC-Explainer
+    value: 0.986
+    std: null
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2204.11028'
+    title: Reinforced Causal Explainer for Graph Neural Networks
+    date: Apr 2022
+    date_display: Apr 2022
+    date_iso: 2022-04
+    codebase_url: https://github.com/xiangwang1223/reinforced_causal_explainer
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 1
+    sort_value: 0.986
+    sort_std: null
+    is_best: true
+  - model: SVMs
+    model_key: svms
+    model_plain: SVMs
+    value: 0.983
+    std: 0.025
     metric: Accuracy
     higher_is_better: true
     is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '1912.06058'
-    title: Coloring graph neural networks for node disambiguation
-    date: Dec 2019
-    date_display: Dec 2019
-    date_iso: 2019-12
-    codebase_url: ''
-    uses_external_data: false
-    is_global_top: true
-    global_rank: 1
-    sort_value: 0.939
-    sort_std: 0.04
-    is_best: true
-  - model: PATCHY-SAN
-    model_key: patchy-san
-    model_plain: PATCHY-SAN
-    value: 0.9263
-    std: 0.0421
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '1901.00596'
-    title: A Comprehensive Survey on Graph Neural Networks
-    date: Jan 2019
-    date_display: Jan 2019
-    date_iso: 2019-01
+    arxiv_id: '2203.07691'
+    title: Supervised Contrastive Learning with Structure Inference for Graph Classification
+    date: Mar 2022
+    date_display: Mar 2022
+    date_iso: 2022-03
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
     global_rank: 2
-    sort_value: 0.9263
-    sort_std: 0.0421
+    sort_value: 0.983
+    sort_std: 0.025
     is_best: true
-  - model: PS
-    model_key: ps
-    model_plain: PS
-    value: 0.926
-    std: 0.042
+  - model: Base (GCN)
+    model_key: base (gcn)
+    model_plain: Base (GCN)
+    value: 0.9805
+    std: null
     metric: Accuracy
     higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '1912.06058'
-    title: Coloring graph neural networks for node disambiguation
-    date: Dec 2019
-    date_display: Dec 2019
-    date_iso: 2019-12
-    codebase_url: ''
+    arxiv_id: '2202.08816'
+    title: Learning and Evaluating Graph Neural Network Explanations based on Counterfactual
+      and Factual Reasoning
+    date: Feb 2022
+    date_display: Feb 2022
+    date_iso: 2022-02
+    codebase_url: https://github.com/chrisjtan/gnn_cff
     uses_external_data: false
     is_global_top: true
     global_rank: 3
-    sort_value: 0.926
-    sort_std: 0.042
-    is_best: true
-  - model: GIN
-    model_key: gin
-    model_plain: GIN
-    value: 0.853
-    std: 0.087
-    paper_value: 0.853
-    paper_std: 0.087
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 2
-    source_ref: this paper
-    variant_inference_reason: 'dataset: exact match'
-    date: Feb 4, 2025
-    date_display: Feb 2025
-    date_iso: '2025-02-04'
-    global_rank: 9
-    true_value: 0.894
-    true_std: 0.056
-    value_gap_source_arxiv: '1912.06058'
-    value_gap_source_title: Coloring graph neural networks for node disambiguation
-    value_gap_source_is_current_paper: false
-    has_value_gap: false
-    has_value_note: true
-    value_gap: 0.041000000000000036
-    value_note: global 0.8940 within std
-    paper_rank: 29
-    rank_delta: 20
-    rank_delta_abs: 20
-    rank_delta_direction: worse
-    sort_value: 0.894
-    sort_std: 0.056
-    is_best: true
+    sort_value: 0.9805
+    sort_std: null
+    is_best: false
   - model: GAT
     model_key: gat
     model_plain: GAT
@@ -168,23 +133,59 @@ results:
     date: Feb 4, 2025
     date_display: Feb 2025
     date_iso: '2025-02-04'
-    global_rank: 41
-    true_value: 0.835
-    true_std: 0.025
-    value_gap_source_arxiv: '2305.17589'
-    value_gap_source_title: Graph Inductive Biases in Transformers without Message
-      Passing
+    global_rank: 59
+    true_value: 0.8945
+    true_std: 0.0614
+    value_gap_source_arxiv: '2506.20362'
+    value_gap_source_title: Self-Supervised Graph Learning via Spectral Bootstrapping
+      and Laplacian-Based Augmentations
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
+    has_value_note: false
+    value_gap: 0.15849999999999997
+    value_note: ''
+    paper_rank: 323
+    rank_delta: 264
+    rank_delta_abs: 264
+    rank_delta_direction: worse
+    sort_value: 0.8945
+    sort_std: 0.0614
+    is_best: false
+  - model: GIN
+    model_key: gin
+    model_plain: GIN
+    value: 0.853
+    std: 0.087
+    paper_value: 0.853
+    paper_std: 0.087
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 2
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Feb 4, 2025
+    date_display: Feb 2025
+    date_iso: '2025-02-04'
+    global_rank: 62
+    true_value: 0.894
+    true_std: 0.056
+    value_gap_source_arxiv: '1912.06058'
+    value_gap_source_title: Coloring graph neural networks for node disambiguation
     value_gap_source_is_current_paper: false
     has_value_gap: false
     has_value_note: true
-    value_gap: 0.09899999999999998
-    value_note: global 0.8350 within std
-    paper_rank: 61
-    rank_delta: 20
-    rank_delta_abs: 20
+    value_gap: 0.041000000000000036
+    value_note: global 0.8940 within std
+    paper_rank: 144
+    rank_delta: 82
+    rank_delta_abs: 82
     rank_delta_direction: worse
-    sort_value: 0.835
-    sort_std: 0.025
+    sort_value: 0.894
+    sort_std: 0.056
     is_best: false
   - model: GCN
     model_key: gcn
@@ -205,23 +206,23 @@ results:
     date: Feb 4, 2025
     date_display: Feb 2025
     date_iso: '2025-02-04'
-    global_rank: 49
-    true_value: 0.825
-    true_std: 0.021
-    value_gap_source_arxiv: '2305.17589'
-    value_gap_source_title: Graph Inductive Biases in Transformers without Message
-      Passing
+    global_rank: 109
+    true_value: 0.872
+    true_std: 0.0511
+    value_gap_source_arxiv: '1905.04579'
+    value_gap_source_title: Are Powerful Graph Neural Nets Necessary? A Dissection
+      on Graph Classification
     value_gap_source_is_current_paper: false
-    has_value_gap: false
-    has_value_note: true
-    value_gap: 0.08099999999999996
-    value_note: global 0.8250 within std
-    paper_rank: 61
-    rank_delta: 12
-    rank_delta_abs: 12
+    has_value_gap: true
+    has_value_note: false
+    value_gap: 0.128
+    value_note: ''
+    paper_rank: 317
+    rank_delta: 208
+    rank_delta_abs: 208
     rank_delta_direction: worse
-    sort_value: 0.825
-    sort_std: 0.021
+    sort_value: 0.872
+    sort_std: 0.0511
     is_best: false
   - model: GPS
     model_key: gps
@@ -242,7 +243,7 @@ results:
     date: Feb 4, 2025
     date_display: Feb 2025
     date_iso: '2025-02-04'
-    global_rank: 68
+    global_rank: 358
     true_value: 0.57
     true_std: 0.176
     value_gap_source_arxiv: '2502.02379'
@@ -253,7 +254,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 68
+    paper_rank: 358
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -262,77 +263,80 @@ results:
     is_best: false
   metric: Accuracy
   higher_is_better: true
-- &id002
+- &id003
   dataset: NCI1
   rows:
-  - model: ILLS
-    model_key: ills
-    model_plain: ILLS
-    value: 0.874
-    std: 0.003
+  - model: MSA-AU
+    model_key: msa-au
+    model_plain: MSA-AU
+    value: 0.962
+    std: null
     metric: Accuracy
     higher_is_better: true
-    is_baseline: false
+    is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2305.17589'
-    title: Graph Inductive Biases in Transformers without Message Passing
-    date: May 27, 2023
-    date_display: May 2023
-    date_iso: '2023-05-27'
+    arxiv_id: '2312.10943'
+    title: Model Stealing Attack against Graph Classification with Authenticity, Uncertainty
+      and Diversity
+    date: Dec 2023
+    date_display: Dec 2023
+    date_iso: 2023-12
     codebase_url: ''
-    uses_external_data: false
+    uses_external_data: null
     is_global_top: true
     global_rank: 1
-    sort_value: 0.874
-    sort_std: 0.003
+    sort_value: 0.962
+    sort_std: null
     is_best: true
-  - model: PNA
-    model_key: pna
-    model_plain: PNA
-    value: 0.862
-    std: 0.004
+  - model: MSA-AD
+    model_key: msa-ad
+    model_plain: MSA-AD
+    value: 0.947
+    std: null
     metric: Accuracy
     higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2305.17589'
-    title: Graph Inductive Biases in Transformers without Message Passing
-    date: May 27, 2023
-    date_display: May 2023
-    date_iso: '2023-05-27'
+    arxiv_id: '2312.10943'
+    title: Model Stealing Attack against Graph Classification with Authenticity, Uncertainty
+      and Diversity
+    date: Dec 2023
+    date_display: Dec 2023
+    date_iso: 2023-12
     codebase_url: ''
-    uses_external_data: false
+    uses_external_data: null
     is_global_top: true
     global_rank: 2
-    sort_value: 0.862
-    sort_std: 0.004
+    sort_value: 0.947
+    sort_std: null
     is_best: false
-  - model: Graphtransformer
-    model_key: graphtransformer
-    model_plain: Graphtransformer
-    value: 0.858
-    std: 0.005
+  - model: JbDA
+    model_key: jbda
+    model_plain: JbDA
+    value: 0.912
+    std: null
     metric: Accuracy
     higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2305.17589'
-    title: Graph Inductive Biases in Transformers without Message Passing
-    date: May 27, 2023
-    date_display: May 2023
-    date_iso: '2023-05-27'
+    arxiv_id: '2312.10943'
+    title: Model Stealing Attack against Graph Classification with Authenticity, Uncertainty
+      and Diversity
+    date: Dec 2023
+    date_display: Dec 2023
+    date_iso: 2023-12
     codebase_url: ''
-    uses_external_data: false
+    uses_external_data: null
     is_global_top: true
     global_rank: 3
-    sort_value: 0.858
-    sort_std: 0.005
+    sort_value: 0.912
+    sort_std: null
     is_best: false
   - model: GIN
     model_key: gin
@@ -353,7 +357,7 @@ results:
     date: Feb 4, 2025
     date_display: Feb 2025
     date_iso: '2025-02-04'
-    global_rank: 4
+    global_rank: 13
     true_value: 0.851
     true_std: 0.003
     value_gap_source_arxiv: '2305.17589'
@@ -364,9 +368,9 @@ results:
     has_value_note: false
     value_gap: 0.08199999999999996
     value_note: ''
-    paper_rank: 38
-    rank_delta: 34
-    rank_delta_abs: 34
+    paper_rank: 138
+    rank_delta: 125
+    rank_delta_abs: 125
     rank_delta_direction: worse
     sort_value: 0.851
     sort_std: 0.003
@@ -390,7 +394,7 @@ results:
     date: Feb 4, 2025
     date_display: Feb 2025
     date_iso: '2025-02-04'
-    global_rank: 5
+    global_rank: 15
     true_value: 0.845
     true_std: 0.004
     value_gap_source_arxiv: '2305.17589'
@@ -401,9 +405,9 @@ results:
     has_value_note: false
     value_gap: 0.29499999999999993
     value_note: ''
-    paper_rank: 65
-    rank_delta: 60
-    rank_delta_abs: 60
+    paper_rank: 225
+    rank_delta: 210
+    rank_delta_abs: 210
     rank_delta_direction: worse
     sort_value: 0.845
     sort_std: 0.004
@@ -427,23 +431,23 @@ results:
     date: Feb 4, 2025
     date_display: Feb 2025
     date_iso: '2025-02-04'
-    global_rank: 9
-    true_value: 0.832
-    true_std: 0.005
-    value_gap_source_arxiv: '2305.17589'
-    value_gap_source_title: Graph Inductive Biases in Transformers without Message
-      Passing
+    global_rank: 23
+    true_value: 0.8365
+    true_std: 0.0169
+    value_gap_source_arxiv: '1905.04579'
+    value_gap_source_title: Are Powerful Graph Neural Nets Necessary? A Dissection
+      on Graph Classification
     value_gap_source_is_current_paper: false
     has_value_gap: true
     has_value_note: false
-    value_gap: 0.11499999999999999
+    value_gap: 0.11950000000000005
     value_note: ''
-    paper_rank: 55
-    rank_delta: 46
-    rank_delta_abs: 46
+    paper_rank: 188
+    rank_delta: 165
+    rank_delta_abs: 165
     rank_delta_direction: worse
-    sort_value: 0.832
-    sort_std: 0.005
+    sort_value: 0.8365
+    sort_std: 0.0169
     is_best: false
   - model: GPS
     model_key: gps
@@ -464,7 +468,7 @@ results:
     date: Feb 4, 2025
     date_display: Feb 2025
     date_iso: '2025-02-04'
-    global_rank: 66
+    global_rank: 232
     true_value: 0.492
     true_std: 0.034
     value_gap_source_arxiv: '2502.02379'
@@ -475,7 +479,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 66
+    paper_rank: 232
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -487,74 +491,74 @@ results:
 - &id001
   dataset: PROTEINS
   rows:
-  - model: ILLS
-    model_key: ills
-    model_plain: ILLS
-    value: 0.802
-    std: 0.009
+  - model: HGP-SL
+    model_key: hgp-sl
+    model_plain: HGP-SL
+    value: 0.8491
+    std: 0.0162
     metric: Accuracy
     higher_is_better: true
     is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2305.17589'
-    title: Graph Inductive Biases in Transformers without Message Passing
-    date: May 27, 2023
-    date_display: May 2023
-    date_iso: '2023-05-27'
-    codebase_url: ''
+    arxiv_id: '1911.05954'
+    title: Hierarchical Graph Pooling with Structure Learning
+    date: Nov 2019
+    date_display: Nov 2019
+    date_iso: 2019-11
+    codebase_url: https://github.com/cszhangzhen/HGP-SL
     uses_external_data: false
     is_global_top: true
     global_rank: 1
-    sort_value: 0.802
-    sort_std: 0.009
+    sort_value: 0.8491
+    sort_std: 0.0162
     is_best: true
-  - model: Graphormer
-    model_key: graphormer
-    model_plain: Graphormer
-    value: 0.795
-    std: 0.01
+  - model: rLap
+    model_key: rlap
+    model_plain: rLap
+    value: 0.8434
+    std: 0.0403
     metric: Accuracy
     higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2305.17589'
-    title: Graph Inductive Biases in Transformers without Message Passing
-    date: May 27, 2023
-    date_display: May 2023
-    date_iso: '2023-05-27'
-    codebase_url: ''
+    arxiv_id: '2306.04004'
+    title: Randomized Schur Complement Views for Graph Contrastive Learning
+    date: Jun 6, 2023
+    date_display: Jun 2023
+    date_iso: '2023-06-06'
+    codebase_url: https://github.com/kvignesh1420/rlap
     uses_external_data: false
     is_global_top: true
     global_rank: 2
-    sort_value: 0.795
-    sort_std: 0.01
+    sort_value: 0.8434
+    sort_std: 0.0403
     is_best: true
-  - model: PNA
-    model_key: pna
-    model_plain: PNA
-    value: 0.791
-    std: 0.011
+  - model: HGP-SL_DEN
+    model_key: hgp-sl_den
+    model_plain: HGP-SL_DEN
+    value: 0.8312
+    std: 0.0084
     metric: Accuracy
     higher_is_better: true
-    is_baseline: true
+    is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2305.17589'
-    title: Graph Inductive Biases in Transformers without Message Passing
-    date: May 27, 2023
-    date_display: May 2023
-    date_iso: '2023-05-27'
-    codebase_url: ''
+    arxiv_id: '1911.05954'
+    title: Hierarchical Graph Pooling with Structure Learning
+    date: Nov 2019
+    date_display: Nov 2019
+    date_iso: 2019-11
+    codebase_url: https://github.com/cszhangzhen/HGP-SL
     uses_external_data: false
     is_global_top: true
     global_rank: 3
-    sort_value: 0.791
-    sort_std: 0.011
+    sort_value: 0.8312
+    sort_std: 0.0084
     is_best: true
   - model: GIN
     model_key: gin
@@ -575,7 +579,7 @@ results:
     date: Feb 4, 2025
     date_display: Feb 2025
     date_iso: '2025-02-04'
-    global_rank: 5
+    global_rank: 38
     true_value: 0.785
     true_std: 0.012
     value_gap_source_arxiv: '2305.17589'
@@ -586,13 +590,13 @@ results:
     has_value_note: false
     value_gap: 0.17600000000000005
     value_note: ''
-    paper_rank: 80
-    rank_delta: 75
-    rank_delta_abs: 75
+    paper_rank: 331
+    rank_delta: 293
+    rank_delta_abs: 293
     rank_delta_direction: worse
     sort_value: 0.785
     sort_std: 0.012
-    is_best: true
+    is_best: false
   - model: GAT
     model_key: gat
     model_plain: GAT
@@ -612,7 +616,7 @@ results:
     date: Feb 4, 2025
     date_display: Feb 2025
     date_iso: '2025-02-04'
-    global_rank: 7
+    global_rank: 47
     true_value: 0.779
     true_std: 0.014
     value_gap_source_arxiv: '2305.17589'
@@ -623,13 +627,13 @@ results:
     has_value_note: false
     value_gap: 0.16700000000000004
     value_note: ''
-    paper_rank: 80
-    rank_delta: 73
-    rank_delta_abs: 73
+    paper_rank: 330
+    rank_delta: 283
+    rank_delta_abs: 283
     rank_delta_direction: worse
     sort_value: 0.779
     sort_std: 0.014
-    is_best: true
+    is_best: false
   - model: GCN
     model_key: gcn
     model_plain: GCN
@@ -649,7 +653,7 @@ results:
     date: Feb 4, 2025
     date_display: Feb 2025
     date_iso: '2025-02-04'
-    global_rank: 12
+    global_rank: 67
     true_value: 0.772
     true_std: 0.015
     value_gap_source_arxiv: '2305.17589'
@@ -660,9 +664,9 @@ results:
     has_value_note: false
     value_gap: 0.17900000000000005
     value_note: ''
-    paper_rank: 82
-    rank_delta: 70
-    rank_delta_abs: 70
+    paper_rank: 337
+    rank_delta: 270
+    rank_delta_abs: 270
     rank_delta_direction: worse
     sort_value: 0.772
     sort_std: 0.015
@@ -686,7 +690,7 @@ results:
     date: Feb 4, 2025
     date_display: Feb 2025
     date_iso: '2025-02-04'
-    global_rank: 83
+    global_rank: 340
     true_value: 0.582
     true_std: 0.049
     value_gap_source_arxiv: '2502.02379'
@@ -697,7 +701,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 83
+    paper_rank: 340
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same

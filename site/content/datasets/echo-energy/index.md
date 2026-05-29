@@ -13,13 +13,14 @@ stats:
   avg_nodes: null
   avg_edges: null
   num_classes: null
-result_count: 11
+result_count: 12
 best_model:
-  model: GPS
-  value: 5.257
+  model: DE-LBP
+  value: 0.085
   metric: MAE
-  arxiv_id: '2512.17762'
-  paper_title: ECHO Benchmark
+  arxiv_id: '1603.05629'
+  paper_title: Discriminative Embeddings of Latent Variable Models for Structured
+    Data
 variants:
 - slug: standard-split
   name: Standard split
@@ -33,211 +34,254 @@ variants:
     avg_edges: null
   metrics:
   - MAE
+  - RMSE
   rows:
-  - model: GPS
-    model_plain: GPS
-    is_baseline: true
+  - model: DE-LBP
+    model_plain: DE-LBP
+    is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2512.17762'
-    title: ECHO Benchmark
-    date: Dec 2025
-    date_iso: 2025-12
-    date_display: Dec 2025
-    codebase_url: ''
+    arxiv_id: '1603.05629'
+    title: Discriminative Embeddings of Latent Variable Models for Structured Data
+    date: Mar 2016
+    date_iso: 2016-03
+    date_display: Mar 2016
+    codebase_url: https://github.com/Hanjun-Dai/graphnn
     uses_external_data: false
     is_best: true
     metric_values:
-    - 5.257
+    - 0.085
+    - null
     metric_stds:
-    - 0.842
-  - model: DRew
-    model_plain: DRew
+    - null
+    - null
+  - model: DE-MF
+    model_plain: DE-MF
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2512.17762'
-    title: ECHO Benchmark
-    date: Dec 2025
-    date_iso: 2025-12
-    date_display: Dec 2025
-    codebase_url: ''
+    arxiv_id: '1603.05629'
+    title: Discriminative Embeddings of Latent Variable Models for Structured Data
+    date: Mar 2016
+    date_iso: 2016-03
+    date_display: Mar 2016
+    codebase_url: https://github.com/Hanjun-Dai/graphnn
     uses_external_data: false
     is_best: false
     metric_values:
-    - 11.325
+    - 0.0914
+    - null
     metric_stds:
-    - 2.394
-  - model: A-DGN
-    model_plain: A-DGN
+    - null
+    - null
+  - model: WL lv-6
+    model_plain: WL lv-6
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2512.17762'
-    title: ECHO Benchmark
-    date: Dec 2025
-    date_iso: 2025-12
-    date_display: Dec 2025
-    codebase_url: ''
+    arxiv_id: '1603.05629'
+    title: Discriminative Embeddings of Latent Variable Models for Structured Data
+    date: Mar 2016
+    date_iso: 2016-03
+    date_display: Mar 2016
+    codebase_url: https://github.com/Hanjun-Dai/graphnn
     uses_external_data: false
     is_best: false
     metric_values:
-    - 12.486
+    - 0.0962
+    - null
     metric_stds:
-    - 1.621
-  - model: SWAN
-    model_plain: SWAN
+    - null
+    - null
+  - model: WL lv-3
+    model_plain: WL lv-3
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2512.17762'
-    title: ECHO Benchmark
-    date: Dec 2025
-    date_iso: 2025-12
-    date_display: Dec 2025
-    codebase_url: ''
+    arxiv_id: '1603.05629'
+    title: Discriminative Embeddings of Latent Variable Models for Structured Data
+    date: Mar 2016
+    date_iso: 2016-03
+    date_display: Mar 2016
+    codebase_url: https://github.com/Hanjun-Dai/graphnn
     uses_external_data: false
     is_best: false
     metric_values:
-    - 12.629
+    - 0.1431
+    - null
     metric_stds:
-    - 1.157
-  - model: GCNII
-    model_plain: GCNII
+    - null
+    - null
+  - model: Predict mean
+    model_plain: Predict mean
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2512.17762'
-    title: ECHO Benchmark
-    date: Dec 2025
-    date_iso: 2025-12
-    date_display: Dec 2025
-    codebase_url: ''
+    arxiv_id: '1603.05629'
+    title: Discriminative Embeddings of Latent Variable Models for Structured Data
+    date: Mar 2016
+    date_iso: 2016-03
+    date_display: Mar 2016
+    codebase_url: https://github.com/Hanjun-Dai/graphnn
     uses_external_data: false
     is_best: false
     metric_values:
-    - 13.235
+    - 1.9864
+    - null
     metric_stds:
-    - 2.63
-  - model: GraphCON
-    model_plain: GraphCON
+    - null
+    - null
+  - model: Predict mean
+    model_plain: Predict mean
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2512.17762'
-    title: ECHO Benchmark
-    date: Dec 2025
-    date_iso: 2025-12
-    date_display: Dec 2025
-    codebase_url: ''
+    arxiv_id: '1705.09037'
+    title: Deriving Neural Architectures from Sequence and Graph Kernels
+    date: May 25, 2017
+    date_iso: '2017-05-25'
+    date_display: May 2017
+    codebase_url: https://github.com/taolei87/icml17_knn
     uses_external_data: false
     is_best: false
     metric_values:
-    - 14.295
+    - null
+    - 2.4062
     metric_stds:
-    - 0.807
-  - model: PH-DGN
-    model_plain: PH-DGN
+    - null
+    - null
+  - model: Weisfeiler-lehman Kernel, degree=3
+    model_plain: Weisfeiler-lehman Kernel, degree=3
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1705.09037'
+    title: Deriving Neural Architectures from Sequence and Graph Kernels
+    date: May 25, 2017
+    date_iso: '2017-05-25'
+    date_display: May 2017
+    codebase_url: https://github.com/taolei87/icml17_knn
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.1367
+    metric_stds:
+    - null
+    - null
+  - model: Embedded Mean Field
+    model_plain: Embedded Mean Field
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2512.17762'
-    title: ECHO Benchmark
-    date: Dec 2025
-    date_iso: 2025-12
-    date_display: Dec 2025
-    codebase_url: ''
+    arxiv_id: '1705.09037'
+    title: Deriving Neural Architectures from Sequence and Graph Kernels
+    date: May 25, 2017
+    date_iso: '2017-05-25'
+    date_display: May 2017
+    codebase_url: https://github.com/taolei87/icml17_knn
     uses_external_data: false
     is_best: false
     metric_values:
-    - 16.08
+    - null
+    - 0.125
     metric_stds:
-    - 1.123
-  - model: GINE
-    model_plain: GINE
+    - null
+    - null
+  - model: Embedded Loopy BP
+    model_plain: Embedded Loopy BP
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2512.17762'
-    title: ECHO Benchmark
-    date: Dec 2025
-    date_iso: 2025-12
-    date_display: Dec 2025
-    codebase_url: ''
+    arxiv_id: '1705.09037'
+    title: Deriving Neural Architectures from Sequence and Graph Kernels
+    date: May 25, 2017
+    date_iso: '2017-05-25'
+    date_display: May 2017
+    codebase_url: https://github.com/taolei87/icml17_knn
     uses_external_data: false
     is_best: false
     metric_values:
-    - 23.558
+    - null
+    - 0.1174
     metric_stds:
-    - 7.568
-  - model: GRIT
-    model_plain: GRIT
+    - null
+    - null
+  - model: Neural Fingerprint
+    model_plain: Neural Fingerprint
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2512.17762'
-    title: ECHO Benchmark
-    date: Dec 2025
-    date_iso: 2025-12
-    date_display: Dec 2025
-    codebase_url: ''
+    arxiv_id: '1705.09037'
+    title: Deriving Neural Architectures from Sequence and Graph Kernels
+    date: May 25, 2017
+    date_iso: '2017-05-25'
+    date_display: May 2017
+    codebase_url: https://github.com/taolei87/icml17_knn
     uses_external_data: false
     is_best: false
     metric_values:
-    - 25.508
+    - null
+    - 0.1409
     metric_stds:
-    - 2.507
-  - model: GCN
-    model_plain: GCN
-    is_baseline: true
+    - null
+    - null
+  - model: Weisfeiler Kernel NN
+    model_plain: Weisfeiler Kernel NN
+    is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2512.17762'
-    title: ECHO Benchmark
-    date: Dec 2025
-    date_iso: 2025-12
-    date_display: Dec 2025
-    codebase_url: ''
+    arxiv_id: '1705.09037'
+    title: Deriving Neural Architectures from Sequence and Graph Kernels
+    date: May 25, 2017
+    date_iso: '2017-05-25'
+    date_display: May 2017
+    codebase_url: https://github.com/taolei87/icml17_knn
     uses_external_data: false
     is_best: false
     metric_values:
-    - 28.112
+    - null
+    - 0.1058
     metric_stds:
-    - 1.239
-  - model: GIN
-    model_plain: GIN
-    is_baseline: true
+    - null
+    - null
+  - model: Weisfeiler Kernel NN, gated lambda
+    model_plain: Weisfeiler Kernel NN, gated lambda
+    is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2512.17762'
-    title: ECHO Benchmark
-    date: Dec 2025
-    date_iso: 2025-12
-    date_display: Dec 2025
-    codebase_url: ''
+    arxiv_id: '1705.09037'
+    title: Deriving Neural Architectures from Sequence and Graph Kernels
+    date: May 25, 2017
+    date_iso: '2017-05-25'
+    date_display: May 2017
+    codebase_url: https://github.com/taolei87/icml17_knn
     uses_external_data: false
     is_best: false
     metric_values:
-    - 47.851
+    - null
+    - 0.1043
     metric_stds:
-    - 10.154
+    - null
+    - null
   milestones:
-  - value: 5.257
-    std: 0.842
-    model: GPS
-    arxiv_id: '2512.17762'
-    title: ECHO Benchmark
-    date: 2025-12
+  - value: 0.085
+    std: null
+    model: DE-LBP
+    arxiv_id: '1603.05629'
+    title: Discriminative Embeddings of Latent Variable Models for Structured Data
+    date: 2016-03
 ---
 

@@ -18,9 +18,9 @@ has_results: true
 paper_type: method
 proposed_models:
 - RoGN
-mrr: 0.3333
-adjusted_mrr: 0.1111
-mrr_dataset_count: 1
+mrr: 0.2222
+adjusted_mrr: 0.1481
+mrr_dataset_count: 2
 benchmark_categories:
 - GraphBench
 task_categories:
@@ -100,42 +100,6 @@ results:
     sort_value: 1.0
     sort_std: 0.0
     is_best: true
-  - model: RoGN
-    model_key: rogn
-    model_plain: RoGN
-    value: 0.968
-    std: 0.001
-    paper_value: 0.968
-    paper_std: 0.001
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: 'dataset: exact match'
-    date: Sep 2024
-    date_display: Sep 2024
-    date_iso: 2024-09
-    global_rank: 8
-    true_value: 0.968
-    true_std: 0.001
-    value_gap_source_arxiv: '2409.08023'
-    value_gap_source_title: Edge-Wise Graph-Instructed Neural Networks
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 8
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.968
-    sort_std: 0.001
-    is_best: false
   - model: GraphGPS
     model_key: graphgps
     model_plain: GraphGPS
@@ -155,8 +119,44 @@ results:
     date: Sep 2024
     date_display: Sep 2024
     date_iso: 2024-09
+    global_rank: 8
+    true_value: 0.98
+    true_std: 0.005
+    value_gap_source_arxiv: '1710.10321'
+    value_gap_source_title: arXiv:1710.10321
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
+    has_value_note: false
+    value_gap: 0.025000000000000022
+    value_note: ''
+    paper_rank: 11
+    rank_delta: 3
+    rank_delta_abs: 3
+    rank_delta_direction: worse
+    sort_value: 0.98
+    sort_std: 0.005
+    is_best: false
+  - model: RoGN
+    model_key: rogn
+    model_plain: RoGN
+    value: 0.968
+    std: 0.001
+    paper_value: 0.968
+    paper_std: 0.001
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Sep 2024
+    date_display: Sep 2024
+    date_iso: 2024-09
     global_rank: 9
-    true_value: 0.955
+    true_value: 0.968
     true_std: 0.001
     value_gap_source_arxiv: '2409.08023'
     value_gap_source_title: Edge-Wise Graph-Instructed Neural Networks
@@ -169,7 +169,7 @@ results:
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
-    sort_value: 0.955
+    sort_value: 0.968
     sort_std: 0.001
     is_best: false
   - model: SAN
@@ -192,21 +192,21 @@ results:
     date_display: Sep 2024
     date_iso: 2024-09
     global_rank: 10
-    true_value: 0.948
-    true_std: 0.001
-    value_gap_source_arxiv: '2409.08023'
-    value_gap_source_title: Edge-Wise Graph-Instructed Neural Networks
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
+    true_value: 0.96
+    true_std: 0.01
+    value_gap_source_arxiv: '1710.10321'
+    value_gap_source_title: arXiv:1710.10321
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
     has_value_note: false
-    value_gap: null
+    value_gap: 0.01200000000000001
     value_note: ''
-    paper_rank: 10
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.948
-    sort_std: 0.001
+    paper_rank: 13
+    rank_delta: 3
+    rank_delta_abs: 3
+    rank_delta_direction: worse
+    sort_value: 0.96
+    sort_std: 0.01
     is_best: false
   - model: DGN
     model_key: dgn
@@ -227,22 +227,22 @@ results:
     date: Sep 2024
     date_display: Sep 2024
     date_iso: 2024-09
-    global_rank: 11
-    true_value: 0.942
-    true_std: 0.002
-    value_gap_source_arxiv: '2409.08023'
-    value_gap_source_title: Edge-Wise Graph-Instructed Neural Networks
-    value_gap_source_is_current_paper: true
+    global_rank: 12
+    true_value: 0.95
+    true_std: 0.01
+    value_gap_source_arxiv: '1710.10321'
+    value_gap_source_title: arXiv:1710.10321
+    value_gap_source_is_current_paper: false
     has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 11
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.942
-    sort_std: 0.002
+    has_value_note: true
+    value_gap: 0.008000000000000007
+    value_note: global 0.9500 within std
+    paper_rank: 13
+    rank_delta: 1
+    rank_delta_abs: 1
+    rank_delta_direction: worse
+    sort_value: 0.95
+    sort_std: 0.01
     is_best: false
   - model: PNA
     model_key: pna
@@ -263,22 +263,22 @@ results:
     date: Sep 2024
     date_display: Sep 2024
     date_iso: 2024-09
-    global_rank: 12
-    true_value: 0.935
-    true_std: 0.002
-    value_gap_source_arxiv: '2409.08023'
-    value_gap_source_title: Edge-Wise Graph-Instructed Neural Networks
-    value_gap_source_is_current_paper: true
+    global_rank: 14
+    true_value: 0.94
+    true_std: 0.01
+    value_gap_source_arxiv: '1710.10321'
+    value_gap_source_title: arXiv:1710.10321
+    value_gap_source_is_current_paper: false
     has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 12
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.935
-    sort_std: 0.002
+    has_value_note: true
+    value_gap: 0.004999999999999893
+    value_note: global 0.9400 within std
+    paper_rank: 15
+    rank_delta: 1
+    rank_delta_abs: 1
+    rank_delta_direction: worse
+    sort_value: 0.94
+    sort_std: 0.01
     is_best: false
   - model: GIN
     model_key: gin
@@ -299,22 +299,22 @@ results:
     date: Sep 2024
     date_display: Sep 2024
     date_iso: 2024-09
-    global_rank: 13
-    true_value: 0.921
-    true_std: 0.003
-    value_gap_source_arxiv: '2409.08023'
-    value_gap_source_title: Edge-Wise Graph-Instructed Neural Networks
-    value_gap_source_is_current_paper: true
+    global_rank: 16
+    true_value: 0.93
+    true_std: 0.01
+    value_gap_source_arxiv: '1710.10321'
+    value_gap_source_title: arXiv:1710.10321
+    value_gap_source_is_current_paper: false
     has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 13
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.921
-    sort_std: 0.003
+    has_value_note: true
+    value_gap: 0.009000000000000008
+    value_note: global 0.9300 within std
+    paper_rank: 17
+    rank_delta: 1
+    rank_delta_abs: 1
+    rank_delta_direction: worse
+    sort_value: 0.93
+    sort_std: 0.01
     is_best: false
   - model: GAT
     model_key: gat
@@ -335,58 +335,22 @@ results:
     date: Sep 2024
     date_display: Sep 2024
     date_iso: 2024-09
-    global_rank: 14
-    true_value: 0.912
-    true_std: 0.004
-    value_gap_source_arxiv: '2409.08023'
-    value_gap_source_title: Edge-Wise Graph-Instructed Neural Networks
-    value_gap_source_is_current_paper: true
+    global_rank: 18
+    true_value: 0.92
+    true_std: 0.01
+    value_gap_source_arxiv: '1710.10321'
+    value_gap_source_title: arXiv:1710.10321
+    value_gap_source_is_current_paper: false
     has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 14
+    has_value_note: true
+    value_gap: 0.008000000000000007
+    value_note: global 0.9200 within std
+    paper_rank: 18
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
-    sort_value: 0.912
-    sort_std: 0.004
-    is_best: false
-  - model: GCN
-    model_key: gcn
-    model_plain: GCN
-    value: 0.895
-    std: 0.005
-    paper_value: 0.895
-    paper_std: 0.005
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: 'dataset: exact match'
-    date: Sep 2024
-    date_display: Sep 2024
-    date_iso: 2024-09
-    global_rank: 15
-    true_value: 0.895
-    true_std: 0.005
-    value_gap_source_arxiv: '2409.08023'
-    value_gap_source_title: Edge-Wise Graph-Instructed Neural Networks
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 15
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.895
-    sort_std: 0.005
+    sort_value: 0.92
+    sort_std: 0.01
     is_best: false
   - model: GraphSAGE
     model_key: graphsage
@@ -407,9 +371,45 @@ results:
     date: Sep 2024
     date_display: Sep 2024
     date_iso: 2024-09
-    global_rank: 16
-    true_value: 0.888
-    true_std: 0.006
+    global_rank: 19
+    true_value: 0.91
+    true_std: 0.01
+    value_gap_source_arxiv: '1710.10321'
+    value_gap_source_title: arXiv:1710.10321
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
+    has_value_note: false
+    value_gap: 0.02200000000000002
+    value_note: ''
+    paper_rank: 21
+    rank_delta: 2
+    rank_delta_abs: 2
+    rank_delta_direction: worse
+    sort_value: 0.91
+    sort_std: 0.01
+    is_best: false
+  - model: GCN
+    model_key: gcn
+    model_plain: GCN
+    value: 0.895
+    std: 0.005
+    paper_value: 0.895
+    paper_std: 0.005
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Sep 2024
+    date_display: Sep 2024
+    date_iso: 2024-09
+    global_rank: 21
+    true_value: 0.895
+    true_std: 0.005
     value_gap_source_arxiv: '2409.08023'
     value_gap_source_title: Edge-Wise Graph-Instructed Neural Networks
     value_gap_source_is_current_paper: true
@@ -417,12 +417,12 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 16
+    paper_rank: 21
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
-    sort_value: 0.888
-    sort_std: 0.006
+    sort_value: 0.895
+    sort_std: 0.005
     is_best: false
   metric: Accuracy
   higher_is_better: true

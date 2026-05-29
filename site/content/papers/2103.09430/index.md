@@ -30,8 +30,8 @@ has_results: true
 paper_type: method
 proposed_models:
 - ML
-mrr: 0.1623
-adjusted_mrr: 0.1623
+mrr: 0.1416
+adjusted_mrr: 0.1416
 mrr_dataset_count: 3
 benchmark_categories:
 - OGB
@@ -70,6 +70,53 @@ results:
     sort_value: 0.339
     sort_std: 0.0073
     is_best: true
+  - model: unified method + FLAG
+    model_key: unified method + flag
+    model_plain: unified method + FLAG
+    value: 0.3174
+    std: null
+    metric: AP
+    higher_is_better: true
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2207.08806'
+    title: Unified 2D and 3D Pre-Training of Molecular Representations
+    date: Jul 2022
+    date_display: Jul 2022
+    date_iso: 2022-07
+    codebase_url: https://github.com/teslacool/UnifiedMolPretrain
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 2
+    sort_value: 0.3174
+    sort_std: null
+    is_best: false
+  - model: TGT-Ag+TGT-At-DP
+    model_key: tgt-ag+tgt-at-dp
+    model_plain: TGT-Ag+TGT-At-DP
+    value: 0.3167
+    std: 0.0031
+    metric: AP
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2402.04538'
+    title: 'Triplet Interaction Improves Graph Transformers: Accurate Molecular Graph
+      Learning with Triplet Graph Transformers'
+    date: Feb 7, 2024
+    date_display: Feb 2024
+    date_iso: '2024-02-07'
+    codebase_url: https://github.com/shamim-hussain/tgt
+    uses_external_data: true
+    is_global_top: true
+    global_rank: 3
+    sort_value: 0.3167
+    sort_std: 0.0031
+    is_best: false
   - model: Graphormer
     model_key: graphormer
     model_plain: Graphormer
@@ -89,69 +136,22 @@ results:
     date: Mar 2021
     date_display: Mar 2021
     date_iso: 2021-03
-    global_rank: 2
-    true_value: 0.3139
-    true_std: 0.0032
-    value_gap_source_arxiv: '2410.23686'
-    value_gap_source_title: Towards Dynamic Message Passing on Graphs
+    global_rank: 5
+    true_value: 0.314
+    true_std: null
+    value_gap_source_arxiv: '2207.08806'
+    value_gap_source_title: Unified 2D and 3D Pre-Training of Molecular Representations
     value_gap_source_is_current_paper: false
     has_value_gap: true
     has_value_note: false
-    value_gap: 0.0809
+    value_gap: 0.08099999999999999
     value_note: ''
-    paper_rank: 36
-    rank_delta: 34
-    rank_delta_abs: 34
+    paper_rank: 52
+    rank_delta: 47
+    rank_delta_abs: 47
     rank_delta_direction: worse
-    sort_value: 0.3139
-    sort_std: 0.0032
-    is_best: false
-  - model: Graphormer-FLAG
-    model_key: graphormer-flag
-    model_plain: Graphormer-FLAG
-    value: 0.3139
-    std: 0.0032
-    metric: AP
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2106.05234'
-    title: Do Transformers Really Perform Bad for Graph Representation?
-    date: Jun 2021
-    date_display: Jun 2021
-    date_iso: 2021-06
-    codebase_url: https://github.com/microsoft/Graphormer
-    uses_external_data: false
-    is_global_top: true
-    global_rank: 3
-    sort_value: 0.3139
-    sort_std: 0.0032
-    is_best: false
-  - model: GSO
-    model_key: gso
-    model_plain: GSO
-    value: 0.3031
-    std: 0.0026
-    metric: AP
-    higher_is_better: true
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: 0.5
-    arxiv_id: '2305.06102'
-    title: Towards Better Graph Representation Learning with Parameterized Decomposition
-      & Filtering
-    date: May 10, 2023
-    date_display: May 2023
-    date_iso: '2023-05-10'
-    codebase_url: https://github.com/qslim/PDF
-    uses_external_data: false
-    is_global_top: true
-    global_rank: 4
-    sort_value: 0.3031
-    sort_std: 0.0026
+    sort_value: 0.314
+    sort_std: null
     is_best: false
   - model: DGN
     model_key: dgn
@@ -172,7 +172,7 @@ results:
     date: Mar 2021
     date_display: Mar 2021
     date_iso: 2021-03
-    global_rank: 13
+    global_rank: 22
     true_value: 0.2885
     true_std: 0.003
     value_gap_source_arxiv: '2110.07875'
@@ -183,9 +183,9 @@ results:
     has_value_note: false
     value_gap: 0.05649999999999997
     value_note: ''
-    paper_rank: 37
-    rank_delta: 24
-    rank_delta_abs: 24
+    paper_rank: 53
+    rank_delta: 31
+    rank_delta_abs: 31
     rank_delta_direction: worse
     sort_value: 0.2885
     sort_std: 0.003
@@ -209,7 +209,7 @@ results:
     date: Mar 2021
     date_display: Mar 2021
     date_iso: 2021-03
-    global_rank: 18
+    global_rank: 27
     true_value: 0.2838
     true_std: 0.0035
     value_gap_source_arxiv: '2110.07875'
@@ -220,9 +220,9 @@ results:
     has_value_note: false
     value_gap: 0.052799999999999986
     value_note: ''
-    paper_rank: 37
-    rank_delta: 19
-    rank_delta_abs: 19
+    paper_rank: 53
+    rank_delta: 26
+    rank_delta_abs: 26
     rank_delta_direction: worse
     sort_value: 0.2838
     sort_std: 0.0035
@@ -246,7 +246,7 @@ results:
     date: Mar 2021
     date_display: Mar 2021
     date_iso: 2021-03
-    global_rank: 24
+    global_rank: 35
     true_value: 0.2703
     true_std: 0.0023
     value_gap_source_arxiv: '2305.06102'
@@ -257,9 +257,9 @@ results:
     has_value_note: false
     value_gap: 0.041299999999999976
     value_note: ''
-    paper_rank: 39
-    rank_delta: 15
-    rank_delta_abs: 15
+    paper_rank: 55
+    rank_delta: 20
+    rank_delta_abs: 20
     rank_delta_direction: worse
     sort_value: 0.2703
     sort_std: 0.0023
@@ -283,7 +283,7 @@ results:
     date: Mar 2021
     date_display: Mar 2021
     date_iso: 2021-03
-    global_rank: 32
+    global_rank: 46
     true_value: 0.2424
     true_std: 0.0034
     value_gap_source_arxiv: '2305.06102'
@@ -294,9 +294,9 @@ results:
     has_value_note: false
     value_gap: 0.016399999999999998
     value_note: ''
-    paper_rank: 42
-    rank_delta: 10
-    rank_delta_abs: 10
+    paper_rank: 58
+    rank_delta: 12
+    rank_delta_abs: 12
     rank_delta_direction: worse
     sort_value: 0.2424
     sort_std: 0.0034
@@ -320,7 +320,7 @@ results:
     date: Mar 2021
     date_display: Mar 2021
     date_iso: 2021-03
-    global_rank: 35
+    global_rank: 50
     true_value: 0.235
     true_std: 0.001
     value_gap_source_arxiv: '2103.09430'
@@ -331,7 +331,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 35
+    paper_rank: 50
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -357,7 +357,7 @@ results:
     date: Mar 2021
     date_display: Mar 2021
     date_iso: 2021-03
-    global_rank: 38
+    global_rank: 54
     true_value: 0.23
     true_std: 0.001
     value_gap_source_arxiv: '2103.09430'
@@ -368,7 +368,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 38
+    paper_rank: 54
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -394,7 +394,7 @@ results:
     date: Mar 2021
     date_display: Mar 2021
     date_iso: 2021-03
-    global_rank: 40
+    global_rank: 56
     true_value: 0.228
     true_std: 0.001
     value_gap_source_arxiv: '2103.09430'
@@ -405,7 +405,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 40
+    paper_rank: 56
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -431,7 +431,7 @@ results:
     date: Mar 2021
     date_display: Mar 2021
     date_iso: 2021-03
-    global_rank: 41
+    global_rank: 57
     true_value: 0.228
     true_std: 0.001
     value_gap_source_arxiv: '2103.09430'
@@ -442,7 +442,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 41
+    paper_rank: 57
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -468,7 +468,7 @@ results:
     date: Mar 2021
     date_display: Mar 2021
     date_iso: 2021-03
-    global_rank: 42
+    global_rank: 58
     true_value: 0.227
     true_std: 0.001
     value_gap_source_arxiv: '2103.09430'
@@ -479,7 +479,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 42
+    paper_rank: 58
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -505,7 +505,7 @@ results:
     date: Mar 2021
     date_display: Mar 2021
     date_iso: 2021-03
-    global_rank: 43
+    global_rank: 59
     true_value: 0.225
     true_std: 0.001
     value_gap_source_arxiv: '2103.09430'
@@ -516,7 +516,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 43
+    paper_rank: 59
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1157,6 +1157,29 @@ results:
 - &id003
   dataset: ogbn-mag
   rows:
+  - model: CoE
+    model_key: coe
+    model_plain: CoE
+    value: 0.7837
+    std: 0.0016
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2505.20853'
+    title: arXiv:2505.20853
+    date: May 2025
+    date_display: May 2025
+    date_iso: 2025-05
+    codebase_url: https://github.com/strangeAlan/CoE
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 1
+    sort_value: 0.7837
+    sort_std: 0.0016
+    is_best: true
   - model: ILSS
     model_key: ilss
     model_plain: ILSS
@@ -1176,7 +1199,7 @@ results:
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
-    global_rank: 1
+    global_rank: 2
     sort_value: 0.781
     sort_std: 0.003
     is_best: true
@@ -1199,32 +1222,9 @@ results:
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
-    global_rank: 2
+    global_rank: 3
     sort_value: 0.775
     sort_std: 0.002
-    is_best: false
-  - model: PNA
-    model_key: pna
-    model_plain: PNA
-    value: 0.772
-    std: 0.003
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2305.17589'
-    title: Graph Inductive Biases in Transformers without Message Passing
-    date: May 27, 2023
-    date_display: May 2023
-    date_iso: '2023-05-27'
-    codebase_url: ''
-    uses_external_data: false
-    is_global_top: true
-    global_rank: 3
-    sort_value: 0.772
-    sort_std: 0.003
     is_best: false
   - model: GAT
     model_key: gat
@@ -1245,7 +1245,7 @@ results:
     date: Mar 2021
     date_display: Mar 2021
     date_iso: 2021-03
-    global_rank: 4
+    global_rank: 9
     true_value: 0.768
     true_std: 0.004
     value_gap_source_arxiv: '2305.17589'
@@ -1256,9 +1256,9 @@ results:
     has_value_note: false
     value_gap: 0.06000000000000005
     value_note: ''
-    paper_rank: 12
-    rank_delta: 8
-    rank_delta_abs: 8
+    paper_rank: 20
+    rank_delta: 11
+    rank_delta_abs: 11
     rank_delta_direction: worse
     sort_value: 0.768
     sort_std: 0.004
@@ -1282,7 +1282,7 @@ results:
     date: Mar 2021
     date_display: Mar 2021
     date_iso: 2021-03
-    global_rank: 5
+    global_rank: 10
     true_value: 0.761
     true_std: 0.003
     value_gap_source_arxiv: '2305.17589'
@@ -1293,9 +1293,9 @@ results:
     has_value_note: false
     value_gap: 0.06000000000000005
     value_note: ''
-    paper_rank: 12
-    rank_delta: 7
-    rank_delta_abs: 7
+    paper_rank: 20
+    rank_delta: 10
+    rank_delta_abs: 10
     rank_delta_direction: worse
     sort_value: 0.761
     sort_std: 0.003
@@ -1319,7 +1319,7 @@ results:
     date: Mar 2021
     date_display: Mar 2021
     date_iso: 2021-03
-    global_rank: 7
+    global_rank: 12
     true_value: 0.753
     true_std: 0.002
     value_gap_source_arxiv: '2305.17589'
@@ -1330,9 +1330,9 @@ results:
     has_value_note: false
     value_gap: 0.05800000000000005
     value_note: ''
-    paper_rank: 12
-    rank_delta: 5
-    rank_delta_abs: 5
+    paper_rank: 20
+    rank_delta: 8
+    rank_delta_abs: 8
     rank_delta_direction: worse
     sort_value: 0.753
     sort_std: 0.002
@@ -1356,7 +1356,7 @@ results:
     date: Mar 2021
     date_display: Mar 2021
     date_iso: 2021-03
-    global_rank: 8
+    global_rank: 14
     true_value: 0.742
     true_std: 0.002
     value_gap_source_arxiv: '2103.09430'
@@ -1367,7 +1367,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 8
+    paper_rank: 14
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1393,7 +1393,7 @@ results:
     date: Mar 2021
     date_display: Mar 2021
     date_iso: 2021-03
-    global_rank: 9
+    global_rank: 15
     true_value: 0.731
     true_std: 0.002
     value_gap_source_arxiv: '2103.09430'
@@ -1404,7 +1404,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 9
+    paper_rank: 15
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1430,7 +1430,7 @@ results:
     date: Mar 2021
     date_display: Mar 2021
     date_iso: 2021-03
-    global_rank: 10
+    global_rank: 17
     true_value: 0.725
     true_std: 0.002
     value_gap_source_arxiv: '2103.09430'
@@ -1441,7 +1441,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 10
+    paper_rank: 17
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1467,7 +1467,7 @@ results:
     date: Mar 2021
     date_display: Mar 2021
     date_iso: 2021-03
-    global_rank: 11
+    global_rank: 18
     true_value: 0.718
     true_std: 0.003
     value_gap_source_arxiv: '2103.09430'
@@ -1478,7 +1478,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 11
+    paper_rank: 18
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1504,7 +1504,7 @@ results:
     date: Mar 2021
     date_display: Mar 2021
     date_iso: 2021-03
-    global_rank: 12
+    global_rank: 20
     true_value: 0.712
     true_std: 0.003
     value_gap_source_arxiv: '2103.09430'
@@ -1515,7 +1515,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 12
+    paper_rank: 20
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1531,6 +1531,5 @@ results_grouped:
   - *id002
   - *id003
 single_proposed_model: ML
-main_figure: /figures/2103.09430/main_figure.png
 ---
 

@@ -13,70 +13,877 @@ stats:
   avg_nodes: null
   avg_edges: null
   num_classes: 2
-result_count: 2
+result_count: 35
 best_model:
-  model: HealHGNN
-  value: 0.7718
-  metric: Accuracy
-  arxiv_id: '2603.00599'
-  paper_title: Heterophily-Agnostic Hypergraph Neural Networks with Riemannian Local
-    Exchanger
+  model: ChebNet
+  value: 0.961
+  metric: Plausibility
+  arxiv_id: '2210.15304'
+  paper_title: 'Explaining the Explainers in Graph Neural Networks: a Comparative
+    Study'
 variants:
 - slug: standard-split
   name: Standard split
   notes: ''
   is_standard: true
-  primary_metric: Accuracy
+  primary_metric: Plausibility
   higher_is_better: true
   stats:
     num_graphs: null
     avg_nodes: null
     avg_edges: null
   metrics:
-  - Accuracy
+  - Plausibility
+  - Completeness
+  - Homogeneity
+  - Silhouette
   rows:
-  - model: HealHGNN
-    model_plain: HealHGNN
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2603.00599'
-    title: Heterophily-Agnostic Hypergraph Neural Networks with Riemannian Local Exchanger
-    date: Mar 2026
-    date_iso: 2026-03
-    date_display: Mar 2026
-    codebase_url: https://github.com/Mingzhang21/HealHGNN
-    uses_external_data: false
-    is_best: true
-    metric_values:
-    - 0.7718
-    metric_stds:
-    - 0.0235
-  - model: HGNN
-    model_plain: HGNN
+  - model: ChebNet
+    model_plain: ChebNet
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2603.00599'
-    title: Heterophily-Agnostic Hypergraph Neural Networks with Riemannian Local Exchanger
-    date: Mar 2026
-    date_iso: 2026-03
-    date_display: Mar 2026
-    codebase_url: https://github.com/Mingzhang21/HealHGNN
+    arxiv_id: '2210.15304'
+    title: 'Explaining the Explainers in Graph Neural Networks: a Comparative Study'
+    date: Oct 2022
+    date_iso: 2022-10
+    date_display: Oct 2022
+    codebase_url: ''
+    uses_external_data: false
+    is_best: true
+    metric_values:
+    - 0.961
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+  - model: MinCutPool
+    model_plain: MinCutPool
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2210.15304'
+    title: 'Explaining the Explainers in Graph Neural Networks: a Comparative Study'
+    date: Oct 2022
+    date_iso: 2022-10
+    date_display: Oct 2022
+    codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.6139
+    - 0.919
+    - null
+    - null
+    - null
     metric_stds:
-    - 0.0296
+    - null
+    - null
+    - null
+    - null
+  - model: Guided Backpropagation
+    model_plain: Guided Backpropagation
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2210.15304'
+    title: 'Explaining the Explainers in Graph Neural Networks: a Comparative Study'
+    date: Oct 2022
+    date_iso: 2022-10
+    date_display: Oct 2022
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.908
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+  - model: GCN
+    model_plain: GCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2210.15304'
+    title: 'Explaining the Explainers in Graph Neural Networks: a Comparative Study'
+    date: Oct 2022
+    date_iso: 2022-10
+    date_display: Oct 2022
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.866
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+  - model: Grad-CAM
+    model_plain: Grad-CAM
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2210.15304'
+    title: 'Explaining the Explainers in Graph Neural Networks: a Comparative Study'
+    date: Oct 2022
+    date_iso: 2022-10
+    date_display: Oct 2022
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.866
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+  - model: GradExpl-Edge
+    model_plain: GradExpl-Edge
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2210.15304'
+    title: 'Explaining the Explainers in Graph Neural Networks: a Comparative Study'
+    date: Oct 2022
+    date_iso: 2022-10
+    date_display: Oct 2022
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.849
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+  - model: SubX
+    model_plain: SubX
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2210.15304'
+    title: 'Explaining the Explainers in Graph Neural Networks: a Comparative Study'
+    date: Oct 2022
+    date_iso: 2022-10
+    date_display: Oct 2022
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.79
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+  - model: IG-Edge
+    model_plain: IG-Edge
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2210.15304'
+    title: 'Explaining the Explainers in Graph Neural Networks: a Comparative Study'
+    date: Oct 2022
+    date_iso: 2022-10
+    date_display: Oct 2022
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.544
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+  - model: PGM-Expl
+    model_plain: PGM-Expl
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2210.15304'
+    title: 'Explaining the Explainers in Graph Neural Networks: a Comparative Study'
+    date: Oct 2022
+    date_iso: 2022-10
+    date_display: Oct 2022
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.488
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+  - model: GradExplEdge
+    model_plain: GradExplEdge
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2210.15304'
+    title: 'Explaining the Explainers in Graph Neural Networks: a Comparative Study'
+    date: Oct 2022
+    date_iso: 2022-10
+    date_display: Oct 2022
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.44
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+  - model: Set2Set
+    model_plain: Set2Set
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2210.15304'
+    title: 'Explaining the Explainers in Graph Neural Networks: a Comparative Study'
+    date: Oct 2022
+    date_iso: 2022-10
+    date_display: Oct 2022
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.409
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+  - model: RGExpl
+    model_plain: RGExpl
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2210.15304'
+    title: 'Explaining the Explainers in Graph Neural Networks: a Comparative Study'
+    date: Oct 2022
+    date_iso: 2022-10
+    date_display: Oct 2022
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.4
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+  - model: GNNExplainer
+    model_plain: GNNExplainer
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2210.15304'
+    title: 'Explaining the Explainers in Graph Neural Networks: a Comparative Study'
+    date: Oct 2022
+    date_iso: 2022-10
+    date_display: Oct 2022
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.362
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+  - model: IgEdge
+    model_plain: IgEdge
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2210.15304'
+    title: 'Explaining the Explainers in Graph Neural Networks: a Comparative Study'
+    date: Oct 2022
+    date_iso: 2022-10
+    date_display: Oct 2022
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.29
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+  - model: GnnExpl
+    model_plain: GnnExpl
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2210.15304'
+    title: 'Explaining the Explainers in Graph Neural Networks: a Comparative Study'
+    date: Oct 2022
+    date_iso: 2022-10
+    date_display: Oct 2022
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.26
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+  - model: GIN
+    model_plain: GIN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2210.15304'
+    title: 'Explaining the Explainers in Graph Neural Networks: a Comparative Study'
+    date: Oct 2022
+    date_iso: 2022-10
+    date_display: Oct 2022
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.186
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+  - model: GraphCON
+    model_plain: GraphCON
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2210.15304'
+    title: 'Explaining the Explainers in Graph Neural Networks: a Comparative Study'
+    date: Oct 2022
+    date_iso: 2022-10
+    date_display: Oct 2022
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.147
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+  - model: GradCam
+    model_plain: GradCam
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2210.15304'
+    title: 'Explaining the Explainers in Graph Neural Networks: a Comparative Study'
+    date: Oct 2022
+    date_iso: 2022-10
+    date_display: Oct 2022
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.14
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+  - model: IG-Node
+    model_plain: IG-Node
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2210.15304'
+    title: 'Explaining the Explainers in Graph Neural Networks: a Comparative Study'
+    date: Oct 2022
+    date_iso: 2022-10
+    date_display: Oct 2022
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.08
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+  - model: PGExpl
+    model_plain: PGExpl
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2210.15304'
+    title: 'Explaining the Explainers in Graph Neural Networks: a Comparative Study'
+    date: Oct 2022
+    date_iso: 2022-10
+    date_display: Oct 2022
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.03
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+  - model: CAM
+    model_plain: CAM
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2210.15304'
+    title: 'Explaining the Explainers in Graph Neural Networks: a Comparative Study'
+    date: Oct 2022
+    date_iso: 2022-10
+    date_display: Oct 2022
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.02
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+  - model: GradExpl-Node
+    model_plain: GradExpl-Node
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2210.15304'
+    title: 'Explaining the Explainers in Graph Neural Networks: a Comparative Study'
+    date: Oct 2022
+    date_iso: 2022-10
+    date_display: Oct 2022
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.0
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+  - model: GuidedBp
+    model_plain: GuidedBp
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2210.15304'
+    title: 'Explaining the Explainers in Graph Neural Networks: a Comparative Study'
+    date: Oct 2022
+    date_iso: 2022-10
+    date_display: Oct 2022
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.0
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+  - model: NWR-GAE
+    model_plain: NWR-GAE
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2202.09025'
+    title: Graph Auto-Encoder Via Neighborhood Wasserstein Reconstruction
+    date: Feb 2022
+    date_iso: 2022-02
+    date_display: Feb 2022
+    codebase_url: https://github.com/mtang724/NWR-GAE
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 1.0
+    - 0.65
+    - 0.99
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+  - model: DeepWalk
+    model_plain: DeepWalk
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2202.09025'
+    title: Graph Auto-Encoder Via Neighborhood Wasserstein Reconstruction
+    date: Feb 2022
+    date_iso: 2022-02
+    date_display: Feb 2022
+    codebase_url: https://github.com/mtang724/NWR-GAE
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.01
+    - 0.06
+    - 0.29
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+  - model: Node2Vec
+    model_plain: Node2Vec
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2202.09025'
+    title: Graph Auto-Encoder Via Neighborhood Wasserstein Reconstruction
+    date: Feb 2022
+    date_iso: 2022-02
+    date_display: Feb 2022
+    codebase_url: https://github.com/mtang724/NWR-GAE
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.01
+    - 0.03
+    - 0.33
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+  - model: RolX
+    model_plain: RolX
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2202.09025'
+    title: Graph Auto-Encoder Via Neighborhood Wasserstein Reconstruction
+    date: Feb 2022
+    date_iso: 2022-02
+    date_display: Feb 2022
+    codebase_url: https://github.com/mtang724/NWR-GAE
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 1.0
+    - 0.65
+    - 0.99
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+  - model: struc2vec
+    model_plain: struc2vec
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2202.09025'
+    title: Graph Auto-Encoder Via Neighborhood Wasserstein Reconstruction
+    date: Feb 2022
+    date_iso: 2022-02
+    date_display: Feb 2022
+    codebase_url: https://github.com/mtang724/NWR-GAE
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.99
+    - 0.21
+    - 0.45
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+  - model: GraphWave
+    model_plain: GraphWave
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2202.09025'
+    title: Graph Auto-Encoder Via Neighborhood Wasserstein Reconstruction
+    date: Feb 2022
+    date_iso: 2022-02
+    date_display: Feb 2022
+    codebase_url: https://github.com/mtang724/NWR-GAE
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 1.0
+    - 0.52
+    - 0.99
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+  - model: GAE
+    model_plain: GAE
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2202.09025'
+    title: Graph Auto-Encoder Via Neighborhood Wasserstein Reconstruction
+    date: Feb 2022
+    date_iso: 2022-02
+    date_display: Feb 2022
+    codebase_url: https://github.com/mtang724/NWR-GAE
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 1.0
+    - 0.36
+    - 0.99
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+  - model: VGAE
+    model_plain: VGAE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2202.09025'
+    title: Graph Auto-Encoder Via Neighborhood Wasserstein Reconstruction
+    date: Feb 2022
+    date_iso: 2022-02
+    date_display: Feb 2022
+    codebase_url: https://github.com/mtang724/NWR-GAE
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.27
+    - 0.29
+    - 0.21
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+  - model: ARGVA
+    model_plain: ARGVA
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2202.09025'
+    title: Graph Auto-Encoder Via Neighborhood Wasserstein Reconstruction
+    date: Feb 2022
+    date_iso: 2022-02
+    date_display: Feb 2022
+    codebase_url: https://github.com/mtang724/NWR-GAE
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.28
+    - 0.24
+    - 0.19
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+  - model: DGI
+    model_plain: DGI
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2202.09025'
+    title: Graph Auto-Encoder Via Neighborhood Wasserstein Reconstruction
+    date: Feb 2022
+    date_iso: 2022-02
+    date_display: Feb 2022
+    codebase_url: https://github.com/mtang724/NWR-GAE
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 1.0
+    - 0.24
+    - 0.99
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+  - model: GraphCL
+    model_plain: GraphCL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2202.09025'
+    title: Graph Auto-Encoder Via Neighborhood Wasserstein Reconstruction
+    date: Feb 2022
+    date_iso: 2022-02
+    date_display: Feb 2022
+    codebase_url: https://github.com/mtang724/NWR-GAE
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 1.0
+    - 0.41
+    - 0.99
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+  - model: MVGRL
+    model_plain: MVGRL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2202.09025'
+    title: Graph Auto-Encoder Via Neighborhood Wasserstein Reconstruction
+    date: Feb 2022
+    date_iso: 2022-02
+    date_display: Feb 2022
+    codebase_url: https://github.com/mtang724/NWR-GAE
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 1.0
+    - 0.63
+    - 0.99
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
   milestones:
-  - value: 0.7718
-    std: 0.0235
-    model: HealHGNN
-    arxiv_id: '2603.00599'
-    title: Heterophily-Agnostic Hypergraph Neural Networks with Riemannian Local Exchanger
-    date: 2026-03
+  - value: 0.961
+    std: null
+    model: ChebNet
+    arxiv_id: '2210.15304'
+    title: 'Explaining the Explainers in Graph Neural Networks: a Comparative Study'
+    date: 2022-10
 ---
 

@@ -28,8 +28,8 @@ has_results: true
 paper_type: method
 proposed_models:
 - Graph-Mamba
-mrr: 0.0902
-adjusted_mrr: 0.0902
+mrr: 0.0828
+adjusted_mrr: 0.0828
 mrr_dataset_count: 6
 benchmark_categories:
 - LRGB
@@ -145,9 +145,9 @@ results:
     has_value_note: false
     value_gap: 0.3329
     value_note: ''
-    paper_rank: 39
-    rank_delta: 34
-    rank_delta_abs: 34
+    paper_rank: 53
+    rank_delta: 48
+    rank_delta_abs: 48
     rank_delta_direction: worse
     sort_value: 0.89
     sort_std: 0.01
@@ -181,9 +181,9 @@ results:
     has_value_note: false
     value_gap: 0.33740000000000003
     value_note: ''
-    paper_rank: 39
-    rank_delta: 33
-    rank_delta_abs: 33
+    paper_rank: 54
+    rank_delta: 48
+    rank_delta_abs: 48
     rank_delta_direction: worse
     sort_value: 0.89
     sort_std: 0.01
@@ -207,22 +207,21 @@ results:
     date: Feb 1, 2024
     date_display: Feb 2024
     date_iso: '2024-02-01'
-    global_rank: 13
-    true_value: 0.7469
+    global_rank: 15
+    true_value: 0.74696
     true_std: 0.00125
-    value_gap_source_arxiv: '2502.00282'
-    value_gap_source_title: 'GraphMinNet: Learning Dependencies in Graphs with Light
-      Complexity Minimal Architecture'
+    value_gap_source_arxiv: '2502.09365'
+    value_gap_source_title: Simple Path Structural Encoding for Graph Transformers
     value_gap_source_is_current_paper: false
     has_value_gap: true
     has_value_note: false
-    value_gap: 0.005600000000000049
+    value_gap: 0.005659999999999998
     value_note: ''
-    paper_rank: 13
+    paper_rank: 15
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
-    sort_value: 0.7469
+    sort_value: 0.74696
     sort_std: 0.00125
     is_best: false
   - model: Graph-Mamba
@@ -237,14 +236,14 @@ results:
     is_baseline: false
     is_overridden: false
     override_reason: ''
-    params_millions: 0.285125
+    params_millions: 0.285
     table_ref: Table 4
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
     date: Feb 1, 2024
     date_display: Feb 2024
     date_iso: '2024-02-01'
-    global_rank: 16
+    global_rank: 21
     true_value: 0.737
     true_std: 0.0034
     value_gap_source_arxiv: '2402.00789'
@@ -255,7 +254,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 16
+    paper_rank: 21
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -274,14 +273,14 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.286725
+    params_millions: 0.287
     table_ref: Table 4
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
     date: Feb 1, 2024
     date_display: Feb 2024
     date_iso: '2024-02-01'
-    global_rank: 20
+    global_rank: 25
     true_value: 0.7226
     true_std: 0.0031
     value_gap_source_arxiv: '2402.00789'
@@ -292,7 +291,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 20
+    paper_rank: 25
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -318,7 +317,7 @@ results:
     date: Feb 1, 2024
     date_display: Feb 2024
     date_iso: '2024-02-01'
-    global_rank: 24
+    global_rank: 30
     true_value: 0.7067
     true_std: 0.0033
     value_gap_source_arxiv: '2402.00789'
@@ -329,7 +328,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 24
+    paper_rank: 30
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -355,7 +354,7 @@ results:
     date: Feb 1, 2024
     date_display: Feb 2024
     date_iso: '2024-02-01'
-    global_rank: 25
+    global_rank: 31
     true_value: 0.7048
     true_std: 0.001
     value_gap_source_arxiv: '2402.00789'
@@ -366,7 +365,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 25
+    paper_rank: 31
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -392,7 +391,7 @@ results:
     date: Feb 1, 2024
     date_display: Feb 2024
     date_iso: '2024-02-01'
-    global_rank: 35
+    global_rank: 41
     true_value: 0.67312
     true_std: 0.00311
     value_gap_source_arxiv: '2312.01538'
@@ -403,7 +402,7 @@ results:
     has_value_note: true
     value_gap: 2.0000000000020002e-05
     value_note: global 0.6731 within std
-    paper_rank: 36
+    paper_rank: 42
     rank_delta: 1
     rank_delta_abs: 1
     rank_delta_direction: worse
@@ -462,29 +461,28 @@ results:
     sort_value: 0.80026
     sort_std: 0.00277
     is_best: true
-  - model: LRDs
-    model_key: lrds
-    model_plain: LRDs
-    value: 0.79284
-    std: 0.00122
+  - model: GRIT-RWSE
+    model_key: grit-rwse
+    model_plain: GRIT-RWSE
+    value: 0.7973
+    std: 0.00189
     metric: Accuracy
     higher_is_better: true
-    is_baseline: false
+    is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2502.00282'
-    title: 'GraphMinNet: Learning Dependencies in Graphs with Light Complexity Minimal
-      Architecture'
-    date: Feb 1, 2025
+    arxiv_id: '2502.09365'
+    title: Simple Path Structural Encoding for Graph Transformers
+    date: Feb 13, 2025
     date_display: Feb 2025
-    date_iso: '2025-02-01'
-    codebase_url: ''
+    date_iso: '2025-02-13'
+    codebase_url: https://github.com/LouisBearing/Graph-SPSE-Encoding
     uses_external_data: false
     is_global_top: true
     global_rank: 3
-    sort_value: 0.79284
-    sort_std: 0.00122
+    sort_value: 0.7973
+    sort_std: 0.00189
     is_best: false
   - model: GPS+Performer
     model_key: gps+performer
@@ -505,7 +503,7 @@ results:
     date: Feb 1, 2024
     date_display: Feb 2024
     date_iso: '2024-02-01'
-    global_rank: 7
+    global_rank: 12
     true_value: 0.7829
     true_std: 0.0004
     value_gap_source_arxiv: '2402.00789'
@@ -516,7 +514,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 7
+    paper_rank: 12
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -542,22 +540,21 @@ results:
     date: Feb 1, 2024
     date_display: Feb 2024
     date_iso: '2024-02-01'
-    global_rank: 9
-    true_value: 0.7807
+    global_rank: 14
+    true_value: 0.78071
     true_std: 0.00037
-    value_gap_source_arxiv: '2502.00282'
-    value_gap_source_title: 'GraphMinNet: Learning Dependencies in Graphs with Light
-      Complexity Minimal Architecture'
+    value_gap_source_arxiv: '2502.09365'
+    value_gap_source_title: Simple Path Structural Encoding for Graph Transformers
     value_gap_source_is_current_paper: false
     has_value_gap: false
     has_value_note: true
-    value_gap: 0.0004999999999999449
+    value_gap: 0.0005100000000000104
     value_note: global 0.7807 within std
-    paper_rank: 9
+    paper_rank: 14
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
-    sort_value: 0.7807
+    sort_value: 0.78071
     sort_std: 0.00037
     is_best: false
   - model: GPS+Transformer
@@ -572,14 +569,14 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.286725
+    params_millions: 0.287
     table_ref: Table 3
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
     date: Feb 1, 2024
     date_display: Feb 2024
     date_iso: '2024-02-01'
-    global_rank: 12
+    global_rank: 17
     true_value: 0.7799
     true_std: 0.0017
     value_gap_source_arxiv: '2402.00789'
@@ -590,7 +587,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 12
+    paper_rank: 17
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -616,7 +613,7 @@ results:
     date: Feb 1, 2024
     date_display: Feb 2024
     date_iso: '2024-02-01'
-    global_rank: 15
+    global_rank: 20
     true_value: 0.7746
     true_std: 0.0002
     value_gap_source_arxiv: '2402.00789'
@@ -627,7 +624,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 15
+    paper_rank: 20
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -646,14 +643,14 @@ results:
     is_baseline: false
     is_overridden: false
     override_reason: ''
-    params_millions: 0.285125
+    params_millions: 0.285
     table_ref: Table 3
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
     date: Feb 1, 2024
     date_display: Feb 2024
     date_iso: '2024-02-01'
-    global_rank: 18
+    global_rank: 23
     true_value: 0.768
     true_std: 0.0036
     value_gap_source_arxiv: '2402.00789'
@@ -664,7 +661,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 18
+    paper_rank: 23
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -690,7 +687,7 @@ results:
     date: Feb 1, 2024
     date_display: Feb 2024
     date_iso: '2024-02-01'
-    global_rank: 20
+    global_rank: 25
     true_value: 0.76082
     true_std: 0.00196
     value_gap_source_arxiv: '2108.03348'
@@ -700,7 +697,7 @@ results:
     has_value_note: false
     value_gap: 0.022420000000000107
     value_note: ''
-    paper_rank: 22
+    paper_rank: 27
     rank_delta: 2
     rank_delta_abs: 2
     rank_delta_direction: worse
@@ -726,7 +723,7 @@ results:
     date: Feb 1, 2024
     date_display: Feb 2024
     date_iso: '2024-02-01'
-    global_rank: 25
+    global_rank: 30
     true_value: 0.685
     true_std: 0.0097
     value_gap_source_arxiv: '2402.00789'
@@ -737,7 +734,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 25
+    paper_rank: 30
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -763,7 +760,7 @@ results:
     date: Feb 1, 2024
     date_display: Feb 2024
     date_iso: '2024-02-01'
-    global_rank: 26
+    global_rank: 33
     true_value: 0.6472
     true_std: 0.0155
     value_gap_source_arxiv: '2402.00789'
@@ -774,7 +771,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 26
+    paper_rank: 33
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -783,7 +780,7 @@ results:
     is_best: false
   metric: Accuracy
   higher_is_better: true
-- &id003
+- &id002
   dataset: MNIST
   rows:
   - model: Classical CNN
@@ -819,7 +816,7 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 1.66
+    params_millions: null
     arxiv_id: '1705.07664'
     title: 'CayleyNets: Graph Convolutional Neural Networks with Complex Rational
       Spectral Filters'
@@ -887,9 +884,9 @@ results:
     has_value_note: false
     value_gap: 0.0012000000000000899
     value_note: ''
-    paper_rank: 9
-    rank_delta: 1
-    rank_delta_abs: 1
+    paper_rank: 10
+    rank_delta: 2
+    rank_delta_abs: 2
     rank_delta_direction: worse
     sort_value: 0.9855
     sort_std: 0.00039
@@ -906,14 +903,14 @@ results:
     is_baseline: false
     is_overridden: false
     override_reason: ''
-    params_millions: 0.285125
+    params_millions: 0.285
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
     date: Feb 1, 2024
     date_display: Feb 2024
     date_iso: '2024-02-01'
-    global_rank: 10
+    global_rank: 11
     true_value: 0.9842
     true_std: 0.0008
     value_gap_source_arxiv: '2402.00789'
@@ -924,7 +921,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 10
+    paper_rank: 11
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -950,7 +947,7 @@ results:
     date: Feb 1, 2024
     date_display: Feb 2024
     date_iso: '2024-02-01'
-    global_rank: 13
+    global_rank: 14
     true_value: 0.9834
     true_std: 0.0003
     value_gap_source_arxiv: '2402.00789'
@@ -961,7 +958,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 13
+    paper_rank: 14
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -987,7 +984,7 @@ results:
     date: Feb 1, 2024
     date_display: Feb 2024
     date_iso: '2024-02-01'
-    global_rank: 22
+    global_rank: 26
     true_value: 0.9817
     true_std: 0.0001
     value_gap_source_arxiv: '2402.00789'
@@ -998,7 +995,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 22
+    paper_rank: 26
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1017,14 +1014,14 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.286725
+    params_millions: 0.287
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
     date: Feb 1, 2024
     date_display: Feb 2024
     date_iso: '2024-02-01'
-    global_rank: 26
+    global_rank: 31
     true_value: 0.9811
     true_std: 0.0011
     value_gap_source_arxiv: '2402.00789'
@@ -1035,48 +1032,12 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 26
+    paper_rank: 31
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 0.9811
     sort_std: 0.0011
-    is_best: false
-  - model: GatedGCN
-    model_key: gatedgcn
-    model_plain: GatedGCN
-    value: 0.9734
-    std: 0.0014
-    paper_value: 0.9734
-    paper_std: 0.0014
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 2
-    source_ref: this paper
-    variant_inference_reason: 'dataset: exact match'
-    date: Feb 1, 2024
-    date_display: Feb 2024
-    date_iso: '2024-02-01'
-    global_rank: 36
-    true_value: 0.9734
-    true_std: 0.00143
-    value_gap_source_arxiv: '2205.12454'
-    value_gap_source_title: Recipe for a General, Powerful, Scalable Graph Transformer
-    value_gap_source_is_current_paper: false
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 36
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.9734
-    sort_std: 0.00143
     is_best: false
   - model: GIN
     model_key: gin
@@ -1097,23 +1058,23 @@ results:
     date: Feb 1, 2024
     date_display: Feb 2024
     date_iso: '2024-02-01'
-    global_rank: 39
-    true_value: 0.9649
-    true_std: 0.0025
-    value_gap_source_arxiv: '2402.00789'
-    value_gap_source_title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling
-      with Selective State Spaces'
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
+    global_rank: 40
+    true_value: 0.979
+    true_std: 0.003
+    value_gap_source_arxiv: '1806.09231'
+    value_gap_source_title: 'Clebsch--Gordan Nets: a Fully Fourier Space Spherical
+      Convolutional Neural Network'
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
     has_value_note: false
-    value_gap: null
+    value_gap: 0.014100000000000001
     value_note: ''
-    paper_rank: 39
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.9649
-    sort_std: 0.0025
+    paper_rank: 50
+    rank_delta: 10
+    rank_delta_abs: 10
+    rank_delta_direction: worse
+    sort_value: 0.979
+    sort_std: 0.003
     is_best: false
   - model: GCN
     model_key: gcn
@@ -1134,23 +1095,59 @@ results:
     date: Feb 1, 2024
     date_display: Feb 2024
     date_iso: '2024-02-01'
-    global_rank: 43
-    true_value: 0.9071
-    true_std: 0.0021
-    value_gap_source_arxiv: '2402.00789'
-    value_gap_source_title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling
-      with Selective State Spaces'
-    value_gap_source_is_current_paper: true
+    global_rank: 41
+    true_value: 0.978
+    true_std: 0.003
+    value_gap_source_arxiv: '1806.09231'
+    value_gap_source_title: 'Clebsch--Gordan Nets: a Fully Fourier Space Spherical
+      Convolutional Neural Network'
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
+    has_value_note: false
+    value_gap: 0.07089999999999996
+    value_note: ''
+    paper_rank: 56
+    rank_delta: 15
+    rank_delta_abs: 15
+    rank_delta_direction: worse
+    sort_value: 0.978
+    sort_std: 0.003
+    is_best: false
+  - model: GatedGCN
+    model_key: gatedgcn
+    model_plain: GatedGCN
+    value: 0.9734
+    std: 0.0014
+    paper_value: 0.9734
+    paper_std: 0.0014
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 2
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Feb 1, 2024
+    date_display: Feb 2024
+    date_iso: '2024-02-01'
+    global_rank: 47
+    true_value: 0.9734
+    true_std: 0.00143
+    value_gap_source_arxiv: '2205.12454'
+    value_gap_source_title: Recipe for a General, Powerful, Scalable Graph Transformer
+    value_gap_source_is_current_paper: false
     has_value_gap: false
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 43
+    paper_rank: 47
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
-    sort_value: 0.9071
-    sort_std: 0.0021
+    sort_value: 0.9734
+    sort_std: 0.00143
     is_best: false
   metric: Accuracy
   higher_is_better: true
@@ -1278,7 +1275,7 @@ results:
     is_baseline: false
     is_overridden: false
     override_reason: ''
-    params_millions: 0.285125
+    params_millions: 0.285
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
@@ -1470,7 +1467,7 @@ results:
     date: Feb 1, 2024
     date_display: Feb 2024
     date_iso: '2024-02-01'
-    global_rank: 12
+    global_rank: 14
     true_value: 0.81
     true_std: null
     value_gap_source_arxiv: '2402.00789'
@@ -1481,7 +1478,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 12
+    paper_rank: 14
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1490,7 +1487,7 @@ results:
     is_best: false
   metric: Accuracy
   higher_is_better: true
-- &id002
+- &id003
   dataset: PATTERN
   rows:
   - model: DGN
@@ -1568,9 +1565,9 @@ results:
     has_value_note: false
     value_gap: 0.06430000000000002
     value_note: ''
-    paper_rank: 36
-    rank_delta: 33
-    rank_delta_abs: 33
+    paper_rank: 47
+    rank_delta: 44
+    rank_delta_abs: 44
     rank_delta_direction: worse
     sort_value: 0.92
     sort_std: 0.003
@@ -1604,9 +1601,9 @@ results:
     has_value_note: false
     value_gap: 0.05610000000000004
     value_note: ''
-    paper_rank: 38
-    rank_delta: 34
-    rank_delta_abs: 34
+    paper_rank: 49
+    rank_delta: 45
+    rank_delta_abs: 45
     rank_delta_direction: worse
     sort_value: 0.91
     sort_std: 0.003
@@ -1663,9 +1660,9 @@ results:
     has_value_note: false
     value_gap: 0.16110000000000002
     value_note: ''
-    paper_rank: 45
-    rank_delta: 38
-    rank_delta_abs: 38
+    paper_rank: 60
+    rank_delta: 53
+    rank_delta_abs: 53
     rank_delta_direction: worse
     sort_value: 0.88
     sort_std: 0.005
@@ -1689,22 +1686,21 @@ results:
     date: Feb 1, 2024
     date_display: Feb 2024
     date_iso: '2024-02-01'
-    global_rank: 19
-    true_value: 0.8674
+    global_rank: 24
+    true_value: 0.86742
     true_std: 0.00015
-    value_gap_source_arxiv: '2502.00282'
-    value_gap_source_title: 'GraphMinNet: Learning Dependencies in Graphs with Light
-      Complexity Minimal Architecture'
+    value_gap_source_arxiv: '2502.09365'
+    value_gap_source_title: Simple Path Structural Encoding for Graph Transformers
     value_gap_source_is_current_paper: false
     has_value_gap: true
     has_value_note: false
-    value_gap: 0.00039999999999995595
+    value_gap: 0.00041999999999997595
     value_note: ''
-    paper_rank: 22
+    paper_rank: 27
     rank_delta: 3
     rank_delta_abs: 3
     rank_delta_direction: worse
-    sort_value: 0.8674
+    sort_value: 0.86742
     sort_std: 0.00015
     is_best: false
   - model: Graph-Mamba
@@ -1719,14 +1715,14 @@ results:
     is_baseline: false
     is_overridden: false
     override_reason: ''
-    params_millions: 0.285125
+    params_millions: 0.285
     table_ref: Table 4
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
     date: Feb 1, 2024
     date_display: Feb 2024
     date_iso: '2024-02-01'
-    global_rank: 22
+    global_rank: 27
     true_value: 0.8671
     true_std: 0.0005
     value_gap_source_arxiv: '2402.00789'
@@ -1737,7 +1733,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 22
+    paper_rank: 27
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1756,14 +1752,14 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.286725
+    params_millions: 0.287
     table_ref: Table 4
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
     date: Feb 1, 2024
     date_display: Feb 2024
     date_iso: '2024-02-01'
-    global_rank: 28
+    global_rank: 33
     true_value: 0.8664
     true_std: 0.0011
     value_gap_source_arxiv: '2402.00789'
@@ -1774,7 +1770,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 28
+    paper_rank: 33
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1800,7 +1796,7 @@ results:
     date: Feb 1, 2024
     date_display: Feb 2024
     date_iso: '2024-02-01'
-    global_rank: 32
+    global_rank: 39
     true_value: 0.86
     true_std: 0.0014
     value_gap_source_arxiv: '2402.00789'
@@ -1811,7 +1807,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 32
+    paper_rank: 39
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1837,7 +1833,7 @@ results:
     date: Feb 1, 2024
     date_display: Feb 2024
     date_iso: '2024-02-01'
-    global_rank: 42
+    global_rank: 55
     true_value: 0.8334
     true_std: 0.0029
     value_gap_source_arxiv: '2402.00789'
@@ -1848,7 +1844,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 42
+    paper_rank: 55
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1954,7 +1950,7 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.286725
+    params_millions: 0.287
     table_ref: Table 2 (Benchmark on Short to Medium-Range Graph Datasets)
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
@@ -2051,7 +2047,7 @@ results:
     is_baseline: false
     is_overridden: false
     override_reason: ''
-    params_millions: 0.285125
+    params_millions: 0.285
     table_ref: Table 2 (Benchmark on Short to Medium-Range Graph Datasets)
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'

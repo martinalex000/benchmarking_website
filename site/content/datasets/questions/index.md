@@ -9,7 +9,7 @@ primary_metric: ROC-AUC
 higher_is_better: true
 pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.HeterophilousGraphDataset.html
 stats: null
-result_count: 29
+result_count: 73
 best_model:
   model: Tango_GatedGCN
   value: 0.8039
@@ -29,6 +29,7 @@ variants:
     avg_edges: null
   metrics:
   - ROC-AUC
+  - Accuracy
   rows:
   - model: Tango_GatedGCN
     model_plain: Tango_GatedGCN
@@ -46,8 +47,10 @@ variants:
     is_best: true
     metric_values:
     - 0.8039
+    - null
     metric_stds:
     - 0.0104
+    - null
   - model: Tango_GPS
     model_plain: Tango_GPS
     is_baseline: false
@@ -64,8 +67,10 @@ variants:
     is_best: true
     metric_values:
     - 0.8032
+    - null
     metric_stds:
     - 0.0107
+    - null
   - model: CO-GNN(Σ, Σ)
     model_plain: CO-GNN(Σ, Σ)
     is_baseline: true
@@ -82,8 +87,10 @@ variants:
     is_best: true
     metric_values:
     - 0.8002
+    - null
     metric_stds:
     - 0.0086
+    - null
   - model: CSNN
     model_plain: CSNN
     is_baseline: true
@@ -100,8 +107,10 @@ variants:
     is_best: true
     metric_values:
     - 0.7931
+    - null
     metric_stds:
     - 0.0122
+    - null
   - model: FSGNN
     model_plain: FSGNN
     is_baseline: true
@@ -119,8 +128,10 @@ variants:
     is_best: true
     metric_values:
     - 0.7886
+    - null
     metric_stds:
     - 0.0092
+    - null
   - model: BuNN
     model_plain: BuNN
     is_baseline: true
@@ -137,8 +148,10 @@ variants:
     is_best: true
     metric_values:
     - 0.7875
+    - null
     metric_stds:
     - 0.0109
+    - null
   - model: GT-sep
     model_plain: GT-sep
     is_baseline: true
@@ -156,8 +169,10 @@ variants:
     is_best: false
     metric_values:
     - 0.7805
+    - null
     metric_stds:
     - 0.0093
+    - null
   - model: GT
     model_plain: GT
     is_baseline: true
@@ -175,8 +190,10 @@ variants:
     is_best: false
     metric_values:
     - 0.7795
+    - null
     metric_stds:
     - 0.0068
+    - null
   - model: GAT
     model_plain: GAT
     is_baseline: true
@@ -194,8 +211,10 @@ variants:
     is_best: false
     metric_values:
     - 0.7743
+    - null
     metric_stds:
     - 0.012
+    - null
   - model: FAGCN
     model_plain: FAGCN
     is_baseline: true
@@ -213,8 +232,10 @@ variants:
     is_best: false
     metric_values:
     - 0.7724
+    - null
     metric_stds:
     - 0.0126
+    - null
   - model: GPS_GCNI+Performer (RWSE)
     model_plain: GPS_GCNI+Performer (RWSE)
     is_baseline: true
@@ -231,8 +252,31 @@ variants:
     is_best: false
     metric_values:
     - 0.7714
+    - null
     metric_stds:
     - 0.0149
+    - null
+  - model: GODM
+    model_plain: GODM
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2312.17679'
+    title: Data Augmentation for Supervised Graph Outlier Detection via Latent Diffusion
+      Models
+    date: Dec 2023
+    date_iso: 2023-12
+    date_display: Dec 2023
+    codebase_url: https://pypi.org/project/godm
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7684
+    - null
+    metric_stds:
+    - null
+    - null
   - model: GatedGCN
     model_plain: GatedGCN
     is_baseline: true
@@ -249,8 +293,10 @@ variants:
     is_best: false
     metric_values:
     - 0.7661
+    - null
     metric_stds:
     - 0.0113
+    - null
   - model: CO-GNN(μ, μ)
     model_plain: CO-GNN(μ, μ)
     is_baseline: true
@@ -267,8 +313,10 @@ variants:
     is_best: false
     metric_values:
     - 0.7654
+    - null
     metric_stds:
     - 0.0095
+    - null
   - model: SAGE
     model_plain: SAGE
     is_baseline: true
@@ -286,8 +334,10 @@ variants:
     is_best: false
     metric_values:
     - 0.7644
+    - null
     metric_stds:
     - 0.0062
+    - null
   - model: GCN
     model_plain: GCN
     is_baseline: true
@@ -305,8 +355,10 @@ variants:
     is_best: false
     metric_values:
     - 0.7609
+    - null
     metric_stds:
     - 0.0127
+    - null
   - model: CO-GNN
     model_plain: CO-GNN
     is_baseline: true
@@ -323,8 +375,10 @@ variants:
     is_best: false
     metric_values:
     - 0.7597
+    - null
     metric_stds:
     - 0.0089
+    - null
   - model: ResNet+SGC
     model_plain: ResNet+SGC
     is_baseline: true
@@ -342,8 +396,10 @@ variants:
     is_best: false
     metric_values:
     - 0.7581
+    - null
     metric_stds:
     - 0.0096
+    - null
   - model: ResNet+adj
     model_plain: ResNet+adj
     is_baseline: true
@@ -361,8 +417,10 @@ variants:
     is_best: false
     metric_values:
     - 0.7577
+    - null
     metric_stds:
     - 0.0124
+    - null
   - model: GOAT
     model_plain: GOAT
     is_baseline: true
@@ -379,8 +437,31 @@ variants:
     is_best: false
     metric_values:
     - 0.7576
+    - null
     metric_stds:
     - 0.0166
+    - null
+  - model: GVAE
+    model_plain: GVAE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2312.17679'
+    title: Data Augmentation for Supervised Graph Outlier Detection via Latent Diffusion
+      Models
+    date: Dec 2023
+    date_iso: 2023-12
+    date_display: Dec 2023
+    codebase_url: https://pypi.org/project/godm
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7573
+    - null
+    metric_stds:
+    - null
+    - null
   - model: GBK-GNN
     model_plain: GBK-GNN
     is_baseline: true
@@ -398,8 +479,10 @@ variants:
     is_best: false
     metric_values:
     - 0.7447
+    - null
     metric_stds:
     - 0.0086
+    - null
   - model: Exphormer
     model_plain: Exphormer
     is_baseline: true
@@ -416,8 +499,10 @@ variants:
     is_best: false
     metric_values:
     - 0.7394
+    - null
     metric_stds:
     - 0.0106
+    - null
   - model: JacobiConv
     model_plain: JacobiConv
     is_baseline: true
@@ -435,8 +520,94 @@ variants:
     is_best: false
     metric_values:
     - 0.7388
+    - null
     metric_stds:
     - 0.0116
+    - null
+  - model: GraphSAGE
+    model_plain: GraphSAGE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2312.17679'
+    title: Data Augmentation for Supervised Graph Outlier Detection via Latent Diffusion
+      Models
+    date: Dec 2023
+    date_iso: 2023-12
+    date_display: Dec 2023
+    codebase_url: https://pypi.org/project/godm
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7169
+    - null
+    metric_stds:
+    - null
+    - null
+  - model: DAGAD
+    model_plain: DAGAD
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2312.17679'
+    title: Data Augmentation for Supervised Graph Outlier Detection via Latent Diffusion
+      Models
+    date: Dec 2023
+    date_iso: 2023-12
+    date_display: Dec 2023
+    codebase_url: https://pypi.org/project/godm
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7121
+    - null
+    metric_stds:
+    - null
+    - null
+  - model: GT
+    model_plain: GT
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2312.17679'
+    title: Data Augmentation for Supervised Graph Outlier Detection via Latent Diffusion
+      Models
+    date: Dec 2023
+    date_iso: 2023-12
+    date_display: Dec 2023
+    codebase_url: https://pypi.org/project/godm
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7083
+    - null
+    metric_stds:
+    - null
+    - null
+  - model: BernNet
+    model_plain: BernNet
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2312.17679'
+    title: Data Augmentation for Supervised Graph Outlier Detection via Latent Diffusion
+      Models
+    date: Dec 2023
+    date_iso: 2023-12
+    date_display: Dec 2023
+    codebase_url: https://pypi.org/project/godm
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.708
+    - null
+    metric_stds:
+    - null
+    - null
   - model: ResNet
     model_plain: ResNet
     is_baseline: true
@@ -454,8 +625,115 @@ variants:
     is_best: false
     metric_values:
     - 0.7034
+    - null
     metric_stds:
     - 0.0076
+    - null
+  - model: GAT
+    model_plain: GAT
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2312.17679'
+    title: Data Augmentation for Supervised Graph Outlier Detection via Latent Diffusion
+      Models
+    date: Dec 2023
+    date_iso: 2023-12
+    date_display: Dec 2023
+    codebase_url: https://pypi.org/project/godm
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7033
+    - null
+    metric_stds:
+    - null
+    - null
+  - model: GATSep
+    model_plain: GATSep
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2312.17679'
+    title: Data Augmentation for Supervised Graph Outlier Detection via Latent Diffusion
+      Models
+    date: Dec 2023
+    date_iso: 2023-12
+    date_display: Dec 2023
+    codebase_url: https://pypi.org/project/godm
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.6996
+    - null
+    metric_stds:
+    - null
+    - null
+  - model: SGC
+    model_plain: SGC
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2312.17679'
+    title: Data Augmentation for Supervised Graph Outlier Detection via Latent Diffusion
+      Models
+    date: Dec 2023
+    date_iso: 2023-12
+    date_display: Dec 2023
+    codebase_url: https://pypi.org/project/godm
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.6988
+    - null
+    metric_stds:
+    - null
+    - null
+  - model: GCN
+    model_plain: GCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2312.17679'
+    title: Data Augmentation for Supervised Graph Outlier Detection via Latent Diffusion
+      Models
+    date: Dec 2023
+    date_iso: 2023-12
+    date_display: Dec 2023
+    codebase_url: https://pypi.org/project/godm
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.6981
+    - null
+    metric_stds:
+    - null
+    - null
+  - model: AMNet
+    model_plain: AMNet
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2312.17679'
+    title: Data Augmentation for Supervised Graph Outlier Detection via Latent Diffusion
+      Models
+    date: Dec 2023
+    date_iso: 2023-12
+    date_display: Dec 2023
+    codebase_url: https://pypi.org/project/godm
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.6971
+    - null
+    metric_stds:
+    - null
+    - null
   - model: O(d)-NSD
     model_plain: O(d)-NSD
     is_baseline: true
@@ -472,8 +750,73 @@ variants:
     is_best: false
     metric_values:
     - 0.6969
+    - null
     metric_stds:
     - 0.0146
+    - null
+  - model: BWGNN
+    model_plain: BWGNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2312.17679'
+    title: Data Augmentation for Supervised Graph Outlier Detection via Latent Diffusion
+      Models
+    date: Dec 2023
+    date_iso: 2023-12
+    date_display: Dec 2023
+    codebase_url: https://pypi.org/project/godm
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.6947
+    - null
+    metric_stds:
+    - null
+    - null
+  - model: PCGNN
+    model_plain: PCGNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2312.17679'
+    title: Data Augmentation for Supervised Graph Outlier Detection via Latent Diffusion
+      Models
+    date: Dec 2023
+    date_iso: 2023-12
+    date_display: Dec 2023
+    codebase_url: https://pypi.org/project/godm
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.6838
+    - null
+    metric_stds:
+    - null
+    - null
+  - model: GHRN
+    model_plain: GHRN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2312.17679'
+    title: Data Augmentation for Supervised Graph Outlier Detection via Latent Diffusion
+      Models
+    date: Dec 2023
+    date_iso: 2023-12
+    date_display: Dec 2023
+    codebase_url: https://pypi.org/project/godm
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.6824
+    - null
+    metric_stds:
+    - null
+    - null
   - model: NAGphormer
     model_plain: NAGphormer
     is_baseline: true
@@ -490,8 +833,52 @@ variants:
     is_best: false
     metric_values:
     - 0.6817
+    - null
     metric_stds:
     - 0.0153
+    - null
+  - model: DCI
+    model_plain: DCI
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2312.17679'
+    title: Data Augmentation for Supervised Graph Outlier Detection via Latent Diffusion
+      Models
+    date: Dec 2023
+    date_iso: 2023-12
+    date_display: Dec 2023
+    codebase_url: https://pypi.org/project/godm
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.6795
+    - null
+    metric_stds:
+    - null
+    - null
+  - model: GIN
+    model_plain: GIN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2312.17679'
+    title: Data Augmentation for Supervised Graph Outlier Detection via Latent Diffusion
+      Models
+    date: Dec 2023
+    date_iso: 2023-12
+    date_display: Dec 2023
+    codebase_url: https://pypi.org/project/godm
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.6776
+    - null
+    metric_stds:
+    - null
+    - null
   - model: CPGNN
     model_plain: CPGNN
     is_baseline: true
@@ -509,8 +896,10 @@ variants:
     is_best: false
     metric_values:
     - 0.6596
+    - null
     metric_stds:
     - 0.0195
+    - null
   - model: GloGNN
     model_plain: GloGNN
     is_baseline: true
@@ -528,8 +917,73 @@ variants:
     is_best: false
     metric_values:
     - 0.6574
+    - null
     metric_stds:
     - 0.0119
+    - null
+  - model: weakly supervised graph anomaly detection method
+    model_plain: weakly supervised graph anomaly detection method
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2605.11749'
+    title: Learning Feature Encoder with Synthetic Anomalies for Weakly Supervised
+      Graph Anomaly Detection
+    date: May 2026
+    date_iso: 2026-05
+    date_display: May 2026
+    codebase_url: https://github.com/yj-zhou/SAWGAD
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.657
+    - null
+    metric_stds:
+    - 0.02
+    - null
+  - model: GAS
+    model_plain: GAS
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2312.17679'
+    title: Data Augmentation for Supervised Graph Outlier Detection via Latent Diffusion
+      Models
+    date: Dec 2023
+    date_iso: 2023-12
+    date_display: Dec 2023
+    codebase_url: https://pypi.org/project/godm
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.645
+    - null
+    metric_stds:
+    - null
+    - null
+  - model: ConsisGAD
+    model_plain: ConsisGAD
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2605.11749'
+    title: Learning Feature Encoder with Synthetic Anomalies for Weakly Supervised
+      Graph Anomaly Detection
+    date: May 2026
+    date_iso: 2026-05
+    date_display: May 2026
+    codebase_url: https://github.com/yj-zhou/SAWGAD
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.638
+    - null
+    metric_stds:
+    - 0.06
+    - null
   - model: H2GCN
     model_plain: H2GCN
     is_baseline: true
@@ -547,8 +1001,199 @@ variants:
     is_best: false
     metric_values:
     - 0.6359
+    - null
     metric_stds:
     - 0.0146
+    - null
+  - model: GATSep
+    model_plain: GATSep
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2605.11749'
+    title: Learning Feature Encoder with Synthetic Anomalies for Weakly Supervised
+      Graph Anomaly Detection
+    date: May 2026
+    date_iso: 2026-05
+    date_display: May 2026
+    codebase_url: https://github.com/yj-zhou/SAWGAD
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.631
+    - null
+    metric_stds:
+    - 0.01
+    - null
+  - model: BWGNN
+    model_plain: BWGNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2605.11749'
+    title: Learning Feature Encoder with Synthetic Anomalies for Weakly Supervised
+      Graph Anomaly Detection
+    date: May 2026
+    date_iso: 2026-05
+    date_display: May 2026
+    codebase_url: https://github.com/yj-zhou/SAWGAD
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.611
+    - null
+    metric_stds:
+    - 0.03
+    - null
+  - model: MLP
+    model_plain: MLP
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2605.11749'
+    title: Learning Feature Encoder with Synthetic Anomalies for Weakly Supervised
+      Graph Anomaly Detection
+    date: May 2026
+    date_iso: 2026-05
+    date_display: May 2026
+    codebase_url: https://github.com/yj-zhou/SAWGAD
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.609
+    - null
+    metric_stds:
+    - 0.03
+    - null
+  - model: CARE-GNN
+    model_plain: CARE-GNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2605.11749'
+    title: Learning Feature Encoder with Synthetic Anomalies for Weakly Supervised
+      Graph Anomaly Detection
+    date: May 2026
+    date_iso: 2026-05
+    date_display: May 2026
+    codebase_url: https://github.com/yj-zhou/SAWGAD
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.606
+    - null
+    metric_stds:
+    - 0.01
+    - null
+  - model: GHRN
+    model_plain: GHRN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2605.11749'
+    title: Learning Feature Encoder with Synthetic Anomalies for Weakly Supervised
+      Graph Anomaly Detection
+    date: May 2026
+    date_iso: 2026-05
+    date_display: May 2026
+    codebase_url: https://github.com/yj-zhou/SAWGAD
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.605
+    - null
+    metric_stds:
+    - 0.02
+    - null
+  - model: GAT
+    model_plain: GAT
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2605.11749'
+    title: Learning Feature Encoder with Synthetic Anomalies for Weakly Supervised
+      Graph Anomaly Detection
+    date: May 2026
+    date_iso: 2026-05
+    date_display: May 2026
+    codebase_url: https://github.com/yj-zhou/SAWGAD
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.604
+    - null
+    metric_stds:
+    - 0.02
+    - null
+  - model: GIN
+    model_plain: GIN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2605.11749'
+    title: Learning Feature Encoder with Synthetic Anomalies for Weakly Supervised
+      Graph Anomaly Detection
+    date: May 2026
+    date_iso: 2026-05
+    date_display: May 2026
+    codebase_url: https://github.com/yj-zhou/SAWGAD
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.589
+    - null
+    metric_stds:
+    - 0.04
+    - null
+  - model: PCGNN
+    model_plain: PCGNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2605.11749'
+    title: Learning Feature Encoder with Synthetic Anomalies for Weakly Supervised
+      Graph Anomaly Detection
+    date: May 2026
+    date_iso: 2026-05
+    date_display: May 2026
+    codebase_url: https://github.com/yj-zhou/SAWGAD
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.576
+    - null
+    metric_stds:
+    - 0.02
+    - null
+  - model: H2FD
+    model_plain: H2FD
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2605.11749'
+    title: Learning Feature Encoder with Synthetic Anomalies for Weakly Supervised
+      Graph Anomaly Detection
+    date: May 2026
+    date_iso: 2026-05
+    date_display: May 2026
+    codebase_url: https://github.com/yj-zhou/SAWGAD
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.565
+    - null
+    metric_stds:
+    - 0.01
+    - null
   - model: GPR-GNN
     model_plain: GPR-GNN
     is_baseline: true
@@ -566,8 +1211,346 @@ variants:
     is_best: false
     metric_values:
     - 0.5548
+    - null
     metric_stds:
     - 0.0091
+    - null
+  - model: GraphSAGE
+    model_plain: GraphSAGE
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2605.11749'
+    title: Learning Feature Encoder with Synthetic Anomalies for Weakly Supervised
+      Graph Anomaly Detection
+    date: May 2026
+    date_iso: 2026-05
+    date_display: May 2026
+    codebase_url: https://github.com/yj-zhou/SAWGAD
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.502
+    - null
+    metric_stds:
+    - 0.09
+    - null
+  - model: GCN
+    model_plain: GCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2605.11749'
+    title: Learning Feature Encoder with Synthetic Anomalies for Weakly Supervised
+      Graph Anomaly Detection
+    date: May 2026
+    date_iso: 2026-05
+    date_display: May 2026
+    codebase_url: https://github.com/yj-zhou/SAWGAD
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.473
+    - null
+    metric_stds:
+    - 0.08
+    - null
+  - model: H2GCN
+    model_plain: H2GCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2404.15354'
+    title: 'Polynomial Selection in Spectral Graph Neural Networks: An Error-Sum of
+      Function Slices Approach'
+    date: Apr 2024
+    date_iso: 2024-04
+    date_display: Apr 2024
+    codebase_url: https://github.com/vasile-paskardlgm/TFGNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.6442
+    metric_stds:
+    - null
+    - 0.013
+  - model: GloGNN
+    model_plain: GloGNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2404.15354'
+    title: 'Polynomial Selection in Spectral Graph Neural Networks: An Error-Sum of
+      Function Slices Approach'
+    date: Apr 2024
+    date_iso: 2024-04
+    date_display: Apr 2024
+    codebase_url: https://github.com/vasile-paskardlgm/TFGNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.7442
+    metric_stds:
+    - null
+    - 0.013
+  - model: LINKX
+    model_plain: LINKX
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2404.15354'
+    title: 'Polynomial Selection in Spectral Graph Neural Networks: An Error-Sum of
+      Function Slices Approach'
+    date: Apr 2024
+    date_iso: 2024-04
+    date_display: Apr 2024
+    codebase_url: https://github.com/vasile-paskardlgm/TFGNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.6385
+    metric_stds:
+    - null
+    - 0.008
+  - model: OrderedGNN
+    model_plain: OrderedGNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2404.15354'
+    title: 'Polynomial Selection in Spectral Graph Neural Networks: An Error-Sum of
+      Function Slices Approach'
+    date: Apr 2024
+    date_iso: 2024-04
+    date_display: Apr 2024
+    codebase_url: https://github.com/vasile-paskardlgm/TFGNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.7082
+    metric_stds:
+    - null
+    - 0.01
+  - model: LRGNN
+    model_plain: LRGNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2404.15354'
+    title: 'Polynomial Selection in Spectral Graph Neural Networks: An Error-Sum of
+      Function Slices Approach'
+    date: Apr 2024
+    date_iso: 2024-04
+    date_display: Apr 2024
+    codebase_url: https://github.com/vasile-paskardlgm/TFGNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.7182
+    metric_stds:
+    - null
+    - 0.011
+  - model: GCN
+    model_plain: GCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2404.15354'
+    title: 'Polynomial Selection in Spectral Graph Neural Networks: An Error-Sum of
+      Function Slices Approach'
+    date: Apr 2024
+    date_iso: 2024-04
+    date_display: Apr 2024
+    codebase_url: https://github.com/vasile-paskardlgm/TFGNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.7517
+    metric_stds:
+    - null
+    - 0.008
+  - model: GCNII
+    model_plain: GCNII
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2404.15354'
+    title: 'Polynomial Selection in Spectral Graph Neural Networks: An Error-Sum of
+      Function Slices Approach'
+    date: Apr 2024
+    date_iso: 2024-04
+    date_display: Apr 2024
+    codebase_url: https://github.com/vasile-paskardlgm/TFGNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.7232
+    metric_stds:
+    - null
+    - 0.01
+  - model: ChebNet
+    model_plain: ChebNet
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2404.15354'
+    title: 'Polynomial Selection in Spectral Graph Neural Networks: An Error-Sum of
+      Function Slices Approach'
+    date: Apr 2024
+    date_iso: 2024-04
+    date_display: Apr 2024
+    codebase_url: https://github.com/vasile-paskardlgm/TFGNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.7128
+    metric_stds:
+    - null
+    - 0.006
+  - model: ACMGCN
+    model_plain: ACMGCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2404.15354'
+    title: 'Polynomial Selection in Spectral Graph Neural Networks: An Error-Sum of
+      Function Slices Approach'
+    date: Apr 2024
+    date_iso: 2024-04
+    date_display: Apr 2024
+    codebase_url: https://github.com/vasile-paskardlgm/TFGNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.6784
+    metric_stds:
+    - null
+    - 0.005
+  - model: SpecFormer
+    model_plain: SpecFormer
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2404.15354'
+    title: 'Polynomial Selection in Spectral Graph Neural Networks: An Error-Sum of
+      Function Slices Approach'
+    date: Apr 2024
+    date_iso: 2024-04
+    date_display: Apr 2024
+    codebase_url: https://github.com/vasile-paskardlgm/TFGNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.7075
+    metric_stds:
+    - null
+    - 0.012
+  - model: GPRGNN
+    model_plain: GPRGNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2404.15354'
+    title: 'Polynomial Selection in Spectral Graph Neural Networks: An Error-Sum of
+      Function Slices Approach'
+    date: Apr 2024
+    date_iso: 2024-04
+    date_display: Apr 2024
+    codebase_url: https://github.com/vasile-paskardlgm/TFGNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.6458
+    metric_stds:
+    - null
+    - 0.012
+  - model: BernNet
+    model_plain: BernNet
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2404.15354'
+    title: 'Polynomial Selection in Spectral Graph Neural Networks: An Error-Sum of
+      Function Slices Approach'
+    date: Apr 2024
+    date_iso: 2024-04
+    date_display: Apr 2024
+    codebase_url: https://github.com/vasile-paskardlgm/TFGNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.6553
+    metric_stds:
+    - null
+    - 0.016
+  - model: OptBasis
+    model_plain: OptBasis
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2404.15354'
+    title: 'Polynomial Selection in Spectral Graph Neural Networks: An Error-Sum of
+      Function Slices Approach'
+    date: Apr 2024
+    date_iso: 2024-04
+    date_display: Apr 2024
+    codebase_url: https://github.com/vasile-paskardlgm/TFGNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.696
+    metric_stds:
+    - null
+    - 0.012
+  - model: JacobiConv
+    model_plain: JacobiConv
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2404.15354'
+    title: 'Polynomial Selection in Spectral Graph Neural Networks: An Error-Sum of
+      Function Slices Approach'
+    date: Apr 2024
+    date_iso: 2024-04
+    date_display: Apr 2024
+    codebase_url: https://github.com/vasile-paskardlgm/TFGNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.7216
+    metric_stds:
+    - null
+    - 0.013
   milestones:
   - value: 0.7886
     std: 0.0092

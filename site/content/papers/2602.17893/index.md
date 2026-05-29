@@ -28,8 +28,8 @@ has_results: true
 paper_type: method
 proposed_models:
 - COMBA
-mrr: 0.0674
-adjusted_mrr: 0.0674
+mrr: 0.0526
+adjusted_mrr: 0.0526
 mrr_dataset_count: 6
 benchmark_categories:
 - Heterophilic Graphs
@@ -42,77 +42,111 @@ results:
 - &id002
   dataset: Amazon-ratings
   rows:
-  - model: Polynormer
-    model_key: polynormer
-    model_plain: Polynormer
-    value: 0.5481
-    std: 0.0049
+  - model: here instead
+    model_key: here instead
+    model_plain: here instead
+    value: 0.909
+    std: null
     metric: Accuracy
     higher_is_better: true
-    is_baseline: true
+    is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2506.07624'
-    title: 'Return of ChebNet: Understanding and Improving an Overlooked GNN on Long-Range
-      Tasks'
-    date: Jun 2025
-    date_display: Jun 2025
-    date_iso: 2025-06
-    codebase_url: https://github.com/ahariri13/Stable-ChebNet
-    uses_external_data: false
+    arxiv_id: '1506.04757'
+    title: Image-based Recommendations on Styles and Substitutes
+    date: Jun 2015
+    date_display: Jun 2015
+    date_iso: 2015-06
+    codebase_url: ''
+    uses_external_data: null
     is_global_top: true
     global_rank: 1
-    sort_value: 0.5481
-    sort_std: 0.0049
+    sort_value: 0.909
+    sort_std: null
     is_best: true
-  - model: CO-GNN
-    model_key: co-gnn
-    model_plain: CO-GNN
-    value: 0.542
-    std: 0.0034
+  - model: CT
+    model_key: ct
+    model_plain: CT
+    value: 0.848
+    std: null
     metric: Accuracy
     higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2507.00647'
-    title: Cooperative Sheaf Neural Networks
-    date: Jul 2025
-    date_display: Jul 2025
-    date_iso: 2025-07
+    arxiv_id: '1506.04757'
+    title: Image-based Recommendations on Styles and Substitutes
+    date: Jun 2015
+    date_display: Jun 2015
+    date_iso: 2015-06
     codebase_url: ''
-    uses_external_data: false
+    uses_external_data: null
     is_global_top: true
     global_rank: 2
-    sort_value: 0.542
-    sort_std: 0.0034
-    is_best: true
-  - model: CO-GNN(μ, μ)
-    model_key: co-gnn(μ, μ)
-    model_plain: CO-GNN(μ, μ)
-    value: 0.5417
-    std: 0.0037
+    sort_value: 0.848
+    sort_std: null
+    is_best: false
+  - model: WNN
+    model_key: wnn
+    model_plain: WNN
+    value: 0.843
+    std: null
     metric: Accuracy
     higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2506.07624'
-    title: 'Return of ChebNet: Understanding and Improving an Overlooked GNN on Long-Range
-      Tasks'
-    date: Jun 2025
-    date_display: Jun 2025
-    date_iso: 2025-06
-    codebase_url: https://github.com/ahariri13/Stable-ChebNet
-    uses_external_data: false
+    arxiv_id: '1506.04757'
+    title: Image-based Recommendations on Styles and Substitutes
+    date: Jun 2015
+    date_display: Jun 2015
+    date_iso: 2015-06
+    codebase_url: ''
+    uses_external_data: null
     is_global_top: true
     global_rank: 3
-    sort_value: 0.5417
-    sort_std: 0.0037
-    is_best: true
+    sort_value: 0.843
+    sort_std: null
+    is_best: false
+  - model: GCN
+    model_key: gcn
+    model_plain: GCN
+    value: 0.462
+    std: 0.008
+    paper_value: 0.462
+    paper_std: 0.008
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Feb 2026
+    date_display: Feb 2026
+    date_iso: 2026-02
+    global_rank: 6
+    true_value: 0.8326
+    true_std: 0.0051
+    value_gap_source_arxiv: '2410.10320'
+    value_gap_source_title: 'DiRW: Path-Aware Digraph Learning for Heterophily'
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
+    has_value_note: false
+    value_gap: 0.3706
+    value_note: ''
+    paper_rank: 54
+    rank_delta: 48
+    rank_delta_abs: 48
+    rank_delta_direction: worse
+    sort_value: 0.8326
+    sort_std: 0.0051
+    is_best: false
   - model: NAGphormer
     model_key: nagphormer
     model_plain: NAGphormer
@@ -132,7 +166,7 @@ results:
     date: Feb 2026
     date_display: Feb 2026
     date_iso: 2026-02
-    global_rank: 20
+    global_rank: 39
     true_value: 0.5126
     true_std: 0.0072
     value_gap_source_arxiv: '2506.07624'
@@ -143,9 +177,9 @@ results:
     has_value_note: false
     value_gap: 0.008599999999999941
     value_note: ''
-    paper_rank: 23
-    rank_delta: 3
-    rank_delta_abs: 3
+    paper_rank: 43
+    rank_delta: 4
+    rank_delta_abs: 4
     rank_delta_direction: worse
     sort_value: 0.5126
     sort_std: 0.0072
@@ -169,7 +203,7 @@ results:
     date: Feb 2026
     date_display: Feb 2026
     date_iso: 2026-02
-    global_rank: 22
+    global_rank: 41
     true_value: 0.507
     true_std: 0.0025
     value_gap_source_arxiv: '2602.17893'
@@ -180,7 +214,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 22
+    paper_rank: 41
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -206,7 +240,7 @@ results:
     date: Feb 2026
     date_display: Feb 2026
     date_iso: 2026-02
-    global_rank: 27
+    global_rank: 46
     true_value: 0.49
     true_std: 0.0036
     value_gap_source_arxiv: '2602.17893'
@@ -217,49 +251,12 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 27
+    paper_rank: 46
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 0.49
     sort_std: 0.0036
-    is_best: false
-  - model: GCN
-    model_key: gcn
-    model_plain: GCN
-    value: 0.462
-    std: 0.008
-    paper_value: 0.462
-    paper_std: 0.008
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
-    date_display: Feb 2026
-    date_iso: 2026-02
-    global_rank: 28
-    true_value: 0.487
-    true_std: 0.0063
-    value_gap_source_arxiv: '2506.07624'
-    value_gap_source_title: 'Return of ChebNet: Understanding and Improving an Overlooked
-      GNN on Long-Range Tasks'
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.024999999999999967
-    value_note: ''
-    paper_rank: 33
-    rank_delta: 5
-    rank_delta_abs: 5
-    rank_delta_direction: worse
-    sort_value: 0.487
-    sort_std: 0.0063
     is_best: false
   - model: GatedGCN
     model_key: gatedgcn
@@ -280,7 +277,7 @@ results:
     date: Feb 2026
     date_display: Feb 2026
     date_iso: 2026-02
-    global_rank: 31
+    global_rank: 49
     true_value: 0.481
     true_std: 0.0071
     value_gap_source_arxiv: '2602.17893'
@@ -291,7 +288,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 31
+    paper_rank: 49
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -317,7 +314,7 @@ results:
     date: Feb 2026
     date_display: Feb 2026
     date_iso: 2026-02
-    global_rank: 32
+    global_rank: 51
     true_value: 0.476
     true_std: 0.0047
     value_gap_source_arxiv: '2602.17893'
@@ -328,7 +325,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 32
+    paper_rank: 51
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -725,7 +722,7 @@ results:
     date: Feb 2026
     date_display: Feb 2026
     date_iso: 2026-02
-    global_rank: 10
+    global_rank: 11
     true_value: 0.895
     true_std: 0.0038
     value_gap_source_arxiv: '2602.17893'
@@ -736,7 +733,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 10
+    paper_rank: 11
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -762,7 +759,7 @@ results:
     date: Feb 2026
     date_display: Feb 2026
     date_iso: 2026-02
-    global_rank: 17
+    global_rank: 19
     true_value: 0.869
     true_std: 0.0092
     value_gap_source_arxiv: '2602.17893'
@@ -773,7 +770,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 17
+    paper_rank: 19
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -799,7 +796,7 @@ results:
     date: Feb 2026
     date_display: Feb 2026
     date_iso: 2026-02
-    global_rank: 25
+    global_rank: 27
     true_value: 0.833
     true_std: 0.0079
     value_gap_source_arxiv: '2602.17893'
@@ -810,7 +807,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 25
+    paper_rank: 27
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -836,7 +833,7 @@ results:
     date: Feb 2026
     date_display: Feb 2026
     date_iso: 2026-02
-    global_rank: 29
+    global_rank: 32
     true_value: 0.815
     true_std: 0.0042
     value_gap_source_arxiv: '2602.17893'
@@ -847,7 +844,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 29
+    paper_rank: 32
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -873,7 +870,7 @@ results:
     date: Feb 2026
     date_display: Feb 2026
     date_iso: 2026-02
-    global_rank: 31
+    global_rank: 35
     true_value: 0.8
     true_std: 0.0043
     value_gap_source_arxiv: '2602.17893'
@@ -884,7 +881,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 31
+    paper_rank: 35
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -910,7 +907,7 @@ results:
     date: Feb 2026
     date_display: Feb 2026
     date_iso: 2026-02
-    global_rank: 33
+    global_rank: 37
     true_value: 0.795
     true_std: 0.0088
     value_gap_source_arxiv: '2602.17893'
@@ -921,7 +918,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 33
+    paper_rank: 37
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1097,7 +1094,7 @@ results:
     date: Feb 2026
     date_display: Feb 2026
     date_iso: 2026-02
-    global_rank: 26
+    global_rank: 30
     true_value: 0.834
     true_std: 0.0045
     value_gap_source_arxiv: '2602.17893'
@@ -1108,7 +1105,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 26
+    paper_rank: 30
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1134,7 +1131,7 @@ results:
     date: Feb 2026
     date_display: Feb 2026
     date_iso: 2026-02
-    global_rank: 29
+    global_rank: 33
     true_value: 0.832
     true_std: 0.009
     value_gap_source_arxiv: '2602.17893'
@@ -1145,7 +1142,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 29
+    paper_rank: 33
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1171,7 +1168,7 @@ results:
     date: Feb 2026
     date_display: Feb 2026
     date_iso: 2026-02
-    global_rank: 36
+    global_rank: 40
     true_value: 0.803
     true_std: 0.0199
     value_gap_source_arxiv: '2602.17893'
@@ -1182,7 +1179,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 36
+    paper_rank: 40
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1208,7 +1205,7 @@ results:
     date: Feb 2026
     date_display: Feb 2026
     date_iso: 2026-02
-    global_rank: 40
+    global_rank: 53
     true_value: 0.758
     true_std: 0.0056
     value_gap_source_arxiv: '2602.17893'
@@ -1219,7 +1216,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 40
+    paper_rank: 53
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1231,76 +1228,77 @@ results:
 - &id005
   dataset: ogbn-arxiv
   rows:
-  - model: Stable-ChebNet
-    model_key: stable-chebnet
-    model_plain: Stable-ChebNet
-    value: 0.7573
-    std: 0.0051
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2506.07624'
-    title: 'Return of ChebNet: Understanding and Improving an Overlooked GNN on Long-Range
-      Tasks'
-    date: Jun 2025
-    date_display: Jun 2025
-    date_iso: 2025-06
-    codebase_url: https://github.com/ahariri13/Stable-ChebNet
-    uses_external_data: false
-    is_global_top: true
-    global_rank: 1
-    sort_value: 0.7573
-    sort_std: 0.0051
-    is_best: true
-  - model: Llama-7b
-    model_key: llama-7b
-    model_plain: Llama-7b
-    value: 0.757
-    std: 0.0012
+  - model: KCoT
+    model_key: kcot
+    model_plain: KCoT
+    value: 0.7925
+    std: null
     metric: Accuracy
     higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2308.07134'
-    title: Language is All a Graph Needs
-    date: Aug 2023
-    date_display: Aug 2023
-    date_iso: 2023-08
-    codebase_url: https://github.com/agiresearch/InstructGLM
+    arxiv_id: '2605.24867'
+    title: 'Clustering as Reasoning: A $k$-Means Interpretation of Chain-of-Thought
+      Graph Learning'
+    date: May 24, 2026
+    date_display: May 2026
+    date_iso: '2026-05-24'
+    codebase_url: https://github.com/Uncnbb/KCoT
     uses_external_data: true
     is_global_top: true
-    global_rank: 2
-    sort_value: 0.757
-    sort_std: 0.0012
+    global_rank: 1
+    sort_value: 0.7925
+    sort_std: null
     is_best: true
-  - model: ILLS
-    model_key: ills
-    model_plain: ILLS
-    value: 0.752
-    std: 0.002
+  - model: TAPE + SimTeG
+    model_key: tape + simteg
+    model_plain: TAPE + SimTeG
+    value: 0.7803
+    std: 0.0007
     metric: Accuracy
     higher_is_better: true
     is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2305.17589'
-    title: Graph Inductive Biases in Transformers without Message Passing
-    date: May 27, 2023
-    date_display: May 2023
-    date_iso: '2023-05-27'
+    arxiv_id: '2308.02565'
+    title: 'SimTeG: A Frustratingly ple Approach Improves xtual raph Learning'
+    date: Aug 2023
+    date_display: Aug 2023
+    date_iso: 2023-08
+    codebase_url: https://github.com/vermouthdky/SimTeG
+    uses_external_data: null
+    is_global_top: true
+    global_rank: 2
+    sort_value: 0.7803
+    sort_std: 0.0007
+    is_best: false
+  - model: OFA
+    model_key: ofa
+    model_plain: OFA
+    value: 0.7751
+    std: 0.0017
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2412.19211'
+    title: 'Large Language Models Meet Graph Neural Networks: A Perspective of Graph
+      Mining'
+    date: Dec 2024
+    date_display: Dec 2024
+    date_iso: 2024-12
     codebase_url: ''
-    uses_external_data: false
+    uses_external_data: true
     is_global_top: true
     global_rank: 3
-    sort_value: 0.752
-    sort_std: 0.002
-    is_best: true
+    sort_value: 0.7751
+    sort_std: 0.0017
+    is_best: false
   - model: GCN
     model_key: gcn
     model_plain: GCN
@@ -1320,23 +1318,23 @@ results:
     date: Feb 2026
     date_display: Feb 2026
     date_iso: 2026-02
-    global_rank: 21
-    true_value: 0.731
-    true_std: 0.003
-    value_gap_source_arxiv: '2305.17589'
-    value_gap_source_title: Graph Inductive Biases in Transformers without Message
-      Passing
+    global_rank: 57
+    true_value: 0.752
+    true_std: 0.0003
+    value_gap_source_arxiv: '2509.14863'
+    value_gap_source_title: 'Exploring the Global-to-Local Attention Scheme in Graph
+      Transformers: An Empirical Study'
     value_gap_source_is_current_paper: false
     has_value_gap: true
     has_value_note: false
-    value_gap: 0.050999999999999934
+    value_gap: 0.07199999999999995
     value_note: ''
-    paper_rank: 52
-    rank_delta: 31
-    rank_delta_abs: 31
+    paper_rank: 323
+    rank_delta: 266
+    rank_delta_abs: 266
     rank_delta_direction: worse
-    sort_value: 0.731
-    sort_std: 0.003
+    sort_value: 0.752
+    sort_std: 0.0003
     is_best: false
   - model: Graph-Mamba
     model_key: graph-mamba
@@ -1357,7 +1355,7 @@ results:
     date: Feb 2026
     date_display: Feb 2026
     date_iso: 2026-02
-    global_rank: 32
+    global_rank: 188
     true_value: 0.7248
     true_std: 0.0
     value_gap_source_arxiv: '2501.18739'
@@ -1367,12 +1365,49 @@ results:
     has_value_note: false
     value_gap: 0.038799999999999946
     value_note: ''
-    paper_rank: 52
-    rank_delta: 20
-    rank_delta_abs: 20
+    paper_rank: 318
+    rank_delta: 130
+    rank_delta_abs: 130
     rank_delta_direction: worse
     sort_value: 0.7248
     sort_std: 0.0
+    is_best: false
+  - model: Cluster-GCN
+    model_key: cluster-gcn
+    model_plain: Cluster-GCN
+    value: 0.678
+    std: 0.0076
+    paper_value: 0.678
+    paper_std: 0.0076
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: Chen et al. 2018
+    variant_inference_reason: 'dataset: exact match'
+    date: Feb 2026
+    date_display: Feb 2026
+    date_iso: 2026-02
+    global_rank: 195
+    true_value: 0.7239
+    true_std: null
+    value_gap_source_arxiv: '2502.19693'
+    value_gap_source_title: Accurate and Scalable Graph Neural Networks via Message
+      Invariance
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
+    has_value_note: false
+    value_gap: 0.04589999999999994
+    value_note: ''
+    paper_rank: 326
+    rank_delta: 131
+    rank_delta_abs: 131
+    rank_delta_direction: worse
+    sort_value: 0.7239
+    sort_std: null
     is_best: false
   - model: COMBA
     model_key: comba
@@ -1393,7 +1428,7 @@ results:
     date: Feb 2026
     date_display: Feb 2026
     date_iso: 2026-02
-    global_rank: 42
+    global_rank: 247
     true_value: 0.716
     true_std: 0.0037
     value_gap_source_arxiv: '2602.17893'
@@ -1404,7 +1439,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 42
+    paper_rank: 247
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1430,22 +1465,23 @@ results:
     date: Feb 2026
     date_display: Feb 2026
     date_iso: 2026-02
-    global_rank: 49
-    true_value: 0.7013
-    true_std: 0.0055
-    value_gap_source_arxiv: '2501.18739'
-    value_gap_source_title: 'Beyond Message Passing: Neural Graph Pattern Machine'
+    global_rank: 274
+    true_value: 0.7101
+    true_std: 0.0013
+    value_gap_source_arxiv: '2403.16358'
+    value_gap_source_title: 'ChebMixer: Efficient Graph Representation Learning with
+      MLP Mixer'
     value_gap_source_is_current_paper: false
-    has_value_gap: false
-    has_value_note: true
-    value_gap: 0.005300000000000082
-    value_note: global 0.7013 within std
-    paper_rank: 51
-    rank_delta: 2
-    rank_delta_abs: 2
+    has_value_gap: true
+    has_value_note: false
+    value_gap: 0.014100000000000001
+    value_note: ''
+    paper_rank: 305
+    rank_delta: 31
+    rank_delta_abs: 31
     rank_delta_direction: worse
-    sort_value: 0.7013
-    sort_std: 0.0055
+    sort_value: 0.7101
+    sort_std: 0.0013
     is_best: false
   - model: GatedGCN
     model_key: gatedgcn
@@ -1466,7 +1502,7 @@ results:
     date: Feb 2026
     date_display: Feb 2026
     date_iso: 2026-02
-    global_rank: 50
+    global_rank: 294
     true_value: 0.701
     true_std: 0.0065
     value_gap_source_arxiv: '2602.17893'
@@ -1477,105 +1513,70 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 50
+    paper_rank: 294
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 0.701
     sort_std: 0.0065
     is_best: false
-  - model: Cluster-GCN
-    model_key: cluster-gcn
-    model_plain: Cluster-GCN
-    value: 0.678
-    std: 0.0076
-    paper_value: 0.678
-    paper_std: 0.0076
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: Chen et al. 2018
-    variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
-    date_display: Feb 2026
-    date_iso: 2026-02
-    global_rank: 53
-    true_value: 0.678
-    true_std: 0.0076
-    value_gap_source_arxiv: '2602.17893'
-    value_gap_source_title: 'COMBA: Cross Batch Aggregation for Learning Large Graphs
-      with Context Gating State Space Models'
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 53
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.678
-    sort_std: 0.0076
-    is_best: false
   metric: Accuracy
   higher_is_better: true
 - &id006
   dataset: ogbn-products
   rows:
-  - model: ILLS
-    model_key: ills
-    model_plain: ILLS
-    value: 0.835
-    std: 0.001
+  - model: GTs
+    model_key: gts
+    model_plain: GTs
+    value: 0.9037
+    std: 0.0005
     metric: Accuracy
     higher_is_better: true
     is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2305.17589'
-    title: Graph Inductive Biases in Transformers without Message Passing
-    date: May 27, 2023
-    date_display: May 2023
-    date_iso: '2023-05-27'
+    arxiv_id: '2509.14863'
+    title: 'Exploring the Global-to-Local Attention Scheme in Graph Transformers:
+      An Empirical Study'
+    date: Sep 2025
+    date_display: Sep 2025
+    date_iso: 2025-09
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
     global_rank: 1
-    sort_value: 0.835
-    sort_std: 0.001
+    sort_value: 0.9037
+    sort_std: 0.0005
     is_best: true
-  - model: PNA
-    model_key: pna
-    model_plain: PNA
-    value: 0.83
-    std: 0.001
+  - model: Polynormer
+    model_key: polynormer
+    model_plain: Polynormer
+    value: 0.9017
+    std: 0.0016
     metric: Accuracy
     higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2305.17589'
-    title: Graph Inductive Biases in Transformers without Message Passing
-    date: May 27, 2023
-    date_display: May 2023
-    date_iso: '2023-05-27'
+    arxiv_id: '2509.14863'
+    title: 'Exploring the Global-to-Local Attention Scheme in Graph Transformers:
+      An Empirical Study'
+    date: Sep 2025
+    date_display: Sep 2025
+    date_iso: 2025-09
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
     global_rank: 2
-    sort_value: 0.83
-    sort_std: 0.001
-    is_best: false
-  - model: APPNP
-    model_key: appnp
-    model_plain: APPNP
-    value: 0.827
+    sort_value: 0.9017
+    sort_std: 0.0016
+    is_best: true
+  - model: SGFormer
+    model_key: sgformer
+    model_plain: SGFormer
+    value: 0.8909
     std: 0.001
     metric: Accuracy
     higher_is_better: true
@@ -1583,16 +1584,17 @@ results:
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2305.17589'
-    title: Graph Inductive Biases in Transformers without Message Passing
-    date: May 27, 2023
-    date_display: May 2023
-    date_iso: '2023-05-27'
+    arxiv_id: '2509.14863'
+    title: 'Exploring the Global-to-Local Attention Scheme in Graph Transformers:
+      An Empirical Study'
+    date: Sep 2025
+    date_display: Sep 2025
+    date_iso: 2025-09
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
     global_rank: 3
-    sort_value: 0.827
+    sort_value: 0.8909
     sort_std: 0.001
     is_best: false
   - model: Cluster-GCN
@@ -1614,23 +1616,23 @@ results:
     date: Feb 2026
     date_display: Feb 2026
     date_iso: 2026-02
-    global_rank: 17
-    true_value: 0.7897
-    true_std: 0.0033
-    value_gap_source_arxiv: '2005.00687'
-    value_gap_source_title: 'Open Graph Benchmark: Datasets for Machine Learning on
-      Graphs'
+    global_rank: 63
+    true_value: 0.7962
+    true_std: null
+    value_gap_source_arxiv: '2502.19693'
+    value_gap_source_title: Accurate and Scalable Graph Neural Networks via Message
+      Invariance
     value_gap_source_is_current_paper: false
     has_value_gap: true
     has_value_note: false
-    value_gap: 0.07269999999999999
+    value_gap: 0.07920000000000005
     value_note: ''
-    paper_rank: 23
-    rank_delta: 6
-    rank_delta_abs: 6
+    paper_rank: 122
+    rank_delta: 59
+    rank_delta_abs: 59
     rank_delta_direction: worse
-    sort_value: 0.7897
-    sort_std: 0.0033
+    sort_value: 0.7962
+    sort_std: null
     is_best: false
   - model: COMBA
     model_key: comba
@@ -1651,7 +1653,7 @@ results:
     date: Feb 2026
     date_display: Feb 2026
     date_iso: 2026-02
-    global_rank: 21
+    global_rank: 112
     true_value: 0.735
     true_std: 0.01
     value_gap_source_arxiv: '2602.17893'
@@ -1662,7 +1664,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 21
+    paper_rank: 112
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same

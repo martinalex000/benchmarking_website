@@ -19,6 +19,5 @@ task_categories: []
 experiment_scopes: []
 results: []
 results_grouped: []
-main_figure: /figures/2605.04834/main_figure.png
 ---
 

@@ -13,13 +13,13 @@ stats:
   avg_nodes: 131.0
   avg_edges: null
   num_classes: 4
-result_count: 9
+result_count: 31
 best_model:
-  model: MVGRL
-  value: 0.65
+  model: SCGDN
+  value: 0.7449
   metric: F1
-  arxiv_id: '2508.14097'
-  paper_title: Non-Dissipative Graph Propagation for Non-Local Community Detection
+  arxiv_id: '2307.14613'
+  paper_title: Self-Contrastive Graph Diffusion Network
 variants:
 - slug: standard-split
   name: Standard split
@@ -33,175 +33,697 @@ variants:
     avg_edges: null
   metrics:
   - F1
+  - ARI
+  - NMI
   rows:
-  - model: MVGRL
-    model_plain: MVGRL
+  - model: SCGDN
+    model_plain: SCGDN
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2508.14097'
-    title: Non-Dissipative Graph Propagation for Non-Local Community Detection
-    date: Aug 2025
-    date_iso: 2025-08
-    date_display: Aug 2025
+    arxiv_id: '2307.14613'
+    title: Self-Contrastive Graph Diffusion Network
+    date: Jul 2023
+    date_iso: 2023-07
+    date_display: Jul 2023
     codebase_url: ''
     uses_external_data: false
     is_best: true
     metric_values:
-    - 0.65
+    - 0.7449
+    - null
+    - null
     metric_stds:
-    - 0.05
-  - model: uAGNN
-    model_plain: uAGNN
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2508.14097'
-    title: Non-Dissipative Graph Propagation for Non-Local Community Detection
-    date: Aug 2025
-    date_iso: 2025-08
-    date_display: Aug 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: true
-    metric_values:
-    - 0.54
-    metric_stds:
-    - 0.1
-  - model: GRACE
-    model_plain: GRACE
+    - 0.0026
+    - null
+    - null
+  - model: ProGCL
+    model_plain: ProGCL
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2508.14097'
-    title: Non-Dissipative Graph Propagation for Non-Local Community Detection
-    date: Aug 2025
-    date_iso: 2025-08
-    date_display: Aug 2025
+    arxiv_id: '2307.14613'
+    title: Self-Contrastive Graph Diffusion Network
+    date: Jul 2023
+    date_iso: 2023-07
+    date_display: Jul 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.53
+    - 0.5608
+    - null
+    - null
     metric_stds:
-    - 0.03
-  - model: BGRL
-    model_plain: BGRL
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2508.14097'
-    title: Non-Dissipative Graph Propagation for Non-Local Community Detection
-    date: Aug 2025
-    date_iso: 2025-08
-    date_display: Aug 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.52
-    metric_stds:
-    - 0.03
+    - 0.0089
+    - null
+    - null
   - model: DAEGC
     model_plain: DAEGC
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2508.14097'
-    title: Non-Dissipative Graph Propagation for Non-Local Community Detection
-    date: Aug 2025
-    date_iso: 2025-08
-    date_display: Aug 2025
+    arxiv_id: '2307.14613'
+    title: Self-Contrastive Graph Diffusion Network
+    date: Jul 2023
+    date_iso: 2023-07
+    date_display: Jul 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.46
+    - 0.5223
+    - null
+    - null
     metric_stds:
-    - 0.04
-  - model: DGI
-    model_plain: DGI
+    - 0.0003
+    - null
+    - null
+  - model: DFCN
+    model_plain: DFCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2508.14097'
-    title: Non-Dissipative Graph Propagation for Non-Local Community Detection
-    date: Aug 2025
-    date_iso: 2025-08
-    date_display: Aug 2025
+    arxiv_id: '2307.14613'
+    title: Self-Contrastive Graph Diffusion Network
+    date: Jul 2023
+    date_iso: 2023-07
+    date_display: Jul 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.44
+    - 0.509
+    - null
+    - null
     metric_stds:
-    - 0.06
-  - model: DMON
-    model_plain: DMON
+    - 0.0012
+    - null
+    - null
+  - model: MGAE
+    model_plain: MGAE
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2508.14097'
-    title: Non-Dissipative Graph Propagation for Non-Local Community Detection
-    date: Aug 2025
-    date_iso: 2025-08
-    date_display: Aug 2025
+    arxiv_id: '2307.14613'
+    title: Self-Contrastive Graph Diffusion Network
+    date: Jul 2023
+    date_iso: 2023-07
+    date_display: Jul 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.38
+    - 0.5083
+    - null
+    - null
     metric_stds:
-    - 0.07
+    - 0.0323
+    - null
+    - null
+  - model: AFGRL
+    model_plain: AFGRL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2307.14613'
+    title: Self-Contrastive Graph Diffusion Network
+    date: Jul 2023
+    date_iso: 2023-07
+    date_display: Jul 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.4653
+    - null
+    - null
+    metric_stds:
+    - 0.0057
+    - null
+    - null
+  - model: AGC-DRR
+    model_plain: AGC-DRR
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2307.14613'
+    title: Self-Contrastive Graph Diffusion Network
+    date: Jul 2023
+    date_iso: 2023-07
+    date_display: Jul 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.4233
+    - null
+    - null
+    metric_stds:
+    - 0.0051
+    - null
+    - null
+  - model: GDCL
+    model_plain: GDCL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2307.14613'
+    title: Self-Contrastive Graph Diffusion Network
+    date: Jul 2023
+    date_iso: 2023-07
+    date_display: Jul 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.3994
+    - null
+    - null
+    metric_stds:
+    - 0.0057
+    - null
+    - null
+  - model: AutoSSL
+    model_plain: AutoSSL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2307.14613'
+    title: Self-Contrastive Graph Diffusion Network
+    date: Jul 2023
+    date_iso: 2023-07
+    date_display: Jul 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.3484
+    - null
+    - null
+    metric_stds:
+    - 0.0015
+    - null
+    - null
+  - model: MVGRL
+    model_plain: MVGRL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2307.14613'
+    title: Self-Contrastive Graph Diffusion Network
+    date: Jul 2023
+    date_iso: 2023-07
+    date_display: Jul 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.2964
+    - null
+    - null
+    metric_stds:
+    - 0.0049
+    - null
+    - null
+  - model: RGC
+    model_plain: RGC
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2308.06827'
+    title: Reinforcement Graph Clustering with Unknown Cluster Number
+    date: Aug 2023
+    date_iso: 2023-08
+    date_display: Aug 2023
+    codebase_url: https://github.com/yueliu1999/RGC
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.4716
+    - 0.5158
+    metric_stds:
+    - null
+    - 0.0135
+    - 0.0083
+  - model: DEC
+    model_plain: DEC
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2308.06827'
+    title: Reinforcement Graph Clustering with Unknown Cluster Number
+    date: Aug 2023
+    date_iso: 2023-08
+    date_display: Aug 2023
+    codebase_url: https://github.com/yueliu1999/RGC
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.0799
+    - 0.141
+    metric_stds:
+    - null
+    - 0.0121
+    - 0.0199
+  - model: DCN
+    model_plain: DCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2308.06827'
+    title: Reinforcement Graph Clustering with Unknown Cluster Number
+    date: Aug 2023
+    date_iso: 2023-08
+    date_display: Aug 2023
+    codebase_url: https://github.com/yueliu1999/RGC
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.1375
+    - 0.1803
+    metric_stds:
+    - null
+    - 0.0605
+    - 0.0773
+  - model: IDEC
+    model_plain: IDEC
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2308.06827'
+    title: Reinforcement Graph Clustering with Unknown Cluster Number
+    date: Aug 2023
+    date_iso: 2023-08
+    date_display: Aug 2023
+    codebase_url: https://github.com/yueliu1999/RGC
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.0785
+    - 0.128
+    metric_stds:
+    - null
+    - 0.0131
+    - 0.0174
+  - model: AdaGAE
+    model_plain: AdaGAE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2308.06827'
+    title: Reinforcement Graph Clustering with Unknown Cluster Number
+    date: Aug 2023
+    date_iso: 2023-08
+    date_display: Aug 2023
+    codebase_url: https://github.com/yueliu1999/RGC
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.078
+    - 0.1584
+    metric_stds:
+    - null
+    - 0.0041
+    - 0.0078
+  - model: MGAE
+    model_plain: MGAE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2308.06827'
+    title: Reinforcement Graph Clustering with Unknown Cluster Number
+    date: Aug 2023
+    date_iso: 2023-08
+    date_display: Aug 2023
+    codebase_url: https://github.com/yueliu1999/RGC
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.2415
+    - 0.3059
+    metric_stds:
+    - null
+    - 0.017
+    - 0.0206
+  - model: DAEGC
+    model_plain: DAEGC
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2308.06827'
+    title: Reinforcement Graph Clustering with Unknown Cluster Number
+    date: Aug 2023
+    date_iso: 2023-08
+    date_display: Aug 2023
+    codebase_url: https://github.com/yueliu1999/RGC
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.1818
+    - 0.2143
+    metric_stds:
+    - null
+    - 0.0029
+    - 0.0035
+  - model: ARGVA
+    model_plain: ARGVA
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2308.06827'
+    title: Reinforcement Graph Clustering with Unknown Cluster Number
+    date: Aug 2023
+    date_iso: 2023-08
+    date_display: Aug 2023
+    codebase_url: https://github.com/yueliu1999/RGC
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.4202
+    - 0.4909
+    metric_stds:
+    - null
+    - 0.0121
+    - 0.0054
+  - model: SDCN
+    model_plain: SDCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2308.06827'
+    title: Reinforcement Graph Clustering with Unknown Cluster Number
+    date: Aug 2023
+    date_iso: 2023-08
+    date_display: Aug 2023
+    codebase_url: https://github.com/yueliu1999/RGC
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.2104
+    - 0.2574
+    metric_stds:
+    - null
+    - 0.0497
+    - 0.0571
+  - model: AGE
+    model_plain: AGE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2308.06827'
+    title: Reinforcement Graph Clustering with Unknown Cluster Number
+    date: Aug 2023
+    date_iso: 2023-08
+    date_display: Aug 2023
+    codebase_url: https://github.com/yueliu1999/RGC
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.2659
+    - 0.3604
+    metric_stds:
+    - null
+    - 0.0183
+    - 0.0154
+  - model: MVGRL
+    model_plain: MVGRL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2308.06827'
+    title: Reinforcement Graph Clustering with Unknown Cluster Number
+    date: Aug 2023
+    date_iso: 2023-08
+    date_display: Aug 2023
+    codebase_url: https://github.com/yueliu1999/RGC
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.1345
+    - 0.2933
+    metric_stds:
+    - null
+    - 0.0003
+    - 0.007
+  - model: DFCN
+    model_plain: DFCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2308.06827'
+    title: Reinforcement Graph Clustering with Unknown Cluster Number
+    date: Aug 2023
+    date_iso: 2023-08
+    date_display: Aug 2023
+    codebase_url: https://github.com/yueliu1999/RGC
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.3776
+    - 0.4877
+    metric_stds:
+    - null
+    - 0.0023
+    - 0.0051
+  - model: GDCL
+    model_plain: GDCL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2308.06827'
+    title: Reinforcement Graph Clustering with Unknown Cluster Number
+    date: Aug 2023
+    date_iso: 2023-08
+    date_display: Aug 2023
+    codebase_url: https://github.com/yueliu1999/RGC
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.1933
+    - 0.317
+    metric_stds:
+    - null
+    - 0.0057
+    - 0.0042
+  - model: GCA
+    model_plain: GCA
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2308.06827'
+    title: Reinforcement Graph Clustering with Unknown Cluster Number
+    date: Aug 2023
+    date_iso: 2023-08
+    date_display: Aug 2023
+    codebase_url: https://github.com/yueliu1999/RGC
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.2669
+    - 0.3888
+    metric_stds:
+    - null
+    - 0.0285
+    - 0.0023
+  - model: MCGC
+    model_plain: MCGC
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2308.06827'
+    title: Reinforcement Graph Clustering with Unknown Cluster Number
+    date: Aug 2023
+    date_iso: 2023-08
+    date_display: Aug 2023
+    codebase_url: https://github.com/yueliu1999/RGC
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.0841
+    - 0.2311
+    metric_stds:
+    - null
+    - 0.0032
+    - 0.0056
+  - model: AutoSSL
+    model_plain: AutoSSL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2308.06827'
+    title: Reinforcement Graph Clustering with Unknown Cluster Number
+    date: Aug 2023
+    date_iso: 2023-08
+    date_display: Aug 2023
+    codebase_url: https://github.com/yueliu1999/RGC
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.1311
+    - 0.1784
+    metric_stds:
+    - null
+    - 0.0081
+    - 0.0098
+  - model: AGC-DRR
+    model_plain: AGC-DRR
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2308.06827'
+    title: Reinforcement Graph Clustering with Unknown Cluster Number
+    date: Aug 2023
+    date_iso: 2023-08
+    date_display: Aug 2023
+    codebase_url: https://github.com/yueliu1999/RGC
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.1459
+    - 0.1991
+    metric_stds:
+    - null
+    - 0.0013
+    - 0.0024
+  - model: DCRNN
+    model_plain: DCRNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2308.06827'
+    title: Reinforcement Graph Clustering with Unknown Cluster Number
+    date: Aug 2023
+    date_iso: 2023-08
+    date_display: Aug 2023
+    codebase_url: https://github.com/yueliu1999/RGC
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.3976
+    - 0.4723
+    metric_stds:
+    - null
+    - 0.0087
+    - 0.0074
+  - model: AFGRL
+    model_plain: AFGRL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2308.06827'
+    title: Reinforcement Graph Clustering with Unknown Cluster Number
+    date: Aug 2023
+    date_iso: 2023-08
+    date_display: Aug 2023
+    codebase_url: https://github.com/yueliu1999/RGC
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.2189
+    - 0.2755
+    metric_stds:
+    - null
+    - 0.0074
+    - 0.0062
+  - model: ProGCL
+    model_plain: ProGCL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2308.06827'
+    title: Reinforcement Graph Clustering with Unknown Cluster Number
+    date: Aug 2023
+    date_iso: 2023-08
+    date_display: Aug 2023
+    codebase_url: https://github.com/yueliu1999/RGC
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.2184
+    - 0.2869
+    metric_stds:
+    - null
+    - 0.0134
+    - 0.0092
   - model: SUBLIME
     model_plain: SUBLIME
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2508.14097'
-    title: Non-Dissipative Graph Propagation for Non-Local Community Detection
-    date: Aug 2025
-    date_iso: 2025-08
-    date_display: Aug 2025
-    codebase_url: ''
+    arxiv_id: '2308.06827'
+    title: Reinforcement Graph Clustering with Unknown Cluster Number
+    date: Aug 2023
+    date_iso: 2023-08
+    date_display: Aug 2023
+    codebase_url: https://github.com/yueliu1999/RGC
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.36
+    - null
+    - 0.1445
+    - 0.2203
     metric_stds:
-    - 0.06
-  - model: VGAER
-    model_plain: VGAER
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2508.14097'
-    title: Non-Dissipative Graph Propagation for Non-Local Community Detection
-    date: Aug 2025
-    date_iso: 2025-08
-    date_display: Aug 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.36
-    metric_stds:
-    - 0.06
+    - null
+    - 0.0087
+    - 0.0048
   milestones:
-  - value: 0.65
-    std: 0.05
-    model: MVGRL
-    arxiv_id: '2508.14097'
-    title: Non-Dissipative Graph Propagation for Non-Local Community Detection
-    date: 2025-08
+  - value: 0.7449
+    std: 0.0026
+    model: SCGDN
+    arxiv_id: '2307.14613'
+    title: Self-Contrastive Graph Diffusion Network
+    date: 2023-07
 ---
 

@@ -29,8 +29,8 @@ has_results: true
 paper_type: method
 proposed_models:
 - novel all-pair message passing scheme
-mrr: 0.0778
-adjusted_mrr: 0.0778
+mrr: 0.0115
+adjusted_mrr: 0.0115
 mrr_dataset_count: 3
 benchmark_categories:
 - Classic
@@ -46,74 +46,114 @@ results:
 - &id005
   dataset: 20News
   rows:
-  - model: Multinomial Naive Bayes
-    model_key: multinomial naive bayes
-    model_plain: Multinomial Naive Bayes
-    value: 0.6851
-    std: null
+  - model: IDGL
+    model_key: idgl
+    model_plain: IDGL
+    value: 0.6509
+    std: 0.0123
+    paper_value: 0.6509
+    paper_std: 0.0123
     metric: Accuracy
     higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '1606.09375'
-    title: Convolutional Neural Networks on Graphs with Fast Localized Spectral Filtering
-    date: Jun 2016
-    date_display: Jun 2016
-    date_iso: 2016-06
-    codebase_url: https://github.com/mdeff/cnn_graph
-    uses_external_data: false
-    is_global_top: true
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: fuzzy match to 20news (score=90)'
+    date: Jun 2023
+    date_display: Jun 2023
+    date_iso: 2023-06
     global_rank: 1
-    sort_value: 0.6851
-    sort_std: null
+    true_value: 0.836
+    true_std: 0.004
+    value_gap_source_arxiv: '2006.13009'
+    value_gap_source_title: 'Iterative Deep Graph Learning for Graph Neural Networks:
+      Better and Robust Node Embeddings'
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
+    has_value_note: false
+    value_gap: 0.18509999999999993
+    value_note: ''
+    paper_rank: 22
+    rank_delta: 21
+    rank_delta_abs: 21
+    rank_delta_direction: worse
+    sort_value: 0.836
+    sort_std: 0.004
     is_best: true
-  - model: GC32
-    model_key: gc32
-    model_plain: GC32
-    value: 0.6826
-    std: null
+  - model: IDGL-Anch
+    model_key: idgl-anch
+    model_plain: IDGL-Anch
+    value: 0.829
+    std: 0.003
     metric: Accuracy
     higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '1606.09375'
-    title: Convolutional Neural Networks on Graphs with Fast Localized Spectral Filtering
-    date: Jun 2016
-    date_display: Jun 2016
-    date_iso: 2016-06
-    codebase_url: https://github.com/mdeff/cnn_graph
+    arxiv_id: '2006.13009'
+    title: 'Iterative Deep Graph Learning for Graph Neural Networks: Better and Robust
+      Node Embeddings'
+    date: Jun 2020
+    date_display: Jun 2020
+    date_iso: 2020-06
+    codebase_url: https://github.com/hugochan/IDGL
     uses_external_data: false
     is_global_top: true
     global_rank: 2
-    sort_value: 0.6826
-    sort_std: null
-    is_best: false
-  - model: Softmax
-    model_key: softmax
-    model_plain: Softmax
-    value: 0.6628
-    std: null
+    sort_value: 0.829
+    sort_std: 0.003
+    is_best: true
+  - model: GCN_kNN
+    model_key: gcn_knn
+    model_plain: GCN_kNN
+    value: 0.813
+    std: 0.006
     metric: Accuracy
     higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '1606.09375'
-    title: Convolutional Neural Networks on Graphs with Fast Localized Spectral Filtering
-    date: Jun 2016
-    date_display: Jun 2016
-    date_iso: 2016-06
-    codebase_url: https://github.com/mdeff/cnn_graph
+    arxiv_id: '2006.13009'
+    title: 'Iterative Deep Graph Learning for Graph Neural Networks: Better and Robust
+      Node Embeddings'
+    date: Jun 2020
+    date_display: Jun 2020
+    date_iso: 2020-06
+    codebase_url: https://github.com/hugochan/IDGL
     uses_external_data: false
     is_global_top: true
     global_rank: 3
-    sort_value: 0.6628
-    sort_std: null
+    sort_value: 0.813
+    sort_std: 0.006
+    is_best: false
+  - model: UniGCN
+    model_key: unigcn
+    model_plain: UniGCN
+    value: 0.8024
+    std: 0.004
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2206.04739'
+    title: 'I''m Me, We''re Us, and I''m Us: Tri-directional Contrastive Learning
+      on Hypergraphs'
+    date: Jun 2022
+    date_display: Jun 2022
+    date_iso: 2022-06
+    codebase_url: https://github.com/wooner49/TriCL
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 4
+    sort_value: 0.8024
+    sort_std: 0.004
     is_best: false
   - model: LDS
     model_key: lds
@@ -134,7 +174,7 @@ results:
     date: Jun 2023
     date_display: Jun 2023
     date_iso: 2023-06
-    global_rank: 4
+    global_rank: 18
     true_value: 0.6615
     true_std: 0.0036
     value_gap_source_arxiv: '2306.08385'
@@ -145,7 +185,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 4
+    paper_rank: 18
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -171,7 +211,7 @@ results:
     date: Jun 2023
     date_display: Jun 2023
     date_iso: 2023-06
-    global_rank: 5
+    global_rank: 19
     true_value: 0.6601
     true_std: 0.0118
     value_gap_source_arxiv: '2306.08385'
@@ -182,7 +222,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 5
+    paper_rank: 19
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -208,7 +248,7 @@ results:
     date: Jun 2023
     date_display: Jun 2023
     date_iso: 2023-06
-    global_rank: 6
+    global_rank: 20
     true_value: 0.6598
     true_std: 0.0068
     value_gap_source_arxiv: '2306.08385'
@@ -219,49 +259,12 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 6
+    paper_rank: 20
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 0.6598
     sort_std: 0.0068
-    is_best: false
-  - model: IDGL
-    model_key: idgl
-    model_plain: IDGL
-    value: 0.6509
-    std: 0.0123
-    paper_value: 0.6509
-    paper_std: 0.0123
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: 'dataset: fuzzy match to 20news (score=90)'
-    date: Jun 2023
-    date_display: Jun 2023
-    date_iso: 2023-06
-    global_rank: 9
-    true_value: 0.6509
-    true_std: 0.0123
-    value_gap_source_arxiv: '2306.08385'
-    value_gap_source_title: 'Align All the Nodes: Scalable Learning of Flexible Latent
-      Structure for Graph Neural Networks'
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 9
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.6509
-    sort_std: 0.0123
     is_best: false
   - model: DropEdge
     model_key: dropedge
@@ -282,7 +285,7 @@ results:
     date: Jun 2023
     date_display: Jun 2023
     date_iso: 2023-06
-    global_rank: 11
+    global_rank: 24
     true_value: 0.6446
     true_std: 0.0043
     value_gap_source_arxiv: '2306.08385'
@@ -293,7 +296,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 11
+    paper_rank: 24
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -319,7 +322,7 @@ results:
     date: Jun 2023
     date_display: Jun 2023
     date_iso: 2023-06
-    global_rank: 12
+    global_rank: 25
     true_value: 0.6406
     true_std: 0.0044
     value_gap_source_arxiv: '2306.08385'
@@ -330,7 +333,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 12
+    paper_rank: 25
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -342,76 +345,75 @@ results:
 - &id003
   dataset: Actor
   rows:
-  - model: GRAPHITE
-    model_key: graphite
-    model_plain: GRAPHITE
-    value: 0.3769
-    std: 0.0157
+  - model: Vicuna-7B
+    model_key: vicuna-7b
+    model_plain: Vicuna-7B
+    value: 0.7682
+    std: 0.005
     metric: Accuracy
     higher_is_better: true
-    is_baseline: false
+    is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2602.07256'
-    title: 'Graph homophily booster: Reimagining the role of discrete features in
-      heterophilic graph learning'
-    date: Feb 2026
-    date_display: Feb 2026
-    date_iso: 2026-02
-    codebase_url: https://github.com/q-rz/ICLR26-GRAPHITE
-    uses_external_data: false
+    arxiv_id: '2408.14134'
+    title: Exploring the Potential of Large Language Models for Heterophilic Graphs
+    date: Aug 2024
+    date_display: Aug 2024
+    date_iso: 2024-08
+    codebase_url: ''
+    uses_external_data: true
     is_global_top: true
     global_rank: 1
-    sort_value: 0.3769
-    sort_std: 0.0157
+    sort_value: 0.7682
+    sort_std: 0.005
     is_best: true
-  - model: HopFormer
-    model_key: hopformer
-    model_plain: HopFormer
-    value: 0.3736
-    std: 0.0016
+  - model: Bloom 560M
+    model_key: bloom 560m
+    model_plain: Bloom 560M
+    value: 0.7616
+    std: 0.006
     metric: Accuracy
     higher_is_better: true
-    is_baseline: false
+    is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2602.02268'
-    title: 'HopFormer: Sparse Graph Transformers with Explicit Receptive Field Control'
-    date: Feb 2026
-    date_display: Feb 2026
-    date_iso: 2026-02
+    arxiv_id: '2408.14134'
+    title: Exploring the Potential of Large Language Models for Heterophilic Graphs
+    date: Aug 2024
+    date_display: Aug 2024
+    date_iso: 2024-08
     codebase_url: ''
-    uses_external_data: false
+    uses_external_data: true
     is_global_top: true
     global_rank: 2
-    sort_value: 0.3736
-    sort_std: 0.0016
+    sort_value: 0.7616
+    sort_std: 0.006
     is_best: true
-  - model: GloGNN
-    model_key: glognn
-    model_plain: GloGNN
-    value: 0.3735
-    std: null
+  - model: 7B-to-560M
+    model_key: 7b-to-560m
+    model_plain: 7B-to-560M
+    value: 0.7578
+    std: 0.002
     metric: Accuracy
     higher_is_better: true
-    is_baseline: false
+    is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2205.07308'
-    title: Finding Global Homophily in Graph Neural Networks When Meeting Heterophily
-    date: May 15, 2022
-    date_display: May 2022
-    date_iso: '2022-05-15'
+    arxiv_id: '2408.14134'
+    title: Exploring the Potential of Large Language Models for Heterophilic Graphs
+    date: Aug 2024
+    date_display: Aug 2024
+    date_iso: 2024-08
     codebase_url: ''
-    uses_external_data: null
+    uses_external_data: true
     is_global_top: true
     global_rank: 3
-    sort_value: 0.3735
-    sort_std: null
-    is_best: true
+    sort_value: 0.7578
+    sort_std: 0.002
+    is_best: false
   - model: novel all-pair message passing scheme
     model_key: novel all-pair message passing scheme
     model_plain: novel all-pair message passing scheme
@@ -431,7 +433,7 @@ results:
     date: Jun 2023
     date_display: Jun 2023
     date_iso: 2023-06
-    global_rank: 9
+    global_rank: 106
     true_value: 0.3531
     true_std: 0.0129
     value_gap_source_arxiv: '2306.08385'
@@ -442,85 +444,86 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 9
+    paper_rank: 106
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 0.3531
     sort_std: 0.0129
-    is_best: true
+    is_best: false
   metric: Accuracy
   higher_is_better: true
 - &id002
   dataset: CiteSeer
   rows:
-  - model: TRIGON
-    model_key: trigon
-    model_plain: TRIGON
-    value: 0.8285
-    std: 0.0038
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2508.19071'
-    title: Dynamic Triangulation-Based Graph Rewiring for Graph Neural Networks
-    date: Aug 2025
-    date_display: Aug 2025
-    date_iso: 2025-08
-    codebase_url: https://github.com/Hugo-Attali/TRIGON-CIKM-2025
-    uses_external_data: false
-    is_global_top: true
-    global_rank: 1
-    sort_value: 0.8285
-    sort_std: 0.0038
-    is_best: true
-  - model: DR
-    model_key: dr
-    model_plain: DR
-    value: 0.8114
-    std: 0.0034
+  - model: S-VAE/VGAE
+    model_key: s-vae/vgae
+    model_plain: S-VAE/VGAE
+    value: 0.952
+    std: 0.002
     metric: Accuracy
     higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2508.19071'
-    title: Dynamic Triangulation-Based Graph Rewiring for Graph Neural Networks
-    date: Aug 2025
-    date_display: Aug 2025
-    date_iso: 2025-08
-    codebase_url: https://github.com/Hugo-Attali/TRIGON-CIKM-2025
+    arxiv_id: '2407.09468'
+    title: 'Beyond Euclid: An Illustrated Guide to Modern Machine Learning with Geometric,
+      Topological, and Algebraic Structures'
+    date: Jul 2024
+    date_display: Jul 2024
+    date_iso: 2024-07
+    codebase_url: ''
     uses_external_data: false
     is_global_top: true
-    global_rank: 2
-    sort_value: 0.8114
-    sort_std: 0.0034
-    is_best: false
-  - model: GloGNN
-    model_key: glognn
-    model_plain: GloGNN
-    value: 0.7741
-    std: null
+    global_rank: 1
+    sort_value: 0.952
+    sort_std: 0.002
+    is_best: true
+  - model: Policy-GNN
+    model_key: policy-gnn
+    model_plain: Policy-GNN
+    value: 0.897
+    std: 0.021
     metric: Accuracy
     higher_is_better: true
-    is_baseline: false
+    is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2205.07308'
-    title: Finding Global Homophily in Graph Neural Networks When Meeting Heterophily
-    date: May 15, 2022
-    date_display: May 2022
-    date_iso: '2022-05-15'
+    arxiv_id: '2006.15097'
+    title: 'Policy-GNN: Aggregation Optimization for Graph Neural Networks'
+    date: Jun 2020
+    date_display: Jun 2020
+    date_iso: 2020-06
+    codebase_url: ''
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 2
+    sort_value: 0.897
+    sort_std: 0.021
+    is_best: false
+  - model: GCN
+    model_key: gcn
+    model_plain: GCN
+    value: 0.88
+    std: null
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1805.07984'
+    title: Adversarial Attacks on Neural Networks for Graph Data
+    date: May 2018
+    date_display: May 2018
+    date_iso: 2018-05
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
     global_rank: 3
-    sort_value: 0.7741
+    sort_value: 0.88
     sort_std: null
     is_best: false
   - model: novel all-pair message passing scheme
@@ -542,7 +545,7 @@ results:
     date: Jun 2023
     date_display: Jun 2023
     date_iso: 2023-06
-    global_rank: 18
+    global_rank: 102
     true_value: 0.7633
     true_std: 0.0059
     value_gap_source_arxiv: '2306.08385'
@@ -553,7 +556,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 18
+    paper_rank: 102
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -565,74 +568,74 @@ results:
 - &id001
   dataset: Cora
   rows:
-  - model: GPM
-    model_key: gpm
-    model_plain: GPM
-    value: 0.9285
-    std: 0.0054
+  - model: Self-Explainable GNN
+    model_key: self-explainable gnn
+    model_plain: Self-Explainable GNN
+    value: 0.977
+    std: 0.016
     metric: Accuracy
     higher_is_better: true
     is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2501.18739'
-    title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: Jan 30, 2025
-    date_display: Jan 2025
-    date_iso: '2025-01-30'
-    codebase_url: https://github.com/Zehong-Wang/GPM
-    uses_external_data: null
-    is_global_top: true
-    global_rank: 1
-    sort_value: 0.9285
-    sort_std: 0.0054
-    is_best: true
-  - model: TRIGON
-    model_key: trigon
-    model_plain: TRIGON
-    value: 0.9171
-    std: 0.0029
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2508.19071'
-    title: Dynamic Triangulation-Based Graph Rewiring for Graph Neural Networks
-    date: Aug 2025
-    date_display: Aug 2025
-    date_iso: 2025-08
-    codebase_url: https://github.com/Hugo-Attali/TRIGON-CIKM-2025
+    arxiv_id: '2108.12055'
+    title: Towards Self-Explainable Graph Neural Network
+    date: Aug 2021
+    date_display: Aug 2021
+    date_iso: 2021-08
+    codebase_url: https://github.com/EnyanDai/SEGNN
     uses_external_data: false
     is_global_top: true
-    global_rank: 2
-    sort_value: 0.9171
-    sort_std: 0.0029
-    is_best: false
-  - model: DR
-    model_key: dr
-    model_plain: DR
-    value: 0.9139
-    std: 0.0024
+    global_rank: 1
+    sort_value: 0.977
+    sort_std: 0.016
+    is_best: true
+  - model: GCN-K
+    model_key: gcn-k
+    model_plain: GCN-K
+    value: 0.948
+    std: 0.007
     metric: Accuracy
     higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2508.19071'
-    title: Dynamic Triangulation-Based Graph Rewiring for Graph Neural Networks
-    date: Aug 2025
-    date_display: Aug 2025
-    date_iso: 2025-08
-    codebase_url: https://github.com/Hugo-Attali/TRIGON-CIKM-2025
+    arxiv_id: '2108.12055'
+    title: Towards Self-Explainable Graph Neural Network
+    date: Aug 2021
+    date_display: Aug 2021
+    date_iso: 2021-08
+    codebase_url: https://github.com/EnyanDai/SEGNN
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 2
+    sort_value: 0.948
+    sort_std: 0.007
+    is_best: false
+  - model: KP-GIN
+    model_key: kp-gin
+    model_plain: KP-GIN
+    value: 0.946
+    std: 0.007
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2108.12055'
+    title: Towards Self-Explainable Graph Neural Network
+    date: Aug 2021
+    date_display: Aug 2021
+    date_iso: 2021-08
+    codebase_url: https://github.com/EnyanDai/SEGNN
     uses_external_data: false
     is_global_top: true
     global_rank: 3
-    sort_value: 0.9139
-    sort_std: 0.0024
+    sort_value: 0.946
+    sort_std: 0.007
     is_best: false
   - model: novel all-pair message passing scheme
     model_key: novel all-pair message passing scheme
@@ -653,7 +656,7 @@ results:
     date: Jun 2023
     date_display: Jun 2023
     date_iso: 2023-06
-    global_rank: 15
+    global_rank: 65
     true_value: 0.8869
     true_std: 0.0046
     value_gap_source_arxiv: '2306.08385'
@@ -664,7 +667,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 15
+    paper_rank: 65
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same

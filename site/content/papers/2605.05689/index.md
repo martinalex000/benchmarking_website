@@ -32,8 +32,8 @@ has_results: true
 paper_type: method
 proposed_models:
 - GPS-GCCM
-mrr: 0.0667
-adjusted_mrr: 0.0222
+mrr: 0.0556
+adjusted_mrr: 0.0185
 mrr_dataset_count: 1
 benchmark_categories:
 - GNNBenchmark
@@ -78,7 +78,7 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 1.66
+    params_millions: null
     arxiv_id: '1705.07664'
     title: 'CayleyNets: Graph Convolutional Neural Networks with Complex Rational
       Spectral Filters'
@@ -135,7 +135,7 @@ results:
     date: May 2026
     date_display: May 2026
     date_iso: 2026-05
-    global_rank: 15
+    global_rank: 18
     true_value: 0.98236
     true_std: 0.0006
     value_gap_source_arxiv: '2605.05689'
@@ -146,7 +146,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 15
+    paper_rank: 18
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -172,7 +172,7 @@ results:
     date: May 2026
     date_display: May 2026
     date_iso: 2026-05
-    global_rank: 21
+    global_rank: 25
     true_value: 0.98173
     true_std: 0.00087
     value_gap_source_arxiv: '2205.12454'
@@ -182,7 +182,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 21
+    paper_rank: 25
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -208,7 +208,7 @@ results:
     date: May 2026
     date_display: May 2026
     date_iso: 2026-05
-    global_rank: 25
+    global_rank: 30
     true_value: 0.98114
     true_std: 0.00183
     value_gap_source_arxiv: '2605.05689'
@@ -219,7 +219,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 25
+    paper_rank: 30
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -245,7 +245,7 @@ results:
     date: May 2026
     date_display: May 2026
     date_iso: 2026-05
-    global_rank: 27
+    global_rank: 32
     true_value: 0.98108
     true_std: 0.00111
     value_gap_source_arxiv: '2502.00282'
@@ -256,49 +256,12 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 27
+    paper_rank: 32
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 0.98108
     sort_std: 0.00111
-    is_best: false
-  - model: GPS
-    model_key: gps
-    model_plain: GPS
-    value: 0.98082
-    std: 0.00114
-    paper_value: 0.98082
-    paper_std: 0.00114
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: Rampásek 2023
-    variant_inference_reason: 'dataset: exact match'
-    date: May 2026
-    date_display: May 2026
-    date_iso: 2026-05
-    global_rank: 28
-    true_value: 0.98082
-    true_std: 0.00114
-    value_gap_source_arxiv: '2605.05689'
-    value_gap_source_title: 'GCCM: Enhancing Generative Graph Prediction via Contrastive
-      Consistency Model'
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 28
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.98082
-    sort_std: 0.00114
     is_best: false
   - model: PNA
     model_key: pna
@@ -319,30 +282,31 @@ results:
     date: May 2026
     date_display: May 2026
     date_iso: 2026-05
-    global_rank: 32
-    true_value: 0.9794
-    true_std: 0.0012
-    value_gap_source_arxiv: '2205.12454'
-    value_gap_source_title: Recipe for a General, Powerful, Scalable Graph Transformer
+    global_rank: 34
+    true_value: 0.981
+    true_std: 0.002
+    value_gap_source_arxiv: '1806.09231'
+    value_gap_source_title: 'Clebsch--Gordan Nets: a Fully Fourier Space Spherical
+      Convolutional Neural Network'
     value_gap_source_is_current_paper: false
     has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 32
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.9794
-    sort_std: 0.0012
+    has_value_note: true
+    value_gap: 0.0015999999999999348
+    value_note: global 0.9810 within std
+    paper_rank: 38
+    rank_delta: 4
+    rank_delta_abs: 4
+    rank_delta_direction: worse
+    sort_value: 0.981
+    sort_std: 0.002
     is_best: false
-  - model: GatedGCN
-    model_key: gatedgcn
-    model_plain: GatedGCN
-    value: 0.9734
-    std: 0.00143
-    paper_value: 0.9734
-    paper_std: 0.00143
+  - model: GPS
+    model_key: gps
+    model_plain: GPS
+    value: 0.98082
+    std: 0.00114
+    paper_value: 0.98082
+    paper_std: 0.00114
     metric: Accuracy
     higher_is_better: true
     is_baseline: true
@@ -350,27 +314,28 @@ results:
     override_reason: ''
     params_millions: null
     table_ref: Table 1
-    source_ref: Bresson 2018
+    source_ref: Rampásek 2023
     variant_inference_reason: 'dataset: exact match'
     date: May 2026
     date_display: May 2026
     date_iso: 2026-05
-    global_rank: 36
-    true_value: 0.9734
-    true_std: 0.00143
-    value_gap_source_arxiv: '2205.12454'
-    value_gap_source_title: Recipe for a General, Powerful, Scalable Graph Transformer
-    value_gap_source_is_current_paper: false
+    global_rank: 35
+    true_value: 0.98082
+    true_std: 0.00114
+    value_gap_source_arxiv: '2605.05689'
+    value_gap_source_title: 'GCCM: Enhancing Generative Graph Prediction via Contrastive
+      Consistency Model'
+    value_gap_source_is_current_paper: true
     has_value_gap: false
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 36
+    paper_rank: 35
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
-    sort_value: 0.9734
-    sort_std: 0.00143
+    sort_value: 0.98082
+    sort_std: 0.00114
     is_best: false
   - model: GIN
     model_key: gin
@@ -391,96 +356,23 @@ results:
     date: May 2026
     date_display: May 2026
     date_iso: 2026-05
-    global_rank: 39
-    true_value: 0.9649
-    true_std: 0.0025
-    value_gap_source_arxiv: '2402.00789'
-    value_gap_source_title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling
-      with Selective State Spaces'
+    global_rank: 40
+    true_value: 0.979
+    true_std: 0.003
+    value_gap_source_arxiv: '1806.09231'
+    value_gap_source_title: 'Clebsch--Gordan Nets: a Fully Fourier Space Spherical
+      Convolutional Neural Network'
     value_gap_source_is_current_paper: false
-    has_value_gap: false
-    has_value_note: true
-    value_gap: 4.999999999999449e-05
-    value_note: global 0.9649 within std
-    paper_rank: 39
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.9649
-    sort_std: 0.0025
-    is_best: false
-  - model: GAT
-    model_key: gat
-    model_plain: GAT
-    value: 0.95535
-    std: 0.00205
-    paper_value: 0.95535
-    paper_std: 0.00205
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: Veličković 2018
-    variant_inference_reason: 'dataset: exact match'
-    date: May 2026
-    date_display: May 2026
-    date_iso: 2026-05
-    global_rank: 41
-    true_value: 0.9554
-    true_std: 0.00205
-    value_gap_source_arxiv: '2303.06147'
-    value_gap_source_title: 'Exphormer: Sparse Transformers for Graphs'
-    value_gap_source_is_current_paper: false
-    has_value_gap: false
-    has_value_note: true
-    value_gap: 4.999999999999449e-05
-    value_note: global 0.9554 within std
-    paper_rank: 41
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.9554
-    sort_std: 0.00205
-    is_best: false
-  - model: GPS-LGD
-    model_key: gps-lgd
-    model_plain: GPS-LGD
-    value: 0.95461
-    std: 0.00613
-    paper_value: 0.95461
-    paper_std: 0.00613
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: Zhou 2024
-    variant_inference_reason: 'dataset: exact match'
-    date: May 2026
-    date_display: May 2026
-    date_iso: 2026-05
-    global_rank: 42
-    true_value: 0.95461
-    true_std: 0.00613
-    value_gap_source_arxiv: '2605.05689'
-    value_gap_source_title: 'GCCM: Enhancing Generative Graph Prediction via Contrastive
-      Consistency Model'
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
+    has_value_gap: true
     has_value_note: false
-    value_gap: null
+    value_gap: 0.014149999999999996
     value_note: ''
-    paper_rank: 42
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.95461
-    sort_std: 0.00613
+    paper_rank: 50
+    rank_delta: 10
+    rank_delta_abs: 10
+    rank_delta_direction: worse
+    sort_value: 0.979
+    sort_std: 0.003
     is_best: false
   - model: GCN
     model_key: gcn
@@ -501,23 +393,133 @@ results:
     date: May 2026
     date_display: May 2026
     date_iso: 2026-05
-    global_rank: 43
-    true_value: 0.9071
-    true_std: 0.0021
-    value_gap_source_arxiv: '2402.00789'
-    value_gap_source_title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling
-      with Selective State Spaces'
+    global_rank: 41
+    true_value: 0.978
+    true_std: 0.003
+    value_gap_source_arxiv: '1806.09231'
+    value_gap_source_title: 'Clebsch--Gordan Nets: a Fully Fourier Space Spherical
+      Convolutional Neural Network'
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
+    has_value_note: false
+    value_gap: 0.07094999999999996
+    value_note: ''
+    paper_rank: 56
+    rank_delta: 15
+    rank_delta_abs: 15
+    rank_delta_direction: worse
+    sort_value: 0.978
+    sort_std: 0.003
+    is_best: false
+  - model: GatedGCN
+    model_key: gatedgcn
+    model_plain: GatedGCN
+    value: 0.9734
+    std: 0.00143
+    paper_value: 0.9734
+    paper_std: 0.00143
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: Bresson 2018
+    variant_inference_reason: 'dataset: exact match'
+    date: May 2026
+    date_display: May 2026
+    date_iso: 2026-05
+    global_rank: 47
+    true_value: 0.9734
+    true_std: 0.00143
+    value_gap_source_arxiv: '2205.12454'
+    value_gap_source_title: Recipe for a General, Powerful, Scalable Graph Transformer
     value_gap_source_is_current_paper: false
     has_value_gap: false
-    has_value_note: true
-    value_gap: 4.999999999999449e-05
-    value_note: global 0.9071 within std
-    paper_rank: 43
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 47
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
-    sort_value: 0.9071
-    sort_std: 0.0021
+    sort_value: 0.9734
+    sort_std: 0.00143
+    is_best: false
+  - model: GAT
+    model_key: gat
+    model_plain: GAT
+    value: 0.95535
+    std: 0.00205
+    paper_value: 0.95535
+    paper_std: 0.00205
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: Veličković 2018
+    variant_inference_reason: 'dataset: exact match'
+    date: May 2026
+    date_display: May 2026
+    date_iso: 2026-05
+    global_rank: 48
+    true_value: 0.972
+    true_std: 0.005
+    value_gap_source_arxiv: '1806.09231'
+    value_gap_source_title: 'Clebsch--Gordan Nets: a Fully Fourier Space Spherical
+      Convolutional Neural Network'
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
+    has_value_note: false
+    value_gap: 0.016649999999999943
+    value_note: ''
+    paper_rank: 52
+    rank_delta: 4
+    rank_delta_abs: 4
+    rank_delta_direction: worse
+    sort_value: 0.972
+    sort_std: 0.005
+    is_best: false
+  - model: GPS-LGD
+    model_key: gps-lgd
+    model_plain: GPS-LGD
+    value: 0.95461
+    std: 0.00613
+    paper_value: 0.95461
+    paper_std: 0.00613
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: Zhou 2024
+    variant_inference_reason: 'dataset: exact match'
+    date: May 2026
+    date_display: May 2026
+    date_iso: 2026-05
+    global_rank: 53
+    true_value: 0.95461
+    true_std: 0.00613
+    value_gap_source_arxiv: '2605.05689'
+    value_gap_source_title: 'GCCM: Enhancing Generative Graph Prediction via Contrastive
+      Consistency Model'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 53
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.95461
+    sort_std: 0.00613
     is_best: false
   metric: Accuracy
   higher_is_better: true

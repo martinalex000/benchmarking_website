@@ -13,13 +13,13 @@ stats:
   avg_nodes: null
   avg_edges: null
   num_classes: null
-result_count: 7
+result_count: 12
 best_model:
-  model: RMGL
-  value: 0.9928
+  model: MGMT
+  value: 0.699
   metric: Accuracy
-  arxiv_id: '2601.01387'
-  paper_title: Power Flow Benchmarks
+  arxiv_id: '2601.22593'
+  paper_title: arXiv:2601.22593
 variants:
 - slug: standard-split
   name: Standard split
@@ -33,154 +33,229 @@ variants:
     avg_edges: null
   metrics:
   - Accuracy
-  - Perplexity
   rows:
-  - model: RMGL
-    model_plain: RMGL
+  - model: MGMT
+    model_plain: MGMT
     is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2601.01387'
-    title: Power Flow Benchmarks
+    arxiv_id: '2601.22593'
+    title: arXiv:2601.22593
     date: Jan 2026
     date_iso: 2026-01
     date_display: Jan 2026
     codebase_url: ''
-    uses_external_data: null
+    uses_external_data: false
     is_best: true
     metric_values:
-    - 0.9928
-    - null
+    - 0.699
     metric_stds:
-    - null
-    - null
-  - model: MGL
-    model_plain: MGL
+    - 0.0119
+  - model: FlexCare
+    model_plain: FlexCare
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2601.01387'
-    title: Power Flow Benchmarks
+    arxiv_id: '2601.22593'
+    title: arXiv:2601.22593
     date: Jan 2026
     date_iso: 2026-01
     date_display: Jan 2026
     codebase_url: ''
-    uses_external_data: null
-    is_best: false
+    uses_external_data: false
+    is_best: true
     metric_values:
-    - 0.9606999999999999
-    - null
+    - 0.6982
     metric_stds:
-    - null
-    - null
-  - model: GLP
-    model_plain: GLP
+    - 0.0091
+  - model: MT
+    model_plain: MT
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2601.01387'
-    title: Power Flow Benchmarks
+    arxiv_id: '2601.22593'
+    title: arXiv:2601.22593
     date: Jan 2026
     date_iso: 2026-01
     date_display: Jan 2026
     codebase_url: ''
-    uses_external_data: null
+    uses_external_data: false
     is_best: false
     metric_values:
-    - 0.5072
-    - null
+    - 0.663
     metric_stds:
-    - null
-    - null
-  - model: GLR
-    model_plain: GLR
+    - 0.0112
+  - model: DiffPool
+    model_plain: DiffPool
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2601.01387'
-    title: Power Flow Benchmarks
+    arxiv_id: '2601.22593'
+    title: arXiv:2601.22593
     date: Jan 2026
     date_iso: 2026-01
     date_display: Jan 2026
     codebase_url: ''
-    uses_external_data: null
+    uses_external_data: false
     is_best: false
     metric_values:
-    - 0.47090000000000004
-    - null
+    - 0.658
     metric_stds:
-    - null
-    - null
-  - model: GPT2
-    model_plain: GPT2
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: 117.0
-    arxiv_id: '2312.04234'
-    title: Graph Convolutions Enrich the Self-Attention in Transformers!
-    date: Dec 2023
-    date_iso: 2023-12
-    date_display: Dec 2023
-    codebase_url: ''
-    uses_external_data: true
-    is_best: false
-    metric_values:
-    - null
-    - 20.966
-    metric_stds:
-    - null
-    - null
-  - model: GPT2 + GFSA
-    model_plain: GPT2 + GFSA
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2312.04234'
-    title: Graph Convolutions Enrich the Self-Attention in Transformers!
-    date: Dec 2023
-    date_iso: 2023-12
-    date_display: Dec 2023
-    codebase_url: ''
-    uses_external_data: true
-    is_best: false
-    metric_values:
-    - null
-    - 20.923
-    metric_stds:
-    - null
-    - null
-  - model: GPT2 + GFSA(K=2)
-    model_plain: GPT2 + GFSA(K=2)
+    - 0.0089
+  - model: AMIGO
+    model_plain: AMIGO
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2312.04234'
-    title: Graph Convolutions Enrich the Self-Attention in Transformers!
-    date: Dec 2023
-    date_iso: 2023-12
-    date_display: Dec 2023
+    arxiv_id: '2601.22593'
+    title: arXiv:2601.22593
+    date: Jan 2026
+    date_iso: 2026-01
+    date_display: Jan 2026
     codebase_url: ''
-    uses_external_data: true
+    uses_external_data: false
     is_best: false
     metric_values:
-    - null
-    - 20.923
+    - 0.6573
     metric_stds:
-    - null
-    - null
+    - 0.0089
+  - model: MedFuse
+    model_plain: MedFuse
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2601.22593'
+    title: arXiv:2601.22593
+    date: Jan 2026
+    date_iso: 2026-01
+    date_display: Jan 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.6435
+    metric_stds:
+    - 0.0096
+  - model: GNN
+    model_plain: GNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2601.22593'
+    title: arXiv:2601.22593
+    date: Jan 2026
+    date_iso: 2026-01
+    date_display: Jan 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.642
+    metric_stds:
+    - 0.012
+  - model: MaxCorrMGNN
+    model_plain: MaxCorrMGNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2601.22593'
+    title: arXiv:2601.22593
+    date: Jan 2026
+    date_iso: 2026-01
+    date_display: Jan 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.6372
+    metric_stds:
+    - 0.0164
+  - model: MMGL
+    model_plain: MMGL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2601.22593'
+    title: arXiv:2601.22593
+    date: Jan 2026
+    date_iso: 2026-01
+    date_display: Jan 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.628
+    metric_stds:
+    - 0.0084
+  - model: MGLAM
+    model_plain: MGLAM
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2601.22593'
+    title: arXiv:2601.22593
+    date: Jan 2026
+    date_iso: 2026-01
+    date_display: Jan 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.6229
+    metric_stds:
+    - 0.0129
+  - model: MultiMoDN
+    model_plain: MultiMoDN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2601.22593'
+    title: arXiv:2601.22593
+    date: Jan 2026
+    date_iso: 2026-01
+    date_display: Jan 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.615
+    metric_stds:
+    - 0.0101
+  - model: DNN
+    model_plain: DNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2601.22593'
+    title: arXiv:2601.22593
+    date: Jan 2026
+    date_iso: 2026-01
+    date_display: Jan 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.561
+    metric_stds:
+    - 0.0113
   milestones:
-  - value: 0.9928
-    std: null
-    model: RMGL
-    arxiv_id: '2601.01387'
-    title: Power Flow Benchmarks
+  - value: 0.699
+    std: 0.0119
+    model: MGMT
+    arxiv_id: '2601.22593'
+    title: arXiv:2601.22593
     date: 2026-01
 ---
 

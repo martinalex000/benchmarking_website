@@ -12,11 +12,7 @@ stats:
   avg_nodes: 13.0
   avg_edges: 65.9
   num_classes: 3
-<<<<<<< Updated upstream
-result_count: 91
-=======
-result_count: 31
->>>>>>> Stashed changes
+result_count: 171
 best_model:
   model: ILLS
   value: 0.724
@@ -36,6 +32,7 @@ variants:
     avg_edges: null
   metrics:
   - Accuracy
+  - idity
   rows:
   - model: ILLS
     model_plain: ILLS
@@ -53,8 +50,10 @@ variants:
     is_best: true
     metric_values:
     - 0.724
+    - null
     metric_stds:
     - 0.009
+    - null
   - model: PNA
     model_plain: PNA
     is_baseline: true
@@ -71,8 +70,10 @@ variants:
     is_best: true
     metric_values:
     - 0.712
+    - null
     metric_stds:
     - 0.011
+    - null
   - model: DGN
     model_plain: DGN
     is_baseline: true
@@ -89,8 +90,10 @@ variants:
     is_best: true
     metric_values:
     - 0.705
+    - null
     metric_stds:
     - 0.01
+    - null
   - model: GAT
     model_plain: GAT
     is_baseline: true
@@ -107,8 +110,10 @@ variants:
     is_best: true
     metric_values:
     - 0.701
+    - null
     metric_stds:
     - 0.014
+    - null
   - model: GIN
     model_plain: GIN
     is_baseline: true
@@ -125,8 +130,10 @@ variants:
     is_best: false
     metric_values:
     - 0.698
+    - null
     metric_stds:
     - 0.013
+    - null
   - model: GraphSAGE
     model_plain: GraphSAGE
     is_baseline: true
@@ -143,8 +150,10 @@ variants:
     is_best: false
     metric_values:
     - 0.695
+    - null
     metric_stds:
     - 0.012
+    - null
   - model: GCN
     model_plain: GCN
     is_baseline: true
@@ -161,8 +170,10 @@ variants:
     is_best: false
     metric_values:
     - 0.682
+    - null
     metric_stds:
     - 0.015
+    - null
   - model: novel dynamic message-passing mechanism
     model_plain: novel dynamic message-passing mechanism
     is_baseline: false
@@ -179,8 +190,10 @@ variants:
     is_best: false
     metric_values:
     - 0.5731
+    - null
     metric_stds:
     - 0.0219
+    - null
   - model: CoCN
     model_plain: CoCN
     is_baseline: true
@@ -197,113 +210,173 @@ variants:
     is_best: false
     metric_values:
     - 0.5632
-    metric_stds:
-    - 0.0018
-<<<<<<< Updated upstream
-    - null
-  - model: CoCN vanilla
-    model_plain: CoCN vanilla
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2407.18480'
-    title: Scalable Graph Compressed Convolutions
-    date: Jul 2024
-    date_iso: 2024-07
-    date_display: Jul 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.5632
     - null
     metric_stds:
     - 0.0018
     - null
-  - model: DiffPool
-    model_plain: DiffPool
+  - model: HAP
+    model_plain: HAP
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2501.09821'
-    title: 'bnpool: Bayesian Nonparametric Pooling for Graphs'
-    date: Jan 2025
-    date_iso: 2025-01
-    date_display: Jan 2025
+    arxiv_id: '2104.05960'
+    title: Hierarchical Adaptive Pooling by Capturing High-order Dependency for Graph
+      Representation Learning
+    date: Apr 2021
+    date_iso: 2021-04
+    date_display: Apr 2021
     codebase_url: ''
-    uses_external_data: null
-    is_best: false
-    metric_values:
-    - 0.56
-    - null
-    metric_stds:
-    - 0.03
-    - null
-  - model: MinCut
-    model_plain: MinCut
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2501.09821'
-    title: 'bnpool: Bayesian Nonparametric Pooling for Graphs'
-    date: Jan 2025
-    date_iso: 2025-01
-    date_display: Jan 2025
-    codebase_url: ''
-    uses_external_data: null
-    is_best: false
-    metric_values:
-    - 0.56
-    - null
-    metric_stds:
-    - 0.03
-    - null
-  - model: JBGNN
-    model_plain: JBGNN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2501.09821'
-    title: 'bnpool: Bayesian Nonparametric Pooling for Graphs'
-    date: Jan 2025
-    date_iso: 2025-01
-    date_display: Jan 2025
-    codebase_url: ''
-    uses_external_data: null
-    is_best: false
-    metric_values:
-    - 0.56
-    - null
-    metric_stds:
-    - 0.03
-    - null
-  - model: GSN
-    model_plain: GSN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2102.08786'
-    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
-      Passing'
-    date: Feb 2021
-    date_iso: 2021-02
-    date_display: Feb 2021
-    codebase_url: https://github.com/toenshoff/CRaWl
     uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.5533
+    - null
+    metric_stds:
+    - null
+    - null
+  - model: gPool
+    model_plain: gPool
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2104.05960'
+    title: Hierarchical Adaptive Pooling by Capturing High-order Dependency for Graph
+      Representation Learning
+    date: Apr 2021
+    date_iso: 2021-04
+    date_display: Apr 2021
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.5467
+    - null
+    metric_stds:
+    - null
+    - null
+  - model: Pre-train (Rank)
+    model_plain: Pre-train (Rank)
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1905.13728'
+    title: Pre-Training Graph Neural Networks for Generic Structural Feature Extraction
+    date: May 2019
+    date_iso: 2019-05
+    date_display: May 2019
+    codebase_url: ''
+    uses_external_data: null
     is_best: false
     metric_values:
     - 0.543
     - null
     metric_stds:
-    - 0.033
+    - 0.014
     - null
-=======
->>>>>>> Stashed changes
+  - model: Pre-train (Reconstruct)
+    model_plain: Pre-train (Reconstruct)
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1905.13728'
+    title: Pre-Training Graph Neural Networks for Generic Structural Feature Extraction
+    date: May 2019
+    date_iso: 2019-05
+    date_display: May 2019
+    codebase_url: ''
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - 0.539
+    - null
+    metric_stds:
+    - 0.012
+    - null
+  - model: QGNN
+    model_plain: QGNN
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2008.05089'
+    title: Quaternion Graph Neural Networks
+    date: Aug 2020
+    date_iso: 2020-08
+    date_display: Aug 2020
+    codebase_url: https://github.com/daiquocnguyen/QGNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.5378
+    - null
+    metric_stds:
+    - 0.0383
+    - null
+  - model: ESAN*
+    model_plain: ESAN*
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2205.12245'
+    title: Asynchronous Neural Networks for Learning in Graphs
+    date: May 2022
+    date_iso: 2022-05
+    date_display: May 2022
+    codebase_url: https://github.com/beabevi/ESAN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.537
+    - null
+    metric_stds:
+    - 0.021
+    - null
+  - model: Pre-train (All Tasks)
+    model_plain: Pre-train (All Tasks)
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1905.13728'
+    title: Pre-Training Graph Neural Networks for Generic Structural Feature Extraction
+    date: May 2019
+    date_iso: 2019-05
+    date_display: May 2019
+    codebase_url: ''
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - 0.537
+    - null
+    metric_stds:
+    - 0.007
+    - null
+  - model: StructPool
+    model_plain: StructPool
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2104.05960'
+    title: Hierarchical Adaptive Pooling by Capturing High-order Dependency for Graph
+      Representation Learning
+    date: Apr 2021
+    date_iso: 2021-04
+    date_display: Apr 2021
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.5333
+    - null
+    metric_stds:
+    - null
+    - null
   - model: PG
     model_plain: PG
     is_baseline: true
@@ -320,8 +393,30 @@ variants:
     is_best: false
     metric_values:
     - 0.532
+    - null
     metric_stds:
     - 0.036
+    - null
+  - model: GCBM-E
+    model_plain: GCBM-E
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2603.02025'
+    title: arXiv:2603.02025
+    date: Mar 2026
+    date_iso: 2026-03
+    date_display: Mar 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.531
+    - null
+    metric_stds:
+    - 0.024
+    - null
   - model: SE2P-C3
     model_plain: SE2P-C3
     is_baseline: false
@@ -338,29 +433,49 @@ variants:
     is_best: false
     metric_values:
     - 0.529
+    - null
     metric_stds:
     - 0.035
-  - model: SE2P-C4
-    model_plain: SE2P-C4
-    is_baseline: false
+    - null
+  - model: WITTOPOPOOL
+    model_plain: WITTOPOPOOL
+    is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-<<<<<<< Updated upstream
-    arxiv_id: '2502.09263'
-    title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks? Simple Architectures
-      Meet Excellence
-    date: Feb 2025
-    date_iso: 2025-02
-    date_display: Feb 2025
+    arxiv_id: '2603.02025'
+    title: arXiv:2603.02025
+    date: Mar 2026
+    date_iso: 2026-03
+    date_display: Mar 2026
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.528
+    - 0.529
     - null
     metric_stds:
+    - 0.008
     - null
+  - model: GRDL
+    model_plain: GRDL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2603.02025'
+    title: arXiv:2603.02025
+    date: Mar 2026
+    date_iso: 2026-03
+    date_display: Mar 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.529
+    - null
+    metric_stds:
+    - 0.018
     - null
   - model: GNTK
     model_plain: GNTK
@@ -368,13 +483,12 @@ variants:
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2102.08786'
-    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
-      Passing'
-    date: Feb 2021
-    date_iso: 2021-02
-    date_display: Feb 2021
-    codebase_url: https://github.com/toenshoff/CRaWl
+    arxiv_id: '1905.04579'
+    title: Are Powerful Graph Neural Nets Necessary? A Dissection on Graph Classification
+    date: May 2019
+    date_iso: 2019-05
+    date_display: May 2019
+    codebase_url: https://github.com/chentingpc/gfn
     uses_external_data: false
     is_best: false
     metric_values:
@@ -383,38 +497,97 @@ variants:
     metric_stds:
     - 0.046
     - null
-  - model: GIN + HOPE-WavePE
-    model_plain: GIN + HOPE-WavePE
+  - model: CapsNets
+    model_plain: CapsNets
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2012.08734'
+    title: Hierarchical Graph Capsule Network
+    date: Dec 2020
+    date_iso: 2020-12
+    date_display: Dec 2020
+    codebase_url: https://github.com/uta-smile/HGCN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.528
+    - null
+    metric_stds:
+    - 0.0245
+    - null
+  - model: Pre-train (Cluster)
+    model_plain: Pre-train (Cluster)
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2409.19117'
-    title: 'Range-aware Positional Encoding via High-order Pretraining: Theory and
-      Practice'
-    date: Sep 2024
-    date_iso: 2024-09
-    date_display: Sep 2024
+    arxiv_id: '1905.13728'
+    title: Pre-Training Graph Neural Networks for Generic Structural Feature Extraction
+    date: May 2019
+    date_iso: 2019-05
+    date_display: May 2019
+    codebase_url: ''
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - 0.528
+    - null
+    metric_stds:
+    - 0.012
+    - null
+  - model: UGMAE
+    model_plain: UGMAE
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2402.08023'
+    title: 'UGMAE: A Unified Framework for Graph Masked Autoencoders'
+    date: Feb 2024
+    date_iso: 2024-02
+    date_display: Feb 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.527
+    - 0.5264
     - null
     metric_stds:
-    - 0.029
+    - 0.003
     - null
-  - model: CIN
-    model_plain: CIN
+  - model: WWL
+    model_plain: WWL
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2310.02156'
-    title: Probabilistically Rewired Message-Passing Neural Networks
-    date: Oct 2023
-    date_iso: 2023-10
-    date_display: Oct 2023
+    arxiv_id: '2603.02025'
+    title: arXiv:2603.02025
+    date: Mar 2026
+    date_iso: 2026-03
+    date_display: Mar 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.526
+    - null
+    metric_stds:
+    - 0.03
+    - null
+  - model: GCBM
+    model_plain: GCBM
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2603.02025'
+    title: arXiv:2603.02025
+    date: Mar 2026
+    date_iso: 2026-03
+    date_display: Mar 2026
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -422,86 +595,30 @@ variants:
     - 0.525
     - null
     metric_stds:
-    - 0.03
+    - 0.031
     - null
-  - model: SIN
-    model_plain: SIN
-    is_baseline: true
+  - model: SE2P-C4
+    model_plain: SE2P-C4
+    is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2409.19117'
-    title: 'Range-aware Positional Encoding via High-order Pretraining: Theory and
-      Practice'
-    date: Sep 2024
-    date_iso: 2024-09
-    date_display: Sep 2024
-    codebase_url: ''
-=======
     arxiv_id: '2406.11714'
     title: Scalable Expressiveness through Preprocessed Graph Perturbations
     date: Jun 2024
     date_iso: 2024-06
     date_display: Jun 2024
     codebase_url: https://github.com/Danial-sb/SE2P
->>>>>>> Stashed changes
     uses_external_data: false
     is_best: false
     metric_values:
     - 0.524
-    metric_stds:
-<<<<<<< Updated upstream
-    - 0.029
-    - null
-  - model: GIN
-    model_plain: GIN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2102.08786'
-    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
-      Passing'
-    date: Feb 2021
-    date_iso: 2021-02
-    date_display: Feb 2021
-    codebase_url: https://github.com/toenshoff/CRaWl
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.523
     - null
     metric_stds:
-    - 0.028
-    - null
-  - model: WEGL
-    model_plain: WEGL
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2102.08786'
-    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
-      Passing'
-    date: Feb 2021
-    date_iso: 2021-02
-    date_display: Feb 2021
-    codebase_url: https://github.com/toenshoff/CRaWl
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.52
-    - null
-    metric_stds:
-    - 0.041
-    - null
-  - model: S2GAE
-    model_plain: S2GAE
-=======
     - 0.024
+    - null
   - model: DropGIN
     model_plain: DropGIN
->>>>>>> Stashed changes
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -516,8 +633,10 @@ variants:
     is_best: false
     metric_values:
     - 0.523
+    - null
     metric_stds:
     - 0.038
+    - null
   - model: SE2P-C2
     model_plain: SE2P-C2
     is_baseline: false
@@ -534,8 +653,70 @@ variants:
     is_best: false
     metric_values:
     - 0.523
+    - null
     metric_stds:
     - 0.023
+    - null
+  - model: ifMixup
+    model_plain: ifMixup
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2110.09344'
+    title: 'ifMixup: Interpolating Graph Pair to Regularize Graph Classification'
+    date: Oct 2021
+    date_iso: 2021-10
+    date_display: Oct 2021
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.523
+    - null
+    metric_stds:
+    - 0.004
+    - null
+  - model: GIN
+    model_plain: GIN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1905.04579'
+    title: Are Powerful Graph Neural Nets Necessary? A Dissection on Graph Classification
+    date: May 2019
+    date_iso: 2019-05
+    date_display: May 2019
+    codebase_url: https://github.com/chentingpc/gfn
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.523
+    - null
+    metric_stds:
+    - 0.028
+    - null
+  - model: GIN-0
+    model_plain: GIN-0
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2008.05089'
+    title: Quaternion Graph Neural Networks
+    date: Aug 2020
+    date_iso: 2020-08
+    date_display: Aug 2020
+    codebase_url: https://github.com/daiquocnguyen/QGNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.523
+    - null
+    metric_stds:
+    - 0.028
+    - null
   - model: DropGCN
     model_plain: DropGCN
     is_baseline: true
@@ -552,8 +733,10 @@ variants:
     is_best: false
     metric_values:
     - 0.521
+    - null
     metric_stds:
     - 0.033
+    - null
   - model: SE2P-C1
     model_plain: SE2P-C1
     is_baseline: false
@@ -570,26 +753,273 @@ variants:
     is_best: false
     metric_values:
     - 0.521
+    - null
     metric_stds:
     - 0.028
-  - model: GCN
-    model_plain: GCN
+    - null
+  - model: AMP-RNN
+    model_plain: AMP-RNN
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2205.12245'
+    title: Asynchronous Neural Networks for Learning in Graphs
+    date: May 2022
+    date_iso: 2022-05
+    date_display: May 2022
+    codebase_url: https://github.com/beabevi/ESAN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.521
+    - null
+    metric_stds:
+    - 0.036
+    - null
+  - model: GNN+T
+    model_plain: GNN+T
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2406.11714'
-    title: Scalable Expressiveness through Preprocessed Graph Perturbations
-    date: Jun 2024
-    date_iso: 2024-06
-    date_display: Jun 2024
-    codebase_url: https://github.com/Danial-sb/SE2P
+    arxiv_id: '2603.02025'
+    title: arXiv:2603.02025
+    date: Mar 2026
+    date_iso: 2026-03
+    date_display: Mar 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.521
+    - null
+    metric_stds:
+    - 0.03
+    - null
+  - model: MeanAttPool
+    model_plain: MeanAttPool
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2104.05960'
+    title: Hierarchical Adaptive Pooling by Capturing High-order Dependency for Graph
+      Representation Learning
+    date: Apr 2021
+    date_iso: 2021-04
+    date_display: Apr 2021
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.5203
+    - null
+    metric_stds:
+    - null
+    - null
+  - model: DiffPool
+    model_plain: DiffPool
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2104.05960'
+    title: Hierarchical Adaptive Pooling by Capturing High-order Dependency for Graph
+      Representation Learning
+    date: Apr 2021
+    date_iso: 2021-04
+    date_display: Apr 2021
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.5203
+    - null
+    metric_stds:
+    - null
+    - null
+  - model: SumPool
+    model_plain: SumPool
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2104.05960'
+    title: Hierarchical Adaptive Pooling by Capturing High-order Dependency for Graph
+      Representation Learning
+    date: Apr 2021
+    date_iso: 2021-04
+    date_display: Apr 2021
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.5201
+    - null
+    metric_stds:
+    - null
+    - null
+  - model: GCN-3-TOGL-1
+    model_plain: GCN-3-TOGL-1
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2102.07835'
+    title: Topological Graph Neural Networks
+    date: Feb 2021
+    date_iso: 2021-02
+    date_display: Feb 2021
+    codebase_url: https://github.com/BorgwardtLab/TOGL
     uses_external_data: false
     is_best: false
     metric_values:
     - 0.52
+    - null
     metric_stds:
-    - 0.041
+    - 0.04
+    - null
+  - model: GCN Baseline
+    model_plain: GCN Baseline
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2110.09344'
+    title: 'ifMixup: Interpolating Graph Pair to Regularize Graph Classification'
+    date: Oct 2021
+    date_iso: 2021-10
+    date_display: Oct 2021
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.519
+    - null
+    metric_stds:
+    - 0.001
+    - null
+  - model: GraphMAE
+    model_plain: GraphMAE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2402.08023'
+    title: 'UGMAE: A Unified Framework for Graph Masked Autoencoders'
+    date: Feb 2024
+    date_iso: 2024-02
+    date_display: Feb 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.518
+    - null
+    metric_stds:
+    - 0.006
+    - null
+  - model: GFN
+    model_plain: GFN
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1905.04579'
+    title: Are Powerful Graph Neural Nets Necessary? A Dissection on Graph Classification
+    date: May 2019
+    date_iso: 2019-05
+    date_display: May 2019
+    codebase_url: https://github.com/chentingpc/gfn
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.518
+    - null
+    metric_stds:
+    - 0.0516
+    - null
+  - model: G-Tuning
+    model_plain: G-Tuning
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2312.13583'
+    title: Fine-tuning Graph Neural Networks by Preserving Graph Generative Patterns
+    date: Dec 2023
+    date_iso: 2023-12
+    date_display: Dec 2023
+    codebase_url: https://github.com/zjunet/G-Tuning
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - 0.518
+    - null
+    metric_stds:
+    - 0.0231
+    - null
+  - model: MOSGSL
+    model_plain: MOSGSL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2406.08897'
+    title: Motif-driven Subgraph Structure Learning for Graph Classification
+    date: Jun 2024
+    date_iso: 2024-06
+    date_display: Jun 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.516
+    - null
+    metric_stds:
+    - 0.0205
+    - null
+  - model: MOSGSL(co)
+    model_plain: MOSGSL(co)
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2406.08897'
+    title: Motif-driven Subgraph Structure Learning for Graph Classification
+    date: Jun 2024
+    date_iso: 2024-06
+    date_display: Jun 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.516
+    - null
+    metric_stds:
+    - 0.0205
+    - null
+  - model: AWE
+    model_plain: AWE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1905.04579'
+    title: Are Powerful Graph Neural Nets Necessary? A Dissection on Graph Classification
+    date: May 2019
+    date_iso: 2019-05
+    date_display: May 2019
+    codebase_url: https://github.com/chentingpc/gfn
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.5154
+    - null
+    metric_stds:
+    - 0.0361
+    - null
   - model: SEP
     model_plain: SEP
     is_baseline: true
@@ -606,64 +1036,150 @@ variants:
     is_best: false
     metric_values:
     - 0.5153
+    - null
     metric_stds:
     - 0.0065
-  - model: GIN
-    model_plain: GIN
+    - null
+  - model: DropGNN
+    model_plain: DropGNN
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2406.11714'
-    title: Scalable Expressiveness through Preprocessed Graph Perturbations
-    date: Jun 2024
-    date_iso: 2024-06
-    date_display: Jun 2024
-    codebase_url: https://github.com/Danial-sb/SE2P
+    arxiv_id: '2205.12245'
+    title: Asynchronous Neural Networks for Learning in Graphs
+    date: May 2022
+    date_iso: 2022-05
+    date_display: May 2022
+    codebase_url: https://github.com/beabevi/ESAN
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.515
+    - 0.514
+    - null
     metric_stds:
-    - 0.04
-  - model: DiffPool
-    model_plain: DiffPool
+    - 0.028
+    - null
+  - model: InfoGCL
+    model_plain: InfoGCL
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2410.23686'
-    title: Towards Dynamic Message Passing on Graphs
-    date: Oct 2024
-    date_iso: 2024-10
-    date_display: Oct 2024
-    codebase_url: https://github.com/sunjss/N2
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.5131
-    metric_stds:
-    - 0.0072
-  - model: WL subtree
-    model_plain: WL subtree
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-<<<<<<< Updated upstream
-    arxiv_id: '2310.02156'
-    title: Probabilistically Rewired Message-Passing Neural Networks
-    date: Oct 2023
-    date_iso: 2023-10
-    date_display: Oct 2023
+    arxiv_id: '2402.08023'
+    title: 'UGMAE: A Unified Framework for Graph Masked Autoencoders'
+    date: Feb 2024
+    date_iso: 2024-02
+    date_display: Feb 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.512
+    - 0.514
     - null
     metric_stds:
-    - 0.015
+    - 0.008
+    - null
+  - model: DropEdge
+    model_plain: DropEdge
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2110.09344'
+    title: 'ifMixup: Interpolating Graph Pair to Regularize Graph Classification'
+    date: Oct 2021
+    date_iso: 2021-10
+    date_display: Oct 2021
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.514
+    - null
+    metric_stds:
+    - 0.0
+    - null
+  - model: AttrMasking
+    model_plain: AttrMasking
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2110.09344'
+    title: 'ifMixup: Interpolating Graph Pair to Regularize Graph Classification'
+    date: Oct 2021
+    date_iso: 2021-10
+    date_display: Oct 2021
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.514
+    - null
+    metric_stds:
+    - 0.003
+    - null
+  - model: GAT
+    model_plain: GAT
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2110.09344'
+    title: 'ifMixup: Interpolating Graph Pair to Regularize Graph Classification'
+    date: Oct 2021
+    date_iso: 2021-10
+    date_display: Oct 2021
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.514
+    - null
+    metric_stds:
+    - 0.004
+    - null
+  - model: MeanPool
+    model_plain: MeanPool
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2104.05960'
+    title: Hierarchical Adaptive Pooling by Capturing High-order Dependency for Graph
+      Representation Learning
+    date: Apr 2021
+    date_iso: 2021-04
+    date_display: Apr 2021
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.5133
+    - null
+    metric_stds:
+    - null
+    - null
+  - model: MixupGraph
+    model_plain: MixupGraph
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2110.09344'
+    title: 'ifMixup: Interpolating Graph Pair to Regularize Graph Classification'
+    date: Oct 2021
+    date_iso: 2021-10
+    date_display: Oct 2021
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.513
+    - null
+    metric_stds:
+    - 0.003
     - null
   - model: MVGRL
     model_plain: MVGRL
@@ -671,11 +1187,11 @@ variants:
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2309.16014'
-    title: Graph-level Representation Learning with Joint-Embedding Predictive Architectures
-    date: Sep 2023
-    date_iso: 2023-09
-    date_display: Sep 2023
+    arxiv_id: '2402.08023'
+    title: 'UGMAE: A Unified Framework for Graph Masked Autoencoders'
+    date: Feb 2024
+    date_iso: 2024-02
+    date_display: Feb 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -685,100 +1201,429 @@ variants:
     metric_stds:
     - 0.005
     - null
-  - model: ECPool
-    model_plain: ECPool
+  - model: DropNode
+    model_plain: DropNode
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2501.09821'
-    title: 'bnpool: Bayesian Nonparametric Pooling for Graphs'
-    date: Jan 2025
-    date_iso: 2025-01
-    date_display: Jan 2025
+    arxiv_id: '2110.09344'
+    title: 'ifMixup: Interpolating Graph Pair to Regularize Graph Classification'
+    date: Oct 2021
+    date_iso: 2021-10
+    date_display: Oct 2021
     codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.512
+    - null
+    metric_stds:
+    - 0.003
+    - null
+  - model: GCN
+    model_plain: GCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1905.04579'
+    title: Are Powerful Graph Neural Nets Necessary? A Dissection on Graph Classification
+    date: May 2019
+    date_iso: 2019-05
+    date_display: May 2019
+    codebase_url: https://github.com/chentingpc/gfn
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.512
+    - null
+    metric_stds:
+    - 0.0513
+    - null
+  - model: GFN-light
+    model_plain: GFN-light
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1905.04579'
+    title: Are Powerful Graph Neural Nets Necessary? A Dissection on Graph Classification
+    date: May 2019
+    date_iso: 2019-05
+    date_display: May 2019
+    codebase_url: https://github.com/chentingpc/gfn
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.512
+    - null
+    metric_stds:
+    - 0.0571
+    - null
+  - model: GTOT-Tuning
+    model_plain: GTOT-Tuning
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2312.13583'
+    title: Fine-tuning Graph Neural Networks by Preserving Graph Generative Patterns
+    date: Dec 2023
+    date_iso: 2023-12
+    date_display: Dec 2023
+    codebase_url: https://github.com/zjunet/G-Tuning
     uses_external_data: null
+    is_best: false
+    metric_values:
+    - 0.5113
+    - null
+    metric_stds:
+    - 0.0272
+    - null
+  - model: GATv2
+    model_plain: GATv2
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2110.09344'
+    title: 'ifMixup: Interpolating Graph Pair to Regularize Graph Classification'
+    date: Oct 2021
+    date_iso: 2021-10
+    date_display: Oct 2021
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.511
+    - null
+    metric_stds:
+    - 0.001
+    - null
+  - model: L2_SP
+    model_plain: L2_SP
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2312.13583'
+    title: Fine-tuning Graph Neural Networks by Preserving Graph Generative Patterns
+    date: Dec 2023
+    date_iso: 2023-12
+    date_display: Dec 2023
+    codebase_url: https://github.com/zjunet/G-Tuning
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - 0.5107
+    - null
+    metric_stds:
+    - 0.0211
+    - null
+  - model: MinCutPool
+    model_plain: MinCutPool
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2603.02025'
+    title: arXiv:2603.02025
+    date: Mar 2026
+    date_iso: 2026-03
+    date_display: Mar 2026
+    codebase_url: ''
+    uses_external_data: false
     is_best: false
     metric_values:
     - 0.51
     - null
     metric_stds:
-    - 0.02
+    - 0.007
     - null
-  - model: Kern. WL
-    model_plain: Kern. WL
+  - model: WL subtree
+    model_plain: WL subtree
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2102.08786'
-    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
-      Passing'
-    date: Feb 2021
-    date_iso: 2021-02
-    date_display: Feb 2021
-    codebase_url: https://github.com/toenshoff/CRaWl
-=======
     arxiv_id: '2406.11714'
     title: Scalable Expressiveness through Preprocessed Graph Perturbations
     date: Jun 2024
     date_iso: 2024-06
     date_display: Jun 2024
     codebase_url: https://github.com/Danial-sb/SE2P
->>>>>>> Stashed changes
     uses_external_data: false
     is_best: false
     metric_values:
     - 0.509
+    - null
     metric_stds:
     - 0.038
-  - model: GMT
-    model_plain: GMT
+    - null
+  - model: Feature Map
+    model_plain: Feature Map
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2410.23686'
-    title: Towards Dynamic Message Passing on Graphs
-    date: Oct 2024
-    date_iso: 2024-10
-    date_display: Oct 2024
-    codebase_url: https://github.com/sunjss/N2
+    arxiv_id: '2312.13583'
+    title: Fine-tuning Graph Neural Networks by Preserving Graph Generative Patterns
+    date: Dec 2023
+    date_iso: 2023-12
+    date_display: Dec 2023
+    codebase_url: https://github.com/zjunet/G-Tuning
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - 0.5087
+    - null
+    metric_stds:
+    - 0.0289
+    - null
+  - model: EdgePool
+    model_plain: EdgePool
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2406.08897'
+    title: Motif-driven Subgraph Structure Learning for Graph Classification
+    date: Jun 2024
+    date_iso: 2024-06
+    date_display: Jun 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.508
+    - null
+    metric_stds:
+    - 0.0329
+    - null
+  - model: L2xGsg
+    model_plain: L2xGsg
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2209.14402'
+    title: 'L2XGNN: Learning to Explain Graph Neural Networks'
+    date: Sep 28, 2022
+    date_iso: '2022-09-28'
+    date_display: Sep 2022
+    codebase_url: https://github.com/GiuseppeSerra93/L2XGNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.508
+    - null
+    metric_stds:
+    - 0.027
+    - null
+  - model: GAWL
+    model_plain: GAWL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2603.02025'
+    title: arXiv:2603.02025
+    date: Mar 2026
+    date_iso: 2026-03
+    date_display: Mar 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.507
+    - null
+    metric_stds:
+    - 0.054
+    - null
+  - model: DELTA
+    model_plain: DELTA
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2312.13583'
+    title: Fine-tuning Graph Neural Networks by Preserving Graph Generative Patterns
+    date: Dec 2023
+    date_iso: 2023-12
+    date_display: Dec 2023
+    codebase_url: https://github.com/zjunet/G-Tuning
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - 0.5067
+    - null
+    metric_stds:
+    - 0.0281
+    - null
+  - model: Set2Set
+    model_plain: Set2Set
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2104.05960'
+    title: Hierarchical Adaptive Pooling by Capturing High-order Dependency for Graph
+      Representation Learning
+    date: Apr 2021
+    date_iso: 2021-04
+    date_display: Apr 2021
+    codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
     - 0.5066
-    metric_stds:
-    - 0.0082
-<<<<<<< Updated upstream
     - null
-  - model: 3WLGNN
-    model_plain: 3WLGNN
+    metric_stds:
+    - null
+    - null
+  - model: L2xGsg_dsc
+    model_plain: L2xGsg_dsc
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2102.08786'
-    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
-      Passing'
-    date: Feb 2021
-    date_iso: 2021-02
-    date_display: Feb 2021
-    codebase_url: https://github.com/toenshoff/CRaWl
+    arxiv_id: '2209.14402'
+    title: 'L2XGNN: Learning to Explain Graph Neural Networks'
+    date: Sep 28, 2022
+    date_iso: '2022-09-28'
+    date_display: Sep 2022
+    codebase_url: https://github.com/GiuseppeSerra93/L2XGNN
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.505
+    - 0.506
     - null
     metric_stds:
-    - 0.036
+    - 0.032
     - null
-  - model: PPGNs
-    model_plain: PPGNs
-=======
+  - model: NeuralSparse
+    model_plain: NeuralSparse
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2406.08897'
+    title: Motif-driven Subgraph Structure Learning for Graph Classification
+    date: Jun 2024
+    date_iso: 2024-06
+    date_display: Jun 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.5047
+    - null
+    metric_stds:
+    - 0.0263
+    - null
+  - model: PPGN
+    model_plain: PPGN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2008.05089'
+    title: Quaternion Graph Neural Networks
+    date: Aug 2020
+    date_iso: 2020-08
+    date_display: Aug 2020
+    codebase_url: https://github.com/daiquocnguyen/QGNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.5046
+    - null
+    metric_stds:
+    - 0.0359
+    - null
+  - model: graph2vec
+    model_plain: graph2vec
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2402.08023'
+    title: 'UGMAE: A Unified Framework for Graph Masked Autoencoders'
+    date: Feb 2024
+    date_iso: 2024-02
+    date_display: Feb 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.5044
+    - null
+    metric_stds:
+    - 0.0087
+    - null
+  - model: GLN
+    model_plain: GLN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1905.04579'
+    title: Are Powerful Graph Neural Nets Necessary? A Dissection on Graph Classification
+    date: May 2019
+    date_iso: 2019-05
+    date_display: May 2019
+    codebase_url: https://github.com/chentingpc/gfn
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.504
+    - null
+    metric_stds:
+    - 0.0561
+    - null
+  - model: WEGL
+    model_plain: WEGL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2603.02025'
+    title: arXiv:2603.02025
+    date: Mar 2026
+    date_iso: 2026-03
+    date_display: Mar 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.503
+    - null
+    metric_stds:
+    - 0.01
+    - null
+  - model: CapsGNN
+    model_plain: CapsGNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1905.04579'
+    title: Are Powerful Graph Neural Nets Necessary? A Dissection on Graph Classification
+    date: May 2019
+    date_iso: 2019-05
+    date_display: May 2019
+    codebase_url: https://github.com/chentingpc/gfn
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.5027
+    - null
+    metric_stds:
+    - 0.0265
+    - null
   - model: SAGPool
     model_plain: SAGPool
->>>>>>> Stashed changes
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -793,8 +1638,10 @@ variants:
     is_best: false
     metric_values:
     - 0.5023
+    - null
     metric_stds:
     - 0.0044
+    - null
   - model: StructPool
     model_plain: StructPool
     is_baseline: true
@@ -811,8 +1658,552 @@ variants:
     is_best: false
     metric_values:
     - 0.5023
+    - null
     metric_stds:
     - 0.0053
+    - null
+  - model: Vanilla Tuning
+    model_plain: Vanilla Tuning
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2312.13583'
+    title: Fine-tuning Graph Neural Networks by Preserving Graph Generative Patterns
+    date: Dec 2023
+    date_iso: 2023-12
+    date_display: Dec 2023
+    codebase_url: https://github.com/zjunet/G-Tuning
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - 0.502
+    - null
+    metric_stds:
+    - 0.0272
+    - null
+  - model: ASAP
+    model_plain: ASAP
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2104.05960'
+    title: Hierarchical Adaptive Pooling by Capturing High-order Dependency for Graph
+      Representation Learning
+    date: Apr 2021
+    date_iso: 2021-04
+    date_display: Apr 2021
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.5013
+    - null
+    metric_stds:
+    - null
+    - null
+  - model: GMT
+    model_plain: GMT
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2406.08897'
+    title: Motif-driven Subgraph Structure Learning for Graph Classification
+    date: Jun 2024
+    date_iso: 2024-06
+    date_display: Jun 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.5007
+    - null
+    metric_stds:
+    - 0.0446
+    - null
+  - model: MOSGSL(test)
+    model_plain: MOSGSL(test)
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2406.08897'
+    title: Motif-driven Subgraph Structure Learning for Graph Classification
+    date: Jun 2024
+    date_iso: 2024-06
+    date_display: Jun 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.5007
+    - null
+    metric_stds:
+    - 0.0299
+    - null
+  - model: TopKPool
+    model_plain: TopKPool
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2406.08897'
+    title: Motif-driven Subgraph Structure Learning for Graph Classification
+    date: Jun 2024
+    date_iso: 2024-06
+    date_display: Jun 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.4993
+    - null
+    metric_stds:
+    - 0.0313
+    - null
+  - model: GraphSAGE
+    model_plain: GraphSAGE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2008.05089'
+    title: Quaternion Graph Neural Networks
+    date: Aug 2020
+    date_iso: 2020-08
+    date_display: Aug 2020
+    codebase_url: https://github.com/daiquocnguyen/QGNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.499
+    - null
+    metric_stds:
+    - 0.05
+    - null
+  - model: GCL
+    model_plain: GCL
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2306.03506'
+    title: Subgraph Networks Based Contrastive Learning
+    date: Jun 2023
+    date_iso: 2023-06
+    date_display: Jun 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.4989
+    - null
+    metric_stds:
+    - 0.0118
+    - null
+  - model: StochNorm
+    model_plain: StochNorm
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2312.13583'
+    title: Fine-tuning Graph Neural Networks by Preserving Graph Generative Patterns
+    date: Dec 2023
+    date_iso: 2023-12
+    date_display: Dec 2023
+    codebase_url: https://github.com/zjunet/G-Tuning
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - 0.4987
+    - null
+    metric_stds:
+    - 0.0311
+    - null
+  - model: GAUG
+    model_plain: GAUG
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2406.08897'
+    title: Motif-driven Subgraph Structure Learning for Graph Classification
+    date: Jun 2024
+    date_iso: 2024-06
+    date_display: Jun 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.498
+    - null
+    metric_stds:
+    - 0.0363
+    - null
+  - model: GFL
+    model_plain: GFL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2102.07835'
+    title: Topological Graph Neural Networks
+    date: Feb 2021
+    date_iso: 2021-02
+    date_display: Feb 2021
+    codebase_url: https://github.com/BorgwardtLab/TOGL
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.497
+    - null
+    metric_stds:
+    - 0.029
+    - null
+  - model: InfoGraph
+    model_plain: InfoGraph
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2402.08023'
+    title: 'UGMAE: A Unified Framework for Graph Masked Autoencoders'
+    date: Feb 2024
+    date_iso: 2024-02
+    date_display: Feb 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.4969
+    - null
+    metric_stds:
+    - 0.0053
+    - null
+  - model: SAGE
+    model_plain: SAGE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2406.08897'
+    title: Motif-driven Subgraph Structure Learning for Graph Classification
+    date: Jun 2024
+    date_iso: 2024-06
+    date_display: Jun 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.496
+    - null
+    metric_stds:
+    - 0.0239
+    - null
+  - model: MOSGSL(pre)
+    model_plain: MOSGSL(pre)
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2406.08897'
+    title: Motif-driven Subgraph Structure Learning for Graph Classification
+    date: Jun 2024
+    date_iso: 2024-06
+    date_display: Jun 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.496
+    - null
+    metric_stds:
+    - 0.0238
+    - null
+  - model: 123-gnn
+    model_plain: 123-gnn
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2205.12245'
+    title: Asynchronous Neural Networks for Learning in Graphs
+    date: May 2022
+    date_iso: 2022-05
+    date_display: May 2022
+    codebase_url: https://github.com/beabevi/ESAN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.495
+    - null
+    metric_stds:
+    - null
+    - null
+  - model: FWL
+    model_plain: FWL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2603.02025'
+    title: arXiv:2603.02025
+    date: Mar 2026
+    date_iso: 2026-03
+    date_display: Mar 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.495
+    - null
+    metric_stds:
+    - 0.026
+    - null
+  - model: GRCN
+    model_plain: GRCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2406.08897'
+    title: Motif-driven Subgraph Structure Learning for Graph Classification
+    date: Jun 2024
+    date_iso: 2024-06
+    date_display: Jun 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.4947
+    - null
+    metric_stds:
+    - 0.0235
+    - null
+  - model: GCC
+    model_plain: GCC
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2402.08023'
+    title: 'UGMAE: A Unified Framework for Graph Masked Autoencoders'
+    date: Feb 2024
+    date_iso: 2024-02
+    date_display: Feb 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.494
+    - null
+    metric_stds:
+    - null
+    - null
+  - model: WL
+    model_plain: WL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1905.04579'
+    title: Are Powerful Graph Neural Nets Necessary? A Dissection on Graph Classification
+    date: May 2019
+    date_iso: 2019-05
+    date_display: May 2019
+    codebase_url: https://github.com/chentingpc/gfn
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.4933
+    - null
+    metric_stds:
+    - 0.0475
+    - null
+  - model: VIBGSL
+    model_plain: VIBGSL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2406.08897'
+    title: Motif-driven Subgraph Structure Learning for Graph Classification
+    date: Jun 2024
+    date_iso: 2024-06
+    date_display: Jun 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.4933
+    - null
+    metric_stds:
+    - 0.0308
+    - null
+  - model: VGAE-Tuning
+    model_plain: VGAE-Tuning
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2312.13583'
+    title: Fine-tuning Graph Neural Networks by Preserving Graph Generative Patterns
+    date: Dec 2023
+    date_iso: 2023-12
+    date_display: Dec 2023
+    codebase_url: https://github.com/zjunet/G-Tuning
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - 0.4927
+    - null
+    metric_stds:
+    - 0.0237
+    - null
+  - model: JOAO
+    model_plain: JOAO
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2402.08023'
+    title: 'UGMAE: A Unified Framework for Graph Masked Autoencoders'
+    date: Feb 2024
+    date_iso: 2024-02
+    date_display: Feb 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.492
+    - null
+    metric_stds:
+    - 0.0077
+    - null
+  - model: L2xGcn
+    model_plain: L2xGcn
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2209.14402'
+    title: 'L2XGNN: Learning to Explain Graph Neural Networks'
+    date: Sep 28, 2022
+    date_iso: '2022-09-28'
+    date_display: Sep 2022
+    codebase_url: https://github.com/GiuseppeSerra93/L2XGNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.49
+    - null
+    metric_stds:
+    - 0.022
+    - null
+  - model: HGP-SL
+    model_plain: HGP-SL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2406.08897'
+    title: Motif-driven Subgraph Structure Learning for Graph Classification
+    date: Jun 2024
+    date_iso: 2024-06
+    date_display: Jun 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.4893
+    - null
+    metric_stds:
+    - 0.0182
+    - null
+  - model: Graphormer
+    model_plain: Graphormer
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2603.02025'
+    title: arXiv:2603.02025
+    date: Mar 2026
+    date_iso: 2026-03
+    date_display: Mar 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.489
+    - null
+    metric_stds:
+    - 0.02
+    - null
+  - model: PersLay
+    model_plain: PersLay
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2102.07835'
+    title: Topological Graph Neural Networks
+    date: Feb 2021
+    date_iso: 2021-02
+    date_display: Feb 2021
+    codebase_url: https://github.com/BorgwardtLab/TOGL
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.488
+    - null
+    metric_stds:
+    - null
+    - null
+  - model: L2xGcn_dsc
+    model_plain: L2xGcn_dsc
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2209.14402'
+    title: 'L2XGNN: Learning to Explain Graph Neural Networks'
+    date: Sep 28, 2022
+    date_iso: '2022-09-28'
+    date_display: Sep 2022
+    codebase_url: https://github.com/GiuseppeSerra93/L2XGNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.488
+    - null
+    metric_stds:
+    - 0.032
+    - null
+  - model: AttPool-global
+    model_plain: AttPool-global
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2104.05960'
+    title: Hierarchical Adaptive Pooling by Capturing High-order Dependency for Graph
+      Representation Learning
+    date: Apr 2021
+    date_iso: 2021-04
+    date_display: Apr 2021
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.4873
+    - null
+    metric_stds:
+    - null
+    - null
   - model: IGN
     model_plain: IGN
     is_baseline: true
@@ -829,10 +2220,173 @@ variants:
     is_best: false
     metric_values:
     - 0.487
+    - null
     metric_stds:
     - 0.034
-  - model: TopKPool
-    model_plain: TopKPool
+    - null
+  - model: RetGK_I
+    model_plain: RetGK_I
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1905.04579'
+    title: Are Powerful Graph Neural Nets Necessary? A Dissection on Graph Classification
+    date: May 2019
+    date_iso: 2019-05
+    date_display: May 2019
+    codebase_url: https://github.com/chentingpc/gfn
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.487
+    - null
+    metric_stds:
+    - 0.006
+    - null
+  - model: rLap
+    model_plain: rLap
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2306.04004'
+    title: Randomized Schur Complement Views for Graph Contrastive Learning
+    date: Jun 6, 2023
+    date_iso: '2023-06-06'
+    date_display: Jun 2023
+    codebase_url: https://github.com/kvignesh1420/rlap
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.4866
+    - null
+    metric_stds:
+    - 0.0268
+    - null
+  - model: SAGPool
+    model_plain: SAGPool
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2104.05960'
+    title: Hierarchical Adaptive Pooling by Capturing High-order Dependency for Graph
+      Representation Learning
+    date: Apr 2021
+    date_iso: 2021-04
+    date_display: Apr 2021
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.4864
+    - null
+    metric_stds:
+    - null
+    - null
+  - model: GraphCL
+    model_plain: GraphCL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2402.08023'
+    title: 'UGMAE: A Unified Framework for Graph Masked Autoencoders'
+    date: Feb 2024
+    date_iso: 2024-02
+    date_display: Feb 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.4858
+    - null
+    metric_stds:
+    - 0.0067
+    - null
+  - model: IEGN
+    model_plain: IEGN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2008.05089'
+    title: Quaternion Graph Neural Networks
+    date: Aug 2020
+    date_iso: 2020-08
+    date_display: Aug 2020
+    codebase_url: https://github.com/daiquocnguyen/QGNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.4855
+    - null
+    metric_stds:
+    - 0.039
+    - null
+  - model: GCAPS-CNN
+    model_plain: GCAPS-CNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2012.08734'
+    title: Hierarchical Graph Capsule Network
+    date: Dec 2020
+    date_iso: 2020-12
+    date_display: Dec 2020
+    codebase_url: https://github.com/uta-smile/HGCN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.485
+    - null
+    metric_stds:
+    - 0.041
+    - null
+  - model: GCAPS
+    model_plain: GCAPS
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2008.05089'
+    title: Quaternion Graph Neural Networks
+    date: Aug 2020
+    date_iso: 2020-08
+    date_display: Aug 2020
+    codebase_url: https://github.com/daiquocnguyen/QGNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.485
+    - null
+    metric_stds:
+    - 0.041
+    - null
+  - model: GCN-1-TOGL-1 (static)
+    model_plain: GCN-1-TOGL-1 (static)
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2102.07835'
+    title: Topological Graph Neural Networks
+    date: Feb 2021
+    date_iso: 2021-02
+    date_display: Feb 2021
+    codebase_url: https://github.com/BorgwardtLab/TOGL
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.483
+    - null
+    metric_stds:
+    - 0.049
+    - null
+  - model: GIN
+    model_plain: GIN
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -843,146 +2397,6 @@ variants:
     date_iso: 2024-10
     date_display: Oct 2024
     codebase_url: https://github.com/sunjss/N2
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.4859
-    metric_stds:
-    - 0.0072
-<<<<<<< Updated upstream
-    - null
-  - model: SAGE
-    model_plain: SAGE
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2310.05174'
-    title: 'GSLB: The Graph Structure Learning Benchmark'
-    date: Oct 2023
-    date_iso: 2023-10
-    date_display: Oct 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.4855
-    - null
-    metric_stds:
-    - 0.0203
-    - null
-  - model: CO-GNN(\Sigma, \Sigma)
-    model_plain: CO-GNN(\Sigma, \Sigma)
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2310.01267'
-    title: Cooperative Graph Neural Networks
-    date: Oct 2, 2023
-    date_iso: '2023-10-02'
-    date_display: Oct 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.485
-    - null
-    metric_stds:
-    - 0.04
-    - null
-  - model: GraphCL
-    model_plain: GraphCL
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2309.16014'
-    title: Graph-level Representation Learning with Joint-Embedding Predictive Architectures
-    date: Sep 2023
-    date_iso: 2023-09
-    date_display: Sep 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.4849
-    - null
-    metric_stds:
-    - 0.0063
-    - null
-  - model: GIN + FA
-    model_plain: GIN + FA
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2309.16014'
-    title: Graph-level Representation Learning with Joint-Embedding Predictive Architectures
-    date: Sep 2023
-    date_iso: 2023-09
-    date_display: Sep 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.4846
-    - null
-    metric_stds:
-    - 0.0231
-    - null
-  - model: GAT
-    model_plain: GAT
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2306.05955'
-    title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: Jun 9, 2023
-    date_iso: '2023-06-09'
-    date_display: Jun 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.482
-    - null
-    metric_stds:
-    - 0.049
-    - null
-  - model: RBF-KAGAT
-    model_plain: RBF-KAGAT
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2406.18380'
-    title: 'KAGNNs: Kolmogorov-Arnold Networks meet Graph Learning'
-    date: Jun 2024
-    date_iso: 2024-06
-    date_display: Jun 2024
-    codebase_url: https://github.com/RomanBresson/KAGNN
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.4813
-    - null
-    metric_stds:
-    - 0.0415
-    - null
-  - model: GIN
-    model_plain: GIN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2407.18480'
-    title: Scalable Graph Compressed Convolutions
-    date: Jul 2024
-    date_iso: 2024-07
-    date_display: Jul 2024
-    codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
@@ -991,144 +2405,228 @@ variants:
     metric_stds:
     - 0.0136
     - null
-  - model: Graclus
-    model_plain: Graclus
+  - model: EdgeDroppingDegree
+    model_plain: EdgeDroppingDegree
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2501.09821'
-    title: 'bnpool: Bayesian Nonparametric Pooling for Graphs'
-    date: Jan 2025
-    date_iso: 2025-01
-    date_display: Jan 2025
-    codebase_url: ''
-    uses_external_data: null
+    arxiv_id: '2306.04004'
+    title: Randomized Schur Complement Views for Graph Contrastive Learning
+    date: Jun 6, 2023
+    date_iso: '2023-06-06'
+    date_display: Jun 2023
+    codebase_url: https://github.com/kvignesh1420/rlap
+    uses_external_data: false
     is_best: false
     metric_values:
-    - 0.48
+    - 0.4803
     - null
     metric_stds:
-    - 0.02
+    - 0.0542
     - null
-=======
->>>>>>> Stashed changes
+  - model: GCN-concat
+    model_plain: GCN-concat
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2104.05960'
+    title: Hierarchical Adaptive Pooling by Capturing High-order Dependency for Graph
+      Representation Learning
+    date: Apr 2021
+    date_iso: 2021-04
+    date_display: Apr 2021
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.4803
+    - null
+    metric_stds:
+    - null
+    - null
+  - model: L2xGin
+    model_plain: L2xGin
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2209.14402'
+    title: 'L2XGNN: Learning to Explain Graph Neural Networks'
+    date: Sep 28, 2022
+    date_iso: '2022-09-28'
+    date_display: Sep 2022
+    codebase_url: https://github.com/GiuseppeSerra93/L2XGNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.479
+    - null
+    metric_stds:
+    - 0.035
+    - null
   - model: DGCNN
     model_plain: DGCNN
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-<<<<<<< Updated upstream
-    arxiv_id: '2102.08786'
-    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
-      Passing'
-    date: Feb 2021
-    date_iso: 2021-02
-    date_display: Feb 2021
-    codebase_url: https://github.com/toenshoff/CRaWl
-=======
-    arxiv_id: '2406.11714'
-    title: Scalable Expressiveness through Preprocessed Graph Perturbations
-    date: Jun 2024
-    date_iso: 2024-06
-    date_display: Jun 2024
-    codebase_url: https://github.com/Danial-sb/SE2P
->>>>>>> Stashed changes
+    arxiv_id: '1905.04579'
+    title: Are Powerful Graph Neural Nets Necessary? A Dissection on Graph Classification
+    date: May 2019
+    date_iso: 2019-05
+    date_display: May 2019
+    codebase_url: https://github.com/chentingpc/gfn
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.4783
+    - null
+    metric_stds:
+    - 0.0085
+    - null
+  - model: GAT
+    model_plain: GAT
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2008.05089'
+    title: Quaternion Graph Neural Networks
+    date: Aug 2020
+    date_iso: 2020-08
+    date_display: Aug 2020
+    codebase_url: https://github.com/daiquocnguyen/QGNN
     uses_external_data: false
     is_best: false
     metric_values:
     - 0.478
-<<<<<<< Updated upstream
     - null
     metric_stds:
-    - 0.009
+    - 0.031
     - null
-  - model: CRaWl
-    model_plain: CRaWl
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2102.08786'
-    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
-      Passing'
-    date: Feb 2021
-    date_iso: 2021-02
-    date_display: Feb 2021
-    codebase_url: https://github.com/toenshoff/CRaWl
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.4777
-    - null
-    metric_stds:
-    - 0.0387
-    - null
-  - model: GraphSAGE
-    model_plain: GraphSAGE
+  - model: BSS
+    model_plain: BSS
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2306.05955'
-    title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: Jun 9, 2023
-    date_iso: '2023-06-09'
+    arxiv_id: '2312.13583'
+    title: Fine-tuning Graph Neural Networks by Preserving Graph Generative Patterns
+    date: Dec 2023
+    date_iso: 2023-12
+    date_display: Dec 2023
+    codebase_url: https://github.com/zjunet/G-Tuning
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - 0.4735
+    - null
+    metric_stds:
+    - 0.0176
+    - null
+  - model: NodeDropping
+    model_plain: NodeDropping
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2306.04004'
+    title: Randomized Schur Complement Views for Graph Contrastive Learning
+    date: Jun 6, 2023
+    date_iso: '2023-06-06'
     date_display: Jun 2023
-    codebase_url: ''
+    codebase_url: https://github.com/kvignesh1420/rlap
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.476
+    - 0.4733
     - null
     metric_stds:
-    - 0.035
+    - 0.0486
     - null
-  - model: PR-MPNN (train/val/test)
-    model_plain: PR-MPNN (train/val/test)
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2310.02156'
-    title: Probabilistically Rewired Message-Passing Neural Networks
-    date: Oct 2023
-    date_iso: 2023-10
-    date_display: Oct 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.458
-    - null
-    metric_stds:
-    - 0.008
-    - null
-  - model: DiffPool
-    model_plain: DiffPool
-=======
-    metric_stds:
-    - 0.009
-  - model: GraphSAGE
-    model_plain: GraphSAGE
->>>>>>> Stashed changes
+  - model: SAT
+    model_plain: SAT
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2410.23686'
-    title: Towards Dynamic Message Passing on Graphs
-    date: Oct 2024
-    date_iso: 2024-10
-    date_display: Oct 2024
-    codebase_url: https://github.com/sunjss/N2
+    arxiv_id: '2603.02025'
+    title: arXiv:2603.02025
+    date: Mar 2026
+    date_iso: 2026-03
+    date_display: Mar 2026
+    codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.476
+    - 0.473
+    - null
     metric_stds:
-    - 0.035
+    - 0.032
+    - null
+  - model: EdgeAddition
+    model_plain: EdgeAddition
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2306.04004'
+    title: Randomized Schur Complement Views for Graph Contrastive Learning
+    date: Jun 6, 2023
+    date_iso: '2023-06-06'
+    date_display: Jun 2023
+    codebase_url: https://github.com/kvignesh1420/rlap
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.4713
+    - null
+    metric_stds:
+    - 0.0433
+    - null
+  - model: SortPooling
+    model_plain: SortPooling
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2104.05960'
+    title: Hierarchical Adaptive Pooling by Capturing High-order Dependency for Graph
+      Representation Learning
+    date: Apr 2021
+    date_iso: 2021-04
+    date_display: Apr 2021
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.4702
+    - null
+    metric_stds:
+    - null
+    - null
+  - model: GraphTrail
+    model_plain: GraphTrail
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2603.02025'
+    title: arXiv:2603.02025
+    date: Mar 2026
+    date_iso: 2026-03
+    date_display: Mar 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.465
+    - null
+    metric_stds:
+    - 0.021
+    - null
   - model: GatedGCN+LapPE
     model_plain: GatedGCN+LapPE
     is_baseline: true
@@ -1145,8 +2643,50 @@ variants:
     is_best: false
     metric_values:
     - 0.46467
+    - null
     metric_stds:
     - 0.03997
+    - null
+  - model: EdgeDroppingPR
+    model_plain: EdgeDroppingPR
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2306.04004'
+    title: Randomized Schur Complement Views for Graph Contrastive Learning
+    date: Jun 6, 2023
+    date_iso: '2023-06-06'
+    date_display: Jun 2023
+    codebase_url: https://github.com/kvignesh1420/rlap
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.464
+    - null
+    metric_stds:
+    - 0.0481
+    - null
+  - model: EdgeDroppingEVC
+    model_plain: EdgeDroppingEVC
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2306.04004'
+    title: Randomized Schur Complement Views for Graph Contrastive Learning
+    date: Jun 6, 2023
+    date_iso: '2023-06-06'
+    date_display: Jun 2023
+    codebase_url: https://github.com/kvignesh1420/rlap
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.4594
+    - null
+    metric_stds:
+    - 0.0586
+    - null
   - model: GatedGCN
     model_plain: GatedGCN
     is_baseline: true
@@ -1163,66 +2703,795 @@ variants:
     is_best: false
     metric_values:
     - 0.45767
+    - null
     metric_stds:
     - 0.04906
+    - null
+  - model: PSCN
+    model_plain: PSCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1905.04579'
+    title: Are Powerful Graph Neural Nets Necessary? A Dissection on Graph Classification
+    date: May 2019
+    date_iso: 2019-05
+    date_display: May 2019
+    codebase_url: https://github.com/chentingpc/gfn
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.4523
+    - null
+    metric_stds:
+    - 0.0284
+    - null
   - model: PATCHY-SAN
     model_plain: PATCHY-SAN
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2406.11714'
-    title: Scalable Expressiveness through Preprocessed Graph Perturbations
-    date: Jun 2024
-    date_iso: 2024-06
-    date_display: Jun 2024
-    codebase_url: https://github.com/Danial-sb/SE2P
+    arxiv_id: '2205.12245'
+    title: Asynchronous Neural Networks for Learning in Graphs
+    date: May 2022
+    date_iso: 2022-05
+    date_display: May 2022
+    codebase_url: https://github.com/beabevi/ESAN
     uses_external_data: false
     is_best: false
     metric_values:
     - 0.452
+    - null
     metric_stds:
     - 0.028
+    - null
+  - model: GNNExplainer
+    model_plain: GNNExplainer
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2603.02025'
+    title: arXiv:2603.02025
+    date: Mar 2026
+    date_iso: 2026-03
+    date_display: Mar 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.45
+    - null
+    metric_stds:
+    - 0.043
+    - null
+  - model: GCFExplainer
+    model_plain: GCFExplainer
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2603.02025'
+    title: arXiv:2603.02025
+    date: Mar 2026
+    date_iso: 2026-03
+    date_display: Mar 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.449
+    - null
+    metric_stds:
+    - 0.045
+    - null
+  - model: DGK
+    model_plain: DGK
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1905.04579'
+    title: Are Powerful Graph Neural Nets Necessary? A Dissection on Graph Classification
+    date: May 2019
+    date_iso: 2019-05
+    date_display: May 2019
+    codebase_url: https://github.com/chentingpc/gfn
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.4455
+    - null
+    metric_stds:
+    - 0.0052
+    - null
+  - model: RandomWalkSubgraph
+    model_plain: RandomWalkSubgraph
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2306.04004'
+    title: Randomized Schur Complement Views for Graph Contrastive Learning
+    date: Jun 6, 2023
+    date_iso: '2023-06-06'
+    date_display: Jun 2023
+    codebase_url: https://github.com/kvignesh1420/rlap
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.4393
+    - null
+    metric_stds:
+    - 0.0355
+    - null
+  - model: GK
+    model_plain: GK
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2012.08734'
+    title: Hierarchical Graph Capsule Network
+    date: Dec 2020
+    date_iso: 2020-12
+    date_display: Dec 2020
+    codebase_url: https://github.com/uta-smile/HGCN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.4389
+    - null
+    metric_stds:
+    - 0.0038
+    - null
+  - model: PPRDiffusion
+    model_plain: PPRDiffusion
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2306.04004'
+    title: Randomized Schur Complement Views for Graph Contrastive Learning
+    date: Jun 6, 2023
+    date_iso: '2023-06-06'
+    date_display: Jun 2023
+    codebase_url: https://github.com/kvignesh1420/rlap
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.4287
+    - null
+    metric_stds:
+    - 0.0363
+    - null
+  - model: MarkovDiffusion
+    model_plain: MarkovDiffusion
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2306.04004'
+    title: Randomized Schur Complement Views for Graph Contrastive Learning
+    date: Jun 6, 2023
+    date_iso: '2023-06-06'
+    date_display: Jun 2023
+    codebase_url: https://github.com/kvignesh1420/rlap
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.4147
+    - null
+    metric_stds:
+    - 0.0369
+    - null
+  - model: PGExplainer
+    model_plain: PGExplainer
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2603.02025'
+    title: arXiv:2603.02025
+    date: Mar 2026
+    date_iso: 2026-03
+    date_display: Mar 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.4
+    - null
+    metric_stds:
+    - 0.065
+    - null
+  - model: OOD-GMixup
+    model_plain: OOD-GMixup
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2308.08344'
+    title: Graph Out-of-Distribution Generalization with Controllable Data Augmentation
+    date: Aug 2023
+    date_iso: 2023-08
+    date_display: Aug 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.384
+    - null
+    metric_stds:
+    - 0.04
+    - null
+  - model: PGIB
+    model_plain: PGIB
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2603.02025'
+    title: arXiv:2603.02025
+    date: Mar 2026
+    date_iso: 2026-03
+    date_display: Mar 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.37
+    - null
+    metric_stds:
+    - 0.039
+    - null
+  - model: Supervised
+    model_plain: Supervised
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2312.13583'
+    title: Fine-tuning Graph Neural Networks by Preserving Graph Generative Patterns
+    date: Dec 2023
+    date_iso: 2023-12
+    date_display: Dec 2023
+    codebase_url: https://github.com/zjunet/G-Tuning
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - 0.3667
+    - null
+    metric_stds:
+    - 0.0667
+    - null
+  - model: ProtGNN
+    model_plain: ProtGNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2603.02025'
+    title: arXiv:2603.02025
+    date: Mar 2026
+    date_iso: 2026-03
+    date_display: Mar 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.36
+    - null
+    metric_stds:
+    - 0.057
+    - null
+  - model: SizeShiftReg
+    model_plain: SizeShiftReg
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2308.08344'
+    title: Graph Out-of-Distribution Generalization with Controllable Data Augmentation
+    date: Aug 2023
+    date_iso: 2023-08
+    date_display: Aug 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.3535
+    - null
+    metric_stds:
+    - 0.0432
+    - null
+  - model: V-REx
+    model_plain: V-REx
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2308.08344'
+    title: Graph Out-of-Distribution Generalization with Controllable Data Augmentation
+    date: Aug 2023
+    date_iso: 2023-08
+    date_display: Aug 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.3533
+    - null
+    metric_stds:
+    - 0.0162
+    - null
+  - model: DropoutNode
+    model_plain: DropoutNode
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2308.08344'
+    title: Graph Out-of-Distribution Generalization with Controllable Data Augmentation
+    date: Aug 2023
+    date_iso: 2023-08
+    date_display: Aug 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.3527
+    - null
+    metric_stds:
+    - 0.0314
+    - null
+  - model: IRM
+    model_plain: IRM
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2308.08344'
+    title: Graph Out-of-Distribution Generalization with Controllable Data Augmentation
+    date: Aug 2023
+    date_iso: 2023-08
+    date_display: Aug 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.3515
+    - null
+    metric_stds:
+    - 0.0268
+    - null
+  - model: CAD
+    model_plain: CAD
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2308.08344'
+    title: Graph Out-of-Distribution Generalization with Controllable Data Augmentation
+    date: Aug 2023
+    date_iso: 2023-08
+    date_display: Aug 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.3503
+    - null
+    metric_stds:
+    - 0.0204
+    - null
+  - model: MixUp
+    model_plain: MixUp
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2308.08344'
+    title: Graph Out-of-Distribution Generalization with Controllable Data Augmentation
+    date: Aug 2023
+    date_iso: 2023-08
+    date_display: Aug 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.3498
+    - null
+    metric_stds:
+    - 0.0469
+    - null
+  - model: Virtual Node
+    model_plain: Virtual Node
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2308.08344'
+    title: Graph Out-of-Distribution Generalization with Controllable Data Augmentation
+    date: Aug 2023
+    date_iso: 2023-08
+    date_display: Aug 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.3491
+    - null
+    metric_stds:
+    - 0.036
+    - null
+  - model: FLAG
+    model_plain: FLAG
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2308.08344'
+    title: Graph Out-of-Distribution Generalization with Controllable Data Augmentation
+    date: Aug 2023
+    date_iso: 2023-08
+    date_display: Aug 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.3461
+    - null
+    metric_stds:
+    - 0.0282
+    - null
+  - model: IB-IRM
+    model_plain: IB-IRM
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2308.08344'
+    title: Graph Out-of-Distribution Generalization with Controllable Data Augmentation
+    date: Aug 2023
+    date_iso: 2023-08
+    date_display: Aug 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.3461
+    - null
+    metric_stds:
+    - 0.0249
+    - null
+  - model: Group DRO
+    model_plain: Group DRO
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2308.08344'
+    title: Graph Out-of-Distribution Generalization with Controllable Data Augmentation
+    date: Aug 2023
+    date_iso: 2023-08
+    date_display: Aug 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.3437
+    - null
+    metric_stds:
+    - 0.0256
+    - null
+  - model: Attention
+    model_plain: Attention
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2308.08344'
+    title: Graph Out-of-Distribution Generalization with Controllable Data Augmentation
+    date: Aug 2023
+    date_iso: 2023-08
+    date_display: Aug 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.3417
+    - null
+    metric_stds:
+    - 0.0409
+    - null
+  - model: VGIB
+    model_plain: VGIB
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2603.02025'
+    title: arXiv:2603.02025
+    date: Mar 2026
+    date_iso: 2026-03
+    date_display: Mar 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.339
+    - null
+    metric_stds:
+    - 0.031
+    - null
+  - model: DropoutEdge
+    model_plain: DropoutEdge
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2308.08344'
+    title: Graph Out-of-Distribution Generalization with Controllable Data Augmentation
+    date: Aug 2023
+    date_iso: 2023-08
+    date_display: Aug 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.3355
+    - null
+    metric_stds:
+    - 0.0267
+    - null
+  - model: ERM
+    model_plain: ERM
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2308.08344'
+    title: Graph Out-of-Distribution Generalization with Controllable Data Augmentation
+    date: Aug 2023
+    date_iso: 2023-08
+    date_display: Aug 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.3343
+    - null
+    metric_stds:
+    - 0.0415
+    - null
+  - model: SAGPooling
+    model_plain: SAGPooling
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2308.08344'
+    title: Graph Out-of-Distribution Generalization with Controllable Data Augmentation
+    date: Aug 2023
+    date_iso: 2023-08
+    date_display: Aug 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.3299
+    - null
+    metric_stds:
+    - 0.0348
+    - null
+  - model: Dir-GNN
+    model_plain: Dir-GNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2308.08344'
+    title: Graph Out-of-Distribution Generalization with Controllable Data Augmentation
+    date: Aug 2023
+    date_iso: 2023-08
+    date_display: Aug 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.3287
+    - null
+    metric_stds:
+    - 0.0375
+    - null
+  - model: Top-K Pooling
+    model_plain: Top-K Pooling
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2308.08344'
+    title: Graph Out-of-Distribution Generalization with Controllable Data Augmentation
+    date: Aug 2023
+    date_iso: 2023-08
+    date_display: Aug 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.3123
+    - null
+    metric_stds:
+    - 0.0165
+    - null
+  - model: OOD-GNN
+    model_plain: OOD-GNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2308.08344'
+    title: Graph Out-of-Distribution Generalization with Controllable Data Augmentation
+    date: Aug 2023
+    date_iso: 2023-08
+    date_display: Aug 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.2027
+    - null
+    metric_stds:
+    - 0.0157
+    - null
+  - model: Random
+    model_plain: Random
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2210.08443'
+    title: 'CLEAR: Generative Counterfactual Explanations on Graphs'
+    date: Oct 2022
+    date_iso: 2022-10
+    date_display: Oct 2022
+    codebase_url: ''
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - null
+    - 0.5
+    metric_stds:
+    - null
+    - 0.04
+  - model: EG-IST
+    model_plain: EG-IST
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2210.08443'
+    title: 'CLEAR: Generative Counterfactual Explanations on Graphs'
+    date: Oct 2022
+    date_iso: 2022-10
+    date_display: Oct 2022
+    codebase_url: ''
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - null
+    - 0.56
+    metric_stds:
+    - null
+    - 0.12
+  - model: EG-RM
+    model_plain: EG-RM
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2210.08443'
+    title: 'CLEAR: Generative Counterfactual Explanations on Graphs'
+    date: Oct 2022
+    date_iso: 2022-10
+    date_display: Oct 2022
+    codebase_url: ''
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - null
+    - 0.45
+    metric_stds:
+    - null
+    - 0.11
+  - model: GNNExplainer
+    model_plain: GNNExplainer
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2210.08443'
+    title: 'CLEAR: Generative Counterfactual Explanations on Graphs'
+    date: Oct 2022
+    date_iso: 2022-10
+    date_display: Oct 2022
+    codebase_url: ''
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - null
+    - 0.95
+    metric_stds:
+    - null
+    - 0.02
+  - model: MEG
+    model_plain: MEG
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2210.08443'
+    title: 'CLEAR: Generative Counterfactual Explanations on Graphs'
+    date: Oct 2022
+    date_iso: 2022-10
+    date_display: Oct 2022
+    codebase_url: ''
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - null
+    - 0.9
+    metric_stds:
+    - null
+    - 0.02
+  - model: CLEAR
+    model_plain: CLEAR
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2210.08443'
+    title: 'CLEAR: Generative Counterfactual Explanations on Graphs'
+    date: Oct 2022
+    date_iso: 2022-10
+    date_display: Oct 2022
+    codebase_url: ''
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - null
+    - 0.96
+    metric_stds:
+    - null
+    - 0.01
   milestones:
-<<<<<<< Updated upstream
   - value: 0.543
-    std: 0.033
-    model: GSN
-    arxiv_id: '2102.08786'
-    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
-      Passing'
-    date: 2021-02
-  - value: 0.5673
-    std: 0.0036
-    model: CoCN expanded
-    arxiv_id: '2407.18480'
-    title: Scalable Graph Compressed Convolutions
-    date: 2024-07
-  - value: 0.5731
-    std: 0.0219
-    model: nsqure~
-    arxiv_id: '2410.23686'
-    title: Towards Dynamic Message Passing on Graphs
-    date: 2024-10
-  - value: 0.63
-    std: 0.02
-    model: KMIS
-    arxiv_id: '2501.09821'
-    title: 'bnpool: Bayesian Nonparametric Pooling for Graphs'
-    date: 2025-01
-=======
-  - value: 0.46467
-    std: 0.03997
-    model: GatedGCN+LapPE
-    arxiv_id: '2110.07875'
-    title: Graph Neural Networks with Learnable Structural and Positional Representations
-    date: 2021-10
+    std: 0.014
+    model: Pre-train (Rank)
+    arxiv_id: '1905.13728'
+    title: Pre-Training Graph Neural Networks for Generic Structural Feature Extraction
+    date: 2019-05
+  - value: 0.5533
+    std: null
+    model: HAP
+    arxiv_id: '2104.05960'
+    title: Hierarchical Adaptive Pooling by Capturing High-order Dependency for Graph
+      Representation Learning
+    date: 2021-04
+  - value: 0.575
+    std: 0.026
+    model: GCN
+    arxiv_id: '2205.12245'
+    title: Asynchronous Neural Networks for Learning in Graphs
+    date: 2022-05
   - value: 0.724
     std: 0.009
     model: ILLS
     arxiv_id: '2305.17589'
     title: Graph Inductive Biases in Transformers without Message Passing
     date: '2023-05-27'
->>>>>>> Stashed changes
 ---
 

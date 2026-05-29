@@ -90,9 +90,9 @@ results:
     has_value_note: false
     value_gap: 0.394
     value_note: ''
-    paper_rank: 115
-    rank_delta: 113
-    rank_delta_abs: 113
+    paper_rank: 149
+    rank_delta: 147
+    rank_delta_abs: 147
     rank_delta_direction: worse
     sort_value: 0.006
     sort_std: null
@@ -126,9 +126,9 @@ results:
     has_value_note: false
     value_gap: 0.516
     value_note: ''
-    paper_rank: 119
-    rank_delta: 116
-    rank_delta_abs: 116
+    paper_rank: 153
+    rank_delta: 150
+    rank_delta_abs: 150
     rank_delta_direction: worse
     sort_value: 0.014
     sort_std: null
@@ -180,6 +180,42 @@ results:
     sort_value: 0.021
     sort_std: 0.002
     is_best: false
+  - model: FragNet
+    model_key: fragnet
+    model_plain: FragNet
+    value: 0.078
+    std: null
+    paper_value: 0.078
+    paper_std: null
+    metric: MAE
+    higher_is_better: false
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'zinc: mae fallback >= 0.07'
+    date: Sep 2025
+    date_display: Sep 2025
+    date_iso: 2025-09
+    global_rank: 10
+    true_value: 0.0237
+    true_std: 0.0
+    value_gap_source_arxiv: '2406.08210'
+    value_gap_source_title: arXiv:2406.08210
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
+    has_value_note: false
+    value_gap: 0.0543
+    value_note: ''
+    paper_rank: 57
+    rank_delta: 47
+    rank_delta_abs: 47
+    rank_delta_direction: worse
+    sort_value: 0.0237
+    sort_std: 0.0
+    is_best: false
   - model: GCN
     model_key: gcn
     model_plain: GCN
@@ -199,7 +235,7 @@ results:
     date: Sep 2025
     date_display: Sep 2025
     date_iso: 2025-09
-    global_rank: 9
+    global_rank: 11
     true_value: 0.024
     true_std: null
     value_gap_source_arxiv: '2306.03589'
@@ -209,9 +245,9 @@ results:
     has_value_note: false
     value_gap: 0.346
     value_note: ''
-    paper_rank: 113
-    rank_delta: 104
-    rank_delta_abs: 104
+    paper_rank: 146
+    rank_delta: 135
+    rank_delta_abs: 135
     rank_delta_direction: worse
     sort_value: 0.024
     sort_std: null
@@ -235,60 +271,22 @@ results:
     date: Sep 2025
     date_display: Sep 2025
     date_iso: 2025-09
-    global_rank: 42
-    true_value: 0.077
-    true_std: null
-    value_gap_source_arxiv: '2509.01254'
-    value_gap_source_title: 'What Expressivity Theory Misses: Message Passing Complexity
-      for GNNs'
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
+    global_rank: 17
+    true_value: 0.027
+    true_std: 0.007
+    value_gap_source_arxiv: '2406.08210'
+    value_gap_source_title: arXiv:2406.08210
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
     has_value_note: false
-    value_gap: null
+    value_gap: 0.05
     value_note: ''
-    paper_rank: 42
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.077
-    sort_std: null
-    is_best: false
-  - model: FragNet
-    model_key: fragnet
-    model_plain: FragNet
-    value: 0.078
-    std: null
-    paper_value: 0.078
-    paper_std: null
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: Sep 2025
-    date_display: Sep 2025
-    date_iso: 2025-09
-    global_rank: 45
-    true_value: 0.078
-    true_std: null
-    value_gap_source_arxiv: '2509.01254'
-    value_gap_source_title: 'What Expressivity Theory Misses: Message Passing Complexity
-      for GNNs'
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 45
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.078
-    sort_std: null
+    paper_rank: 54
+    rank_delta: 37
+    rank_delta_abs: 37
+    rank_delta_direction: worse
+    sort_value: 0.027
+    sort_std: 0.007
     is_best: false
   - model: GSN
     model_key: gsn
@@ -309,7 +307,7 @@ results:
     date: Sep 2025
     date_display: Sep 2025
     date_iso: 2025-09
-    global_rank: 60
+    global_rank: 73
     true_value: 0.101
     true_std: 0.01
     value_gap_source_arxiv: '2205.12454'
@@ -319,9 +317,9 @@ results:
     has_value_note: false
     value_gap: 0.01899999999999999
     value_note: ''
-    paper_rank: 70
-    rank_delta: 10
-    rank_delta_abs: 10
+    paper_rank: 84
+    rank_delta: 11
+    rank_delta_abs: 11
     rank_delta_direction: worse
     sort_value: 0.101
     sort_std: 0.01

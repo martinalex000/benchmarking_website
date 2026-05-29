@@ -8,7 +8,7 @@ primary_metric: F1
 higher_is_better: true
 pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.LRGBDataset.html
 stats: null
-result_count: 38
+result_count: 49
 best_model:
   model: LPE
   value: 0.4483
@@ -106,7 +106,7 @@ variants:
     is_baseline: false
     is_overridden: false
     override_reason: ''
-    params_millions: 16.0
+    params_millions: null
     arxiv_id: '2511.08028'
     title: Generalizable Insights for Graph Transformers in Theory and Practice
     date: Nov 2025
@@ -119,6 +119,63 @@ variants:
     - 0.3991
     metric_stds:
     - 0.0107
+  - model: GTs
+    model_plain: GTs
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2509.14863'
+    title: 'Exploring the Global-to-Local Attention Scheme in Graph Transformers:
+      An Empirical Study'
+    date: Sep 2025
+    date_iso: 2025-09
+    date_display: Sep 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.3943
+    metric_stds:
+    - 0.0038
+  - model: GMN
+    model_plain: GMN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2509.14863'
+    title: 'Exploring the Global-to-Local Attention Scheme in Graph Transformers:
+      An Empirical Study'
+    date: Sep 2025
+    date_iso: 2025-09
+    date_display: Sep 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.3909
+    metric_stds:
+    - 0.0128
+  - model: GPS + Mamba
+    model_plain: GPS + Mamba
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2509.14863'
+    title: 'Exploring the Global-to-Local Attention Scheme in Graph Transformers:
+      An Empirical Study'
+    date: Sep 2025
+    date_iso: 2025-09
+    date_display: Sep 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.3895
+    metric_stds:
+    - 0.0125
   - model: SGT
     model_plain: SGT
     is_baseline: false
@@ -191,6 +248,25 @@ variants:
     - 0.3412
     metric_stds:
     - 0.0044
+  - model: GECO
+    model_plain: GECO
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2509.14863'
+    title: 'Exploring the Global-to-Local Attention Scheme in Graph Transformers:
+      An Empirical Study'
+    date: Sep 2025
+    date_iso: 2025-09
+    date_display: Sep 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.332
+    metric_stds:
+    - 0.0032
   - model: SGWT
     model_plain: SGWT
     is_baseline: true
@@ -251,116 +327,12 @@ variants:
     is_overridden: false
     override_reason: ''
     params_millions: null
-<<<<<<< Updated upstream
-    arxiv_id: '2401.01233'
-    title: 'GEN: A Practical Alternative to Graph Transformers for Long-Range Graph
-      Modeling'
-    date: Jan 2024
-    date_iso: 2024-01
-    date_display: Jan 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.2922
-    metric_stds:
-    - 0.0018
-  - model: GPS + Performer
-    model_plain: GPS + Performer
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2604.03815'
-    title: k-Maximum Inner Product Attention for Graph Transformers and the Expressive
-      Power of GraphGPS
-    date: Apr 2026
-    date_iso: 2026-04
-    date_display: Apr 2026
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.27699999999999997
-    metric_stds:
-    - 0.0027
-  - model: GCN
-    model_plain: GCN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2502.09263'
-    title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks? Simple Architectures
-      Meet Excellence
-    date: Feb 2025
-    date_iso: 2025-02
-    date_display: Feb 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.2733
-    metric_stds:
-    - 0.0041
-  - model: GAT
-    model_plain: GAT
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2401.01233'
-    title: 'GEN: A Practical Alternative to Graph Transformers for Long-Range Graph
-      Modeling'
-    date: Jan 2024
-    date_iso: 2024-01
-    date_display: Jan 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.2697
-    metric_stds:
-    - 0.0011
-  - model: MAGNA
-    model_plain: MAGNA
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2401.01233'
-    title: 'GEN: A Practical Alternative to Graph Transformers for Long-Range Graph
-      Modeling'
-    date: Jan 2024
-    date_iso: 2024-01
-    date_display: Jan 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.2662
-    metric_stds:
-    - 0.0016
-  - model: GatedGCN
-    model_plain: GatedGCN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2206.08164'
-    title: LRGB
-    date: Jun 2022
-    date_iso: 2022-06
-    date_display: Jun 2022
-    codebase_url: https://github.com/vijaydwivedi75/lrgb
-=======
     arxiv_id: '2205.12454'
     title: Recipe for a General, Powerful, Scalable Graph Transformer
     date: May 2022
     date_iso: 2022-05
     date_display: May 2022
     codebase_url: https://github.com/rampasek/GraphGPS
->>>>>>> Stashed changes
     uses_external_data: false
     is_best: false
     metric_values:
@@ -373,21 +345,12 @@ variants:
     is_overridden: false
     override_reason: ''
     params_millions: null
-<<<<<<< Updated upstream
-    arxiv_id: '2206.08164'
-    title: LRGB
-    date: Jun 2022
-    date_iso: 2022-06
-    date_display: Jun 2022
-    codebase_url: https://github.com/vijaydwivedi75/lrgb
-=======
     arxiv_id: '2205.12454'
     title: Recipe for a General, Powerful, Scalable Graph Transformer
     date: May 2022
     date_iso: 2022-05
     date_display: May 2022
     codebase_url: https://github.com/rampasek/GraphGPS
->>>>>>> Stashed changes
     uses_external_data: false
     is_best: false
     metric_values:
@@ -417,27 +380,6 @@ variants:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-<<<<<<< Updated upstream
-    params_millions: null
-    arxiv_id: '2206.08164'
-    title: LRGB
-    date: Jun 2022
-    date_iso: 2022-06
-    date_display: Jun 2022
-    codebase_url: https://github.com/vijaydwivedi75/lrgb
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.2592
-    metric_stds:
-    - 0.0158
-  - model: SAN
-    model_plain: SAN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-=======
->>>>>>> Stashed changes
     params_millions: null
     arxiv_id: '2205.12454'
     title: Recipe for a General, Powerful, Scalable Graph Transformer
@@ -493,21 +435,12 @@ variants:
     is_overridden: false
     override_reason: ''
     params_millions: null
-<<<<<<< Updated upstream
-    arxiv_id: '2206.08164'
-    title: LRGB
-    date: Jun 2022
-    date_iso: 2022-06
-    date_display: Jun 2022
-    codebase_url: https://github.com/vijaydwivedi75/lrgb
-=======
     arxiv_id: '2205.12454'
     title: Recipe for a General, Powerful, Scalable Graph Transformer
     date: May 2022
     date_iso: 2022-05
     date_display: May 2022
     codebase_url: https://github.com/rampasek/GraphGPS
->>>>>>> Stashed changes
     uses_external_data: false
     is_best: false
     metric_values:
@@ -592,21 +525,12 @@ variants:
     is_overridden: false
     override_reason: ''
     params_millions: null
-<<<<<<< Updated upstream
-    arxiv_id: '2206.08164'
-    title: LRGB
-    date: Jun 2022
-    date_iso: 2022-06
-    date_display: Jun 2022
-    codebase_url: https://github.com/vijaydwivedi75/lrgb
-=======
     arxiv_id: '2205.12454'
     title: Recipe for a General, Powerful, Scalable Graph Transformer
     date: May 2022
     date_iso: 2022-05
     date_display: May 2022
     codebase_url: https://github.com/rampasek/GraphGPS
->>>>>>> Stashed changes
     uses_external_data: false
     is_best: false
     metric_values:
@@ -625,6 +549,25 @@ variants:
     date_iso: '2024-05-22'
     date_display: May 2024
     codebase_url: https://github.com/liun-online/WaveGC
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.1339
+    metric_stds:
+    - 0.0044
+  - model: GIN
+    model_plain: GIN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2509.14863'
+    title: 'Exploring the Global-to-Local Attention Scheme in Graph Transformers:
+      An Empirical Study'
+    date: Sep 2025
+    date_iso: 2025-09
+    date_display: Sep 2025
+    codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
@@ -801,6 +744,24 @@ variants:
     - 0.093
     metric_stds:
     - 0.016
+  - model: DMD++
+    model_plain: DMD++
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2410.05593'
+    title: When Graph Neural Networks Meet Dynamic Mode Decomposition
+    date: Oct 2024
+    date_iso: 2024-10
+    date_display: Oct 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.091
+    metric_stds:
+    - 0.009
   - model: R-GIN + None
     model_plain: R-GIN + None
     is_baseline: true
@@ -845,27 +806,54 @@ variants:
     is_overridden: false
     override_reason: ''
     params_millions: null
-<<<<<<< Updated upstream
-    arxiv_id: '2206.08164'
-    title: LRGB
-    date: Jun 2022
-    date_iso: 2022-06
-    date_display: Jun 2022
-    codebase_url: https://github.com/vijaydwivedi75/lrgb
-=======
     arxiv_id: '2205.12454'
     title: Recipe for a General, Powerful, Scalable Graph Transformer
     date: May 2022
     date_iso: 2022-05
     date_display: May 2022
     codebase_url: https://github.com/rampasek/GraphGPS
->>>>>>> Stashed changes
     uses_external_data: false
     is_best: false
     metric_values:
     - 0.0841
     metric_stds:
     - 0.001
+  - model: DMD-SGC
+    model_plain: DMD-SGC
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2410.05593'
+    title: When Graph Neural Networks Meet Dynamic Mode Decomposition
+    date: Oct 2024
+    date_iso: 2024-10
+    date_display: Oct 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.083
+    metric_stds:
+    - 0.012
+  - model: DMD-GCN
+    model_plain: DMD-GCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2410.05593'
+    title: When Graph Neural Networks Meet Dynamic Mode Decomposition
+    date: Oct 2024
+    date_iso: 2024-10
+    date_display: Oct 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.081
+    metric_stds:
+    - 0.015
   - model: GCN + None
     model_plain: GCN + None
     is_baseline: true
@@ -885,6 +873,60 @@ variants:
     - 0.078
     metric_stds:
     - 0.004
+  - model: SGC
+    model_plain: SGC
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2410.05593'
+    title: When Graph Neural Networks Meet Dynamic Mode Decomposition
+    date: Oct 2024
+    date_iso: 2024-10
+    date_display: Oct 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.056
+    metric_stds:
+    - 0.011
+  - model: GPRGNN
+    model_plain: GPRGNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2410.05593'
+    title: When Graph Neural Networks Meet Dynamic Mode Decomposition
+    date: Oct 2024
+    date_iso: 2024-10
+    date_display: Oct 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.044
+    metric_stds:
+    - 0.015
+  - model: MLP
+    model_plain: MLP
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2410.05593'
+    title: When Graph Neural Networks Meet Dynamic Mode Decomposition
+    date: Oct 2024
+    date_iso: 2024-10
+    date_display: Oct 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.031
+    metric_stds:
+    - 0.016
   milestones:
   - value: 0.3412
     std: 0.0044
@@ -904,6 +946,13 @@ variants:
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
     date: '2024-05-22'
+  - value: 0.3943
+    std: 0.0038
+    model: GTs
+    arxiv_id: '2509.14863'
+    title: 'Exploring the Global-to-Local Attention Scheme in Graph Transformers:
+      An Empirical Study'
+    date: 2025-09
   - value: 0.4483
     std: 0.0071
     model: LPE

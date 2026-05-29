@@ -9,13 +9,13 @@ primary_metric: ROC-AUC
 higher_is_better: true
 pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.MoleculeNet.html
 stats: null
-result_count: 18
+result_count: 191
 best_model:
-  model: Uni-Mol
-  value: 0.857
+  model: LLaMA2-7B <SO>G_k</SO>
+  value: 0.984
   metric: ROC-AUC
-  arxiv_id: '2605.06462'
-  paper_title: Invariant-Based Diagnostics for Graph Benchmarks
+  arxiv_id: '2602.01771'
+  paper_title: '<SO$ _k$>: One LLM Token for Explicit Graph Structural Understanding'
 variants:
 - slug: scaffold-split
   name: Scaffold split
@@ -29,43 +29,719 @@ variants:
     avg_edges: null
   metrics:
   - ROC-AUC
+  - RMSE
   rows:
+  - model: LLaMA2-7B <SO>G_k</SO>
+    model_plain: LLaMA2-7B G_k
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2602.01771'
+    title: '<SO$ _k$>: One LLM Token for Explicit Graph Structural Understanding'
+    date: Feb 2026
+    date_iso: 2026-02
+    date_display: Feb 2026
+    codebase_url: https://github.com/Jingyao-Wu/SOG
+    uses_external_data: true
+    is_best: true
+    metric_values:
+    - 0.984
+    - null
+    metric_stds:
+    - 0.008
+    - null
+  - model: Gode
+    model_plain: Gode
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2306.01631'
+    title: Bi-level Contrastive Learning for Knowledge-Enhanced Molecule Representations
+    date: Jun 2023
+    date_iso: 2023-06
+    date_display: Jun 2023
+    codebase_url: ''
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - 0.92
+    - null
+    metric_stds:
+    - 0.022
+    - null
+  - model: KANO_CMPNN
+    model_plain: KANO_CMPNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2306.01631'
+    title: Bi-level Contrastive Learning for Knowledge-Enhanced Molecule Representations
+    date: Jun 2023
+    date_iso: 2023-06
+    date_display: Jun 2023
+    codebase_url: ''
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - 0.907
+    - null
+    metric_stds:
+    - 0.031
+    - null
+  - model: KANO_GTrans
+    model_plain: KANO_GTrans
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2306.01631'
+    title: Bi-level Contrastive Learning for Knowledge-Enhanced Molecule Representations
+    date: Jun 2023
+    date_iso: 2023-06
+    date_display: Jun 2023
+    codebase_url: ''
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - 0.904
+    - null
+    metric_stds:
+    - 0.015
+    - null
+  - model: SE(3)-I MPPH
+    model_plain: SE(3)-I MPPH
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2312.07633'
+    title: SE(3)-Invariant Multiparameter Persistent Homology for Chiral-Sensitive
+      Molecular Property Prediction
+    date: Dec 2023
+    date_iso: 2023-12
+    date_display: Dec 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.897
+    - null
+    metric_stds:
+    - 0.012
+    - null
+  - model: DeMol
+    model_plain: DeMol
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2603.00568'
+    title: Enhancing Molecular Property Predictions by Learning from Bond Modelling
+      and Interactions
+    date: Mar 2026
+    date_iso: 2026-03
+    date_display: Mar 2026
+    codebase_url: ''
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - 0.89
+    - null
+    metric_stds:
+    - 0.011
+    - null
+  - model: Context Prediction + Supervised
+    model_plain: Context Prediction + Supervised
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2207.06010'
+    title: Does GNN Pretraining Help Molecular Representation?
+    date: Jul 2022
+    date_iso: 2022-07
+    date_display: Jul 2022
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.8872
+    - null
+    metric_stds:
+    - 0.0168
+    - null
+  - model: PatchGT-DeeperGCN
+    model_plain: PatchGT-DeeperGCN
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2211.14425'
+    title: 'PatchGT: Transformer over Non-trainable Clusters for Learning Graph Representations'
+    date: Nov 2022
+    date_iso: 2022-11
+    date_display: Nov 2022
+    codebase_url: https://github.com/tufts-ml/PatchGT
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.8831
+    - null
+    metric_stds:
+    - 0.0187
+    - null
+  - model: MoLFormer-XL
+    model_plain: MoLFormer-XL
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2106.09553'
+    title: How Much Structural Information Large Scale Molecular Language Representations
+      Can Capture?
+    date: Jun 2021
+    date_iso: 2021-06
+    date_display: Jun 2021
+    codebase_url: https://github.com/IBM/molformer
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - 0.882
+    - null
+    metric_stds:
+    - null
+    - null
+  - model: ECFP-4 + RF
+    model_plain: ECFP-4 + RF
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2312.07633'
+    title: SE(3)-Invariant Multiparameter Persistent Homology for Chiral-Sensitive
+      Molecular Property Prediction
+    date: Dec 2023
+    date_iso: 2023-12
+    date_display: Dec 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.881
+    - null
+    metric_stds:
+    - 0.027
+    - null
+  - model: LEMON
+    model_plain: LEMON
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2603.00568'
+    title: Enhancing Molecular Property Predictions by Learning from Bond Modelling
+      and Interactions
+    date: Mar 2026
+    date_iso: 2026-03
+    date_display: Mar 2026
+    codebase_url: ''
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - 0.878
+    - null
+    metric_stds:
+    - 0.014
+    - null
+  - model: 100% Zinc
+    model_plain: 100% Zinc
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2106.09553'
+    title: How Much Structural Information Large Scale Molecular Language Representations
+      Can Capture?
+    date: Jun 2021
+    date_iso: 2021-06
+    date_display: Jun 2021
+    codebase_url: https://github.com/IBM/molformer
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - 0.877
+    - null
+    metric_stds:
+    - null
+    - null
+  - model: MolCLR_GTrans
+    model_plain: MolCLR_GTrans
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2306.01631'
+    title: Bi-level Contrastive Learning for Knowledge-Enhanced Molecule Representations
+    date: Jun 2023
+    date_iso: 2023-06
+    date_display: Jun 2023
+    codebase_url: ''
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - 0.877
+    - null
+    metric_stds:
+    - 0.018
+    - null
+  - model: N-GRAM
+    model_plain: N-GRAM
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2306.01631'
+    title: Bi-level Contrastive Learning for Knowledge-Enhanced Molecule Representations
+    date: Jun 2023
+    date_iso: 2023-06
+    date_display: Jun 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.876
+    - null
+    metric_stds:
+    - 0.035
+    - null
+  - model: No Pre-train
+    model_plain: No Pre-train
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2207.06010'
+    title: Does GNN Pretraining Help Molecular Representation?
+    date: Jul 2022
+    date_iso: 2022-07
+    date_display: Jul 2022
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.8743
+    - null
+    metric_stds:
+    - 0.0163
+    - null
+  - model: ProtoS-L2
+    model_plain: ProtoS-L2
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2006.04804'
+    title: Optimal Transport Graph Neural Networks
+    date: Jun 2020
+    date_iso: 2020-06
+    date_display: Jun 2020
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.873
+    - null
+    metric_stds:
+    - 0.015
+    - null
+  - model: ProtoW-Dot
+    model_plain: ProtoW-Dot
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2006.04804'
+    title: Optimal Transport Graph Neural Networks
+    date: Jun 2020
+    date_iso: 2020-06
+    date_display: Jun 2020
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.871
+    - null
+    metric_stds:
+    - 0.014
+    - null
+  - model: MLP-Fingerprint
+    model_plain: MLP-Fingerprint
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2006.04804'
+    title: Optimal Transport Graph Neural Networks
+    date: Jun 2020
+    date_iso: 2020-06
+    date_display: Jun 2020
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.87
+    - null
+    metric_stds:
+    - 0.007
+    - null
+  - model: ProtoW-L2 (no reg.)
+    model_plain: ProtoW-L2 (no reg.)
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2006.04804'
+    title: Optimal Transport Graph Neural Networks
+    date: Jun 2020
+    date_iso: 2020-06
+    date_display: Jun 2020
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.87
+    - null
+    metric_stds:
+    - 0.012
+    - null
+  - model: Supervised
+    model_plain: Supervised
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2207.06010'
+    title: Does GNN Pretraining Help Molecular Representation?
+    date: Jul 2022
+    date_iso: 2022-07
+    date_display: Jul 2022
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.8691
+    - null
+    metric_stds:
+    - 0.0186
+    - null
+  - model: Masking Node + Supervised
+    model_plain: Masking Node + Supervised
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2207.06010'
+    title: Does GNN Pretraining Help Molecular Representation?
+    date: Jul 2022
+    date_iso: 2022-07
+    date_display: Jul 2022
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.869
+    - null
+    metric_stds:
+    - 0.0204
+    - null
+  - model: unified method
+    model_plain: unified method
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2207.08806'
+    title: Unified 2D and 3D Pre-Training of Molecular Representations
+    date: Jul 2022
+    date_iso: 2022-07
+    date_display: Jul 2022
+    codebase_url: https://github.com/teslacool/UnifiedMolPretrain
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.868
+    - null
+    metric_stds:
+    - 0.006
+    - null
+  - model: ProtoW-Dot (no reg.)
+    model_plain: ProtoW-Dot (no reg.)
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2006.04804'
+    title: Optimal Transport Graph Neural Networks
+    date: Jun 2020
+    date_iso: 2020-06
+    date_display: Jun 2020
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.867
+    - null
+    metric_stds:
+    - 0.014
+    - null
+  - model: D-MPNN
+    model_plain: D-MPNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2006.04804'
+    title: Optimal Transport Graph Neural Networks
+    date: Jun 2020
+    date_iso: 2020-06
+    date_display: Jun 2020
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.865
+    - null
+    metric_stds:
+    - 0.013
+    - null
+  - model: 10% ZINC + 100% PubChem
+    model_plain: 10% ZINC + 100% PubChem
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2106.09553'
+    title: How Much Structural Information Large Scale Molecular Language Representations
+      Can Capture?
+    date: Jun 2021
+    date_iso: 2021-06
+    date_display: Jun 2021
+    codebase_url: https://github.com/IBM/molformer
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - 0.863
+    - null
+    metric_stds:
+    - null
+    - null
+  - model: GIN
+    model_plain: GIN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2006.04804'
+    title: Optimal Transport Graph Neural Networks
+    date: Jun 2020
+    date_iso: 2020-06
+    date_display: Jun 2020
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.861
+    - null
+    metric_stds:
+    - 0.013
+    - null
+  - model: GAT
+    model_plain: GAT
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2006.04804'
+    title: Optimal Transport Graph Neural Networks
+    date: Jun 2020
+    date_iso: 2020-06
+    date_display: Jun 2020
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.86
+    - null
+    metric_stds:
+    - 0.011
+    - null
+  - model: D-MPNN+TopK Pool
+    model_plain: D-MPNN+TopK Pool
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2006.04804'
+    title: Optimal Transport Graph Neural Networks
+    date: Jun 2020
+    date_iso: 2020-06
+    date_display: Jun 2020
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.86
+    - null
+    metric_stds:
+    - 0.033
+    - null
+  - model: Graphormer
+    model_plain: Graphormer
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2306.13089'
+    title: 'gimlet: A Unified Graph-Text Model for Instruction-Based Molecule Zero-Shot
+      Learning'
+    date: Jun 2023
+    date_iso: 2023-06
+    date_display: Jun 2023
+    codebase_url: https://github.com/zhao-ht/GIMLET
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.8575
+    - null
+    metric_stds:
+    - 0.006
+    - null
   - model: Uni-Mol
     model_plain: Uni-Mol
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2605.06462'
-    title: Invariant-Based Diagnostics for Graph Benchmarks
-    date: May 2026
-    date_iso: 2026-05
-    date_display: May 2026
+    arxiv_id: '2603.00568'
+    title: Enhancing Molecular Property Predictions by Learning from Bond Modelling
+      and Interactions
+    date: Mar 2026
+    date_iso: 2026-03
+    date_display: Mar 2026
     codebase_url: ''
     uses_external_data: true
-    is_best: true
+    is_best: false
     metric_values:
     - 0.857
+    - null
     metric_stds:
     - 0.002
+    - null
   - model: GEM
     model_plain: GEM
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2605.06462'
-    title: Invariant-Based Diagnostics for Graph Benchmarks
-    date: May 2026
-    date_iso: 2026-05
-    date_display: May 2026
+    arxiv_id: '2603.00568'
+    title: Enhancing Molecular Property Predictions by Learning from Bond Modelling
+      and Interactions
+    date: Mar 2026
+    date_iso: 2026-03
+    date_display: Mar 2026
     codebase_url: ''
     uses_external_data: true
-    is_best: true
+    is_best: false
     metric_values:
     - 0.856
+    - null
     metric_stds:
     - 0.011
+    - null
+  - model: D-MPNN+SAG Pool
+    model_plain: D-MPNN+SAG Pool
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2006.04804'
+    title: Optimal Transport Graph Neural Networks
+    date: Jun 2020
+    date_iso: 2020-06
+    date_display: Jun 2020
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.855
+    - null
+    metric_stds:
+    - 0.015
+    - null
+  - model: GraphCON
+    model_plain: GraphCON
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2312.07633'
+    title: SE(3)-Invariant Multiparameter Persistent Homology for Chiral-Sensitive
+      Molecular Property Prediction
+    date: Dec 2023
+    date_iso: 2023-12
+    date_display: Dec 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.854
+    - null
+    metric_stds:
+    - 0.011
+    - null
+  - model: UGMAE
+    model_plain: UGMAE
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2402.08023'
+    title: 'UGMAE: A Unified Framework for Graph Masked Autoencoders'
+    date: Feb 2024
+    date_iso: 2024-02
+    date_display: Feb 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.853
+    - null
+    metric_stds:
+    - 0.01
+    - null
+  - model: G-Tuning
+    model_plain: G-Tuning
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2312.13583'
+    title: Fine-tuning Graph Neural Networks by Preserving Graph Generative Patterns
+    date: Dec 2023
+    date_iso: 2023-12
+    date_display: Dec 2023
+    codebase_url: https://github.com/zjunet/G-Tuning
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.8479
+    - null
+    metric_stds:
+    - 0.0139
+    - null
   - model: PretrainGNN
     model_plain: PretrainGNN
     is_baseline: true
@@ -82,14 +758,36 @@ variants:
     is_best: false
     metric_values:
     - 0.845
+    - null
     metric_stds:
     - 0.007
+    - null
+  - model: HU. et.al
+    model_plain: HU. et.al
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2306.01631'
+    title: Bi-level Contrastive Learning for Knowledge-Enhanced Molecule Representations
+    date: Jun 2023
+    date_iso: 2023-06
+    date_display: Jun 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.845
+    - null
+    metric_stds:
+    - 0.007
+    - null
   - model: Subgraphormer
     model_plain: Subgraphormer
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: null
+    params_millions: 0.293
     arxiv_id: '2402.08450'
     title: 'Subgraphormer: Unifying Subgraph GNNs and Graph Transformers via Graph
       Products'
@@ -101,8 +799,172 @@ variants:
     is_best: false
     metric_values:
     - 0.8435
+    - null
     metric_stds:
     - 0.0065
+    - null
+  - model: PatchGT-GCN
+    model_plain: PatchGT-GCN
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2211.14425'
+    title: 'PatchGT: Transformer over Non-trainable Clusters for Learning Graph Representations'
+    date: Nov 2022
+    date_iso: 2022-11
+    date_display: Nov 2022
+    codebase_url: https://github.com/tufts-ml/PatchGT
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.8408
+    - null
+    metric_stds:
+    - 0.0203
+    - null
+  - model: D-SLA
+    model_plain: D-SLA
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2309.04589'
+    title: Motif-aware Attribute Masking for Molecular Graph Pre-training
+    date: Sep 2023
+    date_iso: 2023-09
+    date_display: Sep 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.838
+    - null
+    metric_stds:
+    - 0.01
+    - null
+  - model: MoleBlend
+    model_plain: MoleBlend
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2603.00568'
+    title: Enhancing Molecular Property Predictions by Learning from Bond Modelling
+      and Interactions
+    date: Mar 2026
+    date_iso: 2026-03
+    date_display: Mar 2026
+    codebase_url: ''
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - 0.837
+    - null
+    metric_stds:
+    - 0.014
+    - null
+  - model: GraphLoG
+    model_plain: GraphLoG
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2309.04589'
+    title: Motif-aware Attribute Masking for Molecular Graph Pre-training
+    date: Sep 2023
+    date_iso: 2023-09
+    date_display: Sep 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.835
+    - null
+    metric_stds:
+    - 0.012
+    - null
+  - model: Graphormer
+    model_plain: Graphormer
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1802.00543'
+    title: Modeling polypharmacy side effects with graph convolutional networks
+    date: Feb 2, 2018
+    date_iso: '2018-02-02'
+    date_display: Feb 2018
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.831
+    - null
+    metric_stds:
+    - 0.007
+    - null
+  - model: GraphMAE
+    model_plain: GraphMAE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2309.04589'
+    title: Motif-aware Attribute Masking for Molecular Graph Pre-training
+    date: Sep 2023
+    date_iso: 2023-09
+    date_display: Sep 2023
+    codebase_url: ''
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - 0.831
+    - null
+    metric_stds:
+    - 0.009
+    - null
+  - model: MoLFormer-Base
+    model_plain: MoLFormer-Base
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2106.09553'
+    title: How Much Structural Information Large Scale Molecular Language Representations
+      Can Capture?
+    date: Jun 2021
+    date_iso: 2021-06
+    date_display: Jun 2021
+    codebase_url: https://github.com/IBM/molformer
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - 0.828
+    - null
+    metric_stds:
+    - null
+    - null
+  - model: MolCLR
+    model_plain: MolCLR
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2306.01631'
+    title: Bi-level Contrastive Learning for Knowledge-Enhanced Molecule Representations
+    date: Jun 2023
+    date_iso: 2023-06
+    date_display: Jun 2023
+    codebase_url: ''
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - 0.828
+    - null
+    metric_stds:
+    - 0.007
+    - null
   - model: GNN-SSWL
     model_plain: GNN-SSWL
     is_baseline: true
@@ -120,8 +982,51 @@ variants:
     is_best: false
     metric_values:
     - 0.827
+    - null
     metric_stds:
     - 0.018
+    - null
+  - model: GAP-EMPNN
+    model_plain: GAP-EMPNN
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.13315'
+    title: 3D Molecular Geometry Analysis with 2D Graphs
+    date: May 2023
+    date_iso: 2023-05
+    date_display: May 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.827
+    - null
+    metric_stds:
+    - 0.001
+    - null
+  - model: IGM
+    model_plain: IGM
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2312.10988'
+    title: Graph Invariant Learning with Subgraph Co-mixup for Out-Of-Distribution
+      Generalization
+    date: Dec 2023
+    date_iso: 2023-12
+    date_display: Dec 2023
+    codebase_url: https://github.com/BUPT-GAMMA/IGM
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - 0.8265
+    - null
+    metric_stds:
+    - 0.0117
+    - null
   - model: GROVER_base
     model_plain: GROVER_base
     is_baseline: true
@@ -138,26 +1043,112 @@ variants:
     is_best: false
     metric_values:
     - 0.826
+    - null
     metric_stds:
     - 0.007
-  - model: MolCLR
-    model_plain: MolCLR
+    - null
+  - model: GROVER
+    model_plain: GROVER
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2605.06462'
-    title: Invariant-Based Diagnostics for Graph Benchmarks
-    date: May 2026
-    date_iso: 2026-05
-    date_display: May 2026
+    arxiv_id: '2603.00568'
+    title: Enhancing Molecular Property Predictions by Learning from Bond Modelling
+      and Interactions
+    date: Mar 2026
+    date_iso: 2026-03
+    date_display: Mar 2026
     codebase_url: ''
     uses_external_data: true
     is_best: false
     metric_values:
-    - 0.824
+    - 0.826
+    - null
     metric_stds:
-    - 0.009
+    - 0.007
+    - null
+  - model: AI
+    model_plain: AI
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2209.05481'
+    title: A Molecular Multimodal Foundation Model Associating Molecule Graphs with
+      Natural Language
+    date: Sep 2022
+    date_iso: 2022-09
+    date_display: Sep 2022
+    codebase_url: https://github.com/BingSu12/MoMu
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.825
+    - null
+    metric_stds:
+    - 0.007
+    - null
+  - model: GROVER_Large_GTrans
+    model_plain: GROVER_Large_GTrans
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2306.01631'
+    title: Bi-level Contrastive Learning for Knowledge-Enhanced Molecule Representations
+    date: Jun 2023
+    date_iso: 2023-06
+    date_display: Jun 2023
+    codebase_url: ''
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - 0.825
+    - null
+    metric_stds:
+    - 0.044
+    - null
+  - model: BSS
+    model_plain: BSS
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2312.13583'
+    title: Fine-tuning Graph Neural Networks by Preserving Graph Generative Patterns
+    date: Dec 2023
+    date_iso: 2023-12
+    date_display: Dec 2023
+    codebase_url: https://github.com/zjunet/G-Tuning
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.8248
+    - null
+    metric_stds:
+    - 0.021
+    - null
+  - model: GTOT-Tuning
+    model_plain: GTOT-Tuning
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2312.13583'
+    title: Fine-tuning Graph Neural Networks by Preserving Graph Generative Patterns
+    date: Dec 2023
+    date_iso: 2023-12
+    date_display: Dec 2023
+    codebase_url: https://github.com/zjunet/G-Tuning
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.8248
+    - null
+    metric_stds:
+    - 0.0218
+    - null
   - model: agg + I
     model_plain: agg + I
     is_baseline: true
@@ -174,26 +1165,311 @@ variants:
     is_best: false
     metric_values:
     - 0.8239
+    - null
     metric_stds:
     - 0.0053
+    - null
+  - model: GREA
+    model_plain: GREA
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2407.11083'
+    title: arXiv:2407.11083
+    date: Jul 2024
+    date_iso: 2024-07
+    date_display: Jul 2024
+    codebase_url: https://github.com/tianyao-aka/EQuAD
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.8237
+    - null
+    metric_stds:
+    - 0.0237
+    - null
+  - model: SphereNet
+    model_plain: SphereNet
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1802.00543'
+    title: Modeling polypharmacy side effects with graph convolutional networks
+    date: Feb 2, 2018
+    date_iso: '2018-02-02'
+    date_display: Feb 2018
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.823
+    - null
+    metric_stds:
+    - 0.008
+    - null
+  - model: Infomax + S2PGNN
+    model_plain: Infomax + S2PGNN
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2308.06960'
+    title: Search to Fine-tune Pre-trained Graph Neural Networks for Graph-level Tasks
+    date: Aug 2023
+    date_iso: 2023-08
+    date_display: Aug 2023
+    codebase_url: https://github.com/zwangeo/icde2024
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - 0.823
+    - null
+    metric_stds:
+    - 0.013
+    - null
+  - model: L2_SP
+    model_plain: L2_SP
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2312.13583'
+    title: Fine-tuning Graph Neural Networks by Preserving Graph Generative Patterns
+    date: Dec 2023
+    date_iso: 2023-12
+    date_display: Dec 2023
+    codebase_url: https://github.com/zjunet/G-Tuning
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.8221
+    - null
+    metric_stds:
+    - 0.0244
+    - null
+  - model: EdgePred + S2PGNN
+    model_plain: EdgePred + S2PGNN
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2308.06960'
+    title: Search to Fine-tune Pre-trained Graph Neural Networks for Graph-level Tasks
+    date: Aug 2023
+    date_iso: 2023-08
+    date_display: Aug 2023
+    codebase_url: https://github.com/zwangeo/icde2024
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - 0.822
+    - null
+    metric_stds:
+    - 0.011
+    - null
+  - model: Context Prediction
+    model_plain: Context Prediction
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2207.06010'
+    title: Does GNN Pretraining Help Molecular Representation?
+    date: Jul 2022
+    date_iso: 2022-07
+    date_display: Jul 2022
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.8196
+    - null
+    metric_stds:
+    - 0.0072
+    - null
+  - model: EQuAD
+    model_plain: EQuAD
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2407.11083'
+    title: arXiv:2407.11083
+    date: Jul 2024
+    date_iso: 2024-07
+    date_display: Jul 2024
+    codebase_url: https://github.com/tianyao-aka/EQuAD
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.8183
+    - null
+    metric_stds:
+    - 0.0267
+    - null
+  - model: DELTA
+    model_plain: DELTA
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2312.13583'
+    title: Fine-tuning Graph Neural Networks by Preserving Graph Generative Patterns
+    date: Dec 2023
+    date_iso: 2023-12
+    date_display: Dec 2023
+    codebase_url: https://github.com/zjunet/G-Tuning
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.8183
+    - null
+    metric_stds:
+    - 0.0117
+    - null
+  - model: DimeNet++
+    model_plain: DimeNet++
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1802.00543'
+    title: Modeling polypharmacy side effects with graph convolutional networks
+    date: Feb 2, 2018
+    date_iso: '2018-02-02'
+    date_display: Feb 2018
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.815
+    - null
+    metric_stds:
+    - 0.009
+    - null
+  - model: Node-MPN
+    model_plain: Node-MPN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2312.07633'
+    title: SE(3)-Invariant Multiparameter Persistent Homology for Chiral-Sensitive
+      Molecular Property Prediction
+    date: Dec 2023
+    date_iso: 2023-12
+    date_display: Dec 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.815
+    - null
+    metric_stds:
+    - 0.044
+    - null
+  - model: MPNN
+    model_plain: MPNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2306.01631'
+    title: Bi-level Contrastive Learning for Knowledge-Enhanced Molecule Representations
+    date: Jun 2023
+    date_iso: 2023-06
+    date_display: Jun 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.815
+    - null
+    metric_stds:
+    - 0.044
+    - null
+  - model: StochNorm
+    model_plain: StochNorm
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2312.13583'
+    title: Fine-tuning Graph Neural Networks by Preserving Graph Generative Patterns
+    date: Dec 2023
+    date_iso: 2023-12
+    date_display: Dec 2023
+    codebase_url: https://github.com/zjunet/G-Tuning
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.8148
+    - null
+    metric_stds:
+    - 0.021
+    - null
   - model: GraphMVP
     model_plain: GraphMVP
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2605.06462'
-    title: Invariant-Based Diagnostics for Graph Benchmarks
-    date: May 2026
-    date_iso: 2026-05
-    date_display: May 2026
-    codebase_url: ''
+    arxiv_id: '2207.08806'
+    title: Unified 2D and 3D Pre-Training of Molecular Representations
+    date: Jul 2022
+    date_iso: 2022-07
+    date_display: Jul 2022
+    codebase_url: https://github.com/teslacool/UnifiedMolPretrain
     uses_external_data: true
     is_best: false
     metric_values:
     - 0.812
+    - null
     metric_stds:
     - 0.009
+    - null
+  - model: GAT
+    model_plain: GAT
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2111.10657'
+    title: Generalizing Graph Neural Networks on Out-Of-Distribution Graphs
+    date: Nov 2021
+    date_iso: 2021-11
+    date_display: Nov 2021
+    codebase_url: https://github.com/googlebaba/StableGNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.8117
+    - null
+    metric_stds:
+    - 0.008
+    - null
+  - model: MoleOOD
+    model_plain: MoleOOD
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2407.11083'
+    title: arXiv:2407.11083
+    date: Jul 2024
+    date_iso: 2024-07
+    date_display: Jul 2024
+    codebase_url: https://github.com/tianyao-aka/EQuAD
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.8109
+    - null
+    metric_stds:
+    - 0.0203
+    - null
   - model: GROVER_large
     model_plain: GROVER_large
     is_baseline: true
@@ -210,8 +1486,10 @@ variants:
     is_best: false
     metric_values:
     - 0.81
+    - null
     metric_stds:
     - 0.014
+    - null
   - model: D-MPNN
     model_plain: D-MPNN
     is_baseline: true
@@ -228,27 +1506,500 @@ variants:
     is_best: false
     metric_values:
     - 0.809
+    - null
     metric_stds:
     - 0.006
-  - model: GCN
-    model_plain: GCN
+    - null
+  - model: Galformer
+    model_plain: Galformer
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2402.08450'
-    title: 'Subgraphormer: Unifying Subgraph GNNs and Graph Transformers via Graph
-      Products'
-    date: Feb 13, 2024
-    date_iso: '2024-02-13'
-    date_display: Feb 2024
-    codebase_url: https://github.com/BarSGuy/Subgraphormer
+    arxiv_id: '2603.00568'
+    title: Enhancing Molecular Property Predictions by Learning from Bond Modelling
+      and Interactions
+    date: Mar 2026
+    date_iso: 2026-03
+    date_display: Mar 2026
+    codebase_url: ''
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - 0.809
+    - null
+    metric_stds:
+    - 0.01
+    - null
+  - model: PaiNN
+    model_plain: PaiNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2209.05481'
+    title: A Molecular Multimodal Foundation Model Associating Molecule Graphs with
+      Natural Language
+    date: Sep 2022
+    date_iso: 2022-09
+    date_display: Sep 2022
+    codebase_url: https://github.com/BingSu12/MoMu
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.7915
+    - 0.808
+    - null
     metric_stds:
-    - 0.0144
+    - 0.01
+    - null
+  - model: Mole-BERT
+    model_plain: Mole-BERT
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2309.04589'
+    title: Motif-aware Attribute Masking for Molecular Graph Pre-training
+    date: Sep 2023
+    date_iso: 2023-09
+    date_display: Sep 2023
+    codebase_url: ''
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - 0.808
+    - null
+    metric_stds:
+    - 0.014
+    - null
+  - model: StableSAGE
+    model_plain: StableSAGE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2111.10657'
+    title: Generalizing Graph Neural Networks on Out-Of-Distribution Graphs
+    date: Nov 2021
+    date_iso: 2021-11
+    date_display: Nov 2021
+    codebase_url: https://github.com/googlebaba/StableGNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.8073
+    - null
+    metric_stds:
+    - 0.0398
+    - null
+  - model: EGNN
+    model_plain: EGNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2209.05481'
+    title: A Molecular Multimodal Foundation Model Associating Molecule Graphs with
+      Natural Language
+    date: Sep 2022
+    date_iso: 2022-09
+    date_display: Sep 2022
+    codebase_url: https://github.com/BingSu12/MoMu
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.805
+    - null
+    metric_stds:
+    - 0.011
+    - null
+  - model: SGCL
+    model_plain: SGCL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2306.03506'
+    title: Subgraph Networks Based Contrastive Learning
+    date: Jun 2023
+    date_iso: 2023-06
+    date_display: Jun 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.802
+    - null
+    metric_stds:
+    - 0.013
+    - null
+  - model: PNA
+    model_plain: PNA
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1802.00543'
+    title: Modeling polypharmacy side effects with graph convolutional networks
+    date: Feb 2, 2018
+    date_iso: '2018-02-02'
+    date_display: Feb 2018
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.801
+    - null
+    metric_stds:
+    - 0.011
+    - null
+  - model: MoAMa
+    model_plain: MoAMa
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2309.04589'
+    title: Motif-aware Attribute Masking for Molecular Graph Pre-training
+    date: Sep 2023
+    date_iso: 2023-09
+    date_display: Sep 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.801
+    - null
+    metric_stds:
+    - 0.005
+    - null
+  - model: DIR
+    model_plain: DIR
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2312.10988'
+    title: Graph Invariant Learning with Subgraph Co-mixup for Out-Of-Distribution
+      Generalization
+    date: Dec 2023
+    date_iso: 2023-12
+    date_display: Dec 2023
+    codebase_url: https://github.com/BUPT-GAMMA/IGM
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - 0.7993
+    - null
+    metric_stds:
+    - 0.0203
+    - null
+  - model: EdgePred
+    model_plain: EdgePred
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2306.03506'
+    title: Subgraph Networks Based Contrastive Learning
+    date: Jun 2023
+    date_iso: 2023-06
+    date_display: Jun 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.799
+    - null
+    metric_stds:
+    - 0.009
+    - null
+  - model: AttrMask
+    model_plain: AttrMask
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2603.00568'
+    title: Enhancing Molecular Property Predictions by Learning from Bond Modelling
+      and Interactions
+    date: Mar 2026
+    date_iso: 2026-03
+    date_display: Mar 2026
+    codebase_url: ''
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - 0.797
+    - null
+    metric_stds:
+    - 0.003
+    - null
+  - model: MGSSL
+    model_plain: MGSSL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2306.01631'
+    title: Bi-level Contrastive Learning for Knowledge-Enhanced Molecule Representations
+    date: Jun 2023
+    date_iso: 2023-06
+    date_display: Jun 2023
+    codebase_url: ''
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - 0.797
+    - null
+    metric_stds:
+    - 0.008
+    - null
+  - model: GSAT
+    model_plain: GSAT
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2312.10988'
+    title: Graph Invariant Learning with Subgraph Co-mixup for Out-Of-Distribution
+      Generalization
+    date: Dec 2023
+    date_iso: 2023-12
+    date_display: Dec 2023
+    codebase_url: https://github.com/BUPT-GAMMA/IGM
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - 0.7963
+    - null
+    metric_stds:
+    - 0.0187
+    - null
+  - model: MoleculeSDE
+    model_plain: MoleculeSDE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2603.00568'
+    title: Enhancing Molecular Property Predictions by Learning from Bond Modelling
+      and Interactions
+    date: Mar 2026
+    date_iso: 2026-03
+    date_display: Mar 2026
+    codebase_url: ''
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - 0.795
+    - null
+    metric_stds:
+    - 0.021
+    - null
+  - model: MCM
+    model_plain: MCM
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2309.04589'
+    title: Motif-aware Attribute Masking for Molecular Graph Pre-training
+    date: Sep 2023
+    date_iso: 2023-09
+    date_display: Sep 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.795
+    - null
+    metric_stds:
+    - 0.013
+    - null
+  - model: stark20213d
+    model_plain: stark20213d
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2207.08806'
+    title: Unified 2D and 3D Pre-Training of Molecular Representations
+    date: Jul 2022
+    date_iso: 2022-07
+    date_display: Jul 2022
+    codebase_url: https://github.com/teslacool/UnifiedMolPretrain
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - 0.794
+    - null
+    metric_stds:
+    - 0.02
+    - null
+  - model: 3D Infomax
+    model_plain: 3D Infomax
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2312.07633'
+    title: SE(3)-Invariant Multiparameter Persistent Homology for Chiral-Sensitive
+      Molecular Property Prediction
+    date: Dec 2023
+    date_iso: 2023-12
+    date_display: Dec 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.794
+    - null
+    metric_stds:
+    - 0.019
+    - null
+  - model: EIIL
+    model_plain: EIIL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2312.10988'
+    title: Graph Invariant Learning with Subgraph Co-mixup for Out-Of-Distribution
+      Generalization
+    date: Dec 2023
+    date_iso: 2023-12
+    date_display: Dec 2023
+    codebase_url: https://github.com/BUPT-GAMMA/IGM
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - 0.7936
+    - null
+    metric_stds:
+    - 0.0272
+    - null
+  - model: AttrMasking
+    model_plain: AttrMasking
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2306.03506'
+    title: Subgraph Networks Based Contrastive Learning
+    date: Jun 2023
+    date_iso: 2023-06
+    date_display: Jun 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.793
+    - null
+    metric_stds:
+    - 0.016
+    - null
+  - model: Vanilla Tuning
+    model_plain: Vanilla Tuning
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2312.13583'
+    title: Fine-tuning Graph Neural Networks by Preserving Graph Generative Patterns
+    date: Dec 2023
+    date_iso: 2023-12
+    date_display: Dec 2023
+    codebase_url: https://github.com/zjunet/G-Tuning
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7922
+    - null
+    metric_stds:
+    - 0.012
+    - null
+  - model: GIN
+    model_plain: GIN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1802.00543'
+    title: Modeling polypharmacy side effects with graph convolutional networks
+    date: Feb 2, 2018
+    date_iso: '2018-02-02'
+    date_display: Feb 2018
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.792
+    - null
+    metric_stds:
+    - 0.012
+    - null
+  - model: GROVER
+    model_plain: GROVER
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2207.08806'
+    title: Unified 2D and 3D Pre-Training of Molecular Representations
+    date: Jul 2022
+    date_iso: 2022-07
+    date_display: Jul 2022
+    codebase_url: https://github.com/teslacool/UnifiedMolPretrain
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - 0.792
+    - null
+    metric_stds:
+    - 0.003
+    - null
+  - model: G-Contextual
+    model_plain: G-Contextual
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.13315'
+    title: 3D Molecular Geometry Analysis with 2D Graphs
+    date: May 2023
+    date_iso: 2023-05
+    date_display: May 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.792
+    - null
+    metric_stds:
+    - 0.003
+    - null
+  - model: G-Mixup
+    model_plain: G-Mixup
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2312.10988'
+    title: Graph Invariant Learning with Subgraph Co-mixup for Out-Of-Distribution
+      Generalization
+    date: Dec 2023
+    date_iso: 2023-12
+    date_display: Dec 2023
+    codebase_url: https://github.com/BUPT-GAMMA/IGM
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - 0.7912
+    - null
+    metric_stds:
+    - 0.0275
+    - null
   - model: N-Gram_XGB
     model_plain: N-Gram_XGB
     is_baseline: true
@@ -265,8 +2016,213 @@ variants:
     is_best: false
     metric_values:
     - 0.791
+    - null
     metric_stds:
     - 0.013
+    - null
+  - model: Weave
+    model_plain: Weave
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2312.07633'
+    title: SE(3)-Invariant Multiparameter Persistent Homology for Chiral-Sensitive
+      Molecular Property Prediction
+    date: Dec 2023
+    date_iso: 2023-12
+    date_display: Dec 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.791
+    - null
+    metric_stds:
+    - 0.008
+    - null
+  - model: JK-Net
+    model_plain: JK-Net
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2111.10657'
+    title: Generalizing Graph Neural Networks on Out-Of-Distribution Graphs
+    date: Nov 2021
+    date_iso: 2021-11
+    date_display: Nov 2021
+    codebase_url: https://github.com/googlebaba/StableGNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7899
+    - null
+    metric_stds:
+    - 0.134
+    - null
+  - model: Manifold-Mixup
+    model_plain: Manifold-Mixup
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2312.10988'
+    title: Graph Invariant Learning with Subgraph Co-mixup for Out-Of-Distribution
+      Generalization
+    date: Dec 2023
+    date_iso: 2023-12
+    date_display: Dec 2023
+    codebase_url: https://github.com/BUPT-GAMMA/IGM
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - 0.7885
+    - null
+    metric_stds:
+    - 0.0126
+    - null
+  - model: GraphLoG
+    model_plain: GraphLoG
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.13315'
+    title: 3D Molecular Geometry Analysis with 2D Graphs
+    date: May 2023
+    date_iso: 2023-05
+    date_display: May 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.788
+    - null
+    metric_stds:
+    - 0.007
+    - null
+  - model: AttrMask & ContextPred
+    model_plain: AttrMask & ContextPred
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2207.08806'
+    title: Unified 2D and 3D Pre-Training of Molecular Representations
+    date: Jul 2022
+    date_iso: 2022-07
+    date_display: Jul 2022
+    codebase_url: https://github.com/teslacool/UnifiedMolPretrain
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - 0.786
+    - null
+    metric_stds:
+    - 0.014
+    - null
+  - model: ContextPred
+    model_plain: ContextPred
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.13315'
+    title: 3D Molecular Geometry Analysis with 2D Graphs
+    date: May 2023
+    date_iso: 2023-05
+    date_display: May 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.786
+    - null
+    metric_stds:
+    - 0.014
+    - null
+  - model: GraphSAGE
+    model_plain: GraphSAGE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2111.10657'
+    title: Generalizing Graph Neural Networks on Out-Of-Distribution Graphs
+    date: Nov 2021
+    date_iso: 2021-11
+    date_display: Nov 2021
+    codebase_url: https://github.com/googlebaba/StableGNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7851
+    - null
+    metric_stds:
+    - 0.0172
+    - null
+  - model: GCN
+    model_plain: GCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1802.00543'
+    title: Modeling polypharmacy side effects with graph convolutional networks
+    date: Feb 2, 2018
+    date_iso: '2018-02-02'
+    date_display: Feb 2018
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.785
+    - null
+    metric_stds:
+    - 0.015
+    - null
+  - model: AD-GCL
+    model_plain: AD-GCL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2306.03506'
+    title: Subgraph Networks Based Contrastive Learning
+    date: Jun 2023
+    date_iso: 2023-06
+    date_display: Jun 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.785
+    - null
+    metric_stds:
+    - 0.008
+    - null
+  - model: DiffDock (w/ RF)
+    model_plain: DiffDock (w/ RF)
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2209.05481'
+    title: A Molecular Multimodal Foundation Model Associating Molecule Graphs with
+      Natural Language
+    date: Sep 2022
+    date_iso: 2022-09
+    date_display: Sep 2022
+    codebase_url: https://github.com/BingSu12/MoMu
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.785
+    - null
+    metric_stds:
+    - 0.014
+    - null
   - model: DS-GNN
     model_plain: DS-GNN
     is_baseline: true
@@ -284,8 +2240,10 @@ variants:
     is_best: false
     metric_values:
     - 0.7841
+    - null
     metric_stds:
     - 0.0194
+    - null
   - model: AttentiveFP
     model_plain: AttentiveFP
     is_baseline: true
@@ -302,8 +2260,71 @@ variants:
     is_best: false
     metric_values:
     - 0.784
+    - null
     metric_stds:
     - 0.0
+    - null
+  - model: KGE_NFM_w_MolKG
+    model_plain: KGE_NFM_w_MolKG
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2306.01631'
+    title: Bi-level Contrastive Learning for Knowledge-Enhanced Molecule Representations
+    date: Jun 2023
+    date_iso: 2023-06
+    date_display: Jun 2023
+    codebase_url: ''
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - 0.781
+    - null
+    metric_stds:
+    - 0.021
+    - null
+  - model: Uni-Mol
+    model_plain: Uni-Mol
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2309.04589'
+    title: Motif-aware Attribute Masking for Molecular Graph Pre-training
+    date: Sep 2023
+    date_iso: 2023-09
+    date_display: Sep 2023
+    codebase_url: ''
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - 0.781
+    - null
+    metric_stds:
+    - 0.014
+    - null
+  - model: EquiBind (w/ RF)
+    model_plain: EquiBind (w/ RF)
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2209.05481'
+    title: A Molecular Multimodal Foundation Model Associating Molecule Graphs with
+      Natural Language
+    date: Sep 2022
+    date_iso: 2022-09
+    date_display: Sep 2022
+    codebase_url: https://github.com/BingSu12/MoMu
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.78
+    - null
+    metric_stds:
+    - 0.015
+    - null
   - model: N-Gram_RF
     model_plain: N-Gram_RF
     is_baseline: true
@@ -320,27 +2341,655 @@ variants:
     is_best: false
     metric_values:
     - 0.779
+    - null
     metric_stds:
     - 0.015
+    - null
+  - model: VGAE-Tuning
+    model_plain: VGAE-Tuning
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2312.13583'
+    title: Fine-tuning Graph Neural Networks by Preserving Graph Generative Patterns
+    date: Dec 2023
+    date_iso: 2023-12
+    date_display: Dec 2023
+    codebase_url: https://github.com/zjunet/G-Tuning
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7783
+    - null
+    metric_stds:
+    - 0.0064
+    - null
+  - model: ERM
+    model_plain: ERM
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2312.10988'
+    title: Graph Invariant Learning with Subgraph Co-mixup for Out-Of-Distribution
+      Generalization
+    date: Dec 2023
+    date_iso: 2023-12
+    date_display: Dec 2023
+    codebase_url: https://github.com/BUPT-GAMMA/IGM
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - 0.7783
+    - null
+    metric_stds:
+    - 0.0349
+    - null
+  - model: GPT-GNN
+    model_plain: GPT-GNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.13315'
+    title: 3D Molecular Geometry Analysis with 2D Graphs
+    date: May 2023
+    date_iso: 2023-05
+    date_display: May 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.776
+    - null
+    metric_stds:
+    - 0.005
+    - null
+  - model: IRM
+    model_plain: IRM
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2312.10988'
+    title: Graph Invariant Learning with Subgraph Co-mixup for Out-Of-Distribution
+      Generalization
+    date: Dec 2023
+    date_iso: 2023-12
+    date_display: Dec 2023
+    codebase_url: https://github.com/BUPT-GAMMA/IGM
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - 0.7751
+    - null
+    metric_stds:
+    - 0.0246
+    - null
+  - model: JOAO
+    model_plain: JOAO
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2306.03506'
+    title: Subgraph Networks Based Contrastive Learning
+    date: Jun 2023
+    date_iso: 2023-06
+    date_display: Jun 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.773
+    - null
+    metric_stds:
+    - 0.005
+    - null
+  - model: DiffDock
+    model_plain: DiffDock
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2209.05481'
+    title: A Molecular Multimodal Foundation Model Associating Molecule Graphs with
+      Natural Language
+    date: Sep 2022
+    date_iso: 2022-09
+    date_display: Sep 2022
+    codebase_url: https://github.com/BingSu12/MoMu
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.772
+    - null
+    metric_stds:
+    - 0.016
+    - null
+  - model: AttrMask
+    model_plain: AttrMask
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.13315'
+    title: 3D Molecular Geometry Analysis with 2D Graphs
+    date: May 2023
+    date_iso: 2023-05
+    date_display: May 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.772
+    - null
+    metric_stds:
+    - 0.014
+    - null
+  - model: GraphCL
+    model_plain: GraphCL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2206.08005'
+    title: Evaluating Self-Supervised Learning for Molecular Graph Embeddings
+    date: Jun 2022
+    date_iso: 2022-06
+    date_display: Jun 2022
+    codebase_url: https://github.com/hansen7/MolGraphEval
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.77
+    - null
+    metric_stds:
+    - 0.017
+    - null
+  - model: V-REx
+    model_plain: V-REx
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2312.10988'
+    title: Graph Invariant Learning with Subgraph Co-mixup for Out-Of-Distribution
+      Generalization
+    date: Dec 2023
+    date_iso: 2023-12
+    date_display: Dec 2023
+    codebase_url: https://github.com/BUPT-GAMMA/IGM
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - 0.7696
+    - null
+    metric_stds:
+    - 0.0188
+    - null
+  - model: StableGCN
+    model_plain: StableGCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2111.10657'
+    title: Generalizing Graph Neural Networks on Out-Of-Distribution Graphs
+    date: Nov 2021
+    date_iso: 2021-11
+    date_display: Nov 2021
+    codebase_url: https://github.com/googlebaba/StableGNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7695
+    - null
+    metric_stds:
+    - 0.0327
+    - null
+  - model: Node Prediction
+    model_plain: Node Prediction
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2207.06010'
+    title: Does GNN Pretraining Help Molecular Representation?
+    date: Jul 2022
+    date_iso: 2022-07
+    date_display: Jul 2022
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7695
+    - null
+    metric_stds:
+    - 0.0012
+    - null
+  - model: MoNet
+    model_plain: MoNet
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2111.10657'
+    title: Generalizing Graph Neural Networks on Out-Of-Distribution Graphs
+    date: Nov 2021
+    date_iso: 2021-11
+    date_display: Nov 2021
+    codebase_url: https://github.com/googlebaba/StableGNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7692
+    - null
+    metric_stds:
+    - 0.0091
+    - null
+  - model: IA-GPL
+    model_plain: IA-GPL
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2411.17676'
+    title: Instance-Aware Graph Prompt Learning
+    date: Nov 2024
+    date_iso: 2024-11
+    date_display: Nov 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7664
+    - null
+    metric_stds:
+    - 0.0083
+    - null
+  - model: SchNet
+    model_plain: SchNet
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2306.01631'
+    title: Bi-level Contrastive Learning for Knowledge-Enhanced Molecule Representations
+    date: Jun 2023
+    date_iso: 2023-06
+    date_display: Jun 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.766
+    - null
+    metric_stds:
+    - 0.011
+    - null
+  - model: GPF
+    model_plain: GPF
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2411.17676'
+    title: Instance-Aware Graph Prompt Learning
+    date: Nov 2024
+    date_iso: 2024-11
+    date_display: Nov 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7654
+    - null
+    metric_stds:
+    - 0.0176
+    - null
+  - model: EquiBind
+    model_plain: EquiBind
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2209.05481'
+    title: A Molecular Multimodal Foundation Model Associating Molecule Graphs with
+      Natural Language
+    date: Sep 2022
+    date_iso: 2022-09
+    date_display: Sep 2022
+    codebase_url: https://github.com/BingSu12/MoMu
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.765
+    - null
+    metric_stds:
+    - 0.018
+    - null
+  - model: GIN-VN
+    model_plain: GIN-VN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2211.14425'
+    title: 'PatchGT: Transformer over Non-trainable Clusters for Learning Graph Representations'
+    date: Nov 2022
+    date_iso: 2022-11
+    date_display: Nov 2022
+    codebase_url: https://github.com/tufts-ml/PatchGT
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7641
+    - null
+    metric_stds:
+    - 0.0268
+    - null
+  - model: Feature Map
+    model_plain: Feature Map
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2312.13583'
+    title: Fine-tuning Graph Neural Networks by Preserving Graph Generative Patterns
+    date: Dec 2023
+    date_iso: 2023-12
+    date_display: Dec 2023
+    codebase_url: https://github.com/zjunet/G-Tuning
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7632
+    - null
+    metric_stds:
+    - 0.0115
+    - null
+  - model: Linear Probing
+    model_plain: Linear Probing
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2411.17676'
+    title: Instance-Aware Graph Prompt Learning
+    date: Nov 2024
+    date_iso: 2024-11
+    date_display: Nov 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7617
+    - null
+    metric_stds:
+    - 0.0077
+    - null
+  - model: GPF-plus
+    model_plain: GPF-plus
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2411.17676'
+    title: Instance-Aware Graph Prompt Learning
+    date: Nov 2024
+    date_iso: 2024-11
+    date_display: Nov 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7602
+    - null
+    metric_stds:
+    - 0.0099
+    - null
+  - model: RGCL
+    model_plain: RGCL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2306.03506'
+    title: Subgraph Networks Based Contrastive Learning
+    date: Jun 2023
+    date_iso: 2023-06
+    date_display: Jun 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.76
+    - null
+    metric_stds:
+    - 0.008
+    - null
+  - model: InfoGraph
+    model_plain: InfoGraph
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2306.03506'
+    title: Subgraph Networks Based Contrastive Learning
+    date: Jun 2023
+    date_iso: 2023-06
+    date_display: Jun 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.759
+    - null
+    metric_stds:
+    - 0.016
+    - null
+  - model: Infomax
+    model_plain: Infomax
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2308.06960'
+    title: Search to Fine-tune Pre-trained Graph Neural Networks for Graph-level Tasks
+    date: Aug 2023
+    date_iso: 2023-08
+    date_display: Aug 2023
+    codebase_url: https://github.com/zwangeo/icde2024
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - 0.755
+    - null
+    metric_stds:
+    - 0.023
+    - null
+  - model: Fine Tuning
+    model_plain: Fine Tuning
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2411.17676'
+    title: Instance-Aware Graph Prompt Learning
+    date: Nov 2024
+    date_iso: 2024-11
+    date_display: Nov 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7497
+    - null
+    metric_stds:
+    - 0.0062
+    - null
+  - model: DiffPool
+    model_plain: DiffPool
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2111.10657'
+    title: Generalizing Graph Neural Networks on Out-Of-Distribution Graphs
+    date: Nov 2021
+    date_iso: 2021-11
+    date_display: Nov 2021
+    codebase_url: https://github.com/googlebaba/StableGNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7469
+    - null
+    metric_stds:
+    - 0.1113
+    - null
   - model: GIN
     model_plain: GIN
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.5
-    arxiv_id: '2402.08450'
-    title: 'Subgraphormer: Unifying Subgraph GNNs and Graph Transformers via Graph
-      Products'
-    date: Feb 13, 2024
-    date_iso: '2024-02-13'
-    date_display: Feb 2024
-    codebase_url: https://github.com/BarSGuy/Subgraphormer
+    params_millions: null
+    arxiv_id: '2111.10657'
+    title: Generalizing Graph Neural Networks on Out-Of-Distribution Graphs
+    date: Nov 2021
+    date_iso: 2021-11
+    date_display: Nov 2021
+    codebase_url: https://github.com/googlebaba/StableGNN
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.7297
+    - 0.745
+    - null
+    metric_stds:
+    - 0.0275
+    - null
+  - model: GIN0
+    model_plain: GIN0
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2111.10657'
+    title: Generalizing Graph Neural Networks on Out-Of-Distribution Graphs
+    date: Nov 2021
+    date_iso: 2021-11
+    date_display: Nov 2021
+    codebase_url: https://github.com/googlebaba/StableGNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7436
+    - null
+    metric_stds:
+    - 0.0348
+    - null
+  - model: Nested GIN
+    model_plain: Nested GIN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2211.14425'
+    title: 'PatchGT: Transformer over Non-trainable Clusters for Learning Graph Representations'
+    date: Nov 2022
+    date_iso: 2022-11
+    date_display: Nov 2022
+    codebase_url: https://github.com/tufts-ml/PatchGT
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7433
+    - null
+    metric_stds:
+    - 0.0189
+    - null
+  - model: mGCN
+    model_plain: mGCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2306.01631'
+    title: Bi-level Contrastive Learning for Knowledge-Enhanced Molecule Representations
+    date: Jun 2023
+    date_iso: 2023-06
+    date_display: Jun 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.734
+    - null
+    metric_stds:
+    - 0.03
+    - null
+  - model: G-Motif
+    model_plain: G-Motif
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.13315'
+    title: 3D Molecular Geometry Analysis with 2D Graphs
+    date: May 2023
+    date_iso: 2023-05
+    date_display: May 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.734
+    - null
     metric_stds:
     - 0.04
+    - null
+  - model: GraphMVP
+    model_plain: GraphMVP
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2206.08005'
+    title: Evaluating Self-Supervised Learning for Molecular Graph Embeddings
+    date: Jun 2022
+    date_iso: 2022-06
+    date_display: Jun 2022
+    codebase_url: https://github.com/hansen7/MolGraphEval
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.733
+    - null
+    metric_stds:
+    - 0.047
+    - null
+  - model: CIGA
+    model_plain: CIGA
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2111.10657'
+    title: Generalizing Graph Neural Networks on Out-Of-Distribution Graphs
+    date: Nov 2021
+    date_iso: 2021-11
+    date_display: Nov 2021
+    codebase_url: https://github.com/googlebaba/StableGNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7252
+    - null
+    metric_stds:
+    - 0.0843
+    - null
   - model: OSAN
     model_plain: OSAN
     is_baseline: true
@@ -358,21 +3007,938 @@ variants:
     is_best: false
     metric_values:
     - 0.723
+    - null
     metric_stds:
     - 0.066
+    - null
+  - model: GCN
+    model_plain: GCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2306.01631'
+    title: Bi-level Contrastive Learning for Knowledge-Enhanced Molecule Representations
+    date: Jun 2023
+    date_iso: 2023-06
+    date_display: Jun 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.716
+    - null
+    metric_stds:
+    - 0.02
+    - null
+  - model: MolCLR
+    model_plain: MolCLR
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2603.00568'
+    title: Enhancing Molecular Property Predictions by Learning from Bond Modelling
+      and Interactions
+    date: Mar 2026
+    date_iso: 2026-03
+    date_display: Mar 2026
+    codebase_url: ''
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - 0.715
+    - null
+    metric_stds:
+    - 0.031
+    - null
+  - model: GCN-VN
+    model_plain: GCN-VN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2211.14425'
+    title: 'PatchGT: Transformer over Non-trainable Clusters for Learning Graph Representations'
+    date: Nov 2022
+    date_iso: 2022-11
+    date_display: Nov 2022
+    codebase_url: https://github.com/tufts-ml/PatchGT
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7144
+    - null
+    metric_stds:
+    - 0.0401
+    - null
+  - model: EdgePred
+    model_plain: EdgePred
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2206.08005'
+    title: Evaluating Self-Supervised Learning for Molecular Graph Embeddings
+    date: Jun 2022
+    date_iso: 2022-06
+    date_display: Jun 2022
+    codebase_url: https://github.com/hansen7/MolGraphEval
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.714
+    - null
+    metric_stds:
+    - 0.012
+    - null
+  - model: GraphSAGE
+    model_plain: GraphSAGE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2411.17676'
+    title: Instance-Aware Graph Prompt Learning
+    date: Nov 2024
+    date_iso: 2024-11
+    date_display: Nov 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7133
+    - null
+    metric_stds:
+    - 0.0097
+    - null
+  - model: SGC
+    model_plain: SGC
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2111.10657'
+    title: Generalizing Graph Neural Networks on Out-Of-Distribution Graphs
+    date: Nov 2021
+    date_iso: 2021-11
+    date_display: Nov 2021
+    codebase_url: https://github.com/googlebaba/StableGNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7128
+    - null
+    metric_stds:
+    - 0.0179
+    - null
+  - model: JOAO
+    model_plain: JOAO
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2206.08005'
+    title: Evaluating Self-Supervised Learning for Molecular Graph Embeddings
+    date: Jun 2022
+    date_iso: 2022-06
+    date_display: Jun 2022
+    codebase_url: https://github.com/hansen7/MolGraphEval
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.711
+    - null
+    metric_stds:
+    - 0.008
+    - null
+  - model: Supervised
+    model_plain: Supervised
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2312.13583'
+    title: Fine-tuning Graph Neural Networks by Preserving Graph Generative Patterns
+    date: Dec 2023
+    date_iso: 2023-12
+    date_display: Dec 2023
+    codebase_url: https://github.com/zjunet/G-Tuning
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7013
+    - null
+    metric_stds:
+    - 0.0541
+    - null
+  - model: No Pre-train
+    model_plain: No Pre-train
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2306.03506'
+    title: Subgraph Networks Based Contrastive Learning
+    date: Jun 2023
+    date_iso: 2023-06
+    date_display: Jun 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.701
+    - null
+    metric_stds:
+    - 0.054
+    - null
+  - model: GAT
+    model_plain: GAT
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2306.13089'
+    title: 'gimlet: A Unified Graph-Text Model for Instruction-Based Molecule Zero-Shot
+      Learning'
+    date: Jun 2023
+    date_iso: 2023-06
+    date_display: Jun 2023
+    codebase_url: https://github.com/zhao-ht/GIMLET
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.697
+    - null
+    metric_stds:
+    - 0.064
+    - null
+  - model: Gimlet
+    model_plain: Gimlet
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2602.01771'
+    title: '<SO$ _k$>: One LLM Token for Explicit Graph Structural Understanding'
+    date: Feb 2026
+    date_iso: 2026-02
+    date_display: Feb 2026
+    codebase_url: https://github.com/Jingyao-Wu/SOG
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.696
+    - null
+    metric_stds:
+    - null
+    - null
+  - model: Gimlet
+    model_plain: Gimlet
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2306.13089'
+    title: 'gimlet: A Unified Graph-Text Model for Instruction-Based Molecule Zero-Shot
+      Learning'
+    date: Jun 2023
+    date_iso: 2023-06
+    date_display: Jun 2023
+    codebase_url: https://github.com/zhao-ht/GIMLET
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - 0.6957
+    - null
+    metric_stds:
+    - null
+    - null
+  - model: GIN
+    model_plain: GIN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2411.17676'
+    title: Instance-Aware Graph Prompt Learning
+    date: Nov 2024
+    date_iso: 2024-11
+    date_display: Nov 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.6914
+    - null
+    metric_stds:
+    - 0.0117
+    - null
+  - model: GROVER
+    model_plain: GROVER
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2206.08005'
+    title: Evaluating Self-Supervised Learning for Molecular Graph Embeddings
+    date: Jun 2022
+    date_iso: 2022-06
+    date_display: Jun 2022
+    codebase_url: https://github.com/hansen7/MolGraphEval
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.69
+    - null
+    metric_stds:
+    - 0.047
+    - null
+  - model: InfoGraph
+    model_plain: InfoGraph
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2206.08005'
+    title: Evaluating Self-Supervised Learning for Molecular Graph Embeddings
+    date: Jun 2022
+    date_iso: 2022-06
+    date_display: Jun 2022
+    codebase_url: https://github.com/hansen7/MolGraphEval
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.674
+    - null
+    metric_stds:
+    - 0.049
+    - null
+  - model: MoMu
+    model_plain: MoMu
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2306.13089'
+    title: 'gimlet: A Unified Graph-Text Model for Instruction-Based Molecule Zero-Shot
+      Learning'
+    date: Jun 2023
+    date_iso: 2023-06
+    date_display: Jun 2023
+    codebase_url: https://github.com/zhao-ht/GIMLET
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - 0.6656
+    - null
+    metric_stds:
+    - null
+    - null
+  - model: AttrMask
+    model_plain: AttrMask
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2206.08005'
+    title: Evaluating Self-Supervised Learning for Molecular Graph Embeddings
+    date: Jun 2022
+    date_iso: 2022-06
+    date_display: Jun 2022
+    codebase_url: https://github.com/hansen7/MolGraphEval
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.648
+    - null
+    metric_stds:
+    - 0.026
+    - null
+  - model: CLAMP
+    model_plain: CLAMP
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2306.13089'
+    title: 'gimlet: A Unified Graph-Text Model for Instruction-Based Molecule Zero-Shot
+      Learning'
+    date: Jun 2023
+    date_iso: 2023-06
+    date_display: Jun 2023
+    codebase_url: https://github.com/zhao-ht/GIMLET
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - 0.6476
+    - null
+    metric_stds:
+    - null
+    - null
+  - model: EdgePred
+    model_plain: EdgePred
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.13315'
+    title: 3D Molecular Geometry Analysis with 2D Graphs
+    date: May 2023
+    date_iso: 2023-05
+    date_display: May 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.646
+    - null
+    metric_stds:
+    - 0.047
+    - null
+  - model: MolCA-GS
+    model_plain: MolCA-GS
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2602.01771'
+    title: '<SO$ _k$>: One LLM Token for Explicit Graph Structural Understanding'
+    date: Feb 2026
+    date_iso: 2026-02
+    date_display: Feb 2026
+    codebase_url: https://github.com/Jingyao-Wu/SOG
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.639
+    - null
+    metric_stds:
+    - null
+    - null
+  - model: Random
+    model_plain: Random
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2206.08005'
+    title: Evaluating Self-Supervised Learning for Molecular Graph Embeddings
+    date: Jun 2022
+    date_iso: 2022-06
+    date_display: Jun 2022
+    codebase_url: https://github.com/hansen7/MolGraphEval
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.634
+    - null
+    metric_stds:
+    - 0.018
+    - null
+  - model: LLaMA3-3B <SO>G_k>
+    model_plain: LLaMA3-3B G_k>
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2602.01771'
+    title: '<SO$ _k$>: One LLM Token for Explicit Graph Structural Understanding'
+    date: Feb 2026
+    date_iso: 2026-02
+    date_display: Feb 2026
+    codebase_url: https://github.com/Jingyao-Wu/SOG
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - 0.633
+    - null
+    metric_stds:
+    - 0.042
+    - null
+  - model: MolCA-S
+    model_plain: MolCA-S
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2602.01771'
+    title: '<SO$ _k$>: One LLM Token for Explicit Graph Structural Understanding'
+    date: Feb 2026
+    date_iso: 2026-02
+    date_display: Feb 2026
+    codebase_url: https://github.com/Jingyao-Wu/SOG
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.628
+    - null
+    metric_stds:
+    - null
+    - null
+  - model: GPF-AttrMasking
+    model_plain: GPF-AttrMasking
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2602.01771'
+    title: '<SO$ _k$>: One LLM Token for Explicit Graph Structural Understanding'
+    date: Feb 2026
+    date_iso: 2026-02
+    date_display: Feb 2026
+    codebase_url: https://github.com/Jingyao-Wu/SOG
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.622
+    - null
+    metric_stds:
+    - null
+    - null
+  - model: Galactica-120B
+    model_plain: Galactica-120B
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2602.01771'
+    title: '<SO$ _k$>: One LLM Token for Explicit Graph Structural Understanding'
+    date: Feb 2026
+    date_iso: 2026-02
+    date_display: Feb 2026
+    codebase_url: https://github.com/Jingyao-Wu/SOG
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - 0.617
+    - null
+    metric_stds:
+    - null
+    - null
+  - model: LLaMA3-3B LoRA SFT
+    model_plain: LLaMA3-3B LoRA SFT
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2602.01771'
+    title: '<SO$ _k$>: One LLM Token for Explicit Graph Structural Understanding'
+    date: Feb 2026
+    date_iso: 2026-02
+    date_display: Feb 2026
+    codebase_url: https://github.com/Jingyao-Wu/SOG
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - 0.617
+    - null
+    metric_stds:
+    - 0.027
+    - null
+  - model: GPT-GNN
+    model_plain: GPT-GNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2206.08005'
+    title: Evaluating Self-Supervised Learning for Molecular Graph Embeddings
+    date: Jun 2022
+    date_iso: 2022-06
+    date_display: Jun 2022
+    codebase_url: https://github.com/hansen7/MolGraphEval
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.61
+    - null
+    metric_stds:
+    - 0.012
+    - null
+  - model: DIR
+    model_plain: DIR
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2111.10657'
+    title: Generalizing Graph Neural Networks on Out-Of-Distribution Graphs
+    date: Nov 2021
+    date_iso: 2021-11
+    date_display: Nov 2021
+    codebase_url: https://github.com/googlebaba/StableGNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.6081
+    - null
+    metric_stds:
+    - 0.1047
+    - null
+  - model: Galactica-1.3B
+    model_plain: Galactica-1.3B
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2306.13089'
+    title: 'gimlet: A Unified Graph-Text Model for Instruction-Based Molecule Zero-Shot
+      Learning'
+    date: Jun 2023
+    date_iso: 2023-06
+    date_display: Jun 2023
+    codebase_url: https://github.com/zhao-ht/GIMLET
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - 0.5648
+    - null
+    metric_stds:
+    - null
+    - null
+  - model: Cont. Pred
+    model_plain: Cont. Pred
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2206.08005'
+    title: Evaluating Self-Supervised Learning for Molecular Graph Embeddings
+    date: Jun 2022
+    date_iso: 2022-06
+    date_display: Jun 2022
+    codebase_url: https://github.com/hansen7/MolGraphEval
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.544
+    - null
+    metric_stds:
+    - 0.032
+    - null
+  - model: All-In-One
+    model_plain: All-In-One
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2411.17676'
+    title: Instance-Aware Graph Prompt Learning
+    date: Nov 2024
+    date_iso: 2024-11
+    date_display: Nov 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.5322
+    - null
+    metric_stds:
+    - 0.0714
+    - null
+  - model: LLaMA3-3B Few-shot (Morgan Sim)
+    model_plain: LLaMA3-3B Few-shot (Morgan Sim)
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2602.01771'
+    title: '<SO$ _k$>: One LLM Token for Explicit Graph Structural Understanding'
+    date: Feb 2026
+    date_iso: 2026-02
+    date_display: Feb 2026
+    codebase_url: https://github.com/Jingyao-Wu/SOG
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - 0.532
+    - null
+    metric_stds:
+    - 0.015
+    - null
+  - model: Deepseek-R1
+    model_plain: Deepseek-R1
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2602.01771'
+    title: '<SO$ _k$>: One LLM Token for Explicit Graph Structural Understanding'
+    date: Feb 2026
+    date_iso: 2026-02
+    date_display: Feb 2026
+    codebase_url: https://github.com/Jingyao-Wu/SOG
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - 0.527
+    - null
+    metric_stds:
+    - null
+    - null
+  - model: GPF-GCL
+    model_plain: GPF-GCL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2602.01771'
+    title: '<SO$ _k$>: One LLM Token for Explicit Graph Structural Understanding'
+    date: Feb 2026
+    date_iso: 2026-02
+    date_display: Feb 2026
+    codebase_url: https://github.com/Jingyao-Wu/SOG
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.521
+    - null
+    metric_stds:
+    - null
+    - null
+  - model: KVPLM
+    model_plain: KVPLM
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2306.13089'
+    title: 'gimlet: A Unified Graph-Text Model for Instruction-Based Molecule Zero-Shot
+      Learning'
+    date: Jun 2023
+    date_iso: 2023-06
+    date_display: Jun 2023
+    codebase_url: https://github.com/zhao-ht/GIMLET
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - 0.5126
+    - null
+    metric_stds:
+    - null
+    - null
+  - model: Llama-7b
+    model_plain: Llama-7b
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2602.01771'
+    title: '<SO$ _k$>: One LLM Token for Explicit Graph Structural Understanding'
+    date: Feb 2026
+    date_iso: 2026-02
+    date_display: Feb 2026
+    codebase_url: https://github.com/Jingyao-Wu/SOG
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - 0.509
+    - null
+    metric_stds:
+    - null
+    - null
+  - model: LLaMA3-3B Zero-shot
+    model_plain: LLaMA3-3B Zero-shot
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2602.01771'
+    title: '<SO$ _k$>: One LLM Token for Explicit Graph Structural Understanding'
+    date: Feb 2026
+    date_iso: 2026-02
+    date_display: Feb 2026
+    codebase_url: https://github.com/Jingyao-Wu/SOG
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - 0.499
+    - null
+    metric_stds:
+    - 0.004
+    - null
+  - model: LLaMA3-3B Soft Prompt
+    model_plain: LLaMA3-3B Soft Prompt
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2602.01771'
+    title: '<SO$ _k$>: One LLM Token for Explicit Graph Structural Understanding'
+    date: Feb 2026
+    date_iso: 2026-02
+    date_display: Feb 2026
+    codebase_url: https://github.com/Jingyao-Wu/SOG
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - 0.494
+    - null
+    metric_stds:
+    - 0.023
+    - null
+  - model: LLaMA3-3B Few-shot (Random)
+    model_plain: LLaMA3-3B Few-shot (Random)
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2602.01771'
+    title: '<SO$ _k$>: One LLM Token for Explicit Graph Structural Understanding'
+    date: Feb 2026
+    date_iso: 2026-02
+    date_display: Feb 2026
+    codebase_url: https://github.com/Jingyao-Wu/SOG
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - 0.478
+    - null
+    metric_stds:
+    - 0.018
+    - null
+  - model: Galactica-125M
+    model_plain: Galactica-125M
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2306.13089'
+    title: 'gimlet: A Unified Graph-Text Model for Instruction-Based Molecule Zero-Shot
+      Learning'
+    date: Jun 2023
+    date_iso: 2023-06
+    date_display: Jun 2023
+    codebase_url: https://github.com/zhao-ht/GIMLET
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - 0.4451
+    - null
+    metric_stds:
+    - null
+    - null
+  - model: GPT-4o
+    model_plain: GPT-4o
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2602.01771'
+    title: '<SO$ _k$>: One LLM Token for Explicit Graph Structural Understanding'
+    date: Feb 2026
+    date_iso: 2026-02
+    date_display: Feb 2026
+    codebase_url: https://github.com/Jingyao-Wu/SOG
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - 0.385
+    - null
+    metric_stds:
+    - null
+    - null
+  - model: CamS-LLaMA
+    model_plain: CamS-LLaMA
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2601.02530'
+    title: 'Multi-scale Graph Autoregressive Modeling: Molecular Property Prediction
+      via Next Token Prediction'
+    date: Jan 5, 2026
+    date_iso: '2026-01-05'
+    date_display: Jan 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.624
+    metric_stds:
+    - null
+    - null
+  - model: KPGT
+    model_plain: KPGT
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2601.02530'
+    title: 'Multi-scale Graph Autoregressive Modeling: Molecular Property Prediction
+      via Next Token Prediction'
+    date: Jan 5, 2026
+    date_iso: '2026-01-05'
+    date_display: Jan 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.633
+    metric_stds:
+    - null
+    - null
+  - model: SVM_E
+    model_plain: SVM_E
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2601.02530'
+    title: 'Multi-scale Graph Autoregressive Modeling: Molecular Property Prediction
+      via Next Token Prediction'
+    date: Jan 5, 2026
+    date_iso: '2026-01-05'
+    date_display: Jan 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.675
+    metric_stds:
+    - null
+    - null
   milestones:
-  - value: 0.8435
-    std: 0.0065
-    model: Subgraphormer
-    arxiv_id: '2402.08450'
-    title: 'Subgraphormer: Unifying Subgraph GNNs and Graph Transformers via Graph
-      Products'
-    date: '2024-02-13'
-  - value: 0.857
-    std: 0.002
-    model: Uni-Mol
-    arxiv_id: '2605.06462'
-    title: Invariant-Based Diagnostics for Graph Benchmarks
-    date: 2026-05
+  - value: 0.831
+    std: 0.007
+    model: Graphormer
+    arxiv_id: '1802.00543'
+    title: Modeling polypharmacy side effects with graph convolutional networks
+    date: '2018-02-02'
+  - value: 0.873
+    std: 0.015
+    model: ProtoS-L2
+    arxiv_id: '2006.04804'
+    title: Optimal Transport Graph Neural Networks
+    date: 2020-06
+  - value: 0.882
+    std: null
+    model: MoLFormer-XL
+    arxiv_id: '2106.09553'
+    title: How Much Structural Information Large Scale Molecular Language Representations
+      Can Capture?
+    date: 2021-06
+  - value: 0.8872
+    std: 0.0168
+    model: Context Prediction + Supervised
+    arxiv_id: '2207.06010'
+    title: Does GNN Pretraining Help Molecular Representation?
+    date: 2022-07
+  - value: 0.92
+    std: 0.022
+    model: Gode
+    arxiv_id: '2306.01631'
+    title: Bi-level Contrastive Learning for Knowledge-Enhanced Molecule Representations
+    date: 2023-06
+  - value: 0.984
+    std: 0.008
+    model: LLaMA2-7B <SO>G_k</SO>
+    arxiv_id: '2602.01771'
+    title: '<SO$ _k$>: One LLM Token for Explicit Graph Structural Understanding'
+    date: 2026-02
 ---
 

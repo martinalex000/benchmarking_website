@@ -12,13 +12,13 @@ stats:
   avg_nodes: 30561187.0
   avg_edges: null
   num_classes: null
-result_count: 19
+result_count: 81
 best_model:
-  model: GCN
-  value: 0.8474
+  model: MPLP
+  value: 0.9072
   metric: MRR
-  arxiv_id: '2005.00687'
-  paper_title: 'Open Graph Benchmark: Datasets for Machine Learning on Graphs'
+  arxiv_id: '2309.00976'
+  paper_title: Pure Message Passing Can Estimate Common Neighbor for Link Prediction
 variants:
 - slug: standard-split
   name: Standard split
@@ -32,8 +32,325 @@ variants:
     avg_edges: null
   metrics:
   - MRR
+  - Accuracy
+  - Hit@100
+  - Hits@10
   - Hits@100
   rows:
+  - model: MPLP
+    model_plain: MPLP
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2309.00976'
+    title: Pure Message Passing Can Estimate Common Neighbor for Link Prediction
+    date: Sep 2023
+    date_iso: 2023-09
+    date_display: Sep 2023
+    codebase_url: https://github.com/Barcavin/efficient-node-labelling
+    uses_external_data: false
+    is_best: true
+    metric_values:
+    - 0.9072
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0012
+    - null
+    - null
+    - null
+    - null
+  - model: NCNC
+    model_plain: NCNC
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2309.00976'
+    title: Pure Message Passing Can Estimate Common Neighbor for Link Prediction
+    date: Sep 2023
+    date_iso: 2023-09
+    date_display: Sep 2023
+    codebase_url: https://github.com/Barcavin/efficient-node-labelling
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.8912
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.004
+    - null
+    - null
+    - null
+    - null
+  - model: SEAL
+    model_plain: SEAL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2303.00170'
+    title: Asymmetric Learning for Graph Neural Network based Link Prediction
+    date: Mar 2023
+    date_iso: 2023-03
+    date_display: Mar 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.8767
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0032
+    - null
+    - null
+    - null
+    - null
+  - model: ELPH
+    model_plain: ELPH
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2309.00976'
+    title: Pure Message Passing Can Estimate Common Neighbor for Link Prediction
+    date: Sep 2023
+    date_iso: 2023-09
+    date_display: Sep 2023
+    codebase_url: https://github.com/Barcavin/efficient-node-labelling
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.8756
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0011
+    - null
+    - null
+    - null
+    - null
+  - model: BUDDY-SIGN (MLP Decoder)
+    model_plain: BUDDY-SIGN (MLP Decoder)
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2409.17475'
+    title: On the Impact of Feature Heterophily on Link Prediction with Graph Neural
+      Networks
+    date: Sep 2024
+    date_iso: 2024-09
+    date_display: Sep 2024
+    codebase_url: https://github.com/tensor-gales/HeteLinkPred
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.8753
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0012
+    - null
+    - null
+    - null
+    - null
+  - model: Neo-GNN
+    model_plain: Neo-GNN
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2206.04216'
+    title: 'Neo-GNNs: Neighborhood Overlap-aware Graph Neural Networks for Link Prediction'
+    date: Jun 2022
+    date_iso: 2022-06
+    date_display: Jun 2022
+    codebase_url: https://github.com/seongjunyun/Neo_GNNs
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.8726
+    - null
+    - null
+    - null
+    - 0.4913
+    metric_stds:
+    - 0.0084
+    - null
+    - null
+    - null
+    - 0.006
+  - model: BUDDY-GCN (MLP Decoder)
+    model_plain: BUDDY-GCN (MLP Decoder)
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2409.17475'
+    title: On the Impact of Feature Heterophily on Link Prediction with Graph Neural
+      Networks
+    date: Sep 2024
+    date_iso: 2024-09
+    date_display: Sep 2024
+    codebase_url: https://github.com/tensor-gales/HeteLinkPred
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.8705
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0004
+    - null
+    - null
+    - null
+    - null
+  - model: AML (G)
+    model_plain: AML (G)
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2303.00170'
+    title: Asymmetric Learning for Graph Neural Network based Link Prediction
+    date: Mar 2023
+    date_iso: 2023-03
+    date_display: Mar 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.867
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0005
+    - null
+    - null
+    - null
+    - null
+  - model: X-SimTeG
+    model_plain: X-SimTeG
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2308.02565'
+    title: 'SimTeG: A Frustratingly ple Approach Improves xtual raph Learning'
+    date: Aug 2023
+    date_iso: 2023-08
+    date_display: Aug 2023
+    codebase_url: https://github.com/vermouthdky/SimTeG
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.8666
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0121
+    - null
+    - null
+    - null
+    - null
+  - model: AML (S)
+    model_plain: AML (S)
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2303.00170'
+    title: Asymmetric Learning for Graph Neural Network based Link Prediction
+    date: Mar 2023
+    date_iso: 2023-03
+    date_display: Mar 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.8655
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0006
+    - null
+    - null
+    - null
+    - null
+  - model: SEAL
+    model_plain: SEAL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2206.04216'
+    title: 'Neo-GNNs: Neighborhood Overlap-aware Graph Neural Networks for Link Prediction'
+    date: Jun 2022
+    date_iso: 2022-06
+    date_display: Jun 2022
+    codebase_url: https://github.com/seongjunyun/Neo_GNNs
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.8632
+    - null
+    - null
+    - null
+    - 0.4815
+    metric_stds:
+    - 0.0052
+    - null
+    - null
+    - null
+    - 0.0417
+  - model: X-OGB
+    model_plain: X-OGB
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2308.02565'
+    title: 'SimTeG: A Frustratingly ple Approach Improves xtual raph Learning'
+    date: Aug 2023
+    date_iso: 2023-08
+    date_display: Aug 2023
+    codebase_url: https://github.com/vermouthdky/SimTeG
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.8614
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.004
+    - null
+    - null
+    - null
+    - null
   - model: GCN
     model_plain: GCN
     is_baseline: true
@@ -47,13 +364,100 @@ variants:
     date_display: May 2020
     codebase_url: https://github.com/snap-stanford/ogb
     uses_external_data: false
-    is_best: true
+    is_best: false
     metric_values:
     - 0.8474
+    - null
+    - null
+    - null
     - 0.1867
     metric_stds:
     - 0.0021
+    - null
+    - null
+    - null
     - 0.0132
+  - model: GPRGNN (MLP Decoder)
+    model_plain: GPRGNN (MLP Decoder)
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2409.17475'
+    title: On the Impact of Feature Heterophily on Link Prediction with Graph Neural
+      Networks
+    date: Sep 2024
+    date_iso: 2024-09
+    date_display: Sep 2024
+    codebase_url: https://github.com/tensor-gales/HeteLinkPred
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.8455
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0355
+    - null
+    - null
+    - null
+    - null
+  - model: SAGE (MLP Decoder)
+    model_plain: SAGE (MLP Decoder)
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2409.17475'
+    title: On the Impact of Feature Heterophily on Link Prediction with Graph Neural
+      Networks
+    date: Sep 2024
+    date_iso: 2024-09
+    date_display: Sep 2024
+    codebase_url: https://github.com/tensor-gales/HeteLinkPred
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.8367
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0007
+    - null
+    - null
+    - null
+    - null
+  - model: BUDDY-NoFeat (MLP Decoder)
+    model_plain: BUDDY-NoFeat (MLP Decoder)
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2409.17475'
+    title: On the Impact of Feature Heterophily on Link Prediction with Graph Neural
+      Networks
+    date: Sep 2024
+    date_iso: 2024-09
+    date_display: Sep 2024
+    codebase_url: https://github.com/tensor-gales/HeteLinkPred
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.8336
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0014
+    - null
+    - null
+    - null
+    - null
   - model: GraphSAGE
     model_plain: GraphSAGE
     is_baseline: true
@@ -70,10 +474,42 @@ variants:
     is_best: false
     metric_values:
     - 0.826
+    - null
+    - null
+    - null
     - 0.1655
     metric_stds:
     - 0.0036
+    - null
+    - null
+    - null
     - 0.024
+  - model: SAGE
+    model_plain: SAGE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2309.00976'
+    title: Pure Message Passing Can Estimate Common Neighbor for Link Prediction
+    date: Sep 2023
+    date_iso: 2023-09
+    date_display: Sep 2023
+    codebase_url: https://github.com/Barcavin/efficient-node-labelling
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.826
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0036
+    - null
+    - null
+    - null
+    - null
   - model: ILLS
     model_plain: ILLS
     is_baseline: false
@@ -91,8 +527,14 @@ variants:
     metric_values:
     - 0.812
     - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.001
+    - null
+    - null
+    - null
     - null
   - model: OpenGNN
     model_plain: OpenGNN
@@ -111,8 +553,14 @@ variants:
     metric_values:
     - 0.805
     - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.001
+    - null
+    - null
+    - null
     - null
   - model: Neighbor Sampling (NS)
     model_plain: Neighbor Sampling (NS)
@@ -131,8 +579,14 @@ variants:
     metric_values:
     - 0.8044
     - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.001
+    - null
+    - null
+    - null
     - null
   - model: GraphGPS
     model_plain: GraphGPS
@@ -151,8 +605,14 @@ variants:
     metric_values:
     - 0.801
     - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.002
+    - null
+    - null
+    - null
     - null
   - model: Cluster-GCN
     model_plain: Cluster-GCN
@@ -171,8 +631,14 @@ variants:
     metric_values:
     - 0.8004
     - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.0025
+    - null
+    - null
+    - null
     - null
   - model: GraphSAINT
     model_plain: GraphSAINT
@@ -191,8 +657,14 @@ variants:
     metric_values:
     - 0.7985
     - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.004
+    - null
+    - null
+    - null
     - null
   - model: SAN
     model_plain: SAN
@@ -211,8 +683,14 @@ variants:
     metric_values:
     - 0.795
     - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.002
+    - null
+    - null
+    - null
     - null
   - model: Graphtransformer
     model_plain: Graphtransformer
@@ -231,8 +709,40 @@ variants:
     metric_values:
     - 0.792
     - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.003
+    - null
+    - null
+    - null
+    - null
+  - model: DE-GNN
+    model_plain: DE-GNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2303.00170'
+    title: Asymmetric Learning for Graph Neural Network based Link Prediction
+    date: Mar 2023
+    date_iso: 2023-03
+    date_display: Mar 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7885
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0017
+    - null
+    - null
+    - null
     - null
   - model: GINE
     model_plain: GINE
@@ -251,8 +761,14 @@ variants:
     metric_values:
     - 0.788
     - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.002
+    - null
+    - null
+    - null
     - null
   - model: PNA
     model_plain: PNA
@@ -271,8 +787,14 @@ variants:
     metric_values:
     - 0.785
     - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.002
+    - null
+    - null
+    - null
     - null
   - model: GAT
     model_plain: GAT
@@ -291,8 +813,14 @@ variants:
     metric_values:
     - 0.772
     - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.004
+    - null
+    - null
+    - null
     - null
   - model: GIN
     model_plain: GIN
@@ -311,8 +839,14 @@ variants:
     metric_values:
     - 0.77
     - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.003
+    - null
+    - null
+    - null
     - null
   - model: GraphSAGE
     model_plain: GraphSAGE
@@ -331,8 +865,14 @@ variants:
     metric_values:
     - 0.768
     - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.002
+    - null
+    - null
+    - null
     - null
   - model: GCN
     model_plain: GCN
@@ -351,8 +891,173 @@ variants:
     metric_values:
     - 0.765
     - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.003
+    - null
+    - null
+    - null
+    - null
+  - model: Common Neighbors
+    model_plain: Common Neighbors
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2206.04216'
+    title: 'Neo-GNNs: Neighborhood Overlap-aware Graph Neural Networks for Link Prediction'
+    date: Jun 2022
+    date_iso: 2022-06
+    date_display: Jun 2022
+    codebase_url: https://github.com/seongjunyun/Neo_GNNs
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.762
+    - null
+    - null
+    - null
+    - 0.2765
+    metric_stds:
+    - 0.0
+    - null
+    - null
+    - null
+    - 0.0
+  - model: Resource Allocation
+    model_plain: Resource Allocation
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2206.04216'
+    title: 'Neo-GNNs: Neighborhood Overlap-aware Graph Neural Networks for Link Prediction'
+    date: Jun 2022
+    date_iso: 2022-06
+    date_display: Jun 2022
+    codebase_url: https://github.com/seongjunyun/Neo_GNNs
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.762
+    - null
+    - null
+    - null
+    - 0.4933
+    metric_stds:
+    - 0.0
+    - null
+    - null
+    - null
+    - 0.0
+  - model: Adamic Adar
+    model_plain: Adamic Adar
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2206.04216'
+    title: 'Neo-GNNs: Neighborhood Overlap-aware Graph Neural Networks for Link Prediction'
+    date: Jun 2022
+    date_iso: 2022-06
+    date_display: Jun 2022
+    codebase_url: https://github.com/seongjunyun/Neo_GNNs
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7612
+    - null
+    - null
+    - null
+    - 0.3245
+    metric_stds:
+    - 0.0
+    - null
+    - null
+    - null
+    - 0.0
+  - model: GCN (MLP Decoder)
+    model_plain: GCN (MLP Decoder)
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2409.17475'
+    title: On the Impact of Feature Heterophily on Link Prediction with Graph Neural
+      Networks
+    date: Sep 2024
+    date_iso: 2024-09
+    date_display: Sep 2024
+    codebase_url: https://github.com/tensor-gales/HeteLinkPred
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7357
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0035
+    - null
+    - null
+    - null
+    - null
+  - model: GCN (DistMult Decoder)
+    model_plain: GCN (DistMult Decoder)
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2409.17475'
+    title: On the Impact of Feature Heterophily on Link Prediction with Graph Neural
+      Networks
+    date: Sep 2024
+    date_iso: 2024-09
+    date_display: Sep 2024
+    codebase_url: https://github.com/tensor-gales/HeteLinkPred
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7288
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0189
+    - null
+    - null
+    - null
+    - null
+  - model: SAGE (DOT Decoder)
+    model_plain: SAGE (DOT Decoder)
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2409.17475'
+    title: On the Impact of Feature Heterophily on Link Prediction with Graph Neural
+      Networks
+    date: Sep 2024
+    date_iso: 2024-09
+    date_display: Sep 2024
+    codebase_url: https://github.com/tensor-gales/HeteLinkPred
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7139
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0028
+    - null
+    - null
+    - null
     - null
   - model: Node2Vec
     model_plain: Node2Vec
@@ -370,10 +1075,147 @@ variants:
     is_best: false
     metric_values:
     - 0.6141
+    - null
+    - null
+    - null
     - 0.2226
     metric_stds:
     - 0.0011
+    - null
+    - null
+    - null
     - 0.0083
+  - model: GPRGNN (DOT Decoder)
+    model_plain: GPRGNN (DOT Decoder)
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2409.17475'
+    title: On the Impact of Feature Heterophily on Link Prediction with Graph Neural
+      Networks
+    date: Sep 2024
+    date_iso: 2024-09
+    date_display: Sep 2024
+    codebase_url: https://github.com/tensor-gales/HeteLinkPred
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.5582
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0382
+    - null
+    - null
+    - null
+    - null
+  - model: Node2Vec
+    model_plain: Node2Vec
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2206.04216'
+    title: 'Neo-GNNs: Neighborhood Overlap-aware Graph Neural Networks for Link Prediction'
+    date: Jun 2022
+    date_iso: 2022-06
+    date_display: Jun 2022
+    codebase_url: https://github.com/seongjunyun/Neo_GNNs
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.5347
+    - null
+    - null
+    - null
+    - 0.1724
+    metric_stds:
+    - 0.0012
+    - null
+    - null
+    - null
+    - 0.0076
+  - model: Matrix Factorization
+    model_plain: Matrix Factorization
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2206.04216'
+    title: 'Neo-GNNs: Neighborhood Overlap-aware Graph Neural Networks for Link Prediction'
+    date: Jun 2022
+    date_iso: 2022-06
+    date_display: Jun 2022
+    codebase_url: https://github.com/seongjunyun/Neo_GNNs
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.5308
+    - null
+    - null
+    - null
+    - 0.2783
+    metric_stds:
+    - 0.0419
+    - null
+    - null
+    - null
+    - 0.0202
+  - model: RA
+    model_plain: RA
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2309.00976'
+    title: Pure Message Passing Can Estimate Common Neighbor for Link Prediction
+    date: Sep 2023
+    date_iso: 2023-09
+    date_display: Sep 2023
+    codebase_url: https://github.com/Barcavin/efficient-node-labelling
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.5198
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0
+    - null
+    - null
+    - null
+    - null
+  - model: AA
+    model_plain: AA
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2303.00170'
+    title: Asymmetric Learning for Graph Neural Network based Link Prediction
+    date: Mar 2023
+    date_iso: 2023-03
+    date_display: Mar 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.5189
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0
+    - null
+    - null
+    - null
+    - null
   - model: MatrixFactorization
     model_plain: MatrixFactorization
     is_baseline: true
@@ -390,10 +1232,121 @@ variants:
     is_best: false
     metric_values:
     - 0.5186
+    - null
+    - null
+    - null
     - 0.3229
     metric_stds:
     - 0.0443
+    - null
+    - null
+    - null
     - 0.0094
+  - model: MF
+    model_plain: MF
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2303.00170'
+    title: Asymmetric Learning for Graph Neural Network based Link Prediction
+    date: Mar 2023
+    date_iso: 2023-03
+    date_display: Mar 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.5186
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0443
+    - null
+    - null
+    - null
+    - null
+  - model: CN
+    model_plain: CN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2303.00170'
+    title: Asymmetric Learning for Graph Neural Network based Link Prediction
+    date: Mar 2023
+    date_iso: 2023-03
+    date_display: Mar 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.5147
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0
+    - null
+    - null
+    - null
+    - null
+  - model: GCN (DOT Decoder)
+    model_plain: GCN (DOT Decoder)
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2409.17475'
+    title: On the Impact of Feature Heterophily on Link Prediction with Graph Neural
+      Networks
+    date: Sep 2024
+    date_iso: 2024-09
+    date_display: Sep 2024
+    codebase_url: https://github.com/tensor-gales/HeteLinkPred
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.4038
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0152
+    - null
+    - null
+    - null
+    - null
+  - model: GPT-GNN
+    model_plain: GPT-GNN
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2006.15437'
+    title: 'GPT-GNN: Generative Pre-Training of Graph Neural Networks'
+    date: Jun 2020
+    date_iso: 2020-06
+    date_display: Jun 2020
+    codebase_url: https://github.com/acbull/GPT-GNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.309
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.081
+    - null
+    - null
+    - null
+    - null
   - model: MLP
     model_plain: MLP
     is_baseline: true
@@ -410,10 +1363,808 @@ variants:
     is_best: false
     metric_values:
     - 0.2895
+    - null
+    - null
+    - null
     - 0.46
     metric_stds:
     - 0.0014
+    - null
+    - null
+    - null
     - 0.0
+  - model: NoGNN (MLP Decoder)
+    model_plain: NoGNN (MLP Decoder)
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2409.17475'
+    title: On the Impact of Feature Heterophily on Link Prediction with Graph Neural
+      Networks
+    date: Sep 2024
+    date_iso: 2024-09
+    date_display: Sep 2024
+    codebase_url: https://github.com/tensor-gales/HeteLinkPred
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.2764
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0021
+    - null
+    - null
+    - null
+    - null
+  - model: GCN
+    model_plain: GCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2304.02806'
+    title: 'Graph Mixture of Experts: Learning on Large-Scale Graphs with Explicit
+      Diversity Modeling'
+    date: Apr 2023
+    date_iso: 2023-04
+    date_display: Apr 2023
+    codebase_url: https://github.com/VITA-Group/Graph-Mixture-of-Experts
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - null
+    - 0.1867
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - 0.0132
+  - model: GMoE-GCN
+    model_plain: GMoE-GCN
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2304.02806'
+    title: 'Graph Mixture of Experts: Learning on Large-Scale Graphs with Explicit
+      Diversity Modeling'
+    date: Apr 2023
+    date_iso: 2023-04
+    date_display: Apr 2023
+    codebase_url: https://github.com/VITA-Group/Graph-Mixture-of-Experts
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - null
+    - 0.1925
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - 0.0167
+  - model: JK-Net
+    model_plain: JK-Net
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2206.04216'
+    title: 'Neo-GNNs: Neighborhood Overlap-aware Graph Neural Networks for Link Prediction'
+    date: Jun 2022
+    date_iso: 2022-06
+    date_display: Jun 2022
+    codebase_url: https://github.com/seongjunyun/Neo_GNNs
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - null
+    - 0.114
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - 0.0204
+  - model: RSGDA
+    model_plain: RSGDA
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2602.07573'
+    title: Graph Domain Adaptation via Homophily-Agnostic Reconstructing Structure
+    date: Feb 2026
+    date_iso: 2026-02
+    date_display: Feb 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.812
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: GCN
+    model_plain: GCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2602.07573'
+    title: Graph Domain Adaptation via Homophily-Agnostic Reconstructing Structure
+    date: Feb 2026
+    date_iso: 2026-02
+    date_display: Feb 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.632
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: DAGNN
+    model_plain: DAGNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2602.07573'
+    title: Graph Domain Adaptation via Homophily-Agnostic Reconstructing Structure
+    date: Feb 2026
+    date_iso: 2026-02
+    date_display: Feb 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.488
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: DANE
+    model_plain: DANE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2602.07573'
+    title: Graph Domain Adaptation via Homophily-Agnostic Reconstructing Structure
+    date: Feb 2026
+    date_iso: 2026-02
+    date_display: Feb 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.664
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: DAGCN
+    model_plain: DAGCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2602.07573'
+    title: Graph Domain Adaptation via Homophily-Agnostic Reconstructing Structure
+    date: Feb 2026
+    date_iso: 2026-02
+    date_display: Feb 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.684
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: ASN
+    model_plain: ASN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2602.07573'
+    title: Graph Domain Adaptation via Homophily-Agnostic Reconstructing Structure
+    date: Feb 2026
+    date_iso: 2026-02
+    date_display: Feb 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.729
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: EGI
+    model_plain: EGI
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2602.07573'
+    title: Graph Domain Adaptation via Homophily-Agnostic Reconstructing Structure
+    date: Feb 2026
+    date_iso: 2026-02
+    date_display: Feb 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.647
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: GRADE-N
+    model_plain: GRADE-N
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2602.07573'
+    title: Graph Domain Adaptation via Homophily-Agnostic Reconstructing Structure
+    date: Feb 2026
+    date_iso: 2026-02
+    date_display: Feb 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.701
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: JHGDA
+    model_plain: JHGDA
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2602.07573'
+    title: Graph Domain Adaptation via Homophily-Agnostic Reconstructing Structure
+    date: Feb 2026
+    date_iso: 2026-02
+    date_display: Feb 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.791
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: SpecReg
+    model_plain: SpecReg
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2602.07573'
+    title: Graph Domain Adaptation via Homophily-Agnostic Reconstructing Structure
+    date: Feb 2026
+    date_iso: 2026-02
+    date_display: Feb 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.762
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: PA
+    model_plain: PA
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2602.07573'
+    title: Graph Domain Adaptation via Homophily-Agnostic Reconstructing Structure
+    date: Feb 2026
+    date_iso: 2026-02
+    date_display: Feb 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.752
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: GCN
+    model_plain: GCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2201.02534'
+    title: 'MGAE: Masked Autoencoders for Self-Supervised Learning on Graphs'
+    date: Jan 2022
+    date_iso: 2022-01
+    date_display: Jan 2022
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - 0.0252
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - 0.004699999999999999
+    - null
+  - model: GraphSAGE
+    model_plain: GraphSAGE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2201.02534'
+    title: 'MGAE: Masked Autoencoders for Self-Supervised Learning on Graphs'
+    date: Jan 2022
+    date_iso: 2022-01
+    date_display: Jan 2022
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - 0.0187
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - 0.0067
+    - null
+  - model: ARGE
+    model_plain: ARGE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2201.02534'
+    title: 'MGAE: Masked Autoencoders for Self-Supervised Learning on Graphs'
+    date: Jan 2022
+    date_iso: 2022-01
+    date_display: Jan 2022
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - 0.41
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - 0.26
+    - null
+  - model: SelfTask-GNN
+    model_plain: SelfTask-GNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2201.02534'
+    title: 'MGAE: Masked Autoencoders for Self-Supervised Learning on Graphs'
+    date: Jan 2022
+    date_iso: 2022-01
+    date_display: Jan 2022
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - 0.65
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - 0.3
+    - null
+  - model: MGAE-GCN
+    model_plain: MGAE-GCN
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2201.02534'
+    title: 'MGAE: Masked Autoencoders for Self-Supervised Learning on Graphs'
+    date: Jan 2022
+    date_iso: 2022-01
+    date_display: Jan 2022
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - 0.0398
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - 0.013300000000000001
+    - null
+  - model: MGAE-SAGE
+    model_plain: MGAE-SAGE
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2201.02534'
+    title: 'MGAE: Masked Autoencoders for Self-Supervised Learning on Graphs'
+    date: Jan 2022
+    date_iso: 2022-01
+    date_display: Jan 2022
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - 0.0137
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - 0.0038
+    - null
+  - model: GAE
+    model_plain: GAE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2212.12488'
+    title: 'Bring Your Own View: Graph Neural Networks for Link Prediction with Personalized
+      Subgraph Selection'
+    date: Dec 2022
+    date_iso: 2022-12
+    date_display: Dec 2022
+    codebase_url: https://github.com/qiaoyu-tan/PS2
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - 0.1867
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - 0.0132
+    - null
+    - null
+  - model: GAE-RS
+    model_plain: GAE-RS
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2212.12488'
+    title: 'Bring Your Own View: Graph Neural Networks for Link Prediction with Personalized
+      Subgraph Selection'
+    date: Dec 2022
+    date_iso: 2022-12
+    date_display: Dec 2022
+    codebase_url: https://github.com/qiaoyu-tan/PS2
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - 0.1265
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - 0.0122
+    - null
+    - null
+  - model: GAE-PS2
+    model_plain: GAE-PS2
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2212.12488'
+    title: 'Bring Your Own View: Graph Neural Networks for Link Prediction with Personalized
+      Subgraph Selection'
+    date: Dec 2022
+    date_iso: 2022-12
+    date_display: Dec 2022
+    codebase_url: https://github.com/qiaoyu-tan/PS2
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - 0.205
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - 0.0079
+    - null
+    - null
+  - model: GraphSAGE
+    model_plain: GraphSAGE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2212.12488'
+    title: 'Bring Your Own View: Graph Neural Networks for Link Prediction with Personalized
+      Subgraph Selection'
+    date: Dec 2022
+    date_iso: 2022-12
+    date_display: Dec 2022
+    codebase_url: https://github.com/qiaoyu-tan/PS2
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - 0.1655
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - 0.024
+    - null
+    - null
+  - model: GraphSAGE + HR
+    model_plain: GraphSAGE + HR
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2212.12488'
+    title: 'Bring Your Own View: Graph Neural Networks for Link Prediction with Personalized
+      Subgraph Selection'
+    date: Dec 2022
+    date_iso: 2022-12
+    date_display: Dec 2022
+    codebase_url: https://github.com/qiaoyu-tan/PS2
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - 0.0989
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - 0.0346
+    - null
+    - null
+  - model: GraphSage-PS2
+    model_plain: GraphSage-PS2
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2212.12488'
+    title: 'Bring Your Own View: Graph Neural Networks for Link Prediction with Personalized
+      Subgraph Selection'
+    date: Dec 2022
+    date_iso: 2022-12
+    date_display: Dec 2022
+    codebase_url: https://github.com/qiaoyu-tan/PS2
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - 0.1788
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - 0.0133
+    - null
+    - null
+  - model: SEAL
+    model_plain: SEAL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2212.12488'
+    title: 'Bring Your Own View: Graph Neural Networks for Link Prediction with Personalized
+      Subgraph Selection'
+    date: Dec 2022
+    date_iso: 2022-12
+    date_display: Dec 2022
+    codebase_url: https://github.com/qiaoyu-tan/PS2
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - 0.488
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - 0.0316
+    - null
+    - null
+  - model: SEAL-RS
+    model_plain: SEAL-RS
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2212.12488'
+    title: 'Bring Your Own View: Graph Neural Networks for Link Prediction with Personalized
+      Subgraph Selection'
+    date: Dec 2022
+    date_iso: 2022-12
+    date_display: Dec 2022
+    codebase_url: https://github.com/qiaoyu-tan/PS2
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - 0.3568
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - 0.0521
+    - null
+    - null
+  - model: SEAL-PS2
+    model_plain: SEAL-PS2
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2212.12488'
+    title: 'Bring Your Own View: Graph Neural Networks for Link Prediction with Personalized
+      Subgraph Selection'
+    date: Dec 2022
+    date_iso: 2022-12
+    date_display: Dec 2022
+    codebase_url: https://github.com/qiaoyu-tan/PS2
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - 0.5025
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - 0.0233
+    - null
+    - null
   milestones:
   - value: 0.8474
     std: 0.0021
@@ -421,5 +2172,23 @@ variants:
     arxiv_id: '2005.00687'
     title: 'Open Graph Benchmark: Datasets for Machine Learning on Graphs'
     date: 2020-05
+  - value: 0.8726
+    std: 0.0084
+    model: Neo-GNN
+    arxiv_id: '2206.04216'
+    title: 'Neo-GNNs: Neighborhood Overlap-aware Graph Neural Networks for Link Prediction'
+    date: 2022-06
+  - value: 0.8767
+    std: 0.0032
+    model: SEAL
+    arxiv_id: '2303.00170'
+    title: Asymmetric Learning for Graph Neural Network based Link Prediction
+    date: 2023-03
+  - value: 0.9072
+    std: 0.0012
+    model: MPLP
+    arxiv_id: '2309.00976'
+    title: Pure Message Passing Can Estimate Common Neighbor for Link Prediction
+    date: 2023-09
 ---
 

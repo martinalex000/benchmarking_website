@@ -12,7 +12,7 @@ stats:
   avg_nodes: null
   avg_edges: null
   num_classes: 11
-result_count: 101
+result_count: 114
 best_model:
   model: Tango_GPS
   value: 0.2422
@@ -127,6 +127,24 @@ variants:
     - 0.2447
     metric_stds:
     - 0.0032
+  - model: GRIT-SPSE
+    model_plain: GRIT-SPSE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2502.09365'
+    title: Simple Path Structural Encoding for Graph Transformers
+    date: Feb 13, 2025
+    date_iso: '2025-02-13'
+    date_display: Feb 2025
+    codebase_url: https://github.com/LouisBearing/Graph-SPSE-Encoding
+    uses_external_data: false
+    is_best: true
+    metric_values:
+    - 0.2449
+    metric_stds:
+    - 0.0018
   - model: Graph-ViT
     model_plain: Graph-ViT
     is_baseline: true
@@ -164,6 +182,25 @@ variants:
     - 0.245
     metric_stds:
     - null
+  - model: GTs
+    model_plain: GTs
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2509.14863'
+    title: 'Exploring the Global-to-Local Attention Scheme in Graph Transformers:
+      An Empirical Study'
+    date: Sep 2025
+    date_iso: 2025-09
+    date_display: Sep 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: true
+    metric_values:
+    - 0.245
+    metric_stds:
+    - 0.0019
   - model: Tango_GatedGCN
     model_plain: Tango_GatedGCN
     is_baseline: false
@@ -312,6 +349,43 @@ variants:
     - 0.246
     metric_stds:
     - 0.0012
+  - model: FragNet
+    model_plain: FragNet
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2406.08210'
+    title: arXiv:2406.08210
+    date: Jun 2024
+    date_iso: 2024-06
+    date_display: Jun 2024
+    codebase_url: ''
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - 0.2462
+    metric_stds:
+    - 0.0021
+  - model: GECO
+    model_plain: GECO
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2509.14863'
+    title: 'Exploring the Global-to-Local Attention Scheme in Graph Transformers:
+      An Empirical Study'
+    date: Sep 2025
+    date_iso: 2025-09
+    date_display: Sep 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.2464
+    metric_stds:
+    - 0.0009
   - model: PH-DGN
     model_plain: PH-DGN
     is_baseline: true
@@ -447,7 +521,7 @@ variants:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: null
+    params_millions: 0.293
     arxiv_id: '2402.08450'
     title: 'Subgraphormer: Unifying Subgraph GNNs and Graph Transformers via Graph
       Products'
@@ -591,6 +665,24 @@ variants:
     - 0.248
     metric_stds:
     - null
+  - model: GRIT-RWSE
+    model_plain: GRIT-RWSE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2502.09365'
+    title: Simple Path Structural Encoding for Graph Transformers
+    date: Feb 13, 2025
+    date_iso: '2025-02-13'
+    date_display: Feb 2025
+    codebase_url: https://github.com/LouisBearing/Graph-SPSE-Encoding
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.248
+    metric_stds:
+    - 0.0025
   - model: Exphormer
     model_plain: Exphormer
     is_baseline: false
@@ -609,6 +701,24 @@ variants:
     - 0.2481
     metric_stds:
     - 0.0007
+  - model: CSA-SPSE
+    model_plain: CSA-SPSE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2502.09365'
+    title: Simple Path Structural Encoding for Graph Transformers
+    date: Feb 13, 2025
+    date_iso: '2025-02-13'
+    date_display: Feb 2025
+    codebase_url: https://github.com/LouisBearing/Graph-SPSE-Encoding
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.2482
+    metric_stds:
+    - 0.0019
   - model: SGT
     model_plain: SGT
     is_baseline: false
@@ -665,6 +775,24 @@ variants:
     - 0.2485
     metric_stds:
     - 0.0009
+  - model: CSA-RWSE
+    model_plain: CSA-RWSE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2502.09365'
+    title: Simple Path Structural Encoding for Graph Transformers
+    date: Feb 13, 2025
+    date_iso: '2025-02-13'
+    date_display: Feb 2025
+    codebase_url: https://github.com/LouisBearing/Graph-SPSE-Encoding
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.2486
+    metric_stds:
+    - 0.0012
   - model: MGT + LapPE
     model_plain: MGT + LapPE
     is_baseline: true
@@ -816,7 +944,7 @@ variants:
     is_baseline: false
     is_overridden: false
     override_reason: ''
-    params_millions: null
+    params_millions: 0.5
     arxiv_id: '2312.01538'
     title: Recurrent Distance Filtering for Graph Representation Learning
     date: Dec 3, 2023
@@ -847,78 +975,42 @@ variants:
     - 0.2503
     metric_stds:
     - 0.0016
-<<<<<<< Updated upstream
-  - model: GCN
-    model_plain: GCN
-=======
+  - model: HIMP
+    model_plain: HIMP
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2406.08210'
+    title: arXiv:2406.08210
+    date: Jun 2024
+    date_iso: 2024-06
+    date_display: Jun 2024
+    codebase_url: ''
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - 0.2503
+    metric_stds:
+    - 0.0008
   - model: CRaWl
     model_plain: CRaWl
->>>>>>> Stashed changes
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-<<<<<<< Updated upstream
-    arxiv_id: '2501.03113'
-    title: 'Balancing Efficiency and Expressiveness: Subgraph GNNs with Walk-Based
-      Centrality'
-    date: Jan 2025
-    date_iso: 2025-01
-    date_display: Jan 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.2505
-    metric_stds:
-    - 0.0023
-  - model: GPS+Hodge1Lap
-    model_plain: GPS+Hodge1Lap
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2310.19285'
-    title: Facilitating Graph Neural Networks with Random Walk on Simplicial Complexes
-    date: Oct 2023
-    date_iso: 2023-10
-    date_display: Oct 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.2505
-    metric_stds:
-    - 0.0014
-  - model: GPSE + GPS
-    model_plain: GPSE + GPS
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2502.09365'
-    title: Simple Path Structural Encoding for Graph Transformers
-    date: Feb 13, 2025
-    date_iso: '2025-02-13'
-    date_display: Feb 2025
-=======
     arxiv_id: '2605.06462'
     title: Invariant-Based Diagnostics for Graph Benchmarks
     date: May 2026
     date_iso: 2026-05
     date_display: May 2026
->>>>>>> Stashed changes
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
     - 0.2506
     metric_stds:
-<<<<<<< Updated upstream
-    - 0.001
-=======
     - 0.0022
->>>>>>> Stashed changes
   - model: DEFT
     model_plain: DEFT
     is_baseline: true
@@ -936,67 +1028,44 @@ variants:
     metric_values:
     - 0.2506
     metric_stds:
-<<<<<<< Updated upstream
-    - 0.13
-  - model: CRaWl
-    model_plain: CRaWl
-    is_baseline: false
+    - 0.0013
+  - model: GPS + GPSE
+    model_plain: GPS + GPSE
+    is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2102.08786'
-    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
-      Passing'
-    date: Feb 2021
-    date_iso: 2021-02
-    date_display: Feb 2021
-    codebase_url: https://github.com/toenshoff/CRaWl
+    arxiv_id: '2502.09365'
+    title: Simple Path Structural Encoding for Graph Transformers
+    date: Feb 13, 2025
+    date_iso: '2025-02-13'
+    date_display: Feb 2025
+    codebase_url: https://github.com/LouisBearing/Graph-SPSE-Encoding
     uses_external_data: false
     is_best: false
     metric_values:
     - 0.2506
     metric_stds:
-    - 0.0022
-  - model: GatedGCN+PE-Mixer
-    model_plain: GatedGCN+PE-Mixer
+    - 0.001
+  - model: GPS + Mamba
+    model_plain: GPS + Mamba
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2405.13526'
-    title: 'Understanding Virtual Nodes: Oversquashing and Node Heterogeneity'
-    date: May 2024
-    date_iso: 2024-05
-    date_display: May 2024
+    arxiv_id: '2509.14863'
+    title: 'Exploring the Global-to-Local Attention Scheme in Graph Transformers:
+      An Empirical Study'
+    date: Sep 2025
+    date_iso: 2025-09
+    date_display: Sep 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.2508
+    - 0.2518
     metric_stds:
-    - 0.0007
-  - model: Graph transformer
-    model_plain: Graph transformer
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2604.03815'
-    title: k-Maximum Inner Product Attention for Graph Transformers and the Expressive
-      Power of GraphGPS
-    date: Apr 2026
-    date_iso: 2026-04
-    date_display: Apr 2026
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.2509
-    metric_stds:
-    - 0.0014
-=======
-    - 0.0013
->>>>>>> Stashed changes
+    - 0.0012
   - model: GPS
     model_plain: GPS
     is_baseline: true
@@ -1021,87 +1090,54 @@ variants:
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2506.07624'
-    title: 'Return of ChebNet: Understanding and Improving an Overlooked GNN on Long-Range
-      Tasks'
-    date: Jun 2025
-    date_iso: 2025-06
-    date_display: Jun 2025
-    codebase_url: https://github.com/ahariri13/Stable-ChebNet
+    arxiv_id: '2406.08210'
+    title: arXiv:2406.08210
+    date: Jun 2024
+    date_iso: 2024-06
+    date_display: Jun 2024
+    codebase_url: ''
     uses_external_data: null
     is_best: false
     metric_values:
     - 0.2523
     metric_stds:
     - 0.0013
+  - model: MPNN
+    model_plain: MPNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2510.08450'
+    title: ': Mitigating by Increasing Storage Capacity'
+    date: Oct 2025
+    date_iso: 2025-10
+    date_display: Oct 2025
+    codebase_url: https://github.com/HughBlayney/gLSTM
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.2527
+    metric_stds:
+    - 0.0015
   - model: Transformer+LapPE
     model_plain: Transformer+LapPE
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-<<<<<<< Updated upstream
-    arxiv_id: '2206.08164'
-    title: LRGB
-    date: Jun 2022
-    date_iso: 2022-06
-    date_display: Jun 2022
-    codebase_url: https://github.com/vijaydwivedi75/lrgb
-=======
     arxiv_id: '2205.12454'
     title: Recipe for a General, Powerful, Scalable Graph Transformer
     date: May 2022
     date_iso: 2022-05
     date_display: May 2022
     codebase_url: https://github.com/rampasek/GraphGPS
->>>>>>> Stashed changes
     uses_external_data: false
     is_best: false
     metric_values:
     - 0.2529
     metric_stds:
     - 0.0016
-<<<<<<< Updated upstream
-  - model: GatedGCN+RWSE
-    model_plain: GatedGCN+RWSE
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2409.19117'
-    title: 'Range-aware Positional Encoding via High-order Pretraining: Theory and
-      Practice'
-    date: Sep 2024
-    date_iso: 2024-09
-    date_display: Sep 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.2529
-    metric_stds:
-    - 0.0009
-  - model: A_3(connected)
-    model_plain: A_3(connected)
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2404.03380'
-    title: On the Theoretical Expressive Power and the Design Space of Higher-Order
-      Graph Transformers
-    date: Apr 4, 2024
-    date_iso: '2024-04-04'
-    date_display: Apr 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.2529
-    metric_stds:
-    - 0.0023
-=======
->>>>>>> Stashed changes
   - model: Transf.+LapPE
     model_plain: Transf.+LapPE
     is_baseline: true
@@ -1121,121 +1157,6 @@ variants:
     - 0.2529
     metric_stds:
     - 0.0016
-<<<<<<< Updated upstream
-  - model: GT
-    model_plain: GT
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2308.11129'
-    title: Enhancing Graph Transformers with Hierarchical Distance Structural Encoding
-    date: Aug 2023
-    date_iso: 2023-08
-    date_display: Aug 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.2529
-    metric_stds:
-    - 0.0016
-  - model: Transformer
-    model_plain: Transformer
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2102.08786'
-    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
-      Passing'
-    date: Feb 2021
-    date_iso: 2021-02
-    date_display: Feb 2021
-    codebase_url: https://github.com/toenshoff/CRaWl
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.2529
-    metric_stds:
-    - 0.0016
-  - model: GAT
-    model_plain: GAT
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2401.01233'
-    title: 'GEN: A Practical Alternative to Graph Transformers for Long-Range Graph
-      Modeling'
-    date: Jan 2024
-    date_iso: 2024-01
-    date_display: Jan 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.253
-    metric_stds:
-    - 0.001
-  - model: GPS (20-LAPE)
-    model_plain: GPS (20-LAPE)
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2502.09570'
-    title: Enhancing the Utility of Higher-Order Information in Relational Learning
-    date: Feb 2025
-    date_iso: 2025-02
-    date_display: Feb 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.253
-    metric_stds:
-    - 0.003
-  - model: Drew-GIN
-    model_plain: Drew-GIN
-    is_baseline: true
-    is_overridden: true
-    override_reason: Peptides-struct MAE was reported on a x100 scale in extraction;
-      corrected to the benchmark scale.
-    params_millions: null
-    arxiv_id: '2410.23686'
-    title: Towards Dynamic Message Passing on Graphs
-    date: Oct 2024
-    date_iso: 2024-10
-    date_display: Oct 2024
-    codebase_url: ''
-    uses_external_data: null
-    is_best: false
-    metric_values:
-    - 0.2536
-    metric_stds:
-    - null
-  - model: DRew-GCN+LapPE
-    model_plain: DRew-GCN+LapPE
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2409.19117'
-    title: 'Range-aware Positional Encoding via High-order Pretraining: Theory and
-      Practice'
-    date: Sep 2024
-    date_iso: 2024-09
-    date_display: Sep 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.2536
-    metric_stds:
-    - 0.0015
-=======
->>>>>>> Stashed changes
   - model: DRew+LapPE
     model_plain: DRew+LapPE
     is_baseline: true
@@ -1279,12 +1200,12 @@ variants:
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2605.06462'
-    title: Invariant-Based Diagnostics for Graph Benchmarks
-    date: May 2026
-    date_iso: 2026-05
-    date_display: May 2026
-    codebase_url: ''
+    arxiv_id: '2502.09365'
+    title: Simple Path Structural Encoding for Graph Transformers
+    date: Feb 13, 2025
+    date_iso: '2025-02-13'
+    date_display: Feb 2025
+    codebase_url: https://github.com/LouisBearing/Graph-SPSE-Encoding
     uses_external_data: false
     is_best: false
     metric_values:
@@ -1370,21 +1291,12 @@ variants:
     is_overridden: false
     override_reason: ''
     params_millions: null
-<<<<<<< Updated upstream
-    arxiv_id: '2206.08164'
-    title: LRGB
-    date: Jun 2022
-    date_iso: 2022-06
-    date_display: Jun 2022
-    codebase_url: https://github.com/vijaydwivedi75/lrgb
-=======
     arxiv_id: '2205.12454'
     title: Recipe for a General, Powerful, Scalable Graph Transformer
     date: May 2022
     date_iso: 2022-05
     date_display: May 2022
     codebase_url: https://github.com/rampasek/GraphGPS
->>>>>>> Stashed changes
     uses_external_data: false
     is_best: false
     metric_values:
@@ -1397,15 +1309,6 @@ variants:
     is_overridden: false
     override_reason: ''
     params_millions: null
-<<<<<<< Updated upstream
-    arxiv_id: '2102.08786'
-    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
-      Passing'
-    date: Feb 2021
-    date_iso: 2021-02
-    date_display: Feb 2021
-    codebase_url: https://github.com/toenshoff/CRaWl
-=======
     arxiv_id: '2502.00282'
     title: 'GraphMinNet: Learning Dependencies in Graphs with Light Complexity Minimal
       Architecture'
@@ -1413,7 +1316,6 @@ variants:
     date_iso: '2025-02-01'
     date_display: Feb 2025
     codebase_url: ''
->>>>>>> Stashed changes
     uses_external_data: false
     is_best: false
     metric_values:
@@ -1494,6 +1396,24 @@ variants:
     - 0.257
     metric_stds:
     - 0.0006
+  - model: kGCN-SSM
+    model_plain: kGCN-SSM
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2510.08450'
+    title: ': Mitigating by Increasing Storage Capacity'
+    date: Oct 2025
+    date_iso: 2025-10
+    date_display: Oct 2025
+    codebase_url: https://github.com/HughBlayney/gLSTM
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.2581
+    metric_stds:
+    - 0.0003
   - model: WaveNet
     model_plain: WaveNet
     is_baseline: true
@@ -1644,27 +1564,6 @@ variants:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-<<<<<<< Updated upstream
-    params_millions: null
-    arxiv_id: '2206.08164'
-    title: LRGB
-    date: Jun 2022
-    date_iso: 2022-06
-    date_display: Jun 2022
-    codebase_url: https://github.com/vijaydwivedi75/lrgb
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.2683
-    metric_stds:
-    - 0.0043
-  - model: SAT
-    model_plain: SAT
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-=======
->>>>>>> Stashed changes
     params_millions: null
     arxiv_id: '2205.12454'
     title: Recipe for a General, Powerful, Scalable Graph Transformer
@@ -1860,6 +1759,24 @@ variants:
     - 0.2851
     metric_stds:
     - 0.0012
+  - model: DBGNN
+    model_plain: DBGNN
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.127
+    arxiv_id: '2407.12419'
+    title: arXiv:2407.12419
+    date: Jul 2024
+    date_iso: 2024-07
+    date_display: Jul 2024
+    codebase_url: https://github.com/PIK-ICoNe/DBGNN_paper-companion.git
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.2864
+    metric_stds:
+    - 0.0046
   - model: A-DGN
     model_plain: A-DGN
     is_baseline: true
@@ -1976,211 +1893,18 @@ variants:
     is_overridden: false
     override_reason: ''
     params_millions: null
-<<<<<<< Updated upstream
-    arxiv_id: '2206.08164'
-    title: LRGB
-    date: Jun 2022
-    date_iso: 2022-06
-    date_display: Jun 2022
-    codebase_url: https://github.com/vijaydwivedi75/lrgb
-=======
     arxiv_id: '2205.12454'
     title: Recipe for a General, Powerful, Scalable Graph Transformer
     date: May 2022
     date_iso: 2022-05
     date_display: May 2022
     codebase_url: https://github.com/rampasek/GraphGPS
->>>>>>> Stashed changes
     uses_external_data: false
     is_best: false
     metric_values:
     - 0.3357
     metric_stds:
     - 0.0006
-<<<<<<< Updated upstream
-  - model: GatedGCN+LapPE
-    model_plain: GatedGCN+LapPE
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2310.02156'
-    title: Probabilistically Rewired Message-Passing Neural Networks
-    date: Oct 2023
-    date_iso: 2023-10
-    date_display: Oct 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.3357
-    metric_stds:
-    - 0.0006
-  - model: GatedGCN+GPSE
-    model_plain: GatedGCN+GPSE
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2310.02156'
-    title: Probabilistically Rewired Message-Passing Neural Networks
-    date: Oct 2023
-    date_iso: 2023-10
-    date_display: Oct 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.3357
-    metric_stds:
-    - 0.0006
-  - model: GatedGCN
-    model_plain: GatedGCN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2102.08786'
-    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
-      Passing'
-    date: Feb 2021
-    date_iso: 2021-02
-    date_display: Feb 2021
-    codebase_url: https://github.com/toenshoff/CRaWl
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.3357
-    metric_stds:
-    - 0.0006
-  - model: GINE + LapPE
-    model_plain: GINE + LapPE
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2310.07430'
-    title: Non-backtracking Graph Neural Networks
-    date: Oct 2023
-    date_iso: 2023-10
-    date_display: Oct 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.3369
-    metric_stds:
-    - 0.0026
-  - model: BORF
-    model_plain: BORF
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2310.01668'
-    title: Locality-Aware Graph Rewiring in GNNs
-    date: Oct 2023
-    date_iso: 2023-10
-    date_display: Oct 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.3374
-    metric_stds:
-    - 0.0011
-  - model: Random
-    model_plain: Random
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2310.01668'
-    title: Locality-Aware Graph Rewiring in GNNs
-    date: Oct 2023
-    date_iso: 2023-10
-    date_display: Oct 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.3382
-    metric_stds:
-    - 0.0019
-  - model: GT+MoSE_S
-    model_plain: GT+MoSE_S
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2410.18676'
-    title: Homomorphism Counts as Structural Encodings for Graph Learning
-    date: Oct 2024
-    date_iso: 2024-10
-    date_display: Oct 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.339
-    metric_stds:
-    - 0.007
-  - model: GIN-SDRF-R
-    model_plain: GIN-SDRF-R
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2310.01668'
-    title: Locality-Aware Graph Rewiring in GNNs
-    date: Oct 2023
-    date_iso: 2023-10
-    date_display: Oct 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.3394
-    metric_stds:
-    - 0.0012
-  - model: SDRF
-    model_plain: SDRF
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2310.01668'
-    title: Locality-Aware Graph Rewiring in GNNs
-    date: Oct 2023
-    date_iso: 2023-10
-    date_display: Oct 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.3404
-    metric_stds:
-    - 0.0015
-  - model: SAGE-SDRF-R
-    model_plain: SAGE-SDRF-R
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2310.01668'
-    title: Locality-Aware Graph Rewiring in GNNs
-    date: Oct 2023
-    date_iso: 2023-10
-    date_display: Oct 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.3408
-    metric_stds:
-    - 0.0011
-=======
->>>>>>> Stashed changes
   - model: GRAND
     model_plain: GRAND
     is_baseline: true
@@ -2206,21 +1930,12 @@ variants:
     is_overridden: false
     override_reason: ''
     params_millions: null
-<<<<<<< Updated upstream
-    arxiv_id: '2206.08164'
-    title: LRGB
-    date: Jun 2022
-    date_iso: 2022-06
-    date_display: Jun 2022
-    codebase_url: https://github.com/vijaydwivedi75/lrgb
-=======
     arxiv_id: '2205.12454'
     title: Recipe for a General, Powerful, Scalable Graph Transformer
     date: May 2022
     date_iso: 2022-05
     date_display: May 2022
     codebase_url: https://github.com/rampasek/GraphGPS
->>>>>>> Stashed changes
     uses_external_data: false
     is_best: false
     metric_values:
@@ -2245,260 +1960,26 @@ variants:
     - 0.3471
     metric_stds:
     - 0.001
-<<<<<<< Updated upstream
-  - model: GCN2
-    model_plain: GCN2
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2412.01519'
-    title: 'ReHub: Linear Complexity Graph Transformers with Adaptive Hub-Spoke Reassignment'
-    date: Dec 2024
-    date_iso: 2024-12
-    date_display: Dec 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.3471
-    metric_stds:
-    - 0.001
-  - model: GCN + FoSR
-    model_plain: GCN + FoSR
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2406.03671'
-    title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
-    date: Jun 6, 2024
-    date_iso: '2024-06-06'
-    date_display: Jun 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.3473
-    metric_stds:
-    - 0.0007
-  - model: GCN + SDRF
-    model_plain: GCN + SDRF
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2406.03671'
-    title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
-    date: Jun 6, 2024
-    date_iso: '2024-06-06'
-    date_display: Jun 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.3478
-    metric_stds:
-    - 0.0013
-  - model: SAGE
-    model_plain: SAGE
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2310.01668'
-    title: Locality-Aware Graph Rewiring in GNNs
-    date: Oct 2023
-    date_iso: 2023-10
-    date_display: Oct 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.348
-    metric_stds:
-    - 0.0007
-  - model: GIN
-    model_plain: GIN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2310.01668'
-    title: Locality-Aware Graph Rewiring in GNNs
-    date: Oct 2023
-    date_iso: 2023-10
-    date_display: Oct 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.3493
-    metric_stds:
-    - 0.0007
-  - model: None
-    model_plain: None
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2310.01668'
-    title: Locality-Aware Graph Rewiring in GNNs
-    date: Oct 2023
-    date_iso: 2023-10
-    date_display: Oct 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.3496
-    metric_stds:
-    - 0.0013
-=======
->>>>>>> Stashed changes
   - model: GCN
     model_plain: GCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-<<<<<<< Updated upstream
-    arxiv_id: '2102.08786'
-    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
-      Passing'
-    date: Feb 2021
-    date_iso: 2021-02
-    date_display: Feb 2021
-    codebase_url: https://github.com/toenshoff/CRaWl
-=======
     arxiv_id: '2205.12454'
     title: Recipe for a General, Powerful, Scalable Graph Transformer
     date: May 2022
     date_iso: 2022-05
     date_display: May 2022
     codebase_url: https://github.com/rampasek/GraphGPS
->>>>>>> Stashed changes
     uses_external_data: false
     is_best: false
     metric_values:
     - 0.3496
     metric_stds:
     - 0.0013
-<<<<<<< Updated upstream
-  - model: SEP
-    model_plain: SEP
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2501.09821'
-    title: 'bnpool: Bayesian Nonparametric Pooling for Graphs'
-    date: Jan 2025
-    date_iso: 2025-01
-    date_display: Jan 2025
-    codebase_url: ''
-    uses_external_data: null
-    is_best: false
-    metric_values:
-    - 0.35
-    metric_stds:
-    - 0.002
-  - model: GAT
-    model_plain: GAT
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2310.01668'
-    title: Locality-Aware Graph Rewiring in GNNs
-    date: Oct 2023
-    date_iso: 2023-10
-    date_display: Oct 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.3506
-    metric_stds:
-    - 0.0011
-  - model: GCN + BORF
-    model_plain: GCN + BORF
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2406.03671'
-    title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
-    date: Jun 6, 2024
-    date_iso: '2024-06-06'
-    date_display: Jun 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.3514
-    metric_stds:
-    - 0.0009
-  - model: GCN (LCP)
-    model_plain: GCN (LCP)
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2311.14864'
-    title: Effective Structural Encodings via Local Curvature Profiles
-    date: Nov 2023
-    date_iso: 2023-11
-    date_display: Nov 2023
-    codebase_url: ''
-    uses_external_data: null
-    is_best: false
-    metric_values:
-    - 0.352
-    metric_stds:
-    - 0.017
-  - model: Baseline
-    model_plain: Baseline
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2307.09660'
-    title: Neural Priority Queues for Graph Neural Networks
-    date: Jul 18, 2023
-    date_iso: '2023-07-18'
-    date_display: Jul 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.353
-    metric_stds:
-    - 0.0019
-  - model: GCN (RW)
-    model_plain: GCN (RW)
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2311.14864'
-    title: Effective Structural Encodings via Local Curvature Profiles
-    date: Nov 2023
-    date_iso: 2023-11
-    date_display: Nov 2023
-    codebase_url: ''
-    uses_external_data: null
-    is_best: false
-    metric_values:
-    - 0.354
-    metric_stds:
-    - 0.019
-  - model: GIN (GINE)
-    model_plain: GIN (GINE)
-=======
   - model: GINE
     model_plain: GINE
->>>>>>> Stashed changes
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -2534,442 +2015,6 @@ variants:
     - 0.3547
     metric_stds:
     - 0.0045
-<<<<<<< Updated upstream
-  - model: GINE
-    model_plain: GINE
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2102.08786'
-    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
-      Passing'
-    date: Feb 2021
-    date_iso: 2021-02
-    date_display: Feb 2021
-    codebase_url: https://github.com/toenshoff/CRaWl
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.3547
-    metric_stds:
-    - 0.0045
-  - model: Baseline (GINE)
-    model_plain: Baseline (GINE)
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2601.18917'
-    title: 'GraIP: A Benchmarking Framework For Neural Graph Inverse Problems'
-    date: Jan 2026
-    date_iso: 2026-01
-    date_display: Jan 2026
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.355
-    metric_stds:
-    - 0.005
-  - model: GatedGCN + PairNorm
-    model_plain: GatedGCN + PairNorm
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2405.13526'
-    title: 'Understanding Virtual Nodes: Oversquashing and Node Heterogeneity'
-    date: May 2024
-    date_iso: 2024-05
-    date_display: May 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.3551
-    metric_stds:
-    - 0.0008
-  - model: GatedGCN with PairNorm
-    model_plain: GatedGCN with PairNorm
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2405.13526'
-    title: 'Understanding Virtual Nodes: Oversquashing and Node Heterogeneity'
-    date: May 2024
-    date_iso: 2024-05
-    date_display: May 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.3551
-    metric_stds:
-    - 0.0008
-  - model: GCN (LA)
-    model_plain: GCN (LA)
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2311.14864'
-    title: Effective Structural Encodings via Local Curvature Profiles
-    date: Nov 2023
-    date_iso: 2023-11
-    date_display: Nov 2023
-    codebase_url: ''
-    uses_external_data: null
-    is_best: false
-    metric_values:
-    - 0.356
-    metric_stds:
-    - 0.014
-  - model: GCN + Pairnorm
-    model_plain: GCN + Pairnorm
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2405.13526'
-    title: 'Understanding Virtual Nodes: Oversquashing and Node Heterogeneity'
-    date: May 2024
-    date_iso: 2024-05
-    date_display: May 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.3562
-    metric_stds:
-    - 0.0007
-  - model: GatedGCN + mean
-    model_plain: GatedGCN + mean
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2405.13526'
-    title: 'Understanding Virtual Nodes: Oversquashing and Node Heterogeneity'
-    date: May 2024
-    date_iso: 2024-05
-    date_display: May 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.3566
-    metric_stds:
-    - 0.0007
-  - model: GCN
-    model_plain: GCN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2310.05174'
-    title: 'GSLB: The Graph Structure Learning Benchmark'
-    date: Oct 2023
-    date_iso: 2023-10
-    date_display: Oct 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.3566
-    metric_stds:
-    - 0.0014
-  - model: GCN (SUB)
-    model_plain: GCN (SUB)
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2311.14864'
-    title: Effective Structural Encodings via Local Curvature Profiles
-    date: Nov 2023
-    date_iso: 2023-11
-    date_display: Nov 2023
-    codebase_url: ''
-    uses_external_data: null
-    is_best: false
-    metric_values:
-    - 0.36
-    metric_stds:
-    - 0.016
-  - model: GIN (LCP)
-    model_plain: GIN (LCP)
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2311.14864'
-    title: Effective Structural Encodings via Local Curvature Profiles
-    date: Nov 2023
-    date_iso: 2023-11
-    date_display: Nov 2023
-    codebase_url: ''
-    uses_external_data: null
-    is_best: false
-    metric_values:
-    - 0.361
-    metric_stds:
-    - 0.022
-  - model: GTR
-    model_plain: GTR
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2310.01668'
-    title: Locality-Aware Graph Rewiring in GNNs
-    date: Oct 2023
-    date_iso: 2023-10
-    date_display: Oct 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.3618
-    metric_stds:
-    - 0.001
-  - model: GIN (LA)
-    model_plain: GIN (LA)
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2311.14864'
-    title: Effective Structural Encodings via Local Curvature Profiles
-    date: Nov 2023
-    date_iso: 2023-11
-    date_display: Nov 2023
-    codebase_url: ''
-    uses_external_data: null
-    is_best: false
-    metric_values:
-    - 0.364
-    metric_stds:
-    - 0.021
-  - model: GIN
-    model_plain: GIN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2310.05174'
-    title: 'GSLB: The Graph Structure Learning Benchmark'
-    date: Oct 2023
-    date_iso: 2023-10
-    date_display: Oct 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.3647
-    metric_stds:
-    - 0.0028
-  - model: GCN (5 layer)
-    model_plain: GCN (5 layer)
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2407.00494'
-    title: Graph Neural Networks Gone Hogwild
-    date: Jul 2024
-    date_iso: 2024-07
-    date_display: Jul 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.366
-    metric_stds:
-    - null
-  - model: Energy GNN (edge-wise)
-    model_plain: Energy GNN (edge-wise)
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2407.00494'
-    title: Graph Neural Networks Gone Hogwild
-    date: Jul 2024
-    date_iso: 2024-07
-    date_display: Jul 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.367
-    metric_stds:
-    - null
-  - model: GIN (RW)
-    model_plain: GIN (RW)
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2311.14864'
-    title: Effective Structural Encodings via Local Curvature Profiles
-    date: Nov 2023
-    date_iso: 2023-11
-    date_display: Nov 2023
-    codebase_url: ''
-    uses_external_data: null
-    is_best: false
-    metric_values:
-    - 0.368
-    metric_stds:
-    - 0.023
-  - model: SAGE
-    model_plain: SAGE
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2310.05174'
-    title: 'GSLB: The Graph Structure Learning Benchmark'
-    date: Oct 2023
-    date_iso: 2023-10
-    date_display: Oct 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.3716
-    metric_stds:
-    - 0.0011
-  - model: GSD GNN
-    model_plain: GSD GNN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2407.00494'
-    title: Graph Neural Networks Gone Hogwild
-    date: Jul 2024
-    date_iso: 2024-07
-    date_display: Jul 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.375
-    metric_stds:
-    - null
-  - model: GIN (SUB)
-    model_plain: GIN (SUB)
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2311.14864'
-    title: Effective Structural Encodings via Local Curvature Profiles
-    date: Nov 2023
-    date_iso: 2023-11
-    date_display: Nov 2023
-    codebase_url: ''
-    uses_external_data: null
-    is_best: false
-    metric_values:
-    - 0.375
-    metric_stds:
-    - 0.02
-  - model: GCN (NO)
-    model_plain: GCN (NO)
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2311.14864'
-    title: Effective Structural Encodings via Local Curvature Profiles
-    date: Nov 2023
-    date_iso: 2023-11
-    date_display: Nov 2023
-    codebase_url: ''
-    uses_external_data: null
-    is_best: false
-    metric_values:
-    - 0.379
-    metric_stds:
-    - 0.013
-  - model: GIN (NO)
-    model_plain: GIN (NO)
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2311.14864'
-    title: Effective Structural Encodings via Local Curvature Profiles
-    date: Nov 2023
-    date_iso: 2023-11
-    date_display: Nov 2023
-    codebase_url: ''
-    uses_external_data: null
-    is_best: false
-    metric_values:
-    - 0.387
-    metric_stds:
-    - 0.023
-  - model: GCN
-    model_plain: GCN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: 0.509
-    arxiv_id: '2512.15549'
-    title: Photonics-Enhanced Graph Convolutional Networks
-    date: Dec 2025
-    date_iso: 2025-12
-    date_display: Dec 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.395
-    metric_stds:
-    - 0.0017
-  - model: VIB-GSL (GAT)
-    model_plain: VIB-GSL (GAT)
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2310.05174'
-    title: 'GSLB: The Graph Structure Learning Benchmark'
-    date: Oct 2023
-    date_iso: 2023-10
-    date_display: Oct 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.3992
-    metric_stds:
-    - 0.0129
-  - model: Energy GNN + attention
-    model_plain: Energy GNN + attention
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2407.00494'
-    title: Graph Neural Networks Gone Hogwild
-    date: Jul 2024
-    date_iso: 2024-07
-    date_display: Jul 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.402
-    metric_stds:
-    - null
-=======
->>>>>>> Stashed changes
   - model: GAT
     model_plain: GAT
     is_baseline: true
@@ -3079,28 +2124,12 @@ variants:
     metric_stds:
     - 0.0005
   milestones:
-<<<<<<< Updated upstream
-  - value: 0.2506
-    std: 0.0022
-    model: CRaWl
-    arxiv_id: '2102.08786'
-    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
-      Passing'
-    date: 2021-02
-  - value: 0.2481
-    std: null
-    model: Exphormer
-    arxiv_id: '2306.02866'
-    title: Learning Probabilistic Symmetrization for Architecture Agnostic Equivariance
-    date: 2023-06
-=======
   - value: 0.25
     std: 0.0005
     model: GTs
     arxiv_id: '2205.12454'
     title: Recipe for a General, Powerful, Scalable Graph Transformer
     date: 2022-05
->>>>>>> Stashed changes
   - value: 0.2453
     std: 0.0025
     model: MGT + WavePE

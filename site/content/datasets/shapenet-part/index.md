@@ -15,14 +15,13 @@ stats:
   avg_nodes: null
   avg_edges: null
   num_classes: 50
-result_count: 8
+result_count: 12
 best_model:
-  model: GPS + k-MIP
-  value: 0.8268000000000001
+  model: DensePoint
+  value: 0.842
   metric: F1
-  arxiv_id: '2604.03815'
-  paper_title: k-Maximum Inner Product Attention for Graph Transformers and the Expressive
-    Power of GraphGPS
+  arxiv_id: '2105.11016'
+  paper_title: Revisiting 2D Convolutional Neural Networks for Graph-based Applications
 variants:
 - slug: standard-split
   name: Standard split
@@ -36,166 +35,284 @@ variants:
     avg_edges: null
   metrics:
   - F1
+  - Accuracy
+  - mIoU
   rows:
-  - model: GPS + k-MIP
-    model_plain: GPS + k-MIP
+  - model: DensePoint
+    model_plain: DensePoint
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2105.11016'
+    title: Revisiting 2D Convolutional Neural Networks for Graph-based Applications
+    date: May 2021
+    date_iso: 2021-05
+    date_display: May 2021
+    codebase_url: ''
+    uses_external_data: false
+    is_best: true
+    metric_values:
+    - 0.842
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+  - model: S-GCN
+    model_plain: S-GCN
     is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2604.03815'
-    title: k-Maximum Inner Product Attention for Graph Transformers and the Expressive
-      Power of GraphGPS
-    date: Apr 2026
-    date_iso: 2026-04
-    date_display: Apr 2026
+    arxiv_id: '2105.11016'
+    title: Revisiting 2D Convolutional Neural Networks for Graph-based Applications
+    date: May 2021
+    date_iso: 2021-05
+    date_display: May 2021
     codebase_url: ''
-    uses_external_data: false
+    uses_external_data: null
     is_best: true
     metric_values:
-    - 0.8268000000000001
+    - 0.842
+    - null
+    - null
     metric_stds:
-    - 0.0064
-  - model: Exphormer
-    model_plain: Exphormer
+    - null
+    - null
+    - null
+  - model: RS-CNN
+    model_plain: RS-CNN
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2604.03815'
-    title: k-Maximum Inner Product Attention for Graph Transformers and the Expressive
-      Power of GraphGPS
-    date: Apr 2026
-    date_iso: 2026-04
-    date_display: Apr 2026
-    codebase_url: ''
-    uses_external_data: false
-    is_best: true
-    metric_values:
-    - 0.8262
-    metric_stds:
-    - 0.0031
-  - model: GPS + BigBird
-    model_plain: GPS + BigBird
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2604.03815'
-    title: k-Maximum Inner Product Attention for Graph Transformers and the Expressive
-      Power of GraphGPS
-    date: Apr 2026
-    date_iso: 2026-04
-    date_display: Apr 2026
+    arxiv_id: '2105.11016'
+    title: Revisiting 2D Convolutional Neural Networks for Graph-based Applications
+    date: May 2021
+    date_iso: 2021-05
+    date_display: May 2021
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.7965000000000001
+    - 0.84
+    - null
+    - null
     metric_stds:
-    - 0.0098
-  - model: GPS + Performer
-    model_plain: GPS + Performer
+    - null
+    - null
+    - null
+  - model: DGCNN
+    model_plain: DGCNN
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2604.03815'
-    title: k-Maximum Inner Product Attention for Graph Transformers and the Expressive
-      Power of GraphGPS
-    date: Apr 2026
-    date_iso: 2026-04
-    date_display: Apr 2026
+    arxiv_id: '2105.11016'
+    title: Revisiting 2D Convolutional Neural Networks for Graph-based Applications
+    date: May 2021
+    date_iso: 2021-05
+    date_display: May 2021
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.7736
+    - 0.823
+    - null
+    - null
     metric_stds:
-    - 0.0123
-  - model: GatedGCN
-    model_plain: GatedGCN
+    - null
+    - null
+    - null
+  - model: PointNet
+    model_plain: PointNet
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2604.03815'
-    title: k-Maximum Inner Product Attention for Graph Transformers and the Expressive
-      Power of GraphGPS
-    date: Apr 2026
-    date_iso: 2026-04
-    date_display: Apr 2026
+    arxiv_id: '2105.11016'
+    title: Revisiting 2D Convolutional Neural Networks for Graph-based Applications
+    date: May 2021
+    date_iso: 2021-05
+    date_display: May 2021
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.762
+    - 0.819
+    - null
+    - null
     metric_stds:
-    - 0.0032
-  - model: GINE
-    model_plain: GINE
+    - null
+    - null
+    - null
+  - model: DGCNN
+    model_plain: DGCNN
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2604.03815'
-    title: k-Maximum Inner Product Attention for Graph Transformers and the Expressive
-      Power of GraphGPS
-    date: Apr 2026
-    date_iso: 2026-04
-    date_display: Apr 2026
-    codebase_url: ''
+    arxiv_id: '2002.04999'
+    title: Differentiable Graph Module (DGM) for Graph Convolutional Networks
+    date: Feb 2020
+    date_iso: 2020-02
+    date_display: Feb 2020
+    codebase_url: https://github.com/lcosmo/DGM_pytorch
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.6456999999999999
+    - null
+    - null
+    - 0.852
     metric_stds:
-    - 0.0034999999999999996
-  - model: GAT
-    model_plain: GAT
+    - null
+    - null
+    - null
+  - model: dDGM
+    model_plain: dDGM
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2604.03815'
-    title: k-Maximum Inner Product Attention for Graph Transformers and the Expressive
-      Power of GraphGPS
-    date: Apr 2026
-    date_iso: 2026-04
-    date_display: Apr 2026
+    arxiv_id: '2002.04999'
+    title: Differentiable Graph Module (DGM) for Graph Convolutional Networks
+    date: Feb 2020
+    date_iso: 2020-02
+    date_display: Feb 2020
+    codebase_url: https://github.com/lcosmo/DGM_pytorch
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - 0.856
+    metric_stds:
+    - null
+    - null
+    - null
+  - model: CNNs
+    model_plain: CNNs
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1806.09231'
+    title: 'Clebsch--Gordan Nets: a Fully Fourier Space Spherical Convolutional Neural
+      Network'
+    date: Jun 2018
+    date_iso: 2018-06
+    date_display: Jun 2018
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.6301
+    - null
+    - 0.935
+    - null
     metric_stds:
-    - 0.0017000000000000001
-  - model: GCN
-    model_plain: GCN
+    - null
+    - 0.002
+    - null
+  - model: DGCNN
+    model_plain: DGCNN
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2604.03815'
-    title: k-Maximum Inner Product Attention for Graph Transformers and the Expressive
-      Power of GraphGPS
-    date: Apr 2026
-    date_iso: 2026-04
-    date_display: Apr 2026
+    arxiv_id: '1806.09231'
+    title: 'Clebsch--Gordan Nets: a Fully Fourier Space Spherical Convolutional Neural
+      Network'
+    date: Jun 2018
+    date_iso: 2018-06
+    date_display: Jun 2018
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.6018
+    - null
+    - 0.928
+    - null
     metric_stds:
-    - 0.0004
+    - null
+    - 0.003
+    - null
+  - model: PointNet
+    model_plain: PointNet
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1806.09231'
+    title: 'Clebsch--Gordan Nets: a Fully Fourier Space Spherical Convolutional Neural
+      Network'
+    date: Jun 2018
+    date_iso: 2018-06
+    date_display: Jun 2018
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.919
+    - null
+    metric_stds:
+    - null
+    - 0.005
+    - null
+  - model: PointCNN
+    model_plain: PointCNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1806.09231'
+    title: 'Clebsch--Gordan Nets: a Fully Fourier Space Spherical Convolutional Neural
+      Network'
+    date: Jun 2018
+    date_iso: 2018-06
+    date_display: Jun 2018
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.929
+    - null
+    metric_stds:
+    - null
+    - 0.003
+    - null
+  - model: PointTransformer
+    model_plain: PointTransformer
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1806.09231'
+    title: 'Clebsch--Gordan Nets: a Fully Fourier Space Spherical Convolutional Neural
+      Network'
+    date: Jun 2018
+    date_iso: 2018-06
+    date_display: Jun 2018
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.931
+    - null
+    metric_stds:
+    - null
+    - 0.002
+    - null
   milestones:
-  - value: 0.8268000000000001
-    std: 0.0064
-    model: GPS + k-MIP
-    arxiv_id: '2604.03815'
-    title: k-Maximum Inner Product Attention for Graph Transformers and the Expressive
-      Power of GraphGPS
-    date: 2026-04
+  - value: 0.842
+    std: null
+    model: DensePoint
+    arxiv_id: '2105.11016'
+    title: Revisiting 2D Convolutional Neural Networks for Graph-based Applications
+    date: 2021-05
 ---
 

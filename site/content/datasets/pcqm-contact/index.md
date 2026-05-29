@@ -8,7 +8,7 @@ primary_metric: MRR
 higher_is_better: true
 pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.LRGBDataset.html
 stats: null
-result_count: 28
+result_count: 37
 best_model:
   model: ViT-PS
   value: 0.5341
@@ -29,6 +29,8 @@ variants:
     avg_edges: null
   metrics:
   - MRR
+  - AP
+  - AU-ROC
   rows:
   - model: ViT-PS
     model_plain: ViT-PS
@@ -46,7 +48,11 @@ variants:
     is_best: true
     metric_values:
     - 0.5341
+    - null
+    - null
     metric_stds:
+    - null
+    - null
     - null
   - model: Exphormer
     model_plain: Exphormer
@@ -64,8 +70,12 @@ variants:
     is_best: false
     metric_values:
     - 0.3637
+    - null
+    - null
     metric_stds:
     - 0.002
+    - null
+    - null
   - model: Exphormer
     model_plain: Exphormer
     is_baseline: true
@@ -83,8 +93,12 @@ variants:
     is_best: false
     metric_values:
     - 0.3587
+    - null
+    - null
     metric_stds:
     - 0.0025
+    - null
+    - null
   - model: SGT
     model_plain: SGT
     is_baseline: false
@@ -101,14 +115,18 @@ variants:
     is_best: false
     metric_values:
     - 0.345
+    - null
+    - null
     metric_stds:
     - 0.0002
+    - null
+    - null
   - model: GPS+Transformer
     model_plain: GPS+Transformer
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.286725
+    params_millions: 0.287
     arxiv_id: '2402.00789'
     title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling with Selective
       State Spaces'
@@ -120,8 +138,12 @@ variants:
     is_best: false
     metric_values:
     - 0.3442
+    - null
+    - null
     metric_stds:
     - 0.0009
+    - null
+    - null
   - model: GPS+Performer
     model_plain: GPS+Performer
     is_baseline: true
@@ -139,8 +161,12 @@ variants:
     is_best: false
     metric_values:
     - 0.3437
+    - null
+    - null
     metric_stds:
     - 0.0005
+    - null
+    - null
   - model: DEFT
     model_plain: DEFT
     is_baseline: true
@@ -157,8 +183,12 @@ variants:
     is_best: false
     metric_values:
     - 0.3425
+    - null
+    - null
     metric_stds:
     - 0.0006
+    - null
+    - null
   - model: UFGConvS
     model_plain: UFGConvS
     is_baseline: true
@@ -175,8 +205,12 @@ variants:
     is_best: false
     metric_values:
     - 0.3408
+    - null
+    - null
     metric_stds:
     - 0.002
+    - null
+    - null
   - model: SGWT
     model_plain: SGWT
     is_baseline: true
@@ -193,14 +227,18 @@ variants:
     is_best: false
     metric_values:
     - 0.3404
+    - null
+    - null
     metric_stds:
     - 0.0005
+    - null
+    - null
   - model: Graph-Mamba
     model_plain: Graph-Mamba
     is_baseline: false
     is_overridden: false
     override_reason: ''
-    params_millions: 0.285125
+    params_millions: 0.285
     arxiv_id: '2402.00789'
     title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling with Selective
       State Spaces'
@@ -212,8 +250,12 @@ variants:
     is_best: false
     metric_values:
     - 0.3395
+    - null
+    - null
     metric_stds:
     - 0.0013
+    - null
+    - null
   - model: GPS+BigBird
     model_plain: GPS+BigBird
     is_baseline: true
@@ -231,8 +273,12 @@ variants:
     is_best: false
     metric_values:
     - 0.3391
+    - null
+    - null
     metric_stds:
     - 0.0002
+    - null
+    - null
   - model: Scattering
     model_plain: Scattering
     is_baseline: true
@@ -249,8 +295,12 @@ variants:
     is_best: false
     metric_values:
     - 0.339
+    - null
+    - null
     metric_stds:
     - 0.0027
+    - null
+    - null
   - model: Scattering GCN
     model_plain: Scattering GCN
     is_baseline: true
@@ -267,36 +317,17 @@ variants:
     is_best: false
     metric_values:
     - 0.3373
+    - null
+    - null
     metric_stds:
     - 0.0045
+    - null
+    - null
   - model: SAN+LapPE
     model_plain: SAN+LapPE
     is_baseline: true
     is_overridden: false
     override_reason: ''
-<<<<<<< Updated upstream
-    params_millions: null
-    arxiv_id: '2206.08164'
-    title: LRGB
-    date: Jun 2022
-    date_iso: 2022-06
-    date_display: Jun 2022
-    codebase_url: https://github.com/vijaydwivedi75/lrgb
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.335
-    - null
-    metric_stds:
-    - 0.0003
-    - null
-  - model: SAN
-    model_plain: SAN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-=======
->>>>>>> Stashed changes
     params_millions: null
     arxiv_id: '2205.12454'
     title: Recipe for a General, Powerful, Scalable Graph Transformer
@@ -308,48 +339,11 @@ variants:
     is_best: false
     metric_values:
     - 0.335
-    metric_stds:
-    - 0.0003
-  - model: SAN+RWSE
-    model_plain: SAN+RWSE
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-<<<<<<< Updated upstream
-    arxiv_id: '2310.19285'
-    title: Facilitating Graph Neural Networks with Random Walk on Simplicial Complexes
-    date: Oct 2023
-    date_iso: 2023-10
-    date_display: Oct 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.335
+    - null
     - null
     metric_stds:
     - 0.0003
     - null
-  - model: GatedGCN+EdgeRWSE
-    model_plain: GatedGCN+EdgeRWSE
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2310.19285'
-    title: Facilitating Graph Neural Networks with Random Walk on Simplicial Complexes
-    date: Oct 2023
-    date_iso: 2023-10
-    date_display: Oct 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.3342
-    - null
-    metric_stds:
-    - 0.0008
     - null
   - model: SAN+RWSE
     model_plain: SAN+RWSE
@@ -357,26 +351,22 @@ variants:
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2206.08164'
-    title: LRGB
-    date: Jun 2022
-    date_iso: 2022-06
-    date_display: Jun 2022
-    codebase_url: https://github.com/vijaydwivedi75/lrgb
-=======
     arxiv_id: '2205.12454'
     title: Recipe for a General, Powerful, Scalable Graph Transformer
     date: May 2022
     date_iso: 2022-05
     date_display: May 2022
     codebase_url: https://github.com/rampasek/GraphGPS
->>>>>>> Stashed changes
     uses_external_data: false
     is_best: false
     metric_values:
     - 0.3341
+    - null
+    - null
     metric_stds:
     - 0.0006
+    - null
+    - null
   - model: GPS
     model_plain: GPS
     is_baseline: false
@@ -393,8 +383,12 @@ variants:
     is_best: false
     metric_values:
     - 0.3337
+    - null
+    - null
     metric_stds:
     - 0.0006
+    - null
+    - null
   - model: GraphGPS
     model_plain: GraphGPS
     is_baseline: true
@@ -411,8 +405,12 @@ variants:
     is_best: false
     metric_values:
     - 0.3337
+    - null
+    - null
     metric_stds:
     - 0.0006
+    - null
+    - null
   - model: WaveNet
     model_plain: WaveNet
     is_baseline: true
@@ -429,8 +427,12 @@ variants:
     is_best: false
     metric_values:
     - 0.3319
+    - null
+    - null
     metric_stds:
     - 0.002
+    - null
+    - null
   - model: GWNN
     model_plain: GWNN
     is_baseline: true
@@ -447,8 +449,12 @@ variants:
     is_best: false
     metric_values:
     - 0.3272
+    - null
+    - null
     metric_stds:
     - 0.0008
+    - null
+    - null
   - model: WaveShrink-ChebNet
     model_plain: WaveShrink-ChebNet
     is_baseline: true
@@ -465,8 +471,12 @@ variants:
     is_best: false
     metric_values:
     - 0.3256
+    - null
+    - null
     metric_stds:
     - 0.0011
+    - null
+    - null
   - model: GatedGCN+RWSE
     model_plain: GatedGCN+RWSE
     is_baseline: true
@@ -483,8 +493,12 @@ variants:
     is_best: false
     metric_values:
     - 0.3242
+    - null
+    - null
     metric_stds:
     - 0.0008
+    - null
+    - null
   - model: GCN
     model_plain: GCN
     is_baseline: true
@@ -501,8 +515,12 @@ variants:
     is_best: false
     metric_values:
     - 0.3234
+    - null
+    - null
     metric_stds:
     - 0.0006
+    - null
+    - null
   - model: GatedGCN
     model_plain: GatedGCN
     is_baseline: true
@@ -519,8 +537,12 @@ variants:
     is_best: false
     metric_values:
     - 0.3218
+    - null
+    - null
     metric_stds:
     - 0.0011
+    - null
+    - null
   - model: GINE
     model_plain: GINE
     is_baseline: true
@@ -537,8 +559,12 @@ variants:
     is_best: false
     metric_values:
     - 0.318
+    - null
+    - null
     metric_stds:
     - 0.0027
+    - null
+    - null
   - model: GIN
     model_plain: GIN
     is_baseline: true
@@ -556,36 +582,17 @@ variants:
     is_best: false
     metric_values:
     - 0.318
+    - null
+    - null
     metric_stds:
     - 0.0027
+    - null
+    - null
   - model: Transformer+LapPE
     model_plain: Transformer+LapPE
     is_baseline: true
     is_overridden: false
     override_reason: ''
-<<<<<<< Updated upstream
-    params_millions: null
-    arxiv_id: '2206.08164'
-    title: LRGB
-    date: Jun 2022
-    date_iso: 2022-06
-    date_display: Jun 2022
-    codebase_url: https://github.com/vijaydwivedi75/lrgb
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.3174
-    - null
-    metric_stds:
-    - 0.002
-    - null
-  - model: Transformer
-    model_plain: Transformer
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-=======
->>>>>>> Stashed changes
     params_millions: null
     arxiv_id: '2205.12454'
     title: Recipe for a General, Powerful, Scalable Graph Transformer
@@ -597,8 +604,12 @@ variants:
     is_best: false
     metric_values:
     - 0.3174
+    - null
+    - null
     metric_stds:
     - 0.002
+    - null
+    - null
   - model: GCNII
     model_plain: GCNII
     is_baseline: true
@@ -615,8 +626,12 @@ variants:
     is_best: false
     metric_values:
     - 0.3161
+    - null
+    - null
     metric_stds:
     - 0.0004
+    - null
+    - null
   - model: SEA-GWNN
     model_plain: SEA-GWNN
     is_baseline: true
@@ -633,253 +648,210 @@ variants:
     is_best: false
     metric_values:
     - 0.2989
+    - null
+    - null
     metric_stds:
     - 0.0026
-<<<<<<< Updated upstream
     - null
-  - model: GatedGCN+RWSE
-    model_plain: GatedGCN+RWSE
+    - null
+  - model: DyGFormer
+    model_plain: DyGFormer
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2303.13047'
+    title: 'Towards Better Dynamic Graph Learning: New Architecture and Unified Library'
+    date: Mar 2023
+    date_iso: 2023-03
+    date_display: Mar 2023
+    codebase_url: https://github.com/yule-BUAA/DyGLib
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.9829
+    - null
+    metric_stds:
+    - null
+    - 0.0001
+    - null
+  - model: TCL
+    model_plain: TCL
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2206.08164'
-    title: LRGB
-    date: Jun 2022
-    date_iso: 2022-06
-    date_display: Jun 2022
-    codebase_url: https://github.com/vijaydwivedi75/lrgb
+    arxiv_id: '2303.13047'
+    title: 'Towards Better Dynamic Graph Learning: New Architecture and Unified Library'
+    date: Mar 2023
+    date_iso: 2023-03
+    date_display: Mar 2023
+    codebase_url: https://github.com/yule-BUAA/DyGLib
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.2937
+    - null
+    - 0.9244
     - null
     metric_stds:
-    - 0.0007
     - null
-  - model: FOSR
-    model_plain: FOSR
+    - 0.0012
+    - null
+  - model: JODIE
+    model_plain: JODIE
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2310.01668'
-    title: Locality-Aware Graph Rewiring in GNNs
-    date: Oct 2023
-    date_iso: 2023-10
-    date_display: Oct 2023
-    codebase_url: ''
+    arxiv_id: '2207.10128'
+    title: Towards Better Evaluation for Dynamic Link Prediction
+    date: Jul 2022
+    date_iso: 2022-07
+    date_display: Jul 2022
+    codebase_url: https://github.com/fpour/DGB.git
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.2783
     - null
+    - null
+    - 0.99
     metric_stds:
-    - 0.0008
     - null
-  - model: GCN
-    model_plain: GCN
+    - null
+    - 0.0
+  - model: DyRep
+    model_plain: DyRep
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2311.01276'
-    title: 'Neural Atoms: Propagating Long-range Interaction in Molecular Graphs through
-      Efficient Communication Channel'
-    date: Nov 2023
-    date_iso: 2023-11
-    date_display: Nov 2023
-    codebase_url: ''
+    arxiv_id: '2207.10128'
+    title: Towards Better Evaluation for Dynamic Link Prediction
+    date: Jul 2022
+    date_iso: 2022-07
+    date_display: Jul 2022
+    codebase_url: https://github.com/fpour/DGB.git
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.2329
     - null
+    - null
+    - 0.57
     metric_stds:
-    - 0.0009
     - null
-  - model: GINE
-    model_plain: GINE
+    - null
+    - 0.051
+  - model: TGAT
+    model_plain: TGAT
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2206.08164'
-    title: LRGB
-    date: Jun 2022
-    date_iso: 2022-06
-    date_display: Jun 2022
-    codebase_url: https://github.com/vijaydwivedi75/lrgb
+    arxiv_id: '2207.10128'
+    title: Towards Better Evaluation for Dynamic Link Prediction
+    date: Jul 2022
+    date_iso: 2022-07
+    date_display: Jul 2022
+    codebase_url: https://github.com/fpour/DGB.git
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.1949
     - null
+    - null
+    - 0.56
     metric_stds:
-    - 0.0006
     - null
-  - model: GCN
-    model_plain: GCN
+    - null
+    - 0.006
+  - model: TGN
+    model_plain: TGN
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2206.08164'
-    title: LRGB
-    date: Jun 2022
-    date_iso: 2022-06
-    date_display: Jun 2022
-    codebase_url: https://github.com/vijaydwivedi75/lrgb
+    arxiv_id: '2207.10128'
+    title: Towards Better Evaluation for Dynamic Link Prediction
+    date: Jul 2022
+    date_iso: 2022-07
+    date_display: Jul 2022
+    codebase_url: https://github.com/fpour/DGB.git
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.1944
     - null
+    - null
+    - 0.99
     metric_stds:
+    - null
+    - null
     - 0.002
-    - null
-  - model: GatedGCN
-    model_plain: GatedGCN
+  - model: CAWN
+    model_plain: CAWN
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2206.08164'
-    title: LRGB
-    date: Jun 2022
-    date_iso: 2022-06
-    date_display: Jun 2022
-    codebase_url: https://github.com/vijaydwivedi75/lrgb
+    arxiv_id: '2207.10128'
+    title: Towards Better Evaluation for Dynamic Link Prediction
+    date: Jul 2022
+    date_iso: 2022-07
+    date_display: Jul 2022
+    codebase_url: https://github.com/fpour/DGB.git
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.1927
     - null
+    - null
+    - 0.96
     metric_stds:
+    - null
+    - null
     - 0.001
-    - null
-  - model: GT (no PE)
-    model_plain: GT (no PE)
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2511.08028'
-    title: Generalizable Insights for Graph Transformers in Theory and Practice
-    date: Nov 2025
-    date_iso: 2025-11
-    date_display: Nov 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - 93.6
-    metric_stds:
-    - null
-    - 0.5
-  - model: GDT (LPE)
-    model_plain: GDT (LPE)
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2511.08028'
-    title: Generalizable Insights for Graph Transformers in Theory and Practice
-    date: Nov 2025
-    date_iso: 2025-11
-    date_display: Nov 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - 92.7
-    metric_stds:
-    - null
-    - 0.9
-  - model: GDT (SPE)
-    model_plain: GDT (SPE)
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2511.08028'
-    title: Generalizable Insights for Graph Transformers in Theory and Practice
-    date: Nov 2025
-    date_iso: 2025-11
-    date_display: Nov 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - 94.1
-    metric_stds:
-    - null
-    - 0.6
-  - model: GDT (RWSE)
-    model_plain: GDT (RWSE)
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2511.08028'
-    title: Generalizable Insights for Graph Transformers in Theory and Practice
-    date: Nov 2025
-    date_iso: 2025-11
-    date_display: Nov 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - 92.9
-    metric_stds:
-    - null
-    - 0.6
-  - model: GDT (RRWP)
-    model_plain: GDT (RRWP)
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2511.08028'
-    title: Generalizable Insights for Graph Transformers in Theory and Practice
-    date: Nov 2025
-    date_iso: 2025-11
-    date_display: Nov 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - 90.4
-    metric_stds:
-    - null
-    - 0.3
-  - model: SOTA (Range)
-    model_plain: SOTA (Range)
+  - model: EdgeBank_th
+    model_plain: EdgeBank_th
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2511.08028'
-    title: Generalizable Insights for Graph Transformers in Theory and Practice
-    date: Nov 2025
-    date_iso: 2025-11
-    date_display: Nov 2025
-    codebase_url: ''
-    uses_external_data: null
+    arxiv_id: '2207.10128'
+    title: Towards Better Evaluation for Dynamic Link Prediction
+    date: Jul 2022
+    date_iso: 2022-07
+    date_display: Jul 2022
+    codebase_url: https://github.com/fpour/DGB.git
+    uses_external_data: false
     is_best: false
     metric_values:
     - null
-    - 0.0809
+    - null
+    - 0.93
     metric_stds:
     - null
     - null
-=======
->>>>>>> Stashed changes
+    - 0.0
+  - model: EdgeBank_inf
+    model_plain: EdgeBank_inf
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2207.10128'
+    title: Towards Better Evaluation for Dynamic Link Prediction
+    date: Jul 2022
+    date_iso: 2022-07
+    date_display: Jul 2022
+    codebase_url: https://github.com/fpour/DGB.git
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - 0.87
+    metric_stds:
+    - null
+    - null
+    - 0.0
   milestones:
   - value: 0.335
     std: 0.0003

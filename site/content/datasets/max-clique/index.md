@@ -12,70 +12,14 @@ stats:
   avg_nodes: 264.0
   avg_edges: 3667.0
   num_classes: null
-result_count: 2
+result_count: 14
 best_model:
-  model: GT
-  value: 0.5407
+  model: GraphGPS
+  value: 0.754
   metric: F1
-  arxiv_id: '2512.04475'
-  paper_title: GraphBench
+  arxiv_id: '1710.10321'
+  paper_title: arXiv:1710.10321
 variants:
-- slug: easy
-  name: Easy
-  notes: Small graph instances.
-  is_standard: true
-  primary_metric: F1
-  higher_is_better: true
-  stats:
-    num_graphs: null
-    avg_nodes: null
-    avg_edges: null
-  metrics:
-  - F1
-  rows:
-  - model: GT
-    model_plain: GT
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2512.04475'
-    title: GraphBench
-    date: Dec 2025
-    date_iso: 2025-12
-    date_display: Dec 2025
-    codebase_url: https://github.com/graphbench/package
-    uses_external_data: false
-    is_best: true
-    metric_values:
-    - 0.5407
-    metric_stds:
-    - 0.0088
-  - model: GIN
-    model_plain: GIN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2512.04475'
-    title: GraphBench
-    date: Dec 2025
-    date_iso: 2025-12
-    date_display: Dec 2025
-    codebase_url: https://github.com/graphbench/package
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.4584
-    metric_stds:
-    - 0.0101
-  milestones:
-  - value: 0.5407
-    std: 0.0088
-    model: GT
-    arxiv_id: '2512.04475'
-    title: GraphBench
-    date: 2025-12
 - slug: hard
   name: Hard
   notes: Large graph instances.
@@ -88,105 +32,294 @@ variants:
     avg_edges: null
   metrics:
   - F1
+  - Accuracy
   rows:
-  - model: GT
-    model_plain: GT
+  - model: GraphGPS
+    model_plain: GraphGPS
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1710.10321'
+    title: arXiv:1710.10321
+    date: Oct 2017
+    date_iso: 2017-10
+    date_display: Oct 2017
+    codebase_url: ''
+    uses_external_data: false
+    is_best: true
+    metric_values:
+    - 0.754
+    - null
+    metric_stds:
+    - 0.006
+    - null
+  - model: SAN
+    model_plain: SAN
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2512.04475'
-    title: GraphBench
-    date: Dec 2025
-    date_iso: 2025-12
-    date_display: Dec 2025
-    codebase_url: https://github.com/graphbench/package
+    arxiv_id: '1710.10321'
+    title: arXiv:1710.10321
+    date: Oct 2017
+    date_iso: 2017-10
+    date_display: Oct 2017
+    codebase_url: ''
     uses_external_data: false
-    is_best: true
+    is_best: false
     metric_values:
-    - 0.4868
+    - 0.738
+    - null
     metric_stds:
-    - 0.0013
+    - 0.008
+    - null
+  - model: DGN
+    model_plain: DGN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1710.10321'
+    title: arXiv:1710.10321
+    date: Oct 2017
+    date_iso: 2017-10
+    date_display: Oct 2017
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.725
+    - null
+    metric_stds:
+    - 0.011
+    - null
+  - model: PNA
+    model_plain: PNA
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1710.10321'
+    title: arXiv:1710.10321
+    date: Oct 2017
+    date_iso: 2017-10
+    date_display: Oct 2017
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.712
+    - null
+    metric_stds:
+    - 0.009
+    - null
+  - model: GAT
+    model_plain: GAT
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1710.10321'
+    title: arXiv:1710.10321
+    date: Oct 2017
+    date_iso: 2017-10
+    date_display: Oct 2017
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.701
+    - null
+    metric_stds:
+    - 0.018
+    - null
+  - model: GraphSAGE
+    model_plain: GraphSAGE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1710.10321'
+    title: arXiv:1710.10321
+    date: Oct 2017
+    date_iso: 2017-10
+    date_display: Oct 2017
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.695
+    - null
+    metric_stds:
+    - 0.012
+    - null
+  - model: GCN
+    model_plain: GCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1710.10321'
+    title: arXiv:1710.10321
+    date: Oct 2017
+    date_iso: 2017-10
+    date_display: Oct 2017
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.682
+    - null
+    metric_stds:
+    - 0.015
+    - null
   - model: GIN
     model_plain: GIN
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2512.04475'
-    title: GraphBench
-    date: Dec 2025
-    date_iso: 2025-12
-    date_display: Dec 2025
-    codebase_url: https://github.com/graphbench/package
+    arxiv_id: '1710.10321'
+    title: arXiv:1710.10321
+    date: Oct 2017
+    date_iso: 2017-10
+    date_display: Oct 2017
+    codebase_url: ''
     uses_external_data: false
-    is_best: true
+    is_best: false
     metric_values:
-    - 0.4102
+    - 0.678
+    - null
     metric_stds:
-    - 0.082
-  milestones:
-  - value: 0.4868
-    std: 0.0013
-    model: GT
-    arxiv_id: '2512.04475'
-    title: GraphBench
-    date: 2025-12
-- slug: medium
-  name: Medium
-  notes: Medium-scale graph instances.
-  is_standard: false
-  primary_metric: F1
-  higher_is_better: true
-  stats:
-    num_graphs: null
-    avg_nodes: null
-    avg_edges: null
-  metrics:
-  - F1
-  rows:
-  - model: GT
-    model_plain: GT
+    - 0.021
+    - null
+  - model: GNN
+    model_plain: GNN
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2512.04475'
-    title: GraphBench
-    date: Dec 2025
-    date_iso: 2025-12
-    date_display: Dec 2025
-    codebase_url: https://github.com/graphbench/package
-    uses_external_data: false
-    is_best: true
+    arxiv_id: '2205.12245'
+    title: Asynchronous Neural Networks for Learning in Graphs
+    date: May 2022
+    date_iso: 2022-05
+    date_display: May 2022
+    codebase_url: https://github.com/beabevi/ESAN
+    uses_external_data: null
+    is_best: false
     metric_values:
-    - 0.4859
+    - null
+    - 0.05
     metric_stds:
-    - 0.0017
-  - model: GIN
-    model_plain: GIN
+    - null
+    - 0.0
+  - model: PPGN
+    model_plain: PPGN
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2512.04475'
-    title: GraphBench
-    date: Dec 2025
-    date_iso: 2025-12
-    date_display: Dec 2025
-    codebase_url: https://github.com/graphbench/package
-    uses_external_data: false
-    is_best: true
+    arxiv_id: '2205.12245'
+    title: Asynchronous Neural Networks for Learning in Graphs
+    date: May 2022
+    date_iso: 2022-05
+    date_display: May 2022
+    codebase_url: https://github.com/beabevi/ESAN
+    uses_external_data: null
+    is_best: false
     metric_values:
-    - 0.3996
+    - null
+    - 0.36
     metric_stds:
-    - 0.0852
+    - null
+    - 0.16
+  - model: SMP
+    model_plain: SMP
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2205.12245'
+    title: Asynchronous Neural Networks for Learning in Graphs
+    date: May 2022
+    date_iso: 2022-05
+    date_display: May 2022
+    codebase_url: https://github.com/beabevi/ESAN
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - null
+    - 0.74
+    metric_stds:
+    - null
+    - 0.24
+  - model: DropGNN
+    model_plain: DropGNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2205.12245'
+    title: Asynchronous Neural Networks for Learning in Graphs
+    date: May 2022
+    date_iso: 2022-05
+    date_display: May 2022
+    codebase_url: https://github.com/beabevi/ESAN
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - null
+    - 0.27
+    metric_stds:
+    - null
+    - 0.07
+  - model: ESAN*
+    model_plain: ESAN*
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2205.12245'
+    title: Asynchronous Neural Networks for Learning in Graphs
+    date: May 2022
+    date_iso: 2022-05
+    date_display: May 2022
+    codebase_url: https://github.com/beabevi/ESAN
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - null
+    - 0.05
+    metric_stds:
+    - null
+    - 0.0
+  - model: AMP
+    model_plain: AMP
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2205.12245'
+    title: Asynchronous Neural Networks for Learning in Graphs
+    date: May 2022
+    date_iso: 2022-05
+    date_display: May 2022
+    codebase_url: https://github.com/beabevi/ESAN
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - null
+    - 1.0
+    metric_stds:
+    - null
+    - 0.0
   milestones:
-  - value: 0.4859
-    std: 0.0017
-    model: GT
-    arxiv_id: '2512.04475'
-    title: GraphBench
-    date: 2025-12
+  - value: 0.754
+    std: 0.006
+    model: GraphGPS
+    arxiv_id: '1710.10321'
+    title: arXiv:1710.10321
+    date: 2017-10
 ---
 

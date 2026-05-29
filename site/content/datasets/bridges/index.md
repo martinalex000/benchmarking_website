@@ -38,7 +38,7 @@ variants:
     is_baseline: false
     is_overridden: false
     override_reason: ''
-    params_millions: 16.0
+    params_millions: null
     arxiv_id: '2511.08028'
     title: Generalizable Insights for Graph Transformers in Theory and Practice
     date: Nov 2025

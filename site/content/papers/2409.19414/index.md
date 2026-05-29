@@ -7,7 +7,7 @@ published_date: ''
 published_date_iso: ''
 abstract: ''
 codebase_url: ''
-extraction_model: Kimi-K2.6
+extraction_model: Qwen/Qwen3.6-35B-A3B-FP8
 has_results: false
 paper_type: dataset
 proposed_models: []

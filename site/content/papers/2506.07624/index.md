@@ -30,13 +30,13 @@ paper_type: method
 proposed_models:
 - Stable-ChebNet
 - ChebNet
-mrr: 0.2936
-adjusted_mrr: 0.2936
+mrr: 0.1198
+adjusted_mrr: 0.1198
 mrr_dataset_count: 6
 benchmark_categories:
 - Heterophilic Graphs
-- LRGB
 - OGB
+- LRGB
 - GraphBench
 task_categories:
 - graph_classification
@@ -49,6 +49,147 @@ results:
 - &id002
   dataset: Amazon-ratings
   rows:
+  - model: here instead
+    model_key: here instead
+    model_plain: here instead
+    value: 0.909
+    std: null
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1506.04757'
+    title: Image-based Recommendations on Styles and Substitutes
+    date: Jun 2015
+    date_display: Jun 2015
+    date_iso: 2015-06
+    codebase_url: ''
+    uses_external_data: null
+    is_global_top: true
+    global_rank: 1
+    sort_value: 0.909
+    sort_std: null
+    is_best: true
+  - model: CT
+    model_key: ct
+    model_plain: CT
+    value: 0.848
+    std: null
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1506.04757'
+    title: Image-based Recommendations on Styles and Substitutes
+    date: Jun 2015
+    date_display: Jun 2015
+    date_iso: 2015-06
+    codebase_url: ''
+    uses_external_data: null
+    is_global_top: true
+    global_rank: 2
+    sort_value: 0.848
+    sort_std: null
+    is_best: false
+  - model: WNN
+    model_key: wnn
+    model_plain: WNN
+    value: 0.843
+    std: null
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1506.04757'
+    title: Image-based Recommendations on Styles and Substitutes
+    date: Jun 2015
+    date_display: Jun 2015
+    date_iso: 2015-06
+    codebase_url: ''
+    uses_external_data: null
+    is_global_top: true
+    global_rank: 3
+    sort_value: 0.843
+    sort_std: null
+    is_best: false
+  - model: GCN
+    model_key: gcn
+    model_plain: GCN
+    value: 0.487
+    std: 0.0063
+    paper_value: 0.487
+    paper_std: 0.0063
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: Luan 2024
+    variant_inference_reason: 'dataset: exact match'
+    date: Jun 2025
+    date_display: Jun 2025
+    date_iso: 2025-06
+    global_rank: 6
+    true_value: 0.8326
+    true_std: 0.0051
+    value_gap_source_arxiv: '2410.10320'
+    value_gap_source_title: 'DiRW: Path-Aware Digraph Learning for Heterophily'
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
+    has_value_note: false
+    value_gap: 0.3456
+    value_note: ''
+    paper_rank: 46
+    rank_delta: 40
+    rank_delta_abs: 40
+    rank_delta_direction: worse
+    sort_value: 0.8326
+    sort_std: 0.0051
+    is_best: false
+  - model: GAT
+    model_key: gat
+    model_plain: GAT
+    value: 0.4909
+    std: 0.0063
+    paper_value: 0.4909
+    paper_std: 0.0063
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: Luan 2024
+    variant_inference_reason: 'dataset: exact match'
+    date: Jun 2025
+    date_display: Jun 2025
+    date_iso: 2025-06
+    global_rank: 12
+    true_value: 0.8016
+    true_std: 0.0232
+    value_gap_source_arxiv: '2410.10320'
+    value_gap_source_title: 'DiRW: Path-Aware Digraph Learning for Heterophily'
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
+    has_value_note: false
+    value_gap: 0.3107
+    value_note: ''
+    paper_rank: 45
+    rank_delta: 33
+    rank_delta_abs: 33
+    rank_delta_direction: worse
+    sort_value: 0.8016
+    sort_std: 0.0232
+    is_best: false
   - model: Polynormer
     model_key: polynormer
     model_plain: Polynormer
@@ -68,7 +209,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 1
+    global_rank: 20
     true_value: 0.5481
     true_std: 0.0049
     value_gap_source_arxiv: '2506.07624'
@@ -79,36 +220,13 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 1
+    paper_rank: 20
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 0.5481
     sort_std: 0.0049
-    is_best: true
-  - model: CO-GNN
-    model_key: co-gnn
-    model_plain: CO-GNN
-    value: 0.542
-    std: 0.0034
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2507.00647'
-    title: Cooperative Sheaf Neural Networks
-    date: Jul 2025
-    date_display: Jul 2025
-    date_iso: 2025-07
-    codebase_url: ''
-    uses_external_data: false
-    is_global_top: true
-    global_rank: 2
-    sort_value: 0.542
-    sort_std: 0.0034
-    is_best: true
+    is_best: false
   - model: CO-GNN(μ, μ)
     model_key: co-gnn(μ, μ)
     model_plain: CO-GNN(μ, μ)
@@ -128,7 +246,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 3
+    global_rank: 22
     true_value: 0.5417
     true_std: 0.0037
     value_gap_source_arxiv: '2506.07624'
@@ -139,13 +257,13 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 3
+    paper_rank: 22
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 0.5417
     sort_std: 0.0037
-    is_best: true
+    is_best: false
   - model: GMN
     model_key: gmn
     model_plain: GMN
@@ -165,7 +283,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 4
+    global_rank: 23
     true_value: 0.5407
     true_std: 0.0031
     value_gap_source_arxiv: '2506.07624'
@@ -176,58 +294,12 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 4
+    paper_rank: 23
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 0.5407
     sort_std: 0.0031
-    is_best: true
-  - model: Tango_GPS
-    model_key: tango_gps
-    model_plain: Tango_GPS
-    value: 0.5383
-    std: 0.0032
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2508.05070'
-    title: 'Tango: Graph Neural Dynamics via Learned Energy and Tangential Flows'
-    date: Aug 2025
-    date_display: Aug 2025
-    date_iso: 2025-08
-    codebase_url: ''
-    uses_external_data: false
-    is_global_top: true
-    global_rank: 5
-    sort_value: 0.5383
-    sort_std: 0.0032
-    is_best: false
-  - model: BuNN
-    model_key: bunn
-    model_plain: BuNN
-    value: 0.5374
-    std: 0.0051
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2507.00647'
-    title: Cooperative Sheaf Neural Networks
-    date: Jul 2025
-    date_display: Jul 2025
-    date_iso: 2025-07
-    codebase_url: ''
-    uses_external_data: false
-    is_global_top: true
-    global_rank: 6
-    sort_value: 0.5374
-    sort_std: 0.0051
     is_best: false
   - model: MP-SSM
     model_key: mp-ssm
@@ -248,7 +320,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 7
+    global_rank: 26
     true_value: 0.5365
     true_std: 0.0071
     value_gap_source_arxiv: '2506.07624'
@@ -259,13 +331,13 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 7
+    paper_rank: 26
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 0.5365
     sort_std: 0.0071
-    is_best: true
+    is_best: false
   - model: SAGE
     model_key: sage
     model_plain: SAGE
@@ -285,7 +357,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 8
+    global_rank: 27
     true_value: 0.5363
     true_std: 0.0039
     value_gap_source_arxiv: '2506.07624'
@@ -296,7 +368,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 8
+    paper_rank: 27
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -322,7 +394,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 9
+    global_rank: 28
     true_value: 0.5351
     true_std: 0.0046
     value_gap_source_arxiv: '2506.07624'
@@ -333,7 +405,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 9
+    paper_rank: 28
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -359,7 +431,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 10
+    global_rank: 29
     true_value: 0.5348
     true_std: 0.0062
     value_gap_source_arxiv: '2506.07624'
@@ -370,7 +442,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 10
+    paper_rank: 29
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -396,7 +468,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 11
+    global_rank: 30
     true_value: 0.5315
     true_std: 0.0021
     value_gap_source_arxiv: '2506.07624'
@@ -407,7 +479,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 11
+    paper_rank: 30
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -433,7 +505,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 12
+    global_rank: 31
     true_value: 0.531
     true_std: 0.0042
     value_gap_source_arxiv: '2506.07624'
@@ -444,7 +516,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 12
+    paper_rank: 31
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -470,7 +542,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 13
+    global_rank: 32
     true_value: 0.5274
     true_std: 0.0083
     value_gap_source_arxiv: '2506.07624'
@@ -481,7 +553,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 13
+    paper_rank: 32
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -507,7 +579,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 15
+    global_rank: 34
     true_value: 0.5218
     true_std: 0.008
     value_gap_source_arxiv: '2506.07624'
@@ -518,7 +590,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 15
+    paper_rank: 34
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -544,7 +616,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 19
+    global_rank: 38
     true_value: 0.5128
     true_std: 0.0056
     value_gap_source_arxiv: '2506.07624'
@@ -555,7 +627,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 19
+    paper_rank: 38
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -581,7 +653,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 20
+    global_rank: 39
     true_value: 0.5126
     true_std: 0.0072
     value_gap_source_arxiv: '2506.07624'
@@ -592,7 +664,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 20
+    paper_rank: 39
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -618,7 +690,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 21
+    global_rank: 40
     true_value: 0.5117
     true_std: 0.0066
     value_gap_source_arxiv: '2506.07624'
@@ -629,7 +701,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 21
+    paper_rank: 40
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -655,7 +727,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 24
+    global_rank: 44
     true_value: 0.4992
     true_std: 0.0068
     value_gap_source_arxiv: '2508.05070'
@@ -666,9 +738,9 @@ results:
     has_value_note: false
     value_gap: 0.018399999999999972
     value_note: ''
-    paper_rank: 31
-    rank_delta: 7
-    rank_delta_abs: 7
+    paper_rank: 49
+    rank_delta: 5
+    rank_delta_abs: 5
     rank_delta_direction: worse
     sort_value: 0.4992
     sort_std: 0.0068
@@ -692,7 +764,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 25
+    global_rank: 45
     true_value: 0.4955
     true_std: 0.0081
     value_gap_source_arxiv: '2506.07624'
@@ -703,86 +775,12 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 25
+    paper_rank: 45
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 0.4955
     sort_std: 0.0081
-    is_best: false
-  - model: GAT
-    model_key: gat
-    model_plain: GAT
-    value: 0.4909
-    std: 0.0063
-    paper_value: 0.4909
-    paper_std: 0.0063
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: Luan 2024
-    variant_inference_reason: 'dataset: exact match'
-    date: Jun 2025
-    date_display: Jun 2025
-    date_iso: 2025-06
-    global_rank: 26
-    true_value: 0.4909
-    true_std: 0.0063
-    value_gap_source_arxiv: '2506.07624'
-    value_gap_source_title: 'Return of ChebNet: Understanding and Improving an Overlooked
-      GNN on Long-Range Tasks'
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 26
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.4909
-    sort_std: 0.0063
-    is_best: false
-  - model: GCN
-    model_key: gcn
-    model_plain: GCN
-    value: 0.487
-    std: 0.0063
-    paper_value: 0.487
-    paper_std: 0.0063
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: Luan 2024
-    variant_inference_reason: 'dataset: exact match'
-    date: Jun 2025
-    date_display: Jun 2025
-    date_iso: 2025-06
-    global_rank: 28
-    true_value: 0.487
-    true_std: 0.0063
-    value_gap_source_arxiv: '2506.07624'
-    value_gap_source_title: 'Return of ChebNet: Understanding and Improving an Overlooked
-      GNN on Long-Range Tasks'
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 28
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.487
-    sort_std: 0.0063
     is_best: false
   - model: GDT + RWSE
     model_key: gdt + rwse
@@ -803,7 +801,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 29
+    global_rank: 47
     true_value: 0.4858
     true_std: 0.0041
     value_gap_source_arxiv: '2506.07624'
@@ -814,7 +812,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 29
+    paper_rank: 47
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -840,7 +838,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 30
+    global_rank: 48
     true_value: 0.482
     true_std: 0.0067
     value_gap_source_arxiv: '2506.07624'
@@ -851,7 +849,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 30
+    paper_rank: 48
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -877,7 +875,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 31
+    global_rank: 49
     true_value: 0.481
     true_std: 0.0071
     value_gap_source_arxiv: '2602.17893'
@@ -888,9 +886,9 @@ results:
     has_value_note: false
     value_gap: 0.05099999999999999
     value_note: ''
-    paper_rank: 42
-    rank_delta: 11
-    rank_delta_abs: 11
+    paper_rank: 76
+    rank_delta: 27
+    rank_delta_abs: 27
     rank_delta_direction: worse
     sort_value: 0.481
     sort_std: 0.0071
@@ -914,7 +912,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 33
+    global_rank: 52
     true_value: 0.464
     true_std: 0.0055
     value_gap_source_arxiv: '2506.07624'
@@ -925,7 +923,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 33
+    paper_rank: 52
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -951,7 +949,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 34
+    global_rank: 56
     true_value: 0.4598
     true_std: 0.0071
     value_gap_source_arxiv: '2506.07624'
@@ -962,7 +960,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 34
+    paper_rank: 56
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -988,7 +986,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 36
+    global_rank: 59
     true_value: 0.4513
     true_std: 0.0097
     value_gap_source_arxiv: '2506.07624'
@@ -999,7 +997,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 36
+    paper_rank: 59
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1025,7 +1023,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 37
+    global_rank: 60
     true_value: 0.449
     true_std: 0.0073
     value_gap_source_arxiv: '2506.07624'
@@ -1036,7 +1034,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 37
+    paper_rank: 60
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1062,7 +1060,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 38
+    global_rank: 63
     true_value: 0.4488
     true_std: 0.0034
     value_gap_source_arxiv: '2506.07624'
@@ -1073,7 +1071,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 38
+    paper_rank: 63
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1099,7 +1097,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 39
+    global_rank: 65
     true_value: 0.4461
     true_std: 0.005
     value_gap_source_arxiv: '2506.07624'
@@ -1110,7 +1108,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 39
+    paper_rank: 65
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1136,7 +1134,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 40
+    global_rank: 68
     true_value: 0.4435
     true_std: 0.0036
     value_gap_source_arxiv: '2506.07624'
@@ -1147,7 +1145,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 40
+    paper_rank: 68
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1173,7 +1171,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 41
+    global_rank: 69
     true_value: 0.4412
     true_std: 0.003
     value_gap_source_arxiv: '2506.07624'
@@ -1184,86 +1182,12 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 41
+    paper_rank: 69
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 0.4412
     sort_std: 0.003
-    is_best: false
-  - model: JacobiConv
-    model_key: jacobiconv
-    model_plain: JacobiConv
-    value: 0.4355
-    std: 0.0048
-    paper_value: 0.4355
-    paper_std: 0.0048
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: Luan 2024
-    variant_inference_reason: 'dataset: exact match'
-    date: Jun 2025
-    date_display: Jun 2025
-    date_iso: 2025-06
-    global_rank: 42
-    true_value: 0.4355
-    true_std: 0.0048
-    value_gap_source_arxiv: '2506.07624'
-    value_gap_source_title: 'Return of ChebNet: Understanding and Improving an Overlooked
-      GNN on Long-Range Tasks'
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 42
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.4355
-    sort_std: 0.0048
-    is_best: false
-  - model: SGC-1
-    model_key: sgc-1
-    model_plain: SGC-1
-    value: 0.4069
-    std: 0.0042
-    paper_value: 0.4069
-    paper_std: 0.0042
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: Luan 2024
-    variant_inference_reason: 'dataset: exact match'
-    date: Jun 2025
-    date_display: Jun 2025
-    date_iso: 2025-06
-    global_rank: 44
-    true_value: 0.4069
-    true_std: 0.0042
-    value_gap_source_arxiv: '2506.07624'
-    value_gap_source_title: 'Return of ChebNet: Understanding and Improving an Overlooked
-      GNN on Long-Range Tasks'
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 44
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.4069
-    sort_std: 0.0042
     is_best: false
   - model: CPGNN
     model_key: cpgnn
@@ -1284,31 +1208,30 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 45
-    true_value: 0.3979
-    true_std: 0.0077
-    value_gap_source_arxiv: '2506.07624'
-    value_gap_source_title: 'Return of ChebNet: Understanding and Improving an Overlooked
-      GNN on Long-Range Tasks'
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
+    global_rank: 71
+    true_value: 0.439
+    true_std: 0.0075
+    value_gap_source_arxiv: '2601.01207'
+    value_gap_source_title: Sparse Bayesian Message Passing under Structural Uncertainty
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
     has_value_note: false
-    value_gap: null
+    value_gap: 0.041100000000000025
     value_note: ''
-    paper_rank: 45
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.3979
-    sort_std: 0.0077
+    paper_rank: 88
+    rank_delta: 17
+    rank_delta_abs: 17
+    rank_delta_direction: worse
+    sort_value: 0.439
+    sort_std: 0.0075
     is_best: false
-  - model: MLP-1
-    model_key: mlp-1
-    model_plain: MLP-1
-    value: 0.386
-    std: 0.0041
-    paper_value: 0.386
-    paper_std: 0.0041
+  - model: JacobiConv
+    model_key: jacobiconv
+    model_plain: JacobiConv
+    value: 0.4355
+    std: 0.0048
+    paper_value: 0.4355
+    paper_std: 0.0048
     metric: Accuracy
     higher_is_better: true
     is_baseline: true
@@ -1321,9 +1244,9 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 46
-    true_value: 0.386
-    true_std: 0.0041
+    global_rank: 75
+    true_value: 0.4355
+    true_std: 0.0048
     value_gap_source_arxiv: '2506.07624'
     value_gap_source_title: 'Return of ChebNet: Understanding and Improving an Overlooked
       GNN on Long-Range Tasks'
@@ -1332,12 +1255,12 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 46
+    paper_rank: 75
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
-    sort_value: 0.386
-    sort_std: 0.0041
+    sort_value: 0.4355
+    sort_std: 0.0048
     is_best: false
   - model: GloGNN
     model_key: glognn
@@ -1358,23 +1281,22 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 47
-    true_value: 0.3689
-    true_std: 0.0014
-    value_gap_source_arxiv: '2506.07624'
-    value_gap_source_title: 'Return of ChebNet: Understanding and Improving an Overlooked
-      GNN on Long-Range Tasks'
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
+    global_rank: 84
+    true_value: 0.419
+    true_std: 0.0067
+    value_gap_source_arxiv: '2601.01207'
+    value_gap_source_title: Sparse Bayesian Message Passing under Structural Uncertainty
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
     has_value_note: false
-    value_gap: null
+    value_gap: 0.05009999999999998
     value_note: ''
-    paper_rank: 47
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.3689
-    sort_std: 0.0014
+    paper_rank: 89
+    rank_delta: 5
+    rank_delta_abs: 5
+    rank_delta_direction: worse
+    sort_value: 0.419
+    sort_std: 0.0067
     is_best: false
   - model: H2GCN
     model_key: h2gcn
@@ -1395,9 +1317,45 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 48
-    true_value: 0.3647
-    true_std: 0.0023
+    global_rank: 85
+    true_value: 0.413
+    true_std: 0.0062
+    value_gap_source_arxiv: '2601.01207'
+    value_gap_source_title: Sparse Bayesian Message Passing under Structural Uncertainty
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
+    has_value_note: false
+    value_gap: 0.048299999999999954
+    value_note: ''
+    paper_rank: 89
+    rank_delta: 4
+    rank_delta_abs: 4
+    rank_delta_direction: worse
+    sort_value: 0.413
+    sort_std: 0.0062
+    is_best: false
+  - model: SGC-1
+    model_key: sgc-1
+    model_plain: SGC-1
+    value: 0.4069
+    std: 0.0042
+    paper_value: 0.4069
+    paper_std: 0.0042
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: Luan 2024
+    variant_inference_reason: 'dataset: exact match'
+    date: Jun 2025
+    date_display: Jun 2025
+    date_iso: 2025-06
+    global_rank: 86
+    true_value: 0.4069
+    true_std: 0.0042
     value_gap_source_arxiv: '2506.07624'
     value_gap_source_title: 'Return of ChebNet: Understanding and Improving an Overlooked
       GNN on Long-Range Tasks'
@@ -1406,12 +1364,49 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 48
+    paper_rank: 86
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
-    sort_value: 0.3647
-    sort_std: 0.0023
+    sort_value: 0.4069
+    sort_std: 0.0042
+    is_best: false
+  - model: MLP-1
+    model_key: mlp-1
+    model_plain: MLP-1
+    value: 0.386
+    std: 0.0041
+    paper_value: 0.386
+    paper_std: 0.0041
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: Luan 2024
+    variant_inference_reason: 'dataset: exact match'
+    date: Jun 2025
+    date_display: Jun 2025
+    date_iso: 2025-06
+    global_rank: 89
+    true_value: 0.386
+    true_std: 0.0041
+    value_gap_source_arxiv: '2506.07624'
+    value_gap_source_title: 'Return of ChebNet: Understanding and Improving an Overlooked
+      GNN on Long-Range Tasks'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 89
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.386
+    sort_std: 0.0041
     is_best: false
   metric: Accuracy
   higher_is_better: true
@@ -1441,6 +1436,75 @@ results:
     sort_value: 0.1913
     sort_std: 0.0731
     is_best: true
+  - model: PGE
+    model_key: pge
+    model_plain: PGE
+    value: 0.21
+    std: null
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2105.08621'
+    title: 'Zorro: Valid, Sparse, and Stable Explanations in Graph Neural Networks'
+    date: May 2021
+    date_display: May 2021
+    date_iso: 2021-05
+    codebase_url: https://github.com/funket/zorro
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 1
+    sort_value: 0.21
+    sort_std: null
+    is_best: true
+  - model: MoleOOD
+    model_key: moleood
+    model_plain: MoleOOD
+    value: 0.3481
+    std: 0.0165
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2310.19035'
+    title: Does Invariant Graph Learning via Environment Augmentation Learn Invariance?
+    date: Oct 2023
+    date_display: Oct 2023
+    date_iso: 2023-10
+    codebase_url: https://github.com/LFhase/GALA
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 2
+    sort_value: 0.3481
+    sort_std: 0.0165
+    is_best: false
+  - model: GSAT
+    model_key: gsat
+    model_plain: GSAT
+    value: 0.3662
+    std: 0.0087
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2310.19035'
+    title: Does Invariant Graph Learning via Environment Augmentation Learn Invariance?
+    date: Oct 2023
+    date_display: Oct 2023
+    date_iso: 2023-10
+    codebase_url: https://github.com/LFhase/GALA
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 3
+    sort_value: 0.3662
+    sort_std: 0.0087
+    is_best: false
   - model: Stable-ChebNet
     model_key: stable-chebnet
     model_plain: Stable-ChebNet
@@ -1486,75 +1550,6 @@ results:
     global_rank: null
     sort_value: 0.7051
     sort_std: 0.1235
-    is_best: false
-  - model: PNA
-    model_key: pna
-    model_plain: PNA
-    value: 0.935
-    std: 0.002
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2409.08023'
-    title: Edge-Wise Graph-Instructed Neural Networks
-    date: Sep 2024
-    date_display: Sep 2024
-    date_iso: 2024-09
-    codebase_url: https://github.com/Fra0013To/GINN
-    uses_external_data: false
-    is_global_top: true
-    global_rank: 5
-    sort_value: 0.935
-    sort_std: 0.002
-    is_best: false
-  - model: DGN
-    model_key: dgn
-    model_plain: DGN
-    value: 0.942
-    std: 0.002
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2409.08023'
-    title: Edge-Wise Graph-Instructed Neural Networks
-    date: Sep 2024
-    date_display: Sep 2024
-    date_iso: 2024-09
-    codebase_url: https://github.com/Fra0013To/GINN
-    uses_external_data: false
-    is_global_top: true
-    global_rank: 6
-    sort_value: 0.942
-    sort_std: 0.002
-    is_best: false
-  - model: SAN
-    model_key: san
-    model_plain: SAN
-    value: 0.948
-    std: 0.001
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2409.08023'
-    title: Edge-Wise Graph-Instructed Neural Networks
-    date: Sep 2024
-    date_display: Sep 2024
-    date_iso: 2024-09
-    codebase_url: https://github.com/Fra0013To/GINN
-    uses_external_data: false
-    is_global_top: true
-    global_rank: 7
-    sort_value: 0.948
-    sort_std: 0.001
     is_best: false
   - model: GCNII
     model_key: gcnii
@@ -1621,7 +1616,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 4
+    global_rank: 46
     sort_value: 4.1086
     sort_std: 0.6653
     is_best: false
@@ -1644,7 +1639,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: null
+    global_rank: 52
     sort_value: 4.6896
     sort_std: 0.3465
     is_best: false
@@ -1667,7 +1662,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 2
+    global_rank: 44
     sort_value: 5.5313
     sort_std: 0.3516
     is_best: false
@@ -1690,7 +1685,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 3
+    global_rank: 26
     sort_value: 6.6362
     sort_std: 0.6015
     is_best: false
@@ -1713,13 +1708,13 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 1
+    global_rank: 43
     sort_value: 7.3165
     sort_std: 0.3269
     is_best: false
   metric: Accuracy
   higher_is_better: false
-- &id005
+- &id006
   dataset: Peptides-func
   rows:
   - model: S2GCN +PE
@@ -1796,6 +1791,29 @@ results:
     sort_value: 0.7275
     sort_std: 0.0066
     is_best: true
+  - model: gLSTM
+    model_key: glstm
+    model_plain: gLSTM
+    value: 0.725
+    std: 0.0023
+    metric: AP
+    higher_is_better: true
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2510.08450'
+    title: ': Mitigating by Increasing Storage Capacity'
+    date: Oct 2025
+    date_display: Oct 2025
+    date_iso: 2025-10
+    codebase_url: https://github.com/HughBlayney/gLSTM
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 3
+    sort_value: 0.725
+    sort_std: 0.0023
+    is_best: true
   - model: LRDs
     model_key: lrds
     model_plain: LRDs
@@ -1816,7 +1834,7 @@ results:
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
-    global_rank: 3
+    global_rank: 4
     sort_value: 0.7182
     sort_std: 0.0024
     is_best: false
@@ -1839,7 +1857,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 6
+    global_rank: 7
     true_value: 0.715
     true_std: 0.0044
     value_gap_source_arxiv: '2506.07624'
@@ -1850,7 +1868,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 6
+    paper_rank: 7
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1876,29 +1894,6 @@ results:
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
-    global_rank: 4
-    sort_value: 0.715
-    sort_std: 0.0044
-    is_best: false
-  - model: DRew+LapPE
-    model_key: drew+lappe
-    model_plain: DRew+LapPE
-    value: 0.715
-    std: 0.0044
-    metric: AP
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2312.01538'
-    title: Recurrent Distance Filtering for Graph Representation Learning
-    date: Dec 3, 2023
-    date_display: Dec 2023
-    date_iso: '2023-12-03'
-    codebase_url: https://github.com/skeletondyh/GRED
-    uses_external_data: false
-    is_global_top: true
     global_rank: 5
     sort_value: 0.715
     sort_std: 0.0044
@@ -1922,7 +1917,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 10
+    global_rank: 12
     true_value: 0.7093
     true_std: 0.0078
     value_gap_source_arxiv: '2506.07624'
@@ -1933,7 +1928,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 10
+    paper_rank: 12
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1959,7 +1954,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 13
+    global_rank: 15
     true_value: 0.7071
     true_std: 0.0083
     value_gap_source_arxiv: '2506.07624'
@@ -1970,7 +1965,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 13
+    paper_rank: 15
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1996,7 +1991,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 14
+    global_rank: 16
     true_value: 0.7032
     true_std: 0.0026
     value_gap_source_arxiv: '2506.07624'
@@ -2007,7 +2002,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 14
+    paper_rank: 16
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2033,7 +2028,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 16
+    global_rank: 18
     true_value: 0.7012
     true_std: 0.0045
     value_gap_source_arxiv: '2506.07624'
@@ -2044,7 +2039,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 16
+    paper_rank: 18
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2070,7 +2065,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 17
+    global_rank: 19
     true_value: 0.6996
     true_std: 0.0076
     value_gap_source_arxiv: '2506.07624'
@@ -2081,7 +2076,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 17
+    paper_rank: 19
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2107,7 +2102,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 18
+    global_rank: 20
     true_value: 0.6993
     true_std: 0.0052
     value_gap_source_arxiv: '2506.07624'
@@ -2118,7 +2113,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 18
+    paper_rank: 20
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2144,7 +2139,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 19
+    global_rank: 21
     true_value: 0.6988
     true_std: 0.0082
     value_gap_source_arxiv: '2312.01538'
@@ -2155,7 +2150,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 19
+    paper_rank: 21
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2181,23 +2176,22 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 23
-    true_value: 0.6942
-    true_std: 0.0075
-    value_gap_source_arxiv: '2506.07624'
-    value_gap_source_title: 'Return of ChebNet: Understanding and Improving an Overlooked
-      GNN on Long-Range Tasks'
-    value_gap_source_is_current_paper: true
+    global_rank: 26
+    true_value: 0.697
+    true_std: 0.008
+    value_gap_source_arxiv: '2502.09365'
+    value_gap_source_title: Simple Path Structural Encoding for Graph Transformers
+    value_gap_source_is_current_paper: false
     has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 23
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.6942
-    sort_std: 0.0075
+    has_value_note: true
+    value_gap: 0.0027999999999999137
+    value_note: global 0.6970 within std
+    paper_rank: 27
+    rank_delta: 1
+    rank_delta_abs: 1
+    rank_delta_direction: worse
+    sort_value: 0.697
+    sort_std: 0.008
     is_best: false
   - model: G.MLPMixer
     model_key: g.mlpmixer
@@ -2218,7 +2212,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 24
+    global_rank: 28
     true_value: 0.6921
     true_std: 0.0054
     value_gap_source_arxiv: '2506.07624'
@@ -2229,7 +2223,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 24
+    paper_rank: 28
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2255,7 +2249,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 28
+    global_rank: 33
     true_value: 0.686
     true_std: 0.005
     value_gap_source_arxiv: '2312.01538'
@@ -2266,7 +2260,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 28
+    paper_rank: 33
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2292,7 +2286,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 32
+    global_rank: 37
     true_value: 0.6819
     true_std: 0.0027
     value_gap_source_arxiv: '2506.07624'
@@ -2303,7 +2297,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 32
+    paper_rank: 37
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2329,7 +2323,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 34
+    global_rank: 39
     true_value: 0.6816
     true_std: 0.0026
     value_gap_source_arxiv: '2312.01538'
@@ -2340,7 +2334,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 34
+    paper_rank: 39
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2366,7 +2360,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 37
+    global_rank: 43
     true_value: 0.6751
     true_std: 0.0039
     value_gap_source_arxiv: '2506.07624'
@@ -2377,7 +2371,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 37
+    paper_rank: 43
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2403,7 +2397,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 38
+    global_rank: 44
     true_value: 0.6739
     true_std: 0.0087
     value_gap_source_arxiv: '2502.00282'
@@ -2414,7 +2408,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 38
+    paper_rank: 44
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2440,7 +2434,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 43
+    global_rank: 49
     true_value: 0.6686
     true_std: 0.0064
     value_gap_source_arxiv: '2506.07624'
@@ -2451,7 +2445,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 43
+    paper_rank: 49
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2477,7 +2471,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 44
+    global_rank: 50
     true_value: 0.6679
     true_std: 0.0074
     value_gap_source_arxiv: '2506.07624'
@@ -2488,7 +2482,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 44
+    paper_rank: 50
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2514,7 +2508,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 49
+    global_rank: 60
     true_value: 0.6569
     true_std: 0.0117
     value_gap_source_arxiv: '2506.07624'
@@ -2525,7 +2519,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 49
+    paper_rank: 60
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2551,7 +2545,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 58
+    global_rank: 68
     true_value: 0.6527
     true_std: 0.0043
     value_gap_source_arxiv: '2502.00282'
@@ -2562,7 +2556,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 58
+    paper_rank: 68
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2588,7 +2582,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 63
+    global_rank: 75
     true_value: 0.644
     true_std: 0.001
     value_gap_source_arxiv: '2506.07624'
@@ -2599,7 +2593,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 63
+    paper_rank: 75
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2625,7 +2619,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 67
+    global_rank: 79
     true_value: 0.6384
     true_std: 0.0121
     value_gap_source_arxiv: '2206.08164'
@@ -2635,7 +2629,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 67
+    paper_rank: 79
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2661,7 +2655,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 77
+    global_rank: 89
     true_value: 0.6022
     true_std: 0.0068
     value_gap_source_arxiv: '2506.07624'
@@ -2672,7 +2666,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 77
+    paper_rank: 89
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2698,7 +2692,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 78
+    global_rank: 90
     true_value: 0.5975
     true_std: 0.0044
     value_gap_source_arxiv: '2506.07624'
@@ -2709,7 +2703,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 78
+    paper_rank: 90
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2735,7 +2729,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 81
+    global_rank: 93
     true_value: 0.5789
     true_std: 0.0062
     value_gap_source_arxiv: '2506.07624'
@@ -2746,7 +2740,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 81
+    paper_rank: 93
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2755,7 +2749,7 @@ results:
     is_best: false
   metric: AP
   higher_is_better: true
-- &id004
+- &id005
   dataset: Peptides-struct
   rows:
   - model: Tango_GPS
@@ -2959,7 +2953,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 12
+    global_rank: 14
     true_value: 0.2458
     true_std: 0.0017
     value_gap_source_arxiv: '2506.07624'
@@ -2970,7 +2964,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 12
+    paper_rank: 14
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2996,7 +2990,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 14
+    global_rank: 16
     true_value: 0.246
     true_std: 0.0007
     value_gap_source_arxiv: '2312.01538'
@@ -3007,7 +3001,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 14
+    paper_rank: 16
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -3033,7 +3027,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 15
+    global_rank: 17
     true_value: 0.246
     true_std: 0.0012
     value_gap_source_arxiv: '2312.01538'
@@ -3044,7 +3038,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 15
+    paper_rank: 17
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -3070,7 +3064,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 18
+    global_rank: 22
     true_value: 0.2465
     true_std: 0.002
     value_gap_source_arxiv: '2506.07624'
@@ -3081,7 +3075,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 18
+    paper_rank: 22
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -3107,7 +3101,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 19
+    global_rank: 23
     true_value: 0.2467
     true_std: 0.0019
     value_gap_source_arxiv: '2506.07624'
@@ -3118,7 +3112,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 19
+    paper_rank: 23
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -3144,7 +3138,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 23
+    global_rank: 27
     true_value: 0.2473
     true_std: 0.0025
     value_gap_source_arxiv: '2506.07624'
@@ -3155,7 +3149,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 23
+    paper_rank: 27
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -3181,7 +3175,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 29
+    global_rank: 33
     true_value: 0.2475
     true_std: 0.0015
     value_gap_source_arxiv: '2506.07624'
@@ -3192,7 +3186,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 29
+    paper_rank: 33
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -3218,7 +3212,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 34
+    global_rank: 38
     true_value: 0.2478
     true_std: 0.0016
     value_gap_source_arxiv: '2502.00282'
@@ -3229,7 +3223,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 34
+    paper_rank: 38
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -3255,7 +3249,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 37
+    global_rank: 42
     true_value: 0.2481
     true_std: 0.0007
     value_gap_source_arxiv: '2502.00282'
@@ -3266,7 +3260,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 37
+    paper_rank: 42
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -3292,7 +3286,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 39
+    global_rank: 45
     true_value: 0.2485
     true_std: 0.0015
     value_gap_source_arxiv: '2506.07624'
@@ -3303,7 +3297,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 39
+    paper_rank: 45
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -3329,7 +3323,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 40
+    global_rank: 46
     true_value: 0.2485
     true_std: 0.0009
     value_gap_source_arxiv: '2506.07624'
@@ -3340,7 +3334,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 40
+    paper_rank: 46
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -3366,7 +3360,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 54
+    global_rank: 63
     true_value: 0.2523
     true_std: 0.0013
     value_gap_source_arxiv: '2506.07624'
@@ -3377,7 +3371,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 54
+    paper_rank: 63
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -3403,7 +3397,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 59
+    global_rank: 68
     true_value: 0.2536
     true_std: 0.0015
     value_gap_source_arxiv: '2506.07624'
@@ -3414,7 +3408,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 59
+    paper_rank: 68
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -3440,7 +3434,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 62
+    global_rank: 71
     true_value: 0.254
     true_std: 0.0046
     value_gap_source_arxiv: '2312.01538'
@@ -3451,7 +3445,7 @@ results:
     has_value_note: true
     value_gap: 0.0005000000000000004
     value_note: global 0.2540 within std
-    paper_rank: 63
+    paper_rank: 72
     rank_delta: 1
     rank_delta_abs: 1
     rank_delta_direction: worse
@@ -3477,7 +3471,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 63
+    global_rank: 72
     true_value: 0.2542
     true_std: 0.003
     value_gap_source_arxiv: '2506.07624'
@@ -3488,7 +3482,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 63
+    paper_rank: 72
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -3514,7 +3508,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 66
+    global_rank: 75
     true_value: 0.255
     true_std: 0.0014
     value_gap_source_arxiv: '2506.07624'
@@ -3525,7 +3519,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 66
+    paper_rank: 75
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -3551,7 +3545,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 75
+    global_rank: 85
     true_value: 0.2618
     true_std: 0.0058
     value_gap_source_arxiv: '2506.07624'
@@ -3562,7 +3556,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 75
+    paper_rank: 85
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -3588,7 +3582,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 78
+    global_rank: 88
     true_value: 0.268
     true_std: 0.004
     value_gap_source_arxiv: '2502.01122'
@@ -3599,49 +3593,12 @@ results:
     has_value_note: true
     value_gap: 0.00029999999999996696
     value_note: global 0.2680 within std
-    paper_rank: 78
+    paper_rank: 88
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 0.268
     sort_std: 0.004
-    is_best: false
-  - model: GraphCON
-    model_key: graphcon
-    model_plain: GraphCON
-    value: 0.2778
-    std: 0.0018
-    paper_value: 0.2778
-    paper_std: 0.0018
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: 'dataset: exact match'
-    date: Jun 2025
-    date_display: Jun 2025
-    date_iso: 2025-06
-    global_rank: 85
-    true_value: 0.2778
-    true_std: 0.0018
-    value_gap_source_arxiv: '2506.07624'
-    value_gap_source_title: 'Return of ChebNet: Understanding and Improving an Overlooked
-      GNN on Long-Range Tasks'
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 85
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.2778
-    sort_std: 0.0018
     is_best: false
   - model: DRew-GCN
     model_key: drew-gcn
@@ -3662,9 +3619,45 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 86
-    true_value: 0.2781
-    true_std: 0.0028
+    global_rank: 95
+    true_value: 0.2766
+    true_std: 0.0019
+    value_gap_source_arxiv: '2510.08450'
+    value_gap_source_title: ': Mitigating by Increasing Storage Capacity'
+    value_gap_source_is_current_paper: false
+    has_value_gap: false
+    has_value_note: true
+    value_gap: 0.0015000000000000013
+    value_note: global 0.2766 within std
+    paper_rank: 96
+    rank_delta: 1
+    rank_delta_abs: 1
+    rank_delta_direction: worse
+    sort_value: 0.2766
+    sort_std: 0.0019
+    is_best: false
+  - model: GraphCON
+    model_key: graphcon
+    model_plain: GraphCON
+    value: 0.2778
+    std: 0.0018
+    paper_value: 0.2778
+    paper_std: 0.0018
+    metric: MAE
+    higher_is_better: false
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Jun 2025
+    date_display: Jun 2025
+    date_iso: 2025-06
+    global_rank: 96
+    true_value: 0.2778
+    true_std: 0.0018
     value_gap_source_arxiv: '2506.07624'
     value_gap_source_title: 'Return of ChebNet: Understanding and Improving an Overlooked
       GNN on Long-Range Tasks'
@@ -3673,12 +3666,12 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 86
+    paper_rank: 96
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
-    sort_value: 0.2781
-    sort_std: 0.0028
+    sort_value: 0.2778
+    sort_std: 0.0018
     is_best: false
   - model: A-DGN
     model_key: a-dgn
@@ -3699,7 +3692,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 88
+    global_rank: 99
     true_value: 0.2874
     true_std: 0.0021
     value_gap_source_arxiv: '2506.07624'
@@ -3710,7 +3703,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 88
+    paper_rank: 99
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -3736,7 +3729,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 90
+    global_rank: 101
     true_value: 0.3043
     true_std: 0.0019
     value_gap_source_arxiv: '2506.07624'
@@ -3747,7 +3740,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 90
+    paper_rank: 101
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -3773,7 +3766,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 93
+    global_rank: 104
     true_value: 0.3418
     true_std: 0.0015
     value_gap_source_arxiv: '2506.07624'
@@ -3784,7 +3777,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 93
+    paper_rank: 104
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -3916,6 +3909,29 @@ results:
     sort_value: 0.9189
     sort_std: 0.003
     is_best: true
+  - model: NDDGNN
+    model_key: nddgnn
+    model_plain: NDDGNN
+    value: 0.9176
+    std: 0.0027
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2505.22362'
+    title: Directed Homophily-Aware Graph Neural Network
+    date: May 2025
+    date_display: May 2025
+    date_iso: 2025-05
+    codebase_url: ''
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 5
+    sort_value: 0.9176
+    sort_std: 0.0027
+    is_best: false
   - model: CO-GNN(Σ, Σ)
     model_key: co-gnn(σ, σ)
     model_plain: CO-GNN(Σ, Σ)
@@ -3935,7 +3951,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 5
+    global_rank: 6
     true_value: 0.9157
     true_std: 0.0032
     value_gap_source_arxiv: '2506.07624'
@@ -3946,7 +3962,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 5
+    paper_rank: 6
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -3972,7 +3988,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 6
+    global_rank: 7
     true_value: 0.9137
     true_std: 0.0035
     value_gap_source_arxiv: '2506.07624'
@@ -3983,35 +3999,12 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 6
+    paper_rank: 7
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 0.9137
     sort_std: 0.0035
-    is_best: false
-  - model: Dir-GNN
-    model_key: dir-gnn
-    model_plain: Dir-GNN
-    value: 0.9123
-    std: 0.0032
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2305.10498'
-    title: Edge Directionality Improves Learning on Heterophilic Graphs
-    date: May 2023
-    date_display: May 2023
-    date_iso: 2023-05
-    codebase_url: https://github.com/emalgorithm/directed-graph-neural-network
-    uses_external_data: false
-    is_global_top: true
-    global_rank: 7
-    sort_value: 0.9123
-    sort_std: 0.0032
     is_best: false
   - model: MP-SSM
     model_key: mp-ssm
@@ -4032,7 +4025,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 9
+    global_rank: 10
     true_value: 0.9091
     true_std: 0.0048
     value_gap_source_arxiv: '2506.07624'
@@ -4043,7 +4036,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 9
+    paper_rank: 10
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -4069,7 +4062,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 11
+    global_rank: 13
     true_value: 0.8903
     true_std: 0.0037
     value_gap_source_arxiv: '2506.07624'
@@ -4080,7 +4073,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 11
+    paper_rank: 13
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -4106,7 +4099,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 12
+    global_rank: 14
     true_value: 0.8861
     true_std: 0.0043
     value_gap_source_arxiv: '2506.07624'
@@ -4117,7 +4110,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 12
+    paper_rank: 14
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -4143,7 +4136,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 14
+    global_rank: 16
     true_value: 0.8769
     true_std: 0.005
     value_gap_source_arxiv: '2506.07624'
@@ -4154,7 +4147,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 14
+    paper_rank: 16
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -4180,7 +4173,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 15
+    global_rank: 17
     true_value: 0.8732
     true_std: 0.0039
     value_gap_source_arxiv: '2506.07624'
@@ -4191,7 +4184,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 15
+    paper_rank: 17
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -4217,7 +4210,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 16
+    global_rank: 18
     true_value: 0.8704
     true_std: 0.0058
     value_gap_source_arxiv: '2508.05070'
@@ -4228,7 +4221,7 @@ results:
     has_value_note: false
     value_gap: 0.0232
     value_note: ''
-    paper_rank: 22
+    paper_rank: 24
     rank_delta: 6
     rank_delta_abs: 6
     rank_delta_direction: worse
@@ -4254,7 +4247,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 18
+    global_rank: 20
     true_value: 0.8662
     true_std: 0.0053
     value_gap_source_arxiv: '2506.07624'
@@ -4265,7 +4258,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 18
+    paper_rank: 20
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -4291,7 +4284,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 19
+    global_rank: 21
     true_value: 0.8651
     true_std: 0.0073
     value_gap_source_arxiv: '2506.07624'
@@ -4302,7 +4295,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 19
+    paper_rank: 21
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -4328,7 +4321,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 20
+    global_rank: 22
     true_value: 0.8574
     true_std: 0.0067
     value_gap_source_arxiv: '2506.07624'
@@ -4339,7 +4332,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 20
+    paper_rank: 22
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -4365,7 +4358,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 21
+    global_rank: 23
     true_value: 0.8484
     true_std: 0.0055
     value_gap_source_arxiv: '2506.07624'
@@ -4376,7 +4369,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 21
+    paper_rank: 23
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -4402,7 +4395,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 22
+    global_rank: 24
     true_value: 0.848
     true_std: 0.0046
     value_gap_source_arxiv: '2506.07624'
@@ -4413,7 +4406,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 22
+    paper_rank: 24
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -4439,7 +4432,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 23
+    global_rank: 25
     true_value: 0.8396
     true_std: 0.0053
     value_gap_source_arxiv: '2506.07624'
@@ -4450,7 +4443,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 23
+    paper_rank: 25
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -4476,7 +4469,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 24
+    global_rank: 26
     true_value: 0.8337
     true_std: 0.0055
     value_gap_source_arxiv: '2506.07624'
@@ -4487,7 +4480,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 24
+    paper_rank: 26
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -4513,7 +4506,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 25
+    global_rank: 27
     true_value: 0.833
     true_std: 0.0079
     value_gap_source_arxiv: '2602.17893'
@@ -4524,9 +4517,9 @@ results:
     has_value_note: false
     value_gap: 0.08839999999999992
     value_note: ''
-    paper_rank: 34
-    rank_delta: 9
-    rank_delta_abs: 9
+    paper_rank: 49
+    rank_delta: 22
+    rank_delta_abs: 22
     rank_delta_direction: worse
     sort_value: 0.833
     sort_std: 0.0079
@@ -4550,7 +4543,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 26
+    global_rank: 28
     true_value: 0.831
     true_std: 0.0028
     value_gap_source_arxiv: '2506.07624'
@@ -4561,7 +4554,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 26
+    paper_rank: 28
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -4587,7 +4580,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 28
+    global_rank: 31
     true_value: 0.82
     true_std: 0.0061
     value_gap_source_arxiv: '2506.07624'
@@ -4598,7 +4591,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 28
+    paper_rank: 31
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -4624,7 +4617,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 30
+    global_rank: 34
     true_value: 0.8087
     true_std: 0.003
     value_gap_source_arxiv: '2506.07624'
@@ -4635,7 +4628,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 30
+    paper_rank: 34
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -4661,7 +4654,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 31
+    global_rank: 35
     true_value: 0.8
     true_std: 0.0043
     value_gap_source_arxiv: '2602.17893'
@@ -4672,9 +4665,9 @@ results:
     has_value_note: false
     value_gap: 0.056600000000000095
     value_note: ''
-    paper_rank: 34
-    rank_delta: 3
-    rank_delta_abs: 3
+    paper_rank: 49
+    rank_delta: 14
+    rank_delta_abs: 14
     rank_delta_direction: worse
     sort_value: 0.8
     sort_std: 0.0043
@@ -4698,7 +4691,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 32
+    global_rank: 36
     true_value: 0.7992
     true_std: 0.0056
     value_gap_source_arxiv: '2506.07624'
@@ -4709,7 +4702,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 32
+    paper_rank: 36
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -4735,7 +4728,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 33
+    global_rank: 37
     true_value: 0.795
     true_std: 0.0088
     value_gap_source_arxiv: '2602.17893'
@@ -4746,9 +4739,9 @@ results:
     has_value_note: false
     value_gap: 0.05810000000000004
     value_note: ''
-    paper_rank: 35
-    rank_delta: 2
-    rank_delta_abs: 2
+    paper_rank: 51
+    rank_delta: 14
+    rank_delta_abs: 14
     rank_delta_direction: worse
     sort_value: 0.795
     sort_std: 0.0088
@@ -4772,7 +4765,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 34
+    global_rank: 49
     true_value: 0.7457
     true_std: 0.0047
     value_gap_source_arxiv: '2506.07624'
@@ -4783,7 +4776,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 34
+    paper_rank: 49
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -4809,7 +4802,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 36
+    global_rank: 56
     true_value: 0.7159
     true_std: 0.0125
     value_gap_source_arxiv: '2506.07624'
@@ -4820,12 +4813,49 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 36
+    paper_rank: 56
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 0.7159
     sort_std: 0.0125
+    is_best: false
+  - model: GloGNN
+    model_key: glognn
+    model_plain: GloGNN
+    value: 0.5963
+    std: 0.0069
+    paper_value: 0.5963
+    paper_std: 0.0069
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Jun 2025
+    date_display: Jun 2025
+    date_iso: 2025-06
+    global_rank: 58
+    true_value: 0.7117
+    true_std: 0.012
+    value_gap_source_arxiv: '2404.15354'
+    value_gap_source_title: 'Polynomial Selection in Spectral Graph Neural Networks:
+      An Error-Sum of Function Slices Approach'
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
+    has_value_note: false
+    value_gap: 0.11539999999999995
+    value_note: ''
+    paper_rank: 85
+    rank_delta: 27
+    rank_delta_abs: 27
+    rank_delta_direction: worse
+    sort_value: 0.7117
+    sort_std: 0.012
     is_best: false
   - model: JacobiConv
     model_key: jacobiconv
@@ -4846,7 +4876,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 38
+    global_rank: 59
     true_value: 0.7114
     true_std: 0.0042
     value_gap_source_arxiv: '2506.07624'
@@ -4857,12 +4887,48 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 38
+    paper_rank: 59
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 0.7114
     sort_std: 0.0042
+    is_best: false
+  - model: CPGNN
+    model_key: cpgnn
+    model_plain: CPGNN
+    value: 0.6396
+    std: 0.0062
+    paper_value: 0.6396
+    paper_std: 0.0062
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Jun 2025
+    date_display: Jun 2025
+    date_iso: 2025-06
+    global_rank: 60
+    true_value: 0.703
+    true_std: 0.0075
+    value_gap_source_arxiv: '2601.01207'
+    value_gap_source_title: Sparse Bayesian Message Passing under Structural Uncertainty
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
+    has_value_note: false
+    value_gap: 0.06340000000000001
+    value_note: ''
+    paper_rank: 83
+    rank_delta: 23
+    rank_delta_abs: 23
+    rank_delta_direction: worse
+    sort_value: 0.703
+    sort_std: 0.0075
     is_best: false
   - model: MLP-2
     model_key: mlp-2
@@ -4883,7 +4949,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 41
+    global_rank: 73
     true_value: 0.6604
     true_std: 0.0071
     value_gap_source_arxiv: '2506.07624'
@@ -4894,7 +4960,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 41
+    paper_rank: 73
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -4920,7 +4986,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 43
+    global_rank: 78
     true_value: 0.6522
     true_std: 0.0056
     value_gap_source_arxiv: '2506.07624'
@@ -4931,7 +4997,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 43
+    paper_rank: 78
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -4957,7 +5023,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 45
+    global_rank: 79
     true_value: 0.6485
     true_std: 0.0027
     value_gap_source_arxiv: '2506.07624'
@@ -4968,7 +5034,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 45
+    paper_rank: 79
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -4994,7 +5060,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 46
+    global_rank: 83
     true_value: 0.6412
     true_std: 0.0061
     value_gap_source_arxiv: '2506.07624'
@@ -5005,49 +5071,12 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 46
+    paper_rank: 83
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 0.6412
     sort_std: 0.0061
-    is_best: false
-  - model: CPGNN
-    model_key: cpgnn
-    model_plain: CPGNN
-    value: 0.6396
-    std: 0.0062
-    paper_value: 0.6396
-    paper_std: 0.0062
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: 'dataset: exact match'
-    date: Jun 2025
-    date_display: Jun 2025
-    date_iso: 2025-06
-    global_rank: 47
-    true_value: 0.6396
-    true_std: 0.0062
-    value_gap_source_arxiv: '2506.07624'
-    value_gap_source_title: 'Return of ChebNet: Understanding and Improving an Overlooked
-      GNN on Long-Range Tasks'
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 47
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.6396
-    sort_std: 0.0062
     is_best: false
   - model: H2GCN
     model_key: h2gcn
@@ -5068,60 +5097,23 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 49
-    true_value: 0.6011
-    true_std: 0.0052
-    value_gap_source_arxiv: '2506.07624'
-    value_gap_source_title: 'Return of ChebNet: Understanding and Improving an Overlooked
-      GNN on Long-Range Tasks'
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
+    global_rank: 85
+    true_value: 0.6138
+    true_std: 0.012
+    value_gap_source_arxiv: '2404.15354'
+    value_gap_source_title: 'Polynomial Selection in Spectral Graph Neural Networks:
+      An Error-Sum of Function Slices Approach'
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
     has_value_note: false
-    value_gap: null
+    value_gap: 0.012700000000000045
     value_note: ''
-    paper_rank: 49
+    paper_rank: 85
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
-    sort_value: 0.6011
-    sort_std: 0.0052
-    is_best: false
-  - model: GloGNN
-    model_key: glognn
-    model_plain: GloGNN
-    value: 0.5963
-    std: 0.0069
-    paper_value: 0.5963
-    paper_std: 0.0069
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: 'dataset: exact match'
-    date: Jun 2025
-    date_display: Jun 2025
-    date_iso: 2025-06
-    global_rank: 50
-    true_value: 0.5963
-    true_std: 0.0069
-    value_gap_source_arxiv: '2506.07624'
-    value_gap_source_title: 'Return of ChebNet: Understanding and Improving an Overlooked
-      GNN on Long-Range Tasks'
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 50
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.5963
-    sort_std: 0.0069
+    sort_value: 0.6138
+    sort_std: 0.012
     is_best: false
   - model: SGC-1
     model_key: sgc-1
@@ -5142,7 +5134,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 60
+    global_rank: 96
     true_value: 0.446
     true_std: 0.0052
     value_gap_source_arxiv: '2506.07624'
@@ -5153,7 +5145,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 60
+    paper_rank: 96
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -5671,9 +5663,9 @@ results:
     has_value_note: true
     value_gap: 0.0015999999999999348
     value_note: global 0.8380 within std
-    paper_rank: 23
-    rank_delta: 4
-    rank_delta_abs: 4
+    paper_rank: 24
+    rank_delta: 5
+    rank_delta_abs: 5
     rank_delta_direction: worse
     sort_value: 0.838
     sort_std: 0.0034
@@ -5734,7 +5726,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 21
+    global_rank: 22
     true_value: 0.8371
     true_std: 0.0048
     value_gap_source_arxiv: '2506.07624'
@@ -5745,7 +5737,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 21
+    paper_rank: 22
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -5771,7 +5763,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 22
+    global_rank: 23
     true_value: 0.837
     true_std: 0.0047
     value_gap_source_arxiv: '2506.07624'
@@ -5782,7 +5774,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 22
+    paper_rank: 23
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -5808,7 +5800,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 23
+    global_rank: 24
     true_value: 0.837
     true_std: 0.0105
     value_gap_source_arxiv: '2506.07624'
@@ -5819,7 +5811,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 23
+    paper_rank: 24
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -5845,7 +5837,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 24
+    global_rank: 25
     true_value: 0.8353
     true_std: 0.0106
     value_gap_source_arxiv: '2506.07624'
@@ -5856,7 +5848,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 24
+    paper_rank: 25
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -5882,7 +5874,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 25
+    global_rank: 26
     true_value: 0.8351
     true_std: 0.0093
     value_gap_source_arxiv: '2506.07624'
@@ -5893,7 +5885,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 25
+    paper_rank: 26
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -5919,7 +5911,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 26
+    global_rank: 30
     true_value: 0.834
     true_std: 0.0045
     value_gap_source_arxiv: '2602.17893'
@@ -5930,9 +5922,9 @@ results:
     has_value_note: false
     value_gap: 0.050799999999999956
     value_note: ''
-    paper_rank: 38
-    rank_delta: 12
-    rank_delta_abs: 12
+    paper_rank: 46
+    rank_delta: 16
+    rank_delta_abs: 16
     rank_delta_direction: worse
     sort_value: 0.834
     sort_std: 0.0045
@@ -5956,7 +5948,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 27
+    global_rank: 31
     true_value: 0.8336
     true_std: 0.0089
     value_gap_source_arxiv: '2506.07624'
@@ -5967,7 +5959,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 27
+    paper_rank: 31
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -5993,7 +5985,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 28
+    global_rank: 32
     true_value: 0.8323
     true_std: 0.0064
     value_gap_source_arxiv: '2506.07624'
@@ -6004,7 +5996,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 28
+    paper_rank: 32
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -6030,7 +6022,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 29
+    global_rank: 33
     true_value: 0.832
     true_std: 0.009
     value_gap_source_arxiv: '2602.17893'
@@ -6041,9 +6033,9 @@ results:
     has_value_note: false
     value_gap: 0.05889999999999995
     value_note: ''
-    paper_rank: 39
-    rank_delta: 10
-    rank_delta_abs: 10
+    paper_rank: 48
+    rank_delta: 15
+    rank_delta_abs: 15
     rank_delta_direction: worse
     sort_value: 0.832
     sort_std: 0.009
@@ -6067,7 +6059,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 30
+    global_rank: 34
     true_value: 0.8311
     true_std: 0.0104
     value_gap_source_arxiv: '2506.07624'
@@ -6078,7 +6070,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 30
+    paper_rank: 34
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -6104,7 +6096,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 31
+    global_rank: 35
     true_value: 0.8276
     true_std: 0.0061
     value_gap_source_arxiv: '2506.07624'
@@ -6115,7 +6107,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 31
+    paper_rank: 35
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -6141,7 +6133,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 32
+    global_rank: 36
     true_value: 0.8252
     true_std: 0.0092
     value_gap_source_arxiv: '2506.07624'
@@ -6152,7 +6144,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 32
+    paper_rank: 36
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -6178,7 +6170,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 33
+    global_rank: 37
     true_value: 0.8243
     true_std: 0.0044
     value_gap_source_arxiv: '2506.07624'
@@ -6189,7 +6181,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 33
+    paper_rank: 37
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -6215,7 +6207,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 34
+    global_rank: 38
     true_value: 0.8101
     true_std: 0.0067
     value_gap_source_arxiv: '2506.07624'
@@ -6226,7 +6218,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 34
+    paper_rank: 38
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -6252,7 +6244,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 39
+    global_rank: 47
     true_value: 0.7775
     true_std: 0.0105
     value_gap_source_arxiv: '2506.07624'
@@ -6263,7 +6255,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 39
+    paper_rank: 47
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -6289,7 +6281,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 41
+    global_rank: 54
     true_value: 0.7458
     true_std: 0.0075
     value_gap_source_arxiv: '2506.07624'
@@ -6300,7 +6292,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 41
+    paper_rank: 54
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -6326,7 +6318,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 42
+    global_rank: 56
     true_value: 0.738
     true_std: 0.0135
     value_gap_source_arxiv: '2506.07624'
@@ -6337,7 +6329,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 42
+    paper_rank: 56
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -6363,7 +6355,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 43
+    global_rank: 57
     true_value: 0.7339
     true_std: 0.0117
     value_gap_source_arxiv: '2506.07624'
@@ -6374,7 +6366,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 43
+    paper_rank: 57
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -6400,7 +6392,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 44
+    global_rank: 58
     true_value: 0.7336
     true_std: 0.0101
     value_gap_source_arxiv: '2506.07624'
@@ -6411,7 +6403,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 44
+    paper_rank: 58
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -6437,7 +6429,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 45
+    global_rank: 59
     true_value: 0.7335
     true_std: 0.0101
     value_gap_source_arxiv: '2506.07624'
@@ -6448,7 +6440,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 45
+    paper_rank: 59
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -6474,7 +6466,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 47
+    global_rank: 62
     true_value: 0.7294
     true_std: 0.0097
     value_gap_source_arxiv: '2506.07624'
@@ -6485,7 +6477,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 47
+    paper_rank: 62
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -6511,7 +6503,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 48
+    global_rank: 64
     true_value: 0.7189
     true_std: 0.0082
     value_gap_source_arxiv: '2506.07624'
@@ -6522,7 +6514,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 48
+    paper_rank: 64
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -6548,7 +6540,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 49
+    global_rank: 66
     true_value: 0.6866
     true_std: 0.0065
     value_gap_source_arxiv: '2506.07624'
@@ -6559,7 +6551,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 49
+    paper_rank: 66
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -6568,187 +6560,79 @@ results:
     is_best: false
   metric: ROC-AUC
   higher_is_better: true
-- &id006
+- &id004
   dataset: ogbn-arxiv
   rows:
-  - model: Stable-ChebNet
-    model_key: stable-chebnet
-    model_plain: Stable-ChebNet
-    value: 0.7573
-    std: 0.0051
-    paper_value: 0.7573
-    paper_std: 0.0051
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: 'dataset: exact match'
-    date: Jun 2025
-    date_display: Jun 2025
-    date_iso: 2025-06
-    global_rank: 1
-    true_value: 0.7573
-    true_std: 0.0051
-    value_gap_source_arxiv: '2506.07624'
-    value_gap_source_title: 'Return of ChebNet: Understanding and Improving an Overlooked
-      GNN on Long-Range Tasks'
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 1
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.7573
-    sort_std: 0.0051
-    is_best: true
-  - model: Llama-7b
-    model_key: llama-7b
-    model_plain: Llama-7b
-    value: 0.757
-    std: 0.0012
+  - model: KCoT
+    model_key: kcot
+    model_plain: KCoT
+    value: 0.7925
+    std: null
     metric: Accuracy
     higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2308.07134'
-    title: Language is All a Graph Needs
+    arxiv_id: '2605.24867'
+    title: 'Clustering as Reasoning: A $k$-Means Interpretation of Chain-of-Thought
+      Graph Learning'
+    date: May 24, 2026
+    date_display: May 2026
+    date_iso: '2026-05-24'
+    codebase_url: https://github.com/Uncnbb/KCoT
+    uses_external_data: true
+    is_global_top: true
+    global_rank: 1
+    sort_value: 0.7925
+    sort_std: null
+    is_best: true
+  - model: TAPE + SimTeG
+    model_key: tape + simteg
+    model_plain: TAPE + SimTeG
+    value: 0.7803
+    std: 0.0007
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2308.02565'
+    title: 'SimTeG: A Frustratingly ple Approach Improves xtual raph Learning'
     date: Aug 2023
     date_display: Aug 2023
     date_iso: 2023-08
-    codebase_url: https://github.com/agiresearch/InstructGLM
-    uses_external_data: true
+    codebase_url: https://github.com/vermouthdky/SimTeG
+    uses_external_data: null
     is_global_top: true
     global_rank: 2
-    sort_value: 0.757
-    sort_std: 0.0012
-    is_best: true
-  - model: ILLS
-    model_key: ills
-    model_plain: ILLS
-    value: 0.752
-    std: 0.002
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2305.17589'
-    title: Graph Inductive Biases in Transformers without Message Passing
-    date: May 27, 2023
-    date_display: May 2023
-    date_iso: '2023-05-27'
-    codebase_url: ''
-    uses_external_data: false
-    is_global_top: true
-    global_rank: 3
-    sort_value: 0.752
-    sort_std: 0.002
-    is_best: true
-  - model: Flan-T5-large
-    model_key: flan-t5-large
-    model_plain: Flan-T5-large
-    value: 0.7467
-    std: 0.0008
+    sort_value: 0.7803
+    sort_std: 0.0007
+    is_best: false
+  - model: OFA
+    model_key: ofa
+    model_plain: OFA
+    value: 0.7751
+    std: 0.0017
     metric: Accuracy
     higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2308.07134'
-    title: Language is All a Graph Needs
-    date: Aug 2023
-    date_display: Aug 2023
-    date_iso: 2023-08
-    codebase_url: https://github.com/agiresearch/InstructGLM
+    arxiv_id: '2412.19211'
+    title: 'Large Language Models Meet Graph Neural Networks: A Perspective of Graph
+      Mining'
+    date: Dec 2024
+    date_display: Dec 2024
+    date_iso: 2024-12
+    codebase_url: ''
     uses_external_data: true
     is_global_top: true
-    global_rank: 4
-    sort_value: 0.7467
-    sort_std: 0.0008
-    is_best: false
-  - model: GAT
-    model_key: gat
-    model_plain: GAT
-    value: 0.7201
-    std: 0.002
-    paper_value: 0.7201
-    paper_std: 0.002
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: 'dataset: exact match'
-    date: Jun 2025
-    date_display: Jun 2025
-    date_iso: 2025-06
-    global_rank: 14
-    true_value: 0.7391
-    true_std: 0.0012
-    value_gap_source_arxiv: '2106.07476'
-    value_gap_source_title: Training Graph Neural Networks with 1000 Layers
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.019000000000000017
-    value_note: ''
-    paper_rank: 37
-    rank_delta: 23
-    rank_delta_abs: 23
-    rank_delta_direction: worse
-    sort_value: 0.7391
-    sort_std: 0.0012
-    is_best: false
-  - model: GCN
-    model_key: gcn
-    model_plain: GCN
-    value: 0.7174
-    std: 0.0029
-    paper_value: 0.7174
-    paper_std: 0.0029
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: 'dataset: exact match'
-    date: Jun 2025
-    date_display: Jun 2025
-    date_iso: 2025-06
-    global_rank: 21
-    true_value: 0.731
-    true_std: 0.003
-    value_gap_source_arxiv: '2305.17589'
-    value_gap_source_title: Graph Inductive Biases in Transformers without Message
-      Passing
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.013599999999999945
-    value_note: ''
-    paper_rank: 40
-    rank_delta: 19
-    rank_delta_abs: 19
-    rank_delta_direction: worse
-    sort_value: 0.731
-    sort_std: 0.003
+    global_rank: 3
+    sort_value: 0.7751
+    sort_std: 0.0017
     is_best: false
   - model: GraphSAGE
     model_key: graphsage
@@ -6770,22 +6654,205 @@ results:
     date_display: Jun 2025
     date_iso: 2025-06
     global_rank: 26
-    true_value: 0.728
-    true_std: 0.005
-    value_gap_source_arxiv: '2305.17589'
-    value_gap_source_title: Graph Inductive Biases in Transformers without Message
-      Passing
+    true_value: 0.7629
+    true_std: null
+    value_gap_source_arxiv: '2402.08170'
+    value_gap_source_title: arXiv:2402.08170
     value_gap_source_is_current_paper: false
     has_value_gap: true
     has_value_note: false
-    value_gap: 0.0131
+    value_gap: 0.04800000000000004
     value_note: ''
-    paper_rank: 42
-    rank_delta: 16
-    rank_delta_abs: 16
+    paper_rank: 252
+    rank_delta: 226
+    rank_delta_abs: 226
     rank_delta_direction: worse
-    sort_value: 0.728
-    sort_std: 0.005
+    sort_value: 0.7629
+    sort_std: null
+    is_best: false
+  - model: Stable-ChebNet
+    model_key: stable-chebnet
+    model_plain: Stable-ChebNet
+    value: 0.7573
+    std: 0.0051
+    paper_value: 0.7573
+    paper_std: 0.0051
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Jun 2025
+    date_display: Jun 2025
+    date_iso: 2025-06
+    global_rank: 39
+    true_value: 0.7573
+    true_std: 0.0051
+    value_gap_source_arxiv: '2506.07624'
+    value_gap_source_title: 'Return of ChebNet: Understanding and Improving an Overlooked
+      GNN on Long-Range Tasks'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 39
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.7573
+    sort_std: 0.0051
+    is_best: false
+  - model: GCN
+    model_key: gcn
+    model_plain: GCN
+    value: 0.7174
+    std: 0.0029
+    paper_value: 0.7174
+    paper_std: 0.0029
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Jun 2025
+    date_display: Jun 2025
+    date_iso: 2025-06
+    global_rank: 57
+    true_value: 0.752
+    true_std: 0.0003
+    value_gap_source_arxiv: '2509.14863'
+    value_gap_source_title: 'Exploring the Global-to-Local Attention Scheme in Graph
+      Transformers: An Empirical Study'
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
+    has_value_note: false
+    value_gap: 0.034599999999999964
+    value_note: ''
+    paper_rank: 234
+    rank_delta: 177
+    rank_delta_abs: 177
+    rank_delta_direction: worse
+    sort_value: 0.752
+    sort_std: 0.0003
+    is_best: false
+  - model: GraphGPS
+    model_key: graphgps
+    model_plain: GraphGPS
+    value: 0.7092
+    std: 0.0004
+    paper_value: 0.7092
+    paper_std: 0.0004
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Jun 2025
+    date_display: Jun 2025
+    date_iso: 2025-06
+    global_rank: 60
+    true_value: 0.7511
+    true_std: null
+    value_gap_source_arxiv: '2605.24867'
+    value_gap_source_title: 'Clustering as Reasoning: A $k$-Means Interpretation of
+      Chain-of-Thought Graph Learning'
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
+    has_value_note: false
+    value_gap: 0.04189999999999994
+    value_note: ''
+    paper_rank: 276
+    rank_delta: 216
+    rank_delta_abs: 216
+    rank_delta_direction: worse
+    sort_value: 0.7511
+    sort_std: null
+    is_best: false
+  - model: NodeFormer
+    model_key: nodeformer
+    model_plain: NodeFormer
+    value: 0.599
+    std: 0.0042
+    paper_value: 0.599
+    paper_std: 0.0042
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Jun 2025
+    date_display: Jun 2025
+    date_iso: 2025-06
+    global_rank: 69
+    true_value: 0.7485
+    true_std: null
+    value_gap_source_arxiv: '2402.08170'
+    value_gap_source_title: arXiv:2402.08170
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
+    has_value_note: false
+    value_gap: 0.14950000000000008
+    value_note: ''
+    paper_rank: 359
+    rank_delta: 290
+    rank_delta_abs: 290
+    rank_delta_direction: worse
+    sort_value: 0.7485
+    sort_std: null
+    is_best: false
+  - model: GAT
+    model_key: gat
+    model_plain: GAT
+    value: 0.7201
+    std: 0.002
+    paper_value: 0.7201
+    paper_std: 0.002
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Jun 2025
+    date_display: Jun 2025
+    date_iso: 2025-06
+    global_rank: 77
+    true_value: 0.7439
+    true_std: null
+    value_gap_source_arxiv: '2603.01385'
+    value_gap_source_title: Toward Graph-Tokenizing Large Language Models with Reconstructive
+      Graph Instruction Tuning
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
+    has_value_note: false
+    value_gap: 0.023800000000000043
+    value_note: ''
+    paper_rank: 209
+    rank_delta: 132
+    rank_delta_abs: 132
+    rank_delta_direction: worse
+    sort_value: 0.7439
+    sort_std: null
     is_best: false
   - model: ChebNet
     model_key: chebnet
@@ -6806,23 +6873,23 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 31
-    true_value: 0.725
-    true_std: 0.006
-    value_gap_source_arxiv: '2305.17589'
-    value_gap_source_title: Graph Inductive Biases in Transformers without Message
-      Passing
+    global_rank: 136
+    true_value: 0.733
+    true_std: 0.0
+    value_gap_source_arxiv: '2511.06443'
+    value_gap_source_title: How Wide and How Deep? Mitigating Over-Squashing of GNNs
+      via Channel Capacity Constrained Estimation
     value_gap_source_is_current_paper: false
-    has_value_gap: false
-    has_value_note: true
-    value_gap: 0.0018000000000000238
-    value_note: global 0.7250 within std
-    paper_rank: 35
-    rank_delta: 4
-    rank_delta_abs: 4
+    has_value_gap: true
+    has_value_note: false
+    value_gap: 0.009800000000000031
+    value_note: ''
+    paper_rank: 197
+    rank_delta: 61
+    rank_delta_abs: 61
     rank_delta_direction: worse
-    sort_value: 0.725
-    sort_std: 0.006
+    sort_value: 0.733
+    sort_std: 0.0
     is_best: false
   - model: Exphormer
     model_key: exphormer
@@ -6843,7 +6910,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 34
+    global_rank: 191
     true_value: 0.7244
     true_std: 0.0028
     value_gap_source_arxiv: '2303.06147'
@@ -6853,9 +6920,9 @@ results:
     has_value_note: false
     value_gap: 0.016199999999999992
     value_note: ''
-    paper_rank: 47
-    rank_delta: 13
-    rank_delta_abs: 13
+    paper_rank: 276
+    rank_delta: 85
+    rank_delta_abs: 85
     rank_delta_direction: worse
     sort_value: 0.7244
     sort_std: 0.0028
@@ -6879,7 +6946,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 33
+    global_rank: 190
     true_value: 0.7244
     true_std: 0.0028
     value_gap_source_arxiv: '2506.07624'
@@ -6890,7 +6957,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 33
+    paper_rank: 190
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -6916,7 +6983,7 @@ results:
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 35
+    global_rank: 193
     true_value: 0.7241
     true_std: 0.004
     value_gap_source_arxiv: '2501.18739'
@@ -6926,85 +6993,12 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 35
+    paper_rank: 193
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 0.7241
     sort_std: 0.004
-    is_best: false
-  - model: GraphGPS
-    model_key: graphgps
-    model_plain: GraphGPS
-    value: 0.7092
-    std: 0.0004
-    paper_value: 0.7092
-    paper_std: 0.0004
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: 'dataset: exact match'
-    date: Jun 2025
-    date_display: Jun 2025
-    date_iso: 2025-06
-    global_rank: 47
-    true_value: 0.7092
-    true_std: 0.0004
-    value_gap_source_arxiv: '2506.07624'
-    value_gap_source_title: 'Return of ChebNet: Understanding and Improving an Overlooked
-      GNN on Long-Range Tasks'
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 47
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.7092
-    sort_std: 0.0004
-    is_best: false
-  - model: NodeFormer
-    model_key: nodeformer
-    model_plain: NodeFormer
-    value: 0.599
-    std: 0.0042
-    paper_value: 0.599
-    paper_std: 0.0042
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: 'dataset: exact match'
-    date: Jun 2025
-    date_display: Jun 2025
-    date_iso: 2025-06
-    global_rank: 54
-    true_value: 0.6719
-    true_std: 0.0083
-    value_gap_source_arxiv: '2501.18739'
-    value_gap_source_title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.07290000000000008
-    value_note: ''
-    paper_rank: 55
-    rank_delta: 1
-    rank_delta_abs: 1
-    rank_delta_direction: worse
-    sort_value: 0.6719
-    sort_std: 0.0083
     is_best: false
   metric: Accuracy
   higher_is_better: true
@@ -7014,12 +7008,12 @@ results_grouped:
   - *id001
   - *id002
   - *id003
-- benchmark: LRGB
-  datasets:
-  - *id004
-  - *id005
 - benchmark: OGB
   datasets:
+  - *id004
+- benchmark: LRGB
+  datasets:
+  - *id005
   - *id006
 - benchmark: GraphBench
   datasets:

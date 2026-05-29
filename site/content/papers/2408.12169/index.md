@@ -61,29 +61,52 @@ results:
     sort_value: 1.0
     sort_std: null
     is_best: true
-  - model: VRN Ensemble
-    model_key: vrn ensemble
-    model_plain: VRN Ensemble
-    value: 0.9554
-    std: null
+  - model: DC-GSAT
+    model_key: dc-gsat
+    model_plain: DC-GSAT
+    value: 1.0
+    std: 0.0
     metric: Accuracy
     higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '1703.06114'
-    title: Deep Sets
-    date: Mar 2017
-    date_display: Mar 2017
-    date_iso: 2017-03
-    codebase_url: ''
+    arxiv_id: '2502.02719'
+    title: 'Beyond Topological Self-Explainable GNNs: A Formal Explainability Perspective'
+    date: Feb 4, 2025
+    date_display: Feb 2025
+    date_iso: '2025-02-04'
+    codebase_url: https://github.com/steveazzolin/beyond-topo-segnns
     uses_external_data: false
     is_global_top: true
     global_rank: 2
-    sort_value: 0.9554
-    sort_std: null
-    is_best: false
+    sort_value: 1.0
+    sort_std: 0.0
+    is_best: true
+  - model: DC-SMGNN
+    model_key: dc-smgnn
+    model_plain: DC-SMGNN
+    value: 1.0
+    std: 0.0
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2502.02719'
+    title: 'Beyond Topological Self-Explainable GNNs: A Formal Explainability Perspective'
+    date: Feb 4, 2025
+    date_display: Feb 2025
+    date_iso: '2025-02-04'
+    codebase_url: https://github.com/steveazzolin/beyond-topo-segnns
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 3
+    sort_value: 1.0
+    sort_std: 0.0
+    is_best: true
   - model: Deep model
     model_key: deep model
     model_plain: Deep model
@@ -105,29 +128,6 @@ results:
     date_iso: 2024-08
     global_rank: null
     sort_value: 0.925
-    sort_std: null
-    is_best: false
-  - model: MVCNN
-    model_key: mvcnn
-    model_plain: MVCNN
-    value: 0.901
-    std: null
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '1703.06114'
-    title: Deep Sets
-    date: Mar 2017
-    date_display: Mar 2017
-    date_iso: 2017-03
-    codebase_url: ''
-    uses_external_data: false
-    is_global_top: true
-    global_rank: 3
-    sort_value: 0.901
     sort_std: null
     is_best: false
   - model: SPIN

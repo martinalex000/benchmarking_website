@@ -9,7 +9,7 @@ primary_metric: Accuracy
 higher_is_better: true
 pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.HeterophilousGraphDataset.html
 stats: null
-result_count: 65
+result_count: 121
 best_model:
   model: CSNN
   value: 0.9263
@@ -104,6 +104,24 @@ variants:
     - 0.9189
     metric_stds:
     - 0.003
+  - model: NDDGNN
+    model_plain: NDDGNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2505.22362'
+    title: Directed Homophily-Aware Graph Neural Network
+    date: May 2025
+    date_iso: 2025-05
+    date_display: May 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.9176
+    metric_stds:
+    - 0.0027
   - model: CO-GNN(Σ, Σ)
     model_plain: CO-GNN(Σ, Σ)
     is_baseline: true
@@ -216,6 +234,24 @@ variants:
     - 0.895
     metric_stds:
     - 0.0038
+  - model: DHGNN
+    model_plain: DHGNN
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2505.22362'
+    title: Directed Homophily-Aware Graph Neural Network
+    date: May 2025
+    date_iso: 2025-05
+    date_display: May 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.8905
+    metric_stds:
+    - 0.0053
   - model: Exphormer
     model_plain: Exphormer
     is_baseline: true
@@ -555,6 +591,24 @@ variants:
     - 0.8216
     metric_stds:
     - 0.0078
+  - model: G^2
+    model_plain: G^2
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2505.22362'
+    title: Directed Homophily-Aware Graph Neural Network
+    date: May 2025
+    date_iso: 2025-05
+    date_display: May 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.8216
+    metric_stds:
+    - 0.0078
   - model: GPS
     model_plain: GPS
     is_baseline: true
@@ -593,6 +647,24 @@ variants:
     - 0.815
     metric_stds:
     - 0.0042
+  - model: EDEN
+    model_plain: EDEN
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2505.00983'
+    title: 'Toward Data-centric Directed Graph Learning: An Entropy-driven Approach'
+    date: May 2, 2025
+    date_iso: '2025-05-02'
+    date_display: May 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.811
+    metric_stds:
+    - 0.006
   - model: GAT
     model_plain: GAT
     is_baseline: true
@@ -669,6 +741,243 @@ variants:
     - 0.795
     metric_stds:
     - 0.0088
+  - model: DIMPA
+    model_plain: DIMPA
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2505.00983'
+    title: 'Toward Data-centric Directed Graph Learning: An Entropy-driven Approach'
+    date: May 2, 2025
+    date_iso: '2025-05-02'
+    date_display: May 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.79
+    metric_stds:
+    - 0.006
+  - model: D-HYPR
+    model_plain: D-HYPR
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2505.00983'
+    title: 'Toward Data-centric Directed Graph Learning: An Entropy-driven Approach'
+    date: May 2, 2025
+    date_iso: '2025-05-02'
+    date_display: May 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.788
+    metric_stds:
+    - 0.005
+  - model: MagNet
+    model_plain: MagNet
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2505.00983'
+    title: 'Toward Data-centric Directed Graph Learning: An Entropy-driven Approach'
+    date: May 2, 2025
+    date_iso: '2025-05-02'
+    date_display: May 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.788
+    metric_stds:
+    - 0.004
+  - model: DGCNN
+    model_plain: DGCNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2505.00983'
+    title: 'Toward Data-centric Directed Graph Learning: An Entropy-driven Approach'
+    date: May 2, 2025
+    date_iso: '2025-05-02'
+    date_display: May 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.787
+    metric_stds:
+    - 0.005
+  - model: HoloNet
+    model_plain: HoloNet
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2505.00983'
+    title: 'Toward Data-centric Directed Graph Learning: An Entropy-driven Approach'
+    date: May 2, 2025
+    date_iso: '2025-05-02'
+    date_display: May 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.787
+    metric_stds:
+    - 0.005
+  - model: DiGCN
+    model_plain: DiGCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2505.00983'
+    title: 'Toward Data-centric Directed Graph Learning: An Entropy-driven Approach'
+    date: May 2, 2025
+    date_iso: '2025-05-02'
+    date_display: May 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.784
+    metric_stds:
+    - 0.006
+  - model: GATv2
+    model_plain: GATv2
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2505.00983'
+    title: 'Toward Data-centric Directed Graph Learning: An Entropy-driven Approach'
+    date: May 2, 2025
+    date_iso: '2025-05-02'
+    date_display: May 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.782
+    metric_stds:
+    - 0.009
+  - model: AGT
+    model_plain: AGT
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2505.00983'
+    title: 'Toward Data-centric Directed Graph Learning: An Entropy-driven Approach'
+    date: May 2, 2025
+    date_iso: '2025-05-02'
+    date_display: May 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.776
+    metric_stds:
+    - 0.007
+  - model: GCNII
+    model_plain: GCNII
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2505.00983'
+    title: 'Toward Data-centric Directed Graph Learning: An Entropy-driven Approach'
+    date: May 2, 2025
+    date_iso: '2025-05-02'
+    date_display: May 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.763
+    metric_stds:
+    - 0.004
+  - model: Graph Contrastive Transformer
+    model_plain: Graph Contrastive Transformer
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2406.19258'
+    title: Leveraging Contrastive Learning for Enhanced Node Representations in Tokenized
+      Graph Transformers
+    date: Jun 2024
+    date_iso: 2024-06
+    date_display: Jun 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7538
+    metric_stds:
+    - 0.0068
+  - model: SpaM
+    model_plain: SpaM
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2601.01207'
+    title: Sparse Bayesian Message Passing under Structural Uncertainty
+    date: Jan 2026
+    date_iso: 2026-01
+    date_display: Jan 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.75
+    metric_stds:
+    - 0.011
+  - model: NAGphormer
+    model_plain: NAGphormer
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2406.19258'
+    title: Leveraging Contrastive Learning for Enhanced Node Representations in Tokenized
+      Graph Transformers
+    date: Jun 2024
+    date_iso: 2024-06
+    date_display: Jun 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7494
+    metric_stds:
+    - 0.0052
+  - model: VCR-Graphormer
+    model_plain: VCR-Graphormer
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2406.19258'
+    title: Leveraging Contrastive Learning for Enhanced Node Representations in Tokenized
+      Graph Transformers
+    date: Jun 2024
+    date_iso: 2024-06
+    date_display: Jun 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7476
+    metric_stds:
+    - 0.0083
   - model: GBK-GNN
     model_plain: GBK-GNN
     is_baseline: true
@@ -707,25 +1016,25 @@ variants:
     - 0.7446
     metric_stds:
     - 0.0054
-  - model: NAGphormer
-    model_plain: NAGphormer
+  - model: ANS-GT
+    model_plain: ANS-GT
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2506.07624'
-    title: 'Return of ChebNet: Understanding and Improving an Overlooked GNN on Long-Range
-      Tasks'
-    date: Jun 2025
-    date_iso: 2025-06
-    date_display: Jun 2025
-    codebase_url: https://github.com/ahariri13/Stable-ChebNet
+    arxiv_id: '2406.19258'
+    title: Leveraging Contrastive Learning for Enhanced Node Representations in Tokenized
+      Graph Transformers
+    date: Jun 2024
+    date_iso: 2024-06
+    date_display: Jun 2024
+    codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.7434
+    - 0.7395
     metric_stds:
-    - 0.0077
+    - 0.0032
   - model: ResNet+SGC
     model_plain: ResNet+SGC
     is_baseline: true
@@ -764,6 +1073,101 @@ variants:
     - 0.7369
     metric_stds:
     - 0.0074
+  - model: LRGNN
+    model_plain: LRGNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2404.15354'
+    title: 'Polynomial Selection in Spectral Graph Neural Networks: An Error-Sum of
+      Function Slices Approach'
+    date: Apr 2024
+    date_iso: 2024-04
+    date_display: Apr 2024
+    codebase_url: https://github.com/vasile-paskardlgm/TFGNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7235
+    metric_stds:
+    - 0.014
+  - model: NCLA
+    model_plain: NCLA
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2406.19258'
+    title: Leveraging Contrastive Learning for Enhanced Node Representations in Tokenized
+      Graph Transformers
+    date: Jun 2024
+    date_iso: 2024-06
+    date_display: Jun 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7189
+    metric_stds:
+    - 0.0049
+  - model: OrderedGNN
+    model_plain: OrderedGNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2404.15354'
+    title: 'Polynomial Selection in Spectral Graph Neural Networks: An Error-Sum of
+      Function Slices Approach'
+    date: Apr 2024
+    date_iso: 2024-04
+    date_display: Apr 2024
+    codebase_url: https://github.com/vasile-paskardlgm/TFGNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7169
+    metric_stds:
+    - 0.016
+  - model: SpecFormer
+    model_plain: SpecFormer
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2404.15354'
+    title: 'Polynomial Selection in Spectral Graph Neural Networks: An Error-Sum of
+      Function Slices Approach'
+    date: Apr 2024
+    date_iso: 2024-04
+    date_display: Apr 2024
+    codebase_url: https://github.com/vasile-paskardlgm/TFGNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7169
+    metric_stds:
+    - 0.014
+  - model: GCNII
+    model_plain: GCNII
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2404.15354'
+    title: 'Polynomial Selection in Spectral Graph Neural Networks: An Error-Sum of
+      Function Slices Approach'
+    date: Apr 2024
+    date_iso: 2024-04
+    date_display: Apr 2024
+    codebase_url: https://github.com/vasile-paskardlgm/TFGNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7162
+    metric_stds:
+    - 0.017
   - model: GOAT
     model_plain: GOAT
     is_baseline: true
@@ -801,6 +1205,43 @@ variants:
     - 0.7123
     metric_stds:
     - 0.0018
+  - model: GloGNN
+    model_plain: GloGNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2404.15354'
+    title: 'Polynomial Selection in Spectral Graph Neural Networks: An Error-Sum of
+      Function Slices Approach'
+    date: Apr 2024
+    date_iso: 2024-04
+    date_display: Apr 2024
+    codebase_url: https://github.com/vasile-paskardlgm/TFGNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7117
+    metric_stds:
+    - 0.012
+  - model: GAT
+    model_plain: GAT
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2505.22362'
+    title: Directed Homophily-Aware Graph Neural Network
+    date: May 2025
+    date_iso: 2025-05
+    date_display: May 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7116
+    metric_stds:
+    - 0.0063
   - model: JacobiConv
     model_plain: JacobiConv
     is_baseline: true
@@ -820,6 +1261,24 @@ variants:
     - 0.7114
     metric_stds:
     - 0.0042
+  - model: CPGNN
+    model_plain: CPGNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2601.01207'
+    title: Sparse Bayesian Message Passing under Structural Uncertainty
+    date: Jan 2026
+    date_iso: 2026-01
+    date_display: Jan 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.703
+    metric_stds:
+    - 0.0075
   - model: ACMGCN
     model_plain: ACMGCN
     is_baseline: true
@@ -838,6 +1297,175 @@ variants:
     - 0.6966
     metric_stds:
     - 0.0062
+  - model: TFE-GNN
+    model_plain: TFE-GNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2601.01207'
+    title: Sparse Bayesian Message Passing under Structural Uncertainty
+    date: Jan 2026
+    date_iso: 2026-01
+    date_display: Jan 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.687
+    metric_stds:
+    - 0.007
+  - model: GraphGPS
+    model_plain: GraphGPS
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2406.19258'
+    title: Leveraging Contrastive Learning for Enhanced Node Representations in Tokenized
+      Graph Transformers
+    date: Jun 2024
+    date_iso: 2024-06
+    date_display: Jun 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.6829
+    metric_stds:
+    - 0.0092
+  - model: GCN+P+L
+    model_plain: GCN+P+L
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2406.19258'
+    title: Leveraging Contrastive Learning for Enhanced Node Representations in Tokenized
+      Graph Transformers
+    date: Jun 2024
+    date_iso: 2024-06
+    date_display: Jun 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.6829
+    metric_stds:
+    - null
+  - model: LINKX
+    model_plain: LINKX
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2404.15354'
+    title: 'Polynomial Selection in Spectral Graph Neural Networks: An Error-Sum of
+      Function Slices Approach'
+    date: Apr 2024
+    date_iso: 2024-04
+    date_display: Apr 2024
+    codebase_url: https://github.com/vasile-paskardlgm/TFGNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.6755
+    metric_stds:
+    - 0.012
+  - model: GCN+P+R
+    model_plain: GCN+P+R
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2406.19258'
+    title: Leveraging Contrastive Learning for Enhanced Node Representations in Tokenized
+      Graph Transformers
+    date: Jun 2024
+    date_iso: 2024-06
+    date_display: Jun 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.6752
+    metric_stds:
+    - null
+  - model: ClusterSCL
+    model_plain: ClusterSCL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2406.19258'
+    title: Leveraging Contrastive Learning for Enhanced Node Representations in Tokenized
+      Graph Transformers
+    date: Jun 2024
+    date_iso: 2024-06
+    date_display: Jun 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.6737
+    metric_stds:
+    - 0.0081
+  - model: Dir-GNN
+    model_plain: Dir-GNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2601.01207'
+    title: Sparse Bayesian Message Passing under Structural Uncertainty
+    date: Jan 2026
+    date_iso: 2026-01
+    date_display: Jan 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.671
+    metric_stds:
+    - 0.0069
+  - model: GPRGNN
+    model_plain: GPRGNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2406.19258'
+    title: Leveraging Contrastive Learning for Enhanced Node Representations in Tokenized
+      Graph Transformers
+    date: Jun 2024
+    date_iso: 2024-06
+    date_display: Jun 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.6706
+    metric_stds:
+    - 0.0027
+  - model: ChebNet
+    model_plain: ChebNet
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2404.15354'
+    title: 'Polynomial Selection in Spectral Graph Neural Networks: An Error-Sum of
+      Function Slices Approach'
+    date: Apr 2024
+    date_iso: 2024-04
+    date_display: Apr 2024
+    codebase_url: https://github.com/vasile-paskardlgm/TFGNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.6677
+    metric_stds:
+    - 0.012
   - model: TRIGON
     model_plain: TRIGON
     is_baseline: false
@@ -856,6 +1484,62 @@ variants:
     - 0.6652
     metric_stds:
     - 0.0013
+  - model: ACMGCN
+    model_plain: ACMGCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2404.15354'
+    title: 'Polynomial Selection in Spectral Graph Neural Networks: An Error-Sum of
+      Function Slices Approach'
+    date: Apr 2024
+    date_iso: 2024-04
+    date_display: Apr 2024
+    codebase_url: https://github.com/vasile-paskardlgm/TFGNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.6648
+    metric_stds:
+    - 0.012
+  - model: Auto-HeG
+    model_plain: Auto-HeG
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2601.01207'
+    title: Sparse Bayesian Message Passing under Structural Uncertainty
+    date: Jan 2026
+    date_iso: 2026-01
+    date_display: Jan 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.663
+    metric_stds:
+    - 0.0067
+  - model: CoCoS
+    model_plain: CoCoS
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2406.19258'
+    title: Leveraging Contrastive Learning for Enhanced Node Representations in Tokenized
+      Graph Transformers
+    date: Jun 2024
+    date_iso: 2024-06
+    date_display: Jun 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.6628
+    metric_stds:
+    - 0.0047
   - model: MLP-2
     model_plain: MLP-2
     is_baseline: true
@@ -894,6 +1578,43 @@ variants:
     - 0.6588
     metric_stds:
     - 0.0038
+  - model: BernNet
+    model_plain: BernNet
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2404.15354'
+    title: 'Polynomial Selection in Spectral Graph Neural Networks: An Error-Sum of
+      Function Slices Approach'
+    date: Apr 2024
+    date_iso: 2024-04
+    date_display: Apr 2024
+    codebase_url: https://github.com/vasile-paskardlgm/TFGNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.6544
+    metric_stds:
+    - 0.014
+  - model: L2DGCN
+    model_plain: L2DGCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2601.01207'
+    title: Sparse Bayesian Message Passing under Structural Uncertainty
+    date: Jan 2026
+    date_iso: 2026-01
+    date_display: Jan 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.654
+    metric_stds:
+    - 0.0065
   - model: FAGCN
     model_plain: FAGCN
     is_baseline: true
@@ -913,6 +1634,24 @@ variants:
     - 0.6522
     metric_stds:
     - 0.0056
+  - model: MagNet
+    model_plain: MagNet
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2601.01207'
+    title: Sparse Bayesian Message Passing under Structural Uncertainty
+    date: Jan 2026
+    date_iso: 2026-01
+    date_display: Jan 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.652
+    metric_stds:
+    - 0.0064
   - model: MLP
     model_plain: MLP
     is_baseline: true
@@ -950,6 +1689,81 @@ variants:
     - 0.6485
     metric_stds:
     - 0.0027
+  - model: GCN+P+D
+    model_plain: GCN+P+D
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2406.19258'
+    title: Leveraging Contrastive Learning for Enhanced Node Representations in Tokenized
+      Graph Transformers
+    date: Jun 2024
+    date_iso: 2024-06
+    date_display: Jun 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.6456
+    metric_stds:
+    - null
+  - model: GPRGNN
+    model_plain: GPRGNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2404.15354'
+    title: 'Polynomial Selection in Spectral Graph Neural Networks: An Error-Sum of
+      Function Slices Approach'
+    date: Apr 2024
+    date_iso: 2024-04
+    date_display: Apr 2024
+    codebase_url: https://github.com/vasile-paskardlgm/TFGNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.6449
+    metric_stds:
+    - 0.016
+  - model: OptBasis
+    model_plain: OptBasis
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2404.15354'
+    title: 'Polynomial Selection in Spectral Graph Neural Networks: An Error-Sum of
+      Function Slices Approach'
+    date: Apr 2024
+    date_iso: 2024-04
+    date_display: Apr 2024
+    codebase_url: https://github.com/vasile-paskardlgm/TFGNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.6428
+    metric_stds:
+    - 0.018
+  - model: PCNet
+    model_plain: PCNet
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2601.01207'
+    title: Sparse Bayesian Message Passing under Structural Uncertainty
+    date: Jan 2026
+    date_iso: 2026-01
+    date_display: Jan 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.642
+    metric_stds:
+    - 0.0064
   - model: MLP-1
     model_plain: MLP-1
     is_baseline: true
@@ -988,6 +1802,80 @@ variants:
     - 0.6396
     metric_stds:
     - 0.0062
+  - model: SpecFormer
+    model_plain: SpecFormer
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2406.19258'
+    title: Leveraging Contrastive Learning for Enhanced Node Representations in Tokenized
+      Graph Transformers
+    date: Jun 2024
+    date_iso: 2024-06
+    date_display: Jun 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.6369
+    metric_stds:
+    - 0.0061
+  - model: ACMGCN
+    model_plain: ACMGCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2406.19258'
+    title: Leveraging Contrastive Learning for Enhanced Node Representations in Tokenized
+      Graph Transformers
+    date: Jun 2024
+    date_iso: 2024-06
+    date_display: Jun 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.6335
+    metric_stds:
+    - 0.018
+  - model: GloGNN
+    model_plain: GloGNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2601.01207'
+    title: Sparse Bayesian Message Passing under Structural Uncertainty
+    date: Jan 2026
+    date_iso: 2026-01
+    date_display: Jan 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.631
+    metric_stds:
+    - 0.0064
+  - model: GCNII
+    model_plain: GCNII
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2601.01207'
+    title: Sparse Bayesian Message Passing under Structural Uncertainty
+    date: Jan 2026
+    date_iso: 2026-01
+    date_display: Jan 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.622
+    metric_stds:
+    - 0.0057
   - model: DR
     model_plain: DR
     is_baseline: true
@@ -1006,6 +1894,24 @@ variants:
     - 0.6199
     metric_stds:
     - 0.0014
+  - model: FAGCN
+    model_plain: FAGCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2601.01207'
+    title: Sparse Bayesian Message Passing under Structural Uncertainty
+    date: Jan 2026
+    date_iso: 2026-01
+    date_display: Jan 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.617
+    metric_stds:
+    - 0.0066
   - model: H2GCN
     model_plain: H2GCN
     is_baseline: true
@@ -1098,6 +2004,25 @@ variants:
     - 0.5331
     metric_stds:
     - 0.0023
+  - model: APPNP
+    model_plain: APPNP
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2406.19258'
+    title: Leveraging Contrastive Learning for Enhanced Node Representations in Tokenized
+      Graph Transformers
+    date: Jun 2024
+    date_iso: 2024-06
+    date_display: Jun 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.5296
+    metric_stds:
+    - 0.0035
   - model: DiGCN
     model_plain: DiGCN
     is_baseline: true
@@ -1110,6 +2035,24 @@ variants:
     date_iso: 2023-05
     date_display: May 2023
     codebase_url: https://github.com/emalgorithm/directed-graph-neural-network
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.5271
+    metric_stds:
+    - 0.0032
+  - model: dir-gcn
+    model_plain: dir-gcn
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2505.22362'
+    title: Directed Homophily-Aware Graph Neural Network
+    date: May 2025
+    date_iso: 2025-05
+    date_display: May 2025
+    codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
@@ -1207,6 +2150,61 @@ variants:
     - 0.4923
     metric_stds:
     - 0.0033
+  - model: FAGCN
+    model_plain: FAGCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2406.19258'
+    title: Leveraging Contrastive Learning for Enhanced Node Representations in Tokenized
+      Graph Transformers
+    date: Jun 2024
+    date_iso: 2024-06
+    date_display: Jun 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.4821
+    metric_stds:
+    - 0.0315
+  - model: GCN
+    model_plain: GCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2601.01207'
+    title: Sparse Bayesian Message Passing under Structural Uncertainty
+    date: Jan 2026
+    date_iso: 2026-01
+    date_display: Jan 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.477
+    metric_stds:
+    - 0.0038
+  - model: GAT
+    model_plain: GAT
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2601.01207'
+    title: Sparse Bayesian Message Passing under Structural Uncertainty
+    date: Jan 2026
+    date_iso: 2026-01
+    date_display: Jan 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.459
+    metric_stds:
+    - 0.0042
   - model: SGC-1
     model_plain: SGC-1
     is_baseline: true
@@ -1226,6 +2224,25 @@ variants:
     - 0.446
     metric_stds:
     - 0.0052
+  - model: SGFormer
+    model_plain: SGFormer
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2406.19258'
+    title: Leveraging Contrastive Learning for Enhanced Node Representations in Tokenized
+      Graph Transformers
+    date: Jun 2024
+    date_iso: 2024-06
+    date_display: Jun 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.4131
+    metric_stds:
+    - 0.0051
   - model: LINKX
     model_plain: LINKX
     is_baseline: true
@@ -1244,6 +2261,25 @@ variants:
     - 0.3755
     metric_stds:
     - 0.0036
+  - model: SGC
+    model_plain: SGC
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2406.19258'
+    title: Leveraging Contrastive Learning for Enhanced Node Representations in Tokenized
+      Graph Transformers
+    date: Jun 2024
+    date_iso: 2024-06
+    date_display: Jun 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.3442
+    metric_stds:
+    - 0.0077
   milestones:
   - value: 0.8732
     std: 0.0039
@@ -1258,6 +2294,12 @@ variants:
     arxiv_id: '2305.10498'
     title: Edge Directionality Improves Learning on Heterophilic Graphs
     date: 2023-05
+  - value: 0.9176
+    std: 0.0027
+    model: NDDGNN
+    arxiv_id: '2505.22362'
+    title: Directed Homophily-Aware Graph Neural Network
+    date: 2025-05
   - value: 0.9255
     std: 0.003
     model: Polynormer

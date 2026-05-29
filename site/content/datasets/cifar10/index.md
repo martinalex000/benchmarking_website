@@ -12,7 +12,7 @@ stats:
   avg_nodes: null
   avg_edges: null
   num_classes: 10
-result_count: 47
+result_count: 65
 best_model:
   model: CNNs
   value: 0.93
@@ -197,12 +197,30 @@ variants:
     - 0.77642
     metric_stds:
     - 0.00456
+  - model: GRIT-SPSE
+    model_plain: GRIT-SPSE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2502.09365'
+    title: Simple Path Structural Encoding for Graph Transformers
+    date: Feb 13, 2025
+    date_iso: '2025-02-13'
+    date_display: Feb 2025
+    codebase_url: https://github.com/LouisBearing/Graph-SPSE-Encoding
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.77022
+    metric_stds:
+    - 0.0043
   - model: GRED
     model_plain: GRED
     is_baseline: false
     is_overridden: false
     override_reason: ''
-    params_millions: null
+    params_millions: 0.5
     arxiv_id: '2312.01538'
     title: Recurrent Distance Filtering for Graph Representation Learning
     date: Dec 3, 2023
@@ -233,6 +251,24 @@ variants:
     - 0.76468
     metric_stds:
     - 0.00881
+  - model: GRIT-RWSE
+    model_plain: GRIT-RWSE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2502.09365'
+    title: Simple Path Structural Encoding for Graph Transformers
+    date: Feb 13, 2025
+    date_iso: '2025-02-13'
+    date_display: Feb 2025
+    codebase_url: https://github.com/LouisBearing/Graph-SPSE-Encoding
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.76246
+    metric_stds:
+    - 0.00954
   - model: Tango_GPS
     model_plain: Tango_GPS
     is_baseline: false
@@ -269,6 +305,24 @@ variants:
     - 0.7469
     metric_stds:
     - 0.00125
+  - model: Graph-ViT
+    model_plain: Graph-ViT
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2502.09365'
+    title: Simple Path Structural Encoding for Graph Transformers
+    date: Feb 13, 2025
+    date_iso: '2025-02-13'
+    date_display: Feb 2025
+    codebase_url: https://github.com/LouisBearing/Graph-SPSE-Encoding
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.73961
+    metric_stds:
+    - 0.0033
   - model: Graph MLP-Mixer
     model_plain: Graph MLP-Mixer
     is_baseline: true
@@ -287,12 +341,48 @@ variants:
     - 0.7396
     metric_stds:
     - 0.0033
+  - model: CSA-SPSE
+    model_plain: CSA-SPSE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2502.09365'
+    title: Simple Path Structural Encoding for Graph Transformers
+    date: Feb 13, 2025
+    date_iso: '2025-02-13'
+    date_display: Feb 2025
+    codebase_url: https://github.com/LouisBearing/Graph-SPSE-Encoding
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.73897
+    metric_stds:
+    - 0.00524
+  - model: CSA-RWSE
+    model_plain: CSA-RWSE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2502.09365'
+    title: Simple Path Structural Encoding for Graph Transformers
+    date: Feb 13, 2025
+    date_iso: '2025-02-13'
+    date_display: Feb 2025
+    codebase_url: https://github.com/LouisBearing/Graph-SPSE-Encoding
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.73885
+    metric_stds:
+    - 0.00348
   - model: Ours(100K)
     model_plain: Ours(100K)
     is_baseline: false
     is_overridden: false
     override_reason: ''
-    params_millions: 0.1
+    params_millions: null
     arxiv_id: '2201.12674'
     title: Rewiring with Positional Encodings for Graph Neural Networks
     date: Jan 2022
@@ -310,7 +400,7 @@ variants:
     is_baseline: false
     is_overridden: false
     override_reason: ''
-    params_millions: 0.285125
+    params_millions: 0.285
     arxiv_id: '2402.00789'
     title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling with Selective
       State Spaces'
@@ -330,76 +420,6 @@ variants:
     is_overridden: false
     override_reason: ''
     params_millions: null
-<<<<<<< Updated upstream
-    arxiv_id: '2102.08786'
-    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
-      Passing'
-    date: Feb 2021
-    date_iso: 2021-02
-    date_display: Feb 2021
-    codebase_url: https://github.com/toenshoff/CRaWl
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.7284
-    metric_stds:
-    - 0.0042
-  - model: CKGCN
-    model_plain: CKGCN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2504.12588'
-    title: Plain Transformers Can be Powerful Graph Learners
-    date: Apr 2025
-    date_iso: 2025-04
-    date_display: Apr 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.72785
-    metric_stds:
-    - 0.00436
-  - model: GPS-GCCM
-    model_plain: GPS-GCCM
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2605.05689'
-    title: 'GCCM: Enhancing Generative Graph Prediction via Contrastive Consistency
-      Model'
-    date: May 2026
-    date_iso: 2026-05
-    date_display: May 2026
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.72502
-    metric_stds:
-    - 0.0028699999999999997
-  - model: Graph MLP-Mixer
-    model_plain: Graph MLP-Mixer
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2307.07107'
-    title: Graph Positional and Structural Encoder
-    date: Jul 14, 2023
-    date_iso: '2023-07-14'
-    date_display: Jul 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.7246
-    metric_stds:
-    - 0.0036
-=======
     arxiv_id: '2108.03348'
     title: Global Self-Attention as a Replacement for Graph Convolution
     date: Aug 2021
@@ -412,7 +432,6 @@ variants:
     - 0.727
     metric_stds:
     - 0.0054
->>>>>>> Stashed changes
   - model: GPS + GFSA
     model_plain: GPS + GFSA
     is_baseline: false
@@ -473,7 +492,7 @@ variants:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.286725
+    params_millions: 0.287
     arxiv_id: '2402.00789'
     title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling with Selective
       State Spaces'
@@ -493,28 +512,36 @@ variants:
     is_overridden: false
     override_reason: ''
     params_millions: null
-<<<<<<< Updated upstream
-    arxiv_id: '2102.08786'
-    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
-      Passing'
-    date: Feb 2021
-    date_iso: 2021-02
-    date_display: Feb 2021
-    codebase_url: https://github.com/toenshoff/CRaWl
-=======
     arxiv_id: '2401.17791'
     title: Graph Transformers without Positional Encodings
     date: Jan 2024
     date_iso: 2024-01
     date_display: Jan 2024
     codebase_url: ''
->>>>>>> Stashed changes
     uses_external_data: false
     is_best: false
     metric_values:
     - 0.7219
     metric_stds:
     - 0.0013
+  - model: GPS + GPSE
+    model_plain: GPS + GPSE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2502.09365'
+    title: Simple Path Structural Encoding for Graph Transformers
+    date: Feb 13, 2025
+    date_iso: '2025-02-13'
+    date_display: Feb 2025
+    codebase_url: https://github.com/LouisBearing/Graph-SPSE-Encoding
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.72114
+    metric_stds:
+    - 0.00462
   - model: Tango_GatedGCN
     model_plain: Tango_GatedGCN
     is_baseline: false
@@ -594,24 +621,13 @@ variants:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-<<<<<<< Updated upstream
     params_millions: null
-    arxiv_id: '2102.08786'
-    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
-      Passing'
-    date: Feb 2021
-    date_iso: 2021-02
-    date_display: Feb 2021
-    codebase_url: https://github.com/toenshoff/CRaWl
-=======
-    params_millions: 0.1
     arxiv_id: '2201.12674'
     title: Rewiring with Positional Encodings for Graph Neural Networks
     date: Jan 2022
     date_iso: 2022-01
     date_display: Jan 2022
     codebase_url: ''
->>>>>>> Stashed changes
     uses_external_data: false
     is_best: false
     metric_values:
@@ -744,6 +760,24 @@ variants:
     - 0.68702
     metric_stds:
     - 0.00409
+  - model: SoGCN-GRU
+    model_plain: SoGCN-GRU
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2110.07141'
+    title: 'SoGCN: Second-Order Graph Convolutional Networks'
+    date: Oct 14, 2021
+    date_iso: '2021-10-14'
+    date_display: Oct 2021
+    codebase_url: https://github.com/yuehaowang/SoGCN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.68208
+    metric_stds:
+    - 0.00271
   - model: Eigenformer
     model_plain: Eigenformer
     is_baseline: true
@@ -761,88 +795,9 @@ variants:
     metric_values:
     - 0.67316
     metric_stds:
-<<<<<<< Updated upstream
-    - 0.00259
-  - model: CRaWl
-    model_plain: CRaWl
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2102.08786'
-    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
-      Passing'
-    date: Feb 2021
-    date_iso: 2021-02
-    date_display: Feb 2021
-    codebase_url: https://github.com/toenshoff/CRaWl
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.69013
-    metric_stds:
-    - 0.00259
-  - model: GCN+PE+VN
-    model_plain: GCN+PE+VN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2405.13526'
-    title: 'Understanding Virtual Nodes: Oversquashing and Node Heterogeneity'
-    date: May 2024
-    date_iso: 2024-05
-    date_display: May 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.68756
-    metric_stds:
-    - 0.00172
-  - model: EGT
-    model_plain: EGT
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2308.11129'
-    title: Enhancing Graph Transformers with Hierarchical Distance Structural Encoding
-    date: Aug 2023
-    date_iso: 2023-08
-    date_display: Aug 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.68702
-    metric_stds:
-    - 0.00409
-  - model: GCN + differential enc.
-    model_plain: GCN + differential enc.
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2407.02758'
-    title: Differential Encoding for Improved Representation Learning over Graphs
-    date: Jul 2024
-    date_iso: 2024-07
-    date_display: Jul 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.67373
-    metric_stds:
-    - 0.00415
-  - model: Eigenformer
-    model_plain: Eigenformer
-=======
     - null
   - model: NLP
     model_plain: NLP
->>>>>>> Stashed changes
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -864,7 +819,7 @@ variants:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.1
+    params_millions: null
     arxiv_id: '2201.12674'
     title: Rewiring with Positional Encodings for Graph Neural Networks
     date: Jan 2022
@@ -883,48 +838,60 @@ variants:
     is_overridden: false
     override_reason: ''
     params_millions: null
-<<<<<<< Updated upstream
-    arxiv_id: '2102.08786'
-    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
-      Passing'
-    date: Feb 2021
-    date_iso: 2021-02
-    date_display: Feb 2021
-    codebase_url: https://github.com/toenshoff/CRaWl
-=======
     arxiv_id: '2108.03348'
     title: Global Self-Attention as a Replacement for Graph Convolution
     date: Aug 2021
     date_iso: 2021-08
     date_display: Aug 2021
     codebase_url: https://github.com/shamim-hussain/egt
->>>>>>> Stashed changes
     uses_external_data: false
     is_best: false
     metric_values:
     - 0.67312
     metric_stds:
     - 0.00311
-<<<<<<< Updated upstream
-  - model: GraphSAGE
-    model_plain: GraphSAGE
-=======
-  - model: Graphormer
-    model_plain: Graphormer
->>>>>>> Stashed changes
+  - model: GATED-GCN-4
+    model_plain: GATED-GCN-4
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-<<<<<<< Updated upstream
-    arxiv_id: '2102.08786'
-    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
-      Passing'
+    arxiv_id: '2102.07835'
+    title: Topological Graph Neural Networks
     date: Feb 2021
     date_iso: 2021-02
     date_display: Feb 2021
-    codebase_url: https://github.com/toenshoff/CRaWl
-=======
+    codebase_url: https://github.com/BorgwardtLab/TOGL
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.673
+    metric_stds:
+    - 0.003
+  - model: SoGCN
+    model_plain: SoGCN
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2110.07141'
+    title: 'SoGCN: Second-Order Graph Convolutional Networks'
+    date: Oct 14, 2021
+    date_iso: '2021-10-14'
+    date_display: Oct 2021
+    codebase_url: https://github.com/yuehaowang/SoGCN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.66338
+    metric_stds:
+    - 0.00155
+  - model: Graphormer
+    model_plain: Graphormer
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
     arxiv_id: '2108.03348'
     title: Global Self-Attention as a Replacement for Graph Convolution
     date: Aug 2021
@@ -937,19 +904,36 @@ variants:
     - 0.65978
     metric_stds:
     - 0.00579
+  - model: MoNet
+    model_plain: MoNet
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2110.07141'
+    title: 'SoGCN: Second-Order Graph Convolutional Networks'
+    date: Oct 14, 2021
+    date_iso: '2021-10-14'
+    date_display: Oct 2021
+    codebase_url: https://github.com/yuehaowang/SoGCN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.65911
+    metric_stds:
+    - 0.02515
   - model: GraphSage(100K)
     model_plain: GraphSage(100K)
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.1
+    params_millions: null
     arxiv_id: '2201.12674'
     title: Rewiring with Positional Encodings for Graph Neural Networks
     date: Jan 2022
     date_iso: 2022-01
     date_display: Jan 2022
     codebase_url: ''
->>>>>>> Stashed changes
     uses_external_data: false
     is_best: false
     metric_values:
@@ -979,7 +963,7 @@ variants:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.1
+    params_millions: null
     arxiv_id: '2201.12674'
     title: Rewiring with Positional Encodings for Graph Neural Networks
     date: Jan 2022
@@ -998,109 +982,138 @@ variants:
     is_overridden: false
     override_reason: ''
     params_millions: null
-<<<<<<< Updated upstream
-    arxiv_id: '2102.08786'
-    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
-      Passing'
-    date: Feb 2021
-    date_iso: 2021-02
-    date_display: Feb 2021
-    codebase_url: https://github.com/toenshoff/CRaWl
-=======
     arxiv_id: '2108.03348'
     title: Global Self-Attention as a Replacement for Graph Convolution
     date: Aug 2021
     date_iso: 2021-08
     date_display: Aug 2021
     codebase_url: https://github.com/shamim-hussain/egt
->>>>>>> Stashed changes
     uses_external_data: false
     is_best: false
     metric_values:
     - 0.64223
     metric_stds:
     - 0.00455
-<<<<<<< Updated upstream
-  - model: GT
-    model_plain: GT
+  - model: GAT-3-TOGL-1
+    model_plain: GAT-3-TOGL-1
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2102.07835'
+    title: Topological Graph Neural Networks
+    date: Feb 2021
+    date_iso: 2021-02
+    date_display: Feb 2021
+    codebase_url: https://github.com/BorgwardtLab/TOGL
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.639
+    metric_stds:
+    - 0.012
+  - model: Vanilla GCN + GRU
+    model_plain: Vanilla GCN + GRU
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2308.11129'
-    title: Enhancing Graph Transformers with Hierarchical Distance Structural Encoding
-    date: Aug 2023
-    date_iso: 2023-08
-    date_display: Aug 2023
-    codebase_url: ''
+    arxiv_id: '2110.07141'
+    title: 'SoGCN: Second-Order Graph Convolutional Networks'
+    date: Oct 14, 2021
+    date_iso: '2021-10-14'
+    date_display: Oct 2021
+    codebase_url: https://github.com/yuehaowang/SoGCN
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.59753
+    - 0.61332
     metric_stds:
-    - 0.00293
+    - 0.00849
+  - model: GCN-3-TOGL-1
+    model_plain: GCN-3-TOGL-1
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2102.07835'
+    title: Topological Graph Neural Networks
+    date: Feb 2021
+    date_iso: 2021-02
+    date_display: Feb 2021
+    codebase_url: https://github.com/BorgwardtLab/TOGL
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.613
+    metric_stds:
+    - 0.004
   - model: 3WLGNN
     model_plain: 3WLGNN
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2102.08786'
-    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
-      Passing'
-    date: Feb 2021
-    date_iso: 2021-02
-    date_display: Feb 2021
-    codebase_url: https://github.com/toenshoff/CRaWl
+    arxiv_id: '2110.07141'
+    title: 'SoGCN: Second-Order Graph Convolutional Networks'
+    date: Oct 14, 2021
+    date_iso: '2021-10-14'
+    date_display: Oct 2021
+    codebase_url: https://github.com/yuehaowang/SoGCN
     uses_external_data: false
     is_best: false
     metric_values:
     - 0.59175
     metric_stds:
     - 0.01593
-  - model: GCNII
-    model_plain: GCNII
+  - model: GAT-4
+    model_plain: GAT-4
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2404.09774'
-    title: 'RandAlign: A Parameter-Free Method for Regularizing Graph Convolutional
-      Networks'
-    date: Apr 2024
-    date_iso: 2024-04
-    date_display: Apr 2024
-    codebase_url: ''
+    arxiv_id: '2102.07835'
+    title: Topological Graph Neural Networks
+    date: Feb 2021
+    date_iso: 2021-02
+    date_display: Feb 2021
+    codebase_url: https://github.com/BorgwardtLab/TOGL
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.56081
+    - 0.574
     metric_stds:
-    - 0.00198
-=======
->>>>>>> Stashed changes
+    - 0.006
   - model: GCN
     model_plain: GCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-<<<<<<< Updated upstream
-    arxiv_id: '2102.08786'
-    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
-      Passing'
-    date: Feb 2021
-    date_iso: 2021-02
-    date_display: Feb 2021
-    codebase_url: https://github.com/toenshoff/CRaWl
-=======
     arxiv_id: '2108.03348'
     title: Global Self-Attention as a Replacement for Graph Convolution
     date: Aug 2021
     date_iso: 2021-08
     date_display: Aug 2021
     codebase_url: https://github.com/shamim-hussain/egt
->>>>>>> Stashed changes
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.5571
+    metric_stds:
+    - 0.00381
+  - model: GCN + Vanilla
+    model_plain: GCN + Vanilla
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2110.07141'
+    title: 'SoGCN: Second-Order Graph Convolutional Networks'
+    date: Oct 14, 2021
+    date_iso: '2021-10-14'
+    date_display: Oct 2021
+    codebase_url: https://github.com/yuehaowang/SoGCN
     uses_external_data: false
     is_best: false
     metric_values:
@@ -1112,7 +1125,7 @@ variants:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.1
+    params_millions: null
     arxiv_id: '2201.12674'
     title: Rewiring with Positional Encodings for Graph Neural Networks
     date: Jan 2022
@@ -1131,39 +1144,42 @@ variants:
     is_overridden: false
     override_reason: ''
     params_millions: null
-<<<<<<< Updated upstream
-    arxiv_id: '2102.08786'
-    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
-      Passing'
-    date: Feb 2021
-    date_iso: 2021-02
-    date_display: Feb 2021
-    codebase_url: https://github.com/toenshoff/CRaWl
-=======
     arxiv_id: '2108.03348'
     title: Global Self-Attention as a Replacement for Graph Convolution
     date: Aug 2021
     date_iso: 2021-08
     date_display: Aug 2021
     codebase_url: https://github.com/shamim-hussain/egt
->>>>>>> Stashed changes
     uses_external_data: false
     is_best: false
     metric_values:
     - 0.55255
     metric_stds:
     - 0.01527
-<<<<<<< Updated upstream
-  - model: MoNet
-    model_plain: MoNet
-=======
-  - model: MoNet(100K)
-    model_plain: MoNet(100K)
->>>>>>> Stashed changes
+  - model: GIN-4
+    model_plain: GIN-4
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.1
+    params_millions: null
+    arxiv_id: '2102.07835'
+    title: Topological Graph Neural Networks
+    date: Feb 2021
+    date_iso: 2021-02
+    date_display: Feb 2021
+    codebase_url: https://github.com/BorgwardtLab/TOGL
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.548
+    metric_stds:
+    - 0.014
+  - model: MoNet(100K)
+    model_plain: MoNet(100K)
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
     arxiv_id: '2201.12674'
     title: Rewiring with Positional Encodings for Graph Neural Networks
     date: Jan 2022
@@ -1176,47 +1192,30 @@ variants:
     - 0.54655
     metric_stds:
     - 0.00518
+  - model: GCN-4
+    model_plain: GCN-4
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2102.07835'
+    title: Topological Graph Neural Networks
+    date: Feb 2021
+    date_iso: 2021-02
+    date_display: Feb 2021
+    codebase_url: https://github.com/BorgwardtLab/TOGL
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.542
+    metric_stds:
+    - 0.015
   milestones:
-<<<<<<< Updated upstream
-  - value: 0.7284
-    std: 0.0042
-    model: DGN
-    arxiv_id: '2102.08786'
-    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
-      Passing'
-    date: 2021-02
-  - value: 0.76473
-    std: 0.00429
-    model: GT + HDSE
-    arxiv_id: '2308.11129'
-    title: Enhancing Graph Transformers with Hierarchical Distance Structural Encoding
-    date: 2023-08
-  - value: 0.76853
-    std: 0.00185
-    model: GRED
-    arxiv_id: '2312.01538'
-    title: Recurrent Distance Filtering for Graph Representation Learning
-    date: '2023-12-03'
-  - value: 0.7942
-    std: 0.00072
-    model: RandAlign (4 layers)
-    arxiv_id: '2404.09774'
-    title: 'RandAlign: A Parameter-Free Method for Regularizing Graph Convolutional
-      Networks'
-    date: 2024-04
-  - value: 0.8375
-    std: 0.00141
-    model: GRASS
-    arxiv_id: '2407.05649'
-    title: 'Greener GRASS: Enhancing GNNs with Encoding, Rewiring, and Attention'
-    date: 2024-07
-=======
   - value: 0.93
     std: 0.005
     model: CNNs
     arxiv_id: '1312.6203'
     title: Spectral Networks and Locally Connected Networks on Graphs
     date: '2013-12-21'
->>>>>>> Stashed changes
 ---
 

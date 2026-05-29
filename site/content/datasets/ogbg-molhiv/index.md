@@ -14,13 +14,13 @@ stats:
   avg_nodes: 25.5
   avg_edges: 27.5
   num_classes: 2
-result_count: 72
+result_count: 287
 best_model:
-  model: ILLS
-  value: 0.862
+  model: ML
+  value: 0.997
   metric: ROC-AUC
-  arxiv_id: '2305.17589'
-  paper_title: Graph Inductive Biases in Transformers without Message Passing
+  arxiv_id: '2210.08443'
+  paper_title: 'CLEAR: Generative Counterfactual Explanations on Graphs'
 variants:
 - slug: standard-split
   name: Standard split
@@ -34,8 +34,40 @@ variants:
     avg_edges: null
   metrics:
   - ROC-AUC
+  - AUC
+  - AUC-ROC
   - AUROC
+  - Accuracy
+  - Pearson correlation coefficient
   rows:
+  - model: ML
+    model_plain: ML
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2210.08443'
+    title: 'CLEAR: Generative Counterfactual Explanations on Graphs'
+    date: Oct 2022
+    date_iso: 2022-10
+    date_display: Oct 2022
+    codebase_url: ''
+    uses_external_data: false
+    is_best: true
+    metric_values:
+    - 0.997
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.002
+    - null
+    - null
+    - null
+    - null
+    - null
   - model: ILLS
     model_plain: ILLS
     is_baseline: false
@@ -49,12 +81,20 @@ variants:
     date_display: May 2023
     codebase_url: ''
     uses_external_data: false
-    is_best: true
+    is_best: false
     metric_values:
     - 0.862
     - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.002
+    - null
+    - null
+    - null
+    - null
     - null
   - model: GraphGPS
     model_plain: GraphGPS
@@ -69,12 +109,49 @@ variants:
     date_display: May 2023
     codebase_url: ''
     uses_external_data: false
-    is_best: true
+    is_best: false
     metric_values:
     - 0.858
     - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.002
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: AI
+    model_plain: AI
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2209.05481'
+    title: A Molecular Multimodal Foundation Model Associating Molecule Graphs with
+      Natural Language
+    date: Sep 2022
+    date_iso: 2022-09
+    date_display: Sep 2022
+    codebase_url: https://github.com/BingSu12/MoMu
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.855
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.002
+    - null
+    - null
+    - null
+    - null
     - null
   - model: Graphtransformer
     model_plain: Graphtransformer
@@ -93,8 +170,16 @@ variants:
     metric_values:
     - 0.853
     - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.003
+    - null
+    - null
+    - null
+    - null
     - null
   - model: PNA
     model_plain: PNA
@@ -113,8 +198,45 @@ variants:
     metric_values:
     - 0.851
     - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.004
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: Graphormer
+    model_plain: Graphormer
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2209.05481'
+    title: A Molecular Multimodal Foundation Model Associating Molecule Graphs with
+      Natural Language
+    date: Sep 2022
+    date_iso: 2022-09
+    date_display: Sep 2022
+    codebase_url: https://github.com/BingSu12/MoMu
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.851
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.002
+    - null
+    - null
+    - null
+    - null
     - null
   - model: GIN
     model_plain: GIN
@@ -133,8 +255,16 @@ variants:
     metric_values:
     - 0.848
     - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.003
+    - null
+    - null
+    - null
+    - null
     - null
   - model: GAT
     model_plain: GAT
@@ -153,8 +283,132 @@ variants:
     metric_values:
     - 0.845
     - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.004
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: DGN
+    model_plain: DGN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2209.05481'
+    title: A Molecular Multimodal Foundation Model Associating Molecule Graphs with
+      Natural Language
+    date: Sep 2022
+    date_iso: 2022-09
+    date_display: Sep 2022
+    codebase_url: https://github.com/BingSu12/MoMu
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.845
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.004
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: PNA
+    model_plain: PNA
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2209.05481'
+    title: A Molecular Multimodal Foundation Model Associating Molecule Graphs with
+      Natural Language
+    date: Sep 2022
+    date_iso: 2022-09
+    date_display: Sep 2022
+    codebase_url: https://github.com/BingSu12/MoMu
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.842
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.003
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: GIN
+    model_plain: GIN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2209.05481'
+    title: A Molecular Multimodal Foundation Model Associating Molecule Graphs with
+      Natural Language
+    date: Sep 2022
+    date_iso: 2022-09
+    date_display: Sep 2022
+    codebase_url: https://github.com/BingSu12/MoMu
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.838
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.005
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: GAT
+    model_plain: GAT
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2209.05481'
+    title: A Molecular Multimodal Foundation Model Associating Molecule Graphs with
+      Natural Language
+    date: Sep 2022
+    date_iso: 2022-09
+    date_display: Sep 2022
+    codebase_url: https://github.com/BingSu12/MoMu
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.836
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.004
+    - null
+    - null
+    - null
+    - null
     - null
   - model: GraphSAGE
     model_plain: GraphSAGE
@@ -162,19 +416,28 @@ variants:
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2305.17589'
-    title: Graph Inductive Biases in Transformers without Message Passing
-    date: May 27, 2023
-    date_iso: '2023-05-27'
-    date_display: May 2023
-    codebase_url: ''
+    arxiv_id: '2209.05481'
+    title: A Molecular Multimodal Foundation Model Associating Molecule Graphs with
+      Natural Language
+    date: Sep 2022
+    date_iso: 2022-09
+    date_display: Sep 2022
+    codebase_url: https://github.com/BingSu12/MoMu
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.842
+    - 0.835
+    - null
+    - null
+    - null
+    - null
     - null
     metric_stds:
     - 0.005
+    - null
+    - null
+    - null
+    - null
     - null
   - model: GCN
     model_plain: GCN
@@ -182,19 +445,85 @@ variants:
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2305.17589'
-    title: Graph Inductive Biases in Transformers without Message Passing
-    date: May 27, 2023
-    date_iso: '2023-05-27'
-    date_display: May 2023
-    codebase_url: ''
+    arxiv_id: '2209.05481'
+    title: A Molecular Multimodal Foundation Model Associating Molecule Graphs with
+      Natural Language
+    date: Sep 2022
+    date_iso: 2022-09
+    date_display: Sep 2022
+    codebase_url: https://github.com/BingSu12/MoMu
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.839
+    - 0.833
+    - null
+    - null
+    - null
+    - null
     - null
     metric_stds:
     - 0.006
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: unified method
+    model_plain: unified method
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2207.08806'
+    title: Unified 2D and 3D Pre-Training of Molecular Representations
+    date: Jul 2022
+    date_iso: 2022-07
+    date_display: Jul 2022
+    codebase_url: https://github.com/teslacool/UnifiedMolPretrain
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.822
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.01
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: DeMol
+    model_plain: DeMol
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2603.00568'
+    title: Enhancing Molecular Property Predictions by Learning from Bond Modelling
+      and Interactions
+    date: Mar 2026
+    date_iso: 2026-03
+    date_display: Mar 2026
+    codebase_url: ''
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - 0.812
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.009
+    - null
+    - null
+    - null
+    - null
     - null
   - model: CIN
     model_plain: CIN
@@ -213,8 +542,16 @@ variants:
     metric_values:
     - 0.8094
     - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.0057
+    - null
+    - null
+    - null
+    - null
     - null
   - model: LRDs
     model_plain: LRDs
@@ -234,8 +571,131 @@ variants:
     metric_values:
     - 0.8086
     - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.0056
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: Uni-Mol
+    model_plain: Uni-Mol
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2603.00568'
+    title: Enhancing Molecular Property Predictions by Learning from Bond Modelling
+      and Interactions
+    date: Mar 2026
+    date_iso: 2026-03
+    date_display: Mar 2026
+    codebase_url: ''
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - 0.808
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.003
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: GAP-EMPNN
+    model_plain: GAP-EMPNN
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.13315'
+    title: 3D Molecular Geometry Analysis with 2D Graphs
+    date: May 2023
+    date_iso: 2023-05
+    date_display: May 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.807
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.002
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: CLAMP
+    model_plain: CLAMP
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2306.13089'
+    title: 'gimlet: A Unified Graph-Text Model for Instruction-Based Molecule Zero-Shot
+      Learning'
+    date: Jun 2023
+    date_iso: 2023-06
+    date_display: Jun 2023
+    codebase_url: https://github.com/zhao-ht/GIMLET
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.8067
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: GSAT
+    model_plain: GSAT
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2407.12136'
+    title: Molecular Topological Profile (MOLTOP) - Simple and Strong Baseline for
+      Molecular Graph Classification
+    date: Jul 2024
+    date_iso: 2024-07
+    date_display: Jul 2024
+    codebase_url: https://github.com/j-adamczyk/MOLTOP
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.8067
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0095
+    - null
+    - null
+    - null
+    - null
     - null
   - model: EGT_Larger (30 layers) (pre-trained)
     model_plain: EGT_Larger (30 layers) (pre-trained)
@@ -254,8 +714,45 @@ variants:
     metric_values:
     - 0.806
     - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.0065
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: GEM
+    model_plain: GEM
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2603.00568'
+    title: Enhancing Molecular Property Predictions by Learning from Bond Modelling
+      and Interactions
+    date: Mar 2026
+    date_iso: 2026-03
+    date_display: Mar 2026
+    codebase_url: ''
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - 0.806
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.009
+    - null
+    - null
+    - null
+    - null
     - null
   - model: Graphormer-FLAG (pre-trained)
     model_plain: Graphormer-FLAG (pre-trained)
@@ -274,8 +771,74 @@ variants:
     metric_values:
     - 0.8051
     - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.0053
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: Graphormer
+    model_plain: Graphormer
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2407.12136'
+    title: Molecular Topological Profile (MOLTOP) - Simple and Strong Baseline for
+      Molecular Graph Classification
+    date: Jul 2024
+    date_iso: 2024-07
+    date_display: Jul 2024
+    codebase_url: https://github.com/j-adamczyk/MOLTOP
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.8051
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0053
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: MOLTOP
+    model_plain: MOLTOP
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2407.12136'
+    title: Molecular Topological Profile (MOLTOP) - Simple and Strong Baseline for
+      Molecular Graph Classification
+    date: Jul 2024
+    date_iso: 2024-07
+    date_display: Jul 2024
+    codebase_url: https://github.com/j-adamczyk/MOLTOP
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.8042
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0025
+    - null
+    - null
+    - null
+    - null
     - null
   - model: GSN (directional)
     model_plain: GSN (directional)
@@ -294,8 +857,45 @@ variants:
     metric_values:
     - 0.8039
     - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.009
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: WL sp
+    model_plain: WL sp
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2407.12136'
+    title: Molecular Topological Profile (MOLTOP) - Simple and Strong Baseline for
+      Molecular Graph Classification
+    date: Jul 2024
+    date_iso: 2024-07
+    date_display: Jul 2024
+    codebase_url: https://github.com/j-adamczyk/MOLTOP
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.8039
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.004
+    - null
+    - null
+    - null
+    - null
     - null
   - model: GSSC
     model_plain: GSSC
@@ -315,8 +915,101 @@ variants:
     metric_values:
     - 0.8035
     - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.0142
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: TopER
+    model_plain: TopER
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2410.01778'
+    title: 'TopER: Topological Embeddings in Graph Representation Learning'
+    date: Oct 2024
+    date_iso: 2024-10
+    date_display: Oct 2024
+    codebase_url: https://github.com/AstritTola/TopER
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.8021
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0015
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: GTs
+    model_plain: GTs
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2509.14863'
+    title: 'Exploring the Global-to-Local Attention Scheme in Graph Transformers:
+      An Empirical Study'
+    date: Sep 2025
+    date_iso: 2025-09
+    date_display: Sep 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.8006
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0128
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: PatchGT-GCN
+    model_plain: PatchGT-GCN
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2211.14425'
+    title: 'PatchGT: Transformer over Non-trainable Clusters for Learning Graph Representations'
+    date: Nov 2022
+    date_iso: 2022-11
+    date_display: Nov 2022
+    codebase_url: https://github.com/tufts-ml/PatchGT
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7999
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0121
+    - null
+    - null
+    - null
+    - null
     - null
   - model: HopFormer
     model_plain: HopFormer
@@ -335,8 +1028,158 @@ variants:
     metric_values:
     - 0.7997
     - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.0078
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: UGMAE
+    model_plain: UGMAE
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2402.08023'
+    title: 'UGMAE: A Unified Framework for Graph Masked Autoencoders'
+    date: Feb 2024
+    date_iso: 2024-02
+    date_display: Feb 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.798
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.006
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: GECO
+    model_plain: GECO
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2509.14863'
+    title: 'Exploring the Global-to-Local Attention Scheme in Graph Transformers:
+      An Empirical Study'
+    date: Sep 2025
+    date_iso: 2025-09
+    date_display: Sep 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.798
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.02
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: DLG
+    model_plain: DLG
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2501.04102'
+    title: Enhancing Distribution and Label Consistency for Graph Out-of-Distribution
+      Generalization
+    date: Jan 2025
+    date_iso: 2025-01
+    date_display: Jan 2025
+    codebase_url: https://github.com/SongW-SW/DLG
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.798
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0178
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: GRAPHSNN +VN
+    model_plain: GRAPHSNN +VN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2211.14425'
+    title: 'PatchGT: Transformer over Non-trainable Clusters for Learning Graph Representations'
+    date: Nov 2022
+    date_iso: 2022-11
+    date_display: Nov 2022
+    codebase_url: https://github.com/tufts-ml/PatchGT
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7972
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0183
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: GraphSNN
+    model_plain: GraphSNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2410.01778'
+    title: 'TopER: Topological Embeddings in Graph Representation Learning'
+    date: Oct 2024
+    date_iso: 2024-10
+    date_display: Oct 2024
+    codebase_url: https://github.com/AstritTola/TopER
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7972
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0183
+    - null
+    - null
+    - null
+    - null
     - null
   - model: DGN
     model_plain: DGN
@@ -355,8 +1198,45 @@ variants:
     metric_values:
     - 0.797
     - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.0097
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: CIGA
+    model_plain: CIGA
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2501.04102'
+    title: Enhancing Distribution and Label Consistency for Graph Out-of-Distribution
+      Generalization
+    date: Jan 2025
+    date_iso: 2025-01
+    date_display: Jan 2025
+    codebase_url: https://github.com/SongW-SW/DLG
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.797
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0155
+    - null
+    - null
+    - null
+    - null
     - null
   - model: GIN-AK+
     model_plain: GIN-AK+
@@ -375,8 +1255,44 @@ variants:
     metric_values:
     - 0.7961
     - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.0119
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: MP
+    model_plain: MP
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2310.01704'
+    title: Transformers are efficient hierarchical chemical graph learners
+    date: Oct 2023
+    date_iso: 2023-10
+    date_display: Oct 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.795
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.008
+    - null
+    - null
+    - null
+    - null
     - null
   - model: DeeperGCN-VN+FLAG
     model_plain: DeeperGCN-VN+FLAG
@@ -395,8 +1311,16 @@ variants:
     metric_values:
     - 0.7942
     - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.012
+    - null
+    - null
+    - null
+    - null
     - null
   - model: GIN + EGP
     model_plain: GIN + EGP
@@ -415,8 +1339,16 @@ variants:
     metric_values:
     - 0.7934
     - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.0035
+    - null
+    - null
+    - null
+    - null
     - null
   - model: PHC-GNN
     model_plain: PHC-GNN
@@ -435,8 +1367,130 @@ variants:
     metric_values:
     - 0.7934
     - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.0116
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: LEMON
+    model_plain: LEMON
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2603.00568'
+    title: Enhancing Molecular Property Predictions by Learning from Bond Modelling
+      and Interactions
+    date: Mar 2026
+    date_iso: 2026-03
+    date_display: Mar 2026
+    codebase_url: ''
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - 0.793
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.011
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: LLM-GIN
+    model_plain: LLM-GIN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2410.01778'
+    title: 'TopER: Topological Embeddings in Graph Representation Learning'
+    date: Oct 2024
+    date_iso: 2024-10
+    date_display: Oct 2024
+    codebase_url: https://github.com/AstritTola/TopER
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - 0.7922
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: Kernel SVM
+    model_plain: Kernel SVM
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2310.01704'
+    title: Transformers are efficient hierarchical chemical graph learners
+    date: Oct 2023
+    date_iso: 2023-10
+    date_display: Oct 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.792
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: GIL
+    model_plain: GIL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2501.04102'
+    title: Enhancing Distribution and Label Consistency for Graph Out-of-Distribution
+      Generalization
+    date: Jan 2025
+    date_iso: 2025-01
+    date_display: Jan 2025
+    codebase_url: https://github.com/SongW-SW/DLG
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7908
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0054
+    - null
+    - null
+    - null
+    - null
     - null
   - model: PNA
     model_plain: PNA
@@ -455,8 +1509,129 @@ variants:
     metric_values:
     - 0.7905
     - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.0132
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: HGK-WL
+    model_plain: HGK-WL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2410.01778'
+    title: 'TopER: Topological Embeddings in Graph Representation Learning'
+    date: Oct 2024
+    date_iso: 2024-10
+    date_display: Oct 2024
+    codebase_url: https://github.com/AstritTola/TopER
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7905
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.013
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: MoleBlend
+    model_plain: MoleBlend
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2603.00568'
+    title: Enhancing Molecular Property Predictions by Learning from Bond Modelling
+      and Interactions
+    date: Mar 2026
+    date_iso: 2026-03
+    date_display: Mar 2026
+    codebase_url: ''
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - 0.79
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.008
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: SGCL
+    model_plain: SGCL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2306.03506'
+    title: Subgraph Networks Based Contrastive Learning
+    date: Jun 2023
+    date_iso: 2023-06
+    date_display: Jun 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.789
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.013
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: GCN-GNorm
+    model_plain: GCN-GNorm
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2410.01778'
+    title: 'TopER: Topological Embeddings in Graph Representation Learning'
+    date: Oct 2024
+    date_iso: 2024-10
+    date_display: Oct 2024
+    codebase_url: https://github.com/AstritTola/TopER
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7883
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.01
+    - null
+    - null
+    - null
+    - null
     - null
   - model: GPS
     model_plain: GPS
@@ -475,8 +1650,72 @@ variants:
     metric_values:
     - 0.788
     - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.0101
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: UFGPool-Sum
+    model_plain: UFGPool-Sum
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2102.06986'
+    title: How Framelets Enhance Graph Neural Networks
+    date: Feb 13, 2021
+    date_iso: '2021-02-13'
+    date_display: Feb 2021
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.788
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0056
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: HIMP
+    model_plain: HIMP
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2310.01704'
+    title: Transformers are efficient hierarchical chemical graph learners
+    date: Oct 2023
+    date_iso: 2023-10
+    date_display: Oct 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.788
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.08
+    - null
+    - null
+    - null
+    - null
     - null
   - model: GraphGPS
     model_plain: GraphGPS
@@ -484,20 +1723,56 @@ variants:
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2502.00282'
-    title: 'GraphMinNet: Learning Dependencies in Graphs with Light Complexity Minimal
-      Architecture'
-    date: Feb 1, 2025
-    date_iso: '2025-02-01'
-    date_display: Feb 2025
+    arxiv_id: '2310.01704'
+    title: Transformers are efficient hierarchical chemical graph learners
+    date: Oct 2023
+    date_iso: 2023-10
+    date_display: Oct 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
     - 0.788
     - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
-    - 0.0101
+    - 0.01
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: MoleculeSDE
+    model_plain: MoleculeSDE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2603.00568'
+    title: Enhancing Molecular Property Predictions by Learning from Bond Modelling
+      and Interactions
+    date: Mar 2026
+    date_iso: 2026-03
+    date_display: Mar 2026
+    codebase_url: ''
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - 0.788
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.009
+    - null
+    - null
+    - null
+    - null
     - null
   - model: Exphormer
     model_plain: Exphormer
@@ -517,8 +1792,16 @@ variants:
     metric_values:
     - 0.7879
     - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.0131
+    - null
+    - null
+    - null
+    - null
     - null
   - model: GCN SEM-IL
     model_plain: GCN SEM-IL
@@ -538,8 +1821,16 @@ variants:
     metric_values:
     - 0.7861
     - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.0073
+    - null
+    - null
+    - null
+    - null
     - null
   - model: DeeperGCN
     model_plain: DeeperGCN
@@ -558,8 +1849,16 @@ variants:
     metric_values:
     - 0.7858
     - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.0117
+    - null
+    - null
+    - null
+    - null
     - null
   - model: GIN + FA
     model_plain: GIN + FA
@@ -578,8 +1877,156 @@ variants:
     metric_values:
     - 0.785
     - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.009
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: GraphCL
+    model_plain: GraphCL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2306.03506'
+    title: Subgraph Networks Based Contrastive Learning
+    date: Jun 2023
+    date_iso: 2023-06
+    date_display: Jun 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.785
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.012
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: UFGPool-Spectrum
+    model_plain: UFGPool-Spectrum
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2102.06986'
+    title: How Framelets Enhance Graph Neural Networks
+    date: Feb 13, 2021
+    date_iso: '2021-02-13'
+    date_display: Feb 2021
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7836
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0077
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: Nested GIN
+    model_plain: Nested GIN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2211.14425'
+    title: 'PatchGT: Transformer over Non-trainable Clusters for Learning Graph Representations'
+    date: Nov 2022
+    date_iso: 2022-11
+    date_display: Nov 2022
+    codebase_url: https://github.com/tufts-ml/PatchGT
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7834
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0186
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: GAWL
+    model_plain: GAWL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2410.01778'
+    title: 'TopER: Topological Embeddings in Graph Representation Learning'
+    date: Oct 2024
+    date_iso: 2024-10
+    date_display: Oct 2024
+    codebase_url: https://github.com/AstritTola/TopER
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7834
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0039
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: G-Tuning
+    model_plain: G-Tuning
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2312.13583'
+    title: Fine-tuning Graph Neural Networks by Preserving Graph Generative Patterns
+    date: Dec 2023
+    date_iso: 2023-12
+    date_display: Dec 2023
+    codebase_url: https://github.com/zjunet/G-Tuning
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7833
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0067
+    - null
+    - null
+    - null
+    - null
     - null
   - model: Graph-Mamba
     model_plain: Graph-Mamba
@@ -599,8 +2046,16 @@ variants:
     metric_values:
     - 0.7823
     - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.0121
+    - null
+    - null
+    - null
+    - null
     - null
   - model: GCN SEM-only
     model_plain: GCN SEM-only
@@ -620,8 +2075,241 @@ variants:
     metric_values:
     - 0.7821
     - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.0078
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: MEAN
+    model_plain: MEAN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2102.06986'
+    title: How Framelets Enhance Graph Neural Networks
+    date: Feb 13, 2021
+    date_iso: '2021-02-13'
+    date_display: Feb 2021
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7821
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.009
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: Vanilla Tuning
+    model_plain: Vanilla Tuning
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2312.13583'
+    title: Fine-tuning Graph Neural Networks by Preserving Graph Generative Patterns
+    date: Dec 2023
+    date_iso: 2023-12
+    date_display: Dec 2023
+    codebase_url: https://github.com/zjunet/G-Tuning
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7821
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0051
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: Mole-BERT
+    model_plain: Mole-BERT
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2603.00568'
+    title: Enhancing Molecular Property Predictions by Learning from Bond Modelling
+      and Interactions
+    date: Mar 2026
+    date_iso: 2026-03
+    date_display: Mar 2026
+    codebase_url: ''
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - 0.782
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.008
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: MAX
+    model_plain: MAX
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2102.06986'
+    title: How Framelets Enhance Graph Neural Networks
+    date: Feb 13, 2021
+    date_iso: '2021-02-13'
+    date_display: Feb 2021
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7816
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0133
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: TopKPool
+    model_plain: TopKPool
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2102.06986'
+    title: How Framelets Enhance Graph Neural Networks
+    date: Feb 13, 2021
+    date_iso: '2021-02-13'
+    date_display: Feb 2021
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7814
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0062
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: GTOT-Tuning
+    model_plain: GTOT-Tuning
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2312.13583'
+    title: Fine-tuning Graph Neural Networks by Preserving Graph Generative Patterns
+    date: Dec 2023
+    date_iso: 2023-12
+    date_display: Dec 2023
+    codebase_url: https://github.com/zjunet/G-Tuning
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7813
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0113
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: PatchGT-DeeperGCN
+    model_plain: PatchGT-DeeperGCN
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2211.14425'
+    title: 'PatchGT: Transformer over Non-trainable Clusters for Learning Graph Representations'
+    date: Nov 2022
+    date_iso: 2022-11
+    date_display: Nov 2022
+    codebase_url: https://github.com/tufts-ml/PatchGT
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7813
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0189
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: Random Forest
+    model_plain: Random Forest
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2310.01704'
+    title: Transformers are efficient hierarchical chemical graph learners
+    date: Oct 2023
+    date_iso: 2023-10
+    date_display: Oct 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.781
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.006
+    - null
+    - null
+    - null
+    - null
     - null
   - model: GIN + G-RLEF
     model_plain: GIN + G-RLEF
@@ -640,8 +2328,101 @@ variants:
     metric_values:
     - 0.7802
     - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.0024
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: Cy2C-GCN
+    model_plain: Cy2C-GCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2410.01778'
+    title: 'TopER: Topological Embeddings in Graph Representation Learning'
+    date: Oct 2024
+    date_iso: 2024-10
+    date_display: Oct 2024
+    codebase_url: https://github.com/AstritTola/TopER
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7802
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.006
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: AUTOBAHN
+    model_plain: AUTOBAHN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2310.01704'
+    title: Transformers are efficient hierarchical chemical graph learners
+    date: Oct 2023
+    date_iso: 2023-10
+    date_display: Oct 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.78
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.015
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: RF
+    model_plain: RF
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2010.09885'
+    title: 'ChemBERTa: Large-Scale Self-Supervised Pretraining for Molecular Property
+      Prediction'
+    date: Oct 2020
+    date_iso: 2020-10
+    date_display: Oct 2020
+    codebase_url: https://huggingface.co/seyonec/ChemBERTa-zinc-base-v1
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.78
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
     - null
   - model: GSN (GIN+VN base)
     model_plain: GSN (GIN+VN base)
@@ -660,8 +2441,16 @@ variants:
     metric_values:
     - 0.7799
     - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.01
+    - null
+    - null
+    - null
+    - null
     - null
   - model: ExpC
     model_plain: ExpC
@@ -680,8 +2469,73 @@ variants:
     metric_values:
     - 0.7799
     - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.0082
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: RGCL
+    model_plain: RGCL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2306.03506'
+    title: Subgraph Networks Based Contrastive Learning
+    date: Jun 2023
+    date_iso: 2023-06
+    date_display: Jun 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.779
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.008
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: Graphormer
+    model_plain: Graphormer
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2306.13089'
+    title: 'gimlet: A Unified Graph-Text Model for Instruction-Based Molecule Zero-Shot
+      Learning'
+    date: Jun 2023
+    date_iso: 2023-06
+    date_display: Jun 2023
+    codebase_url: https://github.com/zhao-ht/GIMLET
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7788
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.012
+    - null
+    - null
+    - null
+    - null
     - null
   - model: SAN
     model_plain: SAN
@@ -700,8 +2554,16 @@ variants:
     metric_values:
     - 0.7785
     - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.247
+    - null
+    - null
+    - null
+    - null
     - null
   - model: GIN-VN (pre-trained)
     model_plain: GIN-VN (pre-trained)
@@ -720,8 +2582,268 @@ variants:
     metric_values:
     - 0.778
     - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.0182
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: GraphLoG
+    model_plain: GraphLoG
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2402.08023'
+    title: 'UGMAE: A Unified Framework for Graph Masked Autoencoders'
+    date: Feb 2024
+    date_iso: 2024-02
+    date_display: Feb 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.778
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.008
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: BSS
+    model_plain: BSS
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2312.13583'
+    title: Fine-tuning Graph Neural Networks by Preserving Graph Generative Patterns
+    date: Dec 2023
+    date_iso: 2023-12
+    date_display: Dec 2023
+    codebase_url: https://github.com/zjunet/G-Tuning
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7763
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0083
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: StochNorm
+    model_plain: StochNorm
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2312.13583'
+    title: Fine-tuning Graph Neural Networks by Preserving Graph Generative Patterns
+    date: Dec 2023
+    date_iso: 2023-12
+    date_display: Dec 2023
+    codebase_url: https://github.com/zjunet/G-Tuning
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7758
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0084
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: VGAE-Tuning
+    model_plain: VGAE-Tuning
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2312.13583'
+    title: Fine-tuning Graph Neural Networks by Preserving Graph Generative Patterns
+    date: Dec 2023
+    date_iso: 2023-12
+    date_display: Dec 2023
+    codebase_url: https://github.com/zjunet/G-Tuning
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.775
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0013
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: DELTA
+    model_plain: DELTA
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2312.13583'
+    title: Fine-tuning Graph Neural Networks by Preserving Graph Generative Patterns
+    date: Dec 2023
+    date_iso: 2023-12
+    date_display: Dec 2023
+    codebase_url: https://github.com/zjunet/G-Tuning
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7749
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0088
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: SUM
+    model_plain: SUM
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2102.06986'
+    title: How Framelets Enhance Graph Neural Networks
+    date: Feb 13, 2021
+    date_iso: '2021-02-13'
+    date_display: Feb 2021
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7741
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0116
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: GraphAug
+    model_plain: GraphAug
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2202.13248'
+    title: Automated Data Augmentations for Graph Classification
+    date: Feb 2022
+    date_iso: 2022-02
+    date_display: Feb 2022
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.774
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.01
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: SoGCN
+    model_plain: SoGCN
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2110.07141'
+    title: 'SoGCN: Second-Order Graph Convolutional Networks'
+    date: Oct 14, 2021
+    date_iso: '2021-10-14'
+    date_display: Oct 2021
+    codebase_url: https://github.com/yuehaowang/SoGCN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7726
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0085
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: AttrMasking
+    model_plain: AttrMasking
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2306.03506'
+    title: Subgraph Networks Based Contrastive Learning
+    date: Jun 2023
+    date_iso: 2023-06
+    date_display: Jun 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.772
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.011
+    - null
+    - null
+    - null
+    - null
     - null
   - model: Deep LRP-1-3
     model_plain: Deep LRP-1-3
@@ -740,8 +2862,44 @@ variants:
     metric_values:
     - 0.7719
     - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.014
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: Deep LRP
+    model_plain: Deep LRP
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2211.14425'
+    title: 'PatchGT: Transformer over Non-trainable Clusters for Learning Graph Representations'
+    date: Nov 2022
+    date_iso: 2022-11
+    date_display: Nov 2022
+    codebase_url: https://github.com/tufts-ml/PatchGT
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7719
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.014
+    - null
+    - null
+    - null
+    - null
     - null
   - model: GPS+RWSE
     model_plain: GPS+RWSE
@@ -760,8 +2918,72 @@ variants:
     metric_values:
     - 0.7713
     - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.0105
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: G-Mixup
+    model_plain: G-Mixup
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2202.13248'
+    title: Automated Data Augmentations for Graph Classification
+    date: Feb 2022
+    date_iso: 2022-02
+    date_display: Feb 2022
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.771
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.005
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: 4th-Order GCN
+    model_plain: 4th-Order GCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2110.07141'
+    title: 'SoGCN: Second-Order Graph Convolutional Networks'
+    date: Oct 14, 2021
+    date_iso: '2021-10-14'
+    date_display: Oct 2021
+    codebase_url: https://github.com/yuehaowang/SoGCN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.771
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0072
+    - null
+    - null
+    - null
+    - null
     - null
   - model: GCN+virtual node
     model_plain: GCN+virtual node
@@ -780,8 +3002,16 @@ variants:
     metric_values:
     - 0.7707
     - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.0149
+    - null
+    - null
+    - null
+    - null
     - null
   - model: GIN-VN
     model_plain: GIN-VN
@@ -800,8 +3030,72 @@ variants:
     metric_values:
     - 0.7707
     - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.0149
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: DIR
+    model_plain: DIR
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2201.12872'
+    title: Discovering Invariant Rationales for Graph Neural Networks
+    date: Jan 2022
+    date_iso: 2022-01
+    date_display: Jan 2022
+    codebase_url: https://github.com/Wuyxin/DIR-GNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7705
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0057
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: GCNII
+    model_plain: GCNII
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2110.07141'
+    title: 'SoGCN: Second-Order Graph Convolutional Networks'
+    date: Oct 14, 2021
+    date_iso: '2021-10-14'
+    date_display: Oct 2021
+    codebase_url: https://github.com/yuehaowang/SoGCN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7704
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0103
+    - null
+    - null
+    - null
+    - null
     - null
   - model: GCN Baseline
     model_plain: GCN Baseline
@@ -821,8 +3115,158 @@ variants:
     metric_values:
     - 0.7701
     - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.0094
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: GraphMVP
+    model_plain: GraphMVP
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2207.08806'
+    title: Unified 2D and 3D Pre-Training of Molecular Representations
+    date: Jul 2022
+    date_iso: 2022-07
+    date_display: Jul 2022
+    codebase_url: https://github.com/teslacool/UnifiedMolPretrain
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - 0.77
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.012
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: ARMA
+    model_plain: ARMA
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2110.07141'
+    title: 'SoGCN: Second-Order Graph Convolutional Networks'
+    date: Oct 14, 2021
+    date_iso: '2021-10-14'
+    date_display: Oct 2021
+    codebase_url: https://github.com/yuehaowang/SoGCN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7691
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0175
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: GMoE-GIN+Pretrain
+    model_plain: GMoE-GIN+Pretrain
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2304.02806'
+    title: 'Graph Mixture of Experts: Learning on Large-Scale Graphs with Explicit
+      Diversity Modeling'
+    date: Apr 2023
+    date_iso: 2023-04
+    date_display: Apr 2023
+    codebase_url: https://github.com/VITA-Group/Graph-Mixture-of-Experts
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - 0.769
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.009
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: GraphSAGE
+    model_plain: GraphSAGE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2110.07141'
+    title: 'SoGCN: Second-Order Graph Convolutional Networks'
+    date: Oct 14, 2021
+    date_iso: '2021-10-14'
+    date_display: Oct 2021
+    codebase_url: https://github.com/yuehaowang/SoGCN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.769
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0136
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: AttrMask
+    model_plain: AttrMask
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2603.00568'
+    title: Enhancing Molecular Property Predictions by Learning from Bond Modelling
+      and Interactions
+    date: Mar 2026
+    date_iso: 2026-03
+    date_display: Mar 2026
+    codebase_url: ''
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - 0.768
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.005
+    - null
+    - null
+    - null
+    - null
     - null
   - model: GIN + master node
     model_plain: GIN + master node
@@ -841,8 +3285,328 @@ variants:
     metric_values:
     - 0.7668
     - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.0096
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: JOAO
+    model_plain: JOAO
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.13315'
+    title: 3D Molecular Geometry Analysis with 2D Graphs
+    date: May 2023
+    date_iso: 2023-05
+    date_display: May 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.766
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.005
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: FLAG
+    model_plain: FLAG
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2202.13248'
+    title: Automated Data Augmentations for Graph Classification
+    date: Feb 2022
+    date_iso: 2022-02
+    date_display: Feb 2022
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.765
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.011
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: SVM
+    model_plain: SVM
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2010.09885'
+    title: 'ChemBERTa: Large-Scale Self-Supervised Pretraining for Molecular Property
+      Prediction'
+    date: Oct 2020
+    date_iso: 2020-10
+    date_display: Oct 2020
+    codebase_url: https://huggingface.co/seyonec/ChemBERTa-zinc-base-v1
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.763
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: DropEdge
+    model_plain: DropEdge
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2202.13248'
+    title: Automated Data Augmentations for Graph Classification
+    date: Feb 2022
+    date_iso: 2022-02
+    date_display: Feb 2022
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.762
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.01
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: AD-GCL
+    model_plain: AD-GCL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2202.13248'
+    title: Automated Data Augmentations for Graph Classification
+    date: Feb 2022
+    date_iso: 2022-02
+    date_display: Feb 2022
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.762
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.013
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: GraphMAE
+    model_plain: GraphMAE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2402.08023'
+    title: 'UGMAE: A Unified Framework for Graph Masked Autoencoders'
+    date: Feb 2024
+    date_iso: 2024-02
+    date_display: Feb 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.762
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.023
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: ERM
+    model_plain: ERM
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2201.12872'
+    title: Discovering Invariant Rationales for Graph Neural Networks
+    date: Jan 2022
+    date_iso: 2022-01
+    date_display: Jan 2022
+    codebase_url: https://github.com/Wuyxin/DIR-GNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.762
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0114
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: MolCLR
+    model_plain: MolCLR
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2603.00568'
+    title: Enhancing Molecular Property Predictions by Learning from Bond Modelling
+      and Interactions
+    date: Mar 2026
+    date_iso: 2026-03
+    date_display: Mar 2026
+    codebase_url: ''
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - 0.762
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.015
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: GMoE-GCN
+    model_plain: GMoE-GCN
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2304.02806'
+    title: 'Graph Mixture of Experts: Learning on Large-Scale Graphs with Explicit
+      Diversity Modeling'
+    date: Apr 2023
+    date_iso: 2023-04
+    date_display: Apr 2023
+    codebase_url: https://github.com/VITA-Group/Graph-Mixture-of-Experts
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7614
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0103
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: GIN+Pretrain
+    model_plain: GIN+Pretrain
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2304.02806'
+    title: 'Graph Mixture of Experts: Learning on Large-Scale Graphs with Explicit
+      Diversity Modeling'
+    date: Apr 2023
+    date_iso: 2023-04
+    date_display: Apr 2023
+    codebase_url: https://github.com/VITA-Group/Graph-Mixture-of-Experts
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - 0.761
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.008
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: stark20213d
+    model_plain: stark20213d
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2207.08806'
+    title: Unified 2D and 3D Pre-Training of Molecular Representations
+    date: Jul 2022
+    date_iso: 2022-07
+    date_display: Jul 2022
+    codebase_url: https://github.com/teslacool/UnifiedMolPretrain
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - 0.761
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.011
+    - null
+    - null
+    - null
+    - null
     - null
   - model: GRIT
     model_plain: GRIT
@@ -861,8 +3625,16 @@ variants:
     metric_values:
     - 0.7608
     - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.0165
+    - null
+    - null
+    - null
+    - null
     - null
   - model: GCN
     model_plain: GCN
@@ -881,8 +3653,100 @@ variants:
     metric_values:
     - 0.7606
     - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.0097
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: GCN + Vanilla
+    model_plain: GCN + Vanilla
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2110.07141'
+    title: 'SoGCN: Second-Order Graph Convolutional Networks'
+    date: Oct 14, 2021
+    date_iso: '2021-10-14'
+    date_display: Oct 2021
+    codebase_url: https://github.com/yuehaowang/SoGCN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7606
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0097
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: DIR-Var
+    model_plain: DIR-Var
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2201.12872'
+    title: Discovering Invariant Rationales for Graph Neural Networks
+    date: Jan 2022
+    date_iso: 2022-01
+    date_display: Jan 2022
+    codebase_url: https://github.com/Wuyxin/DIR-GNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7605
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0086
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: Infomax
+    model_plain: Infomax
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2402.08023'
+    title: 'UGMAE: A Unified Framework for Graph Masked Autoencoders'
+    date: Feb 2024
+    date_iso: 2024-02
+    date_display: Feb 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.76
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.007
+    - null
+    - null
+    - null
+    - null
     - null
   - model: GCN-VN
     model_plain: GCN-VN
@@ -901,8 +3765,297 @@ variants:
     metric_values:
     - 0.7599
     - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.0119
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: GROVER
+    model_plain: GROVER
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2207.08806'
+    title: Unified 2D and 3D Pre-Training of Molecular Representations
+    date: Jul 2022
+    date_iso: 2022-07
+    date_display: Jul 2022
+    codebase_url: https://github.com/teslacool/UnifiedMolPretrain
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - 0.759
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.009
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: G-Contextual
+    model_plain: G-Contextual
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.13315'
+    title: 3D Molecular Geometry Analysis with 2D Graphs
+    date: May 2023
+    date_iso: 2023-05
+    date_display: May 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.759
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.009
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: AttrMask & ContextPred
+    model_plain: AttrMask & ContextPred
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2207.08806'
+    title: Unified 2D and 3D Pre-Training of Molecular Representations
+    date: Jul 2022
+    date_iso: 2022-07
+    date_display: Jul 2022
+    codebase_url: https://github.com/teslacool/UnifiedMolPretrain
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - 0.758
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.011
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: ContextPred
+    model_plain: ContextPred
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.13315'
+    title: 3D Molecular Geometry Analysis with 2D Graphs
+    date: May 2023
+    date_iso: 2023-05
+    date_display: May 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.758
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.011
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: L2_SP
+    model_plain: L2_SP
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2312.13583'
+    title: Fine-tuning Graph Neural Networks by Preserving Graph Generative Patterns
+    date: Dec 2023
+    date_iso: 2023-12
+    date_display: Dec 2023
+    codebase_url: https://github.com/zjunet/G-Tuning
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7574
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.015
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: V-REx
+    model_plain: V-REx
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2201.12872'
+    title: Discovering Invariant Rationales for Graph Neural Networks
+    date: Jan 2022
+    date_iso: 2022-01
+    date_display: Jan 2022
+    codebase_url: https://github.com/Wuyxin/DIR-GNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7562
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0079
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: XGBoost
+    model_plain: XGBoost
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2310.01704'
+    title: Transformers are efficient hierarchical chemical graph learners
+    date: Oct 2023
+    date_iso: 2023-10
+    date_display: Oct 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.756
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: MP (dual readout, VN)
+    model_plain: MP (dual readout, VN)
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2310.01704'
+    title: Transformers are efficient hierarchical chemical graph learners
+    date: Oct 2023
+    date_iso: 2023-10
+    date_display: Oct 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.756
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.007
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: No augmentation
+    model_plain: No augmentation
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2202.13248'
+    title: Automated Data Augmentations for Graph Classification
+    date: Feb 2022
+    date_iso: 2022-02
+    date_display: Feb 2022
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.756
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.014
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: Galformer
+    model_plain: Galformer
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2603.00568'
+    title: Enhancing Molecular Property Predictions by Learning from Bond Modelling
+      and Interactions
+    date: Mar 2026
+    date_iso: 2026-03
+    date_display: Mar 2026
+    codebase_url: ''
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - 0.756
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.004
+    - null
+    - null
+    - null
+    - null
     - null
   - model: GIN
     model_plain: GIN
@@ -921,8 +4074,44 @@ variants:
     metric_values:
     - 0.7558
     - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.014
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: WWL
+    model_plain: WWL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2410.01778'
+    title: 'TopER: Topological Embeddings in Graph Representation Learning'
+    date: Oct 2024
+    date_iso: 2024-10
+    date_display: Oct 2024
+    codebase_url: https://github.com/AstritTola/TopER
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7558
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.014
+    - null
+    - null
+    - null
+    - null
     - null
   - model: APPNP
     model_plain: APPNP
@@ -941,8 +4130,382 @@ variants:
     metric_values:
     - 0.755
     - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.0
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: Uniform PerturbEdge
+    model_plain: Uniform PerturbEdge
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2202.13248'
+    title: Automated Data Augmentations for Graph Classification
+    date: Feb 2022
+    date_iso: 2022-02
+    date_display: Feb 2022
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.755
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.013
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: Group DRO
+    model_plain: Group DRO
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2201.12872'
+    title: Discovering Invariant Rationales for Graph Neural Networks
+    date: Jan 2022
+    date_iso: 2022-01
+    date_display: Jan 2022
+    codebase_url: https://github.com/Wuyxin/DIR-GNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7544
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.027
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: Supervised
+    model_plain: Supervised
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2312.13583'
+    title: Fine-tuning Graph Neural Networks by Preserving Graph Generative Patterns
+    date: Dec 2023
+    date_iso: 2023-12
+    date_display: Dec 2023
+    codebase_url: https://github.com/zjunet/G-Tuning
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7531
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0193
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: M-Mixup
+    model_plain: M-Mixup
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2202.13248'
+    title: Automated Data Augmentations for Graph Classification
+    date: Feb 2022
+    date_iso: 2022-02
+    date_display: Feb 2022
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.753
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.013
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: No Pre-train
+    model_plain: No Pre-train
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2306.03506'
+    title: Subgraph Networks Based Contrastive Learning
+    date: Jun 2023
+    date_iso: 2023-06
+    date_display: Jun 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.753
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.019
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: SAGPool
+    model_plain: SAGPool
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2102.06986'
+    title: How Framelets Enhance Graph Neural Networks
+    date: Feb 13, 2021
+    date_iso: '2021-02-13'
+    date_display: Feb 2021
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7526
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0229
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: D-MPNN
+    model_plain: D-MPNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2010.09885'
+    title: 'ChemBERTa: Large-Scale Self-Supervised Pretraining for Molecular Property
+      Prediction'
+    date: Oct 2020
+    date_iso: 2020-10
+    date_display: Oct 2020
+    codebase_url: https://huggingface.co/seyonec/ChemBERTa-zinc-base-v1
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.752
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: EdgePred
+    model_plain: EdgePred
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.13315'
+    title: 3D Molecular Geometry Analysis with 2D Graphs
+    date: May 2023
+    date_iso: 2023-05
+    date_display: May 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.751
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.008
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: GPT-GNN
+    model_plain: GPT-GNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.13315'
+    title: 3D Molecular Geometry Analysis with 2D Graphs
+    date: May 2023
+    date_iso: 2023-05
+    date_display: May 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.751
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.002
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: GraphCL
+    model_plain: GraphCL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2207.08806'
+    title: Unified 2D and 3D Pre-Training of Molecular Representations
+    date: Jul 2022
+    date_iso: 2022-07
+    date_display: Jul 2022
+    codebase_url: https://github.com/teslacool/UnifiedMolPretrain
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - 0.75
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.004
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: 3D Infomax
+    model_plain: 3D Infomax
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2603.00568'
+    title: Enhancing Molecular Property Predictions by Learning from Bond Modelling
+      and Interactions
+    date: Mar 2026
+    date_iso: 2026-03
+    date_display: Mar 2026
+    codebase_url: ''
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - 0.749
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.003
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: Uniform Mixture
+    model_plain: Uniform Mixture
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2202.13248'
+    title: Automated Data Augmentations for Graph Classification
+    date: Feb 2022
+    date_iso: 2022-02
+    date_display: Feb 2022
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.746
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.01
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: GSN
+    model_plain: GSN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2201.12872'
+    title: Discovering Invariant Rationales for Graph Neural Networks
+    date: Jan 2022
+    date_iso: 2022-01
+    date_display: Jan 2022
+    codebase_url: https://github.com/Wuyxin/DIR-GNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7453
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.019
+    - null
+    - null
+    - null
+    - null
     - null
   - model: SE2P-C3
     model_plain: SE2P-C3
@@ -961,8 +4524,100 @@ variants:
     metric_values:
     - 0.745
     - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.026
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: Feature Map
+    model_plain: Feature Map
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2312.13583'
+    title: Fine-tuning Graph Neural Networks by Preserving Graph Generative Patterns
+    date: Dec 2023
+    date_iso: 2023-12
+    date_display: Dec 2023
+    codebase_url: https://github.com/zjunet/G-Tuning
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.745
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0049
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: InfoGraph
+    model_plain: InfoGraph
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.13315'
+    title: 3D Molecular Geometry Analysis with 2D Graphs
+    date: May 2023
+    date_iso: 2023-05
+    date_display: May 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.745
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.018
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: IRM
+    model_plain: IRM
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2201.12872'
+    title: Discovering Invariant Rationales for Graph Neural Networks
+    date: Jan 2022
+    date_iso: 2022-01
+    date_display: Jan 2022
+    codebase_url: https://github.com/Wuyxin/DIR-GNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7446
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0274
+    - null
+    - null
+    - null
+    - null
     - null
   - model: UnionSNN
     model_plain: UnionSNN
@@ -981,8 +4636,44 @@ variants:
     metric_values:
     - 0.7444
     - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.0121
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: Attention
+    model_plain: Attention
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2102.06986'
+    title: How Framelets Enhance Graph Neural Networks
+    date: Feb 13, 2021
+    date_iso: '2021-02-13'
+    date_display: Feb 2021
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7444
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0212
+    - null
+    - null
+    - null
+    - null
     - null
   - model: GraphSAGE
     model_plain: GraphSAGE
@@ -1001,8 +4692,100 @@ variants:
     metric_values:
     - 0.744
     - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.007
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: JOAOv2
+    model_plain: JOAOv2
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2202.13248'
+    title: Automated Data Augmentations for Graph Classification
+    date: Feb 2022
+    date_iso: 2022-02
+    date_display: Feb 2022
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.744
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.014
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: AttrMask
+    model_plain: AttrMask
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.13315'
+    title: 3D Molecular Geometry Analysis with 2D Graphs
+    date: May 2023
+    date_iso: 2023-05
+    date_display: May 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.743
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.013
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: Uniform MaskNF
+    model_plain: Uniform MaskNF
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2202.13248'
+    title: Automated Data Augmentations for Graph Classification
+    date: Feb 2022
+    date_iso: 2022-02
+    date_display: Feb 2022
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.741
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.01
+    - null
+    - null
+    - null
+    - null
     - null
   - model: SE2P-C2
     model_plain: SE2P-C2
@@ -1021,8 +4804,184 @@ variants:
     metric_values:
     - 0.74
     - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.013
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: ASAP
+    model_plain: ASAP
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2201.12872'
+    title: Discovering Invariant Rationales for Graph Neural Networks
+    date: Jan 2022
+    date_iso: 2022-01
+    date_display: Jan 2022
+    codebase_url: https://github.com/Wuyxin/DIR-GNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7381
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0117
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: JOAO
+    model_plain: JOAO
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2206.08005'
+    title: Evaluating Self-Supervised Learning for Molecular Graph Embeddings
+    date: Jun 2022
+    date_iso: 2022-06
+    date_display: Jun 2022
+    codebase_url: https://github.com/hansen7/MolGraphEval
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.738
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.012
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: G-Motif
+    model_plain: G-Motif
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.13315'
+    title: 3D Molecular Geometry Analysis with 2D Graphs
+    date: May 2023
+    date_iso: 2023-05
+    date_display: May 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.738
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.014
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: EdgePred
+    model_plain: EdgePred
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2206.08005'
+    title: Evaluating Self-Supervised Learning for Molecular Graph Embeddings
+    date: Jun 2022
+    date_iso: 2022-06
+    date_display: Jun 2022
+    codebase_url: https://github.com/hansen7/MolGraphEval
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.736
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.004
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: GraphLoG
+    model_plain: GraphLoG
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.13315'
+    title: 3D Molecular Geometry Analysis with 2D Graphs
+    date: May 2023
+    date_iso: 2023-05
+    date_display: May 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.734
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.006
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: SAG Pool
+    model_plain: SAG Pool
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2201.12872'
+    title: Discovering Invariant Rationales for Graph Neural Networks
+    date: Jan 2022
+    date_iso: 2022-01
+    date_display: Jan 2022
+    codebase_url: https://github.com/Wuyxin/DIR-GNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7326
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0084
+    - null
+    - null
+    - null
+    - null
     - null
   - model: CurvGN
     model_plain: CurvGN
@@ -1041,8 +5000,16 @@ variants:
     metric_values:
     - 0.7317
     - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.0089
+    - null
+    - null
+    - null
+    - null
     - null
   - model: GraphSNN
     model_plain: GraphSNN
@@ -1061,8 +5028,100 @@ variants:
     metric_values:
     - 0.7305
     - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.004
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: Top-k Pool
+    model_plain: Top-k Pool
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2201.12872'
+    title: Discovering Invariant Rationales for Graph Neural Networks
+    date: Jan 2022
+    date_iso: 2022-01
+    date_display: Jan 2022
+    codebase_url: https://github.com/Wuyxin/DIR-GNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7301
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0165
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: DMoN
+    model_plain: DMoN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2407.04236'
+    title: Graph Pooling via Ricci Flow
+    date: Jul 2024
+    date_iso: 2024-07
+    date_display: Jul 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.73
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.037
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: ORC (us)
+    model_plain: ORC (us)
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2407.04236'
+    title: Graph Pooling via Ricci Flow
+    date: Jul 2024
+    date_iso: 2024-07
+    date_display: Jul 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.73
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.048
+    - null
+    - null
+    - null
+    - null
     - null
   - model: GAT
     model_plain: GAT
@@ -1081,8 +5140,72 @@ variants:
     metric_values:
     - 0.729
     - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.018
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: GraphCL
+    model_plain: GraphCL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2206.08005'
+    title: Evaluating Self-Supervised Learning for Molecular Graph Embeddings
+    date: Jun 2022
+    date_iso: 2022-06
+    date_display: Jun 2022
+    codebase_url: https://github.com/hansen7/MolGraphEval
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.725
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.014
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: Uniform DropNode
+    model_plain: Uniform DropNode
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2202.13248'
+    title: Automated Data Augmentations for Graph Classification
+    date: Feb 2022
+    date_iso: 2022-02
+    date_display: Feb 2022
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.717
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.011
+    - null
+    - null
+    - null
+    - null
     - null
   - model: DIFFormer
     model_plain: DIFFormer
@@ -1101,8 +5224,16 @@ variants:
     metric_values:
     - 0.7169
     - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.0103
+    - null
+    - null
+    - null
+    - null
     - null
   - model: SE2P-C1
     model_plain: SE2P-C1
@@ -1121,8 +5252,72 @@ variants:
     metric_values:
     - 0.714
     - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.013
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: InfoGraph
+    model_plain: InfoGraph
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2206.08005'
+    title: Evaluating Self-Supervised Learning for Molecular Graph Embeddings
+    date: Jun 2022
+    date_iso: 2022-06
+    date_display: Jun 2022
+    codebase_url: https://github.com/hansen7/MolGraphEval
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.714
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.006
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: GPT-GNN
+    model_plain: GPT-GNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2206.08005'
+    title: Evaluating Self-Supervised Learning for Molecular Graph Embeddings
+    date: Jun 2022
+    date_iso: 2022-06
+    date_display: Jun 2022
+    codebase_url: https://github.com/hansen7/MolGraphEval
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.712
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.015
+    - null
+    - null
+    - null
+    - null
     - null
   - model: GIN
     model_plain: GIN
@@ -1141,8 +5336,44 @@ variants:
     metric_values:
     - 0.706
     - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.0256
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: AutoGCL
+    model_plain: AutoGCL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2202.13248'
+    title: Automated Data Augmentations for Graph Classification
+    date: Feb 2022
+    date_iso: 2022-02
+    date_display: Feb 2022
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.704
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.016
+    - null
+    - null
+    - null
+    - null
     - null
   - model: GraphSAGE
     model_plain: GraphSAGE
@@ -1161,8 +5392,100 @@ variants:
     metric_values:
     - 0.7037
     - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.0042
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: Logistic Regression
+    model_plain: Logistic Regression
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2310.01704'
+    title: Transformers are efficient hierarchical chemical graph learners
+    date: Oct 2023
+    date_iso: 2023-10
+    date_display: Oct 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.702
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.018
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: Mincut
+    model_plain: Mincut
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2407.04236'
+    title: Graph Pooling via Ricci Flow
+    date: Jul 2024
+    date_iso: 2024-07
+    date_display: Jul 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.04
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: TV
+    model_plain: TV
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2407.04236'
+    title: Graph Pooling via Ricci Flow
+    date: Jul 2024
+    date_iso: 2024-07
+    date_display: Jul 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.69
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.034
+    - null
+    - null
+    - null
+    - null
     - null
   - model: Graph-MLPMixer
     model_plain: Graph-MLPMixer
@@ -1181,8 +5504,16 @@ variants:
     metric_values:
     - 0.6889
     - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.0146
+    - null
+    - null
+    - null
+    - null
     - null
   - model: GCN
     model_plain: GCN
@@ -1201,8 +5532,100 @@ variants:
     metric_values:
     - 0.6888
     - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.0127
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: GraphMVP
+    model_plain: GraphMVP
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2206.08005'
+    title: Evaluating Self-Supervised Learning for Molecular Graph Embeddings
+    date: Jun 2022
+    date_iso: 2022-06
+    date_display: Jun 2022
+    codebase_url: https://github.com/hansen7/MolGraphEval
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.686
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.01
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: APPNP
+    model_plain: APPNP
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2110.07141'
+    title: 'SoGCN: Second-Order Graph Convolutional Networks'
+    date: Oct 14, 2021
+    date_iso: '2021-10-14'
+    date_display: Oct 2021
+    codebase_url: https://github.com/yuehaowang/SoGCN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.68
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0136
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: Diff
+    model_plain: Diff
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2407.04236'
+    title: Graph Pooling via Ricci Flow
+    date: Jul 2024
+    date_iso: 2024-07
+    date_display: Jul 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.68
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.052
+    - null
+    - null
+    - null
+    - null
     - null
   - model: SGFormer
     model_plain: SGFormer
@@ -1221,8 +5644,241 @@ variants:
     metric_values:
     - 0.6794
     - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.0076
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: GROVER
+    model_plain: GROVER
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2206.08005'
+    title: Evaluating Self-Supervised Learning for Molecular Graph Embeddings
+    date: Jun 2022
+    date_iso: 2022-06
+    date_display: Jun 2022
+    codebase_url: https://github.com/hansen7/MolGraphEval
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.678
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.01
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: Gimlet
+    model_plain: Gimlet
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2306.13089'
+    title: 'gimlet: A Unified Graph-Text Model for Instruction-Based Molecule Zero-Shot
+      Learning'
+    date: Jun 2023
+    date_iso: 2023-06
+    date_display: Jun 2023
+    codebase_url: https://github.com/zhao-ht/GIMLET
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.6624
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: Cont. Pred
+    model_plain: Cont. Pred
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2206.08005'
+    title: Evaluating Self-Supervised Learning for Molecular Graph Embeddings
+    date: Jun 2022
+    date_iso: 2022-06
+    date_display: Jun 2022
+    codebase_url: https://github.com/hansen7/MolGraphEval
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.662
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.015
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: Random
+    model_plain: Random
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2206.08005'
+    title: Evaluating Self-Supervised Learning for Molecular Graph Embeddings
+    date: Jun 2022
+    date_iso: 2022-06
+    date_display: Jun 2022
+    codebase_url: https://github.com/hansen7/MolGraphEval
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.661
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.007
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: AttrMask
+    model_plain: AttrMask
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2206.08005'
+    title: Evaluating Self-Supervised Learning for Molecular Graph Embeddings
+    date: Jun 2022
+    date_iso: 2022-06
+    date_display: Jun 2022
+    codebase_url: https://github.com/hansen7/MolGraphEval
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.655
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.014
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: Linear Probing
+    model_plain: Linear Probing
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2411.17676'
+    title: Instance-Aware Graph Prompt Learning
+    date: Nov 2024
+    date_iso: 2024-11
+    date_display: Nov 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.6504
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0149
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: IA-GPL
+    model_plain: IA-GPL
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2411.17676'
+    title: Instance-Aware Graph Prompt Learning
+    date: Nov 2024
+    date_iso: 2024-11
+    date_display: Nov 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.646
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0095
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: GPF-plus
+    model_plain: GPF-plus
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2411.17676'
+    title: Instance-Aware Graph Prompt Learning
+    date: Nov 2024
+    date_iso: 2024-11
+    date_display: Nov 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.6449
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0119
+    - null
+    - null
+    - null
+    - null
     - null
   - model: Graphtransformer
     model_plain: Graphtransformer
@@ -1241,8 +5897,358 @@ variants:
     metric_values:
     - 0.635
     - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.0112
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: GPF
+    model_plain: GPF
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2411.17676'
+    title: Instance-Aware Graph Prompt Learning
+    date: Nov 2024
+    date_iso: 2024-11
+    date_display: Nov 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.6321
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0053
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: GIN
+    model_plain: GIN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2411.17676'
+    title: Instance-Aware Graph Prompt Learning
+    date: Nov 2024
+    date_iso: 2024-11
+    date_display: Nov 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.6287
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0252
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: GROVER
+    model_plain: GROVER
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2603.00568'
+    title: Enhancing Molecular Property Predictions by Learning from Bond Modelling
+      and Interactions
+    date: Mar 2026
+    date_iso: 2026-03
+    date_display: Mar 2026
+    codebase_url: ''
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - 0.625
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.009
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: ChemBERTa 10M
+    model_plain: ChemBERTa 10M
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2010.09885'
+    title: 'ChemBERTa: Large-Scale Self-Supervised Pretraining for Molecular Property
+      Prediction'
+    date: Oct 2020
+    date_iso: 2020-10
+    date_display: Oct 2020
+    codebase_url: https://huggingface.co/seyonec/ChemBERTa-zinc-base-v1
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - 0.622
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: Fine Tuning
+    model_plain: Fine Tuning
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2411.17676'
+    title: Instance-Aware Graph Prompt Learning
+    date: Nov 2024
+    date_iso: 2024-11
+    date_display: Nov 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.622
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0495
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: KVPLM
+    model_plain: KVPLM
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2306.13089'
+    title: 'gimlet: A Unified Graph-Text Model for Instruction-Based Molecule Zero-Shot
+      Learning'
+    date: Jun 2023
+    date_iso: 2023-06
+    date_display: Jun 2023
+    codebase_url: https://github.com/zhao-ht/GIMLET
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.612
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: GraphSAGE
+    model_plain: GraphSAGE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2411.17676'
+    title: Instance-Aware Graph Prompt Learning
+    date: Nov 2024
+    date_iso: 2024-11
+    date_display: Nov 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.6106
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0134
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: GCN
+    model_plain: GCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2411.17676'
+    title: Instance-Aware Graph Prompt Learning
+    date: Nov 2024
+    date_iso: 2024-11
+    date_display: Nov 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.5991
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0106
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: MoMu
+    model_plain: MoMu
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2306.13089'
+    title: 'gimlet: A Unified Graph-Text Model for Instruction-Based Molecule Zero-Shot
+      Learning'
+    date: Jun 2023
+    date_iso: 2023-06
+    date_display: Jun 2023
+    codebase_url: https://github.com/zhao-ht/GIMLET
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.5026
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: All-In-One
+    model_plain: All-In-One
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2411.17676'
+    title: Instance-Aware Graph Prompt Learning
+    date: Nov 2024
+    date_iso: 2024-11
+    date_display: Nov 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.4631
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.075
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: Galactica-125M
+    model_plain: Galactica-125M
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2306.13089'
+    title: 'gimlet: A Unified Graph-Text Model for Instruction-Based Molecule Zero-Shot
+      Learning'
+    date: Jun 2023
+    date_iso: 2023-06
+    date_display: Jun 2023
+    codebase_url: https://github.com/zhao-ht/GIMLET
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.3671
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: Galactica-1.3B
+    model_plain: Galactica-1.3B
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2306.13089'
+    title: 'gimlet: A Unified Graph-Text Model for Instruction-Based Molecule Zero-Shot
+      Learning'
+    date: Jun 2023
+    date_iso: 2023-06
+    date_display: Jun 2023
+    codebase_url: https://github.com/zhao-ht/GIMLET
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.3385
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
     - null
   - model: D-MPNN
     model_plain: D-MPNN
@@ -1260,10 +6266,18 @@ variants:
     is_best: false
     metric_values:
     - null
+    - null
+    - null
     - 0.771
+    - null
+    - null
     metric_stds:
     - null
+    - null
+    - null
     - 0.005
+    - null
+    - null
   - model: AttentiveFP
     model_plain: AttentiveFP
     is_baseline: true
@@ -1280,10 +6294,18 @@ variants:
     is_best: false
     metric_values:
     - null
+    - null
+    - null
     - 0.757
+    - null
+    - null
     metric_stds:
     - null
+    - null
+    - null
     - 0.014
+    - null
+    - null
   - model: N-Gram_RF
     model_plain: N-Gram_RF
     is_baseline: true
@@ -1300,10 +6322,18 @@ variants:
     is_best: false
     metric_values:
     - null
+    - null
+    - null
     - 0.772
+    - null
+    - null
     metric_stds:
     - null
+    - null
+    - null
     - 0.001
+    - null
+    - null
   - model: N-Gram_XGB
     model_plain: N-Gram_XGB
     is_baseline: true
@@ -1320,10 +6350,18 @@ variants:
     is_best: false
     metric_values:
     - null
+    - null
+    - null
     - 0.787
+    - null
+    - null
     metric_stds:
     - null
+    - null
+    - null
     - 0.004
+    - null
+    - null
   - model: PretrainGNN
     model_plain: PretrainGNN
     is_baseline: true
@@ -1340,10 +6378,18 @@ variants:
     is_best: false
     metric_values:
     - null
+    - null
+    - null
     - 0.799
+    - null
+    - null
     metric_stds:
     - null
+    - null
+    - null
     - 0.007
+    - null
+    - null
   - model: GROVER_base
     model_plain: GROVER_base
     is_baseline: true
@@ -1360,10 +6406,18 @@ variants:
     is_best: false
     metric_values:
     - null
+    - null
+    - null
     - 0.625
+    - null
+    - null
     metric_stds:
     - null
+    - null
+    - null
     - 0.009
+    - null
+    - null
   - model: GROVER_large
     model_plain: GROVER_large
     is_baseline: true
@@ -1380,10 +6434,18 @@ variants:
     is_best: false
     metric_values:
     - null
+    - null
+    - null
     - 0.682
+    - null
+    - null
     metric_stds:
     - null
+    - null
+    - null
     - 0.011
+    - null
+    - null
   - model: GraphMVP
     model_plain: GraphMVP
     is_baseline: true
@@ -1400,10 +6462,18 @@ variants:
     is_best: false
     metric_values:
     - null
+    - null
+    - null
     - 0.77
+    - null
+    - null
     metric_stds:
     - null
+    - null
+    - null
     - 0.012
+    - null
+    - null
   - model: MolCLR
     model_plain: MolCLR
     is_baseline: true
@@ -1420,10 +6490,18 @@ variants:
     is_best: false
     metric_values:
     - null
+    - null
+    - null
     - 0.781
+    - null
+    - null
     metric_stds:
     - null
+    - null
+    - null
     - 0.005
+    - null
+    - null
   - model: GEM
     model_plain: GEM
     is_baseline: true
@@ -1440,10 +6518,18 @@ variants:
     is_best: false
     metric_values:
     - null
+    - null
+    - null
     - 0.806
+    - null
+    - null
     metric_stds:
     - null
+    - null
+    - null
     - 0.009
+    - null
+    - null
   - model: Uni-Mol
     model_plain: Uni-Mol
     is_baseline: true
@@ -1460,10 +6546,18 @@ variants:
     is_best: false
     metric_values:
     - null
+    - null
+    - null
     - 0.808
+    - null
+    - null
     metric_stds:
     - null
+    - null
+    - null
     - 0.003
+    - null
+    - null
   - model: agg + I
     model_plain: agg + I
     is_baseline: true
@@ -1480,10 +6574,1575 @@ variants:
     is_best: false
     metric_values:
     - null
+    - null
+    - null
     - 0.7695
+    - null
+    - null
     metric_stds:
     - null
+    - null
+    - null
     - 0.0034
+    - null
+    - null
+  - model: W2PGNN
+    model_plain: W2PGNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2303.16458'
+    title: When to Pre-Train Graph Neural Networks? From Data Generation Perspective!
+    date: Mar 2023
+    date_iso: 2023-03
+    date_display: Mar 2023
+    codebase_url: https://github.com/caoyxuan/W2PGNN
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - 0.7044
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: W2PGNN (α=1)
+    model_plain: W2PGNN (α=1)
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2303.16458'
+    title: When to Pre-Train Graph Neural Networks? From Data Generation Perspective!
+    date: Mar 2023
+    date_iso: 2023-03
+    date_display: Mar 2023
+    codebase_url: https://github.com/caoyxuan/W2PGNN
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - 0.7033
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: W2PGNN (topo)
+    model_plain: W2PGNN (topo)
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2303.16458'
+    title: When to Pre-Train Graph Neural Networks? From Data Generation Perspective!
+    date: Mar 2023
+    date_iso: 2023-03
+    date_display: Mar 2023
+    codebase_url: https://github.com/caoyxuan/W2PGNN
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - 0.7391
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: W2PGNN (domain)
+    model_plain: W2PGNN (domain)
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2303.16458'
+    title: When to Pre-Train Graph Neural Networks? From Data Generation Perspective!
+    date: Mar 2023
+    date_iso: 2023-03
+    date_display: Mar 2023
+    codebase_url: https://github.com/caoyxuan/W2PGNN
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - 0.6831
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: W2PGNN (intergr)
+    model_plain: W2PGNN (intergr)
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2303.16458'
+    title: When to Pre-Train Graph Neural Networks? From Data Generation Perspective!
+    date: Mar 2023
+    date_iso: 2023-03
+    date_display: Mar 2023
+    codebase_url: https://github.com/caoyxuan/W2PGNN
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - 0.7033
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: Betweenness Centrality
+    model_plain: Betweenness Centrality
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2303.16458'
+    title: When to Pre-Train Graph Neural Networks? From Data Generation Perspective!
+    date: Mar 2023
+    date_iso: 2023-03
+    date_display: Mar 2023
+    codebase_url: https://github.com/caoyxuan/W2PGNN
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - 0.0339
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: Spectrum of Graph Laplacian
+    model_plain: Spectrum of Graph Laplacian
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2303.16458'
+    title: When to Pre-Train Graph Neural Networks? From Data Generation Perspective!
+    date: Mar 2023
+    date_iso: 2023-03
+    date_display: Mar 2023
+    codebase_url: https://github.com/caoyxuan/W2PGNN
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - -0.1125
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: Clustering Coefficient
+    model_plain: Clustering Coefficient
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2303.16458'
+    title: When to Pre-Train Graph Neural Networks? From Data Generation Perspective!
+    date: Mar 2023
+    date_iso: 2023-03
+    date_display: Mar 2023
+    codebase_url: https://github.com/caoyxuan/W2PGNN
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - 0.4738
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: EGI
+    model_plain: EGI
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2303.16458'
+    title: When to Pre-Train Graph Neural Networks? From Data Generation Perspective!
+    date: Mar 2023
+    date_iso: 2023-03
+    date_display: Mar 2023
+    codebase_url: https://github.com/caoyxuan/W2PGNN
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - 0.0587
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: Graph Statistics
+    model_plain: Graph Statistics
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2303.16458'
+    title: When to Pre-Train Graph Neural Networks? From Data Generation Perspective!
+    date: Mar 2023
+    date_iso: 2023-03
+    date_display: Mar 2023
+    codebase_url: https://github.com/caoyxuan/W2PGNN
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - 0.0174
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: InfoGraph
+    model_plain: InfoGraph
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2506.20362'
+    title: Self-Supervised Graph Learning via Spectral Bootstrapping and Laplacian-Based
+      Augmentations
+    date: Jun 2025
+    date_iso: 2025-06
+    date_display: Jun 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - null
+    - 0.7681
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - 0.0101
+    - null
+  - model: GraphCL
+    model_plain: GraphCL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2506.20362'
+    title: Self-Supervised Graph Learning via Spectral Bootstrapping and Laplacian-Based
+      Augmentations
+    date: Jun 2025
+    date_iso: 2025-06
+    date_display: Jun 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - null
+    - 0.7595
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - 0.0135
+    - null
+  - model: MVGRL
+    model_plain: MVGRL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2506.20362'
+    title: Self-Supervised Graph Learning via Spectral Bootstrapping and Laplacian-Based
+      Augmentations
+    date: Jun 2025
+    date_iso: 2025-06
+    date_display: Jun 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - null
+    - 0.7585
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - 0.0181
+    - null
+  - model: JOAO
+    model_plain: JOAO
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2506.20362'
+    title: Self-Supervised Graph Learning via Spectral Bootstrapping and Laplacian-Based
+      Augmentations
+    date: Jun 2025
+    date_iso: 2025-06
+    date_display: Jun 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - null
+    - 0.7537
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - 0.0205
+    - null
+  - model: GMT
+    model_plain: GMT
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2506.20362'
+    title: Self-Supervised Graph Learning via Spectral Bootstrapping and Laplacian-Based
+      Augmentations
+    date: Jun 2025
+    date_iso: 2025-06
+    date_display: Jun 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - null
+    - 0.7756
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - 0.0125
+    - null
+  - model: AD-GCL
+    model_plain: AD-GCL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2506.20362'
+    title: Self-Supervised Graph Learning via Spectral Bootstrapping and Laplacian-Based
+      Augmentations
+    date: Jun 2025
+    date_iso: 2025-06
+    date_display: Jun 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - null
+    - 0.7866
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - 0.0146
+    - null
+  - model: GraphMAE
+    model_plain: GraphMAE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2506.20362'
+    title: Self-Supervised Graph Learning via Spectral Bootstrapping and Laplacian-Based
+      Augmentations
+    date: Jun 2025
+    date_iso: 2025-06
+    date_display: Jun 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - null
+    - 0.7792
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - 0.0147
+    - null
+  - model: UGMAE
+    model_plain: UGMAE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2506.20362'
+    title: Self-Supervised Graph Learning via Spectral Bootstrapping and Laplacian-Based
+      Augmentations
+    date: Jun 2025
+    date_iso: 2025-06
+    date_display: Jun 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - null
+    - 0.7837
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - 0.0205
+    - null
+  - model: SP^2GCL
+    model_plain: SP^2GCL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2506.20362'
+    title: Self-Supervised Graph Learning via Spectral Bootstrapping and Laplacian-Based
+      Augmentations
+    date: Jun 2025
+    date_iso: 2025-06
+    date_display: Jun 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - null
+    - 0.7756
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - 0.0125
+    - null
+  - model: LaplaceGNN-DC
+    model_plain: LaplaceGNN-DC
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2506.20362'
+    title: Self-Supervised Graph Learning via Spectral Bootstrapping and Laplacian-Based
+      Augmentations
+    date: Jun 2025
+    date_iso: 2025-06
+    date_display: Jun 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - null
+    - 0.7868
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - 0.0077
+    - null
+  - model: LaplaceGNN-PC
+    model_plain: LaplaceGNN-PC
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2506.20362'
+    title: Self-Supervised Graph Learning via Spectral Bootstrapping and Laplacian-Based
+      Augmentations
+    date: Jun 2025
+    date_iso: 2025-06
+    date_display: Jun 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - null
+    - 0.797
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - 0.0092
+    - null
+  - model: LaplaceGNN-Std
+    model_plain: LaplaceGNN-Std
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2506.20362'
+    title: Self-Supervised Graph Learning via Spectral Bootstrapping and Laplacian-Based
+      Augmentations
+    date: Jun 2025
+    date_iso: 2025-06
+    date_display: Jun 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - null
+    - 0.8083
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - 0.0087
+    - null
+  - model: LaplaceGNN
+    model_plain: LaplaceGNN
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2506.20362'
+    title: Self-Supervised Graph Learning via Spectral Bootstrapping and Laplacian-Based
+      Augmentations
+    date: Jun 2025
+    date_iso: 2025-06
+    date_display: Jun 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - null
+    - 0.8083
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - 0.0087
+    - null
+  - model: MoLFormer-XL
+    model_plain: MoLFormer-XL
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2106.09553'
+    title: How Much Structural Information Large Scale Molecular Language Representations
+      Can Capture?
+    date: Jun 2021
+    date_iso: 2021-06
+    date_display: Jun 2021
+    codebase_url: https://github.com/IBM/molformer
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - null
+    - 0.822
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: MoLFormer-Base
+    model_plain: MoLFormer-Base
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2106.09553'
+    title: How Much Structural Information Large Scale Molecular Language Representations
+      Can Capture?
+    date: Jun 2021
+    date_iso: 2021-06
+    date_display: Jun 2021
+    codebase_url: https://github.com/IBM/molformer
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - null
+    - 0.777
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: 10% ZINC + 100% PubChem
+    model_plain: 10% ZINC + 100% PubChem
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2106.09553'
+    title: How Much Structural Information Large Scale Molecular Language Representations
+      Can Capture?
+    date: Jun 2021
+    date_iso: 2021-06
+    date_display: Jun 2021
+    codebase_url: https://github.com/IBM/molformer
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - null
+    - 0.792
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: 100% Zinc
+    model_plain: 100% Zinc
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2106.09553'
+    title: How Much Structural Information Large Scale Molecular Language Representations
+      Can Capture?
+    date: Jun 2021
+    date_iso: 2021-06
+    date_display: Jun 2021
+    codebase_url: https://github.com/IBM/molformer
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - null
+    - 0.784
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: No Pre-train
+    model_plain: No Pre-train
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2309.04589'
+    title: Motif-aware Attribute Masking for Molecular Graph Pre-training
+    date: Sep 2023
+    date_iso: 2023-09
+    date_display: Sep 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.755
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - 0.008
+    - null
+    - null
+    - null
+    - null
+  - model: MGSSL
+    model_plain: MGSSL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2309.04589'
+    title: Motif-aware Attribute Masking for Molecular Graph Pre-training
+    date: Sep 2023
+    date_iso: 2023-09
+    date_display: Sep 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.758
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - 0.004
+    - null
+    - null
+    - null
+    - null
+  - model: MCM
+    model_plain: MCM
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2309.04589'
+    title: Motif-aware Attribute Masking for Molecular Graph Pre-training
+    date: Sep 2023
+    date_iso: 2023-09
+    date_display: Sep 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.727
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - 0.003
+    - null
+    - null
+    - null
+    - null
+  - model: GROVER
+    model_plain: GROVER
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2309.04589'
+    title: Motif-aware Attribute Masking for Molecular Graph Pre-training
+    date: Sep 2023
+    date_iso: 2023-09
+    date_display: Sep 2023
+    codebase_url: ''
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - null
+    - 0.671
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - 0.003
+    - null
+    - null
+    - null
+    - null
+  - model: AttrMask
+    model_plain: AttrMask
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2309.04589'
+    title: Motif-aware Attribute Masking for Molecular Graph Pre-training
+    date: Sep 2023
+    date_iso: 2023-09
+    date_display: Sep 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.753
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - 0.015
+    - null
+    - null
+    - null
+    - null
+  - model: ContextPred
+    model_plain: ContextPred
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2309.04589'
+    title: Motif-aware Attribute Masking for Molecular Graph Pre-training
+    date: Sep 2023
+    date_iso: 2023-09
+    date_display: Sep 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.756
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - 0.01
+    - null
+    - null
+    - null
+    - null
+  - model: GraphMAE
+    model_plain: GraphMAE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2309.04589'
+    title: Motif-aware Attribute Masking for Molecular Graph Pre-training
+    date: Sep 2023
+    date_iso: 2023-09
+    date_display: Sep 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.772
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - 0.01
+    - null
+    - null
+    - null
+    - null
+  - model: Uni-Mol
+    model_plain: Uni-Mol
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2309.04589'
+    title: Motif-aware Attribute Masking for Molecular Graph Pre-training
+    date: Sep 2023
+    date_iso: 2023-09
+    date_display: Sep 2023
+    codebase_url: ''
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - null
+    - 0.783
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - 0.002
+    - null
+    - null
+    - null
+    - null
+  - model: Mole-BERT
+    model_plain: Mole-BERT
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2309.04589'
+    title: Motif-aware Attribute Masking for Molecular Graph Pre-training
+    date: Sep 2023
+    date_iso: 2023-09
+    date_display: Sep 2023
+    codebase_url: ''
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - null
+    - 0.782
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - 0.008
+    - null
+    - null
+    - null
+    - null
+  - model: JOAO
+    model_plain: JOAO
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2309.04589'
+    title: Motif-aware Attribute Masking for Molecular Graph Pre-training
+    date: Sep 2023
+    date_iso: 2023-09
+    date_display: Sep 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.769
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - 0.007
+    - null
+    - null
+    - null
+    - null
+  - model: GraphLoG
+    model_plain: GraphLoG
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2309.04589'
+    title: Motif-aware Attribute Masking for Molecular Graph Pre-training
+    date: Sep 2023
+    date_iso: 2023-09
+    date_display: Sep 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.778
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - 0.008
+    - null
+    - null
+    - null
+    - null
+  - model: D-SLA
+    model_plain: D-SLA
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2309.04589'
+    title: Motif-aware Attribute Masking for Molecular Graph Pre-training
+    date: Sep 2023
+    date_iso: 2023-09
+    date_display: Sep 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.786
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - 0.004
+    - null
+    - null
+    - null
+    - null
+  - model: MoAMa
+    model_plain: MoAMa
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2309.04589'
+    title: Motif-aware Attribute Masking for Molecular Graph Pre-training
+    date: Sep 2023
+    date_iso: 2023-09
+    date_display: Sep 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.793
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - 0.006
+    - null
+    - null
+    - null
+    - null
+  - model: GPF-AttrMasking
+    model_plain: GPF-AttrMasking
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2602.01771'
+    title: '<SO$ _k$>: One LLM Token for Explicit Graph Structural Understanding'
+    date: Feb 2026
+    date_iso: 2026-02
+    date_display: Feb 2026
+    codebase_url: https://github.com/Jingyao-Wu/SOG
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - 0.713
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: GPF-GCL
+    model_plain: GPF-GCL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2602.01771'
+    title: '<SO$ _k$>: One LLM Token for Explicit Graph Structural Understanding'
+    date: Feb 2026
+    date_iso: 2026-02
+    date_display: Feb 2026
+    codebase_url: https://github.com/Jingyao-Wu/SOG
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - 0.493
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: Gimlet
+    model_plain: Gimlet
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2602.01771'
+    title: '<SO$ _k$>: One LLM Token for Explicit Graph Structural Understanding'
+    date: Feb 2026
+    date_iso: 2026-02
+    date_display: Feb 2026
+    codebase_url: https://github.com/Jingyao-Wu/SOG
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - 0.662
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: MolCA-S
+    model_plain: MolCA-S
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2602.01771'
+    title: '<SO$ _k$>: One LLM Token for Explicit Graph Structural Understanding'
+    date: Feb 2026
+    date_iso: 2026-02
+    date_display: Feb 2026
+    codebase_url: https://github.com/Jingyao-Wu/SOG
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - 0.69
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: MolCA-GS
+    model_plain: MolCA-GS
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2602.01771'
+    title: '<SO$ _k$>: One LLM Token for Explicit Graph Structural Understanding'
+    date: Feb 2026
+    date_iso: 2026-02
+    date_display: Feb 2026
+    codebase_url: https://github.com/Jingyao-Wu/SOG
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - 0.727
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: GPT-4o
+    model_plain: GPT-4o
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2602.01771'
+    title: '<SO$ _k$>: One LLM Token for Explicit Graph Structural Understanding'
+    date: Feb 2026
+    date_iso: 2026-02
+    date_display: Feb 2026
+    codebase_url: https://github.com/Jingyao-Wu/SOG
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - 0.547
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: Deepseek-R1
+    model_plain: Deepseek-R1
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2602.01771'
+    title: '<SO$ _k$>: One LLM Token for Explicit Graph Structural Understanding'
+    date: Feb 2026
+    date_iso: 2026-02
+    date_display: Feb 2026
+    codebase_url: https://github.com/Jingyao-Wu/SOG
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - 0.505
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: Llama-7b
+    model_plain: Llama-7b
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2602.01771'
+    title: '<SO$ _k$>: One LLM Token for Explicit Graph Structural Understanding'
+    date: Feb 2026
+    date_iso: 2026-02
+    date_display: Feb 2026
+    codebase_url: https://github.com/Jingyao-Wu/SOG
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - 0.583
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: Galactica-120B
+    model_plain: Galactica-120B
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2602.01771'
+    title: '<SO$ _k$>: One LLM Token for Explicit Graph Structural Understanding'
+    date: Feb 2026
+    date_iso: 2026-02
+    date_display: Feb 2026
+    codebase_url: https://github.com/Jingyao-Wu/SOG
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - 0.745
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: LLaMA3-3B Zero-shot
+    model_plain: LLaMA3-3B Zero-shot
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2602.01771'
+    title: '<SO$ _k$>: One LLM Token for Explicit Graph Structural Understanding'
+    date: Feb 2026
+    date_iso: 2026-02
+    date_display: Feb 2026
+    codebase_url: https://github.com/Jingyao-Wu/SOG
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - 0.5
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - 0.0
+    - null
+    - null
+    - null
+  - model: LLaMA3-3B Few-shot (Random)
+    model_plain: LLaMA3-3B Few-shot (Random)
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2602.01771'
+    title: '<SO$ _k$>: One LLM Token for Explicit Graph Structural Understanding'
+    date: Feb 2026
+    date_iso: 2026-02
+    date_display: Feb 2026
+    codebase_url: https://github.com/Jingyao-Wu/SOG
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - 0.469
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - 0.008
+    - null
+    - null
+    - null
+  - model: LLaMA3-3B Few-shot (Morgan Sim)
+    model_plain: LLaMA3-3B Few-shot (Morgan Sim)
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2602.01771'
+    title: '<SO$ _k$>: One LLM Token for Explicit Graph Structural Understanding'
+    date: Feb 2026
+    date_iso: 2026-02
+    date_display: Feb 2026
+    codebase_url: https://github.com/Jingyao-Wu/SOG
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - 0.504
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - 0.007
+    - null
+    - null
+    - null
+  - model: LLaMA3-3B LoRA SFT
+    model_plain: LLaMA3-3B LoRA SFT
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2602.01771'
+    title: '<SO$ _k$>: One LLM Token for Explicit Graph Structural Understanding'
+    date: Feb 2026
+    date_iso: 2026-02
+    date_display: Feb 2026
+    codebase_url: https://github.com/Jingyao-Wu/SOG
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - 0.781
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - 0.022
+    - null
+    - null
+    - null
+  - model: LLaMA3-3B Soft Prompt
+    model_plain: LLaMA3-3B Soft Prompt
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2602.01771'
+    title: '<SO$ _k$>: One LLM Token for Explicit Graph Structural Understanding'
+    date: Feb 2026
+    date_iso: 2026-02
+    date_display: Feb 2026
+    codebase_url: https://github.com/Jingyao-Wu/SOG
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - 0.449
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - 0.002
+    - null
+    - null
+    - null
+  - model: <SO>G_k> (Ours) LLaMA3-3B
+    model_plain: G_k> (Ours) LLaMA3-3B
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2602.01771'
+    title: '<SO$ _k$>: One LLM Token for Explicit Graph Structural Understanding'
+    date: Feb 2026
+    date_iso: 2026-02
+    date_display: Feb 2026
+    codebase_url: https://github.com/Jingyao-Wu/SOG
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - 0.832
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - 0.019
+    - null
+    - null
+    - null
   milestones:
   - value: 0.7719
     std: 0.014
@@ -1491,6 +8150,19 @@ variants:
     arxiv_id: '2002.04025'
     title: Can Graph Neural Networks Count Substructures?
     date: 2020-02
+  - value: 0.78
+    std: null
+    model: RF
+    arxiv_id: '2010.09885'
+    title: 'ChemBERTa: Large-Scale Self-Supervised Pretraining for Molecular Property
+      Prediction'
+    date: 2020-10
+  - value: 0.788
+    std: 0.0056
+    model: UFGPool-Sum
+    arxiv_id: '2102.06986'
+    title: How Framelets Enhance Graph Neural Networks
+    date: '2021-02-13'
   - value: 0.806
     std: 0.0065
     model: EGT_Larger (30 layers) (pre-trained)
@@ -1503,11 +8175,24 @@ variants:
     arxiv_id: '2205.12454'
     title: Recipe for a General, Powerful, Scalable Graph Transformer
     date: 2022-05
-  - value: 0.862
+  - value: 0.822
+    std: 0.01
+    model: unified method
+    arxiv_id: '2207.08806'
+    title: Unified 2D and 3D Pre-Training of Molecular Representations
+    date: 2022-07
+  - value: 0.855
     std: 0.002
-    model: ILLS
-    arxiv_id: '2305.17589'
-    title: Graph Inductive Biases in Transformers without Message Passing
-    date: '2023-05-27'
+    model: AI
+    arxiv_id: '2209.05481'
+    title: A Molecular Multimodal Foundation Model Associating Molecule Graphs with
+      Natural Language
+    date: 2022-09
+  - value: 0.997
+    std: 0.002
+    model: ML
+    arxiv_id: '2210.08443'
+    title: 'CLEAR: Generative Counterfactual Explanations on Graphs'
+    date: 2022-10
 ---
 

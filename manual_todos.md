@@ -18,6 +18,11 @@ Used hardware for the experiments and potentially runtime (even though thats usu
 
 show the number of stars on github when there is a github link?
 
+add a lot more (hand-crafted) information about each of the benchmarks (more statistics, but also more content about what each of the datasets is about, how it came to be, potentially pictures). Also add a quick description of the metric used and in some cases its drawbacks.
+
+mark stuff with way too large std such that the result is not helpful at all.
+
+make sure all the papers I used to have locally are also processed on the server
 
 logos einbinden der jeweiligen benchmarks
 

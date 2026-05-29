@@ -12,7 +12,7 @@ stats:
   avg_nodes: 17137181.0
   avg_edges: null
   num_classes: null
-result_count: 45
+result_count: 107
 best_model:
   model: DyGFormer
   value: 0.7983
@@ -32,6 +32,12 @@ variants:
     avg_edges: null
   metrics:
   - MRR
+  - AP
+  - Accuracy
+  - Hits@10
+  - Micro-F1
+  - NMI
+  - P@1
   rows:
   - model: DyGFormer
     model_plain: DyGFormer
@@ -49,8 +55,20 @@ variants:
     is_best: true
     metric_values:
     - 0.7983
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.0042
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
   - model: TCL
     model_plain: TCL
     is_baseline: true
@@ -67,8 +85,20 @@ variants:
     is_best: false
     metric_values:
     - 0.7811
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.002
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
   - model: ML
     model_plain: ML
     is_baseline: false
@@ -85,8 +115,20 @@ variants:
     is_best: false
     metric_values:
     - 0.746
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.001
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
   - model: RotatE + GCN
     model_plain: RotatE + GCN
     is_baseline: true
@@ -103,8 +145,20 @@ variants:
     is_best: false
     metric_values:
     - 0.738
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.002
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
   - model: ComplEx + GCN
     model_plain: ComplEx + GCN
     is_baseline: true
@@ -121,8 +175,20 @@ variants:
     is_best: false
     metric_values:
     - 0.735
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.002
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
   - model: DistMult + GCN
     model_plain: DistMult + GCN
     is_baseline: true
@@ -139,8 +205,20 @@ variants:
     is_best: false
     metric_values:
     - 0.732
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.002
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
   - model: CAWN
     model_plain: CAWN
     is_baseline: true
@@ -157,8 +235,20 @@ variants:
     is_best: false
     metric_values:
     - 0.7304
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.006
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
   - model: RotatE
     model_plain: RotatE
     is_baseline: true
@@ -175,8 +265,20 @@ variants:
     is_best: false
     metric_values:
     - 0.728
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.003
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
   - model: ComplEx
     model_plain: ComplEx
     is_baseline: true
@@ -193,8 +295,20 @@ variants:
     is_best: false
     metric_values:
     - 0.725
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.003
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
   - model: DistMult
     model_plain: DistMult
     is_baseline: true
@@ -211,8 +325,20 @@ variants:
     is_best: false
     metric_values:
     - 0.721
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.003
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
   - model: TGN
     model_plain: TGN
     is_baseline: true
@@ -229,8 +355,20 @@ variants:
     is_best: false
     metric_values:
     - 0.6893
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.0053
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
   - model: TransE
     model_plain: TransE
     is_baseline: true
@@ -247,8 +385,20 @@ variants:
     is_best: false
     metric_values:
     - 0.685
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.004
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
   - model: R-GCN
     model_plain: R-GCN
     is_baseline: true
@@ -265,8 +415,20 @@ variants:
     is_best: false
     metric_values:
     - 0.678
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.004
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
   - model: CompGCN
     model_plain: CompGCN
     is_baseline: true
@@ -283,8 +445,20 @@ variants:
     is_best: false
     metric_values:
     - 0.675
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.004
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
   - model: TuckER
     model_plain: TuckER
     is_baseline: true
@@ -301,8 +475,20 @@ variants:
     is_best: false
     metric_values:
     - 0.672
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.004
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
   - model: CTAN
     model_plain: CTAN
     is_baseline: true
@@ -319,8 +505,20 @@ variants:
     is_best: false
     metric_values:
     - 0.6676
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.0074
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
   - model: Holographic Embeddings
     model_plain: Holographic Embeddings
     is_baseline: true
@@ -337,8 +535,20 @@ variants:
     is_best: false
     metric_values:
     - 0.665
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.005
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
   - model: HolE
     model_plain: HolE
     is_baseline: true
@@ -355,8 +565,20 @@ variants:
     is_best: false
     metric_values:
     - 0.662
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.005
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
   - model: EdgeBank_re
     model_plain: EdgeBank_re
     is_baseline: true
@@ -373,7 +595,19 @@ variants:
     is_best: false
     metric_values:
     - 0.6588
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
     - null
   - model: ProjE
     model_plain: ProjE
@@ -391,8 +625,20 @@ variants:
     is_best: false
     metric_values:
     - 0.658
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.005
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
   - model: ConvE
     model_plain: ConvE
     is_baseline: true
@@ -409,8 +655,20 @@ variants:
     is_best: false
     metric_values:
     - 0.655
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.005
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
   - model: EdgeBank_tw-ts
     model_plain: EdgeBank_tw-ts
     is_baseline: true
@@ -427,7 +685,19 @@ variants:
     is_best: false
     metric_values:
     - 0.6325
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
     - null
   - model: JODIE
     model_plain: JODIE
@@ -445,8 +715,20 @@ variants:
     is_best: false
     metric_values:
     - 0.6305
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.0169
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
   - model: TGAT
     model_plain: TGAT
     is_baseline: true
@@ -463,8 +745,20 @@ variants:
     is_best: false
     metric_values:
     - 0.5994
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.0163
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
   - model: GraphMixer
     model_plain: GraphMixer
     is_baseline: true
@@ -481,8 +775,20 @@ variants:
     is_best: false
     metric_values:
     - 0.5975
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.0039
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
   - model: ILLS
     model_plain: ILLS
     is_baseline: false
@@ -499,8 +805,20 @@ variants:
     is_best: false
     metric_values:
     - 0.538
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.002
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
   - model: EdgeBank_th
     model_plain: EdgeBank_th
     is_baseline: true
@@ -517,7 +835,19 @@ variants:
     is_best: false
     metric_values:
     - 0.5281
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
     - null
   - model: EdgeBank_inf
     model_plain: EdgeBank_inf
@@ -535,7 +865,19 @@ variants:
     is_best: false
     metric_values:
     - 0.525
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
     - null
   - model: Graphtransformer
     model_plain: Graphtransformer
@@ -553,8 +895,20 @@ variants:
     is_best: false
     metric_values:
     - 0.524
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
   - model: DyRep
     model_plain: DyRep
     is_baseline: true
@@ -571,8 +925,20 @@ variants:
     is_best: false
     metric_values:
     - 0.5191
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.0195
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
   - model: HGT
     model_plain: HGT
     is_baseline: true
@@ -589,8 +955,20 @@ variants:
     is_best: false
     metric_values:
     - 0.512
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
   - model: CompGCN
     model_plain: CompGCN
     is_baseline: true
@@ -607,8 +985,20 @@ variants:
     is_best: false
     metric_values:
     - 0.501
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
   - model: R-GCN
     model_plain: R-GCN
     is_baseline: true
@@ -625,8 +1015,20 @@ variants:
     is_best: false
     metric_values:
     - 0.495
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
   - model: RotatE
     model_plain: RotatE
     is_baseline: true
@@ -643,8 +1045,20 @@ variants:
     is_best: false
     metric_values:
     - 0.482
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
   - model: ComplEx
     model_plain: ComplEx
     is_baseline: true
@@ -661,8 +1075,20 @@ variants:
     is_best: false
     metric_values:
     - 0.451
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
   - model: DistMult
     model_plain: DistMult
     is_baseline: true
@@ -679,8 +1105,20 @@ variants:
     is_best: false
     metric_values:
     - 0.438
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
   - model: RotatE (5x dim)
     model_plain: RotatE (5x dim)
     is_baseline: true
@@ -697,8 +1135,20 @@ variants:
     is_best: false
     metric_values:
     - 0.4332
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.0025
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
   - model: TransE (5x dim)
     model_plain: TransE (5x dim)
     is_baseline: true
@@ -715,8 +1165,20 @@ variants:
     is_best: false
     metric_values:
     - 0.4256
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.003
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
   - model: ComplEx (5x dim)
     model_plain: ComplEx (5x dim)
     is_baseline: true
@@ -733,8 +1195,20 @@ variants:
     is_best: false
     metric_values:
     - 0.4027
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.0027
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
   - model: ComplEx
     model_plain: ComplEx
     is_baseline: true
@@ -751,8 +1225,20 @@ variants:
     is_best: false
     metric_values:
     - 0.3804
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.0022
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
   - model: DistMult (5x dim)
     model_plain: DistMult (5x dim)
     is_baseline: true
@@ -769,8 +1255,20 @@ variants:
     is_best: false
     metric_values:
     - 0.3729
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.0045
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
   - model: TransE
     model_plain: TransE
     is_baseline: true
@@ -787,8 +1285,20 @@ variants:
     is_best: false
     metric_values:
     - 0.365
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
   - model: DistMult
     model_plain: DistMult
     is_baseline: true
@@ -805,8 +1315,20 @@ variants:
     is_best: false
     metric_values:
     - 0.3447
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.0082
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
   - model: TransE
     model_plain: TransE
     is_baseline: true
@@ -823,8 +1345,20 @@ variants:
     is_best: false
     metric_values:
     - 0.2622
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.0045
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
   - model: RotatE
     model_plain: RotatE
     is_baseline: true
@@ -841,8 +1375,1914 @@ variants:
     is_best: false
     metric_values:
     - 0.253
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
     metric_stds:
     - 0.0034
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: LE
+    model_plain: LE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2103.04339'
+    title: 'Network Representation Learning: From Traditional Feature Learning to
+      Deep Learning'
+    date: Mar 2021
+    date_iso: 2021-03
+    date_display: Mar 2021
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - null
+    - 0.36
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: Node2Vec
+    model_plain: Node2Vec
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2103.04339'
+    title: 'Network Representation Learning: From Traditional Feature Learning to
+      Deep Learning'
+    date: Mar 2021
+    date_iso: 2021-03
+    date_display: Mar 2021
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - null
+    - 0.66
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: LINE
+    model_plain: LINE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2103.04339'
+    title: 'Network Representation Learning: From Traditional Feature Learning to
+      Deep Learning'
+    date: Mar 2021
+    date_iso: 2021-03
+    date_display: Mar 2021
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - null
+    - 0.39
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: SDNE
+    model_plain: SDNE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2103.04339'
+    title: 'Network Representation Learning: From Traditional Feature Learning to
+      Deep Learning'
+    date: Mar 2021
+    date_iso: 2021-03
+    date_display: Mar 2021
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - null
+    - 0.63
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: HOPE
+    model_plain: HOPE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2103.04339'
+    title: 'Network Representation Learning: From Traditional Feature Learning to
+      Deep Learning'
+    date: Mar 2021
+    date_iso: 2021-03
+    date_display: Mar 2021
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - null
+    - 0.6
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: PLM
+    model_plain: PLM
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2105.02605'
+    title: 'GraphFormers: GNN-nested Transformers for Representation Learning on Textual
+      Graph'
+    date: May 2021
+    date_iso: 2021-05
+    date_display: May 2021
+    codebase_url: https://github.com/microsoft/GraphFormers
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - 0.3466
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: TNVE
+    model_plain: TNVE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2105.02605'
+    title: 'GraphFormers: GNN-nested Transformers for Representation Learning on Textual
+      Graph'
+    date: May 2021
+    date_iso: 2021-05
+    date_display: May 2021
+    codebase_url: https://github.com/microsoft/GraphFormers
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - 0.1786
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: IFTN
+    model_plain: IFTN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2105.02605'
+    title: 'GraphFormers: GNN-nested Transformers for Representation Learning on Textual
+      Graph'
+    date: May 2021
+    date_iso: 2021-05
+    date_display: May 2021
+    codebase_url: https://github.com/microsoft/GraphFormers
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - 0.1838
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: PLM+GAT
+    model_plain: PLM+GAT
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2105.02605'
+    title: 'GraphFormers: GNN-nested Transformers for Representation Learning on Textual
+      Graph'
+    date: May 2021
+    date_iso: 2021-05
+    date_display: May 2021
+    codebase_url: https://github.com/microsoft/GraphFormers
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - 0.3006
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: PLM+Max
+    model_plain: PLM+Max
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2105.02605'
+    title: 'GraphFormers: GNN-nested Transformers for Representation Learning on Textual
+      Graph'
+    date: May 2021
+    date_iso: 2021-05
+    date_display: May 2021
+    codebase_url: https://github.com/microsoft/GraphFormers
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - 0.3712
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: PLM+Mean
+    model_plain: PLM+Mean
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2105.02605'
+    title: 'GraphFormers: GNN-nested Transformers for Representation Learning on Textual
+      Graph'
+    date: May 2021
+    date_iso: 2021-05
+    date_display: May 2021
+    codebase_url: https://github.com/microsoft/GraphFormers
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - 0.3664
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: PLM+Att
+    model_plain: PLM+Att
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2105.02605'
+    title: 'GraphFormers: GNN-nested Transformers for Representation Learning on Textual
+      Graph'
+    date: May 2021
+    date_iso: 2021-05
+    date_display: May 2021
+    codebase_url: https://github.com/microsoft/GraphFormers
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - 0.3709
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: Graphormer
+    model_plain: Graphormer
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2105.02605'
+    title: 'GraphFormers: GNN-nested Transformers for Representation Learning on Textual
+      Graph'
+    date: May 2021
+    date_iso: 2021-05
+    date_display: May 2021
+    codebase_url: https://github.com/microsoft/GraphFormers
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - 0.3952
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: GAE
+    model_plain: GAE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2206.08583'
+    title: arXiv:2206.08583
+    date: Jun 2022
+    date_iso: 2022-06
+    date_display: Jun 2022
+    codebase_url: https://github.com/PKU-DAIR/NAFS
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - 0.345
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - 0.003
+    - null
+  - model: VGAE
+    model_plain: VGAE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2206.08583'
+    title: arXiv:2206.08583
+    date: Jun 2022
+    date_iso: 2022-06
+    date_display: Jun 2022
+    codebase_url: https://github.com/PKU-DAIR/NAFS
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - 0.468
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - 0.003
+    - null
+  - model: MGAE
+    model_plain: MGAE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2206.08583'
+    title: arXiv:2206.08583
+    date: Jun 2022
+    date_iso: 2022-06
+    date_display: Jun 2022
+    codebase_url: https://github.com/PKU-DAIR/NAFS
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - 0.51
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - 0.004
+    - null
+  - model: ARGVA
+    model_plain: ARGVA
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2206.08583'
+    title: arXiv:2206.08583
+    date: Jun 2022
+    date_iso: 2022-06
+    date_display: Jun 2022
+    codebase_url: https://github.com/PKU-DAIR/NAFS
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - 0.345
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - 0.003
+    - null
+  - model: ARVGA
+    model_plain: ARVGA
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2206.08583'
+    title: arXiv:2206.08583
+    date: Jun 2022
+    date_iso: 2022-06
+    date_display: Jun 2022
+    codebase_url: https://github.com/PKU-DAIR/NAFS
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - 0.339
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - 0.004
+    - null
+  - model: AGC
+    model_plain: AGC
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2206.08583'
+    title: arXiv:2206.08583
+    date: Jun 2022
+    date_iso: 2022-06
+    date_display: Jun 2022
+    codebase_url: https://github.com/PKU-DAIR/NAFS
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - 0.453
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - 0.005
+    - null
+  - model: DAEGC
+    model_plain: DAEGC
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2206.08583'
+    title: arXiv:2206.08583
+    date: Jun 2022
+    date_iso: 2022-06
+    date_display: Jun 2022
+    codebase_url: https://github.com/PKU-DAIR/NAFS
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - 0.448
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - 0.004
+    - null
+  - model: AGE
+    model_plain: AGE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2206.08583'
+    title: arXiv:2206.08583
+    date: Jun 2022
+    date_iso: 2022-06
+    date_display: Jun 2022
+    codebase_url: https://github.com/PKU-DAIR/NAFS
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - 0.539
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - 0.004
+    - null
+  - model: NAFS-mean
+    model_plain: NAFS-mean
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2206.08583'
+    title: arXiv:2206.08583
+    date: Jun 2022
+    date_iso: 2022-06
+    date_display: Jun 2022
+    codebase_url: https://github.com/PKU-DAIR/NAFS
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - 0.494
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - 0.0
+    - null
+  - model: NAFS-max
+    model_plain: NAFS-max
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2206.08583'
+    title: arXiv:2206.08583
+    date: Jun 2022
+    date_iso: 2022-06
+    date_display: Jun 2022
+    codebase_url: https://github.com/PKU-DAIR/NAFS
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - 0.458
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - 0.0
+    - null
+  - model: NAFS-concat
+    model_plain: NAFS-concat
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2206.08583'
+    title: arXiv:2206.08583
+    date: Jun 2022
+    date_iso: 2022-06
+    date_display: Jun 2022
+    codebase_url: https://github.com/PKU-DAIR/NAFS
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - 0.505
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - 0.0
+    - null
+  - model: NDLS
+    model_plain: NDLS
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2206.08583'
+    title: arXiv:2206.08583
+    date: Jun 2022
+    date_iso: 2022-06
+    date_display: Jun 2022
+    codebase_url: https://github.com/PKU-DAIR/NAFS
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - 0.361
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: JODIE
+    model_plain: JODIE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2302.11636'
+    title: Do We Really Need Complicated Model Architectures For Temporal Networks?
+    date: Feb 2023
+    date_iso: 2023-02
+    date_display: Feb 2023
+    codebase_url: https://github.com/CongWeilin/GraphMixer
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.9881
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - 0.0001
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: DySAT
+    model_plain: DySAT
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2302.11636'
+    title: Do We Really Need Complicated Model Architectures For Temporal Networks?
+    date: Feb 2023
+    date_iso: 2023-02
+    date_display: Feb 2023
+    codebase_url: https://github.com/CongWeilin/GraphMixer
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.9671
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - 0.0002
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: TGAT
+    model_plain: TGAT
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2302.11636'
+    title: Do We Really Need Complicated Model Architectures For Temporal Networks?
+    date: Feb 2023
+    date_iso: 2023-02
+    date_display: Feb 2023
+    codebase_url: https://github.com/CongWeilin/GraphMixer
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.9775
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - 0.0002
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: TGN
+    model_plain: TGN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2302.11636'
+    title: Do We Really Need Complicated Model Architectures For Temporal Networks?
+    date: Feb 2023
+    date_iso: 2023-02
+    date_display: Feb 2023
+    codebase_url: https://github.com/CongWeilin/GraphMixer
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.9955
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - 0.0001
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: CAWs-mean
+    model_plain: CAWs-mean
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2302.11636'
+    title: Do We Really Need Complicated Model Architectures For Temporal Networks?
+    date: Feb 2023
+    date_iso: 2023-02
+    date_display: Feb 2023
+    codebase_url: https://github.com/CongWeilin/GraphMixer
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.9772
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - 0.0003
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: CAWs-attn
+    model_plain: CAWs-attn
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2302.11636'
+    title: Do We Really Need Complicated Model Architectures For Temporal Networks?
+    date: Feb 2023
+    date_iso: 2023-02
+    date_display: Feb 2023
+    codebase_url: https://github.com/CongWeilin/GraphMixer
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.9795
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - 0.0003
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: TGSRec
+    model_plain: TGSRec
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2302.11636'
+    title: Do We Really Need Complicated Model Architectures For Temporal Networks?
+    date: Feb 2023
+    date_iso: 2023-02
+    date_display: Feb 2023
+    codebase_url: https://github.com/CongWeilin/GraphMixer
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.9164
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - 0.0012
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: APAN
+    model_plain: APAN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2302.11636'
+    title: Do We Really Need Complicated Model Architectures For Temporal Networks?
+    date: Feb 2023
+    date_iso: 2023-02
+    date_display: Feb 2023
+    codebase_url: https://github.com/CongWeilin/GraphMixer
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.9814
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - 0.0001
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: GraphMixer
+    model_plain: GraphMixer
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2302.11636'
+    title: Do We Really Need Complicated Model Architectures For Temporal Networks?
+    date: Feb 2023
+    date_iso: 2023-02
+    date_display: Feb 2023
+    codebase_url: https://github.com/CongWeilin/GraphMixer
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.9985
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - 0.0001
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: DeepWalk
+    model_plain: DeepWalk
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1909.00958'
+    title: 'Graph Representation Learning: A Survey'
+    date: Sep 2019
+    date_iso: 2019-09
+    date_display: Sep 2019
+    codebase_url: https://github.com/jessicachen626/GRLL
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - null
+    - 0.67
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: Node2Vec
+    model_plain: Node2Vec
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1909.00958'
+    title: 'Graph Representation Learning: A Survey'
+    date: Sep 2019
+    date_iso: 2019-09
+    date_display: Sep 2019
+    codebase_url: https://github.com/jessicachen626/GRLL
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - null
+    - 0.68
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: GraRep
+    model_plain: GraRep
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1909.00958'
+    title: 'Graph Representation Learning: A Survey'
+    date: Sep 2019
+    date_iso: 2019-09
+    date_display: Sep 2019
+    codebase_url: https://github.com/jessicachen626/GRLL
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - null
+    - 0.65
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: HOPE
+    model_plain: HOPE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1909.00958'
+    title: 'Graph Representation Learning: A Survey'
+    date: Sep 2019
+    date_iso: 2019-09
+    date_display: Sep 2019
+    codebase_url: https://github.com/jessicachen626/GRLL
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - null
+    - 0.608
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: SDNE
+    model_plain: SDNE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1909.00958'
+    title: 'Graph Representation Learning: A Survey'
+    date: Sep 2019
+    date_iso: 2019-09
+    date_display: Sep 2019
+    codebase_url: https://github.com/jessicachen626/GRLL
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - null
+    - 0.51
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: LINE
+    model_plain: LINE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1909.00958'
+    title: 'Graph Representation Learning: A Survey'
+    date: Sep 2019
+    date_iso: 2019-09
+    date_display: Sep 2019
+    codebase_url: https://github.com/jessicachen626/GRLL
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - null
+    - 0.52
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: GF
+    model_plain: GF
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1909.00958'
+    title: 'Graph Representation Learning: A Survey'
+    date: Sep 2019
+    date_iso: 2019-09
+    date_display: Sep 2019
+    codebase_url: https://github.com/jessicachen626/GRLL
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - null
+    - 0.465
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: RPC
+    model_plain: RPC
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2212.05767'
+    title: 'A Survey of Knowledge Graph Reasoning on Graph Types: Static, Dynamic,
+      and Multi-Modal'
+    date: Dec 2022
+    date_iso: 2022-12
+    date_display: Dec 2022
+    codebase_url: https://github.com/LIANGKE23/Awesome-Knowledge-Graph-Reasoning
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - 0.8870999999999999
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: RGCN
+    model_plain: RGCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2212.05767'
+    title: 'A Survey of Knowledge Graph Reasoning on Graph Types: Static, Dynamic,
+      and Multi-Modal'
+    date: Dec 2022
+    date_iso: 2022-12
+    date_display: Dec 2022
+    codebase_url: https://github.com/LIANGKE23/Awesome-Knowledge-Graph-Reasoning
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - 0.7299
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: RE-NET
+    model_plain: RE-NET
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2212.05767'
+    title: 'A Survey of Knowledge Graph Reasoning on Graph Types: Static, Dynamic,
+      and Multi-Modal'
+    date: Dec 2022
+    date_iso: 2022-12
+    date_display: Dec 2022
+    codebase_url: https://github.com/LIANGKE23/Awesome-Knowledge-Graph-Reasoning
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - 0.8684000000000001
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: CyGNet
+    model_plain: CyGNet
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2212.05767'
+    title: 'A Survey of Knowledge Graph Reasoning on Graph Types: Static, Dynamic,
+      and Multi-Modal'
+    date: Dec 2022
+    date_iso: 2022-12
+    date_display: Dec 2022
+    codebase_url: https://github.com/LIANGKE23/Awesome-Knowledge-Graph-Reasoning
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - 0.8698
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: TANGO
+    model_plain: TANGO
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2212.05767'
+    title: 'A Survey of Knowledge Graph Reasoning on Graph Types: Static, Dynamic,
+      and Multi-Modal'
+    date: Dec 2022
+    date_iso: 2022-12
+    date_display: Dec 2022
+    codebase_url: https://github.com/LIANGKE23/Awesome-Knowledge-Graph-Reasoning
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - 0.6879000000000001
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: xERTE
+    model_plain: xERTE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2212.05767'
+    title: 'A Survey of Knowledge Graph Reasoning on Graph Types: Static, Dynamic,
+      and Multi-Modal'
+    date: Dec 2022
+    date_iso: 2022-12
+    date_display: Dec 2022
+    codebase_url: https://github.com/LIANGKE23/Awesome-Knowledge-Graph-Reasoning
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - 0.8978
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: R-GCN
+    model_plain: R-GCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2212.05767'
+    title: 'A Survey of Knowledge Graph Reasoning on Graph Types: Static, Dynamic,
+      and Multi-Modal'
+    date: Dec 2022
+    date_iso: 2022-12
+    date_display: Dec 2022
+    codebase_url: https://github.com/LIANGKE23/Awesome-Knowledge-Graph-Reasoning
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - 0.8858
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: CEN
+    model_plain: CEN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2212.05767'
+    title: 'A Survey of Knowledge Graph Reasoning on Graph Types: Static, Dynamic,
+      and Multi-Modal'
+    date: Dec 2022
+    date_iso: 2022-12
+    date_display: Dec 2022
+    codebase_url: https://github.com/LIANGKE23/Awesome-Knowledge-Graph-Reasoning
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - 0.7061
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: TITer
+    model_plain: TITer
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2212.05767'
+    title: 'A Survey of Knowledge Graph Reasoning on Graph Types: Static, Dynamic,
+      and Multi-Modal'
+    date: Dec 2022
+    date_iso: 2022-12
+    date_display: Dec 2022
+    codebase_url: https://github.com/LIANGKE23/Awesome-Knowledge-Graph-Reasoning
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - 0.9027
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: EvoKG
+    model_plain: EvoKG
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2212.05767'
+    title: 'A Survey of Knowledge Graph Reasoning on Graph Types: Static, Dynamic,
+      and Multi-Modal'
+    date: Dec 2022
+    date_iso: 2022-12
+    date_display: Dec 2022
+    codebase_url: https://github.com/LIANGKE23/Awesome-Knowledge-Graph-Reasoning
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - 0.9273
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: TiRGN
+    model_plain: TiRGN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2212.05767'
+    title: 'A Survey of Knowledge Graph Reasoning on Graph Types: Static, Dynamic,
+      and Multi-Modal'
+    date: Dec 2022
+    date_iso: 2022-12
+    date_display: Dec 2022
+    codebase_url: https://github.com/LIANGKE23/Awesome-Knowledge-Graph-Reasoning
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - 0.9292
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: RETIA
+    model_plain: RETIA
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2212.05767'
+    title: 'A Survey of Knowledge Graph Reasoning on Graph Types: Static, Dynamic,
+      and Multi-Modal'
+    date: Dec 2022
+    date_iso: 2022-12
+    date_display: Dec 2022
+    codebase_url: https://github.com/LIANGKE23/Awesome-Knowledge-Graph-Reasoning
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - 0.8477
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: GCN
+    model_plain: GCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2602.00064'
+    title: 'SPGCL: Simple yet Powerful Graph Contrastive Learning via SVD-Guided Structural
+      Perturbation'
+    date: Feb 2026
+    date_iso: 2026-02
+    date_display: Feb 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - 0.5366
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: SGC
+    model_plain: SGC
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2602.00064'
+    title: 'SPGCL: Simple yet Powerful Graph Contrastive Learning via SVD-Guided Structural
+      Perturbation'
+    date: Feb 2026
+    date_iso: 2026-02
+    date_display: Feb 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - 0.6112
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: GraphSAGE
+    model_plain: GraphSAGE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2602.00064'
+    title: 'SPGCL: Simple yet Powerful Graph Contrastive Learning via SVD-Guided Structural
+      Perturbation'
+    date: Feb 2026
+    date_iso: 2026-02
+    date_display: Feb 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - 0.5988
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: GAT
+    model_plain: GAT
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2602.00064'
+    title: 'SPGCL: Simple yet Powerful Graph Contrastive Learning via SVD-Guided Structural
+      Perturbation'
+    date: Feb 2026
+    date_iso: 2026-02
+    date_display: Feb 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - 0.553
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: LDS
+    model_plain: LDS
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2602.00064'
+    title: 'SPGCL: Simple yet Powerful Graph Contrastive Learning via SVD-Guided Structural
+      Perturbation'
+    date: Feb 2026
+    date_iso: 2026-02
+    date_display: Feb 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - 0.4532
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: Pro-GNN
+    model_plain: Pro-GNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2602.00064'
+    title: 'SPGCL: Simple yet Powerful Graph Contrastive Learning via SVD-Guided Structural
+      Perturbation'
+    date: Feb 2026
+    date_iso: 2026-02
+    date_display: Feb 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - 0.7484
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: Geom-GCN
+    model_plain: Geom-GCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2602.00064'
+    title: 'SPGCL: Simple yet Powerful Graph Contrastive Learning via SVD-Guided Structural
+      Perturbation'
+    date: Feb 2026
+    date_iso: 2026-02
+    date_display: Feb 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - 0.3601
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: DropEdge
+    model_plain: DropEdge
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2602.00064'
+    title: 'SPGCL: Simple yet Powerful Graph Contrastive Learning via SVD-Guided Structural
+      Perturbation'
+    date: Feb 2026
+    date_iso: 2026-02
+    date_display: Feb 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - 0.7734
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: GCL
+    model_plain: GCL
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2602.00064'
+    title: 'SPGCL: Simple yet Powerful Graph Contrastive Learning via SVD-Guided Structural
+      Perturbation'
+    date: Feb 2026
+    date_iso: 2026-02
+    date_display: Feb 2026
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - 0.7869
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
   milestones:
   - value: 0.4332
     std: 0.0025

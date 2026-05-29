@@ -24,8 +24,8 @@ paper_type: method
 proposed_models:
 - GPS + GFSA
 - Graph-ViT + GFSA
-mrr: 0.0502
-adjusted_mrr: 0.0335
+mrr: 0.0406
+adjusted_mrr: 0.0271
 mrr_dataset_count: 2
 benchmark_categories:
 - GNNBenchmark
@@ -106,6 +106,42 @@ results:
     sort_value: 0.91
     sort_std: 0.008
     is_best: false
+  - model: Graph-ViT
+    model_key: graph-vit
+    model_plain: Graph-ViT
+    value: 0.6967
+    std: 0.004
+    paper_value: 0.6967
+    paper_std: 0.004
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Dec 2023
+    date_display: Dec 2023
+    date_iso: 2023-12
+    global_rank: 16
+    true_value: 0.73961
+    true_std: 0.0033
+    value_gap_source_arxiv: '2502.09365'
+    value_gap_source_title: Simple Path Structural Encoding for Graph Transformers
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
+    has_value_note: false
+    value_gap: 0.042910000000000004
+    value_note: ''
+    paper_rank: 35
+    rank_delta: 19
+    rank_delta_abs: 19
+    rank_delta_direction: worse
+    sort_value: 0.73961
+    sort_std: 0.0033
+    is_best: false
   - model: GPS + GFSA
     model_key: gps + gfsa
     model_plain: GPS + GFSA
@@ -125,7 +161,7 @@ results:
     date: Dec 2023
     date_display: Dec 2023
     date_iso: 2023-12
-    global_rank: 17
+    global_rank: 22
     true_value: 0.7244
     true_std: 0.0048
     value_gap_source_arxiv: '2312.04234'
@@ -135,7 +171,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 17
+    paper_rank: 22
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -161,7 +197,7 @@ results:
     date: Dec 2023
     date_display: Dec 2023
     date_iso: 2023-12
-    global_rank: 18
+    global_rank: 23
     true_value: 0.723
     true_std: 0.0036
     value_gap_source_arxiv: '2312.04234'
@@ -171,7 +207,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 18
+    paper_rank: 23
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -197,7 +233,7 @@ results:
     date: Dec 2023
     date_display: Dec 2023
     date_iso: 2023-12
-    global_rank: 29
+    global_rank: 35
     true_value: 0.6987
     true_std: 0.0028
     value_gap_source_arxiv: '2312.04234'
@@ -207,48 +243,12 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 29
+    paper_rank: 35
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 0.6987
     sort_std: 0.0028
-    is_best: false
-  - model: Graph-ViT
-    model_key: graph-vit
-    model_plain: Graph-ViT
-    value: 0.6967
-    std: 0.004
-    paper_value: 0.6967
-    paper_std: 0.004
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: 'dataset: exact match'
-    date: Dec 2023
-    date_display: Dec 2023
-    date_iso: 2023-12
-    global_rank: 30
-    true_value: 0.6967
-    true_std: 0.004
-    value_gap_source_arxiv: '2312.04234'
-    value_gap_source_title: Graph Convolutions Enrich the Self-Attention in Transformers!
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 30
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.6967
-    sort_std: 0.004
     is_best: false
   metric: Accuracy
   higher_is_better: true
@@ -288,7 +288,7 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 1.66
+    params_millions: null
     arxiv_id: '1705.07664'
     title: 'CayleyNets: Graph Convolutional Neural Networks with Complex Rational
       Spectral Filters'
@@ -345,7 +345,7 @@ results:
     date: Dec 2023
     date_display: Dec 2023
     date_iso: 2023-12
-    global_rank: 14
+    global_rank: 17
     true_value: 0.9826
     true_std: 0.0004
     value_gap_source_arxiv: '2312.04234'
@@ -355,7 +355,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 14
+    paper_rank: 17
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -381,7 +381,7 @@ results:
     date: Dec 2023
     date_display: Dec 2023
     date_iso: 2023-12
-    global_rank: 16
+    global_rank: 20
     true_value: 0.982
     true_std: 0.0005
     value_gap_source_arxiv: '2312.04234'
@@ -391,7 +391,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 16
+    paper_rank: 20
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -417,7 +417,7 @@ results:
     date: Dec 2023
     date_display: Dec 2023
     date_iso: 2023-12
-    global_rank: 24
+    global_rank: 28
     true_value: 0.9814
     true_std: 0.0014
     value_gap_source_arxiv: '2312.04234'
@@ -427,7 +427,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 24
+    paper_rank: 28
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -453,7 +453,7 @@ results:
     date: Dec 2023
     date_display: Dec 2023
     date_iso: 2023-12
-    global_rank: 28
+    global_rank: 35
     true_value: 0.98082
     true_std: 0.00114
     value_gap_source_arxiv: '2605.05689'
@@ -464,7 +464,7 @@ results:
     has_value_note: true
     value_gap: 0.00031999999999998696
     value_note: global 0.9808 within std
-    paper_rank: 29
+    paper_rank: 36
     rank_delta: 1
     rank_delta_abs: 1
     rank_delta_direction: worse

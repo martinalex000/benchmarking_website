@@ -12,7 +12,7 @@ stats:
   avg_nodes: 508.52
   avg_edges: 594.87
   num_classes: 5
-result_count: 52
+result_count: 92
 best_model:
   model: ILLS
   value: 0.871
@@ -32,6 +32,8 @@ variants:
     avg_edges: null
   metrics:
   - Accuracy
+  - ACC-AUC
+  - ACC@10%
   rows:
   - model: ILLS
     model_plain: ILLS
@@ -49,8 +51,12 @@ variants:
     is_best: true
     metric_values:
     - 0.871
+    - null
+    - null
     metric_stds:
     - 0.002
+    - null
+    - null
   - model: Graphtransformer
     model_plain: Graphtransformer
     is_baseline: true
@@ -67,8 +73,12 @@ variants:
     is_best: false
     metric_values:
     - 0.862
+    - null
+    - null
     metric_stds:
     - 0.003
+    - null
+    - null
   - model: PNA
     model_plain: PNA
     is_baseline: true
@@ -85,8 +95,12 @@ variants:
     is_best: false
     metric_values:
     - 0.856
+    - null
+    - null
     metric_stds:
     - 0.002
+    - null
+    - null
   - model: GIN
     model_plain: GIN
     is_baseline: true
@@ -103,8 +117,12 @@ variants:
     is_best: false
     metric_values:
     - 0.851
+    - null
+    - null
     metric_stds:
     - 0.003
+    - null
+    - null
   - model: GAT
     model_plain: GAT
     is_baseline: true
@@ -121,8 +139,12 @@ variants:
     is_best: false
     metric_values:
     - 0.848
+    - null
+    - null
     metric_stds:
     - 0.004
+    - null
+    - null
   - model: GraphSAGE
     model_plain: GraphSAGE
     is_baseline: true
@@ -139,8 +161,12 @@ variants:
     is_best: false
     metric_values:
     - 0.842
+    - null
+    - null
     metric_stds:
     - 0.002
+    - null
+    - null
   - model: GCN
     model_plain: GCN
     is_baseline: true
@@ -157,8 +183,12 @@ variants:
     is_best: false
     metric_values:
     - 0.835
+    - null
+    - null
     metric_stds:
     - 0.003
+    - null
+    - null
   - model: R-PEs
     model_plain: R-PEs
     is_baseline: true
@@ -175,8 +205,12 @@ variants:
     is_best: false
     metric_values:
     - 0.606
+    - null
+    - null
     metric_stds:
     - 0.003
+    - null
+    - null
   - model: SRF (RBF, AG)
     model_plain: SRF (RBF, AG)
     is_baseline: false
@@ -194,8 +228,12 @@ variants:
     is_best: false
     metric_values:
     - 0.6053
+    - null
+    - null
     metric_stds:
     - 0.0029
+    - null
+    - null
   - model: SRF (L, AG)
     model_plain: SRF (L, AG)
     is_baseline: false
@@ -213,8 +251,12 @@ variants:
     is_best: false
     metric_values:
     - 0.6033
+    - null
+    - null
     metric_stds:
     - 0.0037
+    - null
+    - null
   - model: SRF (linear, AG)
     model_plain: SRF (linear, AG)
     is_baseline: false
@@ -232,8 +274,12 @@ variants:
     is_best: false
     metric_values:
     - 0.6018
+    - null
+    - null
     metric_stds:
     - 0.0039
+    - null
+    - null
   - model: R-PEARL
     model_plain: R-PEARL
     is_baseline: true
@@ -251,8 +297,12 @@ variants:
     is_best: false
     metric_values:
     - 0.594
+    - null
+    - null
     metric_stds:
     - 0.01
+    - null
+    - null
   - model: GCN + SRF (RBF, AG)
     model_plain: GCN + SRF (RBF, AG)
     is_baseline: true
@@ -270,8 +320,56 @@ variants:
     is_best: false
     metric_values:
     - 0.5808
+    - null
+    - null
     metric_stds:
     - 0.0089
+    - null
+    - null
+  - model: GIN
+    model_plain: GIN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1905.04579'
+    title: Are Powerful Graph Neural Nets Necessary? A Dissection on Graph Classification
+    date: May 2019
+    date_iso: 2019-05
+    date_display: May 2019
+    codebase_url: https://github.com/chentingpc/gfn
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.575
+    - null
+    - null
+    metric_stds:
+    - 0.015
+    - null
+    - null
+  - model: PXGL-GNN
+    model_plain: PXGL-GNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2512.04530'
+    title: Explainable Graph Representation Learning via Graph Pattern Analysis
+    date: Dec 2025
+    date_iso: 2025-12
+    date_display: Dec 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.5736
+    - null
+    - null
+    metric_stds:
+    - 0.0214
+    - null
+    - null
   - model: GCN + SRF (L, AG)
     model_plain: GCN + SRF (L, AG)
     is_baseline: true
@@ -289,8 +387,12 @@ variants:
     is_best: false
     metric_values:
     - 0.572
+    - null
+    - null
     metric_stds:
     - 0.009
+    - null
+    - null
   - model: GIN + rand id
     model_plain: GIN + rand id
     is_baseline: true
@@ -307,26 +409,12 @@ variants:
     is_best: false
     metric_values:
     - 0.57
+    - null
+    - null
     metric_stds:
     - 0.021
-  - model: GIN
-    model_plain: GIN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2502.01122'
-    title: Learning Efficient Positional Encodings with Graph Neural Networks
-    date: Feb 2025
-    date_iso: 2025-02
-    date_display: Feb 2025
-    codebase_url: https://github.com/ehejin/Pearl-PE
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.569
-    metric_stds:
-    - 0.02
+    - null
+    - null
   - model: GINE (No PE)
     model_plain: GINE (No PE)
     is_baseline: true
@@ -344,8 +432,78 @@ variants:
     is_best: false
     metric_values:
     - 0.569
+    - null
+    - null
     metric_stds:
     - 0.02
+    - null
+    - null
+  - model: FractalGCL
+    model_plain: FractalGCL
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2505.11356'
+    title: Fractal Graph Contrastive Learning
+    date: May 2025
+    date_iso: 2025-05
+    date_display: May 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.5645
+    - null
+    - null
+    metric_stds:
+    - 0.0014
+    - null
+    - null
+  - model: RGCL
+    model_plain: RGCL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2505.11356'
+    title: Fractal Graph Contrastive Learning
+    date: May 2025
+    date_iso: 2025-05
+    date_display: May 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.563
+    - null
+    - null
+    metric_stds:
+    - 0.002
+    - null
+    - null
+  - model: ICL
+    model_plain: ICL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2512.04530'
+    title: Explainable Graph Representation Learning via Graph Pattern Analysis
+    date: Dec 2025
+    date_iso: 2025-12
+    date_display: Dec 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.5621
+    - null
+    - null
+    metric_stds:
+    - 0.0135
+    - null
+    - null
   - model: GSN with cliques
     model_plain: GSN with cliques
     is_baseline: true
@@ -362,8 +520,166 @@ variants:
     is_best: false
     metric_values:
     - 0.562
+    - null
+    - null
     metric_stds:
     - 0.018
+    - null
+    - null
+  - model: GradGCL
+    model_plain: GradGCL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2505.11356'
+    title: Fractal Graph Contrastive Learning
+    date: May 2025
+    date_iso: 2025-05
+    date_display: May 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.562
+    - null
+    - null
+    metric_stds:
+    - 0.0031
+    - null
+    - null
+  - model: JOAOv2
+    model_plain: JOAOv2
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2505.11356'
+    title: Fractal Graph Contrastive Learning
+    date: May 2025
+    date_iso: 2025-05
+    date_display: May 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.5603
+    - null
+    - null
+    metric_stds:
+    - 0.0027
+    - null
+    - null
+  - model: GraphCL
+    model_plain: GraphCL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2505.11356'
+    title: Fractal Graph Contrastive Learning
+    date: May 2025
+    date_iso: 2025-05
+    date_display: May 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.5599
+    - null
+    - null
+    metric_stds:
+    - 0.0028
+    - null
+    - null
+  - model: SimGRACE
+    model_plain: SimGRACE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2505.11356'
+    title: Fractal Graph Contrastive Learning
+    date: May 2025
+    date_iso: 2025-05
+    date_display: May 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.5591
+    - null
+    - null
+    metric_stds:
+    - 0.0034
+    - null
+    - null
+  - model: JOAO
+    model_plain: JOAO
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2505.11356'
+    title: Fractal Graph Contrastive Learning
+    date: May 2025
+    date_iso: 2025-05
+    date_display: May 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.5574
+    - null
+    - null
+    metric_stds:
+    - 0.0063
+    - null
+    - null
+  - model: MGCL
+    model_plain: MGCL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2505.11356'
+    title: Fractal Graph Contrastive Learning
+    date: May 2025
+    date_iso: 2025-05
+    date_display: May 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.5565
+    - null
+    - null
+    metric_stds:
+    - 0.0032
+    - null
+    - null
+  - model: SAN
+    model_plain: SAN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2512.04530'
+    title: Explainable Graph Representation Learning via Graph Pattern Analysis
+    date: Dec 2025
+    date_iso: 2025-12
+    date_display: Dec 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.5549
+    - null
+    - null
+    metric_stds:
+    - 0.0175
+    - null
+    - null
   - model: SignNet-8S
     model_plain: SignNet-8S
     is_baseline: true
@@ -380,8 +696,144 @@ variants:
     is_best: false
     metric_values:
     - 0.552
+    - null
+    - null
     metric_stds:
     - 0.029
+    - null
+    - null
+  - model: S2GAE
+    model_plain: S2GAE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2512.04530'
+    title: Explainable Graph Representation Learning via Graph Pattern Analysis
+    date: Dec 2025
+    date_iso: 2025-12
+    date_display: Dec 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.5453
+    - null
+    - null
+    metric_stds:
+    - 0.0217
+    - null
+    - null
+  - model: PSAGNN
+    model_plain: PSAGNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2512.04530'
+    title: Explainable Graph Representation Learning via Graph Pattern Analysis
+    date: Dec 2025
+    date_iso: 2025-12
+    date_display: Dec 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.5411
+    - null
+    - null
+    metric_stds:
+    - 0.0122
+    - null
+    - null
+  - model: DGI
+    model_plain: DGI
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2505.11356'
+    title: Fractal Graph Contrastive Learning
+    date: May 2025
+    date_iso: 2025-05
+    date_display: May 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.5361
+    - null
+    - null
+    metric_stds:
+    - 0.0031
+    - null
+    - null
+  - model: InfoGraph
+    model_plain: InfoGraph
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2505.11356'
+    title: Fractal Graph Contrastive Learning
+    date: May 2025
+    date_iso: 2025-05
+    date_display: May 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.5346
+    - null
+    - null
+    metric_stds:
+    - 0.0103
+    - null
+    - null
+  - model: SubGNN
+    model_plain: SubGNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2512.04530'
+    title: Explainable Graph Representation Learning via Graph Pattern Analysis
+    date: Dec 2025
+    date_iso: 2025-12
+    date_display: Dec 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.5327
+    - null
+    - null
+    metric_stds:
+    - 0.0193
+    - null
+    - null
+  - model: GIN
+    model_plain: GIN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2512.04530'
+    title: Explainable Graph Representation Learning via Graph Pattern Analysis
+    date: Dec 2025
+    date_iso: 2025-12
+    date_display: Dec 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.5248
+    - null
+    - null
+    metric_stds:
+    - 0.0157
+    - null
+    - null
   - model: GATv2 + SRF (linear, AG)
     model_plain: GATv2 + SRF (linear, AG)
     is_baseline: true
@@ -399,8 +851,34 @@ variants:
     is_best: false
     metric_values:
     - 0.5204
+    - null
+    - null
     metric_stds:
     - 0.0056
+    - null
+    - null
+  - model: GraphSAGE
+    model_plain: GraphSAGE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2512.04530'
+    title: Explainable Graph Representation Learning via Graph Pattern Analysis
+    date: Dec 2025
+    date_iso: 2025-12
+    date_display: Dec 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.5165
+    - null
+    - null
+    metric_stds:
+    - 0.0255
+    - null
+    - null
   - model: GCN + SRF (linear, AG)
     model_plain: GCN + SRF (linear, AG)
     is_baseline: true
@@ -418,8 +896,166 @@ variants:
     is_best: false
     metric_values:
     - 0.514
+    - null
+    - null
     metric_stds:
     - 0.0104
+    - null
+    - null
+  - model: DiffPool
+    model_plain: DiffPool
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2512.04530'
+    title: Explainable Graph Representation Learning via Graph Pattern Analysis
+    date: Dec 2025
+    date_iso: 2025-12
+    date_display: Dec 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.5139
+    - null
+    - null
+    metric_stds:
+    - 0.0148
+    - null
+    - null
+  - model: ContextPred
+    model_plain: ContextPred
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2505.11356'
+    title: Fractal Graph Contrastive Learning
+    date: May 2025
+    date_iso: 2025-05
+    date_display: May 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.5123
+    - null
+    - null
+    metric_stds:
+    - 0.0084
+    - null
+    - null
+  - model: ExpC-s
+    model_plain: ExpC-s
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2012.07219'
+    title: Breaking the Expressive Bottlenecks of Graph Neural Networks
+    date: Dec 2020
+    date_iso: 2020-12
+    date_display: Dec 2020
+    codebase_url: https://github.com/qslim/epcb-gnns
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.4991
+    - null
+    - null
+    metric_stds:
+    - 0.0175
+    - null
+    - null
+  - model: GFN-light
+    model_plain: GFN-light
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1905.04579'
+    title: Are Powerful Graph Neural Nets Necessary? A Dissection on Graph Classification
+    date: May 2019
+    date_iso: 2019-05
+    date_display: May 2019
+    codebase_url: https://github.com/chentingpc/gfn
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.4975
+    - null
+    - null
+    metric_stds:
+    - 0.0119
+    - null
+    - null
+  - model: GFN
+    model_plain: GFN
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1905.04579'
+    title: Are Powerful Graph Neural Nets Necessary? A Dissection on Graph Classification
+    date: May 2019
+    date_iso: 2019-05
+    date_display: May 2019
+    codebase_url: https://github.com/chentingpc/gfn
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.4943
+    - null
+    - null
+    metric_stds:
+    - 0.0136
+    - null
+    - null
+  - model: GCN
+    model_plain: GCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1905.04579'
+    title: Are Powerful Graph Neural Nets Necessary? A Dissection on Graph Classification
+    date: May 2019
+    date_iso: 2019-05
+    date_display: May 2019
+    codebase_url: https://github.com/chentingpc/gfn
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.4931
+    - null
+    - null
+    metric_stds:
+    - 0.0144
+    - null
+    - null
+  - model: CombC
+    model_plain: CombC
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2012.07219'
+    title: Breaking the Expressive Bottlenecks of Graph Neural Networks
+    date: Dec 2020
+    date_iso: 2020-12
+    date_display: Dec 2020
+    codebase_url: https://github.com/qslim/epcb-gnns
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.4902
+    - null
+    - null
+    metric_stds:
+    - 0.0121
+    - null
+    - null
   - model: GAT + SRF (L, AG)
     model_plain: GAT + SRF (L, AG)
     is_baseline: true
@@ -437,8 +1073,34 @@ variants:
     is_best: false
     metric_values:
     - 0.4876
+    - null
+    - null
     metric_stds:
     - 0.0089
+    - null
+    - null
+  - model: DGCNN
+    model_plain: DGCNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1905.04579'
+    title: Are Powerful Graph Neural Nets Necessary? A Dissection on Graph Classification
+    date: May 2019
+    date_iso: 2019-05
+    date_display: May 2019
+    codebase_url: https://github.com/chentingpc/gfn
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.487
+    - null
+    - null
+    metric_stds:
+    - 0.0454
+    - null
+    - null
   - model: GAT + SRF (RBF, AG)
     model_plain: GAT + SRF (RBF, AG)
     is_baseline: true
@@ -456,8 +1118,56 @@ variants:
     is_best: false
     metric_values:
     - 0.484
+    - null
+    - null
     metric_stds:
     - 0.0127
+    - null
+    - null
+  - model: graph2vec
+    model_plain: graph2vec
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2505.11356'
+    title: Fractal Graph Contrastive Learning
+    date: May 2025
+    date_iso: 2025-05
+    date_display: May 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.4786
+    - null
+    - null
+    metric_stds:
+    - 0.0026
+    - null
+    - null
+  - model: RetGK_I
+    model_plain: RetGK_I
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1905.04579'
+    title: Are Powerful Graph Neural Nets Necessary? A Dissection on Graph Classification
+    date: May 2019
+    date_iso: 2019-05
+    date_display: May 2019
+    codebase_url: https://github.com/chentingpc/gfn
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.471
+    - null
+    - null
+    metric_stds:
+    - 0.003
+    - null
+    - null
   - model: DiffPool
     model_plain: DiffPool
     is_baseline: false
@@ -474,7 +1184,11 @@ variants:
     is_best: false
     metric_values:
     - 0.4708
+    - null
+    - null
     metric_stds:
+    - null
+    - null
     - null
   - model: DiffPool-NoLP
     model_plain: DiffPool-NoLP
@@ -492,7 +1206,33 @@ variants:
     is_best: false
     metric_values:
     - 0.4665
+    - null
+    - null
     metric_stds:
+    - null
+    - null
+    - null
+  - model: CapsGNN
+    model_plain: CapsGNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1905.04579'
+    title: Are Powerful Graph Neural Nets Necessary? A Dissection on Graph Classification
+    date: May 2019
+    date_iso: 2019-05
+    date_display: May 2019
+    codebase_url: https://github.com/chentingpc/gfn
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.4662
+    - null
+    - null
+    metric_stds:
+    - 0.019
+    - null
     - null
   - model: DiffPool-Det
     model_plain: DiffPool-Det
@@ -510,7 +1250,11 @@ variants:
     is_best: false
     metric_values:
     - 0.4618
+    - null
+    - null
     metric_stds:
+    - null
+    - null
     - null
   - model: WL-OA
     model_plain: WL-OA
@@ -528,7 +1272,11 @@ variants:
     is_best: false
     metric_values:
     - 0.4438
+    - null
+    - null
     metric_stds:
+    - null
+    - null
     - null
   - model: Set2Set
     model_plain: Set2Set
@@ -546,7 +1294,11 @@ variants:
     is_best: false
     metric_values:
     - 0.4349
+    - null
+    - null
     metric_stds:
+    - null
+    - null
     - null
   - model: GPM
     model_plain: GPM
@@ -564,8 +1316,12 @@ variants:
     is_best: false
     metric_values:
     - 0.4307
+    - null
+    - null
     metric_stds:
     - 0.0029
+    - null
+    - null
   - model: GraphSAGE
     model_plain: GraphSAGE
     is_baseline: true
@@ -582,7 +1338,11 @@ variants:
     is_best: false
     metric_values:
     - 0.4224
+    - null
+    - null
     metric_stds:
+    - null
+    - null
     - null
   - model: AgentNet
     model_plain: AgentNet
@@ -600,8 +1360,12 @@ variants:
     is_best: false
     metric_values:
     - 0.4215
+    - null
+    - null
     metric_stds:
     - 0.0013
+    - null
+    - null
   - model: SAT
     model_plain: SAT
     is_baseline: true
@@ -618,8 +1382,12 @@ variants:
     is_best: false
     metric_values:
     - 0.4214
+    - null
+    - null
     metric_stds:
     - 0.0007
+    - null
+    - null
   - model: SortPool
     model_plain: SortPool
     is_baseline: true
@@ -636,7 +1404,11 @@ variants:
     is_best: false
     metric_values:
     - 0.4182
+    - null
+    - null
     metric_stds:
+    - null
+    - null
     - null
   - model: ECC
     model_plain: ECC
@@ -654,7 +1426,11 @@ variants:
     is_best: false
     metric_values:
     - 0.4173
+    - null
+    - null
     metric_stds:
+    - null
+    - null
     - null
   - model: RUM
     model_plain: RUM
@@ -672,8 +1448,12 @@ variants:
     is_best: false
     metric_values:
     - 0.4166
+    - null
+    - null
     metric_stds:
     - 0.0015
+    - null
+    - null
   - model: GPS
     model_plain: GPS
     is_baseline: true
@@ -690,8 +1470,12 @@ variants:
     is_best: false
     metric_values:
     - 0.4155
+    - null
+    - null
     metric_stds:
     - 0.0016
+    - null
+    - null
   - model: Graphormer
     model_plain: Graphormer
     is_baseline: true
@@ -708,8 +1492,12 @@ variants:
     is_best: false
     metric_values:
     - 0.4142
+    - null
+    - null
     metric_stds:
     - 0.0042
+    - null
+    - null
   - model: SignNet-8S
     model_plain: SignNet-8S
     is_baseline: true
@@ -727,8 +1515,12 @@ variants:
     is_best: false
     metric_values:
     - 0.414
+    - null
+    - null
     metric_stds:
     - 0.027
+    - null
+    - null
   - model: PATCHY-SAN
     model_plain: PATCHY-SAN
     is_baseline: true
@@ -745,7 +1537,33 @@ variants:
     is_best: false
     metric_values:
     - 0.4132
+    - null
+    - null
     metric_stds:
+    - null
+    - null
+    - null
+  - model: PSCN
+    model_plain: PSCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1905.04579'
+    title: Are Powerful Graph Neural Nets Necessary? A Dissection on Graph Classification
+    date: May 2019
+    date_iso: 2019-05
+    date_display: May 2019
+    codebase_url: https://github.com/chentingpc/gfn
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.4132
+    - null
+    - null
+    metric_stds:
+    - 0.0042
+    - null
     - null
   - model: CRaWl
     model_plain: CRaWl
@@ -763,8 +1581,12 @@ variants:
     is_best: false
     metric_values:
     - 0.4072
+    - null
+    - null
     metric_stds:
     - 0.0065
+    - null
+    - null
   - model: GMT
     model_plain: GMT
     is_baseline: true
@@ -781,8 +1603,12 @@ variants:
     is_best: false
     metric_values:
     - 0.4063
+    - null
+    - null
     metric_stds:
     - 0.0094
+    - null
+    - null
   - model: GNN-AK
     model_plain: GNN-AK
     is_baseline: true
@@ -799,8 +1625,12 @@ variants:
     is_best: false
     metric_values:
     - 0.406
+    - null
+    - null
     metric_stds:
     - 0.0099
+    - null
+    - null
   - model: Graph-ViT
     model_plain: Graph-ViT
     is_baseline: true
@@ -817,8 +1647,12 @@ variants:
     is_best: false
     metric_values:
     - 0.4017
+    - null
+    - null
     metric_stds:
     - 0.0052
+    - null
+    - null
   - model: SAN
     model_plain: SAN
     is_baseline: true
@@ -835,8 +1669,34 @@ variants:
     is_best: false
     metric_values:
     - 0.3992
+    - null
+    - null
     metric_stds:
     - 0.0102
+    - null
+    - null
+  - model: GLN
+    model_plain: GLN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1905.04579'
+    title: Are Powerful Graph Neural Nets Necessary? A Dissection on Graph Classification
+    date: May 2019
+    date_iso: 2019-05
+    date_display: May 2019
+    codebase_url: https://github.com/chentingpc/gfn
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.3984
+    - null
+    - null
+    metric_stds:
+    - 0.0095
+    - null
+    - null
   - model: GIN
     model_plain: GIN
     is_baseline: true
@@ -853,26 +1713,34 @@ variants:
     is_best: false
     metric_values:
     - 0.3937
+    - null
+    - null
     metric_stds:
     - 0.014
+    - null
+    - null
   - model: AWE
     model_plain: AWE
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2501.18739'
-    title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: Jan 30, 2025
-    date_iso: '2025-01-30'
-    date_display: Jan 2025
-    codebase_url: https://github.com/Zehong-Wang/GPM
+    arxiv_id: '1905.04579'
+    title: Are Powerful Graph Neural Nets Necessary? A Dissection on Graph Classification
+    date: May 2019
+    date_iso: 2019-05
+    date_display: May 2019
+    codebase_url: https://github.com/chentingpc/gfn
     uses_external_data: false
     is_best: false
     metric_values:
     - 0.392
+    - null
+    - null
     metric_stds:
     - 0.0209
+    - null
+    - null
   - model: 1-WL
     model_plain: 1-WL
     is_baseline: true
@@ -889,7 +1757,11 @@ variants:
     is_best: false
     metric_values:
     - 0.3903
+    - null
+    - null
     metric_stds:
+    - null
+    - null
     - null
   - model: PNA
     model_plain: PNA
@@ -907,8 +1779,34 @@ variants:
     is_best: false
     metric_values:
     - 0.3857
+    - null
+    - null
     metric_stds:
     - 0.0186
+    - null
+    - null
+  - model: WL
+    model_plain: WL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1905.04579'
+    title: Are Powerful Graph Neural Nets Necessary? A Dissection on Graph Classification
+    date: May 2019
+    date_iso: 2019-05
+    date_display: May 2019
+    codebase_url: https://github.com/chentingpc/gfn
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.3818
+    - null
+    - null
+    metric_stds:
+    - 0.013
+    - null
+    - null
   - model: Shortest-path
     model_plain: Shortest-path
     is_baseline: true
@@ -925,7 +1823,33 @@ variants:
     is_best: false
     metric_values:
     - 0.3693
+    - null
+    - null
     metric_stds:
+    - null
+    - null
+    - null
+  - model: GAE
+    model_plain: GAE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2505.11356'
+    title: Fractal Graph Contrastive Learning
+    date: May 2025
+    date_iso: 2025-05
+    date_display: May 2025
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.3358
+    - null
+    - null
+    metric_stds:
+    - 0.0013
+    - null
     - null
   - model: DGK
     model_plain: DGK
@@ -933,18 +1857,22 @@ variants:
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2501.18739'
-    title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: Jan 30, 2025
-    date_iso: '2025-01-30'
-    date_display: Jan 2025
-    codebase_url: https://github.com/Zehong-Wang/GPM
+    arxiv_id: '1905.04579'
+    title: Are Powerful Graph Neural Nets Necessary? A Dissection on Graph Classification
+    date: May 2019
+    date_iso: 2019-05
+    date_display: May 2019
+    codebase_url: https://github.com/chentingpc/gfn
     uses_external_data: false
     is_best: false
     metric_values:
     - 0.3222
+    - null
+    - null
     metric_stds:
     - 0.001
+    - null
+    - null
   - model: Graphlet
     model_plain: Graphlet
     is_baseline: true
@@ -961,7 +1889,11 @@ variants:
     is_best: false
     metric_values:
     - 0.2173
+    - null
+    - null
     metric_stds:
+    - null
+    - null
     - null
   - model: GCN
     model_plain: GCN
@@ -979,8 +1911,166 @@ variants:
     is_best: false
     metric_values:
     - 0.2
+    - null
+    - null
     metric_stds:
     - 0.0
+    - null
+    - null
+  - model: RC-Explainer
+    model_plain: RC-Explainer
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2204.11028'
+    title: Reinforced Causal Explainer for Graph Neural Networks
+    date: Apr 2022
+    date_iso: 2022-04
+    date_display: Apr 2022
+    codebase_url: https://github.com/xiangwang1223/reinforced_causal_explainer
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.521
+    - 0.472
+    metric_stds:
+    - null
+    - null
+    - null
+  - model: SA
+    model_plain: SA
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2204.11028'
+    title: Reinforced Causal Explainer for Graph Neural Networks
+    date: Apr 2022
+    date_iso: 2022-04
+    date_display: Apr 2022
+    codebase_url: https://github.com/xiangwang1223/reinforced_causal_explainer
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.362
+    - 0.158
+    metric_stds:
+    - null
+    - null
+    - null
+  - model: Grad-CAM
+    model_plain: Grad-CAM
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2204.11028'
+    title: Reinforced Causal Explainer for Graph Neural Networks
+    date: Apr 2022
+    date_iso: 2022-04
+    date_display: Apr 2022
+    codebase_url: https://github.com/xiangwang1223/reinforced_causal_explainer
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.399
+    - 0.158
+    metric_stds:
+    - null
+    - null
+    - null
+  - model: GNNExplainer
+    model_plain: GNNExplainer
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2204.11028'
+    title: Reinforced Causal Explainer for Graph Neural Networks
+    date: Apr 2022
+    date_iso: 2022-04
+    date_display: Apr 2022
+    codebase_url: https://github.com/xiangwang1223/reinforced_causal_explainer
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.429
+    - 0.125
+    metric_stds:
+    - null
+    - null
+    - null
+  - model: PGExplainer
+    model_plain: PGExplainer
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2204.11028'
+    title: Reinforced Causal Explainer for Graph Neural Networks
+    date: Apr 2022
+    date_iso: 2022-04
+    date_display: Apr 2022
+    codebase_url: https://github.com/xiangwang1223/reinforced_causal_explainer
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.412
+    - 0.175
+    metric_stds:
+    - null
+    - null
+    - null
+  - model: CXPlain
+    model_plain: CXPlain
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2204.11028'
+    title: Reinforced Causal Explainer for Graph Neural Networks
+    date: Apr 2022
+    date_iso: 2022-04
+    date_display: Apr 2022
+    codebase_url: https://github.com/xiangwang1223/reinforced_causal_explainer
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.439
+    - 0.279
+    metric_stds:
+    - null
+    - null
+    - null
+  - model: PGM-Explainer
+    model_plain: PGM-Explainer
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2204.11028'
+    title: Reinforced Causal Explainer for Graph Neural Networks
+    date: Apr 2022
+    date_iso: 2022-04
+    date_display: Apr 2022
+    codebase_url: https://github.com/xiangwang1223/reinforced_causal_explainer
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.377
+    - 0.3
+    metric_stds:
+    - null
+    - null
+    - null
   milestones:
   - value: 0.4708
     std: null
@@ -988,6 +2078,12 @@ variants:
     arxiv_id: '1806.08804'
     title: Hierarchical Graph Representation Learning with Differentiable Pooling
     date: 2018-06
+  - value: 0.575
+    std: 0.015
+    model: GIN
+    arxiv_id: '1905.04579'
+    title: Are Powerful Graph Neural Nets Necessary? A Dissection on Graph Classification
+    date: 2019-05
   - value: 0.871
     std: 0.002
     model: ILLS
