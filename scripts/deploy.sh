@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# deploy.sh — build and deploy Hugo site to production server via sshfs
+# deploy.sh — build and deploy Hugo site to production server via rsync/ssh
 # Reads DEPLOY_USER, DEPLOY_HOST, DEPLOY_PATH, and optional HUGO_BASE_URL from .env
 set -euo pipefail
 
@@ -37,31 +37,44 @@ HUGO_BASE_URL="${HUGO_BASE_URL:-}"
 HUGO_BIN="${PROJECT_DIR}/bin/hugo"
 [[ -x "$HUGO_BIN" ]] || HUGO_BIN="hugo"
 
-# Create temporary mount point and ensure cleanup on exit
-MOUNT_POINT="/tmp/deploy-$$"
-cleanup() {
-  if mountpoint -q "$MOUNT_POINT" 2>/dev/null; then
-    fusermount -u "$MOUNT_POINT" 2>/dev/null || umount "$MOUNT_POINT" 2>/dev/null || true
-    echo "Unmounted ${MOUNT_POINT}"
-  fi
-  rmdir "$MOUNT_POINT" 2>/dev/null || true
-}
-trap cleanup EXIT
+if ! command -v rsync >/dev/null 2>&1; then
+  echo "Error: rsync is required for deployment but was not found in PATH." >&2
+  exit 1
+fi
+if ! command -v tar >/dev/null 2>&1; then
+  echo "Error: tar is required for deployment but was not found in PATH." >&2
+  exit 1
+fi
 
-# Mount remote directory via sshfs
-mkdir -p "$MOUNT_POINT"
-echo "Mounting ${SSH_DEST}:${DEPLOY_PATH} via sshfs..."
-sshfs "${SSH_DEST}:${DEPLOY_PATH}" "$MOUNT_POINT"
-
-# Build Hugo site directly to the mounted remote directory
-echo "Building and deploying Hugo site..."
+# Build Hugo site locally first.
+echo "Building Hugo site locally..."
 cd site
 if [[ -n "$HUGO_BASE_URL" ]]; then
-  "$HUGO_BIN" --minify --baseURL "$HUGO_BASE_URL" --destination "$MOUNT_POINT"
+  "$HUGO_BIN" --minify --baseURL "$HUGO_BASE_URL"
 else
-  "$HUGO_BIN" --minify --destination "$MOUNT_POINT"
+  "$HUGO_BIN" --minify
 fi
 cd ..
 
-# Cleanup is handled by the EXIT trap
+echo "Syncing site/public/ to ${SSH_DEST}:${DEPLOY_PATH}/ ..."
+if rsync \
+  --archive \
+  --delete \
+  --compress \
+  --human-readable \
+  --itemize-changes \
+  --stats \
+  -e ssh \
+  "${PROJECT_DIR}/site/public/" \
+  "${SSH_DEST}:${DEPLOY_PATH}/"; then
+  echo "Rsync deploy succeeded."
+else
+  echo "Rsync deploy failed; falling back to full tar upload via ssh..."
+
+  REMOTE_PATH_Q="$(printf '%q' "$DEPLOY_PATH")"
+  ssh "$SSH_DEST" "mkdir -p ${REMOTE_PATH_Q} && find ${REMOTE_PATH_Q} -mindepth 1 -maxdepth 1 -exec rm -rf -- {} +"
+  tar -C "${PROJECT_DIR}/site/public" -cf - . | ssh "$SSH_DEST" "tar -xf - -C ${REMOTE_PATH_Q}"
+  echo "Fallback tar deploy succeeded."
+fi
+
 echo "Deploy complete."
