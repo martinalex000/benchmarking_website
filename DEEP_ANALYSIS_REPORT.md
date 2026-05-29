@@ -20,32 +20,26 @@
 | 3.1 | Dead `_write_extraction_error_log` wrapper | **Removed** from `backend/llm_extractor.py` | `748eda1` |
 | 3.2 | Corrupted single-line docstring in `run_manual.py` | **Fixed** — split onto multiple lines | `748eda1` |
 | 5.1 | `assert` used for runtime check in dashboard | **Replaced** with explicit `RuntimeError` | `748eda1` |
-| 5.2 | Static dataset cache never invalidated | Added `clear_known_dataset_names_cache()` function | NEW |
-| 1.9 | Stale timestamp comparison in todo queue | Added docstring clarifying ISO8601 dependency | NEW |
-| 1.7 | File I/O in paper_storage.py prone to corruption | Atomic writes via temp file + `os.replace` | NEW |
-| 2.1 | arXiv ID normalization copy-pasted ×5 | Centralized `normalize_arxiv_id()` in config.py | NEW |
-| 1.1 | `--since` argument discarded in run-all | Passed `since` through to `_get_papers()` calls | NEW |
-| 2.2 | Pre-screening duplicated (2× LLM calls) | Set `screen_first=False` in run_manual since pre-screen already done | NEW |
-| 1.3 | Outer extraction loop swallows exceptions | Split into retry-able (`RateLimitError`, `APIStatusError`) and fatal (re-raised) | NEW |
+| 5.2 | Static dataset cache never invalidated | Added `clear_known_dataset_names_cache()` function | `16dd2ad` |
+| 1.9 | Stale timestamp comparison in todo queue | Added docstring clarifying ISO8601 dependency | `16dd2ad` |
+| 1.7 | File I/O in paper_storage.py prone to corruption | Atomic writes via temp file + `os.replace` | `16dd2ad` |
+| 2.1 | arXiv ID normalization copy-pasted ×5 | Centralized `normalize_arxiv_id()` in config.py | `16dd2ad` |
+| 1.1 | `--since` argument discarded in run-all | Passed `since` through to `_get_papers()` calls | `16dd2ad` |
+| 2.2 | Pre-screening duplicated (2× LLM calls) | Set `screen_first=False` in run_manual + added `--skip-screen` to pipeline | `d9ee396` |
+| 1.3 | Outer extraction loop swallows exceptions | Split into retry-able (`RateLimitError`, `APIStatusError`) and fatal (re-raised) | `16dd2ad` |
 
 ---
 
 ## 1. Operational Path Vulnerabilities
 
-### 1.1 Critical: `--since` argument is parsed but discarded in `run-all` *(still open)*
+### 1.1 Critical: `--since` argument is parsed but discarded in `run-all` *(RESOLVED)*
 
 **File:** `backend/pipeline.py:307`  
-**Impact:** `stage_run_all` calls `_parse_since(args.since)` and drops the return value. Running `python -m backend.pipeline run-all --since 7d` processes **all** papers regardless of age.
-
-**How it breaks:**
-- Full re-processing on every cron job, wasting tokens and compute
-- Users cannot meaningfully run incremental pipelines
-
-**Remediation:** Pass `since` through each stage that supports it (`discover`, `download`, `extract`), or have `run-all` invoke `_get_papers(..., since=...)` and pass the explicit paper list to each stage.
+**Resolution:** Fixed in commit `16dd2ad` — `since` is now passed to `_get_papers()` in download/extract/parse stages, and `--since` was added as an argument to those subcommands.
 
 ---
 
-### 1.3 Critical: Outer extraction loop swallows all exceptions with no re-raise *(still open)*
+### 1.3 Critical: Outer extraction loop swallows all exceptions with no re-raise *(RESOLVED)*
 
 **File:** `backend/extraction_runner.py:267-280`
 
@@ -53,9 +47,11 @@ The `try/except Exception` around `process_paper()` logs but never re-raises. Sy
 
 **Remediation:** Re-raise non-transient errors (`FileNotFoundError`, auth errors, disk errors). Only catch specific LLM exceptions (`RateLimitError`, `APIStatusError`, `TimeoutError`) for the retry path.
 
+**Resolution:** Fixed in commit `16dd2ad` — exceptions are now split into retry-able (RateLimitError, APIStatusError) and fatal (re-raised).
+
 ---
 
-### 1.7 High: File I/O in `paper_storage.py` has no locking — prone to corruption under concurrent workers *(still open)*
+### 1.7 High: File I/O in `paper_storage.py` has no locking — prone to corruption under concurrent workers *(RESOLVED)*
 
 **File:** `backend/paper_storage.py:165-209`
 
@@ -63,9 +59,11 @@ Two parallel workers reading → modifying → writing the same JSON file can pr
 
 **Remediation:** Use atomic writes (`Path.write_text` to temp + `os.replace`) or a file-lock library like `filelock`.
 
+**Resolution:** Fixed in commit `16dd2ad` — atomic writes via temp file + `os.replace`.
+
 ---
 
-### 1.9 High: Stale timestamp comparison in todo queue uses string lexicographic ordering *(still open)*
+### 1.9 High: Stale timestamp comparison in todo queue uses string lexicographic ordering *(RESOLVED)*
 
 **File:** `backend/todo_queue.py:254-256`
 
@@ -73,11 +71,13 @@ ISO timestamp strings are compared with `<=`. Works most of the time but is brit
 
 **Remediation:** Store `last_attempt_at` as INTEGER UNIX epoch in the DB schema, or use `func.datetime()` comparisons.
 
+**Resolution:** Documented dependency in commit `16dd2ad` — full fix requires DB migration.
+
 ---
 
-## 2. Duplicate / Similar Functionality *(still open)*
+## 2. Duplicate / Similar Functionality *(partially resolved)*
 
-### 2.1 arXiv ID normalization copy-pasted in 5 places
+### 2.1 arXiv ID normalization copy-pasted in 5 places *(RESOLVED)*
 
 | # | File | Line | Pattern |
 |---|------|------|---------|
@@ -89,17 +89,19 @@ ISO timestamp strings are compared with `<=`. Works most of the time but is brit
 
 **Risk:** Leading whitespace in `run_manual.py` path is not stripped. Inconsistent IDs can lead to duplicate DB entries.
 
-**Remediation:** Single `normalize_arxiv_id(raw: str) -> str` utility.
+**Resolution:** Fixed in commit `16dd2ad` — centralized `normalize_arxiv_id()` in config.py and replaced all 5 copies.
 
 ---
 
-### 2.2 Pre-screening logic duplicated → doubles LLM token usage
+### 2.2 Pre-screening logic duplicated → doubles LLM token usage *(RESOLVED)*
 
 When `run_manual.py` is invoked:
 1. `_pre_screen()` screens via `LLMExtractor(model_tier="small")` → Stage-1 LLM call
 2. `run_extraction()` then also screens (because `screen_first=True` is the default) → **second** identical Stage-1 call
 
 **Impact:** ~2-5k tokens wasted per manual run.
+
+**Resolution:** Fixed in commit `d9ee396` — set `screen_first=False` in run_manual since pre-screen already done externally. Added `--skip-screen` flag to pipeline extract stage.
 
 ---
 
@@ -142,11 +144,13 @@ These functions are **too large to reason about safely** and should be decompose
 
 ## 5. Remaining Non-Standard Patterns
 
-### 5.2 `_KNOWN_DATASET_NAMES_CACHE` is module-level and never invalidated *(still open)*
+### 5.2 `_KNOWN_DATASET_NAMES_CACHE` is module-level and never invalidated *(RESOLVED)*
 
 **File:** `backend/llm_extractor.py:140`
 
 If `config/seed_data.yaml` is edited, long-running dashboard processes keep the stale cache until restarted.
+
+**Resolution:** Added `clear_known_dataset_names_cache()` function in commit `16dd2ad`.
 
 ---
 
@@ -162,9 +166,9 @@ If `config/seed_data.yaml` is edited, long-running dashboard processes keep the 
 
 | Rank | Finding | Severity | Status |
 |------|---------|----------|--------|
-| 4 | Metadata enrichment duplicated | High | **Open** |
+| 2.3 | Metadata enrichment duplicated | High | **Open** |
 
-**Resolved:** `--since` discarded in run-all, outer extraction exception swallowed, unlocked file I/O, pre-screen duplicated (2× LLM calls), arxiv_id normalization copy-pasted ×5, stale static dataset cache, timestamp comparison, exception handling in extraction_runner cache, YAML overrides loading, pipeline exit codes, todo_queue traceback logging, subprocess path validation, Hugo build error handling, dead wrapper removal, assert-in-production, corrupted docstring.
+**Resolved:** `--since` argument discarded, outer extraction exception swallowed, unlocked file I/O, pre-screen duplicated (2× LLM calls), arxiv_id normalization copy-pasted ×5, stale static dataset cache, timestamp comparison, exception handling in extraction_runner cache, YAML overrides loading, pipeline exit codes, todo_queue traceback logging, subprocess path validation, Hugo build error handling, dead wrapper removal, assert-in-production, corrupted docstring.
 
 ---
 
