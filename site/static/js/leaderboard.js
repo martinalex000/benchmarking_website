@@ -1147,18 +1147,18 @@
     }
 
     document.querySelectorAll(".mobile-details-toggle").forEach(function (btn) {
-      btn.addEventListener("click", function () {
+      btn.addEventListener("click", function (event) {
+        event.stopPropagation(); // prevent the row handler from double-firing
         var row = btn.closest("tr");
         toggleRow(row, btn);
       });
     });
 
-    document.querySelectorAll(".result-table tbody td.mobile-details-hit").forEach(function (cell) {
-      cell.addEventListener("click", function (event) {
-        if (event.target.closest("a")) return;
-        var row = cell.closest("tr");
-        if (!row) return;
+    document.querySelectorAll(".result-table tbody tr.result-row").forEach(function (row) {
+      row.addEventListener("click", function (event) {
+        if (event.target.closest("a")) return; // let link clicks through
         var btn = row.querySelector(".mobile-details-toggle");
+        if (!btn) return; // no toggle = desktop or no paper column
         toggleRow(row, btn);
       });
     });
