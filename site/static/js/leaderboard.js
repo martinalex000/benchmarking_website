@@ -1139,13 +1139,27 @@
   }
 
   function _initMobileRowDetails() {
+    function toggleRow(row, btn) {
+      if (!row || !btn) return;
+      var nextExpanded = !row.classList.contains("mobile-details-open");
+      row.classList.toggle("mobile-details-open", nextExpanded);
+      btn.setAttribute("aria-expanded", nextExpanded ? "true" : "false");
+    }
+
     document.querySelectorAll(".mobile-details-toggle").forEach(function (btn) {
       btn.addEventListener("click", function () {
         var row = btn.closest("tr");
+        toggleRow(row, btn);
+      });
+    });
+
+    document.querySelectorAll(".result-table tbody td.mobile-details-hit").forEach(function (cell) {
+      cell.addEventListener("click", function (event) {
+        if (event.target.closest("a")) return;
+        var row = cell.closest("tr");
         if (!row) return;
-        var nextExpanded = !row.classList.contains("mobile-details-open");
-        row.classList.toggle("mobile-details-open", nextExpanded);
-        btn.setAttribute("aria-expanded", nextExpanded ? "true" : "false");
+        var btn = row.querySelector(".mobile-details-toggle");
+        toggleRow(row, btn);
       });
     });
   }

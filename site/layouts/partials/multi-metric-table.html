@@ -19,6 +19,12 @@
 
 {{ if $rows }}
 <div class="result-table-wrapper" data-variant="{{ $slug }}">
+  <div class="mobile-result-table-head {{ if $hideMeta }}mobile-result-table-head-no-paper{{ end }}" aria-hidden="true">
+    <span>#</span>
+    <span>Model</span>
+    <span>{{ $primary }}</span>
+    {{ if not $hideMeta }}<span>Date</span>{{ end }}
+  </div>
   <table class="result-table sortable" id="tbl-{{ $slug }}" data-collapse-after="{{ $collapseAfter }}">
     <thead>
       <tr>
@@ -33,6 +39,8 @@
       {{ $primary_val := index $r.metric_values 0 }}
       {{ $primary_std := index $r.metric_stds 0 }}
       {{ $rowDetailsId := printf "mobile-details-%s-%d" $slug $i }}
+      {{ $dateDisplay := $r.date_display | default $r.date | default "—" }}
+      {{ $mobileDate := replaceRE "([A-Za-z]+)\\s+20([0-9]{2})" "$1 '$2" $dateDisplay }}
         <tr class="result-row {{ if $r.is_baseline }}row-baseline{{ else }}row-proposed{{ end }} {{ if $r.is_overridden }}row-overridden{{ end }}{{ if $r.is_best }} row-best{{ end }}{{ if eq $i 0 }} row-current-sota{{ end }}{{ if $r.is_global_top }} row-global-top{{ end }}{{ if and (gt $collapseAfter 0) (ge $i $collapseAfter) }} row-collapsed{{ end }}"
           data-model="{{ $r.model_plain | default $r.model }}"
           data-value="{{ $r.sort_value | default $primary_val }}"
@@ -49,6 +57,7 @@
               <div class="leaderboard-entry-meta">
                 <div class="leaderboard-badges">
                   {{ if not $r.is_global_top }}{{ if $r.is_baseline }}<span class="tag-baseline">baseline</span>{{ else }}<span class="tag-proposed">★ proposed</span>{{ end }}{{ end }}
+                  {{ if $r.codebase_url }}<span class="mini-badge mini-badge-code" title="Code available">code</span>{{ else }}<span class="mini-badge mini-badge-no-code" title="No code link">no code</span>{{ end }}
                   {{ if $r.uses_external_data }}<span class="mini-badge mini-badge-external" title="Uses external data during training">ext data</span>{{ end }}
                   {{ if $r.params_millions }}<span class="mini-badge mini-badge-neutral">{{ printf "%.1fM" $r.params_millions }}</span>{{ end }}
                   {{ if $r.is_global_top }}<span class="global-top-badge" title="Top-ranked globally — from another paper">global</span>{{ end }}
@@ -116,14 +125,15 @@
           {{ end }}
         </td>
         {{ if not $hideMeta }}
-        <td class="col-paper" id="{{ $rowDetailsId }}" data-label="Paper">
+        <td class="col-paper mobile-details-hit" id="{{ $rowDetailsId }}" data-label="Paper">
           <div class="paper-cell-row">
             <div class="paper-title-wrap">
               {{ if $r.arxiv_id }}<a class="paper-title-link" href="{{ printf "papers/%s/" $r.arxiv_id | relURL }}" title="arXiv:{{ $r.arxiv_id }}{{ with $r.title }} — {{ . }}{{ end }}">{{ if $r.title }}{{ $r.title | truncate 96 }}{{ else }}arXiv:{{ $r.arxiv_id }}{{ end }}</a>{{ else }}—{{ end }}
               {{ if $r.codebase_url }}<a class="paper-code-link" href="{{ $r.codebase_url }}" target="_blank" rel="noopener">code ↗</a>{{ else }}<span class="paper-code-missing" title="No code link available">⚠</span>{{ end }}
             </div>
             <div class="paper-inline-meta">
-              <span class="paper-date-inline">{{ $r.date_display | default $r.date | default "—" }}</span>
+              <span class="paper-date-inline paper-date-inline-full">{{ $dateDisplay }}</span>
+              <span class="paper-date-inline paper-date-inline-short">{{ $mobileDate }}</span>
               <button type="button" class="mobile-details-toggle" aria-expanded="false" aria-controls="{{ $rowDetailsId }}" aria-label="Toggle details">▾</button>
             </div>
           </div>
