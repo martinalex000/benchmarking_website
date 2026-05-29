@@ -9,10 +9,10 @@ description: Papers whose reported model values materially disagree with the sto
 
 This page lists papers whose reported primary-metric value for a model disagrees with the stored global benchmark value by more than the reported std, or differs at all when no std is given.
 
-**Flagged papers:** 125
-**Flagged rows:** 2636
-**Rows where a better value was already known at publication time:** 1142
-**Rows whose current best source is from a later paper:** 1411
+**Flagged papers:** 126
+**Flagged rows:** 2666
+**Rows where a better value was already known at publication time:** 1146
+**Rows whose current best source is from a later paper:** 1437
 **Rows whose current best source is the same paper:** 83
 **Rows with unknown timing:** 0
 
@@ -20,19 +20,19 @@ This page lists papers whose reported primary-metric value for a model disagrees
 
 | Dataset | Wrong Rows | Papers | Models | Worst Rank Shift | Earlier-known Rows |
 |---|---:|---:|---:|---:|---:|
-| ZINC | 451 | 41 | 50 | 244 | 213 |
-| Peptides-func | 206 | 63 | 27 | 306 | 64 |
-| Peptides-struct | 193 | 60 | 26 | 330 | 41 |
+| ZINC | 463 | 42 | 51 | 244 | 215 |
+| Peptides-func | 209 | 64 | 27 | 306 | 64 |
+| Peptides-struct | 196 | 61 | 26 | 330 | 41 |
 | Cora | 152 | 30 | 41 | 297 | 67 |
 | CiteSeer | 98 | 19 | 27 | 206 | 48 |
 | PubMed | 91 | 16 | 25 | 152 | 30 |
 | Chameleon | 82 | 13 | 28 | 116 | 49 |
 | Squirrel | 82 | 13 | 29 | 96 | 42 |
-| CIFAR10 | 71 | 23 | 11 | 93 | 21 |
-| MNIST | 69 | 23 | 8 | 94 | 16 |
+| CIFAR10 | 74 | 24 | 11 | 93 | 21 |
+| MNIST | 72 | 24 | 8 | 94 | 16 |
 | Texas | 67 | 16 | 24 | 143 | 45 |
 | ogbn-arxiv | 64 | 20 | 15 | 90 | 41 |
-| PascalVOC-SP | 61 | 20 | 11 | 63 | 15 |
+| PascalVOC-SP | 64 | 21 | 11 | 63 | 15 |
 | Roman-empire | 58 | 18 | 13 | 84 | 35 |
 | PCQM-Contact | 58 | 16 | 9 | 63 | 31 |
 | PATTERN | 56 | 17 | 6 | 63 | 18 |
@@ -50,12 +50,12 @@ This page lists papers whose reported primary-metric value for a model disagrees
 
 | Model | Wrong Rows | Papers | Datasets | Worst Rank Shift | Earlier-known Rows |
 |---|---:|---:|---:|---:|---:|
-| GCN | 569 | 108 | 55 | 330 | 272 |
-| GatedGCN | 264 | 63 | 18 | 285 | 67 |
-| GAT | 233 | 62 | 35 | 251 | 125 |
-| GIN | 232 | 61 | 36 | 313 | 71 |
+| GCN | 576 | 109 | 55 | 330 | 272 |
+| GatedGCN | 270 | 64 | 18 | 285 | 67 |
+| GIN | 235 | 62 | 36 | 313 | 71 |
+| GAT | 234 | 63 | 35 | 251 | 125 |
 | GPS | 92 | 38 | 12 | 244 | 53 |
-| GINE | 73 | 31 | 6 | 259 | 30 |
+| GINE | 77 | 33 | 7 | 259 | 31 |
 | NodeFormer | 56 | 15 | 15 | 218 | 26 |
 | Graphormer | 56 | 27 | 7 | 198 | 22 |
 | APPNP | 47 | 12 | 13 | 256 | 29 |
@@ -64,12 +64,12 @@ This page lists papers whose reported primary-metric value for a model disagrees
 | Exphormer | 46 | 15 | 15 | 186 | 11 |
 | GPRGNN | 44 | 12 | 14 | 238 | 19 |
 | MLP | 40 | 13 | 13 | 231 | 12 |
-| GraphSAGE | 39 | 18 | 17 | 133 | 27 |
+| GraphSAGE | 40 | 19 | 17 | 133 | 27 |
 | GatedGCN+RWSE | 31 | 17 | 2 | 122 | 6 |
 | H2GCN | 30 | 11 | 9 | 143 | 9 |
 | GRIT | 26 | 15 | 3 | 222 | 25 |
-| PNA | 24 | 13 | 1 | 204 | 15 |
-| CIN | 21 | 12 | 1 | 137 | 9 |
+| PNA | 25 | 14 | 1 | 204 | 15 |
+| CIN | 22 | 13 | 1 | 137 | 9 |
 | GraphGPS | 19 | 7 | 9 | 179 | 7 |
 | Polynormer | 18 | 5 | 8 | 115 | 7 |
 | GAT-sep | 18 | 8 | 4 | 17 | 11 |
@@ -80,14 +80,14 @@ This page lists papers whose reported primary-metric value for a model disagrees
 |---|---|---:|---:|---:|---|---|
 | [2602.02268](/papers/2602.02268/) | [HopFormer: Sparse Graph Transformers with Explicit Receptive Field Control](/papers/2602.02268/) | 92 | 84 | 330 | Actor, Chameleon, CiteSeer, Cora | APPNP, CoBFormer, DIFFormer, Exphormer |
 | [2506.04765](/papers/2506.04765/) | [OpenGT: A Comprehensive Benchmark For Graph Transformers](/papers/2506.04765/) | 82 | 62 | 330 | Actor, Chameleon, Cora, Cornell | APPNP, CoBFormer, DIFFormer, Exphormer |
-| [2401.01233](/papers/2401.01233/) | [GEN: A Practical Alternative to Graph Transformers for Long-Range Graph...](/papers/2401.01233/) | 80 | 8 | 154 | Amazon-Photo, Amazon-ratings, COCO-SP, Chameleon | CPGNN, Exphormer, FSGNN, GAT |
+| [2401.01233](/papers/2401.01233/) | [GEN: A Practical Alternative to Graph Transformers for Long-Range Graph...](/papers/2401.01233/) | 80 | 8 | 155 | Amazon-Photo, Amazon-ratings, COCO-SP, Chameleon | CPGNN, Exphormer, FSGNN, GAT |
 | [2308.11129](/papers/2308.11129/) | [Enhancing Graph Transformers with Hierarchical Distance Structural Encoding](/papers/2308.11129/) | 73 | 2 | 301 | Actor, CIFAR10, CLUSTER, Chameleon | APPNP, CIN, GAT, GCN |
 | [2406.08993](/papers/2406.08993/) | [Classic GNNs are Strong Baselines: Reassessing GNNs for Node Classification](/papers/2406.08993/) | 64 | 9 | 118 | Amazon-Photo, Chameleon, CiteSeer, Coauthor-Physics | CPGNN, Exphormer, FSGNN, GAT |
 | [2406.03386](/papers/2406.03386/) | [Learning Long Range Dependencies on Graphs via Random Walks](/papers/2406.03386/) | 58 | 11 | 218 | Amazon-ratings, CIFAR10, CLUSTER, COCO-SP | CRaWl, Exphormer, GAT, GAT-sep |
 | [2407.18480](/papers/2407.18480/) | [Scalable Graph Compressed Convolutions](/papers/2407.18480/) | 55 | 30 | 141 | Actor, Amazon-ratings, COLLAB, Chameleon | ACMII-GCN, APPNP, ChebNet, DiffPool |
 | [2512.14619](/papers/2512.14619/) | [ParaFormer: A Generalized PageRank Graph Transformer for Graph Representation Learning](/papers/2512.14619/) | 54 | 52 | 129 | Amazon-Computers, Chameleon, CiteSeer, Cora | APPNP, CoBFormer, GAT, GCN |
 | [2508.05070](/papers/2508.05070/) | [Tango: Graph Neural Dynamics via Learned Energy and Tangential Flows](/papers/2508.05070/) | 51 | 43 | 301 | Amazon-ratings, CIFAR10, CLUSTER, MNIST | GAT, GAT-sep, GCN, GIN |
-| [2501.18739](/papers/2501.18739/) | [Beyond Message Passing: Neural Graph Pattern Machine](/papers/2501.18739/) | 49 | 31 | 243 | Amazon-Computers, COLLAB, Cora, PubMed | APPNP, AWE, AgentNet, CRaWl |
+| [2501.18739](/papers/2501.18739/) | [Beyond Message Passing: Neural Graph Pattern Machine](/papers/2501.18739/) | 50 | 32 | 243 | Amazon-Computers, COLLAB, Cora, PubMed | APPNP, AWE, AgentNet, CRaWl |
 | [2407.05649](/papers/2407.05649/) | [Greener GRASS: Enhancing GNNs with Encoding, Rewiring, and Attention](/papers/2407.05649/) | 49 | 16 | 218 | CIFAR10, CLUSTER, COCO-SP, MNIST | CIN, DRew(GatedGCN), DRew-GCN+LapPE, Drew-GIN |
 | [2310.05174](/papers/2310.05174/) | [GSLB: The Graph Structure Learning Benchmark](/papers/2310.05174/) | 48 | 9 | 314 | Actor, COLLAB, CiteSeer, Cora | GAT, GCN, GIN, GPRGNN |
 | [2410.05697](/papers/2410.05697/) | [Diffusing to the Top: Boost Graph Neural Networks with Minimal...](/papers/2410.05697/) | 46 | 17 | 218 | Actor, Amazon-Computers, COCO-SP, CiteSeer | APPNP, ChebNet, GAT, GCN |
@@ -96,7 +96,7 @@ This page lists papers whose reported primary-metric value for a model disagrees
 | [2411.15671](/papers/2411.15671/) | [Best of Both Worlds: Advantages of Hybrid Graph Sequence Models](/papers/2411.15671/) | 40 | 17 | 93 | Amazon-ratings, CIFAR10, D&D, MNIST | Exphormer, GAT, GCN, GIN |
 | [2502.00282](/papers/2502.00282/) | [GraphMinNet: Learning Dependencies in Graphs with Light Complexity Minimal Architecture](/papers/2502.00282/) | 39 | 33 | 302 | CIFAR10, CLUSTER, MNIST, MalNet-Tiny | Exphormer, GAT, GCN, GIN |
 | [2312.16560](/papers/2312.16560/) | [Algorithmic Graph Tasks](/papers/2312.16560/) | 39 | 9 | 301 | Actor, Chameleon, CiteSeer, Cora | GAT, GCN, GCN+JK, GINE |
-| [2312.01538](/papers/2312.01538/) | [Recurrent Distance Filtering for Graph Representation Learning](/papers/2312.01538/) | 38 | 2 | 210 | CIFAR10, CLUSTER, MNIST, PATTERN | DRew, GAT, GCN, GIN |
+| [2312.01538](/papers/2312.01538/) | [Recurrent Distance Filtering for Graph Representation Learning](/papers/2312.01538/) | 38 | 2 | 211 | CIFAR10, CLUSTER, MNIST, PATTERN | DRew, GAT, GCN, GIN |
 | [2402.08678](/papers/2402.08678/) | [Graph Mamba: Towards Learning on Graphs with State Space Models](/papers/2402.08678/) | 37 | 1 | 302 | Amazon-ratings, CIFAR10, COCO-SP, MNIST | CRaWl, Exphormer, GCN, GIN |
 | [2310.19285](/papers/2310.19285/) | [Facilitating Graph Neural Networks with Random Walk on Simplicial Complexes](/papers/2310.19285/) | 37 | 4 | 301 | CIFAR10, MNIST, PCQM-Contact, Peptides-func | CIN, GAT, GCN, GIN |
 | [2410.05593](/papers/2410.05593/) | [When Graph Neural Networks Meet Dynamic Mode Decomposition](/papers/2410.05593/) | 36 | 15 | 229 | COCO-SP, CiteSeer, Cora, Cornell | APPNP, GAT, GCN, GPRGNN |
@@ -107,14 +107,15 @@ This page lists papers whose reported primary-metric value for a model disagrees
 | [2502.09365](/papers/2502.09365/) | [Simple Path Structural Encoding for Graph Transformers](/papers/2502.09365/) | 33 | 30 | 232 | CIFAR10, CLUSTER, MNIST, PATTERN | GAT, GCN, GIN, GINE |
 | [2605.05689](/papers/2605.05689/) | [GCCM: Enhancing Generative Graph Prediction via Contrastive Consistency Model](/papers/2605.05689/) | 33 | 33 | 218 | CIFAR10, CLUSTER, COCO-SP, MNIST | GAT, GCN, GIN, GPS |
 | [2406.03671](/papers/2406.03671/) | [PANDA: Expanded Width-Aware Message Passing Beyond Rewiring](/papers/2406.03671/) | 33 | 6 | 97 | COLLAB, Cora, Cornell, ENZYMES | + DIGL, BORF, FOSR, GCN |
+| [2306.05955](/papers/2306.05955/) | [Path Neural Networks: Expressive and Accurate Graph Neural Networks](/papers/2306.05955/) | 31 | 2 | 302 | IMDB-BINARY, IMDB-MULTI, NCI1, PROTEINS | 3WLGNN, AgentNet, CIN, DiffPool |
 | [2405.02795](/papers/2405.02795/) | [Graph as Point Set](/papers/2405.02795/) | 31 | 7 | 301 | PascalVOC-SP, Peptides-func, Peptides-struct, QM9 | 1-GNN, CIN, DRFWL, DTNN* |
 | [2410.03424](/papers/2410.03424/) | [Cayley Graph Propagation](/papers/2410.03424/) | 31 | 10 | 166 | COLLAB, ENZYMES, IMDB-BINARY, MUTAG | EGP (GIN), GCN, GCN + BORF, GCN + DIGL |
 | [2402.08450](/papers/2402.08450/) | [Subgraphormer: Unifying Subgraph GNNs and Graph Transformers via Graph Products](/papers/2402.08450/) | 30 | 3 | 302 | BACE, Peptides-func, Peptides-struct, ZINC | CIN (small), DSS-GNN, GCN, GIN |
 | [2406.18380](/papers/2406.18380/) | [KAGNNs: Kolmogorov-Arnold Networks meet Graph Learning](/papers/2406.18380/) | 30 | 15 | 246 | CiteSeer, Cora, Cornell, D&D | GAT, GCN, GIN |
 | [2505.23185](/papers/2505.23185/) | [Improving the Effective Receptive Field of Message-Passing Neural Networks](/papers/2505.23185/) | 30 | 20 | 78 | Amazon-ratings, COCO-SP, D&D, London | GAT, GAT-sep, GCN, GPS |
 | [IAZXEX1dVV](/papers/IAZXEX1dVV/) | [LRIM: a Physics-Based Benchmark for Provably Evaluating Long-Range Capabilities in...](/papers/IAZXEX1dVV/) | 30 | 0 | 5 | LRIM | GIN, GPS+LapPE, GPS+RWSE, GPS-Base |
-| [2306.05955](/papers/2306.05955/) | [Path Neural Networks: Expressive and Accurate Graph Neural Networks](/papers/2306.05955/) | 29 | 0 | 302 | IMDB-BINARY, IMDB-MULTI, NCI1, PROTEINS | AgentNet, CIN, DiffPool, ESAN |
 | [2406.12059](/papers/2406.12059/) | [A Scalable and Effective Alternative to Graph Transformers](/papers/2406.12059/) | 27 | 12 | 301 | COCO-SP, PCQM-Contact, PCQM4Mv2, PascalVOC-SP | ANS-GT, GAT, GCN, GINE |
+| [2102.08786](/papers/2102.08786/) | [Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond...](/papers/2102.08786/) | 26 | 0 | 301 | CIFAR10, MNIST, PascalVOC-SP, Peptides-func | CIN, CRaWl, GAT, GCN |
 | [2405.13806](/papers/2405.13806/) | [A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition](/papers/2405.13806/) | 26 | 5 | 301 | Amazon-Computers, Amazon-Photo, COCO-SP, Coauthor-CS | APPNP, GAT, GCN, GINE |
 | [2404.03380](/papers/2404.03380/) | [On the Theoretical Expressive Power and the Design Space of...](/papers/2404.03380/) | 25 | 9 | 301 | Cornell, Peptides-func, Peptides-struct, Texas | CIN, GAT, GCN, GIN |
 | [2210.07606](/papers/2210.07606/) | [Revisiting Heterophily For Graph Neural Networks](/papers/2210.07606/) | 25 | 0 | 217 | Chameleon, CiteSeer, Cora, Cornell | APPNP, FAGCN, GAT, GCN |
@@ -193,15 +194,15 @@ This page lists papers whose reported primary-metric value for a model disagrees
 | [2506.08618](/papers/2506.08618/) | [HSG-12M](/papers/2506.08618/) | 4 | 4 | 39 | D&D | GAT, GCN, GIN, GraphSAGE |
 | [2512.15549](/papers/2512.15549/) | [Photonics-Enhanced Graph Convolutional Networks](/papers/2512.15549/) | 3 | 3 | 329 | Peptides-func, Peptides-struct | GCN, GCN+LapPE |
 | [2509.22259](/papers/2509.22259/) | [Rotary Position Encodings for Graphs](/papers/2509.22259/) | 3 | 2 | 99 | Cora | GAT, GCN, GraphSAGE |
-| [2501.09821](/papers/2501.09821/) | [bnpool: Bayesian Nonparametric Pooling for Graphs](/papers/2501.09821/) | 3 | 3 | 71 | COLLAB, ENZYMES | DiffPool, SEP |
+| [2501.09821](/papers/2501.09821/) | [bnpool: Bayesian Nonparametric Pooling for Graphs](/papers/2501.09821/) | 3 | 3 | 75 | COLLAB, ENZYMES | DiffPool, SEP |
 | [2407.04236](/papers/2407.04236/) | [Graph Pooling via Ricci Flow](/papers/2407.04236/) | 3 | 0 | 62 | COLLAB, ogbg-molhiv | DMON, MinCut |
 | [2401.03350](/papers/2401.03350/) | [Accurate and Scalable Estimation of Epistemic Uncertainty for Graph Neural...](/papers/2401.03350/) | 2 | 0 | 94 | MNIST | GPS+LapPE, GatedGCN |
 | [2502.07364](/papers/2502.07364/) | [Effects of Dropout on Performance in Long-range Graph Learning Tasks](/papers/2502.07364/) | 2 | 2 | 65 | Cora | None, SDRF |
+| [2405.11951](/papers/2405.11951/) | [Distinguished In Uniform: Self-Attention Vs. Virtual Nodes](/papers/2405.11951/) | 2 | 1 | 22 | ogbg-molpcba | GCN, GINE |
 | [2405.19121](/papers/2405.19121/) | [Spatio-Spectral Graph Neural Networks](/papers/2405.19121/) | 2 | 0 | 20 | CLUSTER | GCN, GatedGCN |
 | [2506.05393](/papers/2506.05393/) | [Are Large Language Models Good Temporal Graph Learners?](/papers/2506.05393/) | 2 | 2 | 19 | ogbl-wikikg2 | GraphMixer, TGN |
 | [2508.14097](/papers/2508.14097/) | [Non-Dissipative Graph Propagation for Non-Local Community Detection](/papers/2508.14097/) | 1 | 1 | 96 | Wisconsin | SUBLIME |
 | [2603.00599](/papers/2603.00599/) | [Heterophily-Agnostic Hypergraph Neural Networks with Riemannian Local Exchanger](/papers/2603.00599/) | 1 | 1 | 39 | Cora | HGNN |
-| [2405.11951](/papers/2405.11951/) | [Distinguished In Uniform: Self-Attention Vs. Virtual Nodes](/papers/2405.11951/) | 1 | 0 | 9 | ogbg-molpcba | GCN |
 | [2307.03393](/papers/2307.03393/) | [Exploring the Potential of Large Language Models (LLMs) in Learning...](/papers/2307.03393/) | 1 | 0 | 8 | ogbn-arxiv | GCN |
 
 ### Flagged Rows
@@ -223,6 +224,7 @@ This page lists papers whose reported primary-metric value for a model disagrees
 | [2402.08450](/papers/2402.08450/) | Peptides-struct | GIN | 0.2429 | 0.3547 | 302 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | published later (2025-02) |
 | [2402.08678](/papers/2402.08678/) | Peptides-struct | GIN | 0.2429 | 0.3547 | 302 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | published later (2025-02) |
 | [2502.00282](/papers/2502.00282/) | Peptides-struct | GIN | 0.2429 | 0.3547 | 302 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | already known (2025-02) |
+| [2102.08786](/papers/2102.08786/) | Peptides-struct | GCN | 0.2421 | 0.3496 | 301 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | published later (2025-02) |
 | [2206.08164](/papers/2206.08164/) | Peptides-struct | GCN | 0.2421 | 0.3496 | 301 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | published later (2025-02) |
 | [2306.02866](/papers/2306.02866/) | Peptides-struct | GCN | 0.2421 | 0.3496 | 301 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | published later (2025-02) |
 | [2306.03561](/papers/2306.03561/) | Peptides-struct | GCN | 0.2421 | 0.3496 | 301 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | published later (2025-02) |
@@ -290,6 +292,7 @@ This page lists papers whose reported primary-metric value for a model disagrees
 | [2605.06462](/papers/2605.06462/) | Peptides-struct | GatedGCN | 0.2431 | 0.3420 | 285 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | already known (2025-02) |
 | [2311.04653](/papers/2311.04653/) | Peptides-struct | GCN | 0.2421 | 0.3234 | 284 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | published later (2025-02) |
 | [2508.10651](/papers/2508.10651/) | Peptides-func | GCN | 0.7261 | 0.5410 | 282 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | already known (2025-02) |
+| [2102.08786](/papers/2102.08786/) | Peptides-struct | GatedGCN | 0.2431 | 0.3357 | 277 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | published later (2025-02) |
 | [2312.16560](/papers/2312.16560/) | Peptides-struct | GatedGCN | 0.2431 | 0.3357 | 277 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | published later (2025-02) |
 | [2405.02795](/papers/2405.02795/) | Peptides-struct | GatedGCN | 0.2431 | 0.3357 | 277 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | published later (2025-02) |
 | [2410.23686](/papers/2410.23686/) | Peptides-struct | GatedGCN | 0.2431 | 0.3357 | 277 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | published later (2025-02) |
@@ -299,6 +302,7 @@ This page lists papers whose reported primary-metric value for a model disagrees
 | [2412.07188](/papers/2412.07188/) | Cora | GCNII | 0.8893 | 0.6054 | 264 | [Revisiting Heterophily For Graph Neural Networks](/papers/2210.07606/) | already known (2022-10) |
 | [2409.19117](/papers/2409.19117/) | Peptides-struct | GINE | 0.2473 | 0.6346 | 259 | [k-Maximum Inner Product Attention for Graph Transformers and...](/papers/2604.03815/) | published later (2026-04) |
 | [2412.07188](/papers/2412.07188/) | Cora | APPNP | 0.8800 | 0.5426 | 256 | [ParaFormer: A Generalized PageRank Graph Transformer for Graph...](/papers/2512.14619/) | published later (2025-12) |
+| [2102.08786](/papers/2102.08786/) | Peptides-func | GCN | 0.7261 | 0.5930 | 252 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | published later (2025-02) |
 | [2206.08164](/papers/2206.08164/) | Peptides-func | GCN | 0.7261 | 0.5930 | 252 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | published later (2025-02) |
 | [2306.02866](/papers/2306.02866/) | Peptides-func | GCN | 0.7261 | 0.5930 | 252 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | published later (2025-02) |
 | [2306.03561](/papers/2306.03561/) | Peptides-func | GCN | 0.7261 | 0.5930 | 252 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | published later (2025-02) |
@@ -357,6 +361,7 @@ This page lists papers whose reported primary-metric value for a model disagrees
 | [2405.13806](/papers/2405.13806/) | Cora | APPNP | 0.8800 | 0.6516 | 234 | [ParaFormer: A Generalized PageRank Graph Transformer for Graph...](/papers/2512.14619/) | published later (2025-12) |
 | [2410.13798](/papers/2410.13798/) | Cora | APPNP | 0.8800 | 0.6516 | 234 | [ParaFormer: A Generalized PageRank Graph Transformer for Graph...](/papers/2512.14619/) | published later (2025-12) |
 | [2501.18739](/papers/2501.18739/) | Cora | APPNP | 0.8800 | 0.6516 | 234 | [ParaFormer: A Generalized PageRank Graph Transformer for Graph...](/papers/2512.14619/) | published later (2025-12) |
+| [2102.08786](/papers/2102.08786/) | Peptides-struct | GINE | 0.2473 | 0.3547 | 232 | [k-Maximum Inner Product Attention for Graph Transformers and...](/papers/2604.03815/) | published later (2026-04) |
 | [2206.08164](/papers/2206.08164/) | Peptides-struct | GINE | 0.2473 | 0.3547 | 232 | [k-Maximum Inner Product Attention for Graph Transformers and...](/papers/2604.03815/) | published later (2026-04) |
 | [2306.02866](/papers/2306.02866/) | Peptides-struct | GINE | 0.2473 | 0.3547 | 232 | [k-Maximum Inner Product Attention for Graph Transformers and...](/papers/2604.03815/) | published later (2026-04) |
 | [2306.03561](/papers/2306.03561/) | Peptides-struct | GINE | 0.2473 | 0.3547 | 232 | [k-Maximum Inner Product Attention for Graph Transformers and...](/papers/2604.03815/) | published later (2026-04) |
@@ -428,6 +433,7 @@ This page lists papers whose reported primary-metric value for a model disagrees
 | [2508.10651](/papers/2508.10651/) | Peptides-func | GIN | 0.7059 | 0.5940 | 219 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | already known (2025-02) |
 | [2509.01254](/papers/2509.01254/) | ZINC | GIN | 0.0650 | 0.5300 | 218 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | already known (2025-02) |
 | [2509.01254](/papers/2509.01254/) | ZINC | GIN | 0.0650 | 0.5300 | 218 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | already known (2025-02) |
+| [2102.08786](/papers/2102.08786/) | ZINC | GIN | 0.0650 | 0.5260 | 218 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | published later (2025-02) |
 | [2308.11129](/papers/2308.11129/) | ZINC | GIN | 0.0650 | 0.5260 | 218 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | published later (2025-02) |
 | [2308.11129](/papers/2308.11129/) | ZINC | GIN | 0.0650 | 0.5260 | 218 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | published later (2025-02) |
 | [2310.19285](/papers/2310.19285/) | ZINC | GIN | 0.0650 | 0.5260 | 218 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | published later (2025-02) |
@@ -465,11 +471,11 @@ This page lists papers whose reported primary-metric value for a model disagrees
 | [2506.14098](/papers/2506.14098/) | ogbg-molhiv | GAT | 0.9682 | 0.6554 | 213 | [When Structure Doesn’t Help: LLMs Do Not Read...](/papers/2511.16767/) | published later (2025-11) |
 | [2506.04765](/papers/2506.04765/) | Peptides-struct | GAT | 0.2488 | 0.4231 | 212 | [k-Maximum Inner Product Attention for Graph Transformers and...](/papers/2604.03815/) | published later (2026-04) |
 | [2602.02268](/papers/2602.02268/) | Peptides-struct | GAT | 0.2488 | 0.4231 | 212 | [k-Maximum Inner Product Attention for Graph Transformers and...](/papers/2604.03815/) | published later (2026-04) |
+| [2306.05955](/papers/2306.05955/) | ZINC | GIN | 0.0650 | 0.3870 | 211 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | published later (2025-02) |
+| [2306.05955](/papers/2306.05955/) | ZINC | GIN | 0.0650 | 0.3870 | 211 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | published later (2025-02) |
+| [2312.01538](/papers/2312.01538/) | ZINC | GIN | 0.0650 | 0.3870 | 211 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | published later (2025-02) |
+| [2312.01538](/papers/2312.01538/) | ZINC | GIN | 0.0650 | 0.3870 | 211 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | published later (2025-02) |
 | [2506.14098](/papers/2506.14098/) | ogbg-molhiv | GIN | 0.9680 | 0.6686 | 211 | [No Metric to Rule Them All: Toward Principled...](/papers/2502.02379/) | already known (2025-02-04) |
-| [2306.05955](/papers/2306.05955/) | ZINC | GIN | 0.0650 | 0.3870 | 210 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | published later (2025-02) |
-| [2306.05955](/papers/2306.05955/) | ZINC | GIN | 0.0650 | 0.3870 | 210 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | published later (2025-02) |
-| [2312.01538](/papers/2312.01538/) | ZINC | GIN | 0.0650 | 0.3870 | 210 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | published later (2025-02) |
-| [2312.01538](/papers/2312.01538/) | ZINC | GIN | 0.0650 | 0.3870 | 210 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | published later (2025-02) |
 | [2506.04765](/papers/2506.04765/) | ogbg-molhiv | GCN | 0.9681 | 0.6888 | 210 | [When Structure Doesn’t Help: LLMs Do Not Read...](/papers/2511.16767/) | published later (2025-11) |
 | [2602.02268](/papers/2602.02268/) | ogbg-molhiv | GCN | 0.9681 | 0.6888 | 210 | [When Structure Doesn’t Help: LLMs Do Not Read...](/papers/2511.16767/) | already known (2025-11) |
 | [2501.18739](/papers/2501.18739/) | Cora | SGFormer | 0.8810 | 0.6970 | 209 | [ParaFormer: A Generalized PageRank Graph Transformer for Graph...](/papers/2512.14619/) | published later (2025-12) |
@@ -512,6 +518,7 @@ This page lists papers whose reported primary-metric value for a model disagrees
 | [2602.02268](/papers/2602.02268/) | ogbg-molhiv | GAT | 0.9682 | 0.7385 | 195 | [When Structure Doesn’t Help: LLMs Do Not Read...](/papers/2511.16767/) | already known (2025-11) |
 | [2310.02156](/papers/2310.02156/) | Peptides-struct | GatedGCN+GPSE | 0.2477 | 0.3357 | 195 | [Understanding Virtual Nodes: Oversquashing and Node Heterogeneity](/papers/2405.13526/) | published later (2024-05) |
 | [2508.10651](/papers/2508.10651/) | ogbg-molhiv | GIN | 0.9680 | 0.7370 | 194 | [No Metric to Rule Them All: Toward Principled...](/papers/2502.02379/) | already known (2025-02-04) |
+| [2102.08786](/papers/2102.08786/) | ZINC | HIMP | 0.0360 | 0.1510 | 194 | [Distance-Restricted Folklore Weisfeiler-Leman GNNs with Provable Cycle Counting...](/papers/2309.04941/) | published later (2023-09) |
 | [2309.04941](/papers/2309.04941/) | ZINC | HIMP | 0.0360 | 0.1510 | 194 | [Distance-Restricted Folklore Weisfeiler-Leman GNNs with Provable Cycle Counting...](/papers/2309.04941/) | same paper |
 | [2310.01704](/papers/2310.01704/) | ZINC | HIMP | 0.0360 | 0.1510 | 194 | [Distance-Restricted Folklore Weisfeiler-Leman GNNs with Provable Cycle Counting...](/papers/2309.04941/) | already known (2023-09) |
 | [2310.01704](/papers/2310.01704/) | ZINC | HIMP | 0.0360 | 0.1510 | 194 | [Distance-Restricted Folklore Weisfeiler-Leman GNNs with Provable Cycle Counting...](/papers/2309.04941/) | already known (2023-09) |
@@ -548,6 +555,7 @@ This page lists papers whose reported primary-metric value for a model disagrees
 | [2604.17324](/papers/2604.17324/) | ZINC | Graphormer | 0.0250 | 0.1220 | 192 | [Beyond Message Passing: Neural Graph Pattern Machine](/papers/2501.18739/) | already known (2025-01-30) |
 | [2506.04765](/papers/2506.04765/) | Cora | CoBFormer | 0.8820 | 0.7243 | 190 | [ParaFormer: A Generalized PageRank Graph Transformer for Graph...](/papers/2512.14619/) | published later (2025-12) |
 | [2602.02268](/papers/2602.02268/) | Cora | CoBFormer | 0.8820 | 0.7243 | 190 | [ParaFormer: A Generalized PageRank Graph Transformer for Graph...](/papers/2512.14619/) | already known (2025-12) |
+| [2102.08786](/papers/2102.08786/) | Peptides-func | GatedGCN | 0.7006 | 0.6069 | 190 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | published later (2025-02) |
 | [2312.16560](/papers/2312.16560/) | Peptides-func | GatedGCN | 0.7006 | 0.6069 | 190 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | published later (2025-02) |
 | [2405.02795](/papers/2405.02795/) | Peptides-func | GatedGCN | 0.7006 | 0.6069 | 190 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | published later (2025-02) |
 | [2405.03481](/papers/2405.03481/) | ZINC | Graphormer | 0.0250 | 0.1200 | 188 | [Beyond Message Passing: Neural Graph Pattern Machine](/papers/2501.18739/) | published later (2025-01-30) |
@@ -569,6 +577,7 @@ This page lists papers whose reported primary-metric value for a model disagrees
 | [2308.11129](/papers/2308.11129/) | ZINC | GT + HDSE | 0.0590 | 0.1590 | 183 | [Enhancing Graph Transformers with Hierarchical Distance Structural Encoding](/papers/2308.11129/) | same paper |
 | [2310.02156](/papers/2310.02156/) | Peptides-func | GatedGCN+LapPE | 0.6982 | 0.6069 | 183 | [Non-backtracking Graph Neural Networks](/papers/2310.07430/) | already known (2023-10) |
 | [2406.18380](/papers/2406.18380/) | CiteSeer | GIN | 0.7932 | 0.4798 | 182 | [When Structure Doesn’t Help: LLMs Do Not Read...](/papers/2511.16767/) | published later (2025-11) |
+| [2102.08786](/papers/2102.08786/) | ZINC | PNA | 0.0573 | 0.1420 | 182 | [An end-to-end attention-based approach for learning on graphs](/papers/2402.10793/) | published later (2024-02) |
 | [2501.18739](/papers/2501.18739/) | ZINC | PNA | 0.0573 | 0.1420 | 182 | [An end-to-end attention-based approach for learning on graphs](/papers/2402.10793/) | already known (2024-02) |
 | [2410.13798](/papers/2410.13798/) | Cora | GraphGPS | 0.8387 | 0.5576 | 179 | [GEN: A Practical Alternative to Graph Transformers for...](/papers/2401.01233/) | already known (2024-01) |
 | [2501.18739](/papers/2501.18739/) | Cora | GraphGPS | 0.8387 | 0.5576 | 179 | [GEN: A Practical Alternative to Graph Transformers for...](/papers/2401.01233/) | already known (2024-01) |
@@ -655,36 +664,37 @@ This page lists papers whose reported primary-metric value for a model disagrees
 | [2508.11390](/papers/2508.11390/) | PROTEINS | GAT | 0.7634 | 0.6900 | 157 | [HOPSE: Scalable Higher-Order Positional and Structural Encoder for...](/papers/2505.15405/) | already known (2025-05) |
 | [2310.03274](/papers/2310.03274/) | ogbg-molhiv | GIN | 0.9680 | 0.7610 | 156 | [No Metric to Rule Them All: Toward Principled...](/papers/2502.02379/) | published later (2025-02-04) |
 | [2406.18380](/papers/2406.18380/) | Cora | GAT | 0.8825 | 0.7651 | 156 | [When Structure Doesn’t Help: LLMs Do Not Read...](/papers/2511.16767/) | published later (2025-11) |
+| [2509.01254](/papers/2509.01254/) | ZINC | GCN | 0.0760 | 0.3700 | 155 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | already known (2025-02) |
+| [2509.01254](/papers/2509.01254/) | ZINC | GCN | 0.0760 | 0.3700 | 155 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | already known (2025-02) |
+| [2102.08786](/papers/2102.08786/) | ZINC | GCN | 0.0760 | 0.3670 | 155 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | published later (2025-02) |
+| [2308.11129](/papers/2308.11129/) | ZINC | GCN | 0.0760 | 0.3670 | 155 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | published later (2025-02) |
+| [2308.11129](/papers/2308.11129/) | ZINC | GCN | 0.0760 | 0.3670 | 155 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | published later (2025-02) |
+| [2310.01704](/papers/2310.01704/) | ZINC | GCN | 0.0760 | 0.3670 | 155 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | published later (2025-02) |
+| [2310.01704](/papers/2310.01704/) | ZINC | GCN | 0.0760 | 0.3670 | 155 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | published later (2025-02) |
+| [2311.04653](/papers/2311.04653/) | ZINC | GCN | 0.0760 | 0.3670 | 155 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | published later (2025-02) |
+| [2311.04653](/papers/2311.04653/) | ZINC | GCN | 0.0760 | 0.3670 | 155 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | published later (2025-02) |
+| [2401.01233](/papers/2401.01233/) | ZINC | GCN | 0.0760 | 0.3670 | 155 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | published later (2025-02) |
+| [2401.17791](/papers/2401.17791/) | ZINC | GCN | 0.0760 | 0.3670 | 155 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | published later (2025-02) |
+| [2401.17791](/papers/2401.17791/) | ZINC | GCN | 0.0760 | 0.3670 | 155 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | published later (2025-02) |
+| [2404.03380](/papers/2404.03380/) | ZINC | GCN | 0.0760 | 0.3670 | 155 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | published later (2025-02) |
+| [2404.03380](/papers/2404.03380/) | ZINC | GCN | 0.0760 | 0.3670 | 155 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | published later (2025-02) |
+| [2406.03386](/papers/2406.03386/) | ZINC | GCN | 0.0760 | 0.3670 | 155 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | published later (2025-02) |
+| [2406.03386](/papers/2406.03386/) | ZINC | GCN | 0.0760 | 0.3670 | 155 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | published later (2025-02) |
+| [2407.05649](/papers/2407.05649/) | ZINC | GCN | 0.0760 | 0.3670 | 155 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | published later (2025-02) |
+| [2407.05649](/papers/2407.05649/) | ZINC | GCN | 0.0760 | 0.3670 | 155 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | published later (2025-02) |
+| [2502.00282](/papers/2502.00282/) | ZINC | GCN | 0.0760 | 0.3670 | 155 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | already known (2025-02) |
+| [2502.00282](/papers/2502.00282/) | ZINC | GCN | 0.0760 | 0.3670 | 155 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | already known (2025-02) |
+| [2502.09365](/papers/2502.09365/) | ZINC | GCN | 0.0760 | 0.3670 | 155 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | already known (2025-02) |
+| [2502.09365](/papers/2502.09365/) | ZINC | GCN | 0.0760 | 0.3670 | 155 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | already known (2025-02) |
+| [2504.12588](/papers/2504.12588/) | ZINC | GCN | 0.0760 | 0.3670 | 155 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | already known (2025-02) |
+| [2508.05070](/papers/2508.05070/) | ZINC | GCN | 0.0760 | 0.3670 | 155 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | already known (2025-02) |
+| [2508.05070](/papers/2508.05070/) | ZINC | GCN | 0.0760 | 0.3670 | 155 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | already known (2025-02) |
+| [2604.17324](/papers/2604.17324/) | ZINC | GCN | 0.0760 | 0.3670 | 155 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | already known (2025-02) |
+| [2604.17324](/papers/2604.17324/) | ZINC | GCN | 0.0760 | 0.3670 | 155 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | already known (2025-02) |
+| [2605.05689](/papers/2605.05689/) | ZINC | GCN | 0.0760 | 0.3670 | 155 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | already known (2025-02) |
+| [2605.05689](/papers/2605.05689/) | ZINC | GCN | 0.0760 | 0.3670 | 155 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | already known (2025-02) |
 | [2506.04765](/papers/2506.04765/) | Cora | Exphormer | 0.8329 | 0.6120 | 155 | [GEN: A Practical Alternative to Graph Transformers for...](/papers/2401.01233/) | already known (2024-01) |
 | [2602.02268](/papers/2602.02268/) | Cora | Exphormer | 0.8329 | 0.6120 | 155 | [GEN: A Practical Alternative to Graph Transformers for...](/papers/2401.01233/) | already known (2024-01) |
-| [2509.01254](/papers/2509.01254/) | ZINC | GCN | 0.0760 | 0.3700 | 154 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | already known (2025-02) |
-| [2509.01254](/papers/2509.01254/) | ZINC | GCN | 0.0760 | 0.3700 | 154 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | already known (2025-02) |
-| [2308.11129](/papers/2308.11129/) | ZINC | GCN | 0.0760 | 0.3670 | 154 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | published later (2025-02) |
-| [2308.11129](/papers/2308.11129/) | ZINC | GCN | 0.0760 | 0.3670 | 154 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | published later (2025-02) |
-| [2310.01704](/papers/2310.01704/) | ZINC | GCN | 0.0760 | 0.3670 | 154 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | published later (2025-02) |
-| [2310.01704](/papers/2310.01704/) | ZINC | GCN | 0.0760 | 0.3670 | 154 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | published later (2025-02) |
-| [2311.04653](/papers/2311.04653/) | ZINC | GCN | 0.0760 | 0.3670 | 154 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | published later (2025-02) |
-| [2311.04653](/papers/2311.04653/) | ZINC | GCN | 0.0760 | 0.3670 | 154 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | published later (2025-02) |
-| [2401.01233](/papers/2401.01233/) | ZINC | GCN | 0.0760 | 0.3670 | 154 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | published later (2025-02) |
-| [2401.17791](/papers/2401.17791/) | ZINC | GCN | 0.0760 | 0.3670 | 154 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | published later (2025-02) |
-| [2401.17791](/papers/2401.17791/) | ZINC | GCN | 0.0760 | 0.3670 | 154 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | published later (2025-02) |
-| [2404.03380](/papers/2404.03380/) | ZINC | GCN | 0.0760 | 0.3670 | 154 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | published later (2025-02) |
-| [2404.03380](/papers/2404.03380/) | ZINC | GCN | 0.0760 | 0.3670 | 154 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | published later (2025-02) |
-| [2406.03386](/papers/2406.03386/) | ZINC | GCN | 0.0760 | 0.3670 | 154 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | published later (2025-02) |
-| [2406.03386](/papers/2406.03386/) | ZINC | GCN | 0.0760 | 0.3670 | 154 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | published later (2025-02) |
-| [2407.05649](/papers/2407.05649/) | ZINC | GCN | 0.0760 | 0.3670 | 154 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | published later (2025-02) |
-| [2407.05649](/papers/2407.05649/) | ZINC | GCN | 0.0760 | 0.3670 | 154 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | published later (2025-02) |
-| [2502.00282](/papers/2502.00282/) | ZINC | GCN | 0.0760 | 0.3670 | 154 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | already known (2025-02) |
-| [2502.00282](/papers/2502.00282/) | ZINC | GCN | 0.0760 | 0.3670 | 154 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | already known (2025-02) |
-| [2502.09365](/papers/2502.09365/) | ZINC | GCN | 0.0760 | 0.3670 | 154 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | already known (2025-02) |
-| [2502.09365](/papers/2502.09365/) | ZINC | GCN | 0.0760 | 0.3670 | 154 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | already known (2025-02) |
-| [2504.12588](/papers/2504.12588/) | ZINC | GCN | 0.0760 | 0.3670 | 154 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | already known (2025-02) |
-| [2508.05070](/papers/2508.05070/) | ZINC | GCN | 0.0760 | 0.3670 | 154 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | already known (2025-02) |
-| [2508.05070](/papers/2508.05070/) | ZINC | GCN | 0.0760 | 0.3670 | 154 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | already known (2025-02) |
-| [2604.17324](/papers/2604.17324/) | ZINC | GCN | 0.0760 | 0.3670 | 154 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | already known (2025-02) |
-| [2604.17324](/papers/2604.17324/) | ZINC | GCN | 0.0760 | 0.3670 | 154 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | already known (2025-02) |
-| [2605.05689](/papers/2605.05689/) | ZINC | GCN | 0.0760 | 0.3670 | 154 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | already known (2025-02) |
-| [2605.05689](/papers/2605.05689/) | ZINC | GCN | 0.0760 | 0.3670 | 154 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | already known (2025-02) |
 | [2410.03424](/papers/2410.03424/) | PROTEINS | GCN | 0.7600 | 0.6665 | 153 | [On the Stability of Multiset and Graph Neural...](/papers/2406.06984/) | already known (2024-06) |
 | [2310.05174](/papers/2310.05174/) | PROTEINS | GIN | 0.7620 | 0.6907 | 153 | [Probabilistic Graph Rewiring via Virtual Nodes](/papers/2405.17311/) | published later (2024-05) |
 | [2508.19071](/papers/2508.19071/) | Cora | FA | 0.8165 | 0.2986 | 152 | [Effects of Dropout on Performance in Long-range Graph...](/papers/2502.07364/) | already known (2025-02) |
@@ -699,12 +709,3 @@ This page lists papers whose reported primary-metric value for a model disagrees
 | [2210.07606](/papers/2210.07606/) | CiteSeer | MixHop | 0.7626 | 0.4952 | 150 | [Algorithmic Graph Tasks](/papers/2312.16560/) | published later (2023-12) |
 | [2410.05593](/papers/2410.05593/) | PubMed | MLP | 0.9476 | 0.7140 | 150 | [When Structure Doesn’t Help: LLMs Do Not Read...](/papers/2511.16767/) | published later (2025-11) |
 | [2410.05499](/papers/2410.05499/) | PROTEINS | GIN | 0.7620 | 0.6970 | 149 | [Probabilistic Graph Rewiring via Virtual Nodes](/papers/2405.17311/) | already known (2024-05) |
-| [2502.01122](/papers/2502.01122/) | ZINC | SignNet | 0.0240 | 0.0853 | 149 | [Graph as Point Set](/papers/2405.02795/) | already known (2024-05-05) |
-| [2502.01122](/papers/2502.01122/) | ZINC | SignNet | 0.0240 | 0.0853 | 149 | [Graph as Point Set](/papers/2405.02795/) | already known (2024-05-05) |
-| [2412.07188](/papers/2412.07188/) | Cora | FA | 0.8165 | 0.5488 | 148 | [Effects of Dropout on Performance in Long-range Graph...](/papers/2502.07364/) | published later (2025-02) |
-| [2506.14098](/papers/2506.14098/) | PubMed | GIN | 0.9140 | 0.6951 | 148 | [When Structure Doesn’t Help: LLMs Do Not Read...](/papers/2511.16767/) | published later (2025-11) |
-| [2506.04765](/papers/2506.04765/) | PubMed | GCN | 0.9224 | 0.7150 | 148 | [When Structure Doesn’t Help: LLMs Do Not Read...](/papers/2511.16767/) | published later (2025-11) |
-| [2602.02268](/papers/2602.02268/) | PubMed | GCN | 0.9224 | 0.7150 | 148 | [When Structure Doesn’t Help: LLMs Do Not Read...](/papers/2511.16767/) | already known (2025-11) |
-| [2406.18380](/papers/2406.18380/) | MUTAG | GCN | 0.9010 | 0.5995 | 147 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | published later (2025-02) |
-| [2508.11390](/papers/2508.11390/) | PROTEINS | GCN | 0.7600 | 0.6900 | 147 | [On the Stability of Multiset and Graph Neural...](/papers/2406.06984/) | already known (2024-06) |
-| [2506.14098](/papers/2506.14098/) | Cora | GCN | 0.8778 | 0.7565 | 146 | [Revisiting Heterophily For Graph Neural Networks](/papers/2210.07606/) | already known (2022-10) |

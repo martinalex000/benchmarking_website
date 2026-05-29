@@ -12,7 +12,7 @@ stats:
   avg_nodes: 13.0
   avg_edges: 65.9
   num_classes: 3
-result_count: 86
+result_count: 91
 best_model:
   model: KMIS
   value: 0.63
@@ -280,12 +280,13 @@ variants:
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2310.02156'
-    title: Probabilistically Rewired Message-Passing Neural Networks
-    date: Oct 2023
-    date_iso: 2023-10
-    date_display: Oct 2023
-    codebase_url: ''
+    arxiv_id: '2102.08786'
+    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
+      Passing'
+    date: Feb 2021
+    date_iso: 2021-02
+    date_display: Feb 2021
+    codebase_url: https://github.com/toenshoff/CRaWl
     uses_external_data: false
     is_best: false
     metric_values:
@@ -375,6 +376,27 @@ variants:
     metric_stds:
     - null
     - null
+  - model: GNTK
+    model_plain: GNTK
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2102.08786'
+    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
+      Passing'
+    date: Feb 2021
+    date_iso: 2021-02
+    date_display: Feb 2021
+    codebase_url: https://github.com/toenshoff/CRaWl
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.528
+    - null
+    metric_stds:
+    - 0.046
+    - null
   - model: GIN + HOPE-WavePE
     model_plain: GIN + HOPE-WavePE
     is_baseline: true
@@ -436,6 +458,48 @@ variants:
     - null
     metric_stds:
     - 0.029
+    - null
+  - model: GIN
+    model_plain: GIN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2102.08786'
+    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
+      Passing'
+    date: Feb 2021
+    date_iso: 2021-02
+    date_display: Feb 2021
+    codebase_url: https://github.com/toenshoff/CRaWl
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.523
+    - null
+    metric_stds:
+    - 0.028
+    - null
+  - model: WEGL
+    model_plain: WEGL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2102.08786'
+    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
+      Passing'
+    date: Feb 2021
+    date_iso: 2021-02
+    date_display: Feb 2021
+    codebase_url: https://github.com/toenshoff/CRaWl
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.52
+    - null
+    metric_stds:
+    - 0.041
     - null
   - model: S2GAE
     model_plain: S2GAE
@@ -583,13 +647,13 @@ variants:
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2409.19117'
-    title: 'Range-aware Positional Encoding via High-order Pretraining: Theory and
-      Practice'
-    date: Sep 2024
-    date_iso: 2024-09
-    date_display: Sep 2024
-    codebase_url: ''
+    arxiv_id: '2102.08786'
+    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
+      Passing'
+    date: Feb 2021
+    date_iso: 2021-02
+    date_display: Feb 2021
+    codebase_url: https://github.com/toenshoff/CRaWl
     uses_external_data: false
     is_best: false
     metric_values:
@@ -717,6 +781,27 @@ variants:
     - null
     metric_stds:
     - 0.0082
+    - null
+  - model: 3WLGNN
+    model_plain: 3WLGNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2102.08786'
+    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
+      Passing'
+    date: Feb 2021
+    date_iso: 2021-02
+    date_display: Feb 2021
+    codebase_url: https://github.com/toenshoff/CRaWl
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.505
+    - null
+    metric_stds:
+    - 0.036
     - null
   - model: PPGNs
     model_plain: PPGNs
@@ -1260,26 +1345,6 @@ variants:
     metric_stds:
     - 0.04
     - null
-  - model: GIN
-    model_plain: GIN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2306.05955'
-    title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: Jun 9, 2023
-    date_iso: '2023-06-09'
-    date_display: Jun 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.485
-    - null
-    metric_stds:
-    - 0.033
-    - null
   - model: GraphCL
     model_plain: GraphCL
     is_baseline: true
@@ -1360,6 +1425,26 @@ variants:
     metric_stds:
     - 0.0415
     - null
+  - model: GIN
+    model_plain: GIN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2407.18480'
+    title: Scalable Graph Compressed Convolutions
+    date: Jul 2024
+    date_iso: 2024-07
+    date_display: Jul 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.4813
+    - null
+    metric_stds:
+    - 0.0136
+    - null
   - model: Graclus
     model_plain: Graclus
     is_baseline: true
@@ -1379,6 +1464,48 @@ variants:
     - null
     metric_stds:
     - 0.02
+    - null
+  - model: DGCNN
+    model_plain: DGCNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2102.08786'
+    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
+      Passing'
+    date: Feb 2021
+    date_iso: 2021-02
+    date_display: Feb 2021
+    codebase_url: https://github.com/toenshoff/CRaWl
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.478
+    - null
+    metric_stds:
+    - 0.009
+    - null
+  - model: CRaWl
+    model_plain: CRaWl
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2102.08786'
+    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
+      Passing'
+    date: Feb 2021
+    date_iso: 2021-02
+    date_display: Feb 2021
+    codebase_url: https://github.com/toenshoff/CRaWl
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.4777
+    - null
+    metric_stds:
+    - 0.0387
     - null
   - model: GraphSAGE
     model_plain: GraphSAGE
@@ -1419,26 +1546,6 @@ variants:
     - null
     metric_stds:
     - 0.008
-    - null
-  - model: DGCNN
-    model_plain: DGCNN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2306.05955'
-    title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: Jun 9, 2023
-    date_iso: '2023-06-09'
-    date_display: Jun 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.456
-    - null
-    metric_stds:
-    - 0.034
     - null
   - model: DiffPool
     model_plain: DiffPool
@@ -1771,24 +1878,13 @@ variants:
     - null
     - 0.047
   milestones:
-  - value: 0.508
-    std: 0.045
-    model: PathNN-P (K=1)
-    arxiv_id: '2306.05955'
-    title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: '2023-06-09'
-  - value: 0.5179
-    std: 0.0036
-    model: S2GAE
-    arxiv_id: '2309.16014'
-    title: Graph-level Representation Learning with Joint-Embedding Predictive Architectures
-    date: 2023-09
   - value: 0.543
     std: 0.033
     model: GSN
-    arxiv_id: '2310.02156'
-    title: Probabilistically Rewired Message-Passing Neural Networks
-    date: 2023-10
+    arxiv_id: '2102.08786'
+    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
+      Passing'
+    date: 2021-02
   - value: 0.5673
     std: 0.0036
     model: CoCN expanded

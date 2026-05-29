@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import logging
 import subprocess
 import sys
 import time
@@ -20,6 +21,8 @@ from backend.models import (
     TodoPaperStatus,
     todo_paper_status_from_exit_code,
 )
+
+logger = logging.getLogger(__name__)
 
 
 def _utcnow_iso() -> str:
@@ -208,9 +211,12 @@ def recompute_queue_counts() -> int:
 
 
 def run_manual_subprocess(arxiv_id: str, *, model: str, force: bool) -> TodoQueueRunResult:
+    script_path = Path(__file__).resolve().parents[1] / "scripts" / "run_manual.py"
+    if not script_path.exists():
+        raise FileNotFoundError(f"run_manual.py not found at expected path: {script_path}")
     cmd = [
         sys.executable,
-        str(Path(__file__).resolve().parents[1] / "scripts" / "run_manual.py"),
+        str(script_path),
         arxiv_id,
         "--model",
         model,
@@ -396,10 +402,13 @@ def process_queue(
             note = f"processed by todo_queue.py at {_utcnow_iso()}"
             if excerpt:
                 note = f"{note}\n{excerpt}"
+        except KeyboardInterrupt:
+            raise
         except Exception as exc:  # pragma: no cover - defensive wrapper
+            logger.exception("Todo queue runner failed for %s", entry.arxiv_id)
             result = TodoQueueRunResult(returncode=1, stderr=str(exc))
             status = TodoPaperStatus.FAILED
-            note = f"processed by todo_queue.py at {_utcnow_iso()}\n{exc}"
+            note = f"processed by todo_queue.py at {_utcnow_iso()}\n{type(exc).__name__}: {exc}"
 
         _finalize_todo(entry.id, status, note)
         summary.counts[status.value] = summary.counts.get(status.value, 0) + 1

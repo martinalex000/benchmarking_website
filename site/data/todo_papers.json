@@ -2148,6 +2148,59 @@
     "first_seen_at": "2026-05-12T21:51:33Z"
   },
   {
+    "arxiv_id": "1606.09375",
+    "title": "Convolutional Neural Networks on Graphs with Fast Localized Spectral Filtering",
+    "status": "pending",
+    "seen_count": 44,
+    "seen_from": [
+      "references_from:2003.00982",
+      "references_from:2002.01680",
+      "references_from:2602.18837",
+      "references_from:2601.18917",
+      "references_from:2512.17762",
+      "references_from:2510.08450",
+      "references_from:2509.06743",
+      "references_from:2506.11869",
+      "references_from:2506.07624",
+      "references_from:2402.00789",
+      "references_from:2405.17311",
+      "references_from:2310.07430",
+      "references_from:2210.07606",
+      "references_from:2505.23875",
+      "references_from:2503.09008",
+      "references_from:2501.09821",
+      "references_from:2412.07188",
+      "references_from:2411.17296",
+      "references_from:2410.23686",
+      "references_from:2410.05593",
+      "references_from:2410.05697",
+      "references_from:2502.10818",
+      "references_from:2409.19414",
+      "references_from:2407.18480",
+      "references_from:2407.02758",
+      "references_from:2406.03671",
+      "references_from:2406.02269",
+      "references_from:2405.21061",
+      "references_from:2405.19121",
+      "references_from:2405.17404",
+      "references_from:2405.15540",
+      "references_from:2405.13806",
+      "references_from:2404.13604",
+      "references_from:2403.06687",
+      "references_from:2312.04234",
+      "references_from:2311.05964",
+      "references_from:2310.20519",
+      "references_from:2310.10121",
+      "references_from:2310.01668",
+      "references_from:2306.02866",
+      "references_from:2303.06147",
+      "references_from:2302.08811",
+      "references_from:2212.13350",
+      "references_from:2206.08164"
+    ],
+    "first_seen_at": "2026-05-12T21:53:58Z"
+  },
+  {
     "arxiv_id": "1912.01703",
     "title": "PyTorch: An Imperative Style, High-Performance Deep Learning Library",
     "status": "pending",
@@ -2199,58 +2252,6 @@
       "references_from:2102.08786"
     ],
     "first_seen_at": "2026-05-12T21:53:34Z"
-  },
-  {
-    "arxiv_id": "1606.09375",
-    "title": "Convolutional Neural Networks on Graphs with Fast Localized Spectral Filtering",
-    "status": "pending",
-    "seen_count": 43,
-    "seen_from": [
-      "references_from:2003.00982",
-      "references_from:2002.01680",
-      "references_from:2602.18837",
-      "references_from:2601.18917",
-      "references_from:2512.17762",
-      "references_from:2510.08450",
-      "references_from:2509.06743",
-      "references_from:2506.11869",
-      "references_from:2506.07624",
-      "references_from:2402.00789",
-      "references_from:2405.17311",
-      "references_from:2310.07430",
-      "references_from:2210.07606",
-      "references_from:2505.23875",
-      "references_from:2503.09008",
-      "references_from:2501.09821",
-      "references_from:2412.07188",
-      "references_from:2411.17296",
-      "references_from:2410.23686",
-      "references_from:2410.05593",
-      "references_from:2410.05697",
-      "references_from:2502.10818",
-      "references_from:2409.19414",
-      "references_from:2407.18480",
-      "references_from:2407.02758",
-      "references_from:2406.03671",
-      "references_from:2406.02269",
-      "references_from:2405.21061",
-      "references_from:2405.19121",
-      "references_from:2405.17404",
-      "references_from:2405.15540",
-      "references_from:2405.13806",
-      "references_from:2404.13604",
-      "references_from:2403.06687",
-      "references_from:2312.04234",
-      "references_from:2311.05964",
-      "references_from:2310.20519",
-      "references_from:2310.10121",
-      "references_from:2310.01668",
-      "references_from:2306.02866",
-      "references_from:2303.06147",
-      "references_from:2302.08811",
-      "references_from:2212.13350"
-    ],
-    "first_seen_at": "2026-05-12T21:53:58Z"
   },
   {
     "arxiv_id": "1901.00596",
@@ -3320,6 +3321,42 @@
     "first_seen_at": "2026-05-12T21:54:07Z"
   },
   {
+    "arxiv_id": "2505.15547",
+    "title": "Oversmoothing, \"Oversquashing\", Heterophily, Long-Range, and more: Demystifying Common Beliefs in Graph Machine Learning",
+    "status": "pending",
+    "seen_count": 27,
+    "seen_from": [
+      "cited_by:2110.14446",
+      "references_from:2602.21092",
+      "cited_by:2601.07419",
+      "references_from:2601.07419",
+      "cited_by:2511.20406",
+      "references_from:2511.20406",
+      "cited_by:2510.08450",
+      "references_from:2510.08450",
+      "references_from:2506.07624",
+      "references_from:2506.05971",
+      "cited_by:2312.16560",
+      "cited_by:2210.07606",
+      "references_from:2503.09008",
+      "cited_by:2502.10818",
+      "references_from:2502.10818",
+      "cited_by:2406.02269",
+      "cited_by:2405.13526",
+      "cited_by:2311.07073",
+      "cited_by:2310.01668",
+      "cited_by:2309.09384",
+      "cited_by:2305.08018",
+      "cited_by:2302.06835",
+      "cited_by:2301.11956",
+      "cited_by:2212.02374",
+      "cited_by:2211.15779",
+      "cited_by:2208.03471",
+      "cited_by:2206.08164"
+    ],
+    "first_seen_at": "2026-05-12T21:54:05Z"
+  },
+  {
     "arxiv_id": "1603.08861",
     "title": "Revisiting Semi-Supervised Learning with Graph Embeddings",
     "status": "pending",
@@ -3424,41 +3461,6 @@
       "references_from:2205.12454"
     ],
     "first_seen_at": "2026-05-12T21:55:25Z"
-  },
-  {
-    "arxiv_id": "2505.15547",
-    "title": "Oversmoothing, \"Oversquashing\", Heterophily, Long-Range, and more: Demystifying Common Beliefs in Graph Machine Learning",
-    "status": "pending",
-    "seen_count": 26,
-    "seen_from": [
-      "cited_by:2110.14446",
-      "references_from:2602.21092",
-      "cited_by:2601.07419",
-      "references_from:2601.07419",
-      "cited_by:2511.20406",
-      "references_from:2511.20406",
-      "cited_by:2510.08450",
-      "references_from:2510.08450",
-      "references_from:2506.07624",
-      "references_from:2506.05971",
-      "cited_by:2312.16560",
-      "cited_by:2210.07606",
-      "references_from:2503.09008",
-      "cited_by:2502.10818",
-      "references_from:2502.10818",
-      "cited_by:2406.02269",
-      "cited_by:2405.13526",
-      "cited_by:2311.07073",
-      "cited_by:2310.01668",
-      "cited_by:2309.09384",
-      "cited_by:2305.08018",
-      "cited_by:2302.06835",
-      "cited_by:2301.11956",
-      "cited_by:2212.02374",
-      "cited_by:2211.15779",
-      "cited_by:2208.03471"
-    ],
-    "first_seen_at": "2026-05-12T21:54:05Z"
   },
   {
     "arxiv_id": "2010.02863",
@@ -4086,6 +4088,37 @@
     "first_seen_at": "2026-05-12T21:54:07Z"
   },
   {
+    "arxiv_id": "1412.6980",
+    "title": "Adam: A Method for Stochastic Optimization",
+    "status": "pending",
+    "seen_count": 22,
+    "seen_from": [
+      "references_from:2103.09430",
+      "references_from:2003.00982",
+      "references_from:2110.14446",
+      "references_from:2508.14097",
+      "references_from:2506.11869",
+      "references_from:2210.07606",
+      "references_from:2409.08023",
+      "references_from:2407.18480",
+      "references_from:2404.09774",
+      "references_from:2403.13749",
+      "references_from:2403.06687",
+      "references_from:2310.02156",
+      "references_from:2310.01668",
+      "references_from:2309.16014",
+      "references_from:2306.04667",
+      "references_from:2306.03561",
+      "references_from:2306.02866",
+      "references_from:2305.08018",
+      "references_from:2301.11956",
+      "references_from:2212.13350",
+      "references_from:2212.02374",
+      "references_from:2206.08164"
+    ],
+    "first_seen_at": "2026-05-12T21:53:42Z"
+  },
+  {
     "arxiv_id": "1312.6203",
     "title": "Spectral Networks and Locally Connected Networks on Graphs",
     "status": "pending",
@@ -4144,36 +4177,6 @@
       "cited_by:2205.12454"
     ],
     "first_seen_at": "2026-05-12T21:53:56Z"
-  },
-  {
-    "arxiv_id": "1412.6980",
-    "title": "Adam: A Method for Stochastic Optimization",
-    "status": "pending",
-    "seen_count": 21,
-    "seen_from": [
-      "references_from:2103.09430",
-      "references_from:2003.00982",
-      "references_from:2110.14446",
-      "references_from:2508.14097",
-      "references_from:2506.11869",
-      "references_from:2210.07606",
-      "references_from:2409.08023",
-      "references_from:2407.18480",
-      "references_from:2404.09774",
-      "references_from:2403.13749",
-      "references_from:2403.06687",
-      "references_from:2310.02156",
-      "references_from:2310.01668",
-      "references_from:2309.16014",
-      "references_from:2306.04667",
-      "references_from:2306.03561",
-      "references_from:2306.02866",
-      "references_from:2305.08018",
-      "references_from:2301.11956",
-      "references_from:2212.13350",
-      "references_from:2212.02374"
-    ],
-    "first_seen_at": "2026-05-12T21:53:42Z"
   },
   {
     "arxiv_id": "1806.08804",
@@ -4549,6 +4552,33 @@
     "first_seen_at": "2026-05-12T21:58:08Z"
   },
   {
+    "arxiv_id": "2411.17429",
+    "title": "Graph Rewiring in GNNs to Mitigate Over-Squashing and Over-Smoothing: A Survey",
+    "status": "pending",
+    "seen_count": 18,
+    "seen_from": [
+      "cited_by:2110.14446",
+      "cited_by:2512.17762",
+      "cited_by:2511.03824",
+      "cited_by:2508.19071",
+      "references_from:2508.19071",
+      "references_from:2508.11390",
+      "references_from:2506.07624",
+      "cited_by:2405.17311",
+      "cited_by:2503.09008",
+      "cited_by:2410.03424",
+      "cited_by:2405.13526",
+      "cited_by:2310.02156",
+      "cited_by:2310.01668",
+      "cited_by:2309.09384",
+      "cited_by:2302.06835",
+      "cited_by:2211.15779",
+      "cited_by:2208.03471",
+      "cited_by:2206.08164"
+    ],
+    "first_seen_at": "2026-05-12T21:54:05Z"
+  },
+  {
     "arxiv_id": "1905.09550",
     "title": "Revisiting Graph Neural Networks: All We Have is Low-Pass Filters",
     "status": "pending",
@@ -4682,6 +4712,87 @@
       "references_from:2502.09365"
     ],
     "first_seen_at": "2026-05-12T21:53:30Z"
+  },
+  {
+    "arxiv_id": "2502.14546",
+    "title": "Position: Graph Learning Will Lose Relevance Due To Poor Benchmarks",
+    "status": "pending",
+    "seen_count": 18,
+    "seen_from": [
+      "cited_by:2005.00687",
+      "cited_by:2103.09430",
+      "cited_by:2003.00982",
+      "cited_by:1703.00564",
+      "references_from:2605.06462",
+      "references_from:2601.07419",
+      "references_from:2511.16767",
+      "references_from:2511.08028",
+      "references_from:2507.03707",
+      "cited_by:2309.00367",
+      "references_from:2502.09263",
+      "cited_by:2412.17609",
+      "cited_by:2410.03424",
+      "cited_by:2407.04236",
+      "cited_by:2406.09639",
+      "cited_by:2310.01668",
+      "cited_by:2205.12454",
+      "cited_by:2206.08164"
+    ],
+    "first_seen_at": "2026-05-12T21:53:28Z"
+  },
+  {
+    "arxiv_id": "2502.16533",
+    "title": "A Survey of Graph Transformers: Architectures, Theories and Applications",
+    "status": "pending",
+    "seen_count": 18,
+    "seen_from": [
+      "cited_by:2005.00687",
+      "cited_by:2103.09430",
+      "cited_by:1703.00564",
+      "references_from:2510.14336",
+      "references_from:2401.01233",
+      "cited_by:2306.10759",
+      "cited_by:2306.08385",
+      "cited_by:2406.01977",
+      "cited_by:2405.11951",
+      "cited_by:2403.16030",
+      "cited_by:2402.08678",
+      "cited_by:2310.05174",
+      "cited_by:2305.17589",
+      "cited_by:2303.06147",
+      "cited_by:2301.11956",
+      "cited_by:2212.13350",
+      "cited_by:2205.12454",
+      "cited_by:2206.08164"
+    ],
+    "first_seen_at": "2026-05-12T21:53:28Z"
+  },
+  {
+    "arxiv_id": "2505.18088",
+    "title": "Early-Exit Graph Neural Networks",
+    "status": "pending",
+    "seen_count": 18,
+    "seen_from": [
+      "cited_by:2005.00687",
+      "cited_by:2512.17762",
+      "cited_by:2510.08450",
+      "cited_by:2506.05971",
+      "cited_by:2309.00367",
+      "cited_by:2312.16560",
+      "cited_by:2306.10759",
+      "cited_by:2306.08385",
+      "cited_by:2406.08993",
+      "cited_by:2502.09263",
+      "cited_by:2502.10818",
+      "cited_by:2310.01267",
+      "cited_by:2305.17589",
+      "cited_by:2305.08018",
+      "cited_by:2303.06147",
+      "cited_by:2301.11956",
+      "cited_by:2205.12454",
+      "cited_by:2206.08164"
+    ],
+    "first_seen_at": "2026-05-12T21:53:28Z"
   },
   {
     "arxiv_id": "2011.07682",
@@ -4841,32 +4952,6 @@
     "first_seen_at": "2026-05-12T21:55:25Z"
   },
   {
-    "arxiv_id": "2411.17429",
-    "title": "Graph Rewiring in GNNs to Mitigate Over-Squashing and Over-Smoothing: A Survey",
-    "status": "pending",
-    "seen_count": 17,
-    "seen_from": [
-      "cited_by:2110.14446",
-      "cited_by:2512.17762",
-      "cited_by:2511.03824",
-      "cited_by:2508.19071",
-      "references_from:2508.19071",
-      "references_from:2508.11390",
-      "references_from:2506.07624",
-      "cited_by:2405.17311",
-      "cited_by:2503.09008",
-      "cited_by:2410.03424",
-      "cited_by:2405.13526",
-      "cited_by:2310.02156",
-      "cited_by:2310.01668",
-      "cited_by:2309.09384",
-      "cited_by:2302.06835",
-      "cited_by:2211.15779",
-      "cited_by:2208.03471"
-    ],
-    "first_seen_at": "2026-05-12T21:54:05Z"
-  },
-  {
     "arxiv_id": "1607.06450",
     "title": "Layer Normalization",
     "status": "pending",
@@ -5023,82 +5108,30 @@
     "first_seen_at": "2026-05-12T21:53:29Z"
   },
   {
-    "arxiv_id": "2502.14546",
-    "title": "Position: Graph Learning Will Lose Relevance Due To Poor Benchmarks",
+    "arxiv_id": "2405.16435",
+    "title": "Node Identifiers: Compact, Discrete Representations for Efficient Graph Learning",
     "status": "pending",
     "seen_count": 17,
     "seen_from": [
       "cited_by:2005.00687",
-      "cited_by:2103.09430",
-      "cited_by:2003.00982",
+      "cited_by:2110.14446",
       "cited_by:1703.00564",
-      "references_from:2605.06462",
-      "references_from:2601.07419",
-      "references_from:2511.16767",
-      "references_from:2511.08028",
-      "references_from:2507.03707",
       "cited_by:2309.00367",
-      "references_from:2502.09263",
-      "cited_by:2412.17609",
-      "cited_by:2410.03424",
-      "cited_by:2407.04236",
-      "cited_by:2406.09639",
-      "cited_by:2310.01668",
-      "cited_by:2205.12454"
-    ],
-    "first_seen_at": "2026-05-12T21:53:28Z"
-  },
-  {
-    "arxiv_id": "2502.16533",
-    "title": "A Survey of Graph Transformers: Architectures, Theories and Applications",
-    "status": "pending",
-    "seen_count": 17,
-    "seen_from": [
-      "cited_by:2005.00687",
-      "cited_by:2103.09430",
-      "cited_by:1703.00564",
-      "references_from:2510.14336",
-      "references_from:2401.01233",
-      "cited_by:2306.10759",
-      "cited_by:2306.08385",
-      "cited_by:2406.01977",
-      "cited_by:2405.11951",
-      "cited_by:2403.16030",
-      "cited_by:2402.08678",
-      "cited_by:2310.05174",
-      "cited_by:2305.17589",
-      "cited_by:2303.06147",
-      "cited_by:2301.11956",
-      "cited_by:2212.13350",
-      "cited_by:2205.12454"
-    ],
-    "first_seen_at": "2026-05-12T21:53:28Z"
-  },
-  {
-    "arxiv_id": "2505.18088",
-    "title": "Early-Exit Graph Neural Networks",
-    "status": "pending",
-    "seen_count": 17,
-    "seen_from": [
-      "cited_by:2005.00687",
-      "cited_by:2512.17762",
-      "cited_by:2510.08450",
-      "cited_by:2506.05971",
-      "cited_by:2309.00367",
-      "cited_by:2312.16560",
       "cited_by:2306.10759",
       "cited_by:2306.08385",
       "cited_by:2406.08993",
-      "cited_by:2502.09263",
-      "cited_by:2502.10818",
-      "cited_by:2310.01267",
+      "references_from:2406.08993",
+      "references_from:2502.09263",
+      "cited_by:2406.01977",
+      "cited_by:2312.11109",
       "cited_by:2305.17589",
-      "cited_by:2305.08018",
       "cited_by:2303.06147",
-      "cited_by:2301.11956",
-      "cited_by:2205.12454"
+      "cited_by:2212.13350",
+      "cited_by:2210.13148",
+      "cited_by:2205.12454",
+      "cited_by:2206.08164"
     ],
-    "first_seen_at": "2026-05-12T21:53:28Z"
+    "first_seen_at": "2026-05-12T21:53:29Z"
   },
   {
     "arxiv_id": "2511.13010",
@@ -5277,31 +5310,6 @@
     "first_seen_at": "2026-05-12T21:53:30Z"
   },
   {
-    "arxiv_id": "2405.16435",
-    "title": "Node Identifiers: Compact, Discrete Representations for Efficient Graph Learning",
-    "status": "pending",
-    "seen_count": 16,
-    "seen_from": [
-      "cited_by:2005.00687",
-      "cited_by:2110.14446",
-      "cited_by:1703.00564",
-      "cited_by:2309.00367",
-      "cited_by:2306.10759",
-      "cited_by:2306.08385",
-      "cited_by:2406.08993",
-      "references_from:2406.08993",
-      "references_from:2502.09263",
-      "cited_by:2406.01977",
-      "cited_by:2312.11109",
-      "cited_by:2305.17589",
-      "cited_by:2303.06147",
-      "cited_by:2212.13350",
-      "cited_by:2210.13148",
-      "cited_by:2205.12454"
-    ],
-    "first_seen_at": "2026-05-12T21:53:29Z"
-  },
-  {
     "arxiv_id": "1610.02415",
     "title": "Automatic Chemical Design Using a Data-Driven Continuous Representation of Molecules",
     "status": "pending",
@@ -5348,6 +5356,30 @@
       "references_from:2205.12454"
     ],
     "first_seen_at": "2026-05-12T21:53:58Z"
+  },
+  {
+    "arxiv_id": "2505.18728",
+    "title": "Message-Passing State-Space Models: Improving Graph Learning with Modern Sequence Modeling",
+    "status": "pending",
+    "seen_count": 15,
+    "seen_from": [
+      "cited_by:2003.00982",
+      "references_from:2506.07624",
+      "cited_by:2309.00367",
+      "cited_by:2402.00789",
+      "cited_by:2502.10818",
+      "cited_by:2406.05815",
+      "cited_by:2402.08678",
+      "cited_by:2312.01538",
+      "cited_by:2310.01267",
+      "cited_by:2305.17589",
+      "cited_by:2305.08018",
+      "cited_by:2303.06147",
+      "cited_by:2212.13350",
+      "cited_by:2205.12454",
+      "cited_by:2206.08164"
+    ],
+    "first_seen_at": "2026-05-12T21:53:55Z"
   },
   {
     "arxiv_id": "2202.08455",
@@ -5540,29 +5572,6 @@
     "first_seen_at": "2026-05-12T21:53:58Z"
   },
   {
-    "arxiv_id": "2505.18728",
-    "title": "Message-Passing State-Space Models: Improving Graph Learning with Modern Sequence Modeling",
-    "status": "pending",
-    "seen_count": 14,
-    "seen_from": [
-      "cited_by:2003.00982",
-      "references_from:2506.07624",
-      "cited_by:2309.00367",
-      "cited_by:2402.00789",
-      "cited_by:2502.10818",
-      "cited_by:2406.05815",
-      "cited_by:2402.08678",
-      "cited_by:2312.01538",
-      "cited_by:2310.01267",
-      "cited_by:2305.17589",
-      "cited_by:2305.08018",
-      "cited_by:2303.06147",
-      "cited_by:2212.13350",
-      "cited_by:2205.12454"
-    ],
-    "first_seen_at": "2026-05-12T21:53:55Z"
-  },
-  {
     "arxiv_id": "2510.17457",
     "title": "Deeper with Riemannian Geometry: Overcoming Oversmoothing and Oversquashing for Graph Foundation Models",
     "status": "pending",
@@ -5630,6 +5639,28 @@
       "cited_by:2102.08786"
     ],
     "first_seen_at": "2026-05-12T21:53:31Z"
+  },
+  {
+    "arxiv_id": "2605.13383",
+    "title": "Beyond Oversquashing: Understanding Signal Propagation in GNNs Via Observables",
+    "status": "pending",
+    "seen_count": 13,
+    "seen_from": [
+      "cited_by:2410.05499",
+      "cited_by:2403.11199",
+      "cited_by:2305.17589",
+      "cited_by:2305.08018",
+      "cited_by:2303.06147",
+      "cited_by:2302.06835",
+      "cited_by:2212.13350",
+      "cited_by:2212.02374",
+      "cited_by:2211.15779",
+      "cited_by:2208.03471",
+      "cited_by:2205.12454",
+      "cited_by:2102.08786",
+      "cited_by:2206.08164"
+    ],
+    "first_seen_at": "2026-05-19T20:44:08Z"
   },
   {
     "arxiv_id": "2302.06835",
@@ -5916,27 +5947,6 @@
       "references_from:2503.09008"
     ],
     "first_seen_at": "2026-05-12T21:53:28Z"
-  },
-  {
-    "arxiv_id": "2605.13383",
-    "title": "Beyond Oversquashing: Understanding Signal Propagation in GNNs Via Observables",
-    "status": "pending",
-    "seen_count": 12,
-    "seen_from": [
-      "cited_by:2410.05499",
-      "cited_by:2403.11199",
-      "cited_by:2305.17589",
-      "cited_by:2305.08018",
-      "cited_by:2303.06147",
-      "cited_by:2302.06835",
-      "cited_by:2212.13350",
-      "cited_by:2212.02374",
-      "cited_by:2211.15779",
-      "cited_by:2208.03471",
-      "cited_by:2205.12454",
-      "cited_by:2102.08786"
-    ],
-    "first_seen_at": "2026-05-19T20:44:08Z"
   },
   {
     "arxiv_id": "2001.05140",
@@ -6454,6 +6464,26 @@
     "first_seen_at": "2026-05-12T21:53:56Z"
   },
   {
+    "arxiv_id": "1405.0312",
+    "title": "Microsoft COCO: Common Objects in Context",
+    "status": "pending",
+    "seen_count": 11,
+    "seen_from": [
+      "references_from:2005.00687",
+      "references_from:2103.09430",
+      "references_from:2604.03815",
+      "references_from:2604.00199",
+      "references_from:2505.23185",
+      "references_from:2410.13798",
+      "references_from:2407.02758",
+      "references_from:2406.12059",
+      "references_from:2401.14580",
+      "references_from:2312.09676",
+      "references_from:2206.08164"
+    ],
+    "first_seen_at": "2026-05-12T21:53:34Z"
+  },
+  {
     "arxiv_id": "2006.07739",
     "title": "DeeperGCN: All You Need to Train Deeper GCNs",
     "status": "pending",
@@ -6612,6 +6642,25 @@
       "references_from:2301.10857"
     ],
     "first_seen_at": "2026-05-12T21:51:33Z"
+  },
+  {
+    "arxiv_id": "2605.12358",
+    "title": "From Message-Passing to Linearized Graph Sequence Models",
+    "status": "pending",
+    "seen_count": 10,
+    "seen_from": [
+      "cited_by:2502.10818",
+      "cited_by:2406.05815",
+      "cited_by:2406.03386",
+      "cited_by:2402.08678",
+      "cited_by:2312.01538",
+      "cited_by:2305.17589",
+      "cited_by:2305.08018",
+      "cited_by:2205.12454",
+      "cited_by:2102.08786",
+      "cited_by:2206.08164"
+    ],
+    "first_seen_at": "2026-05-19T20:44:02Z"
   },
   {
     "arxiv_id": "2411.12732",
@@ -6899,25 +6948,6 @@
     "first_seen_at": "2026-05-12T21:53:40Z"
   },
   {
-    "arxiv_id": "1405.0312",
-    "title": "Microsoft COCO: Common Objects in Context",
-    "status": "pending",
-    "seen_count": 10,
-    "seen_from": [
-      "references_from:2005.00687",
-      "references_from:2103.09430",
-      "references_from:2604.03815",
-      "references_from:2604.00199",
-      "references_from:2505.23185",
-      "references_from:2410.13798",
-      "references_from:2407.02758",
-      "references_from:2406.12059",
-      "references_from:2401.14580",
-      "references_from:2312.09676"
-    ],
-    "first_seen_at": "2026-05-12T21:53:34Z"
-  },
-  {
     "arxiv_id": "2006.13009",
     "title": "Iterative Deep Graph Learning for Graph Neural Networks: Better and Robust Node Embeddings",
     "status": "pending",
@@ -7125,24 +7155,6 @@
       "cited_by:2205.12454"
     ],
     "first_seen_at": "2026-05-12T21:53:27Z"
-  },
-  {
-    "arxiv_id": "2605.12358",
-    "title": "From Message-Passing to Linearized Graph Sequence Models",
-    "status": "pending",
-    "seen_count": 9,
-    "seen_from": [
-      "cited_by:2502.10818",
-      "cited_by:2406.05815",
-      "cited_by:2406.03386",
-      "cited_by:2402.08678",
-      "cited_by:2312.01538",
-      "cited_by:2305.17589",
-      "cited_by:2305.08018",
-      "cited_by:2205.12454",
-      "cited_by:2102.08786"
-    ],
-    "first_seen_at": "2026-05-19T20:44:02Z"
   },
   {
     "arxiv_id": "2506.16110",
@@ -7944,6 +7956,23 @@
     "first_seen_at": "2026-05-12T21:53:29Z"
   },
   {
+    "arxiv_id": "2411.05274",
+    "title": "Distributed-Order Fractional Graph Operating Network",
+    "status": "pending",
+    "seen_count": 8,
+    "seen_from": [
+      "cited_by:2005.00687",
+      "cited_by:2110.14446",
+      "references_from:2604.24293",
+      "cited_by:2210.07606",
+      "cited_by:2310.10121",
+      "cited_by:2306.05955",
+      "cited_by:2305.08018",
+      "cited_by:2206.08164"
+    ],
+    "first_seen_at": "2026-05-12T21:53:28Z"
+  },
+  {
     "arxiv_id": "2502.02379",
     "title": "No Metric to Rule Them All: Toward Principled Evaluations of Graph-Learning Datasets",
     "status": "done",
@@ -7957,6 +7986,23 @@
       "references_from:2601.07419",
       "cited_by:2309.00367",
       "cited_by:2210.07606"
+    ],
+    "first_seen_at": "2026-05-12T21:53:28Z"
+  },
+  {
+    "arxiv_id": "2504.10917",
+    "title": "Towards A Universal Graph Structural Encoder",
+    "status": "pending",
+    "seen_count": 8,
+    "seen_from": [
+      "cited_by:2005.00687",
+      "cited_by:1703.00564",
+      "references_from:2605.04834",
+      "cited_by:2307.07107",
+      "cited_by:2307.03393",
+      "cited_by:2305.17589",
+      "cited_by:2205.12454",
+      "cited_by:2206.08164"
     ],
     "first_seen_at": "2026-05-12T21:53:28Z"
   },
@@ -8061,6 +8107,22 @@
       "references_from:2205.12454"
     ],
     "first_seen_at": "2026-05-12T21:51:33Z"
+  },
+  {
+    "arxiv_id": "2408.05391",
+    "title": "SAMSA: Efficient Transformer for Many Data Modalities",
+    "status": "pending",
+    "seen_count": 7,
+    "seen_from": [
+      "cited_by:2305.17589",
+      "cited_by:2305.08018",
+      "cited_by:2303.06147",
+      "cited_by:2301.11956",
+      "cited_by:2212.13350",
+      "cited_by:2205.12454",
+      "cited_by:2206.08164"
+    ],
+    "first_seen_at": "2026-05-19T20:52:55Z"
   },
   {
     "arxiv_id": "2009.06732",
@@ -8543,6 +8605,22 @@
     "first_seen_at": "2026-05-12T21:53:40Z"
   },
   {
+    "arxiv_id": "2505.11346",
+    "title": "What Can We Learn From MIMO Graph Convolutions?",
+    "status": "pending",
+    "seen_count": 7,
+    "seen_from": [
+      "cited_by:2103.09430",
+      "cited_by:2003.00982",
+      "cited_by:2309.00367",
+      "cited_by:2210.07606",
+      "cited_by:2409.11504",
+      "cited_by:2205.12454",
+      "cited_by:2206.08164"
+    ],
+    "first_seen_at": "2026-05-12T21:53:40Z"
+  },
+  {
     "arxiv_id": "1809.10341",
     "title": "Deep Graph Infomax",
     "status": "pending",
@@ -8735,6 +8813,22 @@
     "first_seen_at": "2026-05-12T21:53:29Z"
   },
   {
+    "arxiv_id": "2310.11829",
+    "title": "Graph Foundation Models: Concepts, Opportunities and Challenges",
+    "status": "pending",
+    "seen_count": 7,
+    "seen_from": [
+      "cited_by:2005.00687",
+      "references_from:2605.06462",
+      "references_from:2412.17609",
+      "references_from:2311.12399",
+      "cited_by:2307.03393",
+      "cited_by:2205.12454",
+      "cited_by:2206.08164"
+    ],
+    "first_seen_at": "2026-05-12T21:53:29Z"
+  },
+  {
     "arxiv_id": "2310.13023",
     "title": "GraphGPT: Graph Instruction Tuning for Large Language Models",
     "status": "pending",
@@ -8763,6 +8857,22 @@
       "cited_by:2311.12399",
       "cited_by:2307.03393",
       "cited_by:2205.12454"
+    ],
+    "first_seen_at": "2026-05-12T21:53:29Z"
+  },
+  {
+    "arxiv_id": "2402.02287",
+    "title": "Future Directions in the Theory of Graph Machine Learning",
+    "status": "pending",
+    "seen_count": 7,
+    "seen_from": [
+      "cited_by:2005.00687",
+      "cited_by:2405.11951",
+      "cited_by:2310.02156",
+      "cited_by:2310.01668",
+      "cited_by:2307.03393",
+      "cited_by:2301.11956",
+      "cited_by:2206.08164"
     ],
     "first_seen_at": "2026-05-12T21:53:29Z"
   },
@@ -8943,38 +9053,6 @@
     "first_seen_at": "2026-05-12T21:53:28Z"
   },
   {
-    "arxiv_id": "2411.05274",
-    "title": "Distributed-Order Fractional Graph Operating Network",
-    "status": "pending",
-    "seen_count": 7,
-    "seen_from": [
-      "cited_by:2005.00687",
-      "cited_by:2110.14446",
-      "references_from:2604.24293",
-      "cited_by:2210.07606",
-      "cited_by:2310.10121",
-      "cited_by:2306.05955",
-      "cited_by:2305.08018"
-    ],
-    "first_seen_at": "2026-05-12T21:53:28Z"
-  },
-  {
-    "arxiv_id": "2504.10917",
-    "title": "Towards A Universal Graph Structural Encoder",
-    "status": "pending",
-    "seen_count": 7,
-    "seen_from": [
-      "cited_by:2005.00687",
-      "cited_by:1703.00564",
-      "references_from:2605.04834",
-      "cited_by:2307.07107",
-      "cited_by:2307.03393",
-      "cited_by:2305.17589",
-      "cited_by:2205.12454"
-    ],
-    "first_seen_at": "2026-05-12T21:53:28Z"
-  },
-  {
     "arxiv_id": "2602.01553",
     "title": "Plain Transformers are Surprisingly Powerful Link Predictors",
     "status": "pending",
@@ -9053,21 +9131,6 @@
       "references_from:2205.12454"
     ],
     "first_seen_at": "2026-05-12T21:51:33Z"
-  },
-  {
-    "arxiv_id": "2408.05391",
-    "title": "SAMSA: Efficient Transformer for Many Data Modalities",
-    "status": "pending",
-    "seen_count": 6,
-    "seen_from": [
-      "cited_by:2305.17589",
-      "cited_by:2305.08018",
-      "cited_by:2303.06147",
-      "cited_by:2301.11956",
-      "cited_by:2212.13350",
-      "cited_by:2205.12454"
-    ],
-    "first_seen_at": "2026-05-19T20:52:55Z"
   },
   {
     "arxiv_id": "2506.06582",
@@ -9805,21 +9868,6 @@
     "first_seen_at": "2026-05-12T21:53:40Z"
   },
   {
-    "arxiv_id": "2505.11346",
-    "title": "What Can We Learn From MIMO Graph Convolutions?",
-    "status": "pending",
-    "seen_count": 6,
-    "seen_from": [
-      "cited_by:2103.09430",
-      "cited_by:2003.00982",
-      "cited_by:2309.00367",
-      "cited_by:2210.07606",
-      "cited_by:2409.11504",
-      "cited_by:2205.12454"
-    ],
-    "first_seen_at": "2026-05-12T21:53:40Z"
-  },
-  {
     "arxiv_id": "1904.01561",
     "title": "Analyzing Learned Molecular Representations for Property Prediction",
     "status": "pending",
@@ -10075,21 +10123,6 @@
     "first_seen_at": "2026-05-12T21:53:29Z"
   },
   {
-    "arxiv_id": "2310.11829",
-    "title": "Graph Foundation Models: Concepts, Opportunities and Challenges",
-    "status": "pending",
-    "seen_count": 6,
-    "seen_from": [
-      "cited_by:2005.00687",
-      "references_from:2605.06462",
-      "references_from:2412.17609",
-      "references_from:2311.12399",
-      "cited_by:2307.03393",
-      "cited_by:2205.12454"
-    ],
-    "first_seen_at": "2026-05-12T21:53:29Z"
-  },
-  {
     "arxiv_id": "2310.18716",
     "title": "Laplacian Canonization: A Minimalist Approach to Sign and Basis Invariant Spectral Embedding",
     "status": "pending",
@@ -10116,21 +10149,6 @@
       "references_from:2410.18676",
       "cited_by:2212.13350",
       "cited_by:2205.12454"
-    ],
-    "first_seen_at": "2026-05-12T21:53:29Z"
-  },
-  {
-    "arxiv_id": "2402.02287",
-    "title": "Future Directions in the Theory of Graph Machine Learning",
-    "status": "pending",
-    "seen_count": 6,
-    "seen_from": [
-      "cited_by:2005.00687",
-      "cited_by:2405.11951",
-      "cited_by:2310.02156",
-      "cited_by:2310.01668",
-      "cited_by:2307.03393",
-      "cited_by:2301.11956"
     ],
     "first_seen_at": "2026-05-12T21:53:29Z"
   },
@@ -10311,6 +10329,21 @@
       "cited_by:2406.08993",
       "cited_by:2210.13148",
       "cited_by:2205.12454"
+    ],
+    "first_seen_at": "2026-05-12T21:53:28Z"
+  },
+  {
+    "arxiv_id": "2502.02479",
+    "title": "Using Random Noise Equivariantly to Boost Graph Neural Networks Universally",
+    "status": "pending",
+    "seen_count": 6,
+    "seen_from": [
+      "cited_by:2005.00687",
+      "references_from:2510.02565",
+      "cited_by:2405.02795",
+      "cited_by:2303.06147",
+      "cited_by:2205.12454",
+      "cited_by:2206.08164"
     ],
     "first_seen_at": "2026-05-12T21:53:28Z"
   },
@@ -11429,6 +11462,20 @@
     "first_seen_at": "2026-05-12T21:53:55Z"
   },
   {
+    "arxiv_id": "2506.01231",
+    "title": "Towards Efficient Few-shot Graph Neural Architecture Search via Partitioning Gradient Contribution",
+    "status": "pending",
+    "seen_count": 5,
+    "seen_from": [
+      "cited_by:2003.00982",
+      "references_from:2510.14336",
+      "cited_by:2305.17589",
+      "cited_by:2205.12454",
+      "cited_by:2206.08164"
+    ],
+    "first_seen_at": "2026-05-12T21:53:55Z"
+  },
+  {
     "arxiv_id": "2506.08309",
     "title": "Learnable Spatial-Temporal Positional Encoding for Link Prediction",
     "status": "pending",
@@ -11891,6 +11938,20 @@
     "first_seen_at": "2026-05-12T21:53:29Z"
   },
   {
+    "arxiv_id": "2309.08478",
+    "title": "Current and future directions in network biology",
+    "status": "pending",
+    "seen_count": 5,
+    "seen_from": [
+      "cited_by:2005.00687",
+      "cited_by:2103.09430",
+      "cited_by:2003.00982",
+      "cited_by:2305.08018",
+      "cited_by:2206.08164"
+    ],
+    "first_seen_at": "2026-05-12T21:53:29Z"
+  },
+  {
     "arxiv_id": "2310.02156",
     "title": "Probabilistically Rewired Message-Passing Neural Networks",
     "status": "done",
@@ -12143,20 +12204,6 @@
     "first_seen_at": "2026-05-12T21:53:28Z"
   },
   {
-    "arxiv_id": "2502.02479",
-    "title": "Using Random Noise Equivariantly to Boost Graph Neural Networks Universally",
-    "status": "pending",
-    "seen_count": 5,
-    "seen_from": [
-      "cited_by:2005.00687",
-      "references_from:2510.02565",
-      "cited_by:2405.02795",
-      "cited_by:2303.06147",
-      "cited_by:2205.12454"
-    ],
-    "first_seen_at": "2026-05-12T21:53:28Z"
-  },
-  {
     "arxiv_id": "2503.03313",
     "title": "LLM as GNN: Graph Vocabulary Learning for Text-Attributed Graph Foundation Models",
     "status": "pending",
@@ -12197,6 +12244,20 @@
       "cited_by:2205.12454"
     ],
     "first_seen_at": "2026-05-12T21:53:28Z"
+  },
+  {
+    "arxiv_id": "2506.04653",
+    "title": "The Oversmoothing Fallacy: A Misguided Narrative in GNN Research",
+    "status": "pending",
+    "seen_count": 5,
+    "seen_from": [
+      "cited_by:2005.00687",
+      "references_from:2601.07419",
+      "cited_by:2406.08993",
+      "cited_by:2502.10818",
+      "cited_by:2206.08164"
+    ],
+    "first_seen_at": "2026-05-12T21:53:27Z"
   },
   {
     "arxiv_id": "2506.06127",
@@ -12727,6 +12788,19 @@
       "cited_by:2205.12454"
     ],
     "first_seen_at": "2026-05-12T22:00:46Z"
+  },
+  {
+    "arxiv_id": "2410.09118",
+    "title": "FSW-GNN: A Bi-Lipschitz WL-Equivalent Graph Neural Network",
+    "status": "pending",
+    "seen_count": 4,
+    "seen_from": [
+      "cited_by:2210.07606",
+      "cited_by:2405.19121",
+      "cited_by:2305.08018",
+      "cited_by:2206.08164"
+    ],
+    "first_seen_at": "2026-05-12T22:00:41Z"
   },
   {
     "arxiv_id": "1410.3314",
@@ -13951,19 +14025,6 @@
     "first_seen_at": "2026-05-12T21:53:55Z"
   },
   {
-    "arxiv_id": "2506.01231",
-    "title": "Towards Efficient Few-shot Graph Neural Architecture Search via Partitioning Gradient Contribution",
-    "status": "pending",
-    "seen_count": 4,
-    "seen_from": [
-      "cited_by:2003.00982",
-      "references_from:2510.14336",
-      "cited_by:2305.17589",
-      "cited_by:2205.12454"
-    ],
-    "first_seen_at": "2026-05-12T21:53:55Z"
-  },
-  {
     "arxiv_id": "2506.05530",
     "title": "Spectral Graph Neural Networks are Incomplete on Graphs with a Simple Spectrum",
     "status": "pending",
@@ -14744,19 +14805,6 @@
     "first_seen_at": "2026-05-12T21:53:29Z"
   },
   {
-    "arxiv_id": "2309.08478",
-    "title": "Current and future directions in network biology",
-    "status": "pending",
-    "seen_count": 4,
-    "seen_from": [
-      "cited_by:2005.00687",
-      "cited_by:2103.09430",
-      "cited_by:2003.00982",
-      "cited_by:2305.08018"
-    ],
-    "first_seen_at": "2026-05-12T21:53:29Z"
-  },
-  {
     "arxiv_id": "2309.10131",
     "title": "Deep Prompt Tuning for Graph Transformers",
     "status": "pending",
@@ -15522,19 +15570,6 @@
       "cited_by:2205.12454"
     ],
     "first_seen_at": "2026-05-12T21:53:28Z"
-  },
-  {
-    "arxiv_id": "2506.04653",
-    "title": "The Oversmoothing Fallacy: A Misguided Narrative in GNN Research",
-    "status": "pending",
-    "seen_count": 4,
-    "seen_from": [
-      "cited_by:2005.00687",
-      "references_from:2601.07419",
-      "cited_by:2406.08993",
-      "cited_by:2502.10818"
-    ],
-    "first_seen_at": "2026-05-12T21:53:27Z"
   },
   {
     "arxiv_id": "2506.16654",
@@ -16542,18 +16577,6 @@
       "cited_by:2210.07606",
       "references_from:2403.16030",
       "cited_by:2212.13350"
-    ],
-    "first_seen_at": "2026-05-12T22:00:41Z"
-  },
-  {
-    "arxiv_id": "2410.09118",
-    "title": "FSW-GNN: A Bi-Lipschitz WL-Equivalent Graph Neural Network",
-    "status": "pending",
-    "seen_count": 3,
-    "seen_from": [
-      "cited_by:2210.07606",
-      "cited_by:2405.19121",
-      "cited_by:2305.08018"
     ],
     "first_seen_at": "2026-05-12T22:00:41Z"
   },
@@ -17694,6 +17717,18 @@
       "cited_by:2002.01680",
       "cited_by:2507.00647",
       "references_from:2507.00647"
+    ],
+    "first_seen_at": "2026-05-12T21:54:47Z"
+  },
+  {
+    "arxiv_id": "2502.16454",
+    "title": "MAPN: Enhancing Heterogeneous Sparse Graph Representation by Mamba-based Asynchronous Aggregation",
+    "status": "pending",
+    "seen_count": 3,
+    "seen_from": [
+      "cited_by:2002.01680",
+      "cited_by:2305.08018",
+      "cited_by:2206.08164"
     ],
     "first_seen_at": "2026-05-12T21:54:47Z"
   },
@@ -21799,6 +21834,17 @@
       "references_from:2305.08018"
     ],
     "first_seen_at": "2026-05-19T20:50:58Z"
+  },
+  {
+    "arxiv_id": "2504.19649",
+    "title": "Intelligent4DSE: Optimizing High-Level Synthesis Design Space Exploration with Graph Neural Networks and Large Language Models",
+    "status": "pending",
+    "seen_count": 2,
+    "seen_from": [
+      "cited_by:2310.01267",
+      "cited_by:2206.08164"
+    ],
+    "first_seen_at": "2026-05-19T20:50:56Z"
   },
   {
     "arxiv_id": "2402.07568",
@@ -26707,17 +26753,6 @@
     "first_seen_at": "2026-05-12T21:54:47Z"
   },
   {
-    "arxiv_id": "2502.16454",
-    "title": "MAPN: Enhancing Heterogeneous Sparse Graph Representation by Mamba-based Asynchronous Aggregation",
-    "status": "pending",
-    "seen_count": 2,
-    "seen_from": [
-      "cited_by:2002.01680",
-      "cited_by:2305.08018"
-    ],
-    "first_seen_at": "2026-05-12T21:54:47Z"
-  },
-  {
     "arxiv_id": "2503.01900",
     "title": "LLM-Empowered Class Imbalanced Graph Prompt Learning for Online Drug Trafficking Detection",
     "status": "pending",
@@ -28760,6 +28795,17 @@
     "seen_from": [
       "cited_by:2003.00982",
       "cited_by:2402.08678"
+    ],
+    "first_seen_at": "2026-05-12T21:53:55Z"
+  },
+  {
+    "arxiv_id": "2505.20215",
+    "title": "Dependency Parsing is More Parameter-Efficient with Normalization",
+    "status": "pending",
+    "seen_count": 2,
+    "seen_from": [
+      "cited_by:2003.00982",
+      "cited_by:2206.08164"
     ],
     "first_seen_at": "2026-05-12T21:53:55Z"
   },
@@ -34484,6 +34530,17 @@
     "first_seen_at": "2026-05-12T21:53:28Z"
   },
   {
+    "arxiv_id": "2504.08802",
+    "title": "InfoGain Wavelets: Furthering the Design of Graph Diffusion Wavelets",
+    "status": "pending",
+    "seen_count": 2,
+    "seen_from": [
+      "cited_by:2005.00687",
+      "cited_by:2206.08164"
+    ],
+    "first_seen_at": "2026-05-12T21:53:28Z"
+  },
+  {
     "arxiv_id": "2504.08970",
     "title": "On Large-scale Evaluation of Embedding Models for Knowledge Graph Completion",
     "status": "pending",
@@ -35373,6 +35430,86 @@
       "references_from:2306.11681"
     ],
     "first_seen_at": "2026-05-12T21:51:33Z"
+  },
+  {
+    "arxiv_id": "2505.12880",
+    "title": "AdS-GNN - a Conformally Equivariant Graph Neural Network",
+    "status": "pending",
+    "seen_count": 1,
+    "seen_from": [
+      "cited_by:2206.08164"
+    ],
+    "first_seen_at": "2026-05-28T16:25:45Z"
+  },
+  {
+    "arxiv_id": "2505.14606",
+    "title": "Electrostatics from Laplacian Eigenbasis for Neural Network Interatomic Potentials",
+    "status": "pending",
+    "seen_count": 1,
+    "seen_from": [
+      "cited_by:2206.08164"
+    ],
+    "first_seen_at": "2026-05-28T16:25:45Z"
+  },
+  {
+    "arxiv_id": "2605.09099",
+    "title": "GraphNetz: Statistical Benchmarking of Graph Neural Networks with Paired Tests and Rank Aggregation",
+    "status": "pending",
+    "seen_count": 1,
+    "seen_from": [
+      "cited_by:2206.08164"
+    ],
+    "first_seen_at": "2026-05-28T16:25:45Z"
+  },
+  {
+    "arxiv_id": "2605.09457",
+    "title": "RAwR: Role-Aware Rewiring via Approximate Equitable Partition",
+    "status": "pending",
+    "seen_count": 1,
+    "seen_from": [
+      "cited_by:2206.08164"
+    ],
+    "first_seen_at": "2026-05-28T16:25:45Z"
+  },
+  {
+    "arxiv_id": "2605.15511",
+    "title": "OgBench: A Framework for Evaluating Graph Neural Networks on Omics Data",
+    "status": "pending",
+    "seen_count": 1,
+    "seen_from": [
+      "cited_by:2206.08164"
+    ],
+    "first_seen_at": "2026-05-28T16:25:45Z"
+  },
+  {
+    "arxiv_id": "2605.18387",
+    "title": "Graph Hierarchical Recurrence for Long-Range Generalization",
+    "status": "pending",
+    "seen_count": 1,
+    "seen_from": [
+      "cited_by:2206.08164"
+    ],
+    "first_seen_at": "2026-05-28T16:25:45Z"
+  },
+  {
+    "arxiv_id": "2605.23467",
+    "title": "S$^3$GNN: Efficient Global Mixing and Local Message Passing for Long-Range Graph Learning",
+    "status": "pending",
+    "seen_count": 1,
+    "seen_from": [
+      "cited_by:2206.08164"
+    ],
+    "first_seen_at": "2026-05-28T16:25:45Z"
+  },
+  {
+    "arxiv_id": "2605.27662",
+    "title": "How the Optimizer Shapes Learned Solutions in Equivariant Neural Networks",
+    "status": "pending",
+    "seen_count": 1,
+    "seen_from": [
+      "cited_by:2206.08164"
+    ],
+    "first_seen_at": "2026-05-28T16:25:45Z"
   },
   {
     "arxiv_id": "1711.05697",
@@ -43743,16 +43880,6 @@
       "references_from:2310.01267"
     ],
     "first_seen_at": "2026-05-19T20:50:58Z"
-  },
-  {
-    "arxiv_id": "2504.19649",
-    "title": "Intelligent4DSE: Optimizing High-Level Synthesis Design Space Exploration with Graph Neural Networks and Large Language Models",
-    "status": "pending",
-    "seen_count": 1,
-    "seen_from": [
-      "cited_by:2310.01267"
-    ],
-    "first_seen_at": "2026-05-19T20:50:56Z"
   },
   {
     "arxiv_id": "2601.04801",
@@ -76635,16 +76762,6 @@
     "first_seen_at": "2026-05-12T21:53:55Z"
   },
   {
-    "arxiv_id": "2505.20215",
-    "title": "Dependency Parsing is More Parameter-Efficient with Normalization",
-    "status": "pending",
-    "seen_count": 1,
-    "seen_from": [
-      "cited_by:2003.00982"
-    ],
-    "first_seen_at": "2026-05-12T21:53:55Z"
-  },
-  {
     "arxiv_id": "2506.02044",
     "title": "A Brain Graph Foundation Model: Pre-Training and Prompt-Tuning across Broad Atlases and Disorders",
     "status": "pending",
@@ -86017,16 +86134,6 @@
   {
     "arxiv_id": "2504.05478",
     "title": "GraphRAFT: Retrieval Augmented Fine-Tuning for Knowledge Graphs on Graph Databases",
-    "status": "pending",
-    "seen_count": 1,
-    "seen_from": [
-      "cited_by:2005.00687"
-    ],
-    "first_seen_at": "2026-05-12T21:53:28Z"
-  },
-  {
-    "arxiv_id": "2504.08802",
-    "title": "InfoGain Wavelets: Furthering the Design of Graph Diffusion Wavelets",
     "status": "pending",
     "seen_count": 1,
     "seen_from": [

@@ -637,7 +637,8 @@ def _run_manual_streaming(
     )
 
     output_lines: list[str] = []
-    assert proc.stdout is not None
+    if proc.stdout is None:
+        raise RuntimeError("subprocess.Popen did not allocate stdout")
     stdout_fd = proc.stdout.fileno()
     last_activity = time.monotonic()
 

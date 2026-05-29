@@ -392,7 +392,7 @@
         "name": "COLLAB",
         "slug": "collab",
         "task_type": "graph_classification",
-        "result_count": 112,
+        "result_count": 119,
         "variants": [
           {
             "name": "10-fold CV",
@@ -416,7 +416,7 @@
         "name": "IMDB-MULTI",
         "slug": "imdb-multi",
         "task_type": "graph_classification",
-        "result_count": 86,
+        "result_count": 91,
         "variants": [
           {
             "name": "10-fold CV",
@@ -428,7 +428,7 @@
         "name": "REDDIT-BINARY",
         "slug": "reddit-binary",
         "task_type": "graph_classification",
-        "result_count": 39,
+        "result_count": 42,
         "variants": [
           {
             "name": "10-fold CV",
@@ -578,7 +578,7 @@
         "name": "ogbg-molpcba",
         "slug": "ogbg-molpcba",
         "task_type": "graph_classification",
-        "result_count": 103,
+        "result_count": 104,
         "variants": [
           {
             "name": "Standard split",

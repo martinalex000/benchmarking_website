@@ -1006,18 +1006,19 @@ variants:
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2310.19285'
-    title: Facilitating Graph Neural Networks with Random Walk on Simplicial Complexes
-    date: Oct 2023
-    date_iso: 2023-10
-    date_display: Oct 2023
-    codebase_url: ''
+    arxiv_id: '2102.08786'
+    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
+      Passing'
+    date: Feb 2021
+    date_iso: 2021-02
+    date_display: Feb 2021
+    codebase_url: https://github.com/toenshoff/CRaWl
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.72838
+    - 0.7284
     metric_stds:
-    - 0.00417
+    - 0.0042
   - model: CKGCN
     model_plain: CKGCN
     is_baseline: true
@@ -1297,12 +1298,13 @@ variants:
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2308.11129'
-    title: Enhancing Graph Transformers with Hierarchical Distance Structural Encoding
-    date: Aug 2023
-    date_iso: 2023-08
-    date_display: Aug 2023
-    codebase_url: ''
+    arxiv_id: '2102.08786'
+    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
+      Passing'
+    date: Feb 2021
+    date_iso: 2021-02
+    date_display: Feb 2021
+    codebase_url: https://github.com/toenshoff/CRaWl
     uses_external_data: false
     is_best: false
     metric_values:
@@ -1684,12 +1686,13 @@ variants:
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2310.19285'
-    title: Facilitating Graph Neural Networks with Random Walk on Simplicial Complexes
-    date: Oct 2023
-    date_iso: 2023-10
-    date_display: Oct 2023
-    codebase_url: ''
+    arxiv_id: '2102.08786'
+    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
+      Passing'
+    date: Feb 2021
+    date_iso: 2021-02
+    date_display: Feb 2021
+    codebase_url: https://github.com/toenshoff/CRaWl
     uses_external_data: false
     is_best: false
     metric_values:
@@ -1956,16 +1959,17 @@ variants:
     - 0.00259
   - model: CRaWl
     model_plain: CRaWl
-    is_baseline: true
+    is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2310.19285'
-    title: Facilitating Graph Neural Networks with Random Walk on Simplicial Complexes
-    date: Oct 2023
-    date_iso: 2023-10
-    date_display: Oct 2023
-    codebase_url: ''
+    arxiv_id: '2102.08786'
+    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
+      Passing'
+    date: Feb 2021
+    date_iso: 2021-02
+    date_display: Feb 2021
+    codebase_url: https://github.com/toenshoff/CRaWl
     uses_external_data: false
     is_best: false
     metric_values:
@@ -2069,31 +2073,32 @@ variants:
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2307.07107'
-    title: Graph Positional and Structural Encoder
-    date: Jul 14, 2023
-    date_iso: '2023-07-14'
-    date_display: Jul 2023
-    codebase_url: ''
+    arxiv_id: '2102.08786'
+    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
+      Passing'
+    date: Feb 2021
+    date_iso: 2021-02
+    date_display: Feb 2021
+    codebase_url: https://github.com/toenshoff/CRaWl
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.6731
+    - 0.67312
     metric_stds:
-    - 0.0031
+    - 0.00311
   - model: GraphSAGE
     model_plain: GraphSAGE
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2404.09774'
-    title: 'RandAlign: A Parameter-Free Method for Regularizing Graph Convolutional
-      Networks'
-    date: Apr 2024
-    date_iso: 2024-04
-    date_display: Apr 2024
-    codebase_url: ''
+    arxiv_id: '2102.08786'
+    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
+      Passing'
+    date: Feb 2021
+    date_iso: 2021-02
+    date_display: Feb 2021
+    codebase_url: https://github.com/toenshoff/CRaWl
     uses_external_data: false
     is_best: false
     metric_values:
@@ -2180,12 +2185,13 @@ variants:
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2310.19285'
-    title: Facilitating Graph Neural Networks with Random Walk on Simplicial Complexes
-    date: Oct 2023
-    date_iso: 2023-10
-    date_display: Oct 2023
-    codebase_url: ''
+    arxiv_id: '2102.08786'
+    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
+      Passing'
+    date: Feb 2021
+    date_iso: 2021-02
+    date_display: Feb 2021
+    codebase_url: https://github.com/toenshoff/CRaWl
     uses_external_data: false
     is_best: false
     metric_values:
@@ -2216,13 +2222,13 @@ variants:
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2404.09774'
-    title: 'RandAlign: A Parameter-Free Method for Regularizing Graph Convolutional
-      Networks'
-    date: Apr 2024
-    date_iso: 2024-04
-    date_display: Apr 2024
-    codebase_url: ''
+    arxiv_id: '2102.08786'
+    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
+      Passing'
+    date: Feb 2021
+    date_iso: 2021-02
+    date_display: Feb 2021
+    codebase_url: https://github.com/toenshoff/CRaWl
     uses_external_data: false
     is_best: false
     metric_values:
@@ -2254,12 +2260,13 @@ variants:
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2308.11129'
-    title: Enhancing Graph Transformers with Hierarchical Distance Structural Encoding
-    date: Aug 2023
-    date_iso: 2023-08
-    date_display: Aug 2023
-    codebase_url: ''
+    arxiv_id: '2102.08786'
+    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
+      Passing'
+    date: Feb 2021
+    date_iso: 2021-02
+    date_display: Feb 2021
+    codebase_url: https://github.com/toenshoff/CRaWl
     uses_external_data: false
     is_best: false
     metric_values:
@@ -2291,18 +2298,19 @@ variants:
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2307.07107'
-    title: Graph Positional and Structural Encoder
-    date: Jul 14, 2023
-    date_iso: '2023-07-14'
-    date_display: Jul 2023
-    codebase_url: ''
+    arxiv_id: '2102.08786'
+    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
+      Passing'
+    date: Feb 2021
+    date_iso: 2021-02
+    date_display: Feb 2021
+    codebase_url: https://github.com/toenshoff/CRaWl
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.5526
+    - 0.55255
     metric_stds:
-    - 0.0153
+    - 0.01527
   - model: MoNet
     model_plain: MoNet
     is_baseline: true
@@ -2359,12 +2367,13 @@ variants:
     metric_stds:
     - 0.0827
   milestones:
-  - value: 0.7246
-    std: 0.0036
-    model: Graph MLP-Mixer
-    arxiv_id: '2307.07107'
-    title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+  - value: 0.7284
+    std: 0.0042
+    model: DGN
+    arxiv_id: '2102.08786'
+    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
+      Passing'
+    date: 2021-02
   - value: 0.76473
     std: 0.00429
     model: GT + HDSE

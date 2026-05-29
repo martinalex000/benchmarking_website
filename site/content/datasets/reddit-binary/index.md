@@ -13,7 +13,7 @@ stats:
   avg_nodes: 429.63
   avg_edges: 497.75
   num_classes: 2
-result_count: 39
+result_count: 42
 best_model:
   model: R-method
   value: 0.945
@@ -52,6 +52,63 @@ variants:
     - 0.945
     metric_stds:
     - 0.004
+  - model: CRaWl
+    model_plain: CRaWl
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2102.08786'
+    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
+      Passing'
+    date: Feb 2021
+    date_iso: 2021-02
+    date_display: Feb 2021
+    codebase_url: https://github.com/toenshoff/CRaWl
+    uses_external_data: false
+    is_best: true
+    metric_values:
+    - 0.9275
+    metric_stds:
+    - 0.0216
+  - model: GIN
+    model_plain: GIN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2102.08786'
+    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
+      Passing'
+    date: Feb 2021
+    date_iso: 2021-02
+    date_display: Feb 2021
+    codebase_url: https://github.com/toenshoff/CRaWl
+    uses_external_data: false
+    is_best: true
+    metric_values:
+    - 0.924
+    metric_stds:
+    - 0.025
+  - model: WEGL
+    model_plain: WEGL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2102.08786'
+    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
+      Passing'
+    date: Feb 2021
+    date_iso: 2021-02
+    date_display: Feb 2021
+    codebase_url: https://github.com/toenshoff/CRaWl
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.92
+    metric_stds:
+    - 0.008
   - model: Graph-JEPA
     model_plain: Graph-JEPA
     is_baseline: false
@@ -70,24 +127,6 @@ variants:
     - 0.9199
     metric_stds:
     - 0.0159
-  - model: GIN
-    model_plain: GIN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2502.01122'
-    title: Learning Efficient Positional Encodings with Graph Neural Networks
-    date: Feb 2025
-    date_iso: 2025-02
-    date_display: Feb 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.918
-    metric_stds:
-    - 0.01
   - model: GIN + rand id
     model_plain: GIN + rand id
     is_baseline: true
@@ -394,6 +433,25 @@ variants:
     - 0.8263
     metric_stds:
     - 0.0099
+  - model: Kern. WL
+    model_plain: Kern. WL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2102.08786'
+    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
+      Passing'
+    date: Feb 2021
+    date_iso: 2021-02
+    date_display: Feb 2021
+    codebase_url: https://github.com/toenshoff/CRaWl
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.81
+    metric_stds:
+    - 0.031
   - model: + PANDA
     model_plain: + PANDA
     is_baseline: false
@@ -737,12 +795,13 @@ variants:
     metric_stds:
     - 0.01044
   milestones:
-  - value: 0.9199
-    std: 0.0159
-    model: Graph-JEPA
-    arxiv_id: '2309.16014'
-    title: Graph-level Representation Learning with Joint-Embedding Predictive Architectures
-    date: 2023-09
+  - value: 0.9275
+    std: 0.0216
+    model: CRaWl
+    arxiv_id: '2102.08786'
+    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
+      Passing'
+    date: 2021-02
   - value: 0.945
     std: 0.004
     model: R-method

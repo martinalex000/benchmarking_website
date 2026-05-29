@@ -1038,7 +1038,7 @@ variants:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.531
+    params_millions: null
     arxiv_id: '2206.08164'
     title: LRGB
     date: Jun 2022
@@ -1119,7 +1119,7 @@ variants:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.468
+    params_millions: null
     arxiv_id: '2206.08164'
     title: LRGB
     date: Jun 2022
@@ -1523,7 +1523,7 @@ variants:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.501
+    params_millions: null
     arxiv_id: '2206.08164'
     title: LRGB
     date: Jun 2022
@@ -1564,7 +1564,7 @@ variants:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.492
+    params_millions: null
     arxiv_id: '2206.08164'
     title: LRGB
     date: Jun 2022
@@ -1665,7 +1665,7 @@ variants:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.506
+    params_millions: null
     arxiv_id: '2206.08164'
     title: LRGB
     date: Jun 2022
@@ -1726,7 +1726,7 @@ variants:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.505
+    params_millions: null
     arxiv_id: '2206.08164'
     title: LRGB
     date: Jun 2022
@@ -1746,7 +1746,7 @@ variants:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.496
+    params_millions: null
     arxiv_id: '2206.08164'
     title: LRGB
     date: Jun 2022
@@ -1766,7 +1766,7 @@ variants:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.502
+    params_millions: null
     arxiv_id: '2206.08164'
     title: LRGB
     date: Jun 2022

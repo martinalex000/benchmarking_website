@@ -10,9 +10,11 @@ Usage::
     uv run python scripts/run_manual.py 2206.08164 --force           # re-run extraction
     uv run python scripts/run_manual.py 2206.08164 --force-download  # re-download files
     uv run python scripts/run_manual.py 2206.08164 --skip-download
-    uv run python scripts/run_manual.py 2206.08164 --skip-extract    uv run python scripts/run_manual.py 2206.08164 --oneshot   # legacy single-shot extraction    uv run python scripts/run_manual.py 2206.08164 --compare-models  # run all 3 tiers
+    uv run python scripts/run_manual.py 2206.08164 --skip-extract
+    uv run python scripts/run_manual.py 2206.08164 --oneshot       # legacy single-shot extraction
+    uv run python scripts/run_manual.py 2206.08164 --compare-models # run all 3 tiers
     uv run python scripts/run_manual.py 2206.08164 --skip-export
-    uv run python scripts/run_manual.py --import-pending            # review pending datasets
+    uv run python scripts/run_manual.py --import-pending           # review pending datasets
 
 Extraction is two-stage:
   Stage 1 (small model): screens title+abstract from arXiv API to confirm

@@ -2726,24 +2726,6 @@ variants:
     - 0.2505
     metric_stds:
     - 0.0014
-  - model: CRaWl
-    model_plain: CRaWl
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2312.16560'
-    title: Algorithmic Graph Tasks
-    date: Dec 2023
-    date_iso: 2023-12
-    date_display: Dec 2023
-    codebase_url: https://github.com/nec-research/Adaptive-Message-Passing
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.2506
-    metric_stds:
-    - 0.0022
   - model: GPSE + GPS
     model_plain: GPSE + GPS
     is_baseline: true
@@ -2781,6 +2763,25 @@ variants:
     - 0.2506
     metric_stds:
     - 0.13
+  - model: CRaWl
+    model_plain: CRaWl
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2102.08786'
+    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
+      Passing'
+    date: Feb 2021
+    date_iso: 2021-02
+    date_display: Feb 2021
+    codebase_url: https://github.com/toenshoff/CRaWl
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.2506
+    metric_stds:
+    - 0.0022
   - model: GatedGCN+PE-Mixer
     model_plain: GatedGCN+PE-Mixer
     is_baseline: true
@@ -3172,31 +3173,13 @@ variants:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.501
+    params_millions: null
     arxiv_id: '2206.08164'
     title: LRGB
     date: Jun 2022
     date_iso: 2022-06
     date_display: Jun 2022
     codebase_url: https://github.com/vijaydwivedi75/lrgb
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.2529
-    metric_stds:
-    - 0.0016
-  - model: Transformer
-    model_plain: Transformer
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2312.16560'
-    title: Algorithmic Graph Tasks
-    date: Dec 2023
-    date_iso: 2023-12
-    date_display: Dec 2023
-    codebase_url: https://github.com/nec-research/Adaptive-Message-Passing
     uses_external_data: false
     is_best: false
     metric_values:
@@ -3272,6 +3255,25 @@ variants:
     date_iso: 2023-08
     date_display: Aug 2023
     codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.2529
+    metric_stds:
+    - 0.0016
+  - model: Transformer
+    model_plain: Transformer
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2102.08786'
+    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
+      Passing'
+    date: Feb 2021
+    date_iso: 2021-02
+    date_display: Feb 2021
+    codebase_url: https://github.com/toenshoff/CRaWl
     uses_external_data: false
     is_best: false
     metric_values:
@@ -3558,7 +3560,7 @@ variants:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.468
+    params_millions: null
     arxiv_id: '2206.08164'
     title: LRGB
     date: Jun 2022
@@ -3595,12 +3597,13 @@ variants:
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2310.01704'
-    title: Transformers are efficient hierarchical chemical graph learners
-    date: Oct 2023
-    date_iso: 2023-10
-    date_display: Oct 2023
-    codebase_url: ''
+    arxiv_id: '2102.08786'
+    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
+      Passing'
+    date: Feb 2021
+    date_iso: 2021-02
+    date_display: Feb 2021
+    codebase_url: https://github.com/toenshoff/CRaWl
     uses_external_data: false
     is_best: false
     metric_values:
@@ -4639,7 +4642,7 @@ variants:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.531
+    params_millions: null
     arxiv_id: '2206.08164'
     title: LRGB
     date: Jun 2022
@@ -5640,31 +5643,13 @@ variants:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.506
+    params_millions: null
     arxiv_id: '2206.08164'
     title: LRGB
     date: Jun 2022
     date_iso: 2022-06
     date_display: Jun 2022
     codebase_url: https://github.com/vijaydwivedi75/lrgb
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.3357
-    metric_stds:
-    - 0.0006
-  - model: GatedGCN
-    model_plain: GatedGCN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2312.16560'
-    title: Algorithmic Graph Tasks
-    date: Dec 2023
-    date_iso: 2023-12
-    date_display: Dec 2023
-    codebase_url: https://github.com/nec-research/Adaptive-Message-Passing
     uses_external_data: false
     is_best: false
     metric_values:
@@ -5701,6 +5686,25 @@ variants:
     date_iso: 2023-10
     date_display: Oct 2023
     codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.3357
+    metric_stds:
+    - 0.0006
+  - model: GatedGCN
+    model_plain: GatedGCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2102.08786'
+    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
+      Passing'
+    date: Feb 2021
+    date_iso: 2021-02
+    date_display: Feb 2021
+    codebase_url: https://github.com/toenshoff/CRaWl
     uses_external_data: false
     is_best: false
     metric_values:
@@ -5857,7 +5861,7 @@ variants:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.502
+    params_millions: null
     arxiv_id: '2206.08164'
     title: LRGB
     date: Jun 2022
@@ -5911,7 +5915,7 @@ variants:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.492
+    params_millions: null
     arxiv_id: '2206.08164'
     title: LRGB
     date: Jun 2022
@@ -6014,24 +6018,6 @@ variants:
     - 0.3493
     metric_stds:
     - 0.0007
-  - model: GCN
-    model_plain: GCN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: 0.496
-    arxiv_id: '2206.08164'
-    title: LRGB
-    date: Jun 2022
-    date_iso: 2022-06
-    date_display: Jun 2022
-    codebase_url: https://github.com/vijaydwivedi75/lrgb
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.3496
-    metric_stds:
-    - 0.0013
   - model: None
     model_plain: None
     is_baseline: true
@@ -6044,6 +6030,25 @@ variants:
     date_iso: 2023-10
     date_display: Oct 2023
     codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.3496
+    metric_stds:
+    - 0.0013
+  - model: GCN
+    model_plain: GCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2102.08786'
+    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
+      Passing'
+    date: Feb 2021
+    date_iso: 2021-02
+    date_display: Feb 2021
+    codebase_url: https://github.com/toenshoff/CRaWl
     uses_external_data: false
     is_best: false
     metric_values:
@@ -6158,24 +6163,6 @@ variants:
     - 0.354
     metric_stds:
     - 0.019
-  - model: GINE
-    model_plain: GINE
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: 0.505
-    arxiv_id: '2206.08164'
-    title: LRGB
-    date: Jun 2022
-    date_iso: 2022-06
-    date_display: Jun 2022
-    codebase_url: https://github.com/vijaydwivedi75/lrgb
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.3547
-    metric_stds:
-    - 0.0045
   - model: GIN (GINE)
     model_plain: GIN (GINE)
     is_baseline: true
@@ -6207,6 +6194,25 @@ variants:
     date_iso: '2023-06-09'
     date_display: Jun 2023
     codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.3547
+    metric_stds:
+    - 0.0045
+  - model: GINE
+    model_plain: GINE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2102.08786'
+    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
+      Passing'
+    date: Feb 2021
+    date_iso: 2021-02
+    date_display: Feb 2021
+    codebase_url: https://github.com/toenshoff/CRaWl
     uses_external_data: false
     is_best: false
     metric_values:
@@ -6846,12 +6852,13 @@ variants:
     metric_stds:
     - 0.0849
   milestones:
-  - value: 0.2529
-    std: 0.0016
-    model: Transformer+LapPE
-    arxiv_id: '2206.08164'
-    title: LRGB
-    date: 2022-06
+  - value: 0.2506
+    std: 0.0022
+    model: CRaWl
+    arxiv_id: '2102.08786'
+    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
+      Passing'
+    date: 2021-02
   - value: 0.2481
     std: null
     model: Exphormer

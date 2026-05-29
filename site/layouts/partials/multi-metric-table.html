@@ -24,23 +24,14 @@
       <tr>
         <th class="col-rank">#</th>
         <th class="col-model sortable-col" data-col="model">Model</th>
-        <th class="col-type">Type</th>
-        {{ range $metrics }}
-        {{ $isPrimary := eq . $primary }}
-        <th class="col-value{{ if $isPrimary }} col-primary sortable-col{{ end }}"
-            {{ if $isPrimary }}data-col="value"{{ end }}>
-          {{ . }}{{ if $isPrimary }}{{ if $hib }} ↑{{ else }} ↓{{ end }}{{ end }}
-        </th>
-        {{ end }}
-        <th class="col-params sortable-col" data-col="params">Params</th>
-        {{ if not $hideMeta }}<th class="col-paper">Paper</th>{{ end }}
-        {{ if not $hideMeta }}<th class="col-code">Code</th>{{ end }}
-        {{ if not $hideMeta }}<th class="col-date sortable-col" data-col="date">Date</th>{{ end }}
+        <th class="col-value col-primary sortable-col" data-col="value">{{ $primary }}{{ if $hib }} ↑{{ else }} ↓{{ end }}</th>
+        {{ if not $hideMeta }}<th class="col-paper sortable-col" data-col="date">Paper</th>{{ end }}
       </tr>
     </thead>
     <tbody>
-        {{ range $i, $r := $rows }}
+      {{ range $i, $r := $rows }}
       {{ $primary_val := index $r.metric_values 0 }}
+      {{ $primary_std := index $r.metric_stds 0 }}
         <tr class="result-row {{ if $r.is_baseline }}row-baseline{{ else }}row-proposed{{ end }} {{ if $r.is_overridden }}row-overridden{{ end }}{{ if $r.is_best }} row-best{{ end }}{{ if eq $i 0 }} row-current-sota{{ end }}{{ if $r.is_global_top }} row-global-top{{ end }}{{ if and (gt $collapseAfter 0) (ge $i $collapseAfter) }} row-collapsed{{ end }}"
           data-model="{{ $r.model_plain | default $r.model }}"
           data-value="{{ $r.sort_value | default $primary_val }}"
@@ -48,11 +39,19 @@
           data-date="{{ $r.date_iso | default $r.date }}"
           data-arxiv="{{ $r.arxiv_id }}">
         <td class="col-rank" data-label="Rank">{{ if $r.global_rank }}{{ $r.global_rank }}{{ else }}{{ add $i 1 }}{{ end }}</td>
-        <td class="col-model">
-          <span class="model-cell-main">{{ if and $r.is_global_top $r.arxiv_id }}<a href="{{ printf "papers/%s/" $r.arxiv_id | relURL }}" title="{{ $r.title }}">{{ $r.model | safeHTML }}</a>{{ else }}{{ $r.model | safeHTML }}{{ end }}</span>
-          {{ if $r.is_global_top }}<span class="global-top-badge" title="Top-ranked globally — from another paper">global</span>{{ end }}
-          {{ if $r.uses_external_data }}<span class="ext-data-badge" title="Uses external data during training">†ext</span>{{ end }}
-          {{ if $r.is_overridden }}<span class="override-badge" title="{{ $r.override_reason }}">✎</span>{{ end }}
+        <td class="col-model" data-label="Model">
+          <div class="leaderboard-entry-head">
+            <div class="leaderboard-model-name">
+              {{ if and $r.is_global_top $r.arxiv_id }}<a href="{{ printf "papers/%s/" $r.arxiv_id | relURL }}" title="{{ $r.title }}">{{ $r.model | safeHTML }}</a>{{ else }}{{ $r.model | safeHTML }}{{ end }}
+            </div>
+            <div class="leaderboard-badges">
+              {{ if not $r.is_global_top }}{{ if $r.is_baseline }}<span class="tag-baseline">baseline</span>{{ else }}<span class="tag-proposed">★ proposed</span>{{ end }}{{ end }}
+              {{ if $r.uses_external_data }}<span class="mini-badge mini-badge-external" title="Uses external data during training">ext data</span>{{ end }}
+              {{ if $r.params_millions }}<span class="mini-badge mini-badge-neutral">{{ printf "%.1fM" $r.params_millions }}</span>{{ end }}
+              {{ if $r.is_global_top }}<span class="global-top-badge" title="Top-ranked globally — from another paper">global</span>{{ end }}
+              {{ if $r.is_overridden }}<span class="override-badge" title="{{ $r.override_reason }}">✎</span>{{ end }}
+            </div>
+          </div>
           {{ if $r.has_value_gap }}
           <div class="model-discrepancy-meta">
             {{ if and $r.value_gap_source_title $r.value_gap_source_arxiv (not $r.value_gap_source_is_current_paper) }}
@@ -77,41 +76,52 @@
           <div class="model-discrepancy-meta subtle-note">minor difference within std</div>
           {{ end }}
         </td>
-        <td class="col-type" data-label="Type">
-          {{ if not $r.is_global_top }}{{ if $r.is_baseline }}<span class="tag-baseline">baseline</span>{{ else }}<span class="tag-proposed">★ proposed</span>{{ end }}{{ end }}
-        </td>
-        {{ range $j, $m := $metrics }}
-        {{ $val := index $r.metric_values $j }}
-        {{ $std := index $r.metric_stds $j }}
-        <td class="col-value{{ if eq $m $primary }} col-primary{{ end }}{{ if and (eq $m $primary) $r.has_value_gap }} col-value-gap{{ end }}{{ if and (eq $m $primary) $r.has_value_note }} col-value-note{{ end }}" data-label="{{ $m }}{{ if eq $m $primary }}{{ if $hib }} ↑{{ else }} ↓{{ end }}{{ end }}">
-          {{ if ne $val nil -}}
-            {{- if and (eq $m $primary) $r.has_value_gap -}}
+        <td class="col-value col-primary{{ if $r.has_value_gap }} col-value-gap{{ end }}{{ if $r.has_value_note }} col-value-note{{ end }}" data-label="{{ $primary }}{{ if $hib }} ↑{{ else }} ↓{{ end }}">
+          {{ if ne $primary_val nil -}}
+            {{- if $r.has_value_gap -}}
               <div class="value-gap-block">
                 <div class="value-gap-true">actual {{ printf "%.4f" $r.true_value }}{{ if $r.true_std }}<span class="inline-std"> ±{{ printf "%.4f" $r.true_std }}</span>{{ end }}</div>
-                <div class="value-gap-paper">paper {{ printf "%.4f" $val }}{{ if ne $std nil }}<span class="inline-std"> ±{{ printf "%.4f" $std }}</span>{{ end }}</div>
+                <div class="value-gap-paper">paper {{ printf "%.4f" $primary_val }}{{ if ne $primary_std nil }}<span class="inline-std"> ±{{ printf "%.4f" $primary_std }}</span>{{ end }}</div>
                 {{ if $r.value_gap }}<div class="value-gap-delta">value Δ{{ printf "%.4f" $r.value_gap }}</div>{{ end }}
               </div>
-            {{- else if and (eq $m $primary) $r.has_value_note -}}
-              <div class="value-note-block">
-                <div>{{ printf "%.4f" $val }}{{ if ne $std nil }}<span class="inline-std"> ±{{ printf "%.4f" $std }}</span>{{ end }}</div>
-                <div class="value-note-text">{{ $r.value_note }}</div>
-              </div>
             {{- else -}}
-            {{- printf "%.4f" $val -}}
-            {{- if ne $std nil }}<span class="inline-std"> ±{{ printf "%.4f" $std }}</span>{{ end }}
+              <div class="metric-primary-block">
+                <span class="metric-primary-value">{{ printf "%.4f" $primary_val }}</span>
+                {{ if ne $primary_std nil }}<span class="metric-primary-std inline-std">±{{ printf "%.4f" $primary_std }}</span>{{ end }}
+              </div>
+              {{ if $r.has_value_note }}<div class="value-note-text">{{ $r.value_note }}</div>{{ end }}
             {{- end -}}
           {{- else }}—{{ end }}
+          {{ if gt (len $metrics) 1 }}
+          <div class="secondary-metrics" hidden>
+            {{ range $j, $m := $metrics }}
+            {{ if gt $j 0 }}
+            {{ $val := index $r.metric_values $j }}
+            {{ $std := index $r.metric_stds $j }}
+            {{ if ne $val nil }}
+            <div class="secondary-metric">
+              <span class="secondary-metric-name">{{ $m }}</span>
+              <span class="secondary-metric-value">{{ printf "%.4f" $val }}</span>
+              {{ if ne $std nil }}<span class="secondary-metric-std inline-std">±{{ printf "%.4f" $std }}</span>{{ end }}
+            </div>
+            {{ end }}
+            {{ end }}
+            {{ end }}
+          </div>
+          {{ end }}
         </td>
-        {{ end }}
-        <td class="col-params" data-label="Params">{{ if $r.params_millions }}{{ printf "%.1f" $r.params_millions }}M{{ else }}—{{ end }}</td>
         {{ if not $hideMeta }}
         <td class="col-paper" data-label="Paper">
-          {{ if $r.arxiv_id }}<a href="{{ printf "papers/%s/" $r.arxiv_id | relURL }}" title="arXiv:{{ $r.arxiv_id }}{{ with $r.title }} — {{ . }}{{ end }}">{{ if $r.title }}{{ $r.title | truncate 45 }}{{ else }}arXiv:{{ $r.arxiv_id }}{{ end }}</a>{{ end }}
+          <div class="paper-cell-row">
+            <div class="paper-title-wrap">
+              {{ if $r.arxiv_id }}<a class="paper-title-link" href="{{ printf "papers/%s/" $r.arxiv_id | relURL }}" title="arXiv:{{ $r.arxiv_id }}{{ with $r.title }} — {{ . }}{{ end }}">{{ if $r.title }}{{ $r.title | truncate 96 }}{{ else }}arXiv:{{ $r.arxiv_id }}{{ end }}</a>{{ else }}—{{ end }}
+              {{ if $r.codebase_url }}<a class="paper-code-link" href="{{ $r.codebase_url }}" target="_blank" rel="noopener">code ↗</a>{{ else }}<span class="paper-code-missing" title="No code link available">⚠</span>{{ end }}
+            </div>
+            <div class="paper-inline-meta">
+              <span class="paper-date-inline">{{ $r.date_display | default $r.date | default "—" }}</span>
+            </div>
+          </div>
         </td>
-        <td class="col-code" data-label="Code">
-          {{ if $r.codebase_url }}<a href="{{ $r.codebase_url }}" target="_blank" rel="noopener">Code</a>{{ else }}—{{ end }}
-        </td>
-        <td class="col-date" data-label="Date">{{ $r.date_display | default $r.date | default "—" }}</td>
         {{ end }}
       </tr>
       {{ end }}

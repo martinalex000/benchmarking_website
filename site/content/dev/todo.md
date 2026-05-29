@@ -5,7 +5,7 @@ type: dev
 
 ## Todo Papers (priority queue)
 
-**Total:** 7810 entries
+**Total:** 7818 entries
 
 | arXiv | seen_count | status | title |
 |---|---:|---|---
@@ -32,8 +32,8 @@ type: dev
 | 2006.09252 | 48 | pending | Improving Graph Neural Network Expressivity via Subgraph Isomorphism Counting |
 | 2007.08663 | 47 | pending | TUDataset: A collection of benchmark datasets for learning with graphs |
 | 2007.02133 | 46 | pending | Simple and Deep Graph Convolutional Networks |
+| 1606.09375 | 44 | pending | Convolutional Neural Networks on Graphs with Fast Localized Spectral Filtering |
 | 1912.01703 | 44 | pending | PyTorch: An Imperative Style, High-Performance Deep Learning Library |
-| 1606.09375 | 43 | pending | Convolutional Neural Networks on Graphs with Fast Localized Spectral Filtering |
 | 1901.00596 | 42 | pending | A Comprehensive Survey on Graph Neural Networks |
 | 2110.03753 | 41 | pending | From Stars to Subgraphs: Uplifting Any GNN with Local Structure Awareness |
 | 2010.11929 | 39 | pending | An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale |
@@ -59,10 +59,10 @@ type: dev
 | 2206.04910 | 28 | pending | NAGphormer: A Tokenized Graph Transformer for Node Classification in Large Graphs |
 | 2203.00199 | 28 | pending | Equivariant and Stable Positional Encoding for More Powerful Graph Neural Networks |
 | 2006.07988 | 27 | pending | Adaptive Universal Generalized PageRank Graph Neural Network |
+| 2505.15547 | 27 | pending | Oversmoothing, "Oversquashing", Heterophily, Long-Range, and more: Demystifying Common Beliefs in Graph Machine Learning |
 | 1603.08861 | 27 | pending | Revisiting Semi-Supervised Learning with Graph Embeddings |
 | 2301.09505 | 26 | pending | Rethinking the Expressive Power of GNNs via Graph Biconnectivity |
 | 2009.14794 | 26 | pending | Rethinking Attention with Performers |
-| 2505.15547 | 26 | pending | Oversmoothing, "Oversquashing", Heterophily, Long-Range, and more: Demystifying Common Beliefs in Graph Machine Learning |
 | 2010.02863 | 26 | pending | Directional Graph Networks |
 | 2303.01028 | 26 | pending | Specformer: Spectral Graph Neural Networks Meet Transformers |
 | 2303.06147 | 26 | done | Exphormer: Sparse Transformers for Graphs |
@@ -82,9 +82,9 @@ type: dev
 | 2009.03509 | 23 | pending | Masked Label Prediction: Unified Massage Passing Model for Semi-Supervised Classification |
 | 2210.02997 | 23 | pending | Expander Graph Propagation |
 | 1909.13021 | 22 | pending | Multi-scale Attributed Node Embedding |
+| 1412.6980 | 22 | pending | Adam: A Method for Stochastic Optimization |
 | 1312.6203 | 21 | pending | Spectral Networks and Locally Connected Networks on Graphs |
 | 2306.03589 | 21 | pending | How does over-squashing affect the power of GNNs? |
-| 1412.6980 | 21 | pending | Adam: A Method for Stochastic Optimization |
 | 1806.08804 | 21 | pending | Hierarchical Graph Representation Learning with Differentiable Pooling |
 | 2105.14491 | 21 | pending | How Attentive are Graph Attention Networks? |
 | 1902.07243 | 20 | pending | Graph Neural Networks for Social Recommendation |
@@ -98,27 +98,28 @@ type: dev
 | 2002.04025 | 19 | pending | Can graph neural networks count substructures? |
 | 2301.09474 | 19 | pending | DIFFormer: Scalable (Graph) Transformers Induced by Energy Constrained Diffusion |
 | 2103.03212 | 18 | pending | Weisfeiler and Lehman Go Topological: Message Passing Simplicial Networks |
+| 2411.17429 | 18 | pending | Graph Rewiring in GNNs to Mitigate Over-Squashing and Over-Smoothing: A Survey |
 | 1905.09550 | 18 | pending | Revisiting Graph Neural Networks: All We Have is Low-Pass Filters |
 | 2202.02296 | 18 | pending | Graph-Coupled Oscillator Networks |
 | 1511.05493 | 18 | pending | Gated Graph Sequence Neural Networks |
 | 2206.01003 | 18 | pending | Shortest Path Networks for Graph Property Prediction |
 | 2305.08018 | 18 | done | DRew: Dynamically Rewired Message Passing with Delay |
+| 2502.14546 | 18 | pending | Position: Graph Learning Will Lose Relevance Due To Poor Benchmarks |
+| 2502.16533 | 18 | pending | A Survey of Graph Transformers: Architectures, Theories and Applications |
+| 2505.18088 | 18 | pending | Early-Exit Graph Neural Networks |
 | 2011.07682 | 18 | pending | A Large-Scale Database for Graph Representation Learning |
 | 1911.06455 | 17 | pending | Graph Transformer Networks |
 | 2111.00396 | 17 | pending | Efficiently Modeling Long Sequences with Structured State Spaces |
 | 2205.11172 | 17 | pending | How Powerful are Spectral Graph Neural Networks |
 | 2002.03155 | 17 | pending | Random Features Strengthen Graph Neural Networks |
 | 2308.15568 | 17 | pending | Over-Squashing in Graph Neural Networks: A Comprehensive survey |
-| 2411.17429 | 17 | pending | Graph Rewiring in GNNs to Mitigate Over-Squashing and Over-Smoothing: A Survey |
 | 1607.06450 | 17 | pending | Layer Normalization |
 | 2005.14165 | 17 | pending | Language Models are Few-Shot Learners |
 | 1509.09292 | 17 | pending | Convolutional Networks on Graphs for Learning Molecular Fingerprints |
 | 1703.06103 | 17 | pending | Modeling Relational Data with Graph Convolutional Networks |
 | 2201.12787 | 17 | pending | GRPE: Relative Positional Encoding for Graph Transformer |
 | 2403.01232 | 17 | pending | Polynormer: Polynomial-Expressive Graph Transformer in Linear Time |
-| 2502.14546 | 17 | pending | Position: Graph Learning Will Lose Relevance Due To Poor Benchmarks |
-| 2502.16533 | 17 | pending | A Survey of Graph Transformers: Architectures, Theories and Applications |
-| 2505.18088 | 17 | pending | Early-Exit Graph Neural Networks |
+| 2405.16435 | 17 | pending | Node Identifiers: Compact, Discrete Representations for Efficient Graph Learning |
 | 2511.13010 | 17 | pending | Are Graph Transformers Necessary? Efficient Long-Range Message Passing with Fractal Nodes in MPNNs |
 | 2312.00752 | 16 | pending | Mamba: Linear-Time Sequence Modeling with Selective State Spaces |
 | 1909.12223 | 16 | pending | PairNorm: Tackling Oversmoothing in GNNs |
@@ -126,9 +127,9 @@ type: dev
 | 1806.01973 | 16 | pending | Graph Convolutional Neural Networks for Web-Scale Recommender Systems |
 | 2106.10934 | 16 | pending | GRAND: Graph Neural Diffusion |
 | 2212.13350 | 16 | done | A Generalization of ViT/MLP-Mixer to Graphs |
-| 2405.16435 | 16 | pending | Node Identifiers: Compact, Discrete Representations for Efficient Graph Learning |
 | 1610.02415 | 15 | pending | Automatic Chemical Design Using a Data-Driven Continuous Representation of Molecules |
 | 1907.03199 | 15 | pending | What graph neural networks cannot learn: depth vs width |
+| 2505.18728 | 15 | pending | Message-Passing State-Space Models: Improving Graph Learning with Modern Sequence Modeling |
 | 2202.08455 | 15 | pending | Transformer for Graphs: An Overview from Architecture Perspective |
 | 1904.03751 | 15 | pending | DeepGCNs: Can GCNs Go As Deep As CNNs? |
 | 1912.09893 | 15 | pending | A Fair Comparison of Graph Neural Networks for Graph Classification |
@@ -137,10 +138,10 @@ type: dev
 | 2205.13328 | 15 | pending | How Powerful are K-hop Message Passing Graph Neural Networks |
 | 2101.00797 | 14 | pending | Beyond Low-frequency Information in Graph Convolutional Networks |
 | 1905.12560 | 14 | pending | On the equivalence between graph isomorphism testing and function approximation with GNNs |
-| 2505.18728 | 14 | pending | Message-Passing State-Space Models: Improving Graph Learning with Modern Sequence Modeling |
 | 2510.17457 | 14 | pending | Deeper with Riemannian Geometry: Overcoming Oversmoothing and Oversquashing for Graph Foundation Models |
 | 1611.08097 | 14 | pending | Geometric Deep Learning: Going beyond Euclidean data |
 | 2112.09992 | 14 | pending | Weisfeiler and Leman go Machine Learning: The Story so far |
+| 2605.13383 | 13 | pending | Beyond Oversquashing: Understanding Signal Propagation in GNNs Via Observables |
 | 2302.06835 | 13 | done | Understanding Oversquashing in GNNs through the Lens of Effective Resistance |
 | 2006.16236 | 13 | pending | Transformers are RNNs: Fast Autoregressive Transformers with Linear Attention |
 | 2110.13094 | 13 | pending | Gophormer: Ego-Graph Transformer for Node Classification |
@@ -154,7 +155,6 @@ type: dev
 | 2402.08678 | 13 | done | Graph Mamba: Towards Learning on Graphs with State Space Models |
 | 2405.01009 | 13 | pending | On Oversquashing in Graph Neural Networks Through the Lens of Dynamical Systems |
 | 2502.10818 | 13 | done | On Vanishing Gradients, Over-Smoothing, and Over-Squashing in GNNs: Bridging Recurrent and Graph Learning |
-| 2605.13383 | 12 | pending | Beyond Oversquashing: Understanding Signal Propagation in GNNs Via Observables |
 | 2001.05140 | 12 | pending | Graph-Bert: Only Attention is Needed for Learning Graph Representations |
 | 2407.09777 | 12 | pending | Graph Transformers: A Survey |
 | 2305.13084 | 12 | pending | A Fractional Graph Laplacian Approach to Oversmoothing |
@@ -180,6 +180,7 @@ type: dev
 | 2003.03123 | 11 | pending | Directional Message Passing for Molecular Graphs |
 | 2408.07191 | 11 | pending | Joint Graph Rewiring and Feature Denoising via Spectral Resonance |
 | 2310.01668 | 11 | done | Locality-Aware Graph-Rewiring in GNNs |
+| 1405.0312 | 11 | pending | Microsoft COCO: Common Objects in Context |
 | 2006.07739 | 11 | pending | DeeperGCN: All You Need to Train Deeper GCNs |
 | 2009.13566 | 11 | pending | Graph Neural Networks with Heterophily |
 | 2010.13902 | 11 | pending | Graph Contrastive Learning with Augmentations |
@@ -188,6 +189,7 @@ type: dev
 | 2310.00149 | 11 | pending | One for All: Towards Training One Graph Model for All Classification Tasks |
 | 2406.03386 | 11 | done | Learning Long Range Dependencies on Graphs via Random Walks |
 | 1802.04364 | 11 | pending | Junction Tree Variational Autoencoder for Molecular Graph Generation |
+| 2605.12358 | 10 | pending | From Message-Passing to Linearized Graph Sequence Models |
 | 2411.12732 | 10 | pending | Benchmarking Positional Encodings for GNNs and Graph Transformers |
 | 1608.03983 | 10 | pending | SGDR: Stochastic Gradient Descent with Warm Restarts |
 | 2302.07090 | 10 | pending | A Complete Expressiveness Hierarchy for Subgraph GNNs via Subgraph Weisfeiler-Lehman Tests |
@@ -203,7 +205,6 @@ type: dev
 | 2006.15646 | 10 | pending | Expressive Power of Invariant and Equivariant Graph Neural Networks |
 | 2205.13401 | 10 | pending | Your Transformer May Not be as Powerful as You Expect |
 | 2210.05062 | 10 | pending | Relational Attention: Generalizing Transformers for Graph-Structured Tasks |
-| 1405.0312 | 10 | pending | Microsoft COCO: Common Objects in Context |
 | 2006.13009 | 10 | pending | Iterative Deep Graph Learning for Graph Neural Networks: Better and Robust Node Embeddings |
 | 2205.10803 | 10 | pending | GraphMAE: Self-Supervised Masked Graph Autoencoders |
 | 2301.11956 | 10 | done | On the Connection Between MPNN and Graph Transformer |
@@ -215,7 +216,6 @@ type: dev
 | 2402.08595 | 10 | pending | Homomorphism Counts for Graph Neural Networks: All About That Basis |
 | 2407.01214 | 10 | pending | Revisiting Random Walks for Learning on Graphs |
 | 2602.17071 | 10 | pending | AdvSynGNN: Structure-Adaptive Graph Neural Nets via Adversarial Synthesis and Self-Corrective Propagation |
-| 2605.12358 | 9 | pending | From Message-Passing to Linearized Graph Sequence Models |
 | 2506.16110 | 9 | pending | Mitigating Over-Squashing in Graph Neural Networks by Spectrum-Preserving Sparsification |
 | 1907.10902 | 9 | pending | Optuna: A Next-generation Hyperparameter Optimization Framework |
 | 2102.06462 | 9 | pending | Two Sides of the Same Coin: Heterophily and Oversmoothing in Graph Convolutional Neural Networks |
@@ -262,13 +262,16 @@ type: dev
 | 2305.11424 | 8 | pending | Graph Propagation Transformer for Graph Representation Learning |
 | 2308.07134 | 8 | pending | Language is All a Graph Needs |
 | 2310.04292 | 8 | pending | Towards Foundational Models for Molecular Learning on Large-Scale Multi-Task Datasets |
+| 2411.05274 | 8 | pending | Distributed-Order Fractional Graph Operating Network |
 | 2502.02379 | 8 | done | No Metric to Rule Them All: Toward Principled Evaluations of Graph-Learning Datasets |
+| 2504.10917 | 8 | pending | Towards A Universal Graph Structural Encoder |
 | 2510.11903 | 8 | pending | Integrating Sequential and Relational Modeling for User Events: Datasets and Prediction Tasks |
 | 2510.21267 | 8 | pending | Relieving the Over-Aggregating Effect in Graph Transformers |
 | 2602.09065 | 8 | pending | Enhanced Graph Transformer with Serialized Graph Tokens |
 | 2603.11099 | 8 | pending | Graph Tokenization for Bridging Graphs and Transformers |
 | 2009.06211 | 8 | pending | Implicit Graph Neural Networks |
 | 2011.04006 | 8 | pending | Long Range Arena: A Benchmark for Efficient Transformers |
+| 2408.05391 | 7 | pending | SAMSA: Efficient Transformer for Many Data Modalities |
 | 2009.06732 | 7 | pending | Efficient Transformers: A Survey |
 | 2511.12709 | 7 | pending | Adaptive Graph Rewiring to Mitigate Over-Squashing in Mesh-Based GNNs for Fluid Dynamics Simulations |
 | 1606.08415 | 7 | pending | Gaussian Error Linear Units (GELUs) |
@@ -299,6 +302,7 @@ type: dev
 | 2604.07492 | 7 | pending | Cluster Attention for Graph Machine Learning |
 | 1801.10247 | 7 | pending | FastGCN: Fast Learning with Graph Convolutional Networks via Importance Sampling |
 | 2401.00529 | 7 | pending | GraphGPT: Generative Pre-trained Graph Eulerian Transformer |
+| 2505.11346 | 7 | pending | What Can We Learn From MIMO Graph Convolutions? |
 | 1809.10341 | 7 | pending | Deep Graph Infomax |
 | 2006.16811 | 7 | pending | Path integral based convolution and pooling for graph neural networks |
 | 2007.02901 | 7 | pending | Wiki-CS: A Wikipedia-Based Benchmark for Graph Neural Networks |
@@ -311,8 +315,10 @@ type: dev
 | 2306.03561 | 7 | done | CIN++: Enhancing Topological Message Passing |
 | 2306.05955 | 7 | done | Path Neural Networks: Expressive and Accurate Graph Neural Networks |
 | 2308.13490 | 7 | pending | TpuGraphs: A Performance Prediction Dataset on Large Tensor Computational Graphs |
+| 2310.11829 | 7 | pending | Graph Foundation Models: Concepts, Opportunities and Challenges |
 | 2310.13023 | 7 | pending | GraphGPT: Graph Instruction Tuning for Large Language Models |
 | 2312.02783 | 7 | pending | Large Language Models on Graphs: A Comprehensive Survey |
+| 2402.02287 | 7 | pending | Future Directions in the Theory of Graph Machine Learning |
 | 2402.04538 | 7 | pending | Triplet Interaction Improves Graph Transformers: Accurate Molecular Graph Learning with Triplet Graph Transformers |
 | 2405.14094 | 7 | pending | Attending to Topological Spaces: The Cellular Transformer |
 | 2405.19121 | 7 | done | Spatio-Spectral Graph Neural Networks |
@@ -324,14 +330,11 @@ type: dev
 | 2410.15059 | 7 | pending | Deep Equilibrium Algorithmic Reasoning |
 | 2410.18676 | 7 | done | Homomorphism Counts as Structural Encodings for Graph Learning |
 | 2411.00835 | 7 | pending | Scalable Message Passing Neural Networks: No Need for Attention in Large Graph Representation Learning |
-| 2411.05274 | 7 | pending | Distributed-Order Fractional Graph Operating Network |
-| 2504.10917 | 7 | pending | Towards A Universal Graph Structural Encoder |
 | 2602.01553 | 7 | pending | Plain Transformers are Surprisingly Powerful Link Predictors |
 | 2603.22984 | 7 | pending | Can Graph Foundation Models Generalize Over Architecture? |
 | 2110.07728 | 7 | pending | Pre-training Molecular Graph Representation with 3D Geometry |
 | 2110.14416 | 7 | pending | Transformers Generalize DeepSets and Can be Extended to Graphs and Hypergraphs |
 | 2203.04810 | 7 | pending | Benchmarking Graphormer on Large-Scale Molecular Modeling Datasets |
-| 2408.05391 | 6 | pending | SAMSA: Efficient Transformer for Many Data Modalities |
 | 2506.06582 | 6 | pending | Demystifying Topological Message-Passing with Relational Structures: A Case Study on Oversquashing in Simplicial Message-Passing |
 | 1906.04015 | 6 | pending | Cormorant: Covariant Molecular Neural Networks |
 | 1801.02144 | 6 | pending | Covariant Compositional Networks For Learning Graphs |
@@ -381,7 +384,6 @@ type: dev
 | 1907.11692 | 6 | pending | RoBERTa: A Robustly Optimized BERT Pretraining Approach |
 | 2406.06547 | 6 | pending | Quantum Positional Encodings for Graph Neural Networks |
 | 2411.13028 | 6 | pending | A Theory for Compressibility of Graph Transformers for Transductive Learning |
-| 2505.11346 | 6 | pending | What Can We Learn From MIMO Graph Convolutions? |
 | 1904.01561 | 6 | pending | Analyzing Learned Molecular Representations for Property Prediction |
 | 2005.14612 | 6 | pending | Non-Local Graph Neural Networks |
 | 2009.03294 | 6 | pending | GraphNorm: A Principled Approach to Accelerating Graph Neural Network Training |
@@ -399,10 +401,8 @@ type: dev
 | 2309.04332 | 6 | pending | Graph Neural Networks Use Graphs When They Shouldn't |
 | 2309.09924 | 6 | pending | DYMAG: Rethinking Message Passing Using Dynamical-systems-based Waveforms |
 | 2310.06417 | 6 | pending | Supercharging Graph Transformers with Advective Diffusion |
-| 2310.11829 | 6 | pending | Graph Foundation Models: Concepts, Opportunities and Challenges |
 | 2310.18716 | 6 | pending | Laplacian Canonization: A Minimalist Approach to Sign and Basis Invariant Spectral Embedding |
 | 2312.02339 | 6 | pending | Expressive Sign Equivariant Networks for Spectral Geometric Learning |
-| 2402.02287 | 6 | pending | Future Directions in the Theory of Graph Machine Learning |
 | 2402.08170 | 6 | pending | LLaGA: Large Language and Graph Assistant |
 | 2404.17099 | 6 | pending | Unleashing the Potential of Fractional Calculus in Graph Neural Networks with FROND |
 | 2405.13915 | 6 | pending | HeteGraph-Mamba: Heterogeneous Graph Learning via Selective State Space Model |
@@ -415,6 +415,7 @@ type: dev
 | 2410.06746 | 6 | pending | Cluster-wise Graph Transformer with Dual-granularity Kernelized Attention |
 | 2410.13798 | 6 | done | Learning Graph Quantized Tokenizers |
 | 2411.19392 | 6 | pending | Scale-aware Message Passing For Graph Node Classification |
+| 2502.02479 | 6 | pending | Using Random Noise Equivariantly to Boost Graph Neural Networks Universally |
 | 2502.16233 | 6 | pending | Graph Self-Supervised Learning with Learnable Structural and Positional Encodings |
 | 2503.01079 | 6 | pending | Depth-Adaptive Graph Neural Networks via Learnable Bakry-Émery Curvature |
 | 2508.17531 | 6 | pending | Gumbel-MPNN: Graph Rewiring with Gumbel-Softmax |
@@ -494,6 +495,7 @@ type: dev
 | 2312.01538 | 5 | done | Recurrent Distance Filtering for Graph Representation Learning |
 | 2412.08174 | 5 | pending | Can Graph Neural Networks Learn Language with Extremely Weak Text Supervision? |
 | 2505.21421 | 5 | pending | A Physics-Augmented GraphGPS Framework for the Reconstruction of 3D Riemann Problems from Sparse Data |
+| 2506.01231 | 5 | pending | Towards Efficient Few-shot Graph Neural Architecture Search via Partitioning Gradient Contribution |
 | 2506.08309 | 5 | pending | Learnable Spatial-Temporal Positional Encoding for Link Prediction |
 | 1409.0575 | 5 | pending | ImageNet Large Scale Visual Recognition Challenge |
 | 2402.10793 | 5 | done | An end-to-end attention-based approach for learning on graphs |
@@ -507,8 +509,6 @@ type: dev
 | 2102.10338 | 5 | pending | SSFG: Stochastically Scaling Features and Gradients for Regularizing Graph Convolutional Networks |
 | 2103.13355 | 5 | pending | Bag of Tricks for Node Classification with Graph Neural Networks |
 | 2106.13264 | 5 | pending | You are AllSet: A Multiset Function Framework for Hypergraph Neural Networks |
-| 2107.02392 | 5 | pending | Dirichlet Energy Constrained Learning for Deep Graph Neural Networks |
-| 2111.00064 | 5 | pending | Node Feature Extraction by Self-Supervised Multi-scale Neighborhood Prediction |
 
 ### Semantic Scholar crawl summary
 
@@ -517,4 +517,4 @@ The standalone S2 crawl page was removed to keep the development surface smaller
 **DB papers total:** 225
 **Crawled:** 224
 **Uncrawled:** 1
-**Hit crawl limits:** 1
+**Hit crawl limits:** 0

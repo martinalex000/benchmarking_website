@@ -10,8 +10,8 @@ This page distinguishes between entries that are truly unresolved and stale pend
 
 Source: pending_datasets table in benchmarks.db
 
-**Tracked entries in DB:** 97
-**Still unresolved:** 97
+**Tracked entries in DB:** 98
+**Still unresolved:** 98
 **Already covered now:** 0
 
 ### Still unresolved
@@ -94,6 +94,7 @@ Source: pending_datasets table in benchmarks.db
 | pending | sr25 | 2407.18480 | Undistinguished Pairs | Graph Isomorphism Benchmark |  |
 | pending | SR25 | 2501.18739 | Accuracy |  |  |
 | pending | SST2 | 2401.03350 | AUROC |  | yes |
+| pending | subgraph counting | 2102.08786 | MAE | GraphGym |  |
 | pending | Superblue | 2404.00477 | RMSE | Superblue |  |
 | pending | Synthetic | 2309.04941 | Normalized MAE |  |  |
 | pending | Synthetic Subgraph Counting | 2403.13749 | MAE |  |  |

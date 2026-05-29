@@ -841,16 +841,17 @@ variants:
     - null
   - model: CRaWl
     model_plain: CRaWl
-    is_baseline: true
+    is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2312.16560'
-    title: Algorithmic Graph Tasks
-    date: Dec 2023
-    date_iso: 2023-12
-    date_display: Dec 2023
-    codebase_url: https://github.com/nec-research/Adaptive-Message-Passing
+    arxiv_id: '2102.08786'
+    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
+      Passing'
+    date: Feb 2021
+    date_iso: 2021-02
+    date_display: Feb 2021
+    codebase_url: https://github.com/toenshoff/CRaWl
     uses_external_data: false
     is_best: false
     metric_values:
@@ -4530,35 +4531,13 @@ variants:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.468
+    params_millions: null
     arxiv_id: '2206.08164'
     title: LRGB
     date: Jun 2022
     date_iso: 2022-06
     date_display: Jun 2022
     codebase_url: https://github.com/vijaydwivedi75/lrgb
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.6439
-    - null
-    - null
-    metric_stds:
-    - 0.0075
-    - null
-    - null
-  - model: SAN
-    model_plain: SAN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2312.16560'
-    title: Algorithmic Graph Tasks
-    date: Dec 2023
-    date_iso: 2023-12
-    date_display: Dec 2023
-    codebase_url: https://github.com/nec-research/Adaptive-Message-Passing
     uses_external_data: false
     is_best: false
     metric_values:
@@ -4589,6 +4568,29 @@ variants:
     - null
     metric_stds:
     - 0.0342
+    - null
+    - null
+  - model: SAN
+    model_plain: SAN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2102.08786'
+    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
+      Passing'
+    date: Feb 2021
+    date_iso: 2021-02
+    date_display: Feb 2021
+    codebase_url: https://github.com/toenshoff/CRaWl
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.6439
+    - null
+    - null
+    metric_stds:
+    - 0.0075
     - null
     - null
   - model: Baseline
@@ -4773,7 +4775,7 @@ variants:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.531
+    params_millions: null
     arxiv_id: '2206.08164'
     title: LRGB
     date: Jun 2022
@@ -4908,35 +4910,13 @@ variants:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.501
+    params_millions: null
     arxiv_id: '2206.08164'
     title: LRGB
     date: Jun 2022
     date_iso: 2022-06
     date_display: Jun 2022
     codebase_url: https://github.com/vijaydwivedi75/lrgb
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.6326
-    - null
-    - null
-    metric_stds:
-    - 0.0126
-    - null
-    - null
-  - model: Transformer
-    model_plain: Transformer
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2312.16560'
-    title: Algorithmic Graph Tasks
-    date: Dec 2023
-    date_iso: 2023-12
-    date_display: Dec 2023
-    codebase_url: https://github.com/nec-research/Adaptive-Message-Passing
     uses_external_data: false
     is_best: false
     metric_values:
@@ -4982,6 +4962,29 @@ variants:
     date_iso: 2023-08
     date_display: Aug 2023
     codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.6326
+    - null
+    - null
+    metric_stds:
+    - 0.0126
+    - null
+    - null
+  - model: Transformer
+    model_plain: Transformer
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2102.08786'
+    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
+      Passing'
+    date: Feb 2021
+    date_iso: 2021-02
+    date_display: Feb 2021
+    codebase_url: https://github.com/toenshoff/CRaWl
     uses_external_data: false
     is_best: false
     metric_values:
@@ -5455,28 +5458,6 @@ variants:
     - 0.01
     - null
     - null
-  - model: GatedGCN
-    model_plain: GatedGCN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2312.16560'
-    title: Algorithmic Graph Tasks
-    date: Dec 2023
-    date_iso: 2023-12
-    date_display: Dec 2023
-    codebase_url: https://github.com/nec-research/Adaptive-Message-Passing
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.6069
-    - null
-    - null
-    metric_stds:
-    - 0.0035
-    - null
-    - null
   - model: Gated + RWSE
     model_plain: Gated + RWSE
     is_baseline: true
@@ -5555,6 +5536,29 @@ variants:
     date_iso: 2023-10
     date_display: Oct 2023
     codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.6069
+    - null
+    - null
+    metric_stds:
+    - 0.0035
+    - null
+    - null
+  - model: GatedGCN
+    model_plain: GatedGCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2102.08786'
+    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
+      Passing'
+    date: Feb 2021
+    date_iso: 2021-02
+    date_display: Feb 2021
+    codebase_url: https://github.com/toenshoff/CRaWl
     uses_external_data: false
     is_best: false
     metric_values:
@@ -6102,28 +6106,6 @@ variants:
     - 0.0023
     - null
     - 0.0013
-  - model: GCN
-    model_plain: GCN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2306.02866'
-    title: Learning Probabilistic Symmetrization for Architecture Agnostic Equivariance
-    date: Jun 2023
-    date_iso: 2023-06
-    date_display: Jun 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.593
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
   - model: Kipf et al. (GCN)
     model_plain: Kipf et al. (GCN)
     is_baseline: true
@@ -6160,6 +6142,29 @@ variants:
     date_iso: 2024-03
     date_display: Mar 2024
     codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.593
+    - null
+    - null
+    metric_stds:
+    - 0.0023
+    - null
+    - null
+  - model: GCN
+    model_plain: GCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2102.08786'
+    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
+      Passing'
+    date: Feb 2021
+    date_iso: 2021-02
+    date_display: Feb 2021
+    codebase_url: https://github.com/toenshoff/CRaWl
     uses_external_data: false
     is_best: false
     metric_values:
@@ -6442,7 +6447,7 @@ variants:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.506
+    params_millions: null
     arxiv_id: '2206.08164'
     title: LRGB
     date: Jun 2022
@@ -6730,7 +6735,7 @@ variants:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.492
+    params_millions: null
     arxiv_id: '2206.08164'
     title: LRGB
     date: Jun 2022
@@ -6886,12 +6891,13 @@ variants:
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2306.02866'
-    title: Learning Probabilistic Symmetrization for Architecture Agnostic Equivariance
-    date: Jun 2023
-    date_iso: 2023-06
-    date_display: Jun 2023
-    codebase_url: ''
+    arxiv_id: '2102.08786'
+    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
+      Passing'
+    date: Feb 2021
+    date_iso: 2021-02
+    date_display: Feb 2021
+    codebase_url: https://github.com/toenshoff/CRaWl
     uses_external_data: false
     is_best: false
     metric_values:
@@ -6899,7 +6905,7 @@ variants:
     - null
     - null
     metric_stds:
-    - null
+    - 0.0079
     - null
     - null
   - model: GCN (EE H-19-RWPE)
@@ -7083,7 +7089,7 @@ variants:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.502
+    params_millions: null
     arxiv_id: '2206.08164'
     title: LRGB
     date: Jun 2022
@@ -7105,7 +7111,7 @@ variants:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.505
+    params_millions: null
     arxiv_id: '2206.08164'
     title: LRGB
     date: Jun 2022
@@ -7127,7 +7133,7 @@ variants:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.496
+    params_millions: null
     arxiv_id: '2206.08164'
     title: LRGB
     date: Jun 2022
@@ -8250,24 +8256,13 @@ variants:
     - 0.021
     - null
   milestones:
-  - value: 0.6439
-    std: 0.0075
-    model: SAN+RWSE
-    arxiv_id: '2206.08164'
-    title: LRGB
-    date: 2022-06
-  - value: 0.6575
-    std: null
-    model: ViT-PS
-    arxiv_id: '2306.02866'
-    title: Learning Probabilistic Symmetrization for Architecture Agnostic Equivariance
-    date: 2023-06
-  - value: 0.6996
-    std: 0.0076
-    model: Drew-GIN
-    arxiv_id: '2307.07107'
-    title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+  - value: 0.7074
+    std: 0.0032
+    model: CRaWl
+    arxiv_id: '2102.08786'
+    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
+      Passing'
+    date: 2021-02
   - value: 0.7156
     std: 0.0058
     model: GraphGPS + HDSE

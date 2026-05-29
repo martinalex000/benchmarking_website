@@ -127,16 +127,17 @@ variants:
     - 0.0033
   - model: CRaWl
     model_plain: CRaWl
-    is_baseline: true
+    is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2309.00367'
-    title: Where Did the Gap Go? Reassessing the Long-Range Graph Benchmark
-    date: Sep 2023
-    date_iso: 2023-09
-    date_display: Sep 2023
-    codebase_url: https://github.com/toenshoff/LRGB
+    arxiv_id: '2102.08786'
+    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
+      Passing'
+    date: Feb 2021
+    date_iso: 2021-02
+    date_display: Feb 2021
+    codebase_url: https://github.com/toenshoff/CRaWl
     uses_external_data: false
     is_best: false
     metric_values:
@@ -1279,31 +1280,13 @@ variants:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.531
+    params_millions: null
     arxiv_id: '2206.08164'
     title: LRGB
     date: Jun 2022
     date_iso: 2022-06
     date_display: Jun 2022
     codebase_url: https://github.com/vijaydwivedi75/lrgb
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.323
-    metric_stds:
-    - 0.0039
-  - model: SAN
-    model_plain: SAN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2309.00367'
-    title: Where Did the Gap Go? Reassessing the Long-Range Graph Benchmark
-    date: Sep 2023
-    date_iso: 2023-09
-    date_display: Sep 2023
-    codebase_url: https://github.com/toenshoff/LRGB
     uses_external_data: false
     is_best: false
     metric_values:
@@ -1323,6 +1306,25 @@ variants:
     date_iso: 2024-01
     date_display: Jan 2024
     codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.323
+    metric_stds:
+    - 0.0039
+  - model: SAN
+    model_plain: SAN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2102.08786'
+    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
+      Passing'
+    date: Feb 2021
+    date_iso: 2021-02
+    date_display: Feb 2021
+    codebase_url: https://github.com/toenshoff/CRaWl
     uses_external_data: false
     is_best: false
     metric_values:
@@ -1352,7 +1354,7 @@ variants:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.468
+    params_millions: null
     arxiv_id: '2206.08164'
     title: LRGB
     date: Jun 2022
@@ -1553,13 +1555,14 @@ variants:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.502
-    arxiv_id: '2206.08164'
-    title: LRGB
-    date: Jun 2022
-    date_iso: 2022-06
-    date_display: Jun 2022
-    codebase_url: https://github.com/vijaydwivedi75/lrgb
+    params_millions: null
+    arxiv_id: '2102.08786'
+    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
+      Passing'
+    date: Feb 2021
+    date_iso: 2021-02
+    date_display: Feb 2021
+    codebase_url: https://github.com/toenshoff/CRaWl
     uses_external_data: false
     is_best: false
     metric_values:
@@ -1571,7 +1574,7 @@ variants:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.502
+    params_millions: null
     arxiv_id: '2206.08164'
     title: LRGB
     date: Jun 2022
@@ -1735,31 +1738,13 @@ variants:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.501
+    params_millions: null
     arxiv_id: '2206.08164'
     title: LRGB
     date: Jun 2022
     date_iso: 2022-06
     date_display: Jun 2022
     codebase_url: https://github.com/vijaydwivedi75/lrgb
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.2694
-    metric_stds:
-    - 0.0098
-  - model: Transformer
-    model_plain: Transformer
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2309.00367'
-    title: Where Did the Gap Go? Reassessing the Long-Range Graph Benchmark
-    date: Sep 2023
-    date_iso: 2023-09
-    date_display: Sep 2023
-    codebase_url: https://github.com/toenshoff/LRGB
     uses_external_data: false
     is_best: false
     metric_values:
@@ -1779,6 +1764,25 @@ variants:
     date_iso: 2025-02
     date_display: Feb 2025
     codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.2694
+    metric_stds:
+    - 0.0098
+  - model: Transformer
+    model_plain: Transformer
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2102.08786'
+    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
+      Passing'
+    date: Feb 2021
+    date_iso: 2021-02
+    date_display: Feb 2021
+    codebase_url: https://github.com/toenshoff/CRaWl
     uses_external_data: false
     is_best: false
     metric_values:
@@ -2155,7 +2159,7 @@ variants:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.492
+    params_millions: null
     arxiv_id: '2206.08164'
     title: LRGB
     date: Jun 2022
@@ -2302,37 +2306,20 @@ variants:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.496
-    arxiv_id: '2206.08164'
-    title: LRGB
-    date: Jun 2022
-    date_iso: 2022-06
-    date_display: Jun 2022
-    codebase_url: https://github.com/vijaydwivedi75/lrgb
+    params_millions: null
+    arxiv_id: '2102.08786'
+    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
+      Passing'
+    date: Feb 2021
+    date_iso: 2021-02
+    date_display: Feb 2021
+    codebase_url: https://github.com/toenshoff/CRaWl
     uses_external_data: false
     is_best: false
     metric_values:
     - 0.1268
     metric_stds:
     - 0.006
-  - model: GINE
-    model_plain: GINE
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: 0.505
-    arxiv_id: '2206.08164'
-    title: LRGB
-    date: Jun 2022
-    date_iso: 2022-06
-    date_display: Jun 2022
-    codebase_url: https://github.com/vijaydwivedi75/lrgb
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.1265
-    metric_stds:
-    - 0.0076
   - model: GIN
     model_plain: GIN
     is_baseline: true
@@ -2345,6 +2332,25 @@ variants:
     date_iso: 2023-10
     date_display: Oct 2023
     codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.1265
+    metric_stds:
+    - 0.0076
+  - model: GINE
+    model_plain: GINE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2102.08786'
+    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
+      Passing'
+    date: Feb 2021
+    date_iso: 2021-02
+    date_display: Feb 2021
+    codebase_url: https://github.com/toenshoff/CRaWl
     uses_external_data: false
     is_best: false
     metric_values:
@@ -2662,18 +2668,13 @@ variants:
     metric_stds:
     - 0.006
   milestones:
-  - value: 0.323
-    std: 0.0039
-    model: SAN+LapPE
-    arxiv_id: '2206.08164'
-    title: LRGB
-    date: 2022-06
   - value: 0.4588
     std: 0.0079
     model: CRaWl
-    arxiv_id: '2309.00367'
-    title: Where Did the Gap Go? Reassessing the Long-Range Graph Benchmark
-    date: 2023-09
+    arxiv_id: '2102.08786'
+    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
+      Passing'
+    date: 2021-02
   - value: 0.4653
     std: 0.0097
     model: GENs

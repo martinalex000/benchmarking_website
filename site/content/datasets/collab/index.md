@@ -12,7 +12,7 @@ stats:
   avg_nodes: 74.5
   avg_edges: 2457.8
   num_classes: 2
-result_count: 112
+result_count: 119
 best_model:
   model: CoCN expanded
   value: 0.8722
@@ -105,6 +105,44 @@ variants:
     - 0.8615
     metric_stds:
     - 0.001
+  - model: GSN
+    model_plain: GSN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2102.08786'
+    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
+      Passing'
+    date: Feb 2021
+    date_iso: 2021-02
+    date_display: Feb 2021
+    codebase_url: https://github.com/toenshoff/CRaWl
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.855
+    metric_stds:
+    - 0.012
+  - model: GNTK
+    model_plain: GNTK
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2102.08786'
+    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
+      Passing'
+    date: Feb 2021
+    date_iso: 2021-02
+    date_display: Feb 2021
+    codebase_url: https://github.com/toenshoff/CRaWl
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.836
+    metric_stds:
+    - 0.01
   - model: GCN
     model_plain: GCN
     is_baseline: true
@@ -289,6 +327,25 @@ variants:
     - 0.807
     metric_stds:
     - 0.0074
+  - model: 3WLGNN
+    model_plain: 3WLGNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2102.08786'
+    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
+      Passing'
+    date: Feb 2021
+    date_iso: 2021-02
+    date_display: Feb 2021
+    codebase_url: https://github.com/toenshoff/CRaWl
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.807
+    metric_stds:
+    - 0.017
   - model: GCN
     model_plain: GCN
     is_baseline: true
@@ -307,6 +364,44 @@ variants:
     - 0.8059
     metric_stds:
     - 0.0027
+  - model: CRaWl
+    model_plain: CRaWl
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2102.08786'
+    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
+      Passing'
+    date: Feb 2021
+    date_iso: 2021-02
+    date_display: Feb 2021
+    codebase_url: https://github.com/toenshoff/CRaWl
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.804
+    metric_stds:
+    - 0.015
+  - model: GIN
+    model_plain: GIN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2102.08786'
+    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
+      Passing'
+    date: Feb 2021
+    date_iso: 2021-02
+    date_display: Feb 2021
+    codebase_url: https://github.com/toenshoff/CRaWl
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.802
+    metric_stds:
+    - 0.019
   - model: HGP-SL (GCN)
     model_plain: HGP-SL (GCN)
     is_baseline: false
@@ -325,24 +420,25 @@ variants:
     - 0.8014
     metric_stds:
     - 0.0151
-  - model: GIN
-    model_plain: GIN
+  - model: WEGL
+    model_plain: WEGL
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2310.05174'
-    title: 'GSLB: The Graph Structure Learning Benchmark'
-    date: Oct 2023
-    date_iso: 2023-10
-    date_display: Oct 2023
-    codebase_url: ''
+    arxiv_id: '2102.08786'
+    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
+      Passing'
+    date: Feb 2021
+    date_iso: 2021-02
+    date_display: Feb 2021
+    codebase_url: https://github.com/toenshoff/CRaWl
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.7986
+    - 0.798
     metric_stds:
-    - 0.0164
+    - 0.015
   - model: GAT
     model_plain: GAT
     is_baseline: true
@@ -379,6 +475,25 @@ variants:
     - 0.7894
     metric_stds:
     - 0.0044
+  - model: Kern. WL
+    model_plain: Kern. WL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2102.08786'
+    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
+      Passing'
+    date: Feb 2021
+    date_iso: 2021-02
+    date_display: Feb 2021
+    codebase_url: https://github.com/toenshoff/CRaWl
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.789
+    metric_stds:
+    - 0.019
   - model: Graphormer
     model_plain: Graphormer
     is_baseline: true
@@ -956,6 +1071,25 @@ variants:
     - 0.739
     metric_stds:
     - 0.017
+  - model: DGCNN
+    model_plain: DGCNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2102.08786'
+    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
+      Passing'
+    date: Feb 2021
+    date_iso: 2021-02
+    date_display: Feb 2021
+    codebase_url: https://github.com/toenshoff/CRaWl
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.738
+    metric_stds:
+    - 0.005
   - model: GPS (LCP-FRC)
     model_plain: GPS (LCP-FRC)
     is_baseline: true
@@ -2055,12 +2189,13 @@ variants:
     metric_stds:
     - 0.00294
   milestones:
-  - value: 0.8014
-    std: 0.0151
-    model: HGP-SL (GCN)
-    arxiv_id: '2310.05174'
-    title: 'GSLB: The Graph Structure Learning Benchmark'
-    date: 2023-10
+  - value: 0.855
+    std: 0.012
+    model: GSN
+    arxiv_id: '2102.08786'
+    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
+      Passing'
+    date: 2021-02
   - value: 0.8722
     std: 0.0013
     model: CoCN expanded

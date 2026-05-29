@@ -81,8 +81,9 @@
   function toggleSecondaryMetrics(enabled) {
     showSecondaryMetrics = !!enabled;
     document.querySelectorAll(".result-table").forEach(function (table) {
-      table.querySelectorAll("th.col-value:not(.col-primary), td.col-value:not(.col-primary)").forEach(function (cell) {
-        cell.style.display = showSecondaryMetrics ? "" : "none";
+      table.querySelectorAll(".secondary-metrics").forEach(function (block) {
+        block.hidden = !showSecondaryMetrics;
+        block.classList.toggle("is-visible", showSecondaryMetrics);
       });
     });
     _applyModelColumnWidths();
@@ -1157,16 +1158,11 @@
   /* ── Wide-table toggle ──────────────────────────────────────────────── */
   var _wideTable = false;
   function toggleWideTable() {
-    _wideTable = !_wideTable;
+    _wideTable = false;
     document.querySelectorAll(".result-table-wrapper").forEach(function (el) {
-      if (_wideTable) {
-        el.classList.add("wide-table-mode");
-      } else {
-        el.classList.remove("wide-table-mode");
-      }
+      el.classList.remove("wide-table-mode");
+      el.style.removeProperty("--wide-table-width");
     });
-    var btn = document.getElementById("wide-table-btn");
-    if (btn) btn.textContent = _wideTable ? "⤡ Compact width" : "⤢ Balanced width";
     _applyModelColumnWidths();
     _applyModelTooltips();
   }
@@ -1219,49 +1215,11 @@
       }
 
       // Set CSS custom properties
-      table.style.setProperty("--model-col-width", modelChars + "ch");
-      table.style.setProperty("--value-col-width", valueChars + "ch");
-      table.style.setProperty("--paper-col-width", paperChars + "ch");
-
-      // Update wrapper class
-      if (_wideTable) {
-        wrapper.classList.add("wide-table-mode");
-
-        // Balanced mode should be "as much as needed", not "as wide as possible".
-        // 1) Let table use natural content width.
-        // 2) Cap at viewport so there is never horizontal page/table scrolling.
-        // 3) If over cap, reduce paper/model/value widths until it fits while staying single-line.
-        // Keep a safety margin from viewport edges and avoid subpixel overflow artifacts.
-        var viewportCap = Math.max(320, window.innerWidth - 56);
-        var fitCap = Math.max(300, viewportCap - 8);
-        var minPaper = 18;
-        var minModel = 8;
-        var minValue = 7;
-        var guard = 0;
-
-        while (table.scrollWidth > fitCap && guard < 48) {
-          if (paperChars > minPaper) {
-            paperChars -= 1;
-          } else if (modelChars > minModel) {
-            modelChars -= 1;
-          } else if (valueChars > minValue) {
-            valueChars -= 1;
-          } else {
-            break;
-          }
-          table.style.setProperty("--paper-col-width", paperChars + "ch");
-          table.style.setProperty("--model-col-width", modelChars + "ch");
-          table.style.setProperty("--value-col-width", valueChars + "ch");
-          guard += 1;
-        }
-
-        // Add a 1px buffer so rendered table width does not exceed wrapper because of rounding.
-        var needed = Math.min(viewportCap, table.scrollWidth + 1);
-        wrapper.style.setProperty("--wide-table-width", needed + "px");
-      } else {
-        wrapper.classList.remove("wide-table-mode");
-        wrapper.style.removeProperty("--wide-table-width");
-      }
+      table.style.setProperty("--model-col-width", Math.min(modelChars, 18) + "ch");
+      table.style.setProperty("--value-col-width", Math.min(valueChars, 9) + "ch");
+      table.style.setProperty("--paper-col-width", Math.min(paperChars, 30) + "ch");
+      wrapper.classList.remove("wide-table-mode");
+      wrapper.style.removeProperty("--wide-table-width");
     });
   }
 

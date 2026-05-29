@@ -71,8 +71,8 @@ def run_extraction(
                     fallback_model_name,
                 )
                 return True
-        except Exception:
-            pass
+        except (ValueError, OSError) as exc:
+            logger.error("Corrupted fallback cache for %s: %s", arxiv_id, exc)
 
     with session_scope() as session:
         paper = session.query(Paper).filter_by(arxiv_id=arxiv_id).first()
@@ -100,8 +100,8 @@ def run_extraction(
                         or abstract_has_artifacts
                         or _title_looks_corrupted(paper_title)
                     )
-                except Exception:
-                    pass
+                except (ValueError, OSError) as exc:
+                    logger.warning("HTML parse failed for metadata: %s", exc)
 
             if need_meta and storage.latex_dir.exists():
                 latex_meta = _extract_metadata_from_latex_cache(storage.latex_dir)
@@ -277,6 +277,27 @@ def run_extraction(
             extraction_strategy=extraction_strategy,
             experiment_label=experiment_label,
         )
+    except KeyboardInterrupt:
+        _update_status(paper_id, "failed")
+        raise
+    except (OSError, FileNotFoundError) as exc:
+        logger.error("System error during extraction for %s: %s", arxiv_id, exc)
+        write_extraction_error_log(
+            storage, arxiv_id, cfg.model_for_tier(model_tier), exc, extractor._call_log
+        )
+        if paper_id:
+            with session_scope() as session:
+                session.add(
+                    PipelineRun(
+                        paper_id=paper_id,
+                        stage="extract",
+                        status="failed",
+                        model_used=display_name_for_model(cfg.model_for_tier(model_tier)),
+                        error_message=str(exc),
+                    )
+                )
+            _update_status(paper_id, "failed")
+        raise
     except Exception as exc:
         if model_tier == "primary" and fallback_on_failure:
             fallback = cfg.model_fallback

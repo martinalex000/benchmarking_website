@@ -5,7 +5,7 @@ source_url: ''
 authors: []
 published_date: Jun 2022
 published_date_iso: 2022-06
-abstract: Graph Neural Networks (GNNs) that are based on the message passing (MP)
+abstract: 'Graph Neural Networks (GNNs) that are based on the message passing (MP)
   paradigm generally exchange information between 1-hop neighbors to build node representations
   at each layer. In principle, such networks are not able to capture long-range interactions
   (LRI) that may be desired or necessary for learning a given task on graphs. Recently,
@@ -15,14 +15,13 @@ abstract: Graph Neural Networks (GNNs) that are based on the message passing (MP
   passing often fare better in several existing graph benchmarks when combined with
   positional feature representations, among other innovations, hence limiting the
   perceived utility and ranking of Transformer-like architectures. Here, we present
-  the Long Range Graph Benchmark (LRGB) Open-sourced at https://github.com/vijaydwivedi75/lrgb
-  and deposited at https://doi.org/10.5281/zenodo.6975830Zenodo dwivedi_vijay_prakash_2022_6975830.
-  with 5 graph learning datasets:,,, and that arguably require LRI reasoning to achieve
-  strong performance in a given task. We benchmark both baseline GNNs and Graph Transformer
-  networks to verify that the models which capture long-range dependencies perform
-  significantly better on these tasks. Therefore, these datasets are suitable for
-  benchmarking and exploration of MP-GNNs and Graph Transformer architectures that
-  are intended to capture LRI.
+  the Long Range Graph Benchmark (LRGB) and deposited at Zenodo. with 5 graph learning
+  datasets: PascalVOC-SP, COCO-SP, PCQM-Contact, Peptides-func and Peptides-struct
+  that arguably require LRI reasoning to achieve strong performance in a given task.
+  We benchmark both baseline GNNs and Graph Transformer networks to verify that the
+  models which capture long-range dependencies perform significantly better on these
+  tasks. Therefore, these datasets are suitable for benchmarking and exploration of
+  MP-GNNs and Graph Transformer architectures that are intended to capture LRI.'
 codebase_url: https://github.com/vijaydwivedi75/lrgb
 extraction_model: qwen3.6-35b-a3b
 has_results: true
@@ -127,10 +126,10 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.502
+    params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Jun 2022
     date_display: Jun 2022
     date_iso: 2022-06
@@ -164,10 +163,10 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.496
+    params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Jun 2022
     date_display: Jun 2022
     date_iso: 2022-06
@@ -201,10 +200,10 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.501
+    params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Jun 2022
     date_display: Jun 2022
     date_iso: 2022-06
@@ -237,10 +236,10 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.531
+    params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Jun 2022
     date_display: Jun 2022
     date_iso: 2022-06
@@ -273,10 +272,10 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.502
+    params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Jun 2022
     date_display: Jun 2022
     date_iso: 2022-06
@@ -309,10 +308,10 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.468
+    params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Jun 2022
     date_display: Jun 2022
     date_iso: 2022-06
@@ -345,10 +344,10 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.505
+    params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Jun 2022
     date_display: Jun 2022
     date_iso: 2022-06
@@ -382,10 +381,10 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.492
+    params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Jun 2022
     date_display: Jun 2022
     date_iso: 2022-06
@@ -492,10 +491,10 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.502
+    params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Jun 2022
     date_display: Jun 2022
     date_iso: 2022-06
@@ -529,10 +528,10 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.496
+    params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Jun 2022
     date_display: Jun 2022
     date_iso: 2022-06
@@ -566,10 +565,10 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.505
+    params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Jun 2022
     date_display: Jun 2022
     date_iso: 2022-06
@@ -603,10 +602,10 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.531
+    params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Jun 2022
     date_display: Jun 2022
     date_iso: 2022-06
@@ -639,10 +638,10 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.468
+    params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Jun 2022
     date_display: Jun 2022
     date_iso: 2022-06
@@ -676,10 +675,10 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.506
+    params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Jun 2022
     date_display: Jun 2022
     date_iso: 2022-06
@@ -712,10 +711,10 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.501
+    params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Jun 2022
     date_display: Jun 2022
     date_iso: 2022-06
@@ -748,10 +747,10 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.492
+    params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Jun 2022
     date_display: Jun 2022
     date_iso: 2022-06
@@ -784,7 +783,7 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.506
+    params_millions: null
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: ''
@@ -820,7 +819,7 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.505
+    params_millions: null
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: ''
@@ -856,7 +855,7 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.496
+    params_millions: null
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: ''
@@ -892,7 +891,7 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.502
+    params_millions: null
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: ''
@@ -1003,10 +1002,10 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.502
+    params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Jun 2022
     date_display: Jun 2022
     date_iso: 2022-06
@@ -1040,10 +1039,10 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.502
+    params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Jun 2022
     date_display: Jun 2022
     date_iso: 2022-06
@@ -1076,10 +1075,10 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.496
+    params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Jun 2022
     date_display: Jun 2022
     date_iso: 2022-06
@@ -1112,10 +1111,10 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.531
+    params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Jun 2022
     date_display: Jun 2022
     date_iso: 2022-06
@@ -1148,10 +1147,10 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.468
+    params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Jun 2022
     date_display: Jun 2022
     date_iso: 2022-06
@@ -1184,10 +1183,10 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.505
+    params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Jun 2022
     date_display: Jun 2022
     date_iso: 2022-06
@@ -1221,10 +1220,10 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.501
+    params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Jun 2022
     date_display: Jun 2022
     date_iso: 2022-06
@@ -1257,10 +1256,10 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.492
+    params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Jun 2022
     date_display: Jun 2022
     date_iso: 2022-06
@@ -1367,10 +1366,10 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.496
+    params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Jun 2022
     date_display: Jun 2022
     date_iso: 2022-06
@@ -1404,10 +1403,10 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.502
+    params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Jun 2022
     date_display: Jun 2022
     date_iso: 2022-06
@@ -1441,10 +1440,10 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.506
+    params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Jun 2022
     date_display: Jun 2022
     date_iso: 2022-06
@@ -1478,10 +1477,10 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.505
+    params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Jun 2022
     date_display: Jun 2022
     date_iso: 2022-06
@@ -1515,10 +1514,10 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.468
+    params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Jun 2022
     date_display: Jun 2022
     date_iso: 2022-06
@@ -1552,10 +1551,10 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.531
+    params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Jun 2022
     date_display: Jun 2022
     date_iso: 2022-06
@@ -1588,10 +1587,10 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.501
+    params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Jun 2022
     date_display: Jun 2022
     date_iso: 2022-06
@@ -1624,7 +1623,7 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.506
+    params_millions: null
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: ''
@@ -1660,10 +1659,10 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.492
+    params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Jun 2022
     date_display: Jun 2022
     date_iso: 2022-06
@@ -1696,7 +1695,7 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.502
+    params_millions: null
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: ''
@@ -1732,7 +1731,7 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.505
+    params_millions: null
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: ''
@@ -1768,7 +1767,7 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.496
+    params_millions: null
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: ''
@@ -1855,10 +1854,10 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.496
+    params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Jun 2022
     date_display: Jun 2022
     date_iso: 2022-06
@@ -1915,10 +1914,10 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.502
+    params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Jun 2022
     date_display: Jun 2022
     date_iso: 2022-06
@@ -1952,10 +1951,10 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.505
+    params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Jun 2022
     date_display: Jun 2022
     date_iso: 2022-06
@@ -1989,10 +1988,10 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.501
+    params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Jun 2022
     date_display: Jun 2022
     date_iso: 2022-06
@@ -2025,10 +2024,10 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.506
+    params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Jun 2022
     date_display: Jun 2022
     date_iso: 2022-06
@@ -2062,10 +2061,10 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.468
+    params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Jun 2022
     date_display: Jun 2022
     date_iso: 2022-06
@@ -2098,10 +2097,10 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.531
+    params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Jun 2022
     date_display: Jun 2022
     date_iso: 2022-06
@@ -2135,10 +2134,10 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.492
+    params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Jun 2022
     date_display: Jun 2022
     date_iso: 2022-06

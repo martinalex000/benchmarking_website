@@ -27,7 +27,7 @@ Papers with successfully extracted results. These papers contribute to the leade
 
 | ArXiv | Title | Model |
 |-------|-------|-------|
-| 2102.08786 | arXiv:2102.08786 | qwen3.6-35b-a3b |
+| 2102.08786 | Walking Out of the Weisfeiler Leman Hierarchy: Graph... | qwen3.6-35b-a3b |
 | 2205.12454 | arXiv:2205.12454 | qwen3.6-35b-a3b |
 | 2206.08164 | LRGB | qwen3.6-35b-a3b |
 | 2208.03471 | arXiv:2208.03471 | qwen3.6-35b-a3b |

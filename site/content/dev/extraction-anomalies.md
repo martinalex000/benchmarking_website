@@ -19,7 +19,7 @@ Checks currently included:
 | ArXiv | Title | Dataset | Metric | Model | Value | Dataset Median | Reason |
 |-------|-------|---------|--------|-------|------:|---------------:|--------|
 | 2309.16014 | Graph-level Representation Learning with Joint-E | IMDB-BINARY | Accuracy | BGRL | 0.005 | 0.708 | 141.6x below dataset median |
-| 2309.16014 | Graph-level Representation Learning with Joint-E | IMDB-MULTI | Accuracy | BGRL | 0.0033 | 0.4987 | 151.1x below dataset median |
+| 2309.16014 | Graph-level Representation Learning with Joint-E | IMDB-MULTI | Accuracy | BGRL | 0.0033 | 0.49935 | 151.3x below dataset median |
 | 2312.16560 | Algorithmic Graph Tasks | D&D | MSE | A-DGN | -0.453 | 0.0444 | -0.1x below dataset median |
 | 2312.16560 | Algorithmic Graph Tasks | D&D | MSE | AMP_ADGN | -0.5891 | 0.0444 | -0.1x below dataset median |
 | 2312.16560 | Algorithmic Graph Tasks | D&D | MSE | AMP_GCN | -0.1072 | 0.0444 | -0.4x below dataset median |

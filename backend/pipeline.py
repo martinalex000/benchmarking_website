@@ -26,7 +26,9 @@ import argparse
 import logging
 import subprocess
 import sys
+from collections.abc import Callable
 from datetime import UTC, datetime, timedelta
+from typing import Any
 
 from rich.console import Console
 
@@ -161,6 +163,8 @@ def stage_download(args: argparse.Namespace) -> None:
 
             result = download_paper(p.arxiv_id, force=force)
             status = "success" if result else "failed"
+        except KeyboardInterrupt:
+            raise
         except Exception as exc:
             logger.error("Download failed for %s: %s", p.arxiv_id, exc)
             status = "failed"
@@ -176,6 +180,7 @@ def stage_download(args: argparse.Namespace) -> None:
         f"  Done — [green]{ok} ok[/green], [red]{fail} failed[/red],"
         f" [yellow]{rejected} rejected[/yellow], [dim]{skip} skipped[/dim]"
     )
+    return fail == 0
 
 
 def stage_extract(args: argparse.Namespace) -> None:
@@ -203,6 +208,8 @@ def stage_extract(args: argparse.Namespace) -> None:
         try:
             result = run_extraction(p.arxiv_id, model_tier=model_tier, verbose=False)
             status = "success" if result else "failed"
+        except KeyboardInterrupt:
+            raise
         except Exception as exc:
             logger.error("Extraction failed for %s: %s", p.arxiv_id, exc)
             status = "failed"
@@ -217,6 +224,7 @@ def stage_extract(args: argparse.Namespace) -> None:
     console.print(
         f"  Done — [green]{ok} ok[/green], [red]{fail} failed[/red], [dim]{skip} skipped[/dim]"
     )
+    return fail == 0
 
 
 def stage_parse(args: argparse.Namespace) -> None:
@@ -253,6 +261,8 @@ def stage_parse(args: argparse.Namespace) -> None:
             else:
                 status = "success"
                 tqdm.write(f"  ✓  {p.arxiv_id}  {n} results stored  {p.title[:55]!r}")
+        except KeyboardInterrupt:
+            raise
         except Exception as exc:
             logger.error("Parse failed for %s: %s", p.arxiv_id, exc)
             status = "failed"
@@ -267,6 +277,8 @@ def stage_parse(args: argparse.Namespace) -> None:
     console.print(
         f"  Done — [green]{ok} ok[/green], [red]{fail} failed[/red], [dim]{skip} skipped[/dim]"
     )
+    return fail == 0
+    return fail == 0
 
 
 def stage_export(args: argparse.Namespace) -> None:
@@ -278,32 +290,39 @@ def stage_export(args: argparse.Namespace) -> None:
     export_all(arxiv_ids=arxiv_ids)
 
 
-def stage_build(_args: argparse.Namespace) -> None:
+def stage_build(_args: argparse.Namespace) -> bool:
     site_dir = cfg.base_dir / "site"
     console.print(f"[bold]Build[/bold] — running Hugo in {site_dir}")
-    result = subprocess.run(
-        [HUGO_BIN, "--minify"],
-        cwd=str(site_dir),
-        capture_output=False,
-    )
+    try:
+        result = subprocess.run(
+            [HUGO_BIN, "--minify"],
+            cwd=str(site_dir),
+            capture_output=False,
+            check=False,
+        )
+    except FileNotFoundError:
+        console.print(f"[red]Hugo binary not found: {HUGO_BIN}[/red]")
+        return False
     if result.returncode != 0:
         console.print("[red]Hugo build failed[/red]")
-        sys.exit(1)
+        return False
     console.print("[green]Hugo build complete → site/public/[/green]")
+    return True
 
 
-def stage_run_all(args: argparse.Namespace) -> None:
-    """Run the full pipeline end-to-end."""
+def stage_run_all(args: argparse.Namespace) -> bool:
+    """Run the full pipeline end-to-end; return *False* if any stage failed."""
     _parse_since(getattr(args, "since", None))
 
     console.rule("[bold]Pipeline: run-all[/bold]")
     stage_discover(args)
-    stage_download(args)
-    stage_extract(args)
-    stage_parse(args)
+    ok_download = stage_download(args) is not False
+    ok_extract = stage_extract(args) is not False
+    ok_parse = stage_parse(args) is not False
     stage_export(args)
     stage_build(args)
     console.rule("[green]Done[/green]")
+    return ok_download and ok_extract and ok_parse
 
 
 # ── CLI ───────────────────────────────────────────────────────────────────────
@@ -379,7 +398,8 @@ def _build_parser() -> argparse.ArgumentParser:
     return p
 
 
-def main(argv: list[str] | None = None) -> None:
+def main(argv: list[str] | None = None) -> int:
+    """Run the requested pipeline stage and return an exit code."""
     parser = _build_parser()
     args = parser.parse_args(argv)
 
@@ -388,7 +408,7 @@ def main(argv: list[str] | None = None) -> None:
 
     init_db()
 
-    dispatch = {
+    dispatch: dict[str, Callable[[argparse.Namespace], Any]] = {
         "discover": stage_discover,
         "download": stage_download,
         "extract": stage_extract,
@@ -399,11 +419,15 @@ def main(argv: list[str] | None = None) -> None:
         "run-all": stage_run_all,
     }
     handler = dispatch.get(args.command)
-    if handler:
-        handler(args)
-    else:
+    if handler is None:
         console.print(f"[red]Unknown command: {args.command}[/red]")
-        sys.exit(1)
+        return 1
+
+    result = handler(args)
+    # Treat explicit False as failure; everything else (None, True, tuples) as success
+    if result is False:
+        return 1
+    return 0
 
 
 if __name__ == "__main__":

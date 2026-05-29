@@ -12,7 +12,7 @@ stats:
   avg_nodes: 26.0
   avg_edges: 28.1
   num_classes: 128
-result_count: 103
+result_count: 104
 best_model:
   model: GatedGCN + VN
   value: 0.3141
@@ -132,17 +132,17 @@ variants:
     - null
     - null
     - null
-  - model: CRaWl
-    model_plain: CRaWl
+  - model: CRaWI
+    model_plain: CRaWI
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2405.13526'
-    title: 'Understanding Virtual Nodes: Oversquashing and Node Heterogeneity'
-    date: May 2024
-    date_iso: 2024-05
-    date_display: May 2024
+    arxiv_id: '2307.07107'
+    title: Graph Positional and Structural Encoder
+    date: Jul 14, 2023
+    date_iso: '2023-07-14'
+    date_display: Jul 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -156,18 +156,19 @@ variants:
     - null
     - null
     - null
-  - model: CRaWI
-    model_plain: CRaWI
-    is_baseline: true
+  - model: CRaWl
+    model_plain: CRaWl
+    is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2307.07107'
-    title: Graph Positional and Structural Encoder
-    date: Jul 14, 2023
-    date_iso: '2023-07-14'
-    date_display: Jul 2023
-    codebase_url: ''
+    arxiv_id: '2102.08786'
+    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
+      Passing'
+    date: Feb 2021
+    date_iso: 2021-02
+    date_display: Feb 2021
+    codebase_url: https://github.com/toenshoff/CRaWl
     uses_external_data: false
     is_best: false
     metric_values:
@@ -400,30 +401,6 @@ variants:
     - null
     - null
     - null
-  - model: GIN-AK+
-    model_plain: GIN-AK+
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2310.19285'
-    title: Facilitating Graph Neural Networks with Random Walk on Simplicial Complexes
-    date: Oct 2023
-    date_iso: 2023-10
-    date_display: Oct 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.293
-    - null
-    - null
-    - null
-    metric_stds:
-    - 0.0044
-    - null
-    - null
-    - null
   - model: GNNAK+
     model_plain: GNNAK+
     is_baseline: true
@@ -437,6 +414,31 @@ variants:
     date_iso: 2023-09
     date_display: Sep 2023
     codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.293
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0044
+    - null
+    - null
+    - null
+  - model: GIN-AK+
+    model_plain: GIN-AK+
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2102.08786'
+    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
+      Passing'
+    date: Feb 2021
+    date_iso: 2021-02
+    date_display: Feb 2021
+    codebase_url: https://github.com/toenshoff/CRaWl
     uses_external_data: false
     is_best: false
     metric_values:
@@ -495,6 +497,31 @@ variants:
     - null
     metric_stds:
     - 0.0027
+    - null
+    - null
+    - null
+  - model: GINE
+    model_plain: GINE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2102.08786'
+    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
+      Passing'
+    date: Feb 2021
+    date_iso: 2021-02
+    date_display: Feb 2021
+    codebase_url: https://github.com/toenshoff/CRaWl
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.2917
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0015
     - null
     - null
     - null
@@ -746,13 +773,13 @@ variants:
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2309.04941'
-    title: Distance-Restricted Folklore Weisfeiler-Leman GNNs with Provable Cycle
-      Counting Power
-    date: Sep 2023
-    date_iso: 2023-09
-    date_display: Sep 2023
-    codebase_url: ''
+    arxiv_id: '2102.08786'
+    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
+      Passing'
+    date: Feb 2021
+    date_iso: 2021-02
+    date_display: Feb 2021
+    codebase_url: https://github.com/toenshoff/CRaWl
     uses_external_data: false
     is_best: false
     metric_values:
@@ -771,13 +798,13 @@ variants:
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2309.04941'
-    title: Distance-Restricted Folklore Weisfeiler-Leman GNNs with Provable Cycle
-      Counting Power
-    date: Sep 2023
-    date_iso: 2023-09
-    date_display: Sep 2023
-    codebase_url: ''
+    arxiv_id: '2102.08786'
+    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
+      Passing'
+    date: Feb 2021
+    date_iso: 2021-02
+    date_display: Feb 2021
+    codebase_url: https://github.com/toenshoff/CRaWl
     uses_external_data: false
     is_best: false
     metric_values:
@@ -966,12 +993,13 @@ variants:
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2310.19285'
-    title: Facilitating Graph Neural Networks with Random Walk on Simplicial Complexes
-    date: Oct 2023
-    date_iso: 2023-10
-    date_display: Oct 2023
-    codebase_url: ''
+    arxiv_id: '2102.08786'
+    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
+      Passing'
+    date: Feb 2021
+    date_iso: 2021-02
+    date_display: Feb 2021
+    codebase_url: https://github.com/toenshoff/CRaWl
     uses_external_data: false
     is_best: false
     metric_values:
@@ -1159,12 +1187,13 @@ variants:
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2307.07107'
-    title: Graph Positional and Structural Encoder
-    date: Jul 14, 2023
-    date_iso: '2023-07-14'
-    date_display: Jul 2023
-    codebase_url: ''
+    arxiv_id: '2102.08786'
+    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
+      Passing'
+    date: Feb 2021
+    date_iso: 2021-02
+    date_display: Feb 2021
+    codebase_url: https://github.com/toenshoff/CRaWl
     uses_external_data: false
     is_best: false
     metric_values:
@@ -1323,6 +1352,31 @@ variants:
     - null
     - null
     - null
+  - model: GCN
+    model_plain: GCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2102.08786'
+    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
+      Passing'
+    date: Feb 2021
+    date_iso: 2021-02
+    date_display: Feb 2021
+    codebase_url: https://github.com/toenshoff/CRaWl
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.2483
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0037
+    - null
+    - null
+    - null
   - model: GCN+PE+VN
     model_plain: GCN+PE+VN
     is_baseline: true
@@ -1358,30 +1412,6 @@ variants:
     date: May 2024
     date_iso: 2024-05
     date_display: May 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.2424
-    - null
-    - null
-    - null
-    metric_stds:
-    - 0.0034
-    - null
-    - null
-    - null
-  - model: GCN
-    model_plain: GCN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2307.07107'
-    title: Graph Positional and Structural Encoder
-    date: Jul 14, 2023
-    date_iso: '2023-07-14'
-    date_display: Jul 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -2540,10 +2570,11 @@ variants:
   milestones:
   - value: 0.2986
     std: 0.0025
-    model: CRaWI
-    arxiv_id: '2307.07107'
-    title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
+    model: CRaWl
+    arxiv_id: '2102.08786'
+    title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
+      Passing'
+    date: 2021-02
   - value: 0.3141
     std: 0.0019
     model: GatedGCN + VN

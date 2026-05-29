@@ -3175,19 +3175,6 @@ def run_figure_detection(arxiv_id: str, model_tier: str = "primary") -> bool:
     return _run_figure_detection(arxiv_id=arxiv_id, model_tier=model_tier)
 
 
-def _write_extraction_error_log(
-    storage: PaperStorage,
-    arxiv_id: str,
-    model_name: str,
-    exc: BaseException,
-    call_log: list[CallRecord],
-) -> None:
-    """Compatibility wrapper for the extraction runner module."""
-    from backend.extraction_runner import write_extraction_error_log
-
-    write_extraction_error_log(storage, arxiv_id, model_name, exc, call_log)
-
-
 def _update_status(paper_id: int, status: str) -> None:
     with session_scope() as session:
         p = session.get(Paper, paper_id)

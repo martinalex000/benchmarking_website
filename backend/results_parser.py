@@ -691,7 +691,8 @@ def parse_and_store_with_summary(arxiv_id: str) -> ParseStoreSummary:
                 import yaml
 
                 overrides = yaml.safe_load(storage.overrides_path.read_text(encoding="utf-8")) or {}
-            except Exception:
+            except (yaml.YAMLError, OSError) as exc:
+                logger.error("Failed to load overrides for %s: %s", arxiv_id, exc)
                 overrides = {}
 
         finding = audit_extraction_payload(
