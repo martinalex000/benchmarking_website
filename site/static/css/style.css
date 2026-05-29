@@ -1338,9 +1338,11 @@ a.mini-badge-code:focus-visible {
     border-radius: 0;
     padding: 0;
     background: transparent;
-    display: flex;
+    display: grid;
+    grid-template-columns: minmax(4.7ch, auto) minmax(4.7ch, auto);
     align-items: baseline;
-    justify-content: flex-end;
+    justify-content: end;
+    column-gap: 0.2rem;
     width: 100%;
     position: relative;
     top: -0.02rem;
@@ -1357,6 +1359,9 @@ a.mini-badge-code:focus-visible {
   .result-table tbody tr td.col-value .metric-primary-value {
     font-size: 0.72rem;
     line-height: 1.1;
+    grid-column: 1;
+    text-align: right;
+    justify-self: end;
   }
 
   .result-table tbody tr td.col-value .metric-primary-std {
@@ -1364,6 +1369,9 @@ a.mini-badge-code:focus-visible {
     font-size: 0.58rem;
     color: #64748b;
     font-weight: 600;
+    grid-column: 2;
+    text-align: left;
+    justify-self: start;
   }
 
   .paper-cell-row {
@@ -1392,7 +1400,7 @@ a.mini-badge-code:focus-visible {
   .paper-date-inline {
     font-size: 0.66rem;
     color: #334155;
-    font-weight: 600;
+    font-weight: 400;
     display: inline-block;
     line-height: 1.15;
     white-space: nowrap;
@@ -1555,6 +1563,10 @@ a.mini-badge-code:focus-visible {
     max-width: 100%;
   }
 
+  .leaderboard-badges .mini-badge-code {
+    display: none;
+  }
+
   .paper-title-wrap .paper-code-link {
     display: inline-flex;
   }
@@ -1605,6 +1617,7 @@ a.mini-badge-code:focus-visible {
     min-width: 0;
     overflow: hidden;
     white-space: nowrap;
+    width: 100%;
   }
 
   .paper-title-link {
@@ -1620,6 +1633,15 @@ a.mini-badge-code:focus-visible {
     align-items: center;
     font-size: 0.78rem;
     min-width: 6rem;
+  }
+
+  .paper-date-inline {
+    font-weight: 400;
+  }
+
+  .paper-code-link,
+  .paper-code-missing {
+    margin-left: auto;
   }
 
   .paper-date-inline-full {

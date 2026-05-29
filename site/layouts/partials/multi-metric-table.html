@@ -56,12 +56,12 @@
               </div>
               <div class="leaderboard-entry-meta">
                 <div class="leaderboard-badges">
-                  {{ if not $r.is_global_top }}{{ if $r.is_baseline }}<span class="tag-baseline">baseline</span>{{ else }}<span class="tag-proposed">★ proposed</span>{{ end }}{{ end }}
                   {{ if $r.codebase_url }}<a class="mini-badge mini-badge-code" href="{{ $r.codebase_url }}" target="_blank" rel="noopener" title="Code available">code ↗</a>{{ end }}
                   {{ if $r.uses_external_data }}<span class="mini-badge mini-badge-external" title="Uses external data during training">ext data</span>{{ end }}
                   {{ if $r.params_millions }}<span class="mini-badge mini-badge-neutral">{{ printf "%.1fM" $r.params_millions }}</span>{{ end }}
                   {{ if $r.is_global_top }}<span class="global-top-badge" title="Top-ranked globally — from another paper">global</span>{{ end }}
                   {{ if $r.is_overridden }}<span class="override-badge" title="{{ $r.override_reason }}">✎</span>{{ end }}
+                  {{ if not $r.is_global_top }}{{ if $r.is_baseline }}<span class="tag-baseline">baseline</span>{{ else }}<span class="tag-proposed">★ proposed</span>{{ end }}{{ end }}
                 </div>
               </div>
             </div>
