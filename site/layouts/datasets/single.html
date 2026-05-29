@@ -155,8 +155,7 @@
       {{ $rowsLen := len $variant.rows }}
       {{ partial "multi-metric-table.html" (dict "rows" $variant.rows "metrics" $variant.metrics "primary_metric" $variant.primary_metric "higher_is_better" $variant.higher_is_better "dataset_variant" $variant.slug "collapse_after" (cond (gt $rowsLen 50) 50 0)) }}
       <div class="table-explainer-legend" aria-label="Table legend">
-        <span class="legend-item"><span class="legend-swatch swatch-record"></span><span>current SOTA</span></span>
-        <span class="legend-item"><span class="legend-swatch swatch-best"></span><span>matches current SOTA</span></span>
+        <span class="legend-item"><span class="legend-swatch swatch-best"></span><span>SOTA performance</span></span>
         <span class="legend-item"><span class="table-marker marker-record"></span><span>set a new SOTA at the time</span></span>
         <span class="legend-item"><span class="table-marker marker-sota-match"></span><span>matched the SOTA at the time</span></span>
       </div>
