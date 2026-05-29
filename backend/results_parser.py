@@ -23,7 +23,7 @@ from typing import Any
 from thefuzz import fuzz as fuzz_lib
 from thefuzz import process as fuzz_process
 
-from backend.config import cfg
+from backend.config import cfg, normalize_arxiv_id
 from backend.db import init_db, session_scope
 from backend.method_name_audit import audit_extraction_payload
 from backend.models import (
@@ -815,7 +815,9 @@ def parse_and_store_with_summary(arxiv_id: str) -> ParseStoreSummary:
                 uses_external_data=(
                     1
                     if entry.get("uses_external_data") is True
-                    else 0 if entry.get("uses_external_data") is False else None
+                    else 0
+                    if entry.get("uses_external_data") is False
+                    else None
                 ),
                 table_ref=entry.get("table_ref"),
                 source_ref=entry.get("source_ref", "this paper"),
@@ -904,7 +906,7 @@ def main(argv: list[str] | None = None) -> None:
 
     total_new = 0
     for arxiv_id in args.arxiv_ids:
-        arxiv_id = arxiv_id.strip().lstrip("arXiv:").split("v")[0]
+        arxiv_id = normalize_arxiv_id(arxiv_id)
         total_new += parse_and_store(arxiv_id)
 
     print(f"Total new Result rows created: {total_new}")

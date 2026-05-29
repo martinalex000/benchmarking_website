@@ -45,7 +45,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 from rich.console import Console
 from rich.table import Table
 
-from backend.config import cfg
+from backend.config import cfg, normalize_arxiv_id
 from backend.llm_extractor import (
     CallRecord,
     _print_call_progress,
@@ -505,7 +505,7 @@ def _do_extract(
     ok = run_extraction(
         arxiv_id,
         model_tier=model_tier,
-        screen_first=screen,
+        screen_first=False,
         allow_cached_fallback_skip=not force,
         extraction_strategy=strategy,
         result_output_format=_MANUAL_RESULT_OUTPUT_FORMAT,
@@ -1099,7 +1099,7 @@ def main() -> None:
     m = re.match(r"https?://(?:www\.)?arxiv\.org/(?:abs|pdf)/([0-9]+\.[0-9]+)", raw)
     if m:
         raw = m.group(1)
-    arxiv_id = raw.lstrip("arXiv:").split("v")[0]
+    arxiv_id = normalize_arxiv_id(raw)
     force_extract = args.force or args.force_download
     force_download = args.force_download
     do_screen = not args.skip_screen
