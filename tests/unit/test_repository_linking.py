@@ -4,8 +4,8 @@ from pathlib import Path
 
 from backend.paper_storage import PaperStorage
 from backend.repository_linking import (
-    extract_repository_candidates,
     extract_github_repo_candidates,
+    extract_repository_candidates,
     find_verified_repository_link,
     repository_source_from_storage,
 )

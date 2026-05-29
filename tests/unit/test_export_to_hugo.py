@@ -2,9 +2,10 @@
 
 import pytest
 
+from backend.export_helpers import truncate_words as _truncate_words
 from backend.export_to_hugo import (
-    _description_class_target_count,
     _dedup_result_rows,
+    _description_class_target_count,
     _fmt_date,
     _has_paper_value_difference,
     _has_paper_value_gap,
@@ -12,7 +13,6 @@ from backend.export_to_hugo import (
     _rank_for_value,
     _sanitize_model,
     _sanitize_title,
-    _truncate_words,
 )
 
 

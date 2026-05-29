@@ -32,10 +32,9 @@ import re
 import subprocess
 import tarfile
 import tempfile
+import urllib.request
 from dataclasses import dataclass, field
 from pathlib import Path
-
-import urllib.request
 
 from backend.text_cleanup import clean_extracted_text
 
@@ -211,7 +210,7 @@ def download_and_parse(
     arxiv_id: str,
     cache_dir: Path,
     force: bool = False,
-) -> "LatexPaper | None":
+) -> LatexPaper | None:
     """Download arXiv LaTeX source, expand, cache, and parse.
 
     Results are cached in *cache_dir*/expanded.tex so subsequent calls are
@@ -232,7 +231,7 @@ def download_and_parse(
     url = _ARXIV_SRC_URL.format(arxiv_id=arxiv_id)
     try:
         req = urllib.request.Request(url, headers=_REQUEST_HEADERS)
-        with urllib.request.urlopen(req, timeout=90) as resp:
+        with urllib.request.urlopen(req, timeout=90) as resp:  # nosec B310
             src_bytes = resp.read()
     except Exception as exc:
         logger.warning("Could not download LaTeX source for %s: %s", arxiv_id, exc)
@@ -256,7 +255,7 @@ def download_and_parse(
 # ── Download helpers ───────────────────────────────────────────────────────────
 
 
-def _expand_source(arxiv_id: str, src_bytes: bytes) -> "str | None":
+def _expand_source(arxiv_id: str, src_bytes: bytes) -> str | None:
     """Extract tarball (or single .tex file) and run latexpand."""
     with tempfile.TemporaryDirectory() as tmpdir:
         tmppath = Path(tmpdir)
@@ -295,7 +294,7 @@ def _is_tar(data: bytes) -> bool:
         return False
 
 
-def _extract_tarball(src_bytes: bytes, dest: Path, arxiv_id: str) -> "Path | None":
+def _extract_tarball(src_bytes: bytes, dest: Path, arxiv_id: str) -> Path | None:
     """Extract tarball to dest and return path to the main .tex file."""
     try:
         with tarfile.open(fileobj=io.BytesIO(src_bytes)) as tar:
@@ -306,7 +305,7 @@ def _extract_tarball(src_bytes: bytes, dest: Path, arxiv_id: str) -> "Path | Non
     return _find_main_tex(dest)
 
 
-def _find_main_tex(root: Path) -> "Path | None":
+def _find_main_tex(root: Path) -> Path | None:
     """Find the main LaTeX file (the one containing \\documentclass)."""
     tex_files = sorted(root.rglob("*.tex"), key=lambda p: p.stat().st_size, reverse=True)
     if not tex_files:
@@ -485,7 +484,7 @@ def _find_appendix_start(tex: str) -> int:
     return m.start() if m else len(tex)
 
 
-def _find_matching_end(tex: str, begin_pos: int, env_name: str) -> "int | None":
+def _find_matching_end(tex: str, begin_pos: int, env_name: str) -> int | None:
     """Return the position *after* the \\end{env_name} that matches \\begin at begin_pos."""
     begin_re = re.compile(r"\\begin\{" + re.escape(env_name) + r"\}")
     end_re = re.compile(r"\\end\{" + re.escape(env_name) + r"\}")

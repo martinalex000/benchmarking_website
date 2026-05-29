@@ -36,7 +36,7 @@ import random
 import sys
 import time
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
@@ -45,16 +45,14 @@ import yaml
 # Allow running from project root without installing
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from openai import OpenAI, RateLimitError, APIStatusError, APIConnectionError
+from openai import APIConnectionError, APIStatusError, OpenAI, RateLimitError
+from rich import box
 from rich.console import Console
-from rich.panel import Panel
-from rich.rule import Rule
 from rich.syntax import Syntax
 from rich.table import Table
-from rich import box
 
 from backend.config import cfg
-from backend.llm_extractor import LLMExtractor, ExtractionOutput, CallRecord
+from backend.llm_extractor import CallRecord, ExtractionOutput, LLMExtractor
 
 console = Console()
 logger = logging.getLogger(__name__)
@@ -180,8 +178,8 @@ def _load_paper_inputs(arxiv_id: str) -> tuple[str, list, Any]:
       2. HTML (structured tables + clean text)
       3. text.txt (PDF-extracted plain text, poorest for table extraction)
     """
-    from backend.paper_storage import PaperStorage
     from backend.latex_source import download_and_parse as latex_download
+    from backend.paper_storage import PaperStorage
 
     storage = PaperStorage(arxiv_id)
     structured_tables: list = []
@@ -274,7 +272,7 @@ def _run_oneshot_extraction(
     paper_text: str,
     structured_tables: list,
     latex_paper: Any = None,
-) -> tuple["ExtractionOutput | None", float, "str | None", "list[CallRecord]"]:
+) -> tuple[ExtractionOutput | None, float, str | None, list[CallRecord]]:
     """Run the legacy single-step extraction for comparison."""
     extractor = LLMExtractor.__new__(LLMExtractor)
     extractor.model_name = model_name
@@ -291,7 +289,7 @@ def _run_oneshot_extraction(
 
     def _on_call(rec: CallRecord) -> None:
         _call_counter[0] += 1
-        console.print(f"  [dim](1-shot)[/dim] ", end="")
+        console.print("  [dim](1-shot)[/dim] ", end="")
         _print_call_verbose(rec, _call_counter[0])
 
     extractor._progress_callback = _on_call
@@ -327,7 +325,7 @@ def _run_discovery_only(
     paper_text: str,
     structured_tables: list,
     latex_paper: Any = None,
-) -> tuple[float, "str | None", "list[CallRecord]"]:
+) -> tuple[float, str | None, list[CallRecord]]:
     """Run only the dataset discovery step (Step 1) and return timing."""
     extractor = LLMExtractor.__new__(LLMExtractor)
     extractor.model_name = model_name
@@ -588,7 +586,7 @@ def _render_log_markdown(
 ) -> str:
     """Render a full conversation log as Markdown."""
     lines: list[str] = []
-    now = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+    now = datetime.now(UTC).strftime("%Y-%m-%d %H:%M UTC")
 
     lines.append(f"# Conversation Log: `{model_name}` on `{arxiv_id}`")
     lines.append(f"*Generated: {now}*")
@@ -598,8 +596,8 @@ def _render_log_markdown(
     if comparison:
         lines.append("## Summary")
         lines.append("")
-        lines.append(f"| Metric | Value |")
-        lines.append(f"|--------|-------|")
+        lines.append("| Metric | Value |")
+        lines.append("|--------|-------|")
         lines.append(f"| Baseline entries | {comparison.baseline_count} |")
         lines.append(f"| Hits | {comparison.hits} |")
         lines.append(f"| Value errors | {comparison.value_errors} |")
@@ -1239,7 +1237,7 @@ def main(argv: list[str] | None = None) -> int:
         out_path = Path(args.output)
         out_path.parent.mkdir(parents=True, exist_ok=True)
         payload = {
-            "run_at": datetime.now(timezone.utc).isoformat(),
+            "run_at": datetime.now(UTC).isoformat(),
             "baseline_model": _BASELINE_MODEL,
             "papers": paper_ids,
             "abs_tolerance": ABS_TOL,

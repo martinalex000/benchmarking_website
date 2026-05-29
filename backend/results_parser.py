@@ -26,14 +26,6 @@ from thefuzz import process as fuzz_process
 from backend.config import cfg
 from backend.db import init_db, session_scope
 from backend.method_name_audit import audit_extraction_payload
-
-# Patterns like "(ours)", "(base)", "(baseline)" are author annotations, not part
-# of the model name.  Strip them so "IPR-MPNN (ours)" and "IPR-MPNN" resolve to
-# the same canonical model.
-_ROLE_SUFFIX_RE = re.compile(
-    r"\s*\(\s*(?:ours?|base(?:line)?|our\s+model|our\s+method|proposed)\s*\)\s*$",
-    re.IGNORECASE,
-)
 from backend.models import (
     DatasetVariant,
     Model,
@@ -47,6 +39,14 @@ from backend.repository_linking import find_verified_repository_link, repository
 from backend.text_cleanup import abstract_has_latex_artifacts, clean_extracted_text
 
 logger = logging.getLogger(__name__)
+
+# Patterns like "(ours)", "(base)", "(baseline)" are author annotations, not part
+# of the model name.  Strip them so "IPR-MPNN (ours)" and "IPR-MPNN" resolve to
+# the same canonical model.
+_ROLE_SUFFIX_RE = re.compile(
+    r"\s*\(\s*(?:ours?|base(?:line)?|our\s+model|our\s+method|proposed)\s*\)\s*$",
+    re.IGNORECASE,
+)
 
 # ── Metric normalisation ──────────────────────────────────────────────────────
 

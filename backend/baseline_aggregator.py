@@ -17,12 +17,11 @@ import re
 from dataclasses import dataclass, field
 from typing import Any
 
+from sqlalchemy import text
 from thefuzz import fuzz as _fuzz
 
-from sqlalchemy import text
-
 from backend.db import init_db, session_scope
-from backend.models import DatasetVariant, Model, ModelAlias, Result
+from backend.models import Model, Result
 
 logger = logging.getLogger(__name__)
 

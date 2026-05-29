@@ -26,33 +26,24 @@ from typing import Any
 
 import yaml
 
-from backend.baseline_aggregator import get_baseline_summary, get_best_results_over_time
+from backend.baseline_aggregator import get_best_results_over_time
 from backend.config import cfg
-from backend.dataset_variant_resolver import (
-    build_dataset_variant_lookup,
-    resolve_dataset_variant_quiet,
-)
 from backend.db import init_db, session_scope
-from backend.export_helpers import (
-    has_paper_value_gap as _has_paper_value_gap,
-    plain_model as _plain_model,
-    rank_for_value as _rank_for_value,
-    sanitize_model as _sanitize_model_text,
-    sanitize_title as _sanitize_title,
-    truncate_words as _truncate_words,
-)
+from backend.export_helpers import has_paper_value_gap as _has_paper_value_gap
+from backend.export_helpers import plain_model as _plain_model
+from backend.export_helpers import rank_for_value as _rank_for_value
+from backend.export_helpers import sanitize_model as _sanitize_model_text
+from backend.export_helpers import sanitize_title as _sanitize_title
+from backend.export_helpers import truncate_words as _truncate_words
 from backend.models import (
     Benchmark,
     Dataset,
     DatasetVariant,
     Paper,
-    PendingDataset,
     Result,
-    TodoPaper,
 )
 from backend.override_handler import get_model_renames, load_overrides
 from backend.paper_storage import PaperStorage
-from backend.models import PaperCandidate, PipelineRun
 from backend.text_cleanup import clean_extracted_text
 
 logger = logging.getLogger(__name__)
@@ -695,7 +686,7 @@ def _global_ranks_for_dataset(
 
 def _compute_paper_mrr(
     session: Any,
-    paper: "Paper",
+    paper: Paper,
 ) -> tuple[float | None, float | None, int, list[str]]:
     """Return (raw_mrr, adjusted_mrr, dataset_count, proposed_model_names) for *paper*.
 
@@ -1812,7 +1803,6 @@ def export_dataset(dataset_id: int) -> bool:
 
 def export_benchmarks_data() -> None:
     """Write site/data/benchmarks.json for the homepage."""
-    from sqlalchemy import func
 
     _DATA_DIR.mkdir(parents=True, exist_ok=True)
 

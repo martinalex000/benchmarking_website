@@ -26,11 +26,9 @@ import argparse
 import logging
 import subprocess
 import sys
-from datetime import datetime, timedelta, timezone
-from pathlib import Path
+from datetime import UTC, datetime, timedelta
 
 from rich.console import Console
-from rich.progress import Progress, SpinnerColumn, TextColumn
 
 from backend.config import cfg
 from backend.db import init_db, session_scope
@@ -61,7 +59,7 @@ def _get_papers(
         if status_filter:
             q = q.filter_by(extraction_status=status_filter)
         if since:
-            cutoff = datetime.now(timezone.utc) - since
+            cutoff = datetime.now(UTC) - since
             q = q.filter(Paper.created_at >= cutoff)
         return q.all()
 
@@ -110,10 +108,11 @@ def stage_discover(args: argparse.Namespace) -> None:
 
 
 def stage_download(args: argparse.Namespace) -> None:
+    from tqdm import tqdm
+
     from backend.arxiv_downloader import download_paper
     from backend.llm_extractor import LLMExtractor, fetch_arxiv_metadata
     from backend.paper_storage import PaperStorage
-    from tqdm import tqdm
 
     force = getattr(args, "force", False)
     arxiv_ids = getattr(args, "paper", None)
@@ -180,8 +179,9 @@ def stage_download(args: argparse.Namespace) -> None:
 
 
 def stage_extract(args: argparse.Namespace) -> None:
-    from backend.llm_extractor import run_extraction
     from tqdm import tqdm
+
+    from backend.llm_extractor import run_extraction
 
     model_tier = getattr(args, "model", "primary")
     force = getattr(args, "force", False)
@@ -220,8 +220,9 @@ def stage_extract(args: argparse.Namespace) -> None:
 
 
 def stage_parse(args: argparse.Namespace) -> None:
-    from backend.results_parser import parse_and_store_with_summary
     from tqdm import tqdm
+
+    from backend.results_parser import parse_and_store_with_summary
 
     force = getattr(args, "force", False)
     arxiv_ids = getattr(args, "paper", None)
@@ -241,12 +242,16 @@ def stage_parse(args: argparse.Namespace) -> None:
         try:
             summary = parse_and_store_with_summary(p.arxiv_id)
             n = summary.new_results
-            status = "success"
             if summary.quarantined:
+                status = "failed"
                 tqdm.write(
                     f"  !  {p.arxiv_id}  QUARANTINED ({'; '.join(summary.quarantine_reasons[:2])})  {p.title[:55]!r}"
                 )
+            elif n == 0:
+                status = "failed"
+                tqdm.write(f"  ✗  {p.arxiv_id}  0 results stored  {p.title[:55]!r}")
             else:
+                status = "success"
                 tqdm.write(f"  ✓  {p.arxiv_id}  {n} results stored  {p.title[:55]!r}")
         except Exception as exc:
             logger.error("Parse failed for %s: %s", p.arxiv_id, exc)
@@ -289,7 +294,7 @@ def stage_build(_args: argparse.Namespace) -> None:
 
 def stage_run_all(args: argparse.Namespace) -> None:
     """Run the full pipeline end-to-end."""
-    since = _parse_since(getattr(args, "since", None))
+    _parse_since(getattr(args, "since", None))
 
     console.rule("[bold]Pipeline: run-all[/bold]")
     stage_discover(args)

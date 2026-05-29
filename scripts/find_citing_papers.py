@@ -26,9 +26,9 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 import os
 
 import requests
+from rich import box
 from rich.console import Console
 from rich.table import Table
-from rich import box
 
 console = Console()
 

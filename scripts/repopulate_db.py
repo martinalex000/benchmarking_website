@@ -257,7 +257,7 @@ def main() -> None:
 
             s = PaperStorage(aid)
             if not s.llm_output_path.exists():
-                console.print(f"  [yellow]Skip parse[/yellow] — no llm_output artifact")
+                console.print("  [yellow]Skip parse[/yellow] — no llm_output artifact")
                 skip_count += 1
                 continue
             try:

@@ -44,14 +44,13 @@ from rich.console import Console
 from rich.table import Table
 
 from backend.config import cfg
-from backend.llm_model_options import extra_body_for_model
 from backend.llm_extractor import (
     CallRecord,
     _print_call_progress,
-    fetch_arxiv_metadata,
     run_extraction,
     run_figure_detection,
 )
+from backend.llm_model_options import extra_body_for_model
 
 console = Console()
 
@@ -605,6 +604,7 @@ def _print_parse_summary(summary) -> None:
 def _run_for_tier(arxiv_id: str, model_tier: str, force: bool) -> None:
     """Extract with one model tier and save to a tier-specific file."""
     import shutil
+
     from backend.paper_storage import PaperStorage
 
     model_name = cfg.model_for_tier(model_tier)
@@ -1107,8 +1107,8 @@ def main() -> None:
 
     # Ensure DB schema exists and seed benchmarks/datasets if the DB is fresh.
     from backend.db import init_db
-    from backend.models import Benchmark, PaperCandidate
     from backend.db import session_scope as _ss
+    from backend.models import Benchmark, PaperCandidate
 
     init_db()
     with _ss() as _s:

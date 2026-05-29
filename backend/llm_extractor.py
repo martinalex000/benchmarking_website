@@ -19,29 +19,30 @@ from __future__ import annotations
 
 import argparse
 import json
-import time
 import logging
 import re
 import subprocess
 import tempfile
 import textwrap
+import time
 import urllib.error
 import urllib.request
-import xml.etree.ElementTree as ET
-from dataclasses import dataclass, field as dc_field
-from datetime import datetime, timezone
+from dataclasses import dataclass
+from dataclasses import field as dc_field
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
-from openai import OpenAI, RateLimitError, APIStatusError
+import defusedxml.ElementTree as ET
+import yaml
+from openai import APIStatusError, OpenAI, RateLimitError
 from pydantic import BaseModel, Field, field_validator
 from tenacity import retry, stop_after_attempt, wait_exponential
-import yaml
 
 from backend.config import cfg
-from backend.db import init_db, session_scope
+from backend.db import session_scope
 from backend.llm_model_options import display_name_for_model, extra_body_for_model
-from backend.models import Paper, PipelineRun
+from backend.models import Paper
 from backend.paper_storage import PaperStorage
 from backend.text_cleanup import clean_extracted_text
 
@@ -275,7 +276,7 @@ def _noncanonical_dataset_hints(text: str) -> list[str]:
     return hints
 
 
-def _extract_metadata_from_latex_cache(latex_dir: "Path") -> "dict[str, str]":
+def _extract_metadata_from_latex_cache(latex_dir: Path) -> dict[str, str]:
     """Read title and abstract from a cached expanded.tex without a full parse.
 
     Used as a free, offline fallback during abstract screening when the DB has
@@ -338,7 +339,7 @@ def fetch_arxiv_metadata(arxiv_id: str) -> dict[str, str]:
     url = _ARXIV_API.format(arxiv_id=arxiv_id)
     for attempt in range(_MAX_ATTEMPTS):
         try:
-            with urllib.request.urlopen(url, timeout=15) as resp:
+            with urllib.request.urlopen(url, timeout=15) as resp:  # nosec B310
                 xml_bytes = resp.read()
             root = ET.fromstring(xml_bytes)
             entry = root.find("atom:entry", _ARXIV_NS)
@@ -424,7 +425,7 @@ class CallRecord:
     extra: dict = dc_field(default_factory=dict)
 
 
-def _print_call_progress(rec: "CallRecord", call_index: int) -> None:
+def _print_call_progress(rec: CallRecord, call_index: int) -> None:
     """Print a one-line-plus-details summary of a completed LLM call.
 
     Uses ``rich`` when available (for colour/bold), falls back to plain print.
@@ -693,7 +694,7 @@ def _strip_table_environments(text: str) -> str:
     return _TABLE_ENV_RE.sub("", text)
 
 
-def _normalise_metrics(results: "list[ResultEntry]") -> "list[ResultEntry]":
+def _normalise_metrics(results: list[ResultEntry]) -> list[ResultEntry]:
     """Strip split prefixes from metric names and discard non-test entries.
 
     Examples:
@@ -734,7 +735,7 @@ def _normalise_metrics(results: "list[ResultEntry]") -> "list[ResultEntry]":
     return kept
 
 
-def _dedupe_result_entries(results: "list[ResultEntry]") -> "list[ResultEntry]":
+def _dedupe_result_entries(results: list[ResultEntry]) -> list[ResultEntry]:
     """Keep the first result for each (model, dataset, metric) key."""
     seen: set[tuple[str, str, str]] = set()
     unique_results: list[ResultEntry] = []
@@ -747,7 +748,7 @@ def _dedupe_result_entries(results: "list[ResultEntry]") -> "list[ResultEntry]":
     return unique_results
 
 
-def _dedupe_baselines(baselines: "list[BaselineModelInfo]") -> "list[BaselineModelInfo]":
+def _dedupe_baselines(baselines: list[BaselineModelInfo]) -> list[BaselineModelInfo]:
     """Keep the first baseline entry for each model name."""
     seen_names: set[str] = set()
     unique_baselines: list[BaselineModelInfo] = []
@@ -771,13 +772,13 @@ def _collapse_confidence_levels(confidence_levels: list[str]) -> str:
 
 def _merge_extraction_outputs(
     *,
-    proposed_model: "ProposedModel | None",
-    baselines: "list[BaselineModelInfo]",
-    results: "list[ResultEntry]",
+    proposed_model: ProposedModel | None,
+    baselines: list[BaselineModelInfo],
+    results: list[ResultEntry],
     confidence_levels: list[str],
     notes_parts: list[str],
     normalise_metrics: bool = False,
-) -> "ExtractionOutput":
+) -> ExtractionOutput:
     """Build a single ExtractionOutput from partial extraction fragments."""
     merged_results = _normalise_metrics(results) if normalise_metrics else results
     return ExtractionOutput(
@@ -846,7 +847,7 @@ class LLMExtractor:
         except Exception as exc:
             logger.debug("Usage limit probe failed for %s: %s", self.model_name, exc)
             return {
-                "checked_at": datetime.now(timezone.utc).isoformat(),
+                "checked_at": datetime.now(UTC).isoformat(),
                 "model": self.model_name,
                 "note": f"Usage limit probe failed: {exc}",
             }
@@ -862,7 +863,7 @@ class LLMExtractor:
                 }
 
         snapshot: dict[str, Any] = {
-            "checked_at": datetime.now(timezone.utc).isoformat(),
+            "checked_at": datetime.now(UTC).isoformat(),
             "model": self.model_name,
             "windows": windows,
         }
@@ -1139,7 +1140,6 @@ class LLMExtractor:
         clean = re.sub(r"^```(?:json|yaml|yml)?\s*", "", clean, flags=re.MULTILINE)
         clean = re.sub(r"\s*```$", "", clean, flags=re.MULTILINE).strip()
 
-        parse_method = "direct"
         fmt = output_format.lower()
         parse_errors: list[str] = []
         parsers: list[tuple[str, Any]] = []
@@ -1605,9 +1605,9 @@ class LLMExtractor:
 
     def select_tables_for_all_datasets(
         self,
-        datasets: "list[DatasetInfo]",
+        datasets: list[DatasetInfo],
         tables: list,
-    ) -> "dict[str, list]":
+    ) -> dict[str, list]:
         """One LLM call to select relevant tables for ALL datasets at once.
 
         Returns a mapping dataset_name → filtered table list.
@@ -2227,7 +2227,6 @@ class LLMExtractor:
         logger.info("Extracting results for arXiv:%s with model=%s", arxiv_id, self.model_name)
 
         strategy = extraction_strategy.lower()
-        use_two_step = strategy != "full"
 
         # Task 1: Results — prefer LaTeX source, then HTML tables, then legacy path
         if strategy == "full":
@@ -2315,7 +2314,7 @@ class LLMExtractor:
         output = {
             "arxiv_id": arxiv_id,
             "model_used": display_name_for_model(self.model_name),
-            "extracted_at": datetime.now(timezone.utc).isoformat(),
+            "extracted_at": datetime.now(UTC).isoformat(),
             "experiment": {
                 "label": experiment_label,
                 "strategy": strategy,
@@ -2702,6 +2701,19 @@ def _extract_proposed_model_hint(paper_title: str, intro_text: str) -> str | Non
         if candidate:
             return candidate
 
+    # Authors often define a short abbreviation in the abstract/intro.
+    # e.g. "Fully Product-Stereographic Transformer (FPS-T)"
+    # Prefer that over a long descriptive title phrase.
+    source = _normalise_model_name_text(intro_text or "")
+    for pattern in _INTRO_METHOD_PATTERNS:
+        for match in pattern.finditer(source[:8_000]):
+            short_name = match.groupdict().get("short")
+            if short_name:
+                candidate = _clean_intro_model_candidate(short_name)
+                if candidate:
+                    return candidate
+
+    # Fallback: long descriptive phrase from the title (e.g. "... Transformers")
     normalized_title = _normalise_model_name_text(paper_title or "")
     title_phrase_match = re.search(
         r"([A-Za-z][A-Za-z0-9+\-]*(?:\s+[A-Za-z][A-Za-z0-9+\-]*){0,5}\s+"
@@ -2714,14 +2726,9 @@ def _extract_proposed_model_hint(paper_title: str, intro_text: str) -> str | Non
         if candidate:
             return candidate
 
-    source = _normalise_model_name_text(intro_text or "")
+    # Final fallback: non-abbreviated names from the intro text
     for pattern in _INTRO_METHOD_PATTERNS:
         for match in pattern.finditer(source[:8_000]):
-            short_name = match.groupdict().get("short")
-            if short_name:
-                candidate = _clean_intro_model_candidate(short_name)
-                if candidate:
-                    return candidate
             group_name = "name" if "name" in match.groupdict() else "long"
             candidate = _clean_intro_model_candidate(match.group(group_name))
             if candidate:
@@ -2859,16 +2866,13 @@ def _stabilize_model_names(extraction: ExtractionOutput, paper_title: str = "") 
     proposed_key = _canonical_model_name_key(proposed_name)
     exact_name = proposed_name
     matched_exact = False
-    matched_family = False
     for result in extraction.results:
         result.is_proposed = _canonical_model_name_key(result.model) == proposed_key
         if not result.is_proposed and _matches_proposed_model_name(result.model, proposed_name):
             result.is_proposed = True
-            matched_family = True
-        if result.is_proposed:
-            if _canonical_model_name_key(result.model) == proposed_key:
-                exact_name = result.model
-                matched_exact = True
+        if result.is_proposed and _canonical_model_name_key(result.model) == proposed_key:
+            exact_name = result.model
+            matched_exact = True
 
     if extraction.proposed_model is None:
         extraction.proposed_model = ProposedModel(name=exact_name)
@@ -2889,7 +2893,7 @@ def _choose_primary_proposed_model_name(
 ) -> str | None:
     title_lower = paper_title.lower()
     is_benchmarking_title = _title_looks_like_benchmarking_study(title_lower)
-    unique_proposed_keys = {_canonical_model_name_key(name) for name in proposed_rows if name}
+    {_canonical_model_name_key(name) for name in proposed_rows if name}
     if (
         extraction.proposed_model is not None
         and not _is_generic_proposed_name(extraction.proposed_model.name)
@@ -2991,7 +2995,7 @@ def _render_human_readable(
     usage_summary: dict[str, Any] | None,
 ) -> str:
     """Render a Markdown verification report."""
-    now = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    now = datetime.now(UTC).strftime("%Y-%m-%d")
     lines: list[str] = []
 
     lines.append(f"# Extraction: {title or arxiv_id}")
@@ -3172,11 +3176,11 @@ def run_figure_detection(arxiv_id: str, model_tier: str = "primary") -> bool:
 
 
 def _write_extraction_error_log(
-    storage: "PaperStorage",
+    storage: PaperStorage,
     arxiv_id: str,
     model_name: str,
     exc: BaseException,
-    call_log: "list[CallRecord]",
+    call_log: list[CallRecord],
 ) -> None:
     """Compatibility wrapper for the extraction runner module."""
     from backend.extraction_runner import write_extraction_error_log

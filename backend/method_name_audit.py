@@ -2,10 +2,10 @@
 
 from __future__ import annotations
 
-from dataclasses import asdict, dataclass
 import json
-from pathlib import Path
 import re
+from dataclasses import asdict, dataclass
+from pathlib import Path
 from typing import Any
 
 from backend.config import cfg
@@ -17,7 +17,6 @@ from backend.llm_extractor import (
     _title_looks_like_benchmarking_study,
 )
 from backend.paper_storage import PaperStorage
-
 
 _GENERIC_RESULT_NAMES = {
     "baseline",
@@ -143,7 +142,7 @@ def audit_extraction_payload(
         suspicious_result_names=suspicious_result_names,
         reasons=reasons,
         benchmark_title=benchmark_title,
-        has_model_renames=bool((overrides.get("model_renames") or {})),
+        has_model_renames=bool(overrides.get("model_renames") or {}),
     )
 
 

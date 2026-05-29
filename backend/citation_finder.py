@@ -17,12 +17,11 @@ import re
 import time
 from dataclasses import dataclass, field
 
-from tenacity import retry, stop_after_attempt, wait_exponential
 from rich.console import Console
+from tenacity import retry, stop_after_attempt, wait_exponential
 from tqdm import tqdm
 
-from backend.config import cfg
-from backend.db import session_scope, init_db
+from backend.db import init_db, session_scope
 from backend.models import Paper, PaperCandidate, PipelineRun
 
 logger = logging.getLogger(__name__)

@@ -1,6 +1,7 @@
 """Unit tests for results_parser value parsing and fuzzy matching."""
 
 import pytest
+
 from backend.results_parser import (
     _infer_zinc_variant,
     _load_variant_map,

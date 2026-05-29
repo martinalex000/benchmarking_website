@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import logging
 from collections.abc import Callable
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from backend.config import cfg
 from backend.db import init_db, session_scope
@@ -39,8 +39,10 @@ def run_extraction(
     phase_transition_callback: Callable[[str], None] | None = None,
 ) -> bool:
     """Two-stage extraction for a single paper already downloaded to storage."""
-    from backend.html_parser import parse_html_paper, save_text as html_save
-    from backend.pdf_parser import parse_pdf_paper, save_text as pdf_save
+    from backend.html_parser import parse_html_paper
+    from backend.html_parser import save_text as html_save
+    from backend.pdf_parser import parse_pdf_paper
+    from backend.pdf_parser import save_text as pdf_save
 
     init_db()
     storage = PaperStorage(arxiv_id)
@@ -413,7 +415,7 @@ def write_extraction_error_log(
     """Write errors.log and a Markdown conversation log to the extracted/ folder."""
     extracted_dir = storage.extracted_dir
     extracted_dir.mkdir(parents=True, exist_ok=True)
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     now_str = now.strftime("%Y-%m-%d %H:%M UTC")
 
     error_log = extracted_dir / "errors.log"

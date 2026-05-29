@@ -14,8 +14,8 @@ import argparse
 import faulthandler
 import logging
 import random
-import select
 import re
+import select
 import subprocess
 import sys
 import termios
@@ -28,6 +28,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
+import yaml
 from rich.console import Group
 from rich.live import Live
 from rich.markup import escape
@@ -35,7 +36,6 @@ from rich.panel import Panel
 from rich.table import Table
 from rich.text import Text
 from sqlalchemy import func
-import yaml
 
 from backend.db import session_scope
 from backend.models import TodoPaper
@@ -389,7 +389,7 @@ def _detect_status_from_line(line: str) -> str | None:
         return "parsing"
     if "6. build hugo pages" in low:
         return "exporting"
-    if "done" == low or low.endswith(" done"):
+    if low == "done" or low.endswith(" done"):
         return "done"
     return None
 

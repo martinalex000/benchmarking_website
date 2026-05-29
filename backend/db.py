@@ -2,9 +2,10 @@
 
 from __future__ import annotations
 
+import re
+from collections.abc import Generator
 from contextlib import contextmanager
 from dataclasses import dataclass
-from typing import Generator
 
 from sqlalchemy import create_engine, event, text
 from sqlalchemy.engine import Engine
@@ -12,6 +13,15 @@ from sqlalchemy.orm import Session, sessionmaker
 
 from backend.config import cfg
 from backend.models import Base
+
+# Safe SQL identifier: starts with letter/underscore, then alphanumerics + underscores
+_SQL_IDENTIFIER_RE = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*$")
+
+
+def _validate_sql_identifier(name: str, kind: str = "identifier") -> str:
+    if not _SQL_IDENTIFIER_RE.match(name):
+        raise ValueError(f"Unsafe SQL {kind}: {name!r}")
+    return name
 
 
 def _get_engine(db_path: str | None = None) -> Engine:
@@ -147,14 +157,32 @@ def _record_migration(engine: Engine, name: str) -> None:
 
 
 def _add_column_if_missing(engine: Engine, table: str, column: str, col_type: str) -> None:
+    _validate_sql_identifier(table, "table")
+    _validate_sql_identifier(column, "column")
+    # Validate column type: allow common SQLite types + REFERENCES + NOT NULL + DEFAULT
+    if not re.match(
+        r"^[A-Z]+(?:\s*\(\d+\))?(?:\s+NOT\s+NULL)?(?:\s+DEFAULT\s+[^,]+)?(?:\s+REFERENCES\s+[A-Za-z_][A-Za-z0-9_]*\([A-Za-z_][A-Za-z0-9_]*\)\s+ON\s+DELETE\s+(SET\s+NULL|CASCADE|RESTRICT|NO\s+ACTION))?$",
+        col_type,
+        re.IGNORECASE,
+    ):
+        raise ValueError(f"Unsafe column type: {col_type!r}")
     with engine.connect() as conn:
-        existing = {row[1] for row in conn.execute(text(f"PRAGMA table_info({table})"))}
+        existing = {
+            row[1]
+            for row in conn.execute(text(f"PRAGMA table_info({_validate_sql_identifier(table)})"))
+        }
         if column not in existing:
-            conn.execute(text(f"ALTER TABLE {table} ADD COLUMN {column} {col_type}"))
+            conn.execute(
+                text(
+                    f"ALTER TABLE {_validate_sql_identifier(table)} "
+                    f"ADD COLUMN {_validate_sql_identifier(column)} {col_type}"
+                )
+            )
             conn.commit()
 
 
 def _ensure_index(engine: Engine, index_name: str, create_sql: str) -> None:
+    _validate_sql_identifier(index_name, "index")
     with engine.connect() as conn:
         existing = {
             row[0]

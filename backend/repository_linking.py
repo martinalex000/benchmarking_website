@@ -5,8 +5,8 @@ from __future__ import annotations
 import base64
 import logging
 import re
-from urllib.parse import urlparse, urlunparse
 from typing import Any
+from urllib.parse import urlparse, urlunparse
 
 import requests
 from bs4 import BeautifulSoup

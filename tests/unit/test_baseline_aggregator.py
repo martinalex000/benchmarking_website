@@ -1,6 +1,7 @@
 """Unit tests for baseline aggregator helpers."""
 
 import pytest
+
 from backend.baseline_aggregator import BaselineGroup, _merge_similar_groups
 
 

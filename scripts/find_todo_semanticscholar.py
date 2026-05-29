@@ -20,11 +20,11 @@ import json
 import os
 import re
 import sqlite3
-import sys
 import time
-from datetime import datetime, timezone
+from collections.abc import Iterable
+from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any, Dict, Iterable, List, Optional
+from typing import Any
 
 import requests
 from rich.console import Console
@@ -45,7 +45,7 @@ ARXIV_RE = re.compile(r"(\d{4}\.\d{4,5})(v\d+)?")
 
 
 def _utcnow_iso() -> str:
-    return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    return datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
 class S2Client:
@@ -63,8 +63,8 @@ class S2Client:
             time.sleep(self.min_delay - elapsed)
 
     def _get(
-        self, url: str, params: Dict[str, Any] | None = None, max_retries: int = 5
-    ) -> Optional[requests.Response]:
+        self, url: str, params: dict[str, Any] | None = None, max_retries: int = 5
+    ) -> requests.Response | None:
         for attempt in range(max_retries):
             self._wait()
             try:
@@ -86,7 +86,7 @@ class S2Client:
             return resp
         return None
 
-    def paper_id_for_arxiv(self, arxiv_id: str) -> Optional[str]:
+    def paper_id_for_arxiv(self, arxiv_id: str) -> str | None:
         url = f"https://api.semanticscholar.org/graph/v1/paper/arXiv:{arxiv_id}"
         resp = self._get(url, {"fields": "paperId,title,externalIds"})
         if resp is None:
@@ -94,8 +94,8 @@ class S2Client:
         data = resp.json()
         return data.get("paperId")
 
-    def fetch_paginated(self, base_url: str, fields: str, limit: int) -> List[Dict[str, Any]]:
-        results: List[Dict[str, Any]] = []
+    def fetch_paginated(self, base_url: str, fields: str, limit: int) -> list[dict[str, Any]]:
+        results: list[dict[str, Any]] = []
         offset = 0
         page = min(limit, 500)
         while True:
@@ -122,20 +122,20 @@ class S2Client:
             offset = next_offset
         return results
 
-    def fetch_citations(self, paper_id: str, limit: int) -> List[Dict[str, Any]]:
+    def fetch_citations(self, paper_id: str, limit: int) -> list[dict[str, Any]]:
         url = f"https://api.semanticscholar.org/graph/v1/paper/{paper_id}/citations"
         return self.fetch_paginated(
             url, "paperId,title,authors,year,externalIds,publicationVenue,abstract,url", limit
         )
 
-    def fetch_references(self, paper_id: str, limit: int) -> List[Dict[str, Any]]:
+    def fetch_references(self, paper_id: str, limit: int) -> list[dict[str, Any]]:
         url = f"https://api.semanticscholar.org/graph/v1/paper/{paper_id}/references"
         return self.fetch_paginated(
             url, "paperId,title,authors,year,externalIds,publicationVenue,abstract,url", limit
         )
 
 
-def infer_arxiv_id_from_s2(paper: Dict[str, Any]) -> Optional[str]:
+def infer_arxiv_id_from_s2(paper: dict[str, Any]) -> str | None:
     # Try externalIds
     ext = paper.get("externalIds") or {}
     for k in ("ArXiv", "arXiv", "arxiv"):
@@ -339,7 +339,7 @@ def sync_todo_status_with_local_corpus(conn: sqlite3.Connection) -> None:
 
 
 def insert_missing(
-    conn: sqlite3.Connection, title: str | None, observed_in: str, payload: Dict[str, Any]
+    conn: sqlite3.Connection, title: str | None, observed_in: str, payload: dict[str, Any]
 ) -> None:
     cur = conn.cursor()
     now = _utcnow_iso()
@@ -388,7 +388,7 @@ def already_crawled(conn: sqlite3.Connection, paper_id: str) -> bool:
     return cur.fetchone() is not None
 
 
-def get_uncrawled_seeds(conn: sqlite3.Connection) -> List[str]:
+def get_uncrawled_seeds(conn: sqlite3.Connection) -> list[str]:
     """Return arxiv_ids from the papers table that have not yet been crawled."""
     cur = conn.cursor()
     # Check papers table exists

@@ -3,25 +3,26 @@
 from types import SimpleNamespace
 
 import pytest
+
+from backend.latex_source import _expand_user_macros
 from backend.llm_extractor import (
+    BaselineModelInfo,
     DatasetInfo,
     DatasetList,
     ExtractionOutput,
+    FigureInfo,
     LLMExtractor,
     ProposedModel,
     ResultEntry,
-    BaselineModelInfo,
-    _merge_extraction_outputs,
     _extract_proposed_model_hint,
     _matches_proposed_model_name,
+    _merge_extraction_outputs,
     _normalise_model_name_text,
     _rename_generic_proposed_rows,
     _render_human_readable,
     _split_into_chunks,
     _title_looks_corrupted,
-    FigureInfo,
 )
-from backend.latex_source import _expand_user_macros
 
 
 def test_split_into_chunks_small():
