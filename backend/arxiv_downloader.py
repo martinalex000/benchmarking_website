@@ -15,12 +15,11 @@ import argparse
 import logging
 import re
 import time
-from pathlib import Path
 
 import requests
 from tenacity import retry, stop_after_attempt, wait_exponential
 
-from backend.config import cfg
+from backend.config import cfg, normalize_arxiv_id
 from backend.db import init_db, session_scope
 from backend.models import Paper, PipelineRun
 from backend.paper_storage import PaperStorage
@@ -32,7 +31,7 @@ ARXIV_ABS_URL = "https://arxiv.org/abs/{arxiv_id}"
 
 HEADERS = {
     "User-Agent": (
-        "Mozilla/5.0 (compatible; GraphBenchBot/1.0; " "+https://github.com/benchmarking-website)"
+        "Mozilla/5.0 (compatible; GraphBenchBot/1.0; +https://github.com/benchmarking-website)"
     )
 }
 
@@ -209,7 +208,7 @@ def main(argv: list[str] | None = None) -> None:
 
     ok = total = 0
     for arxiv_id in args.arxiv_ids:
-        arxiv_id = arxiv_id.strip().lstrip("arXiv:").split("v")[0]
+        arxiv_id = normalize_arxiv_id(arxiv_id)
         total += 1
         if download_paper(arxiv_id, force=args.force):
             ok += 1

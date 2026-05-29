@@ -7,7 +7,7 @@ import subprocess
 import sys
 import time
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 from sqlalchemy import text as _sql_text
@@ -26,7 +26,7 @@ logger = logging.getLogger(__name__)
 
 
 def _utcnow_iso() -> str:
-    return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    return datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
 @dataclass
@@ -253,13 +253,14 @@ def release_stale_processing_papers(stale_minutes: int = WORKER_LOCK_TIMEOUT_MIN
 
     Call this at the start of each worker run so papers from crashed workers become
     available again for the next worker.
+
+    Note: last_attempt_at is stored as ISO8601 string. String comparison works but is
+    brittle; a cleaner fix would store as INTEGER UNIX epoch (requires DB migration).
     """
     from datetime import timedelta
 
     init_db()
-    cutoff = (datetime.now(timezone.utc) - timedelta(minutes=stale_minutes)).strftime(
-        "%Y-%m-%dT%H:%M:%SZ"
-    )
+    cutoff = (datetime.now(UTC) - timedelta(minutes=stale_minutes)).strftime("%Y-%m-%dT%H:%M:%SZ")
     with session_scope() as session:
         stale_rows = (
             session.query(TodoPaper)

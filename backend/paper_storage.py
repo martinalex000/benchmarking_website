@@ -19,7 +19,9 @@ from __future__ import annotations
 
 import json
 import logging
-from datetime import datetime, timezone
+import os
+import tempfile
+from datetime import UTC, datetime
 from pathlib import Path
 
 import yaml
@@ -147,7 +149,7 @@ class PaperStorage:
         if not self.metadata_path.exists():
             meta = {
                 "arxiv_id": self.arxiv_id,
-                "created_at": datetime.now(timezone.utc).isoformat(),
+                "created_at": datetime.now(UTC).isoformat(),
                 **metadata,
             }
             self.metadata_path.write_text(
@@ -163,7 +165,7 @@ class PaperStorage:
             logger.info("Created overrides.yaml template for %s", self.arxiv_id)
 
     def update_metadata(self, updates: dict) -> None:
-        """Merge updates into metadata.json."""
+        """Merge updates into metadata.json using atomic write to prevent corruption."""
         self.ensure_dirs()
         existing: dict = {}
         if self.metadata_path.exists():
@@ -172,10 +174,19 @@ class PaperStorage:
             except (ValueError, OSError):
                 pass
         existing.update(updates)
-        existing["updated_at"] = datetime.now(timezone.utc).isoformat()
-        self.metadata_path.write_text(
-            json.dumps(existing, indent=2, ensure_ascii=False), encoding="utf-8"
+        existing["updated_at"] = datetime.now(UTC).isoformat()
+        content = json.dumps(existing, indent=2, ensure_ascii=False)
+        tmp_fd, tmp_path = tempfile.mkstemp(
+            dir=self.metadata_path.parent, suffix=".tmp", prefix="metadata_"
         )
+        try:
+            os.write(tmp_fd, content.encode("utf-8"))
+            os.close(tmp_fd)
+            os.replace(tmp_path, self.metadata_path)
+        except Exception:
+            if os.path.exists(tmp_path):
+                os.unlink(tmp_path)
+            raise
 
     def read_metadata(self) -> dict:
         """Read metadata.json, return empty dict if not present."""
@@ -200,13 +211,21 @@ class PaperStorage:
             return {}
 
     def save_llm_output(self, payload: dict) -> Path:
-        """Save extraction output in YAML format (project default)."""
+        """Save extraction output in YAML format (project default) using atomic write."""
         self.extracted_dir.mkdir(parents=True, exist_ok=True)
         out_path = self.llm_output_yaml_path
-        out_path.write_text(
-            yaml.safe_dump(payload, allow_unicode=True, sort_keys=False),
-            encoding="utf-8",
+        content = yaml.safe_dump(payload, allow_unicode=True, sort_keys=False)
+        tmp_fd, tmp_path = tempfile.mkstemp(
+            dir=self.extracted_dir, suffix=".tmp", prefix="llm_output_"
         )
+        try:
+            os.write(tmp_fd, content.encode("utf-8"))
+            os.close(tmp_fd)
+            os.replace(tmp_path, out_path)
+        except Exception:
+            if os.path.exists(tmp_path):
+                os.unlink(tmp_path)
+            raise
         return out_path
 
     def load_llm_calls(self) -> list[dict]:

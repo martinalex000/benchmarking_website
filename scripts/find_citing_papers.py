@@ -30,6 +30,8 @@ from rich import box
 from rich.console import Console
 from rich.table import Table
 
+from backend.config import normalize_arxiv_id
+
 console = Console()
 
 _S2_BASE = "https://api.semanticscholar.org/graph/v1"
@@ -246,7 +248,7 @@ def main() -> None:
     m = re.match(r"https?://(?:www\.)?arxiv\.org/(?:abs|pdf)/([0-9]+\.[0-9]+)", raw)
     if m:
         raw = m.group(1)
-    arxiv_id = raw.lstrip("arXiv:").split("v")[0]
+    arxiv_id = normalize_arxiv_id(raw)
 
     console.rule(f"[bold]Citations of arXiv:{arxiv_id}[/bold]")
 

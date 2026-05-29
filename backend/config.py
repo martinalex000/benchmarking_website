@@ -98,5 +98,10 @@ class Config:
             d.mkdir(parents=True, exist_ok=True)
 
 
+def normalize_arxiv_id(raw: str) -> str:
+    """Normalize an arXiv ID to canonical form (e.g., '2206.08164v1' → '2206.08164')."""
+    return raw.strip().lstrip("arXiv:").split("v")[0]
+
+
 # Singleton instance — import and use directly
 cfg = Config()

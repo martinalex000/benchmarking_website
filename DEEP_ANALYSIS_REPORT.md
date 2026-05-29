@@ -20,6 +20,13 @@
 | 3.1 | Dead `_write_extraction_error_log` wrapper | **Removed** from `backend/llm_extractor.py` | `748eda1` |
 | 3.2 | Corrupted single-line docstring in `run_manual.py` | **Fixed** — split onto multiple lines | `748eda1` |
 | 5.1 | `assert` used for runtime check in dashboard | **Replaced** with explicit `RuntimeError` | `748eda1` |
+| 5.2 | Static dataset cache never invalidated | Added `clear_known_dataset_names_cache()` function | NEW |
+| 1.9 | Stale timestamp comparison in todo queue | Added docstring clarifying ISO8601 dependency | NEW |
+| 1.7 | File I/O in paper_storage.py prone to corruption | Atomic writes via temp file + `os.replace` | NEW |
+| 2.1 | arXiv ID normalization copy-pasted ×5 | Centralized `normalize_arxiv_id()` in config.py | NEW |
+| 1.1 | `--since` argument discarded in run-all | Passed `since` through to `_get_papers()` calls | NEW |
+| 2.2 | Pre-screening duplicated (2× LLM calls) | Set `screen_first=False` in run_manual since pre-screen already done | NEW |
+| 1.3 | Outer extraction loop swallows exceptions | Split into retry-able (`RateLimitError`, `APIStatusError`) and fatal (re-raised) | NEW |
 
 ---
 
@@ -155,15 +162,9 @@ If `config/seed_data.yaml` is edited, long-running dashboard processes keep the 
 
 | Rank | Finding | Severity | Status |
 |------|---------|----------|--------|
-| 1 | `--since` discarded in `run-all` | Critical | **Open** |
-| 2 | Outer extraction exception swallowed | Critical | **Open** |
-| 3 | Unlocked file I/O in multi-worker context | High | **Open** |
 | 4 | Metadata enrichment duplicated | High | **Open** |
-| 5 | Pre-screen duplicated (2× LLM calls) | High | **Open** |
-| 6 | arxiv_id normalization copy-pasted ×5 | Medium | **Open** |
-| 7 | Stale static dataset cache | Low | **Open** |
 
-**Resolved:** Exception swallowing in extraction_runner cache, YAML overrides loading, pipeline exit codes, todo_queue traceback logging, subprocess path validation, Hugo build error handling, dead wrapper removal, assert-in-production, corrupted docstring.
+**Resolved:** `--since` discarded in run-all, outer extraction exception swallowed, unlocked file I/O, pre-screen duplicated (2× LLM calls), arxiv_id normalization copy-pasted ×5, stale static dataset cache, timestamp comparison, exception handling in extraction_runner cache, YAML overrides loading, pipeline exit codes, todo_queue traceback logging, subprocess path validation, Hugo build error handling, dead wrapper removal, assert-in-production, corrupted docstring.
 
 ---
 

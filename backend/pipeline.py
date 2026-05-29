@@ -25,7 +25,6 @@ from __future__ import annotations
 import argparse
 import logging
 import subprocess
-import sys
 from collections.abc import Callable
 from datetime import UTC, datetime, timedelta
 from typing import Any
@@ -119,7 +118,11 @@ def stage_download(args: argparse.Namespace) -> None:
     force = getattr(args, "force", False)
     arxiv_ids = getattr(args, "paper", None)
     screen_first = not getattr(args, "skip_screen", False)
-    papers = _get_papers(arxiv_ids=arxiv_ids, status_filter="pending" if not arxiv_ids else None)
+    papers = _get_papers(
+        arxiv_ids=arxiv_ids,
+        status_filter="pending" if not arxiv_ids else None,
+        since=getattr(args, "since", None),
+    )
 
     console.print(f"[bold]Download[/bold] — {len(papers)} paper(s) to process")
     if not papers:
@@ -191,7 +194,11 @@ def stage_extract(args: argparse.Namespace) -> None:
     model_tier = getattr(args, "model", "primary")
     force = getattr(args, "force", False)
     arxiv_ids = getattr(args, "paper", None)
-    papers = _get_papers(arxiv_ids=arxiv_ids, status_filter="downloaded" if not arxiv_ids else None)
+    papers = _get_papers(
+        arxiv_ids=arxiv_ids,
+        status_filter="downloaded" if not arxiv_ids else None,
+        since=getattr(args, "since", None),
+    )
 
     model_name = cfg.model_for_tier(model_tier)
     console.print(f"[bold]Extract[/bold] — {len(papers)} paper(s), model=[cyan]{model_name}[/cyan]")
@@ -234,7 +241,11 @@ def stage_parse(args: argparse.Namespace) -> None:
 
     force = getattr(args, "force", False)
     arxiv_ids = getattr(args, "paper", None)
-    papers = _get_papers(arxiv_ids=arxiv_ids, status_filter="extracted" if not arxiv_ids else None)
+    papers = _get_papers(
+        arxiv_ids=arxiv_ids,
+        status_filter="extracted" if not arxiv_ids else None,
+        since=getattr(args, "since", None),
+    )
 
     console.print(f"[bold]Parse[/bold] — {len(papers)} paper(s)")
     if not papers:
@@ -312,7 +323,7 @@ def stage_build(_args: argparse.Namespace) -> bool:
 
 def stage_run_all(args: argparse.Namespace) -> bool:
     """Run the full pipeline end-to-end; return *False* if any stage failed."""
-    _parse_since(getattr(args, "since", None))
+    args.since = _parse_since(getattr(args, "since", None))
 
     console.rule("[bold]Pipeline: run-all[/bold]")
     stage_discover(args)
@@ -355,6 +366,11 @@ def _build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="Skip abstract pre-screen and download all papers unconditionally",
     )
+    dl.add_argument(
+        "--since",
+        metavar="DURATION",
+        help="Only process papers added within this window (e.g. 7d, 24h)",
+    )
 
     # extract
     ex = sub.add_parser("extract", help="Run LLM extraction")
@@ -363,11 +379,21 @@ def _build_parser() -> argparse.ArgumentParser:
     )
     ex.add_argument("--paper", nargs="+", metavar="ARXIV_ID")
     ex.add_argument("--force", action="store_true")
+    ex.add_argument(
+        "--since",
+        metavar="DURATION",
+        help="Only process papers added within this window (e.g. 7d, 24h)",
+    )
 
     # parse
     ps = sub.add_parser("parse", help="Store LLM output as DB records")
     ps.add_argument("--paper", nargs="+", metavar="ARXIV_ID")
     ps.add_argument("--force", action="store_true")
+    ps.add_argument(
+        "--since",
+        metavar="DURATION",
+        help="Only process papers added within this window (e.g. 7d, 24h)",
+    )
 
     # aggregate (alias for parse + export)
     sub.add_parser("aggregate", help="Recompute aggregates and re-export")

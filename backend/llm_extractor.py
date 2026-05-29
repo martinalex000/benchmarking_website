@@ -39,7 +39,7 @@ from openai import APIStatusError, OpenAI, RateLimitError
 from pydantic import BaseModel, Field, field_validator
 from tenacity import retry, stop_after_attempt, wait_exponential
 
-from backend.config import cfg
+from backend.config import cfg, normalize_arxiv_id
 from backend.db import session_scope
 from backend.llm_model_options import display_name_for_model, extra_body_for_model
 from backend.models import Paper
@@ -138,6 +138,12 @@ def _get_top_datasets_hint(limit: int = _TOP_DATASETS_HINT_LIMIT) -> str:
 
 
 _KNOWN_DATASET_NAMES_CACHE: list[str] | None = None
+
+
+def clear_known_dataset_names_cache() -> None:
+    """Clear the cached dataset names. Call after editing config/seed_data.yaml."""
+    global _KNOWN_DATASET_NAMES_CACHE
+    _KNOWN_DATASET_NAMES_CACHE = None
 
 
 def _get_known_dataset_names() -> list[str]:
@@ -443,9 +449,7 @@ def _print_call_progress(rec: CallRecord, call_index: int) -> None:
     tps_str = f"{rec.tokens_per_sec:.0f} tok/s  " if rec.tokens_per_sec else ""
     tok_str = ""
     if rec.prompt_tokens or rec.completion_tokens:
-        tok_str = (
-            f"prompt={rec.prompt_tokens or '?'}  " f"completion={rec.completion_tokens or '?'}  "
-        )
+        tok_str = f"prompt={rec.prompt_tokens or '?'}  completion={rec.completion_tokens or '?'}  "
 
     call_type = rec.call_type or ""
     stage_prefix = ""
@@ -1029,7 +1033,7 @@ class LLMExtractor:
             )
         else:
             logger.debug(
-                "Model %r [%s]: %d in → %d out chars | %.2f s total" "%s",
+                "Model %r [%s]: %d in → %d out chars | %.2f s total%s",
                 self.model_name,
                 call_type,
                 record.input_chars,
@@ -1092,11 +1096,11 @@ class LLMExtractor:
                 logger.debug("Raw LLM response (first 500 chars): %s", raw[:500])
                 logger.error("JSON parse error from %r", self.model_name)
                 if self._call_log:
-                    self._call_log[-1].parse_error = (
-                        f"JSON parse failed — raw (first 200 chars): {raw[:200]}"
-                    )
+                    self._call_log[
+                        -1
+                    ].parse_error = f"JSON parse failed — raw (first 200 chars): {raw[:200]}"
                 raise ValueError(
-                    f"JSON parse error from {self.model_name!r}: " "could not extract valid JSON"
+                    f"JSON parse error from {self.model_name!r}: could not extract valid JSON"
                 )
 
         if self._call_log:
@@ -2065,18 +2069,18 @@ class LLMExtractor:
             logger.debug("Extracting chunk %d/%d", i + 1, len(chunks))
             try:
                 chunk_out = self._extract_results_chunk(
-                    prompt, chunk + tables_section, call_type=f"extract_chunk:{i+1}"
+                    prompt, chunk + tables_section, call_type=f"extract_chunk:{i + 1}"
                 )
                 all_results.extend(chunk_out.results)
                 if chunk_out.proposed_model and proposed is None:
                     proposed = chunk_out.proposed_model
                 baselines.extend(chunk_out.baseline_models)
                 if chunk_out.extraction_notes:
-                    notes_parts.append(f"[Chunk {i+1}] {chunk_out.extraction_notes}")
+                    notes_parts.append(f"[Chunk {i + 1}] {chunk_out.extraction_notes}")
                 confidence_levels.append(chunk_out.extraction_confidence)
             except Exception as exc:
                 logger.warning("Chunk %d extraction failed: %s", i + 1, exc)
-                notes_parts.append(f"[Chunk {i+1}] Extraction failed: {exc}")
+                notes_parts.append(f"[Chunk {i + 1}] Extraction failed: {exc}")
 
         return _merge_extraction_outputs(
             proposed_model=proposed,
@@ -2136,7 +2140,7 @@ class LLMExtractor:
             logger.debug("Extracting section %d/%d (%d chars)", i + 1, len(sections), len(content))
             try:
                 out = self._extract_results_chunk(
-                    prompt, content, call_type=f"extract_section:{i+1}"
+                    prompt, content, call_type=f"extract_section:{i + 1}"
                 )
                 all_results.extend(out.results)
                 if out.proposed_model and proposed is None:
@@ -2164,7 +2168,7 @@ class LLMExtractor:
         """
         prompt = self._read_prompt("figure_detection.txt")
         figures_summary = "\n".join(
-            f"Figure {i+1}: {f.get('caption', '')[:120]} [src={f.get('src', 'N/A')}]"
+            f"Figure {i + 1}: {f.get('caption', '')[:120]} [src={f.get('src', 'N/A')}]"
             for i, f in enumerate(figures_list[:30])
         )
         user_content = (
@@ -3225,7 +3229,7 @@ def main(argv: list[str] | None = None) -> None:
 
     ok = total = 0
     for arxiv_id in args.arxiv_ids:
-        arxiv_id = arxiv_id.strip().lstrip("arXiv:").split("v")[0]
+        arxiv_id = normalize_arxiv_id(arxiv_id)
         total += 1
         if run_extraction(
             arxiv_id,

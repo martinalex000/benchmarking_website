@@ -9,9 +9,11 @@ from datetime import UTC, datetime
 from backend.config import cfg
 from backend.db import init_db, session_scope
 from backend.llm_extractor import (
+    APIStatusError,
     CallRecord,
     FigureInfo,
     LLMExtractor,
+    RateLimitError,
     _extract_metadata_from_latex_cache,
     _print_call_progress,
     _title_looks_corrupted,
@@ -222,9 +224,8 @@ def run_extraction(
         figures_list = [
             {"caption": f.caption, "src": f.src, "element_id": f.element_id} for f in parsed.figures
         ]
-        if not paper_title or paper_title.startswith("arXiv:"):
-            if parsed.title:
-                paper_title = parsed.title
+        if (not paper_title or paper_title.startswith("arXiv:")) and parsed.title:
+            paper_title = parsed.title
         if (not paper_abstract or abstract_has_latex_artifacts(paper_abstract)) and parsed.abstract:
             paper_abstract = parsed.abstract
 
@@ -298,7 +299,7 @@ def run_extraction(
                 )
             _update_status(paper_id, "failed")
         raise
-    except Exception as exc:
+    except (RateLimitError, APIStatusError) as exc:
         if model_tier == "primary" and fallback_on_failure:
             fallback = cfg.model_fallback
             logger.warning("Primary model failed (%s); retrying with fallback=%s", exc, fallback)
@@ -329,6 +330,24 @@ def run_extraction(
                 )
             _update_status(paper_id, "failed")
         return False
+    except Exception as exc:
+        logger.error("Unexpected error during extraction for arXiv:%s: %s", arxiv_id, exc)
+        write_extraction_error_log(
+            storage, arxiv_id, cfg.model_for_tier(model_tier), exc, extractor._call_log
+        )
+        if paper_id:
+            with session_scope() as session:
+                session.add(
+                    PipelineRun(
+                        paper_id=paper_id,
+                        stage="extract",
+                        status="failed",
+                        model_used=display_name_for_model(cfg.model_for_tier(model_tier)),
+                        error_message=str(exc),
+                    )
+                )
+            _update_status(paper_id, "failed")
+        raise
 
     actual_model_used = output.get("model_used") or display_name_for_model(
         cfg.model_for_tier(model_tier)
@@ -463,8 +482,7 @@ def write_extraction_error_log(
         tok_str = ""
         if rec.prompt_tokens or rec.completion_tokens:
             tok_str = (
-                f"  prompt_tokens={rec.prompt_tokens}"
-                f"  completion_tokens={rec.completion_tokens}"
+                f"  prompt_tokens={rec.prompt_tokens}  completion_tokens={rec.completion_tokens}"
             )
         status = "✓" if rec.success else "✗ FAILED"
 
