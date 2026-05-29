@@ -15,14 +15,14 @@ stats:
   avg_nodes: null
   avg_edges: null
   num_classes: 20
-result_count: 9
+result_count: 12
 best_model:
-  model: ParaFormer (a)
-  value: 0.595
+  model: Multinomial Naive Bayes
+  value: 0.6851
   metric: Accuracy
-  arxiv_id: '2512.14619'
-  paper_title: 'ParaFormer: A Generalized PageRank Graph Transformer for Graph Representation
-    Learning'
+  arxiv_id: '1606.09375'
+  paper_title: Convolutional Neural Networks on Graphs with Fast Localized Spectral
+    Filtering
 variants:
 - slug: standard-split
   name: Standard split
@@ -37,184 +37,234 @@ variants:
   metrics:
   - Accuracy
   rows:
-  - model: ParaFormer (a)
-    model_plain: ParaFormer (a)
-    is_baseline: false
+  - model: Multinomial Naive Bayes
+    model_plain: Multinomial Naive Bayes
+    is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2512.14619'
-    title: 'ParaFormer: A Generalized PageRank Graph Transformer for Graph Representation
-      Learning'
-    date: Dec 2025
-    date_iso: 2025-12
-    date_display: Dec 2025
-    codebase_url: ''
-    uses_external_data: null
+    arxiv_id: '1606.09375'
+    title: Convolutional Neural Networks on Graphs with Fast Localized Spectral Filtering
+    date: Jun 2016
+    date_iso: 2016-06
+    date_display: Jun 2016
+    codebase_url: https://github.com/mdeff/cnn_graph
+    uses_external_data: false
     is_best: true
     metric_values:
-    - 0.595
-    metric_stds:
-    - 0.004
-  - model: DIFFomer-a
-    model_plain: DIFFomer-a
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2512.14619'
-    title: 'ParaFormer: A Generalized PageRank Graph Transformer for Graph Representation
-      Learning'
-    date: Dec 2025
-    date_iso: 2025-12
-    date_display: Dec 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.579
-    metric_stds:
-    - 0.006999999999999999
-  - model: DIFFomer-s
-    model_plain: DIFFomer-s
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2512.14619'
-    title: 'ParaFormer: A Generalized PageRank Graph Transformer for Graph Representation
-      Learning'
-    date: Dec 2025
-    date_iso: 2025-12
-    date_display: Dec 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.5770000000000001
-    metric_stds:
-    - 0.003
-  - model: ManiReg
-    model_plain: ManiReg
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2512.14619'
-    title: 'ParaFormer: A Generalized PageRank Graph Transformer for Graph Representation
-      Learning'
-    date: Dec 2025
-    date_iso: 2025-12
-    date_display: Dec 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.563
-    metric_stds:
-    - 0.012
-  - model: GLCN
-    model_plain: GLCN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2512.14619'
-    title: 'ParaFormer: A Generalized PageRank Graph Transformer for Graph Representation
-      Learning'
-    date: Dec 2025
-    date_iso: 2025-12
-    date_display: Dec 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.562
-    metric_stds:
-    - 0.008
-  - model: GCN-kNN
-    model_plain: GCN-kNN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2512.14619'
-    title: 'ParaFormer: A Generalized PageRank Graph Transformer for Graph Representation
-      Learning'
-    date: Dec 2025
-    date_iso: 2025-12
-    date_display: Dec 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.561
-    metric_stds:
-    - 0.006
-  - model: LP
-    model_plain: LP
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2512.14619'
-    title: 'ParaFormer: A Generalized PageRank Graph Transformer for Graph Representation
-      Learning'
-    date: Dec 2025
-    date_iso: 2025-12
-    date_display: Dec 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.5589999999999999
+    - 0.6851
     metric_stds:
     - null
-  - model: GAT-kNN
-    model_plain: GAT-kNN
+  - model: GC32
+    model_plain: GC32
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2512.14619'
-    title: 'ParaFormer: A Generalized PageRank Graph Transformer for Graph Representation
-      Learning'
-    date: Dec 2025
-    date_iso: 2025-12
-    date_display: Dec 2025
-    codebase_url: ''
+    arxiv_id: '1606.09375'
+    title: Convolutional Neural Networks on Graphs with Fast Localized Spectral Filtering
+    date: Jun 2016
+    date_iso: 2016-06
+    date_display: Jun 2016
+    codebase_url: https://github.com/mdeff/cnn_graph
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.552
+    - 0.6826
     metric_stds:
-    - 0.008
-  - model: DenseGAT
-    model_plain: DenseGAT
+    - null
+  - model: Softmax
+    model_plain: Softmax
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2512.14619'
-    title: 'ParaFormer: A Generalized PageRank Graph Transformer for Graph Representation
-      Learning'
-    date: Dec 2025
-    date_iso: 2025-12
-    date_display: Dec 2025
-    codebase_url: ''
+    arxiv_id: '1606.09375'
+    title: Convolutional Neural Networks on Graphs with Fast Localized Spectral Filtering
+    date: Jun 2016
+    date_iso: 2016-06
+    date_display: Jun 2016
+    codebase_url: https://github.com/mdeff/cnn_graph
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.546
+    - 0.6628
     metric_stds:
-    - 0.002
+    - null
+  - model: LDS
+    model_plain: LDS
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2306.08385'
+    title: 'Align All the Nodes: Scalable Learning of Flexible Latent Structure for
+      Graph Neural Networks'
+    date: Jun 2023
+    date_iso: 2023-06
+    date_display: Jun 2023
+    codebase_url: https://github.com/qitianwu/NodeFormer
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.6615
+    metric_stds:
+    - 0.0036
+  - model: NodeFormer
+    model_plain: NodeFormer
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2306.08385'
+    title: 'Align All the Nodes: Scalable Learning of Flexible Latent Structure for
+      Graph Neural Networks'
+    date: Jun 2023
+    date_iso: 2023-06
+    date_display: Jun 2023
+    codebase_url: https://github.com/qitianwu/NodeFormer
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.6601
+    metric_stds:
+    - 0.0118
+  - model: GCN
+    model_plain: GCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2306.08385'
+    title: 'Align All the Nodes: Scalable Learning of Flexible Latent Structure for
+      Graph Neural Networks'
+    date: Jun 2023
+    date_iso: 2023-06
+    date_display: Jun 2023
+    codebase_url: https://github.com/qitianwu/NodeFormer
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.6598
+    metric_stds:
+    - 0.0068
+  - model: Linear SVM
+    model_plain: Linear SVM
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1606.09375'
+    title: Convolutional Neural Networks on Graphs with Fast Localized Spectral Filtering
+    date: Jun 2016
+    date_iso: 2016-06
+    date_display: Jun 2016
+    codebase_url: https://github.com/mdeff/cnn_graph
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.659
+    metric_stds:
+    - null
+  - model: FC2500-FC500
+    model_plain: FC2500-FC500
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1606.09375'
+    title: Convolutional Neural Networks on Graphs with Fast Localized Spectral Filtering
+    date: Jun 2016
+    date_iso: 2016-06
+    date_display: Jun 2016
+    codebase_url: https://github.com/mdeff/cnn_graph
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.6576
+    metric_stds:
+    - null
+  - model: IDGL
+    model_plain: IDGL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2306.08385'
+    title: 'Align All the Nodes: Scalable Learning of Flexible Latent Structure for
+      Graph Neural Networks'
+    date: Jun 2023
+    date_iso: 2023-06
+    date_display: Jun 2023
+    codebase_url: https://github.com/qitianwu/NodeFormer
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.6509
+    metric_stds:
+    - 0.0123
+  - model: FC2500
+    model_plain: FC2500
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1606.09375'
+    title: Convolutional Neural Networks on Graphs with Fast Localized Spectral Filtering
+    date: Jun 2016
+    date_iso: 2016-06
+    date_display: Jun 2016
+    codebase_url: https://github.com/mdeff/cnn_graph
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.6464
+    metric_stds:
+    - null
+  - model: DropEdge
+    model_plain: DropEdge
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2306.08385'
+    title: 'Align All the Nodes: Scalable Learning of Flexible Latent Structure for
+      Graph Neural Networks'
+    date: Jun 2023
+    date_iso: 2023-06
+    date_display: Jun 2023
+    codebase_url: https://github.com/qitianwu/NodeFormer
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.6446
+    metric_stds:
+    - 0.0043
+  - model: GAT
+    model_plain: GAT
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2306.08385'
+    title: 'Align All the Nodes: Scalable Learning of Flexible Latent Structure for
+      Graph Neural Networks'
+    date: Jun 2023
+    date_iso: 2023-06
+    date_display: Jun 2023
+    codebase_url: https://github.com/qitianwu/NodeFormer
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.6406
+    metric_stds:
+    - 0.0044
   milestones:
-  - value: 0.595
-    std: 0.004
-    model: ParaFormer (a)
-    arxiv_id: '2512.14619'
-    title: 'ParaFormer: A Generalized PageRank Graph Transformer for Graph Representation
-      Learning'
-    date: 2025-12
+  - value: 0.6851
+    std: null
+    model: Multinomial Naive Bayes
+    arxiv_id: '1606.09375'
+    title: Convolutional Neural Networks on Graphs with Fast Localized Spectral Filtering
+    date: 2016-06
 ---
 

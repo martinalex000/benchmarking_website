@@ -13,13 +13,13 @@ stats:
   avg_nodes: 264.0
   avg_edges: 3667.0
   num_classes: null
-result_count: 14
+result_count: 26
 best_model:
-  model: GIN
-  value: 0.292
+  model: DyGFormer
+  value: 1.0
   metric: Accuracy
-  arxiv_id: '2512.04475'
-  paper_title: GraphBench
+  arxiv_id: '2406.02740'
+  paper_title: Long Range Propagation on Continuous-Time Dynamic Graphs
 variants:
 - slug: standard-split
   name: Standard split
@@ -33,87 +33,287 @@ variants:
     avg_edges: null
   metrics:
   - Accuracy
-  - MSE
+  - MAE
   rows:
+  - model: DyGFormer
+    model_plain: DyGFormer
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2406.02740'
+    title: Long Range Propagation on Continuous-Time Dynamic Graphs
+    date: Jun 4, 2024
+    date_iso: '2024-06-04'
+    date_display: Jun 2024
+    codebase_url: https://github.com/gravins/non-dissipative-propagation-CTDGs
+    uses_external_data: false
+    is_best: true
+    metric_values:
+    - 1.0
+    - null
+    metric_stds:
+    - 0.0
+    - null
+  - model: DyRep
+    model_plain: DyRep
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2406.02740'
+    title: Long Range Propagation on Continuous-Time Dynamic Graphs
+    date: Jun 4, 2024
+    date_iso: '2024-06-04'
+    date_display: Jun 2024
+    codebase_url: https://github.com/gravins/non-dissipative-propagation-CTDGs
+    uses_external_data: false
+    is_best: true
+    metric_values:
+    - 1.0
+    - null
+    metric_stds:
+    - 0.0
+    - null
+  - model: GraphMixer
+    model_plain: GraphMixer
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2406.02740'
+    title: Long Range Propagation on Continuous-Time Dynamic Graphs
+    date: Jun 4, 2024
+    date_iso: '2024-06-04'
+    date_display: Jun 2024
+    codebase_url: https://github.com/gravins/non-dissipative-propagation-CTDGs
+    uses_external_data: false
+    is_best: true
+    metric_values:
+    - 1.0
+    - null
+    metric_stds:
+    - 0.0
+    - null
+  - model: JODIE
+    model_plain: JODIE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2406.02740'
+    title: Long Range Propagation on Continuous-Time Dynamic Graphs
+    date: Jun 4, 2024
+    date_iso: '2024-06-04'
+    date_display: Jun 2024
+    codebase_url: https://github.com/gravins/non-dissipative-propagation-CTDGs
+    uses_external_data: false
+    is_best: true
+    metric_values:
+    - 1.0
+    - null
+    metric_stds:
+    - 0.0
+    - null
+  - model: TGAT
+    model_plain: TGAT
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2406.02740'
+    title: Long Range Propagation on Continuous-Time Dynamic Graphs
+    date: Jun 4, 2024
+    date_iso: '2024-06-04'
+    date_display: Jun 2024
+    codebase_url: https://github.com/gravins/non-dissipative-propagation-CTDGs
+    uses_external_data: false
+    is_best: true
+    metric_values:
+    - 1.0
+    - null
+    metric_stds:
+    - 0.0
+    - null
+  - model: TGN
+    model_plain: TGN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2406.02740'
+    title: Long Range Propagation on Continuous-Time Dynamic Graphs
+    date: Jun 4, 2024
+    date_iso: '2024-06-04'
+    date_display: Jun 2024
+    codebase_url: https://github.com/gravins/non-dissipative-propagation-CTDGs
+    uses_external_data: false
+    is_best: true
+    metric_values:
+    - 1.0
+    - null
+    metric_stds:
+    - 0.0
+    - null
+  - model: DGNs
+    model_plain: DGNs
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2406.02740'
+    title: Long Range Propagation on Continuous-Time Dynamic Graphs
+    date: Jun 4, 2024
+    date_iso: '2024-06-04'
+    date_display: Jun 2024
+    codebase_url: https://github.com/gravins/non-dissipative-propagation-CTDGs
+    uses_external_data: false
+    is_best: true
+    metric_values:
+    - 1.0
+    - null
+    metric_stds:
+    - 0.0
+    - null
+  - model: RoGN
+    model_plain: RoGN
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2409.08023'
+    title: Edge-Wise Graph-Instructed Neural Networks
+    date: Sep 2024
+    date_iso: 2024-09
+    date_display: Sep 2024
+    codebase_url: https://github.com/Fra0013To/GINN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.968
+    - null
+    metric_stds:
+    - 0.001
+    - null
+  - model: GraphGPS
+    model_plain: GraphGPS
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2409.08023'
+    title: Edge-Wise Graph-Instructed Neural Networks
+    date: Sep 2024
+    date_iso: 2024-09
+    date_display: Sep 2024
+    codebase_url: https://github.com/Fra0013To/GINN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.955
+    - null
+    metric_stds:
+    - 0.001
+    - null
+  - model: SAN
+    model_plain: SAN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2409.08023'
+    title: Edge-Wise Graph-Instructed Neural Networks
+    date: Sep 2024
+    date_iso: 2024-09
+    date_display: Sep 2024
+    codebase_url: https://github.com/Fra0013To/GINN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.948
+    - null
+    metric_stds:
+    - 0.001
+    - null
+  - model: DGN
+    model_plain: DGN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2409.08023'
+    title: Edge-Wise Graph-Instructed Neural Networks
+    date: Sep 2024
+    date_iso: 2024-09
+    date_display: Sep 2024
+    codebase_url: https://github.com/Fra0013To/GINN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.942
+    - null
+    metric_stds:
+    - 0.002
+    - null
+  - model: PNA
+    model_plain: PNA
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2409.08023'
+    title: Edge-Wise Graph-Instructed Neural Networks
+    date: Sep 2024
+    date_iso: 2024-09
+    date_display: Sep 2024
+    codebase_url: https://github.com/Fra0013To/GINN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.935
+    - null
+    metric_stds:
+    - 0.002
+    - null
   - model: GIN
     model_plain: GIN
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2512.04475'
-    title: GraphBench
-    date: Dec 2025
-    date_iso: 2025-12
-    date_display: Dec 2025
-    codebase_url: https://github.com/graphbench/package
+    arxiv_id: '2409.08023'
+    title: Edge-Wise Graph-Instructed Neural Networks
+    date: Sep 2024
+    date_iso: 2024-09
+    date_display: Sep 2024
+    codebase_url: https://github.com/Fra0013To/GINN
     uses_external_data: false
-    is_best: true
+    is_best: false
     metric_values:
-    - 0.292
+    - 0.921
     - null
     metric_stds:
-    - 0.041
+    - 0.003
     - null
-  - model: GT
-    model_plain: GT
+  - model: GAT
+    model_plain: GAT
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2512.04475'
-    title: GraphBench
-    date: Dec 2025
-    date_iso: 2025-12
-    date_display: Dec 2025
-    codebase_url: https://github.com/graphbench/package
+    arxiv_id: '2409.08023'
+    title: Edge-Wise Graph-Instructed Neural Networks
+    date: Sep 2024
+    date_iso: 2024-09
+    date_display: Sep 2024
+    codebase_url: https://github.com/Fra0013To/GINN
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.03481
+    - 0.912
     - null
     metric_stds:
-    - 0.034460000000000005
-    - null
-  - model: MLP
-    model_plain: MLP
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2512.04475'
-    title: GraphBench
-    date: Dec 2025
-    date_iso: 2025-12
-    date_display: Dec 2025
-    codebase_url: https://github.com/graphbench/package
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.02825
-    - null
-    metric_stds:
-    - 0.00949
-    - null
-  - model: DeepSets
-    model_plain: DeepSets
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2512.04475'
-    title: GraphBench
-    date: Dec 2025
-    date_iso: 2025-12
-    date_display: Dec 2025
-    codebase_url: https://github.com/graphbench/package
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.023039999999999998
-    - null
-    metric_stds:
-    - 0.00262
+    - 0.004
     - null
   - model: GCN
     model_plain: GCN
@@ -121,189 +321,40 @@ variants:
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2506.07624'
-    title: 'Return of ChebNet: Understanding and Improving an Overlooked GNN on Long-Range
-      Tasks'
-    date: Jun 2025
-    date_iso: 2025-06
-    date_display: Jun 2025
-    codebase_url: ''
+    arxiv_id: '2409.08023'
+    title: Edge-Wise Graph-Instructed Neural Networks
+    date: Sep 2024
+    date_iso: 2024-09
+    date_display: Sep 2024
+    codebase_url: https://github.com/Fra0013To/GINN
     uses_external_data: false
     is_best: false
     metric_values:
+    - 0.895
     - null
-    - 5.526
     metric_stds:
+    - 0.005
     - null
-    - 0.1107
-  - model: GAT
-    model_plain: GAT
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2506.07624'
-    title: 'Return of ChebNet: Understanding and Improving an Overlooked GNN on Long-Range
-      Tasks'
-    date: Jun 2025
-    date_iso: 2025-06
-    date_display: Jun 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - 6.641
-    metric_stds:
-    - null
-    - 1.189
   - model: GraphSAGE
     model_plain: GraphSAGE
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2506.07624'
-    title: 'Return of ChebNet: Understanding and Improving an Overlooked GNN on Long-Range
-      Tasks'
-    date: Jun 2025
-    date_iso: 2025-06
-    date_display: Jun 2025
-    codebase_url: ''
+    arxiv_id: '2409.08023'
+    title: Edge-Wise Graph-Instructed Neural Networks
+    date: Sep 2024
+    date_iso: 2024-09
+    date_display: Sep 2024
+    codebase_url: https://github.com/Fra0013To/GINN
     uses_external_data: false
     is_best: false
     metric_values:
+    - 0.888
     - null
-    - 7.318
     metric_stds:
+    - 0.006
     - null
-    - 0.873
-  - model: GIN
-    model_plain: GIN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2506.07624'
-    title: 'Return of ChebNet: Understanding and Improving an Overlooked GNN on Long-Range
-      Tasks'
-    date: Jun 2025
-    date_iso: 2025-06
-    date_display: Jun 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - 0.242
-    metric_stds:
-    - null
-    - 2.619
-  - model: GCNII
-    model_plain: GCNII
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2506.07624'
-    title: 'Return of ChebNet: Understanding and Improving an Overlooked GNN on Long-Range
-      Tasks'
-    date: Jun 2025
-    date_iso: 2025-06
-    date_display: Jun 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - 0.0338
-    metric_stds:
-    - null
-    - 0.0036
-  - model: DGC
-    model_plain: DGC
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2506.07624'
-    title: 'Return of ChebNet: Understanding and Improving an Overlooked GNN on Long-Range
-      Tasks'
-    date: Jun 2025
-    date_iso: 2025-06
-    date_display: Jun 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - 0.708
-    metric_stds:
-    - null
-    - 0.0115
-  - model: GRAND
-    model_plain: GRAND
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2506.07624'
-    title: 'Return of ChebNet: Understanding and Improving an Overlooked GNN on Long-Range
-      Tasks'
-    date: Jun 2025
-    date_iso: 2025-06
-    date_display: Jun 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - 0.469
-    metric_stds:
-    - null
-    - 2.449
-  - model: A-DGN w/ GCN backbone
-    model_plain: A-DGN w/ GCN backbone
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2506.07624'
-    title: 'Return of ChebNet: Understanding and Improving an Overlooked GNN on Long-Range
-      Tasks'
-    date: Jun 2025
-    date_iso: 2025-06
-    date_display: Jun 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - 0.1687
-    metric_stds:
-    - null
-    - 0.0599
-  - model: ChebNet
-    model_plain: ChebNet
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2506.07624'
-    title: 'Return of ChebNet: Understanding and Improving an Overlooked GNN on Long-Range
-      Tasks'
-    date: Jun 2025
-    date_iso: 2025-06
-    date_display: Jun 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - 0.705
-    metric_stds:
-    - null
-    - 0.0859
   - model: Stable-ChebNet
     model_plain: Stable-ChebNet
     is_baseline: false
@@ -316,21 +367,210 @@ variants:
     date: Jun 2025
     date_iso: 2025-06
     date_display: Jun 2025
-    codebase_url: ''
+    codebase_url: https://github.com/ahariri13/Stable-ChebNet
     uses_external_data: false
     is_best: false
     metric_values:
     - null
-    - 0.565
+    - 0.5656
+    metric_stds:
+    - null
+    - 0.1211
+  - model: ChebNet
+    model_plain: ChebNet
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2506.07624'
+    title: 'Return of ChebNet: Understanding and Improving an Overlooked GNN on Long-Range
+      Tasks'
+    date: Jun 2025
+    date_iso: 2025-06
+    date_display: Jun 2025
+    codebase_url: https://github.com/ahariri13/Stable-ChebNet
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.7051
+    metric_stds:
+    - null
+    - 0.1235
+  - model: A-DGN w/ GCN backbone
+    model_plain: A-DGN w/ GCN backbone
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2506.07624'
+    title: 'Return of ChebNet: Understanding and Improving an Overlooked GNN on Long-Range
+      Tasks'
+    date: Jun 2025
+    date_iso: 2025-06
+    date_display: Jun 2025
+    codebase_url: https://github.com/ahariri13/Stable-ChebNet
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.1913
+    metric_stds:
+    - null
+    - 0.0731
+  - model: GCN
+    model_plain: GCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2506.07624'
+    title: 'Return of ChebNet: Understanding and Improving an Overlooked GNN on Long-Range
+      Tasks'
+    date: Jun 2025
+    date_iso: 2025-06
+    date_display: Jun 2025
+    codebase_url: https://github.com/ahariri13/Stable-ChebNet
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 5.5313
+    metric_stds:
+    - null
+    - 0.3516
+  - model: GAT
+    model_plain: GAT
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2506.07624'
+    title: 'Return of ChebNet: Understanding and Improving an Overlooked GNN on Long-Range
+      Tasks'
+    date: Jun 2025
+    date_iso: 2025-06
+    date_display: Jun 2025
+    codebase_url: https://github.com/ahariri13/Stable-ChebNet
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 6.6362
+    metric_stds:
+    - null
+    - 0.6015
+  - model: GraphSAGE
+    model_plain: GraphSAGE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2506.07624'
+    title: 'Return of ChebNet: Understanding and Improving an Overlooked GNN on Long-Range
+      Tasks'
+    date: Jun 2025
+    date_iso: 2025-06
+    date_display: Jun 2025
+    codebase_url: https://github.com/ahariri13/Stable-ChebNet
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 7.3165
+    metric_stds:
+    - null
+    - 0.3269
+  - model: GIN
+    model_plain: GIN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2506.07624'
+    title: 'Return of ChebNet: Understanding and Improving an Overlooked GNN on Long-Range
+      Tasks'
+    date: Jun 2025
+    date_iso: 2025-06
+    date_display: Jun 2025
+    codebase_url: https://github.com/ahariri13/Stable-ChebNet
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 4.1086
+    metric_stds:
+    - null
+    - 0.6653
+  - model: GCNII
+    model_plain: GCNII
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2506.07624'
+    title: 'Return of ChebNet: Understanding and Improving an Overlooked GNN on Long-Range
+      Tasks'
+    date: Jun 2025
+    date_iso: 2025-06
+    date_display: Jun 2025
+    codebase_url: https://github.com/ahariri13/Stable-ChebNet
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 3.3753
+    metric_stds:
+    - null
+    - 0.3627
+  - model: DGC
+    model_plain: DGC
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2506.07624'
+    title: 'Return of ChebNet: Understanding and Improving an Overlooked GNN on Long-Range
+      Tasks'
+    date: Jun 2025
+    date_iso: 2025-06
+    date_display: Jun 2025
+    codebase_url: https://github.com/ahariri13/Stable-ChebNet
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 4.0051
     metric_stds:
     - null
     - 0.0345
+  - model: GRAND
+    model_plain: GRAND
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2506.07624'
+    title: 'Return of ChebNet: Understanding and Improving an Overlooked GNN on Long-Range
+      Tasks'
+    date: Jun 2025
+    date_iso: 2025-06
+    date_display: Jun 2025
+    codebase_url: https://github.com/ahariri13/Stable-ChebNet
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 4.6896
+    metric_stds:
+    - null
+    - 0.3465
   milestones:
-  - value: 0.292
-    std: 0.041
-    model: GIN
-    arxiv_id: '2512.04475'
-    title: GraphBench
-    date: 2025-12
+  - value: 1.0
+    std: null
+    model: DyGFormer
+    arxiv_id: '2406.02740'
+    title: Long Range Propagation on Continuous-Time Dynamic Graphs
+    date: '2024-06-04'
 ---
 

@@ -12,7 +12,7 @@ stats:
   avg_nodes: 17137181.0
   avg_edges: null
   num_classes: null
-result_count: 35
+result_count: 45
 best_model:
   model: DyGFormer
   value: 0.7983
@@ -44,7 +44,7 @@ variants:
     date: Jun 4, 2024
     date_iso: '2024-06-04'
     date_display: Jun 2024
-    codebase_url: ''
+    codebase_url: https://github.com/gravins/non-dissipative-propagation-CTDGs
     uses_external_data: false
     is_best: true
     metric_values:
@@ -62,11 +62,83 @@ variants:
     date: Jun 4, 2024
     date_iso: '2024-06-04'
     date_display: Jun 2024
-    codebase_url: ''
+    codebase_url: https://github.com/gravins/non-dissipative-propagation-CTDGs
     uses_external_data: false
     is_best: false
     metric_values:
     - 0.7811
+    metric_stds:
+    - 0.002
+  - model: ML
+    model_plain: ML
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2103.09430'
+    title: 'OGB-LSC: A Large-Scale Challenge for Machine Learning on Graphs'
+    date: Mar 2021
+    date_iso: 2021-03
+    date_display: Mar 2021
+    codebase_url: https://github.com/snap-stanford/ogb
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.746
+    metric_stds:
+    - 0.001
+  - model: RotatE + GCN
+    model_plain: RotatE + GCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2103.09430'
+    title: 'OGB-LSC: A Large-Scale Challenge for Machine Learning on Graphs'
+    date: Mar 2021
+    date_iso: 2021-03
+    date_display: Mar 2021
+    codebase_url: https://github.com/snap-stanford/ogb
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.738
+    metric_stds:
+    - 0.002
+  - model: ComplEx + GCN
+    model_plain: ComplEx + GCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2103.09430'
+    title: 'OGB-LSC: A Large-Scale Challenge for Machine Learning on Graphs'
+    date: Mar 2021
+    date_iso: 2021-03
+    date_display: Mar 2021
+    codebase_url: https://github.com/snap-stanford/ogb
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.735
+    metric_stds:
+    - 0.002
+  - model: DistMult + GCN
+    model_plain: DistMult + GCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2103.09430'
+    title: 'OGB-LSC: A Large-Scale Challenge for Machine Learning on Graphs'
+    date: Mar 2021
+    date_iso: 2021-03
+    date_display: Mar 2021
+    codebase_url: https://github.com/snap-stanford/ogb
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.732
     metric_stds:
     - 0.002
   - model: CAWN
@@ -80,31 +152,67 @@ variants:
     date: Jun 4, 2024
     date_iso: '2024-06-04'
     date_display: Jun 2024
-    codebase_url: ''
+    codebase_url: https://github.com/gravins/non-dissipative-propagation-CTDGs
     uses_external_data: false
     is_best: false
     metric_values:
     - 0.7304
     metric_stds:
     - 0.006
-  - model: TNCN
-    model_plain: TNCN
+  - model: RotatE
+    model_plain: RotatE
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2506.05393'
-    title: Are Large Language Models Good Temporal Graph Learners?
-    date: Jun 2025
-    date_iso: 2025-06
-    date_display: Jun 2025
-    codebase_url: ''
+    arxiv_id: '2103.09430'
+    title: 'OGB-LSC: A Large-Scale Challenge for Machine Learning on Graphs'
+    date: Mar 2021
+    date_iso: 2021-03
+    date_display: Mar 2021
+    codebase_url: https://github.com/snap-stanford/ogb
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.711
+    - 0.728
     metric_stds:
-    - 0.007
+    - 0.003
+  - model: ComplEx
+    model_plain: ComplEx
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2103.09430'
+    title: 'OGB-LSC: A Large-Scale Challenge for Machine Learning on Graphs'
+    date: Mar 2021
+    date_iso: 2021-03
+    date_display: Mar 2021
+    codebase_url: https://github.com/snap-stanford/ogb
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.725
+    metric_stds:
+    - 0.003
+  - model: DistMult
+    model_plain: DistMult
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2103.09430'
+    title: 'OGB-LSC: A Large-Scale Challenge for Machine Learning on Graphs'
+    date: Mar 2021
+    date_iso: 2021-03
+    date_display: Mar 2021
+    codebase_url: https://github.com/snap-stanford/ogb
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.721
+    metric_stds:
+    - 0.003
   - model: TGN
     model_plain: TGN
     is_baseline: true
@@ -116,16 +224,88 @@ variants:
     date: Jun 4, 2024
     date_iso: '2024-06-04'
     date_display: Jun 2024
-    codebase_url: ''
+    codebase_url: https://github.com/gravins/non-dissipative-propagation-CTDGs
     uses_external_data: false
     is_best: false
     metric_values:
     - 0.6893
     metric_stds:
     - 0.0053
+  - model: TransE
+    model_plain: TransE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2103.09430'
+    title: 'OGB-LSC: A Large-Scale Challenge for Machine Learning on Graphs'
+    date: Mar 2021
+    date_iso: 2021-03
+    date_display: Mar 2021
+    codebase_url: https://github.com/snap-stanford/ogb
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.685
+    metric_stds:
+    - 0.004
+  - model: R-GCN
+    model_plain: R-GCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2103.09430'
+    title: 'OGB-LSC: A Large-Scale Challenge for Machine Learning on Graphs'
+    date: Mar 2021
+    date_iso: 2021-03
+    date_display: Mar 2021
+    codebase_url: https://github.com/snap-stanford/ogb
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.678
+    metric_stds:
+    - 0.004
+  - model: CompGCN
+    model_plain: CompGCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2103.09430'
+    title: 'OGB-LSC: A Large-Scale Challenge for Machine Learning on Graphs'
+    date: Mar 2021
+    date_iso: 2021-03
+    date_display: Mar 2021
+    codebase_url: https://github.com/snap-stanford/ogb
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.675
+    metric_stds:
+    - 0.004
+  - model: TuckER
+    model_plain: TuckER
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2103.09430'
+    title: 'OGB-LSC: A Large-Scale Challenge for Machine Learning on Graphs'
+    date: Mar 2021
+    date_iso: 2021-03
+    date_display: Mar 2021
+    codebase_url: https://github.com/snap-stanford/ogb
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.672
+    metric_stds:
+    - 0.004
   - model: CTAN
     model_plain: CTAN
-    is_baseline: false
+    is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
@@ -134,119 +314,119 @@ variants:
     date: Jun 4, 2024
     date_iso: '2024-06-04'
     date_display: Jun 2024
-    codebase_url: ''
+    codebase_url: https://github.com/gravins/non-dissipative-propagation-CTDGs
     uses_external_data: false
     is_best: false
     metric_values:
     - 0.6676
     metric_stds:
     - 0.0074
-  - model: TGTalker (nbr = 2)
-    model_plain: TGTalker (nbr = 2)
-    is_baseline: false
+  - model: Holographic Embeddings
+    model_plain: Holographic Embeddings
+    is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2506.05393'
-    title: Are Large Language Models Good Temporal Graph Learners?
-    date: Jun 2025
-    date_iso: 2025-06
-    date_display: Jun 2025
-    codebase_url: ''
-    uses_external_data: true
+    arxiv_id: '2103.09430'
+    title: 'OGB-LSC: A Large-Scale Challenge for Machine Learning on Graphs'
+    date: Mar 2021
+    date_iso: 2021-03
+    date_display: Mar 2021
+    codebase_url: https://github.com/snap-stanford/ogb
+    uses_external_data: false
     is_best: false
     metric_values:
-    - 0.656
+    - 0.665
+    metric_stds:
+    - 0.005
+  - model: HolE
+    model_plain: HolE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2103.09430'
+    title: 'OGB-LSC: A Large-Scale Challenge for Machine Learning on Graphs'
+    date: Mar 2021
+    date_iso: 2021-03
+    date_display: Mar 2021
+    codebase_url: https://github.com/snap-stanford/ogb
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.662
+    metric_stds:
+    - 0.005
+  - model: EdgeBank_re
+    model_plain: EdgeBank_re
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2406.02740'
+    title: Long Range Propagation on Continuous-Time Dynamic Graphs
+    date: Jun 4, 2024
+    date_iso: '2024-06-04'
+    date_display: Jun 2024
+    codebase_url: https://github.com/gravins/non-dissipative-propagation-CTDGs
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.6588
     metric_stds:
     - null
-  - model: Qwen3-8B
-    model_plain: Qwen3-8B
-    is_baseline: false
+  - model: ProjE
+    model_plain: ProjE
+    is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2506.05393'
-    title: Are Large Language Models Good Temporal Graph Learners?
-    date: Jun 2025
-    date_iso: 2025-06
-    date_display: Jun 2025
-    codebase_url: ''
-    uses_external_data: true
+    arxiv_id: '2103.09430'
+    title: 'OGB-LSC: A Large-Scale Challenge for Machine Learning on Graphs'
+    date: Mar 2021
+    date_iso: 2021-03
+    date_display: Mar 2021
+    codebase_url: https://github.com/snap-stanford/ogb
+    uses_external_data: false
     is_best: false
     metric_values:
-    - 0.651
+    - 0.658
     metric_stds:
-    - null
-  - model: TGTalker (All components)
-    model_plain: TGTalker (All components)
-    is_baseline: false
+    - 0.005
+  - model: ConvE
+    model_plain: ConvE
+    is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2506.05393'
-    title: Are Large Language Models Good Temporal Graph Learners?
-    date: Jun 2025
-    date_iso: 2025-06
-    date_display: Jun 2025
-    codebase_url: ''
-    uses_external_data: true
+    arxiv_id: '2103.09430'
+    title: 'OGB-LSC: A Large-Scale Challenge for Machine Learning on Graphs'
+    date: Mar 2021
+    date_iso: 2021-03
+    date_display: Mar 2021
+    codebase_url: https://github.com/snap-stanford/ogb
+    uses_external_data: false
     is_best: false
     metric_values:
-    - 0.649
+    - 0.655
     metric_stds:
-    - null
-  - model: Qwen2.5-7B
-    model_plain: Qwen2.5-7B
-    is_baseline: false
+    - 0.005
+  - model: EdgeBank_tw-ts
+    model_plain: EdgeBank_tw-ts
+    is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2506.05393'
-    title: Are Large Language Models Good Temporal Graph Learners?
-    date: Jun 2025
-    date_iso: 2025-06
-    date_display: Jun 2025
-    codebase_url: ''
-    uses_external_data: true
+    arxiv_id: '2406.02740'
+    title: Long Range Propagation on Continuous-Time Dynamic Graphs
+    date: Jun 4, 2024
+    date_iso: '2024-06-04'
+    date_display: Jun 2024
+    codebase_url: https://github.com/gravins/non-dissipative-propagation-CTDGs
+    uses_external_data: false
     is_best: false
     metric_values:
-    - 0.648
-    metric_stds:
-    - null
-  - model: TGTalker (w/o Background Set)
-    model_plain: TGTalker (w/o Background Set)
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2506.05393'
-    title: Are Large Language Models Good Temporal Graph Learners?
-    date: Jun 2025
-    date_iso: 2025-06
-    date_display: Jun 2025
-    codebase_url: ''
-    uses_external_data: true
-    is_best: false
-    metric_values:
-    - 0.648
-    metric_stds:
-    - null
-  - model: TGTalker (w/o In Context Learning)
-    model_plain: TGTalker (w/o In Context Learning)
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2506.05393'
-    title: Are Large Language Models Good Temporal Graph Learners?
-    date: Jun 2025
-    date_iso: 2025-06
-    date_display: Jun 2025
-    codebase_url: ''
-    uses_external_data: true
-    is_best: false
-    metric_values:
-    - 0.645
+    - 0.6325
     metric_stds:
     - null
   - model: JODIE
@@ -260,104 +440,13 @@ variants:
     date: Jun 4, 2024
     date_iso: '2024-06-04'
     date_display: Jun 2024
-    codebase_url: ''
+    codebase_url: https://github.com/gravins/non-dissipative-propagation-CTDGs
     uses_external_data: false
     is_best: false
     metric_values:
     - 0.6305
     metric_stds:
     - 0.0169
-  - model: CTAN
-    model_plain: CTAN
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2412.03783'
-    title: 'Expressivity of Representation Learning on Continuous-Time Dynamic Graphs:
-      An Information-Flow Centric Review'
-    date: Dec 2024
-    date_iso: 2024-12
-    date_display: Dec 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.611
-    metric_stds:
-    - 0.011
-  - model: Qwen3-1.7B
-    model_plain: Qwen3-1.7B
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2506.05393'
-    title: Are Large Language Models Good Temporal Graph Learners?
-    date: Jun 2025
-    date_iso: 2025-06
-    date_display: Jun 2025
-    codebase_url: ''
-    uses_external_data: true
-    is_best: false
-    metric_values:
-    - 0.607
-    metric_stds:
-    - null
-  - model: Mistral-7B-v0.3
-    model_plain: Mistral-7B-v0.3
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2506.05393'
-    title: Are Large Language Models Good Temporal Graph Learners?
-    date: Jun 2025
-    date_iso: 2025-06
-    date_display: Jun 2025
-    codebase_url: ''
-    uses_external_data: true
-    is_best: false
-    metric_values:
-    - 0.604
-    metric_stds:
-    - null
-  - model: Llama3-8B
-    model_plain: Llama3-8B
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2506.05393'
-    title: Are Large Language Models Good Temporal Graph Learners?
-    date: Jun 2025
-    date_iso: 2025-06
-    date_display: Jun 2025
-    codebase_url: ''
-    uses_external_data: true
-    is_best: false
-    metric_values:
-    - 0.604
-    metric_stds:
-    - null
-  - model: EdgeBank_tw
-    model_plain: EdgeBank_tw
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2506.05393'
-    title: Are Large Language Models Good Temporal Graph Learners?
-    date: Jun 2025
-    date_iso: 2025-06
-    date_display: Jun 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.6
-    metric_stds:
-    - null
   - model: TGAT
     model_plain: TGAT
     is_baseline: true
@@ -369,7 +458,7 @@ variants:
     date: Jun 4, 2024
     date_iso: '2024-06-04'
     date_display: Jun 2024
-    codebase_url: ''
+    codebase_url: https://github.com/gravins/non-dissipative-propagation-CTDGs
     uses_external_data: false
     is_best: false
     metric_values:
@@ -387,34 +476,33 @@ variants:
     date: Jun 4, 2024
     date_iso: '2024-06-04'
     date_display: Jun 2024
-    codebase_url: ''
+    codebase_url: https://github.com/gravins/non-dissipative-propagation-CTDGs
     uses_external_data: false
     is_best: false
     metric_values:
     - 0.5975
     metric_stds:
     - 0.0039
-  - model: TGN
-    model_plain: TGN
-    is_baseline: true
+  - model: ILLS
+    model_plain: ILLS
+    is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2412.03783'
-    title: 'Expressivity of Representation Learning on Continuous-Time Dynamic Graphs:
-      An Information-Flow Centric Review'
-    date: Dec 2024
-    date_iso: 2024-12
-    date_display: Dec 2024
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_iso: '2023-05-27'
+    date_display: May 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.577
+    - 0.538
     metric_stds:
-    - 0.015
-  - model: EdgeBank
-    model_plain: EdgeBank
+    - 0.002
+  - model: EdgeBank_th
+    model_plain: EdgeBank_th
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -424,251 +512,350 @@ variants:
     date: Jun 4, 2024
     date_iso: '2024-06-04'
     date_display: Jun 2024
-    codebase_url: ''
+    codebase_url: https://github.com/gravins/non-dissipative-propagation-CTDGs
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.525
+    - 0.5281
     metric_stds:
     - null
-  - model: DyRep
-    model_plain: DyRep
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2406.02740'
-    title: Long Range Propagation on Continuous-Time Dynamic Graphs
-    date: Jun 4, 2024
-    date_iso: '2024-06-04'
-    date_display: Jun 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.5191
-    metric_stds:
-    - 0.0195
   - model: EdgeBank_inf
     model_plain: EdgeBank_inf
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2506.05393'
-    title: Are Large Language Models Good Temporal Graph Learners?
-    date: Jun 2025
-    date_iso: 2025-06
-    date_display: Jun 2025
-    codebase_url: ''
+    arxiv_id: '2406.02740'
+    title: Long Range Propagation on Continuous-Time Dynamic Graphs
+    date: Jun 4, 2024
+    date_iso: '2024-06-04'
+    date_display: Jun 2024
+    codebase_url: https://github.com/gravins/non-dissipative-propagation-CTDGs
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.495
+    - 0.525
     metric_stds:
     - null
-  - model: HTGN (UTG)
-    model_plain: HTGN (UTG)
+  - model: Graphtransformer
+    model_plain: Graphtransformer
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2506.05393'
-    title: Are Large Language Models Good Temporal Graph Learners?
-    date: Jun 2025
-    date_iso: 2025-06
-    date_display: Jun 2025
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_iso: '2023-05-27'
+    date_display: May 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.464
+    - 0.524
     metric_stds:
-    - 0.005
-  - model: GPT-4.1-mini
-    model_plain: GPT-4.1-mini
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2506.05393'
-    title: Are Large Language Models Good Temporal Graph Learners?
-    date: Jun 2025
-    date_iso: 2025-06
-    date_display: Jun 2025
-    codebase_url: ''
-    uses_external_data: true
-    is_best: false
-    metric_values:
-    - 0.425
-    metric_stds:
-    - null
-  - model: TGN
-    model_plain: TGN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2506.05393'
-    title: Are Large Language Models Good Temporal Graph Learners?
-    date: Jun 2025
-    date_iso: 2025-06
-    date_display: Jun 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.396
-    metric_stds:
-    - 0.06
-  - model: GCLSTM (UTG)
-    model_plain: GCLSTM (UTG)
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2506.05393'
-    title: Are Large Language Models Good Temporal Graph Learners?
-    date: Jun 2025
-    date_iso: 2025-06
-    date_display: Jun 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.374
-    metric_stds:
-    - 0.01
-  - model: GCN (UTG)
-    model_plain: GCN (UTG)
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2506.05393'
-    title: Are Large Language Models Good Temporal Graph Learners?
-    date: Jun 2025
-    date_iso: 2025-06
-    date_display: Jun 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.336
-    metric_stds:
-    - 0.009
-  - model: TGTalker (w/o Temporal Neighbours)
-    model_plain: TGTalker (w/o Temporal Neighbours)
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2506.05393'
-    title: Are Large Language Models Good Temporal Graph Learners?
-    date: Jun 2025
-    date_iso: 2025-06
-    date_display: Jun 2025
-    codebase_url: ''
-    uses_external_data: true
-    is_best: false
-    metric_values:
-    - 0.322
-    metric_stds:
-    - null
-  - model: TGAT
-    model_plain: TGAT
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2412.03783'
-    title: 'Expressivity of Representation Learning on Continuous-Time Dynamic Graphs:
-      An Information-Flow Centric Review'
-    date: Dec 2024
-    date_iso: 2024-12
-    date_display: Dec 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.282
-    metric_stds:
-    - 0.022
+    - 0.0
   - model: DyRep
     model_plain: DyRep
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2412.03783'
-    title: 'Expressivity of Representation Learning on Continuous-Time Dynamic Graphs:
-      An Information-Flow Centric Review'
-    date: Dec 2024
-    date_iso: 2024-12
-    date_display: Dec 2024
-    codebase_url: ''
+    arxiv_id: '2406.02740'
+    title: Long Range Propagation on Continuous-Time Dynamic Graphs
+    date: Jun 4, 2024
+    date_iso: '2024-06-04'
+    date_display: Jun 2024
+    codebase_url: https://github.com/gravins/non-dissipative-propagation-CTDGs
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.263
+    - 0.5191
     metric_stds:
-    - 0.005
-  - model: JODIE
-    model_plain: JODIE
+    - 0.0195
+  - model: HGT
+    model_plain: HGT
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2412.03783'
-    title: 'Expressivity of Representation Learning on Continuous-Time Dynamic Graphs:
-      An Information-Flow Centric Review'
-    date: Dec 2024
-    date_iso: 2024-12
-    date_display: Dec 2024
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_iso: '2023-05-27'
+    date_display: May 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.261
+    - 0.512
     metric_stds:
-    - 0.123
-  - model: GraphMixer
-    model_plain: GraphMixer
+    - 0.0
+  - model: CompGCN
+    model_plain: CompGCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2506.05393'
-    title: Are Large Language Models Good Temporal Graph Learners?
-    date: Jun 2025
-    date_iso: 2025-06
-    date_display: Jun 2025
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_iso: '2023-05-27'
+    date_display: May 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.118
+    - 0.501
     metric_stds:
-    - 0.002
-  - model: TGTalker (with no components)
-    model_plain: TGTalker (with no components)
-    is_baseline: false
+    - 0.0
+  - model: R-GCN
+    model_plain: R-GCN
+    is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2506.05393'
-    title: Are Large Language Models Good Temporal Graph Learners?
-    date: Jun 2025
-    date_iso: 2025-06
-    date_display: Jun 2025
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_iso: '2023-05-27'
+    date_display: May 2023
     codebase_url: ''
-    uses_external_data: true
+    uses_external_data: false
     is_best: false
     metric_values:
-    - 0.008
+    - 0.495
     metric_stds:
-    - null
+    - 0.0
+  - model: RotatE
+    model_plain: RotatE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_iso: '2023-05-27'
+    date_display: May 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.482
+    metric_stds:
+    - 0.0
+  - model: ComplEx
+    model_plain: ComplEx
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_iso: '2023-05-27'
+    date_display: May 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.451
+    metric_stds:
+    - 0.0
+  - model: DistMult
+    model_plain: DistMult
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_iso: '2023-05-27'
+    date_display: May 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.438
+    metric_stds:
+    - 0.0
+  - model: RotatE (5x dim)
+    model_plain: RotatE (5x dim)
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2005.00687'
+    title: 'Open Graph Benchmark: Datasets for Machine Learning on Graphs'
+    date: May 2020
+    date_iso: 2020-05
+    date_display: May 2020
+    codebase_url: https://github.com/snap-stanford/ogb
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.4332
+    metric_stds:
+    - 0.0025
+  - model: TransE (5x dim)
+    model_plain: TransE (5x dim)
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2005.00687'
+    title: 'Open Graph Benchmark: Datasets for Machine Learning on Graphs'
+    date: May 2020
+    date_iso: 2020-05
+    date_display: May 2020
+    codebase_url: https://github.com/snap-stanford/ogb
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.4256
+    metric_stds:
+    - 0.003
+  - model: ComplEx (5x dim)
+    model_plain: ComplEx (5x dim)
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2005.00687'
+    title: 'Open Graph Benchmark: Datasets for Machine Learning on Graphs'
+    date: May 2020
+    date_iso: 2020-05
+    date_display: May 2020
+    codebase_url: https://github.com/snap-stanford/ogb
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.4027
+    metric_stds:
+    - 0.0027
+  - model: ComplEx
+    model_plain: ComplEx
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2005.00687'
+    title: 'Open Graph Benchmark: Datasets for Machine Learning on Graphs'
+    date: May 2020
+    date_iso: 2020-05
+    date_display: May 2020
+    codebase_url: https://github.com/snap-stanford/ogb
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.3804
+    metric_stds:
+    - 0.0022
+  - model: DistMult (5x dim)
+    model_plain: DistMult (5x dim)
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2005.00687'
+    title: 'Open Graph Benchmark: Datasets for Machine Learning on Graphs'
+    date: May 2020
+    date_iso: 2020-05
+    date_display: May 2020
+    codebase_url: https://github.com/snap-stanford/ogb
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.3729
+    metric_stds:
+    - 0.0045
+  - model: TransE
+    model_plain: TransE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_iso: '2023-05-27'
+    date_display: May 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.365
+    metric_stds:
+    - 0.0
+  - model: DistMult
+    model_plain: DistMult
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2005.00687'
+    title: 'Open Graph Benchmark: Datasets for Machine Learning on Graphs'
+    date: May 2020
+    date_iso: 2020-05
+    date_display: May 2020
+    codebase_url: https://github.com/snap-stanford/ogb
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.3447
+    metric_stds:
+    - 0.0082
+  - model: TransE
+    model_plain: TransE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2005.00687'
+    title: 'Open Graph Benchmark: Datasets for Machine Learning on Graphs'
+    date: May 2020
+    date_iso: 2020-05
+    date_display: May 2020
+    codebase_url: https://github.com/snap-stanford/ogb
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.2622
+    metric_stds:
+    - 0.0045
+  - model: RotatE
+    model_plain: RotatE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2005.00687'
+    title: 'Open Graph Benchmark: Datasets for Machine Learning on Graphs'
+    date: May 2020
+    date_iso: 2020-05
+    date_display: May 2020
+    codebase_url: https://github.com/snap-stanford/ogb
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.253
+    metric_stds:
+    - 0.0034
   milestones:
+  - value: 0.4332
+    std: 0.0025
+    model: RotatE (5x dim)
+    arxiv_id: '2005.00687'
+    title: 'Open Graph Benchmark: Datasets for Machine Learning on Graphs'
+    date: 2020-05
+  - value: 0.746
+    std: 0.001
+    model: ML
+    arxiv_id: '2103.09430'
+    title: 'OGB-LSC: A Large-Scale Challenge for Machine Learning on Graphs'
+    date: 2021-03
   - value: 0.7983
     std: 0.0042
     model: DyGFormer

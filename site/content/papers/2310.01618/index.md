@@ -20,18 +20,18 @@ abstract: Deep neural networks, despite their success in numerous applications, 
   from numerical analysis, potentially guiding the design of future networks with
   clearer theoretical underpinnings and improved performance.
 codebase_url: ''
-extraction_model: qwen3.6-35b-a3b
+extraction_model: Qwen/Qwen3.6-35B-A3B-FP8
 has_results: true
 paper_type: method
 proposed_models:
-- PIGN + GCN
+- PIGN
 - PIGN + GAT
 - PIGN + GraphSAGE
 - PIGN with GCN
 - PIGN with GAT
-mrr: 0.0103
-adjusted_mrr: 0.0034
-mrr_dataset_count: 1
+mrr: 0.0
+adjusted_mrr: 0.0
+mrr_dataset_count: 0
 benchmark_categories:
 - Classic
 - LRGB
@@ -43,112 +43,75 @@ results:
 - &id002
   dataset: CiteSeer
   rows:
-  - model: FAGCN
-    model_key: fagcn
-    model_plain: FAGCN
-    value: 0.8237
-    std: 0.0146
+  - model: ILLS
+    model_key: ills
+    model_plain: ILLS
+    value: 0.758
+    std: 0.008
     metric: Accuracy
     higher_is_better: true
-    is_baseline: true
+    is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2210.07606'
-    title: Revisiting Heterophily For Graph Neural Networks
-    date: Oct 2022
-    date_display: Oct 2022
-    date_iso: 2022-10
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_display: May 2023
+    date_iso: '2023-05-27'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
     global_rank: 1
-    sort_value: 0.8237
-    sort_std: 0.0146
+    sort_value: 0.758
+    sort_std: 0.008
     is_best: true
-  - model: ANS-GT-AnchorGT
-    model_key: ans-gt-anchorgt
-    model_plain: ANS-GT-AnchorGT
-    value: 0.8201
-    std: 0.0021
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2405.03481'
-    title: 'AnchorGT: Efficient and Flexible Attention Architecture for Scalable Graph
-      Transformers'
-    date: May 2024
-    date_display: May 2024
-    date_iso: 2024-05
-    codebase_url: ''
-    uses_external_data: false
-    is_global_top: true
-    global_rank: 2
-    sort_value: 0.8201
-    sort_std: 0.0021
-    is_best: true
-  - model: GrokFormer
-    model_key: grokformer
-    model_plain: GrokFormer
-    value: 0.8192
-    std: 0.0125
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2411.17296'
-    title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: Nov 26, 2024
-    date_display: Nov 2024
-    date_iso: '2024-11-26'
-    codebase_url: ''
-    uses_external_data: false
-    is_global_top: true
-    global_rank: 3
-    sort_value: 0.8192
-    sort_std: 0.0125
-    is_best: true
-  - model: GCN
-    model_key: gcn
-    model_plain: GCN
-    value: 0.713
-    std: 0.006
-    paper_value: 0.713
-    paper_std: 0.006
+  - model: PNA
+    model_key: pna
+    model_plain: PNA
+    value: 0.742
+    std: 0.009
     metric: Accuracy
     higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Oct 2023
-    date_display: Oct 2023
-    date_iso: 2023-10
-    global_rank: 12
-    true_value: 0.8139
-    true_std: 0.0123
-    value_gap_source_arxiv: '2210.07606'
-    value_gap_source_title: Revisiting Heterophily For Graph Neural Networks
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.10089999999999999
-    value_note: ''
-    paper_rank: 125
-    rank_delta: 113
-    rank_delta_abs: 113
-    rank_delta_direction: worse
-    sort_value: 0.8139
-    sort_std: 0.0123
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_display: May 2023
+    date_iso: '2023-05-27'
+    codebase_url: ''
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 2
+    sort_value: 0.742
+    sort_std: 0.009
     is_best: true
+  - model: APPNP
+    model_key: appnp
+    model_plain: APPNP
+    value: 0.735
+    std: 0.011
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_display: May 2023
+    date_iso: '2023-05-27'
+    codebase_url: ''
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 3
+    sort_value: 0.735
+    sort_std: 0.011
+    is_best: false
   - model: GAT
     model_key: gat
     model_plain: GAT
@@ -164,27 +127,65 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 19
-    true_value: 0.8052
-    true_std: 0.0071
-    value_gap_source_arxiv: '2411.17296'
-    value_gap_source_title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
+    global_rank: 4
+    true_value: 0.728
+    true_std: 0.012
+    value_gap_source_arxiv: '2305.17589'
+    value_gap_source_title: Graph Inductive Biases in Transformers without Message
+      Passing
     value_gap_source_is_current_paper: false
     has_value_gap: true
     has_value_note: false
-    value_gap: 0.10620000000000007
+    value_gap: 0.029000000000000026
     value_note: ''
-    paper_rank: 138
-    rank_delta: 119
-    rank_delta_abs: 119
+    paper_rank: 7
+    rank_delta: 3
+    rank_delta_abs: 3
     rank_delta_direction: worse
-    sort_value: 0.8052
-    sort_std: 0.0071
-    is_best: true
+    sort_value: 0.728
+    sort_std: 0.012
+    is_best: false
+  - model: GCN
+    model_key: gcn
+    model_plain: GCN
+    value: 0.713
+    std: 0.006
+    paper_value: 0.713
+    paper_std: 0.006
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Oct 2023
+    date_display: Oct 2023
+    date_iso: 2023-10
+    global_rank: 6
+    true_value: 0.721
+    true_std: 0.015
+    value_gap_source_arxiv: '2305.17589'
+    value_gap_source_title: Graph Inductive Biases in Transformers without Message
+      Passing
+    value_gap_source_is_current_paper: false
+    has_value_gap: false
+    has_value_note: true
+    value_gap: 0.008000000000000007
+    value_note: global 0.7210 within std
+    paper_rank: 7
+    rank_delta: 1
+    rank_delta_abs: 1
+    rank_delta_direction: worse
+    sort_value: 0.721
+    sort_std: 0.015
+    is_best: false
   - model: PIGN with GCN
     model_key: pign with gcn
     model_plain: PIGN with GCN
@@ -200,11 +201,11 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 148
+    global_rank: 8
     true_value: 0.684
     true_std: 0.015
     value_gap_source_arxiv: '2310.01618'
@@ -215,7 +216,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 148
+    paper_rank: 8
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -237,11 +238,11 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 160
+    global_rank: 9
     true_value: 0.661
     true_std: 0.017
     value_gap_source_arxiv: '2310.01618'
@@ -252,123 +253,63 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 160
+    paper_rank: 9
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 0.661
     sort_std: 0.017
     is_best: false
-  - model: IterGNN with GCN
-    model_key: itergnn with gcn
-    model_plain: IterGNN with GCN
-    value: 0.4991
-    std: 0.0494
-    paper_value: 0.4991
-    paper_std: 0.0494
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Oct 2023
-    date_display: Oct 2023
-    date_iso: 2023-10
-    global_rank: 213
-    true_value: 0.4991
-    true_std: 0.0494
-    value_gap_source_arxiv: '2310.01618'
-    value_gap_source_title: 'Operator Learning Meets Numerical Analysis: Improving
-      Neural Networks through Iterative Methods'
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 213
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.4991
-    sort_std: 0.0494
-    is_best: false
   metric: Accuracy
   higher_is_better: true
 - &id001
   dataset: Cora
   rows:
-  - model: TRIGON
-    model_key: trigon
-    model_plain: TRIGON
-    value: 0.9170999999999999
-    std: 0.0029
+  - model: ILSS
+    model_key: ilss
+    model_plain: ILSS
+    value: 0.842
+    std: 0.003
     metric: Accuracy
     higher_is_better: true
-    is_baseline: false
+    is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2508.19071'
-    title: Dynamic Triangulation-Based Graph Rewiring for Graph Neural Networks
-    date: Aug 2025
-    date_display: Aug 2025
-    date_iso: 2025-08
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_display: May 2023
+    date_iso: '2023-05-27'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
     global_rank: 1
-    sort_value: 0.9170999999999999
-    sort_std: 0.0029
+    sort_value: 0.842
+    sort_std: 0.003
     is_best: true
-  - model: DR
-    model_key: dr
-    model_plain: DR
-    value: 0.9139
-    std: 0.0024
+  - model: PNA
+    model_key: pna
+    model_plain: PNA
+    value: 0.835
+    std: 0.004
     metric: Accuracy
     higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2508.19071'
-    title: Dynamic Triangulation-Based Graph Rewiring for Graph Neural Networks
-    date: Aug 2025
-    date_display: Aug 2025
-    date_iso: 2025-08
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_display: May 2023
+    date_iso: '2023-05-27'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
     global_rank: 2
-    sort_value: 0.9139
-    sort_std: 0.0024
-    is_best: true
-  - model: LLP
-    model_key: llp
-    model_plain: LLP
-    value: 0.8995
-    std: 0.0201
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2501.18739'
-    title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: Jan 30, 2025
-    date_display: Jan 2025
-    date_iso: '2025-01-30'
-    codebase_url: ''
-    uses_external_data: null
-    is_global_top: true
-    global_rank: 3
-    sort_value: 0.8995
-    sort_std: 0.0201
+    sort_value: 0.835
+    sort_std: 0.004
     is_best: true
   - model: GAT
     model_key: gat
@@ -384,28 +325,51 @@ results:
     override_reason: ''
     params_millions: null
     table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
+    source_ref: Veličković et al. 2018
+    variant_inference_reason: 'dataset: exact match'
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 31
-    true_value: 0.8825
-    true_std: 0.0053
-    value_gap_source_arxiv: '2511.16767'
-    value_gap_source_title: 'When Structure Doesn’t Help: LLMs Do Not Read Text-Attributed
-      Graphs as Effectively as We Expected'
+    global_rank: 3
+    true_value: 0.83
+    true_std: 0.008
+    value_gap_source_arxiv: '2305.17589'
+    value_gap_source_title: Graph Inductive Biases in Transformers without Message
+      Passing
     value_gap_source_is_current_paper: false
     has_value_gap: true
     has_value_note: false
-    value_gap: 0.0784999999999999
+    value_gap: 0.025999999999999912
     value_note: ''
-    paper_rank: 151
-    rank_delta: 120
-    rank_delta_abs: 120
+    paper_rank: 6
+    rank_delta: 3
+    rank_delta_abs: 3
     rank_delta_direction: worse
-    sort_value: 0.8825
-    sort_std: 0.0053
+    sort_value: 0.83
+    sort_std: 0.008
+    is_best: false
+  - model: APPNP
+    model_key: appnp
+    model_plain: APPNP
+    value: 0.828
+    std: 0.007
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_display: May 2023
+    date_iso: '2023-05-27'
+    codebase_url: ''
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 4
+    sort_value: 0.828
+    sort_std: 0.007
     is_best: false
   - model: GCN
     model_key: gcn
@@ -421,27 +385,28 @@ results:
     override_reason: ''
     params_millions: null
     table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
+    source_ref: Kipf & Welling 2017
+    variant_inference_reason: 'dataset: exact match'
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 48
-    true_value: 0.8778
-    true_std: 0.0096
-    value_gap_source_arxiv: '2210.07606'
-    value_gap_source_title: Revisiting Heterophily For Graph Neural Networks
+    global_rank: 6
+    true_value: 0.815
+    true_std: 0.005
+    value_gap_source_arxiv: '2305.17589'
+    value_gap_source_title: Graph Inductive Biases in Transformers without Message
+      Passing
     value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.06879999999999997
-    value_note: ''
-    paper_rank: 151
-    rank_delta: 103
-    rank_delta_abs: 103
-    rank_delta_direction: worse
-    sort_value: 0.8778
-    sort_std: 0.0096
+    has_value_gap: false
+    has_value_note: true
+    value_gap: 0.005999999999999894
+    value_note: global 0.8150 within std
+    paper_rank: 6
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.815
+    sort_std: 0.005
     is_best: false
   - model: PIGN with GAT
     model_key: pign with gat
@@ -458,11 +423,11 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 165
+    global_rank: 7
     true_value: 0.792
     true_std: 0.009
     value_gap_source_arxiv: '2310.01618'
@@ -473,7 +438,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 165
+    paper_rank: 7
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -495,11 +460,11 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 185
+    global_rank: 8
     true_value: 0.767
     true_std: 0.014
     value_gap_source_arxiv: '2310.01618'
@@ -510,7 +475,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 185
+    paper_rank: 8
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -532,11 +497,11 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 282
+    global_rank: 9
     true_value: 0.605
     true_std: 0.175
     value_gap_source_arxiv: '2310.01618'
@@ -547,7 +512,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 282
+    paper_rank: 9
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -559,76 +524,6 @@ results:
 - &id003
   dataset: PascalVOC-SP
   rows:
-  - model: GRASS
-    model_key: grass
-    model_plain: GRASS
-    value: 0.567
-    std: 0.0049
-    metric: F1
-    higher_is_better: true
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: 0.5
-    arxiv_id: '2407.05649'
-    title: 'Greener GRASS: Enhancing GNNs with Encoding, Rewiring, and Attention'
-    date: Jul 2024
-    date_display: Jul 2024
-    date_iso: 2024-07
-    codebase_url: ''
-    uses_external_data: false
-    is_global_top: true
-    global_rank: 1
-    sort_value: 0.567
-    sort_std: 0.0049
-    is_best: true
-  - model: NeuralWalker
-    model_key: neuralwalker
-    model_plain: NeuralWalker
-    value: 0.4912
-    std: 0.0042
-    metric: F1
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2407.05649'
-    title: 'Greener GRASS: Enhancing GNNs with Encoding, Rewiring, and Attention'
-    date: Jul 2024
-    date_display: Jul 2024
-    date_iso: 2024-07
-    codebase_url: ''
-    uses_external_data: false
-    is_global_top: true
-    global_rank: 2
-    sort_value: 0.4912
-    sort_std: 0.0042
-    is_best: false
-  - model: GENs
-    model_key: gens
-    model_plain: GENs
-    value: 0.4653
-    std: 0.0097
-    metric: F1
-    higher_is_better: true
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2401.01233'
-    title: 'GEN: A Practical Alternative to Graph Transformers for Long-Range Graph
-      Modeling'
-    date: Jan 2024
-    date_display: Jan 2024
-    date_iso: 2024-01
-    codebase_url: ''
-    uses_external_data: false
-    is_global_top: true
-    global_rank: 3
-    sort_value: 0.4653
-    sort_std: 0.0097
-    is_best: false
   - model: PIGN + GraphSAGE
     model_key: pign + graphsage
     model_plain: PIGN + GraphSAGE
@@ -644,11 +539,11 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 55
+    global_rank: 1
     true_value: 0.356
     true_std: 0.0037
     value_gap_source_arxiv: '2310.01618'
@@ -659,16 +554,16 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 55
+    paper_rank: 1
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 0.356
     sort_std: 0.0037
-    is_best: false
-  - model: GraphSAGE (w/o iterations)
-    model_key: graphsage (w/o iterations)
-    model_plain: GraphSAGE (w/o iterations)
+    is_best: true
+  - model: GraphSAGE
+    model_key: graphsage
+    model_plain: GraphSAGE
     value: 0.3015
     std: 0.0032
     paper_value: 0.3015
@@ -681,11 +576,11 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: Hamilton 2017
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 73
+    global_rank: 2
     true_value: 0.3015
     true_std: 0.0032
     value_gap_source_arxiv: '2310.01618'
@@ -696,16 +591,16 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 73
+    paper_rank: 2
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 0.3015
     sort_std: 0.0032
     is_best: false
-  - model: PIGN + GCN
-    model_key: pign + gcn
-    model_plain: PIGN + GCN
+  - model: PIGN
+    model_key: pign
+    model_plain: PIGN
     value: 0.1831
     std: 0.0038
     paper_value: 0.1831
@@ -718,11 +613,11 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 97
+    global_rank: 3
     true_value: 0.1831
     true_std: 0.0038
     value_gap_source_arxiv: '2310.01618'
@@ -733,7 +628,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 97
+    paper_rank: 3
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -755,11 +650,11 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 98
+    global_rank: 4
     true_value: 0.1816
     true_std: 0.0014
     value_gap_source_arxiv: '2310.01618'
@@ -770,7 +665,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 98
+    paper_rank: 4
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -792,11 +687,11 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 100
+    global_rank: 5
     true_value: 0.1736
     true_std: 0.0311
     value_gap_source_arxiv: '2310.01618'
@@ -807,7 +702,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 100
+    paper_rank: 5
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -829,11 +724,11 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 101
+    global_rank: 6
     true_value: 0.1706
     true_std: 0.0046
     value_gap_source_arxiv: '2310.01618'
@@ -844,16 +739,53 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 101
+    paper_rank: 6
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 0.1706
     sort_std: 0.0046
     is_best: false
-  - model: GCN (w/o iterations)
-    model_key: gcn (w/o iterations)
-    model_plain: GCN (w/o iterations)
+  - model: GCN
+    model_key: gcn
+    model_plain: GCN
+    value: 0.151
+    std: 0.0029
+    paper_value: 0.151
+    paper_std: 0.0029
+    metric: F1
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: Kipf 2017
+    variant_inference_reason: 'dataset: exact match'
+    date: Oct 2023
+    date_display: Oct 2023
+    date_iso: 2023-10
+    global_rank: 7
+    true_value: 0.151
+    true_std: 0.0029
+    value_gap_source_arxiv: '2310.01618'
+    value_gap_source_title: 'Operator Learning Meets Numerical Analysis: Improving
+      Neural Networks through Iterative Methods'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 7
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.151
+    sort_std: 0.0029
+    is_best: false
+  - model: GAT
+    model_key: gat
+    model_plain: GAT
     value: 0.1204
     std: 0.0127
     paper_value: 0.1204
@@ -865,12 +797,12 @@ results:
     override_reason: ''
     params_millions: null
     table_ref: Table 1
-    source_ref: Kipf 2017
-    variant_inference_reason: ''
+    source_ref: Veličković 2018
+    variant_inference_reason: 'dataset: exact match'
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 110
+    global_rank: 8
     true_value: 0.1204
     true_std: 0.0127
     value_gap_source_arxiv: '2310.01618'
@@ -881,7 +813,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 110
+    paper_rank: 8
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -903,11 +835,11 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 113
+    global_rank: 9
     true_value: 0.1099
     true_std: 0.0459
     value_gap_source_arxiv: '2310.01618'
@@ -918,7 +850,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 113
+    paper_rank: 9
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same

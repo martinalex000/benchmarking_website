@@ -7,7 +7,7 @@ published_date: ''
 published_date_iso: ''
 abstract: ''
 codebase_url: ''
-extraction_model: qwen3.6-35b-a3b
+extraction_model: ''
 has_results: false
 paper_type: dataset
 proposed_models: []
@@ -19,6 +19,5 @@ task_categories: []
 experiment_scopes: []
 results: []
 results_grouped: []
-main_figure: /figures/2211.15779/main_figure.png
 ---
 

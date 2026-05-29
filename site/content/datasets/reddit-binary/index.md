@@ -13,9 +13,13 @@ stats:
   avg_nodes: 429.63
   avg_edges: 497.75
   num_classes: 2
+<<<<<<< Updated upstream
 result_count: 42
+=======
+result_count: 27
+>>>>>>> Stashed changes
 best_model:
-  model: R-method
+  model: PEs
   value: 0.945
   metric: Accuracy
   arxiv_id: '2502.01122'
@@ -34,8 +38,8 @@ variants:
   metrics:
   - Accuracy
   rows:
-  - model: R-method
-    model_plain: R-method
+  - model: PEs
+    model_plain: PEs
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -45,13 +49,14 @@ variants:
     date: Feb 2025
     date_iso: 2025-02
     date_display: Feb 2025
-    codebase_url: ''
+    codebase_url: https://github.com/ehejin/Pearl-PE
     uses_external_data: false
     is_best: true
     metric_values:
     - 0.945
     metric_stds:
     - 0.004
+<<<<<<< Updated upstream
   - model: CRaWl
     model_plain: CRaWl
     is_baseline: false
@@ -71,12 +76,15 @@ variants:
     - 0.9275
     metric_stds:
     - 0.0216
+=======
+>>>>>>> Stashed changes
   - model: GIN
     model_plain: GIN
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
+<<<<<<< Updated upstream
     arxiv_id: '2102.08786'
     title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
       Passing'
@@ -127,6 +135,20 @@ variants:
     - 0.9199
     metric_stds:
     - 0.0159
+=======
+    arxiv_id: '2502.01122'
+    title: Learning Efficient Positional Encodings with Graph Neural Networks
+    date: Feb 2025
+    date_iso: 2025-02
+    date_display: Feb 2025
+    codebase_url: https://github.com/ehejin/Pearl-PE
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.918
+    metric_stds:
+    - 0.01
+>>>>>>> Stashed changes
   - model: GIN + rand id
     model_plain: GIN + rand id
     is_baseline: true
@@ -138,7 +160,7 @@ variants:
     date: Feb 2025
     date_iso: 2025-02
     date_display: Feb 2025
-    codebase_url: ''
+    codebase_url: https://github.com/ehejin/Pearl-PE
     uses_external_data: false
     is_best: false
     metric_values:
@@ -156,31 +178,85 @@ variants:
     date: Feb 2025
     date_iso: 2025-02
     date_display: Feb 2025
-    codebase_url: ''
+    codebase_url: https://github.com/ehejin/Pearl-PE
     uses_external_data: false
     is_best: false
     metric_values:
     - 0.911
     metric_stds:
     - 0.018
-  - model: LaGraph
-    model_plain: LaGraph
+  - model: R-GIN + FoSR
+    model_plain: R-GIN + FoSR
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2309.16014'
-    title: Graph-level Representation Learning with Joint-Embedding Predictive Architectures
-    date: Sep 2023
-    date_iso: 2023-09
-    date_display: Sep 2023
+    arxiv_id: '2302.06835'
+    title: Understanding Oversquashing in GNNs through the Lens of Effective Resistance
+    date: Feb 14, 2023
+    date_iso: '2023-02-14'
+    date_display: Feb 2023
+    codebase_url: https://github.com/blackmit/gtr_rewiring
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.9094
+    metric_stds:
+    - 0.0047
+  - model: GIN + GTR
+    model_plain: GIN + GTR
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2302.06835'
+    title: Understanding Oversquashing in GNNs through the Lens of Effective Resistance
+    date: Feb 14, 2023
+    date_iso: '2023-02-14'
+    date_display: Feb 2023
+    codebase_url: https://github.com/blackmit/gtr_rewiring
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.9041
+    metric_stds:
+    - 0.0041
+  - model: R-GIN + Last FA
+    model_plain: R-GIN + Last FA
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2302.06835'
+    title: Understanding Oversquashing in GNNs through the Lens of Effective Resistance
+    date: Feb 14, 2023
+    date_iso: '2023-02-14'
+    date_display: Feb 2023
+    codebase_url: https://github.com/blackmit/gtr_rewiring
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.9
+    metric_stds:
+    - 0.0065
+  - model: ILLS
+    model_plain: ILLS
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_iso: '2023-05-27'
+    date_display: May 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.904
+    - 0.894
     metric_stds:
-    - 0.008
+    - 0.002
   - model: SignNet-8S
     model_plain: SignNet-8S
     is_baseline: true
@@ -192,174 +268,139 @@ variants:
     date: Feb 2025
     date_iso: 2025-02
     date_display: Feb 2025
-    codebase_url: ''
+    codebase_url: https://github.com/ehejin/Pearl-PE
     uses_external_data: false
     is_best: true
     metric_values:
     - 0.89
     metric_stds:
     - 0.052
-  - model: GraphMAE
-    model_plain: GraphMAE
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: 2.26
-    arxiv_id: '2309.16014'
-    title: Graph-level Representation Learning with Joint-Embedding Predictive Architectures
-    date: Sep 2023
-    date_iso: 2023-09
-    date_display: Sep 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.8801
-    metric_stds:
-    - 0.0019
-  - model: ORC
-    model_plain: ORC
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2407.04236'
-    title: Graph Pooling via Ricci Flow
-    date: Jul 2024
-    date_iso: 2024-07
-    date_display: Jul 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.88
-    metric_stds:
-    - 0.02
-  - model: S2GAE
-    model_plain: S2GAE
+  - model: Graphtransformer
+    model_plain: Graphtransformer
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2309.16014'
-    title: Graph-level Representation Learning with Joint-Embedding Predictive Architectures
-    date: Sep 2023
-    date_iso: 2023-09
-    date_display: Sep 2023
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_iso: '2023-05-27'
+    date_display: May 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.8783
+    - 0.889
     metric_stds:
-    - 0.0027
-  - model: GIN + FA
-    model_plain: GIN + FA
+    - 0.002
+  - model: PNA
+    model_plain: PNA
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2309.16014'
-    title: Graph-level Representation Learning with Joint-Embedding Predictive Architectures
-    date: Sep 2023
-    date_iso: 2023-09
-    date_display: Sep 2023
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_iso: '2023-05-27'
+    date_display: May 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.8679
+    - 0.885
     metric_stds:
-    - 0.0204
-  - model: GIN-E
-    model_plain: GIN-E
+    - 0.003
+  - model: GIN
+    model_plain: GIN
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2406.03671'
-    title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
-    date: Jun 6, 2024
-    date_iso: '2024-06-06'
-    date_display: Jun 2024
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_iso: '2023-05-27'
+    date_display: May 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.86785
+    - 0.881
     metric_stds:
-    - 0.01056
-  - model: Diff
-    model_plain: Diff
+    - 0.004
+  - model: R-GIN + None
+    model_plain: R-GIN + None
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2407.04236'
-    title: Graph Pooling via Ricci Flow
-    date: Jul 2024
-    date_iso: 2024-07
-    date_display: Jul 2024
-    codebase_url: ''
+    arxiv_id: '2302.06835'
+    title: Understanding Oversquashing in GNNs through the Lens of Effective Resistance
+    date: Feb 14, 2023
+    date_iso: '2023-02-14'
+    date_display: Feb 2023
+    codebase_url: https://github.com/blackmit/gtr_rewiring
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.86
+    - 0.8797
     metric_stds:
-    - 0.02
-  - model: AD-GCL-FIX
-    model_plain: AD-GCL-FIX
+    - 0.0056
+  - model: GAT
+    model_plain: GAT
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2309.16014'
-    title: Graph-level Representation Learning with Joint-Embedding Predictive Architectures
-    date: Sep 2023
-    date_iso: 2023-09
-    date_display: Sep 2023
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_iso: '2023-05-27'
+    date_display: May 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.8552
+    - 0.878
     metric_stds:
-    - 0.0079
-  - model: AD-GCL-OPT
-    model_plain: AD-GCL-OPT
+    - 0.003
+  - model: GraphSAGE
+    model_plain: GraphSAGE
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2309.16014'
-    title: Graph-level Representation Learning with Joint-Embedding Predictive Architectures
-    date: Sep 2023
-    date_iso: 2023-09
-    date_display: Sep 2023
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_iso: '2023-05-27'
+    date_display: May 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.8552
+    - 0.872
     metric_stds:
-    - 0.0079
-  - model: MinCut
-    model_plain: MinCut
+    - 0.004
+  - model: R-GIN + SDRF
+    model_plain: R-GIN + SDRF
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2407.04236'
-    title: Graph Pooling via Ricci Flow
-    date: Jul 2024
-    date_iso: 2024-07
-    date_display: Jul 2024
-    codebase_url: ''
+    arxiv_id: '2302.06835'
+    title: Understanding Oversquashing in GNNs through the Lens of Effective Resistance
+    date: Feb 14, 2023
+    date_iso: '2023-02-14'
+    date_display: Feb 2023
+    codebase_url: https://github.com/blackmit/gtr_rewiring
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.85
+    - 0.8683
     metric_stds:
+<<<<<<< Updated upstream
     - 0.02
   - model: DMON
     model_plain: DMON
@@ -668,60 +709,171 @@ variants:
     - 0.68485
     metric_stds:
     - 0.00945
+=======
+    - 0.0052
+>>>>>>> Stashed changes
   - model: GCN
     model_plain: GCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2406.03671'
-    title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
-    date: Jun 6, 2024
-    date_iso: '2024-06-06'
-    date_display: Jun 2024
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_iso: '2023-05-27'
+    date_display: May 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.68255
+    - 0.865
     metric_stds:
-    - 0.01098
-  - model: + CT-Layer
-    model_plain: + CT-Layer
+    - 0.005
+  - model: GCN + GTR
+    model_plain: GCN + GTR
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2406.03671'
-    title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
-    date: Jun 6, 2024
-    date_iso: '2024-06-06'
-    date_display: Jun 2024
-    codebase_url: ''
+    arxiv_id: '2302.06835'
+    title: Understanding Oversquashing in GNNs through the Lens of Effective Resistance
+    date: Feb 14, 2023
+    date_iso: '2023-02-14'
+    date_display: Feb 2023
+    codebase_url: https://github.com/blackmit/gtr_rewiring
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.5158
+    - 0.8018
     metric_stds:
-    - 0.01019
-  - model: BGRL
-    model_plain: BGRL
+    - 0.006
+  - model: GCN + DIGL
+    model_plain: GCN + DIGL
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2309.16014'
-    title: Graph-level Representation Learning with Joint-Embedding Predictive Architectures
-    date: Sep 2023
-    date_iso: 2023-09
-    date_display: Sep 2023
-    codebase_url: ''
+    arxiv_id: '2302.06835'
+    title: Understanding Oversquashing in GNNs through the Lens of Effective Resistance
+    date: Feb 14, 2023
+    date_iso: '2023-02-14'
+    date_display: Feb 2023
+    codebase_url: https://github.com/blackmit/gtr_rewiring
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.5
+    - 0.7604
     metric_stds:
-    - 0.0
+    - 0.0078
+  - model: R-GIN + DIGL
+    model_plain: R-GIN + DIGL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2302.06835'
+    title: Understanding Oversquashing in GNNs through the Lens of Effective Resistance
+    date: Feb 14, 2023
+    date_iso: '2023-02-14'
+    date_display: Feb 2023
+    codebase_url: https://github.com/blackmit/gtr_rewiring
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7443
+    metric_stds:
+    - 0.0072
+  - model: GCN + FoSR
+    model_plain: GCN + FoSR
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2302.06835'
+    title: Understanding Oversquashing in GNNs through the Lens of Effective Resistance
+    date: Feb 14, 2023
+    date_iso: '2023-02-14'
+    date_display: Feb 2023
+    codebase_url: https://github.com/blackmit/gtr_rewiring
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7033
+    metric_stds:
+    - 0.0072
+  - model: GCN + SDRF
+    model_plain: GCN + SDRF
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2302.06835'
+    title: Understanding Oversquashing in GNNs through the Lens of Effective Resistance
+    date: Feb 14, 2023
+    date_iso: '2023-02-14'
+    date_display: Feb 2023
+    codebase_url: https://github.com/blackmit/gtr_rewiring
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.6862
+    metric_stds:
+    - 0.0085
+  - model: GCN + Last FA
+    model_plain: GCN + Last FA
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2302.06835'
+    title: Understanding Oversquashing in GNNs through the Lens of Effective Resistance
+    date: Feb 14, 2023
+    date_iso: '2023-02-14'
+    date_display: Feb 2023
+    codebase_url: https://github.com/blackmit/gtr_rewiring
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.6849
+    metric_stds:
+    - 0.0095
+  - model: GCN + None
+    model_plain: GCN + None
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2302.06835'
+    title: Understanding Oversquashing in GNNs through the Lens of Effective Resistance
+    date: Feb 14, 2023
+    date_iso: '2023-02-14'
+    date_display: Feb 2023
+    codebase_url: https://github.com/blackmit/gtr_rewiring
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.6826
+    metric_stds:
+    - 0.011
+  - model: R-GIN + Every FA
+    model_plain: R-GIN + Every FA
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2302.06835'
+    title: Understanding Oversquashing in GNNs through the Lens of Effective Resistance
+    date: Feb 14, 2023
+    date_iso: '2023-02-14'
+    date_display: Feb 2023
+    codebase_url: https://github.com/blackmit/gtr_rewiring
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.5686
+    metric_stds:
+    - 0.0094
   - model: GCN
     model_plain: GCN
     is_baseline: true
@@ -733,68 +885,33 @@ variants:
     date: Feb 2025
     date_iso: 2025-02
     date_display: Feb 2025
-    codebase_url: ''
+    codebase_url: https://github.com/ehejin/Pearl-PE
     uses_external_data: false
     is_best: false
     metric_values:
     - 0.5
     metric_stds:
     - 0.0
-  - model: + DIGL
-    model_plain: + DIGL
+  - model: GCN + Every FA
+    model_plain: GCN + Every FA
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2406.03671'
-    title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
-    date: Jun 6, 2024
-    date_iso: '2024-06-06'
-    date_display: Jun 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.4998
-    metric_stds:
-    - 0.0068
-  - model: RE-GCN
-    model_plain: RE-GCN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2406.03671'
-    title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
-    date: Jun 6, 2024
-    date_iso: '2024-06-06'
-    date_display: Jun 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.4985
-    metric_stds:
-    - 0.00653
-  - model: Every Layer FA
-    model_plain: Every Layer FA
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2406.03671'
-    title: 'PANDA: Expanded Width-Aware Message Passing Beyond Rewiring'
-    date: Jun 6, 2024
-    date_iso: '2024-06-06'
-    date_display: Jun 2024
-    codebase_url: ''
+    arxiv_id: '2302.06835'
+    title: Understanding Oversquashing in GNNs through the Lens of Effective Resistance
+    date: Feb 14, 2023
+    date_iso: '2023-02-14'
+    date_display: Feb 2023
+    codebase_url: https://github.com/blackmit/gtr_rewiring
     uses_external_data: false
     is_best: false
     metric_values:
     - 0.4849
     metric_stds:
-    - 0.01044
+    - 0.0104
   milestones:
+<<<<<<< Updated upstream
   - value: 0.9275
     std: 0.0216
     model: CRaWl
@@ -802,9 +919,17 @@ variants:
     title: 'Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message
       Passing'
     date: 2021-02
+=======
+  - value: 0.9094
+    std: 0.0047
+    model: R-GIN + FoSR
+    arxiv_id: '2302.06835'
+    title: Understanding Oversquashing in GNNs through the Lens of Effective Resistance
+    date: '2023-02-14'
+>>>>>>> Stashed changes
   - value: 0.945
     std: 0.004
-    model: R-method
+    model: PEs
     arxiv_id: '2502.01122'
     title: Learning Efficient Positional Encodings with Graph Neural Networks
     date: 2025-02

@@ -1,15 +1,17 @@
 {
   "paper_status": {
-    "total": 225,
+    "total": 573,
     "by_status": {
-      "extracted": 214,
-      "pending": 6,
-      "downloaded": 4,
-      "quarantined_method_name": 1
+      "extracted": 143,
+      "pending": 15,
+      "quarantined_method_name": 8,
+      "downloaded": 254,
+      "quarantined_yaml_parse": 152,
+      "failed": 1
     }
   },
   "skipped": {
-    "stage1_count": 25,
+    "stage1_count": 40,
     "stage2_count": 0
   }
 }

@@ -12,14 +12,13 @@ stats:
   avg_nodes: 30561187.0
   avg_edges: null
   num_classes: null
-result_count: 4
+result_count: 19
 best_model:
-  model: QGAT
-  value: 0.822
+  model: GCN
+  value: 0.8474
   metric: MRR
-  arxiv_id: '2508.17630'
-  paper_title: 'Quantum Graph Attention Network: A Novel Quantum Multi-Head Attention
-    Mechanism for Graph Learning'
+  arxiv_id: '2005.00687'
+  paper_title: 'Open Graph Benchmark: Datasets for Machine Learning on Graphs'
 variants:
 - slug: standard-split
   name: Standard split
@@ -33,49 +32,247 @@ variants:
     avg_edges: null
   metrics:
   - MRR
-  - Accuracy
+  - Hits@100
   rows:
-  - model: QGAT
-    model_plain: QGAT
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2508.17630'
-    title: 'Quantum Graph Attention Network: A Novel Quantum Multi-Head Attention
-      Mechanism for Graph Learning'
-    date: Aug 2025
-    date_iso: 2025-08
-    date_display: Aug 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: true
-    metric_values:
-    - 0.822
-    - null
-    metric_stds:
-    - 0.0127
-    - null
-  - model: GATv2
-    model_plain: GATv2
+  - model: GCN
+    model_plain: GCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2508.17630'
-    title: 'Quantum Graph Attention Network: A Novel Quantum Multi-Head Attention
-      Mechanism for Graph Learning'
-    date: Aug 2025
-    date_iso: 2025-08
-    date_display: Aug 2025
+    arxiv_id: '2005.00687'
+    title: 'Open Graph Benchmark: Datasets for Machine Learning on Graphs'
+    date: May 2020
+    date_iso: 2020-05
+    date_display: May 2020
+    codebase_url: https://github.com/snap-stanford/ogb
+    uses_external_data: false
+    is_best: true
+    metric_values:
+    - 0.8474
+    - 0.1867
+    metric_stds:
+    - 0.0021
+    - 0.0132
+  - model: GraphSAGE
+    model_plain: GraphSAGE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2005.00687'
+    title: 'Open Graph Benchmark: Datasets for Machine Learning on Graphs'
+    date: May 2020
+    date_iso: 2020-05
+    date_display: May 2020
+    codebase_url: https://github.com/snap-stanford/ogb
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.826
+    - 0.1655
+    metric_stds:
+    - 0.0036
+    - 0.024
+  - model: ILLS
+    model_plain: ILLS
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_iso: '2023-05-27'
+    date_display: May 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.8014
+    - 0.812
     - null
     metric_stds:
-    - 0.0071
+    - 0.001
+    - null
+  - model: OpenGNN
+    model_plain: OpenGNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_iso: '2023-05-27'
+    date_display: May 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.805
+    - null
+    metric_stds:
+    - 0.001
+    - null
+  - model: Neighbor Sampling (NS)
+    model_plain: Neighbor Sampling (NS)
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2005.00687'
+    title: 'Open Graph Benchmark: Datasets for Machine Learning on Graphs'
+    date: May 2020
+    date_iso: 2020-05
+    date_display: May 2020
+    codebase_url: https://github.com/snap-stanford/ogb
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.8044
+    - null
+    metric_stds:
+    - 0.001
+    - null
+  - model: GraphGPS
+    model_plain: GraphGPS
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_iso: '2023-05-27'
+    date_display: May 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.801
+    - null
+    metric_stds:
+    - 0.002
+    - null
+  - model: Cluster-GCN
+    model_plain: Cluster-GCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2005.00687'
+    title: 'Open Graph Benchmark: Datasets for Machine Learning on Graphs'
+    date: May 2020
+    date_iso: 2020-05
+    date_display: May 2020
+    codebase_url: https://github.com/snap-stanford/ogb
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.8004
+    - null
+    metric_stds:
+    - 0.0025
+    - null
+  - model: GraphSAINT
+    model_plain: GraphSAINT
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2005.00687'
+    title: 'Open Graph Benchmark: Datasets for Machine Learning on Graphs'
+    date: May 2020
+    date_iso: 2020-05
+    date_display: May 2020
+    codebase_url: https://github.com/snap-stanford/ogb
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7985
+    - null
+    metric_stds:
+    - 0.004
+    - null
+  - model: SAN
+    model_plain: SAN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_iso: '2023-05-27'
+    date_display: May 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.795
+    - null
+    metric_stds:
+    - 0.002
+    - null
+  - model: Graphtransformer
+    model_plain: Graphtransformer
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_iso: '2023-05-27'
+    date_display: May 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.792
+    - null
+    metric_stds:
+    - 0.003
+    - null
+  - model: GINE
+    model_plain: GINE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_iso: '2023-05-27'
+    date_display: May 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.788
+    - null
+    metric_stds:
+    - 0.002
+    - null
+  - model: PNA
+    model_plain: PNA
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_iso: '2023-05-27'
+    date_display: May 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.785
+    - null
+    metric_stds:
+    - 0.002
     - null
   - model: GAT
     model_plain: GAT
@@ -83,49 +280,146 @@ variants:
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2508.17630'
-    title: 'Quantum Graph Attention Network: A Novel Quantum Multi-Head Attention
-      Mechanism for Graph Learning'
-    date: Aug 2025
-    date_iso: 2025-08
-    date_display: Aug 2025
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_iso: '2023-05-27'
+    date_display: May 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.7595
+    - 0.772
     - null
     metric_stds:
-    - 0.0131
+    - 0.004
     - null
-  - model: HOPE-WavePE
-    model_plain: HOPE-WavePE
-    is_baseline: false
+  - model: GIN
+    model_plain: GIN
+    is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2409.19117'
-    title: 'Range-aware Positional Encoding via High-order Pretraining: Theory and
-      Practice'
-    date: Sep 2024
-    date_iso: 2024-09
-    date_display: Sep 2024
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_iso: '2023-05-27'
+    date_display: May 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
+    - 0.77
     - null
-    - 0.9912
     metric_stds:
+    - 0.003
     - null
+  - model: GraphSAGE
+    model_plain: GraphSAGE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_iso: '2023-05-27'
+    date_display: May 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.768
     - null
+    metric_stds:
+    - 0.002
+    - null
+  - model: GCN
+    model_plain: GCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_iso: '2023-05-27'
+    date_display: May 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.765
+    - null
+    metric_stds:
+    - 0.003
+    - null
+  - model: Node2Vec
+    model_plain: Node2Vec
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2005.00687'
+    title: 'Open Graph Benchmark: Datasets for Machine Learning on Graphs'
+    date: May 2020
+    date_iso: 2020-05
+    date_display: May 2020
+    codebase_url: https://github.com/snap-stanford/ogb
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.6141
+    - 0.2226
+    metric_stds:
+    - 0.0011
+    - 0.0083
+  - model: MatrixFactorization
+    model_plain: MatrixFactorization
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2005.00687'
+    title: 'Open Graph Benchmark: Datasets for Machine Learning on Graphs'
+    date: May 2020
+    date_iso: 2020-05
+    date_display: May 2020
+    codebase_url: https://github.com/snap-stanford/ogb
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.5186
+    - 0.3229
+    metric_stds:
+    - 0.0443
+    - 0.0094
+  - model: MLP
+    model_plain: MLP
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2005.00687'
+    title: 'Open Graph Benchmark: Datasets for Machine Learning on Graphs'
+    date: May 2020
+    date_iso: 2020-05
+    date_display: May 2020
+    codebase_url: https://github.com/snap-stanford/ogb
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.2895
+    - 0.46
+    metric_stds:
+    - 0.0014
+    - 0.0
   milestones:
-  - value: 0.822
-    std: 0.0127
-    model: QGAT
-    arxiv_id: '2508.17630'
-    title: 'Quantum Graph Attention Network: A Novel Quantum Multi-Head Attention
-      Mechanism for Graph Learning'
-    date: 2025-08
+  - value: 0.8474
+    std: 0.0021
+    model: GCN
+    arxiv_id: '2005.00687'
+    title: 'Open Graph Benchmark: Datasets for Machine Learning on Graphs'
+    date: 2020-05
 ---
 

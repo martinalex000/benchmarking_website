@@ -13,13 +13,13 @@ stats:
   avg_nodes: 264.0
   avg_edges: 3667.0
   num_classes: null
-result_count: 4
+result_count: 7
 best_model:
-  model: DeepSets
-  value: 0.918
+  model: MGNN
+  value: 0.815
   metric: Accuracy
-  arxiv_id: '2512.04475'
-  paper_title: GraphBench
+  arxiv_id: '2006.15646'
+  paper_title: Expressive Power of Invariant and Equivariant Graph Neural Networks
 variants:
 - slug: standard-split
   name: Standard split
@@ -34,84 +34,138 @@ variants:
   metrics:
   - Accuracy
   rows:
-  - model: DeepSets
-    model_plain: DeepSets
+  - model: MGNN
+    model_plain: MGNN
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2006.15646'
+    title: Expressive Power of Invariant and Equivariant Graph Neural Networks
+    date: Jun 2020
+    date_iso: 2020-06
+    date_display: Jun 2020
+    codebase_url: https://github.com/mlelarge/graph_neural_net
+    uses_external_data: false
+    is_best: true
+    metric_values:
+    - 0.815
+    metric_stds:
+    - 0.009
+  - model: PNA
+    model_plain: PNA
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2512.04475'
-    title: GraphBench
-    date: Dec 2025
-    date_iso: 2025-12
-    date_display: Dec 2025
-    codebase_url: https://github.com/graphbench/package
+    arxiv_id: '2006.15646'
+    title: Expressive Power of Invariant and Equivariant Graph Neural Networks
+    date: Jun 2020
+    date_iso: 2020-06
+    date_display: Jun 2020
+    codebase_url: https://github.com/mlelarge/graph_neural_net
     uses_external_data: false
     is_best: true
     metric_values:
-    - 0.918
+    - 0.801
     metric_stds:
-    - 0.186
+    - 0.011
+  - model: GAT
+    model_plain: GAT
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2006.15646'
+    title: Expressive Power of Invariant and Equivariant Graph Neural Networks
+    date: Jun 2020
+    date_iso: 2020-06
+    date_display: Jun 2020
+    codebase_url: https://github.com/mlelarge/graph_neural_net
+    uses_external_data: false
+    is_best: true
+    metric_values:
+    - 0.795
+    metric_stds:
+    - 0.012
+  - model: GINE
+    model_plain: GINE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2006.15646'
+    title: Expressive Power of Invariant and Equivariant Graph Neural Networks
+    date: Jun 2020
+    date_iso: 2020-06
+    date_display: Jun 2020
+    codebase_url: https://github.com/mlelarge/graph_neural_net
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.792
+    metric_stds:
+    - 0.013
   - model: GIN
     model_plain: GIN
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2512.04475'
-    title: GraphBench
-    date: Dec 2025
-    date_iso: 2025-12
-    date_display: Dec 2025
-    codebase_url: https://github.com/graphbench/package
+    arxiv_id: '2006.15646'
+    title: Expressive Power of Invariant and Equivariant Graph Neural Networks
+    date: Jun 2020
+    date_iso: 2020-06
+    date_display: Jun 2020
+    codebase_url: https://github.com/mlelarge/graph_neural_net
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.491
+    - 0.788
     metric_stds:
-    - 0.099
-  - model: GT
-    model_plain: GT
+    - 0.014
+  - model: GCN
+    model_plain: GCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2512.04475'
-    title: GraphBench
-    date: Dec 2025
-    date_iso: 2025-12
-    date_display: Dec 2025
-    codebase_url: https://github.com/graphbench/package
+    arxiv_id: '2006.15646'
+    title: Expressive Power of Invariant and Equivariant Graph Neural Networks
+    date: Jun 2020
+    date_iso: 2020-06
+    date_display: Jun 2020
+    codebase_url: https://github.com/mlelarge/graph_neural_net
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.041120000000000004
+    - 0.782
     metric_stds:
-    - 0.023530000000000002
-  - model: MLP
-    model_plain: MLP
+    - 0.015
+  - model: GraphSAGE
+    model_plain: GraphSAGE
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2512.04475'
-    title: GraphBench
-    date: Dec 2025
-    date_iso: 2025-12
-    date_display: Dec 2025
-    codebase_url: https://github.com/graphbench/package
+    arxiv_id: '2006.15646'
+    title: Expressive Power of Invariant and Equivariant Graph Neural Networks
+    date: Jun 2020
+    date_iso: 2020-06
+    date_display: Jun 2020
+    codebase_url: https://github.com/mlelarge/graph_neural_net
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.01583
+    - 0.771
     metric_stds:
-    - 0.00052
+    - 0.018
   milestones:
-  - value: 0.918
-    std: 0.186
-    model: DeepSets
-    arxiv_id: '2512.04475'
-    title: GraphBench
-    date: 2025-12
+  - value: 0.815
+    std: 0.009
+    model: MGNN
+    arxiv_id: '2006.15646'
+    title: Expressive Power of Invariant and Equivariant Graph Neural Networks
+    date: 2020-06
 ---
 

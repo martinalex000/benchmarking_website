@@ -1,24 +1,13 @@
 ---
-title: Probing Graph Neural Network Activation Patterns Through Graph Topology
+title: arXiv:2602.21092
 arxiv_id: '2602.21092'
 source_url: ''
 authors: []
 published_date: ''
 published_date_iso: ''
-abstract: 'Curvature notions on graphs provide a theoretical description of graph
-  topology, highlighting bottlenecks and denser connected regions. Artifacts of the
-  message passing paradigm in Graph Neural Networks, such as oversmoothing and oversquashing,
-  have been attributed to these regions. However, it remains unclear how the topology
-  of a graph interacts with the learned preferences of GNNs. Through Massive Activations,
-  which correspond to extreme edge activation values in Graph Transformers, we probe
-  this correspondence. Our findings on synthetic graphs and molecular benchmarks reveal
-  that MAs do not preferentially concentrate on curvature extremes, despite their
-  theoretical link to information flow. On the Long Range Graph Benchmark, we identify
-  a systemic curvature shift: global attention mechanisms exacerbate topological bottlenecks,
-  drastically increasing the prevalence of negative curvature. Our work reframes curvature
-  as a diagnostic probe for understanding when and why graph learning fails.'
+abstract: ''
 codebase_url: ''
-extraction_model: qwen3.6-35b-a3b
+extraction_model: Qwen/Qwen3.6-35B-A3B-FP8
 has_results: false
 paper_type: dataset
 proposed_models: []

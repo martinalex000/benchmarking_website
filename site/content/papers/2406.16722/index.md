@@ -1,6 +1,6 @@
 ---
-title: 'center Venturing into Uncharted Waters: The Navigation Compass from Transformer
-  to Mamba center'
+title: 'Venturing into Uncharted Waters: The Navigation Compass from Transformer to
+  Mamba'
 arxiv_id: '2406.16722'
 source_url: ''
 authors: []
@@ -20,7 +20,7 @@ abstract: 'Transformer, a deep neural network architecture, has long dominated t
   of their mathematical nature within a unified context. Our paper encompasses the
   vast majority of improvements related to Mamba to date.'
 codebase_url: ''
-extraction_model: qwen3.6-35b-a3b
+extraction_model: Qwen/Qwen3.6-35B-A3B-FP8
 has_results: false
 paper_type: dataset
 proposed_models: []

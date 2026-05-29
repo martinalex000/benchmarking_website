@@ -12,7 +12,7 @@ stats:
   avg_nodes: 41554.0
   avg_edges: 1362229.0
   num_classes: 2
-result_count: 21
+result_count: 13
 best_model:
   model: CSNN
   value: 0.86
@@ -35,7 +35,7 @@ variants:
   rows:
   - model: CSNN
     model_plain: CSNN
-    is_baseline: false
+    is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
@@ -50,25 +50,25 @@ variants:
     metric_values:
     - 0.86
     metric_stds:
-    - 0.0039000000000000003
-  - model: GLoGNN
-    model_plain: GLoGNN
-    is_baseline: true
+    - 0.0039
+  - model: GloGNN
+    model_plain: GloGNN
+    is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2507.00647'
-    title: Cooperative Sheaf Neural Networks
-    date: Jul 2025
-    date_iso: 2025-07
-    date_display: Jul 2025
+    arxiv_id: '2205.07308'
+    title: Finding Global Homophily in Graph Neural Networks When Meeting Heterophily
+    date: May 15, 2022
+    date_iso: '2022-05-15'
+    date_display: May 2022
     codebase_url: ''
-    uses_external_data: false
-    is_best: true
+    uses_external_data: null
+    is_best: false
     metric_values:
-    - 0.8556999999999999
+    - 0.8557
     metric_stds:
-    - 0.0034999999999999996
+    - null
   - model: LINKX
     model_plain: LINKX
     is_baseline: true
@@ -104,7 +104,7 @@ variants:
     metric_values:
     - 0.8347
     metric_stds:
-    - 0.0070999999999999995
+    - 0.0071
   - model: GCNII
     model_plain: GCNII
     is_baseline: true
@@ -138,7 +138,7 @@ variants:
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.8251999999999999
+    - 0.8252
     metric_stds:
     - 0.0096
   - model: GCN
@@ -159,6 +159,24 @@ variants:
     - 0.8247
     metric_stds:
     - 0.0027
+  - model: MLP for adjacency matrix only
+    model_plain: MLP for adjacency matrix only
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2205.07308'
+    title: Finding Global Homophily in Graph Neural Networks When Meeting Heterophily
+    date: May 15, 2022
+    date_iso: '2022-05-15'
+    date_display: May 2022
+    codebase_url: ''
+    uses_external_data: null
+    is_best: false
+    metric_values:
+    - 0.8225
+    metric_stds:
+    - null
   - model: GAT
     model_plain: GAT
     is_baseline: true
@@ -170,24 +188,6 @@ variants:
     date: Jul 2025
     date_iso: 2025-07
     date_display: Jul 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.8153
-    metric_stds:
-    - 0.0055000000000000005
-  - model: Supervised
-    model_plain: Supervised
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2505.23345'
-    title: Graph Positional Autoencoders as Self-supervised Learners
-    date: May 2025
-    date_iso: 2025-05
-    date_display: May 2025
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -267,159 +267,15 @@ variants:
     - 0.7361
     metric_stds:
     - 0.004
-  - model: GraphMAE
-    model_plain: GraphMAE
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2505.23345'
-    title: Graph Positional Autoencoders as Self-supervised Learners
-    date: May 2025
-    date_iso: 2025-05
-    date_display: May 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.7179
-    metric_stds:
-    - 0.0037
-  - model: S2GAE
-    model_plain: S2GAE
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2505.23345'
-    title: Graph Positional Autoencoders as Self-supervised Learners
-    date: May 2025
-    date_iso: 2025-05
-    date_display: May 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.7024
-    metric_stds:
-    - 0.0009
-  - model: AUG-MAE
-    model_plain: AUG-MAE
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2505.23345'
-    title: Graph Positional Autoencoders as Self-supervised Learners
-    date: May 2025
-    date_iso: 2025-05
-    date_display: May 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.699
-    metric_stds:
-    - 0.0043
-  - model: Sp^2GCL
-    model_plain: Sp^2GCL
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2505.23345'
-    title: Graph Positional Autoencoders as Self-supervised Learners
-    date: May 2025
-    date_iso: 2025-05
-    date_display: May 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.688
-    metric_stds:
-    - 0.0045
-  - model: MaskGAE
-    model_plain: MaskGAE
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2505.23345'
-    title: Graph Positional Autoencoders as Self-supervised Learners
-    date: May 2025
-    date_iso: 2025-05
-    date_display: May 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.6384
-    metric_stds:
-    - 0.0003
-  - model: BGRL
-    model_plain: BGRL
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2505.23345'
-    title: Graph Positional Autoencoders as Self-supervised Learners
-    date: May 2025
-    date_iso: 2025-05
-    date_display: May 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.6331
-    metric_stds:
-    - 0.0049
-  - model: CCA-SSG
-    model_plain: CCA-SSG
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2505.23345'
-    title: Graph Positional Autoencoders as Self-supervised Learners
-    date: May 2025
-    date_iso: 2025-05
-    date_display: May 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.6263
-    metric_stds:
-    - 0.002
-  - model: VGAER
-    model_plain: VGAER
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2505.23345'
-    title: Graph Positional Autoencoders as Self-supervised Learners
-    date: May 2025
-    date_iso: 2025-05
-    date_display: May 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.5531
-    metric_stds:
-    - 0.0028
   milestones:
-  - value: 0.8153
-    std: 0.0055
-    model: Supervised
-    arxiv_id: '2505.23345'
-    title: Graph Positional Autoencoders as Self-supervised Learners
-    date: 2025-05
+  - value: 0.8557
+    std: null
+    model: GloGNN
+    arxiv_id: '2205.07308'
+    title: Finding Global Homophily in Graph Neural Networks When Meeting Heterophily
+    date: '2022-05-15'
   - value: 0.86
-    std: 0.0039000000000000003
+    std: 0.0039
     model: CSNN
     arxiv_id: '2507.00647'
     title: Cooperative Sheaf Neural Networks

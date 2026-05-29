@@ -22,21 +22,19 @@ abstract: Attention mechanisms have been widely used to capture long-range depen
   demonstrate that Graph-Mamba outperforms state-of-the-art methods in long-range
   graph prediction tasks, with a fraction of the computational cost in both FLOPs
   and GPU memory consumption. The code and models are publicly available at https://github.com/bowang-lab/Graph-Mamba.
-codebase_url: ''
-extraction_model: qwen3.6-35b-a3b
+codebase_url: https://github.com/bowang-lab/Graph-Mamba
+extraction_model: Qwen/Qwen3.6-35B-A3B-FP8
 has_results: true
 paper_type: method
 proposed_models:
-- Graph Mamba-1
 - Graph-Mamba
-- Graph-Mamba (Node Level Permutation + Degree Prioritization)
-- Graph-Mamba (Node Level + Degree)
-mrr: 0.0326
-adjusted_mrr: 0.0326
-mrr_dataset_count: 5
+mrr: 0.0902
+adjusted_mrr: 0.0902
+mrr_dataset_count: 6
 benchmark_categories:
 - LRGB
 - GNNBenchmark
+- Other Graph Benchmarks
 task_categories:
 - graph_classification
 - link_prediction
@@ -49,371 +47,74 @@ results:
 - &id004
   dataset: CIFAR10
   rows:
-  - model: GRASS
-    model_key: grass
-    model_plain: GRASS
-    value: 0.8375
-    std: 0.00141
+  - model: CNNs
+    model_key: cnns
+    model_plain: CNNs
+    value: 0.93
+    std: 0.005
     metric: Accuracy
     higher_is_better: true
     is_baseline: false
     is_overridden: false
     override_reason: ''
-    params_millions: 0.5
-    arxiv_id: '2407.05649'
-    title: 'Greener GRASS: Enhancing GNNs with Encoding, Rewiring, and Attention'
-    date: Jul 2024
-    date_display: Jul 2024
-    date_iso: 2024-07
+    params_millions: null
+    arxiv_id: '1312.6203'
+    title: Spectral Networks and Locally Connected Networks on Graphs
+    date: Dec 21, 2013
+    date_display: Dec 2013
+    date_iso: '2013-12-21'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
     global_rank: 1
-    sort_value: 0.8375
-    sort_std: 0.00141
+    sort_value: 0.93
+    sort_std: 0.005
     is_best: true
-  - model: NeuralWalker
-    model_key: neuralwalker
-    model_plain: NeuralWalker
-    value: 0.80027
-    std: 0.00185
+  - model: DGN
+    model_key: dgn
+    model_plain: DGN
+    value: 0.92
+    std: 0.007
     metric: Accuracy
     higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2407.05649'
-    title: 'Greener GRASS: Enhancing GNNs with Encoding, Rewiring, and Attention'
-    date: Jul 2024
-    date_display: Jul 2024
-    date_iso: 2024-07
+    arxiv_id: '1312.6203'
+    title: Spectral Networks and Locally Connected Networks on Graphs
+    date: Dec 21, 2013
+    date_display: Dec 2013
+    date_iso: '2013-12-21'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
     global_rank: 2
-    sort_value: 0.80027
-    sort_std: 0.00185
-    is_best: false
-  - model: RandAlign (4 layers)
-    model_key: randalign (4 layers)
-    model_plain: RandAlign (4 layers)
-    value: 0.7942
-    std: 0.00072
+    sort_value: 0.92
+    sort_std: 0.007
+    is_best: true
+  - model: PNA
+    model_key: pna
+    model_plain: PNA
+    value: 0.91
+    std: 0.008
     metric: Accuracy
     higher_is_better: true
-    is_baseline: false
+    is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2404.09774'
-    title: 'RandAlign: A Parameter-Free Method for Regularizing Graph Convolutional
-      Networks'
-    date: Apr 2024
-    date_display: Apr 2024
-    date_iso: 2024-04
+    arxiv_id: '1312.6203'
+    title: Spectral Networks and Locally Connected Networks on Graphs
+    date: Dec 21, 2013
+    date_display: Dec 2013
+    date_iso: '2013-12-21'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
     global_rank: 3
-    sort_value: 0.7942
-    sort_std: 0.00072
-    is_best: false
-  - model: GatedGCN
-    model_key: gatedgcn
-    model_plain: GatedGCN
-    value: 0.6731
-    std: 0.0031
-    paper_value: 0.6731
-    paper_std: 0.0031
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 4
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Feb 1, 2024
-    date_display: Feb 2024
-    date_iso: '2024-02-01'
-    global_rank: 12
-    true_value: 0.77218
-    true_std: 0.00381
-    value_gap_source_arxiv: '2502.09263'
-    value_gap_source_title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks?
-      Simple Architectures Meet Excellence
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.09907999999999995
-    value_note: ''
-    paper_rank: 105
-    rank_delta: 93
-    rank_delta_abs: 93
-    rank_delta_direction: worse
-    sort_value: 0.77218
-    sort_std: 0.00381
-    is_best: false
-  - model: Graph-Mamba
-    model_key: graph-mamba
-    model_plain: Graph-Mamba
-    value: 0.737
-    std: 0.0034
-    paper_value: 0.737
-    paper_std: 0.0034
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: 0.285
-    table_ref: Table 4
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Feb 1, 2024
-    date_display: Feb 2024
-    date_iso: '2024-02-01'
-    global_rank: 31
-    true_value: 0.7576
-    true_std: 0.0042
-    value_gap_source_arxiv: '2406.05815'
-    value_gap_source_title: What Can We Learn from State Space Models for Machine
-      Learning on Graphs?
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.020600000000000063
-    value_note: ''
-    paper_rank: 43
-    rank_delta: 12
-    rank_delta_abs: 12
-    rank_delta_direction: worse
-    sort_value: 0.7576
-    sort_std: 0.0042
-    is_best: false
-  - model: Exphormer
-    model_key: exphormer
-    model_plain: Exphormer
-    value: 0.7413
-    std: 0.005
-    paper_value: 0.7413
-    paper_std: 0.005
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 4
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Feb 1, 2024
-    date_display: Feb 2024
-    date_iso: '2024-02-01'
-    global_rank: 36
-    true_value: 0.74754
-    true_std: 0.00194
-    value_gap_source_arxiv: '2502.09263'
-    value_gap_source_title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks?
-      Simple Architectures Meet Excellence
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.006240000000000023
-    value_note: ''
-    paper_rank: 37
-    rank_delta: 1
-    rank_delta_abs: 1
-    rank_delta_direction: worse
-    sort_value: 0.74754
-    sort_std: 0.00194
-    is_best: false
-  - model: Graph Mamba-1
-    model_key: graph mamba-1
-    model_plain: Graph Mamba-1
-    value: 0.737
-    std: 0.0034
-    paper_value: 0.737
-    paper_std: 0.0034
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 4
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Feb 1, 2024
-    date_display: Feb 2024
-    date_iso: '2024-02-01'
-    global_rank: 44
-    true_value: 0.737
-    true_std: 0.0034
-    value_gap_source_arxiv: '2402.00789'
-    value_gap_source_title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling
-      with Selective State Spaces'
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 44
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.737
-    sort_std: 0.0034
-    is_best: false
-  - model: Graph transformer
-    model_key: graph transformer
-    model_plain: Graph transformer
-    value: 0.7226
-    std: 0.0031
-    paper_value: 0.7226
-    paper_std: 0.0031
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 4
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Feb 1, 2024
-    date_display: Feb 2024
-    date_iso: '2024-02-01'
-    global_rank: 64
-    true_value: 0.7226
-    true_std: 0.0031
-    value_gap_source_arxiv: '2402.00789'
-    value_gap_source_title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling
-      with Selective State Spaces'
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 64
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.7226
-    sort_std: 0.0031
-    is_best: false
-  - model: GPS w/ Transformer
-    model_key: gps w/ transformer
-    model_plain: GPS w/ Transformer
-    value: 0.7226
-    std: 0.0031
-    paper_value: 0.7226
-    paper_std: 0.0031
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 4
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Feb 1, 2024
-    date_display: Feb 2024
-    date_iso: '2024-02-01'
-    global_rank: 65
-    true_value: 0.7226
-    true_std: 0.0031
-    value_gap_source_arxiv: '2402.00789'
-    value_gap_source_title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling
-      with Selective State Spaces'
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 65
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.7226
-    sort_std: 0.0031
-    is_best: false
-  - model: GPS + Performer
-    model_key: gps + performer
-    model_plain: GPS + Performer
-    value: 0.7067
-    std: 0.0033
-    paper_value: 0.7067
-    paper_std: 0.0033
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 4
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Feb 1, 2024
-    date_display: Feb 2024
-    date_iso: '2024-02-01'
-    global_rank: 82
-    true_value: 0.7067
-    true_std: 0.0033
-    value_gap_source_arxiv: '2402.00789'
-    value_gap_source_title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling
-      with Selective State Spaces'
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 82
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.7067
-    sort_std: 0.0033
-    is_best: false
-  - model: GPS + BigBird
-    model_key: gps + bigbird
-    model_plain: GPS + BigBird
-    value: 0.7048
-    std: 0.001
-    paper_value: 0.7048
-    paper_std: 0.001
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 4
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Feb 1, 2024
-    date_display: Feb 2024
-    date_iso: '2024-02-01'
-    global_rank: 85
-    true_value: 0.7048
-    true_std: 0.001
-    value_gap_source_arxiv: '2402.00789'
-    value_gap_source_title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling
-      with Selective State Spaces'
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 85
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.7048
-    sort_std: 0.001
+    sort_value: 0.91
+    sort_std: 0.008
     is_best: false
   - model: GCN
     model_key: gcn
@@ -430,27 +131,26 @@ results:
     params_millions: null
     table_ref: Table 4
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Feb 1, 2024
     date_display: Feb 2024
     date_iso: '2024-02-01'
-    global_rank: 95
-    true_value: 0.69824
-    true_std: 0.00413
-    value_gap_source_arxiv: '2502.09263'
-    value_gap_source_title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks?
-      Simple Architectures Meet Excellence
+    global_rank: 5
+    true_value: 0.89
+    true_std: 0.01
+    value_gap_source_arxiv: '1312.6203'
+    value_gap_source_title: Spectral Networks and Locally Connected Networks on Graphs
     value_gap_source_is_current_paper: false
     has_value_gap: true
     has_value_note: false
-    value_gap: 0.14113999999999993
+    value_gap: 0.3329
     value_note: ''
-    paper_rank: 114
-    rank_delta: 19
-    rank_delta_abs: 19
+    paper_rank: 39
+    rank_delta: 34
+    rank_delta_abs: 34
     rank_delta_direction: worse
-    sort_value: 0.69824
-    sort_std: 0.00413
+    sort_value: 0.89
+    sort_std: 0.01
     is_best: false
   - model: GIN
     model_key: gin
@@ -467,38 +167,259 @@ results:
     params_millions: null
     table_ref: Table 4
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Feb 1, 2024
     date_display: Feb 2024
     date_iso: '2024-02-01'
-    global_rank: 97
-    true_value: 0.69592
-    true_std: 0.00287
-    value_gap_source_arxiv: '2502.09263'
-    value_gap_source_title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks?
-      Simple Architectures Meet Excellence
+    global_rank: 6
+    true_value: 0.89
+    true_std: 0.01
+    value_gap_source_arxiv: '1312.6203'
+    value_gap_source_title: Spectral Networks and Locally Connected Networks on Graphs
     value_gap_source_is_current_paper: false
     has_value_gap: true
     has_value_note: false
-    value_gap: 0.14332
+    value_gap: 0.33740000000000003
     value_note: ''
-    paper_rank: 115
-    rank_delta: 18
-    rank_delta_abs: 18
+    paper_rank: 39
+    rank_delta: 33
+    rank_delta_abs: 33
     rank_delta_direction: worse
-    sort_value: 0.69592
-    sort_std: 0.00287
+    sort_value: 0.89
+    sort_std: 0.01
+    is_best: false
+  - model: Exphormer
+    model_key: exphormer
+    model_plain: Exphormer
+    value: 0.7413
+    std: 0.005
+    paper_value: 0.7413
+    paper_std: 0.005
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 4
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Feb 1, 2024
+    date_display: Feb 2024
+    date_iso: '2024-02-01'
+    global_rank: 13
+    true_value: 0.7469
+    true_std: 0.00125
+    value_gap_source_arxiv: '2502.00282'
+    value_gap_source_title: 'GraphMinNet: Learning Dependencies in Graphs with Light
+      Complexity Minimal Architecture'
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
+    has_value_note: false
+    value_gap: 0.005600000000000049
+    value_note: ''
+    paper_rank: 13
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.7469
+    sort_std: 0.00125
+    is_best: false
+  - model: Graph-Mamba
+    model_key: graph-mamba
+    model_plain: Graph-Mamba
+    value: 0.737
+    std: 0.0034
+    paper_value: 0.737
+    paper_std: 0.0034
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.285125
+    table_ref: Table 4
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Feb 1, 2024
+    date_display: Feb 2024
+    date_iso: '2024-02-01'
+    global_rank: 16
+    true_value: 0.737
+    true_std: 0.0034
+    value_gap_source_arxiv: '2402.00789'
+    value_gap_source_title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling
+      with Selective State Spaces'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 16
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.737
+    sort_std: 0.0034
+    is_best: false
+  - model: GPS+Transformer
+    model_key: gps+transformer
+    model_plain: GPS+Transformer
+    value: 0.7226
+    std: 0.0031
+    paper_value: 0.7226
+    paper_std: 0.0031
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.286725
+    table_ref: Table 4
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Feb 1, 2024
+    date_display: Feb 2024
+    date_iso: '2024-02-01'
+    global_rank: 20
+    true_value: 0.7226
+    true_std: 0.0031
+    value_gap_source_arxiv: '2402.00789'
+    value_gap_source_title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling
+      with Selective State Spaces'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 20
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.7226
+    sort_std: 0.0031
+    is_best: false
+  - model: GPS+Performer
+    model_key: gps+performer
+    model_plain: GPS+Performer
+    value: 0.7067
+    std: 0.0033
+    paper_value: 0.7067
+    paper_std: 0.0033
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 4
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Feb 1, 2024
+    date_display: Feb 2024
+    date_iso: '2024-02-01'
+    global_rank: 24
+    true_value: 0.7067
+    true_std: 0.0033
+    value_gap_source_arxiv: '2402.00789'
+    value_gap_source_title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling
+      with Selective State Spaces'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 24
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.7067
+    sort_std: 0.0033
+    is_best: false
+  - model: GPS+BigBird
+    model_key: gps+bigbird
+    model_plain: GPS+BigBird
+    value: 0.7048
+    std: 0.001
+    paper_value: 0.7048
+    paper_std: 0.001
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 4
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Feb 1, 2024
+    date_display: Feb 2024
+    date_iso: '2024-02-01'
+    global_rank: 25
+    true_value: 0.7048
+    true_std: 0.001
+    value_gap_source_arxiv: '2402.00789'
+    value_gap_source_title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling
+      with Selective State Spaces'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 25
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.7048
+    sort_std: 0.001
+    is_best: false
+  - model: GatedGCN
+    model_key: gatedgcn
+    model_plain: GatedGCN
+    value: 0.6731
+    std: 0.0031
+    paper_value: 0.6731
+    paper_std: 0.0031
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 4
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Feb 1, 2024
+    date_display: Feb 2024
+    date_iso: '2024-02-01'
+    global_rank: 35
+    true_value: 0.67312
+    true_std: 0.00311
+    value_gap_source_arxiv: '2312.01538'
+    value_gap_source_title: Recurrent Distance Filtering for Graph Representation
+      Learning
+    value_gap_source_is_current_paper: false
+    has_value_gap: false
+    has_value_note: true
+    value_gap: 2.0000000000020002e-05
+    value_note: global 0.6731 within std
+    paper_rank: 36
+    rank_delta: 1
+    rank_delta_abs: 1
+    rank_delta_direction: worse
+    sort_value: 0.67312
+    sort_std: 0.00311
     is_best: false
   metric: Accuracy
   higher_is_better: true
-- &id007
+- &id005
   dataset: CLUSTER
   rows:
   - model: Tango_GPS
     model_key: tango_gps
     model_plain: Tango_GPS
     value: 0.80113
-    std: 0.0013800000000000002
+    std: 0.00138
     metric: Accuracy
     higher_is_better: true
     is_baseline: false
@@ -515,94 +436,59 @@ results:
     is_global_top: true
     global_rank: 1
     sort_value: 0.80113
-    sort_std: 0.0013800000000000002
+    sort_std: 0.00138
     is_best: true
   - model: GRIT
     model_key: grit
     model_plain: GRIT
-    value: 0.8003
-    std: 0.0028
+    value: 0.80026
+    std: 0.00277
     metric: Accuracy
     higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2405.19121'
-    title: Spatio-Spectral Graph Neural Networks
-    date: May 29, 2024
-    date_display: May 2024
-    date_iso: '2024-05-29'
+    arxiv_id: '2502.00282'
+    title: 'GraphMinNet: Learning Dependencies in Graphs with Light Complexity Minimal
+      Architecture'
+    date: Feb 1, 2025
+    date_display: Feb 2025
+    date_iso: '2025-02-01'
     codebase_url: ''
-    uses_external_data: null
+    uses_external_data: false
     is_global_top: true
     global_rank: 2
-    sort_value: 0.8003
-    sort_std: 0.0028
+    sort_value: 0.80026
+    sort_std: 0.00277
     is_best: true
-  - model: PPGT
-    model_key: ppgt
-    model_plain: PPGT
-    value: 0.80027
-    std: 0.00114
+  - model: LRDs
+    model_key: lrds
+    model_plain: LRDs
+    value: 0.79284
+    std: 0.00122
     metric: Accuracy
     higher_is_better: true
     is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2504.12588'
-    title: Plain Transformers Can be Powerful Graph Learners
-    date: Apr 2025
-    date_display: Apr 2025
-    date_iso: 2025-04
+    arxiv_id: '2502.00282'
+    title: 'GraphMinNet: Learning Dependencies in Graphs with Light Complexity Minimal
+      Architecture'
+    date: Feb 1, 2025
+    date_display: Feb 2025
+    date_iso: '2025-02-01'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
     global_rank: 3
-    sort_value: 0.80027
-    sort_std: 0.00114
-    is_best: true
-  - model: GatedGCN
-    model_key: gatedgcn
-    model_plain: GatedGCN
-    value: 0.7384
-    std: 0.0032
-    paper_value: 0.7384
-    paper_std: 0.0032
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 2
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Feb 1, 2024
-    date_display: Feb 2024
-    date_iso: '2024-02-01'
-    global_rank: 16
-    true_value: 0.79128
-    true_std: 0.00235
-    value_gap_source_arxiv: '2502.09263'
-    value_gap_source_title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks?
-      Simple Architectures Meet Excellence
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.05288000000000004
-    value_note: ''
-    paper_rank: 61
-    rank_delta: 45
-    rank_delta_abs: 45
-    rank_delta_direction: worse
-    sort_value: 0.79128
-    sort_std: 0.00235
+    sort_value: 0.79284
+    sort_std: 0.00122
     is_best: false
-  - model: GPS + Performer
-    model_key: gps + performer
-    model_plain: GPS + Performer
+  - model: GPS+Performer
+    model_key: gps+performer
+    model_plain: GPS+Performer
     value: 0.7829
     std: 0.0004
     paper_value: 0.7829
@@ -613,13 +499,13 @@ results:
     is_overridden: false
     override_reason: ''
     params_millions: null
-    table_ref: Table 2
+    table_ref: Table 3
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Feb 1, 2024
     date_display: Feb 2024
     date_iso: '2024-02-01'
-    global_rank: 31
+    global_rank: 7
     true_value: 0.7829
     true_std: 0.0004
     value_gap_source_arxiv: '2402.00789'
@@ -630,7 +516,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 31
+    paper_rank: 7
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -650,32 +536,33 @@ results:
     is_overridden: false
     override_reason: ''
     params_millions: null
-    table_ref: Table 2
+    table_ref: Table 3
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Feb 1, 2024
     date_display: Feb 2024
     date_iso: '2024-02-01'
-    global_rank: 37
-    true_value: 0.78071
+    global_rank: 9
+    true_value: 0.7807
     true_std: 0.00037
-    value_gap_source_arxiv: '2502.09365'
-    value_gap_source_title: Simple Path Structural Encoding for Graph Transformers
+    value_gap_source_arxiv: '2502.00282'
+    value_gap_source_title: 'GraphMinNet: Learning Dependencies in Graphs with Light
+      Complexity Minimal Architecture'
     value_gap_source_is_current_paper: false
     has_value_gap: false
     has_value_note: true
-    value_gap: 0.0005100000000000104
+    value_gap: 0.0004999999999999449
     value_note: global 0.7807 within std
-    paper_rank: 39
-    rank_delta: 2
-    rank_delta_abs: 2
-    rank_delta_direction: worse
-    sort_value: 0.78071
+    paper_rank: 9
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.7807
     sort_std: 0.00037
     is_best: false
-  - model: Graph transformer
-    model_key: graph transformer
-    model_plain: Graph transformer
+  - model: GPS+Transformer
+    model_key: gps+transformer
+    model_plain: GPS+Transformer
     value: 0.7799
     std: 0.0017
     paper_value: 0.7799
@@ -685,14 +572,14 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: null
-    table_ref: Table 2
+    params_millions: 0.286725
+    table_ref: Table 3
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Feb 1, 2024
     date_display: Feb 2024
     date_iso: '2024-02-01'
-    global_rank: 42
+    global_rank: 12
     true_value: 0.7799
     true_std: 0.0017
     value_gap_source_arxiv: '2402.00789'
@@ -703,53 +590,16 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 42
+    paper_rank: 12
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 0.7799
     sort_std: 0.0017
     is_best: false
-  - model: GPS w/ Transformer
-    model_key: gps w/ transformer
-    model_plain: GPS w/ Transformer
-    value: 0.7799
-    std: 0.0017
-    paper_value: 0.7799
-    paper_std: 0.0017
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 2
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Feb 1, 2024
-    date_display: Feb 2024
-    date_iso: '2024-02-01'
-    global_rank: 43
-    true_value: 0.7799
-    true_std: 0.0017
-    value_gap_source_arxiv: '2402.00789'
-    value_gap_source_title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling
-      with Selective State Spaces'
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 43
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.7799
-    sort_std: 0.0017
-    is_best: false
-  - model: GPS + BigBird
-    model_key: gps + bigbird
-    model_plain: GPS + BigBird
+  - model: GPS+BigBird
+    model_key: gps+bigbird
+    model_plain: GPS+BigBird
     value: 0.7746
     std: 0.0002
     paper_value: 0.7746
@@ -760,13 +610,13 @@ results:
     is_overridden: false
     override_reason: ''
     params_millions: null
-    table_ref: Table 2
+    table_ref: Table 3
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Feb 1, 2024
     date_display: Feb 2024
     date_iso: '2024-02-01'
-    global_rank: 49
+    global_rank: 15
     true_value: 0.7746
     true_std: 0.0002
     value_gap_source_arxiv: '2402.00789'
@@ -777,12 +627,85 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 49
+    paper_rank: 15
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 0.7746
     sort_std: 0.0002
+    is_best: false
+  - model: Graph-Mamba
+    model_key: graph-mamba
+    model_plain: Graph-Mamba
+    value: 0.768
+    std: 0.0036
+    paper_value: 0.768
+    paper_std: 0.0036
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.285125
+    table_ref: Table 3
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Feb 1, 2024
+    date_display: Feb 2024
+    date_iso: '2024-02-01'
+    global_rank: 18
+    true_value: 0.768
+    true_std: 0.0036
+    value_gap_source_arxiv: '2402.00789'
+    value_gap_source_title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling
+      with Selective State Spaces'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 18
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.768
+    sort_std: 0.0036
+    is_best: false
+  - model: GatedGCN
+    model_key: gatedgcn
+    model_plain: GatedGCN
+    value: 0.7384
+    std: 0.0032
+    paper_value: 0.7384
+    paper_std: 0.0032
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 3
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Feb 1, 2024
+    date_display: Feb 2024
+    date_iso: '2024-02-01'
+    global_rank: 20
+    true_value: 0.76082
+    true_std: 0.00196
+    value_gap_source_arxiv: '2108.03348'
+    value_gap_source_title: Global Self-Attention as a Replacement for Graph Convolution
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
+    has_value_note: false
+    value_gap: 0.022420000000000107
+    value_note: ''
+    paper_rank: 22
+    rank_delta: 2
+    rank_delta_abs: 2
+    rank_delta_direction: worse
+    sort_value: 0.76082
+    sort_std: 0.00196
     is_best: false
   - model: GCN
     model_key: gcn
@@ -797,52 +720,15 @@ results:
     is_overridden: false
     override_reason: ''
     params_millions: null
-    table_ref: Table 2
+    table_ref: Table 3
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Feb 1, 2024
     date_display: Feb 2024
     date_iso: '2024-02-01'
-    global_rank: 53
-    true_value: 0.77109
-    true_std: 0.00872
-    value_gap_source_arxiv: '2502.09263'
-    value_gap_source_title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks?
-      Simple Architectures Meet Excellence
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.08609
-    value_note: ''
-    paper_rank: 65
-    rank_delta: 12
-    rank_delta_abs: 12
-    rank_delta_direction: worse
-    sort_value: 0.77109
-    sort_std: 0.00872
-    is_best: false
-  - model: Graph Mamba-1
-    model_key: graph mamba-1
-    model_plain: Graph Mamba-1
-    value: 0.768
-    std: 0.0036
-    paper_value: 0.768
-    paper_std: 0.0036
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 2
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Feb 1, 2024
-    date_display: Feb 2024
-    date_iso: '2024-02-01'
-    global_rank: 54
-    true_value: 0.768
-    true_std: 0.0036
+    global_rank: 25
+    true_value: 0.685
+    true_std: 0.0097
     value_gap_source_arxiv: '2402.00789'
     value_gap_source_title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling
       with Selective State Spaces'
@@ -851,49 +737,12 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 54
+    paper_rank: 25
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
-    sort_value: 0.768
-    sort_std: 0.0036
-    is_best: false
-  - model: Graph-Mamba
-    model_key: graph-mamba
-    model_plain: Graph-Mamba
-    value: 0.768
-    std: 0.0036
-    paper_value: 0.768
-    paper_std: 0.0036
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: 0.285
-    table_ref: Table 2
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Feb 1, 2024
-    date_display: Feb 2024
-    date_iso: '2024-02-01'
-    global_rank: 55
-    true_value: 0.768
-    true_std: 0.0036
-    value_gap_source_arxiv: '2502.09263'
-    value_gap_source_title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks?
-      Simple Architectures Meet Excellence
-    value_gap_source_is_current_paper: false
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 55
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.768
-    sort_std: 0.0036
+    sort_value: 0.685
+    sort_std: 0.0097
     is_best: false
   - model: GIN
     model_key: gin
@@ -908,140 +757,105 @@ results:
     is_overridden: false
     override_reason: ''
     params_millions: null
-    table_ref: Table 2
+    table_ref: Table 3
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Feb 1, 2024
     date_display: Feb 2024
     date_iso: '2024-02-01'
-    global_rank: 61
-    true_value: 0.74794
-    true_std: 0.00213
-    value_gap_source_arxiv: '2502.09263'
-    value_gap_source_title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks?
-      Simple Architectures Meet Excellence
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
+    global_rank: 26
+    true_value: 0.6472
+    true_std: 0.0155
+    value_gap_source_arxiv: '2402.00789'
+    value_gap_source_title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling
+      with Selective State Spaces'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
     has_value_note: false
-    value_gap: 0.10074000000000005
+    value_gap: null
     value_note: ''
-    paper_rank: 67
-    rank_delta: 6
-    rank_delta_abs: 6
-    rank_delta_direction: worse
-    sort_value: 0.74794
-    sort_std: 0.00213
+    paper_rank: 26
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.6472
+    sort_std: 0.0155
     is_best: false
   metric: Accuracy
   higher_is_better: true
-- &id005
+- &id003
   dataset: MNIST
   rows:
-  - model: GRASS
-    model_key: grass
-    model_plain: GRASS
-    value: 0.98932
-    std: 0.00076
+  - model: Classical CNN
+    model_key: classical cnn
+    model_plain: Classical CNN
+    value: 0.9933
+    std: null
     metric: Accuracy
     higher_is_better: true
-    is_baseline: false
+    is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.5
-    arxiv_id: '2407.05649'
-    title: 'Greener GRASS: Enhancing GNNs with Encoding, Rewiring, and Attention'
-    date: Jul 2024
-    date_display: Jul 2024
-    date_iso: 2024-07
-    codebase_url: ''
+    params_millions: null
+    arxiv_id: '1606.09375'
+    title: Convolutional Neural Networks on Graphs with Fast Localized Spectral Filtering
+    date: Jun 2016
+    date_display: Jun 2016
+    date_iso: 2016-06
+    codebase_url: https://github.com/mdeff/cnn_graph
     uses_external_data: false
     is_global_top: true
     global_rank: 1
-    sort_value: 0.98932
-    sort_std: 0.00076
+    sort_value: 0.9933
+    sort_std: null
     is_best: true
-  - model: GSM++ (MoT)
-    model_key: gsm++ (mot)
-    model_plain: GSM++ (MoT)
-    value: 0.9884
-    std: 0.0015
+  - model: LeNet5
+    model_key: lenet5
+    model_plain: LeNet5
+    value: 0.9933
+    std: null
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 1.66
+    arxiv_id: '1705.07664'
+    title: 'CayleyNets: Graph Convolutional Neural Networks with Complex Rational
+      Spectral Filters'
+    date: May 2017
+    date_display: May 2017
+    date_iso: 2017-05
+    codebase_url: https://github.com/fmonti/mgcnn
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 2
+    sort_value: 0.9933
+    sort_std: null
+    is_best: true
+  - model: CayleyNets
+    model_key: cayleynets
+    model_plain: CayleyNets
+    value: 0.9918
+    std: null
     metric: Accuracy
     higher_is_better: true
     is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2411.15671'
-    title: 'Best of Both Worlds: Advantages of Hybrid Graph Sequence Models'
-    date: Nov 2024
-    date_display: Nov 2024
-    date_iso: 2024-11
-    codebase_url: ''
-    uses_external_data: null
-    is_global_top: true
-    global_rank: 2
-    sort_value: 0.9884
-    sort_std: 0.0015
-    is_best: true
-  - model: NeuralWalker
-    model_key: neuralwalker
-    model_plain: NeuralWalker
-    value: 0.9876
-    std: 0.00079
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2407.05649'
-    title: 'Greener GRASS: Enhancing GNNs with Encoding, Rewiring, and Attention'
-    date: Jul 2024
-    date_display: Jul 2024
-    date_iso: 2024-07
-    codebase_url: ''
+    arxiv_id: '1705.07664'
+    title: 'CayleyNets: Graph Convolutional Neural Networks with Complex Rational
+      Spectral Filters'
+    date: May 2017
+    date_display: May 2017
+    date_iso: 2017-05
+    codebase_url: https://github.com/fmonti/mgcnn
     uses_external_data: false
     is_global_top: true
     global_rank: 3
-    sort_value: 0.9876
-    sort_std: 0.00079
-    is_best: false
-  - model: GatedGCN
-    model_key: gatedgcn
-    model_plain: GatedGCN
-    value: 0.9734
-    std: 0.0014
-    paper_value: 0.9734
-    paper_std: 0.0014
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 4
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Feb 1, 2024
-    date_display: Feb 2024
-    date_iso: '2024-02-01'
-    global_rank: 4
-    true_value: 0.98712
-    true_std: 0.00137
-    value_gap_source_arxiv: '2502.09263'
-    value_gap_source_title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks?
-      Simple Architectures Meet Excellence
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.013719999999999954
-    value_note: ''
-    paper_rank: 80
-    rank_delta: 76
-    rank_delta_abs: 76
-    rank_delta_direction: worse
-    sort_value: 0.98712
-    sort_std: 0.00137
+    sort_value: 0.9918
+    sort_std: null
     is_best: false
   - model: Exphormer
     model_key: exphormer
@@ -1056,65 +870,29 @@ results:
     is_overridden: false
     override_reason: ''
     params_millions: null
-    table_ref: Table 4
+    table_ref: Table 2
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Feb 1, 2024
     date_display: Feb 2024
     date_iso: '2024-02-01'
-    global_rank: 10
+    global_rank: 8
     true_value: 0.9855
     true_std: 0.00039
-    value_gap_source_arxiv: '2502.09365'
-    value_gap_source_title: Simple Path Structural Encoding for Graph Transformers
+    value_gap_source_arxiv: '2502.00282'
+    value_gap_source_title: 'GraphMinNet: Learning Dependencies in Graphs with Light
+      Complexity Minimal Architecture'
     value_gap_source_is_current_paper: false
     has_value_gap: true
     has_value_note: false
     value_gap: 0.0012000000000000899
     value_note: ''
-    paper_rank: 19
-    rank_delta: 9
-    rank_delta_abs: 9
+    paper_rank: 9
+    rank_delta: 1
+    rank_delta_abs: 1
     rank_delta_direction: worse
     sort_value: 0.9855
     sort_std: 0.00039
-    is_best: false
-  - model: Graph Mamba-1
-    model_key: graph mamba-1
-    model_plain: Graph Mamba-1
-    value: 0.9842
-    std: 0.0008
-    paper_value: 0.9842
-    paper_std: 0.0008
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 4
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Feb 1, 2024
-    date_display: Feb 2024
-    date_iso: '2024-02-01'
-    global_rank: 22
-    true_value: 0.9842
-    true_std: 0.0008
-    value_gap_source_arxiv: '2402.00789'
-    value_gap_source_title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling
-      with Selective State Spaces'
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 22
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.9842
-    sort_std: 0.0008
     is_best: false
   - model: Graph-Mamba
     model_key: graph-mamba
@@ -1128,71 +906,34 @@ results:
     is_baseline: false
     is_overridden: false
     override_reason: ''
-    params_millions: 0.285
-    table_ref: Table 4
+    params_millions: 0.285125
+    table_ref: Table 2
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Feb 1, 2024
     date_display: Feb 2024
     date_iso: '2024-02-01'
-    global_rank: 23
+    global_rank: 10
     true_value: 0.9842
     true_std: 0.0008
-    value_gap_source_arxiv: '2502.09263'
-    value_gap_source_title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks?
-      Simple Architectures Meet Excellence
-    value_gap_source_is_current_paper: false
+    value_gap_source_arxiv: '2402.00789'
+    value_gap_source_title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling
+      with Selective State Spaces'
+    value_gap_source_is_current_paper: true
     has_value_gap: false
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 23
+    paper_rank: 10
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 0.9842
     sort_std: 0.0008
     is_best: false
-  - model: GCN
-    model_key: gcn
-    model_plain: GCN
-    value: 0.9071
-    std: 0.0021
-    paper_value: 0.9071
-    paper_std: 0.0021
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 4
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Feb 1, 2024
-    date_display: Feb 2024
-    date_iso: '2024-02-01'
-    global_rank: 26
-    true_value: 0.98382
-    true_std: 0.00095
-    value_gap_source_arxiv: '2502.09263'
-    value_gap_source_title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks?
-      Simple Architectures Meet Excellence
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.07672000000000001
-    value_note: ''
-    paper_rank: 100
-    rank_delta: 74
-    rank_delta_abs: 74
-    rank_delta_direction: worse
-    sort_value: 0.98382
-    sort_std: 0.00095
-    is_best: false
-  - model: GPS + Performer
-    model_key: gps + performer
-    model_plain: GPS + Performer
+  - model: GPS+Performer
+    model_key: gps+performer
+    model_plain: GPS+Performer
     value: 0.9834
     std: 0.0003
     paper_value: 0.9834
@@ -1203,13 +944,13 @@ results:
     is_overridden: false
     override_reason: ''
     params_millions: null
-    table_ref: Table 4
+    table_ref: Table 2
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Feb 1, 2024
     date_display: Feb 2024
     date_iso: '2024-02-01'
-    global_rank: 29
+    global_rank: 13
     true_value: 0.9834
     true_std: 0.0003
     value_gap_source_arxiv: '2402.00789'
@@ -1220,12 +961,122 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 29
+    paper_rank: 13
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 0.9834
     sort_std: 0.0003
+    is_best: false
+  - model: GPS+BigBird
+    model_key: gps+bigbird
+    model_plain: GPS+BigBird
+    value: 0.9817
+    std: 0.0001
+    paper_value: 0.9817
+    paper_std: 0.0001
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 2
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Feb 1, 2024
+    date_display: Feb 2024
+    date_iso: '2024-02-01'
+    global_rank: 22
+    true_value: 0.9817
+    true_std: 0.0001
+    value_gap_source_arxiv: '2402.00789'
+    value_gap_source_title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling
+      with Selective State Spaces'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 22
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.9817
+    sort_std: 0.0001
+    is_best: false
+  - model: GPS+Transformer
+    model_key: gps+transformer
+    model_plain: GPS+Transformer
+    value: 0.9811
+    std: 0.0011
+    paper_value: 0.9811
+    paper_std: 0.0011
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.286725
+    table_ref: Table 2
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Feb 1, 2024
+    date_display: Feb 2024
+    date_iso: '2024-02-01'
+    global_rank: 26
+    true_value: 0.9811
+    true_std: 0.0011
+    value_gap_source_arxiv: '2402.00789'
+    value_gap_source_title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling
+      with Selective State Spaces'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 26
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.9811
+    sort_std: 0.0011
+    is_best: false
+  - model: GatedGCN
+    model_key: gatedgcn
+    model_plain: GatedGCN
+    value: 0.9734
+    std: 0.0014
+    paper_value: 0.9734
+    paper_std: 0.0014
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 2
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Feb 1, 2024
+    date_display: Feb 2024
+    date_iso: '2024-02-01'
+    global_rank: 36
+    true_value: 0.9734
+    true_std: 0.00143
+    value_gap_source_arxiv: '2205.12454'
+    value_gap_source_title: Recipe for a General, Powerful, Scalable Graph Transformer
+    value_gap_source_is_current_paper: false
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 36
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.9734
+    sort_std: 0.00143
     is_best: false
   - model: GIN
     model_key: gin
@@ -1240,52 +1091,15 @@ results:
     is_overridden: false
     override_reason: ''
     params_millions: null
-    table_ref: Table 4
+    table_ref: Table 2
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Feb 1, 2024
     date_display: Feb 2024
     date_iso: '2024-02-01'
-    global_rank: 32
-    true_value: 0.98285
-    true_std: 0.00103
-    value_gap_source_arxiv: '2502.09263'
-    value_gap_source_title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks?
-      Simple Architectures Meet Excellence
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.01795000000000002
-    value_note: ''
-    paper_rank: 88
-    rank_delta: 56
-    rank_delta_abs: 56
-    rank_delta_direction: worse
-    sort_value: 0.98285
-    sort_std: 0.00103
-    is_best: false
-  - model: GPS + BigBird
-    model_key: gps + bigbird
-    model_plain: GPS + BigBird
-    value: 0.9817
-    std: 0.0001
-    paper_value: 0.9817
-    paper_std: 0.0001
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 4
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Feb 1, 2024
-    date_display: Feb 2024
-    date_iso: '2024-02-01'
-    global_rank: 45
-    true_value: 0.9817
-    true_std: 0.0001
+    global_rank: 39
+    true_value: 0.9649
+    true_std: 0.0025
     value_gap_source_arxiv: '2402.00789'
     value_gap_source_title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling
       with Selective State Spaces'
@@ -1294,35 +1108,35 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 45
+    paper_rank: 39
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
-    sort_value: 0.9817
-    sort_std: 0.0001
+    sort_value: 0.9649
+    sort_std: 0.0025
     is_best: false
-  - model: Graph transformer
-    model_key: graph transformer
-    model_plain: Graph transformer
-    value: 0.9811
-    std: 0.0011
-    paper_value: 0.9811
-    paper_std: 0.0011
+  - model: GCN
+    model_key: gcn
+    model_plain: GCN
+    value: 0.9071
+    std: 0.0021
+    paper_value: 0.9071
+    paper_std: 0.0021
     metric: Accuracy
     higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    table_ref: Table 4
+    table_ref: Table 2
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Feb 1, 2024
     date_display: Feb 2024
     date_iso: '2024-02-01'
-    global_rank: 55
-    true_value: 0.9811
-    true_std: 0.0011
+    global_rank: 43
+    true_value: 0.9071
+    true_std: 0.0021
     value_gap_source_arxiv: '2402.00789'
     value_gap_source_title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling
       with Selective State Spaces'
@@ -1331,160 +1145,399 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 55
+    paper_rank: 43
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
-    sort_value: 0.9811
-    sort_std: 0.0011
-    is_best: false
-  - model: GPS w/ Transformer
-    model_key: gps w/ transformer
-    model_plain: GPS w/ Transformer
-    value: 0.9811
-    std: 0.0011
-    paper_value: 0.9811
-    paper_std: 0.0011
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 4
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Feb 1, 2024
-    date_display: Feb 2024
-    date_iso: '2024-02-01'
-    global_rank: 56
-    true_value: 0.9811
-    true_std: 0.0011
-    value_gap_source_arxiv: '2402.00789'
-    value_gap_source_title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling
-      with Selective State Spaces'
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 56
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.9811
-    sort_std: 0.0011
+    sort_value: 0.9071
+    sort_std: 0.0021
     is_best: false
   metric: Accuracy
   higher_is_better: true
 - &id006
-  dataset: PATTERN
+  dataset: MalNet-Tiny
   rows:
-  - model: GRIT (our run)
-    model_key: grit (our run)
-    model_plain: GRIT (our run)
-    value: 0.90405
-    std: 0.00232
+  - model: Exphormer
+    model_key: exphormer
+    model_plain: Exphormer
+    value: 0.9422
+    std: 0.0024
+    paper_value: 0.9422
+    paper_std: 0.0024
     metric: Accuracy
     higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2310.20519'
-    title: Enhancing Graph Neural Networks with Quantum Computed Encodings
-    date: Oct 2023
-    date_display: Oct 2023
-    date_iso: 2023-10
-    codebase_url: ''
-    uses_external_data: false
-    is_global_top: true
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Feb 1, 2024
+    date_display: Feb 2024
+    date_iso: '2024-02-01'
     global_rank: 1
-    sort_value: 0.90405
-    sort_std: 0.00232
+    true_value: 0.9422
+    true_std: 0.0024
+    value_gap_source_arxiv: '2402.00789'
+    value_gap_source_title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling
+      with Selective State Spaces'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 1
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.9422
+    sort_std: 0.0024
     is_best: true
-  - model: GRIT 2-QiQRW
-    model_key: grit 2-qiqrw
-    model_plain: GRIT 2-QiQRW
-    value: 0.90165
-    std: 0.00446
+  - model: GSSC
+    model_key: gssc
+    model_plain: GSSC
+    value: 0.9406
+    std: 0.0064
     metric: Accuracy
     higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2310.20519'
-    title: Enhancing Graph Neural Networks with Quantum Computed Encodings
-    date: Oct 2023
-    date_display: Oct 2023
-    date_iso: 2023-10
+    arxiv_id: '2502.00282'
+    title: 'GraphMinNet: Learning Dependencies in Graphs with Light Complexity Minimal
+      Architecture'
+    date: Feb 1, 2025
+    date_display: Feb 2025
+    date_iso: '2025-02-01'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
     global_rank: 2
-    sort_value: 0.90165
-    sort_std: 0.00446
+    sort_value: 0.9406
+    sort_std: 0.0064
     is_best: true
-  - model: PPGT
-    model_key: ppgt
-    model_plain: PPGT
-    value: 0.89752
-    std: 0.0003
+  - model: LRDs
+    model_key: lrds
+    model_plain: LRDs
+    value: 0.9372
+    std: 0.0029
     metric: Accuracy
     higher_is_better: true
     is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2504.12588'
-    title: Plain Transformers Can be Powerful Graph Learners
-    date: Apr 2025
-    date_display: Apr 2025
-    date_iso: 2025-04
+    arxiv_id: '2502.00282'
+    title: 'GraphMinNet: Learning Dependencies in Graphs with Light Complexity Minimal
+      Architecture'
+    date: Feb 1, 2025
+    date_display: Feb 2025
+    date_iso: '2025-02-01'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
     global_rank: 3
-    sort_value: 0.89752
-    sort_std: 0.0003
+    sort_value: 0.9372
+    sort_std: 0.0029
+    is_best: true
+  - model: GraphGPS
+    model_key: graphgps
+    model_plain: GraphGPS
+    value: 0.935
+    std: 0.0041
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2502.00282'
+    title: 'GraphMinNet: Learning Dependencies in Graphs with Light Complexity Minimal
+      Architecture'
+    date: Feb 1, 2025
+    date_display: Feb 2025
+    date_iso: '2025-02-01'
+    codebase_url: ''
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 4
+    sort_value: 0.935
+    sort_std: 0.0041
     is_best: false
   - model: Graph-Mamba
     model_key: graph-mamba
     model_plain: Graph-Mamba
-    value: 0.8671
-    std: 0.0005
-    paper_value: 0.8671
-    paper_std: 0.0005
+    value: 0.934
+    std: 0.0027
+    paper_value: 0.934
+    paper_std: 0.0027
     metric: Accuracy
     higher_is_better: true
     is_baseline: false
     is_overridden: false
     override_reason: ''
-    params_millions: 0.285
-    table_ref: Table 4
+    params_millions: 0.285125
+    table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Feb 1, 2024
     date_display: Feb 2024
     date_iso: '2024-02-01'
-    global_rank: 23
-    true_value: 0.8714
-    true_std: 0.0012
-    value_gap_source_arxiv: '2406.05815'
-    value_gap_source_title: What Can We Learn from State Space Models for Machine
-      Learning on Graphs?
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
+    global_rank: 6
+    true_value: 0.934
+    true_std: 0.0027
+    value_gap_source_arxiv: '2402.00789'
+    value_gap_source_title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling
+      with Selective State Spaces'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
     has_value_note: false
-    value_gap: 0.0042999999999999705
+    value_gap: null
     value_note: ''
-    paper_rank: 52
-    rank_delta: 29
-    rank_delta_abs: 29
-    rank_delta_direction: worse
-    sort_value: 0.8714
-    sort_std: 0.0012
+    paper_rank: 6
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.934
+    sort_std: 0.0027
+    is_best: false
+  - model: GPS+Performer
+    model_key: gps+performer
+    model_plain: GPS+Performer
+    value: 0.9264
+    std: 0.0078
+    paper_value: 0.9264
+    paper_std: 0.0078
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Feb 1, 2024
+    date_display: Feb 2024
+    date_iso: '2024-02-01'
+    global_rank: 7
+    true_value: 0.9264
+    true_std: 0.0078
+    value_gap_source_arxiv: '2402.00789'
+    value_gap_source_title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling
+      with Selective State Spaces'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 7
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.9264
+    sort_std: 0.0078
+    is_best: false
+  - model: GPS+BigBird
+    model_key: gps+bigbird
+    model_plain: GPS+BigBird
+    value: 0.9234
+    std: 0.0034
+    paper_value: 0.9234
+    paper_std: 0.0034
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Feb 1, 2024
+    date_display: Feb 2024
+    date_iso: '2024-02-01'
+    global_rank: 8
+    true_value: 0.9234
+    true_std: 0.0034
+    value_gap_source_arxiv: '2402.00789'
+    value_gap_source_title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling
+      with Selective State Spaces'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 8
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.9234
+    sort_std: 0.0034
+    is_best: false
+  - model: GatedGCN
+    model_key: gatedgcn
+    model_plain: GatedGCN
+    value: 0.9223
+    std: 0.0065
+    paper_value: 0.9223
+    paper_std: 0.0065
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Feb 1, 2024
+    date_display: Feb 2024
+    date_iso: '2024-02-01'
+    global_rank: 9
+    true_value: 0.9223
+    true_std: 0.0065
+    value_gap_source_arxiv: '2402.00789'
+    value_gap_source_title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling
+      with Selective State Spaces'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 9
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.9223
+    sort_std: 0.0065
+    is_best: false
+  - model: GIN
+    model_key: gin
+    model_plain: GIN
+    value: 0.8898
+    std: 0.0055
+    paper_value: 0.8898
+    paper_std: 0.0055
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Feb 1, 2024
+    date_display: Feb 2024
+    date_iso: '2024-02-01'
+    global_rank: 11
+    true_value: 0.8898
+    true_std: 0.0055
+    value_gap_source_arxiv: '2402.00789'
+    value_gap_source_title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling
+      with Selective State Spaces'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 11
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.8898
+    sort_std: 0.0055
+    is_best: false
+  - model: GCN
+    model_key: gcn
+    model_plain: GCN
+    value: 0.81
+    std: null
+    paper_value: 0.81
+    paper_std: null
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Feb 1, 2024
+    date_display: Feb 2024
+    date_iso: '2024-02-01'
+    global_rank: 12
+    true_value: 0.81
+    true_std: null
+    value_gap_source_arxiv: '2402.00789'
+    value_gap_source_title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling
+      with Selective State Spaces'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 12
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.81
+    sort_std: null
+    is_best: false
+  metric: Accuracy
+  higher_is_better: true
+- &id002
+  dataset: PATTERN
+  rows:
+  - model: DGN
+    model_key: dgn
+    model_plain: DGN
+    value: 0.96
+    std: 0.002
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2010.02863'
+    title: Directional Graph Networks
+    date: Oct 2020
+    date_display: Oct 2020
+    date_iso: 2020-10
+    codebase_url: https://github.com/Saro00/DGN
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 1
+    sort_value: 0.96
+    sort_std: 0.002
+    is_best: true
+  - model: PNA
+    model_key: pna
+    model_plain: PNA
+    value: 0.93
+    std: 0.002
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2010.02863'
+    title: Directional Graph Networks
+    date: Oct 2020
+    date_display: Oct 2020
+    date_iso: 2020-10
+    codebase_url: https://github.com/Saro00/DGN
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 2
+    sort_value: 0.93
+    sort_std: 0.002
     is_best: false
   - model: GatedGCN
     model_key: gatedgcn
@@ -1501,64 +1554,26 @@ results:
     params_millions: null
     table_ref: Table 4
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Feb 1, 2024
     date_display: Feb 2024
     date_iso: '2024-02-01'
-    global_rank: 25
-    true_value: 0.87029
-    true_std: 0.00037
-    value_gap_source_arxiv: '2502.09263'
-    value_gap_source_title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks?
-      Simple Architectures Meet Excellence
+    global_rank: 3
+    true_value: 0.92
+    true_std: 0.003
+    value_gap_source_arxiv: '2010.02863'
+    value_gap_source_title: Directional Graph Networks
     value_gap_source_is_current_paper: false
     has_value_gap: true
     has_value_note: false
-    value_gap: 0.014589999999999992
+    value_gap: 0.06430000000000002
     value_note: ''
-    paper_rank: 79
-    rank_delta: 54
-    rank_delta_abs: 54
+    paper_rank: 36
+    rank_delta: 33
+    rank_delta_abs: 33
     rank_delta_direction: worse
-    sort_value: 0.87029
-    sort_std: 0.00037
-    is_best: false
-  - model: GCN
-    model_key: gcn
-    model_plain: GCN
-    value: 0.7189
-    std: 0.0033
-    paper_value: 0.7189
-    paper_std: 0.0033
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 4
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Feb 1, 2024
-    date_display: Feb 2024
-    date_iso: '2024-02-01'
-    global_rank: 26
-    true_value: 0.87021
-    true_std: 0.00095
-    value_gap_source_arxiv: '2502.09263'
-    value_gap_source_title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks?
-      Simple Architectures Meet Excellence
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.15131000000000006
-    value_note: ''
-    paper_rank: 89
-    rank_delta: 63
-    rank_delta_abs: 63
-    rank_delta_direction: worse
-    sort_value: 0.87021
-    sort_std: 0.00095
+    sort_value: 0.92
+    sort_std: 0.003
     is_best: false
   - model: GIN
     model_key: gin
@@ -1575,27 +1590,85 @@ results:
     params_millions: null
     table_ref: Table 4
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Feb 1, 2024
     date_display: Feb 2024
     date_iso: '2024-02-01'
-    global_rank: 40
-    true_value: 0.86842
-    true_std: 0.00048
-    value_gap_source_arxiv: '2502.09263'
-    value_gap_source_title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks?
-      Simple Architectures Meet Excellence
+    global_rank: 4
+    true_value: 0.91
+    true_std: 0.003
+    value_gap_source_arxiv: '2010.02863'
+    value_gap_source_title: Directional Graph Networks
     value_gap_source_is_current_paper: false
     has_value_gap: true
     has_value_note: false
-    value_gap: 0.014519999999999977
+    value_gap: 0.05610000000000004
     value_note: ''
-    paper_rank: 80
-    rank_delta: 40
-    rank_delta_abs: 40
+    paper_rank: 38
+    rank_delta: 34
+    rank_delta_abs: 34
     rank_delta_direction: worse
-    sort_value: 0.86842
-    sort_std: 0.00048
+    sort_value: 0.91
+    sort_std: 0.003
+    is_best: false
+  - model: GAT
+    model_key: gat
+    model_plain: GAT
+    value: 0.9
+    std: 0.004
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2010.02863'
+    title: Directional Graph Networks
+    date: Oct 2020
+    date_display: Oct 2020
+    date_iso: 2020-10
+    codebase_url: https://github.com/Saro00/DGN
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 5
+    sort_value: 0.9
+    sort_std: 0.004
+    is_best: false
+  - model: GCN
+    model_key: gcn
+    model_plain: GCN
+    value: 0.7189
+    std: 0.0033
+    paper_value: 0.7189
+    paper_std: 0.0033
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 4
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Feb 1, 2024
+    date_display: Feb 2024
+    date_iso: '2024-02-01'
+    global_rank: 7
+    true_value: 0.88
+    true_std: 0.005
+    value_gap_source_arxiv: '2010.02863'
+    value_gap_source_title: Directional Graph Networks
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
+    has_value_note: false
+    value_gap: 0.16110000000000002
+    value_note: ''
+    paper_rank: 45
+    rank_delta: 38
+    rank_delta_abs: 38
+    rank_delta_direction: worse
+    sort_value: 0.88
+    sort_std: 0.005
     is_best: false
   - model: Exphormer
     model_key: exphormer
@@ -1612,30 +1685,31 @@ results:
     params_millions: null
     table_ref: Table 4
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Feb 1, 2024
     date_display: Feb 2024
     date_iso: '2024-02-01'
-    global_rank: 48
-    true_value: 0.86742
+    global_rank: 19
+    true_value: 0.8674
     true_std: 0.00015
-    value_gap_source_arxiv: '2502.09365'
-    value_gap_source_title: Simple Path Structural Encoding for Graph Transformers
+    value_gap_source_arxiv: '2502.00282'
+    value_gap_source_title: 'GraphMinNet: Learning Dependencies in Graphs with Light
+      Complexity Minimal Architecture'
     value_gap_source_is_current_paper: false
     has_value_gap: true
     has_value_note: false
-    value_gap: 0.00041999999999997595
+    value_gap: 0.00039999999999995595
     value_note: ''
-    paper_rank: 53
-    rank_delta: 5
-    rank_delta_abs: 5
+    paper_rank: 22
+    rank_delta: 3
+    rank_delta_abs: 3
     rank_delta_direction: worse
-    sort_value: 0.86742
+    sort_value: 0.8674
     sort_std: 0.00015
     is_best: false
-  - model: Graph Mamba-1
-    model_key: graph mamba-1
-    model_plain: Graph Mamba-1
+  - model: Graph-Mamba
+    model_key: graph-mamba
+    model_plain: Graph-Mamba
     value: 0.8671
     std: 0.0005
     paper_value: 0.8671
@@ -1645,14 +1719,14 @@ results:
     is_baseline: false
     is_overridden: false
     override_reason: ''
-    params_millions: null
+    params_millions: 0.285125
     table_ref: Table 4
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Feb 1, 2024
     date_display: Feb 2024
     date_iso: '2024-02-01'
-    global_rank: 53
+    global_rank: 22
     true_value: 0.8671
     true_std: 0.0005
     value_gap_source_arxiv: '2402.00789'
@@ -1663,16 +1737,16 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 53
+    paper_rank: 22
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 0.8671
     sort_std: 0.0005
     is_best: false
-  - model: Graph transformer
-    model_key: graph transformer
-    model_plain: Graph transformer
+  - model: GPS+Transformer
+    model_key: gps+transformer
+    model_plain: GPS+Transformer
     value: 0.8664
     std: 0.0011
     paper_value: 0.8664
@@ -1682,14 +1756,14 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: null
+    params_millions: 0.286725
     table_ref: Table 4
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Feb 1, 2024
     date_display: Feb 2024
     date_iso: '2024-02-01'
-    global_rank: 63
+    global_rank: 28
     true_value: 0.8664
     true_std: 0.0011
     value_gap_source_arxiv: '2402.00789'
@@ -1700,53 +1774,16 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 63
+    paper_rank: 28
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 0.8664
     sort_std: 0.0011
     is_best: false
-  - model: GPS w/ Transformer
-    model_key: gps w/ transformer
-    model_plain: GPS w/ Transformer
-    value: 0.8664
-    std: 0.0011
-    paper_value: 0.8664
-    paper_std: 0.0011
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 4
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Feb 1, 2024
-    date_display: Feb 2024
-    date_iso: '2024-02-01'
-    global_rank: 64
-    true_value: 0.8664
-    true_std: 0.0011
-    value_gap_source_arxiv: '2402.00789'
-    value_gap_source_title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling
-      with Selective State Spaces'
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 64
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.8664
-    sort_std: 0.0011
-    is_best: false
-  - model: GPS + BigBird
-    model_key: gps + bigbird
-    model_plain: GPS + BigBird
+  - model: GPS+BigBird
+    model_key: gps+bigbird
+    model_plain: GPS+BigBird
     value: 0.86
     std: 0.0014
     paper_value: 0.86
@@ -1759,11 +1796,11 @@ results:
     params_millions: null
     table_ref: Table 4
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Feb 1, 2024
     date_display: Feb 2024
     date_iso: '2024-02-01'
-    global_rank: 73
+    global_rank: 32
     true_value: 0.86
     true_std: 0.0014
     value_gap_source_arxiv: '2402.00789'
@@ -1774,16 +1811,16 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 73
+    paper_rank: 32
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 0.86
     sort_std: 0.0014
     is_best: false
-  - model: GPS + Performer
-    model_key: gps + performer
-    model_plain: GPS + Performer
+  - model: GPS+Performer
+    model_key: gps+performer
+    model_plain: GPS+Performer
     value: 0.8334
     std: 0.0029
     paper_value: 0.8334
@@ -1796,11 +1833,11 @@ results:
     params_millions: null
     table_ref: Table 4
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Feb 1, 2024
     date_display: Feb 2024
     date_iso: '2024-02-01'
-    global_rank: 85
+    global_rank: 42
     true_value: 0.8334
     true_std: 0.0029
     value_gap_source_arxiv: '2402.00789'
@@ -1811,7 +1848,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 85
+    paper_rank: 42
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1820,32 +1857,9 @@ results:
     is_best: false
   metric: Accuracy
   higher_is_better: true
-- &id003
+- &id001
   dataset: PCQM-Contact
   rows:
-  - model: FloydNet
-    model_key: floydnet
-    model_plain: FloydNet
-    value: 0.6143
-    std: null
-    metric: MRR
-    higher_is_better: true
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2601.19094'
-    title: 'FloydNet: A Learning Paradigm for Global Relational Reasoning'
-    date: Jan 2026
-    date_display: Jan 2026
-    date_iso: 2026-01
-    codebase_url: ''
-    uses_external_data: false
-    is_global_top: true
-    global_rank: 1
-    sort_value: 0.6143
-    sort_std: null
-    is_best: true
   - model: ViT-PS
     model_key: vit-ps
     model_plain: ViT-PS
@@ -1853,7 +1867,7 @@ results:
     std: null
     metric: MRR
     higher_is_better: true
-    is_baseline: false
+    is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
@@ -1862,109 +1876,242 @@ results:
     date: Jun 2023
     date_display: Jun 2023
     date_iso: 2023-06
-    codebase_url: ''
+    codebase_url: https://github.com/jw9730/lps
     uses_external_data: null
     is_global_top: true
-    global_rank: 2
+    global_rank: 1
     sort_value: 0.5341
     sort_std: null
+    is_best: true
+  - model: Exphormer
+    model_key: exphormer
+    model_plain: Exphormer
+    value: 0.3587
+    std: 0.0025
+    paper_value: 0.3587
+    paper_std: 0.0025
+    metric: MRR
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 2 (Benchmark on Short to Medium-Range Graph Datasets)
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Feb 1, 2024
+    date_display: Feb 2024
+    date_iso: '2024-02-01'
+    global_rank: 2
+    true_value: 0.3637
+    true_std: 0.002
+    value_gap_source_arxiv: '2303.06147'
+    value_gap_source_title: 'Exphormer: Sparse Transformers for Graphs'
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
+    has_value_note: false
+    value_gap: 0.0050000000000000044
+    value_note: ''
+    paper_rank: 2
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.3637
+    sort_std: 0.002
     is_best: false
-  - model: NeuralWalker
-    model_key: neuralwalker
-    model_plain: NeuralWalker
-    value: 0.4707
-    std: 0.0007
+  - model: SGT
+    model_key: sgt
+    model_plain: SGT
+    value: 0.345
+    std: 0.0002
     metric: MRR
     higher_is_better: true
     is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2406.03386'
-    title: Learning Long Range Dependencies on Graphs via Random Walks
-    date: Jun 2024
-    date_display: Jun 2024
-    date_iso: 2024-06
-    codebase_url: ''
+    arxiv_id: '2405.13806'
+    title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
+    date: May 22, 2024
+    date_display: May 2024
+    date_iso: '2024-05-22'
+    codebase_url: https://github.com/liun-online/WaveGC
     uses_external_data: false
     is_global_top: true
     global_rank: 3
-    sort_value: 0.4707
-    sort_std: 0.0007
+    sort_value: 0.345
+    sort_std: 0.0002
     is_best: false
-  - model: GatedGCN
-    model_key: gatedgcn
-    model_plain: GatedGCN
-    value: 0.3218
-    std: 0.0011
-    paper_value: 0.3218
-    paper_std: 0.0011
+  - model: GPS+Transformer
+    model_key: gps+transformer
+    model_plain: GPS+Transformer
+    value: 0.3442
+    std: 0.0009
+    paper_value: 0.3442
+    paper_std: 0.0009
+    metric: MRR
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.286725
+    table_ref: Table 2 (Benchmark on Short to Medium-Range Graph Datasets)
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Feb 1, 2024
+    date_display: Feb 2024
+    date_iso: '2024-02-01'
+    global_rank: 4
+    true_value: 0.3442
+    true_std: 0.0009
+    value_gap_source_arxiv: '2402.00789'
+    value_gap_source_title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling
+      with Selective State Spaces'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 4
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.3442
+    sort_std: 0.0009
+    is_best: false
+  - model: GPS+Performer
+    model_key: gps+performer
+    model_plain: GPS+Performer
+    value: 0.3437
+    std: 0.0005
+    paper_value: 0.3437
+    paper_std: 0.0005
     metric: MRR
     higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    table_ref: Table 2
+    table_ref: Table 2 (Benchmark on Short to Medium-Range Graph Datasets)
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Feb 1, 2024
     date_display: Feb 2024
     date_iso: '2024-02-01'
     global_rank: 5
-    true_value: 0.467
-    true_std: 0.0004
-    value_gap_source_arxiv: '2406.03386'
-    value_gap_source_title: Learning Long Range Dependencies on Graphs via Random
-      Walks
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
+    true_value: 0.3437
+    true_std: 0.0005
+    value_gap_source_arxiv: '2402.00789'
+    value_gap_source_title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling
+      with Selective State Spaces'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
     has_value_note: false
-    value_gap: 0.14520000000000005
+    value_gap: null
     value_note: ''
-    paper_rank: 61
-    rank_delta: 56
-    rank_delta_abs: 56
-    rank_delta_direction: worse
-    sort_value: 0.467
-    sort_std: 0.0004
+    paper_rank: 5
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.3437
+    sort_std: 0.0005
     is_best: false
-  - model: GIN
-    model_key: gin
-    model_plain: GIN
-    value: 0.318
-    std: 0.0027
-    paper_value: 0.318
-    paper_std: 0.0027
+  - model: DEFT
+    model_key: deft
+    model_plain: DEFT
+    value: 0.3425
+    std: 0.0006
     metric: MRR
     higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    table_ref: Table 2
+    arxiv_id: '2405.13806'
+    title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
+    date: May 22, 2024
+    date_display: May 2024
+    date_iso: '2024-05-22'
+    codebase_url: https://github.com/liun-online/WaveGC
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 6
+    sort_value: 0.3425
+    sort_std: 0.0006
+    is_best: false
+  - model: Graph-Mamba
+    model_key: graph-mamba
+    model_plain: Graph-Mamba
+    value: 0.3395
+    std: 0.0013
+    paper_value: 0.3395
+    paper_std: 0.0013
+    metric: MRR
+    higher_is_better: true
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.285125
+    table_ref: Table 2 (Benchmark on Short to Medium-Range Graph Datasets)
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Feb 1, 2024
     date_display: Feb 2024
     date_iso: '2024-02-01'
-    global_rank: 6
-    true_value: 0.4617
-    true_std: 0.0005
-    value_gap_source_arxiv: '2406.03386'
-    value_gap_source_title: Learning Long Range Dependencies on Graphs via Random
-      Walks
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
+    global_rank: 9
+    true_value: 0.3395
+    true_std: 0.0013
+    value_gap_source_arxiv: '2402.00789'
+    value_gap_source_title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling
+      with Selective State Spaces'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
     has_value_note: false
-    value_gap: 0.1437
+    value_gap: null
     value_note: ''
-    paper_rank: 61
-    rank_delta: 55
-    rank_delta_abs: 55
-    rank_delta_direction: worse
-    sort_value: 0.4617
-    sort_std: 0.0005
+    paper_rank: 9
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.3395
+    sort_std: 0.0013
+    is_best: false
+  - model: GPS+BigBird
+    model_key: gps+bigbird
+    model_plain: GPS+BigBird
+    value: 0.3391
+    std: 0.0002
+    paper_value: 0.3391
+    paper_std: 0.0002
+    metric: MRR
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 2 (Benchmark on Short to Medium-Range Graph Datasets)
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Feb 1, 2024
+    date_display: Feb 2024
+    date_iso: '2024-02-01'
+    global_rank: 10
+    true_value: 0.3391
+    true_std: 0.0002
+    value_gap_source_arxiv: '2402.00789'
+    value_gap_source_title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling
+      with Selective State Spaces'
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 10
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.3391
+    sort_std: 0.0002
     is_best: false
   - model: GCN
     model_key: gcn
@@ -1979,422 +2126,87 @@ results:
     is_overridden: false
     override_reason: ''
     params_millions: null
-    table_ref: Table 2
+    table_ref: Table 2 (Benchmark on Short to Medium-Range Graph Datasets)
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Feb 1, 2024
     date_display: Feb 2024
     date_iso: '2024-02-01'
-    global_rank: 7
-    true_value: 0.4526
+    global_rank: 21
+    true_value: 0.3234
     true_std: 0.0006
-    value_gap_source_arxiv: '2406.03386'
-    value_gap_source_title: Learning Long Range Dependencies on Graphs via Random
-      Walks
+    value_gap_source_arxiv: '2206.08164'
+    value_gap_source_title: Long Range Graph Benchmark
     value_gap_source_is_current_paper: false
-    has_value_gap: true
+    has_value_gap: false
     has_value_note: false
-    value_gap: 0.12919999999999998
+    value_gap: null
     value_note: ''
-    paper_rank: 60
-    rank_delta: 53
-    rank_delta_abs: 53
-    rank_delta_direction: worse
-    sort_value: 0.4526
+    paper_rank: 21
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.3234
     sort_std: 0.0006
     is_best: false
-  - model: Exphormer
-    model_key: exphormer
-    model_plain: Exphormer
-    value: 0.3587
-    std: 0.0025
-    paper_value: 0.3587
-    paper_std: 0.0025
+  - model: GatedGCN
+    model_key: gatedgcn
+    model_plain: GatedGCN
+    value: 0.3218
+    std: 0.0011
+    paper_value: 0.3218
+    paper_std: 0.0011
     metric: MRR
     higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    table_ref: Table 2
+    table_ref: Table 2 (Benchmark on Short to Medium-Range Graph Datasets)
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Feb 1, 2024
     date_display: Feb 2024
     date_iso: '2024-02-01'
-    global_rank: 10
-    true_value: 0.3637
-    true_std: 0.002
-    value_gap_source_arxiv: '2401.01233'
-    value_gap_source_title: 'GEN: A Practical Alternative to Graph Transformers for
-      Long-Range Graph Modeling'
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.0050000000000000044
-    value_note: ''
-    paper_rank: 10
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.3637
-    sort_std: 0.002
-    is_best: false
-  - model: Graph transformer
-    model_key: graph transformer
-    model_plain: Graph transformer
-    value: 0.3442
-    std: 0.0009
-    paper_value: 0.3442
-    paper_std: 0.0009
-    metric: MRR
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 2
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Feb 1, 2024
-    date_display: Feb 2024
-    date_iso: '2024-02-01'
-    global_rank: 26
-    true_value: 0.3442
-    true_std: 0.0009
-    value_gap_source_arxiv: '2402.00789'
-    value_gap_source_title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling
-      with Selective State Spaces'
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 26
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.3442
-    sort_std: 0.0009
-    is_best: false
-  - model: GPS w/ Transformer
-    model_key: gps w/ transformer
-    model_plain: GPS w/ Transformer
-    value: 0.3442
-    std: 0.0009
-    paper_value: 0.3442
-    paper_std: 0.0009
-    metric: MRR
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 2
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Feb 1, 2024
-    date_display: Feb 2024
-    date_iso: '2024-02-01'
-    global_rank: 27
-    true_value: 0.3442
-    true_std: 0.0009
-    value_gap_source_arxiv: '2402.00789'
-    value_gap_source_title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling
-      with Selective State Spaces'
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 27
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.3442
-    sort_std: 0.0009
-    is_best: false
-  - model: GPS + Performer
-    model_key: gps + performer
-    model_plain: GPS + Performer
-    value: 0.3437
-    std: 0.0005
-    paper_value: 0.3437
-    paper_std: 0.0005
-    metric: MRR
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 2
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Feb 1, 2024
-    date_display: Feb 2024
-    date_iso: '2024-02-01'
-    global_rank: 30
-    true_value: 0.3437
-    true_std: 0.0005
-    value_gap_source_arxiv: '2402.00789'
-    value_gap_source_title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling
-      with Selective State Spaces'
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 30
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.3437
-    sort_std: 0.0005
-    is_best: false
-  - model: Graph Mamba-1
-    model_key: graph mamba-1
-    model_plain: Graph Mamba-1
-    value: 0.3395
-    std: 0.0013
-    paper_value: 0.3395
-    paper_std: 0.0013
-    metric: MRR
-    higher_is_better: true
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 2
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Feb 1, 2024
-    date_display: Feb 2024
-    date_iso: '2024-02-01'
-    global_rank: 38
-    true_value: 0.3395
-    true_std: 0.0013
-    value_gap_source_arxiv: '2401.01233'
-    value_gap_source_title: 'GEN: A Practical Alternative to Graph Transformers for
-      Long-Range Graph Modeling'
+    global_rank: 22
+    true_value: 0.3218
+    true_std: 0.0011
+    value_gap_source_arxiv: '2206.08164'
+    value_gap_source_title: Long Range Graph Benchmark
     value_gap_source_is_current_paper: false
     has_value_gap: false
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 38
+    paper_rank: 22
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
-    sort_value: 0.3395
-    sort_std: 0.0013
+    sort_value: 0.3218
+    sort_std: 0.0011
     is_best: false
-  - model: Graph-Mamba
-    model_key: graph-mamba
-    model_plain: Graph-Mamba
-    value: 0.3395
-    std: 0.0013
-    paper_value: 0.3395
-    paper_std: 0.0013
-    metric: MRR
-    higher_is_better: true
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: 0.285
-    table_ref: Table 2
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Feb 1, 2024
-    date_display: Feb 2024
-    date_iso: '2024-02-01'
-    global_rank: 39
-    true_value: 0.3395
-    true_std: 0.0013
-    value_gap_source_arxiv: '2410.13798'
-    value_gap_source_title: Learning Graph Quantized Tokenizers
-    value_gap_source_is_current_paper: false
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 39
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.3395
-    sort_std: 0.0013
-    is_best: false
-  - model: GPS + BigBird
-    model_key: gps + bigbird
-    model_plain: GPS + BigBird
-    value: 0.3391
-    std: 0.0002
-    paper_value: 0.3391
-    paper_std: 0.0002
+  - model: GIN
+    model_key: gin
+    model_plain: GIN
+    value: 0.318
+    std: 0.0027
+    paper_value: 0.318
+    paper_std: 0.0027
     metric: MRR
     higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    table_ref: Table 2
+    table_ref: Table 2 (Benchmark on Short to Medium-Range Graph Datasets)
     source_ref: this paper
-    variant_inference_reason: ''
-    date: Feb 1, 2024
-    date_display: Feb 2024
-    date_iso: '2024-02-01'
-    global_rank: 40
-    true_value: 0.3391
-    true_std: 0.0002
-    value_gap_source_arxiv: '2402.00789'
-    value_gap_source_title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling
-      with Selective State Spaces'
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 40
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.3391
-    sort_std: 0.0002
-    is_best: false
-  metric: MRR
-  higher_is_better: true
-- &id002
-  dataset: PascalVOC-SP
-  rows:
-  - model: GRASS
-    model_key: grass
-    model_plain: GRASS
-    value: 0.567
-    std: 0.0049
-    metric: F1
-    higher_is_better: true
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: 0.5
-    arxiv_id: '2407.05649'
-    title: 'Greener GRASS: Enhancing GNNs with Encoding, Rewiring, and Attention'
-    date: Jul 2024
-    date_display: Jul 2024
-    date_iso: 2024-07
-    codebase_url: ''
-    uses_external_data: false
-    is_global_top: true
-    global_rank: 1
-    sort_value: 0.567
-    sort_std: 0.0049
-    is_best: true
-  - model: NeuralWalker
-    model_key: neuralwalker
-    model_plain: NeuralWalker
-    value: 0.4912
-    std: 0.0042
-    metric: F1
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2407.05649'
-    title: 'Greener GRASS: Enhancing GNNs with Encoding, Rewiring, and Attention'
-    date: Jul 2024
-    date_display: Jul 2024
-    date_iso: 2024-07
-    codebase_url: ''
-    uses_external_data: false
-    is_global_top: true
-    global_rank: 2
-    sort_value: 0.4912
-    sort_std: 0.0042
-    is_best: false
-  - model: GENs
-    model_key: gens
-    model_plain: GENs
-    value: 0.4653
-    std: 0.0097
-    metric: F1
-    higher_is_better: true
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2401.01233'
-    title: 'GEN: A Practical Alternative to Graph Transformers for Long-Range Graph
-      Modeling'
-    date: Jan 2024
-    date_display: Jan 2024
-    date_iso: 2024-01
-    codebase_url: ''
-    uses_external_data: false
-    is_global_top: true
-    global_rank: 3
-    sort_value: 0.4653
-    sort_std: 0.0097
-    is_best: false
-  - model: Graph-Mamba (Node Level + Degree)
-    model_key: graph-mamba (node level + degree)
-    model_plain: Graph-Mamba (Node Level + Degree)
-    value: 0.4314
-    std: null
-    paper_value: 0.4314
-    paper_std: null
-    metric: F1
-    higher_is_better: true
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Feb 1, 2024
-    date_display: Feb 2024
-    date_iso: '2024-02-01'
-    global_rank: 17
-    true_value: 0.4314
-    true_std: null
-    value_gap_source_arxiv: '2402.00789'
-    value_gap_source_title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling
-      with Selective State Spaces'
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 17
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.4314
-    sort_std: null
-    is_best: false
-  - model: Permutation-only
-    model_key: permutation-only
-    model_plain: Permutation-only
-    value: 0.4193
-    std: null
-    paper_value: 0.4193
-    paper_std: null
-    metric: F1
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Feb 1, 2024
     date_display: Feb 2024
     date_iso: '2024-02-01'
     global_rank: 24
-    true_value: 0.4193
-    true_std: null
+    true_value: 0.318
+    true_std: 0.0027
     value_gap_source_arxiv: '2402.00789'
     value_gap_source_title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling
       with Selective State Spaces'
@@ -2407,245 +2219,25 @@ results:
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
-    sort_value: 0.4193
-    sort_std: null
+    sort_value: 0.318
+    sort_std: 0.0027
     is_best: false
-  - model: Baseline training procedure
-    model_key: baseline training procedure
-    model_plain: Baseline training procedure
-    value: 0.3105
-    std: null
-    paper_value: 0.3105
-    paper_std: null
-    metric: F1
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Feb 1, 2024
-    date_display: Feb 2024
-    date_iso: '2024-02-01'
-    global_rank: 70
-    true_value: 0.3105
-    true_std: null
-    value_gap_source_arxiv: '2402.00789'
-    value_gap_source_title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling
-      with Selective State Spaces'
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 70
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.3105
-    sort_std: null
-    is_best: false
-  metric: F1
-  higher_is_better: true
-- &id001
-  dataset: Peptides-func
-  rows:
-  - model: LightGBM (ECFP)
-    model_key: lightgbm (ecfp)
-    model_plain: LightGBM (ECFP)
-    value: 0.746
-    std: null
-    metric: AP
-    higher_is_better: true
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2501.17901'
-    title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: Jan 29, 2025
-    date_display: Jan 2025
-    date_iso: '2025-01-29'
-    codebase_url: ''
-    uses_external_data: false
-    is_global_top: true
-    global_rank: 1
-    sort_value: 0.746
-    sort_std: null
-    is_best: true
-  - model: Random Forest (ECFP)
-    model_key: random forest (ecfp)
-    model_plain: Random Forest (ECFP)
-    value: 0.7355
-    std: 0.001
-    metric: AP
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2501.17901'
-    title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: Jan 29, 2025
-    date_display: Jan 2025
-    date_iso: '2025-01-29'
-    codebase_url: ''
-    uses_external_data: false
-    is_global_top: true
-    global_rank: 2
-    sort_value: 0.7355
-    sort_std: 0.001
-    is_best: false
-  - model: LightGBM (TT)
-    model_key: lightgbm (tt)
-    model_plain: LightGBM (TT)
-    value: 0.7318
-    std: null
-    metric: AP
-    higher_is_better: true
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2501.17901'
-    title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: Jan 29, 2025
-    date_display: Jan 2025
-    date_iso: '2025-01-29'
-    codebase_url: ''
-    uses_external_data: false
-    is_global_top: true
-    global_rank: 3
-    sort_value: 0.7318
-    sort_std: null
-    is_best: false
-  - model: Graph-Mamba (Node Level Permutation + Degree Prioritization)
-    model_key: graph-mamba (node level permutation + degree prioritization)
-    model_plain: Graph-Mamba (Node Level Permutation + Degree Prioritization)
-    value: 0.6834
-    std: null
-    paper_value: 0.6834
-    paper_std: null
-    metric: AP
-    higher_is_better: true
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Feb 1, 2024
-    date_display: Feb 2024
-    date_iso: '2024-02-01'
-    global_rank: 95
-    true_value: 0.6834
-    true_std: null
-    value_gap_source_arxiv: '2402.00789'
-    value_gap_source_title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling
-      with Selective State Spaces'
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 95
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.6834
-    sort_std: null
-    is_best: false
-  - model: Graph-Mamba (Node Level Permutation)
-    model_key: graph-mamba (node level permutation)
-    model_plain: Graph-Mamba (Node Level Permutation)
-    value: 0.6821
-    std: null
-    paper_value: 0.6821
-    paper_std: null
-    metric: AP
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Feb 1, 2024
-    date_display: Feb 2024
-    date_iso: '2024-02-01'
-    global_rank: 101
-    true_value: 0.6821
-    true_std: null
-    value_gap_source_arxiv: '2402.00789'
-    value_gap_source_title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling
-      with Selective State Spaces'
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 101
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.6821
-    sort_std: null
-    is_best: false
-  - model: Graph-Mamba
-    model_key: graph-mamba
-    model_plain: Graph-Mamba
-    value: 0.6581
-    std: null
-    paper_value: 0.6581
-    paper_std: null
-    metric: AP
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: 0.285
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Feb 1, 2024
-    date_display: Feb 2024
-    date_iso: '2024-02-01'
-    global_rank: 118
-    true_value: 0.6739
-    true_std: 0.0087
-    value_gap_source_arxiv: '2502.09263'
-    value_gap_source_title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks?
-      Simple Architectures Meet Excellence
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.015800000000000036
-    value_note: ''
-    paper_rank: 161
-    rank_delta: 43
-    rank_delta_abs: 43
-    rank_delta_direction: worse
-    sort_value: 0.6739
-    sort_std: 0.0087
-    is_best: false
-  metric: AP
+  metric: MRR
   higher_is_better: true
 results_grouped:
 - benchmark: LRGB
   datasets:
   - *id001
-  - *id002
-  - *id003
 - benchmark: GNNBenchmark
   datasets:
+  - *id002
+  - *id003
   - *id004
   - *id005
+- benchmark: Other Graph Benchmarks
+  datasets:
   - *id006
-  - *id007
+single_proposed_model: Graph-Mamba
 main_figure: /figures/2402.00789/main_figure.png
 ---
 

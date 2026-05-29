@@ -8,37 +8,52 @@ description: Papers rejected by LLM screening
 
 This page shows papers that were identified but rejected by the LLM screening pipeline. The screening happens in two stages: Stage 1 filters for general relevance to graph neural network research, and Stage 2 checks whether the paper evaluates results on known benchmarks. Papers that pass both stages proceed to full result extraction.
 
-### Stage 1 Rejections: 25
+### Stage 1 Rejections: 40
 
 Stage 1 rejects papers that are deemed not relevant to graph neural networks. These are typically papers in unrelated fields that happened to mention GNNs or graph concepts, but don't focus on benchmarking graph neural network models.
 
 | ArXiv | Title | Reason |
 |-------|-------|--------|
-| 2502.02479 | Using Random Noise Equivariantly to Boost Graph Neural... | The paper mentions experiments demonstrating performance on 'node-level, link-le |
-| 2411.17429 | Graph Rewiring in GNNs to Mitigate Over-Squashing and... | This is a survey paper that reviews existing graph rewiring techniques without p |
-| 2411.05274 | Distributed-Order Fractional Graph Operating Network | The paper mentions empirical evaluations across 'a range of graph learning tasks |
-| 2410.09118 | FSW-GNN: A Bi-Lipschitz WL-Equivalent Graph Neural Network | The paper mentions empirical evaluation but does not specify which standard data |
-| 2506.04653 | The Oversmoothing Fallacy: A Misguided Narrative in GNN... | The paper is a position paper that discusses theoretical aspects of GNNs and doe |
-| 2506.01231 | Towards Efficient Few-shot Graph Neural Architecture Search via... | The paper mentions experimental results and SOTA performance but does not specif |
-| 2505.20215 | Dependency Parsing is More Parameter-Efficient with Normalization | Paper mentions experiments on 'semantic and syntactic dependency parsing in mult |
-| 2505.18728 | Message-Passing State-Space Models: Improving Graph Learning with Modern... | Paper mentions validation across 'wide range of tasks' including node classifica |
-| 2505.18088 | Early-Exit Graph Neural Networks | The paper mentions experiments and competitive results but does not specify whic |
-| 2505.15547 | Oversmoothing, Oversquashing, Heterophily, Long-Range, and more: Demystifying Common... | The paper focuses on conceptual analysis and refuting common beliefs in graph ML |
-| 2505.14606 | Electrostatics from Laplacian Eigenbasis for Neural Network Interatomic... | The paper focuses on introducing a new method (Phi-Module) for learning electros |
-| 2505.12880 | AdS-GNN -- a Conformally Equivariant Graph Neural Network | Paper focuses on theoretical development of AdS-GNN and demonstrates performance |
-| 2505.11346 | What Can We Learn From MIMO Graph Convolutions? | The paper focuses on deriving and analyzing MIMO graph convolutions theoreticall |
-| 2504.19649 | Intelligent4DSE: Optimizing High-Level Synthesis Design Space Exploration with... | The paper evaluates its methods on a specific domain (HLS DSE) but does not ment |
-| 2504.10917 | Towards A Universal Graph Structural Encoder | The paper mentions 'synthetic and real-world datasets' but does not specify any  |
-| 2504.08802 | InfoGain Wavelets: Furthering the Design of Graph Diffusion... | The paper mentions 'graph classification experiments' but does not specify which |
-| 2502.16533 | A Survey of Graph Transformers: Architectures, Theories and... | This is a survey paper that reviews existing work on graph transformers without  |
-| 2502.16454 | MAPN: Enhancing Heterogeneous Sparse Graph Representation by Mamba-based... | The paper mentions 'extensive experiments across diverse datasets' but does not  |
-| 2502.14546 | Position: Graph Learning Will Lose Relevance Due To... | This is a position paper that critiques current benchmarking practices rather th |
-| 2408.05391 | SAMSA: Efficient Transformer for Many Data Modalities | While the paper mentions 'many benchmarks' and reports competitive SOTA results, |
-| 2402.02287 | Future Directions in the Theory of Graph Machine... | The paper is explicitly identified as a 'position paper' arguing for theoretical |
-| 2604.00199 | QUEST: A robust attention formulation using Query-modulated spherical... | The paper focuses on Transformer attention mechanisms for vision and general dee |
-| 2512.12642 | Torch Geometric Pool: the PyTorch library for pooling... | This is a software library/tooling paper (Torch Geometric Pool) providing a unif |
-| 2310.11829 | Graph Foundation Models: Concepts, Opportunities and Challenges | This is a survey/review paper discussing concepts and opportunities of Graph Fou |
-| 2309.08478 | Current and future directions in network biology | This is a perspective/roadmap paper on network biology. It discusses research di |
+| 2404.13604 | Formatting Instructions For NeurIPS 2024 | This is a formatting instruction template for a conference submission, not a res |
+| 1706.03762 | Attention Is All You Need | This paper introduces the Transformer architecture for sequence transduction (NL |
+| 2302.02941 | arXiv:2302.02941 | The paper is explicitly stated as a 'theoretical work' that proves properties ab |
+| 1912.01703 | PyTorch: An Imperative Style, High-Performance Deep Learning Library | This is a systems/framework paper describing the PyTorch library itself. While i |
+| 2010.11929 | An Image is Worth 16x16 Words: Transformers for... | This is a computer vision paper (Vision Transformer) using image classification  |
+| 2407.03125 | Foundations and Frontiers of Graph Learning Theory | This is a survey/theoretical overview paper focusing on theoretical foundations  |
+| 2506.05971 | arXiv:2506.05971 | The paper is theoretical/methodological, focusing on formalizing a 'range measur |
+| 2505.15547 | Oversmoothing, ``Oversquashing'', Heterophily, Long-Range, and more: Demystifying Common... | The paper is a theoretical/position paper focused on clarifying conceptual belie |
+| 2202.11097 | Message passing all the way up | The paper is explicitly identified as a position paper arguing against terminolo |
+| 2303.00613 | Formatting Instructions for ICLR 2023 Conference Submissions | This is a formatting instruction document for conference submissions, not a rese |
+| 1806.01261 | Relational inductive biases, deep learning, and graph networks | This is a position/review paper introducing the 'graph network' architecture con |
+| 1907.03199 | What Graph Neural Networks Cannot Learn: Depth vs... | The paper is purely theoretical, focusing on expressive power, Turing universali |
+| 2201.12884 | A Theoretical Comparison of Graph Neural Network Extensions | Purely theoretical paper focusing on expressivity comparisons via mathematical c |
+| 1901.09342 | arXiv:1901.09342 | Purely theoretical paper on universality of invariant networks; no experiments o |
+| 1512.03385 | Deep Residual Learning for Image Recognition | Paper is about image recognition (CNNs) on ImageNet and CIFAR-10, not graph mach |
+| 2402.02287 | Directions in the Theory of Graph Machine Learning | The paper is explicitly identified as a 'position paper' arguing for a shift in  |
+| 2602.10031 | arXiv:2602.10031 | Purely theoretical and conceptual paper arguing for unification of MPNN and spec |
+| 2002.06157 | Generalization and Representational Limits of Graph Neural Networks | The paper is purely theoretical, focusing on mathematical proofs of representati |
+| 1905.04943 | Universal Invariant and Equivariant Graph Neural Networks | Purely theoretical paper proving universality theorems for invariant and equivar |
+| 1502.03167 | Batch Normalization: Accelerating Deep Network Training by Reducing... | Paper focuses on image classification (Computer Vision) using ImageNet. It does  |
+| 2406.04336 | arXiv:2406.04336 | The paper is purely theoretical, focusing on the expressive power and unificatio |
+| 2005.03675 | Machine Learning on Graphs: A Model and Comprehensive... | This is a theoretical survey and taxonomy paper proposing a unifying framework ( |
+| 2006.13318 | arXiv:2006.13318 | The paper is purely theoretical, focusing on analyzing the over-smoothing effect |
+| 1810.04805 | BERT: Pre-training of Deep Bidirectional Transformers for Language... | This is a natural language processing (NLP) paper focused on text transformers.  |
+| 1709.05584 | Representation Learning on Graphs: Methods and Applications | This is a conceptual review/survey paper. While it discusses methods and applica |
+| 2402.02216 | arXiv:2402.02216 | This is a perspective/theoretical paper proposing a 'graph vocabulary' concept f |
+| 2502.14546 | arXiv:2502.14546 | The abstract explicitly identifies the paper as a 'position paper' calling for a |
+| 2205.09702 | Parallel and Distributed Graph Neural Networks: An In-Depth... | The paper is a theoretical concurrency analysis and taxonomy of GNN parallelism. |
+| 1211.0053 | The Emerging Field of Signal Processing on Graphs... | This is a tutorial/overview paper on signal processing on graphs (SPG). It surve |
+| 0912.3848 | Wavelets on Graphs via Spectral Graph Theory | The paper proposes a theoretical method for constructing spectral graph wavelets |
+| 2007.12035 | The expressive power of kth-order invariant graph networks | Purely theoretical paper proving expressivity bounds between k-IGNs and k-WL; no |
+| 1607.06450 | Layer Normalization | This paper introduces Layer Normalization, a general neural network optimization |
+| 1811.04801 | On Weisfeiler-Leman Invariance: Subgraph Counts and Related Graph... | Purely theoretical paper on Weisfeiler-Leman invariance and subgraph counts. No  |
+| 2605.08291 | Graph Computation Meets Circuit Algebra: A Task-Aligned Analysis... | The paper is a position/analysis paper reviewing GNN applications in EDA. It exp |
+| 2305.16102 | Demystifying Oversmoothing in Attention-Based Graph Neural Networks | The paper is purely theoretical, focusing on mathematical analysis of oversmooth |
+| 2204.10037 | AAAI Press Formatting Instructions for Authors Using ---... | This is a formatting guide for AAAI submissions, not a research paper with bench |
+| 2204.07697 | Theory of Graph Neural Networks: Representation and Learning | The paper is a theoretical survey summarizing approximation and learning propert |
+| 2007.14062 | Big Bird: Transformers for Longer Sequences | Paper focuses on NLP transformers and sequence modeling, not graph machine learn |
+| 1310.4546 | Distributed Representations of Words and Phrases and their... | This paper introduces Word2Vec, a method for learning word embeddings from text  |
+| 1905.10261 | Approximation Ratios of Graph Neural Networks for Combinatorial... | Purely theoretical paper establishing approximation ratios for GNNs on combinato |
 
 ### Stage 2 Rejections: 0
 

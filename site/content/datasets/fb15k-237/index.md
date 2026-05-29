@@ -12,225 +12,159 @@ stats:
   avg_nodes: 14541.0
   avg_edges: 272115.0
   num_classes: 237
-result_count: 10
+result_count: 7
 best_model:
-  model: RWPT
-  value: 0.9523
-  metric: Accuracy
-  arxiv_id: '2506.14098'
-  paper_title: 'Toward a Graph Foundation Model: Pre-Training Transformers With Random
-    Walks'
+  model: R-GCN
+  value: 0.249
+  metric: MRR
+  arxiv_id: '1703.06103'
+  paper_title: Modeling Relational Data with Graph Convolutional Networks
 variants:
 - slug: standard-split
   name: Standard split
   notes: Toutanova & Chen 2015 split. Also reports Hits@1, Hits@3, Hits@10.
   is_standard: true
-  primary_metric: Accuracy
+  primary_metric: MRR
   higher_is_better: true
   stats:
     num_graphs: null
     avg_nodes: null
     avg_edges: null
   metrics:
-  - Accuracy
+  - MRR
   rows:
-  - model: RWPT
-    model_plain: RWPT
+  - model: R-GCN
+    model_plain: R-GCN
     is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2506.14098'
-    title: 'Toward a Graph Foundation Model: Pre-Training Transformers With Random
-      Walks'
-    date: Jun 2025
-    date_iso: 2025-06
-    date_display: Jun 2025
+    arxiv_id: '1703.06103'
+    title: Modeling Relational Data with Graph Convolutional Networks
+    date: Mar 2017
+    date_iso: 2017-03
+    date_display: Mar 2017
     codebase_url: ''
     uses_external_data: false
     is_best: true
     metric_values:
-    - 0.9523
+    - 0.249
     metric_stds:
     - null
-  - model: GFT
-    model_plain: GFT
+  - model: TransE
+    model_plain: TransE
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2506.14098'
-    title: 'Toward a Graph Foundation Model: Pre-Training Transformers With Random
-      Walks'
-    date: Jun 2025
-    date_iso: 2025-06
-    date_display: Jun 2025
+    arxiv_id: '1703.06103'
+    title: Modeling Relational Data with Graph Convolutional Networks
+    date: Mar 2017
+    date_iso: 2017-03
+    date_display: Mar 2017
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.8972
+    - 0.233
     metric_stds:
     - null
-  - model: GAT
-    model_plain: GAT
+  - model: HolE
+    model_plain: HolE
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2506.14098'
-    title: 'Toward a Graph Foundation Model: Pre-Training Transformers With Random
-      Walks'
-    date: Jun 2025
-    date_iso: 2025-06
-    date_display: Jun 2025
+    arxiv_id: '1703.06103'
+    title: Modeling Relational Data with Graph Convolutional Networks
+    date: Mar 2017
+    date_iso: 2017-03
+    date_display: Mar 2017
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.8893
+    - 0.222
     metric_stds:
     - null
-  - model: GIANT
-    model_plain: GIANT
+  - model: ComplEx
+    model_plain: ComplEx
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2506.14098'
-    title: 'Toward a Graph Foundation Model: Pre-Training Transformers With Random
-      Walks'
-    date: Jun 2025
-    date_iso: 2025-06
-    date_display: Jun 2025
+    arxiv_id: '1703.06103'
+    title: Modeling Relational Data with Graph Convolutional Networks
+    date: Mar 2017
+    date_iso: 2017-03
+    date_display: Mar 2017
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.8745
+    - 0.201
     metric_stds:
     - null
-  - model: MLP
-    model_plain: MLP
+  - model: DistMult
+    model_plain: DistMult
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2506.14098'
-    title: 'Toward a Graph Foundation Model: Pre-Training Transformers With Random
-      Walks'
-    date: Jun 2025
-    date_iso: 2025-06
-    date_display: Jun 2025
+    arxiv_id: '1703.06103'
+    title: Modeling Relational Data with Graph Convolutional Networks
+    date: Mar 2017
+    date_iso: 2017-03
+    date_display: Mar 2017
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.8739
+    - 0.191
     metric_stds:
     - null
-  - model: GraphMAE
-    model_plain: GraphMAE
+  - model: CP
+    model_plain: CP
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2506.14098'
-    title: 'Toward a Graph Foundation Model: Pre-Training Transformers With Random
-      Walks'
-    date: Jun 2025
-    date_iso: 2025-06
-    date_display: Jun 2025
+    arxiv_id: '1703.06103'
+    title: Modeling Relational Data with Graph Convolutional Networks
+    date: Mar 2017
+    date_iso: 2017-03
+    date_display: Mar 2017
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.853
+    - 0.182
     metric_stds:
     - null
-  - model: GIN
-    model_plain: GIN
+  - model: LinkFeat
+    model_plain: LinkFeat
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2506.14098'
-    title: 'Toward a Graph Foundation Model: Pre-Training Transformers With Random
-      Walks'
-    date: Jun 2025
-    date_iso: 2025-06
-    date_display: Jun 2025
+    arxiv_id: '1703.06103'
+    title: Modeling Relational Data with Graph Convolutional Networks
+    date: Mar 2017
+    date_iso: 2017-03
+    date_display: Mar 2017
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.8321
-    metric_stds:
-    - null
-  - model: GCN
-    model_plain: GCN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2506.14098'
-    title: 'Toward a Graph Foundation Model: Pre-Training Transformers With Random
-      Walks'
-    date: Jun 2025
-    date_iso: 2025-06
-    date_display: Jun 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.8222
-    metric_stds:
-    - null
-  - model: DGI
-    model_plain: DGI
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2506.14098'
-    title: 'Toward a Graph Foundation Model: Pre-Training Transformers With Random
-      Walks'
-    date: Jun 2025
-    date_iso: 2025-06
-    date_display: Jun 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.8134
-    metric_stds:
-    - null
-  - model: BGRL
-    model_plain: BGRL
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2506.14098'
-    title: 'Toward a Graph Foundation Model: Pre-Training Transformers With Random
-      Walks'
-    date: Jun 2025
-    date_iso: 2025-06
-    date_display: Jun 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.8066
+    - 0.063
     metric_stds:
     - null
   milestones:
-  - value: 0.9523
+  - value: 0.249
     std: null
-    model: RWPT
-    arxiv_id: '2506.14098'
-    title: 'Toward a Graph Foundation Model: Pre-Training Transformers With Random
-      Walks'
-    date: 2025-06
+    model: R-GCN
+    arxiv_id: '1703.06103'
+    title: Modeling Relational Data with Graph Convolutional Networks
+    date: 2017-03
 ---
 

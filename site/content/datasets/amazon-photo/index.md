@@ -7,19 +7,14 @@ description: Amazon co-purchase graph (Photo) node classification.
 primary_metric: Accuracy
 higher_is_better: true
 pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.Amazon.html
-stats:
-  num_graphs: null
-  avg_nodes: 7650.0
-  avg_edges: 238162.0
-  num_classes: 8
-result_count: 83
+stats: null
+result_count: 57
 best_model:
-  model: GENs
-  value: 0.9712
+  model: SGT
+  value: 0.9537
   metric: Accuracy
-  arxiv_id: '2401.01233'
-  paper_title: 'GEN: A Practical Alternative to Graph Transformers for Long-Range
-    Graph Modeling'
+  arxiv_id: '2405.13806'
+  paper_title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
 variants:
 - slug: standard-split
   name: Standard split
@@ -35,297 +30,8 @@ variants:
   - Accuracy
   - MRR
   rows:
-  - model: GENs
-    model_plain: GENs
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2401.01233'
-    title: 'GEN: A Practical Alternative to Graph Transformers for Long-Range Graph
-      Modeling'
-    date: Jan 2024
-    date_iso: 2024-01
-    date_display: Jan 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: true
-    metric_values:
-    - 0.9712
-    - null
-    metric_stds:
-    - 0.0024
-    - null
-  - model: GraphSAGE
-    model_plain: GraphSAGE
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2401.01233'
-    title: 'GEN: A Practical Alternative to Graph Transformers for Long-Range Graph
-      Modeling'
-    date: Jan 2024
-    date_iso: 2024-01
-    date_display: Jan 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: true
-    metric_values:
-    - 0.9678
-    - null
-    metric_stds:
-    - 0.0023
-    - null
-  - model: GAT
-    model_plain: GAT
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2401.01233'
-    title: 'GEN: A Practical Alternative to Graph Transformers for Long-Range Graph
-      Modeling'
-    date: Jan 2024
-    date_iso: 2024-01
-    date_display: Jan 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: true
-    metric_values:
-    - 0.966
-    - null
-    metric_stds:
-    - 0.0033
-    - null
-  - model: Polynormer
-    model_plain: Polynormer
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2401.01233'
-    title: 'GEN: A Practical Alternative to Graph Transformers for Long-Range Graph
-      Modeling'
-    date: Jan 2024
-    date_iso: 2024-01
-    date_display: Jan 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.9657
-    - null
-    metric_stds:
-    - 0.0023
-    - null
-  - model: Nagphormer
-    model_plain: Nagphormer
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2401.01233'
-    title: 'GEN: A Practical Alternative to Graph Transformers for Long-Range Graph
-      Modeling'
-    date: Jan 2024
-    date_iso: 2024-01
-    date_display: Jan 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.9614
-    - null
-    metric_stds:
-    - 0.0016
-    - null
-  - model: GCN
-    model_plain: GCN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2401.01233'
-    title: 'GEN: A Practical Alternative to Graph Transformers for Long-Range Graph
-      Modeling'
-    date: Jan 2024
-    date_iso: 2024-01
-    date_display: Jan 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.961
-    - null
-    metric_stds:
-    - 0.0046
-    - null
-  - model: CARIBOU
-    model_plain: CARIBOU
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2506.22727'
-    title: Convergent Privacy Framework for Multi-layer GNNs through Contractive Message
-      Passing
-    date: Jun 2025
-    date_iso: 2025-06
-    date_display: Jun 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.958
-    - null
-    metric_stds:
-    - null
-    - null
-  - model: Exphormer
-    model_plain: Exphormer
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2401.01233'
-    title: 'GEN: A Practical Alternative to Graph Transformers for Long-Range Graph
-      Modeling'
-    date: Jan 2024
-    date_iso: 2024-01
-    date_display: Jan 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.9569
-    - null
-    metric_stds:
-    - 0.0039
-    - null
-  - model: SGFormer
-    model_plain: SGFormer
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2401.01233'
-    title: 'GEN: A Practical Alternative to Graph Transformers for Long-Range Graph
-      Modeling'
-    date: Jan 2024
-    date_iso: 2024-01
-    date_display: Jan 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.9558
-    - null
-    metric_stds:
-    - 0.0036
-    - null
-  - model: GrokFormer
-    model_plain: GrokFormer
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2411.17296'
-    title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: Nov 26, 2024
-    date_iso: '2024-11-26'
-    date_display: Nov 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.9552
-    - null
-    metric_stds:
-    - 0.0052
-    - null
-  - model: Nagphormer
-    model_plain: Nagphormer
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2411.17296'
-    title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: Nov 26, 2024
-    date_iso: '2024-11-26'
-    date_display: Nov 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.9549
-    - null
-    metric_stds:
-    - 0.0011
-    - null
-  - model: SpecFormer
-    model_plain: SpecFormer
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2411.17296'
-    title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: Nov 26, 2024
-    date_iso: '2024-11-26'
-    date_display: Nov 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.9548
-    - null
-    metric_stds:
-    - 0.0032
-    - null
-  - model: H2GCN
-    model_plain: H2GCN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2411.17296'
-    title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: Nov 26, 2024
-    date_iso: '2024-11-26'
-    date_display: Nov 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.9545
-    - null
-    metric_stds:
-    - 0.0067
-    - null
-  - model: JacobiConv
-    model_plain: JacobiConv
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2411.17296'
-    title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: Nov 26, 2024
-    date_iso: '2024-11-26'
-    date_display: Nov 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.9543
-    - null
-    metric_stds:
-    - 0.0023
-    - null
-  - model: M
-    model_plain: M
+  - model: SGT
+    model_plain: SGT
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -335,115 +41,14 @@ variants:
     date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
-    codebase_url: ''
+    codebase_url: https://github.com/liun-online/WaveGC
     uses_external_data: false
-    is_best: false
+    is_best: true
     metric_values:
     - 0.9537
     - null
     metric_stds:
     - 0.0044
-    - null
-  - model: HiGCN
-    model_plain: HiGCN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2411.17296'
-    title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: Nov 26, 2024
-    date_iso: '2024-11-26'
-    date_display: Nov 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.9533
-    - null
-    metric_stds:
-    - 0.0037
-    - null
-  - model: NodeFormer
-    model_plain: NodeFormer
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2411.17296'
-    title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: Nov 26, 2024
-    date_iso: '2024-11-26'
-    date_display: Nov 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.9527
-    - null
-    metric_stds:
-    - 0.0022
-    - null
-  - model: GrokFilter
-    model_plain: GrokFilter
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2411.17296'
-    title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: Nov 26, 2024
-    date_iso: '2024-11-26'
-    date_display: Nov 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.951
-    - null
-    metric_stds:
-    - 0.0078
-    - null
-  - model: GraphGPS
-    model_plain: GraphGPS
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2401.01233'
-    title: 'GEN: A Practical Alternative to Graph Transformers for Long-Range Graph
-      Modeling'
-    date: Jan 2024
-    date_iso: 2024-01
-    date_display: Jan 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.9489
-    - null
-    metric_stds:
-    - 0.0014
-    - null
-  - model: HopGNN
-    model_plain: HopGNN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2411.17296'
-    title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: Nov 26, 2024
-    date_iso: '2024-11-26'
-    date_display: Nov 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.9449
-    - null
-    metric_stds:
-    - 0.0033
     - null
   - model: GWNN
     model_plain: GWNN
@@ -456,7 +61,7 @@ variants:
     date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
-    codebase_url: ''
+    codebase_url: https://github.com/liun-online/WaveGC
     uses_external_data: false
     is_best: false
     metric_values:
@@ -464,26 +69,6 @@ variants:
     - null
     metric_stds:
     - 0.0045
-    - null
-  - model: GraphGPS
-    model_plain: GraphGPS
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2411.17296'
-    title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: Nov 26, 2024
-    date_iso: '2024-11-26'
-    date_display: Nov 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.9435
-    - null
-    metric_stds:
-    - 0.0025
     - null
   - model: DEFT
     model_plain: DEFT
@@ -496,7 +81,7 @@ variants:
     date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
-    codebase_url: ''
+    codebase_url: https://github.com/liun-online/WaveGC
     uses_external_data: false
     is_best: false
     metric_values:
@@ -516,7 +101,7 @@ variants:
     date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
-    codebase_url: ''
+    codebase_url: https://github.com/liun-online/WaveGC
     uses_external_data: false
     is_best: false
     metric_values:
@@ -524,26 +109,6 @@ variants:
     - null
     metric_stds:
     - 0.005
-    - null
-  - model: SGFormer
-    model_plain: SGFormer
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2411.17296'
-    title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: Nov 26, 2024
-    date_iso: '2024-11-26'
-    date_display: Nov 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.9434
-    - null
-    metric_stds:
-    - 0.0023
     - null
   - model: UFGConvS
     model_plain: UFGConvS
@@ -556,7 +121,7 @@ variants:
     date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
-    codebase_url: ''
+    codebase_url: https://github.com/liun-online/WaveGC
     uses_external_data: false
     is_best: false
     metric_values:
@@ -564,27 +129,6 @@ variants:
     - null
     metric_stds:
     - 0.0034
-    - null
-  - model: GOAT
-    model_plain: GOAT
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2401.01233'
-    title: 'GEN: A Practical Alternative to Graph Transformers for Long-Range Graph
-      Modeling'
-    date: Jan 2024
-    date_iso: 2024-01
-    date_display: Jan 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.9433
-    - null
-    metric_stds:
-    - 0.0021
     - null
   - model: APPNP
     model_plain: APPNP
@@ -597,7 +141,7 @@ variants:
     date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
-    codebase_url: ''
+    codebase_url: https://github.com/liun-online/WaveGC
     uses_external_data: false
     is_best: false
     metric_values:
@@ -617,7 +161,7 @@ variants:
     date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
-    codebase_url: ''
+    codebase_url: https://github.com/liun-online/WaveGC
     uses_external_data: false
     is_best: false
     metric_values:
@@ -625,106 +169,6 @@ variants:
     - null
     metric_stds:
     - 0.0063
-    - null
-  - model: Polynormer
-    model_plain: Polynormer
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2411.17296'
-    title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: Nov 26, 2024
-    date_iso: '2024-11-26'
-    date_display: Nov 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.9408
-    - null
-    metric_stds:
-    - 0.0137
-    - null
-  - model: GAT
-    model_plain: GAT
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2405.13806'
-    title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
-    date: May 22, 2024
-    date_iso: '2024-05-22'
-    date_display: May 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.9387
-    - null
-    metric_stds:
-    - 0.0011
-    - null
-  - model: GPRGNN
-    model_plain: GPRGNN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2411.17296'
-    title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: Nov 26, 2024
-    date_iso: '2024-11-26'
-    date_display: Nov 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.9385
-    - null
-    metric_stds:
-    - 0.0028
-    - null
-  - model: ChebNet
-    model_plain: ChebNet
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2411.17296'
-    title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: Nov 26, 2024
-    date_iso: '2024-11-26'
-    date_display: Nov 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.9377
-    - null
-    metric_stds:
-    - 0.0032
-    - null
-  - model: BernNet
-    model_plain: BernNet
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2411.17296'
-    title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: Nov 26, 2024
-    date_iso: '2024-11-26'
-    date_display: Nov 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.9363
-    - null
-    metric_stds:
-    - 0.0035
     - null
   - model: WaveShrink-ChebNet
     model_plain: WaveShrink-ChebNet
@@ -737,7 +181,7 @@ variants:
     date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
-    codebase_url: ''
+    codebase_url: https://github.com/liun-online/WaveGC
     uses_external_data: false
     is_best: false
     metric_values:
@@ -745,27 +189,6 @@ variants:
     - null
     metric_stds:
     - 0.009
-    - null
-  - model: NodeFormer
-    model_plain: NodeFormer
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2401.01233'
-    title: 'GEN: A Practical Alternative to Graph Transformers for Long-Range Graph
-      Modeling'
-    date: Jan 2024
-    date_iso: 2024-01
-    date_display: Jan 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.9343
-    - null
-    metric_stds:
-    - 0.0056
     - null
   - model: Scattering GCN
     model_plain: Scattering GCN
@@ -778,7 +201,7 @@ variants:
     date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
-    codebase_url: ''
+    codebase_url: https://github.com/liun-online/WaveGC
     uses_external_data: false
     is_best: false
     metric_values:
@@ -787,47 +210,25 @@ variants:
     metric_stds:
     - 0.0042
     - null
-  - model: GAP
-    model_plain: GAP
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2506.22727'
-    title: Convergent Privacy Framework for Multi-layer GNNs through Contractive Message
-      Passing
-    date: Jun 2025
-    date_iso: 2025-06
-    date_display: Jun 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.93
-    - null
-    metric_stds:
-    - null
-    - null
-  - model: CaCoSE
-    model_plain: CaCoSE
+  - model: UnionSNN
+    model_plain: UnionSNN
     is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2603.27529'
-    title: Cross-attentive Cohesive Subgraph Embedding to Mitigate Oversquashing in
-      GNNs
-    date: Mar 2026
-    date_iso: 2026-03
-    date_display: Mar 2026
-    codebase_url: ''
+    arxiv_id: '2305.15747'
+    title: Union Subgraph Neural Networks
+    date: May 2023
+    date_iso: 2023-05
+    date_display: May 2023
+    codebase_url: https://github.com/AngusMonroe/UnionSNN
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.9298000000000001
+    - 0.9292
     - null
     metric_stds:
-    - null
+    - 0.0038
     - null
   - model: GCN
     model_plain: GCN
@@ -840,7 +241,7 @@ variants:
     date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
-    codebase_url: ''
+    codebase_url: https://github.com/liun-online/WaveGC
     uses_external_data: false
     is_best: false
     metric_values:
@@ -849,47 +250,25 @@ variants:
     metric_stds:
     - 0.002
     - null
-  - model: GOKU
-    model_plain: GOKU
+  - model: CurvGN
+    model_plain: CurvGN
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2603.27529'
-    title: Cross-attentive Cohesive Subgraph Embedding to Mitigate Oversquashing in
-      GNNs
-    date: Mar 2026
-    date_iso: 2026-03
-    date_display: Mar 2026
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.9251
-    - null
-    metric_stds:
-    - null
-    - null
-  - model: DPDGC
-    model_plain: DPDGC
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2506.22727'
-    title: Convergent Privacy Framework for Multi-layer GNNs through Contractive Message
-      Passing
-    date: Jun 2025
-    date_iso: 2025-06
-    date_display: Jun 2025
-    codebase_url: ''
+    arxiv_id: '2305.15747'
+    title: Union Subgraph Neural Networks
+    date: May 2023
+    date_iso: 2023-05
+    date_display: May 2023
+    codebase_url: https://github.com/AngusMonroe/UnionSNN
     uses_external_data: false
     is_best: false
     metric_values:
     - 0.925
     - null
     metric_stds:
-    - null
+    - 0.005
     - null
   - model: SGWT
     model_plain: SGWT
@@ -902,7 +281,7 @@ variants:
     date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
-    codebase_url: ''
+    codebase_url: https://github.com/liun-online/WaveGC
     uses_external_data: false
     is_best: false
     metric_values:
@@ -911,26 +290,45 @@ variants:
     metric_stds:
     - 0.0062
     - null
-  - model: GCN
-    model_plain: GCN
+  - model: UnionGCN
+    model_plain: UnionGCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2603.27529'
-    title: Cross-attentive Cohesive Subgraph Embedding to Mitigate Oversquashing in
-      GNNs
-    date: Mar 2026
-    date_iso: 2026-03
-    date_display: Mar 2026
-    codebase_url: ''
+    arxiv_id: '2305.15747'
+    title: Union Subgraph Neural Networks
+    date: May 2023
+    date_iso: 2023-05
+    date_display: May 2023
+    codebase_url: https://github.com/AngusMonroe/UnionSNN
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.9212
+    - 0.9228
     - null
     metric_stds:
+    - 0.0019
     - null
+  - model: GIN
+    model_plain: GIN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.15747'
+    title: Union Subgraph Neural Networks
+    date: May 2023
+    date_iso: 2023-05
+    date_display: May 2023
+    codebase_url: https://github.com/AngusMonroe/UnionSNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.9211
+    - null
+    metric_stds:
+    - 0.0032
     - null
   - model: Scattering
     model_plain: Scattering
@@ -943,7 +341,7 @@ variants:
     date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
-    codebase_url: ''
+    codebase_url: https://github.com/liun-online/WaveGC
     uses_external_data: false
     is_best: false
     metric_values:
@@ -952,191 +350,25 @@ variants:
     metric_stds:
     - 0.0061
     - null
-  - model: GAT
-    model_plain: GAT
+  - model: GS-mean
+    model_plain: GS-mean
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2603.27529'
-    title: Cross-attentive Cohesive Subgraph Embedding to Mitigate Oversquashing in
-      GNNs
-    date: Mar 2026
-    date_iso: 2026-03
-    date_display: Mar 2026
+    arxiv_id: '1811.05868'
+    title: Pitfalls of Graph Neural Network Evaluation
+    date: Nov 2018
+    date_iso: 2018-11
+    date_display: Nov 2018
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.9201
+    - 0.914
     - null
     metric_stds:
-    - null
-    - null
-  - model: BORF
-    model_plain: BORF
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2603.27529'
-    title: Cross-attentive Cohesive Subgraph Embedding to Mitigate Oversquashing in
-      GNNs
-    date: Mar 2026
-    date_iso: 2026-03
-    date_display: Mar 2026
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.9193000000000001
-    - null
-    metric_stds:
-    - null
-    - null
-  - model: FOSR
-    model_plain: FOSR
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2603.27529'
-    title: Cross-attentive Cohesive Subgraph Embedding to Mitigate Oversquashing in
-      GNNs
-    date: Mar 2026
-    date_iso: 2026-03
-    date_display: Mar 2026
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.9183
-    - null
-    metric_stds:
-    - null
-    - null
-  - model: GTR
-    model_plain: GTR
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2603.27529'
-    title: Cross-attentive Cohesive Subgraph Embedding to Mitigate Oversquashing in
-      GNNs
-    date: Mar 2026
-    date_iso: 2026-03
-    date_display: Mar 2026
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.9176000000000001
-    - null
-    metric_stds:
-    - null
-    - null
-  - model: SDRF
-    model_plain: SDRF
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2603.27529'
-    title: Cross-attentive Cohesive Subgraph Embedding to Mitigate Oversquashing in
-      GNNs
-    date: Mar 2026
-    date_iso: 2026-03
-    date_display: Mar 2026
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.9170999999999999
-    - null
-    metric_stds:
-    - null
-    - null
-  - model: SAGE
-    model_plain: SAGE
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2603.27529'
-    title: Cross-attentive Cohesive Subgraph Embedding to Mitigate Oversquashing in
-      GNNs
-    date: Mar 2026
-    date_iso: 2026-03
-    date_display: Mar 2026
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.9158
-    - null
-    metric_stds:
-    - null
-    - null
-  - model: GAT
-    model_plain: GAT
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2411.17296'
-    title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: Nov 26, 2024
-    date_iso: '2024-11-26'
-    date_display: Nov 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.9094
-    - null
-    metric_stds:
-    - 0.0068
-    - null
-  - model: Transformer
-    model_plain: Transformer
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2411.17296'
-    title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: Nov 26, 2024
-    date_iso: '2024-11-26'
-    date_display: Nov 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.8958
-    - null
-    metric_stds:
-    - 0.0105
-    - null
-  - model: '*-w/o-GrokFilter'
-    model_plain: '*-w/o-GrokFilter'
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2411.17296'
-    title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: Nov 26, 2024
-    date_iso: '2024-11-26'
-    date_display: Nov 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.8958
-    - null
-    metric_stds:
-    - 0.0105
+    - 0.013
     - null
   - model: GCN
     model_plain: GCN
@@ -1144,163 +376,379 @@ variants:
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2411.17296'
-    title: 'GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers'
-    date: Nov 26, 2024
-    date_iso: '2024-11-26'
-    date_display: Nov 2024
+    arxiv_id: '1811.05868'
+    title: Pitfalls of Graph Neural Network Evaluation
+    date: Nov 2018
+    date_iso: 2018-11
+    date_display: Nov 2018
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.8826
+    - 0.912
     - null
     metric_stds:
-    - 0.0073
+    - 0.012
     - null
-  - model: GCN + SDRF
-    model_plain: GCN + SDRF
+  - model: MoNet
+    model_plain: MoNet
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2601.07419'
-    title: 'Position: Don''t be Afraid of Over-Smoothing And Over-Squashing'
-    date: Jan 2026
-    date_iso: 2026-01
-    date_display: Jan 2026
+    arxiv_id: '1811.05868'
+    title: Pitfalls of Graph Neural Network Evaluation
+    date: Nov 2018
+    date_iso: 2018-11
+    date_display: Nov 2018
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.858
+    - 0.912
     - null
     metric_stds:
-    - 0.040999999999999995
+    - 0.013
     - null
-  - model: PertGraph
-    model_plain: PertGraph
+  - model: GraphSNN
+    model_plain: GraphSNN
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2506.22727'
-    title: Convergent Privacy Framework for Multi-layer GNNs through Contractive Message
-      Passing
-    date: Jun 2025
-    date_iso: 2025-06
-    date_display: Jun 2025
-    codebase_url: ''
+    arxiv_id: '2305.15747'
+    title: Union Subgraph Neural Networks
+    date: May 2023
+    date_iso: 2023-05
+    date_display: May 2023
+    codebase_url: https://github.com/AngusMonroe/UnionSNN
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.824
+    - 0.9082
     - null
     metric_stds:
+    - 0.003
     - null
-    - null
-  - model: GCN + BORF
-    model_plain: GCN + BORF
+  - model: GS-meanpool
+    model_plain: GS-meanpool
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2601.07419'
-    title: 'Position: Don''t be Afraid of Over-Smoothing And Over-Squashing'
-    date: Jan 2026
-    date_iso: 2026-01
-    date_display: Jan 2026
+    arxiv_id: '1811.05868'
+    title: Pitfalls of Graph Neural Network Evaluation
+    date: Nov 2018
+    date_iso: 2018-11
+    date_display: Nov 2018
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.82
+    - 0.907
     - null
     metric_stds:
-    - 0.057
+    - 0.016
     - null
-  - model: DR
-    model_plain: DR
+  - model: UnionGraphSNN
+    model_plain: UnionGraphSNN
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2603.27529'
-    title: Cross-attentive Cohesive Subgraph Embedding to Mitigate Oversquashing in
-      GNNs
-    date: Mar 2026
-    date_iso: 2026-03
-    date_display: Mar 2026
-    codebase_url: ''
+    arxiv_id: '2305.15747'
+    title: Union Subgraph Neural Networks
+    date: May 2023
+    date_iso: 2023-05
+    date_display: May 2023
+    codebase_url: https://github.com/AngusMonroe/UnionSNN
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.7986
+    - 0.906
     - null
     metric_stds:
+    - 0.0058
     - null
-    - null
-  - model: EGP (GCN)
-    model_plain: EGP (GCN)
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2601.07419'
-    title: 'Position: Don''t be Afraid of Over-Smoothing And Over-Squashing'
-    date: Jan 2026
-    date_iso: 2026-01
-    date_display: Jan 2026
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.779
-    - null
-    metric_stds:
-    - 0.131
-    - null
-  - model: LRGB
-    model_plain: LRGB
+  - model: GS-maxpool
+    model_plain: GS-maxpool
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2603.27529'
-    title: Cross-attentive Cohesive Subgraph Embedding to Mitigate Oversquashing in
-      GNNs
-    date: Mar 2026
-    date_iso: 2026-03
-    date_display: Mar 2026
+    arxiv_id: '1811.05868'
+    title: Pitfalls of Graph Neural Network Evaluation
+    date: Nov 2018
+    date_iso: 2018-11
+    date_display: Nov 2018
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.7404000000000001
+    - 0.904
     - null
     metric_stds:
+    - 0.013
     - null
-    - null
-  - model: LASER
-    model_plain: LASER
+  - model: GeniePath
+    model_plain: GeniePath
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2603.27529'
-    title: Cross-attentive Cohesive Subgraph Embedding to Mitigate Oversquashing in
-      GNNs
-    date: Mar 2026
-    date_iso: 2026-03
-    date_display: Mar 2026
+    arxiv_id: '2305.15747'
+    title: Union Subgraph Neural Networks
+    date: May 2023
+    date_iso: 2023-05
+    date_display: May 2023
+    codebase_url: https://github.com/AngusMonroe/UnionSNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.8998
+    - null
+    metric_stds:
+    - 0.0114
+    - null
+  - model: GraphSAGE
+    model_plain: GraphSAGE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.15747'
+    title: Union Subgraph Neural Networks
+    date: May 2023
+    date_iso: 2023-05
+    date_display: May 2023
+    codebase_url: https://github.com/AngusMonroe/UnionSNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.8916
+    - null
+    metric_stds:
+    - 0.0103
+    - null
+  - model: GAT
+    model_plain: GAT
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1811.05868'
+    title: Pitfalls of Graph Neural Network Evaluation
+    date: Nov 2018
+    date_iso: 2018-11
+    date_display: Nov 2018
+    codebase_url: ''
+    uses_external_data: false
+    is_best: true
+    metric_values:
+    - 0.857
+    - null
+    metric_stds:
+    - 0.203
+    - null
+  - model: ILSS
+    model_plain: ILSS
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_iso: '2023-05-27'
+    date_display: May 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.6736
+    - 0.851
     - null
     metric_stds:
+    - 0.003
     - null
+  - model: PNA
+    model_plain: PNA
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_iso: '2023-05-27'
+    date_display: May 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.842
+    - null
+    metric_stds:
+    - 0.003
+    - null
+  - model: GIN
+    model_plain: GIN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_iso: '2023-05-27'
+    date_display: May 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.839
+    - null
+    metric_stds:
+    - 0.004
+    - null
+  - model: LabelProp NL
+    model_plain: LabelProp NL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1811.05868'
+    title: Pitfalls of Graph Neural Network Evaluation
+    date: Nov 2018
+    date_iso: 2018-11
+    date_display: Nov 2018
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.839
+    - null
+    metric_stds:
+    - 0.027
+    - null
+  - model: APPNP
+    model_plain: APPNP
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_iso: '2023-05-27'
+    date_display: May 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.831
+    - null
+    metric_stds:
+    - 0.005
+    - null
+  - model: GCN
+    model_plain: GCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_iso: '2023-05-27'
+    date_display: May 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.828
+    - null
+    metric_stds:
+    - 0.005
+    - null
+  - model: GraphSAGE
+    model_plain: GraphSAGE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_iso: '2023-05-27'
+    date_display: May 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.821
+    - null
+    metric_stds:
+    - 0.004
+    - null
+  - model: LogReg
+    model_plain: LogReg
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1811.05868'
+    title: Pitfalls of Graph Neural Network Evaluation
+    date: Nov 2018
+    date_iso: 2018-11
+    date_display: Nov 2018
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.73
+    - null
+    metric_stds:
+    - 0.065
+    - null
+  - model: LP
+    model_plain: LP
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1811.05868'
+    title: Pitfalls of Graph Neural Network Evaluation
+    date: Nov 2018
+    date_iso: 2018-11
+    date_display: Nov 2018
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.726
+    - null
+    metric_stds:
+    - 0.111
+    - null
+  - model: MLP
+    model_plain: MLP
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1811.05868'
+    title: Pitfalls of Graph Neural Network Evaluation
+    date: Nov 2018
+    date_iso: 2018-11
+    date_display: Nov 2018
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.696
+    - null
+    metric_stds:
+    - 0.038
     - null
   - model: MMGCN + CLIP
     model_plain: MMGCN + CLIP
@@ -1723,12 +1171,23 @@ variants:
     - null
     - 0.0016
   milestones:
-  - value: 0.9712
-    std: 0.0024
-    model: GENs
-    arxiv_id: '2401.01233'
-    title: 'GEN: A Practical Alternative to Graph Transformers for Long-Range Graph
-      Modeling'
-    date: 2024-01
+  - value: 0.914
+    std: 0.013
+    model: GS-mean
+    arxiv_id: '1811.05868'
+    title: Pitfalls of Graph Neural Network Evaluation
+    date: 2018-11
+  - value: 0.9292
+    std: 0.0038
+    model: UnionSNN
+    arxiv_id: '2305.15747'
+    title: Union Subgraph Neural Networks
+    date: 2023-05
+  - value: 0.9537
+    std: 0.0044
+    model: SGT
+    arxiv_id: '2405.13806'
+    title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
+    date: '2024-05-22'
 ---
 

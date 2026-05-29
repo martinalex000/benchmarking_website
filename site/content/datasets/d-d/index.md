@@ -13,13 +13,13 @@ stats:
   avg_nodes: 284.3
   avg_edges: 715.7
   num_classes: 2
-result_count: 258
+result_count: 148
 best_model:
-  model: MPNN
-  value: 0.989
+  model: Transformer
+  value: 1.0
   metric: Accuracy
-  arxiv_id: '2411.15671'
-  paper_title: 'Best of Both Worlds: Advantages of Hybrid Graph Sequence Models'
+  arxiv_id: '2511.20406'
+  paper_title: Short-Range Oversquashing
 variants:
 - slug: 10-fold-cv
   name: 10-fold CV
@@ -33,782 +33,30 @@ variants:
     avg_edges: null
   metrics:
   - Accuracy
-  - AP
   - AUC
   - AUROC
-  - ECE
-  - F1
   - MAE
-  - MAP
-  - MRR
   - MSE
-  - R2
-  - RMSE
-  - RMSE E
-  - RMSE F
-  - ROC-AUC
-  - R^2
-  - log10(MSE)
-  - mAP
+  - Recall@10
+  - Recall@100
+  - Recall@1k
   rows:
-  - model: MPNN
-    model_plain: MPNN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2411.15671'
-    title: 'Best of Both Worlds: Advantages of Hybrid Graph Sequence Models'
-    date: Nov 2024
-    date_iso: 2024-11
-    date_display: Nov 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: true
-    metric_values:
-    - 0.989
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: HAC (BFS)
-    model_plain: HAC (BFS)
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2411.15671'
-    title: 'Best of Both Worlds: Advantages of Hybrid Graph Sequence Models'
-    date: Nov 2024
-    date_iso: 2024-11
-    date_display: Nov 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.981
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: k-hop
-    model_plain: k-hop
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2411.15671'
-    title: 'Best of Both Worlds: Advantages of Hybrid Graph Sequence Models'
-    date: Nov 2024
-    date_iso: 2024-11
-    date_display: Nov 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.976
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: S4 + SPT
-    model_plain: S4 + SPT
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2310.02980'
-    title: 'Never Train from Scratch: Fair Comparison of long-sequence models requires
-      data-driven priors'
-    date: Oct 2023
-    date_iso: 2023-10
-    date_display: Oct 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.9509
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.999
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: S4
-    model_plain: S4
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2310.02980'
-    title: 'Never Train from Scratch: Fair Comparison of long-sequence models requires
-      data-driven priors'
-    date: Oct 2023
-    date_iso: 2023-10
-    date_display: Oct 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.936
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.999
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: SubdivNet
-    model_plain: SubdivNet
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2402.04821'
-    title: E(3)-Equivariant Mesh Neural Networks
-    date: Feb 7, 2024
-    date_iso: '2024-02-07'
-    date_display: Feb 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.917
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: DiffusionNet
-    model_plain: DiffusionNet
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2402.04821'
-    title: E(3)-Equivariant Mesh Neural Networks
-    date: Feb 7, 2024
-    date_iso: '2024-02-07'
-    date_display: Feb 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.903
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: Mesh-MLP
-    model_plain: Mesh-MLP
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2402.04821'
-    title: E(3)-Equivariant Mesh Neural Networks
-    date: Feb 7, 2024
-    date_iso: '2024-02-07'
-    date_display: Feb 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.888
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: EGNN+MC+Hier
-    model_plain: EGNN+MC+Hier
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2402.04821'
-    title: E(3)-Equivariant Mesh Neural Networks
-    date: Feb 7, 2024
-    date_iso: '2024-02-07'
-    date_display: Feb 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.887
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: Laplacian2Mesh
-    model_plain: Laplacian2Mesh
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2402.04821'
-    title: E(3)-Equivariant Mesh Neural Networks
-    date: Feb 7, 2024
-    date_iso: '2024-02-07'
-    date_display: Feb 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.886
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: Transformers + SPT
-    model_plain: Transformers + SPT
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2310.02980'
-    title: 'Never Train from Scratch: Fair Comparison of long-sequence models requires
-      data-driven priors'
-    date: Oct 2023
-    date_iso: 2023-10
-    date_display: Oct 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.8613
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.992
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: PD-MeshNet
-    model_plain: PD-MeshNet
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2402.04821'
-    title: E(3)-Equivariant Mesh Neural Networks
-    date: Feb 7, 2024
-    date_iso: '2024-02-07'
-    date_display: Feb 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.856
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: MeshCNN
-    model_plain: MeshCNN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2402.04821'
-    title: E(3)-Equivariant Mesh Neural Networks
-    date: Feb 7, 2024
-    date_iso: '2024-02-07'
-    date_display: Feb 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.854
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: HodgeNet
-    model_plain: HodgeNet
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2402.04821'
-    title: E(3)-Equivariant Mesh Neural Networks
-    date: Feb 7, 2024
-    date_iso: '2024-02-07'
-    date_display: Feb 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.85
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
   - model: Transformer
     model_plain: Transformer
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2310.02980'
-    title: 'Never Train from Scratch: Fair Comparison of long-sequence models requires
-      data-driven priors'
-    date: Oct 2023
-    date_iso: 2023-10
-    date_display: Oct 2023
-    codebase_url: ''
+    arxiv_id: '2511.20406'
+    title: Short-Range Oversquashing
+    date: Nov 2025
+    date_iso: 2025-11
+    date_display: Nov 2025
+    codebase_url: https://github.com/YakovM93/Short-Range-Oversquashing
     uses_external_data: false
-    is_best: false
+    is_best: true
     metric_values:
-    - 0.8455
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.998
+    - 1.0
     - null
     - null
     - null
@@ -825,94 +73,22 @@ variants:
     - null
     - null
     - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: CoCN exp.
-    model_plain: CoCN exp.
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2407.18480'
-    title: Scalable Graph Compressed Convolutions
-    date: Jul 2024
-    date_iso: 2024-07
-    date_display: Jul 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.838
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: EMNN+MC
-    model_plain: EMNN+MC
+  - model: VRN Ensemble
+    model_plain: VRN Ensemble
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2402.04821'
-    title: E(3)-Equivariant Mesh Neural Networks
-    date: Feb 7, 2024
-    date_iso: '2024-02-07'
-    date_display: Feb 2024
+    arxiv_id: '1703.06114'
+    title: Deep Sets
+    date: Mar 2017
+    date_iso: 2017-03
+    date_display: Mar 2017
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.835
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
+    - 0.9554
     - null
     - null
     - null
@@ -929,6 +105,30 @@ variants:
     - null
     - null
     - null
+  - model: MVCNN
+    model_plain: MVCNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1703.06114'
+    title: Deep Sets
+    date: Mar 2017
+    date_iso: 2017-03
+    date_display: Mar 2017
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.901
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
     - null
     - null
     - null
@@ -937,10 +137,104 @@ variants:
     - null
     - null
     - null
+  - model: GAT
+    model_plain: GAT
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2511.20406'
+    title: Short-Range Oversquashing
+    date: Nov 2025
+    date_iso: 2025-11
+    date_display: Nov 2025
+    codebase_url: https://github.com/YakovM93/Short-Range-Oversquashing
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.9
     - null
     - null
-  - model: SAGE (CLIP/CLIP)
-    model_plain: SAGE (CLIP/CLIP)
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: DeepSets + transformation
+    model_plain: DeepSets + transformation
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1703.06114'
+    title: Deep Sets
+    date: Mar 2017
+    date_iso: 2017-03
+    date_display: Mar 2017
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.9
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.003
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: DeepSets
+    model_plain: DeepSets
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1703.06114'
+    title: Deep Sets
+    date: Mar 2017
+    date_iso: 2017-03
+    date_display: Mar 2017
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.87
+    - null
+    - null
+    - null
+    - null
+    - 0.0604
+    - 0.285
+    - 0.607
+    metric_stds:
+    - 0.01
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: SAGE + CLIP/CLIP
+    model_plain: SAGE + CLIP/CLIP
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -962,16 +256,6 @@ variants:
     - null
     - null
     - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
     metric_stds:
     - 0.0002
     - null
@@ -981,8 +265,62 @@ variants:
     - null
     - null
     - null
+  - model: 3D GAN
+    model_plain: 3D GAN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1703.06114'
+    title: Deep Sets
+    date: Mar 2017
+    date_iso: 2017-03
+    date_display: Mar 2017
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.833
     - null
     - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: VoxNet
+    model_plain: VoxNet
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1703.06114'
+    title: Deep Sets
+    date: Mar 2017
+    date_iso: 2017-03
+    date_display: Mar 2017
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.831
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
     - null
     - null
     - null
@@ -1014,16 +352,6 @@ variants:
     - null
     - null
     - null
-    - 0.4479
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
     metric_stds:
     - 0.0004
     - null
@@ -1033,9 +361,31 @@ variants:
     - null
     - null
     - null
-    - 0.0018
+  - model: Deep-Sets w. pooling only
+    model_plain: Deep-Sets w. pooling only
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1703.06114'
+    title: Deep Sets
+    date: Mar 2017
+    date_iso: 2017-03
+    date_display: Mar 2017
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.83
     - null
     - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.01
     - null
     - null
     - null
@@ -1066,16 +416,6 @@ variants:
     - null
     - null
     - null
-    - 0.4561
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
     metric_stds:
     - 0.0008
     - null
@@ -1085,32 +425,22 @@ variants:
     - null
     - null
     - null
-    - 0.0022
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: EGNN+MC
-    model_plain: EGNN+MC
-    is_baseline: true
+  - model: ILLS
+    model_plain: ILLS
+    is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2402.04821'
-    title: E(3)-Equivariant Mesh Neural Networks
-    date: Feb 7, 2024
-    date_iso: '2024-02-07'
-    date_display: Feb 2024
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_iso: '2023-05-27'
+    date_display: May 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.827
+    - 0.825
     - null
     - null
     - null
@@ -1118,9 +448,31 @@ variants:
     - null
     - null
     - null
+    metric_stds:
+    - 0.008
     - null
     - null
     - null
+    - null
+    - null
+    - null
+    - null
+  - model: g-U-Nets
+    model_plain: g-U-Nets
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1905.05178'
+    title: Graph U-Nets
+    date: May 11, 2019
+    date_iso: '2019-05-11'
+    date_display: May 2019
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.8243
     - null
     - null
     - null
@@ -1137,42 +489,22 @@ variants:
     - null
     - null
     - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: PointNet++
-    model_plain: PointNet++
-    is_baseline: true
+  - model: S2V with 1 DiffPool
+    model_plain: S2V with 1 DiffPool
+    is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2402.04821'
-    title: E(3)-Equivariant Mesh Neural Networks
-    date: Feb 7, 2024
-    date_iso: '2024-02-07'
-    date_display: Feb 2024
+    arxiv_id: '1806.08804'
+    title: Hierarchical Graph Representation Learning with Differentiable Pooling
+    date: Jun 2018
+    date_iso: 2018-06
+    date_display: Jun 2018
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.823
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
+    - 0.8207
     - null
     - null
     - null
@@ -1181,68 +513,6 @@ variants:
     - null
     - null
     metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: k-GNN
-    model_plain: k-GNN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2407.18480'
-    title: Scalable Graph Compressed Convolutions
-    date: Jul 2024
-    date_iso: 2024-07
-    date_display: Jul 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.8213
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
     - null
     - null
     - null
@@ -1274,28 +544,8 @@ variants:
     - null
     - null
     - null
-    - 0.2821
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
     metric_stds:
     - 0.0003
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.0112
-    - null
-    - null
     - null
     - null
     - null
@@ -1326,16 +576,6 @@ variants:
     - null
     - null
     - null
-    - 0.265
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
     metric_stds:
     - 0.0003
     - null
@@ -1345,18 +585,8 @@ variants:
     - null
     - null
     - null
-    - 0.001
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: MMGCN (CLIP/CLIP)
-    model_plain: MMGCN (CLIP/CLIP)
+  - model: MMGCN + CLIP/CLIP
+    model_plain: MMGCN + CLIP/CLIP
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1378,16 +608,6 @@ variants:
     - null
     - null
     - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
     metric_stds:
     - 0.0001
     - null
@@ -1397,32 +617,22 @@ variants:
     - null
     - null
     - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: EMNN
-    model_plain: EMNN
+  - model: PNA
+    model_plain: PNA
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2402.04821'
-    title: E(3)-Equivariant Mesh Neural Networks
-    date: Feb 7, 2024
-    date_iso: '2024-02-07'
-    date_display: Feb 2024
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_iso: '2023-05-27'
+    date_display: May 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.81
+    - 0.814
     - null
     - null
     - null
@@ -1430,9 +640,31 @@ variants:
     - null
     - null
     - null
+    metric_stds:
+    - 0.009
     - null
     - null
     - null
+    - null
+    - null
+    - null
+    - null
+  - model: DiffPool
+    model_plain: DiffPool
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1806.08804'
+    title: Hierarchical Graph Representation Learning with Differentiable Pooling
+    date: Jun 2018
+    date_iso: 2018-06
+    date_display: Jun 2018
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.8064
     - null
     - null
     - null
@@ -1449,70 +681,8 @@ variants:
     - null
     - null
     - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: EGNN
-    model_plain: EGNN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2402.04821'
-    title: E(3)-Equivariant Mesh Neural Networks
-    date: Feb 7, 2024
-    date_iso: '2024-02-07'
-    date_display: Feb 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.806
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: SAGE (ImageBind/ImageBind)
-    model_plain: SAGE (ImageBind/ImageBind)
+  - model: SAGE + ImageBind/ImageBind
+    model_plain: SAGE + ImageBind/ImageBind
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1534,16 +704,6 @@ variants:
     - null
     - null
     - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
     metric_stds:
     - 0.0021
     - null
@@ -1553,6 +713,62 @@ variants:
     - null
     - null
     - null
+  - model: GAT
+    model_plain: GAT
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_iso: '2023-05-27'
+    date_display: May 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.801
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.011
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: DiffPool-NoLP
+    model_plain: DiffPool-NoLP
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1806.08804'
+    title: Hierarchical Graph Representation Learning with Differentiable Pooling
+    date: Jun 2018
+    date_iso: 2018-06
+    date_display: Jun 2018
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7998
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
     - null
     - null
     - null
@@ -1561,10 +777,232 @@ variants:
     - null
     - null
     - null
+  - model: GIN
+    model_plain: GIN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_iso: '2023-05-27'
+    date_display: May 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.798
     - null
     - null
-  - model: GCN (ImageBind/ImageBind)
-    model_plain: GCN (ImageBind/ImageBind)
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.013
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: GraphSAGE
+    model_plain: GraphSAGE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_iso: '2023-05-27'
+    date_display: May 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.795
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.012
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: SortPool
+    model_plain: SortPool
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1806.08804'
+    title: Hierarchical Graph Representation Learning with Differentiable Pooling
+    date: Jun 2018
+    date_iso: 2018-06
+    date_display: Jun 2018
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7937
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: DGCNN
+    model_plain: DGCNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1901.00596'
+    title: A Comprehensive Survey on Graph Neural Networks
+    date: Jan 2019
+    date_iso: 2019-01
+    date_display: Jan 2019
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7937
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0094
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: WL-OA
+    model_plain: WL-OA
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1806.08804'
+    title: Hierarchical Graph Representation Learning with Differentiable Pooling
+    date: Jun 2018
+    date_iso: 2018-06
+    date_display: Jun 2018
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7904
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: PGC-DGCNN
+    model_plain: PGC-DGCNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1901.00596'
+    title: A Comprehensive Survey on Graph Neural Networks
+    date: Jan 2019
+    date_iso: 2019-01
+    date_display: Jan 2019
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7893
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0091
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: S2V
+    model_plain: S2V
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1806.08804'
+    title: Hierarchical Graph Representation Learning with Differentiable Pooling
+    date: Jun 2018
+    date_iso: 2018-06
+    date_display: Jun 2018
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7892
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: GCN + ImageBind/ImageBind
+    model_plain: GCN + ImageBind/ImageBind
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1586,16 +1024,6 @@ variants:
     - null
     - null
     - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
     metric_stds:
     - 0.0004
     - null
@@ -1605,42 +1033,22 @@ variants:
     - null
     - null
     - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: ResGCN
-    model_plain: ResGCN
+  - model: Shortest-path
+    model_plain: Shortest-path
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2407.18480'
-    title: Scalable Graph Compressed Convolutions
-    date: Jul 2024
-    date_iso: 2024-07
-    date_display: Jul 2024
+    arxiv_id: '1806.08804'
+    title: Hierarchical Graph Representation Learning with Differentiable Pooling
+    date: Jun 2018
+    date_iso: 2018-06
+    date_display: Jun 2018
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.7833
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
+    - 0.7886
     - null
     - null
     - null
@@ -1657,32 +1065,94 @@ variants:
     - null
     - null
     - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: BS-KAGAT
-    model_plain: BS-KAGAT
+  - model: Jumping Knowledge
+    model_plain: Jumping Knowledge
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2406.18380'
-    title: 'KAGNNs: Kolmogorov-Arnold Networks meet Graph Learning'
-    date: Jun 2024
-    date_iso: 2024-06
-    date_display: Jun 2024
-    codebase_url: https://github.com/RomanBresson/KAGNN
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_iso: '2023-05-27'
+    date_display: May 2023
+    codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.7827
+    - 0.788
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.014
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: Full B12C1
+    model_plain: Full B12C1
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2302.08671'
+    title: Search to Capture Long-range Dependency with Stacking GNNs for Graph Classification
+    date: Feb 2023
+    date_iso: 2023-02
+    date_display: Feb 2023
+    codebase_url: https://github.com/LARS-research/LRGNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7818
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0202
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: Set2Set
+    model_plain: Set2Set
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1806.08804'
+    title: Hierarchical Graph Representation Learning with Differentiable Pooling
+    date: Jun 2018
+    date_iso: 2018-06
+    date_display: Jun 2018
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7812
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
     - null
     - null
     - null
@@ -1691,8 +1161,246 @@ variants:
     - null
     - null
     - null
+  - model: Full B8C1
+    model_plain: Full B8C1
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2302.08671'
+    title: Search to Capture Long-range Dependency with Stacking GNNs for Graph Classification
+    date: Feb 2023
+    date_iso: 2023-02
+    date_display: Feb 2023
+    codebase_url: https://github.com/LARS-research/LRGNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7801
     - null
     - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0369
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: Diverse B12C3
+    model_plain: Diverse B12C3
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2302.08671'
+    title: Search to Capture Long-range Dependency with Stacking GNNs for Graph Classification
+    date: Feb 2023
+    date_iso: 2023-02
+    date_display: Feb 2023
+    codebase_url: https://github.com/LARS-research/LRGNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7767
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0335
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: DeepPano
+    model_plain: DeepPano
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1703.06114'
+    title: Deep Sets
+    date: Mar 2017
+    date_iso: 2017-03
+    date_display: Mar 2017
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7764
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: DGN
+    model_plain: DGN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_iso: '2023-05-27'
+    date_display: May 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.775
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.018
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: Repeat B12C3
+    model_plain: Repeat B12C3
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2302.08671'
+    title: Search to Capture Long-range Dependency with Stacking GNNs for Graph Classification
+    date: Feb 2023
+    date_iso: 2023-02
+    date_display: Feb 2023
+    codebase_url: https://github.com/LARS-research/LRGNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7725
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.029
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: SAGPool_h, augmentation
+    model_plain: SAGPool_h, augmentation
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1904.08082'
+    title: Self-Attention Graph Pooling
+    date: Apr 17, 2019
+    date_iso: '2019-04-17'
+    date_display: Apr 2019
+    codebase_url: https://github.com/inyeoplee77/SAGPool
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7707
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0082
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: 3DShapeNets
+    model_plain: 3DShapeNets
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1703.06114'
+    title: Deep Sets
+    date: Mar 2017
+    date_iso: 2017-03
+    date_display: Mar 2017
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.77
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: UnionSNN
+    model_plain: UnionSNN
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.15747'
+    title: Union Subgraph Neural Networks
+    date: May 2023
+    date_iso: 2023-05
+    date_display: May 2023
+    codebase_url: https://github.com/AngusMonroe/UnionSNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.77
     - null
     - null
     - null
@@ -1709,6 +1417,23 @@ variants:
     - null
     - null
     - null
+  - model: ASAP
+    model_plain: ASAP
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1911.07979'
+    title: 'ASAP: Adaptive Structure Aware Pooling for Learning Hierarchical Graph
+      Representations'
+    date: Nov 2019
+    date_iso: 2019-11
+    date_display: Nov 2019
+    codebase_url: https://github.com/malllabiisc/ASAP
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7687
     - null
     - null
     - null
@@ -1716,11 +1441,145 @@ variants:
     - null
     - null
     - null
+    metric_stds:
+    - 0.007
     - null
     - null
     - null
-  - model: MGAT (CLIP/CLIP)
-    model_plain: MGAT (CLIP/CLIP)
+    - null
+    - null
+    - null
+    - null
+  - model: SAGPool_h, parallel, M=2
+    model_plain: SAGPool_h, parallel, M=2
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1904.08082'
+    title: Self-Attention Graph Pooling
+    date: Apr 17, 2019
+    date_iso: '2019-04-17'
+    date_display: Apr 2019
+    codebase_url: https://github.com/inyeoplee77/SAGPool
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7677
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0061
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: GatedGCN+LapPE
+    model_plain: GatedGCN+LapPE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.15747'
+    title: Union Subgraph Neural Networks
+    date: May 2023
+    date_iso: 2023-05
+    date_display: May 2023
+    codebase_url: https://github.com/AngusMonroe/UnionSNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7674
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0204
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: SAGPool_h, serial,2layers
+    model_plain: SAGPool_h, serial,2layers
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1904.08082'
+    title: Self-Attention Graph Pooling
+    date: Apr 17, 2019
+    date_iso: '2019-04-17'
+    date_display: Apr 2019
+    codebase_url: https://github.com/inyeoplee77/SAGPool
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7668
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0096
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: ResGCN
+    model_plain: ResGCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2302.08671'
+    title: Search to Capture Long-range Dependency with Stacking GNNs for Graph Classification
+    date: Feb 2023
+    date_iso: 2023-02
+    date_display: Feb 2023
+    codebase_url: https://github.com/LARS-research/LRGNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7665
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0273
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: MGAT + CLIP/CLIP
+    model_plain: MGAT + CLIP/CLIP
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1742,16 +1601,6 @@ variants:
     - null
     - null
     - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
     metric_stds:
     - 0.0059
     - null
@@ -1761,42 +1610,86 @@ variants:
     - null
     - null
     - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: CNN
-    model_plain: CNN
+  - model: SAGPool
+    model_plain: SAGPool
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2407.18480'
-    title: Scalable Graph Compressed Convolutions
-    date: Jul 2024
-    date_iso: 2024-07
-    date_display: Jul 2024
+    arxiv_id: '1904.08082'
+    title: Self-Attention Graph Pooling
+    date: Apr 17, 2019
+    date_iso: '2019-04-17'
+    date_display: Apr 2019
+    codebase_url: https://github.com/inyeoplee77/SAGPool
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7645
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0097
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: SAGPool_h, SAGE
+    model_plain: SAGPool_h, SAGE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1904.08082'
+    title: Self-Attention Graph Pooling
+    date: Apr 17, 2019
+    date_iso: '2019-04-17'
+    date_display: Apr 2019
+    codebase_url: https://github.com/inyeoplee77/SAGPool
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7628
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0106
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: PATCHY-SAN
+    model_plain: PATCHY-SAN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1806.08804'
+    title: Hierarchical Graph Representation Learning with Differentiable Pooling
+    date: Jun 2018
+    date_iso: 2018-06
+    date_display: Jun 2018
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.7639
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
+    - 0.7627
     - null
     - null
     - null
@@ -1813,42 +1706,22 @@ variants:
     - null
     - null
     - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: BS-KAGCN
-    model_plain: BS-KAGCN
+  - model: PSCN
+    model_plain: PSCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2406.18380'
-    title: 'KAGNNs: Kolmogorov-Arnold Networks meet Graph Learning'
-    date: Jun 2024
-    date_iso: 2024-06
-    date_display: Jun 2024
-    codebase_url: https://github.com/RomanBresson/KAGNN
+    arxiv_id: '1905.05178'
+    title: Graph U-Nets
+    date: May 11, 2019
+    date_iso: '2019-05-11'
+    date_display: May 2019
+    codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.7606
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
+    - 0.7627
     - null
     - null
     - null
@@ -1857,7 +1730,6 @@ variants:
     - null
     - null
     metric_stds:
-    - 0.051
     - null
     - null
     - null
@@ -1866,41 +1738,22 @@ variants:
     - null
     - null
     - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: RBF-KAGCN
-    model_plain: RBF-KAGCN
+  - model: MEWISPool
+    model_plain: MEWISPool
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2406.18380'
-    title: 'KAGNNs: Kolmogorov-Arnold Networks meet Graph Learning'
-    date: Jun 2024
-    date_iso: 2024-06
-    date_display: Jun 2024
-    codebase_url: https://github.com/RomanBresson/KAGNN
+    arxiv_id: '2305.15747'
+    title: Union Subgraph Neural Networks
+    date: May 2023
+    date_iso: 2023-05
+    date_display: May 2023
+    codebase_url: https://github.com/AngusMonroe/UnionSNN
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.7592
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
+    - 0.7603
     - null
     - null
     - null
@@ -1909,7 +1762,7 @@ variants:
     - null
     - null
     metric_stds:
-    - 0.0349
+    - 0.0259
     - null
     - null
     - null
@@ -1917,9 +1770,63 @@ variants:
     - null
     - null
     - null
+  - model: GraphSNN
+    model_plain: GraphSNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.15747'
+    title: Union Subgraph Neural Networks
+    date: May 2023
+    date_iso: 2023-05
+    date_display: May 2023
+    codebase_url: https://github.com/AngusMonroe/UnionSNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7603
     - null
     - null
     - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0259
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: SAGPool_h, Cheb
+    model_plain: SAGPool_h, Cheb
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1904.08082'
+    title: Self-Attention Graph Pooling
+    date: Apr 17, 2019
+    date_iso: '2019-04-17'
+    date_display: Apr 2019
+    codebase_url: https://github.com/inyeoplee77/SAGPool
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7582
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0079
     - null
     - null
     - null
@@ -1933,26 +1840,16 @@ variants:
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2407.18480'
-    title: Scalable Graph Compressed Convolutions
-    date: Jul 2024
-    date_iso: 2024-07
-    date_display: Jul 2024
-    codebase_url: ''
+    arxiv_id: '2302.08671'
+    title: Search to Capture Long-range Dependency with Stacking GNNs for Graph Classification
+    date: Feb 2023
+    date_iso: 2023-02
+    date_display: Feb 2023
+    codebase_url: https://github.com/LARS-research/LRGNN
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.7546
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
+    - 0.7563
     - null
     - null
     - null
@@ -1961,6 +1858,7 @@ variants:
     - null
     - null
     metric_stds:
+    - 0.0295
     - null
     - null
     - null
@@ -1968,9 +1866,94 @@ variants:
     - null
     - null
     - null
+  - model: SGFormer
+    model_plain: SGFormer
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.15747'
+    title: Union Subgraph Neural Networks
+    date: May 2023
+    date_iso: 2023-05
+    date_display: May 2023
+    codebase_url: https://github.com/AngusMonroe/UnionSNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7551
     - null
     - null
     - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0352
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: SAGPool_h, GAT
+    model_plain: SAGPool_h, GAT
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1904.08082'
+    title: Self-Attention Graph Pooling
+    date: Apr 17, 2019
+    date_iso: '2019-04-17'
+    date_display: Apr 2019
+    codebase_url: https://github.com/inyeoplee77/SAGPool
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7549
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0093
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: DiffPool-Det
+    model_plain: DiffPool-Det
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1806.08804'
+    title: Hierarchical Graph Representation Learning with Differentiable Pooling
+    date: Jun 2018
+    date_iso: 2018-06
+    date_display: Jun 2018
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7547
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
     - null
     - null
     - null
@@ -2002,16 +1985,6 @@ variants:
     - null
     - null
     - null
-    - 0.7526
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
     metric_stds:
     - 0.0076
     - null
@@ -2021,9 +1994,96 @@ variants:
     - null
     - null
     - null
-    - 0.0121
+  - model: GraphSAGE
+    model_plain: GraphSAGE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1806.08804'
+    title: Hierarchical Graph Representation Learning with Differentiable Pooling
+    date: Jun 2018
+    date_iso: 2018-06
+    date_display: Jun 2018
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7542
     - null
     - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: gPool_h
+    model_plain: gPool_h
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1904.08082'
+    title: Self-Attention Graph Pooling
+    date: Apr 17, 2019
+    date_iso: '2019-04-17'
+    date_display: Apr 2019
+    codebase_url: https://github.com/inyeoplee77/SAGPool
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7501
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0086
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: TopK
+    model_plain: TopK
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1911.07979'
+    title: 'ASAP: Adaptive Structure Aware Pooling for Learning Hierarchical Graph
+      Representations'
+    date: Nov 2019
+    date_iso: 2019-11
+    date_display: Nov 2019
+    codebase_url: https://github.com/malllabiisc/ASAP
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7501
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0086
     - null
     - null
     - null
@@ -2054,16 +2114,6 @@ variants:
     - null
     - null
     - null
-    - 0.7489
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
     metric_stds:
     - 0.0123
     - null
@@ -2073,42 +2123,22 @@ variants:
     - null
     - null
     - null
-    - 0.0146
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: GIN
-    model_plain: GIN
+  - model: Graphlet
+    model_plain: Graphlet
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2406.18380'
-    title: 'KAGNNs: Kolmogorov-Arnold Networks meet Graph Learning'
-    date: Jun 2024
-    date_iso: 2024-06
-    date_display: Jun 2024
-    codebase_url: https://github.com/RomanBresson/KAGNN
+    arxiv_id: '1806.08804'
+    title: Hierarchical Graph Representation Learning with Differentiable Pooling
+    date: Jun 2018
+    date_iso: 2018-06
+    date_display: Jun 2018
+    codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.7478
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
+    - 0.7485
     - null
     - null
     - null
@@ -2117,7 +2147,6 @@ variants:
     - null
     - null
     metric_stds:
-    - 0.0382
     - null
     - null
     - null
@@ -2126,41 +2155,22 @@ variants:
     - null
     - null
     - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: RBF-KAGAT
-    model_plain: RBF-KAGAT
+  - model: 3WLGNN
+    model_plain: 3WLGNN
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2406.18380'
-    title: 'KAGNNs: Kolmogorov-Arnold Networks meet Graph Learning'
-    date: Jun 2024
-    date_iso: 2024-06
-    date_display: Jun 2024
-    codebase_url: https://github.com/RomanBresson/KAGNN
+    arxiv_id: '2305.15747'
+    title: Union Subgraph Neural Networks
+    date: May 2023
+    date_iso: 2023-05
+    date_display: May 2023
+    codebase_url: https://github.com/AngusMonroe/UnionSNN
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.7342
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
+    - 0.7484
     - null
     - null
     - null
@@ -2169,7 +2179,102 @@ variants:
     - null
     - null
     metric_stds:
-    - 0.0476
+    - 0.0263
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: TwoHop(L4)
+    model_plain: TwoHop(L4)
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2302.08671'
+    title: Search to Capture Long-range Dependency with Stacking GNNs for Graph Classification
+    date: Feb 2023
+    date_iso: 2023-02
+    date_display: Feb 2023
+    codebase_url: https://github.com/LARS-research/LRGNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7453
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0524
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: GAT
+    model_plain: GAT
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.15747'
+    title: Union Subgraph Neural Networks
+    date: May 2023
+    date_iso: 2023-05
+    date_display: May 2023
+    codebase_url: https://github.com/AngusMonroe/UnionSNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7425
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0376
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: ECC
+    model_plain: ECC
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1806.08804'
+    title: Hierarchical Graph Representation Learning with Differentiable Pooling
+    date: Jun 2018
+    date_iso: 2018-06
+    date_display: Jun 2018
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.741
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
     - null
     - null
     - null
@@ -2178,6 +2283,30 @@ variants:
     - null
     - null
     - null
+  - model: 1-WL
+    model_plain: 1-WL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1806.08804'
+    title: Hierarchical Graph Representation Learning with Differentiable Pooling
+    date: Jun 2018
+    date_iso: 2018-06
+    date_display: Jun 2018
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7402
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
     - null
     - null
     - null
@@ -2186,9 +2315,168 @@ variants:
     - null
     - null
     - null
+  - model: UnionGraphSAGE
+    model_plain: UnionGraphSAGE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.15747'
+    title: Union Subgraph Neural Networks
+    date: May 2023
+    date_iso: 2023-05
+    date_display: May 2023
+    codebase_url: https://github.com/AngusMonroe/UnionSNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7385
     - null
-  - model: MLP (CLIP/CLIP)
-    model_plain: MLP (CLIP/CLIP)
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0446
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: GCNJK
+    model_plain: GCNJK
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2302.08671'
+    title: Search to Capture Long-range Dependency with Stacking GNNs for Graph Classification
+    date: Feb 2023
+    date_iso: 2023-02
+    date_display: Feb 2023
+    codebase_url: https://github.com/LARS-research/LRGNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7316
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0512
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: GatedGCN
+    model_plain: GatedGCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.15747'
+    title: Union Subgraph Neural Networks
+    date: May 2023
+    date_iso: 2023-05
+    date_display: May 2023
+    codebase_url: https://github.com/AngusMonroe/UnionSNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7258
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0304
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: SortPool
+    model_plain: SortPool
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1904.08082'
+    title: Self-Attention Graph Pooling
+    date: Apr 17, 2019
+    date_iso: '2019-04-17'
+    date_display: Apr 2019
+    codebase_url: https://github.com/inyeoplee77/SAGPool
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7253
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0119
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: UnionGatedGCN
+    model_plain: UnionGatedGCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.15747'
+    title: Union Subgraph Neural Networks
+    date: May 2023
+    date_iso: 2023-05
+    date_display: May 2023
+    codebase_url: https://github.com/AngusMonroe/UnionSNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.725
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0222
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: MLP + CLIP/CLIP
+    model_plain: MLP + CLIP/CLIP
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -2210,16 +2498,6 @@ variants:
     - null
     - null
     - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
     metric_stds:
     - 0.0002
     - null
@@ -2229,42 +2507,22 @@ variants:
     - null
     - null
     - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: GAT
-    model_plain: GAT
+  - model: CurvGN
+    model_plain: CurvGN
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2406.18380'
-    title: 'KAGNNs: Kolmogorov-Arnold Networks meet Graph Learning'
-    date: Jun 2024
-    date_iso: 2024-06
-    date_display: Jun 2024
-    codebase_url: https://github.com/RomanBresson/KAGNN
+    arxiv_id: '2305.15747'
+    title: Union Subgraph Neural Networks
+    date: May 2023
+    date_iso: 2023-05
+    date_display: May 2023
+    codebase_url: https://github.com/AngusMonroe/UnionSNN
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.7192
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
+    - 0.7216
     - null
     - null
     - null
@@ -2273,7 +2531,7 @@ variants:
     - null
     - null
     metric_stds:
-    - 0.0588
+    - 0.0188
     - null
     - null
     - null
@@ -2281,42 +2539,22 @@ variants:
     - null
     - null
     - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: rf
-    model_plain: rf
+  - model: GCNVIR(L8)
+    model_plain: GCNVIR(L8)
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2407.18480'
-    title: Scalable Graph Compressed Convolutions
-    date: Jul 2024
-    date_iso: 2024-07
-    date_display: Jul 2024
-    codebase_url: ''
+    arxiv_id: '2302.08671'
+    title: Search to Capture Long-range Dependency with Stacking GNNs for Graph Classification
+    date: Feb 2023
+    date_iso: 2023-02
+    date_display: Feb 2023
+    codebase_url: https://github.com/LARS-research/LRGNN
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.699
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
+    - 0.7198
     - null
     - null
     - null
@@ -2325,6 +2563,7 @@ variants:
     - null
     - null
     metric_stds:
+    - 0.0434
     - null
     - null
     - null
@@ -2332,10 +2571,192 @@ variants:
     - null
     - null
     - null
+  - model: Global-Attention
+    model_plain: Global-Attention
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1911.07979'
+    title: 'ASAP: Adaptive Structure Aware Pooling for Learning Hierarchical Graph
+      Representations'
+    date: Nov 2019
+    date_iso: 2019-11
+    date_display: Nov 2019
+    codebase_url: https://github.com/malllabiisc/ASAP
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7138
     - null
     - null
     - null
     - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0078
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: Set2Set
+    model_plain: Set2Set
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1904.08082'
+    title: Self-Attention Graph Pooling
+    date: Apr 17, 2019
+    date_iso: '2019-04-17'
+    date_display: Apr 2019
+    codebase_url: https://github.com/inyeoplee77/SAGPool
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7127
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0084
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: DropGIN
+    model_plain: DropGIN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.15747'
+    title: Union Subgraph Neural Networks
+    date: May 2023
+    date_iso: 2023-05
+    date_display: May 2023
+    codebase_url: https://github.com/AngusMonroe/UnionSNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7105
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0268
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: UnionGCN
+    model_plain: UnionGCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.15747'
+    title: Union Subgraph Neural Networks
+    date: May 2023
+    date_iso: 2023-05
+    date_display: May 2023
+    codebase_url: https://github.com/AngusMonroe/UnionSNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7047
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0498
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: GIN
+    model_plain: GIN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.15747'
+    title: Union Subgraph Neural Networks
+    date: May 2023
+    date_iso: 2023-05
+    date_display: May 2023
+    codebase_url: https://github.com/AngusMonroe/UnionSNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7029
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0296
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: NestedGIN
+    model_plain: NestedGIN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.15747'
+    title: Union Subgraph Neural Networks
+    date: May 2023
+    date_iso: 2023-05
+    date_display: May 2023
+    codebase_url: https://github.com/AngusMonroe/UnionSNN
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.7004
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - 0.0432
     - null
     - null
     - null
@@ -2366,28 +2787,8 @@ variants:
     - null
     - null
     - null
-    - 0.1028
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
     metric_stds:
     - 0.0003
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.0004
-    - null
-    - null
     - null
     - null
     - null
@@ -2418,16 +2819,6 @@ variants:
     - null
     - null
     - null
-    - 0.111
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
     metric_stds:
     - 0.0007
     - null
@@ -2437,96 +2828,22 @@ variants:
     - null
     - null
     - null
-    - 0.0017
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: ParaFormer_GPRGNN
-    model_plain: ParaFormer_GPRGNN
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2512.14619'
-    title: 'ParaFormer: A Generalized PageRank Graph Transformer for Graph Representation
-      Learning'
-    date: Dec 2025
-    date_iso: 2025-12
-    date_display: Dec 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.677
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - 0.005
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: Polynormer
-    model_plain: Polynormer
+  - model: DiffPool
+    model_plain: DiffPool
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2512.14619'
-    title: 'ParaFormer: A Generalized PageRank Graph Transformer for Graph Representation
-      Learning'
-    date: Dec 2025
-    date_iso: 2025-12
-    date_display: Dec 2025
-    codebase_url: ''
+    arxiv_id: '1904.08082'
+    title: Self-Attention Graph Pooling
+    date: Apr 17, 2019
+    date_iso: '2019-04-17'
+    date_display: Apr 2019
+    codebase_url: https://github.com/inyeoplee77/SAGPool
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.6759999999999999
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
+    - 0.6695
     - null
     - null
     - null
@@ -2535,7 +2852,7 @@ variants:
     - null
     - null
     metric_stds:
-    - 0.004
+    - 0.0241
     - null
     - null
     - null
@@ -2543,43 +2860,22 @@ variants:
     - null
     - null
     - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: SGFormer
-    model_plain: SGFormer
+  - model: DGCNN(L8)
+    model_plain: DGCNN(L8)
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2512.14619'
-    title: 'ParaFormer: A Generalized PageRank Graph Transformer for Graph Representation
-      Learning'
-    date: Dec 2025
-    date_iso: 2025-12
-    date_display: Dec 2025
-    codebase_url: ''
+    arxiv_id: '2302.08671'
+    title: Search to Capture Long-range Dependency with Stacking GNNs for Graph Classification
+    date: Feb 2023
+    date_iso: 2023-02
+    date_display: Feb 2023
+    codebase_url: https://github.com/LARS-research/LRGNN
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.6709999999999999
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
+    - 0.6163
     - null
     - null
     - null
@@ -2588,7 +2884,7 @@ variants:
     - null
     - null
     metric_stds:
-    - 0.011000000000000001
+    - 0.0533
     - null
     - null
     - null
@@ -2596,917 +2892,8 @@ variants:
     - null
     - null
     - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: GPRGNN
-    model_plain: GPRGNN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2512.14619'
-    title: 'ParaFormer: A Generalized PageRank Graph Transformer for Graph Representation
-      Learning'
-    date: Dec 2025
-    date_iso: 2025-12
-    date_display: Dec 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.669
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - 0.005
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: MLP
-    model_plain: MLP
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2512.14619'
-    title: 'ParaFormer: A Generalized PageRank Graph Transformer for Graph Representation
-      Learning'
-    date: Dec 2025
-    date_iso: 2025-12
-    date_display: Dec 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.6659999999999999
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - 0.006999999999999999
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: CoBFormer
-    model_plain: CoBFormer
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2512.14619'
-    title: 'ParaFormer: A Generalized PageRank Graph Transformer for Graph Representation
-      Learning'
-    date: Dec 2025
-    date_iso: 2025-12
-    date_display: Dec 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.6659999999999999
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - 0.006999999999999999
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: NodeFormer
-    model_plain: NodeFormer
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2512.14619'
-    title: 'ParaFormer: A Generalized PageRank Graph Transformer for Graph Representation
-      Learning'
-    date: Dec 2025
-    date_iso: 2025-12
-    date_display: Dec 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.664
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - 0.006999999999999999
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: SIGN
-    model_plain: SIGN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2512.14619'
-    title: 'ParaFormer: A Generalized PageRank Graph Transformer for Graph Representation
-      Learning'
-    date: Dec 2025
-    date_iso: 2025-12
-    date_display: Dec 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.6629999999999999
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - 0.003
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: H2GCN
-    model_plain: H2GCN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2512.14619'
-    title: 'ParaFormer: A Generalized PageRank Graph Transformer for Graph Representation
-      Learning'
-    date: Dec 2025
-    date_iso: 2025-12
-    date_display: Dec 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.662
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - 0.008
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: APPNP
-    model_plain: APPNP
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2512.14619'
-    title: 'ParaFormer: A Generalized PageRank Graph Transformer for Graph Representation
-      Learning'
-    date: Dec 2025
-    date_iso: 2025-12
-    date_display: Dec 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.6609999999999999
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - 0.006
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: GCN
-    model_plain: GCN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2406.18380'
-    title: 'KAGNNs: Kolmogorov-Arnold Networks meet Graph Learning'
-    date: Jun 2024
-    date_iso: 2024-06
-    date_display: Jun 2024
-    codebase_url: https://github.com/RomanBresson/KAGNN
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.6587
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - 0.0633
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: CPGNN
-    model_plain: CPGNN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2512.14619'
-    title: 'ParaFormer: A Generalized PageRank Graph Transformer for Graph Representation
-      Learning'
-    date: Dec 2025
-    date_iso: 2025-12
-    date_display: Dec 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.6579999999999999
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - 0.003
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: GLoGNN
-    model_plain: GLoGNN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2512.14619'
-    title: 'ParaFormer: A Generalized PageRank Graph Transformer for Graph Representation
-      Learning'
-    date: Dec 2025
-    date_iso: 2025-12
-    date_display: Dec 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.6579999999999999
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - 0.008
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: ParaFormer_GCN
-    model_plain: ParaFormer_GCN
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2512.14619'
-    title: 'ParaFormer: A Generalized PageRank Graph Transformer for Graph Representation
-      Learning'
-    date: Dec 2025
-    date_iso: 2025-12
-    date_display: Dec 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.6579999999999999
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - 0.009000000000000001
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: ParaFormer (a)
-    model_plain: ParaFormer (a)
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2512.14619'
-    title: 'ParaFormer: A Generalized PageRank Graph Transformer for Graph Representation
-      Learning'
-    date: Dec 2025
-    date_iso: 2025-12
-    date_display: Dec 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.637
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: Nagphormer
-    model_plain: Nagphormer
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2512.14619'
-    title: 'ParaFormer: A Generalized PageRank Graph Transformer for Graph Representation
-      Learning'
-    date: Dec 2025
-    date_iso: 2025-12
-    date_display: Dec 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.635
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - 0.006
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: SGC
-    model_plain: SGC
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2512.14619'
-    title: 'ParaFormer: A Generalized PageRank Graph Transformer for Graph Representation
-      Learning'
-    date: Dec 2025
-    date_iso: 2025-12
-    date_display: Dec 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.623
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - 0.004
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: GAT
-    model_plain: GAT
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2512.14619'
-    title: 'ParaFormer: A Generalized PageRank Graph Transformer for Graph Representation
-      Learning'
-    date: Dec 2025
-    date_iso: 2025-12
-    date_display: Dec 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.617
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - 0.008
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: JKNet
-    model_plain: JKNet
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2512.14619'
-    title: 'ParaFormer: A Generalized PageRank Graph Transformer for Graph Representation
-      Learning'
-    date: Dec 2025
-    date_iso: 2025-12
-    date_display: Dec 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.615
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - 0.004
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: ChebNet
-    model_plain: ChebNet
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2407.18480'
-    title: Scalable Graph Compressed Convolutions
-    date: Jul 2024
-    date_iso: 2024-07
-    date_display: Jul 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.5907
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: MMGCN (ImageBind/ImageBind)
-    model_plain: MMGCN (ImageBind/ImageBind)
+  - model: MMGCN + ImageBind/ImageBind
+    model_plain: MMGCN + ImageBind/ImageBind
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -3528,16 +2915,6 @@ variants:
     - null
     - null
     - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
     metric_stds:
     - 0.0005
     - null
@@ -3547,3373 +2924,21 @@ variants:
     - null
     - null
     - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: GraphSAGE
-    model_plain: GraphSAGE
+  - model: KNN graph-convolution
+    model_plain: KNN graph-convolution
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2503.09008'
-    title: City-Networks
-    date: Mar 2025
-    date_iso: 2025-03
-    date_display: Mar 2025
+    arxiv_id: '1703.06114'
+    title: Deep Sets
+    date: Mar 2017
+    date_iso: 2017-03
+    date_display: Mar 2017
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.554
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - 0.002
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: ChebNet
-    model_plain: ChebNet
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2503.09008'
-    title: City-Networks
-    date: Mar 2025
-    date_iso: 2025-03
-    date_display: Mar 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.547
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - 0.002
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: IM-GCN
-    model_plain: IM-GCN
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2505.23185'
-    title: Improving the Effective Receptive Field of Message-Passing Neural Networks
-    date: May 29, 2025
-    date_iso: '2025-05-29'
-    date_display: May 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.538
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - 0.003
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: GraphSAGE
-    model_plain: GraphSAGE
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2506.08618'
-    title: HSG-12M
-    date: Jun 2025
-    date_iso: 2025-06
-    date_display: Jun 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.523
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - 0.02
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: GAT
-    model_plain: GAT
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2503.09008'
-    title: City-Networks
-    date: Mar 2025
-    date_iso: 2025-03
-    date_display: Mar 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.52
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - 0.003
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: GCN
-    model_plain: GCN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2503.09008'
-    title: City-Networks
-    date: Mar 2025
-    date_iso: 2025-03
-    date_display: Mar 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.501
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - 0.007
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: Exphormer
-    model_plain: Exphormer
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2503.09008'
-    title: City-Networks
-    date: Mar 2025
-    date_iso: 2025-03
-    date_display: Mar 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.495
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - 0.004
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: SGFormer
-    model_plain: SGFormer
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2503.09008'
-    title: City-Networks
-    date: Mar 2025
-    date_iso: 2025-03
-    date_display: Mar 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.483
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - 0.003
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: GCNII
-    model_plain: GCNII
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2503.09008'
-    title: City-Networks
-    date: Mar 2025
-    date_iso: 2025-03
-    date_display: Mar 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.482
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - 0.003
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: CGCNN
-    model_plain: CGCNN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2506.08618'
-    title: HSG-12M
-    date: Jun 2025
-    date_iso: 2025-06
-    date_display: Jun 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.478
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - 0.011
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: + DropEdge
-    model_plain: + DropEdge
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2503.09008'
-    title: City-Networks
-    date: Mar 2025
-    date_iso: 2025-03
-    date_display: Mar 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.45
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - 0.003
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: GCN
-    model_plain: GCN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2505.23185'
-    title: Improving the Effective Receptive Field of Message-Passing Neural Networks
-    date: May 29, 2025
-    date_iso: '2025-05-29'
-    date_display: May 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.438
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - 0.003
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: GINE
-    model_plain: GINE
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2506.08618'
-    title: HSG-12M
-    date: Jun 2025
-    date_iso: 2025-06
-    date_display: Jun 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.379
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - 0.013
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: GIN
-    model_plain: GIN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2411.15671'
-    title: 'Best of Both Worlds: Advantages of Hybrid Graph Sequence Models'
-    date: Nov 2024
-    date_iso: 2024-11
-    date_display: Nov 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.364
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: GAT
-    model_plain: GAT
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2506.08618'
-    title: HSG-12M
-    date: Jun 2025
-    date_iso: 2025-06
-    date_display: Jun 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.344
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - 0.012
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: GCN
-    model_plain: GCN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2506.08618'
-    title: HSG-12M
-    date: Jun 2025
-    date_iso: 2025-06
-    date_display: Jun 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.337
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - 0.014
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: HAC (DFS)
-    model_plain: HAC (DFS)
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2411.15671'
-    title: 'Best of Both Worlds: Advantages of Hybrid Graph Sequence Models'
-    date: Nov 2024
-    date_iso: 2024-11
-    date_display: Nov 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.31
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: Node
-    model_plain: Node
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2411.15671'
-    title: 'Best of Both Worlds: Advantages of Hybrid Graph Sequence Models'
-    date: Nov 2024
-    date_iso: 2024-11
-    date_display: Nov 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.299
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: GatedGCN
-    model_plain: GatedGCN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2411.15671'
-    title: 'Best of Both Worlds: Advantages of Hybrid Graph Sequence Models'
-    date: Nov 2024
-    date_iso: 2024-11
-    date_display: Nov 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.298
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: GATv2
-    model_plain: GATv2
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2506.08618'
-    title: HSG-12M
-    date: Jun 2025
-    date_iso: 2025-06
-    date_display: Jun 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.282
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - 0.03
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: MLP
-    model_plain: MLP
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2503.09008'
-    title: City-Networks
-    date: Mar 2025
-    date_iso: 2025-03
-    date_display: Mar 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.279
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - 0.001
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: MF
-    model_plain: MF
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2506.08618'
-    title: HSG-12M
-    date: Jun 2025
-    date_iso: 2025-06
-    date_display: Jun 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.271
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - 0.004
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: GCN
-    model_plain: GCN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2411.15671'
-    title: 'Best of Both Worlds: Advantages of Hybrid Graph Sequence Models'
-    date: Nov 2024
-    date_iso: 2024-11
-    date_display: Nov 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.093
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: GIN
-    model_plain: GIN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2506.08618'
-    title: HSG-12M
-    date: Jun 2025
-    date_iso: 2025-06
-    date_display: Jun 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.05
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - 0.021
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: GIN
-    model_plain: GIN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2512.04475'
-    title: GraphBench
-    date: Dec 2025
-    date_iso: 2025-12
-    date_display: Dec 2025
-    codebase_url: https://github.com/graphbench/package
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.6595
-    - 9.5061
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.0164
-    - 0.1265
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: GT
-    model_plain: GT
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2512.04475'
-    title: GraphBench
-    date: Dec 2025
-    date_iso: 2025-12
-    date_display: Dec 2025
-    codebase_url: https://github.com/graphbench/package
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.6743
-    - 6.4833
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.0038
-    - 0.0869
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: GIN
-    model_plain: GIN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2605.06462'
-    title: Invariant-Based Diagnostics for Graph Benchmarks
-    date: May 2026
-    date_iso: 2026-05
-    date_display: May 2026
-    codebase_url: ''
-    uses_external_data: null
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 9.51
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: Graph transformer
-    model_plain: Graph transformer
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2605.06462'
-    title: Invariant-Based Diagnostics for Graph Benchmarks
-    date: May 2026
-    date_iso: 2026-05
-    date_display: May 2026
-    codebase_url: ''
-    uses_external_data: null
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 6.48
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: agg + I
-    model_plain: agg + I
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2605.06462'
-    title: Invariant-Based Diagnostics for Graph Benchmarks
-    date: May 2026
-    date_iso: 2026-05
-    date_display: May 2026
-    codebase_url: ''
-    uses_external_data: null
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 5.26
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.03
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: GT (no PE)
-    model_plain: GT (no PE)
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2511.08028'
-    title: Generalizable Insights for Graph Transformers in Theory and Practice
-    date: Nov 2025
-    date_iso: 2025-11
-    date_display: Nov 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.5536
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.2494
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: GDT (LPE)
-    model_plain: GDT (LPE)
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2511.08028'
-    title: Generalizable Insights for Graph Transformers in Theory and Practice
-    date: Nov 2025
-    date_iso: 2025-11
-    date_display: Nov 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.9176000000000001
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.0766
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: GDT (SPE)
-    model_plain: GDT (SPE)
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2511.08028'
-    title: Generalizable Insights for Graph Transformers in Theory and Practice
-    date: Nov 2025
-    date_iso: 2025-11
-    date_display: Nov 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.5481
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.212
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: GDT (RWSE)
-    model_plain: GDT (RWSE)
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2511.08028'
-    title: Generalizable Insights for Graph Transformers in Theory and Practice
-    date: Nov 2025
-    date_iso: 2025-11
-    date_display: Nov 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.8734000000000001
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.0397
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: GDT (RRWP)
-    model_plain: GDT (RRWP)
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2511.08028'
-    title: Generalizable Insights for Graph Transformers in Theory and Practice
-    date: Nov 2025
-    date_iso: 2025-11
-    date_display: Nov 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.9921
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.0009
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: GatedGCN
-    model_plain: GatedGCN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2508.05070'
-    title: 'Tango: Graph Neural Dynamics via Learned Energy and Tangential Flows'
-    date: Aug 2025
-    date_iso: 2025-08
-    date_display: Aug 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.1348
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.0397
-    - null
-  - model: Tango-NON-ENERGY_GatedGCN
-    model_plain: Tango-NON-ENERGY_GatedGCN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2508.05070'
-    title: 'Tango: Graph Neural Dynamics via Learned Energy and Tangential Flows'
-    date: Aug 2025
-    date_iso: 2025-08
-    date_display: Aug 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - -0.5992
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.0831
-    - null
-  - model: Tango_GatedGCN
-    model_plain: Tango_GatedGCN
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2508.05070'
-    title: 'Tango: Graph Neural Dynamics via Learned Energy and Tangential Flows'
-    date: Aug 2025
-    date_iso: 2025-08
-    date_display: Aug 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - -0.6681
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.0745
-    - null
-  - model: GPS
-    model_plain: GPS
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2508.05070'
-    title: 'Tango: Graph Neural Dynamics via Learned Energy and Tangential Flows'
-    date: Aug 2025
-    date_iso: 2025-08
-    date_display: Aug 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - -0.5121
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.0426
-    - null
-  - model: Tango-NON-ENERGY_GPS
-    model_plain: Tango-NON-ENERGY_GPS
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2508.05070'
-    title: 'Tango: Graph Neural Dynamics via Learned Energy and Tangential Flows'
-    date: Aug 2025
-    date_iso: 2025-08
-    date_display: Aug 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - -0.7178
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.0729
-    - null
-  - model: Tango_GPS
-    model_plain: Tango_GPS
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2508.05070'
-    title: 'Tango: Graph Neural Dynamics via Learned Energy and Tangential Flows'
-    date: Aug 2025
-    date_iso: 2025-08
-    date_display: Aug 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - -0.9772
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.0518
-    - null
-  - model: Tango-NON-TANGENT_GatedGCN
-    model_plain: Tango-NON-TANGENT_GatedGCN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2508.05070'
-    title: 'Tango: Graph Neural Dynamics via Learned Energy and Tangential Flows'
-    date: Aug 2025
-    date_iso: 2025-08
-    date_display: Aug 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - -0.2193
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.0899
-    - null
-  - model: Tango-NON-TANGENT_GPS
-    model_plain: Tango-NON-TANGENT_GPS
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2508.05070'
-    title: 'Tango: Graph Neural Dynamics via Learned Energy and Tangential Flows'
-    date: Aug 2025
-    date_iso: 2025-08
-    date_display: Aug 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - -0.2916
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.0404
-    - null
-  - model: Lorem
-    model_plain: Lorem
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: 1.021
-    arxiv_id: '2507.19382'
-    title: Learning Long-Range Representations with Equivariant Messages
-    date: Jul 2025
-    date_iso: 2025-07
-    date_display: Jul 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.222
-    - 1.646
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: Cace-Les
-    model_plain: Cace-Les
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2507.19382'
-    title: Learning Long-Range Representations with Equivariant Messages
-    date: Jul 2025
-    date_iso: 2025-07
-    date_display: Jul 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 2.259
-    - 3.163
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: Mace
-    model_plain: Mace
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2507.19382'
-    title: Learning Long-Range Representations with Equivariant Messages
-    date: Jul 2025
-    date_iso: 2025-07
-    date_display: Jul 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 7.793
-    - 16.15
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: Pet
-    model_plain: Pet
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2507.19382'
-    title: Learning Long-Range Representations with Equivariant Messages
-    date: Jul 2025
-    date_iso: 2025-07
-    date_display: Jul 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 6.758
-    - 16.47
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: GCN
-    model_plain: GCN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2312.16560'
-    title: Algorithmic Graph Tasks
-    date: Dec 2023
-    date_iso: 2023-12
-    date_display: Dec 2023
-    codebase_url: https://github.com/nec-research/Adaptive-Message-Passing
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.6146
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.0375
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: GAT
-    model_plain: GAT
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2312.16560'
-    title: Algorithmic Graph Tasks
-    date: Dec 2023
-    date_iso: 2023-12
-    date_display: Dec 2023
-    codebase_url: https://github.com/nec-research/Adaptive-Message-Passing
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 1.4367
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.3558
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: GraphSAGE
-    model_plain: GraphSAGE
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2312.16560'
-    title: Algorithmic Graph Tasks
-    date: Dec 2023
-    date_iso: 2023-12
-    date_display: Dec 2023
-    codebase_url: https://github.com/nec-research/Adaptive-Message-Passing
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.6146
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.0744
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: GIN
-    model_plain: GIN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2312.16560'
-    title: Algorithmic Graph Tasks
-    date: Dec 2023
-    date_iso: 2023-12
-    date_display: Dec 2023
-    codebase_url: https://github.com/nec-research/Adaptive-Message-Passing
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.2408
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.0154
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: GCNII
-    model_plain: GCNII
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2312.16560'
-    title: Algorithmic Graph Tasks
-    date: Dec 2023
-    date_iso: 2023-12
-    date_display: Dec 2023
-    codebase_url: https://github.com/nec-research/Adaptive-Message-Passing
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.5057
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.0309
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: DGC
-    model_plain: DGC
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2312.16560'
-    title: Algorithmic Graph Tasks
-    date: Dec 2023
-    date_iso: 2023-12
-    date_display: Dec 2023
-    codebase_url: https://github.com/nec-research/Adaptive-Message-Passing
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.5601
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.022
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: GRAND
-    model_plain: GRAND
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2312.16560'
-    title: Algorithmic Graph Tasks
-    date: Dec 2023
-    date_iso: 2023-12
-    date_display: Dec 2023
-    codebase_url: https://github.com/nec-research/Adaptive-Message-Passing
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.9477
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.216
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: A-DGN
-    model_plain: A-DGN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2312.16560'
-    title: Algorithmic Graph Tasks
-    date: Dec 2023
-    date_iso: 2023-12
-    date_display: Dec 2023
-    codebase_url: https://github.com/nec-research/Adaptive-Message-Passing
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - -0.453
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.0883
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: AMP_GCN
-    model_plain: AMP_GCN
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2312.16560'
-    title: Algorithmic Graph Tasks
-    date: Dec 2023
-    date_iso: 2023-12
-    date_display: Dec 2023
-    codebase_url: https://github.com/nec-research/Adaptive-Message-Passing
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - -0.1072
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.0791
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: AMP_GIN
-    model_plain: AMP_GIN
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2312.16560'
-    title: Algorithmic Graph Tasks
-    date: Dec 2023
-    date_iso: 2023-12
-    date_display: Dec 2023
-    codebase_url: https://github.com/nec-research/Adaptive-Message-Passing
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - -0.4874
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.1111
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: AMP_ADGN
-    model_plain: AMP_ADGN
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2312.16560'
-    title: Algorithmic Graph Tasks
-    date: Dec 2023
-    date_iso: 2023-12
-    date_display: Dec 2023
-    codebase_url: https://github.com/nec-research/Adaptive-Message-Passing
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - -0.5891
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.072
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: CodeBERT
-    model_plain: CodeBERT
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2505.23875'
-    title: A Benchmark Dataset for Graph Regression with Homogeneous and Multi‑Relational
-      Variants
-    date: May 2025
-    date_iso: 2025-05
-    date_display: May 2025
-    codebase_url: ''
-    uses_external_data: true
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.15
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.08
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: Code2Vec
-    model_plain: Code2Vec
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2505.23875'
-    title: A Benchmark Dataset for Graph Regression with Homogeneous and Multi‑Relational
-      Variants
-    date: May 2025
-    date_iso: 2025-05
-    date_display: May 2025
-    codebase_url: ''
-    uses_external_data: null
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.15
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.01
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: GCN
-    model_plain: GCN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2505.23875'
-    title: A Benchmark Dataset for Graph Regression with Homogeneous and Multi‑Relational
-      Variants
-    date: May 2025
-    date_iso: 2025-05
-    date_display: May 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.14
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.01
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: Cheb
-    model_plain: Cheb
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2505.23875'
-    title: A Benchmark Dataset for Graph Regression with Homogeneous and Multi‑Relational
-      Variants
-    date: May 2025
-    date_iso: 2025-05
-    date_display: May 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.15
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.01
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: GIN
-    model_plain: GIN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2505.23875'
-    title: A Benchmark Dataset for Graph Regression with Homogeneous and Multi‑Relational
-      Variants
-    date: May 2025
-    date_iso: 2025-05
-    date_display: May 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.14
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.01
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: GraphSAGE
-    model_plain: GraphSAGE
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2505.23875'
-    title: A Benchmark Dataset for Graph Regression with Homogeneous and Multi‑Relational
-      Variants
-    date: May 2025
-    date_iso: 2025-05
-    date_display: May 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.14
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.01
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: PNA
-    model_plain: PNA
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2505.23875'
-    title: A Benchmark Dataset for Graph Regression with Homogeneous and Multi‑Relational
-      Variants
-    date: May 2025
-    date_iso: 2025-05
-    date_display: May 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.11
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.0
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: HeteroSage
-    model_plain: HeteroSage
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2505.23875'
-    title: A Benchmark Dataset for Graph Regression with Homogeneous and Multi‑Relational
-      Variants
-    date: May 2025
-    date_iso: 2025-05
-    date_display: May 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
     - 0.58
     - null
     - null
@@ -6922,4685 +2947,8 @@ variants:
     - null
     - null
     - null
-    - null
-    - null
-    - null
-    - null
     metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.31
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: HeteroGAT
-    model_plain: HeteroGAT
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2505.23875'
-    title: A Benchmark Dataset for Graph Regression with Homogeneous and Multi‑Relational
-      Variants
-    date: May 2025
-    date_iso: 2025-05
-    date_display: May 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.18
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
     - 0.02
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: NoPE
-    model_plain: NoPE
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2502.01122'
-    title: Learning Efficient Positional Encodings with Graph Neural Networks
-    date: Feb 2025
-    date_iso: 2025-02
-    date_display: Feb 2025
-    codebase_url: ''
-    uses_external_data: null
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.1073
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.9289
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.0014
-    - null
-    - null
-    - null
-  - model: PEG
-    model_plain: PEG
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2502.01122'
-    title: Learning Efficient Positional Encodings with Graph Neural Networks
-    date: Feb 2025
-    date_iso: 2025-02
-    date_display: Feb 2025
-    codebase_url: ''
-    uses_external_data: null
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.9257
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.0022
-    - null
-    - null
-    - null
-  - model: SignNet
-    model_plain: SignNet
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2502.01122'
-    title: Learning Efficient Positional Encodings with Graph Neural Networks
-    date: Feb 2025
-    date_iso: 2025-02
-    date_display: Feb 2025
-    codebase_url: ''
-    uses_external_data: null
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.1086
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.9243
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.0027
-    - null
-    - null
-    - null
-  - model: BasisNet
-    model_plain: BasisNet
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2502.01122'
-    title: Learning Efficient Positional Encodings with Graph Neural Networks
-    date: Feb 2025
-    date_iso: 2025-02
-    date_display: Feb 2025
-    codebase_url: ''
-    uses_external_data: null
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.8942
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.0118
-    - null
-    - null
-    - null
-  - model: SPE
-    model_plain: SPE
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2502.01122'
-    title: Learning Efficient Positional Encodings with Graph Neural Networks
-    date: Feb 2025
-    date_iso: 2025-02
-    date_display: Feb 2025
-    codebase_url: ''
-    uses_external_data: null
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.9294
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.0015
-    - null
-    - null
-    - null
-  - model: SPE-8S
-    model_plain: SPE-8S
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2502.01122'
-    title: Learning Efficient Positional Encodings with Graph Neural Networks
-    date: Feb 2025
-    date_iso: 2025-02
-    date_display: Feb 2025
-    codebase_url: ''
-    uses_external_data: null
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.9262
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.001
-    - null
-    - null
-    - null
-  - model: R-method
-    model_plain: R-method
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2502.01122'
-    title: Learning Efficient Positional Encodings with Graph Neural Networks
-    date: Feb 2025
-    date_iso: 2025-02
-    date_display: Feb 2025
-    codebase_url: ''
-    uses_external_data: null
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.9292
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.0012
-    - null
-    - null
-    - null
-  - model: B-method
-    model_plain: B-method
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2502.01122'
-    title: Learning Efficient Positional Encodings with Graph Neural Networks
-    date: Feb 2025
-    date_iso: 2025-02
-    date_display: Feb 2025
-    codebase_url: ''
-    uses_external_data: null
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.9081
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.0079
-    - null
-    - null
-    - null
-  - model: SignNet-8S
-    model_plain: SignNet-8S
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2502.01122'
-    title: Learning Efficient Positional Encodings with Graph Neural Networks
-    date: Feb 2025
-    date_iso: 2025-02
-    date_display: Feb 2025
-    codebase_url: ''
-    uses_external_data: null
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.1086
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: AMP-BERT
-    model_plain: AMP-BERT
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2501.17901'
-    title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: Jan 29, 2025
-    date_iso: '2025-01-29'
-    date_display: Jan 2025
-    codebase_url: ''
-    uses_external_data: true
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.826
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: BERT-Protein
-    model_plain: BERT-Protein
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2501.17901'
-    title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: Jan 29, 2025
-    date_iso: '2025-01-29'
-    date_display: Jan 2025
-    codebase_url: ''
-    uses_external_data: true
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.588
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: cAMPs_pred
-    model_plain: cAMPs_pred
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2501.17901'
-    title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: Jan 29, 2025
-    date_iso: '2025-01-29'
-    date_display: Jan 2025
-    codebase_url: ''
-    uses_external_data: true
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.85
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: LM_pred
-    model_plain: LM_pred
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2501.17901'
-    title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: Jan 29, 2025
-    date_iso: '2025-01-29'
-    date_display: Jan 2025
-    codebase_url: ''
-    uses_external_data: true
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.821
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: LM_pred (BFD)
-    model_plain: LM_pred (BFD)
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2501.17901'
-    title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: Jan 29, 2025
-    date_iso: '2025-01-29'
-    date_display: Jan 2025
-    codebase_url: ''
-    uses_external_data: true
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.844
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: RDKit
-    model_plain: RDKit
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2501.17901'
-    title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: Jan 29, 2025
-    date_iso: '2025-01-29'
-    date_display: Jan 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - 0.769
-    - null
-    - 0.92
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: TT
-    model_plain: TT
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2501.17901'
-    title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: Jan 29, 2025
-    date_iso: '2025-01-29'
-    date_display: Jan 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - 0.771
-    - null
-    - 0.958
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: ECFP
-    model_plain: ECFP
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2501.17901'
-    title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: Jan 29, 2025
-    date_iso: '2025-01-29'
-    date_display: Jan 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - 0.781
-    - null
-    - 0.958
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: ProtBERT
-    model_plain: ProtBERT
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: 420.0
-    arxiv_id: '2501.17901'
-    title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: Jan 29, 2025
-    date_iso: '2025-01-29'
-    date_display: Jan 2025
-    codebase_url: ''
-    uses_external_data: true
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - 0.759
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: ESM2-150M
-    model_plain: ESM2-150M
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: 150.0
-    arxiv_id: '2501.17901'
-    title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: Jan 29, 2025
-    date_iso: '2025-01-29'
-    date_display: Jan 2025
-    codebase_url: ''
-    uses_external_data: true
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - 0.797
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: Prost-T5
-    model_plain: Prost-T5
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: 3000.0
-    arxiv_id: '2501.17901'
-    title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: Jan 29, 2025
-    date_iso: '2025-01-29'
-    date_display: Jan 2025
-    codebase_url: ''
-    uses_external_data: true
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - 0.771
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: ESM2-8M
-    model_plain: ESM2-8M
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: 8.0
-    arxiv_id: '2501.17901'
-    title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: Jan 29, 2025
-    date_iso: '2025-01-29'
-    date_display: Jan 2025
-    codebase_url: ''
-    uses_external_data: true
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - 0.775
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: ESM2-35M
-    model_plain: ESM2-35M
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: 35.0
-    arxiv_id: '2501.17901'
-    title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: Jan 29, 2025
-    date_iso: '2025-01-29'
-    date_display: Jan 2025
-    codebase_url: ''
-    uses_external_data: true
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - 0.78
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: ESM1b-650M
-    model_plain: ESM1b-650M
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: 650.0
-    arxiv_id: '2501.17901'
-    title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: Jan 29, 2025
-    date_iso: '2025-01-29'
-    date_display: Jan 2025
-    codebase_url: ''
-    uses_external_data: true
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - 0.789
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: Prot-T5-XL
-    model_plain: Prot-T5-XL
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: 3000.0
-    arxiv_id: '2501.17901'
-    title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: Jan 29, 2025
-    date_iso: '2025-01-29'
-    date_display: Jan 2025
-    codebase_url: ''
-    uses_external_data: true
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - 0.797
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: MMGCN + CLIP
-    model_plain: MMGCN + CLIP
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2406.16321'
-    title: 'Mosaic of Modalities: A Comprehensive Benchmark for Multimodal Graph Learning'
-    date: Jun 2024
-    date_iso: 2024-06
-    date_display: Jun 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.2534
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.0006
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: MMGCN + ImageBind
-    model_plain: MMGCN + ImageBind
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2406.16321'
-    title: 'Mosaic of Modalities: A Comprehensive Benchmark for Multimodal Graph Learning'
-    date: Jun 2024
-    date_iso: 2024-06
-    date_display: Jun 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.2632
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.0023
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: MGAT + CLIP
-    model_plain: MGAT + CLIP
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2406.16321'
-    title: 'Mosaic of Modalities: A Comprehensive Benchmark for Multimodal Graph Learning'
-    date: Jun 2024
-    date_iso: 2024-06
-    date_display: Jun 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.7475
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.0123
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: MGAT + ImageBind
-    model_plain: MGAT + ImageBind
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2406.16321'
-    title: 'Mosaic of Modalities: A Comprehensive Benchmark for Multimodal Graph Learning'
-    date: Jun 2024
-    date_iso: 2024-06
-    date_display: Jun 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.7477
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.0049
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: GCN + ImageBind
-    model_plain: GCN + ImageBind
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2406.16321'
-    title: 'Mosaic of Modalities: A Comprehensive Benchmark for Multimodal Graph Learning'
-    date: Jun 2024
-    date_iso: 2024-06
-    date_display: Jun 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.2756
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.0126
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: SAGE + CLIP
-    model_plain: SAGE + CLIP
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2406.16321'
-    title: 'Mosaic of Modalities: A Comprehensive Benchmark for Multimodal Graph Learning'
-    date: Jun 2024
-    date_iso: 2024-06
-    date_display: Jun 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.441
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.0137
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: SAGE + ImageBind
-    model_plain: SAGE + ImageBind
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2406.16321'
-    title: 'Mosaic of Modalities: A Comprehensive Benchmark for Multimodal Graph Learning'
-    date: Jun 2024
-    date_iso: 2024-06
-    date_display: Jun 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.3461
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.0043
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: BUDDY + CLIP
-    model_plain: BUDDY + CLIP
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2406.16321'
-    title: 'Mosaic of Modalities: A Comprehensive Benchmark for Multimodal Graph Learning'
-    date: Jun 2024
-    date_iso: 2024-06
-    date_display: Jun 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.4325
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.0023
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: BUDDY + ViT/T5
-    model_plain: BUDDY + ViT/T5
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2406.16321'
-    title: 'Mosaic of Modalities: A Comprehensive Benchmark for Multimodal Graph Learning'
-    date: Jun 2024
-    date_iso: 2024-06
-    date_display: Jun 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.4318
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.0053
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: BUDDY + ImageBind
-    model_plain: BUDDY + ImageBind
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2406.16321'
-    title: 'Mosaic of Modalities: A Comprehensive Benchmark for Multimodal Graph Learning'
-    date: Jun 2024
-    date_iso: 2024-06
-    date_display: Jun 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.4156
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.0061
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: BUDDY + DINOv2/T5
-    model_plain: BUDDY + DINOv2/T5
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2406.16321'
-    title: 'Mosaic of Modalities: A Comprehensive Benchmark for Multimodal Graph Learning'
-    date: Jun 2024
-    date_iso: 2024-06
-    date_display: Jun 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.4325
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.0013
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: MLP + CLIP
-    model_plain: MLP + CLIP
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2406.16321'
-    title: 'Mosaic of Modalities: A Comprehensive Benchmark for Multimodal Graph Learning'
-    date: Jun 2024
-    date_iso: 2024-06
-    date_display: Jun 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.1103
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.0006
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: MLP + ImageBind
-    model_plain: MLP + ImageBind
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2406.16321'
-    title: 'Mosaic of Modalities: A Comprehensive Benchmark for Multimodal Graph Learning'
-    date: Jun 2024
-    date_iso: 2024-06
-    date_display: Jun 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.0773
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.0006
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: DyRep
-    model_plain: DyRep
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2406.02740'
-    title: Long Range Propagation on Continuous-Time Dynamic Graphs
-    date: Jun 4, 2024
-    date_iso: '2024-06-04'
-    date_display: Jun 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - 0.8864
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - 0.0015
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: JODIE
-    model_plain: JODIE
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2406.02740'
-    title: Long Range Propagation on Continuous-Time Dynamic Graphs
-    date: Jun 4, 2024
-    date_iso: '2024-06-04'
-    date_display: Jun 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - 0.9468
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - 0.0105
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: TGAT
-    model_plain: TGAT
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2406.02740'
-    title: Long Range Propagation on Continuous-Time Dynamic Graphs
-    date: Jun 4, 2024
-    date_iso: '2024-06-04'
-    date_display: Jun 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - 0.9491
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - 0.0025
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: TGN
-    model_plain: TGN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2406.02740'
-    title: Long Range Propagation on Continuous-Time Dynamic Graphs
-    date: Jun 4, 2024
-    date_iso: '2024-06-04'
-    date_display: Jun 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - 0.956
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - 0.0018
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: Our
-    model_plain: Our
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2406.02740'
-    title: Long Range Propagation on Continuous-Time Dynamic Graphs
-    date: Jun 4, 2024
-    date_iso: '2024-06-04'
-    date_display: Jun 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - 0.9755
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - 0.0009
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: EdgeBank (1% tr set)
-    model_plain: EdgeBank (1% tr set)
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2406.02740'
-    title: Long Range Propagation on Continuous-Time Dynamic Graphs
-    date: Jun 4, 2024
-    date_iso: '2024-06-04'
-    date_display: Jun 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - 0.9152
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: EdgeBank (infinity)
-    model_plain: EdgeBank (infinity)
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2406.02740'
-    title: Long Range Propagation on Continuous-Time Dynamic Graphs
-    date: Jun 4, 2024
-    date_iso: '2024-06-04'
-    date_display: Jun 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - 0.9182
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: DropGIN
-    model_plain: DropGIN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2402.10793'
-    title: An end-to-end attention-based approach for learning on graphs
-    date: Feb 2024
-    date_iso: 2024-02
-    date_display: Feb 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.6750444425282793
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.003010065997818225
-    - null
-    - null
-  - model: GAT
-    model_plain: GAT
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2402.10793'
-    title: An end-to-end attention-based approach for learning on graphs
-    date: Feb 2024
-    date_iso: 2024-02
-    date_display: Feb 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.6659264497946298
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.0019193275851867547
-    - null
-    - null
-  - model: GATv2
-    model_plain: GATv2
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2402.10793'
-    title: An end-to-end attention-based approach for learning on graphs
-    date: Feb 2024
-    date_iso: 2024-02
-    date_display: Feb 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.65472612254266
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.004456977663883839
-    - null
-    - null
-  - model: PNA
-    model_plain: PNA
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2402.10793'
-    title: An end-to-end attention-based approach for learning on graphs
-    date: Feb 2024
-    date_iso: 2024-02
-    date_display: Feb 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.6962037752713723
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.0017162537128048157
-    - null
-    - null
-  - model: TokenGT
-    model_plain: TokenGT
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2402.10793'
-    title: An end-to-end attention-based approach for learning on graphs
-    date: Feb 2024
-    date_iso: 2024-02
-    date_display: Feb 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.6407549500465393
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.008498306711241119
-    - null
-    - null
-  - model: GPS
-    model_plain: GPS
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2402.10793'
-    title: An end-to-end attention-based approach for learning on graphs
-    date: Feb 2024
-    date_iso: 2024-02
-    date_display: Feb 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.675772
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.0019314683533518953
-    - null
-    - null
-  - model: ESA
-    model_plain: ESA
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2402.10793'
-    title: An end-to-end attention-based approach for learning on graphs
-    date: Feb 2024
-    date_iso: 2024-02
-    date_display: Feb 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.6968516041247438
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.0013794417525553372
-    - null
-    - null
-  - model: rf
-    model_plain: rf
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2604.06336'
-    title: 'BiScale-GTR: Fragment-Aware Graph Transformers for Multi-Scale Molecular
-      Representation Learning'
-    date: Apr 2026
-    date_iso: 2026-04
-    date_display: Apr 2026
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 18.041
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: XGBoost
-    model_plain: XGBoost
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2604.06336'
-    title: 'BiScale-GTR: Fragment-Aware Graph Transformers for Multi-Scale Molecular
-      Representation Learning'
-    date: Apr 2026
-    date_iso: 2026-04
-    date_display: Apr 2026
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 17.819
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: MPNN
-    model_plain: MPNN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2604.06336'
-    title: 'BiScale-GTR: Fragment-Aware Graph Transformers for Multi-Scale Molecular
-      Representation Learning'
-    date: Apr 2026
-    date_iso: 2026-04
-    date_display: Apr 2026
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 19.156
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: FPGNN
-    model_plain: FPGNN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2604.06336'
-    title: 'BiScale-GTR: Fragment-Aware Graph Transformers for Multi-Scale Molecular
-      Representation Learning'
-    date: Apr 2026
-    date_iso: 2026-04
-    date_display: Apr 2026
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 17.611
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: DTNN*
-    model_plain: DTNN*
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2604.06336'
-    title: 'BiScale-GTR: Fragment-Aware Graph Transformers for Multi-Scale Molecular
-      Representation Learning'
-    date: Apr 2026
-    date_iso: 2026-04
-    date_display: Apr 2026
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 17.89
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: KANO
-    model_plain: KANO
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2604.06336'
-    title: 'BiScale-GTR: Fragment-Aware Graph Transformers for Multi-Scale Molecular
-      Representation Learning'
-    date: Apr 2026
-    date_iso: 2026-04
-    date_display: Apr 2026
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 17.622
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: MPG
-    model_plain: MPG
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2604.06336'
-    title: 'BiScale-GTR: Fragment-Aware Graph Transformers for Multi-Scale Molecular
-      Representation Learning'
-    date: Apr 2026
-    date_iso: 2026-04
-    date_display: Apr 2026
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 17.527
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: UniMol
-    model_plain: UniMol
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2604.06336'
-    title: 'BiScale-GTR: Fragment-Aware Graph Transformers for Multi-Scale Molecular
-      Representation Learning'
-    date: Apr 2026
-    date_iso: 2026-04
-    date_display: Apr 2026
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 18.071
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: Trans-M
-    model_plain: Trans-M
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2604.06336'
-    title: 'BiScale-GTR: Fragment-Aware Graph Transformers for Multi-Scale Molecular
-      Representation Learning'
-    date: Apr 2026
-    date_iso: 2026-04
-    date_display: Apr 2026
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 17.677
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: KP-GPT
-    model_plain: KP-GPT
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2604.06336'
-    title: 'BiScale-GTR: Fragment-Aware Graph Transformers for Multi-Scale Molecular
-      Representation Learning'
-    date: Apr 2026
-    date_iso: 2026-04
-    date_display: Apr 2026
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 16.86
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: GraphFP
-    model_plain: GraphFP
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2604.06336'
-    title: 'BiScale-GTR: Fragment-Aware Graph Transformers for Multi-Scale Molecular
-      Representation Learning'
-    date: Apr 2026
-    date_iso: 2026-04
-    date_display: Apr 2026
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 21.183
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: FraGAT
-    model_plain: FraGAT
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2604.06336'
-    title: 'BiScale-GTR: Fragment-Aware Graph Transformers for Multi-Scale Molecular
-      Representation Learning'
-    date: Apr 2026
-    date_iso: 2026-04
-    date_display: Apr 2026
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 22.503
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: PharmHGT
-    model_plain: PharmHGT
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2604.06336'
-    title: 'BiScale-GTR: Fragment-Aware Graph Transformers for Multi-Scale Molecular
-      Representation Learning'
-    date: Apr 2026
-    date_iso: 2026-04
-    date_display: Apr 2026
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 15.02
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: FragFormer
-    model_plain: FragFormer
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2604.06336'
-    title: 'BiScale-GTR: Fragment-Aware Graph Transformers for Multi-Scale Molecular
-      Representation Learning'
-    date: Apr 2026
-    date_iso: 2026-04
-    date_display: Apr 2026
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 14.425
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: BiScale-GTR (Molecule)
-    model_plain: BiScale-GTR (Molecule)
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2604.06336'
-    title: 'BiScale-GTR: Fragment-Aware Graph Transformers for Multi-Scale Molecular
-      Representation Learning'
-    date: Apr 2026
-    date_iso: 2026-04
-    date_display: Apr 2026
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 16.901
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: NRI + STE
-    model_plain: NRI + STE
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2601.18917'
-    title: 'GraIP: A Benchmarking Framework For Neural Graph Inverse Problems'
-    date: Jan 2026
-    date_iso: 2026-01
-    date_display: Jan 2026
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.0021
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.0
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: NRI + SIMPLE
-    model_plain: NRI + SIMPLE
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2601.18917'
-    title: 'GraIP: A Benchmarking Framework For Neural Graph Inverse Problems'
-    date: Jan 2026
-    date_iso: 2026-01
-    date_display: Jan 2026
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.0028
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.0
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: NRI + STE (non-blind)
-    model_plain: NRI + STE (non-blind)
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2601.18917'
-    title: 'GraIP: A Benchmarking Framework For Neural Graph Inverse Problems'
-    date: Jan 2026
-    date_iso: 2026-01
-    date_display: Jan 2026
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.00018
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.0
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: Baseline
-    model_plain: Baseline
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2310.18777'
-    title: Improving Compositional Generalization using Iterated Learning and Simplicial
-      Embeddings
-    date: Oct 2023
-    date_iso: 2023-10
-    date_display: Oct 2023
-    codebase_url: ''
-    uses_external_data: null
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.04542
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.01097
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: NIL-only
-    model_plain: NIL-only
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2310.18777'
-    title: Improving Compositional Generalization using Iterated Learning and Simplicial
-      Embeddings
-    date: Oct 2023
-    date_iso: 2023-10
-    date_display: Oct 2023
-    codebase_url: ''
-    uses_external_data: null
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.04338
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.01403
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: SEM-only
-    model_plain: SEM-only
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2310.18777'
-    title: Improving Compositional Generalization using Iterated Learning and Simplicial
-      Embeddings
-    date: Oct 2023
-    date_iso: 2023-10
-    date_display: Oct 2023
-    codebase_url: ''
-    uses_external_data: null
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.04291
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.01005
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: SEM-IL
-    model_plain: SEM-IL
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2310.18777'
-    title: Improving Compositional Generalization using Iterated Learning and Simplicial
-      Embeddings
-    date: Oct 2023
-    date_iso: 2023-10
-    date_display: Oct 2023
-    codebase_url: ''
-    uses_external_data: null
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.0312
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.008053
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: No G-\DeltaUQ
-    model_plain: No G-\DeltaUQ
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2401.03350'
-    title: Accurate and Scalable Estimation of Epistemic Uncertainty for Graph Neural
-      Networks
-    date: Jan 2024
-    date_iso: 2024-01
-    date_display: Jan 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - 0.599
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - 0.091
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: G-\DeltaUQ
-    model_plain: G-\DeltaUQ
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2401.03350'
-    title: Accurate and Scalable Estimation of Epistemic Uncertainty for Graph Neural
-      Networks
-    date: Jan 2024
-    date_iso: 2024-01
-    date_display: Jan 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - 0.525
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - 0.033
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: CAGCN
-    model_plain: CAGCN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2401.03350'
-    title: Accurate and Scalable Estimation of Epistemic Uncertainty for Graph Neural
-      Networks
-    date: Jan 2024
-    date_iso: 2024-01
-    date_display: Jan 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - 0.355
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - 0.227
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: Dirichlet
-    model_plain: Dirichlet
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2401.03350'
-    title: Accurate and Scalable Estimation of Epistemic Uncertainty for Graph Neural
-      Networks
-    date: Jan 2024
-    date_iso: 2024-01
-    date_display: Jan 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - 0.299
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - 0.092
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: ETS
-    model_plain: ETS
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2401.03350'
-    title: Accurate and Scalable Estimation of Epistemic Uncertainty for Graph Neural
-      Networks
-    date: Jan 2024
-    date_iso: 2024-01
-    date_display: Jan 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - 0.539
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - 0.112
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: GATS
-    model_plain: GATS
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2401.03350'
-    title: Accurate and Scalable Estimation of Epistemic Uncertainty for Graph Neural
-      Networks
-    date: Jan 2024
-    date_iso: 2024-01
-    date_display: Jan 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - 0.455
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - 0.057
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: IRM
-    model_plain: IRM
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2401.03350'
-    title: Accurate and Scalable Estimation of Epistemic Uncertainty for Graph Neural
-      Networks
-    date: Jan 2024
-    date_iso: 2024-01
-    date_display: Jan 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - 0.352
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - 0.037
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: Orderinvariant
-    model_plain: Orderinvariant
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2401.03350'
-    title: Accurate and Scalable Estimation of Epistemic Uncertainty for Graph Neural
-      Networks
-    date: Jan 2024
-    date_iso: 2024-01
-    date_display: Jan 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - 0.545
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - 0.079
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: Spline
-    model_plain: Spline
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2401.03350'
-    title: Accurate and Scalable Estimation of Epistemic Uncertainty for Graph Neural
-      Networks
-    date: Jan 2024
-    date_iso: 2024-01
-    date_display: Jan 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - 0.472
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - 0.031
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: VS
-    model_plain: VS
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2401.03350'
-    title: Accurate and Scalable Estimation of Epistemic Uncertainty for Graph Neural
-      Networks
-    date: Jan 2024
-    date_iso: 2024-01
-    date_display: Jan 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - 0.602
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - 0.044
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: VANILLA
-    model_plain: VANILLA
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2401.03350'
-    title: Accurate and Scalable Estimation of Epistemic Uncertainty for Graph Neural
-      Networks
-    date: Jan 2024
-    date_iso: 2024-01
-    date_display: Jan 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - 0.35
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - 0.014
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: G-ΔUQ
-    model_plain: G-ΔUQ
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2401.03350'
-    title: Accurate and Scalable Estimation of Epistemic Uncertainty for Graph Neural
-      Networks
-    date: Jan 2024
-    date_iso: 2024-01
-    date_display: Jan 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - 0.338
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - 0.023
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: Pretr. G-ΔUQ
-    model_plain: Pretr. G-ΔUQ
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2401.03350'
-    title: Accurate and Scalable Estimation of Epistemic Uncertainty for Graph Neural
-      Networks
-    date: Jan 2024
-    date_iso: 2024-01
-    date_display: Jan 2024
-    codebase_url: ''
-    uses_external_data: true
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - 0.324
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - 0.055
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: \modelname{}
-    model_plain: \modelname{}
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2309.04082'
-    title: 'Curve Your Attention: Mixed-Curvature Transformers for Graph Representation
-      Learning'
-    date: Sep 2023
-    date_iso: 2023-09
-    date_display: Sep 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.92
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: TokenGT
-    model_plain: TokenGT
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2309.04082'
-    title: 'Curve Your Attention: Mixed-Curvature Transformers for Graph Representation
-      Learning'
-    date: Sep 2023
-    date_iso: 2023-09
-    date_display: Sep 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.8913
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
     - null
     - null
     - null
@@ -11620,15 +2968,10 @@ variants:
     date: Sep 2023
     date_iso: 2023-09
     date_display: Sep 2023
-    codebase_url: ''
+    codebase_url: https://github.com/HySonLab/Ligand_Generation
     uses_external_data: false
     is_best: false
     metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
     - null
     - null
     - null
@@ -11637,22 +2980,7 @@ variants:
     - null
     - null
     - null
-    - null
-    - null
-    - null
-    - null
-    - null
     metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
     - null
     - null
     - null
@@ -11673,15 +3001,10 @@ variants:
     date: Sep 2023
     date_iso: 2023-09
     date_display: Sep 2023
-    codebase_url: ''
+    codebase_url: https://github.com/HySonLab/Ligand_Generation
     uses_external_data: false
     is_best: false
     metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
     - null
     - null
     - null
@@ -11690,22 +3013,7 @@ variants:
     - null
     - null
     - null
-    - null
-    - null
-    - null
-    - null
-    - null
     metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
     - null
     - null
     - null
@@ -11726,15 +3034,10 @@ variants:
     date: Sep 2023
     date_iso: 2023-09
     date_display: Sep 2023
-    codebase_url: ''
+    codebase_url: https://github.com/HySonLab/Ligand_Generation
     uses_external_data: false
     is_best: false
     metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
     - null
     - null
     - null
@@ -11743,22 +3046,7 @@ variants:
     - null
     - null
     - null
-    - null
-    - null
-    - null
-    - null
-    - null
     metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
     - null
     - null
     - null
@@ -11779,15 +3067,10 @@ variants:
     date: Sep 2023
     date_iso: 2023-09
     date_display: Sep 2023
-    codebase_url: ''
+    codebase_url: https://github.com/HySonLab/Ligand_Generation
     uses_external_data: false
     is_best: false
     metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
     - null
     - null
     - null
@@ -11796,22 +3079,7 @@ variants:
     - null
     - null
     - null
-    - null
-    - null
-    - null
-    - null
-    - null
     metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
     - null
     - null
     - null
@@ -11832,15 +3100,10 @@ variants:
     date: Sep 2023
     date_iso: 2023-09
     date_display: Sep 2023
-    codebase_url: ''
+    codebase_url: https://github.com/HySonLab/Ligand_Generation
     uses_external_data: false
     is_best: false
     metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
     - null
     - null
     - null
@@ -11849,22 +3112,7 @@ variants:
     - null
     - null
     - null
-    - null
-    - null
-    - null
-    - null
-    - null
     metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
     - null
     - null
     - null
@@ -11885,15 +3133,10 @@ variants:
     date: Sep 2023
     date_iso: 2023-09
     date_display: Sep 2023
-    codebase_url: ''
+    codebase_url: https://github.com/HySonLab/Ligand_Generation
     uses_external_data: false
     is_best: false
     metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
     - null
     - null
     - null
@@ -11902,22 +3145,7 @@ variants:
     - null
     - null
     - null
-    - null
-    - null
-    - null
-    - null
-    - null
     metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
     - null
     - null
     - null
@@ -11938,15 +3166,10 @@ variants:
     date: Sep 2023
     date_iso: 2023-09
     date_display: Sep 2023
-    codebase_url: ''
+    codebase_url: https://github.com/HySonLab/Ligand_Generation
     uses_external_data: false
     is_best: false
     metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
     - null
     - null
     - null
@@ -11955,22 +3178,7 @@ variants:
     - null
     - null
     - null
-    - null
-    - null
-    - null
-    - null
-    - null
     metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
     - null
     - null
     - null
@@ -11991,15 +3199,10 @@ variants:
     date: Sep 2023
     date_iso: 2023-09
     date_display: Sep 2023
-    codebase_url: ''
+    codebase_url: https://github.com/HySonLab/Ligand_Generation
     uses_external_data: false
     is_best: false
     metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
     - null
     - null
     - null
@@ -12008,22 +3211,7 @@ variants:
     - null
     - null
     - null
-    - null
-    - null
-    - null
-    - null
-    - null
     metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
     - null
     - null
     - null
@@ -12044,15 +3232,10 @@ variants:
     date: Sep 2023
     date_iso: 2023-09
     date_display: Sep 2023
-    codebase_url: ''
-    uses_external_data: true
+    codebase_url: https://github.com/HySonLab/Ligand_Generation
+    uses_external_data: false
     is_best: false
     metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
     - null
     - null
     - null
@@ -12061,22 +3244,7 @@ variants:
     - null
     - null
     - null
-    - null
-    - null
-    - null
-    - null
-    - null
     metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
     - null
     - null
     - null
@@ -12097,15 +3265,10 @@ variants:
     date: Sep 2023
     date_iso: 2023-09
     date_display: Sep 2023
-    codebase_url: ''
+    codebase_url: https://github.com/HySonLab/Ligand_Generation
     uses_external_data: false
     is_best: false
     metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
     - null
     - null
     - null
@@ -12114,22 +3277,7 @@ variants:
     - null
     - null
     - null
-    - null
-    - null
-    - null
-    - null
-    - null
     metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
     - null
     - null
     - null
@@ -12150,15 +3298,10 @@ variants:
     date: Sep 2023
     date_iso: 2023-09
     date_display: Sep 2023
-    codebase_url: ''
+    codebase_url: https://github.com/HySonLab/Ligand_Generation
     uses_external_data: false
     is_best: false
     metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
     - null
     - null
     - null
@@ -12167,27 +3310,12 @@ variants:
     - null
     - null
     - null
-    - null
-    - null
-    - null
-    - null
-    - null
     metric_stds:
     - null
     - null
     - null
     - null
-    - null
-    - null
-    - null
-    - null
-    - null
     - 0.007
-    - null
-    - null
-    - null
-    - null
-    - null
     - null
     - null
     - null
@@ -12198,17 +3326,14 @@ variants:
     override_reason: ''
     params_millions: null
     arxiv_id: '2306.08277'
-    title: 'FRIGATE: Frugal Spatio-temporal Forecasting on Road Networks'
+    title: 'Frigate: Frugal Spatio-temporal Forecasting on Road Networks'
     date: Jun 2023
     date_iso: 2023-06
     date_display: Jun 2023
-    codebase_url: ''
-    uses_external_data: null
+    codebase_url: https://github.com/idea-iitd/Frigate
+    uses_external_data: false
     is_best: false
     metric_values:
-    - null
-    - null
-    - null
     - null
     - null
     - null
@@ -12217,28 +3342,11 @@ variants:
     - null
     - null
     - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
     metric_stds:
     - null
     - null
     - null
-    - null
-    - null
-    - null
     - 0.2
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
     - null
     - null
     - null
@@ -12250,17 +3358,14 @@ variants:
     override_reason: ''
     params_millions: null
     arxiv_id: '2306.08277'
-    title: 'FRIGATE: Frugal Spatio-temporal Forecasting on Road Networks'
+    title: 'Frigate: Frugal Spatio-temporal Forecasting on Road Networks'
     date: Jun 2023
     date_iso: 2023-06
     date_display: Jun 2023
-    codebase_url: ''
-    uses_external_data: null
+    codebase_url: https://github.com/idea-iitd/Frigate
+    uses_external_data: false
     is_best: false
     metric_values:
-    - null
-    - null
-    - null
     - null
     - null
     - null
@@ -12269,28 +3374,11 @@ variants:
     - null
     - null
     - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
     metric_stds:
     - null
     - null
     - null
-    - null
-    - null
-    - null
     - 0.18
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
     - null
     - null
     - null
@@ -12302,17 +3390,14 @@ variants:
     override_reason: ''
     params_millions: null
     arxiv_id: '2306.08277'
-    title: 'FRIGATE: Frugal Spatio-temporal Forecasting on Road Networks'
+    title: 'Frigate: Frugal Spatio-temporal Forecasting on Road Networks'
     date: Jun 2023
     date_iso: 2023-06
     date_display: Jun 2023
-    codebase_url: ''
-    uses_external_data: null
+    codebase_url: https://github.com/idea-iitd/Frigate
+    uses_external_data: false
     is_best: false
     metric_values:
-    - null
-    - null
-    - null
     - null
     - null
     - null
@@ -12321,28 +3406,11 @@ variants:
     - null
     - null
     - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
     metric_stds:
     - null
     - null
     - null
-    - null
-    - null
-    - null
     - 0.26
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
     - null
     - null
     - null
@@ -12354,17 +3422,14 @@ variants:
     override_reason: ''
     params_millions: null
     arxiv_id: '2306.08277'
-    title: 'FRIGATE: Frugal Spatio-temporal Forecasting on Road Networks'
+    title: 'Frigate: Frugal Spatio-temporal Forecasting on Road Networks'
     date: Jun 2023
     date_iso: 2023-06
     date_display: Jun 2023
-    codebase_url: ''
-    uses_external_data: null
+    codebase_url: https://github.com/idea-iitd/Frigate
+    uses_external_data: false
     is_best: false
     metric_values:
-    - null
-    - null
-    - null
     - null
     - null
     - null
@@ -12373,28 +3438,11 @@ variants:
     - null
     - null
     - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
     metric_stds:
     - null
     - null
     - null
-    - null
-    - null
-    - null
     - 0.22
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
     - null
     - null
     - null
@@ -12406,17 +3454,14 @@ variants:
     override_reason: ''
     params_millions: null
     arxiv_id: '2306.08277'
-    title: 'FRIGATE: Frugal Spatio-temporal Forecasting on Road Networks'
+    title: 'Frigate: Frugal Spatio-temporal Forecasting on Road Networks'
     date: Jun 2023
     date_iso: 2023-06
     date_display: Jun 2023
-    codebase_url: ''
-    uses_external_data: null
+    codebase_url: https://github.com/idea-iitd/Frigate
+    uses_external_data: false
     is_best: false
     metric_values:
-    - null
-    - null
-    - null
     - null
     - null
     - null
@@ -12425,28 +3470,11 @@ variants:
     - null
     - null
     - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
     metric_stds:
     - null
     - null
     - null
-    - null
-    - null
-    - null
     - 0.19
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
     - null
     - null
     - null
@@ -12458,17 +3486,14 @@ variants:
     override_reason: ''
     params_millions: null
     arxiv_id: '2306.08277'
-    title: 'FRIGATE: Frugal Spatio-temporal Forecasting on Road Networks'
+    title: 'Frigate: Frugal Spatio-temporal Forecasting on Road Networks'
     date: Jun 2023
     date_iso: 2023-06
     date_display: Jun 2023
-    codebase_url: ''
-    uses_external_data: null
+    codebase_url: https://github.com/idea-iitd/Frigate
+    uses_external_data: false
     is_best: false
     metric_values:
-    - null
-    - null
-    - null
     - null
     - null
     - null
@@ -12477,28 +3502,11 @@ variants:
     - null
     - null
     - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
     metric_stds:
     - null
     - null
     - null
-    - null
-    - null
-    - null
     - 0.33
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
     - null
     - null
     - null
@@ -12510,17 +3518,14 @@ variants:
     override_reason: ''
     params_millions: null
     arxiv_id: '2306.08277'
-    title: 'FRIGATE: Frugal Spatio-temporal Forecasting on Road Networks'
+    title: 'Frigate: Frugal Spatio-temporal Forecasting on Road Networks'
     date: Jun 2023
     date_iso: 2023-06
     date_display: Jun 2023
-    codebase_url: ''
-    uses_external_data: null
+    codebase_url: https://github.com/idea-iitd/Frigate
+    uses_external_data: false
     is_best: false
     metric_values:
-    - null
-    - null
-    - null
     - null
     - null
     - null
@@ -12529,17 +3534,7 @@ variants:
     - null
     - null
     - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
     metric_stds:
-    - null
-    - null
-    - null
     - null
     - null
     - null
@@ -12548,205 +3543,31 @@ variants:
     - null
     - null
     - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: Ours
-    model_plain: Ours
+  - model: Deep model
+    model_plain: Deep model
     is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2306.08277'
-    title: 'FRIGATE: Frugal Spatio-temporal Forecasting on Road Networks'
-    date: Jun 2023
-    date_iso: 2023-06
-    date_display: Jun 2023
-    codebase_url: ''
-    uses_external_data: null
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 3.547
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.2
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: OURS (without Lipschitz)
-    model_plain: OURS (without Lipschitz)
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2306.08277'
-    title: 'FRIGATE: Frugal Spatio-temporal Forecasting on Road Networks'
-    date: Jun 2023
-    date_iso: 2023-06
-    date_display: Jun 2023
-    codebase_url: ''
-    uses_external_data: null
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 3.787
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.18
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: OURS (without Gating)
-    model_plain: OURS (without Gating)
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2306.08277'
-    title: 'FRIGATE: Frugal Spatio-temporal Forecasting on Road Networks'
-    date: Jun 2023
-    date_iso: 2023-06
-    date_display: Jun 2023
-    codebase_url: ''
-    uses_external_data: null
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 3.734
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.18
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: GCN
-    model_plain: GCN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2306.05955'
-    title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: Jun 9, 2023
-    date_iso: '2023-06-09'
-    date_display: Jun 2023
+    arxiv_id: '2408.12169'
+    title: 'ReorderBench: A Benchmark for Matrix Reordering'
+    date: Aug 2024
+    date_iso: 2024-08
+    date_display: Aug 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
     - null
-    - 0.593
     - null
     - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
+    - 0.925
     - null
     - null
     - null
     - null
     metric_stds:
     - null
-    - 0.0023
     - null
     - null
     - null
@@ -12754,51 +3575,31 @@ variants:
     - null
     - null
     - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: GIN
-    model_plain: GIN
+  - model: GW_ward
+    model_plain: GW_ward
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2306.05955'
-    title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: Jun 9, 2023
-    date_iso: '2023-06-09'
-    date_display: Jun 2023
+    arxiv_id: '2408.12169'
+    title: 'ReorderBench: A Benchmark for Matrix Reordering'
+    date: Aug 2024
+    date_iso: 2024-08
+    date_display: Aug 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
     - null
-    - 0.5498
     - null
     - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
+    - 0.886
     - null
     - null
     - null
     - null
     metric_stds:
     - null
-    - 0.0079
     - null
     - null
     - null
@@ -12806,32 +3607,30 @@ variants:
     - null
     - null
     - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: GatedGCN
-    model_plain: GatedGCN
+  - model: OLO_ward
+    model_plain: OLO_ward
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2306.05955'
-    title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: Jun 9, 2023
-    date_iso: '2023-06-09'
-    date_display: Jun 2023
+    arxiv_id: '2408.12169'
+    title: 'ReorderBench: A Benchmark for Matrix Reordering'
+    date: Aug 2024
+    date_iso: 2024-08
+    date_display: Aug 2024
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
     - null
-    - 0.5864
+    - null
+    - null
+    - 0.892
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
     - null
     - null
     - null
@@ -12840,8 +3639,279 @@ variants:
     - null
     - null
     - null
+  - model: R2E
+    model_plain: R2E
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2408.12169'
+    title: 'ReorderBench: A Benchmark for Matrix Reordering'
+    date: Aug 2024
+    date_iso: 2024-08
+    date_display: Aug 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
     - null
     - null
+    - null
+    - 0.83
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: Spectral_norm
+    model_plain: Spectral_norm
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2408.12169'
+    title: 'ReorderBench: A Benchmark for Matrix Reordering'
+    date: Aug 2024
+    date_iso: 2024-08
+    date_display: Aug 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - 0.726
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: MDS
+    model_plain: MDS
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2408.12169'
+    title: 'ReorderBench: A Benchmark for Matrix Reordering'
+    date: Aug 2024
+    date_iso: 2024-08
+    date_display: Aug 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - 0.763
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: PCA
+    model_plain: PCA
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2408.12169'
+    title: 'ReorderBench: A Benchmark for Matrix Reordering'
+    date: Aug 2024
+    date_iso: 2024-08
+    date_display: Aug 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - 0.763
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: Barycenter
+    model_plain: Barycenter
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2408.12169'
+    title: 'ReorderBench: A Benchmark for Matrix Reordering'
+    date: Aug 2024
+    date_iso: 2024-08
+    date_display: Aug 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - 0.46
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: Moment
+    model_plain: Moment
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2408.12169'
+    title: 'ReorderBench: A Benchmark for Matrix Reordering'
+    date: Aug 2024
+    date_iso: 2024-08
+    date_display: Aug 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - 0.557
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: BEA_TSP
+    model_plain: BEA_TSP
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2408.12169'
+    title: 'ReorderBench: A Benchmark for Matrix Reordering'
+    date: Aug 2024
+    date_iso: 2024-08
+    date_display: Aug 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - 0.852
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: SPIN
+    model_plain: SPIN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2408.12169'
+    title: 'ReorderBench: A Benchmark for Matrix Reordering'
+    date: Aug 2024
+    date_iso: 2024-08
+    date_display: Aug 2024
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - 0.895
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: DyRep
+    model_plain: DyRep
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2406.02740'
+    title: Long Range Propagation on Continuous-Time Dynamic Graphs
+    date: Jun 4, 2024
+    date_iso: '2024-06-04'
+    date_display: Jun 2024
+    codebase_url: https://github.com/gravins/non-dissipative-propagation-CTDGs
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.8864
     - null
     - null
     - null
@@ -12850,50 +3920,126 @@ variants:
     - null
     metric_stds:
     - null
-    - 0.0077
+    - 0.0015
     - null
     - null
     - null
     - null
     - null
     - null
+  - model: JODIE
+    model_plain: JODIE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2406.02740'
+    title: Long Range Propagation on Continuous-Time Dynamic Graphs
+    date: Jun 4, 2024
+    date_iso: '2024-06-04'
+    date_display: Jun 2024
+    codebase_url: https://github.com/gravins/non-dissipative-propagation-CTDGs
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.9468
     - null
     - null
     - null
     - null
     - null
     - null
+    metric_stds:
+    - null
+    - 0.0105
     - null
     - null
     - null
     - null
-  - model: PathNN-SP
-    model_plain: PathNN-SP
+    - null
+    - null
+  - model: TGAT
+    model_plain: TGAT
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2406.02740'
+    title: Long Range Propagation on Continuous-Time Dynamic Graphs
+    date: Jun 4, 2024
+    date_iso: '2024-06-04'
+    date_display: Jun 2024
+    codebase_url: https://github.com/gravins/non-dissipative-propagation-CTDGs
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.9491
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - 0.0025
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: TGN
+    model_plain: TGN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2406.02740'
+    title: Long Range Propagation on Continuous-Time Dynamic Graphs
+    date: Jun 4, 2024
+    date_iso: '2024-06-04'
+    date_display: Jun 2024
+    codebase_url: https://github.com/gravins/non-dissipative-propagation-CTDGs
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - 0.956
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - 0.0018
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: DGNs
+    model_plain: DGNs
     is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2306.05955'
-    title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: Jun 9, 2023
-    date_iso: '2023-06-09'
-    date_display: Jun 2023
-    codebase_url: ''
+    arxiv_id: '2406.02740'
+    title: Long Range Propagation on Continuous-Time Dynamic Graphs
+    date: Jun 4, 2024
+    date_iso: '2024-06-04'
+    date_display: Jun 2024
+    codebase_url: https://github.com/gravins/non-dissipative-propagation-CTDGs
     uses_external_data: false
     is_best: false
     metric_values:
     - null
-    - 0.6784
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
+    - 0.9755
     - null
     - null
     - null
@@ -12902,7 +4048,37 @@ variants:
     - null
     metric_stds:
     - null
-    - 0.0052
+    - 0.0009
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: Random
+    model_plain: Random
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1703.06114'
+    title: Deep Sets
+    date: Mar 2017
+    date_iso: 2017-03
+    date_display: Mar 2017
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - 0.0001
+    - 0.002
+    - 0.016
+    metric_stds:
     - null
     - null
     - null
@@ -12911,6 +4087,30 @@ variants:
     - null
     - null
     - null
+  - model: Bayes Set
+    model_plain: Bayes Set
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1703.06114'
+    title: Deep Sets
+    date: Mar 2017
+    date_iso: 2017-03
+    date_display: Mar 2017
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - 0.0175
+    - 0.125
+    - 0.345
+    metric_stds:
     - null
     - null
     - null
@@ -12919,23 +4119,158 @@ variants:
     - null
     - null
     - null
-  - model: PathNN-AP
-    model_plain: PathNN-AP
+  - model: w2v Near
+    model_plain: w2v Near
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1703.06114'
+    title: Deep Sets
+    date: Mar 2017
+    date_iso: 2017-03
+    date_display: Mar 2017
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - 0.0403
+    - 0.167
+    - 0.352
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: NN-max
+    model_plain: NN-max
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1703.06114'
+    title: Deep Sets
+    date: Mar 2017
+    date_iso: 2017-03
+    date_display: Mar 2017
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - 0.0472
+    - 0.214
+    - 0.47
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: NN-sum-con
+    model_plain: NN-sum-con
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1703.06114'
+    title: Deep Sets
+    date: Mar 2017
+    date_iso: 2017-03
+    date_display: Mar 2017
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - 0.0487
+    - 0.235
+    - 0.539
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: NN-max-con
+    model_plain: NN-max-con
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1703.06114'
+    title: Deep Sets
+    date: Mar 2017
+    date_iso: 2017-03
+    date_display: Mar 2017
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - 0.0472
+    - 0.22
+    - 0.518
+    metric_stds:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: generic framework to deal
+    model_plain: generic framework to deal
     is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2306.05955'
-    title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: Jun 9, 2023
-    date_iso: '2023-06-09'
-    date_display: Jun 2023
+    arxiv_id: '1703.06114'
+    title: Deep Sets
+    date: Mar 2017
+    date_iso: 2017-03
+    date_display: Mar 2017
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
     - null
-    - 0.6807
+    - null
+    - null
+    - null
+    - null
+    - 0.0554
+    - 0.261
+    - 0.555
+    metric_stds:
     - null
     - null
     - null
@@ -12944,9 +4279,24 @@ variants:
     - null
     - null
     - null
+  - model: R-PEs
+    model_plain: R-PEs
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2502.01122'
+    title: Learning Efficient Positional Encodings with Graph Neural Networks
+    date: Feb 2025
+    date_iso: 2025-02
+    date_display: Feb 2025
+    codebase_url: https://github.com/ehejin/Pearl-PE
+    uses_external_data: false
+    is_best: false
+    metric_values:
     - null
     - null
-    - null
+    - 0.7224
     - null
     - null
     - null
@@ -12954,25 +4304,239 @@ variants:
     - null
     metric_stds:
     - null
-    - 0.0072
+    - null
+    - 0.003
     - null
     - null
     - null
     - null
     - null
+  - model: B-PEs
+    model_plain: B-PEs
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2502.01122'
+    title: Learning Efficient Positional Encodings with Graph Neural Networks
+    date: Feb 2025
+    date_iso: 2025-02
+    date_display: Feb 2025
+    codebase_url: https://github.com/ehejin/Pearl-PE
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - 0.7122
     - null
     - null
     - null
     - null
     - null
+    metric_stds:
+    - null
+    - null
+    - 0.0042
     - null
     - null
     - null
     - null
     - null
+  - model: SignNet
+    model_plain: SignNet
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2502.01122'
+    title: Learning Efficient Positional Encodings with Graph Neural Networks
+    date: Feb 2025
+    date_iso: 2025-02
+    date_display: Feb 2025
+    codebase_url: https://github.com/ehejin/Pearl-PE
+    uses_external_data: false
+    is_best: false
+    metric_values:
     - null
-  - model: Transformer+RWSE
-    model_plain: Transformer+RWSE
+    - null
+    - 0.7227
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - 0.0097
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: SPE
+    model_plain: SPE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2502.01122'
+    title: Learning Efficient Positional Encodings with Graph Neural Networks
+    date: Feb 2025
+    date_iso: 2025-02
+    date_display: Feb 2025
+    codebase_url: https://github.com/ehejin/Pearl-PE
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - 0.7253
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - 0.0066
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: BasisNet
+    model_plain: BasisNet
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2502.01122'
+    title: Learning Efficient Positional Encodings with Graph Neural Networks
+    date: Feb 2025
+    date_iso: 2025-02
+    date_display: Feb 2025
+    codebase_url: https://github.com/ehejin/Pearl-PE
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - 0.7166
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - 0.0005
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: PEG
+    model_plain: PEG
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2502.01122'
+    title: Learning Efficient Positional Encodings with Graph Neural Networks
+    date: Feb 2025
+    date_iso: 2025-02
+    date_display: Feb 2025
+    codebase_url: https://github.com/ehejin/Pearl-PE
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - 0.7198
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - 0.0065
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: NoPE
+    model_plain: NoPE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2502.01122'
+    title: Learning Efficient Positional Encodings with Graph Neural Networks
+    date: Feb 2025
+    date_iso: 2025-02
+    date_display: Feb 2025
+    codebase_url: https://github.com/ehejin/Pearl-PE
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - 0.7168
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - 0.011
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: SPE-8S
+    model_plain: SPE-8S
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2502.01122'
+    title: Learning Efficient Positional Encodings with Graph Neural Networks
+    date: Feb 2025
+    date_iso: 2025-02
+    date_display: Feb 2025
+    codebase_url: https://github.com/ehejin/Pearl-PE
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - null
+    - null
+    - 0.7172
+    - null
+    - null
+    - null
+    - null
+    - null
+    metric_stds:
+    - null
+    - null
+    - 0.0071
+    - null
+    - null
+    - null
+    - null
+    - null
+  - model: SE(3)-Transformer
+    model_plain: SE(3)-Transformer
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -12982,15 +4546,10 @@ variants:
     date: Jun 2023
     date_iso: 2023-06
     date_display: Jun 2023
-    codebase_url: ''
+    codebase_url: https://github.com/jw9730/lps
     uses_external_data: false
     is_best: false
     metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
     - null
     - null
     - null
@@ -12999,22 +4558,7 @@ variants:
     - null
     - null
     - null
-    - null
-    - null
-    - null
-    - null
-    - null
     metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
     - null
     - null
     - null
@@ -13034,15 +4578,10 @@ variants:
     date: Jun 2023
     date_iso: 2023-06
     date_display: Jun 2023
-    codebase_url: ''
+    codebase_url: https://github.com/jw9730/lps
     uses_external_data: false
     is_best: false
     metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
     - null
     - null
     - null
@@ -13051,22 +4590,7 @@ variants:
     - null
     - null
     - null
-    - null
-    - null
-    - null
-    - null
-    - null
     metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
     - null
     - null
     - null
@@ -13086,15 +4610,10 @@ variants:
     date: Jun 2023
     date_iso: 2023-06
     date_display: Jun 2023
-    codebase_url: ''
+    codebase_url: https://github.com/jw9730/lps
     uses_external_data: false
     is_best: false
     metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
     - null
     - null
     - null
@@ -13103,22 +4622,7 @@ variants:
     - null
     - null
     - null
-    - null
-    - null
-    - null
-    - null
-    - null
     metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
     - null
     - null
     - null
@@ -13138,7 +4642,7 @@ variants:
     date: Jun 2023
     date_iso: 2023-06
     date_display: Jun 2023
-    codebase_url: ''
+    codebase_url: https://github.com/jw9730/lps
     uses_external_data: false
     is_best: false
     metric_values:
@@ -13146,17 +4650,7 @@ variants:
     - null
     - null
     - null
-    - null
-    - null
-    - null
-    - null
-    - null
     - 0.0071
-    - null
-    - null
-    - null
-    - null
-    - null
     - null
     - null
     - null
@@ -13169,18 +4663,8 @@ variants:
     - null
     - null
     - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: GNN (a)
-    model_plain: GNN (a)
+  - model: GNN-FA
+    model_plain: GNN-FA
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -13190,15 +4674,10 @@ variants:
     date: Jun 2023
     date_iso: 2023-06
     date_display: Jun 2023
-    codebase_url: ''
+    codebase_url: https://github.com/jw9730/lps
     uses_external_data: false
     is_best: false
     metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
     - null
     - null
     - null
@@ -13207,22 +4686,7 @@ variants:
     - null
     - null
     - null
-    - null
-    - null
-    - null
-    - null
-    - null
     metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
     - null
     - null
     - null
@@ -13242,15 +4706,10 @@ variants:
     date: Jun 2023
     date_iso: 2023-06
     date_display: Jun 2023
-    codebase_url: ''
+    codebase_url: https://github.com/jw9730/lps
     uses_external_data: false
     is_best: false
     metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
     - null
     - null
     - null
@@ -13259,22 +4718,7 @@ variants:
     - null
     - null
     - null
-    - null
-    - null
-    - null
-    - null
-    - null
     metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
     - null
     - null
     - null
@@ -13294,15 +4738,10 @@ variants:
     date: Jun 2023
     date_iso: 2023-06
     date_display: Jun 2023
-    codebase_url: ''
+    codebase_url: https://github.com/jw9730/lps
     uses_external_data: false
     is_best: false
     metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
     - null
     - null
     - null
@@ -13311,11 +4750,6 @@ variants:
     - null
     - null
     - null
-    - null
-    - null
-    - null
-    - null
-    - null
     metric_stds:
     - null
     - null
@@ -13325,18 +4759,8 @@ variants:
     - null
     - null
     - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: Graph transformer
-    model_plain: Graph transformer
+  - model: GPS+Transformer
+    model_plain: GPS+Transformer
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -13346,67 +4770,10 @@ variants:
     date: Jun 2023
     date_iso: 2023-06
     date_display: Jun 2023
-    codebase_url: ''
+    codebase_url: https://github.com/jw9730/lps
     uses_external_data: false
     is_best: false
     metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 0.00414
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - 1.0e-05
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: GPS w/ Transformer
-    model_plain: GPS w/ Transformer
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2306.02866'
-    title: Learning Probabilistic Symmetrization for Architecture Agnostic Equivariance
-    date: Jun 2023
-    date_iso: 2023-06
-    date_display: Jun 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - null
-    - null
-    - null
-    - null
     - null
     - null
     - null
@@ -13415,17 +4782,7 @@ variants:
     - null
     - null
     - null
-    - null
-    - null
-    - null
-    - null
-    - null
     metric_stds:
-    - null
-    - null
-    - null
-    - null
-    - null
     - null
     - null
     - null
@@ -13434,128 +4791,18 @@ variants:
     - null
     - null
     - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: PathNN-\mathcal{SP}
-    model_plain: PathNN-\mathcal{SP}
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2306.05955'
-    title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: Jun 9, 2023
-    date_iso: '2023-06-09'
-    date_display: Jun 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - 0.6784
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - 0.0052
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-  - model: PathNN-\mathcal{AP}
-    model_plain: PathNN-\mathcal{AP}
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2306.05955'
-    title: 'Path Neural Networks: Expressive and Accurate Graph Neural Networks'
-    date: Jun 9, 2023
-    date_iso: '2023-06-09'
-    date_display: Jun 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - null
-    - 0.6807
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    metric_stds:
-    - null
-    - 0.0072
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
   milestones:
-  - value: 0.9509
+  - value: 0.9554
     std: null
-    model: S4 + SPT
-    arxiv_id: '2310.02980'
-    title: 'Never Train from Scratch: Fair Comparison of long-sequence models requires
-      data-driven priors'
-    date: 2023-10
-  - value: 0.989
+    model: VRN Ensemble
+    arxiv_id: '1703.06114'
+    title: Deep Sets
+    date: 2017-03
+  - value: 1.0
     std: null
-    model: MPNN
-    arxiv_id: '2411.15671'
-    title: 'Best of Both Worlds: Advantages of Hybrid Graph Sequence Models'
-    date: 2024-11
+    model: Transformer
+    arxiv_id: '2511.20406'
+    title: Short-Range Oversquashing
+    date: 2025-11
 ---
 

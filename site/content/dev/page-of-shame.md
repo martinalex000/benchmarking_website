@@ -9,17 +9,26 @@ description: Papers whose reported model values materially disagree with the sto
 
 This page lists papers whose reported primary-metric value for a model disagrees with the stored global benchmark value by more than the reported std, or differs at all when no std is given.
 
+<<<<<<< Updated upstream
 **Flagged papers:** 126
 **Flagged rows:** 2666
 **Rows where a better value was already known at publication time:** 1146
 **Rows whose current best source is from a later paper:** 1437
 **Rows whose current best source is the same paper:** 83
+=======
+**Flagged papers:** 68
+**Flagged rows:** 775
+**Rows where a better value was already known at publication time:** 349
+**Rows whose current best source is from a later paper:** 395
+**Rows whose current best source is the same paper:** 31
+>>>>>>> Stashed changes
 **Rows with unknown timing:** 0
 
 ### Most affected datasets
 
 | Dataset | Wrong Rows | Papers | Models | Worst Rank Shift | Earlier-known Rows |
 |---|---:|---:|---:|---:|---:|
+<<<<<<< Updated upstream
 | ZINC | 463 | 42 | 51 | 244 | 215 |
 | Peptides-func | 209 | 64 | 27 | 306 | 64 |
 | Peptides-struct | 196 | 61 | 26 | 330 | 41 |
@@ -45,11 +54,39 @@ This page lists papers whose reported primary-metric value for a model disagrees
 | PROTEINS | 38 | 14 | 13 | 170 | 19 |
 | Actor | 34 | 8 | 12 | 60 | 14 |
 | Amazon-ratings | 31 | 14 | 6 | 87 | 22 |
+=======
+| ZINC | 157 | 21 | 36 | 116 | 44 |
+| Cora | 48 | 17 | 17 | 86 | 10 |
+| PubMed | 44 | 13 | 14 | 61 | 12 |
+| Peptides-struct | 39 | 15 | 8 | 83 | 22 |
+| Peptides-func | 39 | 12 | 8 | 62 | 24 |
+| CiteSeer | 37 | 12 | 14 | 66 | 3 |
+| PATTERN | 34 | 7 | 8 | 41 | 33 |
+| ogbn-arxiv | 32 | 10 | 12 | 44 | 19 |
+| CIFAR10 | 25 | 6 | 7 | 34 | 24 |
+| Chameleon | 24 | 5 | 16 | 57 | 21 |
+| Squirrel | 23 | 6 | 12 | 48 | 17 |
+| ogbg-molhiv | 23 | 9 | 9 | 46 | 10 |
+| NCI1 | 21 | 7 | 7 | 60 | 10 |
+| ogbg-molpcba | 21 | 8 | 8 | 35 | 11 |
+| PROTEINS | 17 | 10 | 7 | 75 | 10 |
+| D&D | 10 | 5 | 8 | 60 | 4 |
+| ogbl-wikikg2 | 10 | 2 | 6 | 27 | 6 |
+| COLLAB | 9 | 5 | 6 | 47 | 2 |
+| Coauthor-CS | 9 | 4 | 3 | 19 | 0 |
+| Roman-empire | 9 | 4 | 4 | 9 | 0 |
+| Cornell | 8 | 4 | 6 | 33 | 8 |
+| Amazon-Computers | 8 | 4 | 4 | 31 | 1 |
+| ENZYMES | 8 | 4 | 6 | 25 | 2 |
+| Amazon-Photo | 8 | 3 | 5 | 22 | 2 |
+| PCQM4Mv2 | 8 | 4 | 3 | 15 | 1 |
+>>>>>>> Stashed changes
 
 ### Most affected models
 
 | Model | Wrong Rows | Papers | Datasets | Worst Rank Shift | Earlier-known Rows |
 |---|---:|---:|---:|---:|---:|
+<<<<<<< Updated upstream
 | GCN | 576 | 109 | 55 | 330 | 272 |
 | GatedGCN | 270 | 64 | 18 | 285 | 67 |
 | GIN | 235 | 62 | 36 | 313 | 71 |
@@ -204,11 +241,110 @@ This page lists papers whose reported primary-metric value for a model disagrees
 | [2508.14097](/papers/2508.14097/) | [Non-Dissipative Graph Propagation for Non-Local Community Detection](/papers/2508.14097/) | 1 | 1 | 96 | Wisconsin | SUBLIME |
 | [2603.00599](/papers/2603.00599/) | [Heterophily-Agnostic Hypergraph Neural Networks with Riemannian Local Exchanger](/papers/2603.00599/) | 1 | 1 | 39 | Cora | HGNN |
 | [2307.03393](/papers/2307.03393/) | [Exploring the Potential of Large Language Models (LLMs) in Learning...](/papers/2307.03393/) | 1 | 0 | 8 | ogbn-arxiv | GCN |
+=======
+| GCN | 171 | 54 | 43 | 111 | 79 |
+| GAT | 91 | 36 | 27 | 73 | 39 |
+| GIN | 79 | 31 | 23 | 116 | 43 |
+| GraphSAGE | 58 | 21 | 26 | 114 | 14 |
+| GatedGCN | 51 | 20 | 9 | 112 | 28 |
+| PNA | 28 | 17 | 10 | 75 | 8 |
+| Graphormer | 20 | 15 | 4 | 63 | 2 |
+| APPNP | 19 | 8 | 10 | 57 | 6 |
+| GINE | 17 | 9 | 2 | 72 | 8 |
+| GPS | 14 | 12 | 3 | 87 | 11 |
+| NodeFormer | 9 | 6 | 6 | 74 | 6 |
+| DiffPool | 9 | 5 | 4 | 58 | 2 |
+| DGN | 9 | 6 | 4 | 24 | 7 |
+| GloGNN | 8 | 3 | 6 | 86 | 7 |
+| Exphormer | 8 | 3 | 8 | 54 | 5 |
+| LP | 8 | 4 | 3 | 33 | 3 |
+| FAGCN | 7 | 3 | 5 | 55 | 4 |
+| NAGphormer | 6 | 3 | 4 | 12 | 1 |
+| SAN+RWSE | 6 | 6 | 1 | 12 | 5 |
+| MLP | 5 | 3 | 3 | 57 | 4 |
+| DGCNN | 5 | 3 | 4 | 54 | 2 |
+| ChebNet | 5 | 4 | 4 | 29 | 3 |
+| DIFFormer | 4 | 2 | 4 | 52 | 4 |
+| Graphtransformer | 4 | 2 | 3 | 46 | 2 |
+| Graphormer-GD | 4 | 4 | 1 | 34 | 1 |
+
+| ArXiv | Title | Wrong Rows | Earlier-known Rows | Worst Rank Shift | Datasets | Models |
+|---|---|---:|---:|---:|---|---|
+| [2305.17589](/papers/2305.17589/) | [Graph Inductive Biases in Transformers without Message Passing](/papers/2305.17589/) | 59 | 26 | 104 | Amazon-Computers, Amazon-Photo, COLLAB, CiteSeer | APPNP, CompGCN, ComplEx, DistMult |
+| [2305.15747](/papers/2305.15747/) | [Union Subgraph Neural Networks](/papers/2305.15747/) | 45 | 0 | 115 | Amazon-Computers, Amazon-Photo, CiteSeer, Cora | GAT, GCN, GIN, GPS |
+| [2602.02268](/papers/2602.02268/) | [HopFormer: Sparse Graph Transformers with Explicit Receptive Field Control](/papers/2602.02268/) | 41 | 41 | 111 | Chameleon, Cora, Cornell, Peptides-func | APPNP, DIFFormer, Exphormer, GAT |
+| [2508.05070](/papers/2508.05070/) | [Tango: Graph Neural Dynamics via Learned Energy and Tangential Flows](/papers/2508.05070/) | 32 | 24 | 115 | Amazon-ratings, CIFAR10, CLUSTER, Minesweeper | DGN, GAT, GCN, GIN |
+| [2401.17791](/papers/2401.17791/) | [Graph Transformers without Positional Encodings](/papers/2401.17791/) | 26 | 23 | 115 | CIFAR10, CLUSTER, PATTERN, Peptides-func | DGN, GAT, GCN, GIN |
+| [2108.03348](/papers/2108.03348/) | [Global Self-Attention as a Replacement for Graph Convolution](/papers/2108.03348/) | 26 | 13 | 114 | CIFAR10, MNIST, PATTERN, PCQM4Mv2 | DGN, EGT, GAT, GCN |
+| [2501.18739](/papers/2501.18739/) | [Beyond Message Passing: Neural Graph Pattern Machine](/papers/2501.18739/) | 24 | 14 | 115 | COLLAB, Cora, REDDIT-MULTI-5K, ZINC | APPNP, AWE, AgentNet, CRaWl |
+| [2602.07256](/papers/2602.07256/) | [Graph homophily booster: Reimagining the role of discrete features in...](/papers/2602.07256/) | 23 | 23 | 86 | Actor, Chameleon, CiteSeer, Cora | APPNP, DIFFormer, FAGCN, FSGNN |
+| [2312.01538](/papers/2312.01538/) | [Recurrent Distance Filtering for Graph Representation Learning](/papers/2312.01538/) | 22 | 16 | 110 | CIFAR10, NCI1, PATTERN, PROTEINS | DRew, DiffPool, GAT, GCN |
+| [2101.00797](/papers/2101.00797/) | [Beyond Low-frequency Information in Graph Convolutional Networks](/papers/2101.00797/) | 21 | 2 | 56 | CiteSeer, Cora, PubMed | APPNP, ChebNet, FAGCN, GAT |
+| [2301.09505](/papers/2301.09505/) | [Rethinking the Expressive Power of GNNs via Graph Biconnectivity](/papers/2301.09505/) | 19 | 1 | 115 | ZINC | CIN (small), DS-GNN, GAT, GCN |
+| [2502.00282](/papers/2502.00282/) | [GraphMinNet: Learning Dependencies in Graphs with Light Complexity Minimal Architecture](/papers/2502.00282/) | 19 | 19 | 115 | CIFAR10, CLUSTER, PATTERN, Peptides-func | GAT, GCN, GIN, GatedGCN |
+| [2402.08450](/papers/2402.08450/) | [Subgraphormer: Unifying Subgraph GNNs and Graph Transformers via Graph Products](/papers/2402.08450/) | 19 | 7 | 87 | Peptides-func, Peptides-struct, ZINC | CIN (small), DS-GNN, GCN, GIN |
+| [2005.00687](/papers/2005.00687/) | [Open Graph Benchmark: Datasets for Machine Learning on Graphs](/papers/2005.00687/) | 19 | 0 | 35 | ogbg-molhiv, ogbg-molpcba, ogbl-ddi, ogbl-wikikg2 | ComplEx, DistMult, GCN, GIN |
+| [2305.06102](/papers/2305.06102/) | [Towards Better Graph Representation Learning with Parameterized Decomposition & Filtering](/papers/2305.06102/) | 14 | 4 | 115 | ENZYMES, NCI1, PROTEINS, ZINC | DGCNN, ECC, GAT, GCN |
+| [2302.11640](/papers/2302.11640/) | [A critical look at the evaluation of GNNs under heterophily:...](/papers/2302.11640/) | 14 | 6 | 37 | Chameleon, Roman-empire, Squirrel | CPGNN, FAGCN, FSGNN, GAT |
+| [2205.12454](/papers/2205.12454/) | [Recipe for a General, Powerful, Scalable Graph Transformer](/papers/2205.12454/) | 13 | 0 | 115 | PCQM4Mv2, Peptides-struct, ZINC, ogbg-molhiv | CRaWl, GAT, GCN, GIN |
+| [2303.06147](/papers/2303.06147/) | [Exphormer: Sparse Transformers for Graphs](/papers/2303.06147/) | 13 | 7 | 80 | CLUSTER, PATTERN, Peptides-func, Peptides-struct | DGN, GAT, GCN, GIN |
+| [2605.06462](/papers/2605.06462/) | [Invariant-Based Diagnostics for Graph Benchmarks](/papers/2605.06462/) | 13 | 7 | 80 | Flow, Peptides-func, Peptides-struct | GCN, GIN, GINE, GatedGCN |
+| [2410.23686](/papers/2410.23686/) | [Towards Dynamic Message Passing on Graphs](/papers/2410.23686/) | 13 | 13 | 56 | COLLAB, IMDB-BINARY, IMDB-MULTI, NCI1 | GCN, GIN, GraphSAGE, SAGPool |
+| [2506.07624](/papers/2506.07624/) | [Return of ChebNet: Understanding and Improving an Overlooked GNN on...](/papers/2506.07624/) | 13 | 5 | 23 | Amazon-ratings, Roman-empire, Tolokers, ogbn-arxiv | Exphormer, GAT, GCN, GPS_GCNI+Performer (RWSE) |
+| [2302.08647](/papers/2302.08647/) | [Multiresolution Graph Transformers and Wavelet Positional Encoding for Learning Hierarchical...](/papers/2302.08647/) | 12 | 1 | 103 | Peptides-func, Peptides-struct, ZINC | GAT, GCN, GINE, GPS |
+| [1312.6203](/papers/1312.6203/) | [Spectral Networks and Locally Connected Networks on Graphs](/papers/1312.6203/) | 12 | 0 | 54 | CiteSeer, Cora, PubMed | APPNP, GAT, GCN, GraphSAGE |
+| [2002.04025](/papers/2002.04025/) | [Can Graph Neural Networks Count Substructures?](/papers/2002.04025/) | 10 | 0 | 113 | ZINC, ogbg-molhiv | GAT, GCN, GIN, GatedGCN |
+| [1609.02907](/papers/1609.02907/) | [Semi-Supervised Classification with Graph Convolutional Networks](/papers/1609.02907/) | 10 | 4 | 48 | CiteSeer, Cora, Cornell, PubMed | DeepWalk, GCN, LP, ManiReg |
+| [1811.05868](/papers/1811.05868/) | [Pitfalls of Graph Neural Network Evaluation](/papers/1811.05868/) | 10 | 0 | 40 | Amazon-Computers, Amazon-Photo, CiteSeer, Coauthor-CS | GAT, GCN, MLP |
+| [2402.00789](/papers/2402.00789/) | [Graph-Mamba: Towards Long-Range Graph Sequence Modeling with Selective State Spaces](/papers/2402.00789/) | 10 | 7 | 38 | CIFAR10, CLUSTER, MNIST, PATTERN | Exphormer, GCN, GIN, GatedGCN |
+| [2106.05234](/papers/2106.05234/) | [Do Transformers Really Perform Bad for Graph Representation?](/papers/2106.05234/) | 9 | 0 | 115 | PCQM4Mv2, ZINC | GAT, GCN, GIN, GatedGCN+LapPE |
+| [2110.07875](/papers/2110.07875/) | [Graph Neural Networks with Learnable Structural and Positional Representations](/papers/2110.07875/) | 9 | 1 | 105 | ZINC, ogbg-molpcba | GAT, GCN, GIN, GIN-VN |
+| [2405.13806](/papers/2405.13806/) | [A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition](/papers/2405.13806/) | 9 | 9 | 80 | Peptides-func, Peptides-struct, ogbn-arxiv | APPNP, GAT, GCN, GINE |
+| [1905.05178](/papers/1905.05178/) | [Graph U-Nets](/papers/1905.05178/) | 9 | 1 | 48 | COLLAB, CiteSeer, Cora, PROTEINS | DeepWalk, DiffPool, GAT, GCN |
+| [2001.05140](/papers/2001.05140/) | [Graph-Bert: Only Attention is Needed for Learning Graph Representations](/papers/2001.05140/) | 9 | 3 | 48 | CiteSeer, Cora, PubMed | DeepWalk, GAT, GCN, LP |
+| [2110.09443](/papers/2110.09443/) | [Beltrami Flow and Neural Diffusion on Graphs](/papers/2110.09443/) | 9 | 0 | 48 | Amazon-Computers, CiteSeer, Coauthor-CS, Cora | CPGNN, GAT, GCN |
+| [2205.07308](/papers/2205.07308/) | [Finding Global Homophily in Graph Neural Networks When Meeting Heterophily](/papers/2205.07308/) | 9 | 1 | 25 | Squirrel, ogbn-arxiv | APPNP, ChebNet, GAT, GCN |
+| [2305.10498](/papers/2305.10498/) | [Edge Directionality Improves Learning on Heterophilic Graphs](/papers/2305.10498/) | 8 | 7 | 48 | Chameleon, Roman-empire, Squirrel, snap-patents | GCN, GloGNN, MLP |
+| [1611.08402](/papers/1611.08402/) | [Geometric deep learning on graphs and manifolds using mixture model...](/papers/1611.08402/) | 8 | 0 | 47 | Cora, MNIST, PubMed | ChebNet, DGCNN, DeepWalk, GCN |
+| [2103.09430](/papers/2103.09430/) | [OGB-LSC: A Large-Scale Challenge for Machine Learning on Graphs](/papers/2103.09430/) | 8 | 0 | 34 | ogbg-molpcba, ogbn-mag | DGN, GAT, GCN, GIN |
+| [2206.08164](/papers/2206.08164/) | [Long Range Graph Benchmark](/papers/2206.08164/) | 7 | 0 | 80 | Peptides-func, Peptides-struct | GCN, GINE, GatedGCN, SAN+RWSE |
+| [2306.02866](/papers/2306.02866/) | [Learning Probabilistic Symmetrization for Architecture Agnostic Equivariance](/papers/2306.02866/) | 7 | 1 | 80 | Peptides-func, Peptides-struct | GCN, GINE, GatedGCN, SAN+RWSE |
+| [1812.04202](/papers/1812.04202/) | [Deep Learning on Graphs: A Survey](/papers/1812.04202/) | 7 | 1 | 56 | Cora, PubMed | ChebNet, FastGCN, GAT, GCN |
+| [2308.07134](/papers/2308.07134/) | [Language is All a Graph Needs](/papers/2308.07134/) | 7 | 5 | 55 | Cora, PubMed, ogbn-arxiv | DeeperGCN, GAT, GCN, GraphSAGE |
+| [1806.08804](/papers/1806.08804/) | [Hierarchical Graph Representation Learning with Differentiable Pooling](/papers/1806.08804/) | 7 | 0 | 54 | COLLAB, D&D, ENZYMES, PROTEINS | DiffPool, GraphSAGE |
+| [2507.00647](/papers/2507.00647/) | [Cooperative Sheaf Neural Networks](/papers/2507.00647/) | 7 | 6 | 45 | Chameleon, Cornell, Squirrel | GAT, GCN, GT, GT-sep |
+| [2502.01122](/papers/2502.01122/) | [Learning Efficient Positional Encodings with Graph Neural Networks](/papers/2502.01122/) | 6 | 6 | 108 | Peptides-struct, REDDIT-BINARY, REDDIT-MULTI-5K, ZINC | GCN, GIN, GPS |
+| [2310.18716](/papers/2310.18716/) | [Laplacian Canonization: A Minimalist Approach to Sign and Basis Invariant...](/papers/2310.18716/) | 6 | 3 | 105 | ZINC, ogbg-molpcba | GatedGCN, GatedGCN+LapPE, Graph-ViT, PNA |
+| [2502.02379](/papers/2502.02379/) | [No Metric to Rule Them All: Toward Principled Evaluations of...](/papers/2502.02379/) | 6 | 6 | 75 | NCI1, PROTEINS | GAT, GCN, GIN |
+| [2406.11714](/papers/2406.11714/) | [Scalable Expressiveness through Preprocessed Graph Perturbations](/papers/2406.11714/) | 6 | 6 | 37 | IMDB-MULTI, Tox21, ogbg-molhiv | GCN, GIN |
+| [2602.17893](/papers/2602.17893/) | [COMBA: Cross Batch Aggregation for Learning Large Graphs with Context...](/papers/2602.17893/) | 6 | 6 | 31 | Amazon-ratings, Minesweeper, ogbn-arxiv, ogbn-products | Cluster-GCN, GCN, Graph-Mamba, NAGphormer |
+| [2006.15646](/papers/2006.15646/) | [Expressive Power of Invariant and Equivariant Graph Neural Networks](/papers/2006.15646/) | 6 | 0 | 8 | ER graph | DGN, GAT, GCN, GIN |
+| [1904.08082](/papers/1904.08082/) | [Self-Attention Graph Pooling](/papers/1904.08082/) | 5 | 3 | 58 | D&D, NCI1 | DiffPool, SAGPool, Set2Set, SortPool |
+| [2302.08671](/papers/2302.08671/) | [Search to Capture Long-range Dependency with Stacking GNNs for Graph...](/papers/2302.08671/) | 5 | 2 | 40 | D&D, NCI1, PROTEINS | DiffPool, GCN, SAGPool |
+| [1603.08861](/papers/1603.08861/) | [Revisiting Semi-Supervised Learning with Graph Embeddings](/papers/1603.08861/) | 5 | 0 | 16 | CiteSeer, Cora, PubMed | LP, Planetoid* |
+| [2004.11198](/papers/2004.11198/) | [SIGN: Scalable Inception Graph Neural Networks](/papers/2004.11198/) | 5 | 3 | 5 | PPI, Reddit | Cluster-GCN, FastGCN, GCN, GraphSAGE |
+| [2509.01254](/papers/2509.01254/) | [What Expressivity Theory Misses: Message Passing Complexity for GNNs](/papers/2509.01254/) | 4 | 4 | 116 | ZINC | GCN, GIN, GSN, GraphSAGE |
+| [2006.15107](/papers/2006.15107/) | [Building powerful and equivariant graph neural networks with structural message-passing](/papers/2006.15107/) | 4 | 0 | 106 | ZINC | GIN, GatedGCN, MPNN, PNA |
+| [2309.09384](/papers/2309.09384/) | [Mitigating Over-Smoothing and Over-Squashing using Augmentations of Forman-Ricci Curvature](/papers/2309.09384/) | 4 | 3 | 52 | Cora, Cornell, MUTAG | GCN, GIN |
+| [2106.07476](/papers/2106.07476/) | [Training Graph Neural Networks with 1000 Layers](/papers/2106.07476/) | 4 | 0 | 19 | ogbn-arxiv, ogbn-proteins | GCN, GraphSAGE |
+| [2210.13148](/papers/2210.13148/) | [Transformers over Directed Acyclic Graphs](/papers/2210.13148/) | 3 | 0 | 27 | CiteSeer, Cora, MalNet-Tiny | GraphGPS, NodeFormer |
+| [2009.03509](/papers/2009.03509/) | [Masked Label Prediction: Unified Message Passing Model for Semi-Supervised Classification](/papers/2009.03509/) | 3 | 0 | 24 | ogbn-arxiv, ogbn-proteins | DeeperGCN, JK-Net |
+| [2110.13197](/papers/2110.13197/) | [Nested Graph Neural Networks](/papers/2110.13197/) | 3 | 3 | 12 | QM9 | 123-gnn, DTNN, MPNN |
+| [2210.02997](/papers/2210.02997/) | [Expander Graph Propagation](/papers/2210.02997/) | 2 | 0 | 34 | ogbg-molhiv, ogbg-molpcba | GIN |
+| [1902.07153](/papers/1902.07153/) | [Simplifying Graph Convolutional Networks](/papers/1902.07153/) | 2 | 0 | 31 | PubMed | GAT, GCN |
+| [2511.03824](/papers/2511.03824/) | [Sketch-Augmented Features Improve Learning Long-Range Dependencies in Graph Neural Networks](/papers/2511.03824/) | 2 | 2 | 17 | Peptides-struct, REDDIT-MULTI-5K | GPS, SignNet-8S |
+| [2402.07568](/papers/2402.07568/) | [--Leman at the margin: When more expressivity matters](/papers/2402.07568/) | 2 | 2 | 13 | ENZYMES, PROTEINS | 1-WL |
+| [2006.06972](/papers/2006.06972/) | [Towards Deeper Graph Neural Networks with Differentiable Group Normalization](/papers/2006.06972/) | 2 | 0 | 6 | Coauthor-CS | GAT, GCN |
+| [1703.06103](/papers/1703.06103/) | [Modeling Relational Data with Graph Convolutional Networks](/papers/1703.06103/) | 1 | 0 | 45 | MUTAG | WL |
+| [1912.06058](/papers/1912.06058/) | [Coloring graph neural networks for node disambiguation](/papers/1912.06058/) | 1 | 1 | 11 | PROTEINS | DGCNN |
+| [1905.07953](/papers/1905.07953/) | [Cluster-GCN: An Efficient Algorithm for Training Deep and Large Graph...](/papers/1905.07953/) | 1 | 1 | 1 | Reddit | GaAN |
+>>>>>>> Stashed changes
 
 ### Flagged Rows
 
 | ArXiv | Dataset | Model | Actual | Paper | Rank Shift | Actual Source | Timing |
 |---|---|---|---:|---:|---:|---|---|
+<<<<<<< Updated upstream
 | [2506.04765](/papers/2506.04765/) | Peptides-struct | GCN | 0.2421 | 0.4347 | 330 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | already known (2025-02) |
 | [2602.02268](/papers/2602.02268/) | Peptides-struct | GCN | 0.2421 | 0.4347 | 330 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | already known (2025-02) |
 | [2512.15549](/papers/2512.15549/) | Peptides-struct | GCN | 0.2421 | 0.4077 | 329 | [Can Classic GNNs Be Strong Baselines for Graph-level...](/papers/2502.09263/) | already known (2025-02) |
@@ -709,3 +845,505 @@ This page lists papers whose reported primary-metric value for a model disagrees
 | [2210.07606](/papers/2210.07606/) | CiteSeer | MixHop | 0.7626 | 0.4952 | 150 | [Algorithmic Graph Tasks](/papers/2312.16560/) | published later (2023-12) |
 | [2410.05593](/papers/2410.05593/) | PubMed | MLP | 0.9476 | 0.7140 | 150 | [When Structure Doesn’t Help: LLMs Do Not Read...](/papers/2511.16767/) | published later (2025-11) |
 | [2410.05499](/papers/2410.05499/) | PROTEINS | GIN | 0.7620 | 0.6970 | 149 | [Probabilistic Graph Rewiring via Virtual Nodes](/papers/2405.17311/) | already known (2024-05) |
+=======
+| [2509.01254](/papers/2509.01254/) | ZINC | GIN | 0.0140 | 0.5300 | 116 | [How does over-squashing affect the power of GNNs?](/papers/2306.03589/) | already known (2023-06) |
+| [2106.05234](/papers/2106.05234/) | ZINC | GIN | 0.0140 | 0.5260 | 115 | [How does over-squashing affect the power of GNNs?](/papers/2306.03589/) | published later (2023-06) |
+| [2205.12454](/papers/2205.12454/) | ZINC | GIN | 0.0140 | 0.5260 | 115 | [How does over-squashing affect the power of GNNs?](/papers/2306.03589/) | published later (2023-06) |
+| [2301.09505](/papers/2301.09505/) | ZINC | GIN | 0.0140 | 0.5260 | 115 | [How does over-squashing affect the power of GNNs?](/papers/2306.03589/) | published later (2023-06) |
+| [2305.06102](/papers/2305.06102/) | ZINC | GIN | 0.0140 | 0.5260 | 115 | [How does over-squashing affect the power of GNNs?](/papers/2306.03589/) | published later (2023-06) |
+| [2305.15747](/papers/2305.15747/) | ZINC | GIN | 0.0140 | 0.5260 | 115 | [How does over-squashing affect the power of GNNs?](/papers/2306.03589/) | published later (2023-06) |
+| [2401.17791](/papers/2401.17791/) | ZINC | GIN | 0.0140 | 0.5260 | 115 | [How does over-squashing affect the power of GNNs?](/papers/2306.03589/) | already known (2023-06) |
+| [2501.18739](/papers/2501.18739/) | ZINC | GIN | 0.0140 | 0.5260 | 115 | [How does over-squashing affect the power of GNNs?](/papers/2306.03589/) | already known (2023-06) |
+| [2502.00282](/papers/2502.00282/) | ZINC | GIN | 0.0140 | 0.5260 | 115 | [How does over-squashing affect the power of GNNs?](/papers/2306.03589/) | already known (2023-06) |
+| [2508.05070](/papers/2508.05070/) | ZINC | GIN | 0.0140 | 0.5260 | 115 | [How does over-squashing affect the power of GNNs?](/papers/2306.03589/) | already known (2023-06) |
+| [2108.03348](/papers/2108.03348/) | ZINC | GraphSAGE | 0.0060 | 0.4680 | 114 | [How does over-squashing affect the power of GNNs?](/papers/2306.03589/) | published later (2023-06) |
+| [2002.04025](/papers/2002.04025/) | ZINC | GraphSAGE | 0.0060 | 0.4100 | 113 | [How does over-squashing affect the power of GNNs?](/papers/2306.03589/) | published later (2023-06) |
+| [2509.01254](/papers/2509.01254/) | ZINC | GraphSAGE | 0.0060 | 0.4000 | 113 | [How does over-squashing affect the power of GNNs?](/papers/2306.03589/) | already known (2023-06) |
+| [2106.05234](/papers/2106.05234/) | ZINC | GraphSAGE | 0.0060 | 0.3980 | 113 | [How does over-squashing affect the power of GNNs?](/papers/2306.03589/) | published later (2023-06) |
+| [2301.09505](/papers/2301.09505/) | ZINC | GraphSAGE | 0.0060 | 0.3980 | 113 | [How does over-squashing affect the power of GNNs?](/papers/2306.03589/) | published later (2023-06) |
+| [2305.06102](/papers/2305.06102/) | ZINC | GraphSAGE | 0.0060 | 0.3980 | 113 | [How does over-squashing affect the power of GNNs?](/papers/2306.03589/) | published later (2023-06) |
+| [2305.15747](/papers/2305.15747/) | ZINC | GraphSAGE | 0.0060 | 0.3980 | 113 | [How does over-squashing affect the power of GNNs?](/papers/2306.03589/) | published later (2023-06) |
+| [2002.04025](/papers/2002.04025/) | ZINC | GIN | 0.0140 | 0.4080 | 112 | [How does over-squashing affect the power of GNNs?](/papers/2306.03589/) | published later (2023-06) |
+| [2108.03348](/papers/2108.03348/) | ZINC | GatedGCN | 0.0040 | 0.3750 | 112 | [How does over-squashing affect the power of GNNs?](/papers/2306.03589/) | published later (2023-06) |
+| [2602.02268](/papers/2602.02268/) | ZINC | GCN | 0.0240 | 0.6090 | 111 | [How does over-squashing affect the power of GNNs?](/papers/2306.03589/) | already known (2023-06) |
+| [2002.04025](/papers/2002.04025/) | ZINC | GatedGCN | 0.0040 | 0.3630 | 111 | [How does over-squashing affect the power of GNNs?](/papers/2306.03589/) | published later (2023-06) |
+| [2108.03348](/papers/2108.03348/) | ZINC | GIN | 0.0140 | 0.3870 | 110 | [How does over-squashing affect the power of GNNs?](/papers/2306.03589/) | published later (2023-06) |
+| [2312.01538](/papers/2312.01538/) | ZINC | GIN | 0.0140 | 0.3870 | 110 | [How does over-squashing affect the power of GNNs?](/papers/2306.03589/) | already known (2023-06) |
+| [2002.04025](/papers/2002.04025/) | ZINC | GCN | 0.0240 | 0.4690 | 108 | [How does over-squashing affect the power of GNNs?](/papers/2306.03589/) | published later (2023-06) |
+| [2502.01122](/papers/2502.01122/) | ZINC | GCN | 0.0240 | 0.4690 | 108 | [How does over-squashing affect the power of GNNs?](/papers/2306.03589/) | already known (2023-06) |
+| [2108.03348](/papers/2108.03348/) | ZINC | GCN | 0.0240 | 0.4590 | 106 | [How does over-squashing affect the power of GNNs?](/papers/2306.03589/) | published later (2023-06) |
+| [2006.15107](/papers/2006.15107/) | ZINC | GatedGCN | 0.0040 | 0.2820 | 106 | [How does over-squashing affect the power of GNNs?](/papers/2306.03589/) | published later (2023-06) |
+| [2205.12454](/papers/2205.12454/) | ZINC | GatedGCN | 0.0040 | 0.2820 | 106 | [How does over-squashing affect the power of GNNs?](/papers/2306.03589/) | published later (2023-06) |
+| [2312.01538](/papers/2312.01538/) | ZINC | GatedGCN | 0.0040 | 0.2820 | 106 | [How does over-squashing affect the power of GNNs?](/papers/2306.03589/) | already known (2023-06) |
+| [2401.17791](/papers/2401.17791/) | ZINC | GatedGCN | 0.0040 | 0.2820 | 106 | [How does over-squashing affect the power of GNNs?](/papers/2306.03589/) | already known (2023-06) |
+| [2508.05070](/papers/2508.05070/) | ZINC | GatedGCN | 0.0040 | 0.2820 | 106 | [How does over-squashing affect the power of GNNs?](/papers/2306.03589/) | already known (2023-06) |
+| [2110.07875](/papers/2110.07875/) | ZINC | GatedGCN | 0.0040 | 0.2510 | 105 | [How does over-squashing affect the power of GNNs?](/papers/2306.03589/) | published later (2023-06) |
+| [2310.18716](/papers/2310.18716/) | ZINC | GatedGCN | 0.0040 | 0.2510 | 105 | [How does over-squashing affect the power of GNNs?](/papers/2306.03589/) | already known (2023-06) |
+| [2305.15747](/papers/2305.15747/) | ZINC | GCN | 0.0240 | 0.3800 | 104 | [How does over-squashing affect the power of GNNs?](/papers/2306.03589/) | published later (2023-06) |
+| [2509.01254](/papers/2509.01254/) | ZINC | GCN | 0.0240 | 0.3700 | 104 | [How does over-squashing affect the power of GNNs?](/papers/2306.03589/) | already known (2023-06) |
+| [2305.17589](/papers/2305.17589/) | ZINC | GraphSAGE | 0.0060 | 0.2780 | 104 | [How does over-squashing affect the power of GNNs?](/papers/2306.03589/) | published later (2023-06) |
+| [2106.05234](/papers/2106.05234/) | ZINC | GCN | 0.0240 | 0.3670 | 103 | [How does over-squashing affect the power of GNNs?](/papers/2306.03589/) | published later (2023-06) |
+| [2110.07875](/papers/2110.07875/) | ZINC | GCN | 0.0240 | 0.3670 | 103 | [How does over-squashing affect the power of GNNs?](/papers/2306.03589/) | published later (2023-06) |
+| [2205.12454](/papers/2205.12454/) | ZINC | GCN | 0.0240 | 0.3670 | 103 | [How does over-squashing affect the power of GNNs?](/papers/2306.03589/) | published later (2023-06) |
+| [2301.09505](/papers/2301.09505/) | ZINC | GCN | 0.0240 | 0.3670 | 103 | [How does over-squashing affect the power of GNNs?](/papers/2306.03589/) | published later (2023-06) |
+| [2302.08647](/papers/2302.08647/) | ZINC | GCN | 0.0240 | 0.3670 | 103 | [How does over-squashing affect the power of GNNs?](/papers/2306.03589/) | published later (2023-06) |
+| [2305.06102](/papers/2305.06102/) | ZINC | GCN | 0.0240 | 0.3670 | 103 | [How does over-squashing affect the power of GNNs?](/papers/2306.03589/) | published later (2023-06) |
+| [2401.17791](/papers/2401.17791/) | ZINC | GCN | 0.0240 | 0.3670 | 103 | [How does over-squashing affect the power of GNNs?](/papers/2306.03589/) | already known (2023-06) |
+| [2502.00282](/papers/2502.00282/) | ZINC | GCN | 0.0240 | 0.3670 | 103 | [How does over-squashing affect the power of GNNs?](/papers/2306.03589/) | already known (2023-06) |
+| [2508.05070](/papers/2508.05070/) | ZINC | GCN | 0.0240 | 0.3670 | 103 | [How does over-squashing affect the power of GNNs?](/papers/2306.03589/) | already known (2023-06) |
+| [2006.15107](/papers/2006.15107/) | ZINC | GIN | 0.0140 | 0.2520 | 103 | [How does over-squashing affect the power of GNNs?](/papers/2306.03589/) | published later (2023-06) |
+| [2302.08647](/papers/2302.08647/) | ZINC | GatedGCN | 0.0040 | 0.2140 | 102 | [How does over-squashing affect the power of GNNs?](/papers/2306.03589/) | published later (2023-06) |
+| [2305.06102](/papers/2305.06102/) | ZINC | GatedGCN | 0.0040 | 0.2140 | 102 | [How does over-squashing affect the power of GNNs?](/papers/2306.03589/) | published later (2023-06) |
+| [2502.01122](/papers/2502.01122/) | ZINC | GIN | 0.0140 | 0.2090 | 99 | [How does over-squashing affect the power of GNNs?](/papers/2306.03589/) | already known (2023-06) |
+| [2305.17589](/papers/2305.17589/) | ZINC | GCN | 0.0240 | 0.2960 | 98 | [How does over-squashing affect the power of GNNs?](/papers/2306.03589/) | published later (2023-06) |
+| [2312.01538](/papers/2312.01538/) | ZINC | GCN | 0.0240 | 0.2780 | 97 | [How does over-squashing affect the power of GNNs?](/papers/2306.03589/) | already known (2023-06) |
+| [2602.02268](/papers/2602.02268/) | ZINC | GPS | 0.0262 | 0.1968 | 87 | [Union Subgraph Neural Networks](/papers/2305.15747/) | already known (2023-05) |
+| [2402.08450](/papers/2402.08450/) | ZINC | GIN | 0.0140 | 0.1630 | 87 | [How does over-squashing affect the power of GNNs?](/papers/2306.03589/) | already known (2023-06) |
+| [2602.07256](/papers/2602.07256/) | Cora | GloGNN | 0.8831 | 0.7302 | 86 | [Finding Global Homophily in Graph Neural Networks When...](/papers/2205.07308/) | already known (2022-05-15) |
+| [2305.15747](/papers/2305.15747/) | Cora | GraphSAGE | 0.8790 | 0.7060 | 85 | [Graph homophily booster: Reimagining the role of discrete...](/papers/2602.07256/) | published later (2026-02) |
+| [2602.02268](/papers/2602.02268/) | Peptides-struct | GCN | 0.2460 | 0.4347 | 83 | [Recurrent Distance Filtering for Graph Representation Learning](/papers/2312.01538/) | already known (2023-12-03) |
+| [2305.15747](/papers/2305.15747/) | ZINC | GIN | 0.0140 | 0.1552 | 83 | [How does over-squashing affect the power of GNNs?](/papers/2306.03589/) | published later (2023-06) |
+| [2602.02268](/papers/2602.02268/) | Cora | GCN | 0.8778 | 0.7180 | 81 | [Language is All a Graph Needs](/papers/2308.07134/) | already known (2023-08) |
+| [2205.12454](/papers/2205.12454/) | Peptides-struct | GCN | 0.2460 | 0.3496 | 80 | [Recurrent Distance Filtering for Graph Representation Learning](/papers/2312.01538/) | published later (2023-12-03) |
+| [2206.08164](/papers/2206.08164/) | Peptides-struct | GCN | 0.2460 | 0.3496 | 80 | [Recurrent Distance Filtering for Graph Representation Learning](/papers/2312.01538/) | published later (2023-12-03) |
+| [2302.08647](/papers/2302.08647/) | Peptides-struct | GCN | 0.2460 | 0.3496 | 80 | [Recurrent Distance Filtering for Graph Representation Learning](/papers/2312.01538/) | published later (2023-12-03) |
+| [2303.06147](/papers/2303.06147/) | Peptides-struct | GCN | 0.2460 | 0.3496 | 80 | [Recurrent Distance Filtering for Graph Representation Learning](/papers/2312.01538/) | published later (2023-12-03) |
+| [2306.02866](/papers/2306.02866/) | Peptides-struct | GCN | 0.2460 | 0.3496 | 80 | [Recurrent Distance Filtering for Graph Representation Learning](/papers/2312.01538/) | published later (2023-12-03) |
+| [2401.17791](/papers/2401.17791/) | Peptides-struct | GCN | 0.2460 | 0.3496 | 80 | [Recurrent Distance Filtering for Graph Representation Learning](/papers/2312.01538/) | already known (2023-12-03) |
+| [2402.08450](/papers/2402.08450/) | Peptides-struct | GCN | 0.2460 | 0.3496 | 80 | [Recurrent Distance Filtering for Graph Representation Learning](/papers/2312.01538/) | already known (2023-12-03) |
+| [2405.13806](/papers/2405.13806/) | Peptides-struct | GCN | 0.2460 | 0.3496 | 80 | [Recurrent Distance Filtering for Graph Representation Learning](/papers/2312.01538/) | already known (2023-12-03) |
+| [2502.00282](/papers/2502.00282/) | Peptides-struct | GCN | 0.2460 | 0.3496 | 80 | [Recurrent Distance Filtering for Graph Representation Learning](/papers/2312.01538/) | already known (2023-12-03) |
+| [2508.05070](/papers/2508.05070/) | Peptides-struct | GCN | 0.2460 | 0.3496 | 80 | [Recurrent Distance Filtering for Graph Representation Learning](/papers/2312.01538/) | already known (2023-12-03) |
+| [2605.06462](/papers/2605.06462/) | Peptides-struct | GCN | 0.2460 | 0.3496 | 80 | [Recurrent Distance Filtering for Graph Representation Learning](/papers/2312.01538/) | already known (2023-12-03) |
+| [2305.15747](/papers/2305.15747/) | Cora | GCN | 0.8778 | 0.7256 | 78 | [Language is All a Graph Needs](/papers/2308.07134/) | published later (2023-08) |
+| [2110.07875](/papers/2110.07875/) | ZINC | Graph-ViT | 0.0350 | 0.1810 | 77 | [Beyond Message Passing: Neural Graph Pattern Machine](/papers/2501.18739/) | published later (2025-01-30) |
+| [2310.18716](/papers/2310.18716/) | ZINC | Graph-ViT | 0.0350 | 0.1810 | 77 | [Beyond Message Passing: Neural Graph Pattern Machine](/papers/2501.18739/) | published later (2025-01-30) |
+| [2305.17589](/papers/2305.17589/) | ZINC | PNA | 0.0670 | 0.2450 | 75 | [Beyond Message Passing: Neural Graph Pattern Machine](/papers/2501.18739/) | published later (2025-01-30) |
+| [2502.02379](/papers/2502.02379/) | PROTEINS | GIN | 0.7850 | 0.6090 | 75 | [Graph Inductive Biases in Transformers without Message Passing](/papers/2305.17589/) | already known (2023-05-27) |
+| [2602.02268](/papers/2602.02268/) | Cora | NodeFormer | 0.8744 | 0.7103 | 74 | [Graph homophily booster: Reimagining the role of discrete...](/papers/2602.07256/) | already known (2026-02) |
+| [2502.02379](/papers/2502.02379/) | PROTEINS | GAT | 0.7790 | 0.6120 | 73 | [Graph Inductive Biases in Transformers without Message Passing](/papers/2305.17589/) | already known (2023-05-27) |
+| [2205.12454](/papers/2205.12454/) | Peptides-struct | GINE | 0.2473 | 0.3547 | 72 | [Recurrent Distance Filtering for Graph Representation Learning](/papers/2312.01538/) | published later (2023-12-03) |
+| [2206.08164](/papers/2206.08164/) | Peptides-struct | GINE | 0.2473 | 0.3547 | 72 | [Recurrent Distance Filtering for Graph Representation Learning](/papers/2312.01538/) | published later (2023-12-03) |
+| [2302.08647](/papers/2302.08647/) | Peptides-struct | GINE | 0.2473 | 0.3547 | 72 | [Recurrent Distance Filtering for Graph Representation Learning](/papers/2312.01538/) | published later (2023-12-03) |
+| [2303.06147](/papers/2303.06147/) | Peptides-struct | GINE | 0.2473 | 0.3547 | 72 | [Recurrent Distance Filtering for Graph Representation Learning](/papers/2312.01538/) | published later (2023-12-03) |
+| [2306.02866](/papers/2306.02866/) | Peptides-struct | GINE | 0.2473 | 0.3547 | 72 | [Recurrent Distance Filtering for Graph Representation Learning](/papers/2312.01538/) | published later (2023-12-03) |
+| [2401.17791](/papers/2401.17791/) | Peptides-struct | GINE | 0.2473 | 0.3547 | 72 | [Recurrent Distance Filtering for Graph Representation Learning](/papers/2312.01538/) | already known (2023-12-03) |
+| [2405.13806](/papers/2405.13806/) | Peptides-struct | GINE | 0.2473 | 0.3547 | 72 | [Recurrent Distance Filtering for Graph Representation Learning](/papers/2312.01538/) | already known (2023-12-03) |
+| [2508.05070](/papers/2508.05070/) | Peptides-struct | GINE | 0.2473 | 0.3547 | 72 | [Recurrent Distance Filtering for Graph Representation Learning](/papers/2312.01538/) | already known (2023-12-03) |
+| [2605.06462](/papers/2605.06462/) | Peptides-struct | GINE | 0.2473 | 0.3547 | 72 | [Recurrent Distance Filtering for Graph Representation Learning](/papers/2312.01538/) | already known (2023-12-03) |
+| [2301.09505](/papers/2301.09505/) | ZINC | GraphSAGE | 0.0060 | 0.1260 | 71 | [How does over-squashing affect the power of GNNs?](/papers/2306.03589/) | published later (2023-06) |
+| [2502.02379](/papers/2502.02379/) | PROTEINS | GCN | 0.7720 | 0.5930 | 70 | [Graph Inductive Biases in Transformers without Message Passing](/papers/2305.17589/) | already known (2023-05-27) |
+| [2305.15747](/papers/2305.15747/) | ZINC | GraphSAGE | 0.0060 | 0.1205 | 69 | [How does over-squashing affect the power of GNNs?](/papers/2306.03589/) | published later (2023-06) |
+| [2305.15747](/papers/2305.15747/) | CiteSeer | GraphSAGE | 0.7643 | 0.5502 | 66 | [Graph homophily booster: Reimagining the role of discrete...](/papers/2602.07256/) | published later (2026-02) |
+| [2602.02268](/papers/2602.02268/) | Cora | GAT | 0.8711 | 0.7460 | 66 | [Graph homophily booster: Reimagining the role of discrete...](/papers/2602.07256/) | already known (2026-02) |
+| [2006.15107](/papers/2006.15107/) | ZINC | PNA | 0.0670 | 0.1880 | 66 | [Beyond Message Passing: Neural Graph Pattern Machine](/papers/2501.18739/) | published later (2025-01-30) |
+| [2108.03348](/papers/2108.03348/) | ZINC | PNA | 0.0670 | 0.1880 | 66 | [Beyond Message Passing: Neural Graph Pattern Machine](/papers/2501.18739/) | published later (2025-01-30) |
+| [2205.12454](/papers/2205.12454/) | ZINC | PNA | 0.0670 | 0.1880 | 66 | [Beyond Message Passing: Neural Graph Pattern Machine](/papers/2501.18739/) | published later (2025-01-30) |
+| [2312.01538](/papers/2312.01538/) | ZINC | PNA | 0.0670 | 0.1880 | 66 | [Beyond Message Passing: Neural Graph Pattern Machine](/papers/2501.18739/) | published later (2025-01-30) |
+| [2401.17791](/papers/2401.17791/) | ZINC | PNA | 0.0670 | 0.1880 | 66 | [Beyond Message Passing: Neural Graph Pattern Machine](/papers/2501.18739/) | published later (2025-01-30) |
+| [2508.05070](/papers/2508.05070/) | ZINC | PNA | 0.0670 | 0.1880 | 66 | [Beyond Message Passing: Neural Graph Pattern Machine](/papers/2501.18739/) | already known (2025-01-30) |
+| [2305.15747](/papers/2305.15747/) | Cora | GAT | 0.8711 | 0.7482 | 65 | [Graph homophily booster: Reimagining the role of discrete...](/papers/2602.07256/) | published later (2026-02) |
+| [2602.02268](/papers/2602.02268/) | Peptides-struct | Graph-MLPMixer | 0.2475 | 0.3065 | 64 | [Recurrent Distance Filtering for Graph Representation Learning](/papers/2312.01538/) | already known (2023-12-03) |
+| [2602.02268](/papers/2602.02268/) | ZINC | Graphormer | 0.0250 | 0.1305 | 63 | [Beyond Message Passing: Neural Graph Pattern Machine](/papers/2501.18739/) | already known (2025-01-30) |
+| [2602.02268](/papers/2602.02268/) | Peptides-func | Graph-MLPMixer | 0.6970 | 0.4225 | 62 | [Recurrent Distance Filtering for Graph Representation Learning](/papers/2312.01538/) | already known (2023-12-03) |
+| [2305.15747](/papers/2305.15747/) | ZINC | Graphormer | 0.0250 | 0.1269 | 62 | [Beyond Message Passing: Neural Graph Pattern Machine](/papers/2501.18739/) | published later (2025-01-30) |
+| [2205.12454](/papers/2205.12454/) | Peptides-struct | GatedGCN | 0.2477 | 0.3420 | 62 | [Recurrent Distance Filtering for Graph Representation Learning](/papers/2312.01538/) | published later (2023-12-03) |
+| [2206.08164](/papers/2206.08164/) | Peptides-struct | GatedGCN | 0.2477 | 0.3420 | 62 | [Recurrent Distance Filtering for Graph Representation Learning](/papers/2312.01538/) | published later (2023-12-03) |
+| [2302.08647](/papers/2302.08647/) | Peptides-struct | GatedGCN | 0.2477 | 0.3420 | 62 | [Recurrent Distance Filtering for Graph Representation Learning](/papers/2312.01538/) | published later (2023-12-03) |
+| [2303.06147](/papers/2303.06147/) | Peptides-struct | GatedGCN | 0.2477 | 0.3420 | 62 | [Recurrent Distance Filtering for Graph Representation Learning](/papers/2312.01538/) | published later (2023-12-03) |
+| [2306.02866](/papers/2306.02866/) | Peptides-struct | GatedGCN | 0.2477 | 0.3420 | 62 | [Recurrent Distance Filtering for Graph Representation Learning](/papers/2312.01538/) | published later (2023-12-03) |
+| [2401.17791](/papers/2401.17791/) | Peptides-struct | GatedGCN | 0.2477 | 0.3420 | 62 | [Recurrent Distance Filtering for Graph Representation Learning](/papers/2312.01538/) | already known (2023-12-03) |
+| [2402.08450](/papers/2402.08450/) | Peptides-struct | GatedGCN | 0.2477 | 0.3420 | 62 | [Recurrent Distance Filtering for Graph Representation Learning](/papers/2312.01538/) | already known (2023-12-03) |
+| [2405.13806](/papers/2405.13806/) | Peptides-struct | GatedGCN | 0.2477 | 0.3420 | 62 | [Recurrent Distance Filtering for Graph Representation Learning](/papers/2312.01538/) | already known (2023-12-03) |
+| [2502.00282](/papers/2502.00282/) | Peptides-struct | GatedGCN | 0.2477 | 0.3420 | 62 | [Recurrent Distance Filtering for Graph Representation Learning](/papers/2312.01538/) | already known (2023-12-03) |
+| [2508.05070](/papers/2508.05070/) | Peptides-struct | GatedGCN | 0.2477 | 0.3420 | 62 | [Recurrent Distance Filtering for Graph Representation Learning](/papers/2312.01538/) | already known (2023-12-03) |
+| [2605.06462](/papers/2605.06462/) | Peptides-struct | GatedGCN | 0.2477 | 0.3420 | 62 | [Recurrent Distance Filtering for Graph Representation Learning](/papers/2312.01538/) | already known (2023-12-03) |
+| [2602.02268](/papers/2602.02268/) | Peptides-func | GCN | 0.6860 | 0.3614 | 61 | [Recurrent Distance Filtering for Graph Representation Learning](/papers/2312.01538/) | already known (2023-12-03) |
+| [2002.04025](/papers/2002.04025/) | ZINC | MoNet | 0.0900 | 0.4070 | 61 | [Rethinking the Expressive Power of GNNs via Graph...](/papers/2301.09505/) | published later (2023-01) |
+| [2602.02268](/papers/2602.02268/) | PubMed | GCN | 0.8890 | 0.7150 | 61 | [Language is All a Graph Needs](/papers/2308.07134/) | already known (2023-08) |
+| [2108.03348](/papers/2108.03348/) | ZINC | Graphormer | 0.0250 | 0.1220 | 61 | [Beyond Message Passing: Neural Graph Pattern Machine](/papers/2501.18739/) | published later (2025-01-30) |
+| [2110.07875](/papers/2110.07875/) | ZINC | Graphormer | 0.0250 | 0.1220 | 61 | [Beyond Message Passing: Neural Graph Pattern Machine](/papers/2501.18739/) | published later (2025-01-30) |
+| [2205.12454](/papers/2205.12454/) | ZINC | Graphormer | 0.0250 | 0.1220 | 61 | [Beyond Message Passing: Neural Graph Pattern Machine](/papers/2501.18739/) | published later (2025-01-30) |
+| [2301.09505](/papers/2301.09505/) | ZINC | Graphormer | 0.0250 | 0.1220 | 61 | [Beyond Message Passing: Neural Graph Pattern Machine](/papers/2501.18739/) | published later (2025-01-30) |
+| [2302.08647](/papers/2302.08647/) | ZINC | Graphormer | 0.0250 | 0.1220 | 61 | [Beyond Message Passing: Neural Graph Pattern Machine](/papers/2501.18739/) | published later (2025-01-30) |
+| [2305.06102](/papers/2305.06102/) | ZINC | Graphormer | 0.0250 | 0.1220 | 61 | [Beyond Message Passing: Neural Graph Pattern Machine](/papers/2501.18739/) | published later (2025-01-30) |
+| [2312.01538](/papers/2312.01538/) | ZINC | Graphormer | 0.0250 | 0.1220 | 61 | [Beyond Message Passing: Neural Graph Pattern Machine](/papers/2501.18739/) | published later (2025-01-30) |
+| [2401.17791](/papers/2401.17791/) | ZINC | Graphormer | 0.0250 | 0.1220 | 61 | [Beyond Message Passing: Neural Graph Pattern Machine](/papers/2501.18739/) | published later (2025-01-30) |
+| [2402.08450](/papers/2402.08450/) | ZINC | Graphormer | 0.0250 | 0.1220 | 61 | [Beyond Message Passing: Neural Graph Pattern Machine](/papers/2501.18739/) | published later (2025-01-30) |
+| [2501.18739](/papers/2501.18739/) | ZINC | Graphormer | 0.0250 | 0.1220 | 61 | [Beyond Message Passing: Neural Graph Pattern Machine](/papers/2501.18739/) | same paper |
+| [2305.15747](/papers/2305.15747/) | ZINC | GCN | 0.0240 | 0.1152 | 61 | [How does over-squashing affect the power of GNNs?](/papers/2306.03589/) | published later (2023-06) |
+| [2305.15747](/papers/2305.15747/) | PROTEINS | GIN | 0.7850 | 0.7286 | 61 | [Graph Inductive Biases in Transformers without Message Passing](/papers/2305.17589/) | published later (2023-05-27) |
+| [2502.02379](/papers/2502.02379/) | NCI1 | GAT | 0.8450 | 0.5500 | 60 | [Graph Inductive Biases in Transformers without Message Passing](/papers/2305.17589/) | already known (2023-05-27) |
+| [2305.15747](/papers/2305.15747/) | D&D | GAT | 0.9000 | 0.7425 | 60 | [Short-Range Oversquashing](/papers/2511.20406/) | published later (2025-11) |
+| [2305.15747](/papers/2305.15747/) | CiteSeer | GAT | 0.7643 | 0.6382 | 60 | [Graph homophily booster: Reimagining the role of discrete...](/papers/2602.07256/) | published later (2026-02) |
+| [2501.18739](/papers/2501.18739/) | ZINC | AgentNet | 0.0400 | 0.1440 | 60 | [Beyond Message Passing: Neural Graph Pattern Machine](/papers/2501.18739/) | same paper |
+| [2305.15747](/papers/2305.15747/) | ZINC | Unionormer | 0.0252 | 0.1241 | 60 | [Union Subgraph Neural Networks](/papers/2305.15747/) | same paper |
+| [2301.09505](/papers/2301.09505/) | ZINC | GCN | 0.0240 | 0.1130 | 59 | [How does over-squashing affect the power of GNNs?](/papers/2306.03589/) | published later (2023-06) |
+| [2312.01538](/papers/2312.01538/) | PROTEINS | GIN | 0.7850 | 0.7330 | 59 | [Graph Inductive Biases in Transformers without Message Passing](/papers/2305.17589/) | already known (2023-05-27) |
+| [2305.15747](/papers/2305.15747/) | NCI1 | GraphSAGE | 0.8380 | 0.6546 | 58 | [Graph Inductive Biases in Transformers without Message Passing](/papers/2305.17589/) | published later (2023-05-27) |
+| [1904.08082](/papers/1904.08082/) | D&D | DiffPool | 0.8064 | 0.6695 | 58 | [Hierarchical Graph Representation Learning with Differentiable Pooling](/papers/1806.08804/) | already known (2018-06) |
+| [2602.07256](/papers/2602.07256/) | Chameleon | MLP | 0.7430 | 0.3844 | 57 | [Beyond Low-frequency Information in Graph Convolutional Networks](/papers/2101.00797/) | already known (2021-01) |
+| [2602.02268](/papers/2602.02268/) | Cora | APPNP | 0.8759 | 0.7713 | 57 | [Graph homophily booster: Reimagining the role of discrete...](/papers/2602.07256/) | already known (2026-02) |
+| [1812.04202](/papers/1812.04202/) | Cora | SGC | 0.8805 | 0.8100 | 56 | [Graph homophily booster: Reimagining the role of discrete...](/papers/2602.07256/) | published later (2026-02) |
+| [2101.00797](/papers/2101.00797/) | Cora | SGC | 0.8805 | 0.8100 | 56 | [Graph homophily booster: Reimagining the role of discrete...](/papers/2602.07256/) | published later (2026-02) |
+| [2410.23686](/papers/2410.23686/) | PROTEINS | GIN | 0.7850 | 0.7384 | 56 | [Graph Inductive Biases in Transformers without Message Passing](/papers/2305.17589/) | already known (2023-05-27) |
+| [2312.01538](/papers/2312.01538/) | PROTEINS | DiffPool | 0.7810 | 0.7370 | 56 | [Towards Better Graph Representation Learning with Parameterized Decomposition...](/papers/2305.06102/) | already known (2023-05-10) |
+| [2602.07256](/papers/2602.07256/) | Chameleon | FAGCN | 0.7610 | 0.3983 | 55 | [Beyond Low-frequency Information in Graph Convolutional Networks](/papers/2101.00797/) | already known (2021-01) |
+| [2308.07134](/papers/2308.07134/) | Cora | GAT | 0.8711 | 0.7670 | 55 | [Graph homophily booster: Reimagining the role of discrete...](/papers/2602.07256/) | published later (2026-02) |
+| [2305.06102](/papers/2305.06102/) | PROTEINS | DGCNN | 0.7626 | 0.6129 | 54 | [Graph U-Nets](/papers/1905.05178/) | already known (2019-05-11) |
+| [2602.02268](/papers/2602.02268/) | Peptides-struct | Exphormer | 0.2481 | 0.3297 | 54 | [GraphMinNet: Learning Dependencies in Graphs with Light Complexity...](/papers/2502.00282/) | already known (2025-02-01) |
+| [1312.6203](/papers/1312.6203/) | Cora | GraphSAGE | 0.8790 | 0.8100 | 54 | [Graph homophily booster: Reimagining the role of discrete...](/papers/2602.07256/) | published later (2026-02) |
+| [1806.08804](/papers/1806.08804/) | PROTEINS | GraphSAGE | 0.7680 | 0.7048 | 54 | [Graph Inductive Biases in Transformers without Message Passing](/papers/2305.17589/) | published later (2023-05-27) |
+| [2602.02268](/papers/2602.02268/) | ZINC | GAT | 0.1110 | 0.6225 | 53 | [Rethinking the Expressive Power of GNNs via Graph...](/papers/2301.09505/) | already known (2023-01) |
+| [2301.09505](/papers/2301.09505/) | ZINC | MoNet | 0.0900 | 0.2920 | 53 | [Rethinking the Expressive Power of GNNs via Graph...](/papers/2301.09505/) | same paper |
+| [2309.09384](/papers/2309.09384/) | MUTAG | GIN | 0.8940 | 0.7340 | 52 | [Coloring graph neural networks for node disambiguation](/papers/1912.06058/) | already known (2019-12) |
+| [2106.05234](/papers/2106.05234/) | ZINC | GatedGCN+LapPE | 0.0900 | 0.2140 | 52 | [Recipe for a General, Powerful, Scalable Graph Transformer](/papers/2205.12454/) | published later (2022-05) |
+| [2301.09505](/papers/2301.09505/) | ZINC | GatedGCN+LapPE | 0.0900 | 0.2140 | 52 | [Recipe for a General, Powerful, Scalable Graph Transformer](/papers/2205.12454/) | already known (2022-05) |
+| [2602.02268](/papers/2602.02268/) | Cora | DIFFormer | 0.8661 | 0.7650 | 52 | [Graph homophily booster: Reimagining the role of discrete...](/papers/2602.07256/) | already known (2026-02) |
+| [2305.15747](/papers/2305.15747/) | D&D | GIN | 0.7980 | 0.7029 | 52 | [Graph Inductive Biases in Transformers without Message Passing](/papers/2305.17589/) | published later (2023-05-27) |
+| [2410.23686](/papers/2410.23686/) | PROTEINS | GCN | 0.7720 | 0.7324 | 52 | [Graph Inductive Biases in Transformers without Message Passing](/papers/2305.17589/) | already known (2023-05-27) |
+| [2602.02268](/papers/2602.02268/) | PubMed | NodeFormer | 0.8150 | 0.6953 | 51 | [Transformers over Directed Acyclic Graphs](/papers/2210.13148/) | already known (2022-10-24) |
+| [2310.18716](/papers/2310.18716/) | ZINC | GatedGCN+LapPE | 0.0900 | 0.2020 | 51 | [Recipe for a General, Powerful, Scalable Graph Transformer](/papers/2205.12454/) | already known (2022-05) |
+| [2108.03348](/papers/2108.03348/) | ZINC | GAT | 0.1110 | 0.4750 | 50 | [Rethinking the Expressive Power of GNNs via Graph...](/papers/2301.09505/) | published later (2023-01) |
+| [2206.08164](/papers/2206.08164/) | Peptides-func | GCN | 0.6860 | 0.5930 | 50 | [Recurrent Distance Filtering for Graph Representation Learning](/papers/2312.01538/) | published later (2023-12-03) |
+| [2302.08647](/papers/2302.08647/) | Peptides-func | GCN | 0.6860 | 0.5930 | 50 | [Recurrent Distance Filtering for Graph Representation Learning](/papers/2312.01538/) | published later (2023-12-03) |
+| [2303.06147](/papers/2303.06147/) | Peptides-func | GCN | 0.6860 | 0.5930 | 50 | [Recurrent Distance Filtering for Graph Representation Learning](/papers/2312.01538/) | published later (2023-12-03) |
+| [2306.02866](/papers/2306.02866/) | Peptides-func | GCN | 0.6860 | 0.5930 | 50 | [Recurrent Distance Filtering for Graph Representation Learning](/papers/2312.01538/) | published later (2023-12-03) |
+| [2401.17791](/papers/2401.17791/) | Peptides-func | GCN | 0.6860 | 0.5930 | 50 | [Recurrent Distance Filtering for Graph Representation Learning](/papers/2312.01538/) | already known (2023-12-03) |
+| [2402.08450](/papers/2402.08450/) | Peptides-func | GCN | 0.6860 | 0.5930 | 50 | [Recurrent Distance Filtering for Graph Representation Learning](/papers/2312.01538/) | already known (2023-12-03) |
+| [2405.13806](/papers/2405.13806/) | Peptides-func | GCN | 0.6860 | 0.5930 | 50 | [Recurrent Distance Filtering for Graph Representation Learning](/papers/2312.01538/) | already known (2023-12-03) |
+| [2502.00282](/papers/2502.00282/) | Peptides-func | GCN | 0.6860 | 0.5930 | 50 | [Recurrent Distance Filtering for Graph Representation Learning](/papers/2312.01538/) | already known (2023-12-03) |
+| [2508.05070](/papers/2508.05070/) | Peptides-func | GCN | 0.6860 | 0.5930 | 50 | [Recurrent Distance Filtering for Graph Representation Learning](/papers/2312.01538/) | already known (2023-12-03) |
+| [2605.06462](/papers/2605.06462/) | Peptides-func | GCN | 0.6860 | 0.5930 | 50 | [Recurrent Distance Filtering for Graph Representation Learning](/papers/2312.01538/) | already known (2023-12-03) |
+| [2301.09505](/papers/2301.09505/) | ZINC | NGNN | 0.0290 | 0.1110 | 50 | [Subgraphormer: Unifying Subgraph GNNs and Graph Transformers via...](/papers/2402.08450/) | published later (2024-02-13) |
+| [2402.08450](/papers/2402.08450/) | ZINC | NGNN | 0.0290 | 0.1110 | 50 | [Subgraphormer: Unifying Subgraph GNNs and Graph Transformers via...](/papers/2402.08450/) | same paper |
+| [2305.15747](/papers/2305.15747/) | PROTEINS | GAT | 0.7790 | 0.7434 | 50 | [Graph Inductive Biases in Transformers without Message Passing](/papers/2305.17589/) | published later (2023-05-27) |
+| [2106.05234](/papers/2106.05234/) | ZINC | PNA | 0.0670 | 0.1420 | 49 | [Beyond Message Passing: Neural Graph Pattern Machine](/papers/2501.18739/) | published later (2025-01-30) |
+| [2301.09505](/papers/2301.09505/) | ZINC | PNA | 0.0670 | 0.1420 | 49 | [Beyond Message Passing: Neural Graph Pattern Machine](/papers/2501.18739/) | published later (2025-01-30) |
+| [2302.08647](/papers/2302.08647/) | ZINC | PNA | 0.0670 | 0.1420 | 49 | [Beyond Message Passing: Neural Graph Pattern Machine](/papers/2501.18739/) | published later (2025-01-30) |
+| [2305.06102](/papers/2305.06102/) | ZINC | PNA | 0.0670 | 0.1420 | 49 | [Beyond Message Passing: Neural Graph Pattern Machine](/papers/2501.18739/) | published later (2025-01-30) |
+| [2501.18739](/papers/2501.18739/) | ZINC | PNA | 0.0670 | 0.1420 | 49 | [Beyond Message Passing: Neural Graph Pattern Machine](/papers/2501.18739/) | same paper |
+| [2110.07875](/papers/2110.07875/) | ZINC | PNA | 0.0670 | 0.1410 | 49 | [Beyond Message Passing: Neural Graph Pattern Machine](/papers/2501.18739/) | published later (2025-01-30) |
+| [2310.18716](/papers/2310.18716/) | ZINC | PNA | 0.0670 | 0.1410 | 49 | [Beyond Message Passing: Neural Graph Pattern Machine](/papers/2501.18739/) | published later (2025-01-30) |
+| [2305.15747](/papers/2305.15747/) | PROTEINS | GCN | 0.7720 | 0.7389 | 49 | [Graph Inductive Biases in Transformers without Message Passing](/papers/2305.17589/) | published later (2023-05-27) |
+| [2002.04025](/papers/2002.04025/) | ZINC | GAT | 0.1110 | 0.4630 | 48 | [Rethinking the Expressive Power of GNNs via Graph...](/papers/2301.09505/) | published later (2023-01) |
+| [2305.10498](/papers/2305.10498/) | Squirrel | MLP | 0.6310 | 0.2877 | 48 | [Beyond Low-frequency Information in Graph Convolutional Networks](/papers/2101.00797/) | already known (2021-01) |
+| [2602.07256](/papers/2602.07256/) | Chameleon | GCN | 0.7230 | 0.4006 | 48 | [Beyond Low-frequency Information in Graph Convolutional Networks](/papers/2101.00797/) | already known (2021-01) |
+| [2410.23686](/papers/2410.23686/) | NCI1 | GraphSAGE | 0.8380 | 0.7382 | 48 | [Graph Inductive Biases in Transformers without Message Passing](/papers/2305.17589/) | already known (2023-05-27) |
+| [1312.6203](/papers/1312.6203/) | Cora | GCN | 0.8778 | 0.8150 | 48 | [Language is All a Graph Needs](/papers/2308.07134/) | published later (2023-08) |
+| [1609.02907](/papers/1609.02907/) | Cora | GCN | 0.8778 | 0.8150 | 48 | [Language is All a Graph Needs](/papers/2308.07134/) | published later (2023-08) |
+| [1812.04202](/papers/1812.04202/) | Cora | GCN | 0.8778 | 0.8150 | 48 | [Language is All a Graph Needs](/papers/2308.07134/) | published later (2023-08) |
+| [1905.05178](/papers/1905.05178/) | Cora | GCN | 0.8778 | 0.8150 | 48 | [Language is All a Graph Needs](/papers/2308.07134/) | published later (2023-08) |
+| [2001.05140](/papers/2001.05140/) | Cora | GCN | 0.8778 | 0.8150 | 48 | [Language is All a Graph Needs](/papers/2308.07134/) | published later (2023-08) |
+| [2101.00797](/papers/2101.00797/) | Cora | GCN | 0.8778 | 0.8150 | 48 | [Language is All a Graph Needs](/papers/2308.07134/) | published later (2023-08) |
+| [2110.09443](/papers/2110.09443/) | Cora | GCN | 0.8778 | 0.8150 | 48 | [Language is All a Graph Needs](/papers/2308.07134/) | published later (2023-08) |
+| [2305.17589](/papers/2305.17589/) | Cora | GCN | 0.8778 | 0.8150 | 48 | [Language is All a Graph Needs](/papers/2308.07134/) | published later (2023-08) |
+| [2602.02268](/papers/2602.02268/) | Squirrel | GCN | 0.6190 | 0.2917 | 47 | [Beyond Low-frequency Information in Graph Convolutional Networks](/papers/2101.00797/) | already known (2021-01) |
+| [2305.17589](/papers/2305.17589/) | COLLAB | GCN | 0.8260 | 0.6380 | 47 | [Scalable Expressiveness through Preprocessed Graph Perturbations](/papers/2406.11714/) | published later (2024-06) |
+| [2305.15747](/papers/2305.15747/) | CiteSeer | GCN | 0.7577 | 0.5830 | 47 | [Graph homophily booster: Reimagining the role of discrete...](/papers/2602.07256/) | published later (2026-02) |
+| [2305.15747](/papers/2305.15747/) | Cora | GIN | 0.8565 | 0.7586 | 47 | [Graph homophily booster: Reimagining the role of discrete...](/papers/2602.07256/) | published later (2026-02) |
+| [1611.08402](/papers/1611.08402/) | Cora | GCN | 0.8778 | 0.8159 | 47 | [Language is All a Graph Needs](/papers/2308.07134/) | published later (2023-08) |
+| [2101.00797](/papers/2101.00797/) | Cora | FAGCN | 0.8885 | 0.8410 | 47 | [Language is All a Graph Needs](/papers/2308.07134/) | published later (2023-08) |
+| [2106.05234](/papers/2106.05234/) | ZINC | GAT | 0.1110 | 0.3840 | 46 | [Rethinking the Expressive Power of GNNs via Graph...](/papers/2301.09505/) | published later (2023-01) |
+| [2110.07875](/papers/2110.07875/) | ZINC | GAT | 0.1110 | 0.3840 | 46 | [Rethinking the Expressive Power of GNNs via Graph...](/papers/2301.09505/) | published later (2023-01) |
+| [2205.12454](/papers/2205.12454/) | ZINC | GAT | 0.1110 | 0.3840 | 46 | [Rethinking the Expressive Power of GNNs via Graph...](/papers/2301.09505/) | published later (2023-01) |
+| [2301.09505](/papers/2301.09505/) | ZINC | GAT | 0.1110 | 0.3840 | 46 | [Rethinking the Expressive Power of GNNs via Graph...](/papers/2301.09505/) | same paper |
+| [2302.08647](/papers/2302.08647/) | ZINC | GAT | 0.1110 | 0.3840 | 46 | [Rethinking the Expressive Power of GNNs via Graph...](/papers/2301.09505/) | already known (2023-01) |
+| [2305.06102](/papers/2305.06102/) | ZINC | GAT | 0.1110 | 0.3840 | 46 | [Rethinking the Expressive Power of GNNs via Graph...](/papers/2301.09505/) | already known (2023-01) |
+| [2312.01538](/papers/2312.01538/) | ZINC | GAT | 0.1110 | 0.3840 | 46 | [Rethinking the Expressive Power of GNNs via Graph...](/papers/2301.09505/) | already known (2023-01) |
+| [2401.17791](/papers/2401.17791/) | ZINC | GAT | 0.1110 | 0.3840 | 46 | [Rethinking the Expressive Power of GNNs via Graph...](/papers/2301.09505/) | already known (2023-01) |
+| [2502.00282](/papers/2502.00282/) | ZINC | GAT | 0.1110 | 0.3840 | 46 | [Rethinking the Expressive Power of GNNs via Graph...](/papers/2301.09505/) | already known (2023-01) |
+| [2508.05070](/papers/2508.05070/) | ZINC | GAT | 0.1110 | 0.3840 | 46 | [Rethinking the Expressive Power of GNNs via Graph...](/papers/2301.09505/) | already known (2023-01) |
+| [2602.02268](/papers/2602.02268/) | ogbg-molhiv | Graphtransformer | 0.8530 | 0.6350 | 46 | [Graph Inductive Biases in Transformers without Message Passing](/papers/2305.17589/) | already known (2023-05-27) |
+| [2502.02379](/papers/2502.02379/) | NCI1 | GCN | 0.8320 | 0.7170 | 46 | [Graph Inductive Biases in Transformers without Message Passing](/papers/2305.17589/) | already known (2023-05-27) |
+| [2305.15747](/papers/2305.15747/) | NCI1 | GAT | 0.8450 | 0.7434 | 46 | [Graph Inductive Biases in Transformers without Message Passing](/papers/2305.17589/) | published later (2023-05-27) |
+| [2301.09505](/papers/2301.09505/) | ZINC | GIN | 0.0140 | 0.0880 | 46 | [How does over-squashing affect the power of GNNs?](/papers/2306.03589/) | published later (2023-06) |
+| [2501.18739](/papers/2501.18739/) | ZINC | GIN | 0.0140 | 0.0880 | 46 | [How does over-squashing affect the power of GNNs?](/papers/2306.03589/) | already known (2023-06) |
+| [2602.07256](/papers/2602.07256/) | Chameleon | FSGNN | 0.7827 | 0.4330 | 45 | [Edge Directionality Improves Learning on Heterophilic Graphs](/papers/2305.10498/) | already known (2023-05) |
+| [2602.07256](/papers/2602.07256/) | Squirrel | GloGNN | 0.6121 | 0.2872 | 45 | [A critical look at the evaluation of GNNs...](/papers/2302.11640/) | already known (2023-02) |
+| [2507.00647](/papers/2507.00647/) | Chameleon | GCN | 0.7230 | 0.4089 | 45 | [Beyond Low-frequency Information in Graph Convolutional Networks](/papers/2101.00797/) | already known (2021-01) |
+| [2602.07256](/papers/2602.07256/) | Chameleon | GloGNN | 0.7121 | 0.4017 | 45 | [Edge Directionality Improves Learning on Heterophilic Graphs](/papers/2305.10498/) | already known (2023-05) |
+| [2305.17589](/papers/2305.17589/) | COLLAB | GIN | 0.8220 | 0.6490 | 45 | [Scalable Expressiveness through Preprocessed Graph Perturbations](/papers/2406.11714/) | published later (2024-06) |
+| [1703.06103](/papers/1703.06103/) | MUTAG | WL | 0.9040 | 0.8088 | 45 | [Coloring graph neural networks for node disambiguation](/papers/1912.06058/) | published later (2019-12) |
+| [2101.00797](/papers/2101.00797/) | Cora | GraphSAGE | 0.8790 | 0.8230 | 45 | [Graph homophily booster: Reimagining the role of discrete...](/papers/2602.07256/) | published later (2026-02) |
+| [2305.15747](/papers/2305.15747/) | ZINC | UnionSAGE | 0.1146 | 0.3768 | 44 | [Union Subgraph Neural Networks](/papers/2305.15747/) | same paper |
+| [2602.02268](/papers/2602.02268/) | Cora | SGFormer | 0.8624 | 0.7703 | 44 | [Graph homophily booster: Reimagining the role of discrete...](/papers/2602.07256/) | already known (2026-02) |
+| [2602.02268](/papers/2602.02268/) | PubMed | GAT | 0.8328 | 0.7590 | 44 | [Language is All a Graph Needs](/papers/2308.07134/) | already known (2023-08) |
+| [2402.08450](/papers/2402.08450/) | ZINC | DS-GNN | 0.0290 | 0.1020 | 44 | [Subgraphormer: Unifying Subgraph GNNs and Graph Transformers via...](/papers/2402.08450/) | same paper |
+| [1904.08082](/papers/1904.08082/) | D&D | SortPool | 0.7937 | 0.7253 | 44 | [Hierarchical Graph Representation Learning with Differentiable Pooling](/papers/1806.08804/) | already known (2018-06) |
+| [2305.15747](/papers/2305.15747/) | D&D | GraphSAGE | 0.7950 | 0.7310 | 44 | [Graph Inductive Biases in Transformers without Message Passing](/papers/2305.17589/) | published later (2023-05-27) |
+| [2501.18739](/papers/2501.18739/) | ogbn-arxiv | APPNP | 0.7420 | 0.6940 | 44 | [Graph Inductive Biases in Transformers without Message Passing](/papers/2305.17589/) | already known (2023-05-27) |
+| [2206.08164](/papers/2206.08164/) | Peptides-func | GatedGCN | 0.6765 | 0.5864 | 43 | [Recurrent Distance Filtering for Graph Representation Learning](/papers/2312.01538/) | published later (2023-12-03) |
+| [2302.08647](/papers/2302.08647/) | Peptides-func | GatedGCN | 0.6765 | 0.5864 | 43 | [Recurrent Distance Filtering for Graph Representation Learning](/papers/2312.01538/) | published later (2023-12-03) |
+| [2303.06147](/papers/2303.06147/) | Peptides-func | GatedGCN | 0.6765 | 0.5864 | 43 | [Recurrent Distance Filtering for Graph Representation Learning](/papers/2312.01538/) | published later (2023-12-03) |
+| [2306.02866](/papers/2306.02866/) | Peptides-func | GatedGCN | 0.6765 | 0.5864 | 43 | [Recurrent Distance Filtering for Graph Representation Learning](/papers/2312.01538/) | published later (2023-12-03) |
+| [2401.17791](/papers/2401.17791/) | Peptides-func | GatedGCN | 0.6765 | 0.5864 | 43 | [Recurrent Distance Filtering for Graph Representation Learning](/papers/2312.01538/) | already known (2023-12-03) |
+| [2402.08450](/papers/2402.08450/) | Peptides-func | GatedGCN | 0.6765 | 0.5864 | 43 | [Recurrent Distance Filtering for Graph Representation Learning](/papers/2312.01538/) | already known (2023-12-03) |
+| [2405.13806](/papers/2405.13806/) | Peptides-func | GatedGCN | 0.6765 | 0.5864 | 43 | [Recurrent Distance Filtering for Graph Representation Learning](/papers/2312.01538/) | already known (2023-12-03) |
+| [2502.00282](/papers/2502.00282/) | Peptides-func | GatedGCN | 0.6765 | 0.5864 | 43 | [Recurrent Distance Filtering for Graph Representation Learning](/papers/2312.01538/) | already known (2023-12-03) |
+| [2508.05070](/papers/2508.05070/) | Peptides-func | GatedGCN | 0.6765 | 0.5864 | 43 | [Recurrent Distance Filtering for Graph Representation Learning](/papers/2312.01538/) | already known (2023-12-03) |
+| [2605.06462](/papers/2605.06462/) | Peptides-func | GatedGCN | 0.6765 | 0.5864 | 43 | [Recurrent Distance Filtering for Graph Representation Learning](/papers/2312.01538/) | already known (2023-12-03) |
+| [2308.07134](/papers/2308.07134/) | Cora | MixHop | 0.8453 | 0.7565 | 43 | [Graph homophily booster: Reimagining the role of discrete...](/papers/2602.07256/) | published later (2026-02) |
+| [2501.18739](/papers/2501.18739/) | Cora | NodeFormer | 0.8744 | 0.8078 | 43 | [Graph homophily booster: Reimagining the role of discrete...](/papers/2602.07256/) | published later (2026-02) |
+| [2305.17589](/papers/2305.17589/) | Cora | GraphSAGE | 0.8790 | 0.8250 | 43 | [Graph homophily booster: Reimagining the role of discrete...](/papers/2602.07256/) | published later (2026-02) |
+| [2305.15747](/papers/2305.15747/) | ogbg-molhiv | GIN | 0.8480 | 0.7060 | 42 | [Graph Inductive Biases in Transformers without Message Passing](/papers/2305.17589/) | published later (2023-05-27) |
+| [1312.6203](/papers/1312.6203/) | PubMed | GraphSAGE | 0.8685 | 0.7680 | 42 | [Language is All a Graph Needs](/papers/2308.07134/) | published later (2023-08) |
+| [2101.00797](/papers/2101.00797/) | Cora | GIN | 0.8565 | 0.7760 | 42 | [Graph homophily booster: Reimagining the role of discrete...](/papers/2602.07256/) | published later (2026-02) |
+| [2301.09505](/papers/2301.09505/) | ZINC | DS-GNN | 0.0290 | 0.0970 | 42 | [Subgraphormer: Unifying Subgraph GNNs and Graph Transformers via...](/papers/2402.08450/) | published later (2024-02-13) |
+| [1312.6203](/papers/1312.6203/) | Cora | APPNP | 0.8759 | 0.8150 | 42 | [Graph homophily booster: Reimagining the role of discrete...](/papers/2602.07256/) | published later (2026-02) |
+| [2108.03348](/papers/2108.03348/) | PATTERN | GraphSAGE | 0.8900 | 0.5052 | 41 | [Directional Graph Networks](/papers/2010.02863/) | already known (2020-10) |
+| [2305.15747](/papers/2305.15747/) | ogbg-molhiv | GAT | 0.8450 | 0.7060 | 41 | [Graph Inductive Biases in Transformers without Message Passing](/papers/2305.17589/) | published later (2023-05-27) |
+| [1312.6203](/papers/1312.6203/) | PubMed | GCN | 0.8890 | 0.7770 | 41 | [Language is All a Graph Needs](/papers/2308.07134/) | published later (2023-08) |
+| [2501.18739](/papers/2501.18739/) | REDDIT-MULTI-5K | PNA | 0.8560 | 0.3857 | 40 | [Graph Inductive Biases in Transformers without Message Passing](/papers/2305.17589/) | already known (2023-05-27) |
+| [2602.02268](/papers/2602.02268/) | Cora | Graphormer | 0.8041 | 0.4323 | 40 | [Language is All a Graph Needs](/papers/2308.07134/) | already known (2023-08) |
+| [2305.17589](/papers/2305.17589/) | ZINC | GAT | 0.1110 | 0.2850 | 40 | [Rethinking the Expressive Power of GNNs via Graph...](/papers/2301.09505/) | already known (2023-01) |
+| [2602.02268](/papers/2602.02268/) | ogbg-molhiv | GCN | 0.8390 | 0.6888 | 40 | [Graph Inductive Biases in Transformers without Message Passing](/papers/2305.17589/) | already known (2023-05-27) |
+| [2305.15747](/papers/2305.15747/) | ogbg-molhiv | GraphSAGE | 0.8420 | 0.7037 | 40 | [Graph Inductive Biases in Transformers without Message Passing](/papers/2305.17589/) | published later (2023-05-27) |
+| [1811.05868](/papers/1811.05868/) | PubMed | GCN | 0.8890 | 0.7780 | 40 | [Language is All a Graph Needs](/papers/2308.07134/) | published later (2023-08) |
+| [2305.06102](/papers/2305.06102/) | NCI1 | GraphSAGE | 0.8380 | 0.7600 | 40 | [Graph Inductive Biases in Transformers without Message Passing](/papers/2305.17589/) | published later (2023-05-27) |
+| [2312.01538](/papers/2312.01538/) | NCI1 | GraphSAGE | 0.8380 | 0.7600 | 40 | [Graph Inductive Biases in Transformers without Message Passing](/papers/2305.17589/) | already known (2023-05-27) |
+| [2602.07256](/papers/2602.07256/) | CiteSeer | GloGNN | 0.7741 | 0.7246 | 40 | [Finding Global Homophily in Graph Neural Networks When...](/papers/2205.07308/) | already known (2022-05-15) |
+| [2302.08671](/papers/2302.08671/) | PROTEINS | DiffPool | 0.7810 | 0.7511 | 40 | [Towards Better Graph Representation Learning with Parameterized Decomposition...](/papers/2305.06102/) | published later (2023-05-10) |
+| [2502.01122](/papers/2502.01122/) | REDDIT-MULTI-5K | GCN | 0.8350 | 0.2000 | 39 | [Graph Inductive Biases in Transformers without Message Passing](/papers/2305.17589/) | already known (2023-05-27) |
+| [2602.07256](/papers/2602.07256/) | Squirrel | MLP | 0.6310 | 0.3391 | 39 | [Beyond Low-frequency Information in Graph Convolutional Networks](/papers/2101.00797/) | already known (2021-01) |
+| [2108.03348](/papers/2108.03348/) | PATTERN | GCN | 0.8800 | 0.6388 | 39 | [Directional Graph Networks](/papers/2010.02863/) | already known (2020-10) |
+| [2108.03348](/papers/2108.03348/) | PATTERN | GAT | 0.9000 | 0.7582 | 39 | [Directional Graph Networks](/papers/2010.02863/) | already known (2020-10) |
+| [2303.06147](/papers/2303.06147/) | PATTERN | GAT | 0.9000 | 0.7827 | 39 | [Directional Graph Networks](/papers/2010.02863/) | already known (2020-10) |
+| [2002.04025](/papers/2002.04025/) | ogbg-molhiv | GAT | 0.8450 | 0.7290 | 39 | [Graph Inductive Biases in Transformers without Message Passing](/papers/2305.17589/) | published later (2023-05-27) |
+| [2602.02268](/papers/2602.02268/) | Chameleon | GCN | 0.7230 | 0.4415 | 38 | [Beyond Low-frequency Information in Graph Convolutional Networks](/papers/2101.00797/) | already known (2021-01) |
+| [2305.10498](/papers/2305.10498/) | Chameleon | MLP | 0.7430 | 0.4621 | 38 | [Beyond Low-frequency Information in Graph Convolutional Networks](/papers/2101.00797/) | already known (2021-01) |
+| [2303.06147](/papers/2303.06147/) | PATTERN | GCN | 0.8800 | 0.7189 | 38 | [Directional Graph Networks](/papers/2010.02863/) | already known (2020-10) |
+| [2402.00789](/papers/2402.00789/) | PATTERN | GCN | 0.8800 | 0.7189 | 38 | [Directional Graph Networks](/papers/2010.02863/) | already known (2020-10) |
+| [2401.17791](/papers/2401.17791/) | PATTERN | GCN | 0.8800 | 0.7189 | 38 | [Directional Graph Networks](/papers/2010.02863/) | already known (2020-10) |
+| [2502.00282](/papers/2502.00282/) | PATTERN | GCN | 0.8800 | 0.7189 | 38 | [Directional Graph Networks](/papers/2010.02863/) | already known (2020-10) |
+| [2508.05070](/papers/2508.05070/) | PATTERN | GCN | 0.8800 | 0.7189 | 38 | [Directional Graph Networks](/papers/2010.02863/) | already known (2020-10) |
+| [2312.01538](/papers/2312.01538/) | PATTERN | GAT | 0.9000 | 0.7827 | 38 | [Directional Graph Networks](/papers/2010.02863/) | already known (2020-10) |
+| [2401.17791](/papers/2401.17791/) | PATTERN | GAT | 0.9000 | 0.7827 | 38 | [Directional Graph Networks](/papers/2010.02863/) | already known (2020-10) |
+| [2502.00282](/papers/2502.00282/) | PATTERN | GAT | 0.9000 | 0.7827 | 38 | [Directional Graph Networks](/papers/2010.02863/) | already known (2020-10) |
+| [2508.05070](/papers/2508.05070/) | PATTERN | GAT | 0.9000 | 0.7827 | 38 | [Directional Graph Networks](/papers/2010.02863/) | already known (2020-10) |
+| [2206.08164](/papers/2206.08164/) | Peptides-func | GINE | 0.6621 | 0.5498 | 38 | [Recurrent Distance Filtering for Graph Representation Learning](/papers/2312.01538/) | published later (2023-12-03) |
+| [2302.08647](/papers/2302.08647/) | Peptides-func | GINE | 0.6621 | 0.5498 | 38 | [Recurrent Distance Filtering for Graph Representation Learning](/papers/2312.01538/) | published later (2023-12-03) |
+| [2303.06147](/papers/2303.06147/) | Peptides-func | GINE | 0.6621 | 0.5498 | 38 | [Recurrent Distance Filtering for Graph Representation Learning](/papers/2312.01538/) | published later (2023-12-03) |
+| [2306.02866](/papers/2306.02866/) | Peptides-func | GINE | 0.6621 | 0.5498 | 38 | [Recurrent Distance Filtering for Graph Representation Learning](/papers/2312.01538/) | published later (2023-12-03) |
+| [2401.17791](/papers/2401.17791/) | Peptides-func | GINE | 0.6621 | 0.5498 | 38 | [Recurrent Distance Filtering for Graph Representation Learning](/papers/2312.01538/) | already known (2023-12-03) |
+| [2405.13806](/papers/2405.13806/) | Peptides-func | GINE | 0.6621 | 0.5498 | 38 | [Recurrent Distance Filtering for Graph Representation Learning](/papers/2312.01538/) | already known (2023-12-03) |
+| [2508.05070](/papers/2508.05070/) | Peptides-func | GINE | 0.6621 | 0.5498 | 38 | [Recurrent Distance Filtering for Graph Representation Learning](/papers/2312.01538/) | already known (2023-12-03) |
+| [2605.06462](/papers/2605.06462/) | Peptides-func | GINE | 0.6621 | 0.5498 | 38 | [Recurrent Distance Filtering for Graph Representation Learning](/papers/2312.01538/) | already known (2023-12-03) |
+| [1611.08402](/papers/1611.08402/) | PubMed | GCN | 0.8890 | 0.7872 | 38 | [Language is All a Graph Needs](/papers/2308.07134/) | published later (2023-08) |
+| [1904.08082](/papers/1904.08082/) | D&D | Set2Set | 0.7812 | 0.7127 | 38 | [Hierarchical Graph Representation Learning with Differentiable Pooling](/papers/1806.08804/) | already known (2018-06) |
+| [2305.15747](/papers/2305.15747/) | D&D | GCN | 0.7820 | 0.7216 | 38 | [Graph Inductive Biases in Transformers without Message Passing](/papers/2305.17589/) | published later (2023-05-27) |
+| [2312.01538](/papers/2312.01538/) | Peptides-struct | GRED | 0.2455 | 0.2503 | 38 | [GraphMinNet: Learning Dependencies in Graphs with Light Complexity...](/papers/2502.00282/) | published later (2025-02-01) |
+| [2501.18739](/papers/2501.18739/) | REDDIT-MULTI-5K | GIN | 0.8510 | 0.3937 | 37 | [Graph Inductive Biases in Transformers without Message Passing](/papers/2305.17589/) | already known (2023-05-27) |
+| [2305.15747](/papers/2305.15747/) | ZINC | UnionGCN | 0.1334 | 0.4625 | 37 | [Union Subgraph Neural Networks](/papers/2305.15747/) | same paper |
+| [2302.11640](/papers/2302.11640/) | Squirrel | GPR-GNN | 0.5435 | 0.3339 | 37 | [Edge Directionality Improves Learning on Heterophilic Graphs](/papers/2305.10498/) | published later (2023-05) |
+| [2406.11714](/papers/2406.11714/) | ogbg-molhiv | GIN | 0.8480 | 0.7400 | 37 | [Graph Inductive Biases in Transformers without Message Passing](/papers/2305.17589/) | already known (2023-05-27) |
+| [2602.02268](/papers/2602.02268/) | ogbg-molhiv | GAT | 0.8450 | 0.7385 | 37 | [Graph Inductive Biases in Transformers without Message Passing](/papers/2305.17589/) | already known (2023-05-27) |
+| [2108.03348](/papers/2108.03348/) | PATTERN | GatedGCN | 0.9200 | 0.8448 | 37 | [Directional Graph Networks](/papers/2010.02863/) | already known (2020-10) |
+| [2305.15747](/papers/2305.15747/) | NCI1 | GCN | 0.8320 | 0.7591 | 37 | [Graph Inductive Biases in Transformers without Message Passing](/papers/2305.17589/) | published later (2023-05-27) |
+| [1611.08402](/papers/1611.08402/) | PubMed | DGCNN | 0.8000 | 0.7300 | 37 | [Deep Learning on Graphs: A Survey](/papers/1812.04202/) | published later (2018-12) |
+| [2602.02268](/papers/2602.02268/) | PubMed | SGFormer | 0.8030 | 0.7347 | 37 | [Language is All a Graph Needs](/papers/2308.07134/) | already known (2023-08) |
+| [2305.17589](/papers/2305.17589/) | MUTAG | GIN | 0.8940 | 0.8300 | 37 | [Coloring graph neural networks for node disambiguation](/papers/1912.06058/) | already known (2019-12) |
+| [2410.23686](/papers/2410.23686/) | NCI1 | GIN | 0.8510 | 0.7662 | 36 | [Graph Inductive Biases in Transformers without Message Passing](/papers/2305.17589/) | already known (2023-05-27) |
+| [2301.09505](/papers/2301.09505/) | ZINC | SUN | 0.0240 | 0.0830 | 36 | [Subgraphormer: Unifying Subgraph GNNs and Graph Transformers via...](/papers/2402.08450/) | published later (2024-02-13) |
+| [2402.08450](/papers/2402.08450/) | ZINC | SUN | 0.0240 | 0.0830 | 36 | [Subgraphormer: Unifying Subgraph GNNs and Graph Transformers via...](/papers/2402.08450/) | same paper |
+| [2301.09505](/papers/2301.09505/) | ZINC | GNN-AK | 0.0340 | 0.0910 | 36 | [Beyond Message Passing: Neural Graph Pattern Machine](/papers/2501.18739/) | published later (2025-01-30) |
+| [2402.08450](/papers/2402.08450/) | ZINC | GNN-AK | 0.0340 | 0.0910 | 36 | [Beyond Message Passing: Neural Graph Pattern Machine](/papers/2501.18739/) | published later (2025-01-30) |
+| [1811.05868](/papers/1811.05868/) | CiteSeer | GAT | 0.7643 | 0.7140 | 36 | [Graph homophily booster: Reimagining the role of discrete...](/papers/2602.07256/) | published later (2026-02) |
+| [2110.09443](/papers/2110.09443/) | CiteSeer | GAT | 0.7643 | 0.7140 | 36 | [Graph homophily booster: Reimagining the role of discrete...](/papers/2602.07256/) | published later (2026-02) |
+| [2101.00797](/papers/2101.00797/) | CiteSeer | FAGCN | 0.7682 | 0.7270 | 36 | [Graph homophily booster: Reimagining the role of discrete...](/papers/2602.07256/) | published later (2026-02) |
+| [2305.15747](/papers/2305.15747/) | ogbg-molhiv | GCN | 0.8390 | 0.7349 | 35 | [Graph Inductive Biases in Transformers without Message Passing](/papers/2305.17589/) | published later (2023-05-27) |
+| [2002.04025](/papers/2002.04025/) | ogbg-molhiv | GraphSAGE | 0.8420 | 0.7440 | 35 | [Graph Inductive Biases in Transformers without Message Passing](/papers/2305.17589/) | published later (2023-05-27) |
+| [2005.00687](/papers/2005.00687/) | ogbg-molhiv | GIN | 0.8480 | 0.7520 | 35 | [Graph Inductive Biases in Transformers without Message Passing](/papers/2305.17589/) | published later (2023-05-27) |
+| [2305.17589](/papers/2305.17589/) | ogbg-molpcba | Graphormer | 0.3139 | 0.2320 | 35 | [Towards Dynamic Message Passing on Graphs](/papers/2410.23686/) | published later (2024-10) |
+| [2410.23686](/papers/2410.23686/) | NCI1 | GCN | 0.8320 | 0.7629 | 35 | [Graph Inductive Biases in Transformers without Message Passing](/papers/2305.17589/) | already known (2023-05-27) |
+| [2501.18739](/papers/2501.18739/) | ZINC | SAT | 0.0360 | 0.0940 | 35 | [Beyond Message Passing: Neural Graph Pattern Machine](/papers/2501.18739/) | same paper |
+| [2110.09443](/papers/2110.09443/) | Cora | GAT | 0.8711 | 0.8180 | 35 | [Graph homophily booster: Reimagining the role of discrete...](/papers/2602.07256/) | published later (2026-02) |
+| [2101.00797](/papers/2101.00797/) | CiteSeer | GraphSAGE | 0.7643 | 0.7120 | 35 | [Graph homophily booster: Reimagining the role of discrete...](/papers/2602.07256/) | published later (2026-02) |
+| [2305.17589](/papers/2305.17589/) | CiteSeer | GraphSAGE | 0.7643 | 0.7150 | 35 | [Graph homophily booster: Reimagining the role of discrete...](/papers/2602.07256/) | published later (2026-02) |
+| [1806.08804](/papers/1806.08804/) | D&D | GraphSAGE | 0.7950 | 0.7542 | 35 | [Graph Inductive Biases in Transformers without Message Passing](/papers/2305.17589/) | published later (2023-05-27) |
+| [2108.03348](/papers/2108.03348/) | CIFAR10 | GCN | 0.8900 | 0.5571 | 34 | [Spectral Networks and Locally Connected Networks on Graphs](/papers/1312.6203/) | already known (2013-12-21) |
+| [2312.01538](/papers/2312.01538/) | CIFAR10 | GCN | 0.8900 | 0.5571 | 34 | [Spectral Networks and Locally Connected Networks on Graphs](/papers/1312.6203/) | already known (2013-12-21) |
+| [2401.17791](/papers/2401.17791/) | CIFAR10 | GCN | 0.8900 | 0.5571 | 34 | [Spectral Networks and Locally Connected Networks on Graphs](/papers/1312.6203/) | already known (2013-12-21) |
+| [2402.00789](/papers/2402.00789/) | CIFAR10 | GCN | 0.8900 | 0.5571 | 34 | [Spectral Networks and Locally Connected Networks on Graphs](/papers/1312.6203/) | already known (2013-12-21) |
+| [2502.00282](/papers/2502.00282/) | CIFAR10 | GCN | 0.8900 | 0.5571 | 34 | [Spectral Networks and Locally Connected Networks on Graphs](/papers/1312.6203/) | already known (2013-12-21) |
+| [2508.05070](/papers/2508.05070/) | CIFAR10 | GCN | 0.8900 | 0.5571 | 34 | [Spectral Networks and Locally Connected Networks on Graphs](/papers/1312.6203/) | already known (2013-12-21) |
+| [2108.03348](/papers/2108.03348/) | CIFAR10 | GAT | 0.9000 | 0.6422 | 34 | [Spectral Networks and Locally Connected Networks on Graphs](/papers/1312.6203/) | already known (2013-12-21) |
+| [2312.01538](/papers/2312.01538/) | CIFAR10 | GAT | 0.9000 | 0.6422 | 34 | [Spectral Networks and Locally Connected Networks on Graphs](/papers/1312.6203/) | already known (2013-12-21) |
+| [2401.17791](/papers/2401.17791/) | CIFAR10 | GAT | 0.9000 | 0.6422 | 34 | [Spectral Networks and Locally Connected Networks on Graphs](/papers/1312.6203/) | already known (2013-12-21) |
+| [2502.00282](/papers/2502.00282/) | CIFAR10 | GAT | 0.9000 | 0.6422 | 34 | [Spectral Networks and Locally Connected Networks on Graphs](/papers/1312.6203/) | already known (2013-12-21) |
+| [2508.05070](/papers/2508.05070/) | CIFAR10 | GAT | 0.9000 | 0.6422 | 34 | [Spectral Networks and Locally Connected Networks on Graphs](/papers/1312.6203/) | already known (2013-12-21) |
+| [2406.11714](/papers/2406.11714/) | ogbg-molhiv | GCN | 0.8390 | 0.7410 | 34 | [Graph Inductive Biases in Transformers without Message Passing](/papers/2305.17589/) | already known (2023-05-27) |
+| [2005.00687](/papers/2005.00687/) | ogbg-molhiv | GCN | 0.8390 | 0.7418 | 34 | [Graph Inductive Biases in Transformers without Message Passing](/papers/2305.17589/) | published later (2023-05-27) |
+| [2002.04025](/papers/2002.04025/) | ogbg-molhiv | GIN | 0.8480 | 0.7558 | 34 | [Graph Inductive Biases in Transformers without Message Passing](/papers/2305.17589/) | published later (2023-05-27) |
+| [2210.02997](/papers/2210.02997/) | ogbg-molhiv | GIN | 0.8480 | 0.7558 | 34 | [Graph Inductive Biases in Transformers without Message Passing](/papers/2305.17589/) | published later (2023-05-27) |
+| [2502.02379](/papers/2502.02379/) | NCI1 | GIN | 0.8510 | 0.7690 | 34 | [Graph Inductive Biases in Transformers without Message Passing](/papers/2305.17589/) | already known (2023-05-27) |
+| [2103.09430](/papers/2103.09430/) | ogbg-molpcba | Graphormer | 0.3139 | 0.2330 | 34 | [Towards Dynamic Message Passing on Graphs](/papers/2410.23686/) | published later (2024-10) |
+| [2309.09384](/papers/2309.09384/) | Cora | GIN | 0.8565 | 0.7920 | 34 | [Graph homophily booster: Reimagining the role of discrete...](/papers/2602.07256/) | published later (2026-02) |
+| [2401.17791](/papers/2401.17791/) | PATTERN | GIN | 0.9100 | 0.8539 | 34 | [Directional Graph Networks](/papers/2010.02863/) | already known (2020-10) |
+| [2502.00282](/papers/2502.00282/) | PATTERN | GIN | 0.9100 | 0.8539 | 34 | [Directional Graph Networks](/papers/2010.02863/) | already known (2020-10) |
+| [2508.05070](/papers/2508.05070/) | PATTERN | GIN | 0.9100 | 0.8539 | 34 | [Directional Graph Networks](/papers/2010.02863/) | already known (2020-10) |
+| [2303.06147](/papers/2303.06147/) | PATTERN | GIN | 0.9100 | 0.8539 | 34 | [Directional Graph Networks](/papers/2010.02863/) | already known (2020-10) |
+| [2402.00789](/papers/2402.00789/) | PATTERN | GIN | 0.9100 | 0.8539 | 34 | [Directional Graph Networks](/papers/2010.02863/) | already known (2020-10) |
+| [2301.09505](/papers/2301.09505/) | ZINC | Graphormer-GD | 0.0250 | 0.0810 | 34 | [Subgraphormer: Unifying Subgraph GNNs and Graph Transformers via...](/papers/2402.08450/) | published later (2024-02-13) |
+| [2401.17791](/papers/2401.17791/) | ZINC | Graphormer-GD | 0.0250 | 0.0810 | 34 | [Subgraphormer: Unifying Subgraph GNNs and Graph Transformers via...](/papers/2402.08450/) | published later (2024-02-13) |
+| [2402.08450](/papers/2402.08450/) | ZINC | Graphormer-GD | 0.0250 | 0.0810 | 34 | [Subgraphormer: Unifying Subgraph GNNs and Graph Transformers via...](/papers/2402.08450/) | same paper |
+| [2508.05070](/papers/2508.05070/) | ZINC | Graphormer-GD | 0.0250 | 0.0810 | 34 | [Subgraphormer: Unifying Subgraph GNNs and Graph Transformers via...](/papers/2402.08450/) | already known (2024-02-13) |
+| [2602.02268](/papers/2602.02268/) | PubMed | DIFFormer | 0.8050 | 0.7587 | 34 | [Transformers over Directed Acyclic Graphs](/papers/2210.13148/) | already known (2022-10-24) |
+| [1609.02907](/papers/1609.02907/) | Cornell | LP | 0.7140 | 0.2650 | 33 | [Revisiting Semi-Supervised Learning with Graph Embeddings](/papers/1603.08861/) | already known (2016-03-29) |
+| [2108.03348](/papers/2108.03348/) | CIFAR10 | GIN | 0.8900 | 0.5525 | 33 | [Spectral Networks and Locally Connected Networks on Graphs](/papers/1312.6203/) | already known (2013-12-21) |
+| [2312.01538](/papers/2312.01538/) | CIFAR10 | GIN | 0.8900 | 0.5525 | 33 | [Spectral Networks and Locally Connected Networks on Graphs](/papers/1312.6203/) | already known (2013-12-21) |
+| [2401.17791](/papers/2401.17791/) | CIFAR10 | GIN | 0.8900 | 0.5525 | 33 | [Spectral Networks and Locally Connected Networks on Graphs](/papers/1312.6203/) | already known (2013-12-21) |
+| [2502.00282](/papers/2502.00282/) | CIFAR10 | GIN | 0.8900 | 0.5525 | 33 | [Spectral Networks and Locally Connected Networks on Graphs](/papers/1312.6203/) | already known (2013-12-21) |
+| [2508.05070](/papers/2508.05070/) | CIFAR10 | GIN | 0.8900 | 0.5525 | 33 | [Spectral Networks and Locally Connected Networks on Graphs](/papers/1312.6203/) | already known (2013-12-21) |
+| [2402.00789](/papers/2402.00789/) | CIFAR10 | GIN | 0.8900 | 0.5526 | 33 | [Spectral Networks and Locally Connected Networks on Graphs](/papers/1312.6203/) | already known (2013-12-21) |
+| [2305.15747](/papers/2305.15747/) | CiteSeer | GIN | 0.7255 | 0.6310 | 33 | [Graph homophily booster: Reimagining the role of discrete...](/papers/2602.07256/) | published later (2026-02) |
+| [2101.00797](/papers/2101.00797/) | PubMed | GraphSAGE | 0.8685 | 0.7850 | 33 | [Language is All a Graph Needs](/papers/2308.07134/) | published later (2023-08) |
+| [2312.01538](/papers/2312.01538/) | PATTERN | GatedGCN | 0.9200 | 0.8557 | 33 | [Directional Graph Networks](/papers/2010.02863/) | already known (2020-10) |
+| [2401.17791](/papers/2401.17791/) | PATTERN | GatedGCN | 0.9200 | 0.8557 | 33 | [Directional Graph Networks](/papers/2010.02863/) | already known (2020-10) |
+| [2502.00282](/papers/2502.00282/) | PATTERN | GatedGCN | 0.9200 | 0.8557 | 33 | [Directional Graph Networks](/papers/2010.02863/) | already known (2020-10) |
+| [2508.05070](/papers/2508.05070/) | PATTERN | GatedGCN | 0.9200 | 0.8557 | 33 | [Directional Graph Networks](/papers/2010.02863/) | already known (2020-10) |
+| [2303.06147](/papers/2303.06147/) | PATTERN | GatedGCN | 0.9200 | 0.8557 | 33 | [Directional Graph Networks](/papers/2010.02863/) | already known (2020-10) |
+| [2402.00789](/papers/2402.00789/) | PATTERN | GatedGCN | 0.9200 | 0.8557 | 33 | [Directional Graph Networks](/papers/2010.02863/) | already known (2020-10) |
+| [1312.6203](/papers/1312.6203/) | PubMed | GAT | 0.8328 | 0.7740 | 33 | [Language is All a Graph Needs](/papers/2308.07134/) | published later (2023-08) |
+| [2301.09505](/papers/2301.09505/) | ZINC | URPE | 0.0280 | 0.0860 | 33 | [Subgraphormer: Unifying Subgraph GNNs and Graph Transformers via...](/papers/2402.08450/) | published later (2024-02-13) |
+| [2402.08450](/papers/2402.08450/) | ZINC | URPE | 0.0280 | 0.0860 | 33 | [Subgraphormer: Unifying Subgraph GNNs and Graph Transformers via...](/papers/2402.08450/) | same paper |
+| [2402.08450](/papers/2402.08450/) | ZINC | PPGN++(6) | 0.0200 | 0.0710 | 33 | [Subgraphormer: Unifying Subgraph GNNs and Graph Transformers via...](/papers/2402.08450/) | same paper |
+| [2301.09505](/papers/2301.09505/) | ZINC | CIN (small) | 0.0440 | 0.0940 | 33 | [Subgraphormer: Unifying Subgraph GNNs and Graph Transformers via...](/papers/2402.08450/) | published later (2024-02-13) |
+| [2402.08450](/papers/2402.08450/) | ZINC | CIN (small) | 0.0440 | 0.0940 | 33 | [Subgraphormer: Unifying Subgraph GNNs and Graph Transformers via...](/papers/2402.08450/) | same paper |
+| [2405.13806](/papers/2405.13806/) | ogbn-arxiv | APPNP | 0.7420 | 0.7190 | 33 | [Graph Inductive Biases in Transformers without Message Passing](/papers/2305.17589/) | already known (2023-05-27) |
+| [2602.07256](/papers/2602.07256/) | Chameleon | H2GCN | 0.5939 | 0.4089 | 31 | [Edge Directionality Improves Learning on Heterophilic Graphs](/papers/2305.10498/) | already known (2023-05) |
+| [1609.02907](/papers/1609.02907/) | PubMed | GCN | 0.8890 | 0.7900 | 31 | [Language is All a Graph Needs](/papers/2308.07134/) | published later (2023-08) |
+| [1812.04202](/papers/1812.04202/) | PubMed | GCN | 0.8890 | 0.7900 | 31 | [Language is All a Graph Needs](/papers/2308.07134/) | published later (2023-08) |
+| [1902.07153](/papers/1902.07153/) | PubMed | GCN | 0.8890 | 0.7900 | 31 | [Language is All a Graph Needs](/papers/2308.07134/) | published later (2023-08) |
+| [1905.05178](/papers/1905.05178/) | PubMed | GCN | 0.8890 | 0.7900 | 31 | [Language is All a Graph Needs](/papers/2308.07134/) | published later (2023-08) |
+| [2001.05140](/papers/2001.05140/) | PubMed | GCN | 0.8890 | 0.7900 | 31 | [Language is All a Graph Needs](/papers/2308.07134/) | published later (2023-08) |
+| [2101.00797](/papers/2101.00797/) | PubMed | GCN | 0.8890 | 0.7900 | 31 | [Language is All a Graph Needs](/papers/2308.07134/) | published later (2023-08) |
+| [2305.17589](/papers/2305.17589/) | Amazon-Computers | GAT | 0.9078 | 0.8230 | 31 | [Beyond Message Passing: Neural Graph Pattern Machine](/papers/2501.18739/) | published later (2025-01-30) |
+| [2302.11640](/papers/2302.11640/) | Squirrel | H2GCN | 0.3790 | 0.2945 | 31 | [Edge Directionality Improves Learning on Heterophilic Graphs](/papers/2305.10498/) | published later (2023-05) |
+| [2602.02268](/papers/2602.02268/) | ZINC | Exphormer | 0.1110 | 0.1905 | 31 | [GraphMinNet: Learning Dependencies in Graphs with Light Complexity...](/papers/2502.00282/) | already known (2025-02-01) |
+| [2302.08671](/papers/2302.08671/) | NCI1 | GCN | 0.8320 | 0.7664 | 31 | [Graph Inductive Biases in Transformers without Message Passing](/papers/2305.17589/) | published later (2023-05-27) |
+| [2108.03348](/papers/2108.03348/) | PATTERN | GIN | 0.9100 | 0.8559 | 31 | [Directional Graph Networks](/papers/2010.02863/) | already known (2020-10) |
+| [2312.01538](/papers/2312.01538/) | PATTERN | GIN | 0.9100 | 0.8559 | 31 | [Directional Graph Networks](/papers/2010.02863/) | already known (2020-10) |
+| [2602.17893](/papers/2602.17893/) | ogbn-arxiv | GCN | 0.7310 | 0.6800 | 31 | [Graph Inductive Biases in Transformers without Message Passing](/papers/2305.17589/) | already known (2023-05-27) |
+| [2305.17589](/papers/2305.17589/) | Cora | APPNP | 0.8759 | 0.8280 | 31 | [Graph homophily booster: Reimagining the role of discrete...](/papers/2602.07256/) | published later (2026-02) |
+| [2501.18739](/papers/2501.18739/) | ZINC | AWE | 0.0590 | 0.0940 | 31 | [Beyond Message Passing: Neural Graph Pattern Machine](/papers/2501.18739/) | same paper |
+| [2108.03348](/papers/2108.03348/) | CIFAR10 | GraphSAGE | 0.8800 | 0.6577 | 30 | [Spectral Networks and Locally Connected Networks on Graphs](/papers/1312.6203/) | already known (2013-12-21) |
+| [2507.00647](/papers/2507.00647/) | Chameleon | SAGE | 0.5018 | 0.3777 | 30 | [A critical look at the evaluation of GNNs...](/papers/2302.11640/) | already known (2023-02) |
+| [2101.00797](/papers/2101.00797/) | PubMed | FAGCN | 0.8998 | 0.7940 | 30 | [Language is All a Graph Needs](/papers/2308.07134/) | published later (2023-08) |
+| [2502.00282](/papers/2502.00282/) | ogbg-molhiv | GCN | 0.8390 | 0.7599 | 30 | [Graph Inductive Biases in Transformers without Message Passing](/papers/2305.17589/) | already known (2023-05-27) |
+| [2002.04025](/papers/2002.04025/) | ogbg-molhiv | GCN | 0.8390 | 0.7606 | 30 | [Graph Inductive Biases in Transformers without Message Passing](/papers/2305.17589/) | published later (2023-05-27) |
+| [1611.08402](/papers/1611.08402/) | Cora | DGCNN | 0.8350 | 0.7680 | 30 | [Deep Learning on Graphs: A Survey](/papers/1812.04202/) | published later (2018-12) |
+| [2402.08450](/papers/2402.08450/) | ZINC | GNN-SSWL | 0.0220 | 0.0700 | 30 | [Subgraphormer: Unifying Subgraph GNNs and Graph Transformers via...](/papers/2402.08450/) | same paper |
+| [2501.18739](/papers/2501.18739/) | Cora | GCN | 0.8778 | 0.8414 | 30 | [Language is All a Graph Needs](/papers/2308.07134/) | already known (2023-08) |
+| [2602.07256](/papers/2602.07256/) | Squirrel | GCN | 0.6190 | 0.3557 | 29 | [Beyond Low-frequency Information in Graph Convolutional Networks](/papers/2101.00797/) | already known (2021-01) |
+| [1811.05868](/papers/1811.05868/) | CiteSeer | MLP | 0.7153 | 0.5910 | 29 | [Graph homophily booster: Reimagining the role of discrete...](/papers/2602.07256/) | published later (2026-02) |
+| [1811.05868](/papers/1811.05868/) | PubMed | GAT | 0.8328 | 0.7870 | 29 | [Language is All a Graph Needs](/papers/2308.07134/) | published later (2023-08) |
+| [2602.07256](/papers/2602.07256/) | Cora | GCNII | 0.8893 | 0.8720 | 29 | [Language is All a Graph Needs](/papers/2308.07134/) | already known (2023-08) |
+| [1611.08402](/papers/1611.08402/) | MNIST | ChebNet | 0.9914 | 0.9770 | 29 | [CayleyNets: Graph Convolutional Neural Networks with Complex Rational...](/papers/1705.07664/) | published later (2017-05) |
+| [2602.07256](/papers/2602.07256/) | Squirrel | FAGCN | 0.6670 | 0.3652 | 28 | [Beyond Low-frequency Information in Graph Convolutional Networks](/papers/2101.00797/) | already known (2021-01) |
+| [2602.07256](/papers/2602.07256/) | Actor | GloGNN | 0.3735 | 0.1980 | 28 | [Finding Global Homophily in Graph Neural Networks When...](/papers/2205.07308/) | already known (2022-05-15) |
+| [2502.00282](/papers/2502.00282/) | ogbg-molhiv | GIN | 0.8480 | 0.7707 | 28 | [Graph Inductive Biases in Transformers without Message Passing](/papers/2305.17589/) | already known (2023-05-27) |
+| [2502.00282](/papers/2502.00282/) | ogbg-molhiv | SAN | 0.8550 | 0.7785 | 28 | [Graph Inductive Biases in Transformers without Message Passing](/papers/2305.17589/) | already known (2023-05-27) |
+| [1312.6203](/papers/1312.6203/) | CiteSeer | GraphSAGE | 0.7643 | 0.7220 | 28 | [Graph homophily booster: Reimagining the role of discrete...](/papers/2602.07256/) | published later (2026-02) |
+| [1905.05178](/papers/1905.05178/) | CiteSeer | GAT | 0.7643 | 0.7250 | 28 | [Graph homophily booster: Reimagining the role of discrete...](/papers/2602.07256/) | published later (2026-02) |
+| [2001.05140](/papers/2001.05140/) | CiteSeer | GAT | 0.7643 | 0.7250 | 28 | [Graph homophily booster: Reimagining the role of discrete...](/papers/2602.07256/) | published later (2026-02) |
+| [2101.00797](/papers/2101.00797/) | CiteSeer | GAT | 0.7643 | 0.7250 | 28 | [Graph homophily booster: Reimagining the role of discrete...](/papers/2602.07256/) | published later (2026-02) |
+| [2312.01538](/papers/2312.01538/) | Peptides-struct | DRew | 0.2536 | 0.2781 | 28 | [Invariant-Based Diagnostics for Graph Benchmarks](/papers/2605.06462/) | published later (2026-05) |
+| [2312.01538](/papers/2312.01538/) | PATTERN | GCN | 0.8800 | 0.8561 | 28 | [Directional Graph Networks](/papers/2010.02863/) | already known (2020-10) |
+| [2005.00687](/papers/2005.00687/) | ogbl-wikikg2 | RotatE | 0.7280 | 0.2530 | 27 | [OGB-LSC: A Large-Scale Challenge for Machine Learning on...](/papers/2103.09430/) | published later (2021-03) |
+| [1806.08804](/papers/1806.08804/) | COLLAB | DiffPool | 0.8213 | 0.7548 | 27 | [Towards Dynamic Message Passing on Graphs](/papers/2410.23686/) | published later (2024-10) |
+| [1905.05178](/papers/1905.05178/) | COLLAB | DiffPool | 0.8213 | 0.7548 | 27 | [Towards Dynamic Message Passing on Graphs](/papers/2410.23686/) | published later (2024-10) |
+| [2101.00797](/papers/2101.00797/) | CiteSeer | GIN | 0.7255 | 0.6610 | 27 | [Graph homophily booster: Reimagining the role of discrete...](/papers/2602.07256/) | published later (2026-02) |
+| [2108.03348](/papers/2108.03348/) | PATTERN | PNA | 0.9300 | 0.8657 | 27 | [Directional Graph Networks](/papers/2010.02863/) | already known (2020-10) |
+| [2501.18739](/papers/2501.18739/) | ZINC | GNN-AK | 0.0340 | 0.0800 | 27 | [Beyond Message Passing: Neural Graph Pattern Machine](/papers/2501.18739/) | same paper |
+| [2210.13148](/papers/2210.13148/) | Cora | NodeFormer | 0.8744 | 0.8340 | 27 | [Graph homophily booster: Reimagining the role of discrete...](/papers/2602.07256/) | published later (2026-02) |
+| [1312.6203](/papers/1312.6203/) | CiteSeer | GAT | 0.7643 | 0.7260 | 27 | [Graph homophily booster: Reimagining the role of discrete...](/papers/2602.07256/) | published later (2026-02) |
+| [2305.17589](/papers/2305.17589/) | CiteSeer | GAT | 0.7643 | 0.7280 | 27 | [Graph homophily booster: Reimagining the role of discrete...](/papers/2602.07256/) | published later (2026-02) |
+| [2602.07256](/papers/2602.07256/) | Squirrel | FSGNN | 0.7410 | 0.3728 | 26 | [Edge Directionality Improves Learning on Heterophilic Graphs](/papers/2305.10498/) | already known (2023-05) |
+| [2602.02268](/papers/2602.02268/) | Cornell | GCN | 0.6600 | 0.3243 | 26 | [Semi-Supervised Classification with Graph Convolutional Networks](/papers/1609.02907/) | already known (2016-09) |
+| [2602.02268](/papers/2602.02268/) | Peptides-func | Exphormer | 0.6527 | 0.4003 | 26 | [GraphMinNet: Learning Dependencies in Graphs with Light Complexity...](/papers/2502.00282/) | already known (2025-02-01) |
+| [2302.11640](/papers/2302.11640/) | Chameleon | GCN | 0.7230 | 0.5018 | 26 | [Beyond Low-frequency Information in Graph Convolutional Networks](/papers/2101.00797/) | already known (2021-01) |
+| [1904.08082](/papers/1904.08082/) | NCI1 | DiffPool | 0.7690 | 0.6198 | 26 | [Recurrent Distance Filtering for Graph Representation Learning](/papers/2312.01538/) | published later (2023-12-03) |
+| [2602.07256](/papers/2602.07256/) | Chameleon | APPNP | 0.4956 | 0.3793 | 26 | [HopFormer: Sparse Graph Transformers with Explicit Receptive Field...](/papers/2602.02268/) | already known (2026-02) |
+| [2305.17589](/papers/2305.17589/) | Amazon-Computers | APPNP | 0.9018 | 0.8280 | 26 | [Beyond Message Passing: Neural Graph Pattern Machine](/papers/2501.18739/) | published later (2025-01-30) |
+| [2205.12454](/papers/2205.12454/) | ZINC | CRaWl | 0.0360 | 0.0850 | 26 | [Beyond Message Passing: Neural Graph Pattern Machine](/papers/2501.18739/) | published later (2025-01-30) |
+| [2501.18739](/papers/2501.18739/) | ZINC | CRaWl | 0.0360 | 0.0850 | 26 | [Beyond Message Passing: Neural Graph Pattern Machine](/papers/2501.18739/) | same paper |
+| [2305.15747](/papers/2305.15747/) | ZINC | GPS | 0.0262 | 0.0740 | 26 | [Union Subgraph Neural Networks](/papers/2305.15747/) | same paper |
+| [2602.02268](/papers/2602.02268/) | PubMed | APPNP | 0.8180 | 0.7750 | 26 | [Graph Inductive Biases in Transformers without Message Passing](/papers/2305.17589/) | already known (2023-05-27) |
+| [1312.6203](/papers/1312.6203/) | Cora | GAT | 0.8711 | 0.8300 | 26 | [Graph homophily booster: Reimagining the role of discrete...](/papers/2602.07256/) | published later (2026-02) |
+| [1812.04202](/papers/1812.04202/) | Cora | GAT | 0.8711 | 0.8300 | 26 | [Graph homophily booster: Reimagining the role of discrete...](/papers/2602.07256/) | published later (2026-02) |
+| [1905.05178](/papers/1905.05178/) | Cora | GAT | 0.8711 | 0.8300 | 26 | [Graph homophily booster: Reimagining the role of discrete...](/papers/2602.07256/) | published later (2026-02) |
+| [2001.05140](/papers/2001.05140/) | Cora | GAT | 0.8711 | 0.8300 | 26 | [Graph homophily booster: Reimagining the role of discrete...](/papers/2602.07256/) | published later (2026-02) |
+| [2101.00797](/papers/2101.00797/) | Cora | GAT | 0.8711 | 0.8300 | 26 | [Graph homophily booster: Reimagining the role of discrete...](/papers/2602.07256/) | published later (2026-02) |
+| [2305.17589](/papers/2305.17589/) | Cora | GAT | 0.8711 | 0.8300 | 26 | [Graph homophily booster: Reimagining the role of discrete...](/papers/2602.07256/) | published later (2026-02) |
+| [2405.13806](/papers/2405.13806/) | ogbn-arxiv | GAT | 0.7391 | 0.7182 | 26 | [Training Graph Neural Networks with 1000 Layers](/papers/2106.07476/) | already known (2021-06-14) |
+| [2005.00687](/papers/2005.00687/) | ogbl-wikikg2 | DistMult | 0.7210 | 0.3447 | 25 | [OGB-LSC: A Large-Scale Challenge for Machine Learning on...](/papers/2103.09430/) | published later (2021-03) |
+| [2005.00687](/papers/2005.00687/) | ogbl-wikikg2 | ComplEx | 0.7250 | 0.3804 | 25 | [OGB-LSC: A Large-Scale Challenge for Machine Learning on...](/papers/2103.09430/) | published later (2021-03) |
+| [2305.15747](/papers/2305.15747/) | ENZYMES | GraphSAGE | 0.7180 | 0.5250 | 25 | [Graph Inductive Biases in Transformers without Message Passing](/papers/2305.17589/) | published later (2023-05-27) |
+| [2305.17589](/papers/2305.17589/) | Amazon-Computers | GCN | 0.8965 | 0.8150 | 25 | [Beyond Message Passing: Neural Graph Pattern Machine](/papers/2501.18739/) | published later (2025-01-30) |
+| [2205.07308](/papers/2205.07308/) | ogbn-arxiv | GIN | 0.7380 | 0.7180 | 25 | [Graph Inductive Biases in Transformers without Message Passing](/papers/2305.17589/) | published later (2023-05-27) |
+| [1609.02907](/papers/1609.02907/) | Cornell | SemiEmb | 0.6540 | 0.2670 | 24 | [Revisiting Semi-Supervised Learning with Graph Embeddings](/papers/1603.08861/) | already known (2016-03-29) |
+| [1811.05868](/papers/1811.05868/) | Amazon-Computers | GCN | 0.8965 | 0.8260 | 24 | [Beyond Message Passing: Neural Graph Pattern Machine](/papers/2501.18739/) | published later (2025-01-30) |
+| [2110.09443](/papers/2110.09443/) | Amazon-Computers | GCN | 0.8965 | 0.8260 | 24 | [Beyond Message Passing: Neural Graph Pattern Machine](/papers/2501.18739/) | published later (2025-01-30) |
+| [2302.11640](/papers/2302.11640/) | Squirrel | CPGNN | 0.3703 | 0.3091 | 24 | [Finding Global Homophily in Graph Neural Networks When...](/papers/2205.07308/) | already known (2022-05-15) |
+| [2302.08671](/papers/2302.08671/) | D&D | SAGPool | 0.7645 | 0.7052 | 24 | [Self-Attention Graph Pooling](/papers/1904.08082/) | already known (2019-04-17) |
+| [2305.17589](/papers/2305.17589/) | ogbg-molpcba | PNA | 0.2838 | 0.2250 | 24 | [Graph Neural Networks with Learnable Structural and Positional...](/papers/2110.07875/) | already known (2021-10) |
+| [2103.09430](/papers/2103.09430/) | ogbg-molpcba | DGN | 0.2885 | 0.2320 | 24 | [Graph Neural Networks with Learnable Structural and Positional...](/papers/2110.07875/) | published later (2021-10) |
+| [2110.09443](/papers/2110.09443/) | CiteSeer | CPGNN | 0.7206 | 0.6690 | 24 | [Finding Global Homophily in Graph Neural Networks When...](/papers/2205.07308/) | published later (2022-05-15) |
+| [2305.15747](/papers/2305.15747/) | ZINC | UnionGPS | 0.0236 | 0.0681 | 24 | [Union Subgraph Neural Networks](/papers/2305.15747/) | same paper |
+| [2101.00797](/papers/2101.00797/) | Cora | APPNP | 0.8759 | 0.8370 | 24 | [Graph homophily booster: Reimagining the role of discrete...](/papers/2602.07256/) | published later (2026-02) |
+| [2009.03509](/papers/2009.03509/) | ogbn-arxiv | JK-Net | 0.7400 | 0.7219 | 24 | [Graph Inductive Biases in Transformers without Message Passing](/papers/2305.17589/) | published later (2023-05-27) |
+| [2205.07308](/papers/2205.07308/) | ogbn-arxiv | JK-Net | 0.7400 | 0.7220 | 24 | [Graph Inductive Biases in Transformers without Message Passing](/papers/2305.17589/) | published later (2023-05-27) |
+| [2005.00687](/papers/2005.00687/) | ogbl-wikikg2 | TransE | 0.6850 | 0.2622 | 23 | [OGB-LSC: A Large-Scale Challenge for Machine Learning on...](/papers/2103.09430/) | published later (2021-03) |
+| [2305.17589](/papers/2305.17589/) | ogbl-wikikg2 | TransE | 0.6850 | 0.3650 | 23 | [OGB-LSC: A Large-Scale Challenge for Machine Learning on...](/papers/2103.09430/) | already known (2021-03) |
+| [2305.17589](/papers/2305.17589/) | ogbl-wikikg2 | RotatE | 0.7280 | 0.4820 | 23 | [OGB-LSC: A Large-Scale Challenge for Machine Learning on...](/papers/2103.09430/) | already known (2021-03) |
+| [2305.06102](/papers/2305.06102/) | NCI1 | DGCNN | 0.7640 | 0.5661 | 23 | [Recurrent Distance Filtering for Graph Representation Learning](/papers/2312.01538/) | published later (2023-12-03) |
+| [2602.07256](/papers/2602.07256/) | Chameleon | NodeFormer | 0.4788 | 0.3492 | 23 | [HopFormer: Sparse Graph Transformers with Explicit Receptive Field...](/papers/2602.02268/) | already known (2026-02) |
+| [2108.03348](/papers/2108.03348/) | PATTERN | DGN | 0.9600 | 0.8668 | 23 | [Directional Graph Networks](/papers/2010.02863/) | already known (2020-10) |
+| [2303.06147](/papers/2303.06147/) | PATTERN | DGN | 0.9600 | 0.8668 | 23 | [Directional Graph Networks](/papers/2010.02863/) | already known (2020-10) |
+| [2401.17791](/papers/2401.17791/) | PATTERN | DGN | 0.9600 | 0.8668 | 23 | [Directional Graph Networks](/papers/2010.02863/) | already known (2020-10) |
+| [2508.05070](/papers/2508.05070/) | PATTERN | DGN | 0.9600 | 0.8668 | 23 | [Directional Graph Networks](/papers/2010.02863/) | already known (2020-10) |
+| [1312.6203](/papers/1312.6203/) | PubMed | APPNP | 0.8180 | 0.7860 | 23 | [Graph Inductive Biases in Transformers without Message Passing](/papers/2305.17589/) | published later (2023-05-27) |
+| [2501.18739](/papers/2501.18739/) | ogbn-arxiv | GAT | 0.7391 | 0.7201 | 23 | [Training Graph Neural Networks with 1000 Layers](/papers/2106.07476/) | already known (2021-06-14) |
+| [2506.07624](/papers/2506.07624/) | ogbn-arxiv | GAT | 0.7391 | 0.7201 | 23 | [Training Graph Neural Networks with 1000 Layers](/papers/2106.07476/) | already known (2021-06-14) |
+| [1806.08804](/papers/1806.08804/) | REDDIT-MULTI-5K | GraphSAGE | 0.8420 | 0.4224 | 22 | [Graph Inductive Biases in Transformers without Message Passing](/papers/2305.17589/) | published later (2023-05-27) |
+| [1609.02907](/papers/1609.02907/) | Cornell | ManiReg | 0.6340 | 0.2180 | 22 | [Revisiting Semi-Supervised Learning with Graph Embeddings](/papers/1603.08861/) | already known (2016-03-29) |
+| [2305.17589](/papers/2305.17589/) | ogbl-wikikg2 | ComplEx | 0.7250 | 0.4510 | 22 | [OGB-LSC: A Large-Scale Challenge for Machine Learning on...](/papers/2103.09430/) | already known (2021-03) |
+| [2108.03348](/papers/2108.03348/) | CIFAR10 | PNA | 0.9100 | 0.7035 | 22 | [Spectral Networks and Locally Connected Networks on Graphs](/papers/1312.6203/) | already known (2013-12-21) |
+| [2401.17791](/papers/2401.17791/) | CIFAR10 | PNA | 0.9100 | 0.7035 | 22 | [Spectral Networks and Locally Connected Networks on Graphs](/papers/1312.6203/) | already known (2013-12-21) |
+| [2508.05070](/papers/2508.05070/) | CIFAR10 | PNA | 0.9100 | 0.7035 | 22 | [Spectral Networks and Locally Connected Networks on Graphs](/papers/1312.6203/) | already known (2013-12-21) |
+| [2305.17589](/papers/2305.17589/) | Amazon-Photo | APPNP | 0.9432 | 0.8310 | 22 | [A General Graph Spectral Wavelet Convolution via Chebyshev...](/papers/2405.13806/) | published later (2024-05-22) |
+| [2312.01538](/papers/2312.01538/) | NCI1 | GIN | 0.8510 | 0.8000 | 22 | [Graph Inductive Biases in Transformers without Message Passing](/papers/2305.17589/) | already known (2023-05-27) |
+| [2302.11640](/papers/2302.11640/) | Squirrel | GT | 0.3630 | 0.3161 | 22 | [Cooperative Sheaf Neural Networks](/papers/2507.00647/) | published later (2025-07) |
+| [2205.12454](/papers/2205.12454/) | ZINC | GPS | 0.0262 | 0.0700 | 22 | [Union Subgraph Neural Networks](/papers/2305.15747/) | published later (2023-05) |
+| [2302.08647](/papers/2302.08647/) | ZINC | GPS | 0.0262 | 0.0700 | 22 | [Union Subgraph Neural Networks](/papers/2305.15747/) | published later (2023-05) |
+| [2305.06102](/papers/2305.06102/) | ZINC | GPS | 0.0262 | 0.0700 | 22 | [Union Subgraph Neural Networks](/papers/2305.15747/) | already known (2023-05) |
+| [2312.01538](/papers/2312.01538/) | ZINC | GPS | 0.0262 | 0.0700 | 22 | [Union Subgraph Neural Networks](/papers/2305.15747/) | already known (2023-05) |
+| [2401.17791](/papers/2401.17791/) | ZINC | GPS | 0.0262 | 0.0700 | 22 | [Union Subgraph Neural Networks](/papers/2305.15747/) | already known (2023-05) |
+| [2402.08450](/papers/2402.08450/) | ZINC | GPS | 0.0262 | 0.0700 | 22 | [Union Subgraph Neural Networks](/papers/2305.15747/) | already known (2023-05) |
+| [2501.18739](/papers/2501.18739/) | ZINC | GPS | 0.0262 | 0.0700 | 22 | [Union Subgraph Neural Networks](/papers/2305.15747/) | already known (2023-05) |
+| [2508.05070](/papers/2508.05070/) | ZINC | GPS | 0.0262 | 0.0700 | 22 | [Union Subgraph Neural Networks](/papers/2305.15747/) | already known (2023-05) |
+| [2501.18739](/papers/2501.18739/) | ZINC | GPM | 0.0210 | 0.0640 | 22 | [Beyond Message Passing: Neural Graph Pattern Machine](/papers/2501.18739/) | same paper |
+| [1812.04202](/papers/1812.04202/) | PubMed | GAT | 0.8328 | 0.7900 | 22 | [Language is All a Graph Needs](/papers/2308.07134/) | published later (2023-08) |
+| [1902.07153](/papers/1902.07153/) | PubMed | GAT | 0.8328 | 0.7900 | 22 | [Language is All a Graph Needs](/papers/2308.07134/) | published later (2023-08) |
+| [1905.05178](/papers/1905.05178/) | PubMed | GAT | 0.8328 | 0.7900 | 22 | [Language is All a Graph Needs](/papers/2308.07134/) | published later (2023-08) |
+| [2001.05140](/papers/2001.05140/) | PubMed | GAT | 0.8328 | 0.7900 | 22 | [Language is All a Graph Needs](/papers/2308.07134/) | published later (2023-08) |
+| [2101.00797](/papers/2101.00797/) | PubMed | GAT | 0.8328 | 0.7900 | 22 | [Language is All a Graph Needs](/papers/2308.07134/) | published later (2023-08) |
+| [2602.07256](/papers/2602.07256/) | Squirrel | H2GCN | 0.3790 | 0.3402 | 22 | [Edge Directionality Improves Learning on Heterophilic Graphs](/papers/2305.10498/) | already known (2023-05) |
+| [2305.17589](/papers/2305.17589/) | ogbl-wikikg2 | DistMult | 0.7210 | 0.4380 | 21 | [OGB-LSC: A Large-Scale Challenge for Machine Learning on...](/papers/2103.09430/) | already known (2021-03) |
+| [2302.11640](/papers/2302.11640/) | Chameleon | GPR-GNN | 0.6285 | 0.4726 | 21 | [Edge Directionality Improves Learning on Heterophilic Graphs](/papers/2305.10498/) | published later (2023-05) |
+| [2302.11640](/papers/2302.11640/) | Chameleon | H2GCN | 0.5939 | 0.4627 | 21 | [Edge Directionality Improves Learning on Heterophilic Graphs](/papers/2305.10498/) | published later (2023-05) |
+| [1609.02907](/papers/1609.02907/) | PubMed | DeepWalk | 0.7680 | 0.6530 | 21 | [Simplifying Graph Convolutional Networks](/papers/1902.07153/) | published later (2019-02-19) |
+| [1611.08402](/papers/1611.08402/) | PubMed | DeepWalk | 0.7680 | 0.6530 | 21 | [Simplifying Graph Convolutional Networks](/papers/1902.07153/) | published later (2019-02-19) |
+| [1905.05178](/papers/1905.05178/) | PubMed | DeepWalk | 0.7680 | 0.6530 | 21 | [Simplifying Graph Convolutional Networks](/papers/1902.07153/) | already known (2019-02-19) |
+| [2001.05140](/papers/2001.05140/) | PubMed | DeepWalk | 0.7680 | 0.6530 | 21 | [Simplifying Graph Convolutional Networks](/papers/1902.07153/) | already known (2019-02-19) |
+| [2507.00647](/papers/2507.00647/) | Chameleon | GT-sep | 0.5033 | 0.4031 | 21 | [A critical look at the evaluation of GNNs...](/papers/2302.11640/) | already known (2023-02) |
+| [1609.02907](/papers/1609.02907/) | CiteSeer | GCN | 0.7577 | 0.7030 | 21 | [Graph homophily booster: Reimagining the role of discrete...](/papers/2602.07256/) | published later (2026-02) |
+| [1905.05178](/papers/1905.05178/) | CiteSeer | GCN | 0.7577 | 0.7030 | 21 | [Graph homophily booster: Reimagining the role of discrete...](/papers/2602.07256/) | published later (2026-02) |
+| [2001.05140](/papers/2001.05140/) | CiteSeer | GCN | 0.7577 | 0.7030 | 21 | [Graph homophily booster: Reimagining the role of discrete...](/papers/2602.07256/) | published later (2026-02) |
+| [2101.00797](/papers/2101.00797/) | CiteSeer | GCN | 0.7577 | 0.7030 | 21 | [Graph homophily booster: Reimagining the role of discrete...](/papers/2602.07256/) | published later (2026-02) |
+| [2205.07308](/papers/2205.07308/) | ogbn-arxiv | GAT | 0.7391 | 0.7240 | 21 | [Training Graph Neural Networks with 1000 Layers](/papers/2106.07476/) | already known (2021-06-14) |
+| [1806.08804](/papers/1806.08804/) | ENZYMES | GraphSAGE | 0.7180 | 0.5425 | 20 | [Graph Inductive Biases in Transformers without Message Passing](/papers/2305.17589/) | published later (2023-05-27) |
+| [2305.17589](/papers/2305.17589/) | Amazon-Photo | GAT | 0.9387 | 0.8350 | 20 | [A General Graph Spectral Wavelet Convolution via Chebyshev...](/papers/2405.13806/) | published later (2024-05-22) |
+| [2602.07256](/papers/2602.07256/) | Chameleon | DIFFormer | 0.4854 | 0.3916 | 20 | [HopFormer: Sparse Graph Transformers with Explicit Receptive Field...](/papers/2602.02268/) | already known (2026-02) |
+>>>>>>> Stashed changes

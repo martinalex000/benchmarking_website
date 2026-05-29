@@ -13,13 +13,13 @@ stats:
   avg_nodes: 39561252.0
   avg_edges: null
   num_classes: 112
-result_count: 29
+result_count: 21
 best_model:
-  model: GAT
-  value: 0.8501
+  model: RevGNN-Wide
+  value: 0.8824
   metric: ROC-AUC
-  arxiv_id: '2406.08993'
-  paper_title: 'Classic GNNs are Strong Baselines: Reassessing GNNs for Node Classification'
+  arxiv_id: '2106.07476'
+  paper_title: Training Graph Neural Networks with 1000 Layers
 variants:
 - slug: standard-split
   name: Standard split
@@ -34,550 +34,408 @@ variants:
   metrics:
   - ROC-AUC
   rows:
+  - model: RevGNN-Wide
+    model_plain: RevGNN-Wide
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2106.07476'
+    title: Training Graph Neural Networks with 1000 Layers
+    date: Jun 14, 2021
+    date_iso: '2021-06-14'
+    date_display: Jun 2021
+    codebase_url: ''
+    uses_external_data: false
+    is_best: true
+    metric_values:
+    - 0.8824
+    metric_stds:
+    - 0.0015
+  - model: RevGNN-Deep
+    model_plain: RevGNN-Deep
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2106.07476'
+    title: Training Graph Neural Networks with 1000 Layers
+    date: Jun 14, 2021
+    date_iso: '2021-06-14'
+    date_display: Jun 2021
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.8774
+    metric_stds:
+    - 0.0013
+  - model: UniMP+CEF
+    model_plain: UniMP+CEF
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 1.96
+    arxiv_id: '2106.07476'
+    title: Training Graph Neural Networks with 1000 Layers
+    date: Jun 14, 2021
+    date_iso: '2021-06-14'
+    date_display: Jun 2021
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.8691
+    metric_stds:
+    - 0.0018
+  - model: GAT
+    model_plain: GAT
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 2.48
+    arxiv_id: '2106.07476'
+    title: Training Graph Neural Networks with 1000 Layers
+    date: Jun 14, 2021
+    date_iso: '2021-06-14'
+    date_display: Jun 2021
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.8682
+    metric_stds:
+    - 0.0021
+  - model: UniMP
+    model_plain: UniMP
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: 1.475605
+    arxiv_id: '2009.03509'
+    title: 'Masked Label Prediction: Unified Message Passing Model for Semi-Supervised
+      Classification'
+    date: Sep 2020
+    date_iso: 2020-09
+    date_display: Sep 2020
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.8642
+    metric_stds:
+    - 0.0008
+  - model: DeeperGCN
+    model_plain: DeeperGCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 2.37
+    arxiv_id: '2106.07476'
+    title: Training Graph Neural Networks with 1000 Layers
+    date: Jun 14, 2021
+    date_iso: '2021-06-14'
+    date_display: Jun 2021
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.8616
+    metric_stds:
+    - 0.0016
+  - model: DeeperGCN
+    model_plain: DeeperGCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.253743
+    arxiv_id: '2009.03509'
+    title: 'Masked Label Prediction: Unified Message Passing Model for Semi-Supervised
+      Classification'
+    date: Sep 2020
+    date_iso: 2020-09
+    date_display: Sep 2020
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.858
+    metric_stds:
+    - 0.0017
+  - model: MWE-DGCN
+    model_plain: MWE-DGCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.538544
+    arxiv_id: '2009.03509'
+    title: 'Masked Label Prediction: Unified Message Passing Model for Semi-Supervised
+      Classification'
+    date: Sep 2020
+    date_iso: 2020-09
+    date_display: Sep 2020
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.8436
+    metric_stds:
+    - 0.0065
+  - model: ILSS
+    model_plain: ILSS
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_iso: '2023-05-27'
+    date_display: May 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.841
+    metric_stds:
+    - 0.002
+  - model: Graphormer
+    model_plain: Graphormer
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_iso: '2023-05-27'
+    date_display: May 2023
+    codebase_url: ''
+    uses_external_data: true
+    is_best: false
+    metric_values:
+    - 0.835
+    metric_stds:
+    - 0.001
+  - model: PNA
+    model_plain: PNA
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_iso: '2023-05-27'
+    date_display: May 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.832
+    metric_stds:
+    - 0.002
+  - model: GIN
+    model_plain: GIN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_iso: '2023-05-27'
+    date_display: May 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.824
+    metric_stds:
+    - 0.003
   - model: GAT
     model_plain: GAT
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2406.08993'
-    title: 'Classic GNNs are Strong Baselines: Reassessing GNNs for Node Classification'
-    date: Jun 2024
-    date_iso: 2024-06
-    date_display: Jun 2024
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_iso: '2023-05-27'
+    date_display: May 2023
     codebase_url: ''
     uses_external_data: false
-    is_best: true
+    is_best: false
     metric_values:
-    - 0.8501
+    - 0.821
     metric_stds:
-    - 0.0046
+    - 0.002
   - model: GraphSAGE
     model_plain: GraphSAGE
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2406.08993'
-    title: 'Classic GNNs are Strong Baselines: Reassessing GNNs for Node Classification'
-    date: Jun 2024
-    date_iso: 2024-06
-    date_display: Jun 2024
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_iso: '2023-05-27'
+    date_display: May 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.8221
-    metric_stds:
-    - 0.0032
-  - model: HGODE
-    model_plain: HGODE
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2604.24293'
-    title: 'Latent-Hysteresis Graph ODEs: Modeling Coupled Topology-Feature Evolution
-      via Continuous Phase Transitions'
-    date: Apr 2026
-    date_iso: 2026-04
-    date_display: Apr 2026
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.8124
-    metric_stds:
-    - 0.0063
-  - model: GT + HDSE
-    model_plain: GT + HDSE
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2308.11129'
-    title: Enhancing Graph Transformers with Hierarchical Distance Structural Encoding
-    date: Aug 2023
-    date_iso: 2023-08
-    date_display: Aug 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.8034
-    metric_stds:
-    - 0.0032
-  - model: nsqure~
-    model_plain: nsqure~
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2410.23686'
-    title: Towards Dynamic Message Passing on Graphs
-    date: Oct 2024
-    date_iso: 2024-10
-    date_display: Oct 2024
-    codebase_url: ''
-    uses_external_data: null
-    is_best: false
-    metric_values:
-    - 0.7955
-    metric_stds:
-    - 0.0079
-  - model: SGFormer
-    model_plain: SGFormer
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2306.10759'
-    title: 'SGFormer: Simplifying and Empowering Transformers for Large-Graph Representations'
-    date: Jun 2023
-    date_iso: 2023-06
-    date_display: Jun 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.7953
-    metric_stds:
-    - 0.0038
-  - model: Polynormer
-    model_plain: Polynormer
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2406.08993'
-    title: 'Classic GNNs are Strong Baselines: Reassessing GNNs for Node Classification'
-    date: Jun 2024
-    date_iso: 2024-06
-    date_display: Jun 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.7953
-    metric_stds:
-    - 0.0067
-  - model: GATv2
-    model_plain: GATv2
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2508.17630'
-    title: 'Quantum Graph Attention Network: A Novel Quantum Multi-Head Attention
-      Mechanism for Graph Learning'
-    date: Aug 2025
-    date_iso: 2025-08
-    date_display: Aug 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.7952
-    metric_stds:
-    - 0.0055
-  - model: QGAT
-    model_plain: QGAT
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2508.17630'
-    title: 'Quantum Graph Attention Network: A Novel Quantum Multi-Head Attention
-      Mechanism for Graph Learning'
-    date: Aug 2025
-    date_iso: 2025-08
-    date_display: Aug 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.7941
-    metric_stds:
-    - 0.0021
-  - model: w/o HDSE
-    model_plain: w/o HDSE
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2308.11129'
-    title: Enhancing Graph Transformers with Hierarchical Distance Structural Encoding
-    date: Aug 2023
-    date_iso: 2023-08
-    date_display: Aug 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.794
-    metric_stds:
-    - 0.003
-  - model: GOAT
-    model_plain: GOAT
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2406.08993'
-    title: 'Classic GNNs are Strong Baselines: Reassessing GNNs for Node Classification'
-    date: Jun 2024
-    date_iso: 2024-06
-    date_display: Jun 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.7931
-    metric_stds:
-    - 0.0042
-  - model: GAT
-    model_plain: GAT
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2508.17630'
-    title: 'Quantum Graph Attention Network: A Novel Quantum Multi-Head Attention
-      Mechanism for Graph Learning'
-    date: Aug 2025
-    date_iso: 2025-08
-    date_display: Aug 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.7863
-    metric_stds:
-    - 0.0162
-  - model: GOAT
-    model_plain: GOAT
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2308.11129'
-    title: Enhancing Graph Transformers with Hierarchical Distance Structural Encoding
-    date: Aug 2023
-    date_iso: 2023-08
-    date_display: Aug 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.7837
-    metric_stds:
-    - 0.0026
-  - model: w/o coarsening
-    model_plain: w/o coarsening
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2308.11129'
-    title: Enhancing Graph Transformers with Hierarchical Distance Structural Encoding
-    date: Aug 2023
-    date_iso: 2023-08
-    date_display: Aug 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.783
+    - 0.818
     metric_stds:
     - 0.004
-  - model: HSGT
-    model_plain: HSGT
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2308.11129'
-    title: Enhancing Graph Transformers with Hierarchical Distance Structural Encoding
-    date: Aug 2023
-    date_iso: 2023-08
-    date_display: Aug 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.7813
-    metric_stds:
-    - 0.0025
-  - model: Exphormer
-    model_plain: Exphormer
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2406.08993'
-    title: 'Classic GNNs are Strong Baselines: Reassessing GNNs for Node Classification'
-    date: Jun 2024
-    date_iso: 2024-06
-    date_display: Jun 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.7762
-    metric_stds:
-    - 0.0033
-  - model: NodeFormer
-    model_plain: NodeFormer
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2306.10759'
-    title: 'SGFormer: Simplifying and Empowering Transformers for Large-Graph Representations'
-    date: Jun 2023
-    date_iso: 2023-06
-    date_display: Jun 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.7745
-    metric_stds:
-    - 0.0115
   - model: GCN
     model_plain: GCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2406.08993'
-    title: 'Classic GNNs are Strong Baselines: Reassessing GNNs for Node Classification'
-    date: Jun 2024
-    date_iso: 2024-06
-    date_display: Jun 2024
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_iso: '2023-05-27'
+    date_display: May 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.7729
+    - 0.815
     metric_stds:
-    - 0.0046
-  - model: GraphGPS
-    model_plain: GraphGPS
+    - 0.003
+  - model: GeniePath-BS
+    model_plain: GeniePath-BS
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: null
-    arxiv_id: '2406.08993'
-    title: 'Classic GNNs are Strong Baselines: Reassessing GNNs for Node Classification'
-    date: Jun 2024
-    date_iso: 2024-06
-    date_display: Jun 2024
+    params_millions: 0.316754
+    arxiv_id: '2009.03509'
+    title: 'Masked Label Prediction: Unified Message Passing Model for Semi-Supervised
+      Classification'
+    date: Sep 2020
+    date_iso: 2020-09
+    date_display: Sep 2020
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.7715
+    - 0.7825
     metric_stds:
-    - 0.0064
-  - model: ANS-GT
-    model_plain: ANS-GT
+    - 0.0035
+  - model: GaAN
+    model_plain: GaAN
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2308.11129'
-    title: Enhancing Graph Transformers with Hierarchical Distance Structural Encoding
-    date: Aug 2023
-    date_iso: 2023-08
-    date_display: Aug 2023
+    arxiv_id: '2009.03509'
+    title: 'Masked Label Prediction: Unified Message Passing Model for Semi-Supervised
+      Classification'
+    date: Sep 2020
+    date_iso: 2020-09
+    date_display: Sep 2020
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.7467
+    - 0.7803
     metric_stds:
-    - 0.0065
-  - model: GAT-NSampler
-    model_plain: GAT-NSampler
+    - 0.0073
+  - model: GraphSAGE
+    model_plain: GraphSAGE
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2306.10759'
-    title: 'SGFormer: Simplifying and Empowering Transformers for Large-Graph Representations'
-    date: Jun 2023
-    date_iso: 2023-06
-    date_display: Jun 2023
-    codebase_url: ''
+    arxiv_id: '2005.00687'
+    title: 'Open Graph Benchmark: Datasets for Machine Learning on Graphs'
+    date: May 2020
+    date_iso: 2020-05
+    date_display: May 2020
+    codebase_url: https://github.com/snap-stanford/ogb
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.7463
+    - 0.7768
     metric_stds:
-    - 0.0124
-  - model: GAT
-    model_plain: GAT
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2410.23686'
-    title: Towards Dynamic Message Passing on Graphs
-    date: Oct 2024
-    date_iso: 2024-10
-    date_display: Oct 2024
-    codebase_url: ''
-    uses_external_data: null
-    is_best: false
-    metric_values:
-    - 0.7463
-    metric_stds:
-    - 0.0124
-  - model: GCN-Nsampler
-    model_plain: GCN-Nsampler
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2306.10759'
-    title: 'SGFormer: Simplifying and Empowering Transformers for Large-Graph Representations'
-    date: Jun 2023
-    date_iso: 2023-06
-    date_display: Jun 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.7351
-    metric_stds:
-    - 0.0131
+    - 0.002
   - model: GCN
     model_plain: GCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2306.10759'
-    title: 'SGFormer: Simplifying and Empowering Transformers for Large-Graph Representations'
-    date: Jun 2023
-    date_iso: 2023-06
-    date_display: Jun 2023
-    codebase_url: ''
+    arxiv_id: '2005.00687'
+    title: 'Open Graph Benchmark: Datasets for Machine Learning on Graphs'
+    date: May 2020
+    date_iso: 2020-05
+    date_display: May 2020
+    codebase_url: https://github.com/snap-stanford/ogb
     uses_external_data: false
     is_best: false
     metric_values:
     - 0.7251
     metric_stds:
     - 0.0035
-  - model: Nagphormer
-    model_plain: Nagphormer
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2406.08993'
-    title: 'Classic GNNs are Strong Baselines: Reassessing GNNs for Node Classification'
-    date: Jun 2024
-    date_iso: 2024-06
-    date_display: Jun 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.7217
-    metric_stds:
-    - 0.0045
   - model: MLP
     model_plain: MLP
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2306.10759'
-    title: 'SGFormer: Simplifying and Empowering Transformers for Large-Graph Representations'
-    date: Jun 2023
-    date_iso: 2023-06
-    date_display: Jun 2023
-    codebase_url: ''
+    arxiv_id: '2005.00687'
+    title: 'Open Graph Benchmark: Datasets for Machine Learning on Graphs'
+    date: May 2020
+    date_iso: 2020-05
+    date_display: May 2020
+    codebase_url: https://github.com/snap-stanford/ogb
     uses_external_data: false
     is_best: false
     metric_values:
     - 0.7204
     metric_stds:
     - 0.0048
-  - model: GAT
-    model_plain: GAT
+  - model: Node2Vec
+    model_plain: Node2Vec
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2308.11129'
-    title: Enhancing Graph Transformers with Hierarchical Distance Structural Encoding
-    date: Aug 2023
-    date_iso: 2023-08
-    date_display: Aug 2023
-    codebase_url: ''
+    arxiv_id: '2005.00687'
+    title: 'Open Graph Benchmark: Datasets for Machine Learning on Graphs'
+    date: May 2020
+    date_iso: 2020-05
+    date_display: May 2020
+    codebase_url: https://github.com/snap-stanford/ogb
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.7202
+    - 0.6881
     metric_stds:
-    - 0.0044
-  - model: SIGN
-    model_plain: SIGN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2306.10759'
-    title: 'SGFormer: Simplifying and Empowering Transformers for Large-Graph Representations'
-    date: Jun 2023
-    date_iso: 2023-06
-    date_display: Jun 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.7124
-    metric_stds:
-    - 0.0046
-  - model: SGC
-    model_plain: SGC
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2306.10759'
-    title: 'SGFormer: Simplifying and Empowering Transformers for Large-Graph Representations'
-    date: Jun 2023
-    date_iso: 2023-06
-    date_display: Jun 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.7031
-    metric_stds:
-    - 0.0023
+    - 0.0065
   milestones:
-  - value: 0.7953
-    std: 0.0038
-    model: SGFormer
-    arxiv_id: '2306.10759'
-    title: 'SGFormer: Simplifying and Empowering Transformers for Large-Graph Representations'
-    date: 2023-06
-  - value: 0.8034
-    std: 0.0032
-    model: GT + HDSE
-    arxiv_id: '2308.11129'
-    title: Enhancing Graph Transformers with Hierarchical Distance Structural Encoding
-    date: 2023-08
-  - value: 0.8501
-    std: 0.0046
-    model: GAT
-    arxiv_id: '2406.08993'
-    title: 'Classic GNNs are Strong Baselines: Reassessing GNNs for Node Classification'
-    date: 2024-06
+  - value: 0.7768
+    std: 0.002
+    model: GraphSAGE
+    arxiv_id: '2005.00687'
+    title: 'Open Graph Benchmark: Datasets for Machine Learning on Graphs'
+    date: 2020-05
+  - value: 0.8642
+    std: 0.0008
+    model: UniMP
+    arxiv_id: '2009.03509'
+    title: 'Masked Label Prediction: Unified Message Passing Model for Semi-Supervised
+      Classification'
+    date: 2020-09
+  - value: 0.8824
+    std: 0.0015
+    model: RevGNN-Wide
+    arxiv_id: '2106.07476'
+    title: Training Graph Neural Networks with 1000 Layers
+    date: '2021-06-14'
 ---
 

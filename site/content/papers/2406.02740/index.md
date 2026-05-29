@@ -19,21 +19,21 @@ abstract: Learning Continuous-Time Dynamic Graphs (C-TDGs) requires accurately m
   benchmarks and real-world benchmarks is superior to other methods. Our results motivate
   CTAN's ability to propagate long-range information in C-TDGs as well as the inclusion
   of long-range tasks as part of temporal graph models evaluation.
-codebase_url: ''
-extraction_model: qwen3.6-35b-a3b
+codebase_url: https://github.com/gravins/non-dissipative-propagation-CTDGs
+extraction_model: Qwen/Qwen3.6-35B-A3B-FP8
 has_results: true
 paper_type: method
 proposed_models:
-- CTAN
-- Our
-mrr: 0.0087
-adjusted_mrr: 0.0029
+- DGNs
+mrr: 0.0233
+adjusted_mrr: 0.0078
 mrr_dataset_count: 1
 benchmark_categories:
 - Classic
-- LRGB
 - TU Dortmund
+- LRGB
 - OGB
+- GraphBench
 task_categories:
 - graph_classification
 - link_prediction
@@ -43,13 +43,362 @@ experiment_scopes:
 - graph-level
 - node-level
 results:
+- &id006
+  dataset: BA graph
+  rows:
+  - model: DyGFormer
+    model_key: dygformer
+    model_plain: DyGFormer
+    value: 1.0
+    std: 0.0
+    paper_value: 1.0
+    paper_std: 0.0
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: fuzzy match to ba graph (score=86)'
+    date: Jun 4, 2024
+    date_display: Jun 2024
+    date_iso: '2024-06-04'
+    global_rank: 1
+    true_value: 1.0
+    true_std: 0.0
+    value_gap_source_arxiv: '2406.02740'
+    value_gap_source_title: Long Range Propagation on Continuous-Time Dynamic Graphs
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 1
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 1.0
+    sort_std: 0.0
+    is_best: true
+  - model: DyRep
+    model_key: dyrep
+    model_plain: DyRep
+    value: 1.0
+    std: 0.0
+    paper_value: 1.0
+    paper_std: 0.0
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: fuzzy match to ba graph (score=86)'
+    date: Jun 4, 2024
+    date_display: Jun 2024
+    date_iso: '2024-06-04'
+    global_rank: 2
+    true_value: 1.0
+    true_std: 0.0
+    value_gap_source_arxiv: '2406.02740'
+    value_gap_source_title: Long Range Propagation on Continuous-Time Dynamic Graphs
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 2
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 1.0
+    sort_std: 0.0
+    is_best: true
+  - model: GraphMixer
+    model_key: graphmixer
+    model_plain: GraphMixer
+    value: 1.0
+    std: 0.0
+    paper_value: 1.0
+    paper_std: 0.0
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: fuzzy match to ba graph (score=86)'
+    date: Jun 4, 2024
+    date_display: Jun 2024
+    date_iso: '2024-06-04'
+    global_rank: 3
+    true_value: 1.0
+    true_std: 0.0
+    value_gap_source_arxiv: '2406.02740'
+    value_gap_source_title: Long Range Propagation on Continuous-Time Dynamic Graphs
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 3
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 1.0
+    sort_std: 0.0
+    is_best: true
+  - model: JODIE
+    model_key: jodie
+    model_plain: JODIE
+    value: 1.0
+    std: 0.0
+    paper_value: 1.0
+    paper_std: 0.0
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: fuzzy match to ba graph (score=86)'
+    date: Jun 4, 2024
+    date_display: Jun 2024
+    date_iso: '2024-06-04'
+    global_rank: 4
+    true_value: 1.0
+    true_std: 0.0
+    value_gap_source_arxiv: '2406.02740'
+    value_gap_source_title: Long Range Propagation on Continuous-Time Dynamic Graphs
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 4
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 1.0
+    sort_std: 0.0
+    is_best: true
+  - model: TGAT
+    model_key: tgat
+    model_plain: TGAT
+    value: 1.0
+    std: 0.0
+    paper_value: 1.0
+    paper_std: 0.0
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: fuzzy match to ba graph (score=86)'
+    date: Jun 4, 2024
+    date_display: Jun 2024
+    date_iso: '2024-06-04'
+    global_rank: 5
+    true_value: 1.0
+    true_std: 0.0
+    value_gap_source_arxiv: '2406.02740'
+    value_gap_source_title: Long Range Propagation on Continuous-Time Dynamic Graphs
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 5
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 1.0
+    sort_std: 0.0
+    is_best: true
+  - model: TGN
+    model_key: tgn
+    model_plain: TGN
+    value: 1.0
+    std: 0.0
+    paper_value: 1.0
+    paper_std: 0.0
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: fuzzy match to ba graph (score=86)'
+    date: Jun 4, 2024
+    date_display: Jun 2024
+    date_iso: '2024-06-04'
+    global_rank: 6
+    true_value: 1.0
+    true_std: 0.0
+    value_gap_source_arxiv: '2406.02740'
+    value_gap_source_title: Long Range Propagation on Continuous-Time Dynamic Graphs
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 6
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 1.0
+    sort_std: 0.0
+    is_best: true
+  - model: DGNs
+    model_key: dgns
+    model_plain: DGNs
+    value: 1.0
+    std: 0.0
+    paper_value: 1.0
+    paper_std: 0.0
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: fuzzy match to ba graph (score=86)'
+    date: Jun 4, 2024
+    date_display: Jun 2024
+    date_iso: '2024-06-04'
+    global_rank: 7
+    true_value: 1.0
+    true_std: 0.0
+    value_gap_source_arxiv: '2406.02740'
+    value_gap_source_title: Long Range Propagation on Continuous-Time Dynamic Graphs
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 7
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 1.0
+    sort_std: 0.0
+    is_best: true
+  - model: RoGN
+    model_key: rogn
+    model_plain: RoGN
+    value: 0.968
+    std: 0.001
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2409.08023'
+    title: Edge-Wise Graph-Instructed Neural Networks
+    date: Sep 2024
+    date_display: Sep 2024
+    date_iso: 2024-09
+    codebase_url: https://github.com/Fra0013To/GINN
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 8
+    sort_value: 0.968
+    sort_std: 0.001
+    is_best: false
+  - model: GraphGPS
+    model_key: graphgps
+    model_plain: GraphGPS
+    value: 0.955
+    std: 0.001
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2409.08023'
+    title: Edge-Wise Graph-Instructed Neural Networks
+    date: Sep 2024
+    date_display: Sep 2024
+    date_iso: 2024-09
+    codebase_url: https://github.com/Fra0013To/GINN
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 9
+    sort_value: 0.955
+    sort_std: 0.001
+    is_best: false
+  - model: SAN
+    model_key: san
+    model_plain: SAN
+    value: 0.948
+    std: 0.001
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2409.08023'
+    title: Edge-Wise Graph-Instructed Neural Networks
+    date: Sep 2024
+    date_display: Sep 2024
+    date_iso: 2024-09
+    codebase_url: https://github.com/Fra0013To/GINN
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 10
+    sort_value: 0.948
+    sort_std: 0.001
+    is_best: false
+  metric: Accuracy
+  higher_is_better: true
 - &id001
   dataset: Cora
   rows:
+  - model: GPM
+    model_key: gpm
+    model_plain: GPM
+    value: 0.9285
+    std: 0.0054
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2501.18739'
+    title: 'Beyond Message Passing: Neural Graph Pattern Machine'
+    date: Jan 30, 2025
+    date_display: Jan 2025
+    date_iso: '2025-01-30'
+    codebase_url: https://github.com/Zehong-Wang/GPM
+    uses_external_data: null
+    is_global_top: true
+    global_rank: 1
+    sort_value: 0.9285
+    sort_std: 0.0054
+    is_best: true
   - model: TRIGON
     model_key: trigon
     model_plain: TRIGON
-    value: 0.9170999999999999
+    value: 0.9171
     std: 0.0029
     metric: Accuracy
     higher_is_better: true
@@ -62,13 +411,13 @@ results:
     date: Aug 2025
     date_display: Aug 2025
     date_iso: 2025-08
-    codebase_url: ''
+    codebase_url: https://github.com/Hugo-Attali/TRIGON-CIKM-2025
     uses_external_data: false
     is_global_top: true
-    global_rank: 1
-    sort_value: 0.9170999999999999
+    global_rank: 2
+    sort_value: 0.9171
     sort_std: 0.0029
-    is_best: true
+    is_best: false
   - model: DR
     model_key: dr
     model_plain: DR
@@ -85,36 +434,13 @@ results:
     date: Aug 2025
     date_display: Aug 2025
     date_iso: 2025-08
-    codebase_url: ''
+    codebase_url: https://github.com/Hugo-Attali/TRIGON-CIKM-2025
     uses_external_data: false
     is_global_top: true
-    global_rank: 2
+    global_rank: 3
     sort_value: 0.9139
     sort_std: 0.0024
-    is_best: true
-  - model: LLP
-    model_key: llp
-    model_plain: LLP
-    value: 0.8995
-    std: 0.0201
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2501.18739'
-    title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: Jan 30, 2025
-    date_display: Jan 2025
-    date_iso: '2025-01-30'
-    codebase_url: ''
-    uses_external_data: null
-    is_global_top: true
-    global_rank: 3
-    sort_value: 0.8995
-    sort_std: 0.0201
-    is_best: true
+    is_best: false
   - model: DyGFormer
     model_key: dygformer
     model_plain: DyGFormer
@@ -130,7 +456,7 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: fuzzy match to random 10-fold (score=86)'
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
@@ -138,9 +464,9 @@ results:
     sort_value: 0.0845
     sort_std: 0.0013
     is_best: false
-  - model: Our
-    model_key: our
-    model_plain: Our
+  - model: DGNs
+    model_key: dgns
+    model_plain: DGNs
     value: 0.0789
     std: 0.0033
     paper_value: 0.0789
@@ -153,7 +479,7 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: fuzzy match to random 10-fold (score=86)'
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
@@ -176,7 +502,7 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: fuzzy match to random 10-fold (score=86)'
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
@@ -199,7 +525,7 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: fuzzy match to random 10-fold (score=86)'
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
@@ -222,7 +548,7 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: fuzzy match to random 10-fold (score=86)'
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
@@ -245,7 +571,7 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: fuzzy match to random 10-fold (score=86)'
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
@@ -268,7 +594,7 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: fuzzy match to random 10-fold (score=86)'
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
@@ -278,13 +604,13 @@ results:
     is_best: false
   metric: Accuracy
   higher_is_better: true
-- &id004
+- &id003
   dataset: D&D
   rows:
-  - model: MPNN
-    model_key: mpnn
-    model_plain: MPNN
-    value: 0.989
+  - model: Transformer
+    model_key: transformer
+    model_plain: Transformer
+    value: 1.0
     std: null
     metric: Accuracy
     higher_is_better: true
@@ -292,67 +618,21 @@ results:
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2411.15671'
-    title: 'Best of Both Worlds: Advantages of Hybrid Graph Sequence Models'
-    date: Nov 2024
-    date_display: Nov 2024
-    date_iso: 2024-11
-    codebase_url: ''
+    arxiv_id: '2511.20406'
+    title: Short-Range Oversquashing
+    date: Nov 2025
+    date_display: Nov 2025
+    date_iso: 2025-11
+    codebase_url: https://github.com/YakovM93/Short-Range-Oversquashing
     uses_external_data: false
     is_global_top: true
     global_rank: 1
-    sort_value: 0.989
+    sort_value: 1.0
     sort_std: null
     is_best: true
-  - model: HAC (BFS)
-    model_key: hac (bfs)
-    model_plain: HAC (BFS)
-    value: 0.981
-    std: null
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2411.15671'
-    title: 'Best of Both Worlds: Advantages of Hybrid Graph Sequence Models'
-    date: Nov 2024
-    date_display: Nov 2024
-    date_iso: 2024-11
-    codebase_url: ''
-    uses_external_data: false
-    is_global_top: true
-    global_rank: 2
-    sort_value: 0.981
-    sort_std: null
-    is_best: false
-  - model: k-hop
-    model_key: k-hop
-    model_plain: k-hop
-    value: 0.976
-    std: null
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2411.15671'
-    title: 'Best of Both Worlds: Advantages of Hybrid Graph Sequence Models'
-    date: Nov 2024
-    date_display: Nov 2024
-    date_iso: 2024-11
-    codebase_url: ''
-    uses_external_data: false
-    is_global_top: true
-    global_rank: 3
-    sort_value: 0.976
-    sort_std: null
-    is_best: false
-  - model: Our
-    model_key: our
-    model_plain: Our
+  - model: DGNs
+    model_key: dgns
+    model_plain: DGNs
     value: 0.9755
     std: 0.0009
     paper_value: 0.9755
@@ -365,7 +645,7 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
@@ -388,13 +668,36 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
     global_rank: null
     sort_value: 0.956
     sort_std: 0.0018
+    is_best: false
+  - model: VRN Ensemble
+    model_key: vrn ensemble
+    model_plain: VRN Ensemble
+    value: 0.9554
+    std: null
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1703.06114'
+    title: Deep Sets
+    date: Mar 2017
+    date_display: Mar 2017
+    date_iso: 2017-03
+    codebase_url: ''
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 2
+    sort_value: 0.9554
+    sort_std: null
     is_best: false
   - model: TGAT
     model_key: tgat
@@ -411,7 +714,7 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
@@ -434,7 +737,7 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
@@ -442,50 +745,27 @@ results:
     sort_value: 0.9468
     sort_std: 0.0105
     is_best: false
-  - model: EdgeBank (infinity)
-    model_key: edgebank (infinity)
-    model_plain: EdgeBank (infinity)
-    value: 0.9182
+  - model: MVCNN
+    model_key: mvcnn
+    model_plain: MVCNN
+    value: 0.901
     std: null
-    paper_value: 0.9182
-    paper_std: null
-    metric: AUC
+    metric: Accuracy
     higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    table_ref: Table 2
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Jun 4, 2024
-    date_display: Jun 2024
-    date_iso: '2024-06-04'
-    global_rank: null
-    sort_value: 0.9182
-    sort_std: null
-    is_best: false
-  - model: EdgeBank (1% tr set)
-    model_key: edgebank (1% tr set)
-    model_plain: EdgeBank (1% tr set)
-    value: 0.9152
-    std: null
-    paper_value: 0.9152
-    paper_std: null
-    metric: AUC
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 2
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Jun 4, 2024
-    date_display: Jun 2024
-    date_iso: '2024-06-04'
-    global_rank: null
-    sort_value: 0.9152
+    arxiv_id: '1703.06114'
+    title: Deep Sets
+    date: Mar 2017
+    date_display: Mar 2017
+    date_iso: 2017-03
+    codebase_url: ''
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 3
+    sort_value: 0.901
     sort_std: null
     is_best: false
   - model: DyRep
@@ -503,7 +783,7 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
@@ -513,82 +793,84 @@ results:
     is_best: false
   metric: Accuracy
   higher_is_better: true
-- &id003
+- &id004
   dataset: PascalVOC-SP
   rows:
-  - model: GRASS
-    model_key: grass
-    model_plain: GRASS
-    value: 0.567
-    std: 0.0049
-    metric: F1
-    higher_is_better: true
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: 0.5
-    arxiv_id: '2407.05649'
-    title: 'Greener GRASS: Enhancing GNNs with Encoding, Rewiring, and Attention'
-    date: Jul 2024
-    date_display: Jul 2024
-    date_iso: 2024-07
-    codebase_url: ''
-    uses_external_data: false
-    is_global_top: true
-    global_rank: 1
-    sort_value: 0.567
-    sort_std: 0.0049
-    is_best: true
-  - model: NeuralWalker
-    model_key: neuralwalker
-    model_plain: NeuralWalker
-    value: 0.4912
-    std: 0.0042
+  - model: GSSC
+    model_key: gssc
+    model_plain: GSSC
+    value: 0.4561
+    std: 0.0039
     metric: F1
     higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2407.05649'
-    title: 'Greener GRASS: Enhancing GNNs with Encoding, Rewiring, and Attention'
-    date: Jul 2024
-    date_display: Jul 2024
-    date_iso: 2024-07
+    arxiv_id: '2502.00282'
+    title: 'GraphMinNet: Learning Dependencies in Graphs with Light Complexity Minimal
+      Architecture'
+    date: Feb 1, 2025
+    date_display: Feb 2025
+    date_iso: '2025-02-01'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
-    global_rank: 2
-    sort_value: 0.4912
-    sort_std: 0.0042
-    is_best: false
-  - model: GENs
-    model_key: gens
-    model_plain: GENs
-    value: 0.4653
-    std: 0.0097
+    global_rank: 1
+    sort_value: 0.4561
+    sort_std: 0.0039
+    is_best: true
+  - model: LRDs
+    model_key: lrds
+    model_plain: LRDs
+    value: 0.4352
+    std: 0.003
     metric: F1
     higher_is_better: true
     is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2401.01233'
-    title: 'GEN: A Practical Alternative to Graph Transformers for Long-Range Graph
-      Modeling'
-    date: Jan 2024
-    date_display: Jan 2024
-    date_iso: 2024-01
+    arxiv_id: '2502.00282'
+    title: 'GraphMinNet: Learning Dependencies in Graphs with Light Complexity Minimal
+      Architecture'
+    date: Feb 1, 2025
+    date_display: Feb 2025
+    date_iso: '2025-02-01'
+    codebase_url: ''
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 2
+    sort_value: 0.4352
+    sort_std: 0.003
+    is_best: false
+  - model: Graph-Mamba
+    model_key: graph-mamba
+    model_plain: Graph-Mamba
+    value: 0.4191
+    std: 0.0126
+    metric: F1
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2502.00282'
+    title: 'GraphMinNet: Learning Dependencies in Graphs with Light Complexity Minimal
+      Architecture'
+    date: Feb 1, 2025
+    date_display: Feb 2025
+    date_iso: '2025-02-01'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
     global_rank: 3
-    sort_value: 0.4653
-    sort_std: 0.0097
+    sort_value: 0.4191
+    sort_std: 0.0126
     is_best: false
-  - model: Our
-    model_key: our
-    model_plain: Our
+  - model: DGNs
+    model_key: dgns
+    model_plain: DGNs
     value: 0.0998
     std: 0.0033
     paper_value: 0.0998
@@ -601,11 +883,11 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: fuzzy match to pascalvoc-sp (score=75)'
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
-    global_rank: 115
+    global_rank: 43
     true_value: 0.0998
     true_std: 0.0033
     value_gap_source_arxiv: '2406.02740'
@@ -615,7 +897,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 115
+    paper_rank: 43
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -637,11 +919,11 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: fuzzy match to pascalvoc-sp (score=75)'
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
-    global_rank: 116
+    global_rank: 44
     true_value: 0.0807
     true_std: 0.0027
     value_gap_source_arxiv: '2406.02740'
@@ -651,7 +933,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 116
+    paper_rank: 44
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -673,11 +955,11 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: fuzzy match to pascalvoc-sp (score=75)'
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
-    global_rank: 118
+    global_rank: 45
     true_value: 0.0604
     true_std: 0.0026
     value_gap_source_arxiv: '2406.02740'
@@ -687,7 +969,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 118
+    paper_rank: 45
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -709,11 +991,11 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: fuzzy match to pascalvoc-sp (score=75)'
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
-    global_rank: 120
+    global_rank: 46
     true_value: 0.0588
     true_std: 0.0008
     value_gap_source_arxiv: '2406.02740'
@@ -723,7 +1005,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 120
+    paper_rank: 46
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -745,11 +1027,11 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: fuzzy match to pascalvoc-sp (score=75)'
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
-    global_rank: 121
+    global_rank: 47
     true_value: 0.0576
     true_std: 0.0035
     value_gap_source_arxiv: '2406.02740'
@@ -759,7 +1041,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 121
+    paper_rank: 47
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -781,11 +1063,11 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: fuzzy match to pascalvoc-sp (score=75)'
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
-    global_rank: 122
+    global_rank: 48
     true_value: 0.0559
     true_std: 0.0024
     value_gap_source_arxiv: '2406.02740'
@@ -795,7 +1077,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 122
+    paper_rank: 48
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -817,11 +1099,11 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: fuzzy match to pascalvoc-sp (score=75)'
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
-    global_rank: 123
+    global_rank: 49
     true_value: 0.0523
     true_std: 0.0011
     value_gap_source_arxiv: '2406.02740'
@@ -831,7 +1113,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 123
+    paper_rank: 49
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -843,9 +1125,9 @@ results:
 - &id002
   dataset: Reddit
   rows:
-  - model: Our
-    model_key: our
-    model_plain: Our
+  - model: DGNs
+    model_key: dgns
+    model_plain: DGNs
     value: 0.9861
     std: 0.0004
     paper_value: 0.9861
@@ -858,7 +1140,7 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
@@ -881,7 +1163,7 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
@@ -904,7 +1186,7 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
@@ -927,7 +1209,7 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
@@ -935,28 +1217,75 @@ results:
     sort_value: 0.9751
     sort_std: 0.001
     is_best: false
-  - model: EdgeBank
-    model_key: edgebank
-    model_plain: EdgeBank
-    value: 0.9642
+  - model: SIGN
+    model_key: sign
+    model_plain: SIGN
+    value: 0.968
+    std: 0.0
+    metric: F1
+    higher_is_better: true
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2004.11198'
+    title: 'SIGN: Scalable Inception Graph Neural Networks'
+    date: Apr 2020
+    date_display: Apr 2020
+    date_iso: 2020-04
+    codebase_url: ''
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 1
+    sort_value: 0.968
+    sort_std: 0.0
+    is_best: false
+  - model: Cluster-GCN
+    model_key: cluster-gcn
+    model_plain: Cluster-GCN
+    value: 0.966
     std: null
-    paper_value: 0.9642
-    paper_std: null
-    metric: AUC
+    metric: F1
     higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    table_ref: Table 2
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Jun 4, 2024
-    date_display: Jun 2024
-    date_iso: '2024-06-04'
-    global_rank: null
-    sort_value: 0.9642
+    arxiv_id: '1905.07953'
+    title: 'Cluster-GCN: An Efficient Algorithm for Training Deep and Large Graph
+      Convolutional Networks'
+    date: May 2019
+    date_display: May 2019
+    date_iso: 2019-05
+    codebase_url: https://github.com/google-research/google-research
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 2
+    sort_value: 0.966
     sort_std: null
+    is_best: false
+  - model: GraphSAINT
+    model_key: graphsaint
+    model_plain: GraphSAINT
+    value: 0.966
+    std: 0.001
+    metric: F1
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2004.11198'
+    title: 'SIGN: Scalable Inception Graph Neural Networks'
+    date: Apr 2020
+    date_display: Apr 2020
+    date_iso: 2020-04
+    codebase_url: ''
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 3
+    sort_value: 0.966
+    sort_std: 0.001
     is_best: false
   - model: JODIE
     model_key: jodie
@@ -973,82 +1302,13 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
     global_rank: null
     sort_value: 0.9634
     sort_std: 0.0083
-    is_best: false
-  - model: GCN (LCP-ORC)
-    model_key: gcn (lcp-orc)
-    model_plain: GCN (LCP-ORC)
-    value: 0.8719
-    std: 0.0156
-    metric: F1
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2502.09570'
-    title: Enhancing the Utility of Higher-Order Information in Relational Learning
-    date: Feb 2025
-    date_display: Feb 2025
-    date_iso: 2025-02
-    codebase_url: ''
-    uses_external_data: false
-    is_global_top: true
-    global_rank: 1
-    sort_value: 0.8719
-    sort_std: 0.0156
-    is_best: false
-  - model: GIN (HCP-ORC)
-    model_key: gin (hcp-orc)
-    model_plain: GIN (HCP-ORC)
-    value: 0.8482
-    std: 0.0162
-    metric: F1
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2502.09570'
-    title: Enhancing the Utility of Higher-Order Information in Relational Learning
-    date: Feb 2025
-    date_display: Feb 2025
-    date_iso: 2025-02
-    codebase_url: ''
-    uses_external_data: false
-    is_global_top: true
-    global_rank: 2
-    sort_value: 0.8482
-    sort_std: 0.0162
-    is_best: false
-  - model: GPS (EN H-19-RWPE)
-    model_key: gps (en h-19-rwpe)
-    model_plain: GPS (EN H-19-RWPE)
-    value: 0.8425
-    std: 0.0113
-    metric: F1
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2502.09570'
-    title: Enhancing the Utility of Higher-Order Information in Relational Learning
-    date: Feb 2025
-    date_display: Feb 2025
-    date_iso: 2025-02
-    codebase_url: ''
-    uses_external_data: false
-    is_global_top: true
-    global_rank: 3
-    sort_value: 0.8425
-    sort_std: 0.0113
     is_best: false
   metric: F1
   higher_is_better: true
@@ -1069,8 +1329,8 @@ results:
     override_reason: ''
     params_millions: null
     table_ref: Table 1
-    source_ref: yu2023towards
-    variant_inference_reason: ''
+    source_ref: huang2023empirical
+    variant_inference_reason: 'dataset: fuzzy match to ogbl-wikikg2 (score=75)'
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
@@ -1105,8 +1365,8 @@ results:
     override_reason: ''
     params_millions: 0.9
     table_ref: Table 1
-    source_ref: huang2023temporal
-    variant_inference_reason: ''
+    source_ref: huang2023empirical
+    variant_inference_reason: 'dataset: fuzzy match to ogbl-wikikg2 (score=75)'
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
@@ -1127,6 +1387,75 @@ results:
     sort_value: 0.7811
     sort_std: 0.002
     is_best: false
+  - model: ML
+    model_key: ml
+    model_plain: ML
+    value: 0.746
+    std: 0.001
+    metric: MRR
+    higher_is_better: true
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2103.09430'
+    title: 'OGB-LSC: A Large-Scale Challenge for Machine Learning on Graphs'
+    date: Mar 2021
+    date_display: Mar 2021
+    date_iso: 2021-03
+    codebase_url: https://github.com/snap-stanford/ogb
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 3
+    sort_value: 0.746
+    sort_std: 0.001
+    is_best: false
+  - model: RotatE + GCN
+    model_key: rotate + gcn
+    model_plain: RotatE + GCN
+    value: 0.738
+    std: 0.002
+    metric: MRR
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2103.09430'
+    title: 'OGB-LSC: A Large-Scale Challenge for Machine Learning on Graphs'
+    date: Mar 2021
+    date_display: Mar 2021
+    date_iso: 2021-03
+    codebase_url: https://github.com/snap-stanford/ogb
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 4
+    sort_value: 0.738
+    sort_std: 0.002
+    is_best: false
+  - model: ComplEx + GCN
+    model_key: complex + gcn
+    model_plain: ComplEx + GCN
+    value: 0.735
+    std: 0.002
+    metric: MRR
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2103.09430'
+    title: 'OGB-LSC: A Large-Scale Challenge for Machine Learning on Graphs'
+    date: Mar 2021
+    date_display: Mar 2021
+    date_iso: 2021-03
+    codebase_url: https://github.com/snap-stanford/ogb
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 5
+    sort_value: 0.735
+    sort_std: 0.002
+    is_best: false
   - model: CAWN
     model_key: cawn
     model_plain: CAWN
@@ -1141,12 +1470,12 @@ results:
     override_reason: ''
     params_millions: 4.0
     table_ref: Table 1
-    source_ref: huang2023temporal
-    variant_inference_reason: ''
+    source_ref: huang2023empirical
+    variant_inference_reason: 'dataset: fuzzy match to ogbl-wikikg2 (score=75)'
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
-    global_rank: 3
+    global_rank: 7
     true_value: 0.7304
     true_std: 0.006
     value_gap_source_arxiv: '2406.02740'
@@ -1156,35 +1485,12 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 3
+    paper_rank: 7
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 0.7304
     sort_std: 0.006
-    is_best: false
-  - model: TNCN
-    model_key: tncn
-    model_plain: TNCN
-    value: 0.711
-    std: 0.007
-    metric: MRR
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2506.05393'
-    title: Are Large Language Models Good Temporal Graph Learners?
-    date: Jun 2025
-    date_display: Jun 2025
-    date_iso: 2025-06
-    codebase_url: ''
-    uses_external_data: false
-    is_global_top: true
-    global_rank: 4
-    sort_value: 0.711
-    sort_std: 0.007
     is_best: false
   - model: TGN
     model_key: tgn
@@ -1200,12 +1506,12 @@ results:
     override_reason: ''
     params_millions: null
     table_ref: Table 1
-    source_ref: huang2023temporal
-    variant_inference_reason: ''
+    source_ref: huang2023empirical
+    variant_inference_reason: 'dataset: fuzzy match to ogbl-wikikg2 (score=75)'
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
-    global_rank: 5
+    global_rank: 11
     true_value: 0.6893
     true_std: 0.0053
     value_gap_source_arxiv: '2406.02740'
@@ -1215,7 +1521,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 5
+    paper_rank: 11
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1231,17 +1537,17 @@ results:
     paper_std: 0.0074
     metric: MRR
     higher_is_better: true
-    is_baseline: false
+    is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: fuzzy match to ogbl-wikikg2 (score=75)'
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
-    global_rank: 6
+    global_rank: 16
     true_value: 0.6676
     true_std: 0.0074
     value_gap_source_arxiv: '2406.02740'
@@ -1251,57 +1557,83 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 6
+    paper_rank: 16
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 0.6676
     sort_std: 0.0074
     is_best: false
-  - model: TGTalker (nbr = 2)
-    model_key: tgtalker (nbr = 2)
-    model_plain: TGTalker (nbr = 2)
-    value: 0.656
+  - model: EdgeBank_re
+    model_key: edgebank_re
+    model_plain: EdgeBank_re
+    value: 0.6588
     std: null
+    paper_value: 0.6588
+    paper_std: null
     metric: MRR
     higher_is_better: true
-    is_baseline: false
+    is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2506.05393'
-    title: Are Large Language Models Good Temporal Graph Learners?
-    date: Jun 2025
-    date_display: Jun 2025
-    date_iso: 2025-06
-    codebase_url: ''
-    uses_external_data: true
-    is_global_top: true
-    global_rank: 7
-    sort_value: 0.656
+    table_ref: Table 1
+    source_ref: huang2023empirical
+    variant_inference_reason: 'dataset: fuzzy match to ogbl-wikikg2 (score=75)'
+    date: Jun 4, 2024
+    date_display: Jun 2024
+    date_iso: '2024-06-04'
+    global_rank: 19
+    true_value: 0.6588
+    true_std: null
+    value_gap_source_arxiv: '2406.02740'
+    value_gap_source_title: Long Range Propagation on Continuous-Time Dynamic Graphs
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 19
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.6588
     sort_std: null
     is_best: false
-  - model: Qwen3-8B
-    model_key: qwen3-8b
-    model_plain: Qwen3-8B
-    value: 0.651
+  - model: EdgeBank_tw-ts
+    model_key: edgebank_tw-ts
+    model_plain: EdgeBank_tw-ts
+    value: 0.6325
     std: null
+    paper_value: 0.6325
+    paper_std: null
     metric: MRR
     higher_is_better: true
-    is_baseline: false
+    is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2506.05393'
-    title: Are Large Language Models Good Temporal Graph Learners?
-    date: Jun 2025
-    date_display: Jun 2025
-    date_iso: 2025-06
-    codebase_url: ''
-    uses_external_data: true
-    is_global_top: true
-    global_rank: 8
-    sort_value: 0.651
+    table_ref: Table 1
+    source_ref: huang2023empirical
+    variant_inference_reason: 'dataset: fuzzy match to ogbl-wikikg2 (score=75)'
+    date: Jun 4, 2024
+    date_display: Jun 2024
+    date_iso: '2024-06-04'
+    global_rank: 22
+    true_value: 0.6325
+    true_std: null
+    value_gap_source_arxiv: '2406.02740'
+    value_gap_source_title: Long Range Propagation on Continuous-Time Dynamic Graphs
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 22
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.6325
     sort_std: null
     is_best: false
   - model: JODIE
@@ -1318,12 +1650,12 @@ results:
     override_reason: ''
     params_millions: null
     table_ref: Table 1
-    source_ref: huang2023temporal
-    variant_inference_reason: ''
+    source_ref: huang2023empirical
+    variant_inference_reason: 'dataset: fuzzy match to ogbl-wikikg2 (score=75)'
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
-    global_rank: 13
+    global_rank: 23
     true_value: 0.6305
     true_std: 0.0169
     value_gap_source_arxiv: '2406.02740'
@@ -1333,7 +1665,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 13
+    paper_rank: 23
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1354,12 +1686,12 @@ results:
     override_reason: ''
     params_millions: null
     table_ref: Table 1
-    source_ref: huang2023temporal
-    variant_inference_reason: ''
+    source_ref: huang2023empirical
+    variant_inference_reason: 'dataset: fuzzy match to ogbl-wikikg2 (score=75)'
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
-    global_rank: 18
+    global_rank: 24
     true_value: 0.5994
     true_std: 0.0163
     value_gap_source_arxiv: '2406.02740'
@@ -1369,7 +1701,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 18
+    paper_rank: 24
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1390,12 +1722,12 @@ results:
     override_reason: ''
     params_millions: null
     table_ref: Table 1
-    source_ref: cong2023we
-    variant_inference_reason: ''
+    source_ref: huang2023empirical
+    variant_inference_reason: 'dataset: fuzzy match to ogbl-wikikg2 (score=75)'
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
-    global_rank: 19
+    global_rank: 25
     true_value: 0.5975
     true_std: 0.0039
     value_gap_source_arxiv: '2406.02740'
@@ -1405,16 +1737,52 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 19
+    paper_rank: 25
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 0.5975
     sort_std: 0.0039
     is_best: false
-  - model: EdgeBank
-    model_key: edgebank
-    model_plain: EdgeBank
+  - model: EdgeBank_th
+    model_key: edgebank_th
+    model_plain: EdgeBank_th
+    value: 0.5281
+    std: null
+    paper_value: 0.5281
+    paper_std: null
+    metric: MRR
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: huang2023empirical
+    variant_inference_reason: 'dataset: fuzzy match to ogbl-wikikg2 (score=75)'
+    date: Jun 4, 2024
+    date_display: Jun 2024
+    date_iso: '2024-06-04'
+    global_rank: 27
+    true_value: 0.5281
+    true_std: null
+    value_gap_source_arxiv: '2406.02740'
+    value_gap_source_title: Long Range Propagation on Continuous-Time Dynamic Graphs
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 27
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.5281
+    sort_std: null
+    is_best: false
+  - model: EdgeBank_inf
+    model_key: edgebank_inf
+    model_plain: EdgeBank_inf
     value: 0.525
     std: null
     paper_value: 0.525
@@ -1426,12 +1794,12 @@ results:
     override_reason: ''
     params_millions: null
     table_ref: Table 1
-    source_ref: huang2023temporal
-    variant_inference_reason: ''
+    source_ref: huang2023empirical
+    variant_inference_reason: 'dataset: fuzzy match to ogbl-wikikg2 (score=75)'
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
-    global_rank: 20
+    global_rank: 28
     true_value: 0.525
     true_std: null
     value_gap_source_arxiv: '2406.02740'
@@ -1441,7 +1809,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 20
+    paper_rank: 28
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1462,12 +1830,12 @@ results:
     override_reason: ''
     params_millions: null
     table_ref: Table 1
-    source_ref: huang2023temporal
-    variant_inference_reason: ''
+    source_ref: huang2023empirical
+    variant_inference_reason: 'dataset: fuzzy match to ogbl-wikikg2 (score=75)'
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
-    global_rank: 21
+    global_rank: 30
     true_value: 0.5191
     true_std: 0.0195
     value_gap_source_arxiv: '2406.02740'
@@ -1477,7 +1845,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 21
+    paper_rank: 30
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1491,15 +1859,19 @@ results_grouped:
   datasets:
   - *id001
   - *id002
-- benchmark: LRGB
+- benchmark: TU Dortmund
   datasets:
   - *id003
-- benchmark: TU Dortmund
+- benchmark: LRGB
   datasets:
   - *id004
 - benchmark: OGB
   datasets:
   - *id005
+- benchmark: GraphBench
+  datasets:
+  - *id006
+single_proposed_model: DGNs
 main_figure: /figures/2406.02740/main_figure.png
 ---
 

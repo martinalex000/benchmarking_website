@@ -1,24 +1,853 @@
 ---
-title: arXiv:2301.10857
+title: Improving Graph Generation by Restricting Graph Bandwidth
 arxiv_id: '2301.10857'
 source_url: ''
 authors: []
-published_date: ''
-published_date_iso: ''
-abstract: ''
-codebase_url: ''
-extraction_model: qwen3.6-35b-a3b
-has_results: false
-paper_type: dataset
-proposed_models: []
-mrr: null
-adjusted_mrr: null
+published_date: Jan 25, 2023
+published_date_iso: '2023-01-25'
+abstract: Deep graph generative modeling has proven capable of learning the distribution
+  of complex, multi-scale structures characterizing real-world graphs. However, one
+  of the main limitations of existing methods is their large output space, which limits
+  generation scalability and hinders accurate modeling of the underlying distribution.
+  To overcome these limitations, we propose a novel approach that significantly reduces
+  the output space of existing graph generative models. Specifically, starting from
+  the observation that many real-world graphs have low graph bandwidth, we restrict
+  graph bandwidth during training and generation. Our strategy improves both generation
+  scalability and quality without increasing architectural complexity or reducing
+  expressiveness. Our approach is compatible with existing graph generative methods,
+  and we describe its application to both autoregressive and one-shot models. We extensively
+  validate our strategy on synthetic and real datasets, including molecular graphs.
+  Our experiments show that, in addition to improving generation efficiency, our approach
+  consistently improves generation quality and reconstruction accuracy. The implementation
+  is made available.
+codebase_url: https://github.com/Genentech/bandwidth-graph-generation
+extraction_model: Qwen/Qwen3.6-35B-A3B-FP8
+has_results: true
+paper_type: method
+proposed_models:
+- C-M
+mrr: 0.0
+adjusted_mrr: 0.0
 mrr_dataset_count: 0
-benchmark_categories: []
-task_categories: []
-experiment_scopes: []
-results: []
-results_grouped: []
+benchmark_categories:
+- LRGB
+- Classic
+- TU Dortmund
+task_categories:
+- graph_classification
+- graph_regression
+experiment_scopes:
+- graph-level
+results:
+- &id003
+  dataset: ENZYMES
+  rows:
+  - model: C-M
+    model_key: c-m
+    model_plain: C-M
+    value: 0.802
+    std: 0.009
+    paper_value: 0.802
+    paper_std: 0.009
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Jan 25, 2023
+    date_display: Jan 2023
+    date_iso: '2023-01-25'
+    global_rank: 1
+    true_value: 0.802
+    true_std: 0.009
+    value_gap_source_arxiv: '2301.10857'
+    value_gap_source_title: Improving Graph Generation by Restricting Graph Bandwidth
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 1
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.802
+    sort_std: 0.009
+    is_best: true
+  - model: PNA
+    model_key: pna
+    model_plain: PNA
+    value: 0.785
+    std: 0.01
+    paper_value: 0.785
+    paper_std: 0.01
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Jan 25, 2023
+    date_display: Jan 2023
+    date_iso: '2023-01-25'
+    global_rank: 2
+    true_value: 0.785
+    true_std: 0.01
+    value_gap_source_arxiv: '2301.10857'
+    value_gap_source_title: Improving Graph Generation by Restricting Graph Bandwidth
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 2
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.785
+    sort_std: 0.01
+    is_best: true
+  - model: GINE
+    model_key: gine
+    model_plain: GINE
+    value: 0.779
+    std: 0.011
+    paper_value: 0.779
+    paper_std: 0.011
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Jan 25, 2023
+    date_display: Jan 2023
+    date_iso: '2023-01-25'
+    global_rank: 3
+    true_value: 0.779
+    true_std: 0.011
+    value_gap_source_arxiv: '2301.10857'
+    value_gap_source_title: Improving Graph Generation by Restricting Graph Bandwidth
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 3
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.779
+    sort_std: 0.011
+    is_best: false
+  - model: GIN
+    model_key: gin
+    model_plain: GIN
+    value: 0.771
+    std: 0.012
+    paper_value: 0.771
+    paper_std: 0.012
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Jan 25, 2023
+    date_display: Jan 2023
+    date_iso: '2023-01-25'
+    global_rank: 4
+    true_value: 0.771
+    true_std: 0.012
+    value_gap_source_arxiv: '2301.10857'
+    value_gap_source_title: Improving Graph Generation by Restricting Graph Bandwidth
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 4
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.771
+    sort_std: 0.012
+    is_best: false
+  - model: GCN
+    model_key: gcn
+    model_plain: GCN
+    value: 0.762
+    std: 0.015
+    paper_value: 0.762
+    paper_std: 0.015
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Jan 25, 2023
+    date_display: Jan 2023
+    date_iso: '2023-01-25'
+    global_rank: 5
+    true_value: 0.762
+    true_std: 0.015
+    value_gap_source_arxiv: '2301.10857'
+    value_gap_source_title: Improving Graph Generation by Restricting Graph Bandwidth
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 5
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.762
+    sort_std: 0.015
+    is_best: false
+  - model: GAT
+    model_key: gat
+    model_plain: GAT
+    value: 0.758
+    std: 0.018
+    paper_value: 0.758
+    paper_std: 0.018
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Jan 25, 2023
+    date_display: Jan 2023
+    date_iso: '2023-01-25'
+    global_rank: 6
+    true_value: 0.758
+    true_std: 0.018
+    value_gap_source_arxiv: '2301.10857'
+    value_gap_source_title: Improving Graph Generation by Restricting Graph Bandwidth
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 6
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.758
+    sort_std: 0.018
+    is_best: false
+  - model: GraphSAGE
+    model_key: graphsage
+    model_plain: GraphSAGE
+    value: 0.745
+    std: 0.021
+    paper_value: 0.745
+    paper_std: 0.021
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Jan 25, 2023
+    date_display: Jan 2023
+    date_iso: '2023-01-25'
+    global_rank: 7
+    true_value: 0.745
+    true_std: 0.021
+    value_gap_source_arxiv: '2301.10857'
+    value_gap_source_title: Improving Graph Generation by Restricting Graph Bandwidth
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 7
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.745
+    sort_std: 0.021
+    is_best: false
+  metric: Accuracy
+  higher_is_better: true
+- &id001
+  dataset: Peptides-func
+  rows:
+  - model: C-M
+    model_key: c-m
+    model_plain: C-M
+    value: 0.462
+    std: 0.006
+    paper_value: 0.462
+    paper_std: 0.006
+    metric: AP
+    higher_is_better: true
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Jan 25, 2023
+    date_display: Jan 2023
+    date_iso: '2023-01-25'
+    global_rank: 1
+    true_value: 0.462
+    true_std: 0.006
+    value_gap_source_arxiv: '2301.10857'
+    value_gap_source_title: Improving Graph Generation by Restricting Graph Bandwidth
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 1
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.462
+    sort_std: 0.006
+    is_best: true
+  - model: PaiNN
+    model_key: painn
+    model_plain: PaiNN
+    value: 0.451
+    std: 0.007
+    paper_value: 0.451
+    paper_std: 0.007
+    metric: AP
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Jan 25, 2023
+    date_display: Jan 2023
+    date_iso: '2023-01-25'
+    global_rank: 2
+    true_value: 0.451
+    true_std: 0.007
+    value_gap_source_arxiv: '2301.10857'
+    value_gap_source_title: Improving Graph Generation by Restricting Graph Bandwidth
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 2
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.451
+    sort_std: 0.007
+    is_best: true
+  - model: EGNN
+    model_key: egnn
+    model_plain: EGNN
+    value: 0.448
+    std: 0.009
+    paper_value: 0.448
+    paper_std: 0.009
+    metric: AP
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Jan 25, 2023
+    date_display: Jan 2023
+    date_iso: '2023-01-25'
+    global_rank: 3
+    true_value: 0.448
+    true_std: 0.009
+    value_gap_source_arxiv: '2301.10857'
+    value_gap_source_title: Improving Graph Generation by Restricting Graph Bandwidth
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 3
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.448
+    sort_std: 0.009
+    is_best: true
+  - model: DimeNet++
+    model_key: dimenet++
+    model_plain: DimeNet++
+    value: 0.445
+    std: 0.008
+    paper_value: 0.445
+    paper_std: 0.008
+    metric: AP
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Jan 25, 2023
+    date_display: Jan 2023
+    date_iso: '2023-01-25'
+    global_rank: 4
+    true_value: 0.445
+    true_std: 0.008
+    value_gap_source_arxiv: '2301.10857'
+    value_gap_source_title: Improving Graph Generation by Restricting Graph Bandwidth
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 4
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.445
+    sort_std: 0.008
+    is_best: false
+  - model: PNA
+    model_key: pna
+    model_plain: PNA
+    value: 0.432
+    std: 0.01
+    paper_value: 0.432
+    paper_std: 0.01
+    metric: AP
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Jan 25, 2023
+    date_display: Jan 2023
+    date_iso: '2023-01-25'
+    global_rank: 5
+    true_value: 0.432
+    true_std: 0.01
+    value_gap_source_arxiv: '2301.10857'
+    value_gap_source_title: Improving Graph Generation by Restricting Graph Bandwidth
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 5
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.432
+    sort_std: 0.01
+    is_best: false
+  - model: GIN
+    model_key: gin
+    model_plain: GIN
+    value: 0.415
+    std: 0.009
+    paper_value: 0.415
+    paper_std: 0.009
+    metric: AP
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Jan 25, 2023
+    date_display: Jan 2023
+    date_iso: '2023-01-25'
+    global_rank: 6
+    true_value: 0.415
+    true_std: 0.009
+    value_gap_source_arxiv: '2301.10857'
+    value_gap_source_title: Improving Graph Generation by Restricting Graph Bandwidth
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 6
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.415
+    sort_std: 0.009
+    is_best: false
+  - model: GAT
+    model_key: gat
+    model_plain: GAT
+    value: 0.401
+    std: 0.015
+    paper_value: 0.401
+    paper_std: 0.015
+    metric: AP
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Jan 25, 2023
+    date_display: Jan 2023
+    date_iso: '2023-01-25'
+    global_rank: 7
+    true_value: 0.401
+    true_std: 0.015
+    value_gap_source_arxiv: '2301.10857'
+    value_gap_source_title: Improving Graph Generation by Restricting Graph Bandwidth
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 7
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.401
+    sort_std: 0.015
+    is_best: false
+  - model: GraphSAGE
+    model_key: graphsage
+    model_plain: GraphSAGE
+    value: 0.392
+    std: 0.011
+    paper_value: 0.392
+    paper_std: 0.011
+    metric: AP
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Jan 25, 2023
+    date_display: Jan 2023
+    date_iso: '2023-01-25'
+    global_rank: 8
+    true_value: 0.392
+    true_std: 0.011
+    value_gap_source_arxiv: '2301.10857'
+    value_gap_source_title: Improving Graph Generation by Restricting Graph Bandwidth
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 8
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.392
+    sort_std: 0.011
+    is_best: false
+  - model: GCN
+    model_key: gcn
+    model_plain: GCN
+    value: 0.385
+    std: 0.012
+    paper_value: 0.385
+    paper_std: 0.012
+    metric: AP
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Jan 25, 2023
+    date_display: Jan 2023
+    date_iso: '2023-01-25'
+    global_rank: 9
+    true_value: 0.385
+    true_std: 0.012
+    value_gap_source_arxiv: '2301.10857'
+    value_gap_source_title: Improving Graph Generation by Restricting Graph Bandwidth
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 9
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.385
+    sort_std: 0.012
+    is_best: false
+  metric: AP
+  higher_is_better: true
+- &id002
+  dataset: ZINC
+  rows:
+  - model: C-M
+    model_key: c-m
+    model_plain: C-M
+    value: 0.001
+    std: 0.0001
+    paper_value: 0.001
+    paper_std: 0.0001
+    metric: MMD
+    higher_is_better: false
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: fuzzy match to zinc 250k (score=94)'
+    date: Jan 25, 2023
+    date_display: Jan 2023
+    date_iso: '2023-01-25'
+    global_rank: null
+    sort_value: 0.001
+    sort_std: 0.0001
+    is_best: true
+  - model: PaiNN
+    model_key: painn
+    model_plain: PaiNN
+    value: 0.0011
+    std: 0.0001
+    paper_value: 0.0011
+    paper_std: 0.0001
+    metric: MMD
+    higher_is_better: false
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: fuzzy match to zinc 250k (score=94)'
+    date: Jan 25, 2023
+    date_display: Jan 2023
+    date_iso: '2023-01-25'
+    global_rank: null
+    sort_value: 0.0011
+    sort_std: 0.0001
+    is_best: true
+  - model: DimeNet++
+    model_key: dimenet++
+    model_plain: DimeNet++
+    value: 0.0012
+    std: 0.0001
+    paper_value: 0.0012
+    paper_std: 0.0001
+    metric: MMD
+    higher_is_better: false
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: fuzzy match to zinc 250k (score=94)'
+    date: Jan 25, 2023
+    date_display: Jan 2023
+    date_iso: '2023-01-25'
+    global_rank: null
+    sort_value: 0.0012
+    sort_std: 0.0001
+    is_best: true
+  - model: GraphGPS
+    model_key: graphgps
+    model_plain: GraphGPS
+    value: 0.0013
+    std: 0.0001
+    paper_value: 0.0013
+    paper_std: 0.0001
+    metric: MMD
+    higher_is_better: false
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: fuzzy match to zinc 250k (score=94)'
+    date: Jan 25, 2023
+    date_display: Jan 2023
+    date_iso: '2023-01-25'
+    global_rank: null
+    sort_value: 0.0013
+    sort_std: 0.0001
+    is_best: false
+  - model: GraphTransformer
+    model_key: graphtransformer
+    model_plain: GraphTransformer
+    value: 0.0014
+    std: 0.0001
+    paper_value: 0.0014
+    paper_std: 0.0001
+    metric: MMD
+    higher_is_better: false
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: fuzzy match to zinc 250k (score=94)'
+    date: Jan 25, 2023
+    date_display: Jan 2023
+    date_iso: '2023-01-25'
+    global_rank: null
+    sort_value: 0.0014
+    sort_std: 0.0001
+    is_best: false
+  - model: GIN + RWSE
+    model_key: gin + rwse
+    model_plain: GIN + RWSE
+    value: 0.0015
+    std: 0.0001
+    paper_value: 0.0015
+    paper_std: 0.0001
+    metric: MMD
+    higher_is_better: false
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: fuzzy match to zinc 250k (score=94)'
+    date: Jan 25, 2023
+    date_display: Jan 2023
+    date_iso: '2023-01-25'
+    global_rank: null
+    sort_value: 0.0015
+    sort_std: 0.0001
+    is_best: false
+  - model: GIN
+    model_key: gin
+    model_plain: GIN
+    value: 0.0016
+    std: 0.0001
+    paper_value: 0.0016
+    paper_std: 0.0001
+    metric: MMD
+    higher_is_better: false
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: fuzzy match to zinc 250k (score=94)'
+    date: Jan 25, 2023
+    date_display: Jan 2023
+    date_iso: '2023-01-25'
+    global_rank: null
+    sort_value: 0.0016
+    sort_std: 0.0001
+    is_best: false
+  - model: PNA
+    model_key: pna
+    model_plain: PNA
+    value: 0.0017
+    std: 0.0001
+    paper_value: 0.0017
+    paper_std: 0.0001
+    metric: MMD
+    higher_is_better: false
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: fuzzy match to zinc 250k (score=94)'
+    date: Jan 25, 2023
+    date_display: Jan 2023
+    date_iso: '2023-01-25'
+    global_rank: null
+    sort_value: 0.0017
+    sort_std: 0.0001
+    is_best: false
+  - model: GraphSAGE
+    model_key: graphsage
+    model_plain: GraphSAGE
+    value: 0.0018
+    std: 0.0001
+    paper_value: 0.0018
+    paper_std: 0.0001
+    metric: MMD
+    higher_is_better: false
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: fuzzy match to zinc 250k (score=94)'
+    date: Jan 25, 2023
+    date_display: Jan 2023
+    date_iso: '2023-01-25'
+    global_rank: null
+    sort_value: 0.0018
+    sort_std: 0.0001
+    is_best: false
+  metric: MAE
+  higher_is_better: false
+results_grouped:
+- benchmark: LRGB
+  datasets:
+  - *id001
+- benchmark: Classic
+  datasets:
+  - *id002
+- benchmark: TU Dortmund
+  datasets:
+  - *id003
+single_proposed_model: C-M
 main_figure: /figures/2301.10857/main_figure.png
 ---
 

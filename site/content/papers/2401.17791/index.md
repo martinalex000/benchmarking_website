@@ -22,15 +22,15 @@ abstract: Recently, Transformers for graph representation learning have become i
   Eigenformer can express various graph structural connectivity matrices, which is
   particularly essential when learning over smaller graphs.
 codebase_url: ''
-extraction_model: qwen3.6-35b-a3b
+extraction_model: Qwen/Qwen3.6-35B-A3B-FP8
 has_results: true
 paper_type: method
 proposed_models:
-- Eigenformer
-- Eigenformer (feat.)
-mrr: 0.0145
-adjusted_mrr: 0.0145
-mrr_dataset_count: 7
+- NLP
+- NLP (feat.)
+mrr: 0.0357
+adjusted_mrr: 0.0119
+mrr_dataset_count: 1
 benchmark_categories:
 - Classic
 - LRGB
@@ -43,86 +43,39 @@ experiment_scopes:
 - graph-level
 - node-level
 results:
-- &id004
+- &id006
   dataset: CIFAR10
   rows:
-  - model: GRASS
-    model_key: grass
-    model_plain: GRASS
-    value: 0.8375
-    std: 0.00141
+  - model: CNNs
+    model_key: cnns
+    model_plain: CNNs
+    value: 0.93
+    std: 0.005
     metric: Accuracy
     higher_is_better: true
     is_baseline: false
     is_overridden: false
     override_reason: ''
-    params_millions: 0.5
-    arxiv_id: '2407.05649'
-    title: 'Greener GRASS: Enhancing GNNs with Encoding, Rewiring, and Attention'
-    date: Jul 2024
-    date_display: Jul 2024
-    date_iso: 2024-07
+    params_millions: null
+    arxiv_id: '1312.6203'
+    title: Spectral Networks and Locally Connected Networks on Graphs
+    date: Dec 21, 2013
+    date_display: Dec 2013
+    date_iso: '2013-12-21'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
     global_rank: 1
-    sort_value: 0.8375
-    sort_std: 0.00141
+    sort_value: 0.93
+    sort_std: 0.005
     is_best: true
-  - model: NeuralWalker
-    model_key: neuralwalker
-    model_plain: NeuralWalker
-    value: 0.80027
-    std: 0.00185
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2407.05649'
-    title: 'Greener GRASS: Enhancing GNNs with Encoding, Rewiring, and Attention'
-    date: Jul 2024
-    date_display: Jul 2024
-    date_iso: 2024-07
-    codebase_url: ''
-    uses_external_data: false
-    is_global_top: true
-    global_rank: 2
-    sort_value: 0.80027
-    sort_std: 0.00185
-    is_best: false
-  - model: RandAlign (4 layers)
-    model_key: randalign (4 layers)
-    model_plain: RandAlign (4 layers)
-    value: 0.7942
-    std: 0.00072
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2404.09774'
-    title: 'RandAlign: A Parameter-Free Method for Regularizing Graph Convolutional
-      Networks'
-    date: Apr 2024
-    date_display: Apr 2024
-    date_iso: 2024-04
-    codebase_url: ''
-    uses_external_data: false
-    is_global_top: true
-    global_rank: 3
-    sort_value: 0.7942
-    sort_std: 0.00072
-    is_best: false
-  - model: GatedGCN
-    model_key: gatedgcn
-    model_plain: GatedGCN
-    value: 0.67312
-    std: 0.00311
-    paper_value: 0.67312
-    paper_std: 0.00311
+  - model: DGN
+    model_key: dgn
+    model_plain: DGN
+    value: 0.72838
+    std: 0.00417
+    paper_value: 0.72838
+    paper_std: 0.00417
     metric: Accuracy
     higher_is_better: true
     is_baseline: true
@@ -135,23 +88,213 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
-    global_rank: 12
-    true_value: 0.77218
-    true_std: 0.00381
-    value_gap_source_arxiv: '2502.09263'
-    value_gap_source_title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks?
-      Simple Architectures Meet Excellence
+    global_rank: 2
+    true_value: 0.92
+    true_std: 0.007
+    value_gap_source_arxiv: '1312.6203'
+    value_gap_source_title: Spectral Networks and Locally Connected Networks on Graphs
     value_gap_source_is_current_paper: false
     has_value_gap: true
     has_value_note: false
-    value_gap: 0.09905999999999993
+    value_gap: 0.19162
     value_note: ''
-    paper_rank: 104
-    rank_delta: 92
-    rank_delta_abs: 92
+    paper_rank: 16
+    rank_delta: 14
+    rank_delta_abs: 14
     rank_delta_direction: worse
-    sort_value: 0.77218
-    sort_std: 0.00381
+    sort_value: 0.92
+    sort_std: 0.007
+    is_best: true
+  - model: PNA
+    model_key: pna
+    model_plain: PNA
+    value: 0.7035
+    std: 0.0063
+    paper_value: 0.7035
+    paper_std: 0.0063
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: Benchmarking GNNs
+    variant_inference_reason: 'dataset: exact match'
+    date: Jan 2024
+    date_display: Jan 2024
+    date_iso: 2024-01
+    global_rank: 3
+    true_value: 0.91
+    true_std: 0.008
+    value_gap_source_arxiv: '1312.6203'
+    value_gap_source_title: Spectral Networks and Locally Connected Networks on Graphs
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
+    has_value_note: false
+    value_gap: 0.20650000000000002
+    value_note: ''
+    paper_rank: 25
+    rank_delta: 22
+    rank_delta_abs: 22
+    rank_delta_direction: worse
+    sort_value: 0.91
+    sort_std: 0.008
+    is_best: false
+  - model: GAT
+    model_key: gat
+    model_plain: GAT
+    value: 0.64223
+    std: 0.00455
+    paper_value: 0.64223
+    paper_std: 0.00455
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: Benchmarking GNNs
+    variant_inference_reason: 'dataset: exact match'
+    date: Jan 2024
+    date_display: Jan 2024
+    date_iso: 2024-01
+    global_rank: 4
+    true_value: 0.9
+    true_std: 0.01
+    value_gap_source_arxiv: '1312.6203'
+    value_gap_source_title: Spectral Networks and Locally Connected Networks on Graphs
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
+    has_value_note: false
+    value_gap: 0.25777000000000005
+    value_note: ''
+    paper_rank: 38
+    rank_delta: 34
+    rank_delta_abs: 34
+    rank_delta_direction: worse
+    sort_value: 0.9
+    sort_std: 0.01
+    is_best: false
+  - model: GCN
+    model_key: gcn
+    model_plain: GCN
+    value: 0.5571
+    std: 0.00381
+    paper_value: 0.5571
+    paper_std: 0.00381
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: Benchmarking GNNs
+    variant_inference_reason: 'dataset: exact match'
+    date: Jan 2024
+    date_display: Jan 2024
+    date_iso: 2024-01
+    global_rank: 5
+    true_value: 0.89
+    true_std: 0.01
+    value_gap_source_arxiv: '1312.6203'
+    value_gap_source_title: Spectral Networks and Locally Connected Networks on Graphs
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
+    has_value_note: false
+    value_gap: 0.3329
+    value_note: ''
+    paper_rank: 39
+    rank_delta: 34
+    rank_delta_abs: 34
+    rank_delta_direction: worse
+    sort_value: 0.89
+    sort_std: 0.01
+    is_best: false
+  - model: GIN
+    model_key: gin
+    model_plain: GIN
+    value: 0.55255
+    std: 0.01527
+    paper_value: 0.55255
+    paper_std: 0.01527
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: Benchmarking GNNs
+    variant_inference_reason: 'dataset: exact match'
+    date: Jan 2024
+    date_display: Jan 2024
+    date_iso: 2024-01
+    global_rank: 6
+    true_value: 0.89
+    true_std: 0.01
+    value_gap_source_arxiv: '1312.6203'
+    value_gap_source_title: Spectral Networks and Locally Connected Networks on Graphs
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
+    has_value_note: false
+    value_gap: 0.33745
+    value_note: ''
+    paper_rank: 39
+    rank_delta: 33
+    rank_delta_abs: 33
+    rank_delta_direction: worse
+    sort_value: 0.89
+    sort_std: 0.01
+    is_best: false
+  - model: GraphSAGE
+    model_key: graphsage
+    model_plain: GraphSAGE
+    value: 0.88
+    std: 0.01
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1312.6203'
+    title: Spectral Networks and Locally Connected Networks on Graphs
+    date: Dec 21, 2013
+    date_display: Dec 2013
+    date_iso: '2013-12-21'
+    codebase_url: ''
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 7
+    sort_value: 0.88
+    sort_std: 0.01
+    is_best: false
+  - model: LRDs
+    model_key: lrds
+    model_plain: LRDs
+    value: 0.78068
+    std: 0.00785
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2502.00282'
+    title: 'GraphMinNet: Learning Dependencies in Graphs with Light Complexity Minimal
+      Architecture'
+    date: Feb 1, 2025
+    date_display: Feb 2025
+    date_iso: '2025-02-01'
+    codebase_url: ''
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 8
+    sort_value: 0.78068
+    sort_std: 0.00785
     is_best: false
   - model: GRIT
     model_key: grit
@@ -172,18 +315,18 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
-    global_rank: 20
+    global_rank: 11
     true_value: 0.76468
     true_std: 0.00881
-    value_gap_source_arxiv: '2605.05689'
-    value_gap_source_title: 'GCCM: Enhancing Generative Graph Prediction via Contrastive
-      Consistency Model'
+    value_gap_source_arxiv: '2312.01538'
+    value_gap_source_title: Recurrent Distance Filtering for Graph Representation
+      Learning
     value_gap_source_is_current_paper: false
     has_value_gap: false
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 20
+    paper_rank: 11
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -209,59 +352,23 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
-    global_rank: 36
-    true_value: 0.74754
-    true_std: 0.00194
-    value_gap_source_arxiv: '2502.09263'
-    value_gap_source_title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks?
-      Simple Architectures Meet Excellence
-    value_gap_source_is_current_paper: false
-    has_value_gap: false
-    has_value_note: true
-    value_gap: 0.0006399999999999739
-    value_note: global 0.7475 within std
-    paper_rank: 37
-    rank_delta: 1
-    rank_delta_abs: 1
-    rank_delta_direction: worse
-    sort_value: 0.74754
-    sort_std: 0.00194
-    is_best: false
-  - model: DGN
-    model_key: dgn
-    model_plain: DGN
-    value: 0.72838
-    std: 0.00417
-    paper_value: 0.72838
-    paper_std: 0.00417
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: 'dataset: exact match'
-    date: Jan 2024
-    date_display: Jan 2024
-    date_iso: 2024-01
-    global_rank: 51
-    true_value: 0.72838
-    true_std: 0.00417
-    value_gap_source_arxiv: '2504.12588'
-    value_gap_source_title: Plain Transformers Can be Powerful Graph Learners
+    global_rank: 13
+    true_value: 0.7469
+    true_std: 0.00125
+    value_gap_source_arxiv: '2502.00282'
+    value_gap_source_title: 'GraphMinNet: Learning Dependencies in Graphs with Light
+      Complexity Minimal Architecture'
     value_gap_source_is_current_paper: false
     has_value_gap: false
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 51
+    paper_rank: 13
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
-    sort_value: 0.72838
-    sort_std: 0.00417
+    sort_value: 0.7469
+    sort_std: 0.00125
     is_best: false
   - model: GPS
     model_key: gps
@@ -277,28 +384,27 @@ results:
     override_reason: ''
     params_millions: null
     table_ref: Table 1
-    source_ref: this paper
+    source_ref: Benchmarking GNNs
     variant_inference_reason: 'dataset: exact match'
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
-    global_rank: 57
-    true_value: 0.72356
-    true_std: 0.0032300000000000002
-    value_gap_source_arxiv: '2605.05689'
-    value_gap_source_title: 'GCCM: Enhancing Generative Graph Prediction via Contrastive
-      Consistency Model'
+    global_rank: 18
+    true_value: 0.723
+    true_std: 0.0036
+    value_gap_source_arxiv: '2312.04234'
+    value_gap_source_title: Graph Convolutions Enrich the Self-Attention in Transformers!
     value_gap_source_is_current_paper: false
     has_value_gap: false
     has_value_note: true
-    value_gap: 0.0005800000000000249
-    value_note: global 0.7236 within std
-    paper_rank: 61
-    rank_delta: 4
-    rank_delta_abs: 4
-    rank_delta_direction: worse
-    sort_value: 0.72356
-    sort_std: 0.0032300000000000002
+    value_gap: 2.0000000000020002e-05
+    value_note: global 0.7230 within std
+    paper_rank: 18
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.723
+    sort_std: 0.0036
     is_best: false
   - model: GIN-AK+
     model_key: gin-ak+
@@ -319,31 +425,31 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
-    global_rank: 66
+    global_rank: 21
     true_value: 0.7219
     true_std: 0.0013
-    value_gap_source_arxiv: '2605.05689'
-    value_gap_source_title: 'GCCM: Enhancing Generative Graph Prediction via Contrastive
-      Consistency Model'
+    value_gap_source_arxiv: '2508.05070'
+    value_gap_source_title: 'Tango: Graph Neural Dynamics via Learned Energy and Tangential
+      Flows'
     value_gap_source_is_current_paper: false
     has_value_gap: false
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 66
+    paper_rank: 21
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 0.7219
     sort_std: 0.0013
     is_best: false
-  - model: PNA
-    model_key: pna
-    model_plain: PNA
-    value: 0.7035
-    std: 0.0063
-    paper_value: 0.7035
-    paper_std: 0.0063
+  - model: Eigenformer (feat.)
+    model_key: eigenformer (feat.)
+    model_plain: Eigenformer (feat.)
+    value: 0.70194
+    std: null
+    paper_value: 0.70194
+    paper_std: null
     metric: Accuracy
     higher_is_better: true
     is_baseline: true
@@ -351,31 +457,31 @@ results:
     override_reason: ''
     params_millions: null
     table_ref: Table 1
-    source_ref: Benchmarking GNNs
+    source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
-    global_rank: 86
-    true_value: 0.7035
-    true_std: 0.0063
-    value_gap_source_arxiv: '2504.12588'
-    value_gap_source_title: Plain Transformers Can be Powerful Graph Learners
-    value_gap_source_is_current_paper: false
+    global_rank: 27
+    true_value: 0.70194
+    true_std: null
+    value_gap_source_arxiv: '2401.17791'
+    value_gap_source_title: Graph Transformers without Positional Encodings
+    value_gap_source_is_current_paper: true
     has_value_gap: false
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 86
+    paper_rank: 27
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
-    sort_value: 0.7035
-    sort_std: 0.0063
+    sort_value: 0.70194
+    sort_std: null
     is_best: false
-  - model: Eigenformer (feat.)
-    model_key: eigenformer (feat.)
-    model_plain: Eigenformer (feat.)
+  - model: NLP (feat.)
+    model_key: nlp (feat.)
+    model_plain: NLP (feat.)
     value: 0.70194
     std: null
     paper_value: 0.70194
@@ -392,7 +498,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
-    global_rank: 89
+    global_rank: 28
     true_value: 0.70194
     true_std: null
     value_gap_source_arxiv: '2401.17791'
@@ -402,122 +508,12 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 89
+    paper_rank: 28
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 0.70194
     sort_std: null
-    is_best: false
-  - model: GCN
-    model_key: gcn
-    model_plain: GCN
-    value: 0.5571
-    std: 0.00381
-    paper_value: 0.5571
-    paper_std: 0.00381
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: 'dataset: exact match'
-    date: Jan 2024
-    date_display: Jan 2024
-    date_iso: 2024-01
-    global_rank: 95
-    true_value: 0.69824
-    true_std: 0.00413
-    value_gap_source_arxiv: '2502.09263'
-    value_gap_source_title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks?
-      Simple Architectures Meet Excellence
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.14113999999999993
-    value_note: ''
-    paper_rank: 114
-    rank_delta: 19
-    rank_delta_abs: 19
-    rank_delta_direction: worse
-    sort_value: 0.69824
-    sort_std: 0.00413
-    is_best: false
-  - model: GIN
-    model_key: gin
-    model_plain: GIN
-    value: 0.55255
-    std: 0.01527
-    paper_value: 0.55255
-    paper_std: 0.01527
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: 'dataset: exact match'
-    date: Jan 2024
-    date_display: Jan 2024
-    date_iso: 2024-01
-    global_rank: 97
-    true_value: 0.69592
-    true_std: 0.00287
-    value_gap_source_arxiv: '2502.09263'
-    value_gap_source_title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks?
-      Simple Architectures Meet Excellence
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.14337
-    value_note: ''
-    paper_rank: 115
-    rank_delta: 18
-    rank_delta_abs: 18
-    rank_delta_direction: worse
-    sort_value: 0.69592
-    sort_std: 0.00287
-    is_best: false
-  - model: CRaW1
-    model_key: craw1
-    model_plain: CRaW1
-    value: 0.69013
-    std: 0.00259
-    paper_value: 0.69013
-    paper_std: 0.00259
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Jan 2024
-    date_display: Jan 2024
-    date_iso: 2024-01
-    global_rank: 99
-    true_value: 0.69013
-    true_std: 0.00259
-    value_gap_source_arxiv: '2504.12588'
-    value_gap_source_title: Plain Transformers Can be Powerful Graph Learners
-    value_gap_source_is_current_paper: false
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 99
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.69013
-    sort_std: 0.00259
     is_best: false
   - model: EGT
     model_key: egt
@@ -538,18 +534,18 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
-    global_rank: 102
+    global_rank: 32
     true_value: 0.68702
     true_std: 0.00409
-    value_gap_source_arxiv: '2605.05689'
-    value_gap_source_title: 'GCCM: Enhancing Generative Graph Prediction via Contrastive
-      Consistency Model'
+    value_gap_source_arxiv: '2312.01538'
+    value_gap_source_title: Recurrent Distance Filtering for Graph Representation
+      Learning
     value_gap_source_is_current_paper: false
     has_value_gap: false
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 102
+    paper_rank: 32
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -559,6 +555,42 @@ results:
   - model: Eigenformer
     model_key: eigenformer
     model_plain: Eigenformer
+    value: 0.67316
+    std: null
+    paper_value: 0.67316
+    paper_std: null
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Jan 2024
+    date_display: Jan 2024
+    date_iso: 2024-01
+    global_rank: 33
+    true_value: 0.67316
+    true_std: null
+    value_gap_source_arxiv: '2401.17791'
+    value_gap_source_title: Graph Transformers without Positional Encodings
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 33
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.67316
+    sort_std: null
+    is_best: false
+  - model: NLP
+    model_key: nlp
+    model_plain: NLP
     value: 0.67316
     std: null
     paper_value: 0.67316
@@ -575,7 +607,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
-    global_rank: 104
+    global_rank: 34
     true_value: 0.67316
     true_std: null
     value_gap_source_arxiv: '2401.17791'
@@ -585,20 +617,20 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 104
+    paper_rank: 34
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 0.67316
     sort_std: null
     is_best: false
-  - model: GAT
-    model_key: gat
-    model_plain: GAT
-    value: 0.64223
-    std: 0.00455
-    paper_value: 0.64223
-    paper_std: 0.00455
+  - model: GatedGCN
+    model_key: gatedgcn
+    model_plain: GatedGCN
+    value: 0.67312
+    std: 0.00311
+    paper_value: 0.67312
+    paper_std: 0.00311
     metric: Accuracy
     higher_is_better: true
     is_baseline: true
@@ -606,28 +638,28 @@ results:
     override_reason: ''
     params_millions: null
     table_ref: Table 1
-    source_ref: this paper
+    source_ref: Benchmarking GNNs
     variant_inference_reason: 'dataset: exact match'
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
-    global_rank: 110
-    true_value: 0.64223
-    true_std: 0.00455
-    value_gap_source_arxiv: '2605.05689'
-    value_gap_source_title: 'GCCM: Enhancing Generative Graph Prediction via Contrastive
-      Consistency Model'
+    global_rank: 35
+    true_value: 0.67312
+    true_std: 0.00311
+    value_gap_source_arxiv: '2312.01538'
+    value_gap_source_title: Recurrent Distance Filtering for Graph Representation
+      Learning
     value_gap_source_is_current_paper: false
     has_value_gap: false
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 110
+    paper_rank: 35
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
-    sort_value: 0.64223
-    sort_std: 0.00455
+    sort_value: 0.67312
+    sort_std: 0.00311
     is_best: false
   metric: Accuracy
   higher_is_better: true
@@ -638,7 +670,7 @@ results:
     model_key: tango_gps
     model_plain: Tango_GPS
     value: 0.80113
-    std: 0.0013800000000000002
+    std: 0.00138
     metric: Accuracy
     higher_is_better: true
     is_baseline: false
@@ -655,7 +687,7 @@ results:
     is_global_top: true
     global_rank: 1
     sort_value: 0.80113
-    sort_std: 0.0013800000000000002
+    sort_std: 0.00138
     is_best: true
   - model: GRIT
     model_key: grit
@@ -671,74 +703,53 @@ results:
     override_reason: ''
     params_millions: null
     table_ref: Table 1
-    source_ref: this paper
+    source_ref: Benchmarking GNNs
     variant_inference_reason: 'dataset: exact match'
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
     global_rank: 2
-    true_value: 0.8003
-    true_std: 0.0028
-    value_gap_source_arxiv: '2405.19121'
-    value_gap_source_title: Spatio-Spectral Graph Neural Networks
+    true_value: 0.80026
+    true_std: 0.00277
+    value_gap_source_arxiv: '2502.00282'
+    value_gap_source_title: 'GraphMinNet: Learning Dependencies in Graphs with Light
+      Complexity Minimal Architecture'
     value_gap_source_is_current_paper: false
     has_value_gap: false
-    has_value_note: true
-    value_gap: 4.0000000000040004e-05
-    value_note: global 0.8003 within std
-    paper_rank: 3
-    rank_delta: 1
-    rank_delta_abs: 1
-    rank_delta_direction: worse
-    sort_value: 0.8003
-    sort_std: 0.0028
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 2
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.80026
+    sort_std: 0.00277
     is_best: true
-  - model: PPGT
-    model_key: ppgt
-    model_plain: PPGT
-    value: 0.80027
-    std: 0.00114
+  - model: LRDs
+    model_key: lrds
+    model_plain: LRDs
+    value: 0.79284
+    std: 0.00122
     metric: Accuracy
     higher_is_better: true
     is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2504.12588'
-    title: Plain Transformers Can be Powerful Graph Learners
-    date: Apr 2025
-    date_display: Apr 2025
-    date_iso: 2025-04
+    arxiv_id: '2502.00282'
+    title: 'GraphMinNet: Learning Dependencies in Graphs with Light Complexity Minimal
+      Architecture'
+    date: Feb 1, 2025
+    date_display: Feb 2025
+    date_iso: '2025-02-01'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
     global_rank: 3
-    sort_value: 0.80027
-    sort_std: 0.00114
-    is_best: true
-  - model: GT + HDSE
-    model_key: gt + hdse
-    model_plain: GT + HDSE
-    value: 0.79965
-    std: 0.00203
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2308.11129'
-    title: Enhancing Graph Transformers with Hierarchical Distance Structural Encoding
-    date: Aug 2023
-    date_display: Aug 2023
-    date_iso: 2023-08
-    codebase_url: ''
-    uses_external_data: false
-    is_global_top: true
-    global_rank: 4
-    sort_value: 0.79965
-    sort_std: 0.00203
-    is_best: true
+    sort_value: 0.79284
+    sort_std: 0.00122
+    is_best: false
   - model: EGT
     model_key: egt
     model_plain: EGT
@@ -753,65 +764,52 @@ results:
     override_reason: ''
     params_millions: null
     table_ref: Table 1
-    source_ref: this paper
+    source_ref: Benchmarking GNNs
     variant_inference_reason: 'dataset: exact match'
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
-    global_rank: 14
+    global_rank: 4
     true_value: 0.79232
     true_std: 0.00348
-    value_gap_source_arxiv: '2605.05689'
-    value_gap_source_title: 'GCCM: Enhancing Generative Graph Prediction via Contrastive
-      Consistency Model'
+    value_gap_source_arxiv: '2508.05070'
+    value_gap_source_title: 'Tango: Graph Neural Dynamics via Learned Energy and Tangential
+      Flows'
     value_gap_source_is_current_paper: false
     has_value_gap: false
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 14
+    paper_rank: 4
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 0.79232
     sort_std: 0.00348
     is_best: false
-  - model: GatedGCN
-    model_key: gatedgcn
-    model_plain: GatedGCN
-    value: 0.7384
-    std: 0.00326
-    paper_value: 0.7384
-    paper_std: 0.00326
+  - model: GSSC
+    model_key: gssc
+    model_plain: GSSC
+    value: 0.79156
+    std: 0.00152
     metric: Accuracy
     higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: 'dataset: exact match'
-    date: Jan 2024
-    date_display: Jan 2024
-    date_iso: 2024-01
-    global_rank: 16
-    true_value: 0.79128
-    true_std: 0.00235
-    value_gap_source_arxiv: '2502.09263'
-    value_gap_source_title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks?
-      Simple Architectures Meet Excellence
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.05288000000000004
-    value_note: ''
-    paper_rank: 61
-    rank_delta: 45
-    rank_delta_abs: 45
-    rank_delta_direction: worse
-    sort_value: 0.79128
-    sort_std: 0.00235
+    arxiv_id: '2502.00282'
+    title: 'GraphMinNet: Learning Dependencies in Graphs with Light Complexity Minimal
+      Architecture'
+    date: Feb 1, 2025
+    date_display: Feb 2025
+    date_iso: '2025-02-01'
+    codebase_url: ''
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 5
+    sort_value: 0.79156
+    sort_std: 0.00152
     is_best: false
   - model: Exphormer
     model_key: exphormer
@@ -827,26 +825,27 @@ results:
     override_reason: ''
     params_millions: null
     table_ref: Table 1
-    source_ref: this paper
+    source_ref: Benchmarking GNNs
     variant_inference_reason: 'dataset: exact match'
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
-    global_rank: 37
-    true_value: 0.78071
+    global_rank: 9
+    true_value: 0.7807
     true_std: 0.00037
-    value_gap_source_arxiv: '2502.09365'
-    value_gap_source_title: Simple Path Structural Encoding for Graph Transformers
+    value_gap_source_arxiv: '2502.00282'
+    value_gap_source_title: 'GraphMinNet: Learning Dependencies in Graphs with Light
+      Complexity Minimal Architecture'
     value_gap_source_is_current_paper: false
     has_value_gap: false
-    has_value_note: true
-    value_gap: 1.0000000000065512e-05
-    value_note: global 0.7807 within std
-    paper_rank: 37
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 9
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
-    sort_value: 0.78071
+    sort_value: 0.7807
     sort_std: 0.00037
     is_best: false
   - model: GPS
@@ -863,26 +862,27 @@ results:
     override_reason: ''
     params_millions: null
     table_ref: Table 1
-    source_ref: this paper
+    source_ref: Benchmarking GNNs
     variant_inference_reason: 'dataset: exact match'
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
-    global_rank: 40
-    true_value: 0.7802
+    global_rank: 11
+    true_value: 0.78016
     true_std: 0.0018
-    value_gap_source_arxiv: '2405.19121'
-    value_gap_source_title: Spatio-Spectral Graph Neural Networks
+    value_gap_source_arxiv: '2508.05070'
+    value_gap_source_title: 'Tango: Graph Neural Dynamics via Learned Energy and Tangential
+      Flows'
     value_gap_source_is_current_paper: false
     has_value_gap: false
-    has_value_note: true
-    value_gap: 4.0000000000040004e-05
-    value_note: global 0.7802 within std
-    paper_rank: 40
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 11
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
-    sort_value: 0.7802
+    sort_value: 0.78016
     sort_std: 0.0018
     is_best: false
   - model: K-Subgraph SAT
@@ -899,26 +899,26 @@ results:
     override_reason: ''
     params_millions: null
     table_ref: Table 1
-    source_ref: this paper
+    source_ref: Benchmarking GNNs
     variant_inference_reason: 'dataset: exact match'
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
-    global_rank: 44
-    true_value: 0.77856
+    global_rank: 13
+    true_value: 0.7786
     true_std: 0.00104
-    value_gap_source_arxiv: '2504.12588'
-    value_gap_source_title: Plain Transformers Can be Powerful Graph Learners
+    value_gap_source_arxiv: '2303.06147'
+    value_gap_source_title: 'Exphormer: Sparse Transformers for Graphs'
     value_gap_source_is_current_paper: false
     has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 44
+    has_value_note: true
+    value_gap: 3.999999999992898e-05
+    value_note: global 0.7786 within std
+    paper_rank: 13
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
-    sort_value: 0.77856
+    sort_value: 0.7786
     sort_std: 0.00104
     is_best: false
   - model: Eigenformer (feat.)
@@ -930,7 +930,7 @@ results:
     paper_std: null
     metric: Accuracy
     higher_is_better: true
-    is_baseline: false
+    is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
@@ -940,7 +940,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
-    global_rank: 50
+    global_rank: 16
     true_value: 0.77456
     true_std: null
     value_gap_source_arxiv: '2401.17791'
@@ -950,7 +950,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 50
+    paper_rank: 16
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -966,42 +966,6 @@ results:
     paper_std: null
     metric: Accuracy
     higher_is_better: true
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: 'dataset: exact match'
-    date: Jan 2024
-    date_display: Jan 2024
-    date_iso: 2024-01
-    global_rank: 52
-    true_value: 0.77262
-    true_std: null
-    value_gap_source_arxiv: '2401.17791'
-    value_gap_source_title: Graph Transformers without Positional Encodings
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 52
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.77262
-    sort_std: null
-    is_best: false
-  - model: GCN
-    model_key: gcn
-    model_plain: GCN
-    value: 0.68498
-    std: 0.00976
-    paper_value: 0.68498
-    paper_std: 0.00976
-    metric: Accuracy
-    higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1012,23 +976,22 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
-    global_rank: 53
-    true_value: 0.77109
-    true_std: 0.00872
-    value_gap_source_arxiv: '2502.09263'
-    value_gap_source_title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks?
-      Simple Architectures Meet Excellence
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
+    global_rank: 17
+    true_value: 0.77262
+    true_std: null
+    value_gap_source_arxiv: '2401.17791'
+    value_gap_source_title: Graph Transformers without Positional Encodings
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
     has_value_note: false
-    value_gap: 0.08611000000000002
+    value_gap: null
     value_note: ''
-    paper_rank: 65
-    rank_delta: 12
-    rank_delta_abs: 12
-    rank_delta_direction: worse
-    sort_value: 0.77109
-    sort_std: 0.00872
+    paper_rank: 17
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.77262
+    sort_std: null
     is_best: false
   - model: SAN
     model_key: san
@@ -1044,36 +1007,36 @@ results:
     override_reason: ''
     params_millions: null
     table_ref: Table 1
-    source_ref: this paper
+    source_ref: Benchmarking GNNs
     variant_inference_reason: 'dataset: exact match'
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
-    global_rank: 57
+    global_rank: 19
     true_value: 0.76691
     true_std: 0.0065
-    value_gap_source_arxiv: '2605.05689'
-    value_gap_source_title: 'GCCM: Enhancing Generative Graph Prediction via Contrastive
-      Consistency Model'
+    value_gap_source_arxiv: '2502.00282'
+    value_gap_source_title: 'GraphMinNet: Learning Dependencies in Graphs with Light
+      Complexity Minimal Architecture'
     value_gap_source_is_current_paper: false
     has_value_gap: false
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 57
+    paper_rank: 19
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 0.76691
     sort_std: 0.0065
     is_best: false
-  - model: GIN
-    model_key: gin
-    model_plain: GIN
-    value: 0.64716
-    std: 0.01553
-    paper_value: 0.64716
-    paper_std: 0.01553
+  - model: GatedGCN
+    model_key: gatedgcn
+    model_plain: GatedGCN
+    value: 0.7384
+    std: 0.00326
+    paper_value: 0.7384
+    paper_std: 0.00326
     metric: Accuracy
     higher_is_better: true
     is_baseline: true
@@ -1081,28 +1044,27 @@ results:
     override_reason: ''
     params_millions: null
     table_ref: Table 1
-    source_ref: this paper
+    source_ref: Benchmarking GNNs
     variant_inference_reason: 'dataset: exact match'
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
-    global_rank: 61
-    true_value: 0.74794
-    true_std: 0.00213
-    value_gap_source_arxiv: '2502.09263'
-    value_gap_source_title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks?
-      Simple Architectures Meet Excellence
+    global_rank: 20
+    true_value: 0.76082
+    true_std: 0.00196
+    value_gap_source_arxiv: '2108.03348'
+    value_gap_source_title: Global Self-Attention as a Replacement for Graph Convolution
     value_gap_source_is_current_paper: false
     has_value_gap: true
     has_value_note: false
-    value_gap: 0.10078000000000009
+    value_gap: 0.022420000000000107
     value_note: ''
-    paper_rank: 67
-    rank_delta: 6
-    rank_delta_abs: 6
+    paper_rank: 22
+    rank_delta: 2
+    rank_delta_abs: 2
     rank_delta_direction: worse
-    sort_value: 0.74794
-    sort_std: 0.00213
+    sort_value: 0.76082
+    sort_std: 0.00196
     is_best: false
   - model: GAT
     model_key: gat
@@ -1118,110 +1080,35 @@ results:
     override_reason: ''
     params_millions: null
     table_ref: Table 1
-    source_ref: this paper
+    source_ref: Benchmarking GNNs
     variant_inference_reason: 'dataset: exact match'
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
-    global_rank: 63
-    true_value: 0.70587
+    global_rank: 24
+    true_value: 0.7059
     true_std: 0.00447
-    value_gap_source_arxiv: '2605.05689'
-    value_gap_source_title: 'GCCM: Enhancing Generative Graph Prediction via Contrastive
-      Consistency Model'
+    value_gap_source_arxiv: '2303.06147'
+    value_gap_source_title: 'Exphormer: Sparse Transformers for Graphs'
     value_gap_source_is_current_paper: false
     has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 63
+    has_value_note: true
+    value_gap: 2.999999999997449e-05
+    value_note: global 0.7059 within std
+    paper_rank: 24
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
-    sort_value: 0.70587
+    sort_value: 0.7059
     sort_std: 0.00447
     is_best: false
-  metric: Accuracy
-  higher_is_better: true
-- &id005
-  dataset: MNIST
-  rows:
-  - model: GRASS
-    model_key: grass
-    model_plain: GRASS
-    value: 0.98932
-    std: 0.00076
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: 0.5
-    arxiv_id: '2407.05649'
-    title: 'Greener GRASS: Enhancing GNNs with Encoding, Rewiring, and Attention'
-    date: Jul 2024
-    date_display: Jul 2024
-    date_iso: 2024-07
-    codebase_url: ''
-    uses_external_data: false
-    is_global_top: true
-    global_rank: 1
-    sort_value: 0.98932
-    sort_std: 0.00076
-    is_best: true
-  - model: GSM++ (MoT)
-    model_key: gsm++ (mot)
-    model_plain: GSM++ (MoT)
-    value: 0.9884
-    std: 0.0015
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2411.15671'
-    title: 'Best of Both Worlds: Advantages of Hybrid Graph Sequence Models'
-    date: Nov 2024
-    date_display: Nov 2024
-    date_iso: 2024-11
-    codebase_url: ''
-    uses_external_data: null
-    is_global_top: true
-    global_rank: 2
-    sort_value: 0.9884
-    sort_std: 0.0015
-    is_best: true
-  - model: NeuralWalker
-    model_key: neuralwalker
-    model_plain: NeuralWalker
-    value: 0.9876
-    std: 0.00079
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2407.05649'
-    title: 'Greener GRASS: Enhancing GNNs with Encoding, Rewiring, and Attention'
-    date: Jul 2024
-    date_display: Jul 2024
-    date_iso: 2024-07
-    codebase_url: ''
-    uses_external_data: false
-    is_global_top: true
-    global_rank: 3
-    sort_value: 0.9876
-    sort_std: 0.00079
-    is_best: false
-  - model: GatedGCN
-    model_key: gatedgcn
-    model_plain: GatedGCN
-    value: 0.9734
-    std: 0.00143
-    paper_value: 0.9734
-    paper_std: 0.00143
+  - model: GCN
+    model_key: gcn
+    model_plain: GCN
+    value: 0.68498
+    std: 0.00976
+    paper_value: 0.68498
+    paper_std: 0.00976
     metric: Accuracy
     higher_is_better: true
     is_baseline: true
@@ -1229,28 +1116,141 @@ results:
     override_reason: ''
     params_millions: null
     table_ref: Table 1
-    source_ref: this paper
+    source_ref: Benchmarking GNNs
     variant_inference_reason: 'dataset: exact match'
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
-    global_rank: 4
-    true_value: 0.98712
-    true_std: 0.00137
-    value_gap_source_arxiv: '2502.09263'
-    value_gap_source_title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks?
-      Simple Architectures Meet Excellence
+    global_rank: 25
+    true_value: 0.685
+    true_std: 0.0097
+    value_gap_source_arxiv: '2402.00789'
+    value_gap_source_title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling
+      with Selective State Spaces'
     value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.013719999999999954
-    value_note: ''
-    paper_rank: 80
-    rank_delta: 76
-    rank_delta_abs: 76
-    rank_delta_direction: worse
-    sort_value: 0.98712
-    sort_std: 0.00137
+    has_value_gap: false
+    has_value_note: true
+    value_gap: 2.0000000000020002e-05
+    value_note: global 0.6850 within std
+    paper_rank: 25
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.685
+    sort_std: 0.0097
+    is_best: false
+  - model: GIN
+    model_key: gin
+    model_plain: GIN
+    value: 0.64716
+    std: 0.01553
+    paper_value: 0.64716
+    paper_std: 0.01553
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: Benchmarking GNNs
+    variant_inference_reason: 'dataset: exact match'
+    date: Jan 2024
+    date_display: Jan 2024
+    date_iso: 2024-01
+    global_rank: 26
+    true_value: 0.6472
+    true_std: 0.0155
+    value_gap_source_arxiv: '2402.00789'
+    value_gap_source_title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling
+      with Selective State Spaces'
+    value_gap_source_is_current_paper: false
+    has_value_gap: false
+    has_value_note: true
+    value_gap: 4.0000000000040004e-05
+    value_note: global 0.6472 within std
+    paper_rank: 26
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.6472
+    sort_std: 0.0155
+    is_best: false
+  metric: Accuracy
+  higher_is_better: true
+- &id005
+  dataset: MNIST
+  rows:
+  - model: Classical CNN
+    model_key: classical cnn
+    model_plain: Classical CNN
+    value: 0.9933
+    std: null
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1606.09375'
+    title: Convolutional Neural Networks on Graphs with Fast Localized Spectral Filtering
+    date: Jun 2016
+    date_display: Jun 2016
+    date_iso: 2016-06
+    codebase_url: https://github.com/mdeff/cnn_graph
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 1
+    sort_value: 0.9933
+    sort_std: null
+    is_best: true
+  - model: LeNet5
+    model_key: lenet5
+    model_plain: LeNet5
+    value: 0.9933
+    std: null
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 1.66
+    arxiv_id: '1705.07664'
+    title: 'CayleyNets: Graph Convolutional Neural Networks with Complex Rational
+      Spectral Filters'
+    date: May 2017
+    date_display: May 2017
+    date_iso: 2017-05
+    codebase_url: https://github.com/fmonti/mgcnn
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 2
+    sort_value: 0.9933
+    sort_std: null
+    is_best: true
+  - model: CayleyNets
+    model_key: cayleynets
+    model_plain: CayleyNets
+    value: 0.9918
+    std: null
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1705.07664'
+    title: 'CayleyNets: Graph Convolutional Neural Networks with Complex Rational
+      Spectral Filters'
+    date: May 2017
+    date_display: May 2017
+    date_iso: 2017-05
+    codebase_url: https://github.com/fmonti/mgcnn
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 3
+    sort_value: 0.9918
+    sort_std: null
     is_best: false
   - model: Exphormer
     model_key: exphormer
@@ -1271,59 +1271,23 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
-    global_rank: 10
+    global_rank: 8
     true_value: 0.9855
     true_std: 0.00039
-    value_gap_source_arxiv: '2502.09365'
-    value_gap_source_title: Simple Path Structural Encoding for Graph Transformers
+    value_gap_source_arxiv: '2502.00282'
+    value_gap_source_title: 'GraphMinNet: Learning Dependencies in Graphs with Light
+      Complexity Minimal Architecture'
     value_gap_source_is_current_paper: false
     has_value_gap: false
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 10
+    paper_rank: 8
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 0.9855
     sort_std: 0.00039
-    is_best: false
-  - model: GCN
-    model_key: gcn
-    model_plain: GCN
-    value: 0.90705
-    std: 0.00218
-    paper_value: 0.90705
-    paper_std: 0.00218
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: 'dataset: exact match'
-    date: Jan 2024
-    date_display: Jan 2024
-    date_iso: 2024-01
-    global_rank: 26
-    true_value: 0.98382
-    true_std: 0.00095
-    value_gap_source_arxiv: '2502.09263'
-    value_gap_source_title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks?
-      Simple Architectures Meet Excellence
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.07677
-    value_note: ''
-    paper_rank: 100
-    rank_delta: 74
-    rank_delta_abs: 74
-    rank_delta_direction: worse
-    sort_value: 0.98382
-    sort_std: 0.00095
     is_best: false
   - model: Eigenformer (feat.)
     model_key: eigenformer (feat.)
@@ -1334,42 +1298,6 @@ results:
     paper_std: null
     metric: Accuracy
     higher_is_better: true
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: 'dataset: exact match'
-    date: Jan 2024
-    date_display: Jan 2024
-    date_iso: 2024-01
-    global_rank: 28
-    true_value: 0.98362
-    true_std: null
-    value_gap_source_arxiv: '2401.17791'
-    value_gap_source_title: Graph Transformers without Positional Encodings
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 28
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.98362
-    sort_std: null
-    is_best: false
-  - model: GIN
-    model_key: gin
-    model_plain: GIN
-    value: 0.96485
-    std: 0.00252
-    paper_value: 0.96485
-    paper_std: 0.00252
-    metric: Accuracy
-    higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -1380,23 +1308,22 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
-    global_rank: 32
-    true_value: 0.98285
-    true_std: 0.00103
-    value_gap_source_arxiv: '2502.09263'
-    value_gap_source_title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks?
-      Simple Architectures Meet Excellence
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
+    global_rank: 12
+    true_value: 0.98362
+    true_std: null
+    value_gap_source_arxiv: '2401.17791'
+    value_gap_source_title: Graph Transformers without Positional Encodings
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
     has_value_note: false
-    value_gap: 0.018000000000000016
+    value_gap: null
     value_note: ''
-    paper_rank: 88
-    rank_delta: 56
-    rank_delta_abs: 56
-    rank_delta_direction: worse
-    sort_value: 0.98285
-    sort_std: 0.00103
+    paper_rank: 12
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.98362
+    sort_std: null
     is_best: false
   - model: EGT
     model_key: egt
@@ -1417,60 +1344,22 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
-    global_rank: 44
+    global_rank: 21
     true_value: 0.98173
     true_std: 0.00087
-    value_gap_source_arxiv: '2605.05689'
-    value_gap_source_title: 'GCCM: Enhancing Generative Graph Prediction via Contrastive
-      Consistency Model'
+    value_gap_source_arxiv: '2205.12454'
+    value_gap_source_title: Recipe for a General, Powerful, Scalable Graph Transformer
     value_gap_source_is_current_paper: false
     has_value_gap: false
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 44
+    paper_rank: 21
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 0.98173
     sort_std: 0.00087
-    is_best: false
-  - model: GPS
-    model_key: gps
-    model_plain: GPS
-    value: 0.98051
-    std: 0.00126
-    paper_value: 0.98051
-    paper_std: 0.00126
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: 'dataset: exact match'
-    date: Jan 2024
-    date_display: Jan 2024
-    date_iso: 2024-01
-    global_rank: 54
-    true_value: 0.9811
-    true_std: 0.0011
-    value_gap_source_arxiv: '2411.15671'
-    value_gap_source_title: 'Best of Both Worlds: Advantages of Hybrid Graph Sequence
-      Models'
-    value_gap_source_is_current_paper: false
-    has_value_gap: false
-    has_value_note: true
-    value_gap: 0.0005899999999999794
-    value_note: global 0.9811 within std
-    paper_rank: 62
-    rank_delta: 8
-    rank_delta_abs: 8
-    rank_delta_direction: worse
-    sort_value: 0.9811
-    sort_std: 0.0011
     is_best: false
   - model: GRIT
     model_key: grit
@@ -1491,23 +1380,60 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
-    global_rank: 57
+    global_rank: 27
     true_value: 0.98108
     true_std: 0.00111
-    value_gap_source_arxiv: '2605.05689'
-    value_gap_source_title: 'GCCM: Enhancing Generative Graph Prediction via Contrastive
-      Consistency Model'
+    value_gap_source_arxiv: '2502.00282'
+    value_gap_source_title: 'GraphMinNet: Learning Dependencies in Graphs with Light
+      Complexity Minimal Architecture'
     value_gap_source_is_current_paper: false
     has_value_gap: false
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 57
+    paper_rank: 27
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 0.98108
     sort_std: 0.00111
+    is_best: false
+  - model: GPS
+    model_key: gps
+    model_plain: GPS
+    value: 0.98051
+    std: 0.00126
+    paper_value: 0.98051
+    paper_std: 0.00126
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Jan 2024
+    date_display: Jan 2024
+    date_iso: 2024-01
+    global_rank: 28
+    true_value: 0.98082
+    true_std: 0.00114
+    value_gap_source_arxiv: '2605.05689'
+    value_gap_source_title: 'GCCM: Enhancing Generative Graph Prediction via Contrastive
+      Consistency Model'
+    value_gap_source_is_current_paper: false
+    has_value_gap: false
+    has_value_note: true
+    value_gap: 0.00031000000000003247
+    value_note: global 0.9808 within std
+    paper_rank: 28
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.98082
+    sort_std: 0.00114
     is_best: false
   - model: CRaW1
     model_key: craw1
@@ -1528,17 +1454,18 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
-    global_rank: 72
+    global_rank: 31
     true_value: 0.97944
     true_std: 0.0005
-    value_gap_source_arxiv: '2504.12588'
-    value_gap_source_title: Plain Transformers Can be Powerful Graph Learners
+    value_gap_source_arxiv: '2508.05070'
+    value_gap_source_title: 'Tango: Graph Neural Dynamics via Learned Energy and Tangential
+      Flows'
     value_gap_source_is_current_paper: false
     has_value_gap: false
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 72
+    paper_rank: 31
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1564,23 +1491,58 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
-    global_rank: 74
+    global_rank: 32
     true_value: 0.9794
     true_std: 0.0012
-    value_gap_source_arxiv: '2605.05689'
-    value_gap_source_title: 'GCCM: Enhancing Generative Graph Prediction via Contrastive
-      Consistency Model'
+    value_gap_source_arxiv: '2205.12454'
+    value_gap_source_title: Recipe for a General, Powerful, Scalable Graph Transformer
     value_gap_source_is_current_paper: false
     has_value_gap: false
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 74
+    paper_rank: 32
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 0.9794
     sort_std: 0.0012
+    is_best: false
+  - model: GatedGCN
+    model_key: gatedgcn
+    model_plain: GatedGCN
+    value: 0.9734
+    std: 0.00143
+    paper_value: 0.9734
+    paper_std: 0.00143
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Jan 2024
+    date_display: Jan 2024
+    date_iso: 2024-01
+    global_rank: 36
+    true_value: 0.9734
+    true_std: 0.00143
+    value_gap_source_arxiv: '2205.12454'
+    value_gap_source_title: Recipe for a General, Powerful, Scalable Graph Transformer
+    value_gap_source_is_current_paper: false
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 36
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.9734
+    sort_std: 0.00143
     is_best: false
   - model: Eigenformer
     model_key: eigenformer
@@ -1591,7 +1553,7 @@ results:
     paper_std: null
     metric: Accuracy
     higher_is_better: true
-    is_baseline: false
+    is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
@@ -1601,7 +1563,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
-    global_rank: 85
+    global_rank: 38
     true_value: 0.97142
     true_std: null
     value_gap_source_arxiv: '2401.17791'
@@ -1611,12 +1573,49 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 85
+    paper_rank: 38
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 0.97142
     sort_std: null
+    is_best: false
+  - model: GIN
+    model_key: gin
+    model_plain: GIN
+    value: 0.96485
+    std: 0.00252
+    paper_value: 0.96485
+    paper_std: 0.00252
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Jan 2024
+    date_display: Jan 2024
+    date_iso: 2024-01
+    global_rank: 39
+    true_value: 0.9649
+    true_std: 0.0025
+    value_gap_source_arxiv: '2402.00789'
+    value_gap_source_title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling
+      with Selective State Spaces'
+    value_gap_source_is_current_paper: false
+    has_value_gap: false
+    has_value_note: true
+    value_gap: 4.999999999999449e-05
+    value_note: global 0.9649 within std
+    paper_rank: 39
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.9649
+    sort_std: 0.0025
     is_best: false
   - model: GAT
     model_key: gat
@@ -1637,105 +1636,30 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
-    global_rank: 92
+    global_rank: 41
     true_value: 0.9554
-    true_std: 0.0021
-    value_gap_source_arxiv: '2411.15671'
-    value_gap_source_title: 'Best of Both Worlds: Advantages of Hybrid Graph Sequence
-      Models'
+    true_std: 0.00205
+    value_gap_source_arxiv: '2303.06147'
+    value_gap_source_title: 'Exphormer: Sparse Transformers for Graphs'
     value_gap_source_is_current_paper: false
     has_value_gap: false
     has_value_note: true
     value_gap: 4.999999999999449e-05
     value_note: global 0.9554 within std
-    paper_rank: 92
+    paper_rank: 41
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 0.9554
-    sort_std: 0.0021
+    sort_std: 0.00205
     is_best: false
-  metric: Accuracy
-  higher_is_better: true
-- &id006
-  dataset: PATTERN
-  rows:
-  - model: GRIT (our run)
-    model_key: grit (our run)
-    model_plain: GRIT (our run)
-    value: 0.90405
-    std: 0.00232
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2310.20519'
-    title: Enhancing Graph Neural Networks with Quantum Computed Encodings
-    date: Oct 2023
-    date_display: Oct 2023
-    date_iso: 2023-10
-    codebase_url: ''
-    uses_external_data: false
-    is_global_top: true
-    global_rank: 1
-    sort_value: 0.90405
-    sort_std: 0.00232
-    is_best: true
-  - model: GRIT 2-QiQRW
-    model_key: grit 2-qiqrw
-    model_plain: GRIT 2-QiQRW
-    value: 0.90165
-    std: 0.00446
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2310.20519'
-    title: Enhancing Graph Neural Networks with Quantum Computed Encodings
-    date: Oct 2023
-    date_display: Oct 2023
-    date_iso: 2023-10
-    codebase_url: ''
-    uses_external_data: false
-    is_global_top: true
-    global_rank: 2
-    sort_value: 0.90165
-    sort_std: 0.00446
-    is_best: true
-  - model: PPGT
-    model_key: ppgt
-    model_plain: PPGT
-    value: 0.89752
-    std: 0.0003
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2504.12588'
-    title: Plain Transformers Can be Powerful Graph Learners
-    date: Apr 2025
-    date_display: Apr 2025
-    date_iso: 2025-04
-    codebase_url: ''
-    uses_external_data: false
-    is_global_top: true
-    global_rank: 3
-    sort_value: 0.89752
-    sort_std: 0.0003
-    is_best: false
-  - model: GRIT
-    model_key: grit
-    model_plain: GRIT
-    value: 0.87196
-    std: 0.00076
-    paper_value: 0.87196
-    paper_std: 0.00076
+  - model: GCN
+    model_key: gcn
+    model_plain: GCN
+    value: 0.90705
+    std: 0.00218
+    paper_value: 0.90705
+    paper_std: 0.00218
     metric: Accuracy
     higher_is_better: true
     is_baseline: true
@@ -1748,23 +1672,87 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
-    global_rank: 20
-    true_value: 0.87196
-    true_std: 0.00076
-    value_gap_source_arxiv: '2605.05689'
-    value_gap_source_title: 'GCCM: Enhancing Generative Graph Prediction via Contrastive
-      Consistency Model'
+    global_rank: 43
+    true_value: 0.9071
+    true_std: 0.0021
+    value_gap_source_arxiv: '2402.00789'
+    value_gap_source_title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling
+      with Selective State Spaces'
     value_gap_source_is_current_paper: false
     has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 20
+    has_value_note: true
+    value_gap: 4.999999999999449e-05
+    value_note: global 0.9071 within std
+    paper_rank: 43
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
-    sort_value: 0.87196
-    sort_std: 0.00076
+    sort_value: 0.9071
+    sort_std: 0.0021
+    is_best: false
+  metric: Accuracy
+  higher_is_better: true
+- &id004
+  dataset: PATTERN
+  rows:
+  - model: DGN
+    model_key: dgn
+    model_plain: DGN
+    value: 0.8668
+    std: 0.00034
+    paper_value: 0.8668
+    paper_std: 0.00034
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: Benchmarking GNNs
+    variant_inference_reason: 'dataset: exact match'
+    date: Jan 2024
+    date_display: Jan 2024
+    date_iso: 2024-01
+    global_rank: 1
+    true_value: 0.96
+    true_std: 0.002
+    value_gap_source_arxiv: '2010.02863'
+    value_gap_source_title: Directional Graph Networks
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
+    has_value_note: false
+    value_gap: 0.09319999999999995
+    value_note: ''
+    paper_rank: 24
+    rank_delta: 23
+    rank_delta_abs: 23
+    rank_delta_direction: worse
+    sort_value: 0.96
+    sort_std: 0.002
+    is_best: true
+  - model: PNA
+    model_key: pna
+    model_plain: PNA
+    value: 0.93
+    std: 0.002
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2010.02863'
+    title: Directional Graph Networks
+    date: Oct 2020
+    date_display: Oct 2020
+    date_iso: 2020-10
+    codebase_url: https://github.com/Saro00/DGN
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 2
+    sort_value: 0.93
+    sort_std: 0.002
     is_best: false
   - model: GatedGCN
     model_key: gatedgcn
@@ -1780,28 +1768,122 @@ results:
     override_reason: ''
     params_millions: null
     table_ref: Table 1
-    source_ref: this paper
+    source_ref: Benchmarking GNNs
     variant_inference_reason: 'dataset: exact match'
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
-    global_rank: 25
-    true_value: 0.87029
-    true_std: 0.00037
-    value_gap_source_arxiv: '2502.09263'
-    value_gap_source_title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks?
-      Simple Architectures Meet Excellence
+    global_rank: 3
+    true_value: 0.92
+    true_std: 0.003
+    value_gap_source_arxiv: '2010.02863'
+    value_gap_source_title: Directional Graph Networks
     value_gap_source_is_current_paper: false
     has_value_gap: true
     has_value_note: false
-    value_gap: 0.014610000000000012
+    value_gap: 0.06432000000000004
     value_note: ''
-    paper_rank: 79
-    rank_delta: 54
-    rank_delta_abs: 54
+    paper_rank: 36
+    rank_delta: 33
+    rank_delta_abs: 33
     rank_delta_direction: worse
-    sort_value: 0.87029
-    sort_std: 0.00037
+    sort_value: 0.92
+    sort_std: 0.003
+    is_best: false
+  - model: GIN
+    model_key: gin
+    model_plain: GIN
+    value: 0.85387
+    std: 0.00136
+    paper_value: 0.85387
+    paper_std: 0.00136
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: Benchmarking GNNs
+    variant_inference_reason: 'dataset: exact match'
+    date: Jan 2024
+    date_display: Jan 2024
+    date_iso: 2024-01
+    global_rank: 4
+    true_value: 0.91
+    true_std: 0.003
+    value_gap_source_arxiv: '2010.02863'
+    value_gap_source_title: Directional Graph Networks
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
+    has_value_note: false
+    value_gap: 0.05613000000000001
+    value_note: ''
+    paper_rank: 38
+    rank_delta: 34
+    rank_delta_abs: 34
+    rank_delta_direction: worse
+    sort_value: 0.91
+    sort_std: 0.003
+    is_best: false
+  - model: GAT
+    model_key: gat
+    model_plain: GAT
+    value: 0.78271
+    std: 0.00186
+    paper_value: 0.78271
+    paper_std: 0.00186
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: Benchmarking GNNs
+    variant_inference_reason: 'dataset: exact match'
+    date: Jan 2024
+    date_display: Jan 2024
+    date_iso: 2024-01
+    global_rank: 5
+    true_value: 0.9
+    true_std: 0.004
+    value_gap_source_arxiv: '2010.02863'
+    value_gap_source_title: Directional Graph Networks
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
+    has_value_note: false
+    value_gap: 0.11729
+    value_note: ''
+    paper_rank: 43
+    rank_delta: 38
+    rank_delta_abs: 38
+    rank_delta_direction: worse
+    sort_value: 0.9
+    sort_std: 0.004
+    is_best: false
+  - model: GraphSAGE
+    model_key: graphsage
+    model_plain: GraphSAGE
+    value: 0.89
+    std: 0.004
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2010.02863'
+    title: Directional Graph Networks
+    date: Oct 2020
+    date_display: Oct 2020
+    date_iso: 2020-10
+    codebase_url: https://github.com/Saro00/DGN
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 6
+    sort_value: 0.89
+    sort_std: 0.004
     is_best: false
   - model: GCN
     model_key: gcn
@@ -1817,28 +1899,88 @@ results:
     override_reason: ''
     params_millions: null
     table_ref: Table 1
-    source_ref: this paper
+    source_ref: Benchmarking GNNs
     variant_inference_reason: 'dataset: exact match'
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
-    global_rank: 26
-    true_value: 0.87021
-    true_std: 0.00095
-    value_gap_source_arxiv: '2502.09263'
-    value_gap_source_title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks?
-      Simple Architectures Meet Excellence
+    global_rank: 7
+    true_value: 0.88
+    true_std: 0.005
+    value_gap_source_arxiv: '2010.02863'
+    value_gap_source_title: Directional Graph Networks
     value_gap_source_is_current_paper: false
     has_value_gap: true
     has_value_note: false
-    value_gap: 0.15129000000000004
+    value_gap: 0.16108
     value_note: ''
-    paper_rank: 89
-    rank_delta: 63
-    rank_delta_abs: 63
+    paper_rank: 45
+    rank_delta: 38
+    rank_delta_abs: 38
     rank_delta_direction: worse
-    sort_value: 0.87021
-    sort_std: 0.00095
+    sort_value: 0.88
+    sort_std: 0.005
+    is_best: false
+  - model: LRDs
+    model_key: lrds
+    model_plain: LRDs
+    value: 0.87552
+    std: 0.00123
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2502.00282'
+    title: 'GraphMinNet: Learning Dependencies in Graphs with Light Complexity Minimal
+      Architecture'
+    date: Feb 1, 2025
+    date_display: Feb 2025
+    date_iso: '2025-02-01'
+    codebase_url: ''
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 8
+    sort_value: 0.87552
+    sort_std: 0.00123
+    is_best: false
+  - model: GRIT
+    model_key: grit
+    model_plain: GRIT
+    value: 0.87196
+    std: 0.00076
+    paper_value: 0.87196
+    paper_std: 0.00076
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: Benchmarking GNNs
+    variant_inference_reason: 'dataset: exact match'
+    date: Jan 2024
+    date_display: Jan 2024
+    date_iso: 2024-01
+    global_rank: 10
+    true_value: 0.87196
+    true_std: 0.00076
+    value_gap_source_arxiv: '2312.01538'
+    value_gap_source_title: Recurrent Distance Filtering for Graph Representation
+      Learning
+    value_gap_source_is_current_paper: false
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 10
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.87196
+    sort_std: 0.00076
     is_best: false
   - model: GIN-AK+
     model_key: gin-ak+
@@ -1854,23 +1996,22 @@ results:
     override_reason: ''
     params_millions: null
     table_ref: Table 1
-    source_ref: this paper
+    source_ref: Benchmarking GNNs
     variant_inference_reason: 'dataset: exact match'
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
-    global_rank: 37
+    global_rank: 13
     true_value: 0.8685
     true_std: 0.00057
-    value_gap_source_arxiv: '2605.05689'
-    value_gap_source_title: 'GCCM: Enhancing Generative Graph Prediction via Contrastive
-      Consistency Model'
+    value_gap_source_arxiv: '2303.06147'
+    value_gap_source_title: 'Exphormer: Sparse Transformers for Graphs'
     value_gap_source_is_current_paper: false
     has_value_gap: false
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 37
+    paper_rank: 13
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1891,64 +2032,27 @@ results:
     override_reason: ''
     params_millions: null
     table_ref: Table 1
-    source_ref: this paper
+    source_ref: Benchmarking GNNs
     variant_inference_reason: 'dataset: exact match'
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
-    global_rank: 38
-    true_value: 0.86848
+    global_rank: 14
+    true_value: 0.8685
     true_std: 0.00037
-    value_gap_source_arxiv: '2504.12588'
-    value_gap_source_title: Plain Transformers Can be Powerful Graph Learners
+    value_gap_source_arxiv: '2303.06147'
+    value_gap_source_title: 'Exphormer: Sparse Transformers for Graphs'
     value_gap_source_is_current_paper: false
     has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 38
+    has_value_note: true
+    value_gap: 2.0000000000020002e-05
+    value_note: global 0.8685 within std
+    paper_rank: 14
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
-    sort_value: 0.86848
+    sort_value: 0.8685
     sort_std: 0.00037
-    is_best: false
-  - model: GIN
-    model_key: gin
-    model_plain: GIN
-    value: 0.85387
-    std: 0.00136
-    paper_value: 0.85387
-    paper_std: 0.00136
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: 'dataset: exact match'
-    date: Jan 2024
-    date_display: Jan 2024
-    date_iso: 2024-01
-    global_rank: 40
-    true_value: 0.86842
-    true_std: 0.00048
-    value_gap_source_arxiv: '2502.09263'
-    value_gap_source_title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks?
-      Simple Architectures Meet Excellence
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.014549999999999952
-    value_note: ''
-    paper_rank: 80
-    rank_delta: 40
-    rank_delta_abs: 40
-    rank_delta_direction: worse
-    sort_value: 0.86842
-    sort_std: 0.00048
     is_best: false
   - model: EGT
     model_key: egt
@@ -1964,23 +2068,23 @@ results:
     override_reason: ''
     params_millions: null
     table_ref: Table 1
-    source_ref: this paper
+    source_ref: Benchmarking GNNs
     variant_inference_reason: 'dataset: exact match'
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
-    global_rank: 42
+    global_rank: 16
     true_value: 0.86821
     true_std: 0.0002
-    value_gap_source_arxiv: '2605.05689'
-    value_gap_source_title: 'GCCM: Enhancing Generative Graph Prediction via Contrastive
-      Consistency Model'
+    value_gap_source_arxiv: '2312.01538'
+    value_gap_source_title: Recurrent Distance Filtering for Graph Representation
+      Learning
     value_gap_source_is_current_paper: false
     has_value_gap: false
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 42
+    paper_rank: 16
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2001,26 +2105,27 @@ results:
     override_reason: ''
     params_millions: null
     table_ref: Table 1
-    source_ref: this paper
+    source_ref: Benchmarking GNNs
     variant_inference_reason: 'dataset: exact match'
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
-    global_rank: 48
-    true_value: 0.86742
+    global_rank: 19
+    true_value: 0.8674
     true_std: 0.00015
-    value_gap_source_arxiv: '2502.09365'
-    value_gap_source_title: Simple Path Structural Encoding for Graph Transformers
+    value_gap_source_arxiv: '2502.00282'
+    value_gap_source_title: 'GraphMinNet: Learning Dependencies in Graphs with Light
+      Complexity Minimal Architecture'
     value_gap_source_is_current_paper: false
     has_value_gap: false
-    has_value_note: true
-    value_gap: 2.0000000000020002e-05
-    value_note: global 0.8674 within std
-    paper_rank: 49
-    rank_delta: 1
-    rank_delta_abs: 1
-    rank_delta_direction: worse
-    sort_value: 0.86742
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 19
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.8674
     sort_std: 0.00015
     is_best: false
   - model: Eigenformer (feat.)
@@ -2032,7 +2137,7 @@ results:
     paper_std: null
     metric: Accuracy
     higher_is_better: true
-    is_baseline: false
+    is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
@@ -2042,7 +2147,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
-    global_rank: 50
+    global_rank: 20
     true_value: 0.86738
     true_std: null
     value_gap_source_arxiv: '2401.17791'
@@ -2052,7 +2157,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 50
+    paper_rank: 20
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2073,35 +2178,36 @@ results:
     override_reason: ''
     params_millions: null
     table_ref: Table 1
-    source_ref: this paper
+    source_ref: Benchmarking GNNs
     variant_inference_reason: 'dataset: exact match'
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
-    global_rank: 56
-    true_value: 0.86688
-    true_std: 0.00073
-    value_gap_source_arxiv: '2502.09365'
-    value_gap_source_title: Simple Path Structural Encoding for Graph Transformers
+    global_rank: 24
+    true_value: 0.86685
+    true_std: 0.00059
+    value_gap_source_arxiv: '2312.01538'
+    value_gap_source_title: Recurrent Distance Filtering for Graph Representation
+      Learning
     value_gap_source_is_current_paper: false
     has_value_gap: false
-    has_value_note: true
-    value_gap: 2.999999999997449e-05
-    value_note: global 0.8669 within std
-    paper_rank: 56
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 24
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
-    sort_value: 0.86688
-    sort_std: 0.00073
+    sort_value: 0.86685
+    sort_std: 0.00059
     is_best: false
-  - model: DGN
-    model_key: dgn
-    model_plain: DGN
+  - model: Eigenformer
+    model_key: eigenformer
+    model_plain: Eigenformer
     value: 0.8668
-    std: 0.00034
+    std: null
     paper_value: 0.8668
-    paper_std: 0.00034
+    paper_std: null
     metric: Accuracy
     higher_is_better: true
     is_baseline: true
@@ -2114,44 +2220,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
-    global_rank: 59
-    true_value: 0.8668
-    true_std: 0.00034
-    value_gap_source_arxiv: '2605.05689'
-    value_gap_source_title: 'GCCM: Enhancing Generative Graph Prediction via Contrastive
-      Consistency Model'
-    value_gap_source_is_current_paper: false
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 59
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.8668
-    sort_std: 0.00034
-    is_best: false
-  - model: Eigenformer
-    model_key: eigenformer
-    model_plain: Eigenformer
-    value: 0.8668
-    std: null
-    paper_value: 0.8668
-    paper_std: null
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: 'dataset: exact match'
-    date: Jan 2024
-    date_display: Jan 2024
-    date_iso: 2024-01
-    global_rank: 60
+    global_rank: 25
     true_value: 0.8668
     true_std: null
     value_gap_source_arxiv: '2401.17791'
@@ -2161,7 +2230,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 60
+    paper_rank: 25
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2182,213 +2251,105 @@ results:
     override_reason: ''
     params_millions: null
     table_ref: Table 1
-    source_ref: this paper
+    source_ref: Benchmarking GNNs
     variant_inference_reason: 'dataset: exact match'
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
-    global_rank: 66
+    global_rank: 29
     true_value: 0.86581
     true_std: 0.00037
-    value_gap_source_arxiv: '2605.05689'
-    value_gap_source_title: 'GCCM: Enhancing Generative Graph Prediction via Contrastive
-      Consistency Model'
+    value_gap_source_arxiv: '2312.01538'
+    value_gap_source_title: Recurrent Distance Filtering for Graph Representation
+      Learning
     value_gap_source_is_current_paper: false
     has_value_gap: false
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 66
+    paper_rank: 29
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 0.86581
     sort_std: 0.00037
     is_best: false
-  - model: GAT
-    model_key: gat
-    model_plain: GAT
-    value: 0.78271
-    std: 0.00186
-    paper_value: 0.78271
-    paper_std: 0.00186
-    metric: Accuracy
+  metric: Accuracy
+  higher_is_better: true
+- &id003
+  dataset: Peptides-func
+  rows:
+  - model: S2GCN +PE
+    model_key: s2gcn +pe
+    model_plain: S2GCN +PE
+    value: 0.7311
+    std: 0.0066
+    metric: AP
     higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: 'dataset: exact match'
-    date: Jan 2024
-    date_display: Jan 2024
-    date_iso: 2024-01
-    global_rank: 88
-    true_value: 0.78271
-    true_std: 0.00186
-    value_gap_source_arxiv: '2605.05689'
-    value_gap_source_title: 'GCCM: Enhancing Generative Graph Prediction via Contrastive
-      Consistency Model'
-    value_gap_source_is_current_paper: false
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 88
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.78271
-    sort_std: 0.00186
-    is_best: false
-  metric: Accuracy
-  higher_is_better: true
-- &id002
-  dataset: Peptides-func
-  rows:
-  - model: LightGBM (ECFP)
-    model_key: lightgbm (ecfp)
-    model_plain: LightGBM (ECFP)
-    value: 0.746
-    std: null
-    metric: AP
-    higher_is_better: true
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2501.17901'
-    title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: Jan 29, 2025
-    date_display: Jan 2025
-    date_iso: '2025-01-29'
-    codebase_url: ''
+    arxiv_id: '2506.07624'
+    title: 'Return of ChebNet: Understanding and Improving an Overlooked GNN on Long-Range
+      Tasks'
+    date: Jun 2025
+    date_display: Jun 2025
+    date_iso: 2025-06
+    codebase_url: https://github.com/ahariri13/Stable-ChebNet
     uses_external_data: false
     is_global_top: true
     global_rank: 1
-    sort_value: 0.746
-    sort_std: null
+    sort_value: 0.7311
+    sort_std: 0.0066
     is_best: true
-  - model: Random Forest (ECFP)
-    model_key: random forest (ecfp)
-    model_plain: Random Forest (ECFP)
-    value: 0.7355
-    std: 0.001
+  - model: S2GCN
+    model_key: s2gcn
+    model_plain: S2GCN
+    value: 0.7275
+    std: 0.0066
     metric: AP
     higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2501.17901'
-    title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: Jan 29, 2025
-    date_display: Jan 2025
-    date_iso: '2025-01-29'
-    codebase_url: ''
+    arxiv_id: '2506.07624'
+    title: 'Return of ChebNet: Understanding and Improving an Overlooked GNN on Long-Range
+      Tasks'
+    date: Jun 2025
+    date_display: Jun 2025
+    date_iso: 2025-06
+    codebase_url: https://github.com/ahariri13/Stable-ChebNet
     uses_external_data: false
     is_global_top: true
     global_rank: 2
-    sort_value: 0.7355
-    sort_std: 0.001
-    is_best: false
-  - model: LightGBM (TT)
-    model_key: lightgbm (tt)
-    model_plain: LightGBM (TT)
-    value: 0.7318
-    std: null
+    sort_value: 0.7275
+    sort_std: 0.0066
+    is_best: true
+  - model: LRDs
+    model_key: lrds
+    model_plain: LRDs
+    value: 0.7182
+    std: 0.0024
     metric: AP
     higher_is_better: true
     is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2501.17901'
-    title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: Jan 29, 2025
-    date_display: Jan 2025
-    date_iso: '2025-01-29'
+    arxiv_id: '2502.00282'
+    title: 'GraphMinNet: Learning Dependencies in Graphs with Light Complexity Minimal
+      Architecture'
+    date: Feb 1, 2025
+    date_display: Feb 2025
+    date_iso: '2025-02-01'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
     global_rank: 3
-    sort_value: 0.7318
-    sort_std: null
-    is_best: false
-  - model: GCN
-    model_key: gcn
-    model_plain: GCN
-    value: 0.593
-    std: 0.0023
-    paper_value: 0.593
-    paper_std: 0.0023
-    metric: AP
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: 'dataset: exact match'
-    date: Jan 2024
-    date_display: Jan 2024
-    date_iso: 2024-01
-    global_rank: 9
-    true_value: 0.7261
-    true_std: 0.0067
-    value_gap_source_arxiv: '2502.09263'
-    value_gap_source_title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks?
-      Simple Architectures Meet Excellence
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.1331
-    value_note: ''
-    paper_rank: 261
-    rank_delta: 252
-    rank_delta_abs: 252
-    rank_delta_direction: worse
-    sort_value: 0.7261
-    sort_std: 0.0067
-    is_best: false
-  - model: GatedGCN
-    model_key: gatedgcn
-    model_plain: GatedGCN
-    value: 0.5864
-    std: 0.0035
-    paper_value: 0.5864
-    paper_std: 0.0035
-    metric: AP
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: 'dataset: exact match'
-    date: Jan 2024
-    date_display: Jan 2024
-    date_iso: 2024-01
-    global_rank: 49
-    true_value: 0.7006
-    true_std: 0.0033
-    value_gap_source_arxiv: '2502.09263'
-    value_gap_source_title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks?
-      Simple Architectures Meet Excellence
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.11419999999999997
-    value_note: ''
-    paper_rank: 273
-    rank_delta: 224
-    rank_delta_abs: 224
-    rank_delta_direction: worse
-    sort_value: 0.7006
-    sort_std: 0.0033
+    sort_value: 0.7182
+    sort_std: 0.0024
     is_best: false
   - model: GRIT
     model_key: grit
@@ -2409,29 +2370,67 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
-    global_rank: 53
+    global_rank: 19
     true_value: 0.6988
     true_std: 0.0082
-    value_gap_source_arxiv: '2605.06462'
-    value_gap_source_title: Invariant-Based Diagnostics for Graph Benchmarks
+    value_gap_source_arxiv: '2312.01538'
+    value_gap_source_title: Recurrent Distance Filtering for Graph Representation
+      Learning
     value_gap_source_is_current_paper: false
     has_value_gap: false
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 53
+    paper_rank: 19
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 0.6988
     sort_std: 0.0082
     is_best: false
-  - model: GatedGCN+RWSE
-    model_key: gatedgcn+rwse
-    model_plain: GatedGCN+RWSE
-    value: 0.6069
+  - model: GCN
+    model_key: gcn
+    model_plain: GCN
+    value: 0.593
+    std: 0.0023
+    paper_value: 0.593
+    paper_std: 0.0023
+    metric: AP
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Jan 2024
+    date_display: Jan 2024
+    date_iso: 2024-01
+    global_rank: 28
+    true_value: 0.686
+    true_std: 0.005
+    value_gap_source_arxiv: '2312.01538'
+    value_gap_source_title: Recurrent Distance Filtering for Graph Representation
+      Learning
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
+    has_value_note: false
+    value_gap: 0.09300000000000008
+    value_note: ''
+    paper_rank: 78
+    rank_delta: 50
+    rank_delta_abs: 50
+    rank_delta_direction: worse
+    sort_value: 0.686
+    sort_std: 0.005
+    is_best: false
+  - model: GatedGCN
+    model_key: gatedgcn
+    model_plain: GatedGCN
+    value: 0.5864
     std: 0.0035
-    paper_value: 0.6069
+    paper_value: 0.5864
     paper_std: 0.0035
     metric: AP
     higher_is_better: true
@@ -2445,23 +2444,23 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
-    global_rank: 133
-    true_value: 0.6685
-    true_std: 0.0062
-    value_gap_source_arxiv: '2409.19117'
-    value_gap_source_title: 'Range-aware Positional Encoding via High-order Pretraining:
-      Theory and Practice'
+    global_rank: 35
+    true_value: 0.6765
+    true_std: 0.0047
+    value_gap_source_arxiv: '2312.01538'
+    value_gap_source_title: Recurrent Distance Filtering for Graph Representation
+      Learning
     value_gap_source_is_current_paper: false
     has_value_gap: true
     has_value_note: false
-    value_gap: 0.06159999999999999
+    value_gap: 0.09009999999999996
     value_note: ''
-    paper_rank: 239
-    rank_delta: 106
-    rank_delta_abs: 106
+    paper_rank: 78
+    rank_delta: 43
+    rank_delta_abs: 43
     rank_delta_direction: worse
-    sort_value: 0.6685
-    sort_std: 0.0062
+    sort_value: 0.6765
+    sort_std: 0.0047
     is_best: false
   - model: GINE
     model_key: gine
@@ -2482,20 +2481,20 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
-    global_rank: 142
+    global_rank: 45
     true_value: 0.6621
     true_std: 0.0067
-    value_gap_source_arxiv: '2309.00367'
-    value_gap_source_title: Where Did the Gap Go? Reassessing the Long-Range Graph
-      Benchmark
+    value_gap_source_arxiv: '2312.01538'
+    value_gap_source_title: Recurrent Distance Filtering for Graph Representation
+      Learning
     value_gap_source_is_current_paper: false
     has_value_gap: true
     has_value_note: false
     value_gap: 0.11230000000000007
     value_note: ''
-    paper_rank: 288
-    rank_delta: 146
-    rank_delta_abs: 146
+    paper_rank: 83
+    rank_delta: 38
+    rank_delta_abs: 38
     rank_delta_direction: worse
     sort_value: 0.6621
     sort_std: 0.0067
@@ -2519,58 +2518,23 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
-    global_rank: 154
-    true_value: 0.6601
-    true_std: 0.0061
-    value_gap_source_arxiv: '2502.09365'
-    value_gap_source_title: Simple Path Structural Encoding for Graph Transformers
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.00660000000000005
-    value_note: ''
-    paper_rank: 168
-    rank_delta: 14
-    rank_delta_abs: 14
-    rank_delta_direction: worse
-    sort_value: 0.6601
-    sort_std: 0.0061
-    is_best: false
-  - model: Exphormer
-    model_key: exphormer
-    model_plain: Exphormer
-    value: 0.6527
-    std: 0.0043
-    paper_value: 0.6527
-    paper_std: 0.0043
-    metric: AP
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: 'dataset: exact match'
-    date: Jan 2024
-    date_display: Jan 2024
-    date_iso: 2024-01
-    global_rank: 178
-    true_value: 0.6527
-    true_std: 0.0043
-    value_gap_source_arxiv: '2605.06462'
-    value_gap_source_title: Invariant-Based Diagnostics for Graph Benchmarks
+    global_rank: 50
+    true_value: 0.6565
+    true_std: 0.0038
+    value_gap_source_arxiv: '2602.02268'
+    value_gap_source_title: 'HopFormer: Sparse Graph Transformers with Explicit Receptive
+      Field Control'
     value_gap_source_is_current_paper: false
     has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 178
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.6527
-    sort_std: 0.0043
+    has_value_note: true
+    value_gap: 0.0030000000000000027
+    value_note: global 0.6565 within std
+    paper_rank: 52
+    rank_delta: 2
+    rank_delta_abs: 2
+    rank_delta_direction: worse
+    sort_value: 0.6565
+    sort_std: 0.0038
     is_best: false
   - model: SAN+RWSE
     model_key: san+rwse
@@ -2591,23 +2555,60 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
-    global_rank: 200
-    true_value: 0.644
-    true_std: 0.008
-    value_gap_source_arxiv: '2309.16014'
-    value_gap_source_title: Graph-level Representation Learning with Joint-Embedding
-      Predictive Architectures
+    global_rank: 51
+    true_value: 0.6562
+    true_std: 0.0075
+    value_gap_source_arxiv: '2302.08647'
+    value_gap_source_title: Multiresolution Graph Transformers and Wavelet Positional
+      Encoding for Learning Hierarchical Structures
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
+    has_value_note: false
+    value_gap: 0.012299999999999978
+    value_note: ''
+    paper_rank: 63
+    rank_delta: 12
+    rank_delta_abs: 12
+    rank_delta_direction: worse
+    sort_value: 0.6562
+    sort_std: 0.0075
+    is_best: false
+  - model: Exphormer
+    model_key: exphormer
+    model_plain: Exphormer
+    value: 0.6527
+    std: 0.0043
+    paper_value: 0.6527
+    paper_std: 0.0043
+    metric: AP
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Jan 2024
+    date_display: Jan 2024
+    date_iso: 2024-01
+    global_rank: 58
+    true_value: 0.6527
+    true_std: 0.0043
+    value_gap_source_arxiv: '2502.00282'
+    value_gap_source_title: 'GraphMinNet: Learning Dependencies in Graphs with Light
+      Complexity Minimal Architecture'
     value_gap_source_is_current_paper: false
     has_value_gap: false
-    has_value_note: true
-    value_gap: 9.999999999998899e-05
-    value_note: global 0.6440 within std
-    paper_rank: 201
-    rank_delta: 1
-    rank_delta_abs: 1
-    rank_delta_direction: worse
-    sort_value: 0.644
-    sort_std: 0.008
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 58
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.6527
+    sort_std: 0.0043
     is_best: false
   - model: Eigenformer
     model_key: eigenformer
@@ -2618,7 +2619,7 @@ results:
     paper_std: null
     metric: AP
     higher_is_better: true
-    is_baseline: false
+    is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
@@ -2628,7 +2629,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
-    global_rank: 209
+    global_rank: 66
     true_value: 0.6414
     true_std: null
     value_gap_source_arxiv: '2401.17791'
@@ -2638,7 +2639,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 209
+    paper_rank: 66
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2664,21 +2665,21 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
-    global_rank: 212
-    true_value: 0.6384000000000001
+    global_rank: 67
+    true_value: 0.6384
     true_std: 0.0121
-    value_gap_source_arxiv: '2510.02565'
-    value_gap_source_title: On The Expressive Power of GNN Derivatives
+    value_gap_source_arxiv: '2206.08164'
+    value_gap_source_title: Long Range Graph Benchmark
     value_gap_source_is_current_paper: false
     has_value_gap: false
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 212
+    paper_rank: 67
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
-    sort_value: 0.6384000000000001
+    sort_value: 0.6384
     sort_std: 0.0121
     is_best: false
   - model: Transformer+LapPE
@@ -2700,17 +2701,17 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
-    global_rank: 217
+    global_rank: 69
     true_value: 0.6326
     true_std: 0.0126
     value_gap_source_arxiv: '2206.08164'
-    value_gap_source_title: LRGB
+    value_gap_source_title: Long Range Graph Benchmark
     value_gap_source_is_current_paper: false
     has_value_gap: false
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 217
+    paper_rank: 69
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2726,7 +2727,7 @@ results:
     paper_std: null
     metric: AP
     higher_is_better: true
-    is_baseline: false
+    is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
@@ -2736,7 +2737,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
-    global_rank: 221
+    global_rank: 71
     true_value: 0.6317
     true_std: null
     value_gap_source_arxiv: '2401.17791'
@@ -2746,63 +2747,124 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 221
+    paper_rank: 71
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 0.6317
     sort_std: null
     is_best: false
+  - model: GatedGCN+RWSE
+    model_key: gatedgcn+rwse
+    model_plain: GatedGCN+RWSE
+    value: 0.6069
+    std: 0.0035
+    paper_value: 0.6069
+    paper_std: 0.0035
+    metric: AP
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Jan 2024
+    date_display: Jan 2024
+    date_iso: 2024-01
+    global_rank: 75
+    true_value: 0.6069
+    true_std: 0.0035
+    value_gap_source_arxiv: '2206.08164'
+    value_gap_source_title: Long Range Graph Benchmark
+    value_gap_source_is_current_paper: false
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 75
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.6069
+    sort_std: 0.0035
+    is_best: false
   metric: AP
   higher_is_better: true
-- &id003
+- &id002
   dataset: Peptides-struct
   rows:
-  - model: ESA
-    model_key: esa
-    model_plain: ESA
-    value: 0.2393
-    std: 0.0004
+  - model: Tango_GPS
+    model_key: tango_gps
+    model_plain: Tango_GPS
+    value: 0.2422
+    std: 0.0014
     metric: MAE
     higher_is_better: false
     is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2402.10793'
-    title: An end-to-end attention-based approach for learning on graphs
-    date: Feb 2024
-    date_display: Feb 2024
-    date_iso: 2024-02
+    arxiv_id: '2508.05070'
+    title: 'Tango: Graph Neural Dynamics via Learned Energy and Tangential Flows'
+    date: Aug 2025
+    date_display: Aug 2025
+    date_iso: 2025-08
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
     global_rank: 1
-    sort_value: 0.2393
-    sort_std: 0.0004
+    sort_value: 0.2422
+    sort_std: 0.0014
     is_best: true
-  - model: GRPE-FFGT
-    model_key: grpe-ffgt
-    model_plain: GRPE-FFGT
-    value: 0.2416
-    std: 0.0026
+  - model: B-PEARL+SRF
+    model_key: b-pearl+srf
+    model_plain: B-PEARL+SRF
+    value: 0.243
+    std: null
     metric: MAE
     higher_is_better: false
-    is_baseline: false
+    is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2311.04653'
-    title: Hybrid Focal and Full-Range Attention Based Graph Transformers
-    date: Nov 2023
-    date_display: Nov 2023
-    date_iso: 2023-11
-    codebase_url: ''
+    arxiv_id: '2511.03824'
+    title: Sketch-Augmented Features Improve Learning Long-Range Dependencies in Graph
+      Neural Networks
+    date: Nov 2025
+    date_display: Nov 2025
+    date_iso: 2025-11
+    codebase_url: https://github.com/ryienh/sketched-random-features
     uses_external_data: false
     is_global_top: true
     global_rank: 2
-    sort_value: 0.2416
-    sort_std: 0.0026
+    sort_value: 0.243
+    sort_std: null
+    is_best: true
+  - model: GRAMA
+    model_key: grama
+    model_plain: GRAMA
+    value: 0.2436
+    std: 0.0022
+    metric: MAE
+    higher_is_better: false
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2506.07624'
+    title: 'Return of ChebNet: Understanding and Improving an Overlooked GNN on Long-Range
+      Tasks'
+    date: Jun 2025
+    date_display: Jun 2025
+    date_iso: 2025-06
+    codebase_url: https://github.com/ahariri13/Stable-ChebNet
+    uses_external_data: null
+    is_global_top: true
+    global_rank: 3
+    sort_value: 0.2436
+    sort_std: 0.0022
     is_best: true
   - model: GCN
     model_key: gcn
@@ -2823,83 +2885,23 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
-    global_rank: 3
-    true_value: 0.2421
-    true_std: 0.0016
-    value_gap_source_arxiv: '2502.09263'
-    value_gap_source_title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks?
-      Simple Architectures Meet Excellence
+    global_rank: 14
+    true_value: 0.246
+    true_std: 0.0007
+    value_gap_source_arxiv: '2312.01538'
+    value_gap_source_title: Recurrent Distance Filtering for Graph Representation
+      Learning
     value_gap_source_is_current_paper: false
     has_value_gap: true
     has_value_note: false
-    value_gap: 0.10750000000000001
+    value_gap: 0.10360000000000003
     value_note: ''
-    paper_rank: 304
-    rank_delta: 301
-    rank_delta_abs: 301
+    paper_rank: 94
+    rank_delta: 80
+    rank_delta_abs: 80
     rank_delta_direction: worse
-    sort_value: 0.2421
-    sort_std: 0.0016
-    is_best: false
-  - model: Tango_GPS
-    model_key: tango_gps
-    model_plain: Tango_GPS
-    value: 0.2422
-    std: 0.0014
-    metric: MAE
-    higher_is_better: false
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2508.05070'
-    title: 'Tango: Graph Neural Dynamics via Learned Energy and Tangential Flows'
-    date: Aug 2025
-    date_display: Aug 2025
-    date_iso: 2025-08
-    codebase_url: ''
-    uses_external_data: false
-    is_global_top: true
-    global_rank: 4
-    sort_value: 0.2422
-    sort_std: 0.0014
-    is_best: false
-  - model: GatedGCN
-    model_key: gatedgcn
-    model_plain: GatedGCN
-    value: 0.342
-    std: 0.0013
-    paper_value: 0.342
-    paper_std: 0.0013
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: 'dataset: exact match'
-    date: Jan 2024
-    date_display: Jan 2024
-    date_iso: 2024-01
-    global_rank: 12
-    true_value: 0.2431
-    true_std: 0.002
-    value_gap_source_arxiv: '2502.09263'
-    value_gap_source_title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks?
-      Simple Architectures Meet Excellence
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.09890000000000002
-    value_note: ''
-    paper_rank: 297
-    rank_delta: 285
-    rank_delta_abs: 285
-    rank_delta_direction: worse
-    sort_value: 0.2431
-    sort_std: 0.002
+    sort_value: 0.246
+    sort_std: 0.0007
     is_best: false
   - model: GRIT
     model_key: grit
@@ -2920,17 +2922,18 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
-    global_rank: 56
+    global_rank: 15
     true_value: 0.246
     true_std: 0.0012
-    value_gap_source_arxiv: '2605.06462'
-    value_gap_source_title: Invariant-Based Diagnostics for Graph Benchmarks
+    value_gap_source_arxiv: '2312.01538'
+    value_gap_source_title: Recurrent Distance Filtering for Graph Representation
+      Learning
     value_gap_source_is_current_paper: false
     has_value_gap: false
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 56
+    paper_rank: 15
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2956,23 +2959,60 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
-    global_rank: 79
+    global_rank: 22
     true_value: 0.2473
     true_std: 0.0017
-    value_gap_source_arxiv: '2604.03815'
-    value_gap_source_title: k-Maximum Inner Product Attention for Graph Transformers
-      and the Expressive Power of GraphGPS
+    value_gap_source_arxiv: '2312.01538'
+    value_gap_source_title: Recurrent Distance Filtering for Graph Representation
+      Learning
     value_gap_source_is_current_paper: false
     has_value_gap: true
     has_value_note: false
     value_gap: 0.10740000000000002
     value_note: ''
-    paper_rank: 311
-    rank_delta: 232
-    rank_delta_abs: 232
+    paper_rank: 94
+    rank_delta: 72
+    rank_delta_abs: 72
     rank_delta_direction: worse
     sort_value: 0.2473
     sort_std: 0.0017
+    is_best: false
+  - model: GatedGCN
+    model_key: gatedgcn
+    model_plain: GatedGCN
+    value: 0.342
+    std: 0.0013
+    paper_value: 0.342
+    paper_std: 0.0013
+    metric: MAE
+    higher_is_better: false
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Jan 2024
+    date_display: Jan 2024
+    date_iso: 2024-01
+    global_rank: 31
+    true_value: 0.2477
+    true_std: 0.0009
+    value_gap_source_arxiv: '2312.01538'
+    value_gap_source_title: Recurrent Distance Filtering for Graph Representation
+      Learning
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
+    has_value_note: false
+    value_gap: 0.09430000000000002
+    value_note: ''
+    paper_rank: 93
+    rank_delta: 62
+    rank_delta_abs: 62
+    rank_delta_direction: worse
+    sort_value: 0.2477
+    sort_std: 0.0009
     is_best: false
   - model: Exphormer
     model_key: exphormer
@@ -2993,17 +3033,18 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
-    global_rank: 102
+    global_rank: 37
     true_value: 0.2481
     true_std: 0.0007
-    value_gap_source_arxiv: '2605.06462'
-    value_gap_source_title: Invariant-Based Diagnostics for Graph Benchmarks
+    value_gap_source_arxiv: '2502.00282'
+    value_gap_source_title: 'GraphMinNet: Learning Dependencies in Graphs with Light
+      Complexity Minimal Architecture'
     value_gap_source_is_current_paper: false
     has_value_gap: false
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 102
+    paper_rank: 37
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -3029,17 +3070,18 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
-    global_rank: 135
+    global_rank: 44
     true_value: 0.25
     true_std: 0.0005
-    value_gap_source_arxiv: '2605.06462'
-    value_gap_source_title: Invariant-Based Diagnostics for Graph Benchmarks
+    value_gap_source_arxiv: '2312.01538'
+    value_gap_source_title: Recurrent Distance Filtering for Graph Representation
+      Learning
     value_gap_source_is_current_paper: false
     has_value_gap: false
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 135
+    paper_rank: 44
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -3065,59 +3107,22 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
-    global_rank: 168
+    global_rank: 55
     true_value: 0.2529
     true_std: 0.0016
     value_gap_source_arxiv: '2206.08164'
-    value_gap_source_title: LRGB
+    value_gap_source_title: Long Range Graph Benchmark
     value_gap_source_is_current_paper: false
     has_value_gap: false
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 168
+    paper_rank: 55
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 0.2529
     sort_std: 0.0016
-    is_best: false
-  - model: GatedGCN+RWSE
-    model_key: gatedgcn+rwse
-    model_plain: GatedGCN+RWSE
-    value: 0.3357
-    std: 0.0006
-    paper_value: 0.3357
-    paper_std: 0.0006
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: 'dataset: exact match'
-    date: Jan 2024
-    date_display: Jan 2024
-    date_iso: 2024-01
-    global_rank: 167
-    true_value: 0.2529
-    true_std: 0.0009
-    value_gap_source_arxiv: '2409.19117'
-    value_gap_source_title: 'Range-aware Positional Encoding via High-order Pretraining:
-      Theory and Practice'
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.08279999999999998
-    value_note: ''
-    paper_rank: 289
-    rank_delta: 122
-    rank_delta_abs: 122
-    rank_delta_direction: worse
-    sort_value: 0.2529
-    sort_std: 0.0009
     is_best: false
   - model: SAN+RWSE
     model_key: san+rwse
@@ -3138,17 +3143,17 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
-    global_rank: 188
+    global_rank: 64
     true_value: 0.2545
     true_std: 0.0012
     value_gap_source_arxiv: '2206.08164'
-    value_gap_source_title: LRGB
+    value_gap_source_title: Long Range Graph Benchmark
     value_gap_source_is_current_paper: false
     has_value_gap: false
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 188
+    paper_rank: 64
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -3164,7 +3169,7 @@ results:
     paper_std: null
     metric: MAE
     higher_is_better: false
-    is_baseline: false
+    is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
@@ -3174,7 +3179,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
-    global_rank: 214
+    global_rank: 71
     true_value: 0.2599
     true_std: null
     value_gap_source_arxiv: '2401.17791'
@@ -3184,7 +3189,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 214
+    paper_rank: 71
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -3210,7 +3215,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
-    global_rank: 242
+    global_rank: 78
     true_value: 0.268
     true_std: 0.004
     value_gap_source_arxiv: '2502.01122'
@@ -3221,7 +3226,7 @@ results:
     has_value_note: true
     value_gap: 0.00029999999999996696
     value_note: global 0.2680 within std
-    paper_rank: 242
+    paper_rank: 78
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -3237,7 +3242,7 @@ results:
     paper_std: null
     metric: MAE
     higher_is_better: false
-    is_baseline: false
+    is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
@@ -3247,7 +3252,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
-    global_rank: 244
+    global_rank: 79
     true_value: 0.2687
     true_std: null
     value_gap_source_arxiv: '2401.17791'
@@ -3257,93 +3262,238 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 244
+    paper_rank: 79
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 0.2687
     sort_std: null
     is_best: false
-  metric: MAE
-  higher_is_better: false
-- &id001
-  dataset: ZINC
-  rows:
-  - model: FloydNet
-    model_key: floydnet
-    model_plain: FloydNet
-    value: 0.016
-    std: null
-    metric: MAE
-    higher_is_better: false
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2601.19094'
-    title: 'FloydNet: A Learning Paradigm for Global Relational Reasoning'
-    date: Jan 2026
-    date_display: Jan 2026
-    date_iso: 2026-01
-    codebase_url: ''
-    uses_external_data: false
-    is_global_top: true
-    global_rank: 1
-    sort_value: 0.016
-    sort_std: null
-    is_best: true
-  - model: ESA (PE)
-    model_key: esa (pe)
-    model_plain: ESA (PE)
-    value: 0.017331929457918168
-    std: 0.0009253668251948539
+  - model: GatedGCN+RWSE
+    model_key: gatedgcn+rwse
+    model_plain: GatedGCN+RWSE
+    value: 0.3357
+    std: 0.0006
+    paper_value: 0.3357
+    paper_std: 0.0006
     metric: MAE
     higher_is_better: false
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2402.10793'
-    title: An end-to-end attention-based approach for learning on graphs
-    date: Feb 2024
-    date_display: Feb 2024
-    date_iso: 2024-02
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Jan 2024
+    date_display: Jan 2024
+    date_iso: 2024-01
+    global_rank: 92
+    true_value: 0.3357
+    true_std: 0.0006
+    value_gap_source_arxiv: '2206.08164'
+    value_gap_source_title: Long Range Graph Benchmark
+    value_gap_source_is_current_paper: false
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 92
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.3357
+    sort_std: 0.0006
+    is_best: false
+  metric: MAE
+  higher_is_better: false
+- &id001
+  dataset: ZINC
+  rows:
+  - model: GatedGCN
+    model_key: gatedgcn
+    model_plain: GatedGCN
+    value: 0.282
+    std: 0.015
+    paper_value: 0.282
+    paper_std: 0.015
+    metric: MAE
+    higher_is_better: false
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: Benchmarking GNNs
+    variant_inference_reason: 'zinc: mae fallback >= 0.07'
+    date: Jan 2024
+    date_display: Jan 2024
+    date_iso: 2024-01
+    global_rank: 1
+    true_value: 0.004
+    true_std: null
+    value_gap_source_arxiv: '2306.03589'
+    value_gap_source_title: How does over-squashing affect the power of GNNs?
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
+    has_value_note: false
+    value_gap: 0.27799999999999997
+    value_note: ''
+    paper_rank: 107
+    rank_delta: 106
+    rank_delta_abs: 106
+    rank_delta_direction: worse
+    sort_value: 0.004
+    sort_std: null
+    is_best: true
+  - model: GraphSAGE
+    model_key: graphsage
+    model_plain: GraphSAGE
+    value: 0.006
+    std: null
+    metric: MAE
+    higher_is_better: false
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2306.03589'
+    title: How does over-squashing affect the power of GNNs?
+    date: Jun 2023
+    date_display: Jun 2023
+    date_iso: 2023-06
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
     global_rank: 2
-    sort_value: 0.017331929457918168
-    sort_std: 0.0009253668251948539
-    is_best: false
-  - model: PST
-    model_key: pst
-    model_plain: PST
-    value: 0.018
+    sort_value: 0.006
+    sort_std: null
+    is_best: true
+  - model: GIN
+    model_key: gin
+    model_plain: GIN
+    value: 0.526
+    std: 0.051
+    paper_value: 0.526
+    paper_std: 0.051
+    metric: MAE
+    higher_is_better: false
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: Benchmarking GNNs
+    variant_inference_reason: 'zinc: mae fallback >= 0.07'
+    date: Jan 2024
+    date_display: Jan 2024
+    date_iso: 2024-01
+    global_rank: 3
+    true_value: 0.014
+    true_std: null
+    value_gap_source_arxiv: '2306.03589'
+    value_gap_source_title: How does over-squashing affect the power of GNNs?
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
+    has_value_note: false
+    value_gap: 0.512
+    value_note: ''
+    paper_rank: 118
+    rank_delta: 115
+    rank_delta_abs: 115
+    rank_delta_direction: worse
+    sort_value: 0.014
+    sort_std: null
+    is_best: true
+  - model: PPGN++(6)
+    model_key: ppgn++(6)
+    model_plain: PPGN++(6)
+    value: 0.02
     std: 0.001
+    metric: MAE
+    higher_is_better: false
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 0.5
+    arxiv_id: '2402.08450'
+    title: 'Subgraphormer: Unifying Subgraph GNNs and Graph Transformers via Graph
+      Products'
+    date: Feb 13, 2024
+    date_display: Feb 2024
+    date_iso: '2024-02-13'
+    codebase_url: https://github.com/BarSGuy/Subgraphormer
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 4
+    sort_value: 0.02
+    sort_std: 0.001
+    is_best: true
+  - model: GPM
+    model_key: gpm
+    model_plain: GPM
+    value: 0.021
+    std: 0.002
     metric: MAE
     higher_is_better: false
     is_baseline: false
     is_overridden: false
     override_reason: ''
-    params_millions: 1.0
-    arxiv_id: '2405.02795'
-    title: Graph as Point Set
-    date: May 5, 2024
-    date_display: May 2024
-    date_iso: '2024-05-05'
-    codebase_url: ''
+    params_millions: null
+    arxiv_id: '2501.18739'
+    title: 'Beyond Message Passing: Neural Graph Pattern Machine'
+    date: Jan 30, 2025
+    date_display: Jan 2025
+    date_iso: '2025-01-30'
+    codebase_url: https://github.com/Zehong-Wang/GPM
     uses_external_data: false
     is_global_top: true
-    global_rank: 3
-    sort_value: 0.018
-    sort_std: 0.001
+    global_rank: 5
+    sort_value: 0.021
+    sort_std: 0.002
     is_best: false
-  - model: CIN
-    model_key: cin
-    model_plain: CIN
-    value: 0.079
+  - model: GCN
+    model_key: gcn
+    model_plain: GCN
+    value: 0.367
+    std: 0.011
+    paper_value: 0.367
+    paper_std: 0.011
+    metric: MAE
+    higher_is_better: false
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: Benchmarking GNNs
+    variant_inference_reason: 'zinc: mae fallback >= 0.07'
+    date: Jan 2024
+    date_display: Jan 2024
+    date_iso: 2024-01
+    global_rank: 9
+    true_value: 0.024
+    true_std: null
+    value_gap_source_arxiv: '2306.03589'
+    value_gap_source_title: How does over-squashing affect the power of GNNs?
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
+    has_value_note: false
+    value_gap: 0.34299999999999997
+    value_note: ''
+    paper_rank: 112
+    rank_delta: 103
+    rank_delta_abs: 103
+    rank_delta_direction: worse
+    sort_value: 0.024
+    sort_std: null
+    is_best: true
+  - model: Graphormer
+    model_key: graphormer
+    model_plain: Graphormer
+    value: 0.122
     std: 0.006
-    paper_value: 0.079
+    paper_value: 0.122
     paper_std: 0.006
     metric: MAE
     higher_is_better: false
@@ -3352,35 +3502,35 @@ results:
     override_reason: ''
     params_millions: null
     table_ref: Table 1
-    source_ref: this paper
+    source_ref: Benchmarking GNNs
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
-    global_rank: 7
-    true_value: 0.022
-    true_std: 0.002
-    value_gap_source_arxiv: '2405.02795'
-    value_gap_source_title: Graph as Point Set
+    global_rank: 11
+    true_value: 0.025
+    true_std: 0.004
+    value_gap_source_arxiv: '2501.18739'
+    value_gap_source_title: 'Beyond Message Passing: Neural Graph Pattern Machine'
     value_gap_source_is_current_paper: false
     has_value_gap: true
     has_value_note: false
-    value_gap: 0.057
+    value_gap: 0.097
     value_note: ''
-    paper_rank: 144
-    rank_delta: 137
-    rank_delta_abs: 137
+    paper_rank: 72
+    rank_delta: 61
+    rank_delta_abs: 61
     rank_delta_direction: worse
-    sort_value: 0.022
-    sort_std: 0.002
+    sort_value: 0.025
+    sort_std: 0.004
     is_best: false
-  - model: GRIT
-    model_key: grit
-    model_plain: GRIT
-    value: 0.059
-    std: 0.002
-    paper_value: 0.059
-    paper_std: 0.002
+  - model: Graphormer-GD
+    model_key: graphormer-gd
+    model_plain: Graphormer-GD
+    value: 0.081
+    std: 0.009
+    paper_value: 0.081
+    paper_std: 0.009
     metric: MAE
     higher_is_better: false
     is_baseline: true
@@ -3388,28 +3538,28 @@ results:
     override_reason: ''
     params_millions: null
     table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: 'zinc: mae fallback <= 0.06'
+    source_ref: Benchmarking GNNs
+    variant_inference_reason: 'zinc: mae fallback >= 0.07'
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
-    global_rank: 9
-    true_value: 0.023
-    true_std: 0.001
-    value_gap_source_arxiv: '2310.20519'
-    value_gap_source_title: Enhancing Graph Neural Networks with Quantum Computed
-      Encodings
+    global_rank: 12
+    true_value: 0.025
+    true_std: 0.004
+    value_gap_source_arxiv: '2402.08450'
+    value_gap_source_title: 'Subgraphormer: Unifying Subgraph GNNs and Graph Transformers
+      via Graph Products'
     value_gap_source_is_current_paper: false
     has_value_gap: true
     has_value_note: false
-    value_gap: 0.036
+    value_gap: 0.056
     value_note: ''
-    paper_rank: 49
-    rank_delta: 40
-    rank_delta_abs: 40
+    paper_rank: 46
+    rank_delta: 34
+    rank_delta_abs: 34
     rank_delta_direction: worse
-    sort_value: 0.023
-    sort_std: 0.001
+    sort_value: 0.025
+    sort_std: 0.004
     is_best: false
   - model: GPS
     model_key: gps
@@ -3430,31 +3580,30 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
-    global_rank: 13
-    true_value: 0.023842
-    true_std: 0.0069779309254248125
-    value_gap_source_arxiv: '2402.10793'
-    value_gap_source_title: An end-to-end attention-based approach for learning on
-      graphs
+    global_rank: 14
+    true_value: 0.0262
+    true_std: 0.0025
+    value_gap_source_arxiv: '2305.15747'
+    value_gap_source_title: Union Subgraph Neural Networks
     value_gap_source_is_current_paper: false
     has_value_gap: true
     has_value_note: false
-    value_gap: 0.046158000000000005
+    value_gap: 0.043800000000000006
     value_note: ''
-    paper_rank: 107
-    rank_delta: 94
-    rank_delta_abs: 94
+    paper_rank: 36
+    rank_delta: 22
+    rank_delta_abs: 22
     rank_delta_direction: worse
-    sort_value: 0.023842
-    sort_std: 0.0069779309254248125
+    sort_value: 0.0262
+    sort_std: 0.0025
     is_best: false
-  - model: Graphormer
-    model_key: graphormer
-    model_plain: Graphormer
-    value: 0.122
-    std: 0.006
-    paper_value: 0.122
-    paper_std: 0.006
+  - model: GRIT
+    model_key: grit
+    model_plain: GRIT
+    value: 0.059
+    std: 0.002
+    paper_value: 0.059
+    paper_std: 0.002
     metric: MAE
     higher_is_better: false
     is_baseline: true
@@ -3463,99 +3612,26 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: Benchmarking GNNs
-    variant_inference_reason: 'zinc: mae fallback >= 0.07'
+    variant_inference_reason: 'zinc: mae fallback <= 0.06'
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
-    global_rank: 18
-    true_value: 0.025
-    true_std: 0.004
-    value_gap_source_arxiv: '2501.18739'
-    value_gap_source_title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.097
-    value_note: ''
-    paper_rank: 210
-    rank_delta: 192
-    rank_delta_abs: 192
-    rank_delta_direction: worse
-    sort_value: 0.025
-    sort_std: 0.004
-    is_best: false
-  - model: Graphormer-GD
-    model_key: graphormer-gd
-    model_plain: Graphormer-GD
-    value: 0.081
-    std: 0.009
-    paper_value: 0.081
-    paper_std: 0.009
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: Jan 2024
-    date_display: Jan 2024
-    date_iso: 2024-01
-    global_rank: 19
-    true_value: 0.025
-    true_std: 0.004
-    value_gap_source_arxiv: '2402.08450'
-    value_gap_source_title: 'Subgraphormer: Unifying Subgraph GNNs and Graph Transformers
-      via Graph Products'
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.056
-    value_note: ''
-    paper_rank: 150
-    rank_delta: 131
-    rank_delta_abs: 131
-    rank_delta_direction: worse
-    sort_value: 0.025
-    sort_std: 0.004
-    is_best: false
-  - model: Graphormer-URPE
-    model_key: graphormer-urpe
-    model_plain: Graphormer-URPE
-    value: 0.086
-    std: 0.007
-    paper_value: 0.086
-    paper_std: 0.007
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: Jan 2024
-    date_display: Jan 2024
-    date_iso: 2024-01
-    global_rank: 25
-    true_value: 0.028
+    global_rank: 24
+    true_value: 0.059
     true_std: 0.002
-    value_gap_source_arxiv: '2310.20519'
-    value_gap_source_title: Enhancing Graph Neural Networks with Quantum Computed
-      Encodings
+    value_gap_source_arxiv: '2312.01538'
+    value_gap_source_title: Recurrent Distance Filtering for Graph Representation
+      Learning
     value_gap_source_is_current_paper: false
-    has_value_gap: true
+    has_value_gap: false
     has_value_note: false
-    value_gap: 0.057999999999999996
+    value_gap: null
     value_note: ''
-    paper_rank: 164
-    rank_delta: 139
-    rank_delta_abs: 139
-    rank_delta_direction: worse
-    sort_value: 0.028
+    paper_rank: 24
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.059
     sort_std: 0.002
     is_best: false
   - model: PNA
@@ -3577,105 +3653,30 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
-    global_rank: 48
-    true_value: 0.05727021078890476
-    true_std: 0.006639614126119909
-    value_gap_source_arxiv: '2402.10793'
-    value_gap_source_title: An end-to-end attention-based approach for learning on
-      graphs
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.13072978921109524
-    value_note: ''
-    paper_rank: 252
-    rank_delta: 204
-    rank_delta_abs: 204
-    rank_delta_direction: worse
-    sort_value: 0.05727021078890476
-    sort_std: 0.006639614126119909
-    is_best: false
-  - model: GIN
-    model_key: gin
-    model_plain: GIN
-    value: 0.526
-    std: 0.051
-    paper_value: 0.526
-    paper_std: 0.051
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: Benchmarking GNNs
-    variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: Jan 2024
-    date_display: Jan 2024
-    date_iso: 2024-01
-    global_rank: 75
-    true_value: 0.065
-    true_std: 0.004
-    value_gap_source_arxiv: '2502.09263'
-    value_gap_source_title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks?
-      Simple Architectures Meet Excellence
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.461
-    value_note: ''
-    paper_rank: 293
-    rank_delta: 218
-    rank_delta_abs: 218
-    rank_delta_direction: worse
-    sort_value: 0.065
-    sort_std: 0.004
-    is_best: false
-  - model: GCN
-    model_key: gcn
-    model_plain: GCN
-    value: 0.367
-    std: 0.011
-    paper_value: 0.367
-    paper_std: 0.011
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: Benchmarking GNNs
-    variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: Jan 2024
-    date_display: Jan 2024
-    date_iso: 2024-01
-    global_rank: 131
-    true_value: 0.076
+    global_rank: 31
+    true_value: 0.067
     true_std: 0.009
-    value_gap_source_arxiv: '2502.09263'
-    value_gap_source_title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks?
-      Simple Architectures Meet Excellence
+    value_gap_source_arxiv: '2501.18739'
+    value_gap_source_title: 'Beyond Message Passing: Neural Graph Pattern Machine'
     value_gap_source_is_current_paper: false
     has_value_gap: true
     has_value_note: false
-    value_gap: 0.291
+    value_gap: 0.121
     value_note: ''
-    paper_rank: 285
-    rank_delta: 154
-    rank_delta_abs: 154
+    paper_rank: 97
+    rank_delta: 66
+    rank_delta_abs: 66
     rank_delta_direction: worse
-    sort_value: 0.076
+    sort_value: 0.067
     sort_std: 0.009
     is_best: false
-  - model: GatedGCN
-    model_key: gatedgcn
-    model_plain: GatedGCN
-    value: 0.282
-    std: 0.015
-    paper_value: 0.282
-    paper_std: 0.015
+  - model: CIN
+    model_key: cin
+    model_plain: CIN
+    value: 0.079
+    std: 0.006
+    paper_value: 0.079
+    paper_std: 0.006
     metric: MAE
     higher_is_better: false
     is_baseline: true
@@ -3688,23 +3689,23 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
-    global_rank: 132
+    global_rank: 42
     true_value: 0.077
-    true_std: 0.005
-    value_gap_source_arxiv: '2502.09263'
-    value_gap_source_title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks?
-      Simple Architectures Meet Excellence
+    true_std: null
+    value_gap_source_arxiv: '2509.01254'
+    value_gap_source_title: 'What Expressivity Theory Misses: Message Passing Complexity
+      for GNNs'
     value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.20499999999999996
-    value_note: ''
-    paper_rank: 270
-    rank_delta: 138
-    rank_delta_abs: 138
+    has_value_gap: false
+    has_value_note: true
+    value_gap: 0.0020000000000000018
+    value_note: global 0.0770 within std
+    paper_rank: 45
+    rank_delta: 3
+    rank_delta_abs: 3
     rank_delta_direction: worse
     sort_value: 0.077
-    sort_std: 0.005
+    sort_std: null
     is_best: false
   - model: Eigenformer
     model_key: eigenformer
@@ -3715,7 +3716,7 @@ results:
     paper_std: null
     metric: MAE
     higher_is_better: false
-    is_baseline: false
+    is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
@@ -3725,7 +3726,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
-    global_rank: 138
+    global_rank: 44
     true_value: 0.077
     true_std: null
     value_gap_source_arxiv: '2401.17791'
@@ -3735,49 +3736,12 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 138
+    paper_rank: 44
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 0.077
     sort_std: null
-    is_best: false
-  - model: GAT
-    model_key: gat
-    model_plain: GAT
-    value: 0.384
-    std: 0.007
-    paper_value: 0.384
-    paper_std: 0.007
-    metric: MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: Benchmarking GNNs
-    variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: Jan 2024
-    date_display: Jan 2024
-    date_iso: 2024-01
-    global_rank: 142
-    true_value: 0.0776354896230479
-    true_std: 0.005512609666895327
-    value_gap_source_arxiv: '2402.10793'
-    value_gap_source_title: An end-to-end attention-based approach for learning on
-      graphs
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
-    has_value_note: false
-    value_gap: 0.3063645103769521
-    value_note: ''
-    paper_rank: 285
-    rank_delta: 143
-    rank_delta_abs: 143
-    rank_delta_direction: worse
-    sort_value: 0.0776354896230479
-    sort_std: 0.005512609666895327
     is_best: false
   - model: GIN-AK+
     model_key: gin-ak+
@@ -3793,23 +3757,22 @@ results:
     override_reason: ''
     params_millions: null
     table_ref: Table 1
-    source_ref: this paper
+    source_ref: Benchmarking GNNs
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
-    global_rank: 147
+    global_rank: 46
     true_value: 0.08
     true_std: 0.001
-    value_gap_source_arxiv: '2605.05689'
-    value_gap_source_title: 'GCCM: Enhancing Generative Graph Prediction via Contrastive
-      Consistency Model'
+    value_gap_source_arxiv: '2205.12454'
+    value_gap_source_title: Recipe for a General, Powerful, Scalable Graph Transformer
     value_gap_source_is_current_paper: false
     has_value_gap: false
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 147
+    paper_rank: 46
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -3830,12 +3793,12 @@ results:
     override_reason: ''
     params_millions: null
     table_ref: Table 1
-    source_ref: this paper
+    source_ref: Benchmarking GNNs
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
-    global_rank: 161
+    global_rank: 47
     true_value: 0.085
     true_std: 0.004
     value_gap_source_arxiv: '2508.05070'
@@ -3846,12 +3809,48 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 161
+    paper_rank: 47
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 0.085
     sort_std: 0.004
+    is_best: false
+  - model: Graphormer-URPE
+    model_key: graphormer-urpe
+    model_plain: Graphormer-URPE
+    value: 0.086
+    std: 0.007
+    paper_value: 0.086
+    paper_std: 0.007
+    metric: MAE
+    higher_is_better: false
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: Benchmarking GNNs
+    variant_inference_reason: 'zinc: mae fallback >= 0.07'
+    date: Jan 2024
+    date_display: Jan 2024
+    date_iso: 2024-01
+    global_rank: 49
+    true_value: 0.086
+    true_std: 0.007
+    value_gap_source_arxiv: '2401.17791'
+    value_gap_source_title: Graph Transformers without Positional Encodings
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 49
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.086
+    sort_std: 0.007
     is_best: false
   - model: Eigenformer (feat.)
     model_key: eigenformer (feat.)
@@ -3862,7 +3861,7 @@ results:
     paper_std: null
     metric: MAE
     higher_is_better: false
-    is_baseline: false
+    is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
@@ -3872,7 +3871,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
-    global_rank: 173
+    global_rank: 50
     true_value: 0.089
     true_std: null
     value_gap_source_arxiv: '2401.17791'
@@ -3882,7 +3881,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 173
+    paper_rank: 50
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -3903,23 +3902,22 @@ results:
     override_reason: ''
     params_millions: null
     table_ref: Table 1
-    source_ref: this paper
+    source_ref: Benchmarking GNNs
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
-    global_rank: 175
+    global_rank: 51
     true_value: 0.09
     true_std: 0.001
-    value_gap_source_arxiv: '2407.05649'
-    value_gap_source_title: 'Greener GRASS: Enhancing GNNs with Encoding, Rewiring,
-      and Attention'
+    value_gap_source_arxiv: '2205.12454'
+    value_gap_source_title: Recipe for a General, Powerful, Scalable Graph Transformer
     value_gap_source_is_current_paper: false
     has_value_gap: false
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 175
+    paper_rank: 51
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -3940,22 +3938,22 @@ results:
     override_reason: ''
     params_millions: null
     table_ref: Table 1
-    source_ref: this paper
+    source_ref: Benchmarking GNNs
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
-    global_rank: 182
+    global_rank: 57
     true_value: 0.094
     true_std: 0.008
-    value_gap_source_arxiv: '2504.12588'
-    value_gap_source_title: Plain Transformers Can be Powerful Graph Learners
+    value_gap_source_arxiv: '2205.12454'
+    value_gap_source_title: Recipe for a General, Powerful, Scalable Graph Transformer
     value_gap_source_is_current_paper: false
     has_value_gap: false
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 182
+    paper_rank: 57
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -3976,23 +3974,22 @@ results:
     override_reason: ''
     params_millions: null
     table_ref: Table 1
-    source_ref: this paper
+    source_ref: Benchmarking GNNs
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
-    global_rank: 188
+    global_rank: 60
     true_value: 0.101
     true_std: 0.01
-    value_gap_source_arxiv: '2501.03113'
-    value_gap_source_title: 'Balancing Efficiency and Expressiveness: Subgraph GNNs
-      with Walk-Based Centrality'
+    value_gap_source_arxiv: '2205.12454'
+    value_gap_source_title: Recipe for a General, Powerful, Scalable Graph Transformer
     value_gap_source_is_current_paper: false
     has_value_gap: false
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 188
+    paper_rank: 60
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -4013,28 +4010,63 @@ results:
     override_reason: ''
     params_millions: null
     table_ref: Table 1
-    source_ref: this paper
+    source_ref: Benchmarking GNNs
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
-    global_rank: 197
+    global_rank: 66
     true_value: 0.108
     true_std: 0.009
-    value_gap_source_arxiv: '2605.05689'
-    value_gap_source_title: 'GCCM: Enhancing Generative Graph Prediction via Contrastive
-      Consistency Model'
+    value_gap_source_arxiv: '2205.12454'
+    value_gap_source_title: Recipe for a General, Powerful, Scalable Graph Transformer
     value_gap_source_is_current_paper: false
     has_value_gap: false
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 197
+    paper_rank: 66
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 0.108
     sort_std: 0.009
+    is_best: false
+  - model: GAT
+    model_key: gat
+    model_plain: GAT
+    value: 0.384
+    std: 0.007
+    paper_value: 0.384
+    paper_std: 0.007
+    metric: MAE
+    higher_is_better: false
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: Benchmarking GNNs
+    variant_inference_reason: 'zinc: mae fallback >= 0.07'
+    date: Jan 2024
+    date_display: Jan 2024
+    date_iso: 2024-01
+    global_rank: 67
+    true_value: 0.111
+    true_std: 0.002
+    value_gap_source_arxiv: '2301.09505'
+    value_gap_source_title: Rethinking the Expressive Power of GNNs via Graph Biconnectivity
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
+    has_value_note: false
+    value_gap: 0.273
+    value_note: ''
+    paper_rank: 113
+    rank_delta: 46
+    rank_delta_abs: 46
+    rank_delta_direction: worse
+    sort_value: 0.111
+    sort_std: 0.002
     is_best: false
   - model: SAN
     model_key: san
@@ -4055,7 +4087,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
-    global_rank: 224
+    global_rank: 79
     true_value: 0.1341
     true_std: 0.0063
     value_gap_source_arxiv: '2602.02268'
@@ -4066,7 +4098,7 @@ results:
     has_value_note: true
     value_gap: 0.0049000000000000155
     value_note: global 0.1341 within std
-    paper_rank: 225
+    paper_rank: 80
     rank_delta: 1
     rank_delta_abs: 1
     rank_delta_direction: worse
@@ -4087,23 +4119,22 @@ results:
     override_reason: ''
     params_millions: null
     table_ref: Table 1
-    source_ref: this paper
+    source_ref: Benchmarking GNNs
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
-    global_rank: 247
+    global_rank: 92
     true_value: 0.168
     true_std: 0.003
-    value_gap_source_arxiv: '2605.05689'
-    value_gap_source_title: 'GCCM: Enhancing Generative Graph Prediction via Contrastive
-      Consistency Model'
+    value_gap_source_arxiv: '2205.12454'
+    value_gap_source_title: Recipe for a General, Powerful, Scalable Graph Transformer
     value_gap_source_is_current_paper: false
     has_value_gap: false
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 247
+    paper_rank: 92
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same

@@ -21,17 +21,15 @@ abstract: Compositional generalization, the ability of an agent to generalize to
   factors and on real molecular graph prediction tasks where the latent structure
   is unknown.
 codebase_url: ''
-extraction_model: qwen3.6-35b-a3b
+extraction_model: Qwen/Qwen3.6-35B-A3B-FP8
 has_results: true
 paper_type: method
 proposed_models:
-- SEM-IL (GCN)
-- SEM-IL
-mrr: 0.0
-adjusted_mrr: 0.0
-mrr_dataset_count: 0
+- GCN SEM-IL
+mrr: 0.0722
+adjusted_mrr: 0.0722
+mrr_dataset_count: 3
 benchmark_categories:
-- TU Dortmund
 - OGB
 task_categories:
 - graph_classification
@@ -39,202 +37,13 @@ task_categories:
 experiment_scopes:
 - graph-level
 results:
-- &id001
-  dataset: D&D
-  rows:
-  - model: SEM-IL
-    model_key: sem-il
-    model_plain: SEM-IL
-    value: 0.0312
-    std: 0.008053
-    paper_value: 0.0312
-    paper_std: 0.008053
-    metric: MSE
-    higher_is_better: false
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Oct 2023
-    date_display: Oct 2023
-    date_iso: 2023-10
-    global_rank: null
-    sort_value: 0.0312
-    sort_std: 0.008053
-    is_best: true
-  - model: SEM-only
-    model_key: sem-only
-    model_plain: SEM-only
-    value: 0.04291
-    std: 0.01005
-    paper_value: 0.04291
-    paper_std: 0.01005
-    metric: MSE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Oct 2023
-    date_display: Oct 2023
-    date_iso: 2023-10
-    global_rank: null
-    sort_value: 0.04291
-    sort_std: 0.01005
-    is_best: true
-  - model: NIL-only
-    model_key: nil-only
-    model_plain: NIL-only
-    value: 0.04338
-    std: 0.01403
-    paper_value: 0.04338
-    paper_std: 0.01403
-    metric: MSE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Oct 2023
-    date_display: Oct 2023
-    date_iso: 2023-10
-    global_rank: null
-    sort_value: 0.04338
-    sort_std: 0.01403
-    is_best: true
-  - model: Baseline
-    model_key: baseline
-    model_plain: Baseline
-    value: 0.04542
-    std: 0.01097
-    paper_value: 0.04542
-    paper_std: 0.01097
-    metric: MSE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Oct 2023
-    date_display: Oct 2023
-    date_iso: 2023-10
-    global_rank: null
-    sort_value: 0.04542
-    sort_std: 0.01097
-    is_best: true
-  - model: GIN
-    model_key: gin
-    model_plain: GIN
-    value: 0.05
-    std: 0.021
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2506.08618'
-    title: HSG-12M
-    date: Jun 2025
-    date_display: Jun 2025
-    date_iso: 2025-06
-    codebase_url: ''
-    uses_external_data: false
-    is_global_top: true
-    global_rank: 1
-    sort_value: 0.05
-    sort_std: 0.021
-    is_best: true
-  - model: GCN
-    model_key: gcn
-    model_plain: GCN
-    value: 0.093
-    std: null
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2411.15671'
-    title: 'Best of Both Worlds: Advantages of Hybrid Graph Sequence Models'
-    date: Nov 2024
-    date_display: Nov 2024
-    date_iso: 2024-11
-    codebase_url: ''
-    uses_external_data: false
-    is_global_top: true
-    global_rank: 2
-    sort_value: 0.093
-    sort_std: null
-    is_best: false
-  - model: MF
-    model_key: mf
-    model_plain: MF
-    value: 0.271
-    std: 0.004
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2506.08618'
-    title: HSG-12M
-    date: Jun 2025
-    date_display: Jun 2025
-    date_iso: 2025-06
-    codebase_url: ''
-    uses_external_data: false
-    is_global_top: true
-    global_rank: 3
-    sort_value: 0.271
-    sort_std: 0.004
-    is_best: false
-  metric: Accuracy
-  higher_is_better: false
-- &id004
+- &id003
   dataset: PCQM4Mv2
   rows:
-  - model: GRIT-SPSE
-    model_key: grit-spse
-    model_plain: GRIT-SPSE
-    value: 0.0831
-    std: null
-    metric: MAE
-    higher_is_better: false
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2502.09365'
-    title: Simple Path Structural Encoding for Graph Transformers
-    date: Feb 13, 2025
-    date_display: Feb 2025
-    date_iso: '2025-02-13'
-    codebase_url: ''
-    uses_external_data: false
-    is_global_top: true
-    global_rank: 1
-    sort_value: 0.0831
-    sort_std: null
-    is_best: true
-  - model: GRIT-RWSE
-    model_key: grit-rwse
-    model_plain: GRIT-RWSE
-    value: 0.0838
+  - model: GPS-medium
+    model_key: gps-medium
+    model_plain: GPS-medium
+    value: 0.0858
     std: null
     metric: MAE
     higher_is_better: false
@@ -242,44 +51,67 @@ results:
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2502.09365'
-    title: Simple Path Structural Encoding for Graph Transformers
-    date: Feb 13, 2025
-    date_display: Feb 2025
-    date_iso: '2025-02-13'
-    codebase_url: ''
+    arxiv_id: '2205.12454'
+    title: Recipe for a General, Powerful, Scalable Graph Transformer
+    date: May 2022
+    date_display: May 2022
+    date_iso: 2022-05
+    codebase_url: https://github.com/rampasek/GraphGPS
     uses_external_data: false
     is_global_top: true
-    global_rank: 2
-    sort_value: 0.0838
+    global_rank: 1
+    sort_value: 0.0858
     sort_std: null
-    is_best: false
-  - model: GRIT 2-QiQRW
-    model_key: grit 2-qiqrw
-    model_plain: GRIT 2-QiQRW
-    value: 0.0838
+    is_best: true
+  - model: Graphormer
+    model_key: graphormer
+    model_plain: Graphormer
+    value: 0.0864
     std: null
     metric: MAE
     higher_is_better: false
-    is_baseline: false
+    is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2310.20519'
-    title: Enhancing Graph Neural Networks with Quantum Computed Encodings
-    date: Oct 2023
-    date_display: Oct 2023
-    date_iso: 2023-10
-    codebase_url: ''
+    arxiv_id: '2205.12454'
+    title: Recipe for a General, Powerful, Scalable Graph Transformer
+    date: May 2022
+    date_display: May 2022
+    date_iso: 2022-05
+    codebase_url: https://github.com/rampasek/GraphGPS
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 2
+    sort_value: 0.0864
+    sort_std: null
+    is_best: false
+  - model: EGT
+    model_key: egt
+    model_plain: EGT
+    value: 0.0872
+    std: null
+    metric: MAE
+    higher_is_better: false
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2205.12454'
+    title: Recipe for a General, Powerful, Scalable Graph Transformer
+    date: May 2022
+    date_display: May 2022
+    date_iso: 2022-05
+    codebase_url: https://github.com/rampasek/GraphGPS
     uses_external_data: false
     is_global_top: true
     global_rank: 3
-    sort_value: 0.0838
+    sort_value: 0.0872
     sort_std: null
     is_best: false
-  - model: SEM-IL (GCN)
-    model_key: sem-il (gcn)
-    model_plain: SEM-IL (GCN)
+  - model: GCN SEM-IL
+    model_key: gcn sem-il
+    model_plain: GCN SEM-IL
     value: 0.098
     std: 0.005
     paper_value: 0.098
@@ -292,11 +124,11 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 25
+    global_rank: 8
     true_value: 0.098
     true_std: 0.005
     value_gap_source_arxiv: '2310.18777'
@@ -307,16 +139,16 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 25
+    paper_rank: 8
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 0.098
     sort_std: 0.005
     is_best: false
-  - model: SEM-only (GCN)
-    model_key: sem-only (gcn)
-    model_plain: SEM-only (GCN)
+  - model: GCN SEM-only
+    model_key: gcn sem-only
+    model_plain: GCN SEM-only
     value: 0.106
     std: 0.004
     paper_value: 0.106
@@ -329,11 +161,11 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 26
+    global_rank: 9
     true_value: 0.106
     true_std: 0.004
     value_gap_source_arxiv: '2310.18777'
@@ -344,16 +176,16 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 26
+    paper_rank: 9
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 0.106
     sort_std: 0.004
     is_best: false
-  - model: Baseline (GINE)
-    model_key: baseline (gine)
-    model_plain: Baseline (GINE)
+  - model: GCN Baseline
+    model_key: gcn baseline
+    model_plain: GCN Baseline
     value: 0.108
     std: 0.003
     paper_value: 0.108
@@ -366,11 +198,11 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 27
+    global_rank: 10
     true_value: 0.108
     true_std: 0.003
     value_gap_source_arxiv: '2310.18777'
@@ -381,7 +213,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 27
+    paper_rank: 10
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -393,81 +225,78 @@ results:
 - &id002
   dataset: ogbg-molhiv
   rows:
-  - model: MLP
-    model_key: mlp
-    model_plain: MLP
-    value: 0.9685
-    std: 0.0001
+  - model: ILLS
+    model_key: ills
+    model_plain: ILLS
+    value: 0.862
+    std: 0.002
     metric: ROC-AUC
     higher_is_better: true
-    is_baseline: true
+    is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2511.16767'
-    title: 'When Structure Doesn’t Help: LLMs Do Not Read Text-Attributed Graphs as
-      Effectively as We Expected'
-    date: Nov 2025
-    date_display: Nov 2025
-    date_iso: 2025-11
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_display: May 2023
+    date_iso: '2023-05-27'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
     global_rank: 1
-    sort_value: 0.9685
-    sort_std: 0.0001
+    sort_value: 0.862
+    sort_std: 0.002
     is_best: true
-  - model: GAT
-    model_key: gat
-    model_plain: GAT
-    value: 0.9682
-    std: 0.0003
+  - model: GraphGPS
+    model_key: graphgps
+    model_plain: GraphGPS
+    value: 0.858
+    std: 0.002
     metric: ROC-AUC
     higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2511.16767'
-    title: 'When Structure Doesn’t Help: LLMs Do Not Read Text-Attributed Graphs as
-      Effectively as We Expected'
-    date: Nov 2025
-    date_display: Nov 2025
-    date_iso: 2025-11
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_display: May 2023
+    date_iso: '2023-05-27'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
     global_rank: 2
-    sort_value: 0.9682
-    sort_std: 0.0003
+    sort_value: 0.858
+    sort_std: 0.002
     is_best: true
-  - model: GCN
-    model_key: gcn
-    model_plain: GCN
-    value: 0.9681
-    std: 0.0003
+  - model: SAN
+    model_key: san
+    model_plain: SAN
+    value: 0.855
+    std: 0.002
     metric: ROC-AUC
     higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2511.16767'
-    title: 'When Structure Doesn’t Help: LLMs Do Not Read Text-Attributed Graphs as
-      Effectively as We Expected'
-    date: Nov 2025
-    date_display: Nov 2025
-    date_iso: 2025-11
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_display: May 2023
+    date_iso: '2023-05-27'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
     global_rank: 3
-    sort_value: 0.9681
-    sort_std: 0.0003
+    sort_value: 0.855
+    sort_std: 0.002
     is_best: false
-  - model: SEM-IL (GCN)
-    model_key: sem-il (gcn)
-    model_plain: SEM-IL (GCN)
+  - model: GCN SEM-IL
+    model_key: gcn sem-il
+    model_plain: GCN SEM-IL
     value: 0.7861
     std: 0.0073
     paper_value: 0.7861
@@ -480,11 +309,11 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 86
+    global_rank: 24
     true_value: 0.7861
     true_std: 0.0073
     value_gap_source_arxiv: '2310.18777'
@@ -495,16 +324,16 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 86
+    paper_rank: 24
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 0.7861
     sort_std: 0.0073
     is_best: false
-  - model: SEM-only (GCN)
-    model_key: sem-only (gcn)
-    model_plain: SEM-only (GCN)
+  - model: GCN SEM-only
+    model_key: gcn sem-only
+    model_plain: GCN SEM-only
     value: 0.7821
     std: 0.0078
     paper_value: 0.7821
@@ -517,11 +346,11 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 100
+    global_rank: 28
     true_value: 0.7821
     true_std: 0.0078
     value_gap_source_arxiv: '2310.18777'
@@ -532,16 +361,16 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 100
+    paper_rank: 28
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 0.7821
     sort_std: 0.0078
     is_best: false
-  - model: Baseline (GINE)
-    model_key: baseline (gine)
-    model_plain: Baseline (GINE)
+  - model: GCN Baseline
+    model_key: gcn baseline
+    model_plain: GCN Baseline
     value: 0.7701
     std: 0.0094
     paper_value: 0.7701
@@ -554,11 +383,11 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 140
+    global_rank: 37
     true_value: 0.7701
     true_std: 0.0094
     value_gap_source_arxiv: '2310.18777'
@@ -569,7 +398,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 140
+    paper_rank: 37
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -578,81 +407,81 @@ results:
     is_best: false
   metric: ROC-AUC
   higher_is_better: true
-- &id003
+- &id001
   dataset: ogbg-molpcba
   rows:
-  - model: GatedGCN + VN
-    model_key: gatedgcn + vn
-    model_plain: GatedGCN + VN
-    value: 0.3141
-    std: 0.0019
+  - model: novel dynamic message-passing mechanism
+    model_key: novel dynamic message-passing mechanism
+    model_plain: novel dynamic message-passing mechanism
+    value: 0.339
+    std: 0.0073
     metric: AP
     higher_is_better: true
     is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2405.11951'
-    title: 'Distinguished In Uniform: Self-Attention Vs. Virtual Nodes'
-    date: May 2024
-    date_display: May 2024
-    date_iso: 2024-05
-    codebase_url: ''
+    arxiv_id: '2410.23686'
+    title: Towards Dynamic Message Passing on Graphs
+    date: Oct 2024
+    date_display: Oct 2024
+    date_iso: 2024-10
+    codebase_url: https://github.com/sunjss/N2
     uses_external_data: false
     is_global_top: true
     global_rank: 1
-    sort_value: 0.3141
-    sort_std: 0.0019
+    sort_value: 0.339
+    sort_std: 0.0073
     is_best: true
-  - model: NeuralWalker
-    model_key: neuralwalker
-    model_plain: NeuralWalker
-    value: 0.3086
-    std: 0.0031
+  - model: Graphormer
+    model_key: graphormer
+    model_plain: Graphormer
+    value: 0.3139
+    std: 0.0032
     metric: AP
     higher_is_better: true
-    is_baseline: false
+    is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: null
-    arxiv_id: '2406.03386'
-    title: Learning Long Range Dependencies on Graphs via Random Walks
-    date: Jun 2024
-    date_display: Jun 2024
-    date_iso: 2024-06
-    codebase_url: ''
+    params_millions: 119.529
+    arxiv_id: '2410.23686'
+    title: Towards Dynamic Message Passing on Graphs
+    date: Oct 2024
+    date_display: Oct 2024
+    date_iso: 2024-10
+    codebase_url: https://github.com/sunjss/N2
     uses_external_data: false
     is_global_top: true
     global_rank: 2
-    sort_value: 0.3086
-    sort_std: 0.0031
+    sort_value: 0.3139
+    sort_std: 0.0032
     is_best: false
-  - model: GatedGCN
-    model_key: gatedgcn
-    model_plain: GatedGCN
-    value: 0.3066
-    std: 0.0013
+  - model: Graphormer-FLAG
+    model_key: graphormer-flag
+    model_plain: Graphormer-FLAG
+    value: 0.3139
+    std: 0.0032
     metric: AP
     higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2405.11951'
-    title: 'Distinguished In Uniform: Self-Attention Vs. Virtual Nodes'
-    date: May 2024
-    date_display: May 2024
-    date_iso: 2024-05
-    codebase_url: ''
+    arxiv_id: '2106.05234'
+    title: Do Transformers Really Perform Bad for Graph Representation?
+    date: Jun 2021
+    date_display: Jun 2021
+    date_iso: 2021-06
+    codebase_url: https://github.com/microsoft/Graphormer
     uses_external_data: false
     is_global_top: true
     global_rank: 3
-    sort_value: 0.3066
-    sort_std: 0.0013
+    sort_value: 0.3139
+    sort_std: 0.0032
     is_best: false
-  - model: SEM-IL (GCN)
-    model_key: sem-il (gcn)
-    model_plain: SEM-IL (GCN)
+  - model: GCN SEM-IL
+    model_key: gcn sem-il
+    model_plain: GCN SEM-IL
     value: 0.2802
     std: 0.0061
     paper_value: 0.2802
@@ -665,11 +494,11 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 32
+    global_rank: 20
     true_value: 0.2802
     true_std: 0.0061
     value_gap_source_arxiv: '2310.18777'
@@ -680,16 +509,16 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 32
+    paper_rank: 20
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 0.2802
     sort_std: 0.0061
     is_best: false
-  - model: SEM-only (GCN)
-    model_key: sem-only (gcn)
-    model_plain: SEM-only (GCN)
+  - model: GCN SEM-only
+    model_key: gcn sem-only
+    model_plain: GCN SEM-only
     value: 0.2566
     std: 0.0047
     paper_value: 0.2566
@@ -702,11 +531,11 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 48
+    global_rank: 30
     true_value: 0.2566
     true_std: 0.0047
     value_gap_source_arxiv: '2310.18777'
@@ -717,16 +546,16 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 48
+    paper_rank: 30
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 0.2566
     sort_std: 0.0047
     is_best: false
-  - model: Baseline (GINE)
-    model_key: baseline (gine)
-    model_plain: Baseline (GINE)
+  - model: GCN Baseline
+    model_key: gcn baseline
+    model_plain: GCN Baseline
     value: 0.2291
     std: 0.004
     paper_value: 0.2291
@@ -739,11 +568,11 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Oct 2023
     date_display: Oct 2023
     date_iso: 2023-10
-    global_rank: 54
+    global_rank: 39
     true_value: 0.2291
     true_std: 0.004
     value_gap_source_arxiv: '2310.18777'
@@ -754,7 +583,7 @@ results:
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 54
+    paper_rank: 39
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -764,14 +593,12 @@ results:
   metric: AP
   higher_is_better: true
 results_grouped:
-- benchmark: TU Dortmund
-  datasets:
-  - *id001
 - benchmark: OGB
   datasets:
+  - *id001
   - *id002
   - *id003
-  - *id004
+single_proposed_model: GCN SEM-IL
 main_figure: /figures/2310.18777/main_figure.png
 ---
 

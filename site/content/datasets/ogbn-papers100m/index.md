@@ -12,14 +12,13 @@ stats:
   avg_nodes: 1615685872.0
   avg_edges: null
   num_classes: 172
-result_count: 10
+result_count: 15
 best_model:
-  model: GT + HDSE
-  value: 0.6604
+  model: ILSS
+  value: 0.782
   metric: Accuracy
-  arxiv_id: '2308.11129'
-  paper_title: Enhancing Graph Transformers with Hierarchical Distance Structural
-    Encoding
+  arxiv_id: '2305.17589'
+  paper_title: Graph Inductive Biases in Transformers without Message Passing
 variants:
 - slug: standard-split
   name: Standard split
@@ -34,53 +33,161 @@ variants:
   metrics:
   - Accuracy
   rows:
-  - model: GT + HDSE
-    model_plain: GT + HDSE
+  - model: ILSS
+    model_plain: ILSS
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_iso: '2023-05-27'
+    date_display: May 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: true
+    metric_values:
+    - 0.782
+    metric_stds:
+    - 0.001
+  - model: GraphSAINT + RWSE
+    model_plain: GraphSAINT + RWSE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_iso: '2023-05-27'
+    date_display: May 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.775
+    metric_stds:
+    - 0.002
+  - model: Neighbor Sampling (NS)
+    model_plain: Neighbor Sampling (NS)
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_iso: '2023-05-27'
+    date_display: May 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.773
+    metric_stds:
+    - 0.001
+  - model: LADIES
+    model_plain: LADIES
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_iso: '2023-05-27'
+    date_display: May 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.771
+    metric_stds:
+    - 0.002
+  - model: GraphSAINT
+    model_plain: GraphSAINT
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_iso: '2023-05-27'
+    date_display: May 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.768
+    metric_stds:
+    - 0.003
+  - model: GraphSAGE
+    model_plain: GraphSAGE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_iso: '2023-05-27'
+    date_display: May 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.765
+    metric_stds:
+    - 0.002
+  - model: Cluster-GCN
+    model_plain: Cluster-GCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_iso: '2023-05-27'
+    date_display: May 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.762
+    metric_stds:
+    - 0.004
+  - model: FastGCN
+    model_plain: FastGCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_iso: '2023-05-27'
+    date_display: May 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.759
+    metric_stds:
+    - 0.005
+  - model: SIGN(3,3,3)
+    model_plain: SIGN(3,3,3)
     is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2308.11129'
-    title: Enhancing Graph Transformers with Hierarchical Distance Structural Encoding
-    date: Aug 2023
-    date_iso: 2023-08
-    date_display: Aug 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: true
-    metric_values:
-    - 0.6604
-    metric_stds:
-    - 0.0015
-  - model: SGFormer
-    model_plain: SGFormer
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2308.11129'
-    title: Enhancing Graph Transformers with Hierarchical Distance Structural Encoding
-    date: Aug 2023
-    date_iso: 2023-08
-    date_display: Aug 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: true
-    metric_values:
-    - 0.6601
-    metric_stds:
-    - 0.0037
-  - model: SIGN
-    model_plain: SIGN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2308.11129'
-    title: Enhancing Graph Transformers with Hierarchical Distance Structural Encoding
-    date: Aug 2023
-    date_iso: 2023-08
-    date_display: Aug 2023
+    arxiv_id: '2004.11198'
+    title: 'SIGN: Scalable Inception Graph Neural Networks'
+    date: Apr 2020
+    date_iso: 2020-04
+    date_display: Apr 2020
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -88,89 +195,71 @@ variants:
     - 0.6511
     metric_stds:
     - 0.0014
-  - model: GOAT
-    model_plain: GOAT
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2308.11129'
-    title: Enhancing Graph Transformers with Hierarchical Distance Structural Encoding
-    date: Aug 2023
-    date_iso: 2023-08
-    date_display: Aug 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.6505
-    metric_stds:
-    - 0.0013
-  - model: LargeGT-full
-    model_plain: LargeGT-full
+  - model: SIGN(3,1,1)
+    model_plain: SIGN(3,1,1)
     is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2312.11109'
-    title: Graph Transformers for Large Graphs
-    date: Dec 2023
-    date_iso: 2023-12
-    date_display: Dec 2023
+    arxiv_id: '2004.11198'
+    title: 'SIGN: Scalable Inception Graph Neural Networks'
+    date: Apr 2020
+    date_iso: 2020-04
+    date_display: Apr 2020
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.6473
+    - 0.6439
     metric_stds:
-    - 0.0005
-  - model: LargeGT
-    model_plain: LargeGT
-    is_baseline: true
+    - 0.0018
+  - model: SIGN(3,0,0)
+    model_plain: SIGN(3,0,0)
+    is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2308.11129'
-    title: Enhancing Graph Transformers with Hierarchical Distance Structural Encoding
-    date: Aug 2023
-    date_iso: 2023-08
-    date_display: Aug 2023
+    arxiv_id: '2004.11198'
+    title: 'SIGN: Scalable Inception Graph Neural Networks'
+    date: Apr 2020
+    date_iso: 2020-04
+    date_display: Apr 2020
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.6473
+    - 0.6428
     metric_stds:
-    - 0.0005
-  - model: GAT
-    model_plain: GAT
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2308.11129'
-    title: Enhancing Graph Transformers with Hierarchical Distance Structural Encoding
-    date: Aug 2023
-    date_iso: 2023-08
-    date_display: Aug 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.6347
-    metric_stds:
-    - 0.0039
+    - 0.0014
   - model: SGC
     model_plain: SGC
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2308.11129'
-    title: Enhancing Graph Transformers with Hierarchical Distance Structural Encoding
-    date: Aug 2023
-    date_iso: 2023-08
-    date_display: Aug 2023
+    arxiv_id: '2005.00687'
+    title: 'Open Graph Benchmark: Datasets for Machine Learning on Graphs'
+    date: May 2020
+    date_iso: 2020-05
+    date_display: May 2020
+    codebase_url: https://github.com/snap-stanford/ogb
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.6329
+    metric_stds:
+    - 0.0019
+  - model: S-GCN
+    model_plain: S-GCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2004.11198'
+    title: 'SIGN: Scalable Inception Graph Neural Networks'
+    date: Apr 2020
+    date_iso: 2020-04
+    date_display: Apr 2020
     codebase_url: ''
     uses_external_data: false
     is_best: false
@@ -178,48 +267,54 @@ variants:
     - 0.6329
     metric_stds:
     - 0.0019
-  - model: GCN
-    model_plain: GCN
+  - model: Node2Vec
+    model_plain: Node2Vec
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2308.11129'
-    title: Enhancing Graph Transformers with Hierarchical Distance Structural Encoding
-    date: Aug 2023
-    date_iso: 2023-08
-    date_display: Aug 2023
+    arxiv_id: '2004.11198'
+    title: 'SIGN: Scalable Inception Graph Neural Networks'
+    date: Apr 2020
+    date_iso: 2020-04
+    date_display: Apr 2020
     codebase_url: ''
-    uses_external_data: false
+    uses_external_data: true
     is_best: false
     metric_values:
-    - 0.6204
+    - 0.5807
     metric_stds:
-    - 0.0027
-  - model: GOAT-full-δ
-    model_plain: GOAT-full-δ
+    - 0.0028
+  - model: MLP
+    model_plain: MLP
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2312.11109'
-    title: Graph Transformers for Large Graphs
-    date: Dec 2023
-    date_iso: 2023-12
-    date_display: Dec 2023
+    arxiv_id: '2004.11198'
+    title: 'SIGN: Scalable Inception Graph Neural Networks'
+    date: Apr 2020
+    date_iso: 2020-04
+    date_display: Apr 2020
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.6112
+    - 0.4724
     metric_stds:
-    - 0.001
+    - 0.0031
   milestones:
-  - value: 0.6604
-    std: 0.0015
-    model: GT + HDSE
-    arxiv_id: '2308.11129'
-    title: Enhancing Graph Transformers with Hierarchical Distance Structural Encoding
-    date: 2023-08
+  - value: 0.6511
+    std: 0.0014
+    model: SIGN(3,3,3)
+    arxiv_id: '2004.11198'
+    title: 'SIGN: Scalable Inception Graph Neural Networks'
+    date: 2020-04
+  - value: 0.782
+    std: 0.001
+    model: ILSS
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: '2023-05-27'
 ---
 

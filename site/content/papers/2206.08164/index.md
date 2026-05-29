@@ -1,5 +1,5 @@
 ---
-title: LRGB
+title: Long Range Graph Benchmark
 arxiv_id: '2206.08164'
 source_url: ''
 authors: []
@@ -23,7 +23,7 @@ abstract: 'Graph Neural Networks (GNNs) that are based on the message passing (M
   tasks. Therefore, these datasets are suitable for benchmarking and exploration of
   MP-GNNs and Graph Transformer architectures that are intended to capture LRI.'
 codebase_url: https://github.com/vijaydwivedi75/lrgb
-extraction_model: qwen3.6-35b-a3b
+extraction_model: Qwen/Qwen3.6-35B-A3B-FP8
 has_results: true
 paper_type: dataset
 proposed_models: []
@@ -45,60 +45,60 @@ results:
 - &id005
   dataset: COCO-SP
   rows:
-  - model: FloydNet
-    model_key: floydnet
-    model_plain: FloydNet
-    value: 0.4901
-    std: null
+  - model: LPE
+    model_key: lpe
+    model_plain: LPE
+    value: 0.4483
+    std: 0.0071
     metric: F1
     higher_is_better: true
-    is_baseline: false
+    is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2601.19094'
-    title: 'FloydNet: A Learning Paradigm for Global Relational Reasoning'
-    date: Jan 2026
-    date_display: Jan 2026
-    date_iso: 2026-01
+    arxiv_id: '2511.08028'
+    title: Generalizable Insights for Graph Transformers in Theory and Practice
+    date: Nov 2025
+    date_display: Nov 2025
+    date_iso: 2025-11
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
     global_rank: 1
-    sort_value: 0.4901
-    sort_std: null
+    sort_value: 0.4483
+    sort_std: 0.0071
     is_best: true
-  - model: GRASS
-    model_key: grass
-    model_plain: GRASS
-    value: 0.4752
-    std: 0.0032
+  - model: SPE
+    model_key: spe
+    model_plain: SPE
+    value: 0.4387
+    std: 0.0054
     metric: F1
     higher_is_better: true
-    is_baseline: false
+    is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.5
-    arxiv_id: '2407.05649'
-    title: 'Greener GRASS: Enhancing GNNs with Encoding, Rewiring, and Attention'
-    date: Jul 2024
-    date_display: Jul 2024
-    date_iso: 2024-07
+    params_millions: null
+    arxiv_id: '2511.08028'
+    title: Generalizable Insights for Graph Transformers in Theory and Practice
+    date: Nov 2025
+    date_display: Nov 2025
+    date_iso: 2025-11
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
     global_rank: 2
-    sort_value: 0.4752
-    sort_std: 0.0032
-    is_best: false
-  - model: GDT (LPE)
-    model_key: gdt (lpe)
-    model_plain: GDT (LPE)
-    value: 0.4483
-    std: 0.0070999999999999995
+    sort_value: 0.4387
+    sort_std: 0.0054
+    is_best: true
+  - model: RWSE
+    model_key: rwse
+    model_plain: RWSE
+    value: 0.4382
+    std: 0.0101
     metric: F1
     higher_is_better: true
-    is_baseline: false
+    is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
@@ -111,9 +111,9 @@ results:
     uses_external_data: false
     is_global_top: true
     global_rank: 3
-    sort_value: 0.4483
-    sort_std: 0.0070999999999999995
-    is_best: false
+    sort_value: 0.4382
+    sort_std: 0.0101
+    is_best: true
   - model: GatedGCN
     model_key: gatedgcn
     model_plain: GatedGCN
@@ -133,17 +133,17 @@ results:
     date: Jun 2022
     date_display: Jun 2022
     date_iso: 2022-06
-    global_rank: 21
-    true_value: 0.3802
-    true_std: 0.0015
-    value_gap_source_arxiv: '2502.09263'
-    value_gap_source_title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks?
-      Simple Architectures Meet Excellence
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
+    global_rank: 13
+    true_value: 0.2641
+    true_std: 0.0045
+    value_gap_source_arxiv: '2206.08164'
+    value_gap_source_title: Long Range Graph Benchmark
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
     has_value_note: false
-    value_gap: 0.11609999999999998
+    value_gap: null
     value_note: ''
+<<<<<<< Updated upstream
     paper_rank: 47
     rank_delta: 26
     rank_delta_abs: 26
@@ -187,6 +187,14 @@ results:
     rank_delta_direction: worse
     sort_value: 0.2733
     sort_std: 0.0041
+=======
+    paper_rank: 13
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.2641
+    sort_std: 0.0045
+>>>>>>> Stashed changes
     is_best: false
   - model: Transformer+LapPE
     model_key: transformer+lappe
@@ -207,17 +215,17 @@ results:
     date: Jun 2022
     date_display: Jun 2022
     date_iso: 2022-06
-    global_rank: 48
+    global_rank: 14
     true_value: 0.2618
     true_std: 0.0031
     value_gap_source_arxiv: '2206.08164'
-    value_gap_source_title: LRGB
+    value_gap_source_title: Long Range Graph Benchmark
     value_gap_source_is_current_paper: true
     has_value_gap: false
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 48
+    paper_rank: 14
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -243,17 +251,17 @@ results:
     date: Jun 2022
     date_display: Jun 2022
     date_iso: 2022-06
-    global_rank: 53
+    global_rank: 16
     true_value: 0.2592
     true_std: 0.0158
     value_gap_source_arxiv: '2206.08164'
-    value_gap_source_title: LRGB
+    value_gap_source_title: Long Range Graph Benchmark
     value_gap_source_is_current_paper: true
     has_value_gap: false
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 53
+    paper_rank: 16
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -279,17 +287,17 @@ results:
     date: Jun 2022
     date_display: Jun 2022
     date_iso: 2022-06
-    global_rank: 56
+    global_rank: 17
     true_value: 0.2574
     true_std: 0.0034
     value_gap_source_arxiv: '2206.08164'
-    value_gap_source_title: LRGB
+    value_gap_source_title: Long Range Graph Benchmark
     value_gap_source_is_current_paper: true
     has_value_gap: false
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 56
+    paper_rank: 17
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -315,23 +323,24 @@ results:
     date: Jun 2022
     date_display: Jun 2022
     date_iso: 2022-06
-    global_rank: 59
+    global_rank: 19
     true_value: 0.2434
     true_std: 0.0156
     value_gap_source_arxiv: '2206.08164'
-    value_gap_source_title: LRGB
+    value_gap_source_title: Long Range Graph Benchmark
     value_gap_source_is_current_paper: true
     has_value_gap: false
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 59
+    paper_rank: 19
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 0.2434
     sort_std: 0.0156
     is_best: false
+<<<<<<< Updated upstream
   - model: GINE
     model_key: gine
     model_plain: GINE
@@ -369,6 +378,8 @@ results:
     sort_value: 0.2125
     sort_std: 0.0009
     is_best: false
+=======
+>>>>>>> Stashed changes
   - model: GCNII
     model_key: gcnii
     model_plain: GCNII
@@ -388,51 +399,100 @@ results:
     date: Jun 2022
     date_display: Jun 2022
     date_iso: 2022-06
-    global_rank: 67
+    global_rank: 23
     true_value: 0.1404
     true_std: 0.0011
     value_gap_source_arxiv: '2206.08164'
-    value_gap_source_title: LRGB
+    value_gap_source_title: Long Range Graph Benchmark
     value_gap_source_is_current_paper: true
     has_value_gap: false
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 67
+    paper_rank: 23
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 0.1404
     sort_std: 0.0011
     is_best: false
+  - model: GINE
+    model_key: gine
+    model_plain: GINE
+    value: 0.1339
+    std: 0.0044
+    paper_value: 0.1339
+    paper_std: 0.0044
+    metric: F1
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Jun 2022
+    date_display: Jun 2022
+    date_iso: 2022-06
+    global_rank: 24
+    true_value: 0.1339
+    true_std: 0.0044
+    value_gap_source_arxiv: '2206.08164'
+    value_gap_source_title: Long Range Graph Benchmark
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 24
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.1339
+    sort_std: 0.0044
+    is_best: false
+  - model: GCN
+    model_key: gcn
+    model_plain: GCN
+    value: 0.0841
+    std: 0.001
+    paper_value: 0.0841
+    paper_std: 0.001
+    metric: F1
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Jun 2022
+    date_display: Jun 2022
+    date_iso: 2022-06
+    global_rank: 37
+    true_value: 0.0841
+    true_std: 0.001
+    value_gap_source_arxiv: '2206.08164'
+    value_gap_source_title: Long Range Graph Benchmark
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 37
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.0841
+    sort_std: 0.001
+    is_best: false
   metric: F1
   higher_is_better: true
 - &id004
   dataset: PCQM-Contact
   rows:
-  - model: FloydNet
-    model_key: floydnet
-    model_plain: FloydNet
-    value: 0.6143
-    std: null
-    metric: MRR
-    higher_is_better: true
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2601.19094'
-    title: 'FloydNet: A Learning Paradigm for Global Relational Reasoning'
-    date: Jan 2026
-    date_display: Jan 2026
-    date_iso: 2026-01
-    codebase_url: ''
-    uses_external_data: false
-    is_global_top: true
-    global_rank: 1
-    sort_value: 0.6143
-    sort_std: null
-    is_best: true
   - model: ViT-PS
     model_key: vit-ps
     model_plain: ViT-PS
@@ -440,7 +500,7 @@ results:
     std: null
     metric: MRR
     higher_is_better: true
-    is_baseline: false
+    is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
@@ -449,33 +509,57 @@ results:
     date: Jun 2023
     date_display: Jun 2023
     date_iso: 2023-06
-    codebase_url: ''
+    codebase_url: https://github.com/jw9730/lps
     uses_external_data: null
     is_global_top: true
-    global_rank: 2
+    global_rank: 1
     sort_value: 0.5341
     sort_std: null
-    is_best: false
-  - model: NeuralWalker
-    model_key: neuralwalker
-    model_plain: NeuralWalker
-    value: 0.4707
-    std: 0.0007
+    is_best: true
+  - model: Exphormer
+    model_key: exphormer
+    model_plain: Exphormer
+    value: 0.3637
+    std: 0.002
     metric: MRR
     higher_is_better: true
     is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2406.03386'
-    title: Learning Long Range Dependencies on Graphs via Random Walks
-    date: Jun 2024
-    date_display: Jun 2024
-    date_iso: 2024-06
-    codebase_url: ''
+    arxiv_id: '2303.06147'
+    title: 'Exphormer: Sparse Transformers for Graphs'
+    date: Mar 10, 2023
+    date_display: Mar 2023
+    date_iso: '2023-03-10'
+    codebase_url: https://github.com/hamed1375/Exphormer
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 2
+    sort_value: 0.3637
+    sort_std: 0.002
+    is_best: false
+  - model: SGT
+    model_key: sgt
+    model_plain: SGT
+    value: 0.345
+    std: 0.0002
+    metric: MRR
+    higher_is_better: true
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2405.13806'
+    title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
+    date: May 22, 2024
+    date_display: May 2024
+    date_iso: '2024-05-22'
+    codebase_url: https://github.com/liun-online/WaveGC
     uses_external_data: false
     is_global_top: true
     global_rank: 3
+<<<<<<< Updated upstream
     sort_value: 0.4707
     sort_std: 0.0007
     is_best: false
@@ -589,6 +673,10 @@ results:
     rank_delta_direction: worse
     sort_value: 0.3509
     sort_std: 0.0006
+=======
+    sort_value: 0.345
+    sort_std: 0.0002
+>>>>>>> Stashed changes
     is_best: false
   - model: SAN+LapPE
     model_key: san+lappe
@@ -604,22 +692,26 @@ results:
     override_reason: ''
     params_millions: null
     table_ref: Table 1
+<<<<<<< Updated upstream
     source_ref: this paper
+=======
+    source_ref: kreuzer2021rethinking
+>>>>>>> Stashed changes
     variant_inference_reason: 'dataset: exact match'
     date: Jun 2022
     date_display: Jun 2022
     date_iso: 2022-06
-    global_rank: 45
+    global_rank: 13
     true_value: 0.335
     true_std: 0.0003
     value_gap_source_arxiv: '2206.08164'
-    value_gap_source_title: LRGB
+    value_gap_source_title: Long Range Graph Benchmark
     value_gap_source_is_current_paper: true
     has_value_gap: false
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 45
+    paper_rank: 13
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -640,28 +732,31 @@ results:
     override_reason: ''
     params_millions: null
     table_ref: Table 1
+<<<<<<< Updated upstream
     source_ref: this paper
+=======
+    source_ref: kreuzer2021rethinking
+>>>>>>> Stashed changes
     variant_inference_reason: 'dataset: exact match'
     date: Jun 2022
     date_display: Jun 2022
     date_iso: 2022-06
-    global_rank: 46
-    true_value: 0.335
-    true_std: 0.0003
-    value_gap_source_arxiv: '2310.19285'
-    value_gap_source_title: Facilitating Graph Neural Networks with Random Walk on
-      Simplicial Complexes
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
+    global_rank: 14
+    true_value: 0.3341
+    true_std: 0.0006
+    value_gap_source_arxiv: '2206.08164'
+    value_gap_source_title: Long Range Graph Benchmark
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
     has_value_note: false
-    value_gap: 0.0009000000000000119
+    value_gap: null
     value_note: ''
-    paper_rank: 48
-    rank_delta: 2
-    rank_delta_abs: 2
-    rank_delta_direction: worse
-    sort_value: 0.335
-    sort_std: 0.0003
+    paper_rank: 14
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.3341
+    sort_std: 0.0006
     is_best: false
   - model: GatedGCN+RWSE
     model_key: gatedgcn+rwse
@@ -682,22 +777,130 @@ results:
     date: Jun 2022
     date_display: Jun 2022
     date_iso: 2022-06
-    global_rank: 60
+    global_rank: 20
     true_value: 0.3242
     true_std: 0.0008
     value_gap_source_arxiv: '2206.08164'
-    value_gap_source_title: LRGB
+    value_gap_source_title: Long Range Graph Benchmark
     value_gap_source_is_current_paper: true
     has_value_gap: false
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 60
+    paper_rank: 20
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 0.3242
     sort_std: 0.0008
+    is_best: false
+  - model: GCN
+    model_key: gcn
+    model_plain: GCN
+    value: 0.3234
+    std: 0.0006
+    paper_value: 0.3234
+    paper_std: 0.0006
+    metric: MRR
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: kipf2016gcn
+    variant_inference_reason: 'dataset: exact match'
+    date: Jun 2022
+    date_display: Jun 2022
+    date_iso: 2022-06
+    global_rank: 21
+    true_value: 0.3234
+    true_std: 0.0006
+    value_gap_source_arxiv: '2206.08164'
+    value_gap_source_title: Long Range Graph Benchmark
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 21
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.3234
+    sort_std: 0.0006
+    is_best: false
+  - model: GatedGCN
+    model_key: gatedgcn
+    model_plain: GatedGCN
+    value: 0.3218
+    std: 0.0011
+    paper_value: 0.3218
+    paper_std: 0.0011
+    metric: MRR
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: bresson2017gatedGCN
+    variant_inference_reason: 'dataset: exact match'
+    date: Jun 2022
+    date_display: Jun 2022
+    date_iso: 2022-06
+    global_rank: 22
+    true_value: 0.3218
+    true_std: 0.0011
+    value_gap_source_arxiv: '2206.08164'
+    value_gap_source_title: Long Range Graph Benchmark
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 22
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.3218
+    sort_std: 0.0011
+    is_best: false
+  - model: GINE
+    model_key: gine
+    model_plain: GINE
+    value: 0.318
+    std: 0.0027
+    paper_value: 0.318
+    paper_std: 0.0027
+    metric: MRR
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: xu2018powerful_gin, hu2019strategies
+    variant_inference_reason: 'dataset: exact match'
+    date: Jun 2022
+    date_display: Jun 2022
+    date_iso: 2022-06
+    global_rank: 23
+    true_value: 0.318
+    true_std: 0.0027
+    value_gap_source_arxiv: '2206.08164'
+    value_gap_source_title: Long Range Graph Benchmark
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 23
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.318
+    sort_std: 0.0027
     is_best: false
   - model: Transformer+LapPE
     model_key: transformer+lappe
@@ -713,22 +916,26 @@ results:
     override_reason: ''
     params_millions: null
     table_ref: Table 1
+<<<<<<< Updated upstream
     source_ref: this paper
+=======
+    source_ref: vaswani_2017_attention, dwivedi2020benchmarking, dwivedi2020generalization
+>>>>>>> Stashed changes
     variant_inference_reason: 'dataset: exact match'
     date: Jun 2022
     date_display: Jun 2022
     date_iso: 2022-06
-    global_rank: 62
+    global_rank: 25
     true_value: 0.3174
     true_std: 0.002
     value_gap_source_arxiv: '2206.08164'
-    value_gap_source_title: LRGB
+    value_gap_source_title: Long Range Graph Benchmark
     value_gap_source_is_current_paper: true
     has_value_gap: false
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 62
+    paper_rank: 25
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -749,28 +956,33 @@ results:
     override_reason: ''
     params_millions: null
     table_ref: Table 1
+<<<<<<< Updated upstream
     source_ref: this paper
+=======
+    source_ref: chen2020GCNII
+>>>>>>> Stashed changes
     variant_inference_reason: 'dataset: exact match'
     date: Jun 2022
     date_display: Jun 2022
     date_iso: 2022-06
-    global_rank: 64
+    global_rank: 26
     true_value: 0.3161
     true_std: 0.0004
     value_gap_source_arxiv: '2206.08164'
-    value_gap_source_title: LRGB
+    value_gap_source_title: Long Range Graph Benchmark
     value_gap_source_is_current_paper: true
     has_value_gap: false
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 64
+    paper_rank: 26
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 0.3161
     sort_std: 0.0004
     is_best: false
+<<<<<<< Updated upstream
   - model: GatedGCN+RWSE
     model_key: gatedgcn+rwse (l=2)
     model_plain: GatedGCN+RWSE
@@ -915,78 +1127,83 @@ results:
     sort_value: 0.1927
     sort_std: 0.001
     is_best: false
+=======
+>>>>>>> Stashed changes
   metric: MRR
   higher_is_better: true
 - &id003
   dataset: PascalVOC-SP
   rows:
-  - model: GRASS
-    model_key: grass
-    model_plain: GRASS
-    value: 0.567
-    std: 0.0049
-    metric: F1
-    higher_is_better: true
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: 0.5
-    arxiv_id: '2407.05649'
-    title: 'Greener GRASS: Enhancing GNNs with Encoding, Rewiring, and Attention'
-    date: Jul 2024
-    date_display: Jul 2024
-    date_iso: 2024-07
-    codebase_url: ''
-    uses_external_data: false
-    is_global_top: true
-    global_rank: 1
-    sort_value: 0.567
-    sort_std: 0.0049
-    is_best: true
-  - model: NeuralWalker
-    model_key: neuralwalker
-    model_plain: NeuralWalker
-    value: 0.4912
-    std: 0.0042
+  - model: GSSC
+    model_key: gssc
+    model_plain: GSSC
+    value: 0.4561
+    std: 0.0039
     metric: F1
     higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2407.05649'
-    title: 'Greener GRASS: Enhancing GNNs with Encoding, Rewiring, and Attention'
-    date: Jul 2024
-    date_display: Jul 2024
-    date_iso: 2024-07
+    arxiv_id: '2502.00282'
+    title: 'GraphMinNet: Learning Dependencies in Graphs with Light Complexity Minimal
+      Architecture'
+    date: Feb 1, 2025
+    date_display: Feb 2025
+    date_iso: '2025-02-01'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
-    global_rank: 2
-    sort_value: 0.4912
-    sort_std: 0.0042
-    is_best: false
-  - model: GENs
-    model_key: gens
-    model_plain: GENs
-    value: 0.4653
-    std: 0.0097
+    global_rank: 1
+    sort_value: 0.4561
+    sort_std: 0.0039
+    is_best: true
+  - model: LRDs
+    model_key: lrds
+    model_plain: LRDs
+    value: 0.4352
+    std: 0.003
     metric: F1
     higher_is_better: true
     is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2401.01233'
-    title: 'GEN: A Practical Alternative to Graph Transformers for Long-Range Graph
-      Modeling'
-    date: Jan 2024
-    date_display: Jan 2024
-    date_iso: 2024-01
+    arxiv_id: '2502.00282'
+    title: 'GraphMinNet: Learning Dependencies in Graphs with Light Complexity Minimal
+      Architecture'
+    date: Feb 1, 2025
+    date_display: Feb 2025
+    date_iso: '2025-02-01'
+    codebase_url: ''
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 2
+    sort_value: 0.4352
+    sort_std: 0.003
+    is_best: false
+  - model: Graph-Mamba
+    model_key: graph-mamba
+    model_plain: Graph-Mamba
+    value: 0.4191
+    std: 0.0126
+    metric: F1
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2502.00282'
+    title: 'GraphMinNet: Learning Dependencies in Graphs with Light Complexity Minimal
+      Architecture'
+    date: Feb 1, 2025
+    date_display: Feb 2025
+    date_iso: '2025-02-01'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
     global_rank: 3
+<<<<<<< Updated upstream
     sort_value: 0.4653
     sort_std: 0.0097
     is_best: false
@@ -1098,6 +1315,10 @@ results:
     rank_delta_direction: worse
     sort_value: 0.376
     sort_std: 0.001
+=======
+    sort_value: 0.4191
+    sort_std: 0.0126
+>>>>>>> Stashed changes
     is_best: false
   - model: SAN+LapPE
     model_key: san+lappe
@@ -1118,17 +1339,17 @@ results:
     date: Jun 2022
     date_display: Jun 2022
     date_iso: 2022-06
-    global_rank: 61
+    global_rank: 11
     true_value: 0.323
     true_std: 0.0039
     value_gap_source_arxiv: '2206.08164'
-    value_gap_source_title: LRGB
+    value_gap_source_title: Long Range Graph Benchmark
     value_gap_source_is_current_paper: true
     has_value_gap: false
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 61
+    paper_rank: 11
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1154,30 +1375,30 @@ results:
     date: Jun 2022
     date_display: Jun 2022
     date_iso: 2022-06
-    global_rank: 65
+    global_rank: 12
     true_value: 0.3216
     true_std: 0.0027
     value_gap_source_arxiv: '2206.08164'
-    value_gap_source_title: LRGB
+    value_gap_source_title: Long Range Graph Benchmark
     value_gap_source_is_current_paper: true
     has_value_gap: false
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 65
+    paper_rank: 12
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 0.3216
     sort_std: 0.0027
     is_best: false
-  - model: GINE
-    model_key: gine
-    model_plain: GINE
-    value: 0.1265
-    std: 0.0076
-    paper_value: 0.1265
-    paper_std: 0.0076
+  - model: GatedGCN
+    model_key: gatedgcn
+    model_plain: GatedGCN
+    value: 0.2873
+    std: 0.0219
+    paper_value: 0.2873
+    paper_std: 0.0219
     metric: F1
     higher_is_better: true
     is_baseline: true
@@ -1190,23 +1411,58 @@ results:
     date: Jun 2022
     date_display: Jun 2022
     date_iso: 2022-06
-    global_rank: 80
-    true_value: 0.2718
-    true_std: 0.0054
-    value_gap_source_arxiv: '2604.03815'
-    value_gap_source_title: k-Maximum Inner Product Attention for Graph Transformers
-      and the Expressive Power of GraphGPS
-    value_gap_source_is_current_paper: false
-    has_value_gap: true
+    global_rank: 19
+    true_value: 0.2873
+    true_std: 0.0219
+    value_gap_source_arxiv: '2206.08164'
+    value_gap_source_title: Long Range Graph Benchmark
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
     has_value_note: false
-    value_gap: 0.14529999999999998
+    value_gap: null
     value_note: ''
-    paper_rank: 109
-    rank_delta: 29
-    rank_delta_abs: 29
-    rank_delta_direction: worse
-    sort_value: 0.2718
-    sort_std: 0.0054
+    paper_rank: 19
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.2873
+    sort_std: 0.0219
+    is_best: false
+  - model: GatedGCN+LapPE
+    model_key: gatedgcn+lappe
+    model_plain: GatedGCN+LapPE
+    value: 0.286
+    std: 0.0085
+    paper_value: 0.286
+    paper_std: 0.0085
+    metric: F1
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Jun 2022
+    date_display: Jun 2022
+    date_iso: 2022-06
+    global_rank: 20
+    true_value: 0.286
+    true_std: 0.0085
+    value_gap_source_arxiv: '2206.08164'
+    value_gap_source_title: Long Range Graph Benchmark
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 20
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.286
+    sort_std: 0.0085
     is_best: false
   - model: Transformer+LapPE
     model_key: transformer+lappe
@@ -1227,17 +1483,17 @@ results:
     date: Jun 2022
     date_display: Jun 2022
     date_iso: 2022-06
-    global_rank: 81
+    global_rank: 24
     true_value: 0.2694
     true_std: 0.0098
     value_gap_source_arxiv: '2206.08164'
-    value_gap_source_title: LRGB
+    value_gap_source_title: Long Range Graph Benchmark
     value_gap_source_is_current_paper: true
     has_value_gap: false
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 81
+    paper_rank: 24
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1263,96 +1519,171 @@ results:
     date: Jun 2022
     date_display: Jun 2022
     date_iso: 2022-06
-    global_rank: 102
+    global_rank: 27
     true_value: 0.1698
     true_std: 0.008
     value_gap_source_arxiv: '2206.08164'
-    value_gap_source_title: LRGB
+    value_gap_source_title: Long Range Graph Benchmark
     value_gap_source_is_current_paper: true
     has_value_gap: false
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 102
+    paper_rank: 27
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 0.1698
     sort_std: 0.008
     is_best: false
-  metric: F1
-  higher_is_better: true
-- &id001
-  dataset: Peptides-func
-  rows:
-  - model: LightGBM (ECFP)
-    model_key: lightgbm (ecfp)
-    model_plain: LightGBM (ECFP)
-    value: 0.746
-    std: null
-    metric: AP
+  - model: GCN
+    model_key: gcn
+    model_plain: GCN
+    value: 0.1268
+    std: 0.006
+    paper_value: 0.1268
+    paper_std: 0.006
+    metric: F1
     higher_is_better: true
-    is_baseline: false
+    is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2501.17901'
-    title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: Jan 29, 2025
-    date_display: Jan 2025
-    date_iso: '2025-01-29'
-    codebase_url: ''
-    uses_external_data: false
-    is_global_top: true
-    global_rank: 1
-    sort_value: 0.746
-    sort_std: null
-    is_best: true
-  - model: Random Forest (ECFP)
-    model_key: random forest (ecfp)
-    model_plain: Random Forest (ECFP)
-    value: 0.7355
-    std: 0.001
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Jun 2022
+    date_display: Jun 2022
+    date_iso: 2022-06
+    global_rank: 36
+    true_value: 0.1268
+    true_std: 0.006
+    value_gap_source_arxiv: '2206.08164'
+    value_gap_source_title: Long Range Graph Benchmark
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 36
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.1268
+    sort_std: 0.006
+    is_best: false
+  - model: GINE
+    model_key: gine
+    model_plain: GINE
+    value: 0.1265
+    std: 0.0076
+    paper_value: 0.1265
+    paper_std: 0.0076
+    metric: F1
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Jun 2022
+    date_display: Jun 2022
+    date_iso: 2022-06
+    global_rank: 37
+    true_value: 0.1265
+    true_std: 0.0076
+    value_gap_source_arxiv: '2206.08164'
+    value_gap_source_title: Long Range Graph Benchmark
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 37
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.1265
+    sort_std: 0.0076
+    is_best: false
+  metric: F1
+  higher_is_better: true
+- &id002
+  dataset: Peptides-func
+  rows:
+  - model: S2GCN +PE
+    model_key: s2gcn +pe
+    model_plain: S2GCN +PE
+    value: 0.7311
+    std: 0.0066
     metric: AP
     higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2501.17901'
-    title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: Jan 29, 2025
-    date_display: Jan 2025
-    date_iso: '2025-01-29'
-    codebase_url: ''
+    arxiv_id: '2506.07624'
+    title: 'Return of ChebNet: Understanding and Improving an Overlooked GNN on Long-Range
+      Tasks'
+    date: Jun 2025
+    date_display: Jun 2025
+    date_iso: 2025-06
+    codebase_url: https://github.com/ahariri13/Stable-ChebNet
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 1
+    sort_value: 0.7311
+    sort_std: 0.0066
+    is_best: true
+  - model: S2GCN
+    model_key: s2gcn
+    model_plain: S2GCN
+    value: 0.7275
+    std: 0.0066
+    metric: AP
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2506.07624'
+    title: 'Return of ChebNet: Understanding and Improving an Overlooked GNN on Long-Range
+      Tasks'
+    date: Jun 2025
+    date_display: Jun 2025
+    date_iso: 2025-06
+    codebase_url: https://github.com/ahariri13/Stable-ChebNet
     uses_external_data: false
     is_global_top: true
     global_rank: 2
-    sort_value: 0.7355
-    sort_std: 0.001
-    is_best: false
-  - model: LightGBM (TT)
-    model_key: lightgbm (tt)
-    model_plain: LightGBM (TT)
-    value: 0.7318
-    std: null
+    sort_value: 0.7275
+    sort_std: 0.0066
+    is_best: true
+  - model: LRDs
+    model_key: lrds
+    model_plain: LRDs
+    value: 0.7182
+    std: 0.0024
     metric: AP
     higher_is_better: true
     is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2501.17901'
-    title: Molecular Fingerprints Are Strong Models for Peptide Function Prediction
-    date: Jan 29, 2025
-    date_display: Jan 2025
-    date_iso: '2025-01-29'
+    arxiv_id: '2502.00282'
+    title: 'GraphMinNet: Learning Dependencies in Graphs with Light Complexity Minimal
+      Architecture'
+    date: Feb 1, 2025
+    date_display: Feb 2025
+    date_iso: '2025-02-01'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
     global_rank: 3
-    sort_value: 0.7318
-    sort_std: null
+    sort_value: 0.7182
+    sort_std: 0.0024
     is_best: false
   - model: GCN
     model_key: gcn
@@ -1373,23 +1704,23 @@ results:
     date: Jun 2022
     date_display: Jun 2022
     date_iso: 2022-06
-    global_rank: 9
-    true_value: 0.7261
-    true_std: 0.0067
-    value_gap_source_arxiv: '2502.09263'
-    value_gap_source_title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks?
-      Simple Architectures Meet Excellence
+    global_rank: 28
+    true_value: 0.686
+    true_std: 0.005
+    value_gap_source_arxiv: '2312.01538'
+    value_gap_source_title: Recurrent Distance Filtering for Graph Representation
+      Learning
     value_gap_source_is_current_paper: false
     has_value_gap: true
     has_value_note: false
-    value_gap: 0.1331
+    value_gap: 0.09300000000000008
     value_note: ''
-    paper_rank: 261
-    rank_delta: 252
-    rank_delta_abs: 252
+    paper_rank: 78
+    rank_delta: 50
+    rank_delta_abs: 50
     rank_delta_direction: worse
-    sort_value: 0.7261
-    sort_std: 0.0067
+    sort_value: 0.686
+    sort_std: 0.005
     is_best: false
   - model: GatedGCN
     model_key: gatedgcn
@@ -1410,21 +1741,22 @@ results:
     date: Jun 2022
     date_display: Jun 2022
     date_iso: 2022-06
-    global_rank: 49
-    true_value: 0.7006
-    true_std: 0.0033
-    value_gap_source_arxiv: '2502.09263'
-    value_gap_source_title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks?
-      Simple Architectures Meet Excellence
+    global_rank: 35
+    true_value: 0.6765
+    true_std: 0.0047
+    value_gap_source_arxiv: '2312.01538'
+    value_gap_source_title: Recurrent Distance Filtering for Graph Representation
+      Learning
     value_gap_source_is_current_paper: false
     has_value_gap: true
     has_value_note: false
-    value_gap: 0.11419999999999997
+    value_gap: 0.09009999999999996
     value_note: ''
-    paper_rank: 273
-    rank_delta: 224
-    rank_delta_abs: 224
+    paper_rank: 78
+    rank_delta: 43
+    rank_delta_abs: 43
     rank_delta_direction: worse
+<<<<<<< Updated upstream
     sort_value: 0.7006
     sort_std: 0.0033
     is_best: false
@@ -1464,6 +1796,10 @@ results:
     rank_delta_direction: worse
     sort_value: 0.6685
     sort_std: 0.0062
+=======
+    sort_value: 0.6765
+    sort_std: 0.0047
+>>>>>>> Stashed changes
     is_best: false
   - model: GINE
     model_key: gine
@@ -1484,20 +1820,20 @@ results:
     date: Jun 2022
     date_display: Jun 2022
     date_iso: 2022-06
-    global_rank: 142
+    global_rank: 45
     true_value: 0.6621
     true_std: 0.0067
-    value_gap_source_arxiv: '2309.00367'
-    value_gap_source_title: Where Did the Gap Go? Reassessing the Long-Range Graph
-      Benchmark
+    value_gap_source_arxiv: '2312.01538'
+    value_gap_source_title: Recurrent Distance Filtering for Graph Representation
+      Learning
     value_gap_source_is_current_paper: false
     has_value_gap: true
     has_value_note: false
     value_gap: 0.11230000000000007
     value_note: ''
-    paper_rank: 288
-    rank_delta: 146
-    rank_delta_abs: 146
+    paper_rank: 83
+    rank_delta: 38
+    rank_delta_abs: 38
     rank_delta_direction: worse
     sort_value: 0.6621
     sort_std: 0.0067
@@ -1521,23 +1857,23 @@ results:
     date: Jun 2022
     date_display: Jun 2022
     date_iso: 2022-06
-    global_rank: 200
-    true_value: 0.644
-    true_std: 0.008
-    value_gap_source_arxiv: '2309.16014'
-    value_gap_source_title: Graph-level Representation Learning with Joint-Embedding
-      Predictive Architectures
+    global_rank: 51
+    true_value: 0.6562
+    true_std: 0.0075
+    value_gap_source_arxiv: '2302.08647'
+    value_gap_source_title: Multiresolution Graph Transformers and Wavelet Positional
+      Encoding for Learning Hierarchical Structures
     value_gap_source_is_current_paper: false
-    has_value_gap: false
-    has_value_note: true
-    value_gap: 9.999999999998899e-05
-    value_note: global 0.6440 within std
-    paper_rank: 201
-    rank_delta: 1
-    rank_delta_abs: 1
+    has_value_gap: true
+    has_value_note: false
+    value_gap: 0.012299999999999978
+    value_note: ''
+    paper_rank: 63
+    rank_delta: 12
+    rank_delta_abs: 12
     rank_delta_direction: worse
-    sort_value: 0.644
-    sort_std: 0.008
+    sort_value: 0.6562
+    sort_std: 0.0075
     is_best: false
   - model: SAN+LapPE
     model_key: san+lappe
@@ -1558,21 +1894,21 @@ results:
     date: Jun 2022
     date_display: Jun 2022
     date_iso: 2022-06
-    global_rank: 212
-    true_value: 0.6384000000000001
+    global_rank: 67
+    true_value: 0.6384
     true_std: 0.0121
-    value_gap_source_arxiv: '2510.02565'
-    value_gap_source_title: On The Expressive Power of GNN Derivatives
-    value_gap_source_is_current_paper: false
+    value_gap_source_arxiv: '2206.08164'
+    value_gap_source_title: Long Range Graph Benchmark
+    value_gap_source_is_current_paper: true
     has_value_gap: false
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 212
+    paper_rank: 67
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
-    sort_value: 0.6384000000000001
+    sort_value: 0.6384
     sort_std: 0.0121
     is_best: false
   - model: Transformer+LapPE
@@ -1594,17 +1930,17 @@ results:
     date: Jun 2022
     date_display: Jun 2022
     date_iso: 2022-06
-    global_rank: 217
+    global_rank: 69
     true_value: 0.6326
     true_std: 0.0126
     value_gap_source_arxiv: '2206.08164'
-    value_gap_source_title: LRGB
+    value_gap_source_title: Long Range Graph Benchmark
     value_gap_source_is_current_paper: true
     has_value_gap: false
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 217
+    paper_rank: 69
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1612,40 +1948,44 @@ results:
     sort_std: 0.0126
     is_best: false
   - model: GatedGCN+RWSE
-    model_key: gatedgcn+rwse (l=2)
+    model_key: gatedgcn+rwse
     model_plain: GatedGCN+RWSE
-    value: 0.5812
-    std: 0.0053
-    paper_value: 0.5812
-    paper_std: 0.0053
+    value: 0.6069
+    std: 0.0035
+    paper_value: 0.6069
+    paper_std: 0.0035
     metric: AP
     higher_is_better: true
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
+<<<<<<< Updated upstream
     table_ref: Table 2
+=======
+    table_ref: Table 1
+>>>>>>> Stashed changes
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Jun 2022
     date_display: Jun 2022
     date_iso: 2022-06
-    global_rank: 276
-    true_value: 0.5812
-    true_std: 0.0053
+    global_rank: 75
+    true_value: 0.6069
+    true_std: 0.0035
     value_gap_source_arxiv: '2206.08164'
-    value_gap_source_title: LRGB
+    value_gap_source_title: Long Range Graph Benchmark
     value_gap_source_is_current_paper: true
     has_value_gap: false
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 276
+    paper_rank: 75
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
-    sort_value: 0.5812
-    sort_std: 0.0053
+    sort_value: 0.6069
+    sort_std: 0.0035
     is_best: false
   - model: GCNII
     model_key: gcnii
@@ -1666,23 +2006,24 @@ results:
     date: Jun 2022
     date_display: Jun 2022
     date_iso: 2022-06
-    global_rank: 285
+    global_rank: 83
     true_value: 0.5543
     true_std: 0.0078
     value_gap_source_arxiv: '2206.08164'
-    value_gap_source_title: LRGB
+    value_gap_source_title: Long Range Graph Benchmark
     value_gap_source_is_current_paper: true
     has_value_gap: false
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 285
+    paper_rank: 83
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 0.5543
     sort_std: 0.0078
     is_best: false
+<<<<<<< Updated upstream
   - model: GatedGCN
     model_key: gatedgcn (l=2)
     model_plain: GatedGCN
@@ -1791,11 +2132,14 @@ results:
     sort_value: 0.4894
     sort_std: 0.0039
     is_best: false
+=======
+>>>>>>> Stashed changes
   metric: AP
   higher_is_better: true
-- &id002
+- &id001
   dataset: Peptides-struct
   rows:
+<<<<<<< Updated upstream
   - model: ESA
     model_key: esa
     model_plain: ESA
@@ -1879,6 +2223,8 @@ results:
     sort_value: 0.2421
     sort_std: 0.0016
     is_best: false
+=======
+>>>>>>> Stashed changes
   - model: Tango_GPS
     model_key: tango_gps
     model_plain: Tango_GPS
@@ -1898,16 +2244,64 @@ results:
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
-    global_rank: 4
+    global_rank: 1
     sort_value: 0.2422
     sort_std: 0.0014
-    is_best: false
-  - model: GatedGCN
-    model_key: gatedgcn
-    model_plain: GatedGCN
-    value: 0.342
+    is_best: true
+  - model: B-PEARL+SRF
+    model_key: b-pearl+srf
+    model_plain: B-PEARL+SRF
+    value: 0.243
+    std: null
+    metric: MAE
+    higher_is_better: false
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2511.03824'
+    title: Sketch-Augmented Features Improve Learning Long-Range Dependencies in Graph
+      Neural Networks
+    date: Nov 2025
+    date_display: Nov 2025
+    date_iso: 2025-11
+    codebase_url: https://github.com/ryienh/sketched-random-features
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 2
+    sort_value: 0.243
+    sort_std: null
+    is_best: true
+  - model: GRAMA
+    model_key: grama
+    model_plain: GRAMA
+    value: 0.2436
+    std: 0.0022
+    metric: MAE
+    higher_is_better: false
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2506.07624'
+    title: 'Return of ChebNet: Understanding and Improving an Overlooked GNN on Long-Range
+      Tasks'
+    date: Jun 2025
+    date_display: Jun 2025
+    date_iso: 2025-06
+    codebase_url: https://github.com/ahariri13/Stable-ChebNet
+    uses_external_data: null
+    is_global_top: true
+    global_rank: 3
+    sort_value: 0.2436
+    sort_std: 0.0022
+    is_best: true
+  - model: GCN
+    model_key: gcn
+    model_plain: GCN
+    value: 0.3496
     std: 0.0013
-    paper_value: 0.342
+    paper_value: 0.3496
     paper_std: 0.0013
     metric: MAE
     higher_is_better: false
@@ -1921,23 +2315,23 @@ results:
     date: Jun 2022
     date_display: Jun 2022
     date_iso: 2022-06
-    global_rank: 12
-    true_value: 0.2431
-    true_std: 0.002
-    value_gap_source_arxiv: '2502.09263'
-    value_gap_source_title: Can Classic GNNs Be Strong Baselines for Graph-level Tasks?
-      Simple Architectures Meet Excellence
+    global_rank: 14
+    true_value: 0.246
+    true_std: 0.0007
+    value_gap_source_arxiv: '2312.01538'
+    value_gap_source_title: Recurrent Distance Filtering for Graph Representation
+      Learning
     value_gap_source_is_current_paper: false
     has_value_gap: true
     has_value_note: false
-    value_gap: 0.09890000000000002
+    value_gap: 0.10360000000000003
     value_note: ''
-    paper_rank: 297
-    rank_delta: 285
-    rank_delta_abs: 285
+    paper_rank: 94
+    rank_delta: 80
+    rank_delta_abs: 80
     rank_delta_direction: worse
-    sort_value: 0.2431
-    sort_std: 0.002
+    sort_value: 0.246
+    sort_std: 0.0007
     is_best: false
   - model: GINE
     model_key: gine
@@ -1958,23 +2352,60 @@ results:
     date: Jun 2022
     date_display: Jun 2022
     date_iso: 2022-06
-    global_rank: 79
+    global_rank: 22
     true_value: 0.2473
     true_std: 0.0017
-    value_gap_source_arxiv: '2604.03815'
-    value_gap_source_title: k-Maximum Inner Product Attention for Graph Transformers
-      and the Expressive Power of GraphGPS
+    value_gap_source_arxiv: '2312.01538'
+    value_gap_source_title: Recurrent Distance Filtering for Graph Representation
+      Learning
     value_gap_source_is_current_paper: false
     has_value_gap: true
     has_value_note: false
     value_gap: 0.10740000000000002
     value_note: ''
-    paper_rank: 311
-    rank_delta: 232
-    rank_delta_abs: 232
+    paper_rank: 94
+    rank_delta: 72
+    rank_delta_abs: 72
     rank_delta_direction: worse
     sort_value: 0.2473
     sort_std: 0.0017
+    is_best: false
+  - model: GatedGCN
+    model_key: gatedgcn
+    model_plain: GatedGCN
+    value: 0.342
+    std: 0.0013
+    paper_value: 0.342
+    paper_std: 0.0013
+    metric: MAE
+    higher_is_better: false
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Jun 2022
+    date_display: Jun 2022
+    date_iso: 2022-06
+    global_rank: 31
+    true_value: 0.2477
+    true_std: 0.0009
+    value_gap_source_arxiv: '2312.01538'
+    value_gap_source_title: Recurrent Distance Filtering for Graph Representation
+      Learning
+    value_gap_source_is_current_paper: false
+    has_value_gap: true
+    has_value_note: false
+    value_gap: 0.09430000000000002
+    value_note: ''
+    paper_rank: 93
+    rank_delta: 62
+    rank_delta_abs: 62
+    rank_delta_direction: worse
+    sort_value: 0.2477
+    sort_std: 0.0009
     is_best: false
   - model: Transformer+LapPE
     model_key: transformer+lappe
@@ -1995,23 +2426,24 @@ results:
     date: Jun 2022
     date_display: Jun 2022
     date_iso: 2022-06
-    global_rank: 168
+    global_rank: 55
     true_value: 0.2529
     true_std: 0.0016
     value_gap_source_arxiv: '2206.08164'
-    value_gap_source_title: LRGB
+    value_gap_source_title: Long Range Graph Benchmark
     value_gap_source_is_current_paper: true
     has_value_gap: false
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 168
+    paper_rank: 55
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 0.2529
     sort_std: 0.0016
     is_best: false
+<<<<<<< Updated upstream
   - model: GatedGCN+RWSE
     model_key: gatedgcn+rwse
     model_plain: GatedGCN+RWSE
@@ -2049,6 +2481,8 @@ results:
     sort_value: 0.2529
     sort_std: 0.0009
     is_best: false
+=======
+>>>>>>> Stashed changes
   - model: SAN+RWSE
     model_key: san+rwse
     model_plain: SAN+RWSE
@@ -2068,17 +2502,17 @@ results:
     date: Jun 2022
     date_display: Jun 2022
     date_iso: 2022-06
-    global_rank: 188
+    global_rank: 64
     true_value: 0.2545
     true_std: 0.0012
     value_gap_source_arxiv: '2206.08164'
-    value_gap_source_title: LRGB
+    value_gap_source_title: Long Range Graph Benchmark
     value_gap_source_is_current_paper: true
     has_value_gap: false
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 188
+    paper_rank: 64
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -2104,7 +2538,7 @@ results:
     date: Jun 2022
     date_display: Jun 2022
     date_iso: 2022-06
-    global_rank: 242
+    global_rank: 78
     true_value: 0.268
     true_std: 0.004
     value_gap_source_arxiv: '2502.01122'
@@ -2115,12 +2549,48 @@ results:
     has_value_note: true
     value_gap: 0.00029999999999996696
     value_note: global 0.2680 within std
-    paper_rank: 242
+    paper_rank: 78
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 0.268
     sort_std: 0.004
+    is_best: false
+  - model: GatedGCN+RWSE
+    model_key: gatedgcn+rwse
+    model_plain: GatedGCN+RWSE
+    value: 0.3357
+    std: 0.0006
+    paper_value: 0.3357
+    paper_std: 0.0006
+    metric: MAE
+    higher_is_better: false
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    table_ref: Table 1
+    source_ref: this paper
+    variant_inference_reason: 'dataset: exact match'
+    date: Jun 2022
+    date_display: Jun 2022
+    date_iso: 2022-06
+    global_rank: 92
+    true_value: 0.3357
+    true_std: 0.0006
+    value_gap_source_arxiv: '2206.08164'
+    value_gap_source_title: Long Range Graph Benchmark
+    value_gap_source_is_current_paper: true
+    has_value_gap: false
+    has_value_note: false
+    value_gap: null
+    value_note: ''
+    paper_rank: 92
+    rank_delta: 0
+    rank_delta_abs: 0
+    rank_delta_direction: same
+    sort_value: 0.3357
+    sort_std: 0.0006
     is_best: false
   - model: GCNII
     model_key: gcnii
@@ -2141,17 +2611,17 @@ results:
     date: Jun 2022
     date_display: Jun 2022
     date_iso: 2022-06
-    global_rank: 300
+    global_rank: 94
     true_value: 0.3471
     true_std: 0.001
     value_gap_source_arxiv: '2206.08164'
-    value_gap_source_title: LRGB
+    value_gap_source_title: Long Range Graph Benchmark
     value_gap_source_is_current_paper: true
     has_value_gap: false
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 300
+    paper_rank: 94
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same

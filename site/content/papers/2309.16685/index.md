@@ -22,9 +22,9 @@ abstract: Without knowledge of specific pockets, generating ligands based on the
   including the assessment of generative model quality, ligand generation for unseen
   targets, docking score computation, and binding affinity prediction. Empirical results
   demonstrate the promising performance of our proposed approach. Our software package
-  is publicly available at https://github.com/HySonLab/Ligand_Generation.
-codebase_url: ''
-extraction_model: qwen3.6-35b-a3b
+  is publicly available at.
+codebase_url: https://github.com/HySonLab/Ligand_Generation
+extraction_model: Qwen/Qwen3.6-35B-A3B-FP8
 has_results: true
 paper_type: method
 proposed_models:
@@ -42,52 +42,6 @@ results:
 - &id001
   dataset: D&D
   rows:
-  - model: GIN
-    model_key: gin
-    model_plain: GIN
-    value: 0.05
-    std: 0.021
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2506.08618'
-    title: HSG-12M
-    date: Jun 2025
-    date_display: Jun 2025
-    date_iso: 2025-06
-    codebase_url: ''
-    uses_external_data: false
-    is_global_top: true
-    global_rank: 1
-    sort_value: 0.05
-    sort_std: 0.021
-    is_best: true
-  - model: GCN
-    model_key: gcn
-    model_plain: GCN
-    value: 0.093
-    std: null
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2411.15671'
-    title: 'Best of Both Worlds: Advantages of Hybrid Graph Sequence Models'
-    date: Nov 2024
-    date_display: Nov 2024
-    date_iso: 2024-11
-    codebase_url: ''
-    uses_external_data: false
-    is_global_top: true
-    global_rank: 2
-    sort_value: 0.093
-    sort_std: null
-    is_best: false
   - model: PMN
     model_key: pmn
     model_plain: PMN
@@ -103,14 +57,14 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
     date: Sep 2023
     date_display: Sep 2023
     date_iso: 2023-09
     global_rank: null
     sort_value: 0.202
     sort_std: 0.007
-    is_best: false
+    is_best: true
   - model: AttentionDTA
     model_key: attentiondta
     model_plain: AttentionDTA
@@ -126,7 +80,7 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: zhao2019attentiondta
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
     date: Sep 2023
     date_display: Sep 2023
     date_iso: 2023-09
@@ -149,7 +103,7 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: 10.1093/bib/bbab506
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
     date: Sep 2023
     date_display: Sep 2023
     date_iso: 2023-09
@@ -172,7 +126,7 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: 10.1093/bib/bbab117
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
     date: Sep 2023
     date_display: Sep 2023
     date_iso: 2023-09
@@ -195,7 +149,7 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: 10.1371/journal.pcbi.1011036
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
     date: Sep 2023
     date_display: Sep 2023
     date_iso: 2023-09
@@ -218,7 +172,7 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: D3RA00281K
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
     date: Sep 2023
     date_display: Sep 2023
     date_iso: 2023-09
@@ -241,36 +195,13 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: 10.1093/bioinformatics/bty593
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
     date: Sep 2023
     date_display: Sep 2023
     date_iso: 2023-09
     global_rank: null
     sort_value: 0.261
     sort_std: null
-    is_best: false
-  - model: MF
-    model_key: mf
-    model_plain: MF
-    value: 0.271
-    std: 0.004
-    metric: Accuracy
-    higher_is_better: true
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2506.08618'
-    title: HSG-12M
-    date: Jun 2025
-    date_display: Jun 2025
-    date_iso: 2025-06
-    codebase_url: ''
-    uses_external_data: false
-    is_global_top: true
-    global_rank: 3
-    sort_value: 0.271
-    sort_std: 0.004
     is_best: false
   - model: SimBoost
     model_key: simboost
@@ -287,7 +218,7 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: He2017
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
     date: Sep 2023
     date_display: Sep 2023
     date_iso: 2023-09
@@ -310,7 +241,7 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: shim2021prediction
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
     date: Sep 2023
     date_display: Sep 2023
     date_iso: 2023-09
@@ -333,13 +264,82 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: nascimento2016multiple
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
     date: Sep 2023
     date_display: Sep 2023
     date_iso: 2023-09
     global_rank: null
     sort_value: 0.379
     sort_std: null
+    is_best: false
+  - model: KNN graph-convolution
+    model_key: knn graph-convolution
+    model_plain: KNN graph-convolution
+    value: 0.58
+    std: 0.02
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1703.06114'
+    title: Deep Sets
+    date: Mar 2017
+    date_display: Mar 2017
+    date_iso: 2017-03
+    codebase_url: ''
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 1
+    sort_value: 0.58
+    sort_std: 0.02
+    is_best: false
+  - model: MMGCN + ImageBind/ImageBind
+    model_key: mmgcn + imagebind/imagebind
+    model_plain: MMGCN + ImageBind/ImageBind
+    value: 0.5875
+    std: 0.0005
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2406.16321'
+    title: 'Mosaic of Modalities: A Comprehensive Benchmark for Multimodal Graph Learning'
+    date: Jun 2024
+    date_display: Jun 2024
+    date_iso: 2024-06
+    codebase_url: ''
+    uses_external_data: true
+    is_global_top: true
+    global_rank: 2
+    sort_value: 0.5875
+    sort_std: 0.0005
+    is_best: false
+  - model: DGCNN(L8)
+    model_key: dgcnn(l8)
+    model_plain: DGCNN(L8)
+    value: 0.6163
+    std: 0.0533
+    metric: Accuracy
+    higher_is_better: true
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2302.08671'
+    title: Search to Capture Long-range Dependency with Stacking GNNs for Graph Classification
+    date: Feb 2023
+    date_display: Feb 2023
+    date_iso: 2023-02
+    codebase_url: https://github.com/LARS-research/LRGNN
+    uses_external_data: false
+    is_global_top: true
+    global_rank: 3
+    sort_value: 0.6163
+    sort_std: 0.0533
     is_best: false
   - model: WideDTA
     model_key: widedta
@@ -356,7 +356,7 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: ozturk2019widedta
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
     date: Sep 2023
     date_display: Sep 2023
     date_iso: 2023-09

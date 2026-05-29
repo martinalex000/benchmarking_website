@@ -13,11 +13,12 @@ Checks currently included:
 - bounded metrics such as Accuracy/AP/AUC/F1/MRR/Hits@K must not exceed 1
 - values roughly 20x away from the dataset-metric median are flagged as likely scale issues
 
-**Flagged papers:** 11
-**Flagged rows:** 27
+**Flagged papers:** 4
+**Flagged rows:** 12
 
 | ArXiv | Title | Dataset | Metric | Model | Value | Dataset Median | Reason |
 |-------|-------|---------|--------|-------|------:|---------------:|--------|
+<<<<<<< Updated upstream
 | 2309.16014 | Graph-level Representation Learning with Joint-E | IMDB-BINARY | Accuracy | BGRL | 0.005 | 0.708 | 141.6x below dataset median |
 | 2309.16014 | Graph-level Representation Learning with Joint-E | IMDB-MULTI | Accuracy | BGRL | 0.0033 | 0.49935 | 151.3x below dataset median |
 | 2312.16560 | Algorithmic Graph Tasks | D&D | MSE | A-DGN | -0.453 | 0.0444 | -0.1x below dataset median |
@@ -45,3 +46,17 @@ Checks currently included:
 | 2601.18917 | GraIP: A Benchmarking Framework For Neural Graph | D&D | MSE | NRI + STE | 0.0021 | 0.0444 | 21.1x below dataset median |
 | 2601.18917 | GraIP: A Benchmarking Framework For Neural Graph | D&D | MSE | NRI + STE (non-blind) | 0.00018 | 0.0444 | 246.7x below dataset median |
 | 2601.19094 | FloydNet: A Learning Paradigm for Global Relatio | TSP | Gap | Proposed Method (Single Solution, Metric) | 0 | 0.0025 | zero value against positive dataset median |
+=======
+| 1703.06114 | Deep Sets | D&D | Recall@10 | Random | 0.0001 | 0.0472 | 472.0x below dataset median |
+| 1703.06114 | Deep Sets | D&D | Recall@100 | Random | 0.002 | 0.217 | 108.5x below dataset median |
+| 1703.06114 | Deep Sets | D&D | Recall@1k | Random | 0.016 | 0.494 | 30.9x below dataset median |
+| 2306.02866 | Learning Probabilistic Symmetrization for Archit | D&D | MSE | EGNN | 0.0071 | 0.216 | 30.4x below dataset median |
+| 2306.02866 | Learning Probabilistic Symmetrization for Archit | D&D | MSE | GNN-Canonical | 0.0043 | 0.216 | 50.2x below dataset median |
+| 2306.02866 | Learning Probabilistic Symmetrization for Archit | D&D | MSE | GNN-FA | 0.0057 | 0.216 | 37.9x below dataset median |
+| 2306.02866 | Learning Probabilistic Symmetrization for Archit | D&D | MSE | GPS+Transformer | 0.00401 | 0.216 | 53.9x below dataset median |
+| 2306.02866 | Learning Probabilistic Symmetrization for Archit | D&D | MSE | Radial Field | 0.0104 | 0.216 | 20.8x below dataset median |
+| 2306.02866 | Learning Probabilistic Symmetrization for Archit | D&D | MSE | Transformer-Canonical | 0.00508 | 0.216 | 42.5x below dataset median |
+| 2306.03589 | How does over-squashing affect the power of GNNs | ZINC | MAE | GatedGCN | 0.004 | 0.138 | 34.5x below dataset median |
+| 2306.03589 | How does over-squashing affect the power of GNNs | ZINC | MAE | GraphSAGE | 0.006 | 0.138 | 23.0x below dataset median |
+| 2506.07624 | Return of ChebNet: Understanding and Improving a | BA graph | MAE | A-DGN w/ GCN backbone | 0.1913 | 4.05685 | 21.2x below dataset median |
+>>>>>>> Stashed changes

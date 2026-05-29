@@ -12,14 +12,14 @@ stats:
   avg_nodes: 429.63
   avg_edges: 497.75
   num_classes: 2
-result_count: 6
+result_count: 1
 best_model:
-  model: HyMN (T=2)
-  value: 0.932
+  model: PDF
+  value: 0.934
   metric: Accuracy
-  arxiv_id: '2501.03113'
-  paper_title: 'Balancing Efficiency and Expressiveness: Subgraph GNNs with Walk-Based
-    Centrality'
+  arxiv_id: '2305.06102'
+  paper_title: Towards Better Graph Representation Learning with Parameterized Decomposition
+    & Filtering
 variants:
 - slug: 10-fold-cv
   name: 10-fold CV
@@ -34,127 +34,32 @@ variants:
   metrics:
   - Accuracy
   rows:
-  - model: HyMN (T=2)
-    model_plain: HyMN (T=2)
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2501.03113'
-    title: 'Balancing Efficiency and Expressiveness: Subgraph GNNs with Walk-Based
-      Centrality'
-    date: Jan 2025
-    date_iso: 2025-01
-    date_display: Jan 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: true
-    metric_values:
-    - 0.932
-    metric_stds:
-    - 0.022
-  - model: POLICY-LEARN (T = 2)
-    model_plain: POLICY-LEARN (T = 2)
+  - model: PDF
+    model_plain: PDF
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2501.03113'
-    title: 'Balancing Efficiency and Expressiveness: Subgraph GNNs with Walk-Based
-      Centrality'
-    date: Jan 2025
-    date_iso: 2025-01
-    date_display: Jan 2025
-    codebase_url: ''
+    arxiv_id: '2305.06102'
+    title: Towards Better Graph Representation Learning with Parameterized Decomposition
+      & Filtering
+    date: May 10, 2023
+    date_iso: '2023-05-10'
+    date_display: May 2023
+    codebase_url: https://github.com/qslim/PDF
     uses_external_data: false
     is_best: true
     metric_values:
-    - 0.93
+    - 0.934
     metric_stds:
-    - 0.009
-  - model: GIN
-    model_plain: GIN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2501.03113'
-    title: 'Balancing Efficiency and Expressiveness: Subgraph GNNs with Walk-Based
-      Centrality'
-    date: Jan 2025
-    date_iso: 2025-01
-    date_display: Jan 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: true
-    metric_values:
-    - 0.924
-    metric_stds:
-    - 0.025
-  - model: CIN
-    model_plain: CIN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2501.03113'
-    title: 'Balancing Efficiency and Expressiveness: Subgraph GNNs with Walk-Based
-      Centrality'
-    date: Jan 2025
-    date_iso: 2025-01
-    date_display: Jan 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: true
-    metric_values:
-    - 0.924
-    metric_stds:
-    - 0.021
-  - model: RANDOM (T = 2)
-    model_plain: RANDOM (T = 2)
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2501.03113'
-    title: 'Balancing Efficiency and Expressiveness: Subgraph GNNs with Walk-Based
-      Centrality'
-    date: Jan 2025
-    date_iso: 2025-01
-    date_display: Jan 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: true
-    metric_values:
-    - 0.924
-    metric_stds:
-    - 0.01
-  - model: SIN
-    model_plain: SIN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2501.03113'
-    title: 'Balancing Efficiency and Expressiveness: Subgraph GNNs with Walk-Based
-      Centrality'
-    date: Jan 2025
-    date_iso: 2025-01
-    date_display: Jan 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: true
-    metric_values:
-    - 0.922
-    metric_stds:
-    - 0.01
+    - 0.013
   milestones:
-  - value: 0.932
-    std: 0.022
-    model: HyMN (T=2)
-    arxiv_id: '2501.03113'
-    title: 'Balancing Efficiency and Expressiveness: Subgraph GNNs with Walk-Based
-      Centrality'
-    date: 2025-01
+  - value: 0.934
+    std: 0.013
+    model: PDF
+    arxiv_id: '2305.06102'
+    title: Towards Better Graph Representation Learning with Parameterized Decomposition
+      & Filtering
+    date: '2023-05-10'
 ---
 

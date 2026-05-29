@@ -12,13 +12,13 @@ stats:
   avg_nodes: null
   avg_edges: null
   num_classes: null
-result_count: 54
+result_count: 34
 best_model:
-  model: GRIT-SPSE
-  value: 0.0831
+  model: GPS-medium
+  value: 0.0858
   metric: MAE
-  arxiv_id: '2502.09365'
-  paper_title: Simple Path Structural Encoding for Graph Transformers
+  arxiv_id: '2205.12454'
+  paper_title: Recipe for a General, Powerful, Scalable Graph Transformer
 variants:
 - slug: standard-split
   name: Standard split
@@ -33,235 +33,36 @@ variants:
   metrics:
   - MAE
   rows:
-  - model: GRIT-SPSE
-    model_plain: GRIT-SPSE
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2502.09365'
-    title: Simple Path Structural Encoding for Graph Transformers
-    date: Feb 13, 2025
-    date_iso: '2025-02-13'
-    date_display: Feb 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: true
-    metric_values:
-    - 0.0831
-    metric_stds:
-    - null
-  - model: GRIT-RWSE
-    model_plain: GRIT-RWSE
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2502.09365'
-    title: Simple Path Structural Encoding for Graph Transformers
-    date: Feb 13, 2025
-    date_iso: '2025-02-13'
-    date_display: Feb 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.0838
-    metric_stds:
-    - null
-  - model: GRIT 2-QiQRW
-    model_plain: GRIT 2-QiQRW
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2310.20519'
-    title: Enhancing Graph Neural Networks with Quantum Computed Encodings
-    date: Oct 2023
-    date_iso: 2023-10
-    date_display: Oct 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.0838
-    metric_stds:
-    - null
-  - model: GECO
-    model_plain: GECO
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2406.12059'
-    title: A Scalable and Effective Alternative to Graph Transformers
-    date: Jun 2024
-    date_iso: 2024-06
-    date_display: Jun 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.0841
-    metric_stds:
-    - null
-  - model: GRIT (our run)
-    model_plain: GRIT (our run)
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2310.20519'
-    title: Enhancing Graph Neural Networks with Quantum Computed Encodings
-    date: Oct 2023
-    date_iso: 2023-10
-    date_display: Oct 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.0842
-    metric_stds:
-    - null
-  - model: PPGT
-    model_plain: PPGT
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2504.12588'
-    title: Plain Transformers Can be Powerful Graph Learners
-    date: Apr 2025
-    date_iso: 2025-04
-    date_display: Apr 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.0856
-    metric_stds:
-    - null
-  - model: GPS-med
-    model_plain: GPS-med
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2406.12059'
-    title: A Scalable and Effective Alternative to Graph Transformers
-    date: Jun 2024
-    date_iso: 2024-06
-    date_display: Jun 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.0858
-    metric_stds:
-    - null
   - model: GPS-medium
     model_plain: GPS-medium
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2310.20519'
-    title: Enhancing Graph Neural Networks with Quantum Computed Encodings
-    date: Oct 2023
-    date_iso: 2023-10
-    date_display: Oct 2023
-    codebase_url: ''
+    arxiv_id: '2205.12454'
+    title: Recipe for a General, Powerful, Scalable Graph Transformer
+    date: May 2022
+    date_iso: 2022-05
+    date_display: May 2022
+    codebase_url: https://github.com/rampasek/GraphGPS
     uses_external_data: false
-    is_best: false
+    is_best: true
     metric_values:
     - 0.0858
     metric_stds:
     - null
-  - model: GRIT
-    model_plain: GRIT
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2310.20519'
-    title: Enhancing Graph Neural Networks with Quantum Computed Encodings
-    date: Oct 2023
-    date_iso: 2023-10
-    date_display: Oct 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.0859
-    metric_stds:
-    - null
-  - model: Graphormer + GFSA
-    model_plain: Graphormer + GFSA
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: 0.5
-    arxiv_id: '2312.04234'
-    title: Graph Convolutions Enrich the Self-Attention in Transformers!
-    date: Dec 2023
-    date_iso: 2023-12
-    date_display: Dec 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.086
-    metric_stds:
-    - 0.0
-  - model: Graphormer
-    model_plain: Graphormer
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: 0.5
-    arxiv_id: '2312.04234'
-    title: Graph Convolutions Enrich the Self-Attention in Transformers!
-    date: Dec 2023
-    date_iso: 2023-12
-    date_display: Dec 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.0862
-    metric_stds:
-    - 0.0
-  - model: GraphGPS-AnchorGT
-    model_plain: GraphGPS-AnchorGT
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2405.03481'
-    title: 'AnchorGT: Efficient and Flexible Attention Architecture for Scalable Graph
-      Transformers'
-    date: May 2024
-    date_iso: 2024-05
-    date_display: May 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.0862
-    metric_stds:
-    - null
   - model: Graphormer
     model_plain: Graphormer
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2310.20519'
-    title: Enhancing Graph Neural Networks with Quantum Computed Encodings
-    date: Oct 2023
-    date_iso: 2023-10
-    date_display: Oct 2023
-    codebase_url: ''
+    arxiv_id: '2205.12454'
+    title: Recipe for a General, Powerful, Scalable Graph Transformer
+    date: May 2022
+    date_iso: 2022-05
+    date_display: May 2022
+    codebase_url: https://github.com/rampasek/GraphGPS
     uses_external_data: false
     is_best: false
     metric_values:
@@ -273,36 +74,35 @@ variants:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 89.3
-    arxiv_id: '2406.12059'
-    title: A Scalable and Effective Alternative to Graph Transformers
-    date: Jun 2024
-    date_iso: 2024-06
-    date_display: Jun 2024
-    codebase_url: ''
+    params_millions: null
+    arxiv_id: '2205.12454'
+    title: Recipe for a General, Powerful, Scalable Graph Transformer
+    date: May 2022
+    date_iso: 2022-05
+    date_display: May 2022
+    codebase_url: https://github.com/rampasek/GraphGPS
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.0869
+    - 0.0872
     metric_stds:
     - null
-  - model: GraphGPS
-    model_plain: GraphGPS
+  - model: EGT_Large (24 layers)
+    model_plain: EGT_Large (24 layers)
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2405.03481'
-    title: 'AnchorGT: Efficient and Flexible Attention Architecture for Scalable Graph
-      Transformers'
-    date: May 2024
-    date_iso: 2024-05
-    date_display: May 2024
-    codebase_url: ''
+    arxiv_id: '2108.03348'
+    title: Global Self-Attention as a Replacement for Graph Convolution
+    date: Aug 2021
+    date_iso: 2021-08
+    date_display: Aug 2021
+    codebase_url: https://github.com/shamim-hussain/egt
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.0878
+    - 0.0872
     metric_stds:
     - null
   - model: GRPE
@@ -311,106 +111,34 @@ variants:
     is_overridden: false
     override_reason: ''
     params_millions: 46.2
-    arxiv_id: '2406.12059'
-    title: A Scalable and Effective Alternative to Graph Transformers
-    date: Jun 2024
-    date_iso: 2024-06
-    date_display: Jun 2024
-    codebase_url: ''
+    arxiv_id: '2205.12454'
+    title: Recipe for a General, Powerful, Scalable Graph Transformer
+    date: May 2022
+    date_iso: 2022-05
+    date_display: May 2022
+    codebase_url: https://github.com/rampasek/GraphGPS
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.089
+    - 0.0898
     metric_stds:
     - null
-  - model: TokenGT (Lap)
-    model_plain: TokenGT (Lap)
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: 48.5
-    arxiv_id: '2504.12588'
-    title: Plain Transformers Can be Powerful Graph Learners
-    date: Apr 2025
-    date_iso: 2025-04
-    date_display: Apr 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.091
-    metric_stds:
-    - null
-  - model: CSA-SPSE
-    model_plain: CSA-SPSE
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2502.09365'
-    title: Simple Path Structural Encoding for Graph Transformers
-    date: Feb 13, 2025
-    date_iso: '2025-02-13'
-    date_display: Feb 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.0911
-    metric_stds:
-    - null
-  - model: CSA-RWSE
-    model_plain: CSA-RWSE
+  - model: EGT_Small (6 layers)
+    model_plain: EGT_Small (6 layers)
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2502.09365'
-    title: Simple Path Structural Encoding for Graph Transformers
-    date: Feb 13, 2025
-    date_iso: '2025-02-13'
-    date_display: Feb 2025
-    codebase_url: ''
+    arxiv_id: '2108.03348'
+    title: Global Self-Attention as a Replacement for Graph Convolution
+    date: Aug 2021
+    date_iso: 2021-08
+    date_display: Aug 2021
+    codebase_url: https://github.com/shamim-hussain/egt
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.0918
-    metric_stds:
-    - null
-  - model: GPSE + GPS
-    model_plain: GPSE + GPS
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2502.09365'
-    title: Simple Path Structural Encoding for Graph Transformers
-    date: Feb 13, 2025
-    date_iso: '2025-02-13'
-    date_display: Feb 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.0934
-    metric_stds:
-    - null
-  - model: GPS-sm
-    model_plain: GPS-sm
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2406.12059'
-    title: A Scalable and Effective Alternative to Graph Transformers
-    date: Jun 2024
-    date_iso: 2024-06
-    date_display: Jun 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.0938
+    - 0.0899
     metric_stds:
     - null
   - model: GPS-small
@@ -418,75 +146,21 @@ variants:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 6.2
-    arxiv_id: '2406.12059'
-    title: A Scalable and Effective Alternative to Graph Transformers
-    date: Jun 2024
-    date_iso: 2024-06
-    date_display: Jun 2024
-    codebase_url: ''
+    params_millions: null
+    arxiv_id: '2205.12454'
+    title: Recipe for a General, Powerful, Scalable Graph Transformer
+    date: May 2022
+    date_iso: 2022-05
+    date_display: May 2022
+    codebase_url: https://github.com/rampasek/GraphGPS
     uses_external_data: false
     is_best: false
     metric_values:
     - 0.0938
     metric_stds:
     - null
-  - model: GPS
-    model_plain: GPS
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2502.09365'
-    title: Simple Path Structural Encoding for Graph Transformers
-    date: Feb 13, 2025
-    date_iso: '2025-02-13'
-    date_display: Feb 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.0942
-    metric_stds:
-    - null
-  - model: GRIT 1-CQRW
-    model_plain: GRIT 1-CQRW
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2310.20519'
-    title: Enhancing Graph Neural Networks with Quantum Computed Encodings
-    date: Oct 2023
-    date_iso: 2023-10
-    date_display: Oct 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.0947
-    metric_stds:
-    - null
-  - model: TokenGT (ORF)
-    model_plain: TokenGT (ORF)
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: 48.6
-    arxiv_id: '2504.12588'
-    title: Plain Transformers Can be Powerful Graph Learners
-    date: Apr 2025
-    date_iso: 2025-04
-    date_display: Apr 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.0962
-    metric_stds:
-    - null
-  - model: SEM-IL (GCN)
-    model_plain: SEM-IL (GCN)
+  - model: GCN SEM-IL
+    model_plain: GCN SEM-IL
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -504,8 +178,8 @@ variants:
     - 0.098
     metric_stds:
     - 0.005
-  - model: SEM-only (GCN)
-    model_plain: SEM-only (GCN)
+  - model: GCN SEM-only
+    model_plain: GCN SEM-only
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -523,8 +197,8 @@ variants:
     - 0.106
     metric_stds:
     - 0.004
-  - model: Baseline (GINE)
-    model_plain: Baseline (GINE)
+  - model: GCN Baseline
+    model_plain: GCN Baseline
     is_baseline: true
     is_overridden: false
     override_reason: ''
@@ -548,488 +222,450 @@ variants:
     is_overridden: false
     override_reason: ''
     params_millions: 4.9
-    arxiv_id: '2406.12059'
-    title: A Scalable and Effective Alternative to Graph Transformers
-    date: Jun 2024
-    date_iso: 2024-06
-    date_display: Jun 2024
-    codebase_url: ''
+    arxiv_id: '2205.12454'
+    title: Recipe for a General, Powerful, Scalable Graph Transformer
+    date: May 2022
+    date_iso: 2022-05
+    date_display: May 2022
+    codebase_url: https://github.com/rampasek/GraphGPS
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.1083
+    - 0.1084
     metric_stds:
     - null
-  - model: MOSE
-    model_plain: MOSE
+  - model: ILLS
+    model_plain: ILLS
     is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2410.18676'
-    title: Homomorphism Counts as Structural Encodings for Graph Learning
-    date: Oct 2024
-    date_iso: 2024-10
-    date_display: Oct 2024
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_iso: '2023-05-27'
+    date_display: May 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.1133
+    - 0.119
     metric_stds:
-    - 0.0014
-  - model: SignNet DeepSets
-    model_plain: SignNet DeepSets
+    - 0.001
+  - model: GraphGPS
+    model_plain: GraphGPS
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2410.18676'
-    title: Homomorphism Counts as Structural Encodings for Graph Learning
-    date: Oct 2024
-    date_iso: 2024-10
-    date_display: Oct 2024
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_iso: '2023-05-27'
+    date_display: May 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.1144
+    - 0.121
     metric_stds:
-    - 0.0002
-  - model: GCN-virtual
-    model_plain: GCN-virtual
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: 4.9
-    arxiv_id: '2504.12588'
-    title: Plain Transformers Can be Powerful Graph Learners
-    date: Apr 2025
-    date_iso: 2025-04
-    date_display: Apr 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.1153
-    metric_stds:
-    - null
-  - model: SignNet MLP
-    model_plain: SignNet MLP
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2410.18676'
-    title: Homomorphism Counts as Structural Encodings for Graph Learning
-    date: Oct 2024
-    date_iso: 2024-10
-    date_display: Oct 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.1158
-    metric_stds:
-    - 0.0008
-  - model: RWSE
-    model_plain: RWSE
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2410.18676'
-    title: Homomorphism Counts as Structural Encodings for Graph Learning
-    date: Oct 2024
-    date_iso: 2024-10
-    date_display: Oct 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.1159
-    metric_stds:
-    - 0.0004
+    - 0.001
   - model: GIN
     model_plain: GIN
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2310.20519'
-    title: Enhancing Graph Neural Networks with Quantum Computed Encodings
-    date: Oct 2023
-    date_iso: 2023-10
-    date_display: Oct 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.1195
-    metric_stds:
-    - null
-  - model: GCN
-    model_plain: GCN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2310.20519'
-    title: Enhancing Graph Neural Networks with Quantum Computed Encodings
-    date: Oct 2023
-    date_iso: 2023-10
-    date_display: Oct 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.1195
-    metric_stds:
-    - null
-  - model: GPSE (Not finetuned)
-    model_plain: GPSE (Not finetuned)
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2307.07107'
-    title: Graph Positional and Structural Encoder
-    date: Jul 14, 2023
-    date_iso: '2023-07-14'
-    date_display: Jul 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.1195
-    metric_stds:
-    - 0.0007
-  - model: GPSE + GPS
-    model_plain: GPSE + GPS
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2307.07107'
-    title: Graph Positional and Structural Encoder
-    date: Jul 14, 2023
-    date_iso: '2023-07-14'
-    date_display: Jul 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.1196
-    metric_stds:
-    - 0.0004
-  - model: LapPE
-    model_plain: LapPE
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2410.18676'
-    title: Homomorphism Counts as Structural Encodings for Graph Learning
-    date: Oct 2024
-    date_iso: 2024-10
-    date_display: Oct 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.1201
-    metric_stds:
-    - 0.0003
-  - model: PEG^LapEig
-    model_plain: PEG^LapEig
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2410.18676'
-    title: Homomorphism Counts as Structural Encodings for Graph Learning
-    date: Oct 2024
-    date_iso: 2024-10
-    date_display: Oct 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.1209
-    metric_stds:
-    - 0.0003
-  - model: GPSE (default)
-    model_plain: GPSE (default)
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2307.07107'
-    title: Graph Positional and Structural Encoder
-    date: Jul 14, 2023
-    date_iso: '2023-07-14'
-    date_display: Jul 2023
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.1216
-    metric_stds:
-    - 0.0002
-  - model: GIN (GINE)
-    model_plain: GIN (GINE)
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2405.03481'
-    title: 'AnchorGT: Efficient and Flexible Attention Architecture for Scalable Graph
-      Transformers'
-    date: May 2024
-    date_iso: 2024-05
-    date_display: May 2024
-    codebase_url: ''
+    arxiv_id: '2205.12454'
+    title: Recipe for a General, Powerful, Scalable Graph Transformer
+    date: May 2022
+    date_iso: 2022-05
+    date_display: May 2022
+    codebase_url: https://github.com/rampasek/GraphGPS
     uses_external_data: false
     is_best: false
     metric_values:
     - 0.1218
     metric_stds:
     - null
-  - model: GPS+RWSE
-    model_plain: GPS+RWSE
+  - model: SAN
+    model_plain: SAN
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2307.07107'
-    title: Graph Positional and Structural Encoder
-    date: Jul 14, 2023
-    date_iso: '2023-07-14'
-    date_display: Jul 2023
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_iso: '2023-05-27'
+    date_display: May 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.122
+    metric_stds:
+    - 0.001
+  - model: EGT_Medium (18 layers)
+    model_plain: EGT_Medium (18 layers)
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2108.03348'
+    title: Global Self-Attention as a Replacement for Graph Convolution
+    date: Aug 2021
+    date_iso: 2021-08
+    date_display: Aug 2021
+    codebase_url: https://github.com/shamim-hussain/egt
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.1224
+    metric_stds:
+    - null
+  - model: EGNN
+    model_plain: EGNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_iso: '2023-05-27'
+    date_display: May 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
     - 0.123
     metric_stds:
-    - 0.0008
-  - model: GPS+AllPSE
-    model_plain: GPS+AllPSE
+    - 0.001
+  - model: Graphormer
+    model_plain: Graphormer
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: null
-    arxiv_id: '2307.07107'
-    title: Graph Positional and Structural Encoder
-    date: Jul 14, 2023
-    date_iso: '2023-07-14'
-    date_display: Jul 2023
-    codebase_url: ''
+    params_millions: 47.1
+    arxiv_id: '2106.05234'
+    title: Do Transformers Really Perform Bad for Graph Representation?
+    date: Jun 2021
+    date_iso: 2021-06
+    date_display: Jun 2021
+    codebase_url: https://github.com/microsoft/Graphormer
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.1254
+    - 0.1234
     metric_stds:
-    - 0.0011
-  - model: GPS+LapPE
-    model_plain: GPS+LapPE
+    - null
+  - model: DimeNet++
+    model_plain: DimeNet++
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2307.07107'
-    title: Graph Positional and Structural Encoder
-    date: Jul 14, 2023
-    date_iso: '2023-07-14'
-    date_display: Jul 2023
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_iso: '2023-05-27'
+    date_display: May 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.1267
+    - 0.124
     metric_stds:
-    - 0.0004
-  - model: GPS + (RWSE/LapPE)
-    model_plain: GPS + (RWSE/LapPE)
+    - 0.001
+  - model: PNA + RWSE
+    model_plain: PNA + RWSE
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2307.07107'
-    title: Graph Positional and Structural Encoder
-    date: Jul 14, 2023
-    date_iso: '2023-07-14'
-    date_display: Jul 2023
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_iso: '2023-05-27'
+    date_display: May 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.1273
+    - 0.125
     metric_stds:
-    - 0.0006
-  - model: GINE+GPSE
-    model_plain: GINE+GPSE
+    - 0.001
+  - model: Graphormer_Small
+    model_plain: Graphormer_Small
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: null
-    arxiv_id: '2307.07107'
-    title: Graph Positional and Structural Encoder
-    date: Jul 14, 2023
-    date_iso: '2023-07-14'
-    date_display: Jul 2023
-    codebase_url: ''
+    params_millions: 12.5
+    arxiv_id: '2106.05234'
+    title: Do Transformers Really Perform Bad for Graph Representation?
+    date: Jun 2021
+    date_iso: 2021-06
+    date_display: Jun 2021
+    codebase_url: https://github.com/microsoft/Graphormer
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.1294
+    - 0.1264
     metric_stds:
-    - 0.0006
-  - model: GPS
-    model_plain: GPS
+    - null
+  - model: PNA
+    model_plain: PNA
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2307.07107'
-    title: Graph Positional and Structural Encoder
-    date: Jul 14, 2023
-    date_iso: '2023-07-14'
-    date_display: Jul 2023
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_iso: '2023-05-27'
+    date_display: May 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.1329
+    - 0.128
+    metric_stds:
+    - 0.001
+  - model: GIN
+    model_plain: GIN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_iso: '2023-05-27'
+    date_display: May 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.132
+    metric_stds:
+    - 0.002
+  - model: GAT
+    model_plain: GAT
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_iso: '2023-05-27'
+    date_display: May 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.135
     metric_stds:
     - 0.003
-  - model: None
-    model_plain: None
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2410.18676'
-    title: Homomorphism Counts as Structural Encodings for Graph Learning
-    date: Oct 2024
-    date_iso: 2024-10
-    date_display: Oct 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.1355
-    metric_stds:
-    - 0.0035
   - model: GCN
     model_plain: GCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2405.03481'
-    title: 'AnchorGT: Efficient and Flexible Attention Architecture for Scalable Graph
-      Transformers'
-    date: May 2024
-    date_iso: 2024-05
-    date_display: May 2024
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_iso: '2023-05-27'
+    date_display: May 2023
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.1379
+    - 0.136
+    metric_stds:
+    - 0.002
+  - model: GraphSAGE
+    model_plain: GraphSAGE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_iso: '2023-05-27'
+    date_display: May 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.138
+    metric_stds:
+    - 0.004
+  - model: GIN-VN
+    model_plain: GIN-VN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 6.7
+    arxiv_id: '2106.05234'
+    title: Do Transformers Really Perform Bad for Graph Representation?
+    date: Jun 2021
+    date_iso: 2021-06
+    date_display: Jun 2021
+    codebase_url: https://github.com/microsoft/Graphormer
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.1396
     metric_stds:
     - null
-  - model: GatedGCN+GPSE
-    model_plain: GatedGCN+GPSE
+  - model: GCN
+    model_plain: GCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2307.07107'
-    title: Graph Positional and Structural Encoder
-    date: Jul 14, 2023
-    date_iso: '2023-07-14'
-    date_display: Jul 2023
-    codebase_url: ''
+    arxiv_id: '2205.12454'
+    title: Recipe for a General, Powerful, Scalable Graph Transformer
+    date: May 2022
+    date_iso: 2022-05
+    date_display: May 2022
+    codebase_url: https://github.com/rampasek/GraphGPS
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.1495
+    - 0.1398
     metric_stds:
-    - 0.0015
-  - model: GPSE + GCN
-    model_plain: GPSE + GCN
+    - null
+  - model: DeeperGCN-VN
+    model_plain: DeeperGCN-VN
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: null
-    arxiv_id: '2307.07107'
-    title: Graph Positional and Structural Encoder
-    date: Jul 14, 2023
-    date_iso: '2023-07-14'
-    date_display: Jul 2023
-    codebase_url: ''
+    params_millions: 25.5
+    arxiv_id: '2106.05234'
+    title: Do Transformers Really Perform Bad for Graph Representation?
+    date: Jun 2021
+    date_iso: 2021-06
+    date_display: Jun 2021
+    codebase_url: https://github.com/microsoft/Graphormer
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.1615
+    - 0.1398
     metric_stds:
-    - 0.0015
-  - model: GPS w/ Transformer
-    model_plain: GPS w/ Transformer
+    - null
+  - model: GT
+    model_plain: GT
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: null
-    arxiv_id: '2307.07107'
-    title: Graph Positional and Structural Encoder
-    date: Jul 14, 2023
-    date_iso: '2023-07-14'
-    date_display: Jul 2023
-    codebase_url: ''
+    params_millions: 0.6
+    arxiv_id: '2106.05234'
+    title: Do Transformers Really Perform Bad for Graph Representation?
+    date: Jun 2021
+    date_iso: 2021-06
+    date_display: Jun 2021
+    codebase_url: https://github.com/microsoft/Graphormer
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.1805
+    - 0.14
     metric_stds:
-    - 0.0021
-  - model: GPS+rand
-    model_plain: GPS+rand
+    - null
+  - model: GT-Wide
+    model_plain: GT-Wide
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: null
-    arxiv_id: '2307.07107'
-    title: Graph Positional and Structural Encoder
-    date: Jul 14, 2023
-    date_iso: '2023-07-14'
-    date_display: Jul 2023
-    codebase_url: ''
+    params_millions: 83.2
+    arxiv_id: '2106.05234'
+    title: Do Transformers Really Perform Bad for Graph Representation?
+    date: Jun 2021
+    date_iso: 2021-06
+    date_display: Jun 2021
+    codebase_url: https://github.com/microsoft/Graphormer
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.4768
+    - 0.1408
     metric_stds:
-    - 0.0171
+    - null
+  - model: GCN-VN
+    model_plain: GCN-VN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 4.9
+    arxiv_id: '2106.05234'
+    title: Do Transformers Really Perform Bad for Graph Representation?
+    date: Jun 2021
+    date_iso: 2021-06
+    date_display: Jun 2021
+    codebase_url: https://github.com/microsoft/Graphormer
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.151
+    metric_stds:
+    - null
+  - model: GIN
+    model_plain: GIN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 3.8
+    arxiv_id: '2106.05234'
+    title: Do Transformers Really Perform Bad for Graph Representation?
+    date: Jun 2021
+    date_iso: 2021-06
+    date_display: Jun 2021
+    codebase_url: https://github.com/microsoft/Graphormer
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.1536
+    metric_stds:
+    - null
+  - model: GCN
+    model_plain: GCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: 2.0
+    arxiv_id: '2106.05234'
+    title: Do Transformers Really Perform Bad for Graph Representation?
+    date: Jun 2021
+    date_iso: 2021-06
+    date_display: Jun 2021
+    codebase_url: https://github.com/microsoft/Graphormer
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.1684
+    metric_stds:
+    - null
   milestones:
-  - value: 0.1195
-    std: 0.0007
-    model: GPSE (Not finetuned)
-    arxiv_id: '2307.07107'
-    title: Graph Positional and Structural Encoder
-    date: '2023-07-14'
-  - value: 0.0838
+  - value: 0.1234
     std: null
-    model: GRIT 2-QiQRW
-    arxiv_id: '2310.20519'
-    title: Enhancing Graph Neural Networks with Quantum Computed Encodings
-    date: 2023-10
-  - value: 0.0831
+    model: Graphormer
+    arxiv_id: '2106.05234'
+    title: Do Transformers Really Perform Bad for Graph Representation?
+    date: 2021-06
+  - value: 0.0872
     std: null
-    model: GRIT-SPSE
-    arxiv_id: '2502.09365'
-    title: Simple Path Structural Encoding for Graph Transformers
-    date: '2025-02-13'
+    model: EGT_Large (24 layers)
+    arxiv_id: '2108.03348'
+    title: Global Self-Attention as a Replacement for Graph Convolution
+    date: 2021-08
+  - value: 0.0858
+    std: null
+    model: GPS-medium
+    arxiv_id: '2205.12454'
+    title: Recipe for a General, Powerful, Scalable Graph Transformer
+    date: 2022-05
 ---
 

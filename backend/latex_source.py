@@ -69,6 +69,7 @@ _EXPERIMENT_KEYWORDS = frozenset(
     }
 )
 
+_LATEXPAND = Path(__file__).parent / "latexpand"
 
 # ── Data classes ───────────────────────────────────────────────────────────────
 
@@ -325,7 +326,7 @@ def _run_latexpand(main_tex: Path, cwd: Path, arxiv_id: str) -> str:
     """Run latexpand on *main_tex*; fall back to plain read on failure."""
     try:
         result = subprocess.run(
-            ["latexpand", str(main_tex)],
+            ["perl", str(_LATEXPAND), str(main_tex)],
             capture_output=True,
             text=True,
             timeout=60,

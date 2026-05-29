@@ -8,18 +8,14 @@ description: Co-authorship graph (CS) node classification from the "Pitfalls of 
 primary_metric: Accuracy
 higher_is_better: true
 pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.Coauthor.html
-stats:
-  num_graphs: null
-  avg_nodes: 18333.0
-  avg_edges: 163788.0
-  num_classes: 15
-result_count: 49
+stats: null
+result_count: 43
 best_model:
-  model: GraphSAGE
-  value: 0.9638
+  model: SGT
+  value: 0.9589
   metric: Accuracy
-  arxiv_id: '2406.08993'
-  paper_title: 'Classic GNNs are Strong Baselines: Reassessing GNNs for Node Classification'
+  arxiv_id: '2405.13806'
+  paper_title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
 variants:
 - slug: standard-split
   name: Standard split
@@ -34,80 +30,8 @@ variants:
   metrics:
   - Accuracy
   rows:
-  - model: GraphSAGE
-    model_plain: GraphSAGE
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2406.08993'
-    title: 'Classic GNNs are Strong Baselines: Reassessing GNNs for Node Classification'
-    date: Jun 2024
-    date_iso: 2024-06
-    date_display: Jun 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: true
-    metric_values:
-    - 0.9638
-    metric_stds:
-    - 0.0011
-  - model: GAT
-    model_plain: GAT
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2406.08993'
-    title: 'Classic GNNs are Strong Baselines: Reassessing GNNs for Node Classification'
-    date: Jun 2024
-    date_iso: 2024-06
-    date_display: Jun 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: true
-    metric_values:
-    - 0.9621
-    metric_stds:
-    - 0.0014
-  - model: GCN
-    model_plain: GCN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2406.08993'
-    title: 'Classic GNNs are Strong Baselines: Reassessing GNNs for Node Classification'
-    date: Jun 2024
-    date_iso: 2024-06
-    date_display: Jun 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.9617
-    metric_stds:
-    - 0.0006
-  - model: Exphormer
-    model_plain: Exphormer
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2406.08993'
-    title: 'Classic GNNs are Strong Baselines: Reassessing GNNs for Node Classification'
-    date: Jun 2024
-    date_iso: 2024-06
-    date_display: Jun 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.9592
-    metric_stds:
-    - 0.0025
-  - model: M
-    model_plain: M
+  - model: SGT
+    model_plain: SGT
     is_baseline: false
     is_overridden: false
     override_reason: ''
@@ -117,67 +41,49 @@ variants:
     date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
-    codebase_url: ''
+    codebase_url: https://github.com/liun-online/WaveGC
     uses_external_data: false
-    is_best: false
+    is_best: true
     metric_values:
     - 0.9589
     metric_stds:
     - 0.0034
-  - model: Nagphormer
-    model_plain: Nagphormer
+  - model: Exphormer
+    model_plain: Exphormer
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2303.06147'
+    title: 'Exphormer: Sparse Transformers for Graphs'
+    date: Mar 10, 2023
+    date_iso: '2023-03-10'
+    date_display: Mar 2023
+    codebase_url: https://github.com/hamed1375/Exphormer
+    uses_external_data: false
+    is_best: true
+    metric_values:
+    - 0.9577
+    metric_stds:
+    - 0.0015
+  - model: NAGphormer
+    model_plain: NAGphormer
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2406.08993'
-    title: 'Classic GNNs are Strong Baselines: Reassessing GNNs for Node Classification'
-    date: Jun 2024
-    date_iso: 2024-06
-    date_display: Jun 2024
-    codebase_url: ''
+    arxiv_id: '2303.06147'
+    title: 'Exphormer: Sparse Transformers for Graphs'
+    date: Mar 10, 2023
+    date_iso: '2023-03-10'
+    date_display: Mar 2023
+    codebase_url: https://github.com/hamed1375/Exphormer
     uses_external_data: false
-    is_best: false
+    is_best: true
     metric_values:
-    - 0.9585
+    - 0.9575
     metric_stds:
-    - 0.0016
-  - model: SGFormer
-    model_plain: SGFormer
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2406.08993'
-    title: 'Classic GNNs are Strong Baselines: Reassessing GNNs for Node Classification'
-    date: Jun 2024
-    date_iso: 2024-06
-    date_display: Jun 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.9571
-    metric_stds:
-    - 0.0024
-  - model: NodeFormer
-    model_plain: NodeFormer
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2406.08993'
-    title: 'Classic GNNs are Strong Baselines: Reassessing GNNs for Node Classification'
-    date: Jun 2024
-    date_iso: 2024-06
-    date_display: Jun 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.9569
-    metric_stds:
-    - 0.0027
+    - 0.0009
   - model: UFGConvS
     model_plain: UFGConvS
     is_baseline: true
@@ -189,31 +95,13 @@ variants:
     date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
-    codebase_url: ''
+    codebase_url: https://github.com/liun-online/WaveGC
     uses_external_data: false
-    is_best: false
+    is_best: true
     metric_values:
     - 0.9546
     metric_stds:
     - 0.0033
-  - model: Polynormer
-    model_plain: Polynormer
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2406.08993'
-    title: 'Classic GNNs are Strong Baselines: Reassessing GNNs for Node Classification'
-    date: Jun 2024
-    date_iso: 2024-06
-    date_display: Jun 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.9542
-    metric_stds:
-    - 0.0019
   - model: Scattering GCN
     model_plain: Scattering GCN
     is_baseline: true
@@ -225,7 +113,7 @@ variants:
     date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
-    codebase_url: ''
+    codebase_url: https://github.com/liun-online/WaveGC
     uses_external_data: false
     is_best: false
     metric_values:
@@ -243,7 +131,7 @@ variants:
     date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
-    codebase_url: ''
+    codebase_url: https://github.com/liun-online/WaveGC
     uses_external_data: false
     is_best: false
     metric_values:
@@ -261,7 +149,7 @@ variants:
     date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
-    codebase_url: ''
+    codebase_url: https://github.com/liun-online/WaveGC
     uses_external_data: false
     is_best: false
     metric_values:
@@ -279,7 +167,7 @@ variants:
     date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
-    codebase_url: ''
+    codebase_url: https://github.com/liun-online/WaveGC
     uses_external_data: false
     is_best: false
     metric_values:
@@ -297,7 +185,7 @@ variants:
     date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
-    codebase_url: ''
+    codebase_url: https://github.com/liun-online/WaveGC
     uses_external_data: false
     is_best: false
     metric_values:
@@ -315,7 +203,7 @@ variants:
     date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
-    codebase_url: ''
+    codebase_url: https://github.com/liun-online/WaveGC
     uses_external_data: false
     is_best: false
     metric_values:
@@ -333,13 +221,31 @@ variants:
     date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
-    codebase_url: ''
+    codebase_url: https://github.com/liun-online/WaveGC
     uses_external_data: false
     is_best: false
     metric_values:
     - 0.9477
     metric_stds:
     - 0.0033
+  - model: SAN
+    model_plain: SAN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2303.06147'
+    title: 'Exphormer: Sparse Transformers for Graphs'
+    date: Mar 10, 2023
+    date_iso: '2023-03-10'
+    date_display: Mar 2023
+    codebase_url: https://github.com/hamed1375/Exphormer
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.9451
+    metric_stds:
+    - 0.0015
   - model: APPNP
     model_plain: APPNP
     is_baseline: true
@@ -351,7 +257,7 @@ variants:
     date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
-    codebase_url: ''
+    codebase_url: https://github.com/liun-online/WaveGC
     uses_external_data: false
     is_best: false
     metric_values:
@@ -364,36 +270,18 @@ variants:
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2406.08993'
-    title: 'Classic GNNs are Strong Baselines: Reassessing GNNs for Node Classification'
-    date: Jun 2024
-    date_iso: 2024-06
-    date_display: Jun 2024
-    codebase_url: ''
+    arxiv_id: '2303.06147'
+    title: 'Exphormer: Sparse Transformers for Graphs'
+    date: Mar 10, 2023
+    date_iso: '2023-03-10'
+    date_display: Mar 2023
+    codebase_url: https://github.com/hamed1375/Exphormer
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.9404
+    - 0.9393
     metric_stds:
-    - 0.0021
-  - model: GOAT
-    model_plain: GOAT
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2406.08993'
-    title: 'Classic GNNs are Strong Baselines: Reassessing GNNs for Node Classification'
-    date: Jun 2024
-    date_iso: 2024-06
-    date_display: Jun 2024
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.9381
-    metric_stds:
-    - 0.0019
+    - 0.0012
   - model: GAT
     model_plain: GAT
     is_baseline: true
@@ -405,7 +293,7 @@ variants:
     date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
-    codebase_url: ''
+    codebase_url: https://github.com/liun-online/WaveGC
     uses_external_data: false
     is_best: false
     metric_values:
@@ -423,13 +311,211 @@ variants:
     date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
-    codebase_url: ''
+    codebase_url: https://github.com/liun-online/WaveGC
     uses_external_data: false
     is_best: false
     metric_values:
     - 0.9292
     metric_stds:
     - 0.0012
+  - model: BLEND
+    model_plain: BLEND
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2110.09443'
+    title: Beltrami Flow and Neural Diffusion on Graphs
+    date: Oct 2021
+    date_iso: 2021-10
+    date_display: Oct 2021
+    codebase_url: https://github.com/twitter-research/graph-neural-pde
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.929
+    metric_stds:
+    - 0.002
+  - model: CPGNN
+    model_plain: CPGNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2110.09443'
+    title: Beltrami Flow and Neural Diffusion on Graphs
+    date: Oct 2021
+    date_iso: 2021-10
+    date_display: Oct 2021
+    codebase_url: https://github.com/twitter-research/graph-neural-pde
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.923
+    metric_stds:
+    - 0.002
+  - model: BLEND-kNN
+    model_plain: BLEND-kNN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2110.09443'
+    title: Beltrami Flow and Neural Diffusion on Graphs
+    date: Oct 2021
+    date_iso: 2021-10
+    date_display: Oct 2021
+    codebase_url: https://github.com/twitter-research/graph-neural-pde
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.923
+    metric_stds:
+    - 0.001
+  - model: GCN
+    model_plain: GCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2006.06972'
+    title: Towards Deeper Graph Neural Networks with Differentiable Group Normalization
+    date: Jun 2020
+    date_iso: 2020-06
+    date_display: Jun 2020
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.9229999999999999
+    metric_stds:
+    - null
+  - model: DGN
+    model_plain: DGN
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2006.06972'
+    title: Towards Deeper Graph Neural Networks with Differentiable Group Normalization
+    date: Jun 2020
+    date_iso: 2020-06
+    date_display: Jun 2020
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.9229999999999999
+    metric_stds:
+    - null
+  - model: GDE
+    model_plain: GDE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2110.09443'
+    title: Beltrami Flow and Neural Diffusion on Graphs
+    date: Oct 2021
+    date_iso: 2021-10
+    date_display: Oct 2021
+    codebase_url: https://github.com/twitter-research/graph-neural-pde
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.916
+    metric_stds:
+    - 0.001
+  - model: GAT
+    model_plain: GAT
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2006.06972'
+    title: Towards Deeper Graph Neural Networks with Differentiable Group Normalization
+    date: Jun 2020
+    date_iso: 2020-06
+    date_display: Jun 2020
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.915
+    metric_stds:
+    - null
+  - model: GS-mean
+    model_plain: GS-mean
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1811.05868'
+    title: Pitfalls of Graph Neural Network Evaluation
+    date: Nov 2018
+    date_iso: 2018-11
+    date_display: Nov 2018
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.913
+    metric_stds:
+    - 0.028
+  - model: GAT-ppr
+    model_plain: GAT-ppr
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2110.09443'
+    title: Beltrami Flow and Neural Diffusion on Graphs
+    date: Oct 2021
+    date_iso: 2021-10
+    date_display: Oct 2021
+    codebase_url: https://github.com/twitter-research/graph-neural-pde
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.913
+    metric_stds:
+    - 0.001
+  - model: GCN
+    model_plain: GCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1811.05868'
+    title: Pitfalls of Graph Neural Network Evaluation
+    date: Nov 2018
+    date_iso: 2018-11
+    date_display: Nov 2018
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.911
+    metric_stds:
+    - 0.005
+  - model: MoNet
+    model_plain: MoNet
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1811.05868'
+    title: Pitfalls of Graph Neural Network Evaluation
+    date: Nov 2018
+    date_iso: 2018-11
+    date_display: Nov 2018
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.908
+    metric_stds:
+    - 0.006
   - model: GWNN
     model_plain: GWNN
     is_baseline: true
@@ -441,519 +527,313 @@ variants:
     date: May 22, 2024
     date_iso: '2024-05-22'
     date_display: May 2024
-    codebase_url: ''
+    codebase_url: https://github.com/liun-online/WaveGC
     uses_external_data: false
     is_best: false
     metric_values:
     - 0.9075
     metric_stds:
     - 0.0059
-  - model: CaCoSE
-    model_plain: CaCoSE
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2603.27529'
-    title: Cross-attentive Cohesive Subgraph Embedding to Mitigate Oversquashing in
-      GNNs
-    date: Mar 2026
-    date_iso: 2026-03
-    date_display: Mar 2026
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.9073
-    metric_stds:
-    - null
-  - model: SDRF
-    model_plain: SDRF
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2603.27529'
-    title: Cross-attentive Cohesive Subgraph Embedding to Mitigate Oversquashing in
-      GNNs
-    date: Mar 2026
-    date_iso: 2026-03
-    date_display: Mar 2026
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.9056000000000001
-    metric_stds:
-    - null
-  - model: BORF
-    model_plain: BORF
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2603.27529'
-    title: Cross-attentive Cohesive Subgraph Embedding to Mitigate Oversquashing in
-      GNNs
-    date: Mar 2026
-    date_iso: 2026-03
-    date_display: Mar 2026
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.9052
-    metric_stds:
-    - null
-  - model: FOSR
-    model_plain: FOSR
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2603.27529'
-    title: Cross-attentive Cohesive Subgraph Embedding to Mitigate Oversquashing in
-      GNNs
-    date: Mar 2026
-    date_iso: 2026-03
-    date_display: Mar 2026
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.9044
-    metric_stds:
-    - null
-  - model: GOKU
-    model_plain: GOKU
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2603.27529'
-    title: Cross-attentive Cohesive Subgraph Embedding to Mitigate Oversquashing in
-      GNNs
-    date: Mar 2026
-    date_iso: 2026-03
-    date_display: Mar 2026
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.9004000000000001
-    metric_stds:
-    - null
-  - model: GTR
-    model_plain: GTR
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2603.27529'
-    title: Cross-attentive Cohesive Subgraph Embedding to Mitigate Oversquashing in
-      GNNs
-    date: Mar 2026
-    date_iso: 2026-03
-    date_display: Mar 2026
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.8887
-    metric_stds:
-    - null
-  - model: GCN
-    model_plain: GCN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2603.27529'
-    title: Cross-attentive Cohesive Subgraph Embedding to Mitigate Oversquashing in
-      GNNs
-    date: Mar 2026
-    date_iso: 2026-03
-    date_display: Mar 2026
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.8886
-    metric_stds:
-    - null
-  - model: SAGE
-    model_plain: SAGE
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2603.27529'
-    title: Cross-attentive Cohesive Subgraph Embedding to Mitigate Oversquashing in
-      GNNs
-    date: Mar 2026
-    date_iso: 2026-03
-    date_display: Mar 2026
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.8842
-    metric_stds:
-    - null
   - model: GAT
     model_plain: GAT
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2603.27529'
-    title: Cross-attentive Cohesive Subgraph Embedding to Mitigate Oversquashing in
-      GNNs
-    date: Mar 2026
-    date_iso: 2026-03
-    date_display: Mar 2026
+    arxiv_id: '1811.05868'
+    title: Pitfalls of Graph Neural Network Evaluation
+    date: Nov 2018
+    date_iso: 2018-11
+    date_display: Nov 2018
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.8713
+    - 0.905
     metric_stds:
-    - null
-  - model: LASER
-    model_plain: LASER
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2603.27529'
-    title: Cross-attentive Cohesive Subgraph Embedding to Mitigate Oversquashing in
-      GNNs
-    date: Mar 2026
-    date_iso: 2026-03
-    date_display: Mar 2026
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.769
-    metric_stds:
-    - null
-  - model: DR
-    model_plain: DR
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2603.27529'
-    title: Cross-attentive Cohesive Subgraph Embedding to Mitigate Oversquashing in
-      GNNs
-    date: Mar 2026
-    date_iso: 2026-03
-    date_display: Mar 2026
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.725
-    metric_stds:
-    - null
-  - model: 1-GNN
-    model_plain: 1-GNN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2412.07188'
-    title: 'Graph Neural Networks Are More Than Filters: Revisiting and Benchmarking
-      from A Spectral Perspective'
-    date: Dec 2024
-    date_iso: 2024-12
-    date_display: Dec 2024
-    codebase_url: ''
-    uses_external_data: null
-    is_best: false
-    metric_values:
-    - 0.6627
-    metric_stds:
-    - 0.0277
-  - model: GatedGraph
-    model_plain: GatedGraph
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2412.07188'
-    title: 'Graph Neural Networks Are More Than Filters: Revisiting and Benchmarking
-      from A Spectral Perspective'
-    date: Dec 2024
-    date_iso: 2024-12
-    date_display: Dec 2024
-    codebase_url: ''
-    uses_external_data: null
-    is_best: false
-    metric_values:
-    - 0.6614
-    metric_stds:
-    - 0.0293
-  - model: SAGE
-    model_plain: SAGE
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2412.07188'
-    title: 'Graph Neural Networks Are More Than Filters: Revisiting and Benchmarking
-      from A Spectral Perspective'
-    date: Dec 2024
-    date_iso: 2024-12
-    date_display: Dec 2024
-    codebase_url: ''
-    uses_external_data: null
-    is_best: false
-    metric_values:
-    - 0.6317
-    metric_stds:
-    - 0.0201
-  - model: GCNII
-    model_plain: GCNII
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2412.07188'
-    title: 'Graph Neural Networks Are More Than Filters: Revisiting and Benchmarking
-      from A Spectral Perspective'
-    date: Dec 2024
-    date_iso: 2024-12
-    date_display: Dec 2024
-    codebase_url: ''
-    uses_external_data: null
-    is_best: false
-    metric_values:
-    - 0.6291
-    metric_stds:
-    - 0.0275
-  - model: Cheb
-    model_plain: Cheb
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2412.07188'
-    title: 'Graph Neural Networks Are More Than Filters: Revisiting and Benchmarking
-      from A Spectral Perspective'
-    date: Dec 2024
-    date_iso: 2024-12
-    date_display: Dec 2024
-    codebase_url: ''
-    uses_external_data: null
-    is_best: false
-    metric_values:
-    - 0.6088
-    metric_stds:
-    - 0.0193
-  - model: GATv2
-    model_plain: GATv2
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2412.07188'
-    title: 'Graph Neural Networks Are More Than Filters: Revisiting and Benchmarking
-      from A Spectral Perspective'
-    date: Dec 2024
-    date_iso: 2024-12
-    date_display: Dec 2024
-    codebase_url: ''
-    uses_external_data: null
-    is_best: false
-    metric_values:
-    - 0.6041
-    metric_stds:
-    - 0.0212
-  - model: GPS
-    model_plain: GPS
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2412.07188'
-    title: 'Graph Neural Networks Are More Than Filters: Revisiting and Benchmarking
-      from A Spectral Perspective'
-    date: Dec 2024
-    date_iso: 2024-12
-    date_display: Dec 2024
-    codebase_url: ''
-    uses_external_data: null
-    is_best: false
-    metric_values:
-    - 0.5989
-    metric_stds:
-    - 0.0173
-  - model: GCN
-    model_plain: GCN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2412.07188'
-    title: 'Graph Neural Networks Are More Than Filters: Revisiting and Benchmarking
-      from A Spectral Perspective'
-    date: Dec 2024
-    date_iso: 2024-12
-    date_display: Dec 2024
-    codebase_url: ''
-    uses_external_data: null
-    is_best: false
-    metric_values:
-    - 0.5982
-    metric_stds:
-    - 0.0404
-  - model: LRGB
-    model_plain: LRGB
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2603.27529'
-    title: Cross-attentive Cohesive Subgraph Embedding to Mitigate Oversquashing in
-      GNNs
-    date: Mar 2026
-    date_iso: 2026-03
-    date_display: Mar 2026
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.595
-    metric_stds:
-    - null
-  - model: Transformer
-    model_plain: Transformer
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2412.07188'
-    title: 'Graph Neural Networks Are More Than Filters: Revisiting and Benchmarking
-      from A Spectral Perspective'
-    date: Dec 2024
-    date_iso: 2024-12
-    date_display: Dec 2024
-    codebase_url: ''
-    uses_external_data: null
-    is_best: false
-    metric_values:
-    - 0.5943
-    metric_stds:
-    - 0.015
+    - 0.006
   - model: SGC
     model_plain: SGC
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2412.07188'
-    title: 'Graph Neural Networks Are More Than Filters: Revisiting and Benchmarking
-      from A Spectral Perspective'
-    date: Dec 2024
-    date_iso: 2024-12
-    date_display: Dec 2024
+    arxiv_id: '2006.06972'
+    title: Towards Deeper Graph Neural Networks with Differentiable Group Normalization
+    date: Jun 2020
+    date_iso: 2020-06
+    date_display: Jun 2020
     codebase_url: ''
-    uses_external_data: null
+    uses_external_data: false
     is_best: false
     metric_values:
-    - 0.5925
+    - 0.899
     metric_stds:
-    - 0.0419
-  - model: GAT
-    model_plain: GAT
+    - null
+  - model: GS-meanpool
+    model_plain: GS-meanpool
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2412.07188'
-    title: 'Graph Neural Networks Are More Than Filters: Revisiting and Benchmarking
-      from A Spectral Perspective'
-    date: Dec 2024
-    date_iso: 2024-12
-    date_display: Dec 2024
+    arxiv_id: '1811.05868'
+    title: Pitfalls of Graph Neural Network Evaluation
+    date: Nov 2018
+    date_iso: 2018-11
+    date_display: Nov 2018
     codebase_url: ''
-    uses_external_data: null
+    uses_external_data: false
     is_best: false
     metric_values:
-    - 0.5828
+    - 0.896
     metric_stds:
-    - 0.0209
-  - model: GIN
-    model_plain: GIN
+    - 0.009
+  - model: MLP
+    model_plain: MLP
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2412.07188'
-    title: 'Graph Neural Networks Are More Than Filters: Revisiting and Benchmarking
-      from A Spectral Perspective'
-    date: Dec 2024
-    date_iso: 2024-12
-    date_display: Dec 2024
+    arxiv_id: '1811.05868'
+    title: Pitfalls of Graph Neural Network Evaluation
+    date: Nov 2018
+    date_iso: 2018-11
+    date_display: Nov 2018
     codebase_url: ''
-    uses_external_data: null
+    uses_external_data: false
     is_best: false
     metric_values:
-    - 0.579
+    - 0.883
     metric_stds:
-    - 0.0335
-  - model: FA
-    model_plain: FA
+    - 0.007
+  - model: LogReg
+    model_plain: LogReg
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2412.07188'
-    title: 'Graph Neural Networks Are More Than Filters: Revisiting and Benchmarking
-      from A Spectral Perspective'
-    date: Dec 2024
-    date_iso: 2024-12
-    date_display: Dec 2024
+    arxiv_id: '1811.05868'
+    title: Pitfalls of Graph Neural Network Evaluation
+    date: Nov 2018
+    date_iso: 2018-11
+    date_display: Nov 2018
     codebase_url: ''
-    uses_external_data: null
+    uses_external_data: false
     is_best: false
     metric_values:
-    - 0.5295
+    - 0.864
     metric_stds:
-    - 0.0379
+    - 0.009
+  - model: ILLS
+    model_plain: ILLS
+    is_baseline: false
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_iso: '2023-05-27'
+    date_display: May 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.862
+    metric_stds:
+    - 0.003
+  - model: PNA
+    model_plain: PNA
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_iso: '2023-05-27'
+    date_display: May 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.851
+    metric_stds:
+    - 0.004
+  - model: GS-maxpool
+    model_plain: GS-maxpool
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1811.05868'
+    title: Pitfalls of Graph Neural Network Evaluation
+    date: Nov 2018
+    date_iso: 2018-11
+    date_display: Nov 2018
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.85
+    metric_stds:
+    - 0.011
   - model: APPNP
     model_plain: APPNP
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2412.07188'
-    title: 'Graph Neural Networks Are More Than Filters: Revisiting and Benchmarking
-      from A Spectral Perspective'
-    date: Dec 2024
-    date_iso: 2024-12
-    date_display: Dec 2024
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_iso: '2023-05-27'
+    date_display: May 2023
     codebase_url: ''
-    uses_external_data: null
+    uses_external_data: false
     is_best: false
     metric_values:
-    - 0.529
+    - 0.848
     metric_stds:
-    - 0.0216
+    - 0.005
+  - model: GAT
+    model_plain: GAT
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_iso: '2023-05-27'
+    date_display: May 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.842
+    metric_stds:
+    - 0.006
+  - model: GIN
+    model_plain: GIN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_iso: '2023-05-27'
+    date_display: May 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.839
+    metric_stds:
+    - 0.005
+  - model: GCN
+    model_plain: GCN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_iso: '2023-05-27'
+    date_display: May 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.835
+    metric_stds:
+    - 0.005
+  - model: GraphSAGE
+    model_plain: GraphSAGE
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2305.17589'
+    title: Graph Inductive Biases in Transformers without Message Passing
+    date: May 27, 2023
+    date_iso: '2023-05-27'
+    date_display: May 2023
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.831
+    metric_stds:
+    - 0.004
+  - model: LabelProp NL
+    model_plain: LabelProp NL
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1811.05868'
+    title: Pitfalls of Graph Neural Network Evaluation
+    date: Nov 2018
+    date_iso: 2018-11
+    date_display: Nov 2018
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.767
+    metric_stds:
+    - 0.014
+  - model: LP
+    model_plain: LP
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '1811.05868'
+    title: Pitfalls of Graph Neural Network Evaluation
+    date: Nov 2018
+    date_iso: 2018-11
+    date_display: Nov 2018
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.736
+    metric_stds:
+    - 0.039
   milestones:
+  - value: 0.913
+    std: 0.028
+    model: GS-mean
+    arxiv_id: '1811.05868'
+    title: Pitfalls of Graph Neural Network Evaluation
+    date: 2018-11
+  - value: 0.9229999999999999
+    std: null
+    model: GCN
+    arxiv_id: '2006.06972'
+    title: Towards Deeper Graph Neural Networks with Differentiable Group Normalization
+    date: 2020-06
+  - value: 0.929
+    std: 0.002
+    model: BLEND
+    arxiv_id: '2110.09443'
+    title: Beltrami Flow and Neural Diffusion on Graphs
+    date: 2021-10
+  - value: 0.9577
+    std: 0.0015
+    model: Exphormer
+    arxiv_id: '2303.06147'
+    title: 'Exphormer: Sparse Transformers for Graphs'
+    date: '2023-03-10'
   - value: 0.9589
     std: 0.0034
-    model: M
+    model: SGT
     arxiv_id: '2405.13806'
     title: A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
     date: '2024-05-22'
-  - value: 0.9638
-    std: 0.0011
-    model: GraphSAGE
-    arxiv_id: '2406.08993'
-    title: 'Classic GNNs are Strong Baselines: Reassessing GNNs for Node Classification'
-    date: 2024-06
 ---
 

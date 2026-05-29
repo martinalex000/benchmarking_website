@@ -1,5 +1,5 @@
 ---
-title: DualEquiNet RNA Benchmarks
+title: 'DualEquiNet: A Dual-Space Hierarchical Equivariant Network for Large Biomolecules'
 arxiv_id: '2506.19862'
 source_url: ''
 authors: []
@@ -26,7 +26,7 @@ abstract: Geometric graph neural networks (GNNs) that respect E(3) symmetries ha
   and outperforms prior methods on two newly introduced 3D structural benchmarks demonstrating
   its broad effectiveness across a range of large biomolecule modeling tasks.
 codebase_url: ''
-extraction_model: qwen3.6-35b-a3b
+extraction_model: Qwen/Qwen3.6-35B-A3B-FP8
 has_results: true
 paper_type: method
 proposed_models:
@@ -59,7 +59,7 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
@@ -67,7 +67,8 @@ results:
     true_value: 0.353
     true_std: 0.006
     value_gap_source_arxiv: '2506.19862'
-    value_gap_source_title: DualEquiNet RNA Benchmarks
+    value_gap_source_title: 'DualEquiNet: A Dual-Space Hierarchical Equivariant Network
+      for Large Biomolecules'
     value_gap_source_is_current_paper: true
     has_value_gap: false
     has_value_note: false
@@ -79,114 +80,6 @@ results:
     rank_delta_direction: same
     sort_value: 0.353
     sort_std: 0.006
-    is_best: true
-  - model: w/o CSIP
-    model_key: w/o csip
-    model_plain: w/o CSIP
-    value: 0.356
-    std: 0.002
-    paper_value: 0.356
-    paper_std: 0.002
-    metric: RMSE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 2
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Jun 2025
-    date_display: Jun 2025
-    date_iso: 2025-06
-    global_rank: 2
-    true_value: 0.356
-    true_std: 0.002
-    value_gap_source_arxiv: '2506.19862'
-    value_gap_source_title: DualEquiNet RNA Benchmarks
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 2
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.356
-    sort_std: 0.002
-    is_best: true
-  - model: w/o CSIP/Cross
-    model_key: w/o csip/cross
-    model_plain: w/o CSIP/Cross
-    value: 0.356
-    std: 0.013
-    paper_value: 0.356
-    paper_std: 0.013
-    metric: RMSE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 2
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Jun 2025
-    date_display: Jun 2025
-    date_iso: 2025-06
-    global_rank: 3
-    true_value: 0.356
-    true_std: 0.013
-    value_gap_source_arxiv: '2506.19862'
-    value_gap_source_title: DualEquiNet RNA Benchmarks
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 3
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.356
-    sort_std: 0.013
-    is_best: true
-  - model: w/o CSIP/Cross/Dual
-    model_key: w/o csip/cross/dual
-    model_plain: w/o CSIP/Cross/Dual
-    value: 0.362
-    std: 0.01
-    paper_value: 0.362
-    paper_std: 0.01
-    metric: RMSE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 2
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Jun 2025
-    date_display: Jun 2025
-    date_iso: 2025-06
-    global_rank: 4
-    true_value: 0.362
-    true_std: 0.01
-    value_gap_source_arxiv: '2506.19862'
-    value_gap_source_title: DualEquiNet RNA Benchmarks
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 4
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.362
-    sort_std: 0.01
     is_best: true
   - model: GotenNet
     model_key: gotennet
@@ -203,21 +96,22 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 5
+    global_rank: 2
     true_value: 0.475
     true_std: 0.009
     value_gap_source_arxiv: '2506.19862'
-    value_gap_source_title: DualEquiNet RNA Benchmarks
+    value_gap_source_title: 'DualEquiNet: A Dual-Space Hierarchical Equivariant Network
+      for Large Biomolecules'
     value_gap_source_is_current_paper: true
     has_value_gap: false
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 5
+    paper_rank: 2
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -239,21 +133,22 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 6
+    global_rank: 3
     true_value: 0.478
     true_std: 0.031
     value_gap_source_arxiv: '2506.19862'
-    value_gap_source_title: DualEquiNet RNA Benchmarks
+    value_gap_source_title: 'DualEquiNet: A Dual-Space Hierarchical Equivariant Network
+      for Large Biomolecules'
     value_gap_source_is_current_paper: true
     has_value_gap: false
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 6
+    paper_rank: 3
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -275,30 +170,31 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 7
+    global_rank: 4
     true_value: 0.531
     true_std: 0.011
     value_gap_source_arxiv: '2506.19862'
-    value_gap_source_title: DualEquiNet RNA Benchmarks
+    value_gap_source_title: 'DualEquiNet: A Dual-Space Hierarchical Equivariant Network
+      for Large Biomolecules'
     value_gap_source_is_current_paper: true
     has_value_gap: false
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 7
+    paper_rank: 4
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 0.531
     sort_std: 0.011
     is_best: false
-  - model: HGNN
-    model_key: hgnn
-    model_plain: HGNN
+  - model: EGNN
+    model_key: egnn
+    model_plain: EGNN
     value: 0.533
     std: 0.011
     paper_value: 0.533
@@ -311,21 +207,22 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 8
+    global_rank: 5
     true_value: 0.533
     true_std: 0.011
     value_gap_source_arxiv: '2506.19862'
-    value_gap_source_title: DualEquiNet RNA Benchmarks
+    value_gap_source_title: 'DualEquiNet: A Dual-Space Hierarchical Equivariant Network
+      for Large Biomolecules'
     value_gap_source_is_current_paper: true
     has_value_gap: false
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 8
+    paper_rank: 5
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -347,61 +244,26 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 9
+    global_rank: 6
     true_value: 0.534
     true_std: 0.011
     value_gap_source_arxiv: '2506.19862'
-    value_gap_source_title: DualEquiNet RNA Benchmarks
+    value_gap_source_title: 'DualEquiNet: A Dual-Space Hierarchical Equivariant Network
+      for Large Biomolecules'
     value_gap_source_is_current_paper: true
     has_value_gap: false
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 9
+    paper_rank: 6
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 0.534
-    sort_std: 0.011
-    is_best: false
-  - model: EGNN
-    model_key: egnn
-    model_plain: EGNN
-    value: 0.535
-    std: 0.011
-    paper_value: 0.535
-    paper_std: 0.011
-    metric: RMSE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Jun 2025
-    date_display: Jun 2025
-    date_iso: 2025-06
-    global_rank: 10
-    true_value: 0.535
-    true_std: 0.011
-    value_gap_source_arxiv: '2506.19862'
-    value_gap_source_title: DualEquiNet RNA Benchmarks
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 10
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.535
     sort_std: 0.011
     is_best: false
   - model: TFN
@@ -419,21 +281,22 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 11
+    global_rank: 7
     true_value: 0.535
     true_std: 0.011
     value_gap_source_arxiv: '2506.19862'
-    value_gap_source_title: DualEquiNet RNA Benchmarks
+    value_gap_source_title: 'DualEquiNet: A Dual-Space Hierarchical Equivariant Network
+      for Large Biomolecules'
     value_gap_source_is_current_paper: true
     has_value_gap: false
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 11
+    paper_rank: 7
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -445,22 +308,22 @@ results:
 - &id002
   dataset: Ribonanza
   rows:
-  - model: DualEquiNet
-    model_key: dualequinet
-    model_plain: DualEquiNet
+  - model: EU
+    model_key: eu
+    model_plain: EU
     value: 0.558
     std: 0.012
     paper_value: 0.558
     paper_std: 0.012
     metric: RMSE
     higher_is_better: false
-    is_baseline: false
+    is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
@@ -468,7 +331,8 @@ results:
     true_value: 0.558
     true_std: 0.012
     value_gap_source_arxiv: '2506.19862'
-    value_gap_source_title: DualEquiNet RNA Benchmarks
+    value_gap_source_title: 'DualEquiNet: A Dual-Space Hierarchical Equivariant Network
+      for Large Biomolecules'
     value_gap_source_is_current_paper: true
     has_value_gap: false
     has_value_note: false
@@ -480,114 +344,6 @@ results:
     rank_delta_direction: same
     sort_value: 0.558
     sort_std: 0.012
-    is_best: true
-  - model: w/o CSIP
-    model_key: w/o csip
-    model_plain: w/o CSIP
-    value: 0.586
-    std: 0.016
-    paper_value: 0.586
-    paper_std: 0.016
-    metric: RMSE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 2
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Jun 2025
-    date_display: Jun 2025
-    date_iso: 2025-06
-    global_rank: 2
-    true_value: 0.586
-    true_std: 0.016
-    value_gap_source_arxiv: '2506.19862'
-    value_gap_source_title: DualEquiNet RNA Benchmarks
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 2
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.586
-    sort_std: 0.016
-    is_best: true
-  - model: w/o CSIP/Cross
-    model_key: w/o csip/cross
-    model_plain: w/o CSIP/Cross
-    value: 0.591
-    std: 0.081
-    paper_value: 0.591
-    paper_std: 0.081
-    metric: RMSE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 2
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Jun 2025
-    date_display: Jun 2025
-    date_iso: 2025-06
-    global_rank: 3
-    true_value: 0.591
-    true_std: 0.081
-    value_gap_source_arxiv: '2506.19862'
-    value_gap_source_title: DualEquiNet RNA Benchmarks
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 3
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.591
-    sort_std: 0.081
-    is_best: true
-  - model: w/o CSIP/Cross/Dual
-    model_key: w/o csip/cross/dual
-    model_plain: w/o CSIP/Cross/Dual
-    value: 0.592
-    std: 0.028
-    paper_value: 0.592
-    paper_std: 0.028
-    metric: RMSE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 2
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Jun 2025
-    date_display: Jun 2025
-    date_iso: 2025-06
-    global_rank: 4
-    true_value: 0.592
-    true_std: 0.028
-    value_gap_source_arxiv: '2506.19862'
-    value_gap_source_title: DualEquiNet RNA Benchmarks
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 4
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.592
-    sort_std: 0.028
     is_best: true
   - model: FastEGNN
     model_key: fastegnn
@@ -604,21 +360,22 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 5
+    global_rank: 2
     true_value: 0.839
     true_std: 0.02
     value_gap_source_arxiv: '2506.19862'
-    value_gap_source_title: DualEquiNet RNA Benchmarks
+    value_gap_source_title: 'DualEquiNet: A Dual-Space Hierarchical Equivariant Network
+      for Large Biomolecules'
     value_gap_source_is_current_paper: true
     has_value_gap: false
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 5
+    paper_rank: 2
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -640,21 +397,22 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 6
+    global_rank: 3
     true_value: 0.857
     true_std: 0.013
     value_gap_source_arxiv: '2506.19862'
-    value_gap_source_title: DualEquiNet RNA Benchmarks
+    value_gap_source_title: 'DualEquiNet: A Dual-Space Hierarchical Equivariant Network
+      for Large Biomolecules'
     value_gap_source_is_current_paper: true
     has_value_gap: false
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 6
+    paper_rank: 3
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -676,30 +434,31 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 7
+    global_rank: 4
     true_value: 0.932
     true_std: 0.01
     value_gap_source_arxiv: '2506.19862'
-    value_gap_source_title: DualEquiNet RNA Benchmarks
+    value_gap_source_title: 'DualEquiNet: A Dual-Space Hierarchical Equivariant Network
+      for Large Biomolecules'
     value_gap_source_is_current_paper: true
     has_value_gap: false
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 7
+    paper_rank: 4
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 0.932
     sort_std: 0.01
     is_best: false
-  - model: HGNN
-    model_key: hgnn
-    model_plain: HGNN
+  - model: EGNN
+    model_key: egnn
+    model_plain: EGNN
     value: 0.934
     std: 0.01
     paper_value: 0.934
@@ -712,21 +471,22 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 8
+    global_rank: 5
     true_value: 0.934
     true_std: 0.01
     value_gap_source_arxiv: '2506.19862'
-    value_gap_source_title: DualEquiNet RNA Benchmarks
+    value_gap_source_title: 'DualEquiNet: A Dual-Space Hierarchical Equivariant Network
+      for Large Biomolecules'
     value_gap_source_is_current_paper: true
     has_value_gap: false
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 8
+    paper_rank: 5
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -748,21 +508,22 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 9
+    global_rank: 6
     true_value: 0.937
     true_std: 0.012
     value_gap_source_arxiv: '2506.19862'
-    value_gap_source_title: DualEquiNet RNA Benchmarks
+    value_gap_source_title: 'DualEquiNet: A Dual-Space Hierarchical Equivariant Network
+      for Large Biomolecules'
     value_gap_source_is_current_paper: true
     has_value_gap: false
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 9
+    paper_rank: 6
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -784,61 +545,26 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 10
+    global_rank: 7
     true_value: 0.939
     true_std: 0.012
     value_gap_source_arxiv: '2506.19862'
-    value_gap_source_title: DualEquiNet RNA Benchmarks
+    value_gap_source_title: 'DualEquiNet: A Dual-Space Hierarchical Equivariant Network
+      for Large Biomolecules'
     value_gap_source_is_current_paper: true
     has_value_gap: false
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 10
+    paper_rank: 7
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 0.939
-    sort_std: 0.012
-    is_best: false
-  - model: EGNN
-    model_key: egnn
-    model_plain: EGNN
-    value: 0.94
-    std: 0.012
-    paper_value: 0.94
-    paper_std: 0.012
-    metric: RMSE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Jun 2025
-    date_display: Jun 2025
-    date_iso: 2025-06
-    global_rank: 11
-    true_value: 0.94
-    true_std: 0.012
-    value_gap_source_arxiv: '2506.19862'
-    value_gap_source_title: DualEquiNet RNA Benchmarks
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 11
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.94
     sort_std: 0.012
     is_best: false
   metric: RMSE
@@ -861,7 +587,7 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
@@ -869,7 +595,8 @@ results:
     true_value: 0.636
     true_std: 0.049
     value_gap_source_arxiv: '2506.19862'
-    value_gap_source_title: DualEquiNet RNA Benchmarks
+    value_gap_source_title: 'DualEquiNet: A Dual-Space Hierarchical Equivariant Network
+      for Large Biomolecules'
     value_gap_source_is_current_paper: true
     has_value_gap: false
     has_value_note: false
@@ -881,42 +608,6 @@ results:
     rank_delta_direction: same
     sort_value: 0.636
     sort_std: 0.049
-    is_best: true
-  - model: w/o CSIP
-    model_key: w/o csip
-    model_plain: w/o CSIP
-    value: 0.682
-    std: 0.026
-    paper_value: 0.682
-    paper_std: 0.026
-    metric: RMSE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 2
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Jun 2025
-    date_display: Jun 2025
-    date_iso: 2025-06
-    global_rank: 2
-    true_value: 0.682
-    true_std: 0.026
-    value_gap_source_arxiv: '2506.19862'
-    value_gap_source_title: DualEquiNet RNA Benchmarks
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 2
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.682
-    sort_std: 0.026
     is_best: true
   - model: TFN
     model_key: tfn
@@ -933,98 +624,27 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 3
+    global_rank: 2
     true_value: 0.694
     true_std: 0.008
     value_gap_source_arxiv: '2506.19862'
-    value_gap_source_title: DualEquiNet RNA Benchmarks
+    value_gap_source_title: 'DualEquiNet: A Dual-Space Hierarchical Equivariant Network
+      for Large Biomolecules'
     value_gap_source_is_current_paper: true
     has_value_gap: false
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 3
+    paper_rank: 2
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
     sort_value: 0.694
     sort_std: 0.008
-    is_best: false
-  - model: w/o CSIP/Cross
-    model_key: w/o csip/cross
-    model_plain: w/o CSIP/Cross
-    value: 0.698
-    std: 0.01
-    paper_value: 0.698
-    paper_std: 0.01
-    metric: RMSE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 2
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Jun 2025
-    date_display: Jun 2025
-    date_iso: 2025-06
-    global_rank: 4
-    true_value: 0.698
-    true_std: 0.01
-    value_gap_source_arxiv: '2506.19862'
-    value_gap_source_title: DualEquiNet RNA Benchmarks
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 4
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.698
-    sort_std: 0.01
-    is_best: false
-  - model: w/o CSIP/Cross/Dual
-    model_key: w/o csip/cross/dual
-    model_plain: w/o CSIP/Cross/Dual
-    value: 0.699
-    std: 0.01
-    paper_value: 0.699
-    paper_std: 0.01
-    metric: RMSE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 2
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Jun 2025
-    date_display: Jun 2025
-    date_iso: 2025-06
-    global_rank: 5
-    true_value: 0.699
-    true_std: 0.01
-    value_gap_source_arxiv: '2506.19862'
-    value_gap_source_title: DualEquiNet RNA Benchmarks
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 5
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.699
-    sort_std: 0.01
     is_best: false
   - model: GotenNet
     model_key: gotennet
@@ -1041,21 +661,22 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 6
+    global_rank: 3
     true_value: 0.718
     true_std: 0.002
     value_gap_source_arxiv: '2506.19862'
-    value_gap_source_title: DualEquiNet RNA Benchmarks
+    value_gap_source_title: 'DualEquiNet: A Dual-Space Hierarchical Equivariant Network
+      for Large Biomolecules'
     value_gap_source_is_current_paper: true
     has_value_gap: false
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 6
+    paper_rank: 3
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1065,42 +686,6 @@ results:
   - model: EGNN
     model_key: egnn
     model_plain: EGNN
-    value: 0.72
-    std: 0.022
-    paper_value: 0.72
-    paper_std: 0.022
-    metric: RMSE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Jun 2025
-    date_display: Jun 2025
-    date_iso: 2025-06
-    global_rank: 7
-    true_value: 0.72
-    true_std: 0.022
-    value_gap_source_arxiv: '2506.19862'
-    value_gap_source_title: DualEquiNet RNA Benchmarks
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 7
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 0.72
-    sort_std: 0.022
-    is_best: false
-  - model: HGNN
-    model_key: hgnn
-    model_plain: HGNN
     value: 0.729
     std: 0.007
     paper_value: 0.729
@@ -1113,21 +698,22 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 8
+    global_rank: 4
     true_value: 0.729
     true_std: 0.007
     value_gap_source_arxiv: '2506.19862'
-    value_gap_source_title: DualEquiNet RNA Benchmarks
+    value_gap_source_title: 'DualEquiNet: A Dual-Space Hierarchical Equivariant Network
+      for Large Biomolecules'
     value_gap_source_is_current_paper: true
     has_value_gap: false
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 8
+    paper_rank: 4
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1149,21 +735,22 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 9
+    global_rank: 5
     true_value: 0.731
     true_std: 0.006
     value_gap_source_arxiv: '2506.19862'
-    value_gap_source_title: DualEquiNet RNA Benchmarks
+    value_gap_source_title: 'DualEquiNet: A Dual-Space Hierarchical Equivariant Network
+      for Large Biomolecules'
     value_gap_source_is_current_paper: true
     has_value_gap: false
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 9
+    paper_rank: 5
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1185,21 +772,22 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 10
+    global_rank: 6
     true_value: 0.736
     true_std: 0.003
     value_gap_source_arxiv: '2506.19862'
-    value_gap_source_title: DualEquiNet RNA Benchmarks
+    value_gap_source_title: 'DualEquiNet: A Dual-Space Hierarchical Equivariant Network
+      for Large Biomolecules'
     value_gap_source_is_current_paper: true
     has_value_gap: false
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 10
+    paper_rank: 6
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1221,21 +809,22 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 11
+    global_rank: 7
     true_value: 0.737
     true_std: 0.002
     value_gap_source_arxiv: '2506.19862'
-    value_gap_source_title: DualEquiNet RNA Benchmarks
+    value_gap_source_title: 'DualEquiNet: A Dual-Space Hierarchical Equivariant Network
+      for Large Biomolecules'
     value_gap_source_is_current_paper: true
     has_value_gap: false
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 11
+    paper_rank: 7
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1262,7 +851,7 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
@@ -1270,7 +859,8 @@ results:
     true_value: 15.87
     true_std: 2.03
     value_gap_source_arxiv: '2506.19862'
-    value_gap_source_title: DualEquiNet RNA Benchmarks
+    value_gap_source_title: 'DualEquiNet: A Dual-Space Hierarchical Equivariant Network
+      for Large Biomolecules'
     value_gap_source_is_current_paper: true
     has_value_gap: false
     has_value_note: false
@@ -1298,7 +888,7 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
@@ -1306,7 +896,8 @@ results:
     true_value: 16.27
     true_std: 1.19
     value_gap_source_arxiv: '2506.19862'
-    value_gap_source_title: DualEquiNet RNA Benchmarks
+    value_gap_source_title: 'DualEquiNet: A Dual-Space Hierarchical Equivariant Network
+      for Large Biomolecules'
     value_gap_source_is_current_paper: true
     has_value_gap: false
     has_value_note: false
@@ -1334,7 +925,7 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
@@ -1342,7 +933,8 @@ results:
     true_value: 17.56
     true_std: 0.21
     value_gap_source_arxiv: '2506.19862'
-    value_gap_source_title: DualEquiNet RNA Benchmarks
+    value_gap_source_title: 'DualEquiNet: A Dual-Space Hierarchical Equivariant Network
+      for Large Biomolecules'
     value_gap_source_is_current_paper: true
     has_value_gap: false
     has_value_note: false
@@ -1358,42 +950,6 @@ results:
   - model: EGNN
     model_key: egnn
     model_plain: EGNN
-    value: 17.79
-    std: 0.61
-    paper_value: 17.79
-    paper_std: 0.61
-    metric: Circular MAE
-    higher_is_better: false
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    table_ref: Table 1
-    source_ref: this paper
-    variant_inference_reason: ''
-    date: Jun 2025
-    date_display: Jun 2025
-    date_iso: 2025-06
-    global_rank: 4
-    true_value: 17.79
-    true_std: 0.61
-    value_gap_source_arxiv: '2506.19862'
-    value_gap_source_title: DualEquiNet RNA Benchmarks
-    value_gap_source_is_current_paper: true
-    has_value_gap: false
-    has_value_note: false
-    value_gap: null
-    value_note: ''
-    paper_rank: 4
-    rank_delta: 0
-    rank_delta_abs: 0
-    rank_delta_direction: same
-    sort_value: 17.79
-    sort_std: 0.61
-    is_best: true
-  - model: HGNN
-    model_key: hgnn
-    model_plain: HGNN
     value: 18.41
     std: 0.22
     paper_value: 18.41
@@ -1406,21 +962,22 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 5
+    global_rank: 4
     true_value: 18.41
     true_std: 0.22
     value_gap_source_arxiv: '2506.19862'
-    value_gap_source_title: DualEquiNet RNA Benchmarks
+    value_gap_source_title: 'DualEquiNet: A Dual-Space Hierarchical Equivariant Network
+      for Large Biomolecules'
     value_gap_source_is_current_paper: true
     has_value_gap: false
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 5
+    paper_rank: 4
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1442,21 +999,22 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 6
+    global_rank: 5
     true_value: 18.54
     true_std: 0.86
     value_gap_source_arxiv: '2506.19862'
-    value_gap_source_title: DualEquiNet RNA Benchmarks
+    value_gap_source_title: 'DualEquiNet: A Dual-Space Hierarchical Equivariant Network
+      for Large Biomolecules'
     value_gap_source_is_current_paper: true
     has_value_gap: false
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 6
+    paper_rank: 5
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1478,21 +1036,22 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 7
+    global_rank: 6
     true_value: 18.89
     true_std: 0.22
     value_gap_source_arxiv: '2506.19862'
-    value_gap_source_title: DualEquiNet RNA Benchmarks
+    value_gap_source_title: 'DualEquiNet: A Dual-Space Hierarchical Equivariant Network
+      for Large Biomolecules'
     value_gap_source_is_current_paper: true
     has_value_gap: false
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 7
+    paper_rank: 6
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same
@@ -1514,21 +1073,22 @@ results:
     params_millions: null
     table_ref: Table 1
     source_ref: this paper
-    variant_inference_reason: ''
+    variant_inference_reason: 'dataset: exact match'
     date: Jun 2025
     date_display: Jun 2025
     date_iso: 2025-06
-    global_rank: 8
+    global_rank: 7
     true_value: 21.97
     true_std: 0.45
     value_gap_source_arxiv: '2506.19862'
-    value_gap_source_title: DualEquiNet RNA Benchmarks
+    value_gap_source_title: 'DualEquiNet: A Dual-Space Hierarchical Equivariant Network
+      for Large Biomolecules'
     value_gap_source_is_current_paper: true
     has_value_gap: false
     has_value_note: false
     value_gap: null
     value_note: ''
-    paper_rank: 8
+    paper_rank: 7
     rank_delta: 0
     rank_delta_abs: 0
     rank_delta_direction: same

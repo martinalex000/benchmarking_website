@@ -12,13 +12,13 @@ stats:
   avg_nodes: 168114.0
   avg_edges: 6797557.0
   num_classes: 2
-result_count: 13
+result_count: 9
 best_model:
-  model: GPM + DANN
-  value: 0.6298
+  model: GloGNN
+  value: 0.986
   metric: Accuracy
-  arxiv_id: '2501.18739'
-  paper_title: 'Beyond Message Passing: Neural Graph Pattern Machine'
+  arxiv_id: '2205.07308'
+  paper_title: Finding Global Homophily in Graph Neural Networks When Meeting Heterophily
 variants:
 - slug: standard-split
   name: Standard split
@@ -33,246 +33,174 @@ variants:
   metrics:
   - Accuracy
   rows:
-  - model: GPM + DANN
-    model_plain: GPM + DANN
+  - model: GloGNN
+    model_plain: GloGNN
     is_baseline: false
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2501.18739'
-    title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: Jan 30, 2025
-    date_iso: '2025-01-30'
-    date_display: Jan 2025
+    arxiv_id: '2205.07308'
+    title: Finding Global Homophily in Graph Neural Networks When Meeting Heterophily
+    date: May 15, 2022
+    date_iso: '2022-05-15'
+    date_display: May 2022
     codebase_url: ''
     uses_external_data: false
     is_best: true
     metric_values:
-    - 0.6298
+    - 0.986
     metric_stds:
-    - null
-  - model: GPM + SSReg
-    model_plain: GPM + SSReg
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2501.18739'
-    title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: Jan 30, 2025
-    date_iso: '2025-01-30'
-    date_display: Jan 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.6277
-    metric_stds:
-    - null
-  - model: GPM
-    model_plain: GPM
-    is_baseline: false
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2501.18739'
-    title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: Jan 30, 2025
-    date_iso: '2025-01-30'
-    date_display: Jan 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.6163
-    metric_stds:
-    - null
-  - model: StruRW
-    model_plain: StruRW
+    - 0.001
+  - model: PNA
+    model_plain: PNA
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2501.18739'
-    title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: Jan 30, 2025
-    date_iso: '2025-01-30'
-    date_display: Jan 2025
+    arxiv_id: '2205.07308'
+    title: Finding Global Homophily in Graph Neural Networks When Meeting Heterophily
+    date: May 15, 2022
+    date_iso: '2022-05-15'
+    date_display: May 2022
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.6146
+    - 0.983
     metric_stds:
-    - null
-  - model: DAGNN
-    model_plain: DAGNN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2501.18739'
-    title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: Jan 30, 2025
-    date_iso: '2025-01-30'
-    date_display: Jan 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.6071
-    metric_stds:
-    - null
-  - model: SSReg
-    model_plain: SSReg
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2501.18739'
-    title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: Jan 30, 2025
-    date_iso: '2025-01-30'
-    date_display: Jan 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.6043
-    metric_stds:
-    - null
-  - model: SR-GNN
-    model_plain: SR-GNN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2501.18739'
-    title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: Jan 30, 2025
-    date_iso: '2025-01-30'
-    date_display: Jan 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.5965
-    metric_stds:
-    - null
-  - model: RUM
-    model_plain: RUM
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2501.18739'
-    title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: Jan 30, 2025
-    date_iso: '2025-01-30'
-    date_display: Jan 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.5859
-    metric_stds:
-    - null
-  - model: GAT
-    model_plain: GAT
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2501.18739'
-    title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: Jan 30, 2025
-    date_iso: '2025-01-30'
-    date_display: Jan 2025
-    codebase_url: ''
-    uses_external_data: false
-    is_best: false
-    metric_values:
-    - 0.5686
-    metric_stds:
-    - null
+    - 0.001
   - model: GCN
     model_plain: GCN
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2501.18739'
-    title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: Jan 30, 2025
-    date_iso: '2025-01-30'
-    date_display: Jan 2025
+    arxiv_id: '2205.07308'
+    title: Finding Global Homophily in Graph Neural Networks When Meeting Heterophily
+    date: May 15, 2022
+    date_iso: '2022-05-15'
+    date_display: May 2022
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.5668
+    - 0.982
     metric_stds:
-    - null
+    - 0.002
   - model: APPNP
     model_plain: APPNP
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2501.18739'
-    title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: Jan 30, 2025
-    date_iso: '2025-01-30'
-    date_display: Jan 2025
+    arxiv_id: '2205.07308'
+    title: Finding Global Homophily in Graph Neural Networks When Meeting Heterophily
+    date: May 15, 2022
+    date_iso: '2022-05-15'
+    date_display: May 2022
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.5426
+    - 0.981
     metric_stds:
-    - null
-  - model: Nagphormer
-    model_plain: Nagphormer
+    - 0.002
+  - model: GraphSAGE
+    model_plain: GraphSAGE
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2501.18739'
-    title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: Jan 30, 2025
-    date_iso: '2025-01-30'
-    date_display: Jan 2025
+    arxiv_id: '2205.07308'
+    title: Finding Global Homophily in Graph Neural Networks When Meeting Heterophily
+    date: May 15, 2022
+    date_iso: '2022-05-15'
+    date_display: May 2022
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.5419
+    - 0.98
     metric_stds:
-    - null
-  - model: NodeFormer
-    model_plain: NodeFormer
+    - 0.002
+  - model: GAT
+    model_plain: GAT
     is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
-    arxiv_id: '2501.18739'
-    title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: Jan 30, 2025
-    date_iso: '2025-01-30'
-    date_display: Jan 2025
+    arxiv_id: '2205.07308'
+    title: Finding Global Homophily in Graph Neural Networks When Meeting Heterophily
+    date: May 15, 2022
+    date_iso: '2022-05-15'
+    date_display: May 2022
     codebase_url: ''
     uses_external_data: false
     is_best: false
     metric_values:
-    - 0.5417
+    - 0.979
     metric_stds:
-    - null
+    - 0.002
+  - model: GIN
+    model_plain: GIN
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2205.07308'
+    title: Finding Global Homophily in Graph Neural Networks When Meeting Heterophily
+    date: May 15, 2022
+    date_iso: '2022-05-15'
+    date_display: May 2022
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.978
+    metric_stds:
+    - 0.002
+  - model: ChebNet
+    model_plain: ChebNet
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2205.07308'
+    title: Finding Global Homophily in Graph Neural Networks When Meeting Heterophily
+    date: May 15, 2022
+    date_iso: '2022-05-15'
+    date_display: May 2022
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.975
+    metric_stds:
+    - 0.003
+  - model: MLP
+    model_plain: MLP
+    is_baseline: true
+    is_overridden: false
+    override_reason: ''
+    params_millions: null
+    arxiv_id: '2205.07308'
+    title: Finding Global Homophily in Graph Neural Networks When Meeting Heterophily
+    date: May 15, 2022
+    date_iso: '2022-05-15'
+    date_display: May 2022
+    codebase_url: ''
+    uses_external_data: false
+    is_best: false
+    metric_values:
+    - 0.965
+    metric_stds:
+    - 0.003
   milestones:
-  - value: 0.6298
-    std: null
-    model: GPM + DANN
-    arxiv_id: '2501.18739'
-    title: 'Beyond Message Passing: Neural Graph Pattern Machine'
-    date: '2025-01-30'
+  - value: 0.986
+    std: 0.001
+    model: GloGNN
+    arxiv_id: '2205.07308'
+    title: Finding Global Homophily in Graph Neural Networks When Meeting Heterophily
+    date: '2022-05-15'
 ---
 

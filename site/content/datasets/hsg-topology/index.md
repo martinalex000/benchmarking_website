@@ -18,7 +18,8 @@ best_model:
   value: 0.62
   metric: Accuracy
   arxiv_id: '2506.08618'
-  paper_title: HSG-12M
+  paper_title: 'HSG-12M: A Large-Scale Benchmark of Spatial Multigraphs from the Energy
+    Spectra of Non-Hermitian Crystals'
 variants:
 - slug: standard-split
   name: Standard split
@@ -35,16 +36,17 @@ variants:
   rows:
   - model: GraphSAGE
     model_plain: GraphSAGE
-    is_baseline: false
+    is_baseline: true
     is_overridden: false
     override_reason: ''
     params_millions: null
     arxiv_id: '2506.08618'
-    title: HSG-12M
+    title: 'HSG-12M: A Large-Scale Benchmark of Spatial Multigraphs from the Energy
+      Spectra of Non-Hermitian Crystals'
     date: Jun 2025
     date_iso: 2025-06
     date_display: Jun 2025
-    codebase_url: ''
+    codebase_url: https://github.com/sarinstein-yan/Poly2Graph
     uses_external_data: false
     is_best: true
     metric_values:
@@ -58,11 +60,12 @@ variants:
     override_reason: ''
     params_millions: null
     arxiv_id: '2506.08618'
-    title: HSG-12M
+    title: 'HSG-12M: A Large-Scale Benchmark of Spatial Multigraphs from the Energy
+      Spectra of Non-Hermitian Crystals'
     date: Jun 2025
     date_iso: 2025-06
     date_display: Jun 2025
-    codebase_url: ''
+    codebase_url: https://github.com/sarinstein-yan/Poly2Graph
     uses_external_data: false
     is_best: false
     metric_values:
@@ -76,11 +79,12 @@ variants:
     override_reason: ''
     params_millions: null
     arxiv_id: '2506.08618'
-    title: HSG-12M
+    title: 'HSG-12M: A Large-Scale Benchmark of Spatial Multigraphs from the Energy
+      Spectra of Non-Hermitian Crystals'
     date: Jun 2025
     date_iso: 2025-06
     date_display: Jun 2025
-    codebase_url: ''
+    codebase_url: https://github.com/sarinstein-yan/Poly2Graph
     uses_external_data: false
     is_best: false
     metric_values:
@@ -94,11 +98,12 @@ variants:
     override_reason: ''
     params_millions: null
     arxiv_id: '2506.08618'
-    title: HSG-12M
+    title: 'HSG-12M: A Large-Scale Benchmark of Spatial Multigraphs from the Energy
+      Spectra of Non-Hermitian Crystals'
     date: Jun 2025
     date_iso: 2025-06
     date_display: Jun 2025
-    codebase_url: ''
+    codebase_url: https://github.com/sarinstein-yan/Poly2Graph
     uses_external_data: false
     is_best: false
     metric_values:
@@ -112,11 +117,12 @@ variants:
     override_reason: ''
     params_millions: null
     arxiv_id: '2506.08618'
-    title: HSG-12M
+    title: 'HSG-12M: A Large-Scale Benchmark of Spatial Multigraphs from the Energy
+      Spectra of Non-Hermitian Crystals'
     date: Jun 2025
     date_iso: 2025-06
     date_display: Jun 2025
-    codebase_url: ''
+    codebase_url: https://github.com/sarinstein-yan/Poly2Graph
     uses_external_data: false
     is_best: false
     metric_values:
@@ -130,11 +136,12 @@ variants:
     override_reason: ''
     params_millions: null
     arxiv_id: '2506.08618'
-    title: HSG-12M
+    title: 'HSG-12M: A Large-Scale Benchmark of Spatial Multigraphs from the Energy
+      Spectra of Non-Hermitian Crystals'
     date: Jun 2025
     date_iso: 2025-06
     date_display: Jun 2025
-    codebase_url: ''
+    codebase_url: https://github.com/sarinstein-yan/Poly2Graph
     uses_external_data: false
     is_best: false
     metric_values:
@@ -148,11 +155,12 @@ variants:
     override_reason: ''
     params_millions: null
     arxiv_id: '2506.08618'
-    title: HSG-12M
+    title: 'HSG-12M: A Large-Scale Benchmark of Spatial Multigraphs from the Energy
+      Spectra of Non-Hermitian Crystals'
     date: Jun 2025
     date_iso: 2025-06
     date_display: Jun 2025
-    codebase_url: ''
+    codebase_url: https://github.com/sarinstein-yan/Poly2Graph
     uses_external_data: false
     is_best: false
     metric_values:
@@ -166,11 +174,12 @@ variants:
     override_reason: ''
     params_millions: null
     arxiv_id: '2506.08618'
-    title: HSG-12M
+    title: 'HSG-12M: A Large-Scale Benchmark of Spatial Multigraphs from the Energy
+      Spectra of Non-Hermitian Crystals'
     date: Jun 2025
     date_iso: 2025-06
     date_display: Jun 2025
-    codebase_url: ''
+    codebase_url: https://github.com/sarinstein-yan/Poly2Graph
     uses_external_data: false
     is_best: false
     metric_values:
@@ -182,7 +191,8 @@ variants:
     std: 0.003
     model: GraphSAGE
     arxiv_id: '2506.08618'
-    title: HSG-12M
+    title: 'HSG-12M: A Large-Scale Benchmark of Spatial Multigraphs from the Energy
+      Spectra of Non-Hermitian Crystals'
     date: 2025-06
 ---
 

@@ -12,13 +12,14 @@ stats:
   avg_nodes: null
   avg_edges: null
   num_classes: null
-result_count: 11
+result_count: 7
 best_model:
   model: DualEquiNet
   value: 0.636
   metric: RMSE
   arxiv_id: '2506.19862'
-  paper_title: DualEquiNet RNA Benchmarks
+  paper_title: 'DualEquiNet: A Dual-Space Hierarchical Equivariant Network for Large
+    Biomolecules'
 variants:
 - slug: standard-split
   name: Standard split
@@ -40,35 +41,17 @@ variants:
     override_reason: ''
     params_millions: null
     arxiv_id: '2506.19862'
-    title: DualEquiNet RNA Benchmarks
+    title: 'DualEquiNet: A Dual-Space Hierarchical Equivariant Network for Large Biomolecules'
     date: Jun 2025
     date_iso: 2025-06
     date_display: Jun 2025
     codebase_url: ''
-    uses_external_data: null
+    uses_external_data: false
     is_best: true
     metric_values:
     - 0.636
     metric_stds:
     - 0.049
-  - model: w/o CSIP
-    model_plain: w/o CSIP
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2506.19862'
-    title: DualEquiNet RNA Benchmarks
-    date: Jun 2025
-    date_iso: 2025-06
-    date_display: Jun 2025
-    codebase_url: ''
-    uses_external_data: null
-    is_best: true
-    metric_values:
-    - 0.682
-    metric_stds:
-    - 0.026
   - model: TFN
     model_plain: TFN
     is_baseline: true
@@ -76,53 +59,17 @@ variants:
     override_reason: ''
     params_millions: null
     arxiv_id: '2506.19862'
-    title: DualEquiNet RNA Benchmarks
+    title: 'DualEquiNet: A Dual-Space Hierarchical Equivariant Network for Large Biomolecules'
     date: Jun 2025
     date_iso: 2025-06
     date_display: Jun 2025
     codebase_url: ''
-    uses_external_data: null
+    uses_external_data: false
     is_best: false
     metric_values:
     - 0.694
     metric_stds:
     - 0.008
-  - model: w/o CSIP/Cross
-    model_plain: w/o CSIP/Cross
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2506.19862'
-    title: DualEquiNet RNA Benchmarks
-    date: Jun 2025
-    date_iso: 2025-06
-    date_display: Jun 2025
-    codebase_url: ''
-    uses_external_data: null
-    is_best: false
-    metric_values:
-    - 0.698
-    metric_stds:
-    - 0.01
-  - model: w/o CSIP/Cross/Dual
-    model_plain: w/o CSIP/Cross/Dual
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2506.19862'
-    title: DualEquiNet RNA Benchmarks
-    date: Jun 2025
-    date_iso: 2025-06
-    date_display: Jun 2025
-    codebase_url: ''
-    uses_external_data: null
-    is_best: false
-    metric_values:
-    - 0.699
-    metric_stds:
-    - 0.01
   - model: GotenNet
     model_plain: GotenNet
     is_baseline: true
@@ -130,12 +77,12 @@ variants:
     override_reason: ''
     params_millions: null
     arxiv_id: '2506.19862'
-    title: DualEquiNet RNA Benchmarks
+    title: 'DualEquiNet: A Dual-Space Hierarchical Equivariant Network for Large Biomolecules'
     date: Jun 2025
     date_iso: 2025-06
     date_display: Jun 2025
     codebase_url: ''
-    uses_external_data: null
+    uses_external_data: false
     is_best: false
     metric_values:
     - 0.718
@@ -148,30 +95,12 @@ variants:
     override_reason: ''
     params_millions: null
     arxiv_id: '2506.19862'
-    title: DualEquiNet RNA Benchmarks
+    title: 'DualEquiNet: A Dual-Space Hierarchical Equivariant Network for Large Biomolecules'
     date: Jun 2025
     date_iso: 2025-06
     date_display: Jun 2025
     codebase_url: ''
-    uses_external_data: null
-    is_best: false
-    metric_values:
-    - 0.72
-    metric_stds:
-    - 0.022
-  - model: HGNN
-    model_plain: HGNN
-    is_baseline: true
-    is_overridden: false
-    override_reason: ''
-    params_millions: null
-    arxiv_id: '2506.19862'
-    title: DualEquiNet RNA Benchmarks
-    date: Jun 2025
-    date_iso: 2025-06
-    date_display: Jun 2025
-    codebase_url: ''
-    uses_external_data: null
+    uses_external_data: false
     is_best: false
     metric_values:
     - 0.729
@@ -184,12 +113,12 @@ variants:
     override_reason: ''
     params_millions: null
     arxiv_id: '2506.19862'
-    title: DualEquiNet RNA Benchmarks
+    title: 'DualEquiNet: A Dual-Space Hierarchical Equivariant Network for Large Biomolecules'
     date: Jun 2025
     date_iso: 2025-06
     date_display: Jun 2025
     codebase_url: ''
-    uses_external_data: null
+    uses_external_data: false
     is_best: false
     metric_values:
     - 0.731
@@ -202,12 +131,12 @@ variants:
     override_reason: ''
     params_millions: null
     arxiv_id: '2506.19862'
-    title: DualEquiNet RNA Benchmarks
+    title: 'DualEquiNet: A Dual-Space Hierarchical Equivariant Network for Large Biomolecules'
     date: Jun 2025
     date_iso: 2025-06
     date_display: Jun 2025
     codebase_url: ''
-    uses_external_data: null
+    uses_external_data: false
     is_best: false
     metric_values:
     - 0.736
@@ -220,12 +149,12 @@ variants:
     override_reason: ''
     params_millions: null
     arxiv_id: '2506.19862'
-    title: DualEquiNet RNA Benchmarks
+    title: 'DualEquiNet: A Dual-Space Hierarchical Equivariant Network for Large Biomolecules'
     date: Jun 2025
     date_iso: 2025-06
     date_display: Jun 2025
     codebase_url: ''
-    uses_external_data: null
+    uses_external_data: false
     is_best: false
     metric_values:
     - 0.737
@@ -236,7 +165,7 @@ variants:
     std: 0.049
     model: DualEquiNet
     arxiv_id: '2506.19862'
-    title: DualEquiNet RNA Benchmarks
+    title: 'DualEquiNet: A Dual-Space Hierarchical Equivariant Network for Large Biomolecules'
     date: 2025-06
 ---
 
