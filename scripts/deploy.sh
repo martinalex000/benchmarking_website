@@ -1,11 +1,58 @@
 #!/usr/bin/env bash
-# deploy.sh — build and deploy Hugo site to production server via rsync/ssh
+# deploy.sh — build and deploy Hugo site via sshfs mount + rsync delta sync
 # Reads DEPLOY_USER, DEPLOY_HOST, DEPLOY_PATH, and optional HUGO_BASE_URL from .env
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_DIR="$(dirname "$SCRIPT_DIR")"
 cd "$PROJECT_DIR"
+
+err() {
+  echo "ERROR: $*" >&2
+}
+
+hint() {
+  echo "Hint: $*" >&2
+}
+
+die() {
+  err "$*"
+  exit 1
+}
+
+require_cmd() {
+  local cmd="$1"
+  command -v "$cmd" >/dev/null 2>&1 || die "Required command '$cmd' not found in PATH."
+}
+
+cleanup() {
+  if [[ -n "${MOUNT_POINT:-}" ]] && mountpoint -q "$MOUNT_POINT" 2>/dev/null; then
+    if command -v fusermount >/dev/null 2>&1; then
+      fusermount -u "$MOUNT_POINT" >/dev/null 2>&1 || true
+    elif command -v umount >/dev/null 2>&1; then
+      umount "$MOUNT_POINT" >/dev/null 2>&1 || true
+    fi
+
+    if mountpoint -q "$MOUNT_POINT" 2>/dev/null; then
+      err "Could not unmount $MOUNT_POINT automatically."
+      hint "Run manually: fusermount -u '$MOUNT_POINT' (or: umount '$MOUNT_POINT')."
+    else
+      echo "Unmounted ${MOUNT_POINT}"
+    fi
+  fi
+
+  if [[ -n "${MOUNT_POINT:-}" ]]; then
+    rmdir "$MOUNT_POINT" >/dev/null 2>&1 || true
+  fi
+}
+trap cleanup EXIT
+
+require_cmd uv
+require_cmd ssh
+require_cmd sshfs
+require_cmd rsync
+require_cmd mountpoint
+require_cmd mktemp
 
 # Load config using Python (handles .env parsing correctly)
 CONFIG_OUTPUT="$(uv run python -c "
@@ -21,12 +68,13 @@ print(f'HUGO_BASE_URL={hugo_url}')
 ")"
 eval "$CONFIG_OUTPUT"
 
-# Deployment configuration
-DEPLOY_USER="${DEPLOY_USER:-}"       # Optional: empty means rely on ssh/config
-DEPLOY_HOST="${DEPLOY_HOST:?DEPLOY_HOST not set in .env}"
+DEPLOY_USER="${DEPLOY_USER:-}" # Optional: empty means rely on ssh/config
+DEPLOY_HOST="${DEPLOY_HOST:-}"
 DEPLOY_PATH="${DEPLOY_PATH:-/var/www/graphbench}"
 
-# Build SSH destination: with user or without (relies on ssh/config)
+[[ -n "$DEPLOY_HOST" ]] || die "DEPLOY_HOST is empty. Set it in .env."
+[[ -n "$DEPLOY_PATH" ]] || die "DEPLOY_PATH is empty. Set it in .env."
+
 if [[ -n "$DEPLOY_USER" ]]; then
   SSH_DEST="${DEPLOY_USER}@${DEPLOY_HOST}"
 else
@@ -36,17 +84,36 @@ fi
 HUGO_BASE_URL="${HUGO_BASE_URL:-}"
 HUGO_BIN="${PROJECT_DIR}/bin/hugo"
 [[ -x "$HUGO_BIN" ]] || HUGO_BIN="hugo"
+require_cmd "$HUGO_BIN"
 
-if ! command -v rsync >/dev/null 2>&1; then
-  echo "Error: rsync is required for deployment but was not found in PATH." >&2
-  exit 1
-fi
-if ! command -v tar >/dev/null 2>&1; then
-  echo "Error: tar is required for deployment but was not found in PATH." >&2
-  exit 1
+MOUNT_POINT="$(mktemp -d /tmp/deploy-XXXXXX)"
+SSHFS_OPTS="${SSHFS_OPTS:-reconnect,ServerAliveInterval=15,ServerAliveCountMax=3}"
+
+echo "Checking SSH connectivity to ${SSH_DEST}..."
+if ! ssh -o BatchMode=yes -o ConnectTimeout=10 "$SSH_DEST" true; then
+  hint "Verify your ssh config/keys with: ssh ${SSH_DEST}"
+  die "SSH connectivity check failed."
 fi
 
-# Build Hugo site locally first.
+echo "Mounting ${SSH_DEST}:${DEPLOY_PATH} via sshfs at ${MOUNT_POINT}..."
+if ! sshfs -o "$SSHFS_OPTS" "${SSH_DEST}:${DEPLOY_PATH}" "$MOUNT_POINT"; then
+  hint "Verify destination exists and is accessible: ssh ${SSH_DEST} 'ls -ld ${DEPLOY_PATH}'"
+  hint "Try mounting manually for detailed diagnostics: sshfs ${SSH_DEST}:${DEPLOY_PATH} ${MOUNT_POINT}"
+  hint "If sshfs is blocked by hosting policy, direct rsync is an alternative:"
+  hint "  rsync -avz --delete site/public/ ${SSH_DEST}:${DEPLOY_PATH}/"
+  die "Failed to mount remote deployment path via sshfs."
+fi
+
+mountpoint -q "$MOUNT_POINT" || die "sshfs command returned, but ${MOUNT_POINT} is not a mounted filesystem."
+
+WRITE_TEST="${MOUNT_POINT}/.deploy-write-test-$$"
+if ! : >"$WRITE_TEST"; then
+  hint "The mounted path may be read-only or permission-restricted."
+  hint "Check remote ownership/ACLs for ${DEPLOY_PATH}."
+  die "Mounted path is not writable."
+fi
+rm -f "$WRITE_TEST"
+
 echo "Building Hugo site locally..."
 cd site
 if [[ -n "$HUGO_BASE_URL" ]]; then
@@ -56,25 +123,30 @@ else
 fi
 cd ..
 
-echo "Syncing site/public/ to ${SSH_DEST}:${DEPLOY_PATH}/ ..."
-if rsync \
+[[ -d "${PROJECT_DIR}/site/public" ]] || die "Hugo build did not produce site/public/."
+
+echo "Rsync delta sync to mounted target..."
+if ! rsync \
   --archive \
   --delete \
   --compress \
   --human-readable \
   --itemize-changes \
   --stats \
-  -e ssh \
   "${PROJECT_DIR}/site/public/" \
-  "${SSH_DEST}:${DEPLOY_PATH}/"; then
-  echo "Rsync deploy succeeded."
-else
-  echo "Rsync deploy failed; falling back to full tar upload via ssh..."
-
-  REMOTE_PATH_Q="$(printf '%q' "$DEPLOY_PATH")"
-  ssh "$SSH_DEST" "mkdir -p ${REMOTE_PATH_Q} && find ${REMOTE_PATH_Q} -mindepth 1 -maxdepth 1 -exec rm -rf -- {} +"
-  tar -C "${PROJECT_DIR}/site/public" -cf - . | ssh "$SSH_DEST" "tar -xf - -C ${REMOTE_PATH_Q}"
-  echo "Fallback tar deploy succeeded."
+  "${MOUNT_POINT}/"; then
+  hint "Inspect mount health: ls -la ${MOUNT_POINT}"
+  hint "Check free space remotely: ssh ${SSH_DEST} 'df -h ${DEPLOY_PATH}'"
+  die "Rsync transfer to sshfs mount failed."
 fi
 
-echo "Deploy complete."
+echo "Verifying sync (rsync dry-run must report no pending changes)..."
+VERIFY_OUTPUT="$(rsync --archive --delete --itemize-changes --dry-run "${PROJECT_DIR}/site/public/" "${MOUNT_POINT}/")"
+if [[ -n "$VERIFY_OUTPUT" ]]; then
+  echo "$VERIFY_OUTPUT" | sed -n '1,40p' >&2
+  hint "Pending changes after sync indicate incomplete deployment or unstable mount state."
+  hint "Retry deploy once; if it persists, remount and rerun."
+  die "Post-sync verification failed."
+fi
+
+echo "Deploy complete and verified."
