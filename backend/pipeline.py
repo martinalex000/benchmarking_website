@@ -193,6 +193,7 @@ def stage_extract(args: argparse.Namespace) -> None:
 
     model_tier = getattr(args, "model", "primary")
     force = getattr(args, "force", False)
+    screen_first = not getattr(args, "skip_screen", False)
     arxiv_ids = getattr(args, "paper", None)
     papers = _get_papers(
         arxiv_ids=arxiv_ids,
@@ -201,7 +202,7 @@ def stage_extract(args: argparse.Namespace) -> None:
     )
 
     model_name = cfg.model_for_tier(model_tier)
-    console.print(f"[bold]Extract[/bold] — {len(papers)} paper(s), model=[cyan]{model_name}[/cyan]")
+    console.print(f"[bold]Extract[/bold] — {len(papers)} paper(s), model=[cyan]{model_name}[/cyan], screen={screen_first}")
     if not papers:
         console.print("  Nothing to extract.")
         return
@@ -213,7 +214,7 @@ def stage_extract(args: argparse.Namespace) -> None:
             skip += 1
             continue
         try:
-            result = run_extraction(p.arxiv_id, model_tier=model_tier, verbose=False)
+            result = run_extraction(p.arxiv_id, model_tier=model_tier, screen_first=screen_first, verbose=False)
             status = "success" if result else "failed"
         except KeyboardInterrupt:
             raise
@@ -379,6 +380,11 @@ def _build_parser() -> argparse.ArgumentParser:
     )
     ex.add_argument("--paper", nargs="+", metavar="ARXIV_ID")
     ex.add_argument("--force", action="store_true")
+    ex.add_argument(
+        "--skip-screen",
+        action="store_true",
+        help="Skip abstract pre-screen in extraction stage",
+    )
     ex.add_argument(
         "--since",
         metavar="DURATION",
