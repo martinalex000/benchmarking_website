@@ -49,14 +49,11 @@
               <div class="leaderboard-entry-meta">
                 <div class="leaderboard-badges">
                   {{ if not $r.is_global_top }}{{ if $r.is_baseline }}<span class="tag-baseline">baseline</span>{{ else }}<span class="tag-proposed">★ proposed</span>{{ end }}{{ end }}
-                  {{ with ($r.date_display | default $r.date) }}<span class="mini-badge mini-badge-date">{{ . }}</span>{{ end }}
-                  {{ if $r.codebase_url }}<span class="mini-badge mini-badge-code" title="Code available">code</span>{{ end }}
                   {{ if $r.uses_external_data }}<span class="mini-badge mini-badge-external" title="Uses external data during training">ext data</span>{{ end }}
                   {{ if $r.params_millions }}<span class="mini-badge mini-badge-neutral">{{ printf "%.1fM" $r.params_millions }}</span>{{ end }}
                   {{ if $r.is_global_top }}<span class="global-top-badge" title="Top-ranked globally — from another paper">global</span>{{ end }}
                   {{ if $r.is_overridden }}<span class="override-badge" title="{{ $r.override_reason }}">✎</span>{{ end }}
                 </div>
-                <button type="button" class="mobile-details-toggle" aria-expanded="false" aria-controls="{{ $rowDetailsId }}" aria-label="Toggle details">▾</button>
               </div>
             </div>
           </div>
@@ -127,6 +124,7 @@
             </div>
             <div class="paper-inline-meta">
               <span class="paper-date-inline">{{ $r.date_display | default $r.date | default "—" }}</span>
+              <button type="button" class="mobile-details-toggle" aria-expanded="false" aria-controls="{{ $rowDetailsId }}" aria-label="Toggle details">▾</button>
             </div>
           </div>
         </td>

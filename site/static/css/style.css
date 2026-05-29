@@ -1140,16 +1140,20 @@ tr.row-global-top.row-best td { background: #e0f2fe; }
 }
 
 @media (max-width: 980px) {
+  .result-table-wrapper {
+    overflow-x: hidden;
+  }
+
   .result-table tbody tr {
     display: grid;
-    grid-template-columns: 2rem minmax(0, 1fr) auto;
+    grid-template-columns: 1.8rem minmax(4rem, 1fr) 6.3rem 4.4rem;
     align-items: center;
-    gap: 0.5rem 0.65rem;
+    gap: 0.25rem 0.5rem;
     border: 1px solid #dbe2ea;
-    border-radius: 12px;
+    border-radius: 10px;
     background: #fff;
-    padding: 0.7rem 0.75rem;
-    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
+    padding: 0.45rem 0.5rem;
+    box-shadow: 0 1px 6px rgba(15, 23, 42, 0.03);
   }
 
   .result-table tbody tr td {
@@ -1167,12 +1171,12 @@ tr.row-global-top.row-best td { background: #e0f2fe; }
 
   .result-table tbody tr td.col-rank {
     grid-column: 1;
-    font-size: 0.84rem;
+    font-size: 0.78rem;
     color: #475569;
     text-align: left;
     font-weight: 700;
-    align-self: start;
-    padding-top: 0.14rem;
+    align-self: center;
+    padding-top: 0;
   }
 
   .result-table tbody tr td.col-model {
@@ -1185,11 +1189,14 @@ tr.row-global-top.row-best td { background: #e0f2fe; }
 
   .result-table tbody tr td.col-value {
     grid-column: 3;
-    align-self: start;
+    align-self: center;
     text-align: right;
-    padding: 0;
+    padding: 0.2rem 0.35rem;
     width: auto;
     min-width: 0;
+    border-radius: 7px;
+    background: #f8fafc;
+    overflow: hidden;
   }
 
   .result-table th.col-value,
@@ -1199,15 +1206,19 @@ tr.row-global-top.row-best td { background: #e0f2fe; }
   }
 
   .result-table tbody tr td.col-paper {
-    grid-column: 1 / -1;
-    margin-top: 0.5rem;
-    padding-top: 0.6rem;
-    border-top: 1px dashed #d1d5db;
-    display: none;
+    grid-column: 4;
+    align-self: center;
+    margin-top: 0;
+    padding-top: 0;
+    border-top: 0;
+    display: block;
   }
 
   .result-table tbody tr.mobile-details-open td.col-paper {
-    display: block;
+    grid-column: 1 / -1;
+    margin-top: 0.35rem;
+    padding-top: 0.45rem;
+    border-top: 1px dashed #d1d5db;
   }
 
   .mobile-details-toggle {
@@ -1226,17 +1237,21 @@ tr.row-global-top.row-best td { background: #e0f2fe; }
     white-space: normal;
     word-break: normal;
     overflow-wrap: anywhere;
-    line-height: 1.25;
+    overflow: hidden;
+    line-height: 1.2;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
   }
 
   .leaderboard-entry-meta {
     flex: 0 0 auto;
-    align-items: flex-start;
+    align-items: center;
   }
 
   .leaderboard-badges {
     justify-content: flex-end;
-    max-width: 9.6rem;
+    max-width: 9rem;
     gap: 0.2rem;
   }
 
@@ -1248,67 +1263,131 @@ tr.row-global-top.row-best td { background: #e0f2fe; }
   }
 
   .leaderboard-badges .mini-badge {
-    font-size: 0.64rem;
+    font-size: 0.62rem;
     border-radius: 999px;
-    padding: 0.07rem 0.42rem;
+    padding: 0.06rem 0.38rem;
   }
 
   .result-table tbody tr td.col-value .metric-primary-block {
-    border: 1px solid #cbd5e1;
-    border-radius: 10px;
-    padding: 0.2rem 0.4rem;
-    background: #f8fafc;
-    display: inline-flex;
+    border: 0;
+    border-radius: 0;
+    padding: 0;
+    background: transparent;
+    display: flex;
+    justify-content: flex-end;
   }
 
-  .result-table tbody tr.row-current-sota td.col-value .metric-primary-block {
+  .result-table tbody tr.row-current-sota td.col-value {
     background: #dbeafe;
-    border-color: #93c5fd;
+    border: 1px solid #93c5fd;
   }
 
-  .result-table tbody tr.row-best td.col-value .metric-primary-block {
+  .result-table tbody tr.row-best td.col-value {
     background: #dcfce7;
-    border-color: #86efac;
+    border: 1px solid #86efac;
   }
 
   .result-table tbody tr td.col-value .metric-primary-value {
-    font-size: 0.94rem;
+    font-size: 0.86rem;
+    line-height: 1.1;
+  }
+
+  .result-table tbody tr td.col-value .metric-primary-std {
+    font-size: 0.62rem;
   }
 
   .paper-cell-row {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.35rem;
+    display: block;
   }
 
   .paper-title-wrap {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.35rem;
-    align-items: center;
+    display: none;
   }
 
   .paper-inline-meta {
     min-width: 0;
-    justify-content: flex-start;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 0.35rem;
+    width: 100%;
+    white-space: nowrap;
+  }
+
+  .paper-date-inline {
+    font-size: 0.72rem;
+    color: #334155;
+    font-weight: 600;
+    display: inline-block;
+    max-width: 3.2rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .mobile-details-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    width: 1.35rem;
+    height: 1.35rem;
+    font-size: 0.78rem;
+  }
+
+  .result-table tbody tr.mobile-details-open .paper-cell-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: start;
+    gap: 0.3rem 0.5rem;
+  }
+
+  .result-table tbody tr.mobile-details-open .paper-title-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+    align-items: center;
+  }
+
+  .result-table tbody tr.mobile-details-open .paper-inline-meta {
+    justify-content: flex-end;
+    align-self: start;
+  }
+
+  .result-table tbody tr.mobile-details-open .mobile-details-toggle {
+    transform: rotate(180deg);
   }
 }
 
 @media (max-width: 420px) {
-  .leaderboard-entry-main {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.25rem;
+  .result-table tbody tr {
+    grid-template-columns: 1.45rem minmax(3.2rem, 1fr) 4rem 3.9rem;
+    gap: 0.22rem 0.4rem;
+    padding: 0.4rem 0.44rem;
   }
 
-  .leaderboard-entry-meta {
-    width: 100%;
-    justify-content: space-between;
-    align-items: center;
+  .result-table tbody tr td.col-value {
+    padding: 0.17rem 0.25rem;
+  }
+
+  .result-table tbody tr td.col-value .metric-primary-std {
+    display: none;
+  }
+
+  .result-table tbody tr td.col-value .metric-primary-value {
+    font-size: 0.81rem;
+  }
+
+  .paper-date-inline {
+    font-size: 0.62rem;
+    max-width: 2.2rem;
   }
 
   .leaderboard-badges {
-    max-width: none;
-    justify-content: flex-start;
+    max-width: 6.6rem;
+  }
+
+  .mobile-details-toggle {
+    width: 1.2rem;
+    height: 1.2rem;
   }
 }
