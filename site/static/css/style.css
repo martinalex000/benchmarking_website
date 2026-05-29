@@ -180,40 +180,40 @@ footer { max-width: 1100px; margin: 3rem auto 1rem; padding: 0 1.5rem; color: va
   font-weight: 600;
   white-space: nowrap;
   font-size: 0.84rem;
-  table-layout: fixed;
-  min-width: 54rem;
+}
 .result-table thead th.sort-asc::after  { content: " ▲"; font-size: 0.75em; }
 .result-table thead th.sort-desc::after { content: " ▼"; font-size: 0.75em; }
 .result-table tbody tr:hover { background: var(--blue-light); }
-  width: var(--model-col-width, 18ch);
-  white-space: nowrap;
 .row-proposed { font-weight: 600; }
 .row-overridden .col-model { font-style: italic; }
-  padding: 0.38rem 0.5rem;
-
+.result-table td.col-paper,
+.result-table td.col-model,
+.result-table td.col-value {
   vertical-align: top;
+}
+
 /* Type badges in result table */
 .tag-baseline {
   display: inline-block;
   font-size: 0.72rem;
-  width: 1.5rem;
-  min-width: 1.5rem;
   background: var(--gray-100);
   color: var(--gray-600);
-  padding-left: 0.05rem;
-  padding-right: 0.2rem;
   border: 1px solid var(--gray-300);
-  white-space: nowrap;
-}
-  width: var(--paper-col-width, 30ch);
-  min-width: 16rem;
-  font-size: 0.72rem;
+  border-radius: 4px;
   padding: 1px 7px;
   white-space: nowrap;
+}
+
+.tag-proposed {
+  display: inline-block;
+  font-size: 0.72rem;
+  background: #dcfce7;
   color: #15803d;
   border: 1px solid #bbf7d0;
-  font-weight: 600;
+  border-radius: 4px;
+  padding: 1px 7px;
   white-space: nowrap;
+  font-weight: 600;
 }
 /* Dataset heading inside paper results */
 .dataset-heading { margin: 1.75rem 0 0.25rem; font-size: 1rem; color: var(--gray-600); font-weight: 600; }
@@ -786,50 +786,36 @@ tr.row-global-top.row-best td { background: #e0f2fe; }
 .result-table-wrapper.wide-table-mode .result-table td.col-paper {
   max-width: var(--paper-col-width, 40ch);
   overflow: hidden;
-      font-size: 0.78rem;
-      min-width: 43rem;
-  display: block;
-  overflow: hidden;
-      display: table-header-group;
+  text-overflow: ellipsis;
+  font-size: 0.78rem;
+}
+
 .table-more-wrap {
-    .result-table th,
-    .result-table td {
-      padding: 0.32rem 0.4rem;
-  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.04);
+  margin-top: 0.65rem;
 }
-.paper-benchmark-group:first-of-type {
-      width: 1.8rem;
-      min-width: 1.8rem;
-  margin: 0.95rem 0 1.25rem;
-  padding: 0.9rem 1rem 1rem;
-  border-left: 5px solid #cbd5e1;
-      width: 41%;
-  background: #ffffff;
-}
-.paper-benchmark-group .benchmark-heading {
-      width: 16%;
-      min-width: 7.6rem;
-  align-items: center;
-  padding: 0.3rem 0.7rem;
+
+.table-more-btn {
+  appearance: none;
+  border: 1px solid var(--gray-300);
+  background: #fff;
+  color: var(--gray-800);
   border-radius: 999px;
-      width: 29%;
-      min-width: 13rem;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
-    .leaderboard-model-name {
-      font-size: 0.84rem;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.table-more-btn:hover {
+  background: #f8fafc;
+}
+
+.paper-benchmark-group:first-of-type {
+  margin-top: 0.9rem;
+}
+
 .preview-top {
   display: flex;
-      font-size: 0.9rem;
-    }
-    .paper-cell-row {
-      gap: 0.2rem;
-    }
-    .paper-title-wrap {
-      gap: 0.2rem;
-    }
-    .paper-inline-meta {
-      gap: 0.2rem 0.35rem;
-      min-width: 3.2rem;
   justify-content: space-between;
   gap: 0.75rem;
   margin-bottom: 8px;
@@ -1088,4 +1074,241 @@ tr.row-global-top.row-best td { background: #e0f2fe; }
   color: var(--gray-600);
   text-transform: uppercase;
   letter-spacing: 0.04em;
+}
+
+/* Leaderboard row composition */
+.leaderboard-entry-main {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.leaderboard-entry-meta {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.leaderboard-badges {
+  justify-content: flex-end;
+}
+
+.mini-badge-date {
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  color: #475569;
+}
+
+.mini-badge-code {
+  background: #eef2ff;
+  border: 1px solid #c7d2fe;
+  color: #3730a3;
+}
+
+.mobile-details-toggle {
+  display: none;
+  appearance: none;
+  border: 1px solid #cbd5e1;
+  border-radius: 999px;
+  background: #fff;
+  color: #334155;
+  font-size: 0.9rem;
+  font-weight: 700;
+  width: 1.5rem;
+  height: 1.5rem;
+  line-height: 1;
+  padding: 0;
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.mobile-details-toggle:hover {
+  background: #f8fafc;
+}
+
+/* Stronger table value emphasis for SOTA context */
+.result-table tbody tr.row-current-sota td.col-value .metric-primary-value {
+  color: #1d4ed8;
+}
+
+.result-table tbody tr.row-best td.col-value .metric-primary-value {
+  color: #0f766e;
+}
+
+@media (max-width: 980px) {
+  .result-table tbody tr {
+    display: grid;
+    grid-template-columns: 2rem minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 0.5rem 0.65rem;
+    border: 1px solid #dbe2ea;
+    border-radius: 12px;
+    background: #fff;
+    padding: 0.7rem 0.75rem;
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
+  }
+
+  .result-table tbody tr td {
+    display: block;
+    border-bottom: 0;
+    padding: 0;
+    width: auto;
+    min-width: 0;
+  }
+
+  .result-table tbody tr td::before {
+    display: none;
+    content: none;
+  }
+
+  .result-table tbody tr td.col-rank {
+    grid-column: 1;
+    font-size: 0.84rem;
+    color: #475569;
+    text-align: left;
+    font-weight: 700;
+    align-self: start;
+    padding-top: 0.14rem;
+  }
+
+  .result-table tbody tr td.col-model {
+    grid-column: 2;
+    width: 100%;
+    min-width: 0;
+    word-break: normal;
+    overflow-wrap: anywhere;
+  }
+
+  .result-table tbody tr td.col-value {
+    grid-column: 3;
+    align-self: start;
+    text-align: right;
+    padding: 0;
+    width: auto;
+    min-width: 0;
+  }
+
+  .result-table th.col-value,
+  .result-table td.col-value {
+    min-width: 0;
+    width: auto;
+  }
+
+  .result-table tbody tr td.col-paper {
+    grid-column: 1 / -1;
+    margin-top: 0.5rem;
+    padding-top: 0.6rem;
+    border-top: 1px dashed #d1d5db;
+    display: none;
+  }
+
+  .result-table tbody tr.mobile-details-open td.col-paper {
+    display: block;
+  }
+
+  .mobile-details-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+  }
+
+  .result-table tbody tr.mobile-details-open .mobile-details-toggle {
+    transform: rotate(180deg);
+  }
+
+  .leaderboard-model-name,
+  .leaderboard-model-name a {
+    white-space: normal;
+    word-break: normal;
+    overflow-wrap: anywhere;
+    line-height: 1.25;
+  }
+
+  .leaderboard-entry-meta {
+    flex: 0 0 auto;
+    align-items: flex-start;
+  }
+
+  .leaderboard-badges {
+    justify-content: flex-end;
+    max-width: 9.6rem;
+    gap: 0.2rem;
+  }
+
+  .leaderboard-badges .tag-baseline,
+  .leaderboard-badges .tag-proposed,
+  .leaderboard-badges .global-top-badge,
+  .leaderboard-badges .override-badge {
+    display: none;
+  }
+
+  .leaderboard-badges .mini-badge {
+    font-size: 0.64rem;
+    border-radius: 999px;
+    padding: 0.07rem 0.42rem;
+  }
+
+  .result-table tbody tr td.col-value .metric-primary-block {
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    padding: 0.2rem 0.4rem;
+    background: #f8fafc;
+    display: inline-flex;
+  }
+
+  .result-table tbody tr.row-current-sota td.col-value .metric-primary-block {
+    background: #dbeafe;
+    border-color: #93c5fd;
+  }
+
+  .result-table tbody tr.row-best td.col-value .metric-primary-block {
+    background: #dcfce7;
+    border-color: #86efac;
+  }
+
+  .result-table tbody tr td.col-value .metric-primary-value {
+    font-size: 0.94rem;
+  }
+
+  .paper-cell-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.35rem;
+  }
+
+  .paper-title-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    align-items: center;
+  }
+
+  .paper-inline-meta {
+    min-width: 0;
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 420px) {
+  .leaderboard-entry-main {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+
+  .leaderboard-entry-meta {
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .leaderboard-badges {
+    max-width: none;
+    justify-content: flex-start;
+  }
 }

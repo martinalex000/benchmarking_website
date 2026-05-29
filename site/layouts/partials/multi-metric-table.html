@@ -32,6 +32,7 @@
       {{ range $i, $r := $rows }}
       {{ $primary_val := index $r.metric_values 0 }}
       {{ $primary_std := index $r.metric_stds 0 }}
+      {{ $rowDetailsId := printf "mobile-details-%s-%d" $slug $i }}
         <tr class="result-row {{ if $r.is_baseline }}row-baseline{{ else }}row-proposed{{ end }} {{ if $r.is_overridden }}row-overridden{{ end }}{{ if $r.is_best }} row-best{{ end }}{{ if eq $i 0 }} row-current-sota{{ end }}{{ if $r.is_global_top }} row-global-top{{ end }}{{ if and (gt $collapseAfter 0) (ge $i $collapseAfter) }} row-collapsed{{ end }}"
           data-model="{{ $r.model_plain | default $r.model }}"
           data-value="{{ $r.sort_value | default $primary_val }}"
@@ -41,15 +42,22 @@
         <td class="col-rank" data-label="Rank">{{ if $r.global_rank }}{{ $r.global_rank }}{{ else }}{{ add $i 1 }}{{ end }}</td>
         <td class="col-model" data-label="Model">
           <div class="leaderboard-entry-head">
-            <div class="leaderboard-model-name">
-              {{ if and $r.is_global_top $r.arxiv_id }}<a href="{{ printf "papers/%s/" $r.arxiv_id | relURL }}" title="{{ $r.title }}">{{ $r.model | safeHTML }}</a>{{ else }}{{ $r.model | safeHTML }}{{ end }}
-            </div>
-            <div class="leaderboard-badges">
-              {{ if not $r.is_global_top }}{{ if $r.is_baseline }}<span class="tag-baseline">baseline</span>{{ else }}<span class="tag-proposed">★ proposed</span>{{ end }}{{ end }}
-              {{ if $r.uses_external_data }}<span class="mini-badge mini-badge-external" title="Uses external data during training">ext data</span>{{ end }}
-              {{ if $r.params_millions }}<span class="mini-badge mini-badge-neutral">{{ printf "%.1fM" $r.params_millions }}</span>{{ end }}
-              {{ if $r.is_global_top }}<span class="global-top-badge" title="Top-ranked globally — from another paper">global</span>{{ end }}
-              {{ if $r.is_overridden }}<span class="override-badge" title="{{ $r.override_reason }}">✎</span>{{ end }}
+            <div class="leaderboard-entry-main">
+              <div class="leaderboard-model-name">
+                {{ if and $r.is_global_top $r.arxiv_id }}<a href="{{ printf "papers/%s/" $r.arxiv_id | relURL }}" title="{{ $r.title }}">{{ $r.model | safeHTML }}</a>{{ else }}{{ $r.model | safeHTML }}{{ end }}
+              </div>
+              <div class="leaderboard-entry-meta">
+                <div class="leaderboard-badges">
+                  {{ if not $r.is_global_top }}{{ if $r.is_baseline }}<span class="tag-baseline">baseline</span>{{ else }}<span class="tag-proposed">★ proposed</span>{{ end }}{{ end }}
+                  {{ with ($r.date_display | default $r.date) }}<span class="mini-badge mini-badge-date">{{ . }}</span>{{ end }}
+                  {{ if $r.codebase_url }}<span class="mini-badge mini-badge-code" title="Code available">code</span>{{ end }}
+                  {{ if $r.uses_external_data }}<span class="mini-badge mini-badge-external" title="Uses external data during training">ext data</span>{{ end }}
+                  {{ if $r.params_millions }}<span class="mini-badge mini-badge-neutral">{{ printf "%.1fM" $r.params_millions }}</span>{{ end }}
+                  {{ if $r.is_global_top }}<span class="global-top-badge" title="Top-ranked globally — from another paper">global</span>{{ end }}
+                  {{ if $r.is_overridden }}<span class="override-badge" title="{{ $r.override_reason }}">✎</span>{{ end }}
+                </div>
+                <button type="button" class="mobile-details-toggle" aria-expanded="false" aria-controls="{{ $rowDetailsId }}" aria-label="Toggle details">▾</button>
+              </div>
             </div>
           </div>
           {{ if $r.has_value_gap }}
@@ -111,7 +119,7 @@
           {{ end }}
         </td>
         {{ if not $hideMeta }}
-        <td class="col-paper" data-label="Paper">
+        <td class="col-paper" id="{{ $rowDetailsId }}" data-label="Paper">
           <div class="paper-cell-row">
             <div class="paper-title-wrap">
               {{ if $r.arxiv_id }}<a class="paper-title-link" href="{{ printf "papers/%s/" $r.arxiv_id | relURL }}" title="arXiv:{{ $r.arxiv_id }}{{ with $r.title }} — {{ . }}{{ end }}">{{ if $r.title }}{{ $r.title | truncate 96 }}{{ else }}arXiv:{{ $r.arxiv_id }}{{ end }}</a>{{ else }}—{{ end }}
