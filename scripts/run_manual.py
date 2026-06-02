@@ -70,6 +70,42 @@ def _fmt_bytes(n: int) -> str:
     return f"{n} B"
 
 
+def _semantic_scholar_published_date(meta: dict[str, object]) -> str:
+    published_date = str(meta.get("publicationDate") or "").strip()
+    if published_date:
+        return published_date[:10]
+    year = meta.get("year")
+    if isinstance(year, int) and year > 0:
+        return f"{year}-01-01"
+    if isinstance(year, str) and year.isdigit():
+        return f"{int(year):04d}-01-01"
+    return ""
+
+
+def _fetch_semantic_scholar_metadata(arxiv_id: str) -> dict[str, str]:
+    """Fetch paper metadata from Semantic Scholar using the arXiv ID."""
+    if not cfg.semantic_scholar_api_key:
+        return {}
+
+    import requests
+
+    url = f"https://api.semanticscholar.org/graph/v1/paper/arXiv:{arxiv_id}"
+    params = {"fields": "title,abstract,year,publicationDate"}
+    headers = {"x-api-key": cfg.semantic_scholar_api_key}
+    resp = requests.get(url, params=params, headers=headers, timeout=30)
+    resp.raise_for_status()
+    data = resp.json() or {}
+    meta: dict[str, str] = {}
+    if data.get("title"):
+        meta["title"] = str(data["title"])
+    if data.get("abstract"):
+        meta["abstract"] = str(data["abstract"])
+    published_date = _semantic_scholar_published_date(data)
+    if published_date:
+        meta["published_date"] = published_date
+    return meta
+
+
 # ── Download ──────────────────────────────────────────────────────────────────
 
 
@@ -151,8 +187,20 @@ def _pre_screen(arxiv_id: str, allow_arxiv_api: bool = True) -> bool:
             except Exception:
                 pass
 
+    if not abstract or title.startswith("arXiv:"):
+        try:
+            meta = _fetch_semantic_scholar_metadata(arxiv_id)
+            title = meta.get("title", title)
+            abstract = meta.get("abstract", abstract)
+            if abstract:
+                console.print(
+                    "  [dim]Fetching abstract from Semantic Scholar for pre-screen…[/dim]"
+                )
+        except Exception:
+            pass
+
     if (not abstract or title.startswith("arXiv:")) and allow_arxiv_api:
-        console.print("  [dim]Fetching abstract from arXiv API for pre-screen…[/dim]")
+        console.print("  [dim]Fetching abstract from arXiv API for pre-screen fallback…[/dim]")
         from backend.llm_extractor import fetch_arxiv_metadata
 
         meta = fetch_arxiv_metadata(arxiv_id)
@@ -212,6 +260,32 @@ def _pre_screen(arxiv_id: str, allow_arxiv_api: bool = True) -> bool:
             stage1_reason=screen.notes or "",
         )
         return False
+
+
+def _resolve_published_date(arxiv_id: str) -> str:
+    """Return the best available published date."""
+    try:
+        meta = _fetch_semantic_scholar_metadata(arxiv_id)
+        if meta.get("published_date"):
+            return meta["published_date"]
+    except Exception:
+        pass
+
+    from backend.llm_extractor import fetch_arxiv_metadata
+
+    try:
+        meta = fetch_arxiv_metadata(arxiv_id)
+        if meta.get("published_date"):
+            return meta["published_date"]
+    except Exception:
+        pass
+
+    m = re.match(r"^(\d{2})(\d{2})\.\d+", arxiv_id)
+    if m:
+        year, month = int(m.group(1)) + 2000, int(m.group(2))
+        if 1 <= month <= 12:
+            return f"{year}-{month:02d}"
+    return ""
 
 
 def _do_download(arxiv_id: str, force: bool) -> None:
@@ -1120,6 +1194,15 @@ def main() -> None:
         from backend.seed_db import seed as _seed
 
         _seed()
+
+    published_date = _resolve_published_date(arxiv_id)
+    if published_date:
+        from backend.models import Paper
+
+        with _ss() as _s:
+            paper = _s.query(Paper).filter_by(arxiv_id=arxiv_id).first()
+            if paper and not paper.published_date:
+                paper.published_date = published_date
 
     # ── Rejection guard ───────────────────────────────────────────────────
     # If the paper was previously rejected by screening (and we're not forcing
