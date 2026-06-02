@@ -338,6 +338,7 @@ tr.chart-scroll-highlight { box-shadow: inset 0 0 0 9999px rgba(251, 191, 36, 0.
 /* Leaderboard controls */
 .leaderboard-controls { display: flex; gap: 1.5rem; margin: 0.75rem 0; font-size: 0.9rem; }
 .leaderboard-controls label { display: flex; align-items: center; gap: 6px; cursor: pointer; }
+.secondary-metric-overflow { color: var(--gray-600); font-weight: 700; letter-spacing: 0.08em; }
 
 /* Variant selector */
 .variant-selector { margin-bottom: 1rem; }
@@ -611,6 +612,7 @@ tr.row-historical-sota-match .leaderboard-model-name::before {
   box-shadow: inset 0 0 0 2px #d97706;
 }
 .inline-std { font-size: 0.82em; color: var(--gray-600); font-weight: 400; }
+.inline-std-outlier { color: #d97706; font-weight: 700; }
 .result-table td.col-value { white-space: normal; }
 .result-table td.col-value.col-value-gap { white-space: normal; }
 .result-table th.col-value,

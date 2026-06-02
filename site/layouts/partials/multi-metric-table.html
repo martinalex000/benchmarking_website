@@ -94,14 +94,14 @@
           {{ if ne $primary_val nil -}}
             {{- if $r.has_value_gap -}}
               <div class="value-gap-block">
-                <div class="value-gap-true">actual {{ printf "%.4f" $r.true_value }}{{ if $r.true_std }}<span class="inline-std"> ±{{ printf "%.4f" $r.true_std }}</span>{{ end }}</div>
-                <div class="value-gap-paper">paper {{ printf "%.4f" $primary_val }}{{ if ne $primary_std nil }}<span class="inline-std"> ±{{ printf "%.4f" $primary_std }}</span>{{ end }}</div>
+                <div class="value-gap-true">actual {{ printf "%.4f" $r.true_value }}{{ if $r.true_std }}<span class="inline-std{{ if $r.is_std_outlier }} inline-std-outlier{{ end }}"> ±{{ printf "%.4f" $r.true_std }}</span>{{ end }}</div>
+                <div class="value-gap-paper">paper {{ printf "%.4f" $primary_val }}{{ if ne $primary_std nil }}<span class="inline-std{{ if $r.is_std_outlier }} inline-std-outlier{{ end }}"> ±{{ printf "%.4f" $primary_std }}</span>{{ end }}</div>
                 {{ if $r.value_gap }}<div class="value-gap-delta">value Δ{{ printf "%.4f" $r.value_gap }}</div>{{ end }}
               </div>
             {{- else -}}
               <div class="metric-primary-block">
                 <span class="metric-primary-value">{{ printf "%.4f" $primary_val }}</span>
-                {{ if ne $primary_std nil }}<span class="metric-primary-std inline-std">±{{ printf "%.4f" $primary_std }}</span>{{ end }}
+                {{ if ne $primary_std nil }}<span class="metric-primary-std inline-std{{ if $r.is_std_outlier }} inline-std-outlier{{ end }}">±{{ printf "%.4f" $primary_std }}</span>{{ end }}
               </div>
               {{ if $r.has_value_note }}<div class="value-note-text">{{ $r.value_note }}</div>{{ end }}
             {{- end -}}
@@ -116,10 +116,13 @@
             <div class="secondary-metric">
               <span class="secondary-metric-name">{{ $m }}</span>
               <span class="secondary-metric-value">{{ printf "%.4f" $val }}</span>
-              {{ if ne $std nil }}<span class="secondary-metric-std inline-std">±{{ printf "%.4f" $std }}</span>{{ end }}
+              {{ if ne $std nil }}<span class="secondary-metric-std inline-std{{ if $r.is_std_outlier }} inline-std-outlier{{ end }}">±{{ printf "%.4f" $std }}</span>{{ end }}
             </div>
             {{ end }}
             {{ end }}
+            {{ end }}
+            {{ if gt (sub (len $metrics) 1) 3 }}
+            <div class="secondary-metric secondary-metric-overflow">...</div>
             {{ end }}
           </div>
           {{ end }}

@@ -73,18 +73,18 @@
         <td class="col-value{{ if $r.has_value_gap }} col-value-gap{{ end }}{{ if $r.has_value_note }} col-value-note{{ end }}">
           {{ if $r.has_value_gap }}
           <div class="value-gap-block">
-            <div class="value-gap-true">actual {{ printf "%.4f" $r.true_value }}{{ if $r.true_std }} <span class="inline-std">±{{ printf "%.4f" $r.true_std }}</span>{{ end }}</div>
-            <div class="value-gap-paper">paper {{ printf "%.4f" $r.value }}{{ if $r.std }} <span class="inline-std">±{{ printf "%.4f" $r.std }}</span>{{ end }}</div>
+             <div class="value-gap-true">actual {{ printf "%.4f" $r.true_value }}{{ if $r.true_std }} <span class="inline-std{{ if $r.is_std_outlier }} inline-std-outlier{{ end }}">±{{ printf "%.4f" $r.true_std }}</span>{{ end }}</div>
+             <div class="value-gap-paper">paper {{ printf "%.4f" $r.value }}{{ if $r.std }} <span class="inline-std{{ if $r.is_std_outlier }} inline-std-outlier{{ end }}">±{{ printf "%.4f" $r.std }}</span>{{ end }}</div>
             {{ if $r.value_gap }}<div class="value-gap-delta">value Δ{{ printf "%.4f" $r.value_gap }}</div>{{ end }}
           </div>
           {{ else if $r.has_value_note }}
           <div class="value-note-block">
-            <div>{{ printf "%.4f" $r.value }}{{ if $r.std }} <span class="inline-std">±{{ printf "%.4f" $r.std }}</span>{{ end }}</div>
+             <div>{{ printf "%.4f" $r.value }}{{ if $r.std }} <span class="inline-std{{ if $r.is_std_outlier }} inline-std-outlier{{ end }}">±{{ printf "%.4f" $r.std }}</span>{{ end }}</div>
             <div class="value-note-text">{{ $r.value_note }}</div>
           </div>
           {{ else }}
-          {{- printf "%.4f" $r.value -}}
-          {{- if $r.std }} <span class="inline-std">±{{ printf "%.4f" $r.std }}</span>{{ end -}}
+           {{- printf "%.4f" $r.value -}}
+           {{- if $r.std }} <span class="inline-std{{ if $r.is_std_outlier }} inline-std-outlier{{ end }}">±{{ printf "%.4f" $r.std }}</span>{{ end -}}
           {{ end }}
         </td>
         <td class="col-params">{{ if $r.params_millions }}{{ printf "%.1f" $r.params_millions }}M{{ else }}—{{ end }}</td>

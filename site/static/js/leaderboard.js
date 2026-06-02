@@ -340,6 +340,11 @@
     };
   }
 
+  function _isWithinYBounds(value, bounds) {
+    return !!bounds && typeof value === "number" && isFinite(value) &&
+      value >= bounds.min && value <= bounds.max;
+  }
+
   function _semanticPointColors(datum) {
     if (datum && datum._isRecord) {
       return {
@@ -419,13 +424,16 @@
 
   function _applyChartFilters(chart) {
     if (!chart || !chart._scatterAll || !chart._recordAll) return;
-    var visibleScatter = showBaselines
-      ? chart._scatterAll.slice()
-      : chart._scatterAll.filter(function (d) { return !d.is_baseline || d._isRecord || d._isSotaMatch; });
+    var yBounds = chart._yBounds || null;
+    var visibleScatter = chart._scatterAll.filter(function (d) {
+      if (!_isWithinYBounds(d.y, yBounds)) return false;
+      if (d._isStdOutlier && !d._isRecord) return false;
+      return showBaselines || !d.is_baseline || d._isRecord || d._isSotaMatch;
+    });
     visibleScatter = _sortScatterByPriority(visibleScatter);
-    var visibleRecord = showBaselines
-      ? chart._recordAll.slice()
-      : chart._recordAll.slice();
+    var visibleRecord = chart._recordAll.filter(function (d) {
+      return _isWithinYBounds(d.y, yBounds);
+    });
 
     chart.data.datasets[0].data = visibleScatter;
     chart.data.datasets[1].data = visibleRecord;
@@ -606,6 +614,7 @@
         arxiv_id: row.arxiv_id,
         title: row.title || "",
         is_baseline: row.is_baseline,
+        _isStdOutlier: !!row.is_std_outlier,
         _isRecord: isRecordPoint,
         _isSotaMatch: isTieSotaPoint,
       });
@@ -668,6 +677,12 @@
     // ── Per-point styling for records line ────────────────────────────
     var recordBg = recordData.map(function (d) { return d._isRecord ? "#2563eb" : "transparent"; });
     var recordRadius = recordData.map(function (d) { return d._isRecord ? 7 : 0; });
+    var visibleScatterData = scatterData.filter(function (d) {
+      return _isWithinYBounds(d.y, focusedYBounds) && (!d._isStdOutlier || d._isRecord);
+    });
+    var visibleRecordData = recordData.filter(function (d) {
+      return _isWithinYBounds(d.y, focusedYBounds);
+    });
 
     var yearLinesPlugin = {
       id: "yearLines_" + slug,
@@ -879,20 +894,20 @@
         datasets: [
           {
             label: "All results",
-            data: scatterData,
+            data: visibleScatterData,
             type: "scatter",
-            backgroundColor: scatterData.map(function (d) {
+            backgroundColor: visibleScatterData.map(function (d) {
               return _semanticPointColors(d).fill;
             }),
-            borderColor: scatterData.map(function (d) {
+            borderColor: visibleScatterData.map(function (d) {
               return _semanticPointColors(d).stroke;
             }),
             pointRadius: 4,
             pointHoverRadius: 7,
-            pointHoverBackgroundColor: scatterData.map(function (d) {
+            pointHoverBackgroundColor: visibleScatterData.map(function (d) {
               return _semanticPointColors(d).fill;
             }),
-            pointHoverBorderColor: scatterData.map(function (d) {
+            pointHoverBorderColor: visibleScatterData.map(function (d) {
               return _semanticPointColors(d).stroke;
             }),
             pointHoverBorderWidth: 2,
@@ -900,7 +915,7 @@
           },
           {
             label: "Record",
-            data: recordData,
+            data: visibleRecordData,
             type: "line",
             stepped: "before",
             borderColor: "#2563eb",
@@ -992,6 +1007,7 @@
 
     chart._scatterAll = scatterData.slice();
     chart._recordAll = recordData.slice();
+    chart._yBounds = focusedYBounds;
     chart._slug = slug;
     _decorateHistoricalSotaRows(slug, scatterData);
     _applyChartFilters(chart);
