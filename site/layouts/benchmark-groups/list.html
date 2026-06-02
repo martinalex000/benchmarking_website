@@ -1,21 +1,31 @@
 {{ define "main" }}
 {{ $groups := hugo.Data.benchmarks }}
+{{ $datasets := where .Site.RegularPages "Section" "datasets" }}
 {{ $groupCount := len $groups }}
 {{ $datasetCount := 0 }}
 {{ $resultCount := 0 }}
-{{ $allPapers := slice }}
+{{ $paperIds := slice }}
 {{ range $groups }}
   {{ $datasetCount = add $datasetCount (len .datasets) }}
   {{ range .datasets }}
     {{ $resultCount = add $resultCount .result_count }}
-    {{ range .rows }}
-      {{ with .arxiv_id }}
-        {{ $allPapers = $allPapers | append . }}
+  {{ end }}
+{{ end }}
+{{ range $datasets }}
+  {{ $benchmark := .Params.benchmark }}
+  {{ range $groups }}
+    {{ if eq .name $benchmark }}
+      {{ range .Params.variants }}
+        {{ range .rows }}
+          {{ with .arxiv_id }}
+            {{ $paperIds = $paperIds | append . }}
+          {{ end }}
+        {{ end }}
       {{ end }}
     {{ end }}
   {{ end }}
 {{ end }}
-{{ $paperCount := len ($allPapers | uniq) }}
+{{ $paperCount := len ($paperIds | uniq) }}
 
 <div class="overview-hero">
   <p class="overview-kicker">Overview</p>
@@ -31,7 +41,7 @@
 
 <section class="overview-section">
   <div class="overview-section-intro">
-    <p>Benchmark papers that introduce one or more related datasets, from focused suites like LRGB and heterophilic graphs to broader community efforts like GraphBench. Older groups such as Classic and TU Dortmund also appear here, even when the splits and evaluation rules are less standardized.</p>
+    <p>Benchmark papers that introduce related datasets, from focused suites like LRGB and heterophilic graphs to broader community efforts like GraphBench.</p>
   </div>
   <div class="overview-grid">
     {{ range $groups }}

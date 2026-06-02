@@ -38,25 +38,18 @@
 {{ end }}
 
 <div class="overview-hero">
-  <p class="overview-kicker">Overview</p>
   <h1>{{ .Title }}</h1>
   <div class="overview-intro">{{ .Content }}</div>
   <div class="dataset-stats overview-stats">
     <a class="stat-item stat-link" href="{{ "papers/" | relURL }}"><span class="stat-value">{{ $paperCount }}</span><span class="stat-label">papers</span></a>
     <a class="stat-item stat-link" href="#papers-month-chart"><span class="stat-value">{{ len $months }}</span><span class="stat-label">months</span></a>
+  </div>
+  <div class="overview-paper-notes">
     {{ if $firstPaperLink }}
-      <a class="stat-item stat-link stat-item-hover" href="{{ $firstPaperLink }}">
-        <span class="stat-value">{{ $firstDate }}</span>
-        <span class="stat-label">first paper</span>
-        <span class="stat-hover-detail">{{ $firstPaperTitle }}</span>
-      </a>
+      <p><strong>First paper:</strong> <a href="{{ $firstPaperLink }}">{{ $firstPaperTitle }}</a> ({{ $firstDate }})</p>
     {{ end }}
     {{ if $lastPaperLink }}
-      <a class="stat-item stat-link stat-item-hover" href="{{ $lastPaperLink }}">
-        <span class="stat-value">{{ $lastDate }}</span>
-        <span class="stat-label">latest paper</span>
-        <span class="stat-hover-detail">{{ $lastPaperTitle }}</span>
-      </a>
+      <p><strong>Latest paper:</strong> <a href="{{ $lastPaperLink }}">{{ $lastPaperTitle }}</a> ({{ $lastDate }})</p>
     {{ end }}
   </div>
 </div>
@@ -73,7 +66,7 @@
   </div>
 </section>
 
-<div class="home-nav overview-nav">
+<div class="home-nav">
   <a href="{{ "datasets/" | relURL }}" class="btn-primary">Browse Datasets</a>
   <a href="{{ "papers/" | relURL }}" class="btn-primary">Browse Papers</a>
 </div>

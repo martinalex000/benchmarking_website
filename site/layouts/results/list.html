@@ -34,6 +34,23 @@
   {{ $proposedCounts = $proposedCounts | append ($counts.Get (printf "%s-proposed" .) | default 0) }}
   {{ $baselineCounts = $baselineCounts | append ($counts.Get (printf "%s-baseline" .) | default 0) }}
 {{ end }}
+{{ $paperCount := len $papersWithResults }}
+{{ $resultsPerPaper := "" }}
+{{ $resultsPerMonth := "" }}
+{{ $totalResults := add $proposedTotal $baselineTotal }}
+{{ if gt $paperCount 0 }}
+  {{ $paperQuotient := div $totalResults $paperCount }}
+  {{ $paperRemainder := mod $totalResults $paperCount }}
+  {{ $paperTenths := div (mul $paperRemainder 10) $paperCount }}
+  {{ $resultsPerPaper = printf "%d.%d" $paperQuotient $paperTenths }}
+{{ end }}
+{{ $monthCount := len $months }}
+{{ if gt $monthCount 0 }}
+  {{ $monthQuotient := div $totalResults $monthCount }}
+  {{ $monthRemainder := mod $totalResults $monthCount }}
+  {{ $monthTenths := div (mul $monthRemainder 10) $monthCount }}
+  {{ $resultsPerMonth = printf "%d.%d" $monthQuotient $monthTenths }}
+{{ end }}
 
 <div class="overview-hero">
   <p class="overview-kicker">Overview</p>
@@ -41,9 +58,9 @@
   <div class="overview-intro">{{ .Content }}</div>
   <div class="dataset-stats overview-stats">
     <div class="stat-item"><span class="stat-value">{{ add $proposedTotal $baselineTotal }}</span><span class="stat-label">results</span></div>
-    <div class="stat-item"><span class="stat-value">{{ $proposedTotal }}</span><span class="stat-label">proposed</span></div>
-    <div class="stat-item"><span class="stat-value">{{ $baselineTotal }}</span><span class="stat-label">baseline</span></div>
-    <div class="stat-item"><span class="stat-value">{{ len $months }}</span><span class="stat-label">months</span></div>
+    <div class="stat-item"><span class="stat-value">{{ $paperCount }}</span><span class="stat-label">papers</span></div>
+    <div class="stat-item"><span class="stat-value">{{ $resultsPerPaper }}</span><span class="stat-label">per paper</span></div>
+    <div class="stat-item"><span class="stat-value">{{ $resultsPerMonth }}</span><span class="stat-label">per month</span></div>
   </div>
 </div>
 
@@ -51,10 +68,6 @@
   <div class="overview-chart-wrap">
     <div class="overview-chart-header">
       <h2>Results per month</h2>
-      <div class="overview-toggle" role="tablist" aria-label="Result type">
-        <button type="button" class="overview-toggle-btn active" data-result-kind="proposed">Proposed</button>
-        <button type="button" class="overview-toggle-btn" data-result-kind="baseline">Baseline</button>
-      </div>
     </div>
     <canvas
       id="results-month-chart"
@@ -75,47 +88,33 @@
   var labels = JSON.parse(canvas.dataset.chartLabels || "[]");
   var proposedCounts = JSON.parse(canvas.dataset.chartProposed || "[]");
   var baselineCounts = JSON.parse(canvas.dataset.chartBaseline || "[]");
-  var buttons = Array.from(document.querySelectorAll("[data-result-kind]"));
-  var datasetByKind = {
-    proposed: {
-      label: "Proposed results",
-      data: proposedCounts,
-      backgroundColor: "rgba(37, 99, 235, 0.65)",
-      borderColor: "#2563eb"
-    },
-    baseline: {
-      label: "Baseline results",
-      data: baselineCounts,
-      backgroundColor: "rgba(107, 114, 128, 0.65)",
-      borderColor: "#6b7280"
-    }
-  };
-  var activeKind = "proposed";
   var chart = new Chart(canvas, {
     type: "bar",
     data: {
       labels: labels,
-      datasets: [datasetByKind[activeKind]]
+      datasets: [
+        {
+          label: "Proposed results",
+          data: proposedCounts,
+          backgroundColor: "rgba(37, 99, 235, 0.65)",
+          borderColor: "#2563eb"
+        },
+        {
+          label: "Baseline results",
+          data: baselineCounts,
+          backgroundColor: "rgba(107, 114, 128, 0.65)",
+          borderColor: "#6b7280"
+        }
+      ]
     },
     options: {
       responsive: true,
       maintainAspectRatio: false,
       scales: {
-        x: { ticks: { maxRotation: 45, minRotation: 45 } },
+        x: { stacked: false, ticks: { maxRotation: 45, minRotation: 45 } },
         y: { beginAtZero: true, ticks: { precision: 0 } }
       }
     }
-  });
-
-  buttons.forEach(function (button) {
-    button.addEventListener("click", function () {
-      activeKind = button.dataset.resultKind || "proposed";
-      buttons.forEach(function (other) {
-        other.classList.toggle("active", other === button);
-      });
-      chart.data.datasets[0] = datasetByKind[activeKind];
-      chart.update();
-    });
   });
 })();
 </script>
