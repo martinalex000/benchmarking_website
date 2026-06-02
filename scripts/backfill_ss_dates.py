@@ -44,41 +44,38 @@ def backfill(dry_run: bool = False, limit: int = 0, sleep: float = 0.25) -> None
         papers = session.query(Paper).all()
         to_refill = [p for p in papers if needs_refill(p.published_date)]
 
-    logger.info(
-        "Found %d paper(s) needing date refinement out of %d total",
-        len(to_refill),
-        len(papers),
-    )
+        logger.info(
+            "Found %d paper(s) needing date refinement out of %d total",
+            len(to_refill),
+            len(papers),
+        )
 
-    if limit > 0:
-        to_refill = to_refill[:limit]
-        logger.info("Processing first %d items (limit active)", limit)
+        if limit > 0:
+            to_refill = to_refill[:limit]
+            logger.info("Processing first %d items (limit active)", limit)
 
-    for paper in to_refill:
-        arxiv_id = paper.arxiv_id
-        if not arxiv_id:
-            skipped += 1
-            continue
+        for paper in to_refill:
+            arxiv_id = paper.arxiv_id
+            if not arxiv_id:
+                skipped += 1
+                continue
 
-        new_date = fetch_semantic_scholar_published_date(arxiv_id)
-        if not new_date:
-            failed += 1
-            logger.debug("No SS date for arXiv:%s (current=%r)", arxiv_id, paper.published_date)
-            continue
+            new_date = fetch_semantic_scholar_published_date(arxiv_id)
+            if not new_date:
+                failed += 1
+                logger.debug("No SS date for arXiv:%s (current=%r)", arxiv_id, paper.published_date)
+                continue
 
-        if new_date != paper.published_date:
-            logger.info("Updating arXiv:%s  %s → %s", arxiv_id, paper.published_date, new_date)
-            if not dry_run:
-                with session_scope() as session:
-                    live = session.get(Paper, paper.id)
-                    if live:
-                        live.published_date = new_date
-            updated += 1
-        else:
-            skipped += 1
+            if new_date != paper.published_date:
+                logger.info("Updating arXiv:%s  %s → %s", arxiv_id, paper.published_date, new_date)
+                if not dry_run:
+                    paper.published_date = new_date
+                updated += 1
+            else:
+                skipped += 1
 
-        if sleep > 0:
-            time.sleep(sleep)
+            if sleep > 0:
+                time.sleep(sleep)
 
     logger.info("Done — updated: %d, skipped/unchanged: %d, failed: %d", updated, skipped, failed)
 
