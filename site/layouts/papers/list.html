@@ -51,6 +51,7 @@
       {{ with .Params.arxiv_id }}<a class="badge" href="https://arxiv.org/abs/{{ . }}" target="_blank" rel="noopener">arXiv:{{ . }}</a>{{ end }}
       {{ end }}
       {{ with .Params.published_date }}<span class="badge">{{ . }}</span>{{ end }}
+      {{ with .Params.published_venue }}<span class="badge">{{ . }}</span>{{ end }}
       {{ if and .Params.adjusted_mrr (gt .Params.adjusted_mrr 0.0) }}<span class="badge muted" title="Mean reciprocal rank of the paper's primary proposed model across qualifying datasets, divided by max(dataset_count, 3).">Coverage-adjusted MRR {{ printf "%.3f" .Params.adjusted_mrr }}</span>{{ end }}
       {{ if gt (default 0 .Params.mrr_dataset_count) 0 }}<span class="badge muted">{{ .Params.mrr_dataset_count }} dataset{{ if ne .Params.mrr_dataset_count 1 }}s{{ end }}</span>{{ end }}
     </div>

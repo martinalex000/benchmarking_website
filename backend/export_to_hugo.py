@@ -34,7 +34,6 @@ from backend.export_helpers import plain_model as _plain_model
 from backend.export_helpers import rank_for_value as _rank_for_value
 from backend.export_helpers import sanitize_model as _sanitize_model_text
 from backend.export_helpers import sanitize_title as _sanitize_title
-from backend.export_helpers import truncate_words as _truncate_words
 from backend.models import (
     Benchmark,
     Dataset,
@@ -1454,6 +1453,7 @@ def export_paper(arxiv_id: str) -> bool:
             "authors": paper.authors or [],
             "published_date": _fmt_date(paper.published_date),
             "published_date_iso": (paper.published_date[:10] if paper.published_date else ""),
+            "published_venue": paper.venue or "",
             "abstract": _sanitize_abstract(clean_extracted_text(paper.abstract)),
             "codebase_url": paper.codebase_url or "",
             "extraction_model": paper.extraction_model or "",

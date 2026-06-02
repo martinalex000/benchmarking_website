@@ -529,14 +529,24 @@ def _enrich_paper_metadata(arxiv_id: str, paper: Paper, storage: PaperStorage) -
                 if meta.get("published_date") and not paper.published_date:
                     paper.published_date = meta["published_date"]
 
-    # Try Semantic Scholar for an exact date when we only have a month or nothing.
+    # Try Semantic Scholar for publication metadata when we only have a month or nothing.
     need_daily_date = not paper.published_date or len(paper.published_date) < 10
-    if need_daily_date:
-        from backend.llm_extractor import fetch_semantic_scholar_published_date
+    need_venue = not paper.venue
+    if need_daily_date or need_venue:
+        from backend.semantic_scholar import fetch_paper_metadata
 
-        ss_date = fetch_semantic_scholar_published_date(arxiv_id)
-        if ss_date:
-            paper.published_date = ss_date
+        ss_meta = fetch_paper_metadata(arxiv_id)
+        if need_daily_date and ss_meta.get("published_date"):
+            paper.published_date = ss_meta["published_date"]
+        if need_venue and ss_meta.get("venue"):
+            paper.venue = ss_meta["venue"]
+        if ss_meta:
+            storage.update_metadata(
+                {
+                    **({"published_date": paper.published_date} if paper.published_date else {}),
+                    **({"venue": paper.venue} if paper.venue else {}),
+                }
+            )
 
     # Fallback: derive date from arXiv ID (e.g. 2206.08164 → 2022-06)
     if not paper.published_date:

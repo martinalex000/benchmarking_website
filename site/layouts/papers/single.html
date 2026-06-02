@@ -22,6 +22,9 @@
       {{ with .Params.published_date }}
       <span class="badge">{{ . }}</span>
       {{ end }}
+      {{ with .Params.published_venue }}
+      <span class="badge">{{ . }}</span>
+      {{ end }}
     </div>
   </header>
 
