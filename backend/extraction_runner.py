@@ -84,6 +84,30 @@ def run_extraction(
         paper_abstract = clean_extracted_text(raw_paper_abstract)
         abstract_has_artifacts = abstract_has_latex_artifacts(raw_paper_abstract)
 
+    def _fetch_best_metadata(allow_arxiv_api: bool = True) -> dict[str, str]:
+        meta: dict[str, str] = {}
+        try:
+            from backend.semantic_scholar import fetch_paper_metadata as _fetch_s2
+
+            meta = _fetch_s2(arxiv_id)
+        except Exception:
+            meta = {}
+
+        if (meta.get("title") and meta.get("abstract")) or not allow_arxiv_api:
+            return meta
+
+        try:
+            arxiv_meta = fetch_arxiv_metadata(arxiv_id)
+        except Exception:
+            return meta
+
+        return {
+            "title": meta.get("title") or arxiv_meta.get("title", ""),
+            "abstract": meta.get("abstract") or arxiv_meta.get("abstract", ""),
+            "published_date": meta.get("published_date") or arxiv_meta.get("published_date", ""),
+            "venue": meta.get("venue") or arxiv_meta.get("venue", ""),
+        }
+
     if screen_first:
         need_meta = (
             not paper_abstract or abstract_has_artifacts or _title_looks_corrupted(paper_title)
@@ -119,8 +143,8 @@ def run_extraction(
                 )
 
             if need_meta:
-                logger.info("Fetching metadata from arXiv API for %s", arxiv_id)
-                meta = fetch_arxiv_metadata(arxiv_id)
+                logger.info("Fetching metadata from Semantic Scholar for %s", arxiv_id)
+                meta = _fetch_best_metadata()
                 paper_title = meta.get("title", paper_title)
                 paper_abstract = meta.get("abstract", paper_abstract)
 

@@ -89,6 +89,32 @@ def _fetch_semantic_scholar_metadata(arxiv_id: str) -> dict[str, str]:
     return fetch_paper_metadata(arxiv_id)
 
 
+def _fetch_best_metadata(arxiv_id: str, allow_arxiv_api: bool = True) -> dict[str, str]:
+    """Fetch metadata preferring Semantic Scholar, then arXiv as fallback."""
+    meta: dict[str, str] = {}
+    try:
+        meta = _fetch_semantic_scholar_metadata(arxiv_id)
+    except Exception:
+        meta = {}
+
+    if (meta.get("title") and meta.get("abstract")) or not allow_arxiv_api:
+        return meta
+
+    try:
+        from backend.llm_extractor import fetch_arxiv_metadata
+
+        arxiv_meta = fetch_arxiv_metadata(arxiv_id)
+    except Exception:
+        return meta
+
+    return {
+        "title": meta.get("title") or arxiv_meta.get("title", ""),
+        "abstract": meta.get("abstract") or arxiv_meta.get("abstract", ""),
+        "published_date": meta.get("published_date") or arxiv_meta.get("published_date", ""),
+        "venue": meta.get("venue") or arxiv_meta.get("venue", ""),
+    }
+
+
 # ── Download ──────────────────────────────────────────────────────────────────
 
 
@@ -171,22 +197,11 @@ def _pre_screen(arxiv_id: str, allow_arxiv_api: bool = True) -> bool:
                 pass
 
     if not abstract or title.startswith("arXiv:"):
-        try:
-            meta = _fetch_semantic_scholar_metadata(arxiv_id)
-            title = meta.get("title", title)
-            abstract = meta.get("abstract", abstract)
-            if abstract:
-                console.print(
-                    "  [dim]Fetching abstract from Semantic Scholar for pre-screen…[/dim]"
-                )
-        except Exception:
-            pass
-
-    if (not abstract or title.startswith("arXiv:")) and allow_arxiv_api:
-        console.print("  [dim]Fetching abstract from arXiv API for pre-screen fallback…[/dim]")
-        from backend.llm_extractor import fetch_arxiv_metadata
-
-        meta = fetch_arxiv_metadata(arxiv_id)
+        meta = _fetch_best_metadata(arxiv_id, allow_arxiv_api=allow_arxiv_api)
+        if meta.get("abstract"):
+            console.print("  [dim]Fetching abstract from Semantic Scholar for pre-screen…[/dim]")
+        elif allow_arxiv_api:
+            console.print("  [dim]Fetching abstract from arXiv API for pre-screen fallback…[/dim]")
         title = meta.get("title", title)
         abstract = meta.get("abstract", abstract)
 
@@ -1225,6 +1240,10 @@ def main() -> None:
                     return meta["title"]
             except Exception:
                 pass
+        meta = _fetch_best_metadata(arxiv_id)
+        title = (meta.get("title") or "").strip()
+        if title and not title.startswith("arXiv:"):
+            return title
         return ""
 
     paper_title = _resolve_title()
