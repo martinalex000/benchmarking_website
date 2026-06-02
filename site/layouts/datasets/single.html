@@ -88,12 +88,18 @@
   </nav>
   {{ end }}
 
+  {{ $secondaryMetricNames := slice }}
+  {{ range .Params.variants }}
+    {{ range $j, $metric := .metrics }}
+      {{ if gt $j 0 }}
+        {{ $secondaryMetricNames = $secondaryMetricNames | append $metric }}
+      {{ end }}
+    {{ end }}
+  {{ end }}
+  {{ $secondaryMetricNames = $secondaryMetricNames | uniq }}
+
   {{/* Controls */}}
   <div class="leaderboard-controls">
-    <label>
-      <input type="checkbox" id="show-secondary-metrics" onchange="leaderboard.toggleSecondaryMetrics(this.checked)">
-      Show non-primary metrics
-    </label>
     <label>
       <input type="checkbox" id="show-std" checked onchange="leaderboard.toggleStd(this.checked)">
       Show ± std
@@ -102,6 +108,12 @@
       <input type="checkbox" id="show-baselines" checked onchange="leaderboard.toggleBaselines(this.checked)">
       Show baselines
     </label>
+    {{ if gt (len $secondaryMetricNames) 0 }}
+    <label>
+      <input type="checkbox" id="show-secondary-metrics" onchange="leaderboard.toggleSecondaryMetrics(this.checked)">
+      Show additional metrics [{{ delimit $secondaryMetricNames ", " }}]
+    </label>
+    {{ end }}
   </div>
 
   {{/* Variant sections: chart + table together */}}

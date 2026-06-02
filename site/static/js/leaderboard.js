@@ -4,7 +4,7 @@
  * Handles:
  *  - Chart.js best-over-time STEP chart per dataset variant
  *  - Table column sorting
- *  - Show/hide std columns
+ *  - Show/hide std error bars
  *  - Show/hide baseline rows
  *  - Hover sync between chart dots and table rows (yellow ring / row highlight)
  *  - Dataset variant anchor navigation
@@ -69,9 +69,6 @@
   /* ── Std toggle ─────────────────────────────────────────────────────── */
   function toggleStd(enabled) {
     showStd = enabled;
-    document.querySelectorAll(".inline-std").forEach(function (el) {
-      el.style.display = enabled ? "" : "none";
-    });
     // Re-render all charts so the error bars plugin shows/hides
     Object.values(charts).forEach(function (chart) { chart.update("none"); });
     _applyModelColumnWidths();
