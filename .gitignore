@@ -39,4 +39,5 @@ Thumbs.db
 *.swp
 *.swo
 .idea/
+.kilo
 .vscode/settings.json
