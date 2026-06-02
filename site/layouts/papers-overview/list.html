@@ -22,9 +22,19 @@
 {{ $paperCount := len $papersWithResults }}
 {{ $firstDate := "" }}
 {{ $lastDate := "" }}
+{{ $firstPaperTitle := "" }}
+{{ $lastPaperTitle := "" }}
+{{ $firstPaperLink := "" }}
+{{ $lastPaperLink := "" }}
 {{ if gt $paperCount 0 }}
-  {{ $firstDate = (index $sortedPapers 0).Params.published_date }}
-  {{ $lastDate = (index $sortedPapers (sub $paperCount 1)).Params.published_date }}
+  {{ $firstPaper := index $sortedPapers 0 }}
+  {{ $lastPaper := index $sortedPapers (sub $paperCount 1) }}
+  {{ $firstDate = $firstPaper.Params.published_date }}
+  {{ $lastDate = $lastPaper.Params.published_date }}
+  {{ $firstPaperTitle = $firstPaper.Title }}
+  {{ $lastPaperTitle = $lastPaper.Title }}
+  {{ $firstPaperLink = $firstPaper.RelPermalink }}
+  {{ $lastPaperLink = $lastPaper.RelPermalink }}
 {{ end }}
 
 <div class="overview-hero">
@@ -32,10 +42,22 @@
   <h1>{{ .Title }}</h1>
   <div class="overview-intro">{{ .Content }}</div>
   <div class="dataset-stats overview-stats">
-    <div class="stat-item"><span class="stat-value">{{ $paperCount }}</span><span class="stat-label">papers</span></div>
-    <div class="stat-item"><span class="stat-value">{{ len $months }}</span><span class="stat-label">months</span></div>
-    {{ with $firstDate }}<div class="stat-item"><span class="stat-value">{{ . }}</span><span class="stat-label">first paper</span></div>{{ end }}
-    {{ with $lastDate }}<div class="stat-item"><span class="stat-value">{{ . }}</span><span class="stat-label">latest paper</span></div>{{ end }}
+    <a class="stat-item stat-link" href="{{ "papers/" | relURL }}"><span class="stat-value">{{ $paperCount }}</span><span class="stat-label">papers</span></a>
+    <a class="stat-item stat-link" href="#papers-month-chart"><span class="stat-value">{{ len $months }}</span><span class="stat-label">months</span></a>
+    {{ if $firstPaperLink }}
+      <a class="stat-item stat-link stat-item-hover" href="{{ $firstPaperLink }}">
+        <span class="stat-value">{{ $firstDate }}</span>
+        <span class="stat-label">first paper</span>
+        <span class="stat-hover-detail">{{ $firstPaperTitle }}</span>
+      </a>
+    {{ end }}
+    {{ if $lastPaperLink }}
+      <a class="stat-item stat-link stat-item-hover" href="{{ $lastPaperLink }}">
+        <span class="stat-value">{{ $lastDate }}</span>
+        <span class="stat-label">latest paper</span>
+        <span class="stat-hover-detail">{{ $lastPaperTitle }}</span>
+      </a>
+    {{ end }}
   </div>
 </div>
 
@@ -50,6 +72,11 @@
     ></canvas>
   </div>
 </section>
+
+<div class="home-nav overview-nav">
+  <a href="{{ "datasets/" | relURL }}" class="btn-primary">Browse Datasets</a>
+  <a href="{{ "papers/" | relURL }}" class="btn-primary">Browse Papers</a>
+</div>
 {{ end }}
 
 {{ define "scripts" }}

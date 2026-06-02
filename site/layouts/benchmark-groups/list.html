@@ -3,31 +3,49 @@
 {{ $groupCount := len $groups }}
 {{ $datasetCount := 0 }}
 {{ $resultCount := 0 }}
+{{ $allPapers := slice }}
 {{ range $groups }}
   {{ $datasetCount = add $datasetCount (len .datasets) }}
   {{ range .datasets }}
     {{ $resultCount = add $resultCount .result_count }}
+    {{ range .rows }}
+      {{ with .arxiv_id }}
+        {{ $allPapers = $allPapers | append . }}
+      {{ end }}
+    {{ end }}
   {{ end }}
 {{ end }}
+{{ $paperCount := len ($allPapers | uniq) }}
 
 <div class="overview-hero">
   <p class="overview-kicker">Overview</p>
   <h1>{{ .Title }}</h1>
   <div class="overview-intro">{{ .Content }}</div>
   <div class="dataset-stats overview-stats">
-    <div class="stat-item"><span class="stat-value">{{ $groupCount }}</span><span class="stat-label">groups</span></div>
-    <div class="stat-item"><span class="stat-value">{{ $datasetCount }}</span><span class="stat-label">datasets</span></div>
-    <div class="stat-item"><span class="stat-value">{{ $resultCount }}</span><span class="stat-label">results</span></div>
+    <a class="stat-item stat-link" href="{{ "benchmark-groups/" | relURL }}"><span class="stat-value">{{ $groupCount }}</span><span class="stat-label">groups</span></a>
+    <a class="stat-item stat-link" href="{{ "datasets/" | relURL }}"><span class="stat-value">{{ $datasetCount }}</span><span class="stat-label">datasets</span></a>
+    <a class="stat-item stat-link" href="{{ "papers/" | relURL }}"><span class="stat-value">{{ $paperCount }}</span><span class="stat-label">papers</span></a>
+    <a class="stat-item stat-link" href="{{ "results/" | relURL }}"><span class="stat-value">{{ $resultCount }}</span><span class="stat-label">results</span></a>
   </div>
 </div>
 
 <section class="overview-section">
+  <div class="overview-section-intro">
+    <p>Benchmark papers that introduce one or more related datasets, from focused suites like LRGB and heterophilic graphs to broader community efforts like GraphBench. Older groups such as Classic and TU Dortmund also appear here, even when the splits and evaluation rules are less standardized.</p>
+  </div>
   <div class="overview-grid">
     {{ range $groups }}
     {{ $groupResultCount := 0 }}
+    {{ $groupPapers := slice }}
     {{ range .datasets }}
       {{ $groupResultCount = add $groupResultCount .result_count }}
+      {{ range .rows }}
+        {{ with .arxiv_id }}
+          {{ $groupPapers = $groupPapers | append . }}
+        {{ end }}
+      {{ end }}
     {{ end }}
+    {{ $groupPaperCount := len ($groupPapers | uniq) }}
     {{ $introTitle := default .name .paper_title }}
     {{ $introDate := "" }}
     {{ $introLink := "" }}
@@ -43,6 +61,7 @@
       {{ with .description }}<p class="overview-card-copy">{{ . }}</p>{{ end }}
       <div class="overview-card-meta">
         <span class="badge muted">{{ len .datasets }} dataset{{ if ne (len .datasets) 1 }}s{{ end }}</span>
+        <span class="badge muted">{{ $groupPaperCount }} papers</span>
         <span class="badge muted">{{ $groupResultCount }} results</span>
         {{ if $introDate }}<span class="badge">{{ $introDate }}</span>{{ end }}
         {{ if $introLink }}<a class="badge" href="{{ $introLink }}">Introduction paper</a>{{ end }}
