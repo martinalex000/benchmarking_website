@@ -1,5 +1,0 @@
----
-title: Development
-type: dev
----
-
