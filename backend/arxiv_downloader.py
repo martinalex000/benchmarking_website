@@ -120,9 +120,23 @@ def download_paper(arxiv_id: str, force: bool = False) -> bool:
             session.add(paper)
             session.flush()
 
+        # Only skip if files actually exist on disk — a paper can have
+        # status=extracted but be missing from disk (deleted/moved).
+        has_files = storage.pdf_path.exists() or (storage.latex_dir / "expanded.tex").exists()
         if not force and paper.extraction_status not in ("pending", "failed"):
-            logger.info("Skipping arXiv:%s (status=%s)", arxiv_id, paper.extraction_status)
-            return True
+            if has_files:
+                logger.info(
+                    "Skipping arXiv:%s (status=%s, files present)",
+                    arxiv_id,
+                    paper.extraction_status,
+                )
+                return True
+            logger.info(
+                "Resetting arXiv:%s status=%s — files missing, forcing re-download",
+                arxiv_id,
+                paper.extraction_status,
+            )
+            paper.extraction_status = "pending"
 
         paper_id = paper.id
 

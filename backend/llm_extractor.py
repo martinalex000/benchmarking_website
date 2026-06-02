@@ -45,6 +45,7 @@ from backend.db import session_scope
 from backend.llm_model_options import display_name_for_model, extra_body_for_model
 from backend.models import Paper
 from backend.paper_storage import PaperStorage
+from backend.semantic_scholar import fetch_paper_metadata
 from backend.text_cleanup import clean_extracted_text
 
 # ParsedTable is imported lazily inside run_extraction to avoid slow startup,
@@ -398,32 +399,11 @@ _S2_API_URL = (
 
 
 def fetch_semantic_scholar_published_date(arxiv_id: str) -> str | None:
-    """Fetch exact publication date from the Semantic Scholar Graph API.
-
-    Returns a ``YYYY-MM-DD`` string, or ``None`` if the paper is not found or
-    the API returns a non-daily date.
-    """
-    url = _S2_API_URL.format(arxiv_id=urllib.parse.quote(arxiv_id))
-    headers: dict[str, str] = {}
-    if cfg.semantic_scholar_api_key:
-        headers["x-api-key"] = cfg.semantic_scholar_api_key
-    req = urllib.request.Request(url, headers=headers)
-    try:
-        with urllib.request.urlopen(req, timeout=15) as resp:  # nosec B310
-            data = json.loads(resp.read())
-    except urllib.error.HTTPError as exc:
-        if exc.code == 429:
-            logger.warning("Semantic Scholar rate-limited for arXiv:%s", arxiv_id)
-        else:
-            logger.debug("Semantic Scholar HTTP error %s for arXiv:%s", exc.code, arxiv_id)
-        return None
-    except Exception as exc:
-        logger.debug("Semantic Scholar request failed for arXiv:%s: %s", arxiv_id, exc)
-        return None
-
-    raw_date = data.get("publicationDate") if isinstance(data, dict) else None
-    if raw_date and re.match(r"^\d{4}-\d{2}-\d{2}$", str(raw_date)):
-        return str(raw_date)
+    """Fetch exact publication date from Semantic Scholar."""
+    metadata = fetch_paper_metadata(arxiv_id)
+    published_date = metadata.get("published_date")
+    if published_date and re.match(r"^\d{4}-\d{2}-\d{2}$", published_date):
+        return published_date
     return None
 
 

@@ -84,26 +84,9 @@ def _semantic_scholar_published_date(meta: dict[str, object]) -> str:
 
 def _fetch_semantic_scholar_metadata(arxiv_id: str) -> dict[str, str]:
     """Fetch paper metadata from Semantic Scholar using the arXiv ID."""
-    if not cfg.semantic_scholar_api_key:
-        return {}
+    from backend.semantic_scholar import fetch_paper_metadata
 
-    import requests
-
-    url = f"https://api.semanticscholar.org/graph/v1/paper/arXiv:{arxiv_id}"
-    params = {"fields": "title,abstract,year,publicationDate"}
-    headers = {"x-api-key": cfg.semantic_scholar_api_key}
-    resp = requests.get(url, params=params, headers=headers, timeout=30)
-    resp.raise_for_status()
-    data = resp.json() or {}
-    meta: dict[str, str] = {}
-    if data.get("title"):
-        meta["title"] = str(data["title"])
-    if data.get("abstract"):
-        meta["abstract"] = str(data["abstract"])
-    published_date = _semantic_scholar_published_date(data)
-    if published_date:
-        meta["published_date"] = published_date
-    return meta
+    return fetch_paper_metadata(arxiv_id)
 
 
 # ── Download ──────────────────────────────────────────────────────────────────

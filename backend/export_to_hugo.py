@@ -1501,6 +1501,7 @@ def export_paper(arxiv_id: str) -> bool:
             "authors": paper.authors or [],
             "published_date": _fmt_date(paper.published_date),
             "published_date_iso": (paper.published_date[:10] if paper.published_date else ""),
+            "published_venue": paper.venue or "",
             "abstract": _sanitize_abstract(clean_extracted_text(paper.abstract)),
             "codebase_url": paper.codebase_url or "",
             "extraction_model": paper.extraction_model or "",
