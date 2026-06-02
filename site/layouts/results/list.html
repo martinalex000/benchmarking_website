@@ -57,10 +57,10 @@
   <h1>{{ .Title }}</h1>
   <div class="overview-intro">{{ .Content }}</div>
   <div class="dataset-stats overview-stats">
-    <div class="stat-item"><span class="stat-value">{{ add $proposedTotal $baselineTotal }}</span><span class="stat-label">results</span></div>
-    <div class="stat-item"><span class="stat-value">{{ $paperCount }}</span><span class="stat-label">papers</span></div>
-    <div class="stat-item"><span class="stat-value">{{ $resultsPerPaper }}</span><span class="stat-label">per paper</span></div>
-    <div class="stat-item"><span class="stat-value">{{ $resultsPerMonth }}</span><span class="stat-label">per month</span></div>
+    <a class="stat-item stat-link" href="#results-month-chart"><span class="stat-value">{{ add $proposedTotal $baselineTotal }}</span><span class="stat-label">results</span></a>
+    <a class="stat-item stat-link" href="{{ "papers/" | relURL }}"><span class="stat-value">{{ $paperCount }}</span><span class="stat-label">papers</span></a>
+    <a class="stat-item stat-link" href="{{ "papers/" | relURL }}"><span class="stat-value">{{ $resultsPerPaper }}</span><span class="stat-label">per paper</span></a>
+    <a class="stat-item stat-link" href="{{ "results/" | relURL }}"><span class="stat-value">{{ $resultsPerMonth }}</span><span class="stat-label">per month</span></a>
   </div>
 </div>
 

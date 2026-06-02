@@ -11,9 +11,9 @@
     {{ end }}
   {{ end }}
   <div class="dataset-stats">
-    <div class="stat-item"><span class="stat-value">{{ len hugo.Data.benchmarks }}</span><span class="stat-label">benchmark groups</span></div>
-    <div class="stat-item"><span class="stat-value">{{ len $datasets }}</span><span class="stat-label">datasets</span></div>
-    <div class="stat-item"><span class="stat-value">{{ $stats.Get "resultCount" }}</span><span class="stat-label">results</span></div>
+    <a class="stat-item stat-link" href="{{ "benchmark-groups/" | relURL }}"><span class="stat-value">{{ len hugo.Data.benchmarks }}</span><span class="stat-label">benchmark groups</span></a>
+    <a class="stat-item stat-link" href="{{ "datasets/" | relURL }}"><span class="stat-value">{{ len $datasets }}</span><span class="stat-label">datasets</span></a>
+    <a class="stat-item stat-link" href="{{ "results/" | relURL }}"><span class="stat-value">{{ $stats.Get "resultCount" }}</span><span class="stat-label">results</span></a>
   </div>
 </div>
 

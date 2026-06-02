@@ -52,6 +52,11 @@
       <p><strong>Latest paper:</strong> <a href="{{ $lastPaperLink }}">{{ $lastPaperTitle }}</a> ({{ $lastDate }})</p>
     {{ end }}
   </div>
+  <div class="dataset-stats overview-stats overview-secondary-links">
+    <a class="stat-item stat-link" href="{{ "datasets/" | relURL }}"><span class="stat-value">Datasets</span><span class="stat-label">browse</span></a>
+    <a class="stat-item stat-link" href="{{ "papers/" | relURL }}"><span class="stat-value">Papers</span><span class="stat-label">browse</span></a>
+    <a class="stat-item stat-link" href="{{ "results/" | relURL }}"><span class="stat-value">Results</span><span class="stat-label">browse</span></a>
+  </div>
 </div>
 
 <section class="overview-section">
