@@ -86,7 +86,12 @@ def test_pipeline_extract_parse_export_flow(monkeypatch, tmp_path):
 
     from backend import pipeline
 
-    def fake_run_extraction(arxiv_id: str, model_tier: str = "primary", verbose: bool = False):
+    def fake_run_extraction(
+        arxiv_id: str,
+        model_tier: str = "primary",
+        verbose: bool = False,
+        **_kwargs,
+    ):
         storage = PaperStorage(arxiv_id)
         storage.ensure_dirs()
         storage.text_path.write_text(

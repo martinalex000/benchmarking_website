@@ -59,7 +59,8 @@ console = Console()
 # Only show WARNING+ from backend modules; rich console handles all user-facing output.
 logging.basicConfig(level=logging.WARNING, format="%(levelname)-8s %(message)s")
 
-_MANUAL_RESULT_OUTPUT_FORMAT = "yaml"
+# JSON is more tolerant than YAML for the long, colon-heavy prompts used here.
+_MANUAL_RESULT_OUTPUT_FORMAT = "json"
 
 
 def _fmt_bytes(n: int) -> str:

@@ -265,3 +265,46 @@ def test_extract_results_two_step_retries_after_empty_latex_discovery(monkeypatc
     assert len(fallback_calls) == 1
     assert {entry.dataset for entry in result.results} == {"ZINC", "subgraph counting"}
     assert result.extraction_notes != "Dataset discovery returned no datasets."
+
+
+def test_extract_results_chunk_falls_back_between_yaml_and_json(monkeypatch):
+    extractor = LLMExtractor(result_output_format="yaml")
+    call_formats: list[str] = []
+
+    def fake_call_structured(
+        prompt: str,
+        text: str,
+        max_tokens: int | None = None,
+        call_type: str = "llm",
+        call_extra: dict | None = None,
+        output_format: str = "json",
+    ):
+        call_formats.append(output_format)
+        if output_format == "yaml":
+            raise ValueError("yaml parse failed")
+        return {
+            "proposed_model": {"name": "GraphGPS"},
+            "baseline_models": [],
+            "results": [
+                {
+                    "model": "GraphGPS",
+                    "is_proposed": True,
+                    "dataset": "Peptides-func",
+                    "metric": "AP",
+                    "value": 0.6535,
+                    "higher_is_better": True,
+                }
+            ],
+            "extraction_confidence": "HIGH",
+            "extraction_notes": "json fallback",
+        }
+
+    monkeypatch.setattr(extractor, "_call_structured", fake_call_structured)
+
+    result = extractor._extract_results_chunk("prompt", "paper text", call_type="extract_dataset")
+
+    assert call_formats == ["yaml", "json"]
+    assert result.proposed_model is not None
+    assert result.proposed_model.name == "GraphGPS"
+    assert result.results[0].dataset == "Peptides-func"
+    assert result.extraction_notes == "json fallback"

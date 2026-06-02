@@ -2109,29 +2109,51 @@ class LLMExtractor:
     def _extract_results_chunk(
         self, prompt: str, text: str, call_type: str = "extract_results"
     ) -> ExtractionOutput:
-        raw = self._call_structured(
-            prompt,
-            text,
-            call_type=call_type,
-            output_format=self.result_output_format,
-        )
-        raw = _expand_extraction_payload(raw)
-        raw = _sanitize_extraction_payload(raw)
-        if not isinstance(raw, dict):
-            logger.warning(
-                "Malformed structured output from %r (%s): %s — treating as empty extraction",
-                self.model_name,
-                call_type,
-                type(raw).__name__,
-            )
-            raw = {
-                "proposed_model": None,
-                "baseline_models": [],
-                "results": [],
-                "extraction_confidence": "LOW",
-                "extraction_notes": "Model returned malformed YAML without the required top-level object; no rows extracted.",
-            }
-        return ExtractionOutput.model_validate(raw)
+        tried_formats: list[str] = []
+        parse_errors: list[str] = []
+        preferred = self.result_output_format or "json"
+        fallback = "yaml" if preferred != "yaml" else "json"
+        for output_format in (preferred, fallback):
+            if output_format in tried_formats:
+                continue
+            tried_formats.append(output_format)
+            try:
+                raw = self._call_structured(
+                    prompt,
+                    text,
+                    call_type=call_type,
+                    output_format=output_format,
+                )
+                raw = _expand_extraction_payload(raw)
+                raw = _sanitize_extraction_payload(raw)
+                if not isinstance(raw, dict):
+                    logger.warning(
+                        "Malformed structured output from %r (%s): %s — treating as empty extraction",
+                        self.model_name,
+                        call_type,
+                        type(raw).__name__,
+                    )
+                    raw = {
+                        "proposed_model": None,
+                        "baseline_models": [],
+                        "results": [],
+                        "extraction_confidence": "LOW",
+                        "extraction_notes": (
+                            "Model returned malformed structured output without the required "
+                            "top-level object; no rows extracted."
+                        ),
+                    }
+                return ExtractionOutput.model_validate(raw)
+            except Exception as exc:
+                parse_errors.append(f"{output_format}: {exc}")
+                logger.warning(
+                    "%s extraction failed using %s: %s",
+                    call_type,
+                    output_format,
+                    exc,
+                )
+
+        raise ValueError(f"Structured extraction failed for {call_type}: {'; '.join(parse_errors)}")
 
     def _extract_from_sections(
         self, prompt: str, sections: list[str], tables_section: str
