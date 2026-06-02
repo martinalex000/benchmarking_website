@@ -106,7 +106,7 @@ HUGO_BIN="${PROJECT_DIR}/bin/hugo"
 require_cmd "$HUGO_BIN"
 
 MOUNT_POINT="$(mktemp -d /tmp/deploy-XXXXXX)"
-BUILD_DIR="$(mktemp -d /tmp/deploy-build-XXXXXX)"
+BUILD_DIR="$(mktemp -d "${PROJECT_DIR}/.deploy-build-XXXXXX")"
 
 SSHFS_OPTS="${SSHFS_OPTS:-reconnect,ServerAliveInterval=15,ServerAliveCountMax=3}"
 
@@ -134,6 +134,9 @@ if ! : >"$WRITE_TEST"; then
   die "Mounted path is not writable."
 fi
 rm -f "$WRITE_TEST"
+
+echo "Ensuring ${DEPLOY_PATH} has correct permissions on remote..."
+ssh -o BatchMode=yes -o ConnectTimeout=10 "$SSH_DEST" "chmod 755 '${DEPLOY_PATH}'"
 
 echo "Building Hugo site locally to ${BUILD_DIR}..."
 cd site
