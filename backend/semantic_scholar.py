@@ -24,14 +24,21 @@ def _s2_headers() -> dict[str, str]:
 
 
 def _s2_request(
-    url: str, payload: dict[str, Any] | None = None
+    url: str,
+    payload: dict[str, Any] | None = None,
+    *,
+    is_batch: bool = False,
 ) -> dict[str, Any] | list[dict[str, Any]] | None:
+    """Send a request to the Semantic Scholar API.
+
+    For paper/*endpoints* use GET with *fields* as query params.
+    For the batch endpoint /paper/batch *must* use POST with JSON body.
+    """
     try:
-        resp = (
-            requests.post(url, json=payload, headers=_s2_headers(), timeout=30)
-            if payload is not None
-            else requests.get(url, headers=_s2_headers(), timeout=30)
-        )
+        if is_batch:
+            resp = requests.post(url, json=payload, headers=_s2_headers(), timeout=30)
+        else:
+            resp = requests.get(url, headers=_s2_headers(), params=payload, timeout=30)
         if resp.status_code == 429:
             logger.warning("Semantic Scholar rate-limited for %s", url)
             return None
@@ -93,17 +100,20 @@ def fetch_paper_metadata(arxiv_id: str) -> dict[str, str]:
 
 
 def fetch_paper_metadata_batch(arxiv_ids: list[str]) -> dict[str, dict[str, str]]:
-    ids = [f"ARXIV:{arxiv_id}" for arxiv_id in arxiv_ids if arxiv_id.strip()]
-    if not ids:
-        return {}
-    url = f"{_S2_BASE}/paper/batch"
-    payload = {"ids": ids, "fields": _S2_FIELDS}
-    data = _s2_request(url, payload)
+    """Fetch metadata individually for each arXiv ID.
+
+    The /paper/batch endpoint only returns paperId + title for API keys
+    without batch/Pro permissions, so we fall back to individual requests.
+    """
     results: dict[str, dict[str, str]] = {}
-    if not isinstance(data, list):
-        return results
-    for arxiv_id, paper in zip(arxiv_ids, data, strict=False):
-        meta = _paper_fields(paper)
-        if meta:
-            results[arxiv_id] = meta
+    for i, arxiv_id in enumerate(arxiv_ids):
+        if i and i % 50 == 0:
+            logger.info("Batch progress: %d/%d papers fetched", i, len(arxiv_ids))
+        try:
+            meta = fetch_paper_metadata(arxiv_id)
+            if meta:
+                results[arxiv_id] = meta
+        except Exception:
+            logger.debug("S2 request failed for arXiv:%s", arxiv_id)
+    logger.info("S2 individual results: %d/%d papers with metadata", len(results), len(arxiv_ids))
     return results
