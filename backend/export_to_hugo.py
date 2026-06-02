@@ -464,7 +464,7 @@ def _mark_is_best(
 
 
 def _mark_std_outliers(rows: list[dict], std_getter: callable) -> None:
-    """Flag rows whose std is >50x the dataset median std."""
+    """Flag rows whose std is >10x the dataset median std."""
     std_values = []
     for row in rows:
         std = std_getter(row)
@@ -485,7 +485,7 @@ def _mark_std_outliers(rows: list[dict], std_getter: callable) -> None:
             row["is_std_outlier"] = False
         return
 
-    threshold = median_std * 50.0
+    threshold = median_std * 10.0
     for row in rows:
         std = std_getter(row)
         row["is_std_outlier"] = std is not None and float(std) > threshold
