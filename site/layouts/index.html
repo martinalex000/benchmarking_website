@@ -24,16 +24,16 @@
     {{ end }}
     {{ $benchmarkCount = len ($benchmarkNames | uniq) }}
   {{ end }}
-  <div class="dataset-stats">
-    <div class="stat-item"><span class="stat-value">{{ $benchmarkCount }}</span><span class="stat-label">benchmark groups</span></div>
-    <div class="stat-item"><span class="stat-value">{{ len $datasets }}</span><span class="stat-label">datasets</span></div>
-    <div class="stat-item"><span class="stat-value">{{ len $papersWithResults }}</span><span class="stat-label">papers</span></div>
-    <div class="stat-item"><span class="stat-value">{{ $resultCount }}</span><span class="stat-label">model results</span></div>
+  <div class="dataset-stats home-overview-links">
+    <a class="stat-item stat-link" href="{{ "benchmark-groups/" | relURL }}"><span class="stat-value">{{ $benchmarkCount }}</span><span class="stat-label">benchmark groups</span></a>
+    <a class="stat-item stat-link" href="{{ "datasets/" | relURL }}"><span class="stat-value">{{ len $datasets }}</span><span class="stat-label">datasets</span></a>
+    <a class="stat-item stat-link" href="{{ "papers-overview/" | relURL }}"><span class="stat-value">{{ len $papersWithResults }}</span><span class="stat-label">papers</span></a>
+    <a class="stat-item stat-link" href="{{ "results/" | relURL }}"><span class="stat-value">{{ $resultCount }}</span><span class="stat-label">results</span></a>
   </div>
   
   <div class="home-nav">
     <a href="{{ "datasets/" | relURL }}" class="btn-primary">Browse Datasets</a>
-    <a href="{{ "papers/" | relURL }}" class="btn-primary">Browse Papers</a>
+    <a href="{{ "papers-overview/" | relURL }}" class="btn-primary">Paper Statistics</a>
   </div>
 </div>
 

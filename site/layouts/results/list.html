@@ -1,0 +1,122 @@
+{{ define "main" }}
+{{ $papers := where .Site.RegularPages "Section" "papers" }}
+{{ $papersWithResults := where $papers "Params.has_results" true }}
+{{ $sortedPapers := sort $papersWithResults "Params.published_date_iso" "asc" }}
+{{ $months := slice }}
+{{ $counts := newScratch }}
+{{ $proposedTotal := 0 }}
+{{ $baselineTotal := 0 }}
+
+{{ range $sortedPapers }}
+  {{ $iso := default "" .Params.published_date_iso }}
+  {{ if ge (len $iso) 7 }}
+    {{ $month := substr $iso 0 7 }}
+    {{ $months = $months | append $month }}
+    {{ range .Params.results }}
+      {{ range .rows }}
+        {{ if not .is_global_top }}
+          {{ if .is_baseline }}
+            {{ $baselineTotal = add $baselineTotal 1 }}
+            {{ $counts.Set (printf "%s-baseline" $month) (add ($counts.Get (printf "%s-baseline" $month) | default 0) 1) }}
+          {{ else }}
+            {{ $proposedTotal = add $proposedTotal 1 }}
+            {{ $counts.Set (printf "%s-proposed" $month) (add ($counts.Get (printf "%s-proposed" $month) | default 0) 1) }}
+          {{ end }}
+        {{ end }}
+      {{ end }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+{{ $months = $months | uniq }}
+{{ $proposedCounts := slice }}
+{{ $baselineCounts := slice }}
+{{ range $months }}
+  {{ $proposedCounts = $proposedCounts | append ($counts.Get (printf "%s-proposed" .) | default 0) }}
+  {{ $baselineCounts = $baselineCounts | append ($counts.Get (printf "%s-baseline" .) | default 0) }}
+{{ end }}
+
+<div class="overview-hero">
+  <p class="overview-kicker">Overview</p>
+  <h1>{{ .Title }}</h1>
+  <div class="overview-intro">{{ .Content }}</div>
+  <div class="dataset-stats overview-stats">
+    <div class="stat-item"><span class="stat-value">{{ add $proposedTotal $baselineTotal }}</span><span class="stat-label">results</span></div>
+    <div class="stat-item"><span class="stat-value">{{ $proposedTotal }}</span><span class="stat-label">proposed</span></div>
+    <div class="stat-item"><span class="stat-value">{{ $baselineTotal }}</span><span class="stat-label">baseline</span></div>
+    <div class="stat-item"><span class="stat-value">{{ len $months }}</span><span class="stat-label">months</span></div>
+  </div>
+</div>
+
+<section class="overview-section">
+  <div class="overview-chart-wrap">
+    <div class="overview-chart-header">
+      <h2>Results per month</h2>
+      <div class="overview-toggle" role="tablist" aria-label="Result type">
+        <button type="button" class="overview-toggle-btn active" data-result-kind="proposed">Proposed</button>
+        <button type="button" class="overview-toggle-btn" data-result-kind="baseline">Baseline</button>
+      </div>
+    </div>
+    <canvas
+      id="results-month-chart"
+      height="300"
+      data-chart-labels="{{ $months | jsonify | safeHTMLAttr }}"
+      data-chart-proposed="{{ $proposedCounts | jsonify | safeHTMLAttr }}"
+      data-chart-baseline="{{ $baselineCounts | jsonify | safeHTMLAttr }}"
+    ></canvas>
+  </div>
+</section>
+{{ end }}
+
+{{ define "scripts" }}
+<script>
+(function () {
+  var canvas = document.getElementById("results-month-chart");
+  if (!canvas || typeof Chart === "undefined") return;
+  var labels = JSON.parse(canvas.dataset.chartLabels || "[]");
+  var proposedCounts = JSON.parse(canvas.dataset.chartProposed || "[]");
+  var baselineCounts = JSON.parse(canvas.dataset.chartBaseline || "[]");
+  var buttons = Array.from(document.querySelectorAll("[data-result-kind]"));
+  var datasetByKind = {
+    proposed: {
+      label: "Proposed results",
+      data: proposedCounts,
+      backgroundColor: "rgba(37, 99, 235, 0.65)",
+      borderColor: "#2563eb"
+    },
+    baseline: {
+      label: "Baseline results",
+      data: baselineCounts,
+      backgroundColor: "rgba(107, 114, 128, 0.65)",
+      borderColor: "#6b7280"
+    }
+  };
+  var activeKind = "proposed";
+  var chart = new Chart(canvas, {
+    type: "bar",
+    data: {
+      labels: labels,
+      datasets: [datasetByKind[activeKind]]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        x: { ticks: { maxRotation: 45, minRotation: 45 } },
+        y: { beginAtZero: true, ticks: { precision: 0 } }
+      }
+    }
+  });
+
+  buttons.forEach(function (button) {
+    button.addEventListener("click", function () {
+      activeKind = button.dataset.resultKind || "proposed";
+      buttons.forEach(function (other) {
+        other.classList.toggle("active", other === button);
+      });
+      chart.data.datasets[0] = datasetByKind[activeKind];
+      chart.update();
+    });
+  });
+})();
+</script>
+{{ end }}

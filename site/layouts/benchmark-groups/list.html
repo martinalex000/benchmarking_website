@@ -1,0 +1,63 @@
+{{ define "main" }}
+{{ $groups := hugo.Data.benchmarks }}
+{{ $groupCount := len $groups }}
+{{ $datasetCount := 0 }}
+{{ $resultCount := 0 }}
+{{ range $groups }}
+  {{ $datasetCount = add $datasetCount (len .datasets) }}
+  {{ range .datasets }}
+    {{ $resultCount = add $resultCount .result_count }}
+  {{ end }}
+{{ end }}
+
+<div class="overview-hero">
+  <p class="overview-kicker">Overview</p>
+  <h1>{{ .Title }}</h1>
+  <div class="overview-intro">{{ .Content }}</div>
+  <div class="dataset-stats overview-stats">
+    <div class="stat-item"><span class="stat-value">{{ $groupCount }}</span><span class="stat-label">groups</span></div>
+    <div class="stat-item"><span class="stat-value">{{ $datasetCount }}</span><span class="stat-label">datasets</span></div>
+    <div class="stat-item"><span class="stat-value">{{ $resultCount }}</span><span class="stat-label">results</span></div>
+  </div>
+</div>
+
+<section class="overview-section">
+  <div class="overview-grid">
+    {{ range $groups }}
+    {{ $groupResultCount := 0 }}
+    {{ range .datasets }}
+      {{ $groupResultCount = add $groupResultCount .result_count }}
+    {{ end }}
+    {{ $introTitle := default .name .paper_title }}
+    {{ $introDate := "" }}
+    {{ $introLink := "" }}
+    {{ with .arxiv_id }}
+      {{ with $.Site.GetPage (printf "papers/%s" .) }}
+        {{ $introLink = .RelPermalink }}
+        {{ with .Params.published_date }}{{ $introDate = . }}{{ end }}
+        {{ with .Title }}{{ $introTitle = . }}{{ end }}
+      {{ end }}
+    {{ end }}
+    <article class="overview-card benchmark-overview-card">
+      <h2>{{ .name }}</h2>
+      {{ with .description }}<p class="overview-card-copy">{{ . }}</p>{{ end }}
+      <div class="overview-card-meta">
+        <span class="badge muted">{{ len .datasets }} dataset{{ if ne (len .datasets) 1 }}s{{ end }}</span>
+        <span class="badge muted">{{ $groupResultCount }} results</span>
+        {{ if $introDate }}<span class="badge">{{ $introDate }}</span>{{ end }}
+        {{ if $introLink }}<a class="badge" href="{{ $introLink }}">Introduction paper</a>{{ end }}
+      </div>
+      {{ if $introTitle }}
+      <p class="overview-card-intro">
+        Introduced in <strong>{{ $introTitle }}</strong>{{ if $introDate }} · {{ $introDate }}{{ end }}.
+      </p>
+      {{ end }}
+      <p class="home-benchmark-datasets">
+        {{ range $index, $dataset := first 4 .datasets }}{{ if gt $index 0 }}, {{ end }}<a href="{{ printf "datasets/%s/" $dataset.slug | relURL }}">{{ $dataset.name }}</a>{{ end }}
+        {{ if gt (len .datasets) 4 }} and {{ sub (len .datasets) 4 }} more{{ end }}
+      </p>
+    </article>
+    {{ end }}
+  </div>
+</section>
+{{ end }}

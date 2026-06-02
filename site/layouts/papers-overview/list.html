@@ -1,0 +1,85 @@
+{{ define "main" }}
+{{ $papers := where .Site.RegularPages "Section" "papers" }}
+{{ $papersWithResults := where $papers "Params.has_results" true }}
+{{ $sortedPapers := sort $papersWithResults "Params.published_date_iso" "asc" }}
+{{ $months := slice }}
+{{ $monthCounts := newScratch }}
+
+{{ range $sortedPapers }}
+  {{ $iso := default "" .Params.published_date_iso }}
+  {{ if ge (len $iso) 7 }}
+    {{ $month := substr $iso 0 7 }}
+    {{ $months = $months | append $month }}
+    {{ $monthCounts.Set $month (add ($monthCounts.Get $month | default 0) 1) }}
+  {{ end }}
+{{ end }}
+{{ $months = $months | uniq }}
+{{ $chartCounts := slice }}
+{{ range $months }}
+  {{ $chartCounts = $chartCounts | append ($monthCounts.Get . | default 0) }}
+{{ end }}
+
+{{ $paperCount := len $papersWithResults }}
+{{ $firstDate := "" }}
+{{ $lastDate := "" }}
+{{ if gt $paperCount 0 }}
+  {{ $firstDate = (index $sortedPapers 0).Params.published_date }}
+  {{ $lastDate = (index $sortedPapers (sub $paperCount 1)).Params.published_date }}
+{{ end }}
+
+<div class="overview-hero">
+  <p class="overview-kicker">Overview</p>
+  <h1>{{ .Title }}</h1>
+  <div class="overview-intro">{{ .Content }}</div>
+  <div class="dataset-stats overview-stats">
+    <div class="stat-item"><span class="stat-value">{{ $paperCount }}</span><span class="stat-label">papers</span></div>
+    <div class="stat-item"><span class="stat-value">{{ len $months }}</span><span class="stat-label">months</span></div>
+    {{ with $firstDate }}<div class="stat-item"><span class="stat-value">{{ . }}</span><span class="stat-label">first paper</span></div>{{ end }}
+    {{ with $lastDate }}<div class="stat-item"><span class="stat-value">{{ . }}</span><span class="stat-label">latest paper</span></div>{{ end }}
+  </div>
+</div>
+
+<section class="overview-section">
+  <div class="overview-chart-wrap">
+    <h2>Publications per month</h2>
+    <canvas
+      id="papers-month-chart"
+      height="300"
+      data-chart-labels="{{ $months | jsonify | safeHTMLAttr }}"
+      data-chart-values="{{ $chartCounts | jsonify | safeHTMLAttr }}"
+    ></canvas>
+  </div>
+</section>
+{{ end }}
+
+{{ define "scripts" }}
+<script>
+(function () {
+  var canvas = document.getElementById("papers-month-chart");
+  if (!canvas || typeof Chart === "undefined") return;
+  var labels = JSON.parse(canvas.dataset.chartLabels || "[]");
+  var counts = JSON.parse(canvas.dataset.chartValues || "[]");
+  new Chart(canvas, {
+    type: "bar",
+    data: {
+      labels: labels,
+      datasets: [{
+        label: "Papers",
+        data: counts,
+        backgroundColor: "rgba(37, 99, 235, 0.65)",
+        borderColor: "#2563eb",
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        x: { ticks: { maxRotation: 45, minRotation: 45 } },
+        y: { beginAtZero: true, ticks: { precision: 0 } }
+      }
+    }
+  });
+})();
+</script>
+{{ end }}
