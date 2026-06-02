@@ -34,7 +34,6 @@ from backend.export_helpers import plain_model as _plain_model
 from backend.export_helpers import rank_for_value as _rank_for_value
 from backend.export_helpers import sanitize_model as _sanitize_model_text
 from backend.export_helpers import sanitize_title as _sanitize_title
-from backend.export_helpers import truncate_words as _truncate_words
 from backend.models import (
     Benchmark,
     Dataset,
@@ -414,6 +413,34 @@ def _mark_is_best(
             r["is_best"] = v - s <= best_val + bs
 
 
+def _mark_std_outliers(rows: list[dict], std_getter: callable) -> None:
+    """Flag rows whose std is >50x the dataset median std."""
+    std_values = []
+    for row in rows:
+        std = std_getter(row)
+        if std is None:
+            continue
+        std_f = float(std)
+        if std_f > 0:
+            std_values.append(std_f)
+
+    if not std_values:
+        for row in rows:
+            row["is_std_outlier"] = False
+        return
+
+    median_std = statistics.median(std_values)
+    if median_std <= 0:
+        for row in rows:
+            row["is_std_outlier"] = False
+        return
+
+    threshold = median_std * 50.0
+    for row in rows:
+        std = std_getter(row)
+        row["is_std_outlier"] = std is not None and float(std) > threshold
+
+
 def _fmt_date(date_str: str | None) -> str:
     """Format date strings consistently for public display."""
     if not date_str:
@@ -593,6 +620,14 @@ def _pivot_paper_rows(rows: list[dict], primary_metric: str | None) -> dict:
         ),
     )
 
+    _mark_std_outliers(
+        pivoted,
+        lambda r: (
+            r.get("sort_std")
+            if r.get("sort_std") is not None
+            else (r["metric_stds"][0] if r.get("metric_stds") else None)
+        ),
+    )
     return {"rows": pivoted, "metrics": seen_metrics, "primary_metric": primary_metric}
 
 
@@ -1268,6 +1303,14 @@ def export_paper(arxiv_id: str) -> bool:
                             else (r["metric_stds"][0] if r.get("metric_stds") else None)
                         ),
                     )
+                    _mark_std_outliers(
+                        combined,
+                        lambda r: (
+                            r.get("sort_std")
+                            if r.get("sort_std") is not None
+                            else (r["metric_stds"][0] if r.get("metric_stds") else None)
+                        ),
+                    )
                     pv_rows = combined
 
                 pv_rows = _dedup_result_rows(
@@ -1354,6 +1397,10 @@ def export_paper(arxiv_id: str) -> bool:
                     lambda r: (
                         r.get("sort_value") if r.get("sort_value") is not None else r.get("value")
                     ),
+                    lambda r: r.get("sort_std") if r.get("sort_std") is not None else r.get("std"),
+                )
+                _mark_std_outliers(
+                    rows,
                     lambda r: r.get("sort_std") if r.get("sort_std") is not None else r.get("std"),
                 )
                 results_for_fm.append(
@@ -1601,6 +1648,10 @@ def _build_multi_metric_rows(
         primary_metric,
         hib,
         lambda g: g["_vals"].get(primary_metric, (None, None))[0],
+        lambda g: g["_vals"].get(primary_metric, (None, None))[1],
+    )
+    _mark_std_outliers(
+        sorted_groups,
         lambda g: g["_vals"].get(primary_metric, (None, None))[1],
     )
 
