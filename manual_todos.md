@@ -24,13 +24,46 @@ mark stuff with way too large std such that the result is not helpful at all.
 
 make sure all the papers I used to have locally are also processed on the server
 
+wenn man std ausschaltet soll sie in der tabelle trotzdem sichtbar bleiben
+
+Der plot braucht viel zu lange zum laden, einfach weil viel zu viele punkte und deren std geplottet werden
+
+heterophily statistics and generally improved statistics for the datasets.
+
 logos einbinden der jeweiligen benchmarks
+
+check dass beim paper ranking wirklich nur die vorgeschlagene methode betrachtet wird plus eine bessere erklärung und erweiterte filtermöglichkeiten
+
+double check that the dates are by day and not by month - both for displaying them but also in the database. For that, give me the histogram of the dates of the papers.
+
+for each paper: also try to figure out where it was published (if it was) and when. Then putting the conference in addition in the table would be nice.
+
+also make sure that the authors are extracted. Optimally, link to google scholar for each author when there is a connection. orcid is also a good option and probably safer.
+
+copy ogb results. Its important that everything from the ogb website will also appear on my leaderboard.
+
+attribution of results: currently what we do is using the oldest paper with exactly this number and when there is e.g. a higher number for GCN, then all lower and older ones are silently swallowed. instead of doing this silently, it is important to do it in a transparent fashion. One should thus be able to open those aggregated results and see all the results published by different papers for this method. Of course this is especially important for very basic models such as GCN, GIN, etc because many people run them by themselves.
+
+ranks at the time of submission and ranks today for the paper view.
 
 zinc still does a lot of odd stuff - the leaderboard for the full zinc seems to include the other entries as well - at least at the first glance it looks like there are too many terrible appraoches for the full zinc one.
 
+integrate into alpharxive and trending papers from various sites such as huggingface's paperswithcode
+
+add year filter for papers
+
+don't sort by amount of results but by amount of recent results
+
+ways to interact with the website: how can I make sure my paper is re-parsed? Or flag problems with the paper?
+
+die hellen button auf der startseite sollten klickbar sein.
+
 http://localhost:1313/datasets/zinc/ hier gibt es verdammt grosse Zahlen gemixt unter die anderen - wo kommen die her und wie werde ich die los? Und schaffe ich es die y-achse so zu skalieren, dass man mehr sehen kann?
 
-the leaderboard needs a tiny legend indicating what the used colors mean.
+the page of shame papers should be extended by a comparison of what would have been the case at the time of publication - even though its just baselines, its nice to not complain about methods not copying baseline results from the future. The "future" value should of course still be provided.
+
+How to deal with the exact dates of the conferences? -> rather stick with the arxiv dates of each paper.
+
 
 Add clear benchmark-selection guidance. Right now the site helps browse results, but not decide which benchmarks are worth testing on. It should surface benchmark relevance, popularity/adoption, recency, task fit, dataset scale, and a “recommended benchmark suite” view.
 

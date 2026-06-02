@@ -3,6 +3,21 @@
 # Reads DEPLOY_USER, DEPLOY_HOST, DEPLOY_PATH, and optional HUGO_BASE_URL from .env
 set -euo pipefail
 
+DELETE_MODE=true
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --no-delete)
+      DELETE_MODE=false
+      shift
+      ;;
+    *)
+      echo "Usage: $0 [--no-delete]" >&2
+      exit 1
+      ;;
+  esac
+done
+
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_DIR="$(dirname "$SCRIPT_DIR")"
 cd "$PROJECT_DIR"
@@ -26,6 +41,10 @@ require_cmd() {
 }
 
 cleanup() {
+  if [[ -n "${BUILD_DIR:-}" ]]; then
+    rm -rf "$BUILD_DIR" >/dev/null 2>&1 || true
+  fi
+
   if [[ -n "${MOUNT_POINT:-}" ]] && mountpoint -q "$MOUNT_POINT" 2>/dev/null; then
     if command -v fusermount >/dev/null 2>&1; then
       fusermount -u "$MOUNT_POINT" >/dev/null 2>&1 || true
@@ -87,6 +106,8 @@ HUGO_BIN="${PROJECT_DIR}/bin/hugo"
 require_cmd "$HUGO_BIN"
 
 MOUNT_POINT="$(mktemp -d /tmp/deploy-XXXXXX)"
+BUILD_DIR="$(mktemp -d /tmp/deploy-build-XXXXXX)"
+
 SSHFS_OPTS="${SSHFS_OPTS:-reconnect,ServerAliveInterval=15,ServerAliveCountMax=3}"
 
 echo "Checking SSH connectivity to ${SSH_DEST}..."
@@ -114,26 +135,28 @@ if ! : >"$WRITE_TEST"; then
 fi
 rm -f "$WRITE_TEST"
 
-echo "Building Hugo site locally..."
+echo "Building Hugo site locally to ${BUILD_DIR}..."
 cd site
 if [[ -n "$HUGO_BASE_URL" ]]; then
-  "$HUGO_BIN" --minify --baseURL "$HUGO_BASE_URL"
+  "$HUGO_BIN" --minify --baseURL "$HUGO_BASE_URL" -d "$BUILD_DIR"
 else
-  "$HUGO_BIN" --minify
+  "$HUGO_BIN" --minify -d "$BUILD_DIR"
 fi
 cd ..
 
-[[ -d "${PROJECT_DIR}/site/public" ]] || die "Hugo build did not produce site/public/."
+[[ -d "$BUILD_DIR" ]] || die "Hugo build did not produce output in ${BUILD_DIR}."
+
+FILE_COUNT=$(find "$BUILD_DIR" -type f | wc -l)
+[[ "$FILE_COUNT" -gt 0 ]] || die "Hugo build produced no files in ${BUILD_DIR}. Check build output above."
 
 echo "Rsync delta sync to mounted target..."
-if ! rsync \
-  --archive \
-  --delete \
-  --compress \
-  --human-readable \
-  --itemize-changes \
-  --stats \
-  "${PROJECT_DIR}/site/public/" \
+RSYNC_OPTS=(--archive --no-group --compress --human-readable --itemize-changes --stats --progress)
+if [[ "$DELETE_MODE" == "true" ]]; then
+  RSYNC_OPTS+=(--delete)
+fi
+
+if ! rsync "${RSYNC_OPTS[@]}" \
+  "${BUILD_DIR}/" \
   "${MOUNT_POINT}/"; then
   hint "Inspect mount health: ls -la ${MOUNT_POINT}"
   hint "Check free space remotely: ssh ${SSH_DEST} 'df -h ${DEPLOY_PATH}'"
@@ -141,7 +164,11 @@ if ! rsync \
 fi
 
 echo "Verifying sync (rsync dry-run must report no pending changes)..."
-VERIFY_OUTPUT="$(rsync --archive --delete --itemize-changes --dry-run "${PROJECT_DIR}/site/public/" "${MOUNT_POINT}/")"
+VERIFY_OPTS=(--archive --no-group --itemize-changes --dry-run)
+if [[ "$DELETE_MODE" == "true" ]]; then
+  VERIFY_OPTS+=(--delete)
+fi
+VERIFY_OUTPUT="$(rsync "${VERIFY_OPTS[@]}" "${BUILD_DIR}/" "${MOUNT_POINT}/")"
 if [[ -n "$VERIFY_OUTPUT" ]]; then
   echo "$VERIFY_OUTPUT" | sed -n '1,40p' >&2
   hint "Pending changes after sync indicate incomplete deployment or unstable mount state."

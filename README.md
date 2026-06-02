@@ -491,6 +491,16 @@ If you deploy under a subpath such as `https://somedomain.com/graphlearningbench
 HUGO_BASE_URL=https://somedomain.com/graphlearningbenchmarks/
 ```
 
+Manual deployment using:
+```bash
+cd site
+hugo --baseURL "https://research.uni-leipzig.de/graphlearningbenchmarks/"
+scp -r public/* webspace:webdir/
+```
+
+
+
+
 ---
 
 ## Corrections and overrides
