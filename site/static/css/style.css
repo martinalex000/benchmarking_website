@@ -200,6 +200,50 @@ footer { max-width: 1100px; margin: 3rem auto 1rem; padding: 0 1.5rem; color: va
   vertical-align: top;
 }
 
+/* Result-table leaderboard badge layout (reverse order for inline badges) */
+.result-table td.col-model {
+  padding-left: 0;
+}
+.result-table td.col-model .leaderboard-entry-head {
+  display: inline-flex;
+  align-items: flex-start;
+  min-width: 0;
+}
+.result-table .leaderboard-entry-main {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.4rem;
+  min-width: 0;
+}
+.result-table .leaderboard-badges {
+  display: inline-flex;
+  align-items: center;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  gap: 0.28rem;
+  flex-wrap: wrap;
+}
+
+/* Value cell alignment for consistent baseline alignment */
+.result-table td.col-value {
+  text-align: right;
+}
+.result-table td.col-value .value-cell-content {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-end;
+  gap: 0.25rem;
+  width: 100%;
+}
+.result-table td.col-value .value-cell-content .inline-std {
+  font-size: 0.82em;
+  color: var(--gray-600);
+  font-weight: 400;
+}
+.result-table td.col-value .value-gap-block {
+  width: 100%;
+}
+
 /* Type badges in result table */
 .tag-baseline {
   display: inline-block;
@@ -237,6 +281,8 @@ footer { max-width: 1100px; margin: 3rem auto 1rem; padding: 0 1.5rem; color: va
 .paper-list-item h2 { margin: 0 0 0.5rem; font-size: 1.05rem; }
 .paper-list-item h3 { margin: 0 0 0.5rem; font-size: 1.05rem; }
 .abstract-excerpt { color: var(--gray-600); font-size: 0.875rem; margin: 0.5rem 0 0; }
+.papers-toolbar .papers-conference-bar { align-items: flex-start; flex-wrap: wrap; }
+.papers-toolbar .papers-conference-bar .task-filter { margin-bottom: 0.25rem; }
 
 /* Proposed-model badge on paper list */
 .badge-proposed {
@@ -589,6 +635,27 @@ tr.chart-scroll-highlight { box-shadow: inset 0 0 0 9999px rgba(251, 191, 36, 0.
   color: var(--gray-800);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
 }
+
+/* Dev pages */
+.dev-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1rem;
+}
+.dev-card {
+  border: 1px solid var(--gray-300);
+  border-radius: var(--radius);
+  background: #fff;
+  padding: 1rem;
+}
+.dev-card h2, .dev-card h3 { margin: 0 0 0.35rem; font-size: 1rem; }
+.dev-card p { margin: 0.25rem 0 0; color: var(--gray-600); }
+.dev-card .dev-card-stats { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.75rem; }
+.dev-card .dev-card-stats .badge { margin-right: 0; }
+.dev-table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+.dev-table th, .dev-table td { padding: 0.75rem; border-bottom: 1px solid var(--gray-200); text-align: left; }
+.dev-table th { background: var(--gray-100); }
+.dev-table tr:hover { background: #fafafa; }
 
 /* Best-row highlighting */
 tr.row-best td { background: #fefce8; }

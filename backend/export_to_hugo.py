@@ -56,6 +56,15 @@ _DATASET_OVERRIDES_FILE = cfg.base_dir / "config" / "dataset_overrides.yaml"
 _MODEL_RENAME_CACHE: dict[str, dict[str, str]] = {}
 _DATASET_OVERRIDE_CACHE: dict[str, dict[str, Any]] = {}
 _PAPER_PARAM_CACHE: dict[str, dict[str, float]] = {}
+_CONFERENCE_ALIASES: tuple[tuple[str, tuple[str, ...]], ...] = (
+    ("NeurIPS", ("neurips", "nips")),
+    ("ICLR", ("iclr",)),
+    ("TMLR", ("tmlr", "transactions on machine learning research")),
+    ("ICML", ("icml", "international conference on machine learning")),
+    ("LoG", ("log", "learning on graphs", "graph learning")),
+    ("AAAI", ("aaai",)),
+    ("KDD", ("kdd", "sigkdd")),
+)
 _BOUNDED_METRIC_SUBSTRINGS: tuple[str, ...] = (
     "accuracy",
     "acc",
@@ -74,6 +83,17 @@ _BOUNDED_METRIC_SUBSTRINGS: tuple[str, ...] = (
 def _slug(name: str) -> str:
     """Convert a string to a URL-safe slug."""
     return re.sub(r"[^a-z0-9]+", "-", name.strip().lower()).strip("-")
+
+
+def _normalize_conference(venue: str | None) -> str:
+    raw = " ".join(str(venue or "").split()).strip()
+    if not raw:
+        return ""
+    lowered = raw.lower()
+    for label, aliases in _CONFERENCE_ALIASES:
+        if any(alias in lowered for alias in aliases):
+            return label
+    return raw
 
 
 def _is_bounded_metric(metric_name: str | None) -> bool:
@@ -1515,6 +1535,8 @@ def export_paper(arxiv_id: str) -> bool:
             "published_date": _fmt_date(paper.published_date),
             "published_date_iso": (paper.published_date[:10] if paper.published_date else ""),
             "published_venue": paper.venue or "",
+            "published_conference": _normalize_conference(paper.venue),
+            "published_conference_slug": _slug(_normalize_conference(paper.venue)),
             "abstract": _sanitize_abstract(clean_extracted_text(paper.abstract)),
             "codebase_url": paper.codebase_url or "",
             "extraction_model": paper.extraction_model or "",

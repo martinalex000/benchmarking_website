@@ -44,6 +44,9 @@
       {{ with .Params.published_date }}
       <span class="badge">{{ . }}</span>
       {{ end }}
+      {{ with .Params.published_conference }}
+      <span class="badge muted">{{ . }}</span>
+      {{ end }}
       {{ with .Params.published_venue }}
       <span class="badge paper-venue-badge">{{ . }}</span>
       {{ end }}

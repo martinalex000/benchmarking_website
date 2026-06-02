@@ -1,6 +1,7 @@
 {{ define "main" }}
 {{ $all := where .Pages "Params.has_results" true }}
 {{ $sorted_papers := sort $all "Params.adjusted_mrr" "desc" }}
+{{ $conferenceShortcuts := slice "NeurIPS" "ICLR" "ICML" "LoG" "TMLR" "AAAI" "KDD" }}
 
 <h1>Papers</h1>
 
@@ -33,16 +34,24 @@
     <button class="task-filter" type="button" data-scope-filter="graph-level">Graph-level</button>
     <button class="task-filter" type="button" data-scope-filter="edge-level">Edge-level</button>
   </div>
+  <div class="filter-bar papers-conference-bar">
+    <span class="filter-label">Conferences:</span>
+    <button class="task-filter active" type="button" data-conference-filter="">All</button>
+    {{ range $conferenceShortcuts }}
+    <button class="task-filter" type="button" data-conference-filter="{{ . | lower }}">{{ . }}</button>
+    {{ end }}
+  </div>
 </div>
 
 <div class="paper-list" id="paper-list">
   {{ range $sorted_papers }}
-  {{ $searchText := lower (printf "%s %s %s %s %s" .Title (default "" .Params.arxiv_id) (delimit (default (slice) .Params.benchmark_categories) " ") (delimit (default (slice) .Params.task_categories) " ") (delimit (default (slice) .Params.experiment_scopes) " ")) }}
+  {{ $searchText := lower (printf "%s %s %s %s %s %s" .Title (default "" .Params.arxiv_id) (default "" .Params.published_venue) (default "" .Params.published_conference) (delimit (default (slice) .Params.benchmark_categories) " ") (delimit (default (slice) .Params.task_categories) " ")) }}
   <div class="paper-list-item"
        data-paper-search="{{ $searchText }}"
        data-rank-score="{{ default -1 .Params.adjusted_mrr }}"
        data-paper-date="{{ default "" .Params.published_date_iso }}"
-       data-paper-scopes="{{ delimit (default (slice) .Params.experiment_scopes) " " }}">
+       data-paper-scopes="{{ delimit (default (slice) .Params.experiment_scopes) " " }}"
+       data-paper-conference="{{ default "" .Params.published_conference_slug }}">
     <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
     <div class="paper-meta">
       {{ with .Params.source_url }}
@@ -51,6 +60,7 @@
       {{ with .Params.arxiv_id }}<a class="badge" href="https://arxiv.org/abs/{{ . }}" target="_blank" rel="noopener">arXiv:{{ . }}</a>{{ end }}
       {{ end }}
       {{ with .Params.published_date }}<span class="badge">{{ . }}</span>{{ end }}
+      {{ with .Params.published_conference }}<span class="badge muted">{{ . }}</span>{{ end }}
       {{ with .Params.published_venue }}<span class="badge">{{ . }}</span>{{ end }}
       {{ if and .Params.adjusted_mrr (gt .Params.adjusted_mrr 0.0) }}<span class="badge muted" title="Mean reciprocal rank of the paper's primary proposed model across qualifying datasets, divided by max(dataset_count, 3).">Coverage-adjusted MRR {{ printf "%.3f" .Params.adjusted_mrr }}</span>{{ end }}
       {{ if gt (default 0 .Params.mrr_dataset_count) 0 }}<span class="badge muted">{{ .Params.mrr_dataset_count }} dataset{{ if ne .Params.mrr_dataset_count 1 }}s{{ end }}</span>{{ end }}
@@ -84,7 +94,9 @@
   if (!input || !sort || !list) return;
 
   var scopeButtons = Array.from(document.querySelectorAll("[data-scope-filter]"));
+  var conferenceButtons = Array.from(document.querySelectorAll("[data-conference-filter]"));
   var activeScope = "";
+  var activeConference = "";
 
   function activeCards() {
     return Array.from(list.querySelectorAll(".paper-list-item"));
@@ -115,9 +127,11 @@
     cards.forEach(function (card) {
       var haystack = (card.dataset.paperSearch || "").toLowerCase();
       var scopes = (card.dataset.paperScopes || "").split(/\s+/).filter(Boolean);
+      var conference = (card.dataset.paperConference || "").toLowerCase();
       var scopeMatch = !activeScope || scopes.indexOf(activeScope) !== -1;
+      var conferenceMatch = !activeConference || conference === activeConference;
       var textMatch = !query || haystack.indexOf(query) !== -1;
-      var match = scopeMatch && textMatch;
+      var match = scopeMatch && conferenceMatch && textMatch;
       card.style.display = match ? "" : "none";
       if (match) visible += 1;
     });
@@ -128,6 +142,16 @@
     btn.addEventListener("click", function () {
       activeScope = btn.dataset.scopeFilter || "";
       scopeButtons.forEach(function (other) {
+        other.classList.toggle("active", other === btn);
+      });
+      applyControls();
+    });
+  });
+
+  conferenceButtons.forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      activeConference = btn.dataset.conferenceFilter || "";
+      conferenceButtons.forEach(function (other) {
         other.classList.toggle("active", other === btn);
       });
       applyControls();
