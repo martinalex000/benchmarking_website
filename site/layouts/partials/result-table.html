@@ -43,7 +43,10 @@
           data-std="{{ $r.std }}"
           data-params="{{ $r.params_millions }}"
           data-date="{{ $r.date_iso | default $r.date }}"
-          data-arxiv="{{ $r.arxiv_id }}">
+          data-arxiv="{{ $r.arxiv_id }}"
+          data-architecture="{{ $r.architecture_type }}"
+          data-external-data="{{ if $r.uses_external_data }}1{{ else if eq $r.uses_external_data false }}0{{ end }}"
+          data-has-code="{{ if $r.codebase_url }}1{{ else }}0{{ end }}">
         <td class="col-rank">{{ if $r.global_rank }}{{ $r.global_rank }}{{ else }}{{ add $i 1 }}{{ end }}</td>
         <td class="col-model">
           <div class="leaderboard-badge-row">

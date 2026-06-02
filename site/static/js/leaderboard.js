@@ -17,7 +17,25 @@
   let showStd = true;
   let showBaselines = true;
   let showSecondaryMetrics = false;
+  let showExternalData = true;
+  let showNoCode = true;
   let activeVariant = null;
+
+  const TRADITIONAL_ARCH_TYPES = {
+    svm_kernel: true,
+    random_forest: true,
+    decision_tree: true,
+    boosting: true,
+    other_traditional: true,
+  };
+
+  const archFilters = {
+    gnn: true,
+    hybrid: true,
+    graph_transformer: true,
+    llm: true,
+    traditional: true,
+  };
 
   /* ── Init ───────────────────────────────────────────────────────────── */
   function init() {
@@ -36,8 +54,8 @@
     _initTableExpanders();
     _initMobileRowDetails();
 
-    var secondaryToggle = document.getElementById("show-secondary-metrics");
-    toggleSecondaryMetrics(secondaryToggle ? !!secondaryToggle.checked : false);
+    _initChartStdToggles();
+    _initFilterBar();
 
     // Set initial active variant (first standard one)
     const standard = variants.find(function (v) { return v.is_standard; }) || variants[0];
@@ -54,6 +72,9 @@
     _applyModelTooltips();
     window.addEventListener("resize", _applyModelColumnWidths);
     window.addEventListener("resize", _applyModelTooltips);
+    window.addEventListener("resize", function () {
+      Object.values(charts).forEach(_positionChartStdToggle);
+    });
   }
 
   /* ── Variant switching ──────────────────────────────────────────────── */
@@ -68,18 +89,67 @@
 
   /* ── Std toggle ─────────────────────────────────────────────────────── */
   function toggleStd(enabled) {
-    showStd = enabled;
+    showStd = !!enabled;
+    _syncChartStdToggle(showStd);
     // Re-render all charts so the error bars plugin shows/hides
     Object.values(charts).forEach(function (chart) { chart.update("none"); });
     _applyModelColumnWidths();
     _applyModelTooltips();
   }
 
+  function _syncChartStdToggle(isOn) {
+    document.querySelectorAll(".chart-std-toggle").forEach(function (btn) {
+      btn.classList.toggle("is-on", !!isOn);
+      btn.setAttribute("aria-pressed", isOn ? "true" : "false");
+    });
+  }
+
+  function _positionChartStdToggle(chart) {
+    if (!chart || !chart.canvas || !chart.chartArea) return;
+    var canvas = chart.canvas;
+    var wrap = canvas.closest(".chart-plot-wrap");
+    var btn = wrap ? wrap.querySelector(".chart-std-toggle") : null;
+    if (!btn) return;
+
+    var area = chart.chartArea;
+    var scaleX = canvas.offsetWidth / chart.width;
+    var scaleY = canvas.offsetHeight / chart.height;
+    var inset = 8;
+    var lower = wrap.classList.contains("chart-plot-wrap-lower-is-better");
+
+    btn.style.top = area.top * scaleY + inset + "px";
+    if (lower) {
+      btn.style.left = "auto";
+      btn.style.right = (chart.width - area.right) * scaleX + inset + "px";
+    } else {
+      btn.style.right = "auto";
+      btn.style.left = area.left * scaleX + inset + "px";
+    }
+  }
+
+  function _initChartStdToggles() {
+    document.querySelectorAll(".chart-std-toggle").forEach(function (btn) {
+      if (btn.dataset.stdToggleBound) return;
+      btn.dataset.stdToggleBound = "1";
+      btn.addEventListener("click", function () {
+        toggleStd(!btn.classList.contains("is-on"));
+      });
+    });
+    _syncChartStdToggle(showStd);
+  }
+
   /* ── Secondary-metrics toggle ─────────────────────────────────────── */
   function toggleSecondaryMetrics(enabled) {
     showSecondaryMetrics = !!enabled;
+    _syncFilterButton("secondary-metrics", showSecondaryMetrics);
     document.querySelectorAll(".result-table").forEach(function (table) {
       table.querySelectorAll(".secondary-metrics").forEach(function (block) {
+        block.hidden = !showSecondaryMetrics;
+        block.classList.toggle("is-visible", showSecondaryMetrics);
+      });
+    });
+    document.querySelectorAll(".chart-hover-preview").forEach(function (preview) {
+      preview.querySelectorAll(".secondary-metrics").forEach(function (block) {
         block.hidden = !showSecondaryMetrics;
         block.classList.toggle("is-visible", showSecondaryMetrics);
       });
@@ -90,7 +160,71 @@
 
   /* ── Baseline toggle ────────────────────────────────────────────────── */
   function toggleBaselines(enabled) {
-    showBaselines = enabled;
+    showBaselines = !!enabled;
+    _syncFilterButton("baselines", showBaselines);
+    _applyRowFilters();
+  }
+
+  function _architectureFilterKey(archType) {
+    if (!archType) return null;
+    if (archType === "gnn" || archType === "hybrid" || archType === "graph_transformer" || archType === "llm") {
+      return archType;
+    }
+    if (TRADITIONAL_ARCH_TYPES[archType]) return "traditional";
+    return null;
+  }
+
+  function _rowPassesFilters(row) {
+    if (!row) return true;
+    if (!showBaselines && row.classList.contains("row-baseline") && !_isSotaBaselineRow(row)) {
+      return false;
+    }
+    if (!showExternalData && row.dataset.externalData === "1") {
+      return false;
+    }
+    if (!showNoCode && row.dataset.hasCode === "0") {
+      return false;
+    }
+    var archKey = _architectureFilterKey(row.dataset.architecture || "");
+    if (archKey && !archFilters[archKey]) {
+      return false;
+    }
+    return true;
+  }
+
+  function _datumPassesFilters(datum) {
+    if (!datum) return false;
+    if (!showBaselines && datum.is_baseline && !datum._isRecord && !datum._isSotaMatch) {
+      return false;
+    }
+    if (!showExternalData && datum.uses_external_data === true) {
+      return false;
+    }
+    if (!showNoCode && !datum.has_code) {
+      return false;
+    }
+    var archKey = _architectureFilterKey(datum.architecture_type || "");
+    if (archKey && !archFilters[archKey]) {
+      return false;
+    }
+    return true;
+  }
+
+  function _syncFilterButton(name, isOn) {
+    document.querySelectorAll(".filter-bubble[data-filter='" + name + "']").forEach(function (btn) {
+      btn.classList.toggle("is-on", !!isOn);
+      btn.setAttribute("aria-pressed", isOn ? "true" : "false");
+    });
+  }
+
+  function _syncArchFilterButton(name, isOn) {
+    document.querySelectorAll(".filter-bubble[data-filter-arch='" + name + "']").forEach(function (btn) {
+      btn.classList.toggle("is-on", !!isOn);
+      btn.setAttribute("aria-pressed", isOn ? "true" : "false");
+    });
+  }
+
+  function _applyRowFilters() {
     document.querySelectorAll(".result-table").forEach(function (table) {
       _syncTableRows(table);
     });
@@ -98,7 +232,53 @@
       _applyChartFilters(chart);
       chart.update("none");
     });
-    _rerank();
+  }
+
+  function _initFilterBar() {
+    if (!document.querySelector(".leaderboard-filter-bar")) return;
+
+    document.querySelectorAll(".leaderboard-filter-bar .filter-bubble[data-filter]").forEach(function (btn) {
+      if (btn.dataset.filterBound) return;
+      btn.dataset.filterBound = "1";
+      var key = btn.getAttribute("data-filter");
+      btn.addEventListener("click", function () {
+        var nextOn = !btn.classList.contains("is-on");
+        if (key === "baselines") {
+          toggleBaselines(nextOn);
+        } else if (key === "secondary-metrics") {
+          toggleSecondaryMetrics(nextOn);
+        } else if (key === "ext-data") {
+          showExternalData = nextOn;
+          _syncFilterButton("ext-data", showExternalData);
+          _applyRowFilters();
+        } else if (key === "no-code") {
+          showNoCode = nextOn;
+          _syncFilterButton("no-code", showNoCode);
+          _applyRowFilters();
+        }
+      });
+    });
+
+    document.querySelectorAll(".leaderboard-filter-bar .filter-bubble[data-filter-arch]").forEach(function (btn) {
+      if (btn.dataset.archFilterBound) return;
+      btn.dataset.archFilterBound = "1";
+      var archKey = btn.getAttribute("data-filter-arch");
+      btn.addEventListener("click", function () {
+        var nextOn = !btn.classList.contains("is-on");
+        archFilters[archKey] = nextOn;
+        _syncArchFilterButton(archKey, nextOn);
+        _applyRowFilters();
+      });
+    });
+
+    _syncFilterButton("baselines", showBaselines);
+    _syncFilterButton("secondary-metrics", showSecondaryMetrics);
+    _syncFilterButton("ext-data", showExternalData);
+    _syncFilterButton("no-code", showNoCode);
+    Object.keys(archFilters).forEach(function (key) {
+      _syncArchFilterButton(key, archFilters[key]);
+    });
+    document.querySelectorAll(".filter-bubble[data-filter-arch][data-arch-count]").forEach(_formatArchFilterLabel);
   }
 
   function _formatMetricValue(value) {
@@ -158,25 +338,44 @@
     }
   }
 
-  function _buildPreviewItems(row) {
+  function _formatArchFilterLabel(btn) {
+    var key = btn.getAttribute("data-filter-arch");
+    var labels = {
+      gnn: "GNN",
+      hybrid: "Hyb",
+      graph_transformer: "GT",
+      llm: "LLM",
+      traditional: "Trad",
+    };
+    var count = btn.getAttribute("data-arch-count");
+    if (count == null || count === "") return;
+    btn.textContent = (labels[key] || key) + " (" + count + ")";
+  }
+
+  function _buildPreviewRowHtml(row) {
     if (!row) return "";
-    var tbl = row.closest("table");
-    var headers = tbl ? Array.from(tbl.querySelectorAll("thead th")).map(function (th) {
-      return th.textContent.trim();
-    }) : [];
-    var cells = Array.from(row.querySelectorAll("td"));
-    var parts = [];
-    cells.forEach(function (td, i) {
-      var hdr = headers[i] || "";
-      if (i === 0 || hdr === "Type") return;
-      var txt = td.textContent.trim().replace(/\s+/g, " ");
-      if (txt && txt !== "—") {
-        parts.push("<span class='preview-item'>" +
-          (hdr ? "<span class='preview-hdr'>" + hdr + "</span>" : "") +
-          "<span class='preview-val'>" + txt + "</span></span>");
-      }
+    var clone = row.cloneNode(true);
+    clone.classList.remove(
+      "row-collapsed",
+      "chart-hover-highlight",
+      "chart-pinned-highlight",
+      "chart-scroll-highlight"
+    );
+    clone.removeAttribute("style");
+    clone.querySelectorAll(".mobile-details-toggle").forEach(function (el) {
+      el.remove();
     });
-    return parts.join("");
+    var secondary = clone.querySelector(".secondary-metrics");
+    if (secondary) {
+      if (showSecondaryMetrics) {
+        secondary.hidden = false;
+        secondary.classList.add("is-visible");
+      } else {
+        secondary.hidden = true;
+        secondary.classList.remove("is-visible");
+      }
+    }
+    return "<table class=\"result-table chart-preview-table\"><tbody>" + clone.outerHTML + "</tbody></table>";
   }
 
   function _updatePreview(slug, chart) {
@@ -192,8 +391,8 @@
     }
 
     var isPinned = !!(chart && chart._pinnedSelection);
-    var parts = _buildPreviewItems(selection.row);
-    if (!parts) {
+    var rowHtml = _buildPreviewRowHtml(selection.row);
+    if (!rowHtml) {
       preview.style.display = "none";
       preview.classList.remove("is-pinned");
       preview.innerHTML = "";
@@ -213,8 +412,8 @@
     preview.innerHTML = "<div class='preview-top'>" +
       "<span class='preview-label'>" + label + "</span>" +
       actions +
-      "</div><div class='preview-items'>" + parts + "</div>";
-    preview.style.display = "";
+      "</div><div class='chart-preview-row-wrap'>" + rowHtml + "</div>";
+    preview.style.display = "block";
 
     if (isPinned) {
       var scrollBtn = preview.querySelector(".preview-scroll-btn");
@@ -428,7 +627,7 @@
     var visibleScatter = chart._scatterAll.filter(function (d) {
       if (!_isWithinYBounds(d.y, yBounds)) return false;
       if (d._isStdOutlier && !d._isRecord) return false;
-      return showBaselines || !d.is_baseline || d._isRecord || d._isSotaMatch;
+      return _datumPassesFilters(d);
     });
     visibleScatter = _sortScatterByPriority(visibleScatter);
     var visibleRecord = chart._recordAll.filter(function (d) {
@@ -465,9 +664,6 @@
       if (!ds || h.index < 0 || h.index >= currentLen) {
         chart._highlightedPoint = null;
         if (chart.setActiveElements) chart.setActiveElements([]);
-        if (chart.tooltip && chart.tooltip.setActiveElements) {
-          chart.tooltip.setActiveElements([], { x: 0, y: 0 });
-        }
       }
     }
 
@@ -487,19 +683,6 @@
   function _isSotaBaselineRow(row) {
     if (!row || !row.classList) return false;
     return row.classList.contains("row-best") || row.classList.contains("row-global-top");
-  }
-
-  /* ── Re-rank visible rows ───────────────────────────────────────────── */
-  function _rerank() {
-    document.querySelectorAll(".result-table tbody").forEach(function (tbody) {
-      let rank = 1;
-      tbody.querySelectorAll("tr").forEach(function (row) {
-        if (row.style.display !== "none") {
-          const rankCell = row.querySelector(".col-rank");
-          if (rankCell) rankCell.textContent = rank++;
-        }
-      });
-    });
   }
 
   /* ── Chart builder ──────────────────────────────────────────────────── */
@@ -614,6 +797,9 @@
         arxiv_id: row.arxiv_id,
         title: row.title || "",
         is_baseline: row.is_baseline,
+        uses_external_data: row.uses_external_data === true,
+        has_code: !!(row.codebase_url),
+        architecture_type: row.architecture_type || "",
         _isStdOutlier: !!row.is_std_outlier,
         _isRecord: isRecordPoint,
         _isSotaMatch: isTieSotaPoint,
@@ -683,6 +869,13 @@
     var visibleRecordData = recordData.filter(function (d) {
       return _isWithinYBounds(d.y, focusedYBounds);
     });
+
+    var stdTogglePositionPlugin = {
+      id: "stdTogglePosition_" + slug,
+      afterLayout: function (chart) {
+        _positionChartStdToggle(chart);
+      },
+    };
 
     var yearLinesPlugin = {
       id: "yearLines_" + slug,
@@ -933,31 +1126,7 @@
         responsive: true,
         interaction: { mode: "nearest", intersect: true },
         plugins: {
-          tooltip: {
-            callbacks: {
-              title: function (items) {
-                var item = items[0];
-                var d = item.dataset.data[item.dataIndex];
-                if (!d || !d.model) return item.dataset.label;
-                return d.model;
-              },
-              label: function (item) {
-                var d = item.dataset.data[item.dataIndex];
-                var value = item.parsed && typeof item.parsed.y === "number" ? item.parsed.y : item.raw && item.raw.y;
-                var label = (canvas.dataset.metric || "Score") + ": " + _formatMetricValue(value);
-                if (showStd && d && d.std != null) label += " ± " + d.std.toFixed(4);
-                return label;
-              },
-              footer: function (items) {
-                var item = items[0];
-                var d = item.dataset.data[item.dataIndex];
-                if (!d) return "";
-                var lines = [fmtTs(item.parsed.x)];
-                if (d.title) lines.push(_truncateTitle(d.title));
-                return lines;
-              },
-            },
-          },
+          tooltip: { enabled: false },
           legend: { display: false },
         },
         scales: {
@@ -1002,7 +1171,14 @@
           _onChartClick(slug, elements, chart);
         },
       },
-      plugins: [yearLinesPlugin, referenceLinesPlugin, errorBarsPlugin, referenceLabelsPlugin, labelPlugin],
+      plugins: [
+        stdTogglePositionPlugin,
+        yearLinesPlugin,
+        referenceLinesPlugin,
+        errorBarsPlugin,
+        referenceLabelsPlugin,
+        labelPlugin,
+      ],
     });
 
     chart._scatterAll = scatterData.slice();
@@ -1082,11 +1258,6 @@
         if (chart.setActiveElements) {
           chart.setActiveElements([{ datasetIndex: 0, index: idx }]);
         }
-        const meta = chart.getDatasetMeta(0);
-        const pt = meta && meta.data ? meta.data[idx] : null;
-        if (chart.tooltip && chart.tooltip.setActiveElements && pt) {
-          chart.tooltip.setActiveElements([{ datasetIndex: 0, index: idx }], { x: pt.x, y: pt.y });
-        }
         chart.update("none");
       });
 
@@ -1097,9 +1268,6 @@
         if (slug && charts[slug]) {
           charts[slug]._highlightedPoint = null;
           if (charts[slug].setActiveElements) charts[slug].setActiveElements([]);
-          if (charts[slug].tooltip && charts[slug].tooltip.setActiveElements) {
-            charts[slug].tooltip.setActiveElements([], { x: 0, y: 0 });
-          }
           charts[slug].update("none");
         }
       });
@@ -1148,7 +1316,6 @@
 
     rows.forEach(function (row) { tbody.appendChild(row); });
     _syncTableRows(table);
-    _rerank();
   }
 
   function _initMobileRowDetails() {
@@ -1258,9 +1425,29 @@
       table.style.setProperty("--model-col-width", Math.min(modelChars, 18) + "ch");
       table.style.setProperty("--value-col-width", Math.min(valueChars, 9) + "ch");
       table.style.setProperty("--paper-col-width", Math.min(paperChars, 30) + "ch");
+      _applyRankColumnWidth(table);
       wrapper.classList.remove("wide-table-mode");
       wrapper.style.removeProperty("--wide-table-width");
     });
+  }
+
+  function _applyRankColumnWidth(table) {
+    if (!table) return;
+    var tbody = table.querySelector("tbody");
+    if (!tbody) return;
+
+    var maxLen = 1;
+    Array.from(tbody.querySelectorAll("tr")).forEach(function (row) {
+      if (row.style.display === "none") return;
+      var cell = row.querySelector("td.col-rank");
+      if (!cell) return;
+      var text = (cell.textContent || "").replace(/\s+/g, " ").trim();
+      if (text.length > maxLen) maxLen = text.length;
+    });
+
+    // ch counts glyph width only; with border-box padding the column needs extra room
+    var rankCh = Math.max(3, maxLen + 1);
+    table.style.setProperty("--rank-col-width", "calc(" + rankCh + "ch + 1rem)");
   }
 
   function _findMoreButton(table) {
@@ -1281,36 +1468,33 @@
     var visibleIndex = 0;
 
     rows.forEach(function (row) {
-      var hideBaseline = !showBaselines && row.classList.contains("row-baseline") && !_isSotaBaselineRow(row);
-      var shouldCollapse = collapseAfter > 0 && !expanded && !hideBaseline && visibleIndex >= collapseAfter;
+      var hiddenByFilter = !_rowPassesFilters(row);
+      var shouldCollapse = collapseAfter > 0 && !expanded && !hiddenByFilter && visibleIndex >= collapseAfter;
 
       row.classList.toggle("row-collapsed", shouldCollapse);
-      row.style.display = hideBaseline || shouldCollapse ? "none" : "";
+      row.style.display = hiddenByFilter || shouldCollapse ? "none" : "";
 
       if (shouldCollapse) {
         collapsibleRows.push(row);
       }
-      if (!hideBaseline && !shouldCollapse) {
+      if (!hiddenByFilter && !shouldCollapse) {
         visibleIndex += 1;
       }
     });
 
     if (moreBtn) {
       var hiddenCount = collapsibleRows.length;
-      var canCollapse = collapseAfter > 0 && rows.some(function (row) {
-        return !row.classList.contains("row-baseline") || showBaselines;
-      }) && rows.filter(function (row) {
-        return !(!showBaselines && row.classList.contains("row-baseline"));
-      }).length > collapseAfter;
+      var canCollapse = collapseAfter > 0 && rows.some(_rowPassesFilters) &&
+        rows.filter(_rowPassesFilters).length > collapseAfter;
       moreBtn.hidden = !canCollapse;
       moreBtn.setAttribute("aria-expanded", expanded ? "true" : "false");
-      var visibleTotal = rows.filter(function (row) {
-        return !(!showBaselines && row.classList.contains("row-baseline"));
-      }).length;
+      var visibleTotal = rows.filter(_rowPassesFilters).length;
       moreBtn.textContent = expanded
         ? "Hide rows past row " + collapseAfter
         : "Show all " + visibleTotal + " rows (" + hiddenCount + " hidden)";
     }
+
+    _applyRankColumnWidth(table);
   }
 
   function _initTableExpanders() {
@@ -1324,7 +1508,6 @@
         btn.setAttribute("data-expanded", expand ? "true" : "false");
         btn.setAttribute("aria-expanded", expand ? "true" : "false");
         _syncTableRows(table);
-        _rerank();
       });
 
       var selector = btn.getAttribute("data-table-more");

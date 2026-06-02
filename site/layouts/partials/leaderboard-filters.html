@@ -1,0 +1,53 @@
+{{/*
+  Partial: leaderboard-filters.html
+  Context:
+    .secondary_metric_names – uniq list of non-primary metric names (may be empty)
+    .rows                 – all leaderboard rows for this variant (for architecture counts)
+*/}}
+{{ $secondaryNames := .secondary_metric_names | default slice }}
+{{ $rows := .rows | default slice }}
+{{ $traditionalTypes := slice "svm_kernel" "random_forest" "decision_tree" "boosting" "other_traditional" }}
+
+{{ $gnnRows := slice }}
+{{ $hybridRows := slice }}
+{{ $gtRows := slice }}
+{{ $llmRows := slice }}
+{{ $tradRows := slice }}
+{{ range $rows }}
+  {{ $arch := .architecture_type }}
+  {{ if eq $arch "gnn" }}
+    {{ $gnnRows = $gnnRows | append . }}
+  {{ else if eq $arch "hybrid" }}
+    {{ $hybridRows = $hybridRows | append . }}
+  {{ else if eq $arch "graph_transformer" }}
+    {{ $gtRows = $gtRows | append . }}
+  {{ else if eq $arch "llm" }}
+    {{ $llmRows = $llmRows | append . }}
+  {{ else if in $traditionalTypes $arch }}
+    {{ $tradRows = $tradRows | append . }}
+  {{ end }}
+{{ end }}
+
+{{ $shownMetrics := first 3 $secondaryNames }}
+{{ $metricsLabel := delimit $shownMetrics ", " }}
+{{ if gt (len $secondaryNames) 3 }}{{ $metricsLabel = printf "%s, ..." $metricsLabel }}{{ end }}
+
+<div class="leaderboard-filter-bar" aria-label="Leaderboard filters">
+  <div class="leaderboard-filter-group">
+    <button type="button" class="filter-bubble filter-bubble-neutral is-on" data-filter="baselines" aria-pressed="true" title="Show baseline rows">baselines</button>
+    {{ if gt (len $secondaryNames) 0 }}
+    <button type="button" class="filter-bubble filter-bubble-neutral" data-filter="secondary-metrics" aria-pressed="false" title="Show additional metrics in table">+ metrics{{ if $metricsLabel }} [{{ $metricsLabel }}]{{ end }}</button>
+    {{ end }}
+  </div>
+  <div class="leaderboard-filter-group">
+    <button type="button" class="filter-bubble filter-bubble-external is-on" data-filter="ext-data" aria-pressed="true" title="Show models trained with external data">ext data</button>
+    <button type="button" class="filter-bubble filter-bubble-code is-on" data-filter="no-code" aria-pressed="true" title="Show models without a code link">no code</button>
+  </div>
+  <div class="leaderboard-filter-group">
+    <button type="button" class="filter-bubble filter-bubble-arch-gnn is-on" data-filter-arch="gnn" data-arch-count="{{ len $gnnRows }}" aria-pressed="true" title="Message-passing GNN — {{ len $gnnRows }} leaderboard row{{ if ne (len $gnnRows) 1 }}s{{ end }}">GNN ({{ len $gnnRows }})</button>
+    <button type="button" class="filter-bubble filter-bubble-arch-hybrid is-on" data-filter-arch="hybrid" data-arch-count="{{ len $hybridRows }}" aria-pressed="true" title="Hybrid MPNN + transformer — {{ len $hybridRows }} leaderboard row{{ if ne (len $hybridRows) 1 }}s{{ end }}">Hyb ({{ len $hybridRows }})</button>
+    <button type="button" class="filter-bubble filter-bubble-arch-graph_transformer is-on" data-filter-arch="graph_transformer" data-arch-count="{{ len $gtRows }}" aria-pressed="true" title="Graph transformer — {{ len $gtRows }} leaderboard row{{ if ne (len $gtRows) 1 }}s{{ end }}">GT ({{ len $gtRows }})</button>
+    <button type="button" class="filter-bubble filter-bubble-arch-llm is-on" data-filter-arch="llm" data-arch-count="{{ len $llmRows }}" aria-pressed="true" title="LLM applied to graphs — {{ len $llmRows }} leaderboard row{{ if ne (len $llmRows) 1 }}s{{ end }}">LLM ({{ len $llmRows }})</button>
+    <button type="button" class="filter-bubble filter-bubble-arch-other_traditional is-on" data-filter-arch="traditional" data-arch-count="{{ len $tradRows }}" aria-pressed="true" title="Traditional / classical methods — {{ len $tradRows }} leaderboard row{{ if ne (len $tradRows) 1 }}s{{ end }}">Trad ({{ len $tradRows }})</button>
+  </div>
+</div>

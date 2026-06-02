@@ -98,34 +98,6 @@
   </nav>
   {{ end }}
 
-  {{ $secondaryMetricNames := slice }}
-  {{ range .Params.variants }}
-    {{ range $j, $metric := .metrics }}
-      {{ if gt $j 0 }}
-        {{ $secondaryMetricNames = $secondaryMetricNames | append $metric }}
-      {{ end }}
-    {{ end }}
-  {{ end }}
-  {{ $secondaryMetricNames = $secondaryMetricNames | uniq }}
-
-  {{/* Controls */}}
-  <div class="leaderboard-controls">
-    <label>
-      <input type="checkbox" id="show-std" checked onchange="leaderboard.toggleStd(this.checked)">
-      Show ± std
-    </label>
-    <label>
-      <input type="checkbox" id="show-baselines" checked onchange="leaderboard.toggleBaselines(this.checked)">
-      Show baselines
-    </label>
-    {{ if gt (len $secondaryMetricNames) 0 }}
-    <label>
-      <input type="checkbox" id="show-secondary-metrics" onchange="leaderboard.toggleSecondaryMetrics(this.checked)">
-      Show additional metrics [{{ delimit $secondaryMetricNames ", " }}]
-    </label>
-    {{ end }}
-  </div>
-
   {{/* Variant sections: chart + table together */}}
   {{ range $index, $variant := .Params.variants }}
   {{ if and $showAllVariants (gt $index 0) }}<hr class="variant-divider" style="margin: 2rem 0; border: none; border-top: 2px solid var(--gray-300);">{{ end }}
@@ -158,22 +130,32 @@
     {{ end }}
     <div class="chart-container">
       <h2>Best {{ $variant.primary_metric | upper }} over time — {{ $variant.name }}</h2>
-      <canvas id="chart-{{ $variant.slug }}" height="300"
-        data-milestones='{{ $variant.milestones | jsonify }}'
-        data-metric="{{ $variant.primary_metric }}"
-        data-higher-is-better="{{ $variant.higher_is_better }}">
-      </canvas>
+      <div class="chart-plot-wrap{{ if not $variant.higher_is_better }} chart-plot-wrap-lower-is-better{{ end }}">
+        <button type="button" class="filter-bubble filter-bubble-neutral chart-std-toggle is-on" data-std-toggle aria-pressed="true" title="Show standard deviation on chart">± std</button>
+        <canvas id="chart-{{ $variant.slug }}" height="300"
+          data-milestones='{{ $variant.milestones | jsonify }}'
+          data-metric="{{ $variant.primary_metric }}"
+          data-higher-is-better="{{ $variant.higher_is_better }}">
+        </canvas>
+      </div>
       <div class="chart-mini-legend" aria-label="Chart color legend">
         <span class="legend-item"><span class="chart-dot chart-dot-record"></span><span>new SOTA</span></span>
         <span class="legend-item"><span class="chart-dot chart-dot-sota-match"></span><span>matches SOTA at that time</span></span>
         <span class="legend-item"><span class="chart-dot chart-dot-proposed"></span><span>other proposed result</span></span>
         <span class="legend-item"><span class="chart-dot chart-dot-baseline"></span><span>other baseline result</span></span>
       </div>
-      <div class="chart-hover-preview" id="hover-preview-{{ $variant.slug }}" style="display:none"></div>
+      <div class="chart-hover-preview" id="hover-preview-{{ $variant.slug }}"></div>
     </div>
 
     <div class="leaderboard-section" data-variant="{{ $variant.slug }}">
       <h2>Leaderboard — {{ $variant.name }}</h2>
+      {{ $variantSecondaryMetrics := slice }}
+      {{ range $j, $metric := $variant.metrics }}
+        {{ if gt $j 0 }}
+          {{ $variantSecondaryMetrics = $variantSecondaryMetrics | append $metric }}
+        {{ end }}
+      {{ end }}
+      {{ partial "leaderboard-filters.html" (dict "secondary_metric_names" ($variantSecondaryMetrics | uniq) "rows" $variant.rows) }}
       {{ $rowsLen := len $variant.rows }}
       {{ partial "multi-metric-table.html" (dict "rows" $variant.rows "metrics" $variant.metrics "primary_metric" $variant.primary_metric "higher_is_better" $variant.higher_is_better "dataset_variant" $variant.slug "collapse_after" (cond (gt $rowsLen 50) 50 0)) }}
       <div class="table-explainer-legend" aria-label="Table legend">
