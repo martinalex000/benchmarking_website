@@ -206,8 +206,10 @@ def get_best_results_over_time(
 
         higher = bool(results[0].higher_is_better)
 
-        # Group by month (YYYY-MM): keep only the best result per month
-        month_best: dict[str, tuple[float, Any]] = {}
+        # Group by full date (YYYY-MM-DD): keep only the best result per day.
+        # Dates stored as YYYY-MM are normalised to YYYY-MM-01 so they still
+        # participate in the daily timeline.
+        day_best: dict[str, tuple[float, Any]] = {}
         for r in results:
             val = r.display_value
             if val is None:
@@ -216,20 +218,24 @@ def get_best_results_over_time(
             paper = r.paper
             if not paper or not paper.published_date:
                 continue
-            month = paper.published_date[:7]  # YYYY-MM
-            if month not in month_best:
-                month_best[month] = (val, r)
+            date_key = paper.published_date.strip()
+            if len(date_key) == 7:  # YYYY-MM
+                date_key = f"{date_key}-01"
+            elif len(date_key) != 10:  # not YYYY-MM-DD
+                continue
+            if date_key not in day_best:
+                day_best[date_key] = (val, r)
             else:
-                cur_val, _ = month_best[month]
+                cur_val, _ = day_best[date_key]
                 if (higher and val > cur_val) or (not higher and val < cur_val):
-                    month_best[month] = (val, r)
+                    day_best[date_key] = (val, r)
 
-        # Compute running record across months in chronological order
+        # Compute running record across days in chronological order
         best_so_far: float | None = None
         milestones: list[dict[str, Any]] = []
 
-        for month in sorted(month_best.keys()):
-            val, r = month_best[month]
+        for date_key in sorted(day_best.keys()):
+            val, r = day_best[date_key]
             is_new_best = (
                 best_so_far is None
                 or (higher and val > best_so_far)
@@ -245,9 +251,7 @@ def get_best_results_over_time(
                         "model": r.model.canonical_name if r.model else "",
                         "arxiv_id": paper.arxiv_id if paper else "",
                         "title": _sanitize_title(paper.title if paper else ""),
-                        "date": (
-                            paper.published_date[:10] if paper and paper.published_date else None
-                        ),
+                        "date": date_key,
                     }
                 )
 

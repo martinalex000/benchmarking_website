@@ -39,11 +39,18 @@ def export_development_data() -> None:
             session.query(PaperCandidate).filter(PaperCandidate.stage2_passed == 0).all()
         )
 
+        missing_daily = sum(
+            1 for p in papers if not p.published_date or len(p.published_date.strip()) < 10
+        )
+
         dev_data = {
             "paper_status": {"total": len(papers), "by_status": status_counts},
             "skipped": {
                 "stage1_count": len(skipped_papers),
                 "stage2_count": len(stage2_skipped),
+            },
+            "date_refinement": {
+                "missing_daily_count": missing_daily,
             },
         }
 

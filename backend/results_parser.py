@@ -529,6 +529,15 @@ def _enrich_paper_metadata(arxiv_id: str, paper: Paper, storage: PaperStorage) -
                 if meta.get("published_date") and not paper.published_date:
                     paper.published_date = meta["published_date"]
 
+    # Try Semantic Scholar for an exact date when we only have a month or nothing.
+    need_daily_date = not paper.published_date or len(paper.published_date) < 10
+    if need_daily_date:
+        from backend.llm_extractor import fetch_semantic_scholar_published_date
+
+        ss_date = fetch_semantic_scholar_published_date(arxiv_id)
+        if ss_date:
+            paper.published_date = ss_date
+
     # Fallback: derive date from arXiv ID (e.g. 2206.08164 → 2022-06)
     if not paper.published_date:
         m = re.match(r"^(\d{2})(\d{2})\.\d+", arxiv_id)
@@ -815,9 +824,7 @@ def parse_and_store_with_summary(arxiv_id: str) -> ParseStoreSummary:
                 uses_external_data=(
                     1
                     if entry.get("uses_external_data") is True
-                    else 0
-                    if entry.get("uses_external_data") is False
-                    else None
+                    else 0 if entry.get("uses_external_data") is False else None
                 ),
                 table_ref=entry.get("table_ref"),
                 source_ref=entry.get("source_ref", "this paper"),
