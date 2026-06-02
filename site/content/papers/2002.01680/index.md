@@ -3,8 +3,9 @@ title: Heterogeneous Graph Benchmarks
 arxiv_id: '2002.01680'
 source_url: ''
 authors: []
-published_date: ''
-published_date_iso: ''
+published_date: Feb 5, 2020
+published_date_iso: '2020-02-05'
+published_venue: ''
 abstract: ''
 codebase_url: ''
 extraction_model: ''

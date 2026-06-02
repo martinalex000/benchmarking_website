@@ -5,6 +5,7 @@ source_url: ''
 authors: []
 published_date: Jan 2024
 published_date_iso: 2024-01
+published_venue: ''
 abstract: Recently, Transformers for graph representation learning have become increasingly
   popular, achieving state-of-the-art performance on a wide-variety of graph datasets,
   either alone or in combination with message-passing graph neural networks (MP-GNNs).
@@ -88,6 +89,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 2
     true_value: 0.92
     true_std: 0.007
@@ -124,6 +126,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 3
     true_value: 0.91
     true_std: 0.008
@@ -160,6 +163,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 4
     true_value: 0.9
     true_std: 0.01
@@ -196,6 +200,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 5
     true_value: 0.89
     true_std: 0.01
@@ -232,6 +237,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 6
     true_value: 0.89
     true_std: 0.01
@@ -315,6 +321,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 12
     true_value: 0.76468
     true_std: 0.00881
@@ -352,6 +359,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 15
     true_value: 0.74696
     true_std: 0.00125
@@ -388,6 +396,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 23
     true_value: 0.723
     true_std: 0.0036
@@ -424,6 +433,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 26
     true_value: 0.7219
     true_std: 0.0013
@@ -461,6 +471,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 33
     true_value: 0.70194
     true_std: null
@@ -497,6 +508,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 34
     true_value: 0.70194
     true_std: null
@@ -533,6 +545,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 37
     true_value: 0.68702
     true_std: 0.00409
@@ -570,6 +583,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 39
     true_value: 0.67316
     true_std: null
@@ -606,6 +620,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 40
     true_value: 0.67316
     true_std: null
@@ -642,6 +657,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 41
     true_value: 0.67312
     true_std: 0.00311
@@ -678,9 +694,9 @@ results:
     params_millions: null
     arxiv_id: '2508.05070'
     title: 'Tango: Graph Neural Dynamics via Learned Energy and Tangential Flows'
-    date: Aug 2025
+    date: Aug 7, 2025
     date_display: Aug 2025
-    date_iso: 2025-08
+    date_iso: '2025-08-07'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
@@ -707,6 +723,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 2
     true_value: 0.80026
     true_std: 0.00277
@@ -790,6 +807,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 6
     true_value: 0.79232
     true_std: 0.00348
@@ -827,6 +845,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 14
     true_value: 0.78071
     true_std: 0.00037
@@ -863,6 +882,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 16
     true_value: 0.78016
     true_std: 0.0018
@@ -900,6 +920,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 18
     true_value: 0.7786
     true_std: 0.00104
@@ -936,6 +957,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 21
     true_value: 0.77456
     true_std: null
@@ -972,6 +994,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 22
     true_value: 0.77262
     true_std: null
@@ -1008,6 +1031,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 24
     true_value: 0.76691
     true_std: 0.0065
@@ -1045,6 +1069,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 25
     true_value: 0.76082
     true_std: 0.00196
@@ -1081,6 +1106,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 29
     true_value: 0.7059
     true_std: 0.00447
@@ -1117,6 +1143,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 30
     true_value: 0.685
     true_std: 0.0097
@@ -1154,6 +1181,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 33
     true_value: 0.6472
     true_std: 0.0155
@@ -1190,9 +1218,9 @@ results:
     params_millions: null
     arxiv_id: '1606.09375'
     title: Convolutional Neural Networks on Graphs with Fast Localized Spectral Filtering
-    date: Jun 2016
+    date: Jun 30, 2016
     date_display: Jun 2016
-    date_iso: 2016-06
+    date_iso: '2016-06-30'
     codebase_url: https://github.com/mdeff/cnn_graph
     uses_external_data: false
     is_global_top: true
@@ -1214,9 +1242,9 @@ results:
     arxiv_id: '1705.07664'
     title: 'CayleyNets: Graph Convolutional Neural Networks with Complex Rational
       Spectral Filters'
-    date: May 2017
+    date: May 22, 2017
     date_display: May 2017
-    date_iso: 2017-05
+    date_iso: '2017-05-22'
     codebase_url: https://github.com/fmonti/mgcnn
     uses_external_data: false
     is_global_top: true
@@ -1238,9 +1266,9 @@ results:
     arxiv_id: '1705.07664'
     title: 'CayleyNets: Graph Convolutional Neural Networks with Complex Rational
       Spectral Filters'
-    date: May 2017
+    date: May 22, 2017
     date_display: May 2017
-    date_iso: 2017-05
+    date_iso: '2017-05-22'
     codebase_url: https://github.com/fmonti/mgcnn
     uses_external_data: false
     is_global_top: true
@@ -1267,6 +1295,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 8
     true_value: 0.9855
     true_std: 0.00039
@@ -1304,6 +1333,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 13
     true_value: 0.98362
     true_std: null
@@ -1340,6 +1370,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 25
     true_value: 0.98173
     true_std: 0.00087
@@ -1376,6 +1407,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 32
     true_value: 0.98108
     true_std: 0.00111
@@ -1413,6 +1445,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 34
     true_value: 0.981
     true_std: 0.002
@@ -1450,6 +1483,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 35
     true_value: 0.98082
     true_std: 0.00114
@@ -1487,6 +1521,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 38
     true_value: 0.97944
     true_std: 0.0005
@@ -1524,6 +1559,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 40
     true_value: 0.979
     true_std: 0.003
@@ -1561,6 +1597,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 41
     true_value: 0.978
     true_std: 0.003
@@ -1598,6 +1635,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 47
     true_value: 0.9734
     true_std: 0.00143
@@ -1634,6 +1672,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 48
     true_value: 0.972
     true_std: 0.005
@@ -1671,6 +1710,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 49
     true_value: 0.97142
     true_std: null
@@ -1712,6 +1752,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 1
     true_value: 0.96
     true_std: 0.002
@@ -1742,9 +1783,9 @@ results:
     params_millions: null
     arxiv_id: '2010.02863'
     title: Directional Graph Networks
-    date: Oct 2020
+    date: Oct 6, 2020
     date_display: Oct 2020
-    date_iso: 2020-10
+    date_iso: '2020-10-06'
     codebase_url: https://github.com/Saro00/DGN
     uses_external_data: false
     is_global_top: true
@@ -1771,6 +1812,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 3
     true_value: 0.92
     true_std: 0.003
@@ -1807,6 +1849,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 4
     true_value: 0.91
     true_std: 0.003
@@ -1843,6 +1886,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 5
     true_value: 0.9
     true_std: 0.004
@@ -1873,9 +1917,9 @@ results:
     params_millions: null
     arxiv_id: '2010.02863'
     title: Directional Graph Networks
-    date: Oct 2020
+    date: Oct 6, 2020
     date_display: Oct 2020
-    date_iso: 2020-10
+    date_iso: '2020-10-06'
     codebase_url: https://github.com/Saro00/DGN
     uses_external_data: false
     is_global_top: true
@@ -1902,6 +1946,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 7
     true_value: 0.88
     true_std: 0.005
@@ -1962,6 +2007,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 12
     true_value: 0.87196
     true_std: 0.00076
@@ -1999,6 +2045,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 17
     true_value: 0.8685
     true_std: 0.00057
@@ -2035,6 +2082,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 18
     true_value: 0.8685
     true_std: 0.00037
@@ -2071,6 +2119,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 21
     true_value: 0.86821
     true_std: 0.0002
@@ -2108,6 +2157,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 24
     true_value: 0.86742
     true_std: 0.00015
@@ -2144,6 +2194,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 25
     true_value: 0.86738
     true_std: null
@@ -2180,6 +2231,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 29
     true_value: 0.86688
     true_std: 0.00073
@@ -2216,6 +2268,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 30
     true_value: 0.8668
     true_std: null
@@ -2252,6 +2305,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 34
     true_value: 0.86581
     true_std: 0.00037
@@ -2289,9 +2343,9 @@ results:
     arxiv_id: '2506.07624'
     title: 'Return of ChebNet: Understanding and Improving an Overlooked GNN on Long-Range
       Tasks'
-    date: Jun 2025
+    date: Jun 9, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-09'
     codebase_url: https://github.com/ahariri13/Stable-ChebNet
     uses_external_data: false
     is_global_top: true
@@ -2313,9 +2367,9 @@ results:
     arxiv_id: '2506.07624'
     title: 'Return of ChebNet: Understanding and Improving an Overlooked GNN on Long-Range
       Tasks'
-    date: Jun 2025
+    date: Jun 9, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-09'
     codebase_url: https://github.com/ahariri13/Stable-ChebNet
     uses_external_data: false
     is_global_top: true
@@ -2365,6 +2419,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 21
     true_value: 0.6988
     true_std: 0.0082
@@ -2402,6 +2457,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 33
     true_value: 0.686
     true_std: 0.005
@@ -2439,6 +2495,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 41
     true_value: 0.6765
     true_std: 0.0047
@@ -2476,6 +2533,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 53
     true_value: 0.6621
     true_std: 0.0067
@@ -2513,6 +2571,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 57
     true_value: 0.6601
     true_std: 0.0061
@@ -2549,6 +2608,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 61
     true_value: 0.6562
     true_std: 0.0075
@@ -2586,6 +2646,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 68
     true_value: 0.6527
     true_std: 0.0043
@@ -2623,6 +2684,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 78
     true_value: 0.6414
     true_std: null
@@ -2659,6 +2721,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 79
     true_value: 0.6384
     true_std: 0.0121
@@ -2695,6 +2758,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 81
     true_value: 0.6326
     true_std: 0.0126
@@ -2731,6 +2795,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 83
     true_value: 0.6317
     true_std: null
@@ -2767,6 +2832,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 87
     true_value: 0.6069
     true_std: 0.0035
@@ -2802,9 +2868,9 @@ results:
     params_millions: null
     arxiv_id: '2508.05070'
     title: 'Tango: Graph Neural Dynamics via Learned Energy and Tangential Flows'
-    date: Aug 2025
+    date: Aug 7, 2025
     date_display: Aug 2025
-    date_iso: 2025-08
+    date_iso: '2025-08-07'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
@@ -2826,9 +2892,9 @@ results:
     arxiv_id: '2511.03824'
     title: Sketch-Augmented Features Improve Learning Long-Range Dependencies in Graph
       Neural Networks
-    date: Nov 2025
+    date: Nov 5, 2025
     date_display: Nov 2025
-    date_iso: 2025-11
+    date_iso: '2025-11-05'
     codebase_url: https://github.com/ryienh/sketched-random-features
     uses_external_data: false
     is_global_top: true
@@ -2850,9 +2916,9 @@ results:
     arxiv_id: '2506.07624'
     title: 'Return of ChebNet: Understanding and Improving an Overlooked GNN on Long-Range
       Tasks'
-    date: Jun 2025
+    date: Jun 9, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-09'
     codebase_url: https://github.com/ahariri13/Stable-ChebNet
     uses_external_data: null
     is_global_top: true
@@ -2879,6 +2945,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 16
     true_value: 0.246
     true_std: 0.0007
@@ -2916,6 +2983,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 17
     true_value: 0.246
     true_std: 0.0012
@@ -2953,6 +3021,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 26
     true_value: 0.2473
     true_std: 0.0017
@@ -2990,6 +3059,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 35
     true_value: 0.2477
     true_std: 0.0009
@@ -3027,6 +3097,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 42
     true_value: 0.2481
     true_std: 0.0007
@@ -3064,6 +3135,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 50
     true_value: 0.25
     true_std: 0.0005
@@ -3101,6 +3173,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 64
     true_value: 0.2529
     true_std: 0.0016
@@ -3137,6 +3210,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 73
     true_value: 0.2545
     true_std: 0.0012
@@ -3173,6 +3247,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 81
     true_value: 0.2599
     true_std: null
@@ -3209,6 +3284,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 88
     true_value: 0.268
     true_std: 0.004
@@ -3246,6 +3322,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 89
     true_value: 0.2687
     true_std: null
@@ -3282,6 +3359,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 103
     true_value: 0.3357
     true_std: 0.0006
@@ -3323,6 +3401,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 1
     true_value: 0.004
     true_std: null
@@ -3353,9 +3432,9 @@ results:
     params_millions: null
     arxiv_id: '2306.03589'
     title: How does over-squashing affect the power of GNNs?
-    date: Jun 2023
+    date: Jun 6, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-06'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
@@ -3382,6 +3461,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 3
     true_value: 0.014
     true_std: null
@@ -3409,7 +3489,7 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.5
+    params_millions: null
     arxiv_id: '2402.08450'
     title: 'Subgraphormer: Unifying Subgraph GNNs and Graph Transformers via Graph
       Products'
@@ -3465,6 +3545,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 7
     true_value: 0.023
     true_std: 0.001
@@ -3501,6 +3582,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 11
     true_value: 0.024
     true_std: null
@@ -3537,6 +3619,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 13
     true_value: 0.025
     true_std: 0.004
@@ -3573,6 +3656,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 14
     true_value: 0.025
     true_std: 0.004
@@ -3610,6 +3694,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 16
     true_value: 0.0262
     true_std: 0.0025
@@ -3646,6 +3731,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 17
     true_value: 0.027
     true_std: 0.007
@@ -3682,6 +3768,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 19
     true_value: 0.028
     true_std: 0.002
@@ -3718,6 +3805,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 42
     true_value: 0.067
     true_std: 0.009
@@ -3754,6 +3842,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 56
     true_value: 0.077
     true_std: null
@@ -3790,6 +3879,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 58
     true_value: 0.08
     true_std: 0.001
@@ -3826,6 +3916,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 60
     true_value: 0.085
     true_std: 0.004
@@ -3863,6 +3954,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 62
     true_value: 0.089
     true_std: null
@@ -3899,6 +3991,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 63
     true_value: 0.09
     true_std: 0.001
@@ -3935,6 +4028,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 69
     true_value: 0.094
     true_std: 0.008
@@ -3971,6 +4065,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 73
     true_value: 0.101
     true_std: 0.01
@@ -4007,6 +4102,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 79
     true_value: 0.108
     true_std: 0.009
@@ -4043,6 +4139,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 80
     true_value: 0.111
     true_std: 0.002
@@ -4079,6 +4176,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 97
     true_value: 0.1341
     true_std: 0.0063
@@ -4116,6 +4214,7 @@ results:
     date: Jan 2024
     date_display: Jan 2024
     date_iso: 2024-01
+    published_venue: null
     global_rank: 119
     true_value: 0.168
     true_std: 0.003
@@ -4149,6 +4248,5 @@ results_grouped:
   - *id005
   - *id006
   - *id007
-main_figure: /figures/2401.17791/main_figure.png
 ---
 

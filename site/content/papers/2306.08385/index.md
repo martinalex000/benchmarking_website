@@ -4,8 +4,9 @@ title: 'Align All the Nodes: Scalable Learning of Flexible Latent Structure for 
 arxiv_id: '2306.08385'
 source_url: ''
 authors: []
-published_date: Jun 2023
-published_date_iso: 2023-06
+published_date: Jun 14, 2023
+published_date_iso: '2023-06-14'
+published_venue: ''
 abstract: Graph neural networks have been extensively studied for learning with inter-connected
   data. Despite this, recent evidence has revealed GNNs' deficiencies related to over-squashing,
   heterophily, handling long-range dependencies, edge incompleteness and particularly,
@@ -62,9 +63,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to 20news (score=90)'
-    date: Jun 2023
+    date: Jun 14, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-14'
+    published_venue: null
     global_rank: 1
     true_value: 0.836
     true_std: 0.004
@@ -97,9 +99,9 @@ results:
     arxiv_id: '2006.13009'
     title: 'Iterative Deep Graph Learning for Graph Neural Networks: Better and Robust
       Node Embeddings'
-    date: Jun 2020
+    date: Jun 1, 2020
     date_display: Jun 2020
-    date_iso: 2020-06
+    date_iso: '2020-06-01'
     codebase_url: https://github.com/hugochan/IDGL
     uses_external_data: false
     is_global_top: true
@@ -121,9 +123,9 @@ results:
     arxiv_id: '2006.13009'
     title: 'Iterative Deep Graph Learning for Graph Neural Networks: Better and Robust
       Node Embeddings'
-    date: Jun 2020
+    date: Jun 1, 2020
     date_display: Jun 2020
-    date_iso: 2020-06
+    date_iso: '2020-06-01'
     codebase_url: https://github.com/hugochan/IDGL
     uses_external_data: false
     is_global_top: true
@@ -171,9 +173,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to 20news (score=90)'
-    date: Jun 2023
+    date: Jun 14, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-14'
+    published_venue: null
     global_rank: 18
     true_value: 0.6615
     true_std: 0.0036
@@ -208,9 +211,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to 20news (score=90)'
-    date: Jun 2023
+    date: Jun 14, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-14'
+    published_venue: null
     global_rank: 19
     true_value: 0.6601
     true_std: 0.0118
@@ -245,9 +249,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to 20news (score=90)'
-    date: Jun 2023
+    date: Jun 14, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-14'
+    published_venue: null
     global_rank: 20
     true_value: 0.6598
     true_std: 0.0068
@@ -282,9 +287,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to 20news (score=90)'
-    date: Jun 2023
+    date: Jun 14, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-14'
+    published_venue: null
     global_rank: 24
     true_value: 0.6446
     true_std: 0.0043
@@ -319,9 +325,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to 20news (score=90)'
-    date: Jun 2023
+    date: Jun 14, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-14'
+    published_venue: null
     global_rank: 25
     true_value: 0.6406
     true_std: 0.0044
@@ -430,9 +437,10 @@ results:
     table_ref: Table 4 (Ablation study results on transductive datasets)
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2023
+    date: Jun 14, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-14'
+    published_venue: null
     global_rank: 106
     true_value: 0.3531
     true_std: 0.0129
@@ -516,9 +524,9 @@ results:
     params_millions: null
     arxiv_id: '1805.07984'
     title: Adversarial Attacks on Neural Networks for Graph Data
-    date: May 2018
+    date: May 21, 2018
     date_display: May 2018
-    date_iso: 2018-05
+    date_iso: '2018-05-21'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
@@ -542,9 +550,10 @@ results:
     table_ref: Table 3
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2023
+    date: Jun 14, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-14'
+    published_venue: null
     global_rank: 102
     true_value: 0.7633
     true_std: 0.0059
@@ -581,9 +590,9 @@ results:
     params_millions: null
     arxiv_id: '2108.12055'
     title: Towards Self-Explainable Graph Neural Network
-    date: Aug 2021
+    date: Aug 26, 2021
     date_display: Aug 2021
-    date_iso: 2021-08
+    date_iso: '2021-08-26'
     codebase_url: https://github.com/EnyanDai/SEGNN
     uses_external_data: false
     is_global_top: true
@@ -604,9 +613,9 @@ results:
     params_millions: null
     arxiv_id: '2108.12055'
     title: Towards Self-Explainable Graph Neural Network
-    date: Aug 2021
+    date: Aug 26, 2021
     date_display: Aug 2021
-    date_iso: 2021-08
+    date_iso: '2021-08-26'
     codebase_url: https://github.com/EnyanDai/SEGNN
     uses_external_data: false
     is_global_top: true
@@ -627,9 +636,9 @@ results:
     params_millions: null
     arxiv_id: '2108.12055'
     title: Towards Self-Explainable Graph Neural Network
-    date: Aug 2021
+    date: Aug 26, 2021
     date_display: Aug 2021
-    date_iso: 2021-08
+    date_iso: '2021-08-26'
     codebase_url: https://github.com/EnyanDai/SEGNN
     uses_external_data: false
     is_global_top: true
@@ -653,9 +662,10 @@ results:
     table_ref: Table 3
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2023
+    date: Jun 14, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-14'
+    published_venue: null
     global_rank: 65
     true_value: 0.8869
     true_std: 0.0046
@@ -695,9 +705,10 @@ results:
     table_ref: Table 3 (Ablation study)
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2023
+    date: Jun 14, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-14'
+    published_venue: null
     global_rank: 1
     true_value: 0.7124
     true_std: 0.0032
@@ -731,6 +742,5 @@ results_grouped:
   datasets:
   - *id005
 single_proposed_model: novel all-pair message passing scheme
-main_figure: /figures/2306.08385/main_figure.png
 ---
 

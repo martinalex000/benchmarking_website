@@ -5,6 +5,7 @@ source_url: ''
 authors: []
 published_date: May 22, 2024
 published_date_iso: '2024-05-22'
+published_venue: ''
 abstract: 'Spectral graph convolution, an important tool of data filtering on graphs,
   relies on two essential decisions: selecting spectral bases for signal transformation
   and parameterizing the kernel for frequency analysis. While recent techniques mainly
@@ -135,6 +136,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 16
     true_value: 0.9312
     true_std: 0.0028
@@ -171,6 +173,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 23
     true_value: 0.9226
     true_std: 0.0018
@@ -208,6 +211,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 25
     true_value: 0.9206
     true_std: 0.0033
@@ -245,6 +249,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 29
     true_value: 0.9163
     true_std: 0.0052
@@ -282,6 +287,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 31
     true_value: 0.9131
     true_std: 0.0029
@@ -319,6 +325,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 37
     true_value: 0.9078
     true_std: 0.0013
@@ -355,6 +362,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 38
     true_value: 0.9075
     true_std: 0.0059
@@ -392,6 +400,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 52
     true_value: 0.8988
     true_std: 0.0064
@@ -429,6 +438,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 68
     true_value: 0.8929
     true_std: 0.0046
@@ -466,6 +476,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 81
     true_value: 0.8883
     true_std: 0.0044
@@ -503,6 +514,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 91
     true_value: 0.882
     true_std: 0.0065
@@ -540,6 +552,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 116
     true_value: 0.8568
     true_std: 0.0071
@@ -577,6 +590,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 122
     true_value: 0.8519
     true_std: 0.0059
@@ -690,6 +704,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 11
     true_value: 0.9537
     true_std: 0.0044
@@ -727,6 +742,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 19
     true_value: 0.9498
     true_std: 0.0041
@@ -764,6 +780,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 30
     true_value: 0.9445
     true_std: 0.0045
@@ -801,6 +818,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 32
     true_value: 0.9435
     true_std: 0.0044
@@ -838,6 +856,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 33
     true_value: 0.9435
     true_std: 0.005
@@ -875,6 +894,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 34
     true_value: 0.9434
     true_std: 0.0034
@@ -912,6 +932,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 42
     true_value: 0.9409
     true_std: 0.0063
@@ -949,6 +970,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 53
     true_value: 0.9387
     true_std: 0.0011
@@ -986,6 +1008,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 65
     true_value: 0.9354
     true_std: 0.009
@@ -1023,6 +1046,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 87
     true_value: 0.9307
     true_std: 0.0042
@@ -1060,6 +1084,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 93
     true_value: 0.929
     true_std: 0.04
@@ -1097,6 +1122,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 105
     true_value: 0.9245
     true_std: 0.0062
@@ -1134,6 +1160,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 115
     true_value: 0.921
     true_std: 0.0061
@@ -1170,9 +1197,9 @@ results:
     params_millions: null
     arxiv_id: '2511.08028'
     title: Generalizable Insights for Graph Transformers in Theory and Practice
-    date: Nov 2025
+    date: Nov 11, 2025
     date_display: Nov 2025
-    date_iso: 2025-11
+    date_iso: '2025-11-11'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
@@ -1193,9 +1220,9 @@ results:
     params_millions: null
     arxiv_id: '2511.08028'
     title: Generalizable Insights for Graph Transformers in Theory and Practice
-    date: Nov 2025
+    date: Nov 11, 2025
     date_display: Nov 2025
-    date_iso: 2025-11
+    date_iso: '2025-11-11'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
@@ -1216,9 +1243,9 @@ results:
     params_millions: null
     arxiv_id: '2511.08028'
     title: Generalizable Insights for Graph Transformers in Theory and Practice
-    date: Nov 2025
+    date: Nov 11, 2025
     date_display: Nov 2025
-    date_iso: 2025-11
+    date_iso: '2025-11-11'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
@@ -1245,6 +1272,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 9
     true_value: 0.3596
     true_std: 0.0022
@@ -1282,6 +1310,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 13
     true_value: 0.3297
     true_std: 0.0053
@@ -1319,6 +1348,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 14
     true_value: 0.3027
     true_std: 0.006
@@ -1356,6 +1386,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 15
     true_value: 0.3014
     true_std: 0.0049
@@ -1393,6 +1424,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 16
     true_value: 0.2641
     true_std: 0.0045
@@ -1429,6 +1461,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 18
     true_value: 0.2602
     true_std: 0.0048
@@ -1466,6 +1499,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 23
     true_value: 0.2433
     true_std: 0.0023
@@ -1503,6 +1537,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 24
     true_value: 0.2306
     true_std: 0.0018
@@ -1540,6 +1575,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 25
     true_value: 0.1644
     true_std: 0.0079
@@ -1577,6 +1613,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 27
     true_value: 0.1339
     true_std: 0.0044
@@ -1613,6 +1650,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 28
     true_value: 0.1339
     true_std: 0.0044
@@ -1650,6 +1688,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 35
     true_value: 0.1112
     true_std: 0.0046
@@ -1687,6 +1726,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 42
     true_value: 0.0841
     true_std: 0.001
@@ -1752,6 +1792,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 2
     true_value: 0.9589
     true_std: 0.0034
@@ -1835,6 +1876,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 9
     true_value: 0.9546
     true_std: 0.0033
@@ -1872,6 +1914,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 13
     true_value: 0.9518
     true_std: 0.003
@@ -1909,6 +1952,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 16
     true_value: 0.9511
     true_std: 0.0037
@@ -1946,6 +1990,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 17
     true_value: 0.9504
     true_std: 0.0032
@@ -1983,6 +2028,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 19
     true_value: 0.9491
     true_std: 0.0029
@@ -2020,6 +2066,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 20
     true_value: 0.949
     true_std: 0.003
@@ -2057,6 +2104,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 24
     true_value: 0.9481
     true_std: 0.0023
@@ -2094,6 +2142,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 25
     true_value: 0.9477
     true_std: 0.0033
@@ -2131,6 +2180,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 27
     true_value: 0.9461
     true_std: 0.0003
@@ -2168,6 +2218,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 31
     true_value: 0.9449
     true_std: 0.0007
@@ -2205,6 +2256,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 45
     true_value: 0.9371
     true_std: 0.004
@@ -2242,6 +2294,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 149
     true_value: 0.9075
     true_std: 0.0059
@@ -2278,9 +2331,9 @@ results:
     params_millions: null
     arxiv_id: '2306.02866'
     title: Learning Probabilistic Symmetrization for Architecture Agnostic Equivariance
-    date: Jun 2023
+    date: Jun 5, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-05'
     codebase_url: https://github.com/jw9730/lps
     uses_external_data: null
     is_global_top: true
@@ -2330,6 +2383,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 3
     true_value: 0.345
     true_std: 0.0002
@@ -2358,7 +2412,7 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.287
+    params_millions: null
     arxiv_id: '2402.00789'
     title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling with Selective
       State Spaces'
@@ -2391,6 +2445,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 6
     true_value: 0.3425
     true_std: 0.0006
@@ -2428,6 +2483,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 7
     true_value: 0.3408
     true_std: 0.002
@@ -2465,6 +2521,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 8
     true_value: 0.3404
     true_std: 0.0005
@@ -2502,6 +2559,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 11
     true_value: 0.339
     true_std: 0.0027
@@ -2539,6 +2597,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 12
     true_value: 0.3373
     true_std: 0.0045
@@ -2576,6 +2635,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 17
     true_value: 0.3319
     true_std: 0.002
@@ -2613,6 +2673,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 18
     true_value: 0.3272
     true_std: 0.0008
@@ -2650,6 +2711,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 19
     true_value: 0.3256
     true_std: 0.0011
@@ -2687,6 +2749,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 21
     true_value: 0.3234
     true_std: 0.0006
@@ -2723,6 +2786,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 22
     true_value: 0.3218
     true_std: 0.0011
@@ -2759,6 +2823,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 23
     true_value: 0.318
     true_std: 0.0027
@@ -2795,6 +2860,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 27
     true_value: 0.2989
     true_std: 0.0026
@@ -2908,6 +2974,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 9
     true_value: 0.4163
     true_std: 0.0019
@@ -2945,6 +3012,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 15
     true_value: 0.3598
     true_std: 0.002
@@ -2982,6 +3050,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 19
     true_value: 0.3197
     true_std: 0.0055
@@ -3019,6 +3088,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 20
     true_value: 0.3122
     true_std: 0.0056
@@ -3056,6 +3126,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 21
     true_value: 0.3108
     true_std: 0.0033
@@ -3093,6 +3164,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 22
     true_value: 0.3045
     true_std: 0.0036
@@ -3130,6 +3202,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 24
     true_value: 0.2873
     true_std: 0.0219
@@ -3166,6 +3239,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 27
     true_value: 0.286
     true_std: 0.0015
@@ -3203,6 +3277,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 30
     true_value: 0.256
     true_std: 0.0056
@@ -3240,6 +3315,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 33
     true_value: 0.238
     true_std: 0.016
@@ -3276,6 +3352,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 36
     true_value: 0.188
     true_std: 0.0085
@@ -3313,6 +3390,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 38
     true_value: 0.1658
     true_std: 0.0049
@@ -3350,6 +3428,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 47
     true_value: 0.1265
     true_std: 0.0076
@@ -3386,9 +3465,9 @@ results:
     arxiv_id: '2506.07624'
     title: 'Return of ChebNet: Understanding and Improving an Overlooked GNN on Long-Range
       Tasks'
-    date: Jun 2025
+    date: Jun 9, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-09'
     codebase_url: https://github.com/ahariri13/Stable-ChebNet
     uses_external_data: false
     is_global_top: true
@@ -3410,9 +3489,9 @@ results:
     arxiv_id: '2506.07624'
     title: 'Return of ChebNet: Understanding and Improving an Overlooked GNN on Long-Range
       Tasks'
-    date: Jun 2025
+    date: Jun 9, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-09'
     codebase_url: https://github.com/ahariri13/Stable-ChebNet
     uses_external_data: false
     is_global_top: true
@@ -3462,6 +3541,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 24
     true_value: 0.6973
     true_std: 0.0043
@@ -3499,6 +3579,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 31
     true_value: 0.6875
     true_std: 0.002
@@ -3536,6 +3617,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 33
     true_value: 0.686
     true_std: 0.005
@@ -3573,6 +3655,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 41
     true_value: 0.6765
     true_std: 0.0047
@@ -3610,6 +3693,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 48
     true_value: 0.6695
     true_std: 0.0063
@@ -3647,6 +3731,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 53
     true_value: 0.6621
     true_std: 0.0067
@@ -3684,6 +3769,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 62
     true_value: 0.6547
     true_std: 0.0048
@@ -3721,6 +3807,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 67
     true_value: 0.6529
     true_std: 0.0082
@@ -3758,6 +3845,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 73
     true_value: 0.6463
     true_std: 0.0027
@@ -3795,6 +3883,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 84
     true_value: 0.6287
     true_std: 0.0064
@@ -3832,6 +3921,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 86
     true_value: 0.6112
     true_std: 0.0053
@@ -3869,6 +3959,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 88
     true_value: 0.6023
     true_std: 0.0027
@@ -3906,6 +3997,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 94
     true_value: 0.568
     true_std: 0.0038
@@ -3942,9 +4034,9 @@ results:
     params_millions: null
     arxiv_id: '2508.05070'
     title: 'Tango: Graph Neural Dynamics via Learned Energy and Tangential Flows'
-    date: Aug 2025
+    date: Aug 7, 2025
     date_display: Aug 2025
-    date_iso: 2025-08
+    date_iso: '2025-08-07'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
@@ -3966,9 +4058,9 @@ results:
     arxiv_id: '2511.03824'
     title: Sketch-Augmented Features Improve Learning Long-Range Dependencies in Graph
       Neural Networks
-    date: Nov 2025
+    date: Nov 5, 2025
     date_display: Nov 2025
-    date_iso: 2025-11
+    date_iso: '2025-11-05'
     codebase_url: https://github.com/ryienh/sketched-random-features
     uses_external_data: false
     is_global_top: true
@@ -3990,9 +4082,9 @@ results:
     arxiv_id: '2506.07624'
     title: 'Return of ChebNet: Understanding and Improving an Overlooked GNN on Long-Range
       Tasks'
-    date: Jun 2025
+    date: Jun 9, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-09'
     codebase_url: https://github.com/ahariri13/Stable-ChebNet
     uses_external_data: null
     is_global_top: true
@@ -4019,6 +4111,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 16
     true_value: 0.246
     true_std: 0.0007
@@ -4056,6 +4149,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 26
     true_value: 0.2473
     true_std: 0.0017
@@ -4093,6 +4187,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 35
     true_value: 0.2477
     true_std: 0.0009
@@ -4130,6 +4225,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 44
     true_value: 0.2483
     true_std: 0.0011
@@ -4167,6 +4263,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 58
     true_value: 0.2506
     true_std: 0.0013
@@ -4204,6 +4301,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 69
     true_value: 0.2539
     true_std: 0.0021
@@ -4241,6 +4339,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 77
     true_value: 0.2564
     true_std: 0.0031
@@ -4278,6 +4377,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 80
     true_value: 0.2588
     true_std: 0.0001
@@ -4315,6 +4415,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 86
     true_value: 0.2643
     true_std: 0.002
@@ -4352,6 +4453,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 87
     true_value: 0.2677
     true_std: 0.0011
@@ -4389,6 +4491,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 91
     true_value: 0.2734
     true_std: 0.0004
@@ -4426,6 +4529,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 93
     true_value: 0.27449999999999997
     true_std: 0.0006
@@ -4463,6 +4567,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 94
     true_value: 0.275
     true_std: 0.0021
@@ -4505,6 +4610,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 1
     true_value: 0.9589
     true_std: 0.0034
@@ -4690,6 +4796,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 57
     true_value: 0.752
     true_std: 0.0003
@@ -4727,6 +4834,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 77
     true_value: 0.7439
     true_std: null
@@ -4764,6 +4872,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 86
     true_value: 0.742
     true_std: 0.002
@@ -4801,6 +4910,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 148
     true_value: 0.7301
     true_std: 0.0018
@@ -4838,6 +4948,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 177
     true_value: 0.7264
     true_std: 0.0021
@@ -4875,6 +4986,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 210
     true_value: 0.7201
     true_std: 0.002
@@ -4912,6 +5024,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 217
     true_value: 0.7197
     true_std: 0.0012
@@ -4949,6 +5062,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 257
     true_value: 0.7137
     true_std: 0.0014
@@ -4986,6 +5100,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 268
     true_value: 0.7118
     true_std: 0.0076
@@ -5023,6 +5138,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 271
     true_value: 0.7113
     true_std: 0.0047
@@ -5060,6 +5176,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 311
     true_value: 0.6908
     true_std: 0.003
@@ -5097,6 +5214,7 @@ results:
     date: May 22, 2024
     date_display: May 2024
     date_iso: '2024-05-22'
+    published_venue: null
     global_rank: 340
     true_value: 0.6623
     true_std: 0.0019
@@ -5135,6 +5253,5 @@ results_grouped:
   - *id009
   - *id010
 single_proposed_model: SGT
-main_figure: /figures/2405.13806/main_figure.png
 ---
 

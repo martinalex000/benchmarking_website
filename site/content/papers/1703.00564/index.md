@@ -3,8 +3,9 @@ title: MoleculeNet
 arxiv_id: '1703.00564'
 source_url: ''
 authors: []
-published_date: ''
-published_date_iso: ''
+published_date: Mar 2, 2017
+published_date_iso: '2017-03-02'
+published_venue: ''
 abstract: ''
 codebase_url: ''
 extraction_model: ''

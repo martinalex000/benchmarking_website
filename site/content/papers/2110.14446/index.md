@@ -3,8 +3,9 @@ title: LINKX Benchmarks
 arxiv_id: '2110.14446'
 source_url: ''
 authors: []
-published_date: ''
-published_date_iso: ''
+published_date: Oct 27, 2021
+published_date_iso: '2021-10-27'
+published_venue: ''
 abstract: ''
 codebase_url: ''
 extraction_model: ''

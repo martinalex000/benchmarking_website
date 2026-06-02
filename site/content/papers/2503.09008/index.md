@@ -3,8 +3,9 @@ title: City-Networks
 arxiv_id: '2503.09008'
 source_url: ''
 authors: []
-published_date: ''
-published_date_iso: ''
+published_date: Mar 12, 2025
+published_date_iso: '2025-03-12'
+published_venue: ''
 abstract: ''
 codebase_url: ''
 extraction_model: ''
@@ -19,6 +20,5 @@ task_categories: []
 experiment_scopes: []
 results: []
 results_grouped: []
-main_figure: /figures/2503.09008/main_figure.png
 ---
 

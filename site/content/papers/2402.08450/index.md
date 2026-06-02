@@ -5,6 +5,7 @@ source_url: ''
 authors: []
 published_date: Feb 13, 2024
 published_date_iso: '2024-02-13'
+published_venue: ''
 abstract: 'In the realm of Graph Neural Networks (GNNs), two exciting research directions
   have recently emerged: Subgraph GNNs and Graph Transformers. In this paper, we propose
   an architecture that integrates both approaches, dubbed Subgraphormer, which combines
@@ -122,13 +123,14 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.5
+    params_millions: null
     table_ref: Table 1
     source_ref: Xu 2018
     variant_inference_reason: 'dataset: fuzzy match to bace (score=90)'
     date: Feb 13, 2024
     date_display: Feb 2024
     date_iso: '2024-02-13'
+    published_venue: null
     global_rank: 26
     true_value: 0.861
     true_std: 0.013
@@ -158,13 +160,14 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.293
+    params_millions: null
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to bace (score=90)'
     date: Feb 13, 2024
     date_display: Feb 2024
     date_iso: '2024-02-13'
+    published_venue: null
     global_rank: 38
     true_value: 0.8435
     true_std: 0.0065
@@ -195,13 +198,14 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.274
+    params_millions: null
     table_ref: Table 1
     source_ref: Zhang 2023
     variant_inference_reason: 'dataset: fuzzy match to bace (score=90)'
     date: Feb 13, 2024
     date_display: Feb 2024
     date_iso: '2024-02-13'
+    published_venue: null
     global_rank: 46
     true_value: 0.827
     true_std: 0.018
@@ -239,6 +243,7 @@ results:
     date: Feb 13, 2024
     date_display: Feb 2024
     date_iso: '2024-02-13'
+    published_venue: null
     global_rank: 95
     true_value: 0.7915
     true_std: 0.0144
@@ -269,13 +274,14 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.1
+    params_millions: null
     table_ref: Table 1
     source_ref: Bevilacqua 2023
     variant_inference_reason: 'dataset: fuzzy match to bace (score=90)'
     date: Feb 13, 2024
     date_display: Feb 2024
     date_iso: '2024-02-13'
+    published_venue: null
     global_rank: 105
     true_value: 0.7841
     true_std: 0.0194
@@ -306,13 +312,14 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.5
+    params_millions: null
     table_ref: Table 1
     source_ref: Qian 2022
     variant_inference_reason: 'dataset: fuzzy match to bace (score=90)'
     date: Feb 13, 2024
     date_display: Feb 2024
     date_iso: '2024-02-13'
+    published_venue: null
     global_rank: 137
     true_value: 0.723
     true_std: 0.066
@@ -350,9 +357,9 @@ results:
     arxiv_id: '2506.07624'
     title: 'Return of ChebNet: Understanding and Improving an Overlooked GNN on Long-Range
       Tasks'
-    date: Jun 2025
+    date: Jun 9, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-09'
     codebase_url: https://github.com/ahariri13/Stable-ChebNet
     uses_external_data: false
     is_global_top: true
@@ -374,9 +381,9 @@ results:
     arxiv_id: '2506.07624'
     title: 'Return of ChebNet: Understanding and Improving an Overlooked GNN on Long-Range
       Tasks'
-    date: Jun 2025
+    date: Jun 9, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-09'
     codebase_url: https://github.com/ahariri13/Stable-ChebNet
     uses_external_data: false
     is_global_top: true
@@ -426,6 +433,7 @@ results:
     date: Feb 13, 2024
     date_display: Feb 2024
     date_iso: '2024-02-13'
+    published_venue: null
     global_rank: 33
     true_value: 0.686
     true_std: 0.005
@@ -463,6 +471,7 @@ results:
     date: Feb 13, 2024
     date_display: Feb 2024
     date_iso: '2024-02-13'
+    published_venue: null
     global_rank: 41
     true_value: 0.6765
     true_std: 0.0047
@@ -493,13 +502,14 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.424
+    params_millions: null
     table_ref: Table 1
     source_ref: Rampásek 2022
     variant_inference_reason: 'dataset: exact match'
     date: Feb 13, 2024
     date_display: Feb 2024
     date_iso: '2024-02-13'
+    published_venue: null
     global_rank: 57
     true_value: 0.6601
     true_std: 0.0061
@@ -536,6 +546,7 @@ results:
     date: Feb 13, 2024
     date_display: Feb 2024
     date_iso: '2024-02-13'
+    published_venue: null
     global_rank: 61
     true_value: 0.6562
     true_std: 0.0075
@@ -573,6 +584,7 @@ results:
     date: Feb 13, 2024
     date_display: Feb 2024
     date_iso: '2024-02-13'
+    published_venue: null
     global_rank: 79
     true_value: 0.6384
     true_std: 0.0121
@@ -602,13 +614,14 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.293
+    params_millions: null
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
     date: Feb 13, 2024
     date_display: Feb 2024
     date_iso: '2024-02-13'
+    published_venue: null
     global_rank: 80
     true_value: 0.6373
     true_std: 0.011
@@ -646,6 +659,7 @@ results:
     date: Feb 13, 2024
     date_display: Feb 2024
     date_iso: '2024-02-13'
+    published_venue: null
     global_rank: 82
     true_value: 0.6326
     true_std: 0.0126
@@ -683,6 +697,7 @@ results:
     date: Feb 13, 2024
     date_display: Feb 2024
     date_iso: '2024-02-13'
+    published_venue: null
     global_rank: 87
     true_value: 0.6069
     true_std: 0.0035
@@ -712,13 +727,14 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.274
+    params_millions: null
     table_ref: Table 1
     source_ref: Zhang 2023
     variant_inference_reason: 'dataset: exact match'
     date: Feb 13, 2024
     date_display: Feb 2024
     date_iso: '2024-02-13'
+    published_venue: null
     global_rank: 92
     true_value: 0.5847
     true_std: 0.005
@@ -749,13 +765,14 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.5
+    params_millions: null
     table_ref: Table 1
     source_ref: Xu 2018
     variant_inference_reason: 'dataset: exact match'
     date: Feb 13, 2024
     date_display: Feb 2024
     date_iso: '2024-02-13'
+    published_venue: null
     global_rank: 97
     true_value: 0.5498
     true_std: 0.0079
@@ -792,9 +809,9 @@ results:
     params_millions: null
     arxiv_id: '2508.05070'
     title: 'Tango: Graph Neural Dynamics via Learned Energy and Tangential Flows'
-    date: Aug 2025
+    date: Aug 7, 2025
     date_display: Aug 2025
-    date_iso: 2025-08
+    date_iso: '2025-08-07'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
@@ -816,9 +833,9 @@ results:
     arxiv_id: '2511.03824'
     title: Sketch-Augmented Features Improve Learning Long-Range Dependencies in Graph
       Neural Networks
-    date: Nov 2025
+    date: Nov 5, 2025
     date_display: Nov 2025
-    date_iso: 2025-11
+    date_iso: '2025-11-05'
     codebase_url: https://github.com/ryienh/sketched-random-features
     uses_external_data: false
     is_global_top: true
@@ -840,9 +857,9 @@ results:
     arxiv_id: '2506.07624'
     title: 'Return of ChebNet: Understanding and Improving an Overlooked GNN on Long-Range
       Tasks'
-    date: Jun 2025
+    date: Jun 9, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-09'
     codebase_url: https://github.com/ahariri13/Stable-ChebNet
     uses_external_data: null
     is_global_top: true
@@ -869,6 +886,7 @@ results:
     date: Feb 13, 2024
     date_display: Feb 2024
     date_iso: '2024-02-13'
+    published_venue: null
     global_rank: 16
     true_value: 0.246
     true_std: 0.0007
@@ -906,6 +924,7 @@ results:
     date: Feb 13, 2024
     date_display: Feb 2024
     date_iso: '2024-02-13'
+    published_venue: null
     global_rank: 32
     true_value: 0.2475
     true_std: 0.0007
@@ -936,13 +955,14 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.293
+    params_millions: null
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
     date: Feb 13, 2024
     date_display: Feb 2024
     date_iso: '2024-02-13'
+    published_venue: null
     global_rank: 31
     true_value: 0.2475
     true_std: 0.0007
@@ -980,6 +1000,7 @@ results:
     date: Feb 13, 2024
     date_display: Feb 2024
     date_iso: '2024-02-13'
+    published_venue: null
     global_rank: 35
     true_value: 0.2477
     true_std: 0.0009
@@ -1010,13 +1031,14 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.424
+    params_millions: null
     table_ref: Table 1
     source_ref: Rampásek 2022
     variant_inference_reason: 'dataset: exact match'
     date: Feb 13, 2024
     date_display: Feb 2024
     date_iso: '2024-02-13'
+    published_venue: null
     global_rank: 50
     true_value: 0.25
     true_std: 0.0005
@@ -1054,6 +1076,7 @@ results:
     date: Feb 13, 2024
     date_display: Feb 2024
     date_iso: '2024-02-13'
+    published_venue: null
     global_rank: 65
     true_value: 0.2529
     true_std: 0.0016
@@ -1091,6 +1114,7 @@ results:
     date: Feb 13, 2024
     date_display: Feb 2024
     date_iso: '2024-02-13'
+    published_venue: null
     global_rank: 73
     true_value: 0.2545
     true_std: 0.0012
@@ -1120,13 +1144,14 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.274
+    params_millions: null
     table_ref: Table 1
     source_ref: Zhang 2023
     variant_inference_reason: 'dataset: exact match'
     date: Feb 13, 2024
     date_display: Feb 2024
     date_iso: '2024-02-13'
+    published_venue: null
     global_rank: 78
     true_value: 0.257
     true_std: 0.0006
@@ -1164,6 +1189,7 @@ results:
     date: Feb 13, 2024
     date_display: Feb 2024
     date_iso: '2024-02-13'
+    published_venue: null
     global_rank: 88
     true_value: 0.268
     true_std: 0.004
@@ -1201,6 +1227,7 @@ results:
     date: Feb 13, 2024
     date_display: Feb 2024
     date_iso: '2024-02-13'
+    published_venue: null
     global_rank: 103
     true_value: 0.3357
     true_std: 0.0006
@@ -1230,13 +1257,14 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.5
+    params_millions: null
     table_ref: Table 1
     source_ref: Xu 2018
     variant_inference_reason: 'dataset: exact match'
     date: Feb 13, 2024
     date_display: Feb 2024
     date_iso: '2024-02-13'
+    published_venue: null
     global_rank: 106
     true_value: 0.3547
     true_std: 0.0045
@@ -1273,9 +1301,9 @@ results:
     params_millions: null
     arxiv_id: '2306.03589'
     title: How does over-squashing affect the power of GNNs?
-    date: Jun 2023
+    date: Jun 6, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-06'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
@@ -1296,9 +1324,9 @@ results:
     params_millions: null
     arxiv_id: '2306.03589'
     title: How does over-squashing affect the power of GNNs?
-    date: Jun 2023
+    date: Jun 6, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-06'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
@@ -1318,13 +1346,14 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.5
+    params_millions: null
     table_ref: Table 1
     source_ref: Xu et al.
     variant_inference_reason: 'dataset: exact match'
     date: Feb 13, 2024
     date_display: Feb 2024
     date_iso: '2024-02-13'
+    published_venue: null
     global_rank: 3
     true_value: 0.014
     true_std: null
@@ -1354,13 +1383,14 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.5
+    params_millions: null
     table_ref: Table 1
     source_ref: Puny et al.
     variant_inference_reason: 'dataset: exact match'
     date: Feb 13, 2024
     date_display: Feb 2024
     date_iso: '2024-02-13'
+    published_venue: null
     global_rank: 4
     true_value: 0.02
     true_std: 0.001
@@ -1391,13 +1421,14 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.5
+    params_millions: null
     table_ref: Table 1
     source_ref: Puny et al.
     variant_inference_reason: 'dataset: exact match'
     date: Feb 13, 2024
     date_display: Feb 2024
     date_iso: '2024-02-13'
+    published_venue: null
     global_rank: 4
     true_value: 0.02
     true_std: 0.001
@@ -1451,13 +1482,14 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.274
+    params_millions: null
     table_ref: Table 1
     source_ref: Zhang et al.
     variant_inference_reason: 'dataset: exact match'
     date: Feb 13, 2024
     date_display: Feb 2024
     date_iso: '2024-02-13'
+    published_venue: null
     global_rank: 6
     true_value: 0.022
     true_std: 0.001
@@ -1488,13 +1520,14 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.274
+    params_millions: null
     table_ref: Table 1
     source_ref: Zhang et al.
     variant_inference_reason: 'dataset: exact match'
     date: Feb 13, 2024
     date_display: Feb 2024
     date_iso: '2024-02-13'
+    published_venue: null
     global_rank: 6
     true_value: 0.022
     true_std: 0.001
@@ -1525,13 +1558,14 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.293
+    params_millions: null
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
     date: Feb 13, 2024
     date_display: Feb 2024
     date_iso: '2024-02-13'
+    published_venue: null
     global_rank: 8
     true_value: 0.023
     true_std: 0.001
@@ -1562,13 +1596,14 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.293
+    params_millions: null
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
     date: Feb 13, 2024
     date_display: Feb 2024
     date_iso: '2024-02-13'
+    published_venue: null
     global_rank: 8
     true_value: 0.023
     true_std: 0.001
@@ -1599,13 +1634,14 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.526
+    params_millions: null
     table_ref: Table 1
     source_ref: Frasca et al.
     variant_inference_reason: 'dataset: exact match'
     date: Feb 13, 2024
     date_display: Feb 2024
     date_iso: '2024-02-13'
+    published_venue: null
     global_rank: 12
     true_value: 0.024
     true_std: 0.003
@@ -1636,13 +1672,14 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.526
+    params_millions: null
     table_ref: Table 1
     source_ref: Frasca et al.
     variant_inference_reason: 'dataset: exact match'
     date: Feb 13, 2024
     date_display: Feb 2024
     date_iso: '2024-02-13'
+    published_venue: null
     global_rank: 12
     true_value: 0.024
     true_std: 0.003
@@ -1673,13 +1710,14 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.489
+    params_millions: null
     table_ref: Table 1
     source_ref: Ying et al.
     variant_inference_reason: 'dataset: exact match'
     date: Feb 13, 2024
     date_display: Feb 2024
     date_iso: '2024-02-13'
+    published_venue: null
     global_rank: 13
     true_value: 0.025
     true_std: 0.004
@@ -1709,13 +1747,14 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.489
+    params_millions: null
     table_ref: Table 1
     source_ref: Ying et al.
     variant_inference_reason: 'dataset: exact match'
     date: Feb 13, 2024
     date_display: Feb 2024
     date_iso: '2024-02-13'
+    published_venue: null
     global_rank: 13
     true_value: 0.025
     true_std: 0.004
@@ -1745,13 +1784,14 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.503
+    params_millions: null
     table_ref: Table 1
     source_ref: Zhang et al.
     variant_inference_reason: 'dataset: exact match'
     date: Feb 13, 2024
     date_display: Feb 2024
     date_iso: '2024-02-13'
+    published_venue: null
     global_rank: 14
     true_value: 0.025
     true_std: 0.004
@@ -1782,13 +1822,14 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.503
+    params_millions: null
     table_ref: Table 1
     source_ref: Zhang et al.
     variant_inference_reason: 'dataset: exact match'
     date: Feb 13, 2024
     date_display: Feb 2024
     date_iso: '2024-02-13'
+    published_venue: null
     global_rank: 14
     true_value: 0.025
     true_std: 0.004
@@ -1819,13 +1860,14 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.424
+    params_millions: null
     table_ref: Table 1
     source_ref: Rampásek et al.
     variant_inference_reason: 'dataset: exact match'
     date: Feb 13, 2024
     date_display: Feb 2024
     date_iso: '2024-02-13'
+    published_venue: null
     global_rank: 16
     true_value: 0.0262
     true_std: 0.0025
@@ -1855,13 +1897,14 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.492
+    params_millions: null
     table_ref: Table 1
     source_ref: Luo et al.
     variant_inference_reason: 'dataset: exact match'
     date: Feb 13, 2024
     date_display: Feb 2024
     date_iso: '2024-02-13'
+    published_venue: null
     global_rank: 18
     true_value: 0.028
     true_std: 0.002
@@ -1892,13 +1935,14 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.492
+    params_millions: null
     table_ref: Table 1
     source_ref: Luo et al.
     variant_inference_reason: 'dataset: exact match'
     date: Feb 13, 2024
     date_display: Feb 2024
     date_iso: '2024-02-13'
+    published_venue: null
     global_rank: 18
     true_value: 0.028
     true_std: 0.002
@@ -1929,13 +1973,14 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.5
+    params_millions: null
     table_ref: Table 1
     source_ref: Zhang et al.
     variant_inference_reason: 'dataset: exact match'
     date: Feb 13, 2024
     date_display: Feb 2024
     date_iso: '2024-02-13'
+    published_venue: null
     global_rank: 20
     true_value: 0.029
     true_std: 0.001
@@ -1966,13 +2011,14 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.5
+    params_millions: null
     table_ref: Table 1
     source_ref: Zhang et al.
     variant_inference_reason: 'dataset: exact match'
     date: Feb 13, 2024
     date_display: Feb 2024
     date_iso: '2024-02-13'
+    published_venue: null
     global_rank: 20
     true_value: 0.029
     true_std: 0.001
@@ -2003,13 +2049,14 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.1
+    params_millions: null
     table_ref: Table 1
     source_ref: Bevilacqua et al.
     variant_inference_reason: 'dataset: exact match'
     date: Feb 13, 2024
     date_display: Feb 2024
     date_iso: '2024-02-13'
+    published_venue: null
     global_rank: 21
     true_value: 0.029
     true_std: 0.003
@@ -2040,13 +2087,14 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.1
+    params_millions: null
     table_ref: Table 1
     source_ref: Bevilacqua et al.
     variant_inference_reason: 'dataset: exact match'
     date: Feb 13, 2024
     date_display: Feb 2024
     date_iso: '2024-02-13'
+    published_venue: null
     global_rank: 21
     true_value: 0.029
     true_std: 0.003
@@ -2077,13 +2125,14 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.5
+    params_millions: null
     table_ref: Table 1
     source_ref: Zhao et al.
     variant_inference_reason: 'dataset: exact match'
     date: Feb 13, 2024
     date_display: Feb 2024
     date_iso: '2024-02-13'
+    published_venue: null
     global_rank: 23
     true_value: 0.034
     true_std: 0.007
@@ -2113,13 +2162,14 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.1
+    params_millions: null
     table_ref: Table 1
     source_ref: Bodnar et al.
     variant_inference_reason: 'dataset: exact match'
     date: Feb 13, 2024
     date_display: Feb 2024
     date_iso: '2024-02-13'
+    published_venue: null
     global_rank: 29
     true_value: 0.044
     true_std: 0.003
@@ -2150,13 +2200,14 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.1
+    params_millions: null
     table_ref: Table 1
     source_ref: Bodnar et al.
     variant_inference_reason: 'dataset: exact match'
     date: Feb 13, 2024
     date_display: Feb 2024
     date_iso: '2024-02-13'
+    published_venue: null
     global_rank: 29
     true_value: 0.044
     true_std: 0.003
@@ -2187,13 +2238,14 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.523
+    params_millions: null
     table_ref: Table 1
     source_ref: Chen et al.
     variant_inference_reason: 'dataset: exact match'
     date: Feb 13, 2024
     date_display: Feb 2024
     date_iso: '2024-02-13'
+    published_venue: null
     global_rank: 69
     true_value: 0.094
     true_std: 0.008
@@ -2223,13 +2275,14 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.5
+    params_millions: null
     table_ref: Table 1
     source_ref: Bouritsas et al.
     variant_inference_reason: 'dataset: exact match'
     date: Feb 13, 2024
     date_display: Feb 2024
     date_iso: '2024-02-13'
+    published_venue: null
     global_rank: 73
     true_value: 0.101
     true_std: 0.01
@@ -2259,13 +2312,14 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.509
+    params_millions: null
     table_ref: Table 1
     source_ref: Kreuzer et al.
     variant_inference_reason: 'dataset: exact match'
     date: Feb 13, 2024
     date_display: Feb 2024
     date_iso: '2024-02-13'
+    published_venue: null
     global_rank: 97
     true_value: 0.1341
     true_std: 0.0063
@@ -2296,13 +2350,14 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.5
+    params_millions: null
     table_ref: Table 1
     source_ref: Qian et al.
     variant_inference_reason: 'dataset: exact match'
     date: Feb 13, 2024
     date_display: Feb 2024
     date_iso: '2024-02-13'
+    published_venue: null
     global_rank: 111
     true_value: 0.154
     true_std: 0.008
@@ -2335,6 +2390,5 @@ results_grouped:
   - *id003
   - *id004
 single_proposed_model: MPNN
-main_figure: /figures/2402.08450/main_figure.png
 ---
 

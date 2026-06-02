@@ -3,8 +3,9 @@ title: arXiv:2412.07188
 arxiv_id: '2412.07188'
 source_url: ''
 authors: []
-published_date: ''
-published_date_iso: ''
+published_date: Dec 10, 2024
+published_date_iso: '2024-12-10'
+published_venue: ''
 abstract: ''
 codebase_url: ''
 extraction_model: ''
@@ -19,6 +20,5 @@ task_categories: []
 experiment_scopes: []
 results: []
 results_grouped: []
-main_figure: /figures/2412.07188/main_figure.png
 ---
 

@@ -3,8 +3,9 @@ title: Learning Probabilistic Symmetrization for Architecture Agnostic Equivaria
 arxiv_id: '2306.02866'
 source_url: ''
 authors: []
-published_date: Jun 2023
-published_date_iso: 2023-06
+published_date: Jun 5, 2023
+published_date_iso: '2023-06-05'
+published_venue: ''
 abstract: We present a novel framework to overcome the limitations of equivariant
   architectures in learning functions with group symmetries. In contrary to equivariant
   architectures, we use an arbitrary base model such as an MLP or a transformer and
@@ -62,9 +63,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
-    date: Jun 2023
+    date: Jun 5, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-05'
+    published_venue: null
     global_rank: null
     sort_value: 0.00401
     sort_std: 1.0e-05
@@ -85,9 +87,10 @@ results:
     table_ref: Table 1
     source_ref: Kaba et al. 2022
     variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
-    date: Jun 2023
+    date: Jun 5, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-05'
+    published_venue: null
     global_rank: null
     sort_value: 0.0043
     sort_std: null
@@ -108,9 +111,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
-    date: Jun 2023
+    date: Jun 5, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-05'
+    published_venue: null
     global_rank: null
     sort_value: 0.00508
     sort_std: null
@@ -131,9 +135,10 @@ results:
     table_ref: Table 1
     source_ref: Puny et al. 2022
     variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
-    date: Jun 2023
+    date: Jun 5, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-05'
+    published_venue: null
     global_rank: null
     sort_value: 0.0057
     sort_std: null
@@ -154,9 +159,10 @@ results:
     table_ref: Table 1
     source_ref: Satorras et al. 2021
     variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
-    date: Jun 2023
+    date: Jun 5, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-05'
+    published_venue: null
     global_rank: null
     sort_value: 0.0071
     sort_std: null
@@ -177,9 +183,10 @@ results:
     table_ref: Table 1
     source_ref: Kohler et al. 2019
     variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
-    date: Jun 2023
+    date: Jun 5, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-05'
+    published_venue: null
     global_rank: null
     sort_value: 0.0104
     sort_std: null
@@ -200,9 +207,10 @@ results:
     table_ref: Table 1
     source_ref: Thomas et al. 2018
     variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
-    date: Jun 2023
+    date: Jun 5, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-05'
+    published_venue: null
     global_rank: null
     sort_value: 0.0155
     sort_std: null
@@ -247,9 +255,10 @@ results:
     table_ref: Table 1
     source_ref: Fuchs et al. 2020
     variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
-    date: Jun 2023
+    date: Jun 5, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-05'
+    published_venue: null
     global_rank: null
     sort_value: 0.0244
     sort_std: null
@@ -320,9 +329,9 @@ results:
     params_millions: null
     arxiv_id: '2010.02863'
     title: Directional Graph Networks
-    date: Oct 2020
+    date: Oct 6, 2020
     date_display: Oct 2020
-    date_iso: 2020-10
+    date_iso: '2020-10-06'
     codebase_url: https://github.com/Saro00/DGN
     uses_external_data: false
     is_global_top: true
@@ -343,9 +352,9 @@ results:
     params_millions: null
     arxiv_id: '2010.02863'
     title: Directional Graph Networks
-    date: Oct 2020
+    date: Oct 6, 2020
     date_display: Oct 2020
-    date_iso: 2020-10
+    date_iso: '2020-10-06'
     codebase_url: https://github.com/Saro00/DGN
     uses_external_data: false
     is_global_top: true
@@ -366,9 +375,9 @@ results:
     params_millions: null
     arxiv_id: '2010.02863'
     title: Directional Graph Networks
-    date: Oct 2020
+    date: Oct 6, 2020
     date_display: Oct 2020
-    date_iso: 2020-10
+    date_iso: '2020-10-06'
     codebase_url: https://github.com/Saro00/DGN
     uses_external_data: false
     is_global_top: true
@@ -392,9 +401,10 @@ results:
     table_ref: Table 1
     source_ref: Dwivedi et al. 2020
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2023
+    date: Jun 5, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-05'
+    published_venue: null
     global_rank: 38
     true_value: 0.86245
     true_std: null
@@ -429,9 +439,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2023
+    date: Jun 5, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-05'
+    published_venue: null
     global_rank: 40
     true_value: 0.85989
     true_std: 0.00011
@@ -466,9 +477,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2023
+    date: Jun 5, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-05'
+    published_venue: null
     global_rank: 41
     true_value: 0.85825
     true_std: null
@@ -503,9 +515,10 @@ results:
     table_ref: Table 1
     source_ref: Dwivedi et al. 2020
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2023
+    date: Jun 5, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-05'
+    published_venue: null
     global_rank: 44
     true_value: 0.85661
     true_std: null
@@ -540,9 +553,10 @@ results:
     table_ref: Table 1
     source_ref: Dwivedi et al. 2020
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2023
+    date: Jun 5, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-05'
+    published_venue: null
     global_rank: 48
     true_value: 0.85568
     true_std: null
@@ -577,9 +591,10 @@ results:
     table_ref: Table 1
     source_ref: Dwivedi et al. 2020
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2023
+    date: Jun 5, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-05'
+    published_venue: null
     global_rank: 50
     true_value: 0.85387
     true_std: null
@@ -614,9 +629,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2023
+    date: Jun 5, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-05'
+    published_venue: null
     global_rank: 56
     true_value: 0.8322
     true_std: 0.00057
@@ -651,9 +667,10 @@ results:
     table_ref: Table 1
     source_ref: Dwivedi et al. 2020
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2023
+    date: Jun 5, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-05'
+    published_venue: null
     global_rank: 58
     true_value: 0.78271
     true_std: null
@@ -688,9 +705,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2023
+    date: Jun 5, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-05'
+    published_venue: null
     global_rank: 61
     true_value: 0.71377
     true_std: null
@@ -730,9 +748,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2023
+    date: Jun 5, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-05'
+    published_venue: null
     global_rank: 1
     true_value: 0.5341
     true_std: null
@@ -767,9 +786,10 @@ results:
     table_ref: Table 1
     source_ref: Shirzad 2023
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2023
+    date: Jun 5, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-05'
+    published_venue: null
     global_rank: 2
     true_value: 0.3637
     true_std: 0.002
@@ -820,7 +840,7 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.287
+    params_millions: null
     arxiv_id: '2402.00789'
     title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling with Selective
       State Spaces'
@@ -874,9 +894,10 @@ results:
     table_ref: Table 1
     source_ref: Kreuzer 2021
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2023
+    date: Jun 5, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-05'
+    published_venue: null
     global_rank: 13
     true_value: 0.335
     true_std: 0.0003
@@ -910,9 +931,10 @@ results:
     table_ref: Table 1
     source_ref: Kreuzer 2021
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2023
+    date: Jun 5, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-05'
+    published_venue: null
     global_rank: 14
     true_value: 0.3341
     true_std: 0.0006
@@ -946,9 +968,10 @@ results:
     table_ref: Table 1
     source_ref: Rampasek 2022
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2023
+    date: Jun 5, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-05'
+    published_venue: null
     global_rank: 16
     true_value: 0.3337
     true_std: 0.0006
@@ -982,9 +1005,10 @@ results:
     table_ref: Table 1
     source_ref: Bresson 2017
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2023
+    date: Jun 5, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-05'
+    published_venue: null
     global_rank: 20
     true_value: 0.3242
     true_std: 0.0008
@@ -1018,9 +1042,10 @@ results:
     table_ref: Table 1
     source_ref: Kipf 2017
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2023
+    date: Jun 5, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-05'
+    published_venue: null
     global_rank: 21
     true_value: 0.3234
     true_std: 0.0006
@@ -1054,9 +1079,10 @@ results:
     table_ref: Table 1
     source_ref: Bresson 2017
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2023
+    date: Jun 5, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-05'
+    published_venue: null
     global_rank: 22
     true_value: 0.3218
     true_std: 0.0011
@@ -1090,9 +1116,10 @@ results:
     table_ref: Table 1
     source_ref: Hu 2020
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2023
+    date: Jun 5, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-05'
+    published_venue: null
     global_rank: 23
     true_value: 0.318
     true_std: 0.0027
@@ -1126,9 +1153,10 @@ results:
     table_ref: Table 1
     source_ref: Dwivedi 2022
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2023
+    date: Jun 5, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-05'
+    published_venue: null
     global_rank: 25
     true_value: 0.3174
     true_std: 0.002
@@ -1162,9 +1190,10 @@ results:
     table_ref: Table 1
     source_ref: Chen 2020
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2023
+    date: Jun 5, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-05'
+    published_venue: null
     global_rank: 26
     true_value: 0.3161
     true_std: 0.0004
@@ -1201,9 +1230,9 @@ results:
     arxiv_id: '2506.07624'
     title: 'Return of ChebNet: Understanding and Improving an Overlooked GNN on Long-Range
       Tasks'
-    date: Jun 2025
+    date: Jun 9, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-09'
     codebase_url: https://github.com/ahariri13/Stable-ChebNet
     uses_external_data: false
     is_global_top: true
@@ -1225,9 +1254,9 @@ results:
     arxiv_id: '2506.07624'
     title: 'Return of ChebNet: Understanding and Improving an Overlooked GNN on Long-Range
       Tasks'
-    date: Jun 2025
+    date: Jun 9, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-09'
     codebase_url: https://github.com/ahariri13/Stable-ChebNet
     uses_external_data: false
     is_global_top: true
@@ -1274,9 +1303,10 @@ results:
     table_ref: Table 1
     source_ref: Kipf 2017
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2023
+    date: Jun 5, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-05'
+    published_venue: null
     global_rank: 33
     true_value: 0.686
     true_std: 0.005
@@ -1311,9 +1341,10 @@ results:
     table_ref: Table 1
     source_ref: Bresson 2017
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2023
+    date: Jun 5, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-05'
+    published_venue: null
     global_rank: 41
     true_value: 0.6765
     true_std: 0.0047
@@ -1348,9 +1379,10 @@ results:
     table_ref: Table 1
     source_ref: Hu 2020
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2023
+    date: Jun 5, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-05'
+    published_venue: null
     global_rank: 53
     true_value: 0.6621
     true_std: 0.0067
@@ -1385,9 +1417,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2023
+    date: Jun 5, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-05'
+    published_venue: null
     global_rank: 59
     true_value: 0.6575
     true_std: null
@@ -1422,9 +1455,10 @@ results:
     table_ref: Table 1
     source_ref: Kreuzer 2021
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2023
+    date: Jun 5, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-05'
+    published_venue: null
     global_rank: 61
     true_value: 0.6562
     true_std: 0.0075
@@ -1459,9 +1493,10 @@ results:
     table_ref: Table 1
     source_ref: Rampasek 2022
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2023
+    date: Jun 5, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-05'
+    published_venue: null
     global_rank: 63
     true_value: 0.6535
     true_std: 0.0041
@@ -1496,9 +1531,10 @@ results:
     table_ref: Table 1
     source_ref: Shirzad 2023
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2023
+    date: Jun 5, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-05'
+    published_venue: null
     global_rank: 68
     true_value: 0.6527
     true_std: 0.0043
@@ -1533,9 +1569,10 @@ results:
     table_ref: Table 1
     source_ref: Kreuzer 2021
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2023
+    date: Jun 5, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-05'
+    published_venue: null
     global_rank: 79
     true_value: 0.6384
     true_std: 0.0121
@@ -1569,9 +1606,10 @@ results:
     table_ref: Table 1
     source_ref: Dwivedi 2022
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2023
+    date: Jun 5, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-05'
+    published_venue: null
     global_rank: 81
     true_value: 0.6326
     true_std: 0.0126
@@ -1605,9 +1643,10 @@ results:
     table_ref: Table 1
     source_ref: Bresson 2017
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2023
+    date: Jun 5, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-05'
+    published_venue: null
     global_rank: 87
     true_value: 0.6069
     true_std: 0.0035
@@ -1641,9 +1680,10 @@ results:
     table_ref: Table 1
     source_ref: Chen 2020
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2023
+    date: Jun 5, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-05'
+    published_venue: null
     global_rank: 96
     true_value: 0.5543
     true_std: 0.0078
@@ -1679,9 +1719,9 @@ results:
     params_millions: null
     arxiv_id: '2508.05070'
     title: 'Tango: Graph Neural Dynamics via Learned Energy and Tangential Flows'
-    date: Aug 2025
+    date: Aug 7, 2025
     date_display: Aug 2025
-    date_iso: 2025-08
+    date_iso: '2025-08-07'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
@@ -1703,9 +1743,9 @@ results:
     arxiv_id: '2511.03824'
     title: Sketch-Augmented Features Improve Learning Long-Range Dependencies in Graph
       Neural Networks
-    date: Nov 2025
+    date: Nov 5, 2025
     date_display: Nov 2025
-    date_iso: 2025-11
+    date_iso: '2025-11-05'
     codebase_url: https://github.com/ryienh/sketched-random-features
     uses_external_data: false
     is_global_top: true
@@ -1727,9 +1767,9 @@ results:
     arxiv_id: '2506.07624'
     title: 'Return of ChebNet: Understanding and Improving an Overlooked GNN on Long-Range
       Tasks'
-    date: Jun 2025
+    date: Jun 9, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-09'
     codebase_url: https://github.com/ahariri13/Stable-ChebNet
     uses_external_data: null
     is_global_top: true
@@ -1753,9 +1793,10 @@ results:
     table_ref: Table 1
     source_ref: Kipf 2017
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2023
+    date: Jun 5, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-05'
+    published_venue: null
     global_rank: 16
     true_value: 0.246
     true_std: 0.0007
@@ -1790,9 +1831,10 @@ results:
     table_ref: Table 1
     source_ref: Hu 2020
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2023
+    date: Jun 5, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-05'
+    published_venue: null
     global_rank: 26
     true_value: 0.2473
     true_std: 0.0017
@@ -1827,9 +1869,10 @@ results:
     table_ref: Table 1
     source_ref: Bresson 2017
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2023
+    date: Jun 5, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-05'
+    published_venue: null
     global_rank: 35
     true_value: 0.2477
     true_std: 0.0009
@@ -1864,9 +1907,10 @@ results:
     table_ref: Table 1
     source_ref: Shirzad 2023
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2023
+    date: Jun 5, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-05'
+    published_venue: null
     global_rank: 42
     true_value: 0.2481
     true_std: 0.0007
@@ -1901,9 +1945,10 @@ results:
     table_ref: Table 1
     source_ref: Rampasek 2022
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2023
+    date: Jun 5, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-05'
+    published_venue: null
     global_rank: 51
     true_value: 0.25
     true_std: 0.0005
@@ -1938,9 +1983,10 @@ results:
     table_ref: Table 1
     source_ref: Dwivedi 2022
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2023
+    date: Jun 5, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-05'
+    published_venue: null
     global_rank: 64
     true_value: 0.2529
     true_std: 0.0016
@@ -1974,9 +2020,10 @@ results:
     table_ref: Table 1
     source_ref: Kreuzer 2021
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2023
+    date: Jun 5, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-05'
+    published_venue: null
     global_rank: 73
     true_value: 0.2545
     true_std: 0.0012
@@ -2010,9 +2057,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2023
+    date: Jun 5, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-05'
+    published_venue: null
     global_rank: 76
     true_value: 0.2559
     true_std: null
@@ -2047,9 +2095,10 @@ results:
     table_ref: Table 1
     source_ref: Kreuzer 2021
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2023
+    date: Jun 5, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-05'
+    published_venue: null
     global_rank: 88
     true_value: 0.268
     true_std: 0.004
@@ -2084,9 +2133,10 @@ results:
     table_ref: Table 1
     source_ref: Bresson 2017
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2023
+    date: Jun 5, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-05'
+    published_venue: null
     global_rank: 103
     true_value: 0.3357
     true_std: 0.0006
@@ -2120,9 +2170,10 @@ results:
     table_ref: Table 1
     source_ref: Chen 2020
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2023
+    date: Jun 5, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-05'
+    published_venue: null
     global_rank: 105
     true_value: 0.3471
     true_std: 0.001
@@ -2154,6 +2205,5 @@ results_grouped:
 - benchmark: GNNBenchmark
   datasets:
   - *id005
-main_figure: /figures/2306.02866/main_figure.png
 ---
 

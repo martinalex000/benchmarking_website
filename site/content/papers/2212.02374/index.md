@@ -3,8 +3,9 @@ title: arXiv:2212.02374
 arxiv_id: '2212.02374'
 source_url: ''
 authors: []
-published_date: ''
-published_date_iso: ''
+published_date: Dec 5, 2022
+published_date_iso: '2022-12-05'
+published_venue: ''
 abstract: ''
 codebase_url: ''
 extraction_model: ''
@@ -19,6 +20,5 @@ task_categories: []
 experiment_scopes: []
 results: []
 results_grouped: []
-main_figure: /figures/2212.02374/main_figure.png
 ---
 

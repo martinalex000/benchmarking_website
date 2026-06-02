@@ -3,8 +3,9 @@ title: Short-Range Oversquashing
 arxiv_id: '2511.20406'
 source_url: ''
 authors: []
-published_date: Nov 2025
-published_date_iso: 2025-11
+published_date: Nov 25, 2025
+published_date_iso: '2025-11-25'
+published_venue: ''
 abstract: 'Message Passing Neural Networks (MPNNs) are widely used for learning on
   graphs, but their ability to process long-range information is limited by the phenomenon
   of oversquashing. This limitation has led some researchers to advocate Graph Transformers
@@ -53,9 +54,10 @@ results:
     table_ref: Figure 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
-    date: Nov 2025
+    date: Nov 25, 2025
     date_display: Nov 2025
-    date_iso: 2025-11
+    date_iso: '2025-11-25'
+    published_venue: null
     global_rank: 1
     true_value: 1.0
     true_std: null
@@ -159,9 +161,10 @@ results:
     table_ref: Figure 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
-    date: Nov 2025
+    date: Nov 25, 2025
     date_display: Nov 2025
-    date_iso: 2025-11
+    date_iso: '2025-11-25'
+    published_venue: null
     global_rank: 27
     true_value: 0.9
     true_std: null
@@ -185,6 +188,5 @@ results_grouped:
 - benchmark: TU Dortmund
   datasets:
   - *id001
-main_figure: /figures/2511.20406/main_figure.png
 ---
 

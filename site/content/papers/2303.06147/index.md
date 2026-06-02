@@ -5,6 +5,7 @@ source_url: ''
 authors: []
 published_date: Mar 10, 2023
 published_date_iso: '2023-03-10'
+published_venue: ''
 abstract: 'Graph transformers have emerged as a promising architecture for a variety
   of graph learning and representation tasks. Despite their successes, though, it
   remains challenging to scale graph transformers to large graphs while maintaining
@@ -59,9 +60,9 @@ results:
     params_millions: null
     arxiv_id: '2508.05070'
     title: 'Tango: Graph Neural Dynamics via Learned Energy and Tangential Flows'
-    date: Aug 2025
+    date: Aug 7, 2025
     date_display: Aug 2025
-    date_iso: 2025-08
+    date_iso: '2025-08-07'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
@@ -135,6 +136,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 6
     true_value: 0.79232
     true_std: 0.00348
@@ -172,6 +174,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 14
     true_value: 0.78071
     true_std: 0.00037
@@ -208,6 +211,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 15
     true_value: 0.7802
     true_std: 0.0018
@@ -244,6 +248,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 18
     true_value: 0.7786
     true_std: 0.00104
@@ -280,6 +285,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 24
     true_value: 0.76691
     true_std: 0.0065
@@ -317,6 +323,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 25
     true_value: 0.76082
     true_std: 0.00196
@@ -353,6 +360,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 29
     true_value: 0.7059
     true_std: 0.00447
@@ -389,6 +397,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 30
     true_value: 0.685
     true_std: 0.0097
@@ -426,6 +435,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 33
     true_value: 0.6472
     true_std: 0.0155
@@ -462,9 +472,9 @@ results:
     params_millions: null
     arxiv_id: '2511.08028'
     title: Generalizable Insights for Graph Transformers in Theory and Practice
-    date: Nov 2025
+    date: Nov 11, 2025
     date_display: Nov 2025
-    date_iso: 2025-11
+    date_iso: '2025-11-11'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
@@ -485,9 +495,9 @@ results:
     params_millions: null
     arxiv_id: '2511.08028'
     title: Generalizable Insights for Graph Transformers in Theory and Practice
-    date: Nov 2025
+    date: Nov 11, 2025
     date_display: Nov 2025
-    date_iso: 2025-11
+    date_iso: '2025-11-11'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
@@ -508,9 +518,9 @@ results:
     params_millions: null
     arxiv_id: '2511.08028'
     title: Generalizable Insights for Graph Transformers in Theory and Practice
-    date: Nov 2025
+    date: Nov 11, 2025
     date_display: Nov 2025
-    date_iso: 2025-11
+    date_iso: '2025-11-11'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
@@ -537,6 +547,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 10
     true_value: 0.3455
     true_std: 0.0009
@@ -573,6 +584,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 11
     true_value: 0.3412
     true_std: 0.0044
@@ -609,6 +621,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 16
     true_value: 0.2641
     true_std: 0.0045
@@ -645,6 +658,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 17
     true_value: 0.2618
     true_std: 0.0031
@@ -681,6 +695,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 19
     true_value: 0.2592
     true_std: 0.0158
@@ -717,6 +732,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 21
     true_value: 0.2574
     true_std: 0.0034
@@ -753,6 +769,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 22
     true_value: 0.2434
     true_std: 0.0156
@@ -789,6 +806,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 27
     true_value: 0.1339
     true_std: 0.0044
@@ -825,6 +843,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 42
     true_value: 0.0841
     true_std: 0.001
@@ -913,6 +932,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 3
     true_value: 0.9577
     true_std: 0.0015
@@ -949,6 +969,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 4
     true_value: 0.9575
     true_std: 0.0009
@@ -1008,6 +1029,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 29
     true_value: 0.9451
     true_std: 0.0015
@@ -1044,6 +1066,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 41
     true_value: 0.9393
     true_std: 0.0012
@@ -1109,6 +1132,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 2
     true_value: 0.9734
     true_std: 0.0003
@@ -1193,6 +1217,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 5
     true_value: 0.9716
     true_std: 0.0013
@@ -1228,9 +1253,9 @@ results:
     params_millions: null
     arxiv_id: '1606.09375'
     title: Convolutional Neural Networks on Graphs with Fast Localized Spectral Filtering
-    date: Jun 2016
+    date: Jun 30, 2016
     date_display: Jun 2016
-    date_iso: 2016-06
+    date_iso: '2016-06-30'
     codebase_url: https://github.com/mdeff/cnn_graph
     uses_external_data: false
     is_global_top: true
@@ -1252,9 +1277,9 @@ results:
     arxiv_id: '1705.07664'
     title: 'CayleyNets: Graph Convolutional Neural Networks with Complex Rational
       Spectral Filters'
-    date: May 2017
+    date: May 22, 2017
     date_display: May 2017
-    date_iso: 2017-05
+    date_iso: '2017-05-22'
     codebase_url: https://github.com/fmonti/mgcnn
     uses_external_data: false
     is_global_top: true
@@ -1276,9 +1301,9 @@ results:
     arxiv_id: '1705.07664'
     title: 'CayleyNets: Graph Convolutional Neural Networks with Complex Rational
       Spectral Filters'
-    date: May 2017
+    date: May 22, 2017
     date_display: May 2017
-    date_iso: 2017-05
+    date_iso: '2017-05-22'
     codebase_url: https://github.com/fmonti/mgcnn
     uses_external_data: false
     is_global_top: true
@@ -1305,6 +1330,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 8
     true_value: 0.9855
     true_std: 0.00039
@@ -1342,6 +1368,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 25
     true_value: 0.98173
     true_std: 0.00087
@@ -1378,6 +1405,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 34
     true_value: 0.981
     true_std: 0.002
@@ -1415,6 +1443,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 36
     true_value: 0.98051
     true_std: 0.00126
@@ -1452,6 +1481,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 37
     true_value: 0.97944
     true_std: 0.0005
@@ -1488,6 +1518,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 40
     true_value: 0.979
     true_std: 0.003
@@ -1525,6 +1556,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 41
     true_value: 0.978
     true_std: 0.003
@@ -1562,6 +1594,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 47
     true_value: 0.9734
     true_std: 0.00143
@@ -1598,6 +1631,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 48
     true_value: 0.972
     true_std: 0.005
@@ -1640,6 +1674,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 1
     true_value: 0.96
     true_std: 0.002
@@ -1670,9 +1705,9 @@ results:
     params_millions: null
     arxiv_id: '2010.02863'
     title: Directional Graph Networks
-    date: Oct 2020
+    date: Oct 6, 2020
     date_display: Oct 2020
-    date_iso: 2020-10
+    date_iso: '2020-10-06'
     codebase_url: https://github.com/Saro00/DGN
     uses_external_data: false
     is_global_top: true
@@ -1699,6 +1734,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 3
     true_value: 0.92
     true_std: 0.003
@@ -1735,6 +1771,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 4
     true_value: 0.91
     true_std: 0.003
@@ -1771,6 +1808,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 5
     true_value: 0.9
     true_std: 0.004
@@ -1801,9 +1839,9 @@ results:
     params_millions: null
     arxiv_id: '2010.02863'
     title: Directional Graph Networks
-    date: Oct 2020
+    date: Oct 6, 2020
     date_display: Oct 2020
-    date_iso: 2020-10
+    date_iso: '2020-10-06'
     codebase_url: https://github.com/Saro00/DGN
     uses_external_data: false
     is_global_top: true
@@ -1830,6 +1868,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 7
     true_value: 0.88
     true_std: 0.005
@@ -1890,6 +1929,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 17
     true_value: 0.8685
     true_std: 0.00057
@@ -1926,6 +1966,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 18
     true_value: 0.8685
     true_std: 0.00037
@@ -1962,6 +2003,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 21
     true_value: 0.86821
     true_std: 0.0002
@@ -1999,6 +2041,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 24
     true_value: 0.86742
     true_std: 0.00015
@@ -2035,6 +2078,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 28
     true_value: 0.8669
     true_std: 0.00059
@@ -2071,6 +2115,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 34
     true_value: 0.86581
     true_std: 0.00037
@@ -2107,9 +2152,9 @@ results:
     params_millions: null
     arxiv_id: '2306.02866'
     title: Learning Probabilistic Symmetrization for Architecture Agnostic Equivariance
-    date: Jun 2023
+    date: Jun 5, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-05'
     codebase_url: https://github.com/jw9730/lps
     uses_external_data: null
     is_global_top: true
@@ -2136,6 +2181,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 2
     true_value: 0.3637
     true_std: 0.002
@@ -2186,7 +2232,7 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.287
+    params_millions: null
     arxiv_id: '2402.00789'
     title: 'Graph-Mamba: Towards Long-Range Graph Sequence Modeling with Selective
       State Spaces'
@@ -2219,6 +2265,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 13
     true_value: 0.335
     true_std: 0.0003
@@ -2255,6 +2302,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 14
     true_value: 0.3341
     true_std: 0.0006
@@ -2291,6 +2339,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 16
     true_value: 0.3337
     true_std: 0.0006
@@ -2327,6 +2376,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 20
     true_value: 0.3242
     true_std: 0.0008
@@ -2363,6 +2413,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 21
     true_value: 0.3234
     true_std: 0.0006
@@ -2399,6 +2450,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 22
     true_value: 0.3218
     true_std: 0.0011
@@ -2435,6 +2487,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 23
     true_value: 0.318
     true_std: 0.0027
@@ -2471,6 +2524,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 25
     true_value: 0.3174
     true_std: 0.002
@@ -2583,6 +2637,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 10
     true_value: 0.3975
     true_std: 0.0037
@@ -2620,6 +2675,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 12
     true_value: 0.3748
     true_std: 0.0109
@@ -2657,6 +2713,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 13
     true_value: 0.3736
     true_std: 0.0158
@@ -2693,6 +2750,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 14
     true_value: 0.3724
     true_std: 0.0131
@@ -2729,6 +2787,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 16
     true_value: 0.323
     true_std: 0.0039
@@ -2765,6 +2824,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 17
     true_value: 0.3216
     true_std: 0.0027
@@ -2801,6 +2861,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 23
     true_value: 0.3016
     true_std: 0.0031
@@ -2837,6 +2898,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 24
     true_value: 0.2873
     true_std: 0.0219
@@ -2873,6 +2935,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 26
     true_value: 0.286
     true_std: 0.0085
@@ -2909,6 +2972,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 28
     true_value: 0.2762
     true_std: 0.0069
@@ -2945,6 +3009,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 29
     true_value: 0.2694
     true_std: 0.0098
@@ -2981,6 +3046,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 33
     true_value: 0.238
     true_std: 0.016
@@ -3017,6 +3083,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 47
     true_value: 0.1265
     true_std: 0.0076
@@ -3053,9 +3120,9 @@ results:
     arxiv_id: '2506.07624'
     title: 'Return of ChebNet: Understanding and Improving an Overlooked GNN on Long-Range
       Tasks'
-    date: Jun 2025
+    date: Jun 9, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-09'
     codebase_url: https://github.com/ahariri13/Stable-ChebNet
     uses_external_data: false
     is_global_top: true
@@ -3077,9 +3144,9 @@ results:
     arxiv_id: '2506.07624'
     title: 'Return of ChebNet: Understanding and Improving an Overlooked GNN on Long-Range
       Tasks'
-    date: Jun 2025
+    date: Jun 9, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-09'
     codebase_url: https://github.com/ahariri13/Stable-ChebNet
     uses_external_data: false
     is_global_top: true
@@ -3129,6 +3196,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 33
     true_value: 0.686
     true_std: 0.005
@@ -3166,6 +3234,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 41
     true_value: 0.6765
     true_std: 0.0047
@@ -3203,6 +3272,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 53
     true_value: 0.6621
     true_std: 0.0067
@@ -3240,6 +3310,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 61
     true_value: 0.6562
     true_std: 0.0075
@@ -3277,6 +3348,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 64
     true_value: 0.6535
     true_std: 0.0041
@@ -3313,6 +3385,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 63
     true_value: 0.6535
     true_std: 0.0041
@@ -3350,6 +3423,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 68
     true_value: 0.6527
     true_std: 0.0043
@@ -3387,6 +3461,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 70
     true_value: 0.6475
     true_std: 0.0056
@@ -3423,6 +3498,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 79
     true_value: 0.6384
     true_std: 0.0121
@@ -3459,6 +3535,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 81
     true_value: 0.6326
     true_std: 0.0126
@@ -3495,6 +3572,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 85
     true_value: 0.6159
     true_std: 0.0048
@@ -3531,6 +3609,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 87
     true_value: 0.6069
     true_std: 0.0035
@@ -3567,6 +3646,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 91
     true_value: 0.5854
     true_std: 0.0079
@@ -3602,9 +3682,9 @@ results:
     params_millions: null
     arxiv_id: '2508.05070'
     title: 'Tango: Graph Neural Dynamics via Learned Energy and Tangential Flows'
-    date: Aug 2025
+    date: Aug 7, 2025
     date_display: Aug 2025
-    date_iso: 2025-08
+    date_iso: '2025-08-07'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
@@ -3626,9 +3706,9 @@ results:
     arxiv_id: '2511.03824'
     title: Sketch-Augmented Features Improve Learning Long-Range Dependencies in Graph
       Neural Networks
-    date: Nov 2025
+    date: Nov 5, 2025
     date_display: Nov 2025
-    date_iso: 2025-11
+    date_iso: '2025-11-05'
     codebase_url: https://github.com/ryienh/sketched-random-features
     uses_external_data: false
     is_global_top: true
@@ -3650,9 +3730,9 @@ results:
     arxiv_id: '2506.07624'
     title: 'Return of ChebNet: Understanding and Improving an Overlooked GNN on Long-Range
       Tasks'
-    date: Jun 2025
+    date: Jun 9, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-09'
     codebase_url: https://github.com/ahariri13/Stable-ChebNet
     uses_external_data: null
     is_global_top: true
@@ -3679,6 +3759,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 16
     true_value: 0.246
     true_std: 0.0007
@@ -3716,6 +3797,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 26
     true_value: 0.2473
     true_std: 0.0017
@@ -3753,6 +3835,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 35
     true_value: 0.2477
     true_std: 0.0009
@@ -3790,6 +3873,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 42
     true_value: 0.2481
     true_std: 0.0007
@@ -3827,6 +3911,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 51
     true_value: 0.25
     true_std: 0.0005
@@ -3864,6 +3949,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 64
     true_value: 0.2529
     true_std: 0.0016
@@ -3900,6 +3986,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 73
     true_value: 0.2545
     true_std: 0.0012
@@ -3936,6 +4023,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 88
     true_value: 0.268
     true_std: 0.004
@@ -3973,6 +4061,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 103
     true_value: 0.3357
     true_std: 0.0006
@@ -4085,6 +4174,7 @@ results:
     date: Mar 10, 2023
     date_display: Mar 2023
     date_iso: '2023-03-10'
+    published_venue: null
     global_rank: 191
     true_value: 0.7244
     true_std: 0.0028
@@ -4125,6 +4215,5 @@ results_grouped:
   - *id010
   - *id011
 single_proposed_model: Exphormer
-main_figure: /figures/2303.06147/main_figure.png
 ---
 

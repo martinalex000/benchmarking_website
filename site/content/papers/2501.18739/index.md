@@ -5,6 +5,7 @@ source_url: ''
 authors: []
 published_date: Jan 30, 2025
 published_date_iso: '2025-01-30'
+published_venue: ''
 abstract: 'Graph learning tasks often hinge on identifying key substructure patterns
   -- such as triadic closures in social networks or benzene rings in molecular graphs
   -- that underpin downstream performance. However, most existing graph neural networks
@@ -135,6 +136,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 7
     true_value: 0.9772
     true_std: 0.0038
@@ -171,6 +173,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 16
     true_value: 0.9312
     true_std: 0.0028
@@ -207,6 +210,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 22
     true_value: 0.9228
     true_std: 0.0039
@@ -243,6 +247,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 26
     true_value: 0.9203
     true_std: 0.0013
@@ -279,6 +284,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 27
     true_value: 0.9175
     true_std: 0.0015
@@ -316,6 +322,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 28
     true_value: 0.9163
     true_std: 0.0018
@@ -352,6 +359,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 31
     true_value: 0.9131
     true_std: 0.0029
@@ -389,6 +397,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 32
     true_value: 0.9122
     true_std: 0.0014
@@ -425,6 +434,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 33
     true_value: 0.9119
     true_std: 0.0054
@@ -461,6 +471,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 34
     true_value: 0.9098
     true_std: 0.0073
@@ -497,6 +508,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 35
     true_value: 0.9096
     true_std: 0.009
@@ -533,6 +545,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 37
     true_value: 0.9078
     true_std: 0.0013
@@ -569,6 +582,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 40
     true_value: 0.9062
     true_std: 0.0024
@@ -605,6 +619,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 48
     true_value: 0.9015
     true_std: 0.0034
@@ -642,6 +657,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 53
     true_value: 0.8983
     true_std: 0.0016
@@ -677,9 +693,9 @@ results:
     params_millions: null
     arxiv_id: '2410.23686'
     title: Towards Dynamic Message Passing on Graphs
-    date: Oct 2024
+    date: Oct 31, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-31'
     codebase_url: https://github.com/sunjss/N2
     uses_external_data: false
     is_global_top: true
@@ -700,9 +716,9 @@ results:
     params_millions: null
     arxiv_id: '2410.23686'
     title: Towards Dynamic Message Passing on Graphs
-    date: Oct 2024
+    date: Oct 31, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-31'
     codebase_url: https://github.com/sunjss/N2
     uses_external_data: false
     is_global_top: true
@@ -752,6 +768,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 15
     true_value: 0.8273
     true_std: 0.0192
@@ -789,6 +806,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 21
     true_value: 0.822
     true_std: 0.021
@@ -825,6 +843,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 62
     true_value: 0.8074
     true_std: 0.0054
@@ -861,6 +880,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 65
     true_value: 0.807
     true_std: 0.0074
@@ -897,6 +917,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 68
     true_value: 0.806
     true_std: 0.006
@@ -933,6 +954,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 78
     true_value: 0.803
     true_std: 0.013
@@ -969,6 +991,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 98
     true_value: 0.7879
     true_std: 0.0074
@@ -1005,6 +1028,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 116
     true_value: 0.7741
     true_std: 0.0056
@@ -1041,6 +1065,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 118
     true_value: 0.7735
     true_std: 0.0093
@@ -1077,6 +1102,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 119
     true_value: 0.773
     true_std: 0.0198
@@ -1113,6 +1139,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 123
     true_value: 0.7717
     true_std: 0.0078
@@ -1149,6 +1176,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 133
     true_value: 0.755
     true_std: 0.0058
@@ -1185,6 +1213,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 138
     true_value: 0.7473
     true_std: 0.0109
@@ -1221,6 +1250,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 143
     true_value: 0.7393
     true_std: 0.0194
@@ -1257,6 +1287,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 148
     true_value: 0.7309
     true_std: 0.0025
@@ -1298,6 +1329,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 1
     true_value: 1.0
     true_std: null
@@ -1334,6 +1366,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 3
     true_value: 1.0
     true_std: null
@@ -1370,6 +1403,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 2
     true_value: 1.0
     true_std: null
@@ -1400,9 +1434,9 @@ results:
     params_millions: null
     arxiv_id: '2502.01122'
     title: Learning Efficient Positional Encodings with Graph Neural Networks
-    date: Feb 2025
+    date: Feb 3, 2025
     date_display: Feb 2025
-    date_iso: 2025-02
+    date_iso: '2025-02-03'
     codebase_url: https://github.com/ehejin/Pearl-PE
     uses_external_data: false
     is_global_top: true
@@ -1423,9 +1457,9 @@ results:
     params_millions: null
     arxiv_id: '2502.01122'
     title: Learning Efficient Positional Encodings with Graph Neural Networks
-    date: Feb 2025
+    date: Feb 3, 2025
     date_display: Feb 2025
-    date_iso: 2025-02
+    date_iso: '2025-02-03'
     codebase_url: https://github.com/ehejin/Pearl-PE
     uses_external_data: false
     is_global_top: true
@@ -1452,6 +1486,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 6
     true_value: 0.957
     true_std: null
@@ -1488,6 +1523,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 7
     true_value: 0.1
     true_std: null
@@ -1524,6 +1560,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 8
     true_value: 0.1
     true_std: null
@@ -1560,6 +1597,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 9
     true_value: 0.1
     true_std: null
@@ -1595,9 +1633,9 @@ results:
     params_millions: null
     arxiv_id: '2108.12055'
     title: Towards Self-Explainable Graph Neural Network
-    date: Aug 2021
+    date: Aug 26, 2021
     date_display: Aug 2021
-    date_iso: 2021-08
+    date_iso: '2021-08-26'
     codebase_url: https://github.com/EnyanDai/SEGNN
     uses_external_data: false
     is_global_top: true
@@ -1618,9 +1656,9 @@ results:
     params_millions: null
     arxiv_id: '2108.12055'
     title: Towards Self-Explainable Graph Neural Network
-    date: Aug 2021
+    date: Aug 26, 2021
     date_display: Aug 2021
-    date_iso: 2021-08
+    date_iso: '2021-08-26'
     codebase_url: https://github.com/EnyanDai/SEGNN
     uses_external_data: false
     is_global_top: true
@@ -1641,9 +1679,9 @@ results:
     params_millions: null
     arxiv_id: '2108.12055'
     title: Towards Self-Explainable Graph Neural Network
-    date: Aug 2021
+    date: Aug 26, 2021
     date_display: Aug 2021
-    date_iso: 2021-08
+    date_iso: '2021-08-26'
     codebase_url: https://github.com/EnyanDai/SEGNN
     uses_external_data: false
     is_global_top: true
@@ -1670,6 +1708,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 6
     true_value: 0.9285
     true_std: 0.0054
@@ -1706,6 +1745,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 22
     true_value: 0.9004
     true_std: null
@@ -1742,6 +1782,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 25
     true_value: 0.8995
     true_std: 0.0201
@@ -1778,6 +1819,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 64
     true_value: 0.8874
     true_std: 0.006
@@ -1814,6 +1856,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 71
     true_value: 0.8856
     true_std: 0.0101
@@ -1851,6 +1894,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 128
     true_value: 0.8768
     true_std: 0.0052
@@ -1887,9 +1931,9 @@ results:
     params_millions: null
     arxiv_id: '2205.12245'
     title: Asynchronous Neural Networks for Learning in Graphs
-    date: May 2022
+    date: May 24, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-24'
     codebase_url: https://github.com/beabevi/ESAN
     uses_external_data: false
     is_global_top: true
@@ -1939,6 +1983,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 3
     true_value: 0.8267
     true_std: 0.0047
@@ -1975,6 +2020,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 4
     true_value: 0.811
     true_std: 0.045
@@ -2005,9 +2051,9 @@ results:
     params_millions: null
     arxiv_id: '2410.23686'
     title: Towards Dynamic Message Passing on Graphs
-    date: Oct 2024
+    date: Oct 31, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-31'
     codebase_url: https://github.com/sunjss/N2
     uses_external_data: false
     is_global_top: true
@@ -2034,6 +2080,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 9
     true_value: 0.7829
     true_std: 0.0126
@@ -2070,6 +2117,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 10
     true_value: 0.7805
     true_std: 0.01
@@ -2106,6 +2154,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 13
     true_value: 0.7776
     true_std: 0.0098
@@ -2142,6 +2191,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 18
     true_value: 0.771
     true_std: 0.007
@@ -2179,6 +2229,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 27
     true_value: 0.762
     true_std: 0.004
@@ -2216,6 +2267,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 34
     true_value: 0.76
     true_std: 0.019
@@ -2252,6 +2304,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 39
     true_value: 0.7588
     true_std: 0.036
@@ -2288,6 +2341,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 40
     true_value: 0.758
     true_std: 0.009
@@ -2325,6 +2379,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 61
     true_value: 0.75
     true_std: 0.042
@@ -2361,6 +2416,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 77
     true_value: 0.7445
     true_std: 0.0583
@@ -2397,6 +2453,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 109
     true_value: 0.7369
     true_std: 0.0205
@@ -2433,6 +2490,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 113
     true_value: 0.735
     true_std: 0.008
@@ -2469,6 +2527,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 224
     true_value: 0.6696
     true_std: 0.0056
@@ -2556,6 +2615,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 3
     true_value: 0.856
     true_std: 0.002
@@ -2593,6 +2653,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 4
     true_value: 0.851
     true_std: 0.003
@@ -2653,6 +2714,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 28
     true_value: 0.5549
     true_std: 0.0175
@@ -2690,6 +2752,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 53
     true_value: 0.4307
     true_std: 0.0029
@@ -2726,6 +2789,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 54
     true_value: 0.4215
     true_std: 0.0013
@@ -2762,6 +2826,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 55
     true_value: 0.4214
     true_std: 0.0007
@@ -2798,6 +2863,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 58
     true_value: 0.4166
     true_std: 0.0015
@@ -2834,6 +2900,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 59
     true_value: 0.4155
     true_std: 0.0016
@@ -2870,6 +2937,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 60
     true_value: 0.4142
     true_std: 0.0042
@@ -2906,6 +2974,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 63
     true_value: 0.4072
     true_std: 0.0065
@@ -2942,6 +3011,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 64
     true_value: 0.4063
     true_std: 0.0094
@@ -2978,6 +3048,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 65
     true_value: 0.406
     true_std: 0.0099
@@ -3014,6 +3085,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 66
     true_value: 0.4017
     true_std: 0.0052
@@ -3050,6 +3122,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 68
     true_value: 0.392
     true_std: 0.0209
@@ -3086,6 +3159,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 73
     true_value: 0.3222
     true_std: 0.001
@@ -3198,6 +3272,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 19
     true_value: 0.918
     true_std: 0.001
@@ -3235,6 +3310,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 37
     true_value: 0.8279
     true_std: 0.0016
@@ -3272,6 +3348,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 57
     true_value: 0.8019
     true_std: 0.0041
@@ -3308,6 +3385,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 62
     true_value: 0.7984
     true_std: 0.001
@@ -3345,6 +3423,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 73
     true_value: 0.7901
     true_std: 0.0068
@@ -3381,6 +3460,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 80
     true_value: 0.7866
     true_std: 0.0049
@@ -3417,6 +3497,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 83
     true_value: 0.7846
     true_std: 0.0099
@@ -3453,6 +3534,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 87
     true_value: 0.782
     true_std: 0.0029
@@ -3489,6 +3571,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 89
     true_value: 0.7812
     true_std: 0.005
@@ -3525,6 +3608,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 88
     true_value: 0.7812
     true_std: 0.0023
@@ -3561,6 +3645,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 91
     true_value: 0.7801
     true_std: 0.0058
@@ -3597,6 +3682,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 95
     true_value: 0.7769
     true_std: 0.0033
@@ -3633,6 +3719,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 101
     true_value: 0.7716
     true_std: 0.0072
@@ -3669,6 +3756,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 103
     true_value: 0.77
     true_std: 0.0077
@@ -3705,6 +3793,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 113
     true_value: 0.7473
     true_std: 0.0094
@@ -3740,9 +3829,9 @@ results:
     params_millions: null
     arxiv_id: '2306.03589'
     title: How does over-squashing affect the power of GNNs?
-    date: Jun 2023
+    date: Jun 6, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-06'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
@@ -3763,9 +3852,9 @@ results:
     params_millions: null
     arxiv_id: '2306.03589'
     title: How does over-squashing affect the power of GNNs?
-    date: Jun 2023
+    date: Jun 6, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-06'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
@@ -3792,6 +3881,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 3
     true_value: 0.014
     true_std: null
@@ -3828,6 +3918,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 3
     true_value: 0.014
     true_std: null
@@ -3855,7 +3946,7 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.5
+    params_millions: null
     arxiv_id: '2402.08450'
     title: 'Subgraphormer: Unifying Subgraph GNNs and Graph Transformers via Graph
       Products'
@@ -3888,6 +3979,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 5
     true_value: 0.021
     true_std: 0.002
@@ -3924,6 +4016,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 5
     true_value: 0.021
     true_std: 0.002
@@ -3960,6 +4053,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 13
     true_value: 0.025
     true_std: 0.004
@@ -3996,6 +4090,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 13
     true_value: 0.025
     true_std: 0.004
@@ -4032,6 +4127,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 16
     true_value: 0.0262
     true_std: 0.0025
@@ -4068,6 +4164,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 23
     true_value: 0.034
     true_std: 0.007
@@ -4104,6 +4201,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 23
     true_value: 0.034
     true_std: 0.007
@@ -4140,6 +4238,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 24
     true_value: 0.035
     true_std: 0.005
@@ -4176,6 +4275,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 24
     true_value: 0.035
     true_std: 0.005
@@ -4212,6 +4312,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 25
     true_value: 0.036
     true_std: 0.005
@@ -4248,6 +4349,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 25
     true_value: 0.036
     true_std: 0.005
@@ -4284,6 +4386,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 26
     true_value: 0.036
     true_std: 0.002
@@ -4320,6 +4423,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 26
     true_value: 0.036
     true_std: 0.002
@@ -4356,6 +4460,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 28
     true_value: 0.04
     true_std: 0.006
@@ -4392,6 +4497,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 28
     true_value: 0.04
     true_std: 0.006
@@ -4428,6 +4534,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 31
     true_value: 0.059
     true_std: 0.005
@@ -4464,6 +4571,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 31
     true_value: 0.059
     true_std: 0.005
@@ -4500,6 +4608,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 42
     true_value: 0.067
     true_std: 0.009
@@ -4536,6 +4645,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 42
     true_value: 0.067
     true_std: 0.009
@@ -4572,6 +4682,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 51
     true_value: 0.072
     true_std: 0.004
@@ -4608,6 +4719,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 97
     true_value: 0.1341
     true_std: 0.0063
@@ -4645,6 +4757,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 126
     true_value: 0.193
     true_std: 0.001
@@ -4755,6 +4868,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 7
     true_value: 0.736
     true_std: 0.002
@@ -4792,6 +4906,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 32
     true_value: 0.497
     true_std: 0.0059
@@ -4828,6 +4943,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 34
     true_value: 0.491
     true_std: 0.0057
@@ -4864,6 +4980,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 37
     true_value: 0.4819
     true_std: 0.0094
@@ -4900,6 +5017,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 38
     true_value: 0.4756
     true_std: 0.0052
@@ -4936,6 +5054,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 40
     true_value: 0.4656
     true_std: 0.0062
@@ -5048,6 +5167,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 57
     true_value: 0.752
     true_std: 0.0003
@@ -5085,6 +5205,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 69
     true_value: 0.7485
     true_std: null
@@ -5121,6 +5242,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 77
     true_value: 0.7439
     true_std: null
@@ -5158,6 +5280,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 86
     true_value: 0.742
     true_std: 0.002
@@ -5195,6 +5318,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 156
     true_value: 0.7289
     true_std: 0.0068
@@ -5231,6 +5355,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 188
     true_value: 0.7248
     true_std: 0.0
@@ -5267,6 +5392,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 193
     true_value: 0.7241
     true_std: 0.004
@@ -5303,6 +5429,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 211
     true_value: 0.72
     true_std: 0.0
@@ -5340,6 +5467,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 274
     true_value: 0.7101
     true_std: 0.0013
@@ -5377,6 +5505,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 286
     true_value: 0.7054
     true_std: 0.003
@@ -5490,6 +5619,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 22
     true_value: 0.8435
     true_std: 0.0009
@@ -5527,6 +5657,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 30
     true_value: 0.827
     true_std: 0.001
@@ -5564,6 +5695,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 31
     true_value: 0.8263
     true_std: 0.0007
@@ -5601,6 +5733,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 32
     true_value: 0.8262
     true_std: 0.0039
@@ -5637,6 +5770,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 39
     true_value: 0.82
     true_std: 0.0043
@@ -5673,6 +5807,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 59
     true_value: 0.7976
     true_std: 0.0059
@@ -5709,6 +5844,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 73
     true_value: 0.7868
     true_std: 0.014
@@ -5745,6 +5881,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 110
     true_value: 0.7355
     true_std: 0.0021
@@ -5781,6 +5918,7 @@ results:
     date: Jan 30, 2025
     date_display: Jan 2025
     date_iso: '2025-01-30'
+    published_venue: null
     global_rank: 115
     true_value: 0.7293
     true_std: 0.0013
@@ -5821,6 +5959,5 @@ results_grouped:
   datasets:
   - *id011
 single_proposed_model: GPM
-main_figure: /figures/2501.18739/main_figure.png
 ---
 

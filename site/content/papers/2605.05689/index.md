@@ -3,8 +3,9 @@ title: 'GCCM: Enhancing Generative Graph Prediction via Contrastive Consistency 
 arxiv_id: '2605.05689'
 source_url: ''
 authors: []
-published_date: May 2026
-published_date_iso: 2026-05
+published_date: May 7, 2026
+published_date_iso: '2026-05-07'
+published_venue: ''
 abstract: 'Conditional generative models, particularly diffusion-based methods, have
   recently been applied to graph prediction by modeling the target as a conditional
   distribution given the input graph, yielding competitive results compared to deterministic
@@ -58,9 +59,9 @@ results:
     params_millions: null
     arxiv_id: '1606.09375'
     title: Convolutional Neural Networks on Graphs with Fast Localized Spectral Filtering
-    date: Jun 2016
+    date: Jun 30, 2016
     date_display: Jun 2016
-    date_iso: 2016-06
+    date_iso: '2016-06-30'
     codebase_url: https://github.com/mdeff/cnn_graph
     uses_external_data: false
     is_global_top: true
@@ -82,9 +83,9 @@ results:
     arxiv_id: '1705.07664'
     title: 'CayleyNets: Graph Convolutional Neural Networks with Complex Rational
       Spectral Filters'
-    date: May 2017
+    date: May 22, 2017
     date_display: May 2017
-    date_iso: 2017-05
+    date_iso: '2017-05-22'
     codebase_url: https://github.com/fmonti/mgcnn
     uses_external_data: false
     is_global_top: true
@@ -106,9 +107,9 @@ results:
     arxiv_id: '1705.07664'
     title: 'CayleyNets: Graph Convolutional Neural Networks with Complex Rational
       Spectral Filters'
-    date: May 2017
+    date: May 22, 2017
     date_display: May 2017
-    date_iso: 2017-05
+    date_iso: '2017-05-22'
     codebase_url: https://github.com/fmonti/mgcnn
     uses_external_data: false
     is_global_top: true
@@ -132,9 +133,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 18
     true_value: 0.98236
     true_std: 0.0006
@@ -169,9 +171,10 @@ results:
     table_ref: Table 1
     source_ref: Hussain 2022
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 25
     true_value: 0.98173
     true_std: 0.00087
@@ -205,9 +208,10 @@ results:
     table_ref: Table 1
     source_ref: Li 2025
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 30
     true_value: 0.98114
     true_std: 0.00183
@@ -242,9 +246,10 @@ results:
     table_ref: Table 1
     source_ref: GRIT 2023
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 32
     true_value: 0.98108
     true_std: 0.00111
@@ -279,9 +284,10 @@ results:
     table_ref: Table 1
     source_ref: Corso 2020
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 34
     true_value: 0.981
     true_std: 0.002
@@ -316,9 +322,10 @@ results:
     table_ref: Table 1
     source_ref: Rampásek 2023
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 35
     true_value: 0.98082
     true_std: 0.00114
@@ -353,9 +360,10 @@ results:
     table_ref: Table 1
     source_ref: Xu 2019
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 40
     true_value: 0.979
     true_std: 0.003
@@ -390,9 +398,10 @@ results:
     table_ref: Table 1
     source_ref: Kipf 2017
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 41
     true_value: 0.978
     true_std: 0.003
@@ -427,9 +436,10 @@ results:
     table_ref: Table 1
     source_ref: Bresson 2018
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 47
     true_value: 0.9734
     true_std: 0.00143
@@ -463,9 +473,10 @@ results:
     table_ref: Table 1
     source_ref: Veličković 2018
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 48
     true_value: 0.972
     true_std: 0.005
@@ -500,9 +511,10 @@ results:
     table_ref: Table 1
     source_ref: Zhou 2024
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 53
     true_value: 0.95461
     true_std: 0.00613
@@ -528,6 +540,5 @@ results_grouped:
   datasets:
   - *id001
 single_proposed_model: GPS-GCCM
-main_figure: /figures/2605.05689/main_figure.png
 ---
 

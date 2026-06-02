@@ -3,8 +3,9 @@ title: arXiv:2404.03380
 arxiv_id: '2404.03380'
 source_url: ''
 authors: []
-published_date: ''
-published_date_iso: ''
+published_date: Apr 4, 2024
+published_date_iso: '2024-04-04'
+published_venue: ''
 abstract: ''
 codebase_url: ''
 extraction_model: ''
@@ -19,6 +20,5 @@ task_categories: []
 experiment_scopes: []
 results: []
 results_grouped: []
-main_figure: /figures/2404.03380/main_figure.png
 ---
 

@@ -3,8 +3,9 @@ title: arXiv:2601.07419
 arxiv_id: '2601.07419'
 source_url: ''
 authors: []
-published_date: ''
-published_date_iso: ''
+published_date: Jan 12, 2026
+published_date_iso: '2026-01-12'
+published_venue: ''
 abstract: ''
 codebase_url: ''
 extraction_model: ''
@@ -19,6 +20,5 @@ task_categories: []
 experiment_scopes: []
 results: []
 results_grouped: []
-main_figure: /figures/2601.07419/main_figure.png
 ---
 

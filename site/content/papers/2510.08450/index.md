@@ -5,6 +5,7 @@ source_url: ''
 authors: []
 published_date: Oct 2025
 published_date_iso: 2025-10
+published_venue: ''
 abstract: Graph Neural Networks (GNNs) leverage the graph structure to transmit information
   between nodes, typically through the message-passing mechanism. While these models
   have found a wide variety of applications, they are known to suffer from, where
@@ -60,6 +61,7 @@ results:
     date: Oct 2025
     date_display: Oct 2025
     date_iso: 2025-10
+    published_venue: null
     global_rank: null
     sort_value: 0.00019
     sort_std: 9.0e-05
@@ -83,6 +85,7 @@ results:
     date: Oct 2025
     date_display: Oct 2025
     date_iso: 2025-10
+    published_venue: null
     global_rank: null
     sort_value: 0.00028
     sort_std: 7.0e-05
@@ -106,6 +109,7 @@ results:
     date: Oct 2025
     date_display: Oct 2025
     date_iso: 2025-10
+    published_venue: null
     global_rank: 94
     sort_value: 0.0015
     sort_std: 0.00011
@@ -129,6 +133,7 @@ results:
     date: Oct 2025
     date_display: Oct 2025
     date_iso: 2025-10
+    published_venue: null
     global_rank: 91
     sort_value: 0.0043
     sort_std: 0.0025
@@ -152,6 +157,7 @@ results:
     date: Oct 2025
     date_display: Oct 2025
     date_iso: 2025-10
+    published_venue: null
     global_rank: 25
     sort_value: 0.0055
     sort_std: 0.0005
@@ -175,6 +181,7 @@ results:
     date: Oct 2025
     date_display: Oct 2025
     date_iso: 2025-10
+    published_venue: null
     global_rank: 130
     sort_value: 0.0067
     sort_std: 0.0012
@@ -198,6 +205,7 @@ results:
     date: Oct 2025
     date_display: Oct 2025
     date_iso: 2025-10
+    published_venue: null
     global_rank: null
     sort_value: 0.0067
     sort_std: 0.0011
@@ -221,6 +229,7 @@ results:
     date: Oct 2025
     date_display: Oct 2025
     date_iso: 2025-10
+    published_venue: null
     global_rank: 119
     sort_value: 0.0097
     sort_std: 0.0016
@@ -244,6 +253,7 @@ results:
     date: Oct 2025
     date_display: Oct 2025
     date_iso: 2025-10
+    published_venue: null
     global_rank: null
     sort_value: 0.0099
     sort_std: 0.0
@@ -339,9 +349,9 @@ results:
     arxiv_id: '2506.07624'
     title: 'Return of ChebNet: Understanding and Improving an Overlooked GNN on Long-Range
       Tasks'
-    date: Jun 2025
+    date: Jun 9, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-09'
     codebase_url: https://github.com/ahariri13/Stable-ChebNet
     uses_external_data: false
     is_global_top: true
@@ -363,9 +373,9 @@ results:
     arxiv_id: '2506.07624'
     title: 'Return of ChebNet: Understanding and Improving an Overlooked GNN on Long-Range
       Tasks'
-    date: Jun 2025
+    date: Jun 9, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-09'
     codebase_url: https://github.com/ahariri13/Stable-ChebNet
     uses_external_data: false
     is_global_top: true
@@ -392,6 +402,7 @@ results:
     date: Oct 2025
     date_display: Oct 2025
     date_iso: 2025-10
+    published_venue: null
     global_rank: 3
     true_value: 0.725
     true_std: 0.0023
@@ -452,6 +463,7 @@ results:
     date: Oct 2025
     date_display: Oct 2025
     date_iso: 2025-10
+    published_venue: null
     global_rank: 19
     true_value: 0.6996
     true_std: 0.0076
@@ -489,6 +501,7 @@ results:
     date: Oct 2025
     date_display: Oct 2025
     date_iso: 2025-10
+    published_venue: null
     global_rank: 29
     true_value: 0.6902
     true_std: 0.0022
@@ -525,6 +538,7 @@ results:
     date: Oct 2025
     date_display: Oct 2025
     date_iso: 2025-10
+    published_venue: null
     global_rank: 33
     true_value: 0.686
     true_std: 0.005
@@ -562,6 +576,7 @@ results:
     date: Oct 2025
     date_display: Oct 2025
     date_iso: 2025-10
+    published_venue: null
     global_rank: 41
     true_value: 0.6765
     true_std: 0.0047
@@ -599,6 +614,7 @@ results:
     date: Oct 2025
     date_display: Oct 2025
     date_iso: 2025-10
+    published_venue: null
     global_rank: 53
     true_value: 0.6621
     true_std: 0.0067
@@ -636,6 +652,7 @@ results:
     date: Oct 2025
     date_display: Oct 2025
     date_iso: 2025-10
+    published_venue: null
     global_rank: 57
     true_value: 0.6601
     true_std: 0.0061
@@ -671,9 +688,9 @@ results:
     params_millions: null
     arxiv_id: '2508.05070'
     title: 'Tango: Graph Neural Dynamics via Learned Energy and Tangential Flows'
-    date: Aug 2025
+    date: Aug 7, 2025
     date_display: Aug 2025
-    date_iso: 2025-08
+    date_iso: '2025-08-07'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
@@ -695,9 +712,9 @@ results:
     arxiv_id: '2511.03824'
     title: Sketch-Augmented Features Improve Learning Long-Range Dependencies in Graph
       Neural Networks
-    date: Nov 2025
+    date: Nov 5, 2025
     date_display: Nov 2025
-    date_iso: 2025-11
+    date_iso: '2025-11-05'
     codebase_url: https://github.com/ryienh/sketched-random-features
     uses_external_data: false
     is_global_top: true
@@ -719,9 +736,9 @@ results:
     arxiv_id: '2506.07624'
     title: 'Return of ChebNet: Understanding and Improving an Overlooked GNN on Long-Range
       Tasks'
-    date: Jun 2025
+    date: Jun 9, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-09'
     codebase_url: https://github.com/ahariri13/Stable-ChebNet
     uses_external_data: null
     is_global_top: true
@@ -748,6 +765,7 @@ results:
     date: Oct 2025
     date_display: Oct 2025
     date_iso: 2025-10
+    published_venue: null
     global_rank: 16
     true_value: 0.246
     true_std: 0.0007
@@ -785,6 +803,7 @@ results:
     date: Oct 2025
     date_display: Oct 2025
     date_iso: 2025-10
+    published_venue: null
     global_rank: 26
     true_value: 0.2473
     true_std: 0.0017
@@ -822,6 +841,7 @@ results:
     date: Oct 2025
     date_display: Oct 2025
     date_iso: 2025-10
+    published_venue: null
     global_rank: 32
     true_value: 0.2475
     true_std: 0.0007
@@ -859,6 +879,7 @@ results:
     date: Oct 2025
     date_display: Oct 2025
     date_iso: 2025-10
+    published_venue: null
     global_rank: 35
     true_value: 0.2477
     true_std: 0.0009
@@ -896,6 +917,7 @@ results:
     date: Oct 2025
     date_display: Oct 2025
     date_iso: 2025-10
+    published_venue: null
     global_rank: 50
     true_value: 0.25
     true_std: 0.0005
@@ -933,6 +955,7 @@ results:
     date: Oct 2025
     date_display: Oct 2025
     date_iso: 2025-10
+    published_venue: null
     global_rank: 79
     true_value: 0.2581
     true_std: 0.0003
@@ -969,6 +992,7 @@ results:
     date: Oct 2025
     date_display: Oct 2025
     date_iso: 2025-10
+    published_venue: null
     global_rank: 95
     true_value: 0.2766
     true_std: 0.0019
@@ -1010,6 +1034,7 @@ results:
     date: Oct 2025
     date_display: Oct 2025
     date_iso: 2025-10
+    published_venue: null
     global_rank: 1
     true_value: 4.0e-07
     true_std: 3.0e-07
@@ -1046,6 +1071,7 @@ results:
     date: Oct 2025
     date_display: Oct 2025
     date_iso: 2025-10
+    published_venue: null
     global_rank: 2
     true_value: 1.5e-06
     true_std: 9.0e-06
@@ -1082,6 +1108,7 @@ results:
     date: Oct 2025
     date_display: Oct 2025
     date_iso: 2025-10
+    published_venue: null
     global_rank: 3
     true_value: 7.4e-06
     true_std: 1.0e-07
@@ -1118,6 +1145,7 @@ results:
     date: Oct 2025
     date_display: Oct 2025
     date_iso: 2025-10
+    published_venue: null
     global_rank: 4
     true_value: 0.00029
     true_std: 0.0026
@@ -1154,6 +1182,7 @@ results:
     date: Oct 2025
     date_display: Oct 2025
     date_iso: 2025-10
+    published_venue: null
     global_rank: 5
     true_value: 0.002
     true_std: 0.0071
@@ -1190,6 +1219,7 @@ results:
     date: Oct 2025
     date_display: Oct 2025
     date_iso: 2025-10
+    published_venue: null
     global_rank: 6
     true_value: 0.0062
     true_std: 0.00015
@@ -1226,6 +1256,7 @@ results:
     date: Oct 2025
     date_display: Oct 2025
     date_iso: 2025-10
+    published_venue: null
     global_rank: 7
     true_value: 0.0071
     true_std: 5.0e-05
@@ -1262,6 +1293,7 @@ results:
     date: Oct 2025
     date_display: Oct 2025
     date_iso: 2025-10
+    published_venue: null
     global_rank: 8
     true_value: 0.008
     true_std: 0.0046
@@ -1298,6 +1330,7 @@ results:
     date: Oct 2025
     date_display: Oct 2025
     date_iso: 2025-10
+    published_venue: null
     global_rank: 9
     true_value: 0.0089
     true_std: 0.0
@@ -1329,6 +1362,5 @@ results_grouped:
   datasets:
   - *id004
 single_proposed_model: gLSTM
-main_figure: /figures/2510.08450/main_figure.png
 ---
 

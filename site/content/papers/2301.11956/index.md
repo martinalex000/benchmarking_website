@@ -3,8 +3,9 @@ title: arXiv:2301.11956
 arxiv_id: '2301.11956'
 source_url: ''
 authors: []
-published_date: ''
-published_date_iso: ''
+published_date: Jan 27, 2023
+published_date_iso: '2023-01-27'
+published_venue: ''
 abstract: ''
 codebase_url: ''
 extraction_model: ''
@@ -19,6 +20,5 @@ task_categories: []
 experiment_scopes: []
 results: []
 results_grouped: []
-main_figure: /figures/2301.11956/main_figure.png
 ---
 

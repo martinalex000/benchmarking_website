@@ -3,8 +3,9 @@ title: arXiv:2401.01233
 arxiv_id: '2401.01233'
 source_url: ''
 authors: []
-published_date: ''
-published_date_iso: ''
+published_date: Jan 2, 2024
+published_date_iso: '2024-01-02'
+published_venue: ''
 abstract: ''
 codebase_url: ''
 extraction_model: ''
@@ -19,6 +20,5 @@ task_categories: []
 experiment_scopes: []
 results: []
 results_grouped: []
-main_figure: /figures/2401.01233/main_figure.png
 ---
 

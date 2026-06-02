@@ -6,6 +6,7 @@ source_url: ''
 authors: []
 published_date: Feb 4, 2025
 published_date_iso: '2025-02-04'
+published_venue: ''
 abstract: 'Benchmark datasets have proved pivotal to the success of graph learning,
   and good benchmark datasets are crucial to guide the development of the field. Recent
   research has highlighted problems with graph-learning datasets and benchmarking
@@ -133,6 +134,7 @@ results:
     date: Feb 4, 2025
     date_display: Feb 2025
     date_iso: '2025-02-04'
+    published_venue: null
     global_rank: 59
     true_value: 0.8945
     true_std: 0.0614
@@ -170,6 +172,7 @@ results:
     date: Feb 4, 2025
     date_display: Feb 2025
     date_iso: '2025-02-04'
+    published_venue: null
     global_rank: 62
     true_value: 0.894
     true_std: 0.056
@@ -206,6 +209,7 @@ results:
     date: Feb 4, 2025
     date_display: Feb 2025
     date_iso: '2025-02-04'
+    published_venue: null
     global_rank: 109
     true_value: 0.872
     true_std: 0.0511
@@ -243,6 +247,7 @@ results:
     date: Feb 4, 2025
     date_display: Feb 2025
     date_iso: '2025-02-04'
+    published_venue: null
     global_rank: 358
     true_value: 0.57
     true_std: 0.176
@@ -357,6 +362,7 @@ results:
     date: Feb 4, 2025
     date_display: Feb 2025
     date_iso: '2025-02-04'
+    published_venue: null
     global_rank: 13
     true_value: 0.851
     true_std: 0.003
@@ -394,6 +400,7 @@ results:
     date: Feb 4, 2025
     date_display: Feb 2025
     date_iso: '2025-02-04'
+    published_venue: null
     global_rank: 15
     true_value: 0.845
     true_std: 0.004
@@ -431,6 +438,7 @@ results:
     date: Feb 4, 2025
     date_display: Feb 2025
     date_iso: '2025-02-04'
+    published_venue: null
     global_rank: 23
     true_value: 0.8365
     true_std: 0.0169
@@ -468,6 +476,7 @@ results:
     date: Feb 4, 2025
     date_display: Feb 2025
     date_iso: '2025-02-04'
+    published_venue: null
     global_rank: 232
     true_value: 0.492
     true_std: 0.034
@@ -579,6 +588,7 @@ results:
     date: Feb 4, 2025
     date_display: Feb 2025
     date_iso: '2025-02-04'
+    published_venue: null
     global_rank: 38
     true_value: 0.785
     true_std: 0.012
@@ -616,6 +626,7 @@ results:
     date: Feb 4, 2025
     date_display: Feb 2025
     date_iso: '2025-02-04'
+    published_venue: null
     global_rank: 47
     true_value: 0.779
     true_std: 0.014
@@ -653,6 +664,7 @@ results:
     date: Feb 4, 2025
     date_display: Feb 2025
     date_iso: '2025-02-04'
+    published_venue: null
     global_rank: 67
     true_value: 0.772
     true_std: 0.015
@@ -690,6 +702,7 @@ results:
     date: Feb 4, 2025
     date_display: Feb 2025
     date_iso: '2025-02-04'
+    published_venue: null
     global_rank: 340
     true_value: 0.582
     true_std: 0.049
@@ -716,6 +729,5 @@ results_grouped:
   - *id001
   - *id002
   - *id003
-main_figure: /figures/2502.02379/main_figure.png
 ---
 

@@ -3,8 +3,9 @@ title: 'ReorderBench: A Benchmark for Matrix Reordering'
 arxiv_id: '2408.12169'
 source_url: ''
 authors: []
-published_date: Aug 2024
-published_date_iso: 2024-08
+published_date: Aug 22, 2024
+published_date_iso: '2024-08-22'
+published_venue: ''
 abstract: 'Matrix reordering permutes the rows and columns of a matrix to reveal meaningful
   visual patterns, such as blocks that represent clusters. A comprehensive collection
   of matrices, along with a scoring method for measuring the quality of visual patterns
@@ -51,9 +52,9 @@ results:
     params_millions: null
     arxiv_id: '2511.20406'
     title: Short-Range Oversquashing
-    date: Nov 2025
+    date: Nov 25, 2025
     date_display: Nov 2025
-    date_iso: 2025-11
+    date_iso: '2025-11-25'
     codebase_url: https://github.com/YakovM93/Short-Range-Oversquashing
     uses_external_data: false
     is_global_top: true
@@ -123,9 +124,10 @@ results:
     table_ref: Table 3
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
-    date: Aug 2024
+    date: Aug 22, 2024
     date_display: Aug 2024
-    date_iso: 2024-08
+    date_iso: '2024-08-22'
+    published_venue: null
     global_rank: null
     sort_value: 0.925
     sort_std: null
@@ -146,9 +148,10 @@ results:
     table_ref: Table 3
     source_ref: Tsafrir 2005
     variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
-    date: Aug 2024
+    date: Aug 22, 2024
     date_display: Aug 2024
-    date_iso: 2024-08
+    date_iso: '2024-08-22'
+    published_venue: null
     global_rank: null
     sort_value: 0.895
     sort_std: null
@@ -169,9 +172,10 @@ results:
     table_ref: Table 3
     source_ref: Bar 2001
     variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
-    date: Aug 2024
+    date: Aug 22, 2024
     date_display: Aug 2024
-    date_iso: 2024-08
+    date_iso: '2024-08-22'
+    published_venue: null
     global_rank: null
     sort_value: 0.892
     sort_std: null
@@ -192,9 +196,10 @@ results:
     table_ref: Table 3
     source_ref: Gruvaeus 1972
     variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
-    date: Aug 2024
+    date: Aug 22, 2024
     date_display: Aug 2024
-    date_iso: 2024-08
+    date_iso: '2024-08-22'
+    published_venue: null
     global_rank: null
     sort_value: 0.886
     sort_std: null
@@ -215,9 +220,10 @@ results:
     table_ref: Table 3
     source_ref: Lenstra 1975
     variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
-    date: Aug 2024
+    date: Aug 22, 2024
     date_display: Aug 2024
-    date_iso: 2024-08
+    date_iso: '2024-08-22'
+    published_venue: null
     global_rank: null
     sort_value: 0.852
     sort_std: null
@@ -238,9 +244,10 @@ results:
     table_ref: Table 3
     source_ref: Chen 2002
     variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
-    date: Aug 2024
+    date: Aug 22, 2024
     date_display: Aug 2024
-    date_iso: 2024-08
+    date_iso: '2024-08-22'
+    published_venue: null
     global_rank: null
     sort_value: 0.83
     sort_std: null
@@ -261,9 +268,10 @@ results:
     table_ref: Table 3
     source_ref: Kruskal 1964
     variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
-    date: Aug 2024
+    date: Aug 22, 2024
     date_display: Aug 2024
-    date_iso: 2024-08
+    date_iso: '2024-08-22'
+    published_venue: null
     global_rank: null
     sort_value: 0.763
     sort_std: null
@@ -284,9 +292,10 @@ results:
     table_ref: Table 3
     source_ref: Abdi 2010
     variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
-    date: Aug 2024
+    date: Aug 22, 2024
     date_display: Aug 2024
-    date_iso: 2024-08
+    date_iso: '2024-08-22'
+    published_venue: null
     global_rank: null
     sort_value: 0.763
     sort_std: null
@@ -307,9 +316,10 @@ results:
     table_ref: Table 3
     source_ref: Ding 2004
     variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
-    date: Aug 2024
+    date: Aug 22, 2024
     date_display: Aug 2024
-    date_iso: 2024-08
+    date_iso: '2024-08-22'
+    published_venue: null
     global_rank: null
     sort_value: 0.726
     sort_std: null
@@ -330,9 +340,10 @@ results:
     table_ref: Table 3
     source_ref: Deutsch 1971
     variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
-    date: Aug 2024
+    date: Aug 22, 2024
     date_display: Aug 2024
-    date_iso: 2024-08
+    date_iso: '2024-08-22'
+    published_venue: null
     global_rank: null
     sort_value: 0.557
     sort_std: null
@@ -353,9 +364,10 @@ results:
     table_ref: Table 3
     source_ref: Eades 1994
     variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
-    date: Aug 2024
+    date: Aug 22, 2024
     date_display: Aug 2024
-    date_iso: 2024-08
+    date_iso: '2024-08-22'
+    published_venue: null
     global_rank: null
     sort_value: 0.46
     sort_std: null
@@ -367,6 +379,5 @@ results_grouped:
   datasets:
   - *id001
 single_proposed_model: Deep model
-main_figure: /figures/2408.12169/main_figure.png
 ---
 

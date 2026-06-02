@@ -3,8 +3,9 @@ title: arXiv:2304.10933
 arxiv_id: '2304.10933'
 source_url: ''
 authors: []
-published_date: ''
-published_date_iso: ''
+published_date: Apr 21, 2023
+published_date_iso: '2023-04-21'
+published_venue: ''
 abstract: ''
 codebase_url: ''
 extraction_model: ''
@@ -19,6 +20,5 @@ task_categories: []
 experiment_scopes: []
 results: []
 results_grouped: []
-main_figure: /figures/2304.10933/main_figure.png
 ---
 

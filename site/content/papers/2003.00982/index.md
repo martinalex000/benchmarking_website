@@ -5,6 +5,7 @@ source_url: ''
 authors: []
 published_date: ''
 published_date_iso: ''
+published_venue: ''
 abstract: ''
 codebase_url: ''
 extraction_model: ''

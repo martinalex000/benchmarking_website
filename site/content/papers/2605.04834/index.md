@@ -3,8 +3,9 @@ title: arXiv:2605.04834
 arxiv_id: '2605.04834'
 source_url: ''
 authors: []
-published_date: ''
-published_date_iso: ''
+published_date: May 6, 2026
+published_date_iso: '2026-05-06'
+published_venue: ''
 abstract: ''
 codebase_url: ''
 extraction_model: Qwen/Qwen3.6-35B-A3B-FP8

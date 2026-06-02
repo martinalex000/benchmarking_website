@@ -5,6 +5,7 @@ source_url: ''
 authors: []
 published_date: Jan 2023
 published_date_iso: 2023-01
+published_venue: ''
 abstract: Deep graph generative modeling has proven capable of learning the distribution
   of complex, multi-scale structures characterizing real-world graphs. However, one
   of the main limitations of existing methods is their large output space, which limits
@@ -61,6 +62,7 @@ results:
     date: Jan 2023
     date_display: Jan 2023
     date_iso: 2023-01
+    published_venue: null
     global_rank: 1
     true_value: 0.802
     true_std: 0.009
@@ -120,6 +122,7 @@ results:
     date: Jan 2023
     date_display: Jan 2023
     date_iso: 2023-01
+    published_venue: null
     global_rank: 3
     true_value: 0.785
     true_std: 0.01
@@ -179,6 +182,7 @@ results:
     date: Jan 2023
     date_display: Jan 2023
     date_iso: 2023-01
+    published_venue: null
     global_rank: 5
     true_value: 0.779
     true_std: 0.011
@@ -238,6 +242,7 @@ results:
     date: Jan 2023
     date_display: Jan 2023
     date_iso: 2023-01
+    published_venue: null
     global_rank: 7
     true_value: 0.771
     true_std: 0.012
@@ -274,6 +279,7 @@ results:
     date: Jan 2023
     date_display: Jan 2023
     date_iso: 2023-01
+    published_venue: null
     global_rank: 9
     true_value: 0.762
     true_std: 0.015
@@ -310,6 +316,7 @@ results:
     date: Jan 2023
     date_display: Jan 2023
     date_iso: 2023-01
+    published_venue: null
     global_rank: 11
     true_value: 0.758
     true_std: 0.018
@@ -346,6 +353,7 @@ results:
     date: Jan 2023
     date_display: Jan 2023
     date_iso: 2023-01
+    published_venue: null
     global_rank: 12
     true_value: 0.745
     true_std: 0.021
@@ -382,9 +390,9 @@ results:
     arxiv_id: '2506.07624'
     title: 'Return of ChebNet: Understanding and Improving an Overlooked GNN on Long-Range
       Tasks'
-    date: Jun 2025
+    date: Jun 9, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-09'
     codebase_url: https://github.com/ahariri13/Stable-ChebNet
     uses_external_data: false
     is_global_top: true
@@ -406,9 +414,9 @@ results:
     arxiv_id: '2506.07624'
     title: 'Return of ChebNet: Understanding and Improving an Overlooked GNN on Long-Range
       Tasks'
-    date: Jun 2025
+    date: Jun 9, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-09'
     codebase_url: https://github.com/ahariri13/Stable-ChebNet
     uses_external_data: false
     is_global_top: true
@@ -458,6 +466,7 @@ results:
     date: Jan 2023
     date_display: Jan 2023
     date_iso: 2023-01
+    published_venue: null
     global_rank: 33
     true_value: 0.686
     true_std: 0.005
@@ -495,6 +504,7 @@ results:
     date: Jan 2023
     date_display: Jan 2023
     date_iso: 2023-01
+    published_venue: null
     global_rank: 97
     true_value: 0.5498
     true_std: 0.0079
@@ -532,6 +542,7 @@ results:
     date: Jan 2023
     date_display: Jan 2023
     date_iso: 2023-01
+    published_venue: null
     global_rank: 98
     true_value: 0.462
     true_std: 0.006
@@ -568,6 +579,7 @@ results:
     date: Jan 2023
     date_display: Jan 2023
     date_iso: 2023-01
+    published_venue: null
     global_rank: 99
     true_value: 0.451
     true_std: 0.007
@@ -604,6 +616,7 @@ results:
     date: Jan 2023
     date_display: Jan 2023
     date_iso: 2023-01
+    published_venue: null
     global_rank: 100
     true_value: 0.448
     true_std: 0.009
@@ -640,6 +653,7 @@ results:
     date: Jan 2023
     date_display: Jan 2023
     date_iso: 2023-01
+    published_venue: null
     global_rank: 101
     true_value: 0.445
     true_std: 0.008
@@ -676,6 +690,7 @@ results:
     date: Jan 2023
     date_display: Jan 2023
     date_iso: 2023-01
+    published_venue: null
     global_rank: 102
     true_value: 0.432
     true_std: 0.01
@@ -712,6 +727,7 @@ results:
     date: Jan 2023
     date_display: Jan 2023
     date_iso: 2023-01
+    published_venue: null
     global_rank: 103
     true_value: 0.401
     true_std: 0.015
@@ -748,6 +764,7 @@ results:
     date: Jan 2023
     date_display: Jan 2023
     date_iso: 2023-01
+    published_venue: null
     global_rank: 105
     true_value: 0.392
     true_std: 0.011
@@ -789,6 +806,7 @@ results:
     date: Jan 2023
     date_display: Jan 2023
     date_iso: 2023-01
+    published_venue: null
     global_rank: null
     sort_value: 0.001
     sort_std: 0.0001
@@ -812,6 +830,7 @@ results:
     date: Jan 2023
     date_display: Jan 2023
     date_iso: 2023-01
+    published_venue: null
     global_rank: 98
     sort_value: 0.0011
     sort_std: 0.0001
@@ -835,6 +854,7 @@ results:
     date: Jan 2023
     date_display: Jan 2023
     date_iso: 2023-01
+    published_venue: null
     global_rank: 107
     sort_value: 0.0012
     sort_std: 0.0001
@@ -858,6 +878,7 @@ results:
     date: Jan 2023
     date_display: Jan 2023
     date_iso: 2023-01
+    published_venue: null
     global_rank: 50
     sort_value: 0.0013
     sort_std: 0.0001
@@ -881,6 +902,7 @@ results:
     date: Jan 2023
     date_display: Jan 2023
     date_iso: 2023-01
+    published_venue: null
     global_rank: 131
     sort_value: 0.0014
     sort_std: 0.0001
@@ -904,6 +926,7 @@ results:
     date: Jan 2023
     date_display: Jan 2023
     date_iso: 2023-01
+    published_venue: null
     global_rank: null
     sort_value: 0.0015
     sort_std: 0.0001
@@ -927,6 +950,7 @@ results:
     date: Jan 2023
     date_display: Jan 2023
     date_iso: 2023-01
+    published_venue: null
     global_rank: 3
     sort_value: 0.0016
     sort_std: 0.0001
@@ -950,6 +974,7 @@ results:
     date: Jan 2023
     date_display: Jan 2023
     date_iso: 2023-01
+    published_venue: null
     global_rank: 42
     sort_value: 0.0017
     sort_std: 0.0001
@@ -973,6 +998,7 @@ results:
     date: Jan 2023
     date_display: Jan 2023
     date_iso: 2023-01
+    published_venue: null
     global_rank: 2
     sort_value: 0.0018
     sort_std: 0.0001
@@ -990,9 +1016,9 @@ results:
     params_millions: null
     arxiv_id: '2306.03589'
     title: How does over-squashing affect the power of GNNs?
-    date: Jun 2023
+    date: Jun 6, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-06'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
@@ -1010,7 +1036,7 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.5
+    params_millions: null
     arxiv_id: '2402.08450'
     title: 'Subgraphormer: Unifying Subgraph GNNs and Graph Transformers via Graph
       Products'
@@ -1060,6 +1086,5 @@ results_grouped:
   datasets:
   - *id003
 single_proposed_model: C-M
-main_figure: /figures/2301.10857/main_figure.png
 ---
 

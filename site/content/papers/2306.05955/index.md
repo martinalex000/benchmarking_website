@@ -5,6 +5,7 @@ source_url: ''
 authors: []
 published_date: Jun 9, 2023
 published_date_iso: '2023-06-09'
+published_venue: ''
 abstract: Graph neural networks (GNNs) have recently become the standard approach
   for learning with graph-structured data. Prior work has shed light into their potential,
   but also their limitations. Unfortunately, it was shown that standard GNNs are limited
@@ -33,6 +34,5 @@ task_categories: []
 experiment_scopes: []
 results: []
 results_grouped: []
-main_figure: /figures/2306.05955/main_figure.png
 ---
 

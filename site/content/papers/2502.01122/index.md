@@ -3,8 +3,9 @@ title: Learning Efficient Positional Encodings with Graph Neural Networks
 arxiv_id: '2502.01122'
 source_url: ''
 authors: []
-published_date: Feb 2025
-published_date_iso: 2025-02
+published_date: Feb 3, 2025
+published_date_iso: '2025-02-03'
+published_venue: ''
 abstract: 'Positional encodings (PEs) are essential for effective graph representation
   learning because they provide position awareness in inherently position-agnostic
   transformer architectures and increase the expressive capacity of Graph Neural Networks
@@ -65,9 +66,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2025
+    date: Feb 3, 2025
     date_display: Feb 2025
-    date_iso: 2025-02
+    date_iso: '2025-02-03'
+    published_venue: null
     global_rank: 5
     true_value: 1.0
     true_std: null
@@ -102,9 +104,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2025
+    date: Feb 3, 2025
     date_display: Feb 2025
-    date_iso: 2025-02
+    date_iso: '2025-02-03'
+    published_venue: null
     global_rank: 4
     true_value: 1.0
     true_std: null
@@ -210,9 +213,9 @@ results:
     params_millions: null
     arxiv_id: '2511.20406'
     title: Short-Range Oversquashing
-    date: Nov 2025
+    date: Nov 25, 2025
     date_display: Nov 2025
-    date_iso: 2025-11
+    date_iso: '2025-11-25'
     codebase_url: https://github.com/YakovM93/Short-Range-Oversquashing
     uses_external_data: false
     is_global_top: true
@@ -282,9 +285,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
-    date: Feb 2025
+    date: Feb 3, 2025
     date_display: Feb 2025
-    date_iso: 2025-02
+    date_iso: '2025-02-03'
+    published_venue: null
     global_rank: null
     sort_value: 0.7253
     sort_std: 0.0066
@@ -305,9 +309,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
-    date: Feb 2025
+    date: Feb 3, 2025
     date_display: Feb 2025
-    date_iso: 2025-02
+    date_iso: '2025-02-03'
+    published_venue: null
     global_rank: null
     sort_value: 0.7227
     sort_std: 0.0097
@@ -328,9 +333,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
-    date: Feb 2025
+    date: Feb 3, 2025
     date_display: Feb 2025
-    date_iso: 2025-02
+    date_iso: '2025-02-03'
+    published_venue: null
     global_rank: null
     sort_value: 0.7224
     sort_std: 0.003
@@ -351,9 +357,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
-    date: Feb 2025
+    date: Feb 3, 2025
     date_display: Feb 2025
-    date_iso: 2025-02
+    date_iso: '2025-02-03'
+    published_venue: null
     global_rank: null
     sort_value: 0.7198
     sort_std: 0.0065
@@ -374,9 +381,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
-    date: Feb 2025
+    date: Feb 3, 2025
     date_display: Feb 2025
-    date_iso: 2025-02
+    date_iso: '2025-02-03'
+    published_venue: null
     global_rank: null
     sort_value: 0.7172
     sort_std: 0.0071
@@ -397,9 +405,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
-    date: Feb 2025
+    date: Feb 3, 2025
     date_display: Feb 2025
-    date_iso: 2025-02
+    date_iso: '2025-02-03'
+    published_venue: null
     global_rank: null
     sort_value: 0.7168
     sort_std: 0.011
@@ -420,9 +429,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
-    date: Feb 2025
+    date: Feb 3, 2025
     date_display: Feb 2025
-    date_iso: 2025-02
+    date_iso: '2025-02-03'
+    published_venue: null
     global_rank: null
     sort_value: 0.7166
     sort_std: 0.0005
@@ -443,9 +453,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
-    date: Feb 2025
+    date: Feb 3, 2025
     date_display: Feb 2025
-    date_iso: 2025-02
+    date_iso: '2025-02-03'
+    published_venue: null
     global_rank: null
     sort_value: 0.7122
     sort_std: 0.0042
@@ -468,9 +479,9 @@ results:
     params_millions: null
     arxiv_id: '2508.05070'
     title: 'Tango: Graph Neural Dynamics via Learned Energy and Tangential Flows'
-    date: Aug 2025
+    date: Aug 7, 2025
     date_display: Aug 2025
-    date_iso: 2025-08
+    date_iso: '2025-08-07'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
@@ -492,9 +503,9 @@ results:
     arxiv_id: '2511.03824'
     title: Sketch-Augmented Features Improve Learning Long-Range Dependencies in Graph
       Neural Networks
-    date: Nov 2025
+    date: Nov 5, 2025
     date_display: Nov 2025
-    date_iso: 2025-11
+    date_iso: '2025-11-05'
     codebase_url: https://github.com/ryienh/sketched-random-features
     uses_external_data: false
     is_global_top: true
@@ -516,9 +527,9 @@ results:
     arxiv_id: '2506.07624'
     title: 'Return of ChebNet: Understanding and Improving an Overlooked GNN on Long-Range
       Tasks'
-    date: Jun 2025
+    date: Jun 9, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-09'
     codebase_url: https://github.com/ahariri13/Stable-ChebNet
     uses_external_data: null
     is_global_top: true
@@ -542,9 +553,10 @@ results:
     table_ref: Table 1
     source_ref: He et al. 2023
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2025
+    date: Feb 3, 2025
     date_display: Feb 2025
-    date_iso: 2025-02
+    date_iso: '2025-02-03'
+    published_venue: null
     global_rank: 6
     true_value: 0.2449
     true_std: 0.0016
@@ -579,9 +591,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2025
+    date: Feb 3, 2025
     date_display: Feb 2025
-    date_iso: 2025-02
+    date_iso: '2025-02-03'
+    published_venue: null
     global_rank: 24
     true_value: 0.247
     true_std: 0.001
@@ -616,9 +629,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2025
+    date: Feb 3, 2025
     date_display: Feb 2025
-    date_iso: 2025-02
+    date_iso: '2025-02-03'
+    published_venue: null
     global_rank: 39
     true_value: 0.248
     true_std: 0.001
@@ -653,9 +667,10 @@ results:
     table_ref: Table 1
     source_ref: Rampásek et al. 2022
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2025
+    date: Feb 3, 2025
     date_display: Feb 2025
-    date_iso: 2025-02
+    date_iso: '2025-02-03'
+    published_venue: null
     global_rank: 50
     true_value: 0.25
     true_std: 0.0005
@@ -690,9 +705,10 @@ results:
     table_ref: Table 1
     source_ref: Frasca et al. 2022
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2025
+    date: Feb 3, 2025
     date_display: Feb 2025
-    date_iso: 2025-02
+    date_iso: '2025-02-03'
+    published_venue: null
     global_rank: 54
     true_value: 0.25
     true_std: 0.001
@@ -727,9 +743,10 @@ results:
     table_ref: Table 1
     source_ref: Krüger et al. 2021
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2025
+    date: Feb 3, 2025
     date_display: Feb 2025
-    date_iso: 2025-02
+    date_iso: '2025-02-03'
+    published_venue: null
     global_rank: 73
     true_value: 0.2545
     true_std: 0.0012
@@ -763,9 +780,10 @@ results:
     table_ref: Table 1
     source_ref: Krüger et al. 2021
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2025
+    date: Feb 3, 2025
     date_display: Feb 2025
-    date_iso: 2025-02
+    date_iso: '2025-02-03'
+    published_venue: null
     global_rank: 88
     true_value: 0.268
     true_std: 0.004
@@ -800,9 +818,10 @@ results:
     table_ref: Table 1
     source_ref: Zhao et al. 2022
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2025
+    date: Feb 3, 2025
     date_display: Feb 2025
-    date_iso: 2025-02
+    date_iso: '2025-02-03'
+    published_venue: null
     global_rank: 92
     true_value: 0.274
     true_std: 0.0
@@ -842,9 +861,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2025
+    date: Feb 3, 2025
     date_display: Feb 2025
-    date_iso: 2025-02
+    date_iso: '2025-02-03'
+    published_venue: null
     global_rank: 1
     true_value: 0.945
     true_std: 0.004
@@ -879,9 +899,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2025
+    date: Feb 3, 2025
     date_display: Feb 2025
-    date_iso: 2025-02
+    date_iso: '2025-02-03'
+    published_venue: null
     global_rank: 2
     true_value: 0.936
     true_std: null
@@ -984,9 +1005,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2025
+    date: Feb 3, 2025
     date_display: Feb 2025
-    date_iso: 2025-02
+    date_iso: '2025-02-03'
+    published_venue: null
     global_rank: 8
     true_value: 0.918
     true_std: 0.016
@@ -1021,9 +1043,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2025
+    date: Feb 3, 2025
     date_display: Feb 2025
-    date_iso: 2025-02
+    date_iso: '2025-02-03'
+    published_venue: null
     global_rank: 11
     true_value: 0.911
     true_std: 0.018
@@ -1058,9 +1081,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2025
+    date: Feb 3, 2025
     date_display: Feb 2025
-    date_iso: 2025-02
+    date_iso: '2025-02-03'
+    published_venue: null
     global_rank: 32
     true_value: 0.89
     true_std: 0.052
@@ -1095,9 +1119,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2025
+    date: Feb 3, 2025
     date_display: Feb 2025
-    date_iso: 2025-02
+    date_iso: '2025-02-03'
+    published_venue: null
     global_rank: 44
     true_value: 0.865
     true_std: 0.005
@@ -1206,9 +1231,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2025
+    date: Feb 3, 2025
     date_display: Feb 2025
-    date_iso: 2025-02
+    date_iso: '2025-02-03'
+    published_venue: null
     global_rank: 4
     true_value: 0.851
     true_std: 0.003
@@ -1243,9 +1269,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2025
+    date: Feb 3, 2025
     date_display: Feb 2025
-    date_iso: 2025-02
+    date_iso: '2025-02-03'
+    published_venue: null
     global_rank: 7
     true_value: 0.835
     true_std: 0.003
@@ -1280,9 +1307,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2025
+    date: Feb 3, 2025
     date_display: Feb 2025
-    date_iso: 2025-02
+    date_iso: '2025-02-03'
+    published_venue: null
     global_rank: 8
     true_value: 0.606
     true_std: 0.003
@@ -1317,9 +1345,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2025
+    date: Feb 3, 2025
     date_display: Feb 2025
-    date_iso: 2025-02
+    date_iso: '2025-02-03'
+    published_venue: null
     global_rank: 16
     true_value: 0.57
     true_std: 0.021
@@ -1354,9 +1383,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2025
+    date: Feb 3, 2025
     date_display: Feb 2025
-    date_iso: 2025-02
+    date_iso: '2025-02-03'
+    published_venue: null
     global_rank: 21
     true_value: 0.562
     true_std: 0.018
@@ -1391,9 +1421,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2025
+    date: Feb 3, 2025
     date_display: Feb 2025
-    date_iso: 2025-02
+    date_iso: '2025-02-03'
+    published_venue: null
     global_rank: 29
     true_value: 0.552
     true_std: 0.029
@@ -1430,9 +1461,9 @@ results:
     params_millions: null
     arxiv_id: '2306.03589'
     title: How does over-squashing affect the power of GNNs?
-    date: Jun 2023
+    date: Jun 6, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-06'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
@@ -1453,9 +1484,9 @@ results:
     params_millions: null
     arxiv_id: '2306.03589'
     title: How does over-squashing affect the power of GNNs?
-    date: Jun 2023
+    date: Jun 6, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-06'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
@@ -1479,9 +1510,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: Feb 2025
+    date: Feb 3, 2025
     date_display: Feb 2025
-    date_iso: 2025-02
+    date_iso: '2025-02-03'
+    published_venue: null
     global_rank: 3
     true_value: 0.014
     true_std: null
@@ -1509,7 +1541,7 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.5
+    params_millions: null
     arxiv_id: '2402.08450'
     title: 'Subgraphormer: Unifying Subgraph GNNs and Graph Transformers via Graph
       Products'
@@ -1539,9 +1571,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: Feb 2025
+    date: Feb 3, 2025
     date_display: Feb 2025
-    date_iso: 2025-02
+    date_iso: '2025-02-03'
+    published_venue: null
     global_rank: 11
     true_value: 0.024
     true_std: null
@@ -1575,9 +1608,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'zinc: default subset fallback'
-    date: Feb 2025
+    date: Feb 3, 2025
     date_display: Feb 2025
-    date_iso: 2025-02
+    date_iso: '2025-02-03'
+    published_venue: null
     global_rank: 38
     true_value: 0.0644
     true_std: 0.001
@@ -1612,9 +1646,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'zinc: default subset fallback'
-    date: Feb 2025
+    date: Feb 3, 2025
     date_display: Feb 2025
-    date_iso: 2025-02
+    date_iso: '2025-02-03'
+    published_venue: null
     global_rank: 47
     true_value: 0.0693
     true_std: 0.004
@@ -1649,9 +1684,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'zinc: default subset fallback'
-    date: Feb 2025
+    date: Feb 3, 2025
     date_display: Feb 2025
-    date_iso: 2025-02
+    date_iso: '2025-02-03'
+    published_venue: null
     global_rank: 49
     true_value: 0.0699
     true_std: 0.002
@@ -1686,9 +1722,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: Feb 2025
+    date: Feb 3, 2025
     date_display: Feb 2025
-    date_iso: 2025-02
+    date_iso: '2025-02-03'
+    published_venue: null
     global_rank: 53
     true_value: 0.0736
     true_std: 0.0007
@@ -1723,9 +1760,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: Feb 2025
+    date: Feb 3, 2025
     date_display: Feb 2025
-    date_iso: 2025-02
+    date_iso: '2025-02-03'
+    published_venue: null
     global_rank: 61
     true_value: 0.0853
     true_std: 0.0026
@@ -1760,9 +1798,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: Feb 2025
+    date: Feb 3, 2025
     date_display: Feb 2025
-    date_iso: 2025-02
+    date_iso: '2025-02-03'
+    published_venue: null
     global_rank: 75
     true_value: 0.1034
     true_std: 0.0056
@@ -1797,9 +1836,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: Feb 2025
+    date: Feb 3, 2025
     date_display: Feb 2025
-    date_iso: 2025-02
+    date_iso: '2025-02-03'
+    published_venue: null
     global_rank: 83
     true_value: 0.115
     true_std: 0.012
@@ -1834,9 +1874,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: Feb 2025
+    date: Feb 3, 2025
     date_display: Feb 2025
-    date_iso: 2025-02
+    date_iso: '2025-02-03'
+    published_venue: null
     global_rank: 113
     true_value: 0.1554
     true_std: 0.0048
@@ -1871,9 +1912,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: Feb 2025
+    date: Feb 3, 2025
     date_display: Feb 2025
-    date_iso: 2025-02
+    date_iso: '2025-02-03'
+    published_venue: null
     global_rank: 114
     true_value: 0.1555
     true_std: 0.0124
@@ -1908,9 +1950,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: Feb 2025
+    date: Feb 3, 2025
     date_display: Feb 2025
-    date_iso: 2025-02
+    date_iso: '2025-02-03'
+    published_venue: null
     global_rank: 121
     true_value: 0.1772
     true_std: 0.004
@@ -1945,9 +1988,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: Feb 2025
+    date: Feb 3, 2025
     date_display: Feb 2025
-    date_iso: 2025-02
+    date_iso: '2025-02-03'
+    published_venue: null
     global_rank: 135
     true_value: 0.279
     true_std: 0.023
@@ -1984,6 +2028,5 @@ results_grouped:
   datasets:
   - *id006
 single_proposed_model: PEs
-main_figure: /figures/2502.01122/main_figure.png
 ---
 

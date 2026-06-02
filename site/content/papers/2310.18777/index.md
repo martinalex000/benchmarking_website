@@ -4,8 +4,9 @@ title: Improving Compositional Generalization using Iterated Learning and Simpli
 arxiv_id: '2310.18777'
 source_url: ''
 authors: []
-published_date: Oct 2023
-published_date_iso: 2023-10
+published_date: Oct 28, 2023
+published_date_iso: '2023-10-28'
+published_venue: ''
 abstract: Compositional generalization, the ability of an agent to generalize to unseen
   combinations of latent factors, is easy for humans but hard for deep neural networks.
   A line of research in cognitive science has hypothesized a process, ``iterated learning,''
@@ -128,9 +129,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2023
+    date: Oct 28, 2023
     date_display: Oct 2023
-    date_iso: 2023-10
+    date_iso: '2023-10-28'
+    published_venue: null
     global_rank: 35
     true_value: 0.098
     true_std: 0.005
@@ -165,9 +167,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2023
+    date: Oct 28, 2023
     date_display: Oct 2023
-    date_iso: 2023-10
+    date_iso: '2023-10-28'
+    published_venue: null
     global_rank: 38
     true_value: 0.106
     true_std: 0.004
@@ -202,9 +205,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2023
+    date: Oct 28, 2023
     date_display: Oct 2023
-    date_iso: 2023-10
+    date_iso: '2023-10-28'
+    published_venue: null
     global_rank: 39
     true_value: 0.108
     true_std: 0.003
@@ -313,9 +317,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2023
+    date: Oct 28, 2023
     date_display: Oct 2023
-    date_iso: 2023-10
+    date_iso: '2023-10-28'
+    published_venue: null
     global_rank: 57
     true_value: 0.7861
     true_std: 0.0073
@@ -350,9 +355,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2023
+    date: Oct 28, 2023
     date_display: Oct 2023
-    date_iso: 2023-10
+    date_iso: '2023-10-28'
+    published_venue: null
     global_rank: 67
     true_value: 0.7821
     true_std: 0.0078
@@ -387,9 +393,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2023
+    date: Oct 28, 2023
     date_display: Oct 2023
-    date_iso: 2023-10
+    date_iso: '2023-10-28'
+    published_venue: null
     global_rank: 105
     true_value: 0.7701
     true_std: 0.0094
@@ -426,9 +433,9 @@ results:
     params_millions: null
     arxiv_id: '2410.23686'
     title: Towards Dynamic Message Passing on Graphs
-    date: Oct 2024
+    date: Oct 31, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-31'
     codebase_url: https://github.com/sunjss/N2
     uses_external_data: false
     is_global_top: true
@@ -499,9 +506,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2023
+    date: Oct 28, 2023
     date_display: Oct 2023
-    date_iso: 2023-10
+    date_iso: '2023-10-28'
+    published_venue: null
     global_rank: 29
     true_value: 0.2802
     true_std: 0.0061
@@ -536,9 +544,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2023
+    date: Oct 28, 2023
     date_display: Oct 2023
-    date_iso: 2023-10
+    date_iso: '2023-10-28'
+    published_venue: null
     global_rank: 44
     true_value: 0.2566
     true_std: 0.0047
@@ -573,9 +582,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2023
+    date: Oct 28, 2023
     date_display: Oct 2023
-    date_iso: 2023-10
+    date_iso: '2023-10-28'
+    published_venue: null
     global_rank: 55
     true_value: 0.2291
     true_std: 0.004
@@ -603,6 +613,5 @@ results_grouped:
   - *id002
   - *id003
 single_proposed_model: GCN SEM-IL
-main_figure: /figures/2310.18777/main_figure.png
 ---
 

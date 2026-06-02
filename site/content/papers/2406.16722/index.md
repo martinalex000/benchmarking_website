@@ -4,8 +4,9 @@ title: 'Venturing into Uncharted Waters: The Navigation Compass from Transformer
 arxiv_id: '2406.16722'
 source_url: ''
 authors: []
-published_date: Jun 2024
-published_date_iso: 2024-06
+published_date: Jun 24, 2024
+published_date_iso: '2024-06-24'
+published_venue: ''
 abstract: 'Transformer, a deep neural network architecture, has long dominated the
   field of natural language processing and beyond. Nevertheless, the recent introduction
   of Mamba challenges its supremacy, sparks considerable interest among researchers,
@@ -32,6 +33,5 @@ task_categories: []
 experiment_scopes: []
 results: []
 results_grouped: []
-main_figure: /figures/2406.16722/main_figure.png
 ---
 

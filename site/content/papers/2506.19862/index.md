@@ -3,8 +3,9 @@ title: 'DualEquiNet: A Dual-Space Hierarchical Equivariant Network for Large Bio
 arxiv_id: '2506.19862'
 source_url: ''
 authors: []
-published_date: Jun 2025
-published_date_iso: 2025-06
+published_date: Jun 10, 2025
+published_date_iso: '2025-06-10'
+published_venue: ''
 abstract: Geometric graph neural networks (GNNs) that respect E(3) symmetries have
   achieved strong performance on small molecule modeling, but they face scalability
   and expressiveness challenges when applied to large biomolecules such as RNA and
@@ -60,9 +61,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2025
+    date: Jun 10, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-10'
+    published_venue: null
     global_rank: 1
     true_value: 0.353
     true_std: 0.006
@@ -97,9 +99,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2025
+    date: Jun 10, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-10'
+    published_venue: null
     global_rank: 2
     true_value: 0.475
     true_std: 0.009
@@ -134,9 +137,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2025
+    date: Jun 10, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-10'
+    published_venue: null
     global_rank: 3
     true_value: 0.478
     true_std: 0.031
@@ -171,9 +175,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2025
+    date: Jun 10, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-10'
+    published_venue: null
     global_rank: 4
     true_value: 0.531
     true_std: 0.011
@@ -208,9 +213,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2025
+    date: Jun 10, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-10'
+    published_venue: null
     global_rank: 5
     true_value: 0.533
     true_std: 0.011
@@ -245,9 +251,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2025
+    date: Jun 10, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-10'
+    published_venue: null
     global_rank: 6
     true_value: 0.534
     true_std: 0.011
@@ -282,9 +289,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2025
+    date: Jun 10, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-10'
+    published_venue: null
     global_rank: 7
     true_value: 0.535
     true_std: 0.011
@@ -324,9 +332,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2025
+    date: Jun 10, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-10'
+    published_venue: null
     global_rank: 1
     true_value: 0.558
     true_std: 0.012
@@ -361,9 +370,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2025
+    date: Jun 10, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-10'
+    published_venue: null
     global_rank: 2
     true_value: 0.839
     true_std: 0.02
@@ -398,9 +408,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2025
+    date: Jun 10, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-10'
+    published_venue: null
     global_rank: 3
     true_value: 0.857
     true_std: 0.013
@@ -435,9 +446,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2025
+    date: Jun 10, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-10'
+    published_venue: null
     global_rank: 4
     true_value: 0.932
     true_std: 0.01
@@ -472,9 +484,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2025
+    date: Jun 10, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-10'
+    published_venue: null
     global_rank: 5
     true_value: 0.934
     true_std: 0.01
@@ -509,9 +522,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2025
+    date: Jun 10, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-10'
+    published_venue: null
     global_rank: 6
     true_value: 0.937
     true_std: 0.012
@@ -546,9 +560,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2025
+    date: Jun 10, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-10'
+    published_venue: null
     global_rank: 7
     true_value: 0.939
     true_std: 0.012
@@ -588,9 +603,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2025
+    date: Jun 10, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-10'
+    published_venue: null
     global_rank: 1
     true_value: 0.636
     true_std: 0.049
@@ -625,9 +641,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2025
+    date: Jun 10, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-10'
+    published_venue: null
     global_rank: 2
     true_value: 0.694
     true_std: 0.008
@@ -662,9 +679,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2025
+    date: Jun 10, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-10'
+    published_venue: null
     global_rank: 3
     true_value: 0.718
     true_std: 0.002
@@ -699,9 +717,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2025
+    date: Jun 10, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-10'
+    published_venue: null
     global_rank: 4
     true_value: 0.729
     true_std: 0.007
@@ -736,9 +755,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2025
+    date: Jun 10, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-10'
+    published_venue: null
     global_rank: 5
     true_value: 0.731
     true_std: 0.006
@@ -773,9 +793,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2025
+    date: Jun 10, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-10'
+    published_venue: null
     global_rank: 6
     true_value: 0.736
     true_std: 0.003
@@ -810,9 +831,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2025
+    date: Jun 10, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-10'
+    published_venue: null
     global_rank: 7
     true_value: 0.737
     true_std: 0.002
@@ -852,9 +874,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2025
+    date: Jun 10, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-10'
+    published_venue: null
     global_rank: 1
     true_value: 15.87
     true_std: 2.03
@@ -889,9 +912,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2025
+    date: Jun 10, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-10'
+    published_venue: null
     global_rank: 2
     true_value: 16.27
     true_std: 1.19
@@ -926,9 +950,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2025
+    date: Jun 10, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-10'
+    published_venue: null
     global_rank: 3
     true_value: 17.56
     true_std: 0.21
@@ -963,9 +988,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2025
+    date: Jun 10, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-10'
+    published_venue: null
     global_rank: 4
     true_value: 18.41
     true_std: 0.22
@@ -1000,9 +1026,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2025
+    date: Jun 10, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-10'
+    published_venue: null
     global_rank: 5
     true_value: 18.54
     true_std: 0.86
@@ -1037,9 +1064,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2025
+    date: Jun 10, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-10'
+    published_venue: null
     global_rank: 6
     true_value: 18.89
     true_std: 0.22
@@ -1074,9 +1102,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2025
+    date: Jun 10, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-10'
+    published_venue: null
     global_rank: 7
     true_value: 21.97
     true_std: 0.45
@@ -1105,6 +1134,5 @@ results_grouped:
   - *id003
   - *id004
 single_proposed_model: DualEquiNet
-main_figure: /figures/2506.19862/main_figure.png
 ---
 

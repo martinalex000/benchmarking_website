@@ -6,6 +6,7 @@ source_url: ''
 authors: []
 published_date: Jul 2024
 published_date_iso: 2024-07
+published_venue: ''
 abstract: We revisit the effectiveness of topological descriptors for molecular graph
   classification and design a simple, yet strong baseline. We demonstrate that a simple
   approach to feature engineering - employing histogram aggregation of edge descriptors
@@ -64,6 +65,7 @@ results:
     date: Jul 2024
     date_display: Jul 2024
     date_iso: 2024-07
+    published_venue: null
     global_rank: null
     sort_value: 0.781
     sort_std: 0.006
@@ -87,6 +89,7 @@ results:
     date: Jul 2024
     date_display: Jul 2024
     date_iso: 2024-07
+    published_venue: null
     global_rank: null
     sort_value: 0.746
     sort_std: 0.006
@@ -110,6 +113,7 @@ results:
     date: Jul 2024
     date_display: Jul 2024
     date_iso: 2024-07
+    published_venue: null
     global_rank: null
     sort_value: 0.731
     sort_std: 0.013
@@ -133,6 +137,7 @@ results:
     date: Jul 2024
     date_display: Jul 2024
     date_iso: 2024-07
+    published_venue: null
     global_rank: null
     sort_value: 0.725
     sort_std: 0.014
@@ -156,6 +161,7 @@ results:
     date: Jul 2024
     date_display: Jul 2024
     date_iso: 2024-07
+    published_venue: null
     global_rank: null
     sort_value: 0.725
     sort_std: 0.005
@@ -179,6 +185,7 @@ results:
     date: Jul 2024
     date_display: Jul 2024
     date_iso: 2024-07
+    published_venue: null
     global_rank: null
     sort_value: 0.71
     sort_std: 0.007
@@ -202,6 +209,7 @@ results:
     date: Jul 2024
     date_display: Jul 2024
     date_iso: 2024-07
+    published_venue: null
     global_rank: null
     sort_value: 0.708
     sort_std: 0.011
@@ -225,6 +233,7 @@ results:
     date: Jul 2024
     date_display: Jul 2024
     date_iso: 2024-07
+    published_venue: null
     global_rank: null
     sort_value: 0.706
     sort_std: 0.023
@@ -248,6 +257,7 @@ results:
     date: Jul 2024
     date_display: Jul 2024
     date_iso: 2024-07
+    published_venue: null
     global_rank: null
     sort_value: 0.696
     sort_std: 0.014
@@ -271,6 +281,7 @@ results:
     date: Jul 2024
     date_display: Jul 2024
     date_iso: 2024-07
+    published_venue: null
     global_rank: null
     sort_value: 0.689
     sort_std: 0.02
@@ -294,6 +305,7 @@ results:
     date: Jul 2024
     date_display: Jul 2024
     date_iso: 2024-07
+    published_venue: null
     global_rank: null
     sort_value: 0.684
     sort_std: 0.016
@@ -317,6 +329,7 @@ results:
     date: Jul 2024
     date_display: Jul 2024
     date_iso: 2024-07
+    published_venue: null
     global_rank: null
     sort_value: 0.67
     sort_std: 0.027
@@ -340,6 +353,7 @@ results:
     date: Jul 2024
     date_display: Jul 2024
     date_iso: 2024-07
+    published_venue: null
     global_rank: null
     sort_value: 0.653
     sort_std: 0.005
@@ -363,6 +377,7 @@ results:
     date: Jul 2024
     date_display: Jul 2024
     date_iso: 2024-07
+    published_venue: null
     global_rank: null
     sort_value: 0.638
     sort_std: 0.003
@@ -386,6 +401,7 @@ results:
     date: Jul 2024
     date_display: Jul 2024
     date_iso: 2024-07
+    published_venue: null
     global_rank: null
     sort_value: 0.626
     sort_std: 0.003
@@ -409,9 +425,9 @@ results:
     arxiv_id: '2506.07624'
     title: 'Return of ChebNet: Understanding and Improving an Overlooked GNN on Long-Range
       Tasks'
-    date: Jun 2025
+    date: Jun 9, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-09'
     codebase_url: https://github.com/ahariri13/Stable-ChebNet
     uses_external_data: false
     is_global_top: true
@@ -433,9 +449,9 @@ results:
     arxiv_id: '2506.07624'
     title: 'Return of ChebNet: Understanding and Improving an Overlooked GNN on Long-Range
       Tasks'
-    date: Jun 2025
+    date: Jun 9, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-09'
     codebase_url: https://github.com/ahariri13/Stable-ChebNet
     uses_external_data: false
     is_global_top: true
@@ -485,6 +501,7 @@ results:
     date: Jul 2024
     date_display: Jul 2024
     date_iso: 2024-07
+    published_venue: null
     global_rank: 33
     true_value: 0.686
     true_std: 0.005
@@ -522,6 +539,7 @@ results:
     date: Jul 2024
     date_display: Jul 2024
     date_iso: 2024-07
+    published_venue: null
     global_rank: 41
     true_value: 0.6765
     true_std: 0.0047
@@ -559,6 +577,7 @@ results:
     date: Jul 2024
     date_display: Jul 2024
     date_iso: 2024-07
+    published_venue: null
     global_rank: 53
     true_value: 0.6621
     true_std: 0.0067
@@ -596,6 +615,7 @@ results:
     date: Jul 2024
     date_display: Jul 2024
     date_iso: 2024-07
+    published_venue: null
     global_rank: 61
     true_value: 0.6562
     true_std: 0.0075
@@ -633,6 +653,7 @@ results:
     date: Jul 2024
     date_display: Jul 2024
     date_iso: 2024-07
+    published_venue: null
     global_rank: 74
     true_value: 0.6459
     true_std: 0.0005
@@ -670,6 +691,7 @@ results:
     date: Jul 2024
     date_display: Jul 2024
     date_iso: 2024-07
+    published_venue: null
     global_rank: 79
     true_value: 0.6384
     true_std: 0.0121
@@ -706,6 +728,7 @@ results:
     date: Jul 2024
     date_display: Jul 2024
     date_iso: 2024-07
+    published_venue: null
     global_rank: 81
     true_value: 0.6326
     true_std: 0.0126
@@ -742,6 +765,7 @@ results:
     date: Jul 2024
     date_display: Jul 2024
     date_iso: 2024-07
+    published_venue: null
     global_rank: 87
     true_value: 0.6069
     true_std: 0.0035
@@ -778,6 +802,7 @@ results:
     date: Jul 2024
     date_display: Jul 2024
     date_iso: 2024-07
+    published_venue: null
     global_rank: 96
     true_value: 0.5543
     true_std: 0.0078
@@ -888,6 +913,7 @@ results:
     date: Jul 2024
     date_display: Jul 2024
     date_iso: 2024-07
+    published_venue: null
     global_rank: 7
     true_value: 0.851
     true_std: 0.004
@@ -925,6 +951,7 @@ results:
     date: Jul 2024
     date_display: Jul 2024
     date_iso: 2024-07
+    published_venue: null
     global_rank: 8
     true_value: 0.851
     true_std: 0.002
@@ -962,6 +989,7 @@ results:
     date: Jul 2024
     date_display: Jul 2024
     date_iso: 2024-07
+    published_venue: null
     global_rank: 16
     true_value: 0.8094
     true_std: 0.0057
@@ -998,6 +1026,7 @@ results:
     date: Jul 2024
     date_display: Jul 2024
     date_iso: 2024-07
+    published_venue: null
     global_rank: 21
     true_value: 0.8067
     true_std: 0.0095
@@ -1035,6 +1064,7 @@ results:
     date: Jul 2024
     date_display: Jul 2024
     date_iso: 2024-07
+    published_venue: null
     global_rank: 25
     true_value: 0.8042
     true_std: 0.0025
@@ -1072,6 +1102,7 @@ results:
     date: Jul 2024
     date_display: Jul 2024
     date_iso: 2024-07
+    published_venue: null
     global_rank: 26
     true_value: 0.8039
     true_std: 0.009
@@ -1108,6 +1139,7 @@ results:
     date: Jul 2024
     date_display: Jul 2024
     date_iso: 2024-07
+    published_venue: null
     global_rank: 27
     true_value: 0.8039
     true_std: 0.004
@@ -1145,6 +1177,7 @@ results:
     date: Jul 2024
     date_display: Jul 2024
     date_iso: 2024-07
+    published_venue: null
     global_rank: 58
     true_value: 0.7858
     true_std: 0.0117
@@ -1175,6 +1208,5 @@ results_grouped:
   datasets:
   - *id003
 single_proposed_model: QSAR
-main_figure: /figures/2407.12136/main_figure.png
 ---
 
