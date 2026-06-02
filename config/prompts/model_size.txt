@@ -7,7 +7,8 @@ Output a JSON array ONLY — no markdown fences.
 Output schema:
 [
   {
-    "model_name": "<model name>",
+    "model_name": "<model name as stated in paper>",
+    "matched_result_name": "<exact result-table name this maps to, or same as model_name>",
     "params_millions": <float or null>,
     "params_exact": <int or null>,
     "source_text": "<verbatim snippet from paper where this was found>"
@@ -16,10 +17,16 @@ Output schema:
 
 Rules:
 - Parse all formats: "6.9M", "6,900,000", "6.9 million", "~7M", "approximately 7M params".
-- params_millions: always convert to millions (e.g. 6,900,000 → 6.9).
+- params_millions: always convert to millions (e.g. 6,900,000 -> 6.9).
 - params_exact: exact integer count if the paper gives it (else null).
 - Include the proposed model AND all baseline models if their sizes are mentioned.
-- ONLY extract sizes that are explicitly stated in the paper text or tables for that exact model.
+- Search tables for columns like #Params, Parameters, Model size, # parameters.
+- ONLY extract sizes explicitly stated in this paper for that exact model.
+- Accept sizes from configuration tables when the paper states total params OR gives layer
+  dimensions with an explicit parameter count or a formula stated in the paper.
 - NEVER infer, estimate, back-solve, or borrow sizes from previous papers, standard baselines,
   code repositories, implementation defaults, or architecture families.
+- When the paper uses a variant label (e.g. "GraphGPS (ours)"), set matched_result_name to the
+  name used in result tables if different from model_name.
+- If a TARGET MODEL LIST is provided, prioritize finding sizes for those exact names.
 - If no parameter counts are mentioned anywhere in the paper, return an empty array [].

@@ -100,6 +100,40 @@ Designing effective graph neural networks~(GNNs) is challenging.
     )
 
 
+def test_enrich_paper_metadata_skips_arxiv_api_when_semantic_scholar_key_set(monkeypatch, tmp_path):
+    _configure_temp_workspace(monkeypatch, tmp_path)
+    monkeypatch.setattr(cfg, "semantic_scholar_api_key", "test-key")
+
+    storage = PaperStorage("2402.08170")
+    storage.ensure_dirs()
+    paper = Paper(arxiv_id="2402.08170", title="arXiv:2402.08170")
+
+    def _should_not_call(_arxiv_id: str) -> dict:
+        raise AssertionError("fetch_arxiv_metadata should not be called when S2 key is set")
+
+    monkeypatch.setattr(
+        "backend.llm_extractor.fetch_arxiv_metadata",
+        _should_not_call,
+    )
+    monkeypatch.setattr(
+        "backend.semantic_scholar.fetch_paper_metadata",
+        lambda _arxiv_id: {
+            "title": "Example Paper",
+            "abstract": "We benchmark graph models on several datasets.",
+            "published_date": "2024-02-15",
+            "venue": "ICLR",
+        },
+    )
+
+    changed = _enrich_paper_metadata("2402.08170", paper, storage)
+
+    assert changed is True
+    assert paper.title == "Example Paper"
+    assert "benchmark" in paper.abstract
+    assert paper.published_date == "2024-02-15"
+    assert paper.venue == "ICLR"
+
+
 def test_clean_extracted_text_removes_inline_latex_formatting():
     cleaned = clean_extracted_text(
         r"GQT (\textbf{G}raph \textbf{Q}uantized \textbf{T}okenizer) applies \textit{curvature shift} and improves by 82.47\% over a 10\times range."

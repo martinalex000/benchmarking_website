@@ -99,11 +99,16 @@ def _migration_todo_queue_indexes(engine: Engine) -> None:
     )
 
 
+def _migration_results_model_metadata(engine: Engine) -> None:
+    _add_column_if_missing(engine, "results", "params_millions", "REAL")
+
+
 MIGRATIONS: tuple[Migration, ...] = (
     Migration("001_results_additional_columns", _migration_results_additional_columns),
     Migration("002_pending_datasets_columns", _migration_pending_datasets_columns),
     Migration("003_todo_queue_columns", _migration_todo_queue_columns),
     Migration("004_todo_queue_indexes", _migration_todo_queue_indexes),
+    Migration("005_results_model_metadata", _migration_results_model_metadata),
 )
 
 

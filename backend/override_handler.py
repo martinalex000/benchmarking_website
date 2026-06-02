@@ -16,6 +16,10 @@ from typing import Any
 import yaml
 
 from backend.config import cfg
+from backend.model_metadata import (
+    normalize_architecture_type,
+    params_exact_from_millions,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -98,6 +102,23 @@ def get_model_renames(overrides: dict) -> dict[str, str]:
     return mapping if isinstance(mapping, dict) else {}
 
 
+def get_model_metadata_overrides(overrides: dict) -> list[dict]:
+    """Extract model_metadata_overrides list (params, architecture, external data)."""
+    items = overrides.get("model_metadata_overrides") or []
+    return items if isinstance(items, list) else []
+
+
+def _build_model_metadata_map(items: list[Any]) -> dict[str, dict]:
+    mapping: dict[str, dict] = {}
+    for item in items:
+        if not isinstance(item, dict):
+            continue
+        name = str(item.get("model") or "").strip().lower()
+        if name:
+            mapping[name] = item
+    return mapping
+
+
 # ── DB application ────────────────────────────────────────────────────────────
 
 
@@ -156,6 +177,35 @@ def apply_overrides_to_db(arxiv_id: str) -> int:
 
             if changed:
                 affected += 1
+
+        model_meta_map = _build_model_metadata_map(get_model_metadata_overrides(overrides))
+        if model_meta_map:
+            for result in results:
+                model_name = (result.model.name if result.model else "").strip().lower()
+                ov = model_meta_map.get(model_name)
+                if not ov:
+                    continue
+                changed_meta = False
+                if ov.get("params_millions") is not None:
+                    result.params_millions = float(ov["params_millions"])
+                    changed_meta = True
+                if "uses_external_data" in ov:
+                    ued = ov["uses_external_data"]
+                    result.uses_external_data = 1 if ued is True else 0 if ued is False else None
+                    changed_meta = True
+                if result.model is not None:
+                    model_type = normalize_architecture_type(ov.get("model_type"))
+                    if model_type:
+                        result.model.model_type = model_type
+                        changed_meta = True
+                    exact = ov.get("params_exact") or params_exact_from_millions(
+                        ov.get("params_millions")
+                    )
+                    if exact is not None:
+                        result.model.size_params = int(exact)
+                        changed_meta = True
+                if changed_meta:
+                    affected += 1
 
         # Apply metadata overrides to the paper itself
         meta_ov = get_metadata_overrides(overrides)

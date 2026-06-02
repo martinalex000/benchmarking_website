@@ -7,6 +7,7 @@ import yaml
 from backend.override_handler import (
     apply_overrides_to_results,
     get_metadata_overrides,
+    get_model_metadata_overrides,
     load_overrides,
 )
 
@@ -89,3 +90,14 @@ def test_get_metadata_overrides():
     overrides = {"metadata_overrides": {"codebase_url": "https://github.com/example/repo"}}
     meta = get_metadata_overrides(overrides)
     assert meta["codebase_url"] == "https://github.com/example/repo"
+
+
+def test_get_model_metadata_overrides():
+    overrides = {
+        "model_metadata_overrides": [
+            {"model": "GraphGPS", "params_millions": 6.9, "model_type": "hybrid"}
+        ]
+    }
+    items = get_model_metadata_overrides(overrides)
+    assert items[0]["model"] == "GraphGPS"
+    assert items[0]["model_type"] == "hybrid"

@@ -108,6 +108,7 @@ def test_init_db_applies_tracked_migrations_to_legacy_schema(monkeypatch, tmp_pa
 
     assert migration_names == [migration.name for migration in MIGRATIONS]
     assert "uses_external_data" in result_column_names
+    assert "params_millions" in result_column_names
     assert "variant_inference_reason" in result_column_names
     assert {
         "paper_title",

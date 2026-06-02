@@ -13,10 +13,12 @@ proposed_model:
   name: <model name as used in paper>
   params_millions: <float or null>
   params_exact: <int or null>
-  model_type: <GCN_variant|GAT_variant|GraphTransformer|GNN|Other>
+  model_type: <gnn|graph_transformer|hybrid|llm|svm_kernel|random_forest|decision_tree|boosting|other_traditional|null>
 baseline_models:
   - name: <baseline model name>
     params_millions: <float or null>
+    params_exact: <int or null>
+    model_type: <gnn|graph_transformer|hybrid|llm|svm_kernel|random_forest|decision_tree|boosting|other_traditional|null>
     original_paper_hint: <author/year hint if mentioned, else null>
 results:
   - model: <exact model name from table>
@@ -55,6 +57,24 @@ Rules:
   stated in this paper. Otherwise return null.
 - NEVER infer, estimate, back-solve, or borrow parameter counts from prior papers, common
   architecture defaults, codebases, hidden sizes, or other models in the same family.
+- model_type: classify each model's base architecture family from explicit paper statements
+  (abstract, method section, architecture figure caption, comparison table footnotes).
+  Allowed values:
+    gnn — message-passing / convolutional GNN (GCN, GIN, GraphSAGE, GAT, MPNN, …)
+    graph_transformer — pure graph transformer / global attention on graphs
+    hybrid — explicit combination of MPNN and transformer components (e.g. GraphGPS-style)
+    llm — a large language model (or foundation LM) is the core model running on graphs
+      (e.g. graph tokenization/serialization fed to GPT-style models, LLM-as-classifier on
+      graph text, language-model backbones for graph tasks). Not the same as uses_external_data.
+    svm_kernel — SVM, graph kernels, other kernel methods
+    random_forest — random forest / bagged tree ensembles on hand-crafted features
+    decision_tree — single decision tree / CART (not an ensemble)
+    boosting — gradient boosting, XGBoost, LightGBM, CatBoost, AdaBoost, etc.
+    other_traditional — other classical / non-neural (k-NN, linear models on features, …)
+    null — not stated or genuinely unclear
+  Disambiguation: prefer random_forest for "random forest" or "RF"; use decision_tree only for
+  a single tree; use boosting for boosted ensembles (do not lump into random_forest).
+  If only a family name is given (e.g. "GCN") without architectural description, infer gnn.
 - value normalisation: Accuracy, F1, AP, AUC, ROC-AUC, AUROC, MRR, and Hits@K are always
   in the range [0, 1]. If a paper reports such a value as a percentage (e.g. 44.2 meaning
   44.2%), divide by 100 and output 0.442. NEVER output values > 1 for these metrics.
@@ -69,9 +89,21 @@ Rules:
 - If a value appears bold (indicating best), still extract it normally; do not skip it.
 - Metric names: normalise to the most common abbreviation (Accuracy not Acc., MAE not mean abs. error).
 - higher_is_better: true for Accuracy/F1/AP/ROC-AUC/Hits@K; false for MAE/RMSE/loss.
-- uses_external_data: true if the model was pre-trained or fine-tuned on data not included in
-  the benchmark (e.g. large language model pre-training, external knowledge graphs, ImageNet
-  pre-training). false if only the benchmark training data is used. null if unclear.
+- uses_external_data (per result row — flag each model independently):
+  true if that model was pre-trained or fine-tuned on data NOT included in the benchmark
+  training split. Examples of true:
+    • pre-training on other graphs/datasets then fine-tuning (e.g. ZINC pretrain -> downstream)
+    • molecular, protein, or knowledge-graph pretraining on external corpora
+    • LLM/PLM/ChemBERTa/ImageNet-style encoders or features imported from prior work
+    • self-supervised pretraining on external unlabeled graphs before benchmark evaluation
+    • weights or representations transferred from a model trained outside the benchmark
+  false if that model uses ONLY the benchmark training split (plus standard validation for
+  early stopping). Examples of false:
+    • positional encodings computed on the same graph (RWSE, LapPE, SignNet, etc.)
+    • standard data augmentation on benchmark training data
+    • training from scratch on the benchmark train set with no external pretraining
+  null only when the paper gives no signal for that specific model row; do not guess from
+  model family names alone. A baseline may use external data while the proposed method does not.
 - `is_proposed`: mark true ONLY for the paper's main proposed method(s). Most papers have one main
   method, sometimes two. Do NOT mark every tuned, starred, or improved baseline variant as proposed.
 - If a table contains several tuned variants (for example `GCN*`, `GraphSAGE*`, `GAT*`) but the

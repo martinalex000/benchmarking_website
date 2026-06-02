@@ -93,7 +93,11 @@ def run_extraction(
         except Exception:
             meta = {}
 
-        if (meta.get("title") and meta.get("abstract")) or not allow_arxiv_api:
+        if (
+            (meta.get("title") and meta.get("abstract"))
+            or not allow_arxiv_api
+            or cfg.semantic_scholar_api_key
+        ):
             return meta
 
         try:

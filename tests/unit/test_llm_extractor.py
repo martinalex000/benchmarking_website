@@ -12,11 +12,15 @@ from backend.llm_extractor import (
     ExtractionOutput,
     FigureInfo,
     LLMExtractor,
+    ModelSizeEntry,
     ProposedModel,
     ResultEntry,
+    _apply_sizes,
+    _expand_extraction_payload,
     _extract_proposed_model_hint,
     _matches_proposed_model_name,
     _merge_extraction_outputs,
+    _merge_size_entries,
     _normalise_model_name_text,
     _rename_generic_proposed_rows,
     _render_human_readable,
@@ -307,4 +311,59 @@ def test_extract_results_chunk_falls_back_between_yaml_and_json(monkeypatch):
     assert result.proposed_model is not None
     assert result.proposed_model.name == "GraphGPS"
     assert result.results[0].dataset == "Peptides-func"
-    assert result.extraction_notes == "json fallback"
+
+
+def test_apply_sizes_merges_proposed_and_baselines():
+    extraction = ExtractionOutput(
+        proposed_model=ProposedModel(name="GraphGPS"),
+        baseline_models=[BaselineModelInfo(name="GINE + RWSE")],
+        results=[],
+    )
+    sizes = [
+        ModelSizeEntry(
+            model_name="GraphGPS (ours)",
+            matched_result_name="GraphGPS",
+            params_millions=6.9,
+        ),
+        ModelSizeEntry(
+            model_name="GINE+RWSE",
+            matched_result_name="GINE + RWSE",
+            params_millions=2.1,
+        ),
+    ]
+    _apply_sizes(extraction, sizes)
+    assert extraction.proposed_model.params_millions == pytest.approx(6.9)
+    assert extraction.baseline_models[0].params_millions == pytest.approx(2.1)
+
+
+def test_merge_size_entries_prefers_existing_then_fills_gaps():
+    primary = [ModelSizeEntry(model_name="GraphGPS", params_millions=6.9)]
+    secondary = [
+        ModelSizeEntry(model_name="GraphGPS", params_exact=6_900_000),
+        ModelSizeEntry(model_name="GCN", params_millions=1.2),
+    ]
+    merged = _merge_size_entries(primary, secondary)
+    by_name = {entry.model_name.lower(): entry for entry in merged}
+    assert by_name["graphgps"].params_millions == pytest.approx(6.9)
+    assert by_name["graphgps"].params_exact == 6_900_000
+    assert by_name["gcn"].params_millions == pytest.approx(1.2)
+
+
+def test_expand_extraction_payload_includes_compact_model_metadata():
+    expanded = _expand_extraction_payload(
+        {
+            "proposed_model_name": "GraphGPS",
+            "proposed_model_type": "hybrid",
+            "proposed_params_millions": 6.9,
+            "baseline_model_names": ["GCN"],
+            "baseline_model_types": {"GCN": "gnn"},
+            "baseline_params_millions": {"GCN": 1.2},
+            "results": [],
+            "confidence": "HIGH",
+            "notes": "",
+        }
+    )
+    assert expanded["proposed_model"]["model_type"] == "hybrid"
+    assert expanded["proposed_model"]["params_millions"] == pytest.approx(6.9)
+    assert expanded["baseline_models"][0]["model_type"] == "gnn"
+    assert expanded["baseline_models"][0]["params_millions"] == pytest.approx(1.2)

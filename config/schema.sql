@@ -92,7 +92,7 @@ CREATE TABLE IF NOT EXISTS models (
     canonical_name TEXT NOT NULL,   -- normalized name for grouping (lowercase, no punctuation)
     paper_id       INTEGER REFERENCES papers(id) ON DELETE SET NULL,
     size_params    INTEGER,         -- parameter count (exact, if known)
-    model_type     TEXT,            -- GCN_variant | GAT_variant | GraphTransformer | GNN | Other
+    model_type     TEXT,            -- gnn | graph_transformer | hybrid | llm | svm_kernel | random_forest | decision_tree | boosting | other_traditional
     is_baseline    INTEGER NOT NULL DEFAULT 0,
     created_at     TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%SZ', 'now')),
     UNIQUE(canonical_name)
@@ -127,6 +127,7 @@ CREATE TABLE IF NOT EXISTS results (
     extraction_model    TEXT,               -- model name used to extract this result
     variant_inference_reason TEXT,          -- why this dataset variant was selected
     uses_external_data  INTEGER,            -- 1=yes, 0=no, NULL=unknown
+    params_millions     REAL,               -- paper-local parameter count in millions
     -- Human correction system
     is_problematic      INTEGER NOT NULL DEFAULT 0,  -- shown in grey on leaderboard
     problematic_reason  TEXT,

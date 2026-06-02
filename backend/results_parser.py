@@ -14,6 +14,7 @@ Usage::
 from __future__ import annotations
 
 import argparse
+import contextlib
 import json
 import logging
 import re
@@ -26,6 +27,10 @@ from thefuzz import process as fuzz_process
 from backend.config import cfg, normalize_arxiv_id
 from backend.db import init_db, session_scope
 from backend.method_name_audit import audit_extraction_payload
+from backend.model_metadata import (
+    normalize_architecture_type,
+    params_exact_from_millions,
+)
 from backend.models import (
     DatasetVariant,
     Model,
@@ -364,13 +369,69 @@ def _load_model_map(session) -> tuple[dict[str, int], dict[str, int]]:
     return canonical, aliases
 
 
+def _build_metadata_lookups(
+    extraction: dict[str, Any],
+    model_sizes: list[Any] | None = None,
+) -> tuple[dict[str, float | None], dict[str, str | None]]:
+    """Build paper-local parameter and architecture lookups keyed by lowercased model name."""
+    sizes_lookup: dict[str, float | None] = {}
+    type_lookup: dict[str, str | None] = {}
+
+    def _add(name: str | None, params: Any, model_type: Any) -> None:
+        if not name:
+            return
+        key = name.strip().lower()
+        if params is not None:
+            with contextlib.suppress(TypeError, ValueError):
+                sizes_lookup[key] = float(params)
+        normalized_type = normalize_architecture_type(
+            str(model_type) if model_type is not None else None
+        )
+        if normalized_type is not None:
+            type_lookup[key] = normalized_type
+
+    proposed = extraction.get("proposed_model") or {}
+    if isinstance(proposed, dict):
+        _add(proposed.get("name"), proposed.get("params_millions"), proposed.get("model_type"))
+
+    for baseline in extraction.get("baseline_models") or []:
+        if isinstance(baseline, dict):
+            _add(baseline.get("name"), baseline.get("params_millions"), baseline.get("model_type"))
+
+    for item in model_sizes or []:
+        if not isinstance(item, dict):
+            continue
+        name = item.get("matched_result_name") or item.get("model_name")
+        _add(name, item.get("params_millions"), None)
+
+    return sizes_lookup, type_lookup
+
+
+def _update_model_metadata(
+    model: Model,
+    model_type: str | None,
+    params_millions: float | None,
+    params_exact: int | None = None,
+) -> None:
+    normalized_type = normalize_architecture_type(model_type)
+    if normalized_type and not model.model_type:
+        model.model_type = normalized_type
+    exact = (
+        params_exact if params_exact is not None else params_exact_from_millions(params_millions)
+    )
+    if exact is not None and not model.size_params:
+        model.size_params = exact
+
+
 def resolve_or_create_model(
     model_name: str,
     is_proposed: bool,
     params_millions: float | None,
+    model_type: str | None,
     session,
     canonical_map: dict[str, int],
     alias_map: dict[str, int],
+    params_exact: int | None = None,
 ) -> tuple[int, bool]:
     """Find or create a Model record. Returns ``(model_id, created_new)``."""
     # Strip author-role annotations before lookup/creation
@@ -378,8 +439,14 @@ def resolve_or_create_model(
     key = model_name.strip().lower()
 
     if key in canonical_map:
+        model = session.query(Model).filter_by(id=canonical_map[key]).first()
+        if model is not None:
+            _update_model_metadata(model, model_type, params_millions, params_exact)
         return canonical_map[key], False
     if key in alias_map:
+        model = session.query(Model).filter_by(id=alias_map[key]).first()
+        if model is not None:
+            _update_model_metadata(model, model_type, params_millions, params_exact)
         return alias_map[key], False
 
     # thefuzz against canonical names — use token_sort_ratio to avoid
@@ -396,6 +463,9 @@ def resolve_or_create_model(
             )
             match_id = canonical_map.get(best_match) or alias_map.get(best_match)
             if match_id:
+                model = session.query(Model).filter_by(id=match_id).first()
+                if model is not None:
+                    _update_model_metadata(model, model_type, params_millions, params_exact)
                 return match_id, False
 
     # Create new model
@@ -403,6 +473,7 @@ def resolve_or_create_model(
         name=model_name.strip(),
         canonical_name=model_name.strip(),
     )
+    _update_model_metadata(new_model, model_type, params_millions, params_exact)
     session.add(new_model)
     session.flush()  # get the new id
     canonical_map[key] = new_model.id
@@ -429,8 +500,23 @@ def _extract_github_url(text: str) -> str | None:
     return None
 
 
+def _apply_remote_metadata(paper: Paper, meta: dict[str, str]) -> bool:
+    """Apply title/abstract/date/venue from a metadata dict. Returns True if abstract changed."""
+    abstract_changed = False
+    if meta.get("title"):
+        paper.title = meta["title"]
+    if meta.get("abstract"):
+        paper.abstract = meta["abstract"]
+        abstract_changed = True
+    if meta.get("published_date") and not paper.published_date:
+        paper.published_date = meta["published_date"]
+    if meta.get("venue") and not paper.venue:
+        paper.venue = meta["venue"]
+    return abstract_changed
+
+
 def _enrich_paper_metadata(arxiv_id: str, paper: Paper, storage: PaperStorage) -> bool:
-    """Update Paper record with metadata from local caches, then arXiv API if needed."""
+    """Update Paper record from local caches, Semantic Scholar, then arXiv API if needed."""
     abstract_has_artifacts = abstract_has_latex_artifacts(paper.abstract)
     paper.abstract = clean_extracted_text(paper.abstract)
     before = (
@@ -515,38 +601,40 @@ def _enrich_paper_metadata(arxiv_id: str, paper: Paper, storage: PaperStorage) -
             except Exception:
                 pass
 
-        # 3. Last resort: arXiv API
-        if need_meta:
-            from backend.llm_extractor import fetch_arxiv_metadata
-
-            meta = fetch_arxiv_metadata(arxiv_id)
-            if meta:
-                if meta.get("title"):
-                    paper.title = meta["title"]
-                if meta.get("abstract"):
-                    paper.abstract = meta["abstract"]
-                    abstract_has_artifacts = abstract_has_latex_artifacts(meta["abstract"])
-                if meta.get("published_date") and not paper.published_date:
-                    paper.published_date = meta["published_date"]
-
-    # Try Semantic Scholar for publication metadata when we only have a month or nothing.
     need_daily_date = not paper.published_date or len(paper.published_date) < 10
     need_venue = not paper.venue
-    if need_daily_date or need_venue:
+    if need_meta or need_daily_date or need_venue:
         from backend.semantic_scholar import fetch_paper_metadata
 
         ss_meta = fetch_paper_metadata(arxiv_id)
-        if need_daily_date and ss_meta.get("published_date"):
-            paper.published_date = ss_meta["published_date"]
-        if need_venue and ss_meta.get("venue"):
-            paper.venue = ss_meta["venue"]
         if ss_meta:
+            if _apply_remote_metadata(paper, ss_meta):
+                abstract_has_artifacts = abstract_has_latex_artifacts(paper.abstract)
+            need_meta = (
+                not paper.abstract or abstract_has_artifacts or _title_looks_corrupted(paper.title)
+            )
+            need_daily_date = not paper.published_date or len(paper.published_date) < 10
+            need_venue = not paper.venue
             storage.update_metadata(
                 {
                     **({"published_date": paper.published_date} if paper.published_date else {}),
                     **({"venue": paper.venue} if paper.venue else {}),
                 }
             )
+
+        # arXiv Atom API only when S2 did not suffice and no API key (avoids slow retries).
+        if need_meta and not cfg.semantic_scholar_api_key:
+            from backend.llm_extractor import fetch_arxiv_metadata
+
+            meta = fetch_arxiv_metadata(arxiv_id)
+            if meta:
+                if _apply_remote_metadata(paper, meta):
+                    abstract_has_artifacts = abstract_has_latex_artifacts(paper.abstract)
+                need_meta = (
+                    not paper.abstract
+                    or abstract_has_artifacts
+                    or _title_looks_corrupted(paper.title)
+                )
 
     # Fallback: derive date from arXiv ID (e.g. 2206.08164 → 2022-06)
     if not paper.published_date:
@@ -665,8 +753,6 @@ def parse_and_store_with_summary(arxiv_id: str) -> ParseStoreSummary:
         return summary
 
     result_entries: list[dict] = extraction.get("results", [])
-    proposed_model_info: dict = extraction.get("proposed_model") or {}
-    baseline_models_info: list[dict] = extraction.get("baseline_models") or []
 
     if not result_entries:
         logger.warning("No result entries in LLM output for arXiv:%s", arxiv_id)
@@ -677,14 +763,10 @@ def parse_and_store_with_summary(arxiv_id: str) -> ParseStoreSummary:
         paper_text = storage.text_path.read_text(encoding="utf-8", errors="ignore")
 
     # Build a sizes lookup from baseline info
-    sizes_lookup: dict[str, float | None] = {}
-    if proposed_model_info.get("name"):
-        sizes_lookup[proposed_model_info["name"].lower()] = proposed_model_info.get(
-            "params_millions"
-        )
-    for bm in baseline_models_info:
-        if bm.get("name"):
-            sizes_lookup[bm["name"].lower()] = bm.get("params_millions")
+    sizes_lookup, type_lookup = _build_metadata_lookups(
+        extraction,
+        model_sizes=raw.get("model_sizes"),
+    )
 
     with session_scope() as session:
         paper = session.query(Paper).filter_by(arxiv_id=arxiv_id).first()
@@ -770,10 +852,12 @@ def parse_and_store_with_summary(arxiv_id: str) -> ParseStoreSummary:
                 )
 
             params = sizes_lookup.get(model_name.lower())
+            model_type = type_lookup.get(model_name.lower())
             model_id, created_model = resolve_or_create_model(
                 model_name,
                 is_proposed=entry.get("is_proposed", False),
                 params_millions=params,
+                model_type=model_type,
                 session=session,
                 canonical_map=canonical_map,
                 alias_map=alias_map,
@@ -802,7 +886,7 @@ def parse_and_store_with_summary(arxiv_id: str) -> ParseStoreSummary:
                 continue
             if existing:
                 # Update in-place
-                changed = _update_result(existing, entry, model_name_used)
+                changed = _update_result(existing, entry, model_name_used, params_millions=params)
                 existing.variant_inference_reason = variant_reason
                 if changed:
                     summary.updated_results += 1
@@ -836,6 +920,7 @@ def parse_and_store_with_summary(arxiv_id: str) -> ParseStoreSummary:
                     if entry.get("uses_external_data") is True
                     else 0 if entry.get("uses_external_data") is False else None
                 ),
+                params_millions=params,
                 table_ref=entry.get("table_ref"),
                 source_ref=entry.get("source_ref", "this paper"),
                 extraction_model=model_name_used,
@@ -889,7 +974,12 @@ def _parse_entry_value(entry: dict) -> tuple[float | None, float | None]:
     return value, std
 
 
-def _update_result(result: Result, entry: dict, model_name_used: str) -> bool:
+def _update_result(
+    result: Result,
+    entry: dict,
+    model_name_used: str,
+    params_millions: float | None = None,
+) -> bool:
     changed = False
     value, std = _parse_entry_value(entry)
     if value is not None and result.metric_value != value:
@@ -901,6 +991,9 @@ def _update_result(result: Result, entry: dict, model_name_used: str) -> bool:
     if "uses_external_data" in entry and result.uses_external_data is None:
         ued = entry["uses_external_data"]
         result.uses_external_data = 1 if ued is True else 0 if ued is False else None
+        changed = True
+    if params_millions is not None and result.params_millions is None:
+        result.params_millions = params_millions
         changed = True
     if result.extraction_model != model_name_used:
         result.extraction_model = model_name_used

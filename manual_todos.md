@@ -1,9 +1,3 @@
-I want a simple script that processes those papers one-by-one during off-peak hours (23PM until 7:30AM). 
-
-vllm serve einrichten und dann dagegen verbinden. 
-
-todo papers queue sinnvoll updaten sobald ein neues paper eingefügt wurde
-
 dark mode
 
 shadcn/ui
@@ -20,21 +14,17 @@ show the number of stars on github when there is a github link?
 
 add a lot more (hand-crafted) information about each of the benchmarks (more statistics, but also more content about what each of the datasets is about, how it came to be, potentially pictures). Also add a quick description of the metric used and in some cases its drawbacks.
 
-mark stuff with way too large std such that the result is not helpful at all.
-
 make sure all the papers I used to have locally are also processed on the server
 
-wenn man std ausschaltet soll sie in der tabelle trotzdem sichtbar bleiben
+Der plot braucht viel zu lange zum laden, einfach weil viel zu viele punkte und deren std geplottet werden -> check if resolved
 
-Der plot braucht viel zu lange zum laden, einfach weil viel zu viele punkte und deren std geplottet werden
+also mention when a paper improved a baseline, not only when it made things worse.
 
 heterophily statistics and generally improved statistics for the datasets.
 
 logos einbinden der jeweiligen benchmarks
 
 check dass beim paper ranking wirklich nur die vorgeschlagene methode betrachtet wird plus eine bessere erklärung und erweiterte filtermöglichkeiten
-
-double check that the dates are by day and not by month - both for displaying them but also in the database. For that, give me the histogram of the dates of the papers.
 
 for each paper: also try to figure out where it was published (if it was) and when. Then putting the conference in addition in the table would be nice.
 

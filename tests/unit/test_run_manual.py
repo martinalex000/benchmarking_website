@@ -30,6 +30,54 @@ def test_print_parse_summary_reports_existing_updates(capsys):
     assert "Parsed 8 extracted row(s): 0 new, 8 updated." in captured
 
 
+def test_should_run_pre_screen_skips_when_force_or_existing(monkeypatch, tmp_path):
+    run_manual = _load_run_manual()
+    from backend.config import cfg
+
+    paper_root = tmp_path / "papers" / "2402.08170"
+    extracted = paper_root / "extracted"
+    extracted.mkdir(parents=True)
+    monkeypatch.setattr(cfg, "papers_dir", tmp_path / "papers")
+
+    assert (
+        run_manual._should_run_pre_screen(
+            "2402.08170",
+            skip_screen=False,
+            force_extract=True,
+        )
+        is False
+    )
+    assert (
+        run_manual._should_run_pre_screen(
+            "2402.08170",
+            skip_screen=True,
+            force_extract=False,
+        )
+        is False
+    )
+
+    llm_out = extracted / "llm_output.yaml"
+    llm_out.write_text("results: {}\n", encoding="utf-8")
+    assert (
+        run_manual._should_run_pre_screen(
+            "2402.08170",
+            skip_screen=False,
+            force_extract=False,
+        )
+        is False
+    )
+
+    llm_out.unlink()
+    assert (
+        run_manual._should_run_pre_screen(
+            "2402.08170",
+            skip_screen=False,
+            force_extract=False,
+        )
+        is True
+    )
+
+
 def test_resolve_published_date_prefers_semantic_scholar(monkeypatch):
     run_manual = _load_run_manual()
     monkeypatch.setattr(
@@ -47,6 +95,9 @@ def test_resolve_published_date_prefers_semantic_scholar(monkeypatch):
 
 def test_resolve_published_date_falls_back_to_arxiv_then_id(monkeypatch):
     run_manual = _load_run_manual()
+    from backend.config import cfg
+
+    monkeypatch.setattr(cfg, "semantic_scholar_api_key", "")
     monkeypatch.setattr(run_manual, "_fetch_semantic_scholar_metadata", lambda arxiv_id: {})
     monkeypatch.setattr(
         "backend.llm_extractor.fetch_arxiv_metadata",
@@ -56,8 +107,26 @@ def test_resolve_published_date_falls_back_to_arxiv_then_id(monkeypatch):
     assert run_manual._resolve_published_date("2403.00001") == "2023-01-01"
 
 
+def test_resolve_published_date_skips_arxiv_when_semantic_scholar_key_set(monkeypatch):
+    run_manual = _load_run_manual()
+    from backend.config import cfg
+
+    monkeypatch.setattr(cfg, "semantic_scholar_api_key", "test-key")
+    monkeypatch.setattr(run_manual, "_fetch_semantic_scholar_metadata", lambda arxiv_id: {})
+
+    def _should_not_call(_arxiv_id: str) -> dict:
+        raise AssertionError("fetch_arxiv_metadata should not be called when S2 key is set")
+
+    monkeypatch.setattr("backend.llm_extractor.fetch_arxiv_metadata", _should_not_call)
+
+    assert run_manual._resolve_published_date("2403.00001") == "2024-03"
+
+
 def test_resolve_published_date_falls_back_to_arxiv_id(monkeypatch):
     run_manual = _load_run_manual()
+    from backend.config import cfg
+
+    monkeypatch.setattr(cfg, "semantic_scholar_api_key", "")
     monkeypatch.setattr(run_manual, "_fetch_semantic_scholar_metadata", lambda arxiv_id: {})
     monkeypatch.setattr("backend.llm_extractor.fetch_arxiv_metadata", lambda arxiv_id: {})
 

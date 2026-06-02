@@ -3,11 +3,10 @@
 from __future__ import annotations
 
 import json
-from datetime import datetime, timezone
-from enum import Enum
+from datetime import UTC, datetime
+from enum import StrEnum
 
 from sqlalchemy import (
-    Boolean,
     Column,
     Float,
     ForeignKey,
@@ -22,10 +21,10 @@ from sqlalchemy.orm import DeclarativeBase, relationship
 
 
 def _utcnow() -> str:
-    return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    return datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
-class TodoPaperStatus(str, Enum):
+class TodoPaperStatus(StrEnum):
     PENDING = "pending"
     PROCESSING = "processing"
     DONE = "done"
@@ -261,7 +260,7 @@ class Model(Base):
     canonical_name = Column(String, nullable=False)
     paper_id = Column(Integer, ForeignKey("papers.id", ondelete="SET NULL"))
     size_params = Column(Integer)  # parameter count (exact)
-    model_type = Column(String)  # GCN_variant | GAT_variant | GraphTransformer | GNN | Other
+    model_type = Column(String)  # gnn | graph_transformer | hybrid | llm | svm_kernel | ...
     is_baseline = Column(Integer, nullable=False, default=0)
     created_at = Column(String, nullable=False, default=_utcnow)
 
@@ -306,6 +305,7 @@ class Result(Base):
     extraction_model = Column(String)  # model that extracted this result
     variant_inference_reason = Column(Text)
     uses_external_data = Column(Integer)  # 1=yes, 0=no, NULL=unknown
+    params_millions = Column(Float)  # paper-local parameter count in millions
     # Human correction columns
     is_problematic = Column(Integer, nullable=False, default=0)
     problematic_reason = Column(Text)

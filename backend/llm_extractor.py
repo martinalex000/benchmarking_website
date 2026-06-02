@@ -39,10 +39,13 @@ import yaml
 from openai import APIStatusError, OpenAI, RateLimitError
 from pydantic import BaseModel, Field, field_validator
 from tenacity import retry, stop_after_attempt, wait_exponential
+from thefuzz import fuzz as fuzz_lib
+from thefuzz import process as fuzz_process
 
 from backend.config import cfg, normalize_arxiv_id
 from backend.db import session_scope
 from backend.llm_model_options import display_name_for_model, extra_body_for_model
+from backend.model_metadata import normalize_architecture_type
 from backend.models import Paper
 from backend.paper_storage import PaperStorage
 from backend.semantic_scholar import fetch_paper_metadata
@@ -556,11 +559,23 @@ class ProposedModel(BaseModel):
     params_exact: int | None = None
     model_type: str | None = None
 
+    @field_validator("model_type", mode="before")
+    @classmethod
+    def _normalize_model_type(cls, v: Any) -> str | None:
+        return normalize_architecture_type(v if v is not None else None)
+
 
 class BaselineModelInfo(BaseModel):
     name: str
     params_millions: float | None = None
+    params_exact: int | None = None
+    model_type: str | None = None
     original_paper_hint: str | None = None
+
+    @field_validator("model_type", mode="before")
+    @classmethod
+    def _normalize_model_type(cls, v: Any) -> str | None:
+        return normalize_architecture_type(v if v is not None else None)
 
 
 class ResultEntry(BaseModel):
@@ -663,6 +678,7 @@ class FigureInfo(BaseModel):
 
 class ModelSizeEntry(BaseModel):
     model_name: str
+    matched_result_name: str | None = None
     params_millions: float | None = None
     params_exact: int | None = None
     source_text: str | None = None
@@ -683,6 +699,7 @@ _TABLE_CHUNK_SIZE = 16_000
 # Smart-excerpt parameters (used when full text > _CHUNK_SIZE)
 _SMART_INTRO_CHARS = 3_000
 _SMART_TABLES_CHARS = 30_000
+_SIZE_FUZZY_MATCH_MIN_SCORE = 88
 # How much of the paper intro to include in dataset discovery.
 # Larger than _SMART_INTRO_CHARS so that for text-only papers the model can
 # see table-of-datasets overviews that appear in the first ~5-6 pages.
@@ -2220,15 +2237,25 @@ class LLMExtractor:
             logger.warning("Figure detection failed: %s", exc)
             return FigureInfo()
 
-    def extract_model_sizes(self, paper_text: str) -> list[ModelSizeEntry]:
-        """Extract model parameter counts."""
+    def extract_model_sizes(
+        self,
+        paper_text: str,
+        model_names: list[str] | None = None,
+    ) -> list[ModelSizeEntry]:
+        """Extract model parameter counts from a targeted paper excerpt."""
         prompt = self._read_prompt("model_size.txt")
+        excerpt = _build_model_size_excerpt(paper_text)
+        user_content = excerpt
+        if model_names:
+            user_content += "\n\nTARGET MODEL LIST:\n" + "\n".join(
+                f"- {name}" for name in model_names
+            )
         try:
             raw = self._call_structured(
                 prompt,
-                paper_text[:_CHUNK_SIZE],
-                max_tokens=1024,
-                call_type="model_sizes",
+                user_content,
+                max_tokens=2048,
+                call_type="model_sizes" if not model_names else "model_sizes_guided",
                 output_format=self.result_output_format,
             )
             if isinstance(raw, list):
@@ -2300,8 +2327,12 @@ class LLMExtractor:
         else:
             figure_out = FigureInfo()
 
-        # Task 3: Model sizes (merge back into results_out)
+        # Task 3: Model sizes — broad pass then guided pass for result-table names
         sizes = self.extract_model_sizes(paper_text)
+        model_names = sorted({r.model for r in results_out.results if r.model})
+        if model_names:
+            guided_sizes = self.extract_model_sizes(paper_text, model_names=model_names)
+            sizes = _merge_size_entries(sizes, guided_sizes)
         _apply_sizes(results_out, sizes)
         intro_model_hint = _extract_proposed_model_hint(
             paper_title,
@@ -2514,15 +2545,32 @@ def _expand_extraction_payload(raw: Any) -> Any:
         return raw
 
     baseline_names = raw.get("baseline_model_names") or []
+    baseline_types = raw.get("baseline_model_types") or {}
+    baseline_params = raw.get("baseline_params_millions") or {}
+    proposed_name = raw.get("proposed_model_name")
+    proposed: dict[str, Any] | None = None
+    if proposed_name:
+        proposed = {
+            "name": proposed_name,
+            "model_type": normalize_architecture_type(raw.get("proposed_model_type")),
+            "params_millions": raw.get("proposed_params_millions"),
+        }
+    baseline_models: list[dict[str, Any]] = []
+    for name in baseline_names:
+        if not name:
+            continue
+        baseline_models.append(
+            {
+                "name": name,
+                "model_type": normalize_architecture_type(baseline_types.get(name)),
+                "params_millions": baseline_params.get(name),
+                "params_exact": None,
+                "original_paper_hint": None,
+            }
+        )
     return {
-        "proposed_model": (
-            {"name": raw.get("proposed_model_name")} if raw.get("proposed_model_name") else None
-        ),
-        "baseline_models": [
-            {"name": name, "params_millions": None, "original_paper_hint": None}
-            for name in baseline_names
-            if name
-        ],
+        "proposed_model": proposed,
+        "baseline_models": baseline_models,
         "results": [_expand_compact_result_entry(item) for item in raw.get("results", [])],
         "extraction_confidence": raw.get("confidence", "LOW"),
         "extraction_notes": raw.get("notes", ""),
@@ -2644,19 +2692,100 @@ def _build_smart_excerpt(paper_text: str, tables_section: str) -> str:
     return "\n".join(parts)
 
 
+def _build_model_size_excerpt(paper_text: str) -> str:
+    """Build a paper excerpt likely to contain parameter counts."""
+    intro = paper_text[:_SMART_INTRO_CHARS]
+    methods_chunks: list[str] = []
+    for pattern in (
+        r"(?im)^(?:#+\s*)?(?:\d+\.?\s*)?(?:method|implementation|architecture|model)\b",
+        r"(?im)^(?:appendix|[AB]\.\s)",
+    ):
+        for match in re.finditer(pattern, paper_text):
+            start = match.start()
+            methods_chunks.append(paper_text[start : start + 15_000])
+
+    param_sections: list[str] = []
+    for match in re.finditer(
+        r"(?i)(?:#+\s*param|parameters|model size|#params|\d+\.?\d*\s*[Mm]\b|million params)",
+        paper_text,
+    ):
+        start = max(0, match.start() - 500)
+        param_sections.append(paper_text[start : start + 8000])
+
+    tail = paper_text[-20_000:] if len(paper_text) > 20_000 else ""
+
+    parts = [f"=== INTRO ===\n{intro}"]
+    if methods_chunks:
+        parts.append("=== METHODS / IMPLEMENTATION ===\n" + "\n---\n".join(methods_chunks[:3]))
+    if param_sections:
+        parts.append("=== PARAM MENTIONS ===\n" + "\n---\n".join(param_sections[:5]))
+    if tail:
+        parts.append(f"=== APPENDIX / TAIL ===\n{tail}")
+
+    return "\n\n".join(parts)[:_CHUNK_SIZE]
+
+
+def _size_lookup_key(entry: ModelSizeEntry) -> str:
+    return (entry.matched_result_name or entry.model_name).strip().lower()
+
+
+def _lookup_size_entry(name: str, size_map: dict[str, ModelSizeEntry]) -> ModelSizeEntry | None:
+    key = name.strip().lower()
+    if key in size_map:
+        return size_map[key]
+    if not size_map:
+        return None
+    best_match, score = fuzz_process.extractOne(
+        key, list(size_map.keys()), scorer=fuzz_lib.token_sort_ratio
+    )
+    if score >= _SIZE_FUZZY_MATCH_MIN_SCORE:
+        return size_map.get(best_match)
+    return None
+
+
+def _merge_size_entries(
+    primary: list[ModelSizeEntry], secondary: list[ModelSizeEntry]
+) -> list[ModelSizeEntry]:
+    merged: dict[str, ModelSizeEntry] = {}
+    for entry in primary + secondary:
+        key = _size_lookup_key(entry)
+        if not key:
+            continue
+        existing = merged.get(key)
+        if existing is None:
+            merged[key] = entry
+            continue
+        if existing.params_millions is None and entry.params_millions is not None:
+            existing.params_millions = entry.params_millions
+        if existing.params_exact is None and entry.params_exact is not None:
+            existing.params_exact = entry.params_exact
+    return list(merged.values())
+
+
+def _apply_size_to_model_info(
+    info: ProposedModel | BaselineModelInfo,
+    size_map: dict[str, ModelSizeEntry],
+) -> None:
+    matched = _lookup_size_entry(info.name, size_map)
+    if matched is None:
+        return
+    if info.params_millions is None:
+        info.params_millions = matched.params_millions
+    if info.params_exact is None:
+        info.params_exact = matched.params_exact
+
+
 def _apply_sizes(extraction: ExtractionOutput, sizes: list[ModelSizeEntry]) -> None:
     """Merge model size data back into the extraction output."""
-    if extraction.proposed_model is None:
+    if not sizes:
         return
-    size_map = {s.model_name.lower(): s for s in sizes}
+    size_map = {_size_lookup_key(s): s for s in sizes if _size_lookup_key(s)}
 
-    proposed_key = extraction.proposed_model.name.lower()
-    if proposed_key in size_map:
-        s = size_map[proposed_key]
-        if extraction.proposed_model.params_millions is None:
-            extraction.proposed_model.params_millions = s.params_millions
-        if extraction.proposed_model.params_exact is None:
-            extraction.proposed_model.params_exact = s.params_exact
+    if extraction.proposed_model is not None:
+        _apply_size_to_model_info(extraction.proposed_model, size_map)
+
+    for baseline in extraction.baseline_models:
+        _apply_size_to_model_info(baseline, size_map)
 
 
 def _normalise_model_name_text(name: str) -> str:

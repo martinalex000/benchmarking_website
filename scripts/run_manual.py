@@ -17,8 +17,8 @@ Usage::
     uv run python scripts/run_manual.py --import-pending           # review pending datasets
 
 Extraction is two-stage:
-  Stage 1 (small model): screens title+abstract from arXiv API to confirm
-    the paper has benchmark results before spending tokens on full extraction.
+  Stage 1 (small model): screens title+abstract (Semantic Scholar, then local
+    caches) to confirm the paper has benchmark results before full extraction.
   Stage 2 (chosen model): sends the complete paper text to the LLM.
 
 Unknown datasets found during extraction are queued in the pending_datasets DB
@@ -98,7 +98,11 @@ def _fetch_best_metadata(arxiv_id: str, allow_arxiv_api: bool = True) -> dict[st
     except Exception:
         meta = {}
 
-    if (meta.get("title") and meta.get("abstract")) or not allow_arxiv_api:
+    if (
+        (meta.get("title") and meta.get("abstract"))
+        or not allow_arxiv_api
+        or cfg.semantic_scholar_api_key
+    ):
         return meta
 
     try:
@@ -199,10 +203,14 @@ def _pre_screen(arxiv_id: str, allow_arxiv_api: bool = True) -> bool:
 
     if not abstract or title.startswith("arXiv:"):
         meta = _fetch_best_metadata(arxiv_id, allow_arxiv_api=allow_arxiv_api)
-        if meta.get("abstract"):
-            console.print("  [dim]Fetching abstract from Semantic Scholar for pre-screen…[/dim]")
-        elif allow_arxiv_api:
-            console.print("  [dim]Fetching abstract from arXiv API for pre-screen fallback…[/dim]")
+        if meta.get("abstract") and cfg.semantic_scholar_api_key:
+            console.print("  [dim]Using abstract from Semantic Scholar for pre-screen…[/dim]")
+        elif meta.get("abstract"):
+            console.print("  [dim]Using abstract from local/arXiv metadata for pre-screen…[/dim]")
+        elif allow_arxiv_api and not cfg.semantic_scholar_api_key:
+            console.print(
+                "  [dim]Could not fetch abstract (Semantic Scholar and arXiv unavailable).[/dim]"
+            )
         title = meta.get("title", title)
         abstract = meta.get("abstract", abstract)
 
@@ -262,7 +270,7 @@ def _pre_screen(arxiv_id: str, allow_arxiv_api: bool = True) -> bool:
 
 
 def _resolve_published_date(arxiv_id: str) -> str:
-    """Return the best available published date."""
+    """Return the best available published date (Semantic Scholar, then arXiv ID)."""
     try:
         meta = _fetch_semantic_scholar_metadata(arxiv_id)
         if meta.get("published_date"):
@@ -270,14 +278,15 @@ def _resolve_published_date(arxiv_id: str) -> str:
     except Exception:
         pass
 
-    from backend.llm_extractor import fetch_arxiv_metadata
+    if not cfg.semantic_scholar_api_key:
+        from backend.llm_extractor import fetch_arxiv_metadata
 
-    try:
-        meta = fetch_arxiv_metadata(arxiv_id)
-        if meta.get("published_date"):
-            return meta["published_date"]
-    except Exception:
-        pass
+        try:
+            meta = fetch_arxiv_metadata(arxiv_id)
+            if meta.get("published_date"):
+                return meta["published_date"]
+        except Exception:
+            pass
 
     m = re.match(r"^(\d{2})(\d{2})\.\d+", arxiv_id)
     if m:
@@ -425,6 +434,25 @@ def _run_semantic_scholar_enrichment(arxiv_id: str, limit: int = 5000) -> None:
 
 
 # ── Extraction ────────────────────────────────────────────────────────────────
+
+
+def _has_existing_extraction(arxiv_id: str) -> bool:
+    """Return True if this paper already has a saved LLM extraction artifact."""
+    from backend.paper_storage import PaperStorage
+
+    return PaperStorage(arxiv_id).llm_output_path.exists()
+
+
+def _should_run_pre_screen(
+    arxiv_id: str,
+    *,
+    skip_screen: bool,
+    force_extract: bool,
+) -> bool:
+    """Return whether stage-1 abstract screening should run."""
+    if skip_screen or force_extract:
+        return False
+    return not _has_existing_extraction(arxiv_id)
 
 
 def _show_existing_extraction(arxiv_id: str, requested_model: str) -> bool:
@@ -1133,7 +1161,7 @@ def main() -> None:
     parser.add_argument(
         "--skip-screen",
         action="store_true",
-        help="Skip stage 1 abstract screening and always run full extraction",
+        help="Skip stage 1 abstract screening (also skipped with --force or existing extraction)",
     )
     parser.add_argument(
         "--force-rescreen",
@@ -1175,7 +1203,6 @@ def main() -> None:
     arxiv_id = normalize_arxiv_id(raw)
     force_extract = args.force or args.force_download
     force_download = args.force_download
-    do_screen = not args.skip_screen
     do_two_step = not args.oneshot
 
     console.rule(f"[bold]Processing arXiv:{arxiv_id}[/bold]")
@@ -1206,7 +1233,12 @@ def main() -> None:
     # ── Rejection guard ───────────────────────────────────────────────────
     # If the paper was previously rejected by screening (and we're not forcing
     # a re-screen), abort early to avoid wasting LLM calls.
-    if not args.force_rescreen and not args.skip_screen and not args.figure_only:
+    if (
+        not args.force_rescreen
+        and not args.skip_screen
+        and not args.figure_only
+        and not force_extract
+    ):
         with _ss() as _s:
             _cand = _s.query(PaperCandidate).filter_by(arxiv_id=arxiv_id).first()
             if _cand and _cand.final_status in ("rejected_stage1", "rejected_stage2"):
@@ -1292,6 +1324,12 @@ def main() -> None:
     # Refresh local-download state after optional download step.
     already_downloaded = _is_paper_downloaded(arxiv_id)
 
+    do_screen = _should_run_pre_screen(
+        arxiv_id,
+        skip_screen=args.skip_screen,
+        force_extract=force_extract,
+    )
+
     # ── 2. Preliminaries ──────────────────────────────────────────────────
     console.print("\n[bold]2. Preliminaries[/bold]")
     console.print(
@@ -1315,14 +1353,24 @@ def main() -> None:
             )
         else:
             console.print(
-                "  [dim]No local LaTeX abstract available — using arXiv API fallback for pre-screen metadata.[/dim]"
+                "  [dim]No local LaTeX abstract — pre-screen will use Semantic Scholar"
+                + (
+                    " (no arXiv API)."
+                    if cfg.semantic_scholar_api_key
+                    else " with arXiv API fallback."
+                )
+                + "[/dim]"
             )
         screen_passed = _pre_screen(arxiv_id, allow_arxiv_api=allow_arxiv_api)
         if not screen_passed:
             console.rule("[yellow]Rejected[/yellow]")
             sys.exit(2)
-    else:
+    elif args.skip_screen:
         console.print("  [dim]Relevance pre-screen skipped (--skip-screen).[/dim]")
+    elif force_extract:
+        console.print("  [dim]Relevance pre-screen skipped (--force).[/dim]")
+    elif _has_existing_extraction(arxiv_id):
+        console.print("  [dim]Relevance pre-screen skipped (existing LLM extraction).[/dim]")
 
     _run_semantic_scholar_enrichment(arxiv_id)
 

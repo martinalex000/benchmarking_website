@@ -34,6 +34,7 @@ from backend.export_helpers import plain_model as _plain_model
 from backend.export_helpers import rank_for_value as _rank_for_value
 from backend.export_helpers import sanitize_model as _sanitize_model_text
 from backend.export_helpers import sanitize_title as _sanitize_title
+from backend.model_metadata import architecture_label, architecture_title
 from backend.models import (
     Benchmark,
     Dataset,
@@ -206,6 +207,25 @@ def _paper_explicit_param_millions(arxiv_id: str | None, model_name: str | None)
     if not arxiv_id or not model_name:
         return None
     return _paper_explicit_param_map(arxiv_id).get(str(model_name).strip().lower())
+
+
+def _result_params_millions(
+    result: Result | None,
+    arxiv_id: str | None,
+    model_name: str | None,
+) -> float | None:
+    if result is not None and result.params_millions is not None:
+        return float(result.params_millions)
+    return _paper_explicit_param_millions(arxiv_id, model_name)
+
+
+def _result_architecture_fields(result: Result | None) -> dict[str, Any]:
+    model_type = result.model.model_type if result and result.model else None
+    return {
+        "architecture_type": model_type,
+        "architecture_label": architecture_label(model_type),
+        "architecture_title": architecture_title(model_type) or "",
+    }
 
 
 def _load_dataset_overrides() -> dict[str, dict[str, Any]]:
@@ -612,6 +632,9 @@ def _pivot_paper_rows(rows: list[dict], primary_metric: str | None) -> dict:
                 "is_overridden": first.get("is_overridden", False),
                 "override_reason": first.get("override_reason", ""),
                 "params_millions": first.get("params_millions"),
+                "architecture_type": first.get("architecture_type"),
+                "architecture_label": first.get("architecture_label"),
+                "architecture_title": first.get("architecture_title", ""),
                 "sort_value": primary_row.get("sort_value"),
                 "sort_std": primary_row.get("sort_std"),
                 "true_value": primary_row.get("true_value"),
@@ -632,6 +655,9 @@ def _pivot_paper_rows(rows: list[dict], primary_metric: str | None) -> dict:
                 "date_iso": first.get("date_iso", ""),
                 "codebase_url": first.get("codebase_url", ""),
                 "uses_external_data": first.get("uses_external_data"),
+                "comparison_type": first.get("comparison_type"),
+                "comparison_source_title": first.get("comparison_source_title", ""),
+                "comparison_source_arxiv": first.get("comparison_source_arxiv", ""),
             }
         )
 
@@ -728,10 +754,12 @@ def _global_ranks_for_dataset(
             "is_baseline": bool(r.is_baseline),
             "is_overridden": bool(r.is_overridden),
             "override_reason": r.override_reason or "",
-            "params_millions": _paper_explicit_param_millions(
+            "params_millions": _result_params_millions(
+                r,
                 p.arxiv_id if p else None,
                 rendered_name,
             ),
+            **_result_architecture_fields(r),
             "arxiv_id": p.arxiv_id if p else "",
             "title": _sanitize_title(p.title if p else ""),
             "date": _fmt_date(p.published_date) if p else "",
@@ -743,6 +771,9 @@ def _global_ranks_for_dataset(
             "global_rank": model_to_rank.get(model_key),
             "sort_value": val,
             "sort_std": float(r.display_std) if r.display_std is not None else None,
+            "comparison_type": "global_top",
+            "comparison_source_title": "",
+            "comparison_source_arxiv": "",
         }
         rows.append(row)
         truth_map[model_key] = row
@@ -1146,10 +1177,13 @@ def export_paper(arxiv_id: str) -> bool:
                     "is_baseline": bool(r.is_baseline),
                     "is_overridden": bool(r.is_overridden),
                     "override_reason": r.override_reason or "",
-                    "params_millions": _paper_explicit_param_millions(
+                    "params_millions": _result_params_millions(
+                        r,
                         paper.arxiv_id if paper else None,
                         rendered_model,
                     ),
+                    **_result_architecture_fields(r),
+                    "uses_external_data": r.uses_external_data,
                     "table_ref": r.table_ref or "",
                     "source_ref": r.source_ref or "",
                     "variant_inference_reason": r.variant_inference_reason or "",
@@ -1235,6 +1269,60 @@ def export_paper(arxiv_id: str) -> bool:
                 row["sort_value"] = row.get("true_value")
                 row["sort_std"] = row.get("true_std")
 
+                # Compute comparison context for the comparison column
+                paper_date = row.get("date_iso", "")
+                source_date = truth.get("date_iso", "")
+                paper_val = row.get("paper_value")
+                true_val = truth.get("value")
+                paper_std = row.get("paper_std")
+                true_std = truth.get("std")
+
+                if row.get("is_baseline") and paper_val is not None and true_val is not None:
+                    # Compare this baseline against the global best
+                    better_than_global = (higher and paper_val > true_val) or (
+                        not higher and paper_val < true_val
+                    )
+                    # Check if values overlap within std
+                    delta = abs(paper_val - true_val)
+                    std_overlap = (
+                        (delta <= (paper_std or 0) + (true_std or 0))
+                        if paper_std is not None or true_std is not None
+                        else (delta <= 1e-12)
+                    )
+
+                    if better_than_global:
+                        # This baseline improved over the previous global best
+                        row["comparison_type"] = "improved"
+                        row["comparison_source_title"] = truth.get("title", "")
+                        row["comparison_source_arxiv"] = truth.get("arxiv_id", "")
+                    elif paper_date and source_date and source_date <= paper_date and std_overlap:
+                        # Same or overlapping result from an older paper
+                        row["comparison_type"] = "matches"
+                        row["comparison_source_title"] = truth.get("title", "")
+                        row["comparison_source_arxiv"] = truth.get("arxiv_id", "")
+                    elif source_date and paper_date and source_date < paper_date:
+                        # The global best comes from an older paper — worse result
+                        row["comparison_type"] = "behind"
+                        row["comparison_source_title"] = truth.get("title", "")
+                        row["comparison_source_arxiv"] = truth.get("arxiv_id", "")
+                    elif source_date and source_date > paper_date:
+                        # Future paper has the best result — this baseline was behind
+                        row["comparison_type"] = "behind"
+                        row["comparison_source_title"] = truth.get("title", "")
+                        row["comparison_source_arxiv"] = truth.get("arxiv_id", "")
+                    else:
+                        row["comparison_type"] = None
+                        row["comparison_source_title"] = ""
+                        row["comparison_source_arxiv"] = ""
+                elif row.get("is_global_top"):
+                    row["comparison_type"] = "global_top"
+                    row["comparison_source_title"] = ""
+                    row["comparison_source_arxiv"] = ""
+                else:
+                    row["comparison_type"] = None
+                    row["comparison_source_title"] = ""
+                    row["comparison_source_arxiv"] = ""
+
             rows = _dedup_result_rows(
                 rows,
                 (
@@ -1254,6 +1342,9 @@ def export_paper(arxiv_id: str) -> bool:
                     "has_value_note",
                     "value_gap_source_arxiv",
                     "rank_delta",
+                    "comparison_type",
+                    "comparison_source_title",
+                    "comparison_source_arxiv",
                 ),
             )
 
@@ -1285,6 +1376,9 @@ def export_paper(arxiv_id: str) -> bool:
                                 "is_overridden": False,
                                 "override_reason": "",
                                 "params_millions": gr["params_millions"],
+                                "architecture_type": gr.get("architecture_type"),
+                                "architecture_label": gr.get("architecture_label"),
+                                "architecture_title": gr.get("architecture_title", ""),
                                 "arxiv_id": gr["arxiv_id"],
                                 "title": gr["title"],
                                 "published_venue": gr.get("published_venue", ""),
@@ -1304,6 +1398,9 @@ def export_paper(arxiv_id: str) -> bool:
                                 "rank_delta": None,
                                 "rank_delta_abs": None,
                                 "value_note": "",
+                                "comparison_type": gr.get("comparison_type", "global_top"),
+                                "comparison_source_title": gr.get("comparison_source_title", ""),
+                                "comparison_source_arxiv": gr.get("comparison_source_arxiv", ""),
                             }
                         )
                         if len(extra_rows) >= 3:
@@ -1361,6 +1458,9 @@ def export_paper(arxiv_id: str) -> bool:
                         "has_value_note",
                         "rank_delta",
                         "value_gap_source_arxiv",
+                        "comparison_type",
+                        "comparison_source_title",
+                        "comparison_source_arxiv",
                     ),
                 )
 
@@ -1419,6 +1519,9 @@ def export_paper(arxiv_id: str) -> bool:
                             "has_value_note",
                             "rank_delta",
                             "value_gap_source_arxiv",
+                            "comparison_type",
+                            "comparison_source_title",
+                            "comparison_source_arxiv",
                         ),
                     )
                     rows.sort(key=_row_sort_key)
@@ -1646,7 +1749,8 @@ def _build_multi_metric_rows(
                 "is_baseline": bool(r.is_baseline),
                 "is_overridden": bool(r.is_overridden),
                 "override_reason": r.override_reason or "",
-                "params_millions": _paper_explicit_param_millions(arxiv_id, model_name),
+                "params_millions": _result_params_millions(r, arxiv_id, model_name),
+                **_result_architecture_fields(r),
                 "arxiv_id": arxiv_id,
                 "title": _sanitize_title(paper.title if paper else ""),
                 "date": _fmt_date(paper.published_date) if paper else "",

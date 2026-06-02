@@ -5,9 +5,11 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+import pytest
+
 from backend.config import cfg
 from backend.db import init_db, session_scope
-from backend.models import Benchmark, Dataset, DatasetVariant, Paper, Result
+from backend.models import Benchmark, Dataset, DatasetVariant, Model, Paper, Result
 from backend.paper_storage import PaperStorage
 from backend.results_parser import parse_and_store_with_summary
 
@@ -124,6 +126,94 @@ def test_parse_and_store_with_summary_reports_side_effects(monkeypatch, tmp_path
 
     assert paper.title == "Summary Test Paper"
     assert paper.codebase_url == "https://github.com/example/project"
+
+
+def test_parse_and_store_persists_model_metadata(monkeypatch, tmp_path):
+    _configure_temp_workspace(monkeypatch, tmp_path)
+    init_db()
+
+    with session_scope() as session:
+        benchmark = Benchmark(name="Long Range Graph Benchmark", short_name="lrgb")
+        session.add(benchmark)
+        session.flush()
+        dataset = Dataset(
+            benchmark_id=benchmark.id,
+            name="Peptides-func",
+            task_type="graph_classification",
+            primary_metric="AP",
+            higher_is_better=1,
+        )
+        session.add(dataset)
+        session.flush()
+        session.add(DatasetVariant(dataset_id=dataset.id, name="Standard", is_standard=1))
+
+    storage = PaperStorage("2505.20853")
+    storage.ensure_dirs()
+    storage.llm_output_path.write_text(
+        json.dumps(
+            {
+                "model_used": "fake-primary",
+                "model_sizes": [
+                    {
+                        "model_name": "GraphGPS (ours)",
+                        "matched_result_name": "GraphGPS",
+                        "params_millions": 6.9,
+                    }
+                ],
+                "results": {
+                    "proposed_model": {
+                        "name": "GraphGPS",
+                        "model_type": "hybrid",
+                        "params_millions": 6.9,
+                    },
+                    "baseline_models": [
+                        {"name": "GCN", "model_type": "gnn", "params_millions": 1.2}
+                    ],
+                    "results": [
+                        {
+                            "model": "GraphGPS",
+                            "is_proposed": True,
+                            "dataset": "Peptides-func",
+                            "metric": "AP",
+                            "value": 0.6535,
+                            "higher_is_better": True,
+                            "uses_external_data": False,
+                        },
+                        {
+                            "model": "GCN",
+                            "is_proposed": False,
+                            "dataset": "Peptides-func",
+                            "metric": "AP",
+                            "value": 0.5930,
+                            "higher_is_better": True,
+                        },
+                    ],
+                },
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    summary = parse_and_store_with_summary("2505.20853")
+    assert summary.new_results == 2
+
+    with session_scope() as session:
+        graphgps = session.query(Model).filter_by(canonical_name="GraphGPS").one()
+        gcn = session.query(Model).filter_by(canonical_name="GCN").one()
+        results = (
+            session.query(Result)
+            .filter_by(paper_id=session.query(Paper).filter_by(arxiv_id="2505.20853").one().id)
+            .all()
+        )
+
+    assert graphgps.model_type == "hybrid"
+    assert graphgps.size_params == 6_900_000
+    assert gcn.model_type == "gnn"
+    params_by_model = {
+        session.get(Model, r.model_id).canonical_name: r.params_millions for r in results
+    }
+    assert params_by_model["GraphGPS"] == pytest.approx(6.9)
+    assert params_by_model["GCN"] == pytest.approx(1.2)
 
 
 def test_parse_and_store_with_summary_quarantines_suspicious_method_names(monkeypatch, tmp_path):
