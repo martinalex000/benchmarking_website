@@ -92,6 +92,15 @@ def create_dev_pages() -> None:
 
     with session_scope() as session:
         hugo._write_md(content_dev / "_index.md", {"title": "Development", "type": "dev"}, "")
+        hugo._write_md(
+            content_dev / "conferences.md",
+            {
+                "title": "Conference Overview",
+                "type": "dev",
+                "description": "Venue coverage and shortcut statistics for the exported papers.",
+            },
+            "This page summarizes the conference venues that appear in the exported paper set.",
+        )
 
         papers = session.query(Paper).all()
         by_status: dict[str, list[Paper]] = {}

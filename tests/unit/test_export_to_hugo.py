@@ -9,6 +9,7 @@ from backend.export_to_hugo import (
     _fmt_date,
     _has_paper_value_difference,
     _has_paper_value_gap,
+    _normalize_conference,
     _plain_model,
     _rank_for_value,
     _sanitize_model,
@@ -78,6 +79,23 @@ def test_description_class_target_count_extracts_only_relevant_summary_counts(
 def test_fmt_date_uses_consistent_human_readable_output():
     assert _fmt_date("2025-01-30") == "Jan 30, 2025"
     assert _fmt_date("2025-01") == "Jan 2025"
+
+
+@pytest.mark.parametrize(
+    ("venue", "expected"),
+    [
+        ("NeurIPS 2024", "NeurIPS"),
+        ("ICLR 2023", "ICLR"),
+        ("Proceedings of the 40th International Conference on Machine Learning", "ICML"),
+        ("Transactions on Machine Learning Research", "TMLR"),
+        ("Graph Learning Conference", "LoG"),
+        ("ACM SIGKDD Conference", "KDD"),
+        ("AAAI 2025", "AAAI"),
+        ("Workshop on Something", "Workshop on Something"),
+    ],
+)
+def test_normalize_conference_maps_common_venues(venue, expected):
+    assert _normalize_conference(venue) == expected
 
 
 def test_dedup_result_rows_preserves_first_row_and_keeps_meaningful_differences():
