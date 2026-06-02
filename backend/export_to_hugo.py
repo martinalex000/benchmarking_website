@@ -126,6 +126,16 @@ def _paper_site_link(arxiv_id: str | None, label: str | None = None) -> str:
     return f"[{text}](/papers/{paper_id}/)"
 
 
+def _truncate_words(text: str | None, limit: int) -> str:
+    value = " ".join(str(text or "").split())
+    if not value:
+        return ""
+    words = value.split()
+    if len(words) <= limit:
+        return value
+    return " ".join(words[:limit]) + "..."
+
+
 def _has_paper_value_difference(
     paper_value: float | None,
     true_value: float | None,
@@ -596,6 +606,7 @@ def _pivot_paper_rows(rows: list[dict], primary_metric: str | None) -> dict:
                 "value_note": primary_row.get("value_note", ""),
                 "arxiv_id": first.get("arxiv_id", ""),
                 "title": first.get("title", ""),
+                "published_venue": first.get("published_venue", ""),
                 "date": first.get("date", ""),
                 "date_display": first.get("date_display", ""),
                 "date_iso": first.get("date_iso", ""),
@@ -1127,6 +1138,7 @@ def export_paper(arxiv_id: str) -> bool:
                     "date_iso": (
                         paper.published_date[:10] if paper and paper.published_date else ""
                     ),
+                    "published_venue": paper.venue if paper else "",
                 }
             )
 
@@ -1255,6 +1267,7 @@ def export_paper(arxiv_id: str) -> bool:
                                 "params_millions": gr["params_millions"],
                                 "arxiv_id": gr["arxiv_id"],
                                 "title": gr["title"],
+                                "published_venue": gr.get("published_venue", ""),
                                 "date": gr["date"],
                                 "date_display": gr.get("date_display", ""),
                                 "date_iso": gr.get("date_iso", ""),

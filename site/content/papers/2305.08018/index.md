@@ -3,8 +3,9 @@ title: arXiv:2305.08018
 arxiv_id: '2305.08018'
 source_url: ''
 authors: []
-published_date: ''
-published_date_iso: ''
+published_date: May 13, 2023
+published_date_iso: '2023-05-13'
+published_venue: ''
 abstract: ''
 codebase_url: ''
 extraction_model: Qwen/Qwen3.6-35B-A3B-FP8
@@ -19,6 +20,5 @@ task_categories: []
 experiment_scopes: []
 results: []
 results_grouped: []
-main_figure: /figures/2305.08018/main_figure.png
 ---
 

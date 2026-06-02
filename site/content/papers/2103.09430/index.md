@@ -3,8 +3,9 @@ title: 'OGB-LSC: A Large-Scale Challenge for Machine Learning on Graphs'
 arxiv_id: '2103.09430'
 source_url: ''
 authors: []
-published_date: Mar 2021
-published_date_iso: 2021-03
+published_date: Mar 17, 2021
+published_date_iso: '2021-03-17'
+published_venue: ''
 abstract: Enabling effective and efficient machine learning (ML) over large-scale
   graph data (, graphs with billions of edges) can have a great impact on both industrial
   and scientific applications. However, existing efforts to advance large-scale graph
@@ -60,9 +61,9 @@ results:
     params_millions: null
     arxiv_id: '2410.23686'
     title: Towards Dynamic Message Passing on Graphs
-    date: Oct 2024
+    date: Oct 31, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-31'
     codebase_url: https://github.com/sunjss/N2
     uses_external_data: false
     is_global_top: true
@@ -133,9 +134,10 @@ results:
     table_ref: Table 1
     source_ref: Ying et al. 2021
     variant_inference_reason: 'dataset: exact match'
-    date: Mar 2021
+    date: Mar 17, 2021
     date_display: Mar 2021
-    date_iso: 2021-03
+    date_iso: '2021-03-17'
+    published_venue: null
     global_rank: 5
     true_value: 0.314
     true_std: null
@@ -169,9 +171,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Mar 2021
+    date: Mar 17, 2021
     date_display: Mar 2021
-    date_iso: 2021-03
+    date_iso: '2021-03-17'
+    published_venue: null
     global_rank: 22
     true_value: 0.2885
     true_std: 0.003
@@ -206,9 +209,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Mar 2021
+    date: Mar 17, 2021
     date_display: Mar 2021
-    date_iso: 2021-03
+    date_iso: '2021-03-17'
+    published_venue: null
     global_rank: 27
     true_value: 0.2838
     true_std: 0.0035
@@ -243,9 +247,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Mar 2021
+    date: Mar 17, 2021
     date_display: Mar 2021
-    date_iso: 2021-03
+    date_iso: '2021-03-17'
+    published_venue: null
     global_rank: 35
     true_value: 0.2703
     true_std: 0.0023
@@ -280,9 +285,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Mar 2021
+    date: Mar 17, 2021
     date_display: Mar 2021
-    date_iso: 2021-03
+    date_iso: '2021-03-17'
+    published_venue: null
     global_rank: 46
     true_value: 0.2424
     true_std: 0.0034
@@ -317,9 +323,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Mar 2021
+    date: Mar 17, 2021
     date_display: Mar 2021
-    date_iso: 2021-03
+    date_iso: '2021-03-17'
+    published_venue: null
     global_rank: 50
     true_value: 0.235
     true_std: 0.001
@@ -354,9 +361,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Mar 2021
+    date: Mar 17, 2021
     date_display: Mar 2021
-    date_iso: 2021-03
+    date_iso: '2021-03-17'
+    published_venue: null
     global_rank: 54
     true_value: 0.23
     true_std: 0.001
@@ -391,9 +399,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Mar 2021
+    date: Mar 17, 2021
     date_display: Mar 2021
-    date_iso: 2021-03
+    date_iso: '2021-03-17'
+    published_venue: null
     global_rank: 56
     true_value: 0.228
     true_std: 0.001
@@ -428,9 +437,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Mar 2021
+    date: Mar 17, 2021
     date_display: Mar 2021
-    date_iso: 2021-03
+    date_iso: '2021-03-17'
+    published_venue: null
     global_rank: 57
     true_value: 0.228
     true_std: 0.001
@@ -465,9 +475,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Mar 2021
+    date: Mar 17, 2021
     date_display: Mar 2021
-    date_iso: 2021-03
+    date_iso: '2021-03-17'
+    published_venue: null
     global_rank: 58
     true_value: 0.227
     true_std: 0.001
@@ -502,9 +513,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Mar 2021
+    date: Mar 17, 2021
     date_display: Mar 2021
-    date_iso: 2021-03
+    date_iso: '2021-03-17'
+    published_venue: null
     global_rank: 59
     true_value: 0.225
     true_std: 0.001
@@ -561,7 +573,7 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.9
+    params_millions: null
     arxiv_id: '2406.02740'
     title: Long Range Propagation on Continuous-Time Dynamic Graphs
     date: Jun 4, 2024
@@ -590,9 +602,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Mar 2021
+    date: Mar 17, 2021
     date_display: Mar 2021
-    date_iso: 2021-03
+    date_iso: '2021-03-17'
+    published_venue: null
     global_rank: 3
     true_value: 0.746
     true_std: 0.001
@@ -627,9 +640,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Mar 2021
+    date: Mar 17, 2021
     date_display: Mar 2021
-    date_iso: 2021-03
+    date_iso: '2021-03-17'
+    published_venue: null
     global_rank: 4
     true_value: 0.738
     true_std: 0.002
@@ -664,9 +678,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Mar 2021
+    date: Mar 17, 2021
     date_display: Mar 2021
-    date_iso: 2021-03
+    date_iso: '2021-03-17'
+    published_venue: null
     global_rank: 5
     true_value: 0.735
     true_std: 0.002
@@ -701,9 +716,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Mar 2021
+    date: Mar 17, 2021
     date_display: Mar 2021
-    date_iso: 2021-03
+    date_iso: '2021-03-17'
+    published_venue: null
     global_rank: 6
     true_value: 0.732
     true_std: 0.002
@@ -732,7 +748,7 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 4.0
+    params_millions: null
     arxiv_id: '2406.02740'
     title: Long Range Propagation on Continuous-Time Dynamic Graphs
     date: Jun 4, 2024
@@ -761,9 +777,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Mar 2021
+    date: Mar 17, 2021
     date_display: Mar 2021
-    date_iso: 2021-03
+    date_iso: '2021-03-17'
+    published_venue: null
     global_rank: 8
     true_value: 0.728
     true_std: 0.003
@@ -798,9 +815,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Mar 2021
+    date: Mar 17, 2021
     date_display: Mar 2021
-    date_iso: 2021-03
+    date_iso: '2021-03-17'
+    published_venue: null
     global_rank: 9
     true_value: 0.725
     true_std: 0.003
@@ -835,9 +853,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Mar 2021
+    date: Mar 17, 2021
     date_display: Mar 2021
-    date_iso: 2021-03
+    date_iso: '2021-03-17'
+    published_venue: null
     global_rank: 10
     true_value: 0.721
     true_std: 0.003
@@ -872,9 +891,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Mar 2021
+    date: Mar 17, 2021
     date_display: Mar 2021
-    date_iso: 2021-03
+    date_iso: '2021-03-17'
+    published_venue: null
     global_rank: 12
     true_value: 0.685
     true_std: 0.004
@@ -909,9 +929,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Mar 2021
+    date: Mar 17, 2021
     date_display: Mar 2021
-    date_iso: 2021-03
+    date_iso: '2021-03-17'
+    published_venue: null
     global_rank: 13
     true_value: 0.678
     true_std: 0.004
@@ -946,9 +967,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Mar 2021
+    date: Mar 17, 2021
     date_display: Mar 2021
-    date_iso: 2021-03
+    date_iso: '2021-03-17'
+    published_venue: null
     global_rank: 14
     true_value: 0.675
     true_std: 0.004
@@ -983,9 +1005,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Mar 2021
+    date: Mar 17, 2021
     date_display: Mar 2021
-    date_iso: 2021-03
+    date_iso: '2021-03-17'
+    published_venue: null
     global_rank: 15
     true_value: 0.672
     true_std: 0.004
@@ -1020,9 +1043,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Mar 2021
+    date: Mar 17, 2021
     date_display: Mar 2021
-    date_iso: 2021-03
+    date_iso: '2021-03-17'
+    published_venue: null
     global_rank: 17
     true_value: 0.665
     true_std: 0.005
@@ -1057,9 +1081,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Mar 2021
+    date: Mar 17, 2021
     date_display: Mar 2021
-    date_iso: 2021-03
+    date_iso: '2021-03-17'
+    published_venue: null
     global_rank: 18
     true_value: 0.662
     true_std: 0.005
@@ -1094,9 +1119,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Mar 2021
+    date: Mar 17, 2021
     date_display: Mar 2021
-    date_iso: 2021-03
+    date_iso: '2021-03-17'
+    published_venue: null
     global_rank: 20
     true_value: 0.658
     true_std: 0.005
@@ -1131,9 +1157,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Mar 2021
+    date: Mar 17, 2021
     date_display: Mar 2021
-    date_iso: 2021-03
+    date_iso: '2021-03-17'
+    published_venue: null
     global_rank: 21
     true_value: 0.655
     true_std: 0.005
@@ -1242,9 +1269,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Mar 2021
+    date: Mar 17, 2021
     date_display: Mar 2021
-    date_iso: 2021-03
+    date_iso: '2021-03-17'
+    published_venue: null
     global_rank: 9
     true_value: 0.768
     true_std: 0.004
@@ -1279,9 +1307,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Mar 2021
+    date: Mar 17, 2021
     date_display: Mar 2021
-    date_iso: 2021-03
+    date_iso: '2021-03-17'
+    published_venue: null
     global_rank: 10
     true_value: 0.761
     true_std: 0.003
@@ -1316,9 +1345,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Mar 2021
+    date: Mar 17, 2021
     date_display: Mar 2021
-    date_iso: 2021-03
+    date_iso: '2021-03-17'
+    published_venue: null
     global_rank: 12
     true_value: 0.753
     true_std: 0.002
@@ -1353,9 +1383,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Mar 2021
+    date: Mar 17, 2021
     date_display: Mar 2021
-    date_iso: 2021-03
+    date_iso: '2021-03-17'
+    published_venue: null
     global_rank: 14
     true_value: 0.742
     true_std: 0.002
@@ -1390,9 +1421,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Mar 2021
+    date: Mar 17, 2021
     date_display: Mar 2021
-    date_iso: 2021-03
+    date_iso: '2021-03-17'
+    published_venue: null
     global_rank: 15
     true_value: 0.731
     true_std: 0.002
@@ -1427,9 +1459,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Mar 2021
+    date: Mar 17, 2021
     date_display: Mar 2021
-    date_iso: 2021-03
+    date_iso: '2021-03-17'
+    published_venue: null
     global_rank: 17
     true_value: 0.725
     true_std: 0.002
@@ -1464,9 +1497,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Mar 2021
+    date: Mar 17, 2021
     date_display: Mar 2021
-    date_iso: 2021-03
+    date_iso: '2021-03-17'
+    published_venue: null
     global_rank: 18
     true_value: 0.718
     true_std: 0.003
@@ -1501,9 +1535,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Mar 2021
+    date: Mar 17, 2021
     date_display: Mar 2021
-    date_iso: 2021-03
+    date_iso: '2021-03-17'
+    published_venue: null
     global_rank: 20
     true_value: 0.712
     true_std: 0.003

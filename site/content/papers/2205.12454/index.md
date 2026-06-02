@@ -3,8 +3,9 @@ title: Recipe for a General, Powerful, Scalable Graph Transformer
 arxiv_id: '2205.12454'
 source_url: ''
 authors: []
-published_date: May 2022
-published_date_iso: 2022-05
+published_date: May 25, 2022
+published_date_iso: '2022-05-25'
+published_venue: ''
 abstract: 'We propose a recipe on how to build a general, powerful, scalable (GPS)
   graph Transformer with linear complexity and state-of-the-art results on a diverse
   set of benchmarks. Graph Transformers (GTs) have gained popularity in the field
@@ -64,9 +65,9 @@ results:
     params_millions: null
     arxiv_id: '2511.08028'
     title: Generalizable Insights for Graph Transformers in Theory and Practice
-    date: Nov 2025
+    date: Nov 11, 2025
     date_display: Nov 2025
-    date_iso: 2025-11
+    date_iso: '2025-11-11'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
@@ -87,9 +88,9 @@ results:
     params_millions: null
     arxiv_id: '2511.08028'
     title: Generalizable Insights for Graph Transformers in Theory and Practice
-    date: Nov 2025
+    date: Nov 11, 2025
     date_display: Nov 2025
-    date_iso: 2025-11
+    date_iso: '2025-11-11'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
@@ -110,9 +111,9 @@ results:
     params_millions: null
     arxiv_id: '2511.08028'
     title: Generalizable Insights for Graph Transformers in Theory and Practice
-    date: Nov 2025
+    date: Nov 11, 2025
     date_display: Nov 2025
-    date_iso: 2025-11
+    date_iso: '2025-11-11'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
@@ -136,9 +137,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 6
     true_value: 0.3943
     true_std: 0.0038
@@ -173,9 +175,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 16
     true_value: 0.2641
     true_std: 0.0045
@@ -209,9 +212,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 17
     true_value: 0.2618
     true_std: 0.0031
@@ -245,9 +249,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 19
     true_value: 0.2592
     true_std: 0.0158
@@ -281,9 +286,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 21
     true_value: 0.2574
     true_std: 0.0034
@@ -317,9 +323,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 22
     true_value: 0.2434
     true_std: 0.0156
@@ -353,9 +360,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 27
     true_value: 0.1339
     true_std: 0.0044
@@ -389,9 +397,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 42
     true_value: 0.0841
     true_std: 0.001
@@ -427,9 +436,9 @@ results:
     params_millions: null
     arxiv_id: '1606.09375'
     title: Convolutional Neural Networks on Graphs with Fast Localized Spectral Filtering
-    date: Jun 2016
+    date: Jun 30, 2016
     date_display: Jun 2016
-    date_iso: 2016-06
+    date_iso: '2016-06-30'
     codebase_url: https://github.com/mdeff/cnn_graph
     uses_external_data: false
     is_global_top: true
@@ -451,9 +460,9 @@ results:
     arxiv_id: '1705.07664'
     title: 'CayleyNets: Graph Convolutional Neural Networks with Complex Rational
       Spectral Filters'
-    date: May 2017
+    date: May 22, 2017
     date_display: May 2017
-    date_iso: 2017-05
+    date_iso: '2017-05-22'
     codebase_url: https://github.com/fmonti/mgcnn
     uses_external_data: false
     is_global_top: true
@@ -475,9 +484,9 @@ results:
     arxiv_id: '1705.07664'
     title: 'CayleyNets: Graph Convolutional Neural Networks with Complex Rational
       Spectral Filters'
-    date: May 2017
+    date: May 22, 2017
     date_display: May 2017
-    date_iso: 2017-05
+    date_iso: '2017-05-22'
     codebase_url: https://github.com/fmonti/mgcnn
     uses_external_data: false
     is_global_top: true
@@ -501,9 +510,10 @@ results:
     table_ref: Table 1
     source_ref: Hussain 2022
     variant_inference_reason: 'dataset: exact match'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 25
     true_value: 0.98173
     true_std: 0.00087
@@ -537,9 +547,10 @@ results:
     table_ref: Table 1
     source_ref: Corso 2020
     variant_inference_reason: 'dataset: exact match'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 34
     true_value: 0.981
     true_std: 0.002
@@ -574,9 +585,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 35
     true_value: 0.98082
     true_std: 0.00114
@@ -611,9 +623,10 @@ results:
     table_ref: Table 1
     source_ref: Tönshoff 2021
     variant_inference_reason: 'dataset: exact match'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 37
     true_value: 0.97944
     true_std: 0.0005
@@ -647,9 +660,10 @@ results:
     table_ref: Table 1
     source_ref: Xu 2018
     variant_inference_reason: 'dataset: exact match'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 40
     true_value: 0.979
     true_std: 0.003
@@ -684,9 +698,10 @@ results:
     table_ref: Table 1
     source_ref: Kipf 2016
     variant_inference_reason: 'dataset: exact match'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 41
     true_value: 0.978
     true_std: 0.003
@@ -721,9 +736,10 @@ results:
     table_ref: Table 1
     source_ref: Bresson 2017
     variant_inference_reason: 'dataset: exact match'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 47
     true_value: 0.9734
     true_std: 0.00143
@@ -757,9 +773,10 @@ results:
     table_ref: Table 1
     source_ref: Veličković 2018
     variant_inference_reason: 'dataset: exact match'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 48
     true_value: 0.972
     true_std: 0.005
@@ -796,9 +813,9 @@ results:
     params_millions: null
     arxiv_id: '2306.02866'
     title: Learning Probabilistic Symmetrization for Architecture Agnostic Equivariance
-    date: Jun 2023
+    date: Jun 5, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-05'
     codebase_url: https://github.com/jw9730/lps
     uses_external_data: null
     is_global_top: true
@@ -868,9 +885,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 13
     true_value: 0.335
     true_std: 0.0003
@@ -904,9 +922,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 14
     true_value: 0.3341
     true_std: 0.0006
@@ -940,9 +959,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 15
     true_value: 0.3337
     true_std: 0.0006
@@ -976,9 +996,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 20
     true_value: 0.3242
     true_std: 0.0008
@@ -1012,9 +1033,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 21
     true_value: 0.3234
     true_std: 0.0006
@@ -1048,9 +1070,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 22
     true_value: 0.3218
     true_std: 0.0011
@@ -1084,9 +1107,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 23
     true_value: 0.318
     true_std: 0.0027
@@ -1120,9 +1144,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 25
     true_value: 0.3174
     true_std: 0.002
@@ -1233,9 +1258,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 15
     true_value: 0.0858
     true_std: null
@@ -1269,9 +1295,10 @@ results:
     table_ref: Table 1
     source_ref: Ying 2021
     variant_inference_reason: 'dataset: exact match'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 18
     true_value: 0.0864
     true_std: null
@@ -1305,9 +1332,10 @@ results:
     table_ref: Table 1
     source_ref: Hussain 2022
     variant_inference_reason: 'dataset: exact match'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 21
     true_value: 0.0869
     true_std: null
@@ -1342,9 +1370,10 @@ results:
     table_ref: Table 1
     source_ref: Park 2022
     variant_inference_reason: 'dataset: exact match'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 24
     true_value: 0.089
     true_std: null
@@ -1379,9 +1408,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 32
     true_value: 0.0938
     true_std: null
@@ -1415,9 +1445,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 41
     true_value: 0.1084
     true_std: null
@@ -1451,9 +1482,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 47
     true_value: 0.1195
     true_std: null
@@ -1487,9 +1519,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 55
     true_value: 0.135
     true_std: 0.002
@@ -1600,9 +1633,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 11
     true_value: 0.3748
     true_std: 0.0109
@@ -1636,9 +1670,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 16
     true_value: 0.323
     true_std: 0.0039
@@ -1672,9 +1707,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 17
     true_value: 0.3216
     true_std: 0.0027
@@ -1708,9 +1744,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 24
     true_value: 0.2873
     true_std: 0.0219
@@ -1744,9 +1781,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 26
     true_value: 0.286
     true_std: 0.0085
@@ -1780,9 +1818,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 29
     true_value: 0.2694
     true_std: 0.0098
@@ -1816,9 +1855,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 33
     true_value: 0.238
     true_std: 0.016
@@ -1852,9 +1892,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 47
     true_value: 0.1265
     true_std: 0.0076
@@ -1890,9 +1931,9 @@ results:
     params_millions: null
     arxiv_id: '2508.05070'
     title: 'Tango: Graph Neural Dynamics via Learned Energy and Tangential Flows'
-    date: Aug 2025
+    date: Aug 7, 2025
     date_display: Aug 2025
-    date_iso: 2025-08
+    date_iso: '2025-08-07'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
@@ -1914,9 +1955,9 @@ results:
     arxiv_id: '2511.03824'
     title: Sketch-Augmented Features Improve Learning Long-Range Dependencies in Graph
       Neural Networks
-    date: Nov 2025
+    date: Nov 5, 2025
     date_display: Nov 2025
-    date_iso: 2025-11
+    date_iso: '2025-11-05'
     codebase_url: https://github.com/ryienh/sketched-random-features
     uses_external_data: false
     is_global_top: true
@@ -1938,9 +1979,9 @@ results:
     arxiv_id: '2506.07624'
     title: 'Return of ChebNet: Understanding and Improving an Overlooked GNN on Long-Range
       Tasks'
-    date: Jun 2025
+    date: Jun 9, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-09'
     codebase_url: https://github.com/ahariri13/Stable-ChebNet
     uses_external_data: null
     is_global_top: true
@@ -1964,9 +2005,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 8
     true_value: 0.245
     true_std: 0.0019
@@ -2001,9 +2043,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 16
     true_value: 0.246
     true_std: 0.0007
@@ -2038,9 +2081,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 26
     true_value: 0.2473
     true_std: 0.0017
@@ -2075,9 +2119,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 35
     true_value: 0.2477
     true_std: 0.0009
@@ -2112,9 +2157,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 64
     true_value: 0.2529
     true_std: 0.0016
@@ -2148,9 +2194,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 73
     true_value: 0.2545
     true_std: 0.0012
@@ -2184,9 +2231,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 88
     true_value: 0.268
     true_std: 0.004
@@ -2221,9 +2269,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 103
     true_value: 0.3357
     true_std: 0.0006
@@ -2262,9 +2311,10 @@ results:
     table_ref: Table 1
     source_ref: Bresson et al. 2017
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 1
     true_value: 0.004
     true_std: null
@@ -2295,9 +2345,9 @@ results:
     params_millions: null
     arxiv_id: '2306.03589'
     title: How does over-squashing affect the power of GNNs?
-    date: Jun 2023
+    date: Jun 6, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-06'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
@@ -2321,9 +2371,10 @@ results:
     table_ref: Table 1
     source_ref: Xu et al. 2018
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 3
     true_value: 0.014
     true_std: null
@@ -2351,7 +2402,7 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.5
+    params_millions: null
     arxiv_id: '2402.08450'
     title: 'Subgraphormer: Unifying Subgraph GNNs and Graph Transformers via Graph
       Products'
@@ -2404,9 +2455,10 @@ results:
     table_ref: Table 1
     source_ref: Kipf 2016
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 11
     true_value: 0.024
     true_std: null
@@ -2440,9 +2492,10 @@ results:
     table_ref: Table 1
     source_ref: Ying et al. 2021
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 13
     true_value: 0.025
     true_std: 0.004
@@ -2476,9 +2529,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 16
     true_value: 0.0262
     true_std: 0.0025
@@ -2512,9 +2566,10 @@ results:
     table_ref: Table 1
     source_ref: Bodnar et al. 2021
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 17
     true_value: 0.027
     true_std: 0.007
@@ -2548,9 +2603,10 @@ results:
     table_ref: Table 1
     source_ref: Tönshoff et al. 2021
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 25
     true_value: 0.036
     true_std: 0.005
@@ -2584,9 +2640,10 @@ results:
     table_ref: Table 1
     source_ref: Corso et al. 2020
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 42
     true_value: 0.067
     true_std: 0.009
@@ -2620,9 +2677,10 @@ results:
     table_ref: Table 1
     source_ref: Zhao et al. 2021
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 58
     true_value: 0.08
     true_std: 0.001
@@ -2656,9 +2714,10 @@ results:
     table_ref: Table 1
     source_ref: Dwivedi et al. 2022
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 63
     true_value: 0.09
     true_std: 0.001
@@ -2692,9 +2751,10 @@ results:
     table_ref: Table 1
     source_ref: Chen et al. 2022
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 69
     true_value: 0.094
     true_std: 0.008
@@ -2728,9 +2788,10 @@ results:
     table_ref: Table 1
     source_ref: Bouritsas et al. 2022
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 73
     true_value: 0.101
     true_std: 0.01
@@ -2764,9 +2825,10 @@ results:
     table_ref: Table 1
     source_ref: Hussain et al. 2022
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 79
     true_value: 0.108
     true_std: 0.009
@@ -2800,9 +2862,10 @@ results:
     table_ref: Table 1
     source_ref: Veličković et al. 2018
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 80
     true_value: 0.111
     true_std: 0.002
@@ -2836,9 +2899,10 @@ results:
     table_ref: Table 1
     source_ref: Kreuzer et al. 2021
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 97
     true_value: 0.1341
     true_std: 0.0063
@@ -2873,9 +2937,10 @@ results:
     table_ref: Table 1
     source_ref: Beaini et al. 2021
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 119
     true_value: 0.168
     true_std: 0.003
@@ -2983,9 +3048,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 4
     true_value: 0.855
     true_std: 0.002
@@ -3020,9 +3086,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 7
     true_value: 0.851
     true_std: 0.004
@@ -3057,9 +3124,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 10
     true_value: 0.845
     true_std: 0.004
@@ -3094,9 +3162,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 16
     true_value: 0.8094
     true_std: 0.0057
@@ -3130,9 +3199,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 26
     true_value: 0.8039
     true_std: 0.009
@@ -3166,9 +3236,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 39
     true_value: 0.7961
     true_std: 0.0119
@@ -3202,9 +3273,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 52
     true_value: 0.788
     true_std: 0.0101
@@ -3238,9 +3310,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 58
     true_value: 0.7858
     true_std: 0.0117
@@ -3274,9 +3347,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 80
     true_value: 0.7799
     true_std: 0.01
@@ -3310,9 +3384,10 @@ results:
     table_ref: Table 1
     source_ref: Yang 2022
     variant_inference_reason: 'dataset: exact match'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 81
     true_value: 0.7799
     true_std: 0.0082
@@ -3346,9 +3421,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 102
     true_value: 0.7707
     true_std: 0.0149
@@ -3387,9 +3463,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to ogbg-molpcba (score=86)'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 18
     sort_value: 0.8015
     sort_std: 0.0033
@@ -3410,9 +3487,10 @@ results:
     table_ref: Table 1
     source_ref: Yang 2022
     variant_inference_reason: 'dataset: fuzzy match to ogbg-molpcba (score=86)'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 51
     sort_value: 0.7976
     sort_std: 0.0072
@@ -3433,9 +3511,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to ogbg-molpcba (score=86)'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 25
     sort_value: 0.7712
     sort_std: 0.0071
@@ -3456,9 +3535,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to ogbg-molpcba (score=86)'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: null
     sort_value: 0.7522
     sort_std: 0.0056
@@ -3479,9 +3559,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to ogbg-molpcba (score=86)'
-    date: May 2022
+    date: May 25, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-25'
+    published_venue: null
     global_rank: 37
     sort_value: 0.7037
     sort_std: 0.0107
@@ -3499,9 +3580,9 @@ results:
     params_millions: null
     arxiv_id: '2410.23686'
     title: Towards Dynamic Message Passing on Graphs
-    date: Oct 2024
+    date: Oct 31, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-31'
     codebase_url: https://github.com/sunjss/N2
     uses_external_data: false
     is_global_top: true
@@ -3577,6 +3658,5 @@ results_grouped:
   datasets:
   - *id009
 single_proposed_model: GPS
-main_figure: /figures/2205.12454/main_figure.png
 ---
 

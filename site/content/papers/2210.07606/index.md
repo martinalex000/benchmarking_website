@@ -3,8 +3,9 @@ title: arXiv:2210.07606
 arxiv_id: '2210.07606'
 source_url: ''
 authors: []
-published_date: ''
-published_date_iso: ''
+published_date: Oct 14, 2022
+published_date_iso: '2022-10-14'
+published_venue: ''
 abstract: ''
 codebase_url: ''
 extraction_model: ''
@@ -19,6 +20,5 @@ task_categories: []
 experiment_scopes: []
 results: []
 results_grouped: []
-main_figure: /figures/2210.07606/main_figure.png
 ---
 

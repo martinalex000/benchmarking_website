@@ -3,8 +3,9 @@ title: Invariant-Based Diagnostics for Graph Benchmarks
 arxiv_id: '2605.06462'
 source_url: ''
 authors: []
-published_date: May 2026
-published_date_iso: 2026-05
+published_date: May 7, 2026
+published_date_iso: '2026-05-07'
+published_venue: ''
 abstract: Progress on graph foundation models is hindered by benchmark practices that
   conflate the contributions of node features and graph structure, making it hard
   to tell whether a model actually learns from connectivity, or whether it even needs
@@ -128,9 +129,10 @@ results:
     table_ref: Table 1
     source_ref: Zhou et al. 2023
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 11
     true_value: 0.878
     true_std: 0.032
@@ -165,9 +167,10 @@ results:
     table_ref: Table 1
     source_ref: Zhou et al. 2023
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 30
     true_value: 0.857
     true_std: 0.002
@@ -201,9 +204,10 @@ results:
     table_ref: Table 1
     source_ref: Zhou et al. 2023
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 31
     true_value: 0.856
     true_std: 0.011
@@ -237,9 +241,10 @@ results:
     table_ref: Table 1
     source_ref: Zhou et al. 2023
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 36
     true_value: 0.845
     true_std: 0.007
@@ -273,9 +278,10 @@ results:
     table_ref: Table 1
     source_ref: Zhou et al. 2023
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 44
     true_value: 0.828
     true_std: 0.007
@@ -310,9 +316,10 @@ results:
     table_ref: Table 1
     source_ref: Zhou et al. 2023
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 49
     true_value: 0.826
     true_std: 0.007
@@ -346,9 +353,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 55
     true_value: 0.8239
     true_std: 0.0053
@@ -382,9 +390,10 @@ results:
     table_ref: Table 1
     source_ref: Zhou et al. 2023
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 64
     true_value: 0.815
     true_std: 0.012
@@ -419,9 +428,10 @@ results:
     table_ref: Table 1
     source_ref: Zhou et al. 2023
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 70
     true_value: 0.81
     true_std: 0.014
@@ -455,9 +465,10 @@ results:
     table_ref: Table 1
     source_ref: Zhou et al. 2023
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 97
     true_value: 0.791
     true_std: 0.013
@@ -491,9 +502,10 @@ results:
     table_ref: Table 1
     source_ref: Zhou et al. 2023
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 106
     true_value: 0.784
     true_std: 0.0
@@ -527,9 +539,10 @@ results:
     table_ref: Table 1
     source_ref: Zhou et al. 2023
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 109
     true_value: 0.779
     true_std: 0.015
@@ -639,9 +652,10 @@ results:
     table_ref: Table 1
     source_ref: Zhou et al. 2023
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 14
     true_value: 0.919
     true_std: 0.03
@@ -676,9 +690,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 45
     true_value: 0.7408
     true_std: 0.0
@@ -712,9 +727,10 @@ results:
     table_ref: Table 1
     source_ref: Zhou et al. 2023
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 51
     true_value: 0.733
     true_std: 0.01
@@ -749,9 +765,10 @@ results:
     table_ref: Table 1
     source_ref: Zhou et al. 2023
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 53
     true_value: 0.729
     true_std: 0.006
@@ -785,9 +802,10 @@ results:
     table_ref: Table 1
     source_ref: Zhou et al. 2023
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 59
     true_value: 0.724
     true_std: 0.016
@@ -821,9 +839,10 @@ results:
     table_ref: Table 1
     source_ref: Zhou et al. 2023
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 60
     true_value: 0.724
     true_std: 0.004
@@ -857,9 +876,10 @@ results:
     table_ref: Table 1
     source_ref: Zhou et al. 2023
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 87
     true_value: 0.7
     true_std: 0.001
@@ -893,9 +913,10 @@ results:
     table_ref: Table 1
     source_ref: Zhou et al. 2023
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 92
     true_value: 0.697
     true_std: 0.006
@@ -929,9 +950,10 @@ results:
     table_ref: Table 1
     source_ref: Zhou et al. 2023
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 96
     true_value: 0.695
     true_std: 0.001
@@ -965,9 +987,10 @@ results:
     table_ref: Table 1
     source_ref: Zhou et al. 2023
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 100
     true_value: 0.691
     true_std: 0.008
@@ -1001,9 +1024,10 @@ results:
     table_ref: Table 1
     source_ref: Zhou et al. 2023
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 104
     true_value: 0.687
     true_std: 0.013
@@ -1037,9 +1061,10 @@ results:
     table_ref: Table 1
     source_ref: Zhou et al. 2023
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 142
     true_value: 0.643
     true_std: 0.018
@@ -1147,9 +1172,10 @@ results:
     table_ref: Table 1
     source_ref: Stoll et al.
     variant_inference_reason: 'dataset: fuzzy match to easy (score=90)'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 5
     true_value: 0.079
     true_std: 0.002
@@ -1183,9 +1209,10 @@ results:
     table_ref: Table 1
     source_ref: Stoll et al.
     variant_inference_reason: 'dataset: fuzzy match to medium (score=90)'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 5
     true_value: 0.079
     true_std: 0.002
@@ -1219,9 +1246,10 @@ results:
     table_ref: Table 1
     source_ref: Stoll et al.
     variant_inference_reason: 'dataset: fuzzy match to hard (score=90)'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 5
     true_value: 0.079
     true_std: 0.002
@@ -1255,9 +1283,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to easy (score=90)'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 11
     true_value: 1.83
     true_std: 0.01
@@ -1291,9 +1320,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to medium (score=90)'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 11
     true_value: 1.83
     true_std: 0.01
@@ -1327,9 +1357,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to hard (score=90)'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 11
     true_value: 1.83
     true_std: 0.01
@@ -1363,9 +1394,10 @@ results:
     table_ref: Table 1
     source_ref: Stoll et al.
     variant_inference_reason: 'dataset: fuzzy match to easy (score=90)'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 13
     true_value: 4.27
     true_std: null
@@ -1399,9 +1431,10 @@ results:
     table_ref: Table 1
     source_ref: Stoll et al.
     variant_inference_reason: 'dataset: fuzzy match to medium (score=90)'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 13
     true_value: 4.27
     true_std: null
@@ -1435,9 +1468,10 @@ results:
     table_ref: Table 1
     source_ref: Stoll et al.
     variant_inference_reason: 'dataset: fuzzy match to hard (score=90)'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 13
     true_value: 4.27
     true_std: null
@@ -1474,9 +1508,9 @@ results:
     arxiv_id: '2506.07624'
     title: 'Return of ChebNet: Understanding and Improving an Overlooked GNN on Long-Range
       Tasks'
-    date: Jun 2025
+    date: Jun 9, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-09'
     codebase_url: https://github.com/ahariri13/Stable-ChebNet
     uses_external_data: false
     is_global_top: true
@@ -1498,9 +1532,9 @@ results:
     arxiv_id: '2506.07624'
     title: 'Return of ChebNet: Understanding and Improving an Overlooked GNN on Long-Range
       Tasks'
-    date: Jun 2025
+    date: Jun 9, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-09'
     codebase_url: https://github.com/ahariri13/Stable-ChebNet
     uses_external_data: false
     is_global_top: true
@@ -1547,9 +1581,10 @@ results:
     table_ref: Table 1
     source_ref: Tönsheff et al.
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 5
     true_value: 0.715
     true_std: 0.0044
@@ -1583,9 +1618,10 @@ results:
     table_ref: Table 1
     source_ref: Tönsheff et al.
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 14
     true_value: 0.7074
     true_std: 0.0032
@@ -1619,9 +1655,10 @@ results:
     table_ref: Table 1
     source_ref: Tönsheff et al.
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 21
     true_value: 0.6988
     true_std: 0.0082
@@ -1656,9 +1693,10 @@ results:
     table_ref: Table 1
     source_ref: Tönsheff et al.
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 26
     true_value: 0.697
     true_std: 0.008
@@ -1692,9 +1730,10 @@ results:
     table_ref: Table 1
     source_ref: Tönsheff et al.
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 28
     true_value: 0.6921
     true_std: 0.0054
@@ -1729,9 +1768,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 32
     true_value: 0.6874
     true_std: 0.0022
@@ -1765,9 +1805,10 @@ results:
     table_ref: Table 1
     source_ref: Dwivedi et al.
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 33
     true_value: 0.686
     true_std: 0.005
@@ -1802,9 +1843,10 @@ results:
     table_ref: Table 1
     source_ref: Tönsheff et al.
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 34
     true_value: 0.686
     true_std: 0.005
@@ -1838,9 +1880,10 @@ results:
     table_ref: Table 1
     source_ref: Dwivedi et al.
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 41
     true_value: 0.6765
     true_std: 0.0047
@@ -1875,9 +1918,10 @@ results:
     table_ref: Table 1
     source_ref: Tönsheff et al.
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 42
     true_value: 0.6765
     true_std: 0.0047
@@ -1911,9 +1955,10 @@ results:
     table_ref: Table 1
     source_ref: Dwivedi et al.
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 53
     true_value: 0.6621
     true_std: 0.0067
@@ -1948,9 +1993,10 @@ results:
     table_ref: Table 1
     source_ref: Tönsheff et al.
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 54
     true_value: 0.6621
     true_std: 0.0067
@@ -1984,9 +2030,10 @@ results:
     table_ref: Table 1
     source_ref: Rampásek et al.
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 57
     true_value: 0.6601
     true_std: 0.0061
@@ -2020,9 +2067,10 @@ results:
     table_ref: Table 1
     source_ref: Dwivedi et al.
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 61
     true_value: 0.6562
     true_std: 0.0075
@@ -2057,9 +2105,10 @@ results:
     table_ref: Table 1
     source_ref: Tönsheff et al.
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 66
     true_value: 0.6534
     true_std: 0.0091
@@ -2093,9 +2142,10 @@ results:
     table_ref: Table 1
     source_ref: Tönsheff et al.
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 68
     true_value: 0.6527
     true_std: 0.0043
@@ -2130,9 +2180,10 @@ results:
     table_ref: Table 1
     source_ref: Dwivedi et al.
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 79
     true_value: 0.6384
     true_std: 0.0121
@@ -2166,9 +2217,10 @@ results:
     table_ref: Table 1
     source_ref: Dwivedi et al.
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 81
     true_value: 0.6326
     true_std: 0.0126
@@ -2202,9 +2254,10 @@ results:
     table_ref: Table 1
     source_ref: Dwivedi et al.
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 87
     true_value: 0.6069
     true_std: 0.0035
@@ -2238,9 +2291,10 @@ results:
     table_ref: Table 1
     source_ref: Dwivedi et al.
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 96
     true_value: 0.5543
     true_std: 0.0078
@@ -2276,9 +2330,9 @@ results:
     params_millions: null
     arxiv_id: '2508.05070'
     title: 'Tango: Graph Neural Dynamics via Learned Energy and Tangential Flows'
-    date: Aug 2025
+    date: Aug 7, 2025
     date_display: Aug 2025
-    date_iso: 2025-08
+    date_iso: '2025-08-07'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
@@ -2300,9 +2354,9 @@ results:
     arxiv_id: '2511.03824'
     title: Sketch-Augmented Features Improve Learning Long-Range Dependencies in Graph
       Neural Networks
-    date: Nov 2025
+    date: Nov 5, 2025
     date_display: Nov 2025
-    date_iso: 2025-11
+    date_iso: '2025-11-05'
     codebase_url: https://github.com/ryienh/sketched-random-features
     uses_external_data: false
     is_global_top: true
@@ -2324,9 +2378,9 @@ results:
     arxiv_id: '2506.07624'
     title: 'Return of ChebNet: Understanding and Improving an Overlooked GNN on Long-Range
       Tasks'
-    date: Jun 2025
+    date: Jun 9, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-09'
     codebase_url: https://github.com/ahariri13/Stable-ChebNet
     uses_external_data: null
     is_global_top: true
@@ -2350,9 +2404,10 @@ results:
     table_ref: Table 1
     source_ref: Tönsheff et al.
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 6
     true_value: 0.2449
     true_std: 0.0016
@@ -2387,9 +2442,10 @@ results:
     table_ref: Table 1
     source_ref: Dwivedi et al.
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 16
     true_value: 0.246
     true_std: 0.0007
@@ -2424,9 +2480,10 @@ results:
     table_ref: Table 1
     source_ref: Tönsheff et al.
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 17
     true_value: 0.246
     true_std: 0.0012
@@ -2461,9 +2518,10 @@ results:
     table_ref: Table 1
     source_ref: Tönsheff et al.
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 18
     true_value: 0.246
     true_std: 0.0007
@@ -2497,9 +2555,10 @@ results:
     table_ref: Table 1
     source_ref: Dwivedi et al.
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 26
     true_value: 0.2473
     true_std: 0.0017
@@ -2534,9 +2593,10 @@ results:
     table_ref: Table 1
     source_ref: Tönsheff et al.
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 28
     true_value: 0.2473
     true_std: 0.0017
@@ -2570,9 +2630,10 @@ results:
     table_ref: Table 1
     source_ref: Tönsheff et al.
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 33
     true_value: 0.2475
     true_std: 0.0015
@@ -2607,9 +2668,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 34
     true_value: 0.2476
     true_std: 0.0002
@@ -2643,9 +2705,10 @@ results:
     table_ref: Table 1
     source_ref: Dwivedi et al.
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 35
     true_value: 0.2477
     true_std: 0.0009
@@ -2680,9 +2743,10 @@ results:
     table_ref: Table 1
     source_ref: Tönsheff et al.
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 36
     true_value: 0.2477
     true_std: 0.0009
@@ -2716,9 +2780,10 @@ results:
     table_ref: Table 1
     source_ref: Tönsheff et al.
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 42
     true_value: 0.2481
     true_std: 0.0007
@@ -2753,9 +2818,10 @@ results:
     table_ref: Table 1
     source_ref: Rampásek et al.
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 50
     true_value: 0.25
     true_std: 0.0005
@@ -2790,9 +2856,10 @@ results:
     table_ref: Table 1
     source_ref: Tönsheff et al.
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 57
     true_value: 0.2506
     true_std: 0.0022
@@ -2826,9 +2893,10 @@ results:
     table_ref: Table 1
     source_ref: Tönsheff et al.
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 60
     true_value: 0.2509
     true_std: 0.0014
@@ -2862,9 +2930,10 @@ results:
     table_ref: Table 1
     source_ref: Dwivedi et al.
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 64
     true_value: 0.2529
     true_std: 0.0016
@@ -2898,9 +2967,10 @@ results:
     table_ref: Table 1
     source_ref: Tönsheff et al.
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 66
     true_value: 0.2536
     true_std: 0.0015
@@ -2934,9 +3004,10 @@ results:
     table_ref: Table 1
     source_ref: Dwivedi et al.
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 73
     true_value: 0.2545
     true_std: 0.0012
@@ -2970,9 +3041,10 @@ results:
     table_ref: Table 1
     source_ref: Dwivedi et al.
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 88
     true_value: 0.268
     true_std: 0.004
@@ -3007,9 +3079,10 @@ results:
     table_ref: Table 1
     source_ref: Dwivedi et al.
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 103
     true_value: 0.3357
     true_std: 0.0006
@@ -3043,9 +3116,10 @@ results:
     table_ref: Table 1
     source_ref: Dwivedi et al.
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 105
     true_value: 0.3471
     true_std: 0.001
@@ -3153,9 +3227,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 132
     true_value: 0.5846
     true_std: 0.0012
@@ -3189,9 +3264,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 134
     true_value: 0.5961
     true_std: 0.0012
@@ -3225,9 +3301,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 135
     true_value: 0.6047
     true_std: 0.0009
@@ -3261,9 +3338,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 137
     true_value: 0.6509
     true_std: 0.0002
@@ -3297,9 +3375,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 138
     true_value: 0.6948
     true_std: 0.0
@@ -3333,9 +3412,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 139
     true_value: 0.7634
     true_std: 0.0006
@@ -3369,9 +3449,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 142
     true_value: 0.794
     true_std: 0.0001
@@ -3405,9 +3486,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 144
     true_value: 0.8919
     true_std: 0.0003
@@ -3515,9 +3597,10 @@ results:
     table_ref: Table 1
     source_ref: Zhou et al.
     variant_inference_reason: 'dataset: fuzzy match to ogbg-molhiv (score=90)'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 18
     sort_value: 0.808
     sort_std: 0.003
@@ -3538,9 +3621,10 @@ results:
     table_ref: Table 1
     source_ref: Zhou et al.
     variant_inference_reason: 'dataset: fuzzy match to ogbg-molhiv (score=90)'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 23
     sort_value: 0.806
     sort_std: 0.009
@@ -3561,9 +3645,10 @@ results:
     table_ref: Table 1
     source_ref: Zhou et al.
     variant_inference_reason: 'dataset: fuzzy match to ogbg-molhiv (score=90)'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: null
     sort_value: 0.799
     sort_std: 0.007
@@ -3584,9 +3669,10 @@ results:
     table_ref: Table 1
     source_ref: Zhou et al.
     variant_inference_reason: 'dataset: fuzzy match to ogbg-molhiv (score=90)'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: null
     sort_value: 0.787
     sort_std: 0.004
@@ -3607,9 +3693,10 @@ results:
     table_ref: Table 1
     source_ref: Zhou et al.
     variant_inference_reason: 'dataset: fuzzy match to ogbg-molhiv (score=90)'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 117
     sort_value: 0.781
     sort_std: 0.005
@@ -3630,9 +3717,10 @@ results:
     table_ref: Table 1
     source_ref: Zhou et al.
     variant_inference_reason: 'dataset: fuzzy match to ogbg-molhiv (score=90)'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: null
     sort_value: 0.772
     sort_std: 0.001
@@ -3653,9 +3741,10 @@ results:
     table_ref: Table 1
     source_ref: Zhou et al.
     variant_inference_reason: 'dataset: fuzzy match to ogbg-molhiv (score=90)'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 144
     sort_value: 0.771
     sort_std: 0.005
@@ -3676,9 +3765,10 @@ results:
     table_ref: Table 1
     source_ref: Zhou et al.
     variant_inference_reason: 'dataset: fuzzy match to ogbg-molhiv (score=90)'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: 86
     sort_value: 0.77
     sort_std: 0.012
@@ -3699,9 +3789,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to ogbg-molhiv (score=90)'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: null
     sort_value: 0.7695
     sort_std: 0.0034
@@ -3722,9 +3813,10 @@ results:
     table_ref: Table 1
     source_ref: Zhou et al.
     variant_inference_reason: 'dataset: fuzzy match to ogbg-molhiv (score=90)'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: null
     sort_value: 0.757
     sort_std: 0.014
@@ -3745,9 +3837,10 @@ results:
     table_ref: Table 1
     source_ref: Zhou et al.
     variant_inference_reason: 'dataset: fuzzy match to ogbg-molhiv (score=90)'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: null
     sort_value: 0.682
     sort_std: 0.011
@@ -3768,9 +3861,10 @@ results:
     table_ref: Table 1
     source_ref: Zhou et al.
     variant_inference_reason: 'dataset: fuzzy match to ogbg-molhiv (score=90)'
-    date: May 2026
+    date: May 7, 2026
     date_display: May 2026
-    date_iso: 2026-05
+    date_iso: '2026-05-07'
+    published_venue: null
     global_rank: null
     sort_value: 0.625
     sort_std: 0.009

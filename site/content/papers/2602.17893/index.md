@@ -4,8 +4,9 @@ title: 'COMBA: Cross Batch Aggregation for Learning Large Graphs with Context Ga
 arxiv_id: '2602.17893'
 source_url: ''
 authors: []
-published_date: Feb 2026
-published_date_iso: 2026-02
+published_date: Feb 19, 2026
+published_date_iso: '2026-02-19'
+published_venue: ''
 abstract: 'State space models (SSMs) have recently emerged for modeling long-range
   dependency in sequence data, with much simplified computational costs than modern
   alternatives, such as transformers. Advancing SMMs to graph structured data, especially
@@ -55,9 +56,9 @@ results:
     params_millions: null
     arxiv_id: '1506.04757'
     title: Image-based Recommendations on Styles and Substitutes
-    date: Jun 2015
+    date: Jun 15, 2015
     date_display: Jun 2015
-    date_iso: 2015-06
+    date_iso: '2015-06-15'
     codebase_url: ''
     uses_external_data: null
     is_global_top: true
@@ -78,9 +79,9 @@ results:
     params_millions: null
     arxiv_id: '1506.04757'
     title: Image-based Recommendations on Styles and Substitutes
-    date: Jun 2015
+    date: Jun 15, 2015
     date_display: Jun 2015
-    date_iso: 2015-06
+    date_iso: '2015-06-15'
     codebase_url: ''
     uses_external_data: null
     is_global_top: true
@@ -101,9 +102,9 @@ results:
     params_millions: null
     arxiv_id: '1506.04757'
     title: Image-based Recommendations on Styles and Substitutes
-    date: Jun 2015
+    date: Jun 15, 2015
     date_display: Jun 2015
-    date_iso: 2015-06
+    date_iso: '2015-06-15'
     codebase_url: ''
     uses_external_data: null
     is_global_top: true
@@ -127,9 +128,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 19, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-19'
+    published_venue: null
     global_rank: 6
     true_value: 0.8326
     true_std: 0.0051
@@ -163,9 +165,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 19, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-19'
+    published_venue: null
     global_rank: 39
     true_value: 0.5126
     true_std: 0.0072
@@ -200,9 +203,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 19, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-19'
+    published_venue: null
     global_rank: 41
     true_value: 0.507
     true_std: 0.0025
@@ -237,9 +241,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 19, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-19'
+    published_venue: null
     global_rank: 46
     true_value: 0.49
     true_std: 0.0036
@@ -274,9 +279,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 19, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-19'
+    published_venue: null
     global_rank: 49
     true_value: 0.481
     true_std: 0.0071
@@ -311,9 +317,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 19, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-19'
+    published_venue: null
     global_rank: 51
     true_value: 0.476
     true_std: 0.0047
@@ -350,9 +357,9 @@ results:
     params_millions: null
     arxiv_id: '2507.00647'
     title: Cooperative Sheaf Neural Networks
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
@@ -373,9 +380,9 @@ results:
     params_millions: null
     arxiv_id: '2507.00647'
     title: Cooperative Sheaf Neural Networks
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
@@ -396,9 +403,9 @@ results:
     params_millions: null
     arxiv_id: '2508.05070'
     title: 'Tango: Graph Neural Dynamics via Learned Energy and Tangential Flows'
-    date: Aug 2025
+    date: Aug 7, 2025
     date_display: Aug 2025
-    date_iso: 2025-08
+    date_iso: '2025-08-07'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
@@ -422,9 +429,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 19, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-19'
+    published_venue: null
     global_rank: 8
     true_value: 0.942
     true_std: 0.0039
@@ -459,9 +467,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 19, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-19'
+    published_venue: null
     global_rank: 10
     true_value: 0.927
     true_std: 0.0021
@@ -496,9 +505,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 19, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-19'
+    published_venue: null
     global_rank: 18
     true_value: 0.905
     true_std: 0.0016
@@ -533,9 +543,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 19, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-19'
+    published_venue: null
     global_rank: 19
     true_value: 0.903
     true_std: 0.0006
@@ -570,9 +581,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 19, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-19'
+    published_venue: null
     global_rank: 21
     true_value: 0.8975
     true_std: 0.0052
@@ -606,9 +618,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 19, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-19'
+    published_venue: null
     global_rank: 23
     true_value: 0.886
     true_std: 0.0024
@@ -645,9 +658,9 @@ results:
     params_millions: null
     arxiv_id: '2507.00647'
     title: Cooperative Sheaf Neural Networks
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
@@ -669,9 +682,9 @@ results:
     arxiv_id: '2506.07624'
     title: 'Return of ChebNet: Understanding and Improving an Overlooked GNN on Long-Range
       Tasks'
-    date: Jun 2025
+    date: Jun 9, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-09'
     codebase_url: https://github.com/ahariri13/Stable-ChebNet
     uses_external_data: false
     is_global_top: true
@@ -693,9 +706,9 @@ results:
     arxiv_id: '2506.07624'
     title: 'Return of ChebNet: Understanding and Improving an Overlooked GNN on Long-Range
       Tasks'
-    date: Jun 2025
+    date: Jun 9, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-09'
     codebase_url: https://github.com/ahariri13/Stable-ChebNet
     uses_external_data: false
     is_global_top: true
@@ -719,9 +732,10 @@ results:
     table_ref: Table 1
     source_ref: This paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 19, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-19'
+    published_venue: null
     global_rank: 11
     true_value: 0.895
     true_std: 0.0038
@@ -756,9 +770,10 @@ results:
     table_ref: Table 1
     source_ref: This paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 19, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-19'
+    published_venue: null
     global_rank: 19
     true_value: 0.869
     true_std: 0.0092
@@ -793,9 +808,10 @@ results:
     table_ref: Table 1
     source_ref: Feng et al. 2018
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 19, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-19'
+    published_venue: null
     global_rank: 27
     true_value: 0.833
     true_std: 0.0079
@@ -830,9 +846,10 @@ results:
     table_ref: Table 1
     source_ref: Chen et al. 2018
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 19, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-19'
+    published_venue: null
     global_rank: 32
     true_value: 0.815
     true_std: 0.0042
@@ -867,9 +884,10 @@ results:
     table_ref: Table 1
     source_ref: This paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 19, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-19'
+    published_venue: null
     global_rank: 35
     true_value: 0.8
     true_std: 0.0043
@@ -904,9 +922,10 @@ results:
     table_ref: Table 1
     source_ref: Kipf & Welling 2017
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 19, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-19'
+    published_venue: null
     global_rank: 37
     true_value: 0.795
     true_std: 0.0088
@@ -944,9 +963,9 @@ results:
     arxiv_id: '2506.07624'
     title: 'Return of ChebNet: Understanding and Improving an Overlooked GNN on Long-Range
       Tasks'
-    date: Jun 2025
+    date: Jun 9, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-09'
     codebase_url: https://github.com/ahariri13/Stable-ChebNet
     uses_external_data: false
     is_global_top: true
@@ -968,9 +987,9 @@ results:
     arxiv_id: '2506.07624'
     title: 'Return of ChebNet: Understanding and Improving an Overlooked GNN on Long-Range
       Tasks'
-    date: Jun 2025
+    date: Jun 9, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-09'
     codebase_url: https://github.com/ahariri13/Stable-ChebNet
     uses_external_data: false
     is_global_top: true
@@ -991,9 +1010,9 @@ results:
     params_millions: null
     arxiv_id: '2508.05070'
     title: 'Tango: Graph Neural Dynamics via Learned Energy and Tangential Flows'
-    date: Aug 2025
+    date: Aug 7, 2025
     date_display: Aug 2025
-    date_iso: 2025-08
+    date_iso: '2025-08-07'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
@@ -1017,9 +1036,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 19, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-19'
+    published_venue: null
     global_rank: 16
     true_value: 0.845
     true_std: 0.0009
@@ -1054,9 +1074,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 19, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-19'
+    published_venue: null
     global_rank: 19
     true_value: 0.838
     true_std: 0.0034
@@ -1091,9 +1112,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 19, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-19'
+    published_venue: null
     global_rank: 30
     true_value: 0.834
     true_std: 0.0045
@@ -1128,9 +1150,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 19, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-19'
+    published_venue: null
     global_rank: 33
     true_value: 0.832
     true_std: 0.009
@@ -1165,9 +1188,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 19, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-19'
+    published_venue: null
     global_rank: 40
     true_value: 0.803
     true_std: 0.0199
@@ -1202,9 +1226,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 19, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-19'
+    published_venue: null
     global_rank: 53
     true_value: 0.758
     true_std: 0.0056
@@ -1315,9 +1340,10 @@ results:
     table_ref: Table 1
     source_ref: Kipf & Welling 2017
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 19, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-19'
+    published_venue: null
     global_rank: 57
     true_value: 0.752
     true_std: 0.0003
@@ -1352,9 +1378,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 19, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-19'
+    published_venue: null
     global_rank: 188
     true_value: 0.7248
     true_std: 0.0
@@ -1388,9 +1415,10 @@ results:
     table_ref: Table 1
     source_ref: Chen et al. 2018
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 19, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-19'
+    published_venue: null
     global_rank: 195
     true_value: 0.7239
     true_std: null
@@ -1425,9 +1453,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 19, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-19'
+    published_venue: null
     global_rank: 247
     true_value: 0.716
     true_std: 0.0037
@@ -1462,9 +1491,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 19, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-19'
+    published_venue: null
     global_rank: 274
     true_value: 0.7101
     true_std: 0.0013
@@ -1499,9 +1529,10 @@ results:
     table_ref: Table 1
     source_ref: Feng et al. 2018
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 19, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-19'
+    published_venue: null
     global_rank: 294
     true_value: 0.701
     true_std: 0.0065
@@ -1613,9 +1644,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 19, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-19'
+    published_venue: null
     global_rank: 63
     true_value: 0.7962
     true_std: null
@@ -1650,9 +1682,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 19, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-19'
+    published_venue: null
     global_rank: 112
     true_value: 0.735
     true_std: 0.01
@@ -1685,6 +1718,5 @@ results_grouped:
   - *id005
   - *id006
 single_proposed_model: COMBA
-main_figure: /figures/2602.17893/main_figure.png
 ---
 

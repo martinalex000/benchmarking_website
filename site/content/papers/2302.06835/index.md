@@ -5,6 +5,7 @@ source_url: ''
 authors: []
 published_date: Feb 14, 2023
 published_date_iso: '2023-02-14'
+published_venue: ''
 abstract: Message passing graph neural networks (GNNs) are a popular learning architectures
   for graph-structured data. However, one problem GNNs experience is oversquashing,
   where a GNN has difficulty sending information between distant nodes. Understanding
@@ -50,9 +51,9 @@ results:
     params_millions: null
     arxiv_id: '2410.23686'
     title: Towards Dynamic Message Passing on Graphs
-    date: Oct 2024
+    date: Oct 31, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-31'
     codebase_url: https://github.com/sunjss/N2
     uses_external_data: false
     is_global_top: true
@@ -73,9 +74,9 @@ results:
     params_millions: null
     arxiv_id: '2410.23686'
     title: Towards Dynamic Message Passing on Graphs
-    date: Oct 2024
+    date: Oct 31, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-31'
     codebase_url: https://github.com/sunjss/N2
     uses_external_data: false
     is_global_top: true
@@ -125,6 +126,7 @@ results:
     date: Feb 14, 2023
     date_display: Feb 2023
     date_iso: '2023-02-14'
+    published_venue: null
     global_rank: 115
     true_value: 0.7745
     true_std: 0.0039
@@ -162,6 +164,7 @@ results:
     date: Feb 14, 2023
     date_display: Feb 2023
     date_iso: '2023-02-14'
+    published_venue: null
     global_rank: 122
     true_value: 0.772
     true_std: 0.0038
@@ -199,6 +202,7 @@ results:
     date: Feb 14, 2023
     date_display: Feb 2023
     date_iso: '2023-02-14'
+    published_venue: null
     global_rank: 125
     true_value: 0.7648
     true_std: 0.0039
@@ -236,6 +240,7 @@ results:
     date: Feb 14, 2023
     date_display: Feb 2023
     date_iso: '2023-02-14'
+    published_venue: null
     global_rank: 132
     true_value: 0.7554
     true_std: 0.0032
@@ -273,6 +278,7 @@ results:
     date: Feb 14, 2023
     date_display: Feb 2023
     date_iso: '2023-02-14'
+    published_venue: null
     global_rank: 134
     true_value: 0.7543
     true_std: 0.0049
@@ -310,6 +316,7 @@ results:
     date: Feb 14, 2023
     date_display: Feb 2023
     date_iso: '2023-02-14'
+    published_venue: null
     global_rank: 135
     true_value: 0.7543
     true_std: 0.0048
@@ -347,6 +354,7 @@ results:
     date: Feb 14, 2023
     date_display: Feb 2023
     date_iso: '2023-02-14'
+    published_venue: null
     global_rank: 140
     true_value: 0.7434
     true_std: 0.0041
@@ -384,6 +392,7 @@ results:
     date: Feb 14, 2023
     date_display: Feb 2023
     date_iso: '2023-02-14'
+    published_venue: null
     global_rank: 196
     true_value: 0.5471
     true_std: 0.0042
@@ -421,6 +430,7 @@ results:
     date: Feb 14, 2023
     date_display: Feb 2023
     date_iso: '2023-02-14'
+    published_venue: null
     global_rank: 197
     true_value: 0.545
     true_std: 0.0041
@@ -458,6 +468,7 @@ results:
     date: Feb 14, 2023
     date_display: Feb 2023
     date_iso: '2023-02-14'
+    published_venue: null
     global_rank: 200
     true_value: 0.518
     true_std: 0.0042
@@ -495,6 +506,7 @@ results:
     date: Feb 14, 2023
     date_display: Feb 2023
     date_iso: '2023-02-14'
+    published_venue: null
     global_rank: 215
     true_value: 0.3384
     true_std: 0.0058
@@ -532,6 +544,7 @@ results:
     date: Feb 14, 2023
     date_display: Feb 2023
     date_iso: '2023-02-14'
+    published_venue: null
     global_rank: 216
     true_value: 0.3378
     true_std: 0.0049
@@ -569,6 +582,7 @@ results:
     date: Feb 14, 2023
     date_display: Feb 2023
     date_iso: '2023-02-14'
+    published_venue: null
     global_rank: 217
     true_value: 0.3345
     true_std: 0.0047
@@ -606,6 +620,7 @@ results:
     date: Feb 14, 2023
     date_display: Feb 2023
     date_iso: '2023-02-14'
+    published_venue: null
     global_rank: 218
     true_value: 0.3332
     true_std: 0.0044
@@ -642,9 +657,9 @@ results:
     params_millions: null
     arxiv_id: '2205.12245'
     title: Asynchronous Neural Networks for Learning in Graphs
-    date: May 2022
+    date: May 24, 2022
     date_display: May 2022
-    date_iso: 2022-05
+    date_iso: '2022-05-24'
     codebase_url: https://github.com/beabevi/ESAN
     uses_external_data: false
     is_global_top: true
@@ -717,6 +732,7 @@ results:
     date: Feb 14, 2023
     date_display: Feb 2023
     date_iso: '2023-02-14'
+    published_venue: null
     global_rank: 167
     true_value: 0.7196
     true_std: 0.0069
@@ -754,6 +770,7 @@ results:
     date: Feb 14, 2023
     date_display: Feb 2023
     date_iso: '2023-02-14'
+    published_venue: null
     global_rank: 182
     true_value: 0.7149
     true_std: 0.0093
@@ -791,6 +808,7 @@ results:
     date: Feb 14, 2023
     date_display: Feb 2023
     date_iso: '2023-02-14'
+    published_venue: null
     global_rank: 183
     true_value: 0.7148
     true_std: 0.0088
@@ -828,6 +846,7 @@ results:
     date: Feb 14, 2023
     date_display: Feb 2023
     date_iso: '2023-02-14'
+    published_venue: null
     global_rank: 206
     true_value: 0.7021
     true_std: 0.0081
@@ -865,6 +884,7 @@ results:
     date: Feb 14, 2023
     date_display: Feb 2023
     date_iso: '2023-02-14'
+    published_venue: null
     global_rank: 211
     true_value: 0.6971
     true_std: 0.0103
@@ -902,6 +922,7 @@ results:
     date: Feb 14, 2023
     date_display: Feb 2023
     date_iso: '2023-02-14'
+    published_venue: null
     global_rank: 217
     true_value: 0.6889
     true_std: 0.0087
@@ -939,6 +960,7 @@ results:
     date: Feb 14, 2023
     date_display: Feb 2023
     date_iso: '2023-02-14'
+    published_venue: null
     global_rank: 231
     true_value: 0.6509
     true_std: 0.0093
@@ -976,6 +998,7 @@ results:
     date: Feb 14, 2023
     date_display: Feb 2023
     date_iso: '2023-02-14'
+    published_venue: null
     global_rank: 236
     true_value: 0.6439
     true_std: 0.0091
@@ -1013,6 +1036,7 @@ results:
     date: Feb 14, 2023
     date_display: Feb 2023
     date_iso: '2023-02-14'
+    published_venue: null
     global_rank: 238
     true_value: 0.6393
     true_std: 0.0095
@@ -1050,6 +1074,7 @@ results:
     date: Feb 14, 2023
     date_display: Feb 2023
     date_iso: '2023-02-14'
+    published_venue: null
     global_rank: 264
     true_value: 0.506
     true_std: 0.008
@@ -1087,6 +1112,7 @@ results:
     date: Feb 14, 2023
     date_display: Feb 2023
     date_iso: '2023-02-14'
+    published_venue: null
     global_rank: 266
     true_value: 0.4977
     true_std: 0.0082
@@ -1124,6 +1150,7 @@ results:
     date: Feb 14, 2023
     date_display: Feb 2023
     date_iso: '2023-02-14'
+    published_venue: null
     global_rank: 267
     true_value: 0.494
     true_std: 0.009
@@ -1161,6 +1188,7 @@ results:
     date: Feb 14, 2023
     date_display: Feb 2023
     date_iso: '2023-02-14'
+    published_venue: null
     global_rank: 268
     true_value: 0.4898
     true_std: 0.0095
@@ -1198,6 +1226,7 @@ results:
     date: Feb 14, 2023
     date_display: Feb 2023
     date_iso: '2023-02-14'
+    published_venue: null
     global_rank: 269
     true_value: 0.4817
     true_std: 0.008
@@ -1310,6 +1339,7 @@ results:
     date: Feb 14, 2023
     date_display: Feb 2023
     date_iso: '2023-02-14'
+    published_venue: null
     global_rank: 121
     true_value: 0.8615
     true_std: 0.0149
@@ -1347,6 +1377,7 @@ results:
     date: Feb 14, 2023
     date_display: Feb 2023
     date_iso: '2023-02-14'
+    published_venue: null
     global_rank: 123
     true_value: 0.861
     true_std: 0.0176
@@ -1384,6 +1415,7 @@ results:
     date: Feb 14, 2023
     date_display: Feb 2023
     date_iso: '2023-02-14'
+    published_venue: null
     global_rank: 137
     true_value: 0.855
     true_std: 0.0147
@@ -1421,6 +1453,7 @@ results:
     date: Feb 14, 2023
     date_display: Feb 2023
     date_iso: '2023-02-14'
+    published_venue: null
     global_rank: 190
     true_value: 0.8305
     true_std: 0.0144
@@ -1458,6 +1491,7 @@ results:
     date: Feb 14, 2023
     date_display: Feb 2023
     date_iso: '2023-02-14'
+    published_venue: null
     global_rank: 191
     true_value: 0.8305
     true_std: 0.0152
@@ -1495,6 +1529,7 @@ results:
     date: Feb 14, 2023
     date_display: Feb 2023
     date_iso: '2023-02-14'
+    published_venue: null
     global_rank: 207
     true_value: 0.827
     true_std: 0.0178
@@ -1532,6 +1567,7 @@ results:
     date: Feb 14, 2023
     date_display: Feb 2023
     date_iso: '2023-02-14'
+    published_venue: null
     global_rank: 238
     true_value: 0.8145
     true_std: 0.0149
@@ -1569,6 +1605,7 @@ results:
     date: Feb 14, 2023
     date_display: Feb 2023
     date_iso: '2023-02-14'
+    published_venue: null
     global_rank: 248
     true_value: 0.806
     true_std: 0.0164
@@ -1606,6 +1643,7 @@ results:
     date: Feb 14, 2023
     date_display: Feb 2023
     date_iso: '2023-02-14'
+    published_venue: null
     global_rank: 263
     true_value: 0.8
     true_std: 0.0157
@@ -1643,6 +1681,7 @@ results:
     date: Feb 14, 2023
     date_display: Feb 2023
     date_iso: '2023-02-14'
+    published_venue: null
     global_rank: 274
     true_value: 0.797
     true_std: 0.0215
@@ -1680,6 +1719,7 @@ results:
     date: Feb 14, 2023
     date_display: Feb 2023
     date_iso: '2023-02-14'
+    published_venue: null
     global_rank: 334
     true_value: 0.7215
     true_std: 0.0244
@@ -1717,6 +1757,7 @@ results:
     date: Feb 14, 2023
     date_display: Feb 2023
     date_iso: '2023-02-14'
+    published_venue: null
     global_rank: 338
     true_value: 0.7105
     true_std: 0.0187
@@ -1754,6 +1795,7 @@ results:
     date: Feb 14, 2023
     date_display: Feb 2023
     date_iso: '2023-02-14'
+    published_venue: null
     global_rank: 341
     true_value: 0.7045
     true_std: 0.0196
@@ -1791,6 +1833,7 @@ results:
     date: Feb 14, 2023
     date_display: Feb 2023
     date_iso: '2023-02-14'
+    published_venue: null
     global_rank: 342
     true_value: 0.7005
     true_std: 0.0203
@@ -1827,9 +1870,9 @@ results:
     params_millions: null
     arxiv_id: '2502.01122'
     title: Learning Efficient Positional Encodings with Graph Neural Networks
-    date: Feb 2025
+    date: Feb 3, 2025
     date_display: Feb 2025
-    date_iso: 2025-02
+    date_iso: '2025-02-03'
     codebase_url: https://github.com/ehejin/Pearl-PE
     uses_external_data: false
     is_global_top: true
@@ -1902,6 +1945,7 @@ results:
     date: Feb 14, 2023
     date_display: Feb 2023
     date_iso: '2023-02-14'
+    published_venue: null
     global_rank: 14
     true_value: 0.9094
     true_std: 0.0047
@@ -1939,6 +1983,7 @@ results:
     date: Feb 14, 2023
     date_display: Feb 2023
     date_iso: '2023-02-14'
+    published_venue: null
     global_rank: 18
     true_value: 0.9041
     true_std: 0.0041
@@ -1976,6 +2021,7 @@ results:
     date: Feb 14, 2023
     date_display: Feb 2023
     date_iso: '2023-02-14'
+    published_venue: null
     global_rank: 24
     true_value: 0.9
     true_std: 0.0065
@@ -2013,6 +2059,7 @@ results:
     date: Feb 14, 2023
     date_display: Feb 2023
     date_iso: '2023-02-14'
+    published_venue: null
     global_rank: 38
     true_value: 0.8797
     true_std: 0.0056
@@ -2050,6 +2097,7 @@ results:
     date: Feb 14, 2023
     date_display: Feb 2023
     date_iso: '2023-02-14'
+    published_venue: null
     global_rank: 43
     true_value: 0.8683
     true_std: 0.0052
@@ -2087,6 +2135,7 @@ results:
     date: Feb 14, 2023
     date_display: Feb 2023
     date_iso: '2023-02-14'
+    published_venue: null
     global_rank: 56
     true_value: 0.8018
     true_std: 0.006
@@ -2124,6 +2173,7 @@ results:
     date: Feb 14, 2023
     date_display: Feb 2023
     date_iso: '2023-02-14'
+    published_venue: null
     global_rank: 61
     true_value: 0.7604
     true_std: 0.0078
@@ -2161,6 +2211,7 @@ results:
     date: Feb 14, 2023
     date_display: Feb 2023
     date_iso: '2023-02-14'
+    published_venue: null
     global_rank: 63
     true_value: 0.7443
     true_std: 0.0072
@@ -2198,6 +2249,7 @@ results:
     date: Feb 14, 2023
     date_display: Feb 2023
     date_iso: '2023-02-14'
+    published_venue: null
     global_rank: 64
     true_value: 0.7033
     true_std: 0.0072
@@ -2235,6 +2287,7 @@ results:
     date: Feb 14, 2023
     date_display: Feb 2023
     date_iso: '2023-02-14'
+    published_venue: null
     global_rank: 65
     true_value: 0.6862
     true_std: 0.0085
@@ -2272,6 +2325,7 @@ results:
     date: Feb 14, 2023
     date_display: Feb 2023
     date_iso: '2023-02-14'
+    published_venue: null
     global_rank: 66
     true_value: 0.6849
     true_std: 0.0095
@@ -2309,6 +2363,7 @@ results:
     date: Feb 14, 2023
     date_display: Feb 2023
     date_iso: '2023-02-14'
+    published_venue: null
     global_rank: 67
     true_value: 0.6826
     true_std: 0.011
@@ -2346,6 +2401,7 @@ results:
     date: Feb 14, 2023
     date_display: Feb 2023
     date_iso: '2023-02-14'
+    published_venue: null
     global_rank: 72
     true_value: 0.5686
     true_std: 0.0094
@@ -2383,6 +2439,7 @@ results:
     date: Feb 14, 2023
     date_display: Feb 2023
     date_iso: '2023-02-14'
+    published_venue: null
     global_rank: 76
     true_value: 0.4849
     true_std: 0.0104
@@ -2410,6 +2467,5 @@ results_grouped:
   - *id002
   - *id003
   - *id004
-main_figure: /figures/2302.06835/main_figure.png
 ---
 

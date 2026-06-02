@@ -3,8 +3,9 @@ title: Power Flow Benchmarks
 arxiv_id: '2601.01387'
 source_url: ''
 authors: []
-published_date: ''
-published_date_iso: ''
+published_date: Jan 4, 2026
+published_date_iso: '2026-01-04'
+published_venue: ''
 abstract: ''
 codebase_url: ''
 extraction_model: ''
@@ -19,6 +20,5 @@ task_categories: []
 experiment_scopes: []
 results: []
 results_grouped: []
-main_figure: /figures/2601.01387/main_figure.png
 ---
 

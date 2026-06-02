@@ -3,8 +3,9 @@ title: Search to Capture Long-range Dependency with Stacking GNNs for Graph Clas
 arxiv_id: '2302.08671'
 source_url: ''
 authors: []
-published_date: Feb 2023
-published_date_iso: 2023-02
+published_date: Feb 17, 2023
+published_date_iso: '2023-02-17'
+published_venue: ''
 abstract: In recent years, Graph Neural Networks (GNNs) have been popular in the graph
   classification task. Currently, shallow GNNs are more common due to the well-known
   over-smoothing problem facing deeper GNNs. However, they are sub-optimal without
@@ -54,9 +55,9 @@ results:
     params_millions: null
     arxiv_id: '2511.20406'
     title: Short-Range Oversquashing
-    date: Nov 2025
+    date: Nov 25, 2025
     date_display: Nov 2025
-    date_iso: 2025-11
+    date_iso: '2025-11-25'
     codebase_url: https://github.com/YakovM93/Short-Range-Oversquashing
     uses_external_data: false
     is_global_top: true
@@ -126,9 +127,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2023
+    date: Feb 17, 2023
     date_display: Feb 2023
-    date_iso: 2023-02
+    date_iso: '2023-02-17'
+    published_venue: null
     global_rank: 73
     true_value: 0.8064
     true_std: null
@@ -163,9 +165,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2023
+    date: Feb 17, 2023
     date_display: Feb 2023
-    date_iso: 2023-02
+    date_iso: '2023-02-17'
+    published_venue: null
     global_rank: 90
     true_value: 0.7912
     true_std: 0.0307
@@ -200,9 +203,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2023
+    date: Feb 17, 2023
     date_display: Feb 2023
-    date_iso: 2023-02
+    date_iso: '2023-02-17'
+    published_venue: null
     global_rank: 107
     true_value: 0.787
     true_std: 0.0229
@@ -236,9 +240,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2023
+    date: Feb 17, 2023
     date_display: Feb 2023
-    date_iso: 2023-02
+    date_iso: '2023-02-17'
+    published_venue: null
     global_rank: 119
     true_value: 0.7818
     true_std: 0.0202
@@ -273,9 +278,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2023
+    date: Feb 17, 2023
     date_display: Feb 2023
-    date_iso: 2023-02
+    date_iso: '2023-02-17'
+    published_venue: null
     global_rank: 126
     true_value: 0.7801
     true_std: 0.0369
@@ -310,9 +316,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2023
+    date: Feb 17, 2023
     date_display: Feb 2023
-    date_iso: 2023-02
+    date_iso: '2023-02-17'
+    published_venue: null
     global_rank: 129
     true_value: 0.7767
     true_std: 0.0335
@@ -347,9 +354,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2023
+    date: Feb 17, 2023
     date_display: Feb 2023
-    date_iso: 2023-02
+    date_iso: '2023-02-17'
+    published_venue: null
     global_rank: 140
     true_value: 0.7725
     true_std: 0.029
@@ -384,9 +392,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2023
+    date: Feb 17, 2023
     date_display: Feb 2023
-    date_iso: 2023-02
+    date_iso: '2023-02-17'
+    published_venue: null
     global_rank: 159
     true_value: 0.7665
     true_std: 0.0273
@@ -421,9 +430,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2023
+    date: Feb 17, 2023
     date_display: Feb 2023
-    date_iso: 2023-02
+    date_iso: '2023-02-17'
+    published_venue: null
     global_rank: 198
     true_value: 0.7453
     true_std: 0.0524
@@ -458,9 +468,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2023
+    date: Feb 17, 2023
     date_display: Feb 2023
-    date_iso: 2023-02
+    date_iso: '2023-02-17'
+    published_venue: null
     global_rank: 218
     true_value: 0.7316
     true_std: 0.0512
@@ -495,9 +506,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2023
+    date: Feb 17, 2023
     date_display: Feb 2023
-    date_iso: 2023-02
+    date_iso: '2023-02-17'
+    published_venue: null
     global_rank: 230
     true_value: 0.7198
     true_std: 0.0434
@@ -532,9 +544,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2023
+    date: Feb 17, 2023
     date_display: Feb 2023
-    date_iso: 2023-02
+    date_iso: '2023-02-17'
+    published_venue: null
     global_rank: 290
     true_value: 0.6163
     true_std: 0.0533
@@ -574,9 +587,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2023
+    date: Feb 17, 2023
     date_display: Feb 2023
-    date_iso: 2023-02
+    date_iso: '2023-02-17'
+    published_venue: null
     global_rank: 1
     true_value: 0.834
     true_std: 0.049
@@ -679,9 +693,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2023
+    date: Feb 17, 2023
     date_display: Feb 2023
-    date_iso: 2023-02
+    date_iso: '2023-02-17'
+    published_venue: null
     global_rank: 21
     true_value: 0.7704
     true_std: null
@@ -716,9 +731,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2023
+    date: Feb 17, 2023
     date_display: Feb 2023
-    date_iso: 2023-02
+    date_iso: '2023-02-17'
+    published_venue: null
     global_rank: 26
     true_value: 0.762
     true_std: 0.0518
@@ -753,9 +769,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2023
+    date: Feb 17, 2023
     date_display: Feb 2023
-    date_iso: 2023-02
+    date_iso: '2023-02-17'
+    published_venue: null
     global_rank: 59
     true_value: 0.7503
     true_std: null
@@ -790,9 +807,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2023
+    date: Feb 17, 2023
     date_display: Feb 2023
-    date_iso: 2023-02
+    date_iso: '2023-02-17'
+    published_venue: null
     global_rank: 72
     true_value: 0.745
     true_std: 0.0331
@@ -827,9 +845,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2023
+    date: Feb 17, 2023
     date_display: Feb 2023
-    date_iso: 2023-02
+    date_iso: '2023-02-17'
+    published_venue: null
     global_rank: 81
     true_value: 0.742
     true_std: 0.0376
@@ -864,9 +883,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2023
+    date: Feb 17, 2023
     date_display: Feb 2023
-    date_iso: 2023-02
+    date_iso: '2023-02-17'
+    published_venue: null
     global_rank: 82
     true_value: 0.742
     true_std: 0.0541
@@ -901,9 +921,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2023
+    date: Feb 17, 2023
     date_display: Feb 2023
-    date_iso: 2023-02
+    date_iso: '2023-02-17'
+    published_venue: null
     global_rank: 83
     true_value: 0.742
     true_std: 0.0335
@@ -938,9 +959,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2023
+    date: Feb 17, 2023
     date_display: Feb 2023
-    date_iso: 2023-02
+    date_iso: '2023-02-17'
+    published_venue: null
     global_rank: 95
     true_value: 0.74
     true_std: 0.0574
@@ -975,9 +997,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2023
+    date: Feb 17, 2023
     date_display: Feb 2023
-    date_iso: 2023-02
+    date_iso: '2023-02-17'
+    published_venue: null
     global_rank: 106
     true_value: 0.737
     true_std: 0.057
@@ -1012,9 +1035,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2023
+    date: Feb 17, 2023
     date_display: Feb 2023
-    date_iso: 2023-02
+    date_iso: '2023-02-17'
+    published_venue: null
     global_rank: 110
     true_value: 0.736
     true_std: 0.0562
@@ -1049,9 +1073,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2023
+    date: Feb 17, 2023
     date_display: Feb 2023
-    date_iso: 2023-02
+    date_iso: '2023-02-17'
+    published_venue: null
     global_rank: 150
     true_value: 0.724
     true_std: 0.0561
@@ -1086,9 +1111,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2023
+    date: Feb 17, 2023
     date_display: Feb 2023
-    date_iso: 2023-02
+    date_iso: '2023-02-17'
+    published_venue: null
     global_rank: 160
     true_value: 0.7219
     true_std: 0.0197
@@ -1123,9 +1149,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2023
+    date: Feb 17, 2023
     date_display: Feb 2023
-    date_iso: 2023-02
+    date_iso: '2023-02-17'
+    published_venue: null
     global_rank: 180
     true_value: 0.715
     true_std: 0.049
@@ -1237,9 +1264,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to nci1 (score=90)'
-    date: Feb 2023
+    date: Feb 17, 2023
     date_display: Feb 2023
-    date_iso: 2023-02
+    date_iso: '2023-02-17'
+    published_venue: null
     global_rank: 23
     true_value: 0.8365
     true_std: 0.0169
@@ -1274,9 +1302,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to nci1 (score=90)'
-    date: Feb 2023
+    date: Feb 17, 2023
     date_display: Feb 2023
-    date_iso: 2023-02
+    date_iso: '2023-02-17'
+    published_venue: null
     global_rank: 58
     true_value: 0.8139
     true_std: 0.0192
@@ -1311,9 +1340,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to nci1 (score=90)'
-    date: Feb 2023
+    date: Feb 17, 2023
     date_display: Feb 2023
-    date_iso: 2023-02
+    date_iso: '2023-02-17'
+    published_venue: null
     global_rank: 65
     true_value: 0.8098
     true_std: 0.0196
@@ -1348,9 +1378,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to nci1 (score=90)'
-    date: Feb 2023
+    date: Feb 17, 2023
     date_display: Feb 2023
-    date_iso: 2023-02
+    date_iso: '2023-02-17'
+    published_venue: null
     global_rank: 67
     true_value: 0.8079
     true_std: 0.0124
@@ -1385,9 +1416,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to nci1 (score=90)'
-    date: Feb 2023
+    date: Feb 17, 2023
     date_display: Feb 2023
-    date_iso: 2023-02
+    date_iso: '2023-02-17'
+    published_venue: null
     global_rank: 70
     true_value: 0.8064
     true_std: 0.0246
@@ -1422,9 +1454,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to nci1 (score=90)'
-    date: Feb 2023
+    date: Feb 17, 2023
     date_display: Feb 2023
-    date_iso: 2023-02
+    date_iso: '2023-02-17'
+    published_venue: null
     global_rank: 84
     true_value: 0.8018
     true_std: 0.0197
@@ -1459,9 +1492,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2023
+    date: Feb 17, 2023
     date_display: Feb 2023
-    date_iso: 2023-02
+    date_iso: '2023-02-17'
+    published_venue: null
     global_rank: 121
     true_value: 0.7823
     true_std: 0.0131
@@ -1495,9 +1529,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to nci1 (score=90)'
-    date: Feb 2023
+    date: Feb 17, 2023
     date_display: Feb 2023
-    date_iso: 2023-02
+    date_iso: '2023-02-17'
+    published_venue: null
     global_rank: 137
     true_value: 0.7713
     true_std: 0.0149
@@ -1531,9 +1566,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to nci1 (score=90)'
-    date: Feb 2023
+    date: Feb 17, 2023
     date_display: Feb 2023
-    date_iso: 2023-02
+    date_iso: '2023-02-17'
+    published_venue: null
     global_rank: 139
     true_value: 0.7671
     true_std: 0.0183
@@ -1568,9 +1604,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2023
+    date: Feb 17, 2023
     date_display: Feb 2023
-    date_iso: 2023-02
+    date_iso: '2023-02-17'
+    published_venue: null
     global_rank: 141
     true_value: 0.7642
     true_std: 0.0383
@@ -1605,9 +1642,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2023
+    date: Feb 17, 2023
     date_display: Feb 2023
-    date_iso: 2023-02
+    date_iso: '2023-02-17'
+    published_venue: null
     global_rank: 142
     true_value: 0.7639
     true_std: 0.0372
@@ -1642,9 +1680,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to nci1 (score=90)'
-    date: Feb 2023
+    date: Feb 17, 2023
     date_display: Feb 2023
-    date_iso: 2023-02
+    date_iso: '2023-02-17'
+    published_venue: null
     global_rank: 147
     true_value: 0.763
     true_std: 0.0153
@@ -1678,9 +1717,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to nci1 (score=90)'
-    date: Feb 2023
+    date: Feb 17, 2023
     date_display: Feb 2023
-    date_iso: 2023-02
+    date_iso: '2023-02-17'
+    published_venue: null
     global_rank: 153
     true_value: 0.7591
     true_std: 0.0361
@@ -1715,9 +1755,10 @@ results:
     table_ref: Table 1
     source_ref: Morris et al. 2019
     variant_inference_reason: 'dataset: fuzzy match to nci1 (score=90)'
-    date: Feb 2023
+    date: Feb 17, 2023
     date_display: Feb 2023
-    date_iso: 2023-02
+    date_iso: '2023-02-17'
+    published_venue: null
     global_rank: 157
     true_value: 0.7533
     true_std: 0.0215
@@ -1752,9 +1793,10 @@ results:
     table_ref: Table 1
     source_ref: Xu et al. 2018
     variant_inference_reason: 'dataset: fuzzy match to nci1 (score=90)'
-    date: Feb 2023
+    date: Feb 17, 2023
     date_display: Feb 2023
-    date_iso: 2023-02
+    date_iso: '2023-02-17'
+    published_venue: null
     global_rank: 165
     true_value: 0.7458
     true_std: 0.0399
@@ -1789,9 +1831,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to nci1 (score=90)'
-    date: Feb 2023
+    date: Feb 17, 2023
     date_display: Feb 2023
-    date_iso: 2023-02
+    date_iso: '2023-02-17'
+    published_venue: null
     global_rank: 171
     true_value: 0.7393
     true_std: 0.0287
@@ -1826,9 +1869,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2023
+    date: Feb 17, 2023
     date_display: Feb 2023
-    date_iso: 2023-02
+    date_iso: '2023-02-17'
+    published_venue: null
     global_rank: 191
     true_value: 0.7032
     true_std: 0.0432
@@ -1863,9 +1907,10 @@ results:
     table_ref: Table 1
     source_ref: Zhang et al. 2020
     variant_inference_reason: 'dataset: fuzzy match to nci1 (score=90)'
-    date: Feb 2023
+    date: Feb 17, 2023
     date_display: Feb 2023
-    date_iso: 2023-02
+    date_iso: '2023-02-17'
+    published_venue: null
     global_rank: 204
     true_value: 0.6799
     true_std: 0.0297
@@ -1974,9 +2019,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2023
+    date: Feb 17, 2023
     date_display: Feb 2023
-    date_iso: 2023-02
+    date_iso: '2023-02-17'
+    published_venue: null
     global_rank: 10
     true_value: 0.8172
     true_std: 0.0219
@@ -2010,9 +2056,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2023
+    date: Feb 17, 2023
     date_display: Feb 2023
-    date_iso: 2023-02
+    date_iso: '2023-02-17'
+    published_venue: null
     global_rank: 23
     true_value: 0.7999
     true_std: 0.0044
@@ -2046,9 +2093,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2023
+    date: Feb 17, 2023
     date_display: Feb 2023
-    date_iso: 2023-02
+    date_iso: '2023-02-17'
+    published_venue: null
     global_rank: 24
     true_value: 0.799
     true_std: 0.0295
@@ -2082,9 +2130,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2023
+    date: Feb 17, 2023
     date_display: Feb 2023
-    date_iso: 2023-02
+    date_iso: '2023-02-17'
+    published_venue: null
     global_rank: 67
     true_value: 0.772
     true_std: 0.015
@@ -2119,9 +2168,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2023
+    date: Feb 17, 2023
     date_display: Feb 2023
-    date_iso: 2023-02
+    date_iso: '2023-02-17'
+    published_venue: null
     global_rank: 138
     true_value: 0.7539
     true_std: 0.044
@@ -2156,9 +2206,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2023
+    date: Feb 17, 2023
     date_display: Feb 2023
-    date_iso: 2023-02
+    date_iso: '2023-02-17'
+    published_venue: null
     global_rank: 141
     true_value: 0.753
     true_std: 0.0427
@@ -2193,9 +2244,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2023
+    date: Feb 17, 2023
     date_display: Feb 2023
-    date_iso: 2023-02
+    date_iso: '2023-02-17'
+    published_venue: null
     global_rank: 142
     true_value: 0.753
     true_std: 0.0477
@@ -2230,9 +2282,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2023
+    date: Feb 17, 2023
     date_display: Feb 2023
-    date_iso: 2023-02
+    date_iso: '2023-02-17'
+    published_venue: null
     global_rank: 146
     true_value: 0.7529
     true_std: 0.0451
@@ -2267,9 +2320,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2023
+    date: Feb 17, 2023
     date_display: Feb 2023
-    date_iso: 2023-02
+    date_iso: '2023-02-17'
+    published_venue: null
     global_rank: 149
     true_value: 0.7524
     true_std: 0.0415
@@ -2304,9 +2358,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2023
+    date: Feb 17, 2023
     date_display: Feb 2023
-    date_iso: 2023-02
+    date_iso: '2023-02-17'
+    published_venue: null
     global_rank: 154
     true_value: 0.7512
     true_std: 0.0489
@@ -2341,9 +2396,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2023
+    date: Feb 17, 2023
     date_display: Feb 2023
-    date_iso: 2023-02
+    date_iso: '2023-02-17'
+    published_venue: null
     global_rank: 155
     true_value: 0.7511
     true_std: 0.0322
@@ -2378,9 +2434,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2023
+    date: Feb 17, 2023
     date_display: Feb 2023
-    date_iso: 2023-02
+    date_iso: '2023-02-17'
+    published_venue: null
     global_rank: 167
     true_value: 0.7493
     true_std: 0.0515
@@ -2415,9 +2472,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2023
+    date: Feb 17, 2023
     date_display: Feb 2023
-    date_iso: 2023-02
+    date_iso: '2023-02-17'
+    published_venue: null
     global_rank: 200
     true_value: 0.7431
     true_std: 0.0416
@@ -2452,9 +2510,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2023
+    date: Feb 17, 2023
     date_display: Feb 2023
-    date_iso: 2023-02
+    date_iso: '2023-02-17'
+    published_venue: null
     global_rank: 282
     true_value: 0.7108
     true_std: 0.0314
@@ -2482,6 +2541,5 @@ results_grouped:
   - *id002
   - *id003
   - *id004
-main_figure: /figures/2302.08671/main_figure.png
 ---
 

@@ -3,8 +3,9 @@ title: Cooperative Sheaf Neural Networks
 arxiv_id: '2507.00647'
 source_url: ''
 authors: []
-published_date: Jul 2025
-published_date_iso: 2025-07
+published_date: Jul 1, 2025
+published_date_iso: '2025-07-01'
+published_venue: ''
 abstract: Sheaf neural networks (SNNs) leverage cellular sheaves to induce flexible
   diffusion processes on graphs, generalizing the diffusion mechanism of classical
   graph neural networks. While SNNs have been shown to cope well with heterophilic
@@ -54,9 +55,9 @@ results:
     params_millions: null
     arxiv_id: '1506.04757'
     title: Image-based Recommendations on Styles and Substitutes
-    date: Jun 2015
+    date: Jun 15, 2015
     date_display: Jun 2015
-    date_iso: 2015-06
+    date_iso: '2015-06-15'
     codebase_url: ''
     uses_external_data: null
     is_global_top: true
@@ -77,9 +78,9 @@ results:
     params_millions: null
     arxiv_id: '1506.04757'
     title: Image-based Recommendations on Styles and Substitutes
-    date: Jun 2015
+    date: Jun 15, 2015
     date_display: Jun 2015
-    date_iso: 2015-06
+    date_iso: '2015-06-15'
     codebase_url: ''
     uses_external_data: null
     is_global_top: true
@@ -100,9 +101,9 @@ results:
     params_millions: null
     arxiv_id: '1506.04757'
     title: Image-based Recommendations on Styles and Substitutes
-    date: Jun 2015
+    date: Jun 15, 2015
     date_display: Jun 2015
-    date_iso: 2015-06
+    date_iso: '2015-06-15'
     codebase_url: ''
     uses_external_data: null
     is_global_top: true
@@ -126,9 +127,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 6
     true_value: 0.8326
     true_std: 0.0051
@@ -162,9 +164,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 12
     true_value: 0.8016
     true_std: 0.0232
@@ -198,9 +201,10 @@ results:
     table_ref: Table 1
     source_ref: Platonov 2023
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 21
     true_value: 0.542
     true_std: 0.0034
@@ -234,9 +238,10 @@ results:
     table_ref: Table 1
     source_ref: Platonov 2023
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 25
     true_value: 0.5374
     true_std: 0.0051
@@ -270,9 +275,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 27
     true_value: 0.5363
     true_std: 0.0039
@@ -307,9 +313,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 34
     true_value: 0.5218
     true_std: 0.008
@@ -344,9 +351,10 @@ results:
     table_ref: Table 1
     source_ref: Platonov 2023
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 35
     true_value: 0.5207
     true_std: 0.01
@@ -380,9 +388,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 36
     true_value: 0.5207
     true_std: 0.01
@@ -416,9 +425,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 40
     true_value: 0.5117
     true_std: 0.0066
@@ -453,9 +463,10 @@ results:
     table_ref: Table 1
     source_ref: Platonov 2023
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 78
     true_value: 0.4276
     true_std: 0.0054
@@ -564,9 +575,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 24
     true_value: 0.723
     true_std: null
@@ -601,9 +613,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 61
     true_value: 0.673
     true_std: 0.022
@@ -638,9 +651,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 167
     true_value: 0.5033
     true_std: 0.0257
@@ -675,9 +689,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 168
     true_value: 0.5018
     true_std: 0.0178
@@ -712,9 +727,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 200
     true_value: 0.4493
     true_std: 0.014
@@ -749,9 +765,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 208
     true_value: 0.4309
     true_std: 0.0317
@@ -785,9 +802,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 223
     true_value: 0.4114
     true_std: 0.054
@@ -821,9 +839,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 240
     true_value: 0.3793
     true_std: 0.0224
@@ -859,9 +878,9 @@ results:
     params_millions: null
     arxiv_id: '2302.14806'
     title: Framelet Message Passing
-    date: Feb 2023
+    date: Feb 28, 2023
     date_display: Feb 2023
-    date_iso: 2023-02
+    date_iso: '2023-02-28'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
@@ -882,9 +901,9 @@ results:
     params_millions: null
     arxiv_id: '2410.05593'
     title: When Graph Neural Networks Meet Dynamic Mode Decomposition
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
@@ -908,9 +927,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 3
     true_value: 0.913
     true_std: 0.007
@@ -941,9 +961,9 @@ results:
     params_millions: null
     arxiv_id: '2410.05593'
     title: When Graph Neural Networks Meet Dynamic Mode Decomposition
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
@@ -967,9 +987,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 9
     true_value: 0.873
     true_std: 0.0453
@@ -1003,9 +1024,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 12
     true_value: 0.8649
     true_std: 0.0735
@@ -1039,9 +1061,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 13
     true_value: 0.8595
     true_std: 0.051
@@ -1076,9 +1099,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 15
     true_value: 0.8568
     true_std: 0.0663
@@ -1112,9 +1136,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 16
     true_value: 0.8568
     true_std: 0.0651
@@ -1148,9 +1173,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 18
     true_value: 0.8514
     true_std: 0.0607
@@ -1184,9 +1210,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 21
     true_value: 0.851
     true_std: 0.064
@@ -1220,9 +1247,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 22
     true_value: 0.85
     true_std: 0.052
@@ -1256,9 +1284,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 24
     true_value: 0.8486
     true_std: 0.0471
@@ -1292,9 +1321,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 41
     true_value: 0.819
     true_std: 0.054
@@ -1329,9 +1359,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 43
     true_value: 0.8162
     true_std: 0.0432
@@ -1365,9 +1396,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 46
     true_value: 0.8135
     true_std: 0.0505
@@ -1402,9 +1434,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 52
     true_value: 0.8008
     true_std: 0.0296
@@ -1439,9 +1472,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 57
     true_value: 0.792
     true_std: 0.063
@@ -1476,9 +1510,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 59
     true_value: 0.7919
     true_std: 0.0612
@@ -1513,9 +1548,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 60
     true_value: 0.7868
     true_std: 0.0093
@@ -1550,9 +1586,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 95
     true_value: 0.727
     true_std: 0.0547
@@ -1586,9 +1623,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 155
     true_value: 0.6081
     true_std: null
@@ -1623,9 +1661,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 160
     true_value: 0.5892
     true_std: 0.0315
@@ -1661,9 +1700,9 @@ results:
     params_millions: null
     arxiv_id: '2503.12563'
     title: 'Diffusion on Graph: Augmentation of Graph Structure for Node Classification'
-    date: Mar 2025
+    date: Mar 16, 2025
     date_display: Mar 2025
-    date_iso: 2025-03
+    date_iso: '2025-03-16'
     codebase_url: https://github.com/Statistical-Deep-Learning/DoG
     uses_external_data: false
     is_global_top: true
@@ -1687,9 +1726,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 2
     true_value: 0.416
     true_std: 0.011
@@ -1724,9 +1764,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 3
     true_value: 0.3803
     true_std: 0.011200000000000002
@@ -1760,9 +1801,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 4
     true_value: 0.37810000000000005
     true_std: 0.0115
@@ -1796,9 +1838,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 5
     true_value: 0.37799999999999995
     true_std: 0.012199999999999999
@@ -1832,9 +1875,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 6
     true_value: 0.3779
     true_std: 0.0101
@@ -1916,9 +1960,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 9
     true_value: 0.3754
     true_std: 0.015600000000000001
@@ -1952,9 +1997,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 10
     true_value: 0.37439999999999996
     true_std: 0.013000000000000001
@@ -1988,9 +2034,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 12
     true_value: 0.3735
     true_std: 0.013000000000000001
@@ -2024,9 +2071,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 13
     true_value: 0.3653
     true_std: 0.006999999999999999
@@ -2060,9 +2108,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 14
     true_value: 0.3626
     true_std: 0.0374
@@ -2096,9 +2145,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 16
     true_value: 0.35700000000000004
     true_std: 0.01
@@ -2132,9 +2182,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 18
     true_value: 0.35619999999999996
     true_std: 0.0087
@@ -2168,9 +2219,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 20
     true_value: 0.34869999999999995
     true_std: 0.0125
@@ -2204,9 +2256,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 21
     true_value: 0.34630000000000005
     true_std: 0.012199999999999999
@@ -2240,9 +2293,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 22
     true_value: 0.3423
     true_std: 0.009899999999999999
@@ -2276,9 +2330,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 23
     true_value: 0.3222
     true_std: 0.023399999999999997
@@ -2312,9 +2367,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 24
     true_value: 0.3159
     true_std: 0.0115
@@ -2348,9 +2404,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 25
     true_value: 0.27440000000000003
     true_std: 0.0089
@@ -2384,9 +2441,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 26
     true_value: 0.274
     true_std: 0.0124
@@ -2421,9 +2479,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 27
     true_value: 0.2732
     true_std: 0.011000000000000001
@@ -2462,9 +2521,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 1
     true_value: 0.9907
     true_std: 0.0025
@@ -2498,9 +2558,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 2
     true_value: 0.9899
     true_std: 0.0016
@@ -2531,9 +2592,9 @@ results:
     params_millions: null
     arxiv_id: '2508.05070'
     title: 'Tango: Graph Neural Dynamics via Learned Energy and Tangential Flows'
-    date: Aug 2025
+    date: Aug 7, 2025
     date_display: Aug 2025
-    date_iso: 2025-08
+    date_iso: '2025-08-07'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
@@ -2554,9 +2615,9 @@ results:
     params_millions: null
     arxiv_id: '2508.05070'
     title: 'Tango: Graph Neural Dynamics via Learned Energy and Tangential Flows'
-    date: Aug 2025
+    date: Aug 7, 2025
     date_display: Aug 2025
-    date_iso: 2025-08
+    date_iso: '2025-08-07'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
@@ -2580,9 +2641,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 5
     true_value: 0.9735
     true_std: 0.0063
@@ -2613,9 +2675,9 @@ results:
     params_millions: null
     arxiv_id: '2508.05070'
     title: 'Tango: Graph Neural Dynamics via Learned Energy and Tangential Flows'
-    date: Aug 2025
+    date: Aug 7, 2025
     date_display: Aug 2025
-    date_iso: 2025-08
+    date_iso: '2025-08-07'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
@@ -2639,9 +2701,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 9
     true_value: 0.9351
     true_std: 0.0057
@@ -2675,9 +2738,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 11
     true_value: 0.9229
     true_std: 0.0047
@@ -2711,9 +2775,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 12
     true_value: 0.9215
     true_std: 0.0084
@@ -2747,9 +2812,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 13
     true_value: 0.9201
     true_std: 0.0068
@@ -2783,9 +2849,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 14
     true_value: 0.9185
     true_std: 0.0076
@@ -2819,9 +2886,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 21
     true_value: 0.8975
     true_std: 0.0052
@@ -2860,9 +2928,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 1
     true_value: 0.86
     true_std: 0.0039
@@ -2896,9 +2965,10 @@ results:
     table_ref: Table 1
     source_ref: ''
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 2
     true_value: 0.8557
     true_std: 0.0035
@@ -3004,9 +3074,10 @@ results:
     table_ref: Table 1
     source_ref: Li 2022
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 6
     true_value: 0.8471
     true_std: 0.0052
@@ -3040,9 +3111,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 8
     true_value: 0.8409
     true_std: 0.002
@@ -3076,9 +3148,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 11
     true_value: 0.8354
     true_std: 0.0032
@@ -3113,9 +3186,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 14
     true_value: 0.8323
     true_std: 0.002
@@ -3149,9 +3223,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 15
     true_value: 0.8292
     true_std: 0.0059
@@ -3185,9 +3260,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 16
     true_value: 0.8252
     true_std: 0.0096
@@ -3221,9 +3297,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 19
     true_value: 0.8153
     true_std: 0.0055
@@ -3257,9 +3334,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 21
     true_value: 0.8131
     true_std: 0.006
@@ -3293,9 +3371,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 23
     true_value: 0.7432
     true_std: 0.0053
@@ -3329,9 +3408,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 24
     true_value: 0.7418
     true_std: 0.003
@@ -3367,9 +3447,9 @@ results:
     params_millions: null
     arxiv_id: '2508.05070'
     title: 'Tango: Graph Neural Dynamics via Learned Energy and Tangential Flows'
-    date: Aug 2025
+    date: Aug 7, 2025
     date_display: Aug 2025
-    date_iso: 2025-08
+    date_iso: '2025-08-07'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
@@ -3390,9 +3470,9 @@ results:
     params_millions: null
     arxiv_id: '2508.05070'
     title: 'Tango: Graph Neural Dynamics via Learned Energy and Tangential Flows'
-    date: Aug 2025
+    date: Aug 7, 2025
     date_display: Aug 2025
-    date_iso: 2025-08
+    date_iso: '2025-08-07'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
@@ -3413,9 +3493,9 @@ results:
     params_millions: null
     arxiv_id: '2508.05070'
     title: 'Tango: Graph Neural Dynamics via Learned Energy and Tangential Flows'
-    date: Aug 2025
+    date: Aug 7, 2025
     date_display: Aug 2025
-    date_iso: 2025-08
+    date_iso: '2025-08-07'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
@@ -3439,9 +3519,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 4
     true_value: 0.7931
     true_std: 0.0122
@@ -3475,9 +3556,10 @@ results:
     table_ref: Table 1
     source_ref: Platonov et al. 2023
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 6
     true_value: 0.7875
     true_std: 0.0109
@@ -3511,9 +3593,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 7
     true_value: 0.7805
     true_std: 0.0093
@@ -3547,9 +3630,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 8
     true_value: 0.7795
     true_std: 0.0068
@@ -3583,9 +3667,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 9
     true_value: 0.7743
     true_std: 0.012
@@ -3619,9 +3704,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 15
     true_value: 0.7644
     true_std: 0.0062
@@ -3655,9 +3741,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 16
     true_value: 0.7609
     true_std: 0.0127
@@ -3691,9 +3778,10 @@ results:
     table_ref: Table 1
     source_ref: Platonov et al. 2023
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 17
     true_value: 0.7597
     true_std: 0.0089
@@ -3727,9 +3815,10 @@ results:
     table_ref: Table 1
     source_ref: Platonov et al. 2023
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 32
     true_value: 0.6969
     true_std: 0.0146
@@ -3768,9 +3857,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 1
     true_value: 0.9263
     true_std: 0.005
@@ -3802,9 +3892,9 @@ results:
     arxiv_id: '2506.07624'
     title: 'Return of ChebNet: Understanding and Improving an Overlooked GNN on Long-Range
       Tasks'
-    date: Jun 2025
+    date: Jun 9, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-09'
     codebase_url: https://github.com/ahariri13/Stable-ChebNet
     uses_external_data: false
     is_global_top: true
@@ -3826,9 +3916,9 @@ results:
     arxiv_id: '2506.07624'
     title: 'Return of ChebNet: Understanding and Improving an Overlooked GNN on Long-Range
       Tasks'
-    date: Jun 2025
+    date: Jun 9, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-09'
     codebase_url: https://github.com/ahariri13/Stable-ChebNet
     uses_external_data: false
     is_global_top: true
@@ -3849,9 +3939,9 @@ results:
     params_millions: null
     arxiv_id: '2508.05070'
     title: 'Tango: Graph Neural Dynamics via Learned Energy and Tangential Flows'
-    date: Aug 2025
+    date: Aug 7, 2025
     date_display: Aug 2025
-    date_iso: 2025-08
+    date_iso: '2025-08-07'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
@@ -3950,9 +4040,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 32
     true_value: 0.619
     true_std: null
@@ -3987,9 +4078,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 55
     true_value: 0.563
     true_std: 0.022
@@ -4024,9 +4116,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 115
     true_value: 0.4118
     true_std: 0.0223
@@ -4060,9 +4153,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 127
     true_value: 0.3939
     true_std: 0.0276
@@ -4096,9 +4190,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 155
     true_value: 0.3666
     true_std: 0.0163
@@ -4132,9 +4227,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 159
     true_value: 0.363
     true_std: 0.0198
@@ -4168,9 +4264,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 160
     true_value: 0.3609
     true_std: 0.0199
@@ -4204,9 +4301,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 165
     true_value: 0.3579
     true_std: 0.0334
@@ -4242,9 +4340,9 @@ results:
     params_millions: null
     arxiv_id: '2503.12563'
     title: 'Diffusion on Graph: Augmentation of Graph Structure for Node Classification'
-    date: Mar 2025
+    date: Mar 16, 2025
     date_display: Mar 2025
-    date_iso: 2025-03
+    date_iso: '2025-03-16'
     codebase_url: https://github.com/Statistical-Deep-Learning/DoG
     uses_external_data: false
     is_global_top: true
@@ -4268,9 +4366,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 2
     true_value: 0.951
     true_std: 0.032
@@ -4353,9 +4452,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 6
     true_value: 0.9292
     true_std: 0.0061
@@ -4389,9 +4489,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 11
     true_value: 0.923
     true_std: 0.007
@@ -4425,9 +4526,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 28
     true_value: 0.8757
     true_std: 0.0486
@@ -4461,9 +4563,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 29
     true_value: 0.873
     true_std: 0.0593
@@ -4497,9 +4600,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 40
     true_value: 0.8595
     true_std: 0.0551
@@ -4533,9 +4637,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 41
     true_value: 0.859
     true_std: 0.046
@@ -4569,9 +4674,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 44
     true_value: 0.8567
     true_std: 0.0695
@@ -4605,9 +4711,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 49
     true_value: 0.8486
     true_std: 0.0455
@@ -4641,9 +4748,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 57
     true_value: 0.8455
     true_std: 0.048
@@ -4678,9 +4786,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 58
     true_value: 0.8432
     true_std: 0.0415
@@ -4714,9 +4823,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 75
     true_value: 0.8297
     true_std: 0.0513
@@ -4750,9 +4860,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 76
     true_value: 0.8243
     true_std: 0.0614
@@ -4786,9 +4897,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 95
     true_value: 0.8079
     true_std: 0.009
@@ -4823,9 +4935,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 99
     true_value: 0.798
     true_std: 0.043
@@ -4860,9 +4973,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 108
     true_value: 0.784
     true_std: 0.054
@@ -4897,9 +5011,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 115
     true_value: 0.7784
     true_std: 0.0564
@@ -4934,9 +5049,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 117
     true_value: 0.7757
     true_std: 0.0541
@@ -4970,9 +5086,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 168
     true_value: 0.676
     true_std: null
@@ -5007,9 +5124,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 209
     true_value: 0.603
     true_std: 0.043
@@ -5047,9 +5165,9 @@ results:
     arxiv_id: '2506.07624'
     title: 'Return of ChebNet: Understanding and Improving an Overlooked GNN on Long-Range
       Tasks'
-    date: Jun 2025
+    date: Jun 9, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-09'
     codebase_url: https://github.com/ahariri13/Stable-ChebNet
     uses_external_data: false
     is_global_top: true
@@ -5071,9 +5189,9 @@ results:
     arxiv_id: '2506.07624'
     title: 'Return of ChebNet: Understanding and Improving an Overlooked GNN on Long-Range
       Tasks'
-    date: Jun 2025
+    date: Jun 9, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-09'
     codebase_url: https://github.com/ahariri13/Stable-ChebNet
     uses_external_data: false
     is_global_top: true
@@ -5094,9 +5212,9 @@ results:
     params_millions: null
     arxiv_id: '2508.05070'
     title: 'Tango: Graph Neural Dynamics via Learned Energy and Tangential Flows'
-    date: Aug 2025
+    date: Aug 7, 2025
     date_display: Aug 2025
-    date_iso: 2025-08
+    date_iso: '2025-08-07'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
@@ -5120,9 +5238,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 6
     true_value: 0.8545
     true_std: 0.0053
@@ -5156,9 +5275,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 12
     true_value: 0.8484
     true_std: 0.0096
@@ -5192,9 +5312,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 14
     true_value: 0.8478
     true_std: 0.008
@@ -5228,9 +5349,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 19
     true_value: 0.838
     true_std: 0.0034
@@ -5265,9 +5387,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 23
     true_value: 0.837
     true_std: 0.0047
@@ -5302,9 +5425,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 32
     true_value: 0.8323
     true_std: 0.0064
@@ -5339,9 +5463,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 36
     true_value: 0.8252
     true_std: 0.0092
@@ -5376,9 +5501,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 37
     true_value: 0.8243
     true_std: 0.0044
@@ -5413,9 +5539,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 45
     true_value: 0.7883
     true_std: 0.0076
@@ -5451,9 +5578,9 @@ results:
     params_millions: null
     arxiv_id: '2302.14806'
     title: Framelet Message Passing
-    date: Feb 2023
+    date: Feb 28, 2023
     date_display: Feb 2023
-    date_iso: 2023-02
+    date_iso: '2023-02-28'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
@@ -5474,9 +5601,9 @@ results:
     params_millions: null
     arxiv_id: '2410.05593'
     title: When Graph Neural Networks Meet Dynamic Mode Decomposition
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
@@ -5500,9 +5627,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 3
     true_value: 0.918
     true_std: 0.031
@@ -5559,9 +5687,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 7
     true_value: 0.9
     true_std: 0.0283
@@ -5595,9 +5724,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 8
     true_value: 0.899
     true_std: 0.03
@@ -5631,9 +5761,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 9
     true_value: 0.8941
     true_std: 0.0474
@@ -5667,9 +5798,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 11
     true_value: 0.8921
     true_std: 0.0384
@@ -5703,9 +5835,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 14
     true_value: 0.8863
     true_std: 0.0275
@@ -5739,9 +5872,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 17
     true_value: 0.8843
     true_std: 0.0322
@@ -5775,9 +5909,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 23
     true_value: 0.8804
     true_std: 0.032
@@ -5812,9 +5947,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 25
     true_value: 0.879
     true_std: 0.042
@@ -5848,9 +5984,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 28
     true_value: 0.8765
     true_std: 0.0351
@@ -5884,9 +6021,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 35
     true_value: 0.8686
     true_std: 0.0329
@@ -5920,9 +6058,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 61
     true_value: 0.843
     true_std: 0.037
@@ -5957,9 +6096,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 67
     true_value: 0.8373
     true_std: 0.0403
@@ -5993,9 +6133,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 69
     true_value: 0.8333
     true_std: 0.0201
@@ -6030,9 +6171,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 72
     true_value: 0.831
     true_std: 0.032
@@ -6067,9 +6209,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 74
     true_value: 0.8269
     true_std: 0.0084
@@ -6104,9 +6247,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 80
     true_value: 0.8157
     true_std: 0.0498
@@ -6141,9 +6285,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 82
     true_value: 0.812
     true_std: 0.056
@@ -6177,9 +6322,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 153
     true_value: 0.6451
     true_std: 0.0366
@@ -6213,9 +6359,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Jul 2025
+    date: Jul 1, 2025
     date_display: Jul 2025
-    date_iso: 2025-07
+    date_iso: '2025-07-01'
+    published_venue: null
     global_rank: 234
     true_value: 0.4843
     true_std: 0.0614
@@ -6253,6 +6400,5 @@ results_grouped:
   datasets:
   - *id012
 single_proposed_model: SNNs
-main_figure: /figures/2507.00647/main_figure.png
 ---
 

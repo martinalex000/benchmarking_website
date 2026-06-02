@@ -3,8 +3,9 @@ title: Graph-level Representation Learning with Joint-Embedding Predictive Archi
 arxiv_id: '2309.16014'
 source_url: ''
 authors: []
-published_date: Sep 2023
-published_date_iso: 2023-09
+published_date: Sep 27, 2023
+published_date_iso: '2023-09-27'
+published_venue: ''
 abstract: Joint-Embedding Predictive Architectures (JEPAs) have recently emerged as
   a novel and powerful technique for self-supervised representation learning. They
   aim to learn an energy-based model by predicting the latent representation of a
@@ -35,6 +36,5 @@ task_categories: []
 experiment_scopes: []
 results: []
 results_grouped: []
-main_figure: /figures/2309.16014/main_figure.png
 ---
 

@@ -5,6 +5,7 @@ source_url: ''
 authors: []
 published_date: Oct 24, 2022
 published_date_iso: '2022-10-24'
+published_venue: ''
 abstract: 'Transformer models have recently gained popularity in graph representation
   learning as they have the potential to learn complex relationships beyond the ones
   captured by regular graph neural networks. The main research question is how to
@@ -103,9 +104,9 @@ results:
     params_millions: null
     arxiv_id: '1805.07984'
     title: Adversarial Attacks on Neural Networks for Graph Data
-    date: May 2018
+    date: May 21, 2018
     date_display: May 2018
-    date_iso: 2018-05
+    date_iso: '2018-05-21'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
@@ -132,6 +133,7 @@ results:
     date: Oct 24, 2022
     date_display: Oct 2022
     date_iso: '2022-10-24'
+    published_venue: null
     global_rank: 26
     true_value: 0.8028
     true_std: 0.0057
@@ -169,6 +171,7 @@ results:
     date: Oct 24, 2022
     date_display: Oct 2022
     date_iso: '2022-10-24'
+    published_venue: null
     global_rank: 86
     true_value: 0.7665
     true_std: 0.0152
@@ -206,6 +209,7 @@ results:
     date: Oct 24, 2022
     date_display: Oct 2022
     date_iso: '2022-10-24'
+    published_venue: null
     global_rank: 107
     true_value: 0.762
     true_std: 0.004
@@ -241,9 +245,9 @@ results:
     params_millions: null
     arxiv_id: '2108.12055'
     title: Towards Self-Explainable Graph Neural Network
-    date: Aug 2021
+    date: Aug 26, 2021
     date_display: Aug 2021
-    date_iso: 2021-08
+    date_iso: '2021-08-26'
     codebase_url: https://github.com/EnyanDai/SEGNN
     uses_external_data: false
     is_global_top: true
@@ -264,9 +268,9 @@ results:
     params_millions: null
     arxiv_id: '2108.12055'
     title: Towards Self-Explainable Graph Neural Network
-    date: Aug 2021
+    date: Aug 26, 2021
     date_display: Aug 2021
-    date_iso: 2021-08
+    date_iso: '2021-08-26'
     codebase_url: https://github.com/EnyanDai/SEGNN
     uses_external_data: false
     is_global_top: true
@@ -287,9 +291,9 @@ results:
     params_millions: null
     arxiv_id: '2108.12055'
     title: Towards Self-Explainable Graph Neural Network
-    date: Aug 2021
+    date: Aug 26, 2021
     date_display: Aug 2021
-    date_iso: 2021-08
+    date_iso: '2021-08-26'
     codebase_url: https://github.com/EnyanDai/SEGNN
     uses_external_data: false
     is_global_top: true
@@ -316,6 +320,7 @@ results:
     date: Oct 24, 2022
     date_display: Oct 2022
     date_iso: '2022-10-24'
+    published_venue: null
     global_rank: 71
     true_value: 0.8856
     true_std: 0.0101
@@ -353,6 +358,7 @@ results:
     date: Oct 24, 2022
     date_display: Oct 2022
     date_iso: '2022-10-24'
+    published_venue: null
     global_rank: 170
     true_value: 0.8661
     true_std: 0.0304
@@ -390,6 +396,7 @@ results:
     date: Oct 24, 2022
     date_display: Oct 2022
     date_iso: '2022-10-24'
+    published_venue: null
     global_rank: 237
     true_value: 0.851
     true_std: 0.007
@@ -503,6 +510,7 @@ results:
     date: Oct 24, 2022
     date_display: Oct 2022
     date_iso: '2022-10-24'
+    published_venue: null
     global_rank: 4
     true_value: 0.935
     true_std: 0.0041
@@ -540,6 +548,7 @@ results:
     date: Oct 24, 2022
     date_display: Oct 2022
     date_iso: '2022-10-24'
+    published_venue: null
     global_rank: 5
     true_value: 0.9345
     true_std: 0.0041
@@ -622,9 +631,9 @@ results:
     params_millions: null
     arxiv_id: '2402.08170'
     title: arXiv:2402.08170
-    date: Feb 2024
+    date: Feb 13, 2024
     date_display: Feb 2024
-    date_iso: 2024-02
+    date_iso: '2024-02-13'
     codebase_url: https://github.com/VITA-Group/LLaGA
     uses_external_data: false
     is_global_top: true
@@ -651,6 +660,7 @@ results:
     date: Oct 24, 2022
     date_display: Oct 2022
     date_iso: '2022-10-24'
+    published_venue: null
     global_rank: 6
     true_value: 0.9490000000000001
     true_std: null
@@ -687,6 +697,7 @@ results:
     date: Oct 24, 2022
     date_display: Oct 2022
     date_iso: '2022-10-24'
+    published_venue: null
     global_rank: 310
     true_value: 0.816
     true_std: 0.005
@@ -723,6 +734,7 @@ results:
     date: Oct 24, 2022
     date_display: Oct 2022
     date_iso: '2022-10-24'
+    published_venue: null
     global_rank: 343
     true_value: 0.805
     true_std: 0.012
@@ -751,6 +763,5 @@ results_grouped:
 - benchmark: Other Graph Benchmarks
   datasets:
   - *id004
-main_figure: /figures/2210.13148/main_figure.png
 ---
 

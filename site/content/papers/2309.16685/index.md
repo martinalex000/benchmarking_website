@@ -4,8 +4,9 @@ title: Target-aware Variational Auto-encoders for Ligand Generation with Multimo
 arxiv_id: '2309.16685'
 source_url: ''
 authors: []
-published_date: Sep 2023
-published_date_iso: 2023-09
+published_date: Aug 2, 2023
+published_date_iso: '2023-08-02'
+published_venue: ''
 abstract: Without knowledge of specific pockets, generating ligands based on the global
   structure of a protein target plays a crucial role in drug discovery as it helps
   reduce the search space for potential drug-like candidates in the pipeline. However,
@@ -130,9 +131,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
-    date: Sep 2023
-    date_display: Sep 2023
-    date_iso: 2023-09
+    date: Aug 2, 2023
+    date_display: Aug 2023
+    date_iso: '2023-08-02'
+    published_venue: null
     global_rank: null
     sort_value: 0.202
     sort_std: 0.007
@@ -153,9 +155,10 @@ results:
     table_ref: Table 1
     source_ref: zhao2019attentiondta
     variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
-    date: Sep 2023
-    date_display: Sep 2023
-    date_iso: 2023-09
+    date: Aug 2, 2023
+    date_display: Aug 2023
+    date_iso: '2023-08-02'
+    published_venue: null
     global_rank: null
     sort_value: 0.216
     sort_std: null
@@ -176,9 +179,10 @@ results:
     table_ref: Table 1
     source_ref: 10.1093/bib/bbab506
     variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
-    date: Sep 2023
-    date_display: Sep 2023
-    date_iso: 2023-09
+    date: Aug 2, 2023
+    date_display: Aug 2023
+    date_iso: '2023-08-02'
+    published_venue: null
     global_rank: null
     sort_value: 0.22
     sort_std: null
@@ -199,9 +203,10 @@ results:
     table_ref: Table 1
     source_ref: 10.1093/bib/bbab117
     variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
-    date: Sep 2023
-    date_display: Sep 2023
-    date_iso: 2023-09
+    date: Aug 2, 2023
+    date_display: Aug 2023
+    date_iso: '2023-08-02'
+    published_venue: null
     global_rank: null
     sort_value: 0.227
     sort_std: null
@@ -222,9 +227,10 @@ results:
     table_ref: Table 1
     source_ref: 10.1371/journal.pcbi.1011036
     variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
-    date: Sep 2023
-    date_display: Sep 2023
-    date_iso: 2023-09
+    date: Aug 2, 2023
+    date_display: Aug 2023
+    date_iso: '2023-08-02'
+    published_venue: null
     global_rank: null
     sort_value: 0.237
     sort_std: null
@@ -245,9 +251,10 @@ results:
     table_ref: Table 1
     source_ref: D3RA00281K
     variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
-    date: Sep 2023
-    date_display: Sep 2023
-    date_iso: 2023-09
+    date: Aug 2, 2023
+    date_display: Aug 2023
+    date_iso: '2023-08-02'
+    published_venue: null
     global_rank: null
     sort_value: 0.258
     sort_std: null
@@ -268,9 +275,10 @@ results:
     table_ref: Table 1
     source_ref: 10.1093/bioinformatics/bty593
     variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
-    date: Sep 2023
-    date_display: Sep 2023
-    date_iso: 2023-09
+    date: Aug 2, 2023
+    date_display: Aug 2023
+    date_iso: '2023-08-02'
+    published_venue: null
     global_rank: null
     sort_value: 0.261
     sort_std: null
@@ -291,9 +299,10 @@ results:
     table_ref: Table 1
     source_ref: He2017
     variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
-    date: Sep 2023
-    date_display: Sep 2023
-    date_iso: 2023-09
+    date: Aug 2, 2023
+    date_display: Aug 2023
+    date_iso: '2023-08-02'
+    published_venue: null
     global_rank: null
     sort_value: 0.282
     sort_std: null
@@ -314,9 +323,10 @@ results:
     table_ref: Table 1
     source_ref: shim2021prediction
     variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
-    date: Sep 2023
-    date_display: Sep 2023
-    date_iso: 2023-09
+    date: Aug 2, 2023
+    date_display: Aug 2023
+    date_iso: '2023-08-02'
+    published_venue: null
     global_rank: null
     sort_value: 0.319
     sort_std: null
@@ -337,9 +347,10 @@ results:
     table_ref: Table 1
     source_ref: nascimento2016multiple
     variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
-    date: Sep 2023
-    date_display: Sep 2023
-    date_iso: 2023-09
+    date: Aug 2, 2023
+    date_display: Aug 2023
+    date_iso: '2023-08-02'
+    published_venue: null
     global_rank: null
     sort_value: 0.379
     sort_std: null
@@ -360,9 +371,10 @@ results:
     table_ref: Table 1
     source_ref: ozturk2019widedta
     variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
-    date: Sep 2023
-    date_display: Sep 2023
-    date_iso: 2023-09
+    date: Aug 2, 2023
+    date_display: Aug 2023
+    date_iso: '2023-08-02'
+    published_venue: null
     global_rank: null
     sort_value: 0.886
     sort_std: null
@@ -374,6 +386,5 @@ results_grouped:
   datasets:
   - *id001
 single_proposed_model: PMN
-main_figure: /figures/2309.16685/main_figure.png
 ---
 

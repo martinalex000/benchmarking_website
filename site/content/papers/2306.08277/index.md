@@ -3,8 +3,9 @@ title: 'Frigate: Frugal Spatio-temporal Forecasting on Road Networks'
 arxiv_id: '2306.08277'
 source_url: ''
 authors: []
-published_date: Jun 2023
-published_date_iso: 2023-06
+published_date: Jun 14, 2023
+published_date_iso: '2023-06-14'
+published_venue: ''
 abstract: Modelling spatio-temporal processes on road networks is a task of growing
   importance. While significant progress has been made on developing spatio-temporal
   graph neural networks (Gnns), existing works are built upon three assumptions that
@@ -131,9 +132,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
-    date: Jun 2023
+    date: Jun 14, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-14'
+    published_venue: null
     global_rank: null
     sort_value: 3.547
     sort_std: 0.2
@@ -154,9 +156,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
-    date: Jun 2023
+    date: Jun 14, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-14'
+    published_venue: null
     global_rank: null
     sort_value: 4.597
     sort_std: 0.22
@@ -177,9 +180,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
-    date: Jun 2023
+    date: Jun 14, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-14'
+    published_venue: null
     global_rank: null
     sort_value: 4.693
     sort_std: 0.19
@@ -200,9 +204,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
-    date: Jun 2023
+    date: Jun 14, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-14'
+    published_venue: null
     global_rank: null
     sort_value: 4.893
     sort_std: 0.26
@@ -223,9 +228,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
-    date: Jun 2023
+    date: Jun 14, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-14'
+    published_venue: null
     global_rank: null
     sort_value: 5.308
     sort_std: 0.3
@@ -246,9 +252,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
-    date: Jun 2023
+    date: Jun 14, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-14'
+    published_venue: null
     global_rank: null
     sort_value: 5.633
     sort_std: 0.18
@@ -269,9 +276,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
-    date: Jun 2023
+    date: Jun 14, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-14'
+    published_venue: null
     global_rank: null
     sort_value: 5.712
     sort_std: 0.33
@@ -283,6 +291,5 @@ results_grouped:
   datasets:
   - *id001
 single_proposed_model: Frigate
-main_figure: /figures/2306.08277/main_figure.png
 ---
 

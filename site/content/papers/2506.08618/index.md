@@ -4,8 +4,9 @@ title: 'HSG-12M: A Large-Scale Benchmark of Spatial Multigraphs from the Energy 
 arxiv_id: '2506.08618'
 source_url: ''
 authors: []
-published_date: Jun 2025
-published_date_iso: 2025-06
+published_date: Jun 10, 2025
+published_date_iso: '2025-06-10'
+published_venue: ''
 abstract: 'AI is transforming scientific research by revealing new ways to understand
   complex physical systems, but its impact remains constrained by the lack of large,
   high-quality domain-specific datasets. A rich, largely untapped resource lies in
@@ -61,9 +62,10 @@ results:
     table_ref: Table 1
     source_ref: Hamilton et al. 2017
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2025
+    date: Jun 10, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-10'
+    published_venue: null
     global_rank: 1
     true_value: 0.546
     true_std: 0.004
@@ -98,9 +100,10 @@ results:
     table_ref: Table 1
     source_ref: Xie & Grossman 2018
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2025
+    date: Jun 10, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-10'
+    published_venue: null
     global_rank: 2
     true_value: 0.531
     true_std: 0.004
@@ -135,9 +138,10 @@ results:
     table_ref: Table 1
     source_ref: Hu et al. 2019
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2025
+    date: Jun 10, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-10'
+    published_venue: null
     global_rank: 3
     true_value: 0.46
     true_std: 0.025
@@ -172,9 +176,10 @@ results:
     table_ref: Table 1
     source_ref: Kipf & Welling 2017
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2025
+    date: Jun 10, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-10'
+    published_venue: null
     global_rank: 4
     true_value: 0.365
     true_std: 0.021
@@ -209,9 +214,10 @@ results:
     table_ref: Table 1
     source_ref: Veličković et al. 2018
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2025
+    date: Jun 10, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-10'
+    published_venue: null
     global_rank: 5
     true_value: 0.365
     true_std: 0.01
@@ -246,9 +252,10 @@ results:
     table_ref: Table 1
     source_ref: Brody et al. 2022
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2025
+    date: Jun 10, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-10'
+    published_venue: null
     global_rank: 6
     true_value: 0.351
     true_std: 0.002
@@ -283,9 +290,10 @@ results:
     table_ref: Table 1
     source_ref: Duvenaud et al. 2015
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2025
+    date: Jun 10, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-10'
+    published_venue: null
     global_rank: 7
     true_value: 0.295
     true_std: 0.01
@@ -320,9 +328,10 @@ results:
     table_ref: Table 1
     source_ref: Xu et al. 2019
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2025
+    date: Jun 10, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-10'
+    published_venue: null
     global_rank: 8
     true_value: 0.063
     true_std: 0.031
@@ -362,9 +371,10 @@ results:
     table_ref: Table 1
     source_ref: hamilton2017inductive
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2025
+    date: Jun 10, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-10'
+    published_venue: null
     global_rank: 1
     true_value: 0.62
     true_std: 0.003
@@ -399,9 +409,10 @@ results:
     table_ref: Table 1
     source_ref: Xie_2018
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2025
+    date: Jun 10, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-10'
+    published_venue: null
     global_rank: 2
     true_value: 0.566
     true_std: 0.016
@@ -436,9 +447,10 @@ results:
     table_ref: Table 1
     source_ref: hu2019strategies
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2025
+    date: Jun 10, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-10'
+    published_venue: null
     global_rank: 3
     true_value: 0.533
     true_std: 0.017
@@ -473,9 +485,10 @@ results:
     table_ref: Table 1
     source_ref: velickovicGraphAttention2018
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2025
+    date: Jun 10, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-10'
+    published_venue: null
     global_rank: 4
     true_value: 0.434
     true_std: 0.015
@@ -510,9 +523,10 @@ results:
     table_ref: Table 1
     source_ref: brodyHowAttentive2022
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2025
+    date: Jun 10, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-10'
+    published_venue: null
     global_rank: 5
     true_value: 0.401
     true_std: 0.003
@@ -547,9 +561,10 @@ results:
     table_ref: Table 1
     source_ref: kipfSemiSupervisedClassification2017
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2025
+    date: Jun 10, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-10'
+    published_venue: null
     global_rank: 6
     true_value: 0.397
     true_std: 0.009
@@ -584,9 +599,10 @@ results:
     table_ref: Table 1
     source_ref: duvenaudConvolutionalNetworks2015
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2025
+    date: Jun 10, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-10'
+    published_venue: null
     global_rank: 7
     true_value: 0.348
     true_std: 0.012
@@ -621,9 +637,10 @@ results:
     table_ref: Table 1
     source_ref: xuHowPowerful2019
     variant_inference_reason: 'dataset: exact match'
-    date: Jun 2025
+    date: Jun 10, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-10'
+    published_venue: null
     global_rank: 8
     true_value: 0.095
     true_std: 0.059
@@ -649,6 +666,5 @@ results_grouped:
   datasets:
   - *id001
   - *id002
-main_figure: /figures/2506.08618/main_figure.png
 ---
 

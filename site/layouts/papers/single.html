@@ -1,10 +1,32 @@
 {{ define "main" }}
+{{ $venue := .Params.published_venue }}
+{{ $venueYear := "" }}
+{{ with .Params.published_date_iso }}
+  {{ if ge (len .) 4 }}
+    {{ $venueYear = substr . 2 2 }}
+  {{ end }}
+{{ end }}
+{{ $venueLabel := "" }}
+{{ if $venue }}
+  {{ $venueLabel = $venue }}
+  {{ if $venueYear }}
+    {{ $venueLabel = printf "%s '%s" $venue $venueYear }}
+  {{ end }}
+{{ end }}
 <article class="paper-page">
   <div class="paper-sticky-title">
-    <span title="{{ .Title }}">{{ .Title }}</span>
+    <span title="{{ .Title }}">
+      {{ with $venueLabel }}<span class="paper-venue-prefix">{{ . }}:</span>{{ end }}
+      <span class="paper-title-text">{{ .Title }}</span>
+    </span>
   </div>
   <header class="paper-header">
-    <h1>{{ .Title }}</h1>
+    <h1>
+      {{ with $venueLabel }}
+      <span class="paper-venue-prefix paper-venue-prefix-desktop">{{ . }}:</span>
+      {{ end }}
+      <span class="paper-title-text">{{ .Title }}</span>
+    </h1>
     {{ with .Params.authors }}
     <p class="authors">{{ delimit . ", " }}</p>
     {{ end }}
@@ -23,7 +45,7 @@
       <span class="badge">{{ . }}</span>
       {{ end }}
       {{ with .Params.published_venue }}
-      <span class="badge">{{ . }}</span>
+      <span class="badge paper-venue-badge">{{ . }}</span>
       {{ end }}
     </div>
   </header>

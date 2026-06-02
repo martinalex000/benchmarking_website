@@ -3,8 +3,9 @@ title: When Graph Neural Networks Meet Dynamic Mode Decomposition
 arxiv_id: '2410.05593'
 source_url: ''
 authors: []
-published_date: Oct 2024
-published_date_iso: 2024-10
+published_date: Oct 8, 2024
+published_date_iso: '2024-10-08'
+published_venue: ''
 abstract: Graph Neural Networks (GNNs) have emerged as fundamental tools for a wide
   range of prediction tasks on graph-structured data. Recent studies have drawn analogies
   between GNN feature propagation and diffusion processes, which can be interpreted
@@ -62,9 +63,9 @@ results:
     params_millions: null
     arxiv_id: '2511.08028'
     title: Generalizable Insights for Graph Transformers in Theory and Practice
-    date: Nov 2025
+    date: Nov 11, 2025
     date_display: Nov 2025
-    date_iso: 2025-11
+    date_iso: '2025-11-11'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
@@ -85,9 +86,9 @@ results:
     params_millions: null
     arxiv_id: '2511.08028'
     title: Generalizable Insights for Graph Transformers in Theory and Practice
-    date: Nov 2025
+    date: Nov 11, 2025
     date_display: Nov 2025
-    date_iso: 2025-11
+    date_iso: '2025-11-11'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
@@ -108,9 +109,9 @@ results:
     params_millions: null
     arxiv_id: '2511.08028'
     title: Generalizable Insights for Graph Transformers in Theory and Practice
-    date: Nov 2025
+    date: Nov 11, 2025
     date_display: Nov 2025
-    date_iso: 2025-11
+    date_iso: '2025-11-11'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
@@ -134,9 +135,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 39
     true_value: 0.091
     true_std: 0.009
@@ -170,9 +172,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 42
     true_value: 0.0841
     true_std: 0.001
@@ -206,9 +209,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 43
     true_value: 0.083
     true_std: 0.012
@@ -242,9 +246,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 44
     true_value: 0.081
     true_std: 0.015
@@ -278,9 +283,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 46
     true_value: 0.056
     true_std: 0.011
@@ -314,9 +320,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 47
     true_value: 0.044
     true_std: 0.015
@@ -350,9 +357,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 48
     true_value: 0.031
     true_std: 0.016
@@ -438,9 +446,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 3
     true_value: 0.88
     true_std: null
@@ -498,9 +507,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 8
     true_value: 0.8227
     true_std: 0.0068
@@ -534,9 +544,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 24
     true_value: 0.8033
     true_std: 0.0009
@@ -571,9 +582,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 36
     true_value: 0.7933
     true_std: 0.0084
@@ -608,9 +620,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 66
     true_value: 0.7711
     true_std: null
@@ -644,9 +657,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 96
     true_value: 0.7646
     true_std: 0.0177
@@ -681,9 +695,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 109
     true_value: 0.7618
     true_std: 0.007
@@ -718,9 +733,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 282
     true_value: 0.732
     true_std: 0.004
@@ -754,9 +770,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 300
     true_value: 0.7303
     true_std: 0.0005
@@ -790,9 +807,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 303
     true_value: 0.73
     true_std: 0.021
@@ -826,9 +844,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 336
     true_value: 0.726
     true_std: 0.008
@@ -862,9 +881,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 399
     true_value: 0.714
     true_std: 0.026
@@ -898,9 +918,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 439
     true_value: 0.71
     true_std: 0.006
@@ -936,9 +957,9 @@ results:
     params_millions: null
     arxiv_id: '2108.12055'
     title: Towards Self-Explainable Graph Neural Network
-    date: Aug 2021
+    date: Aug 26, 2021
     date_display: Aug 2021
-    date_iso: 2021-08
+    date_iso: '2021-08-26'
     codebase_url: https://github.com/EnyanDai/SEGNN
     uses_external_data: false
     is_global_top: true
@@ -959,9 +980,9 @@ results:
     params_millions: null
     arxiv_id: '2108.12055'
     title: Towards Self-Explainable Graph Neural Network
-    date: Aug 2021
+    date: Aug 26, 2021
     date_display: Aug 2021
-    date_iso: 2021-08
+    date_iso: '2021-08-26'
     codebase_url: https://github.com/EnyanDai/SEGNN
     uses_external_data: false
     is_global_top: true
@@ -982,9 +1003,9 @@ results:
     params_millions: null
     arxiv_id: '2108.12055'
     title: Towards Self-Explainable Graph Neural Network
-    date: Aug 2021
+    date: Aug 26, 2021
     date_display: Aug 2021
-    date_iso: 2021-08
+    date_iso: '2021-08-26'
     codebase_url: https://github.com/EnyanDai/SEGNN
     uses_external_data: false
     is_global_top: true
@@ -1008,9 +1029,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 22
     true_value: 0.9004
     true_std: null
@@ -1044,9 +1066,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 40
     true_value: 0.8929
     true_std: 0.0036
@@ -1081,9 +1104,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 50
     true_value: 0.8904
     true_std: 0.015
@@ -1117,9 +1141,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 54
     true_value: 0.8897
     true_std: null
@@ -1154,9 +1179,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 89
     true_value: 0.8829
     true_std: 0.0018
@@ -1191,9 +1217,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 145
     true_value: 0.8736
     true_std: 0.0096
@@ -1228,9 +1255,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 208
     true_value: 0.8573
     true_std: 0.0065
@@ -1265,9 +1293,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 296
     true_value: 0.841
     true_std: 0.004
@@ -1301,9 +1330,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 377
     true_value: 0.833
     true_std: 0.005
@@ -1337,9 +1367,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 414
     true_value: 0.829
     true_std: 0.009
@@ -1373,9 +1404,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 438
     true_value: 0.826
     true_std: 0.007
@@ -1409,9 +1441,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 455
     true_value: 0.823
     true_std: 0.003
@@ -1445,9 +1478,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 601
     true_value: 0.7877
     true_std: 0.0088
@@ -1483,9 +1517,9 @@ results:
     params_millions: null
     arxiv_id: '2302.14806'
     title: Framelet Message Passing
-    date: Feb 2023
+    date: Feb 28, 2023
     date_display: Feb 2023
-    date_iso: 2023-02
+    date_iso: '2023-02-28'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
@@ -1509,9 +1543,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 2
     true_value: 0.914
     true_std: 0.017
@@ -1545,9 +1580,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 3
     true_value: 0.913
     true_std: 0.007
@@ -1581,9 +1617,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 4
     true_value: 0.898
     true_std: 0.006
@@ -1615,9 +1652,9 @@ results:
     arxiv_id: '2207.08629'
     title: Comprehensive Graph Gradual Pruning for Sparse Training in Graph Neural
       Networks
-    date: Jul 2022
+    date: Jul 18, 2022
     date_display: Jul 2022
-    date_iso: 2022-07
+    date_iso: '2022-07-18'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
@@ -1639,9 +1676,9 @@ results:
     arxiv_id: '2207.08629'
     title: Comprehensive Graph Gradual Pruning for Sparse Training in Graph Neural
       Networks
-    date: Jul 2022
+    date: Jul 18, 2022
     date_display: Jul 2022
-    date_iso: 2022-07
+    date_iso: '2022-07-18'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
@@ -1665,9 +1702,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 7
     true_value: 0.881
     true_std: 0.024
@@ -1701,9 +1739,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 21
     true_value: 0.851
     true_std: 0.064
@@ -1737,9 +1776,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 22
     true_value: 0.85
     true_std: 0.052
@@ -1773,9 +1813,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 29
     true_value: 0.836
     true_std: 0.031
@@ -1809,9 +1850,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 41
     true_value: 0.819
     true_std: 0.054
@@ -1846,9 +1888,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 53
     true_value: 0.8
     true_std: 0.019
@@ -1882,9 +1925,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 57
     true_value: 0.792
     true_std: 0.063
@@ -1919,9 +1963,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 78
     true_value: 0.756
     true_std: 0.032
@@ -1955,9 +2000,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 96
     true_value: 0.726
     true_std: 0.003
@@ -1991,9 +2037,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 103
     true_value: 0.714
     true_std: 0.012
@@ -2103,9 +2150,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 31
     true_value: 0.243
     true_std: 0.014
@@ -2139,9 +2187,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 32
     true_value: 0.241
     true_std: 0.017
@@ -2175,9 +2224,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 33
     true_value: 0.238
     true_std: 0.016
@@ -2211,9 +2261,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 34
     true_value: 0.217
     true_std: 0.036
@@ -2247,9 +2298,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 35
     true_value: 0.216
     true_std: 0.039
@@ -2283,9 +2335,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 44
     true_value: 0.152
     true_std: 0.024
@@ -2319,9 +2372,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 52
     true_value: 0.114
     true_std: 0.023
@@ -2404,9 +2458,9 @@ results:
     params_millions: null
     arxiv_id: '2402.08170'
     title: arXiv:2402.08170
-    date: Feb 2024
+    date: Feb 13, 2024
     date_display: Feb 2024
-    date_iso: 2024-02
+    date_iso: '2024-02-13'
     codebase_url: https://github.com/VITA-Group/LLaGA
     uses_external_data: false
     is_global_top: true
@@ -2430,9 +2484,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 29
     true_value: 0.9296
     true_std: null
@@ -2466,9 +2521,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 31
     true_value: 0.9233
     true_std: null
@@ -2502,9 +2558,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 83
     true_value: 0.8967
     true_std: 0.003
@@ -2539,9 +2596,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 90
     true_value: 0.895
     true_std: 0.004
@@ -2575,9 +2633,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 93
     true_value: 0.894
     true_std: null
@@ -2611,9 +2670,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 113
     true_value: 0.8902
     true_std: 0.0051
@@ -2648,9 +2708,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 174
     true_value: 0.8747
     true_std: 0.0014
@@ -2685,9 +2746,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 322
     true_value: 0.812
     true_std: 0.015
@@ -2721,9 +2783,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 375
     true_value: 0.799
     true_std: 0.007
@@ -2757,9 +2820,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 417
     true_value: 0.794
     true_std: 0.004
@@ -2793,9 +2857,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 418
     true_value: 0.794
     true_std: 0.014
@@ -2829,9 +2894,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 437
     true_value: 0.793
     true_std: 0.009
@@ -2865,9 +2931,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 504
     true_value: 0.786
     true_std: 0.007
@@ -2904,9 +2971,9 @@ results:
     params_millions: null
     arxiv_id: '2503.12563'
     title: 'Diffusion on Graph: Augmentation of Graph Structure for Node Classification'
-    date: Mar 2025
+    date: Mar 16, 2025
     date_display: Mar 2025
-    date_iso: 2025-03
+    date_iso: '2025-03-16'
     codebase_url: https://github.com/Statistical-Deep-Learning/DoG
     uses_external_data: false
     is_global_top: true
@@ -2927,9 +2994,9 @@ results:
     params_millions: null
     arxiv_id: '2503.12563'
     title: 'Diffusion on Graph: Augmentation of Graph Structure for Node Classification'
-    date: Mar 2025
+    date: Mar 16, 2025
     date_display: Mar 2025
-    date_iso: 2025-03
+    date_iso: '2025-03-16'
     codebase_url: https://github.com/Statistical-Deep-Learning/DoG
     uses_external_data: false
     is_global_top: true
@@ -2977,9 +3044,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 6
     true_value: 0.9292
     true_std: 0.0061
@@ -3013,9 +3081,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 9
     true_value: 0.926
     true_std: 0.034
@@ -3049,9 +3118,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 11
     true_value: 0.923
     true_std: 0.007
@@ -3085,9 +3155,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 15
     true_value: 0.9118
     true_std: 0.007
@@ -3121,9 +3192,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 21
     true_value: 0.894
     true_std: 0.038
@@ -3157,9 +3229,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 41
     true_value: 0.859
     true_std: 0.046
@@ -3193,9 +3266,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 61
     true_value: 0.842
     true_std: 0.026
@@ -3229,9 +3303,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 77
     true_value: 0.823
     true_std: 0.025
@@ -3265,9 +3340,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 88
     true_value: 0.814
     true_std: 0.035
@@ -3301,9 +3377,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 90
     true_value: 0.812
     true_std: 0.025
@@ -3337,9 +3414,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 99
     true_value: 0.798
     true_std: 0.043
@@ -3374,9 +3452,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 104
     true_value: 0.793
     true_std: 0.012
@@ -3410,9 +3489,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 108
     true_value: 0.784
     true_std: 0.054
@@ -3449,9 +3529,9 @@ results:
     params_millions: null
     arxiv_id: '2302.14806'
     title: Framelet Message Passing
-    date: Feb 2023
+    date: Feb 28, 2023
     date_display: Feb 2023
-    date_iso: 2023-02
+    date_iso: '2023-02-28'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
@@ -3475,9 +3555,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 2
     true_value: 0.919
     true_std: 0.026
@@ -3511,9 +3592,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 3
     true_value: 0.918
     true_std: 0.031
@@ -3593,9 +3675,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 6
     true_value: 0.901
     true_std: 0.035
@@ -3629,9 +3712,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 8
     true_value: 0.899
     true_std: 0.03
@@ -3665,9 +3749,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 10
     true_value: 0.894
     true_std: 0.022
@@ -3701,9 +3786,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 12
     true_value: 0.889
     true_std: 0.032
@@ -3737,9 +3823,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 15
     true_value: 0.886
     true_std: 0.021
@@ -3773,9 +3860,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 25
     true_value: 0.879
     true_std: 0.042
@@ -3809,9 +3897,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 52
     true_value: 0.852
     true_std: 0.021
@@ -3845,9 +3934,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 61
     true_value: 0.843
     true_std: 0.037
@@ -3882,9 +3972,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 72
     true_value: 0.831
     true_std: 0.032
@@ -3919,9 +4010,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 73
     true_value: 0.83
     true_std: 0.018
@@ -3955,9 +4047,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 109
     true_value: 0.765
     true_std: 0.044
@@ -4077,9 +4170,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 49
     true_value: 0.755
     true_std: 0.008
@@ -4113,9 +4207,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 57
     true_value: 0.752
     true_std: 0.0003
@@ -4150,9 +4245,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 76
     true_value: 0.744
     true_std: 0.015
@@ -4186,9 +4282,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 77
     true_value: 0.7439
     true_std: null
@@ -4223,9 +4320,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 86
     true_value: 0.742
     true_std: 0.002
@@ -4260,9 +4358,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 92
     true_value: 0.741
     true_std: 0.023
@@ -4296,9 +4395,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 93
     true_value: 0.741
     true_std: 0.009
@@ -4332,9 +4432,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 106
     true_value: 0.739
     true_std: 0.028
@@ -4368,9 +4469,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 166
     true_value: 0.728
     true_std: 0.024
@@ -4404,9 +4506,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 211
     true_value: 0.72
     true_std: 0.0
@@ -4441,9 +4544,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 220
     true_value: 0.7192
     true_std: 0.0032
@@ -4478,9 +4582,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 221
     true_value: 0.719
     true_std: 0.002
@@ -4514,9 +4619,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
+    published_venue: null
     global_rank: 356
     true_value: 0.6291
     true_std: 0.006
@@ -4556,6 +4662,5 @@ results_grouped:
   - *id008
   - *id009
 single_proposed_model: DMD++
-main_figure: /figures/2410.05593/main_figure.png
 ---
 

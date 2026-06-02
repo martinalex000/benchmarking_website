@@ -3,8 +3,9 @@ title: 'HopFormer: Sparse Graph Transformers with Explicit Receptive Field Contr
 arxiv_id: '2602.02268'
 source_url: ''
 authors: []
-published_date: Feb 2026
-published_date_iso: 2026-02
+published_date: Feb 2, 2026
+published_date_iso: '2026-02-02'
+published_venue: ''
 abstract: 'Graph Transformers typically rely on explicit positional or structural
   encodings and dense global attention to incorporate graph topology. In this work,
   we show that neither is essential. We introduce HopFormer, a graph Transformer that
@@ -130,9 +131,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 64
     true_value: 0.3736
     true_std: 0.0016
@@ -242,9 +244,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 24
     true_value: 0.723
     true_std: null
@@ -279,9 +282,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 61
     true_value: 0.673
     true_std: 0.022
@@ -316,9 +320,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 70
     true_value: 0.667
     true_std: 0.027
@@ -353,9 +358,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 129
     true_value: 0.5738
     true_std: 0.0278
@@ -390,9 +396,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 134
     true_value: 0.5623
     true_std: 0.0089
@@ -427,9 +434,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 140
     true_value: 0.5453
     true_std: 0.0136
@@ -464,9 +472,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 160
     true_value: 0.5161
     true_std: 0.0068
@@ -501,9 +510,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 162
     true_value: 0.5124
     true_std: 0.0057
@@ -538,9 +548,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 165
     true_value: 0.508
     true_std: 0.001
@@ -575,9 +586,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 177
     true_value: 0.492
     true_std: 0.0045
@@ -612,9 +624,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 179
     true_value: 0.4905
     true_std: 0.0092
@@ -649,9 +662,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 184
     true_value: 0.4854
     true_std: 0.0058
@@ -686,9 +700,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 188
     true_value: 0.4788
     true_std: 0.0058
@@ -723,9 +738,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 190
     true_value: 0.4722
     true_std: 0.026
@@ -760,9 +776,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 216
     true_value: 0.4189
     true_std: 0.0267
@@ -797,9 +814,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 230
     true_value: 0.4006
     true_std: 0.0055
@@ -883,9 +901,9 @@ results:
     params_millions: null
     arxiv_id: '1805.07984'
     title: Adversarial Attacks on Neural Networks for Graph Data
-    date: May 2018
+    date: May 21, 2018
     date_display: May 2018
-    date_iso: 2018-05
+    date_iso: '2018-05-21'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
@@ -909,9 +927,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 555
     true_value: 0.685
     true_std: 0.0346
@@ -948,9 +967,9 @@ results:
     params_millions: null
     arxiv_id: '2108.12055'
     title: Towards Self-Explainable Graph Neural Network
-    date: Aug 2021
+    date: Aug 26, 2021
     date_display: Aug 2021
-    date_iso: 2021-08
+    date_iso: '2021-08-26'
     codebase_url: https://github.com/EnyanDai/SEGNN
     uses_external_data: false
     is_global_top: true
@@ -971,9 +990,9 @@ results:
     params_millions: null
     arxiv_id: '2108.12055'
     title: Towards Self-Explainable Graph Neural Network
-    date: Aug 2021
+    date: Aug 26, 2021
     date_display: Aug 2021
-    date_iso: 2021-08
+    date_iso: '2021-08-26'
     codebase_url: https://github.com/EnyanDai/SEGNN
     uses_external_data: false
     is_global_top: true
@@ -994,9 +1013,9 @@ results:
     params_millions: null
     arxiv_id: '2108.12055'
     title: Towards Self-Explainable Graph Neural Network
-    date: Aug 2021
+    date: Aug 26, 2021
     date_display: Aug 2021
-    date_iso: 2021-08
+    date_iso: '2021-08-26'
     codebase_url: https://github.com/EnyanDai/SEGNN
     uses_external_data: false
     is_global_top: true
@@ -1020,9 +1039,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 22
     true_value: 0.9004
     true_std: null
@@ -1056,9 +1076,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 50
     true_value: 0.8904
     true_std: 0.015
@@ -1092,9 +1113,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 54
     true_value: 0.8897
     true_std: null
@@ -1129,9 +1151,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 71
     true_value: 0.8856
     true_std: 0.0101
@@ -1166,9 +1189,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 96
     true_value: 0.8819
     true_std: 0.006
@@ -1203,9 +1227,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 170
     true_value: 0.8661
     true_std: 0.0304
@@ -1240,9 +1265,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 182
     true_value: 0.8624
     true_std: 0.0158
@@ -1277,9 +1303,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 236
     true_value: 0.851
     true_std: 0.008
@@ -1313,9 +1340,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 295
     true_value: 0.841
     true_std: 0.008
@@ -1350,9 +1378,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 590
     true_value: 0.7913
     true_std: 0.0052
@@ -1387,9 +1416,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 604
     true_value: 0.785
     true_std: 0.0125
@@ -1424,9 +1454,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 666
     true_value: 0.7533
     true_std: 0.0056
@@ -1461,9 +1492,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 715
     true_value: 0.7243
     true_std: 0.0118
@@ -1498,9 +1530,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 733
     true_value: 0.715
     true_std: 0.0051
@@ -1535,9 +1568,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 881
     true_value: 0.5403
     true_std: 0.054
@@ -1574,9 +1608,9 @@ results:
     params_millions: null
     arxiv_id: '2302.14806'
     title: Framelet Message Passing
-    date: Feb 2023
+    date: Feb 28, 2023
     date_display: Feb 2023
-    date_iso: 2023-02
+    date_iso: '2023-02-28'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
@@ -1597,9 +1631,9 @@ results:
     params_millions: null
     arxiv_id: '2410.05593'
     title: When Graph Neural Networks Meet Dynamic Mode Decomposition
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
@@ -1620,9 +1654,9 @@ results:
     params_millions: null
     arxiv_id: '2410.05593'
     title: When Graph Neural Networks Meet Dynamic Mode Decomposition
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
@@ -1646,9 +1680,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 4
     true_value: 0.898
     true_std: 0.006
@@ -1682,9 +1717,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 41
     true_value: 0.819
     true_std: 0.054
@@ -1719,9 +1755,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 57
     true_value: 0.792
     true_std: 0.063
@@ -1756,9 +1793,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 75
     true_value: 0.7657
     true_std: 0.0412
@@ -1793,9 +1831,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 86
     true_value: 0.7478
     true_std: 0.0255
@@ -1830,9 +1869,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 93
     true_value: 0.7297
     true_std: 0.0221
@@ -1867,9 +1907,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 100
     true_value: 0.7207
     true_std: 0.0127
@@ -1904,9 +1945,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 106
     true_value: 0.7117
     true_std: 0.0127
@@ -1941,9 +1983,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 107
     true_value: 0.7117
     true_std: 0.0337
@@ -1978,9 +2021,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 127
     true_value: 0.6667
     true_std: 0.0337
@@ -2015,9 +2059,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 131
     true_value: 0.6577
     true_std: 0.0459
@@ -2052,9 +2097,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 135
     true_value: 0.6486
     true_std: 0.0584
@@ -2089,9 +2135,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 134
     true_value: 0.6486
     true_std: 0.0441
@@ -2126,9 +2173,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 188
     true_value: 0.5405
     true_std: 0.0441
@@ -2163,9 +2211,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 194
     true_value: 0.5315
     true_std: 0.0459
@@ -2200,9 +2249,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 249
     true_value: 0.3874
     true_std: 0.0127
@@ -2240,9 +2290,9 @@ results:
     arxiv_id: '2506.07624'
     title: 'Return of ChebNet: Understanding and Improving an Overlooked GNN on Long-Range
       Tasks'
-    date: Jun 2025
+    date: Jun 9, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-09'
     codebase_url: https://github.com/ahariri13/Stable-ChebNet
     uses_external_data: false
     is_global_top: true
@@ -2264,9 +2314,9 @@ results:
     arxiv_id: '2506.07624'
     title: 'Return of ChebNet: Understanding and Improving an Overlooked GNN on Long-Range
       Tasks'
-    date: Jun 2025
+    date: Jun 9, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-09'
     codebase_url: https://github.com/ahariri13/Stable-ChebNet
     uses_external_data: false
     is_global_top: true
@@ -2313,9 +2363,10 @@ results:
     table_ref: Table 3
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 25
     true_value: 0.697
     true_std: 0.008
@@ -2350,9 +2401,10 @@ results:
     table_ref: Table 3
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 33
     true_value: 0.686
     true_std: 0.005
@@ -2387,9 +2439,10 @@ results:
     table_ref: Table 3
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 57
     true_value: 0.6601
     true_std: 0.0061
@@ -2423,9 +2476,10 @@ results:
     table_ref: Table 3
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 68
     true_value: 0.6527
     true_std: 0.0043
@@ -2460,9 +2514,10 @@ results:
     table_ref: Table 3
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 72
     true_value: 0.6467
     true_std: 0.0124
@@ -2497,9 +2552,10 @@ results:
     table_ref: Table 3
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 77
     true_value: 0.6427
     true_std: 0.0035
@@ -2534,9 +2590,10 @@ results:
     table_ref: Table 3
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 103
     true_value: 0.401
     true_std: 0.015
@@ -2570,9 +2627,10 @@ results:
     table_ref: Table 3
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 104
     true_value: 0.3964
     true_std: 0.0022
@@ -2607,9 +2665,10 @@ results:
     table_ref: Table 3
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 106
     true_value: 0.381
     true_std: 0.0013
@@ -2644,9 +2703,10 @@ results:
     table_ref: Table 3
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 107
     true_value: 0.3726
     true_std: 0.0018
@@ -2681,9 +2741,10 @@ results:
     table_ref: Table 3
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 108
     true_value: 0.3622
     true_std: 0.0036
@@ -2720,9 +2781,9 @@ results:
     params_millions: null
     arxiv_id: '2508.05070'
     title: 'Tango: Graph Neural Dynamics via Learned Energy and Tangential Flows'
-    date: Aug 2025
+    date: Aug 7, 2025
     date_display: Aug 2025
-    date_iso: 2025-08
+    date_iso: '2025-08-07'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
@@ -2744,9 +2805,9 @@ results:
     arxiv_id: '2511.03824'
     title: Sketch-Augmented Features Improve Learning Long-Range Dependencies in Graph
       Neural Networks
-    date: Nov 2025
+    date: Nov 5, 2025
     date_display: Nov 2025
-    date_iso: 2025-11
+    date_iso: '2025-11-05'
     codebase_url: https://github.com/ryienh/sketched-random-features
     uses_external_data: false
     is_global_top: true
@@ -2768,9 +2829,9 @@ results:
     arxiv_id: '2506.07624'
     title: 'Return of ChebNet: Understanding and Improving an Overlooked GNN on Long-Range
       Tasks'
-    date: Jun 2025
+    date: Jun 9, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-09'
     codebase_url: https://github.com/ahariri13/Stable-ChebNet
     uses_external_data: null
     is_global_top: true
@@ -2794,9 +2855,10 @@ results:
     table_ref: Table 3
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 16
     true_value: 0.246
     true_std: 0.0007
@@ -2831,9 +2893,10 @@ results:
     table_ref: Table 3
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 30
     true_value: 0.2475
     true_std: 0.0015
@@ -2868,9 +2931,10 @@ results:
     table_ref: Table 3
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 42
     true_value: 0.2481
     true_std: 0.0007
@@ -2905,9 +2969,10 @@ results:
     table_ref: Table 3
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 50
     true_value: 0.25
     true_std: 0.0005
@@ -2942,9 +3007,10 @@ results:
     table_ref: Table 3
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 55
     true_value: 0.2503
     true_std: 0.0016
@@ -2979,9 +3045,10 @@ results:
     table_ref: Table 3
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 97
     true_value: 0.2851
     true_std: 0.0012
@@ -3016,9 +3083,10 @@ results:
     table_ref: Table 3
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 107
     true_value: 0.4231
     true_std: 0.0049
@@ -3053,9 +3121,10 @@ results:
     table_ref: Table 3
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 108
     true_value: 0.4345
     true_std: 0.0026
@@ -3090,9 +3159,10 @@ results:
     table_ref: Table 3
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 109
     true_value: 0.4374
     true_std: 0.005
@@ -3127,9 +3197,10 @@ results:
     table_ref: Table 3
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 110
     true_value: 0.4492
     true_std: 0.0002
@@ -3164,9 +3235,10 @@ results:
     table_ref: Table 3
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 111
     true_value: 0.4541
     true_std: 0.0005
@@ -3250,9 +3322,9 @@ results:
     params_millions: null
     arxiv_id: '2402.08170'
     title: arXiv:2402.08170
-    date: Feb 2024
+    date: Feb 13, 2024
     date_display: Feb 2024
-    date_iso: 2024-02
+    date_iso: '2024-02-13'
     codebase_url: https://github.com/VITA-Group/LLaGA
     uses_external_data: false
     is_global_top: true
@@ -3276,9 +3348,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 6
     true_value: 0.9490000000000001
     true_std: null
@@ -3312,9 +3385,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 29
     true_value: 0.9296
     true_std: null
@@ -3348,9 +3422,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 31
     true_value: 0.9233
     true_std: null
@@ -3384,9 +3459,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 93
     true_value: 0.894
     true_std: null
@@ -3420,9 +3496,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 102
     true_value: 0.8931
     true_std: 0.0017
@@ -3457,9 +3534,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 123
     true_value: 0.8874
     true_std: 0.002
@@ -3494,9 +3572,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 183
     true_value: 0.871
     true_std: null
@@ -3531,9 +3610,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 269
     true_value: 0.832
     true_std: 0.006
@@ -3568,9 +3648,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 343
     true_value: 0.805
     true_std: 0.012
@@ -3604,9 +3685,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 587
     true_value: 0.763
     true_std: 0.0122
@@ -3641,9 +3723,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 636
     true_value: 0.7327
     true_std: 0.0184
@@ -3678,9 +3761,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 645
     true_value: 0.7203
     true_std: 0.0133
@@ -3790,9 +3874,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 32
     true_value: 0.619
     true_std: null
@@ -3827,9 +3912,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 55
     true_value: 0.563
     true_std: 0.022
@@ -3864,9 +3950,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 57
     true_value: 0.559
     true_std: 0.029
@@ -3901,9 +3988,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 103
     true_value: 0.4454
     true_std: 0.0141
@@ -3938,9 +4026,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 106
     true_value: 0.431
     true_std: 0.012
@@ -3975,9 +4064,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 134
     true_value: 0.3854
     true_std: 0.0151
@@ -4011,9 +4101,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 143
     true_value: 0.3748
     true_std: 0.0033
@@ -4048,9 +4139,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 144
     true_value: 0.3737
     true_std: 0.0049
@@ -4085,9 +4177,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 161
     true_value: 0.3602
     true_std: 0.007
@@ -4122,9 +4215,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 169
     true_value: 0.3535
     true_std: 0.0062
@@ -4159,9 +4253,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 175
     true_value: 0.349
     true_std: 0.0071
@@ -4196,9 +4291,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 178
     true_value: 0.3454
     true_std: 0.0296
@@ -4233,9 +4329,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 190
     true_value: 0.3164
     true_std: 0.0079
@@ -4270,9 +4367,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 208
     true_value: 0.2767
     true_std: 0.0077
@@ -4309,9 +4407,9 @@ results:
     params_millions: null
     arxiv_id: '2503.12563'
     title: 'Diffusion on Graph: Augmentation of Graph Structure for Node Classification'
-    date: Mar 2025
+    date: Mar 16, 2025
     date_display: Mar 2025
-    date_iso: 2025-03
+    date_iso: '2025-03-16'
     codebase_url: https://github.com/Statistical-Deep-Learning/DoG
     uses_external_data: false
     is_global_top: true
@@ -4332,9 +4430,9 @@ results:
     params_millions: null
     arxiv_id: '2503.12563'
     title: 'Diffusion on Graph: Augmentation of Graph Structure for Node Classification'
-    date: Mar 2025
+    date: Mar 16, 2025
     date_display: Mar 2025
-    date_iso: 2025-03
+    date_iso: '2025-03-16'
     codebase_url: https://github.com/Statistical-Deep-Learning/DoG
     uses_external_data: false
     is_global_top: true
@@ -4382,9 +4480,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 15
     true_value: 0.9118
     true_std: 0.007
@@ -4418,9 +4517,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 99
     true_value: 0.798
     true_std: 0.043
@@ -4455,9 +4555,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 103
     true_value: 0.7937
     true_std: 0.027
@@ -4492,9 +4593,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 108
     true_value: 0.784
     true_std: 0.054
@@ -4529,9 +4631,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 110
     true_value: 0.7838
     true_std: 0.0221
@@ -4566,9 +4669,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 118
     true_value: 0.7748
     true_std: 0.0127
@@ -4603,9 +4707,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 131
     true_value: 0.7568
     true_std: 0.0221
@@ -4640,9 +4745,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 135
     true_value: 0.7478
     true_std: 0.0127
@@ -4677,9 +4783,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 138
     true_value: 0.7387
     true_std: 0.0637
@@ -4714,9 +4821,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 143
     true_value: 0.7207
     true_std: 0.0337
@@ -4751,9 +4859,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 152
     true_value: 0.7027
     true_std: 0.0382
@@ -4788,9 +4897,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 161
     true_value: 0.6937
     true_std: 0.0255
@@ -4825,9 +4935,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 174
     true_value: 0.6667
     true_std: 0.0337
@@ -4862,9 +4973,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 202
     true_value: 0.6126
     true_std: 0.0127
@@ -4899,9 +5011,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 208
     true_value: 0.6036
     true_std: 0.0255
@@ -4936,9 +5049,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 266
     true_value: 0.3784
     true_std: 0.0221
@@ -4975,9 +5089,9 @@ results:
     params_millions: null
     arxiv_id: '2302.14806'
     title: Framelet Message Passing
-    date: Feb 2023
+    date: Feb 28, 2023
     date_display: Feb 2023
-    date_iso: 2023-02
+    date_iso: '2023-02-28'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
@@ -4998,9 +5112,9 @@ results:
     params_millions: null
     arxiv_id: '2410.05593'
     title: When Graph Neural Networks Meet Dynamic Mode Decomposition
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
@@ -5021,9 +5135,9 @@ results:
     params_millions: null
     arxiv_id: '2410.05593'
     title: When Graph Neural Networks Meet Dynamic Mode Decomposition
-    date: Oct 2024
+    date: Oct 8, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-08'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
@@ -5047,9 +5161,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 6
     true_value: 0.901
     true_std: 0.035
@@ -5083,9 +5198,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 61
     true_value: 0.843
     true_std: 0.037
@@ -5120,9 +5236,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 72
     true_value: 0.831
     true_std: 0.032
@@ -5157,9 +5274,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 79
     true_value: 0.8169
     true_std: 0.0113
@@ -5194,9 +5312,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 83
     true_value: 0.8039
     true_std: 0.016
@@ -5231,9 +5350,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 89
     true_value: 0.7974
     true_std: 0.0092
@@ -5268,9 +5388,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 100
     true_value: 0.7843
     true_std: 0.016
@@ -5305,9 +5426,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 101
     true_value: 0.7843
     true_std: 0.0
@@ -5342,9 +5464,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 106
     true_value: 0.7778
     true_std: 0.0092
@@ -5379,9 +5502,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 110
     true_value: 0.7647
     true_std: 0.032
@@ -5416,9 +5540,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 115
     true_value: 0.7582
     true_std: 0.0244
@@ -5453,9 +5578,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 119
     true_value: 0.7451
     true_std: 0.032
@@ -5490,9 +5616,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 125
     true_value: 0.7386
     true_std: 0.0403
@@ -5527,9 +5654,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 141
     true_value: 0.6994
     true_std: 0.0333
@@ -5564,9 +5692,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 217
     true_value: 0.5229
     true_std: 0.0462
@@ -5601,9 +5730,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 218
     true_value: 0.5229
     true_std: 0.0092
@@ -5640,9 +5770,9 @@ results:
     params_millions: null
     arxiv_id: '2306.03589'
     title: How does over-squashing affect the power of GNNs?
-    date: Jun 2023
+    date: Jun 6, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-06'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
@@ -5663,9 +5793,9 @@ results:
     params_millions: null
     arxiv_id: '2306.03589'
     title: How does over-squashing affect the power of GNNs?
-    date: Jun 2023
+    date: Jun 6, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-06'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
@@ -5686,9 +5816,9 @@ results:
     params_millions: null
     arxiv_id: '2306.03589'
     title: How does over-squashing affect the power of GNNs?
-    date: Jun 2023
+    date: Jun 6, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-06'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
@@ -5712,9 +5842,10 @@ results:
     table_ref: Table 3
     source_ref: this paper
     variant_inference_reason: 'zinc: default subset fallback'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 7
     true_value: 0.023
     true_std: 0.001
@@ -5748,9 +5879,10 @@ results:
     table_ref: Table 3
     source_ref: this paper
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 11
     true_value: 0.024
     true_std: null
@@ -5784,9 +5916,10 @@ results:
     table_ref: Table 3
     source_ref: this paper
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 13
     true_value: 0.025
     true_std: 0.004
@@ -5820,9 +5953,10 @@ results:
     table_ref: Table 3
     source_ref: this paper
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 16
     true_value: 0.0262
     true_std: 0.0025
@@ -5856,9 +5990,10 @@ results:
     table_ref: Table 3
     source_ref: this paper
     variant_inference_reason: 'zinc: default subset fallback'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 45
     true_value: 0.0681
     true_std: 0.0004
@@ -5893,9 +6028,10 @@ results:
     table_ref: Table 3
     source_ref: this paper
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 80
     true_value: 0.111
     true_std: 0.002
@@ -5929,9 +6065,10 @@ results:
     table_ref: Table 3
     source_ref: this paper
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 81
     true_value: 0.111
     true_std: 0.007
@@ -5966,9 +6103,10 @@ results:
     table_ref: Table 3
     source_ref: this paper
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 92
     true_value: 0.1306
     true_std: 0.0194
@@ -6003,9 +6141,10 @@ results:
     table_ref: Table 3
     source_ref: this paper
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 97
     true_value: 0.1341
     true_std: 0.0063
@@ -6040,9 +6179,10 @@ results:
     table_ref: Table 3
     source_ref: this paper
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 122
     true_value: 0.1789
     true_std: 0.0071
@@ -6077,9 +6217,10 @@ results:
     table_ref: Table 3
     source_ref: this paper
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 131
     true_value: 0.226
     true_std: 0.014
@@ -6114,9 +6255,10 @@ results:
     table_ref: Table 3
     source_ref: this paper
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 143
     true_value: 0.3617
     true_std: 0.0222
@@ -6151,9 +6293,10 @@ results:
     table_ref: Table 3
     source_ref: this paper
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 157
     true_value: 0.6602
     true_std: 0.0294
@@ -6188,9 +6331,10 @@ results:
     table_ref: Table 3
     source_ref: this paper
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 158
     true_value: 0.6619
     true_std: 0.0067
@@ -6225,9 +6369,10 @@ results:
     table_ref: Table 3
     source_ref: this paper
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 161
     true_value: 0.6703
     true_std: 0.0033
@@ -6336,9 +6481,10 @@ results:
     table_ref: Table 3
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 6
     true_value: 0.853
     true_std: 0.003
@@ -6373,9 +6519,10 @@ results:
     table_ref: Table 3
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 11
     true_value: 0.845
     true_std: 0.004
@@ -6410,9 +6557,10 @@ results:
     table_ref: Table 3
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 13
     true_value: 0.839
     true_std: 0.006
@@ -6447,9 +6595,10 @@ results:
     table_ref: Table 3
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 32
     true_value: 0.7997
     true_std: 0.0078
@@ -6484,9 +6633,10 @@ results:
     table_ref: Table 3
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 52
     true_value: 0.788
     true_std: 0.0101
@@ -6520,9 +6670,10 @@ results:
     table_ref: Table 3
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 99
     true_value: 0.7713
     true_std: 0.0105
@@ -6557,9 +6708,10 @@ results:
     table_ref: Table 3
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 120
     true_value: 0.7608
     true_std: 0.0165
@@ -6594,9 +6746,10 @@ results:
     table_ref: Table 3
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 137
     true_value: 0.755
     true_std: 0.0
@@ -6631,9 +6784,10 @@ results:
     table_ref: Table 3
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 164
     true_value: 0.7169
     true_std: 0.0103
@@ -6668,9 +6822,10 @@ results:
     table_ref: Table 3
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 170
     true_value: 0.6889
     true_std: 0.0146
@@ -6705,9 +6860,10 @@ results:
     table_ref: Table 3
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 172
     true_value: 0.6794
     true_std: 0.0076
@@ -6744,9 +6900,9 @@ results:
     params_millions: null
     arxiv_id: '2410.23686'
     title: Towards Dynamic Message Passing on Graphs
-    date: Oct 2024
+    date: Oct 31, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-31'
     codebase_url: https://github.com/sunjss/N2
     uses_external_data: false
     is_global_top: true
@@ -6817,9 +6973,10 @@ results:
     table_ref: Table 3
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 21
     true_value: 0.2888
     true_std: 0.0019
@@ -6854,9 +7011,10 @@ results:
     table_ref: Table 3
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 46
     true_value: 0.2424
     true_std: 0.0034
@@ -6891,9 +7049,10 @@ results:
     table_ref: Table 3
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 58
     true_value: 0.227
     true_std: 0.001
@@ -6928,9 +7087,10 @@ results:
     table_ref: Table 3
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 61
     true_value: 0.1931
     true_std: 0.0018
@@ -6965,9 +7125,10 @@ results:
     table_ref: Table 3
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 62
     true_value: 0.1849
     true_std: 0.0116
@@ -7002,9 +7163,10 @@ results:
     table_ref: Table 3
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 63
     true_value: 0.1386
     true_std: 0.0018
@@ -7039,9 +7201,10 @@ results:
     table_ref: Table 3
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 64
     true_value: 0.0973
     true_std: 0.0011
@@ -7076,9 +7239,10 @@ results:
     table_ref: Table 3
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 65
     true_value: 0.0968
     true_std: 0.0001
@@ -7113,9 +7277,10 @@ results:
     table_ref: Table 3
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 66
     true_value: 0.0933
     true_std: 0.004
@@ -7150,9 +7315,10 @@ results:
     table_ref: Table 3
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Feb 2026
+    date: Feb 2, 2026
     date_display: Feb 2026
-    date_iso: 2026-02
+    date_iso: '2026-02-02'
+    published_venue: null
     global_rank: 67
     true_value: 0.0785
     true_std: 0.0021
@@ -7197,6 +7363,5 @@ results_grouped:
   - *id013
   - *id014
 single_proposed_model: HopFormer
-main_figure: /figures/2602.02268/main_figure.png
 ---
 

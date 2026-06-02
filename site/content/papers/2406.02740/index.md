@@ -5,6 +5,7 @@ source_url: ''
 authors: []
 published_date: Jun 4, 2024
 published_date_iso: '2024-06-04'
+published_venue: ''
 abstract: Learning Continuous-Time Dynamic Graphs (C-TDGs) requires accurately modeling
   spatio-temporal information on streams of irregularly sampled events. While many
   methods have been proposed recently, we find that most message passing-, recurrent-
@@ -65,6 +66,7 @@ results:
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
+    published_venue: null
     global_rank: 1
     true_value: 1.0
     true_std: 0.0
@@ -101,6 +103,7 @@ results:
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
+    published_venue: null
     global_rank: 2
     true_value: 1.0
     true_std: 0.0
@@ -137,6 +140,7 @@ results:
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
+    published_venue: null
     global_rank: 3
     true_value: 1.0
     true_std: 0.0
@@ -173,6 +177,7 @@ results:
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
+    published_venue: null
     global_rank: 4
     true_value: 1.0
     true_std: 0.0
@@ -209,6 +214,7 @@ results:
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
+    published_venue: null
     global_rank: 5
     true_value: 1.0
     true_std: 0.0
@@ -245,6 +251,7 @@ results:
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
+    published_venue: null
     global_rank: 6
     true_value: 1.0
     true_std: 0.0
@@ -281,6 +288,7 @@ results:
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
+    published_venue: null
     global_rank: 7
     true_value: 1.0
     true_std: 0.0
@@ -334,9 +342,9 @@ results:
     params_millions: null
     arxiv_id: '2409.08023'
     title: Edge-Wise Graph-Instructed Neural Networks
-    date: Sep 2024
+    date: Sep 12, 2024
     date_display: Sep 2024
-    date_iso: 2024-09
+    date_iso: '2024-09-12'
     codebase_url: https://github.com/Fra0013To/GINN
     uses_external_data: false
     is_global_top: true
@@ -385,9 +393,9 @@ results:
     params_millions: null
     arxiv_id: '2108.12055'
     title: Towards Self-Explainable Graph Neural Network
-    date: Aug 2021
+    date: Aug 26, 2021
     date_display: Aug 2021
-    date_iso: 2021-08
+    date_iso: '2021-08-26'
     codebase_url: https://github.com/EnyanDai/SEGNN
     uses_external_data: false
     is_global_top: true
@@ -408,9 +416,9 @@ results:
     params_millions: null
     arxiv_id: '2108.12055'
     title: Towards Self-Explainable Graph Neural Network
-    date: Aug 2021
+    date: Aug 26, 2021
     date_display: Aug 2021
-    date_iso: 2021-08
+    date_iso: '2021-08-26'
     codebase_url: https://github.com/EnyanDai/SEGNN
     uses_external_data: false
     is_global_top: true
@@ -431,9 +439,9 @@ results:
     params_millions: null
     arxiv_id: '2108.12055'
     title: Towards Self-Explainable Graph Neural Network
-    date: Aug 2021
+    date: Aug 26, 2021
     date_display: Aug 2021
-    date_iso: 2021-08
+    date_iso: '2021-08-26'
     codebase_url: https://github.com/EnyanDai/SEGNN
     uses_external_data: false
     is_global_top: true
@@ -460,6 +468,7 @@ results:
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
+    published_venue: null
     global_rank: null
     sort_value: 0.0845
     sort_std: 0.0013
@@ -483,6 +492,7 @@ results:
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
+    published_venue: null
     global_rank: null
     sort_value: 0.0789
     sort_std: 0.0033
@@ -506,6 +516,7 @@ results:
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
+    published_venue: null
     global_rank: 306
     sort_value: 0.066
     sort_std: 0.0011
@@ -529,6 +540,7 @@ results:
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
+    published_venue: null
     global_rank: null
     sort_value: 0.0633
     sort_std: 0.0041
@@ -552,6 +564,7 @@ results:
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
+    published_venue: null
     global_rank: null
     sort_value: 0.0604
     sort_std: 0.0027
@@ -575,6 +588,7 @@ results:
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
+    published_venue: null
     global_rank: null
     sort_value: 0.0539
     sort_std: 0.0019
@@ -598,6 +612,7 @@ results:
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
+    published_venue: null
     global_rank: null
     sort_value: 0.0529
     sort_std: 0.0047
@@ -620,9 +635,9 @@ results:
     params_millions: null
     arxiv_id: '2511.20406'
     title: Short-Range Oversquashing
-    date: Nov 2025
+    date: Nov 25, 2025
     date_display: Nov 2025
-    date_iso: 2025-11
+    date_iso: '2025-11-25'
     codebase_url: https://github.com/YakovM93/Short-Range-Oversquashing
     uses_external_data: false
     is_global_top: true
@@ -695,6 +710,7 @@ results:
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
+    published_venue: null
     global_rank: null
     sort_value: 0.9755
     sort_std: 0.0009
@@ -718,6 +734,7 @@ results:
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
+    published_venue: null
     global_rank: 378
     sort_value: 0.956
     sort_std: 0.0018
@@ -741,6 +758,7 @@ results:
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
+    published_venue: null
     global_rank: 164
     sort_value: 0.9491
     sort_std: 0.0025
@@ -764,6 +782,7 @@ results:
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
+    published_venue: null
     global_rank: 383
     sort_value: 0.9468
     sort_std: 0.0105
@@ -787,6 +806,7 @@ results:
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
+    published_venue: null
     global_rank: null
     sort_value: 0.8864
     sort_std: 0.0015
@@ -886,6 +906,7 @@ results:
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
+    published_venue: null
     global_rank: 54
     true_value: 0.0998
     true_std: 0.0033
@@ -922,6 +943,7 @@ results:
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
+    published_venue: null
     global_rank: 55
     true_value: 0.0807
     true_std: 0.0027
@@ -958,6 +980,7 @@ results:
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
+    published_venue: null
     global_rank: 56
     true_value: 0.0604
     true_std: 0.0026
@@ -994,6 +1017,7 @@ results:
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
+    published_venue: null
     global_rank: 57
     true_value: 0.0588
     true_std: 0.0008
@@ -1030,6 +1054,7 @@ results:
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
+    published_venue: null
     global_rank: 58
     true_value: 0.0576
     true_std: 0.0035
@@ -1066,6 +1091,7 @@ results:
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
+    published_venue: null
     global_rank: 59
     true_value: 0.0559
     true_std: 0.0024
@@ -1102,6 +1128,7 @@ results:
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
+    published_venue: null
     global_rank: 60
     true_value: 0.0523
     true_std: 0.0011
@@ -1143,6 +1170,7 @@ results:
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
+    published_venue: null
     global_rank: null
     sort_value: 0.9861
     sort_std: 0.0004
@@ -1166,6 +1194,7 @@ results:
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
+    published_venue: null
     global_rank: null
     sort_value: 0.9823
     sort_std: 0.001
@@ -1189,6 +1218,7 @@ results:
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
+    published_venue: null
     global_rank: 108
     sort_value: 0.9818
     sort_std: 0.0005
@@ -1212,6 +1242,7 @@ results:
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
+    published_venue: null
     global_rank: null
     sort_value: 0.9751
     sort_std: 0.001
@@ -1229,9 +1260,9 @@ results:
     params_millions: null
     arxiv_id: '2004.11198'
     title: 'SIGN: Scalable Inception Graph Neural Networks'
-    date: Apr 2020
+    date: Apr 23, 2020
     date_display: Apr 2020
-    date_iso: 2020-04
+    date_iso: '2020-04-23'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
@@ -1253,9 +1284,9 @@ results:
     arxiv_id: '2202.03341'
     title: 'Neighbor2Seq: Deep Learning on Massive Graphs by Transforming Neighbors
       to Sequences'
-    date: Feb 2022
+    date: Feb 7, 2022
     date_display: Feb 2022
-    date_iso: 2022-02
+    date_iso: '2022-02-07'
     codebase_url: https://github.com/divelab/Neighbor2Seq
     uses_external_data: false
     is_global_top: true
@@ -1277,9 +1308,9 @@ results:
     arxiv_id: '2202.03341'
     title: 'Neighbor2Seq: Deep Learning on Massive Graphs by Transforming Neighbors
       to Sequences'
-    date: Feb 2022
+    date: Feb 7, 2022
     date_display: Feb 2022
-    date_iso: 2022-02
+    date_iso: '2022-02-07'
     codebase_url: https://github.com/divelab/Neighbor2Seq
     uses_external_data: false
     is_global_top: true
@@ -1306,6 +1337,7 @@ results:
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
+    published_venue: null
     global_rank: null
     sort_value: 0.9634
     sort_std: 0.0083
@@ -1334,6 +1366,7 @@ results:
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
+    published_venue: null
     global_rank: 1
     true_value: 0.7983
     true_std: 0.0042
@@ -1363,13 +1396,14 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.9
+    params_millions: null
     table_ref: Table 1
     source_ref: huang2023empirical
     variant_inference_reason: 'dataset: fuzzy match to ogbl-wikikg2 (score=75)'
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
+    published_venue: null
     global_rank: 2
     true_value: 0.7811
     true_std: 0.002
@@ -1400,9 +1434,9 @@ results:
     params_millions: null
     arxiv_id: '2103.09430'
     title: 'OGB-LSC: A Large-Scale Challenge for Machine Learning on Graphs'
-    date: Mar 2021
+    date: Mar 17, 2021
     date_display: Mar 2021
-    date_iso: 2021-03
+    date_iso: '2021-03-17'
     codebase_url: https://github.com/snap-stanford/ogb
     uses_external_data: false
     is_global_top: true
@@ -1423,9 +1457,9 @@ results:
     params_millions: null
     arxiv_id: '2103.09430'
     title: 'OGB-LSC: A Large-Scale Challenge for Machine Learning on Graphs'
-    date: Mar 2021
+    date: Mar 17, 2021
     date_display: Mar 2021
-    date_iso: 2021-03
+    date_iso: '2021-03-17'
     codebase_url: https://github.com/snap-stanford/ogb
     uses_external_data: false
     is_global_top: true
@@ -1446,9 +1480,9 @@ results:
     params_millions: null
     arxiv_id: '2103.09430'
     title: 'OGB-LSC: A Large-Scale Challenge for Machine Learning on Graphs'
-    date: Mar 2021
+    date: Mar 17, 2021
     date_display: Mar 2021
-    date_iso: 2021-03
+    date_iso: '2021-03-17'
     codebase_url: https://github.com/snap-stanford/ogb
     uses_external_data: false
     is_global_top: true
@@ -1468,13 +1502,14 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 4.0
+    params_millions: null
     table_ref: Table 1
     source_ref: huang2023empirical
     variant_inference_reason: 'dataset: fuzzy match to ogbl-wikikg2 (score=75)'
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
+    published_venue: null
     global_rank: 7
     true_value: 0.7304
     true_std: 0.006
@@ -1511,6 +1546,7 @@ results:
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
+    published_venue: null
     global_rank: 11
     true_value: 0.6893
     true_std: 0.0053
@@ -1547,6 +1583,7 @@ results:
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
+    published_venue: null
     global_rank: 16
     true_value: 0.6676
     true_std: 0.0074
@@ -1583,6 +1620,7 @@ results:
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
+    published_venue: null
     global_rank: 19
     true_value: 0.6588
     true_std: null
@@ -1619,6 +1657,7 @@ results:
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
+    published_venue: null
     global_rank: 22
     true_value: 0.6325
     true_std: null
@@ -1655,6 +1694,7 @@ results:
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
+    published_venue: null
     global_rank: 23
     true_value: 0.6305
     true_std: 0.0169
@@ -1691,6 +1731,7 @@ results:
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
+    published_venue: null
     global_rank: 24
     true_value: 0.5994
     true_std: 0.0163
@@ -1727,6 +1768,7 @@ results:
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
+    published_venue: null
     global_rank: 25
     true_value: 0.5975
     true_std: 0.0039
@@ -1763,6 +1805,7 @@ results:
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
+    published_venue: null
     global_rank: 27
     true_value: 0.5281
     true_std: null
@@ -1799,6 +1842,7 @@ results:
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
+    published_venue: null
     global_rank: 28
     true_value: 0.525
     true_std: null
@@ -1835,6 +1879,7 @@ results:
     date: Jun 4, 2024
     date_display: Jun 2024
     date_iso: '2024-06-04'
+    published_venue: null
     global_rank: 30
     true_value: 0.5191
     true_std: 0.0195
@@ -1872,6 +1917,5 @@ results_grouped:
   datasets:
   - *id006
 single_proposed_model: DGNs
-main_figure: /figures/2406.02740/main_figure.png
 ---
 

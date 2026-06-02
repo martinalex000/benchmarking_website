@@ -5,6 +5,7 @@ source_url: ''
 authors: []
 published_date: Dec 3, 2023
 published_date_iso: '2023-12-03'
+published_venue: ''
 abstract: 'Graph neural networks based on iterative one-hop message passing have been
   shown to struggle in harnessing the information from distant nodes effectively.
   Conversely, graph transformers allow each node to attend to all other nodes directly,
@@ -134,6 +135,7 @@ results:
     date: Dec 3, 2023
     date_display: Dec 2023
     date_iso: '2023-12-03'
+    published_venue: null
     global_rank: 4
     true_value: 0.9
     true_std: 0.01
@@ -170,6 +172,7 @@ results:
     date: Dec 3, 2023
     date_display: Dec 2023
     date_iso: '2023-12-03'
+    published_venue: null
     global_rank: 5
     true_value: 0.89
     true_std: 0.01
@@ -206,6 +209,7 @@ results:
     date: Dec 3, 2023
     date_display: Dec 2023
     date_iso: '2023-12-03'
+    published_venue: null
     global_rank: 6
     true_value: 0.89
     true_std: 0.01
@@ -235,13 +239,14 @@ results:
     is_baseline: false
     is_overridden: false
     override_reason: ''
-    params_millions: 0.5
+    params_millions: null
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
     date: Dec 3, 2023
     date_display: Dec 2023
     date_iso: '2023-12-03'
+    published_venue: null
     global_rank: 11
     true_value: 0.76853
     true_std: 0.00185
@@ -279,6 +284,7 @@ results:
     date: Dec 3, 2023
     date_display: Dec 2023
     date_iso: '2023-12-03'
+    published_venue: null
     global_rank: 12
     true_value: 0.76468
     true_std: 0.00881
@@ -316,6 +322,7 @@ results:
     date: Dec 3, 2023
     date_display: Dec 2023
     date_iso: '2023-12-03'
+    published_venue: null
     global_rank: 17
     true_value: 0.7396
     true_std: 0.0033
@@ -353,6 +360,7 @@ results:
     date: Dec 3, 2023
     date_display: Dec 2023
     date_iso: '2023-12-03'
+    published_venue: null
     global_rank: 23
     true_value: 0.723
     true_std: 0.0036
@@ -389,6 +397,7 @@ results:
     date: Dec 3, 2023
     date_display: Dec 2023
     date_iso: '2023-12-03'
+    published_venue: null
     global_rank: 37
     true_value: 0.68702
     true_std: 0.00409
@@ -426,6 +435,7 @@ results:
     date: Dec 3, 2023
     date_display: Dec 2023
     date_iso: '2023-12-03'
+    published_venue: null
     global_rank: 41
     true_value: 0.67312
     true_std: 0.00311
@@ -540,6 +550,7 @@ results:
     date: Dec 3, 2023
     date_display: Dec 2023
     date_iso: '2023-12-03'
+    published_venue: null
     global_rank: 13
     true_value: 0.851
     true_std: 0.003
@@ -577,6 +588,7 @@ results:
     date: Dec 3, 2023
     date_display: Dec 2023
     date_iso: '2023-12-03'
+    published_venue: null
     global_rank: 21
     true_value: 0.838
     true_std: 0.006
@@ -614,6 +626,7 @@ results:
     date: Dec 3, 2023
     date_display: Dec 2023
     date_iso: '2023-12-03'
+    published_venue: null
     global_rank: 40
     true_value: 0.826
     true_std: 0.014
@@ -651,6 +664,7 @@ results:
     date: Dec 3, 2023
     date_display: Dec 2023
     date_iso: '2023-12-03'
+    published_venue: null
     global_rank: 121
     true_value: 0.7823
     true_std: 0.0131
@@ -687,6 +701,7 @@ results:
     date: Dec 3, 2023
     date_display: Dec 2023
     date_iso: '2023-12-03'
+    published_venue: null
     global_rank: 123
     true_value: 0.782
     true_std: 0.012
@@ -724,6 +739,7 @@ results:
     date: Dec 3, 2023
     date_display: Dec 2023
     date_iso: '2023-12-03'
+    published_venue: null
     global_rank: 137
     true_value: 0.7713
     true_std: 0.0149
@@ -760,6 +776,7 @@ results:
     date: Dec 3, 2023
     date_display: Dec 2023
     date_iso: '2023-12-03'
+    published_venue: null
     global_rank: 148
     true_value: 0.762
     true_std: 0.014
@@ -796,9 +813,9 @@ results:
     params_millions: null
     arxiv_id: '2010.02863'
     title: Directional Graph Networks
-    date: Oct 2020
+    date: Oct 6, 2020
     date_display: Oct 2020
-    date_iso: 2020-10
+    date_iso: '2020-10-06'
     codebase_url: https://github.com/Saro00/DGN
     uses_external_data: false
     is_global_top: true
@@ -819,9 +836,9 @@ results:
     params_millions: null
     arxiv_id: '2010.02863'
     title: Directional Graph Networks
-    date: Oct 2020
+    date: Oct 6, 2020
     date_display: Oct 2020
-    date_iso: 2020-10
+    date_iso: '2020-10-06'
     codebase_url: https://github.com/Saro00/DGN
     uses_external_data: false
     is_global_top: true
@@ -848,6 +865,7 @@ results:
     date: Dec 3, 2023
     date_display: Dec 2023
     date_iso: '2023-12-03'
+    published_venue: null
     global_rank: 3
     true_value: 0.92
     true_std: 0.003
@@ -884,6 +902,7 @@ results:
     date: Dec 3, 2023
     date_display: Dec 2023
     date_iso: '2023-12-03'
+    published_venue: null
     global_rank: 4
     true_value: 0.91
     true_std: 0.003
@@ -920,6 +939,7 @@ results:
     date: Dec 3, 2023
     date_display: Dec 2023
     date_iso: '2023-12-03'
+    published_venue: null
     global_rank: 5
     true_value: 0.9
     true_std: 0.004
@@ -950,9 +970,9 @@ results:
     params_millions: null
     arxiv_id: '2010.02863'
     title: Directional Graph Networks
-    date: Oct 2020
+    date: Oct 6, 2020
     date_display: Oct 2020
-    date_iso: 2020-10
+    date_iso: '2020-10-06'
     codebase_url: https://github.com/Saro00/DGN
     uses_external_data: false
     is_global_top: true
@@ -979,6 +999,7 @@ results:
     date: Dec 3, 2023
     date_display: Dec 2023
     date_iso: '2023-12-03'
+    published_venue: null
     global_rank: 7
     true_value: 0.88
     true_std: 0.005
@@ -1015,6 +1036,7 @@ results:
     date: Dec 3, 2023
     date_display: Dec 2023
     date_iso: '2023-12-03'
+    published_venue: null
     global_rank: 12
     true_value: 0.87196
     true_std: 0.00076
@@ -1052,6 +1074,7 @@ results:
     date: Dec 3, 2023
     date_display: Dec 2023
     date_iso: '2023-12-03'
+    published_venue: null
     global_rank: 19
     true_value: 0.86848
     true_std: 0.00037
@@ -1089,6 +1112,7 @@ results:
     date: Dec 3, 2023
     date_display: Dec 2023
     date_iso: '2023-12-03'
+    published_venue: null
     global_rank: 21
     true_value: 0.86821
     true_std: 0.0002
@@ -1119,13 +1143,14 @@ results:
     is_baseline: false
     is_overridden: false
     override_reason: ''
-    params_millions: 0.5
+    params_millions: null
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
     date: Dec 3, 2023
     date_display: Dec 2023
     date_iso: '2023-12-03'
+    published_venue: null
     global_rank: 22
     true_value: 0.86759
     true_std: 0.0002
@@ -1163,6 +1188,7 @@ results:
     date: Dec 3, 2023
     date_display: Dec 2023
     date_iso: '2023-12-03'
+    published_venue: null
     global_rank: 29
     true_value: 0.86688
     true_std: 0.00073
@@ -1199,6 +1225,7 @@ results:
     date: Dec 3, 2023
     date_display: Dec 2023
     date_iso: '2023-12-03'
+    published_venue: null
     global_rank: 34
     true_value: 0.86581
     true_std: 0.00037
@@ -1310,6 +1337,7 @@ results:
     date: Dec 3, 2023
     date_display: Dec 2023
     date_iso: '2023-12-03'
+    published_venue: null
     global_rank: 23
     true_value: 0.7999
     true_std: 0.0044
@@ -1346,6 +1374,7 @@ results:
     date: Dec 3, 2023
     date_display: Dec 2023
     date_iso: '2023-12-03'
+    published_venue: null
     global_rank: 24
     true_value: 0.799
     true_std: 0.0295
@@ -1382,6 +1411,7 @@ results:
     date: Dec 3, 2023
     date_display: Dec 2023
     date_iso: '2023-12-03'
+    published_venue: null
     global_rank: 38
     true_value: 0.785
     true_std: 0.012
@@ -1419,6 +1449,7 @@ results:
     date: Dec 3, 2023
     date_display: Dec 2023
     date_iso: '2023-12-03'
+    published_venue: null
     global_rank: 79
     true_value: 0.768
     true_std: 0.018
@@ -1456,6 +1487,7 @@ results:
     date: Dec 3, 2023
     date_display: Dec 2023
     date_iso: '2023-12-03'
+    published_venue: null
     global_rank: 159
     true_value: 0.75
     true_std: 0.029
@@ -1493,6 +1525,7 @@ results:
     date: Dec 3, 2023
     date_display: Dec 2023
     date_iso: '2023-12-03'
+    published_venue: null
     global_rank: 192
     true_value: 0.745
     true_std: 0.032
@@ -1530,6 +1563,7 @@ results:
     date: Dec 3, 2023
     date_display: Dec 2023
     date_iso: '2023-12-03'
+    published_venue: null
     global_rank: 248
     true_value: 0.7265
     true_std: null
@@ -1567,9 +1601,9 @@ results:
     arxiv_id: '2506.07624'
     title: 'Return of ChebNet: Understanding and Improving an Overlooked GNN on Long-Range
       Tasks'
-    date: Jun 2025
+    date: Jun 9, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-09'
     codebase_url: https://github.com/ahariri13/Stable-ChebNet
     uses_external_data: false
     is_global_top: true
@@ -1591,9 +1625,9 @@ results:
     arxiv_id: '2506.07624'
     title: 'Return of ChebNet: Understanding and Improving an Overlooked GNN on Long-Range
       Tasks'
-    date: Jun 2025
+    date: Jun 9, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-09'
     codebase_url: https://github.com/ahariri13/Stable-ChebNet
     uses_external_data: false
     is_global_top: true
@@ -1643,6 +1677,7 @@ results:
     date: Dec 3, 2023
     date_display: Dec 2023
     date_iso: '2023-12-03'
+    published_venue: null
     global_rank: 5
     true_value: 0.715
     true_std: 0.0044
@@ -1679,6 +1714,7 @@ results:
     date: Dec 3, 2023
     date_display: Dec 2023
     date_iso: '2023-12-03'
+    published_venue: null
     global_rank: 6
     true_value: 0.715
     true_std: 0.0044
@@ -1709,13 +1745,14 @@ results:
     is_baseline: false
     is_overridden: false
     override_reason: ''
-    params_millions: 0.5
+    params_millions: null
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
     date: Dec 3, 2023
     date_display: Dec 2023
     date_iso: '2023-12-03'
+    published_venue: null
     global_rank: 8
     true_value: 0.7133
     true_std: 0.0011
@@ -1753,6 +1790,7 @@ results:
     date: Dec 3, 2023
     date_display: Dec 2023
     date_iso: '2023-12-03'
+    published_venue: null
     global_rank: 9
     true_value: 0.7133
     true_std: 0.0011
@@ -1790,6 +1828,7 @@ results:
     date: Dec 3, 2023
     date_display: Dec 2023
     date_iso: '2023-12-03'
+    published_venue: null
     global_rank: 21
     true_value: 0.6988
     true_std: 0.0082
@@ -1827,6 +1866,7 @@ results:
     date: Dec 3, 2023
     date_display: Dec 2023
     date_iso: '2023-12-03'
+    published_venue: null
     global_rank: 25
     true_value: 0.697
     true_std: 0.008
@@ -1864,6 +1904,7 @@ results:
     date: Dec 3, 2023
     date_display: Dec 2023
     date_iso: '2023-12-03'
+    published_venue: null
     global_rank: 33
     true_value: 0.686
     true_std: 0.005
@@ -1901,6 +1942,7 @@ results:
     date: Dec 3, 2023
     date_display: Dec 2023
     date_iso: '2023-12-03'
+    published_venue: null
     global_rank: 39
     true_value: 0.6816
     true_std: 0.0026
@@ -1938,6 +1980,7 @@ results:
     date: Dec 3, 2023
     date_display: Dec 2023
     date_iso: '2023-12-03'
+    published_venue: null
     global_rank: 41
     true_value: 0.6765
     true_std: 0.0047
@@ -1975,6 +2018,7 @@ results:
     date: Dec 3, 2023
     date_display: Dec 2023
     date_iso: '2023-12-03'
+    published_venue: null
     global_rank: 53
     true_value: 0.6621
     true_std: 0.0067
@@ -2012,6 +2056,7 @@ results:
     date: Dec 3, 2023
     date_display: Dec 2023
     date_iso: '2023-12-03'
+    published_venue: null
     global_rank: 57
     true_value: 0.6601
     true_std: 0.0061
@@ -2048,6 +2093,7 @@ results:
     date: Dec 3, 2023
     date_display: Dec 2023
     date_iso: '2023-12-03'
+    published_venue: null
     global_rank: 79
     true_value: 0.6384
     true_std: 0.0121
@@ -2083,9 +2129,9 @@ results:
     params_millions: null
     arxiv_id: '2508.05070'
     title: 'Tango: Graph Neural Dynamics via Learned Energy and Tangential Flows'
-    date: Aug 2025
+    date: Aug 7, 2025
     date_display: Aug 2025
-    date_iso: 2025-08
+    date_iso: '2025-08-07'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
@@ -2107,9 +2153,9 @@ results:
     arxiv_id: '2511.03824'
     title: Sketch-Augmented Features Improve Learning Long-Range Dependencies in Graph
       Neural Networks
-    date: Nov 2025
+    date: Nov 5, 2025
     date_display: Nov 2025
-    date_iso: 2025-11
+    date_iso: '2025-11-05'
     codebase_url: https://github.com/ryienh/sketched-random-features
     uses_external_data: false
     is_global_top: true
@@ -2131,9 +2177,9 @@ results:
     arxiv_id: '2506.07624'
     title: 'Return of ChebNet: Understanding and Improving an Overlooked GNN on Long-Range
       Tasks'
-    date: Jun 2025
+    date: Jun 9, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-09'
     codebase_url: https://github.com/ahariri13/Stable-ChebNet
     uses_external_data: null
     is_global_top: true
@@ -2153,13 +2199,14 @@ results:
     is_baseline: false
     is_overridden: false
     override_reason: ''
-    params_millions: 0.5
+    params_millions: null
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
     date: Dec 3, 2023
     date_display: Dec 2023
     date_iso: '2023-12-03'
+    published_venue: null
     global_rank: 12
     true_value: 0.2455
     true_std: 0.0013
@@ -2197,6 +2244,7 @@ results:
     date: Dec 3, 2023
     date_display: Dec 2023
     date_iso: '2023-12-03'
+    published_venue: null
     global_rank: 13
     true_value: 0.2455
     true_std: 0.0013
@@ -2234,6 +2282,7 @@ results:
     date: Dec 3, 2023
     date_display: Dec 2023
     date_iso: '2023-12-03'
+    published_venue: null
     global_rank: 16
     true_value: 0.246
     true_std: 0.0007
@@ -2271,6 +2320,7 @@ results:
     date: Dec 3, 2023
     date_display: Dec 2023
     date_iso: '2023-12-03'
+    published_venue: null
     global_rank: 17
     true_value: 0.246
     true_std: 0.0012
@@ -2308,6 +2358,7 @@ results:
     date: Dec 3, 2023
     date_display: Dec 2023
     date_iso: '2023-12-03'
+    published_venue: null
     global_rank: 26
     true_value: 0.2473
     true_std: 0.0017
@@ -2345,6 +2396,7 @@ results:
     date: Dec 3, 2023
     date_display: Dec 2023
     date_iso: '2023-12-03'
+    published_venue: null
     global_rank: 30
     true_value: 0.2475
     true_std: 0.0015
@@ -2382,6 +2434,7 @@ results:
     date: Dec 3, 2023
     date_display: Dec 2023
     date_iso: '2023-12-03'
+    published_venue: null
     global_rank: 35
     true_value: 0.2477
     true_std: 0.0009
@@ -2419,6 +2472,7 @@ results:
     date: Dec 3, 2023
     date_display: Dec 2023
     date_iso: '2023-12-03'
+    published_venue: null
     global_rank: 50
     true_value: 0.25
     true_std: 0.0005
@@ -2456,6 +2510,7 @@ results:
     date: Dec 3, 2023
     date_display: Dec 2023
     date_iso: '2023-12-03'
+    published_venue: null
     global_rank: 66
     true_value: 0.2536
     true_std: 0.0015
@@ -2492,6 +2547,7 @@ results:
     date: Dec 3, 2023
     date_display: Dec 2023
     date_iso: '2023-12-03'
+    published_venue: null
     global_rank: 67
     true_value: 0.2536
     true_std: 0.0015
@@ -2529,6 +2585,7 @@ results:
     date: Dec 3, 2023
     date_display: Dec 2023
     date_iso: '2023-12-03'
+    published_venue: null
     global_rank: 71
     true_value: 0.254
     true_std: 0.0046
@@ -2566,6 +2623,7 @@ results:
     date: Dec 3, 2023
     date_display: Dec 2023
     date_iso: '2023-12-03'
+    published_venue: null
     global_rank: 88
     true_value: 0.268
     true_std: 0.004
@@ -2608,6 +2666,7 @@ results:
     date: Dec 3, 2023
     date_display: Dec 2023
     date_iso: '2023-12-03'
+    published_venue: null
     global_rank: 1
     true_value: 0.004
     true_std: null
@@ -2638,9 +2697,9 @@ results:
     params_millions: null
     arxiv_id: '2306.03589'
     title: How does over-squashing affect the power of GNNs?
-    date: Jun 2023
+    date: Jun 6, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-06'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
@@ -2667,6 +2726,7 @@ results:
     date: Dec 3, 2023
     date_display: Dec 2023
     date_iso: '2023-12-03'
+    published_venue: null
     global_rank: 3
     true_value: 0.014
     true_std: null
@@ -2694,7 +2754,7 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.5
+    params_millions: null
     arxiv_id: '2402.08450'
     title: 'Subgraphormer: Unifying Subgraph GNNs and Graph Transformers via Graph
       Products'
@@ -2750,6 +2810,7 @@ results:
     date: Dec 3, 2023
     date_display: Dec 2023
     date_iso: '2023-12-03'
+    published_venue: null
     global_rank: 7
     true_value: 0.023
     true_std: 0.001
@@ -2786,6 +2847,7 @@ results:
     date: Dec 3, 2023
     date_display: Dec 2023
     date_iso: '2023-12-03'
+    published_venue: null
     global_rank: 11
     true_value: 0.024
     true_std: null
@@ -2822,6 +2884,7 @@ results:
     date: Dec 3, 2023
     date_display: Dec 2023
     date_iso: '2023-12-03'
+    published_venue: null
     global_rank: 13
     true_value: 0.025
     true_std: 0.004
@@ -2858,6 +2921,7 @@ results:
     date: Dec 3, 2023
     date_display: Dec 2023
     date_iso: '2023-12-03'
+    published_venue: null
     global_rank: 16
     true_value: 0.0262
     true_std: 0.0025
@@ -2894,6 +2958,7 @@ results:
     date: Dec 3, 2023
     date_display: Dec 2023
     date_iso: '2023-12-03'
+    published_venue: null
     global_rank: 42
     true_value: 0.067
     true_std: 0.009
@@ -2930,6 +2995,7 @@ results:
     date: Dec 3, 2023
     date_display: Dec 2023
     date_iso: '2023-12-03'
+    published_venue: null
     global_rank: 52
     true_value: 0.073
     true_std: 0.001
@@ -2960,13 +3026,14 @@ results:
     is_baseline: false
     is_overridden: false
     override_reason: ''
-    params_millions: 0.5
+    params_millions: null
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
     date: Dec 3, 2023
     date_display: Dec 2023
     date_iso: '2023-12-03'
+    published_venue: null
     global_rank: 55
     true_value: 0.077
     true_std: 0.002
@@ -3004,6 +3071,7 @@ results:
     date: Dec 3, 2023
     date_display: Dec 2023
     date_iso: '2023-12-03'
+    published_venue: null
     global_rank: 64
     true_value: 0.09
     true_std: 0.004
@@ -3041,6 +3109,7 @@ results:
     date: Dec 3, 2023
     date_display: Dec 2023
     date_iso: '2023-12-03'
+    published_venue: null
     global_rank: 67
     true_value: 0.093
     true_std: 0.007
@@ -3078,6 +3147,7 @@ results:
     date: Dec 3, 2023
     date_display: Dec 2023
     date_iso: '2023-12-03'
+    published_venue: null
     global_rank: 69
     true_value: 0.094
     true_std: 0.008
@@ -3114,6 +3184,7 @@ results:
     date: Dec 3, 2023
     date_display: Dec 2023
     date_iso: '2023-12-03'
+    published_venue: null
     global_rank: 80
     true_value: 0.111
     true_std: 0.002
@@ -3150,6 +3221,7 @@ results:
     date: Dec 3, 2023
     date_display: Dec 2023
     date_iso: '2023-12-03'
+    published_venue: null
     global_rank: 97
     true_value: 0.1341
     true_std: 0.0063
@@ -3186,6 +3258,5 @@ results_grouped:
   datasets:
   - *id006
   - *id007
-main_figure: /figures/2312.01538/main_figure.png
 ---
 

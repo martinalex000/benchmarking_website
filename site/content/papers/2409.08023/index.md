@@ -3,8 +3,9 @@ title: Edge-Wise Graph-Instructed Neural Networks
 arxiv_id: '2409.08023'
 source_url: ''
 authors: []
-published_date: Sep 2024
-published_date_iso: 2024-09
+published_date: Sep 12, 2024
+published_date_iso: '2024-09-12'
+published_venue: ''
 abstract: The problem of multi-task regression over graph nodes has been recently
   approached through Graph-Instructed Neural Network (GINN), which is a promising
   architecture belonging to the subset of message-passing graph neural networks. In
@@ -116,9 +117,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Sep 2024
+    date: Sep 12, 2024
     date_display: Sep 2024
-    date_iso: 2024-09
+    date_iso: '2024-09-12'
+    published_venue: null
     global_rank: 8
     true_value: 0.98
     true_std: 0.005
@@ -152,9 +154,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Sep 2024
+    date: Sep 12, 2024
     date_display: Sep 2024
-    date_iso: 2024-09
+    date_iso: '2024-09-12'
+    published_venue: null
     global_rank: 9
     true_value: 0.968
     true_std: 0.001
@@ -188,9 +191,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Sep 2024
+    date: Sep 12, 2024
     date_display: Sep 2024
-    date_iso: 2024-09
+    date_iso: '2024-09-12'
+    published_venue: null
     global_rank: 10
     true_value: 0.96
     true_std: 0.01
@@ -224,9 +228,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Sep 2024
+    date: Sep 12, 2024
     date_display: Sep 2024
-    date_iso: 2024-09
+    date_iso: '2024-09-12'
+    published_venue: null
     global_rank: 12
     true_value: 0.95
     true_std: 0.01
@@ -260,9 +265,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Sep 2024
+    date: Sep 12, 2024
     date_display: Sep 2024
-    date_iso: 2024-09
+    date_iso: '2024-09-12'
+    published_venue: null
     global_rank: 14
     true_value: 0.94
     true_std: 0.01
@@ -296,9 +302,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Sep 2024
+    date: Sep 12, 2024
     date_display: Sep 2024
-    date_iso: 2024-09
+    date_iso: '2024-09-12'
+    published_venue: null
     global_rank: 16
     true_value: 0.93
     true_std: 0.01
@@ -332,9 +339,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Sep 2024
+    date: Sep 12, 2024
     date_display: Sep 2024
-    date_iso: 2024-09
+    date_iso: '2024-09-12'
+    published_venue: null
     global_rank: 18
     true_value: 0.92
     true_std: 0.01
@@ -368,9 +376,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Sep 2024
+    date: Sep 12, 2024
     date_display: Sep 2024
-    date_iso: 2024-09
+    date_iso: '2024-09-12'
+    published_venue: null
     global_rank: 19
     true_value: 0.91
     true_std: 0.01
@@ -404,9 +413,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Sep 2024
+    date: Sep 12, 2024
     date_display: Sep 2024
-    date_iso: 2024-09
+    date_iso: '2024-09-12'
+    published_venue: null
     global_rank: 21
     true_value: 0.895
     true_std: 0.005
@@ -442,9 +452,9 @@ results:
     params_millions: null
     arxiv_id: '2402.07568'
     title: '--Leman at the margin: When more expressivity matters'
-    date: Feb 2024
+    date: Feb 12, 2024
     date_display: Feb 2024
-    date_iso: 2024-02
+    date_iso: '2024-02-12'
     codebase_url: https://www.github.com/chrsmrrs/wl
     uses_external_data: false
     is_global_top: true
@@ -465,9 +475,9 @@ results:
     params_millions: null
     arxiv_id: '2402.07568'
     title: '--Leman at the margin: When more expressivity matters'
-    date: Feb 2024
+    date: Feb 12, 2024
     date_display: Feb 2024
-    date_iso: 2024-02
+    date_iso: '2024-02-12'
     codebase_url: https://www.github.com/chrsmrrs/wl
     uses_external_data: false
     is_global_top: true
@@ -491,9 +501,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Sep 2024
+    date: Sep 12, 2024
     date_display: Sep 2024
-    date_iso: 2024-09
+    date_iso: '2024-09-12'
+    published_venue: null
     global_rank: 3
     true_value: 0.935
     true_std: 0.006
@@ -527,9 +538,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Sep 2024
+    date: Sep 12, 2024
     date_display: Sep 2024
-    date_iso: 2024-09
+    date_iso: '2024-09-12'
+    published_venue: null
     global_rank: 4
     true_value: 0.921
     true_std: 0.008
@@ -563,9 +575,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Sep 2024
+    date: Sep 12, 2024
     date_display: Sep 2024
-    date_iso: 2024-09
+    date_iso: '2024-09-12'
+    published_venue: null
     global_rank: 5
     true_value: 0.915
     true_std: 0.009
@@ -599,9 +612,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Sep 2024
+    date: Sep 12, 2024
     date_display: Sep 2024
-    date_iso: 2024-09
+    date_iso: '2024-09-12'
+    published_venue: null
     global_rank: 6
     true_value: 0.91
     true_std: 0.01
@@ -635,9 +649,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Sep 2024
+    date: Sep 12, 2024
     date_display: Sep 2024
-    date_iso: 2024-09
+    date_iso: '2024-09-12'
+    published_venue: null
     global_rank: 7
     true_value: 0.905
     true_std: 0.012
@@ -671,9 +686,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Sep 2024
+    date: Sep 12, 2024
     date_display: Sep 2024
-    date_iso: 2024-09
+    date_iso: '2024-09-12'
+    published_venue: null
     global_rank: 8
     true_value: 0.892
     true_std: 0.015
@@ -704,9 +720,9 @@ results:
     params_millions: null
     arxiv_id: '2006.15646'
     title: Expressive Power of Invariant and Equivariant Graph Neural Networks
-    date: Jun 2020
+    date: Jun 28, 2020
     date_display: Jun 2020
-    date_iso: 2020-06
+    date_iso: '2020-06-28'
     codebase_url: https://github.com/mlelarge/graph_neural_net
     uses_external_data: false
     is_global_top: true
@@ -730,9 +746,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Sep 2024
+    date: Sep 12, 2024
     date_display: Sep 2024
-    date_iso: 2024-09
+    date_iso: '2024-09-12'
+    published_venue: null
     global_rank: 11
     true_value: 0.885
     true_std: 0.018
@@ -758,6 +775,5 @@ results_grouped:
   - *id001
   - *id002
 single_proposed_model: RoGN
-main_figure: /figures/2409.08023/main_figure.png
 ---
 

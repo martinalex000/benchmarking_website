@@ -4,8 +4,9 @@ title: 'Weisfeiler and Leman Go Loopy: A New Hierarchy for Graph Representationa
 arxiv_id: '2403.13749'
 source_url: ''
 authors: []
-published_date: Mar 2024
-published_date_iso: 2024-03
+published_date: Mar 20, 2024
+published_date_iso: '2024-03-20'
+published_venue: ''
 abstract: We introduce $r$-loopy Weisfeiler-Leman ($r$-$ $WL), a novel hierarchy of
   graph isomorphism tests and a corresponding GNN framework, $r$-$ $MPNN, that can
   count cycles up to length $r+2$. Most notably, we show that $r$-$ $WL can count
@@ -117,9 +118,10 @@ results:
     table_ref: Table 2
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Mar 2024
+    date: Mar 20, 2024
     date_display: Mar 2024
-    date_iso: 2024-03
+    date_iso: '2024-03-20'
+    published_venue: null
     global_rank: 111
     true_value: 0.231
     true_std: null
@@ -154,9 +156,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Mar 2024
+    date: Mar 20, 2024
     date_display: Mar 2024
-    date_iso: 2024-03
+    date_iso: '2024-03-20'
+    published_venue: null
     global_rank: 112
     true_value: 0.244
     true_std: null
@@ -191,9 +194,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Mar 2024
+    date: Mar 20, 2024
     date_display: Mar 2024
-    date_iso: 2024-03
+    date_iso: '2024-03-20'
+    published_venue: null
     global_rank: 117
     true_value: 0.346
     true_std: null
@@ -228,9 +232,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Mar 2024
+    date: Mar 20, 2024
     date_display: Mar 2024
-    date_iso: 2024-03
+    date_iso: '2024-03-20'
+    published_venue: null
     global_rank: 118
     true_value: 0.35
     true_std: 0.011
@@ -265,9 +270,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Mar 2024
+    date: Mar 20, 2024
     date_display: Mar 2024
-    date_iso: 2024-03
+    date_iso: '2024-03-20'
+    published_venue: null
     global_rank: 120
     true_value: 0.364
     true_std: null
@@ -302,9 +308,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Mar 2024
+    date: Mar 20, 2024
     date_display: Mar 2024
-    date_iso: 2024-03
+    date_iso: '2024-03-20'
+    published_venue: null
     global_rank: 122
     true_value: 0.428
     true_std: null
@@ -339,9 +346,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Mar 2024
+    date: Mar 20, 2024
     date_display: Mar 2024
-    date_iso: 2024-03
+    date_iso: '2024-03-20'
+    published_venue: null
     global_rank: 128
     true_value: 0.476
     true_std: null
@@ -376,9 +384,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Mar 2024
+    date: Mar 20, 2024
     date_display: Mar 2024
-    date_iso: 2024-03
+    date_iso: '2024-03-20'
+    published_venue: null
     global_rank: 129
     true_value: 0.493
     true_std: null
@@ -402,6 +411,5 @@ results_grouped:
 - benchmark: Quantum Chemistry
   datasets:
   - *id001
-main_figure: /figures/2403.13749/main_figure.png
 ---
 

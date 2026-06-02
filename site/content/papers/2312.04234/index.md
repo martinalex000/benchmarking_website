@@ -3,8 +3,9 @@ title: Graph Convolutions Enrich the Self-Attention in Transformers!
 arxiv_id: '2312.04234'
 source_url: ''
 authors: []
-published_date: Dec 2023
-published_date_iso: 2023-12
+published_date: Dec 7, 2023
+published_date_iso: '2023-12-07'
+published_venue: ''
 abstract: Transformers, renowned for their self-attention mechanism, have achieved
   state-of-the-art performance across various tasks in natural language processing,
   computer vision, time-series modeling, etc. However, one of the challenges with
@@ -122,9 +123,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Dec 2023
+    date: Dec 7, 2023
     date_display: Dec 2023
-    date_iso: 2023-12
+    date_iso: '2023-12-07'
+    published_venue: null
     global_rank: 16
     true_value: 0.73961
     true_std: 0.0033
@@ -158,9 +160,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Dec 2023
+    date: Dec 7, 2023
     date_display: Dec 2023
-    date_iso: 2023-12
+    date_iso: '2023-12-07'
+    published_venue: null
     global_rank: 22
     true_value: 0.7244
     true_std: 0.0048
@@ -194,9 +197,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Dec 2023
+    date: Dec 7, 2023
     date_display: Dec 2023
-    date_iso: 2023-12
+    date_iso: '2023-12-07'
+    published_venue: null
     global_rank: 23
     true_value: 0.723
     true_std: 0.0036
@@ -230,9 +234,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Dec 2023
+    date: Dec 7, 2023
     date_display: Dec 2023
-    date_iso: 2023-12
+    date_iso: '2023-12-07'
+    published_venue: null
     global_rank: 35
     true_value: 0.6987
     true_std: 0.0028
@@ -268,9 +273,9 @@ results:
     params_millions: null
     arxiv_id: '1606.09375'
     title: Convolutional Neural Networks on Graphs with Fast Localized Spectral Filtering
-    date: Jun 2016
+    date: Jun 30, 2016
     date_display: Jun 2016
-    date_iso: 2016-06
+    date_iso: '2016-06-30'
     codebase_url: https://github.com/mdeff/cnn_graph
     uses_external_data: false
     is_global_top: true
@@ -292,9 +297,9 @@ results:
     arxiv_id: '1705.07664'
     title: 'CayleyNets: Graph Convolutional Neural Networks with Complex Rational
       Spectral Filters'
-    date: May 2017
+    date: May 22, 2017
     date_display: May 2017
-    date_iso: 2017-05
+    date_iso: '2017-05-22'
     codebase_url: https://github.com/fmonti/mgcnn
     uses_external_data: false
     is_global_top: true
@@ -316,9 +321,9 @@ results:
     arxiv_id: '1705.07664'
     title: 'CayleyNets: Graph Convolutional Neural Networks with Complex Rational
       Spectral Filters'
-    date: May 2017
+    date: May 22, 2017
     date_display: May 2017
-    date_iso: 2017-05
+    date_iso: '2017-05-22'
     codebase_url: https://github.com/fmonti/mgcnn
     uses_external_data: false
     is_global_top: true
@@ -342,9 +347,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Dec 2023
+    date: Dec 7, 2023
     date_display: Dec 2023
-    date_iso: 2023-12
+    date_iso: '2023-12-07'
+    published_venue: null
     global_rank: 17
     true_value: 0.9826
     true_std: 0.0004
@@ -378,9 +384,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Dec 2023
+    date: Dec 7, 2023
     date_display: Dec 2023
-    date_iso: 2023-12
+    date_iso: '2023-12-07'
+    published_venue: null
     global_rank: 20
     true_value: 0.982
     true_std: 0.0005
@@ -414,9 +421,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Dec 2023
+    date: Dec 7, 2023
     date_display: Dec 2023
-    date_iso: 2023-12
+    date_iso: '2023-12-07'
+    published_venue: null
     global_rank: 28
     true_value: 0.9814
     true_std: 0.0014
@@ -450,9 +458,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Dec 2023
+    date: Dec 7, 2023
     date_display: Dec 2023
-    date_iso: 2023-12
+    date_iso: '2023-12-07'
+    published_venue: null
     global_rank: 35
     true_value: 0.98082
     true_std: 0.00114
@@ -478,6 +487,5 @@ results_grouped:
   datasets:
   - *id001
   - *id002
-main_figure: /figures/2312.04234/main_figure.png
 ---
 

@@ -3,8 +3,9 @@ title: arXiv:2604.03815
 arxiv_id: '2604.03815'
 source_url: ''
 authors: []
-published_date: ''
-published_date_iso: ''
+published_date: Apr 4, 2026
+published_date_iso: '2026-04-04'
+published_venue: ''
 abstract: ''
 codebase_url: ''
 extraction_model: ''

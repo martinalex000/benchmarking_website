@@ -3,8 +3,9 @@ title: 'Mosaic of Modalities: A Comprehensive Benchmark for Multimodal Graph Lea
 arxiv_id: '2406.16321'
 source_url: ''
 authors: []
-published_date: Jun 2024
-published_date_iso: 2024-06
+published_date: Jun 24, 2024
+published_date_iso: '2024-06-24'
+published_venue: ''
 abstract: Graph machine learning has made significant strides in recent years, yet
   the integration of visual information with graph structure and its potential for
   improving performance in downstream tasks remains an underexplored area. To address
@@ -129,9 +130,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to amazon-photo (score=80)'
-    date: Jun 2024
+    date: Jun 24, 2024
     date_display: Jun 2024
-    date_iso: 2024-06
+    date_iso: '2024-06-24'
+    published_venue: null
     global_rank: null
     sort_value: 0.3432
     sort_std: 0.0011
@@ -152,9 +154,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to amazon-photo (score=80)'
-    date: Jun 2024
+    date: Jun 24, 2024
     date_display: Jun 2024
-    date_iso: 2024-06
+    date_iso: '2024-06-24'
+    published_venue: null
     global_rank: null
     sort_value: 0.3383
     sort_std: 0.0008
@@ -175,9 +178,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to amazon-photo (score=80)'
-    date: Jun 2024
+    date: Jun 24, 2024
     date_display: Jun 2024
-    date_iso: 2024-06
+    date_iso: '2024-06-24'
+    published_venue: null
     global_rank: null
     sort_value: 0.3302
     sort_std: 0.0044
@@ -198,9 +202,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to amazon-photo (score=80)'
-    date: Jun 2024
+    date: Jun 24, 2024
     date_display: Jun 2024
-    date_iso: 2024-06
+    date_iso: '2024-06-24'
+    published_venue: null
     global_rank: null
     sort_value: 0.322
     sort_std: 0.0012
@@ -221,9 +226,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to amazon-photo (score=80)'
-    date: Jun 2024
+    date: Jun 24, 2024
     date_display: Jun 2024
-    date_iso: 2024-06
+    date_iso: '2024-06-24'
+    published_venue: null
     global_rank: null
     sort_value: 0.3201
     sort_std: 0.001
@@ -244,9 +250,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to amazon-photo (score=80)'
-    date: Jun 2024
+    date: Jun 24, 2024
     date_display: Jun 2024
-    date_iso: 2024-06
+    date_iso: '2024-06-24'
+    published_venue: null
     global_rank: null
     sort_value: 0.3174
     sort_std: 0.0021
@@ -267,9 +274,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to amazon-photo (score=80)'
-    date: Jun 2024
+    date: Jun 24, 2024
     date_display: Jun 2024
-    date_iso: 2024-06
+    date_iso: '2024-06-24'
+    published_venue: null
     global_rank: null
     sort_value: 0.3167
     sort_std: 0.0009
@@ -290,9 +298,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to amazon-photo (score=80)'
-    date: Jun 2024
+    date: Jun 24, 2024
     date_display: Jun 2024
-    date_iso: 2024-06
+    date_iso: '2024-06-24'
+    published_venue: null
     global_rank: null
     sort_value: 0.3155
     sort_std: 0.0013
@@ -313,9 +322,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to amazon-photo (score=80)'
-    date: Jun 2024
+    date: Jun 24, 2024
     date_display: Jun 2024
-    date_iso: 2024-06
+    date_iso: '2024-06-24'
+    published_venue: null
     global_rank: null
     sort_value: 0.3138
     sort_std: 0.0008
@@ -336,9 +346,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to amazon-photo (score=80)'
-    date: Jun 2024
+    date: Jun 24, 2024
     date_display: Jun 2024
-    date_iso: 2024-06
+    date_iso: '2024-06-24'
+    published_venue: null
     global_rank: null
     sort_value: 0.3083
     sort_std: 0.0007
@@ -359,9 +370,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to amazon-photo (score=80)'
-    date: Jun 2024
+    date: Jun 24, 2024
     date_display: Jun 2024
-    date_iso: 2024-06
+    date_iso: '2024-06-24'
+    published_venue: null
     global_rank: null
     sort_value: 0.3045
     sort_std: 0.0014
@@ -382,9 +394,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to amazon-photo (score=80)'
-    date: Jun 2024
+    date: Jun 24, 2024
     date_display: Jun 2024
-    date_iso: 2024-06
+    date_iso: '2024-06-24'
+    published_venue: null
     global_rank: null
     sort_value: 0.3042
     sort_std: 0.0002
@@ -405,9 +418,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to amazon-photo (score=80)'
-    date: Jun 2024
+    date: Jun 24, 2024
     date_display: Jun 2024
-    date_iso: 2024-06
+    date_iso: '2024-06-24'
+    published_venue: null
     global_rank: null
     sort_value: 0.3041
     sort_std: 0.004
@@ -428,9 +442,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to amazon-photo (score=80)'
-    date: Jun 2024
+    date: Jun 24, 2024
     date_display: Jun 2024
-    date_iso: 2024-06
+    date_iso: '2024-06-24'
+    published_venue: null
     global_rank: null
     sort_value: 0.3015
     sort_std: 0.0034
@@ -451,9 +466,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to amazon-photo (score=80)'
-    date: Jun 2024
+    date: Jun 24, 2024
     date_display: Jun 2024
-    date_iso: 2024-06
+    date_iso: '2024-06-24'
+    published_venue: null
     global_rank: null
     sort_value: 0.3015
     sort_std: 0.0012
@@ -474,9 +490,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to amazon-photo (score=80)'
-    date: Jun 2024
+    date: Jun 24, 2024
     date_display: Jun 2024
-    date_iso: 2024-06
+    date_iso: '2024-06-24'
+    published_venue: null
     global_rank: null
     sort_value: 0.3002
     sort_std: 0.0034
@@ -497,9 +514,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to amazon-photo (score=80)'
-    date: Jun 2024
+    date: Jun 24, 2024
     date_display: Jun 2024
-    date_iso: 2024-06
+    date_iso: '2024-06-24'
+    published_venue: null
     global_rank: null
     sort_value: 0.2891
     sort_std: 0.0009
@@ -520,9 +538,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to amazon-photo (score=80)'
-    date: Jun 2024
+    date: Jun 24, 2024
     date_display: Jun 2024
-    date_iso: 2024-06
+    date_iso: '2024-06-24'
+    published_venue: null
     global_rank: null
     sort_value: 0.2822
     sort_std: 0.0009
@@ -543,9 +562,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to amazon-photo (score=80)'
-    date: Jun 2024
+    date: Jun 24, 2024
     date_display: Jun 2024
-    date_iso: 2024-06
+    date_iso: '2024-06-24'
+    published_venue: null
     global_rank: null
     sort_value: 0.2756
     sort_std: 0.003
@@ -566,9 +586,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to amazon-photo (score=80)'
-    date: Jun 2024
+    date: Jun 24, 2024
     date_display: Jun 2024
-    date_iso: 2024-06
+    date_iso: '2024-06-24'
+    published_venue: null
     global_rank: null
     sort_value: 0.2481
     sort_std: 0.0005
@@ -589,9 +610,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to amazon-photo (score=80)'
-    date: Jun 2024
+    date: Jun 24, 2024
     date_display: Jun 2024
-    date_iso: 2024-06
+    date_iso: '2024-06-24'
+    published_venue: null
     global_rank: null
     sort_value: 0.2481
     sort_std: 0.0016
@@ -614,9 +636,9 @@ results:
     params_millions: null
     arxiv_id: '2511.20406'
     title: Short-Range Oversquashing
-    date: Nov 2025
+    date: Nov 25, 2025
     date_display: Nov 2025
-    date_iso: 2025-11
+    date_iso: '2025-11-25'
     codebase_url: https://github.com/YakovM93/Short-Range-Oversquashing
     uses_external_data: false
     is_global_top: true
@@ -686,9 +708,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
-    date: Jun 2024
+    date: Jun 24, 2024
     date_display: Jun 2024
-    date_iso: 2024-06
+    date_iso: '2024-06-24'
+    published_venue: null
     global_rank: 45
     true_value: 0.833
     true_std: 0.0002
@@ -723,9 +746,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
-    date: Jun 2024
+    date: Jun 24, 2024
     date_display: Jun 2024
-    date_iso: 2024-06
+    date_iso: '2024-06-24'
+    published_venue: null
     global_rank: 48
     true_value: 0.8303
     true_std: 0.0004
@@ -760,9 +784,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
-    date: Jun 2024
+    date: Jun 24, 2024
     date_display: Jun 2024
-    date_iso: 2024-06
+    date_iso: '2024-06-24'
+    published_venue: null
     global_rank: 50
     true_value: 0.8299
     true_std: 0.0008
@@ -797,9 +822,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
-    date: Jun 2024
+    date: Jun 24, 2024
     date_display: Jun 2024
-    date_iso: 2024-06
+    date_iso: '2024-06-24'
+    published_venue: null
     global_rank: 61
     true_value: 0.8171
     true_std: 0.0003
@@ -834,9 +860,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
-    date: Jun 2024
+    date: Jun 24, 2024
     date_display: Jun 2024
-    date_iso: 2024-06
+    date_iso: '2024-06-24'
+    published_venue: null
     global_rank: 62
     true_value: 0.8167
     true_std: 0.0003
@@ -871,9 +898,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
-    date: Jun 2024
+    date: Jun 24, 2024
     date_display: Jun 2024
-    date_iso: 2024-06
+    date_iso: '2024-06-24'
+    published_venue: null
     global_rank: 63
     true_value: 0.8161
     true_std: 0.0001
@@ -908,9 +936,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
-    date: Jun 2024
+    date: Jun 24, 2024
     date_display: Jun 2024
-    date_iso: 2024-06
+    date_iso: '2024-06-24'
+    published_venue: null
     global_rank: 74
     true_value: 0.8039
     true_std: 0.0021
@@ -945,9 +974,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
-    date: Jun 2024
+    date: Jun 24, 2024
     date_display: Jun 2024
-    date_iso: 2024-06
+    date_iso: '2024-06-24'
+    published_venue: null
     global_rank: 99
     true_value: 0.7891
     true_std: 0.0004
@@ -982,9 +1012,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
-    date: Jun 2024
+    date: Jun 24, 2024
     date_display: Jun 2024
-    date_iso: 2024-06
+    date_iso: '2024-06-24'
+    published_venue: null
     global_rank: 163
     true_value: 0.7648
     true_std: 0.0059
@@ -1019,9 +1050,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
-    date: Jun 2024
+    date: Jun 24, 2024
     date_display: Jun 2024
-    date_iso: 2024-06
+    date_iso: '2024-06-24'
+    published_venue: null
     global_rank: 183
     true_value: 0.7543
     true_std: 0.0076
@@ -1056,9 +1088,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
-    date: Jun 2024
+    date: Jun 24, 2024
     date_display: Jun 2024
-    date_iso: 2024-06
+    date_iso: '2024-06-24'
+    published_venue: null
     global_rank: 189
     true_value: 0.7498
     true_std: 0.0123
@@ -1093,9 +1126,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
-    date: Jun 2024
+    date: Jun 24, 2024
     date_display: Jun 2024
-    date_iso: 2024-06
+    date_iso: '2024-06-24'
+    published_venue: null
     global_rank: 228
     true_value: 0.7229
     true_std: 0.0002
@@ -1130,9 +1164,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
-    date: Jun 2024
+    date: Jun 24, 2024
     date_display: Jun 2024
-    date_iso: 2024-06
+    date_iso: '2024-06-24'
+    published_venue: null
     global_rank: 255
     true_value: 0.6883
     true_std: 0.0003
@@ -1167,9 +1202,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
-    date: Jun 2024
+    date: Jun 24, 2024
     date_display: Jun 2024
-    date_iso: 2024-06
+    date_iso: '2024-06-24'
+    published_venue: null
     global_rank: 259
     true_value: 0.6782
     true_std: 0.0007
@@ -1204,9 +1240,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
-    date: Jun 2024
+    date: Jun 24, 2024
     date_display: Jun 2024
-    date_iso: 2024-06
+    date_iso: '2024-06-24'
+    published_venue: null
     global_rank: 308
     true_value: 0.5875
     true_std: 0.0005
@@ -1234,6 +1271,5 @@ results_grouped:
 - benchmark: TU Dortmund
   datasets:
   - *id002
-main_figure: /figures/2406.16321/main_figure.png
 ---
 

@@ -3,8 +3,9 @@ title: Transformers are efficient hierarchical chemical graph learners
 arxiv_id: '2310.01704'
 source_url: ''
 authors: []
-published_date: Oct 2023
-published_date_iso: 2023-10
+published_date: Oct 2, 2023
+published_date_iso: '2023-10-02'
+published_venue: ''
 abstract: Transformers, adapted from natural language processing, are emerging as
   a leading approach for graph representation learning. Contemporary graph transformers
   often treat nodes or edges as separate tokens. This approach leads to computational
@@ -58,9 +59,10 @@ results:
     table_ref: Table 1
     source_ref: HIMP2020
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2023
+    date: Oct 2, 2023
     date_display: Oct 2023
-    date_iso: 2023-10
+    date_iso: '2023-10-02'
+    published_venue: null
     global_rank: 1
     true_value: 0.874
     true_std: 0.005
@@ -95,9 +97,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2023
+    date: Oct 2, 2023
     date_display: Oct 2023
-    date_iso: 2023-10
+    date_iso: '2023-10-02'
+    published_venue: null
     global_rank: 2
     true_value: 0.851
     true_std: 0.008
@@ -132,9 +135,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2023
+    date: Oct 2, 2023
     date_display: Oct 2023
-    date_iso: 2023-10
+    date_iso: '2023-10-02'
+    published_venue: null
     global_rank: 3
     true_value: 0.85
     true_std: 0.009
@@ -192,9 +196,10 @@ results:
     table_ref: Table 1
     source_ref: rampavsek2022recipe
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2023
+    date: Oct 2, 2023
     date_display: Oct 2023
-    date_iso: 2023-10
+    date_iso: '2023-10-02'
+    published_venue: null
     global_rank: 6
     true_value: 0.849
     true_std: null
@@ -229,9 +234,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2023
+    date: Oct 2, 2023
     date_display: Oct 2023
-    date_iso: 2023-10
+    date_iso: '2023-10-02'
+    published_venue: null
     global_rank: 5
     true_value: 0.849
     true_std: 0.003
@@ -313,9 +319,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2023
+    date: Oct 2, 2023
     date_display: Oct 2023
-    date_iso: 2023-10
+    date_iso: '2023-10-02'
+    published_venue: null
     global_rank: 10
     true_value: 0.841
     true_std: 0.003
@@ -350,9 +357,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2023
+    date: Oct 2, 2023
     date_display: Oct 2023
-    date_iso: 2023-10
+    date_iso: '2023-10-02'
+    published_venue: null
     global_rank: 11
     true_value: 0.84
     true_std: 0.004
@@ -387,9 +395,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2023
+    date: Oct 2, 2023
     date_display: Oct 2023
-    date_iso: 2023-10
+    date_iso: '2023-10-02'
+    published_venue: null
     global_rank: 19
     true_value: 0.822
     true_std: 0.006
@@ -424,9 +433,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2023
+    date: Oct 2, 2023
     date_display: Oct 2023
-    date_iso: 2023-10
+    date_iso: '2023-10-02'
+    published_venue: null
     global_rank: 34
     true_value: 0.794
     true_std: 0.014
@@ -461,9 +471,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2023
+    date: Oct 2, 2023
     date_display: Oct 2023
-    date_iso: 2023-10
+    date_iso: '2023-10-02'
+    published_venue: null
     global_rank: 35
     true_value: 0.794
     true_std: 0.015
@@ -498,9 +509,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2023
+    date: Oct 2, 2023
     date_display: Oct 2023
-    date_iso: 2023-10
+    date_iso: '2023-10-02'
+    published_venue: null
     global_rank: 60
     true_value: 0.769
     true_std: 0.015
@@ -611,9 +623,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2023
+    date: Oct 2, 2023
     date_display: Oct 2023
-    date_iso: 2023-10
+    date_iso: '2023-10-02'
+    published_venue: null
     global_rank: 7
     true_value: 0.794
     true_std: 0.01
@@ -648,9 +661,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2023
+    date: Oct 2, 2023
     date_display: Oct 2023
-    date_iso: 2023-10
+    date_iso: '2023-10-02'
+    published_venue: null
     global_rank: 10
     true_value: 0.785
     true_std: 0.012
@@ -685,9 +699,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2023
+    date: Oct 2, 2023
     date_display: Oct 2023
-    date_iso: 2023-10
+    date_iso: '2023-10-02'
+    published_venue: null
     global_rank: 13
     true_value: 0.752
     true_std: 0.003
@@ -722,9 +737,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2023
+    date: Oct 2, 2023
     date_display: Oct 2023
-    date_iso: 2023-10
+    date_iso: '2023-10-02'
+    published_venue: null
     global_rank: 17
     true_value: 0.742
     true_std: 0.004
@@ -759,9 +775,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2023
+    date: Oct 2, 2023
     date_display: Oct 2023
-    date_iso: 2023-10
+    date_iso: '2023-10-02'
+    published_venue: null
     global_rank: 20
     true_value: 0.733
     true_std: 0.001
@@ -796,9 +813,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2023
+    date: Oct 2, 2023
     date_display: Oct 2023
-    date_iso: 2023-10
+    date_iso: '2023-10-02'
+    published_venue: null
     global_rank: 25
     true_value: 0.721
     true_std: 0.004
@@ -833,9 +851,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2023
+    date: Oct 2, 2023
     date_display: Oct 2023
-    date_iso: 2023-10
+    date_iso: '2023-10-02'
+    published_venue: null
     global_rank: 26
     true_value: 0.719
     true_std: null
@@ -870,9 +889,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2023
+    date: Oct 2, 2023
     date_display: Oct 2023
-    date_iso: 2023-10
+    date_iso: '2023-10-02'
+    published_venue: null
     global_rank: 46
     true_value: 0.669
     true_std: 0.014
@@ -907,9 +927,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2023
+    date: Oct 2, 2023
     date_display: Oct 2023
-    date_iso: 2023-10
+    date_iso: '2023-10-02'
+    published_venue: null
     global_rank: 70
     true_value: 0.64
     true_std: 0.005
@@ -944,9 +965,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2023
+    date: Oct 2, 2023
     date_display: Oct 2023
-    date_iso: 2023-10
+    date_iso: '2023-10-02'
+    published_venue: null
     global_rank: 104
     true_value: 0.605
     true_std: 0.003
@@ -983,9 +1005,9 @@ results:
     params_millions: null
     arxiv_id: '2306.03589'
     title: How does over-squashing affect the power of GNNs?
-    date: Jun 2023
+    date: Jun 6, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-06'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
@@ -1006,9 +1028,9 @@ results:
     params_millions: null
     arxiv_id: '2306.03589'
     title: How does over-squashing affect the power of GNNs?
-    date: Jun 2023
+    date: Jun 6, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-06'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
@@ -1032,9 +1054,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: Oct 2023
+    date: Oct 2, 2023
     date_display: Oct 2023
-    date_iso: 2023-10
+    date_iso: '2023-10-02'
+    published_venue: null
     global_rank: 3
     true_value: 0.014
     true_std: null
@@ -1062,7 +1085,7 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.5
+    params_millions: null
     arxiv_id: '2402.08450'
     title: 'Subgraphormer: Unifying Subgraph GNNs and Graph Transformers via Graph
       Products'
@@ -1092,9 +1115,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: Oct 2023
+    date: Oct 2, 2023
     date_display: Oct 2023
-    date_iso: 2023-10
+    date_iso: '2023-10-02'
+    published_venue: null
     global_rank: 11
     true_value: 0.024
     true_std: null
@@ -1128,9 +1152,10 @@ results:
     table_ref: Table 1
     source_ref: Graphormer2021
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: Oct 2023
+    date: Oct 2, 2023
     date_display: Oct 2023
-    date_iso: 2023-10
+    date_iso: '2023-10-02'
+    published_venue: null
     global_rank: 13
     true_value: 0.025
     true_std: 0.004
@@ -1164,9 +1189,10 @@ results:
     table_ref: Table 1
     source_ref: thiede2021autobahn
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: Oct 2023
+    date: Oct 2, 2023
     date_display: Oct 2023
-    date_iso: 2023-10
+    date_iso: '2023-10-02'
+    published_venue: null
     global_rank: 22
     true_value: 0.029
     true_std: 0.001
@@ -1200,9 +1226,10 @@ results:
     table_ref: Table 1
     source_ref: HIMP2020
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: Oct 2023
+    date: Oct 2, 2023
     date_display: Oct 2023
-    date_iso: 2023-10
+    date_iso: '2023-10-02'
+    published_venue: null
     global_rank: 27
     true_value: 0.036
     true_std: 0.002
@@ -1236,9 +1263,10 @@ results:
     table_ref: Table 1
     source_ref: GraphGPS2022
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: Oct 2023
+    date: Oct 2, 2023
     date_display: Oct 2023
-    date_iso: 2023-10
+    date_iso: '2023-10-02'
+    published_venue: null
     global_rank: 50
     true_value: 0.07
     true_std: 0.004
@@ -1273,9 +1301,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: Oct 2023
+    date: Oct 2, 2023
     date_display: Oct 2023
-    date_iso: 2023-10
+    date_iso: '2023-10-02'
+    published_venue: null
     global_rank: 57
     true_value: 0.077
     true_std: 0.003
@@ -1310,9 +1339,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: Oct 2023
+    date: Oct 2, 2023
     date_display: Oct 2023
-    date_iso: 2023-10
+    date_iso: '2023-10-02'
+    published_venue: null
     global_rank: 59
     true_value: 0.084
     true_std: 0.004
@@ -1347,9 +1377,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: Oct 2023
+    date: Oct 2, 2023
     date_display: Oct 2023
-    date_iso: 2023-10
+    date_iso: '2023-10-02'
+    published_venue: null
     global_rank: 71
     true_value: 0.094
     true_std: 0.003
@@ -1384,9 +1415,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: Oct 2023
+    date: Oct 2, 2023
     date_display: Oct 2023
-    date_iso: 2023-10
+    date_iso: '2023-10-02'
+    published_venue: null
     global_rank: 80
     true_value: 0.111
     true_std: 0.002
@@ -1420,9 +1452,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: Oct 2023
+    date: Oct 2, 2023
     date_display: Oct 2023
-    date_iso: 2023-10
+    date_iso: '2023-10-02'
+    published_venue: null
     global_rank: 97
     true_value: 0.1341
     true_std: 0.0063
@@ -1457,9 +1490,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'zinc: mae fallback >= 0.07'
-    date: Oct 2023
+    date: Oct 2, 2023
     date_display: Oct 2023
-    date_iso: 2023-10
+    date_iso: '2023-10-02'
+    published_venue: null
     global_rank: 132
     true_value: 0.226
     true_std: 0.014
@@ -1545,9 +1579,10 @@ results:
     table_ref: Table 1
     source_ref: rampavsek2022recipe
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2023
+    date: Oct 2, 2023
     date_display: Oct 2023
-    date_iso: 2023-10
+    date_iso: '2023-10-02'
+    published_venue: null
     global_rank: 3
     true_value: 0.858
     true_std: 0.002
@@ -1605,9 +1640,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2023
+    date: Oct 2, 2023
     date_display: Oct 2023
-    date_iso: 2023-10
+    date_iso: '2023-10-02'
+    published_venue: null
     global_rank: 9
     true_value: 0.848
     true_std: 0.003
@@ -1642,9 +1678,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2023
+    date: Oct 2, 2023
     date_display: Oct 2023
-    date_iso: 2023-10
+    date_iso: '2023-10-02'
+    published_venue: null
     global_rank: 13
     true_value: 0.839
     true_std: 0.006
@@ -1679,9 +1716,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2023
+    date: Oct 2, 2023
     date_display: Oct 2023
-    date_iso: 2023-10
+    date_iso: '2023-10-02'
+    published_venue: null
     global_rank: 40
     true_value: 0.795
     true_std: 0.008
@@ -1716,9 +1754,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2023
+    date: Oct 2, 2023
     date_display: Oct 2023
-    date_iso: 2023-10
+    date_iso: '2023-10-02'
+    published_venue: null
     global_rank: 46
     true_value: 0.792
     true_std: 0.0
@@ -1753,9 +1792,10 @@ results:
     table_ref: Table 1
     source_ref: HIMP2020
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2023
+    date: Oct 2, 2023
     date_display: Oct 2023
-    date_iso: 2023-10
+    date_iso: '2023-10-02'
+    published_venue: null
     global_rank: 54
     true_value: 0.788
     true_std: 0.08
@@ -1790,9 +1830,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2023
+    date: Oct 2, 2023
     date_display: Oct 2023
-    date_iso: 2023-10
+    date_iso: '2023-10-02'
+    published_venue: null
     global_rank: 75
     true_value: 0.781
     true_std: 0.006
@@ -1827,9 +1868,10 @@ results:
     table_ref: Table 1
     source_ref: thiede2021autobahn
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2023
+    date: Oct 2, 2023
     date_display: Oct 2023
-    date_iso: 2023-10
+    date_iso: '2023-10-02'
+    published_venue: null
     global_rank: 78
     true_value: 0.78
     true_std: 0.015
@@ -1864,9 +1906,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2023
+    date: Oct 2, 2023
     date_display: Oct 2023
-    date_iso: 2023-10
+    date_iso: '2023-10-02'
+    published_venue: null
     global_rank: 133
     true_value: 0.756
     true_std: 0.007
@@ -1901,9 +1944,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2023
+    date: Oct 2, 2023
     date_display: Oct 2023
-    date_iso: 2023-10
+    date_iso: '2023-10-02'
+    published_venue: null
     global_rank: 132
     true_value: 0.756
     true_std: 0.0
@@ -1938,9 +1982,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: Oct 2023
+    date: Oct 2, 2023
     date_display: Oct 2023
-    date_iso: 2023-10
+    date_iso: '2023-10-02'
+    published_venue: null
     global_rank: 167
     true_value: 0.702
     true_std: 0.018
@@ -1972,6 +2017,5 @@ results_grouped:
   datasets:
   - *id003
   - *id004
-main_figure: /figures/2310.01704/main_figure.png
 ---
 

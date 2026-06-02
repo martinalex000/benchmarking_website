@@ -3,8 +3,9 @@ title: 'Open Graph Benchmark: Datasets for Machine Learning on Graphs'
 arxiv_id: '2005.00687'
 source_url: ''
 authors: []
-published_date: May 2020
-published_date_iso: 2020-05
+published_date: May 2, 2020
+published_date_iso: '2020-05-02'
+published_venue: ''
 abstract: We present the Open Graph Benchmark (OGB), a diverse set of challenging
   and realistic benchmark datasets to facilitate scalable, robust, and reproducible
   graph machine learning (ML) research. OGB datasets are large-scale, encompass multiple
@@ -105,9 +106,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to code (score=90)'
-    date: May 2020
+    date: May 2, 2020
     date_display: May 2020
-    date_iso: 2020-05
+    date_iso: '2020-05-02'
+    published_venue: null
     global_rank: 3
     true_value: 0.3163
     true_std: 0.0018
@@ -141,9 +143,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to code (score=90)'
-    date: May 2020
+    date: May 2, 2020
     date_display: May 2020
-    date_iso: 2020-05
+    date_iso: '2020-05-02'
+    published_venue: null
     global_rank: 4
     true_value: 0.3163
     true_std: 0.002
@@ -200,9 +203,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to code (score=90)'
-    date: May 2020
+    date: May 2, 2020
     date_display: May 2020
-    date_iso: 2020-05
+    date_iso: '2020-05-02'
+    published_venue: null
     global_rank: 24
     true_value: 0.1581
     true_std: 0.0026
@@ -311,9 +315,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2020
+    date: May 2, 2020
     date_display: May 2020
-    date_iso: 2020-05
+    date_iso: '2020-05-02'
+    published_venue: null
     global_rank: 9
     true_value: 0.848
     true_std: 0.003
@@ -348,9 +353,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2020
+    date: May 2, 2020
     date_display: May 2020
-    date_iso: 2020-05
+    date_iso: '2020-05-02'
+    published_venue: null
     global_rank: 13
     true_value: 0.839
     true_std: 0.006
@@ -402,9 +408,10 @@ results:
     value_note: ''
     arxiv_id: ''
     title: ''
-    date: May 2020
+    published_venue: null
+    date: May 2, 2020
     date_display: May 2020
-    date_iso: 2020-05
+    date_iso: '2020-05-02'
     codebase_url: ''
     uses_external_data: null
     is_best: true
@@ -424,9 +431,10 @@ results:
     params_millions: null
     arxiv_id: '2410.23686'
     title: Towards Dynamic Message Passing on Graphs
-    date: Oct 2024
+    published_venue: ''
+    date: Oct 31, 2024
     date_display: Oct 2024
-    date_iso: 2024-10
+    date_iso: '2024-10-31'
     codebase_url: https://github.com/sunjss/N2
     uses_external_data: false
     is_global_top: true
@@ -455,6 +463,7 @@ results:
     params_millions: null
     arxiv_id: '2207.08806'
     title: Unified 2D and 3D Pre-Training of Molecular Representations
+    published_venue: ''
     date: Jul 2022
     date_display: Jul 2022
     date_iso: 2022-07
@@ -487,6 +496,7 @@ results:
     arxiv_id: '2402.04538'
     title: 'Triplet Interaction Improves Graph Transformers: Accurate Molecular Graph
       Learning with Triplet Graph Transformers'
+    published_venue: ''
     date: Feb 7, 2024
     date_display: Feb 2024
     date_iso: '2024-02-07'
@@ -531,9 +541,10 @@ results:
     value_note: ''
     arxiv_id: ''
     title: ''
-    date: May 2020
+    published_venue: null
+    date: May 2, 2020
     date_display: May 2020
-    date_iso: 2020-05
+    date_iso: '2020-05-02'
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -566,9 +577,10 @@ results:
     value_note: ''
     arxiv_id: ''
     title: ''
-    date: May 2020
+    published_venue: null
+    date: May 2, 2020
     date_display: May 2020
-    date_iso: 2020-05
+    date_iso: '2020-05-02'
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -597,9 +609,10 @@ results:
     table_ref: Table 1
     source_ref: Trouillon et al. 2016
     variant_inference_reason: 'dataset: exact match'
-    date: May 2020
+    date: May 2, 2020
     date_display: May 2020
-    date_iso: 2020-05
+    date_iso: '2020-05-02'
+    published_venue: null
     global_rank: 1
     true_value: 0.8095
     true_std: 0.0007
@@ -634,9 +647,10 @@ results:
     table_ref: Table 1
     source_ref: Yang et al. 2014
     variant_inference_reason: 'dataset: exact match'
-    date: May 2020
+    date: May 2, 2020
     date_display: May 2020
-    date_iso: 2020-05
+    date_iso: '2020-05-02'
+    published_venue: null
     global_rank: 2
     true_value: 0.8043
     true_std: 0.0003
@@ -671,9 +685,10 @@ results:
     table_ref: Table 1
     source_ref: Sun et al. 2019
     variant_inference_reason: 'dataset: exact match'
-    date: May 2020
+    date: May 2, 2020
     date_display: May 2020
-    date_iso: 2020-05
+    date_iso: '2020-05-02'
+    published_venue: null
     global_rank: 3
     true_value: 0.7989
     true_std: 0.0004
@@ -708,9 +723,10 @@ results:
     table_ref: Table 1
     source_ref: Bordes et al. 2013
     variant_inference_reason: 'dataset: exact match'
-    date: May 2020
+    date: May 2, 2020
     date_display: May 2020
-    date_iso: 2020-05
+    date_iso: '2020-05-02'
+    published_venue: null
     global_rank: 4
     true_value: 0.7452
     true_std: 0.0004
@@ -819,6 +835,7 @@ results:
     params_millions: null
     arxiv_id: '2309.00976'
     title: Pure Message Passing Can Estimate Common Neighbor for Link Prediction
+    published_venue: ''
     date: Sep 2023
     date_display: Sep 2023
     date_iso: 2023-09
@@ -850,6 +867,7 @@ results:
     params_millions: null
     arxiv_id: '2309.00976'
     title: Pure Message Passing Can Estimate Common Neighbor for Link Prediction
+    published_venue: ''
     date: Sep 2023
     date_display: Sep 2023
     date_iso: 2023-09
@@ -881,6 +899,7 @@ results:
     params_millions: null
     arxiv_id: '2303.00170'
     title: Asymmetric Learning for Graph Neural Network based Link Prediction
+    published_venue: ''
     date: Mar 2023
     date_display: Mar 2023
     date_iso: 2023-03
@@ -925,9 +944,10 @@ results:
     value_note: global 0.8479 within std
     arxiv_id: ''
     title: ''
-    date: May 2020
+    published_venue: null
+    date: May 2, 2020
     date_display: May 2020
-    date_iso: 2020-05
+    date_iso: '2020-05-02'
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -960,9 +980,10 @@ results:
     value_note: global 0.8264 within std
     arxiv_id: ''
     title: ''
-    date: May 2020
+    published_venue: null
+    date: May 2, 2020
     date_display: May 2020
-    date_iso: 2020-05
+    date_iso: '2020-05-02'
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -995,9 +1016,10 @@ results:
     value_note: ''
     arxiv_id: ''
     title: ''
-    date: May 2020
+    published_venue: null
+    date: May 2, 2020
     date_display: May 2020
-    date_iso: 2020-05
+    date_iso: '2020-05-02'
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -1030,9 +1052,10 @@ results:
     value_note: ''
     arxiv_id: ''
     title: ''
-    date: May 2020
+    published_venue: null
+    date: May 2, 2020
     date_display: May 2020
-    date_iso: 2020-05
+    date_iso: '2020-05-02'
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -1065,9 +1088,10 @@ results:
     value_note: ''
     arxiv_id: ''
     title: ''
-    date: May 2020
+    published_venue: null
+    date: May 2, 2020
     date_display: May 2020
-    date_iso: 2020-05
+    date_iso: '2020-05-02'
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -1100,9 +1124,10 @@ results:
     value_note: ''
     arxiv_id: ''
     title: ''
-    date: May 2020
+    published_venue: null
+    date: May 2, 2020
     date_display: May 2020
-    date_iso: 2020-05
+    date_iso: '2020-05-02'
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -1135,9 +1160,10 @@ results:
     value_note: ''
     arxiv_id: ''
     title: ''
-    date: May 2020
+    published_venue: null
+    date: May 2, 2020
     date_display: May 2020
-    date_iso: 2020-05
+    date_iso: '2020-05-02'
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -1170,9 +1196,10 @@ results:
     value_note: global 0.2899 within std
     arxiv_id: ''
     title: ''
-    date: May 2020
+    published_venue: null
+    date: May 2, 2020
     date_display: May 2020
-    date_iso: 2020-05
+    date_iso: '2020-05-02'
     codebase_url: ''
     uses_external_data: null
     is_best: false
@@ -1270,9 +1297,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2020
+    date: May 2, 2020
     date_display: May 2020
-    date_iso: 2020-05
+    date_iso: '2020-05-02'
+    published_venue: null
     global_rank: 6
     true_value: 0.741
     true_std: 0.002
@@ -1307,9 +1335,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2020
+    date: May 2, 2020
     date_display: May 2020
-    date_iso: 2020-05
+    date_iso: '2020-05-02'
+    published_venue: null
     global_rank: 7
     true_value: 0.735
     true_std: 0.003
@@ -1344,9 +1373,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2020
+    date: May 2, 2020
     date_display: May 2020
-    date_iso: 2020-05
+    date_iso: '2020-05-02'
+    published_venue: null
     global_rank: 22
     true_value: 0.2326
     true_std: 0.0209
@@ -1381,9 +1411,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2020
+    date: May 2, 2020
     date_display: May 2020
-    date_iso: 2020-05
+    date_iso: '2020-05-02'
+    published_venue: null
     global_rank: 28
     true_value: 0.1368
     true_std: 0.0475
@@ -1440,7 +1471,7 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.9
+    params_millions: null
     arxiv_id: '2406.02740'
     title: Long Range Propagation on Continuous-Time Dynamic Graphs
     date: Jun 4, 2024
@@ -1466,9 +1497,9 @@ results:
     params_millions: null
     arxiv_id: '2103.09430'
     title: 'OGB-LSC: A Large-Scale Challenge for Machine Learning on Graphs'
-    date: Mar 2021
+    date: Mar 17, 2021
     date_display: Mar 2021
-    date_iso: 2021-03
+    date_iso: '2021-03-17'
     codebase_url: https://github.com/snap-stanford/ogb
     uses_external_data: false
     is_global_top: true
@@ -1492,9 +1523,10 @@ results:
     table_ref: Table 1
     source_ref: Sun et al. 2019
     variant_inference_reason: 'dataset: exact match'
-    date: May 2020
+    date: May 2, 2020
     date_display: May 2020
-    date_iso: 2020-05
+    date_iso: '2020-05-02'
+    published_venue: null
     global_rank: 8
     true_value: 0.728
     true_std: 0.003
@@ -1529,9 +1561,10 @@ results:
     table_ref: Table 1
     source_ref: Trouillon et al. 2016
     variant_inference_reason: 'dataset: exact match'
-    date: May 2020
+    date: May 2, 2020
     date_display: May 2020
-    date_iso: 2020-05
+    date_iso: '2020-05-02'
+    published_venue: null
     global_rank: 9
     true_value: 0.725
     true_std: 0.003
@@ -1566,9 +1599,10 @@ results:
     table_ref: Table 1
     source_ref: Yang et al. 2014
     variant_inference_reason: 'dataset: exact match'
-    date: May 2020
+    date: May 2, 2020
     date_display: May 2020
-    date_iso: 2020-05
+    date_iso: '2020-05-02'
+    published_venue: null
     global_rank: 10
     true_value: 0.721
     true_std: 0.003
@@ -1603,9 +1637,10 @@ results:
     table_ref: Table 1
     source_ref: Bordes et al. 2013
     variant_inference_reason: 'dataset: exact match'
-    date: May 2020
+    date: May 2, 2020
     date_display: May 2020
-    date_iso: 2020-05
+    date_iso: '2020-05-02'
+    published_venue: null
     global_rank: 12
     true_value: 0.685
     true_std: 0.004
@@ -1640,9 +1675,10 @@ results:
     table_ref: Table 1
     source_ref: Sun et al. 2019
     variant_inference_reason: 'dataset: exact match'
-    date: May 2020
+    date: May 2, 2020
     date_display: May 2020
-    date_iso: 2020-05
+    date_iso: '2020-05-02'
+    published_venue: null
     global_rank: 32
     true_value: 0.4332
     true_std: 0.0025
@@ -1677,9 +1713,10 @@ results:
     table_ref: Table 1
     source_ref: Bordes et al. 2013
     variant_inference_reason: 'dataset: exact match'
-    date: May 2020
+    date: May 2, 2020
     date_display: May 2020
-    date_iso: 2020-05
+    date_iso: '2020-05-02'
+    published_venue: null
     global_rank: 33
     true_value: 0.4256
     true_std: 0.003
@@ -1714,9 +1751,10 @@ results:
     table_ref: Table 1
     source_ref: Trouillon et al. 2016
     variant_inference_reason: 'dataset: exact match'
-    date: May 2020
+    date: May 2, 2020
     date_display: May 2020
-    date_iso: 2020-05
+    date_iso: '2020-05-02'
+    published_venue: null
     global_rank: 34
     true_value: 0.4027
     true_std: 0.0027
@@ -1751,9 +1789,10 @@ results:
     table_ref: Table 1
     source_ref: Yang et al. 2014
     variant_inference_reason: 'dataset: exact match'
-    date: May 2020
+    date: May 2, 2020
     date_display: May 2020
-    date_iso: 2020-05
+    date_iso: '2020-05-02'
+    published_venue: null
     global_rank: 35
     true_value: 0.3729
     true_std: 0.0045
@@ -1864,9 +1903,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2020
+    date: May 2, 2020
     date_display: May 2020
-    date_iso: 2020-05
+    date_iso: '2020-05-02'
+    published_venue: null
     global_rank: 26
     true_value: 0.7629
     true_std: null
@@ -1900,9 +1940,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2020
+    date: May 2, 2020
     date_display: May 2020
-    date_iso: 2020-05
+    date_iso: '2020-05-02'
+    published_venue: null
     global_rank: 57
     true_value: 0.752
     true_std: 0.0003
@@ -1937,9 +1978,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2020
+    date: May 2, 2020
     date_display: May 2020
-    date_iso: 2020-05
+    date_iso: '2020-05-02'
+    published_venue: null
     global_rank: 260
     true_value: 0.713
     true_std: 0.001
@@ -1974,9 +2016,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2020
+    date: May 2, 2020
     date_display: May 2020
-    date_iso: 2020-05
+    date_iso: '2020-05-02'
+    published_venue: null
     global_rank: 356
     true_value: 0.6291
     true_std: 0.006
@@ -2085,9 +2128,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2020
+    date: May 2, 2020
     date_display: May 2020
-    date_iso: 2020-05
+    date_iso: '2020-05-02'
+    published_venue: null
     global_rank: 10
     true_value: 0.761
     true_std: 0.003
@@ -2122,9 +2166,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2020
+    date: May 2, 2020
     date_display: May 2020
-    date_iso: 2020-05
+    date_iso: '2020-05-02'
+    published_venue: null
     global_rank: 12
     true_value: 0.753
     true_std: 0.002
@@ -2159,9 +2204,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2020
+    date: May 2, 2020
     date_display: May 2020
-    date_iso: 2020-05
+    date_iso: '2020-05-02'
+    published_venue: null
     global_rank: 39
     true_value: 0.5
     true_std: 0.001
@@ -2195,9 +2241,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2020
+    date: May 2, 2020
     date_display: May 2020
-    date_iso: 2020-05
+    date_iso: '2020-05-02'
+    published_venue: null
     global_rank: 41
     true_value: 0.4751
     true_std: 0.0022
@@ -2232,9 +2279,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2020
+    date: May 2, 2020
     date_display: May 2020
-    date_iso: 2020-05
+    date_iso: '2020-05-02'
+    published_venue: null
     global_rank: 42
     true_value: 0.4678
     true_std: 0.0067
@@ -2269,9 +2317,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2020
+    date: May 2, 2020
     date_display: May 2020
-    date_iso: 2020-05
+    date_iso: '2020-05-02'
+    published_venue: null
     global_rank: 43
     true_value: 0.3732
     true_std: 0.0037
@@ -2306,9 +2355,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2020
+    date: May 2, 2020
     date_display: May 2020
-    date_iso: 2020-05
+    date_iso: '2020-05-02'
+    published_venue: null
     global_rank: 45
     true_value: 0.3544
     true_std: 0.0036
@@ -2343,9 +2393,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2020
+    date: May 2, 2020
     date_display: May 2020
-    date_iso: 2020-05
+    date_iso: '2020-05-02'
+    published_venue: null
     global_rank: 46
     true_value: 0.2692
     true_std: 0.0026
@@ -2406,9 +2457,9 @@ results:
     arxiv_id: '2511.05592'
     title: 'Graver: Generative Graph Vocabularies for Robust Graph Foundation Models
       Fine-tuning'
-    date: Nov 2025
+    date: Nov 5, 2025
     date_display: Nov 2025
-    date_iso: 2025-11
+    date_iso: '2025-11-05'
     codebase_url: https://github.com/RingBDStack/GRAVER
     uses_external_data: true
     is_global_top: true
@@ -2455,9 +2506,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2020
+    date: May 2, 2020
     date_display: May 2020
-    date_iso: 2020-05
+    date_iso: '2020-05-02'
+    published_venue: null
     global_rank: 30
     true_value: 0.679
     true_std: 0.0
@@ -2492,9 +2544,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2020
+    date: May 2, 2020
     date_display: May 2020
-    date_iso: 2020-05
+    date_iso: '2020-05-02'
+    published_venue: null
     global_rank: 68
     true_value: 0.4724
     true_std: 0.0031
@@ -2606,9 +2659,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2020
+    date: May 2, 2020
     date_display: May 2020
-    date_iso: 2020-05
+    date_iso: '2020-05-02'
+    published_venue: null
     global_rank: 22
     true_value: 0.8435
     true_std: 0.0009
@@ -2643,9 +2697,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2020
+    date: May 2, 2020
     date_display: May 2020
-    date_iso: 2020-05
+    date_iso: '2020-05-02'
+    published_venue: null
     global_rank: 27
     true_value: 0.8316
     true_std: 0.0019
@@ -2680,9 +2735,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2020
+    date: May 2, 2020
     date_display: May 2020
-    date_iso: 2020-05
+    date_iso: '2020-05-02'
+    published_venue: null
     global_rank: 54
     true_value: 0.8027
     true_std: 0.0026
@@ -2717,9 +2773,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2020
+    date: May 2, 2020
     date_display: May 2020
-    date_iso: 2020-05
+    date_iso: '2020-05-02'
+    published_venue: null
     global_rank: 63
     true_value: 0.7962
     true_std: null
@@ -2754,9 +2811,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2020
+    date: May 2, 2020
     date_display: May 2020
-    date_iso: 2020-05
+    date_iso: '2020-05-02'
+    published_venue: null
     global_rank: 70
     true_value: 0.787
     true_std: 0.0036
@@ -2791,9 +2849,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2020
+    date: May 2, 2020
     date_display: May 2020
-    date_iso: 2020-05
+    date_iso: '2020-05-02'
+    published_venue: null
     global_rank: 119
     true_value: 0.7249
     true_std: 0.001
@@ -2828,9 +2887,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2020
+    date: May 2, 2020
     date_display: May 2020
-    date_iso: 2020-05
+    date_iso: '2020-05-02'
+    published_venue: null
     global_rank: 137
     true_value: 0.6106
     true_std: 0.0008
@@ -2939,9 +2999,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2020
+    date: May 2, 2020
     date_display: May 2020
-    date_iso: 2020-05
+    date_iso: '2020-05-02'
+    published_venue: null
     global_rank: 12
     true_value: 0.818
     true_std: 0.004
@@ -2976,9 +3037,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2020
+    date: May 2, 2020
     date_display: May 2020
-    date_iso: 2020-05
+    date_iso: '2020-05-02'
+    published_venue: null
     global_rank: 13
     true_value: 0.815
     true_std: 0.003
@@ -3013,9 +3075,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2020
+    date: May 2, 2020
     date_display: May 2020
-    date_iso: 2020-05
+    date_iso: '2020-05-02'
+    published_venue: null
     global_rank: 29
     true_value: 0.7204
     true_std: 0.0048
@@ -3050,9 +3113,10 @@ results:
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
-    date: May 2020
+    date: May 2, 2020
     date_display: May 2020
-    date_iso: 2020-05
+    date_iso: '2020-05-02'
+    published_venue: null
     global_rank: 33
     true_value: 0.6881
     true_std: 0.0065

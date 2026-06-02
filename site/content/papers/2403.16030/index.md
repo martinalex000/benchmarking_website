@@ -3,8 +3,9 @@ title: arXiv:2403.16030
 arxiv_id: '2403.16030'
 source_url: ''
 authors: []
-published_date: ''
-published_date_iso: ''
+published_date: Mar 24, 2024
+published_date_iso: '2024-03-24'
+published_venue: ''
 abstract: ''
 codebase_url: ''
 extraction_model: Qwen/Qwen3.6-35B-A3B-FP8
@@ -19,6 +20,5 @@ task_categories: []
 experiment_scopes: []
 results: []
 results_grouped: []
-main_figure: /figures/2403.16030/main_figure.png
 ---
 

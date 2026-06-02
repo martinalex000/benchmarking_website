@@ -5,6 +5,7 @@ source_url: ''
 authors: []
 published_date: Jul 2024
 published_date_iso: 2024-07
+published_venue: ''
 abstract: The geometry of a graph is encoded in dynamical processes on the graph.
   Many graph neural network (GNN) architectures are inspired by such dynamical systems,
   typically based on the graph Laplacian. Here, we introduce Dirac--Bianconi GNNs
@@ -51,9 +52,9 @@ results:
     params_millions: null
     arxiv_id: '2511.20406'
     title: Short-Range Oversquashing
-    date: Nov 2025
+    date: Nov 25, 2025
     date_display: Nov 2025
-    date_iso: 2025-11
+    date_iso: '2025-11-25'
     codebase_url: https://github.com/YakovM93/Short-Range-Oversquashing
     uses_external_data: false
     is_global_top: true
@@ -119,13 +120,14 @@ results:
     is_baseline: false
     is_overridden: false
     override_reason: ''
-    params_millions: 0.127
+    params_millions: null
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: fuzzy match to d&d (score=86)'
     date: Jul 2024
     date_display: Jul 2024
     date_iso: 2024-07
+    published_venue: null
     global_rank: null
     sort_value: 0.8568
     sort_std: 0.001
@@ -149,6 +151,7 @@ results:
     date: Jul 2024
     date_display: Jul 2024
     date_iso: 2024-07
+    published_venue: null
     global_rank: null
     sort_value: 0.825
     sort_std: 0.0036
@@ -172,6 +175,7 @@ results:
     date: Jul 2024
     date_display: Jul 2024
     date_iso: 2024-07
+    published_venue: null
     global_rank: null
     sort_value: 0.8222
     sort_std: 0.0012
@@ -195,6 +199,7 @@ results:
     date: Jul 2024
     date_display: Jul 2024
     date_iso: 2024-07
+    published_venue: null
     global_rank: null
     sort_value: 0.7074
     sort_std: 0.0015
@@ -217,9 +222,9 @@ results:
     params_millions: null
     arxiv_id: '2508.05070'
     title: 'Tango: Graph Neural Dynamics via Learned Energy and Tangential Flows'
-    date: Aug 2025
+    date: Aug 7, 2025
     date_display: Aug 2025
-    date_iso: 2025-08
+    date_iso: '2025-08-07'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
@@ -241,9 +246,9 @@ results:
     arxiv_id: '2511.03824'
     title: Sketch-Augmented Features Improve Learning Long-Range Dependencies in Graph
       Neural Networks
-    date: Nov 2025
+    date: Nov 5, 2025
     date_display: Nov 2025
-    date_iso: 2025-11
+    date_iso: '2025-11-05'
     codebase_url: https://github.com/ryienh/sketched-random-features
     uses_external_data: false
     is_global_top: true
@@ -265,9 +270,9 @@ results:
     arxiv_id: '2506.07624'
     title: 'Return of ChebNet: Understanding and Improving an Overlooked GNN on Long-Range
       Tasks'
-    date: Jun 2025
+    date: Jun 9, 2025
     date_display: Jun 2025
-    date_iso: 2025-06
+    date_iso: '2025-06-09'
     codebase_url: https://github.com/ahariri13/Stable-ChebNet
     uses_external_data: null
     is_global_top: true
@@ -287,13 +292,14 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.508
+    params_millions: null
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
     date: Jul 2024
     date_display: Jul 2024
     date_iso: 2024-07
+    published_venue: null
     global_rank: 16
     true_value: 0.246
     true_std: 0.0007
@@ -324,13 +330,14 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.476
+    params_millions: null
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
     date: Jul 2024
     date_display: Jul 2024
     date_iso: 2024-07
+    published_venue: null
     global_rank: 26
     true_value: 0.2473
     true_std: 0.0017
@@ -361,13 +368,14 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.509
+    params_millions: null
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
     date: Jul 2024
     date_display: Jul 2024
     date_iso: 2024-07
+    published_venue: null
     global_rank: 35
     true_value: 0.2477
     true_std: 0.0009
@@ -405,6 +413,7 @@ results:
     date: Jul 2024
     date_display: Jul 2024
     date_iso: 2024-07
+    published_venue: null
     global_rank: 64
     true_value: 0.2529
     true_std: 0.0016
@@ -434,13 +443,14 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.5
+    params_millions: null
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
     date: Jul 2024
     date_display: Jul 2024
     date_iso: 2024-07
+    published_venue: null
     global_rank: 73
     true_value: 0.2545
     true_std: 0.0012
@@ -470,13 +480,14 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.493
+    params_millions: null
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
     date: Jul 2024
     date_display: Jul 2024
     date_iso: 2024-07
+    published_venue: null
     global_rank: 88
     true_value: 0.268
     true_std: 0.004
@@ -507,13 +518,14 @@ results:
     is_baseline: false
     is_overridden: false
     override_reason: ''
-    params_millions: 0.127
+    params_millions: null
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
     date: Jul 2024
     date_display: Jul 2024
     date_iso: 2024-07
+    published_venue: null
     global_rank: 98
     true_value: 0.2864
     true_std: 0.0046
@@ -543,13 +555,14 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.506
+    params_millions: null
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
     date: Jul 2024
     date_display: Jul 2024
     date_iso: 2024-07
+    published_venue: null
     global_rank: 103
     true_value: 0.3357
     true_std: 0.0006
@@ -579,13 +592,14 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.505
+    params_millions: null
     table_ref: Table 1
     source_ref: this paper
     variant_inference_reason: 'dataset: exact match'
     date: Jul 2024
     date_display: Jul 2024
     date_iso: 2024-07
+    published_venue: null
     global_rank: 105
     true_value: 0.3471
     true_std: 0.001
@@ -613,6 +627,5 @@ results_grouped:
   datasets:
   - *id002
 single_proposed_model: DBGNN
-main_figure: /figures/2407.12419/main_figure.png
 ---
 

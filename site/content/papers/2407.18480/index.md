@@ -3,8 +3,9 @@ title: arXiv:2407.18480
 arxiv_id: '2407.18480'
 source_url: ''
 authors: []
-published_date: ''
-published_date_iso: ''
+published_date: Jul 26, 2024
+published_date_iso: '2024-07-26'
+published_venue: ''
 abstract: ''
 codebase_url: ''
 extraction_model: Qwen/Qwen3.6-35B-A3B-FP8
@@ -19,6 +20,5 @@ task_categories: []
 experiment_scopes: []
 results: []
 results_grouped: []
-main_figure: /figures/2407.18480/main_figure.png
 ---
 

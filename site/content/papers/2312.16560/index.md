@@ -3,8 +3,9 @@ title: Algorithmic Graph Tasks
 arxiv_id: '2312.16560'
 source_url: ''
 authors: []
-published_date: ''
-published_date_iso: ''
+published_date: Dec 27, 2023
+published_date_iso: '2023-12-27'
+published_venue: ''
 abstract: ''
 codebase_url: ''
 extraction_model: ''
@@ -19,6 +20,5 @@ task_categories: []
 experiment_scopes: []
 results: []
 results_grouped: []
-main_figure: /figures/2312.16560/main_figure.png
 ---
 

@@ -3,8 +3,9 @@ title: arXiv:2411.17296
 arxiv_id: '2411.17296'
 source_url: ''
 authors: []
-published_date: ''
-published_date_iso: ''
+published_date: Nov 26, 2024
+published_date_iso: '2024-11-26'
+published_venue: ''
 abstract: ''
 codebase_url: ''
 extraction_model: ''
@@ -19,6 +20,5 @@ task_categories: []
 experiment_scopes: []
 results: []
 results_grouped: []
-main_figure: /figures/2411.17296/main_figure.png
 ---
 

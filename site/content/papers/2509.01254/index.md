@@ -5,6 +5,7 @@ source_url: ''
 authors: []
 published_date: Sep 2025
 published_date_iso: 2025-09
+published_venue: ''
 abstract: 'Expressivity theory, characterizing which graphs a GNN can distinguish,
   has become the predominant framework for analyzing GNNs, with new models striving
   for higher expressivity. However, we argue that this focus is misguided: First,
@@ -51,9 +52,9 @@ results:
     params_millions: null
     arxiv_id: '2306.03589'
     title: How does over-squashing affect the power of GNNs?
-    date: Jun 2023
+    date: Jun 6, 2023
     date_display: Jun 2023
-    date_iso: 2023-06
+    date_iso: '2023-06-06'
     codebase_url: ''
     uses_external_data: false
     is_global_top: true
@@ -80,6 +81,7 @@ results:
     date: Sep 2025
     date_display: Sep 2025
     date_iso: 2025-09
+    published_venue: null
     global_rank: 2
     true_value: 0.006
     true_std: null
@@ -116,6 +118,7 @@ results:
     date: Sep 2025
     date_display: Sep 2025
     date_iso: 2025-09
+    published_venue: null
     global_rank: 3
     true_value: 0.014
     true_std: null
@@ -143,7 +146,7 @@ results:
     is_baseline: true
     is_overridden: false
     override_reason: ''
-    params_millions: 0.5
+    params_millions: null
     arxiv_id: '2402.08450'
     title: 'Subgraphormer: Unifying Subgraph GNNs and Graph Transformers via Graph
       Products'
@@ -199,6 +202,7 @@ results:
     date: Sep 2025
     date_display: Sep 2025
     date_iso: 2025-09
+    published_venue: null
     global_rank: 10
     true_value: 0.0237
     true_std: 0.0
@@ -235,6 +239,7 @@ results:
     date: Sep 2025
     date_display: Sep 2025
     date_iso: 2025-09
+    published_venue: null
     global_rank: 11
     true_value: 0.024
     true_std: null
@@ -271,6 +276,7 @@ results:
     date: Sep 2025
     date_display: Sep 2025
     date_iso: 2025-09
+    published_venue: null
     global_rank: 17
     true_value: 0.027
     true_std: 0.007
@@ -307,6 +313,7 @@ results:
     date: Sep 2025
     date_display: Sep 2025
     date_iso: 2025-09
+    published_venue: null
     global_rank: 73
     true_value: 0.101
     true_std: 0.01
@@ -330,6 +337,5 @@ results_grouped:
 - benchmark: Classic
   datasets:
   - *id001
-main_figure: /figures/2509.01254/main_figure.png
 ---
 
