@@ -27,6 +27,7 @@ the curated data to the site.
 
 The repository uses these pre-commit hooks:
 
+- `checkpoint-benchmarks-db` (merge WAL into `data/benchmarks.db`; block `-wal`/`-shm` commits)
 - `isort`
 - `black`
 - `ruff` / `ruff-format`

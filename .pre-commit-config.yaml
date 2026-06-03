@@ -19,6 +19,12 @@ repos:
 
   - repo: local
     hooks:
+      - id: checkpoint-benchmarks-db
+        name: checkpoint benchmarks.db (SQLite WAL)
+        entry: uv run python -m backend.benchmarks_db_precommit
+        language: system
+        pass_filenames: false
+        always_run: true
       - id: bandit-ci
         name: bandit (medium+ severity only)
         entry: uv run bandit -r backend/ scripts/ -ll -ii -f screen

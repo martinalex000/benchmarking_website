@@ -33,6 +33,11 @@ papers/*
 papers/.*
 !papers/.gitkeep
 
+# ── SQLite WAL sidecars (main DB is versioned) ───────────────────────────────
+data/benchmarks.db-wal
+data/benchmarks.db-shm
+data/benchmarks.db-*
+
 # ── OS / Editor ─────────────────────────────────────────────────────────────
 .DS_Store
 Thumbs.db
