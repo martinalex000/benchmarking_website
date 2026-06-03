@@ -14,6 +14,24 @@
   {{ with .Params.main_figure }}{{ $socialImage = (strings.TrimPrefix "/" . | absURL) }}{{ end }}
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <script>
+    (function () {
+      try {
+        var key = "theme";
+        var stored = localStorage.getItem(key);
+        var theme =
+          stored === "light" || stored === "dark"
+            ? stored
+            : window.matchMedia("(prefers-color-scheme: dark)").matches
+              ? "dark"
+              : "light";
+        document.documentElement.dataset.theme = theme;
+      } catch (e) {
+        document.documentElement.dataset.theme = "light";
+      }
+    })();
+  </script>
   <title>{{ $title }}</title>
   <meta name="description" content="{{ $description }}">
   <link rel="canonical" href="{{ $canonicalURL }}">
@@ -31,11 +49,21 @@
 </head>
 <body>
 <header class="site-header">
+  <button type="button" class="theme-toggle" id="theme-toggle" aria-pressed="false">
+    <svg class="theme-icon theme-icon-sun" viewBox="0 0 24 24" aria-hidden="true">
+      <circle cx="12" cy="12" r="4"></circle>
+      <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
+    </svg>
+    <svg class="theme-icon theme-icon-moon" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+    </svg>
+  </button>
   <nav>
     <a class="site-title" href="{{ .Site.Home.RelPermalink }}">{{ .Site.Title }}</a>
     <ul class="site-nav-links">
       <li><a href="{{ "datasets/" | relURL }}">Datasets</a></li>
       <li><a href="{{ "papers/" | relURL }}">Papers</a></li>
+      <li><a href="{{ "conferences/" | relURL }}">Conferences</a></li>
     </ul>
     {{ if .Site.GetPage "section" "dev" }}
     <div class="site-nav-utility">
@@ -50,6 +78,7 @@
 <footer>
   <p>Data extracted automatically and may contain mistakes. <a href="{{ .Site.Params.repoURL }}">Source</a> · Built by <a href="https://www.martinalex.de">Martin Ritzert</a> · Feedback or collaboration: <a href="mailto:graphlearningbenchmarks@proton.me">graphlearningbenchmarks@proton.me</a></p>
 </footer>
+<script src="{{ "js/theme.js" | relURL }}?v={{ now.Unix }}"></script>
 <script src="{{ .Site.Params.chartjsCDN }}/dist/chart.umd.min.js"></script>
 <script src="{{ "js/leaderboard.js" | relURL }}?v={{ now.Unix }}"></script>
 {{ block "scripts" . }}{{ end }}

@@ -2,81 +2,120 @@
 {{ $all := where .Pages "Params.has_results" true }}
 {{ $sorted_papers := sort $all "Params.adjusted_mrr" "desc" }}
 {{ $conferenceShortcuts := slice "NeurIPS" "ICLR" "ICML" "LoG" "TMLR" "AAAI" "KDD" }}
+{{ $mrrTooltip := "Mean reciprocal rank of the paper's primary proposed model across qualifying datasets (≥10 results, ≥3 papers), divided by max(dataset_count, 3)." }}
 
 <h1>Papers</h1>
 
 <div class="section-intro">
-  <p>{{ len $all }} paper(s).</p>
-  <p>
-    The default ranking is <strong>coverage-adjusted MRR</strong>: for each paper, the site takes the paper's primary proposed model, computes its reciprocal rank on each dataset's primary metric against all tracked results, and averages across qualifying datasets.
-  </p>
-  <p>
-    Only datasets with at least 10 tracked results and 3 distinct papers count, and the final score is divided by <code>max(dataset_count, 3)</code> so papers evaluated on just one or two datasets do not dominate the overview. Use <strong>Date</strong> sorting when you want the newest papers instead.
-  </p>
+  <p>{{ len $all }} paper(s). Default sort is <strong>MRR</strong> (coverage-adjusted mean reciprocal rank of the primary proposed model on qualifying datasets).</p>
 </div>
 
 <div class="papers-toolbar">
-  <div class="filter-bar papers-search-bar">
-    <label class="filter-label" for="paper-search">Search papers:</label>
-    <input id="paper-search" type="search" placeholder="Type title, arXiv id, or category..." autocomplete="off">
+  <div class="papers-toolbar-row papers-toolbar-row-primary">
+    <div class="filter-bar papers-search-bar">
+      <label class="filter-label" for="paper-search">Search:</label>
+      <input id="paper-search" type="search" placeholder="Title, arXiv id, category…" autocomplete="off">
+    </div>
+    <div class="filter-bar papers-sort-bar">
+      <span class="filter-label">Sort:</span>
+      <button type="button" class="paper-sort-btn active" id="paper-sort-score" data-sort-mode="score">MRR</button>
+      <button type="button" class="paper-sort-btn" id="paper-sort-date" data-sort-mode="date">Date</button>
+    </div>
+    <div class="filter-bar papers-scope-bar">
+      <span class="filter-label">Experiments:</span>
+      <button class="paper-scope-toggle active" type="button" data-scope-filter="all">All</button>
+      <button class="paper-scope-toggle" type="button" data-scope-filter="node-level">Node-level</button>
+      <button class="paper-scope-toggle" type="button" data-scope-filter="graph-level">Graph-level</button>
+      <button class="paper-scope-toggle" type="button" data-scope-filter="edge-level">Edge-level</button>
+    </div>
   </div>
-  <div class="filter-bar papers-sort-bar">
-    <label class="filter-label" for="paper-sort">Sort by:</label>
-    <select id="paper-sort">
-      <option value="score">Adjusted MRR</option>
-      <option value="date">Date</option>
-    </select>
-  </div>
-  <div class="filter-bar papers-scope-bar">
-    <span class="filter-label">Experiments:</span>
-    <button class="task-filter active" type="button" data-scope-filter="">All</button>
-    <button class="task-filter" type="button" data-scope-filter="node-level">Node-level</button>
-    <button class="task-filter" type="button" data-scope-filter="graph-level">Graph-level</button>
-    <button class="task-filter" type="button" data-scope-filter="edge-level">Edge-level</button>
-  </div>
-  <div class="filter-bar papers-conference-bar">
-    <span class="filter-label">Conferences:</span>
-    <button class="task-filter active" type="button" data-conference-filter="">All</button>
-    {{ range $conferenceShortcuts }}
-    <button class="task-filter" type="button" data-conference-filter="{{ . | lower }}">{{ . }}</button>
-    {{ end }}
+  <div class="papers-toolbar-row papers-toolbar-row-secondary">
+    <div class="filter-bar papers-conference-bar">
+      <span class="filter-label">Conferences:</span>
+      <button class="task-filter active" type="button" data-conference-filter="">All</button>
+      {{ range $conferenceShortcuts }}
+      <button class="task-filter" type="button" data-conference-filter="{{ . | lower }}">{{ . }}</button>
+      {{ end }}
+    </div>
+    <div class="filter-bar papers-year-bar">
+      <label class="filter-label" for="paper-year-filter">Published:</label>
+      <select id="paper-year-filter" class="paper-filter-select">
+        <option value="all">All years</option>
+        <option value="this-year">This year</option>
+        <option value="since-last-year">Since last year</option>
+        <option value="last-5">Last 5 years</option>
+        <option value="last-10">Last 10 years</option>
+      </select>
+    </div>
   </div>
 </div>
 
 <div class="paper-list" id="paper-list">
   {{ range $sorted_papers }}
   {{ $searchText := lower (printf "%s %s %s %s %s %s" .Title (default "" .Params.arxiv_id) (default "" .Params.published_venue) (default "" .Params.published_conference) (delimit (default (slice) .Params.benchmark_categories) " ") (delimit (default (slice) .Params.task_categories) " ")) }}
-  <div class="paper-list-item"
+  {{ $benchmarkSlugs := slice }}
+  {{ with .Params.benchmark_coverage }}
+    {{ range . }}
+      {{ $benchmarkSlugs = $benchmarkSlugs | append (default (.benchmark | urlize) .benchmark_slug) }}
+    {{ end }}
+  {{ else }}
+    {{ with .Params.benchmark_categories }}
+      {{ range . }}
+        {{ $benchmarkSlugs = $benchmarkSlugs | append (. | urlize) }}
+      {{ end }}
+    {{ end }}
+  {{ end }}
+  {{ $confSlug := default (.Params.published_conference_short | lower) .Params.published_conference_slug }}
+  <article class="paper-list-item"
        data-paper-search="{{ $searchText }}"
        data-rank-score="{{ default -1 .Params.adjusted_mrr }}"
        data-paper-date="{{ default "" .Params.published_date_iso }}"
        data-paper-scopes="{{ delimit (default (slice) .Params.experiment_scopes) " " }}"
-       data-paper-conference="{{ default "" .Params.published_conference_slug }}">
-    <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
-    <div class="paper-meta">
-      {{ with .Params.source_url }}
-      <a class="badge" href="{{ . }}" target="_blank" rel="noopener">Paper</a>
-      {{ else }}
-      {{ with .Params.arxiv_id }}<a class="badge" href="https://arxiv.org/abs/{{ . }}" target="_blank" rel="noopener">arXiv:{{ . }}</a>{{ end }}
-      {{ end }}
-      {{ with .Params.published_date }}<span class="badge">{{ . }}</span>{{ end }}
-      {{ with .Params.published_conference }}<span class="badge muted">{{ . }}</span>{{ end }}
-      {{ if and .Params.adjusted_mrr (gt .Params.adjusted_mrr 0.0) }}<span class="badge muted" title="Mean reciprocal rank of the paper's primary proposed model across qualifying datasets, divided by max(dataset_count, 3).">Coverage-adjusted MRR {{ printf "%.3f" .Params.adjusted_mrr }}</span>{{ end }}
-      {{ if gt (default 0 .Params.mrr_dataset_count) 0 }}<span class="badge muted">{{ .Params.mrr_dataset_count }} dataset{{ if ne .Params.mrr_dataset_count 1 }}s{{ end }}</span>{{ end }}
-    </div>
-    {{ with .Params.benchmark_categories }}
-    <div class="paper-category-badges">
-      {{ range . }}<span class="badge muted paper-dataset-badge">{{ . }}</span>{{ end }}
-    </div>
-    {{ end }}
-    {{ with .Params.experiment_scopes }}
-    <div class="paper-category-badges">
-      {{ range . }}<span class="badge muted paper-experiment-badge">{{ . }}</span>{{ end }}
-    </div>
-    {{ end }}
+       data-paper-benchmarks="{{ delimit $benchmarkSlugs " " }}"
+       data-paper-conference="{{ $confSlug }}">
+    <header class="paper-card-header">
+      <h3 class="paper-card-title">
+        {{ with .Params.published_conference }}
+        <button type="button" class="paper-tag-btn paper-venue-btn" data-conference-tag="{{ $confSlug }}">{{ . }}</button><span class="paper-venue-sep" aria-hidden="true">:</span>
+        {{ end }}
+        <a class="paper-card-title-link" href="{{ .RelPermalink }}"><span class="paper-title-text">{{ .Title }}</span></a>
+      </h3>
+      <div class="paper-card-metrics">
+        {{ if and .Params.adjusted_mrr (gt .Params.adjusted_mrr 0.0) }}
+        <span class="paper-card-mrr" title="{{ $mrrTooltip }}">MRR {{ printf "%.3f" .Params.adjusted_mrr }}</span>
+        {{ end }}
+        {{ with .Params.published_date }}
+        <time class="paper-card-date" datetime="{{ $.Params.published_date_iso }}">{{ . }}</time>
+        {{ end }}
+      </div>
+    </header>
     {{ with .Params.authors }}<p class="authors">{{ delimit . ", " }}</p>{{ end }}
+    {{ if or .Params.experiment_scopes .Params.benchmark_coverage .Params.benchmark_categories }}
+    <div class="paper-card-tags">
+      {{ with .Params.experiment_scopes }}
+      {{ range . }}
+      <button type="button" class="paper-tag-btn paper-experiment-badge" data-scope-tag="{{ . }}">{{ . }}</button>
+      {{ end }}
+      {{ end }}
+      {{ with .Params.benchmark_coverage }}
+      {{ range . }}
+      {{ $bmSlug := default (.benchmark | urlize) .benchmark_slug }}
+      <button type="button" class="paper-tag-btn paper-dataset-badge" data-benchmark-tag="{{ $bmSlug }}" title="Datasets with results in this benchmark group">{{ .benchmark }} {{ .evaluated }}/{{ .total }}</button>
+      {{ end }}
+      {{ else }}
+      {{ with .Params.benchmark_categories }}
+      {{ range . }}
+      <button type="button" class="paper-tag-btn paper-dataset-badge" data-benchmark-tag="{{ . | urlize }}">{{ . }}</button>
+      {{ end }}
+      {{ end }}
+      {{ end }}
+    </div>
+    {{ end }}
+    {{ with .Params.source_url }}
+    <p class="paper-card-link"><a href="{{ . }}" target="_blank" rel="noopener">Paper ↗</a></p>
+    {{ end }}
     {{ with .Params.abstract }}<p class="abstract-excerpt">{{ . | truncate 240 }}</p>{{ end }}
-  </div>
+  </article>
   {{ end }}
 </div>
 
@@ -87,26 +126,148 @@
 <script>
 (function () {
   var input = document.getElementById("paper-search");
-  var sort = document.getElementById("paper-sort");
+  var sortScoreBtn = document.getElementById("paper-sort-score");
+  var sortDateBtn = document.getElementById("paper-sort-date");
+  var yearSelect = document.getElementById("paper-year-filter");
   var list = document.getElementById("paper-list");
   var empty = document.getElementById("paper-empty-state");
-  if (!input || !sort || !list) return;
+  if (!input || !sortScoreBtn || !sortDateBtn || !list) return;
 
-  var scopeButtons = Array.from(document.querySelectorAll("[data-scope-filter]"));
+  var scopeButtons = Array.from(document.querySelectorAll(".paper-scope-toggle"));
   var conferenceButtons = Array.from(document.querySelectorAll("[data-conference-filter]"));
-  var activeScope = "";
-  var activeConference = "";
+  var sortMode = "score";
+  var dateAsc = false;
+
+  var filters = {
+    scopes: { mode: "all", picked: new Set() },
+    conference: "",
+    benchmark: "",
+    year: yearSelect ? yearSelect.value : "all",
+  };
+
+  function yearCutoff(value) {
+    var now = new Date();
+    var y = now.getFullYear();
+    if (value === "this-year") return y + "-01-01";
+    if (value === "since-last-year") return (y - 1) + "-01-01";
+    if (value === "last-5") return (y - 4) + "-01-01";
+    if (value === "last-10") return (y - 9) + "-01-01";
+    return "";
+  }
+
+  function updateSortButtons() {
+    sortScoreBtn.classList.toggle("active", sortMode === "score");
+    sortDateBtn.classList.toggle("active", sortMode === "date");
+    sortScoreBtn.classList.remove("sort-asc", "sort-desc");
+    sortDateBtn.classList.remove("sort-asc", "sort-desc");
+    if (sortMode === "date") {
+      sortDateBtn.classList.add(dateAsc ? "sort-asc" : "sort-desc");
+    }
+  }
+
+  function syncScopeToolbar() {
+    scopeButtons.forEach(function (btn) {
+      var key = btn.dataset.scopeFilter || "";
+      if (key === "all") {
+        btn.classList.toggle("active", filters.scopes.mode === "all");
+      } else {
+        btn.classList.toggle(
+          "active",
+          filters.scopes.mode === "pick" && filters.scopes.picked.has(key)
+        );
+      }
+    });
+  }
+
+  function normalizeConferenceSlug(slug) {
+    return (slug || "").trim().toLowerCase();
+  }
+
+  function setConference(slug) {
+    filters.conference = normalizeConferenceSlug(slug);
+    conferenceButtons.forEach(function (btn) {
+      btn.classList.toggle(
+        "active",
+        normalizeConferenceSlug(btn.dataset.conferenceFilter) === filters.conference
+      );
+    });
+  }
+
+  function setBenchmark(slug) {
+    if (filters.benchmark === slug) {
+      filters.benchmark = "";
+    } else {
+      filters.benchmark = slug || "";
+    }
+  }
+
+  function activateScopeOnly(scope) {
+    filters.scopes.mode = "pick";
+    filters.scopes.picked = new Set([scope]);
+    syncScopeToolbar();
+  }
+
+  function toggleScope(scope) {
+    if (filters.scopes.mode === "all") {
+      activateScopeOnly(scope);
+      return;
+    }
+    if (filters.scopes.picked.has(scope)) {
+      filters.scopes.picked.delete(scope);
+      if (!filters.scopes.picked.size) {
+        clearScopes();
+        return;
+      }
+    } else {
+      filters.scopes.picked.add(scope);
+    }
+    syncScopeToolbar();
+  }
+
+  function clearScopes() {
+    filters.scopes.mode = "all";
+    filters.scopes.picked = new Set();
+    syncScopeToolbar();
+  }
+
+  function syncTagHighlights() {
+    list.querySelectorAll(".paper-tag-btn").forEach(function (btn) {
+      btn.classList.remove("is-filter-active");
+    });
+    if (filters.conference) {
+      list.querySelectorAll('[data-conference-tag="' + filters.conference + '"]').forEach(function (btn) {
+        btn.classList.add("is-filter-active");
+      });
+    }
+    if (filters.benchmark) {
+      list.querySelectorAll('[data-benchmark-tag="' + filters.benchmark + '"]').forEach(function (btn) {
+        btn.classList.add("is-filter-active");
+      });
+    }
+    if (filters.scopes.mode === "pick") {
+      filters.scopes.picked.forEach(function (scope) {
+        list.querySelectorAll('[data-scope-tag="' + scope + '"]').forEach(function (btn) {
+          btn.classList.add("is-filter-active");
+        });
+      });
+    }
+  }
+
+  var params = new URLSearchParams(window.location.search);
+  var conferenceParam = (params.get("conference") || "").toLowerCase();
+  if (conferenceParam) {
+    setConference(conferenceParam);
+  }
 
   function activeCards() {
     return Array.from(list.querySelectorAll(".paper-list-item"));
   }
 
   function sortCards(cards) {
-    var mode = sort.value || "score";
     cards.sort(function (a, b) {
-      if (mode === "date") {
-        var dateCmp = (b.dataset.paperDate || "").localeCompare(a.dataset.paperDate || "");
-        if (dateCmp !== 0) return dateCmp;
+      if (sortMode === "date") {
+        var dateCmp = (a.dataset.paperDate || "").localeCompare(b.dataset.paperDate || "");
+        if (dateCmp !== 0) return dateAsc ? dateCmp : -dateCmp;
       }
       var scoreCmp = parseFloat(b.dataset.rankScore || "-1") - parseFloat(a.dataset.rankScore || "-1");
       if (scoreCmp !== 0) return scoreCmp;
@@ -117,6 +278,31 @@
     });
   }
 
+  function matchesScope(card) {
+    if (filters.scopes.mode === "all") return true;
+    var scopes = (card.dataset.paperScopes || "").split(/\s+/).filter(Boolean);
+    var picked = filters.scopes.picked;
+    if (!picked.size) return true;
+    for (var i = 0; i < scopes.length; i += 1) {
+      if (picked.has(scopes[i])) return true;
+    }
+    return false;
+  }
+
+  function matchesYear(card) {
+    if (!filters.year || filters.year === "all") return true;
+    var cutoff = yearCutoff(filters.year);
+    if (!cutoff) return true;
+    var date = card.dataset.paperDate || "";
+    return date && date >= cutoff;
+  }
+
+  function matchesBenchmark(card) {
+    if (!filters.benchmark) return true;
+    var benchmarks = (card.dataset.paperBenchmarks || "").split(/\s+/).filter(Boolean);
+    return benchmarks.indexOf(filters.benchmark) !== -1;
+  }
+
   function applyControls() {
     var cards = activeCards();
     sortCards(cards);
@@ -125,40 +311,93 @@
     var visible = 0;
     cards.forEach(function (card) {
       var haystack = (card.dataset.paperSearch || "").toLowerCase();
-      var scopes = (card.dataset.paperScopes || "").split(/\s+/).filter(Boolean);
-      var conference = (card.dataset.paperConference || "").toLowerCase();
-      var scopeMatch = !activeScope || scopes.indexOf(activeScope) !== -1;
-      var conferenceMatch = !activeConference || conference === activeConference;
+      var conference = normalizeConferenceSlug(card.dataset.paperConference);
+      var conferenceMatch = !filters.conference || conference === filters.conference;
       var textMatch = !query || haystack.indexOf(query) !== -1;
-      var match = scopeMatch && conferenceMatch && textMatch;
+      var match =
+        matchesScope(card) &&
+        conferenceMatch &&
+        matchesBenchmark(card) &&
+        matchesYear(card) &&
+        textMatch;
       card.style.display = match ? "" : "none";
       if (match) visible += 1;
     });
+    syncTagHighlights();
     if (empty) empty.style.display = visible ? "none" : "";
   }
 
+  sortScoreBtn.addEventListener("click", function () {
+    sortMode = "score";
+    updateSortButtons();
+    applyControls();
+  });
+
+  sortDateBtn.addEventListener("click", function () {
+    if (sortMode === "date") {
+      dateAsc = !dateAsc;
+    } else {
+      sortMode = "date";
+      dateAsc = false;
+    }
+    updateSortButtons();
+    applyControls();
+  });
+
   scopeButtons.forEach(function (btn) {
     btn.addEventListener("click", function () {
-      activeScope = btn.dataset.scopeFilter || "";
-      scopeButtons.forEach(function (other) {
-        other.classList.toggle("active", other === btn);
-      });
+      var key = btn.dataset.scopeFilter || "";
+      if (key === "all") {
+        clearScopes();
+      } else {
+        toggleScope(key);
+      }
       applyControls();
     });
   });
 
   conferenceButtons.forEach(function (btn) {
     btn.addEventListener("click", function () {
-      activeConference = btn.dataset.conferenceFilter || "";
-      conferenceButtons.forEach(function (other) {
-        other.classList.toggle("active", other === btn);
-      });
+      setConference(btn.dataset.conferenceFilter || "");
       applyControls();
     });
   });
 
+  if (yearSelect) {
+    yearSelect.addEventListener("change", function () {
+      filters.year = yearSelect.value;
+      applyControls();
+    });
+  }
+
+  list.addEventListener("click", function (event) {
+    var btn = event.target.closest(".paper-tag-btn");
+    if (!btn) return;
+    event.preventDefault();
+    event.stopPropagation();
+
+    if (btn.classList.contains("paper-venue-btn")) {
+      var confSlug = normalizeConferenceSlug(btn.getAttribute("data-conference-tag"));
+      if (confSlug) {
+        setConference(confSlug);
+        applyControls();
+      }
+      return;
+    }
+    if (btn.dataset.scopeTag) {
+      activateScopeOnly(btn.dataset.scopeTag);
+      applyControls();
+      return;
+    }
+    if (btn.dataset.benchmarkTag) {
+      setBenchmark(btn.dataset.benchmarkTag);
+      applyControls();
+    }
+  });
+
   input.addEventListener("input", applyControls);
-  sort.addEventListener("change", applyControls);
+  updateSortButtons();
+  syncScopeToolbar();
   applyControls();
 })();
 </script>
