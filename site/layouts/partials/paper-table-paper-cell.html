@@ -1,0 +1,12 @@
+{{/* Context: row dict .row */}}
+{{ $r := .row }}
+{{ if $r.is_global_top }}
+<div class="paper-cell-row">
+  <div class="paper-title-wrap">
+    {{ if $r.arxiv_id }}<a class="paper-title-link" href="{{ printf "papers/%s/" $r.arxiv_id | relURL }}" title="arXiv:{{ $r.arxiv_id }}{{ with $r.title }} — {{ . }}{{ end }}">{{ if $r.title }}{{ $r.title | truncate 96 }}{{ else }}arXiv:{{ $r.arxiv_id }}{{ end }}</a>{{ else }}—{{ end }}
+    {{ if $r.codebase_url }}<a class="paper-code-link" href="{{ $r.codebase_url }}" target="_blank" rel="noopener">code ↗</a>{{ end }}
+  </div>
+</div>
+{{ else }}
+<span class="paper-source-this" title="Result reported in this paper">This paper</span>
+{{ end }}

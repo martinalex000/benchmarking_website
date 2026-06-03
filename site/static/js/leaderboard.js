@@ -37,6 +37,24 @@
     traditional: true,
   };
 
+  function _chartCssVar(name, fallback) {
+    var value = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+    return value || fallback;
+  }
+
+  function _chartTheme() {
+    return {
+      tick: _chartCssVar("--chart-tick", "#1f2937"),
+      grid: _chartCssVar("--chart-grid", "rgba(31,41,55,0.12)"),
+      labelBg: _chartCssVar("--chart-label-bg", "rgba(255,255,255,0.88)"),
+      blue: _chartCssVar("--blue", "#2563eb"),
+    };
+  }
+
+  function _refreshChartsForColorScheme() {
+    Object.values(charts).forEach(function (chart) { chart.update("none"); });
+  }
+
   /* ── Init ───────────────────────────────────────────────────────────── */
   function init() {
     const cfg = window.leaderboardConfig || {};
@@ -75,6 +93,8 @@
     window.addEventListener("resize", function () {
       Object.values(charts).forEach(_positionChartStdToggle);
     });
+
+    window.addEventListener("sitethemechange", _refreshChartsForColorScheme);
   }
 
   /* ── Variant switching ──────────────────────────────────────────────── */
@@ -890,7 +910,7 @@
         var ctx = chart.ctx;
         var area = chart.chartArea;
         ctx.save();
-        ctx.strokeStyle = "rgba(31,41,55,0.12)";
+        ctx.strokeStyle = _chartTheme().grid;
         ctx.lineWidth = 1;
         for (var y = startYear; y <= endYear; y++) {
           var ts = Date.UTC(y, 0, 1);
@@ -943,7 +963,7 @@
             }
             guard += 1;
           }
-          ctx.fillStyle = "#1d4ed8";
+          ctx.fillStyle = _chartTheme().blue;
           ctx.fillText(label, lx, ly);
           placedBoxes.push({ left: lx, right: lx + width, top: ly - height, bottom: ly + 2 });
         });
@@ -1072,7 +1092,7 @@
           var offset = order <= 0 ? -6 : 16 + (order - 1) * 14;
           var unclampedY = py + offset;
           var labelY = Math.min(area.bottom - 4, Math.max(area.top + 12, unclampedY));
-          ctx.fillStyle = "rgba(255,255,255,0.88)";
+          ctx.fillStyle = _chartTheme().labelBg;
           ctx.fillRect(labelX - 4, labelY - 10, textWidth + 8, 14);
           ctx.fillStyle = ref.color;
           ctx.fillText(ref.label, labelX, labelY);
@@ -1134,7 +1154,8 @@
             type: "linear",
             min: xMinPad,
             max: xMaxPad,
-            title: { display: true, text: "Date" },
+            title: { display: true, text: "Date", color: _chartTheme().tick },
+            grid: { color: _chartTheme().grid },
             afterBuildTicks: function (scale) {
               var min = scale.min;
               var max = scale.max;
@@ -1152,6 +1173,7 @@
               scale.ticks = ticks;
             },
             ticks: {
+              color: _chartTheme().tick,
               callback: function (value) {
                 return String(new Date(value).getUTCFullYear());
               },
@@ -1160,8 +1182,9 @@
           y: {
             min: focusedYBounds ? focusedYBounds.min : undefined,
             max: focusedYBounds ? focusedYBounds.max : undefined,
-            title: { display: true, text: canvas.dataset.metric || "Score" },
-            ticks: { precision: 4 },
+            title: { display: true, text: canvas.dataset.metric || "Score", color: _chartTheme().tick },
+            ticks: { precision: 4, color: _chartTheme().tick },
+            grid: { color: _chartTheme().grid },
           },
         },
         onHover: function (event, elements) {
@@ -1535,9 +1558,19 @@
     });
   }
 
+  /* ── Paper page tables (no charts / filter bar) ─────────────────────── */
+  function initPaperTableUtilities() {
+    _initSortableColumns();
+    _initTableExpanders();
+    _initMobileRowDetails();
+    _applyModelTooltips();
+    window.addEventListener("resize", _applyModelTooltips);
+  }
+
   /* ── Public API ─────────────────────────────────────────────────────── */
   window.leaderboard = {
     init: init,
+    initPaperTableUtilities: initPaperTableUtilities,
     switchVariant: switchVariant,
     toggleStd: toggleStd,
     toggleSecondaryMetrics: toggleSecondaryMetrics,
@@ -1550,6 +1583,8 @@
     if (window.leaderboardConfig) {
       init();
       _initTableHover();
+    } else if (document.querySelector(".paper-page .paper-results-table")) {
+      initPaperTableUtilities();
     }
   });
 })();

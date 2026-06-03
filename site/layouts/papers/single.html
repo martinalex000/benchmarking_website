@@ -1,91 +1,210 @@
 {{ define "main" }}
 {{ $venue := .Params.published_conference }}
-{{ $venueLabel := $venue }}
+{{ $confSlug := default (.Params.published_conference_short | lower) .Params.published_conference_slug }}
+{{ $confPapersUrl := printf "papers/?conference=%s" $confSlug | relURL }}
+{{ $pageArxiv := .Params.arxiv_id }}
+{{ $collapseThreshold := 20 }}
+{{ $hasMrr := or (and .Params.mrr (gt .Params.mrr 0.0)) (and .Params.adjusted_mrr (gt .Params.adjusted_mrr 0.0)) }}
+{{ $mrrDenom := default 0 .Params.mrr_dataset_count }}
 <article class="paper-page">
-  <div class="paper-sticky-title">
-    <span title="{{ .Title }}">
-      {{ with $venueLabel }}<span class="paper-venue-prefix">{{ . }}:</span>{{ end }}
-      <span class="paper-title-text">{{ .Title }}</span>
-    </span>
-  </div>
-  <header class="paper-header">
-    <h1>
-      {{ with $venueLabel }}
-      <span class="paper-venue-prefix paper-venue-prefix-desktop">{{ . }}:</span>
+  <nav class="paper-back-nav" aria-label="Breadcrumb">
+    <a href="{{ "papers/" | relURL }}">← Papers</a>
+  </nav>
+
+  <div class="paper-sticky-title" id="paper-sticky-title" aria-hidden="true">
+    <div class="paper-sticky-title-inner">
+      {{ with $venue }}
+      <a href="{{ $confPapersUrl }}" class="paper-tag-btn paper-venue-btn paper-sticky-venue">{{ . }}</a><span class="paper-venue-sep" aria-hidden="true">:</span>
       {{ end }}
+      <span class="paper-title-text" title="{{ .Title }}">{{ .Title }}</span>
+    </div>
+  </div>
+
+  <header class="paper-header">
+    {{ with $venue }}
+    <p class="paper-venue-badge-row">
+      <a href="{{ $confPapersUrl }}" class="paper-tag-btn paper-venue-btn">{{ . }}</a>
+    </p>
+    {{ end }}
+    <h1 id="paper-page-title">
       <span class="paper-title-text">{{ .Title }}</span>
     </h1>
     {{ with .Params.authors }}
     <p class="authors">{{ delimit . ", " }}</p>
     {{ end }}
-    <div class="paper-meta">
-      {{ with .Params.source_url }}
-      <a class="badge" href="{{ . }}" target="_blank" rel="noopener">Paper</a>
-      {{ else }}
-      {{ with .Params.arxiv_id }}
-      <a class="badge" href="https://arxiv.org/abs/{{ . }}" target="_blank" rel="noopener">arXiv:{{ . }}</a>
-      {{ end }}
-      {{ end }}
-      {{ with .Params.codebase_url }}
-      <a class="badge" href="{{ . }}" target="_blank" rel="noopener">Code</a>
-      {{ end }}
-      {{ with .Params.published_date }}
-      <span class="badge">{{ . }}</span>
-      {{ end }}
-      {{ with .Params.published_conference }}
-      <span class="badge muted">{{ . }}</span>
-      {{ end }}
-    </div>
   </header>
+
+  <div class="paper-hero{{ if not .Params.main_figure }} paper-hero-no-figure{{ end }}">
+    <div class="paper-hero-stage">
+      <div class="paper-hero-cluster">
+        {{ with .Params.main_figure }}
+        <figure class="paper-figure">
+          {{ $figAlt := printf "Main figure for %s" $.Title }}
+          {{ if $.Params.source_url }}
+          <a href="{{ $.Params.source_url }}" target="_blank" rel="noopener noreferrer">
+            <img src="{{ strings.TrimPrefix "/" . | relURL }}" alt="{{ $figAlt }}" loading="lazy">
+          </a>
+          {{ else if $.Params.arxiv_id }}
+          <a href="https://arxiv.org/abs/{{ $.Params.arxiv_id }}" target="_blank" rel="noopener noreferrer">
+            <img src="{{ strings.TrimPrefix "/" . | relURL }}" alt="{{ $figAlt }}" loading="lazy">
+          </a>
+          {{ else }}
+          <img src="{{ strings.TrimPrefix "/" . | relURL }}" alt="{{ $figAlt }}" loading="lazy">
+          {{ end }}
+        </figure>
+        {{ end }}
+        <aside class="paper-hero-aside">
+          {{ with .Params.published_date }}
+          <p class="paper-hero-date"><time datetime="{{ $.Params.published_date_iso }}">{{ . }}</time></p>
+          {{ end }}
+          {{ with .Params.source_url }}
+          <p class="paper-hero-link-row">
+            <a class="badge badge-external" href="{{ . }}" target="_blank" rel="noopener noreferrer">Paper ↗</a>
+          </p>
+          {{ else }}
+          {{ with .Params.arxiv_id }}
+          <p class="paper-hero-link-row">
+            <a class="badge badge-external" href="https://arxiv.org/abs/{{ . }}" target="_blank" rel="noopener noreferrer">arXiv:{{ . }} ↗</a>
+          </p>
+          {{ end }}
+          {{ end }}
+          {{ with .Params.codebase_url }}
+          <p class="paper-hero-link-row">
+            <a class="badge badge-external" href="{{ . }}" target="_blank" rel="noopener noreferrer">Code ↗</a>
+          </p>
+          {{ end }}
+        </aside>
+      </div>
+    </div>
+  </div>
+
+  {{ with .Params.abstract }}
+  <section class="abstract">
+    <h2>Abstract</h2>
+    {{ $linked := . }}
+    {{ $linked = replaceRE "(https?://[A-Za-z0-9_./?#%&=-]+)([.,;:!?]+)$" "<a href=\"$1\" target=\"_blank\" rel=\"noopener noreferrer\">$1</a>$2" $linked }}
+    {{ $linked = replaceRE "(https?://[A-Za-z0-9_./?#%&=-]+) " "<a href=\"$1\" target=\"_blank\" rel=\"noopener noreferrer\">$1</a> " $linked }}
+    {{ $linked = replaceRE "(https?://[A-Za-z0-9_./?#%&=-]+)$" "<a href=\"$1\" target=\"_blank\" rel=\"noopener noreferrer\">$1</a>" $linked }}
+    <p>{{ $linked | safeHTML }}</p>
+  </section>
+  {{ end }}
 
   {{ with .Params.single_proposed_model }}
   <div class="proposed-model-banner">
     <span class="proposed-model-label">Proposed method:</span>
     <strong class="proposed-model-name">{{ . }}</strong>
-    {{ if and $.Params.mrr (gt $.Params.mrr 0.0) }}
-    <span class="proposed-model-mrr">MRR {{ printf "%.3f" $.Params.mrr }}</span>
+    {{ if $hasMrr }}
+    <div class="proposed-model-mrr-wrap">
+      <button type="button" class="proposed-model-mrr-btn" aria-expanded="false" aria-controls="paper-mrr-popover"
+        data-mrr-raw="{{ default "" $.Params.mrr }}"
+        data-mrr-adjusted="{{ default "" $.Params.adjusted_mrr }}"
+        data-mrr-datasets="{{ $mrrDenom }}">
+        MRR {{ if and $.Params.adjusted_mrr (gt $.Params.adjusted_mrr 0.0) }}{{ printf "%.3f" $.Params.adjusted_mrr }}{{ else }}{{ printf "%.3f" $.Params.mrr }}{{ end }}{{ with $.Params.mrr_dataset_count }} <span class="proposed-model-mrr-meta">({{ . }} qualifying datasets)</span>{{ end }}
+      </button>
+      <div class="paper-mrr-popover" id="paper-mrr-popover" role="dialog" aria-label="MRR calculation" hidden>
+        <p class="paper-mrr-popover-lead">Mean reciprocal rank of the primary proposed model on qualifying datasets (≥10 results on the dataset, ≥3 papers reporting that dataset).</p>
+        <div class="paper-mrr-popover-stats">
+          {{ if and $.Params.mrr (gt $.Params.mrr 0.0) }}
+          <div class="paper-mrr-stat-block">
+            <div class="paper-mrr-stat-row">
+              <span class="paper-mrr-stat-label">Raw MRR</span>
+              <span class="paper-mrr-stat-value">{{ printf "%.3f" $.Params.mrr }}</span>
+            </div>
+            <p class="paper-mrr-formula">
+              <span class="math-frac" aria-label="sum of one over rank divided by qualifying dataset count">
+                <span class="math-frac-num">Σ 1/rank</span>
+                <span class="math-frac-den">{{ $mrrDenom }}</span>
+              </span>
+              <span class="paper-mrr-formula-note">qualifying datasets</span>
+            </p>
+          </div>
+          {{ end }}
+          {{ if and $.Params.adjusted_mrr (gt $.Params.adjusted_mrr 0.0) }}
+          <div class="paper-mrr-stat-block">
+            <div class="paper-mrr-stat-row">
+              <span class="paper-mrr-stat-label">Adjusted MRR</span>
+              <span class="paper-mrr-stat-value">{{ printf "%.3f" $.Params.adjusted_mrr }}</span>
+            </div>
+            <p class="paper-mrr-formula">
+              <span class="math-frac" aria-label="sum of one over rank divided by max of qualifying dataset count and three">
+                <span class="math-frac-num">Σ 1/rank</span>
+                <span class="math-frac-den">max({{ $mrrDenom }}, 3)</span>
+              </span>
+              <span class="paper-mrr-formula-note">three-dataset floor</span>
+            </p>
+          </div>
+          {{ end }}
+        </div>
+      </div>
+    </div>
     {{ end }}
   </div>
-  {{ end }}
-
-  {{ with .Params.main_figure }}
-  <figure class="paper-figure">
-    {{ if $.Params.source_url }}
-    <a href="{{ $.Params.source_url }}" target="_blank" rel="noopener">
-      <img src="{{ strings.TrimPrefix "/" . | relURL }}" alt="Main figure" loading="lazy">
-    </a>
-    {{ else if $.Params.arxiv_id }}
-    <a href="https://arxiv.org/abs/{{ $.Params.arxiv_id }}" target="_blank" rel="noopener">
-      <img src="{{ strings.TrimPrefix "/" . | relURL }}" alt="Main figure" loading="lazy">
-    </a>
-    {{ else }}
-    <img src="{{ strings.TrimPrefix "/" . | relURL }}" alt="Main figure" loading="lazy">
-    {{ end }}
-  </figure>
-  {{ end }}
-
-  {{ with .Params.abstract }}
-  <section class="abstract">
-    <h2>Abstract</h2>
-    <p>{{ replaceRE "(https?://\\S+)" "<a href=\"$1\" target=\"_blank\" rel=\"noopener\">$1</a>" . | safeHTML }}</p>
-  </section>
   {{ end }}
 
   {{ if .Params.results }}
   <section class="results-section">
     <h2>Benchmark Results</h2>
+
+    <div class="table-explainer-legend paper-results-legend" aria-label="Table color legend">
+      <span class="legend-item"><span class="legend-swatch swatch-best"></span><span>SOTA performance (within overlap)</span></span>
+      <span class="legend-item"><span class="legend-swatch swatch-proposed"></span><span>Proposed method (this paper)</span></span>
+      <span class="legend-item"><span class="legend-swatch swatch-baseline"></span><span>Baseline / comparison (this paper)</span></span>
+      <span class="legend-item"><span class="legend-swatch swatch-global"></span><span>Global context (other papers)</span></span>
+      <span class="legend-item"><span class="legend-swatch swatch-gap"></span><span>Value differs from global benchmark</span></span>
+    </div>
+
+    {{ with .Params.datasets_by_scope }}
+    <div class="paper-results-anchor-nav-group" aria-label="Jump to datasets">
+      {{ range . }}
+      <nav class="paper-results-anchor-nav">
+        <span class="paper-anchor-scope">{{ .label }}</span>
+        {{ range .benchmarks }}
+        {{ $bmSlug := .benchmark_slug }}
+        <span class="paper-anchor-benchmark">{{ .benchmark }}</span>
+        {{ range .datasets }}
+        <a href="#paper-ds-{{ $bmSlug }}-{{ .dataset_slug }}">{{ .dataset }}</a>
+        {{ end }}
+        {{ end }}
+      </nav>
+      {{ end }}
+    </div>
+    {{ else }}
+    {{ if $.Params.results_grouped }}
+    <nav class="paper-results-anchor-nav" aria-label="Jump to datasets">
+      {{ range $.Params.results_grouped }}
+      {{ $bmSlug := .benchmark | urlize }}
+      <span class="paper-anchor-benchmark">{{ .benchmark }}</span>
+      {{ range .datasets }}
+      <a href="#paper-ds-{{ $bmSlug }}-{{ .dataset | urlize }}">{{ .dataset }}</a>
+      {{ end }}
+      {{ end }}
+    </nav>
+    {{ end }}
+    {{ end }}
+
     {{ if .Params.results_grouped }}
       {{ range .Params.results_grouped }}
-      <section class="paper-benchmark-group">
+      {{ $bmSlug := .benchmark | urlize }}
+      <section class="paper-benchmark-group" id="paper-bm-{{ $bmSlug }}">
         <h3 class="benchmark-heading">{{ .benchmark }}</h3>
         {{ range .datasets }}
         {{ $group := . }}
-        <section class="paper-dataset-group">
-          <h4 class="dataset-heading">{{ $group.dataset }}</h4>
+        {{ $dsSlug := $group.dataset | urlize }}
+        {{ $rowCount := len $group.rows }}
+        {{ $collapseAfter := cond (gt $rowCount $collapseThreshold) $collapseThreshold 0 }}
+        <section class="paper-dataset-group" id="paper-ds-{{ $bmSlug }}-{{ $dsSlug }}">
+          <div class="paper-dataset-heading-row">
+            <h4 class="dataset-heading">
+              <a href="{{ printf "datasets/%s/" $dsSlug | relURL }}">{{ $group.dataset }}</a>
+            </h4>
+            <a class="paper-dataset-leaderboard-link" href="{{ printf "datasets/%s/" $dsSlug | relURL }}">Global leaderboard →</a>
+          </div>
+          <p class="paper-dataset-help">Ranked by {{ if $group.is_multi_metric }}{{ $group.primary_metric }}{{ else }}{{ $group.metric }}{{ end }} on this dataset. Highlighted rows are from other papers (global context). Comparison notes flag baselines weaker than prior best.</p>
+          {{ $partialCtx := dict "rows" $group.rows "metrics" $group.metrics "primary_metric" $group.primary_metric "metric" $group.metric "higher_is_better" $group.higher_is_better "dataset_variant" $dsSlug "collapse_after" $collapseAfter "paper_page" true }}
           {{ if $group.is_multi_metric }}
-            {{ partial "multi-metric-table.html" (dict "rows" $group.rows "metrics" $group.metrics "primary_metric" $group.primary_metric "higher_is_better" $group.higher_is_better "dataset_variant" ($group.dataset | urlize) "hide_meta_cols" true) }}
+            {{ partial "multi-metric-table.html" $partialCtx }}
           {{ else }}
-            {{ partial "result-table.html" (dict "results" $group.rows "metric" $group.metric "dataset_variant" ($group.dataset | urlize) "higher_is_better" $group.higher_is_better "hide_meta_cols" true) }}
+            {{ partial "result-table.html" (merge $partialCtx (dict "results" $group.rows)) }}
           {{ end }}
         </section>
         {{ end }}
@@ -94,12 +213,22 @@
     {{ else }}
       {{ range .Params.results }}
       {{ $group := . }}
-      <section class="paper-dataset-group">
-        <h3 class="dataset-heading">{{ $group.dataset }}</h3>
+      {{ $dsSlug := $group.dataset | urlize }}
+      {{ $rowCount := len $group.rows }}
+      {{ $collapseAfter := cond (gt $rowCount $collapseThreshold) $collapseThreshold 0 }}
+      <section class="paper-dataset-group" id="paper-ds-{{ $dsSlug }}">
+        <div class="paper-dataset-heading-row">
+          <h3 class="dataset-heading">
+            <a href="{{ printf "datasets/%s/" $dsSlug | relURL }}">{{ $group.dataset }}</a>
+          </h3>
+          <a class="paper-dataset-leaderboard-link" href="{{ printf "datasets/%s/" $dsSlug | relURL }}">Global leaderboard →</a>
+        </div>
+        <p class="paper-dataset-help">Ranked by {{ if $group.is_multi_metric }}{{ $group.primary_metric }}{{ else }}{{ $group.metric }}{{ end }} on this dataset. Highlighted rows are from other papers (global context). Comparison notes flag baselines weaker than prior best.</p>
+        {{ $partialCtx := dict "rows" $group.rows "metrics" $group.metrics "primary_metric" $group.primary_metric "metric" $group.metric "higher_is_better" $group.higher_is_better "dataset_variant" $dsSlug "collapse_after" $collapseAfter "paper_page" true }}
         {{ if $group.is_multi_metric }}
-          {{ partial "multi-metric-table.html" (dict "rows" $group.rows "metrics" $group.metrics "primary_metric" $group.primary_metric "higher_is_better" $group.higher_is_better "dataset_variant" ($group.dataset | urlize) "hide_meta_cols" true) }}
+          {{ partial "multi-metric-table.html" $partialCtx }}
         {{ else }}
-          {{ partial "result-table.html" (dict "results" $group.rows "metric" $group.metric "dataset_variant" ($group.dataset | urlize) "higher_is_better" $group.higher_is_better "hide_meta_cols" true) }}
+          {{ partial "result-table.html" (merge $partialCtx (dict "results" $group.rows)) }}
         {{ end }}
       </section>
       {{ end }}
@@ -110,19 +239,9 @@
   {{ with .Content }}
   <section class="notes">{{ . }}</section>
   {{ end }}
-
-  {{/* Color legend */}}
-  {{ if .Params.results }}
-  <div class="color-legend">
-    <h3 class="legend-title">Legend</h3>
-    <div class="legend-items">
-      <div class="legend-item"><span class="legend-swatch swatch-proposed"></span><span>★ Proposed method (from this paper)</span></div>
-      <div class="legend-item"><span class="legend-swatch swatch-baseline"></span><span>Baseline / comparison model</span></div>
-      <div class="legend-item"><span class="legend-swatch swatch-global"></span><span>Global top model (from another paper — for context)</span></div>
-      <div class="legend-item"><span class="legend-swatch swatch-best"></span><span>Statistically best result (within std overlap)</span></div>
-      <div class="legend-item"><span class="legend-swatch swatch-gap"></span><span>Paper result differs from the global benchmark result; cell shows actual value, paper value, source paper, and rank shift</span></div>
-    </div>
-  </div>
-  {{ end }}
 </article>
+{{ end }}
+
+{{ define "scripts" }}
+<script src="{{ "js/paper-page.js" | relURL }}?v={{ now.Unix }}"></script>
 {{ end }}

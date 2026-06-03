@@ -7,7 +7,8 @@
     .primary_metric  – string, name of primary metric (used for ↑/↓ and sort)
     .higher_is_better – bool
     .dataset_variant – variant slug (for id / data- attrs used by JS)
-    .hide_meta_cols  – bool: when true, hide Paper/Code/Date columns (paper context)
+    .hide_meta_cols  – bool: when true, hide Paper/Code/Date columns (legacy)
+    .paper_page      – bool: individual paper page (Paper column, no Comparison)
 */}}
 {{ $rows    := .rows }}
 {{ $metrics := .metrics }}
@@ -15,23 +16,26 @@
 {{ $hib     := .higher_is_better }}
 {{ $slug    := .dataset_variant }}
 {{ $hideMeta := .hide_meta_cols }}
+{{ $paperPage := .paper_page }}
+{{ $showPaperCol := or $paperPage (not $hideMeta) }}
 {{ $collapseAfter := .collapse_after | default 0 }}
+{{ $tableId := cond $paperPage (printf "tbl-paper-%s" $slug) (printf "tbl-%s" $slug) }}
 
 {{ if $rows }}
-<div class="result-table-wrapper" data-variant="{{ $slug }}">
-  <div class="mobile-result-table-head {{ if $hideMeta }}mobile-result-table-head-no-paper{{ end }}" aria-hidden="true">
+<div class="result-table-wrapper{{ if $paperPage }} paper-results-table-wrapper{{ end }}" data-variant="{{ $slug }}">
+  <div class="mobile-result-table-head{{ if $paperPage }} paper-mobile-table-head{{ else if $hideMeta }} mobile-result-table-head-no-paper{{ end }}" aria-hidden="true">
     <span>#</span>
     <span>Model</span>
     <span>{{ $primary }}</span>
-    {{ if not $hideMeta }}<span>Date</span>{{ end }}
+    {{ if $showPaperCol }}<span>Paper</span>{{ else if not $hideMeta }}<span>Date</span>{{ end }}
   </div>
-  <table class="result-table sortable" id="tbl-{{ $slug }}" data-collapse-after="{{ $collapseAfter }}">
+  <table class="result-table sortable{{ if $paperPage }} paper-results-table{{ end }}" id="{{ $tableId }}" data-collapse-after="{{ $collapseAfter }}">
     <thead>
       <tr>
         <th class="col-rank">#</th>
         <th class="col-model sortable-col" data-col="model">Model</th>
         <th class="col-value col-primary sortable-col" data-col="value">{{ $primary }}{{ if $hib }} ↑{{ else }} ↓{{ end }}</th>
-        {{ if not $hideMeta }}<th class="col-paper sortable-col" data-col="date">Paper</th>{{ end }}
+        {{ if $showPaperCol }}<th class="col-paper{{ if not $paperPage }} sortable-col{{ end }}"{{ if not $paperPage }} data-col="date"{{ end }}>Paper</th>{{ end }}
       </tr>
     </thead>
     <tbody>
@@ -63,13 +67,18 @@
                   {{ if $r.uses_external_data }}<span class="mini-badge mini-badge-external" title="Uses external data during training">ext data</span>{{ end }}
                   {{ partial "architecture-badge.html" $r }}
                   {{ if $r.params_millions }}<span class="mini-badge mini-badge-neutral">{{ printf "%.1fM" $r.params_millions }}</span>{{ end }}
-                  {{ if $r.is_global_top }}<span class="global-top-badge" title="Top-ranked globally — from another paper">global</span>{{ end }}
+                  {{ if and $r.is_global_top (not $paperPage) }}<span class="global-top-badge" title="Top-ranked globally — from another paper">global</span>{{ end }}
                   {{ if $r.is_overridden }}<span class="override-badge" title="{{ $r.override_reason }}">✎</span>{{ end }}
                   {{ if not $r.is_global_top }}{{ if $r.is_baseline }}<span class="tag-baseline">baseline</span>{{ else }}<span class="tag-proposed">★ proposed</span>{{ end }}{{ end }}
                 </div>
               </div>
             </div>
           </div>
+          {{ if and $paperPage (not $r.is_global_top) $r.comparison_type }}
+          <div class="model-comparison-meta">
+            {{ partial "paper-table-comparison-meta.html" (dict "row" $r) }}
+          </div>
+          {{ end }}
           {{ if $r.has_value_gap }}
           <div class="model-discrepancy-meta">
             {{ if and $r.value_gap_source_title $r.value_gap_source_arxiv (not $r.value_gap_source_is_current_paper) }}
@@ -90,8 +99,6 @@
             </div>
             {{ end }}
           </div>
-          {{ else if $r.has_value_note }}
-          <div class="model-discrepancy-meta subtle-note">minor difference within std</div>
           {{ end }}
         </td>
         <td class="col-value col-primary{{ if $r.has_value_gap }} col-value-gap{{ end }}{{ if $r.has_value_note }} col-value-note{{ end }}" data-label="{{ $primary }}{{ if $hib }} ↑{{ else }} ↓{{ end }}">
@@ -107,7 +114,6 @@
                 <span class="metric-primary-value">{{ printf "%.4f" $primary_val }}</span>
                 {{ if ne $primary_std nil }}<span class="metric-primary-std inline-std{{ if $r.is_std_outlier }} inline-std-outlier{{ end }}">±{{ printf "%.4f" $primary_std }}</span>{{ end }}
               </div>
-              {{ if $r.has_value_note }}<div class="value-note-text">{{ $r.value_note }}</div>{{ end }}
             {{- end -}}
           {{- else }}—{{ end }}
           {{ if gt (len $metrics) 1 }}
@@ -132,8 +138,11 @@
           </div>
           {{ end }}
         </td>
-        {{ if not $hideMeta }}
-        <td class="col-paper mobile-details-hit" id="{{ $rowDetailsId }}" data-label="Paper">
+        {{ if $showPaperCol }}
+        <td class="col-paper{{ if not $paperPage }} mobile-details-hit{{ end }}"{{ if not $paperPage }} id="{{ $rowDetailsId }}"{{ end }} data-label="Paper">
+          {{ if $paperPage }}
+            {{ partial "paper-table-paper-cell.html" (dict "row" $r) }}
+          {{ else }}
           <div class="paper-cell-row">
             <div class="paper-title-wrap">
               {{ if $r.arxiv_id }}<a class="paper-title-link" href="{{ printf "papers/%s/" $r.arxiv_id | relURL }}" title="arXiv:{{ $r.arxiv_id }}{{ with $r.title }} — {{ . }}{{ end }}">{{ if $r.title }}{{ $r.title | truncate 96 }}{{ else }}arXiv:{{ $r.arxiv_id }}{{ end }}</a>{{ else }}—{{ end }}
@@ -145,6 +154,7 @@
               <button type="button" class="mobile-details-toggle" aria-expanded="false" aria-controls="{{ $rowDetailsId }}" aria-label="Toggle details">▾</button>
             </div>
           </div>
+          {{ end }}
         </td>
         {{ end }}
       </tr>
@@ -153,7 +163,7 @@
   </table>
   {{ if and (gt $collapseAfter 0) (gt (len $rows) $collapseAfter) }}
   <div class="table-more-wrap">
-    <button type="button" class="table-more-btn" data-table-more="#tbl-{{ $slug }}" data-expanded="false" aria-expanded="false">
+    <button type="button" class="table-more-btn" data-table-more="#{{ $tableId }}" data-expanded="false" aria-expanded="false">
       Show all {{ len $rows }} rows ({{ sub (len $rows) $collapseAfter }} hidden)
     </button>
   </div>
