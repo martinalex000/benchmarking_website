@@ -27,7 +27,7 @@
     {{ with index .Params.variants 0 }}
       {{ range .rows }}
         {{ if .arxiv_id }}
-          {{ $papers = $papers | append (dict "arxiv_id" .arxiv_id "title" (.title | default (printf "arXiv:%s" .arxiv_id)) "date_iso" (.date_iso | default "0000-00-00") "venue" (.published_venue | default "")) }}
+          {{ $papers = $papers | append (dict "arxiv_id" .arxiv_id "title" (.title | default (printf "arXiv:%s" .arxiv_id)) "date_iso" (.date_iso | default "0000-00-00") "venue" (.published_conference | default "")) }}
         {{ end }}
       {{ end }}
     {{ end }}
@@ -56,19 +56,15 @@
             <ul class="stat-paper-list">
               {{ range $paperList }}
               <li>
-                {{ $year := "" }}
-                {{ if ge (len .date_iso) 4 }}{{ $year = substr .date_iso 2 2 }}{{ end }}
                 {{ $desktopTitle := .title }}
-                {{ if and .venue $year }}
-                  {{ $desktopTitle = printf "%s '%s: %s" .venue $year .title }}
-                {{ else if .venue }}
+                {{ if .venue }}
                   {{ $desktopTitle = printf "%s: %s" .venue .title }}
                 {{ end }}
                 <a href="{{ printf "papers/%s/" .arxiv_id | relURL }}">
                   <span class="paper-link-desktop">{{ $desktopTitle }}</span>
                   <span class="paper-link-mobile">{{ .title }}</span>
                 </a>
-                {{ with .venue }}<span class="badge paper-venue-badge paper-venue-badge-mobile">{{ if $year }}{{ printf "%s '%s" . $year }}{{ else }}{{ . }}{{ end }}</span>{{ end }}
+                {{ with .venue }}<span class="badge paper-venue-badge paper-venue-badge-mobile">{{ . }}</span>{{ end }}
               </li>
               {{ end }}
             </ul>

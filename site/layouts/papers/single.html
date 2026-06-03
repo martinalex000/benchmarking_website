@@ -1,18 +1,6 @@
 {{ define "main" }}
-{{ $venue := .Params.published_venue }}
-{{ $venueYear := "" }}
-{{ with .Params.published_date_iso }}
-  {{ if ge (len .) 4 }}
-    {{ $venueYear = substr . 2 2 }}
-  {{ end }}
-{{ end }}
-{{ $venueLabel := "" }}
-{{ if $venue }}
-  {{ $venueLabel = $venue }}
-  {{ if $venueYear }}
-    {{ $venueLabel = printf "%s '%s" $venue $venueYear }}
-  {{ end }}
-{{ end }}
+{{ $venue := .Params.published_conference }}
+{{ $venueLabel := $venue }}
 <article class="paper-page">
   <div class="paper-sticky-title">
     <span title="{{ .Title }}">
@@ -46,9 +34,6 @@
       {{ end }}
       {{ with .Params.published_conference }}
       <span class="badge muted">{{ . }}</span>
-      {{ end }}
-      {{ with .Params.published_venue }}
-      <span class="badge paper-venue-badge">{{ . }}</span>
       {{ end }}
     </div>
   </header>

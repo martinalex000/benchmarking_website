@@ -4,16 +4,23 @@ import pytest
 
 from backend.export_helpers import truncate_words as _truncate_words
 from backend.export_to_hugo import (
+    _conference_export_fields,
+    _dataset_export_metadata,
     _dedup_result_rows,
     _description_class_target_count,
     _fmt_date,
+    _global_ranks_cached,
     _has_paper_value_difference,
     _has_paper_value_gap,
     _normalize_conference,
+    _normalize_model_family,
     _plain_model,
+    _publication_year,
     _rank_for_value,
     _sanitize_model,
     _sanitize_title,
+    _select_global_context_rows,
+    clear_export_caches,
 )
 
 
@@ -85,17 +92,46 @@ def test_fmt_date_uses_consistent_human_readable_output():
     ("venue", "expected"),
     [
         ("NeurIPS 2024", "NeurIPS"),
+        ("Neural Information Processing Systems", "NeurIPS"),
         ("ICLR 2023", "ICLR"),
+        ("International Conference on Learning Representations", "ICLR"),
         ("Proceedings of the 40th International Conference on Machine Learning", "ICML"),
+        ("International Conference on Machine Learning", "ICML"),
         ("Transactions on Machine Learning Research", "TMLR"),
+        ("Trans. Mach. Learn. Res.", "TMLR"),
         ("Graph Learning Conference", "LoG"),
         ("ACM SIGKDD Conference", "KDD"),
+        ("Knowledge Discovery and Data Mining", "KDD"),
         ("AAAI 2025", "AAAI"),
-        ("Workshop on Something", "Workshop on Something"),
+        ("AAAI Conference on Artificial Intelligence", "AAAI"),
+        ("NeurIPS Datasets and Benchmarks", "NeurIPS"),
+        ("LOG IN", ""),
+        ("arXiv.org", ""),
+        ("Workshop on Something", ""),
     ],
 )
 def test_normalize_conference_maps_common_venues(venue, expected):
     assert _normalize_conference(venue) == expected
+
+
+@pytest.mark.parametrize(
+    ("venue", "published_date", "expected"),
+    [
+        ("International Conference on Learning Representations", "2024-05-07", "ICLR 2024"),
+        ("NeurIPS 2024", "2024-12-10", "NeurIPS 2024"),
+        ("International Conference on Machine Learning", "2023-07-01", "ICML 2023"),
+        ("arXiv.org", "2024-01-01", ""),
+        ("ICLR 2023", "2023", "ICLR 2023"),
+    ],
+)
+def test_conference_export_fields_include_year(venue, published_date, expected):
+    assert _conference_export_fields(venue, published_date)["published_conference"] == expected
+
+
+def test_publication_year_accepts_iso_dates_and_year_prefixes():
+    assert _publication_year("2024-05-07") == "2024"
+    assert _publication_year("2023") == "2023"
+    assert _publication_year("") == ""
 
 
 def test_dedup_result_rows_preserves_first_row_and_keeps_meaningful_differences():
@@ -181,3 +217,103 @@ def test_dedup_result_rows_preserves_first_row_and_keeps_meaningful_differences(
     assert len(unique) == 2
     assert unique[0]["is_baseline"] is True
     assert unique[1]["is_baseline"] is False
+
+
+@pytest.mark.parametrize(
+    ("model_name", "expected"),
+    [
+        ("GCN", "gcn"),
+        ("GIN", "gin"),
+        ("GraphSAGE", "sage"),
+        ("SAGE", "sage"),
+        ("MLP", "mlp"),
+        ("GatedGCN", "gatedgcn"),
+        ("Gated GCN", "gatedgcn"),
+        ("GCNII", ""),
+        ("SignNet", ""),
+    ],
+)
+def test_normalize_model_family_recognizes_core_baselines(model_name, expected):
+    assert _normalize_model_family(model_name) == expected
+
+
+def _global_row(model: str, value: float, rank: int) -> dict:
+    return {
+        "model": model,
+        "model_key": model.lower(),
+        "value": value,
+        "std": None,
+        "is_baseline": True,
+        "global_rank": rank,
+    }
+
+
+def test_select_global_context_rows_adds_top_models_and_core_baselines():
+    global_top = [
+        _global_row("GraphGPS", 0.95, 1),
+        _global_row("SignNet", 0.90, 2),
+        _global_row("GIN", 0.85, 3),
+        _global_row("GCN", 0.70, 4),
+        _global_row("MLP", 0.60, 5),
+        _global_row("GraphSAGE", 0.65, 6),
+    ]
+
+    selected = _select_global_context_rows(global_top, {"signnet"})
+
+    assert [row["model"] for row in selected] == [
+        "GraphGPS",
+        "GIN",
+        "GCN",
+        "MLP",
+        "GraphSAGE",
+    ]
+
+
+def test_dataset_export_metadata_uses_cache(monkeypatch):
+    from backend import export_to_hugo
+
+    clear_export_caches()
+    calls: list[int] = []
+    monkeypatch.setattr(
+        export_to_hugo,
+        "_dataset_page_export_metadata",
+        lambda _session, dataset_id: calls.append(dataset_id)
+        or {"exportable": True, "result_count": 1},
+    )
+    export_to_hugo._DATASET_EXPORT_META_CACHE[42] = {"exportable": True, "result_count": 99}
+
+    meta = _dataset_export_metadata(object(), 42)
+
+    assert meta["result_count"] == 99
+    assert calls == []
+
+
+def test_global_ranks_cached_reuses_module_cache(monkeypatch):
+    from backend import export_to_hugo
+
+    clear_export_caches()
+    calls: list[tuple[str, str, bool]] = []
+
+    def fake(session, ds_name, metric, hib):
+        calls.append((ds_name, metric, hib))
+        return {}, [], {}
+
+    monkeypatch.setattr(export_to_hugo, "_global_ranks_for_dataset", fake)
+    session = object()
+    _global_ranks_cached(session, "Cora", "Accuracy", True)
+    _global_ranks_cached(session, "Cora", "Accuracy", True)
+    assert len(calls) == 1
+
+
+def test_select_global_context_rows_skips_core_baselines_already_on_paper():
+    global_top = [
+        _global_row("GraphGPS", 0.95, 1),
+        _global_row("SignNet", 0.90, 2),
+        _global_row("Transformer", 0.88, 3),
+        _global_row("GIN", 0.85, 4),
+        _global_row("GCN", 0.70, 5),
+    ]
+
+    selected = _select_global_context_rows(global_top, {"gin", "gcn"})
+
+    assert [row["model"] for row in selected] == ["GraphGPS", "SignNet", "Transformer"]

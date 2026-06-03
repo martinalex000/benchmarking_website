@@ -25,6 +25,7 @@ from pathlib import Path
 from typing import Any
 
 import yaml
+from sqlalchemy.orm import joinedload
 
 from backend.baseline_aggregator import get_best_results_over_time
 from backend.config import cfg
@@ -57,14 +58,42 @@ _DATASET_OVERRIDES_FILE = cfg.base_dir / "config" / "dataset_overrides.yaml"
 _MODEL_RENAME_CACHE: dict[str, dict[str, str]] = {}
 _DATASET_OVERRIDE_CACHE: dict[str, dict[str, Any]] = {}
 _PAPER_PARAM_CACHE: dict[str, dict[str, float]] = {}
+_GLOBAL_RANKS_CACHE: dict[
+    tuple[str, str, bool], tuple[dict[str, int], list[dict], dict[str, dict[str, Any]]]
+] = {}
+_DATASET_EXPORT_META_CACHE: dict[int, dict[str, Any]] = {}
+
+
+def clear_export_caches() -> None:
+    """Reset per-export-run caches (call at the start of a full or partial export)."""
+    _MODEL_RENAME_CACHE.clear()
+    _DATASET_OVERRIDE_CACHE.clear()
+    _PAPER_PARAM_CACHE.clear()
+    _GLOBAL_RANKS_CACHE.clear()
+    _DATASET_EXPORT_META_CACHE.clear()
+
+
 _CONFERENCE_ALIASES: tuple[tuple[str, tuple[str, ...]], ...] = (
-    ("NeurIPS", ("neurips", "nips")),
-    ("ICLR", ("iclr",)),
-    ("TMLR", ("tmlr", "transactions on machine learning research")),
+    ("NeurIPS", ("neurips", "nips", "neural information processing systems")),
+    ("ICLR", ("iclr", "international conference on learning representations")),
+    (
+        "TMLR",
+        ("tmlr", "transactions on machine learning research", "trans. mach. learn. res."),
+    ),
     ("ICML", ("icml", "international conference on machine learning")),
-    ("LoG", ("log", "learning on graphs", "graph learning")),
-    ("AAAI", ("aaai",)),
-    ("KDD", ("kdd", "sigkdd")),
+    (
+        "LoG",
+        (
+            "learning on graphs and geometry",
+            "learning on graphs conference",
+            "graph learning conference",
+        ),
+    ),
+    ("AAAI", ("aaai", "association for the advancement of artificial intelligence")),
+    ("KDD", ("kdd", "sigkdd", "knowledge discovery and data mining")),
+)
+_SHORT_CONFERENCE_ALIASES = frozenset(
+    alias for _label, aliases in _CONFERENCE_ALIASES for alias in aliases if len(alias) <= 5
 )
 _BOUNDED_METRIC_SUBSTRINGS: tuple[str, ...] = (
     "accuracy",
@@ -92,9 +121,53 @@ def _normalize_conference(venue: str | None) -> str:
         return ""
     lowered = raw.lower()
     for label, aliases in _CONFERENCE_ALIASES:
-        if any(alias in lowered for alias in aliases):
-            return label
-    return raw
+        for alias in aliases:
+            if alias in _SHORT_CONFERENCE_ALIASES:
+                if re.search(rf"\b{re.escape(alias)}\b", lowered):
+                    return label
+            elif alias in lowered:
+                return label
+    return ""
+
+
+def _publication_year(published_date: str | None) -> str:
+    raw = (published_date or "").strip()
+    if len(raw) >= 4 and raw[:4].isdigit():
+        year = int(raw[:4])
+        if 1990 <= year <= 2100:
+            return str(year)
+    return ""
+
+
+def _conference_export_fields(venue: str | None, published_date: str | None) -> dict[str, str]:
+    short = _normalize_conference(venue)
+    if not short:
+        return {
+            "published_conference": "",
+            "published_conference_short": "",
+            "published_conference_slug": "",
+        }
+    year = _publication_year(published_date)
+    label = f"{short} {year}" if year else short
+    return {
+        "published_conference": label,
+        "published_conference_short": short,
+        "published_conference_slug": _slug(short),
+    }
+
+
+def _query_exportable_papers(session: Any, arxiv_ids: list[str] | None = None) -> list[Paper]:
+    from sqlalchemy import or_
+
+    query = (
+        session.query(Paper)
+        .join(Paper.results)
+        .filter(or_(Result.is_problematic.is_(None), Result.is_problematic == 0))
+        .distinct()
+    )
+    if arxiv_ids:
+        query = query.filter(Paper.arxiv_id.in_(arxiv_ids))
+    return query.all()
 
 
 def _is_bounded_metric(metric_name: str | None) -> bool:
@@ -102,8 +175,13 @@ def _is_bounded_metric(metric_name: str | None) -> bool:
     return any(sub in key for sub in _BOUNDED_METRIC_SUBSTRINGS)
 
 
+CORE_BASELINE_FAMILIES = frozenset({"gcn", "gin", "sage", "mlp", "gatedgcn"})
+
+
 def _normalize_model_family(model_name: str | None) -> str:
     raw = (model_name or "").strip().lower()
+    if re.match(r"^gated[\s-]?gcn(?:\s|\(|$)", raw):
+        return "gatedgcn"
     if re.match(r"^gcn(?:\s|\(|$)", raw):
         return "gcn"
     if re.match(r"^gin(?:\s|\(|$)", raw):
@@ -217,6 +295,49 @@ def _result_params_millions(
     if result is not None and result.params_millions is not None:
         return float(result.params_millions)
     return _paper_explicit_param_millions(arxiv_id, model_name)
+
+
+def _copy_main_figure_if_newer(src: Path, dest: Path) -> None:
+    """Copy paper main figure to Hugo static dir when missing or source is newer."""
+    if dest.exists() and dest.stat().st_mtime >= src.stat().st_mtime:
+        return
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(src, dest)
+
+
+def _primary_proposed_from_results(
+    results: list[Result],
+    proposed_models: list[str],
+) -> str | None:
+    """Pick the main proposed model from DB rows (no extraction YAML)."""
+    if not proposed_models:
+        return None
+    if len(proposed_models) == 1:
+        return proposed_models[0]
+
+    counts: dict[str, int] = {}
+    for r in results:
+        if not r.model or not r.model.canonical_name:
+            continue
+        cname = r.model.canonical_name
+        if cname not in proposed_models:
+            continue
+        dv = r.dataset_variant
+        if not dv or not dv.dataset:
+            continue
+        primary_metric = dv.dataset.primary_metric or r.metric_name
+        if r.metric_name != primary_metric:
+            continue
+        counts[cname] = counts.get(cname, 0) + 1
+    if counts:
+        return max(counts, key=counts.get)
+    return proposed_models[0]
+
+
+_PAPER_RESULT_LOAD_OPTIONS = (
+    joinedload(Result.model),
+    joinedload(Result.dataset_variant).joinedload(DatasetVariant.dataset),
+)
 
 
 def _result_architecture_fields(result: Result | None) -> dict[str, Any]:
@@ -703,6 +824,11 @@ def _global_ranks_for_dataset(
     """
     all_res = (
         session.query(Result)
+        .options(
+            joinedload(Result.model),
+            joinedload(Result.paper),
+            joinedload(Result.dataset_variant).joinedload(DatasetVariant.dataset),
+        )
         .join(Result.dataset_variant)
         .join(DatasetVariant.dataset)
         .filter(Dataset.name == ds_name)
@@ -754,10 +880,8 @@ def _global_ranks_for_dataset(
             "is_baseline": bool(r.is_baseline),
             "is_overridden": bool(r.is_overridden),
             "override_reason": r.override_reason or "",
-            "params_millions": _result_params_millions(
-                r,
-                p.arxiv_id if p else None,
-                rendered_name,
+            "params_millions": (
+                float(r.params_millions) if r.params_millions is not None else None
             ),
             **_result_architecture_fields(r),
             "arxiv_id": p.arxiv_id if p else "",
@@ -779,6 +903,114 @@ def _global_ranks_for_dataset(
         truth_map[model_key] = row
 
     return model_to_rank, rows, truth_map
+
+
+def _global_ranks_cached(
+    session: Any,
+    ds_name: str,
+    primary_metric: str,
+    higher_is_better: bool,
+) -> tuple[dict[str, int], list[dict], dict[str, dict[str, Any]]]:
+    """Like ``_global_ranks_for_dataset``, with a per-export-run module cache."""
+    cache_key = (ds_name, primary_metric, higher_is_better)
+    if cache_key not in _GLOBAL_RANKS_CACHE:
+        _GLOBAL_RANKS_CACHE[cache_key] = _global_ranks_for_dataset(
+            session, ds_name, primary_metric, higher_is_better
+        )
+    return _GLOBAL_RANKS_CACHE[cache_key]
+
+
+def _dataset_export_metadata(session: Any, dataset_id: int) -> dict[str, Any]:
+    """Dataset page metadata, using cache populated by ``export_dataset`` when available."""
+    cached = _DATASET_EXPORT_META_CACHE.get(dataset_id)
+    if cached is not None:
+        return cached
+    return _dataset_page_export_metadata(session, dataset_id)
+
+
+def _core_families_for_models(*model_names: str | None) -> set[str]:
+    families: set[str] = set()
+    for name in model_names:
+        family = _normalize_model_family(name)
+        if family:
+            families.add(family)
+    return families
+
+
+def _select_global_context_rows(
+    global_top_all: list[dict],
+    paper_model_keys: set[str],
+    *,
+    top_n: int = 3,
+) -> list[dict]:
+    """Pick global-top rows for paper display: best *top_n* plus core baselines."""
+    extras: list[dict] = []
+    seen_keys = set(paper_model_keys)
+    seen_core_families = _core_families_for_models(*paper_model_keys)
+
+    def _add(gr: dict) -> None:
+        model_key = gr.get("model_key", "")
+        if not model_key or model_key in seen_keys:
+            return
+        seen_keys.add(model_key)
+        extras.append(gr)
+        seen_core_families.update(_core_families_for_models(gr.get("model")))
+
+    top_count = 0
+    for gr in global_top_all:
+        if gr.get("model_key", "") in seen_keys:
+            continue
+        _add(gr)
+        top_count += 1
+        if top_count >= top_n:
+            break
+
+    for gr in global_top_all:
+        family = _normalize_model_family(gr.get("model"))
+        if family not in CORE_BASELINE_FAMILIES or family in seen_core_families:
+            continue
+        _add(gr)
+
+    return extras
+
+
+def _global_row_to_pivoted_extra(gr: dict, n_metrics: int) -> dict:
+    return {
+        "model": gr["model"],
+        "model_key": gr["model_key"],
+        "model_plain": gr.get("model_plain") or _plain_model(gr["model"]),
+        "metric_values": [gr["value"] if i == 0 else None for i in range(n_metrics)],
+        "metric_stds": [gr["std"] if i == 0 else None for i in range(n_metrics)],
+        "is_baseline": gr["is_baseline"],
+        "is_overridden": False,
+        "override_reason": "",
+        "params_millions": gr["params_millions"],
+        "architecture_type": gr.get("architecture_type"),
+        "architecture_label": gr.get("architecture_label"),
+        "architecture_title": gr.get("architecture_title", ""),
+        "arxiv_id": gr["arxiv_id"],
+        "title": gr["title"],
+        "published_venue": gr.get("published_venue", ""),
+        "date": gr["date"],
+        "date_display": gr.get("date_display", ""),
+        "date_iso": gr.get("date_iso", ""),
+        "codebase_url": gr["codebase_url"],
+        "uses_external_data": gr.get("uses_external_data"),
+        "is_global_top": True,
+        "global_rank": gr["global_rank"],
+        "is_best": False,
+        "sort_value": gr.get("sort_value", gr.get("value")),
+        "sort_std": gr.get("sort_std", gr.get("std")),
+        "has_value_gap": False,
+        "has_value_note": False,
+        "paper_rank": None,
+        "rank_delta": None,
+        "rank_delta_abs": None,
+        "value_note": "",
+        "comparison_type": gr.get("comparison_type", "global_top"),
+        "comparison_source_title": gr.get("comparison_source_title", ""),
+        "comparison_source_arxiv": gr.get("comparison_source_arxiv", ""),
+    }
 
 
 def _compute_paper_mrr(
@@ -804,6 +1036,7 @@ def _compute_paper_mrr(
     """
     results = (
         session.query(Result)
+        .options(*_PAPER_RESULT_LOAD_OPTIONS)
         .filter_by(paper_id=paper.id, is_baseline=False)
         .filter(Result.is_problematic.is_(None) | (Result.is_problematic == 0))
         .all()
@@ -815,42 +1048,7 @@ def _compute_paper_mrr(
         dict.fromkeys(r.model.canonical_name for r in results if r.model and r.model.canonical_name)
     )
 
-    # Identify the single primary proposed model from the LLM extraction JSON.
-    # This avoids inflating MRR via ablation variants that are also non-baseline.
-    primary_proposed: str | None = None
-    try:
-        from backend.paper_storage import PaperStorage
-
-        storage = PaperStorage(paper.arxiv_id)
-        if storage.llm_output_path.exists():
-            raw = storage.load_llm_output()
-            proposed_info = raw.get("results", {}).get("proposed_model") or {}
-            raw_name = (proposed_info.get("name") or "").strip()
-            if raw_name:
-                # Match to canonical name using fuzzy lookup against known proposed models
-                raw_lower = raw_name.lower()
-                # Try exact match first
-                for cname in proposed_models:
-                    if cname.lower() == raw_lower:
-                        primary_proposed = cname
-                        break
-                # Fall back: pick the proposed model whose canonical name most closely
-                # matches the raw name (token_sort_ratio ≥ 80)
-                if primary_proposed is None:
-                    from thefuzz import fuzz as _fuzz
-
-                    best_score, best_cname = 0, None
-                    for cname in proposed_models:
-                        score = _fuzz.token_sort_ratio(raw_lower, cname.lower())
-                        if score > best_score:
-                            best_score, best_cname = score, cname
-                    if best_score >= 80:
-                        primary_proposed = best_cname
-    except Exception:
-        pass
-
-    if primary_proposed is None and proposed_models:
-        primary_proposed = proposed_models[0]
+    primary_proposed = _primary_proposed_from_results(results, proposed_models)
 
     if primary_proposed is None:
         return 0.0, 0.0, 0, proposed_models
@@ -883,7 +1081,7 @@ def _compute_paper_mrr(
     reciprocal_ranks: list[float] = []
     for ds_name, info in ds_info.items():
         try:
-            model_to_rank, global_rows, _ = _global_ranks_for_dataset(
+            model_to_rank, global_rows, _ = _global_ranks_cached(
                 session, ds_name, info["primary_metric"], info["hib"]
             )
         except Exception:
@@ -1017,9 +1215,7 @@ def _collect_model_value_mismatches(session: Any) -> list[dict[str, Any]]:
         higher = bool(result.higher_is_better)
         cache_key = (ds.name, primary_metric, higher)
         if cache_key not in truth_cache:
-            truth_cache[cache_key] = _global_ranks_for_dataset(
-                session, ds.name, primary_metric, higher
-            )
+            truth_cache[cache_key] = _global_ranks_cached(session, ds.name, primary_metric, higher)
         model_to_rank, global_rows, truth_map = truth_cache[cache_key]
 
         model_key = _model_key(model.canonical_name)
@@ -1135,10 +1331,18 @@ def export_paper(arxiv_id: str) -> bool:
 
         results = (
             session.query(Result)
+            .options(*_PAPER_RESULT_LOAD_OPTIONS)
             .filter_by(paper_id=paper.id)
             .filter(Result.is_problematic.is_(None) | (Result.is_problematic == 0))
             .all()
         )
+        out_path = _CONTENT / "papers" / arxiv_id / "index.md"
+        if not results:
+            if out_path.exists():
+                out_path.unlink()
+            return False
+
+        conference_fields = _conference_export_fields(paper.venue, paper.published_date)
 
         # Group results by dataset name, tracking metric/direction per group
         result_groups: dict[str, list[dict]] = {}
@@ -1193,6 +1397,7 @@ def export_paper(arxiv_id: str) -> bool:
                         paper.published_date[:10] if paper and paper.published_date else ""
                     ),
                     "published_venue": paper.venue if paper else "",
+                    "published_conference": conference_fields["published_conference"],
                 }
             )
 
@@ -1205,7 +1410,7 @@ def export_paper(arxiv_id: str) -> bool:
 
             # Global ranking for this dataset (best result per model, all papers)
             try:
-                model_to_rank, global_top_all, truth_map = _global_ranks_for_dataset(
+                model_to_rank, global_top_all, truth_map = _global_ranks_cached(
                     session, ds, primary_metric, higher
                 )
             except Exception as _exc:
@@ -1358,53 +1563,11 @@ def export_paper(arxiv_id: str) -> bool:
                 for pr in pv_rows:
                     pr["global_rank"] = model_to_rank.get(pr.get("model_key", ""))
 
-                # Inject up to 3 global-top models not in this paper
-                extra_rows: list[dict] = []
-                n_metrics = len(metrics_list)
-                for gr in global_top_all:
-                    if gr["model_key"] not in paper_models:
-                        mv = [gr["value"] if i == 0 else None for i in range(n_metrics)]
-                        ms = [gr["std"] if i == 0 else None for i in range(n_metrics)]
-                        extra_rows.append(
-                            {
-                                "model": gr["model"],
-                                "model_key": gr["model_key"],
-                                "model_plain": gr.get("model_plain") or _plain_model(gr["model"]),
-                                "metric_values": mv,
-                                "metric_stds": ms,
-                                "is_baseline": gr["is_baseline"],
-                                "is_overridden": False,
-                                "override_reason": "",
-                                "params_millions": gr["params_millions"],
-                                "architecture_type": gr.get("architecture_type"),
-                                "architecture_label": gr.get("architecture_label"),
-                                "architecture_title": gr.get("architecture_title", ""),
-                                "arxiv_id": gr["arxiv_id"],
-                                "title": gr["title"],
-                                "published_venue": gr.get("published_venue", ""),
-                                "date": gr["date"],
-                                "date_display": gr.get("date_display", ""),
-                                "date_iso": gr.get("date_iso", ""),
-                                "codebase_url": gr["codebase_url"],
-                                "uses_external_data": gr.get("uses_external_data"),
-                                "is_global_top": True,
-                                "global_rank": gr["global_rank"],
-                                "is_best": False,
-                                "sort_value": gr.get("sort_value", gr.get("value")),
-                                "sort_std": gr.get("sort_std", gr.get("std")),
-                                "has_value_gap": False,
-                                "has_value_note": False,
-                                "paper_rank": None,
-                                "rank_delta": None,
-                                "rank_delta_abs": None,
-                                "value_note": "",
-                                "comparison_type": gr.get("comparison_type", "global_top"),
-                                "comparison_source_title": gr.get("comparison_source_title", ""),
-                                "comparison_source_arxiv": gr.get("comparison_source_arxiv", ""),
-                            }
-                        )
-                        if len(extra_rows) >= 3:
-                            break
+                # Inject up to 3 global-top models plus core baselines not in this paper
+                extra_rows = [
+                    _global_row_to_pivoted_extra(gr, len(metrics_list))
+                    for gr in _select_global_context_rows(global_top_all, paper_models)
+                ]
 
                 if extra_rows:
                     combined = pv_rows + extra_rows
@@ -1489,13 +1652,8 @@ def export_paper(arxiv_id: str) -> bool:
                 # Attach global ranks to paper rows
                 paper_models = {r.get("model_key", "") for r in rows}
 
-                # Inject up to 3 global-top models not in this paper
-                extra_rows = []
-                for gr in global_top_all:
-                    if gr["model_key"] not in paper_models:
-                        extra_rows.append(gr)
-                        if len(extra_rows) >= 3:
-                            break
+                # Inject up to 3 global-top models plus core baselines not in this paper
+                extra_rows = _select_global_context_rows(global_top_all, paper_models)
 
                 if extra_rows:
                     rows = rows + extra_rows
@@ -1600,8 +1758,7 @@ def export_paper(arxiv_id: str) -> bool:
         main_figure_hugo: str | None = None
         if storage.main_figure_path and storage.main_figure_path.exists():
             dest = _STATIC / "figures" / arxiv_id / storage.main_figure_path.name
-            dest.parent.mkdir(parents=True, exist_ok=True)
-            shutil.copy2(storage.main_figure_path, dest)
+            _copy_main_figure_if_newer(storage.main_figure_path, dest)
             main_figure_hugo = f"/figures/{arxiv_id}/{storage.main_figure_path.name}"
 
         mrr, adjusted_mrr, mrr_dataset_count, proposed_models = _compute_paper_mrr(session, paper)
@@ -1638,8 +1795,7 @@ def export_paper(arxiv_id: str) -> bool:
             "published_date": _fmt_date(paper.published_date),
             "published_date_iso": (paper.published_date[:10] if paper.published_date else ""),
             "published_venue": paper.venue or "",
-            "published_conference": _normalize_conference(paper.venue),
-            "published_conference_slug": _slug(_normalize_conference(paper.venue)),
+            **conference_fields,
             "abstract": _sanitize_abstract(clean_extracted_text(paper.abstract)),
             "codebase_url": paper.codebase_url or "",
             "extraction_model": paper.extraction_model or "",
@@ -1660,7 +1816,6 @@ def export_paper(arxiv_id: str) -> bool:
         if main_figure_hugo:
             front_matter["main_figure"] = main_figure_hugo
 
-        out_path = _CONTENT / "papers" / arxiv_id / "index.md"
         _write_md(out_path, front_matter)
         logger.info("Exported paper %s → %s", arxiv_id, out_path)
         return True
@@ -1743,6 +1898,10 @@ def _build_multi_metric_rows(
         arxiv_id = paper.arxiv_id if paper else ""
         key = (model_name, arxiv_id)
         if key not in groups:
+            conference_fields = _conference_export_fields(
+                paper.venue if paper else None,
+                paper.published_date if paper else None,
+            )
             groups[key] = {
                 "model": model_name,
                 "model_plain": _plain_model(model_name),
@@ -1757,6 +1916,7 @@ def _build_multi_metric_rows(
                 "date_iso": (paper.published_date[:10] if paper and paper.published_date else ""),
                 "date_display": _fmt_month_year(paper.published_date) if paper else "",
                 "codebase_url": paper.codebase_url or "",
+                "published_conference": conference_fields["published_conference"],
                 "uses_external_data": None,
                 "_vals": {},
             }
@@ -1839,6 +1999,7 @@ def export_dataset(dataset_id: int) -> bool:
 
         if not variants:
             logger.debug("Dataset %s has no variants — skipping export", ds.name)
+            _DATASET_EXPORT_META_CACHE[dataset_id] = {"exportable": False, "result_count": 0}
             return False
 
         force_export = _dataset_force_export(ds.name)
@@ -1905,7 +2066,7 @@ def export_dataset(dataset_id: int) -> bool:
                 metric,
             )
 
-            milestones = get_best_results_over_time(v.id, metric)
+            milestones = get_best_results_over_time(v.id, metric, session=session)
 
             variant_data.append(
                 {
@@ -1927,6 +2088,7 @@ def export_dataset(dataset_id: int) -> bool:
             )
 
         if not variant_data:
+            _DATASET_EXPORT_META_CACHE[dataset_id] = {"exportable": False, "result_count": 0}
             return False
 
         # Compute overview stats from the standard (or first) variant
@@ -1985,6 +2147,10 @@ def export_dataset(dataset_id: int) -> bool:
 
         out_path = _CONTENT / "datasets" / _slug(ds.name) / "index.md"
         _write_md(out_path, front_matter)
+        _DATASET_EXPORT_META_CACHE[dataset_id] = {
+            "exportable": True,
+            "result_count": result_count,
+        }
         logger.info("Exported dataset %s → %s", ds.name, out_path)
         return True
 
@@ -2086,10 +2252,7 @@ def export_all(arxiv_ids: list[str] | None = None) -> None:
     export_development_data()
 
     with session_scope() as session:
-        if arxiv_ids:
-            papers = session.query(Paper).filter(Paper.arxiv_id.in_(arxiv_ids)).all()
-        else:
-            papers = session.query(Paper).all()
+        papers = _query_exportable_papers(session, arxiv_ids=arxiv_ids)
         paper_ids = [p.arxiv_id for p in papers]
 
         dataset_ids = [ds.id for ds in session.query(Dataset).all()]

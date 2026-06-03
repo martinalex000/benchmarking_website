@@ -1,5 +1,5 @@
 {{ define "main" }}
-{{ $papers := where .Site.RegularPages "Section" "papers" }}
+{{ $papers := where (where .Site.RegularPages "Section" "papers") "Params.has_results" true }}
 {{ $papersWithConferences := where $papers "Params.published_conference" "ne" "" }}
 {{ $conferenceOrder := slice "NeurIPS" "ICLR" "ICML" "LoG" "TMLR" "AAAI" "KDD" }}
 {{ $conferenceCounts := dict }}
@@ -7,7 +7,7 @@
 {{ $years := slice }}
 
 {{ range $papersWithConferences }}
-  {{ $conference := .Params.published_conference }}
+  {{ $conference := .Params.published_conference_short | default .Params.published_conference }}
   {{ $conferenceCounts = merge $conferenceCounts (dict $conference (add (default 0 (index $conferenceCounts $conference)) 1)) }}
   {{ with .Params.published_date_iso }}
     {{ if ge (len .) 4 }}

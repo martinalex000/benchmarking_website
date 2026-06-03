@@ -3,6 +3,7 @@
 Usage::
     uv run python scripts/backfill_ss_publication.py --limit 500
     uv run python scripts/backfill_ss_publication.py --dry-run
+    uv run python scripts/backfill_ss_publication.py --include-all
 """
 
 from __future__ import annotations
@@ -14,13 +15,14 @@ import time
 from pathlib import Path
 
 import requests
+from sqlalchemy import or_
 from tqdm import tqdm
 
 _project_root = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(_project_root))
 
 from backend.db import init_db, session_scope  # noqa: E402
-from backend.models import Paper  # noqa: E402
+from backend.models import Paper, Result  # noqa: E402
 from backend.semantic_scholar import _s2_headers  # noqa: E402
 
 _S2_BASE = "https://api.semanticscholar.org/graph/v1"
@@ -28,6 +30,17 @@ _S2_BASE = "https://api.semanticscholar.org/graph/v1"
 
 def _needs_backfill(paper: Paper) -> bool:
     return not paper.venue or not paper.published_date or len(paper.published_date or "") < 10
+
+
+def _papers_needing_backfill(session, *, with_results_only: bool) -> list[Paper]:
+    query = session.query(Paper)
+    if with_results_only:
+        query = (
+            query.join(Paper.results)
+            .filter(or_(Result.is_problematic.is_(None), Result.is_problematic == 0))
+            .distinct()
+        )
+    return [paper for paper in query.all() if _needs_backfill(paper)]
 
 
 def _fetch_metadata_individual(arxiv_id: str) -> dict[str, str] | None:
@@ -87,25 +100,32 @@ def _fetch_metadata_individual(arxiv_id: str) -> dict[str, str] | None:
         return None
 
 
-def backfill(dry_run: bool = False, limit: int = 0) -> None:
+def backfill(
+    dry_run: bool = False,
+    limit: int = 0,
+    *,
+    with_results_only: bool = True,
+) -> None:
     init_db()
     updated = 0
     skipped = 0
 
     with session_scope() as session:
-        papers = [paper for paper in session.query(Paper).all() if _needs_backfill(paper)]
+        papers = _papers_needing_backfill(session, with_results_only=with_results_only)
         total_needed = len(papers)
+        scope = "with benchmark results" if with_results_only else "in database"
         if limit > 0:
-            # Show total before shuffling and capping
             if limit < total_needed:
-                print(f"Found {total_needed} paper(s) needing metadata — limited to {limit}")
+                print(
+                    f"Found {total_needed} {scope} paper(s) needing metadata — limited to {limit}"
+                )
             else:
-                print(f"Found {total_needed} paper(s) needing Semantic Scholar metadata")
+                print(f"Found {total_needed} {scope} paper(s) needing Semantic Scholar metadata")
             random.shuffle(papers)
             papers = papers[:limit]
         else:
             if total_needed:
-                print(f"Found {total_needed} paper(s) needing Semantic Scholar metadata")
+                print(f"Found {total_needed} {scope} paper(s) needing Semantic Scholar metadata")
 
         with tqdm(total=len(papers), desc="0 updated, 0 skipped", unit="paper") as pbar:
             for paper in papers:
@@ -152,8 +172,17 @@ def main(argv: list[str] | None = None) -> None:
     parser.add_argument(
         "--limit", type=int, default=0, help="Process at most N papers (0 = unlimited)"
     )
+    parser.add_argument(
+        "--include-all",
+        action="store_true",
+        help="Include papers without benchmark results (default: only papers with results)",
+    )
     args = parser.parse_args(argv)
-    backfill(dry_run=args.dry_run, limit=args.limit)
+    backfill(
+        dry_run=args.dry_run,
+        limit=args.limit,
+        with_results_only=not args.include_all,
+    )
 
 
 if __name__ == "__main__":
