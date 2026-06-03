@@ -4,6 +4,9 @@ from __future__ import annotations
 
 import json
 import logging
+import time
+from collections.abc import Iterator
+from contextlib import contextmanager
 from typing import Any
 
 from sqlalchemy.orm import Session
@@ -18,6 +21,20 @@ from backend.export_helpers import sanitize_title
 from backend.models import Paper, PaperCandidate, PendingDataset, TodoPaper
 
 logger = logging.getLogger(__name__)
+
+
+@contextmanager
+def _dev_export_step(label: str, *, indent: int = 2) -> Iterator[None]:
+    """Log a development-export sub-step with elapsed time (via tqdm.write)."""
+    from tqdm import tqdm
+
+    prefix = " " * indent
+    t0 = time.perf_counter()
+    tqdm.write(f"{prefix}{label}...")
+    try:
+        yield
+    finally:
+        tqdm.write(f"{prefix}{label}... done ({time.perf_counter() - t0:.1f}s)")
 
 
 def export_development_data(*, session: Session | None = None) -> dict[str, int]:
@@ -38,54 +55,61 @@ def export_development_data(*, session: Session | None = None) -> dict[str, int]
 
 def _export_development_data_impl(session: Session, hugo: Any) -> dict[str, int]:
     data_files = 0
-    status_counts: dict[str, int] = {}
-    papers = session.query(Paper).all()
-    for paper in papers:
-        status_counts[paper.extraction_status] = status_counts.get(paper.extraction_status, 0) + 1
-
-    skipped_papers = session.query(PaperCandidate).filter(PaperCandidate.stage1_passed == 0).all()
-    stage2_skipped = session.query(PaperCandidate).filter(PaperCandidate.stage2_passed == 0).all()
-
-    missing_daily = sum(
-        1 for p in papers if not p.published_date or len(p.published_date.strip()) < 10
-    )
-
-    dev_data = {
-        "paper_status": {"total": len(papers), "by_status": status_counts},
-        "skipped": {
-            "stage1_count": len(skipped_papers),
-            "stage2_count": len(stage2_skipped),
-        },
-        "date_refinement": {
-            "missing_daily_count": missing_daily,
-        },
-    }
-
-    (hugo._DATA_DIR / "development.json").write_text(
-        json.dumps(dev_data, indent=2, ensure_ascii=False), encoding="utf-8"
-    )
-    data_files += 1
-
-    try:
-        todo_rows = session.query(TodoPaper).order_by(TodoPaper.seen_count.desc()).all()
-        todo_list = []
-        for row in todo_rows:
-            todo_list.append(
-                {
-                    "arxiv_id": row.arxiv_id,
-                    "title": sanitize_title(row.title),
-                    "status": row.status,
-                    "seen_count": int(row.seen_count or 0),
-                    "seen_from": json.loads(row.seen_from) if row.seen_from else [],
-                    "first_seen_at": row.first_seen_at,
-                }
+    with _dev_export_step("development JSON"):
+        status_counts: dict[str, int] = {}
+        papers = session.query(Paper).all()
+        for paper in papers:
+            status_counts[paper.extraction_status] = (
+                status_counts.get(paper.extraction_status, 0) + 1
             )
-        (hugo._DATA_DIR / "todo_papers.json").write_text(
-            json.dumps(todo_list, indent=2, ensure_ascii=False), encoding="utf-8"
+
+        skipped_papers = (
+            session.query(PaperCandidate).filter(PaperCandidate.stage1_passed == 0).all()
+        )
+        stage2_skipped = (
+            session.query(PaperCandidate).filter(PaperCandidate.stage2_passed == 0).all()
+        )
+
+        missing_daily = sum(
+            1 for p in papers if not p.published_date or len(p.published_date.strip()) < 10
+        )
+
+        dev_data = {
+            "paper_status": {"total": len(papers), "by_status": status_counts},
+            "skipped": {
+                "stage1_count": len(skipped_papers),
+                "stage2_count": len(stage2_skipped),
+            },
+            "date_refinement": {
+                "missing_daily_count": missing_daily,
+            },
+        }
+
+        (hugo._DATA_DIR / "development.json").write_text(
+            json.dumps(dev_data, indent=2, ensure_ascii=False), encoding="utf-8"
         )
         data_files += 1
-    except Exception:
-        logger.exception("Failed to export todo_papers.json")
+
+        try:
+            todo_rows = session.query(TodoPaper).order_by(TodoPaper.seen_count.desc()).all()
+            todo_list = []
+            for row in todo_rows:
+                todo_list.append(
+                    {
+                        "arxiv_id": row.arxiv_id,
+                        "title": sanitize_title(row.title),
+                        "status": row.status,
+                        "seen_count": int(row.seen_count or 0),
+                        "seen_from": json.loads(row.seen_from) if row.seen_from else [],
+                        "first_seen_at": row.first_seen_at,
+                    }
+                )
+            (hugo._DATA_DIR / "todo_papers.json").write_text(
+                json.dumps(todo_list, indent=2, ensure_ascii=False), encoding="utf-8"
+            )
+            data_files += 1
+        except Exception:
+            logger.exception("Failed to export todo_papers.json")
 
     pages = create_dev_pages(session=session)
     return {"pages": pages, "data_files": data_files}
@@ -99,7 +123,8 @@ def create_dev_pages(*, session: Session | None = None) -> int:
     content_dev.mkdir(parents=True, exist_ok=True)
 
     def _run(sess: Session) -> int:
-        return _create_dev_pages_impl(sess, hugo, content_dev)
+        with _dev_export_step("development pages"):
+            return _create_dev_pages_impl(sess, hugo, content_dev)
 
     if session is not None:
         return _run(session)
@@ -107,19 +132,32 @@ def create_dev_pages(*, session: Session | None = None) -> int:
         return _run(scoped)
 
 
+def create_conferences_page(*, session: Session | None = None) -> int:
+    """Generate the public conferences overview section."""
+    from backend import export_to_hugo as hugo
+
+    hugo._CONTENT.mkdir(parents=True, exist_ok=True)
+    content_conferences = hugo._CONTENT / "conferences"
+    content_conferences.mkdir(parents=True, exist_ok=True)
+
+    stale = hugo._CONTENT / "dev" / "conferences.md"
+    if stale.exists():
+        stale.unlink()
+
+    hugo._write_md(
+        content_conferences / "_index.md",
+        {
+            "title": "Conferences",
+            "description": "Venue coverage and publication trends for exported papers.",
+        },
+        "Conference venues represented in the exported paper set.",
+    )
+    return 1
+
+
 def _create_dev_pages_impl(session: Session, hugo: Any, content_dev: Any) -> int:
     pages_written = 0
     hugo._write_md(content_dev / "_index.md", {"title": "Development", "type": "dev"}, "")
-    pages_written += 1
-    hugo._write_md(
-        content_dev / "conferences.md",
-        {
-            "title": "Conference Overview",
-            "type": "dev",
-            "description": "Venue coverage and shortcut statistics for the exported papers.",
-        },
-        "This page summarizes the conference venues that appear in the exported paper set.",
-    )
     pages_written += 1
 
     papers = session.query(Paper).all()
@@ -372,7 +410,8 @@ def _create_dev_pages_impl(session: Session, hugo: Any, content_dev: Any) -> int
     )
 
     try:
-        anomalies = hugo._collect_result_anomalies(session)
+        with _dev_export_step("dev page: extraction-anomalies"):
+            anomalies = hugo._collect_result_anomalies(session)
         by_paper = {item["arxiv_id"] for item in anomalies}
         lines = [
             "## Post-Extraction Anomalies",
@@ -414,7 +453,8 @@ def _create_dev_pages_impl(session: Session, hugo: Any, content_dev: Any) -> int
         logger.exception("Failed to create extraction-anomalies dev page")
 
     try:
-        mismatches = hugo._collect_model_value_mismatches(session)
+        with _dev_export_step("dev page: page-of-shame"):
+            mismatches = hugo._collect_model_value_mismatches(session)
         by_paper: dict[str, dict[str, Any]] = {}
         for item in mismatches:
             bucket = by_paper.setdefault(

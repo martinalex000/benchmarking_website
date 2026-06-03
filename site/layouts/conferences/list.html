@@ -1,0 +1,324 @@
+{{ define "main" }}
+{{ $papers := where (where .Site.RegularPages "Section" "papers") "Params.has_results" true }}
+{{ $papersWithConferences := where $papers "Params.published_conference_short" "ne" "" }}
+{{ $conferenceOrder := slice "NeurIPS" "ICLR" "ICML" "LoG" "TMLR" "AAAI" "KDD" }}
+{{ $conferenceCounts := dict }}
+{{ $yearCounts := dict }}
+{{ $conferenceYearCounts := dict }}
+{{ $years := slice }}
+
+{{ range $papersWithConferences }}
+  {{ $conference := .Params.published_conference_short }}
+  {{ if $conference }}
+  {{ $conferenceCounts = merge $conferenceCounts (dict $conference (add (default 0 (index $conferenceCounts $conference)) 1)) }}
+  {{ with .Params.published_date_iso }}
+    {{ if ge (len .) 4 }}
+      {{ $year := substr . 0 4 }}
+      {{ $years = $years | append $year }}
+      {{ $yearCounts = merge $yearCounts (dict $year (add (default 0 (index $yearCounts $year)) 1)) }}
+      {{ $confYears := default (dict) (index $conferenceYearCounts $conference) }}
+      {{ $confYears = merge $confYears (dict $year (add (default 0 (index $confYears $year)) 1)) }}
+      {{ $conferenceYearCounts = merge $conferenceYearCounts (dict $conference $confYears) }}
+    {{ end }}
+  {{ end }}
+  {{ end }}
+{{ end }}
+
+{{ $sortedYears := sort (uniq $years) }}
+{{ $firstYear := "" }}
+{{ $lastYear := "" }}
+{{ if gt (len $sortedYears) 0 }}
+  {{ $firstYear = index $sortedYears 0 }}
+  {{ $lastYear = index $sortedYears (sub (len $sortedYears) 1) }}
+{{ end }}
+{{ $uniqueConferences := len $conferenceCounts }}
+{{ $topConference := "—" }}
+{{ $topCount := 0 }}
+{{ range $name, $count := $conferenceCounts }}
+  {{ if gt $count $topCount }}
+    {{ $topConference = $name }}
+    {{ $topCount = $count }}
+  {{ end }}
+{{ end }}
+
+{{ $otherCount := 0 }}
+{{ $otherYearCounts := dict }}
+{{ range $name, $count := $conferenceCounts }}
+  {{ if not (in $conferenceOrder $name) }}
+    {{ $otherCount = add $otherCount $count }}
+    {{ $confYears := default (dict) (index $conferenceYearCounts $name) }}
+    {{ range $year, $yearCount := $confYears }}
+      {{ $otherYearCounts = merge $otherYearCounts (dict $year (add (default 0 (index $otherYearCounts $year)) $yearCount)) }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+{{ $confChartLabels := slice }}
+{{ $confChartValues := slice }}
+{{ range $conferenceOrder }}
+  {{ $confChartLabels = $confChartLabels | append . }}
+  {{ $confChartValues = $confChartValues | append (default 0 (index $conferenceCounts .)) }}
+{{ end }}
+{{ if gt $otherCount 0 }}
+  {{ $confChartLabels = $confChartLabels | append "Other" }}
+  {{ $confChartValues = $confChartValues | append $otherCount }}
+{{ end }}
+
+{{ $yearChartValues := slice }}
+{{ range $sortedYears }}
+  {{ $yearChartValues = $yearChartValues | append (default 0 (index $yearCounts .)) }}
+{{ end }}
+
+<div class="overview-hero">
+  <h1>{{ .Title }}</h1>
+  <div class="overview-intro">{{ .Content }}</div>
+  <div class="dataset-stats overview-stats">
+    <a class="stat-item stat-link" href="#conference-breakdown"><span class="stat-value">{{ len $papersWithConferences }}</span><span class="stat-label">papers with venue</span></a>
+    <a class="stat-item stat-link" href="#conference-breakdown"><span class="stat-value">{{ $uniqueConferences }}</span><span class="stat-label">unique conferences</span></a>
+    <span class="stat-item"><span class="stat-value">{{ $topConference }}</span><span class="stat-label">most common</span></span>
+  </div>
+</div>
+
+<section class="overview-section">
+  <div class="overview-charts-duo">
+    <div class="overview-chart-wrap">
+      <h2>Papers by conference</h2>
+      <canvas
+        id="conferences-distribution-chart"
+        class="overview-chart-canvas"
+        height="280"
+        data-chart-labels="{{ $confChartLabels | jsonify | safeHTMLAttr }}"
+        data-chart-values="{{ $confChartValues | jsonify | safeHTMLAttr }}"
+      ></canvas>
+    </div>
+    <div class="overview-chart-wrap">
+      <h2>Papers by year</h2>
+      {{ if $sortedYears }}
+      <canvas
+        id="conferences-year-chart"
+        class="overview-chart-canvas"
+        height="280"
+        data-chart-labels="{{ $sortedYears | jsonify | safeHTMLAttr }}"
+        data-chart-values="{{ $yearChartValues | jsonify | safeHTMLAttr }}"
+      ></canvas>
+      {{ else }}
+      <p>No publication dates available yet.</p>
+      {{ end }}
+    </div>
+  </div>
+</section>
+
+<section class="overview-section" id="conference-breakdown">
+  <div class="overview-chart-wrap">
+    <div class="overview-chart-header">
+      <h2>Conference coverage</h2>
+    </div>
+    <div class="dev-grid">
+      {{ range $conferenceOrder }}
+        {{ $count := default 0 (index $conferenceCounts .) }}
+        {{ $conferenceSlug := . | lower }}
+        {{ $confYears := default (dict) (index $conferenceYearCounts .) }}
+        {{ $cardYearValues := slice }}
+        {{ range $sortedYears }}
+          {{ $cardYearValues = $cardYearValues | append (default 0 (index $confYears .)) }}
+        {{ end }}
+        <article class="dev-card">
+          <h3>{{ . }}</h3>
+          {{ if gt (len $sortedYears) 0 }}
+          <div class="dev-card-year-chart-wrap">
+            <canvas
+              class="dev-card-year-chart"
+              height="56"
+              aria-label="{{ . }} papers by year from {{ $firstYear }} to {{ $lastYear }}"
+              data-chart-labels="{{ $sortedYears | jsonify | safeHTMLAttr }}"
+              data-chart-values="{{ $cardYearValues | jsonify | safeHTMLAttr }}"
+            ></canvas>
+            <div class="dev-card-year-scale" aria-hidden="true">
+              <span>{{ $firstYear }}</span>
+              <span>{{ $lastYear }}</span>
+            </div>
+          </div>
+          {{ end }}
+          <div class="dev-card-stats">
+            {{ if gt $count 0 }}
+            <a class="badge dev-card-link" href="{{ "papers/" | relURL }}?conference={{ $conferenceSlug }}"><span class="stat-value">{{ $count }}</span> papers</a>
+            {{ else }}
+            <span class="badge"><span class="stat-value">{{ $count }}</span> papers</span>
+            {{ end }}
+          </div>
+        </article>
+      {{ end }}
+      {{ $otherCardYearValues := slice }}
+      {{ range $sortedYears }}
+        {{ $otherCardYearValues = $otherCardYearValues | append (default 0 (index $otherYearCounts .)) }}
+      {{ end }}
+      <article class="dev-card">
+        <h3>Other venues</h3>
+        {{ if gt (len $sortedYears) 0 }}
+        <div class="dev-card-year-chart-wrap">
+          <canvas
+            class="dev-card-year-chart"
+            height="56"
+            aria-label="Other venue papers by year from {{ $firstYear }} to {{ $lastYear }}"
+            data-chart-labels="{{ $sortedYears | jsonify | safeHTMLAttr }}"
+            data-chart-values="{{ $otherCardYearValues | jsonify | safeHTMLAttr }}"
+          ></canvas>
+          <div class="dev-card-year-scale" aria-hidden="true">
+            <span>{{ $firstYear }}</span>
+            <span>{{ $lastYear }}</span>
+          </div>
+        </div>
+        {{ end }}
+        <div class="dev-card-stats">
+          <span class="badge"><span class="stat-value">{{ $otherCount }}</span> papers</span>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+{{ end }}
+
+{{ define "scripts" }}
+<script>
+(function () {
+  if (typeof Chart === "undefined") return;
+
+  var charts = [];
+
+  function theme() {
+    return window.siteChartTheme ? window.siteChartTheme() : {
+      tick: "#1f2937",
+      grid: "rgba(31, 41, 55, 0.12)",
+      bar: "rgba(37, 99, 235, 0.72)",
+      barBorder: "#2563eb",
+      miniBar: "rgba(37, 99, 235, 0.55)"
+    };
+  }
+
+  function scaleColors() {
+    var t = theme();
+    return {
+      x: {
+        ticks: { color: t.tick },
+        grid: { color: t.grid }
+      },
+      y: {
+        beginAtZero: true,
+        ticks: { color: t.tick, precision: 0 },
+        grid: { color: t.grid }
+      }
+    };
+  }
+
+  function readChartData(canvas) {
+    return {
+      labels: JSON.parse(canvas.dataset.chartLabels || "[]"),
+      values: JSON.parse(canvas.dataset.chartValues || "[]")
+    };
+  }
+
+  function initOverviewChart(canvasId, xTickRotation) {
+    var canvas = document.getElementById(canvasId);
+    if (!canvas) return;
+    var data = readChartData(canvas);
+    var t = theme();
+    var scales = scaleColors();
+    scales.x.ticks = Object.assign({}, scales.x.ticks, {
+      maxRotation: xTickRotation,
+      minRotation: xTickRotation
+    });
+    var chart = new Chart(canvas, {
+      type: "bar",
+      data: {
+        labels: data.labels,
+        datasets: [{
+          label: "Papers",
+          data: data.values,
+          backgroundColor: t.bar,
+          borderColor: t.barBorder,
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: scales
+      }
+    });
+    charts.push(chart);
+    return chart;
+  }
+
+  initOverviewChart("conferences-distribution-chart", 45);
+  initOverviewChart("conferences-year-chart", 0);
+
+  Array.prototype.forEach.call(document.querySelectorAll(".dev-card-year-chart"), function (canvas) {
+    var data = readChartData(canvas);
+    var t = theme();
+    charts.push(new Chart(canvas, {
+      type: "bar",
+      data: {
+        labels: data.labels,
+        datasets: [{
+          data: data.values,
+          backgroundColor: t.miniBar,
+          borderColor: t.barBorder,
+          borderWidth: 1,
+          borderRadius: 2,
+          maxBarThickness: 10
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        layout: { padding: { bottom: 0 } },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              title: function (items) {
+                return items.length ? items[0].label : "";
+              },
+              label: function (item) {
+                return item.raw + " paper" + (item.raw === 1 ? "" : "s");
+              }
+            }
+          }
+        },
+        scales: {
+          x: { display: false, grid: { display: false } },
+          y: { display: false, beginAtZero: true }
+        }
+      }
+    }));
+  });
+
+  function refreshCharts() {
+    var t = theme();
+    charts.forEach(function (chart) {
+      var dataset = chart.data.datasets[0];
+      if (!dataset) return;
+      if (dataset.label === "Papers") {
+        dataset.backgroundColor = t.bar;
+        dataset.borderColor = t.barBorder;
+      } else {
+        dataset.backgroundColor = t.miniBar;
+        dataset.borderColor = t.barBorder;
+      }
+      if (chart.options.scales && chart.options.scales.x && chart.options.scales.x.display !== false) {
+        chart.options.scales.x.ticks = Object.assign({}, chart.options.scales.x.ticks || {}, { color: t.tick });
+        chart.options.scales.x.grid = Object.assign({}, chart.options.scales.x.grid || {}, { color: t.grid });
+      }
+      if (chart.options.scales && chart.options.scales.y && chart.options.scales.y.display !== false) {
+        chart.options.scales.y.ticks = Object.assign({}, chart.options.scales.y.ticks || {}, { color: t.tick });
+        chart.options.scales.y.grid = Object.assign({}, chart.options.scales.y.grid || {}, { color: t.grid });
+      }
+      chart.update("none");
+    });
+  }
+
+  window.addEventListener("sitethemechange", refreshCharts);
+})();
+</script>
+{{ end }}

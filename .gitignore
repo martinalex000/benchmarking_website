@@ -24,6 +24,7 @@ site/public/
 site/resources/
 site/.hugo_build.lock
 site/content/dev/
+site/content/conferences/
 site/content/datasets/
 site/content/papers/
 site/data/*.json
