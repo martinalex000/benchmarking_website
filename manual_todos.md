@@ -4,10 +4,6 @@ shadcn/ui
 
 MLP baseline für fehlende Datensätze selbst berechnen
 
-also extract and store in the database whether a suggested model is a transformer or message-passing whenever that is clearly stated.
-
-3rd party data with pretraining and finetuning (use of external data) could be interesting too
-
 Used hardware for the experiments and potentially runtime (even though thats usually not the big tiebreaker)
 
 show the number of stars on github when there is a github link?
@@ -23,6 +19,8 @@ also mention when a paper improved a baseline, not only when it made things wors
 heterophily statistics and generally improved statistics for the datasets.
 
 logos einbinden der jeweiligen benchmarks
+
+there are a lot of papers where the title is not extracted correctly. 
 
 check dass beim paper ranking wirklich nur die vorgeschlagene methode betrachtet wird plus eine bessere erklärung und erweiterte filtermöglichkeiten
 
@@ -45,8 +43,6 @@ add year filter for papers
 don't sort by amount of results but by amount of recent results
 
 ways to interact with the website: how can I make sure my paper is re-parsed? Or flag problems with the paper?
-
-die hellen button auf der startseite sollten klickbar sein.
 
 http://localhost:1313/datasets/zinc/ hier gibt es verdammt grosse Zahlen gemixt unter die anderen - wo kommen die her und wie werde ich die los? Und schaffe ich es die y-achse so zu skalieren, dass man mehr sehen kann?
 
@@ -147,8 +143,6 @@ at some point in the future: add generation benchmarks/metrics etc. But this fee
 ╭───────────────────────────────────┬────────┬──────────┬──────┬────────┬────────┬──────────┬────────┬───────────┬─────────┬───────╮
 │                                   │        │ Baseline │      │    Val │        │ Halluci- │        │           │ Halluc. │   Avg │
 │ Model                             │ Papers │  Entries │ Hits │ Errors │ Misses │  nations │ Recall │ Precision │    Rate │  Time │
-├───────────────────────────────────┼────────┼──────────┼──────┼────────┼────────┼──────────┼────────┼───────────┼─────────┼───────┤
-│ MiniMaxAI/MiniMax-M2.5            │      1 │      327 │  314 │      0 │     13 │       37 │    96% │       89% │     11% │ 2636s │
 ├───────────────────────────────────┼────────┼──────────┼──────┼────────┼────────┼──────────┼────────┼───────────┼─────────┼───────┤
 │ moonshotai/Kimi-K2.6              │      1 │      327 │  314 │      0 │     13 │       37 │    96% │       89% │     11% │ 2442s │
 ├───────────────────────────────────┼────────┼──────────┼──────┼────────┼────────┼──────────┼────────┼───────────┼─────────┼───────┤

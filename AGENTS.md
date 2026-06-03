@@ -52,3 +52,4 @@ Respect the configured formatting and linting rules:
 - Prefer existing scripts and tests when validating changes.
 - Keep the researcher workflow in mind: the end result should make it easier to browse SOTA and find
   strong baselines and benchmarks.
+- Perform regular git commits with concise messages spanning (typically) at most two lines.
