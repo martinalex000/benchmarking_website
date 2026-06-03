@@ -929,6 +929,18 @@ def parse_and_store_with_summary(arxiv_id: str) -> ParseStoreSummary:
             session.add(result)
             summary.new_results += 1
 
+        param_lookup = {k: float(v) for k, v in sizes_lookup.items() if v is not None}
+        if param_lookup:
+            from backend.export_to_hugo import _sanitize_model
+            from backend.result_params_backfill import backfill_paper_params_millions
+
+            backfill_paper_params_millions(
+                session,
+                paper,
+                lookup=param_lookup,
+                sanitize_model=_sanitize_model,
+            )
+
     logger.info("Stored %d new Result rows for arXiv:%s", summary.new_results, arxiv_id)
     if summary.updated_results:
         logger.info(

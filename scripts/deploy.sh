@@ -4,6 +4,7 @@
 set -euo pipefail
 
 DELETE_MODE=true
+SKIP_EXPORT=false
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -11,8 +12,12 @@ while [[ $# -gt 0 ]]; do
       DELETE_MODE=false
       shift
       ;;
+    --skip-export)
+      SKIP_EXPORT=true
+      shift
+      ;;
     *)
-      echo "Usage: $0 [--no-delete]" >&2
+      echo "Usage: $0 [--no-delete] [--skip-export]" >&2
       exit 1
       ;;
   esac
@@ -135,12 +140,9 @@ if ! : >"$WRITE_TEST"; then
 fi
 rm -f "$WRITE_TEST"
 
-echo "Ensuring ${DEPLOY_PATH} has correct permissions on remote (via mount)..."
-# Restricted hosting shells often block remote chmod; sshfs uses SFTP like the mount.
-if ! chmod 755 "$MOUNT_POINT"; then
-  hint "Could not chmod the mounted deployment directory."
-  hint "Check that SFTP allows permission changes on ${DEPLOY_PATH}."
-  die "Failed to set 755 on deployment directory."
+if [[ "$SKIP_EXPORT" != "true" ]]; then
+  echo "Exporting Hugo content from database (includes site/content/dev)..."
+  uv run python -m backend.export_to_hugo
 fi
 
 echo "Building Hugo site locally to ${BUILD_DIR}..."
@@ -158,7 +160,8 @@ FILE_COUNT=$(find "$BUILD_DIR" -type f | wc -l)
 [[ "$FILE_COUNT" -gt 0 ]] || die "Hugo build produced no files in ${BUILD_DIR}. Check build output above."
 
 echo "Rsync delta sync to mounted target..."
-RSYNC_OPTS=(--archive --no-group --compress --human-readable --itemize-changes --stats --progress)
+# Do not copy local modes; force world-readable tree (Apache needs 755 on dirs/files).
+RSYNC_OPTS=(--archive --no-perms --chmod=D755,F755 --no-group --compress --human-readable --itemize-changes --stats --progress)
 if [[ "$DELETE_MODE" == "true" ]]; then
   RSYNC_OPTS+=(--delete)
 fi
@@ -172,7 +175,7 @@ if ! rsync "${RSYNC_OPTS[@]}" \
 fi
 
 echo "Verifying sync (rsync dry-run must report no pending changes)..."
-VERIFY_OPTS=(--archive --no-group --itemize-changes --dry-run)
+VERIFY_OPTS=(--archive --no-perms --chmod=D755,F755 --no-group --itemize-changes --dry-run)
 if [[ "$DELETE_MODE" == "true" ]]; then
   VERIFY_OPTS+=(--delete)
 fi
@@ -182,6 +185,38 @@ if [[ -n "$VERIFY_OUTPUT" ]]; then
   hint "Pending changes after sync indicate incomplete deployment or unstable mount state."
   hint "Retry deploy once; if it persists, remount and rerun."
   die "Post-sync verification failed."
+fi
+
+set_deploy_permissions() {
+  echo "Setting permissions to 755 recursively on ${DEPLOY_PATH}..."
+
+  local quoted_path
+  quoted_path="$(printf '%q' "$DEPLOY_PATH")"
+
+  # Match manual deploy: use a login shell and cd into $HOME for relative paths.
+  local ssh_chmod_cmd
+  if [[ "$DEPLOY_PATH" == /* ]]; then
+    ssh_chmod_cmd="chmod -R 755 -- ${quoted_path}"
+  else
+    ssh_chmod_cmd="cd \"\$HOME\" && chmod -R 755 -- ${quoted_path}"
+  fi
+
+  if ssh -o BatchMode=yes -o ConnectTimeout=10 "$SSH_DEST" bash -lc "$ssh_chmod_cmd"; then
+    return 0
+  fi
+
+  echo "SSH chmod failed; trying via sshfs mount..."
+  if chmod -R 755 "$MOUNT_POINT"; then
+    return 0
+  fi
+
+  hint "Manual fix (from a login shell): chmod -R 755 ${DEPLOY_PATH}"
+  hint "If ${DEPLOY_PATH} is relative, run it from your home directory."
+  return 1
+}
+
+if ! set_deploy_permissions; then
+  die "Failed to set 755 permissions on deployed files."
 fi
 
 echo "Deploy complete and verified."

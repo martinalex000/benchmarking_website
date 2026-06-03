@@ -1,5 +1,7 @@
 """Focused regression tests for export helper behavior."""
 
+import shutil
+
 import pytest
 
 from backend.export_helpers import truncate_words as _truncate_words
@@ -286,6 +288,54 @@ def test_dataset_export_metadata_uses_cache(monkeypatch):
 
     assert meta["result_count"] == 99
     assert calls == []
+
+
+def test_primary_proposed_from_results_prefers_primary_metric_rows():
+    from types import SimpleNamespace
+
+    from backend.export_to_hugo import _primary_proposed_from_results
+
+    class FakeModel:
+        def __init__(self, name: str):
+            self.canonical_name = name
+
+    def row(model: str, metric: str, primary: str):
+        ds = SimpleNamespace(primary_metric=primary)
+        dv = SimpleNamespace(dataset=ds)
+        return SimpleNamespace(
+            model=FakeModel(model),
+            dataset_variant=dv,
+            metric_name=metric,
+        )
+
+    results = [
+        row("Ablation-A", "Accuracy", "Accuracy"),
+        row("MainMethod", "Accuracy", "Accuracy"),
+        row("MainMethod", "Accuracy", "Accuracy"),
+        row("MainMethod", "F1", "Accuracy"),
+    ]
+    chosen = _primary_proposed_from_results(
+        results,
+        ["Ablation-A", "MainMethod"],
+    )
+    assert chosen == "MainMethod"
+
+
+def test_copy_main_figure_if_newer_skips_unchanged(tmp_path):
+    from backend.export_to_hugo import _copy_main_figure_if_newer
+
+    src = tmp_path / "fig.png"
+    dest = tmp_path / "out" / "fig.png"
+    src.write_bytes(b"source")
+    dest.parent.mkdir(parents=True)
+    shutil.copy2(src, dest)
+    import os
+    import time
+
+    time.sleep(0.05)
+    os.utime(dest, (time.time(), time.time()))
+    _copy_main_figure_if_newer(src, dest)
+    assert dest.read_bytes() == b"source"
 
 
 def test_global_ranks_cached_reuses_module_cache(monkeypatch):

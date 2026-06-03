@@ -35,6 +35,7 @@ dev = [
     "mypy>=1.15.0",
     "bandit>=1.8.0",
     "isort>=6.0.0",
+    "line_profiler>=4.2.0",
 ]
 
 [tool.black]

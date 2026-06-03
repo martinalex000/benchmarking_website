@@ -25,7 +25,7 @@ from pathlib import Path
 from typing import Any
 
 import yaml
-from sqlalchemy.orm import joinedload
+from sqlalchemy.orm import Session, joinedload
 
 from backend.baseline_aggregator import get_best_results_over_time
 from backend.config import cfg
@@ -57,7 +57,6 @@ _DATASET_OVERRIDES_FILE = cfg.base_dir / "config" / "dataset_overrides.yaml"
 
 _MODEL_RENAME_CACHE: dict[str, dict[str, str]] = {}
 _DATASET_OVERRIDE_CACHE: dict[str, dict[str, Any]] = {}
-_PAPER_PARAM_CACHE: dict[str, dict[str, float]] = {}
 _GLOBAL_RANKS_CACHE: dict[
     tuple[str, str, bool], tuple[dict[str, int], list[dict], dict[str, dict[str, Any]]]
 ] = {}
@@ -68,7 +67,6 @@ def clear_export_caches() -> None:
     """Reset per-export-run caches (call at the start of a full or partial export)."""
     _MODEL_RENAME_CACHE.clear()
     _DATASET_OVERRIDE_CACHE.clear()
-    _PAPER_PARAM_CACHE.clear()
     _GLOBAL_RANKS_CACHE.clear()
     _DATASET_EXPORT_META_CACHE.clear()
 
@@ -244,57 +242,10 @@ def _has_paper_value_difference(
     return abs(paper_value - true_value) > 1e-12
 
 
-def _paper_explicit_param_map(arxiv_id: str | None) -> dict[str, float]:
-    if not arxiv_id:
-        return {}
-    if arxiv_id in _PAPER_PARAM_CACHE:
-        return _PAPER_PARAM_CACHE[arxiv_id]
-
-    mapping: dict[str, float] = {}
-    try:
-        storage = PaperStorage(arxiv_id)
-        if storage.llm_output_path.exists():
-            raw = storage.load_llm_output()
-            results = raw.get("results", {})
-            candidates: list[dict[str, Any]] = []
-            proposed = results.get("proposed_model")
-            if isinstance(proposed, dict):
-                candidates.append(proposed)
-            baselines = results.get("baseline_models") or []
-            if isinstance(baselines, list):
-                candidates.extend(item for item in baselines if isinstance(item, dict))
-
-            for item in candidates:
-                name = str(item.get("name") or "").strip()
-                params = item.get("params_millions")
-                if not name or params is None:
-                    continue
-                rendered = _sanitize_model(name, arxiv_id)
-                plain = _plain_model(rendered)
-                value = float(params)
-                mapping[rendered.lower()] = value
-                mapping[plain.lower()] = value
-    except Exception as exc:
-        logger.debug("Could not load paper-local param sizes for %s: %s", arxiv_id, exc)
-
-    _PAPER_PARAM_CACHE[arxiv_id] = mapping
-    return mapping
-
-
-def _paper_explicit_param_millions(arxiv_id: str | None, model_name: str | None) -> float | None:
-    if not arxiv_id or not model_name:
-        return None
-    return _paper_explicit_param_map(arxiv_id).get(str(model_name).strip().lower())
-
-
-def _result_params_millions(
-    result: Result | None,
-    arxiv_id: str | None,
-    model_name: str | None,
-) -> float | None:
+def _result_params_millions(result: Result | None) -> float | None:
     if result is not None and result.params_millions is not None:
         return float(result.params_millions)
-    return _paper_explicit_param_millions(arxiv_id, model_name)
+    return None
 
 
 def _copy_main_figure_if_newer(src: Path, dest: Path) -> None:
@@ -336,6 +287,11 @@ def _primary_proposed_from_results(
 
 _PAPER_RESULT_LOAD_OPTIONS = (
     joinedload(Result.model),
+    joinedload(Result.dataset_variant).joinedload(DatasetVariant.dataset),
+)
+_DATASET_RESULT_LOAD_OPTIONS = (
+    joinedload(Result.model),
+    joinedload(Result.paper),
     joinedload(Result.dataset_variant).joinedload(DatasetVariant.dataset),
 )
 
@@ -640,9 +596,24 @@ def _fmt_month_year(date_str: str | None) -> str:
         return date_str
 
 
+def _yaml_dump_front_matter(front_matter: dict) -> str:
+    try:
+        from yaml import CSafeDumper as _Dumper
+    except ImportError:
+        from yaml import SafeDumper as _Dumper
+
+    return yaml.dump(
+        front_matter,
+        allow_unicode=True,
+        default_flow_style=False,
+        sort_keys=False,
+        Dumper=_Dumper,
+    )
+
+
 def _write_md(path: Path, front_matter: dict, body: str = "") -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    fm_str = yaml.dump(front_matter, allow_unicode=True, default_flow_style=False, sort_keys=False)
+    fm_str = _yaml_dump_front_matter(front_matter)
     path.write_text(f"---\n{fm_str}---\n\n{body}", encoding="utf-8")
 
 
@@ -1321,298 +1292,354 @@ def _collect_missing_baselines(session: Any) -> tuple[list[dict[str, Any]], list
     return core_missing, mlp_missing
 
 
-def export_paper(arxiv_id: str) -> bool:
+def export_paper(arxiv_id: str, *, session: Session | None = None) -> bool:
     """Export a single paper's page to Hugo content."""
-    with session_scope() as session:
-        paper = session.query(Paper).filter_by(arxiv_id=arxiv_id).first()
-        if paper is None:
-            logger.warning("Paper arXiv:%s not found in DB", arxiv_id)
-            return False
+    if session is not None:
+        return _export_paper_impl(session, arxiv_id)
+    with session_scope() as scoped:
+        return _export_paper_impl(scoped, arxiv_id)
 
-        results = (
-            session.query(Result)
-            .options(*_PAPER_RESULT_LOAD_OPTIONS)
-            .filter_by(paper_id=paper.id)
-            .filter(Result.is_problematic.is_(None) | (Result.is_problematic == 0))
-            .all()
+
+def _export_paper_impl(session: Session, arxiv_id: str) -> bool:
+    paper = session.query(Paper).filter_by(arxiv_id=arxiv_id).first()
+    if paper is None:
+        logger.warning("Paper arXiv:%s not found in DB", arxiv_id)
+        return False
+
+    results = (
+        session.query(Result)
+        .options(*_PAPER_RESULT_LOAD_OPTIONS)
+        .filter_by(paper_id=paper.id)
+        .filter(Result.is_problematic.is_(None) | (Result.is_problematic == 0))
+        .all()
+    )
+    out_path = _CONTENT / "papers" / arxiv_id / "index.md"
+    if not results:
+        if out_path.exists():
+            out_path.unlink()
+        return False
+
+    conference_fields = _conference_export_fields(paper.venue, paper.published_date)
+
+    # Group results by dataset name, tracking metric/direction per group
+    result_groups: dict[str, list[dict]] = {}
+    result_group_meta: dict[str, dict] = {}
+    for r in results:
+        dv = r.dataset_variant
+        ds_name = dv.dataset.name if dv else "Unknown"
+        if ds_name not in result_group_meta:
+            # Prefer the dataset's declared primary_metric over the first result's metric
+            primary = (
+                dv.dataset.primary_metric
+                if dv and dv.dataset and dv.dataset.primary_metric
+                else r.metric_name
+            )
+            result_group_meta[ds_name] = {
+                "metric": primary,
+                "higher_is_better": bool(r.higher_is_better),
+            }
+        rendered_model = _sanitize_model(
+            r.model.canonical_name if r.model else "",
+            paper.arxiv_id,
         )
-        out_path = _CONTENT / "papers" / arxiv_id / "index.md"
-        if not results:
-            if out_path.exists():
-                out_path.unlink()
-            return False
+        display_value = float(r.display_value) if r.display_value is not None else None
+        display_std = float(r.display_std) if r.display_std is not None else None
+        result_groups.setdefault(ds_name, []).append(
+            {
+                "model": rendered_model,
+                "model_key": _model_key(r.model.canonical_name if r.model else rendered_model),
+                "model_plain": _plain_model(rendered_model),
+                "value": display_value,
+                "std": display_std,
+                "paper_value": display_value,
+                "paper_std": display_std,
+                "metric": r.metric_name,
+                "higher_is_better": bool(r.higher_is_better),
+                "is_baseline": bool(r.is_baseline),
+                "is_overridden": bool(r.is_overridden),
+                "override_reason": r.override_reason or "",
+                "params_millions": _result_params_millions(r),
+                **_result_architecture_fields(r),
+                "uses_external_data": r.uses_external_data,
+                "table_ref": r.table_ref or "",
+                "source_ref": r.source_ref or "",
+                "variant_inference_reason": r.variant_inference_reason or "",
+                "date": _fmt_date(paper.published_date) if paper else "",
+                "date_display": _fmt_month_year(paper.published_date) if paper else "",
+                "date_iso": (paper.published_date[:10] if paper and paper.published_date else ""),
+                "published_venue": paper.venue if paper else "",
+                "published_conference": conference_fields["published_conference"],
+            }
+        )
 
-        conference_fields = _conference_export_fields(paper.venue, paper.published_date)
+    results_for_fm: list[dict] = []
+    for ds, rows in sorted(result_groups.items()):
+        meta = result_group_meta[ds]
+        primary_metric = meta["metric"]
+        higher = meta["higher_is_better"]
+        distinct_metrics = list(dict.fromkeys(r["metric"] for r in rows if r.get("metric")))
 
-        # Group results by dataset name, tracking metric/direction per group
-        result_groups: dict[str, list[dict]] = {}
-        result_group_meta: dict[str, dict] = {}
-        for r in results:
-            dv = r.dataset_variant
-            ds_name = dv.dataset.name if dv else "Unknown"
-            if ds_name not in result_group_meta:
-                # Prefer the dataset's declared primary_metric over the first result's metric
-                primary = (
-                    dv.dataset.primary_metric
-                    if dv and dv.dataset and dv.dataset.primary_metric
-                    else r.metric_name
-                )
-                result_group_meta[ds_name] = {
-                    "metric": primary,
-                    "higher_is_better": bool(r.higher_is_better),
-                }
-            rendered_model = _sanitize_model(
-                r.model.canonical_name if r.model else "",
-                paper.arxiv_id,
+        # Global ranking for this dataset (best result per model, all papers)
+        try:
+            model_to_rank, global_top_all, truth_map = _global_ranks_cached(
+                session, ds, primary_metric, higher
             )
-            display_value = float(r.display_value) if r.display_value is not None else None
-            display_std = float(r.display_std) if r.display_std is not None else None
-            result_groups.setdefault(ds_name, []).append(
-                {
-                    "model": rendered_model,
-                    "model_key": _model_key(r.model.canonical_name if r.model else rendered_model),
-                    "model_plain": _plain_model(rendered_model),
-                    "value": display_value,
-                    "std": display_std,
-                    "paper_value": display_value,
-                    "paper_std": display_std,
-                    "metric": r.metric_name,
-                    "higher_is_better": bool(r.higher_is_better),
-                    "is_baseline": bool(r.is_baseline),
-                    "is_overridden": bool(r.is_overridden),
-                    "override_reason": r.override_reason or "",
-                    "params_millions": _result_params_millions(
-                        r,
-                        paper.arxiv_id if paper else None,
-                        rendered_model,
-                    ),
-                    **_result_architecture_fields(r),
-                    "uses_external_data": r.uses_external_data,
-                    "table_ref": r.table_ref or "",
-                    "source_ref": r.source_ref or "",
-                    "variant_inference_reason": r.variant_inference_reason or "",
-                    "date": _fmt_date(paper.published_date) if paper else "",
-                    "date_display": _fmt_month_year(paper.published_date) if paper else "",
-                    "date_iso": (
-                        paper.published_date[:10] if paper and paper.published_date else ""
-                    ),
-                    "published_venue": paper.venue if paper else "",
-                    "published_conference": conference_fields["published_conference"],
-                }
+        except Exception as _exc:
+            logger.debug("Global rank lookup failed for %r: %s", ds, _exc)
+            model_to_rank, global_top_all, truth_map = {}, [], {}
+
+        for row in rows:
+            truth = truth_map.get(row.get("model_key", ""))
+            row["global_rank"] = model_to_rank.get(row.get("model_key", ""))
+            if row.get("metric") != primary_metric or not truth:
+                row["sort_value"] = row.get("value")
+                row["sort_std"] = row.get("std")
+                continue
+            row["true_value"] = truth.get("value")
+            row["true_std"] = truth.get("std")
+            row["value_gap_source_arxiv"] = truth.get("arxiv_id", "")
+            row["value_gap_source_title"] = truth.get("title", "")
+            row["value_gap_source_is_current_paper"] = truth.get("arxiv_id", "") == arxiv_id
+            row["has_value_gap"] = _has_paper_value_gap(
+                row.get("paper_value"),
+                row.get("paper_std"),
+                row.get("true_value"),
+                row.get("true_std"),
             )
+            row["has_value_note"] = _has_paper_value_difference(
+                row.get("paper_value"), row.get("true_value")
+            ) and not row.get("has_value_gap")
+            row["value_gap"] = (
+                abs(row["paper_value"] - row["true_value"])
+                if _has_paper_value_difference(row.get("paper_value"), row.get("true_value"))
+                and row.get("paper_value") is not None
+                and row.get("true_value") is not None
+                else None
+            )
+            row["value_note"] = (
+                f"global {row['true_value']:.4f} within std"
+                if row.get("has_value_note") and row.get("true_value") is not None
+                else ""
+            )
+            row["paper_rank"] = _rank_for_value(
+                global_top_all,
+                row.get("model_key", ""),
+                row.get("paper_value"),
+                higher,
+            )
+            row["rank_delta"] = (
+                row["paper_rank"] - row["global_rank"]
+                if row.get("paper_rank") is not None and row.get("global_rank") is not None
+                else None
+            )
+            row["rank_delta_abs"] = (
+                abs(row["rank_delta"]) if row.get("rank_delta") is not None else None
+            )
+            if row.get("rank_delta") is not None:
+                if row["rank_delta"] < 0:
+                    row["rank_delta_direction"] = "better"
+                elif row["rank_delta"] > 0:
+                    row["rank_delta_direction"] = "worse"
+                else:
+                    row["rank_delta_direction"] = "same"
+            row["sort_value"] = row.get("true_value")
+            row["sort_std"] = row.get("true_std")
 
-        results_for_fm: list[dict] = []
-        for ds, rows in sorted(result_groups.items()):
-            meta = result_group_meta[ds]
-            primary_metric = meta["metric"]
-            higher = meta["higher_is_better"]
-            distinct_metrics = list(dict.fromkeys(r["metric"] for r in rows if r.get("metric")))
+            # Compute comparison context for the comparison column
+            paper_date = row.get("date_iso", "")
+            source_date = truth.get("date_iso", "")
+            paper_val = row.get("paper_value")
+            true_val = truth.get("value")
+            paper_std = row.get("paper_std")
+            true_std = truth.get("std")
 
-            # Global ranking for this dataset (best result per model, all papers)
-            try:
-                model_to_rank, global_top_all, truth_map = _global_ranks_cached(
-                    session, ds, primary_metric, higher
+            if row.get("is_baseline") and paper_val is not None and true_val is not None:
+                # Compare this baseline against the global best
+                better_than_global = (higher and paper_val > true_val) or (
+                    not higher and paper_val < true_val
                 )
-            except Exception as _exc:
-                logger.debug("Global rank lookup failed for %r: %s", ds, _exc)
-                model_to_rank, global_top_all, truth_map = {}, [], {}
+                # Check if values overlap within std
+                delta = abs(paper_val - true_val)
+                std_overlap = (
+                    (delta <= (paper_std or 0) + (true_std or 0))
+                    if paper_std is not None or true_std is not None
+                    else (delta <= 1e-12)
+                )
 
-            for row in rows:
-                truth = truth_map.get(row.get("model_key", ""))
-                row["global_rank"] = model_to_rank.get(row.get("model_key", ""))
-                if row.get("metric") != primary_metric or not truth:
-                    row["sort_value"] = row.get("value")
-                    row["sort_std"] = row.get("std")
-                    continue
-                row["true_value"] = truth.get("value")
-                row["true_std"] = truth.get("std")
-                row["value_gap_source_arxiv"] = truth.get("arxiv_id", "")
-                row["value_gap_source_title"] = truth.get("title", "")
-                row["value_gap_source_is_current_paper"] = truth.get("arxiv_id", "") == arxiv_id
-                row["has_value_gap"] = _has_paper_value_gap(
-                    row.get("paper_value"),
-                    row.get("paper_std"),
-                    row.get("true_value"),
-                    row.get("true_std"),
-                )
-                row["has_value_note"] = _has_paper_value_difference(
-                    row.get("paper_value"), row.get("true_value")
-                ) and not row.get("has_value_gap")
-                row["value_gap"] = (
-                    abs(row["paper_value"] - row["true_value"])
-                    if _has_paper_value_difference(row.get("paper_value"), row.get("true_value"))
-                    and row.get("paper_value") is not None
-                    and row.get("true_value") is not None
-                    else None
-                )
-                row["value_note"] = (
-                    f"global {row['true_value']:.4f} within std"
-                    if row.get("has_value_note") and row.get("true_value") is not None
-                    else ""
-                )
-                row["paper_rank"] = _rank_for_value(
-                    global_top_all,
-                    row.get("model_key", ""),
-                    row.get("paper_value"),
-                    higher,
-                )
-                row["rank_delta"] = (
-                    row["paper_rank"] - row["global_rank"]
-                    if row.get("paper_rank") is not None and row.get("global_rank") is not None
-                    else None
-                )
-                row["rank_delta_abs"] = (
-                    abs(row["rank_delta"]) if row.get("rank_delta") is not None else None
-                )
-                if row.get("rank_delta") is not None:
-                    if row["rank_delta"] < 0:
-                        row["rank_delta_direction"] = "better"
-                    elif row["rank_delta"] > 0:
-                        row["rank_delta_direction"] = "worse"
-                    else:
-                        row["rank_delta_direction"] = "same"
-                row["sort_value"] = row.get("true_value")
-                row["sort_std"] = row.get("true_std")
-
-                # Compute comparison context for the comparison column
-                paper_date = row.get("date_iso", "")
-                source_date = truth.get("date_iso", "")
-                paper_val = row.get("paper_value")
-                true_val = truth.get("value")
-                paper_std = row.get("paper_std")
-                true_std = truth.get("std")
-
-                if row.get("is_baseline") and paper_val is not None and true_val is not None:
-                    # Compare this baseline against the global best
-                    better_than_global = (higher and paper_val > true_val) or (
-                        not higher and paper_val < true_val
-                    )
-                    # Check if values overlap within std
-                    delta = abs(paper_val - true_val)
-                    std_overlap = (
-                        (delta <= (paper_std or 0) + (true_std or 0))
-                        if paper_std is not None or true_std is not None
-                        else (delta <= 1e-12)
-                    )
-
-                    if better_than_global:
-                        # This baseline improved over the previous global best
-                        row["comparison_type"] = "improved"
-                        row["comparison_source_title"] = truth.get("title", "")
-                        row["comparison_source_arxiv"] = truth.get("arxiv_id", "")
-                    elif paper_date and source_date and source_date <= paper_date and std_overlap:
-                        # Same or overlapping result from an older paper
-                        row["comparison_type"] = "matches"
-                        row["comparison_source_title"] = truth.get("title", "")
-                        row["comparison_source_arxiv"] = truth.get("arxiv_id", "")
-                    elif source_date and paper_date and source_date < paper_date:
-                        # The global best comes from an older paper — worse result
-                        row["comparison_type"] = "behind"
-                        row["comparison_source_title"] = truth.get("title", "")
-                        row["comparison_source_arxiv"] = truth.get("arxiv_id", "")
-                    elif source_date and source_date > paper_date:
-                        # Future paper has the best result — this baseline was behind
-                        row["comparison_type"] = "behind"
-                        row["comparison_source_title"] = truth.get("title", "")
-                        row["comparison_source_arxiv"] = truth.get("arxiv_id", "")
-                    else:
-                        row["comparison_type"] = None
-                        row["comparison_source_title"] = ""
-                        row["comparison_source_arxiv"] = ""
-                elif row.get("is_global_top"):
-                    row["comparison_type"] = "global_top"
-                    row["comparison_source_title"] = ""
-                    row["comparison_source_arxiv"] = ""
+                if better_than_global:
+                    # This baseline improved over the previous global best
+                    row["comparison_type"] = "improved"
+                    row["comparison_source_title"] = truth.get("title", "")
+                    row["comparison_source_arxiv"] = truth.get("arxiv_id", "")
+                elif paper_date and source_date and source_date <= paper_date and std_overlap:
+                    # Same or overlapping result from an older paper
+                    row["comparison_type"] = "matches"
+                    row["comparison_source_title"] = truth.get("title", "")
+                    row["comparison_source_arxiv"] = truth.get("arxiv_id", "")
+                elif source_date and paper_date and source_date < paper_date:
+                    # The global best comes from an older paper — worse result
+                    row["comparison_type"] = "behind"
+                    row["comparison_source_title"] = truth.get("title", "")
+                    row["comparison_source_arxiv"] = truth.get("arxiv_id", "")
+                elif source_date and source_date > paper_date:
+                    # Future paper has the best result — this baseline was behind
+                    row["comparison_type"] = "behind"
+                    row["comparison_source_title"] = truth.get("title", "")
+                    row["comparison_source_arxiv"] = truth.get("arxiv_id", "")
                 else:
                     row["comparison_type"] = None
                     row["comparison_source_title"] = ""
                     row["comparison_source_arxiv"] = ""
+            elif row.get("is_global_top"):
+                row["comparison_type"] = "global_top"
+                row["comparison_source_title"] = ""
+                row["comparison_source_arxiv"] = ""
+            else:
+                row["comparison_type"] = None
+                row["comparison_source_title"] = ""
+                row["comparison_source_arxiv"] = ""
 
-            rows = _dedup_result_rows(
-                rows,
+        rows = _dedup_result_rows(
+            rows,
+            (
+                "model_key",
+                "model",
+                "metric",
+                "value",
+                "std",
+                "paper_value",
+                "paper_std",
+                "true_value",
+                "true_std",
+                "sort_value",
+                "sort_std",
+                "is_baseline",
+                "has_value_gap",
+                "has_value_note",
+                "value_gap_source_arxiv",
+                "rank_delta",
+                "comparison_type",
+                "comparison_source_title",
+                "comparison_source_arxiv",
+            ),
+        )
+
+        if len(distinct_metrics) > 1:
+            pivoted = _pivot_paper_rows(rows, primary_metric)
+            pv_rows = pivoted["rows"]
+            metrics_list = pivoted["metrics"]
+
+            # Attach global ranks to pivoted rows
+            paper_models: set[str] = {pr.get("model_key", "") for pr in pv_rows}
+            for pr in pv_rows:
+                pr["global_rank"] = model_to_rank.get(pr.get("model_key", ""))
+
+            # Inject up to 3 global-top models plus core baselines not in this paper
+            extra_rows = [
+                _global_row_to_pivoted_extra(gr, len(metrics_list))
+                for gr in _select_global_context_rows(global_top_all, paper_models)
+            ]
+
+            if extra_rows:
+                combined = pv_rows + extra_rows
+
+                def _pv_sort(r: dict, _hib: bool = higher) -> tuple:
+                    v = r.get("sort_value")
+                    if v is None:
+                        v = r["metric_values"][0] if r.get("metric_values") else None
+                    if v is None:
+                        return (1, 0.0)
+                    return (0, -v if _hib else v)
+
+                combined.sort(key=_pv_sort)
+                _mark_is_best(
+                    combined,
+                    primary_metric,
+                    higher,
+                    lambda r: (
+                        r.get("sort_value")
+                        if r.get("sort_value") is not None
+                        else (r["metric_values"][0] if r.get("metric_values") else None)
+                    ),
+                    lambda r: (
+                        r.get("sort_std")
+                        if r.get("sort_std") is not None
+                        else (r["metric_stds"][0] if r.get("metric_stds") else None)
+                    ),
+                )
+                _mark_std_outliers(
+                    combined,
+                    lambda r: (
+                        r.get("sort_std")
+                        if r.get("sort_std") is not None
+                        else (r["metric_stds"][0] if r.get("metric_stds") else None)
+                    ),
+                )
+                pv_rows = combined
+
+            pv_rows = _dedup_result_rows(
+                pv_rows,
                 (
                     "model_key",
                     "model",
-                    "metric",
-                    "value",
-                    "std",
-                    "paper_value",
-                    "paper_std",
-                    "true_value",
-                    "true_std",
+                    "metric_values",
+                    "metric_stds",
                     "sort_value",
                     "sort_std",
                     "is_baseline",
+                    "is_global_top",
                     "has_value_gap",
                     "has_value_note",
-                    "value_gap_source_arxiv",
                     "rank_delta",
+                    "value_gap_source_arxiv",
                     "comparison_type",
                     "comparison_source_title",
                     "comparison_source_arxiv",
                 ),
             )
 
-            if len(distinct_metrics) > 1:
-                pivoted = _pivot_paper_rows(rows, primary_metric)
-                pv_rows = pivoted["rows"]
-                metrics_list = pivoted["metrics"]
+            results_for_fm.append(
+                {
+                    "dataset": ds,
+                    "is_multi_metric": True,
+                    "rows": pv_rows,
+                    "metrics": metrics_list,
+                    "primary_metric": pivoted["primary_metric"],
+                    "higher_is_better": higher,
+                }
+            )
+        else:
 
-                # Attach global ranks to pivoted rows
-                paper_models: set[str] = {pr.get("model_key", "") for pr in pv_rows}
-                for pr in pv_rows:
-                    pr["global_rank"] = model_to_rank.get(pr.get("model_key", ""))
+            def _row_sort_key(r: dict, _hib: bool = higher) -> tuple:
+                v = r.get("sort_value")
+                if v is None:
+                    v = r.get("value")
+                if v is None:
+                    return (1, 0.0)
+                return (0, -float(v) if _hib else float(v))
 
-                # Inject up to 3 global-top models plus core baselines not in this paper
-                extra_rows = [
-                    _global_row_to_pivoted_extra(gr, len(metrics_list))
-                    for gr in _select_global_context_rows(global_top_all, paper_models)
-                ]
+            rows.sort(key=_row_sort_key)
 
-                if extra_rows:
-                    combined = pv_rows + extra_rows
+            # Attach global ranks to paper rows
+            paper_models = {r.get("model_key", "") for r in rows}
 
-                    def _pv_sort(r: dict, _hib: bool = higher) -> tuple:
-                        v = r.get("sort_value")
-                        if v is None:
-                            v = r["metric_values"][0] if r.get("metric_values") else None
-                        if v is None:
-                            return (1, 0.0)
-                        return (0, -v if _hib else v)
+            # Inject up to 3 global-top models plus core baselines not in this paper
+            extra_rows = _select_global_context_rows(global_top_all, paper_models)
 
-                    combined.sort(key=_pv_sort)
-                    _mark_is_best(
-                        combined,
-                        primary_metric,
-                        higher,
-                        lambda r: (
-                            r.get("sort_value")
-                            if r.get("sort_value") is not None
-                            else (r["metric_values"][0] if r.get("metric_values") else None)
-                        ),
-                        lambda r: (
-                            r.get("sort_std")
-                            if r.get("sort_std") is not None
-                            else (r["metric_stds"][0] if r.get("metric_stds") else None)
-                        ),
-                    )
-                    _mark_std_outliers(
-                        combined,
-                        lambda r: (
-                            r.get("sort_std")
-                            if r.get("sort_std") is not None
-                            else (r["metric_stds"][0] if r.get("metric_stds") else None)
-                        ),
-                    )
-                    pv_rows = combined
-
-                pv_rows = _dedup_result_rows(
-                    pv_rows,
+            if extra_rows:
+                rows = rows + extra_rows
+                rows = _dedup_result_rows(
+                    rows,
                     (
                         "model_key",
                         "model",
-                        "metric_values",
-                        "metric_stds",
+                        "metric",
+                        "value",
+                        "std",
+                        "paper_value",
+                        "paper_std",
+                        "true_value",
+                        "true_std",
                         "sort_value",
                         "sort_std",
                         "is_baseline",
@@ -1626,199 +1653,142 @@ def export_paper(arxiv_id: str) -> bool:
                         "comparison_source_arxiv",
                     ),
                 )
-
-                results_for_fm.append(
-                    {
-                        "dataset": ds,
-                        "is_multi_metric": True,
-                        "rows": pv_rows,
-                        "metrics": metrics_list,
-                        "primary_metric": pivoted["primary_metric"],
-                        "higher_is_better": higher,
-                    }
-                )
-            else:
-
-                def _row_sort_key(r: dict, _hib: bool = higher) -> tuple:
-                    v = r.get("sort_value")
-                    if v is None:
-                        v = r.get("value")
-                    if v is None:
-                        return (1, 0.0)
-                    return (0, -float(v) if _hib else float(v))
-
                 rows.sort(key=_row_sort_key)
 
-                # Attach global ranks to paper rows
-                paper_models = {r.get("model_key", "") for r in rows}
-
-                # Inject up to 3 global-top models plus core baselines not in this paper
-                extra_rows = _select_global_context_rows(global_top_all, paper_models)
-
-                if extra_rows:
-                    rows = rows + extra_rows
-                    rows = _dedup_result_rows(
-                        rows,
-                        (
-                            "model_key",
-                            "model",
-                            "metric",
-                            "value",
-                            "std",
-                            "paper_value",
-                            "paper_std",
-                            "true_value",
-                            "true_std",
-                            "sort_value",
-                            "sort_std",
-                            "is_baseline",
-                            "is_global_top",
-                            "has_value_gap",
-                            "has_value_note",
-                            "rank_delta",
-                            "value_gap_source_arxiv",
-                            "comparison_type",
-                            "comparison_source_title",
-                            "comparison_source_arxiv",
-                        ),
-                    )
-                    rows.sort(key=_row_sort_key)
-
-                _mark_is_best(
-                    rows,
-                    primary_metric,
-                    higher,
-                    lambda r: (
-                        r.get("sort_value") if r.get("sort_value") is not None else r.get("value")
-                    ),
-                    lambda r: r.get("sort_std") if r.get("sort_std") is not None else r.get("std"),
-                )
-                _mark_std_outliers(
-                    rows,
-                    lambda r: r.get("sort_std") if r.get("sort_std") is not None else r.get("std"),
-                )
-                results_for_fm.append(
-                    {
-                        "dataset": ds,
-                        "rows": rows,
-                        "metric": primary_metric,
-                        "higher_is_better": higher,
-                    }
-                )
-
-        # Group paper results by benchmark first, using the same benchmark/dataset ordering
-        # strategy as the dataset overview page (result-count driven).
-        from sqlalchemy import func
-
-        ds_result_counts: dict[int, int] = dict(
-            session.query(Dataset.id, func.count(Result.id))
-            .join(Dataset.variants)
-            .join(DatasetVariant.results)
-            .filter(Result.is_problematic.is_(None) | (Result.is_problematic == 0))
-            .group_by(Dataset.id)
-            .all()
-        )
-
-        benchmarks = session.query(Benchmark).all()
-
-        def _bm_total(b: Benchmark) -> int:
-            return sum(ds_result_counts.get(ds.id, 0) for ds in b.datasets)
-
-        benchmarks = sorted(benchmarks, key=_bm_total, reverse=True)
-        benchmark_rank: dict[str, int] = {}
-        dataset_rank: dict[tuple[str, str], int] = {}
-        dataset_to_benchmark: dict[str, str] = {}
-        for bi, b in enumerate(benchmarks):
-            benchmark_rank[b.name] = bi
-            sorted_datasets = sorted(b.datasets, key=lambda ds: -ds_result_counts.get(ds.id, 0))
-            for di, ds in enumerate(sorted_datasets):
-                dataset_rank[(b.name, ds.name)] = di
-                dataset_to_benchmark[ds.name] = b.name
-
-        grouped_tmp: dict[str, list[dict]] = {}
-        for group in results_for_fm:
-            ds_name = group.get("dataset", "")
-            bm_name = dataset_to_benchmark.get(ds_name, "Other")
-            grouped_tmp.setdefault(bm_name, []).append(group)
-
-        grouped_results: list[dict] = []
-        for bm_name, ds_groups in sorted(
-            grouped_tmp.items(),
-            key=lambda kv: benchmark_rank.get(kv[0], 10_000),
-        ):
-            ds_groups = sorted(
-                ds_groups,
-                key=lambda g: dataset_rank.get((bm_name, g.get("dataset", "")), 10_000),
+            _mark_is_best(
+                rows,
+                primary_metric,
+                higher,
+                lambda r: (
+                    r.get("sort_value") if r.get("sort_value") is not None else r.get("value")
+                ),
+                lambda r: r.get("sort_std") if r.get("sort_std") is not None else r.get("std"),
             )
-            grouped_results.append({"benchmark": bm_name, "datasets": ds_groups})
+            _mark_std_outliers(
+                rows,
+                lambda r: r.get("sort_std") if r.get("sort_std") is not None else r.get("std"),
+            )
+            results_for_fm.append(
+                {
+                    "dataset": ds,
+                    "rows": rows,
+                    "metric": primary_metric,
+                    "higher_is_better": higher,
+                }
+            )
 
-        # Main figure
-        storage = PaperStorage(arxiv_id)
-        paper_metadata = storage.read_metadata()
-        main_figure_hugo: str | None = None
-        if storage.main_figure_path and storage.main_figure_path.exists():
-            dest = _STATIC / "figures" / arxiv_id / storage.main_figure_path.name
-            _copy_main_figure_if_newer(storage.main_figure_path, dest)
-            main_figure_hugo = f"/figures/{arxiv_id}/{storage.main_figure_path.name}"
+    # Group paper results by benchmark first, using the same benchmark/dataset ordering
+    # strategy as the dataset overview page (result-count driven).
+    from sqlalchemy import func
 
-        mrr, adjusted_mrr, mrr_dataset_count, proposed_models = _compute_paper_mrr(session, paper)
-        has_results = bool(results_for_fm)
+    ds_result_counts: dict[int, int] = dict(
+        session.query(Dataset.id, func.count(Result.id))
+        .join(Dataset.variants)
+        .join(DatasetVariant.results)
+        .filter(Result.is_problematic.is_(None) | (Result.is_problematic == 0))
+        .group_by(Dataset.id)
+        .all()
+    )
 
-        # Single proposed model: if all proposed results come from the same canonical name
-        single_proposed_model: str | None = None
-        if len(proposed_models) == 1:
-            single_proposed_model = proposed_models[0]
+    benchmarks = session.query(Benchmark).all()
 
-        benchmark_categories = [group["benchmark"] for group in grouped_results]
-        task_categories = sorted(
-            {
-                dv.dataset.task_type
-                for r in results
-                for dv in [r.dataset_variant]
-                if dv and dv.dataset and dv.dataset.task_type
-            }
+    def _bm_total(b: Benchmark) -> int:
+        return sum(ds_result_counts.get(ds.id, 0) for ds in b.datasets)
+
+    benchmarks = sorted(benchmarks, key=_bm_total, reverse=True)
+    benchmark_rank: dict[str, int] = {}
+    dataset_rank: dict[tuple[str, str], int] = {}
+    dataset_to_benchmark: dict[str, str] = {}
+    for bi, b in enumerate(benchmarks):
+        benchmark_rank[b.name] = bi
+        sorted_datasets = sorted(b.datasets, key=lambda ds: -ds_result_counts.get(ds.id, 0))
+        for di, ds in enumerate(sorted_datasets):
+            dataset_rank[(b.name, ds.name)] = di
+            dataset_to_benchmark[ds.name] = b.name
+
+    grouped_tmp: dict[str, list[dict]] = {}
+    for group in results_for_fm:
+        ds_name = group.get("dataset", "")
+        bm_name = dataset_to_benchmark.get(ds_name, "Other")
+        grouped_tmp.setdefault(bm_name, []).append(group)
+
+    grouped_results: list[dict] = []
+    for bm_name, ds_groups in sorted(
+        grouped_tmp.items(),
+        key=lambda kv: benchmark_rank.get(kv[0], 10_000),
+    ):
+        ds_groups = sorted(
+            ds_groups,
+            key=lambda g: dataset_rank.get((bm_name, g.get("dataset", "")), 10_000),
         )
-        experiment_scopes = sorted(
-            {
-                scope
-                for scope in (_paper_experiment_scope(task_type) for task_type in task_categories)
-                if scope
-            }
-        )
-        paper_type = "method" if proposed_models else "dataset"
+        grouped_results.append({"benchmark": bm_name, "datasets": ds_groups})
 
-        front_matter: dict[str, Any] = {
-            "title": _sanitize_title(paper.title) or arxiv_id,
-            "arxiv_id": arxiv_id,
-            "source_url": paper_metadata.get("paper_url") or paper_metadata.get("source_url") or "",
-            "authors": paper.authors or [],
-            "published_date": _fmt_date(paper.published_date),
-            "published_date_iso": (paper.published_date[:10] if paper.published_date else ""),
-            "published_venue": paper.venue or "",
-            **conference_fields,
-            "abstract": _sanitize_abstract(clean_extracted_text(paper.abstract)),
-            "codebase_url": paper.codebase_url or "",
-            "extraction_model": paper.extraction_model or "",
-            "has_results": has_results,
-            "paper_type": paper_type,
-            "proposed_models": proposed_models,
-            "mrr": mrr,
-            "adjusted_mrr": adjusted_mrr,
-            "mrr_dataset_count": mrr_dataset_count,
-            "benchmark_categories": benchmark_categories,
-            "task_categories": task_categories,
-            "experiment_scopes": experiment_scopes,
-            "results": results_for_fm,
-            "results_grouped": grouped_results,
+    # Main figure
+    storage = PaperStorage(arxiv_id)
+    paper_metadata = storage.read_metadata()
+    main_figure_hugo: str | None = None
+    if storage.main_figure_path and storage.main_figure_path.exists():
+        dest = _STATIC / "figures" / arxiv_id / storage.main_figure_path.name
+        _copy_main_figure_if_newer(storage.main_figure_path, dest)
+        main_figure_hugo = f"/figures/{arxiv_id}/{storage.main_figure_path.name}"
+
+    mrr, adjusted_mrr, mrr_dataset_count, proposed_models = _compute_paper_mrr(session, paper)
+    has_results = bool(results_for_fm)
+
+    # Single proposed model: if all proposed results come from the same canonical name
+    single_proposed_model: str | None = None
+    if len(proposed_models) == 1:
+        single_proposed_model = proposed_models[0]
+
+    benchmark_categories = [group["benchmark"] for group in grouped_results]
+    task_categories = sorted(
+        {
+            dv.dataset.task_type
+            for r in results
+            for dv in [r.dataset_variant]
+            if dv and dv.dataset and dv.dataset.task_type
         }
-        if single_proposed_model:
-            front_matter["single_proposed_model"] = single_proposed_model
-        if main_figure_hugo:
-            front_matter["main_figure"] = main_figure_hugo
+    )
+    experiment_scopes = sorted(
+        {
+            scope
+            for scope in (_paper_experiment_scope(task_type) for task_type in task_categories)
+            if scope
+        }
+    )
+    paper_type = "method" if proposed_models else "dataset"
 
-        _write_md(out_path, front_matter)
-        logger.info("Exported paper %s → %s", arxiv_id, out_path)
-        return True
+    front_matter: dict[str, Any] = {
+        "title": _sanitize_title(paper.title) or arxiv_id,
+        "arxiv_id": arxiv_id,
+        "source_url": paper_metadata.get("paper_url") or paper_metadata.get("source_url") or "",
+        "authors": paper.authors or [],
+        "published_date": _fmt_date(paper.published_date),
+        "published_date_iso": (paper.published_date[:10] if paper.published_date else ""),
+        "published_venue": paper.venue or "",
+        **conference_fields,
+        "abstract": _sanitize_abstract(clean_extracted_text(paper.abstract)),
+        "codebase_url": paper.codebase_url or "",
+        "extraction_model": paper.extraction_model or "",
+        "has_results": has_results,
+        "paper_type": paper_type,
+        "proposed_models": proposed_models,
+        "mrr": mrr,
+        "adjusted_mrr": adjusted_mrr,
+        "mrr_dataset_count": mrr_dataset_count,
+        "benchmark_categories": benchmark_categories,
+        "task_categories": task_categories,
+        "experiment_scopes": experiment_scopes,
+        "results": results_for_fm,
+        "results_grouped": grouped_results,
+    }
+    if single_proposed_model:
+        front_matter["single_proposed_model"] = single_proposed_model
+    if main_figure_hugo:
+        front_matter["main_figure"] = main_figure_hugo
+
+    _write_md(out_path, front_matter)
+    return True
 
 
 # ── Dataset export ────────────────────────────────────────────────────────────
@@ -1908,7 +1878,7 @@ def _build_multi_metric_rows(
                 "is_baseline": bool(r.is_baseline),
                 "is_overridden": bool(r.is_overridden),
                 "override_reason": r.override_reason or "",
-                "params_millions": _result_params_millions(r, arxiv_id, model_name),
+                "params_millions": _result_params_millions(r),
                 **_result_architecture_fields(r),
                 "arxiv_id": arxiv_id,
                 "title": _sanitize_title(paper.title if paper else ""),
@@ -1979,257 +1949,270 @@ def _dataset_page_result_count(session: Any, dataset_id: int) -> int:
     return int(_dataset_page_export_metadata(session, dataset_id)["result_count"])
 
 
-def export_dataset(dataset_id: int) -> bool:
+def export_dataset(dataset_id: int, *, session: Session | None = None) -> bool:
     """Export a dataset page with all variants and leaderboard data."""
-    with session_scope() as session:
-        ds = session.get(Dataset, dataset_id)
-        if ds is None:
-            return False
+    if session is not None:
+        return _export_dataset_impl(session, dataset_id)
+    with session_scope() as scoped:
+        return _export_dataset_impl(scoped, dataset_id)
 
-        variants = session.query(DatasetVariant).filter_by(dataset_id=dataset_id).all()
-        variants = sorted(
-            variants,
-            key=lambda variant: (
-                0 if variant.is_standard else 1,
-                variant.num_graphs if variant.num_graphs is not None else 10**18,
-                variant.avg_nodes if variant.avg_nodes is not None else 10**18,
-                variant.name.lower(),
-            ),
+
+def _export_dataset_impl(session: Session, dataset_id: int) -> bool:
+    ds = (
+        session.query(Dataset)
+        .options(joinedload(Dataset.benchmark))
+        .filter_by(id=dataset_id)
+        .first()
+    )
+    if ds is None:
+        return False
+
+    variants = session.query(DatasetVariant).filter_by(dataset_id=dataset_id).all()
+    variants = sorted(
+        variants,
+        key=lambda variant: (
+            0 if variant.is_standard else 1,
+            variant.num_graphs if variant.num_graphs is not None else 10**18,
+            variant.avg_nodes if variant.avg_nodes is not None else 10**18,
+            variant.name.lower(),
+        ),
+    )
+
+    if not variants:
+        logger.debug("Dataset %s has no variants — skipping export", ds.name)
+        _DATASET_EXPORT_META_CACHE[dataset_id] = {"exportable": False, "result_count": 0}
+        return False
+
+    force_export = _dataset_force_export(ds.name)
+
+    # Determine primary metric from the first variant that has results.
+    # For forced empty exports, fall back to the dataset-level direction.
+    primary_metric = ds.primary_metric or ""
+    higher_is_better = bool(ds.higher_is_better) if ds.higher_is_better is not None else True
+
+    variant_data: list[dict] = []
+    for v in variants:
+        all_results = (
+            session.query(Result)
+            .options(*_DATASET_RESULT_LOAD_OPTIONS)
+            .filter_by(dataset_variant_id=v.id)
+            .filter(Result.is_problematic.is_(None) | (Result.is_problematic == 0))
+            .all()
         )
 
-        if not variants:
-            logger.debug("Dataset %s has no variants — skipping export", ds.name)
-            _DATASET_EXPORT_META_CACHE[dataset_id] = {"exportable": False, "result_count": 0}
-            return False
+        if not all_results and not force_export:
+            continue
 
-        force_export = _dataset_force_export(ds.name)
-
-        # Determine primary metric from the first variant that has results.
-        # For forced empty exports, fall back to the dataset-level direction.
-        primary_metric = ds.primary_metric or ""
-        higher_is_better = bool(ds.higher_is_better) if ds.higher_is_better is not None else True
-
-        variant_data: list[dict] = []
-        for v in variants:
-            all_results = (
-                session.query(Result)
-                .filter_by(dataset_variant_id=v.id)
-                .filter(Result.is_problematic.is_(None) | (Result.is_problematic == 0))
-                .all()
-            )
-
-            if not all_results and not force_export:
-                continue
-
-            if not all_results:
-                variant_data.append(
-                    {
-                        "slug": _slug(v.name),
-                        "name": v.name,
-                        "notes": v.notes or "",
-                        "is_standard": bool(v.is_standard),
-                        "primary_metric": primary_metric,
-                        "higher_is_better": bool(ds.higher_is_better),
-                        "stats": {
-                            "num_graphs": v.num_graphs,
-                            "avg_nodes": v.avg_nodes,
-                            "avg_edges": v.avg_edges,
-                        },
-                        "metrics": [primary_metric] if primary_metric else [],
-                        "rows": [],
-                        "milestones": [],
-                    }
-                )
-                continue
-
-            # Determine which metric to display: prefer primary_metric if it exists in results
-            available_metrics = {r.metric_name for r in all_results}
-            if primary_metric and primary_metric in available_metrics:
-                metric = primary_metric
-            else:
-                # Fall back to the most-common metric among results
-                from collections import Counter
-
-                metric = Counter(r.metric_name for r in all_results).most_common(1)[0][0]
-                if not primary_metric:
-                    primary_metric = metric
-
-            # Build pivoted multi-metric rows (primary metric first, then sorted)
-            metrics_ordered, higher_is_better, rows = _build_multi_metric_rows(all_results, metric)
-
-            # Optional dataset-level display metric filtering (e.g. Texas -> Accuracy only)
-            display_metrics = _dataset_display_metrics(ds.name)
-            metrics_ordered, rows, metric = _apply_display_metrics_filter(
-                metrics_ordered,
-                rows,
-                display_metrics,
-                metric,
-            )
-
-            milestones = get_best_results_over_time(v.id, metric, session=session)
-
+        if not all_results:
             variant_data.append(
                 {
                     "slug": _slug(v.name),
                     "name": v.name,
                     "notes": v.notes or "",
                     "is_standard": bool(v.is_standard),
-                    "primary_metric": metric,
-                    "higher_is_better": higher_is_better,
+                    "primary_metric": primary_metric,
+                    "higher_is_better": bool(ds.higher_is_better),
                     "stats": {
                         "num_graphs": v.num_graphs,
                         "avg_nodes": v.avg_nodes,
                         "avg_edges": v.avg_edges,
                     },
-                    "metrics": metrics_ordered,
-                    "rows": rows,
-                    "milestones": milestones,
+                    "metrics": [primary_metric] if primary_metric else [],
+                    "rows": [],
+                    "milestones": [],
                 }
             )
+            continue
 
-        if not variant_data:
-            _DATASET_EXPORT_META_CACHE[dataset_id] = {"exportable": False, "result_count": 0}
-            return False
+        # Determine which metric to display: prefer primary_metric if it exists in results
+        available_metrics = {r.metric_name for r in all_results}
+        if primary_metric and primary_metric in available_metrics:
+            metric = primary_metric
+        else:
+            # Fall back to the most-common metric among results
+            from collections import Counter
 
-        # Compute overview stats from the standard (or first) variant
-        std_vd = next((v for v in variant_data if v["is_standard"]), variant_data[0])
-        result_count = len(std_vd["rows"])
-        best_row = std_vd["rows"][0] if std_vd["rows"] else None
-        best_model_info: dict | None = None
-        if best_row:
-            primary_val = (
-                best_row["metric_values"][0]
-                if best_row.get("metric_values")
-                else best_row.get("value")
-            )
-            best_model_info = {
-                "model": best_row["model"],
-                "value": primary_val,
-                "metric": std_vd["primary_metric"],
-                "arxiv_id": best_row.get("arxiv_id") or "",
-                "paper_title": best_row.get("title") or "",
+            metric = Counter(r.metric_name for r in all_results).most_common(1)[0][0]
+            if not primary_metric:
+                primary_metric = metric
+
+        # Build pivoted multi-metric rows (primary metric first, then sorted)
+        metrics_ordered, higher_is_better, rows = _build_multi_metric_rows(all_results, metric)
+
+        # Optional dataset-level display metric filtering (e.g. Texas -> Accuracy only)
+        display_metrics = _dataset_display_metrics(ds.name)
+        metrics_ordered, rows, metric = _apply_display_metrics_filter(
+            metrics_ordered,
+            rows,
+            display_metrics,
+            metric,
+        )
+
+        milestones = get_best_results_over_time(v.id, metric, session=session)
+
+        variant_data.append(
+            {
+                "slug": _slug(v.name),
+                "name": v.name,
+                "notes": v.notes or "",
+                "is_standard": bool(v.is_standard),
+                "primary_metric": metric,
+                "higher_is_better": higher_is_better,
+                "stats": {
+                    "num_graphs": v.num_graphs,
+                    "avg_nodes": v.avg_nodes,
+                    "avg_edges": v.avg_edges,
+                },
+                "metrics": metrics_ordered,
+                "rows": rows,
+                "milestones": milestones,
             }
+        )
 
-        # Dataset-level stats are often missing; fall back to the standard variant stats.
-        std_variant = next((v for v in variants if v.is_standard), variants[0])
-        stats_num_graphs = ds.num_graphs if ds.num_graphs is not None else std_variant.num_graphs
-        stats_avg_nodes = ds.avg_nodes if ds.avg_nodes is not None else std_variant.avg_nodes
-        stats_avg_edges = ds.avg_edges if ds.avg_edges is not None else std_variant.avg_edges
-        stats_num_classes = _summary_num_classes(ds)
+    if not variant_data:
+        _DATASET_EXPORT_META_CACHE[dataset_id] = {"exportable": False, "result_count": 0}
+        return False
 
-        benchmark_name = ds.benchmark.name if ds.benchmark else ""
-        front_matter: dict[str, Any] = {
-            "title": ds.name,
-            "slug": _slug(ds.name),
-            "benchmark": benchmark_name,
-            "task_type": ds.task_type or "",
-            "description": ds.description or "",
-            "primary_metric": primary_metric,
-            "higher_is_better": higher_is_better,
-            "pyg_url": ds.pyg_url or "",
-            "stats": (
-                {
-                    "num_graphs": stats_num_graphs,
-                    "avg_nodes": round(stats_avg_nodes, 2) if stats_avg_nodes is not None else None,
-                    "avg_edges": round(stats_avg_edges, 2) if stats_avg_edges is not None else None,
-                    "num_classes": stats_num_classes,
-                }
-                if any(
-                    x is not None
-                    for x in [stats_num_graphs, stats_avg_nodes, stats_avg_edges, stats_num_classes]
-                )
-                else None
-            ),
-            "result_count": result_count,
-            "best_model": best_model_info,
-            "variants": variant_data,
+    # Compute overview stats from the standard (or first) variant
+    std_vd = next((v for v in variant_data if v["is_standard"]), variant_data[0])
+    result_count = len(std_vd["rows"])
+    best_row = std_vd["rows"][0] if std_vd["rows"] else None
+    best_model_info: dict | None = None
+    if best_row:
+        primary_val = (
+            best_row["metric_values"][0] if best_row.get("metric_values") else best_row.get("value")
+        )
+        best_model_info = {
+            "model": best_row["model"],
+            "value": primary_val,
+            "metric": std_vd["primary_metric"],
+            "arxiv_id": best_row.get("arxiv_id") or "",
+            "paper_title": best_row.get("title") or "",
         }
 
-        out_path = _CONTENT / "datasets" / _slug(ds.name) / "index.md"
-        _write_md(out_path, front_matter)
-        _DATASET_EXPORT_META_CACHE[dataset_id] = {
-            "exportable": True,
-            "result_count": result_count,
-        }
-        logger.info("Exported dataset %s → %s", ds.name, out_path)
-        return True
+    # Dataset-level stats are often missing; fall back to the standard variant stats.
+    std_variant = next((v for v in variants if v.is_standard), variants[0])
+    stats_num_graphs = ds.num_graphs if ds.num_graphs is not None else std_variant.num_graphs
+    stats_avg_nodes = ds.avg_nodes if ds.avg_nodes is not None else std_variant.avg_nodes
+    stats_avg_edges = ds.avg_edges if ds.avg_edges is not None else std_variant.avg_edges
+    stats_num_classes = _summary_num_classes(ds)
+
+    benchmark_name = ds.benchmark.name if ds.benchmark else ""
+    front_matter: dict[str, Any] = {
+        "title": ds.name,
+        "slug": _slug(ds.name),
+        "benchmark": benchmark_name,
+        "task_type": ds.task_type or "",
+        "description": ds.description or "",
+        "primary_metric": primary_metric,
+        "higher_is_better": higher_is_better,
+        "pyg_url": ds.pyg_url or "",
+        "stats": (
+            {
+                "num_graphs": stats_num_graphs,
+                "avg_nodes": round(stats_avg_nodes, 2) if stats_avg_nodes is not None else None,
+                "avg_edges": round(stats_avg_edges, 2) if stats_avg_edges is not None else None,
+                "num_classes": stats_num_classes,
+            }
+            if any(
+                x is not None
+                for x in [stats_num_graphs, stats_avg_nodes, stats_avg_edges, stats_num_classes]
+            )
+            else None
+        ),
+        "result_count": result_count,
+        "best_model": best_model_info,
+        "variants": variant_data,
+    }
+
+    out_path = _CONTENT / "datasets" / _slug(ds.name) / "index.md"
+    _write_md(out_path, front_matter)
+    _DATASET_EXPORT_META_CACHE[dataset_id] = {
+        "exportable": True,
+        "result_count": result_count,
+    }
+    return True
 
 
 # ── Benchmark data file ───────────────────────────────────────────────────────
 
 
-def export_benchmarks_data() -> None:
+def export_benchmarks_data(*, session: Session | None = None) -> None:
     """Write site/data/benchmarks.json for the homepage."""
 
     _DATA_DIR.mkdir(parents=True, exist_ok=True)
 
-    with session_scope() as session:
-        # Result count per dataset aligned with exported dataset pages.
-        dataset_export_metadata: dict[int, dict[str, Any]] = {
-            ds.id: _dataset_page_export_metadata(session, ds.id)
-            for ds in session.query(Dataset).all()
-        }
-        ds_result_counts: dict[int, int] = {
-            dataset_id: int(meta["result_count"])
-            for dataset_id, meta in dataset_export_metadata.items()
-            if meta["exportable"]
-        }
+    if session is not None:
+        _export_benchmarks_data_impl(session)
+        return
+    with session_scope() as scoped:
+        _export_benchmarks_data_impl(scoped)
 
-        benchmarks = session.query(Benchmark).all()
 
-        # Sort benchmark groups by total result count (descending)
-        def _bm_total(b: Benchmark) -> int:
-            return sum(ds_result_counts.get(ds.id, 0) for ds in b.datasets)
+def _export_benchmarks_data_impl(session: Session) -> None:
+    # Result count per dataset aligned with exported dataset pages.
+    dataset_export_metadata: dict[int, dict[str, Any]] = {
+        ds.id: _dataset_export_metadata(session, ds.id) for ds in session.query(Dataset).all()
+    }
+    ds_result_counts: dict[int, int] = {
+        dataset_id: int(meta["result_count"])
+        for dataset_id, meta in dataset_export_metadata.items()
+        if meta["exportable"]
+    }
 
-        benchmarks = sorted(benchmarks, key=_bm_total, reverse=True)
+    benchmarks = session.query(Benchmark).all()
 
-        data: list[dict] = []
-        for b in benchmarks:
-            # Sort datasets within this benchmark by cumulated result count (descending)
-            sorted_datasets = sorted(
-                [
-                    ds
-                    for ds in b.datasets
-                    if dataset_export_metadata.get(ds.id, {}).get("exportable")
-                ],
-                key=lambda ds: -ds_result_counts.get(ds.id, 0),
-            )
-            if not sorted_datasets:
-                continue
-            datasets_info = []
-            for ds in sorted_datasets:
-                variants = ds.variants  # all variants (not just standard)
-                datasets_info.append(
-                    {
-                        "name": ds.name,
-                        "slug": _slug(ds.name),
-                        "task_type": ds.task_type or "",
-                        "result_count": ds_result_counts.get(ds.id, 0),
-                        "variants": [{"name": v.name, "slug": _slug(v.name)} for v in variants],
-                    }
-                )
-            data.append(
+    # Sort benchmark groups by total result count (descending)
+    def _bm_total(b: Benchmark) -> int:
+        return sum(ds_result_counts.get(ds.id, 0) for ds in b.datasets)
+
+    benchmarks = sorted(benchmarks, key=_bm_total, reverse=True)
+
+    data: list[dict] = []
+    for b in benchmarks:
+        # Sort datasets within this benchmark by cumulated result count (descending)
+        sorted_datasets = sorted(
+            [ds for ds in b.datasets if dataset_export_metadata.get(ds.id, {}).get("exportable")],
+            key=lambda ds: -ds_result_counts.get(ds.id, 0),
+        )
+        if not sorted_datasets:
+            continue
+        datasets_info = []
+        for ds in sorted_datasets:
+            variants = ds.variants  # all variants (not just standard)
+            datasets_info.append(
                 {
-                    "name": b.name,
-                    "slug": _slug(b.name),
-                    "description": b.description or "",
-                    "arxiv_id": b.paper.arxiv_id if b.paper else "",
-                    "paper_title": _sanitize_title(b.paper.title) if b.paper else "",
-                    "datasets": datasets_info,
+                    "name": ds.name,
+                    "slug": _slug(ds.name),
+                    "task_type": ds.task_type or "",
+                    "result_count": ds_result_counts.get(ds.id, 0),
+                    "variants": [{"name": v.name, "slug": _slug(v.name)} for v in variants],
                 }
             )
+        data.append(
+            {
+                "name": b.name,
+                "slug": _slug(b.name),
+                "description": b.description or "",
+                "arxiv_id": b.paper.arxiv_id if b.paper else "",
+                "paper_title": _sanitize_title(b.paper.title) if b.paper else "",
+                "datasets": datasets_info,
+            }
+        )
 
     (_DATA_DIR / "benchmarks.json").write_text(
         json.dumps(data, indent=2, ensure_ascii=False), encoding="utf-8"
     )
-    logger.info("Wrote %s", _DATA_DIR / "benchmarks.json")
 
 
-def export_development_data() -> None:
+def export_development_data(*, session: Session | None = None) -> dict[str, int]:
     """Write development data files for debugging/admin purposes."""
     from backend.hugo_dev_exports import export_development_data as _export_development_data
 
-    _export_development_data()
+    if session is not None:
+        return _export_development_data(session=session)
+    with session_scope() as scoped:
+        return _export_development_data(session=scoped)
 
 
 def _create_dev_pages() -> None:
@@ -2242,50 +2225,113 @@ def _create_dev_pages() -> None:
 # ── Full export ───────────────────────────────────────────────────────────────
 
 
-def export_all(arxiv_ids: list[str] | None = None) -> None:
+def _print_export_timing_summary(
+    *,
+    timings: dict[str, float],
+    datasets_ok: int,
+    datasets_total: int,
+    papers_ok: int,
+    papers_total: int,
+    skip_development: bool,
+    dev_stats: dict[str, int] | None = None,
+) -> None:
+    from tqdm import tqdm
+
+    total = sum(timings.values())
+    tqdm.write("")
+    tqdm.write("Export timing summary")
+    tqdm.write(
+        f"  datasets:     {timings.get('datasets', 0.0):7.1f}s  "
+        f"({datasets_ok}/{datasets_total} pages written)"
+    )
+    tqdm.write(f"  benchmarks:   {timings.get('benchmarks', 0.0):7.1f}s  (homepage JSON)")
+    if not skip_development:
+        dev_line = f"  development:  {timings.get('development', 0.0):7.1f}s"
+        if dev_stats:
+            dev_line += (
+                f"  ({dev_stats.get('pages', 0)} pages in site/content/dev, "
+                f"{dev_stats.get('data_files', 0)} JSON in site/data)"
+            )
+        tqdm.write(dev_line)
+    tqdm.write(
+        f"  papers:       {timings.get('papers', 0.0):7.1f}s  "
+        f"({papers_ok}/{papers_total} pages written)"
+    )
+    tqdm.write(f"  total:        {total:7.1f}s")
+
+
+def export_all(
+    arxiv_ids: list[str] | None = None,
+    *,
+    skip_development: bool = False,
+) -> None:
     """Export all papers and datasets (or just the specified papers)."""
+    import time
+
     from tqdm import tqdm
 
     init_db()
-
-    export_benchmarks_data()
-    export_development_data()
+    clear_export_caches()
 
     with session_scope() as session:
         papers = _query_exportable_papers(session, arxiv_ids=arxiv_ids)
         paper_ids = [p.arxiv_id for p in papers]
-
         dataset_ids = [ds.id for ds in session.query(Dataset).all()]
 
-    ok = 0
-    for arxiv_id in tqdm(paper_ids, desc="Exporting papers", unit="paper", leave=True):
-        if export_paper(arxiv_id):
-            tqdm.write(f"  ✓  {arxiv_id}")
-            ok += 1
-        else:
-            tqdm.write(f"  ✗  {arxiv_id}  (skipped — no results)")
+    timings: dict[str, float] = {}
+    dev_stats: dict[str, int] | None = None
 
-    logger.info("Exported %d/%d papers", ok, len(paper_ids))
+    with session_scope() as session:
+        ds_ok = 0
+        t0 = time.perf_counter()
+        for did in tqdm(dataset_ids, desc="Exporting datasets", unit="dataset", leave=True):
+            if export_dataset(did, session=session):
+                ds_ok += 1
+        timings["datasets"] = time.perf_counter() - t0
 
-    ds_ok = 0
-    for did in tqdm(dataset_ids, desc="Exporting datasets", unit="dataset", leave=True):
-        if export_dataset(did):
-            ds_ok += 1
+        t0 = time.perf_counter()
+        export_benchmarks_data(session=session)
+        timings["benchmarks"] = time.perf_counter() - t0
 
-    logger.info("Exported %d/%d datasets", ds_ok, len(dataset_ids))
+        if not skip_development:
+            t0 = time.perf_counter()
+            dev_stats = export_development_data(session=session)
+            timings["development"] = time.perf_counter() - t0
+
+        papers_ok = 0
+        t0 = time.perf_counter()
+        for arxiv_id in tqdm(paper_ids, desc="Exporting papers", unit="paper", leave=True):
+            if export_paper(arxiv_id, session=session):
+                papers_ok += 1
+        timings["papers"] = time.perf_counter() - t0
+
+    _print_export_timing_summary(
+        timings=timings,
+        datasets_ok=ds_ok,
+        datasets_total=len(dataset_ids),
+        papers_ok=papers_ok,
+        papers_total=len(paper_ids),
+        skip_development=skip_development,
+        dev_stats=dev_stats,
+    )
 
 
 # ── CLI ───────────────────────────────────────────────────────────────────────
 
 
 def main(argv: list[str] | None = None) -> None:
-    logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
+    logging.basicConfig(level=logging.WARNING, format="%(levelname)s %(message)s")
     parser = argparse.ArgumentParser(description="Export DB to Hugo content files")
     parser.add_argument(
         "--paper", "-p", nargs="+", metavar="ARXIV_ID", help="Export only specific papers"
     )
+    parser.add_argument(
+        "--skip-dev",
+        action="store_true",
+        help="Skip development/admin Hugo data export",
+    )
     args = parser.parse_args(argv)
-    export_all(arxiv_ids=args.paper)
+    export_all(arxiv_ids=args.paper, skip_development=args.skip_dev)
 
 
 if __name__ == "__main__":

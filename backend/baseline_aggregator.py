@@ -18,6 +18,7 @@ from dataclasses import dataclass, field
 from typing import Any
 
 from sqlalchemy import text
+from sqlalchemy.orm import joinedload
 from thefuzz import fuzz as _fuzz
 
 from backend.db import init_db, session_scope
@@ -180,20 +181,77 @@ def get_baseline_summary(
     return [g.to_dict() for g in sorted_groups]
 
 
+def _milestones_from_results(results: list) -> list[dict[str, Any]]:
+    if not results:
+        return []
+
+    higher = bool(results[0].higher_is_better)
+
+    day_best: dict[str, tuple[float, Any]] = {}
+    for r in results:
+        val = r.display_value
+        if val is None:
+            continue
+        val = float(val)
+        paper = r.paper
+        if not paper or not paper.published_date:
+            continue
+        date_key = paper.published_date.strip()
+        if len(date_key) == 7:  # YYYY-MM
+            date_key = f"{date_key}-01"
+        elif len(date_key) != 10:  # not YYYY-MM-DD
+            continue
+        if date_key not in day_best:
+            day_best[date_key] = (val, r)
+        else:
+            cur_val, _ = day_best[date_key]
+            if (higher and val > cur_val) or (not higher and val < cur_val):
+                day_best[date_key] = (val, r)
+
+    best_so_far: float | None = None
+    milestones: list[dict[str, Any]] = []
+
+    for date_key in sorted(day_best.keys()):
+        val, r = day_best[date_key]
+        is_new_best = (
+            best_so_far is None
+            or (higher and val > best_so_far)
+            or (not higher and val < best_so_far)
+        )
+        if is_new_best:
+            best_so_far = val
+            paper = r.paper
+            milestones.append(
+                {
+                    "value": val,
+                    "std": float(r.metric_std) if r.metric_std else None,
+                    "model": r.model.canonical_name if r.model else "",
+                    "arxiv_id": paper.arxiv_id if paper else "",
+                    "title": _sanitize_title(paper.title if paper else ""),
+                    "date": date_key,
+                }
+            )
+
+    return milestones
+
+
 def get_best_results_over_time(
     dataset_variant_id: int,
     metric_name: str,
+    session: Any | None = None,
 ) -> list[dict[str, Any]]:
     """Return the monotonically improving results over time.
 
     Used for the Chart.js step chart on the leaderboard.
     Returns list sorted by paper date, each item being the new best result.
-    """
-    init_db()
 
-    with session_scope() as session:
-        results = (
-            session.query(Result)
+    When *session* is provided, reuses that session (no extra ``init_db`` / scope).
+    """
+
+    def _fetch(sess: Any) -> list:
+        return (
+            sess.query(Result)
+            .options(joinedload(Result.paper), joinedload(Result.model))
             .filter_by(dataset_variant_id=dataset_variant_id, metric_name=metric_name)
             .filter(Result.is_problematic.is_(None) | (Result.is_problematic == 0))
             .join(Result.paper)
@@ -201,61 +259,12 @@ def get_best_results_over_time(
             .all()
         )
 
-        if not results:
-            return []
+    if session is not None:
+        return _milestones_from_results(_fetch(session))
 
-        higher = bool(results[0].higher_is_better)
-
-        # Group by full date (YYYY-MM-DD): keep only the best result per day.
-        # Dates stored as YYYY-MM are normalised to YYYY-MM-01 so they still
-        # participate in the daily timeline.
-        day_best: dict[str, tuple[float, Any]] = {}
-        for r in results:
-            val = r.display_value
-            if val is None:
-                continue
-            val = float(val)
-            paper = r.paper
-            if not paper or not paper.published_date:
-                continue
-            date_key = paper.published_date.strip()
-            if len(date_key) == 7:  # YYYY-MM
-                date_key = f"{date_key}-01"
-            elif len(date_key) != 10:  # not YYYY-MM-DD
-                continue
-            if date_key not in day_best:
-                day_best[date_key] = (val, r)
-            else:
-                cur_val, _ = day_best[date_key]
-                if (higher and val > cur_val) or (not higher and val < cur_val):
-                    day_best[date_key] = (val, r)
-
-        # Compute running record across days in chronological order
-        best_so_far: float | None = None
-        milestones: list[dict[str, Any]] = []
-
-        for date_key in sorted(day_best.keys()):
-            val, r = day_best[date_key]
-            is_new_best = (
-                best_so_far is None
-                or (higher and val > best_so_far)
-                or (not higher and val < best_so_far)
-            )
-            if is_new_best:
-                best_so_far = val
-                paper = r.paper
-                milestones.append(
-                    {
-                        "value": val,
-                        "std": float(r.metric_std) if r.metric_std else None,
-                        "model": r.model.canonical_name if r.model else "",
-                        "arxiv_id": paper.arxiv_id if paper else "",
-                        "title": _sanitize_title(paper.title if paper else ""),
-                        "date": date_key,
-                    }
-                )
-
-    return milestones
+    init_db()
+    with session_scope() as scoped_session:
+        return _milestones_from_results(_fetch(scoped_session))
 
 
 # ── Fuzzy merge ───────────────────────────────────────────────────────────────
