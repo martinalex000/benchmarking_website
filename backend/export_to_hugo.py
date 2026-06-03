@@ -61,14 +61,19 @@ _GLOBAL_RANKS_CACHE: dict[
     tuple[str, str, bool], tuple[dict[str, int], list[dict], dict[str, dict[str, Any]]]
 ] = {}
 _DATASET_EXPORT_META_CACHE: dict[int, dict[str, Any]] = {}
+_BENCHMARK_EXPORTABLE_TOTALS: dict[str, int] | None = None
+_DATASET_PAPER_COUNT_CACHE: dict[tuple[str, str], int] = {}
 
 
 def clear_export_caches() -> None:
     """Reset per-export-run caches (call at the start of a full or partial export)."""
+    global _BENCHMARK_EXPORTABLE_TOTALS
     _MODEL_RENAME_CACHE.clear()
     _DATASET_OVERRIDE_CACHE.clear()
     _GLOBAL_RANKS_CACHE.clear()
     _DATASET_EXPORT_META_CACHE.clear()
+    _BENCHMARK_EXPORTABLE_TOTALS = None
+    _DATASET_PAPER_COUNT_CACHE.clear()
 
 
 _CONFERENCE_ALIASES: tuple[tuple[str, tuple[str, ...]], ...] = (
@@ -173,9 +178,6 @@ def _is_bounded_metric(metric_name: str | None) -> bool:
     return any(sub in key for sub in _BOUNDED_METRIC_SUBSTRINGS)
 
 
-CORE_BASELINE_FAMILIES = frozenset({"gcn", "gin", "sage", "mlp", "gatedgcn"})
-
-
 def _normalize_model_family(model_name: str | None) -> str:
     raw = (model_name or "").strip().lower()
     if re.match(r"^gated[\s-]?gcn(?:\s|\(|$)", raw):
@@ -189,6 +191,45 @@ def _normalize_model_family(model_name: str | None) -> str:
     if re.match(r"^mlp(?:\s|\(|$)", raw):
         return "mlp"
     return ""
+
+
+def _plain_core_baseline_kind(model_name: str | None) -> str:
+    """Return core family only for plain baseline names (exact GCN/GIN/SAGE/MLP/GatedGCN)."""
+    key = _plain_model(model_name).strip().lower()
+    if not key:
+        return ""
+    if key == "mlp":
+        return "mlp"
+    if key == "gcn":
+        return "gcn"
+    if key == "gin":
+        return "gin"
+    if key in ("graphsage", "sage"):
+        return "sage"
+    if re.fullmatch(r"gated[\s-]?gcn", key):
+        return "gatedgcn"
+    return ""
+
+
+def _row_metric_value(row: dict) -> float | None:
+    value = row.get("sort_value")
+    if value is None:
+        value = row.get("value")
+    if value is None:
+        return None
+    return float(value)
+
+
+def _row_is_better(candidate: dict, incumbent: dict | None, *, higher_is_better: bool) -> bool:
+    if incumbent is None:
+        return True
+    cand_v = _row_metric_value(candidate)
+    inc_v = _row_metric_value(incumbent)
+    if cand_v is None:
+        return False
+    if inc_v is None:
+        return True
+    return cand_v > inc_v if higher_is_better else cand_v < inc_v
 
 
 def _paper_model_renames(arxiv_id: str | None) -> dict[str, str]:
@@ -470,6 +511,113 @@ def _paper_experiment_scope(task_type: str | None) -> str | None:
     if task_key.startswith("edge_") or task_key == "link_prediction":
         return "edge-level"
     return None
+
+
+_PAPER_SCOPE_ORDER = ("node-level", "graph-level", "edge-level")
+_PAPER_SCOPE_LABELS = {
+    "node-level": "Node-level",
+    "graph-level": "Graph-level",
+    "edge-level": "Edge-level",
+}
+
+
+def _datasets_by_scope_for_paper(grouped_results: list[dict]) -> list[dict]:
+    """Group paper datasets by experiment scope for the single-page hero nav."""
+    out: list[dict] = []
+    for scope in _PAPER_SCOPE_ORDER:
+        bm_entries: dict[str, list[dict]] = {}
+        for bm_group in grouped_results:
+            bm_name = bm_group.get("benchmark", "")
+            for ds_group in bm_group.get("datasets", []):
+                if ds_group.get("experiment_scope") != scope:
+                    continue
+                ds_name = ds_group.get("dataset", "")
+                bm_entries.setdefault(bm_name, []).append(
+                    {"dataset": ds_name, "dataset_slug": _slug(ds_name)}
+                )
+        if not bm_entries:
+            continue
+        benchmarks = [
+            {
+                "benchmark": bm_name,
+                "benchmark_slug": _slug(bm_name),
+                "datasets": ds_list,
+            }
+            for bm_name, ds_list in bm_entries.items()
+        ]
+        out.append(
+            {
+                "scope": scope,
+                "label": _PAPER_SCOPE_LABELS[scope],
+                "benchmarks": benchmarks,
+            }
+        )
+    return out
+
+
+def _benchmark_totals_exportable(session: Any, benchmarks: list[Benchmark]) -> dict[str, int]:
+    """Count exportable datasets per benchmark group (aligned with benchmarks.json).
+
+    Cached for the export run; uses ``_dataset_export_metadata`` so dataset pages
+    do not recompute row pivots on every paper.
+    """
+    global _BENCHMARK_EXPORTABLE_TOTALS
+    if _BENCHMARK_EXPORTABLE_TOTALS is not None:
+        return _BENCHMARK_EXPORTABLE_TOTALS
+
+    totals: dict[str, int] = {}
+    for benchmark in benchmarks:
+        count = sum(
+            1
+            for ds in benchmark.datasets
+            if _dataset_export_metadata(session, ds.id).get("exportable")
+        )
+        if count:
+            totals[benchmark.name] = count
+    _BENCHMARK_EXPORTABLE_TOTALS = totals
+    return totals
+
+
+def _dataset_paper_count_for_metric(session: Any, ds_name: str, primary_metric: str) -> int:
+    """Distinct papers with results on a dataset/metric (cached per export run)."""
+    cache_key = (ds_name, primary_metric)
+    if cache_key in _DATASET_PAPER_COUNT_CACHE:
+        return _DATASET_PAPER_COUNT_CACHE[cache_key]
+
+    from sqlalchemy import func as _sqla_func
+
+    paper_count = (
+        session.query(_sqla_func.count(Result.paper_id.distinct()))
+        .join(Result.dataset_variant)
+        .join(DatasetVariant.dataset)
+        .filter(Dataset.name == ds_name)
+        .filter(Result.metric_name == primary_metric)
+        .filter(Result.is_problematic.is_(None) | (Result.is_problematic == 0))
+        .scalar()
+    ) or 0
+    _DATASET_PAPER_COUNT_CACHE[cache_key] = int(paper_count)
+    return int(paper_count)
+
+
+def _benchmark_coverage_entries(
+    grouped_results: list[dict],
+    benchmark_totals: dict[str, int],
+) -> list[dict[str, int | str]]:
+    """Per-benchmark evaluated/total dataset counts for the papers overview."""
+    entries: list[dict[str, int | str]] = []
+    for group in grouped_results:
+        bm_name = group["benchmark"]
+        evaluated = len(group.get("datasets") or [])
+        total = benchmark_totals.get(bm_name, evaluated)
+        entries.append(
+            {
+                "benchmark": bm_name,
+                "benchmark_slug": _slug(bm_name),
+                "evaluated": evaluated,
+                "total": total,
+            }
+        )
+    return entries
 
 
 def _apply_display_metrics_filter(
@@ -899,25 +1047,15 @@ def _dataset_export_metadata(session: Any, dataset_id: int) -> dict[str, Any]:
     return _dataset_page_export_metadata(session, dataset_id)
 
 
-def _core_families_for_models(*model_names: str | None) -> set[str]:
-    families: set[str] = set()
-    for name in model_names:
-        family = _normalize_model_family(name)
-        if family:
-            families.add(family)
-    return families
-
-
 def _select_global_context_rows(
     global_top_all: list[dict],
     paper_model_keys: set[str],
     *,
     top_n: int = 3,
 ) -> list[dict]:
-    """Pick global-top rows for paper display: best *top_n* plus core baselines."""
+    """Pick global-top rows for paper display: dataset ranks 1..top_n plus plain core baselines."""
     extras: list[dict] = []
     seen_keys = set(paper_model_keys)
-    seen_core_families = _core_families_for_models(*paper_model_keys)
 
     def _add(gr: dict) -> None:
         model_key = gr.get("model_key", "")
@@ -925,22 +1063,43 @@ def _select_global_context_rows(
             return
         seen_keys.add(model_key)
         extras.append(gr)
-        seen_core_families.update(_core_families_for_models(gr.get("model")))
 
-    top_count = 0
-    for gr in global_top_all:
-        if gr.get("model_key", "") in seen_keys:
-            continue
+    for gr in global_top_all[:top_n]:
         _add(gr)
-        top_count += 1
-        if top_count >= top_n:
-            break
+
+    higher_is_better = (
+        bool(global_top_all[0].get("higher_is_better", True)) if global_top_all else True
+    )
+    best_plain_gnn_global: dict | None = None
+    best_gnn_extra: dict | None = None
+    gated_row: dict | None = None
+    mlp_row: dict | None = None
 
     for gr in global_top_all:
-        family = _normalize_model_family(gr.get("model"))
-        if family not in CORE_BASELINE_FAMILIES or family in seen_core_families:
+        model_key = gr.get("model_key", "")
+        if not model_key:
             continue
-        _add(gr)
+        kind = _plain_core_baseline_kind(gr.get("model"))
+        if kind in ("gcn", "gin", "sage"):
+            if _row_is_better(gr, best_plain_gnn_global, higher_is_better=higher_is_better):
+                best_plain_gnn_global = gr
+            if model_key not in seen_keys and _row_is_better(
+                gr, best_gnn_extra, higher_is_better=higher_is_better
+            ):
+                best_gnn_extra = gr
+        elif kind == "gatedgcn" and gated_row is None and model_key not in seen_keys:
+            gated_row = gr
+        elif kind == "mlp" and mlp_row is None and model_key not in seen_keys:
+            mlp_row = gr
+
+    if best_gnn_extra is not None:
+        _add(best_gnn_extra)
+    if gated_row is not None and _row_is_better(
+        gated_row, best_plain_gnn_global, higher_is_better=higher_is_better
+    ):
+        _add(gated_row)
+    if mlp_row is not None:
+        _add(mlp_row)
 
     return extras
 
@@ -1059,18 +1218,7 @@ def _compute_paper_mrr(
             continue
         if len(global_rows) < 10:
             continue
-        # Require at least 3 distinct papers contributing to this dataset
-        from sqlalchemy import func as _sqla_func
-
-        paper_count = (
-            session.query(_sqla_func.count(Result.paper_id.distinct()))
-            .join(Result.dataset_variant)
-            .join(DatasetVariant.dataset)
-            .filter(Dataset.name == ds_name)
-            .filter(Result.metric_name == info["primary_metric"])
-            .scalar()
-        ) or 0
-        if paper_count < 3:
+        if _dataset_paper_count_for_metric(session, ds_name, info["primary_metric"]) < 3:
             continue
         rank = model_to_rank.get(_model_key(primary_proposed))
         if rank is not None:
@@ -1372,6 +1520,12 @@ def _export_paper_impl(session: Session, arxiv_id: str) -> bool:
             }
         )
 
+    dataset_task_type: dict[str, str] = {}
+    for r in results:
+        dv = r.dataset_variant
+        if dv and dv.dataset:
+            dataset_task_type[dv.dataset.name] = dv.dataset.task_type or ""
+
     results_for_fm: list[dict] = []
     for ds, rows in sorted(result_groups.items()):
         meta = result_group_meta[ds]
@@ -1406,9 +1560,7 @@ def _export_paper_impl(session: Session, arxiv_id: str) -> bool:
                 row.get("true_value"),
                 row.get("true_std"),
             )
-            row["has_value_note"] = _has_paper_value_difference(
-                row.get("paper_value"), row.get("true_value")
-            ) and not row.get("has_value_gap")
+            row["has_value_note"] = False
             row["value_gap"] = (
                 abs(row["paper_value"] - row["true_value"])
                 if _has_paper_value_difference(row.get("paper_value"), row.get("true_value"))
@@ -1416,11 +1568,7 @@ def _export_paper_impl(session: Session, arxiv_id: str) -> bool:
                 and row.get("true_value") is not None
                 else None
             )
-            row["value_note"] = (
-                f"global {row['true_value']:.4f} within std"
-                if row.get("has_value_note") and row.get("true_value") is not None
-                else ""
-            )
+            row["value_note"] = ""
             row["paper_rank"] = _rank_for_value(
                 global_top_all,
                 row.get("model_key", ""),
@@ -1606,6 +1754,7 @@ def _export_paper_impl(session: Session, arxiv_id: str) -> bool:
                     "metrics": metrics_list,
                     "primary_metric": pivoted["primary_metric"],
                     "higher_is_better": higher,
+                    "experiment_scope": _paper_experiment_scope(dataset_task_type.get(ds)),
                 }
             )
         else:
@@ -1674,6 +1823,7 @@ def _export_paper_impl(session: Session, arxiv_id: str) -> bool:
                     "rows": rows,
                     "metric": primary_metric,
                     "higher_is_better": higher,
+                    "experiment_scope": _paper_experiment_scope(dataset_task_type.get(ds)),
                 }
             )
 
@@ -1723,6 +1873,8 @@ def _export_paper_impl(session: Session, arxiv_id: str) -> bool:
         )
         grouped_results.append({"benchmark": bm_name, "datasets": ds_groups})
 
+    datasets_by_scope = _datasets_by_scope_for_paper(grouped_results)
+
     # Main figure
     storage = PaperStorage(arxiv_id)
     paper_metadata = storage.read_metadata()
@@ -1741,6 +1893,8 @@ def _export_paper_impl(session: Session, arxiv_id: str) -> bool:
         single_proposed_model = proposed_models[0]
 
     benchmark_categories = [group["benchmark"] for group in grouped_results]
+    benchmark_totals = _benchmark_totals_exportable(session, benchmarks)
+    benchmark_coverage = _benchmark_coverage_entries(grouped_results, benchmark_totals)
     task_categories = sorted(
         {
             dv.dataset.task_type
@@ -1777,10 +1931,12 @@ def _export_paper_impl(session: Session, arxiv_id: str) -> bool:
         "adjusted_mrr": adjusted_mrr,
         "mrr_dataset_count": mrr_dataset_count,
         "benchmark_categories": benchmark_categories,
+        "benchmark_coverage": benchmark_coverage,
         "task_categories": task_categories,
         "experiment_scopes": experiment_scopes,
         "results": results_for_fm,
         "results_grouped": grouped_results,
+        "datasets_by_scope": datasets_by_scope,
     }
     if single_proposed_model:
         front_matter["single_proposed_model"] = single_proposed_model
@@ -2289,14 +2445,23 @@ def export_all(
                 ds_ok += 1
         timings["datasets"] = time.perf_counter() - t0
 
+        benchmarks = session.query(Benchmark).all()
+        _benchmark_totals_exportable(session, benchmarks)
+
         t0 = time.perf_counter()
         export_benchmarks_data(session=session)
         timings["benchmarks"] = time.perf_counter() - t0
 
         if not skip_development:
+            tqdm.write("Development pages...")
             t0 = time.perf_counter()
             dev_stats = export_development_data(session=session)
-            timings["development"] = time.perf_counter() - t0
+            elapsed = time.perf_counter() - t0
+            timings["development"] = elapsed
+            tqdm.write(
+                f"Development pages... done ({elapsed:.1f}s)  "
+                f"({dev_stats.get('pages', 0)} pages, {dev_stats.get('data_files', 0)} JSON)"
+            )
 
         papers_ok = 0
         t0 = time.perf_counter()
@@ -2304,6 +2469,12 @@ def export_all(
             if export_paper(arxiv_id, session=session):
                 papers_ok += 1
         timings["papers"] = time.perf_counter() - t0
+
+        t0 = time.perf_counter()
+        from backend.hugo_dev_exports import create_conferences_page
+
+        create_conferences_page(session=session)
+        timings["conferences"] = time.perf_counter() - t0
 
     _print_export_timing_summary(
         timings=timings,

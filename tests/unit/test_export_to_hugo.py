@@ -6,6 +6,7 @@ import pytest
 
 from backend.export_helpers import truncate_words as _truncate_words
 from backend.export_to_hugo import (
+    _benchmark_coverage_entries,
     _conference_export_fields,
     _dataset_export_metadata,
     _dedup_result_rows,
@@ -16,6 +17,7 @@ from backend.export_to_hugo import (
     _has_paper_value_gap,
     _normalize_conference,
     _normalize_model_family,
+    _plain_core_baseline_kind,
     _plain_model,
     _publication_year,
     _rank_for_value,
@@ -239,14 +241,34 @@ def test_normalize_model_family_recognizes_core_baselines(model_name, expected):
     assert _normalize_model_family(model_name) == expected
 
 
-def _global_row(model: str, value: float, rank: int) -> dict:
+@pytest.mark.parametrize(
+    ("model_name", "expected"),
+    [
+        ("GCN", "gcn"),
+        ("GIN", "gin"),
+        ("GraphSAGE", "sage"),
+        ("MLP", "mlp"),
+        ("GatedGCN", "gatedgcn"),
+        ("CompGCN", ""),
+        ("GCNII", ""),
+        ("MLP-4L", ""),
+        ("GraphMLP", ""),
+    ],
+)
+def test_plain_core_baseline_kind_only_matches_plain_names(model_name, expected):
+    assert _plain_core_baseline_kind(model_name) == expected
+
+
+def _global_row(model: str, value: float, rank: int, *, higher_is_better: bool = True) -> dict:
     return {
         "model": model,
         "model_key": model.lower(),
         "value": value,
+        "sort_value": value,
         "std": None,
         "is_baseline": True,
         "global_rank": rank,
+        "higher_is_better": higher_is_better,
     }
 
 
@@ -267,7 +289,44 @@ def test_select_global_context_rows_adds_top_models_and_core_baselines():
         "GIN",
         "GCN",
         "MLP",
+    ]
+
+
+def test_select_global_context_rows_uses_dataset_ranks_not_backfill():
+    """Ranks 4+ must not replace rank 2/3 slots when those models are already on the paper."""
+    global_top = [
+        _global_row("GraphGPS", 0.95, 1),
+        _global_row("SignNet", 0.90, 2),
+        _global_row("GIN", 0.85, 3),
+        _global_row("CompGCN", 0.84, 4),
+        _global_row("novel graph MLP mixer", 0.83, 5),
+        _global_row("GraphSAGE", 0.65, 6),
+    ]
+
+    selected = _select_global_context_rows(global_top, {"signnet"})
+
+    assert [row["model"] for row in selected] == [
+        "GraphGPS",
+        "GIN",
         "GraphSAGE",
+    ]
+
+
+def test_select_global_context_rows_picks_best_plain_gnn_not_compgcn():
+    global_top = [
+        _global_row("GraphGPS", 0.95, 1),
+        _global_row("CompGCN", 0.92, 2),
+        _global_row("GCN", 0.70, 3),
+        _global_row("GIN", 0.85, 4),
+    ]
+
+    selected = _select_global_context_rows(global_top, set())
+
+    assert [row["model"] for row in selected] == [
+        "GraphGPS",
+        "CompGCN",
+        "GCN",
+        "GIN",
     ]
 
 
@@ -287,6 +346,39 @@ def test_dataset_export_metadata_uses_cache(monkeypatch):
     meta = _dataset_export_metadata(object(), 42)
 
     assert meta["result_count"] == 99
+    assert calls == []
+
+
+def test_benchmark_totals_exportable_uses_dataset_metadata_cache(monkeypatch):
+    from backend import export_to_hugo
+
+    clear_export_caches()
+    calls: list[int] = []
+    monkeypatch.setattr(
+        export_to_hugo,
+        "_dataset_page_export_metadata",
+        lambda _session, dataset_id: calls.append(dataset_id)
+        or {"exportable": True, "result_count": 1},
+    )
+    for did in (7, 8):
+        export_to_hugo._DATASET_EXPORT_META_CACHE[did] = {"exportable": True, "result_count": 5}
+
+    class FakeDataset:
+        def __init__(self, dataset_id: int):
+            self.id = dataset_id
+
+    class FakeBenchmark:
+        def __init__(self, name: str, dataset_ids: list[int]):
+            self.name = name
+            self.datasets = [FakeDataset(i) for i in dataset_ids]
+
+    benchmarks = [FakeBenchmark("GNN", [7, 8])]
+    totals = export_to_hugo._benchmark_totals_exportable(object(), benchmarks)
+    assert totals == {"GNN": 2}
+    assert calls == []
+
+    totals_again = export_to_hugo._benchmark_totals_exportable(object(), benchmarks)
+    assert totals_again == {"GNN": 2}
     assert calls == []
 
 
@@ -355,6 +447,39 @@ def test_global_ranks_cached_reuses_module_cache(monkeypatch):
     assert len(calls) == 1
 
 
+def test_benchmark_coverage_entries_reports_evaluated_over_total():
+    grouped = [
+        {
+            "benchmark": "Open Graph Benchmark",
+            "datasets": [{"dataset": "ogbn-arxiv"}, {"dataset": "ogbn-products"}],
+        },
+        {"benchmark": "TUDataset", "datasets": [{"dataset": "MUTAG"}]},
+    ]
+    totals = {"Open Graph Benchmark": 5, "TUDataset": 12}
+
+    coverage = _benchmark_coverage_entries(grouped, totals)
+
+    assert coverage == [
+        {
+            "benchmark": "Open Graph Benchmark",
+            "benchmark_slug": "open-graph-benchmark",
+            "evaluated": 2,
+            "total": 5,
+        },
+        {"benchmark": "TUDataset", "benchmark_slug": "tudataset", "evaluated": 1, "total": 12},
+    ]
+
+
+def test_benchmark_coverage_entries_falls_back_to_evaluated_when_total_unknown():
+    grouped = [{"benchmark": "Other", "datasets": [{"dataset": "Custom"}]}]
+
+    coverage = _benchmark_coverage_entries(grouped, {})
+
+    assert coverage == [
+        {"benchmark": "Other", "benchmark_slug": "other", "evaluated": 1, "total": 1}
+    ]
+
+
 def test_select_global_context_rows_skips_core_baselines_already_on_paper():
     global_top = [
         _global_row("GraphGPS", 0.95, 1),
@@ -367,3 +492,38 @@ def test_select_global_context_rows_skips_core_baselines_already_on_paper():
     selected = _select_global_context_rows(global_top, {"gin", "gcn"})
 
     assert [row["model"] for row in selected] == ["GraphGPS", "SignNet", "Transformer"]
+
+
+def test_select_global_context_rows_adds_gatedgcn_only_when_beats_plain_gnn_trio():
+    global_top = [
+        _global_row("GraphGPS", 0.95, 1),
+        _global_row("SignNet", 0.90, 2),
+        _global_row("Transformer", 0.89, 3),
+        _global_row("GatedGCN", 0.88, 4),
+        _global_row("GIN", 0.85, 5),
+        _global_row("GCN", 0.70, 6),
+    ]
+
+    selected = _select_global_context_rows(global_top, set())
+    assert [row["model"] for row in selected] == [
+        "GraphGPS",
+        "SignNet",
+        "Transformer",
+        "GIN",
+        "GatedGCN",
+    ]
+
+    global_top_weak_gated = [
+        _global_row("GraphGPS", 0.95, 1),
+        _global_row("SignNet", 0.90, 2),
+        _global_row("GIN", 0.85, 3),
+        _global_row("GatedGCN", 0.80, 4),
+        _global_row("GCN", 0.70, 5),
+    ]
+    selected_weak = _select_global_context_rows(global_top_weak_gated, set())
+    assert [row["model"] for row in selected_weak] == [
+        "GraphGPS",
+        "SignNet",
+        "GIN",
+        "GCN",
+    ]
