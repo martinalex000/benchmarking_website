@@ -135,8 +135,13 @@ if ! : >"$WRITE_TEST"; then
 fi
 rm -f "$WRITE_TEST"
 
-echo "Ensuring ${DEPLOY_PATH} has correct permissions on remote..."
-ssh -o BatchMode=yes -o ConnectTimeout=10 "$SSH_DEST" "chmod 755 '${DEPLOY_PATH}'"
+echo "Ensuring ${DEPLOY_PATH} has correct permissions on remote (via mount)..."
+# Restricted hosting shells often block remote chmod; sshfs uses SFTP like the mount.
+if ! chmod 755 "$MOUNT_POINT"; then
+  hint "Could not chmod the mounted deployment directory."
+  hint "Check that SFTP allows permission changes on ${DEPLOY_PATH}."
+  die "Failed to set 755 on deployment directory."
+fi
 
 echo "Building Hugo site locally to ${BUILD_DIR}..."
 cd site
