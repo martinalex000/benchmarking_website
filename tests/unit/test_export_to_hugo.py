@@ -330,6 +330,24 @@ def test_select_global_context_rows_picks_best_plain_gnn_not_compgcn():
     ]
 
 
+def test_count_recent_leaderboard_rows_uses_publication_cutoff():
+    from datetime import date, timedelta
+
+    from backend.export_to_hugo import RECENT_RESULTS_YEARS, _count_recent_leaderboard_rows
+
+    cutoff = (date.today() - timedelta(days=365 * RECENT_RESULTS_YEARS)).isoformat()
+    recent = (date.today() - timedelta(days=30)).isoformat()
+    old = (date.today() - timedelta(days=365 * (RECENT_RESULTS_YEARS + 1))).isoformat()
+    rows = [
+        {"date_iso": recent},
+        {"date_iso": old},
+        {"date_iso": ""},
+        {"date_iso": cutoff},
+    ]
+
+    assert _count_recent_leaderboard_rows(rows) == 2
+
+
 def test_dataset_export_metadata_uses_cache(monkeypatch):
     from backend import export_to_hugo
 

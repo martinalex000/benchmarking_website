@@ -20,7 +20,7 @@ import logging
 import re
 import shutil
 import statistics
-from datetime import datetime
+from datetime import date, datetime, timedelta
 from pathlib import Path
 from typing import Any
 
@@ -63,6 +63,18 @@ _GLOBAL_RANKS_CACHE: dict[
 _DATASET_EXPORT_META_CACHE: dict[int, dict[str, Any]] = {}
 _BENCHMARK_EXPORTABLE_TOTALS: dict[str, int] | None = None
 _DATASET_PAPER_COUNT_CACHE: dict[tuple[str, str], int] = {}
+
+RECENT_RESULTS_YEARS = 2
+
+
+def _recent_results_cutoff_iso() -> str:
+    """ISO date for leaderboard rows counted as recent (paper publication date)."""
+    return (date.today() - timedelta(days=365 * RECENT_RESULTS_YEARS)).isoformat()
+
+
+def _count_recent_leaderboard_rows(rows: list[dict[str, Any]]) -> int:
+    cutoff = _recent_results_cutoff_iso()
+    return sum(1 for row in rows if (row.get("date_iso") or "") >= cutoff)
 
 
 def clear_export_caches() -> None:
@@ -442,7 +454,7 @@ def _dataset_page_export_metadata(session: Any, dataset_id: int) -> dict[str, An
     """Return whether a dataset page exports and the aligned overview result count."""
     ds = session.get(Dataset, dataset_id)
     if ds is None:
-        return {"exportable": False, "result_count": 0}
+        return {"exportable": False, "result_count": 0, "recent_result_count": 0}
 
     variants = (
         session.query(DatasetVariant)
@@ -451,7 +463,7 @@ def _dataset_page_export_metadata(session: Any, dataset_id: int) -> dict[str, An
         .all()
     )
     if not variants:
-        return {"exportable": False, "result_count": 0}
+        return {"exportable": False, "result_count": 0, "recent_result_count": 0}
 
     force_export = _dataset_force_export(ds.name)
     variant_counts: list[tuple[bool, int]] = []
@@ -490,16 +502,23 @@ def _dataset_page_export_metadata(session: Any, dataset_id: int) -> dict[str, An
             display_metrics,
             metric,
         )
-        variant_counts.append((bool(v.is_standard), len(rows)))
+        variant_counts.append(
+            (bool(v.is_standard), len(rows), _count_recent_leaderboard_rows(rows))
+        )
 
     if not exportable:
-        return {"exportable": False, "result_count": 0}
+        return {"exportable": False, "result_count": 0, "recent_result_count": 0}
 
-    std_count = next((count for is_std, count in variant_counts if is_std), None)
-    result_count = (
-        std_count if std_count is not None else (variant_counts[0][1] if variant_counts else 0)
-    )
-    return {"exportable": True, "result_count": result_count}
+    std_entry = next((entry for entry in variant_counts if entry[0]), None)
+    if std_entry is None:
+        std_entry = variant_counts[0]
+    result_count = std_entry[1]
+    recent_result_count = std_entry[2]
+    return {
+        "exportable": True,
+        "result_count": result_count,
+        "recent_result_count": recent_result_count,
+    }
 
 
 def _paper_experiment_scope(task_type: str | None) -> str | None:
@@ -2136,7 +2155,11 @@ def _export_dataset_impl(session: Session, dataset_id: int) -> bool:
 
     if not variants:
         logger.debug("Dataset %s has no variants — skipping export", ds.name)
-        _DATASET_EXPORT_META_CACHE[dataset_id] = {"exportable": False, "result_count": 0}
+        _DATASET_EXPORT_META_CACHE[dataset_id] = {
+            "exportable": False,
+            "result_count": 0,
+            "recent_result_count": 0,
+        }
         return False
 
     force_export = _dataset_force_export(ds.name)
@@ -2226,12 +2249,17 @@ def _export_dataset_impl(session: Session, dataset_id: int) -> bool:
         )
 
     if not variant_data:
-        _DATASET_EXPORT_META_CACHE[dataset_id] = {"exportable": False, "result_count": 0}
+        _DATASET_EXPORT_META_CACHE[dataset_id] = {
+            "exportable": False,
+            "result_count": 0,
+            "recent_result_count": 0,
+        }
         return False
 
     # Compute overview stats from the standard (or first) variant
     std_vd = next((v for v in variant_data if v["is_standard"]), variant_data[0])
     result_count = len(std_vd["rows"])
+    recent_result_count = _count_recent_leaderboard_rows(std_vd["rows"])
     best_row = std_vd["rows"][0] if std_vd["rows"] else None
     best_model_info: dict | None = None
     if best_row:
@@ -2286,6 +2314,7 @@ def _export_dataset_impl(session: Session, dataset_id: int) -> bool:
     _DATASET_EXPORT_META_CACHE[dataset_id] = {
         "exportable": True,
         "result_count": result_count,
+        "recent_result_count": recent_result_count,
     }
     return True
 
@@ -2315,14 +2344,24 @@ def _export_benchmarks_data_impl(session: Session) -> None:
         for dataset_id, meta in dataset_export_metadata.items()
         if meta["exportable"]
     }
+    ds_recent_result_counts: dict[int, int] = {
+        dataset_id: int(meta.get("recent_result_count", 0))
+        for dataset_id, meta in dataset_export_metadata.items()
+        if meta["exportable"]
+    }
 
     benchmarks = session.query(Benchmark).all()
 
-    # Sort benchmark groups by total result count (descending)
-    def _bm_total(b: Benchmark) -> int:
-        return sum(ds_result_counts.get(ds.id, 0) for ds in b.datasets)
+    def _bm_recent_per_dataset(b: Benchmark) -> float:
+        exportable = [
+            ds for ds in b.datasets if dataset_export_metadata.get(ds.id, {}).get("exportable")
+        ]
+        if not exportable:
+            return 0.0
+        total_recent = sum(ds_recent_result_counts.get(ds.id, 0) for ds in exportable)
+        return total_recent / len(exportable)
 
-    benchmarks = sorted(benchmarks, key=_bm_total, reverse=True)
+    benchmarks = sorted(benchmarks, key=_bm_recent_per_dataset, reverse=True)
 
     data: list[dict] = []
     for b in benchmarks:
@@ -2333,6 +2372,7 @@ def _export_benchmarks_data_impl(session: Session) -> None:
         )
         if not sorted_datasets:
             continue
+        recent_per_dataset = _bm_recent_per_dataset(b)
         datasets_info = []
         for ds in sorted_datasets:
             variants = ds.variants  # all variants (not just standard)
@@ -2342,6 +2382,7 @@ def _export_benchmarks_data_impl(session: Session) -> None:
                     "slug": _slug(ds.name),
                     "task_type": ds.task_type or "",
                     "result_count": ds_result_counts.get(ds.id, 0),
+                    "recent_result_count": ds_recent_result_counts.get(ds.id, 0),
                     "variants": [{"name": v.name, "slug": _slug(v.name)} for v in variants],
                 }
             )
@@ -2352,6 +2393,7 @@ def _export_benchmarks_data_impl(session: Session) -> None:
                 "description": b.description or "",
                 "arxiv_id": b.paper.arxiv_id if b.paper else "",
                 "paper_title": _sanitize_title(b.paper.title) if b.paper else "",
+                "recent_results_per_dataset": round(recent_per_dataset, 1),
                 "datasets": datasets_info,
             }
         )
