@@ -60,6 +60,7 @@ _DATASET_OVERRIDE_CACHE: dict[str, dict[str, Any]] = {}
 _GLOBAL_RANKS_CACHE: dict[
     tuple[str, str, bool], tuple[dict[str, int], list[dict], dict[str, dict[str, Any]]]
 ] = {}
+_AT_PUB_MODEL_CACHE: dict[tuple[str, str, bool, str], dict[str, dict[str, Any]]] = {}
 _DATASET_EXPORT_META_CACHE: dict[int, dict[str, Any]] = {}
 _BENCHMARK_EXPORTABLE_TOTALS: dict[str, int] | None = None
 _DATASET_PAPER_COUNT_CACHE: dict[tuple[str, str], int] = {}
@@ -83,6 +84,7 @@ def clear_export_caches() -> None:
     _MODEL_RENAME_CACHE.clear()
     _DATASET_OVERRIDE_CACHE.clear()
     _GLOBAL_RANKS_CACHE.clear()
+    _AT_PUB_MODEL_CACHE.clear()
     _DATASET_EXPORT_META_CACHE.clear()
     _BENCHMARK_EXPORTABLE_TOTALS = None
     _DATASET_PAPER_COUNT_CACHE.clear()
@@ -293,6 +295,250 @@ def _has_paper_value_difference(
     if paper_value is None or true_value is None:
         return False
     return abs(paper_value - true_value) > 1e-12
+
+
+def _is_value_worse_than(
+    value: float,
+    reference: float,
+    higher_is_better: bool,
+    value_std: float | None = None,
+    reference_std: float | None = None,
+) -> bool:
+    """True when *value* is strictly worse than *reference* (outside combined std)."""
+    worse = (value < reference) if higher_is_better else (value > reference)
+    if not worse:
+        return False
+    delta = abs(value - reference)
+    if value_std is not None and delta <= float(value_std):
+        return False
+    if reference_std is not None and delta <= float(reference_std):
+        return False
+    return delta > 1e-12
+
+
+def _resolve_global_rank(
+    row: dict,
+    model_to_rank: dict[str, int],
+    global_top_all: list[dict],
+    higher_is_better: bool,
+) -> int | None:
+    """Leaderboard rank for a row on the dataset primary metric.
+
+    Uses the cached best-per-model rank when the model appears on the global
+    leaderboard. Otherwise ranks the row's displayed value (``sort_value`` or
+    ``value``) as if it were inserted into that leaderboard — needed when the
+    paper only reported a different metric name or the model has no stored best
+    yet for the primary metric.
+    """
+    model_key = row.get("model_key", "")
+    if model_key:
+        rank = model_to_rank.get(model_key)
+        if rank is not None:
+            return rank
+
+    sort_value = row.get("sort_value")
+    if sort_value is None:
+        sort_value = row.get("value")
+    if sort_value is None:
+        metric_values = row.get("metric_values")
+        if metric_values:
+            sort_value = metric_values[0]
+    return _rank_for_value(global_top_all, model_key, sort_value, higher_is_better)
+
+
+def _higher_is_better_for_metric(rows: list[dict], metric: str, fallback: bool = True) -> bool:
+    for row in rows:
+        if row.get("metric") == metric and row.get("higher_is_better") is not None:
+            return bool(row["higher_is_better"])
+    return fallback
+
+
+def _paper_metric_global_caches(
+    session: Any,
+    ds_name: str,
+    paper_metrics: list[str],
+    rows: list[dict],
+    default_higher: bool,
+) -> dict[str, tuple[dict[str, int], list[dict], dict[str, dict[str, Any]], bool]]:
+    caches: dict[str, tuple[dict[str, int], list[dict], dict[str, dict[str, Any]], bool]] = {}
+    for metric in paper_metrics:
+        higher = _higher_is_better_for_metric(rows, metric, default_higher)
+        try:
+            model_to_rank, global_top_all, truth_map = _global_ranks_cached(
+                session, ds_name, metric, higher
+            )
+        except Exception as exc:
+            logger.debug("Global rank lookup failed for %r/%r: %s", ds_name, metric, exc)
+            model_to_rank, global_top_all, truth_map = {}, [], {}
+        caches[metric] = (model_to_rank, global_top_all, truth_map, higher)
+    return caches
+
+
+def _enrich_paper_result_row(
+    row: dict,
+    *,
+    truth_map: dict[str, dict[str, Any]],
+    model_to_rank: dict[str, int],
+    global_top_all: list[dict],
+    arxiv_id: str,
+    higher_is_better: bool,
+    at_pub_map: dict[str, dict[str, Any]] | None = None,
+) -> None:
+    """Attach global-rank and leaderboard comparison fields for ``row['metric']``."""
+    row["at_pub_value"] = None
+    row["at_pub_std"] = None
+    row["at_pub_source_arxiv"] = ""
+    row["at_pub_source_title"] = ""
+    row["at_pub_source_date_iso"] = ""
+    row["value_gap_source_date_iso"] = ""
+    row["gap_vs_at_pub"] = None
+    row["worse_than_at_pub"] = False
+    row["surpassed_since_pub"] = False
+
+    truth = truth_map.get(row.get("model_key", ""))
+    if not truth:
+        row["sort_value"] = row.get("value")
+        row["sort_std"] = row.get("std")
+        row["global_rank"] = _resolve_global_rank(
+            row, model_to_rank, global_top_all, higher_is_better
+        )
+        row["has_value_gap"] = False
+        row["has_value_note"] = False
+        row["value_gap"] = None
+        row["value_note"] = ""
+        row["paper_rank"] = None
+        row["rank_delta"] = None
+        row["rank_delta_abs"] = None
+        row["rank_delta_direction"] = None
+        row["comparison_type"] = None
+        row["comparison_source_title"] = ""
+        row["comparison_source_arxiv"] = ""
+        return
+
+    true_val = truth.get("value")
+    true_std = truth.get("std")
+    row["true_value"] = true_val
+    row["true_std"] = true_std
+    row["value_gap_source_arxiv"] = truth.get("arxiv_id", "")
+    row["value_gap_source_title"] = truth.get("title", "")
+    row["value_gap_source_date_iso"] = truth.get("date_iso", "")
+    row["value_gap_source_is_current_paper"] = truth.get("arxiv_id", "") == arxiv_id
+    row["value_gap"] = (
+        abs(row["paper_value"] - true_val)
+        if _has_paper_value_difference(row.get("paper_value"), true_val)
+        and row.get("paper_value") is not None
+        and true_val is not None
+        else None
+    )
+    row["has_value_note"] = False
+    row["value_note"] = ""
+    row["sort_value"] = true_val
+    row["sort_std"] = true_std
+    row["global_rank"] = _resolve_global_rank(row, model_to_rank, global_top_all, higher_is_better)
+    row["paper_rank"] = _rank_for_value(
+        global_top_all,
+        row.get("model_key", ""),
+        row.get("paper_value"),
+        higher_is_better,
+    )
+    row["rank_delta"] = (
+        row["paper_rank"] - row["global_rank"]
+        if row.get("paper_rank") is not None and row.get("global_rank") is not None
+        else None
+    )
+    row["rank_delta_abs"] = abs(row["rank_delta"]) if row.get("rank_delta") is not None else None
+    if row.get("rank_delta") is not None:
+        if row["rank_delta"] < 0:
+            row["rank_delta_direction"] = "better"
+        elif row["rank_delta"] > 0:
+            row["rank_delta_direction"] = "worse"
+        else:
+            row["rank_delta_direction"] = "same"
+    else:
+        row["rank_delta_direction"] = None
+
+    paper_val = row.get("paper_value")
+    paper_std = row.get("paper_std")
+    at_pub = (at_pub_map or {}).get(row.get("model_key", ""), {})
+    at_pub_val = at_pub.get("value")
+    at_pub_std = at_pub.get("std")
+    row["at_pub_value"] = at_pub_val
+    row["at_pub_std"] = at_pub_std
+    row["at_pub_source_arxiv"] = at_pub.get("arxiv_id", "")
+    row["at_pub_source_title"] = at_pub.get("title", "")
+    row["at_pub_source_date_iso"] = at_pub.get("date_iso", "")
+
+    worse_than_at_pub = False
+    surpassed_since_pub = False
+    if row.get("is_baseline") and paper_val is not None:
+        if at_pub_val is not None:
+            worse_than_at_pub = _is_value_worse_than(
+                float(paper_val),
+                float(at_pub_val),
+                higher_is_better,
+                paper_std,
+                at_pub_std,
+            )
+            if worse_than_at_pub:
+                row["gap_vs_at_pub"] = abs(float(paper_val) - float(at_pub_val))
+        if true_val is not None and not worse_than_at_pub:
+            surpassed_since_pub = _is_value_worse_than(
+                float(paper_val),
+                float(true_val),
+                higher_is_better,
+                paper_std,
+                true_std,
+            )
+
+    row["worse_than_at_pub"] = worse_than_at_pub
+    row["surpassed_since_pub"] = surpassed_since_pub
+    row["has_value_gap"] = bool(
+        row.get("is_baseline")
+        and (
+            _has_paper_value_gap(paper_val, paper_std, true_val, true_std)
+            or worse_than_at_pub
+            or surpassed_since_pub
+        )
+    )
+
+    if row.get("is_global_top"):
+        row["comparison_type"] = "global_top"
+        row["comparison_source_title"] = ""
+        row["comparison_source_arxiv"] = ""
+    elif worse_than_at_pub:
+        row["comparison_type"] = "behind"
+        row["comparison_source_title"] = row["at_pub_source_title"]
+        row["comparison_source_arxiv"] = row["at_pub_source_arxiv"]
+    elif row.get("is_baseline") and paper_val is not None and true_val is not None:
+        better_than_today = (higher_is_better and paper_val > true_val) or (
+            not higher_is_better and paper_val < true_val
+        )
+        if better_than_today:
+            row["comparison_type"] = "improved"
+            row["comparison_source_title"] = truth.get("title", "")
+            row["comparison_source_arxiv"] = truth.get("arxiv_id", "")
+        else:
+            row["comparison_type"] = None
+            row["comparison_source_title"] = ""
+            row["comparison_source_arxiv"] = ""
+    else:
+        row["comparison_type"] = None
+        row["comparison_source_title"] = ""
+        row["comparison_source_arxiv"] = ""
+
+
+def _paper_dataset_export_meta(
+    dataset_primary_metric: str,
+    paper_metrics: list[str],
+    display_metric: str,
+) -> dict[str, Any]:
+    return {
+        "dataset_primary_metric": dataset_primary_metric,
+        "paper_metrics": paper_metrics,
+        "metric": display_metric,
+        "uses_non_primary_metric": display_metric != dataset_primary_metric,
+        "paper_has_primary_metric": dataset_primary_metric in paper_metrics,
+    }
 
 
 def _result_params_millions(result: Result | None) -> float | None:
@@ -827,7 +1073,7 @@ def _pivot_paper_rows(rows: list[dict], primary_metric: str | None) -> dict:
     """
     # Collect metrics in order of first appearance; primary goes first
     seen_metrics: list[str] = list(dict.fromkeys(r["metric"] for r in rows if r.get("metric")))
-    if primary_metric and primary_metric in seen_metrics:
+    if primary_metric and primary_metric in seen_metrics or primary_metric:
         seen_metrics = [primary_metric] + [m for m in seen_metrics if m != primary_metric]
     elif not primary_metric and seen_metrics:
         primary_metric = seen_metrics[0]
@@ -906,6 +1152,15 @@ def _pivot_paper_rows(rows: list[dict], primary_metric: str | None) -> dict:
                 "value_gap_source_arxiv": primary_row.get("value_gap_source_arxiv", ""),
                 "value_gap_source_title": primary_row.get("value_gap_source_title", ""),
                 "value_note": primary_row.get("value_note", ""),
+                "at_pub_value": primary_row.get("at_pub_value"),
+                "at_pub_std": primary_row.get("at_pub_std"),
+                "at_pub_source_arxiv": primary_row.get("at_pub_source_arxiv", ""),
+                "at_pub_source_title": primary_row.get("at_pub_source_title", ""),
+                "at_pub_source_date_iso": primary_row.get("at_pub_source_date_iso", ""),
+                "value_gap_source_date_iso": primary_row.get("value_gap_source_date_iso", ""),
+                "gap_vs_at_pub": primary_row.get("gap_vs_at_pub"),
+                "worse_than_at_pub": primary_row.get("worse_than_at_pub", False),
+                "surpassed_since_pub": primary_row.get("surpassed_since_pub", False),
                 "arxiv_id": first.get("arxiv_id", ""),
                 "title": first.get("title", ""),
                 "published_venue": first.get("published_venue", ""),
@@ -1056,6 +1311,75 @@ def _global_ranks_cached(
             session, ds_name, primary_metric, higher_is_better
         )
     return _GLOBAL_RANKS_CACHE[cache_key]
+
+
+def _global_best_per_model_as_of_date(
+    session: Any,
+    ds_name: str,
+    metric: str,
+    higher_is_better: bool,
+    cutoff_iso: str,
+) -> dict[str, dict[str, Any]]:
+    """Best result per model on *metric* from papers published on or before *cutoff_iso*."""
+    cache_key = (ds_name, metric, higher_is_better, cutoff_iso or "")
+    if cache_key in _AT_PUB_MODEL_CACHE:
+        return _AT_PUB_MODEL_CACHE[cache_key]
+
+    all_res = (
+        session.query(Result)
+        .options(
+            joinedload(Result.model),
+            joinedload(Result.paper),
+            joinedload(Result.dataset_variant).joinedload(DatasetVariant.dataset),
+        )
+        .join(Result.dataset_variant)
+        .join(DatasetVariant.dataset)
+        .filter(Dataset.name == ds_name)
+        .filter(Result.metric_name == metric)
+        .filter(Result.is_problematic.is_(None) | (Result.is_problematic == 0))
+        .all()
+    )
+
+    model_best: dict[str, tuple[float, Any]] = {}
+    for r in all_res:
+        p = r.paper
+        if cutoff_iso:
+            pub = p.published_date[:10] if p and p.published_date else ""
+            if not pub or pub > cutoff_iso:
+                continue
+        model_key = _model_key(r.model.canonical_name if r.model else "")
+        if not model_key:
+            continue
+        v = float(r.display_value) if r.display_value is not None else None
+        if v is None:
+            continue
+        prev = model_best.get(model_key)
+        if (
+            prev is None
+            or (higher_is_better and v > prev[0])
+            or (not higher_is_better and v < prev[0])
+        ):
+            model_best[model_key] = (v, r)
+
+    truth_map: dict[str, dict[str, Any]] = {}
+    for model_key, (val, r) in model_best.items():
+        p = r.paper
+        rendered_name = _sanitize_model(
+            (r.model.canonical_name if r.model else "") or "",
+            p.arxiv_id if p else None,
+        )
+        truth_map[model_key] = {
+            "model": rendered_name,
+            "model_key": model_key,
+            "value": val,
+            "std": float(r.display_std) if r.display_std is not None else None,
+            "arxiv_id": p.arxiv_id if p else "",
+            "title": _sanitize_title(p.title if p else ""),
+            "date_iso": (p.published_date[:10] if p and p.published_date else ""),
+        }
+
+    _AT_PUB_MODEL_CACHE[cache_key] = truth_map
+    return truth_map
 
 
 def _dataset_export_metadata(session: Any, dataset_id: int) -> dict[str, Any]:
@@ -1336,6 +1660,7 @@ def _collect_model_value_mismatches(session: Any) -> list[dict[str, Any]]:
     truth_cache: dict[
         tuple[str, str, bool], tuple[dict[str, int], list[dict], dict[str, dict[str, Any]]]
     ] = {}
+    at_pub_cache: dict[tuple[str, str, bool, str], dict[str, dict[str, Any]]] = {}
     mismatches: list[dict[str, Any]] = []
 
     for result in results:
@@ -1383,6 +1708,54 @@ def _collect_model_value_mismatches(session: Any) -> list[dict[str, Any]]:
             )
         else:
             source_timing = "unknown"
+
+        at_pub_key = (ds.name, primary_metric, higher, paper_date_iso)
+        if at_pub_key not in at_pub_cache:
+            at_pub_cache[at_pub_key] = _global_best_per_model_as_of_date(
+                session, ds.name, primary_metric, higher, paper_date_iso
+            )
+        at_pub = at_pub_cache[at_pub_key].get(model_key, {})
+        at_pub_value = at_pub.get("value")
+        at_pub_std = at_pub.get("std")
+        at_pub_arxiv = at_pub.get("arxiv_id", "")
+        at_pub_date_iso = at_pub.get("date_iso", "")
+
+        worse_than_at_pub = False
+        surpassed_since_pub = False
+        gap_vs_at_pub = None
+        if paper_value is not None and at_pub_value is not None:
+            worse_than_at_pub = _is_value_worse_than(
+                float(paper_value),
+                float(at_pub_value),
+                higher,
+                paper_std,
+                at_pub_std,
+            )
+            if worse_than_at_pub:
+                gap_vs_at_pub = abs(float(paper_value) - float(at_pub_value))
+        if paper_value is not None and true_value is not None and not worse_than_at_pub:
+            surpassed_since_pub = _is_value_worse_than(
+                float(paper_value),
+                float(true_value),
+                higher,
+                paper_std,
+                truth.get("std"),
+            )
+
+        at_pub_arxiv_norm = (at_pub_arxiv or "").strip()
+        today_arxiv_norm = (source_arxiv_id or "").strip()
+        at_pub_differs_from_today = bool(
+            at_pub_arxiv_norm and today_arxiv_norm and at_pub_arxiv_norm != today_arxiv_norm
+        )
+        if at_pub_arxiv_norm and at_pub_arxiv_norm == paper.arxiv_id:
+            at_pub_timing = "same-paper"
+        elif at_pub_date_iso and paper_date_iso:
+            at_pub_timing = (
+                "already-known" if at_pub_date_iso <= paper_date_iso else "published-later"
+            )
+        else:
+            at_pub_timing = "unknown"
+
         mismatches.append(
             {
                 "arxiv_id": paper.arxiv_id,
@@ -1391,10 +1764,21 @@ def _collect_model_value_mismatches(session: Any) -> list[dict[str, Any]]:
                 "dataset": ds.name,
                 "metric": primary_metric,
                 "model": _sanitize_model(model.canonical_name, paper.arxiv_id),
+                "is_baseline": bool(result.is_baseline),
                 "paper_value": paper_value,
                 "paper_std": paper_std,
                 "true_value": true_value,
                 "true_std": truth.get("std"),
+                "at_pub_value": at_pub_value,
+                "at_pub_std": at_pub_std,
+                "at_pub_source_arxiv": at_pub_arxiv,
+                "at_pub_source_title": at_pub.get("title", ""),
+                "at_pub_source_date_iso": at_pub_date_iso,
+                "at_pub_timing": at_pub_timing,
+                "worse_than_at_pub": worse_than_at_pub,
+                "surpassed_since_pub": surpassed_since_pub,
+                "gap_vs_at_pub": gap_vs_at_pub,
+                "at_pub_differs_from_today": at_pub_differs_from_today,
                 "source_arxiv_id": source_arxiv_id,
                 "source_title": truth.get("title", ""),
                 "source_date_iso": source_date_iso,
@@ -1548,123 +1932,38 @@ def _export_paper_impl(session: Session, arxiv_id: str) -> bool:
     results_for_fm: list[dict] = []
     for ds, rows in sorted(result_groups.items()):
         meta = result_group_meta[ds]
-        primary_metric = meta["metric"]
-        higher = meta["higher_is_better"]
-        distinct_metrics = list(dict.fromkeys(r["metric"] for r in rows if r.get("metric")))
-
-        # Global ranking for this dataset (best result per model, all papers)
-        try:
-            model_to_rank, global_top_all, truth_map = _global_ranks_cached(
-                session, ds, primary_metric, higher
+        dataset_primary_metric = meta["metric"]
+        default_higher = meta["higher_is_better"]
+        paper_metrics = list(dict.fromkeys(r["metric"] for r in rows if r.get("metric")))
+        metric_caches = _paper_metric_global_caches(
+            session, ds, paper_metrics, rows, default_higher
+        )
+        paper_date_iso = paper.published_date[:10] if paper.published_date else ""
+        at_pub_maps = {
+            metric: _global_best_per_model_as_of_date(
+                session,
+                ds,
+                metric,
+                _higher_is_better_for_metric(rows, metric, default_higher),
+                paper_date_iso,
             )
-        except Exception as _exc:
-            logger.debug("Global rank lookup failed for %r: %s", ds, _exc)
-            model_to_rank, global_top_all, truth_map = {}, [], {}
+            for metric in paper_metrics
+        }
 
         for row in rows:
-            truth = truth_map.get(row.get("model_key", ""))
-            row["global_rank"] = model_to_rank.get(row.get("model_key", ""))
-            if row.get("metric") != primary_metric or not truth:
-                row["sort_value"] = row.get("value")
-                row["sort_std"] = row.get("std")
-                continue
-            row["true_value"] = truth.get("value")
-            row["true_std"] = truth.get("std")
-            row["value_gap_source_arxiv"] = truth.get("arxiv_id", "")
-            row["value_gap_source_title"] = truth.get("title", "")
-            row["value_gap_source_is_current_paper"] = truth.get("arxiv_id", "") == arxiv_id
-            row["has_value_gap"] = _has_paper_value_gap(
-                row.get("paper_value"),
-                row.get("paper_std"),
-                row.get("true_value"),
-                row.get("true_std"),
+            metric = row.get("metric") or ""
+            model_to_rank, global_top_all, truth_map, higher = metric_caches.get(
+                metric, ({}, [], {}, default_higher)
             )
-            row["has_value_note"] = False
-            row["value_gap"] = (
-                abs(row["paper_value"] - row["true_value"])
-                if _has_paper_value_difference(row.get("paper_value"), row.get("true_value"))
-                and row.get("paper_value") is not None
-                and row.get("true_value") is not None
-                else None
+            _enrich_paper_result_row(
+                row,
+                truth_map=truth_map,
+                model_to_rank=model_to_rank,
+                global_top_all=global_top_all,
+                arxiv_id=arxiv_id,
+                higher_is_better=higher,
+                at_pub_map=at_pub_maps.get(metric, {}),
             )
-            row["value_note"] = ""
-            row["paper_rank"] = _rank_for_value(
-                global_top_all,
-                row.get("model_key", ""),
-                row.get("paper_value"),
-                higher,
-            )
-            row["rank_delta"] = (
-                row["paper_rank"] - row["global_rank"]
-                if row.get("paper_rank") is not None and row.get("global_rank") is not None
-                else None
-            )
-            row["rank_delta_abs"] = (
-                abs(row["rank_delta"]) if row.get("rank_delta") is not None else None
-            )
-            if row.get("rank_delta") is not None:
-                if row["rank_delta"] < 0:
-                    row["rank_delta_direction"] = "better"
-                elif row["rank_delta"] > 0:
-                    row["rank_delta_direction"] = "worse"
-                else:
-                    row["rank_delta_direction"] = "same"
-            row["sort_value"] = row.get("true_value")
-            row["sort_std"] = row.get("true_std")
-
-            # Compute comparison context for the comparison column
-            paper_date = row.get("date_iso", "")
-            source_date = truth.get("date_iso", "")
-            paper_val = row.get("paper_value")
-            true_val = truth.get("value")
-            paper_std = row.get("paper_std")
-            true_std = truth.get("std")
-
-            if row.get("is_baseline") and paper_val is not None and true_val is not None:
-                # Compare this baseline against the global best
-                better_than_global = (higher and paper_val > true_val) or (
-                    not higher and paper_val < true_val
-                )
-                # Check if values overlap within std
-                delta = abs(paper_val - true_val)
-                std_overlap = (
-                    (delta <= (paper_std or 0) + (true_std or 0))
-                    if paper_std is not None or true_std is not None
-                    else (delta <= 1e-12)
-                )
-
-                if better_than_global:
-                    # This baseline improved over the previous global best
-                    row["comparison_type"] = "improved"
-                    row["comparison_source_title"] = truth.get("title", "")
-                    row["comparison_source_arxiv"] = truth.get("arxiv_id", "")
-                elif paper_date and source_date and source_date <= paper_date and std_overlap:
-                    # Same or overlapping result from an older paper
-                    row["comparison_type"] = "matches"
-                    row["comparison_source_title"] = truth.get("title", "")
-                    row["comparison_source_arxiv"] = truth.get("arxiv_id", "")
-                elif source_date and paper_date and source_date < paper_date:
-                    # The global best comes from an older paper — worse result
-                    row["comparison_type"] = "behind"
-                    row["comparison_source_title"] = truth.get("title", "")
-                    row["comparison_source_arxiv"] = truth.get("arxiv_id", "")
-                elif source_date and source_date > paper_date:
-                    # Future paper has the best result — this baseline was behind
-                    row["comparison_type"] = "behind"
-                    row["comparison_source_title"] = truth.get("title", "")
-                    row["comparison_source_arxiv"] = truth.get("arxiv_id", "")
-                else:
-                    row["comparison_type"] = None
-                    row["comparison_source_title"] = ""
-                    row["comparison_source_arxiv"] = ""
-            elif row.get("is_global_top"):
-                row["comparison_type"] = "global_top"
-                row["comparison_source_title"] = ""
-                row["comparison_source_arxiv"] = ""
-            else:
-                row["comparison_type"] = None
-                row["comparison_source_title"] = ""
-                row["comparison_source_arxiv"] = ""
 
         rows = _dedup_result_rows(
             rows,
@@ -1684,6 +1983,8 @@ def _export_paper_impl(session: Session, arxiv_id: str) -> bool:
                 "has_value_gap",
                 "has_value_note",
                 "value_gap_source_arxiv",
+                "worse_than_at_pub",
+                "surpassed_since_pub",
                 "rank_delta",
                 "comparison_type",
                 "comparison_source_title",
@@ -1691,26 +1992,33 @@ def _export_paper_impl(session: Session, arxiv_id: str) -> bool:
             ),
         )
 
-        if len(distinct_metrics) > 1:
-            pivoted = _pivot_paper_rows(rows, primary_metric)
+        rank_metric = (
+            dataset_primary_metric if dataset_primary_metric in paper_metrics else paper_metrics[0]
+        )
+        rank_model_to_rank, rank_global_top, _, rank_higher = metric_caches.get(
+            rank_metric, ({}, [], {}, default_higher)
+        )
+
+        if len(paper_metrics) > 1:
+            pivoted = _pivot_paper_rows(rows, dataset_primary_metric)
             pv_rows = pivoted["rows"]
             metrics_list = pivoted["metrics"]
 
-            # Attach global ranks to pivoted rows
             paper_models: set[str] = {pr.get("model_key", "") for pr in pv_rows}
             for pr in pv_rows:
-                pr["global_rank"] = model_to_rank.get(pr.get("model_key", ""))
+                pr["global_rank"] = _resolve_global_rank(
+                    pr, rank_model_to_rank, rank_global_top, rank_higher
+                )
 
-            # Inject up to 3 global-top models plus core baselines not in this paper
             extra_rows = [
                 _global_row_to_pivoted_extra(gr, len(metrics_list))
-                for gr in _select_global_context_rows(global_top_all, paper_models)
+                for gr in _select_global_context_rows(rank_global_top, paper_models)
             ]
 
             if extra_rows:
                 combined = pv_rows + extra_rows
 
-                def _pv_sort(r: dict, _hib: bool = higher) -> tuple:
+                def _pv_sort(r: dict, _hib: bool = rank_higher) -> tuple:
                     v = r.get("sort_value")
                     if v is None:
                         v = r["metric_values"][0] if r.get("metric_values") else None
@@ -1721,8 +2029,8 @@ def _export_paper_impl(session: Session, arxiv_id: str) -> bool:
                 combined.sort(key=_pv_sort)
                 _mark_is_best(
                     combined,
-                    primary_metric,
-                    higher,
+                    rank_metric,
+                    rank_higher,
                     lambda r: (
                         r.get("sort_value")
                         if r.get("sort_value") is not None
@@ -1765,6 +2073,9 @@ def _export_paper_impl(session: Session, arxiv_id: str) -> bool:
                 ),
             )
 
+            group_meta = _paper_dataset_export_meta(
+                dataset_primary_metric, paper_metrics, rank_metric
+            )
             results_for_fm.append(
                 {
                     "dataset": ds,
@@ -1772,13 +2083,20 @@ def _export_paper_impl(session: Session, arxiv_id: str) -> bool:
                     "rows": pv_rows,
                     "metrics": metrics_list,
                     "primary_metric": pivoted["primary_metric"],
-                    "higher_is_better": higher,
+                    "rank_metric": rank_metric,
+                    "higher_is_better": rank_higher,
                     "experiment_scope": _paper_experiment_scope(dataset_task_type.get(ds)),
+                    **group_meta,
                 }
             )
         else:
+            display_metric = paper_metrics[0]
+            display_model_to_rank, display_global_top, _, display_higher = metric_caches[
+                display_metric
+            ]
+            rows = [r for r in rows if r.get("metric") == display_metric]
 
-            def _row_sort_key(r: dict, _hib: bool = higher) -> tuple:
+            def _row_sort_key(r: dict, _hib: bool = display_higher) -> tuple:
                 v = r.get("sort_value")
                 if v is None:
                     v = r.get("value")
@@ -1788,11 +2106,9 @@ def _export_paper_impl(session: Session, arxiv_id: str) -> bool:
 
             rows.sort(key=_row_sort_key)
 
-            # Attach global ranks to paper rows
             paper_models = {r.get("model_key", "") for r in rows}
 
-            # Inject up to 3 global-top models plus core baselines not in this paper
-            extra_rows = _select_global_context_rows(global_top_all, paper_models)
+            extra_rows = _select_global_context_rows(display_global_top, paper_models)
 
             if extra_rows:
                 rows = rows + extra_rows
@@ -1825,8 +2141,8 @@ def _export_paper_impl(session: Session, arxiv_id: str) -> bool:
 
             _mark_is_best(
                 rows,
-                primary_metric,
-                higher,
+                display_metric,
+                display_higher,
                 lambda r: (
                     r.get("sort_value") if r.get("sort_value") is not None else r.get("value")
                 ),
@@ -1836,13 +2152,17 @@ def _export_paper_impl(session: Session, arxiv_id: str) -> bool:
                 rows,
                 lambda r: r.get("sort_std") if r.get("sort_std") is not None else r.get("std"),
             )
+            group_meta = _paper_dataset_export_meta(
+                dataset_primary_metric, paper_metrics, display_metric
+            )
             results_for_fm.append(
                 {
                     "dataset": ds,
                     "rows": rows,
-                    "metric": primary_metric,
-                    "higher_is_better": higher,
+                    "rank_metric": display_metric,
+                    "higher_is_better": display_higher,
                     "experiment_scope": _paper_experiment_scope(dataset_task_type.get(ds)),
+                    **group_meta,
                 }
             )
 

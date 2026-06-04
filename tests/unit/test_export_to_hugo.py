@@ -15,12 +15,15 @@ from backend.export_to_hugo import (
     _global_ranks_cached,
     _has_paper_value_difference,
     _has_paper_value_gap,
+    _is_value_worse_than,
     _normalize_conference,
     _normalize_model_family,
+    _paper_dataset_export_meta,
     _plain_core_baseline_kind,
     _plain_model,
     _publication_year,
     _rank_for_value,
+    _resolve_global_rank,
     _sanitize_model,
     _sanitize_title,
     _select_global_context_rows,
@@ -56,6 +59,75 @@ def test_value_gap_respects_reported_uncertainty():
     assert not _has_paper_value_gap(None, None, 0.8, None)
     assert _has_paper_value_difference(0.81, 0.8)
     assert not _has_paper_value_difference(0.8, 0.8 + 1e-13)
+
+
+def test_collect_model_value_mismatches_includes_at_pub_fields():
+    from backend.db import session_scope
+    from backend.export_to_hugo import _collect_model_value_mismatches, clear_export_caches
+
+    clear_export_caches()
+    with session_scope() as session:
+        rows = _collect_model_value_mismatches(session)
+    if not rows:
+        return
+    row = rows[0]
+    for key in (
+        "at_pub_value",
+        "at_pub_source_arxiv",
+        "worse_than_at_pub",
+        "surpassed_since_pub",
+        "at_pub_differs_from_today",
+    ):
+        assert key in row
+
+
+def test_is_value_worse_than_respects_std_overlap():
+    assert _is_value_worse_than(0.80, 0.81, True, 0.02, 0.02) is False
+    assert _is_value_worse_than(0.70, 0.81, True) is True
+
+
+def test_paper_dataset_export_meta_flags_non_primary_metric():
+    meta = _paper_dataset_export_meta("Micro-F1", ["Accuracy"], "Accuracy")
+    assert meta["uses_non_primary_metric"] is True
+    assert meta["paper_has_primary_metric"] is False
+    assert meta["metric"] == "Accuracy"
+    assert meta["dataset_primary_metric"] == "Micro-F1"
+
+
+def test_resolve_global_rank_uses_leaderboard_or_value_fallback():
+    global_rows = [
+        {"model_key": "gcn", "value": 0.8},
+        {"model_key": "gin", "value": 0.75},
+    ]
+    model_to_rank = {"gcn": 1, "gin": 2}
+
+    assert (
+        _resolve_global_rank(
+            {"model_key": "gcn", "sort_value": 0.7},
+            model_to_rank,
+            global_rows,
+            True,
+        )
+        == 1
+    )
+    assert (
+        _resolve_global_rank(
+            {"model_key": "coe", "sort_value": 0.77},
+            model_to_rank,
+            global_rows,
+            True,
+        )
+        == 2
+    )
+    assert (
+        _resolve_global_rank(
+            {"model_key": "coe", "value": 0.77},
+            {},
+            global_rows,
+            True,
+        )
+        == 2
+    )
 
 
 def test_rank_for_value_replaces_existing_model_and_inserts_new_one():

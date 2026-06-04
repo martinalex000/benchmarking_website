@@ -1,0 +1,20 @@
+{{/*
+  Metric context banner for paper-page dataset tables.
+  Context: group dict with dataset_primary_metric, metric, paper_metrics,
+  uses_non_primary_metric, paper_has_primary_metric, is_multi_metric
+*/}}
+{{ $g := .group }}
+{{ $default := $g.dataset_primary_metric | default $g.primary_metric }}
+{{ $display := $g.metric | default $g.primary_metric }}
+{{ if $g.uses_non_primary_metric }}
+<div class="paper-metric-alert paper-metric-alert-warning" role="status">
+  <strong>Non-default metric.</strong>
+  This paper reports <span class="paper-metric-em">{{ $display }}</span>;
+  the dataset default is <span class="paper-metric-em">{{ $default }}</span>.
+  Values below use <span class="paper-metric-em">{{ $display }}</span> only.
+</div>
+{{ else if $g.is_multi_metric }}
+<div class="paper-metric-alert paper-metric-alert-info" role="status">
+  Dataset default metric: <span class="paper-metric-em">{{ $default }}</span>
+</div>
+{{ end }}

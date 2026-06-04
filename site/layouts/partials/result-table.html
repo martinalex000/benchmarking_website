@@ -45,7 +45,9 @@
     </thead>
     <tbody>
         {{ range $i, $r := $results }}
-        <tr class="result-row {{ if $r.is_baseline }}row-baseline{{ else }}row-proposed{{ end }} {{ if $r.is_overridden }}row-overridden{{ end }}{{ if $r.is_best }} row-best{{ end }}{{ if eq $i 0 }} row-current-sota{{ end }}{{ if $r.is_global_top }} row-global-top{{ end }}{{ if and (gt $collapseAfter 0) (ge $i $collapseAfter) }} row-collapsed{{ end }}"
+        {{ $rowUnderperforming := $r.worse_than_at_pub }}
+        {{ $rowSurpassedSince := and (not $r.worse_than_at_pub) $r.surpassed_since_pub }}
+        <tr class="result-row {{ if $r.is_baseline }}row-baseline{{ else }}row-proposed{{ end }} {{ if $r.is_overridden }}row-overridden{{ end }}{{ if $r.is_best }} row-best{{ end }}{{ if eq $i 0 }} row-current-sota{{ end }}{{ if $r.is_global_top }} row-global-top{{ end }}{{ if and $paperPage $rowUnderperforming }} row-underperforming{{ end }}{{ if and $paperPage $rowSurpassedSince }} row-surpassed-since{{ end }}{{ if and (gt $collapseAfter 0) (ge $i $collapseAfter) }} row-collapsed{{ end }}"
           data-model="{{ $r.model_plain | default $r.model }}"
           data-value="{{ $r.sort_value | default $r.value }}"
           data-std="{{ $r.std }}"
@@ -55,13 +57,13 @@
           data-architecture="{{ $r.architecture_type }}"
           data-external-data="{{ if $r.uses_external_data }}1{{ else if eq $r.uses_external_data false }}0{{ end }}"
           data-has-code="{{ if $r.codebase_url }}1{{ else }}0{{ end }}">
-        <td class="col-rank">{{ if $r.global_rank }}{{ $r.global_rank }}{{ else }}{{ add $i 1 }}{{ end }}</td>
+        <td class="col-rank">{{ with $r.global_rank }}{{ . }}{{ else }}—{{ end }}</td>
         <td class="col-model">
           {{ if $paperPage }}
           <div class="leaderboard-entry-head">
             <div class="leaderboard-entry-main">
               <div class="leaderboard-model-name">
-                {{ if and $r.is_global_top $r.arxiv_id }}<a href="{{ printf "papers/%s/" $r.arxiv_id | relURL }}" title="{{ $r.title }}">{{ $r.model | safeHTML }}</a>{{ else }}{{ $r.model | safeHTML }}{{ end }}
+                {{ $r.model | safeHTML }}
               </div>
               <div class="leaderboard-entry-meta">
                 <div class="leaderboard-badges">
@@ -69,6 +71,7 @@
                   {{ if $r.uses_external_data }}<span class="mini-badge mini-badge-external" title="Uses external data during training">ext data</span>{{ end }}
                   {{ partial "architecture-badge.html" $r }}
                   {{ if $r.params_millions }}<span class="mini-badge mini-badge-neutral">{{ printf "%.1fM" $r.params_millions }}</span>{{ end }}
+                  {{ if $r.is_global_top }}<span class="mini-badge mini-badge-global" title="Top-ranked globally — from another paper">global</span>{{ end }}
                   {{ if $r.is_overridden }}<span class="override-badge" title="{{ $r.override_reason }}">✎</span>{{ end }}
                   {{ if not $r.is_global_top }}{{ if $r.is_baseline }}<span class="tag-baseline">baseline</span>{{ else }}<span class="tag-proposed">★ proposed</span>{{ end }}{{ end }}
                 </div>
@@ -78,12 +81,14 @@
           {{ else }}
           <div class="leaderboard-badge-row">
             <div class="model-name-link">
-              {{ if and $r.is_global_top $r.arxiv_id }}<a href="{{ printf "papers/%s/" $r.arxiv_id | relURL }}" title="{{ $r.title }}">{{ $r.model | safeHTML }}</a>{{ else }}{{ $r.model | safeHTML }}{{ end }}
-              {{ if $r.is_global_top }}<span class="global-top-badge" title="Top-ranked globally — from another paper">global</span>{{ end }}
+              {{ if and (not $showPaperCol) $r.is_global_top $r.arxiv_id }}<a href="{{ printf "papers/%s/" $r.arxiv_id | relURL }}" title="{{ $r.title }}">{{ $r.model | safeHTML }}</a>{{ else }}{{ $r.model | safeHTML }}{{ end }}
+              {{ if $r.is_global_top }}<span class="mini-badge mini-badge-global" title="Top-ranked globally — from another paper">global</span>{{ end }}
               {{ if $r.is_overridden }}<span class="override-badge" title="{{ $r.override_reason }}">✎</span>{{ end }}
             </div>
             <div class="leaderboard-badge-list">
-              {{ if $r.is_global_top }}<a class="mini-badge mini-badge-code" href="{{ printf "papers/%s/" $r.arxiv_id | relURL }}" title="{{ $r.title }}">global #{{ $r.global_rank }}</a>{{ end }}
+              {{ if $r.is_global_top }}
+              {{ if $showPaperCol }}<span class="mini-badge mini-badge-neutral" title="{{ $r.title }}">global #{{ $r.global_rank }}</span>{{ else }}<a class="mini-badge mini-badge-code" href="{{ printf "papers/%s/" $r.arxiv_id | relURL }}" title="{{ $r.title }}">global #{{ $r.global_rank }}</a>{{ end }}
+              {{ end }}
               {{ if $r.codebase_url }}<a class="mini-badge mini-badge-code" href="{{ $r.codebase_url }}" target="_blank" rel="noopener" title="Code available">code</a>{{ end }}
               {{ if $r.uses_external_data }}<span class="mini-badge mini-badge-external" title="Uses external data during training">ext-data</span>{{ end }}
               {{ partial "architecture-badge.html" $r }}
@@ -92,13 +97,11 @@
             </div>
           </div>
           {{ end }}
-          {{ if and $paperPage (not $r.is_global_top) $r.comparison_type }}
-          <div class="model-comparison-meta">
-            {{ partial "paper-table-comparison-meta.html" (dict "row" $r) }}
-          </div>
-          {{ end }}
           {{ if $r.has_value_gap }}
           <div class="model-discrepancy-meta">
+            {{ if $paperPage }}
+            {{ partial "paper-table-model-gap-meta.html" (dict "row" $r) }}
+            {{ else }}
             {{ if and $r.value_gap_source_title $r.value_gap_source_arxiv (not $r.value_gap_source_is_current_paper) }}
             <a class="model-source-paper" href="{{ printf "papers/%s/" $r.value_gap_source_arxiv | relURL }}" title="Actual result source">{{ $r.value_gap_source_title }}</a>
             {{ else if $r.value_gap_source_title }}
@@ -116,11 +119,14 @@
               {{ end }}
             </div>
             {{ end }}
+            {{ end }}
           </div>
           {{ end }}
         </td>
         <td class="col-value{{ if $paperPage }} col-primary{{ end }}{{ if $r.has_value_gap }} col-value-gap{{ end }}{{ if $r.has_value_note }} col-value-note{{ end }}">
-          {{ if $r.has_value_gap }}
+          {{ if and $paperPage $r.has_value_gap }}
+            {{ partial "paper-table-value-cell.html" (dict "row" $r) }}
+          {{ else if $r.has_value_gap }}
           <div class="value-gap-block">
              <div class="value-gap-true">actual {{ printf "%.4f" $r.true_value }}{{ if $r.true_std }} <span class="inline-std{{ if $r.is_std_outlier }} inline-std-outlier{{ end }}">±{{ printf "%.4f" $r.true_std }}</span>{{ end }}</div>
              <div class="value-gap-paper">paper {{ printf "%.4f" $r.value }}{{ if $r.std }} <span class="inline-std{{ if $r.is_std_outlier }} inline-std-outlier{{ end }}">±{{ printf "%.4f" $r.std }}</span>{{ end }}</div>

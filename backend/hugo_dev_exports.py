@@ -456,7 +456,34 @@ def _create_dev_pages_impl(session: Session, hugo: Any, content_dev: Any) -> int
         with _dev_export_step("dev page: page-of-shame"):
             mismatches = hugo._collect_model_value_mismatches(session)
         by_paper: dict[str, dict[str, Any]] = {}
+        shame_counts = {
+            "worse_than_at_pub": 0,
+            "surpassed_since_pub_only": 0,
+            "at_pub_differs_from_today": 0,
+            "at_pub_same_as_today": 0,
+            "baseline_rows": 0,
+        }
+        today_timing_counts = {
+            "already-known": 0,
+            "published-later": 0,
+            "same-paper": 0,
+            "unknown": 0,
+        }
         for item in mismatches:
+            if item.get("is_baseline"):
+                shame_counts["baseline_rows"] += 1
+            if item.get("worse_than_at_pub"):
+                shame_counts["worse_than_at_pub"] += 1
+            elif item.get("surpassed_since_pub"):
+                shame_counts["surpassed_since_pub_only"] += 1
+            if item.get("at_pub_differs_from_today"):
+                shame_counts["at_pub_differs_from_today"] += 1
+            elif (item.get("at_pub_source_arxiv") or "").strip() and (
+                item.get("at_pub_source_arxiv") or ""
+            ).strip() == (item.get("source_arxiv_id") or "").strip():
+                shame_counts["at_pub_same_as_today"] += 1
+            today_timing_counts[item.get("source_timing") or "unknown"] += 1
+
             bucket = by_paper.setdefault(
                 item["arxiv_id"],
                 {
@@ -466,6 +493,9 @@ def _create_dev_pages_impl(session: Session, hugo: Any, content_dev: Any) -> int
                     "already_known_rows": 0,
                     "published_later_rows": 0,
                     "unknown_timing_rows": 0,
+                    "worse_than_at_pub_rows": 0,
+                    "surpassed_since_pub_rows": 0,
+                    "at_pub_differs_rows": 0,
                     "datasets": set(),
                     "models": set(),
                 },
@@ -482,18 +512,16 @@ def _create_dev_pages_impl(session: Session, hugo: Any, content_dev: Any) -> int
                 bucket["published_later_rows"] += 1
             elif item.get("source_timing") == "unknown":
                 bucket["unknown_timing_rows"] += 1
+            if item.get("worse_than_at_pub"):
+                bucket["worse_than_at_pub_rows"] += 1
+            elif item.get("surpassed_since_pub"):
+                bucket["surpassed_since_pub_rows"] += 1
+            if item.get("at_pub_differs_from_today"):
+                bucket["at_pub_differs_rows"] += 1
 
         by_dataset: dict[str, dict[str, Any]] = {}
         by_model: dict[str, dict[str, Any]] = {}
-        timing_counts = {
-            "already-known": 0,
-            "published-later": 0,
-            "same-paper": 0,
-            "unknown": 0,
-        }
         for item in mismatches:
-            timing_counts[item.get("source_timing") or "unknown"] += 1
-
             dataset_bucket = by_dataset.setdefault(
                 item["dataset"],
                 {
@@ -502,6 +530,8 @@ def _create_dev_pages_impl(session: Session, hugo: Any, content_dev: Any) -> int
                     "models": set(),
                     "worst_rank_delta": 0,
                     "already_known_rows": 0,
+                    "worse_than_at_pub_rows": 0,
+                    "surpassed_since_pub_rows": 0,
                 },
             )
             dataset_bucket["rows"] += 1
@@ -512,6 +542,10 @@ def _create_dev_pages_impl(session: Session, hugo: Any, content_dev: Any) -> int
             )
             if item.get("source_timing") == "already-known":
                 dataset_bucket["already_known_rows"] += 1
+            if item.get("worse_than_at_pub"):
+                dataset_bucket["worse_than_at_pub_rows"] += 1
+            elif item.get("surpassed_since_pub"):
+                dataset_bucket["surpassed_since_pub_rows"] += 1
 
             model_bucket = by_model.setdefault(
                 item["model"],
@@ -521,6 +555,8 @@ def _create_dev_pages_impl(session: Session, hugo: Any, content_dev: Any) -> int
                     "datasets": set(),
                     "worst_rank_delta": 0,
                     "already_known_rows": 0,
+                    "worse_than_at_pub_rows": 0,
+                    "surpassed_since_pub_rows": 0,
                 },
             )
             model_bucket["rows"] += 1
@@ -531,6 +567,10 @@ def _create_dev_pages_impl(session: Session, hugo: Any, content_dev: Any) -> int
             )
             if item.get("source_timing") == "already-known":
                 model_bucket["already_known_rows"] += 1
+            if item.get("worse_than_at_pub"):
+                model_bucket["worse_than_at_pub_rows"] += 1
+            elif item.get("surpassed_since_pub"):
+                model_bucket["surpassed_since_pub_rows"] += 1
 
         paper_rows = sorted(
             [
@@ -542,6 +582,9 @@ def _create_dev_pages_impl(session: Session, hugo: Any, content_dev: Any) -> int
                     "already_known_rows": info["already_known_rows"],
                     "published_later_rows": info["published_later_rows"],
                     "unknown_timing_rows": info["unknown_timing_rows"],
+                    "worse_than_at_pub_rows": info["worse_than_at_pub_rows"],
+                    "surpassed_since_pub_rows": info["surpassed_since_pub_rows"],
+                    "at_pub_differs_rows": info["at_pub_differs_rows"],
                     "datasets": sorted(info["datasets"]),
                     "models": sorted(info["models"]),
                 }
@@ -559,6 +602,8 @@ def _create_dev_pages_impl(session: Session, hugo: Any, content_dev: Any) -> int
                     "model_count": len(info["models"]),
                     "worst_rank_delta": info["worst_rank_delta"],
                     "already_known_rows": info["already_known_rows"],
+                    "worse_than_at_pub_rows": info["worse_than_at_pub_rows"],
+                    "surpassed_since_pub_rows": info["surpassed_since_pub_rows"],
                 }
                 for name, info in by_dataset.items()
             ],
@@ -573,23 +618,57 @@ def _create_dev_pages_impl(session: Session, hugo: Any, content_dev: Any) -> int
                     "dataset_count": len(info["datasets"]),
                     "worst_rank_delta": info["worst_rank_delta"],
                     "already_known_rows": info["already_known_rows"],
+                    "worse_than_at_pub_rows": info["worse_than_at_pub_rows"],
+                    "surpassed_since_pub_rows": info["surpassed_since_pub_rows"],
                 }
                 for name, info in by_model.items()
             ],
             key=lambda item: (-item["rows"], -item["worst_rank_delta"], item["model"]),
         )
 
+        def _shame_source_link(arxiv_id: str, title: str, word_limit: int = 8) -> str:
+            if arxiv_id:
+                return hugo._paper_site_link(arxiv_id, hugo._truncate_words(title, word_limit))
+            return hugo._truncate_words(title, word_limit) if title else "—"
+
         lines = [
             "## Page of Shame: Papers Using Wrong Model Values",
             "",
-            "This page lists papers whose reported primary-metric value for a model disagrees with the stored global benchmark value by more than the reported std, or differs at all when no std is given.",
+            "This page lists papers whose reported primary-metric value for a model disagrees with "
+            "**true performance** (today's global best on the leaderboard) by more than the reported "
+            "std, or differs at all when no std is given.",
             "",
-            f"**Flagged papers:** {len(paper_rows)}",
-            f"**Flagged rows:** {len(mismatches)}",
-            f"**Rows where a better value was already known at publication time:** {timing_counts['already-known']}",
-            f"**Rows whose current best source is from a later paper:** {timing_counts['published-later']}",
-            f"**Rows whose current best source is the same paper:** {timing_counts['same-paper']}",
-            f"**Rows with unknown timing:** {timing_counts['unknown']}",
+            "Each row also compares against the **best known at publication** (best result for that "
+            "model on or before the viewing paper's publish date). That split matches the paper pages:",
+            "",
+            "- **Behind at publication** — reported value was already worse than the best known when "
+            "the paper came out (fair criticism; red on paper pages).",
+            "- **Surpassed since publication only** — OK vs the at-publication best, but the field "
+            "moved on and true performance today is better (orange on paper pages).",
+            "- **True performance** — current leaderboard best (used for rank and the green value).",
+            "",
+            "### Summary",
+            "",
+            "| Statistic | Count |",
+            "|---|---:|",
+            f"| Flagged papers | {len(paper_rows)} |",
+            f"| Flagged rows | {len(mismatches)} |",
+            f"| Baseline rows | {shame_counts['baseline_rows']} |",
+            f"| Behind at publication | {shame_counts['worse_than_at_pub']} |",
+            f"| Surpassed since pub only (not behind at pub) | {shame_counts['surpassed_since_pub_only']} |",
+            f"| At-pub best ≠ today's best (different source papers) | {shame_counts['at_pub_differs_from_today']} |",
+            f"| At-pub best = today's best (same source paper) | {shame_counts['at_pub_same_as_today']} |",
+            "",
+            "### Today's best source timing",
+            "",
+            "When the **true performance** holder published relative to the viewing paper:",
+            "",
+            "| Timing | Rows |",
+            "|---|---:|",
+            f"| Already known at publication | {today_timing_counts['already-known']} |",
+            f"| Published later (field moved on) | {today_timing_counts['published-later']} |",
+            f"| Same paper | {today_timing_counts['same-paper']} |",
+            f"| Unknown date | {today_timing_counts['unknown']} |",
             "",
         ]
         if dataset_rows:
@@ -597,13 +676,13 @@ def _create_dev_pages_impl(session: Session, hugo: Any, content_dev: Any) -> int
                 [
                     "### Most affected datasets",
                     "",
-                    "| Dataset | Wrong Rows | Papers | Models | Worst Rank Shift | Earlier-known Rows |",
-                    "|---|---:|---:|---:|---:|---:|",
+                    "| Dataset | Wrong Rows | Behind@pub | Surpassed only | Papers | Models | Worst Rank Δ |",
+                    "|---|---:|---:|---:|---:|---:|---:|",
                 ]
             )
             for item in dataset_rows[:25]:
                 lines.append(
-                    f"| {item['dataset']} | {item['rows']} | {item['paper_count']} | {item['model_count']} | {item['worst_rank_delta']} | {item['already_known_rows']} |"
+                    f"| {item['dataset']} | {item['rows']} | {item['worse_than_at_pub_rows']} | {item['surpassed_since_pub_rows']} | {item['paper_count']} | {item['model_count']} | {item['worst_rank_delta']} |"
                 )
             lines.append("")
         if model_rows:
@@ -611,50 +690,57 @@ def _create_dev_pages_impl(session: Session, hugo: Any, content_dev: Any) -> int
                 [
                     "### Most affected models",
                     "",
-                    "| Model | Wrong Rows | Papers | Datasets | Worst Rank Shift | Earlier-known Rows |",
-                    "|---|---:|---:|---:|---:|---:|",
+                    "| Model | Wrong Rows | Behind@pub | Surpassed only | Papers | Datasets | Worst Rank Δ |",
+                    "|---|---:|---:|---:|---:|---:|---:|",
                 ]
             )
             for item in model_rows[:25]:
                 lines.append(
-                    f"| {item['model']} | {item['rows']} | {item['paper_count']} | {item['dataset_count']} | {item['worst_rank_delta']} | {item['already_known_rows']} |"
+                    f"| {item['model']} | {item['rows']} | {item['worse_than_at_pub_rows']} | {item['surpassed_since_pub_rows']} | {item['paper_count']} | {item['dataset_count']} | {item['worst_rank_delta']} |"
                 )
             lines.append("")
         if paper_rows:
             lines.append(
-                "| ArXiv | Title | Wrong Rows | Earlier-known Rows | Worst Rank Shift | Datasets | Models |"
+                "| ArXiv | Title | Wrong Rows | Behind@pub | Surpassed only | Diff sources | Worst Rank Δ | Datasets | Models |"
             )
-            lines.append("|---|---|---:|---:|---:|---|---|")
+            lines.append("|---|---|---:|---:|---:|---:|---:|---|---|")
             for item in paper_rows:
                 lines.append(
-                    f"| {hugo._paper_site_link(item['arxiv_id'])} | {hugo._paper_site_link(item['arxiv_id'], hugo._truncate_words(item['title'], 10))} | {item['rows']} | {item['already_known_rows']} | {item['worst_rank_delta']} | {', '.join(item['datasets'][:4])} | {', '.join(item['models'][:4])} |"
+                    f"| {hugo._paper_site_link(item['arxiv_id'])} | {hugo._paper_site_link(item['arxiv_id'], hugo._truncate_words(item['title'], 10))} | {item['rows']} | {item['worse_than_at_pub_rows']} | {item['surpassed_since_pub_rows']} | {item['at_pub_differs_rows']} | {item['worst_rank_delta']} | {', '.join(item['datasets'][:4])} | {', '.join(item['models'][:4])} |"
                 )
 
         lines.extend(["", "### Flagged Rows", ""])
         if mismatches:
             lines.append(
-                "| ArXiv | Dataset | Model | Actual | Paper | Rank Shift | Actual Source | Timing |"
+                "| ArXiv | Dataset | Model | True perf | At-pub best | Paper | Behind@pub | Surpassed | At-pub source | Best today | Rank Δ |"
             )
-            lines.append("|---|---|---|---:|---:|---:|---|---|")
+            lines.append("|---|---|---|---:|---:|---:|---|---|---|---:|")
             for item in mismatches[:500]:
-                if item.get("source_timing") == "already-known":
-                    timing_label = f"already known ({item.get('source_date_iso') or 'date?'})"
-                elif item.get("source_timing") == "published-later":
-                    timing_label = f"published later ({item.get('source_date_iso') or 'date?'})"
-                elif item.get("source_timing") == "same-paper":
-                    timing_label = "same paper"
-                else:
-                    timing_label = "date unknown"
-                source_link = (
-                    hugo._paper_site_link(
-                        item.get("source_arxiv_id", ""),
-                        hugo._truncate_words(item["source_title"], 8),
-                    )
-                    if item.get("source_arxiv_id")
-                    else hugo._truncate_words(item["source_title"], 8)
+                at_pub_val = item.get("at_pub_value")
+                at_pub_cell = f"{at_pub_val:.4f}" if at_pub_val is not None else "—"
+                behind_label = "yes" if item.get("worse_than_at_pub") else "no"
+                surpassed_label = (
+                    "yes"
+                    if item.get("surpassed_since_pub") and not item.get("worse_than_at_pub")
+                    else "no"
                 )
+                at_pub_link = _shame_source_link(
+                    item.get("at_pub_source_arxiv", ""),
+                    item.get("at_pub_source_title", ""),
+                )
+                today_link = _shame_source_link(
+                    item.get("source_arxiv_id", ""),
+                    item.get("source_title", ""),
+                )
+                if item.get("at_pub_differs_from_today"):
+                    today_link = f"{today_link} *"
                 lines.append(
-                    f"| {hugo._paper_site_link(item['arxiv_id'])} | {item['dataset']} | {item['model']} | {item['true_value']:.4f} | {item['paper_value']:.4f} | {abs(item.get('rank_delta') or 0)} | {source_link} | {timing_label} |"
+                    f"| {hugo._paper_site_link(item['arxiv_id'])} | {item['dataset']} | {item['model']} | {item['true_value']:.4f} | {at_pub_cell} | {item['paper_value']:.4f} | {behind_label} | {surpassed_label} | {at_pub_link} | {today_link} | {abs(item.get('rank_delta') or 0)} |"
+                )
+            if any(item.get("at_pub_differs_from_today") for item in mismatches[:500]):
+                lines.append("")
+                lines.append(
+                    "*Today's best source differs from the at-publication best for that model."
                 )
 
         hugo._write_md(
@@ -662,7 +748,7 @@ def _create_dev_pages_impl(session: Session, hugo: Any, content_dev: Any) -> int
             {
                 "title": "Page of Shame",
                 "type": "dev",
-                "description": "Papers whose reported model values materially disagree with the stored benchmark values",
+                "description": "Papers whose reported model values disagree with true performance (today) and at-publication bests",
             },
             "\n".join(lines),
         )

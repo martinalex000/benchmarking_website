@@ -1,11 +1,58 @@
 {{/* Context: row dict .row */}}
 {{ $r := .row }}
-{{ if $r.is_global_top }}
+{{ $atPubArxiv := $r.at_pub_source_arxiv | default "" }}
+{{ $todayArxiv := $r.value_gap_source_arxiv | default "" }}
+{{ $bestDiffersFromAtPub := and $r.value_gap_source_title $atPubArxiv $todayArxiv (ne $atPubArxiv $todayArxiv) }}
+{{ $atPubYear := "" }}
+{{ with $r.at_pub_source_date_iso }}
+  {{ if ge (len .) 4 }}{{ $atPubYear = slicestr . 0 4 }}{{ end }}
+{{ end }}
+{{ $todayYear := "" }}
+{{ with $r.value_gap_source_date_iso }}
+  {{ if ge (len .) 4 }}{{ $todayYear = slicestr . 0 4 }}{{ end }}
+{{ end }}
+{{ if $r.has_value_gap }}
+<div class="paper-cell-gap">
+  {{ if $r.at_pub_source_title }}
+  <div class="paper-gap-comparison">
+    <span class="comparison-behind" title="Best known at this paper's publication date{{ with $atPubYear }} ({{ . }}){{ end }}">behind <span class="comparison-source">{{ if $r.at_pub_source_arxiv }}<a href="{{ printf "papers/%s/" $r.at_pub_source_arxiv | relURL }}" title="{{ $r.at_pub_source_title }}{{ with $atPubYear }} ({{ . }}){{ end }}">{{ $r.at_pub_source_title | truncate 25 }}</a>{{ else }}{{ $r.at_pub_source_title | truncate 25 }}{{ end }}</span>{{ with $atPubYear }} ({{ . }}){{ end }}</span>
+  </div>
+  {{ end }}
+  {{ if $bestDiffersFromAtPub }}
+  <div class="paper-gap-comparison paper-gap-comparison-today">
+    <span class="comparison-surpassed" title="Best on the leaderboard today from a different paper{{ with $todayYear }} ({{ . }}){{ end }}">best <span class="comparison-source"><a href="{{ printf "papers/%s/" $r.value_gap_source_arxiv | relURL }}" title="{{ $r.value_gap_source_title }}{{ with $todayYear }} ({{ . }}){{ end }}">{{ $r.value_gap_source_title | truncate 25 }}</a></span>{{ with $todayYear }} ({{ . }}){{ end }}</span>
+  </div>
+  {{ end }}
+  <div class="paper-gap-reported-meta">
+    {{ $paperVal := $r.paper_value }}
+    {{ $paperStd := $r.paper_std }}
+    {{ if eq $paperVal nil }}
+      {{ $paperVal = index $r.metric_values 0 }}
+      {{ $paperStd = index $r.metric_stds 0 }}
+    {{ end }}
+    <span class="paper-gap-reported">paper {{ printf "%.4f" $paperVal }}{{ with $paperStd }} <span class="inline-std{{ if $r.is_std_outlier }} inline-std-outlier{{ end }}">±{{ printf "%.4f" . }}</span>{{ end }}</span>
+    {{ with $r.gap_vs_at_pub }}
+    {{ if $r.worse_than_at_pub }}
+    <span class="paper-gap-delta paper-gap-delta-at-pub">Δ at pub {{ printf "%.4f" . }}</span>
+    {{ end }}
+    {{ end }}
+    {{ with $r.value_gap }}
+    {{ if $bestDiffersFromAtPub }}
+    <span class="paper-gap-delta paper-gap-delta-today">Δ today {{ printf "%.4f" . }}</span>
+    {{ end }}
+    {{ end }}
+  </div>
+</div>
+{{ else if $r.is_global_top }}
 <div class="paper-cell-row">
   <div class="paper-title-wrap">
     {{ if $r.arxiv_id }}<a class="paper-title-link" href="{{ printf "papers/%s/" $r.arxiv_id | relURL }}" title="arXiv:{{ $r.arxiv_id }}{{ with $r.title }} — {{ . }}{{ end }}">{{ if $r.title }}{{ $r.title | truncate 96 }}{{ else }}arXiv:{{ $r.arxiv_id }}{{ end }}</a>{{ else }}—{{ end }}
     {{ if $r.codebase_url }}<a class="paper-code-link" href="{{ $r.codebase_url }}" target="_blank" rel="noopener">code ↗</a>{{ end }}
   </div>
+</div>
+{{ else if and $r.comparison_type (ne $r.comparison_type "global_top") (ne $r.comparison_type "matches") }}
+<div class="paper-cell-comparison">
+  {{ partial "paper-table-comparison-meta.html" (dict "row" $r) }}
 </div>
 {{ else }}
 <span class="paper-source-this" title="Result reported in this paper">This paper</span>

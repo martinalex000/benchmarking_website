@@ -1,0 +1,14 @@
+{{/* Rank delta only — value-gap source link lives in the Paper column. Context: .row */}}
+{{ $r := .row }}
+{{ if and $r.global_rank $r.paper_rank }}
+<div class="rank-delta-note">
+  actual #{{ $r.global_rank }}
+  <span class="rank-delta-sep">vs</span>
+  paper #{{ $r.paper_rank }}
+  {{ if and $r.rank_delta_abs (gt $r.rank_delta_abs 0) }}
+  <span class="rank-delta-badge rank-delta-{{ $r.rank_delta_direction }}">
+    {{ $r.rank_delta_abs }} place{{ if ne $r.rank_delta_abs 1 }}s{{ end }} {{ $r.rank_delta_direction }}
+  </span>
+  {{ end }}
+</div>
+{{ end }}

@@ -3,8 +3,6 @@
 {{ if and $r.comparison_type (ne $r.comparison_type "global_top") }}
 {{ if eq $r.comparison_type "improved" }}
 <span class="comparison-improved" title="Improved over previous result">improved <span class="comparison-source">{{ if $r.comparison_source_arxiv }}<a href="{{ printf "papers/%s/" $r.comparison_source_arxiv | relURL }}" title="{{ $r.comparison_source_title }}">{{ $r.comparison_source_title | truncate 25 }}</a>{{ else }}{{ $r.comparison_source_title | truncate 25 }}{{ end }}</span></span>
-{{ else if eq $r.comparison_type "matches" }}
-<span class="comparison-matches" title="Matches result from older paper">matches <span class="comparison-source">{{ if $r.comparison_source_arxiv }}<a href="{{ printf "papers/%s/" $r.comparison_source_arxiv | relURL }}" title="{{ $r.comparison_source_title }}">{{ $r.comparison_source_title | truncate 25 }}</a>{{ else }}{{ $r.comparison_source_title | truncate 25 }}{{ end }}</span></span>
 {{ else if eq $r.comparison_type "behind" }}
 <span class="comparison-behind" title="Worse than previous result">behind <span class="comparison-source">{{ if $r.comparison_source_arxiv }}<a href="{{ printf "papers/%s/" $r.comparison_source_arxiv | relURL }}" title="{{ $r.comparison_source_title }}">{{ $r.comparison_source_title | truncate 25 }}</a>{{ else }}{{ $r.comparison_source_title | truncate 25 }}{{ end }}</span></span>
 {{ end }}

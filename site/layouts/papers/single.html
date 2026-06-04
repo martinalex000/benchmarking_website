@@ -150,7 +150,8 @@
       <span class="legend-item"><span class="legend-swatch swatch-proposed"></span><span>Proposed method (this paper)</span></span>
       <span class="legend-item"><span class="legend-swatch swatch-baseline"></span><span>Baseline / comparison (this paper)</span></span>
       <span class="legend-item"><span class="legend-swatch swatch-global"></span><span>Global context (other papers)</span></span>
-      <span class="legend-item"><span class="legend-swatch swatch-gap"></span><span>Value differs from global benchmark</span></span>
+      <span class="legend-item"><span class="legend-swatch swatch-at-pub"></span><span>Behind best known at publication (true performance in green)</span></span>
+      <span class="legend-item"><span class="legend-swatch swatch-surpassed"></span><span>OK at publication; better baselines on leaderboard today</span></span>
     </div>
 
     {{ with .Params.datasets_by_scope }}
@@ -199,8 +200,11 @@
             </h4>
             <a class="paper-dataset-leaderboard-link" href="{{ printf "datasets/%s/" $dsSlug | relURL }}">Global leaderboard →</a>
           </div>
-          <p class="paper-dataset-help">Ranked by {{ if $group.is_multi_metric }}{{ $group.primary_metric }}{{ else }}{{ $group.metric }}{{ end }} on this dataset. Highlighted rows are from other papers (global context). Comparison notes flag baselines weaker than prior best.</p>
-          {{ $partialCtx := dict "rows" $group.rows "metrics" $group.metrics "primary_metric" $group.primary_metric "metric" $group.metric "higher_is_better" $group.higher_is_better "dataset_variant" $dsSlug "collapse_after" $collapseAfter "paper_page" true }}
+          {{ partial "paper-dataset-metric-notice.html" (dict "group" $group) }}
+          {{ if $group.uses_non_primary_metric }}
+          <p class="paper-dataset-help">Sorted by {{ $group.metric }}. Highlighted rows are from other papers.</p>
+          {{ end }}
+          {{ $partialCtx := dict "rows" $group.rows "metrics" $group.metrics "primary_metric" $group.primary_metric "rank_metric" ($group.rank_metric | default $group.primary_metric) "dataset_primary_metric" ($group.dataset_primary_metric | default $group.primary_metric) "metric" $group.metric "higher_is_better" $group.higher_is_better "dataset_variant" $dsSlug "collapse_after" $collapseAfter "paper_page" true }}
           {{ if $group.is_multi_metric }}
             {{ partial "multi-metric-table.html" $partialCtx }}
           {{ else }}
@@ -223,8 +227,11 @@
           </h3>
           <a class="paper-dataset-leaderboard-link" href="{{ printf "datasets/%s/" $dsSlug | relURL }}">Global leaderboard →</a>
         </div>
-        <p class="paper-dataset-help">Ranked by {{ if $group.is_multi_metric }}{{ $group.primary_metric }}{{ else }}{{ $group.metric }}{{ end }} on this dataset. Highlighted rows are from other papers (global context). Comparison notes flag baselines weaker than prior best.</p>
-        {{ $partialCtx := dict "rows" $group.rows "metrics" $group.metrics "primary_metric" $group.primary_metric "metric" $group.metric "higher_is_better" $group.higher_is_better "dataset_variant" $dsSlug "collapse_after" $collapseAfter "paper_page" true }}
+        {{ partial "paper-dataset-metric-notice.html" (dict "group" $group) }}
+        {{ if $group.uses_non_primary_metric }}
+        <p class="paper-dataset-help">Sorted by {{ $group.metric }}. Highlighted rows are from other papers.</p>
+        {{ end }}
+        {{ $partialCtx := dict "rows" $group.rows "metrics" $group.metrics "primary_metric" $group.primary_metric "rank_metric" ($group.rank_metric | default $group.primary_metric) "dataset_primary_metric" ($group.dataset_primary_metric | default $group.primary_metric) "metric" $group.metric "higher_is_better" $group.higher_is_better "dataset_variant" $dsSlug "collapse_after" $collapseAfter "paper_page" true }}
         {{ if $group.is_multi_metric }}
           {{ partial "multi-metric-table.html" $partialCtx }}
         {{ else }}

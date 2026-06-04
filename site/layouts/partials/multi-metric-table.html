@@ -13,6 +13,12 @@
 {{ $rows    := .rows }}
 {{ $metrics := .metrics }}
 {{ $primary := .primary_metric }}
+{{ $datasetDefault := .dataset_primary_metric | default $primary }}
+{{ $rankMetric := .rank_metric | default $primary }}
+{{ $rankIdx := 0 }}
+{{ range $j, $m := $metrics }}
+  {{ if eq $m $rankMetric }}{{ $rankIdx = $j }}{{ end }}
+{{ end }}
 {{ $hib     := .higher_is_better }}
 {{ $slug    := .dataset_variant }}
 {{ $hideMeta := .hide_meta_cols }}
@@ -26,15 +32,25 @@
   <div class="mobile-result-table-head{{ if $paperPage }} paper-mobile-table-head{{ else if $hideMeta }} mobile-result-table-head-no-paper{{ end }}" aria-hidden="true">
     <span>#</span>
     <span>Model</span>
+    {{ if and $paperPage (gt (len $metrics) 1) }}
+    {{ range $metrics }}<span>{{ . }}</span>{{ end }}
+    {{ else }}
     <span>{{ $primary }}</span>
+    {{ end }}
     {{ if $showPaperCol }}<span>Paper</span>{{ else if not $hideMeta }}<span>Date</span>{{ end }}
   </div>
-  <table class="result-table sortable{{ if $paperPage }} paper-results-table{{ end }}" id="{{ $tableId }}" data-collapse-after="{{ $collapseAfter }}">
+  <table class="result-table sortable{{ if $paperPage }} paper-results-table{{ end }}{{ if and $paperPage (gt (len $metrics) 1) }} paper-multi-metric-cols{{ end }}" id="{{ $tableId }}" data-collapse-after="{{ $collapseAfter }}">
     <thead>
       <tr>
         <th class="col-rank">#</th>
         <th class="col-model sortable-col" data-col="model">Model</th>
+        {{ if and $paperPage (gt (len $metrics) 1) }}
+        {{ range $j, $m := $metrics }}
+        <th class="col-value sortable-col{{ if eq $j 0 }} col-primary{{ end }}{{ if eq $j $rankIdx }} col-rank-metric{{ end }}{{ if and (gt (len $metrics) 1) (eq $m $datasetDefault) }} col-metric-default{{ end }}" data-col="value-{{ $j }}">{{ $m }}{{ if $hib }} ↑{{ else }} ↓{{ end }}{{ if and (gt (len $metrics) 1) (eq $m $datasetDefault) }} <span class="metric-default-badge">default</span>{{ end }}</th>
+        {{ end }}
+        {{ else }}
         <th class="col-value col-primary sortable-col" data-col="value">{{ $primary }}{{ if $hib }} ↑{{ else }} ↓{{ end }}</th>
+        {{ end }}
         {{ if $showPaperCol }}<th class="col-paper{{ if not $paperPage }} sortable-col{{ end }}"{{ if not $paperPage }} data-col="date"{{ end }}>Paper</th>{{ end }}
       </tr>
     </thead>
@@ -45,7 +61,9 @@
       {{ $rowDetailsId := printf "mobile-details-%s-%d" $slug $i }}
       {{ $dateDisplay := $r.date_display | default $r.date | default "—" }}
       {{ $mobileDate := replaceRE "([A-Za-z]+)\\s+20([0-9]{2})" "$1 '$2" $dateDisplay }}
-        <tr class="result-row {{ if $r.is_baseline }}row-baseline{{ else }}row-proposed{{ end }} {{ if $r.is_overridden }}row-overridden{{ end }}{{ if $r.is_best }} row-best{{ end }}{{ if eq $i 0 }} row-current-sota{{ end }}{{ if $r.is_global_top }} row-global-top{{ end }}{{ if and (gt $collapseAfter 0) (ge $i $collapseAfter) }} row-collapsed{{ end }}"
+        {{ $rowUnderperforming := $r.worse_than_at_pub }}
+        {{ $rowSurpassedSince := and (not $r.worse_than_at_pub) $r.surpassed_since_pub }}
+        <tr class="result-row {{ if $r.is_baseline }}row-baseline{{ else }}row-proposed{{ end }} {{ if $r.is_overridden }}row-overridden{{ end }}{{ if $r.is_best }} row-best{{ end }}{{ if eq $i 0 }} row-current-sota{{ end }}{{ if $r.is_global_top }} row-global-top{{ end }}{{ if and $paperPage $rowUnderperforming }} row-underperforming{{ end }}{{ if and $paperPage $rowSurpassedSince }} row-surpassed-since{{ end }}{{ if and (gt $collapseAfter 0) (ge $i $collapseAfter) }} row-collapsed{{ end }}"
           data-model="{{ $r.model_plain | default $r.model }}"
           data-value="{{ $r.sort_value | default $primary_val }}"
           data-params="{{ $r.params_millions }}"
@@ -54,12 +72,12 @@
           data-architecture="{{ $r.architecture_type }}"
           data-external-data="{{ if $r.uses_external_data }}1{{ else if eq $r.uses_external_data false }}0{{ end }}"
           data-has-code="{{ if $r.codebase_url }}1{{ else }}0{{ end }}">
-        <td class="col-rank" data-label="Rank">{{ if $r.global_rank }}{{ $r.global_rank }}{{ else }}{{ add $i 1 }}{{ end }}</td>
+        <td class="col-rank" data-label="Rank">{{ with $r.global_rank }}{{ . }}{{ else }}—{{ end }}</td>
         <td class="col-model" data-label="Model">
           <div class="leaderboard-entry-head">
             <div class="leaderboard-entry-main">
               <div class="leaderboard-model-name">
-                {{ if and $r.is_global_top $r.arxiv_id }}<a href="{{ printf "papers/%s/" $r.arxiv_id | relURL }}" title="{{ $r.title }}">{{ $r.model | safeHTML }}</a>{{ else }}{{ $r.model | safeHTML }}{{ end }}
+                {{ if and (not $showPaperCol) $r.is_global_top $r.arxiv_id }}<a href="{{ printf "papers/%s/" $r.arxiv_id | relURL }}" title="{{ $r.title }}">{{ $r.model | safeHTML }}</a>{{ else }}{{ $r.model | safeHTML }}{{ end }}
               </div>
               <div class="leaderboard-entry-meta">
                 <div class="leaderboard-badges">
@@ -67,43 +85,42 @@
                   {{ if $r.uses_external_data }}<span class="mini-badge mini-badge-external" title="Uses external data during training">ext data</span>{{ end }}
                   {{ partial "architecture-badge.html" $r }}
                   {{ if $r.params_millions }}<span class="mini-badge mini-badge-neutral">{{ printf "%.1fM" $r.params_millions }}</span>{{ end }}
-                  {{ if and $r.is_global_top (not $paperPage) }}<span class="global-top-badge" title="Top-ranked globally — from another paper">global</span>{{ end }}
+                  {{ if $r.is_global_top }}<span class="mini-badge mini-badge-global" title="Top-ranked globally — from another paper">global</span>{{ end }}
                   {{ if $r.is_overridden }}<span class="override-badge" title="{{ $r.override_reason }}">✎</span>{{ end }}
                   {{ if not $r.is_global_top }}{{ if $r.is_baseline }}<span class="tag-baseline">baseline</span>{{ else }}<span class="tag-proposed">★ proposed</span>{{ end }}{{ end }}
                 </div>
               </div>
             </div>
           </div>
-          {{ if and $paperPage (not $r.is_global_top) $r.comparison_type }}
-          <div class="model-comparison-meta">
-            {{ partial "paper-table-comparison-meta.html" (dict "row" $r) }}
-          </div>
-          {{ end }}
           {{ if $r.has_value_gap }}
           <div class="model-discrepancy-meta">
-            {{ if and $r.value_gap_source_title $r.value_gap_source_arxiv (not $r.value_gap_source_is_current_paper) }}
-            <a class="model-source-paper" href="{{ printf "papers/%s/" $r.value_gap_source_arxiv | relURL }}" title="Actual result source">{{ $r.value_gap_source_title }}</a>
-            {{ else if $r.value_gap_source_title }}
-            <span class="model-source-paper">{{ $r.value_gap_source_title }}</span>
-            {{ end }}
-            {{ if and $r.global_rank $r.paper_rank }}
-            <div class="rank-delta-note">
-              actual #{{ $r.global_rank }}
-              <span class="rank-delta-sep">vs</span>
-              paper #{{ $r.paper_rank }}
-              {{ if and $r.rank_delta_abs (gt $r.rank_delta_abs 0) }}
-              <span class="rank-delta-badge rank-delta-{{ $r.rank_delta_direction }}">
-                {{ $r.rank_delta_abs }} place{{ if ne $r.rank_delta_abs 1 }}s{{ end }} {{ $r.rank_delta_direction }}
-              </span>
-              {{ end }}
-            </div>
-            {{ end }}
+            {{ partial "paper-table-model-gap-meta.html" (dict "row" $r) }}
           </div>
           {{ end }}
         </td>
+        {{ if and $paperPage (gt (len $metrics) 1) }}
+        {{ range $j, $m := $metrics }}
+        {{ $val := index $r.metric_values $j }}
+        {{ $std := index $r.metric_stds $j }}
+        <td class="col-value{{ if eq $j 0 }} col-primary{{ end }}{{ if eq $j $rankIdx }} col-rank-metric{{ end }}{{ if and (gt (len $metrics) 1) (eq $m $datasetDefault) }} col-metric-default{{ end }}{{ if and (eq $j $rankIdx) $r.has_value_gap }} col-value-gap{{ end }}" data-label="{{ $m }}">
+          {{ if or (ne $val nil) (and (eq $j $rankIdx) $paperPage $r.has_value_gap) }}
+            {{ if and (eq $j $rankIdx) $paperPage $r.has_value_gap }}
+              {{ partial "paper-table-value-cell.html" (dict "row" $r) }}
+            {{ else }}
+              <div class="metric-primary-block">
+                <span class="metric-primary-value">{{ printf "%.4f" $val }}</span>
+                {{ if ne $std nil }}<span class="metric-primary-std inline-std{{ if $r.is_std_outlier }} inline-std-outlier{{ end }}">±{{ printf "%.4f" $std }}</span>{{ end }}
+              </div>
+            {{ end }}
+          {{ else }}—{{ end }}
+        </td>
+        {{ end }}
+        {{ else }}
         <td class="col-value col-primary{{ if $r.has_value_gap }} col-value-gap{{ end }}{{ if $r.has_value_note }} col-value-note{{ end }}" data-label="{{ $primary }}{{ if $hib }} ↑{{ else }} ↓{{ end }}">
           {{ if ne $primary_val nil -}}
-            {{- if $r.has_value_gap -}}
+            {{- if and $paperPage $r.has_value_gap -}}
+              {{ partial "paper-table-value-cell.html" (dict "row" $r) }}
+            {{- else if $r.has_value_gap -}}
               <div class="value-gap-block">
                 <div class="value-gap-true">actual {{ printf "%.4f" $r.true_value }}{{ if $r.true_std }}<span class="inline-std{{ if $r.is_std_outlier }} inline-std-outlier{{ end }}"> ±{{ printf "%.4f" $r.true_std }}</span>{{ end }}</div>
                 <div class="value-gap-paper">paper {{ printf "%.4f" $primary_val }}{{ if ne $primary_std nil }}<span class="inline-std{{ if $r.is_std_outlier }} inline-std-outlier{{ end }}"> ±{{ printf "%.4f" $primary_std }}</span>{{ end }}</div>
@@ -116,7 +133,7 @@
               </div>
             {{- end -}}
           {{- else }}—{{ end }}
-          {{ if gt (len $metrics) 1 }}
+          {{ if and (not $paperPage) (gt (len $metrics) 1) }}
           <div class="secondary-metrics" hidden>
             {{ $secondaryCount := sub (len $metrics) 1 }}
             {{ range $j, $m := $metrics }}
@@ -138,6 +155,7 @@
           </div>
           {{ end }}
         </td>
+        {{ end }}
         {{ if $showPaperCol }}
         <td class="col-paper{{ if not $paperPage }} mobile-details-hit{{ end }}"{{ if not $paperPage }} id="{{ $rowDetailsId }}"{{ end }} data-label="Paper">
           {{ if $paperPage }}

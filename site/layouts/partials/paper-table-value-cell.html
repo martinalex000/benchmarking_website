@@ -1,0 +1,12 @@
+{{/*
+  Primary metric cell for paper pages when actual ≠ paper-reported value.
+  Context: .row
+*/}}
+{{ $r := .row }}
+<div class="paper-value-gap-cell">
+  <div class="metric-primary-block">
+    <span class="metric-primary-value paper-true-num">{{ printf "%.4f" $r.true_value }}</span>
+    {{ with $r.true_std }}<span class="metric-primary-std paper-true-std inline-std{{ if $r.is_std_outlier }} inline-std-outlier{{ end }}">±{{ printf "%.4f" . }}</span>{{ end }}
+  </div>
+  <span class="paper-true-performance-label">true performance</span>
+</div>
