@@ -71,7 +71,7 @@
           data-architecture="{{ $r.architecture_type }}"
           data-external-data="{{ if $r.uses_external_data }}1{{ else if eq $r.uses_external_data false }}0{{ end }}"
           data-has-code="{{ if $r.codebase_url }}1{{ else }}0{{ end }}">
-        <td class="col-rank" data-label="Rank">{{ with $r.global_rank }}{{ . }}{{ else }}—{{ end }}</td>
+        <td class="col-rank" data-label="Rank">{{ with $r.global_rank }}{{ . }}{{ else }}{{ if $paperPage }}—{{ else }}{{ add $i 1 }}{{ end }}{{ end }}</td>
         <td class="col-model" data-label="Model">
           <div class="leaderboard-entry-head">
             <div class="leaderboard-entry-main">
