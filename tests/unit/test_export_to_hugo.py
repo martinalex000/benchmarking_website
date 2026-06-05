@@ -12,11 +12,13 @@ from backend.export_to_hugo import (
     _dataset_export_metadata,
     _dedup_result_rows,
     _description_class_target_count,
+    _enrich_paper_result_row,
     _fmt_date,
     _gap_magnitude,
     _global_ranks_cached,
     _has_paper_value_difference,
     _has_paper_value_gap,
+    _is_value_better_than,
     _is_value_worse_than,
     _normalize_conference,
     _normalize_model_family,
@@ -92,6 +94,134 @@ def test_collect_model_value_mismatches_includes_at_pub_fields():
 def test_is_value_worse_than_respects_std_overlap():
     assert _is_value_worse_than(0.80, 0.81, True, 0.02, 0.02) is False
     assert _is_value_worse_than(0.70, 0.81, True) is True
+
+
+def test_is_value_better_than_respects_std_overlap():
+    assert _is_value_better_than(0.82, 0.81, True, 0.02, 0.02) is False
+    assert _is_value_better_than(0.90, 0.81, True) is True
+
+
+def _enrich_test_row(**overrides) -> dict:
+    row = {
+        "model_key": "gcn",
+        "paper_value": 0.72,
+        "paper_std": None,
+        "value": 0.72,
+        "std": None,
+        "is_baseline": False,
+        "is_global_top": False,
+    }
+    row.update(overrides)
+    return row
+
+
+def test_enrich_paper_result_row_marks_at_pub_improvement_for_proposed():
+    truth_map = {
+        "gcn": {
+            "value": 0.72,
+            "std": None,
+            "arxiv_id": "2101.00797",
+            "title": "Improving Paper",
+            "date_iso": "2021-01-04",
+            "venue": "AAAI",
+        }
+    }
+    at_pub_map = {
+        "gcn": {
+            "value": 0.28,
+            "std": None,
+            "arxiv_id": "2007.02133",
+            "title": "Prior GCN Paper",
+            "date_iso": "2020-07-04",
+            "venue": "ICML",
+        }
+    }
+    row = _enrich_test_row(is_baseline=False, paper_value=0.72)
+    _enrich_paper_result_row(
+        row,
+        truth_map=truth_map,
+        model_to_rank={"gcn": 1},
+        global_top_all=[{"model_key": "gcn", "value": 0.72}],
+        arxiv_id="2101.00797",
+        higher_is_better=True,
+        at_pub_map=at_pub_map,
+    )
+    assert row["better_than_at_pub"] is True
+    assert row["comparison_type"] == "improved"
+    assert row["has_value_gap"] is True
+    assert row["comparison_source_arxiv"] == "2007.02133"
+
+
+def test_enrich_paper_result_row_worse_than_at_pub_applies_to_proposed():
+    truth_map = {
+        "gcn": {
+            "value": 0.85,
+            "std": None,
+            "arxiv_id": "9999.00001",
+            "title": "Today Best",
+            "date_iso": "2022-01-01",
+            "venue": "NeurIPS",
+        }
+    }
+    at_pub_map = {
+        "gcn": {
+            "value": 0.80,
+            "std": None,
+            "arxiv_id": "8888.00001",
+            "title": "At Pub Best",
+            "date_iso": "2020-01-01",
+            "venue": "ICML",
+        }
+    }
+    row = _enrich_test_row(is_baseline=False, paper_value=0.70)
+    _enrich_paper_result_row(
+        row,
+        truth_map=truth_map,
+        model_to_rank={"gcn": 1},
+        global_top_all=[{"model_key": "gcn", "value": 0.85}],
+        arxiv_id="7777.00001",
+        higher_is_better=True,
+        at_pub_map=at_pub_map,
+    )
+    assert row["worse_than_at_pub"] is True
+    assert row["comparison_type"] == "behind"
+    assert row["has_value_gap"] is True
+
+
+def test_enrich_paper_result_row_marks_improvement_surpassed_since_pub():
+    truth_map = {
+        "gcn": {
+            "value": 0.90,
+            "std": None,
+            "arxiv_id": "9999.00002",
+            "title": "Later Best",
+            "date_iso": "2024-01-01",
+            "venue": "ICML",
+        }
+    }
+    at_pub_map = {
+        "gcn": {
+            "value": 0.70,
+            "std": None,
+            "arxiv_id": "8888.00002",
+            "title": "Prior Best",
+            "date_iso": "2020-01-01",
+            "venue": "NeurIPS",
+        }
+    }
+    row = _enrich_test_row(is_baseline=True, paper_value=0.80)
+    _enrich_paper_result_row(
+        row,
+        truth_map=truth_map,
+        model_to_rank={"gcn": 1},
+        global_top_all=[{"model_key": "gcn", "value": 0.90}],
+        arxiv_id="2305.17589",
+        higher_is_better=True,
+        at_pub_map=at_pub_map,
+    )
+    assert row["better_than_at_pub"] is True
+    assert row["surpassed_since_pub"] is True
+    assert row["improvement_surpassed_since_pub"] is True
 
 
 def test_paper_dataset_export_meta_flags_non_primary_metric():
