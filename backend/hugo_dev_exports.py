@@ -23,18 +23,32 @@ from backend.models import Paper, PaperCandidate, PendingDataset, TodoPaper
 logger = logging.getLogger(__name__)
 
 
-@contextmanager
-def _dev_export_step(label: str, *, indent: int = 2) -> Iterator[None]:
-    """Log a development-export sub-step with elapsed time (via tqdm.write)."""
-    from tqdm import tqdm
+def _dev_line_start(text: str) -> None:
+    import sys
 
+    sys.stdout.write(f"\n{text}")
+    sys.stdout.flush()
+
+
+def _dev_line_done(text: str) -> None:
+    import sys
+
+    sys.stdout.write(f"\r{text}\n")
+    sys.stdout.flush()
+
+
+@contextmanager
+def _dev_export_step(label: str, *, indent: int = 2) -> Iterator[dict[str, str]]:
+    """Log a development-export sub-step on one line, extended with done + elapsed time."""
     prefix = " " * indent
+    meta = {"suffix": ""}
+    _dev_line_start(f"{prefix}{label}...")
     t0 = time.perf_counter()
-    tqdm.write(f"{prefix}{label}...")
     try:
-        yield
+        yield meta
     finally:
-        tqdm.write(f"{prefix}{label}... done ({time.perf_counter() - t0:.1f}s)")
+        elapsed = time.perf_counter() - t0
+        _dev_line_done(f"{prefix}{label}... done ({elapsed:.1f}s){meta['suffix']}")
 
 
 def export_development_data(*, session: Session | None = None) -> dict[str, int]:
@@ -794,6 +808,72 @@ def _create_dev_pages_impl(session: Session, hugo: Any, content_dev: Any) -> int
         )
     except Exception:
         logger.exception("Failed to create baseline-coverage dev page")
+
+    try:
+        with _dev_export_step("dev page: baseline-improvements"):
+            improvements = hugo._collect_at_pub_improvements(session)
+
+        def _improvement_source_link(arxiv_id: str, title: str, word_limit: int = 8) -> str:
+            if not arxiv_id:
+                return title[:48] if title else "—"
+            label = hugo._truncate_words(title, word_limit) if title else arxiv_id
+            return hugo._paper_site_link(arxiv_id, label)
+
+        sig_count = sum(1 for item in improvements if item.get("significant"))
+        insig_count = sum(1 for item in improvements if item.get("insignificant"))
+        surpassed_count = sum(1 for item in improvements if item.get("later_surpassed"))
+
+        lines = [
+            "## At-Publication Improvements",
+            "",
+            "Papers that reported a result better than the best known for that model and dataset "
+            "when they were published (baseline and proposed rows).",
+            "",
+            f"**Total rows:** {len(improvements)}",
+            f"**Significant:** {sig_count}",
+            f"**Within uncertainty (not highlighted on paper pages):** {insig_count}",
+            f"**Later surpassed by another paper:** {surpassed_count}",
+            "",
+        ]
+        if improvements:
+            lines.extend(
+                [
+                    "| Paper | Type | Dataset | Model | Δ at pub | Significant | Later surpassed | "
+                    "Prior best | Prior year | Prior conf. | Paper year | Paper conf. |",
+                    "|-------|------|---------|-------|--------:|:-----------:|:---------------:|"
+                    "-----------|----------:|------------|----------:|------------|",
+                ]
+            )
+            for item in improvements[:500]:
+                row_type = "baseline" if item.get("is_baseline") else "proposed"
+                sig_label = "yes" if item.get("significant") else "no"
+                surpassed_label = "yes" if item.get("later_surpassed") else "no"
+                prior_link = _improvement_source_link(
+                    item.get("at_pub_source_arxiv", ""),
+                    item.get("at_pub_source_title", ""),
+                )
+                lines.append(
+                    f"| {hugo._paper_site_link(item['arxiv_id'])} | {row_type} | {item['dataset']} | "
+                    f"{item['model']} | {item['gap_vs_at_pub']:.4f} | {sig_label} | {surpassed_label} | "
+                    f"{prior_link} | {item.get('at_pub_year') or '—'} | "
+                    f"{item.get('at_pub_conference') or '—'} | {item.get('paper_year') or '—'} | "
+                    f"{item.get('paper_conference') or '—'} |"
+                )
+
+        hugo._write_md(
+            content_dev / "baseline-improvements.md",
+            {
+                "title": "Baseline Improvements",
+                "type": "dev",
+                "description": (
+                    "Papers whose reported results improved over the prior at-publication best "
+                    "(includes baseline and proposed methods)"
+                ),
+            },
+            "\n".join(lines),
+        )
+    except Exception:
+        logger.exception("Failed to create baseline-improvements dev page")
 
     try:
         todo_rows = session.query(TodoPaper).order_by(TodoPaper.seen_count.desc()).all()

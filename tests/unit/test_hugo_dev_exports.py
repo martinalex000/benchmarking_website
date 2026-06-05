@@ -66,3 +66,23 @@ def test_create_dev_pages_does_not_export_conferences_under_dev(monkeypatch, tmp
 
     dev_conferences_md = tmp_path / "workspace" / "site" / "content" / "dev" / "conferences.md"
     assert not dev_conferences_md.is_file()
+
+
+def test_create_dev_pages_exports_baseline_improvements(monkeypatch, tmp_path):
+    _configure_temp_workspace(monkeypatch, tmp_path)
+    init_db()
+
+    with session_scope() as session:
+        create_dev_pages(session=session)
+
+    improvements_md = (
+        tmp_path / "workspace" / "site" / "content" / "dev" / "baseline-improvements.md"
+    )
+    assert improvements_md.is_file()
+
+    front_matter, body = improvements_md.read_text(encoding="utf-8").split("---", 2)[1:]
+    metadata = yaml.safe_load(front_matter)
+
+    assert metadata["title"] == "Baseline Improvements"
+    assert "baseline and proposed" in metadata["description"]
+    assert "## At-Publication Improvements" in body

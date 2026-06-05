@@ -3083,12 +3083,13 @@ def export_all(
         timings["benchmarks"] = time.perf_counter() - t0
 
         if not skip_development:
-            tqdm.write("Development pages...")
+            from backend.hugo_dev_exports import _dev_line_done
+
             t0 = time.perf_counter()
             dev_stats = export_development_data(session=session)
             elapsed = time.perf_counter() - t0
             timings["development"] = elapsed
-            tqdm.write(
+            _dev_line_done(
                 f"Development pages... done ({elapsed:.1f}s)  "
                 f"({dev_stats.get('pages', 0)} pages, {dev_stats.get('data_files', 0)} JSON)"
             )
