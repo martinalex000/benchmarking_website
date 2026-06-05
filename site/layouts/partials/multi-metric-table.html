@@ -32,12 +32,8 @@
   <div class="mobile-result-table-head{{ if $paperPage }} paper-mobile-table-head{{ else if $hideMeta }} mobile-result-table-head-no-paper{{ end }}" aria-hidden="true">
     <span>#</span>
     <span>Model</span>
-    {{ if and $paperPage (gt (len $metrics) 1) }}
-    {{ range $metrics }}<span>{{ . }}</span>{{ end }}
-    {{ else }}
     <span>{{ $primary }}</span>
-    {{ end }}
-    {{ if $showPaperCol }}<span>Paper</span>{{ else if not $hideMeta }}<span>Date</span>{{ end }}
+    {{ if and $showPaperCol (not $paperPage) }}<span>Paper</span>{{ else if not $hideMeta }}<span>Date</span>{{ end }}
   </div>
   <table class="result-table sortable{{ if $paperPage }} paper-results-table{{ end }}{{ if and $paperPage (gt (len $metrics) 1) }} paper-multi-metric-cols{{ end }}" id="{{ $tableId }}" data-collapse-after="{{ $collapseAfter }}">
     <thead>
@@ -63,7 +59,10 @@
       {{ $mobileDate := replaceRE "([A-Za-z]+)\\s+20([0-9]{2})" "$1 '$2" $dateDisplay }}
         {{ $rowUnderperforming := $r.worse_than_at_pub }}
         {{ $rowSurpassedSince := and (not $r.worse_than_at_pub) $r.surpassed_since_pub }}
-        <tr class="result-row {{ if $r.is_baseline }}row-baseline{{ else }}row-proposed{{ end }} {{ if $r.is_overridden }}row-overridden{{ end }}{{ if $r.is_best }} row-best{{ end }}{{ if eq $i 0 }} row-current-sota{{ end }}{{ if $r.is_global_top }} row-global-top{{ end }}{{ if and $paperPage $rowUnderperforming }} row-underperforming{{ end }}{{ if and $paperPage $rowSurpassedSince }} row-surpassed-since{{ end }}{{ if and (gt $collapseAfter 0) (ge $i $collapseAfter) }} row-collapsed{{ end }}"
+        {{ $rowInsignificantGap := and $paperPage $r.insignificant_value_gap }}
+        {{ $paperMobileExpand := false }}
+        {{ if $paperPage }}{{ $paperMobileExpand = eq (partial "paper-table-mobile-expandable.html" (dict "row" $r) | strings.TrimSpace) "1" }}{{ end }}
+        <tr class="result-row {{ if $r.is_baseline }}row-baseline{{ else }}row-proposed{{ end }} {{ if $r.is_overridden }}row-overridden{{ end }}{{ if $r.is_best }} row-best{{ end }}{{ if eq $i 0 }} row-current-sota{{ end }}{{ if $r.is_global_top }} row-global-top{{ end }}{{ if and $paperPage $rowUnderperforming }} row-underperforming{{ end }}{{ if and $paperPage $rowSurpassedSince }} row-surpassed-since{{ end }}{{ if $rowInsignificantGap }} row-insignificant-gap{{ end }}{{ if and $paperPage $paperMobileExpand }} row-mobile-expandable{{ end }}{{ if and (gt $collapseAfter 0) (ge $i $collapseAfter) }} row-collapsed{{ end }}"
           data-model="{{ $r.model_plain | default $r.model }}"
           data-value="{{ $r.sort_value | default $primary_val }}"
           data-params="{{ $r.params_millions }}"
@@ -103,6 +102,7 @@
         {{ $val := index $r.metric_values $j }}
         {{ $std := index $r.metric_stds $j }}
         <td class="col-value{{ if eq $j 0 }} col-primary{{ end }}{{ if eq $j $rankIdx }} col-rank-metric{{ end }}{{ if and (gt (len $metrics) 1) (eq $m $datasetDefault) }} col-metric-default{{ end }}{{ if and (eq $j $rankIdx) $r.has_value_gap }} col-value-gap{{ end }}" data-label="{{ $m }}">
+          {{ if and $paperPage (eq $j $rankIdx) }}<div class="paper-mobile-value-row">{{ end }}
           {{ if or (ne $val nil) (and (eq $j $rankIdx) $paperPage $r.has_value_gap) }}
             {{ if and (eq $j $rankIdx) $paperPage $r.has_value_gap }}
               {{ partial "paper-table-value-cell.html" (dict "row" $r) }}
@@ -113,10 +113,13 @@
               </div>
             {{ end }}
           {{ else }}—{{ end }}
+          {{ if and $paperPage (eq $j $rankIdx) }}{{ partial "paper-table-mobile-expand-btn.html" (dict "row" $r "rowDetailsId" $rowDetailsId "paperPage" $paperPage "expandable" $paperMobileExpand) }}{{ end }}
+          {{ if and $paperPage (eq $j $rankIdx) }}</div>{{ end }}
         </td>
         {{ end }}
         {{ else }}
-        <td class="col-value col-primary{{ if $r.has_value_gap }} col-value-gap{{ end }}{{ if $r.has_value_note }} col-value-note{{ end }}" data-label="{{ $primary }}{{ if $hib }} ↑{{ else }} ↓{{ end }}">
+        <td class="col-value col-primary col-rank-metric{{ if $r.has_value_gap }} col-value-gap{{ end }}{{ if $r.has_value_note }} col-value-note{{ end }}" data-label="{{ $primary }}{{ if $hib }} ↑{{ else }} ↓{{ end }}">
+          {{ if $paperPage }}<div class="paper-mobile-value-row">{{ end }}
           {{ if ne $primary_val nil -}}
             {{- if and $paperPage $r.has_value_gap -}}
               {{ partial "paper-table-value-cell.html" (dict "row" $r) }}
@@ -133,6 +136,8 @@
               </div>
             {{- end -}}
           {{- else }}—{{ end }}
+          {{ if $paperPage }}{{ partial "paper-table-mobile-expand-btn.html" (dict "row" $r "rowDetailsId" $rowDetailsId "paperPage" $paperPage "expandable" $paperMobileExpand) }}{{ end }}
+          {{ if $paperPage }}</div>{{ end }}
           {{ if and (not $paperPage) (gt (len $metrics) 1) }}
           <div class="secondary-metrics" hidden>
             {{ $secondaryCount := sub (len $metrics) 1 }}
@@ -157,9 +162,19 @@
         </td>
         {{ end }}
         {{ if $showPaperCol }}
-        <td class="col-paper{{ if not $paperPage }} mobile-details-hit{{ end }}"{{ if not $paperPage }} id="{{ $rowDetailsId }}"{{ end }} data-label="Paper">
+        <td class="col-paper mobile-details-hit" id="{{ $rowDetailsId }}" data-label="Paper">
           {{ if $paperPage }}
+          <div class="paper-cell-details-full">
+            {{ if $r.has_value_gap }}
+            <div class="paper-mobile-only-gap-meta">
+              <div class="paper-gap-summary-row">
+                {{ partial "paper-table-model-gap-meta.html" (dict "row" $r) }}
+                {{ partial "paper-table-paper-reported-inline.html" (dict "row" $r) }}
+              </div>
+            </div>
+            {{ end }}
             {{ partial "paper-table-paper-cell.html" (dict "row" $r) }}
+          </div>
           {{ else }}
           <div class="paper-cell-row">
             <div class="paper-title-wrap">

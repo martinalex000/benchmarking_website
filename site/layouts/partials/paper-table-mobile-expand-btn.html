@@ -1,0 +1,8 @@
+{{/* Context: row, rowDetailsId, paperPage, expandable — slot always reserves space for the toggle */}}
+{{ if .paperPage }}
+<span class="paper-mobile-expand-slot"{{ if not .expandable }} aria-hidden="true"{{ end }}>
+  {{ if .expandable }}
+  <button type="button" class="mobile-details-toggle paper-row-expand-btn" aria-expanded="false" aria-controls="{{ .rowDetailsId }}" aria-label="Toggle paper details">▾</button>
+  {{ end }}
+</span>
+{{ end }}

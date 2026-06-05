@@ -1,0 +1,12 @@
+{{/* Paper-reported value beside rank delta in expanded mobile gap rows. Context: .row */}}
+{{ $r := .row }}
+{{ $paperVal := $r.paper_value }}
+{{ $paperStd := $r.paper_std }}
+{{ if eq $paperVal nil }}
+  {{ $paperVal = index $r.metric_values 0 }}
+  {{ $paperStd = index $r.metric_stds 0 }}
+{{ end }}
+<span class="paper-gap-metric-align">
+  <span class="paper-gap-reported paper-gap-reported-mobile">paper {{ printf "%.4f" $paperVal }}</span>
+  {{ with $paperStd }}<span class="paper-gap-reported-std inline-std{{ if $r.is_std_outlier }} inline-std-outlier{{ end }}">±{{ printf "%.4f" . }}</span>{{ end }}
+</span>

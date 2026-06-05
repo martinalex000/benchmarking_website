@@ -24,9 +24,7 @@
     <span>#</span>
     <span>Model</span>
     <span>{{ $metric }}</span>
-    {{ if $paperPage }}
-    <span>Paper</span>
-    {{ else }}
+    {{ if not $paperPage }}
     <span>Comparison</span>
     <span>Paper</span>
     {{ end }}
@@ -45,9 +43,13 @@
     </thead>
     <tbody>
         {{ range $i, $r := $results }}
+        {{ $rowDetailsId := printf "mobile-details-%s-%d" $slug $i }}
         {{ $rowUnderperforming := $r.worse_than_at_pub }}
         {{ $rowSurpassedSince := and (not $r.worse_than_at_pub) $r.surpassed_since_pub }}
-        <tr class="result-row {{ if $r.is_baseline }}row-baseline{{ else }}row-proposed{{ end }} {{ if $r.is_overridden }}row-overridden{{ end }}{{ if $r.is_best }} row-best{{ end }}{{ if eq $i 0 }} row-current-sota{{ end }}{{ if $r.is_global_top }} row-global-top{{ end }}{{ if and $paperPage $rowUnderperforming }} row-underperforming{{ end }}{{ if and $paperPage $rowSurpassedSince }} row-surpassed-since{{ end }}{{ if and (gt $collapseAfter 0) (ge $i $collapseAfter) }} row-collapsed{{ end }}"
+        {{ $rowInsignificantGap := and $paperPage $r.insignificant_value_gap }}
+        {{ $paperMobileExpand := false }}
+        {{ if $paperPage }}{{ $paperMobileExpand = eq (partial "paper-table-mobile-expandable.html" (dict "row" $r) | strings.TrimSpace) "1" }}{{ end }}
+        <tr class="result-row {{ if $r.is_baseline }}row-baseline{{ else }}row-proposed{{ end }} {{ if $r.is_overridden }}row-overridden{{ end }}{{ if $r.is_best }} row-best{{ end }}{{ if eq $i 0 }} row-current-sota{{ end }}{{ if $r.is_global_top }} row-global-top{{ end }}{{ if and $paperPage $rowUnderperforming }} row-underperforming{{ end }}{{ if and $paperPage $rowSurpassedSince }} row-surpassed-since{{ end }}{{ if $rowInsignificantGap }} row-insignificant-gap{{ end }}{{ if and $paperPage $paperMobileExpand }} row-mobile-expandable{{ end }}{{ if and (gt $collapseAfter 0) (ge $i $collapseAfter) }} row-collapsed{{ end }}"
           data-model="{{ $r.model_plain | default $r.model }}"
           data-value="{{ $r.sort_value | default $r.value }}"
           data-std="{{ $r.std }}"
@@ -124,6 +126,7 @@
           {{ end }}
         </td>
         <td class="col-value{{ if $paperPage }} col-primary{{ end }}{{ if $r.has_value_gap }} col-value-gap{{ end }}{{ if $r.has_value_note }} col-value-note{{ end }}">
+          {{ if $paperPage }}<div class="paper-mobile-value-row">{{ end }}
           {{ if and $paperPage $r.has_value_gap }}
             {{ partial "paper-table-value-cell.html" (dict "row" $r) }}
           {{ else if $r.has_value_gap }}
@@ -143,6 +146,8 @@
             {{- if $r.std }} <span class="val-std inline-std{{ if $r.is_std_outlier }} inline-std-outlier{{ end }}">±{{ printf "%.4f" $r.std }}</span>{{ end -}}
            </div>
           {{ end }}
+          {{ if $paperPage }}{{ partial "paper-table-mobile-expand-btn.html" (dict "row" $r "rowDetailsId" $rowDetailsId "paperPage" $paperPage "expandable" $paperMobileExpand) }}{{ end }}
+          {{ if $paperPage }}</div>{{ end }}
         </td>
         {{ if not $paperPage }}
         <td class="col-comparison">
@@ -152,7 +157,7 @@
           {{ else if eq $r.comparison_type "matches" }}
           <span class="comparison-matches" title="Matches result from older paper">matches <span class="comparison-source">{{ if $r.comparison_source_arxiv }}<a href="{{ printf "papers/%s/" $r.comparison_source_arxiv | relURL }}" title="{{ $r.comparison_source_title }}">{{ $r.comparison_source_title | truncate 25 }}</a>{{ else }}{{ $r.comparison_source_title | truncate 25 }}{{ end }}</span></span>
           {{ else if eq $r.comparison_type "behind" }}
-          <span class="comparison-behind" title="Worse than previous result">behind <span class="comparison-source">{{ if $r.comparison_source_arxiv }}<a href="{{ printf "papers/%s/" $r.comparison_source_arxiv | relURL }}" title="{{ $r.comparison_source_title }}">{{ $r.comparison_source_title | truncate 25 }}</a>{{ else }}{{ $r.comparison_source_title | truncate 25 }}{{ end }}</span></span>
+          <span class="comparison-best-at-pub" title="Best known when this paper was published">best at pub: <span class="comparison-source">{{ if $r.comparison_source_arxiv }}<a href="{{ printf "papers/%s/" $r.comparison_source_arxiv | relURL }}" title="{{ $r.comparison_source_title }}">{{ $r.comparison_source_title | truncate 25 }}</a>{{ else }}{{ $r.comparison_source_title | truncate 25 }}{{ end }}</span></span>
           {{ else if eq $r.comparison_type "global_top" }}
           <span class="comparison-global" title="Global top result">global</span>
           {{ end }}
@@ -160,9 +165,19 @@
         </td>
         {{ end }}
         {{ if $showPaperCol }}
-        <td class="col-paper">
+        <td class="col-paper{{ if $paperPage }} mobile-details-hit{{ end }}"{{ if $paperPage }} id="{{ $rowDetailsId }}"{{ end }}>
           {{ if $paperPage }}
+          <div class="paper-cell-details-full">
+            {{ if $r.has_value_gap }}
+            <div class="paper-mobile-only-gap-meta">
+              <div class="paper-gap-summary-row">
+                {{ partial "paper-table-model-gap-meta.html" (dict "row" $r) }}
+                {{ partial "paper-table-paper-reported-inline.html" (dict "row" $r) }}
+              </div>
+            </div>
+            {{ end }}
             {{ partial "paper-table-paper-cell.html" (dict "row" $r) }}
+          </div>
           {{ else if $r.arxiv_id }}<a href="{{ printf "papers/%s/" $r.arxiv_id | relURL }}" title="arXiv:{{ $r.arxiv_id }}{{ with $r.title }} — {{ . }}{{ end }}">{{ if $r.title }}{{ $r.title | truncate 45 }}{{ else }}arXiv:{{ $r.arxiv_id }}{{ end }}</a>{{ end }}
         </td>
         {{ end }}

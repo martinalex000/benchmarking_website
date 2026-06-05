@@ -641,10 +641,10 @@ def _create_dev_pages_impl(session: Session, hugo: Any, content_dev: Any) -> int
             "Each row also compares against the **best known at publication** (best result for that "
             "model on or before the viewing paper's publish date). That split matches the paper pages:",
             "",
-            "- **Behind at publication** — reported value was already worse than the best known when "
+            "- **Best at pub** — reported value was already worse than the best known when "
             "the paper came out (fair criticism; red on paper pages).",
-            "- **Surpassed since publication only** — OK vs the at-publication best, but the field "
-            "moved on and true performance today is better (orange on paper pages).",
+            "- **Best today** (surpassed since publication only) — OK vs the at-publication best, but "
+            "today's leaderboard best is better (orange on paper pages).",
             "- **True performance** — current leaderboard best (used for rank and the green value).",
             "",
             "### Summary",
@@ -654,8 +654,8 @@ def _create_dev_pages_impl(session: Session, hugo: Any, content_dev: Any) -> int
             f"| Flagged papers | {len(paper_rows)} |",
             f"| Flagged rows | {len(mismatches)} |",
             f"| Baseline rows | {shame_counts['baseline_rows']} |",
-            f"| Behind at publication | {shame_counts['worse_than_at_pub']} |",
-            f"| Surpassed since pub only (not behind at pub) | {shame_counts['surpassed_since_pub_only']} |",
+            f"| Best at pub | {shame_counts['worse_than_at_pub']} |",
+            f"| Best today only (not best at pub) | {shame_counts['surpassed_since_pub_only']} |",
             f"| At-pub best ≠ today's best (different source papers) | {shame_counts['at_pub_differs_from_today']} |",
             f"| At-pub best = today's best (same source paper) | {shame_counts['at_pub_same_as_today']} |",
             "",
@@ -676,7 +676,7 @@ def _create_dev_pages_impl(session: Session, hugo: Any, content_dev: Any) -> int
                 [
                     "### Most affected datasets",
                     "",
-                    "| Dataset | Wrong Rows | Behind@pub | Surpassed only | Papers | Models | Worst Rank Δ |",
+                    "| Dataset | Wrong Rows | Best at pub | Best today only | Papers | Models | Worst Rank Δ |",
                     "|---|---:|---:|---:|---:|---:|---:|",
                 ]
             )
@@ -690,7 +690,7 @@ def _create_dev_pages_impl(session: Session, hugo: Any, content_dev: Any) -> int
                 [
                     "### Most affected models",
                     "",
-                    "| Model | Wrong Rows | Behind@pub | Surpassed only | Papers | Datasets | Worst Rank Δ |",
+                    "| Model | Wrong Rows | Best at pub | Best today only | Papers | Datasets | Worst Rank Δ |",
                     "|---|---:|---:|---:|---:|---:|---:|",
                 ]
             )
@@ -701,7 +701,7 @@ def _create_dev_pages_impl(session: Session, hugo: Any, content_dev: Any) -> int
             lines.append("")
         if paper_rows:
             lines.append(
-                "| ArXiv | Title | Wrong Rows | Behind@pub | Surpassed only | Diff sources | Worst Rank Δ | Datasets | Models |"
+                "| ArXiv | Title | Wrong Rows | Best at pub | Best today only | Diff sources | Worst Rank Δ | Datasets | Models |"
             )
             lines.append("|---|---|---:|---:|---:|---:|---:|---|---|")
             for item in paper_rows:
@@ -712,7 +712,7 @@ def _create_dev_pages_impl(session: Session, hugo: Any, content_dev: Any) -> int
         lines.extend(["", "### Flagged Rows", ""])
         if mismatches:
             lines.append(
-                "| ArXiv | Dataset | Model | True perf | At-pub best | Paper | Behind@pub | Surpassed | At-pub source | Best today | Rank Δ |"
+                "| ArXiv | Dataset | Model | True perf | At-pub best | Paper | Best at pub | Best today only | At-pub source | Best today source | Rank Δ |"
             )
             lines.append("|---|---|---|---:|---:|---:|---|---|---|---:|")
             for item in mismatches[:500]:

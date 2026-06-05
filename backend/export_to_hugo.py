@@ -60,6 +60,7 @@ _DATASET_OVERRIDE_CACHE: dict[str, dict[str, Any]] = {}
 _GLOBAL_RANKS_CACHE: dict[
     tuple[str, str, bool], tuple[dict[str, int], list[dict], dict[str, dict[str, Any]]]
 ] = {}
+_AT_PUB_ROWS_CACHE: dict[tuple[str, str], list[Any]] = {}
 _AT_PUB_MODEL_CACHE: dict[tuple[str, str, bool, str], dict[str, dict[str, Any]]] = {}
 _DATASET_EXPORT_META_CACHE: dict[int, dict[str, Any]] = {}
 _BENCHMARK_EXPORTABLE_TOTALS: dict[str, int] | None = None
@@ -84,6 +85,7 @@ def clear_export_caches() -> None:
     _MODEL_RENAME_CACHE.clear()
     _DATASET_OVERRIDE_CACHE.clear()
     _GLOBAL_RANKS_CACHE.clear()
+    _AT_PUB_ROWS_CACHE.clear()
     _AT_PUB_MODEL_CACHE.clear()
     _DATASET_EXPORT_META_CACHE.clear()
     _BENCHMARK_EXPORTABLE_TOTALS = None
@@ -171,6 +173,14 @@ def _conference_export_fields(venue: str | None, published_date: str | None) -> 
         "published_conference_short": short,
         "published_conference_slug": _slug(short),
     }
+
+
+def _comparison_source_date_label(venue: str | None, date_iso: str | None) -> str:
+    """Parenthetical label for best-at-pub / best-today source papers, e.g. ``NeurIPS 2024``."""
+    conf = _conference_export_fields(venue, date_iso)
+    if conf["published_conference"]:
+        return conf["published_conference"]
+    return _publication_year(date_iso)
 
 
 def _query_exportable_papers(session: Any, arxiv_ids: list[str] | None = None) -> list[Paper]:
@@ -297,6 +307,15 @@ def _has_paper_value_difference(
     return abs(paper_value - true_value) > 1e-12
 
 
+def _gap_magnitude(
+    paper_value: float | None,
+    reference_value: float | None,
+) -> float | None:
+    if not _has_paper_value_difference(paper_value, reference_value):
+        return None
+    return abs(float(paper_value) - float(reference_value))
+
+
 def _is_value_worse_than(
     value: float,
     reference: float,
@@ -390,10 +409,14 @@ def _enrich_paper_result_row(
     row["at_pub_source_arxiv"] = ""
     row["at_pub_source_title"] = ""
     row["at_pub_source_date_iso"] = ""
+    row["at_pub_source_date_label"] = ""
     row["value_gap_source_date_iso"] = ""
+    row["value_gap_source_date_label"] = ""
     row["gap_vs_at_pub"] = None
     row["worse_than_at_pub"] = False
     row["surpassed_since_pub"] = False
+    row["insignificant_value_gap"] = False
+    row["today_delta_significant"] = False
 
     truth = truth_map.get(row.get("model_key", ""))
     if not truth:
@@ -422,14 +445,11 @@ def _enrich_paper_result_row(
     row["value_gap_source_arxiv"] = truth.get("arxiv_id", "")
     row["value_gap_source_title"] = truth.get("title", "")
     row["value_gap_source_date_iso"] = truth.get("date_iso", "")
-    row["value_gap_source_is_current_paper"] = truth.get("arxiv_id", "") == arxiv_id
-    row["value_gap"] = (
-        abs(row["paper_value"] - true_val)
-        if _has_paper_value_difference(row.get("paper_value"), true_val)
-        and row.get("paper_value") is not None
-        and true_val is not None
-        else None
+    row["value_gap_source_date_label"] = _comparison_source_date_label(
+        truth.get("venue"), truth.get("date_iso")
     )
+    row["value_gap_source_is_current_paper"] = truth.get("arxiv_id", "") == arxiv_id
+    row["value_gap"] = _gap_magnitude(row.get("paper_value"), true_val)
     row["has_value_note"] = False
     row["value_note"] = ""
     row["sort_value"] = true_val
@@ -467,11 +487,16 @@ def _enrich_paper_result_row(
     row["at_pub_source_arxiv"] = at_pub.get("arxiv_id", "")
     row["at_pub_source_title"] = at_pub.get("title", "")
     row["at_pub_source_date_iso"] = at_pub.get("date_iso", "")
+    row["at_pub_source_date_label"] = _comparison_source_date_label(
+        at_pub.get("venue"), at_pub.get("date_iso")
+    )
 
     worse_than_at_pub = False
     surpassed_since_pub = False
+    gap_vs_at_pub = None
     if row.get("is_baseline") and paper_val is not None:
         if at_pub_val is not None:
+            gap_vs_at_pub = _gap_magnitude(paper_val, at_pub_val)
             worse_than_at_pub = _is_value_worse_than(
                 float(paper_val),
                 float(at_pub_val),
@@ -479,8 +504,6 @@ def _enrich_paper_result_row(
                 paper_std,
                 at_pub_std,
             )
-            if worse_than_at_pub:
-                row["gap_vs_at_pub"] = abs(float(paper_val) - float(at_pub_val))
         if true_val is not None and not worse_than_at_pub:
             surpassed_since_pub = _is_value_worse_than(
                 float(paper_val),
@@ -490,12 +513,26 @@ def _enrich_paper_result_row(
                 true_std,
             )
 
+    row["gap_vs_at_pub"] = gap_vs_at_pub
     row["worse_than_at_pub"] = worse_than_at_pub
     row["surpassed_since_pub"] = surpassed_since_pub
+    insignificant_value_gap = bool(
+        row.get("is_baseline")
+        and (gap_vs_at_pub is not None or row.get("value_gap") is not None)
+        and not worse_than_at_pub
+        and not surpassed_since_pub
+    )
+    row["insignificant_value_gap"] = insignificant_value_gap
+    row["today_delta_significant"] = bool(
+        row.get("value_gap") is not None
+        and row.get("is_baseline")
+        and (surpassed_since_pub or _has_paper_value_gap(paper_val, paper_std, true_val, true_std))
+    )
     row["has_value_gap"] = bool(
         row.get("is_baseline")
         and (
-            _has_paper_value_gap(paper_val, paper_std, true_val, true_std)
+            gap_vs_at_pub is not None
+            or row.get("value_gap") is not None
             or worse_than_at_pub
             or surpassed_since_pub
         )
@@ -1157,10 +1194,14 @@ def _pivot_paper_rows(rows: list[dict], primary_metric: str | None) -> dict:
                 "at_pub_source_arxiv": primary_row.get("at_pub_source_arxiv", ""),
                 "at_pub_source_title": primary_row.get("at_pub_source_title", ""),
                 "at_pub_source_date_iso": primary_row.get("at_pub_source_date_iso", ""),
+                "at_pub_source_date_label": primary_row.get("at_pub_source_date_label", ""),
                 "value_gap_source_date_iso": primary_row.get("value_gap_source_date_iso", ""),
+                "value_gap_source_date_label": primary_row.get("value_gap_source_date_label", ""),
                 "gap_vs_at_pub": primary_row.get("gap_vs_at_pub"),
                 "worse_than_at_pub": primary_row.get("worse_than_at_pub", False),
                 "surpassed_since_pub": primary_row.get("surpassed_since_pub", False),
+                "insignificant_value_gap": primary_row.get("insignificant_value_gap", False),
+                "today_delta_significant": primary_row.get("today_delta_significant", False),
                 "arxiv_id": first.get("arxiv_id", ""),
                 "title": first.get("title", ""),
                 "published_venue": first.get("published_venue", ""),
@@ -1282,6 +1323,7 @@ def _global_ranks_for_dataset(
             "date": _fmt_date(p.published_date) if p else "",
             "date_display": _fmt_month_year(p.published_date) if p else "",
             "date_iso": (p.published_date[:10] if p and p.published_date else ""),
+            "venue": p.venue if p else "",
             "codebase_url": p.codebase_url or "" if p else "",
             "uses_external_data": (True if ued == 1 else (False if ued == 0 else None)),
             "is_global_top": True,
@@ -1313,17 +1355,12 @@ def _global_ranks_cached(
     return _GLOBAL_RANKS_CACHE[cache_key]
 
 
-def _global_best_per_model_as_of_date(
-    session: Any,
-    ds_name: str,
-    metric: str,
-    higher_is_better: bool,
-    cutoff_iso: str,
-) -> dict[str, dict[str, Any]]:
-    """Best result per model on *metric* from papers published on or before *cutoff_iso*."""
-    cache_key = (ds_name, metric, higher_is_better, cutoff_iso or "")
-    if cache_key in _AT_PUB_MODEL_CACHE:
-        return _AT_PUB_MODEL_CACHE[cache_key]
+def _at_pub_results_for_dataset_metric(session: Any, ds_name: str, metric: str) -> list[Any]:
+    """All non-problematic results for a dataset/metric (one query per export run)."""
+    rows_key = (ds_name, metric)
+    cached = _AT_PUB_ROWS_CACHE.get(rows_key)
+    if cached is not None:
+        return cached
 
     all_res = (
         session.query(Result)
@@ -1339,7 +1376,16 @@ def _global_best_per_model_as_of_date(
         .filter(Result.is_problematic.is_(None) | (Result.is_problematic == 0))
         .all()
     )
+    _AT_PUB_ROWS_CACHE[rows_key] = all_res
+    return all_res
 
+
+def _at_pub_truth_map_from_results(
+    all_res: list[Any],
+    higher_is_better: bool,
+    cutoff_iso: str,
+) -> dict[str, dict[str, Any]]:
+    """Best result per model on or before *cutoff_iso* from preloaded rows."""
     model_best: dict[str, tuple[float, Any]] = {}
     for r in all_res:
         p = r.paper
@@ -1376,8 +1422,25 @@ def _global_best_per_model_as_of_date(
             "arxiv_id": p.arxiv_id if p else "",
             "title": _sanitize_title(p.title if p else ""),
             "date_iso": (p.published_date[:10] if p and p.published_date else ""),
+            "venue": p.venue if p else "",
         }
+    return truth_map
 
+
+def _global_best_per_model_as_of_date(
+    session: Any,
+    ds_name: str,
+    metric: str,
+    higher_is_better: bool,
+    cutoff_iso: str,
+) -> dict[str, dict[str, Any]]:
+    """Best result per model on *metric* from papers published on or before *cutoff_iso*."""
+    cache_key = (ds_name, metric, higher_is_better, cutoff_iso or "")
+    if cache_key in _AT_PUB_MODEL_CACHE:
+        return _AT_PUB_MODEL_CACHE[cache_key]
+
+    all_res = _at_pub_results_for_dataset_metric(session, ds_name, metric)
+    truth_map = _at_pub_truth_map_from_results(all_res, higher_is_better, cutoff_iso)
     _AT_PUB_MODEL_CACHE[cache_key] = truth_map
     return truth_map
 
@@ -1723,7 +1786,9 @@ def _collect_model_value_mismatches(session: Any) -> list[dict[str, Any]]:
         worse_than_at_pub = False
         surpassed_since_pub = False
         gap_vs_at_pub = None
+        value_gap = _gap_magnitude(paper_value, true_value)
         if paper_value is not None and at_pub_value is not None:
+            gap_vs_at_pub = _gap_magnitude(paper_value, at_pub_value)
             worse_than_at_pub = _is_value_worse_than(
                 float(paper_value),
                 float(at_pub_value),
@@ -1731,8 +1796,6 @@ def _collect_model_value_mismatches(session: Any) -> list[dict[str, Any]]:
                 paper_std,
                 at_pub_std,
             )
-            if worse_than_at_pub:
-                gap_vs_at_pub = abs(float(paper_value) - float(at_pub_value))
         if paper_value is not None and true_value is not None and not worse_than_at_pub:
             surpassed_since_pub = _is_value_worse_than(
                 float(paper_value),
@@ -1741,6 +1804,11 @@ def _collect_model_value_mismatches(session: Any) -> list[dict[str, Any]]:
                 paper_std,
                 truth.get("std"),
             )
+        insignificant_value_gap = bool(
+            (gap_vs_at_pub is not None or value_gap is not None)
+            and not worse_than_at_pub
+            and not surpassed_since_pub
+        )
 
         at_pub_arxiv_norm = (at_pub_arxiv or "").strip()
         today_arxiv_norm = (source_arxiv_id or "").strip()
@@ -1778,6 +1846,7 @@ def _collect_model_value_mismatches(session: Any) -> list[dict[str, Any]]:
                 "worse_than_at_pub": worse_than_at_pub,
                 "surpassed_since_pub": surpassed_since_pub,
                 "gap_vs_at_pub": gap_vs_at_pub,
+                "insignificant_value_gap": insignificant_value_gap,
                 "at_pub_differs_from_today": at_pub_differs_from_today,
                 "source_arxiv_id": source_arxiv_id,
                 "source_title": truth.get("title", ""),
@@ -1786,11 +1855,7 @@ def _collect_model_value_mismatches(session: Any) -> list[dict[str, Any]]:
                 "global_rank": global_rank,
                 "paper_rank": paper_rank,
                 "rank_delta": rank_delta,
-                "value_gap": (
-                    abs(paper_value - true_value)
-                    if paper_value is not None and true_value is not None
-                    else None
-                ),
+                "value_gap": value_gap,
             }
         )
 

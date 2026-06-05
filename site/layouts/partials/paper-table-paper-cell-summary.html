@@ -1,0 +1,20 @@
+{{/* One-line mobile summary for paper-page result tables. Context: .row */}}
+{{ $r := .row }}
+{{ if $r.has_value_gap }}
+  {{ if $r.at_pub_source_title }}
+  <span class="paper-cell-summary-text comparison-best-at-pub">best at pub: {{ $r.at_pub_source_title | truncate 22 }}</span>
+  {{ else }}
+  <span class="paper-cell-summary-text">value gap</span>
+  {{ end }}
+{{ else if $r.is_global_top }}
+<span class="paper-cell-summary-text">
+  {{ if $r.arxiv_id }}{{ if $r.title }}{{ $r.title | truncate 28 }}{{ else }}arXiv:{{ $r.arxiv_id }}{{ end }}{{ else }}—{{ end }}
+</span>
+{{ else if and $r.comparison_type (ne $r.comparison_type "global_top") (ne $r.comparison_type "matches") }}
+<span class="paper-cell-summary-text">
+  {{ if eq $r.comparison_type "improved" }}improved{{ else if eq $r.comparison_type "behind" }}best at pub:{{ else }}{{ $r.comparison_type }}{{ end }}
+  {{ with $r.comparison_source_title }} {{ . | truncate 18 }}{{ end }}
+</span>
+{{ else }}
+<span class="paper-cell-summary-text paper-source-this">This paper</span>
+{{ end }}

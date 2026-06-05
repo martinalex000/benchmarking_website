@@ -7,11 +7,13 @@ import pytest
 from backend.export_helpers import truncate_words as _truncate_words
 from backend.export_to_hugo import (
     _benchmark_coverage_entries,
+    _comparison_source_date_label,
     _conference_export_fields,
     _dataset_export_metadata,
     _dedup_result_rows,
     _description_class_target_count,
     _fmt_date,
+    _gap_magnitude,
     _global_ranks_cached,
     _has_paper_value_difference,
     _has_paper_value_gap,
@@ -59,6 +61,12 @@ def test_value_gap_respects_reported_uncertainty():
     assert not _has_paper_value_gap(None, None, 0.8, None)
     assert _has_paper_value_difference(0.81, 0.8)
     assert not _has_paper_value_difference(0.8, 0.8 + 1e-13)
+
+
+def test_gap_magnitude_reports_any_numeric_difference():
+    assert _gap_magnitude(0.81, 0.8) == pytest.approx(0.01)
+    assert _gap_magnitude(0.81, 0.81) is None
+    assert _gap_magnitude(None, 0.8) is None
 
 
 def test_collect_model_value_mismatches_includes_at_pub_fields():
@@ -202,6 +210,20 @@ def test_normalize_conference_maps_common_venues(venue, expected):
 )
 def test_conference_export_fields_include_year(venue, published_date, expected):
     assert _conference_export_fields(venue, published_date)["published_conference"] == expected
+
+
+@pytest.mark.parametrize(
+    ("venue", "date_iso", "expected"),
+    [
+        ("International Conference on Learning Representations", "2024-05-07", "ICLR 2024"),
+        ("NeurIPS 2024", "2024-12-10", "NeurIPS 2024"),
+        ("arXiv.org", "2024-01-15", "2024"),
+        ("", "2023-07-01", "2023"),
+        ("", "", ""),
+    ],
+)
+def test_comparison_source_date_label_prefers_conference(venue, date_iso, expected):
+    assert _comparison_source_date_label(venue, date_iso) == expected
 
 
 def test_publication_year_accepts_iso_dates_and_year_prefixes():
@@ -437,6 +459,43 @@ def test_dataset_export_metadata_uses_cache(monkeypatch):
 
     assert meta["result_count"] == 99
     assert calls == []
+
+
+def test_global_best_per_model_reuses_dataset_metric_rows(monkeypatch):
+    from backend import export_to_hugo
+
+    clear_export_caches()
+    query_calls = 0
+
+    class FakeQuery:
+        def options(self, *_args, **_kwargs):
+            return self
+
+        def join(self, *_args, **_kwargs):
+            return self
+
+        def filter(self, *_args, **_kwargs):
+            return self
+
+        def all(self):
+            nonlocal query_calls
+            query_calls += 1
+            return []
+
+    class FakeSession:
+        def query(self, *_args, **_kwargs):
+            return FakeQuery()
+
+    session = FakeSession()
+    export_to_hugo._global_best_per_model_as_of_date(
+        session, "Cora", "Accuracy", True, "2020-01-01"
+    )
+    export_to_hugo._global_best_per_model_as_of_date(
+        session, "Cora", "Accuracy", True, "2024-06-01"
+    )
+    export_to_hugo._global_best_per_model_as_of_date(session, "Cora", "F1", True, "2024-06-01")
+
+    assert query_calls == 2
 
 
 def test_benchmark_totals_exportable_uses_dataset_metadata_cache(monkeypatch):
