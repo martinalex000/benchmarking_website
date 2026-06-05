@@ -1,61 +1,42 @@
-dark mode
+# My personal todo list for the benchmarks leaderboard webpage. 
 
-shadcn/ui
+## Small tasks for now
+- make sure all the papers I used to have locally are also processed on the server
+- also mention when a paper improved a baseline, not only when it made things worse.
 
-MLP baseline für fehlende Datensätze selbst berechnen
+## Larger tasks to do later:
+- MLP baseline für fehlende Datensätze selbst berechnen
+- add a lot more (hand-crafted) information about each of the benchmarks (more statistics, but also more content about what each of the datasets is about, how it came to be, potentially pictures). Also add a quick description of the metric used and in some cases its drawbacks.
+- Der plot braucht viel zu lange zum laden, einfach weil viel zu viele punkte und deren std geplottet werden -> check if resolved
+- heterophily statistics and generally improved statistics for the datasets.
+- make sure that the conferences are properly extracted. Currently its still missing for a large part of the papers. In doubt: use paperswithcode api.
+- also make sure that the authors are extracted. Optimally, link to google scholar for each author when there is a connection. orcid is also a good option and probably safer.
 
-Used hardware for the experiments and potentially runtime (even though thats usually not the big tiebreaker)
+## Backlog
+- Used hardware for the experiments and potentially runtime (even though thats usually not the big tiebreaker)
+- show the number of stars on github when there is a github link?
+- logos einbinden der jeweiligen benchmarks
+- copy ogb results. Its important that everything from the ogb website will also appear on my leaderboard.
+- integrate into alpharxive and trending papers from various sites such as huggingface's paperswithcode
+- Add clear benchmark-selection guidance. Right now the site helps browse results, but not decide which benchmarks are worth testing on. It should surface benchmark relevance, popularity/adoption, recency, task fit, dataset scale, and a “recommended benchmark suite” view.
+- Tighten data-quality checks on dataset summaries. Some displayed stats look misleading; for example, ogbn-arxiv is described as having 40 subject areas but shows Classes / Targets = 1. Researchers will question the whole site if overview stats are wrong.
 
-show the number of stars on github when there is a github link?
 
-add a lot more (hand-crafted) information about each of the benchmarks (more statistics, but also more content about what each of the datasets is about, how it came to be, potentially pictures). Also add a quick description of the metric used and in some cases its drawbacks.
 
-make sure all the papers I used to have locally are also processed on the server
-
-Der plot braucht viel zu lange zum laden, einfach weil viel zu viele punkte und deren std geplottet werden -> check if resolved
-
-also mention when a paper improved a baseline, not only when it made things worse.
-
-heterophily statistics and generally improved statistics for the datasets.
-
-logos einbinden der jeweiligen benchmarks
-
-there are a lot of papers where the title is not extracted correctly. 
-
-check dass beim paper ranking wirklich nur die vorgeschlagene methode betrachtet wird plus eine bessere erklärung und erweiterte filtermöglichkeiten
-
-for each paper: also try to figure out where it was published (if it was) and when. Then putting the conference in addition in the table would be nice.
-
-also make sure that the authors are extracted. Optimally, link to google scholar for each author when there is a connection. orcid is also a good option and probably safer.
-
-copy ogb results. Its important that everything from the ogb website will also appear on my leaderboard.
 
 attribution of results: currently what we do is using the oldest paper with exactly this number and when there is e.g. a higher number for GCN, then all lower and older ones are silently swallowed. instead of doing this silently, it is important to do it in a transparent fashion. One should thus be able to open those aggregated results and see all the results published by different papers for this method. Of course this is especially important for very basic models such as GCN, GIN, etc because many people run them by themselves.
 
-ranks at the time of submission and ranks today for the paper view.
-
 zinc still does a lot of odd stuff - the leaderboard for the full zinc seems to include the other entries as well - at least at the first glance it looks like there are too many terrible appraoches for the full zinc one.
 
-integrate into alpharxive and trending papers from various sites such as huggingface's paperswithcode
 
 add year filter for papers
 
 don't sort by amount of results but by amount of recent results
 
-ways to interact with the website: how can I make sure my paper is re-parsed? Or flag problems with the paper?
-
 http://localhost:1313/datasets/zinc/ hier gibt es verdammt grosse Zahlen gemixt unter die anderen - wo kommen die her und wie werde ich die los? Und schaffe ich es die y-achse so zu skalieren, dass man mehr sehen kann?
 
 the page of shame papers should be extended by a comparison of what would have been the case at the time of publication - even though its just baselines, its nice to not complain about methods not copying baseline results from the future. The "future" value should of course still be provided.
 
-How to deal with the exact dates of the conferences? -> rather stick with the arxiv dates of each paper.
-
-
-Add clear benchmark-selection guidance. Right now the site helps browse results, but not decide which benchmarks are worth testing on. It should surface benchmark relevance, popularity/adoption, recency, task fit, dataset scale, and a “recommended benchmark suite” view.
-
-Fix inconsistent headline numbers. The homepage and section pages use different counts, e.g. 224 papers on the homepage vs 159 papers on the papers page, and result totals also differ. That undermines trust immediately.
-
-Tighten data-quality checks on dataset summaries. Some displayed stats look misleading; for example, ogbn-arxiv is described as having 40 subject areas but shows Classes / Targets = 1. Researchers will question the whole site if overview stats are wrong.
 
 Complete core paper metadata. Paper pages are missing important scholarly context: author lists are empty on many/all pages, code links are absent, and dates are inconsistently formatted. That makes literature scanning much harder.
 
@@ -90,6 +71,9 @@ Improve metadata completeness on paper pages. Coverage is weak:
 216 have no code link
 46 have no source URL
 Missing authors, venue, DOI/BibTeX, and code links makes pages less useful for literature review.
+
+shadcn/ui
+
 
 ## Script cleanup backlog
 
