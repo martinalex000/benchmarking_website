@@ -45,11 +45,14 @@
         {{ range $i, $r := $results }}
         {{ $rowDetailsId := printf "mobile-details-%s-%d" $slug $i }}
         {{ $rowUnderperforming := $r.worse_than_at_pub }}
-        {{ $rowSurpassedSince := and (not $r.worse_than_at_pub) $r.surpassed_since_pub }}
+        {{ $rowImprovedAtPub := and $r.better_than_at_pub (not $r.surpassed_since_pub) }}
+        {{ $rowImprovedSurpassedSince := and $r.better_than_at_pub $r.surpassed_since_pub }}
+        {{ $rowSurpassedSince := and (not $r.worse_than_at_pub) (not $r.better_than_at_pub) $r.surpassed_since_pub }}
         {{ $rowInsignificantGap := and $paperPage $r.insignificant_value_gap }}
+        {{ $rowInsignificantImprovement := and $paperPage $r.insignificant_improvement_at_pub }}
         {{ $paperMobileExpand := false }}
         {{ if $paperPage }}{{ $paperMobileExpand = eq (partial "paper-table-mobile-expandable.html" (dict "row" $r) | strings.TrimSpace) "1" }}{{ end }}
-        <tr class="result-row {{ if $r.is_baseline }}row-baseline{{ else }}row-proposed{{ end }} {{ if $r.is_overridden }}row-overridden{{ end }}{{ if $r.is_best }} row-best{{ end }}{{ if eq $i 0 }} row-current-sota{{ end }}{{ if $r.is_global_top }} row-global-top{{ end }}{{ if and $paperPage $rowUnderperforming }} row-underperforming{{ end }}{{ if and $paperPage $rowSurpassedSince }} row-surpassed-since{{ end }}{{ if $rowInsignificantGap }} row-insignificant-gap{{ end }}{{ if and $paperPage $paperMobileExpand }} row-mobile-expandable{{ end }}{{ if and (gt $collapseAfter 0) (ge $i $collapseAfter) }} row-collapsed{{ end }}"
+        <tr class="result-row {{ if $r.is_baseline }}row-baseline{{ else }}row-proposed{{ end }} {{ if $r.is_overridden }}row-overridden{{ end }}{{ if $r.is_best }} row-best{{ end }}{{ if eq $i 0 }} row-current-sota{{ end }}{{ if $r.is_global_top }} row-global-top{{ end }}{{ if and $paperPage $rowUnderperforming }} row-underperforming{{ end }}{{ if and $paperPage $rowImprovedAtPub }} row-improved-at-pub{{ end }}{{ if and $paperPage $rowImprovedSurpassedSince }} row-improved-surpassed-since{{ end }}{{ if and $paperPage $rowSurpassedSince }} row-surpassed-since{{ end }}{{ if $rowInsignificantGap }} row-insignificant-gap{{ end }}{{ if $rowInsignificantImprovement }} row-insignificant-improvement-at-pub{{ end }}{{ if and $paperPage $paperMobileExpand }} row-mobile-expandable{{ end }}{{ if and (gt $collapseAfter 0) (ge $i $collapseAfter) }} row-collapsed{{ end }}"
           data-model="{{ $r.model_plain | default $r.model }}"
           data-value="{{ $r.sort_value | default $r.value }}"
           data-std="{{ $r.std }}"
@@ -153,7 +156,7 @@
         <td class="col-comparison">
           {{ if $r.comparison_type }}
           {{ if eq $r.comparison_type "improved" }}
-          <span class="comparison-improved" title="Improved over previous result">improved <span class="comparison-source">{{ if $r.comparison_source_arxiv }}<a href="{{ printf "papers/%s/" $r.comparison_source_arxiv | relURL }}" title="{{ $r.comparison_source_title }}">{{ $r.comparison_source_title | truncate 25 }}</a>{{ else }}{{ $r.comparison_source_title | truncate 25 }}{{ end }}</span></span>
+          <span class="comparison-improved-at-pub" title="Improved over the best known at publication"><span class="comparison-label">improved at pub:</span> <span class="comparison-source">{{ if $r.comparison_source_arxiv }}<a href="{{ printf "papers/%s/" $r.comparison_source_arxiv | relURL }}" title="{{ $r.comparison_source_title }}">{{ $r.comparison_source_title | truncate 25 }}</a>{{ else }}{{ $r.comparison_source_title | truncate 25 }}{{ end }}</span></span>
           {{ else if eq $r.comparison_type "matches" }}
           <span class="comparison-matches" title="Matches result from older paper">matches <span class="comparison-source">{{ if $r.comparison_source_arxiv }}<a href="{{ printf "papers/%s/" $r.comparison_source_arxiv | relURL }}" title="{{ $r.comparison_source_title }}">{{ $r.comparison_source_title | truncate 25 }}</a>{{ else }}{{ $r.comparison_source_title | truncate 25 }}{{ end }}</span></span>
           {{ else if eq $r.comparison_type "behind" }}

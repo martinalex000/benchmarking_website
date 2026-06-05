@@ -3,6 +3,19 @@
   Context: .row
 */}}
 {{ $r := .row }}
+{{ $isImprovement := or $r.better_than_at_pub $r.insignificant_improvement_at_pub }}
+{{ if $isImprovement }}
+{{ $paperVal := $r.paper_value }}
+{{ $paperStd := $r.paper_std }}
+{{ if eq $paperVal nil }}
+  {{ $paperVal = index $r.metric_values 0 }}
+  {{ $paperStd = index $r.metric_stds 0 }}
+{{ end }}
+<div class="metric-primary-block">
+  <span class="metric-primary-value paper-improved-num">{{ printf "%.4f" $paperVal }}</span>
+  {{ with $paperStd }}<span class="metric-primary-std paper-improved-std inline-std{{ if $r.is_std_outlier }} inline-std-outlier{{ end }}">±{{ printf "%.4f" . }}</span>{{ end }}
+</div>
+{{ else }}
 <div class="paper-value-gap-cell">
   <div class="metric-primary-block">
     <span class="metric-primary-value paper-true-num">{{ printf "%.4f" $r.true_value }}</span>
@@ -10,3 +23,4 @@
   </div>
   <span class="paper-true-performance-label">true performance</span>
 </div>
+{{ end }}

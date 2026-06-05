@@ -2,7 +2,7 @@
 {{ $r := .row }}
 {{ if and $r.comparison_type (ne $r.comparison_type "global_top") }}
 {{ if eq $r.comparison_type "improved" }}
-<span class="comparison-improved" title="Improved over previous result">improved <span class="comparison-source">{{ if $r.comparison_source_arxiv }}<a href="{{ printf "papers/%s/" $r.comparison_source_arxiv | relURL }}" title="{{ $r.comparison_source_title }}">{{ $r.comparison_source_title }}</a>{{ else }}{{ $r.comparison_source_title }}{{ end }}</span></span>
+<span class="comparison-improved-at-pub" title="Improved over the best known at publication"><span class="comparison-label">improved at pub:</span> <span class="comparison-source">{{ if $r.comparison_source_arxiv }}<a href="{{ printf "papers/%s/" $r.comparison_source_arxiv | relURL }}" title="{{ $r.comparison_source_title }}">{{ $r.comparison_source_title }}</a>{{ else }}{{ $r.comparison_source_title }}{{ end }}</span></span>
 {{ else if eq $r.comparison_type "behind" }}
 <span class="comparison-best-at-pub" title="Best known when this paper was published"><span class="comparison-label">best at pub:</span> <span class="comparison-source">{{ if $r.comparison_source_arxiv }}<a href="{{ printf "papers/%s/" $r.comparison_source_arxiv | relURL }}" title="{{ $r.comparison_source_title }}">{{ $r.comparison_source_title }}</a>{{ else }}{{ $r.comparison_source_title }}{{ end }}</span></span>
 {{ end }}

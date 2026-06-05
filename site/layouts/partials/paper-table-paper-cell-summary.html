@@ -1,10 +1,15 @@
 {{/* One-line mobile summary for paper-page result tables. Context: .row */}}
 {{ $r := .row }}
 {{ if $r.has_value_gap }}
-  {{ if $r.at_pub_source_title }}
+  {{ if and $r.at_pub_source_title (or $r.better_than_at_pub $r.insignificant_improvement_at_pub) }}
+  <span class="paper-cell-summary-text comparison-prev-best-at-pub">prev best: {{ $r.at_pub_source_title | truncate 22 }}</span>
+  {{ else if $r.at_pub_source_title }}
   <span class="paper-cell-summary-text comparison-best-at-pub">best at pub: {{ $r.at_pub_source_title | truncate 22 }}</span>
   {{ else }}
   <span class="paper-cell-summary-text">value gap</span>
+  {{ end }}
+  {{ if and $r.improvement_surpassed_since_pub $r.value_gap_source_title }}
+  <span class="paper-cell-summary-text comparison-best-today">best today: {{ $r.value_gap_source_title | truncate 18 }}</span>
   {{ end }}
 {{ else if $r.is_global_top }}
 <span class="paper-cell-summary-text">
@@ -12,7 +17,7 @@
 </span>
 {{ else if and $r.comparison_type (ne $r.comparison_type "global_top") (ne $r.comparison_type "matches") }}
 <span class="paper-cell-summary-text">
-  {{ if eq $r.comparison_type "improved" }}improved{{ else if eq $r.comparison_type "behind" }}best at pub:{{ else }}{{ $r.comparison_type }}{{ end }}
+  {{ if eq $r.comparison_type "improved" }}improved at pub:{{ else if eq $r.comparison_type "behind" }}best at pub:{{ else }}{{ $r.comparison_type }}{{ end }}
   {{ with $r.comparison_source_title }} {{ . | truncate 18 }}{{ end }}
 </span>
 {{ else }}

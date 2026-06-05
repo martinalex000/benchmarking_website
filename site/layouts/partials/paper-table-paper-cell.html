@@ -8,7 +8,8 @@
 {{ else if and $r.at_pub_source_title $r.value_gap_source_title }}
   {{ $sameGapSourcePaper = eq $r.at_pub_source_title $r.value_gap_source_title }}
 {{ end }}
-{{ $showTodayComparison := and $r.value_gap_source_title (not $sameGapSourcePaper) }}
+{{ $isImprovement := or $r.better_than_at_pub $r.insignificant_improvement_at_pub }}
+{{ $showTodayComparison := and $r.value_gap_source_title (not $sameGapSourcePaper) (or (not $isImprovement) $r.improvement_surpassed_since_pub $r.surpassed_since_pub) }}
 {{ $atPubDateLabel := $r.at_pub_source_date_label | default "" }}
 {{ if not $atPubDateLabel }}
   {{ with $r.at_pub_source_date_iso }}{{ if ge (len .) 4 }}{{ $atPubDateLabel = slicestr . 0 4 }}{{ end }}{{ end }}
@@ -21,7 +22,11 @@
 <div class="paper-cell-gap">
   {{ if $r.at_pub_source_title }}
   <div class="paper-gap-comparison">
+    {{ if $isImprovement }}
+    <span class="comparison-prev-best-at-pub" title="Improved over the best known at this paper's publication date{{ with $atPubDateLabel }} ({{ . }}){{ end }}"><span class="comparison-label">prev best:</span> <span class="comparison-source">{{ if $r.at_pub_source_arxiv }}<a href="{{ printf "papers/%s/" $r.at_pub_source_arxiv | relURL }}" title="{{ $r.at_pub_source_title }}{{ with $atPubDateLabel }} ({{ . }}){{ end }}">{{ $r.at_pub_source_title }}</a>{{ else }}{{ $r.at_pub_source_title }}{{ end }}</span>{{ with $atPubDateLabel }}<span class="comparison-source-year"> ({{ . }})</span>{{ end }}</span>
+    {{ else }}
     <span class="comparison-best-at-pub" title="Best known at this paper's publication date{{ with $atPubDateLabel }} ({{ . }}){{ end }}"><span class="comparison-label">best at pub:</span> <span class="comparison-source">{{ if $r.at_pub_source_arxiv }}<a href="{{ printf "papers/%s/" $r.at_pub_source_arxiv | relURL }}" title="{{ $r.at_pub_source_title }}{{ with $atPubDateLabel }} ({{ . }}){{ end }}">{{ $r.at_pub_source_title }}</a>{{ else }}{{ $r.at_pub_source_title }}{{ end }}</span>{{ with $atPubDateLabel }}<span class="comparison-source-year"> ({{ . }})</span>{{ end }}</span>
+    {{ end }}
   </div>
   {{ end }}
   {{ if $showTodayComparison }}
@@ -32,6 +37,9 @@
   {{ if $r.insignificant_value_gap }}
   <p class="paper-gap-insignificant-note">Difference within reported uncertainty; not counted as underperformance.</p>
   {{ end }}
+  {{ if $r.insignificant_improvement_at_pub }}
+  <p class="paper-gap-insignificant-note paper-gap-improvement-insignificant-note">Improvement within reported uncertainty; not highlighted.</p>
+  {{ end }}
   <div class="paper-gap-reported-meta">
     {{ $paperVal := $r.paper_value }}
     {{ $paperStd := $r.paper_std }}
@@ -41,7 +49,7 @@
     {{ end }}
     <span class="paper-gap-reported paper-gap-reported-desktop">paper {{ printf "%.4f" $paperVal }}{{ with $paperStd }} <span class="inline-std{{ if $r.is_std_outlier }} inline-std-outlier{{ end }}">±{{ printf "%.4f" . }}</span>{{ end }}</span>
     {{ with $r.gap_vs_at_pub }}
-    <span class="paper-gap-delta paper-gap-delta-at-pub{{ if $r.worse_than_at_pub }} paper-gap-delta-significant{{ else }} paper-gap-delta-insignificant{{ end }}">Δ at pub {{ printf "%.4f" . }}</span>
+    <span class="paper-gap-delta paper-gap-delta-at-pub{{ if $r.worse_than_at_pub }} paper-gap-delta-significant{{ else if $r.better_than_at_pub }} paper-gap-delta-significant-improvement{{ else }} paper-gap-delta-insignificant{{ end }}">Δ at pub {{ printf "%.4f" . }}</span>
     {{ end }}
     {{ if $showTodayComparison }}
     {{ with $r.value_gap }}

@@ -58,11 +58,14 @@
       {{ $dateDisplay := $r.date_display | default $r.date | default "—" }}
       {{ $mobileDate := replaceRE "([A-Za-z]+)\\s+20([0-9]{2})" "$1 '$2" $dateDisplay }}
         {{ $rowUnderperforming := $r.worse_than_at_pub }}
-        {{ $rowSurpassedSince := and (not $r.worse_than_at_pub) $r.surpassed_since_pub }}
+        {{ $rowImprovedAtPub := and $r.better_than_at_pub (not $r.surpassed_since_pub) }}
+        {{ $rowImprovedSurpassedSince := and $r.better_than_at_pub $r.surpassed_since_pub }}
+        {{ $rowSurpassedSince := and (not $r.worse_than_at_pub) (not $r.better_than_at_pub) $r.surpassed_since_pub }}
         {{ $rowInsignificantGap := and $paperPage $r.insignificant_value_gap }}
+        {{ $rowInsignificantImprovement := and $paperPage $r.insignificant_improvement_at_pub }}
         {{ $paperMobileExpand := false }}
         {{ if $paperPage }}{{ $paperMobileExpand = eq (partial "paper-table-mobile-expandable.html" (dict "row" $r) | strings.TrimSpace) "1" }}{{ end }}
-        <tr class="result-row {{ if $r.is_baseline }}row-baseline{{ else }}row-proposed{{ end }} {{ if $r.is_overridden }}row-overridden{{ end }}{{ if $r.is_best }} row-best{{ end }}{{ if eq $i 0 }} row-current-sota{{ end }}{{ if $r.is_global_top }} row-global-top{{ end }}{{ if and $paperPage $rowUnderperforming }} row-underperforming{{ end }}{{ if and $paperPage $rowSurpassedSince }} row-surpassed-since{{ end }}{{ if $rowInsignificantGap }} row-insignificant-gap{{ end }}{{ if and $paperPage $paperMobileExpand }} row-mobile-expandable{{ end }}{{ if and (gt $collapseAfter 0) (ge $i $collapseAfter) }} row-collapsed{{ end }}"
+        <tr class="result-row {{ if $r.is_baseline }}row-baseline{{ else }}row-proposed{{ end }} {{ if $r.is_overridden }}row-overridden{{ end }}{{ if $r.is_best }} row-best{{ end }}{{ if eq $i 0 }} row-current-sota{{ end }}{{ if $r.is_global_top }} row-global-top{{ end }}{{ if and $paperPage $rowUnderperforming }} row-underperforming{{ end }}{{ if and $paperPage $rowImprovedAtPub }} row-improved-at-pub{{ end }}{{ if and $paperPage $rowImprovedSurpassedSince }} row-improved-surpassed-since{{ end }}{{ if and $paperPage $rowSurpassedSince }} row-surpassed-since{{ end }}{{ if $rowInsignificantGap }} row-insignificant-gap{{ end }}{{ if $rowInsignificantImprovement }} row-insignificant-improvement-at-pub{{ end }}{{ if and $paperPage $paperMobileExpand }} row-mobile-expandable{{ end }}{{ if and (gt $collapseAfter 0) (ge $i $collapseAfter) }} row-collapsed{{ end }}"
           data-model="{{ $r.model_plain | default $r.model }}"
           data-value="{{ $r.sort_value | default $primary_val }}"
           data-params="{{ $r.params_millions }}"

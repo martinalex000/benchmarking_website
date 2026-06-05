@@ -181,6 +181,8 @@
 :root[data-theme="dark"] .swatch-best { background: #422006; border-color: #ca8a04; }
 :root[data-theme="dark"] .swatch-gap { background: #450a0a; border-color: #f87171; }
 :root[data-theme="dark"] .swatch-at-pub { background: #450a0a; border-color: #f87171; }
+:root[data-theme="dark"] .swatch-improved-at-pub { background: #172554; border-color: #60a5fa; }
+:root[data-theme="dark"] .swatch-improved-surpassed { background: #431407; border-color: #fdba74; }
 :root[data-theme="dark"] .swatch-surpassed { background: #431407; border-color: #fdba74; }
 :root[data-theme="dark"] .marker-sota-match { background: var(--bg); }
 :root[data-theme="dark"] tr.row-global-top td { background: #0c4a6e; }
@@ -193,6 +195,22 @@
   --paper-row-tint-bg: #2a1810;
   --paper-row-tint-hover-bg: #331f0f;
   --paper-row-tint-accent: #fdba74;
+}
+:root[data-theme="dark"] .paper-page .result-table tbody tr.row-improved-at-pub {
+  --paper-row-tint-bg: #0f172a;
+  --paper-row-tint-hover-bg: #172554;
+  --paper-row-tint-accent: #60a5fa;
+}
+:root[data-theme="dark"] .paper-page .result-table tbody tr.row-improved-surpassed-since {
+  --paper-row-tint-bg: #2a1810;
+  --paper-row-tint-hover-bg: #331f0f;
+  --paper-row-tint-accent: #fdba74;
+}
+:root[data-theme="dark"] .comparison-improved-at-pub,
+:root[data-theme="dark"] .comparison-prev-best-at-pub {
+  background: #172554;
+  border-color: #1d4ed8;
+  color: #93c5fd;
 }
 :root[data-theme="dark"] .comparison-best-today {
   background: #431407;
@@ -251,6 +269,14 @@
 :root[data-theme="dark"] .paper-page .paper-true-num,
 :root[data-theme="dark"] .paper-page .paper-true-performance-label {
   color: #86efac;
+}
+:root[data-theme="dark"] .paper-page tr.row-improved-at-pub td.col-value .metric-primary-value,
+:root[data-theme="dark"] .paper-page tr.row-improved-at-pub .paper-improved-num {
+  color: #93c5fd;
+}
+:root[data-theme="dark"] .paper-page tr.row-improved-at-pub td.col-value .metric-primary-std,
+:root[data-theme="dark"] .paper-page tr.row-improved-at-pub .paper-improved-std {
+  color: #60a5fa;
 }
 :root[data-theme="dark"] .paper-page .paper-gap-reported {
   color: #fecaca;
@@ -721,8 +747,8 @@ footer { max-width: 1100px; margin: 3rem auto 1rem; padding: 0 1.5rem; color: va
   background: var(--blue-light);
 }
 /* Keep value cell clear only when the row has no underperforming tint */
-.paper-page tr.row-proposed:not(.row-underperforming):not(.row-surpassed-since):not(.row-insignificant-gap) td.col-value.col-value-gap,
-.paper-page tr.row-baseline:not(.row-underperforming):not(.row-surpassed-since):not(.row-insignificant-gap) td.col-value.col-value-gap {
+.paper-page tr.row-proposed:not(.row-underperforming):not(.row-surpassed-since):not(.row-improved-at-pub):not(.row-improved-surpassed-since):not(.row-insignificant-gap) td.col-value.col-value-gap,
+.paper-page tr.row-baseline:not(.row-underperforming):not(.row-surpassed-since):not(.row-improved-at-pub):not(.row-improved-surpassed-since):not(.row-insignificant-gap) td.col-value.col-value-gap {
   background: transparent;
   box-shadow: none;
 }
@@ -740,6 +766,16 @@ footer { max-width: 1100px; margin: 3rem auto 1rem; padding: 0 1.5rem; color: va
   --paper-row-tint-hover-bg: #fff7ed;
   --paper-row-tint-accent: #ea580c;
 }
+.paper-page .result-table tbody tr.row-improved-at-pub {
+  --paper-row-tint-bg: #f0f7ff;
+  --paper-row-tint-hover-bg: #e8f2ff;
+  --paper-row-tint-accent: #3b82f6;
+}
+.paper-page .result-table tbody tr.row-improved-surpassed-since {
+  --paper-row-tint-bg: #fffaf5;
+  --paper-row-tint-hover-bg: #fff7ed;
+  --paper-row-tint-accent: #ea580c;
+}
 .paper-page .result-table tbody tr.row-underperforming,
 .paper-page .result-table tbody tr.row-best.row-underperforming,
 .paper-page .result-table tbody tr.row-current-sota.row-underperforming,
@@ -747,7 +783,15 @@ footer { max-width: 1100px; margin: 3rem auto 1rem; padding: 0 1.5rem; color: va
 .paper-page .result-table tbody tr.row-surpassed-since,
 .paper-page .result-table tbody tr.row-best.row-surpassed-since,
 .paper-page .result-table tbody tr.row-current-sota.row-surpassed-since,
-.paper-page .result-table tbody tr.row-global-top.row-surpassed-since {
+.paper-page .result-table tbody tr.row-global-top.row-surpassed-since,
+.paper-page .result-table tbody tr.row-improved-at-pub,
+.paper-page .result-table tbody tr.row-best.row-improved-at-pub,
+.paper-page .result-table tbody tr.row-current-sota.row-improved-at-pub,
+.paper-page .result-table tbody tr.row-global-top.row-improved-at-pub,
+.paper-page .result-table tbody tr.row-improved-surpassed-since,
+.paper-page .result-table tbody tr.row-best.row-improved-surpassed-since,
+.paper-page .result-table tbody tr.row-current-sota.row-improved-surpassed-since,
+.paper-page .result-table tbody tr.row-global-top.row-improved-surpassed-since {
   background: var(--paper-row-tint-bg);
   box-shadow: inset 3px 0 0 var(--paper-row-tint-accent);
 }
@@ -758,7 +802,15 @@ footer { max-width: 1100px; margin: 3rem auto 1rem; padding: 0 1.5rem; color: va
 .paper-page .result-table tbody tr.row-surpassed-since:hover,
 .paper-page .result-table tbody tr.row-best.row-surpassed-since:hover,
 .paper-page .result-table tbody tr.row-current-sota.row-surpassed-since:hover,
-.paper-page .result-table tbody tr.row-global-top.row-surpassed-since:hover {
+.paper-page .result-table tbody tr.row-global-top.row-surpassed-since:hover,
+.paper-page .result-table tbody tr.row-improved-at-pub:hover,
+.paper-page .result-table tbody tr.row-best.row-improved-at-pub:hover,
+.paper-page .result-table tbody tr.row-current-sota.row-improved-at-pub:hover,
+.paper-page .result-table tbody tr.row-global-top.row-improved-at-pub:hover,
+.paper-page .result-table tbody tr.row-improved-surpassed-since:hover,
+.paper-page .result-table tbody tr.row-best.row-improved-surpassed-since:hover,
+.paper-page .result-table tbody tr.row-current-sota.row-improved-surpassed-since:hover,
+.paper-page .result-table tbody tr.row-global-top.row-improved-surpassed-since:hover {
   background: var(--paper-row-tint-hover-bg);
 }
 .paper-page .result-table tbody tr.row-underperforming td,
@@ -768,7 +820,15 @@ footer { max-width: 1100px; margin: 3rem auto 1rem; padding: 0 1.5rem; color: va
 .paper-page .result-table tbody tr.row-surpassed-since td,
 .paper-page .result-table tbody tr.row-best.row-surpassed-since td,
 .paper-page .result-table tbody tr.row-current-sota.row-surpassed-since td,
-.paper-page .result-table tbody tr.row-global-top.row-surpassed-since td {
+.paper-page .result-table tbody tr.row-global-top.row-surpassed-since td,
+.paper-page .result-table tbody tr.row-improved-at-pub td,
+.paper-page .result-table tbody tr.row-best.row-improved-at-pub td,
+.paper-page .result-table tbody tr.row-current-sota.row-improved-at-pub td,
+.paper-page .result-table tbody tr.row-global-top.row-improved-at-pub td,
+.paper-page .result-table tbody tr.row-improved-surpassed-since td,
+.paper-page .result-table tbody tr.row-best.row-improved-surpassed-since td,
+.paper-page .result-table tbody tr.row-current-sota.row-improved-surpassed-since td,
+.paper-page .result-table tbody tr.row-global-top.row-improved-surpassed-since td {
   background: var(--paper-row-tint-bg);
   box-shadow: none;
 }
@@ -779,8 +839,33 @@ footer { max-width: 1100px; margin: 3rem auto 1rem; padding: 0 1.5rem; color: va
 .paper-page .result-table tbody tr.row-surpassed-since:hover td,
 .paper-page .result-table tbody tr.row-best.row-surpassed-since:hover td,
 .paper-page .result-table tbody tr.row-current-sota.row-surpassed-since:hover td,
-.paper-page .result-table tbody tr.row-global-top.row-surpassed-since:hover td {
+.paper-page .result-table tbody tr.row-global-top.row-surpassed-since:hover td,
+.paper-page .result-table tbody tr.row-improved-at-pub:hover td,
+.paper-page .result-table tbody tr.row-best.row-improved-at-pub:hover td,
+.paper-page .result-table tbody tr.row-current-sota.row-improved-at-pub:hover td,
+.paper-page .result-table tbody tr.row-global-top.row-improved-at-pub:hover td,
+.paper-page .result-table tbody tr.row-improved-surpassed-since:hover td,
+.paper-page .result-table tbody tr.row-best.row-improved-surpassed-since:hover td,
+.paper-page .result-table tbody tr.row-current-sota.row-improved-surpassed-since:hover td,
+.paper-page .result-table tbody tr.row-global-top.row-improved-surpassed-since:hover td {
   background: var(--paper-row-tint-hover-bg);
+}
+.paper-page tr.row-improved-at-pub td.col-value .metric-primary-value,
+.paper-page tr.row-improved-at-pub .paper-improved-num {
+  color: #1d4ed8;
+  font-weight: 600;
+}
+.paper-page tr.row-improved-at-pub td.col-value .metric-primary-std,
+.paper-page tr.row-improved-at-pub .paper-improved-std {
+  color: #2563eb;
+}
+.paper-page .paper-improved-performance-label {
+  display: block;
+  font-size: 0.68rem;
+  color: #2563eb;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  margin-top: 0.1rem;
 }
 .paper-header { margin-bottom: 1.5rem; }
 .paper-sticky-title {
@@ -1144,15 +1229,24 @@ footer { max-width: 1100px; margin: 3rem auto 1rem; padding: 0 1.5rem; color: va
 }
 
 /* Comparison badges */
-.comparison-improved {
+.comparison-improved,
+.comparison-improved-at-pub {
   display: inline-block;
   font-size: 0.78rem;
-  color: #15803d;
-  background: #dcfce7;
-  border: 1px solid #bbf7d0;
+  color: #1d4ed8;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
   border-radius: 4px;
   padding: 1px 6px;
   white-space: nowrap;
+}
+.comparison-improved {
+  color: #15803d;
+  background: #dcfce7;
+  border-color: #bbf7d0;
+}
+.paper-page .paper-gap-delta-significant-improvement {
+  color: #1d4ed8;
 }
 .comparison-matches {
   display: inline-block;
@@ -1170,6 +1264,16 @@ footer { max-width: 1100px; margin: 3rem auto 1rem; padding: 0 1.5rem; color: va
   color: #b91c1c;
   background: #fee2e2;
   border: 1px solid #fecaca;
+  border-radius: 4px;
+  padding: 1px 6px;
+  white-space: nowrap;
+}
+.comparison-prev-best-at-pub {
+  display: inline-block;
+  font-size: 0.78rem;
+  color: #1d4ed8;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
   border-radius: 4px;
   padding: 1px 6px;
   white-space: nowrap;
@@ -1811,6 +1915,46 @@ tr.chart-scroll-highlight { box-shadow: inset 0 0 0 9999px var(--highlight-scrol
 }
 .variant-section {
   scroll-margin-top: 5.5rem;
+}
+
+/* Site-wide page banners */
+.site-banner {
+  margin: 0 0 1.5rem;
+  padding: 0.85rem 1rem;
+  border-radius: var(--radius);
+  border: 2px solid transparent;
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+.site-banner a {
+  color: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.site-banner-info {
+  background: #eff6ff;
+  border-color: #60a5fa;
+  color: #1e3a8a;
+  box-shadow: 0 0 0 1px #bfdbfe inset;
+}
+.site-banner-warning {
+  background: #fff7ed;
+  border-color: #fb923c;
+  color: #7c2d12;
+  box-shadow: 0 0 0 1px #fed7aa inset;
+}
+:root[data-theme="dark"] .site-banner-info {
+  background: #1e3a8a;
+  border-color: #60a5fa;
+  color: #dbeafe;
+  box-shadow: 0 0 0 1px #1d4ed8 inset;
+}
+:root[data-theme="dark"] .site-banner-warning {
+  background: #431407;
+  border-color: #ea580c;
+  color: #fed7aa;
+  box-shadow: 0 0 0 1px #9a3412 inset;
 }
 
 /* Home */
@@ -2719,6 +2863,8 @@ tr.row-global-top.row-best td { background: #e0f2fe; }
 .swatch-best     { background: #fefce8; border-color: #fde68a; outline: 2px solid #fbbf24; outline-offset: -2px; }
 .swatch-gap      { background: #fff1f2; border-color: #fecdd3; outline: 2px solid #ef4444; outline-offset: -2px; }
 .swatch-at-pub   { background: #fff1f2; border-color: #fecdd3; outline: 2px solid #ef4444; outline-offset: -2px; }
+.swatch-improved-at-pub { background: #f0f7ff; border-color: #bfdbfe; outline: 2px solid #3b82f6; outline-offset: -2px; }
+.swatch-improved-surpassed { background: #fffaf5; border-color: #fdba74; outline: 2px solid #ea580c; outline-offset: -2px; }
 .swatch-surpassed { background: #fffaf5; border-color: #fdba74; outline: 2px solid #ea580c; outline-offset: -2px; }
 
 .benchmark-heading {
@@ -3341,8 +3487,16 @@ a.mini-badge-code:focus-visible {
   .paper-page .result-table tbody tr.row-best.row-surpassed-since td,
   .paper-page .result-table tbody tr.row-current-sota.row-surpassed-since td,
   .paper-page .result-table tbody tr.row-global-top.row-surpassed-since td,
-  .paper-page .result-table tbody tr.row-global-top:not(.row-underperforming):not(.row-surpassed-since) td,
-  .paper-page .result-table tbody tr.row-best:not(.row-underperforming):not(.row-surpassed-since) td {
+  .paper-page .result-table tbody tr.row-improved-at-pub td,
+  .paper-page .result-table tbody tr.row-best.row-improved-at-pub td,
+  .paper-page .result-table tbody tr.row-current-sota.row-improved-at-pub td,
+  .paper-page .result-table tbody tr.row-global-top.row-improved-at-pub td,
+  .paper-page .result-table tbody tr.row-improved-surpassed-since td,
+  .paper-page .result-table tbody tr.row-best.row-improved-surpassed-since td,
+  .paper-page .result-table tbody tr.row-current-sota.row-improved-surpassed-since td,
+  .paper-page .result-table tbody tr.row-global-top.row-improved-surpassed-since td,
+  .paper-page .result-table tbody tr.row-global-top:not(.row-underperforming):not(.row-surpassed-since):not(.row-improved-at-pub):not(.row-improved-surpassed-since) td,
+  .paper-page .result-table tbody tr.row-best:not(.row-underperforming):not(.row-surpassed-since):not(.row-improved-at-pub):not(.row-improved-surpassed-since) td {
     background: transparent;
     box-shadow: none;
   }
@@ -3637,8 +3791,11 @@ a.mini-badge-code:focus-visible {
   }
 
   .paper-page tr.mobile-details-open .paper-cell-details-full .paper-gap-comparison .comparison-best-at-pub,
+  .paper-page tr.mobile-details-open .paper-cell-details-full .paper-gap-comparison .comparison-improved-at-pub,
+  .paper-page tr.mobile-details-open .paper-cell-details-full .paper-gap-comparison .comparison-prev-best-at-pub,
   .paper-page tr.mobile-details-open .paper-cell-details-full .paper-gap-comparison .comparison-best-today,
   .paper-page tr.mobile-details-open .paper-cell-details-full .paper-cell-comparison .comparison-improved,
+  .paper-page tr.mobile-details-open .paper-cell-details-full .paper-cell-comparison .comparison-improved-at-pub,
   .paper-page tr.mobile-details-open .paper-cell-details-full .paper-cell-comparison .comparison-best-at-pub {
     display: flex;
     flex-wrap: nowrap;
@@ -3792,6 +3949,7 @@ a.mini-badge-code:focus-visible {
   }
 
   .paper-page .paper-gap-comparison .comparison-best-at-pub,
+  .paper-page .paper-gap-comparison .comparison-prev-best-at-pub,
   .paper-page .paper-gap-comparison .comparison-best-today,
   .paper-page .paper-cell-comparison .comparison-best-at-pub {
     display: inline-flex;
