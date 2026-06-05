@@ -475,13 +475,26 @@ bash scripts/run_pipeline.sh --model fallback
 
 ---
 
-### `scripts/deploy.sh` — build and deploy the static site
+### `scripts/deploy.py` — build and deploy the static site
 
-Builds the Hugo site and rsyncs `site/public/` to the configured deployment target.
+Builds the Hugo site and deploys via zstd-compressed tar archives over `scp`/`ssh`.
+Figures (`figures/`) are split into a separate archive so day-to-day deploys can send
+only the increment (HTML/CSS/JS) after an initial full run.
 
 ```bash
-bash scripts/deploy.sh
+# First deploy (or when figures changed): upload figures + increment archives
+uv run python scripts/deploy.py --full
+
+# Routine deploy: upload increment only (reuses latest figures archive on server)
+uv run python scripts/deploy.py
+uv run python scripts/deploy.py --skip-export   # Hugo rebuild only, no DB export
 ```
+
+`scripts/deploy.sh` is a thin wrapper around the same command.
+
+Archives are stored outside the web root at `~/deploy/` on the server (not web-accessible).
+Archive names:
+`{hostname}-{YYYYMMDDHHMM}-figures.tar.zst` / `...-increment.tar.zst`.
 
 Requires `DEPLOY_USER`, `DEPLOY_HOST`, and `DEPLOY_PATH` in `.env`.
 
