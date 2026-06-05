@@ -1,4 +1,8 @@
 {{ define "main" }}
+{{ partial "site-banner.html" (dict
+  "variant" "info"
+  "message" "This page is under development. If you have any questions, improvement ideas, spotted errors/inconsistencies, or want to collaborate, please reach out to <a href=\"mailto:graphlearningbenchmarks@proton.me\">graphlearningbenchmarks@proton.me</a>. Please also write such emails for small improvements."
+) }}
 <div class="home-hero">
   <h1>Graph Learning Leaderboards</h1>
   <p>Quickly identify the SOTA for common graph-learning benchmarks. Identify core baselines to test against. </p>

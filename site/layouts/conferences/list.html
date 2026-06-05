@@ -1,5 +1,6 @@
 {{ define "main" }}
-{{ $papers := where (where .Site.RegularPages "Section" "papers") "Params.has_results" true }}
+{{ $allPapers := where .Site.RegularPages "Section" "papers" }}
+{{ $papers := where $allPapers "Params.has_results" true }}
 {{ $papersWithConferences := where $papers "Params.published_conference_short" "ne" "" }}
 {{ $conferenceOrder := slice "NeurIPS" "ICLR" "ICML" "LoG" "TMLR" "AAAI" "KDD" }}
 {{ $conferenceCounts := dict }}
@@ -69,6 +70,10 @@
   {{ $yearChartValues = $yearChartValues | append (default 0 (index $yearCounts .)) }}
 {{ end }}
 
+{{ partial "site-banner.html" (dict
+  "variant" "warning"
+  "message" (printf "Paper import very incomplete (just %d papers imported until now, %d with benchmark results). Since imports are prioritized by number of citations, there is a strong bias towards older papers." (len $allPapers) (len $papers))
+) }}
 <div class="overview-hero">
   <h1>{{ .Title }}</h1>
   <div class="overview-intro">{{ .Content }}</div>

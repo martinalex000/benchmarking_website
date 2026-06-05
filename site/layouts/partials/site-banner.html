@@ -1,0 +1,4 @@
+{{ $variant := .variant | default "info" }}
+<div class="site-banner site-banner-{{ $variant }}" role="status">
+  {{ .message | safeHTML }}
+</div>
