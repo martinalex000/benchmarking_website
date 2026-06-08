@@ -1113,6 +1113,39 @@ def _write_md(path: Path, front_matter: dict, body: str = "") -> None:
     path.write_text(f"---\n{fm_str}---\n\n{body}", encoding="utf-8")
 
 
+def _remove_hugo_content_dir(path: Path) -> bool:
+    """Remove a generated Hugo content directory if it exists."""
+    if path.is_dir():
+        shutil.rmtree(path)
+        return True
+    return False
+
+
+def _cleanup_stale_hugo_content(
+    *,
+    keep_paper_ids: set[str],
+    keep_dataset_slugs: set[str],
+) -> tuple[int, int]:
+    """Delete paper/dataset content dirs not in the current export sets."""
+    removed_papers = 0
+    papers_root = _CONTENT / "papers"
+    if papers_root.is_dir():
+        for child in papers_root.iterdir():
+            if child.is_dir() and child.name not in keep_paper_ids:
+                shutil.rmtree(child)
+                removed_papers += 1
+
+    removed_datasets = 0
+    datasets_root = _CONTENT / "datasets"
+    if datasets_root.is_dir():
+        for child in datasets_root.iterdir():
+            if child.is_dir() and child.name not in keep_dataset_slugs:
+                shutil.rmtree(child)
+                removed_datasets += 1
+
+    return removed_papers, removed_datasets
+
+
 def _sanitize_abstract(text: str | None) -> str:
     """Light cleanup for public-facing abstracts exported from extraction artifacts."""
     if not text:
@@ -2116,9 +2149,11 @@ def export_paper(arxiv_id: str, *, session: Session | None = None) -> bool:
 
 
 def _export_paper_impl(session: Session, arxiv_id: str) -> bool:
+    paper_dir = _CONTENT / "papers" / arxiv_id
     paper = session.query(Paper).filter_by(arxiv_id=arxiv_id).first()
     if paper is None:
         logger.warning("Paper arXiv:%s not found in DB", arxiv_id)
+        _remove_hugo_content_dir(paper_dir)
         return False
 
     results = (
@@ -2128,10 +2163,9 @@ def _export_paper_impl(session: Session, arxiv_id: str) -> bool:
         .filter(Result.is_problematic.is_(None) | (Result.is_problematic == 0))
         .all()
     )
-    out_path = _CONTENT / "papers" / arxiv_id / "index.md"
+    out_path = paper_dir / "index.md"
     if not results:
-        if out_path.exists():
-            out_path.unlink()
+        _remove_hugo_content_dir(paper_dir)
         return False
 
     conference_fields = _conference_export_fields(paper.venue, paper.published_date)
@@ -2730,6 +2764,8 @@ def _export_dataset_impl(session: Session, dataset_id: int) -> bool:
     if ds is None:
         return False
 
+    out_dir = _CONTENT / "datasets" / _slug(ds.name)
+
     variants = session.query(DatasetVariant).filter_by(dataset_id=dataset_id).all()
     variants = sorted(
         variants,
@@ -2748,6 +2784,7 @@ def _export_dataset_impl(session: Session, dataset_id: int) -> bool:
             "result_count": 0,
             "recent_result_count": 0,
         }
+        _remove_hugo_content_dir(out_dir)
         return False
 
     force_export = _dataset_force_export(ds.name)
@@ -2842,6 +2879,7 @@ def _export_dataset_impl(session: Session, dataset_id: int) -> bool:
             "result_count": 0,
             "recent_result_count": 0,
         }
+        _remove_hugo_content_dir(out_dir)
         return False
 
     # Compute overview stats from the standard (or first) variant
@@ -2897,7 +2935,7 @@ def _export_dataset_impl(session: Session, dataset_id: int) -> bool:
         "variants": variant_data,
     }
 
-    out_path = _CONTENT / "datasets" / _slug(ds.name) / "index.md"
+    out_path = out_dir / "index.md"
     _write_md(out_path, front_matter)
     _DATASET_EXPORT_META_CACHE[dataset_id] = {
         "exportable": True,
@@ -3020,6 +3058,7 @@ def _print_export_timing_summary(
     papers_total: int,
     skip_development: bool,
     dev_stats: dict[str, int] | None = None,
+    stale_removed: tuple[int, int] = (0, 0),
 ) -> None:
     from tqdm import tqdm
 
@@ -3043,6 +3082,11 @@ def _print_export_timing_summary(
         f"  papers:       {timings.get('papers', 0.0):7.1f}s  "
         f"({papers_ok}/{papers_total} pages written)"
     )
+    removed_papers, removed_datasets = stale_removed
+    if removed_papers or removed_datasets:
+        tqdm.write(
+            f"  stale pages:  removed {removed_papers} paper(s), {removed_datasets} dataset(s)"
+        )
     tqdm.write(f"  total:        {total:7.1f}s")
 
 
@@ -3066,6 +3110,8 @@ def export_all(
 
     timings: dict[str, float] = {}
     dev_stats: dict[str, int] | None = None
+    exported_dataset_slugs: set[str] = set()
+    stale_removed = (0, 0)
 
     with session_scope() as session:
         ds_ok = 0
@@ -3073,6 +3119,9 @@ def export_all(
         for did in tqdm(dataset_ids, desc="Exporting datasets", unit="dataset", leave=True):
             if export_dataset(did, session=session):
                 ds_ok += 1
+                ds = session.query(Dataset).filter_by(id=did).first()
+                if ds is not None:
+                    exported_dataset_slugs.add(_slug(ds.name))
         timings["datasets"] = time.perf_counter() - t0
 
         benchmarks = session.query(Benchmark).all()
@@ -3107,6 +3156,12 @@ def export_all(
         create_conferences_page(session=session)
         timings["conferences"] = time.perf_counter() - t0
 
+        if arxiv_ids is None:
+            stale_removed = _cleanup_stale_hugo_content(
+                keep_paper_ids=set(paper_ids),
+                keep_dataset_slugs=exported_dataset_slugs,
+            )
+
     _print_export_timing_summary(
         timings=timings,
         datasets_ok=ds_ok,
@@ -3115,6 +3170,7 @@ def export_all(
         papers_total=len(paper_ids),
         skip_development=skip_development,
         dev_stats=dev_stats,
+        stale_removed=stale_removed,
     )
 
 

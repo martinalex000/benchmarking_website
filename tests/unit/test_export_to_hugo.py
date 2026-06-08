@@ -1,12 +1,14 @@
 """Focused regression tests for export helper behavior."""
 
 import shutil
+from pathlib import Path
 
 import pytest
 
 from backend.export_helpers import truncate_words as _truncate_words
 from backend.export_to_hugo import (
     _benchmark_coverage_entries,
+    _cleanup_stale_hugo_content,
     _comparison_source_date_label,
     _conference_export_fields,
     _dataset_export_metadata,
@@ -806,3 +808,178 @@ def test_select_global_context_rows_adds_gatedgcn_only_when_beats_plain_gnn_trio
         "GIN",
         "GCN",
     ]
+
+
+def _write_stub_hugo_page(path: Path) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text("---\ntitle: stub\n---\n", encoding="utf-8")
+
+
+def test_cleanup_stale_hugo_content_removes_orphan_pages(monkeypatch, tmp_path):
+    content = tmp_path / "content"
+    _write_stub_hugo_page(content / "papers" / "stale-paper" / "index.md")
+    _write_stub_hugo_page(content / "papers" / "keep-paper" / "index.md")
+    _write_stub_hugo_page(content / "datasets" / "stale-ds" / "index.md")
+    _write_stub_hugo_page(content / "datasets" / "keep-ds" / "index.md")
+
+    monkeypatch.setattr("backend.export_to_hugo._CONTENT", content)
+
+    removed_papers, removed_datasets = _cleanup_stale_hugo_content(
+        keep_paper_ids={"keep-paper"},
+        keep_dataset_slugs={"keep-ds"},
+    )
+
+    assert removed_papers == 1
+    assert removed_datasets == 1
+    assert not (content / "papers" / "stale-paper").exists()
+    assert (content / "papers" / "keep-paper").exists()
+    assert not (content / "datasets" / "stale-ds").exists()
+    assert (content / "datasets" / "keep-ds").exists()
+
+
+def test_export_paper_removes_stale_content_when_no_results(monkeypatch, tmp_path):
+    from backend.db import init_db, session_scope
+    from backend.export_to_hugo import export_paper
+    from backend.models import Paper
+
+    content = tmp_path / "content"
+    _write_stub_hugo_page(content / "papers" / "2402.04821" / "index.md")
+    monkeypatch.setattr("backend.export_to_hugo._CONTENT", content)
+
+    db_path = tmp_path / "benchmarks.db"
+    monkeypatch.setattr("backend.config.cfg.db_path", db_path)
+    monkeypatch.setattr("backend.config.cfg.base_dir", tmp_path)
+    import backend.db as db_module
+
+    db_module._engine = None
+    db_module._SessionFactory = None
+    init_db()
+
+    with session_scope() as session:
+        session.add(
+            Paper(
+                arxiv_id="2402.04821",
+                title="No Results Paper",
+                extraction_status="extracted",
+            )
+        )
+
+    assert export_paper("2402.04821") is False
+    assert not (content / "papers" / "2402.04821").exists()
+
+
+def test_export_dataset_removes_stale_content_when_not_exportable(monkeypatch, tmp_path):
+    from backend.db import init_db, session_scope
+    from backend.export_to_hugo import export_dataset
+    from backend.models import Benchmark, Dataset, DatasetVariant
+
+    content = tmp_path / "content"
+    _write_stub_hugo_page(content / "datasets" / "no-results-yet" / "index.md")
+    monkeypatch.setattr("backend.export_to_hugo._CONTENT", content)
+
+    db_path = tmp_path / "benchmarks.db"
+    monkeypatch.setattr("backend.config.cfg.db_path", db_path)
+    monkeypatch.setattr("backend.config.cfg.base_dir", tmp_path)
+    import backend.db as db_module
+
+    db_module._engine = None
+    db_module._SessionFactory = None
+    init_db()
+
+    with session_scope() as session:
+        benchmark = Benchmark(name="OGB", short_name="ogb")
+        session.add(benchmark)
+        session.flush()
+        dataset = Dataset(
+            benchmark_id=benchmark.id,
+            name="No Results Yet",
+            task_type="node_classification",
+            primary_metric="Accuracy",
+            higher_is_better=1,
+        )
+        session.add(dataset)
+        session.flush()
+        session.add(DatasetVariant(dataset_id=dataset.id, name="Standard split", is_standard=1))
+        session.flush()
+        dataset_id = dataset.id
+
+    assert export_dataset(dataset_id) is False
+    assert not (content / "datasets" / "no-results-yet").exists()
+
+
+def test_export_all_removes_stale_paper_pages_on_full_export(monkeypatch, tmp_path):
+    from backend.db import init_db, session_scope
+    from backend.export_to_hugo import export_all
+    from backend.models import Benchmark, Dataset, DatasetVariant, Model, Paper, Result
+
+    site_dir = tmp_path / "site"
+    content = site_dir / "content"
+    data_dir = site_dir / "data"
+    config_dir = tmp_path / "config"
+    for directory in (content, data_dir, config_dir):
+        directory.mkdir(parents=True, exist_ok=True)
+    (config_dir / "dataset_overrides.yaml").write_text("{}\n", encoding="utf-8")
+
+    _write_stub_hugo_page(content / "papers" / "stale-paper" / "index.md")
+    _write_stub_hugo_page(content / "datasets" / "stale-dataset" / "index.md")
+
+    monkeypatch.setattr("backend.export_to_hugo._SITE_DIR", site_dir)
+    monkeypatch.setattr("backend.export_to_hugo._CONTENT", content)
+    monkeypatch.setattr("backend.export_to_hugo._DATA_DIR", data_dir)
+    monkeypatch.setattr("backend.export_to_hugo._STATIC", site_dir / "static")
+    monkeypatch.setattr(
+        "backend.export_to_hugo._DATASET_OVERRIDES_FILE", config_dir / "dataset_overrides.yaml"
+    )
+    monkeypatch.setattr("backend.config.cfg.db_path", tmp_path / "benchmarks.db")
+    monkeypatch.setattr("backend.config.cfg.base_dir", tmp_path)
+    monkeypatch.setattr("backend.config.cfg.site_dir", site_dir)
+    monkeypatch.setattr("backend.config.cfg.config_dir", config_dir)
+
+    import backend.db as db_module
+
+    db_module._engine = None
+    db_module._SessionFactory = None
+    init_db()
+    clear_export_caches()
+
+    with session_scope() as session:
+        benchmark = Benchmark(name="OGB", short_name="ogb")
+        session.add(benchmark)
+        session.flush()
+        dataset = Dataset(
+            benchmark_id=benchmark.id,
+            name="ogbn-arxiv",
+            task_type="node_classification",
+            primary_metric="Accuracy",
+            higher_is_better=1,
+        )
+        session.add(dataset)
+        session.flush()
+        variant = DatasetVariant(dataset_id=dataset.id, name="Standard split", is_standard=1)
+        model = Model(name="GCN", canonical_name="gcn", paper_id=None, is_baseline=1)
+        paper = Paper(
+            arxiv_id="2401.17791",
+            title="Exportable Paper",
+            extraction_status="extracted",
+            published_date="2024-01-01",
+        )
+        session.add_all((variant, model, paper))
+        session.flush()
+        session.add(
+            Result(
+                paper_id=paper.id,
+                model_id=model.id,
+                dataset_variant_id=variant.id,
+                metric_name="Accuracy",
+                metric_value=0.75,
+                higher_is_better=1,
+                is_baseline=1,
+            )
+        )
+
+    export_all(skip_development=True)
+
+    assert not (content / "papers" / "stale-paper").exists()
+    assert not (content / "datasets" / "stale-dataset").exists()
+    assert (content / "papers" / "2401.17791" / "index.md").exists()
+    assert (content / "datasets" / "ogbn-arxiv" / "index.md").exists()
