@@ -1,0 +1,7 @@
+{{/*
+  Partial: format-metric-value.html
+  Context: .value – float to format
+  Binary rule: scientific notation for small non-zero values, else 4 decimal places.
+*/}}
+{{ $val := .value }}
+{{ if eq $val nil }}—{{ else if and (ne $val 0.0) (lt $val 0.0001) (gt $val -0.0001) }}{{ printf "%.2e" $val }}{{ else }}{{ printf "%.4f" $val }}{{ end }}

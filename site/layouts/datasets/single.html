@@ -23,25 +23,27 @@
 
     {{/* Dataset statistics */}}
     {{ $isNodeOrLink := or (hasPrefix .Params.task_type "node_") (hasPrefix .Params.task_type "link_") }}
-    {{ $papers := slice }}
-    {{ with index .Params.variants 0 }}
-      {{ range .rows }}
-        {{ if .arxiv_id }}
-          {{ $papers = $papers | append (dict "arxiv_id" .arxiv_id "title" (.title | default (printf "arXiv:%s" .arxiv_id)) "date_iso" (.date_iso | default "0000-00-00") "venue" (.published_conference | default "")) }}
+    {{ $paperList := .Params.papers | default slice }}
+    {{ if not $paperList }}
+      {{ $papers := slice }}
+      {{ with index .Params.variants 0 }}
+        {{ range .rows }}
+          {{ if .arxiv_id }}
+            {{ $papers = $papers | append (dict "arxiv_id" .arxiv_id "title" (.title | default (printf "arXiv:%s" .arxiv_id)) "date_iso" (.date_iso | default "0000-00-00") "venue" (.published_conference | default "")) }}
+          {{ end }}
         {{ end }}
       {{ end }}
-    {{ end }}
-    {{ $paperIds := slice }}
-    {{ $paperList := slice }}
-    {{ range sort $papers "date_iso" "desc" }}
-      {{ if not (in $paperIds .arxiv_id) }}
-        {{ $paperIds = $paperIds | append .arxiv_id }}
-        {{ $paperList = $paperList | append . }}
+      {{ $paperIds := slice }}
+      {{ range sort $papers "date_iso" "desc" }}
+        {{ if not (in $paperIds .arxiv_id) }}
+          {{ $paperIds = $paperIds | append .arxiv_id }}
+          {{ $paperList = $paperList | append . }}
+        {{ end }}
       {{ end }}
     {{ end }}
     {{ $hasStructuralStats := false }}
     {{ with .Params.stats }}
-      {{ if or .num_graphs .avg_nodes .avg_edges .num_classes }}
+      {{ if or .num_graphs .avg_nodes .avg_edges .num_classes .extra_stats }}
         {{ $hasStructuralStats = true }}
       {{ end }}
     {{ end }}
@@ -79,6 +81,11 @@
           {{ with .Params.stats.avg_nodes }}<div class="stat-item"><span class="stat-value">{{ lang.FormatNumberCustom 0 . "- . ," }}</span><span class="stat-label">Nodes</span></div>{{ end }}
           {{ with .Params.stats.avg_edges }}<div class="stat-item"><span class="stat-value">{{ lang.FormatNumberCustom 0 . "- . ," }}</span><span class="stat-label">Edges</span></div>{{ end }}
           {{ with .Params.stats.num_classes }}<div class="stat-item"><span class="stat-value">{{ . }}</span><span class="stat-label">Classes / Targets</span></div>{{ end }}
+          {{ with .Params.stats.extra_stats }}
+            {{ range $key, $value := . }}
+            <div class="stat-item"><span class="stat-value">{{ $value }}</span><span class="stat-label">{{ replace $key "_" " " | title }}</span></div>
+            {{ end }}
+          {{ end }}
         </div>
       </section>
       {{ end }}
@@ -100,19 +107,24 @@
   <section id="variant-{{ $variant.slug }}" class="variant-section" data-variant="{{ $variant.slug }}">
     {{ $hasVariantStats := false }}
     {{ with $variant.stats }}
-      {{ if or .num_graphs .avg_nodes .avg_edges }}
+      {{ if or .num_graphs .avg_nodes .avg_edges .extra_stats }}
         {{ $hasVariantStats = true }}
       {{ end }}
     {{ end }}
-    {{ if or $variant.notes $hasVariantStats }}
+    {{ if or $variant.notes (and $showAllVariants $hasVariantStats) }}
     <div class="dataset-stat-blocks" style="margin-bottom: 1rem;">
-      {{ if $hasVariantStats }}
+      {{ if and $showAllVariants $hasVariantStats }}
       <section class="dataset-stat-group dataset-stat-group-structure">
         <h2 class="dataset-stat-heading">Variant Structure</h2>
         <div class="dataset-stats">
           {{ with $variant.stats.num_graphs }}<div class="stat-item"><span class="stat-value">{{ lang.FormatNumberCustom 0 . "- . ," }}</span><span class="stat-label">Graphs</span></div>{{ end }}
           {{ with $variant.stats.avg_nodes }}<div class="stat-item"><span class="stat-value">{{ lang.FormatNumberCustom 0 . "- . ," }}</span><span class="stat-label">Nodes</span></div>{{ end }}
           {{ with $variant.stats.avg_edges }}<div class="stat-item"><span class="stat-value">{{ lang.FormatNumberCustom 0 . "- . ," }}</span><span class="stat-label">Edges</span></div>{{ end }}
+          {{ with $variant.stats.extra_stats }}
+            {{ range $key, $value := . }}
+            <div class="stat-item"><span class="stat-value">{{ $value }}</span><span class="stat-label">{{ replace $key "_" " " | title }}</span></div>
+            {{ end }}
+          {{ end }}
         </div>
       </section>
       {{ end }}
@@ -124,13 +136,33 @@
       {{ end }}
     </div>
     {{ end }}
-    <div class="chart-container">
-      <h2>Best {{ $variant.primary_metric | upper }} over time — {{ $variant.name }}</h2>
+    {{ $variantLabels := $variant.metric_display_names | default $variant.metrics }}
+    {{ $defaultMetric := $variant.default_metric | default $variant.primary_metric }}
+    {{ $showAllDesktop := $variant.show_all_metrics_desktop | default false }}
+    <div class="chart-container" data-variant="{{ $variant.slug }}">
+      <div class="chart-heading-row">
+        <h2 class="chart-title" id="chart-title-{{ $variant.slug }}">Best {{ index $variantLabels 0 | default $variant.primary_metric }} over time — {{ $variant.name }}</h2>
+        {{ if gt (len $variant.metrics) 1 }}
+        <label class="chart-target-picker-label" for="chart-target-{{ $variant.slug }}">Target</label>
+        {{ $metricCounts := $variant.metric_counts | default slice }}
+        <select id="chart-target-{{ $variant.slug }}" class="chart-target-select" data-variant="{{ $variant.slug }}" aria-label="Chart target metric">
+          {{ range $j, $m := $variant.metrics }}
+          {{ $metricCount := index $metricCounts $j }}
+          <option value="{{ $j }}" data-metric-key="{{ $m }}"{{ if eq $m $defaultMetric }} selected{{ end }}>{{ index $variantLabels $j | default $m }}{{ with $metricCount }} ({{ . }}){{ end }}</option>
+          {{ end }}
+        </select>
+        {{ end }}
+      </div>
       <div class="chart-plot-wrap{{ if not $variant.higher_is_better }} chart-plot-wrap-lower-is-better{{ end }}">
-        <button type="button" class="filter-bubble filter-bubble-neutral chart-std-toggle is-on" data-std-toggle aria-pressed="true" title="Show standard deviation on chart">± std</button>
+        <div class="chart-plot-toggles">
+          <button type="button" class="filter-bubble filter-bubble-neutral chart-std-toggle is-on" data-std-toggle aria-pressed="true" title="Show standard deviation on chart">± std</button>
+          <button type="button" class="filter-bubble filter-bubble-neutral chart-baselines-toggle is-on" data-filter="baselines" aria-pressed="true" title="Show baseline results on chart">baselines</button>
+          <button type="button" class="filter-bubble filter-bubble-neutral chart-log-toggle" data-log-toggle aria-pressed="false" title="Use logarithmic y-axis" hidden>log scale</button>
+        </div>
         <canvas id="chart-{{ $variant.slug }}" height="300"
           data-milestones='{{ $variant.milestones | jsonify }}'
-          data-metric="{{ $variant.primary_metric }}"
+          data-milestones-by-metric='{{ $variant.milestones_by_metric | jsonify }}'
+          data-metric="{{ $defaultMetric }}"
           data-higher-is-better="{{ $variant.higher_is_better }}">
         </canvas>
       </div>
@@ -151,9 +183,10 @@
           {{ $variantSecondaryMetrics = $variantSecondaryMetrics | append $metric }}
         {{ end }}
       {{ end }}
-      {{ partial "leaderboard-filters.html" (dict "secondary_metric_names" ($variantSecondaryMetrics | uniq) "rows" $variant.rows) }}
       {{ $rowsLen := len $variant.rows }}
-      {{ partial "multi-metric-table.html" (dict "rows" $variant.rows "metrics" $variant.metrics "primary_metric" $variant.primary_metric "higher_is_better" $variant.higher_is_better "dataset_variant" $variant.slug "collapse_after" (cond (gt $rowsLen 50) 50 0)) }}
+      {{ $totalRows := $variant.row_count | default $rowsLen }}
+      {{ partial "leaderboard-filters.html" (dict "secondary_metric_names" ($variantSecondaryMetrics | uniq) "rows" $variant.rows "arch_counts" $variant.arch_counts "metric_counts" $variant.metric_counts "show_all_metrics_desktop" $showAllDesktop "metrics" $variant.metrics "metric_display_names" $variantLabels "default_metric" $defaultMetric "variant_slug" $variant.slug) }}
+      {{ partial "multi-metric-table.html" (dict "rows" $variant.rows "metrics" $variant.metrics "metric_display_names" $variantLabels "primary_metric" $variant.primary_metric "default_metric" $defaultMetric "show_all_metrics_desktop" $showAllDesktop "higher_is_better" $variant.higher_is_better "dataset_variant" $variant.slug "collapse_after" (cond (gt $totalRows 50) 50 0) "row_count" $totalRows "rows_json" $variant.rows_json) }}
       <div class="table-explainer-legend" aria-label="Table legend">
         <span class="legend-item"><span class="legend-swatch swatch-best"></span><span>SOTA performance</span></span>
         <span class="legend-item"><span class="table-marker marker-record"></span><span>set a new SOTA at the time</span></span>
@@ -168,12 +201,29 @@
 {{ end }}
 
 {{ define "scripts" }}
+{{ $cfgVariants := slice }}
+{{ range .Params.variants }}
+  {{ $cfgVariants = $cfgVariants | append (dict
+    "slug" .slug
+    "name" .name
+    "is_standard" .is_standard
+    "primary_metric" .primary_metric
+    "default_metric" (.default_metric | default .primary_metric)
+    "higher_is_better" .higher_is_better
+    "metrics" .metrics
+    "metric_display_names" (.metric_display_names | default .metrics)
+    "metric_counts" (.metric_counts | default slice)
+    "row_count" (.row_count | default (len .rows))
+    "rows_json" (.rows_json | default "")
+    "chart_json" (.chart_json | default "")
+  ) }}
+{{ end }}
 <script>
-window.leaderboardConfig = {
-  variants: {{ .Params.variants | jsonify | safeJS }},
-  primaryMetric: {{ .Params.primary_metric | jsonify | safeJS }},
-  higherIsBetter: {{ .Params.higher_is_better | jsonify | safeJS }},
-  showAllVariants: {{ if gt (len .Params.variants) 1 }}true{{ else }}false{{ end }},
-};
+window.leaderboardConfig = {{ dict
+  "variants" $cfgVariants
+  "primaryMetric" .Params.primary_metric
+  "higherIsBetter" .Params.higher_is_better
+  "showAllVariants" (gt (len .Params.variants) 1)
+  | jsonify | safeJS }};
 </script>
 {{ end }}

@@ -1,0 +1,41 @@
+<script>
+(function () {
+  var sortButtons = document.querySelectorAll("[data-benchmark-sort]");
+  var container = document.getElementById("benchmark-groups-container");
+  if (!sortButtons.length || !container) return;
+
+  var sortMode = "recent";
+  var itemSelector = container.dataset.benchmarkItem || ".benchmark-sort-item";
+
+  function parseNum(value) {
+    var n = parseFloat(value);
+    return isNaN(n) ? 0 : n;
+  }
+
+  function sortItems() {
+    var items = Array.from(container.querySelectorAll(itemSelector));
+    items.sort(function (a, b) {
+      var legacyA = a.dataset.isLegacy === "1";
+      var legacyB = b.dataset.isLegacy === "1";
+      if (sortMode === "recent") {
+        if (legacyA !== legacyB) return legacyA ? 1 : -1;
+        return parseNum(b.dataset.recentPerDataset) - parseNum(a.dataset.recentPerDataset);
+      }
+      return parseNum(b.dataset.totalResults) - parseNum(a.dataset.totalResults);
+    });
+    items.forEach(function (el) { container.appendChild(el); });
+  }
+
+  sortButtons.forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      sortMode = btn.dataset.benchmarkSort || "recent";
+      sortButtons.forEach(function (b) {
+        var active = b === btn;
+        b.classList.toggle("active", active);
+        b.setAttribute("aria-pressed", active ? "true" : "false");
+      });
+      sortItems();
+    });
+  });
+})();
+</script>

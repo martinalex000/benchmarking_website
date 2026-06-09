@@ -89,7 +89,7 @@
         {{ end }}
       </div>
     </header>
-    {{ with .Params.authors }}<p class="authors">{{ delimit . ", " }}</p>{{ end }}
+    {{ with .Params.authors }}{{ partial "paper-authors.html" . }}{{ end }}
     {{ if or .Params.experiment_scopes .Params.benchmark_coverage .Params.benchmark_categories }}
     <div class="paper-card-tags">
       {{ with .Params.experiment_scopes }}

@@ -12,7 +12,10 @@
 */}}
 {{ $rows    := .rows }}
 {{ $metrics := .metrics }}
+{{ $metricLabels := .metric_display_names | default $metrics }}
 {{ $primary := .primary_metric }}
+{{ $defaultMetric := .default_metric | default $primary }}
+{{ $showAllDesktop := .show_all_metrics_desktop | default false }}
 {{ $datasetDefault := .dataset_primary_metric | default $primary }}
 {{ $rankMetric := .rank_metric | default $primary }}
 {{ $rankIdx := 0 }}
@@ -25,24 +28,33 @@
 {{ $paperPage := .paper_page }}
 {{ $showPaperCol := or $paperPage (not $hideMeta) }}
 {{ $collapseAfter := .collapse_after | default 0 }}
+{{ $rowCount := .row_count | default (len $rows) }}
+{{ $rowsJson := .rows_json | default "" }}
 {{ $tableId := cond $paperPage (printf "tbl-paper-%s" $slug) (printf "tbl-%s" $slug) }}
 
 {{ if $rows }}
+<div class="result-table-outer">
 <div class="result-table-wrapper{{ if $paperPage }} paper-results-table-wrapper{{ end }}" data-variant="{{ $slug }}">
   <div class="mobile-result-table-head{{ if $paperPage }} paper-mobile-table-head{{ else if $hideMeta }} mobile-result-table-head-no-paper{{ end }}" aria-hidden="true">
     <span>#</span>
     <span>Model</span>
-    <span>{{ $primary }}</span>
+    <span>{{ index $metricLabels 0 | default $primary }}</span>
     {{ if and $showPaperCol (not $paperPage) }}<span>Paper</span>{{ else if not $hideMeta }}<span>Date</span>{{ end }}
   </div>
-  <table class="result-table sortable{{ if $paperPage }} paper-results-table{{ end }}{{ if and $paperPage (gt (len $metrics) 1) }} paper-multi-metric-cols{{ end }}" id="{{ $tableId }}" data-collapse-after="{{ $collapseAfter }}">
+  {{ if and (not $paperPage) (gt (len $metrics) 1) (gt $collapseAfter 0) (gt (len $rows) $collapseAfter) }}
+  <p class="secondary-metrics-notice" hidden>
+    <button type="button" class="secondary-metrics-expand-link">Show all results</button> to view the additional metrics
+  </p>
+  {{ end }}
+  <table class="result-table sortable{{ if $paperPage }} paper-results-table{{ end }}{{ if gt (len $metrics) 1 }}{{ if $paperPage }} paper-multi-metric-cols{{ else }} dataset-multi-metric-cols{{ if $showAllDesktop }} dataset-flat-metrics show-secondary-metrics{{ end }}{{ end }}{{ end }}" id="{{ $tableId }}" data-collapse-after="{{ $collapseAfter }}"{{ with $rowsJson }} data-rows-json="{{ . }}"{{ end }} data-row-count="{{ $rowCount }}" data-initial-rows="{{ len $rows }}"{{ if $showAllDesktop }} data-flat-metrics="1" data-default-metric="{{ $defaultMetric }}"{{ end }}>
     <thead>
       <tr>
         <th class="col-rank">#</th>
         <th class="col-model sortable-col" data-col="model">Model</th>
-        {{ if and $paperPage (gt (len $metrics) 1) }}
+        {{ if gt (len $metrics) 1 }}
         {{ range $j, $m := $metrics }}
-        <th class="col-value sortable-col{{ if eq $j 0 }} col-primary{{ end }}{{ if eq $j $rankIdx }} col-rank-metric{{ end }}{{ if and (gt (len $metrics) 1) (eq $m $datasetDefault) }} col-metric-default{{ end }}" data-col="value-{{ $j }}">{{ $m }}{{ if $hib }} ↑{{ else }} ↓{{ end }}{{ if and (gt (len $metrics) 1) (eq $m $datasetDefault) }} <span class="metric-default-badge">default</span>{{ end }}</th>
+        {{ $label := index $metricLabels $j | default $m }}
+        <th class="col-value{{ if eq $j 0 }} col-primary{{ else if not $paperPage }} col-secondary-metric{{ end }}{{ if or (eq $j 0) $showAllDesktop $paperPage }} sortable-col{{ end }}{{ if and $paperPage (eq $j $rankIdx) }} col-rank-metric{{ end }}{{ if and $paperPage (eq $m $datasetDefault) }} col-metric-default{{ end }}" data-col="{{ if eq $j 0 }}value{{ else }}value-{{ $j }}{{ end }}" data-metric-index="{{ $j }}" data-metric-key="{{ $m }}">{{ $label }}{{ if or (eq $j 0) $paperPage $showAllDesktop }}{{ if $hib }} ↑{{ else }} ↓{{ end }}{{ end }}{{ if and $paperPage (eq $m $datasetDefault) }} <span class="metric-default-badge">default</span>{{ end }}</th>
         {{ end }}
         {{ else }}
         <th class="col-value col-primary sortable-col" data-col="value">{{ $primary }}{{ if $hib }} ↑{{ else }} ↓{{ end }}</th>
@@ -66,8 +78,13 @@
         {{ $paperMobileExpand := false }}
         {{ if $paperPage }}{{ $paperMobileExpand = eq (partial "paper-table-mobile-expandable.html" (dict "row" $r) | strings.TrimSpace) "1" }}{{ end }}
         <tr class="result-row {{ if $r.is_baseline }}row-baseline{{ else }}row-proposed{{ end }} {{ if $r.is_overridden }}row-overridden{{ end }}{{ if $r.is_best }} row-best{{ end }}{{ if eq $i 0 }} row-current-sota{{ end }}{{ if $r.is_global_top }} row-global-top{{ end }}{{ if and $paperPage $rowUnderperforming }} row-underperforming{{ end }}{{ if and $paperPage $rowImprovedAtPub }} row-improved-at-pub{{ end }}{{ if and $paperPage $rowImprovedSurpassedSince }} row-improved-surpassed-since{{ end }}{{ if and $paperPage $rowSurpassedSince }} row-surpassed-since{{ end }}{{ if $rowInsignificantGap }} row-insignificant-gap{{ end }}{{ if $rowInsignificantImprovement }} row-insignificant-improvement-at-pub{{ end }}{{ if and $paperPage $paperMobileExpand }} row-mobile-expandable{{ end }}{{ if and (gt $collapseAfter 0) (ge $i $collapseAfter) }} row-collapsed{{ end }}"
+          data-original-index="{{ $i }}"
           data-model="{{ $r.model_plain | default $r.model }}"
           data-value="{{ $r.sort_value | default $primary_val }}"
+          {{ range $j, $m := $metrics }}
+          {{ $mv := index $r.metric_values $j }}
+          data-value-{{ $j }}="{{ $mv }}"
+          {{ end }}
           data-params="{{ $r.params_millions }}"
           data-date="{{ $r.date_iso | default $r.date }}"
           data-arxiv="{{ $r.arxiv_id }}"
@@ -100,24 +117,54 @@
           </div>
           {{ end }}
         </td>
-        {{ if and $paperPage (gt (len $metrics) 1) }}
+        {{ if gt (len $metrics) 1 }}
         {{ range $j, $m := $metrics }}
         {{ $val := index $r.metric_values $j }}
         {{ $std := index $r.metric_stds $j }}
-        <td class="col-value{{ if eq $j 0 }} col-primary{{ end }}{{ if eq $j $rankIdx }} col-rank-metric{{ end }}{{ if and (gt (len $metrics) 1) (eq $m $datasetDefault) }} col-metric-default{{ end }}{{ if and (eq $j $rankIdx) $r.has_value_gap }} col-value-gap{{ end }}" data-label="{{ $m }}">
+        <td class="col-value{{ if eq $j 0 }} col-primary{{ else if not $paperPage }} col-secondary-metric{{ end }}{{ if and $paperPage (eq $j $rankIdx) }} col-rank-metric{{ end }}{{ if and $paperPage (eq $m $datasetDefault) }} col-metric-default{{ end }}{{ if and (eq $j 0) (not $paperPage) $r.has_value_gap }} col-value-gap{{ end }}{{ if and (eq $j $rankIdx) $paperPage $r.has_value_gap }} col-value-gap{{ end }}{{ if and (eq $j 0) (not $paperPage) $r.has_value_note }} col-value-note{{ end }}" data-label="{{ index $metricLabels $j | default $m }}" data-metric-index="{{ $j }}" data-metric-key="{{ $m }}">
           {{ if and $paperPage (eq $j $rankIdx) }}<div class="paper-mobile-value-row">{{ end }}
           {{ if or (ne $val nil) (and (eq $j $rankIdx) $paperPage $r.has_value_gap) }}
             {{ if and (eq $j $rankIdx) $paperPage $r.has_value_gap }}
               {{ partial "paper-table-value-cell.html" (dict "row" $r) }}
+            {{ else if and (eq $j 0) (not $paperPage) $r.has_value_gap }}
+              <div class="value-gap-block">
+                <div class="value-gap-true">actual {{ printf "%.4f" $r.true_value }}{{ if $r.true_std }}<span class="inline-std{{ if $r.is_std_outlier }} inline-std-outlier{{ end }}"> ±{{ printf "%.4f" $r.true_std }}</span>{{ end }}</div>
+                <div class="value-gap-paper">paper {{ printf "%.4f" $val }}{{ if ne $std nil }}<span class="inline-std{{ if $r.is_std_outlier }} inline-std-outlier{{ end }}"> ±{{ printf "%.4f" $std }}</span>{{ end }}</div>
+                {{ if $r.value_gap }}<div class="value-gap-delta">value Δ{{ printf "%.4f" $r.value_gap }}</div>{{ end }}
+              </div>
+            {{ else if and (not $paperPage) (gt $j 0) }}
+              <div class="metric-stacked-block">
+                <span class="metric-stacked-value">{{ partial "format-metric-value.html" (dict "value" $val) }}</span>
+                {{ if ne $std nil }}<span class="metric-stacked-std inline-std{{ if $r.is_std_outlier }} inline-std-outlier{{ end }}">±{{ partial "format-metric-value.html" (dict "value" $std) }}</span>{{ end }}
+              </div>
             {{ else }}
               <div class="metric-primary-block">
-                <span class="metric-primary-value">{{ printf "%.4f" $val }}</span>
-                {{ if ne $std nil }}<span class="metric-primary-std inline-std{{ if $r.is_std_outlier }} inline-std-outlier{{ end }}">±{{ printf "%.4f" $std }}</span>{{ end }}
+                <span class="metric-primary-value">{{ partial "format-metric-value.html" (dict "value" $val) }}</span>
+                {{ if ne $std nil }}<span class="metric-primary-std inline-std{{ if $r.is_std_outlier }} inline-std-outlier{{ end }}">±{{ partial "format-metric-value.html" (dict "value" $std) }}</span>{{ end }}
               </div>
             {{ end }}
           {{ else }}—{{ end }}
           {{ if and $paperPage (eq $j $rankIdx) }}{{ partial "paper-table-mobile-expand-btn.html" (dict "row" $r "rowDetailsId" $rowDetailsId "paperPage" $paperPage "expandable" $paperMobileExpand) }}{{ end }}
           {{ if and $paperPage (eq $j $rankIdx) }}</div>{{ end }}
+          {{ if and (not $paperPage) (eq $j 0) }}
+          <div class="secondary-metrics" hidden>
+            {{ range $k, $secMetric := $metrics }}
+            {{ if gt $k 0 }}
+            {{ $secVal := index $r.metric_values $k }}
+            {{ $secStd := index $r.metric_stds $k }}
+            {{ if ne $secVal nil }}
+            <div class="secondary-metric">
+              <span class="secondary-metric-name">{{ $secMetric }}</span>
+              <span class="metric-stacked-block metric-stacked-block-inline">
+                <span class="metric-stacked-value">{{ partial "format-metric-value.html" (dict "value" $secVal) }}</span>
+                {{ if ne $secStd nil }}<span class="metric-stacked-std inline-std{{ if $r.is_std_outlier }} inline-std-outlier{{ end }}">±{{ partial "format-metric-value.html" (dict "value" $secStd) }}</span>{{ end }}
+              </span>
+            </div>
+            {{ end }}
+            {{ end }}
+            {{ end }}
+          </div>
+          {{ end }}
         </td>
         {{ end }}
         {{ else }}
@@ -134,34 +181,13 @@
               </div>
             {{- else -}}
               <div class="metric-primary-block">
-                <span class="metric-primary-value">{{ printf "%.4f" $primary_val }}</span>
-                {{ if ne $primary_std nil }}<span class="metric-primary-std inline-std{{ if $r.is_std_outlier }} inline-std-outlier{{ end }}">±{{ printf "%.4f" $primary_std }}</span>{{ end }}
+                <span class="metric-primary-value">{{ partial "format-metric-value.html" (dict "value" $primary_val) }}</span>
+                {{ if ne $primary_std nil }}<span class="metric-primary-std inline-std{{ if $r.is_std_outlier }} inline-std-outlier{{ end }}">±{{ partial "format-metric-value.html" (dict "value" $primary_std) }}</span>{{ end }}
               </div>
             {{- end -}}
           {{- else }}—{{ end }}
           {{ if $paperPage }}{{ partial "paper-table-mobile-expand-btn.html" (dict "row" $r "rowDetailsId" $rowDetailsId "paperPage" $paperPage "expandable" $paperMobileExpand) }}{{ end }}
           {{ if $paperPage }}</div>{{ end }}
-          {{ if and (not $paperPage) (gt (len $metrics) 1) }}
-          <div class="secondary-metrics" hidden>
-            {{ $secondaryCount := sub (len $metrics) 1 }}
-            {{ range $j, $m := $metrics }}
-            {{ if and (gt $j 0) (le $j 3) }}
-            {{ $val := index $r.metric_values $j }}
-            {{ $std := index $r.metric_stds $j }}
-            {{ if ne $val nil }}
-            <div class="secondary-metric">
-              <span class="secondary-metric-name">{{ $m }}</span>
-              <span class="secondary-metric-value">{{ printf "%.4f" $val }}</span>
-              {{ if ne $std nil }}<span class="secondary-metric-std inline-std{{ if $r.is_std_outlier }} inline-std-outlier{{ end }}">±{{ printf "%.4f" $std }}</span>{{ end }}
-            </div>
-            {{ end }}
-            {{ end }}
-            {{ end }}
-            {{ if gt $secondaryCount 3 }}
-            <div class="secondary-metric secondary-metric-overflow">...</div>
-            {{ end }}
-          </div>
-          {{ end }}
         </td>
         {{ end }}
         {{ if $showPaperCol }}
@@ -182,9 +208,9 @@
           <div class="paper-cell-row">
             <div class="paper-title-wrap">
               {{ if $r.arxiv_id }}<a class="paper-title-link" href="{{ printf "papers/%s/" $r.arxiv_id | relURL }}" title="arXiv:{{ $r.arxiv_id }}{{ with $r.title }} — {{ . }}{{ end }}">{{ if $r.title }}{{ $r.title | truncate 96 }}{{ else }}arXiv:{{ $r.arxiv_id }}{{ end }}</a>{{ else }}—{{ end }}
-              {{ if $r.codebase_url }}<a class="paper-code-link" href="{{ $r.codebase_url }}" target="_blank" rel="noopener">code ↗</a>{{ else }}<span class="paper-code-missing" title="No code link available">no code</span>{{ end }}
             </div>
             <div class="paper-inline-meta">
+              {{ if $r.codebase_url }}<a class="paper-code-link" href="{{ $r.codebase_url }}" target="_blank" rel="noopener">code ↗</a>{{ else }}<span class="paper-code-missing" title="No code link available">no code</span>{{ end }}
               <span class="paper-date-inline paper-date-inline-full">{{ $dateDisplay }}</span>
               <span class="paper-date-inline paper-date-inline-short">{{ $mobileDate }}</span>
               <button type="button" class="mobile-details-toggle" aria-expanded="false" aria-controls="{{ $rowDetailsId }}" aria-label="Toggle details">▾</button>
@@ -197,12 +223,13 @@
       {{ end }}
     </tbody>
   </table>
-  {{ if and (gt $collapseAfter 0) (gt (len $rows) $collapseAfter) }}
+  {{ if and (gt $collapseAfter 0) (gt $rowCount $collapseAfter) }}
   <div class="table-more-wrap">
     <button type="button" class="table-more-btn" data-table-more="#{{ $tableId }}" data-expanded="false" aria-expanded="false">
-      Show all {{ len $rows }} rows ({{ sub (len $rows) $collapseAfter }} hidden)
+      Show all {{ $rowCount }} rows ({{ sub $rowCount $collapseAfter }} hidden)
     </button>
   </div>
   {{ end }}
+</div>
 </div>
 {{ end }}

@@ -12,14 +12,26 @@
 (function () {
   "use strict";
 
+  if (typeof performance !== "undefined") {
+    performance.mark("leaderboard:scripts_loaded");
+  }
+
+  const CROWDED_PLOT_THRESHOLD = 200;
+  const TOP_N_ALWAYS_VISIBLE = 10;
+
   /* ── State ─────────────────────────────────────────────────────────── */
   const charts = {};           // variant slug -> Chart instance
+  let _perfChartsPending = 0;
   let showStd = true;
   let showBaselines = true;
   let showSecondaryMetrics = false;
+  let showFlatAllMetrics = true;
   let showExternalData = true;
   let showNoCode = true;
   let activeVariant = null;
+  const variantMetricIndex = {};
+  const variantLogScale = {};
+  const SCI_NOTATION_THRESHOLD = 1e-4;
 
   const TRADITIONAL_ARCH_TYPES = {
     svm_kernel: true,
@@ -55,6 +67,474 @@
     Object.values(charts).forEach(function (chart) { chart.update("none"); });
   }
 
+  function _perfEnabled() {
+    try {
+      if (new URLSearchParams(window.location.search).get("perf") === "1") return true;
+      return localStorage.getItem("leaderboardPerf") === "1";
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function _perfMeasureMs(name) {
+    var entries = performance.getEntriesByName(name);
+    return entries.length ? Math.round(entries[0].duration * 10) / 10 : null;
+  }
+
+  function _reportPerfSummary() {
+    var rows = [];
+    Object.values(charts).forEach(function (chart) {
+      var slug = chart._slug || "?";
+      var prefix = "chart-" + slug + ":";
+      rows.push({
+        variant: slug,
+        points: chart._pointCount,
+        crowded: chart._isCrowded ? "yes" : "no",
+        parse_ms: _perfMeasureMs(prefix + "parse"),
+        create_ms: _perfMeasureMs(prefix + "create"),
+        layout_ms: _perfMeasureMs(prefix + "layout"),
+        error_bars_ms: Math.round((chart._perfErrorBarsMs || 0) * 10) / 10,
+      });
+    });
+    console.table(rows);
+    var initMs = _perfMeasureMs("leaderboard:init");
+    if (initMs != null) {
+      console.log("leaderboard init:", initMs, "ms");
+    }
+  }
+
+  function _shouldDrawDatumStd(chart, datum) {
+    if (!datum || datum.std == null) return false;
+    if (chart._isCrowded && datum.is_baseline && !datum._isRecord && !datum._isSotaMatch) {
+      return false;
+    }
+    return true;
+  }
+
+  const rowsJsonCache = {};
+  const chartPointsCache = {};
+
+  function _scheduleDeferredLayout() {
+    var run = function () {
+      _applyModelColumnWidths();
+      _applyModelTooltips();
+    };
+    if (typeof requestIdleCallback === "function") {
+      requestIdleCallback(run, { timeout: 2000 });
+    } else {
+      setTimeout(run, 0);
+    }
+  }
+
+  function _normalizeAssetUrl(url) {
+    var cleaned = String(url || "").trim();
+    if (
+      (cleaned.charAt(0) === '"' && cleaned.charAt(cleaned.length - 1) === '"') ||
+      (cleaned.charAt(0) === "'" && cleaned.charAt(cleaned.length - 1) === "'")
+    ) {
+      cleaned = cleaned.slice(1, -1);
+    }
+    return cleaned;
+  }
+
+  function _fetchJson(url) {
+    url = _normalizeAssetUrl(url);
+    return fetch(url, { credentials: "same-origin" }).then(function (resp) {
+      if (!resp.ok) throw new Error("Failed to load " + url);
+      return resp.json();
+    });
+  }
+
+  function _fetchChartPoints(chartJsonUrl) {
+    if (!chartJsonUrl) return Promise.resolve(null);
+    if (chartPointsCache[chartJsonUrl]) {
+      return Promise.resolve(chartPointsCache[chartJsonUrl]);
+    }
+    return _fetchJson(chartJsonUrl).then(function (payload) {
+      var points = payload && payload.points ? payload.points : [];
+      chartPointsCache[chartJsonUrl] = points;
+      return points;
+    });
+  }
+
+  function _chartPointsToRows(points) {
+    return (points || []).map(function (p) {
+      return {
+        metric_values: [p.value],
+        metric_stds: [p.std],
+        date_iso: p.date_iso,
+        date: p.date_iso,
+        model: p.model,
+        model_plain: p.model_plain || p.model,
+        arxiv_id: p.arxiv_id,
+        title: p.title,
+        is_baseline: p.is_baseline,
+        uses_external_data: p.uses_external_data,
+        codebase_url: p.has_code ? "1" : "",
+        architecture_type: p.architecture_type,
+        is_std_outlier: p.is_std_outlier,
+      };
+    });
+  }
+
+  function _scheduleChartBuild(canvas, slug, cfg) {
+    var variant = (cfg.variants || []).find(function (v) { return v.slug === slug; }) || {};
+    var defaultIdx = _defaultMetricIndex(variant);
+    variantMetricIndex[slug] = _readSessionInt(_sessionKey("metric", slug), defaultIdx);
+    variantLogScale[slug] = _readSessionBool(_sessionKey("log", slug), false);
+    var metricIndex = variantMetricIndex[slug];
+    var metrics = variant.metrics || [];
+    var metricKey = metrics[metricIndex];
+    var milestones = _milestonesForTarget(canvas, variant, metricIndex);
+    canvas.dataset.milestones = JSON.stringify(milestones);
+    canvas.dataset.metric = _metricLabel(variant, metricIndex);
+    var run = function () {
+      var chartJson = variant.chart_json || "";
+      if (chartJson) {
+        _fetchChartPoints(chartJson).then(function (points) {
+          if (!canvas.isConnected) return;
+          buildChart(canvas, slug, cfg.higherIsBetter !== false, points, _chartBuildOptions(slug, variant));
+          _syncLogScaleToggle(slug, variantMetricIndex[slug] || 0);
+        }).catch(function (err) {
+          console.error("Chart data load failed for", slug, err);
+        });
+        return;
+      }
+      buildChart(canvas, slug, cfg.higherIsBetter !== false, null, _chartBuildOptions(slug, variant));
+    };
+    if (typeof requestAnimationFrame === "function") {
+      requestAnimationFrame(run);
+    } else {
+      run();
+    }
+  }
+
+  function _escapeHtml(text) {
+    return String(text || "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
+  function _formatMetricValue(value) {
+    if (typeof value !== "number" || !isFinite(value)) return "—";
+    if (value !== 0 && Math.abs(value) < SCI_NOTATION_THRESHOLD) {
+      return value.toExponential(2);
+    }
+    return value.toFixed(4);
+  }
+
+  function _formatMetricValue4(value) {
+    return _formatMetricValue(value);
+  }
+
+  function _needsSciNotation(values) {
+    return (values || []).some(function (v) {
+      return typeof v === "number" && isFinite(v) && v !== 0 && Math.abs(v) < SCI_NOTATION_THRESHOLD;
+    });
+  }
+
+  function _allPositive(values) {
+    return (values || []).every(function (v) {
+      return typeof v === "number" && isFinite(v) && v > 0;
+    });
+  }
+
+  function _getVariant(slug) {
+    var cfg = window.leaderboardConfig || {};
+    return (cfg.variants || []).find(function (v) { return v.slug === slug; }) || {};
+  }
+
+  function _defaultMetricIndex(variant) {
+    var metrics = variant.metrics || [];
+    var defaultMetric = variant.default_metric || variant.primary_metric;
+    var idx = metrics.indexOf(defaultMetric);
+    return idx >= 0 ? idx : 0;
+  }
+
+  function _milestonesForTarget(canvas, variant, metricIndex) {
+    var metrics = variant.metrics || [];
+    var metricKey = metrics[metricIndex];
+    var byMetric = variant.milestones_by_metric || {};
+    if (metricKey && byMetric[metricKey] && byMetric[metricKey].length) {
+      return byMetric[metricKey];
+    }
+    if (variant.milestones && variant.milestones.length) {
+      return variant.milestones;
+    }
+    var canvasByMetric = {};
+    if (canvas) {
+      try {
+        canvasByMetric = JSON.parse(canvas.getAttribute("data-milestones-by-metric") || "{}");
+      } catch (e) { /* ignore */ }
+    }
+    if (metricKey && canvasByMetric[metricKey] && canvasByMetric[metricKey].length) {
+      return canvasByMetric[metricKey];
+    }
+    if (!canvas) return [];
+    try {
+      return JSON.parse(canvas.getAttribute("data-milestones") || "[]");
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function _metricLabel(variant, metricIndex) {
+    var labels = variant.metric_display_names || variant.metrics || [];
+    return labels[metricIndex] || (variant.metrics || [])[metricIndex] || "Score";
+  }
+
+  function _targetOptionLabel(variant, metricIndex) {
+    var label = _metricLabel(variant, metricIndex);
+    var counts = variant.metric_counts;
+    if (counts && counts[metricIndex] != null) {
+      return label + " (" + counts[metricIndex] + ")";
+    }
+    return label;
+  }
+
+  function _syncTargetPickerLabels(variant) {
+    if (!variant || !variant.slug) return;
+    var slug = variant.slug;
+    [document.getElementById("chart-target-" + slug), document.getElementById("mobile-target-" + slug), document.getElementById("desktop-target-" + slug)].forEach(
+      function (select) {
+        if (!select) return;
+        Array.from(select.options).forEach(function (opt) {
+          var idx = parseInt(opt.value, 10);
+          if (!isNaN(idx)) opt.textContent = _targetOptionLabel(variant, idx);
+        });
+      }
+    );
+  }
+
+  function _valuesForMetric(rows, metricIndex) {
+    return (rows || []).map(function (row) {
+      var vals = row.metric_values || [];
+      return vals[metricIndex];
+    }).filter(function (v) { return typeof v === "number" && isFinite(v); });
+  }
+
+  function _sessionKey(prefix, slug) {
+    return "leaderboard:" + prefix + ":" + slug;
+  }
+
+  function _readSessionInt(key, fallback) {
+    try {
+      var raw = sessionStorage.getItem(key);
+      if (raw == null || raw === "") return fallback;
+      var parsed = parseInt(raw, 10);
+      return isNaN(parsed) ? fallback : parsed;
+    } catch (e) {
+      return fallback;
+    }
+  }
+
+  function _readSessionBool(key, fallback) {
+    try {
+      var raw = sessionStorage.getItem(key);
+      if (raw == null) return fallback;
+      return raw === "1";
+    } catch (e) {
+      return fallback;
+    }
+  }
+
+  function _writeSession(key, value) {
+    try {
+      sessionStorage.setItem(key, String(value));
+    } catch (e) { /* ignore */ }
+  }
+
+  function _truncateText(text, maxLen) {
+    var str = String(text || "");
+    return str.length > maxLen ? str.slice(0, maxLen - 3) + "..." : str;
+  }
+
+  function _formatMobileDate(dateDisplay) {
+    return String(dateDisplay || "").replace(/([A-Za-z]+)\s+20([0-9]{2})/, "$1 '$2");
+  }
+
+  function _archBadgeHtml(row) {
+    if (!row || !row.architecture_label) return "";
+    var type = _escapeHtml(row.architecture_type || "");
+    var title = _escapeHtml(row.architecture_title || "");
+    var label = _escapeHtml(row.architecture_label);
+    return '<span class="mini-badge mini-badge-arch mini-badge-arch-' + type +
+      '" title="' + title + '">' + label + "</span>";
+  }
+
+  function _metricValueHtml(val, std, isStdOutlier, stacked) {
+    if (val == null) return "—";
+    var stdClass = isStdOutlier ? " inline-std-outlier" : "";
+    var blockClass = stacked ? "metric-stacked-block" : "metric-primary-block";
+    var valueClass = stacked ? "metric-stacked-value" : "metric-primary-value";
+    var stdSpanClass = stacked ? "metric-stacked-std inline-std" : "metric-primary-std inline-std";
+    var html = '<div class="' + blockClass + '"><span class="' + valueClass + '">' +
+      _formatMetricValue4(val) + "</span>";
+    if (std != null) {
+      html += '<span class="' + stdSpanClass + stdClass + '">±' + _formatMetricValue4(std) + "</span>";
+    }
+    html += "</div>";
+    return html;
+  }
+
+  function _buildDatasetRowHtml(row, index, metrics, collapseAfter) {
+    var vals = row.metric_values || [];
+    var stds = row.metric_stds || [];
+    var primaryVal = vals[0];
+    var classes = ["result-row"];
+    if (row.is_baseline) classes.push("row-baseline"); else classes.push("row-proposed");
+    if (row.is_overridden) classes.push("row-overridden");
+    if (row.is_best) classes.push("row-best");
+    if (index === 0) classes.push("row-current-sota");
+    if (collapseAfter > 0 && index >= collapseAfter) classes.push("row-collapsed");
+
+    var extData = row.uses_external_data === true ? "1" : (row.uses_external_data === false ? "0" : "");
+    var hasCode = row.codebase_url ? "1" : "0";
+    var dateDisplay = row.date_display || row.date || "—";
+    var mobileDate = _formatMobileDate(dateDisplay);
+    var rowDetailsId = "mobile-details-js-" + index;
+
+    var html = '<tr class="' + classes.join(" ") + '" data-original-index="' + index + '"' +
+      ' data-model="' + _escapeHtml(row.model_plain || row.model || "") + '"' +
+      ' data-value="' + (row.sort_value != null ? row.sort_value : (primaryVal != null ? primaryVal : "")) + '"';
+    metrics.forEach(function (_metric, j) {
+      var mv = vals[j];
+      html += ' data-value-' + j + '="' + (mv != null ? mv : "") + '"';
+    });
+    html += ' data-params="' + (row.params_millions != null ? row.params_millions : "") + '"' +
+      ' data-date="' + _escapeHtml(row.date_iso || row.date || "") + '"' +
+      ' data-arxiv="' + _escapeHtml(row.arxiv_id || "") + '"' +
+      ' data-architecture="' + _escapeHtml(row.architecture_type || "") + '"' +
+      ' data-external-data="' + extData + '"' +
+      ' data-has-code="' + hasCode + '">';
+
+    html += '<td class="col-rank" data-label="Rank">' + (index + 1) + "</td>";
+    html += '<td class="col-model" data-label="Model"><div class="leaderboard-entry-head"><div class="leaderboard-entry-main">';
+    html += '<div class="leaderboard-model-name">' + (row.model || "") + "</div>";
+    html += '<div class="leaderboard-entry-meta"><div class="leaderboard-badges">';
+    if (row.codebase_url) {
+      html += '<a class="mini-badge mini-badge-code" href="' + _escapeHtml(row.codebase_url) +
+        '" target="_blank" rel="noopener" title="Code available">code ↗</a>';
+    }
+    if (row.uses_external_data) {
+      html += '<span class="mini-badge mini-badge-external" title="Uses external data during training">ext data</span>';
+    }
+    html += _archBadgeHtml(row);
+    if (row.params_millions) {
+      html += '<span class="mini-badge mini-badge-neutral">' + Number(row.params_millions).toFixed(1) + "M</span>";
+    }
+    if (row.is_overridden) {
+      html += '<span class="override-badge" title="' + _escapeHtml(row.override_reason || "") + '">✎</span>';
+    }
+    if (row.is_baseline) {
+      html += '<span class="tag-baseline">baseline</span>';
+    } else {
+      html += '<span class="tag-proposed">★ proposed</span>';
+    }
+    html += "</div></div></div></td>";
+
+    metrics.forEach(function (metric, j) {
+      var val = vals[j];
+      var std = stds[j];
+      var colClass = "col-value";
+      if (j === 0) colClass += " col-primary";
+      else colClass += " col-secondary-metric";
+      html += '<td class="' + colClass + '" data-label="' + _escapeHtml(metric) + '" data-metric-index="' + j + '">';
+      html += _metricValueHtml(val, std, row.is_std_outlier, j > 0);
+      if (j === 0 && metrics.length > 1) {
+        html += '<div class="secondary-metrics" hidden>';
+        metrics.forEach(function (secMetric, k) {
+          if (k === 0) return;
+          var secVal = vals[k];
+          var secStd = stds[k];
+          if (secVal == null) return;
+          html += '<div class="secondary-metric"><span class="secondary-metric-name">' +
+            _escapeHtml(secMetric) + '</span><span class="metric-stacked-block metric-stacked-block-inline">' +
+            '<span class="metric-stacked-value">' + _formatMetricValue4(secVal) + "</span>";
+          if (secStd != null) {
+            html += '<span class="metric-stacked-std inline-std' +
+              (row.is_std_outlier ? " inline-std-outlier" : "") + '">±' + _formatMetricValue4(secStd) + "</span>";
+          }
+          html += "</span></div>";
+        });
+        html += "</div>";
+      }
+      html += "</td>";
+    });
+
+    html += '<td class="col-paper mobile-details-hit" id="' + rowDetailsId + '" data-label="Paper">';
+    html += '<div class="paper-cell-row"><div class="paper-title-wrap">';
+    if (row.arxiv_id) {
+      var paperHref = "papers/" + encodeURIComponent(row.arxiv_id) + "/";
+      var paperTitle = row.title ? _truncateText(row.title, 96) : ("arXiv:" + row.arxiv_id);
+      html += '<a class="paper-title-link" href="' + paperHref + '" title="arXiv:' +
+        _escapeHtml(row.arxiv_id) + (row.title ? (" — " + _escapeHtml(row.title)) : "") + '">' +
+        _escapeHtml(paperTitle) + "</a>";
+    } else {
+      html += "—";
+    }
+    html += '</div><div class="paper-inline-meta">';
+    if (row.codebase_url) {
+      html += '<a class="paper-code-link" href="' + _escapeHtml(row.codebase_url) +
+        '" target="_blank" rel="noopener">code ↗</a>';
+    } else {
+      html += '<span class="paper-code-missing" title="No code link available">no code</span>';
+    }
+    html += '<span class="paper-date-inline paper-date-inline-full">' + _escapeHtml(dateDisplay) + "</span>";
+    html += '<span class="paper-date-inline paper-date-inline-short">' + _escapeHtml(mobileDate) + "</span>";
+    html += '<button type="button" class="mobile-details-toggle" aria-expanded="false" aria-controls="' +
+      rowDetailsId + '" aria-label="Toggle details">▾</button>';
+    html += "</div></div></td></tr>";
+    return html;
+  }
+
+  function _tableVariantMetrics(table) {
+    var match = (table.id || "").match(/^tbl-(.+)$/);
+    if (!match) return [];
+    var slug = match[1];
+    var cfg = window.leaderboardConfig || {};
+    var variant = (cfg.variants || []).find(function (v) { return v.slug === slug; });
+    return variant && variant.metrics ? variant.metrics : [];
+  }
+
+  function _appendDatasetRows(table, rows, startIndex, collapseAfter) {
+    if (!table || !rows || !rows.length) return;
+    var metrics = _tableVariantMetrics(table);
+    if (!metrics.length) return;
+    var tbody = table.querySelector("tbody");
+    if (!tbody) return;
+    var html = rows.map(function (row, offset) {
+      return _buildDatasetRowHtml(row, startIndex + offset, metrics, collapseAfter);
+    }).join("");
+    tbody.insertAdjacentHTML("beforeend", html);
+  }
+
+  function _ensureAllRowsLoaded(table) {
+    if (!table || table.dataset.rowsLoaded === "all") {
+      return Promise.resolve();
+    }
+    var url = table.dataset.rowsJson;
+    if (!url) {
+      table.dataset.rowsLoaded = "all";
+      return Promise.resolve();
+    }
+    if (rowsJsonCache[url]) {
+      return Promise.resolve(rowsJsonCache[url]);
+    }
+    return _fetchJson(url).then(function (payload) {
+      rowsJsonCache[url] = payload;
+      var initial = parseInt(table.dataset.initialRows || "0", 10);
+      var collapseAfter = parseInt(table.dataset.collapseAfter || "0", 10);
+      var allRows = payload && payload.rows ? payload.rows : [];
+      var extraRows = allRows.slice(initial);
+      _appendDatasetRows(table, extraRows, initial, collapseAfter);
+      table.dataset.rowsLoaded = "all";
+      return payload;
+    });
+  }
+
   /* ── Init ───────────────────────────────────────────────────────────── */
   function init() {
     const cfg = window.leaderboardConfig || {};
@@ -64,16 +544,18 @@
     variants.forEach(function (v) {
       const canvas = document.getElementById("chart-" + v.slug);
       if (canvas) {
-        buildChart(canvas, v.slug, cfg.higherIsBetter !== false);
+        _scheduleChartBuild(canvas, v.slug, cfg);
       }
     });
 
     _initSortableColumns();
     _initTableExpanders();
+    _initSecondaryMetricsNotices();
     _initMobileRowDetails();
 
-    _initChartStdToggles();
+    _initChartToggles();
     _initFilterBar();
+    _initTargetPickers();
 
     // Set initial active variant (first standard one)
     const standard = variants.find(function (v) { return v.is_standard; }) || variants[0];
@@ -86,13 +568,14 @@
       });
     }
 
-    _applyModelColumnWidths();
-    _applyModelTooltips();
+    _scheduleDeferredLayout();
     window.addEventListener("resize", _applyModelColumnWidths);
     window.addEventListener("resize", _applyModelTooltips);
+    window.addEventListener("resize", _syncSecondaryMetricsPlatform);
     window.addEventListener("resize", function () {
-      Object.values(charts).forEach(_positionChartStdToggle);
+      Object.values(charts).forEach(_positionChartToggles);
     });
+    _syncSecondaryMetricsPlatform();
 
     window.addEventListener("sitethemechange", _refreshChartsForColorScheme);
   }
@@ -124,12 +607,12 @@
     });
   }
 
-  function _positionChartStdToggle(chart) {
+  function _positionChartToggles(chart) {
     if (!chart || !chart.canvas || !chart.chartArea) return;
     var canvas = chart.canvas;
     var wrap = canvas.closest(".chart-plot-wrap");
-    var btn = wrap ? wrap.querySelector(".chart-std-toggle") : null;
-    if (!btn) return;
+    var toggles = wrap ? wrap.querySelector(".chart-plot-toggles") : null;
+    if (!toggles) return;
 
     var area = chart.chartArea;
     var scaleX = canvas.offsetWidth / chart.width;
@@ -137,17 +620,317 @@
     var inset = 8;
     var lower = wrap.classList.contains("chart-plot-wrap-lower-is-better");
 
-    btn.style.top = area.top * scaleY + inset + "px";
+    toggles.style.top = area.top * scaleY + inset + "px";
     if (lower) {
-      btn.style.left = "auto";
-      btn.style.right = (chart.width - area.right) * scaleX + inset + "px";
+      toggles.style.left = "auto";
+      toggles.style.right = (chart.width - area.right) * scaleX + inset + "px";
     } else {
-      btn.style.right = "auto";
-      btn.style.left = area.left * scaleX + inset + "px";
+      toggles.style.right = "auto";
+      toggles.style.left = area.left * scaleX + inset + "px";
     }
   }
 
-  function _initChartStdToggles() {
+  function _chartBuildOptions(slug, variant) {
+    var metricIndex = variantMetricIndex[slug];
+    if (metricIndex == null) metricIndex = _defaultMetricIndex(variant);
+    return {
+      metricIndex: metricIndex,
+      useLogScale: !!variantLogScale[slug],
+      metricLabel: _metricLabel(variant, metricIndex),
+    };
+  }
+
+  function _chartValuesForTarget(slug, variant, metricIndex, chartPoints) {
+    if (chartPoints) {
+      return chartPoints.map(function (p) { return p.value; }).filter(function (v) {
+        return typeof v === "number" && isFinite(v);
+      });
+    }
+    if (metricIndex === 0) {
+      var chartJson = variant.chart_json || "";
+      if (chartJson && chartPointsCache[chartJson]) {
+        return chartPointsCache[chartJson].map(function (p) { return p.value; }).filter(function (v) {
+          return typeof v === "number" && isFinite(v);
+        });
+      }
+    }
+    var rowsJson = variant.rows_json || "";
+    if (rowsJson && rowsJsonCache[rowsJson] && rowsJsonCache[rowsJson].rows) {
+      return _valuesForMetric(rowsJsonCache[rowsJson].rows, metricIndex);
+    }
+    return _valuesForMetric(variant.rows || [], metricIndex);
+  }
+
+  function _syncLogScaleToggle(slug, metricIndex) {
+    var variant = _getVariant(slug);
+    var canvas = document.getElementById("chart-" + slug);
+    if (!canvas) return;
+    var wrap = canvas.closest(".chart-plot-wrap");
+    var btn = wrap ? wrap.querySelector(".chart-log-toggle") : null;
+    if (!btn) return;
+    var values = _chartValuesForTarget(slug, variant, metricIndex, null);
+    var milestones = _milestonesForTarget(canvas, variant, metricIndex);
+    milestones.forEach(function (m) {
+      if (typeof m.value === "number" && isFinite(m.value)) values.push(m.value);
+    });
+    var canLog = values.length > 0 && _needsSciNotation(values) && _allPositive(values);
+    btn.hidden = !canLog;
+    if (!canLog) {
+      variantLogScale[slug] = false;
+      _writeSession(_sessionKey("log", slug), 0);
+      btn.classList.remove("is-on");
+      btn.setAttribute("aria-pressed", "false");
+      return;
+    }
+    var isOn = !!variantLogScale[slug];
+    btn.classList.toggle("is-on", isOn);
+    btn.setAttribute("aria-pressed", isOn ? "true" : "false");
+  }
+
+  function _applyMobileTargetColumn(table, metricIndex, label) {
+    if (!table) return;
+    table.querySelectorAll("td.col-value").forEach(function (td) {
+      var idx = parseInt(td.getAttribute("data-metric-index") || "0", 10);
+      var show = idx === metricIndex;
+      td.classList.toggle("mobile-target-visible", show);
+      td.style.display = "";
+    });
+    var head = table.closest(".result-table-wrapper");
+    head = head ? head.querySelector(".mobile-result-table-head span:nth-child(3)") : null;
+    if (head && label) head.textContent = label;
+    table.querySelectorAll("tbody tr.result-row").forEach(function (row) {
+      var raw = row.getAttribute("data-value-" + metricIndex);
+      if (raw != null && raw !== "") row.dataset.value = raw;
+    });
+  }
+
+  function _metricIndexFromCell(cell) {
+    if (!cell) return 0;
+    var idx = cell.getAttribute("data-metric-index");
+    if (idx != null && idx !== "") return parseInt(idx, 10) || 0;
+    var col = cell.getAttribute("data-col") || "";
+    if (col === "value") return 0;
+    var match = col.match(/^value-(\d+)$/);
+    return match ? parseInt(match[1], 10) : 0;
+  }
+
+  function _applyFlatTargetColumn(table, metricIndex) {
+    if (!table) return;
+    table.querySelectorAll("th.col-value, td.col-value").forEach(function (cell) {
+      var idx = _metricIndexFromCell(cell);
+      cell.classList.toggle("flat-target-visible", idx === metricIndex);
+    });
+    table.querySelectorAll("tbody tr.result-row").forEach(function (row) {
+      var raw = row.getAttribute("data-value-" + metricIndex);
+      if (raw != null && raw !== "") row.dataset.value = raw;
+    });
+  }
+
+  function _desktopTargetPickerGroup(slug) {
+    var bar = document.querySelector('.leaderboard-section[data-variant="' + slug + '"] .leaderboard-filter-bar');
+    return bar ? bar.querySelector(".desktop-target-picker-group") : null;
+  }
+
+  function _syncDesktopTargetPickerVisibility(slug, showPicker) {
+    var group = _desktopTargetPickerGroup(slug);
+    if (group) group.hidden = !showPicker;
+  }
+
+  function _flatMetricsToggleBtn(slug) {
+    var bar = document.querySelector('.leaderboard-section[data-variant="' + slug + '"] .leaderboard-filter-bar');
+    return bar ? bar.querySelector('.flat-metrics-toggle[data-variant="' + slug + '"]') : null;
+  }
+
+  function _syncFlatMetricsToggleButton(slug, showAll) {
+    var btn = _flatMetricsToggleBtn(slug);
+    if (!btn) return;
+    btn.classList.toggle("is-on", !!showAll);
+    btn.setAttribute("aria-pressed", showAll ? "true" : "false");
+    btn.textContent = showAll ? "all metrics" : "+ metrics";
+    btn.title = showAll
+      ? "Show all target columns in the table"
+      : "Show one target column — pick the target below";
+  }
+
+  function _applyFlatMetricsMode(table, showAll, slug) {
+    if (!table || table.dataset.flatMetrics !== "1") return;
+    table.classList.toggle("show-flat-all-metrics", !!showAll);
+    table.classList.toggle("show-secondary-metrics", !!showAll);
+    if (showAll) {
+      table.querySelectorAll("th.col-value, td.col-value").forEach(function (cell) {
+        cell.classList.remove("flat-target-visible");
+      });
+      _syncDesktopTargetPickerVisibility(slug, false);
+    } else {
+      var metricIndex = variantMetricIndex[slug];
+      if (metricIndex == null) {
+        var variant = _getVariant(slug);
+        metricIndex = _defaultMetricIndex(variant);
+      }
+      _applyFlatTargetColumn(table, metricIndex);
+      _syncDesktopTargetPickerVisibility(slug, true);
+    }
+    _syncFlatMetricsToggleButton(slug, showAll);
+    _writeSession(_sessionKey("flatAll", slug), showAll ? 1 : 0);
+  }
+
+  function toggleFlatAllMetrics(enabled, slug) {
+    if (!_secondaryMetricsDesktopOnly()) return;
+    showFlatAllMetrics = !!enabled;
+    document.querySelectorAll('.result-table[data-flat-metrics="1"]').forEach(function (table) {
+      var tableSlug = table.closest(".leaderboard-section")?.dataset.variant || slug;
+      if (slug && tableSlug !== slug) return;
+      _applyFlatMetricsMode(table, showFlatAllMetrics, tableSlug);
+    });
+    _applyModelColumnWidths();
+    _applyModelTooltips();
+  }
+
+  function _syncTargetPickers(slug, metricIndex) {
+    var variant = _getVariant(slug);
+    var label = _metricLabel(variant, metricIndex);
+    variantMetricIndex[slug] = metricIndex;
+    _writeSession(_sessionKey("metric", slug), metricIndex);
+
+    var mobileSelect = document.getElementById("mobile-target-" + slug);
+    if (mobileSelect && mobileSelect.value !== String(metricIndex)) {
+      mobileSelect.value = String(metricIndex);
+    }
+    var desktopSelect = document.getElementById("desktop-target-" + slug);
+    if (desktopSelect && desktopSelect.value !== String(metricIndex)) {
+      desktopSelect.value = String(metricIndex);
+    }
+    var chartSelect = document.getElementById("chart-target-" + slug);
+    if (chartSelect && chartSelect.value !== String(metricIndex)) {
+      chartSelect.value = String(metricIndex);
+    }
+
+    var table = document.getElementById("tbl-" + slug);
+    if (table && table.dataset.flatMetrics === "1") {
+      if (table.classList.contains("show-flat-all-metrics")) {
+        _applyMobileTargetColumn(table, metricIndex, label);
+      } else {
+        _applyFlatTargetColumn(table, metricIndex);
+        _applyMobileTargetColumn(table, metricIndex, label);
+      }
+    }
+
+    var title = document.getElementById("chart-title-" + slug);
+    if (title) {
+      title.textContent = "Best " + label + " over time — " + (variant.name || "");
+    }
+
+    _syncLogScaleToggle(slug, metricIndex);
+  }
+
+  function _rebuildChartForTarget(slug) {
+    var canvas = document.getElementById("chart-" + slug);
+    if (!canvas) return;
+    var variant = _getVariant(slug);
+    var cfg = window.leaderboardConfig || {};
+    var metricIndex = variantMetricIndex[slug];
+    if (metricIndex == null) metricIndex = _defaultMetricIndex(variant);
+    var metrics = variant.metrics || [];
+    var metricKey = metrics[metricIndex];
+    var milestones = _milestonesForTarget(canvas, variant, metricIndex);
+    canvas.dataset.milestones = JSON.stringify(milestones);
+    canvas.dataset.metric = _metricLabel(variant, metricIndex);
+    if (charts[slug]) {
+      charts[slug].destroy();
+      delete charts[slug];
+    }
+    var chartJson = variant.chart_json || "";
+    if (chartJson) {
+      _fetchChartPoints(chartJson).then(function (points) {
+        if (!canvas.isConnected) return;
+        buildChart(canvas, slug, cfg.higherIsBetter !== false, points, _chartBuildOptions(slug, variant));
+      });
+      return;
+    }
+    buildChart(canvas, slug, cfg.higherIsBetter !== false, null, _chartBuildOptions(slug, variant));
+  }
+
+  function _switchTarget(slug, metricIndex) {
+    _syncTargetPickers(slug, metricIndex);
+    _rebuildChartForTarget(slug);
+    _applyModelColumnWidths();
+  }
+
+  function _initTargetPickers() {
+    var cfg = window.leaderboardConfig || {};
+    (cfg.variants || []).forEach(function (variant) {
+      var slug = variant.slug;
+      if (!slug) return;
+      var defaultIdx = _defaultMetricIndex(variant);
+      var storedIdx = _readSessionInt(_sessionKey("metric", slug), defaultIdx);
+      if (storedIdx < 0 || storedIdx >= (variant.metrics || []).length) storedIdx = defaultIdx;
+      variantMetricIndex[slug] = storedIdx;
+      variantLogScale[slug] = _readSessionBool(_sessionKey("log", slug), false);
+
+      var mobileSelect = document.getElementById("mobile-target-" + slug);
+      if (mobileSelect && !mobileSelect.dataset.bound) {
+        mobileSelect.dataset.bound = "1";
+        mobileSelect.addEventListener("change", function () {
+          _switchTarget(slug, parseInt(mobileSelect.value, 10) || 0);
+        });
+      }
+
+      var desktopSelect = document.getElementById("desktop-target-" + slug);
+      if (desktopSelect && !desktopSelect.dataset.bound) {
+        desktopSelect.dataset.bound = "1";
+        desktopSelect.addEventListener("change", function () {
+          _switchTarget(slug, parseInt(desktopSelect.value, 10) || 0);
+        });
+      }
+
+      var chartSelect = document.getElementById("chart-target-" + slug);
+      if (chartSelect && !chartSelect.dataset.bound) {
+        chartSelect.dataset.bound = "1";
+        chartSelect.addEventListener("change", function () {
+          _switchTarget(slug, parseInt(chartSelect.value, 10) || 0);
+        });
+      }
+
+      var table = document.getElementById("tbl-" + slug);
+      if (table && table.dataset.flatMetrics === "1") {
+        var storedFlatAll = _readSessionBool(_sessionKey("flatAll", slug), true);
+        showFlatAllMetrics = storedFlatAll;
+        _applyFlatMetricsMode(table, storedFlatAll, slug);
+        _applyMobileTargetColumn(table, storedIdx, _metricLabel(variant, storedIdx));
+      }
+
+      _syncTargetPickerLabels(variant);
+
+      if (chartSelect) chartSelect.value = String(storedIdx);
+      if (mobileSelect) mobileSelect.value = String(storedIdx);
+      if (desktopSelect) desktopSelect.value = String(storedIdx);
+      _syncLogScaleToggle(slug, storedIdx);
+    });
+  }
+
+  function toggleLogScale(enabled, slug) {
+    if (!slug) return;
+    variantLogScale[slug] = !!enabled;
+    _writeSession(_sessionKey("log", slug), enabled ? 1 : 0);
+    var container = document.querySelector('.chart-container[data-variant="' + slug + '"]');
+    var btn = container ? container.querySelector(".chart-log-toggle") : null;
+    if (btn) {
+      btn.classList.toggle("is-on", !!enabled);
+      btn.setAttribute("aria-pressed", enabled ? "true" : "false");
+    }
+    _rebuildChartForTarget(slug);
+  }
+
+  function _initChartToggles() {
+    document.querySelectorAll(".chart-log-toggle").forEach(function (btn) {
+      if (btn.dataset.logToggleBound) return;
+      btn.dataset.logToggleBound = "1";
+      btn.addEventListener("click", function () {
+        var container = btn.closest(".chart-container");
+        var slug = container ? container.dataset.variant : null;
+        toggleLogScale(!btn.classList.contains("is-on"), slug);
+      });
+    });
     document.querySelectorAll(".chart-std-toggle").forEach(function (btn) {
       if (btn.dataset.stdToggleBound) return;
       btn.dataset.stdToggleBound = "1";
@@ -155,18 +938,100 @@
         toggleStd(!btn.classList.contains("is-on"));
       });
     });
+    document.querySelectorAll(".chart-baselines-toggle[data-filter='baselines']").forEach(function (btn) {
+      if (btn.dataset.baselinesToggleBound) return;
+      btn.dataset.baselinesToggleBound = "1";
+      btn.addEventListener("click", function () {
+        toggleBaselines(!btn.classList.contains("is-on"));
+      });
+    });
     _syncChartStdToggle(showStd);
+    _syncFilterButton("baselines", showBaselines);
   }
 
   /* ── Secondary-metrics toggle ─────────────────────────────────────── */
+  function _secondaryMetricsDesktopOnly() {
+    return window.matchMedia("(min-width: 981px)").matches;
+  }
+
+  function _syncSecondaryMetricsPlatform() {
+    if (!_secondaryMetricsDesktopOnly() && showSecondaryMetrics) {
+      var hasFlat = document.querySelector(".dataset-flat-metrics");
+      if (!hasFlat) {
+        toggleSecondaryMetrics(false);
+        return;
+      }
+    }
+    _syncAllSecondaryMetricsViews();
+  }
+
+  function _isTableRowExpandPending(table) {
+    var collapseAfter = parseInt(table.dataset.collapseAfter || "0", 10);
+    if (collapseAfter <= 0) return false;
+    var moreBtn = _findMoreButton(table);
+    if (!moreBtn || moreBtn.hidden) return false;
+    return moreBtn.getAttribute("data-expanded") !== "true";
+  }
+
+  function _tableShowsSecondaryCols(table) {
+    if (_secondaryMetricsDesktopOnly() && table.classList.contains("dataset-flat-metrics")) {
+      return table.classList.contains("show-flat-all-metrics");
+    }
+    return _secondaryMetricsDesktopOnly() &&
+      table.classList.contains("dataset-multi-metric-cols") &&
+      table.classList.contains("show-secondary-metrics") &&
+      !table.classList.contains("secondary-metrics-blocked");
+  }
+
+  function _findSecondaryMetricsNotice(table) {
+    var wrapper = table && table.closest(".result-table-wrapper");
+    return wrapper ? wrapper.querySelector(".secondary-metrics-notice") : null;
+  }
+
+  function _syncSecondaryMetricsView(table) {
+    if (!table || !table.classList.contains("dataset-multi-metric-cols")) return;
+    var notice = _findSecondaryMetricsNotice(table);
+    if (!_secondaryMetricsDesktopOnly()) {
+      table.classList.remove("secondary-metrics-blocked");
+      if (notice) notice.hidden = true;
+      table.querySelectorAll(".secondary-metrics").forEach(function (block) {
+        block.hidden = true;
+        block.classList.remove("is-visible");
+      });
+      return;
+    }
+    var wantsMetrics = table.classList.contains("show-secondary-metrics");
+    if (!wantsMetrics) {
+      table.classList.remove("secondary-metrics-blocked");
+      if (notice) notice.hidden = true;
+      table.querySelectorAll(".secondary-metrics").forEach(function (block) {
+        block.hidden = true;
+        block.classList.remove("is-visible");
+      });
+      return;
+    }
+    var blocked = _isTableRowExpandPending(table);
+    table.classList.toggle("secondary-metrics-blocked", blocked);
+    if (notice) notice.hidden = !blocked;
+    table.querySelectorAll(".secondary-metrics").forEach(function (block) {
+      var showMobile = !blocked;
+      block.hidden = !showMobile;
+      block.classList.toggle("is-visible", showMobile);
+    });
+  }
+
+  function _syncAllSecondaryMetricsViews() {
+    document.querySelectorAll(".dataset-multi-metric-cols").forEach(_syncSecondaryMetricsView);
+  }
+
   function toggleSecondaryMetrics(enabled) {
+    if (enabled && !_secondaryMetricsDesktopOnly()) {
+      return;
+    }
     showSecondaryMetrics = !!enabled;
     _syncFilterButton("secondary-metrics", showSecondaryMetrics);
     document.querySelectorAll(".result-table").forEach(function (table) {
-      table.querySelectorAll(".secondary-metrics").forEach(function (block) {
-        block.hidden = !showSecondaryMetrics;
-        block.classList.toggle("is-visible", showSecondaryMetrics);
-      });
+      table.classList.toggle("show-secondary-metrics", showSecondaryMetrics);
     });
     document.querySelectorAll(".chart-hover-preview").forEach(function (preview) {
       preview.querySelectorAll(".secondary-metrics").forEach(function (block) {
@@ -174,6 +1039,7 @@
         block.classList.toggle("is-visible", showSecondaryMetrics);
       });
     });
+    _syncAllSecondaryMetricsViews();
     _applyModelColumnWidths();
     _applyModelTooltips();
   }
@@ -194,10 +1060,32 @@
     return null;
   }
 
+  function _isTopNRow(row, n) {
+    if (!row || !row.dataset) return false;
+    var idx = parseInt(row.dataset.originalIndex, 10);
+    return !isNaN(idx) && idx < n;
+  }
+
+  function _isDatasetLeaderboardRow(row) {
+    var table = row && row.closest(".result-table");
+    return !!(table && table.classList.contains("dataset-multi-metric-cols"));
+  }
+
+  function _isTopNDatum(slug, datum, n) {
+    var row = _findRowForDatum(slug, datum);
+    return _isTopNRow(row, n);
+  }
+
   function _rowPassesFilters(row) {
     if (!row) return true;
-    if (!showBaselines && row.classList.contains("row-baseline") && !_isSotaBaselineRow(row)) {
-      return false;
+    if (!showBaselines && row.classList.contains("row-baseline")) {
+      if (_isDatasetLeaderboardRow(row) && _isTopNRow(row, TOP_N_ALWAYS_VISIBLE)) {
+        /* keep top-N dataset rows */
+      } else if (!_isDatasetLeaderboardRow(row) && _isSotaBaselineRow(row)) {
+        /* keep SOTA/global-top rows on paper pages */
+      } else {
+        return false;
+      }
     }
     if (!showExternalData && row.dataset.externalData === "1") {
       return false;
@@ -212,10 +1100,14 @@
     return true;
   }
 
-  function _datumPassesFilters(datum) {
+  function _datumPassesFilters(datum, slug) {
     if (!datum) return false;
-    if (!showBaselines && datum.is_baseline && !datum._isRecord && !datum._isSotaMatch) {
-      return false;
+    if (!showBaselines && datum.is_baseline && !datum._isRecord) {
+      if (slug && _isTopNDatum(slug, datum, TOP_N_ALWAYS_VISIBLE)) {
+        /* keep top-N table rows on chart */
+      } else {
+        return false;
+      }
     }
     if (!showExternalData && datum.uses_external_data === true) {
       return false;
@@ -244,13 +1136,38 @@
     });
   }
 
+  function _finalizeChartUpdate(chart) {
+    if (!chart) return;
+    var measureLayout = _perfEnabled() && !chart._perfLayoutMeasured;
+    var perfPrefix = chart._slug ? "chart-" + chart._slug + ":" : null;
+    if (measureLayout && perfPrefix) {
+      performance.mark(perfPrefix + "layout-start");
+    }
+    chart.update("none");
+    // Scatter markers reuse element slots by index; after reordering data Chart.js
+    // may need a second pass once layout has settled so points and plugins agree.
+    requestAnimationFrame(function () {
+      if (!chart.canvas || !chart.canvas.isConnected) return;
+      chart.update("none");
+      if (measureLayout && perfPrefix) {
+        chart._perfLayoutMeasured = true;
+        performance.mark(perfPrefix + "layout-end");
+        performance.measure(perfPrefix + "layout", perfPrefix + "layout-start", perfPrefix + "layout-end");
+        _perfChartsPending -= 1;
+        if (_perfChartsPending <= 0) {
+          _reportPerfSummary();
+        }
+      }
+    });
+  }
+
   function _applyRowFilters() {
     document.querySelectorAll(".result-table").forEach(function (table) {
       _syncTableRows(table);
     });
     Object.values(charts).forEach(function (chart) {
       _applyChartFilters(chart);
-      chart.update("none");
+      _finalizeChartUpdate(chart);
     });
   }
 
@@ -266,7 +1183,12 @@
         if (key === "baselines") {
           toggleBaselines(nextOn);
         } else if (key === "secondary-metrics") {
+          if (!_secondaryMetricsDesktopOnly()) return;
           toggleSecondaryMetrics(nextOn);
+        } else if (key === "flat-all-metrics") {
+          if (!_secondaryMetricsDesktopOnly()) return;
+          var slug = btn.getAttribute("data-variant") || null;
+          toggleFlatAllMetrics(nextOn, slug);
         } else if (key === "ext-data") {
           showExternalData = nextOn;
           _syncFilterButton("ext-data", showExternalData);
@@ -299,10 +1221,6 @@
       _syncArchFilterButton(key, archFilters[key]);
     });
     document.querySelectorAll(".filter-bubble[data-filter-arch][data-arch-count]").forEach(_formatArchFilterLabel);
-  }
-
-  function _formatMetricValue(value) {
-    return typeof value === "number" && isFinite(value) ? value.toPrecision(2) : String(value);
   }
 
   function _truncateTitle(title) {
@@ -395,6 +1313,11 @@
         secondary.classList.remove("is-visible");
       }
     }
+    if (!showSecondaryMetrics) {
+      clone.querySelectorAll("td.col-value.col-secondary-metric").forEach(function (td) {
+        td.remove();
+      });
+    }
     return "<table class=\"result-table chart-preview-table\"><tbody>" + clone.outerHTML + "</tbody></table>";
   }
 
@@ -480,12 +1403,13 @@
     return "";
   }
 
-  function _pickBestReference(rows, higherIsBetter, families) {
+  function _pickBestReference(rows, higherIsBetter, families, metricIndex) {
     var wanted = Array.isArray(families) ? families : [families];
+    var idx = metricIndex || 0;
     var best = null;
     rows.forEach(function (row) {
       var family = _normalizeModelFamily(row.model_plain || row.model);
-      var value = row.metric_values && row.metric_values[0];
+      var value = row.metric_values && row.metric_values[idx];
       if (wanted.indexOf(family) === -1 || value == null) return;
       if (!best || (higherIsBetter ? value > best.value : value < best.value)) {
         best = {
@@ -503,6 +1427,42 @@
     var qq = Math.max(0, Math.min(1, q));
     var idx = Math.floor(qq * (sortedNums.length - 1));
     return sortedNums[idx];
+  }
+
+  function _oldestRecordValue(recordData) {
+    var records = (recordData || []).filter(function (d) {
+      return d && d._isRecord && typeof d.y === "number" && isFinite(d.y);
+    }).sort(function (a, b) { return a.x - b.x; });
+    return records.length ? records[0].y : null;
+  }
+
+  // Drop baseline references that are far from the first SOTA and outside the best half.
+  function _isRemoteBaselineReference(ref, allVals, oldestBest, higherIsBetter) {
+    if (!ref || typeof ref.value !== "number" || !isFinite(ref.value)) return false;
+    if (!allVals || !allVals.length) return false;
+
+    var sorted = allVals.slice().sort(function (a, b) { return a - b; });
+    var median = _quantile(sorted, 0.5);
+    var span = sorted[sorted.length - 1] - sorted[0];
+    var closeSpan = Math.max(span * 0.25, 1e-9);
+
+    var outsideTopHalf = higherIsBetter
+      ? ref.value < median
+      : ref.value > median;
+    if (!outsideTopHalf) return false;
+
+    if (oldestBest == null || !isFinite(oldestBest)) return true;
+    return Math.abs(ref.value - oldestBest) > closeSpan;
+  }
+
+  function _referencesForYScale(references, scatterData, recordData, higherIsBetter) {
+    var allVals = (scatterData || []).map(function (d) { return d && d.y; }).filter(function (v) {
+      return typeof v === "number" && isFinite(v);
+    });
+    var oldestBest = _oldestRecordValue(recordData);
+    return (references || []).filter(function (ref) {
+      return !_isRemoteBaselineReference(ref, allVals, oldestBest, higherIsBetter);
+    });
   }
 
   function _computeFocusedYBounds(scatterData, recordData, refs, higherIsBetter) {
@@ -647,7 +1607,7 @@
     var visibleScatter = chart._scatterAll.filter(function (d) {
       if (!_isWithinYBounds(d.y, yBounds)) return false;
       if (d._isStdOutlier && !d._isRecord) return false;
-      return _datumPassesFilters(d);
+      return _datumPassesFilters(d, chart._slug);
     });
     visibleScatter = _sortScatterByPriority(visibleScatter);
     var visibleRecord = chart._recordAll.filter(function (d) {
@@ -706,7 +1666,12 @@
   }
 
   /* ── Chart builder ──────────────────────────────────────────────────── */
-  function buildChart(canvas, slug, higherIsBetter) {
+  function buildChart(canvas, slug, higherIsBetter, chartPoints, buildOptions) {
+    buildOptions = buildOptions || {};
+    var metricIndex = buildOptions.metricIndex || 0;
+    var useLogScale = !!buildOptions.useLogScale;
+    var metricLabel = buildOptions.metricLabel || canvas.dataset.metric || "Score";
+
     let milestones = [];
     try {
       milestones = JSON.parse(canvas.dataset.milestones || "[]");
@@ -714,10 +1679,17 @@
 
     const cfg = window.leaderboardConfig || {};
     const variant = (cfg.variants || []).find(function (v) { return v.slug === slug; }) || {};
-    const allRows = variant.rows || [];
+    const allRows = (chartPoints && metricIndex === 0 && !(variant.rows && variant.rows.length))
+      ? _chartPointsToRows(chartPoints)
+      : (variant.rows && variant.rows.length ? variant.rows : _chartPointsToRows(chartPoints || []));
 
     if (!milestones.length && !allRows.length) return;
     if (typeof Chart === "undefined") return;
+
+    var perfPrefix = "chart-" + slug + ":";
+    if (_perfEnabled()) {
+      performance.mark(perfPrefix + "parse-start");
+    }
 
     // Parse any date string (YYYY-MM-DD, YYYY-MM, or "Jun 2022") to UTC ms.
     function dateTs(dateStr) {
@@ -747,8 +1719,8 @@
       }
     });
 
-    var gnnReference = _pickBestReference(allRows, higherIsBetter, ["gcn", "gin", "graphsage"]);
-    var mlpReference = _pickBestReference(allRows, higherIsBetter, "mlp");
+    var gnnReference = _pickBestReference(allRows, higherIsBetter, ["gcn", "gin", "graphsage"], metricIndex);
+    var mlpReference = _pickBestReference(allRows, higherIsBetter, "mlp", metricIndex);
 
     var recordKeys = {};
     milestones.forEach(function (m) {
@@ -801,8 +1773,8 @@
     var scatterData = [];
     var modelBaselineMap = {};
     allRows.forEach(function (row) {
-      var val = row.metric_values && row.metric_values[0];
-      var std = row.metric_stds && row.metric_stds[0];
+      var val = row.metric_values && row.metric_values[metricIndex];
+      var std = row.metric_stds && row.metric_stds[metricIndex];
       var ts = dateTs(row.date_iso || row.date);
       if (val == null || ts == null) return;
       modelBaselineMap[row.model] = !!row.is_baseline;
@@ -878,7 +1850,10 @@
         position: "above",
       } : null,
     ].filter(Boolean);
-    var focusedYBounds = _computeFocusedYBounds(scatterData, recordData, references, higherIsBetter);
+    var scaleReferences = _referencesForYScale(references, scatterData, recordData, higherIsBetter);
+    var focusedYBounds = useLogScale
+      ? null
+      : _computeFocusedYBounds(scatterData, recordData, scaleReferences, higherIsBetter);
 
     // ── Per-point styling for records line ────────────────────────────
     var recordBg = recordData.map(function (d) { return d._isRecord ? "#2563eb" : "transparent"; });
@@ -886,14 +1861,23 @@
     var visibleScatterData = scatterData.filter(function (d) {
       return _isWithinYBounds(d.y, focusedYBounds) && (!d._isStdOutlier || d._isRecord);
     });
+    visibleScatterData = visibleScatterData.filter(function (d) {
+      return _datumPassesFilters(d, slug);
+    });
+    visibleScatterData = _sortScatterByPriority(visibleScatterData);
     var visibleRecordData = recordData.filter(function (d) {
       return _isWithinYBounds(d.y, focusedYBounds);
     });
 
-    var stdTogglePositionPlugin = {
-      id: "stdTogglePosition_" + slug,
+    if (_perfEnabled()) {
+      performance.mark(perfPrefix + "parse-end");
+      performance.measure(perfPrefix + "parse", perfPrefix + "parse-start", perfPrefix + "parse-end");
+    }
+
+    var chartTogglePositionPlugin = {
+      id: "chartTogglePosition_" + slug,
       afterLayout: function (chart) {
-        _positionChartStdToggle(chart);
+        _positionChartToggles(chart);
       },
     };
 
@@ -1006,6 +1990,8 @@
       id: "errorBars_" + slug,
       afterDatasetsDraw: function (chart) {
         if (!showStd) return;
+        var trackPerf = _perfEnabled() && !chart._perfLayoutMeasured;
+        var t0 = trackPerf ? performance.now() : 0;
         var ctx = chart.ctx;
         var yScale = chart.scales.y;
         var chartArea = chart.chartArea;
@@ -1016,7 +2002,7 @@
         if (sm && !sm.hidden) {
           sm.data.forEach(function (point, i) {
             var d = scatterPoints[i];
-            if (!d || d.std == null) return;
+            if (!_shouldDrawDatumStd(chart, d)) return;
             _drawErrorBar(ctx, chartArea, point.x, yScale, d.y, d.std, _semanticPointColors(d).error, 5);
           });
         }
@@ -1027,27 +2013,36 @@
         if (rm && !rm.hidden) {
           rm.data.forEach(function (point, i) {
             var d = recordPoints[i];
-            if (!d || !d._isRecord || d.std == null) return;
+            if (!d || !d._isRecord || !_shouldDrawDatumStd(chart, d)) return;
             _drawErrorBar(ctx, chartArea, point.x, yScale, d.y, d.std, "rgba(37,99,235,0.7)", 7);
           });
         }
 
         var hp = chart._highlightedPoint;
-        if (!hp) return;
-        var activeDs = chart.data.datasets[hp.datasetIndex];
-        var activeMeta = chart.getDatasetMeta(hp.datasetIndex);
-        if (!activeDs || !activeMeta || !activeMeta.data || !activeMeta.data[hp.index]) return;
-        var activeDatum = activeDs.data[hp.index];
-        if (!activeDatum || activeDatum.std == null) return;
-        var activePoint = activeMeta.data[hp.index];
-        _drawErrorBar(ctx, chartArea, activePoint.x, yScale, activeDatum.y, activeDatum.std, _semanticPointColors(activeDatum).error, 9);
+        if (hp) {
+          var activeDs = chart.data.datasets[hp.datasetIndex];
+          var activeMeta = chart.getDatasetMeta(hp.datasetIndex);
+          if (activeDs && activeMeta && activeMeta.data && activeMeta.data[hp.index]) {
+            var activeDatum = activeDs.data[hp.index];
+            var activePoint = activeMeta.data[hp.index];
+            if (_shouldDrawDatumStd(chart, activeDatum)) {
+              _drawErrorBar(
+                ctx, chartArea, activePoint.x, yScale, activeDatum.y, activeDatum.std,
+                _semanticPointColors(activeDatum).error, 9
+              );
+            }
+          }
+        }
+        if (trackPerf) {
+          chart._perfErrorBarsMs = (chart._perfErrorBarsMs || 0) + (performance.now() - t0);
+        }
       },
     };
 
     var referenceLinesPlugin = {
       id: "referenceLines_" + slug,
       afterDatasetsDraw: function (chart) {
-        var refs = references;
+        var refs = scaleReferences;
         if (!refs.length) return;
 
         var ctx = chart.ctx;
@@ -1074,12 +2069,14 @@
     var referenceLabelsPlugin = {
       id: "referenceLabels_" + slug,
       afterDatasetsDraw: function (chart) {
-        var refs = references;
+        var refs = scaleReferences;
         if (!refs.length) return;
 
         var ctx = chart.ctx;
         var yScale = chart.scales.y;
         var area = chart.chartArea;
+        var plotWrap = chart.canvas && chart.canvas.closest(".chart-plot-wrap");
+        var labelsOnLeft = !!plotWrap && plotWrap.classList.contains("chart-plot-wrap-lower-is-better");
         ctx.save();
         ctx.font = "600 11px sans-serif";
         var refsByValue = refs.slice().sort(function (a, b) { return b.value - a.value; });
@@ -1087,7 +2084,9 @@
           var py = yScale.getPixelForValue(ref.value);
           if (!isFinite(py) || py < area.top || py > area.bottom) return;
           var textWidth = ctx.measureText(ref.label).width;
-          var labelX = Math.max(area.left + 8, area.right - textWidth - 12);
+          var labelX = labelsOnLeft
+            ? area.left + 8
+            : Math.max(area.left + 8, area.right - textWidth - 12);
           var order = refsByValue.findIndex(function (candidate) { return candidate === ref; });
           var offset = order <= 0 ? -6 : 16 + (order - 1) * 14;
           var unclampedY = py + offset;
@@ -1101,6 +2100,9 @@
       },
     };
 
+    if (_perfEnabled()) {
+      performance.mark(perfPrefix + "create-start");
+    }
     var chart = new Chart(canvas, {
       type: "scatter",
       data: {
@@ -1109,6 +2111,10 @@
             label: "All results",
             data: visibleScatterData,
             type: "scatter",
+            parsing: {
+              xAxisKey: "x",
+              yAxisKey: "y",
+            },
             backgroundColor: visibleScatterData.map(function (d) {
               return _semanticPointColors(d).fill;
             }),
@@ -1130,6 +2136,10 @@
             label: "Record",
             data: visibleRecordData,
             type: "line",
+            parsing: {
+              xAxisKey: "x",
+              yAxisKey: "y",
+            },
             stepped: "before",
             borderColor: "#2563eb",
             backgroundColor: "rgba(37,99,235,0.07)",
@@ -1180,10 +2190,16 @@
             },
           },
           y: {
-            min: focusedYBounds ? focusedYBounds.min : undefined,
-            max: focusedYBounds ? focusedYBounds.max : undefined,
-            title: { display: true, text: canvas.dataset.metric || "Score", color: _chartTheme().tick },
-            ticks: { precision: 4, color: _chartTheme().tick },
+            type: useLogScale ? "logarithmic" : "linear",
+            min: useLogScale ? undefined : (focusedYBounds ? focusedYBounds.min : undefined),
+            max: useLogScale ? undefined : (focusedYBounds ? focusedYBounds.max : undefined),
+            title: { display: true, text: metricLabel, color: _chartTheme().tick },
+            ticks: {
+              color: _chartTheme().tick,
+              callback: function (value) {
+                return _formatMetricValue(Number(value));
+              },
+            },
             grid: { color: _chartTheme().grid },
           },
         },
@@ -1195,7 +2211,7 @@
         },
       },
       plugins: [
-        stdTogglePositionPlugin,
+        chartTogglePositionPlugin,
         yearLinesPlugin,
         referenceLinesPlugin,
         errorBarsPlugin,
@@ -1204,15 +2220,28 @@
       ],
     });
 
+    if (_perfEnabled()) {
+      performance.mark(perfPrefix + "create-end");
+      performance.measure(perfPrefix + "create", perfPrefix + "create-start", perfPrefix + "create-end");
+    }
+
+    chart._useLogScale = useLogScale;
+    chart._metricIndex = metricIndex;
     chart._scatterAll = scatterData.slice();
     chart._recordAll = recordData.slice();
     chart._yBounds = focusedYBounds;
     chart._slug = slug;
+    chart._pointCount = scatterData.length;
+    chart._isCrowded = scatterData.length > CROWDED_PLOT_THRESHOLD;
     _decorateHistoricalSotaRows(slug, scatterData);
     _applyChartFilters(chart);
-    chart.update("none");
+    _finalizeChartUpdate(chart);
 
     charts[slug] = chart;
+    _syncLogScaleToggle(slug, metricIndex);
+    if (_perfEnabled()) {
+      _perfChartsPending += 1;
+    }
   }
 
   /* ── Chart → Table hover sync ───────────────────────────────────────── */
@@ -1260,39 +2289,53 @@
     _updatePreview(slug, chart);
   }
 
+  function _highlightChartRow(slug, row) {
+    if (!slug || !row || !charts[slug]) return;
+    var arxivId = row.dataset.arxiv;
+    var model = row.dataset.model;
+    var chart = charts[slug];
+    var pointData = chart.data.datasets[0].data || [];
+    var idx = pointData.findIndex(function (pd) {
+      return pd.arxiv_id === arxivId && pd.model === model;
+    });
+    if (idx < 0) return;
+    chart._highlightedPoint = { datasetIndex: 0, index: idx };
+    if (chart.setActiveElements) {
+      chart.setActiveElements([{ datasetIndex: 0, index: idx }]);
+    }
+    chart.update("none");
+  }
+
+  function _clearChartRowHighlight(slug) {
+    if (!slug || !charts[slug]) return;
+    charts[slug]._highlightedPoint = null;
+    if (charts[slug].setActiveElements) charts[slug].setActiveElements([]);
+    charts[slug].update("none");
+  }
+
   /* ── Table → Chart hover sync ───────────────────────────────────────── */
   function _initTableHover() {
-    document.querySelectorAll(".result-table tbody tr").forEach(function (row) {
-      row.addEventListener("mouseenter", function () {
-        const slug = row.closest(".leaderboard-section")
-          ? row.closest(".leaderboard-section").dataset.variant
-          : null;
-        if (!slug || !charts[slug]) return;
-        const arxivId = row.dataset.arxiv;
-        const model   = row.dataset.model;
-        const chart   = charts[slug];
-        const pointData = chart.data.datasets[0].data || [];
-        const idx = pointData.findIndex(function (pd) {
-          return pd.arxiv_id === arxivId && pd.model === model;
-        });
-        if (idx < 0) return;
-
-        chart._highlightedPoint = { datasetIndex: 0, index: idx };
-        if (chart.setActiveElements) {
-          chart.setActiveElements([{ datasetIndex: 0, index: idx }]);
-        }
-        chart.update("none");
+    document.querySelectorAll(".leaderboard-section .result-table tbody").forEach(function (tbody) {
+      if (tbody.dataset.hoverDelegated) return;
+      tbody.dataset.hoverDelegated = "1";
+      var hoveredRow = null;
+      tbody.addEventListener("mouseover", function (event) {
+        var row = event.target.closest("tr.result-row");
+        if (!row || row === hoveredRow) return;
+        hoveredRow = row;
+        var section = row.closest(".leaderboard-section");
+        var slug = section ? section.dataset.variant : null;
+        _highlightChartRow(slug, row);
       });
-
-      row.addEventListener("mouseleave", function () {
-        const slug = row.closest(".leaderboard-section")
-          ? row.closest(".leaderboard-section").dataset.variant
-          : null;
-        if (slug && charts[slug]) {
-          charts[slug]._highlightedPoint = null;
-          if (charts[slug].setActiveElements) charts[slug].setActiveElements([]);
-          charts[slug].update("none");
-        }
+      tbody.addEventListener("mouseout", function (event) {
+        var row = event.target.closest("tr.result-row");
+        if (!row) return;
+        var related = event.relatedTarget;
+        if (related && row.contains(related)) return;
+        hoveredRow = null;
+        var section = row.closest(".leaderboard-section");
+        var slug = section ? section.dataset.variant : null;
+        _clearChartRowHighlight(slug);
       });
     });
   }
@@ -1368,6 +2411,12 @@
   }
 
   function _cellValue(row, col) {
+    if (col === "value" || (col && col.indexOf("value-") === 0)) {
+      var valueRaw = row.getAttribute(col === "value" ? "data-value" : ("data-" + col));
+      if (valueRaw === "" || valueRaw === null || valueRaw === undefined) return null;
+      var numVal = parseFloat(valueRaw);
+      return isNaN(numVal) ? valueRaw : numVal;
+    }
     const raw = row.dataset[col];
     if (raw === "" || raw === null || raw === undefined) return null;
     if (col === "date") {
@@ -1386,15 +2435,8 @@
   }
 
   /* ── Wide-table toggle ──────────────────────────────────────────────── */
-  var _wideTable = false;
   function toggleWideTable() {
-    _wideTable = false;
-    document.querySelectorAll(".result-table-wrapper").forEach(function (el) {
-      el.classList.remove("wide-table-mode");
-      el.style.removeProperty("--wide-table-width");
-    });
-    _applyModelColumnWidths();
-    _applyModelTooltips();
+    toggleSecondaryMetrics(!showSecondaryMetrics);
   }
 
   function _percentile(sortedNums, p) {
@@ -1408,19 +2450,23 @@
       var wrapper = table.closest(".result-table-wrapper");
       if (!wrapper) return;
 
+      var tableWide = _tableShowsSecondaryCols(table);
+      var isFlatAllMetrics = table.classList.contains("dataset-flat-metrics") &&
+        table.classList.contains("show-flat-all-metrics");
+
       // Calculate model column width based on 90th percentile of content
       var modelCells = Array.from(table.querySelectorAll("tbody td.col-model"));
       var modelLens = modelCells
         .map(function (td) { return (td.innerText || "").replace(/\s+/g, " ").trim().length; })
         .filter(function (n) { return n > 0; })
         .sort(function (a, b) { return a - b; });
-      var modelQuantile = _wideTable ? 0.78 : 0.88;
+      var modelQuantile = tableWide ? 0.72 : 0.88;
       var modelPx = modelLens.length ? _percentile(modelLens, modelQuantile) : 0;
-      var modelChars = Math.ceil(modelPx * (_wideTable ? 1.03 : 1.08));
-      modelChars = Math.max(10, Math.min(_wideTable ? 18 : 20, modelChars));
+      var modelChars = Math.ceil(modelPx * (tableWide ? 0.88 : 1.08));
+      modelChars = Math.max(tableWide ? 7 : 10, Math.min(tableWide ? 12 : 20, modelChars));
 
-      // Calculate value column width (metric values are typically short)
-      var valueCells = Array.from(table.querySelectorAll("tbody td.col-value"));
+      // Calculate value column width (primary metric values only)
+      var valueCells = Array.from(table.querySelectorAll("tbody td.col-value.col-primary"));
       var valueChars = 10; // Default
       if (valueCells.length) {
         var valueLens = valueCells
@@ -1429,7 +2475,7 @@
           .sort(function (a, b) { return a - b; });
         if (valueLens.length) {
           var vp90 = _percentile(valueLens, 0.9);
-          valueChars = Math.max(8, Math.min(_wideTable ? 11 : 10, Math.ceil(vp90 * 1.05 + 1)));
+          valueChars = Math.max(8, Math.min(tableWide ? 11 : 10, Math.ceil(vp90 * 1.05 + 1)));
         }
       }
 
@@ -1441,16 +2487,69 @@
       var paperChars = 30;
       if (paperLens.length) {
         var pp90 = _percentile(paperLens, 0.9);
-        paperChars = Math.max(24, Math.min(_wideTable ? 60 : 38, Math.ceil(pp90 * (_wideTable ? 1.05 : 0.92))));
+        paperChars = Math.max(24, Math.min(tableWide ? 60 : 38, Math.ceil(pp90 * (tableWide ? 1.05 : 0.92))));
       }
 
       // Set CSS custom properties
-      table.style.setProperty("--model-col-width", Math.min(modelChars, 18) + "ch");
-      table.style.setProperty("--value-col-width", Math.min(valueChars, 9) + "ch");
-      table.style.setProperty("--paper-col-width", Math.min(paperChars, 30) + "ch");
+      if (tableWide) {
+        table.style.setProperty("--model-col-width", modelChars + "ch");
+        table.style.setProperty("--value-col-width", valueChars + "ch");
+        table.style.setProperty("--paper-col-width", paperChars + "ch");
+      } else {
+        table.style.setProperty("--model-col-width", Math.min(modelChars, 18) + "ch");
+        table.style.setProperty("--value-col-width", Math.min(valueChars, 9) + "ch");
+        table.style.setProperty("--paper-col-width", Math.min(paperChars, 30) + "ch");
+      }
       _applyRankColumnWidth(table);
-      wrapper.classList.remove("wide-table-mode");
-      wrapper.style.removeProperty("--wide-table-width");
+
+      if (tableWide) {
+        wrapper.classList.add("wide-table-mode");
+
+        var viewportCap = Math.max(320, window.innerWidth - 56);
+        var fitCap = Math.max(300, viewportCap - 8);
+        var minPaper = 24;
+        var minModel = 7;
+        var minValue = 7;
+        var guard = 0;
+
+        if (!isFlatAllMetrics) {
+          while (table.scrollWidth > fitCap && guard < 48) {
+            if (modelChars > minModel) {
+              modelChars -= 1;
+            } else if (valueChars > minValue) {
+              valueChars -= 1;
+            } else {
+              break;
+            }
+            table.style.setProperty("--paper-col-width", paperChars + "ch");
+            table.style.setProperty("--model-col-width", modelChars + "ch");
+            table.style.setProperty("--value-col-width", valueChars + "ch");
+            guard += 1;
+          }
+
+          // Give paper any spare viewport width freed by a narrower model column.
+          var maxPaper = Math.max(paperChars + 48, 80);
+          guard = 0;
+          while (table.scrollWidth < fitCap - 2 && paperChars < maxPaper && guard < 96) {
+            paperChars += 1;
+            table.style.setProperty("--paper-col-width", paperChars + "ch");
+            guard += 1;
+          }
+
+          guard = 0;
+          while (table.scrollWidth > fitCap && paperChars > minPaper && guard < 24) {
+            paperChars -= 1;
+            table.style.setProperty("--paper-col-width", paperChars + "ch");
+            guard += 1;
+          }
+        }
+
+        var needed = Math.min(viewportCap, table.scrollWidth + 1);
+        wrapper.style.setProperty("--wide-table-width", needed + "px");
+      } else {
+        wrapper.classList.remove("wide-table-mode");
+        wrapper.style.removeProperty("--wide-table-width");
+      }
     });
   }
 
@@ -1507,29 +2606,73 @@
 
     if (moreBtn) {
       var hiddenCount = collapsibleRows.length;
-      var canCollapse = collapseAfter > 0 && rows.some(_rowPassesFilters) &&
-        rows.filter(_rowPassesFilters).length > collapseAfter;
+      var totalRowCount = parseInt(table.dataset.rowCount || String(rows.length), 10);
+      var loadedAll = table.dataset.rowsLoaded === "all" || !table.dataset.rowsJson;
+      var filterPassingLoaded = rows.filter(_rowPassesFilters).length;
+      var canCollapse = collapseAfter > 0 && (
+        loadedAll ? filterPassingLoaded > collapseAfter : totalRowCount > collapseAfter
+      );
       moreBtn.hidden = !canCollapse;
       moreBtn.setAttribute("aria-expanded", expanded ? "true" : "false");
-      var visibleTotal = rows.filter(_rowPassesFilters).length;
-      moreBtn.textContent = expanded
-        ? "Hide rows past row " + collapseAfter
-        : "Show all " + visibleTotal + " rows (" + hiddenCount + " hidden)";
+      if (expanded) {
+        moreBtn.textContent = "Hide rows past row " + collapseAfter;
+      } else if (loadedAll) {
+        moreBtn.textContent = "Show all " + filterPassingLoaded + " rows (" + hiddenCount + " hidden)";
+      } else {
+        moreBtn.textContent = "Show all " + totalRowCount + " rows (" +
+          Math.max(0, totalRowCount - collapseAfter) + " hidden)";
+      }
     }
 
     _applyRankColumnWidth(table);
+    _syncSecondaryMetricsView(table);
+    if (showSecondaryMetrics) {
+      _applyModelColumnWidths();
+    }
+  }
+
+  function _initSecondaryMetricsNotices() {
+    document.querySelectorAll(".secondary-metrics-expand-link").forEach(function (link) {
+      if (link.dataset.noticeBound) return;
+      link.dataset.noticeBound = "1";
+      link.addEventListener("click", function () {
+        var wrapper = link.closest(".result-table-wrapper");
+        var table = wrapper && wrapper.querySelector(".result-table");
+        if (!table) return;
+        var moreBtn = _findMoreButton(table);
+        if (moreBtn && moreBtn.getAttribute("data-expanded") !== "true") {
+          moreBtn.click();
+        }
+      });
+    });
   }
 
   function _initTableExpanders() {
     document.querySelectorAll("button[data-table-more]").forEach(function (btn) {
+      if (btn.dataset.tableMoreBound) return;
+      btn.dataset.tableMoreBound = "1";
       btn.addEventListener("click", function () {
         var selector = btn.getAttribute("data-table-more");
         if (!selector) return;
         var table = document.querySelector(selector);
         if (!table) return;
         var expand = btn.getAttribute("data-expanded") !== "true";
-        btn.setAttribute("data-expanded", expand ? "true" : "false");
-        btn.setAttribute("aria-expanded", expand ? "true" : "false");
+        if (expand) {
+          btn.disabled = true;
+          _ensureAllRowsLoaded(table).then(function () {
+            btn.disabled = false;
+            btn.setAttribute("data-expanded", "true");
+            btn.setAttribute("aria-expanded", "true");
+            _syncTableRows(table);
+            _scheduleDeferredLayout();
+          }).catch(function (err) {
+            btn.disabled = false;
+            console.error("Failed to load leaderboard rows", err);
+          });
+          return;
+        }
+        btn.setAttribute("data-expanded", "false");
+        btn.setAttribute("aria-expanded", "false");
         _syncTableRows(table);
       });
 
@@ -1562,6 +2705,7 @@
   function initPaperTableUtilities() {
     _initSortableColumns();
     _initTableExpanders();
+    _initSecondaryMetricsNotices();
     _initMobileRowDetails();
     _applyModelTooltips();
     window.addEventListener("resize", _applyModelTooltips);
@@ -1580,9 +2724,19 @@
 
   // Auto-init if config is present
   document.addEventListener("DOMContentLoaded", function () {
+    if (_perfEnabled()) {
+      performance.mark("leaderboard:dom_ready");
+    }
     if (window.leaderboardConfig) {
       init();
       _initTableHover();
+      if (_perfEnabled()) {
+        performance.mark("leaderboard:init_done");
+        performance.measure("leaderboard:init", "leaderboard:dom_ready", "leaderboard:init_done");
+        if (_perfChartsPending === 0) {
+          _reportPerfSummary();
+        }
+      }
     } else if (document.querySelector(".paper-page .paper-results-table")) {
       initPaperTableUtilities();
     }

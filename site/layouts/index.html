@@ -63,9 +63,10 @@
   </div>
 </section>
 
-{{ with first 6 $benchmarks }}
+{{ $activeBenchmarks := where $benchmarks "is_legacy" false }}
+{{ with first 6 $activeBenchmarks }}
 <section class="home-section">
-  <h2>Most-covered benchmark groups</h2>
+  <h2>Recently active benchmark groups</h2>
   <div class="benchmark-list">
     {{ range . }}
     {{ $bmStats := newScratch }}
@@ -75,7 +76,7 @@
     {{ end }}
     <article class="benchmark-card">
       <h3><a href="{{ printf "datasets/#benchmark-%s" .slug | relURL }}">{{ .name }}</a></h3>
-      <p class="home-benchmark-meta">{{ len .datasets }} datasets · {{ $bmStats.Get "resultCount" }} tracked results</p>
+      <p class="home-benchmark-meta">{{ len .datasets }} datasets · {{ printf "%.1f" (.recent_results_per_dataset | default 0) }} recent results/dataset · {{ $bmStats.Get "resultCount" }} total</p>
       {{ with .description }}<p>{{ . }}</p>{{ end }}
       <p class="home-benchmark-datasets">
         {{ range $index, $dataset := first 3 .datasets }}{{ if gt $index 0 }}, {{ end }}<a href="{{ printf "datasets/%s/" $dataset.slug | relURL }}">{{ $dataset.name }}</a>{{ end }}

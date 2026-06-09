@@ -3,9 +3,22 @@
   Context:
     .secondary_metric_names – uniq list of non-primary metric names (may be empty)
     .rows                 – all leaderboard rows for this variant (for architecture counts)
+    .show_all_metrics_desktop – when true, all metrics visible on desktop (flat mode)
+    .metrics              – ordered metric keys
+    .metric_display_names – display labels parallel to metrics
+    .default_metric       – default target key for mobile picker
+    .variant_slug         – variant slug for picker ids
+    .metric_counts        – parallel counts of rows with values per metric
 */}}
 {{ $secondaryNames := .secondary_metric_names | default slice }}
 {{ $rows := .rows | default slice }}
+{{ $showAllDesktop := .show_all_metrics_desktop | default false }}
+{{ $metrics := .metrics | default slice }}
+{{ $metricLabels := .metric_display_names | default $metrics }}
+{{ $metricCounts := .metric_counts | default slice }}
+{{ $defaultMetric := .default_metric | default (index $metrics 0) }}
+{{ $variantSlug := .variant_slug | default "" }}
+{{ $archCounts := .arch_counts | default dict }}
 {{ $traditionalTypes := slice "svm_kernel" "random_forest" "decision_tree" "boosting" "other_traditional" }}
 
 {{ $gnnRows := slice }}
@@ -13,19 +26,37 @@
 {{ $gtRows := slice }}
 {{ $llmRows := slice }}
 {{ $tradRows := slice }}
-{{ range $rows }}
-  {{ $arch := .architecture_type }}
-  {{ if eq $arch "gnn" }}
-    {{ $gnnRows = $gnnRows | append . }}
-  {{ else if eq $arch "hybrid" }}
-    {{ $hybridRows = $hybridRows | append . }}
-  {{ else if eq $arch "graph_transformer" }}
-    {{ $gtRows = $gtRows | append . }}
-  {{ else if eq $arch "llm" }}
-    {{ $llmRows = $llmRows | append . }}
-  {{ else if in $traditionalTypes $arch }}
-    {{ $tradRows = $tradRows | append . }}
+{{ $gnnCount := 0 }}
+{{ $hybridCount := 0 }}
+{{ $gtCount := 0 }}
+{{ $llmCount := 0 }}
+{{ $tradCount := 0 }}
+{{ if $archCounts }}
+  {{ $gnnCount = index $archCounts "gnn" | default 0 }}
+  {{ $hybridCount = index $archCounts "hybrid" | default 0 }}
+  {{ $gtCount = index $archCounts "graph_transformer" | default 0 }}
+  {{ $llmCount = index $archCounts "llm" | default 0 }}
+  {{ $tradCount = index $archCounts "traditional" | default 0 }}
+{{ else }}
+  {{ range $rows }}
+    {{ $arch := .architecture_type }}
+    {{ if eq $arch "gnn" }}
+      {{ $gnnRows = $gnnRows | append . }}
+    {{ else if eq $arch "hybrid" }}
+      {{ $hybridRows = $hybridRows | append . }}
+    {{ else if eq $arch "graph_transformer" }}
+      {{ $gtRows = $gtRows | append . }}
+    {{ else if eq $arch "llm" }}
+      {{ $llmRows = $llmRows | append . }}
+    {{ else if in $traditionalTypes $arch }}
+      {{ $tradRows = $tradRows | append . }}
+    {{ end }}
   {{ end }}
+  {{ $gnnCount = len $gnnRows }}
+  {{ $hybridCount = len $hybridRows }}
+  {{ $gtCount = len $gtRows }}
+  {{ $llmCount = len $llmRows }}
+  {{ $tradCount = len $tradRows }}
 {{ end }}
 
 {{ $shownMetrics := first 3 $secondaryNames }}
@@ -33,10 +64,36 @@
 {{ if gt (len $secondaryNames) 3 }}{{ $metricsLabel = printf "%s, ..." $metricsLabel }}{{ end }}
 
 <div class="leaderboard-filter-bar" aria-label="Leaderboard filters">
+  {{ if and (not $showAllDesktop) (gt (len $secondaryNames) 0) }}
+  <p class="secondary-metrics-mobile-notice">Additional metrics are not supported on mobile yet.</p>
+  {{ end }}
+  {{ if and $showAllDesktop (gt (len $metrics) 1) }}
+  <div class="leaderboard-filter-group desktop-target-picker-group" hidden>
+    <label class="desktop-target-picker-label" for="desktop-target-{{ $variantSlug }}">Target</label>
+    <select id="desktop-target-{{ $variantSlug }}" class="desktop-target-select" data-variant="{{ $variantSlug }}" aria-label="Select target metric">
+      {{ range $j, $m := $metrics }}
+      {{ $metricCount := index $metricCounts $j }}
+      <option value="{{ $j }}" data-metric-key="{{ $m }}"{{ if eq $m $defaultMetric }} selected{{ end }}>{{ index $metricLabels $j | default $m }}{{ with $metricCount }} ({{ . }}){{ end }}</option>
+      {{ end }}
+    </select>
+  </div>
+  <div class="leaderboard-filter-group mobile-target-picker-group">
+    <label class="mobile-target-picker-label" for="mobile-target-{{ $variantSlug }}">Target</label>
+    <select id="mobile-target-{{ $variantSlug }}" class="mobile-target-select" data-variant="{{ $variantSlug }}" aria-label="Select target metric">
+      {{ range $j, $m := $metrics }}
+      {{ $metricCount := index $metricCounts $j }}
+      <option value="{{ $j }}" data-metric-key="{{ $m }}"{{ if eq $m $defaultMetric }} selected{{ end }}>{{ index $metricLabels $j | default $m }}{{ with $metricCount }} ({{ . }}){{ end }}</option>
+      {{ end }}
+    </select>
+  </div>
+  <div class="leaderboard-filter-group">
+    <button type="button" class="filter-bubble filter-bubble-neutral flat-metrics-toggle is-on" data-filter="flat-all-metrics" data-variant="{{ $variantSlug }}" aria-pressed="true" title="Show all target columns in the table">all metrics</button>
+  </div>
+  {{ end }}
   <div class="leaderboard-filter-group">
     <button type="button" class="filter-bubble filter-bubble-neutral is-on" data-filter="baselines" aria-pressed="true" title="Show baseline rows">baselines</button>
-    {{ if gt (len $secondaryNames) 0 }}
-    <button type="button" class="filter-bubble filter-bubble-neutral" data-filter="secondary-metrics" aria-pressed="false" title="Show additional metrics in table">+ metrics{{ if $metricsLabel }} [{{ $metricsLabel }}]{{ end }}</button>
+    {{ if and (not $showAllDesktop) (gt (len $secondaryNames) 0) }}
+    <button type="button" class="filter-bubble filter-bubble-neutral secondary-metrics-desktop-only" data-filter="secondary-metrics" aria-pressed="false" title="Show additional metrics in table">+ metrics{{ if $metricsLabel }} [{{ $metricsLabel }}]{{ end }}</button>
     {{ end }}
   </div>
   <div class="leaderboard-filter-group">
@@ -44,10 +101,10 @@
     <button type="button" class="filter-bubble filter-bubble-code is-on" data-filter="no-code" aria-pressed="true" title="Show models without a code link">no code</button>
   </div>
   <div class="leaderboard-filter-group">
-    <button type="button" class="filter-bubble filter-bubble-arch-gnn is-on" data-filter-arch="gnn" data-arch-count="{{ len $gnnRows }}" aria-pressed="true" title="Message-passing GNN — {{ len $gnnRows }} leaderboard row{{ if ne (len $gnnRows) 1 }}s{{ end }}">GNN ({{ len $gnnRows }})</button>
-    <button type="button" class="filter-bubble filter-bubble-arch-hybrid is-on" data-filter-arch="hybrid" data-arch-count="{{ len $hybridRows }}" aria-pressed="true" title="Hybrid MPNN + transformer — {{ len $hybridRows }} leaderboard row{{ if ne (len $hybridRows) 1 }}s{{ end }}">Hyb ({{ len $hybridRows }})</button>
-    <button type="button" class="filter-bubble filter-bubble-arch-graph_transformer is-on" data-filter-arch="graph_transformer" data-arch-count="{{ len $gtRows }}" aria-pressed="true" title="Graph transformer — {{ len $gtRows }} leaderboard row{{ if ne (len $gtRows) 1 }}s{{ end }}">GT ({{ len $gtRows }})</button>
-    <button type="button" class="filter-bubble filter-bubble-arch-llm is-on" data-filter-arch="llm" data-arch-count="{{ len $llmRows }}" aria-pressed="true" title="LLM applied to graphs — {{ len $llmRows }} leaderboard row{{ if ne (len $llmRows) 1 }}s{{ end }}">LLM ({{ len $llmRows }})</button>
-    <button type="button" class="filter-bubble filter-bubble-arch-other_traditional is-on" data-filter-arch="traditional" data-arch-count="{{ len $tradRows }}" aria-pressed="true" title="Traditional / classical methods — {{ len $tradRows }} leaderboard row{{ if ne (len $tradRows) 1 }}s{{ end }}">Trad ({{ len $tradRows }})</button>
+    <button type="button" class="filter-bubble filter-bubble-arch-gnn is-on" data-filter-arch="gnn" data-arch-count="{{ $gnnCount }}" aria-pressed="true" title="Message-passing GNN — {{ $gnnCount }} leaderboard row{{ if ne $gnnCount 1 }}s{{ end }}">GNN ({{ $gnnCount }})</button>
+    <button type="button" class="filter-bubble filter-bubble-arch-hybrid is-on" data-filter-arch="hybrid" data-arch-count="{{ $hybridCount }}" aria-pressed="true" title="Hybrid MPNN + transformer — {{ $hybridCount }} leaderboard row{{ if ne $hybridCount 1 }}s{{ end }}">Hyb ({{ $hybridCount }})</button>
+    <button type="button" class="filter-bubble filter-bubble-arch-graph_transformer is-on" data-filter-arch="graph_transformer" data-arch-count="{{ $gtCount }}" aria-pressed="true" title="Graph transformer — {{ $gtCount }} leaderboard row{{ if ne $gtCount 1 }}s{{ end }}">GT ({{ $gtCount }})</button>
+    <button type="button" class="filter-bubble filter-bubble-arch-llm is-on" data-filter-arch="llm" data-arch-count="{{ $llmCount }}" aria-pressed="true" title="LLM applied to graphs — {{ $llmCount }} leaderboard row{{ if ne $llmCount 1 }}s{{ end }}">LLM ({{ $llmCount }})</button>
+    <button type="button" class="filter-bubble filter-bubble-arch-other_traditional is-on" data-filter-arch="traditional" data-arch-count="{{ $tradCount }}" aria-pressed="true" title="Traditional / classical methods — {{ $tradCount }} leaderboard row{{ if ne $tradCount 1 }}s{{ end }}">Trad ({{ $tradCount }})</button>
   </div>
 </div>

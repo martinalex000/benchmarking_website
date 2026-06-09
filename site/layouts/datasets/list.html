@@ -39,11 +39,18 @@
   <input id="dataset-search" type="search" placeholder="Type a dataset name..." autocomplete="off">
 </div>
 
+{{ partial "benchmark-group-sort-toolbar.html" . }}
+
+<div id="benchmark-groups-container" data-benchmark-item=".benchmark-group">
 {{ range hugo.Data.benchmarks }}
 {{ if .datasets }}
-<section class="benchmark-group" id="benchmark-{{ .slug }}">
+<section class="benchmark-group benchmark-sort-item" id="benchmark-{{ .slug }}"
+  data-is-legacy="{{ if .is_legacy }}1{{ else }}0{{ end }}"
+  data-recent-per-dataset="{{ .recent_results_per_dataset | default 0 }}"
+  data-total-results="{{ .total_result_count | default 0 }}">
   <div class="benchmark-header">
     <h2>{{ .name }}</h2>
+    {{ if .is_legacy }}<span class="badge legacy-badge" title="Established benchmark suite with less recent leaderboard activity">Legacy</span>{{ end }}
     {{ if .arxiv_id }}
     <span class="benchmark-paper">
       Introduced in:
@@ -99,6 +106,7 @@
 </section>
 {{ end }}
 {{ end }}
+</div>
 
 {{ end }}
 
@@ -142,4 +150,5 @@
   }
 })();
 </script>
+{{ partial "benchmark-group-sort-script.html" . }}
 {{ end }}

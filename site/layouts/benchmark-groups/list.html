@@ -1,8 +1,5 @@
 {{ define "main" }}
 {{ $groups := hugo.Data.benchmarks }}
-{{ if $groups }}
-  {{ $groups = sort $groups "recent_results_per_dataset" "desc" }}
-{{ end }}
 {{ $datasetPages := dict }}
 {{ range where .Site.RegularPages "Section" "datasets" }}
   {{ $datasetPages = merge $datasetPages (dict .Params.slug .) }}
@@ -40,8 +37,10 @@
   </div>
 </div>
 
+{{ partial "benchmark-group-sort-toolbar.html" . }}
+
 <section class="overview-section">
-  <div class="overview-grid">
+  <div class="overview-grid" id="benchmark-groups-container" data-benchmark-item=".benchmark-overview-card">
     {{ range $groups }}
     {{ $groupPapers := slice }}
     {{ range .datasets }}
@@ -57,6 +56,7 @@
     {{ end }}
     {{ $groupPaperCount := len ($groupPapers | uniq) }}
     {{ $recentPerDataset := .recent_results_per_dataset | default 0 }}
+    {{ $totalResults := .total_result_count | default 0 }}
     {{ $introTitle := default .name .paper_title }}
     {{ $introDate := "" }}
     {{ $introLink := "" }}
@@ -69,13 +69,17 @@
         {{ $introLink = printf "papers/%s/" . | relURL }}
       {{ end }}
     {{ end }}
-    <article class="overview-card benchmark-overview-card">
-      <h2>{{ .name }}</h2>
+    <article class="overview-card benchmark-overview-card benchmark-sort-item"
+      data-is-legacy="{{ if .is_legacy }}1{{ else }}0{{ end }}"
+      data-recent-per-dataset="{{ $recentPerDataset }}"
+      data-total-results="{{ $totalResults }}">
+      <h2>{{ .name }}{{ if .is_legacy }} <span class="badge legacy-badge" title="Established benchmark suite with less recent leaderboard activity">Legacy</span>{{ end }}</h2>
       {{ with .description }}<p class="overview-card-copy">{{ . }}</p>{{ end }}
       <div class="overview-card-meta">
         <span class="badge muted">{{ len .datasets }} dataset{{ if ne (len .datasets) 1 }}s{{ end }}</span>
         <span class="badge muted">{{ $groupPaperCount }} papers</span>
         <span class="badge muted">{{ printf "%.1f" $recentPerDataset }} recent results per dataset</span>
+        <span class="badge muted">{{ $totalResults }} total results</span>
         {{ if $introDate }}<span class="badge">{{ $introDate }}</span>{{ end }}
       </div>
       {{ if $introTitle }}
@@ -97,4 +101,8 @@
     {{ end }}
   </div>
 </section>
+{{ end }}
+
+{{ define "scripts" }}
+{{ partial "benchmark-group-sort-script.html" . }}
 {{ end }}
