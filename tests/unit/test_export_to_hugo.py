@@ -7,8 +7,12 @@ import pytest
 
 from backend.export_helpers import truncate_words as _truncate_words
 from backend.export_to_hugo import (
+    INITIAL_DATASET_HTML_ROWS,
+    _architecture_counts,
     _benchmark_coverage_entries,
+    _build_chart_points,
     _cleanup_stale_hugo_content,
+    _collect_dataset_papers,
     _comparison_source_date_label,
     _conference_export_fields,
     _dataset_export_metadata,
@@ -22,6 +26,7 @@ from backend.export_to_hugo import (
     _has_paper_value_gap,
     _is_value_better_than,
     _is_value_worse_than,
+    _metric_counts,
     _normalize_conference,
     _normalize_model_family,
     _paper_dataset_export_meta,
@@ -33,6 +38,7 @@ from backend.export_to_hugo import (
     _sanitize_model,
     _sanitize_title,
     _select_global_context_rows,
+    _write_dataset_variant_json_files,
     clear_export_caches,
 )
 
@@ -559,11 +565,11 @@ def test_select_global_context_rows_picks_best_plain_gnn_not_compgcn():
 def test_count_recent_leaderboard_rows_uses_publication_cutoff():
     from datetime import date, timedelta
 
-    from backend.export_to_hugo import RECENT_RESULTS_YEARS, _count_recent_leaderboard_rows
+    from backend.export_to_hugo import RECENT_RESULTS_MONTHS, _count_recent_leaderboard_rows
 
-    cutoff = (date.today() - timedelta(days=365 * RECENT_RESULTS_YEARS)).isoformat()
+    cutoff = (date.today() - timedelta(days=30 * RECENT_RESULTS_MONTHS)).isoformat()
     recent = (date.today() - timedelta(days=30)).isoformat()
-    old = (date.today() - timedelta(days=365 * (RECENT_RESULTS_YEARS + 1))).isoformat()
+    old = (date.today() - timedelta(days=30 * (RECENT_RESULTS_MONTHS + 1))).isoformat()
     rows = [
         {"date_iso": recent},
         {"date_iso": old},
@@ -591,6 +597,25 @@ def test_dataset_export_metadata_uses_cache(monkeypatch):
 
     assert meta["result_count"] == 99
     assert calls == []
+
+
+def test_at_pub_timeline_excludes_paper_and_respects_cutoff():
+    from backend.export_to_hugo import _AtPubEvent, _AtPubTimeline
+
+    events = [
+        _AtPubEvent("2020-01-01", 0.70, None, "1111.0001", "Early", "", "GCN"),
+        _AtPubEvent("2021-06-01", 0.80, None, "2222.0002", "Later", "", "GCN"),
+        _AtPubEvent("2022-01-01", 0.75, None, "3333.0003", "Mid", "", "GCN"),
+    ]
+    timeline = _AtPubTimeline([], True)
+    timeline._by_model = {"gcn": events}
+
+    as_of_2021 = timeline.truth_map("2021-06-01")
+    assert as_of_2021["gcn"]["value"] == 0.80
+    assert as_of_2021["gcn"]["arxiv_id"] == "2222.0002"
+
+    excluding = timeline.truth_map("2022-01-01", exclude_arxiv="3333.0003")
+    assert excluding["gcn"]["value"] == 0.80
 
 
 def test_global_best_per_model_reuses_dataset_metric_rows(monkeypatch):
@@ -983,3 +1008,234 @@ def test_export_all_removes_stale_paper_pages_on_full_export(monkeypatch, tmp_pa
     assert not (content / "datasets" / "stale-dataset").exists()
     assert (content / "papers" / "2401.17791" / "index.md").exists()
     assert (content / "datasets" / "ogbn-arxiv" / "index.md").exists()
+
+
+def test_build_chart_points_uses_primary_metric_only():
+    rows = [
+        {
+            "date_iso": "2024-01-01",
+            "metric_values": [0.91, 0.5],
+            "metric_stds": [0.01, None],
+            "model": "GCN",
+            "model_plain": "GCN",
+            "arxiv_id": "2401.00001",
+            "title": "Test",
+            "is_baseline": True,
+            "codebase_url": "https://github.com/example",
+            "architecture_type": "gnn",
+            "is_std_outlier": False,
+        }
+    ]
+
+    points = _build_chart_points(rows)
+
+    assert len(points) == 1
+    assert points[0]["value"] == 0.91
+    assert points[0]["std"] == 0.01
+    assert points[0]["has_code"] is True
+    assert points[0]["is_baseline"] is True
+
+
+def test_architecture_counts_and_dataset_papers_helpers():
+    rows = [
+        {"architecture_type": "gnn", "arxiv_id": "1", "title": "A", "date_iso": "2024-02-01"},
+        {"architecture_type": "hybrid", "arxiv_id": "2", "title": "B", "date_iso": "2024-01-01"},
+        {
+            "architecture_type": "svm_kernel",
+            "arxiv_id": "1",
+            "title": "A",
+            "date_iso": "2024-02-01",
+        },
+    ]
+
+    counts = _architecture_counts(rows)
+    papers = _collect_dataset_papers(rows)
+
+    assert counts == {"gnn": 1, "hybrid": 1, "graph_transformer": 0, "llm": 0, "traditional": 1}
+    assert [p["arxiv_id"] for p in papers] == ["1", "2"]
+
+
+def test_metric_counts_helper():
+    rows = [
+        {"metric_values": [0.9, 0.8, None]},
+        {"metric_values": [0.85, None, 0.1]},
+        {"metric_values": [None, 0.7, 0.2]},
+    ]
+    assert _metric_counts(rows, ["Accuracy", "F1", "Loss"]) == [2, 2, 2]
+
+
+def test_write_dataset_variant_json_files(monkeypatch, tmp_path):
+    static_dir = tmp_path / "site" / "static"
+    monkeypatch.setattr(
+        "backend.export_to_hugo._DATASETS_DATA_DIR", static_dir / "data" / "datasets"
+    )
+    rows = [
+        {"metric_values": [0.8], "metric_stds": [None], "model": "MLP", "date_iso": "2024-01-01"}
+    ]
+
+    rows_url, chart_url = _write_dataset_variant_json_files(
+        "cora",
+        "random-10-fold",
+        rows,
+        ["Accuracy"],
+        "Accuracy",
+        True,
+    )
+
+    assert rows_url == "/data/datasets/cora/random-10-fold-rows.json"
+    assert chart_url == "/data/datasets/cora/random-10-fold-chart.json"
+    assert (static_dir / "data" / "datasets" / "cora" / "random-10-fold-rows.json").exists()
+    assert (static_dir / "data" / "datasets" / "cora" / "random-10-fold-chart.json").exists()
+
+
+def test_export_dataset_trims_html_rows_and_writes_json(monkeypatch, tmp_path):
+    import yaml
+
+    from backend.db import init_db, session_scope
+    from backend.export_to_hugo import export_dataset
+    from backend.models import Benchmark, Dataset, DatasetVariant, Model, Paper, Result
+
+    site_dir = tmp_path / "site"
+    content = site_dir / "content"
+    static_dir = site_dir / "static"
+    for directory in (content, static_dir, tmp_path / "config"):
+        directory.mkdir(parents=True, exist_ok=True)
+
+    monkeypatch.setattr("backend.export_to_hugo._CONTENT", content)
+    monkeypatch.setattr("backend.export_to_hugo._SITE_DIR", site_dir)
+    monkeypatch.setattr("backend.export_to_hugo._STATIC", static_dir)
+    monkeypatch.setattr(
+        "backend.export_to_hugo._DATASETS_DATA_DIR", static_dir / "data" / "datasets"
+    )
+    monkeypatch.setattr("backend.config.cfg.db_path", tmp_path / "benchmarks.db")
+    monkeypatch.setattr("backend.config.cfg.base_dir", tmp_path)
+    import backend.db as db_module
+
+    db_module._engine = None
+    db_module._SessionFactory = None
+    init_db()
+
+    with session_scope() as session:
+        benchmark = Benchmark(name="Planetoid", short_name="planetoid")
+        session.add(benchmark)
+        session.flush()
+        dataset = Dataset(
+            benchmark_id=benchmark.id,
+            name="Cora",
+            task_type="node_classification",
+            primary_metric="Accuracy",
+            higher_is_better=1,
+        )
+        session.add(dataset)
+        session.flush()
+        variant = DatasetVariant(dataset_id=dataset.id, name="Random 10-fold", is_standard=1)
+        model = Model(name="GCN", canonical_name="GCN", model_type="gnn")
+        session.add_all((variant, model))
+        session.flush()
+        for idx in range(INITIAL_DATASET_HTML_ROWS + 5):
+            paper = Paper(
+                arxiv_id=f"2401.{idx:05d}",
+                title=f"Paper {idx}",
+                published_date="2024-01-01",
+            )
+            session.add(paper)
+            session.flush()
+            session.add(
+                Result(
+                    paper_id=paper.id,
+                    model_id=model.id,
+                    dataset_variant_id=variant.id,
+                    metric_name="Accuracy",
+                    metric_value=0.5 + idx * 0.001,
+                    higher_is_better=1,
+                    is_baseline=1,
+                )
+            )
+        dataset_id = dataset.id
+
+    assert export_dataset(dataset_id) is True
+
+    page = content / "datasets" / "cora" / "index.md"
+    assert page.exists()
+    front_matter = yaml.safe_load(page.read_text(encoding="utf-8").split("---", 2)[1])
+    variant_data = front_matter["variants"][0]
+
+    assert variant_data["row_count"] == INITIAL_DATASET_HTML_ROWS + 5
+    assert len(variant_data["rows"]) == INITIAL_DATASET_HTML_ROWS
+    assert variant_data["rows_json"].endswith("-rows.json")
+    assert variant_data["chart_json"].endswith("-chart.json")
+    assert variant_data["metric_counts"] == [INITIAL_DATASET_HTML_ROWS + 5]
+    assert len(front_matter["papers"]) == INITIAL_DATASET_HTML_ROWS + 5
+    assert (static_dir / "data" / "datasets" / "cora" / "random-10-fold-rows.json").exists()
+
+
+def test_metrics_order_for_qm9_puts_gap_first():
+    from backend.export_to_hugo import _metrics_order_for_dataset
+
+    available = {"mu", "alpha", "gap", "H"}
+    ordered = _metrics_order_for_dataset(
+        "QM9",
+        available,
+        "gap",
+        ["gap", "mu", "alpha", "H"],
+    )
+    assert ordered[0] == "gap"
+    assert ordered.index("mu") < ordered.index("H")
+
+
+def test_build_multi_metric_rows_respects_metrics_order():
+    from types import SimpleNamespace
+
+    from backend.export_to_hugo import _build_multi_metric_rows
+
+    paper = SimpleNamespace(
+        arxiv_id="1234.5678",
+        title="Paper",
+        published_date="2024-01-01",
+        venue=None,
+        codebase_url="",
+    )
+    model = SimpleNamespace(canonical_name="GIN", model_type="gnn")
+    base = {
+        "higher_is_better": False,
+        "is_baseline": True,
+        "is_overridden": False,
+        "override_reason": "",
+        "uses_external_data": 0,
+        "params_millions": None,
+        "model": model,
+        "paper": paper,
+    }
+    results = [
+        SimpleNamespace(
+            metric_name="mu",
+            metric_value=0.1,
+            metric_std=None,
+            display_value=0.1,
+            **base,
+        ),
+        SimpleNamespace(
+            metric_name="gap",
+            metric_value=0.05,
+            metric_std=None,
+            display_value=0.05,
+            **base,
+        ),
+    ]
+
+    metrics, _hib, rows = _build_multi_metric_rows(
+        results,
+        "gap",
+        metrics_order=["gap", "mu"],
+    )
+    assert metrics == ["gap", "mu"]
+    assert rows[0]["metric_values"] == [0.05, 0.1]
+
+
+def test_merged_metric_labels_for_qm9():
+    from backend.export_to_hugo import _merged_metric_labels, _metric_display_names
+
+    labels = _merged_metric_labels("QM9")
+    display = _metric_display_names(["gap", "mu"], labels)
+    assert display[0] == "HOMO-LUMO gap"
+    assert display[1] == "Dipole moment"

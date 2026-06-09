@@ -86,3 +86,43 @@ def test_create_dev_pages_exports_baseline_improvements(monkeypatch, tmp_path):
     assert metadata["title"] == "Baseline Improvements"
     assert "baseline and proposed" in metadata["description"]
     assert "## At-Publication Improvements" in body
+
+
+def test_create_dev_pages_exports_sota_claims(monkeypatch, tmp_path):
+    import json
+
+    from backend.models import Paper, PaperSotaClaim
+
+    _configure_temp_workspace(monkeypatch, tmp_path)
+    init_db()
+
+    with session_scope() as session:
+        paper = Paper(
+            arxiv_id="2301.00001",
+            title="Claim Paper",
+            published_date="2023-01-15",
+            extraction_status="extracted",
+        )
+        session.add(paper)
+        session.flush()
+        session.add(
+            PaperSotaClaim(
+                paper_id=paper.id,
+                raw_sentence="We achieve state-of-the-art performance.",
+                claim_summary="Overall SOTA",
+                datasets=json.dumps(["Cora"]),
+                scope="restricted",
+                restrictions=json.dumps(
+                    [{"type": "model_class", "description": "message-passing only"}]
+                ),
+            )
+        )
+        create_dev_pages(session=session)
+
+    sota_md = tmp_path / "workspace" / "site" / "content" / "dev" / "sota-claims.md"
+    assert sota_md.is_file()
+    body = sota_md.read_text(encoding="utf-8")
+    assert "SOTA Claims" in body
+    assert "All extracted claims" in body
+    assert "Unrestricted claim audit" in body
+    assert "state-of-the-art" in body

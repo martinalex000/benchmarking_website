@@ -9,7 +9,7 @@ from collections.abc import Iterator
 from contextlib import contextmanager
 from typing import Any
 
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 
 from backend.config import cfg
 from backend.dataset_variant_resolver import (
@@ -18,9 +18,20 @@ from backend.dataset_variant_resolver import (
 )
 from backend.db import session_scope
 from backend.export_helpers import sanitize_title
-from backend.models import Paper, PaperCandidate, PendingDataset, TodoPaper
+from backend.models import (
+    Dataset,
+    Paper,
+    PaperCandidate,
+    PaperDatasetStatistics,
+    PaperSotaClaim,
+    PendingDataset,
+    TodoPaper,
+)
+from backend.sota_claim_verifier import verify_unrestricted_claims
 
 logger = logging.getLogger(__name__)
+
+TODO_EXPORT_LIMIT = 500
 
 
 def _dev_line_start(text: str) -> None:
@@ -105,7 +116,15 @@ def _export_development_data_impl(session: Session, hugo: Any) -> dict[str, int]
         data_files += 1
 
         try:
-            todo_rows = session.query(TodoPaper).order_by(TodoPaper.seen_count.desc()).all()
+            from sqlalchemy import func
+
+            todo_total = session.query(func.count(TodoPaper.id)).scalar() or 0
+            todo_rows = (
+                session.query(TodoPaper)
+                .order_by(TodoPaper.seen_count.desc())
+                .limit(TODO_EXPORT_LIMIT)
+                .all()
+            )
             todo_list = []
             for row in todo_rows:
                 todo_list.append(
@@ -119,7 +138,17 @@ def _export_development_data_impl(session: Session, hugo: Any) -> dict[str, int]
                     }
                 )
             (hugo._DATA_DIR / "todo_papers.json").write_text(
-                json.dumps(todo_list, indent=2, ensure_ascii=False), encoding="utf-8"
+                json.dumps(
+                    {
+                        "total_count": int(todo_total),
+                        "exported_count": len(todo_list),
+                        "limit": TODO_EXPORT_LIMIT,
+                        "papers": todo_list,
+                    },
+                    indent=2,
+                    ensure_ascii=False,
+                ),
+                encoding="utf-8",
             )
             data_files += 1
         except Exception:
@@ -882,7 +911,7 @@ def _create_dev_pages_impl(session: Session, hugo: Any, content_dev: Any) -> int
         lines.append("")
         lines.append("| arXiv | seen_count | status | title |")
         lines.append("|---|---:|---|---")
-        for row in todo_rows[:500]:
+        for row in todo_rows[:TODO_EXPORT_LIMIT]:
             title = sanitize_title(row.title)
             lines.append(
                 f"| {row.arxiv_id or ''} | {int(row.seen_count or 0)} | {row.status or ''} | {title} |"
@@ -930,4 +959,283 @@ def _create_dev_pages_impl(session: Session, hugo: Any, content_dev: Any) -> int
     except Exception:
         logger.exception("Failed to create dev todo page")
 
+    try:
+        with _dev_export_step("dev page: statistics-sources"):
+            _export_statistics_sources_page(session, hugo, content_dev)
+    except Exception:
+        logger.exception("Failed to create statistics-sources dev page")
+
+    try:
+        with _dev_export_step("dev page: sota-claims"):
+            _export_sota_claims_page(session, hugo, content_dev)
+    except Exception:
+        logger.exception("Failed to create sota-claims dev page")
+
     return len(list(content_dev.glob("*.md")))
+
+
+def _format_stats_cell(
+    num_graphs: int | None,
+    avg_nodes: float | None,
+    avg_edges: float | None,
+    num_classes: int | None,
+    extra_stats: dict | None,
+    raw_values: dict | None,
+) -> str:
+    parts: list[str] = []
+    raw_values = raw_values or {}
+    if num_graphs is not None:
+        label = raw_values.get("num_graphs", str(num_graphs))
+        parts.append(f"graphs={label}")
+    if avg_nodes is not None:
+        label = raw_values.get("avg_nodes", str(avg_nodes))
+        parts.append(f"nodes={label}")
+    if avg_edges is not None:
+        label = raw_values.get("avg_edges", str(avg_edges))
+        parts.append(f"edges={label}")
+    if num_classes is not None:
+        label = raw_values.get("num_classes", str(num_classes))
+        parts.append(f"classes={label}")
+    if extra_stats:
+        for key, value in sorted(extra_stats.items()):
+            parts.append(f"{key}={value}")
+    return "; ".join(parts) if parts else "—"
+
+
+def _export_statistics_sources_page(session: Session, hugo: Any, content_dev: Any) -> None:
+    datasets = session.query(Dataset).order_by(Dataset.name).all()
+    observations = session.query(PaperDatasetStatistics).all()
+    obs_by_dataset: dict[int, list[PaperDatasetStatistics]] = {}
+    for obs in observations:
+        obs_by_dataset.setdefault(obs.dataset_id, []).append(obs)
+
+    lines = [
+        "## Statistics Sources & Discrepancies",
+        "",
+        "Canonical dataset statistics from the database (seeded from `config/seed_data.yaml`) "
+        "compared with structural statistics reported in papers.",
+        "",
+    ]
+
+    mismatch_total = sum(1 for obs in observations if obs.match_status == "mismatch")
+    lines.append(f"**Datasets with observations:** {len(obs_by_dataset)}")
+    lines.append(f"**Total paper observations:** {len(observations)}")
+    lines.append(f"**Mismatched observations:** {mismatch_total}")
+    lines.append("")
+
+    for ds in datasets:
+        ds_obs = obs_by_dataset.get(ds.id, [])
+        if not ds_obs:
+            continue
+
+        extra_canonical: dict = {}
+        if ds.extra_stats:
+            try:
+                extra_canonical = json.loads(ds.extra_stats)
+            except (json.JSONDecodeError, TypeError):
+                extra_canonical = {}
+
+        lines.extend(
+            [
+                f"### {ds.name}",
+                "",
+                "**Canonical (DB / seed_data.yaml):** "
+                + _format_stats_cell(
+                    ds.num_graphs,
+                    ds.avg_nodes,
+                    ds.avg_edges,
+                    ds.num_classes,
+                    extra_canonical if isinstance(extra_canonical, dict) else None,
+                    None,
+                ),
+                "",
+                "| Paper | Year | Conference | Reported stats | Match |",
+                "|-------|------|------------|----------------|-------|",
+            ]
+        )
+
+        for obs in sorted(ds_obs, key=lambda row: row.paper.title if row.paper else ""):
+            paper = obs.paper
+            title = sanitize_title(paper.title if paper else "Unknown")
+            year = hugo._publication_year(paper.published_date if paper else None) or "—"
+            conf = hugo._conference_export_fields(
+                paper.venue if paper else None,
+                paper.published_date if paper else None,
+            )
+            conference = conf.get("published_conference") or "—"
+
+            extra_obs: dict = {}
+            if obs.extra_stats:
+                try:
+                    extra_obs = json.loads(obs.extra_stats)
+                except (json.JSONDecodeError, TypeError):
+                    extra_obs = {}
+            raw_values: dict = {}
+            if obs.raw_values:
+                try:
+                    raw_values = json.loads(obs.raw_values)
+                except (json.JSONDecodeError, TypeError):
+                    raw_values = {}
+
+            reported = _format_stats_cell(
+                obs.num_graphs,
+                obs.avg_nodes,
+                obs.avg_edges,
+                obs.num_classes,
+                extra_obs if isinstance(extra_obs, dict) else None,
+                raw_values if isinstance(raw_values, dict) else None,
+            )
+            match_label = obs.match_status or "pending"
+            if obs.match_status == "mismatch" and obs.mismatch_fields:
+                try:
+                    fields = json.loads(obs.mismatch_fields)
+                    if isinstance(fields, list) and fields:
+                        match_label = f"mismatch ({', '.join(fields)})"
+                except (json.JSONDecodeError, TypeError):
+                    pass
+
+            arxiv_id = paper.arxiv_id if paper else ""
+            paper_link = hugo._paper_site_link(arxiv_id) if arxiv_id else title
+            lines.append(f"| {paper_link} | {year} | {conference} | {reported} | {match_label} |")
+        lines.append("")
+
+    hugo._write_md(
+        content_dev / "statistics-sources.md",
+        {
+            "title": "Statistics Sources & Discrepancies",
+            "type": "dev",
+            "description": "Canonical dataset stats vs paper-reported statistics",
+        },
+        "\n".join(lines),
+    )
+
+
+def _format_restrictions(raw: str | None) -> str:
+    if not raw:
+        return "—"
+    try:
+        items = json.loads(raw)
+    except (json.JSONDecodeError, TypeError):
+        return "—"
+    if not isinstance(items, list) or not items:
+        return "—"
+    parts: list[str] = []
+    for item in items:
+        if isinstance(item, dict):
+            desc = str(item.get("description") or "").strip()
+            kind = str(item.get("type") or "").strip()
+            if desc and kind:
+                parts.append(f"{kind}: {desc}")
+            elif desc:
+                parts.append(desc)
+        elif item:
+            parts.append(str(item))
+    return "; ".join(parts) if parts else "—"
+
+
+def _format_json_name_list(raw: str | None) -> str:
+    if not raw:
+        return "—"
+    try:
+        items = json.loads(raw)
+    except (json.JSONDecodeError, TypeError):
+        return "—"
+    if not isinstance(items, list) or not items:
+        return "—"
+    return ", ".join(str(item) for item in items)
+
+
+def _export_sota_claims_page(session: Session, hugo: Any, content_dev: Any) -> None:
+    claims = (
+        session.query(PaperSotaClaim)
+        .options(joinedload(PaperSotaClaim.paper))
+        .order_by(PaperSotaClaim.paper_id, PaperSotaClaim.id)
+        .all()
+    )
+    verifications = verify_unrestricted_claims(session)
+
+    unrestricted_total = sum(1 for claim in claims if (claim.scope or "") == "unrestricted")
+    restricted_total = sum(1 for claim in claims if (claim.scope or "") == "restricted")
+
+    lines = [
+        "## SOTA Claims",
+        "",
+        "State-of-the-art performance claims extracted from pre-appendix paper prose "
+        "(not tables or appendix). Section B audits unrestricted claims against "
+        "at-publication leaderboard data.",
+        "",
+        f"**Total claims:** {len(claims)}",
+        f"**Unrestricted:** {unrestricted_total}",
+        f"**Restricted:** {restricted_total}",
+        "",
+        "### All extracted claims",
+        "",
+        "| Paper | Year | Raw quote | Summary | Datasets | Scope | Restrictions | Source | Confidence |",
+        "|-------|------|-----------|---------|----------|-------|--------------|--------|------------|",
+    ]
+
+    for claim in claims:
+        paper = claim.paper
+        title = hugo._truncate_words(paper.title if paper else "Unknown", 8)
+        arxiv_id = paper.arxiv_id if paper else ""
+        paper_link = hugo._paper_site_link(arxiv_id, title) if arxiv_id else title
+        year = hugo._publication_year(paper.published_date if paper else None) or "—"
+        quote = hugo._truncate_words(claim.raw_sentence, 20)
+        summary = hugo._truncate_words(claim.claim_summary or "—", 12)
+        datasets = _format_json_name_list(claim.datasets)
+        scope = claim.scope or "unclear"
+        restrictions = _format_restrictions(claim.restrictions)
+        source_ref = claim.source_ref or "—"
+        confidence = claim.confidence or "—"
+        lines.append(
+            f"| {paper_link} | {year} | {quote} | {summary} | {datasets} | {scope} | "
+            f"{restrictions} | {source_ref} | {confidence} |"
+        )
+
+    lines.extend(
+        [
+            "",
+            "### Unrestricted claim audit",
+            "",
+            "Claims with `scope=unrestricted` and no listed restrictions, compared to the "
+            "best known result on each dataset at the paper's publication date.",
+            "",
+            "| Paper | Claim | Dataset | Paper result | Best at pub | Prior best paper | Gap | Verdict |",
+            "|-------|-------|---------|--------------|-------------|------------------|-----|---------|",
+        ]
+    )
+
+    for row in verifications:
+        title = hugo._truncate_words(row.paper_title, 8)
+        paper_link = hugo._paper_site_link(row.arxiv_id, title)
+        claim_text = hugo._truncate_words(row.raw_sentence, 16)
+        paper_result = f"{row.paper_value:.4f}" if row.paper_value is not None else "—"
+        if row.paper_std is not None and row.paper_value is not None:
+            paper_result = f"{row.paper_value:.4f} ± {row.paper_std:.4f}"
+        prior_result = f"{row.prior_best_value:.4f}" if row.prior_best_value is not None else "—"
+        if row.prior_best_std is not None and row.prior_best_value is not None:
+            prior_result = f"{row.prior_best_value:.4f} ± {row.prior_best_std:.4f}"
+        prior_paper = "—"
+        if row.prior_best_arxiv:
+            prior_paper = hugo._paper_site_link(
+                row.prior_best_arxiv,
+                hugo._truncate_words(row.prior_best_title or row.prior_best_arxiv, 8),
+            )
+        gap = f"{row.gap:.4f}" if row.gap is not None else "—"
+        verdict = row.verdict
+        if row.details:
+            verdict = f"{verdict} ({row.details})"
+        lines.append(
+            f"| {paper_link} | {claim_text} | {row.dataset_name} | {paper_result} | "
+            f"{prior_result} | {prior_paper} | {gap} | {verdict} |"
+        )
+
+    hugo._write_md(
+        content_dev / "sota-claims.md",
+        {
+            "title": "SOTA Claims",
+            "type": "dev",
+            "description": "Extracted SOTA claims and unrestricted claim audit",
+        },
+        "\n".join(lines),
+    )

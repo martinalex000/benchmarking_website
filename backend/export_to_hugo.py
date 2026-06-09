@@ -20,6 +20,7 @@ import logging
 import re
 import shutil
 import statistics
+from dataclasses import dataclass
 from datetime import date, datetime, timedelta
 from pathlib import Path
 from typing import Any
@@ -45,6 +46,7 @@ from backend.models import (
 )
 from backend.override_handler import get_model_renames, load_overrides
 from backend.paper_storage import PaperStorage
+from backend.qm9_targets import QM9_METRIC_LABELS, is_qm9_dataset, order_qm9_metrics
 from backend.text_cleanup import clean_extracted_text
 
 logger = logging.getLogger(__name__)
@@ -61,18 +63,24 @@ _GLOBAL_RANKS_CACHE: dict[
     tuple[str, str, bool], tuple[dict[str, int], list[dict], dict[str, dict[str, Any]]]
 ] = {}
 _AT_PUB_ROWS_CACHE: dict[tuple[str, str], list[Any]] = {}
+_AT_PUB_TIMELINE_CACHE: dict[tuple[str, str, bool], Any] = {}
 _AT_PUB_MODEL_CACHE: dict[tuple[str, str, bool, str], dict[str, dict[str, Any]]] = {}
 _AT_PUB_EXCLUDING_CACHE: dict[tuple[str, str, bool, str, str], dict[str, dict[str, Any]]] = {}
 _DATASET_EXPORT_META_CACHE: dict[int, dict[str, Any]] = {}
 _BENCHMARK_EXPORTABLE_TOTALS: dict[str, int] | None = None
 _DATASET_PAPER_COUNT_CACHE: dict[tuple[str, str], int] = {}
 
-RECENT_RESULTS_YEARS = 2
+RECENT_RESULTS_MONTHS = 12
+INITIAL_DATASET_HTML_ROWS = 50
+_DATASETS_DATA_DIR = _STATIC / "data" / "datasets"
+_TRADITIONAL_ARCH_TYPES = frozenset(
+    {"svm_kernel", "random_forest", "decision_tree", "boosting", "other_traditional"}
+)
 
 
 def _recent_results_cutoff_iso() -> str:
     """ISO date for leaderboard rows counted as recent (paper publication date)."""
-    return (date.today() - timedelta(days=365 * RECENT_RESULTS_YEARS)).isoformat()
+    return (date.today() - timedelta(days=30 * RECENT_RESULTS_MONTHS)).isoformat()
 
 
 def _count_recent_leaderboard_rows(rows: list[dict[str, Any]]) -> int:
@@ -87,6 +95,7 @@ def clear_export_caches() -> None:
     _DATASET_OVERRIDE_CACHE.clear()
     _GLOBAL_RANKS_CACHE.clear()
     _AT_PUB_ROWS_CACHE.clear()
+    _AT_PUB_TIMELINE_CACHE.clear()
     _AT_PUB_MODEL_CACHE.clear()
     _AT_PUB_EXCLUDING_CACHE.clear()
     _DATASET_EXPORT_META_CACHE.clear()
@@ -735,6 +744,80 @@ def _dataset_display_metrics(dataset_name: str) -> list[str] | None:
     return cleaned or None
 
 
+def _dataset_metric_labels(dataset_name: str) -> dict[str, str]:
+    """Return optional metric key -> display label mapping for a dataset page."""
+    ds_cfg = _load_dataset_overrides().get(dataset_name.strip().lower(), {})
+    if not isinstance(ds_cfg, dict):
+        return {}
+    raw = ds_cfg.get("metric_labels")
+    if not isinstance(raw, dict):
+        return {}
+    return {
+        str(k).strip(): str(v).strip() for k, v in raw.items() if str(k).strip() and str(v).strip()
+    }
+
+
+def _dataset_default_metric(dataset_name: str, fallback: str | None = None) -> str | None:
+    ds_cfg = _load_dataset_overrides().get(dataset_name.strip().lower(), {})
+    if isinstance(ds_cfg, dict):
+        default = ds_cfg.get("default_metric")
+        if isinstance(default, str) and default.strip():
+            return default.strip()
+    return fallback
+
+
+def _dataset_show_all_metrics_desktop(dataset_name: str) -> bool:
+    ds_cfg = _load_dataset_overrides().get(dataset_name.strip().lower(), {})
+    if not isinstance(ds_cfg, dict):
+        return False
+    return bool(ds_cfg.get("show_all_metrics_desktop"))
+
+
+def _metric_display_names(
+    metrics: list[str],
+    label_map: dict[str, str],
+) -> list[str]:
+    return [label_map.get(m, m) for m in metrics]
+
+
+def _merged_metric_labels(dataset_name: str) -> dict[str, str]:
+    labels = dict(QM9_METRIC_LABELS) if is_qm9_dataset(dataset_name) else {}
+    labels.update(_dataset_metric_labels(dataset_name))
+    return labels
+
+
+def _metrics_order_for_dataset(
+    dataset_name: str,
+    available_metrics: set[str],
+    primary_metric: str,
+    display_metrics: list[str] | None,
+) -> list[str] | None:
+    """Return preferred metric column order when configured."""
+    default_metric = _dataset_default_metric(dataset_name, primary_metric) or primary_metric
+    if is_qm9_dataset(dataset_name):
+        return order_qm9_metrics(
+            available_metrics,
+            default_metric=default_metric,
+            display_metrics=display_metrics,
+        )
+    if display_metrics:
+        ordered: list[str] = []
+        seen: set[str] = set()
+        for metric in display_metrics:
+            if metric in available_metrics and metric not in seen:
+                ordered.append(metric)
+                seen.add(metric)
+        if default_metric in available_metrics and default_metric not in seen:
+            ordered.insert(0, default_metric)
+            seen.add(default_metric)
+        elif default_metric in available_metrics:
+            ordered = [default_metric] + [m for m in ordered if m != default_metric]
+        for metric in sorted(available_metrics - seen):
+            ordered.append(metric)
+        return ordered
+    return None
+
+
 def _dataset_force_export(dataset_name: str) -> bool:
     """Return whether the dataset page should be emitted even without results."""
     ds_cfg = _load_dataset_overrides().get(dataset_name.strip().lower(), {})
@@ -777,6 +860,47 @@ def _summary_num_classes(dataset: Dataset) -> int | None:
     if raw_count is None or raw_count <= 1:
         return desc_count
     return raw_count
+
+
+def _extra_stats_dict(raw: str | None) -> dict[str, float | int]:
+    if not raw:
+        return {}
+    try:
+        loaded = json.loads(raw)
+    except (json.JSONDecodeError, TypeError):
+        return {}
+    if not isinstance(loaded, dict):
+        return {}
+    out: dict[str, float | int] = {}
+    for key, value in loaded.items():
+        if isinstance(value, (int, float)) and not isinstance(value, bool):
+            out[str(key)] = value
+    return out
+
+
+def _build_export_stats(dataset: Dataset, variant: Any | None = None) -> dict[str, Any]:
+    source = variant or dataset
+    num_graphs = getattr(source, "num_graphs", None)
+    if num_graphs is None:
+        num_graphs = dataset.num_graphs
+    avg_nodes = getattr(source, "avg_nodes", None)
+    if avg_nodes is None:
+        avg_nodes = dataset.avg_nodes
+    avg_edges = getattr(source, "avg_edges", None)
+    if avg_edges is None:
+        avg_edges = dataset.avg_edges
+    extra = _extra_stats_dict(getattr(source, "extra_stats", None))
+    if not extra:
+        extra = _extra_stats_dict(getattr(dataset, "extra_stats", None))
+    stats: dict[str, Any] = {
+        "num_graphs": num_graphs,
+        "avg_nodes": round(avg_nodes, 2) if avg_nodes is not None else None,
+        "avg_edges": round(avg_edges, 2) if avg_edges is not None else None,
+        "num_classes": _summary_num_classes(dataset),
+    }
+    if extra:
+        stats["extra_stats"] = extra
+    return stats
 
 
 def _dataset_page_export_metadata(session: Any, dataset_id: int) -> dict[str, Any]:
@@ -1119,6 +1243,116 @@ def _remove_hugo_content_dir(path: Path) -> bool:
         shutil.rmtree(path)
         return True
     return False
+
+
+def _remove_dataset_data_dir(dataset_slug: str) -> None:
+    """Remove exported JSON payloads for a dataset."""
+    data_dir = _DATASETS_DATA_DIR / dataset_slug
+    if data_dir.is_dir():
+        shutil.rmtree(data_dir)
+
+
+def _metric_counts(rows: list[dict[str, Any]], metrics: list[str]) -> list[int]:
+    """Count rows with a non-null value for each metric column."""
+    counts = [0] * len(metrics)
+    for row in rows:
+        vals = row.get("metric_values") or []
+        for idx, _metric in enumerate(metrics):
+            if idx < len(vals) and vals[idx] is not None:
+                counts[idx] += 1
+    return counts
+
+
+def _architecture_counts(rows: list[dict[str, Any]]) -> dict[str, int]:
+    counts = {
+        "gnn": 0,
+        "hybrid": 0,
+        "graph_transformer": 0,
+        "llm": 0,
+        "traditional": 0,
+    }
+    for row in rows:
+        arch = row.get("architecture_type") or ""
+        if arch in counts:
+            counts[arch] += 1
+        elif arch in _TRADITIONAL_ARCH_TYPES:
+            counts["traditional"] += 1
+    return counts
+
+
+def _build_chart_points(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    points: list[dict[str, Any]] = []
+    for row in rows:
+        vals = row.get("metric_values") or []
+        stds = row.get("metric_stds") or []
+        val = vals[0] if vals else None
+        if val is None:
+            continue
+        std = stds[0] if stds else None
+        points.append(
+            {
+                "date_iso": row.get("date_iso") or row.get("date") or "",
+                "value": val,
+                "std": std,
+                "model": row.get("model") or "",
+                "model_plain": row.get("model_plain") or row.get("model") or "",
+                "arxiv_id": row.get("arxiv_id") or "",
+                "title": row.get("title") or "",
+                "is_baseline": bool(row.get("is_baseline")),
+                "uses_external_data": row.get("uses_external_data"),
+                "has_code": bool(row.get("codebase_url")),
+                "architecture_type": row.get("architecture_type") or "",
+                "is_std_outlier": bool(row.get("is_std_outlier")),
+            }
+        )
+    return points
+
+
+def _collect_dataset_papers(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    by_arxiv: dict[str, dict[str, Any]] = {}
+    for row in rows:
+        arxiv_id = (row.get("arxiv_id") or "").strip()
+        if not arxiv_id:
+            continue
+        if arxiv_id not in by_arxiv:
+            by_arxiv[arxiv_id] = {
+                "arxiv_id": arxiv_id,
+                "title": row.get("title") or f"arXiv:{arxiv_id}",
+                "date_iso": row.get("date_iso") or "0000-00-00",
+                "venue": row.get("published_conference") or "",
+            }
+    return sorted(by_arxiv.values(), key=lambda item: item["date_iso"], reverse=True)
+
+
+def _write_dataset_variant_json_files(
+    dataset_slug: str,
+    variant_slug: str,
+    rows: list[dict[str, Any]],
+    metrics: list[str],
+    primary_metric: str,
+    higher_is_better: bool,
+) -> tuple[str, str]:
+    out_dir = _DATASETS_DATA_DIR / dataset_slug
+    out_dir.mkdir(parents=True, exist_ok=True)
+    rows_rel = f"/data/datasets/{dataset_slug}/{variant_slug}-rows.json"
+    chart_rel = f"/data/datasets/{dataset_slug}/{variant_slug}-chart.json"
+    rows_payload = {
+        "metrics": metrics,
+        "primary_metric": primary_metric,
+        "higher_is_better": higher_is_better,
+        "rows": rows,
+    }
+    (out_dir / f"{variant_slug}-rows.json").write_text(
+        json.dumps(rows_payload, ensure_ascii=False, separators=(",", ":")),
+        encoding="utf-8",
+    )
+    (out_dir / f"{variant_slug}-chart.json").write_text(
+        json.dumps(
+            {"points": _build_chart_points(rows)}, ensure_ascii=False, separators=(",", ":")
+        ),
+        encoding="utf-8",
+    )
+    return rows_rel, chart_rel
 
 
 def _cleanup_stale_hugo_content(
@@ -1466,51 +1700,139 @@ def _at_pub_results_for_dataset_metric(session: Any, ds_name: str, metric: str) 
     return all_res
 
 
+@dataclass(frozen=True, slots=True)
+class _AtPubEvent:
+    pub_iso: str
+    value: float
+    std: float | None
+    arxiv_id: str
+    title: str
+    venue: str
+    model_name: str
+
+
+class _AtPubTimeline:
+    """Per-model publication-ordered events for fast at-date best lookups."""
+
+    __slots__ = ("_by_model", "_hib", "_model_truth_cache", "_truth_cache")
+
+    def __init__(self, all_res: list[Any], higher_is_better: bool) -> None:
+        self._hib = higher_is_better
+        by_model: dict[str, list[_AtPubEvent]] = {}
+        for r in all_res:
+            p = r.paper
+            if not p:
+                continue
+            model_key = _model_key(r.model.canonical_name if r.model else "")
+            if not model_key or r.display_value is None:
+                continue
+            by_model.setdefault(model_key, []).append(
+                _AtPubEvent(
+                    pub_iso=(p.published_date[:10] if p.published_date else ""),
+                    value=float(r.display_value),
+                    std=float(r.display_std) if r.display_std is not None else None,
+                    arxiv_id=p.arxiv_id or "",
+                    title=p.title or "",
+                    venue=p.venue or "",
+                    model_name=(r.model.canonical_name if r.model else ""),
+                )
+            )
+        for events in by_model.values():
+            events.sort(key=lambda event: event.pub_iso)
+        self._by_model = by_model
+        self._truth_cache: dict[tuple[str, str], dict[str, dict[str, Any]]] = {}
+        self._model_truth_cache: dict[tuple[str, str, str], dict[str, Any] | None] = {}
+
+    def _best_event(
+        self,
+        model_key: str,
+        cutoff_iso: str = "",
+        *,
+        exclude_arxiv: str = "",
+    ) -> _AtPubEvent | None:
+        best: _AtPubEvent | None = None
+        for event in self._by_model.get(model_key, ()):
+            if cutoff_iso and (not event.pub_iso or event.pub_iso > cutoff_iso):
+                break
+            if exclude_arxiv and event.arxiv_id == exclude_arxiv:
+                continue
+            if best is None or _is_value_directionally_better(event.value, best.value, self._hib):
+                best = event
+        return best
+
+    def best_for_model(
+        self,
+        model_key: str,
+        cutoff_iso: str = "",
+        *,
+        exclude_arxiv: str = "",
+    ) -> dict[str, Any] | None:
+        """Best prior result for a single model (avoids building a full truth map)."""
+        cache_key = (cutoff_iso or "", (exclude_arxiv or "").strip(), model_key)
+        if cache_key in self._model_truth_cache:
+            return self._model_truth_cache[cache_key]
+
+        event = self._best_event(model_key, cutoff_iso, exclude_arxiv=exclude_arxiv)
+        if event is None:
+            self._model_truth_cache[cache_key] = None
+            return None
+
+        entry = {
+            "model": _sanitize_model(event.model_name, event.arxiv_id),
+            "model_key": model_key,
+            "value": event.value,
+            "std": event.std,
+            "arxiv_id": event.arxiv_id,
+            "title": _sanitize_title(event.title),
+            "date_iso": event.pub_iso,
+            "venue": event.venue,
+        }
+        self._model_truth_cache[cache_key] = entry
+        return entry
+
+    def truth_map(
+        self,
+        cutoff_iso: str = "",
+        *,
+        exclude_arxiv: str = "",
+    ) -> dict[str, dict[str, Any]]:
+        cache_key = (cutoff_iso or "", (exclude_arxiv or "").strip())
+        cached = self._truth_cache.get(cache_key)
+        if cached is not None:
+            return cached
+
+        cutoff = cache_key[0]
+        exclude = cache_key[1]
+        truth_map: dict[str, dict[str, Any]] = {}
+        for model_key in self._by_model:
+            entry = self.best_for_model(model_key, cutoff, exclude_arxiv=exclude)
+            if entry is not None:
+                truth_map[model_key] = entry
+        self._truth_cache[cache_key] = truth_map
+        return truth_map
+
+
+def _at_pub_timeline(
+    session: Any, ds_name: str, metric: str, higher_is_better: bool
+) -> _AtPubTimeline:
+    timeline_key = (ds_name, metric, higher_is_better)
+    cached = _AT_PUB_TIMELINE_CACHE.get(timeline_key)
+    if cached is not None:
+        return cached
+    rows = _at_pub_results_for_dataset_metric(session, ds_name, metric)
+    timeline = _AtPubTimeline(rows, higher_is_better)
+    _AT_PUB_TIMELINE_CACHE[timeline_key] = timeline
+    return timeline
+
+
 def _at_pub_truth_map_from_results(
     all_res: list[Any],
     higher_is_better: bool,
     cutoff_iso: str,
 ) -> dict[str, dict[str, Any]]:
     """Best result per model on or before *cutoff_iso* from preloaded rows."""
-    model_best: dict[str, tuple[float, Any]] = {}
-    for r in all_res:
-        p = r.paper
-        if cutoff_iso:
-            pub = p.published_date[:10] if p and p.published_date else ""
-            if not pub or pub > cutoff_iso:
-                continue
-        model_key = _model_key(r.model.canonical_name if r.model else "")
-        if not model_key:
-            continue
-        v = float(r.display_value) if r.display_value is not None else None
-        if v is None:
-            continue
-        prev = model_best.get(model_key)
-        if (
-            prev is None
-            or (higher_is_better and v > prev[0])
-            or (not higher_is_better and v < prev[0])
-        ):
-            model_best[model_key] = (v, r)
-
-    truth_map: dict[str, dict[str, Any]] = {}
-    for model_key, (val, r) in model_best.items():
-        p = r.paper
-        rendered_name = _sanitize_model(
-            (r.model.canonical_name if r.model else "") or "",
-            p.arxiv_id if p else None,
-        )
-        truth_map[model_key] = {
-            "model": rendered_name,
-            "model_key": model_key,
-            "value": val,
-            "std": float(r.display_std) if r.display_std is not None else None,
-            "arxiv_id": p.arxiv_id if p else "",
-            "title": _sanitize_title(p.title if p else ""),
-            "date_iso": (p.published_date[:10] if p and p.published_date else ""),
-            "venue": p.venue if p else "",
-        }
-    return truth_map
+    timeline = _AtPubTimeline(all_res, higher_is_better)
+    return timeline.truth_map(cutoff_iso)
 
 
 def _global_best_per_model_as_of_date(
@@ -1525,8 +1847,7 @@ def _global_best_per_model_as_of_date(
     if cache_key in _AT_PUB_MODEL_CACHE:
         return _AT_PUB_MODEL_CACHE[cache_key]
 
-    all_res = _at_pub_results_for_dataset_metric(session, ds_name, metric)
-    truth_map = _at_pub_truth_map_from_results(all_res, higher_is_better, cutoff_iso)
+    truth_map = _at_pub_timeline(session, ds_name, metric, higher_is_better).truth_map(cutoff_iso)
     _AT_PUB_MODEL_CACHE[cache_key] = truth_map
     return truth_map
 
@@ -1545,12 +1866,46 @@ def _global_best_per_model_as_of_date_excluding_paper(
     if cache_key in _AT_PUB_EXCLUDING_CACHE:
         return _AT_PUB_EXCLUDING_CACHE[cache_key]
 
-    all_res = _at_pub_results_for_dataset_metric(session, ds_name, metric)
-    if exclude_norm:
-        all_res = [r for r in all_res if r.paper and r.paper.arxiv_id != exclude_norm]
-    truth_map = _at_pub_truth_map_from_results(all_res, higher_is_better, cutoff_iso)
+    truth_map = _at_pub_timeline(session, ds_name, metric, higher_is_better).truth_map(
+        cutoff_iso,
+        exclude_arxiv=exclude_norm,
+    )
     _AT_PUB_EXCLUDING_CACHE[cache_key] = truth_map
     return truth_map
+
+
+def _non_problematic_results_query(session: Any):
+    """Base query for exportable results with relationships eager-loaded."""
+    return (
+        session.query(Result)
+        .options(
+            joinedload(Result.model),
+            joinedload(Result.paper),
+            joinedload(Result.dataset_variant).joinedload(DatasetVariant.dataset),
+        )
+        .filter(Result.is_problematic.is_(None) | (Result.is_problematic == 0))
+    )
+
+
+def _primary_metric_results(session: Any) -> list[Any]:
+    """Non-problematic results on each dataset's primary metric."""
+    results = (
+        _non_problematic_results_query(session)
+        .join(Result.paper)
+        .join(Result.dataset_variant)
+        .join(DatasetVariant.dataset)
+        .all()
+    )
+    primary_rows: list[Any] = []
+    for result in results:
+        ds = result.dataset_variant.dataset if result.dataset_variant else None
+        if not ds or not result.paper or not result.model:
+            continue
+        primary_metric = ds.primary_metric or result.metric_name
+        if result.metric_name != primary_metric:
+            continue
+        primary_rows.append(result)
+    return primary_rows
 
 
 def _dataset_export_metadata(session: Any, dataset_id: int) -> dict[str, Any]:
@@ -1748,11 +2103,7 @@ def _compute_paper_mrr(
 
 def _collect_result_anomalies(session: Any) -> list[dict[str, Any]]:
     """Return suspicious stored results for a development report."""
-    results = (
-        session.query(Result)
-        .filter(Result.is_problematic.is_(None) | (Result.is_problematic == 0))
-        .all()
-    )
+    results = _non_problematic_results_query(session).all()
 
     grouped: dict[tuple[str, str], list[Result]] = {}
     for result in results:
@@ -1819,19 +2170,12 @@ def _collect_result_anomalies(session: Any) -> list[dict[str, Any]]:
 
 def _collect_model_value_mismatches(session: Any) -> list[dict[str, Any]]:
     """Return paper rows whose reported primary-metric model value materially disagrees with the global best."""
-    results = (
-        session.query(Result)
-        .join(Result.paper)
-        .join(Result.dataset_variant)
-        .join(DatasetVariant.dataset)
-        .filter(Result.is_problematic.is_(None) | (Result.is_problematic == 0))
-        .all()
-    )
+    results = _primary_metric_results(session)
 
     truth_cache: dict[
         tuple[str, str, bool], tuple[dict[str, int], list[dict], dict[str, dict[str, Any]]]
     ] = {}
-    at_pub_cache: dict[tuple[str, str, bool, str], dict[str, dict[str, Any]]] = {}
+    timeline_cache: dict[tuple[str, str, bool], _AtPubTimeline] = {}
     mismatches: list[dict[str, Any]] = []
 
     for result in results:
@@ -1843,9 +2187,6 @@ def _collect_model_value_mismatches(session: Any) -> list[dict[str, Any]]:
             continue
 
         primary_metric = ds.primary_metric or result.metric_name
-        if result.metric_name != primary_metric:
-            continue
-
         higher = bool(result.higher_is_better)
         cache_key = (ds.name, primary_metric, higher)
         if cache_key not in truth_cache:
@@ -1880,12 +2221,9 @@ def _collect_model_value_mismatches(session: Any) -> list[dict[str, Any]]:
         else:
             source_timing = "unknown"
 
-        at_pub_key = (ds.name, primary_metric, higher, paper_date_iso)
-        if at_pub_key not in at_pub_cache:
-            at_pub_cache[at_pub_key] = _global_best_per_model_as_of_date(
-                session, ds.name, primary_metric, higher, paper_date_iso
-            )
-        at_pub = at_pub_cache[at_pub_key].get(model_key, {})
+        if cache_key not in timeline_cache:
+            timeline_cache[cache_key] = _at_pub_timeline(session, ds.name, primary_metric, higher)
+        at_pub = timeline_cache[cache_key].best_for_model(model_key, paper_date_iso) or {}
         at_pub_value = at_pub.get("value")
         at_pub_std = at_pub.get("std")
         at_pub_arxiv = at_pub.get("arxiv_id", "")
@@ -1981,16 +2319,9 @@ def _collect_model_value_mismatches(session: Any) -> list[dict[str, Any]]:
 
 def _collect_at_pub_improvements(session: Any) -> list[dict[str, Any]]:
     """Return rows where a paper reported a value better than the prior at-publication best."""
-    results = (
-        session.query(Result)
-        .join(Result.paper)
-        .join(Result.dataset_variant)
-        .join(DatasetVariant.dataset)
-        .filter(Result.is_problematic.is_(None) | (Result.is_problematic == 0))
-        .all()
-    )
+    results = _primary_metric_results(session)
 
-    at_pub_cache: dict[tuple[str, str, bool, str, str], dict[str, dict[str, Any]]] = {}
+    timeline_cache: dict[tuple[str, str, bool], _AtPubTimeline] = {}
     truth_cache: dict[
         tuple[str, str, bool], tuple[dict[str, int], list[dict], dict[str, dict[str, Any]]]
     ] = {}
@@ -2006,9 +2337,6 @@ def _collect_at_pub_improvements(session: Any) -> list[dict[str, Any]]:
             continue
 
         primary_metric = ds.primary_metric or result.metric_name
-        if result.metric_name != primary_metric:
-            continue
-
         higher = bool(result.higher_is_better)
         paper_value = float(result.display_value) if result.display_value is not None else None
         if paper_value is None:
@@ -2021,12 +2349,19 @@ def _collect_at_pub_improvements(session: Any) -> list[dict[str, Any]]:
         if dedupe_key in seen:
             continue
 
-        at_pub_key = (ds.name, primary_metric, higher, paper_date_iso, paper.arxiv_id)
-        if at_pub_key not in at_pub_cache:
-            at_pub_cache[at_pub_key] = _global_best_per_model_as_of_date_excluding_paper(
-                session, ds.name, primary_metric, higher, paper_date_iso, paper.arxiv_id
+        timeline_key = (ds.name, primary_metric, higher)
+        if timeline_key not in timeline_cache:
+            timeline_cache[timeline_key] = _at_pub_timeline(
+                session, ds.name, primary_metric, higher
             )
-        at_pub = at_pub_cache[at_pub_key].get(model_key, {})
+        at_pub = (
+            timeline_cache[timeline_key].best_for_model(
+                model_key,
+                paper_date_iso,
+                exclude_arxiv=paper.arxiv_id,
+            )
+            or {}
+        )
         at_pub_value = at_pub.get("value")
         at_pub_arxiv = (at_pub.get("arxiv_id") or "").strip()
         if at_pub_value is None or not at_pub_arxiv:
@@ -2108,7 +2443,17 @@ def _collect_missing_baselines(session: Any) -> tuple[list[dict[str, Any]], list
     core_missing: list[dict[str, Any]] = []
     mlp_missing: list[dict[str, Any]] = []
 
-    for ds in session.query(Dataset).all():
+    datasets = (
+        session.query(Dataset)
+        .options(
+            joinedload(Dataset.benchmark),
+            joinedload(Dataset.variants)
+            .joinedload(DatasetVariant.results)
+            .joinedload(Result.model),
+        )
+        .all()
+    )
+    for ds in datasets:
         families: set[str] = set()
         result_count = 0
         for variant in ds.variants:
@@ -2633,19 +2978,30 @@ def _dedup_shared_results(groups: list[dict], primary_metric: str) -> list[dict]
 def _build_multi_metric_rows(
     all_results: list,
     primary_metric: str,
+    *,
+    metrics_order: list[str] | None = None,
 ) -> tuple[list[str], bool, list[dict]]:
     """Pivot results by (canonical_model_name, arxiv_id) to produce a multi-metric table.
 
     Returns:
-        metrics_ordered  – metric names, primary metric first then alphabetically
+        metrics_ordered  – metric names, primary metric first then configured/alphabetical order
         higher_is_better – derived from primary metric rows
         rows             – one dict per (model, paper) with parallel metric_values / metric_stds
     """
-    # Discover all distinct metrics; primary goes first
+    # Discover all distinct metrics
     metric_set: set[str] = {r.metric_name for r in all_results}
-    metrics_ordered = sorted(metric_set - {primary_metric})
-    if primary_metric in metric_set:
-        metrics_ordered = [primary_metric] + metrics_ordered
+    if metrics_order:
+        metrics_ordered = [m for m in metrics_order if m in metric_set]
+        for m in sorted(metric_set - set(metrics_ordered)):
+            metrics_ordered.append(m)
+        if primary_metric in metric_set and primary_metric in metrics_ordered:
+            metrics_ordered = [primary_metric] + [m for m in metrics_ordered if m != primary_metric]
+        elif primary_metric in metric_set:
+            metrics_ordered = [primary_metric] + metrics_ordered
+    else:
+        metrics_ordered = sorted(metric_set - {primary_metric})
+        if primary_metric in metric_set:
+            metrics_ordered = [primary_metric] + metrics_ordered
 
     # higher_is_better from the primary metric rows
     hib = True
@@ -2764,7 +3120,8 @@ def _export_dataset_impl(session: Session, dataset_id: int) -> bool:
     if ds is None:
         return False
 
-    out_dir = _CONTENT / "datasets" / _slug(ds.name)
+    dataset_slug = _slug(ds.name)
+    out_dir = _CONTENT / "datasets" / dataset_slug
 
     variants = session.query(DatasetVariant).filter_by(dataset_id=dataset_id).all()
     variants = sorted(
@@ -2785,9 +3142,11 @@ def _export_dataset_impl(session: Session, dataset_id: int) -> bool:
             "recent_result_count": 0,
         }
         _remove_hugo_content_dir(out_dir)
+        _remove_dataset_data_dir(dataset_slug)
         return False
 
     force_export = _dataset_force_export(ds.name)
+    papers_source_rows: list[dict[str, Any]] = []
 
     # Determine primary metric from the first variant that has results.
     # For forced empty exports, fall back to the dataset-level direction.
@@ -2816,11 +3175,7 @@ def _export_dataset_impl(session: Session, dataset_id: int) -> bool:
                     "is_standard": bool(v.is_standard),
                     "primary_metric": primary_metric,
                     "higher_is_better": bool(ds.higher_is_better),
-                    "stats": {
-                        "num_graphs": v.num_graphs,
-                        "avg_nodes": v.avg_nodes,
-                        "avg_edges": v.avg_edges,
-                    },
+                    "stats": _build_export_stats(ds, v),
                     "metrics": [primary_metric] if primary_metric else [],
                     "rows": [],
                     "milestones": [],
@@ -2828,9 +3183,12 @@ def _export_dataset_impl(session: Session, dataset_id: int) -> bool:
             )
             continue
 
-        # Determine which metric to display: prefer primary_metric if it exists in results
+        # Determine which metric to display: prefer configured/default primary if in results
         available_metrics = {r.metric_name for r in all_results}
-        if primary_metric and primary_metric in available_metrics:
+        configured_default = _dataset_default_metric(ds.name, primary_metric) or primary_metric
+        if configured_default and configured_default in available_metrics:
+            metric = configured_default
+        elif primary_metric and primary_metric in available_metrics:
             metric = primary_metric
         else:
             # Fall back to the most-common metric among results
@@ -2840,11 +3198,22 @@ def _export_dataset_impl(session: Session, dataset_id: int) -> bool:
             if not primary_metric:
                 primary_metric = metric
 
-        # Build pivoted multi-metric rows (primary metric first, then sorted)
-        metrics_ordered, higher_is_better, rows = _build_multi_metric_rows(all_results, metric)
+        display_metrics = _dataset_display_metrics(ds.name)
+        metrics_order = _metrics_order_for_dataset(
+            ds.name,
+            available_metrics,
+            metric,
+            display_metrics,
+        )
+
+        # Build pivoted multi-metric rows (primary metric first, then configured order)
+        metrics_ordered, higher_is_better, rows = _build_multi_metric_rows(
+            all_results,
+            metric,
+            metrics_order=metrics_order,
+        )
 
         # Optional dataset-level display metric filtering (e.g. Texas -> Accuracy only)
-        display_metrics = _dataset_display_metrics(ds.name)
         metrics_ordered, rows, metric = _apply_display_metrics_filter(
             metrics_ordered,
             rows,
@@ -2852,7 +3221,34 @@ def _export_dataset_impl(session: Session, dataset_id: int) -> bool:
             metric,
         )
 
+        label_map = _merged_metric_labels(ds.name)
+        metric_display_names = _metric_display_names(metrics_ordered, label_map)
+        show_all_metrics_desktop = _dataset_show_all_metrics_desktop(ds.name)
+        default_metric = _dataset_default_metric(ds.name, metric) or metric
+
         milestones = get_best_results_over_time(v.id, metric, session=session)
+        milestones_by_metric = {
+            m: get_best_results_over_time(v.id, m, session=session) for m in metrics_ordered
+        }
+
+        if rows and (v.is_standard or not papers_source_rows):
+            papers_source_rows = rows
+
+        rows_json = ""
+        chart_json = ""
+        if rows:
+            rows_json, chart_json = _write_dataset_variant_json_files(
+                dataset_slug,
+                _slug(v.name),
+                rows,
+                metrics_ordered,
+                metric,
+                higher_is_better,
+            )
+
+        html_rows = rows
+        if len(rows) > INITIAL_DATASET_HTML_ROWS:
+            html_rows = rows[:INITIAL_DATASET_HTML_ROWS]
 
         variant_data.append(
             {
@@ -2861,15 +3257,20 @@ def _export_dataset_impl(session: Session, dataset_id: int) -> bool:
                 "notes": v.notes or "",
                 "is_standard": bool(v.is_standard),
                 "primary_metric": metric,
+                "default_metric": default_metric,
                 "higher_is_better": higher_is_better,
-                "stats": {
-                    "num_graphs": v.num_graphs,
-                    "avg_nodes": v.avg_nodes,
-                    "avg_edges": v.avg_edges,
-                },
+                "stats": _build_export_stats(ds, v),
                 "metrics": metrics_ordered,
-                "rows": rows,
+                "metric_display_names": metric_display_names,
+                "show_all_metrics_desktop": show_all_metrics_desktop,
+                "rows": html_rows,
+                "row_count": len(rows),
+                "rows_json": rows_json if len(rows) > INITIAL_DATASET_HTML_ROWS else "",
+                "chart_json": chart_json,
+                "arch_counts": _architecture_counts(rows),
+                "metric_counts": _metric_counts(rows, metrics_ordered),
                 "milestones": milestones,
+                "milestones_by_metric": milestones_by_metric,
             }
         )
 
@@ -2880,12 +3281,13 @@ def _export_dataset_impl(session: Session, dataset_id: int) -> bool:
             "recent_result_count": 0,
         }
         _remove_hugo_content_dir(out_dir)
+        _remove_dataset_data_dir(dataset_slug)
         return False
 
     # Compute overview stats from the standard (or first) variant
     std_vd = next((v for v in variant_data if v["is_standard"]), variant_data[0])
-    result_count = len(std_vd["rows"])
-    recent_result_count = _count_recent_leaderboard_rows(std_vd["rows"])
+    result_count = int(std_vd.get("row_count") or len(std_vd["rows"]))
+    recent_result_count = _count_recent_leaderboard_rows(papers_source_rows or std_vd["rows"])
     best_row = std_vd["rows"][0] if std_vd["rows"] else None
     best_model_info: dict | None = None
     if best_row:
@@ -2900,38 +3302,27 @@ def _export_dataset_impl(session: Session, dataset_id: int) -> bool:
             "paper_title": best_row.get("title") or "",
         }
 
-    # Dataset-level stats are often missing; fall back to the standard variant stats.
     std_variant = next((v for v in variants if v.is_standard), variants[0])
-    stats_num_graphs = ds.num_graphs if ds.num_graphs is not None else std_variant.num_graphs
-    stats_avg_nodes = ds.avg_nodes if ds.avg_nodes is not None else std_variant.avg_nodes
-    stats_avg_edges = ds.avg_edges if ds.avg_edges is not None else std_variant.avg_edges
-    stats_num_classes = _summary_num_classes(ds)
+    export_stats = _build_export_stats(ds, std_variant)
+    has_stats = any(
+        export_stats.get(key) is not None
+        for key in ("num_graphs", "avg_nodes", "avg_edges", "num_classes")
+    ) or bool(export_stats.get("extra_stats"))
 
     benchmark_name = ds.benchmark.name if ds.benchmark else ""
     front_matter: dict[str, Any] = {
         "title": ds.name,
-        "slug": _slug(ds.name),
+        "slug": dataset_slug,
         "benchmark": benchmark_name,
         "task_type": ds.task_type or "",
         "description": ds.description or "",
         "primary_metric": primary_metric,
         "higher_is_better": higher_is_better,
         "pyg_url": ds.pyg_url or "",
-        "stats": (
-            {
-                "num_graphs": stats_num_graphs,
-                "avg_nodes": round(stats_avg_nodes, 2) if stats_avg_nodes is not None else None,
-                "avg_edges": round(stats_avg_edges, 2) if stats_avg_edges is not None else None,
-                "num_classes": stats_num_classes,
-            }
-            if any(
-                x is not None
-                for x in [stats_num_graphs, stats_avg_nodes, stats_avg_edges, stats_num_classes]
-            )
-            else None
-        ),
+        "stats": export_stats if has_stats else None,
         "result_count": result_count,
         "best_model": best_model_info,
+        "papers": _collect_dataset_papers(papers_source_rows),
         "variants": variant_data,
     }
 
@@ -2987,7 +3378,16 @@ def _export_benchmarks_data_impl(session: Session) -> None:
         total_recent = sum(ds_recent_result_counts.get(ds.id, 0) for ds in exportable)
         return total_recent / len(exportable)
 
-    benchmarks = sorted(benchmarks, key=_bm_recent_per_dataset, reverse=True)
+    def _bm_total_results(b: Benchmark) -> int:
+        exportable = [
+            ds for ds in b.datasets if dataset_export_metadata.get(ds.id, {}).get("exportable")
+        ]
+        return sum(ds_result_counts.get(ds.id, 0) for ds in exportable)
+
+    def _bm_sort_key_recent(b: Benchmark) -> tuple[bool, float]:
+        return (bool(b.is_legacy), -_bm_recent_per_dataset(b))
+
+    benchmarks = sorted(benchmarks, key=_bm_sort_key_recent)
 
     data: list[dict] = []
     for b in benchmarks:
@@ -2999,6 +3399,7 @@ def _export_benchmarks_data_impl(session: Session) -> None:
         if not sorted_datasets:
             continue
         recent_per_dataset = _bm_recent_per_dataset(b)
+        total_result_count = _bm_total_results(b)
         datasets_info = []
         for ds in sorted_datasets:
             variants = ds.variants  # all variants (not just standard)
@@ -3019,7 +3420,9 @@ def _export_benchmarks_data_impl(session: Session) -> None:
                 "description": b.description or "",
                 "arxiv_id": b.paper.arxiv_id if b.paper else "",
                 "paper_title": _sanitize_title(b.paper.title) if b.paper else "",
+                "is_legacy": bool(b.is_legacy),
                 "recent_results_per_dataset": round(recent_per_dataset, 1),
+                "total_result_count": total_result_count,
                 "datasets": datasets_info,
             }
         )
@@ -3131,6 +3534,13 @@ def export_all(
         export_benchmarks_data(session=session)
         timings["benchmarks"] = time.perf_counter() - t0
 
+        papers_ok = 0
+        t0 = time.perf_counter()
+        for arxiv_id in tqdm(paper_ids, desc="Exporting papers", unit="paper", leave=True):
+            if export_paper(arxiv_id, session=session):
+                papers_ok += 1
+        timings["papers"] = time.perf_counter() - t0
+
         if not skip_development:
             from backend.hugo_dev_exports import _dev_line_done
 
@@ -3142,13 +3552,6 @@ def export_all(
                 f"Development pages... done ({elapsed:.1f}s)  "
                 f"({dev_stats.get('pages', 0)} pages, {dev_stats.get('data_files', 0)} JSON)"
             )
-
-        papers_ok = 0
-        t0 = time.perf_counter()
-        for arxiv_id in tqdm(paper_ids, desc="Exporting papers", unit="paper", leave=True):
-            if export_paper(arxiv_id, session=session):
-                papers_ok += 1
-        timings["papers"] = time.perf_counter() - t0
 
         t0 = time.perf_counter()
         from backend.hugo_dev_exports import create_conferences_page

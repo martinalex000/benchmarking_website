@@ -224,14 +224,14 @@ def _run_wall_clock_sample(
             export_to_hugo.export_benchmarks_data()
             phases["benchmarks"] = {"seconds": time.perf_counter() - t0}
 
+        t0 = time.perf_counter()
+        _time_papers()
+        phases["papers"] = {"seconds": time.perf_counter() - t0}
+
         if not skip_dev:
             t0 = time.perf_counter()
             export_to_hugo.export_development_data()
             phases["development"] = {"seconds": time.perf_counter() - t0}
-
-        t0 = time.perf_counter()
-        _time_papers()
-        phases["papers"] = {"seconds": time.perf_counter() - t0}
     else:
         if not skip_benchmarks:
             t0 = time.perf_counter()
