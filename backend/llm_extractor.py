@@ -44,10 +44,17 @@ from thefuzz import process as fuzz_process
 
 from backend.config import cfg, normalize_arxiv_id
 from backend.db import session_scope
+from backend.json_repair import parse_json_lenient
 from backend.llm_model_options import display_name_for_model, extra_body_for_model
 from backend.model_metadata import normalize_architecture_type
 from backend.models import Paper
 from backend.paper_storage import PaperStorage
+from backend.qm9_targets import (
+    QM9_DEFAULT_METRIC,
+    QM9_EXTRACT_TARGET_GROUPS,
+    is_qm9_dataset,
+    qm9_extract_metric_constraint,
+)
 from backend.semantic_scholar import fetch_paper_metadata
 from backend.text_cleanup import clean_extracted_text
 
@@ -59,6 +66,8 @@ except ImportError:
     _ParsedTable = None  # type: ignore[assignment,misc]
 
 logger = logging.getLogger(__name__)
+
+_QM9_EXTRACT_MAX_TOKENS = 16_384
 
 _ARXIV_API = "https://export.arxiv.org/api/query?id_list={arxiv_id}"
 _ARXIV_NS = {"atom": "http://www.w3.org/2005/Atom"}
@@ -287,12 +296,43 @@ def _noncanonical_dataset_hints(text: str) -> list[str]:
     return hints
 
 
-def _extract_metadata_from_latex_cache(latex_dir: Path) -> dict[str, str]:
-    """Read title and abstract from a cached expanded.tex without a full parse.
+def _extract_latex_braced_group(tex: str, open_brace_pos: int) -> str:
+    """Return the inner text of a {...} group starting at *open_brace_pos* (the '{')."""
+    if open_brace_pos >= len(tex) or tex[open_brace_pos] != "{":
+        return ""
+    depth = 1
+    pos = open_brace_pos + 1
+    while pos < len(tex) and depth > 0:
+        if tex[pos] == "{":
+            depth += 1
+        elif tex[pos] == "}":
+            depth -= 1
+        pos += 1
+    return tex[open_brace_pos + 1 : pos - 1]
+
+
+def _parse_author_names_from_latex(tex: str) -> list[str]:
+    """Extract ordered author names from \\author{...} blocks in LaTeX source."""
+    from backend.latex_source import _strip_latex
+
+    authors: list[str] = []
+    for match in re.finditer(r"\\author\s*(?:\[[^\]]*\])?\s*\{", tex):
+        body = _extract_latex_braced_group(tex, match.end() - 1)
+        if not body:
+            continue
+        for part in re.split(r"\\and\b", body):
+            clean = _strip_latex(part).strip()
+            if clean:
+                authors.append(clean)
+    return authors
+
+
+def _extract_metadata_from_latex_cache(latex_dir: Path) -> dict[str, str | list[str]]:
+    """Read title, abstract, and authors from a cached expanded.tex without a full parse.
 
     Used as a free, offline fallback during abstract screening when the DB has
     only a stub entry and no HTML is available or HTML lacks an abstract.
-    Returns a dict with 'title' and/or 'abstract' keys (may be partial).
+    Returns a dict with 'title', 'abstract', and/or 'authors' keys (may be partial).
     """
     expanded = latex_dir / "expanded.tex"
     if not expanded.exists() or expanded.stat().st_size < 100:
@@ -303,22 +343,12 @@ def _extract_metadata_from_latex_cache(latex_dir: Path) -> dict[str, str]:
         tex = expanded.read_text(encoding="utf-8", errors="replace")[:40_000]
         tex, _ = _expand_user_macros(tex)
 
-        result: dict[str, str] = {}
+        result: dict[str, str | list[str]] = {}
 
         # Extract \title{...} — handles optional [short] argument
         m = re.search(r"\\title\s*(?:\[[^\]]*\])?\s*\{", tex)
         if m:
-            # Walk forward to find the matching closing brace
-            start = m.end()
-            depth = 1
-            pos = start
-            while pos < len(tex) and depth > 0:
-                if tex[pos] == "{":
-                    depth += 1
-                elif tex[pos] == "}":
-                    depth -= 1
-                pos += 1
-            raw_title = tex[start : pos - 1]
+            raw_title = _extract_latex_braced_group(tex, m.end() - 1)
             clean = _strip_latex(raw_title)
             if clean:
                 result["title"] = clean
@@ -330,6 +360,10 @@ def _extract_metadata_from_latex_cache(latex_dir: Path) -> dict[str, str]:
             clean = _strip_latex(raw_abstract)
             if clean:
                 result["abstract"] = clean
+
+        author_names = _parse_author_names_from_latex(tex)
+        if author_names:
+            result["authors"] = author_names
 
         return result
     except Exception as exc:
@@ -450,6 +484,96 @@ class CallRecord:
     extra: dict = dc_field(default_factory=dict)
 
 
+def _format_statistics_entry_summary(entry: dict[str, Any]) -> str:
+    parts: list[str] = []
+    for key, label in (
+        ("num_graphs", "graphs"),
+        ("avg_nodes", "nodes"),
+        ("avg_edges", "edges"),
+        ("num_classes", "classes"),
+    ):
+        raw_values = entry.get("raw_values") or {}
+        value = entry.get(key)
+        if value is not None:
+            display = raw_values.get(key, value)
+            parts.append(f"{label}={display}")
+    extra_stats = entry.get("extra_stats") or {}
+    if isinstance(extra_stats, dict):
+        for key, value in sorted(extra_stats.items()):
+            parts.append(f"{key}={value}")
+    return ", ".join(parts) if parts else "—"
+
+
+def _print_dataset_statistics(rec: CallRecord, *, use_rich: bool, console: Any = None) -> None:
+    stat_tables = rec.extra.get("statistics_tables")
+    if stat_tables:
+        labels = [
+            f"Table {item['number']}" + (" [appendix]" if item.get("in_appendix") else "")
+            for item in stat_tables
+        ]
+        line = "Statistics tables: " + ", ".join(labels)
+        if use_rich and console is not None:
+            _con = console
+            _con.print(f"    [dim]{line}[/dim]")
+            for item in stat_tables:
+                caption = (item.get("caption") or "").strip()
+                if caption:
+                    _con.print(f"      [dim]↳ Table {item['number']}: {caption[:100]}[/dim]")
+        else:
+            print(f"    {line}")
+
+    stats = rec.extra.get("dataset_statistics")
+    if stats:
+        for item in stats:
+            name = item.get("name", "?")
+            if item.get("statistics_mentioned"):
+                sources = ", ".join(item.get("statistics_sources") or []) or "detected"
+                stat_table_nums = item.get("statistics_table_numbers") or []
+                stat_tables_note = f" stats tables {stat_table_nums}" if stat_table_nums else ""
+                if use_rich and console is not None:
+                    console.print(
+                        f"    [dim]Dataset stats[/dim] [bold]{name}[/bold][dim]:[/dim] "
+                        f"[green]yes[/green] [dim]({sources}{stat_tables_note})[/dim]"
+                    )
+                else:
+                    print(f"    Dataset stats {name}: yes ({sources}{stat_tables_note})")
+            else:
+                if use_rich and console is not None:
+                    console.print(
+                        f"    [dim]Dataset stats[/dim] [bold]{name}[/bold][dim]:[/dim] [dim]no[/dim]"
+                    )
+                else:
+                    print(f"    Dataset stats {name}: no")
+
+    extracted_details = rec.extra.get("extracted_statistics_details")
+    if extracted_details:
+        if use_rich and console is not None:
+            console.print("    [dim]Extracted dataset statistics:[/dim]")
+            for item in extracted_details:
+                name = item.get("name", "?")
+                summary = _format_statistics_entry_summary(item)
+                source = item.get("source_ref") or ""
+                source_note = f" [dim]({source})[/dim]" if source else ""
+                console.print(f"      [bold]{name}[/bold][dim]:[/dim] {summary}{source_note}")
+        else:
+            print("    Extracted dataset statistics:")
+            for item in extracted_details:
+                name = item.get("name", "?")
+                summary = _format_statistics_entry_summary(item)
+                source = item.get("source_ref") or ""
+                print(f"      {name}: {summary}" + (f" ({source})" if source else ""))
+    elif rec.extra.get("paper_has_statistics"):
+        extracted = rec.extra.get("extracted_dataset_statistics")
+        if extracted:
+            if use_rich and console is not None:
+                console.print(
+                    "    [dim]Extracted stats:[/dim] "
+                    + "  ".join(f"[bold]{name}[/bold]" for name in extracted)
+                )
+            else:
+                print(f"    Extracted stats: {', '.join(extracted)}")
+
+
 def _print_call_progress(rec: CallRecord, call_index: int) -> None:
     """Print a one-line-plus-details summary of a completed LLM call.
 
@@ -476,6 +600,10 @@ def _print_call_progress(rec: CallRecord, call_index: int) -> None:
         stage_prefix = "[2] "
     elif call_type.startswith("discover_datasets") or call_type.startswith("select_tables"):
         stage_prefix = "[3] "
+    elif call_type.startswith("extract_dataset_statistics"):
+        stage_prefix = "[3b] "
+    elif call_type.startswith("extract_sota_claims"):
+        stage_prefix = "[3c] "
     elif call_type.startswith("extract_dataset") or call_type.startswith("extract_section"):
         stage_prefix = "[4] "
 
@@ -515,6 +643,15 @@ def _print_call_progress(rec: CallRecord, call_index: int) -> None:
                     f"    [dim]Tables for[/dim] [bold]{ds_name}[/bold][dim]:[/dim] "
                     f"{nums} [dim]({len(nums)}/{total_t})[/dim]"
                 )
+        if (
+            call_type.startswith("discover_datasets")
+            or call_type.startswith("select_tables")
+            or call_type.startswith("extract_dataset_statistics")
+        ):
+            note = rec.extra.get("table_selection_note")
+            if note:
+                _con.print(f"    [dim]{note}[/dim]")
+            _print_dataset_statistics(rec, use_rich=True, console=_con)
 
         # RAG stats
         rag = rec.extra.get("rag")
@@ -548,6 +685,15 @@ def _print_call_progress(rec: CallRecord, call_index: int) -> None:
         sel = rec.extra.get("selected_tables") or rec.extra.get("selected_tables_per_dataset")
         if sel:
             print(f"    Tables: {sel}")
+        if (
+            call_type.startswith("discover_datasets")
+            or call_type.startswith("select_tables")
+            or call_type.startswith("extract_dataset_statistics")
+        ):
+            note = rec.extra.get("table_selection_note")
+            if note:
+                print(f"    {note}")
+            _print_dataset_statistics(rec, use_rich=False)
 
 
 # ── Pydantic models for structured LLM output ─────────────────────────────────
@@ -608,6 +754,8 @@ class ExtractionOutput(BaseModel):
     results: list[ResultEntry] = Field(default_factory=list)
     extraction_confidence: str = "LOW"
     extraction_notes: str = ""
+    discovered_datasets: list[DatasetInfo] = Field(default_factory=list)
+    paper_has_statistics: bool = False
 
     @field_validator("proposed_model", mode="before")
     @classmethod
@@ -632,10 +780,53 @@ class DatasetInfo(BaseModel):
     name: str
     table_refs: list[str] = Field(default_factory=list)
     primary_metric: str | None = None
+    statistics_mentioned: bool = False
+    statistics_sources: list[str] = Field(default_factory=list)
 
 
 class DatasetList(BaseModel):
     datasets: list[DatasetInfo] = Field(default_factory=list)
+    notes: str = ""
+
+
+class DatasetStatisticsEntry(BaseModel):
+    name: str
+    variant: str | None = None
+    num_graphs: int | None = None
+    avg_nodes: float | None = None
+    avg_edges: float | None = None
+    num_classes: int | None = None
+    raw_values: dict[str, str] = Field(default_factory=dict)
+    precision_hints: dict[str, str] = Field(default_factory=dict)
+    extra_stats: dict[str, float | int] = Field(default_factory=dict)
+    source_ref: str | None = None
+    confidence: str = "medium"
+
+
+class DatasetStatisticsOutput(BaseModel):
+    datasets: list[DatasetStatisticsEntry] = Field(default_factory=list)
+    notes: str = ""
+
+
+class SotaClaimRestriction(BaseModel):
+    type: str = "other"
+    description: str = ""
+
+
+class SotaClaimEntry(BaseModel):
+    raw_sentence: str
+    claim_summary: str = ""
+    datasets: list[str] = Field(default_factory=list)
+    metrics: list[str] = Field(default_factory=list)
+    claim_type: str = "other"
+    scope: str = "unclear"
+    restrictions: list[SotaClaimRestriction] = Field(default_factory=list)
+    source_ref: str | None = None
+    confidence: str = "medium"
+
+
+class SotaClaimOutput(BaseModel):
+    claims: list[SotaClaimEntry] = Field(default_factory=list)
     notes: str = ""
 
 
@@ -663,8 +854,150 @@ def _merge_dataset_lists(*dataset_lists: DatasetList) -> DatasetList:
             for table_ref in ds.table_refs:
                 if table_ref not in existing.table_refs:
                     existing.table_refs.append(table_ref)
+            if ds.statistics_mentioned:
+                existing.statistics_mentioned = True
+            for src in ds.statistics_sources:
+                if src not in existing.statistics_sources:
+                    existing.statistics_sources.append(src)
 
     return DatasetList(datasets=merged, notes="\n".join(note for note in notes if note))
+
+
+def _apply_statistics_ripgrep_precheck(datasets: DatasetList, text: str) -> DatasetList:
+    """Flag statistics_mentioned when stat markers appear near dataset names."""
+    from backend.dataset_stats_parsing import ripgrep_stat_markers_near_datasets
+
+    names = [ds.name for ds in datasets.datasets]
+    if not names or not text.strip():
+        return datasets
+    hits = ripgrep_stat_markers_near_datasets(text, names)
+    for ds in datasets.datasets:
+        if hits.get(ds.name):
+            ds.statistics_mentioned = True
+    return datasets
+
+
+def _dataset_statistics_extra(datasets: list[DatasetInfo]) -> list[dict[str, Any]]:
+    return [
+        {
+            "name": ds.name,
+            "statistics_mentioned": ds.statistics_mentioned,
+            "statistics_sources": list(ds.statistics_sources),
+        }
+        for ds in datasets
+    ]
+
+
+def _dataset_statistics_hint_block(datasets: list[DatasetInfo]) -> str:
+    lines: list[str] = []
+    for ds in datasets:
+        if not ds.statistics_mentioned:
+            continue
+        sources = ", ".join(ds.statistics_sources) if ds.statistics_sources else "paper text"
+        lines.append(f"- {ds.name}: structural statistics mentioned in {sources}")
+    if not lines:
+        return ""
+    return (
+        "\n\nDATASET STATISTICS HINTS "
+        "(awareness only — still exclude stat-only tables from benchmark results):\n"
+        + "\n".join(lines)
+    )
+
+
+_STAT_TABLE_MARKERS = (
+    "statistic",
+    "dataset",
+    "#graphs",
+    "num graphs",
+    "avg nodes",
+    "avg edges",
+    "properties",
+    "summary",
+    "total graphs",
+    "total nodes",
+)
+
+
+def _is_statistics_table(table: Any) -> bool:
+    caption = (getattr(table, "caption", "") or "").strip().lower()
+    header = ""
+    if hasattr(table, "header"):
+        header = str(getattr(table, "header", "") or "").lower()
+    return any(marker in caption or marker in header for marker in _STAT_TABLE_MARKERS)
+
+
+def _statistics_table_summaries(tables: list) -> list[dict[str, Any]]:
+    summaries: list[dict[str, Any]] = []
+    for table in tables:
+        if not _is_statistics_table(table):
+            continue
+        number = getattr(table, "number", None)
+        if number is None:
+            continue
+        summaries.append(
+            {
+                "number": int(number),
+                "caption": getattr(table, "caption", "") or "",
+                "in_appendix": bool(getattr(table, "in_appendix", False)),
+            }
+        )
+    return summaries
+
+
+def _parse_table_ref_number(source: str) -> int | None:
+    match = re.search(r"table\s*(\d+)", source, flags=re.IGNORECASE)
+    if not match:
+        return None
+    return int(match.group(1))
+
+
+def _dataset_statistics_extra_with_tables(
+    datasets: list[DatasetInfo],
+    *,
+    stat_table_summaries: list[dict[str, Any]] | None = None,
+) -> list[dict[str, Any]]:
+    stat_numbers = {item["number"] for item in (stat_table_summaries or [])}
+    out: list[dict[str, Any]] = []
+    for ds in datasets:
+        table_nums = sorted(
+            {
+                num
+                for source in ds.statistics_sources
+                for num in [_parse_table_ref_number(source)]
+                if num is not None and num in stat_numbers
+            }
+        )
+        out.append(
+            {
+                "name": ds.name,
+                "statistics_mentioned": ds.statistics_mentioned,
+                "statistics_sources": list(ds.statistics_sources),
+                "statistics_table_numbers": table_nums,
+            }
+        )
+    return out
+
+
+def _enrich_dataset_statistics_from_tables(datasets: DatasetList, tables: list) -> None:
+    """Mark datasets with statistics when their names appear in statistics tables."""
+    stat_tables = [t for t in tables if _is_statistics_table(t)]
+    if not stat_tables:
+        return
+
+    for ds in datasets.datasets:
+        ds_pattern = rf"(?<![A-Za-z0-9-]){re.escape(ds.name)}(?![A-Za-z0-9-])"
+        for table in stat_tables:
+            number = getattr(table, "number", None)
+            caption = (getattr(table, "caption", "") or "").strip()
+            body = getattr(table, "markdown", None) or str(table)
+            first_col = LLMExtractor._table_first_column(table)
+            haystack = f"{caption}\n{body}\n{first_col}"
+            if not re.search(ds_pattern, haystack, flags=re.IGNORECASE):
+                continue
+            ds.statistics_mentioned = True
+            ref = f"Table {number}" if number is not None else caption or "statistics table"
+            if ref and ref not in ds.statistics_sources:
+                ds.statistics_sources.append(ref)
 
 
 class FigureInfo(BaseModel):
@@ -815,15 +1148,19 @@ def _merge_extraction_outputs(
     confidence_levels: list[str],
     notes_parts: list[str],
     normalise_metrics: bool = False,
+    discovered_datasets: list[DatasetInfo] | None = None,
 ) -> ExtractionOutput:
     """Build a single ExtractionOutput from partial extraction fragments."""
     merged_results = _normalise_metrics(results) if normalise_metrics else results
+    ds_list = discovered_datasets or []
     return ExtractionOutput(
         proposed_model=proposed_model,
         baseline_models=_dedupe_baselines(baselines),
         results=_dedupe_result_entries(merged_results),
         extraction_confidence=_collapse_confidence_levels(confidence_levels),
         extraction_notes="\n".join(notes_parts),
+        discovered_datasets=ds_list,
+        paper_has_statistics=any(ds.statistics_mentioned for ds in ds_list),
     )
 
 
@@ -857,6 +1194,68 @@ class LLMExtractor:
             if idx != self._last_progress_idx:
                 self._last_progress_idx = idx
                 self._progress_callback(self._call_log[idx])
+
+    def _emit_table_selection_summary(
+        self,
+        datasets: list[DatasetInfo],
+        tables: list,
+        *,
+        selected_per_dataset: dict[str, list[int]],
+        note: str,
+        stat_table_summaries: list[dict[str, Any]] | None = None,
+    ) -> None:
+        """Emit verbose progress for table selection when the LLM call is skipped."""
+        if not self._progress_callback:
+            return
+        self._call_log.append(
+            CallRecord(
+                call_type="select_tables:all",
+                system_prompt="",
+                user_content="",
+                success=True,
+                extra={
+                    "selected_tables_per_dataset": selected_per_dataset,
+                    "tables_total": len(tables),
+                    "dataset_statistics": _dataset_statistics_extra_with_tables(
+                        datasets,
+                        stat_table_summaries=stat_table_summaries,
+                    ),
+                    "statistics_tables": stat_table_summaries or [],
+                    "paper_has_statistics": any(ds.statistics_mentioned for ds in datasets),
+                    "table_selection_note": note,
+                },
+            )
+        )
+        self._fire_progress()
+
+    def _emit_discovery_statistics_summary(
+        self,
+        datasets: list[DatasetInfo],
+        *,
+        stat_table_summaries: list[dict[str, Any]],
+    ) -> None:
+        """Emit dataset-statistics details after discovery prechecks."""
+        if not self._progress_callback:
+            return
+        if not stat_table_summaries and not any(ds.statistics_mentioned for ds in datasets):
+            return
+        self._call_log.append(
+            CallRecord(
+                call_type="discover_datasets:statistics",
+                system_prompt="",
+                user_content="",
+                success=True,
+                extra={
+                    "dataset_statistics": _dataset_statistics_extra_with_tables(
+                        datasets,
+                        stat_table_summaries=stat_table_summaries,
+                    ),
+                    "statistics_tables": stat_table_summaries,
+                    "paper_has_statistics": any(ds.statistics_mentioned for ds in datasets),
+                },
+            )
+        )
+        self._fire_progress()
 
     # ── Internal LLM call ─────────────────────────────────────────────────
 
@@ -1126,6 +1525,10 @@ class LLMExtractor:
                     except json.JSONDecodeError:
                         pass
             if result is None:
+                result = parse_json_lenient(clean)
+                if result is not None:
+                    parse_method = "lenient_repair"
+            if result is None:
                 logger.debug("Raw LLM response (first 500 chars): %s", raw[:500])
                 logger.error("JSON parse error from %r", self.model_name)
                 if self._call_log:
@@ -1198,6 +1601,16 @@ class LLMExtractor:
                 return result
             except Exception as exc:
                 parse_errors.append(f"{parser_name}: {exc}")
+
+        repaired = parse_json_lenient(clean)
+        if repaired is not None:
+            if self._call_log:
+                self._call_log[-1].parsed_result = repaired
+                self._call_log[-1].extra = {
+                    **self._call_log[-1].extra,
+                    "structured_parse_method": "lenient_repair",
+                }
+            return repaired
 
         # Regex fallback for JSON-shaped content embedded in extra prose.
         for pattern in [r"\{[\s\S]*\}", r"\[[\s\S]*\]"]:
@@ -1680,6 +2093,7 @@ class LLMExtractor:
         user_content = (
             "TARGET DATASETS:\n"
             + "\n".join(f"- {n}" for n in dataset_names)
+            + _dataset_statistics_hint_block(datasets)
             + "\n\n"
             + "\n\n".join(entries)
         )
@@ -1714,11 +2128,18 @@ class LLMExtractor:
                     result[ds.name] = selected if selected else tables
                     all_selected[ds.name] = sorted(num_set)
 
+            stat_table_summaries = _statistics_table_summaries(tables)
             if self._call_log:
                 self._call_log[-1].extra = {
                     **self._call_log[-1].extra,
                     "selected_tables_per_dataset": all_selected,
                     "tables_total": len(tables),
+                    "dataset_statistics": _dataset_statistics_extra_with_tables(
+                        datasets,
+                        stat_table_summaries=stat_table_summaries,
+                    ),
+                    "statistics_tables": stat_table_summaries,
+                    "paper_has_statistics": any(ds.statistics_mentioned for ds in datasets),
                 }
             logger.info("select_tables:all → %s", all_selected)
             self._fire_progress()
@@ -1912,6 +2333,26 @@ class LLMExtractor:
                 extraction_confidence="low",
             )
 
+        stats_precheck_text = rag_text
+        if latex_paper is not None:
+            stats_precheck_text = "\n\n".join(
+                part
+                for part in [
+                    latex_paper.intro_text,
+                    latex_paper.experiment_text,
+                    latex_paper.all_table_captions,
+                    rag_text,
+                ]
+                if part and part.strip()
+            )
+        datasets = _apply_statistics_ripgrep_precheck(datasets, stats_precheck_text)
+        _enrich_dataset_statistics_from_tables(datasets, effective_tables)
+        stat_table_summaries = _statistics_table_summaries(effective_tables)
+        self._emit_discovery_statistics_summary(
+            datasets.datasets,
+            stat_table_summaries=stat_table_summaries,
+        )
+
         # Override primary_metric from the DB when available.
         # The discovery LLM may return "Hits@K" for PCQM-Contact while the DB
         # stores the canonical "MRR"; using the DB value ensures the FOCUS
@@ -1930,13 +2371,18 @@ class LLMExtractor:
             for ds in datasets.datasets:
                 db_pm = _db_metrics.get(ds.name.lower())
                 if db_pm and db_pm != ds.primary_metric:
-                    logger.info(
-                        "Overriding primary_metric for %r: %r → %r (from DB)",
-                        ds.name,
-                        ds.primary_metric,
-                        db_pm,
-                    )
-                    ds.primary_metric = db_pm
+                    if is_qm9_dataset(ds.name):
+                        ds.primary_metric = QM9_DEFAULT_METRIC
+                    else:
+                        logger.info(
+                            "Overriding primary_metric for %r: %r → %r (from DB)",
+                            ds.name,
+                            ds.primary_metric,
+                            db_pm,
+                        )
+                        ds.primary_metric = db_pm
+                elif is_qm9_dataset(ds.name):
+                    ds.primary_metric = QM9_DEFAULT_METRIC
         except Exception as _exc:
             logger.debug("DB primary_metric lookup skipped: %s", _exc)
 
@@ -1957,6 +2403,18 @@ class LLMExtractor:
         else:
             tables_per_dataset = {ds.name: effective_tables for ds in datasets.datasets}
             llm_selected = False
+            if effective_tables:
+                all_nums = [getattr(t, "number", idx + 1) for idx, t in enumerate(effective_tables)]
+                self._emit_table_selection_summary(
+                    datasets.datasets,
+                    effective_tables,
+                    selected_per_dataset={ds.name: all_nums for ds in datasets.datasets},
+                    note=(
+                        f"Table selection skipped (≤{self._TABLE_SELECTION_THRESHOLD} tables); "
+                        "using all tables"
+                    ),
+                    stat_table_summaries=stat_table_summaries,
+                )
 
         for ds in datasets.datasets:
             ds_tables = tables_per_dataset.get(ds.name, effective_tables)
@@ -1974,15 +2432,21 @@ class LLMExtractor:
                 rag_stats["table_selection_mode"],
                 rag_stats["context_total_chars"],
             )
-            metric_constraint = (
-                f'PRIMARY METRIC: "{ds.primary_metric}". '
-                f"Focus on this metric as the main benchmark result. "
-                f"Skip purely secondary diagnostics such as R\u00b2, "
-                f"coefficient of determination, or loss values that are "
-                f"not standard benchmark scores.\n"
-                if ds.primary_metric
-                else ""
-            )
+            metric_constraint = ""
+            if is_qm9_dataset(ds.name):
+                metric_constraint = (
+                    "QM9 is a multi-target benchmark. Extract per-target test MAE using "
+                    "canonical property keys (gap, mu, alpha, U0, H, G, Cv, S, HOMO, LUMO, "
+                    'etc.) as the metric field — never bare "MAE".\n'
+                )
+            elif ds.primary_metric:
+                metric_constraint = (
+                    f'PRIMARY METRIC: "{ds.primary_metric}". '
+                    f"Focus on this metric as the main benchmark result. "
+                    f"Skip purely secondary diagnostics such as R\u00b2, "
+                    f"coefficient of determination, or loss values that are "
+                    f"not standard benchmark scores.\n"
+                )
             user_content = (
                 f'FOCUS: Extract results ONLY for the dataset "{ds.name}".\n'
                 f"Ignore rows that belong to other datasets.\n"
@@ -2005,25 +2469,64 @@ class LLMExtractor:
                 len(user_content),
             )
             try:
-                out = self._extract_results_chunk(
-                    prompt,
-                    user_content,
-                    call_type=f"extract_dataset:{ds.name}",
-                )
-                # Attach RAG stats to the call record, then fire progress
-                if self._call_log:
-                    self._call_log[-1].extra = {
-                        **self._call_log[-1].extra,
-                        "rag": rag_stats,
-                    }
-                self._fire_progress()
-                all_results.extend(out.results)
-                if out.proposed_model and proposed is None:
-                    proposed = out.proposed_model
-                baselines.extend(out.baseline_models)
-                if out.extraction_notes:
-                    notes_parts.append(f"[{ds.name}] {out.extraction_notes}")
-                confidence_levels.append(out.extraction_confidence)
+                if is_qm9_dataset(ds.name):
+                    for group_idx, targets in enumerate(QM9_EXTRACT_TARGET_GROUPS):
+                        group_content = user_content + "\n" + qm9_extract_metric_constraint(targets)
+                        try:
+                            out = self._extract_results_chunk(
+                                prompt,
+                                group_content,
+                                call_type=f"extract_dataset:{ds.name}:g{group_idx + 1}",
+                                max_tokens=_QM9_EXTRACT_MAX_TOKENS,
+                            )
+                        except Exception as group_exc:
+                            logger.warning(
+                                "QM9 target-group extraction failed for %r group %d: %s",
+                                ds.name,
+                                group_idx + 1,
+                                group_exc,
+                            )
+                            if self._call_log:
+                                self._call_log[-1].parse_error = None
+                            notes_parts.append(f"[{ds.name} g{group_idx + 1}] failed: {group_exc}")
+                            self._fire_progress()
+                            continue
+                        if self._call_log:
+                            self._call_log[-1].extra = {
+                                **self._call_log[-1].extra,
+                                "rag": rag_stats,
+                                "qm9_targets": list(targets),
+                            }
+                        self._fire_progress()
+                        all_results.extend(out.results)
+                        if out.proposed_model and proposed is None:
+                            proposed = out.proposed_model
+                        baselines.extend(out.baseline_models)
+                        if out.extraction_notes:
+                            notes_parts.append(
+                                f"[{ds.name} g{group_idx + 1}] {out.extraction_notes}"
+                            )
+                        confidence_levels.append(out.extraction_confidence)
+                else:
+                    out = self._extract_results_chunk(
+                        prompt,
+                        user_content,
+                        call_type=f"extract_dataset:{ds.name}",
+                    )
+                    # Attach RAG stats to the call record, then fire progress
+                    if self._call_log:
+                        self._call_log[-1].extra = {
+                            **self._call_log[-1].extra,
+                            "rag": rag_stats,
+                        }
+                    self._fire_progress()
+                    all_results.extend(out.results)
+                    if out.proposed_model and proposed is None:
+                        proposed = out.proposed_model
+                    baselines.extend(out.baseline_models)
+                    if out.extraction_notes:
+                        notes_parts.append(f"[{ds.name}] {out.extraction_notes}")
+                    confidence_levels.append(out.extraction_confidence)
             except Exception as exc:
                 logger.warning("Per-dataset extraction for %r failed: %s", ds.name, exc)
                 self._fire_progress()
@@ -2036,6 +2539,162 @@ class LLMExtractor:
             confidence_levels=confidence_levels,
             notes_parts=notes_parts,
             normalise_metrics=True,
+            discovered_datasets=list(datasets.datasets),
+        )
+
+    def extract_dataset_statistics(
+        self,
+        discovered_datasets: list[DatasetInfo],
+        paper_text: str,
+        tables: list | None = None,
+        latex_paper: Any = None,
+    ) -> DatasetStatisticsOutput:
+        """Collectively extract dataset structural statistics when discovery flagged them."""
+        stats_datasets = [ds for ds in discovered_datasets if ds.statistics_mentioned]
+        if not stats_datasets:
+            return DatasetStatisticsOutput()
+
+        prompt = self._read_prompt("dataset_statistics_extraction.txt")
+        focus_names = [ds.name for ds in stats_datasets]
+        parts: list[str] = [
+            "=== FOCUS DATASETS ===\n" + "\n".join(f"- {name}" for name in focus_names),
+        ]
+
+        intro_text = (
+            latex_paper.intro_text
+            if latex_paper is not None
+            else paper_text[:_DISCOVERY_INTRO_CHARS]
+        )
+        parts.append(f"=== PAPER INTRO / EXPERIMENT SECTIONS ===\n{intro_text}")
+
+        if latex_paper is not None:
+            exp_text = latex_paper.experiment_text
+            if exp_text.strip():
+                parts.append(f"=== EXPERIMENT TEXT ===\n{exp_text[:_TABLE_SECTION_SIZE]}")
+        elif paper_text.strip():
+            parts.append(f"=== PAPER TEXT EXCERPT ===\n{paper_text[:_TABLE_SECTION_SIZE]}")
+
+        stat_table_lines: list[str] = []
+        for table in tables or []:
+            caption = (getattr(table, "caption", "") or "").strip().lower()
+            header = self._table_header(table)
+            header_lower = header.lower()
+            is_stat_table = any(
+                marker in caption or marker in header_lower
+                for marker in (
+                    "statistic",
+                    "dataset",
+                    "#graphs",
+                    "num graphs",
+                    "avg nodes",
+                    "avg edges",
+                    "properties",
+                    "summary",
+                )
+            )
+            if not is_stat_table:
+                continue
+            number = getattr(table, "number", "?")
+            appendix = " [appendix]" if getattr(table, "in_appendix", False) else ""
+            body = getattr(table, "markdown", None) or str(table)
+            stat_table_lines.append(
+                f"Table {number}{appendix}: {getattr(table, 'caption', '')}\n{body[:4000]}"
+            )
+        if stat_table_lines:
+            parts.append("=== DATASET STATISTICS TABLES ===\n" + "\n\n".join(stat_table_lines))
+
+        for ds in stats_datasets:
+            if ds.statistics_sources:
+                parts.append(
+                    f"=== HINT: statistics for {ds.name} likely in {', '.join(ds.statistics_sources)} ==="
+                )
+
+        user_content = "\n\n".join(parts)
+        try:
+            raw = self._call_json(
+                prompt,
+                user_content,
+                max_tokens=cfg.llm_max_tokens,
+                call_type="extract_dataset_statistics",
+            )
+            result = DatasetStatisticsOutput.model_validate(raw)
+            if self._call_log:
+                extracted_details = [entry.model_dump() for entry in result.datasets]
+                self._call_log[-1].extra = {
+                    **self._call_log[-1].extra,
+                    "dataset_statistics": _dataset_statistics_extra_with_tables(
+                        stats_datasets,
+                        stat_table_summaries=_statistics_table_summaries(tables or []),
+                    ),
+                    "statistics_tables": _statistics_table_summaries(tables or []),
+                    "paper_has_statistics": True,
+                    "extracted_dataset_statistics": [entry.name for entry in result.datasets],
+                    "extracted_statistics_details": extracted_details,
+                }
+            logger.info(
+                "Dataset statistics extraction: %d dataset(s) with stats",
+                len(result.datasets),
+            )
+            self._fire_progress()
+            return result
+        except Exception as exc:
+            logger.warning("Dataset statistics extraction failed: %s", exc)
+            if self._call_log:
+                self._call_log[-1].parse_error = None
+            self._fire_progress()
+            return DatasetStatisticsOutput(notes=f"extraction failed: {exc}")
+
+    def extract_sota_claims(
+        self,
+        scoped_prose: str,
+        discovered_datasets: list[DatasetInfo],
+    ) -> SotaClaimOutput:
+        """Extract SOTA performance claims from pre-appendix prose."""
+        from backend.sota_claim_parsing import chunk_prose_for_extraction, merge_claim_dicts
+
+        if not scoped_prose.strip():
+            return SotaClaimOutput()
+
+        prompt = self._read_prompt("sota_claim_extraction.txt")
+        focus_names = [ds.name for ds in discovered_datasets if ds.name]
+        all_claims: list[dict] = []
+        notes_parts: list[str] = []
+        chunks = chunk_prose_for_extraction(scoped_prose)
+
+        for chunk_index, chunk in enumerate(chunks):
+            parts = ["=== FOCUS DATASETS ===\n" + "\n".join(f"- {n}" for n in focus_names)]
+            parts.append(f"=== PAPER PROSE (pre-appendix, no tables) ===\n{chunk}")
+            user_content = "\n\n".join(parts)
+            call_type = (
+                "extract_sota_claims"
+                if len(chunks) == 1
+                else f"extract_sota_claims_chunk_{chunk_index + 1}"
+            )
+            try:
+                raw = self._call_json(
+                    prompt,
+                    user_content,
+                    max_tokens=cfg.llm_max_tokens,
+                    call_type=call_type,
+                )
+                result = SotaClaimOutput.model_validate(raw)
+                all_claims.extend(entry.model_dump() for entry in result.claims)
+                if result.notes:
+                    notes_parts.append(result.notes)
+                if self._call_log:
+                    self._call_log[-1].extra = {
+                        **self._call_log[-1].extra,
+                        "sota_claims_found": len(result.claims),
+                        "sota_claim_sentences": [entry.raw_sentence for entry in result.claims],
+                    }
+            except Exception as exc:
+                logger.warning("SOTA claim extraction chunk %d failed: %s", chunk_index + 1, exc)
+                notes_parts.append(f"Chunk {chunk_index + 1} failed: {exc}")
+
+        merged = merge_claim_dicts(all_claims)
+        return SotaClaimOutput(
+            claims=[SotaClaimEntry.model_validate(item) for item in merged],
+            notes="\n".join(notes_parts).strip(),
         )
 
     def extract_results(self, paper_text: str, tables_text: str) -> ExtractionOutput:
@@ -2124,7 +2783,11 @@ class LLMExtractor:
         )
 
     def _extract_results_chunk(
-        self, prompt: str, text: str, call_type: str = "extract_results"
+        self,
+        prompt: str,
+        text: str,
+        call_type: str = "extract_results",
+        max_tokens: int | None = None,
     ) -> ExtractionOutput:
         tried_formats: list[str] = []
         parse_errors: list[str] = []
@@ -2140,6 +2803,7 @@ class LLMExtractor:
                     text,
                     call_type=call_type,
                     output_format=output_format,
+                    max_tokens=max_tokens,
                 )
                 raw = _expand_extraction_payload(raw)
                 raw = _sanitize_extraction_payload(raw)
@@ -2316,6 +2980,62 @@ class LLMExtractor:
         else:
             results_out = self.extract_results(paper_text, tables_text)
 
+        # Task 1b: Dataset statistics — separate workspace from benchmark results
+        stats_out = DatasetStatisticsOutput()
+        if results_out.paper_has_statistics:
+            stats_tables = (
+                list(latex_paper.tables) if latex_paper is not None else (structured_tables or [])
+            )
+            stats_out = self.extract_dataset_statistics(
+                results_out.discovered_datasets,
+                paper_text,
+                tables=stats_tables,
+                latex_paper=latex_paper,
+            )
+            if stats_out.datasets:
+                from backend.dataset_stats_storage import DatasetStatsStorage
+
+                ds_storage = DatasetStatsStorage()
+                for entry in stats_out.datasets:
+                    ds_storage.save_paper_stats(
+                        entry.name,
+                        arxiv_id,
+                        DatasetStatsStorage.build_payload(
+                            arxiv_id=arxiv_id,
+                            paper_title=paper_title,
+                            dataset_entry=entry.model_dump(),
+                            extraction_model=display_name_for_model(self.model_name),
+                        ),
+                    )
+
+        # Task 1c: SOTA claims — pre-appendix prose only
+        from backend.sota_claim_parsing import main_body_prose_text, text_has_sota_markers
+
+        sota_out = SotaClaimOutput()
+        scoped_prose = main_body_prose_text(paper_text=paper_text, latex_paper=latex_paper)
+        if text_has_sota_markers(scoped_prose):
+            sota_out = self.extract_sota_claims(
+                scoped_prose,
+                results_out.discovered_datasets,
+            )
+            if sota_out.claims:
+                sota_claims_path = storage.extracted_dir / "sota_claims.yaml"
+                sota_claims_path.write_text(
+                    yaml.safe_dump(
+                        {
+                            "arxiv_id": arxiv_id,
+                            "paper_title": paper_title,
+                            "extracted_at": datetime.now(UTC).isoformat(),
+                            "extraction_model": display_name_for_model(self.model_name),
+                            "claims": [entry.model_dump() for entry in sota_out.claims],
+                            "notes": sota_out.notes,
+                        },
+                        allow_unicode=True,
+                        sort_keys=False,
+                    ),
+                    encoding="utf-8",
+                )
+
         # Task 2: Main figure — always use the title page (first figure from list or PDF page 0).
         if figures_list:
             figure_out = FigureInfo(
@@ -2394,6 +3114,7 @@ class LLMExtractor:
                 "result_output_format": self.result_output_format,
             },
             "results": results_out.model_dump(),
+            "sota_claims": sota_out.model_dump(),
             "figure": figure_out.model_dump(),
             "repository": repository_out,
             "model_sizes": [s.model_dump() for s in sizes],

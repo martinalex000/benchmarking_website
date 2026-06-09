@@ -11,7 +11,9 @@ Output schema:
     {
       "name": "<exact dataset name as used in the paper, e.g. 'Peptides-func', 'ogbg-molhiv', 'ZINC'>",
       "table_refs": ["<e.g. 'Table 1', 'Table 3'>"],
-      "primary_metric": "<metric used for this dataset, e.g. 'AP', 'Accuracy', 'MAE', 'F1'>"
+      "primary_metric": "<metric used for this dataset, e.g. 'AP', 'Accuracy', 'MAE', 'F1'>",
+      "statistics_mentioned": <true|false>,
+      "statistics_sources": ["<e.g. 'Table 2', 'Section 3.1', 'Appendix A'>"]
     }
   ],
   "notes": "<optional: brief notes about unusual setups, e.g. multiple splits or ablation tables>"
@@ -28,3 +30,10 @@ Guidelines:
   (e.g. "Peptides-func" and "Peptides-struct" are separate entries).
 - primary_metric: the main comparison metric. Use standard abbreviations:
   Accuracy, AP, MAE, F1, ROC-AUC, RMSE, Hits@50, MRR, etc.
+
+Dataset statistics (separate from benchmark results):
+- statistics_mentioned: true when the paper reports structural/dataset statistics for this dataset
+  (graph count, node count, edge count, classes/targets, splits, heterophily, density, diameter, etc.)
+  in prose or in a statistics/dataset-description table — NOT in a model-comparison benchmark table.
+- statistics_sources: where those statistics appear (table numbers, section names). Empty list if statistics_mentioned is false.
+- A dataset can have statistics_mentioned=true even when its benchmark results are in a different table.

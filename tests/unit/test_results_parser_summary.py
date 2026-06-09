@@ -6,6 +6,7 @@ import json
 from pathlib import Path
 
 import pytest
+import yaml
 
 from backend.config import cfg
 from backend.db import init_db, session_scope
@@ -283,3 +284,73 @@ def test_parse_and_store_with_summary_quarantines_suspicious_method_names(monkey
 
     assert paper.extraction_status == "quarantined_method_name"
     assert result_count == 0
+
+
+def test_parse_and_store_ignores_dataset_statistics_parse_failure(monkeypatch, tmp_path):
+    from backend.results_parser import _is_fatal_extraction_parse_failure
+
+    assert _is_fatal_extraction_parse_failure("extract_dataset_statistics: boom") is False
+    assert _is_fatal_extraction_parse_failure("extract_dataset:QM9:g1: boom") is True
+
+    _configure_temp_workspace(monkeypatch, tmp_path)
+    init_db()
+
+    with session_scope() as session:
+        benchmark = Benchmark(name="Quantum Chemistry", short_name="qchem")
+        session.add(benchmark)
+        session.flush()
+        dataset = Dataset(
+            benchmark_id=benchmark.id,
+            name="QM9",
+            task_type="graph_regression",
+            primary_metric="gap",
+            higher_is_better=0,
+        )
+        session.add(dataset)
+        session.flush()
+        session.add(DatasetVariant(dataset_id=dataset.id, name="Standard split", is_standard=1))
+
+    storage = PaperStorage("2102.09844")
+    storage.ensure_dirs()
+    storage.metadata_path.write_text(
+        json.dumps({"title": "E(n) Equivariant Graph Neural Networks"})
+    )
+    storage.text_path.write_text("Benchmark on QM9.", encoding="utf-8")
+    storage.llm_output_path.write_text(
+        json.dumps(
+            {
+                "model_used": "test-model",
+                "results": {
+                    "proposed_model": {"name": "EGNN"},
+                    "baseline_models": [],
+                    "results": [
+                        {
+                            "model": "EGNN",
+                            "is_proposed": True,
+                            "dataset": "QM9",
+                            "metric": "gap",
+                            "value": 0.04,
+                            "higher_is_better": False,
+                        }
+                    ],
+                },
+            }
+        ),
+        encoding="utf-8",
+    )
+    storage.llm_calls_path.write_text(
+        yaml.safe_dump(
+            [
+                {
+                    "call_type": "extract_dataset_statistics",
+                    "parse_error": "JSON parse failed",
+                }
+            ]
+        ),
+        encoding="utf-8",
+    )
+
+    summary = parse_and_store_with_summary("2102.09844")
+
+    assert summary.quarantined is False
+    assert summary.new_results == 1

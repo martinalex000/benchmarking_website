@@ -202,7 +202,9 @@ def stage_extract(args: argparse.Namespace) -> None:
     )
 
     model_name = cfg.model_for_tier(model_tier)
-    console.print(f"[bold]Extract[/bold] — {len(papers)} paper(s), model=[cyan]{model_name}[/cyan], screen={screen_first}")
+    console.print(
+        f"[bold]Extract[/bold] — {len(papers)} paper(s), model=[cyan]{model_name}[/cyan], screen={screen_first}"
+    )
     if not papers:
         console.print("  Nothing to extract.")
         return
@@ -214,7 +216,9 @@ def stage_extract(args: argparse.Namespace) -> None:
             skip += 1
             continue
         try:
-            result = run_extraction(p.arxiv_id, model_tier=model_tier, screen_first=screen_first, verbose=False)
+            result = run_extraction(
+                p.arxiv_id, model_tier=model_tier, screen_first=screen_first, verbose=False
+            )
             status = "success" if result else "failed"
         except KeyboardInterrupt:
             raise
@@ -238,7 +242,9 @@ def stage_extract(args: argparse.Namespace) -> None:
 def stage_parse(args: argparse.Namespace) -> None:
     from tqdm import tqdm
 
+    from backend.dataset_stats_parser import parse_and_store_dataset_statistics
     from backend.results_parser import parse_and_store_with_summary
+    from backend.sota_claim_parser import parse_and_store_sota_claims
 
     force = getattr(args, "force", False)
     arxiv_ids = getattr(args, "paper", None)
@@ -261,6 +267,8 @@ def stage_parse(args: argparse.Namespace) -> None:
             continue
         try:
             summary = parse_and_store_with_summary(p.arxiv_id)
+            stats_summary = parse_and_store_dataset_statistics(p.arxiv_id)
+            sota_summary = parse_and_store_sota_claims(p.arxiv_id)
             n = summary.new_results
             if summary.quarantined:
                 status = "failed"
@@ -272,7 +280,16 @@ def stage_parse(args: argparse.Namespace) -> None:
                 tqdm.write(f"  ✗  {p.arxiv_id}  0 results stored  {p.title[:55]!r}")
             else:
                 status = "success"
-                tqdm.write(f"  ✓  {p.arxiv_id}  {n} results stored  {p.title[:55]!r}")
+                stats_note = ""
+                if stats_summary.stored:
+                    stats_note = (
+                        f", {stats_summary.stored} dataset stats"
+                        f" ({stats_summary.matched} matched"
+                        f"{f', {stats_summary.mismatched} mismatched' if stats_summary.mismatched else ''})"
+                    )
+                if sota_summary.stored:
+                    stats_note += f", {sota_summary.stored} SOTA claims"
+                tqdm.write(f"  ✓  {p.arxiv_id}  {n} results stored{stats_note}  {p.title[:55]!r}")
         except KeyboardInterrupt:
             raise
         except Exception as exc:
@@ -289,7 +306,6 @@ def stage_parse(args: argparse.Namespace) -> None:
     console.print(
         f"  Done — [green]{ok} ok[/green], [red]{fail} failed[/red], [dim]{skip} skipped[/dim]"
     )
-    return fail == 0
     return fail == 0
 
 

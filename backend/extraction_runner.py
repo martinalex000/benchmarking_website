@@ -275,6 +275,8 @@ def run_extraction(
         def _call_phase(call_type: str) -> str | None:
             if call_type.startswith("discover_datasets") or call_type.startswith("select_tables"):
                 return "discovery"
+            if call_type == "extract_dataset_statistics":
+                return "dataset_statistics"
             if call_type.startswith("extract_dataset") or call_type.startswith("extract_section"):
                 return "dataset_extraction"
             return None
@@ -538,6 +540,34 @@ def write_extraction_error_log(
             for ds_name, nums in sel_multi.items():
                 lines.append(f"**Tables for {ds_name}:** {nums}")
             lines.append("")
+
+        if (rec.call_type or "").startswith(("discover_datasets", "select_tables")):
+            stats = rec.extra.get("statistics_tables")
+            if stats:
+                lines.append(
+                    "**Statistics tables:** "
+                    + ", ".join(
+                        f"Table {item['number']}"
+                        + (" [appendix]" if item.get("in_appendix") else "")
+                        for item in stats
+                    )
+                )
+                lines.append("")
+            note = rec.extra.get("table_selection_note")
+            if note:
+                lines.append(f"**Table selection note:** {note}")
+                lines.append("")
+            stats = rec.extra.get("dataset_statistics")
+            if stats:
+                lines.append("**Dataset statistics (discovery):**")
+                for item in stats:
+                    name = item.get("name", "?")
+                    if item.get("statistics_mentioned"):
+                        sources = ", ".join(item.get("statistics_sources") or []) or "detected"
+                        lines.append(f"- {name}: yes ({sources})")
+                    else:
+                        lines.append(f"- {name}: no")
+                lines.append("")
 
         rag = rec.extra.get("rag")
         if rag:

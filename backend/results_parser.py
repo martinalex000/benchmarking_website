@@ -40,6 +40,7 @@ from backend.models import (
 )
 from backend.override_handler import apply_overrides_to_db
 from backend.paper_storage import PaperStorage
+from backend.qm9_targets import is_qm9_dataset, normalize_qm9_metric
 from backend.repository_linking import find_verified_repository_link, repository_source_from_storage
 from backend.text_cleanup import abstract_has_latex_artifacts, clean_extracted_text
 
@@ -685,6 +686,26 @@ def _enrich_paper_metadata(arxiv_id: str, paper: Paper, storage: PaperStorage) -
             paper.codebase_url = url
             logger.info("Set heuristic codebase_url=%s for arXiv:%s", url, arxiv_id)
 
+    if not paper.authors and storage.latex_dir.exists():
+        try:
+            from backend.llm_extractor import _extract_metadata_from_latex_cache
+            from backend.models import normalize_author_entry
+            from backend.semantic_scholar import enrich_authors_from_latex_and_s2
+
+            latex_meta = _extract_metadata_from_latex_cache(storage.latex_dir)
+            latex_names = latex_meta.get("authors")
+            if isinstance(latex_names, list) and latex_names:
+                try:
+                    paper.authors = enrich_authors_from_latex_and_s2(arxiv_id, latex_names)
+                except Exception as exc:
+                    logger.warning(
+                        "S2 author ORCID enrichment failed for arXiv:%s: %s", arxiv_id, exc
+                    )
+                    paper.authors = [normalize_author_entry(name) for name in latex_names]
+                storage.update_metadata({"authors": paper.authors})
+        except Exception as exc:
+            logger.debug("Author extraction failed for arXiv:%s: %s", arxiv_id, exc)
+
     after = (
         paper.title,
         paper.abstract,
@@ -696,7 +717,18 @@ def _enrich_paper_metadata(arxiv_id: str, paper: Paper, storage: PaperStorage) -
     return before != after
 
 
-# ── Main parser ───────────────────────────────────────────────────────────────
+# Extraction call types whose parse failures should not block DB ingest.
+_NON_FATAL_EXTRACT_CALL_PREFIXES: tuple[str, ...] = ("extract_dataset_statistics",)
+
+
+def _is_fatal_extraction_parse_failure(entry: str) -> bool:
+    call_type = entry.split(":", 1)[0].strip()
+    if not call_type.startswith("extract_"):
+        return False
+    return not any(
+        call_type == prefix or call_type.startswith(f"{prefix}:")
+        for prefix in _NON_FATAL_EXTRACT_CALL_PREFIXES
+    )
 
 
 def parse_and_store_with_summary(arxiv_id: str) -> ParseStoreSummary:
@@ -726,7 +758,10 @@ def parse_and_store_with_summary(arxiv_id: str) -> ParseStoreSummary:
         ):
             parse_failures.append(f"{call_type}: {parse_error}")
 
-    if parse_failures:
+    result_entries: list[dict] = extraction.get("results", [])
+    fatal_parse_failures = [f for f in parse_failures if _is_fatal_extraction_parse_failure(f)]
+
+    if fatal_parse_failures and not result_entries:
         with session_scope() as session:
             paper = session.query(Paper).filter_by(arxiv_id=arxiv_id).first()
             if paper is None:
@@ -744,15 +779,22 @@ def parse_and_store_with_summary(arxiv_id: str) -> ParseStoreSummary:
             paper.extraction_status = "quarantined_yaml_parse"
 
         summary.quarantined = True
-        summary.quarantine_reasons = parse_failures[:5]
+        summary.quarantine_reasons = fatal_parse_failures[:5]
         logger.warning(
             "Quarantining arXiv:%s due to structured YAML parse failure(s): %s",
             arxiv_id,
-            "; ".join(parse_failures[:2]),
+            "; ".join(fatal_parse_failures[:2]),
         )
         return summary
 
-    result_entries: list[dict] = extraction.get("results", [])
+    if fatal_parse_failures and result_entries:
+        logger.warning(
+            "Ignoring non-fatal extraction parse failure(s) for arXiv:%s because "
+            "%d result row(s) were recovered: %s",
+            arxiv_id,
+            len(result_entries),
+            "; ".join(fatal_parse_failures[:2]),
+        )
 
     if not result_entries:
         logger.warning("No result entries in LLM output for arXiv:%s", arxiv_id)
@@ -825,6 +867,20 @@ def parse_and_store_with_summary(arxiv_id: str) -> ParseStoreSummary:
             dataset_name = entry.get("dataset", "")
             model_name = entry.get("model", "")
             metric_name = entry.get("metric", "")
+            if is_qm9_dataset(dataset_name):
+                normalized_target = normalize_qm9_metric(metric_name)
+                if normalized_target is None:
+                    logger.warning(
+                        "Skipping QM9 result with unknown target metric %r for arXiv:%s model=%s",
+                        metric_name,
+                        arxiv_id,
+                        model_name,
+                    )
+                    summary.skipped_invalid_values.append(
+                        f"{model_name} / {dataset_name} / {metric_name} (unknown QM9 target)"
+                    )
+                    continue
+                metric_name = normalized_target
 
             variant_id, variant_reason = resolve_dataset_variant_with_reason(
                 dataset_name,

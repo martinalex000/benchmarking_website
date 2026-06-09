@@ -499,6 +499,61 @@ def _show_existing_extraction(arxiv_id: str, requested_model: str) -> bool:
         return False
 
 
+def _print_dataset_statistics_summary(arxiv_id: str) -> None:
+    """Pretty-print dataset statistics saved under datasets/{slug}/papers/{arxiv_id}.yaml."""
+    from backend.dataset_stats_storage import DatasetStatsStorage
+
+    storage = DatasetStatsStorage()
+    paths = storage.list_paper_stats_for_arxiv(arxiv_id)
+    if not paths:
+        return
+
+    console.print("\n  [bold]Extracted dataset statistics[/bold]")
+    t = Table(show_header=True, header_style="bold", show_lines=False)
+    t.add_column("Dataset", style="cyan", max_width=20)
+    t.add_column("Graphs", justify="right")
+    t.add_column("Nodes", justify="right")
+    t.add_column("Edges", justify="right")
+    t.add_column("Classes", justify="right")
+    t.add_column("Extra", max_width=24)
+    t.add_column("Source")
+
+    for _slug, path in sorted(paths, key=lambda item: item[0]):
+        try:
+            import yaml
+
+            data = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+        except Exception:
+            continue
+        raw_values = data.get("raw_values") or {}
+        extra_stats = data.get("extra_stats") or {}
+        extra_preview = ", ".join(f"{k}={v}" for k, v in list(extra_stats.items())[:3])
+        if len(extra_stats) > 3:
+            extra_preview += " …"
+
+        def _display(
+            field: str,
+            *,
+            raw_values: dict = raw_values,
+            data: dict = data,
+        ) -> str:
+            if field in raw_values and raw_values[field] not in (None, ""):
+                return str(raw_values[field])
+            value = data.get(field)
+            return "" if value is None else str(value)
+
+        t.add_row(
+            data.get("name") or _slug,
+            _display("num_graphs"),
+            _display("avg_nodes"),
+            _display("avg_edges"),
+            _display("num_classes"),
+            extra_preview or "—",
+            data.get("source_ref") or "—",
+        )
+    console.print(t)
+
+
 def _print_extraction_summary(path: Path) -> None:
     """Pretty-print results from an llm_output YAML/JSON file."""
     if not path.exists():
@@ -1387,12 +1442,16 @@ def main() -> None:
         console.print("\n[bold]3. Dataset Discovery + Table Assignment[/bold]")
 
         seen_phase4 = False
+        seen_phase_stats = False
 
         def _on_extraction_phase(phase: str) -> None:
-            nonlocal seen_phase4
+            nonlocal seen_phase4, seen_phase_stats
             if phase == "dataset_extraction" and not seen_phase4:
                 console.print("\n[bold]4. Per-Dataset Result Extraction[/bold]")
                 seen_phase4 = True
+            if phase == "dataset_statistics" and not seen_phase_stats:
+                console.print("\n[bold]4b. Dataset Statistics Extraction[/bold]")
+                seen_phase_stats = True
 
         ok = _do_extract(
             arxiv_id,
@@ -1411,6 +1470,7 @@ def main() -> None:
             from backend.paper_storage import PaperStorage
 
             _print_extraction_summary(PaperStorage(arxiv_id).llm_output_path)
+            _print_dataset_statistics_summary(arxiv_id)
         else:
             sys.exit(1)
     else:

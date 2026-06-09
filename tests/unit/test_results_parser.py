@@ -2,6 +2,7 @@
 
 import pytest
 
+from backend.qm9_targets import normalize_qm9_metric
 from backend.results_parser import (
     _infer_zinc_variant,
     _load_variant_map,
@@ -204,3 +205,8 @@ def test_infer_zinc_variant_uses_value_fallback_when_paper_mentions_both():
     assert "mae fallback" in full_reason
     assert subset_variant_id == 21
     assert "mae fallback" in subset_reason
+
+
+def test_qm9_metric_normalization_via_module():
+    assert normalize_qm9_metric("HOMO-LUMO gap") == "gap"
+    assert normalize_qm9_metric("MAE") is None
