@@ -24,6 +24,35 @@ def _utcnow() -> str:
     return datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
+AuthorRecord = dict[str, str | None]
+
+
+def author_display_name(author: str | AuthorRecord) -> str:
+    if isinstance(author, str):
+        return author.strip()
+    if isinstance(author, dict):
+        return str(author.get("name") or "").strip()
+    return ""
+
+
+def normalize_author_entry(author: str | AuthorRecord) -> AuthorRecord:
+    if isinstance(author, str):
+        return {
+            "name": author.strip(),
+            "orcid": None,
+            "s2_author_id": None,
+            "s2_url": None,
+        }
+    if isinstance(author, dict):
+        return {
+            "name": str(author.get("name") or "").strip(),
+            "orcid": author.get("orcid") or None,
+            "s2_author_id": author.get("s2_author_id") or None,
+            "s2_url": author.get("s2_url") or None,
+        }
+    return {"name": "", "orcid": None, "s2_author_id": None, "s2_url": None}
+
+
 class TodoPaperStatus(StrEnum):
     PENDING = "pending"
     PROCESSING = "processing"
@@ -57,6 +86,7 @@ class Benchmark(Base):
     paper_id = Column(Integer, ForeignKey("papers.id", ondelete="SET NULL"), nullable=True)
     description = Column(Text)
     url = Column(String)
+    is_legacy = Column(Integer, nullable=False, default=0)
     created_at = Column(String, nullable=False, default=_utcnow)
 
     paper = relationship("Paper", foreign_keys=[paper_id], back_populates="benchmark_entry")
@@ -80,6 +110,7 @@ class Dataset(Base):
     avg_nodes = Column(Float)
     avg_edges = Column(Float)
     num_classes = Column(Integer)
+    extra_stats = Column(Text)  # JSON dict of additional metrics
     created_at = Column(String, nullable=False, default=_utcnow)
 
     benchmark = relationship("Benchmark", back_populates="datasets")
@@ -104,6 +135,7 @@ class DatasetVariant(Base):
     split_type = Column(String)  # fixed, random, scaffold, stratified
     is_standard = Column(Integer, nullable=False, default=1)
     notes = Column(Text)  # warning shown on website (e.g. "non-standard split")
+    extra_stats = Column(Text)  # JSON dict of additional metrics
     created_at = Column(String, nullable=False, default=_utcnow)
 
     dataset = relationship("Dataset", back_populates="variants")
@@ -148,18 +180,24 @@ class Paper(Base):
     )
 
     @property
-    def authors(self) -> list[str]:
+    def authors(self) -> list[AuthorRecord]:
         if self._authors is None:
             return []
         try:
-            return json.loads(self._authors)
+            raw = json.loads(self._authors)
         except (ValueError, TypeError):
-            return [self._authors]
+            raw = [self._authors]
+        if not isinstance(raw, list):
+            return []
+        return [normalize_author_entry(entry) for entry in raw if author_display_name(entry)]
 
     @authors.setter
-    def authors(self, value: list[str] | str) -> None:
+    def authors(self, value: list[str | AuthorRecord] | str) -> None:
         if isinstance(value, list):
-            self._authors = json.dumps(value, ensure_ascii=False)
+            normalized = [
+                normalize_author_entry(entry) for entry in value if author_display_name(entry)
+            ]
+            self._authors = json.dumps(normalized, ensure_ascii=False)
         else:
             self._authors = value
 
@@ -248,6 +286,66 @@ class PendingDataset(Base):
     @suggestion_obj.setter
     def suggestion_obj(self, value: dict) -> None:
         self.suggestion = json.dumps(value, ensure_ascii=False)
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+class PaperDatasetStatistics(Base):
+    """Paper-reported dataset statistics extracted from research papers."""
+
+    __tablename__ = "paper_dataset_statistics"
+    __table_args__ = (
+        UniqueConstraint("paper_id", "dataset_id"),
+        Index("idx_paper_dataset_stats_dataset", "dataset_id"),
+        Index("idx_paper_dataset_stats_status", "match_status"),
+    )
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    paper_id = Column(Integer, ForeignKey("papers.id", ondelete="CASCADE"), nullable=False)
+    dataset_id = Column(Integer, ForeignKey("datasets.id", ondelete="CASCADE"), nullable=False)
+    dataset_variant_id = Column(Integer, ForeignKey("dataset_variants.id", ondelete="SET NULL"))
+    num_graphs = Column(Integer)
+    avg_nodes = Column(Float)
+    avg_edges = Column(Float)
+    num_classes = Column(Integer)
+    extra_stats = Column(Text)  # JSON dict
+    raw_values = Column(Text)  # JSON dict of original strings
+    precision_hints = Column(Text)  # JSON dict
+    source_ref = Column(String)
+    confidence = Column(String)
+    match_status = Column(String, nullable=False, default="pending")
+    mismatch_fields = Column(Text)  # JSON list
+    match_details = Column(Text)  # JSON dict
+    extracted_at = Column(String, nullable=False, default=_utcnow)
+
+    paper = relationship("Paper", foreign_keys=[paper_id])
+    dataset = relationship("Dataset", foreign_keys=[dataset_id])
+    dataset_variant = relationship("DatasetVariant", foreign_keys=[dataset_variant_id])
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+class PaperSotaClaim(Base):
+    """SOTA performance claims extracted from paper prose."""
+
+    __tablename__ = "paper_sota_claims"
+    __table_args__ = (
+        Index("idx_paper_sota_claims_paper", "paper_id"),
+        Index("idx_paper_sota_claims_scope", "scope"),
+    )
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    paper_id = Column(Integer, ForeignKey("papers.id", ondelete="CASCADE"), nullable=False)
+    raw_sentence = Column(Text, nullable=False)
+    claim_summary = Column(Text)
+    datasets = Column(Text)  # JSON list of dataset name strings
+    metrics = Column(Text)  # JSON list
+    claim_type = Column(String)
+    scope = Column(String, nullable=False, default="unclear")
+    restrictions = Column(Text)  # JSON list of {type, description}
+    source_ref = Column(String)
+    confidence = Column(String)
+    extracted_at = Column(String, nullable=False, default=_utcnow)
+
+    paper = relationship("Paper", foreign_keys=[paper_id])
 
 
 # ─────────────────────────────────────────────────────────────────────────────

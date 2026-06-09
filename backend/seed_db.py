@@ -182,6 +182,7 @@ def seed(dry_run: bool = False) -> None:
                 "url": bm_data.get("url"),
                 "description": bm_data.get("description"),
                 "short_name": short_name,
+                "is_legacy": 1 if bm_data.get("is_legacy") else 0,
             }
             bm = _upsert(session, Benchmark, {"name": bm_data["name"]}, bm_defaults)
             logger.info("Benchmark: %s (id=%s)", bm.name, bm.id)

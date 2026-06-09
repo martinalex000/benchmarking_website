@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS benchmarks (
     paper_id    INTEGER REFERENCES papers(id) ON DELETE SET NULL,
     description TEXT,
     url         TEXT,
+    is_legacy   INTEGER NOT NULL DEFAULT 0,  -- 1=established suite, deprioritized in recent sort
     created_at  TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%SZ', 'now'))
 );
 
@@ -33,6 +34,7 @@ CREATE TABLE IF NOT EXISTS datasets (
     avg_nodes        REAL,
     avg_edges        REAL,
     num_classes      INTEGER,
+    extra_stats      TEXT,   -- JSON dict of additional metrics (heterophily, density, …)
     created_at       TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%SZ', 'now'))
 );
 
@@ -53,6 +55,7 @@ CREATE TABLE IF NOT EXISTS dataset_variants (
     split_type       TEXT,                  -- fixed, random, scaffold, stratified, …
     is_standard      INTEGER NOT NULL DEFAULT 1,   -- 1 = the canonical/default split
     notes            TEXT,                  -- human-readable warning shown on the website
+    extra_stats      TEXT,                  -- JSON dict of additional metrics
     created_at       TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%SZ', 'now')),
     UNIQUE(dataset_id, name)
 );
@@ -187,6 +190,52 @@ CREATE INDEX IF NOT EXISTS idx_pipeline_paper_stage  ON pipeline_runs(paper_id, 
 CREATE INDEX IF NOT EXISTS idx_model_aliases_alias   ON model_aliases(alias);
 CREATE INDEX IF NOT EXISTS idx_pending_status         ON pending_datasets(status);
 CREATE INDEX IF NOT EXISTS idx_pending_dataset_name   ON pending_datasets(dataset_name);
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- paper_dataset_statistics — stats reported by papers per dataset
+-- ─────────────────────────────────────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS paper_dataset_statistics (
+    id                  INTEGER PRIMARY KEY AUTOINCREMENT,
+    paper_id            INTEGER NOT NULL REFERENCES papers(id) ON DELETE CASCADE,
+    dataset_id          INTEGER NOT NULL REFERENCES datasets(id) ON DELETE CASCADE,
+    dataset_variant_id  INTEGER REFERENCES dataset_variants(id) ON DELETE SET NULL,
+    num_graphs          INTEGER,
+    avg_nodes           REAL,
+    avg_edges           REAL,
+    num_classes         INTEGER,
+    extra_stats         TEXT,   -- JSON dict
+    raw_values          TEXT,   -- JSON dict of original strings from paper
+    precision_hints     TEXT,   -- JSON dict: abbreviated | rounded | exact
+    source_ref          TEXT,
+    confidence          TEXT,
+    match_status        TEXT NOT NULL DEFAULT 'pending',  -- matched | mismatch | unmatched_dataset | pending
+    mismatch_fields     TEXT,   -- JSON list
+    match_details       TEXT,   -- JSON dict per-field match info
+    extracted_at        TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%SZ', 'now')),
+    UNIQUE(paper_id, dataset_id)
+);
+CREATE INDEX IF NOT EXISTS idx_paper_dataset_stats_dataset ON paper_dataset_statistics(dataset_id);
+CREATE INDEX IF NOT EXISTS idx_paper_dataset_stats_status  ON paper_dataset_statistics(match_status);
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- paper_sota_claims — SOTA performance claims extracted from paper prose
+-- ─────────────────────────────────────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS paper_sota_claims (
+    id              INTEGER PRIMARY KEY AUTOINCREMENT,
+    paper_id        INTEGER NOT NULL REFERENCES papers(id) ON DELETE CASCADE,
+    raw_sentence    TEXT NOT NULL,
+    claim_summary   TEXT,
+    datasets        TEXT,   -- JSON list of dataset name strings
+    metrics         TEXT,   -- JSON list
+    claim_type      TEXT,
+    scope           TEXT NOT NULL DEFAULT 'unclear',  -- unrestricted | restricted | unclear
+    restrictions    TEXT,   -- JSON list of {type, description}
+    source_ref      TEXT,
+    confidence      TEXT,
+    extracted_at    TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%SZ', 'now'))
+);
+CREATE INDEX IF NOT EXISTS idx_paper_sota_claims_paper ON paper_sota_claims(paper_id);
+CREATE INDEX IF NOT EXISTS idx_paper_sota_claims_scope ON paper_sota_claims(scope);
 
 -- ─────────────────────────────────────────────────────────────────────────────
 -- paper_candidates — full discovery funnel (ALL papers seen, including rejects)
