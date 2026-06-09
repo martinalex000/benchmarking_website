@@ -3,6 +3,9 @@
 #
 # Supported keys per dataset:
 #   display_metrics: ordered list of metric names to show on the dataset detail page.
+#   metric_labels: map canonical metric keys to human-readable column headers.
+#   default_metric: default target for ranking, chart, and mobile picker.
+#   show_all_metrics_desktop: when true, show all metric columns on desktop (no "+ metrics" toggle).
 #   export_without_results: set true to keep a dataset visible on the site even before
 #     benchmark results have been parsed into the DB.
 #
@@ -16,3 +19,36 @@ datasets:
     export_without_results: true
   Texas:
     display_metrics: ["Accuracy"]
+  QM9:
+    default_metric: gap
+    show_all_metrics_desktop: true
+    display_metrics:
+      - gap
+      - mu
+      - alpha
+      - U0
+      - H
+      - G
+      - Cv
+      - S
+      - HOMO
+      - LUMO
+      - zpve
+      - R2
+      - U
+      - omega1
+    metric_labels:
+      gap: "HOMO-LUMO gap"
+      mu: "Dipole moment"
+      alpha: "Polarizability"
+      U0: "Internal energy (U₀)"
+      H: "Enthalpy (H)"
+      G: "Free energy (G)"
+      Cv: "Heat capacity (Cv)"
+      S: "Entropy (S)"
+      HOMO: "HOMO"
+      LUMO: "LUMO"
+      zpve: "Zero point vibrational energy"
+      R2: "Electronic spatial extent (R²)"
+      U: "Internal energy (U)"
+      omega1: "Highest vibrational frequency"

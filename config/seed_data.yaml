@@ -17,7 +17,6 @@ benchmarks:
     variants:
     - name: Standard split
       is_standard: true
-      notes: 'Official random split (80/10/10). Metric: AP (Average Precision).'
   - name: Peptides-struct
     task_type: graph_regression
     description: Multi-task graph regression on peptide structural properties (11
@@ -29,7 +28,6 @@ benchmarks:
     variants:
     - name: Standard split
       is_standard: true
-      notes: 'Official random split (80/10/10). Metric: MAE (lower is better).'
   - name: PascalVOC-SP
     task_type: node_classification
     description: Node classification on superpixel graphs derived from PascalVOC 2011.
@@ -40,7 +38,6 @@ benchmarks:
     variants:
     - name: Standard split
       is_standard: true
-      notes: 'Official split. Metric: macro F1.'
   - name: COCO-SP
     task_type: node_classification
     description: Node classification on superpixel graphs derived from MS-COCO.
@@ -51,7 +48,6 @@ benchmarks:
     variants:
     - name: Standard split
       is_standard: true
-      notes: 'Official split. Metric: macro F1.'
   - name: PCQM-Contact
     task_type: link_prediction
     description: Link prediction of spatial atom contacts in quantum chemistry molecules.
@@ -62,8 +58,6 @@ benchmarks:
     variants:
     - name: Standard split
       is_standard: true
-      notes: 'Official split. Metric: MRR (Mean Reciprocal Rank). Also reported: Hits@1,
-        Hits@3, Hits@10.'
 - name: GraphBench
   arxiv_id: '2512.04475'
   url: https://arxiv.org/abs/2512.04475
@@ -89,7 +83,6 @@ benchmarks:
     variants:
     - name: Standard split
       is_standard: true
-      notes: 3 graphs, 286K–580K nodes, 3M–17M edges. Node-level regression.
   - name: Chip Design
     task_type: graph_generation
     description: 'Learning to generate small Boolean circuits (and-inverter graphs,
@@ -103,7 +96,6 @@ benchmarks:
     variants:
     - name: Standard split
       is_standard: true
-      notes: 1.2M graphs, 23–335 nodes, 33–652 edges. Generation task.
   - name: Electronic Circuits
     task_type: graph_classification
     description: 'Analog circuit topology design. Graph-level task: predict 2 continuous
@@ -120,7 +112,6 @@ benchmarks:
     variants:
     - name: Standard split
       is_standard: true
-      notes: 93,000 graphs, 13–24 nodes, 30–56 edges. Graph-level regression.
   - name: SAT Solving
     task_type: node_classification
     description: 'SAT problem instances represented as graphs. Multi-level node/edge/graph-level
@@ -137,16 +128,12 @@ benchmarks:
     variants:
     - name: Standard split
       is_standard: true
-      notes: 208,788 graphs, 3 scales. Node/edge/graph-level tasks.
     - name: Small
       is_standard: false
-      notes: SAT solving performance prediction on small instances.
     - name: Medium
       is_standard: false
-      notes: SAT solving performance prediction on medium-scale instances.
     - name: Large
       is_standard: false
-      notes: SAT solving performance prediction on large-scale instances.
   - name: Combinatorial Optimization
     task_type: node_classification
     description: 'Synthetically generated NP-hard optimization problems (3 families
@@ -160,7 +147,6 @@ benchmarks:
     variants:
     - name: Standard split
       is_standard: true
-      notes: 300,000 graphs, 200–1,200 nodes. Node/edge/graph-level tasks.
   - name: Algorithmic Reasoning
     task_type: graph_classification
     description: 'Graphs from 6 generators with 7 algorithmic reasoning tasks (e.g.
@@ -174,7 +160,6 @@ benchmarks:
     variants:
     - name: Standard split
       is_standard: true
-      notes: 21M graphs, 3 difficulty levels. Graph/edge-level tasks.
   - name: Weather Forecasting
     task_type: node_classification
     description: 'ERA5 reanalysis data on a 64×32 icosahedron grid. Node-level task:
@@ -191,7 +176,6 @@ benchmarks:
     variants:
     - name: Standard split
       is_standard: true
-      notes: 93,544 graphs, 4,610 nodes, 7,928 edges. Node-level regression.
   - name: BA graph
     task_type: graph_classification
     description: Node classification on Barabási–Albert random graphs (GraphBench
@@ -250,13 +234,10 @@ benchmarks:
       is_standard: true
     - name: Easy
       is_standard: false
-      notes: Small graph instances.
     - name: Medium
       is_standard: false
-      notes: Medium-scale graph instances.
     - name: Hard
       is_standard: false
-      notes: Large graph instances.
   - name: Bridges
     task_type: graph_classification
     description: Bridge edge detection (GraphBench / CLRS-style algorithmic reasoning).
@@ -272,13 +253,10 @@ benchmarks:
       is_standard: true
     - name: Easy
       is_standard: false
-      notes: Small graph instances.
     - name: Medium
       is_standard: false
-      notes: Medium-scale graph instances.
     - name: Hard
       is_standard: false
-      notes: Large graph instances.
   - name: Max Clique
     task_type: graph_classification
     description: Maximum clique node prediction (GraphBench algorithmic task).
@@ -292,13 +270,10 @@ benchmarks:
     variants:
     - name: Easy
       is_standard: true
-      notes: Small graph instances.
     - name: Medium
       is_standard: false
-      notes: Medium-scale graph instances.
     - name: Hard
       is_standard: false
-      notes: Large graph instances.
   - name: Max Matching
     task_type: graph_classification
     description: Maximum matching edge prediction (GraphBench algorithmic task).
@@ -312,13 +287,10 @@ benchmarks:
     variants:
     - name: Easy
       is_standard: true
-      notes: Small graph instances.
     - name: Medium
       is_standard: false
-      notes: Medium-scale graph instances.
     - name: Hard
       is_standard: false
-      notes: Large graph instances.
   - name: Steiner Trees
     task_type: graph_classification
     description: Steiner tree node prediction (GraphBench algorithmic task).
@@ -332,13 +304,10 @@ benchmarks:
     variants:
     - name: Easy
       is_standard: true
-      notes: Small graph instances.
     - name: Medium
       is_standard: false
-      notes: Medium-scale graph instances.
     - name: Hard
       is_standard: false
-      notes: Large graph instances.
   - name: Topological Sorting
     task_type: node_classification
     description: Topological ordering node rank regression on DAGs (GraphBench algorithmic
@@ -353,13 +322,10 @@ benchmarks:
     variants:
     - name: Easy
       is_standard: true
-      notes: Small DAGs.
     - name: Medium
       is_standard: false
-      notes: Medium-scale DAGs.
     - name: Hard
       is_standard: false
-      notes: Large DAGs.
   - name: Flow
     task_type: graph_regression
     description: Network flow value prediction (GraphBench / CLRS-style algorithmic
@@ -376,13 +342,10 @@ benchmarks:
       is_standard: true
     - name: Easy
       is_standard: false
-      notes: Small graph instances.
     - name: Medium
       is_standard: false
-      notes: Medium-scale graph instances.
     - name: Hard
       is_standard: false
-      notes: Large graph instances.
 - name: OGB
   arxiv_id: null
   url: https://ogb.stanford.edu
@@ -407,7 +370,6 @@ benchmarks:
     variants:
     - name: Standard split
       is_standard: true
-      notes: 'Scaffold split. Metric: ROC-AUC.'
   - name: ogbg-molpcba
     task_type: graph_classification
     description: Multi-label classification (128 tasks) on PubChem BioAssay.
@@ -422,7 +384,6 @@ benchmarks:
     variants:
     - name: Standard split
       is_standard: true
-      notes: 'Scaffold split. Metric: AP (Average Precision).'
   - name: Code
     task_type: graph_classification
     description: Code AST-level method name prediction (ogbg-code2). 143k Python snippets.
@@ -437,7 +398,6 @@ benchmarks:
     variants:
     - name: Standard split
       is_standard: true
-      notes: Project-based split.
   - name: ogbn-arxiv
     task_type: node_classification
     description: Node classification on arXiv citation network (40 subject areas).
@@ -451,7 +411,6 @@ benchmarks:
     variants:
     - name: Standard split
       is_standard: true
-      notes: 'Time-based split. Metric: Accuracy.'
   - name: ogbn-proteins
     task_type: node_classification
     description: Multi-label binary node classification on protein association network
@@ -466,7 +425,6 @@ benchmarks:
     variants:
     - name: Standard split
       is_standard: true
-      notes: 'Species-based split. Metric: ROC-AUC.'
   - name: ogbn-products
     task_type: node_classification
     description: Node classification on Amazon product co-purchase graph (47 categories).
@@ -480,7 +438,6 @@ benchmarks:
     variants:
     - name: Standard split
       is_standard: true
-      notes: 'Sales-rank split. Metric: Accuracy.'
   - name: ogbn-papers100M
     task_type: node_classification
     description: Node classification on 111M academic paper citation network (172
@@ -521,7 +478,6 @@ benchmarks:
     variants:
     - name: Standard split
       is_standard: true
-      notes: 'Time-based split. Metric: Hits@50.'
   - name: ogbl-ddi
     task_type: link_prediction
     description: Drug-drug interaction link prediction (binary, homogeneous graph).
@@ -534,7 +490,6 @@ benchmarks:
     variants:
     - name: Standard split
       is_standard: true
-      notes: 'Metric: Hits@20.'
   - name: ogbl-citation2
     task_type: link_prediction
     description: Citation link prediction on arXiv/PubMed papers (directed).
@@ -547,7 +502,6 @@ benchmarks:
     variants:
     - name: Standard split
       is_standard: true
-      notes: 'Time-based split. Metric: MRR.'
   - name: ogbl-wikikg2
     task_type: link_prediction
     description: Knowledge graph link prediction on Wikidata (2.5M entities, 535 relations).
@@ -560,7 +514,6 @@ benchmarks:
     variants:
     - name: Standard split
       is_standard: true
-      notes: 'Metric: MRR.'
   - name: ogbl-biokg
     task_type: link_prediction
     description: Biological knowledge graph link prediction (5 entity types, 51 relations).
@@ -573,7 +526,6 @@ benchmarks:
     variants:
     - name: Standard split
       is_standard: true
-      notes: 'Metric: MRR.'
   - name: PCQM4Mv2
     task_type: graph_regression
     description: Quantum chemistry graph regression — predict HOMO-LUMO gap of 3.8M
@@ -586,10 +538,10 @@ benchmarks:
     variants:
     - name: Standard split
       is_standard: true
-      notes: 'Scaffold split. Metric: MAE on HOMO-LUMO gap (eV).'
 - name: Classic
   arxiv_id: null
   url: null
+  is_legacy: true
   description: Classic node/graph classification and regression benchmarks.
   datasets:
   - name: Cora
@@ -616,11 +568,17 @@ benchmarks:
     variants:
     - name: Subset (12k)
       is_standard: false
+      num_graphs: 12000
+      avg_nodes: 23.2
+      avg_edges: 24.9
       notes: 12,000 train molecules. Reported by many papers — most results in this
         leaderboard use this split.
     - name: Full
       is_standard: true
-      notes: 250,000 train molecules.
+      num_graphs: 249456
+      avg_nodes: 23.2
+      avg_edges: 24.9
+      notes: 250,000 train molecules. Much better quality expected compared to 12k subset.
   - name: CiteSeer
     task_type: node_classification
     description: Citation network node classification (6 classes).
@@ -734,6 +692,7 @@ benchmarks:
 - name: TU Dortmund
   arxiv_id: null
   url: https://chrsmrrs.github.io/datasets/
+  is_legacy: true
   description: TU Dortmund graph kernel benchmark datasets for graph classification.
   datasets:
   - name: MUTAG
@@ -751,7 +710,6 @@ benchmarks:
     variants:
     - name: 10-fold CV
       is_standard: true
-      notes: 10-fold cross-validation (average ± std reported).
   - name: PROTEINS
     task_type: graph_classification
     description: Graph classification of proteins as enzyme or non-enzyme (2 classes).
@@ -766,7 +724,6 @@ benchmarks:
     variants:
     - name: 10-fold CV
       is_standard: true
-      notes: 10-fold cross-validation.
   - name: D&D
     task_type: graph_classification
     description: Graph classification of proteins into enzymes and non-enzymes via
@@ -896,7 +853,6 @@ benchmarks:
     variants:
     - name: 10-fold CV
       is_standard: true
-      notes: 10-fold cross-validation (average ± std reported).
     num_graphs: 600
     avg_nodes: 32.6
     avg_edges: 62.1
@@ -918,7 +874,6 @@ benchmarks:
     variants:
     - name: Standard split
       is_standard: true
-      notes: Fixed 55k/5k/10k split.
   - name: CIFAR10
     task_type: graph_classification
     description: Graph classification on CIFAR10 superpixel graphs (10 classes, 60k
@@ -930,7 +885,6 @@ benchmarks:
     variants:
     - name: Standard split
       is_standard: true
-      notes: Fixed 45k/5k/10k split.
   - name: CLUSTER
     task_type: node_classification
     description: Semi-supervised node classification on stochastic block model graphs
@@ -1333,14 +1287,13 @@ benchmarks:
     task_type: graph_regression
     description: Multi-target quantum property regression on 130k drug-like organic
       molecules (19 targets).
-    primary_metric: MAE
+    primary_metric: gap
     higher_is_better: false
     domain: chemistry
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.QM9.html
     variants:
     - name: Standard split
       is_standard: true
-      notes: Usually evaluated per-target; results reported for individual properties.
   - name: QM7b
     task_type: graph_regression
     description: Quantum chemistry regression on 7,211 molecules (14 electronic and
@@ -1363,7 +1316,6 @@ benchmarks:
     variants:
     - name: Standard split
       is_standard: true
-      notes: Results typically reported per-molecule (aspirin, benzene, ethanol, etc.).
 - name: Heterogeneous Graph Benchmarks
   arxiv_id: '2002.01680'
   url: https://arxiv.org/abs/2002.01680
@@ -1459,7 +1411,6 @@ benchmarks:
     variants:
     - name: Standard split
       is_standard: true
-      notes: Also reports Hits@1, Hits@3, Hits@10.
     num_graphs: 1
     avg_nodes: 40943
     avg_edges: 93003
@@ -1614,7 +1565,6 @@ benchmarks:
     variants:
     - name: Standard split
       is_standard: true
-      notes: Introduced in arXiv:2506.13912.
     num_classes: 2
 - name: Other Graph Benchmarks
   arxiv_id: null
@@ -1638,7 +1588,6 @@ benchmarks:
     variants:
     - name: Standard split
       is_standard: true
-      notes: '5 classes, 5,000 graphs total. Metric: Accuracy.'
     num_graphs: 5000
     num_classes: 5
   - name: ShapeNet-Part
@@ -1653,7 +1602,6 @@ benchmarks:
     variants:
     - name: Standard split
       is_standard: true
-      notes: 'Metric: mean IoU / F1 across parts.'
     num_classes: 50
   - name: 20News
     task_type: graph_classification
@@ -1667,7 +1615,6 @@ benchmarks:
     variants:
     - name: Standard split
       is_standard: true
-      notes: Used as a heterophilic benchmark in several GNN papers.
     num_classes: 20
   - name: Amazon2M
     task_type: node_classification
@@ -1681,7 +1628,6 @@ benchmarks:
     variants:
     - name: Standard split
       is_standard: true
-      notes: ~2M nodes, ~61M edges.
     num_graphs: 1
     avg_nodes: 2000000
     avg_edges: 61000000
@@ -1766,7 +1712,6 @@ benchmarks:
     variants:
     - name: Standard split
       is_standard: true
-      notes: RMSE on reactivity prediction (lower is better).
     num_graphs: 4082
   - name: Ribonanza
     task_type: graph_regression
@@ -1778,7 +1723,6 @@ benchmarks:
     variants:
     - name: Standard split
       is_standard: true
-      notes: From Kaggle Ribonanza competition.
     num_graphs: 2260
   - name: Tc-Ribo
     task_type: graph_regression
@@ -1915,7 +1859,6 @@ benchmarks:
     variants:
     - name: Standard split
       is_standard: true
-      notes: Official transductive split (10/10/80) from City-Networks.
   - name: Shanghai
     task_type: node_classification
     description: Shanghai road-network node classification from the City-Networks benchmark.
@@ -1930,7 +1873,6 @@ benchmarks:
     variants:
     - name: Standard split
       is_standard: true
-      notes: Official transductive split (10/10/80) from City-Networks.
   - name: Los Angeles
     task_type: node_classification
     description: Los Angeles road-network node classification from the City-Networks benchmark.
@@ -1945,7 +1887,6 @@ benchmarks:
     variants:
     - name: Standard split
       is_standard: true
-      notes: Official transductive split (10/10/80) from City-Networks.
   - name: London
     task_type: node_classification
     description: London road-network node classification from the City-Networks benchmark.
@@ -1960,7 +1901,6 @@ benchmarks:
     variants:
     - name: Standard split
       is_standard: true
-      notes: Official transductive split (10/10/80) from City-Networks.
 - name: LRIM Graph Benchmark
   url: https://lrim-graphbenchmark.com/
   description: 'LRIM — the Long-Range Ising Model Graph Benchmark, a physics-grounded suite
@@ -1984,61 +1924,51 @@ benchmarks:
       num_graphs: 10000
       avg_nodes: 256
       avg_edges: 512
-      notes: 16x16 periodic grid benchmark, hard setting with sigma=0.6.
     - name: LRIM-16-easy
       is_standard: false
       num_graphs: 10000
       avg_nodes: 256
       avg_edges: 512
-      notes: 16x16 periodic grid benchmark, easy setting with sigma=1.5.
     - name: LRIM-32-hard
       is_standard: false
       num_graphs: 10000
       avg_nodes: 1024
       avg_edges: 2048
-      notes: 32x32 periodic grid benchmark, hard setting with sigma=0.6.
     - name: LRIM-32-easy
       is_standard: false
       num_graphs: 10000
       avg_nodes: 1024
       avg_edges: 2048
-      notes: 32x32 periodic grid benchmark, easy setting with sigma=1.5.
     - name: LRIM-64-hard
       is_standard: false
       num_graphs: 10000
       avg_nodes: 4096
       avg_edges: 8192
-      notes: 64x64 periodic grid benchmark, hard setting with sigma=0.6.
     - name: LRIM-64-easy
       is_standard: false
       num_graphs: 10000
       avg_nodes: 4096
       avg_edges: 8192
-      notes: 64x64 periodic grid benchmark, easy setting with sigma=1.5.
     - name: LRIM-128-hard
       is_standard: false
       num_graphs: 10000
       avg_nodes: 16384
       avg_edges: 32768
-      notes: 128x128 periodic grid benchmark, hard setting with sigma=0.6.
     - name: LRIM-128-easy
       is_standard: false
       num_graphs: 10000
       avg_nodes: 16384
       avg_edges: 32768
-      notes: 128x128 periodic grid benchmark, easy setting with sigma=1.5.
     - name: LRIM-256-hard
       is_standard: false
       num_graphs: 10000
       avg_nodes: 65536
       avg_edges: 131072
-      notes: 256x256 periodic grid benchmark, hard setting with sigma=0.6.
     - name: LRIM-256-easy
       is_standard: false
       num_graphs: 10000
       avg_nodes: 65536
       avg_edges: 131072
-      notes: 256x256 periodic grid benchmark, easy setting with sigma=1.5.
 - name: Power Flow Benchmarks
   arxiv_id: '2601.01387'
   url: https://arxiv.org/abs/2601.01387

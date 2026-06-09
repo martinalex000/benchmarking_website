@@ -45,6 +45,7 @@ class Config:
     base_dir: Path = PROJECT_ROOT
     data_dir: Path = PROJECT_ROOT / "data"
     papers_dir: Path = PROJECT_ROOT / "papers"
+    datasets_dir: Path = PROJECT_ROOT / "datasets"
     logs_dir: Path = PROJECT_ROOT / "logs"
     site_dir: Path = PROJECT_ROOT / "site"
     config_dir: Path = PROJECT_ROOT / "config"
@@ -94,7 +95,7 @@ class Config:
 
     def ensure_dirs(self) -> None:
         """Create required directories if they don't exist."""
-        for d in (self.data_dir, self.papers_dir, self.logs_dir):
+        for d in (self.data_dir, self.papers_dir, self.datasets_dir, self.logs_dir):
             d.mkdir(parents=True, exist_ok=True)
 
 
