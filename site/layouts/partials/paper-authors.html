@@ -1,0 +1,22 @@
+{{/* Render paper authors — supports legacy string list and structured {name, orcid, s2_url}. */}}
+{{ with . }}
+<p class="authors">
+  {{- range $i, $author := . -}}
+    {{- if $i }}, {{ end -}}
+    {{- if reflect.IsMap $author -}}
+      {{- $name := $author.name -}}
+      {{- with $author.orcid -}}
+        <a href="https://orcid.org/{{ . }}" target="_blank" rel="noopener noreferrer">{{ $name }}</a>
+      {{- else -}}
+        {{- with $author.s2_url -}}
+          <a href="{{ . }}" target="_blank" rel="noopener noreferrer">{{ $name }}</a>
+        {{- else -}}
+          {{ $name }}
+        {{- end -}}
+      {{- end -}}
+    {{- else -}}
+      {{ $author }}
+    {{- end -}}
+  {{- end -}}
+</p>
+{{ end }}
