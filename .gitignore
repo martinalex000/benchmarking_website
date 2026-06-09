@@ -35,6 +35,11 @@ papers/*
 papers/.*
 !papers/.gitkeep
 
+# ── Dataset statistics workspace (derived from paper extraction) ─────────────
+datasets/*
+datasets/.*
+!datasets/.gitkeep
+
 # ── SQLite WAL sidecars (main DB is versioned) ───────────────────────────────
 data/benchmarks.db-wal
 data/benchmarks.db-shm

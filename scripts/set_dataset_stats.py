@@ -21,6 +21,7 @@ from bs4 import BeautifulSoup
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
+from backend.dataset_stats_parsing import header_role, parse_number
 from backend.db import init_db, session_scope
 from backend.models import Dataset
 
@@ -69,37 +70,6 @@ def _norm(text: str) -> str:
     return re.sub(r"[^a-z0-9]+", "", (text or "").strip().lower())
 
 
-def _parse_number(raw: str) -> float | int | None:
-    if raw is None:
-        return None
-    text = str(raw).strip()
-    if not text or text in {"-", "—", "na", "n/a", "none"}:
-        return None
-    text = text.replace(",", "")
-    m = re.search(r"[-+]?\d*\.?\d+", text)
-    if not m:
-        return None
-    val = float(m.group(0))
-    if val.is_integer():
-        return int(val)
-    return val
-
-
-def _header_role(header: str) -> str | None:
-    h = header.strip().lower()
-    if any(x in h for x in ["#graphs", "num graphs", "graphs", "items", "molecules"]):
-        return "num_graphs"
-    if any(x in h for x in ["avg. #nodes", "avg #nodes", "avg nodes", "nodes"]):
-        return "avg_nodes"
-    if any(x in h for x in ["avg. #edges", "avg #edges", "avg edges", "edges"]):
-        return "avg_edges"
-    if any(x in h for x in ["output dim", "#classes", "classes", "targets", "labels"]):
-        return "num_classes"
-    if any(x in h for x in ["dataset", "name"]):
-        return "dataset"
-    return None
-
-
 def _match_dataset_row(dataset_name: str, rows: list[dict]) -> dict | None:
     if not rows:
         return None
@@ -135,7 +105,7 @@ def _extract_rows_from_table(table) -> list[dict]:
         first = table.select_one("tr")
         hdr_cells = first.select("th, td") if first else []
     headers = [c.get_text(" ", strip=True) for c in hdr_cells]
-    roles = [_header_role(h) for h in headers]
+    roles = [header_role(h) for h in headers]
     if not any(r in {"num_graphs", "avg_nodes", "avg_edges", "num_classes"} for r in roles):
         return rows
 
@@ -154,7 +124,7 @@ def _extract_rows_from_table(table) -> list[dict]:
             if role == "dataset":
                 row["dataset"] = txt
             else:
-                row[role] = _parse_number(txt)
+                row[role] = parse_number(txt)
         rows.append(row)
     return rows
 
