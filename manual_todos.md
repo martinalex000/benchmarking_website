@@ -2,17 +2,29 @@
 
 ## Small tasks for now
 - make sure all the papers I used to have locally are also processed on the server
-- also mention when a paper improved a baseline, not only when it made things worse.
+- claimed SOTA even though its not markieren/extrahieren
+- on our split etc: make sure papers are indeed talking about the correct datasets and evaluation strategies on the old legacy datasets
+- qm9 has a lot of tasks, those need to be included
+- add year filter for papers
+
+re-evaluate qm9 papers to test how it worked. Check which other datasets need a similar treatment.
 
 ## Larger tasks to do later:
 - MLP baseline für fehlende Datensätze selbst berechnen
 - add a lot more (hand-crafted) information about each of the benchmarks (more statistics, but also more content about what each of the datasets is about, how it came to be, potentially pictures). Also add a quick description of the metric used and in some cases its drawbacks.
-- Der plot braucht viel zu lange zum laden, einfach weil viel zu viele punkte und deren std geplottet werden -> check if resolved
-- heterophily statistics and generally improved statistics for the datasets.
 - make sure that the conferences are properly extracted. Currently its still missing for a large part of the papers. In doubt: use paperswithcode api.
-- also make sure that the authors are extracted. Optimally, link to google scholar for each author when there is a connection. orcid is also a good option and probably safer.
+
+## Check things
+- are statistics properly imported?
+- did the baseline merging part work well?
+- do we only track results for settings where it makes sense? (i.e. make sure that the results are comparable)
+- did we get all the author names for all the papers?
+- do we have proper dates for all papers?
+- did we successfully extract the conferences?
+
 
 ## Backlog
+- cleanup the number of scripts, they are too many.
 - Used hardware for the experiments and potentially runtime (even though thats usually not the big tiebreaker)
 - show the number of stars on github when there is a github link?
 - logos einbinden der jeweiligen benchmarks
@@ -20,16 +32,14 @@
 - integrate into alpharxive and trending papers from various sites such as huggingface's paperswithcode
 - Add clear benchmark-selection guidance. Right now the site helps browse results, but not decide which benchmarks are worth testing on. It should surface benchmark relevance, popularity/adoption, recency, task fit, dataset scale, and a “recommended benchmark suite” view.
 - Tighten data-quality checks on dataset summaries. Some displayed stats look misleading; for example, ogbn-arxiv is described as having 40 subject areas but shows Classes / Targets = 1. Researchers will question the whole site if overview stats are wrong.
+- Jan: Glaube da gibt es zum Teil ziemlich üble Fälle wo die Baselines einfach frei erfunden sind 😅 Ich denke eine Metrik die zeigt wie weit die berichteten baseline Ergebnisse von älteren bekannten Werten für die gleiche Methode abweichen ist der pragmatischste Filter der die gröbsten Probleme abfangen würde. Auf Enzymes gibt es Paper in denen sich der SOTA einfach plötzlich halbiert (https://arxiv.org/pdf/2502.14546 , Figure 4.)
+- regression test jpg: einmal alle möglichen views rendern und in ein jpg vor jedem commit.
+
 
 
 
 
 attribution of results: currently what we do is using the oldest paper with exactly this number and when there is e.g. a higher number for GCN, then all lower and older ones are silently swallowed. instead of doing this silently, it is important to do it in a transparent fashion. One should thus be able to open those aggregated results and see all the results published by different papers for this method. Of course this is especially important for very basic models such as GCN, GIN, etc because many people run them by themselves.
-
-zinc still does a lot of odd stuff - the leaderboard for the full zinc seems to include the other entries as well - at least at the first glance it looks like there are too many terrible appraoches for the full zinc one.
-
-
-add year filter for papers
 
 don't sort by amount of results but by amount of recent results
 
