@@ -551,7 +551,20 @@ result_overrides:
 
 metadata_overrides:
   codebase_url: "https://github.com/example/repo"
+
+# Correct architecture type, per-result parameter count (millions), or external-data flag.
+# Keys match result.model.name (lowercase). Parameter counts live on results only.
+model_metadata_overrides:
+  - model: "GraphGPS"
+    model_type: hybrid
+    params_millions: 6.9
+    uses_external_data: false
+    reason: "Table 2 lists 6.9M params; trained on benchmark split only"
 ```
+
+`model_metadata_overrides` sets `Result.params_millions` and `Result.uses_external_data`
+per paper, and `Model.model_type` for architecture badges. Well-known OGB baseline
+families also have defaults in `config/model_metadata_defaults.yaml` (architecture only).
 
 After editing, re-apply overrides and re-export:
 

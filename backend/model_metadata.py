@@ -8,6 +8,7 @@ ARCHITECTURE_TYPES: frozenset[str] = frozenset(
         "graph_transformer",
         "hybrid",
         "llm",
+        "walk",
         "svm_kernel",
         "random_forest",
         "decision_tree",
@@ -27,6 +28,9 @@ _LEGACY_TYPE_MAP: dict[str, str] = {
     "language_model": "llm",
     "lm": "llm",
     "large_language_model": "llm",
+    "random_walk": "walk",
+    "node2vec": "walk",
+    "deepwalk": "walk",
 }
 
 ARCHITECTURE_LABELS: dict[str, str] = {
@@ -34,6 +38,7 @@ ARCHITECTURE_LABELS: dict[str, str] = {
     "graph_transformer": "GT",
     "hybrid": "Hyb",
     "llm": "LLM",
+    "walk": "Walk",
     "svm_kernel": "SVM",
     "random_forest": "RF",
     "decision_tree": "Tree",
@@ -46,6 +51,7 @@ ARCHITECTURE_TITLES: dict[str, str] = {
     "graph_transformer": "Graph transformer",
     "hybrid": "Hybrid MPNN + transformer",
     "llm": "LLM applied to graphs",
+    "walk": "Random-walk graph embedding",
     "svm_kernel": "SVM / kernel method",
     "random_forest": "Random forest",
     "decision_tree": "Decision tree",

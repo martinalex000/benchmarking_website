@@ -32,6 +32,13 @@ def model_family_token(name: str) -> str:
     return re.sub(r"\s+", "", head.lower())
 
 
+def model_family_token_for_metadata(name: str) -> str:
+    """Family token for architecture defaults: strips ``+`` modifiers and trailing parentheticals."""
+    normalized = normalize_model_name_for_resolution(name)
+    head = normalized.split("+", 1)[0].strip()
+    head = re.sub(r"\s*\([^)]*\)\s*$", "", head).strip()
+    token = re.sub(r"\s+", "", head.lower())
+    return re.sub(r"[^a-z0-9]", "", token)
 def model_names_fuzzy_compatible(
     name_a: str,
     name_b: str,

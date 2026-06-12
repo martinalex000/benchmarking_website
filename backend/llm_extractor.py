@@ -812,6 +812,22 @@ class SotaClaimOutput(BaseModel):
     notes: str = ""
 
 
+class ModelMetadataEnrichmentEntry(BaseModel):
+    name: str
+    model_type: str | None = None
+    uses_external_data: bool | None = None
+
+    @field_validator("model_type", mode="before")
+    @classmethod
+    def _normalize_model_type(cls, v: Any) -> str | None:
+        return normalize_architecture_type(v if v is not None else None)
+
+
+class ModelMetadataEnrichmentOutput(BaseModel):
+    models: list[ModelMetadataEnrichmentEntry] = Field(default_factory=list)
+    notes: str = ""
+
+
 def _merge_dataset_lists(*dataset_lists: DatasetList) -> DatasetList:
     """Merge dataset discovery results while preserving first-seen order."""
     merged: list[DatasetInfo] = []
@@ -2225,6 +2241,17 @@ class LLMExtractor:
             _paper_intro_text(paper_text, latex_paper),
         )
 
+        from backend.sota_claim_parsing import main_body_prose_text
+
+        setup_prose = main_body_prose_text(paper_text=paper_text, latex_paper=latex_paper)
+        setup_prose_excerpt = ""
+        if setup_prose.strip():
+            setup_prose_excerpt = (
+                "\n\n=== PAPER METHOD & SETUP PROSE (main body, pre-appendix — "
+                "use for model_type and uses_external_data) ===\n"
+                f"{setup_prose[:12_000]}\n"
+            )
+
         # ── Choose tables and text source ─────────────────────────────────
         if latex_paper is not None:
             # Filter out formula/alignment environments masquerading as tables:
@@ -2410,7 +2437,7 @@ class LLMExtractor:
                     else ""
                 )
                 + f"{metric_constraint}\n"
-                f"{context}"
+                f"{context}" + setup_prose_excerpt
             )
             logger.info(
                 "Step 2: extracting dataset=%r  context=%d chars",
@@ -2627,6 +2654,86 @@ class LLMExtractor:
         merged = merge_claim_dicts(all_claims)
         return SotaClaimOutput(
             claims=[SotaClaimEntry.model_validate(item) for item in merged],
+            notes="\n".join(notes_parts).strip(),
+        )
+
+    def enrich_model_metadata(
+        self,
+        scoped_prose: str,
+        extraction: ExtractionOutput,
+    ) -> ModelMetadataEnrichmentOutput:
+        """Infer architecture type and external-data flags from main-body prose."""
+        from backend.sota_claim_parsing import chunk_prose_for_extraction
+
+        model_names: list[str] = []
+        seen: set[str] = set()
+        if extraction.proposed_model and extraction.proposed_model.name:
+            key = extraction.proposed_model.name.strip().lower()
+            if key and key not in seen:
+                seen.add(key)
+                model_names.append(extraction.proposed_model.name)
+        for baseline in extraction.baseline_models:
+            if baseline.name:
+                key = baseline.name.strip().lower()
+                if key and key not in seen:
+                    seen.add(key)
+                    model_names.append(baseline.name)
+        for result in extraction.results:
+            if result.model:
+                key = result.model.strip().lower()
+                if key and key not in seen:
+                    seen.add(key)
+                    model_names.append(result.model)
+
+        if not scoped_prose.strip() or not model_names:
+            return ModelMetadataEnrichmentOutput()
+
+        prompt = self._read_prompt("model_metadata_enrichment.txt")
+        target_block = "=== TARGET MODEL LIST ===\n" + "\n".join(f"- {n}" for n in model_names)
+        merged_entries: dict[str, ModelMetadataEnrichmentEntry] = {}
+        notes_parts: list[str] = []
+        chunks = chunk_prose_for_extraction(scoped_prose)
+
+        for chunk_index, chunk in enumerate(chunks):
+            user_content = (
+                f"{target_block}\n\n"
+                f"=== PAPER PROSE (main body, pre-appendix, no tables) ===\n{chunk}"
+            )
+            call_type = (
+                "enrich_model_metadata"
+                if len(chunks) == 1
+                else f"enrich_model_metadata_chunk_{chunk_index + 1}"
+            )
+            try:
+                raw = self._call_json(
+                    prompt,
+                    user_content,
+                    max_tokens=cfg.llm_max_tokens,
+                    call_type=call_type,
+                )
+                result = ModelMetadataEnrichmentOutput.model_validate(raw)
+                for entry in result.models:
+                    key = entry.name.strip().lower()
+                    if not key:
+                        continue
+                    existing = merged_entries.get(key)
+                    if existing is None:
+                        merged_entries[key] = entry
+                        continue
+                    if existing.model_type is None and entry.model_type is not None:
+                        existing.model_type = entry.model_type
+                    if existing.uses_external_data is None and entry.uses_external_data is not None:
+                        existing.uses_external_data = entry.uses_external_data
+                if result.notes:
+                    notes_parts.append(result.notes)
+            except Exception as exc:
+                logger.warning(
+                    "Model metadata enrichment chunk %d failed: %s", chunk_index + 1, exc
+                )
+                notes_parts.append(f"Chunk {chunk_index + 1} failed: {exc}")
+
+        return ModelMetadataEnrichmentOutput(
+            models=list(merged_entries.values()),
             notes="\n".join(notes_parts).strip(),
         )
 
@@ -2987,6 +3094,16 @@ class LLMExtractor:
             guided_sizes = self.extract_model_sizes(paper_text, model_names=model_names)
             sizes = _merge_size_entries(sizes, guided_sizes)
         _apply_sizes(results_out, sizes)
+
+        metadata_enrichment_out = ModelMetadataEnrichmentOutput()
+        if scoped_prose.strip():
+            metadata_enrichment_out = self.enrich_model_metadata(scoped_prose, results_out)
+            _apply_metadata_enrichment(results_out, metadata_enrichment_out)
+            if metadata_enrichment_out.notes:
+                results_out.extraction_notes = (
+                    f"{results_out.extraction_notes}\n[metadata] {metadata_enrichment_out.notes}"
+                ).strip()
+
         intro_model_hint = _extract_proposed_model_hint(
             paper_title,
             _paper_intro_text(paper_text, latex_paper),
@@ -3440,6 +3557,38 @@ def _apply_sizes(extraction: ExtractionOutput, sizes: list[ModelSizeEntry]) -> N
 
     for baseline in extraction.baseline_models:
         _apply_size_to_model_info(baseline, size_map)
+
+
+def _apply_metadata_enrichment(
+    extraction: ExtractionOutput,
+    enrichment: ModelMetadataEnrichmentOutput,
+) -> None:
+    """Merge architecture and external-data enrichment into extraction output."""
+    if not enrichment.models:
+        return
+
+    by_name: dict[str, ModelMetadataEnrichmentEntry] = {}
+    for entry in enrichment.models:
+        key = entry.name.strip().lower()
+        if key:
+            by_name[key] = entry
+
+    if extraction.proposed_model is not None:
+        matched = by_name.get(extraction.proposed_model.name.strip().lower())
+        if matched is not None and extraction.proposed_model.model_type is None:
+            extraction.proposed_model.model_type = matched.model_type
+
+    for baseline in extraction.baseline_models:
+        matched = by_name.get(baseline.name.strip().lower())
+        if matched is not None and baseline.model_type is None:
+            baseline.model_type = matched.model_type
+
+    for result in extraction.results:
+        matched = by_name.get(result.model.strip().lower())
+        if matched is None:
+            continue
+        if result.uses_external_data is None and matched.uses_external_data is not None:
+            result.uses_external_data = matched.uses_external_data
 
 
 def _normalise_model_name_text(name: str) -> str:

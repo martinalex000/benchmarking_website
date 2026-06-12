@@ -358,8 +358,7 @@ class Model(Base):
     name = Column(String, nullable=False)
     canonical_name = Column(String, nullable=False)
     paper_id = Column(Integer, ForeignKey("papers.id", ondelete="SET NULL"))
-    size_params = Column(Integer)  # parameter count (exact)
-    model_type = Column(String)  # gnn | graph_transformer | hybrid | llm | svm_kernel | ...
+    model_type = Column(String)  # gnn | graph_transformer | hybrid | llm | walk | svm_kernel | ...
     is_baseline = Column(Integer, nullable=False, default=0)
     created_at = Column(String, nullable=False, default=_utcnow)
 

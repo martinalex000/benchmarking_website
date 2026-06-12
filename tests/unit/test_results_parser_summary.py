@@ -208,7 +208,6 @@ def test_parse_and_store_persists_model_metadata(monkeypatch, tmp_path):
         )
 
     assert graphgps.model_type == "hybrid"
-    assert graphgps.size_params == 6_900_000
     assert gcn.model_type == "gnn"
     params_by_model = {
         session.get(Model, r.model_id).canonical_name: r.params_millions for r in results

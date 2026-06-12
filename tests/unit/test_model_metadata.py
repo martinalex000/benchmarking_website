@@ -20,6 +20,8 @@ from backend.model_metadata import (
         ("GCN_variant", "gnn"),
         ("random_forest", "random_forest"),
         ("boosting", "boosting"),
+        ("walk", "walk"),
+        ("node2vec", "walk"),
         ("invalid", None),
         (None, None),
     ],
@@ -30,6 +32,7 @@ def test_normalize_architecture_type(raw, expected):
 
 def test_architecture_label():
     assert architecture_label("llm") == "LLM"
+    assert architecture_label("walk") == "Walk"
     assert architecture_label("hybrid") == "Hyb"
     assert architecture_label("random_forest") == "RF"
     assert architecture_label("boosting") == "Boost"
