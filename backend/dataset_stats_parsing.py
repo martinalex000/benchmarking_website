@@ -7,8 +7,6 @@ import re
 from dataclasses import dataclass
 from typing import Any
 
-_CORE_FIELDS = ("num_graphs", "avg_nodes", "avg_edges", "num_classes")
-
 _STAT_MARKERS = (
     "#graphs",
     "num graphs",
@@ -35,6 +33,71 @@ _STAT_MARKERS = (
     "train/val/test",
     "train val test",
 )
+
+STAT_TABLE_MARKERS = (
+    "statistic",
+    "dataset",
+    "#graphs",
+    "num graphs",
+    "avg nodes",
+    "avg edges",
+    "properties",
+    "summary",
+    "total graphs",
+    "total nodes",
+)
+
+
+def is_statistics_table(table: Any, *, header: str | None = None) -> bool:
+    caption = (getattr(table, "caption", "") or "").strip().lower()
+    header_text = header if header is not None else str(getattr(table, "header", "") or "")
+    header_lower = header_text.lower()
+    return any(marker in caption or marker in header_lower for marker in STAT_TABLE_MARKERS)
+
+
+def format_stats_summary(
+    entry: dict[str, Any] | None = None,
+    *,
+    num_graphs: int | float | None = None,
+    avg_nodes: float | None = None,
+    avg_edges: float | None = None,
+    num_classes: int | float | None = None,
+    extra_stats: dict | None = None,
+    raw_values: dict | None = None,
+    separator: str = ", ",
+) -> str:
+    """Format core dataset statistics for logs and dev export tables."""
+    if entry is not None:
+        num_graphs = entry.get("num_graphs")
+        avg_nodes = entry.get("avg_nodes")
+        avg_edges = entry.get("avg_edges")
+        num_classes = entry.get("num_classes")
+        extra_stats = entry.get("extra_stats") or {}
+        raw_values = entry.get("raw_values") or {}
+
+    parts: list[str] = []
+    raw_values = raw_values or {}
+    for key, label in (
+        ("num_graphs", "graphs"),
+        ("avg_nodes", "nodes"),
+        ("avg_edges", "edges"),
+        ("num_classes", "classes"),
+    ):
+        values = {
+            "num_graphs": num_graphs,
+            "avg_nodes": avg_nodes,
+            "avg_edges": avg_edges,
+            "num_classes": num_classes,
+        }
+        value = values[key]
+        if value is not None:
+            display = raw_values.get(key, value)
+            parts.append(f"{label}={display}")
+
+    if extra_stats:
+        for key, value in sorted(extra_stats.items()):
+            parts.append(f"{key}={value}")
+    return separator.join(parts) if parts else "—"
 
 
 def parse_number(raw: str | int | float | None) -> float | int | None:

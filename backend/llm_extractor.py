@@ -43,6 +43,7 @@ from thefuzz import fuzz as fuzz_lib
 from thefuzz import process as fuzz_process
 
 from backend.config import cfg, normalize_arxiv_id
+from backend.dataset_stats_parsing import format_stats_summary, is_statistics_table
 from backend.db import session_scope
 from backend.json_repair import parse_json_lenient
 from backend.llm_model_options import display_name_for_model, extra_body_for_model
@@ -484,26 +485,6 @@ class CallRecord:
     extra: dict = dc_field(default_factory=dict)
 
 
-def _format_statistics_entry_summary(entry: dict[str, Any]) -> str:
-    parts: list[str] = []
-    for key, label in (
-        ("num_graphs", "graphs"),
-        ("avg_nodes", "nodes"),
-        ("avg_edges", "edges"),
-        ("num_classes", "classes"),
-    ):
-        raw_values = entry.get("raw_values") or {}
-        value = entry.get(key)
-        if value is not None:
-            display = raw_values.get(key, value)
-            parts.append(f"{label}={display}")
-    extra_stats = entry.get("extra_stats") or {}
-    if isinstance(extra_stats, dict):
-        for key, value in sorted(extra_stats.items()):
-            parts.append(f"{key}={value}")
-    return ", ".join(parts) if parts else "—"
-
-
 def _print_dataset_statistics(rec: CallRecord, *, use_rich: bool, console: Any = None) -> None:
     stat_tables = rec.extra.get("statistics_tables")
     if stat_tables:
@@ -551,7 +532,7 @@ def _print_dataset_statistics(rec: CallRecord, *, use_rich: bool, console: Any =
             console.print("    [dim]Extracted dataset statistics:[/dim]")
             for item in extracted_details:
                 name = item.get("name", "?")
-                summary = _format_statistics_entry_summary(item)
+                summary = format_stats_summary(item)
                 source = item.get("source_ref") or ""
                 source_note = f" [dim]({source})[/dim]" if source else ""
                 console.print(f"      [bold]{name}[/bold][dim]:[/dim] {summary}{source_note}")
@@ -559,7 +540,7 @@ def _print_dataset_statistics(rec: CallRecord, *, use_rich: bool, console: Any =
             print("    Extracted dataset statistics:")
             for item in extracted_details:
                 name = item.get("name", "?")
-                summary = _format_statistics_entry_summary(item)
+                summary = format_stats_summary(item)
                 source = item.get("source_ref") or ""
                 print(f"      {name}: {summary}" + (f" ({source})" if source else ""))
     elif rec.extra.get("paper_has_statistics"):
@@ -877,17 +858,6 @@ def _apply_statistics_ripgrep_precheck(datasets: DatasetList, text: str) -> Data
     return datasets
 
 
-def _dataset_statistics_extra(datasets: list[DatasetInfo]) -> list[dict[str, Any]]:
-    return [
-        {
-            "name": ds.name,
-            "statistics_mentioned": ds.statistics_mentioned,
-            "statistics_sources": list(ds.statistics_sources),
-        }
-        for ds in datasets
-    ]
-
-
 def _dataset_statistics_hint_block(datasets: list[DatasetInfo]) -> str:
     lines: list[str] = []
     for ds in datasets:
@@ -904,32 +874,10 @@ def _dataset_statistics_hint_block(datasets: list[DatasetInfo]) -> str:
     )
 
 
-_STAT_TABLE_MARKERS = (
-    "statistic",
-    "dataset",
-    "#graphs",
-    "num graphs",
-    "avg nodes",
-    "avg edges",
-    "properties",
-    "summary",
-    "total graphs",
-    "total nodes",
-)
-
-
-def _is_statistics_table(table: Any) -> bool:
-    caption = (getattr(table, "caption", "") or "").strip().lower()
-    header = ""
-    if hasattr(table, "header"):
-        header = str(getattr(table, "header", "") or "").lower()
-    return any(marker in caption or marker in header for marker in _STAT_TABLE_MARKERS)
-
-
 def _statistics_table_summaries(tables: list) -> list[dict[str, Any]]:
     summaries: list[dict[str, Any]] = []
     for table in tables:
-        if not _is_statistics_table(table):
+        if not is_statistics_table(table):
             continue
         number = getattr(table, "number", None)
         if number is None:
@@ -980,7 +928,7 @@ def _dataset_statistics_extra_with_tables(
 
 def _enrich_dataset_statistics_from_tables(datasets: DatasetList, tables: list) -> None:
     """Mark datasets with statistics when their names appear in statistics tables."""
-    stat_tables = [t for t in tables if _is_statistics_table(t)]
+    stat_tables = [t for t in tables if is_statistics_table(t)]
     if not stat_tables:
         return
 
@@ -2576,23 +2524,7 @@ class LLMExtractor:
 
         stat_table_lines: list[str] = []
         for table in tables or []:
-            caption = (getattr(table, "caption", "") or "").strip().lower()
-            header = self._table_header(table)
-            header_lower = header.lower()
-            is_stat_table = any(
-                marker in caption or marker in header_lower
-                for marker in (
-                    "statistic",
-                    "dataset",
-                    "#graphs",
-                    "num graphs",
-                    "avg nodes",
-                    "avg edges",
-                    "properties",
-                    "summary",
-                )
-            )
-            if not is_stat_table:
+            if not is_statistics_table(table, header=self._table_header(table)):
                 continue
             number = getattr(table, "number", "?")
             appendix = " [appendix]" if getattr(table, "in_appendix", False) else ""

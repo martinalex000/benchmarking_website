@@ -6,10 +6,7 @@ import argparse
 import json
 import logging
 from dataclasses import dataclass, field
-from pathlib import Path
 from typing import Any
-
-import yaml
 
 from backend.dataset_stats_matcher import (
     MatchResult,
@@ -26,6 +23,7 @@ from backend.dataset_variant_resolver import (
 )
 from backend.db import init_db, session_scope
 from backend.models import Dataset, DatasetVariant, Paper, PaperDatasetStatistics
+from backend.paper_storage import load_yaml_dict
 
 logger = logging.getLogger(__name__)
 
@@ -39,16 +37,6 @@ class DatasetStatsParseSummary:
     unmatched: int = 0
     merged: int = 0
     errors: list[str] = field(default_factory=list)
-
-
-def _load_yaml(path: Path) -> dict[str, Any] | None:
-    try:
-        with path.open(encoding="utf-8") as fh:
-            data = yaml.safe_load(fh)
-        return data if isinstance(data, dict) else None
-    except Exception as exc:
-        logger.warning("Failed to load %s: %s", path, exc)
-        return None
 
 
 _ZINC_FULL_MIN_GRAPHS = 200_000
@@ -81,7 +69,6 @@ def _zinc_variant_by_graph_count(
 
 
 def _resolve_variant(
-    session: Any,
     dataset: Dataset,
     variant_name: str | None,
     lookup: dict[str, DatasetVariant],
@@ -162,7 +149,7 @@ def parse_and_store_dataset_statistics(arxiv_id: str) -> DatasetStatsParseSummar
         lookup = build_dataset_variant_lookup(session)
 
         for _slug, path in paths:
-            payload = _load_yaml(path)
+            payload = load_yaml_dict(path)
             if not payload:
                 summary.errors.append(f"invalid yaml: {path}")
                 continue
@@ -180,7 +167,6 @@ def parse_and_store_dataset_statistics(arxiv_id: str) -> DatasetStatsParseSummar
                 continue
 
             target_variant = _resolve_variant(
-                session,
                 dataset,
                 payload.get("variant"),
                 lookup,
@@ -202,12 +188,7 @@ def parse_and_store_dataset_statistics(arxiv_id: str) -> DatasetStatsParseSummar
                     },
                 )
 
-            if match.status == "matched":
-                summary.matched += 1
-                merged = merge_stats(canonical, observation)
-                apply_canonical_to_orm(dataset, target_variant, merged)
-                summary.merged += 1
-            elif match.status == "mismatch":
+            if match.status == "mismatch":
                 summary.mismatched += 1
             else:
                 summary.matched += 1

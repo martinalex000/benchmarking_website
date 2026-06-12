@@ -9,11 +9,9 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
-import yaml
-
 from backend.db import init_db, session_scope
 from backend.models import Paper, PaperSotaClaim
-from backend.paper_storage import PaperStorage
+from backend.paper_storage import PaperStorage, load_yaml_dict
 
 logger = logging.getLogger(__name__)
 
@@ -23,16 +21,6 @@ class SotaClaimParseSummary:
     arxiv_id: str
     stored: int = 0
     errors: list[str] = field(default_factory=list)
-
-
-def _load_yaml(path: Path) -> dict[str, Any] | None:
-    try:
-        with path.open(encoding="utf-8") as fh:
-            data = yaml.safe_load(fh)
-        return data if isinstance(data, dict) else None
-    except Exception as exc:
-        logger.warning("Failed to load %s: %s", path, exc)
-        return None
 
 
 def _json_list(value: Any) -> str:
@@ -51,7 +39,7 @@ def parse_and_store_sota_claims(arxiv_id: str) -> SotaClaimParseSummary:
     if not path.exists():
         return summary
 
-    payload = _load_yaml(path)
+    payload = load_yaml_dict(path)
     if not payload:
         summary.errors.append(f"invalid yaml: {path}")
         return summary

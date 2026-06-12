@@ -2,6 +2,7 @@
 
 from types import SimpleNamespace
 
+from backend.dataset_stats_parsing import is_statistics_table
 from backend.llm_extractor import (
     CallRecord,
     DatasetInfo,
@@ -9,7 +10,6 @@ from backend.llm_extractor import (
     _dataset_statistics_extra_with_tables,
     _dataset_statistics_hint_block,
     _enrich_dataset_statistics_from_tables,
-    _is_statistics_table,
     _statistics_table_summaries,
 )
 
@@ -40,7 +40,7 @@ def test_statistics_table_detection_and_enrichment():
         body="Peptides-func\n15535",
         header=["Dataset", "Graphs"],
     )
-    assert _is_statistics_table(table) is True
+    assert is_statistics_table(table) is True
     summaries = _statistics_table_summaries([table])
     assert summaries == [{"number": 2, "caption": table.caption, "in_appendix": False}]
 
