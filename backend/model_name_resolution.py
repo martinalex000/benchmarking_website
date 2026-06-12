@@ -39,8 +39,6 @@ def model_family_token_for_metadata(name: str) -> str:
     head = re.sub(r"\s*\([^)]*\)\s*$", "", head).strip()
     token = re.sub(r"\s+", "", head.lower())
     return re.sub(r"[^a-z0-9]", "", token)
-
-
 def model_names_fuzzy_compatible(
     name_a: str,
     name_b: str,

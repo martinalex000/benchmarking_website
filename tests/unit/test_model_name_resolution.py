@@ -32,8 +32,6 @@ def test_model_family_token_for_metadata():
     assert model_family_token_for_metadata("TransE (5x dim)") == "transe"
     assert model_family_token_for_metadata("R-GCN") == "rgcn"
     assert model_family_token_for_metadata("Node2Vec") == "node2vec"
-
-
 def test_gin_gcn_not_fuzzy_compatible():
     a = "GIN + Virtual Node"
     b = "GCN + Virtual Node"
