@@ -173,6 +173,7 @@ class _ProcessOptions:
     oneshot: bool = False
     log_dir: Path | None = None
     db_primary_metrics: dict[str, str] | None = None
+    classify_errors: bool = False
 
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
@@ -599,6 +600,260 @@ def _compare(
             result.hallucinated_keys.append({"key": str(key), "candidate_value": cval})
 
     return result
+
+
+def _ratio_near(a: float, b: float, factor: float, rel_tol: float = 0.05) -> bool:
+    if b == 0:
+        return False
+    scaled = b * factor
+    return abs(a - scaled) <= max(ABS_TOL, abs(scaled) * rel_tol)
+
+
+def _classify_comparison_errors(
+    cmp: PaperComparison,
+    call_log: list[CallRecord],
+) -> dict[str, Any]:
+    """Heuristic root-cause tags for misses, value errors, and hallucinations."""
+    empty_extract_calls = 0
+    truncated_context_calls = 0
+    truncated_completion_calls = 0
+    regex_parse_calls = 0
+    for rec in call_log:
+        if not rec.call_type.startswith("extract_dataset"):
+            continue
+        parsed = rec.parsed_result
+        if isinstance(parsed, dict) and not parsed.get("results"):
+            empty_extract_calls += 1
+        rag = rec.extra.get("rag") or {}
+        if rag.get("rag_text_truncated") or rag.get("tables_truncated"):
+            truncated_context_calls += 1
+        if rec.extra.get("completion_truncated"):
+            truncated_completion_calls += 1
+        parse_method = rec.extra.get("structured_parse_method") or rec.extra.get(
+            "json_parse_method"
+        )
+        if parse_method in {"json_regex", "lenient_repair"}:
+            regex_parse_calls += 1
+
+    scale_value_errors: list[dict] = []
+    for item in cmp.value_error_keys:
+        bval = float(item["baseline"])
+        cval = float(item["candidate"])
+        tags: list[str] = []
+        if _ratio_near(cval, bval, 100.0) or _ratio_near(cval, bval, 0.01):
+            tags.append("E_scale_normalization")
+        scale_value_errors.append({**item, "tags": tags})
+
+    name_variant_hallucinations = 0
+    for hall in cmp.hallucinated_keys:
+        hkey = str(hall["key"]).lower()
+        hval = float(hall["candidate_value"])
+        for miss in cmp.miss_keys:
+            mkey = str(miss["key"]).lower()
+            mval = float(miss["baseline_value"])
+            if _values_match(mval, hval) and mkey != hkey:
+                name_variant_hallucinations += 1
+                break
+
+    return {
+        "empty_extract_calls": empty_extract_calls,
+        "truncated_context_calls": truncated_context_calls,
+        "truncated_completion_calls": truncated_completion_calls,
+        "regex_parse_calls": regex_parse_calls,
+        "scale_value_errors": scale_value_errors,
+        "name_variant_hallucination_pairs": name_variant_hallucinations,
+        "miss_count": cmp.misses,
+        "value_error_count": cmp.value_errors,
+        "hallucination_count": cmp.hallucinations,
+    }
+
+
+def _print_error_classification(classification: dict[str, Any]) -> None:
+    _safe_print("  [dim]Error classification:[/dim]")
+    _safe_print(
+        f"    empty extract calls={classification['empty_extract_calls']}  "
+        f"truncated context={classification['truncated_context_calls']}  "
+        f"truncated completion={classification['truncated_completion_calls']}  "
+        f"regex/lenient parse={classification['regex_parse_calls']}"
+    )
+    if classification["name_variant_hallucination_pairs"]:
+        _safe_print(
+            f"    name-variant pairs (miss+halluc same value)="
+            f"{classification['name_variant_hallucination_pairs']}"
+        )
+    scale_tags = [item for item in classification["scale_value_errors"] if item.get("tags")]
+    if scale_tags:
+        _safe_print(f"    scale-like value errors={len(scale_tags)}")
+
+
+def _normalize_disagreement_key(key: str) -> str:
+    """Normalize result keys for cross-model comparison."""
+    return key.replace("poked", "pokec").strip().lower()
+
+
+def _comparison_disagreement_sets(
+    cmp: PaperComparison,
+) -> tuple[dict[str, float], dict[str, float]]:
+    misses = {
+        _normalize_disagreement_key(item["key"]): float(item["baseline_value"])
+        for item in cmp.miss_keys
+    }
+    hallucinations = {
+        _normalize_disagreement_key(item["key"]): float(item["candidate_value"])
+        for item in cmp.hallucinated_keys
+    }
+    return misses, hallucinations
+
+
+def _looks_like_ablation_row(key: str) -> bool:
+    lowered = key.lower()
+    return "(-)" in lowered or "ablation" in lowered or " w/o " in lowered
+
+
+def analyze_multi_model_baseline(
+    paper_results: list[PaperComparison],
+) -> dict[str, Any] | None:
+    """Cross-model disagreement analysis when >=2 models ran on the same paper.
+
+    Inspection rules (GLM baseline is fallible):
+      - Both models miss the same key → GLM likely over-extracted (ablations etc.)
+      - Both models hallucinate the same key → GLM likely missed a real table row
+      - Model-only miss → GLM likely correct; that model under-extracted
+      - Model-only hallucination → model-specific false positive or naming variant
+    """
+    ok = [r for r in paper_results if r.error is None]
+    if len(ok) < 2:
+        return None
+
+    models = [r.llm_model for r in ok]
+    baseline_count = ok[0].baseline_count
+
+    model_misses: dict[str, dict[str, float]] = {}
+    model_hallucinations: dict[str, dict[str, float]] = {}
+    for result in ok:
+        misses, hallucinations = _comparison_disagreement_sets(result)
+        model_misses[result.llm_model] = misses
+        model_hallucinations[result.llm_model] = hallucinations
+
+    miss_sets = [set(data.keys()) for data in model_misses.values()]
+    hallucination_sets = [set(data.keys()) for data in model_hallucinations.values()]
+    both_miss = set.intersection(*miss_sets) if miss_sets else set()
+    both_hallucinate = set.intersection(*hallucination_sets) if hallucination_sets else set()
+
+    both_miss_ablation_like = sorted(key for key in both_miss if _looks_like_ablation_row(key))
+
+    per_model_only: dict[str, dict[str, Any]] = {}
+    adjusted_metrics: dict[str, dict[str, Any]] = {}
+    for result in ok:
+        model = result.llm_model
+        only_misses = sorted(key for key in model_misses[model] if key not in both_miss)
+        only_hallucinations = sorted(
+            key for key in model_hallucinations[model] if key not in both_hallucinate
+        )
+        per_model_only[model] = {
+            "misses": only_misses,
+            "misses_count": len(only_misses),
+            "hallucinations": only_hallucinations,
+            "hallucinations_count": len(only_hallucinations),
+        }
+
+        glm_likely_over_extracted = len(both_miss)
+        glm_likely_missed = len(both_hallucinate)
+        effective_hits = result.hits + glm_likely_missed
+        effective_baseline = max(baseline_count - glm_likely_over_extracted, 1)
+        extracted = result.hits + result.value_errors + result.hallucinations
+        adjusted_metrics[model] = {
+            "raw_recall": round(result.recall, 4),
+            "adjusted_recall": round(effective_hits / effective_baseline, 4),
+            "raw_precision": round(result.precision, 4),
+            "adjusted_precision": round(effective_hits / max(extracted, 1), 4),
+            "glm_likely_over_extracted": glm_likely_over_extracted,
+            "glm_likely_missed": glm_likely_missed,
+            "model_only_misses": len(only_misses),
+            "model_only_hallucinations": len(only_hallucinations),
+        }
+
+    return {
+        "models": models,
+        "baseline_count": baseline_count,
+        "both_models_miss": {
+            "count": len(both_miss),
+            "ablation_like_count": len(both_miss_ablation_like),
+            "interpretation": (
+                "GLM likely over-extracted or rows both models correctly skipped "
+                "(e.g. ablations)"
+            ),
+            "keys": [
+                {
+                    "key": key,
+                    "ablation_like": _looks_like_ablation_row(key),
+                    "baseline_values": {model: model_misses[model].get(key) for model in models},
+                }
+                for key in sorted(both_miss)
+            ],
+        },
+        "both_models_hallucinate": {
+            "count": len(both_hallucinate),
+            "interpretation": "Strong signal GLM baseline missed real table rows",
+            "keys": [
+                {
+                    "key": key,
+                    "candidate_values": {
+                        model: model_hallucinations[model].get(key) for model in models
+                    },
+                }
+                for key in sorted(both_hallucinate)
+            ],
+        },
+        "per_model_only": per_model_only,
+        "adjusted_metrics": adjusted_metrics,
+    }
+
+
+def _print_multi_model_baseline_analysis(
+    arxiv_id: str,
+    analysis: dict[str, Any],
+) -> None:
+    _safe_print()
+    _safe_print(
+        f"[bold]Baseline quality analysis[/bold] — {arxiv_id} " f"({', '.join(analysis['models'])})"
+    )
+    both_miss = analysis["both_models_miss"]
+    both_hall = analysis["both_models_hallucinate"]
+    _safe_print(
+        f"  both miss={both_miss['count']} "
+        f"(ablation-like={both_miss['ablation_like_count']}) → "
+        f"[dim]{both_miss['interpretation']}[/dim]"
+    )
+    _safe_print(
+        f"  both hallucinate={both_hall['count']} → " f"[dim]{both_hall['interpretation']}[/dim]"
+    )
+    for model, metrics in analysis["adjusted_metrics"].items():
+        _safe_print(
+            f"  [cyan]{model}[/cyan]: "
+            f"recall {metrics['raw_recall']:.0%} → "
+            f"[bold]{metrics['adjusted_recall']:.0%}[/bold] adj  "
+            f"prec {metrics['raw_precision']:.0%} → "
+            f"[bold]{metrics['adjusted_precision']:.0%}[/bold] adj  "
+            f"only-miss={metrics['model_only_misses']}  "
+            f"only-halluc={metrics['model_only_hallucinations']}"
+        )
+
+
+def _collect_baseline_quality_analyses(
+    all_results: list[PaperComparison],
+) -> dict[str, dict[str, Any]]:
+    by_paper: dict[str, list[PaperComparison]] = {}
+    for result in all_results:
+        by_paper.setdefault(result.arxiv_id, []).append(result)
+
+    analyses: dict[str, dict[str, Any]] = {}
+    for arxiv_id, paper_results in sorted(by_paper.items()):
+        analysis = analyze_multi_model_baseline(paper_results)
+        if analysis is not None:
+            analyses[arxiv_id] = analysis
+            _print_multi_model_baseline_analysis(arxiv_id, analysis)
+    return analyses
 
 
 def _fetch_db_primary_metrics() -> dict[str, str]:
@@ -1073,6 +1328,8 @@ def _process_compare_job(
                 )
             if len(cmp.value_error_keys) > 5:
                 _safe_print(f"    [dim]… +{len(cmp.value_error_keys) - 5} more[/dim]")
+        if opts.classify_errors:
+            _print_error_classification(_classify_comparison_errors(cmp, call_log))
 
     if opts.oneshot:
         _safe_print("  [dim]Running 1-shot (legacy) extraction for comparison…[/dim]")
@@ -1334,6 +1591,11 @@ def main(argv: list[str] | None = None) -> int:
         "--oneshot",
         action="store_true",
         help="Also run legacy single-step extraction and compare side-by-side",
+    )
+    p.add_argument(
+        "--classify-errors",
+        action="store_true",
+        help="Print heuristic root-cause tags for misses and value errors",
     )
     p.add_argument(
         "--discovery-only",
@@ -1599,6 +1861,7 @@ def main(argv: list[str] | None = None) -> int:
         oneshot=args.oneshot,
         log_dir=log_dir,
         db_primary_metrics=db_primary_metrics,
+        classify_errors=args.classify_errors,
     )
     all_results = _run_compare_jobs(
         jobs,
@@ -1614,6 +1877,8 @@ def main(argv: list[str] | None = None) -> int:
     if args.per_paper:
         console.print()
         _render_per_paper_table(all_results)
+
+    baseline_quality = _collect_baseline_quality_analyses(all_results)
 
     # ── Save JSON output ──────────────────────────────────────────────────
     if args.output:
@@ -1667,6 +1932,8 @@ def main(argv: list[str] | None = None) -> int:
                 for r in all_results
             ],
         }
+        if baseline_quality:
+            payload["baseline_quality_analysis"] = baseline_quality
         out_path.write_text(json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8")
         console.print(f"\nAggregate results saved to [cyan]{out_path}[/cyan]")
 
