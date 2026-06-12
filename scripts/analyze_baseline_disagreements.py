@@ -8,7 +8,12 @@ import re
 from collections import defaultdict
 from pathlib import Path
 
-_ENTRY_RE = re.compile(r"^- `([^`]+)` \((?:baseline value|value): ([0-9.]+)\)")
+_ENTRY_RE = re.compile(
+    r"^- `([^`]+)`(?: "
+    r"\((?:baseline value|value): ([+-]?\d*\.?\d+(?:[eE][+-]?\d+)?)\)"
+    r"|\s+baseline=([+-]?\d*\.?\d+(?:[eE][+-]?\d+)?)\s+candidate=([+-]?\d*\.?\d+(?:[eE][+-]?\d+)?)"
+    r")"
+)
 
 
 def _parse_log_section(text: str, heading: str) -> list[tuple[str, float]]:
@@ -23,12 +28,14 @@ def _parse_log_section(text: str, heading: str) -> list[tuple[str, float]]:
         if in_section:
             m = _ENTRY_RE.match(line.strip())
             if m:
-                entries.append((m.group(1), float(m.group(2))))
+                raw = m.group(2) or m.group(3) or m.group(4)
+                if raw is not None:
+                    entries.append((m.group(1), float(raw)))
     return entries
 
 
 def _normalize_key(key: str) -> str:
-    return key.replace("poked", "pokec").strip()
+    return key.replace("poked", "pokec").strip().lower()
 
 
 def main() -> None:
