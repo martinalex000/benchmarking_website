@@ -347,8 +347,8 @@ benchmarks:
     - name: Hard
       is_standard: false
 - name: OGB
-  arxiv_id: null
-  url: https://ogb.stanford.edu
+  arxiv_id: '2005.00687'
+  url: https://arxiv.org/abs/2005.00687
   description: 'Open Graph Benchmark — large-scale standardised graph ML benchmarks
     covering graph-level, node-level, and link-level prediction across diverse domains.
 
@@ -690,8 +690,8 @@ benchmarks:
     - name: Standard split
       is_standard: true
 - name: TU Dortmund
-  arxiv_id: null
-  url: https://chrsmrrs.github.io/datasets/
+  arxiv_id: '2007.08663'
+  url: https://arxiv.org/abs/2007.08663
   is_legacy: true
   description: TU Dortmund graph kernel benchmark datasets for graph classification.
   datasets:
@@ -1279,8 +1279,8 @@ benchmarks:
     - name: Scaffold split
       is_standard: true
 - name: Quantum Chemistry
-  arxiv_id: null
-  url: https://pytorch-geometric.readthedocs.io/en/latest/modules/datasets.html
+  arxiv_id: '1706.08566'
+  url: https://arxiv.org/abs/1706.08566
   description: Quantum chemistry molecular property prediction benchmarks.
   datasets:
   - name: QM9
@@ -1381,8 +1381,8 @@ benchmarks:
     - name: Standard split
       is_standard: true
 - name: Knowledge Graphs
-  arxiv_id: null
-  url: https://pytorch-geometric.readthedocs.io/en/latest/modules/datasets.html
+  arxiv_id: '1707.01476'
+  url: https://arxiv.org/abs/1707.01476
   description: Knowledge graph completion and link prediction benchmarks.
   datasets:
   - name: FB15k-237
@@ -1426,10 +1426,11 @@ benchmarks:
     - name: Standard split
       is_standard: true
 - name: Hypergraph Benchmarks
-  arxiv_id: null
-  url: https://arxiv.org/abs/2309.00367
+  arxiv_id: '2106.13264'
+  url: https://arxiv.org/abs/2106.13264
   description: 'Hypergraph node classification benchmarks used in heterophily-aware
-    and non-dissipative hypergraph GNN papers (Yadati et al., Yang et al., etc.).
+    and non-dissipative hypergraph GNN papers (AllSet, HyperGCN, etc.). Datasets
+    span multiple source papers; AllSet is the partial group anchor.
 
     '
   datasets:
@@ -1902,7 +1903,8 @@ benchmarks:
     - name: Standard split
       is_standard: true
 - name: LRIM Graph Benchmark
-  url: https://lrim-graphbenchmark.com/
+  arxiv_id: null
+  url: https://openreview.net/forum?id=IAZXEX1dVV
   description: 'LRIM — the Long-Range Ising Model Graph Benchmark, a physics-grounded suite
     for controlled long-range graph learning evaluation across ten datasets spanning multiple
     graph sizes and difficulty levels.
