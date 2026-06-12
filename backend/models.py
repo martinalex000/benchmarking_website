@@ -230,6 +230,7 @@ class TodoPaper(Base):
     seen_count = Column(Integer, nullable=False, default=0)
     seen_from = Column(Text)
     first_seen_at = Column(String)
+    is_manually_important = Column(Integer, nullable=False, default=0)
 
 
 # ─────────────────────────────────────────────────────────────────────────────

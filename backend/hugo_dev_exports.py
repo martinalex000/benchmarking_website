@@ -12,6 +12,7 @@ from typing import Any
 from sqlalchemy.orm import Session, joinedload
 
 from backend.config import cfg
+from backend.dataset_stats_parsing import format_stats_summary
 from backend.dataset_variant_resolver import (
     build_dataset_variant_lookup,
     resolve_dataset_variant_quiet,
@@ -27,7 +28,7 @@ from backend.models import (
     PendingDataset,
     TodoPaper,
 )
-from backend.sota_claim_verifier import verify_unrestricted_claims
+from backend.sota_claim_verifier import is_unrestricted_claim, verify_unrestricted_claims
 
 logger = logging.getLogger(__name__)
 
@@ -121,7 +122,10 @@ def _export_development_data_impl(session: Session, hugo: Any) -> dict[str, int]
             todo_total = session.query(func.count(TodoPaper.id)).scalar() or 0
             todo_rows = (
                 session.query(TodoPaper)
-                .order_by(TodoPaper.seen_count.desc())
+                .order_by(
+                    TodoPaper.is_manually_important.desc(),
+                    TodoPaper.seen_count.desc(),
+                )
                 .limit(TODO_EXPORT_LIMIT)
                 .all()
             )
@@ -133,6 +137,7 @@ def _export_development_data_impl(session: Session, hugo: Any) -> dict[str, int]
                         "title": sanitize_title(row.title),
                         "status": row.status,
                         "seen_count": int(row.seen_count or 0),
+                        "is_manually_important": bool(row.is_manually_important),
                         "seen_from": json.loads(row.seen_from) if row.seen_from else [],
                         "first_seen_at": row.first_seen_at,
                     }
@@ -200,6 +205,7 @@ def create_conferences_page(*, session: Session | None = None) -> int:
 
 def _create_dev_pages_impl(session: Session, hugo: Any, content_dev: Any) -> int:
     pages_written = 0
+    primary_metric_results: list[Any] | None = None
     hugo._write_md(content_dev / "_index.md", {"title": "Development", "type": "dev"}, "")
     pages_written += 1
 
@@ -497,7 +503,10 @@ def _create_dev_pages_impl(session: Session, hugo: Any, content_dev: Any) -> int
 
     try:
         with _dev_export_step("dev page: page-of-shame"):
-            mismatches = hugo._collect_model_value_mismatches(session)
+            primary_metric_results = hugo._primary_metric_results(session)
+            mismatches = hugo._collect_model_value_mismatches(
+                session, results=primary_metric_results
+            )
         by_paper: dict[str, dict[str, Any]] = {}
         shame_counts = {
             "worse_than_at_pub": 0,
@@ -840,7 +849,11 @@ def _create_dev_pages_impl(session: Session, hugo: Any, content_dev: Any) -> int
 
     try:
         with _dev_export_step("dev page: baseline-improvements"):
-            improvements = hugo._collect_at_pub_improvements(session)
+            if primary_metric_results is None:
+                primary_metric_results = hugo._primary_metric_results(session)
+            improvements = hugo._collect_at_pub_improvements(
+                session, results=primary_metric_results
+            )
 
         def _improvement_source_link(arxiv_id: str, title: str, word_limit: int = 8) -> str:
             if not arxiv_id:
@@ -905,16 +918,24 @@ def _create_dev_pages_impl(session: Session, hugo: Any, content_dev: Any) -> int
         logger.exception("Failed to create baseline-improvements dev page")
 
     try:
-        todo_rows = session.query(TodoPaper).order_by(TodoPaper.seen_count.desc()).all()
+        todo_rows = (
+            session.query(TodoPaper)
+            .order_by(
+                TodoPaper.is_manually_important.desc(),
+                TodoPaper.seen_count.desc(),
+            )
+            .all()
+        )
         lines = ["## Todo Papers (priority queue)", ""]
         lines.append(f"**Total:** {len(todo_rows)} entries")
         lines.append("")
-        lines.append("| arXiv | seen_count | status | title |")
-        lines.append("|---|---:|---|---")
+        lines.append("| arXiv | imp | seen_count | status | title |")
+        lines.append("|---|---:|---:|---|---")
         for row in todo_rows[:TODO_EXPORT_LIMIT]:
             title = sanitize_title(row.title)
+            imp = "yes" if row.is_manually_important else ""
             lines.append(
-                f"| {row.arxiv_id or ''} | {int(row.seen_count or 0)} | {row.status or ''} | {title} |"
+                f"| {row.arxiv_id or ''} | {imp} | {int(row.seen_count or 0)} | {row.status or ''} | {title} |"
             )
 
         try:
@@ -982,29 +1003,24 @@ def _format_stats_cell(
     extra_stats: dict | None,
     raw_values: dict | None,
 ) -> str:
-    parts: list[str] = []
-    raw_values = raw_values or {}
-    if num_graphs is not None:
-        label = raw_values.get("num_graphs", str(num_graphs))
-        parts.append(f"graphs={label}")
-    if avg_nodes is not None:
-        label = raw_values.get("avg_nodes", str(avg_nodes))
-        parts.append(f"nodes={label}")
-    if avg_edges is not None:
-        label = raw_values.get("avg_edges", str(avg_edges))
-        parts.append(f"edges={label}")
-    if num_classes is not None:
-        label = raw_values.get("num_classes", str(num_classes))
-        parts.append(f"classes={label}")
-    if extra_stats:
-        for key, value in sorted(extra_stats.items()):
-            parts.append(f"{key}={value}")
-    return "; ".join(parts) if parts else "—"
+    return format_stats_summary(
+        num_graphs=num_graphs,
+        avg_nodes=avg_nodes,
+        avg_edges=avg_edges,
+        num_classes=num_classes,
+        extra_stats=extra_stats if isinstance(extra_stats, dict) else None,
+        raw_values=raw_values if isinstance(raw_values, dict) else None,
+        separator="; ",
+    )
 
 
 def _export_statistics_sources_page(session: Session, hugo: Any, content_dev: Any) -> None:
     datasets = session.query(Dataset).order_by(Dataset.name).all()
-    observations = session.query(PaperDatasetStatistics).all()
+    observations = (
+        session.query(PaperDatasetStatistics)
+        .options(joinedload(PaperDatasetStatistics.paper))
+        .all()
+    )
     obs_by_dataset: dict[int, list[PaperDatasetStatistics]] = {}
     for obs in observations:
         obs_by_dataset.setdefault(obs.dataset_id, []).append(obs)
@@ -1154,7 +1170,7 @@ def _export_sota_claims_page(session: Session, hugo: Any, content_dev: Any) -> N
     )
     verifications = verify_unrestricted_claims(session)
 
-    unrestricted_total = sum(1 for claim in claims if (claim.scope or "") == "unrestricted")
+    unrestricted_total = sum(1 for claim in claims if is_unrestricted_claim(claim))
     restricted_total = sum(1 for claim in claims if (claim.scope or "") == "restricted")
 
     lines = [

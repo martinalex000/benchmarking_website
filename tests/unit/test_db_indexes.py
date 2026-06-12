@@ -124,6 +124,7 @@ def test_init_db_applies_tracked_migrations_to_legacy_schema(monkeypatch, tmp_pa
         "seen_count",
         "seen_from",
         "first_seen_at",
+        "is_manually_important",
     } <= todo_column_names
     assert "idx_todo_created_at" in index_names
     assert "idx_todo_seen_count" in index_names

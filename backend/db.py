@@ -84,6 +84,9 @@ def _migration_todo_queue_columns(engine: Engine) -> None:
     _add_column_if_missing(engine, "todo_papers", "seen_count", "INTEGER NOT NULL DEFAULT 0")
     _add_column_if_missing(engine, "todo_papers", "seen_from", "TEXT")
     _add_column_if_missing(engine, "todo_papers", "first_seen_at", "TEXT")
+    _add_column_if_missing(
+        engine, "todo_papers", "is_manually_important", "INTEGER NOT NULL DEFAULT 0"
+    )
 
 
 def _migration_todo_queue_indexes(engine: Engine) -> None:
@@ -120,6 +123,13 @@ def _migration_benchmark_is_legacy(engine: Engine) -> None:
         conn.commit()
 
 
+def _migration_todo_manual_importance(engine: Engine) -> None:
+    # Added after 003 was already applied on some DBs without this column.
+    _add_column_if_missing(
+        engine, "todo_papers", "is_manually_important", "INTEGER NOT NULL DEFAULT 0"
+    )
+
+
 MIGRATIONS: tuple[Migration, ...] = (
     Migration("001_results_additional_columns", _migration_results_additional_columns),
     Migration("002_pending_datasets_columns", _migration_pending_datasets_columns),
@@ -128,6 +138,7 @@ MIGRATIONS: tuple[Migration, ...] = (
     Migration("005_results_model_metadata", _migration_results_model_metadata),
     Migration("006_dataset_extra_stats", _migration_dataset_extra_stats),
     Migration("007_benchmark_is_legacy", _migration_benchmark_is_legacy),
+    Migration("008_todo_manual_importance", _migration_todo_manual_importance),
 )
 
 

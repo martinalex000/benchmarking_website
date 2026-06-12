@@ -292,6 +292,7 @@ CREATE TABLE IF NOT EXISTS todo_papers (
     seen_count       INTEGER NOT NULL DEFAULT 0,
     seen_from        TEXT,
     first_seen_at    TEXT,
+    is_manually_important INTEGER NOT NULL DEFAULT 0,
     created_at       TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%SZ', 'now'))
 );
 CREATE INDEX IF NOT EXISTS idx_todo_arxiv_id ON todo_papers(arxiv_id);
