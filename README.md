@@ -23,9 +23,13 @@ uv sync --group dev
 # Seed the database with benchmark/dataset definitions
 uv run python -m backend.seed_db
 
-# Process your first paper
-uv run vllm serve Qwen/Qwen3.6-35B-A3B-FP8   --tensor-parallel-size 2   --max-model-len 32768   --gpu-memory-utilization 0.92   --enable-chunked-prefill   --max-num-seqs 128   --reasoning-parser qwen3
+# the qwen model needs two gpus. Not clear which exact way to do the extraction is best.
+uv run vllm serve Qwen/Qwen3.6-35B-A3B-FP8   --tensor-parallel-size 2   --max-model-len 32768   --gpu-memory-utilization 0.96   --enable-chunked-prefill   --max-num-seqs 128   --reasoning-parser qwen3
 
+# this is the 4-bit version of the gemma4 model which can fit on a single gpu
+uv run vllm serve QuantTrio/gemma-4-31B-it-AWQ --quantization awq_marlin --limit-mm-per-prompt '{"image": 0}' --gpu-memory-utilization 0.96   --max-num-batched-tokens 4096 --max_model_len=50000
+
+# note that the model must match what has been started locally.
 uv run python scripts/run_manual.py 2206.08164
 ```
 

@@ -30,14 +30,10 @@
 - regression test jpg: einmal alle möglichen views rendern und in ein jpg vor jedem commit.
 
 
-
+- multiple endpoints for LLMs (not only the local one, but in parallel having access to the big e.g. kimi or minimax model - both still have to be benchmarked)
 
 
 attribution of results: currently what we do is using the oldest paper with exactly this number and when there is e.g. a higher number for GCN, then all lower and older ones are silently swallowed. instead of doing this silently, it is important to do it in a transparent fashion. One should thus be able to open those aggregated results and see all the results published by different papers for this method. Of course this is especially important for very basic models such as GCN, GIN, etc because many people run them by themselves.
-
-don't sort by amount of results but by amount of recent results
-
-http://localhost:1313/datasets/zinc/ hier gibt es verdammt grosse Zahlen gemixt unter die anderen - wo kommen die her und wie werde ich die los? Und schaffe ich es die y-achse so zu skalieren, dass man mehr sehen kann?
 
 the page of shame papers should be extended by a comparison of what would have been the case at the time of publication - even though its just baselines, its nice to not complain about methods not copying baseline results from the future. The "future" value should of course still be provided.
 
