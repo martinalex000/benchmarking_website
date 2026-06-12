@@ -435,14 +435,15 @@ def _register_model_alias(
     model_id: int,
     alias: str,
 ) -> None:
-    alias_key = alias.strip().lower()
+    alias_clean = re.sub(r"\s+", " ", alias).strip()
+    alias_key = alias_clean.lower()
     if not alias_key or alias_key in alias_map:
         return
-    existing = session.query(ModelAlias).filter_by(alias=alias).first()
+    existing = session.query(ModelAlias).filter_by(alias=alias_clean).first()
     if existing is not None:
         alias_map[alias_key] = existing.model_id
         return
-    session.add(ModelAlias(model_id=model_id, alias=alias.strip()))
+    session.add(ModelAlias(model_id=model_id, alias=alias_clean))
     session.flush()
     alias_map[alias_key] = model_id
 
