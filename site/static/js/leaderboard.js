@@ -225,10 +225,6 @@
     return value.toFixed(4);
   }
 
-  function _formatMetricValue4(value) {
-    return _formatMetricValue(value);
-  }
-
   function _needsSciNotation(values) {
     return (values || []).some(function (v) {
       return typeof v === "number" && isFinite(v) && v !== 0 && Math.abs(v) < SCI_NOTATION_THRESHOLD;
@@ -371,9 +367,9 @@
     var valueClass = stacked ? "metric-stacked-value" : "metric-primary-value";
     var stdSpanClass = stacked ? "metric-stacked-std inline-std" : "metric-primary-std inline-std";
     var html = '<div class="' + blockClass + '"><span class="' + valueClass + '">' +
-      _formatMetricValue4(val) + "</span>";
+      _formatMetricValue(val) + "</span>";
     if (std != null) {
-      html += '<span class="' + stdSpanClass + stdClass + '">±' + _formatMetricValue4(std) + "</span>";
+      html += '<span class="' + stdSpanClass + stdClass + '">±' + _formatMetricValue(std) + "</span>";
     }
     html += "</div>";
     return html;
@@ -452,10 +448,10 @@
           if (secVal == null) return;
           html += '<div class="secondary-metric"><span class="secondary-metric-name">' +
             _escapeHtml(secMetric) + '</span><span class="metric-stacked-block metric-stacked-block-inline">' +
-            '<span class="metric-stacked-value">' + _formatMetricValue4(secVal) + "</span>";
+            '<span class="metric-stacked-value">' + _formatMetricValue(secVal) + "</span>";
           if (secStd != null) {
             html += '<span class="metric-stacked-std inline-std' +
-              (row.is_std_outlier ? " inline-std-outlier" : "") + '">±' + _formatMetricValue4(secStd) + "</span>";
+              (row.is_std_outlier ? " inline-std-outlier" : "") + '">±' + _formatMetricValue(secStd) + "</span>";
           }
           html += "</span></div>";
         });
