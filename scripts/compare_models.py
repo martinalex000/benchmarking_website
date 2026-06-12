@@ -22,6 +22,12 @@ Usage::
     # Skip slow/irrelevant models
     python -m scripts.compare_models --skip-model teuken-7b-instruct-research medgemma-27b-it
 
+    # Interactive paper/model selection
+    python -m scripts.compare_models --interactive
+
+    # Parallel processing (default); use --sequential for one job at a time
+    python -m scripts.compare_models --workers 4
+
     # Save detailed per-entry results + conversation logs
     python -m scripts.compare_models --output experiments/model_comparison.json \\
                                      --log-dir experiments/logs
@@ -33,8 +39,11 @@ import argparse
 import json
 import logging
 import random
+import re
 import sys
+import threading
 import time
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
 from pathlib import Path
@@ -56,6 +65,7 @@ from backend.llm_extractor import CallRecord, ExtractionOutput, LLMExtractor
 
 console = Console()
 logger = logging.getLogger(__name__)
+_console_lock = threading.Lock()
 
 # ── Tolerance for value matching ──────────────────────────────────────────────
 ABS_TOL = 0.005
@@ -146,7 +156,155 @@ class PaperComparison:
         return self.hallucinations / extracted if extracted > 0 else 0.0
 
 
+@dataclass
+class CompareJob:
+    model: str
+    arxiv_id: str
+    paper_title: str
+    paper_text: str
+    structured_tables: list
+    baseline: list[dict]
+    latex_paper: Any = None
+
+
+@dataclass
+class _ProcessOptions:
+    show_prompts: bool = False
+    oneshot: bool = False
+    log_dir: Path | None = None
+    db_primary_metrics: dict[str, str] | None = None
+    classify_errors: bool = False
+
+
 # ── Helpers ───────────────────────────────────────────────────────────────────
+
+
+def _safe_print(*args: Any, **kwargs: Any) -> None:
+    with _console_lock:
+        console.print(*args, **kwargs)
+
+
+def _safe_rule(title: str, **kwargs: Any) -> None:
+    with _console_lock:
+        console.rule(title, **kwargs)
+
+
+def _truncate_title(title: str, max_len: int = 72) -> str:
+    title = title.strip()
+    if len(title) <= max_len:
+        return title
+    return title[: max_len - 1] + "…"
+
+
+def _resolve_paper_title(arxiv_id: str) -> str:
+    """Best-effort paper title from DB, local cache, or arXiv API."""
+    try:
+        from backend.db import init_db, session_scope
+        from backend.models import Paper
+
+        init_db()
+        with session_scope() as session:
+            paper = session.query(Paper).filter_by(arxiv_id=arxiv_id).first()
+            if paper and paper.title and not paper.title.startswith("arXiv:"):
+                return paper.title.strip()
+    except Exception as exc:
+        logger.debug("DB title lookup failed for %s: %s", arxiv_id, exc)
+
+    from backend.paper_storage import PaperStorage
+
+    storage = PaperStorage(arxiv_id)
+    if storage.metadata_path.exists():
+        try:
+            metadata = json.loads(storage.metadata_path.read_text(encoding="utf-8"))
+            title = str(metadata.get("title") or "").strip()
+            if title:
+                return title
+        except (OSError, json.JSONDecodeError):
+            pass
+
+    if storage.latex_dir.exists():
+        try:
+            from backend.llm_extractor import _extract_metadata_from_latex_cache
+
+            meta = _extract_metadata_from_latex_cache(storage.latex_dir)
+            title = str(meta.get("title") or "").strip()
+            if title:
+                return title
+        except Exception:
+            pass
+
+    if storage.html_index_path.exists():
+        try:
+            from backend.html_parser import parse_html_paper
+
+            parsed = parse_html_paper(storage.html_index_path)
+            if parsed.title:
+                return parsed.title.strip()
+        except Exception:
+            pass
+
+    try:
+        from backend.llm_extractor import fetch_arxiv_metadata
+
+        meta = fetch_arxiv_metadata(arxiv_id)
+        title = str(meta.get("title") or "").strip()
+        if title and not title.startswith("arXiv:"):
+            return title
+    except Exception:
+        pass
+
+    return ""
+
+
+def _format_paper_header(arxiv_id: str, paper_title: str) -> str:
+    if paper_title:
+        return f"{arxiv_id} — {_truncate_title(paper_title)}"
+    return arxiv_id
+
+
+def _interactive_pick(
+    items: list[tuple[str, str]],
+    *,
+    kind: str,
+) -> list[str] | None:
+    """Return selected item ids, [] if nothing selected, None to abort."""
+    if not items:
+        return []
+
+    table = Table(show_header=True, header_style="bold", box=box.SIMPLE, show_edge=False)
+    table.add_column("#", style="dim", justify="right", width=4)
+    table.add_column(kind, style="cyan")
+    for index, (_item_id, label) in enumerate(items, start=1):
+        table.add_row(str(index), label)
+    _safe_print(table)
+    _safe_print(
+        f"\nSelect {kind.lower()} to process "
+        f"(space/comma-separated numbers, [bold]a[/bold] for all, [bold]q[/bold] to quit):"
+    )
+    try:
+        raw = input("> ").strip()
+    except (EOFError, KeyboardInterrupt):
+        return None
+
+    if not raw or raw.lower() == "q":
+        return []
+    if raw.lower() == "a":
+        return [item_id for item_id, _ in items]
+
+    selected: list[str] = []
+    for token in re.split(r"[\s,]+", raw):
+        token = token.strip()
+        if not token:
+            continue
+        try:
+            index = int(token) - 1
+            if 0 <= index < len(items):
+                selected.append(items[index][0])
+            else:
+                _safe_print(f"[yellow]  Index {token} out of range — skipped[/yellow]")
+        except ValueError:
+            _safe_print(f"[yellow]  Not a number: {token!r} — skipped[/yellow]")
+    return selected
 
 
 def _values_match(a: float, b: float) -> bool:
@@ -210,6 +368,7 @@ def _run_extraction(
     paper_text: str,
     structured_tables: list,
     latex_paper: Any = None,
+    output_prefix: str = "",
 ) -> tuple[ExtractionOutput | None, float, str | None, list[CallRecord]]:
     """Run extraction with one model; returns (output, duration_s, error, call_log)."""
     extractor = LLMExtractor.__new__(LLMExtractor)
@@ -228,7 +387,7 @@ def _run_extraction(
 
     def _on_call(rec: CallRecord) -> None:
         _call_counter[0] += 1
-        _print_call_verbose(rec, _call_counter[0])
+        _print_call_verbose(rec, _call_counter[0], output_prefix=output_prefix)
 
     extractor._progress_callback = _on_call
 
@@ -272,6 +431,7 @@ def _run_oneshot_extraction(
     paper_text: str,
     structured_tables: list,
     latex_paper: Any = None,
+    output_prefix: str = "",
 ) -> tuple[ExtractionOutput | None, float, str | None, list[CallRecord]]:
     """Run the legacy single-step extraction for comparison."""
     extractor = LLMExtractor.__new__(LLMExtractor)
@@ -289,8 +449,8 @@ def _run_oneshot_extraction(
 
     def _on_call(rec: CallRecord) -> None:
         _call_counter[0] += 1
-        console.print("  [dim](1-shot)[/dim] ", end="")
-        _print_call_verbose(rec, _call_counter[0])
+        _safe_print("  [dim](1-shot)[/dim] ", end="")
+        _print_call_verbose(rec, _call_counter[0], output_prefix=output_prefix)
 
     extractor._progress_callback = _on_call
 
@@ -325,6 +485,7 @@ def _run_discovery_only(
     paper_text: str,
     structured_tables: list,
     latex_paper: Any = None,
+    output_prefix: str = "",
 ) -> tuple[float, str | None, list[CallRecord]]:
     """Run only the dataset discovery step (Step 1) and return timing."""
     extractor = LLMExtractor.__new__(LLMExtractor)
@@ -342,7 +503,7 @@ def _run_discovery_only(
 
     def _on_call(rec: CallRecord) -> None:
         _call_counter[0] += 1
-        _print_call_verbose(rec, _call_counter[0])
+        _print_call_verbose(rec, _call_counter[0], output_prefix=output_prefix)
 
     extractor._progress_callback = _on_call
 
@@ -441,6 +602,261 @@ def _compare(
     return result
 
 
+def _ratio_near(a: float, b: float, factor: float, rel_tol: float = 0.05) -> bool:
+    if b == 0:
+        return False
+    scaled = b * factor
+    return abs(a - scaled) <= max(ABS_TOL, abs(scaled) * rel_tol)
+
+
+def _classify_comparison_errors(
+    cmp: PaperComparison,
+    call_log: list[CallRecord],
+) -> dict[str, Any]:
+    """Heuristic root-cause tags for misses, value errors, and hallucinations."""
+    empty_extract_calls = 0
+    truncated_context_calls = 0
+    truncated_completion_calls = 0
+    regex_parse_calls = 0
+    for rec in call_log:
+        if not rec.call_type.startswith("extract_dataset"):
+            continue
+        parsed = rec.parsed_result
+        if isinstance(parsed, dict) and not parsed.get("results"):
+            empty_extract_calls += 1
+        rag = rec.extra.get("rag") or {}
+        if rag.get("rag_text_truncated") or rag.get("tables_truncated"):
+            truncated_context_calls += 1
+        if rec.extra.get("completion_truncated"):
+            truncated_completion_calls += 1
+        parse_method = rec.extra.get("structured_parse_method") or rec.extra.get(
+            "json_parse_method"
+        )
+        if parse_method in {"json_regex", "lenient_repair"}:
+            regex_parse_calls += 1
+
+    scale_value_errors: list[dict] = []
+    for item in cmp.value_error_keys:
+        bval = float(item["baseline"])
+        cval = float(item["candidate"])
+        tags: list[str] = []
+        if _ratio_near(cval, bval, 100.0) or _ratio_near(cval, bval, 0.01):
+            tags.append("E_scale_normalization")
+        scale_value_errors.append({**item, "tags": tags})
+
+    name_variant_hallucinations = 0
+    for hall in cmp.hallucinated_keys:
+        hkey = str(hall["key"]).lower()
+        hval = float(hall["candidate_value"])
+        for miss in cmp.miss_keys:
+            mkey = str(miss["key"]).lower()
+            mval = float(miss["baseline_value"])
+            if _values_match(mval, hval) and mkey != hkey:
+                name_variant_hallucinations += 1
+                break
+
+    return {
+        "empty_extract_calls": empty_extract_calls,
+        "truncated_context_calls": truncated_context_calls,
+        "truncated_completion_calls": truncated_completion_calls,
+        "regex_parse_calls": regex_parse_calls,
+        "scale_value_errors": scale_value_errors,
+        "name_variant_hallucination_pairs": name_variant_hallucinations,
+        "miss_count": cmp.misses,
+        "value_error_count": cmp.value_errors,
+        "hallucination_count": cmp.hallucinations,
+    }
+
+
+def _print_error_classification(classification: dict[str, Any]) -> None:
+    _safe_print("  [dim]Error classification:[/dim]")
+    _safe_print(
+        f"    empty extract calls={classification['empty_extract_calls']}  "
+        f"truncated context={classification['truncated_context_calls']}  "
+        f"truncated completion={classification['truncated_completion_calls']}  "
+        f"regex/lenient parse={classification['regex_parse_calls']}"
+    )
+    if classification["name_variant_hallucination_pairs"]:
+        _safe_print(
+            f"    name-variant pairs (miss+halluc same value)="
+            f"{classification['name_variant_hallucination_pairs']}"
+        )
+    scale_tags = [item for item in classification["scale_value_errors"] if item.get("tags")]
+    if scale_tags:
+        _safe_print(f"    scale-like value errors={len(scale_tags)}")
+
+
+def _normalize_disagreement_key(key: str) -> str:
+    """Normalize result keys for cross-model comparison."""
+    return key.replace("poked", "pokec").strip().lower()
+
+
+def _comparison_disagreement_sets(
+    cmp: PaperComparison,
+) -> tuple[dict[str, float], dict[str, float]]:
+    misses = {
+        _normalize_disagreement_key(item["key"]): float(item["baseline_value"])
+        for item in cmp.miss_keys
+    }
+    hallucinations = {
+        _normalize_disagreement_key(item["key"]): float(item["candidate_value"])
+        for item in cmp.hallucinated_keys
+    }
+    return misses, hallucinations
+
+
+def _looks_like_ablation_row(key: str) -> bool:
+    lowered = key.lower()
+    return "(-)" in lowered or "ablation" in lowered or " w/o " in lowered
+
+
+def analyze_multi_model_baseline(
+    paper_results: list[PaperComparison],
+) -> dict[str, Any] | None:
+    """Cross-model disagreement analysis when >=2 models ran on the same paper.
+
+    Inspection rules (GLM baseline is fallible):
+      - Both models miss the same key → GLM likely over-extracted (ablations etc.)
+      - Both models hallucinate the same key → GLM likely missed a real table row
+      - Model-only miss → GLM likely correct; that model under-extracted
+      - Model-only hallucination → model-specific false positive or naming variant
+    """
+    ok = [r for r in paper_results if r.error is None]
+    if len(ok) < 2:
+        return None
+
+    models = [r.llm_model for r in ok]
+    baseline_count = ok[0].baseline_count
+
+    model_misses: dict[str, dict[str, float]] = {}
+    model_hallucinations: dict[str, dict[str, float]] = {}
+    for result in ok:
+        misses, hallucinations = _comparison_disagreement_sets(result)
+        model_misses[result.llm_model] = misses
+        model_hallucinations[result.llm_model] = hallucinations
+
+    miss_sets = [set(data.keys()) for data in model_misses.values()]
+    hallucination_sets = [set(data.keys()) for data in model_hallucinations.values()]
+    both_miss = set.intersection(*miss_sets) if miss_sets else set()
+    both_hallucinate = set.intersection(*hallucination_sets) if hallucination_sets else set()
+
+    both_miss_ablation_like = sorted(key for key in both_miss if _looks_like_ablation_row(key))
+
+    per_model_only: dict[str, dict[str, Any]] = {}
+    adjusted_metrics: dict[str, dict[str, Any]] = {}
+    for result in ok:
+        model = result.llm_model
+        only_misses = sorted(key for key in model_misses[model] if key not in both_miss)
+        only_hallucinations = sorted(
+            key for key in model_hallucinations[model] if key not in both_hallucinate
+        )
+        per_model_only[model] = {
+            "misses": only_misses,
+            "misses_count": len(only_misses),
+            "hallucinations": only_hallucinations,
+            "hallucinations_count": len(only_hallucinations),
+        }
+
+        glm_likely_over_extracted = len(both_miss)
+        glm_likely_missed = len(both_hallucinate)
+        effective_hits = result.hits + glm_likely_missed
+        effective_baseline = max(baseline_count - glm_likely_over_extracted, 1)
+        extracted = result.hits + result.value_errors + result.hallucinations
+        effective_extracted = max(extracted - glm_likely_missed, 1)
+        adjusted_metrics[model] = {
+            "raw_recall": round(result.recall, 4),
+            "adjusted_recall": round(effective_hits / effective_baseline, 4),
+            "raw_precision": round(result.precision, 4),
+            "adjusted_precision": round(result.hits / effective_extracted, 4),
+            "glm_likely_over_extracted": glm_likely_over_extracted,
+            "glm_likely_missed": glm_likely_missed,
+            "model_only_misses": len(only_misses),
+            "model_only_hallucinations": len(only_hallucinations),
+        }
+
+    return {
+        "models": models,
+        "baseline_count": baseline_count,
+        "both_models_miss": {
+            "count": len(both_miss),
+            "ablation_like_count": len(both_miss_ablation_like),
+            "interpretation": (
+                "GLM likely over-extracted or rows both models correctly skipped "
+                "(e.g. ablations)"
+            ),
+            "keys": [
+                {
+                    "key": key,
+                    "ablation_like": _looks_like_ablation_row(key),
+                    "baseline_values": {model: model_misses[model].get(key) for model in models},
+                }
+                for key in sorted(both_miss)
+            ],
+        },
+        "both_models_hallucinate": {
+            "count": len(both_hallucinate),
+            "interpretation": "Strong signal GLM baseline missed real table rows",
+            "keys": [
+                {
+                    "key": key,
+                    "candidate_values": {
+                        model: model_hallucinations[model].get(key) for model in models
+                    },
+                }
+                for key in sorted(both_hallucinate)
+            ],
+        },
+        "per_model_only": per_model_only,
+        "adjusted_metrics": adjusted_metrics,
+    }
+
+
+def _print_multi_model_baseline_analysis(
+    arxiv_id: str,
+    analysis: dict[str, Any],
+) -> None:
+    _safe_print()
+    _safe_print(
+        f"[bold]Baseline quality analysis[/bold] — {arxiv_id} " f"({', '.join(analysis['models'])})"
+    )
+    both_miss = analysis["both_models_miss"]
+    both_hall = analysis["both_models_hallucinate"]
+    _safe_print(
+        f"  both miss={both_miss['count']} "
+        f"(ablation-like={both_miss['ablation_like_count']}) → "
+        f"[dim]{both_miss['interpretation']}[/dim]"
+    )
+    _safe_print(
+        f"  both hallucinate={both_hall['count']} → " f"[dim]{both_hall['interpretation']}[/dim]"
+    )
+    for model, metrics in analysis["adjusted_metrics"].items():
+        _safe_print(
+            f"  [cyan]{model}[/cyan]: "
+            f"recall {metrics['raw_recall']:.0%} → "
+            f"[bold]{metrics['adjusted_recall']:.0%}[/bold] adj  "
+            f"prec {metrics['raw_precision']:.0%} → "
+            f"[bold]{metrics['adjusted_precision']:.0%}[/bold] adj  "
+            f"only-miss={metrics['model_only_misses']}  "
+            f"only-halluc={metrics['model_only_hallucinations']}"
+        )
+
+
+def _collect_baseline_quality_analyses(
+    all_results: list[PaperComparison],
+) -> dict[str, dict[str, Any]]:
+    by_paper: dict[str, list[PaperComparison]] = {}
+    for result in all_results:
+        by_paper.setdefault(result.arxiv_id, []).append(result)
+
+    analyses: dict[str, dict[str, Any]] = {}
+    for arxiv_id, paper_results in sorted(by_paper.items()):
+        analysis = analyze_multi_model_baseline(paper_results)
+        if analysis is not None:
+            analyses[arxiv_id] = analysis
+            _print_multi_model_baseline_analysis(arxiv_id, analysis)
+    return analyses
+
+
 def _fetch_db_primary_metrics() -> dict[str, str]:
     """Return {dataset_name_lower: primary_metric} from the local DB.
 
@@ -489,8 +905,15 @@ def _find_papers_with_baseline() -> list[str]:
 # ── Verbose console printing ──────────────────────────────────────────────────
 
 
-def _print_call_verbose(rec: CallRecord, call_index: int, total_calls: int | None = None) -> None:
+def _print_call_verbose(
+    rec: CallRecord,
+    call_index: int,
+    total_calls: int | None = None,
+    *,
+    output_prefix: str = "",
+) -> None:
     """Print a rich-formatted summary of one LLM call."""
+    prefix = f"[dim]{output_prefix}[/dim] " if output_prefix else ""
     # ── Header line ────────────────────────────────────────────────────
     ttft_str = f"TTFT {rec.ttft_s:.2f}s  " if rec.ttft_s is not None else ""
     tps_str = f"{rec.tokens_per_sec:.0f} tok/s  " if rec.tokens_per_sec else ""
@@ -501,8 +924,8 @@ def _print_call_verbose(rec: CallRecord, call_index: int, total_calls: int | Non
         )
     status = "[green]✓[/green]" if rec.success else "[red]✗[/red]"
     call_label = f"Call {call_index}" if total_calls is None else f"Call {call_index}/{total_calls}"
-    console.print(
-        f"  {status} {call_label} "
+    _safe_print(
+        f"  {prefix}{status} {call_label} "
         f"[bold cyan]{rec.call_type}[/bold cyan]  "
         f"in={rec.input_chars:,} chars  "
         f"out={rec.output_chars:,} chars  "
@@ -514,19 +937,20 @@ def _print_call_verbose(rec: CallRecord, call_index: int, total_calls: int | Non
     discovered = rec.extra.get("discovered_datasets")
     if discovered is not None:
         if discovered:
-            console.print(
-                "    [dim]Datasets:[/dim] " + "  ".join(f"[bold]{d}[/bold]" for d in discovered)
+            _safe_print(
+                f"    {prefix}[dim]Datasets:[/dim] "
+                + "  ".join(f"[bold]{d}[/bold]" for d in discovered)
             )
         else:
-            console.print("    [yellow]No datasets discovered[/yellow]")
+            _safe_print(f"    {prefix}[yellow]No datasets discovered[/yellow]")
 
     # ── Table selection (select_tables calls) ─────────────────────────────
     # Single-dataset form (legacy): selected_tables = [1, 3, 5]
     sel_tables = rec.extra.get("selected_tables")
     if sel_tables is not None:
         total_t = rec.extra.get("tables_total", "?")
-        console.print(
-            f"    [dim]Tables selected:[/dim] {sel_tables} "
+        _safe_print(
+            f"    {prefix}[dim]Tables selected:[/dim] {sel_tables} "
             f"[dim]({len(sel_tables)}/{total_t})[/dim]"
         )
     # Multi-dataset form: selected_tables_per_dataset = {"DS-A": [1,3], "DS-B": [3]}
@@ -534,8 +958,8 @@ def _print_call_verbose(rec: CallRecord, call_index: int, total_calls: int | Non
     if sel_multi is not None:
         total_t = rec.extra.get("tables_total", "?")
         for ds_name, nums in sel_multi.items():
-            console.print(
-                f"    [dim]Tables for[/dim] [bold]{ds_name}[/bold][dim]:[/dim] "
+            _safe_print(
+                f"    {prefix}[dim]Tables for[/dim] [bold]{ds_name}[/bold][dim]:[/dim] "
                 f"{nums} [dim]({len(nums)}/{total_t})[/dim]"
             )
 
@@ -543,25 +967,25 @@ def _print_call_verbose(rec: CallRecord, call_index: int, total_calls: int | Non
     rag = rec.extra.get("rag")
     if rag:
         mode_color = "green" if rag["table_selection_mode"] == "caption_match" else "yellow"
-        console.print(
-            f"    [dim]RAG:[/dim] "
+        _safe_print(
+            f"    {prefix}[dim]RAG:[/dim] "
             f"paragraphs {rag['paragraphs_selected']}/{rag['paragraphs_total']}  "
             f"tables {rag['tables_selected']}/{rag['tables_total']} "
             f"([{mode_color}]{rag['table_selection_mode']}[/{mode_color}])"
         )
         if rag.get("selected_table_captions"):
             for cap in rag["selected_table_captions"][:3]:
-                console.print(f"      [dim]↳ {cap}[/dim]")
+                _safe_print(f"      {prefix}[dim]↳ {cap}[/dim]")
             if len(rag["selected_table_captions"]) > 3:
-                console.print(
-                    f"      [dim]↳ … +{len(rag['selected_table_captions']) - 3} more[/dim]"
+                _safe_print(
+                    f"      {prefix}[dim]↳ … +{len(rag['selected_table_captions']) - 3} more[/dim]"
                 )
 
     # ── JSON parse method note ─────────────────────────────────────────────
     if rec.extra.get("json_parse_method") == "regex":
-        console.print("    [yellow]⚠ JSON extracted via regex fallback[/yellow]")
+        _safe_print(f"    {prefix}[yellow]⚠ JSON extracted via regex fallback[/yellow]")
     if rec.parse_error:
-        console.print(f"    [red]⚠ Parse error: {rec.parse_error[:120]}[/red]")
+        _safe_print(f"    {prefix}[red]⚠ Parse error: {rec.parse_error[:120]}[/red]")
 
 
 def _print_call_full_prompt(rec: CallRecord) -> None:
@@ -818,9 +1242,260 @@ def _render_summary_table(all_results: list[PaperComparison]) -> None:
     console.print(table)
 
 
+def _job_output_prefix(job: CompareJob) -> str:
+    paper = _format_paper_header(job.arxiv_id, job.paper_title)
+    return f"{job.model} @ {paper}"
+
+
+def _print_job_rule(job: CompareJob, job_index: int, total_jobs: int) -> None:
+    paper = _format_paper_header(job.arxiv_id, job.paper_title)
+    _safe_print()
+    _safe_rule(
+        f"[{job_index}/{total_jobs}] [cyan bold]{job.model}[/cyan bold] on [bold]{paper}[/bold]"
+    )
+
+
+def _process_compare_job(
+    job: CompareJob,
+    opts: _ProcessOptions,
+    job_index: int,
+    total_jobs: int,
+) -> PaperComparison:
+    _print_job_rule(job, job_index, total_jobs)
+    prefix = _job_output_prefix(job)
+
+    out, duration, err, call_log = _run_extraction(
+        job.arxiv_id,
+        job.model,
+        job.paper_text,
+        job.structured_tables,
+        latex_paper=job.latex_paper,
+        output_prefix=prefix,
+    )
+
+    if opts.show_prompts:
+        for _idx, rec in enumerate(call_log, 1):
+            with _console_lock:
+                _print_call_full_prompt(rec)
+
+    if err or out is None:
+        _safe_print(f"  [red]✗ EXTRACTION FAILED:[/red] {err}")
+        cmp = PaperComparison(
+            arxiv_id=job.arxiv_id,
+            llm_model=job.model,
+            baseline_count=len(job.baseline),
+            duration_s=duration,
+            error=err or "no output",
+            call_log=call_log,
+        )
+    else:
+        cmp = _compare(
+            job.arxiv_id,
+            job.model,
+            job.baseline,
+            out,
+            call_log,
+            opts.db_primary_metrics,
+        )
+        cmp.duration_s = duration
+        _safe_print(
+            f"  [bold]Result:[/bold]  "
+            f"hits=[green]{cmp.hits}[/green]  "
+            f"val_err=[yellow]{cmp.value_errors}[/yellow]  "
+            f"miss=[red]{cmp.misses}[/red]  "
+            f"halluc=[magenta]{cmp.hallucinations}[/magenta]  "
+            f"recall=[bold]{_pct(cmp.recall)}[/bold]  "
+            f"prec=[bold]{_pct(cmp.precision)}[/bold]  "
+            f"[dim]{duration:.1f}s[/dim]"
+        )
+        if cmp.miss_keys:
+            _safe_print(
+                f"  [red]Missed ({len(cmp.miss_keys)}):[/red] "
+                + "  ".join(f"[dim]{m['key']}[/dim]" for m in cmp.miss_keys[:5])
+                + ("  …" if len(cmp.miss_keys) > 5 else "")
+            )
+        if cmp.hallucinated_keys:
+            _safe_print(
+                f"  [magenta]Hallucinated ({len(cmp.hallucinated_keys)}):[/magenta] "
+                + "  ".join(f"[dim]{h['key']}[/dim]" for h in cmp.hallucinated_keys[:5])
+                + ("  …" if len(cmp.hallucinated_keys) > 5 else "")
+            )
+        if cmp.value_error_keys:
+            _safe_print(f"  [yellow]Value errors ({len(cmp.value_error_keys)}):[/yellow]")
+            for ve in cmp.value_error_keys[:5]:
+                _safe_print(
+                    f"    [dim]{ve['key']}[/dim]  "
+                    f"baseline={ve['baseline']}  candidate={ve['candidate']}"
+                )
+            if len(cmp.value_error_keys) > 5:
+                _safe_print(f"    [dim]… +{len(cmp.value_error_keys) - 5} more[/dim]")
+        if opts.classify_errors:
+            _print_error_classification(_classify_comparison_errors(cmp, call_log))
+
+    if opts.oneshot:
+        _safe_print("  [dim]Running 1-shot (legacy) extraction for comparison…[/dim]")
+        os_out, os_dur, os_err, os_log = _run_oneshot_extraction(
+            job.arxiv_id,
+            job.model,
+            job.paper_text,
+            job.structured_tables,
+            latex_paper=job.latex_paper,
+            output_prefix=prefix,
+        )
+        if os_err or os_out is None:
+            _safe_print(f"  [red]✗ 1-shot FAILED:[/red] {os_err}")
+        else:
+            os_cmp = _compare(
+                job.arxiv_id,
+                job.model,
+                job.baseline,
+                os_out,
+                os_log,
+                opts.db_primary_metrics,
+            )
+            _safe_print(
+                f"  [dim]1-shot:[/dim]  "
+                f"hits=[green]{os_cmp.hits}[/green]  "
+                f"val_err=[yellow]{os_cmp.value_errors}[/yellow]  "
+                f"miss=[red]{os_cmp.misses}[/red]  "
+                f"halluc=[magenta]{os_cmp.hallucinations}[/magenta]  "
+                f"recall=[bold]{_pct(os_cmp.recall)}[/bold]  "
+                f"prec=[bold]{_pct(os_cmp.precision)}[/bold]  "
+                f"[dim]{os_dur:.1f}s[/dim]"
+            )
+
+    if opts.log_dir and call_log:
+        safe_model = job.model.replace("/", "_")
+        log_path = opts.log_dir / f"{safe_model}__{job.arxiv_id}.md"
+        md = _render_log_markdown(
+            job.arxiv_id,
+            job.model,
+            call_log,
+            cmp if not err else None,
+        )
+        log_path.write_text(md, encoding="utf-8")
+        _safe_print(f"  [bold green]Log saved →[/bold green] {log_path}")
+
+    _safe_print()
+    return cmp
+
+
+def _run_compare_jobs(
+    jobs: list[CompareJob],
+    opts: _ProcessOptions,
+    *,
+    sequential: bool,
+    workers: int,
+) -> list[PaperComparison]:
+    total_jobs = len(jobs)
+    if total_jobs == 0:
+        return []
+
+    if sequential:
+        return [
+            _process_compare_job(job, opts, index, total_jobs) for index, job in enumerate(jobs, 1)
+        ]
+
+    worker_count = max(1, min(workers, total_jobs))
+    _safe_print(
+        f"[dim]Running {total_jobs} job(s) in parallel " f"with {worker_count} worker(s)[/dim]\n"
+    )
+    results: list[PaperComparison | None] = [None] * total_jobs
+    with ThreadPoolExecutor(max_workers=worker_count) as pool:
+        future_map = {
+            pool.submit(_process_compare_job, job, opts, index, total_jobs): index - 1
+            for index, job in enumerate(jobs, 1)
+        }
+        for future in as_completed(future_map):
+            slot = future_map[future]
+            results[slot] = future.result()
+    return [result for result in results if result is not None]
+
+
+@dataclass
+class _DiscoveryResult:
+    model: str
+    arxiv_id: str
+    paper_title: str
+    duration: float
+    ttft: float | None
+    tps: float | None
+    datasets_found: str
+    err: str | None
+
+
+def _process_discovery_job(
+    job: CompareJob,
+    job_index: int,
+    total_jobs: int,
+) -> _DiscoveryResult:
+    _print_job_rule(job, job_index, total_jobs)
+    prefix = _job_output_prefix(job)
+    duration, err, call_log = _run_discovery_only(
+        job.model,
+        job.paper_text,
+        job.structured_tables,
+        latex_paper=job.latex_paper,
+        output_prefix=prefix,
+    )
+    ttft: float | None = None
+    tps: float | None = None
+    datasets_found = ""
+    for rec in call_log:
+        if rec.ttft_s is not None:
+            ttft = rec.ttft_s
+        if rec.tokens_per_sec is not None:
+            tps = rec.tokens_per_sec
+        ds_list = rec.extra.get("discovered_datasets")
+        if ds_list is not None:
+            datasets_found = ", ".join(ds_list)
+    _safe_print()
+    return _DiscoveryResult(
+        model=job.model,
+        arxiv_id=job.arxiv_id,
+        paper_title=job.paper_title,
+        duration=duration,
+        ttft=ttft,
+        tps=tps,
+        datasets_found=datasets_found,
+        err=err,
+    )
+
+
+def _run_discovery_jobs(
+    jobs: list[CompareJob],
+    *,
+    sequential: bool,
+    workers: int,
+) -> list[_DiscoveryResult]:
+    total_jobs = len(jobs)
+    if total_jobs == 0:
+        return []
+
+    if sequential:
+        return [_process_discovery_job(job, index, total_jobs) for index, job in enumerate(jobs, 1)]
+
+    worker_count = max(1, min(workers, total_jobs))
+    _safe_print(
+        f"[dim]Running {total_jobs} discovery job(s) in parallel "
+        f"with {worker_count} worker(s)[/dim]\n"
+    )
+    results: list[_DiscoveryResult | None] = [None] * total_jobs
+    with ThreadPoolExecutor(max_workers=worker_count) as pool:
+        future_map = {
+            pool.submit(_process_discovery_job, job, index, total_jobs): index - 1
+            for index, job in enumerate(jobs, 1)
+        }
+        for future in as_completed(future_map):
+            slot = future_map[future]
+            results[slot] = future.result()
+    return [result for result in results if result is not None]
+
+
 def _render_per_paper_table(all_results: list[PaperComparison]) -> None:
     table = Table(title="Per-Paper Results", box=box.SIMPLE)
     table.add_column("Paper", style="dim")
+    table.add_column("Title")
     table.add_column("Model", style="cyan")
     table.add_column("BL", justify="right")
     table.add_column("Hits", justify="right", style="green")
@@ -830,12 +1505,29 @@ def _render_per_paper_table(all_results: list[PaperComparison]) -> None:
     table.add_column("Recall", justify="right")
     table.add_column("Time", justify="right", style="dim")
 
+    title_cache: dict[str, str] = {}
+
     for r in sorted(all_results, key=lambda x: (x.arxiv_id, x.llm_model)):
+        if r.arxiv_id not in title_cache:
+            title_cache[r.arxiv_id] = _resolve_paper_title(r.arxiv_id)
+        title = _truncate_title(title_cache[r.arxiv_id], max_len=48) or "—"
         if r.error:
-            table.add_row(r.arxiv_id, r.llm_model, "—", "—", "—", "—", "—", "—", "[red]ERR[/red]")
+            table.add_row(
+                r.arxiv_id,
+                title,
+                r.llm_model,
+                "—",
+                "—",
+                "—",
+                "—",
+                "—",
+                "—",
+                "[red]ERR[/red]",
+            )
         else:
             table.add_row(
                 r.arxiv_id,
+                title,
                 r.llm_model,
                 str(r.baseline_count),
                 str(r.hits),
@@ -902,6 +1594,11 @@ def main(argv: list[str] | None = None) -> int:
         help="Also run legacy single-step extraction and compare side-by-side",
     )
     p.add_argument(
+        "--classify-errors",
+        action="store_true",
+        help="Print heuristic root-cause tags for misses and value errors",
+    )
+    p.add_argument(
         "--discovery-only",
         action="store_true",
         help="Run only Step 1 (dataset discovery) to benchmark model speed/quality "
@@ -912,6 +1609,24 @@ def main(argv: list[str] | None = None) -> int:
         "-v",
         action="store_true",
         help="Show debug logging from the extraction pipeline",
+    )
+    p.add_argument(
+        "--interactive",
+        "-i",
+        action="store_true",
+        help="Interactively select papers and models from numbered lists",
+    )
+    p.add_argument(
+        "--sequential",
+        action="store_true",
+        help="Process one (model, paper) job at a time (default: parallel)",
+    )
+    p.add_argument(
+        "--workers",
+        type=int,
+        default=8,
+        metavar="N",
+        help="Max parallel workers when not using --sequential (default: 8)",
     )
     args = p.parse_args(argv)
 
@@ -929,66 +1644,117 @@ def main(argv: list[str] | None = None) -> int:
         log_dir.mkdir(parents=True, exist_ok=True)
 
     # ── Resolve papers ────────────────────────────────────────────────────
-    paper_ids = list(args.paper) if args.paper else _find_papers_with_baseline()
-    if not paper_ids:
+    candidate_paper_ids = list(args.paper) if args.paper else _find_papers_with_baseline()
+    if not candidate_paper_ids:
         console.print("[yellow]No papers with GLM 4.7 baseline found.[/yellow]")
         return 0
-    console.print(f"[bold]Papers:[/bold] {', '.join(paper_ids)}")
+
+    if args.interactive:
+        console.print(f"\n[bold]Papers with GLM 4.7 baseline ({len(candidate_paper_ids)}):[/bold]")
+        paper_choices = [
+            (
+                pid,
+                f"{pid} — {_truncate_title(_resolve_paper_title(pid)) or '(title unknown)'}",
+            )
+            for pid in candidate_paper_ids
+        ]
+        picked_papers = _interactive_pick(paper_choices, kind="Paper")
+        if picked_papers is None:
+            console.print("[yellow]Aborted.[/yellow]")
+            return 0
+        if not picked_papers:
+            console.print("[yellow]No papers selected.[/yellow]")
+            return 0
+        paper_ids = picked_papers
+    else:
+        paper_ids = candidate_paper_ids
+        console.print("[bold]Papers:[/bold]")
+        for pid in paper_ids:
+            title = _resolve_paper_title(pid)
+            console.print(f"  {pid} — {_truncate_title(title) or '(title unknown)'}")
 
     # ── Resolve models ────────────────────────────────────────────────────
-    console.print("Fetching available models…")
+    console.print("\nFetching available models…")
     all_models = _fetch_model_ids(cfg.llm_endpoint, cfg.llm_api_key)
     skip_set = set(args.skip_model)
     if not args.include_skipped:
         skip_set |= _DEFAULT_SKIP
-    # skip_set.add(_BASELINE_MODEL)
 
     if args.model:
-        test_models = [m for m in args.model if m in all_models]
+        candidate_models = [m for m in args.model if m in all_models]
         missing = [m for m in args.model if m not in all_models]
         if missing:
             console.print(f"[yellow]Models not found on endpoint:[/yellow] {missing}")
     else:
-        test_models = [m for m in all_models if m not in skip_set]
-        random.shuffle(test_models)
+        candidate_models = [m for m in all_models if m not in skip_set]
+        random.shuffle(candidate_models)
 
-    if not test_models:
+    if not candidate_models:
         console.print("[yellow]No models to test.[/yellow]")
         return 0
+
+    if args.interactive:
+        console.print(f"\n[bold]Available models ({len(candidate_models)}):[/bold]")
+        model_choices = [(model, model) for model in candidate_models]
+        picked_models = _interactive_pick(model_choices, kind="Model")
+        if picked_models is None:
+            console.print("[yellow]Aborted.[/yellow]")
+            return 0
+        if not picked_models:
+            console.print("[yellow]No models selected.[/yellow]")
+            return 0
+        test_models = picked_models
+    else:
+        test_models = candidate_models
+        if not args.model:
+            console.print(f"\n[bold]Models to test ({len(test_models)}):[/bold]")
+            for model in test_models:
+                console.print(f"  {model}")
+            console.print()
+            try:
+                answer = input("Proceed? [y/N] ").strip().lower()
+            except (EOFError, KeyboardInterrupt):
+                answer = ""
+            if answer not in ("y", "yes"):
+                console.print("[yellow]Aborted.[/yellow]")
+                return 0
+            console.print()
+        else:
+            console.print(
+                f"[bold]Models to test ({len(test_models)}):[/bold] {', '.join(test_models)}"
+            )
+            console.print()
 
     if log_dir:
         console.print(f"[bold]Log dir:[/bold] {log_dir}")
 
-    # ── Acknowledge model list (skip when --model was given explicitly) ───
-    if not args.model:
-        console.print(f"\n[bold]Models to test ({len(test_models)}):[/bold]")
-        for m in test_models:
-            console.print(f"  {m}")
-        console.print()
-        try:
-            answer = input("Proceed? [y/N] ").strip().lower()
-        except (EOFError, KeyboardInterrupt):
-            answer = ""
-        if answer not in ("y", "yes"):
-            console.print("[yellow]Aborted.[/yellow]")
-            return 0
-        console.print()
+    sequential = args.sequential or args.show_prompts
+    if args.show_prompts and not args.sequential:
+        console.print(
+            "[yellow]--show-prompts forces sequential processing "
+            "(parallel output would be unreadable).[/yellow]"
+        )
+
+    workers = max(1, args.workers)
+    if not sequential:
+        console.print(f"[bold]Processing mode:[/bold] parallel ({workers} workers max)")
     else:
-        console.print(f"[bold]Models to test ({len(test_models)}):[/bold] {', '.join(test_models)}")
-        console.print()
+        console.print("[bold]Processing mode:[/bold] sequential")
 
     # ── Pre-load paper inputs ─────────────────────────────────────────────
-    paper_inputs: dict[str, tuple[str, list, list[dict], Any]] = {}
+    paper_inputs: dict[str, tuple[str, list, list[dict], Any, str]] = {}
     for pid in paper_ids:
         baseline = _load_baseline(pid)
+        paper_title = _resolve_paper_title(pid)
+        paper_label = _format_paper_header(pid, paper_title)
         if not baseline:
-            console.print(f"  [yellow]skip[/yellow] {pid} — no GLM 4.7 baseline")
+            console.print(f"  [yellow]skip[/yellow] {paper_label} — no GLM 4.7 baseline")
             continue
         paper_text, structured_tables, latex_paper = _load_paper_inputs(pid)
         if not paper_text and not latex_paper:
-            console.print(f"  [yellow]skip[/yellow] {pid} — no paper text or LaTeX source")
+            console.print(f"  [yellow]skip[/yellow] {paper_label} — no paper text or LaTeX source")
             continue
-        paper_inputs[pid] = (paper_text, structured_tables, baseline, latex_paper)
+        paper_inputs[pid] = (paper_text, structured_tables, baseline, latex_paper, paper_title)
         source = "HTML" if structured_tables else ("LaTeX" if latex_paper else "text.txt")
         latex_info = (
             (
@@ -1000,7 +1766,7 @@ def main(argv: list[str] | None = None) -> int:
             else ""
         )
         console.print(
-            f"  [green]loaded[/green] {pid}  "
+            f"  [green]loaded[/green] {paper_label}  "
             f"text={len(paper_text):,} chars  "
             f"tables={len(structured_tables)}  "
             f"baseline={len(baseline)} entries  "
@@ -1012,6 +1778,22 @@ def main(argv: list[str] | None = None) -> int:
     if not paper_inputs:
         console.print("[red]No valid papers to process.[/red]")
         return 1
+
+    jobs = [
+        CompareJob(
+            model=model,
+            arxiv_id=pid,
+            paper_title=paper_title,
+            paper_text=paper_text,
+            structured_tables=structured_tables,
+            baseline=baseline,
+            latex_paper=latex_paper,
+        )
+        for model in test_models
+        for pid, (paper_text, structured_tables, baseline, latex_paper, paper_title) in (
+            paper_inputs.items()
+        )
+    ]
 
     console.print()
 
@@ -1025,61 +1807,11 @@ def main(argv: list[str] | None = None) -> int:
     # ── Discovery-only speed benchmark ───────────────────────────────────
     if args.discovery_only:
         console.rule("[bold]Discovery-Only Speed Benchmark[/bold]")
-
-        # Collect rows first so we can sort by tok/s before rendering.
-        @dataclass
-        class _DiscRow:
-            model: str
-            pid: str
-            duration: float
-            ttft: float | None
-            tps: float | None
-            datasets_found: str
-            err: str | None
-
-        disc_rows: list[_DiscRow] = []
-        total_disc = len(test_models) * len(paper_inputs)
-        disc_done = 0
-        for model in test_models:
-            for pid, (
-                paper_text,
-                structured_tables,
-                _baseline,
-                latex_paper,
-            ) in paper_inputs.items():
-                disc_done += 1
-                console.rule(
-                    f"[{disc_done}/{total_disc}] [cyan bold]{model}[/cyan bold]"
-                    f" on [bold]{pid}[/bold]"
-                )
-                duration, err, call_log = _run_discovery_only(
-                    model, paper_text, structured_tables, latex_paper=latex_paper
-                )
-                ttft: float | None = None
-                tps: float | None = None
-                datasets_found = ""
-                for rec in call_log:
-                    if rec.ttft_s is not None:
-                        ttft = rec.ttft_s
-                    if rec.tokens_per_sec is not None:
-                        tps = rec.tokens_per_sec
-                    ds_list = rec.extra.get("discovered_datasets")
-                    if ds_list is not None:
-                        datasets_found = ", ".join(ds_list)
-                disc_rows.append(
-                    _DiscRow(
-                        model=model,
-                        pid=pid,
-                        duration=duration,
-                        ttft=ttft,
-                        tps=tps,
-                        datasets_found=datasets_found,
-                        err=err,
-                    )
-                )
-                console.print()
-
-        # Sort by tok/s descending (errors last).
+        disc_rows = _run_discovery_jobs(
+            jobs,
+            sequential=sequential,
+            workers=workers,
+        )
         disc_rows.sort(key=lambda r: (r.err is not None, -(r.tps or 0)))
 
         disc_table = Table(
@@ -1089,140 +1821,55 @@ def main(argv: list[str] | None = None) -> int:
         )
         disc_table.add_column("Model", style="cyan")
         disc_table.add_column("Paper", style="dim")
+        disc_table.add_column("Title")
         disc_table.add_column("Time", justify="right")
         disc_table.add_column("TTFT", justify="right")
         disc_table.add_column("tok/s", justify="right", style="bold")
         disc_table.add_column("Datasets found")
         disc_table.add_column("Status")
-        for r in disc_rows:
-            ttft_str = f"{r.ttft:.2f}s" if r.ttft is not None else "—"
-            tps_str = f"{r.tps:.0f}" if r.tps is not None else "—"
-            if r.err:
+        for row in disc_rows:
+            ttft_str = f"{row.ttft:.2f}s" if row.ttft is not None else "—"
+            tps_str = f"{row.tps:.0f}" if row.tps is not None else "—"
+            title = _truncate_title(row.paper_title, max_len=48) or "—"
+            if row.err:
                 disc_table.add_row(
-                    r.model,
-                    r.pid,
-                    f"{r.duration:.1f}s",
+                    row.model,
+                    row.arxiv_id,
+                    title,
+                    f"{row.duration:.1f}s",
                     ttft_str,
                     tps_str,
                     "—",
-                    f"[red]{r.err[:40]}[/red]",
+                    f"[red]{row.err[:40]}[/red]",
                 )
             else:
                 disc_table.add_row(
-                    r.model,
-                    r.pid,
-                    f"{r.duration:.1f}s",
+                    row.model,
+                    row.arxiv_id,
+                    title,
+                    f"{row.duration:.1f}s",
                     ttft_str,
                     tps_str,
-                    r.datasets_found or "[dim]none[/dim]",
+                    row.datasets_found or "[dim]none[/dim]",
                     "[green]✓[/green]",
                 )
         console.print(disc_table)
         return 0
 
     # ── Run extraction per (model, paper) ─────────────────────────────────
-    all_results: list[PaperComparison] = []
-    total_runs = len(test_models) * len(paper_inputs)
-    done = 0
-
-    for model in test_models:
-        for pid, (paper_text, structured_tables, baseline, latex_paper) in paper_inputs.items():
-            done += 1
-
-            console.rule(
-                f"[{done}/{total_runs}] [cyan bold]{model}[/cyan bold]" f" on [bold]{pid}[/bold]"
-            )
-
-            # ── Run extraction ────────────────────────────────────────────
-            out, duration, err, call_log = _run_extraction(
-                pid, model, paper_text, structured_tables, latex_paper=latex_paper
-            )
-
-            # Calls were printed live — only show full prompts when requested
-            if args.show_prompts:
-                for idx, rec in enumerate(call_log, 1):
-                    _print_call_full_prompt(rec)
-
-            # ── Build comparison ──────────────────────────────────────────
-            if err or out is None:
-                console.print(f"  [red]✗ EXTRACTION FAILED:[/red] {err}")
-                cmp = PaperComparison(
-                    arxiv_id=pid,
-                    llm_model=model,
-                    baseline_count=len(baseline),
-                    duration_s=duration,
-                    error=err or "no output",
-                    call_log=call_log,
-                )
-            else:
-                cmp = _compare(pid, model, baseline, out, call_log, db_primary_metrics)
-                cmp.duration_s = duration
-                console.print(
-                    f"  [bold]Result:[/bold]  "
-                    f"hits=[green]{cmp.hits}[/green]  "
-                    f"val_err=[yellow]{cmp.value_errors}[/yellow]  "
-                    f"miss=[red]{cmp.misses}[/red]  "
-                    f"halluc=[magenta]{cmp.hallucinations}[/magenta]  "
-                    f"recall=[bold]{_pct(cmp.recall)}[/bold]  "
-                    f"prec=[bold]{_pct(cmp.precision)}[/bold]  "
-                    f"[dim]{duration:.1f}s[/dim]"
-                )
-
-                # Print misses and hallucinations inline
-                if cmp.miss_keys:
-                    console.print(
-                        f"  [red]Missed ({len(cmp.miss_keys)}):[/red] "
-                        + "  ".join(f"[dim]{m['key']}[/dim]" for m in cmp.miss_keys[:5])
-                        + ("  …" if len(cmp.miss_keys) > 5 else "")
-                    )
-                if cmp.hallucinated_keys:
-                    console.print(
-                        f"  [magenta]Hallucinated ({len(cmp.hallucinated_keys)}):[/magenta] "
-                        + "  ".join(f"[dim]{h['key']}[/dim]" for h in cmp.hallucinated_keys[:5])
-                        + ("  …" if len(cmp.hallucinated_keys) > 5 else "")
-                    )
-                if cmp.value_error_keys:
-                    console.print(f"  [yellow]Value errors ({len(cmp.value_error_keys)}):[/yellow]")
-                    for ve in cmp.value_error_keys[:5]:
-                        console.print(
-                            f"    [dim]{ve['key']}[/dim]  "
-                            f"baseline={ve['baseline']}  candidate={ve['candidate']}"
-                        )
-                    if len(cmp.value_error_keys) > 5:
-                        console.print(f"    [dim]… +{len(cmp.value_error_keys) - 5} more[/dim]")
-
-            # ── Optional 1-shot comparison ────────────────────────────────
-            if args.oneshot:
-                console.print("  [dim]Running 1-shot (legacy) extraction for comparison…[/dim]")
-                os_out, os_dur, os_err, os_log = _run_oneshot_extraction(
-                    pid, model, paper_text, structured_tables, latex_paper=latex_paper
-                )
-                if os_err or os_out is None:
-                    console.print(f"  [red]✗ 1-shot FAILED:[/red] {os_err}")
-                else:
-                    os_cmp = _compare(pid, model, baseline, os_out, os_log, db_primary_metrics)
-                    console.print(
-                        f"  [dim]1-shot:[/dim]  "
-                        f"hits=[green]{os_cmp.hits}[/green]  "
-                        f"val_err=[yellow]{os_cmp.value_errors}[/yellow]  "
-                        f"miss=[red]{os_cmp.misses}[/red]  "
-                        f"halluc=[magenta]{os_cmp.hallucinations}[/magenta]  "
-                        f"recall=[bold]{_pct(os_cmp.recall)}[/bold]  "
-                        f"prec=[bold]{_pct(os_cmp.precision)}[/bold]  "
-                        f"[dim]{os_dur:.1f}s[/dim]"
-                    )
-
-            all_results.append(cmp)
-
-            # ── Save conversation log ─────────────────────────────────────
-            if log_dir and call_log:
-                safe_model = model.replace("/", "_")
-                log_path = log_dir / f"{safe_model}__{pid}.md"
-                md = _render_log_markdown(pid, model, call_log, cmp if not err else None)
-                log_path.write_text(md, encoding="utf-8")
-                console.print(f"  [bold green]Log saved →[/bold green] {log_path}")
-
-            console.print()
+    process_opts = _ProcessOptions(
+        show_prompts=args.show_prompts,
+        oneshot=args.oneshot,
+        log_dir=log_dir,
+        db_primary_metrics=db_primary_metrics,
+        classify_errors=args.classify_errors,
+    )
+    all_results = _run_compare_jobs(
+        jobs,
+        process_opts,
+        sequential=sequential,
+        workers=workers,
+    )
 
     # ── Print summary tables ──────────────────────────────────────────────
     console.rule("[bold]Final Results[/bold]")
@@ -1231,6 +1878,8 @@ def main(argv: list[str] | None = None) -> int:
     if args.per_paper:
         console.print()
         _render_per_paper_table(all_results)
+
+    baseline_quality = _collect_baseline_quality_analyses(all_results)
 
     # ── Save JSON output ──────────────────────────────────────────────────
     if args.output:
@@ -1284,6 +1933,8 @@ def main(argv: list[str] | None = None) -> int:
                 for r in all_results
             ],
         }
+        if baseline_quality:
+            payload["baseline_quality_analysis"] = baseline_quality
         out_path.write_text(json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8")
         console.print(f"\nAggregate results saved to [cyan]{out_path}[/cyan]")
 
