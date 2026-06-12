@@ -70,6 +70,7 @@ class WorkerState:
     proposed_model: str = ""
     dataset_breakdown: str = ""
     refs_at_start: int = 0
+    manually_important: bool = False
     new_results: int = 0
     updated_results: int = 0
     started_at: float = 0.0
@@ -94,6 +95,8 @@ class WorkerState:
 
     def summary_short(self) -> str:
         bits: list[str] = []
+        if self.manually_important:
+            bits.append("imp!")
         if self.refs_at_start:
             bits.append(f"refs={self.refs_at_start}")
         if self.dataset_breakdown:
@@ -657,10 +660,10 @@ def _run_manual_streaming(
             last_activity = time.monotonic()
             output_lines.append(line)
 
-            def _on_line() -> None:
-                _update_state_from_line(worker_state, line)
+            def _on_line(_line: str = line) -> None:
+                _update_state_from_line(worker_state, _line)
                 worker_state.last_update_at = time.time()
-                dash.events.append(f"w{worker_state.worker_id} {arxiv_id}: {line[:180]}")
+                dash.events.append(f"w{worker_state.worker_id} {arxiv_id}: {_line[:180]}")
 
             dash.mutate(_on_line)
             LOGGER.debug("worker=%s arxiv=%s line=%s", worker_state.worker_id, arxiv_id, line[:180])
@@ -704,10 +707,10 @@ def _run_manual_streaming(
             continue
         output_lines.append(line)
 
-        def _on_tail_line() -> None:
-            _update_state_from_line(worker_state, line)
+        def _on_tail_line(_line: str = line) -> None:
+            _update_state_from_line(worker_state, _line)
             worker_state.last_update_at = time.time()
-            dash.events.append(f"w{worker_state.worker_id} {arxiv_id}: {line[:180]}")
+            dash.events.append(f"w{worker_state.worker_id} {arxiv_id}: {_line[:180]}")
 
         dash.mutate(_on_tail_line)
 
@@ -768,6 +771,7 @@ def _worker_loop(
                 state.proposed_model = ""
                 state.dataset_breakdown = ""
                 state.refs_at_start = entry.seen_count or 0
+                state.manually_important = entry.is_manually_important
                 state.new_results = 0
                 state.updated_results = 0
                 state.drained_at = None
@@ -844,9 +848,9 @@ def _worker_loop(
 
             pending_ready = _pending_ready_count(max_attempts)
 
-            def _waiting_update() -> None:
-                if pending_ready > 0:
-                    state.status = f"waiting for claim ({pending_ready} ready)"
+            def _waiting_update(_pending_ready: int = pending_ready) -> None:
+                if _pending_ready > 0:
+                    state.status = f"waiting for claim ({_pending_ready} ready)"
                 else:
                     state.status = "waiting for claim"
                 state.started_at = 0.0

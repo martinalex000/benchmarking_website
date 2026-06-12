@@ -36,7 +36,6 @@ import argparse
 import json
 import logging
 import re
-import sqlite3
 import sys
 from pathlib import Path
 
@@ -331,106 +330,37 @@ def _do_download(arxiv_id: str, force: bool) -> None:
 def _run_semantic_scholar_enrichment(arxiv_id: str, limit: int = 5000) -> None:
     """Seed citation/ref candidates from Semantic Scholar and print explicit counts."""
     try:
-        from scripts.find_todo_semanticscholar import (
-            S2Client,
-            ensure_tables,
-            infer_arxiv_id_from_s2,
-            is_in_local_corpus,
-            load_local_corpus_from_papers_table,
-            mark_crawled,
-            upsert_todo,
-        )
+        from backend.s2_todo_crawl import enrich_todo_from_semantic_scholar
     except Exception as exc:
         console.print(f"  [yellow]Semantic Scholar integration unavailable: {exc}[/yellow]")
         return
 
-    key = cfg.semantic_scholar_api_key
-    if not key:
+    if not cfg.semantic_scholar_api_key:
         console.print(
             "  [yellow]Semantic Scholar key missing (SEMANTIC_SCHOLAR_API_KEY) — skipping citation expansion.[/yellow]"
         )
         return
 
     try:
-        conn = sqlite3.connect(str(cfg.db_path))
-        conn.execute("PRAGMA foreign_keys = ON")
-        ensure_tables(conn)
-        load_local_corpus_from_papers_table(conn)
-
-        s2 = S2Client(min_delay=1.0)
-        paper_id = s2.paper_id_for_arxiv(arxiv_id)
-        if not paper_id:
-            console.print(
-                f"  [yellow]Semantic Scholar has no paperId for arXiv:{arxiv_id} — skipping citation expansion.[/yellow]"
-            )
-            conn.close()
-            return
-
-        cur = conn.cursor()
-        cur.execute("SELECT COUNT(*) FROM todo_papers")
-        before_todo = int(cur.fetchone()[0])
-
-        citations = s2.fetch_citations(paper_id, limit)
-        references = s2.fetch_references(paper_id, limit)
-
-        def _todo_exists(aid: str) -> bool:
-            cur.execute("SELECT 1 FROM todo_papers WHERE arxiv_id = ?", (aid,))
-            return cur.fetchone() is not None
-
-        incoming_added = incoming_no_arxiv = 0
-        incoming_known = 0
-        for c in citations:
-            aid = infer_arxiv_id_from_s2(c)
-            if not aid:
-                incoming_no_arxiv += 1
-                continue
-            if is_in_local_corpus(conn, aid):
-                incoming_known += 1
-                continue
-            existed = _todo_exists(aid)
-            upsert_todo(conn, aid, c.get("title"), f"cited_by:{arxiv_id}")
-            if not existed:
-                incoming_added += 1
-
-        outgoing_added = outgoing_no_arxiv = 0
-        outgoing_known = 0
-        for r in references:
-            aid = infer_arxiv_id_from_s2(r)
-            if not aid:
-                outgoing_no_arxiv += 1
-                continue
-            if is_in_local_corpus(conn, aid):
-                outgoing_known += 1
-                continue
-            existed = _todo_exists(aid)
-            upsert_todo(conn, aid, r.get("title"), f"references_from:{arxiv_id}")
-            if not existed:
-                outgoing_added += 1
-
-        mark_crawled(
-            conn,
-            paper_id,
-            arxiv_id,
-            arxiv_id,
-            citations_fetched=len(citations),
-            references_fetched=len(references),
-            citations_capped=len(citations) >= limit,
-            references_capped=len(references) >= limit,
-        )
-
-        cur.execute("SELECT COUNT(*) FROM todo_papers")
-        after_todo = int(cur.fetchone()[0])
-        new_papers = max(0, after_todo - before_todo)
-        conn.close()
-
-        console.print(
-            "  [dim]Semantic Scholar:[/dim] "
-            f"incoming citations={len(citations)} (new={incoming_added}, known={incoming_known}, no-arXiv={incoming_no_arxiv}); "
-            f"outgoing references={len(references)} (new={outgoing_added}, known={outgoing_known}, no-arXiv={outgoing_no_arxiv}); "
-            f"new papers queued={new_papers}"
-        )
+        stats = enrich_todo_from_semantic_scholar(arxiv_id, limit=limit)
     except Exception as exc:
         console.print(f"  [yellow]Semantic Scholar enrichment failed: {exc}[/yellow]")
+        return
+
+    if stats is None:
+        console.print(
+            f"  [yellow]Semantic Scholar has no paperId for arXiv:{arxiv_id} — skipping citation expansion.[/yellow]"
+        )
+        return
+
+    console.print(
+        "  [dim]Semantic Scholar:[/dim] "
+        f"incoming citations={stats['incoming_citations']} "
+        f"(new={stats['incoming_added']}, known={stats['incoming_known']}, no-arXiv={stats['incoming_no_arxiv']}); "
+        f"outgoing references={stats['outgoing_references']} "
+        f"(new={stats['outgoing_added']}, known={stats['outgoing_known']}, no-arXiv={stats['outgoing_no_arxiv']}); "
+        f"new papers queued={stats['new_papers_queued']}"
+    )
 
 
 # ── Extraction ────────────────────────────────────────────────────────────────

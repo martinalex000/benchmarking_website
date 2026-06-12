@@ -41,6 +41,24 @@ class TodoQueueEntry:
     cites_existing_count: int
     reason: str
     last_attempt_at: str | None
+    is_manually_important: bool = False
+
+
+_REQUEUEABLE_STATUSES = frozenset(
+    {
+        TodoPaperStatus.DONE.value,
+        TodoPaperStatus.FAILED.value,
+        TodoPaperStatus.REJECTED.value,
+    }
+)
+
+
+def _priority_order(query):
+    return query.order_by(
+        TodoPaper.is_manually_important.desc(),
+        TodoPaper.seen_count.desc(),
+        TodoPaper.created_at.asc(),
+    )
 
 
 @dataclass
@@ -85,6 +103,7 @@ def _row_to_entry(row: TodoPaper) -> TodoQueueEntry:
         cites_existing_count=getattr(row, "cites_existing_count", 0) or 0,
         reason=row.reason or "",
         last_attempt_at=row.last_attempt_at,
+        is_manually_important=bool(getattr(row, "is_manually_important", 0)),
     )
 
 
@@ -107,6 +126,7 @@ def load_queue_entries(
     limit: int = 0,
     max_attempts: int | None = None,
     order: str = "priority",
+    important_only: bool = False,
 ) -> list[TodoQueueEntry]:
     init_db()
     status_filter = _normalize_status_filter(status)
@@ -117,9 +137,11 @@ def load_queue_entries(
             query = query.filter(TodoPaper.status == status_filter)
         if status_filter == TodoPaperStatus.PENDING.value and max_attempts is not None:
             query = query.filter(TodoPaper.attempts < max_attempts)
+        if important_only:
+            query = query.filter(TodoPaper.is_manually_important == 1)
 
         if order == "priority":
-            query = query.order_by(TodoPaper.seen_count.desc(), TodoPaper.created_at.asc())
+            query = _priority_order(query)
         elif order == "recent":
             query = query.order_by(TodoPaper.created_at.desc())
         elif order == "last-attempt":
@@ -139,12 +161,26 @@ def add_todo_paper(
     title: str | None = None,
     reason: str | None = None,
     added_by: str | None = None,
+    is_manually_important: bool = False,
+    requeue: bool = False,
 ) -> tuple[bool, str]:
     init_db()
     with session_scope() as session:
         existing = session.query(TodoPaper).filter_by(arxiv_id=arxiv_id).first()
         if existing:
-            return False, f"Already in todo queue: {arxiv_id} (status={existing.status})"
+            if not is_manually_important:
+                return False, f"Already in todo queue: {arxiv_id} (status={existing.status})"
+
+            existing.is_manually_important = 1
+            if title:
+                existing.title = title
+            if reason:
+                existing.reason = reason
+            if added_by:
+                existing.added_by = added_by
+            if requeue and existing.status in _REQUEUEABLE_STATUSES:
+                existing.status = TodoPaperStatus.PENDING.value
+            return True, f"Marked {arxiv_id} as manually important (status={existing.status})"
 
         session.add(
             TodoPaper(
@@ -153,11 +189,33 @@ def add_todo_paper(
                 reason=reason,
                 added_by=added_by,
                 status=TodoPaperStatus.PENDING.value,
+                is_manually_important=1 if is_manually_important else 0,
                 created_at=_utcnow_iso(),
             )
         )
 
-    return True, f"Added {arxiv_id} to todo queue"
+    suffix = " (manually important)" if is_manually_important else ""
+    return True, f"Added {arxiv_id} to todo queue{suffix}"
+
+
+def set_todo_paper_importance(
+    arxiv_id: str,
+    *,
+    important: bool,
+    requeue: bool = False,
+) -> tuple[bool, str]:
+    init_db()
+    with session_scope() as session:
+        row = session.query(TodoPaper).filter_by(arxiv_id=arxiv_id).first()
+        if row is None:
+            return False, f"Not in todo queue: {arxiv_id}"
+
+        row.is_manually_important = 1 if important else 0
+        if requeue and important and row.status in _REQUEUEABLE_STATUSES:
+            row.status = TodoPaperStatus.PENDING.value
+
+        action = "marked as manually important" if important else "unmarked as manually important"
+        return True, f"{arxiv_id} {action} (status={row.status})"
 
 
 def build_queue_report(limit: int = 10, max_attempts: int = 3) -> TodoQueueReport:
@@ -170,12 +228,12 @@ def build_queue_report(limit: int = 10, max_attempts: int = 3) -> TodoQueueRepor
             counts[key] = counts.get(key, 0) + 1
 
         pending_rows = (
-            session.query(TodoPaper)
-            .filter(
-                TodoPaper.status == TodoPaperStatus.PENDING.value,
-                TodoPaper.attempts < max_attempts,
+            _priority_order(
+                session.query(TodoPaper).filter(
+                    TodoPaper.status == TodoPaperStatus.PENDING.value,
+                    TodoPaper.attempts < max_attempts,
+                )
             )
-            .order_by(TodoPaper.seen_count.desc(), TodoPaper.created_at.asc())
             .limit(limit)
             .all()
         )
@@ -275,7 +333,21 @@ def release_stale_processing_papers(stale_minutes: int = WORKER_LOCK_TIMEOUT_MIN
         return len(stale_rows)
 
 
-def _claim_one_pending(max_attempts: int) -> int | None:
+def count_pending_important(*, max_attempts: int = 3) -> int:
+    init_db()
+    with session_scope() as session:
+        return (
+            session.query(TodoPaper)
+            .filter(
+                TodoPaper.status == TodoPaperStatus.PENDING.value,
+                TodoPaper.attempts < max_attempts,
+                TodoPaper.is_manually_important == 1,
+            )
+            .count()
+        )
+
+
+def _claim_one_pending(max_attempts: int, *, important_only: bool = False) -> int | None:
     """Atomically claim the top-priority pending paper. Returns the claimed row ID or None.
 
     Uses a raw SQL UPDATE with a WHERE status='pending' guard so that concurrent
@@ -285,6 +357,8 @@ def _claim_one_pending(max_attempts: int) -> int | None:
     engine = get_engine()
     now_iso = _utcnow_iso()
 
+    important_filter = " AND is_manually_important = 1" if important_only else ""
+
     with engine.connect() as conn:
         for _ in range(_CLAIM_RACE_RETRY_LIMIT):
             row = conn.execute(
@@ -292,7 +366,8 @@ def _claim_one_pending(max_attempts: int) -> int | None:
                     "WITH candidate AS ("
                     "  SELECT id FROM todo_papers"
                     "  WHERE status = 'pending' AND attempts < :max_attempts"
-                    "  ORDER BY seen_count DESC, created_at ASC"
+                    f"{important_filter}"
+                    "  ORDER BY is_manually_important DESC, seen_count DESC, created_at ASC"
                     "  LIMIT 1"
                     ") "
                     "UPDATE todo_papers "
@@ -310,13 +385,14 @@ def _claim_one_pending(max_attempts: int) -> int | None:
         return None
 
 
-def _has_pending_candidates(max_attempts: int) -> bool:
+def _has_pending_candidates(max_attempts: int, *, important_only: bool = False) -> bool:
+    important_filter = " AND is_manually_important = 1" if important_only else ""
     engine = get_engine()
     with engine.connect() as conn:
         row = conn.execute(
             _sql_text(
                 "SELECT 1 FROM todo_papers"
-                " WHERE status = 'pending' AND attempts < :max_attempts"
+                f" WHERE status = 'pending' AND attempts < :max_attempts{important_filter}"
                 " LIMIT 1"
             ),
             {"max_attempts": max_attempts},
@@ -348,6 +424,7 @@ def process_queue(
     max_attempts: int = 3,
     dry_run: bool = False,
     refresh_dev_exports: bool = True,
+    important_only: bool = False,
     runner=run_manual_subprocess,
     on_start=None,
     on_finish=None,
@@ -364,6 +441,7 @@ def process_queue(
             status=TodoPaperStatus.PENDING.value,
             limit=limit,
             max_attempts=max_attempts,
+            important_only=important_only,
         )
         summary.total_selected = len(selected)
         return summary
@@ -372,12 +450,12 @@ def process_queue(
     empty_retries = 0
     while processed_count < limit:
         # Atomically claim the next pending paper; safe across concurrent workers
-        candidate_id = _claim_one_pending(max_attempts)
+        candidate_id = _claim_one_pending(max_attempts, important_only=important_only)
         if candidate_id is None:
             # Avoid false "queue empty" under high contention by retrying when
             # pending rows still exist but another worker won this instant.
             if empty_retries < _PROCESS_QUEUE_EMPTY_RETRIES and _has_pending_candidates(
-                max_attempts
+                max_attempts, important_only=important_only
             ):
                 empty_retries += 1
                 time.sleep(_PROCESS_QUEUE_EMPTY_RETRY_SLEEP_S)
@@ -440,9 +518,11 @@ __all__ = [
     "TodoQueueRunResult",
     "add_todo_paper",
     "build_queue_report",
+    "count_pending_important",
     "load_queue_entries",
     "process_queue",
     "recompute_queue_counts",
     "release_stale_processing_papers",
     "run_manual_subprocess",
+    "set_todo_paper_importance",
 ]

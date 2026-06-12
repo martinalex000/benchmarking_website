@@ -94,8 +94,7 @@ CREATE TABLE IF NOT EXISTS models (
     name           TEXT NOT NULL,
     canonical_name TEXT NOT NULL,   -- normalized name for grouping (lowercase, no punctuation)
     paper_id       INTEGER REFERENCES papers(id) ON DELETE SET NULL,
-    size_params    INTEGER,         -- parameter count (exact, if known)
-    model_type     TEXT,            -- gnn | graph_transformer | hybrid | llm | svm_kernel | random_forest | decision_tree | boosting | other_traditional
+    model_type     TEXT,            -- gnn | graph_transformer | hybrid | llm | walk | svm_kernel | random_forest | decision_tree | boosting | other_traditional
     is_baseline    INTEGER NOT NULL DEFAULT 0,
     created_at     TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%SZ', 'now')),
     UNIQUE(canonical_name)
@@ -292,6 +291,7 @@ CREATE TABLE IF NOT EXISTS todo_papers (
     seen_count       INTEGER NOT NULL DEFAULT 0,
     seen_from        TEXT,
     first_seen_at    TEXT,
+    is_manually_important INTEGER NOT NULL DEFAULT 0,
     created_at       TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%SZ', 'now'))
 );
 CREATE INDEX IF NOT EXISTS idx_todo_arxiv_id ON todo_papers(arxiv_id);

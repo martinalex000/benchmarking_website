@@ -8,6 +8,7 @@ from backend.results_parser import (
     _load_variant_map,
     parse_value_std,
     resolve_dataset_variant,
+    resolve_dataset_variant_with_reason,
 )
 
 
@@ -210,3 +211,31 @@ def test_infer_zinc_variant_uses_value_fallback_when_paper_mentions_both():
 def test_qm9_metric_normalization_via_module():
     assert normalize_qm9_metric("HOMO-LUMO gap") == "gap"
     assert normalize_qm9_metric("MAE") is None
+
+
+def test_ogb_dataset_alias_code2():
+    variant_map = {"code": 45, "ogbg-molpcba": 24}
+    variant_id, reason = resolve_dataset_variant_with_reason("ogbg-code2", None, variant_map)
+    assert variant_id == 45
+    assert "alias" in reason
+
+
+def test_ogb_ppa_does_not_fuzzy_match_molpcba():
+    variant_map = {"ogbg-molpcba": 24}
+    variant_id, reason = resolve_dataset_variant_with_reason("ogbg-ppa", None, variant_map)
+    assert variant_id is None
+    assert reason == "dataset: unresolved"
+
+
+def test_ogbl_ppa_does_not_fuzzy_match_citation2():
+    variant_map = {"ogbl-citation2": 53}
+    variant_id, reason = resolve_dataset_variant_with_reason("ogbl-ppa", None, variant_map)
+    assert variant_id is None
+    assert reason == "dataset: unresolved"
+
+
+def test_ogb_ppa_exact_match():
+    variant_map = {"ogbg-ppa": 99}
+    variant_id, reason = resolve_dataset_variant_with_reason("ogbg-ppa", None, variant_map)
+    assert variant_id == 99
+    assert reason == "dataset: exact match"

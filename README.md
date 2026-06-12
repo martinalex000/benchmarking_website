@@ -127,11 +127,9 @@ Cache semantics:
 ### `scripts/find_citing_papers.py` — discover papers that cite a benchmark
 
 Queries Semantic Scholar for all papers that cite a given arXiv paper, shows
-their processing status in the local DB, and lets you interactively queue them
-for processing via `run_manual.py`.
-
-This is an interactive inspection tool. It does **not** maintain the persistent
-`todo_papers` queue; use `scripts/find_todo_semanticscholar.py` for that.
+their processing status in the local DB, and lets you interactively mark selected
+papers as **manually important** in `todo_papers`. Processing happens separately
+via the todo queue (see below).
 
 ```bash
 # Find papers citing the LRGB benchmark paper
@@ -142,6 +140,9 @@ uv run python scripts/find_citing_papers.py 2206.08164 --limit 50
 
 # Include papers already tracked in the DB
 uv run python scripts/find_citing_papers.py 2206.08164 --show-all
+
+# After marking papers, process all manually important queue entries
+uv run python scripts/todo_queue.py process --important-only
 ```
 
 Set `S2_API_KEY` in your environment to avoid Semantic Scholar rate limits.
@@ -206,8 +207,14 @@ Subcommands:
 | `process` | Sequentially process the next N pending papers |
 | `report` | Queue summary and top pending papers |
 | `list` | Raw queue rows |
-| `add` | Insert a manual priority paper |
+| `add` | Insert a paper; use `--important` for manual priority |
+| `mark-important` | Mark an existing queue row as manually important |
+| `unmark-important` | Clear the manual priority flag |
 | `recompute-counts` | Refresh citation counters from DB state |
+
+Both `process` and `worker` accept `--important-only` to restrict work to manually
+important pending papers. With `process --important-only` and no explicit `--limit`,
+all pending manually important papers are processed, then the command stops.
 
 ```bash
 # Queue summary and top pending papers
@@ -220,12 +227,26 @@ uv run python scripts/todo_queue.py process --model fallback --limit 5
 # Preview what would be processed
 uv run python scripts/todo_queue.py process --dry-run --limit 20
 
-# Add a paper manually
-uv run python scripts/todo_queue.py add 2406.08993 --reason "manually prioritized"
+# Add a paper manually (normal priority — behind high seen_count papers)
+uv run python scripts/todo_queue.py add 2406.08993 --reason "found via citation crawl"
+
+# Add with manual priority (processed before papers with higher seen_count)
+uv run python scripts/todo_queue.py add 2406.08993 --important --reason "OGB leaderboard"
+
+# Mark an existing queue row as manually important (optionally requeue done/failed rows)
+uv run python scripts/todo_queue.py mark-important 2406.08993 --requeue
+uv run python scripts/todo_queue.py unmark-important 2406.08993
+
+# Process only manually important papers (until the important queue is empty)
+uv run python scripts/todo_queue.py process --important-only
 
 # Inspect queue state
 uv run python scripts/todo_queue.py list --status all
 ```
+
+Queue priority order: **`is_manually_important DESC`, then `seen_count DESC`, then oldest first**.
+Manually important papers (marked via `--important` or `mark-important`) are always
+claimed before papers discovered only via Semantic Scholar link density.
 
 #### Running many workers in parallel
 
@@ -327,12 +348,6 @@ uv run python -m backend.export_to_hugo
 
 > **Note:** Workers always skip per-paper Hugo export (`--skip-export` is
 > passed automatically) to avoid redundant rebuilds during batch runs.
-
----
-
-### Legacy queue wrappers
-
-`scripts/find_todo_papers.py` and `scripts/process_todo_list.py` now forward into `scripts/todo_queue.py` for backwards compatibility. New usage should prefer the unified interface above.
 
 ---
 
@@ -536,7 +551,20 @@ result_overrides:
 
 metadata_overrides:
   codebase_url: "https://github.com/example/repo"
+
+# Correct architecture type, per-result parameter count (millions), or external-data flag.
+# Keys match result.model.name (lowercase). Parameter counts live on results only.
+model_metadata_overrides:
+  - model: "GraphGPS"
+    model_type: hybrid
+    params_millions: 6.9
+    uses_external_data: false
+    reason: "Table 2 lists 6.9M params; trained on benchmark split only"
 ```
+
+`model_metadata_overrides` sets `Result.params_millions` and `Result.uses_external_data`
+per paper, and `Model.model_type` for architecture badges. Well-known OGB baseline
+families also have defaults in `config/model_metadata_defaults.yaml` (architecture only).
 
 After editing, re-apply overrides and re-export:
 

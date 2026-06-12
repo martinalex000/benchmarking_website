@@ -17,6 +17,7 @@ Each paper lives under  papers/{arxiv_id}/
 
 from __future__ import annotations
 
+import contextlib
 import json
 import logging
 import os
@@ -29,6 +30,18 @@ import yaml
 from backend.config import cfg
 
 logger = logging.getLogger(__name__)
+
+
+def load_yaml_dict(path: Path) -> dict | None:
+    """Load a YAML file and return its top-level mapping, or None on failure."""
+    try:
+        with path.open(encoding="utf-8") as fh:
+            data = yaml.safe_load(fh)
+        return data if isinstance(data, dict) else None
+    except Exception as exc:
+        logger.warning("Failed to load %s: %s", path, exc)
+        return None
+
 
 OVERRIDES_TEMPLATE = """\
 # overrides.yaml — edit this file to correct extraction errors.
@@ -169,10 +182,8 @@ class PaperStorage:
         self.ensure_dirs()
         existing: dict = {}
         if self.metadata_path.exists():
-            try:
+            with contextlib.suppress(ValueError, OSError):
                 existing = json.loads(self.metadata_path.read_text(encoding="utf-8"))
-            except (ValueError, OSError):
-                pass
         existing.update(updates)
         existing["updated_at"] = datetime.now(UTC).isoformat()
         content = json.dumps(existing, indent=2, ensure_ascii=False)

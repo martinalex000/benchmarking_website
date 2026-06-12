@@ -22,6 +22,7 @@ from sqlalchemy.orm import joinedload
 from thefuzz import fuzz as _fuzz
 
 from backend.db import init_db, session_scope
+from backend.model_name_resolution import model_names_fuzzy_compatible
 from backend.models import Model, Result
 
 logger = logging.getLogger(__name__)
@@ -267,6 +268,44 @@ def get_best_results_over_time(
         return _milestones_from_results(_fetch(scoped_session))
 
 
+def get_best_results_over_time_for_metrics(
+    dataset_variant_id: int,
+    metric_names: list[str],
+    session: Any | None = None,
+) -> dict[str, list[dict[str, Any]]]:
+    """Return milestone timelines for multiple metrics with one DB query."""
+    unique_metrics = list(dict.fromkeys(metric_names))
+    if not unique_metrics:
+        return {}
+
+    def _fetch_all(sess: Any) -> list:
+        return (
+            sess.query(Result)
+            .options(joinedload(Result.paper), joinedload(Result.model))
+            .filter_by(dataset_variant_id=dataset_variant_id)
+            .filter(Result.metric_name.in_(unique_metrics))
+            .filter(Result.is_problematic.is_(None) | (Result.is_problematic == 0))
+            .join(Result.paper)
+            .order_by(text("papers.published_date"))
+            .all()
+        )
+
+    if session is not None:
+        all_results = _fetch_all(session)
+    else:
+        init_db()
+        with session_scope() as scoped_session:
+            all_results = _fetch_all(scoped_session)
+
+    by_metric: dict[str, list] = {name: [] for name in unique_metrics}
+    for result in all_results:
+        metric = result.metric_name
+        if metric in by_metric:
+            by_metric[metric].append(result)
+
+    return {name: _milestones_from_results(by_metric[name]) for name in unique_metrics}
+
+
 # ── Fuzzy merge ───────────────────────────────────────────────────────────────
 
 
@@ -300,7 +339,9 @@ def _merge_similar_groups(
             if j <= i or j in used:
                 continue
             sim = _fuzz.token_sort_ratio(g.canonical_name.lower(), other.canonical_name.lower())
-            if sim >= threshold:
+            if sim >= threshold and model_names_fuzzy_compatible(
+                g.canonical_name, other.canonical_name, sim, threshold
+            ):
                 combined.values.extend(other.values)
                 combined.stds.extend(other.stds)
                 combined.paper_ids.extend(other.paper_ids)

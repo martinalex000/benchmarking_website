@@ -3,12 +3,8 @@
 from __future__ import annotations
 
 import re
-from typing import TYPE_CHECKING
 
 from backend.latex_source import LatexPaper, _find_appendix_start, _strip_latex
-
-if TYPE_CHECKING:
-    pass
 
 _PROSE_ENV_RE = re.compile(
     r"\\begin\{(figure\*?|table\*?|longtable|tabular|wrapfigure|subfigure)\}" r".*?" r"\\end\{\1\}",

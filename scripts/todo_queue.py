@@ -23,10 +23,12 @@ from backend.todo_queue import (
     WORKER_LOCK_TIMEOUT_MINUTES,
     add_todo_paper,
     build_queue_report,
+    count_pending_important,
     load_queue_entries,
     process_queue,
     recompute_queue_counts,
     release_stale_processing_papers,
+    set_todo_paper_importance,
 )
 
 console = Console()
@@ -49,6 +51,7 @@ def _render_queue_table(rows, *, title: str) -> None:
     table.add_column("#", style="dim", justify="right", width=4)
     table.add_column("arXiv", style="cyan", width=13)
     table.add_column("Status", width=10)
+    table.add_column("Imp", justify="center", width=4)
     table.add_column("Seen", justify="right", width=6)
     table.add_column("Tries", justify="right", width=6)
     table.add_column("Title")
@@ -58,6 +61,7 @@ def _render_queue_table(rows, *, title: str) -> None:
             str(index),
             row.arxiv_id,
             row.status,
+            "*" if row.is_manually_important else "",
             str(row.seen_count),
             str(row.attempts),
             _truncate(row.title),
@@ -66,18 +70,34 @@ def _render_queue_table(rows, *, title: str) -> None:
     console.print(table)
 
 
+def _resolve_process_limit(args: argparse.Namespace) -> int:
+    if args.important_only and args.limit is None:
+        return count_pending_important(max_attempts=args.max_attempts)
+    if args.limit is None:
+        return 5
+    return args.limit
+
+
 def cmd_process(args: argparse.Namespace) -> None:
+    limit = _resolve_process_limit(args)
     selected = load_queue_entries(
         status=TodoPaperStatus.PENDING.value,
-        limit=args.limit,
+        limit=limit,
         max_attempts=args.max_attempts,
         order="priority",
+        important_only=args.important_only,
     )
     if not selected:
-        console.print("[green]No pending todo papers are ready to process.[/green]")
+        if args.important_only:
+            console.print(
+                "[green]No pending manually important papers are ready to process.[/green]"
+            )
+        else:
+            console.print("[green]No pending todo papers are ready to process.[/green]")
         return
 
-    _render_queue_table(selected, title="Pending queue")
+    title = "Pending manually important papers" if args.important_only else "Pending queue"
+    _render_queue_table(selected, title=title)
 
     if args.dry_run:
         console.print("\n[dim]Dry-run mode — nothing was processed.[/dim]")
@@ -110,12 +130,13 @@ def cmd_process(args: argparse.Namespace) -> None:
                 )
 
         summary = process_queue(
-            limit=args.limit,
+            limit=limit,
             model=args.model,
             force=args.force,
             max_attempts=args.max_attempts,
             dry_run=False,
             refresh_dev_exports=not args.no_export,
+            important_only=args.important_only,
             on_start=on_start,
             on_finish=on_finish,
         )
@@ -171,6 +192,7 @@ def cmd_worker(args: argparse.Namespace) -> None:
         max_attempts=args.max_attempts,
         dry_run=args.dry_run,
         no_export=not args.export,
+        important_only=args.important_only,
     )
     cmd_process(worker_args)
 
@@ -207,9 +229,31 @@ def cmd_add(args: argparse.Namespace) -> None:
         title=args.title,
         reason=args.reason,
         added_by=args.added_by,
+        is_manually_important=args.important,
+        requeue=args.requeue,
     )
     color = "green" if created else "yellow"
     console.print(f"[{color}]{message}[/{color}]")
+
+
+def cmd_mark_important(args: argparse.Namespace) -> None:
+    ok, message = set_todo_paper_importance(
+        args.arxiv_id,
+        important=True,
+        requeue=args.requeue,
+    )
+    color = "green" if ok else "yellow"
+    console.print(f"[{color}]{message}[/{color}]")
+    if not ok:
+        sys.exit(1)
+
+
+def cmd_unmark_important(args: argparse.Namespace) -> None:
+    ok, message = set_todo_paper_importance(args.arxiv_id, important=False)
+    color = "green" if ok else "yellow"
+    console.print(f"[{color}]{message}[/{color}]")
+    if not ok:
+        sys.exit(1)
 
 
 def cmd_recompute_counts(_args: argparse.Namespace) -> None:
@@ -239,9 +283,12 @@ def build_parser() -> argparse.ArgumentParser:
     process_parser.add_argument(
         "--limit",
         type=int,
-        default=5,
+        default=None,
         metavar="N",
-        help="Maximum number of papers to process (default: 5)",
+        help=(
+            "Maximum number of papers to process (default: 5, or all pending manually "
+            "important papers when --important-only is set without --limit)"
+        ),
     )
     process_parser.add_argument(
         "--model",
@@ -268,6 +315,11 @@ def build_parser() -> argparse.ArgumentParser:
         "--no-export",
         action="store_true",
         help="Skip refreshing development exports after processing",
+    )
+    process_parser.add_argument(
+        "--important-only",
+        action="store_true",
+        help="Process only manually important pending papers, then stop",
     )
 
     worker_parser = sub.add_parser(
@@ -306,6 +358,11 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="Also refresh development exports after this single-item run (off by default for workers)",
     )
+    worker_parser.add_argument(
+        "--important-only",
+        action="store_true",
+        help="Claim only manually important pending papers",
+    )
 
     report_parser = sub.add_parser("report", help="Show queue summary and top pending papers")
     report_parser.add_argument(
@@ -341,6 +398,33 @@ def build_parser() -> argparse.ArgumentParser:
     add_parser.add_argument("--title", help="Optional paper title")
     add_parser.add_argument("--reason", help="Why this paper is being added")
     add_parser.add_argument("--added-by", help="Who added the paper")
+    add_parser.add_argument(
+        "--important",
+        action="store_true",
+        help="Mark as manually important (processed before higher seen_count papers)",
+    )
+    add_parser.add_argument(
+        "--requeue",
+        action="store_true",
+        help="When upgrading an existing row, reset done/failed/rejected back to pending",
+    )
+
+    mark_parser = sub.add_parser(
+        "mark-important",
+        help="Mark an existing queue row as manually important",
+    )
+    mark_parser.add_argument("arxiv_id", help="arXiv paper ID")
+    mark_parser.add_argument(
+        "--requeue",
+        action="store_true",
+        help="Reset done/failed/rejected rows back to pending",
+    )
+
+    unmark_parser = sub.add_parser(
+        "unmark-important",
+        help="Clear the manually important flag on a queue row",
+    )
+    unmark_parser.add_argument("arxiv_id", help="arXiv paper ID")
 
     sub.add_parser("recompute-counts", help="Recompute queue citation counters from DB state")
 
@@ -366,6 +450,10 @@ def main(argv: list[str] | None = None) -> None:
         cmd_list(args)
     elif command == "add":
         cmd_add(args)
+    elif command == "mark-important":
+        cmd_mark_important(args)
+    elif command == "unmark-important":
+        cmd_unmark_important(args)
     elif command == "recompute-counts":
         cmd_recompute_counts(args)
     else:

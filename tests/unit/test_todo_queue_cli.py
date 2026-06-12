@@ -37,6 +37,8 @@ def test_todo_queue_report_dispatch(monkeypatch):
     monkeypatch.setattr(module, "cmd_report", lambda args: called.__setitem__("report", True))
     monkeypatch.setattr(module, "cmd_list", lambda args: None)
     monkeypatch.setattr(module, "cmd_add", lambda args: None)
+    monkeypatch.setattr(module, "cmd_mark_important", lambda args: None)
+    monkeypatch.setattr(module, "cmd_unmark_important", lambda args: None)
     monkeypatch.setattr(module, "cmd_recompute_counts", lambda args: None)
 
     module.main(["report"])

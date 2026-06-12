@@ -1,0 +1,45 @@
+# Default architecture types for well-known baseline model families.
+# Keys are lowercased family tokens (head name before "+", parentheticals stripped).
+# Applied only when LLM extraction and per-paper metadata lookups leave model_type unset.
+# Does NOT set params_millions or uses_external_data.
+#
+# Sources: Open Graph Benchmark leaderboard baselines (2005.00687) and common variants.
+
+models:
+  # Message-passing GNNs (OGB graph property / node classification)
+  gcn: gnn
+  gin: gnn
+  graphsage: gnn
+  graphsaint: gnn
+  clustergcn: gnn
+  neighborsampling: gnn
+  sgc: gnn
+  rgcn: gnn
+  gat: gnn
+  gatedgcn: gnn
+  pna: gnn
+  ppgn: gnn
+  schnet: gnn
+  dimenet: gnn
+  dimenetplusplus: gnn
+  egnn: gnn
+
+  # Hybrid / transformer families (common on modern leaderboards)
+  graphgps: hybrid
+  gps: hybrid
+  san: graph_transformer
+  graphormer: graph_transformer
+  nodeformer: graph_transformer
+
+  # Random-walk / shallow embedding methods (OGB link prediction & node classification)
+  node2vec: walk
+  deepwalk: walk
+  line: walk
+  metapath2vec: walk
+  crawl: walk
+
+  # Classical / non-neural baselines on OGB
+  mlp: other_traditional
+  matrixfactorization: other_traditional
+  logisticregression: other_traditional
+  labelpropagation: other_traditional

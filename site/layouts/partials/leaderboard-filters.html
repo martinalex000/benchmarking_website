@@ -25,17 +25,20 @@
 {{ $hybridRows := slice }}
 {{ $gtRows := slice }}
 {{ $llmRows := slice }}
+{{ $walkRows := slice }}
 {{ $tradRows := slice }}
 {{ $gnnCount := 0 }}
 {{ $hybridCount := 0 }}
 {{ $gtCount := 0 }}
 {{ $llmCount := 0 }}
+{{ $walkCount := 0 }}
 {{ $tradCount := 0 }}
 {{ if $archCounts }}
   {{ $gnnCount = index $archCounts "gnn" | default 0 }}
   {{ $hybridCount = index $archCounts "hybrid" | default 0 }}
   {{ $gtCount = index $archCounts "graph_transformer" | default 0 }}
   {{ $llmCount = index $archCounts "llm" | default 0 }}
+  {{ $walkCount = index $archCounts "walk" | default 0 }}
   {{ $tradCount = index $archCounts "traditional" | default 0 }}
 {{ else }}
   {{ range $rows }}
@@ -48,6 +51,8 @@
       {{ $gtRows = $gtRows | append . }}
     {{ else if eq $arch "llm" }}
       {{ $llmRows = $llmRows | append . }}
+    {{ else if eq $arch "walk" }}
+      {{ $walkRows = $walkRows | append . }}
     {{ else if in $traditionalTypes $arch }}
       {{ $tradRows = $tradRows | append . }}
     {{ end }}
@@ -56,6 +61,7 @@
   {{ $hybridCount = len $hybridRows }}
   {{ $gtCount = len $gtRows }}
   {{ $llmCount = len $llmRows }}
+  {{ $walkCount = len $walkRows }}
   {{ $tradCount = len $tradRows }}
 {{ end }}
 
@@ -105,6 +111,7 @@
     <button type="button" class="filter-bubble filter-bubble-arch-hybrid is-on" data-filter-arch="hybrid" data-arch-count="{{ $hybridCount }}" aria-pressed="true" title="Hybrid MPNN + transformer — {{ $hybridCount }} leaderboard row{{ if ne $hybridCount 1 }}s{{ end }}">Hyb ({{ $hybridCount }})</button>
     <button type="button" class="filter-bubble filter-bubble-arch-graph_transformer is-on" data-filter-arch="graph_transformer" data-arch-count="{{ $gtCount }}" aria-pressed="true" title="Graph transformer — {{ $gtCount }} leaderboard row{{ if ne $gtCount 1 }}s{{ end }}">GT ({{ $gtCount }})</button>
     <button type="button" class="filter-bubble filter-bubble-arch-llm is-on" data-filter-arch="llm" data-arch-count="{{ $llmCount }}" aria-pressed="true" title="LLM applied to graphs — {{ $llmCount }} leaderboard row{{ if ne $llmCount 1 }}s{{ end }}">LLM ({{ $llmCount }})</button>
+    <button type="button" class="filter-bubble filter-bubble-arch-walk is-on" data-filter-arch="walk" data-arch-count="{{ $walkCount }}" aria-pressed="true" title="Random-walk graph embedding — {{ $walkCount }} leaderboard row{{ if ne $walkCount 1 }}s{{ end }}">Walk ({{ $walkCount }})</button>
     <button type="button" class="filter-bubble filter-bubble-arch-other_traditional is-on" data-filter-arch="traditional" data-arch-count="{{ $tradCount }}" aria-pressed="true" title="Traditional / classical methods — {{ $tradCount }} leaderboard row{{ if ne $tradCount 1 }}s{{ end }}">Trad ({{ $tradCount }})</button>
   </div>
 </div>

@@ -20,7 +20,6 @@ import logging
 import re
 import shutil
 import statistics
-from dataclasses import dataclass
 from datetime import date, datetime, timedelta
 from pathlib import Path
 from typing import Any
@@ -28,7 +27,16 @@ from typing import Any
 import yaml
 from sqlalchemy.orm import Session, joinedload
 
-from backend.baseline_aggregator import get_best_results_over_time
+from backend.at_pub_timeline import AtPubTimeline as _AtPubTimeline
+from backend.at_pub_timeline import at_pub_timeline as _at_pub_timeline
+from backend.at_pub_timeline import (
+    clear_at_pub_caches,
+)
+from backend.at_pub_timeline import (
+    global_best_per_model_as_of_date_excluding_paper as _global_best_per_model_as_of_date_excluding_paper,
+)
+from backend.at_pub_timeline import model_key as _model_key
+from backend.baseline_aggregator import get_best_results_over_time_for_metrics
 from backend.config import cfg
 from backend.db import init_db, session_scope
 from backend.export_helpers import has_paper_value_gap as _has_paper_value_gap
@@ -36,6 +44,15 @@ from backend.export_helpers import plain_model as _plain_model
 from backend.export_helpers import rank_for_value as _rank_for_value
 from backend.export_helpers import sanitize_model as _sanitize_model_text
 from backend.export_helpers import sanitize_title as _sanitize_title
+from backend.leaderboard_compare import gap_magnitude as _gap_magnitude
+from backend.leaderboard_compare import is_value_better_than as _is_value_better_than
+from backend.leaderboard_compare import (
+    is_value_directionally_better as _is_value_directionally_better,
+)
+from backend.leaderboard_compare import is_value_worse_than as _is_value_worse_than
+from backend.leaderboard_compare import (
+    primary_proposed_from_results as _primary_proposed_from_results,
+)
 from backend.model_metadata import architecture_label, architecture_title
 from backend.models import (
     Benchmark,
@@ -62,10 +79,6 @@ _DATASET_OVERRIDE_CACHE: dict[str, dict[str, Any]] = {}
 _GLOBAL_RANKS_CACHE: dict[
     tuple[str, str, bool], tuple[dict[str, int], list[dict], dict[str, dict[str, Any]]]
 ] = {}
-_AT_PUB_ROWS_CACHE: dict[tuple[str, str], list[Any]] = {}
-_AT_PUB_TIMELINE_CACHE: dict[tuple[str, str, bool], Any] = {}
-_AT_PUB_MODEL_CACHE: dict[tuple[str, str, bool, str], dict[str, dict[str, Any]]] = {}
-_AT_PUB_EXCLUDING_CACHE: dict[tuple[str, str, bool, str, str], dict[str, dict[str, Any]]] = {}
 _DATASET_EXPORT_META_CACHE: dict[int, dict[str, Any]] = {}
 _BENCHMARK_EXPORTABLE_TOTALS: dict[str, int] | None = None
 _DATASET_PAPER_COUNT_CACHE: dict[tuple[str, str], int] = {}
@@ -94,10 +107,7 @@ def clear_export_caches() -> None:
     _MODEL_RENAME_CACHE.clear()
     _DATASET_OVERRIDE_CACHE.clear()
     _GLOBAL_RANKS_CACHE.clear()
-    _AT_PUB_ROWS_CACHE.clear()
-    _AT_PUB_TIMELINE_CACHE.clear()
-    _AT_PUB_MODEL_CACHE.clear()
-    _AT_PUB_EXCLUDING_CACHE.clear()
+    clear_at_pub_caches()
     _DATASET_EXPORT_META_CACHE.clear()
     _BENCHMARK_EXPORTABLE_TOTALS = None
     _DATASET_PAPER_COUNT_CACHE.clear()
@@ -287,10 +297,6 @@ def _sanitize_model(model_name: str | None, arxiv_id: str | None = None) -> str:
     return _sanitize_model_text(model_name, remap=_paper_model_renames(arxiv_id))
 
 
-def _model_key(model_name: str | None) -> str:
-    return _plain_model(model_name).lower()
-
-
 def _paper_site_link(arxiv_id: str | None, label: str | None = None) -> str:
     paper_id = (arxiv_id or "").strip()
     if not paper_id:
@@ -307,62 +313,6 @@ def _truncate_words(text: str | None, limit: int) -> str:
     if len(words) <= limit:
         return value
     return " ".join(words[:limit]) + "..."
-
-
-def _has_paper_value_difference(
-    paper_value: float | None,
-    true_value: float | None,
-) -> bool:
-    if paper_value is None or true_value is None:
-        return False
-    return abs(paper_value - true_value) > 1e-12
-
-
-def _gap_magnitude(
-    paper_value: float | None,
-    reference_value: float | None,
-) -> float | None:
-    if not _has_paper_value_difference(paper_value, reference_value):
-        return None
-    return abs(float(paper_value) - float(reference_value))
-
-
-def _is_value_worse_than(
-    value: float,
-    reference: float,
-    higher_is_better: bool,
-    value_std: float | None = None,
-    reference_std: float | None = None,
-) -> bool:
-    """True when *value* is strictly worse than *reference* (outside combined std)."""
-    worse = (value < reference) if higher_is_better else (value > reference)
-    if not worse:
-        return False
-    delta = abs(value - reference)
-    if value_std is not None and delta <= float(value_std):
-        return False
-    if reference_std is not None and delta <= float(reference_std):
-        return False
-    return delta > 1e-12
-
-
-def _is_value_better_than(
-    value: float,
-    reference: float,
-    higher_is_better: bool,
-    value_std: float | None = None,
-    reference_std: float | None = None,
-) -> bool:
-    """True when *value* is strictly better than *reference* (outside combined std)."""
-    return _is_value_worse_than(reference, value, higher_is_better, reference_std, value_std)
-
-
-def _is_value_directionally_better(
-    value: float,
-    reference: float,
-    higher_is_better: bool,
-) -> bool:
-    return (value > reference) if higher_is_better else (value < reference)
 
 
 def _resolve_global_rank(
@@ -645,35 +595,6 @@ def _copy_main_figure_if_newer(src: Path, dest: Path) -> None:
         return
     dest.parent.mkdir(parents=True, exist_ok=True)
     shutil.copy2(src, dest)
-
-
-def _primary_proposed_from_results(
-    results: list[Result],
-    proposed_models: list[str],
-) -> str | None:
-    """Pick the main proposed model from DB rows (no extraction YAML)."""
-    if not proposed_models:
-        return None
-    if len(proposed_models) == 1:
-        return proposed_models[0]
-
-    counts: dict[str, int] = {}
-    for r in results:
-        if not r.model or not r.model.canonical_name:
-            continue
-        cname = r.model.canonical_name
-        if cname not in proposed_models:
-            continue
-        dv = r.dataset_variant
-        if not dv or not dv.dataset:
-            continue
-        primary_metric = dv.dataset.primary_metric or r.metric_name
-        if r.metric_name != primary_metric:
-            continue
-        counts[cname] = counts.get(cname, 0) + 1
-    if counts:
-        return max(counts, key=counts.get)
-    return proposed_models[0]
 
 
 _PAPER_RESULT_LOAD_OPTIONS = (
@@ -1269,6 +1190,7 @@ def _architecture_counts(rows: list[dict[str, Any]]) -> dict[str, int]:
         "hybrid": 0,
         "graph_transformer": 0,
         "llm": 0,
+        "walk": 0,
         "traditional": 0,
     }
     for row in rows:
@@ -1675,205 +1597,6 @@ def _global_ranks_cached(
     return _GLOBAL_RANKS_CACHE[cache_key]
 
 
-def _at_pub_results_for_dataset_metric(session: Any, ds_name: str, metric: str) -> list[Any]:
-    """All non-problematic results for a dataset/metric (one query per export run)."""
-    rows_key = (ds_name, metric)
-    cached = _AT_PUB_ROWS_CACHE.get(rows_key)
-    if cached is not None:
-        return cached
-
-    all_res = (
-        session.query(Result)
-        .options(
-            joinedload(Result.model),
-            joinedload(Result.paper),
-            joinedload(Result.dataset_variant).joinedload(DatasetVariant.dataset),
-        )
-        .join(Result.dataset_variant)
-        .join(DatasetVariant.dataset)
-        .filter(Dataset.name == ds_name)
-        .filter(Result.metric_name == metric)
-        .filter(Result.is_problematic.is_(None) | (Result.is_problematic == 0))
-        .all()
-    )
-    _AT_PUB_ROWS_CACHE[rows_key] = all_res
-    return all_res
-
-
-@dataclass(frozen=True, slots=True)
-class _AtPubEvent:
-    pub_iso: str
-    value: float
-    std: float | None
-    arxiv_id: str
-    title: str
-    venue: str
-    model_name: str
-
-
-class _AtPubTimeline:
-    """Per-model publication-ordered events for fast at-date best lookups."""
-
-    __slots__ = ("_by_model", "_hib", "_model_truth_cache", "_truth_cache")
-
-    def __init__(self, all_res: list[Any], higher_is_better: bool) -> None:
-        self._hib = higher_is_better
-        by_model: dict[str, list[_AtPubEvent]] = {}
-        for r in all_res:
-            p = r.paper
-            if not p:
-                continue
-            model_key = _model_key(r.model.canonical_name if r.model else "")
-            if not model_key or r.display_value is None:
-                continue
-            by_model.setdefault(model_key, []).append(
-                _AtPubEvent(
-                    pub_iso=(p.published_date[:10] if p.published_date else ""),
-                    value=float(r.display_value),
-                    std=float(r.display_std) if r.display_std is not None else None,
-                    arxiv_id=p.arxiv_id or "",
-                    title=p.title or "",
-                    venue=p.venue or "",
-                    model_name=(r.model.canonical_name if r.model else ""),
-                )
-            )
-        for events in by_model.values():
-            events.sort(key=lambda event: event.pub_iso)
-        self._by_model = by_model
-        self._truth_cache: dict[tuple[str, str], dict[str, dict[str, Any]]] = {}
-        self._model_truth_cache: dict[tuple[str, str, str], dict[str, Any] | None] = {}
-
-    def _best_event(
-        self,
-        model_key: str,
-        cutoff_iso: str = "",
-        *,
-        exclude_arxiv: str = "",
-    ) -> _AtPubEvent | None:
-        best: _AtPubEvent | None = None
-        for event in self._by_model.get(model_key, ()):
-            if cutoff_iso and (not event.pub_iso or event.pub_iso > cutoff_iso):
-                break
-            if exclude_arxiv and event.arxiv_id == exclude_arxiv:
-                continue
-            if best is None or _is_value_directionally_better(event.value, best.value, self._hib):
-                best = event
-        return best
-
-    def best_for_model(
-        self,
-        model_key: str,
-        cutoff_iso: str = "",
-        *,
-        exclude_arxiv: str = "",
-    ) -> dict[str, Any] | None:
-        """Best prior result for a single model (avoids building a full truth map)."""
-        cache_key = (cutoff_iso or "", (exclude_arxiv or "").strip(), model_key)
-        if cache_key in self._model_truth_cache:
-            return self._model_truth_cache[cache_key]
-
-        event = self._best_event(model_key, cutoff_iso, exclude_arxiv=exclude_arxiv)
-        if event is None:
-            self._model_truth_cache[cache_key] = None
-            return None
-
-        entry = {
-            "model": _sanitize_model(event.model_name, event.arxiv_id),
-            "model_key": model_key,
-            "value": event.value,
-            "std": event.std,
-            "arxiv_id": event.arxiv_id,
-            "title": _sanitize_title(event.title),
-            "date_iso": event.pub_iso,
-            "venue": event.venue,
-        }
-        self._model_truth_cache[cache_key] = entry
-        return entry
-
-    def truth_map(
-        self,
-        cutoff_iso: str = "",
-        *,
-        exclude_arxiv: str = "",
-    ) -> dict[str, dict[str, Any]]:
-        cache_key = (cutoff_iso or "", (exclude_arxiv or "").strip())
-        cached = self._truth_cache.get(cache_key)
-        if cached is not None:
-            return cached
-
-        cutoff = cache_key[0]
-        exclude = cache_key[1]
-        truth_map: dict[str, dict[str, Any]] = {}
-        for model_key in self._by_model:
-            entry = self.best_for_model(model_key, cutoff, exclude_arxiv=exclude)
-            if entry is not None:
-                truth_map[model_key] = entry
-        self._truth_cache[cache_key] = truth_map
-        return truth_map
-
-
-def _at_pub_timeline(
-    session: Any, ds_name: str, metric: str, higher_is_better: bool
-) -> _AtPubTimeline:
-    timeline_key = (ds_name, metric, higher_is_better)
-    cached = _AT_PUB_TIMELINE_CACHE.get(timeline_key)
-    if cached is not None:
-        return cached
-    rows = _at_pub_results_for_dataset_metric(session, ds_name, metric)
-    timeline = _AtPubTimeline(rows, higher_is_better)
-    _AT_PUB_TIMELINE_CACHE[timeline_key] = timeline
-    return timeline
-
-
-def _at_pub_truth_map_from_results(
-    all_res: list[Any],
-    higher_is_better: bool,
-    cutoff_iso: str,
-) -> dict[str, dict[str, Any]]:
-    """Best result per model on or before *cutoff_iso* from preloaded rows."""
-    timeline = _AtPubTimeline(all_res, higher_is_better)
-    return timeline.truth_map(cutoff_iso)
-
-
-def _global_best_per_model_as_of_date(
-    session: Any,
-    ds_name: str,
-    metric: str,
-    higher_is_better: bool,
-    cutoff_iso: str,
-) -> dict[str, dict[str, Any]]:
-    """Best result per model on *metric* from papers published on or before *cutoff_iso*."""
-    cache_key = (ds_name, metric, higher_is_better, cutoff_iso or "")
-    if cache_key in _AT_PUB_MODEL_CACHE:
-        return _AT_PUB_MODEL_CACHE[cache_key]
-
-    truth_map = _at_pub_timeline(session, ds_name, metric, higher_is_better).truth_map(cutoff_iso)
-    _AT_PUB_MODEL_CACHE[cache_key] = truth_map
-    return truth_map
-
-
-def _global_best_per_model_as_of_date_excluding_paper(
-    session: Any,
-    ds_name: str,
-    metric: str,
-    higher_is_better: bool,
-    cutoff_iso: str,
-    exclude_arxiv: str,
-) -> dict[str, dict[str, Any]]:
-    """Best per model on/before *cutoff_iso*, excluding *exclude_arxiv* (prior-best for comparisons)."""
-    exclude_norm = (exclude_arxiv or "").strip()
-    cache_key = (ds_name, metric, higher_is_better, cutoff_iso or "", exclude_norm)
-    if cache_key in _AT_PUB_EXCLUDING_CACHE:
-        return _AT_PUB_EXCLUDING_CACHE[cache_key]
-
-    truth_map = _at_pub_timeline(session, ds_name, metric, higher_is_better).truth_map(
-        cutoff_iso,
-        exclude_arxiv=exclude_norm,
-    )
-    _AT_PUB_EXCLUDING_CACHE[cache_key] = truth_map
-    return truth_map
-
-
 def _non_problematic_results_query(session: Any):
     """Base query for exportable results with relationships eager-loaded."""
     return (
@@ -2168,9 +1891,12 @@ def _collect_result_anomalies(session: Any) -> list[dict[str, Any]]:
     return anomalies
 
 
-def _collect_model_value_mismatches(session: Any) -> list[dict[str, Any]]:
+def _collect_model_value_mismatches(
+    session: Any, *, results: list[Any] | None = None
+) -> list[dict[str, Any]]:
     """Return paper rows whose reported primary-metric model value materially disagrees with the global best."""
-    results = _primary_metric_results(session)
+    if results is None:
+        results = _primary_metric_results(session)
 
     truth_cache: dict[
         tuple[str, str, bool], tuple[dict[str, int], list[dict], dict[str, dict[str, Any]]]
@@ -2317,9 +2043,12 @@ def _collect_model_value_mismatches(session: Any) -> list[dict[str, Any]]:
     return mismatches
 
 
-def _collect_at_pub_improvements(session: Any) -> list[dict[str, Any]]:
+def _collect_at_pub_improvements(
+    session: Any, *, results: list[Any] | None = None
+) -> list[dict[str, Any]]:
     """Return rows where a paper reported a value better than the prior at-publication best."""
-    results = _primary_metric_results(session)
+    if results is None:
+        results = _primary_metric_results(session)
 
     timeline_cache: dict[tuple[str, str, bool], _AtPubTimeline] = {}
     truth_cache: dict[
@@ -3226,10 +2955,10 @@ def _export_dataset_impl(session: Session, dataset_id: int) -> bool:
         show_all_metrics_desktop = _dataset_show_all_metrics_desktop(ds.name)
         default_metric = _dataset_default_metric(ds.name, metric) or metric
 
-        milestones = get_best_results_over_time(v.id, metric, session=session)
-        milestones_by_metric = {
-            m: get_best_results_over_time(v.id, m, session=session) for m in metrics_ordered
-        }
+        milestones_by_metric = get_best_results_over_time_for_metrics(
+            v.id, metrics_ordered, session=session
+        )
+        milestones = milestones_by_metric.get(metric) or []
 
         if rows and (v.is_standard or not papers_source_rows):
             papers_source_rows = rows

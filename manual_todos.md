@@ -2,19 +2,13 @@
 
 ## Small tasks for now
 - make sure all the papers I used to have locally are also processed on the server
-- claimed SOTA even though its not markieren/extrahieren
-- on our split etc: make sure papers are indeed talking about the correct datasets and evaluation strategies on the old legacy datasets
-- qm9 has a lot of tasks, those need to be included
-- add year filter for papers
-
-re-evaluate qm9 papers to test how it worked. Check which other datasets need a similar treatment.
+- not all benchmark groups (and benchmarks) have a date and a paper
 
 ## Larger tasks to do later:
-- MLP baseline für fehlende Datensätze selbst berechnen
-- add a lot more (hand-crafted) information about each of the benchmarks (more statistics, but also more content about what each of the datasets is about, how it came to be, potentially pictures). Also add a quick description of the metric used and in some cases its drawbacks.
-- make sure that the conferences are properly extracted. Currently its still missing for a large part of the papers. In doubt: use paperswithcode api.
+- copy ogb results. Its important that everything from the ogb website will also appear on my leaderboard.
 
 ## Check things
+- make sure that the conferences are properly extracted. Currently its still missing for a large part of the papers. 
 - are statistics properly imported?
 - did the baseline merging part work well?
 - do we only track results for settings where it makes sense? (i.e. make sure that the results are comparable)
@@ -24,12 +18,12 @@ re-evaluate qm9 papers to test how it worked. Check which other datasets need a 
 
 
 ## Backlog
-- cleanup the number of scripts, they are too many.
-- Used hardware for the experiments and potentially runtime (even though thats usually not the big tiebreaker)
-- show the number of stars on github when there is a github link?
-- logos einbinden der jeweiligen benchmarks
-- copy ogb results. Its important that everything from the ogb website will also appear on my leaderboard.
 - integrate into alpharxive and trending papers from various sites such as huggingface's paperswithcode
+- add a lot more (hand-crafted) information about each of the benchmarks (more content about what each of the datasets is about, how it came to be, potentially pictures). 
+    - logos einbinden der jeweiligen benchmarks
+- MLP baseline für fehlende Datensätze selbst berechnen
+- cleanup the number of scripts, they are too many.
+- show the number of stars on github when there is a github link?
 - Add clear benchmark-selection guidance. Right now the site helps browse results, but not decide which benchmarks are worth testing on. It should surface benchmark relevance, popularity/adoption, recency, task fit, dataset scale, and a “recommended benchmark suite” view.
 - Tighten data-quality checks on dataset summaries. Some displayed stats look misleading; for example, ogbn-arxiv is described as having 40 subject areas but shows Classes / Targets = 1. Researchers will question the whole site if overview stats are wrong.
 - Jan: Glaube da gibt es zum Teil ziemlich üble Fälle wo die Baselines einfach frei erfunden sind 😅 Ich denke eine Metrik die zeigt wie weit die berichteten baseline Ergebnisse von älteren bekannten Werten für die gleiche Methode abweichen ist der pragmatischste Filter der die gröbsten Probleme abfangen würde. Auf Enzymes gibt es Paper in denen sich der SOTA einfach plötzlich halbiert (https://arxiv.org/pdf/2502.14546 , Figure 4.)

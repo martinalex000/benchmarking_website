@@ -13,12 +13,12 @@ proposed_model:
   name: <model name as used in paper>
   params_millions: <float or null>
   params_exact: <int or null>
-  model_type: <gnn|graph_transformer|hybrid|llm|svm_kernel|random_forest|decision_tree|boosting|other_traditional|null>
+  model_type: <gnn|graph_transformer|hybrid|llm|walk|svm_kernel|random_forest|decision_tree|boosting|other_traditional|null>
 baseline_models:
   - name: <baseline model name>
     params_millions: <float or null>
     params_exact: <int or null>
-    model_type: <gnn|graph_transformer|hybrid|llm|svm_kernel|random_forest|decision_tree|boosting|other_traditional|null>
+    model_type: <gnn|graph_transformer|hybrid|llm|walk|svm_kernel|random_forest|decision_tree|boosting|other_traditional|null>
     original_paper_hint: <author/year hint if mentioned, else null>
 results:
   - model: <exact model name from table>
@@ -58,23 +58,29 @@ Rules:
 - NEVER infer, estimate, back-solve, or borrow parameter counts from prior papers, common
   architecture defaults, codebases, hidden sizes, or other models in the same family.
 - model_type: classify each model's base architecture family from explicit paper statements
-  (abstract, method section, architecture figure caption, comparison table footnotes).
-  Allowed values:
-    gnn — message-passing / convolutional GNN (GCN, GIN, GraphSAGE, GAT, MPNN, …)
+  in the method, experimental setup, related work, and benchmark discussion (see PAPER METHOD
+  & SETUP PROSE when provided). Allowed values:
+    gnn — message-passing GNN ONLY when the paper describes neighbor aggregation, message
+      functions, update/aggregation functions, convolution over edges, MPNN layers, or explicit
+      "graph neural network" / "GNN" wording for that model. A bare table name like "GCN" is
+      NOT sufficient unless the paper also describes it as message-passing (common for OGB
+      baselines cited from the OGB paper).
     graph_transformer — pure graph transformer / global attention on graphs
     hybrid — explicit combination of MPNN and transformer components (e.g. GraphGPS-style)
-    llm — a large language model (or foundation LM) is the core model running on graphs
-      (e.g. graph tokenization/serialization fed to GPT-style models, LLM-as-classifier on
-      graph text, language-model backbones for graph tasks). Not the same as uses_external_data.
+    llm — a large language model (or foundation LM) is the core model running on graphs.
+      Not the same as uses_external_data.
+    walk — random-walk graph embedding: Node2Vec, DeepWalk, LINE, MetaPath2Vec, Crawl, and
+      similar walk-based shallow embeddings. NOT message-passing GNNs.
     svm_kernel — SVM, graph kernels, other kernel methods
     random_forest — random forest / bagged tree ensembles on hand-crafted features
     decision_tree — single decision tree / CART (not an ensemble)
     boosting — gradient boosting, XGBoost, LightGBM, CatBoost, AdaBoost, etc.
     other_traditional — other classical / non-neural (k-NN, linear models on features, …)
-    null — not stated or genuinely unclear
+    null — not stated, genuinely unclear, shallow embeddings other than walk-based methods,
+      or knowledge-graph translational embeddings (TransE, RotatE, ComplEx, DistMult) when
+      the paper gives no category. Do NOT guess from the model name alone.
   Disambiguation: prefer random_forest for "random forest" or "RF"; use decision_tree only for
   a single tree; use boosting for boosted ensembles (do not lump into random_forest).
-  If only a family name is given (e.g. "GCN") without architectural description, infer gnn.
 - value normalisation: Accuracy, F1, AP, AUC, ROC-AUC, AUROC, MRR, and Hits@K are always
   in the range [0, 1]. If a paper reports such a value as a percentage (e.g. 44.2 meaning
   44.2%), divide by 100 and output 0.442. NEVER output values > 1 for these metrics.
