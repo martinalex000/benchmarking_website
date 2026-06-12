@@ -8,17 +8,18 @@ from typing import Any
 
 from sqlalchemy.orm import joinedload
 
+from backend.at_pub_timeline import at_pub_timeline
 from backend.dataset_variant_resolver import (
     build_dataset_variant_lookup,
     resolve_dataset_variant_quiet,
 )
-from backend.export_to_hugo import (
-    _at_pub_timeline,
-    _gap_magnitude,
-    _is_value_better_than,
-    _is_value_directionally_better,
-    _is_value_worse_than,
-    _primary_proposed_from_results,
+from backend.leaderboard_compare import (
+    gap_magnitude,
+    global_best_entry_at_publication,
+    is_value_better_than,
+    is_value_directionally_better,
+    is_value_worse_than,
+    primary_proposed_from_results,
 )
 from backend.models import Dataset, DatasetVariant, Paper, PaperSotaClaim, Result
 
@@ -29,6 +30,11 @@ VERDICT_ORDER = {
     "verified": 3,
     "unverifiable": 4,
 }
+
+_PAPER_RESULT_LOAD_OPTIONS = (
+    joinedload(Result.model),
+    joinedload(Result.dataset_variant).joinedload(DatasetVariant.dataset),
+)
 
 
 @dataclass
@@ -71,6 +77,29 @@ def is_unrestricted_claim(claim: PaperSotaClaim) -> bool:
     return len(restrictions) == 0
 
 
+def _verification_row(
+    claim: PaperSotaClaim,
+    paper: Paper,
+    *,
+    dataset_name: str,
+    verdict: str,
+    details: str = "",
+    **fields: Any,
+) -> SotaClaimVerification:
+    return SotaClaimVerification(
+        claim_id=claim.id,
+        paper_id=claim.paper_id,
+        arxiv_id=paper.arxiv_id,
+        paper_title=paper.title or "",
+        raw_sentence=claim.raw_sentence,
+        claim_summary=claim.claim_summary or "",
+        dataset_name=dataset_name,
+        verdict=verdict,
+        details=details,
+        **fields,
+    )
+
+
 def _global_best_at_publication(
     session: Any,
     *,
@@ -80,41 +109,30 @@ def _global_best_at_publication(
     cutoff_iso: str,
     exclude_arxiv: str,
 ) -> dict[str, Any] | None:
-    timeline = _at_pub_timeline(session, ds_name, metric, higher_is_better)
+    timeline = at_pub_timeline(session, ds_name, metric, higher_is_better)
     truth_map = timeline.truth_map(cutoff_iso, exclude_arxiv=exclude_arxiv)
-    best: dict[str, Any] | None = None
-    for entry in truth_map.values():
-        value = entry.get("value")
-        if value is None:
-            continue
-        if best is None or _is_value_directionally_better(
-            float(value), float(best["value"]), higher_is_better
-        ):
-            best = entry
-    return best
+    return global_best_entry_at_publication(truth_map, higher_is_better=higher_is_better)
 
 
-def _paper_proposed_result(
-    session: Any,
-    *,
-    paper: Paper,
-    dataset: Dataset,
-    primary_metric: str,
-) -> Result | None:
-    results = (
+def _load_paper_results(session: Any, paper_id: int) -> list[Result]:
+    return (
         session.query(Result)
-        .options(
-            joinedload(Result.model),
-            joinedload(Result.dataset_variant).joinedload(DatasetVariant.dataset),
-        )
-        .filter_by(paper_id=paper.id, is_baseline=False)
+        .options(*_PAPER_RESULT_LOAD_OPTIONS)
+        .filter_by(paper_id=paper_id, is_baseline=False)
         .filter(Result.is_problematic.is_(None) | (Result.is_problematic == 0))
         .all()
     )
+
+
+def _paper_proposed_result(
+    results: list[Result],
+    *,
+    dataset: Dataset,
+) -> Result | None:
     proposed_models = list(
         dict.fromkeys(r.model.canonical_name for r in results if r.model and r.model.canonical_name)
     )
-    primary_proposed = _primary_proposed_from_results(results, proposed_models)
+    primary_proposed = primary_proposed_from_results(results, proposed_models)
 
     candidates: list[Result] = []
     for result in results:
@@ -148,11 +166,11 @@ def _classify_verdict(
     prior_std: float | None,
     higher_is_better: bool,
 ) -> str:
-    if _is_value_worse_than(paper_value, prior_value, higher_is_better, paper_std, prior_std):
+    if is_value_worse_than(paper_value, prior_value, higher_is_better, paper_std, prior_std):
         return "wrong"
-    if _is_value_better_than(paper_value, prior_value, higher_is_better, paper_std, prior_std):
+    if is_value_better_than(paper_value, prior_value, higher_is_better, paper_std, prior_std):
         return "verified"
-    if _is_value_directionally_better(paper_value, prior_value, higher_is_better):
+    if is_value_directionally_better(paper_value, prior_value, higher_is_better):
         return "more_or_less"
     return "overstated"
 
@@ -168,6 +186,8 @@ def verify_unrestricted_claims(session: Any) -> list[SotaClaimVerification]:
     )
 
     verifications: list[SotaClaimVerification] = []
+    paper_results_cache: dict[int, list[Result]] = {}
+
     for claim in claims:
         if not is_unrestricted_claim(claim):
             continue
@@ -180,13 +200,9 @@ def verify_unrestricted_claims(session: Any) -> list[SotaClaimVerification]:
         ]
         if not dataset_names:
             verifications.append(
-                SotaClaimVerification(
-                    claim_id=claim.id,
-                    paper_id=claim.paper_id,
-                    arxiv_id=paper.arxiv_id,
-                    paper_title=paper.title or "",
-                    raw_sentence=claim.raw_sentence,
-                    claim_summary=claim.claim_summary or "",
+                _verification_row(
+                    claim,
+                    paper,
                     dataset_name="—",
                     verdict="unverifiable",
                     details="no datasets named in claim",
@@ -198,13 +214,9 @@ def verify_unrestricted_claims(session: Any) -> list[SotaClaimVerification]:
         if not cutoff_iso:
             for dataset_name in dataset_names:
                 verifications.append(
-                    SotaClaimVerification(
-                        claim_id=claim.id,
-                        paper_id=claim.paper_id,
-                        arxiv_id=paper.arxiv_id,
-                        paper_title=paper.title or "",
-                        raw_sentence=claim.raw_sentence,
-                        claim_summary=claim.claim_summary or "",
+                    _verification_row(
+                        claim,
+                        paper,
                         dataset_name=dataset_name,
                         verdict="unverifiable",
                         details="missing publication date",
@@ -212,17 +224,17 @@ def verify_unrestricted_claims(session: Any) -> list[SotaClaimVerification]:
                 )
             continue
 
+        if paper.id not in paper_results_cache:
+            paper_results_cache[paper.id] = _load_paper_results(session, paper.id)
+        paper_results = paper_results_cache[paper.id]
+
         for dataset_name in dataset_names:
             variant = resolve_dataset_variant_quiet(dataset_name, lookup)
             if variant is None or variant.dataset is None:
                 verifications.append(
-                    SotaClaimVerification(
-                        claim_id=claim.id,
-                        paper_id=claim.paper_id,
-                        arxiv_id=paper.arxiv_id,
-                        paper_title=paper.title or "",
-                        raw_sentence=claim.raw_sentence,
-                        claim_summary=claim.claim_summary or "",
+                    _verification_row(
+                        claim,
+                        paper,
                         dataset_name=dataset_name,
                         verdict="unverifiable",
                         details="unknown dataset",
@@ -234,13 +246,9 @@ def verify_unrestricted_claims(session: Any) -> list[SotaClaimVerification]:
             primary_metric = dataset.primary_metric or ""
             if not primary_metric:
                 verifications.append(
-                    SotaClaimVerification(
-                        claim_id=claim.id,
-                        paper_id=claim.paper_id,
-                        arxiv_id=paper.arxiv_id,
-                        paper_title=paper.title or "",
-                        raw_sentence=claim.raw_sentence,
-                        claim_summary=claim.claim_summary or "",
+                    _verification_row(
+                        claim,
+                        paper,
                         dataset_name=dataset.name,
                         verdict="unverifiable",
                         details="dataset has no primary metric",
@@ -248,21 +256,12 @@ def verify_unrestricted_claims(session: Any) -> list[SotaClaimVerification]:
                 )
                 continue
 
-            paper_result = _paper_proposed_result(
-                session,
-                paper=paper,
-                dataset=dataset,
-                primary_metric=primary_metric,
-            )
+            paper_result = _paper_proposed_result(paper_results, dataset=dataset)
             if paper_result is None or paper_result.display_value is None:
                 verifications.append(
-                    SotaClaimVerification(
-                        claim_id=claim.id,
-                        paper_id=claim.paper_id,
-                        arxiv_id=paper.arxiv_id,
-                        paper_title=paper.title or "",
-                        raw_sentence=claim.raw_sentence,
-                        claim_summary=claim.claim_summary or "",
+                    _verification_row(
+                        claim,
+                        paper,
                         dataset_name=dataset.name,
                         verdict="unverifiable",
                         details="no extracted proposed-model result",
@@ -287,13 +286,9 @@ def verify_unrestricted_claims(session: Any) -> list[SotaClaimVerification]:
 
             if prior_best is None or prior_best.get("value") is None:
                 verifications.append(
-                    SotaClaimVerification(
-                        claim_id=claim.id,
-                        paper_id=claim.paper_id,
-                        arxiv_id=paper.arxiv_id,
-                        paper_title=paper.title or "",
-                        raw_sentence=claim.raw_sentence,
-                        claim_summary=claim.claim_summary or "",
+                    _verification_row(
+                        claim,
+                        paper,
                         dataset_name=dataset.name,
                         paper_value=paper_value,
                         paper_std=paper_std,
@@ -313,13 +308,9 @@ def verify_unrestricted_claims(session: Any) -> list[SotaClaimVerification]:
                 higher_is_better=higher,
             )
             verifications.append(
-                SotaClaimVerification(
-                    claim_id=claim.id,
-                    paper_id=claim.paper_id,
-                    arxiv_id=paper.arxiv_id,
-                    paper_title=paper.title or "",
-                    raw_sentence=claim.raw_sentence,
-                    claim_summary=claim.claim_summary or "",
+                _verification_row(
+                    claim,
+                    paper,
                     dataset_name=dataset.name,
                     paper_value=paper_value,
                     paper_std=paper_std,
@@ -327,7 +318,7 @@ def verify_unrestricted_claims(session: Any) -> list[SotaClaimVerification]:
                     prior_best_std=prior_std,
                     prior_best_arxiv=str(prior_best.get("arxiv_id") or ""),
                     prior_best_title=str(prior_best.get("title") or ""),
-                    gap=_gap_magnitude(paper_value, prior_value),
+                    gap=gap_magnitude(paper_value, prior_value),
                     verdict=verdict,
                 )
             )

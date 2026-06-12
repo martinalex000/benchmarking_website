@@ -267,6 +267,44 @@ def get_best_results_over_time(
         return _milestones_from_results(_fetch(scoped_session))
 
 
+def get_best_results_over_time_for_metrics(
+    dataset_variant_id: int,
+    metric_names: list[str],
+    session: Any | None = None,
+) -> dict[str, list[dict[str, Any]]]:
+    """Return milestone timelines for multiple metrics with one DB query."""
+    unique_metrics = list(dict.fromkeys(metric_names))
+    if not unique_metrics:
+        return {}
+
+    def _fetch_all(sess: Any) -> list:
+        return (
+            sess.query(Result)
+            .options(joinedload(Result.paper), joinedload(Result.model))
+            .filter_by(dataset_variant_id=dataset_variant_id)
+            .filter(Result.metric_name.in_(unique_metrics))
+            .filter(Result.is_problematic.is_(None) | (Result.is_problematic == 0))
+            .join(Result.paper)
+            .order_by(text("papers.published_date"))
+            .all()
+        )
+
+    if session is not None:
+        all_results = _fetch_all(session)
+    else:
+        init_db()
+        with session_scope() as scoped_session:
+            all_results = _fetch_all(scoped_session)
+
+    by_metric: dict[str, list] = {name: [] for name in unique_metrics}
+    for result in all_results:
+        metric = result.metric_name
+        if metric in by_metric:
+            by_metric[metric].append(result)
+
+    return {name: _milestones_from_results(by_metric[name]) for name in unique_metrics}
+
+
 # ── Fuzzy merge ───────────────────────────────────────────────────────────────
 
 

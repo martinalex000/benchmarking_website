@@ -5,6 +5,7 @@ from pathlib import Path
 
 import pytest
 
+from backend.at_pub_timeline import AtPubEvent, AtPubTimeline, global_best_per_model_as_of_date
 from backend.export_helpers import truncate_words as _truncate_words
 from backend.export_to_hugo import (
     INITIAL_DATASET_HTML_ROWS,
@@ -22,7 +23,6 @@ from backend.export_to_hugo import (
     _fmt_date,
     _gap_magnitude,
     _global_ranks_cached,
-    _has_paper_value_difference,
     _has_paper_value_gap,
     _is_value_better_than,
     _is_value_worse_than,
@@ -41,6 +41,7 @@ from backend.export_to_hugo import (
     _write_dataset_variant_json_files,
     clear_export_caches,
 )
+from backend.leaderboard_compare import has_paper_value_difference
 
 
 def test_sanitize_title_replaces_linebreaks_and_strips_commands():
@@ -69,8 +70,8 @@ def test_value_gap_respects_reported_uncertainty():
     assert not _has_paper_value_gap(0.81, 0.02, 0.8, None)
     assert not _has_paper_value_gap(0.81, None, 0.8, 0.02)
     assert not _has_paper_value_gap(None, None, 0.8, None)
-    assert _has_paper_value_difference(0.81, 0.8)
-    assert not _has_paper_value_difference(0.8, 0.8 + 1e-13)
+    assert has_paper_value_difference(0.81, 0.8)
+    assert not has_paper_value_difference(0.8, 0.8 + 1e-13)
 
 
 def test_gap_magnitude_reports_any_numeric_difference():
@@ -600,14 +601,12 @@ def test_dataset_export_metadata_uses_cache(monkeypatch):
 
 
 def test_at_pub_timeline_excludes_paper_and_respects_cutoff():
-    from backend.export_to_hugo import _AtPubEvent, _AtPubTimeline
-
     events = [
-        _AtPubEvent("2020-01-01", 0.70, None, "1111.0001", "Early", "", "GCN"),
-        _AtPubEvent("2021-06-01", 0.80, None, "2222.0002", "Later", "", "GCN"),
-        _AtPubEvent("2022-01-01", 0.75, None, "3333.0003", "Mid", "", "GCN"),
+        AtPubEvent("2020-01-01", 0.70, None, "1111.0001", "Early", "", "GCN"),
+        AtPubEvent("2021-06-01", 0.80, None, "2222.0002", "Later", "", "GCN"),
+        AtPubEvent("2022-01-01", 0.75, None, "3333.0003", "Mid", "", "GCN"),
     ]
-    timeline = _AtPubTimeline([], True)
+    timeline = AtPubTimeline([], True)
     timeline._by_model = {"gcn": events}
 
     as_of_2021 = timeline.truth_map("2021-06-01")
@@ -619,8 +618,6 @@ def test_at_pub_timeline_excludes_paper_and_respects_cutoff():
 
 
 def test_global_best_per_model_reuses_dataset_metric_rows(monkeypatch):
-    from backend import export_to_hugo
-
     clear_export_caches()
     query_calls = 0
 
@@ -644,13 +641,9 @@ def test_global_best_per_model_reuses_dataset_metric_rows(monkeypatch):
             return FakeQuery()
 
     session = FakeSession()
-    export_to_hugo._global_best_per_model_as_of_date(
-        session, "Cora", "Accuracy", True, "2020-01-01"
-    )
-    export_to_hugo._global_best_per_model_as_of_date(
-        session, "Cora", "Accuracy", True, "2024-06-01"
-    )
-    export_to_hugo._global_best_per_model_as_of_date(session, "Cora", "F1", True, "2024-06-01")
+    global_best_per_model_as_of_date(session, "Cora", "Accuracy", True, "2020-01-01")
+    global_best_per_model_as_of_date(session, "Cora", "Accuracy", True, "2024-06-01")
+    global_best_per_model_as_of_date(session, "Cora", "F1", True, "2024-06-01")
 
     assert query_calls == 2
 
@@ -691,7 +684,7 @@ def test_benchmark_totals_exportable_uses_dataset_metadata_cache(monkeypatch):
 def test_primary_proposed_from_results_prefers_primary_metric_rows():
     from types import SimpleNamespace
 
-    from backend.export_to_hugo import _primary_proposed_from_results
+    from backend.leaderboard_compare import primary_proposed_from_results
 
     class FakeModel:
         def __init__(self, name: str):
@@ -712,7 +705,7 @@ def test_primary_proposed_from_results_prefers_primary_metric_rows():
         row("MainMethod", "Accuracy", "Accuracy"),
         row("MainMethod", "F1", "Accuracy"),
     ]
-    chosen = _primary_proposed_from_results(
+    chosen = primary_proposed_from_results(
         results,
         ["Ablation-A", "MainMethod"],
     )
