@@ -762,12 +762,11 @@ def analyze_multi_model_baseline(
         effective_hits = result.hits + glm_likely_missed
         effective_baseline = max(baseline_count - glm_likely_over_extracted, 1)
         extracted = result.hits + result.value_errors + result.hallucinations
-        effective_extracted = max(extracted - glm_likely_missed, 1)
         adjusted_metrics[model] = {
             "raw_recall": round(result.recall, 4),
             "adjusted_recall": round(effective_hits / effective_baseline, 4),
             "raw_precision": round(result.precision, 4),
-            "adjusted_precision": round(result.hits / effective_extracted, 4),
+            "adjusted_precision": round(effective_hits / max(extracted, 1), 4),
             "glm_likely_over_extracted": glm_likely_over_extracted,
             "glm_likely_missed": glm_likely_missed,
             "model_only_misses": len(only_misses),
