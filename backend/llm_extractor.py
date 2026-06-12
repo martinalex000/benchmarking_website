@@ -48,6 +48,7 @@ from backend.db import session_scope
 from backend.json_repair import parse_json_lenient
 from backend.llm_model_options import display_name_for_model, extra_body_for_model
 from backend.model_metadata import normalize_architecture_type
+from backend.model_name_resolution import normalize_model_name_for_resolution
 from backend.models import Paper
 from backend.paper_storage import PaperStorage
 from backend.qm9_targets import (
@@ -3650,15 +3651,19 @@ def _rename_generic_proposed_rows(extraction: ExtractionOutput, proposed_hint: s
 def _stabilize_model_names(extraction: ExtractionOutput, paper_title: str = "") -> None:
     """Normalise model names, drop ablations, and stabilize the main proposed model."""
     if extraction.proposed_model is not None:
-        extraction.proposed_model.name = _normalise_model_name_text(extraction.proposed_model.name)
+        extraction.proposed_model.name = normalize_model_name_for_resolution(
+            _normalise_model_name_text(extraction.proposed_model.name)
+        )
 
     for baseline in extraction.baseline_models:
-        baseline.name = _normalise_model_name_text(baseline.name)
+        baseline.name = normalize_model_name_for_resolution(
+            _normalise_model_name_text(baseline.name)
+        )
 
     filtered_results: list[ResultEntry] = []
     dropped_ablation_rows = 0
     for result in extraction.results:
-        result.model = _normalise_model_name_text(result.model)
+        result.model = normalize_model_name_for_resolution(_normalise_model_name_text(result.model))
         if _looks_like_ablation_model(result.model):
             dropped_ablation_rows += 1
             continue

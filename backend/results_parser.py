@@ -31,6 +31,12 @@ from backend.model_metadata import (
     normalize_architecture_type,
     params_exact_from_millions,
 )
+from backend.model_name_resolution import (
+    ROLE_SUFFIX_RE,
+    model_names_fuzzy_compatible,
+    normalize_model_name_for_resolution,
+    ogb_dataset_families_compatible,
+)
 from backend.models import (
     DatasetVariant,
     Model,
@@ -45,14 +51,6 @@ from backend.repository_linking import find_verified_repository_link, repository
 from backend.text_cleanup import abstract_has_latex_artifacts, clean_extracted_text
 
 logger = logging.getLogger(__name__)
-
-# Patterns like "(ours)", "(base)", "(baseline)" are author annotations, not part
-# of the model name.  Strip them so "IPR-MPNN (ours)" and "IPR-MPNN" resolve to
-# the same canonical model.
-_ROLE_SUFFIX_RE = re.compile(
-    r"\s*\(\s*(?:ours?|base(?:line)?|our\s+model|our\s+method|proposed)\s*\)\s*$",
-    re.IGNORECASE,
-)
 
 # ── Metric normalisation ──────────────────────────────────────────────────────
 
@@ -100,6 +98,13 @@ _ZINC_FULL_CUE_RE = re.compile(
 )
 _ZINC_FULL_MAX_MAE = 0.06
 _ZINC_SUBSET_MIN_MAE = 0.07
+
+_OGB_DATASET_ALIASES: dict[str, str] = {
+    "ogbg-code2": "code",
+    "ogbg-code": "code",
+    "ogbg-moltox21": "tox21",
+}
+
 # token_sort_ratio >= 88 matched the current model set well enough to reuse
 # obvious variants like punctuation or spacing changes without collapsing short
 # families such as GCN into unrelated names like GatedGCN.
@@ -238,6 +243,10 @@ def _load_variant_map(session) -> dict[str, int]:
         mapping["zinc"] = zinc_subset_id
     elif zinc_full_id is not None:
         mapping["zinc"] = zinc_full_id
+    for alias, canonical in _OGB_DATASET_ALIASES.items():
+        target = mapping.get(canonical)
+        if target is not None:
+            mapping[alias] = target
     return mapping
 
 
@@ -321,10 +330,18 @@ def resolve_dataset_variant_with_reason(
     if key in variant_map:
         return variant_map[key], "dataset: exact match"
 
+    alias_target = _OGB_DATASET_ALIASES.get(key)
+    if alias_target is not None and alias_target in variant_map:
+        return variant_map[alias_target], f"dataset: alias to {alias_target}"
+
     if variant_map:
         min_score = 85 if len(key) <= 6 else 75
-        best_match, score = fuzz_process.extractOne(key, list(variant_map.keys()))
-        if score >= min_score:
+        best_match, score = fuzz_process.extractOne(
+            key,
+            list(variant_map.keys()),
+            scorer=fuzz_lib.token_sort_ratio,
+        )
+        if score >= min_score and ogb_dataset_families_compatible(key, best_match):
             logger.debug(
                 "Fuzzy-matched dataset '%s' → '%s' (score=%d)", dataset_name, best_match, score
             )
@@ -424,6 +441,24 @@ def _update_model_metadata(
         model.size_params = exact
 
 
+def _register_model_alias(
+    session,
+    alias_map: dict[str, int],
+    model_id: int,
+    alias: str,
+) -> None:
+    alias_key = alias.strip().lower()
+    if not alias_key or alias_key in alias_map:
+        return
+    existing = session.query(ModelAlias).filter_by(alias=alias).first()
+    if existing is not None:
+        alias_map[alias_key] = existing.model_id
+        return
+    session.add(ModelAlias(model_id=model_id, alias=alias.strip()))
+    session.flush()
+    alias_map[alias_key] = model_id
+
+
 def resolve_or_create_model(
     model_name: str,
     is_proposed: bool,
@@ -435,14 +470,16 @@ def resolve_or_create_model(
     params_exact: int | None = None,
 ) -> tuple[int, bool]:
     """Find or create a Model record. Returns ``(model_id, created_new)``."""
-    # Strip author-role annotations before lookup/creation
-    model_name = _ROLE_SUFFIX_RE.sub("", model_name).strip()
-    key = model_name.strip().lower()
+    raw_name = ROLE_SUFFIX_RE.sub("", model_name).strip()
+    normalized = normalize_model_name_for_resolution(raw_name)
+    key = normalized.lower()
 
     if key in canonical_map:
         model = session.query(Model).filter_by(id=canonical_map[key]).first()
         if model is not None:
             _update_model_metadata(model, model_type, params_millions, params_exact)
+        if raw_name.lower() != key:
+            _register_model_alias(session, alias_map, canonical_map[key], raw_name)
         return canonical_map[key], False
     if key in alias_map:
         model = session.query(Model).filter_by(id=alias_map[key]).first()
@@ -458,27 +495,33 @@ def resolve_or_create_model(
         best_match, score = fuzz_process.extractOne(
             key, all_names, scorer=fuzz_lib.token_sort_ratio
         )
-        if score >= _MODEL_FUZZY_MATCH_MIN_SCORE:
+        if model_names_fuzzy_compatible(
+            normalized, best_match, score, _MODEL_FUZZY_MATCH_MIN_SCORE
+        ):
             logger.debug(
-                "Fuzzy-matched model '%s' → '%s' (score=%d)", model_name, best_match, score
+                "Fuzzy-matched model '%s' → '%s' (score=%d)", normalized, best_match, score
             )
             match_id = canonical_map.get(best_match) or alias_map.get(best_match)
             if match_id:
                 model = session.query(Model).filter_by(id=match_id).first()
                 if model is not None:
                     _update_model_metadata(model, model_type, params_millions, params_exact)
+                if raw_name.lower() != best_match:
+                    _register_model_alias(session, alias_map, match_id, raw_name)
                 return match_id, False
 
     # Create new model
     new_model = Model(
-        name=model_name.strip(),
-        canonical_name=model_name.strip(),
+        name=normalized,
+        canonical_name=normalized,
     )
     _update_model_metadata(new_model, model_type, params_millions, params_exact)
     session.add(new_model)
     session.flush()  # get the new id
     canonical_map[key] = new_model.id
-    logger.info("Created new model: '%s' (id=%d)", model_name, new_model.id)
+    if raw_name.lower() != key:
+        _register_model_alias(session, alias_map, new_model.id, raw_name)
+    logger.info("Created new model: '%s' (id=%d)", normalized, new_model.id)
     return new_model.id, True
 
 

@@ -59,3 +59,18 @@ def test_representative_std_from_best():
     g = make_group("Model", [0.8, 0.9])
     g.stds = [None, 0.01]  # std for the best (0.9) is 0.01
     assert g.representative_std == pytest.approx(0.01)
+
+
+def test_merge_does_not_combine_gcn_and_gin_virtual():
+    g1 = make_group("GCN + Virtual Node", [0.75], model_id=1)
+    g2 = make_group("GIN + Virtual Node", [0.76], model_id=2)
+    merged = _merge_similar_groups([g1, g2], threshold=85)
+    assert len(merged) == 2
+
+
+def test_merge_combines_gcn_virt_spelling_variants():
+    g1 = make_group("GCN + Virtual Node", [0.75], model_id=1)
+    g2 = make_group("GCN + Virt. Node", [0.76], model_id=2)
+    merged = _merge_similar_groups([g1, g2], threshold=85)
+    assert len(merged) == 1
+    assert len(merged[0].values) == 2

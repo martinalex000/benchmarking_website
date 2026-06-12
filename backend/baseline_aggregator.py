@@ -22,6 +22,7 @@ from sqlalchemy.orm import joinedload
 from thefuzz import fuzz as _fuzz
 
 from backend.db import init_db, session_scope
+from backend.model_name_resolution import model_names_fuzzy_compatible
 from backend.models import Model, Result
 
 logger = logging.getLogger(__name__)
@@ -338,7 +339,9 @@ def _merge_similar_groups(
             if j <= i or j in used:
                 continue
             sim = _fuzz.token_sort_ratio(g.canonical_name.lower(), other.canonical_name.lower())
-            if sim >= threshold:
+            if sim >= threshold and model_names_fuzzy_compatible(
+                g.canonical_name, other.canonical_name, sim, threshold
+            ):
                 combined.values.extend(other.values)
                 combined.stds.extend(other.stds)
                 combined.paper_ids.extend(other.paper_ids)
