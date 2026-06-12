@@ -43,9 +43,16 @@ from thefuzz import fuzz as fuzz_lib
 from thefuzz import process as fuzz_process
 
 from backend.config import cfg, normalize_arxiv_id
+from backend.dataset_stats_parsing import format_stats_summary, is_statistics_table
 from backend.db import session_scope
 from backend.json_repair import parse_json_lenient
-from backend.llm_model_options import display_name_for_model, extra_body_for_model
+from backend.llm_model_options import (
+    context_limits_for_model,
+    display_name_for_model,
+    extra_body_for_model,
+    extraction_max_tokens_for_model,
+    is_gpt_oss_model,
+)
 from backend.model_metadata import normalize_architecture_type
 from backend.models import Paper
 from backend.paper_storage import PaperStorage
@@ -484,26 +491,6 @@ class CallRecord:
     extra: dict = dc_field(default_factory=dict)
 
 
-def _format_statistics_entry_summary(entry: dict[str, Any]) -> str:
-    parts: list[str] = []
-    for key, label in (
-        ("num_graphs", "graphs"),
-        ("avg_nodes", "nodes"),
-        ("avg_edges", "edges"),
-        ("num_classes", "classes"),
-    ):
-        raw_values = entry.get("raw_values") or {}
-        value = entry.get(key)
-        if value is not None:
-            display = raw_values.get(key, value)
-            parts.append(f"{label}={display}")
-    extra_stats = entry.get("extra_stats") or {}
-    if isinstance(extra_stats, dict):
-        for key, value in sorted(extra_stats.items()):
-            parts.append(f"{key}={value}")
-    return ", ".join(parts) if parts else "—"
-
-
 def _print_dataset_statistics(rec: CallRecord, *, use_rich: bool, console: Any = None) -> None:
     stat_tables = rec.extra.get("statistics_tables")
     if stat_tables:
@@ -551,7 +538,7 @@ def _print_dataset_statistics(rec: CallRecord, *, use_rich: bool, console: Any =
             console.print("    [dim]Extracted dataset statistics:[/dim]")
             for item in extracted_details:
                 name = item.get("name", "?")
-                summary = _format_statistics_entry_summary(item)
+                summary = format_stats_summary(item)
                 source = item.get("source_ref") or ""
                 source_note = f" [dim]({source})[/dim]" if source else ""
                 console.print(f"      [bold]{name}[/bold][dim]:[/dim] {summary}{source_note}")
@@ -559,7 +546,7 @@ def _print_dataset_statistics(rec: CallRecord, *, use_rich: bool, console: Any =
             print("    Extracted dataset statistics:")
             for item in extracted_details:
                 name = item.get("name", "?")
-                summary = _format_statistics_entry_summary(item)
+                summary = format_stats_summary(item)
                 source = item.get("source_ref") or ""
                 print(f"      {name}: {summary}" + (f" ({source})" if source else ""))
     elif rec.extra.get("paper_has_statistics"):
@@ -877,17 +864,6 @@ def _apply_statistics_ripgrep_precheck(datasets: DatasetList, text: str) -> Data
     return datasets
 
 
-def _dataset_statistics_extra(datasets: list[DatasetInfo]) -> list[dict[str, Any]]:
-    return [
-        {
-            "name": ds.name,
-            "statistics_mentioned": ds.statistics_mentioned,
-            "statistics_sources": list(ds.statistics_sources),
-        }
-        for ds in datasets
-    ]
-
-
 def _dataset_statistics_hint_block(datasets: list[DatasetInfo]) -> str:
     lines: list[str] = []
     for ds in datasets:
@@ -904,32 +880,10 @@ def _dataset_statistics_hint_block(datasets: list[DatasetInfo]) -> str:
     )
 
 
-_STAT_TABLE_MARKERS = (
-    "statistic",
-    "dataset",
-    "#graphs",
-    "num graphs",
-    "avg nodes",
-    "avg edges",
-    "properties",
-    "summary",
-    "total graphs",
-    "total nodes",
-)
-
-
-def _is_statistics_table(table: Any) -> bool:
-    caption = (getattr(table, "caption", "") or "").strip().lower()
-    header = ""
-    if hasattr(table, "header"):
-        header = str(getattr(table, "header", "") or "").lower()
-    return any(marker in caption or marker in header for marker in _STAT_TABLE_MARKERS)
-
-
 def _statistics_table_summaries(tables: list) -> list[dict[str, Any]]:
     summaries: list[dict[str, Any]] = []
     for table in tables:
-        if not _is_statistics_table(table):
+        if not is_statistics_table(table):
             continue
         number = getattr(table, "number", None)
         if number is None:
@@ -980,7 +934,7 @@ def _dataset_statistics_extra_with_tables(
 
 def _enrich_dataset_statistics_from_tables(datasets: DatasetList, tables: list) -> None:
     """Mark datasets with statistics when their names appear in statistics tables."""
-    stat_tables = [t for t in tables if _is_statistics_table(t)]
+    stat_tables = [t for t in tables if is_statistics_table(t)]
     if not stat_tables:
         return
 
@@ -2098,8 +2052,8 @@ class LLMExtractor:
             + "\n\n".join(entries)
         )
 
-        # Token budget: ~20 tokens per dataset name + ~50 per table number → generous
-        max_tokens = max(256, len(datasets) * 30 + len(tables) * 20)
+        # Token budget: allow enough room for all dataset→table mappings.
+        max_tokens = max(1024, len(datasets) * 50 + len(tables) * 30)
 
         try:
             raw = self._call_json(
@@ -2108,6 +2062,10 @@ class LLMExtractor:
                 max_tokens=max_tokens,
                 call_type="select_tables:all",
             )
+            if not isinstance(raw, dict) and self._call_log:
+                repaired = parse_json_lenient(self._call_log[-1].raw_response or "")
+                if isinstance(repaired, dict):
+                    raw = repaired
             if not isinstance(raw, dict):
                 logger.warning("select_tables:all returned non-dict — using all tables")
                 self._fire_progress()
@@ -2171,6 +2129,8 @@ class LLMExtractor:
         Returns (context_str, rag_stats) where rag_stats is a dict describing
         which paragraphs and tables were selected.
         """
+        paper_text = _sanitize_text(paper_text)
+
         # ── RAG: find paragraphs that mention this dataset ────────────────
         dataset_lower = dataset_name.lower()
         paragraphs = paper_text.split("\n\n")
@@ -2194,6 +2154,7 @@ class LLMExtractor:
         # ── Tables ────────────────────────────────────────────────────────
         table_selection_mode = "none"
         relevant_table_captions: list[str] = []
+        tables_truncated = False
         if tables:
 
             def _caption(t: Any) -> str:
@@ -2221,12 +2182,15 @@ class LLMExtractor:
             relevant_table_captions = [_caption(t)[:80] for t in relevant]
 
             table_parts = []
+            tables_truncated = False
             for t in relevant:
                 cap = _caption(t)
-                md = _markdown(t)
+                md = _sanitize_text(_markdown(t))
                 header = f"[Caption: {cap[:120]}]\n" if cap else ""
                 table_parts.append(f"{header}{md}")
-            tables_str = "\n\n---\n\n".join(table_parts)[:max_table_chars]
+            joined_tables = "\n\n---\n\n".join(table_parts)
+            tables_truncated = len(joined_tables) > max_table_chars
+            tables_str = joined_tables[:max_table_chars]
         else:
             tables_str = ""
 
@@ -2247,9 +2211,141 @@ class LLMExtractor:
             "tables_selected": len(relevant_table_captions) if tables else 0,
             "table_selection_mode": table_selection_mode,
             "selected_table_captions": relevant_table_captions,
+            "tables_truncated": tables_truncated if tables else False,
             "context_total_chars": len(context_str),
         }
         return context_str, rag_stats
+
+    @staticmethod
+    def _build_tables_only_context(tables: list, max_table_chars: int) -> str:
+        """Build a tables-only context block for empty-result retries."""
+        if not tables:
+            return ""
+        parts: list[str] = []
+        for t in tables:
+            cap = (getattr(t, "caption", None) or "").strip()
+            md = _sanitize_text(getattr(t, "markdown", None) or str(t))
+            header = f"[Caption: {cap[:120]}]\n" if cap else ""
+            parts.append(f"{header}{md}")
+        joined = "\n\n---\n\n".join(parts)
+        if len(joined) <= max_table_chars:
+            return f"=== TABLES (directly pasted) ===\n{joined}"
+        return f"=== TABLES (directly pasted) ===\n{joined[:max_table_chars]}"
+
+    @staticmethod
+    def _build_single_table_context(table: Any, max_table_chars: int) -> str:
+        cap = (getattr(table, "caption", None) or "").strip()
+        md = _sanitize_text(getattr(table, "markdown", None) or str(table))
+        header = f"[Caption: {cap[:120]}]\n" if cap else ""
+        body = f"{header}{md}"[:max_table_chars]
+        return f"=== TABLE (directly pasted) ===\n{body}"
+
+    def _dataset_focus_prefix(
+        self,
+        dataset_name: str,
+        *,
+        intro_model_hint: str | None,
+        metric_constraint: str,
+    ) -> str:
+        return (
+            f'FOCUS: Extract results ONLY for the dataset "{dataset_name}".\n'
+            f"Ignore rows that belong to other datasets.\n"
+            f"Use only the STANDARD / DEFAULT configuration of this dataset. "
+            f"Skip results for optional variants (e.g. different graph formats, "
+            f"SLIC values, or other construction options) if the table shows "
+            f"multiple configurations.\n"
+            + (
+                f'PROPOSED MODEL HINT: The introduction names the paper\'s main proposed method as "{intro_model_hint}". '
+                f'Use that exact name instead of placeholders like "Ours" when the row refers to the paper\'s method.\n'
+                if intro_model_hint
+                else ""
+            )
+            + f"{metric_constraint}\n"
+        )
+
+    def _extract_dataset_with_retries(
+        self,
+        prompt: str,
+        *,
+        dataset_name: str,
+        ds_tables: list,
+        focus_prefix: str,
+        full_context: str,
+        rag_stats: dict,
+        call_type: str,
+        max_tokens: int | None = None,
+        max_table_chars: int,
+    ) -> ExtractionOutput:
+        """Extract one dataset with tables-only and per-table retries on empty output."""
+        effective_max = max_tokens or extraction_max_tokens_for_model(self.model_name)
+        tables_only = self._build_tables_only_context(ds_tables, max_table_chars)
+
+        def _run(content: str, suffix: str) -> ExtractionOutput:
+            out = self._extract_results_chunk(
+                prompt,
+                content,
+                call_type=f"{call_type}{suffix}",
+                max_tokens=effective_max,
+            )
+            if self._call_log:
+                self._call_log[-1].extra = {**self._call_log[-1].extra, "rag": rag_stats}
+            self._fire_progress()
+            return out
+
+        attempts: list[tuple[str, str]] = []
+        if is_gpt_oss_model(self.model_name) and tables_only:
+            # gpt-oss degrades on large prose+table context — prefer tables first.
+            attempts.append((":tables_first", tables_only))
+            attempts.append(("", full_context))
+        else:
+            attempts.append(("", full_context))
+            if tables_only:
+                attempts.append((":tables_only", tables_only))
+
+        out = ExtractionOutput(results=[])
+        for suffix, ctx in attempts:
+            out = _run(_sanitize_text(focus_prefix + ctx), suffix)
+            if out.results and not self._completion_likely_truncated(effective_max):
+                return out
+
+        if len(ds_tables) > 1:
+            merged_results: list[ResultEntry] = []
+            proposed: ProposedModel | None = None
+            baselines: list[BaselineModelInfo] = []
+            notes_parts: list[str] = []
+            confidence_levels: list[str] = []
+            for idx, table in enumerate(ds_tables):
+                single_ctx = self._build_single_table_context(table, max_table_chars)
+                try:
+                    table_out = _run(
+                        _sanitize_text(focus_prefix + single_ctx),
+                        f":table{getattr(table, 'number', idx + 1)}",
+                    )
+                except Exception as exc:
+                    notes_parts.append(f"[table {idx + 1}] failed: {exc}")
+                    continue
+                merged_results.extend(table_out.results)
+                if table_out.proposed_model and proposed is None:
+                    proposed = table_out.proposed_model
+                baselines.extend(table_out.baseline_models)
+                if table_out.extraction_notes:
+                    notes_parts.append(table_out.extraction_notes)
+                confidence_levels.append(table_out.extraction_confidence)
+            if merged_results:
+                if self._call_log:
+                    self._call_log[-1].extra = {
+                        **self._call_log[-1].extra,
+                        "empty_result_retry": "per_table",
+                    }
+                return _merge_extraction_outputs(
+                    proposed_model=proposed,
+                    baselines=baselines,
+                    results=merged_results,
+                    confidence_levels=confidence_levels,
+                    notes_parts=notes_parts,
+                )
+
+        return out
 
     def extract_results_two_step(
         self,
@@ -2301,6 +2397,9 @@ class LLMExtractor:
         else:
             effective_tables = []
             rag_text = paper_text
+
+        rag_text = _sanitize_text(rag_text)
+        max_text_chars, max_table_chars = context_limits_for_model(self.model_name)
 
         # ── Step 1: discover datasets ──────────────────────────────────────
         if latex_paper is not None:
@@ -2420,7 +2519,12 @@ class LLMExtractor:
             ds_tables = tables_per_dataset.get(ds.name, effective_tables)
 
             context, rag_stats = self._build_rag_context(
-                rag_text, ds_tables, ds.name, already_selected=llm_selected
+                rag_text,
+                ds_tables,
+                ds.name,
+                max_text_chars=max_text_chars,
+                max_table_chars=max_table_chars,
+                already_selected=llm_selected,
             )
             logger.info(
                 "Step 2 RAG [%s]: %d/%d paragraphs, %d/%d tables (%s), context=%d chars",
@@ -2447,31 +2551,24 @@ class LLMExtractor:
                     f"coefficient of determination, or loss values that are "
                     f"not standard benchmark scores.\n"
                 )
-            user_content = (
-                f'FOCUS: Extract results ONLY for the dataset "{ds.name}".\n'
-                f"Ignore rows that belong to other datasets.\n"
-                f"Use only the STANDARD / DEFAULT configuration of this dataset. "
-                f"Skip results for optional variants (e.g. different graph formats, "
-                f"SLIC values, or other construction options) if the table shows "
-                f"multiple configurations.\n"
-                + (
-                    f'PROPOSED MODEL HINT: The introduction names the paper\'s main proposed method as "{intro_model_hint}". '
-                    f'Use that exact name instead of placeholders like "Ours" when the row refers to the paper\'s method.\n'
-                    if intro_model_hint
-                    else ""
-                )
-                + f"{metric_constraint}\n"
-                f"{context}"
+            focus_prefix = self._dataset_focus_prefix(
+                ds.name,
+                intro_model_hint=intro_model_hint,
+                metric_constraint=metric_constraint,
             )
             logger.info(
                 "Step 2: extracting dataset=%r  context=%d chars",
                 ds.name,
-                len(user_content),
+                len(focus_prefix) + len(context),
             )
+            extract_max_tokens = extraction_max_tokens_for_model(self.model_name)
             try:
                 if is_qm9_dataset(ds.name):
+                    base_user_content = _sanitize_text(focus_prefix + context)
                     for group_idx, targets in enumerate(QM9_EXTRACT_TARGET_GROUPS):
-                        group_content = user_content + "\n" + qm9_extract_metric_constraint(targets)
+                        group_content = (
+                            base_user_content + "\n" + qm9_extract_metric_constraint(targets)
+                        )
                         try:
                             out = self._extract_results_chunk(
                                 prompt,
@@ -2508,18 +2605,17 @@ class LLMExtractor:
                             )
                         confidence_levels.append(out.extraction_confidence)
                 else:
-                    out = self._extract_results_chunk(
+                    out = self._extract_dataset_with_retries(
                         prompt,
-                        user_content,
+                        dataset_name=ds.name,
+                        ds_tables=ds_tables,
+                        focus_prefix=focus_prefix,
+                        full_context=context,
+                        rag_stats=rag_stats,
                         call_type=f"extract_dataset:{ds.name}",
+                        max_tokens=extract_max_tokens,
+                        max_table_chars=max_table_chars,
                     )
-                    # Attach RAG stats to the call record, then fire progress
-                    if self._call_log:
-                        self._call_log[-1].extra = {
-                            **self._call_log[-1].extra,
-                            "rag": rag_stats,
-                        }
-                    self._fire_progress()
                     all_results.extend(out.results)
                     if out.proposed_model and proposed is None:
                         proposed = out.proposed_model
@@ -2532,7 +2628,7 @@ class LLMExtractor:
                 self._fire_progress()
                 notes_parts.append(f"[{ds.name}] failed: {exc}")
 
-        return _merge_extraction_outputs(
+        merged = _merge_extraction_outputs(
             proposed_model=proposed,
             baselines=baselines,
             results=all_results,
@@ -2541,6 +2637,8 @@ class LLMExtractor:
             normalise_metrics=True,
             discovered_datasets=list(datasets.datasets),
         )
+        _stabilize_model_names(merged, paper_title=paper_title)
+        return merged
 
     def extract_dataset_statistics(
         self,
@@ -2576,23 +2674,7 @@ class LLMExtractor:
 
         stat_table_lines: list[str] = []
         for table in tables or []:
-            caption = (getattr(table, "caption", "") or "").strip().lower()
-            header = self._table_header(table)
-            header_lower = header.lower()
-            is_stat_table = any(
-                marker in caption or marker in header_lower
-                for marker in (
-                    "statistic",
-                    "dataset",
-                    "#graphs",
-                    "num graphs",
-                    "avg nodes",
-                    "avg edges",
-                    "properties",
-                    "summary",
-                )
-            )
-            if not is_stat_table:
+            if not is_statistics_table(table, header=self._table_header(table)):
                 continue
             number = getattr(table, "number", "?")
             appendix = " [appendix]" if getattr(table, "in_appendix", False) else ""
@@ -2782,6 +2864,14 @@ class LLMExtractor:
             notes_parts=notes_parts,
         )
 
+    def _completion_likely_truncated(self, max_tokens: int) -> bool:
+        if not self._call_log:
+            return False
+        rec = self._call_log[-1]
+        if not rec.completion_tokens or max_tokens <= 0:
+            return False
+        return rec.completion_tokens >= int(max_tokens * 0.95)
+
     def _extract_results_chunk(
         self,
         prompt: str,
@@ -2793,6 +2883,7 @@ class LLMExtractor:
         parse_errors: list[str] = []
         preferred = self.result_output_format or "json"
         fallback = "yaml" if preferred != "yaml" else "json"
+        effective_max = max_tokens or extraction_max_tokens_for_model(self.model_name)
         for output_format in (preferred, fallback):
             if output_format in tried_formats:
                 continue
@@ -2803,8 +2894,13 @@ class LLMExtractor:
                     text,
                     call_type=call_type,
                     output_format=output_format,
-                    max_tokens=max_tokens,
+                    max_tokens=effective_max,
                 )
+                if self._call_log and self._completion_likely_truncated(effective_max):
+                    self._call_log[-1].extra = {
+                        **self._call_log[-1].extra,
+                        "completion_truncated": True,
+                    }
                 raw = _expand_extraction_payload(raw)
                 raw = _sanitize_extraction_payload(raw)
                 if not isinstance(raw, dict):
