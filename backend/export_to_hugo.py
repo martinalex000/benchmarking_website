@@ -1190,6 +1190,7 @@ def _architecture_counts(rows: list[dict[str, Any]]) -> dict[str, int]:
         "hybrid": 0,
         "graph_transformer": 0,
         "llm": 0,
+        "walk": 0,
         "traditional": 0,
     }
     for row in rows:

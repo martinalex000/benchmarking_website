@@ -16,10 +16,7 @@ from typing import Any
 import yaml
 
 from backend.config import cfg
-from backend.model_metadata import (
-    normalize_architecture_type,
-    params_exact_from_millions,
-)
+from backend.model_metadata import normalize_architecture_type
 
 logger = logging.getLogger(__name__)
 
@@ -197,12 +194,6 @@ def apply_overrides_to_db(arxiv_id: str) -> int:
                     model_type = normalize_architecture_type(ov.get("model_type"))
                     if model_type:
                         result.model.model_type = model_type
-                        changed_meta = True
-                    exact = ov.get("params_exact") or params_exact_from_millions(
-                        ov.get("params_millions")
-                    )
-                    if exact is not None:
-                        result.model.size_params = int(exact)
                         changed_meta = True
                 if changed_meta:
                     affected += 1

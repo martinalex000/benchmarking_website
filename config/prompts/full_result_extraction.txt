@@ -6,7 +6,7 @@ No markdown fences, no prose explanation.
 Compact output schema:
 {
   "proposed_model_name": "<exact main model name or null>",
-  "proposed_model_type": "<gnn|graph_transformer|hybrid|llm|svm_kernel|random_forest|decision_tree|boosting|other_traditional|null>",
+  "proposed_model_type": "<gnn|graph_transformer|hybrid|llm|walk|svm_kernel|random_forest|decision_tree|boosting|other_traditional|null>",
   "proposed_params_millions": <float or null>,
   "baseline_model_names": ["<baseline name>", "..."],
   "baseline_model_types": {"<baseline name>": "<model_type or null>", ...},

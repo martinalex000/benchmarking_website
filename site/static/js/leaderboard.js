@@ -46,6 +46,7 @@
     hybrid: true,
     graph_transformer: true,
     llm: true,
+    walk: true,
     traditional: true,
   };
 
@@ -1049,7 +1050,13 @@
 
   function _architectureFilterKey(archType) {
     if (!archType) return null;
-    if (archType === "gnn" || archType === "hybrid" || archType === "graph_transformer" || archType === "llm") {
+    if (
+      archType === "gnn" ||
+      archType === "hybrid" ||
+      archType === "graph_transformer" ||
+      archType === "llm" ||
+      archType === "walk"
+    ) {
       return archType;
     }
     if (TRADITIONAL_ARCH_TYPES[archType]) return "traditional";

@@ -130,6 +130,14 @@ def _migration_todo_manual_importance(engine: Engine) -> None:
     )
 
 
+def _migration_drop_models_size_params(engine: Engine) -> None:
+    with engine.connect() as conn:
+        columns = {row[1] for row in conn.execute(text("PRAGMA table_info(models)"))}
+        if "size_params" in columns:
+            conn.execute(text("ALTER TABLE models DROP COLUMN size_params"))
+            conn.commit()
+
+
 MIGRATIONS: tuple[Migration, ...] = (
     Migration("001_results_additional_columns", _migration_results_additional_columns),
     Migration("002_pending_datasets_columns", _migration_pending_datasets_columns),
@@ -139,6 +147,7 @@ MIGRATIONS: tuple[Migration, ...] = (
     Migration("006_dataset_extra_stats", _migration_dataset_extra_stats),
     Migration("007_benchmark_is_legacy", _migration_benchmark_is_legacy),
     Migration("008_todo_manual_importance", _migration_todo_manual_importance),
+    Migration("009_drop_models_size_params", _migration_drop_models_size_params),
 )
 
 

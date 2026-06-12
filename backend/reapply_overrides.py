@@ -17,8 +17,7 @@ from rich.console import Console
 from rich.table import Table
 
 from backend.config import cfg
-from backend.db import init_db, session_scope
-from backend.models import Paper
+from backend.db import init_db
 from backend.override_handler import apply_overrides_to_db
 
 logger = logging.getLogger(__name__)
@@ -48,7 +47,12 @@ def reapply_all(arxiv_ids: list[str] | None = None) -> dict[str, int]:
                     data = yaml.safe_load(override_file.read_text(encoding="utf-8")) or {}
                     has_content = any(
                         data.get(k)
-                        for k in ("problematic_results", "result_overrides", "metadata_overrides")
+                        for k in (
+                            "problematic_results",
+                            "result_overrides",
+                            "metadata_overrides",
+                            "model_metadata_overrides",
+                        )
                     )
                     if has_content:
                         ids_to_process.append(arxiv_id)

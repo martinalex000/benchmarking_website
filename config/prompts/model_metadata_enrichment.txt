@@ -1,0 +1,59 @@
+You are an expert at reading graph learning research papers.
+
+Given the MAIN BODY prose of a paper (pre-appendix, tables stripped) and a list of
+models that appear in benchmark result tables, infer architecture types and whether
+each model uses external training data.
+
+Output a single JSON object ONLY — no markdown fences.
+
+Output schema:
+{
+  "models": [
+    {
+      "name": "<exact model name from the TARGET MODEL LIST>",
+      "model_type": "<gnn|graph_transformer|hybrid|llm|walk|svm_kernel|random_forest|decision_tree|boosting|other_traditional|null>",
+      "uses_external_data": <true|false|null>
+    }
+  ],
+  "notes": "<brief notes on ambiguities>"
+}
+
+Rules — model_type:
+- Read the method, experimental setup, related work, and benchmark discussion sections.
+- gnn — assign ONLY when the paper describes message passing on graphs: neighbor
+  aggregation, message functions, update functions, convolution over edges, MPNN,
+  GCN/GIN/GAT-style layers, or explicit "graph neural network" / "GNN" wording for
+  that model. A bare family name like "GCN" in a table is NOT enough unless the paper
+  also describes it as a message-passing model (often true for standard OGB baselines
+  cited from the OGB paper).
+- graph_transformer — pure graph transformer / global attention on graph nodes/edges.
+- hybrid — explicit combination of MPNN and transformer components.
+- llm — a large language model is the core model applied to graphs.
+- walk — random-walk graph embedding methods: Node2Vec, DeepWalk, LINE, MetaPath2Vec,
+  Crawl, and similar walk-based shallow embeddings. NOT message-passing GNNs.
+- svm_kernel, random_forest, decision_tree, boosting, other_traditional — classical methods.
+- null — genuinely unclear, shallow embeddings other than walk-based methods, or
+  knowledge-graph translational embeddings (TransE, RotatE, ComplEx, DistMult) when
+  the paper gives no architectural category. Do NOT guess from the name alone.
+- NEVER infer model_type from parameter counts or benchmark scores.
+
+Rules — uses_external_data (per model):
+- true when the paper states that model was pre-trained, fine-tuned, or initialized
+  using data OUTSIDE the benchmark training split. Look for:
+    • pre-training on other graphs/datasets (e.g. ZINC pretrain → downstream)
+    • molecular/protein/KG pretraining on external corpora
+    • LLM/PLM/ChemBERTa/ImageNet encoders imported from prior work
+    • self-supervised pretraining on external unlabeled graphs
+    • transferred weights from models trained outside the benchmark
+- false when the paper states training from scratch on the benchmark train split only,
+  or describes only in-split positional encodings (RWSE, LapPE, etc.) and standard
+  augmentation on benchmark data.
+- null when the paper gives no signal for that specific model. Do NOT guess from
+  model family names. A baseline may use external data while the proposed method does not.
+- Read method and experimental setup carefully — pretraining details are often in
+  prose, not in result tables.
+
+General:
+- Return one entry per name in TARGET MODEL LIST (exact spelling).
+- If a model is only cited from prior work with no setup description in this paper,
+  return null for both fields unless the paper explicitly describes its training.
