@@ -27,6 +27,7 @@ site/content/dev/
 site/content/conferences/
 site/content/datasets/
 site/content/papers/
+site/static/data/datasets/
 site/data/*.json
 .deploy*
 

@@ -1,1 +1,0 @@
-{"points":[{"date_iso":"2017-06-26","value":0.08,"std":null,"model":"SchNet","model_plain":"SchNet","arxiv_id":"1706.08566","title":"SchNet: A continuous-filter convolutional neural network for modeling quantum interactions","is_baseline":false,"uses_external_data":false,"has_code":false,"architecture_type":"","is_std_outlier":false}]}
