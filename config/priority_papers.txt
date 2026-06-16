@@ -1,0 +1,33 @@
+# Priority papers for todo_queue processing (one arXiv ID per line).
+# Used by scripts/mark_priority_papers.py — does not alter config/seed_data.yaml.
+#
+# Regenerate from the DB with:
+#   uv run python scripts/mark_priority_papers.py export
+
+# --- papers table (benchmarks.db) ---
+1703.00564  # MoleculeNet
+1706.08566  # SchNet
+1707.01476  # Knowledge Graphs
+2002.01680  # Heterogeneous Graph Benchmarks
+2003.00982  # GNNBenchmark
+2005.00687  # Open Graph Benchmark
+2007.08663  # TU Dortmund
+2106.13264  # Hypergraph Benchmarks
+2110.14446  # LINKX Benchmarks
+2206.08164  # LRGB
+2312.16560  # Algorithmic Graph Tasks
+2503.09008  # City-Networks
+2506.08618  # HSG-12M
+2506.19862  # DualEquiNet RNA Benchmarks
+2507.03707  # CosmoBench
+2512.04475  # GraphBench
+2512.17762  # ECHO Benchmark
+2601.01387  # Power Flow Benchmarks
+
+# --- manually important (todo_papers.is_manually_important) ---
+# Subset of the seed benchmark source papers; listed again for clarity.
+1706.08566  # SchNet (Quantum Chemistry)
+1707.01476  # ConvE (Knowledge Graphs)
+2005.00687  # Open Graph Benchmark
+2007.08663  # TUDataset
+2106.13264  # AllSet (Hypergraph Benchmarks)
