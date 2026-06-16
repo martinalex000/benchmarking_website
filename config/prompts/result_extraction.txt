@@ -43,7 +43,16 @@ Output schema:
 Rules:
 - Include ALL rows from the MAIN benchmark comparison tables for standard datasets.
 - Do NOT extract ablation studies, component-removal tables, hyperparameter sweeps, sensitivity
-  analyses, efficiency-only tables, or appendix-only diagnostics.
+  analyses, efficiency-only tables, or appendix-only diagnostics. Use the table caption to
+  decide: captions mentioning "ablation", "w/o", "component removal", or "sensitivity" describe
+  diagnostic tables — skip them entirely even if they list benchmark datasets.
+- Main benchmark tables only: a paper may introduce many distinct new models — extract all of
+  them. When several row labels are variants of the SAME method (footnote markers like *,
+  spelling/spacing differences, or size suffixes on one base name), output ONE row per
+  (that method, dataset, metric) using the best score (or the row the caption highlights as
+  main/full/final). Do NOT collapse unrelated methods: "Model-A" and "Model-B" are two models
+  even on the same dataset. Footnote duplicates like "GraphGPS" vs "GraphGPS*" are the same
+  baseline (different sources), not separate models and not ablations.
 - Model names: copy names VERBATIM from the paper/table whenever possible. Preserve hyphens,
   slashes, spaces, plus signs, digits, and suffixes such as "-small", "+RWSE", "-PE",
   "v2", "++", or "(ours)" when they are part of the displayed row label.
@@ -90,6 +99,20 @@ Rules:
   Example: if a Peptides-struct MAE table shows 24.81 on a x10^-2 / percentage-like scale,
   output 0.2481, not 24.81. When a metric is usually reported near [0, 1] or a small decimal
   range, compare against neighboring baselines and prefer the de-scaled interpretation.
+- table captions and headings: read the caption/heading for each results table before
+  interpreting row labels and numeric values. Captions often explain footnote markers
+  (e.g. "* indicates our implementation, other results from [12]"), unit conventions
+  ("values in %"), and which rows are cited vs re-run. Apply those conventions when
+  extracting:
+    • When a caption says a marker (such as *) denotes the authors' own implementation while
+      unmarked rows cite prior work for the SAME method name, treat "GraphGPS" and
+      "GraphGPS*" as one model — output a single row per (model, dataset, metric) using
+      the canonical name WITHOUT the footnote marker and the BEST benchmark value across
+      the duplicate rows (for accuracy/F1/AP/AUC; lowest for MAE/RMSE).
+    • Always set `table_ref` to the source table (e.g. "Table 2") so caption rules can be
+      verified downstream.
+    • Still copy row labels verbatim when first recording a row, but collapse equivalent
+      variants as above when the caption defines them.
 - For std/error: parse "0.653 ± 0.004", "(±0.004)", "(0.004)" → value=0.653, std=0.004.
 - If a value appears bold (indicating best), still extract it normally; do not skip it.
 - Metric names: normalise to the most common abbreviation (Accuracy not Acc., MAE not mean abs. error).

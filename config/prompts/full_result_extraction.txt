@@ -32,8 +32,12 @@ Compact output schema:
 Rules:
 - Extract ONLY main benchmark comparison results on standard datasets.
 - Do NOT extract ablations, component removals, hyperparameter sweeps, sensitivity studies,
-  runtime-only tables, or appendix-only diagnostics.
-- Most papers have one main model, sometimes two. Mark `p=true` only for the paper's main method(s).
+  runtime-only tables, or appendix-only diagnostics. Skip tables whose captions identify them
+  as ablation or diagnostic.
+- Most papers have one main model, sometimes two or more distinct proposed methods. Mark `p=true`
+  for each main proposed method. When several rows are variants of the same method name family,
+  output one row per (that method, dataset, metric) with the best score — not one row total per
+  dataset.
 - Do NOT mark all tuned or starred baseline variants as proposed.
 - Copy model and dataset names verbatim from the paper when possible.
 - Use test-set benchmark values only.

@@ -37,7 +37,14 @@ extraction_notes: <describe any ambiguities, unclear values, or tables that coul
 Rules:
 - Include ALL rows from the MAIN benchmark comparison tables for standard datasets.
 - Do NOT extract ablation studies, component-removal tables, hyperparameter sweeps, sensitivity
-  analyses, efficiency-only tables, or appendix-only diagnostics.
+  analyses, efficiency-only tables, or appendix-only diagnostics. Use the caption: tables
+  titled or captioned with "ablation", "w/o", "component removal", or "sensitivity" are
+  diagnostic — skip them entirely.
+- For main benchmark tables: extract every distinct model. When row labels are variants of the
+  SAME method (footnote markers, spelling differences, size suffixes on one base name), output
+  one row per (that method, dataset, metric) with the best score. Different method names are
+  different models even if all marked proposed. "GraphGPS" vs "GraphGPS*" are one baseline, not
+  two models — merge per table-caption rules below.
 - Model names: copy names VERBATIM from the paper/table whenever possible. Preserve hyphens,
   slashes, spaces, plus signs, digits, and suffixes such as "-small", "+RWSE", "-PE",
   "v2", "++", or "(ours)" when they are part of the displayed row label.
@@ -91,6 +98,13 @@ Rules:
   Example: if a Peptides-struct MAE table shows 24.81 on a x10^-2 / percentage-like scale,
   output 0.2481, not 24.81. When a metric is usually reported near [0, 1] or a small decimal
   range, compare against neighboring baselines and prefer the de-scaled interpretation.
+- table captions and headings: read the caption/heading for each results table before
+  interpreting row labels and numeric values. Captions often explain footnote markers
+  (e.g. "* indicates our implementation, other results from [12]"), unit conventions
+  ("values in %"), and which rows are cited vs re-run. When a caption says a marker denotes
+  the authors' implementation while unmarked rows cite prior work for the SAME method,
+  output one row per (model, dataset, metric) with the canonical name WITHOUT the marker
+  and the BEST value across duplicate variants. Always set `table_ref` (e.g. "Table 2").
 - For std/error: parse "0.653 ± 0.004", "(±0.004)", "(0.004)" -> value=0.653, std=0.004.
 - If a value appears bold (indicating best), still extract it normally; do not skip it.
 - Metric names: normalise to the most common abbreviation (Accuracy not Acc., MAE not mean abs. error).
