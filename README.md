@@ -139,14 +139,17 @@ via the todo queue (see below).
 # Find papers citing the LRGB benchmark paper
 uv run python scripts/find_citing_papers.py 2206.08164
 
+# Mark every citing paper with an arXiv ID as manually important (non-interactive)
+uv run python scripts/find_citing_papers.py 2206.08164 --mark-all --limit 5000
+
 # Limit to the 50 most recent citations
 uv run python scripts/find_citing_papers.py 2206.08164 --limit 50
 
 # Include papers already tracked in the DB
 uv run python scripts/find_citing_papers.py 2206.08164 --show-all
 
-# After marking papers, process all manually important queue entries
-uv run python scripts/todo_queue.py process --important-only
+# After marking papers, process with the dashboard
+uv run python scripts/todo_queue_dashboard.py --workers 10
 ```
 
 Set `S2_API_KEY` in your environment to avoid Semantic Scholar rate limits.
@@ -376,7 +379,20 @@ uv run python scripts/compare_models.py --skip-model teuken-7b-instruct-research
 uv run python scripts/compare_models.py \
     --output experiments/comparison.json \
     --log-dir experiments/logs
+
+# Re-run planned models even when cached artifacts exist
+uv run python scripts/compare_models.py --force
+
+# Full runs also write aggregate JSON by default under experiments/compare_models/
+# Use --no-output to skip that file (paper artifacts are still saved)
 ```
+
+Full runs persist extraction artifacts via the same ``process_paper`` path as
+``run_manual`` (``llm_output.yaml``, ``llm_calls.yaml``, ``results_human_readable.md``).
+Candidate models are stored under ``papers/<id>/extracted/experiments/compare-models-<slug>/``
+with a compare-specific ``comparison.json``. On-disk results are reused automatically
+and labeled ``[cached]`` or ``[auto-included]`` in the summary tables; ``--interactive``
+model selection re-runs selected models.
 
 ---
 
@@ -458,27 +474,50 @@ Notes:
 
 ---
 
-### `scripts/repopulate_db.py` — re-extract or re-parse the existing corpus
+### `scripts/repopulate_db.py` — reset extraction state and prime the important queue
 
-Maintenance script for bulk refreshes over the already-downloaded `papers/` corpus.
-Use it after major parser/extractor changes when you want to re-run extraction,
-re-parse existing artifacts, or rebuild from a clean database without re-downloading PDFs.
+Maintenance script for bulk refreshes after parser/extractor changes. It finds papers
+that already have benchmark results in the database, optionally wipes the DB and their
+LLM artifacts, then marks those papers as manually important in `todo_papers` for
+parallel re-processing.
 
 ```bash
-# Re-parse existing llm_output.json files without new LLM calls
-uv run python scripts/repopulate_db.py --skip-extract
+# Preview the reset + queue plan
+uv run python scripts/repopulate_db.py --clean --dry-run
 
-# Clean DB + re-extract everything with the fallback model, then export
-uv run python scripts/repopulate_db.py --clean --model fallback --export
+# Full clean slate: wipe DB, delete LLM outputs for papers with results, re-seed, queue
+uv run python scripts/repopulate_db.py --clean
+
+# Also purge outdated llm_output artifacts from every papers/<id>/ directory
+uv run python scripts/repopulate_db.py --clean --delete-all-llm-outputs
+
+# Limit to specific papers that already have stored results
+uv run python scripts/repopulate_db.py --clean --paper 2206.08164 2309.00367
+
+# Re-parse existing llm_output artifacts without new LLM calls
+uv run python scripts/repopulate_db.py --skip-extract
+```
+
+After priming, process the queue with the dashboard:
+
+```bash
+uv run python scripts/todo_queue_dashboard.py --workers 10
 ```
 
 Notes:
 
+- Only papers with at least one stored `results` row are queued — papers that were merely
+  downloaded or extracted without parsed benchmark results are ignored.
+- `--delete-all-llm-outputs` removes `llm_output*` files under every `papers/<id>/extracted/`
+  directory, even for papers that are not re-queued.
+- With `--clean`, the script wipes the DB, deletes LLM outputs, **re-seeds from
+  `config/seed_data.yaml`**, and only then primes the important queue.
+- Dry-run and completion output stay compact at scale: LLM deletions are reported as
+  file/paper counts, and the queue plan shows totals plus a small sample table.
 - `--skip-extract` only re-reads the main `papers/<id>/extracted/llm_output.json` artifacts.
 - Files under `papers/<id>/extracted/experiments/<label>/` are side-by-side comparison artifacts and do not affect
   the normal parse/export path unless you explicitly copy or promote them yourself.
-- If a paper's main `llm_output.json` was produced by the fallback tier, bulk `--model primary` runs will skip it by design.
-  Remove that main file first if you want `repopulate_db.py` to replace it with a fresh primary/qwen extraction.
+- Run `uv run python -m backend.export_to_hugo` after workers finish.
 
 ---
 
@@ -603,6 +642,44 @@ cd site && /snap/bin/hugo --minify
 ```
 
 This is dataset-level (not paper-level), and affects all dataset pages for that dataset.
+
+### Post-extraction dataset alias normalisation
+
+When an LLM returns a slightly wrong dataset name (e.g. ``Computer`` instead of
+``Amazon-Computers``, or ``Ppi`` instead of ``PPI``), the pipeline can rewrite the
+name automatically before parsing.  This avoids false "misses" and
+hallucinations in ``compare_models.py`` and prevents duplicate/unmatched rows in
+the database.
+
+Edit the alias map here:
+
+`config/dataset_aliases.yaml`
+
+```yaml
+# Keys   — raw names as returned by the LLM
+# Values — canonical names the pipeline understands
+aliases:
+  Computer: Amazon-Computers
+  Photo: Amazon-Photo
+  Ppi: PPI
+```
+
+The lookup is case-insensitive; leading/trailing whitespace is stripped.  Aliases
+are applied **after** extraction but **before** fuzzy dataset matching, so a
+fixed alias short-circuits the fuzzy matcher entirely.
+
+After editing the file, re-parse any affected papers to see the fix immediately:
+
+```bash
+uv run python -m backend.results_parser 2206.08164
+uv run python -m backend.export_to_hugo
+```
+
+Or for a full comparison re-run:
+
+```bash
+uv run python scripts/compare_models.py --paper 2206.08164 --force
+```
 
 ---
 
