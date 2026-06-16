@@ -13,7 +13,6 @@
 - did the baseline merging part work well?
 - do we only track results for settings where it makes sense? (i.e. make sure that the results are comparable)
 - did we get all the author names for all the papers?
-- do we have proper dates for all papers?
 - did we successfully extract the conferences?
 
 

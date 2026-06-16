@@ -26,11 +26,25 @@ uv run python -m backend.seed_db
 # the qwen model needs two gpus. Not clear which exact way to do the extraction is best.
 uv run vllm serve Qwen/Qwen3.6-35B-A3B-FP8   --tensor-parallel-size 2   --max-model-len 32768   --gpu-memory-utilization 0.96   --enable-chunked-prefill   --max-num-seqs 128   --reasoning-parser qwen3
 
-# this is the 4-bit version of the gemma4 model which can fit on a single gpu
-uv run vllm serve QuantTrio/gemma-4-31B-it-AWQ --quantization awq_marlin --limit-mm-per-prompt '{"image": 0}' --gpu-memory-utilization 0.96   --max-num-batched-tokens 4096 --max_model_len=50000
+# this is the 4-bit version of the gemma4 model which can fit on a single gpu (~150t/s @8 parallel)
+uv run vllm serve QuantTrio/gemma-4-31B-it-AWQ --quantization awq_marlin --limit-mm-per-prompt '{"image": 0, "audio": 0}' --gpu-memory-utilization 0.96   --max-num-batched-tokens 4096 --max_model_len=50000 --port 8773
+
+# or on two gpus:
+uv run vllm serve QuantTrio/gemma-4-31B-it-AWQ \
+  --quantization awq_marlin \
+  --tensor-parallel-size 2 \
+  --limit-mm-per-prompt '{"image": 0, "audio": 0}' \
+  --gpu-memory-utilization 0.95 \
+  --max-num-batched-tokens 8192 \
+  --max-model-len 50000 \
+  --port 8773
+
+# trying the MoE model
+uv run vllm serve cyankiwi/gemma-4-26B-A4B-it-AWQ-4bit --limit-mm-per-prompt '{"image": 0, "audio": 0}' --gpu-memory-utilization 0.96   --max-num-batched-tokens 4096 --max_model_len=50000 --port 8773   --tensor-parallel-size 2
 
 # note that the model must match what has been started locally.
-uv run python scripts/run_manual.py 2206.08164
+uv run python scripts/run_manual.py 2206.08164 
+uv run python scripts/run_manual.py 2406.08993
 ```
 
 The repository now keeps `papers/` as a local workspace directory only. Generated
@@ -125,6 +139,12 @@ Cache semantics:
 - If the main `llm_output.json` was produced by the configured fallback tier, a later `--model primary`
   run will intentionally skip overwriting it. If you want to force a new primary/qwen extraction for that paper,
   delete the main `papers/<id>/extracted/llm_output.json` first and rerun extraction.
+
+### mark_priority_papers (for "seeding" the database after the extraction pipeline has been modified)
+uv run python scripts/mark_priority_papers.py mark           # apply
+uv run python scripts/mark_priority_papers.py mark --requeue # also reset done/failed/rejected → pending
+uv run python scripts/mark_priority_papers.py mark --dry-run   # preview (18 papers)
+uv run python scripts/mark_priority_papers.py export         # refresh list from DB  
 
 ---
 
