@@ -43,6 +43,7 @@ from thefuzz import fuzz as fuzz_lib
 from thefuzz import process as fuzz_process
 
 from backend.config import cfg, normalize_arxiv_id
+from backend.llm_backends import client_params_for_model
 from backend.dataset_stats_parsing import format_stats_summary, is_statistics_table
 from backend.db import session_scope
 from backend.json_repair import parse_json_lenient
@@ -1077,16 +1078,24 @@ def _normalise_metrics(results: list[ResultEntry]) -> list[ResultEntry]:
 
 
 def _dedupe_result_entries(results: list[ResultEntry]) -> list[ResultEntry]:
-    """Keep the first result for each (model, dataset, metric) key."""
-    seen: set[tuple[str, str, str]] = set()
-    unique_results: list[ResultEntry] = []
+    """Keep one result per (model identity, dataset, metric), preferring the better value."""
+    best: dict[tuple[str, str, str], ResultEntry] = {}
     for result in results:
-        key = (result.model.lower(), result.dataset.lower(), result.metric.lower())
-        if key in seen:
+        key = (
+            _canonical_model_name_key(result.model),
+            result.dataset.lower(),
+            result.metric.lower(),
+        )
+        existing = best.get(key)
+        if existing is None:
+            best[key] = result
             continue
-        seen.add(key)
-        unique_results.append(result)
-    return unique_results
+        hib = result.higher_is_better
+        if hib and result.value > existing.value:
+            best[key] = result
+        elif not hib and result.value < existing.value:
+            best[key] = result
+    return list(best.values())
 
 
 def _dedupe_baselines(baselines: list[BaselineModelInfo]) -> list[BaselineModelInfo]:
@@ -1150,9 +1159,10 @@ class LLMExtractor:
         self._call_log: list[CallRecord] = []
         self._progress_callback: Any = None  # called with (CallRecord,) after each LLM call
         self._last_progress_idx: int = -1  # tracks which record was last fired
+        endpoint, api_key, self._model_route = client_params_for_model(self.model_name)
         self._client = OpenAI(
-            api_key=cfg.llm_api_key or "none",
-            base_url=cfg.llm_endpoint or None,
+            api_key=api_key or "none",
+            base_url=endpoint or None,
             timeout=cfg.llm_timeout,
         )
 
@@ -2666,7 +2676,7 @@ class LLMExtractor:
             normalise_metrics=True,
             discovered_datasets=list(datasets.datasets),
         )
-        _stabilize_model_names(merged, paper_title=paper_title)
+        _stabilize_model_names(merged, paper_title=paper_title, tables=effective_tables)
         return merged
 
     def extract_dataset_statistics(
@@ -3277,7 +3287,16 @@ class LLMExtractor:
         if intro_model_hint:
             note = f"Intro-derived proposed-model hint: {intro_model_hint}."
             results_out.extraction_notes = f"{results_out.extraction_notes}\n{note}".strip()
-        _stabilize_model_names(results_out, paper_title=paper_title)
+        caption_tables: list = []
+        if latex_paper is not None:
+            caption_tables = list(latex_paper.tables)
+        elif structured_tables is not None:
+            caption_tables = list(structured_tables)
+        _stabilize_model_names(
+            results_out,
+            paper_title=paper_title,
+            tables=caption_tables,
+        )
 
         repository_out = {
             "verified_url": None,
@@ -3962,8 +3981,69 @@ def _rename_generic_proposed_rows(extraction: ExtractionOutput, proposed_hint: s
         extraction.proposed_model.name = proposed_hint
 
 
-def _stabilize_model_names(extraction: ExtractionOutput, paper_title: str = "") -> None:
+def _apply_table_caption_policies(extraction: ExtractionOutput, tables: list) -> None:
+    """Merge model rows when table captions explain footnote markers."""
+    from backend.table_caption_interpretation import (
+        build_table_caption_policy_map,
+        combined_merge_policy,
+        is_ablation_table_ref,
+        policy_for_table_ref,
+        resolve_model_name_for_policy,
+    )
+
+    policies = build_table_caption_policy_map(tables)
+    default_policy = combined_merge_policy(policies)
+
+    dropped_ablation_tables = 0
+    kept_results: list[ResultEntry] = []
+    for result in extraction.results:
+        if is_ablation_table_ref(result.table_ref, policies):
+            dropped_ablation_tables += 1
+            continue
+        kept_results.append(result)
+    extraction.results = kept_results
+
+    if dropped_ablation_tables:
+        note = f"Dropped {dropped_ablation_tables} row(s) from ablation/diagnostic tables (caption)."
+        extraction.extraction_notes = f"{extraction.extraction_notes}\n{note}".strip()
+
+    if default_policy is None:
+        return
+
+    merged_rows = 0
+    for result in extraction.results:
+        policy = policy_for_table_ref(result.table_ref, policies, default_policy)
+        if policy is None:
+            continue
+        raw = _normalise_model_name_text(result.model)
+        resolved = resolve_model_name_for_policy(raw, policy)
+        if resolved != raw:
+            merged_rows += 1
+        result.model = resolved
+
+    for baseline in extraction.baseline_models:
+        raw = _normalise_model_name_text(baseline.name)
+        resolved = resolve_model_name_for_policy(raw, default_policy)
+        if resolved != raw:
+            baseline.name = resolved
+
+    if merged_rows:
+        note = (
+            f"Merged {merged_rows} model row(s) using table caption footnotes "
+            f"({default_policy.notes or 'equivalent variants'})."
+        )
+        extraction.extraction_notes = f"{extraction.extraction_notes}\n{note}".strip()
+
+
+def _stabilize_model_names(
+    extraction: ExtractionOutput,
+    paper_title: str = "",
+    tables: list | None = None,
+) -> None:
     """Normalise model names, drop ablations, and stabilize the main proposed model."""
+    if tables:
+        _apply_table_caption_policies(extraction, tables)
+
     if extraction.proposed_model is not None:
         extraction.proposed_model.name = normalize_model_name_for_resolution(
             _normalise_model_name_text(extraction.proposed_model.name)
@@ -3994,6 +4074,8 @@ def _stabilize_model_names(extraction: ExtractionOutput, paper_title: str = "") 
         note = f"Dropped {dropped_ablation_rows} ablation/diagnostic row(s)."
         extraction.extraction_notes = f"{extraction.extraction_notes}\n{note}".strip()
 
+    extraction.results = _dedupe_result_entries(extraction.results)
+
     proposed_rows = [r.model for r in extraction.results if r.is_proposed and r.model]
     proposed_name = _choose_primary_proposed_model_name(
         extraction=extraction,
@@ -4004,6 +4086,7 @@ def _stabilize_model_names(extraction: ExtractionOutput, paper_title: str = "") 
         extraction.proposed_model = None
         for result in extraction.results:
             result.is_proposed = False
+        extraction.results = _dedupe_result_entries(extraction.results)
         return
 
     proposed_key = _canonical_model_name_key(proposed_name)
@@ -4027,6 +4110,16 @@ def _stabilize_model_names(extraction: ExtractionOutput, paper_title: str = "") 
         for baseline in extraction.baseline_models
         if _canonical_model_name_key(baseline.name) != proposed_key
     ]
+
+    before_dedupe = len(extraction.results)
+    extraction.results = _dedupe_result_entries(extraction.results)
+    dropped_variants = before_dedupe - len(extraction.results)
+    if dropped_variants:
+        note = (
+            f"Collapsed {dropped_variants} duplicate variant row(s) for the same "
+            "model identity; kept best score per (model, dataset, metric)."
+        )
+        extraction.extraction_notes = f"{extraction.extraction_notes}\n{note}".strip()
 
 
 def _choose_primary_proposed_model_name(

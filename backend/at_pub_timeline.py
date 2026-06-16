@@ -25,7 +25,9 @@ def clear_at_pub_caches() -> None:
 
 
 def model_key(model_name: str | None) -> str:
-    return plain_model(model_name).lower()
+    from backend.model_name_resolution import strip_implementation_marker
+
+    return strip_implementation_marker(plain_model(model_name)).lower()
 
 
 @dataclass(frozen=True, slots=True)

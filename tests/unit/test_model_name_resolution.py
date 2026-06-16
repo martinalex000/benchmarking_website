@@ -20,6 +20,11 @@ def test_normalize_strips_role_suffix():
     assert normalize_model_name_for_resolution("IPR-MPNN (ours)") == "IPR-MPNN"
 
 
+def test_normalize_preserves_implementation_asterisk():
+    """Asterisk stripping is caption-driven, not unconditional normalization."""
+    assert normalize_model_name_for_resolution("GraphGPS*") == "GraphGPS*"
+
+
 def test_model_family_token():
     assert model_family_token("GCN + Virtual Node") == "gcn"
     assert model_family_token("GIN + Virtual Node") == "gin"

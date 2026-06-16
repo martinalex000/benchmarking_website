@@ -14,6 +14,14 @@ _VIRT_NODE_RE = re.compile(r"\bvirt\.?\s*node\b", re.IGNORECASE)
 
 _OGB_DATASET_FAMILY_RE = re.compile(r"^ogb([gnl])-", re.IGNORECASE)
 
+# Fallback when table captions are unavailable: trailing * only differs from base name.
+_IMPLEMENTATION_ASTERISK_SUFFIX_RE = re.compile(r"\s*\*+$")
+
+
+def strip_implementation_marker(name: str) -> str:
+    """Strip trailing asterisk when it is the only variant suffix (export fallback)."""
+    return _IMPLEMENTATION_ASTERISK_SUFFIX_RE.sub("", name).strip()
+
 
 def normalize_model_name_for_resolution(name: str) -> str:
     """Normalize a model name for canonical lookup and fuzzy matching."""

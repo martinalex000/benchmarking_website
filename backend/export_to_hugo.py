@@ -44,6 +44,7 @@ from backend.export_helpers import plain_model as _plain_model
 from backend.export_helpers import rank_for_value as _rank_for_value
 from backend.export_helpers import sanitize_model as _sanitize_model_text
 from backend.export_helpers import sanitize_title as _sanitize_title
+from backend.model_name_resolution import strip_implementation_marker
 from backend.leaderboard_compare import gap_magnitude as _gap_magnitude
 from backend.leaderboard_compare import is_value_better_than as _is_value_better_than
 from backend.leaderboard_compare import (
@@ -1350,35 +1351,48 @@ def _pivot_paper_rows(rows: list[dict], primary_metric: str | None) -> dict:
     elif not primary_metric and seen_metrics:
         primary_metric = seen_metrics[0]
 
-    # Group by model (first appearance determines metadata)
+    # Group by canonical model identity (implementation asterisks are not distinct models)
     seen_models: list[str] = []
     model_first: dict[str, dict] = {}
-    model_vals: dict[str, dict[str, tuple]] = {}  # model -> {metric -> (val, std)}
+    model_vals: dict[str, dict[str, tuple]] = {}  # group_key -> {metric -> (val, std)}
     for r in rows:
-        model = r.get("model") or ""
-        if model not in model_first:
-            seen_models.append(model)
-            model_first[model] = r
-            model_vals[model] = {}
+        group_key = r.get("model_key") or _model_key(r.get("model") or "")
+        display_model = r.get("model") or ""
+        if group_key not in model_first:
+            seen_models.append(group_key)
+            model_first[group_key] = r
+            model_vals[group_key] = {}
+        elif "*" in (model_first[group_key].get("model") or "") and "*" not in display_model:
+            model_first[group_key] = {**model_first[group_key], **r, "model": display_model}
         m = r.get("metric") or ""
-        if m and m not in model_vals[model]:
-            model_vals[model][m] = (r.get("value"), r.get("std"))
+        if not m:
+            continue
+        val = r.get("value")
+        std = r.get("std")
+        existing = model_vals[group_key].get(m)
+        if existing is None:
+            model_vals[group_key][m] = (val, std)
+        elif val is not None and existing[0] is not None:
+            hib = bool(r.get("higher_is_better", True))
+            if (hib and val > existing[0]) or (not hib and val < existing[0]):
+                model_vals[group_key][m] = (val, std)
 
     # Sort by primary metric value
     higher = bool(rows[0].get("higher_is_better", True)) if rows else True
 
-    def _sort_key(model: str) -> tuple:
+    def _sort_key(group_key: str) -> tuple:
         primary_row = next(
             (
                 r
                 for r in rows
-                if (r.get("model") or "") == model and r.get("metric") == primary_metric
+                if (r.get("model_key") or _model_key(r.get("model") or "")) == group_key
+                and r.get("metric") == primary_metric
             ),
-            model_first[model],
+            model_first[group_key],
         )
         pval = primary_row.get("sort_value")
         if pval is None:
-            pval = model_vals[model].get(primary_metric or "", (None, None))[0]
+            pval = model_vals[group_key].get(primary_metric or "", (None, None))[0]
         if pval is None:
             return (1, 0.0)
         return (0, -pval if higher else pval)
@@ -1386,23 +1400,25 @@ def _pivot_paper_rows(rows: list[dict], primary_metric: str | None) -> dict:
     seen_models.sort(key=_sort_key)
 
     pivoted: list[dict] = []
-    for model in seen_models:
-        first = model_first[model]
+    for group_key in seen_models:
+        first = model_first[group_key]
         primary_row = next(
             (
                 r
                 for r in rows
-                if (r.get("model") or "") == model and r.get("metric") == primary_metric
+                if (r.get("model_key") or _model_key(r.get("model") or "")) == group_key
+                and r.get("metric") == primary_metric
             ),
             first,
         )
-        metric_values = [model_vals[model].get(m, (None, None))[0] for m in seen_metrics]
-        metric_stds = [model_vals[model].get(m, (None, None))[1] for m in seen_metrics]
+        metric_values = [model_vals[group_key].get(m, (None, None))[0] for m in seen_metrics]
+        metric_stds = [model_vals[group_key].get(m, (None, None))[1] for m in seen_metrics]
+        display_model = first.get("model") or ""
         pivoted.append(
             {
-                "model": model,
-                "model_key": first.get("model_key", _model_key(model)),
-                "model_plain": first.get("model_plain", _plain_model(model)),
+                "model": display_model,
+                "model_key": first.get("model_key", _model_key(display_model)),
+                "model_plain": first.get("model_plain", _plain_model(display_model)),
                 "metric_values": metric_values,
                 "metric_stds": metric_stds,
                 "is_baseline": first.get("is_baseline", False),
@@ -2739,7 +2755,7 @@ def _build_multi_metric_rows(
             hib = bool(r.higher_is_better)
             break
 
-    # Group by (canonical_model_name, arxiv_id)
+    # Group by (canonical model identity, arxiv_id)
     groups: dict[tuple, dict] = {}
     for r in all_results:
         model_name = _sanitize_model(
@@ -2748,14 +2764,15 @@ def _build_multi_metric_rows(
         )
         paper = r.paper
         arxiv_id = paper.arxiv_id if paper else ""
-        key = (model_name, arxiv_id)
+        group_model_key = _model_key(r.model.canonical_name if r.model else model_name)
+        key = (group_model_key, arxiv_id)
         if key not in groups:
             conference_fields = _conference_export_fields(
                 paper.venue if paper else None,
                 paper.published_date if paper else None,
             )
             groups[key] = {
-                "model": model_name,
+                "model": strip_implementation_marker(model_name) or model_name,
                 "model_plain": _plain_model(model_name),
                 "is_baseline": bool(r.is_baseline),
                 "is_overridden": bool(r.is_overridden),
@@ -2772,6 +2789,9 @@ def _build_multi_metric_rows(
                 "uses_external_data": None,
                 "_vals": {},
             }
+        elif "*" in groups[key]["model"] and "*" not in model_name:
+            groups[key]["model"] = strip_implementation_marker(model_name) or model_name
+            groups[key]["model_plain"] = _plain_model(model_name)
         # uses_external_data: prefer True > False > None across metrics for this (model, paper)
         ued = r.uses_external_data
         if ued == 1:
@@ -2780,7 +2800,14 @@ def _build_multi_metric_rows(
             groups[key]["uses_external_data"] = False
         val = float(r.display_value) if r.display_value is not None else None
         std = float(r.metric_std) if r.metric_std is not None else None
-        groups[key]["_vals"][r.metric_name] = (val, std)
+        metric_name = r.metric_name
+        existing = groups[key]["_vals"].get(metric_name)
+        if existing is None:
+            groups[key]["_vals"][metric_name] = (val, std)
+        elif val is not None and existing[0] is not None:
+            row_hib = bool(r.higher_is_better) if r.higher_is_better is not None else hib
+            if (row_hib and val > existing[0]) or (not row_hib and val < existing[0]):
+                groups[key]["_vals"][metric_name] = (val, std)
 
     # Sort by primary metric value
     def _sort_key(g: dict) -> tuple:
