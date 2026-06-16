@@ -57,6 +57,10 @@ class Config:
     llm_endpoint: str = os.environ.get("LLM_ENDPOINT", _llm_cfg.get("endpoint", ""))
     llm_api_key: str = os.environ.get("LLM_API_KEY", "")
 
+    # Optional separate local vLLM server (compare_models merges with llm_endpoint).
+    llm_local_endpoint: str = os.environ.get("LLM_LOCAL_ENDPOINT", "")
+    llm_local_api_key: str = os.environ.get("LLM_LOCAL_API_KEY", "")
+
     # ── Model tiers ────────────────────────────────────────────────────────
     # Model tiers are configured only through environment variables.
     model_primary: str = os.environ.get("LLM_MODEL_PRIMARY", _DEFAULT_MODEL_PRIMARY)
@@ -77,6 +81,9 @@ class Config:
     deploy_user: str = os.environ.get("DEPLOY_USER", "")
     deploy_host: str = os.environ.get("DEPLOY_HOST", "")
     deploy_path: str = os.environ.get("DEPLOY_PATH", "")
+    build_host: str = os.environ.get("BUILD_HOST", "")
+    build_user: str = os.environ.get("BUILD_USER", "")
+    build_project_root: str = os.environ.get("BUILD_PROJECT_ROOT", "")
 
     # ── External APIs ──────────────────────────────────────────────────────
     semantic_scholar_api_key: str = os.environ.get("SEMANTIC_SCHOLAR_API_KEY", "")

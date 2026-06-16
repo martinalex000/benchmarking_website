@@ -49,6 +49,34 @@ def display_name_for_model(model_name: str | None) -> str:
     return _DISPLAY_NAMES.get(model_name.lower(), model_name)
 
 
+def strict_no_reasoning_required(model_name: str | None) -> bool:
+    """Return True when reasoning output must be fully absent after extra_body."""
+    model = (model_name or "").lower()
+    if "qwen3" in model:
+        return True
+    if "kimi" in model or "alias-huge" in model or "bubble" in model:
+        return True
+    if "minimax" in model:
+        return True
+    return False
+
+
+def _minimax_no_thinking_extra_body() -> dict:
+    """Request knobs that disable MiniMax thinking on official and vLLM gateways."""
+    return {
+        "thinking": {"type": "disabled"},
+        "chat_template_kwargs": {"thinking": False},
+    }
+
+
+def _kimi_no_thinking_extra_body() -> dict:
+    """Request knobs that disable Kimi thinking on official and vLLM gateways."""
+    return {
+        "thinking": {"type": "disabled"},
+        "chat_template_kwargs": {"thinking": False},
+    }
+
+
 def extra_body_for_model(model_name: str | None) -> dict | None:
     """Return provider-specific extra_body options for a model.
 
@@ -58,15 +86,23 @@ def extra_body_for_model(model_name: str | None) -> dict | None:
     """
     model = (model_name or "").lower()
 
+    if is_gpt_oss_model(model_name):
+        return {"chat_template_kwargs": {"reasoning_effort": "low"}}
+
     # Qwen3 via compatible gateways.
     if "qwen3" in model:
         return {"chat_template_kwargs": {"enable_thinking": False}}
 
     # MiniMax and Kimi/Moonshot families.
     if "minimax" in model:
-        return {"thinking": {"type": "disabled"}}
+        return _minimax_no_thinking_extra_body()
 
-    if "kimi" in model or "alias-huge-no-thinking" in model or "bubble" in model:
-        return {"chat_template_kwargs": {"thinking": "false"}}
+    if (
+        "kimi" in model
+        or "alias-huge" in model
+        or "alias-huge-no-thinking" in model
+        or "bubble" in model
+    ):
+        return _kimi_no_thinking_extra_body()
 
     return None
