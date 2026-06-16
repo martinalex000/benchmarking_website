@@ -131,3 +131,47 @@ def test_resolve_published_date_falls_back_to_arxiv_id(monkeypatch):
     monkeypatch.setattr("backend.llm_extractor.fetch_arxiv_metadata", lambda arxiv_id: {})
 
     assert run_manual._resolve_published_date("2403.00001") == "2024-03"
+
+
+def test_print_llm_backend_status_reports_unreachable_local(monkeypatch, capsys):
+    run_manual = _load_run_manual()
+    from backend.config import cfg
+    from backend.llm_backends import BackendProbe, LlmBackend, ModelRoute
+
+    monkeypatch.setattr(cfg, "llm_local_endpoint", "http://127.0.0.1:8000/v1")
+    monkeypatch.setattr(cfg, "llm_endpoint", "https://example.com/v1")
+    monkeypatch.setattr(cfg, "model_primary", "local-model")
+    monkeypatch.setattr(cfg, "model_small", "small-model")
+
+    local = LlmBackend(label="local", endpoint="http://127.0.0.1:8000/v1", api_key="local")
+    external = LlmBackend(label="external", endpoint="https://example.com/v1", api_key="external")
+    monkeypatch.setattr(
+        run_manual,
+        "configured_backends",
+        lambda: [local, external],
+    )
+    monkeypatch.setattr(
+        run_manual,
+        "probe_backends",
+        lambda backends: [
+            BackendProbe(local, False, error="connection refused"),
+            BackendProbe(external, True, ("small-model",)),
+        ],
+    )
+    monkeypatch.setattr(
+        run_manual,
+        "fetch_model_routes",
+        lambda backends: {
+            "small-model": ModelRoute("small-model", external),
+        },
+    )
+
+    run_manual._print_llm_backend_status(extraction_tier="primary", do_screen=True)
+
+    captured = capsys.readouterr().out
+    assert "Local vLLM: not reachable" in captured
+    assert "http://127.0.0.1:8000/v1" in captured
+    assert "connection refused" in captured
+    assert "External:" in captured
+    assert "pre-screen:" in captured
+    assert "extraction:" in captured

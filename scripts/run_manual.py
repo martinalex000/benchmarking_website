@@ -45,6 +45,13 @@ from rich.console import Console
 from rich.table import Table
 
 from backend.config import cfg, normalize_arxiv_id
+from backend.llm_backends import (
+    ModelRoute,
+    configured_backends,
+    fetch_model_routes,
+    probe_backends,
+    resolve_model_route,
+)
 from backend.llm_extractor import (
     CallRecord,
     _print_call_progress,
@@ -68,6 +75,88 @@ def _fmt_bytes(n: int) -> str:
     if n >= 1_024:
         return f"{n / 1_024:.0f} KB"
     return f"{n} B"
+
+
+def _format_model_route(model_id: str, routes: dict[str, ModelRoute]) -> str:
+    route = resolve_model_route(model_id, routes, allow_fallback=False)
+    if route is None:
+        return f"[yellow]{model_id}[/yellow] [red](not found on any backend)[/red]"
+    if route.backend.label == "local":
+        return (
+            f"[bold green]{route.model_id}[/bold green] "
+            f"[green]local[/green] @ [cyan]{route.backend.endpoint}[/cyan]"
+        )
+    return (
+        f"[cyan]{route.model_id}[/cyan] "
+        f"[dim]external[/dim] @ [cyan]{route.backend.endpoint}[/cyan]"
+    )
+
+
+def _print_llm_backend_status(*, extraction_tier: str, do_screen: bool) -> None:
+    """Probe configured LLM backends and print routing for the models in this run."""
+    backends = configured_backends()
+    if not backends:
+        console.print(
+            "  [red]No LLM backend configured.[/red] "
+            "Set [bold]LLM_ENDPOINT[/bold] and/or [bold]LLM_LOCAL_ENDPOINT[/bold] in .env"
+        )
+        return
+
+    console.print("  [bold]LLM backends[/bold]")
+    probes = probe_backends(backends)
+    local_configured = bool((cfg.llm_local_endpoint or "").strip())
+
+    if not local_configured:
+        console.print(
+            "    [dim]Local vLLM: not configured "
+            "(set LLM_LOCAL_ENDPOINT in .env to enable)[/dim]"
+        )
+    else:
+        local_probe = next((p for p in probes if p.backend.label == "local"), None)
+        local_endpoint = (cfg.llm_local_endpoint or "").strip()
+        if local_probe is None:
+            console.print(
+                f"    [yellow]Local vLLM: configured at [cyan]{local_endpoint}[/cyan] "
+                f"but probe did not run[/yellow]"
+            )
+        elif local_probe.reachable:
+            model_list = ", ".join(local_probe.model_ids) or "(none listed)"
+            console.print(
+                f"    [bold green]Local vLLM: reachable[/bold green] at "
+                f"[cyan]{local_probe.backend.endpoint}[/cyan]"
+            )
+            console.print(f"    [green]Local models ({len(local_probe.model_ids)}):[/green] {model_list}")
+        else:
+            console.print(
+                f"    [yellow]Local vLLM: not reachable at "
+                f"[cyan]{local_probe.backend.endpoint}[/cyan][/yellow]"
+            )
+            if local_probe.error:
+                console.print(f"    [dim]Reason: {local_probe.error}[/dim]")
+
+    for probe in probes:
+        if probe.backend.label == "local":
+            continue
+        status = "[green]reachable[/green]" if probe.reachable else "[yellow]not reachable[/yellow]"
+        console.print(
+            f"    External: {status} at [cyan]{probe.backend.endpoint}[/cyan]"
+        )
+        if not probe.reachable and probe.error:
+            console.print(f"    [dim]Reason: {probe.error}[/dim]")
+
+    reachable_routes = fetch_model_routes([p.backend for p in probes if p.reachable])
+    if not reachable_routes and any(p.reachable for p in probes):
+        console.print("  [yellow]No models returned from reachable backends.[/yellow]")
+        return
+
+    tier_models: list[tuple[str, str]] = []
+    if do_screen:
+        tier_models.append(("pre-screen", cfg.model_for_tier("small")))
+    tier_models.append(("extraction", cfg.model_for_tier(extraction_tier)))
+
+    console.print("  [bold]Model routing[/bold]")
+    for label, model_id in tier_models:
+        console.print(f"    {label}: {_format_model_route(model_id, reachable_routes)}")
 
 
 def _semantic_scholar_published_date(meta: dict[str, object]) -> str:
@@ -1321,6 +1410,7 @@ def main() -> None:
         f"  Models: pre-screen=[cyan]{cfg.model_for_tier('small')}[/cyan], "
         f"extraction=[cyan]{cfg.model_for_tier(args.model)}[/cyan] (tier={args.model})"
     )
+    _print_llm_backend_status(extraction_tier=args.model, do_screen=do_screen)
     console.print(
         "  [dim]Path: "
         + ("two-step" if do_two_step else "one-shot")

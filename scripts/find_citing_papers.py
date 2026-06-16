@@ -5,12 +5,14 @@ Queries Semantic Scholar for citing papers, shows processing status against the
 local database, then interactively marks selected papers as manually important in
 `todo_papers`. Process them afterwards with:
 
-    uv run python scripts/todo_queue.py process --important-only
+    uv run python scripts/todo_queue_dashboard.py --workers 10
 
 Usage::
     uv run python scripts/find_citing_papers.py 2206.08164
     uv run python scripts/find_citing_papers.py 2206.08164 --limit 100
     uv run python scripts/find_citing_papers.py 2206.08164 --show-all
+    uv run python scripts/find_citing_papers.py 2206.08164 --mark-all
+    uv run python scripts/find_citing_papers.py 2206.08164 --mark-all --limit 5000
 """
 
 from __future__ import annotations
@@ -32,6 +34,44 @@ from backend.s2_todo_crawl import S2Client, infer_arxiv_id_from_s2
 from backend.todo_queue import add_todo_paper
 
 console = Console()
+_MARK_EXAMPLE_COUNT = 3
+
+
+def _mark_papers_as_important(
+    papers: list[dict[str, Any]],
+    *,
+    seed_arxiv_id: str,
+) -> tuple[int, list[str]]:
+    reason = f"cites {seed_arxiv_id}"
+    marked = 0
+    examples: list[str] = []
+    for paper in papers:
+        arxiv_id = paper["arxiv_id"]
+        _created, message = add_todo_paper(
+            arxiv_id,
+            title=paper.get("title"),
+            reason=reason,
+            added_by="find_citing_papers",
+            is_manually_important=True,
+            requeue=True,
+        )
+        marked += 1
+        if len(examples) < _MARK_EXAMPLE_COUNT:
+            examples.append(f"{arxiv_id}: {message}")
+    return marked, examples
+
+
+def _print_mark_summary(marked: int, examples: list[str]) -> None:
+    for example in examples:
+        console.print(f"  [dim]• {example}[/dim]")
+    remaining = marked - len(examples)
+    if remaining > 0:
+        console.print(f"  [dim]… and {remaining} more[/dim]")
+    console.rule(f"[green]Marked {marked} paper(s) as manually important[/green]")
+    console.print(
+        "\nProcess them with:\n"
+        "  [cyan]uv run python scripts/todo_queue_dashboard.py --workers 10[/cyan]"
+    )
 
 
 def _get_processed_ids() -> dict[str, str]:
@@ -109,6 +149,14 @@ def main() -> None:
         "--show-all",
         action="store_true",
         help="Show all citing papers, including those without arXiv IDs",
+    )
+    parser.add_argument(
+        "--mark-all",
+        action="store_true",
+        help=(
+            "Mark every citing paper with an arXiv ID as manually important "
+            "(non-interactive; includes already-processed papers)"
+        ),
     )
     args = parser.parse_args()
 
@@ -196,46 +244,57 @@ def main() -> None:
         f"[dim]{len(no_arxiv)}[/dim] without arXiv ID)"
     )
 
-    table = Table(show_header=True, header_style="bold", box=box.SIMPLE, show_edge=False)
-    table.add_column("#", style="dim", justify="right", width=4)
-    table.add_column("arXiv ID", style="cyan", width=13)
-    table.add_column("Year", width=6)
-    table.add_column("Status", width=24)
-    table.add_column("Title")
+    if not args.mark_all:
+        table = Table(show_header=True, header_style="bold", box=box.SIMPLE, show_edge=False)
+        table.add_column("#", style="dim", justify="right", width=4)
+        table.add_column("arXiv ID", style="cyan", width=13)
+        table.add_column("Year", width=6)
+        table.add_column("Status", width=24)
+        table.add_column("Title")
 
-    candidates: list[dict[str, Any]] = []
-    for paper in arxiv_papers:
-        status = paper["status"]
-        is_done = status in ("done", "extracted (not in DB)")
-        if not is_done:
-            candidates.append(paper)
-            num = str(len(candidates))
-        else:
-            num = "–"
+        candidates: list[dict[str, Any]] = []
+        for paper in arxiv_papers:
+            status = paper["status"]
+            is_done = status in ("done", "extracted (not in DB)")
+            if not is_done:
+                candidates.append(paper)
+                num = str(len(candidates))
+            else:
+                num = "–"
 
-        if status == "new":
-            status_str = "[bold green]new[/bold green]"
-        elif status == "done":
-            status_str = "[dim]done[/dim]"
-        elif status == "extracted (not in DB)":
-            status_str = "[yellow]extracted (not in DB)[/yellow]"
-        elif status == "failed":
-            status_str = "[red]failed[/red]"
-        elif status == "pending":
-            status_str = "[yellow]pending[/yellow]"
-        elif status == "rejected_s1":
-            status_str = "[red]rejected (stage 1)[/red]"
-        elif status == "rejected_s2":
-            status_str = "[red]rejected (stage 2)[/red]"
-        else:
-            status_str = f"[dim]{status}[/dim]"
+            if status == "new":
+                status_str = "[bold green]new[/bold green]"
+            elif status == "done":
+                status_str = "[dim]done[/dim]"
+            elif status == "extracted (not in DB)":
+                status_str = "[yellow]extracted (not in DB)[/yellow]"
+            elif status == "failed":
+                status_str = "[red]failed[/red]"
+            elif status == "pending":
+                status_str = "[yellow]pending[/yellow]"
+            elif status == "rejected_s1":
+                status_str = "[red]rejected (stage 1)[/red]"
+            elif status == "rejected_s2":
+                status_str = "[red]rejected (stage 2)[/red]"
+            else:
+                status_str = f"[dim]{status}[/dim]"
 
-        title = paper["title"]
-        if len(title) > 72:
-            title = title[:69] + "…"
-        table.add_row(num, paper["arxiv_id"], str(paper["year"]), status_str, title)
+            title = paper["title"]
+            if len(title) > 72:
+                title = title[:69] + "…"
+            table.add_row(num, paper["arxiv_id"], str(paper["year"]), status_str, title)
 
-    console.print(table)
+        console.print(table)
+    else:
+        candidates = [
+            paper
+            for paper in arxiv_papers
+            if paper["status"] not in ("done", "extracted (not in DB)")
+        ]
+        console.print(
+            f"  [dim]Skipping per-paper table in --mark-all mode "
+            f"({len(arxiv_papers)} arXiv papers to queue).[/dim]"
+        )
 
     if args.show_all and no_arxiv:
         console.print(f"\n[dim]Papers without arXiv IDs ({len(no_arxiv)}):[/dim]")
@@ -243,6 +302,18 @@ def main() -> None:
             console.print(f"  [dim]• {(paper.get('title') or 'untitled')[:80]}[/dim]")
         if len(no_arxiv) > 20:
             console.print(f"  [dim]… and {len(no_arxiv) - 20} more[/dim]")
+
+    if args.mark_all:
+        if not arxiv_papers:
+            console.print("[yellow]No citing papers with arXiv IDs found.[/yellow]")
+            return
+        console.print(
+            f"\n[bold]Marking all {len(arxiv_papers)} citing paper(s) with arXiv IDs "
+            "as manually important…[/bold]"
+        )
+        marked, examples = _mark_papers_as_important(arxiv_papers, seed_arxiv_id=seed_arxiv_id)
+        _print_mark_summary(marked, examples)
+        return
 
     if not candidates:
         console.print("[green]All arXiv-indexed citing papers are already processed.[/green]")
@@ -258,26 +329,11 @@ def main() -> None:
         console.print("[dim]No papers selected. Exiting.[/dim]")
         return
 
-    reason = f"cites {seed_arxiv_id}"
-    marked = 0
-    for arxiv_id in selected_ids:
-        paper = next(item for item in candidates if item["arxiv_id"] == arxiv_id)
-        _created, message = add_todo_paper(
-            arxiv_id,
-            title=paper.get("title"),
-            reason=reason,
-            added_by="find_citing_papers",
-            is_manually_important=True,
-            requeue=True,
-        )
-        console.print(f"  [green]{message}[/green]")
-        marked += 1
-
-    console.rule(f"[green]Marked {marked} paper(s) as manually important[/green]")
-    console.print(
-        "\nProcess them with:\n"
-        "  [cyan]uv run python scripts/todo_queue.py process --important-only[/cyan]"
+    marked, examples = _mark_papers_as_important(
+        [paper for paper in candidates if paper["arxiv_id"] in selected_ids],
+        seed_arxiv_id=seed_arxiv_id,
     )
+    _print_mark_summary(marked, examples)
 
 
 if __name__ == "__main__":
