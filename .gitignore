@@ -36,6 +36,9 @@ papers/*
 papers/.*
 !papers/.gitkeep
 
+# ── Local model-comparison experiments ───────────────────────────────────────
+experiments/
+
 # ── Dataset statistics workspace (derived from paper extraction) ─────────────
 datasets/*
 datasets/.*
