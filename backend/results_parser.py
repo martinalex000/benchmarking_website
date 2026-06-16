@@ -17,6 +17,8 @@ import argparse
 import contextlib
 import json
 import logging
+
+import yaml
 import re
 from dataclasses import dataclass, field
 from typing import Any
@@ -49,6 +51,32 @@ from backend.repository_linking import find_verified_repository_link, repository
 from backend.text_cleanup import abstract_has_latex_artifacts, clean_extracted_text
 
 logger = logging.getLogger(__name__)
+
+# ── Dataset alias normalisation (post-extraction) ─────────────────────────────
+
+_DATASET_ALIAS_MAP: dict[str, str] | None = None
+
+
+def _load_dataset_alias_map() -> dict[str, str]:
+    """Load the user-facing alias map from ``config/dataset_aliases.yaml``."""
+    global _DATASET_ALIAS_MAP
+    if _DATASET_ALIAS_MAP is None:
+        path = cfg.config_dir / "dataset_aliases.yaml"
+        if path.exists():
+            with path.open(encoding="utf-8") as fh:
+                data = yaml.safe_load(fh) or {}
+            raw = data.get("aliases", {})
+            _DATASET_ALIAS_MAP = {k.strip().lower(): v.strip() for k, v in raw.items()}
+        else:
+            _DATASET_ALIAS_MAP = {}
+    return _DATASET_ALIAS_MAP
+
+
+def normalize_dataset_alias(dataset_name: str) -> str:
+    """Return the canonical dataset name if an alias is defined, else unchanged."""
+    key = dataset_name.strip().lower()
+    return _load_dataset_alias_map().get(key, dataset_name)
+
 
 # ── Metric normalisation ──────────────────────────────────────────────────────
 
@@ -895,7 +923,7 @@ def parse_and_store_with_summary(arxiv_id: str) -> ParseStoreSummary:
         canonical_map, alias_map = _load_model_map(session)
 
         for entry in result_entries:
-            dataset_name = entry.get("dataset", "")
+            dataset_name = normalize_dataset_alias(entry.get("dataset", ""))
             model_name = entry.get("model", "")
             metric_name = entry.get("metric", "")
             if is_qm9_dataset(dataset_name):

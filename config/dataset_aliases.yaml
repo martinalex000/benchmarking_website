@@ -1,0 +1,28 @@
+# Post-extraction dataset alias normalisation
+#
+# When an LLM returns a dataset name that is close, but not exact, to the
+# canonical name used in the database and on the website, the pipeline
+# automatically rewrites the extracted name to the canonical form before
+# parsing and comparison.
+#
+# This happens *after* extraction (hence "post-extraction") so that the LLM
+# prompt itself does not need to be updated when a new alias is discovered.
+#
+# Keys (left  side)  — raw names as they appear in LLM extraction output.
+# Values (right side) — canonical dataset names that the pipeline understands.
+#
+# Additions are safe: unknown aliases are simply left untouched.
+# Re-run ``scripts/run_manual.py`` or ``uv run python -m backend.results_parser <id>``
+# after editing this file to test the effect on a specific paper.
+aliases:
+  # Common Amazon datasets
+  Computer: Amazon-Computers
+  Photo: Amazon-Photo
+  Computers: Amazon-Computers
+  # Common plain-name variants
+  Cifar10: CIFAR10
+  Cifar100: CIFAR100
+  # Misc short-name normalisations
+  Ppi: PPI
+  Reddit: REDDIT
+  Physics: Coauthor-Physics
