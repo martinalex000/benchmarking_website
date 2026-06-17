@@ -1,0 +1,36 @@
+# Papers/methods without confirmed arXiv ID
+# method | title | date | datasets | notes
+AA-DC | Adamic-Adar with degree correction | Feb 2026 | ogbl-collab | Heuristic link-prediction baseline; no paper.
+BGN | BGN baseline | 2026 | pcqm4mv2 | OGB-LSC PCQM4Mv2 submission; no arXiv found.
+CoAtGIN-base | CoAtGIN base model | 2022 | pcqm4mv2 | bioRxiv preprint only (not arXiv); OGB-LSC submission.
+CoAtGIN-tiny | CoAtGIN tiny model | 2022 | pcqm4mv2 | bioRxiv preprint only (not arXiv); OGB-LSC submission.
+ComplEx-MPNet | ComplEx with MPNet text embeddings | 2021 | wikikg90mv2 | OGB-LSC baseline combining ComplEx + MPNet; no single paper.
+DGLKE+RuleMining+ManualFeature | DGL-KE + rule mining + manual features | 2022 | wikikg90mv2 | OGB-LSC WikiKG90Mv2 ensemble; no arXiv found.
+DRESS | DRESS link predictor | 2023 | ogbl-vessel | OGB submission for ogbl-vessel; no arXiv found.
+Deep graph transformer | NVIDIA deep graph transformer ensemble | 2022 | pcqm4mv2 | OGB-LSC PCQM4Mv2 submission; no arXiv found.
+GNN180M (KDDCup'21 6th) | Large R-GAT ensemble (180M params) | 2021 | mag240m | KDD Cup 2021 report; no arXiv.
+GraphSelfAttention | Graph self-attention model | 2021 | pcqm4mv2 | OGB-LSC PCQM4Mv2 submission; no arXiv found.
+HFAGNN | HFAGNN molecular model | 2022 | pcqm4mv2 | OGB-LSC PCQM4Mv2 submission; no arXiv found.
+HPE - Pre-trained Initialized | HPE with pre-trained node features | 2021 | ogbl-citation2 | Based on HPE (ACM 2016); ogbl-citation2 submission, no arXiv.
+HyperFusion | HyperFusion ensemble (competition solution) | 2022 | ogbg-molhiv,ogbg-molpcba,ogbl-collab,ogbl-ddi | Code: github.com/zhangxwww/HyperFusion; no arXiv paper found.
+LabelProp | Label propagation baseline | 2021 | mag240m | Heuristic baseline on MAG240M; no dedicated paper.
+Linear + C&S | Linear classifier + Correct & Smooth post-processing | Oct 2020 | ogbn-products,ogbn-arxiv | Recipe using C&S (arxiv:2010.13993); not a standalone method paper.
+MDGNN (OGB-LSC'22 3rd) | Metapath-based Decoupled GNN for MAG240M | 2022 | mag240m | OGB-LSC NeurIPS 2022 technical report; no arXiv.
+MLP | Multi-layer perceptron baseline | May 2020 | ogbn-products,ogbn-proteins,ogbn-arxiv,ogbn-papers100M,ogbn-mag,ogbl-vessel | Standard OGB baseline; no dedicated paper.
+MLP + C&S | MLP + Correct & Smooth post-processing | Oct 2020 | ogbn-products,ogbn-arxiv | Recipe using C&S (arxiv:2010.13993); not a standalone method paper.
+MLP+CN&RA&AA | MLP + CN/RA/AA heuristic link features | Aug 2021 | ogbl-ppa | Feature-engineering baseline for ogbl-ppa; no arXiv found.
+MLP+DiffPredictor | MLP + diffusion predictor | Aug 2023 | ogbl-vessel | OGB submission for ogbl-vessel; paper not on arXiv.
+MLP-Fingerprint | MLP on molecular fingerprints | 2021 | pcqm4mv2 | Classical cheminformatics baseline on PCQM4Mv2; no NN paper.
+MPLP+finetune (KDDCup'21 4th) | Metapath-based Label Propagation + finetune | 2021 | mag240m | KDD Cup 2021 report; code: github.com/qypeng-ustc/mplp.
+MolNet_Ensemble | MolNet ensemble | 2022 | pcqm4mv2 | OGB-LSC PCQM4Mv2 submission; no arXiv found.
+Molecular FP + Random Forest | Morgan fingerprint + random forest | Mar 2022 | ogbg-molhiv | Classical cheminformatics baseline; not an NN paper.
+MorganFP+Rand. Forest | Morgan fingerprint + random forest | Sep 2020 | ogbg-molhiv,ogbg-molpcba | Classical cheminformatics baseline; not an NN paper.
+Neural FingerPrints | Learned fingerprints (PaddleHelix) | Mar 2021 | ogbg-molhiv | Check PaddleHelix/PGL GitHub for PDF.
+PCAPass + LightGBM | PCAPass + LightGBM | Feb 2022 | ogbn-papers100M | Intel PCAPass baseline for ogbn-papers100M; no arXiv found.
+PCAPass + XGBoost | PCAPass + XGBoost | Feb 2022 | ogbn-products,ogbn-arxiv | Intel PCAPass baseline; no arXiv found.
+Plain Linear + C&S | Plain linear classifier + Correct & Smooth | Oct 2020 | ogbn-products,ogbn-arxiv | Recipe using C&S (arxiv:2010.13993); not a standalone method paper.
+RA+Edge Proposal Set | Resource allocation + edge proposal set | Oct 2021 | ogbl-ppa | Heuristic link prediction for ogbl-ppa; no paper.
+SGC+R-GAT+Finetune (KDDCup'21 5th) | SGC + R-GAT ensemble with finetuning | 2021 | mag240m | KDD Cup 2021 ensemble; no single arXiv paper.
+Spec-MLP-Wide + C&S | Wide MLP + Correct & Smooth | 2021 | ogbn-products | OGB recipe combining MLP variant with C&S post-processing.
+TopoLink | Topology-enhanced Graph Transformer with Extended Persistent Homology | 2025 | ogbl-collab | IJCNN 2025; code: github.com/liulizhi1996/TopoLink; no arXiv.
+TransE-MPNet | TransE with MPNet text embeddings | 2021 | wikikg90mv2 | OGB-LSC baseline combining TransE + MPNet; no single paper.

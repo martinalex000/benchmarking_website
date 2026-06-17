@@ -1,0 +1,2096 @@
+{
+  "A*Net": {
+    "arxiv_id": "1301.3781",
+    "title": "Translating Embeddings for Modeling Multi-relational Data (via TransE)",
+    "year": 2013,
+    "datasets": "ogbl-wikikg2"
+  },
+  "AGDN": {
+    "arxiv_id": "2108.10521",
+    "title": "Adaptive Graph Diffusion Networks",
+    "year": 2021,
+    "datasets": "ogbn-products,ogbn-proteins,ogbn-arxiv,ogbl-ppa,ogbl-ddi,ogbl-citation2"
+  },
+  "AGDN (GAT-HA+3_heads)": {
+    "arxiv_id": "2108.10521",
+    "title": "Adaptive Graph Diffusion Networks",
+    "year": 2021,
+    "datasets": "ogbn-arxiv"
+  },
+  "AGDN (GAT-HA+3_heads+labels)": {
+    "arxiv_id": "2108.10521",
+    "title": "Adaptive Graph Diffusion Networks",
+    "year": 2021,
+    "datasets": "ogbn-arxiv"
+  },
+  "AGDN w/GraphSAINT": {
+    "arxiv_id": "1907.04943",
+    "title": "GraphSAINT: Graph Sampling Based Inductive Learning Method",
+    "year": 2019,
+    "datasets": "ogbl-citation2"
+  },
+  "AGDN+BoT": {
+    "arxiv_id": "2108.10521",
+    "title": "Adaptive Graph Diffusion Networks",
+    "year": 2021,
+    "datasets": "ogbn-arxiv"
+  },
+  "AGDN+BoT+self-KD": {
+    "arxiv_id": "2108.10521",
+    "title": "Adaptive Graph Diffusion Networks",
+    "year": 2021,
+    "datasets": "ogbn-arxiv"
+  },
+  "AGDN+BoT+self-KD+C&S": {
+    "arxiv_id": "2108.10521",
+    "title": "Adaptive Graph Diffusion Networks",
+    "year": 2021,
+    "datasets": "ogbn-arxiv"
+  },
+  "AutoBLM-KGBench": {
+    "arxiv_id": "2006.09957",
+    "title": "AutoSF: Searching Scoring Functions for Knowledge Graph Embedding (via AutoSF)",
+    "year": 2020,
+    "datasets": "ogbl-biokg"
+  },
+  "AutoSF": {
+    "arxiv_id": "2006.09957",
+    "title": "AutoSF: Searching Scoring Functions for Knowledge Graph Embedding",
+    "year": 2020,
+    "datasets": "ogbl-wikikg2,ogbl-biokg"
+  },
+  "BESS + diverse KGE ensemble": {
+    "arxiv_id": "2211.12281",
+    "title": "BESS: Balanced Entity Sampling and Sharing for Large-Scale Knowledge Graph Completion",
+    "year": 2022,
+    "datasets": "wikikg90mv2"
+  },
+  "BUDDY": {
+    "arxiv_id": "2202.02292",
+    "title": "BUDDY: A Scalable Link Prediction Framework",
+    "year": 2022,
+    "datasets": "ogbl-ppa,ogbl-collab,ogbl-ddi,ogbl-citation2"
+  },
+  "BiGTex": {
+    "arxiv_id": "2305.19523",
+    "title": "Harnessing Explanations: LLM-to-LM Interpreter for Enhanced Text-Attributed Graph Representation Learning (via TAPE+RevGAT)",
+    "year": 2023,
+    "datasets": "ogbn-arxiv"
+  },
+  "BiGTex+C&S": {
+    "arxiv_id": "2305.19523",
+    "title": "Harnessing Explanations: LLM-to-LM Interpreter for Enhanced Text-Attributed Graph Representation Learning (via TAPE+RevGAT)",
+    "year": 2023,
+    "datasets": "ogbn-arxiv"
+  },
+  "CFG": {
+    "arxiv_id": "2309.06574",
+    "title": "Circle Feature Aware Graph Transformer for Link Prediction",
+    "year": 2023,
+    "datasets": "ogbl-citation2"
+  },
+  "CFLP (w/ JKNet)": {
+    "arxiv_id": "1806.03536",
+    "title": "Representation Learning on Graphs with Jumping Knowledge Networks",
+    "year": 2018,
+    "datasets": "ogbl-ddi"
+  },
+  "CIN": {
+    "arxiv_id": "2106.12575",
+    "title": "Weisfeiler and Lehman Go Cellular: CW Networks",
+    "year": 2021,
+    "datasets": "ogbg-molhiv"
+  },
+  "CIN-small": {
+    "arxiv_id": "2106.12575",
+    "title": "Weisfeiler and Lehman Go Cellular: CW Networks",
+    "year": 2021,
+    "datasets": "ogbg-molhiv"
+  },
+  "CRaWl": {
+    "arxiv_id": "2102.08786",
+    "title": "Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message Passing",
+    "year": 2021,
+    "datasets": "ogbg-molpcba"
+  },
+  "ChebNet": {
+    "arxiv_id": "1606.09375",
+    "title": "Convolutional Neural Networks on Graphs with Fast Localized Spectral Filtering",
+    "year": 2016,
+    "datasets": "ogbg-molpcba"
+  },
+  "Cleora+EMDE (KDDCup'21 3rd)": {
+    "arxiv_id": "2102.02302",
+    "title": "Cleora: A Simple, Strong and Scalable Graph Embedding Scheme",
+    "year": 2021,
+    "datasets": "mag240m"
+  },
+  "Cluster-GAT": {
+    "arxiv_id": "1904.07090",
+    "title": "Cluster-GCN: An Efficient Algorithm for Training Deep and Large Graph Convolutional Networks",
+    "year": 2019,
+    "datasets": "ogbn-products"
+  },
+  "ClusterGCN (GCN aggr)": {
+    "arxiv_id": "1904.07090",
+    "title": "Cluster-GCN: An Efficient Algorithm for Training Deep and Large Graph Convolutional Networks",
+    "year": 2019,
+    "datasets": "ogbl-citation2"
+  },
+  "ClusterGCN (R-GCN aggr)": {
+    "arxiv_id": "1904.07090",
+    "title": "Cluster-GCN: An Efficient Algorithm for Training Deep and Large Graph Convolutional Networks",
+    "year": 2019,
+    "datasets": "ogbn-mag"
+  },
+  "ClusterGCN (SAGE aggr)": {
+    "arxiv_id": "1904.07090",
+    "title": "Cluster-GCN: An Efficient Algorithm for Training Deep and Large Graph Convolutional Networks",
+    "year": 2019,
+    "datasets": "ogbn-products"
+  },
+  "ClusterGCN+residual+3 layers": {
+    "arxiv_id": "1904.07090",
+    "title": "Cluster-GCN: An Efficient Algorithm for Training Deep and Large Graph Convolutional Networks",
+    "year": 2019,
+    "datasets": "ogbn-products"
+  },
+  "CoLinkDistMLP": {
+    "arxiv_id": "2106.08541",
+    "title": "Distilling Self-Knowledge From Contrastive Links to Classify Graph Nodes Without Passing Messages",
+    "year": 2021,
+    "datasets": "ogbn-products,ogbn-arxiv,ogbn-mag"
+  },
+  "ComplEx": {
+    "arxiv_id": "1905.05494",
+    "title": "Complex Embeddings for Simple Link Prediction",
+    "year": 2016,
+    "datasets": "ogbl-wikikg2,ogbl-biokg"
+  },
+  "ComplEx (250dim)": {
+    "arxiv_id": "1905.05494",
+    "title": "Complex Embeddings for Simple Link Prediction",
+    "year": 2016,
+    "datasets": "ogbl-wikikg2"
+  },
+  "ComplEx (50dim)": {
+    "arxiv_id": "1905.05494",
+    "title": "Complex Embeddings for Simple Link Prediction",
+    "year": 2016,
+    "datasets": "ogbl-wikikg2"
+  },
+  "ComplEx-Concat": {
+    "arxiv_id": "1905.05494",
+    "title": "Complex Embeddings for Simple Link Prediction",
+    "year": 2016,
+    "datasets": "wikikg90mv2"
+  },
+  "ComplEx-RP (1000dim)": {
+    "arxiv_id": "1905.05494",
+    "title": "Complex Embeddings for Simple Link Prediction (via ComplEx)",
+    "year": 2016,
+    "datasets": "ogbl-biokg"
+  },
+  "ComplEx-RP (50dim)": {
+    "arxiv_id": "1905.05494",
+    "title": "Complex Embeddings for Simple Link Prediction (via ComplEx)",
+    "year": 2016,
+    "datasets": "ogbl-wikikg2"
+  },
+  "ComplEx-Shallow": {
+    "arxiv_id": "1905.05494",
+    "title": "Complex Embeddings for Simple Link Prediction",
+    "year": 2016,
+    "datasets": "wikikg90mv2"
+  },
+  "ComplEx^2": {
+    "arxiv_id": "1905.05494",
+    "title": "Complex Embeddings for Simple Link Prediction (via ComplEx)",
+    "year": 2016,
+    "datasets": "ogbl-biokg"
+  },
+  "CompoundE3D": {
+    "arxiv_id": "1905.05494",
+    "title": "Complex Embeddings for Simple Link Prediction (via ComplEx)",
+    "year": 2016,
+    "datasets": "ogbl-wikikg2"
+  },
+  "DAGNN": {
+    "arxiv_id": "2101.07965",
+    "title": "Directed Acyclic Graph Neural Networks",
+    "year": 2021,
+    "datasets": "ogbg-code2,ogbn-arxiv"
+  },
+  "DAGformer": {
+    "arxiv_id": "2210.13148",
+    "title": "DAGformer: Directed Acyclic Graph Transformer",
+    "year": 2022,
+    "datasets": "ogbg-code2"
+  },
+  "DEA + JKNet": {
+    "arxiv_id": "1806.03536",
+    "title": "Representation Learning on Graphs with Jumping Knowledge Networks",
+    "year": 2018,
+    "datasets": "ogbl-ddi"
+  },
+  "DGN": {
+    "arxiv_id": "2203.10555",
+    "title": "Directional Graph Networks",
+    "year": 2022,
+    "datasets": "ogbg-molhiv,ogbg-molpcba"
+  },
+  "DRGAT": {
+    "arxiv_id": "2103.04559",
+    "title": "Training Graph Neural Networks with 1000 Layers (via RevGAT+N.Adj+LabelReuse+SelfKD)",
+    "year": 2021,
+    "datasets": "ogbn-arxiv"
+  },
+  "DVCNN": {
+    "arxiv_id": "1706.02216",
+    "title": "Inductive Representation Learning on Large Graphs (via GraphSAGE)",
+    "year": 2017,
+    "datasets": "ogbn-proteins"
+  },
+  "DeepAUC": {
+    "arxiv_id": "2012.03173",
+    "title": "Large-scale Robust Deep AUC Maximization: A New Surrogate Loss and Empirical Studies on Medical Image Classification",
+    "year": 2021,
+    "datasets": "ogbg-molhiv"
+  },
+  "DeepGCN": {
+    "arxiv_id": "2006.07739",
+    "title": "DeeperGCN: All You Need to Train Deeper GCNs",
+    "year": 2020,
+    "datasets": "ogbn-proteins"
+  },
+  "DeepWalk": {
+    "arxiv_id": "1403.6652",
+    "title": "DeepWalk: Online Learning of Social Representations",
+    "year": 2014,
+    "datasets": "ogbl-ppa,ogbl-collab,ogbl-ddi,ogbl-ddi"
+  },
+  "DeeperGCN": {
+    "arxiv_id": "2006.07739",
+    "title": "DeeperGCN: All You Need to Train Deeper GCNs",
+    "year": 2020,
+    "datasets": "ogbg-molhiv,ogbg-molpcba,ogbg-ppa,ogbn-products,ogbn-proteins,ogbn-arxiv,ogbl-collab"
+  },
+  "DeeperGCN+FLAG": {
+    "arxiv_id": "2010.09891",
+    "title": "Robust Optimization as Data Augmentation for Large-scale Graphs (FLAG)",
+    "year": 2020,
+    "datasets": "ogbg-molhiv,ogbg-molpcba,ogbg-ppa,ogbn-products,ogbn-proteins,ogbn-arxiv"
+  },
+  "DeeperGCN+virtual node": {
+    "arxiv_id": "2006.07739",
+    "title": "DeeperGCN: All You Need to Train Deeper GCNs (virtual node extension is common technique)",
+    "year": 2020,
+    "datasets": "ogbg-molpcba"
+  },
+  "DeeperGCN+virtual node+FLAG": {
+    "arxiv_id": "2010.09891",
+    "title": "Robust Optimization as Data Augmentation for Large-scale Graphs (FLAG)",
+    "year": 2020,
+    "datasets": "ogbg-molpcba"
+  },
+  "DiffPool": {
+    "arxiv_id": "1806.08804",
+    "title": "Hierarchical Graph Representation Learning with Differentiable Pooling",
+    "year": 2018,
+    "datasets": "ogbg-code2"
+  },
+  "DiffPool w/ graphSAGE": {
+    "arxiv_id": "1806.08804",
+    "title": "Hierarchical Graph Representation Learning with Differentiable Pooling",
+    "year": 2018,
+    "datasets": "ogbg-code2"
+  },
+  "DistMult": {
+    "arxiv_id": "1412.6575",
+    "title": "Embedding Entities and Relations for Learning and Inference in Knowledge Bases",
+    "year": 2014,
+    "datasets": "ogbl-wikikg2,ogbl-biokg"
+  },
+  "DistMult (100dim)": {
+    "arxiv_id": "1412.6575",
+    "title": "Embedding Entities and Relations for Learning and Inference in Knowledge Bases",
+    "year": 2014,
+    "datasets": "ogbl-wikikg2"
+  },
+  "DistMult (500dim)": {
+    "arxiv_id": "1412.6575",
+    "title": "Embedding Entities and Relations for Learning and Inference in Knowledge Bases",
+    "year": 2014,
+    "datasets": "ogbl-wikikg2"
+  },
+  "E2EG (use raw text)": {
+    "arxiv_id": "2208.06050",
+    "title": "E2EG: End-to-End Graph Learning with Text",
+    "year": 2022,
+    "datasets": "ogbn-products,ogbn-arxiv"
+  },
+  "EGC-M (100k)": {
+    "arxiv_id": "2102.09844",
+    "title": "E(n) Equivariant Graph Neural Networks (via EGC-M (No Edge Features))",
+    "year": 2021,
+    "datasets": "ogbn-arxiv"
+  },
+  "EGC-M (No Edge Features)": {
+    "arxiv_id": "2102.09844",
+    "title": "E(n) Equivariant Graph Neural Networks",
+    "year": 2021,
+    "datasets": "ogbg-molhiv,ogbg-code2"
+  },
+  "EGC-S (100k)": {
+    "arxiv_id": "2102.09844",
+    "title": "E(n) Equivariant Graph Neural Networks (via EGC-S (No Edge Features))",
+    "year": 2021,
+    "datasets": "ogbn-arxiv"
+  },
+  "EGC-S (No Edge Features)": {
+    "arxiv_id": "2102.09844",
+    "title": "E(n) Equivariant Graph Neural Networks",
+    "year": 2021,
+    "datasets": "ogbg-molhiv,ogbg-code2"
+  },
+  "EGT": {
+    "arxiv_id": "2108.03348",
+    "title": "Global Self-Attention as a Replacement for Graph Convolution (EGT)",
+    "year": 2021,
+    "datasets": "pcqm4mv2"
+  },
+  "EGT+LSPE+HIERA_clustering": {
+    "arxiv_id": "2108.03348",
+    "title": "Global Self-Attention as a Replacement for Graph Convolution (EGT)",
+    "year": 2021,
+    "datasets": "pcqm4mv2"
+  },
+  "EGT+Tri. Attn. (Pure Neural)": {
+    "arxiv_id": "2108.03348",
+    "title": "Global Self-Attention as a Replacement for Graph Convolution (EGT)",
+    "year": 2021,
+    "datasets": "pcqm4mv2"
+  },
+  "EGT+Tri. Attn.+RDKit Coords.": {
+    "arxiv_id": "2108.03348",
+    "title": "Global Self-Attention as a Replacement for Graph Convolution (EGT)",
+    "year": 2021,
+    "datasets": "pcqm4mv2"
+  },
+  "ELGNN": {
+    "arxiv_id": "2310.14166",
+    "title": "Ensemble Learning for Graph Neural Networks",
+    "year": 2023,
+    "datasets": "ogbl-ddi"
+  },
+  "ELPH": {
+    "arxiv_id": "2107.02285",
+    "title": "ELPH: Efficient Link Prediction with Hashing",
+    "year": 2021,
+    "datasets": "ogbl-collab,ogbl-ddi"
+  },
+  "ExpC": {
+    "arxiv_id": "2012.07219",
+    "title": "Breaking the Expressive Bottlenecks of Graph Neural Networks",
+    "year": 2021,
+    "datasets": "ogbg-ppa"
+  },
+  "ExpC*+bag of tricks": {
+    "arxiv_id": "2012.07219",
+    "title": "Breaking the Expressive Bottlenecks of Graph Neural Networks",
+    "year": 2021,
+    "datasets": "ogbg-ppa"
+  },
+  "FLAG": {
+    "arxiv_id": "2010.09891",
+    "title": "Robust Optimization as Data Augmentation for Large-scale Graphs",
+    "year": 2020,
+    "datasets": "ogbg-molhiv,ogbn-products,ogbn-proteins,ogbn-arxiv,ogbn-mag"
+  },
+  "FSGNN": {
+    "arxiv_id": "2105.09336",
+    "title": "From Local Structures to Size Generalization in Graph Neural Networks",
+    "year": 2021,
+    "datasets": "ogbn-papers100M"
+  },
+  "FingerPrint+GMAN": {
+    "arxiv_id": "2106.08279",
+    "title": "First Place Solution of KDD Cup 2021",
+    "year": 2021,
+    "datasets": "ogbg-molhiv"
+  },
+  "Full-batch GCN": {
+    "arxiv_id": "1609.02907",
+    "title": "Semi-Supervised Classification with Graph Convolutional Networks (via GCN)",
+    "year": 2017,
+    "datasets": "ogbn-products,ogbl-citation2"
+  },
+  "Full-batch GraphSAGE": {
+    "arxiv_id": "1706.02216",
+    "title": "Inductive Representation Learning on Large Graphs (via GraphSAGE)",
+    "year": 2017,
+    "datasets": "ogbn-products"
+  },
+  "Full-batch R-GCN": {
+    "arxiv_id": "1703.06103",
+    "title": "Modeling Relational Data with Graph Convolutional Networks",
+    "year": 2018,
+    "datasets": "ogbn-mag"
+  },
+  "GAMLP": {
+    "arxiv_id": "2206.06281",
+    "title": "Graph Attention Multi-Layer Perceptron",
+    "year": 2022,
+    "datasets": "ogbn-products,ogbn-papers100M,ogbn-mag"
+  },
+  "GAMLP+MCR": {
+    "arxiv_id": "2206.06281",
+    "title": "Graph Attention Multi-Layer Perceptron",
+    "year": 2022,
+    "datasets": "ogbn-products"
+  },
+  "GAMLP+RLU": {
+    "arxiv_id": "2206.06281",
+    "title": "Graph Attention Multi-Layer Perceptron",
+    "year": 2022,
+    "datasets": "ogbn-products,ogbn-papers100M,ogbn-mag"
+  },
+  "GAMLP+RLU+SCR": {
+    "arxiv_id": "2206.06281",
+    "title": "Graph Attention Multi-Layer Perceptron",
+    "year": 2022,
+    "datasets": "ogbn-products,ogbn-papers100M"
+  },
+  "GAMLP+RLU+SCR+C&S": {
+    "arxiv_id": "2206.06281",
+    "title": "Graph Attention Multi-Layer Perceptron",
+    "year": 2022,
+    "datasets": "ogbn-products,ogbn-papers100M,ogbn-mag"
+  },
+  "GAMLP+SCR": {
+    "arxiv_id": "2206.06281",
+    "title": "Graph Attention Multi-Layer Perceptron",
+    "year": 2022,
+    "datasets": "ogbn-papers100M"
+  },
+  "GAMLP+SCR-m": {
+    "arxiv_id": "2206.06281",
+    "title": "Graph Attention Multi-Layer Perceptron",
+    "year": 2022,
+    "datasets": "ogbn-papers100M"
+  },
+  "GAT": {
+    "arxiv_id": "1710.10903",
+    "title": "Graph Attention Networks",
+    "year": 2018,
+    "datasets": "ogbg-code2,ogbn-proteins,ogbn-arxiv"
+  },
+  "GAT (NS)": {
+    "arxiv_id": "1710.10903",
+    "title": "Graph Attention Networks",
+    "year": 2018,
+    "datasets": "mag240m"
+  },
+  "GAT + C&S": {
+    "arxiv_id": "1710.10903",
+    "title": "Graph Attention Networks (via GAT)",
+    "year": 2018,
+    "datasets": "ogbn-arxiv"
+  },
+  "GAT + labels + node2vec": {
+    "arxiv_id": "1710.10903",
+    "title": "Graph Attention Networks (via GAT)",
+    "year": 2018,
+    "datasets": "ogbn-proteins"
+  },
+  "GAT w/NS + C&S": {
+    "arxiv_id": "1710.10903",
+    "title": "Graph Attention Networks (via GAT)",
+    "year": 2018,
+    "datasets": "ogbn-products"
+  },
+  "GAT with NeighborSampling": {
+    "arxiv_id": "1710.10903",
+    "title": "Graph Attention Networks (via GAT)",
+    "year": 2018,
+    "datasets": "ogbn-products"
+  },
+  "GAT(norm.adj.)+label reuse+C&S": {
+    "arxiv_id": "1710.10903",
+    "title": "Graph Attention Networks (via GAT)",
+    "year": 2018,
+    "datasets": "ogbn-arxiv"
+  },
+  "GAT+BOT+NGNN": {
+    "arxiv_id": "2106.04051",
+    "title": "Nested Graph Neural Networks",
+    "year": 2021,
+    "datasets": "ogbn-proteins"
+  },
+  "GAT+BoT": {
+    "arxiv_id": "2106.04051",
+    "title": "Nested Graph Neural Networks",
+    "year": 2021,
+    "datasets": "ogbn-proteins"
+  },
+  "GAT+EdgeFeatureAtt": {
+    "arxiv_id": "1710.10903",
+    "title": "Graph Attention Networks (via GAT)",
+    "year": 2018,
+    "datasets": "ogbn-proteins"
+  },
+  "GAT+FLAG": {
+    "arxiv_id": "2010.09891",
+    "title": "Robust Optimization as Data Augmentation for Large-scale Graphs (via FLAG)",
+    "year": 2020,
+    "datasets": "ogbn-products,ogbn-arxiv"
+  },
+  "GAT+label reuse+self KD": {
+    "arxiv_id": "1710.10903",
+    "title": "Graph Attention Networks (via GAT)",
+    "year": 2018,
+    "datasets": "ogbn-arxiv"
+  },
+  "GAT+norm. adj.+label reuse": {
+    "arxiv_id": "1710.10903",
+    "title": "Graph Attention Networks (via GAT)",
+    "year": 2018,
+    "datasets": "ogbn-arxiv"
+  },
+  "GAT+norm. adj.+labels": {
+    "arxiv_id": "1710.10903",
+    "title": "Graph Attention Networks (via GAT)",
+    "year": 2018,
+    "datasets": "ogbn-arxiv"
+  },
+  "GAT+norm.adj.+labels": {
+    "arxiv_id": "1710.10903",
+    "title": "Graph Attention Networks (via GAT)",
+    "year": 2018,
+    "datasets": "ogbn-arxiv"
+  },
+  "GAT-node2vec + BoT + self-KD": {
+    "arxiv_id": "1710.10903",
+    "title": "Graph Attention Networks (via GAT)",
+    "year": 2018,
+    "datasets": "ogbn-arxiv"
+  },
+  "GAV": {
+    "arxiv_id": "1706.02216",
+    "title": "Inductive Representation Learning on Large Graphs (via GraphSAGE)",
+    "year": 2017,
+    "datasets": "ogbl-vessel"
+  },
+  "GC-T+MCL(6.0)": {
+    "arxiv_id": "2302.00049",
+    "title": "Transformers Meet Directed Graphs",
+    "year": 2023,
+    "datasets": "ogbg-ppa"
+  },
+  "GCN": {
+    "arxiv_id": "1609.02907",
+    "title": "Semi-Supervised Classification with Graph Convolutional Networks",
+    "year": 2017,
+    "datasets": "ogbg-molpcba,ogbg-ppa,ogbg-code2,ogbn-products,ogbn-arxiv,ogbl-ppa,ogbl-collab,ogbl-ddi,ogbl-citation2,ogbl-vessel"
+  },
+  "GCN (in Julia)": {
+    "arxiv_id": "1609.02907",
+    "title": "Semi-Supervised Classification with Graph Convolutional Networks (via GCN)",
+    "year": 2017,
+    "datasets": "ogbg-molhiv"
+  },
+  "GCN (node embedding)": {
+    "arxiv_id": "1609.02907",
+    "title": "Semi-Supervised Classification with Graph Convolutional Networks (via GCN)",
+    "year": 2017,
+    "datasets": "ogbl-ppa,ogbl-ddi"
+  },
+  "GCN + Heuristic Encoding": {
+    "arxiv_id": "1609.02907",
+    "title": "Semi-Supervised Classification with Graph Convolutional Networks (via GCN)",
+    "year": 2017,
+    "datasets": "ogbl-citation2"
+  },
+  "GCN w/Node2Vec": {
+    "arxiv_id": "1609.02907",
+    "title": "Semi-Supervised Classification with Graph Convolutional Networks (via GCN)",
+    "year": 2017,
+    "datasets": "ogbl-vessel"
+  },
+  "GCN+": {
+    "arxiv_id": "2502.09263",
+    "title": "Can Classic GNNs Be Strong Baselines for Graph-level Tasks? Simple Architectures Meet Excellence",
+    "year": 2025,
+    "datasets": "ogbg-ppa"
+  },
+  "GCN+FLAG": {
+    "arxiv_id": "2010.09891",
+    "title": "Robust Optimization as Data Augmentation for Large-scale Graphs (FLAG)",
+    "year": 2020,
+    "datasets": "ogbg-molpcba,ogbn-arxiv"
+  },
+  "GCN+GraphNorm": {
+    "arxiv_id": "2009.03294",
+    "title": "GraphNorm: A Principled Approach to Accelerating Graph Neural Network Training",
+    "year": 2020,
+    "datasets": "ogbg-molhiv"
+  },
+  "GCN+JKNet": {
+    "arxiv_id": "1806.03536",
+    "title": "Representation Learning on Graphs with Jumping Knowledge Networks",
+    "year": 2018,
+    "datasets": "ogbl-ddi"
+  },
+  "GCN+linear+labels": {
+    "arxiv_id": "1609.02907",
+    "title": "Semi-Supervised Classification with Graph Convolutional Networks (via GCN)",
+    "year": 2017,
+    "datasets": "ogbn-arxiv"
+  },
+  "GCN+residual+6 layers": {
+    "arxiv_id": "1609.02907",
+    "title": "Semi-Supervised Classification with Graph Convolutional Networks (via GCN)",
+    "year": 2017,
+    "datasets": "ogbn-arxiv"
+  },
+  "GCN+residual+node2vec": {
+    "arxiv_id": "1609.02907",
+    "title": "Semi-Supervised Classification with Graph Convolutional Networks (via GCN)",
+    "year": 2017,
+    "datasets": "ogbn-arxiv"
+  },
+  "GCN+virtual node": {
+    "arxiv_id": "1609.02907",
+    "title": "Semi-Supervised Classification with Graph Convolutional Networks (virtual node extension is common technique)",
+    "year": 2017,
+    "datasets": "ogbg-molpcba,ogbg-ppa,ogbg-code2"
+  },
+  "GCN+virtual node+FLAG": {
+    "arxiv_id": "2010.09891",
+    "title": "Robust Optimization as Data Augmentation for Large-scale Graphs (FLAG)",
+    "year": 2020,
+    "datasets": "ogbg-molpcba,ogbg-ppa"
+  },
+  "GCN-virtual": {
+    "arxiv_id": "1609.02907",
+    "title": "Semi-Supervised Classification with Graph Convolutional Networks",
+    "year": 2017,
+    "datasets": "pcqm4mv2"
+  },
+  "GCNII": {
+    "arxiv_id": "2007.02133",
+    "title": "Simple and Deep Graph Convolutional Networks",
+    "year": 2020,
+    "datasets": "ogbn-arxiv"
+  },
+  "GCN_res + 8 layers": {
+    "arxiv_id": "1609.02907",
+    "title": "Semi-Supervised Classification with Graph Convolutional Networks (via GCN)",
+    "year": 2017,
+    "datasets": "ogbn-arxiv"
+  },
+  "GCN_res + 8 layers + FLAG": {
+    "arxiv_id": "2010.09891",
+    "title": "Robust Optimization as Data Augmentation for Large-scale Graphs (via FLAG)",
+    "year": 2020,
+    "datasets": "ogbn-arxiv"
+  },
+  "GCN_res + C&S": {
+    "arxiv_id": "1609.02907",
+    "title": "Semi-Supervised Classification with Graph Convolutional Networks (via GCN)",
+    "year": 2017,
+    "datasets": "ogbn-arxiv"
+  },
+  "GCN_res + C&S_v2": {
+    "arxiv_id": "1609.02907",
+    "title": "Semi-Supervised Classification with Graph Convolutional Networks (via GCN)",
+    "year": 2017,
+    "datasets": "ogbn-arxiv"
+  },
+  "GDNN": {
+    "arxiv_id": "1706.02216",
+    "title": "Inductive Representation Learning on Large Graphs (via GraphSAGE)",
+    "year": 2017,
+    "datasets": "ogbl-ddi"
+  },
+  "GEM-2": {
+    "arxiv_id": "2208.05863",
+    "title": "GEM-2: Next Generation Molecular Property Prediction Network",
+    "year": 2022,
+    "datasets": "pcqm4mv2"
+  },
+  "GEN + FLAG + node2vec": {
+    "arxiv_id": "2010.09891",
+    "title": "Robust Optimization as Data Augmentation for Large-scale Graphs (via FLAG)",
+    "year": 2020,
+    "datasets": "ogbn-proteins"
+  },
+  "GIANT+XRT+GATv2": {
+    "arxiv_id": "2111.15099",
+    "title": "Node Feature Extraction by Self-supervised Multi-scale Neighborhood Prediction",
+    "year": 2021,
+    "datasets": "ogbn-arxiv"
+  },
+  "GIANT-XRT+AGDN+BoT": {
+    "arxiv_id": "2111.15099",
+    "title": "Node Feature Extraction by Self-supervised Multi-scale Neighborhood Prediction",
+    "year": 2021,
+    "datasets": "ogbn-arxiv"
+  },
+  "GIANT-XRT+AGDN+BoT+self-KD": {
+    "arxiv_id": "2111.15099",
+    "title": "Node Feature Extraction by Self-supervised Multi-scale Neighborhood Prediction",
+    "year": 2021,
+    "datasets": "ogbn-arxiv"
+  },
+  "GIANT-XRT+DRGAT": {
+    "arxiv_id": "2111.15099",
+    "title": "Node Feature Extraction by Self-supervised Multi-scale Neighborhood Prediction",
+    "year": 2021,
+    "datasets": "ogbn-arxiv"
+  },
+  "GIANT-XRT+DRGAT+KD": {
+    "arxiv_id": "2111.15099",
+    "title": "Node Feature Extraction by Self-supervised Multi-scale Neighborhood Prediction",
+    "year": 2021,
+    "datasets": "ogbn-arxiv"
+  },
+  "GIANT-XRT+GAMLP+MCR": {
+    "arxiv_id": "2111.15099",
+    "title": "Node Feature Extraction by Self-supervised Multi-scale Neighborhood Prediction",
+    "year": 2021,
+    "datasets": "ogbn-products"
+  },
+  "GIANT-XRT+GAMLP+RLU (use raw text)": {
+    "arxiv_id": "2111.15099",
+    "title": "Node Feature Extraction by Self-supervised Multi-scale Neighborhood Prediction",
+    "year": 2021,
+    "datasets": "ogbn-papers100M"
+  },
+  "GIANT-XRT+GraphSAGE (use raw text)": {
+    "arxiv_id": "2111.15099",
+    "title": "Node Feature Extraction by Self-supervised Multi-scale Neighborhood Prediction",
+    "year": 2021,
+    "datasets": "ogbn-arxiv"
+  },
+  "GIANT-XRT+GraphSAINT(use raw text)": {
+    "arxiv_id": "2111.15099",
+    "title": "Node Feature Extraction by Self-supervised Multi-scale Neighborhood Prediction",
+    "year": 2021,
+    "datasets": "ogbn-products"
+  },
+  "GIANT-XRT+LGGNN+LabelReuse+C&S": {
+    "arxiv_id": "2111.15099",
+    "title": "Node Feature Extraction by Self-supervised Multi-scale Neighborhood Prediction",
+    "year": 2021,
+    "datasets": "ogbn-arxiv"
+  },
+  "GIANT-XRT+MLP (use raw text)": {
+    "arxiv_id": "2111.15099",
+    "title": "Node Feature Extraction by Self-supervised Multi-scale Neighborhood Prediction",
+    "year": 2021,
+    "datasets": "ogbn-products,ogbn-arxiv"
+  },
+  "GIANT-XRT+R-RevGAT+KD": {
+    "arxiv_id": "2111.15099",
+    "title": "Node Feature Extraction by Self-supervised Multi-scale Neighborhood Prediction",
+    "year": 2021,
+    "datasets": "ogbn-arxiv"
+  },
+  "GIANT-XRT+R-SAGN+SCR+C&S": {
+    "arxiv_id": "2111.15099",
+    "title": "Node Feature Extraction by Self-supervised Multi-scale Neighborhood Prediction",
+    "year": 2021,
+    "datasets": "ogbn-products"
+  },
+  "GIANT-XRT+RevGAT (use raw text)": {
+    "arxiv_id": "2111.15099",
+    "title": "Node Feature Extraction by Self-supervised Multi-scale Neighborhood Prediction",
+    "year": 2021,
+    "datasets": "ogbn-arxiv"
+  },
+  "GIANT-XRT+RevGAT+KD (use raw text)": {
+    "arxiv_id": "2111.15099",
+    "title": "Node Feature Extraction by Self-supervised Multi-scale Neighborhood Prediction",
+    "year": 2021,
+    "datasets": "ogbn-arxiv"
+  },
+  "GIANT-XRT+RevGAT+KD+DCN": {
+    "arxiv_id": "2111.15099",
+    "title": "Node Feature Extraction by Self-supervised Multi-scale Neighborhood Prediction",
+    "year": 2021,
+    "datasets": "ogbn-arxiv"
+  },
+  "GIANT-XRT+SAGN+MCR": {
+    "arxiv_id": "2111.15099",
+    "title": "Node Feature Extraction by Self-supervised Multi-scale Neighborhood Prediction",
+    "year": 2021,
+    "datasets": "ogbn-products"
+  },
+  "GIANT-XRT+SAGN+MCR+C&S": {
+    "arxiv_id": "2111.15099",
+    "title": "Node Feature Extraction by Self-supervised Multi-scale Neighborhood Prediction",
+    "year": 2021,
+    "datasets": "ogbn-products"
+  },
+  "GIANT-XRT+SAGN+SCR": {
+    "arxiv_id": "2111.15099",
+    "title": "Node Feature Extraction by Self-supervised Multi-scale Neighborhood Prediction",
+    "year": 2021,
+    "datasets": "ogbn-products"
+  },
+  "GIANT-XRT+SAGN+SCR+C&S": {
+    "arxiv_id": "2111.15099",
+    "title": "Node Feature Extraction by Self-supervised Multi-scale Neighborhood Prediction",
+    "year": 2021,
+    "datasets": "ogbn-products"
+  },
+  "GIANT-XRT+SAGN+SLE (use raw text)": {
+    "arxiv_id": "2111.15099",
+    "title": "Node Feature Extraction by Self-supervised Multi-scale Neighborhood Prediction",
+    "year": 2021,
+    "datasets": "ogbn-products"
+  },
+  "GIANT-XRT+SAGN+SLE+C&S (use raw text)": {
+    "arxiv_id": "2111.15099",
+    "title": "Node Feature Extraction by Self-supervised Multi-scale Neighborhood Prediction",
+    "year": 2021,
+    "datasets": "ogbn-products"
+  },
+  "GIDN@YITU": {
+    "arxiv_id": "2210.01301",
+    "title": "GIDN: A Lightweight Graph Inception Diffusion Network for High-efficient Link Prediction",
+    "year": 2022,
+    "datasets": "ogbl-collab,ogbl-ddi"
+  },
+  "GIN": {
+    "arxiv_id": "1810.00826",
+    "title": "How Powerful are Graph Neural Networks?",
+    "year": 2019,
+    "datasets": "ogbg-molhiv,ogbg-molpcba,ogbg-ppa,ogbg-code2"
+  },
+  "GIN+": {
+    "arxiv_id": "2502.09263",
+    "title": "Can Classic GNNs Be Strong Baselines for Graph-level Tasks? Simple Architectures Meet Excellence",
+    "year": 2025,
+    "datasets": "ogbg-ppa"
+  },
+  "GIN+FLAG": {
+    "arxiv_id": "2010.09891",
+    "title": "Robust Optimization as Data Augmentation for Large-scale Graphs (FLAG)",
+    "year": 2020,
+    "datasets": "ogbg-molpcba,ogbg-ppa"
+  },
+  "GIN+virtual node": {
+    "arxiv_id": "1810.00826",
+    "title": "How Powerful are Graph Neural Networks? (virtual node extension is common technique)",
+    "year": 2019,
+    "datasets": "ogbg-molpcba,ogbg-ppa,ogbg-code2"
+  },
+  "GIN+virtual node+FLAG": {
+    "arxiv_id": "2010.09891",
+    "title": "Robust Optimization as Data Augmentation for Large-scale Graphs (FLAG)",
+    "year": 2020,
+    "datasets": "ogbg-molpcba,ogbg-ppa"
+  },
+  "GIN-AK": {
+    "arxiv_id": "2110.03753",
+    "title": "From Stars to Subgraphs: Uplifting Any GNN with Local Structure Awareness",
+    "year": 2021,
+    "datasets": "ogbg-molpcba"
+  },
+  "GIN-virtual": {
+    "arxiv_id": "1810.00826",
+    "title": "How Powerful are Graph Neural Networks?",
+    "year": 2019,
+    "datasets": "pcqm4mv2"
+  },
+  "GINE": {
+    "arxiv_id": "1905.12265",
+    "title": "Strategies for Pre-training Graph Neural Networks (introduces GINE)",
+    "year": 2020,
+    "datasets": "ogbg-molhiv"
+  },
+  "GINE+ w/ APPNP": {
+    "arxiv_id": "1905.12265",
+    "title": "Strategies for Pre-training Graph Neural Networks",
+    "year": 2020,
+    "datasets": "ogbg-molpcba"
+  },
+  "GINE+ w/ virtual nodes": {
+    "arxiv_id": "1905.12265",
+    "title": "Strategies for Pre-training Graph Neural Networks (introduces GINE)",
+    "year": 2020,
+    "datasets": "ogbg-molpcba"
+  },
+  "GINE+HE": {
+    "arxiv_id": "1905.12265",
+    "title": "Strategies for Pre-training Graph Neural Networks",
+    "year": 2020,
+    "datasets": "ogbg-molhiv"
+  },
+  "GINE+bot": {
+    "arxiv_id": "1905.12265",
+    "title": "Strategies for Pre-training Graph Neural Networks",
+    "year": 2020,
+    "datasets": "ogbg-molpcba"
+  },
+  "GIPA": {
+    "arxiv_id": "1706.02216",
+    "title": "Inductive Representation Learning on Large Graphs (via GraphSAGE)",
+    "year": 2017,
+    "datasets": "ogbn-proteins"
+  },
+  "GIPA(Wide&Deep)": {
+    "arxiv_id": "1706.02216",
+    "title": "Inductive Representation Learning on Large Graphs (via GraphSAGE)",
+    "year": 2017,
+    "datasets": "ogbn-proteins"
+  },
+  "GLEM+GIANT+GAMLP": {
+    "arxiv_id": "2306.08385",
+    "title": "GLEM: Graph-Language Model for Node Classification",
+    "year": 2023,
+    "datasets": "ogbn-papers100M"
+  },
+  "GLEM+GIANT+SAGN+SCR": {
+    "arxiv_id": "2306.08385",
+    "title": "GLEM: Graph-Language Model for Node Classification",
+    "year": 2023,
+    "datasets": "ogbn-products"
+  },
+  "GLEM+RevGAT": {
+    "arxiv_id": "2306.08385",
+    "title": "GLEM: Graph-Language Model for Node Classification",
+    "year": 2023,
+    "datasets": "ogbn-arxiv"
+  },
+  "GMAN+bag of tricks": {
+    "arxiv_id": "2106.08279",
+    "title": "First Place Solution of KDD Cup 2021",
+    "year": 2021,
+    "datasets": "ogbg-code2"
+  },
+  "GPS": {
+    "arxiv_id": "2205.12454",
+    "title": "Recipe for a General, Powerful, Scalable Graph Transformer",
+    "year": 2022,
+    "datasets": "pcqm4mv2"
+  },
+  "GPS++": {
+    "arxiv_id": "2205.12454",
+    "title": "Recipe for a General, Powerful, Scalable Graph Transformer (GPS++; OGB-LSC 2022 report)",
+    "year": 2022,
+    "datasets": "pcqm4mv2"
+  },
+  "GPTrans-L": {
+    "arxiv_id": "2305.11424",
+    "title": "Graph Propagation Transformer for Graph Representation Learning",
+    "year": 2023,
+    "datasets": "pcqm4mv2"
+  },
+  "GPTrans-T": {
+    "arxiv_id": "2305.11424",
+    "title": "Graph Propagation Transformer for Graph Representation Learning",
+    "year": 2023,
+    "datasets": "pcqm4mv2"
+  },
+  "GRPE-Large": {
+    "arxiv_id": "2203.05496",
+    "title": "Graph Relational Positional Encoding for Graph Transformers",
+    "year": 2022,
+    "datasets": "pcqm4mv2"
+  },
+  "GSAT": {
+    "arxiv_id": "2201.12987",
+    "title": "Interpretable and Generalizable Graph Learning via Stochastic Attention Mechanism",
+    "year": 2022,
+    "datasets": "ogbg-molhiv"
+  },
+  "GSN": {
+    "arxiv_id": "2006.09252",
+    "title": "Improving Graph Neural Network Expressivity via Subgraph Isomorphism Counting",
+    "year": 2021,
+    "datasets": "ogbg-molhiv"
+  },
+  "GTAN": {
+    "arxiv_id": "1706.02216",
+    "title": "Inductive Representation Learning on Large Graphs (via GraphSAGE)",
+    "year": 2017,
+    "datasets": "ogbn-arxiv"
+  },
+  "GTCN": {
+    "arxiv_id": "1706.02216",
+    "title": "Inductive Representation Learning on Large Graphs (via GraphSAGE)",
+    "year": 2017,
+    "datasets": "ogbn-arxiv"
+  },
+  "GaAN": {
+    "arxiv_id": "1803.07294",
+    "title": "GaAN: Gated Attention Networks for Learning on Large and Spatiotemporal Graphs",
+    "year": 2018,
+    "datasets": "ogbn-proteins,ogbn-arxiv"
+  },
+  "GatedGCN": {
+    "arxiv_id": "1711.07553",
+    "title": "Residual Gated Graph ConvNets",
+    "year": 2018,
+    "datasets": "ogbg-molhiv,ogbg-molpcba"
+  },
+  "GatedGCN+": {
+    "arxiv_id": "2502.09263",
+    "title": "Can Classic GNNs Be Strong Baselines for Graph-level Tasks? Simple Architectures Meet Excellence",
+    "year": 2025,
+    "datasets": "ogbg-molhiv,ogbg-molpcba,ogbg-ppa"
+  },
+  "GeniePath-BS": {
+    "arxiv_id": "1906.05238",
+    "title": "GeniePath: Graph Neural Networks with Adaptive Receptive Paths",
+    "year": 2019,
+    "datasets": "ogbn-proteins"
+  },
+  "Global-ViSNet": {
+    "arxiv_id": "2210.16518",
+    "title": "Enhancing Geometric Representations for Molecules with Equivariant Vector-Scalar Interactive Message Passing",
+    "year": 2022,
+    "datasets": "pcqm4mv2"
+  },
+  "GraDBERT & RevGAT+KD": {
+    "arxiv_id": "2111.15099",
+    "title": "Node Feature Extraction by Self-supervised Multi-scale Neighborhood Prediction (via GIANT-XRT+RevGAT (use raw text))",
+    "year": 2021,
+    "datasets": "ogbn-arxiv"
+  },
+  "GraDBERT+GIANT & SAGN+SLE+CnS": {
+    "arxiv_id": "2111.15099",
+    "title": "Node Feature Extraction by Self-supervised Multi-scale Neighborhood Prediction (via GIANT-XRT+SAGN+SCR)",
+    "year": 2021,
+    "datasets": "ogbn-products"
+  },
+  "GraphGPS without PE (subset)": {
+    "arxiv_id": "2205.12454",
+    "title": "Recipe for a General, Powerful, Scalable Graph Transformer",
+    "year": 2022,
+    "datasets": "pcqm4mv2"
+  },
+  "GraphGPT(MLM pretrained)": {
+    "arxiv_id": "2401.00529",
+    "title": "GraphGPT: Generative Pre-trained Graph Eulerian Transformer",
+    "year": 2024,
+    "datasets": "pcqm4mv2"
+  },
+  "GraphGPT(MLM tv0)": {
+    "arxiv_id": "2401.00529",
+    "title": "GraphGPT: Generative Pre-trained Graph Eulerian Transformer",
+    "year": 2024,
+    "datasets": "pcqm4mv2"
+  },
+  "GraphGPT(MLM tv10k)": {
+    "arxiv_id": "2401.00529",
+    "title": "GraphGPT: Generative Pre-trained Graph Eulerian Transformer",
+    "year": 2024,
+    "datasets": "pcqm4mv2"
+  },
+  "GraphGPT(SMTP)": {
+    "arxiv_id": "2401.00529",
+    "title": "GraphGPT: Generative Pre-trained Graph Eulerian Transformer",
+    "year": 2024,
+    "datasets": "ogbl-ppa,ogbl-citation2"
+  },
+  "GraphGPT(d1n30)": {
+    "arxiv_id": "2401.00529",
+    "title": "GraphGPT: Generative Pre-trained Graph Eulerian Transformer",
+    "year": 2024,
+    "datasets": "ogbl-citation2"
+  },
+  "GraphGPT(use 3D)": {
+    "arxiv_id": "2401.00529",
+    "title": "GraphGPT: Generative Pre-trained Graph Eulerian Transformer",
+    "year": 2024,
+    "datasets": "pcqm4mv2"
+  },
+  "GraphGPT-L48(use 3D)": {
+    "arxiv_id": "2401.00529",
+    "title": "GraphGPT: Generative Pre-trained Graph Eulerian Transformer",
+    "year": 2024,
+    "datasets": "pcqm4mv2"
+  },
+  "GraphSAGE": {
+    "arxiv_id": "1706.02216",
+    "title": "Inductive Representation Learning on Large Graphs",
+    "year": 2017,
+    "datasets": "ogbg-code2,ogbn-products,ogbn-proteins,ogbn-arxiv,ogbl-ppa,ogbl-collab,ogbl-ddi,ogbl-citation2,ogbl-vessel"
+  },
+  "GraphSAGE (NS)": {
+    "arxiv_id": "1706.02216",
+    "title": "Inductive Representation Learning on Large Graphs",
+    "year": 2017,
+    "datasets": "mag240m"
+  },
+  "GraphSAGE (val as input)": {
+    "arxiv_id": "1706.02216",
+    "title": "Inductive Representation Learning on Large Graphs (via GraphSAGE)",
+    "year": 2017,
+    "datasets": "ogbl-collab"
+  },
+  "GraphSAGE + C&S + node2vec": {
+    "arxiv_id": "1706.02216",
+    "title": "Inductive Representation Learning on Large Graphs (via GraphSAGE)",
+    "year": 2017,
+    "datasets": "ogbn-products"
+  },
+  "GraphSAGE + Edge Attr": {
+    "arxiv_id": "1706.02216",
+    "title": "Inductive Representation Learning on Large Graphs (via GraphSAGE)",
+    "year": 2017,
+    "datasets": "ogbl-ddi"
+  },
+  "GraphSAGE w/NS + C&S": {
+    "arxiv_id": "1706.02216",
+    "title": "Inductive Representation Learning on Large Graphs (via GraphSAGE)",
+    "year": 2017,
+    "datasets": "ogbn-products"
+  },
+  "GraphSAGE w/Node2VEc": {
+    "arxiv_id": "1706.02216",
+    "title": "Inductive Representation Learning on Large Graphs (via GraphSAGE)",
+    "year": 2017,
+    "datasets": "ogbl-vessel"
+  },
+  "GraphSAGE+Edge Proposal Set": {
+    "arxiv_id": "1706.02216",
+    "title": "Inductive Representation Learning on Large Graphs (via GraphSAGE)",
+    "year": 2017,
+    "datasets": "ogbl-ddi"
+  },
+  "GraphSAGE+FLAG": {
+    "arxiv_id": "2010.09891",
+    "title": "Robust Optimization as Data Augmentation for Large-scale Graphs (via FLAG)",
+    "year": 2020,
+    "datasets": "ogbn-products,ogbn-arxiv"
+  },
+  "GraphSAGE+anchor distance": {
+    "arxiv_id": "1706.02216",
+    "title": "Inductive Representation Learning on Large Graphs (via GraphSAGE)",
+    "year": 2017,
+    "datasets": "ogbl-ddi"
+  },
+  "GraphSAGE_res_incep": {
+    "arxiv_id": "1706.02216",
+    "title": "Inductive Representation Learning on Large Graphs",
+    "year": 2017,
+    "datasets": "ogbn-papers100M"
+  },
+  "GraphSAINT (GCN aggr)": {
+    "arxiv_id": "1907.04943",
+    "title": "GraphSAINT: Graph Sampling Based Inductive Learning Method",
+    "year": 2019,
+    "datasets": "ogbl-citation2"
+  },
+  "GraphSAINT (R-GCN aggr)": {
+    "arxiv_id": "1907.04943",
+    "title": "GraphSAINT: Graph Sampling Based Inductive Learning Method",
+    "year": 2019,
+    "datasets": "ogbn-mag"
+  },
+  "GraphSAINT (SAGE aggr)": {
+    "arxiv_id": "1907.04943",
+    "title": "GraphSAINT: Graph Sampling Based Inductive Learning Method",
+    "year": 2019,
+    "datasets": "ogbn-products"
+  },
+  "GraphSAINT + metapath2vec": {
+    "arxiv_id": "1907.04943",
+    "title": "GraphSAINT: Graph Sampling Based Inductive Learning Method",
+    "year": 2019,
+    "datasets": "ogbn-mag"
+  },
+  "GraphSAINT-inductive": {
+    "arxiv_id": "1907.04943",
+    "title": "GraphSAINT: Graph Sampling Based Inductive Learning Method",
+    "year": 2019,
+    "datasets": "ogbn-products"
+  },
+  "GraphTrans (GCN)": {
+    "arxiv_id": "2201.08821",
+    "title": "Representing Long-Range Context for Graph Neural Networks with Global Attention",
+    "year": 2022,
+    "datasets": "ogbg-code2"
+  },
+  "GraphTrans (GCN-Virtual)": {
+    "arxiv_id": "2201.08821",
+    "title": "Representing Long-Range Context for Graph Neural Networks with Global Attention",
+    "year": 2022,
+    "datasets": "ogbg-code2"
+  },
+  "GraphZoom (Node2vec)": {
+    "arxiv_id": "1910.00967",
+    "title": "GraphZoom: A Multi-level Spectral Approach for Accurate and Scalable Graph Embedding",
+    "year": 2019,
+    "datasets": "ogbn-products,ogbn-arxiv"
+  },
+  "Graphormer": {
+    "arxiv_id": "2106.05234",
+    "title": "Do Transformers Really Perform Bad for Graph Representation?",
+    "year": 2021,
+    "datasets": "ogbg-molhiv"
+  },
+  "Graphormer (pre-trained on PCQM4M)": {
+    "arxiv_id": "2106.08279",
+    "title": "First Place Solution of KDD Cup 2021 & OGB Large-Scale Challenge Graph Prediction Track",
+    "year": 2021,
+    "datasets": "ogbg-molhiv,ogbg-molpcba"
+  },
+  "Graphormer + FPs": {
+    "arxiv_id": "2106.08279",
+    "title": "First Place Solution of KDD Cup 2021 & OGB Large-Scale Challenge Graph Prediction Track",
+    "year": 2021,
+    "datasets": "ogbg-molhiv"
+  },
+  "HGAMLP+LP+MS(LINE embs)": {
+    "arxiv_id": "2206.06281",
+    "title": "Graph Attention Multi-Layer Perceptron (via GAMLP)",
+    "year": 2022,
+    "datasets": "ogbn-mag"
+  },
+  "HGAMLP-HOPE": {
+    "arxiv_id": "2206.06281",
+    "title": "Graph Attention Multi-Layer Perceptron (via GAMLP)",
+    "year": 2022,
+    "datasets": "ogbn-mag"
+  },
+  "HGConv": {
+    "arxiv_id": "2205.06525",
+    "title": "Simple and Efficient Heterogeneous Graph Neural Network (via SeHGNN)",
+    "year": 2022,
+    "datasets": "ogbn-mag"
+  },
+  "HGT (LADIES Sample)": {
+    "arxiv_id": "2003.01332",
+    "title": "Heterogeneous Graph Transformer",
+    "year": 2020,
+    "datasets": "ogbn-mag"
+  },
+  "HGT (TransE embs)": {
+    "arxiv_id": "2003.01332",
+    "title": "Heterogeneous Graph Transformer",
+    "year": 2020,
+    "datasets": "ogbn-mag"
+  },
+  "HIG": {
+    "arxiv_id": "2208.13994",
+    "title": "HiGNN: Hierarchical Informative Graph Neural Network for Molecular Property Prediction",
+    "year": 2022,
+    "datasets": "ogbg-molhiv"
+  },
+  "HIG(pre-trained on PCQM4M)": {
+    "arxiv_id": "2208.13994",
+    "title": "HiGNN: Hierarchical Informative Graph Neural Network for Molecular Property Prediction",
+    "year": 2022,
+    "datasets": "ogbg-molpcba"
+  },
+  "HIMP": {
+    "arxiv_id": "2006.12179",
+    "title": "Hierarchical Inter-Message Passing for Learning on Molecular Graphs",
+    "year": 2020,
+    "datasets": "ogbg-molhiv"
+  },
+  "HOP-REC": {
+    "arxiv_id": "1706.02216",
+    "title": "Inductive Representation Learning on Large Graphs (via GraphSAGE)",
+    "year": 2017,
+    "datasets": "ogbl-collab"
+  },
+  "InterHT": {
+    "arxiv_id": "2202.04897",
+    "title": "InterHT: Knowledge Graph Embeddings by Interaction between Head and Tail Entities",
+    "year": 2022,
+    "datasets": "ogbl-wikikg2"
+  },
+  "InterHT+": {
+    "arxiv_id": "2202.04897",
+    "title": "InterHT: Knowledge Graph Embeddings by Interaction between Head and Tail Entities",
+    "year": 2022,
+    "datasets": "ogbl-wikikg2"
+  },
+  "JKNet (GCN-based)": {
+    "arxiv_id": "1806.03536",
+    "title": "Representation Learning on Graphs with Jumping Knowledge Networks",
+    "year": 2018,
+    "datasets": "ogbn-arxiv"
+  },
+  "LD+GAMLP": {
+    "arxiv_id": "2206.06281",
+    "title": "Graph Attention Multi-Layer Perceptron",
+    "year": 2022,
+    "datasets": "ogbn-products"
+  },
+  "LD+GAT": {
+    "arxiv_id": "1710.10903",
+    "title": "Graph Attention Networks (via GAT)",
+    "year": 2018,
+    "datasets": "ogbn-proteins"
+  },
+  "LD+GIANT+SAGN+SCR": {
+    "arxiv_id": "2111.15099",
+    "title": "Node Feature Extraction by Self-supervised Multi-scale Neighborhood Prediction",
+    "year": 2021,
+    "datasets": "ogbn-products"
+  },
+  "LD+REVGAT": {
+    "arxiv_id": "2103.04559",
+    "title": "Training Graph Neural Networks with 1000 Layers",
+    "year": 2021,
+    "datasets": "ogbn-arxiv"
+  },
+  "LEGNN": {
+    "arxiv_id": "1706.02216",
+    "title": "Inductive Representation Learning on Large Graphs (via GraphSAGE)",
+    "year": 2017,
+    "datasets": "ogbn-arxiv,ogbn-mag"
+  },
+  "LEGNN + AS-Train": {
+    "arxiv_id": "1706.02216",
+    "title": "Inductive Representation Learning on Large Graphs (via GraphSAGE)",
+    "year": 2017,
+    "datasets": "ogbn-arxiv,ogbn-mag"
+  },
+  "LGGNN+LabelReuse+C&S": {
+    "arxiv_id": "2111.15099",
+    "title": "Node Feature Extraction by Self-supervised Multi-scale Neighborhood Prediction (via GIANT-XRT+LGGNN+LabelReuse+C&S)",
+    "year": 2021,
+    "datasets": "ogbn-arxiv"
+  },
+  "LMSPS (w/o embs)": {
+    "arxiv_id": "2205.06525",
+    "title": "Simple and Efficient Heterogeneous Graph Neural Network (via SeHGNN)",
+    "year": 2022,
+    "datasets": "ogbn-mag"
+  },
+  "LRGA + GCN": {
+    "arxiv_id": "2202.01129",
+    "title": "Long Range Graph Benchmark",
+    "year": 2022,
+    "datasets": "ogbl-collab,ogbl-ddi,ogbl-vessel"
+  },
+  "LRGA+GCN(Node2Vec+Augment)": {
+    "arxiv_id": "2202.01129",
+    "title": "Long Range Graph Benchmark",
+    "year": 2022,
+    "datasets": "ogbl-ddi"
+  },
+  "MAD Learning": {
+    "arxiv_id": "1706.02216",
+    "title": "Inductive Representation Learning on Large Graphs (via GraphSAGE)",
+    "year": 2017,
+    "datasets": "ogbl-ddi"
+  },
+  "MLP+C&S": {
+    "arxiv_id": "2010.13993",
+    "title": "Correct and Smooth: Combining Graph Neural Networks with Personalized PageRank",
+    "year": 2020,
+    "datasets": "mag240m"
+  },
+  "MLP+FLAG": {
+    "arxiv_id": "2010.09891",
+    "title": "Robust Optimization as Data Augmentation for Large-scale Graphs (via FLAG)",
+    "year": 2020,
+    "datasets": "ogbn-products,ogbn-arxiv"
+  },
+  "MPLP": {
+    "arxiv_id": "2303.06147",
+    "title": "MPLP: Multi-Aspect Graph Learning for Link Prediction",
+    "year": 2023,
+    "datasets": "ogbl-ppa,ogbl-citation2"
+  },
+  "MPNN+BGRL (KDDCup'21 2nd)": {
+    "arxiv_id": "2107.09422",
+    "title": "Open Graph Benchmark Large-Scale Challenge Entry (MPNN+BGRL)",
+    "year": 2021,
+    "datasets": "mag240m"
+  },
+  "MPNN-Max (No Edge Features)": {
+    "arxiv_id": "1704.07912",
+    "title": "Neural Message Passing for Quantum Chemistry",
+    "year": 2017,
+    "datasets": "ogbg-code2"
+  },
+  "MWE-DGCN": {
+    "arxiv_id": "2006.07739",
+    "title": "DeeperGCN: All You Need to Train Deeper GCNs (via DeeperGCN)",
+    "year": 2020,
+    "datasets": "ogbn-proteins"
+  },
+  "Matrix Factorization": {
+    "arxiv_id": "1607.00653",
+    "title": "node2vec: Scalable Feature Learning for Networks (via Node2vec)",
+    "year": 2016,
+    "datasets": "ogbl-ppa,ogbl-collab,ogbl-ddi,ogbl-citation2,ogbl-vessel"
+  },
+  "MetaPath2vec": {
+    "arxiv_id": "1805.10437",
+    "title": "metapath2vec: Scalable Representation Learning for Heterogeneous Networks",
+    "year": 2017,
+    "datasets": "ogbn-mag"
+  },
+  "Multi-RF Fusion + Multi-GNN": {
+    "arxiv_id": "2603.20724",
+    "title": "Multi-RF Fusion with Multi-GNN Blending for Molecular Property Prediction",
+    "year": 2026,
+    "datasets": "ogbg-molhiv"
+  },
+  "NARS": {
+    "arxiv_id": "2107.02802",
+    "title": "NARS: Neural Architecture Search for GNNs",
+    "year": 2021,
+    "datasets": "ogbn-mag"
+  },
+  "NARS-GAMLP": {
+    "arxiv_id": "2206.06281",
+    "title": "Graph Attention Multi-Layer Perceptron",
+    "year": 2022,
+    "datasets": "ogbn-mag"
+  },
+  "NARS-GAMLP+RLU": {
+    "arxiv_id": "2206.06281",
+    "title": "Graph Attention Multi-Layer Perceptron",
+    "year": 2022,
+    "datasets": "ogbn-mag"
+  },
+  "NARS-GAMLP+RLU+SCR": {
+    "arxiv_id": "2206.06281",
+    "title": "Graph Attention Multi-Layer Perceptron",
+    "year": 2022,
+    "datasets": "ogbn-mag"
+  },
+  "NARS-GAMLP+SCR": {
+    "arxiv_id": "2206.06281",
+    "title": "Graph Attention Multi-Layer Perceptron",
+    "year": 2022,
+    "datasets": "ogbn-mag"
+  },
+  "NARS-GAMLP+SCR-m": {
+    "arxiv_id": "2206.06281",
+    "title": "Graph Attention Multi-Layer Perceptron",
+    "year": 2022,
+    "datasets": "ogbn-mag"
+  },
+  "NARS_SAGN+SLE": {
+    "arxiv_id": "2110.05950",
+    "title": "Simple and Deep Graph Attention Networks",
+    "year": 2021,
+    "datasets": "ogbn-mag"
+  },
+  "NGNN + GCN": {
+    "arxiv_id": "2106.04051",
+    "title": "Nested Graph Neural Networks",
+    "year": 2021,
+    "datasets": "ogbl-ppa,ogbl-collab,ogbl-ddi"
+  },
+  "NGNN + GraphSAGE": {
+    "arxiv_id": "2106.04051",
+    "title": "Nested Graph Neural Networks",
+    "year": 2021,
+    "datasets": "ogbl-ppa,ogbl-collab,ogbl-ddi"
+  },
+  "NGNN + SEAL": {
+    "arxiv_id": "2002.09605",
+    "title": "Link Prediction Based on Graph Neural Networks",
+    "year": 2020,
+    "datasets": "ogbl-ppa,ogbl-citation2"
+  },
+  "NeighborSampling (R-GCN aggr)": {
+    "arxiv_id": "1703.06103",
+    "title": "Modeling Relational Data with Graph Convolutional Networks",
+    "year": 2018,
+    "datasets": "ogbn-mag"
+  },
+  "NeighborSampling (SAGE aggr)": {
+    "arxiv_id": "1706.02216",
+    "title": "Inductive Representation Learning on Large Graphs (via GraphSAGE)",
+    "year": 2017,
+    "datasets": "ogbn-products,ogbl-citation2"
+  },
+  "Nested GIN+virtual node (ensemble)": {
+    "arxiv_id": "2110.13197",
+    "title": "Nested Graph Neural Networks",
+    "year": 2021,
+    "datasets": "ogbg-molpcba"
+  },
+  "Neural Common Neighbor": {
+    "arxiv_id": "2305.17311",
+    "title": "Neural Common Neighbor with Completion for Link Prediction",
+    "year": 2023,
+    "datasets": "ogbl-ppa"
+  },
+  "NeuralCommonNeighbor": {
+    "arxiv_id": "2305.17311",
+    "title": "Neural Common Neighbor with Completion for Link Prediction",
+    "year": 2023,
+    "datasets": "ogbl-ddi"
+  },
+  "Node2vec": {
+    "arxiv_id": "1607.00653",
+    "title": "node2vec: Scalable Feature Learning for Networks",
+    "year": 2016,
+    "datasets": "ogbn-products,ogbn-proteins,ogbn-arxiv,ogbn-papers100M,ogbl-ppa,ogbl-collab,ogbl-ddi,ogbl-citation2"
+  },
+  "NodePiece + AutoSF": {
+    "arxiv_id": "2106.06760",
+    "title": "NodePiece: Compositional and Parameter-Efficient Representations of Large Knowledge Graphs",
+    "year": 2021,
+    "datasets": "ogbl-wikikg2"
+  },
+  "P-WL": {
+    "arxiv_id": "2106.12575",
+    "title": "Weisfeiler and Lehman Go Cellular: CW Networks",
+    "year": 2021,
+    "datasets": "ogbg-molhiv"
+  },
+  "PAS": {
+    "arxiv_id": "2108.10587",
+    "title": "Pooling Architecture Search for Graph Classification",
+    "year": 2021,
+    "datasets": "ogbg-molpcba,ogbg-ppa"
+  },
+  "PAS+F2GNN": {
+    "arxiv_id": "2108.10587",
+    "title": "Pooling Architecture Search for Graph Classification",
+    "year": 2021,
+    "datasets": "ogbg-ppa"
+  },
+  "PAS+FPs": {
+    "arxiv_id": "2108.10587",
+    "title": "Pooling Architecture Search for Graph Classification",
+    "year": 2021,
+    "datasets": "ogbg-molhiv"
+  },
+  "PDF": {
+    "arxiv_id": "2207.11174",
+    "title": "Low cost prediction of probability distributions of molecular properties for early virtual screening",
+    "year": 2022,
+    "datasets": "ogbg-molpcba"
+  },
+  "PHC-GNN": {
+    "arxiv_id": "2103.16584",
+    "title": "Parameterized Hypercomplex Graph Neural Networks for Graph Classification",
+    "year": 2021,
+    "datasets": "ogbg-molhiv,ogbg-molpcba"
+  },
+  "PIE-RM": {
+    "arxiv_id": "2204.13957",
+    "title": "PIE: A Parameter and Inference Efficient Solution for Large Scale Knowledge Graph Embedding Reasoning",
+    "year": 2022,
+    "datasets": "wikikg90mv2"
+  },
+  "PLNLP": {
+    "arxiv_id": "2112.02936",
+    "title": "Pairwise Learning Neural Link Prediction",
+    "year": 2021,
+    "datasets": "ogbl-ddi,ogbl-citation2"
+  },
+  "PLNLP (random walk aug.)": {
+    "arxiv_id": "2112.02936",
+    "title": "Pairwise Learning Neural Link Prediction (via PLNLP)",
+    "year": 2021,
+    "datasets": "ogbl-collab"
+  },
+  "PLNLP (val as input)": {
+    "arxiv_id": "2112.02936",
+    "title": "Pairwise Learning Neural Link Prediction (via PLNLP)",
+    "year": 2021,
+    "datasets": "ogbl-collab"
+  },
+  "PLNLP + SIGN": {
+    "arxiv_id": "2004.11197",
+    "title": "SIGN: Scalable Inception Graph Neural Networks",
+    "year": 2020,
+    "datasets": "ogbl-collab"
+  },
+  "PLNLP+ LRGA": {
+    "arxiv_id": "2202.01129",
+    "title": "Long Range Graph Benchmark",
+    "year": 2022,
+    "datasets": "ogbl-collab"
+  },
+  "PNA": {
+    "arxiv_id": "2004.05718",
+    "title": "Principal Neighbourhood Aggregation for Graph Nets",
+    "year": 2020,
+    "datasets": "ogbg-molhiv,ogbg-molpcba"
+  },
+  "PSG": {
+    "arxiv_id": "1706.02216",
+    "title": "Inductive Representation Learning on Large Graphs (via GraphSAGE)",
+    "year": 2017,
+    "datasets": "ogbl-ddi"
+  },
+  "PSHGCN": {
+    "arxiv_id": "2205.06525",
+    "title": "Simple and Efficient Heterogeneous Graph Neural Network (via SeHGNN)",
+    "year": 2022,
+    "datasets": "ogbn-mag"
+  },
+  "PairRE": {
+    "arxiv_id": "2011.03798",
+    "title": "PairRE: Knowledge Graph Embeddings via Paired Relation Vectors",
+    "year": 2020,
+    "datasets": "ogbl-biokg"
+  },
+  "PairRE (200dim)": {
+    "arxiv_id": "2011.03798",
+    "title": "PairRE: Knowledge Graph Embeddings via Paired Relation Vectors (via PairRE)",
+    "year": 2020,
+    "datasets": "ogbl-wikikg2"
+  },
+  "Polynormer": {
+    "arxiv_id": "2403.06560",
+    "title": "Polynormer: Polynomial-Expressive Graph Transformer in Linear Time",
+    "year": 2024,
+    "datasets": "ogbn-products,ogbn-arxiv"
+  },
+  "R-GAT (NS)": {
+    "arxiv_id": "1703.06103",
+    "title": "Modeling Relational Data with Graph Convolutional Networks (R-GCN/R-GAT on MAG240M)",
+    "year": 2018,
+    "datasets": "mag240m"
+  },
+  "R-GCN+FLAG": {
+    "arxiv_id": "1703.06103",
+    "title": "Modeling Relational Data with Graph Convolutional Networks",
+    "year": 2018,
+    "datasets": "ogbn-mag"
+  },
+  "R-GSN": {
+    "arxiv_id": "2006.09252",
+    "title": "Improving Graph Neural Network Expressivity via Subgraph Isomorphism Counting (via GSN)",
+    "year": 2021,
+    "datasets": "ogbn-mag"
+  },
+  "R-GSN + metapath2vec": {
+    "arxiv_id": "2006.09252",
+    "title": "Improving Graph Neural Network Expressivity via Subgraph Isomorphism Counting (via GSN)",
+    "year": 2021,
+    "datasets": "ogbn-mag"
+  },
+  "R-GraphSAGE (NS)": {
+    "arxiv_id": "1703.06103",
+    "title": "Modeling Relational Data with Graph Convolutional Networks (R-GraphSAGE on MAG240M)",
+    "year": 2018,
+    "datasets": "mag240m"
+  },
+  "R-HGNN": {
+    "arxiv_id": "2205.06525",
+    "title": "Simple and Efficient Heterogeneous Graph Neural Network (via SeHGNN)",
+    "year": 2022,
+    "datasets": "ogbn-mag"
+  },
+  "R-UNIMP (KDDCup'21 1st)": {
+    "arxiv_id": "2009.08012",
+    "title": "UniMP: Towards a Unified Message Passing Model (R-UniMP extension for MAG240M)",
+    "year": 2020,
+    "datasets": "mag240m"
+  },
+  "RandomGIN-vn+FLAG": {
+    "arxiv_id": "2010.09891",
+    "title": "Robust Optimization as Data Augmentation for Large-scale Graphs (FLAG)",
+    "year": 2020,
+    "datasets": "ogbg-molpcba"
+  },
+  "Refined-GAE": {
+    "arxiv_id": "1706.02216",
+    "title": "Inductive Representation Learning on Large Graphs (via GraphSAGE)",
+    "year": 2017,
+    "datasets": "ogbl-ppa,ogbl-collab,ogbl-ddi"
+  },
+  "RelEns": {
+    "arxiv_id": "1905.05494",
+    "title": "Complex Embeddings for Simple Link Prediction (via ComplEx)",
+    "year": 2016,
+    "datasets": "ogbl-wikikg2,ogbl-biokg"
+  },
+  "RevGAT+N.Adj+LabelReuse+SelfKD": {
+    "arxiv_id": "2103.04559",
+    "title": "Training Graph Neural Networks with 1000 Layers",
+    "year": 2021,
+    "datasets": "ogbn-arxiv"
+  },
+  "RevGNN-112": {
+    "arxiv_id": "2103.04559",
+    "title": "Training Graph Neural Networks with 1000 Layers",
+    "year": 2021,
+    "datasets": "ogbn-products"
+  },
+  "RevGNN-Deep": {
+    "arxiv_id": "2103.04559",
+    "title": "Training Graph Neural Networks with 1000 Layers",
+    "year": 2021,
+    "datasets": "ogbn-proteins"
+  },
+  "RevGNN-Wide": {
+    "arxiv_id": "2103.04559",
+    "title": "Training Graph Neural Networks with 1000 Layers",
+    "year": 2021,
+    "datasets": "ogbn-proteins"
+  },
+  "Rot-Pro": {
+    "arxiv_id": "1902.10197",
+    "title": "RotatE: Knowledge Graph Embedding by Relational Rotation in Complex Space (via RotatE)",
+    "year": 2019,
+    "datasets": "ogbl-wikikg2"
+  },
+  "RotatE": {
+    "arxiv_id": "1902.10197",
+    "title": "RotatE: Knowledge Graph Embedding by Relational Rotation in Complex Space",
+    "year": 2019,
+    "datasets": "ogbl-biokg"
+  },
+  "RotatE (250dim)": {
+    "arxiv_id": "1902.10197",
+    "title": "RotatE: Knowledge Graph Embedding by Relational Rotation in Complex Space",
+    "year": 2019,
+    "datasets": "ogbl-wikikg2,ogbl-biokg"
+  },
+  "RotatE (50dim)": {
+    "arxiv_id": "1902.10197",
+    "title": "RotatE: Knowledge Graph Embedding by Relational Rotation in Complex Space",
+    "year": 2019,
+    "datasets": "ogbl-wikikg2"
+  },
+  "RpHGNN+LP+CR (LINE embs)": {
+    "arxiv_id": "2205.06525",
+    "title": "Simple and Efficient Heterogeneous Graph Neural Network (via SeHGNN)",
+    "year": 2022,
+    "datasets": "ogbn-mag"
+  },
+  "S3GRL (PoS Plus)": {
+    "arxiv_id": "2102.06790",
+    "title": "Self-supervised Graph Representation Learning via Structure-aware Pre-training",
+    "year": 2021,
+    "datasets": "ogbl-ppa,ogbl-collab,ogbl-citation2,ogbl-vessel"
+  },
+  "SAGE+JKNet": {
+    "arxiv_id": "1806.03536",
+    "title": "Representation Learning on Graphs with Jumping Knowledge Networks",
+    "year": 2018,
+    "datasets": "ogbl-vessel"
+  },
+  "SAGN": {
+    "arxiv_id": "2110.05950",
+    "title": "Simple and Deep Graph Attention Networks",
+    "year": 2021,
+    "datasets": "ogbn-products,ogbn-papers100M,ogbn-mag"
+  },
+  "SAGN+MCR": {
+    "arxiv_id": "2110.05950",
+    "title": "Simple and Deep Graph Attention Networks",
+    "year": 2021,
+    "datasets": "ogbn-products"
+  },
+  "SAGN+SLE": {
+    "arxiv_id": "2110.05950",
+    "title": "Simple and Deep Graph Attention Networks",
+    "year": 2021,
+    "datasets": "ogbn-products,ogbn-papers100M,ogbn-mag"
+  },
+  "SAGN+SLE (4 stages)": {
+    "arxiv_id": "2110.05950",
+    "title": "Simple and Deep Graph Attention Networks",
+    "year": 2021,
+    "datasets": "ogbn-products,ogbn-papers100M"
+  },
+  "SAGN+SLE (4 stages)+C&S": {
+    "arxiv_id": "2110.05950",
+    "title": "Simple and Deep Graph Attention Networks",
+    "year": 2021,
+    "datasets": "ogbn-products,ogbn-papers100M"
+  },
+  "SAT": {
+    "arxiv_id": "2202.03036",
+    "title": "Structure-Aware Transformer for Graph Representation Learning",
+    "year": 2022,
+    "datasets": "ogbg-code2"
+  },
+  "SAT++ with Magnetic Laplacian": {
+    "arxiv_id": "2202.03036",
+    "title": "Structure-Aware Transformer for Graph Representation Learning",
+    "year": 2022,
+    "datasets": "ogbg-code2"
+  },
+  "SEAL": {
+    "arxiv_id": "2002.09605",
+    "title": "Link Prediction Based on Graph Neural Networks",
+    "year": 2020,
+    "datasets": "ogbl-ppa,ogbl-collab,ogbl-ddi,ogbl-citation2,ogbl-vessel"
+  },
+  "SEAL (no-xfeat)": {
+    "arxiv_id": "2002.09605",
+    "title": "Link Prediction Based on Graph Neural Networks",
+    "year": 2020,
+    "datasets": "ogbl-vessel"
+  },
+  "SEAL-nofeat": {
+    "arxiv_id": "2002.09605",
+    "title": "Link Prediction Based on Graph Neural Networks",
+    "year": 2020,
+    "datasets": "ogbl-collab"
+  },
+  "SEAL-nofeat (val as input)": {
+    "arxiv_id": "2002.09605",
+    "title": "Link Prediction Based on Graph Neural Networks",
+    "year": 2020,
+    "datasets": "ogbl-collab"
+  },
+  "SGC": {
+    "arxiv_id": "1710.10361",
+    "title": "Simplifying Graph Convolutional Networks",
+    "year": 2019,
+    "datasets": "ogbn-papers100M,ogbl-vessel"
+  },
+  "SIEG": {
+    "arxiv_id": "1706.02216",
+    "title": "Inductive Representation Learning on Large Graphs (via GraphSAGE)",
+    "year": 2017,
+    "datasets": "ogbl-ppa,ogbl-citation2,ogbl-vessel"
+  },
+  "SIEG w/o NF": {
+    "arxiv_id": "1706.02216",
+    "title": "Inductive Representation Learning on Large Graphs (via GraphSAGE)",
+    "year": 2017,
+    "datasets": "ogbl-vessel"
+  },
+  "SIEG(SPG)": {
+    "arxiv_id": "1706.02216",
+    "title": "Inductive Representation Learning on Large Graphs (via GraphSAGE)",
+    "year": 2017,
+    "datasets": "ogbl-vessel"
+  },
+  "SIGN": {
+    "arxiv_id": "2004.11197",
+    "title": "SIGN: Scalable Inception Graph Neural Networks",
+    "year": 2020,
+    "datasets": "ogbn-products,ogbn-arxiv,ogbn-papers100M,ogbn-mag"
+  },
+  "SIGN-XL": {
+    "arxiv_id": "2004.11197",
+    "title": "SIGN: Scalable Inception Graph Neural Networks",
+    "year": 2020,
+    "datasets": "ogbn-papers100M"
+  },
+  "SUREL": {
+    "arxiv_id": "2202.05184",
+    "title": "SUREL: Subgraph Representation Learning for Link Prediction",
+    "year": 2022,
+    "datasets": "ogbl-citation2"
+  },
+  "SUREL+": {
+    "arxiv_id": "2202.05184",
+    "title": "SUREL: Subgraph Representation Learning for Link Prediction",
+    "year": 2022,
+    "datasets": "ogbl-ppa,ogbl-vessel"
+  },
+  "SciBERT & EHGCN (use MAG data)": {
+    "arxiv_id": "2205.06525",
+    "title": "Simple and Efficient Heterogeneous Graph Neural Network (via SeHGNN)",
+    "year": 2022,
+    "datasets": "ogbn-arxiv"
+  },
+  "SeHGNN": {
+    "arxiv_id": "2205.06525",
+    "title": "Simple and Efficient Heterogeneous Graph Neural Network",
+    "year": 2022,
+    "datasets": "ogbn-mag"
+  },
+  "SeHGNN (ComplEx embs)": {
+    "arxiv_id": "2205.06525",
+    "title": "Simple and Efficient Heterogeneous Graph Neural Network",
+    "year": 2022,
+    "datasets": "ogbn-mag"
+  },
+  "SimTeG+TAPE+GraphSAGE": {
+    "arxiv_id": "2305.19523",
+    "title": "Harnessing Explanations: LLM-to-LM Interpreter for Enhanced Text-Attributed Graph Representation Learning",
+    "year": 2023,
+    "datasets": "ogbn-arxiv"
+  },
+  "SimTeG+TAPE+RevGAT": {
+    "arxiv_id": "2305.19523",
+    "title": "Harnessing Explanations: LLM-to-LM Interpreter for Enhanced Text-Attributed Graph Representation Learning",
+    "year": 2023,
+    "datasets": "ogbn-arxiv"
+  },
+  "StarGraph + TripleRE": {
+    "arxiv_id": "2205.14209",
+    "title": "StarGraph: Knowledge Representation Learning based on Incomplete Two-hop Subgraph",
+    "year": 2022,
+    "datasets": "ogbl-wikikg2"
+  },
+  "StarGraph + TripleRE + Text": {
+    "arxiv_id": "2205.14209",
+    "title": "StarGraph: Knowledge Representation Learning based on Incomplete Two-hop Subgraph",
+    "year": 2022,
+    "datasets": "ogbl-wikikg2"
+  },
+  "TAPE+RevGAT": {
+    "arxiv_id": "2305.19523",
+    "title": "Harnessing Explanations: LLM-to-LM Interpreter for Enhanced Text-Attributed Graph Representation Learning",
+    "year": 2023,
+    "datasets": "ogbn-arxiv"
+  },
+  "TCNN": {
+    "arxiv_id": "1706.02216",
+    "title": "Inductive Representation Learning on Large Graphs (via GraphSAGE)",
+    "year": 2017,
+    "datasets": "ogbn-products"
+  },
+  "TokenGT (Lap)": {
+    "arxiv_id": "2207.02505",
+    "title": "Pure Transformers are Powerful Graph Learners (TokenGT)",
+    "year": 2022,
+    "datasets": "pcqm4mv2"
+  },
+  "TranS": {
+    "arxiv_id": "1301.3781",
+    "title": "Translating Embeddings for Modeling Multi-relational Data (via TransE)",
+    "year": 2013,
+    "datasets": "ogbl-wikikg2"
+  },
+  "TransE": {
+    "arxiv_id": "1301.3781",
+    "title": "Translating Embeddings for Modeling Multi-relational Data",
+    "year": 2013,
+    "datasets": "ogbl-biokg"
+  },
+  "TransE (100dim)": {
+    "arxiv_id": "1301.3781",
+    "title": "Translating Embeddings for Modeling Multi-relational Data",
+    "year": 2013,
+    "datasets": "ogbl-wikikg2"
+  },
+  "TransE (500dim)": {
+    "arxiv_id": "1301.3781",
+    "title": "Translating Embeddings for Modeling Multi-relational Data",
+    "year": 2013,
+    "datasets": "ogbl-wikikg2,ogbl-biokg"
+  },
+  "TransE-Concat": {
+    "arxiv_id": "1301.3781",
+    "title": "Translating Embeddings for Modeling Multi-relational Data",
+    "year": 2013,
+    "datasets": "wikikg90mv2"
+  },
+  "TransE-Shallow": {
+    "arxiv_id": "1301.3781",
+    "title": "Translating Embeddings for Modeling Multi-relational Data",
+    "year": 2013,
+    "datasets": "wikikg90mv2"
+  },
+  "TransE-Shallow-PIE": {
+    "arxiv_id": "2204.13957",
+    "title": "PIE: A Parameter and Inference Efficient Solution for Large Scale Knowledge Graph Embedding Reasoning",
+    "year": 2022,
+    "datasets": "wikikg90mv2"
+  },
+  "TransE-ens": {
+    "arxiv_id": "1301.3781",
+    "title": "Translating Embeddings for Modeling Multi-relational Data",
+    "year": 2013,
+    "datasets": "wikikg90mv2"
+  },
+  "TransERR": {
+    "arxiv_id": "1301.3781",
+    "title": "Translating Embeddings for Modeling Multi-relational Data (via TransE)",
+    "year": 2013,
+    "datasets": "ogbl-wikikg2"
+  },
+  "Transformer-M": {
+    "arxiv_id": "2210.01765",
+    "title": "One Transformer Can Understand Both 2D & 3D Molecular Data",
+    "year": 2022,
+    "datasets": "pcqm4mv2"
+  },
+  "TransformerConv": {
+    "arxiv_id": "2106.03386",
+    "title": "TransformerConv: Transformer-based Graph Convolution",
+    "year": 2021,
+    "datasets": "ogbn-papers100M"
+  },
+  "TripleRE": {
+    "arxiv_id": "2209.08271",
+    "title": "TripleRE: Knowledge Graph Embeddings via Tripled Relation Vectors",
+    "year": 2022,
+    "datasets": "ogbl-biokg"
+  },
+  "TripleRE + NodePiece": {
+    "arxiv_id": "2209.08271",
+    "title": "TripleRE: Knowledge Graph Embeddings via Tripled Relation Vectors",
+    "year": 2022,
+    "datasets": "ogbl-wikikg2"
+  },
+  "Uni-Mol+ (use 3D)": {
+    "arxiv_id": "2303.16982",
+    "title": "Highly Accurate Quantum Chemical Property Prediction with Uni-Mol+",
+    "year": 2023,
+    "datasets": "pcqm4mv2"
+  },
+  "Uni-Mol+ base (use 3D)": {
+    "arxiv_id": "2303.16982",
+    "title": "Highly Accurate Quantum Chemical Property Prediction with Uni-Mol+",
+    "year": 2023,
+    "datasets": "pcqm4mv2"
+  },
+  "UniBi": {
+    "arxiv_id": "1905.05494",
+    "title": "Complex Embeddings for Simple Link Prediction (via ComplEx)",
+    "year": 2016,
+    "datasets": "ogbl-biokg"
+  },
+  "UniMP": {
+    "arxiv_id": "2009.08012",
+    "title": "UniMP: Towards a Unified Message Passing Model for Semi-supervised Learning",
+    "year": 2020,
+    "datasets": "ogbn-products,ogbn-proteins,ogbn-arxiv"
+  },
+  "UniMP+CrossEdgeFeat": {
+    "arxiv_id": "2009.08012",
+    "title": "UniMP: Towards a Unified Message Passing Model for Semi-supervised Learning",
+    "year": 2020,
+    "datasets": "ogbn-proteins"
+  },
+  "UniMP_large": {
+    "arxiv_id": "2009.08012",
+    "title": "UniMP: Towards a Unified Message Passing Model for Semi-supervised Learning",
+    "year": 2020,
+    "datasets": "ogbn-arxiv"
+  },
+  "UniMP_v2": {
+    "arxiv_id": "2009.08012",
+    "title": "UniMP: Towards a Unified Message Passing Model for Semi-supervised Learning",
+    "year": 2020,
+    "datasets": "ogbn-arxiv"
+  },
+  "WEGL": {
+    "arxiv_id": "2006.09430",
+    "title": "Wasserstein Embedding for Graph Learning",
+    "year": 2021,
+    "datasets": "ogbg-molhiv"
+  },
+  "directional GSN": {
+    "arxiv_id": "2006.09252",
+    "title": "Improving Graph Neural Network Expressivity via Subgraph Isomorphism Counting (GSN handles directionality via substructure encoding)",
+    "year": 2021,
+    "datasets": "ogbg-molhiv"
+  },
+  "gHAWK(Bloom+TransE)": {
+    "arxiv_id": "2512.08274",
+    "title": "gHAWK: Local and Global Structure Encoding for Scalable Training of GNNs on Knowledge Graphs",
+    "year": 2025,
+    "datasets": "ogbn-mag"
+  },
+  "tripleRE": {
+    "arxiv_id": "2209.08271",
+    "title": "TripleRE: Knowledge Graph Embeddings via Tripled Relation Vectors (via TripleRE)",
+    "year": 2022,
+    "datasets": "ogbl-wikikg2"
+  }
+}

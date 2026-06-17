@@ -1,0 +1,350 @@
+method,arxiv_id,title,year,datasets
+A*Net,1301.3781,Translating Embeddings for Modeling Multi-relational Data (via TransE),2013,ogbl-wikikg2
+AGDN,2108.10521,Adaptive Graph Diffusion Networks,2021,"ogbn-products,ogbn-proteins,ogbn-arxiv,ogbl-ppa,ogbl-ddi,ogbl-citation2"
+AGDN (GAT-HA+3_heads),2108.10521,Adaptive Graph Diffusion Networks,2021,ogbn-arxiv
+AGDN (GAT-HA+3_heads+labels),2108.10521,Adaptive Graph Diffusion Networks,2021,ogbn-arxiv
+AGDN w/GraphSAINT,1907.04943,GraphSAINT: Graph Sampling Based Inductive Learning Method,2019,ogbl-citation2
+AGDN+BoT,2108.10521,Adaptive Graph Diffusion Networks,2021,ogbn-arxiv
+AGDN+BoT+self-KD,2108.10521,Adaptive Graph Diffusion Networks,2021,ogbn-arxiv
+AGDN+BoT+self-KD+C&S,2108.10521,Adaptive Graph Diffusion Networks,2021,ogbn-arxiv
+AutoBLM-KGBench,2006.09957,AutoSF: Searching Scoring Functions for Knowledge Graph Embedding (via AutoSF),2020,ogbl-biokg
+AutoSF,2006.09957,AutoSF: Searching Scoring Functions for Knowledge Graph Embedding,2020,"ogbl-wikikg2,ogbl-biokg"
+BESS + diverse KGE ensemble,2211.12281,BESS: Balanced Entity Sampling and Sharing for Large-Scale Knowledge Graph Completion,2022,wikikg90mv2
+BUDDY,2202.02292,BUDDY: A Scalable Link Prediction Framework,2022,"ogbl-ppa,ogbl-collab,ogbl-ddi,ogbl-citation2"
+BiGTex,2305.19523,Harnessing Explanations: LLM-to-LM Interpreter for Enhanced Text-Attributed Graph Representation Learning (via TAPE+RevGAT),2023,ogbn-arxiv
+BiGTex+C&S,2305.19523,Harnessing Explanations: LLM-to-LM Interpreter for Enhanced Text-Attributed Graph Representation Learning (via TAPE+RevGAT),2023,ogbn-arxiv
+CFG,2309.06574,Circle Feature Aware Graph Transformer for Link Prediction,2023,ogbl-citation2
+CFLP (w/ JKNet),1806.03536,Representation Learning on Graphs with Jumping Knowledge Networks,2018,ogbl-ddi
+CIN,2106.12575,Weisfeiler and Lehman Go Cellular: CW Networks,2021,ogbg-molhiv
+CIN-small,2106.12575,Weisfeiler and Lehman Go Cellular: CW Networks,2021,ogbg-molhiv
+CRaWl,2102.08786,Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message Passing,2021,ogbg-molpcba
+ChebNet,1606.09375,Convolutional Neural Networks on Graphs with Fast Localized Spectral Filtering,2016,ogbg-molpcba
+Cleora+EMDE (KDDCup'21 3rd),2102.02302,"Cleora: A Simple, Strong and Scalable Graph Embedding Scheme",2021,mag240m
+Cluster-GAT,1904.07090,Cluster-GCN: An Efficient Algorithm for Training Deep and Large Graph Convolutional Networks,2019,ogbn-products
+ClusterGCN (GCN aggr),1904.07090,Cluster-GCN: An Efficient Algorithm for Training Deep and Large Graph Convolutional Networks,2019,ogbl-citation2
+ClusterGCN (R-GCN aggr),1904.07090,Cluster-GCN: An Efficient Algorithm for Training Deep and Large Graph Convolutional Networks,2019,ogbn-mag
+ClusterGCN (SAGE aggr),1904.07090,Cluster-GCN: An Efficient Algorithm for Training Deep and Large Graph Convolutional Networks,2019,ogbn-products
+ClusterGCN+residual+3 layers,1904.07090,Cluster-GCN: An Efficient Algorithm for Training Deep and Large Graph Convolutional Networks,2019,ogbn-products
+CoLinkDistMLP,2106.08541,Distilling Self-Knowledge From Contrastive Links to Classify Graph Nodes Without Passing Messages,2021,"ogbn-products,ogbn-arxiv,ogbn-mag"
+ComplEx,1905.05494,Complex Embeddings for Simple Link Prediction,2016,"ogbl-wikikg2,ogbl-biokg"
+ComplEx (250dim),1905.05494,Complex Embeddings for Simple Link Prediction,2016,ogbl-wikikg2
+ComplEx (50dim),1905.05494,Complex Embeddings for Simple Link Prediction,2016,ogbl-wikikg2
+ComplEx-Concat,1905.05494,Complex Embeddings for Simple Link Prediction,2016,wikikg90mv2
+ComplEx-RP (1000dim),1905.05494,Complex Embeddings for Simple Link Prediction (via ComplEx),2016,ogbl-biokg
+ComplEx-RP (50dim),1905.05494,Complex Embeddings for Simple Link Prediction (via ComplEx),2016,ogbl-wikikg2
+ComplEx-Shallow,1905.05494,Complex Embeddings for Simple Link Prediction,2016,wikikg90mv2
+ComplEx^2,1905.05494,Complex Embeddings for Simple Link Prediction (via ComplEx),2016,ogbl-biokg
+CompoundE3D,1905.05494,Complex Embeddings for Simple Link Prediction (via ComplEx),2016,ogbl-wikikg2
+DAGNN,2101.07965,Directed Acyclic Graph Neural Networks,2021,"ogbg-code2,ogbn-arxiv"
+DAGformer,2210.13148,DAGformer: Directed Acyclic Graph Transformer,2022,ogbg-code2
+DEA + JKNet,1806.03536,Representation Learning on Graphs with Jumping Knowledge Networks,2018,ogbl-ddi
+DGN,2203.10555,Directional Graph Networks,2022,"ogbg-molhiv,ogbg-molpcba"
+DRGAT,2103.04559,Training Graph Neural Networks with 1000 Layers (via RevGAT+N.Adj+LabelReuse+SelfKD),2021,ogbn-arxiv
+DVCNN,1706.02216,Inductive Representation Learning on Large Graphs (via GraphSAGE),2017,ogbn-proteins
+DeepAUC,2012.03173,Large-scale Robust Deep AUC Maximization: A New Surrogate Loss and Empirical Studies on Medical Image Classification,2021,ogbg-molhiv
+DeepGCN,2006.07739,DeeperGCN: All You Need to Train Deeper GCNs,2020,ogbn-proteins
+DeepWalk,1403.6652,DeepWalk: Online Learning of Social Representations,2014,"ogbl-ppa,ogbl-collab,ogbl-ddi,ogbl-ddi"
+DeeperGCN,2006.07739,DeeperGCN: All You Need to Train Deeper GCNs,2020,"ogbg-molhiv,ogbg-molpcba,ogbg-ppa,ogbn-products,ogbn-proteins,ogbn-arxiv,ogbl-collab"
+DeeperGCN+FLAG,2010.09891,Robust Optimization as Data Augmentation for Large-scale Graphs (FLAG),2020,"ogbg-molhiv,ogbg-molpcba,ogbg-ppa,ogbn-products,ogbn-proteins,ogbn-arxiv"
+DeeperGCN+virtual node,2006.07739,DeeperGCN: All You Need to Train Deeper GCNs (virtual node extension is common technique),2020,ogbg-molpcba
+DeeperGCN+virtual node+FLAG,2010.09891,Robust Optimization as Data Augmentation for Large-scale Graphs (FLAG),2020,ogbg-molpcba
+DiffPool,1806.08804,Hierarchical Graph Representation Learning with Differentiable Pooling,2018,ogbg-code2
+DiffPool w/ graphSAGE,1806.08804,Hierarchical Graph Representation Learning with Differentiable Pooling,2018,ogbg-code2
+DistMult,1412.6575,Embedding Entities and Relations for Learning and Inference in Knowledge Bases,2014,"ogbl-wikikg2,ogbl-biokg"
+DistMult (100dim),1412.6575,Embedding Entities and Relations for Learning and Inference in Knowledge Bases,2014,ogbl-wikikg2
+DistMult (500dim),1412.6575,Embedding Entities and Relations for Learning and Inference in Knowledge Bases,2014,ogbl-wikikg2
+E2EG (use raw text),2208.06050,E2EG: End-to-End Graph Learning with Text,2022,"ogbn-products,ogbn-arxiv"
+EGC-M (100k),2102.09844,E(n) Equivariant Graph Neural Networks (via EGC-M (No Edge Features)),2021,ogbn-arxiv
+EGC-M (No Edge Features),2102.09844,E(n) Equivariant Graph Neural Networks,2021,"ogbg-molhiv,ogbg-code2"
+EGC-S (100k),2102.09844,E(n) Equivariant Graph Neural Networks (via EGC-S (No Edge Features)),2021,ogbn-arxiv
+EGC-S (No Edge Features),2102.09844,E(n) Equivariant Graph Neural Networks,2021,"ogbg-molhiv,ogbg-code2"
+EGT,2108.03348,Global Self-Attention as a Replacement for Graph Convolution (EGT),2021,pcqm4mv2
+EGT+LSPE+HIERA_clustering,2108.03348,Global Self-Attention as a Replacement for Graph Convolution (EGT),2021,pcqm4mv2
+EGT+Tri. Attn. (Pure Neural),2108.03348,Global Self-Attention as a Replacement for Graph Convolution (EGT),2021,pcqm4mv2
+EGT+Tri. Attn.+RDKit Coords.,2108.03348,Global Self-Attention as a Replacement for Graph Convolution (EGT),2021,pcqm4mv2
+ELGNN,2310.14166,Ensemble Learning for Graph Neural Networks,2023,ogbl-ddi
+ELPH,2107.02285,ELPH: Efficient Link Prediction with Hashing,2021,"ogbl-collab,ogbl-ddi"
+ExpC,2012.07219,Breaking the Expressive Bottlenecks of Graph Neural Networks,2021,ogbg-ppa
+ExpC*+bag of tricks,2012.07219,Breaking the Expressive Bottlenecks of Graph Neural Networks,2021,ogbg-ppa
+FLAG,2010.09891,Robust Optimization as Data Augmentation for Large-scale Graphs,2020,"ogbg-molhiv,ogbn-products,ogbn-proteins,ogbn-arxiv,ogbn-mag"
+FSGNN,2105.09336,From Local Structures to Size Generalization in Graph Neural Networks,2021,ogbn-papers100M
+FingerPrint+GMAN,2106.08279,First Place Solution of KDD Cup 2021,2021,ogbg-molhiv
+Full-batch GCN,1609.02907,Semi-Supervised Classification with Graph Convolutional Networks (via GCN),2017,"ogbn-products,ogbl-citation2"
+Full-batch GraphSAGE,1706.02216,Inductive Representation Learning on Large Graphs (via GraphSAGE),2017,ogbn-products
+Full-batch R-GCN,1703.06103,Modeling Relational Data with Graph Convolutional Networks,2018,ogbn-mag
+GAMLP,2206.06281,Graph Attention Multi-Layer Perceptron,2022,"ogbn-products,ogbn-papers100M,ogbn-mag"
+GAMLP+MCR,2206.06281,Graph Attention Multi-Layer Perceptron,2022,ogbn-products
+GAMLP+RLU,2206.06281,Graph Attention Multi-Layer Perceptron,2022,"ogbn-products,ogbn-papers100M,ogbn-mag"
+GAMLP+RLU+SCR,2206.06281,Graph Attention Multi-Layer Perceptron,2022,"ogbn-products,ogbn-papers100M"
+GAMLP+RLU+SCR+C&S,2206.06281,Graph Attention Multi-Layer Perceptron,2022,"ogbn-products,ogbn-papers100M,ogbn-mag"
+GAMLP+SCR,2206.06281,Graph Attention Multi-Layer Perceptron,2022,ogbn-papers100M
+GAMLP+SCR-m,2206.06281,Graph Attention Multi-Layer Perceptron,2022,ogbn-papers100M
+GAT,1710.10903,Graph Attention Networks,2018,"ogbg-code2,ogbn-proteins,ogbn-arxiv"
+GAT (NS),1710.10903,Graph Attention Networks,2018,mag240m
+GAT + C&S,1710.10903,Graph Attention Networks (via GAT),2018,ogbn-arxiv
+GAT + labels + node2vec,1710.10903,Graph Attention Networks (via GAT),2018,ogbn-proteins
+GAT w/NS + C&S,1710.10903,Graph Attention Networks (via GAT),2018,ogbn-products
+GAT with NeighborSampling,1710.10903,Graph Attention Networks (via GAT),2018,ogbn-products
+GAT(norm.adj.)+label reuse+C&S,1710.10903,Graph Attention Networks (via GAT),2018,ogbn-arxiv
+GAT+BOT+NGNN,2106.04051,Nested Graph Neural Networks,2021,ogbn-proteins
+GAT+BoT,2106.04051,Nested Graph Neural Networks,2021,ogbn-proteins
+GAT+EdgeFeatureAtt,1710.10903,Graph Attention Networks (via GAT),2018,ogbn-proteins
+GAT+FLAG,2010.09891,Robust Optimization as Data Augmentation for Large-scale Graphs (via FLAG),2020,"ogbn-products,ogbn-arxiv"
+GAT+label reuse+self KD,1710.10903,Graph Attention Networks (via GAT),2018,ogbn-arxiv
+GAT+norm. adj.+label reuse,1710.10903,Graph Attention Networks (via GAT),2018,ogbn-arxiv
+GAT+norm. adj.+labels,1710.10903,Graph Attention Networks (via GAT),2018,ogbn-arxiv
+GAT+norm.adj.+labels,1710.10903,Graph Attention Networks (via GAT),2018,ogbn-arxiv
+GAT-node2vec + BoT + self-KD,1710.10903,Graph Attention Networks (via GAT),2018,ogbn-arxiv
+GAV,1706.02216,Inductive Representation Learning on Large Graphs (via GraphSAGE),2017,ogbl-vessel
+GC-T+MCL(6.0),2302.00049,Transformers Meet Directed Graphs,2023,ogbg-ppa
+GCN,1609.02907,Semi-Supervised Classification with Graph Convolutional Networks,2017,"ogbg-molpcba,ogbg-ppa,ogbg-code2,ogbn-products,ogbn-arxiv,ogbl-ppa,ogbl-collab,ogbl-ddi,ogbl-citation2,ogbl-vessel"
+GCN (in Julia),1609.02907,Semi-Supervised Classification with Graph Convolutional Networks (via GCN),2017,ogbg-molhiv
+GCN (node embedding),1609.02907,Semi-Supervised Classification with Graph Convolutional Networks (via GCN),2017,"ogbl-ppa,ogbl-ddi"
+GCN + Heuristic Encoding,1609.02907,Semi-Supervised Classification with Graph Convolutional Networks (via GCN),2017,ogbl-citation2
+GCN w/Node2Vec,1609.02907,Semi-Supervised Classification with Graph Convolutional Networks (via GCN),2017,ogbl-vessel
+GCN+,2502.09263,Can Classic GNNs Be Strong Baselines for Graph-level Tasks? Simple Architectures Meet Excellence,2025,ogbg-ppa
+GCN+FLAG,2010.09891,Robust Optimization as Data Augmentation for Large-scale Graphs (FLAG),2020,"ogbg-molpcba,ogbn-arxiv"
+GCN+GraphNorm,2009.03294,GraphNorm: A Principled Approach to Accelerating Graph Neural Network Training,2020,ogbg-molhiv
+GCN+JKNet,1806.03536,Representation Learning on Graphs with Jumping Knowledge Networks,2018,ogbl-ddi
+GCN+linear+labels,1609.02907,Semi-Supervised Classification with Graph Convolutional Networks (via GCN),2017,ogbn-arxiv
+GCN+residual+6 layers,1609.02907,Semi-Supervised Classification with Graph Convolutional Networks (via GCN),2017,ogbn-arxiv
+GCN+residual+node2vec,1609.02907,Semi-Supervised Classification with Graph Convolutional Networks (via GCN),2017,ogbn-arxiv
+GCN+virtual node,1609.02907,Semi-Supervised Classification with Graph Convolutional Networks (virtual node extension is common technique),2017,"ogbg-molpcba,ogbg-ppa,ogbg-code2"
+GCN+virtual node+FLAG,2010.09891,Robust Optimization as Data Augmentation for Large-scale Graphs (FLAG),2020,"ogbg-molpcba,ogbg-ppa"
+GCN-virtual,1609.02907,Semi-Supervised Classification with Graph Convolutional Networks,2017,pcqm4mv2
+GCNII,2007.02133,Simple and Deep Graph Convolutional Networks,2020,ogbn-arxiv
+GCN_res + 8 layers,1609.02907,Semi-Supervised Classification with Graph Convolutional Networks (via GCN),2017,ogbn-arxiv
+GCN_res + 8 layers + FLAG,2010.09891,Robust Optimization as Data Augmentation for Large-scale Graphs (via FLAG),2020,ogbn-arxiv
+GCN_res + C&S,1609.02907,Semi-Supervised Classification with Graph Convolutional Networks (via GCN),2017,ogbn-arxiv
+GCN_res + C&S_v2,1609.02907,Semi-Supervised Classification with Graph Convolutional Networks (via GCN),2017,ogbn-arxiv
+GDNN,1706.02216,Inductive Representation Learning on Large Graphs (via GraphSAGE),2017,ogbl-ddi
+GEM-2,2208.05863,GEM-2: Next Generation Molecular Property Prediction Network,2022,pcqm4mv2
+GEN + FLAG + node2vec,2010.09891,Robust Optimization as Data Augmentation for Large-scale Graphs (via FLAG),2020,ogbn-proteins
+GIANT+XRT+GATv2,2111.15099,Node Feature Extraction by Self-supervised Multi-scale Neighborhood Prediction,2021,ogbn-arxiv
+GIANT-XRT+AGDN+BoT,2111.15099,Node Feature Extraction by Self-supervised Multi-scale Neighborhood Prediction,2021,ogbn-arxiv
+GIANT-XRT+AGDN+BoT+self-KD,2111.15099,Node Feature Extraction by Self-supervised Multi-scale Neighborhood Prediction,2021,ogbn-arxiv
+GIANT-XRT+DRGAT,2111.15099,Node Feature Extraction by Self-supervised Multi-scale Neighborhood Prediction,2021,ogbn-arxiv
+GIANT-XRT+DRGAT+KD,2111.15099,Node Feature Extraction by Self-supervised Multi-scale Neighborhood Prediction,2021,ogbn-arxiv
+GIANT-XRT+GAMLP+MCR,2111.15099,Node Feature Extraction by Self-supervised Multi-scale Neighborhood Prediction,2021,ogbn-products
+GIANT-XRT+GAMLP+RLU (use raw text),2111.15099,Node Feature Extraction by Self-supervised Multi-scale Neighborhood Prediction,2021,ogbn-papers100M
+GIANT-XRT+GraphSAGE (use raw text),2111.15099,Node Feature Extraction by Self-supervised Multi-scale Neighborhood Prediction,2021,ogbn-arxiv
+GIANT-XRT+GraphSAINT(use raw text),2111.15099,Node Feature Extraction by Self-supervised Multi-scale Neighborhood Prediction,2021,ogbn-products
+GIANT-XRT+LGGNN+LabelReuse+C&S,2111.15099,Node Feature Extraction by Self-supervised Multi-scale Neighborhood Prediction,2021,ogbn-arxiv
+GIANT-XRT+MLP (use raw text),2111.15099,Node Feature Extraction by Self-supervised Multi-scale Neighborhood Prediction,2021,"ogbn-products,ogbn-arxiv"
+GIANT-XRT+R-RevGAT+KD,2111.15099,Node Feature Extraction by Self-supervised Multi-scale Neighborhood Prediction,2021,ogbn-arxiv
+GIANT-XRT+R-SAGN+SCR+C&S,2111.15099,Node Feature Extraction by Self-supervised Multi-scale Neighborhood Prediction,2021,ogbn-products
+GIANT-XRT+RevGAT (use raw text),2111.15099,Node Feature Extraction by Self-supervised Multi-scale Neighborhood Prediction,2021,ogbn-arxiv
+GIANT-XRT+RevGAT+KD (use raw text),2111.15099,Node Feature Extraction by Self-supervised Multi-scale Neighborhood Prediction,2021,ogbn-arxiv
+GIANT-XRT+RevGAT+KD+DCN,2111.15099,Node Feature Extraction by Self-supervised Multi-scale Neighborhood Prediction,2021,ogbn-arxiv
+GIANT-XRT+SAGN+MCR,2111.15099,Node Feature Extraction by Self-supervised Multi-scale Neighborhood Prediction,2021,ogbn-products
+GIANT-XRT+SAGN+MCR+C&S,2111.15099,Node Feature Extraction by Self-supervised Multi-scale Neighborhood Prediction,2021,ogbn-products
+GIANT-XRT+SAGN+SCR,2111.15099,Node Feature Extraction by Self-supervised Multi-scale Neighborhood Prediction,2021,ogbn-products
+GIANT-XRT+SAGN+SCR+C&S,2111.15099,Node Feature Extraction by Self-supervised Multi-scale Neighborhood Prediction,2021,ogbn-products
+GIANT-XRT+SAGN+SLE (use raw text),2111.15099,Node Feature Extraction by Self-supervised Multi-scale Neighborhood Prediction,2021,ogbn-products
+GIANT-XRT+SAGN+SLE+C&S (use raw text),2111.15099,Node Feature Extraction by Self-supervised Multi-scale Neighborhood Prediction,2021,ogbn-products
+GIDN@YITU,2210.01301,GIDN: A Lightweight Graph Inception Diffusion Network for High-efficient Link Prediction,2022,"ogbl-collab,ogbl-ddi"
+GIN,1810.00826,How Powerful are Graph Neural Networks?,2019,"ogbg-molhiv,ogbg-molpcba,ogbg-ppa,ogbg-code2"
+GIN+,2502.09263,Can Classic GNNs Be Strong Baselines for Graph-level Tasks? Simple Architectures Meet Excellence,2025,ogbg-ppa
+GIN+FLAG,2010.09891,Robust Optimization as Data Augmentation for Large-scale Graphs (FLAG),2020,"ogbg-molpcba,ogbg-ppa"
+GIN+virtual node,1810.00826,How Powerful are Graph Neural Networks? (virtual node extension is common technique),2019,"ogbg-molpcba,ogbg-ppa,ogbg-code2"
+GIN+virtual node+FLAG,2010.09891,Robust Optimization as Data Augmentation for Large-scale Graphs (FLAG),2020,"ogbg-molpcba,ogbg-ppa"
+GIN-AK,2110.03753,From Stars to Subgraphs: Uplifting Any GNN with Local Structure Awareness,2021,ogbg-molpcba
+GIN-virtual,1810.00826,How Powerful are Graph Neural Networks?,2019,pcqm4mv2
+GINE,1905.12265,Strategies for Pre-training Graph Neural Networks (introduces GINE),2020,ogbg-molhiv
+GINE+ w/ APPNP,1905.12265,Strategies for Pre-training Graph Neural Networks,2020,ogbg-molpcba
+GINE+ w/ virtual nodes,1905.12265,Strategies for Pre-training Graph Neural Networks (introduces GINE),2020,ogbg-molpcba
+GINE+HE,1905.12265,Strategies for Pre-training Graph Neural Networks,2020,ogbg-molhiv
+GINE+bot,1905.12265,Strategies for Pre-training Graph Neural Networks,2020,ogbg-molpcba
+GIPA,1706.02216,Inductive Representation Learning on Large Graphs (via GraphSAGE),2017,ogbn-proteins
+GIPA(Wide&Deep),1706.02216,Inductive Representation Learning on Large Graphs (via GraphSAGE),2017,ogbn-proteins
+GLEM+GIANT+GAMLP,2306.08385,GLEM: Graph-Language Model for Node Classification,2023,ogbn-papers100M
+GLEM+GIANT+SAGN+SCR,2306.08385,GLEM: Graph-Language Model for Node Classification,2023,ogbn-products
+GLEM+RevGAT,2306.08385,GLEM: Graph-Language Model for Node Classification,2023,ogbn-arxiv
+GMAN+bag of tricks,2106.08279,First Place Solution of KDD Cup 2021,2021,ogbg-code2
+GPS,2205.12454,"Recipe for a General, Powerful, Scalable Graph Transformer",2022,pcqm4mv2
+GPS++,2205.12454,"Recipe for a General, Powerful, Scalable Graph Transformer (GPS++; OGB-LSC 2022 report)",2022,pcqm4mv2
+GPTrans-L,2305.11424,Graph Propagation Transformer for Graph Representation Learning,2023,pcqm4mv2
+GPTrans-T,2305.11424,Graph Propagation Transformer for Graph Representation Learning,2023,pcqm4mv2
+GRPE-Large,2203.05496,Graph Relational Positional Encoding for Graph Transformers,2022,pcqm4mv2
+GSAT,2201.12987,Interpretable and Generalizable Graph Learning via Stochastic Attention Mechanism,2022,ogbg-molhiv
+GSN,2006.09252,Improving Graph Neural Network Expressivity via Subgraph Isomorphism Counting,2021,ogbg-molhiv
+GTAN,1706.02216,Inductive Representation Learning on Large Graphs (via GraphSAGE),2017,ogbn-arxiv
+GTCN,1706.02216,Inductive Representation Learning on Large Graphs (via GraphSAGE),2017,ogbn-arxiv
+GaAN,1803.07294,GaAN: Gated Attention Networks for Learning on Large and Spatiotemporal Graphs,2018,"ogbn-proteins,ogbn-arxiv"
+GatedGCN,1711.07553,Residual Gated Graph ConvNets,2018,"ogbg-molhiv,ogbg-molpcba"
+GatedGCN+,2502.09263,Can Classic GNNs Be Strong Baselines for Graph-level Tasks? Simple Architectures Meet Excellence,2025,"ogbg-molhiv,ogbg-molpcba,ogbg-ppa"
+GeniePath-BS,1906.05238,GeniePath: Graph Neural Networks with Adaptive Receptive Paths,2019,ogbn-proteins
+Global-ViSNet,2210.16518,Enhancing Geometric Representations for Molecules with Equivariant Vector-Scalar Interactive Message Passing,2022,pcqm4mv2
+GraDBERT & RevGAT+KD,2111.15099,Node Feature Extraction by Self-supervised Multi-scale Neighborhood Prediction (via GIANT-XRT+RevGAT (use raw text)),2021,ogbn-arxiv
+GraDBERT+GIANT & SAGN+SLE+CnS,2111.15099,Node Feature Extraction by Self-supervised Multi-scale Neighborhood Prediction (via GIANT-XRT+SAGN+SCR),2021,ogbn-products
+GraphGPS without PE (subset),2205.12454,"Recipe for a General, Powerful, Scalable Graph Transformer",2022,pcqm4mv2
+GraphGPT(MLM pretrained),2401.00529,GraphGPT: Generative Pre-trained Graph Eulerian Transformer,2024,pcqm4mv2
+GraphGPT(MLM tv0),2401.00529,GraphGPT: Generative Pre-trained Graph Eulerian Transformer,2024,pcqm4mv2
+GraphGPT(MLM tv10k),2401.00529,GraphGPT: Generative Pre-trained Graph Eulerian Transformer,2024,pcqm4mv2
+GraphGPT(SMTP),2401.00529,GraphGPT: Generative Pre-trained Graph Eulerian Transformer,2024,"ogbl-ppa,ogbl-citation2"
+GraphGPT(d1n30),2401.00529,GraphGPT: Generative Pre-trained Graph Eulerian Transformer,2024,ogbl-citation2
+GraphGPT(use 3D),2401.00529,GraphGPT: Generative Pre-trained Graph Eulerian Transformer,2024,pcqm4mv2
+GraphGPT-L48(use 3D),2401.00529,GraphGPT: Generative Pre-trained Graph Eulerian Transformer,2024,pcqm4mv2
+GraphSAGE,1706.02216,Inductive Representation Learning on Large Graphs,2017,"ogbg-code2,ogbn-products,ogbn-proteins,ogbn-arxiv,ogbl-ppa,ogbl-collab,ogbl-ddi,ogbl-citation2,ogbl-vessel"
+GraphSAGE (NS),1706.02216,Inductive Representation Learning on Large Graphs,2017,mag240m
+GraphSAGE (val as input),1706.02216,Inductive Representation Learning on Large Graphs (via GraphSAGE),2017,ogbl-collab
+GraphSAGE + C&S + node2vec,1706.02216,Inductive Representation Learning on Large Graphs (via GraphSAGE),2017,ogbn-products
+GraphSAGE + Edge Attr,1706.02216,Inductive Representation Learning on Large Graphs (via GraphSAGE),2017,ogbl-ddi
+GraphSAGE w/NS + C&S,1706.02216,Inductive Representation Learning on Large Graphs (via GraphSAGE),2017,ogbn-products
+GraphSAGE w/Node2VEc,1706.02216,Inductive Representation Learning on Large Graphs (via GraphSAGE),2017,ogbl-vessel
+GraphSAGE+Edge Proposal Set,1706.02216,Inductive Representation Learning on Large Graphs (via GraphSAGE),2017,ogbl-ddi
+GraphSAGE+FLAG,2010.09891,Robust Optimization as Data Augmentation for Large-scale Graphs (via FLAG),2020,"ogbn-products,ogbn-arxiv"
+GraphSAGE+anchor distance,1706.02216,Inductive Representation Learning on Large Graphs (via GraphSAGE),2017,ogbl-ddi
+GraphSAGE_res_incep,1706.02216,Inductive Representation Learning on Large Graphs,2017,ogbn-papers100M
+GraphSAINT (GCN aggr),1907.04943,GraphSAINT: Graph Sampling Based Inductive Learning Method,2019,ogbl-citation2
+GraphSAINT (R-GCN aggr),1907.04943,GraphSAINT: Graph Sampling Based Inductive Learning Method,2019,ogbn-mag
+GraphSAINT (SAGE aggr),1907.04943,GraphSAINT: Graph Sampling Based Inductive Learning Method,2019,ogbn-products
+GraphSAINT + metapath2vec,1907.04943,GraphSAINT: Graph Sampling Based Inductive Learning Method,2019,ogbn-mag
+GraphSAINT-inductive,1907.04943,GraphSAINT: Graph Sampling Based Inductive Learning Method,2019,ogbn-products
+GraphTrans (GCN),2201.08821,Representing Long-Range Context for Graph Neural Networks with Global Attention,2022,ogbg-code2
+GraphTrans (GCN-Virtual),2201.08821,Representing Long-Range Context for Graph Neural Networks with Global Attention,2022,ogbg-code2
+GraphZoom (Node2vec),1910.00967,GraphZoom: A Multi-level Spectral Approach for Accurate and Scalable Graph Embedding,2019,"ogbn-products,ogbn-arxiv"
+Graphormer,2106.05234,Do Transformers Really Perform Bad for Graph Representation?,2021,ogbg-molhiv
+Graphormer (pre-trained on PCQM4M),2106.08279,First Place Solution of KDD Cup 2021 & OGB Large-Scale Challenge Graph Prediction Track,2021,"ogbg-molhiv,ogbg-molpcba"
+Graphormer + FPs,2106.08279,First Place Solution of KDD Cup 2021 & OGB Large-Scale Challenge Graph Prediction Track,2021,ogbg-molhiv
+HGAMLP+LP+MS(LINE embs),2206.06281,Graph Attention Multi-Layer Perceptron (via GAMLP),2022,ogbn-mag
+HGAMLP-HOPE,2206.06281,Graph Attention Multi-Layer Perceptron (via GAMLP),2022,ogbn-mag
+HGConv,2205.06525,Simple and Efficient Heterogeneous Graph Neural Network (via SeHGNN),2022,ogbn-mag
+HGT (LADIES Sample),2003.01332,Heterogeneous Graph Transformer,2020,ogbn-mag
+HGT (TransE embs),2003.01332,Heterogeneous Graph Transformer,2020,ogbn-mag
+HIG,2208.13994,HiGNN: Hierarchical Informative Graph Neural Network for Molecular Property Prediction,2022,ogbg-molhiv
+HIG(pre-trained on PCQM4M),2208.13994,HiGNN: Hierarchical Informative Graph Neural Network for Molecular Property Prediction,2022,ogbg-molpcba
+HIMP,2006.12179,Hierarchical Inter-Message Passing for Learning on Molecular Graphs,2020,ogbg-molhiv
+HOP-REC,1706.02216,Inductive Representation Learning on Large Graphs (via GraphSAGE),2017,ogbl-collab
+InterHT,2202.04897,InterHT: Knowledge Graph Embeddings by Interaction between Head and Tail Entities,2022,ogbl-wikikg2
+InterHT+,2202.04897,InterHT: Knowledge Graph Embeddings by Interaction between Head and Tail Entities,2022,ogbl-wikikg2
+JKNet (GCN-based),1806.03536,Representation Learning on Graphs with Jumping Knowledge Networks,2018,ogbn-arxiv
+LD+GAMLP,2206.06281,Graph Attention Multi-Layer Perceptron,2022,ogbn-products
+LD+GAT,1710.10903,Graph Attention Networks (via GAT),2018,ogbn-proteins
+LD+GIANT+SAGN+SCR,2111.15099,Node Feature Extraction by Self-supervised Multi-scale Neighborhood Prediction,2021,ogbn-products
+LD+REVGAT,2103.04559,Training Graph Neural Networks with 1000 Layers,2021,ogbn-arxiv
+LEGNN,1706.02216,Inductive Representation Learning on Large Graphs (via GraphSAGE),2017,"ogbn-arxiv,ogbn-mag"
+LEGNN + AS-Train,1706.02216,Inductive Representation Learning on Large Graphs (via GraphSAGE),2017,"ogbn-arxiv,ogbn-mag"
+LGGNN+LabelReuse+C&S,2111.15099,Node Feature Extraction by Self-supervised Multi-scale Neighborhood Prediction (via GIANT-XRT+LGGNN+LabelReuse+C&S),2021,ogbn-arxiv
+LMSPS (w/o embs),2205.06525,Simple and Efficient Heterogeneous Graph Neural Network (via SeHGNN),2022,ogbn-mag
+LRGA + GCN,2202.01129,Long Range Graph Benchmark,2022,"ogbl-collab,ogbl-ddi,ogbl-vessel"
+LRGA+GCN(Node2Vec+Augment),2202.01129,Long Range Graph Benchmark,2022,ogbl-ddi
+MAD Learning,1706.02216,Inductive Representation Learning on Large Graphs (via GraphSAGE),2017,ogbl-ddi
+MLP+C&S,2010.13993,Correct and Smooth: Combining Graph Neural Networks with Personalized PageRank,2020,mag240m
+MLP+FLAG,2010.09891,Robust Optimization as Data Augmentation for Large-scale Graphs (via FLAG),2020,"ogbn-products,ogbn-arxiv"
+MPLP,2303.06147,MPLP: Multi-Aspect Graph Learning for Link Prediction,2023,"ogbl-ppa,ogbl-citation2"
+MPNN+BGRL (KDDCup'21 2nd),2107.09422,Open Graph Benchmark Large-Scale Challenge Entry (MPNN+BGRL),2021,mag240m
+MPNN-Max (No Edge Features),1704.07912,Neural Message Passing for Quantum Chemistry,2017,ogbg-code2
+MWE-DGCN,2006.07739,DeeperGCN: All You Need to Train Deeper GCNs (via DeeperGCN),2020,ogbn-proteins
+Matrix Factorization,1607.00653,node2vec: Scalable Feature Learning for Networks (via Node2vec),2016,"ogbl-ppa,ogbl-collab,ogbl-ddi,ogbl-citation2,ogbl-vessel"
+MetaPath2vec,1805.10437,metapath2vec: Scalable Representation Learning for Heterogeneous Networks,2017,ogbn-mag
+Multi-RF Fusion + Multi-GNN,2603.20724,Multi-RF Fusion with Multi-GNN Blending for Molecular Property Prediction,2026,ogbg-molhiv
+NARS,2107.02802,NARS: Neural Architecture Search for GNNs,2021,ogbn-mag
+NARS-GAMLP,2206.06281,Graph Attention Multi-Layer Perceptron,2022,ogbn-mag
+NARS-GAMLP+RLU,2206.06281,Graph Attention Multi-Layer Perceptron,2022,ogbn-mag
+NARS-GAMLP+RLU+SCR,2206.06281,Graph Attention Multi-Layer Perceptron,2022,ogbn-mag
+NARS-GAMLP+SCR,2206.06281,Graph Attention Multi-Layer Perceptron,2022,ogbn-mag
+NARS-GAMLP+SCR-m,2206.06281,Graph Attention Multi-Layer Perceptron,2022,ogbn-mag
+NARS_SAGN+SLE,2110.05950,Simple and Deep Graph Attention Networks,2021,ogbn-mag
+NGNN + GCN,2106.04051,Nested Graph Neural Networks,2021,"ogbl-ppa,ogbl-collab,ogbl-ddi"
+NGNN + GraphSAGE,2106.04051,Nested Graph Neural Networks,2021,"ogbl-ppa,ogbl-collab,ogbl-ddi"
+NGNN + SEAL,2002.09605,Link Prediction Based on Graph Neural Networks,2020,"ogbl-ppa,ogbl-citation2"
+NeighborSampling (R-GCN aggr),1703.06103,Modeling Relational Data with Graph Convolutional Networks,2018,ogbn-mag
+NeighborSampling (SAGE aggr),1706.02216,Inductive Representation Learning on Large Graphs (via GraphSAGE),2017,"ogbn-products,ogbl-citation2"
+Nested GIN+virtual node (ensemble),2110.13197,Nested Graph Neural Networks,2021,ogbg-molpcba
+Neural Common Neighbor,2305.17311,Neural Common Neighbor with Completion for Link Prediction,2023,ogbl-ppa
+NeuralCommonNeighbor,2305.17311,Neural Common Neighbor with Completion for Link Prediction,2023,ogbl-ddi
+Node2vec,1607.00653,node2vec: Scalable Feature Learning for Networks,2016,"ogbn-products,ogbn-proteins,ogbn-arxiv,ogbn-papers100M,ogbl-ppa,ogbl-collab,ogbl-ddi,ogbl-citation2"
+NodePiece + AutoSF,2106.06760,NodePiece: Compositional and Parameter-Efficient Representations of Large Knowledge Graphs,2021,ogbl-wikikg2
+P-WL,2106.12575,Weisfeiler and Lehman Go Cellular: CW Networks,2021,ogbg-molhiv
+PAS,2108.10587,Pooling Architecture Search for Graph Classification,2021,"ogbg-molpcba,ogbg-ppa"
+PAS+F2GNN,2108.10587,Pooling Architecture Search for Graph Classification,2021,ogbg-ppa
+PAS+FPs,2108.10587,Pooling Architecture Search for Graph Classification,2021,ogbg-molhiv
+PDF,2207.11174,Low cost prediction of probability distributions of molecular properties for early virtual screening,2022,ogbg-molpcba
+PHC-GNN,2103.16584,Parameterized Hypercomplex Graph Neural Networks for Graph Classification,2021,"ogbg-molhiv,ogbg-molpcba"
+PIE-RM,2204.13957,PIE: A Parameter and Inference Efficient Solution for Large Scale Knowledge Graph Embedding Reasoning,2022,wikikg90mv2
+PLNLP,2112.02936,Pairwise Learning Neural Link Prediction,2021,"ogbl-ddi,ogbl-citation2"
+PLNLP (random walk aug.),2112.02936,Pairwise Learning Neural Link Prediction (via PLNLP),2021,ogbl-collab
+PLNLP (val as input),2112.02936,Pairwise Learning Neural Link Prediction (via PLNLP),2021,ogbl-collab
+PLNLP + SIGN,2004.11197,SIGN: Scalable Inception Graph Neural Networks,2020,ogbl-collab
+PLNLP+ LRGA,2202.01129,Long Range Graph Benchmark,2022,ogbl-collab
+PNA,2004.05718,Principal Neighbourhood Aggregation for Graph Nets,2020,"ogbg-molhiv,ogbg-molpcba"
+PSG,1706.02216,Inductive Representation Learning on Large Graphs (via GraphSAGE),2017,ogbl-ddi
+PSHGCN,2205.06525,Simple and Efficient Heterogeneous Graph Neural Network (via SeHGNN),2022,ogbn-mag
+PairRE,2011.03798,PairRE: Knowledge Graph Embeddings via Paired Relation Vectors,2020,ogbl-biokg
+PairRE (200dim),2011.03798,PairRE: Knowledge Graph Embeddings via Paired Relation Vectors (via PairRE),2020,ogbl-wikikg2
+Polynormer,2403.06560,Polynormer: Polynomial-Expressive Graph Transformer in Linear Time,2024,"ogbn-products,ogbn-arxiv"
+R-GAT (NS),1703.06103,Modeling Relational Data with Graph Convolutional Networks (R-GCN/R-GAT on MAG240M),2018,mag240m
+R-GCN+FLAG,1703.06103,Modeling Relational Data with Graph Convolutional Networks,2018,ogbn-mag
+R-GSN,2006.09252,Improving Graph Neural Network Expressivity via Subgraph Isomorphism Counting (via GSN),2021,ogbn-mag
+R-GSN + metapath2vec,2006.09252,Improving Graph Neural Network Expressivity via Subgraph Isomorphism Counting (via GSN),2021,ogbn-mag
+R-GraphSAGE (NS),1703.06103,Modeling Relational Data with Graph Convolutional Networks (R-GraphSAGE on MAG240M),2018,mag240m
+R-HGNN,2205.06525,Simple and Efficient Heterogeneous Graph Neural Network (via SeHGNN),2022,ogbn-mag
+R-UNIMP (KDDCup'21 1st),2009.08012,UniMP: Towards a Unified Message Passing Model (R-UniMP extension for MAG240M),2020,mag240m
+RandomGIN-vn+FLAG,2010.09891,Robust Optimization as Data Augmentation for Large-scale Graphs (FLAG),2020,ogbg-molpcba
+Refined-GAE,1706.02216,Inductive Representation Learning on Large Graphs (via GraphSAGE),2017,"ogbl-ppa,ogbl-collab,ogbl-ddi"
+RelEns,1905.05494,Complex Embeddings for Simple Link Prediction (via ComplEx),2016,"ogbl-wikikg2,ogbl-biokg"
+RevGAT+N.Adj+LabelReuse+SelfKD,2103.04559,Training Graph Neural Networks with 1000 Layers,2021,ogbn-arxiv
+RevGNN-112,2103.04559,Training Graph Neural Networks with 1000 Layers,2021,ogbn-products
+RevGNN-Deep,2103.04559,Training Graph Neural Networks with 1000 Layers,2021,ogbn-proteins
+RevGNN-Wide,2103.04559,Training Graph Neural Networks with 1000 Layers,2021,ogbn-proteins
+Rot-Pro,1902.10197,RotatE: Knowledge Graph Embedding by Relational Rotation in Complex Space (via RotatE),2019,ogbl-wikikg2
+RotatE,1902.10197,RotatE: Knowledge Graph Embedding by Relational Rotation in Complex Space,2019,ogbl-biokg
+RotatE (250dim),1902.10197,RotatE: Knowledge Graph Embedding by Relational Rotation in Complex Space,2019,"ogbl-wikikg2,ogbl-biokg"
+RotatE (50dim),1902.10197,RotatE: Knowledge Graph Embedding by Relational Rotation in Complex Space,2019,ogbl-wikikg2
+RpHGNN+LP+CR (LINE embs),2205.06525,Simple and Efficient Heterogeneous Graph Neural Network (via SeHGNN),2022,ogbn-mag
+S3GRL (PoS Plus),2102.06790,Self-supervised Graph Representation Learning via Structure-aware Pre-training,2021,"ogbl-ppa,ogbl-collab,ogbl-citation2,ogbl-vessel"
+SAGE+JKNet,1806.03536,Representation Learning on Graphs with Jumping Knowledge Networks,2018,ogbl-vessel
+SAGN,2110.05950,Simple and Deep Graph Attention Networks,2021,"ogbn-products,ogbn-papers100M,ogbn-mag"
+SAGN+MCR,2110.05950,Simple and Deep Graph Attention Networks,2021,ogbn-products
+SAGN+SLE,2110.05950,Simple and Deep Graph Attention Networks,2021,"ogbn-products,ogbn-papers100M,ogbn-mag"
+SAGN+SLE (4 stages),2110.05950,Simple and Deep Graph Attention Networks,2021,"ogbn-products,ogbn-papers100M"
+SAGN+SLE (4 stages)+C&S,2110.05950,Simple and Deep Graph Attention Networks,2021,"ogbn-products,ogbn-papers100M"
+SAT,2202.03036,Structure-Aware Transformer for Graph Representation Learning,2022,ogbg-code2
+SAT++ with Magnetic Laplacian,2202.03036,Structure-Aware Transformer for Graph Representation Learning,2022,ogbg-code2
+SEAL,2002.09605,Link Prediction Based on Graph Neural Networks,2020,"ogbl-ppa,ogbl-collab,ogbl-ddi,ogbl-citation2,ogbl-vessel"
+SEAL (no-xfeat),2002.09605,Link Prediction Based on Graph Neural Networks,2020,ogbl-vessel
+SEAL-nofeat,2002.09605,Link Prediction Based on Graph Neural Networks,2020,ogbl-collab
+SEAL-nofeat (val as input),2002.09605,Link Prediction Based on Graph Neural Networks,2020,ogbl-collab
+SGC,1710.10361,Simplifying Graph Convolutional Networks,2019,"ogbn-papers100M,ogbl-vessel"
+SIEG,1706.02216,Inductive Representation Learning on Large Graphs (via GraphSAGE),2017,"ogbl-ppa,ogbl-citation2,ogbl-vessel"
+SIEG w/o NF,1706.02216,Inductive Representation Learning on Large Graphs (via GraphSAGE),2017,ogbl-vessel
+SIEG(SPG),1706.02216,Inductive Representation Learning on Large Graphs (via GraphSAGE),2017,ogbl-vessel
+SIGN,2004.11197,SIGN: Scalable Inception Graph Neural Networks,2020,"ogbn-products,ogbn-arxiv,ogbn-papers100M,ogbn-mag"
+SIGN-XL,2004.11197,SIGN: Scalable Inception Graph Neural Networks,2020,ogbn-papers100M
+SUREL,2202.05184,SUREL: Subgraph Representation Learning for Link Prediction,2022,ogbl-citation2
+SUREL+,2202.05184,SUREL: Subgraph Representation Learning for Link Prediction,2022,"ogbl-ppa,ogbl-vessel"
+SciBERT & EHGCN (use MAG data),2205.06525,Simple and Efficient Heterogeneous Graph Neural Network (via SeHGNN),2022,ogbn-arxiv
+SeHGNN,2205.06525,Simple and Efficient Heterogeneous Graph Neural Network,2022,ogbn-mag
+SeHGNN (ComplEx embs),2205.06525,Simple and Efficient Heterogeneous Graph Neural Network,2022,ogbn-mag
+SimTeG+TAPE+GraphSAGE,2305.19523,Harnessing Explanations: LLM-to-LM Interpreter for Enhanced Text-Attributed Graph Representation Learning,2023,ogbn-arxiv
+SimTeG+TAPE+RevGAT,2305.19523,Harnessing Explanations: LLM-to-LM Interpreter for Enhanced Text-Attributed Graph Representation Learning,2023,ogbn-arxiv
+StarGraph + TripleRE,2205.14209,StarGraph: Knowledge Representation Learning based on Incomplete Two-hop Subgraph,2022,ogbl-wikikg2
+StarGraph + TripleRE + Text,2205.14209,StarGraph: Knowledge Representation Learning based on Incomplete Two-hop Subgraph,2022,ogbl-wikikg2
+TAPE+RevGAT,2305.19523,Harnessing Explanations: LLM-to-LM Interpreter for Enhanced Text-Attributed Graph Representation Learning,2023,ogbn-arxiv
+TCNN,1706.02216,Inductive Representation Learning on Large Graphs (via GraphSAGE),2017,ogbn-products
+TokenGT (Lap),2207.02505,Pure Transformers are Powerful Graph Learners (TokenGT),2022,pcqm4mv2
+TranS,1301.3781,Translating Embeddings for Modeling Multi-relational Data (via TransE),2013,ogbl-wikikg2
+TransE,1301.3781,Translating Embeddings for Modeling Multi-relational Data,2013,ogbl-biokg
+TransE (100dim),1301.3781,Translating Embeddings for Modeling Multi-relational Data,2013,ogbl-wikikg2
+TransE (500dim),1301.3781,Translating Embeddings for Modeling Multi-relational Data,2013,"ogbl-wikikg2,ogbl-biokg"
+TransE-Concat,1301.3781,Translating Embeddings for Modeling Multi-relational Data,2013,wikikg90mv2
+TransE-Shallow,1301.3781,Translating Embeddings for Modeling Multi-relational Data,2013,wikikg90mv2
+TransE-Shallow-PIE,2204.13957,PIE: A Parameter and Inference Efficient Solution for Large Scale Knowledge Graph Embedding Reasoning,2022,wikikg90mv2
+TransE-ens,1301.3781,Translating Embeddings for Modeling Multi-relational Data,2013,wikikg90mv2
+TransERR,1301.3781,Translating Embeddings for Modeling Multi-relational Data (via TransE),2013,ogbl-wikikg2
+Transformer-M,2210.01765,One Transformer Can Understand Both 2D & 3D Molecular Data,2022,pcqm4mv2
+TransformerConv,2106.03386,TransformerConv: Transformer-based Graph Convolution,2021,ogbn-papers100M
+TripleRE,2209.08271,TripleRE: Knowledge Graph Embeddings via Tripled Relation Vectors,2022,ogbl-biokg
+TripleRE + NodePiece,2209.08271,TripleRE: Knowledge Graph Embeddings via Tripled Relation Vectors,2022,ogbl-wikikg2
+Uni-Mol+ (use 3D),2303.16982,Highly Accurate Quantum Chemical Property Prediction with Uni-Mol+,2023,pcqm4mv2
+Uni-Mol+ base (use 3D),2303.16982,Highly Accurate Quantum Chemical Property Prediction with Uni-Mol+,2023,pcqm4mv2
+UniBi,1905.05494,Complex Embeddings for Simple Link Prediction (via ComplEx),2016,ogbl-biokg
+UniMP,2009.08012,UniMP: Towards a Unified Message Passing Model for Semi-supervised Learning,2020,"ogbn-products,ogbn-proteins,ogbn-arxiv"
+UniMP+CrossEdgeFeat,2009.08012,UniMP: Towards a Unified Message Passing Model for Semi-supervised Learning,2020,ogbn-proteins
+UniMP_large,2009.08012,UniMP: Towards a Unified Message Passing Model for Semi-supervised Learning,2020,ogbn-arxiv
+UniMP_v2,2009.08012,UniMP: Towards a Unified Message Passing Model for Semi-supervised Learning,2020,ogbn-arxiv
+WEGL,2006.09430,Wasserstein Embedding for Graph Learning,2021,ogbg-molhiv
+directional GSN,2006.09252,Improving Graph Neural Network Expressivity via Subgraph Isomorphism Counting (GSN handles directionality via substructure encoding),2021,ogbg-molhiv
+gHAWK(Bloom+TransE),2512.08274,gHAWK: Local and Global Structure Encoding for Scalable Training of GNNs on Knowledge Graphs,2025,ogbn-mag
+tripleRE,2209.08271,TripleRE: Knowledge Graph Embeddings via Tripled Relation Vectors (via TripleRE),2022,ogbl-wikikg2

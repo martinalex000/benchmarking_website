@@ -1,0 +1,375 @@
+{
+  "GCN": {
+    "arxiv_id": "1609.02907",
+    "title": "Semi-Supervised Classification with Graph Convolutional Networks",
+    "year": 2017
+  },
+  "GIN": {
+    "arxiv_id": "1810.00826",
+    "title": "How Powerful are Graph Neural Networks?",
+    "year": 2019
+  },
+  "GAT": {
+    "arxiv_id": "1710.10903",
+    "title": "Graph Attention Networks",
+    "year": 2018
+  },
+  "GraphSAGE": {
+    "arxiv_id": "1706.02216",
+    "title": "Inductive Representation Learning on Large Graphs",
+    "year": 2017
+  },
+  "PNA": {
+    "arxiv_id": "2004.05718",
+    "title": "Principal Neighbourhood Aggregation for Graph Nets",
+    "year": 2020
+  },
+  "DeeperGCN": {
+    "arxiv_id": "2006.07739",
+    "title": "DeeperGCN: All You Need to Train Deeper GCNs",
+    "year": 2020
+  },
+  "DeepGCN": {
+    "arxiv_id": "2006.07739",
+    "title": "DeeperGCN: All You Need to Train Deeper GCNs",
+    "year": 2020
+  },
+  "GSN": {
+    "arxiv_id": "2006.09252",
+    "title": "Improving Graph Neural Network Expressivity via Subgraph Isomorphism Counting",
+    "year": 2021
+  },
+  "CIN": {
+    "arxiv_id": "2106.12575",
+    "title": "Weisfeiler and Lehman Go Cellular: CW Networks",
+    "year": 2021
+  },
+  "CIN-small": {
+    "arxiv_id": "2106.12575",
+    "title": "Weisfeiler and Lehman Go Cellular: CW Networks",
+    "year": 2021
+  },
+  "GSAT": {
+    "arxiv_id": "2201.12987",
+    "title": "Interpretable and Generalizable Graph Learning via Stochastic Attention Mechanism",
+    "year": 2022
+  },
+  "GatedGCN": {
+    "arxiv_id": "1711.07553",
+    "title": "Residual Gated Graph ConvNets",
+    "year": 2018
+  },
+  "GatedGCN+": {
+    "arxiv_id": "2502.09263",
+    "title": "Can Classic GNNs Be Strong Baselines for Graph-level Tasks? Simple Architectures Meet Excellence",
+    "year": 2025
+  },
+  "GCN+": {
+    "arxiv_id": "2502.09263",
+    "title": "Can Classic GNNs Be Strong Baselines for Graph-level Tasks? Simple Architectures Meet Excellence",
+    "year": 2025
+  },
+  "GIN+": {
+    "arxiv_id": "2502.09263",
+    "title": "Can Classic GNNs Be Strong Baselines for Graph-level Tasks? Simple Architectures Meet Excellence",
+    "year": 2025
+  },
+  "EGC-M (No Edge Features)": {
+    "arxiv_id": "2102.09844",
+    "title": "E(n) Equivariant Graph Neural Networks",
+    "year": 2021
+  },
+  "EGC-S (No Edge Features)": {
+    "arxiv_id": "2102.09844",
+    "title": "E(n) Equivariant Graph Neural Networks",
+    "year": 2021
+  },
+  "DAGNN": {
+    "arxiv_id": "2101.07965",
+    "title": "Directed Acyclic Graph Neural Networks",
+    "year": 2021
+  },
+  "DiffPool": {
+    "arxiv_id": "1806.08804",
+    "title": "Hierarchical Graph Representation Learning with Differentiable Pooling",
+    "year": 2018
+  },
+  "DiffPool w/ graphSAGE": {
+    "arxiv_id": "1806.08804",
+    "title": "Hierarchical Graph Representation Learning with Differentiable Pooling",
+    "year": 2018
+  },
+  "HIMP": {
+    "arxiv_id": "2006.12179",
+    "title": "Hierarchical Inter-Message Passing for Learning on Molecular Graphs",
+    "year": 2020
+  },
+  "WEGL": {
+    "arxiv_id": "2006.09430",
+    "title": "Wasserstein Embedding for Graph Learning",
+    "year": 2021
+  },
+  "PHC-GNN": {
+    "arxiv_id": "2103.16584",
+    "title": "Parameterized Hypercomplex Graph Neural Networks for Graph Classification",
+    "year": 2021
+  },
+  "CRaWl": {
+    "arxiv_id": "2102.08786",
+    "title": "Walking Out of the Weisfeiler Leman Hierarchy: Graph Learning Beyond Message Passing",
+    "year": 2021
+  },
+  "DAGformer": {
+    "arxiv_id": "2210.13148",
+    "title": "DAGformer: Directed Acyclic Graph Transformer",
+    "year": 2022
+  },
+  "SAT": {
+    "arxiv_id": "2202.03036",
+    "title": "Structure-Aware Transformer for Graph Representation Learning",
+    "year": 2022
+  },
+  "SAT++ with Magnetic Laplacian": {
+    "arxiv_id": "2202.03036",
+    "title": "Structure-Aware Transformer for Graph Representation Learning",
+    "year": 2022
+  },
+  "SATenet": {
+    "arxiv_id": "2202.03036",
+    "title": "Structure-Aware Transformer for Graph Representation Learning",
+    "year": 2022
+  },
+  "GC-T+MCL(6.0)": {
+    "arxiv_id": "2302.00049",
+    "title": "Transformers Meet Directed Graphs",
+    "year": 2023
+  },
+  "GC-T+MCL": {
+    "arxiv_id": "2302.00049",
+    "title": "Transformers Meet Directed Graphs",
+    "year": 2023
+  },
+  "ExpC": {
+    "arxiv_id": "2012.07219",
+    "title": "Breaking the Expressive Bottlenecks of Graph Neural Networks",
+    "year": 2021
+  },
+  "ExpC*": {
+    "arxiv_id": "2012.07219",
+    "title": "Breaking the Expressive Bottlenecks of Graph Neural Networks",
+    "year": 2021
+  },
+  "ExpC*+bag of tricks": {
+    "arxiv_id": "2012.07219",
+    "title": "Breaking the Expressive Bottlenecks of Graph Neural Networks",
+    "year": 2021
+  },
+  "PAS": {
+    "arxiv_id": "2108.10587",
+    "title": "Pooling Architecture Search for Graph Classification",
+    "year": 2021
+  },
+  "PAS+FPs": {
+    "arxiv_id": "2108.10587",
+    "title": "Pooling Architecture Search for Graph Classification",
+    "year": 2021
+  },
+  "PAS+F2GNN": {
+    "arxiv_id": "2108.10587",
+    "title": "Pooling Architecture Search for Graph Classification",
+    "year": 2021
+  },
+  "GraphTrans (GCN)": {
+    "arxiv_id": "2201.08821",
+    "title": "Representing Long-Range Context for Graph Neural Networks with Global Attention",
+    "year": 2022
+  },
+  "GraphTrans (GCN-Virtual)": {
+    "arxiv_id": "2201.08821",
+    "title": "Representing Long-Range Context for Graph Neural Networks with Global Attention",
+    "year": 2022
+  },
+  "FLAG": {
+    "arxiv_id": "2010.09891",
+    "title": "Robust Optimization as Data Augmentation for Large-scale Graphs",
+    "year": 2020
+  },
+  "DeeperGCN+FLAG": {
+    "arxiv_id": "2010.09891",
+    "title": "Robust Optimization as Data Augmentation for Large-scale Graphs (FLAG)",
+    "year": 2020
+  },
+  "GCN+FLAG": {
+    "arxiv_id": "2010.09891",
+    "title": "Robust Optimization as Data Augmentation for Large-scale Graphs (FLAG)",
+    "year": 2020
+  },
+  "GIN+FLAG": {
+    "arxiv_id": "2010.09891",
+    "title": "Robust Optimization as Data Augmentation for Large-scale Graphs (FLAG)",
+    "year": 2020
+  },
+  "RandomGIN-vn+FLAG": {
+    "arxiv_id": "2010.09891",
+    "title": "Robust Optimization as Data Augmentation for Large-scale Graphs (FLAG)",
+    "year": 2020
+  },
+  "GIN+virtual node+FLAG": {
+    "arxiv_id": "2010.09891",
+    "title": "Robust Optimization as Data Augmentation for Large-scale Graphs (FLAG)",
+    "year": 2020
+  },
+  "GCN+virtual node+FLAG": {
+    "arxiv_id": "2010.09891",
+    "title": "Robust Optimization as Data Augmentation for Large-scale Graphs (FLAG)",
+    "year": 2020
+  },
+  "DeeperGCN+virtual node+FLAG": {
+    "arxiv_id": "2010.09891",
+    "title": "Robust Optimization as Data Augmentation for Large-scale Graphs (FLAG)",
+    "year": 2020
+  },
+  "GCN+virtual node": {
+    "arxiv_id": "1609.02907",
+    "title": "Semi-Supervised Classification with Graph Convolutional Networks (virtual node extension is common technique)",
+    "year": 2017
+  },
+  "GIN+virtual node": {
+    "arxiv_id": "1810.00826",
+    "title": "How Powerful are Graph Neural Networks? (virtual node extension is common technique)",
+    "year": 2019
+  },
+  "DeeperGCN+virtual node": {
+    "arxiv_id": "2006.07739",
+    "title": "DeeperGCN: All You Need to Train Deeper GCNs (virtual node extension is common technique)",
+    "year": 2020
+  },
+  "GINE+ w/ virtual nodes": {
+    "arxiv_id": "1905.12265",
+    "title": "Strategies for Pre-training Graph Neural Networks (introduces GINE)",
+    "year": 2020
+  },
+  "GINE": {
+    "arxiv_id": "1905.12265",
+    "title": "Strategies for Pre-training Graph Neural Networks (introduces GINE)",
+    "year": 2020
+  },
+  "GINE+HE": {
+    "arxiv_id": "1905.12265",
+    "title": "Strategies for Pre-training Graph Neural Networks",
+    "year": 2020
+  },
+  "GINE+bot": {
+    "arxiv_id": "1905.12265",
+    "title": "Strategies for Pre-training Graph Neural Networks",
+    "year": 2020
+  },
+  "GINE+ w/ APPNP": {
+    "arxiv_id": "1905.12265",
+    "title": "Strategies for Pre-training Graph Neural Networks",
+    "year": 2020
+  },
+  "GIN-AK": {
+    "arxiv_id": "2110.03753",
+    "title": "From Stars to Subgraphs: Uplifting Any GNN with Local Structure Awareness",
+    "year": 2021
+  },
+  "Nested GIN+virtual node (ensemble)": {
+    "arxiv_id": "2110.13197",
+    "title": "Nested Graph Neural Networks",
+    "year": 2021
+  },
+  "Nested GIN+virtual node": {
+    "arxiv_id": "2110.13197",
+    "title": "Nested Graph Neural Networks",
+    "year": 2021
+  },
+  "GCN+GraphNorm": {
+    "arxiv_id": "2009.03294",
+    "title": "GraphNorm: A Principled Approach to Accelerating Graph Neural Network Training",
+    "year": 2020
+  },
+  "ChebNet": {
+    "arxiv_id": "1606.09375",
+    "title": "Convolutional Neural Networks on Graphs with Fast Localized Spectral Filtering",
+    "year": 2016
+  },
+  "DeepAUC": {
+    "arxiv_id": "2012.03173",
+    "title": "Large-scale Robust Deep AUC Maximization: A New Surrogate Loss and Empirical Studies on Medical Image Classification",
+    "year": 2021
+  },
+  "HIG": {
+    "arxiv_id": "2208.13994",
+    "title": "HiGNN: Hierarchical Informative Graph Neural Network for Molecular Property Prediction",
+    "year": 2022
+  },
+  "HIG(pre-trained on PCQM4M)": {
+    "arxiv_id": "2208.13994",
+    "title": "HiGNN: Hierarchical Informative Graph Neural Network for Molecular Property Prediction",
+    "year": 2022
+  },
+  "PDF": {
+    "arxiv_id": "2207.11174",
+    "title": "Low cost prediction of probability distributions of molecular properties for early virtual screening",
+    "year": 2022
+  },
+  "MPNN-Max (No Edge Features)": {
+    "arxiv_id": "1704.07912",
+    "title": "Neural Message Passing for Quantum Chemistry",
+    "year": 2017
+  },
+  "PNA (No Edge Features)": {
+    "arxiv_id": "2004.05718",
+    "title": "Principal Neighbourhood Aggregation for Graph Nets",
+    "year": 2020
+  },
+  "GAT (for ogbg-code2)": {
+    "arxiv_id": "1710.10903",
+    "title": "Graph Attention Networks",
+    "year": 2018
+  },
+  "Graphormer (pre-trained on PCQM4M)": {
+    "arxiv_id": "2106.08279",
+    "title": "First Place Solution of KDD Cup 2021 & OGB Large-Scale Challenge Graph Prediction Track",
+    "year": 2021
+  },
+  "Graphormer + FPs": {
+    "arxiv_id": "2106.08279",
+    "title": "First Place Solution of KDD Cup 2021 & OGB Large-Scale Challenge Graph Prediction Track",
+    "year": 2021
+  },
+  "FingerPrint+GMAN": {
+    "note": "Uses molecular fingerprints - no specific arxiv, combines fingerprint features with GMAN architecture",
+    "arxiv_id": ""
+  },
+  "Molecular FP + Random Forest": {
+    "note": "Traditional machine learning on molecular fingerprints, not a specific neural network paper",
+    "arxiv_id": ""
+  },
+  "MorganFP+Rand. Forest": {
+    "note": "Traditional machine learning method, not a specific paper",
+    "arxiv_id": ""
+  },
+  "Neural FingerPrints": {
+    "note": "Could refer to Duvenaud et al. 2015 'Convolutional Networks on Graphs for Learning Molecular Fingerprints' but semantic scholar found wrong paper. The OGB usage may be Morgan fingerprints or learned fingerprints.",
+    "arxiv_id": ""
+  },
+  "HyperFusion": {
+    "note": "Competition solution code at github.com/zhangxwww/HyperFusion - no arxiv paper found. Methods paper may exist but not found.",
+    "arxiv_id": ""
+  },
+  "directional GSN": {
+    "arxiv_id": "2006.09252",
+    "title": "Improving Graph Neural Network Expressivity via Subgraph Isomorphism Counting (GSN handles directionality via substructure encoding)",
+    "year": 2021
+  },
+  "P-WL": {
+    "note": "Could be 'Pathfinder Networks' but search didn't find a clear match. May not have an arxiv paper.",
+    "arxiv_id": ""
+  },
+  "DGN": {
+    "note": "Multiple papers called DGN found - 'Directional Graph Networks' (2203.10555) or 'Deep GNN' variants. Need more specific context.",
+    "arxiv_id": ""
+  }
+}
