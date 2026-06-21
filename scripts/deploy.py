@@ -8,6 +8,7 @@ import hashlib
 import os
 import re
 import shlex
+import shutil
 import socket
 import subprocess
 import sys
@@ -17,15 +18,134 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
+from backend.benchmarks_db_checkpoint import wal_checkpoint_truncate
 from backend.config import cfg
 
 DEFAULT_DEPLOY_PATH = "/var/www/graphbench"
 REMOTE_ARCHIVE_NAME = "deploy"
+BUILD_ARCHIVE_SUBDIR = "deploy-archives"
 SSH_OPTS = ["-o", "BatchMode=yes", "-o", "ConnectTimeout=10"]
 DEPLOY_FILE_MODE = 0o755
 FIGURES_NAME_RE = re.compile(r"^-(\d{12})-figures\.tar\.zst$")
+EXPORT_NAME_RE = re.compile(r"^-(\d{12})-export\.tar\.zst$")
+INCREMENT_NAME_RE = re.compile(r"^-(\d{12})-increment\.tar\.zst$")
 INCREMENT_SUFFIX = "-increment.tar.zst"
 FIGURES_SUFFIX = "-figures.tar.zst"
+EXPORT_SUFFIX = "-export.tar.zst"
+STAGING_DIR_RE = re.compile(r"^/.+/\.deploy-remote-staging\.[A-Za-z0-9]{6}$")
+ARCHIVE_NAME_RE = re.compile(
+    r"^[A-Za-z0-9][A-Za-z0-9._-]*-\d{12}-(?:figures|increment|export)\.tar\.zst$"
+)
+# Paths we must never pass to rm/clear helpers.
+_BLOCKED_RM_PREFIXES = (
+    "/",
+    "/bin",
+    "/etc",
+    "/home",
+    "/lib",
+    "/root",
+    "/tmp",  # nosec B108 — blocked path prefix, not a temp file usage
+    "/usr",
+    "/var",
+)
+
+
+def _normalize_remote_path(path: str) -> str:
+    return path.strip().rstrip("/")
+
+
+def _refuse_unsafe_rm_path(path: str, *, label: str, min_depth: int = 3) -> str:
+    """Validate an absolute remote path before any destructive operation."""
+    normalized = _normalize_remote_path(path)
+    if not normalized:
+        sys.exit(f"ERROR: Refusing {label}: path is empty.")
+    if not normalized.startswith("/"):
+        sys.exit(f"ERROR: Refusing {label}: path must be absolute ({normalized!r}).")
+    if normalized in _BLOCKED_RM_PREFIXES:
+        sys.exit(f"ERROR: Refusing {label}: blocked path {normalized!r}.")
+    parts = [part for part in normalized.split("/") if part]
+    if len(parts) < min_depth:
+        sys.exit(
+            f"ERROR: Refusing {label}: path too shallow ({normalized!r}); "
+            f"need at least {min_depth} components."
+        )
+    return normalized
+
+
+def _validate_remote_staging_dir(path: str, *, parent: str) -> str:
+    normalized = _refuse_unsafe_rm_path(path, label="remote staging cleanup", min_depth=2)
+    parent_norm = _normalize_remote_path(parent)
+    if not normalized.startswith(f"{parent_norm}/"):
+        sys.exit(
+            f"ERROR: Refusing remote staging cleanup: {normalized!r} "
+            f"is not under {parent_norm!r}."
+        )
+    if normalized == parent_norm:
+        sys.exit(f"ERROR: Refusing remote staging cleanup: path equals parent {parent_norm!r}.")
+    if not STAGING_DIR_RE.fullmatch(normalized):
+        sys.exit(
+            f"ERROR: Refusing remote staging cleanup: {normalized!r} "
+            "does not match .deploy-remote-staging.XXXXXX."
+        )
+    return normalized
+
+
+def _validate_remote_deploy_dir(path: str) -> str:
+    return _refuse_unsafe_rm_path(path, label="site tree clear", min_depth=3)
+
+
+def _validate_remote_archive_name(name: str) -> str:
+    base = Path(name).name
+    if base != name or ".." in name or "/" in name:
+        sys.exit(f"ERROR: Refusing archive delete: invalid name {name!r}.")
+    if not ARCHIVE_NAME_RE.fullmatch(base):
+        sys.exit(f"ERROR: Refusing archive delete: unexpected archive name {base!r}.")
+    return base
+
+
+def safe_remove_remote_staging_dir(ssh_dest: str, staging_dir: str, *, parent: str) -> None:
+    validated = _validate_remote_staging_dir(staging_dir, parent=parent)
+    staging_q = shlex.quote(validated)
+    parent_q = shlex.quote(_normalize_remote_path(parent))
+    remote_shell = (
+        f"staging={staging_q} && parent={parent_q} && "
+        f'case "$staging" in "$parent"/.deploy-remote-staging.*) ;; '
+        f'*) echo "ERROR: refusing remote staging cleanup: $staging" >&2; exit 1;; esac && '
+        f'if [ -d "$staging" ]; then find "$staging" -mindepth 1 -maxdepth 1 -exec rm -r -- {{}} +; rmdir "$staging"; fi'
+    )
+    ssh_run(ssh_dest, remote_shell)
+
+
+def safe_clear_remote_site_tree(ssh_dest: str, remote_deploy: str) -> None:
+    validated = _validate_remote_deploy_dir(remote_deploy)
+    deploy_q = shlex.quote(validated)
+    remote_shell = (
+        f"deploy={deploy_q} && "
+        f'[ "$deploy" != "/" ] && [ -d "$deploy" ] || exit 1; '
+        f'find "$deploy" -mindepth 1 -maxdepth 1 -exec rm -r -- {{}} +'
+    )
+    ssh_run(ssh_dest, remote_shell)
+
+
+def safe_remove_remote_archive(
+    ssh_dest: str,
+    remote_archive: str,
+    archive_name: str,
+) -> None:
+    validated_name = _validate_remote_archive_name(archive_name)
+    archive_root = _refuse_unsafe_rm_path(remote_archive, label="archive delete", min_depth=2)
+    remote_path = f"{archive_root}/{validated_name}"
+    remote_q = shlex.quote(remote_path)
+    remote_shell = (
+        f"target={remote_q} && "
+        f'[ -f "$target" ] || exit 0; '
+        f'case "$(basename "$target")" in '
+        f"*-????????????-figures.tar.zst|*-????????????-increment.tar.zst|"
+        f"*-????????????-export.tar.zst) "
+        f'rm -f -- "$target" ;; '
+        f'*) echo "ERROR: refusing archive delete: $target" >&2; exit 1;; esac'
+    )
+    ssh_run(ssh_dest, remote_shell)
 
 
 def log_remote(kind: str, detail: str) -> None:
@@ -33,6 +153,10 @@ def log_remote(kind: str, detail: str) -> None:
 
 
 def ssh_run(ssh_dest: str, *remote_cmd: str) -> None:
+    """Run a command on the remote host via its login shell.
+
+    Pass a single *remote_cmd* string for compound shell scripts (``cd … && …``).
+    """
     log_remote("ssh", f"{ssh_dest} {subprocess.list2cmdline(list(remote_cmd))}")
     subprocess.run(["ssh", *SSH_OPTS, ssh_dest, *remote_cmd], check=True)
 
@@ -50,6 +174,49 @@ def ssh_capture(ssh_dest: str, *remote_cmd: str) -> str:
 
 def rsync_ssh_shell() -> str:
     return subprocess.list2cmdline(["ssh", *SSH_OPTS])
+
+
+def sync_remote_build_files(build_ssh_dest: str, project_root: str) -> None:
+    """Push local deploy/build inputs to the remote build host."""
+    files = (
+        "scripts/deploy.py",
+        "backend/config.py",
+        "pyproject.toml",
+        "uv.lock",
+        "data/benchmarks.db",
+        "config/dataset_overrides.yaml",
+        "config/dataset_aliases.yaml",
+    )
+    db_path = cfg.base_dir / "data" / "benchmarks.db"
+    if db_path.is_file():
+        wal_checkpoint_truncate(db_path)
+    for rel in files:
+        local_path = cfg.base_dir / rel
+        if not local_path.is_file():
+            if rel == "data/benchmarks.db":
+                sys.exit(f"ERROR: Missing local database required for remote build: {local_path}")
+            continue
+        target = f"{build_ssh_dest}:{project_root}/{rel}"
+        log_remote("rsync", f"{local_path} -> {target}")
+        subprocess.run(
+            ["rsync", "-a", "-e", rsync_ssh_shell(), str(local_path), target],
+            check=True,
+        )
+    site_dirs = (
+        "site/layouts",
+        "site/static/js",
+        "site/static/css",
+    )
+    for rel in site_dirs:
+        local_path = cfg.base_dir / rel
+        if not local_path.is_dir():
+            continue
+        target = f"{build_ssh_dest}:{project_root}/{rel}/"
+        log_remote("rsync", f"{local_path}/ -> {target}")
+        subprocess.run(
+            ["rsync", "-a", "-e", rsync_ssh_shell(), f"{local_path}/", target],
+            check=True,
+        )
 
 
 def upload_archive(ssh_dest: str, local_path: Path, remote_path: str) -> None:
@@ -109,7 +276,7 @@ def extract_archive(ssh_dest: str, remote_deploy: str, local_path: Path) -> None
 
 
 def remote_home(ssh_dest: str) -> str:
-    for remote_cmd in (("pwd",), ("sh", "-c", "cd; pwd")):
+    for remote_cmd in (("pwd",), ("cd ~ && pwd",)):
         try:
             home = ssh_capture(ssh_dest, *remote_cmd).strip()
             if home:
@@ -141,21 +308,7 @@ def unpack_remotely(
         ssh_run(ssh_dest, "test", "-w", remote_deploy)
 
     if clear_site:
-        ssh_run(
-            ssh_dest,
-            "find",
-            remote_deploy,
-            "-mindepth",
-            "1",
-            "-maxdepth",
-            "1",
-            "-exec",
-            "rm",
-            "-rf",
-            "--",
-            "{}",
-            "+",
-        )
+        safe_clear_remote_site_tree(ssh_dest, remote_deploy)
 
     if fix_permissions:
         ssh_run(ssh_dest, "chmod", "-R", "755", "--", remote_deploy)
@@ -214,15 +367,27 @@ def remote_file_sha256(ssh_dest: str, remote_path: str) -> str | None:
     return output.split(maxsplit=1)[0]
 
 
-def latest_figure_archive(names: list[str], host_id: str) -> str | None:
+def _latest_timestamped_archive(
+    names: list[str],
+    host_id: str,
+    stamp_re: re.Pattern[str],
+) -> str | None:
     best_name = ""
     best_stamp = ""
     for name in names:
-        match = FIGURES_NAME_RE.search(name.removeprefix(f"{host_id}"))
+        match = stamp_re.search(name.removeprefix(f"{host_id}"))
         if match and match.group(1) > best_stamp:
             best_stamp = match.group(1)
             best_name = name
     return best_name or None
+
+
+def latest_figure_archive(names: list[str], host_id: str) -> str | None:
+    return _latest_timestamped_archive(names, host_id, FIGURES_NAME_RE)
+
+
+def latest_export_archive(names: list[str], host_id: str) -> str | None:
+    return _latest_timestamped_archive(names, host_id, EXPORT_NAME_RE)
 
 
 def maybe_prune_old_archives(
@@ -256,7 +421,7 @@ def maybe_prune_old_archives(
 
     for name in old:
         print(f"Deleting {name}...")
-        ssh_run(ssh_dest, "rm", "-f", "--", f"{remote_archive}/{name}")
+        safe_remove_remote_archive(ssh_dest, remote_archive, name)
 
 
 def require_cmd(name: str) -> str:
@@ -280,11 +445,11 @@ def remote_host_id(ssh_dest: str) -> str:
     return normalize_host_id(ssh_capture(ssh_dest, "hostname").strip())
 
 
-def resolve_hugo_bin(project_dir: Path) -> Path:
-    hugo_bin = project_dir / "bin" / "hugo"
-    if not hugo_bin.is_file() or not os.access(hugo_bin, os.X_OK):
-        hugo_bin = Path(require_cmd("hugo"))
-    return hugo_bin
+def run_hugo_build(project_dir: Path, build_dir: str | Path, *, hugo_base_url: str) -> None:
+    hugo_cmd = ["uv", "run", "hugo", "--minify", "--source", "site", "-d", str(build_dir)]
+    if hugo_base_url:
+        hugo_cmd.extend(["--baseURL", hugo_base_url])
+    subprocess.run(hugo_cmd, check=True, cwd=project_dir)
 
 
 def archive_names(host_id: str, stamp: str | None = None) -> tuple[str, str, str]:
@@ -315,18 +480,281 @@ def list_staging_archives(names: list[str]) -> tuple[str | None, str]:
     return figures_name, increment_name
 
 
-def require_build_tools(*, check_hugo: bool = True) -> None:
-    for cmd in ("ssh", "rsync", "tar", "zstd"):
+def require_build_tools() -> None:
+    for cmd in ("ssh", "rsync", "tar", "zstd", "uv"):
         require_cmd(cmd)
     tar_help = subprocess.run(["tar", "--help"], capture_output=True, text=True, check=False)
     if "--zstd" not in tar_help.stdout + tar_help.stderr:
         sys.exit("ERROR: tar on this system does not support --zstd.")
-    if check_hugo:
-        require_cmd("hugo")
+
+
+def require_deploy_tools() -> None:
+    for cmd in ("ssh", "rsync", "tar", "zstd"):
+        require_cmd(cmd)
 
 
 def ssh_dest_for(host: str, user: str) -> str:
     return f"{user}@{host}" if user else host
+
+
+def build_work_parent(project_dir: Path) -> Path:
+    """Return the parent directory for Hugo build temp dirs (prefer fast local disk)."""
+    tmp = cfg.build_tmp_dir.strip()
+    if tmp:
+        parent = Path(tmp)
+        parent.mkdir(parents=True, exist_ok=True)
+        return parent
+    return project_dir
+
+
+def remote_staging_parent(build_project_root: str) -> str:
+    """Return the parent path for remote deploy archive staging."""
+    tmp = cfg.build_tmp_dir.strip()
+    if tmp:
+        return tmp.rstrip("/")
+    return build_project_root.rstrip("/")
+
+
+def resolve_build_archive_dir(project_dir: Path) -> Path:
+    """Return the persistent figures archive directory for a build host."""
+    configured = cfg.build_archive_dir.strip()
+    if configured:
+        return Path(configured)
+    return project_dir / BUILD_ARCHIVE_SUBDIR
+
+
+def list_persisted_figure_names(archive_dir: Path, host_id: str) -> list[str]:
+    if not archive_dir.is_dir():
+        return []
+    prefix = f"{host_id}-"
+    return [
+        path.name
+        for path in archive_dir.iterdir()
+        if path.is_file() and path.name.startswith(prefix) and path.name.endswith(FIGURES_SUFFIX)
+    ]
+
+
+def list_increment_archive_names(directory: Path, host_id: str | None = None) -> list[str]:
+    if not directory.is_dir():
+        return []
+    return [
+        path.name
+        for path in directory.iterdir()
+        if path.is_file()
+        and path.name.endswith(INCREMENT_SUFFIX)
+        and (host_id is None or path.name.startswith(f"{host_id}-"))
+    ]
+
+
+def latest_increment_archive(names: list[str], host_id: str) -> str | None:
+    return _latest_timestamped_archive(names, host_id, INCREMENT_NAME_RE)
+
+
+def find_latest_local_increment(search_dirs: list[Path]) -> tuple[Path, str] | None:
+    best_dir: Path | None = None
+    best_name = ""
+    best_stamp = ""
+    for directory in search_dirs:
+        for name in list_increment_archive_names(directory):
+            host_id = host_id_from_archive_name(name)
+            match = INCREMENT_NAME_RE.search(name.removeprefix(host_id))
+            if match and match.group(1) > best_stamp:
+                best_stamp = match.group(1)
+                best_name = name
+                best_dir = directory
+    if best_dir and best_name:
+        return best_dir, best_name
+    return None
+
+
+def resolve_local_figures_archive(
+    project_dir: Path,
+    staging_dir: Path,
+    prefix: str,
+    host_id: str,
+) -> tuple[Path | None, str | None]:
+    figures_name = f"{prefix}{FIGURES_SUFFIX}"
+    archive_dir = resolve_build_archive_dir(project_dir)
+    for directory in (staging_dir, archive_dir):
+        path = directory / figures_name
+        if path.is_file():
+            return path, figures_name
+    latest_name = latest_figure_archive(list_persisted_figure_names(archive_dir, host_id), host_id)
+    if latest_name:
+        return archive_dir / latest_name, latest_name
+    return None, None
+
+
+def find_local_deploy_archives(
+    project_dir: Path,
+    *,
+    full: bool,
+) -> tuple[Path | None, Path, str | None, str, str, str]:
+    archive_dir = resolve_build_archive_dir(project_dir)
+    search_dirs = [archive_dir, *sorted(project_dir.glob(".deploy-staging-*"), reverse=True)]
+    latest = find_latest_local_increment(search_dirs)
+    if not latest:
+        sys.exit(
+            "ERROR: No local deploy archives found. "
+            f"Looked under {archive_dir}/ and .deploy-staging-* in {project_dir}."
+        )
+
+    staging_dir, increment_name = latest
+    increment_archive = staging_dir / increment_name
+    host_id = host_id_from_archive_name(increment_name)
+    prefix = increment_name.removesuffix(INCREMENT_SUFFIX)
+    print(f"Using local increment archive {increment_archive}")
+
+    figures_archive, figures_name = resolve_local_figures_archive(
+        project_dir, staging_dir, prefix, host_id
+    )
+    if full:
+        if not figures_archive:
+            sys.exit(
+                "ERROR: --full --upload-only needs a local figures archive. "
+                f"None found for prefix {prefix} under {archive_dir}/."
+            )
+        print(f"Using local figures archive {figures_archive}")
+    elif figures_archive:
+        print(f"Using local figures archive {figures_archive} if needed for bootstrap")
+
+    return figures_archive, increment_archive, figures_name, increment_name, prefix, host_id
+
+
+def persist_figures_archive(project_dir: Path, source: Path, figures_name: str) -> Path:
+    archive_dir = resolve_build_archive_dir(project_dir)
+    archive_dir.mkdir(parents=True, exist_ok=True)
+    dest = archive_dir / figures_name
+    shutil.copy2(source, dest)
+    print(f"Stored figures archive at {dest}")
+    return dest
+
+
+def persist_increment_archive(project_dir: Path, source: Path, increment_name: str) -> Path:
+    archive_dir = resolve_build_archive_dir(project_dir)
+    archive_dir.mkdir(parents=True, exist_ok=True)
+    dest = archive_dir / increment_name
+    shutil.copy2(source, dest)
+    print(f"Stored increment archive at {dest}")
+    return dest
+
+
+def persist_deploy_archives(
+    project_dir: Path,
+    increment_archive: Path,
+    increment_name: str,
+    figures_archive: Path | None,
+    figures_name: str | None,
+) -> None:
+    """Keep local copies of deploy archives for --upload-only retries."""
+    persist_increment_archive(project_dir, increment_archive, increment_name)
+    if not figures_archive or not figures_name or not figures_archive.is_file():
+        return
+    dest = resolve_build_archive_dir(project_dir) / figures_name
+    if dest.exists() and file_sha256(dest) == file_sha256(figures_archive):
+        return
+    persist_figures_archive(project_dir, figures_archive, figures_name)
+
+
+def stage_persisted_figures(
+    project_dir: Path,
+    staging_dir: Path,
+    host_id: str,
+) -> tuple[Path | None, str | None]:
+    """Copy the latest persisted figures archive into staging for deploy."""
+    archive_dir = resolve_build_archive_dir(project_dir)
+    latest_name = latest_figure_archive(list_persisted_figure_names(archive_dir, host_id), host_id)
+    if not latest_name:
+        return None, None
+    source = archive_dir / latest_name
+    dest = staging_dir / latest_name
+    shutil.copy2(source, dest)
+    print(f"Using persisted figures archive {source}")
+    return dest, latest_name
+
+
+EXPORT_SNAPSHOT_PATHS = (
+    "site/content",
+    "site/data",
+    "site/static/figures",
+    "site/static/data/datasets",
+)
+
+
+def export_artifacts_ready(project_dir: Path) -> bool:
+    benchmarks = project_dir / "site/data/benchmarks.json"
+    content = project_dir / "site/content"
+    chart_data = project_dir / "site/static/data/datasets"
+    if not benchmarks.is_file() or not content.is_dir():
+        return False
+    if not chart_data.is_dir() or not any(chart_data.rglob("*.json")):
+        return False
+    return any(content.rglob("*.md"))
+
+
+def list_persisted_export_names(archive_dir: Path, host_id: str) -> list[str]:
+    if not archive_dir.is_dir():
+        return []
+    prefix = f"{host_id}-"
+    return [
+        path.name
+        for path in archive_dir.iterdir()
+        if path.is_file() and path.name.startswith(prefix) and path.name.endswith(EXPORT_SUFFIX)
+    ]
+
+
+def persist_export_snapshot(project_dir: Path, host_id: str) -> Path | None:
+    paths = [rel for rel in EXPORT_SNAPSHOT_PATHS if (project_dir / rel).exists()]
+    if not paths:
+        return None
+    stamp = datetime.now().strftime("%Y%m%d%H%M")
+    name = f"{host_id}-{stamp}{EXPORT_SUFFIX}"
+    archive_dir = resolve_build_archive_dir(project_dir)
+    archive_dir.mkdir(parents=True, exist_ok=True)
+    dest = archive_dir / name
+    subprocess.run(
+        ["tar", "-C", str(project_dir), "--zstd", "-cf", str(dest), *paths],
+        check=True,
+    )
+    print(f"Stored export snapshot at {dest}")
+    return dest
+
+
+def restore_latest_export(project_dir: Path, host_id: str) -> bool:
+    archive_dir = resolve_build_archive_dir(project_dir)
+    latest_name = latest_export_archive(list_persisted_export_names(archive_dir, host_id), host_id)
+    if not latest_name:
+        return False
+    source = archive_dir / latest_name
+    print(f"Restoring export snapshot {source}...")
+    subprocess.run(
+        ["tar", "-C", str(project_dir), "--zstd", "-xf", str(source)],
+        check=True,
+    )
+    return True
+
+
+def prepare_hugo_content(
+    project_dir: Path,
+    host_id: str,
+    *,
+    skip_export: bool,
+) -> None:
+    if skip_export:
+        if export_artifacts_ready(project_dir):
+            print("Skipping export; reusing existing Hugo content in site/...")
+            return
+        if restore_latest_export(project_dir, host_id):
+            print("Skipping export; restored latest export snapshot.")
+            return
+        sys.exit(
+            "ERROR: --skip-export requested but no Hugo export found. "
+            "Run a deploy without --skip-export first."
+        )
+
+    print("Exporting Hugo content from database (includes site/content/dev)...")
+    subprocess.run([sys.executable, "-m", "backend.export_to_hugo"], check=True, cwd=project_dir)
+    persist_export_snapshot(project_dir, host_id)
 
 
 def build_archives(
@@ -342,22 +770,29 @@ def build_archives(
     prefix, figures_name, increment_name = archive_names(host_id)
     figures_archive = staging_dir / figures_name
     increment_archive = staging_dir / increment_name
-    hugo_bin = resolve_hugo_bin(project_dir)
+    work_parent = build_work_parent(project_dir)
+    include_figures = full
+    if (
+        not include_figures
+        and latest_figure_archive(
+            list_persisted_figure_names(resolve_build_archive_dir(project_dir), host_id),
+            host_id,
+        )
+        is None
+    ):
+        print("No persisted figures archive; including figures in this build.")
+        include_figures = True
 
-    with tempfile.TemporaryDirectory(prefix=".deploy-build-", dir=project_dir) as build_dir:
+    built_figures: Path | None = None
+    staged_figures_name: str | None = None
+
+    with tempfile.TemporaryDirectory(prefix=".deploy-build-", dir=work_parent) as build_dir:
         build = Path(build_dir)
 
-        if not skip_export:
-            print("Exporting Hugo content from database (includes site/content/dev)...")
-            subprocess.run(
-                [sys.executable, "-m", "backend.export_to_hugo"], check=True, cwd=project_dir
-            )
+        prepare_hugo_content(project_dir, host_id, skip_export=skip_export)
 
         print(f"Building Hugo site to {build_dir}...")
-        hugo_cmd = [str(hugo_bin), "--minify", "-d", build_dir]
-        if hugo_base_url:
-            hugo_cmd.extend(["--baseURL", hugo_base_url])
-        subprocess.run(hugo_cmd, check=True, cwd=project_dir / "site")
+        run_hugo_build(project_dir, build_dir, hugo_base_url=hugo_base_url)
 
         files = list(build.rglob("*"))
         if not any(p.is_file() for p in files):
@@ -367,19 +802,19 @@ def build_archives(
         for path in files:
             path.chmod(DEPLOY_FILE_MODE)
 
-        built_figures: Path | None = None
-        if full:
-            figures_dir = build / "figures"
-            if not figures_dir.is_dir() or not any(p.is_file() for p in figures_dir.rglob("*")):
-                sys.exit(
-                    f"ERROR: No figures found in {figures_dir}. Run export before a full deploy."
-                )
+        figures_dir = build / "figures"
+        has_figures = figures_dir.is_dir() and any(p.is_file() for p in figures_dir.rglob("*"))
+        if has_figures:
             print(f"Creating figures archive {figures_name}...")
             subprocess.run(
                 ["tar", "-C", build_dir, "--zstd", "-cf", figures_archive, "figures"], check=True
             )
             print(figures_archive)
             built_figures = figures_archive
+            persist_figures_archive(project_dir, figures_archive, figures_name)
+            staged_figures_name = figures_name
+        elif include_figures:
+            sys.exit(f"ERROR: No figures found in {figures_dir}. Run export before a full deploy.")
 
         print(f"Creating increment archive {increment_name}...")
         subprocess.run(
@@ -387,8 +822,20 @@ def build_archives(
             check=True,
         )
         print(increment_archive)
+        persist_increment_archive(project_dir, increment_archive, increment_name)
 
-    return built_figures, increment_archive, figures_name if full else None, increment_name, prefix
+    if not built_figures:
+        built_figures, staged_figures_name = stage_persisted_figures(
+            project_dir, staging_dir, host_id
+        )
+
+    return (
+        built_figures,
+        increment_archive,
+        staged_figures_name,
+        increment_name,
+        prefix,
+    )
 
 
 def run_remote_build(
@@ -400,50 +847,73 @@ def run_remote_build(
     skip_export: bool,
     hugo_base_url: str,
 ) -> None:
-    deploy_script = f"{project_root}/scripts/deploy.py"
-    cmd = [
-        f"cd {shlex.quote(project_root)}",
-        "&&",
-        "uv",
-        "run",
-        "python",
-        shlex.quote(deploy_script),
-        "--build-only",
-        "--staging-dir",
-        shlex.quote(remote_staging),
-    ]
-    if full:
-        cmd.append("--full")
-    if skip_export:
-        cmd.append("--skip-export")
+    root_q = shlex.quote(project_root)
+    staging_q = shlex.quote(remote_staging)
+    script_q = shlex.quote(f"{project_root}/scripts/deploy.py")
 
-    remote_env = ""
+    exports: list[str] = []
     if hugo_base_url:
-        remote_env = f"HUGO_BASE_URL={shlex.quote(hugo_base_url)} "
+        exports.append(f"export HUGO_BASE_URL={shlex.quote(hugo_base_url)}")
+    build_tmp = cfg.build_tmp_dir.strip()
+    if build_tmp:
+        exports.append(f"export BUILD_TMP_DIR={shlex.quote(build_tmp)}")
+    export_cmd = " && ".join(exports)
+    if export_cmd:
+        export_cmd += " && "
 
-    ssh_run(build_ssh_dest, "sh", "-c", remote_env + " ".join(cmd))
+    deploy_flags = ""
+    if full:
+        deploy_flags += " --full"
+    if skip_export:
+        deploy_flags += " --skip-export"
+
+    remote_shell = (
+        f'cd {root_q} || {{ echo "ERROR: cannot cd to {root_q}" >&2; exit 1; }} && '
+        f"test -f pyproject.toml || {{ "
+        f'echo "ERROR: pyproject.toml missing in $PWD" >&2; exit 1; '
+        f"}} && "
+        f"{export_cmd}"
+        f"uv sync --no-dev --project {root_q} && "
+        f"uv run --project {root_q} python {script_q} "
+        f"--build-only --staging-dir {staging_q}{deploy_flags}"
+    )
+    ssh_run(build_ssh_dest, remote_shell)
 
 
 def fetch_remote_archives(
     build_ssh_dest: str,
     remote_staging: str,
     local_staging: Path,
+    *,
+    build_project_root: str = "",
 ) -> tuple[Path | None, Path, str | None, str, str]:
     try:
         output = ssh_capture(build_ssh_dest, "ls", "-1", remote_staging)
     except subprocess.CalledProcessError as exc:
         sys.exit(f"ERROR: Could not list remote build staging dir {remote_staging}: {exc}")
 
-    figures_name, increment_name = list_staging_archives(
-        [line.strip() for line in output.splitlines() if line.strip()]
-    )
+    names = [line.strip() for line in output.splitlines() if line.strip()]
+    figures_name, increment_name = list_staging_archives(names)
     prefix = increment_name.removesuffix(INCREMENT_SUFFIX)
 
     figures_archive: Path | None = None
     if figures_name:
         figures_archive = local_staging / figures_name
-        print(f"Downloading {figures_name} from build host...")
+        print(f"Downloading {figures_name} from build host staging...")
         download_archive(build_ssh_dest, f"{remote_staging}/{figures_name}", figures_archive)
+    elif build_project_root:
+        host_id = host_id_from_archive_name(increment_name)
+        archive_dir = resolve_build_archive_dir(Path(build_project_root))
+        latest_name = latest_figure_archive(
+            list_persisted_figure_names(archive_dir, host_id),
+            host_id,
+        )
+        if latest_name:
+            figures_name = latest_name
+            figures_archive = local_staging / figures_name
+            remote_path = f"{archive_dir}/{figures_name}"
+            print(f"Downloading persisted {figures_name} from build host...")
+            download_archive(build_ssh_dest, remote_path, figures_archive)
 
     increment_archive = local_staging / increment_name
     print(f"Downloading {increment_name} from build host...")
@@ -467,20 +937,45 @@ def deploy_archives(
     increment_archive: Path,
 ) -> None:
     baseline: str | None = None
+    bootstrap_figures = False
+    update_figures = False
     if not full:
         baseline = latest_figure_archive(
             list_remote_figure_archives(ssh_dest, remote_archive, host_id),
             host_id,
         )
         if not baseline:
-            print(
-                "ERROR: Incremental deploy needs a figures archive from this machine on the server.",
-                file=sys.stderr,
-            )
-            print(f"ERROR: None found for host {host_id} under {remote_archive}/.", file=sys.stderr)
-            print(f"Hint: Run a full deploy first: {Path(__file__).name} --full", file=sys.stderr)
-            sys.exit(1)
-        print(f"Using baseline figure archive: {baseline}")
+            if figures_archive and figures_name:
+                print(
+                    f"No figures archive for {host_id} on server; "
+                    f"bootstrapping with {figures_name}..."
+                )
+                bootstrap_figures = True
+                baseline = figures_name
+            else:
+                print(
+                    "ERROR: Incremental deploy needs a figures archive from this machine on the server.",
+                    file=sys.stderr,
+                )
+                print(
+                    f"ERROR: None found for host {host_id} under {remote_archive}/.",
+                    file=sys.stderr,
+                )
+                print(
+                    f"Hint: Run a full deploy first: {Path(__file__).name} --full",
+                    file=sys.stderr,
+                )
+                sys.exit(1)
+        else:
+            print(f"Using baseline figure archive: {baseline}")
+            if figures_archive and figures_name:
+                remote_figures_path = f"{remote_archive}/{baseline}"
+                remote_hash = remote_file_sha256(ssh_dest, remote_figures_path)
+                local_hash = file_sha256(figures_archive)
+                if not remote_hash or remote_hash != local_hash:
+                    print(f"Figures changed; uploading {figures_name}...")
+                    update_figures = True
+                    baseline = figures_name
 
     reuse_figures_archive = False
     if full and figures_archive and figures_name:
@@ -500,12 +995,19 @@ def deploy_archives(
     mode_label = "full" if full else "incremental"
     print(f"Running {mode_label} deploy from {host_id} ({prefix})...")
 
-    if full and not no_delete:
-        unpack_remotely(ssh_dest, remote_deploy, remote_archive, clear_site=True)
-
     to_upload: list[tuple[Path, str]] = [(increment_archive, increment_name)]
     to_extract: list[tuple[Path, str]] = [(increment_archive, increment_name)]
-    if full and figures_name:
+    if (
+        bootstrap_figures
+        and figures_archive
+        and figures_name
+        or update_figures
+        and figures_archive
+        and figures_name
+    ):
+        to_upload.insert(0, (figures_archive, figures_name))
+        to_extract.insert(0, (figures_archive, figures_name))
+    elif full and figures_name:
         if reuse_figures_archive:
             if not no_delete and figures_archive:
                 to_extract.insert(0, (figures_archive, figures_name))
@@ -515,6 +1017,9 @@ def deploy_archives(
 
     for local_path, remote_name in to_upload:
         upload_archive(ssh_dest, local_path, f"{remote_archive}/{remote_name}")
+
+    if full and not no_delete:
+        unpack_remotely(ssh_dest, remote_deploy, remote_archive, clear_site=True)
 
     for local_path, _remote_name in to_extract:
         extract_archive(ssh_dest, remote_deploy, local_path)
@@ -559,7 +1064,18 @@ def main() -> None:
     parser.add_argument(
         "--skip-export",
         action="store_true",
-        help="Skip database export before Hugo build.",
+        help=(
+            "Skip database export; reuse existing site/ content or restore the latest "
+            "export snapshot from deploy-archives/."
+        ),
+    )
+    parser.add_argument(
+        "--upload-only",
+        action="store_true",
+        help=(
+            "Skip build; upload and deploy the latest local archives "
+            "(for retry after an aborted deploy)."
+        ),
     )
     parser.add_argument(
         "--build-only",
@@ -572,6 +1088,11 @@ def main() -> None:
         help="Directory for deploy archives (required with --build-only).",
     )
     args = parser.parse_args()
+
+    if args.upload_only and args.build_only:
+        sys.exit("ERROR: --upload-only cannot be used with --build-only.")
+    if args.upload_only and args.skip_export:
+        sys.exit("ERROR: --upload-only cannot be used with --skip-export.")
 
     full = args.full
     hugo_base_url = os.environ.get("HUGO_BASE_URL", "")
@@ -601,7 +1122,7 @@ def main() -> None:
         sys.exit("ERROR: DEPLOY_PATH is empty. Set it in .env.")
 
     build_host, build_project_root = validate_build_host_settings()
-    require_build_tools(check_hugo=not bool(build_host))
+    require_deploy_tools() if args.upload_only else require_build_tools()
 
     ssh_dest = ssh_dest_for(deploy_host, cfg.deploy_user)
 
@@ -625,6 +1146,31 @@ def main() -> None:
             f"(resolved deploy dir: {remote_deploy or '?'})"
         )
 
+    if args.upload_only:
+        (
+            figures_archive,
+            increment_archive,
+            figures_name,
+            increment_name,
+            prefix,
+            host_id,
+        ) = find_local_deploy_archives(cfg.base_dir, full=full)
+        deploy_archives(
+            ssh_dest,
+            remote_archive,
+            remote_deploy,
+            full=full,
+            no_delete=args.no_delete,
+            host_id=host_id,
+            figures_name=figures_name,
+            increment_name=increment_name,
+            prefix=prefix,
+            figures_archive=figures_archive,
+            increment_archive=increment_archive,
+        )
+        print("Deploy complete.")
+        return
+
     with tempfile.TemporaryDirectory(prefix=".deploy-staging-", dir=cfg.base_dir) as staging_dir:
         staging = Path(staging_dir)
 
@@ -642,16 +1188,28 @@ def main() -> None:
 
             remote_staging = ""
             try:
+                staging_parent = remote_staging_parent(build_project_root)
+                if cfg.build_tmp_dir.strip():
+                    ssh_run(build_ssh_dest, "mkdir", "-p", staging_parent)
                 remote_staging = ssh_capture(
                     build_ssh_dest,
                     "mktemp",
                     "-d",
-                    f"{build_project_root}/.deploy-remote-staging.XXXXXX",
+                    f"{staging_parent}/.deploy-remote-staging.XXXXXX",
                 ).strip()
                 if not remote_staging:
                     sys.exit("ERROR: Could not create remote build staging directory.")
 
-                print(f"Building archives on {build_ssh_dest} ({build_project_root})...")
+                build_tmp_note = ""
+                if cfg.build_tmp_dir.strip():
+                    build_tmp_note = f", build tmp {cfg.build_tmp_dir.strip()}"
+                print(
+                    f"Building archives on {build_ssh_dest} "
+                    f"({build_project_root}{build_tmp_note})..."
+                )
+                sync_remote_build_files(build_ssh_dest, build_project_root)
+                archive_dir = resolve_build_archive_dir(Path(build_project_root))
+                ssh_run(build_ssh_dest, "mkdir", "-p", str(archive_dir))
                 run_remote_build(
                     build_ssh_dest,
                     build_project_root,
@@ -662,13 +1220,22 @@ def main() -> None:
                 )
 
                 figures_archive, increment_archive, figures_name, increment_name, prefix = (
-                    fetch_remote_archives(build_ssh_dest, remote_staging, staging)
+                    fetch_remote_archives(
+                        build_ssh_dest,
+                        remote_staging,
+                        staging,
+                        build_project_root=build_project_root,
+                    )
                 )
                 host_id = host_id_from_archive_name(increment_name)
             finally:
                 if remote_staging:
                     try:
-                        ssh_run(build_ssh_dest, "rm", "-rf", "--", remote_staging)
+                        safe_remove_remote_staging_dir(
+                            build_ssh_dest,
+                            remote_staging,
+                            parent=staging_parent,
+                        )
                     except subprocess.CalledProcessError:
                         print(
                             f"Warning: Could not remove remote staging dir {remote_staging}",
@@ -676,14 +1243,24 @@ def main() -> None:
                         )
         else:
             host_id = local_host_id()
-            figures_archive, increment_archive, figures_name, increment_name, prefix = build_archives(
-                cfg.base_dir,
-                staging,
-                full=full,
-                skip_export=args.skip_export,
-                hugo_base_url=hugo_base_url,
-                host_id=host_id,
+            figures_archive, increment_archive, figures_name, increment_name, prefix = (
+                build_archives(
+                    cfg.base_dir,
+                    staging,
+                    full=full,
+                    skip_export=args.skip_export,
+                    hugo_base_url=hugo_base_url,
+                    host_id=host_id,
+                )
             )
+
+        persist_deploy_archives(
+            cfg.base_dir,
+            increment_archive,
+            increment_name,
+            figures_archive,
+            figures_name,
+        )
 
         deploy_archives(
             ssh_dest,

@@ -203,6 +203,8 @@
 {{ define "scripts" }}
 {{ $cfgVariants := slice }}
 {{ range .Params.variants }}
+  {{ $rowsJson := .rows_json | default "" }}
+  {{ $chartJson := .chart_json | default "" }}
   {{ $cfgVariants = $cfgVariants | append (dict
     "slug" .slug
     "name" .name
@@ -214,8 +216,8 @@
     "metric_display_names" (.metric_display_names | default .metrics)
     "metric_counts" (.metric_counts | default slice)
     "row_count" (.row_count | default (len .rows))
-    "rows_json" (.rows_json | default "")
-    "chart_json" (.chart_json | default "")
+    "rows_json" (cond (ne $rowsJson "") ($rowsJson | relURL) "")
+    "chart_json" (cond (ne $chartJson "") ($chartJson | relURL) "")
   ) }}
 {{ end }}
 <script>

@@ -138,8 +138,27 @@
     return cleaned;
   }
 
-  function _fetchJson(url) {
+  function _siteBasePath() {
+    var meta = document.querySelector('meta[name="site-base-path"]');
+    return meta ? String(meta.content || "").replace(/\/$/, "") : "";
+  }
+
+  function _resolveAssetUrl(url) {
     url = _normalizeAssetUrl(url);
+    if (!url || /^https?:\/\//i.test(url)) {
+      return url;
+    }
+    if (url.charAt(0) === "/") {
+      var base = _siteBasePath();
+      if (base && url.indexOf(base + "/") !== 0 && url !== base) {
+        return base + url;
+      }
+    }
+    return url;
+  }
+
+  function _fetchJson(url) {
+    url = _resolveAssetUrl(url);
     return fetch(url, { credentials: "same-origin" }).then(function (resp) {
       if (!resp.ok) throw new Error("Failed to load " + url);
       return resp.json();
