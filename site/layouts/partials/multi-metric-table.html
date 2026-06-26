@@ -207,7 +207,11 @@
           </div>
           {{ else }}
           <div class="paper-cell-row">
+            {{ $paperVenueLabel := default $r.published_venue $r.published_conference }}
+            {{ $paperVenueSlug := default ($r.published_conference_short | lower) $r.published_conference_slug }}
+            {{ if and (not $paperVenueSlug) $paperVenueLabel }}{{ $paperVenueSlug = $paperVenueLabel | urlize }}{{ end }}
             <div class="paper-title-wrap">
+              {{ with $paperVenueLabel }}<a class="paper-conference-badge" href="{{ printf "papers/?conference=%s" $paperVenueSlug | relURL }}" title="Filter papers by venue">{{ . }}</a>{{ end }}
               {{ if $r.arxiv_id }}<a class="paper-title-link" href="{{ printf "papers/%s/" $r.arxiv_id | relURL }}" title="arXiv:{{ $r.arxiv_id }}{{ with $r.title }} — {{ . }}{{ end }}">{{ if $r.title }}{{ $r.title | truncate 96 }}{{ else }}arXiv:{{ $r.arxiv_id }}{{ end }}</a>{{ else }}—{{ end }}
             </div>
             <div class="paper-inline-meta">

@@ -42,14 +42,14 @@
   {{ end }}
 {{ end }}
 
-{{ $otherCount := 0 }}
+{{ $papersWithoutConferences := where $papers "Params.published_conference_short" "" }}
+{{ $otherCount := len $papersWithoutConferences }}
 {{ $otherYearCounts := dict }}
-{{ range $name, $count := $conferenceCounts }}
-  {{ if not (in $conferenceOrder $name) }}
-    {{ $otherCount = add $otherCount $count }}
-    {{ $confYears := default (dict) (index $conferenceYearCounts $name) }}
-    {{ range $year, $yearCount := $confYears }}
-      {{ $otherYearCounts = merge $otherYearCounts (dict $year (add (default 0 (index $otherYearCounts $year)) $yearCount)) }}
+{{ range $papersWithoutConferences }}
+  {{ with .Params.published_date_iso }}
+    {{ if ge (len .) 4 }}
+      {{ $year := substr . 0 4 }}
+      {{ $otherYearCounts = merge $otherYearCounts (dict $year (add (default 0 (index $otherYearCounts $year)) 1)) }}
     {{ end }}
   {{ end }}
 {{ end }}
@@ -60,19 +60,26 @@
   {{ $confChartLabels = $confChartLabels | append . }}
   {{ $confChartValues = $confChartValues | append (default 0 (index $conferenceCounts .)) }}
 {{ end }}
-{{ if gt $otherCount 0 }}
-  {{ $confChartLabels = $confChartLabels | append "Other" }}
-  {{ $confChartValues = $confChartValues | append $otherCount }}
-{{ end }}
 
 {{ $yearChartValues := slice }}
 {{ range $sortedYears }}
   {{ $yearChartValues = $yearChartValues | append (default 0 (index $yearCounts .)) }}
 {{ end }}
 
+{{ $maxYearCount := 0 }}
+{{ range $conferenceOrder }}
+  {{ $confYears := default (dict) (index $conferenceYearCounts .) }}
+  {{ range $sortedYears }}
+    {{ $v := default 0 (index $confYears .) }}
+    {{ if gt $v $maxYearCount }}
+      {{ $maxYearCount = $v }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
 {{ partial "site-banner.html" (dict
   "variant" "warning"
-  "message" (printf "Paper import very incomplete (just %d papers imported until now, %d with benchmark results). Since imports are prioritized by number of citations, there is a strong bias towards older papers." (len $allPapers) (len $papers))
+  "message" (printf "Paper import is very incomplete and biased towards older papers (imports are prioritized by citations). Only %d papers with benchmark results are included so far." (len $papers))
 ) }}
 <div class="overview-hero">
   <h1>{{ .Title }}</h1>
@@ -137,6 +144,7 @@
               aria-label="{{ . }} papers by year from {{ $firstYear }} to {{ $lastYear }}"
               data-chart-labels="{{ $sortedYears | jsonify | safeHTMLAttr }}"
               data-chart-values="{{ $cardYearValues | jsonify | safeHTMLAttr }}"
+              data-chart-max="{{ $maxYearCount }}"
             ></canvas>
             <div class="dev-card-year-scale" aria-hidden="true">
               <span>{{ $firstYear }}</span>
@@ -153,18 +161,18 @@
           </div>
         </article>
       {{ end }}
-      {{ $otherCardYearValues := slice }}
-      {{ range $sortedYears }}
-        {{ $otherCardYearValues = $otherCardYearValues | append (default 0 (index $otherYearCounts .)) }}
-      {{ end }}
+{{ $otherCardYearValues := slice }}
+{{ range $sortedYears }}
+  {{ $otherCardYearValues = $otherCardYearValues | append (default 0 (index $otherYearCounts .)) }}
+{{ end }}
       <article class="dev-card">
-        <h3>Other venues</h3>
+        <h3>No detected venue</h3>
         {{ if gt (len $sortedYears) 0 }}
         <div class="dev-card-year-chart-wrap">
           <canvas
             class="dev-card-year-chart"
             height="56"
-            aria-label="Other venue papers by year from {{ $firstYear }} to {{ $lastYear }}"
+            aria-label="Papers without detected venue by year from {{ $firstYear }} to {{ $lastYear }}"
             data-chart-labels="{{ $sortedYears | jsonify | safeHTMLAttr }}"
             data-chart-values="{{ $otherCardYearValues | jsonify | safeHTMLAttr }}"
           ></canvas>
@@ -293,7 +301,7 @@
         },
         scales: {
           x: { display: false, grid: { display: false } },
-          y: { display: false, beginAtZero: true }
+          y: Object.assign({}, scaleColors().y, { display: false, beginAtZero: true, suggestedMax: canvas.dataset.chartMax || undefined })
         }
       }
     }));

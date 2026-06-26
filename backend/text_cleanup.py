@@ -11,6 +11,9 @@ _LATEX_INLINE_FORMATTING_RE = re.compile(
 _LATEX_ARTIFACT_RE = re.compile(
     r"~|\\(?:[%$#&_{}]|xspace|cite|citep|citet|ref|eqref|label|url|href|footnote|text[a-zA-Z]+|[A-Za-z]{2,})"
 )
+_AUTHOR_BROKEN_RE = re.compile(
+    r"\$|\\(?:thanks|texttt|and|And|AND)\b|\\\\|@[a-zA-Z0-9._%+-]+\.[a-zA-Z]{2,}"
+)
 
 
 def clean_extracted_text(text: str | None) -> str:
@@ -34,3 +37,32 @@ def clean_extracted_text(text: str | None) -> str:
 def abstract_has_latex_artifacts(text: str | None) -> bool:
     """Return True when an abstract still looks like partially stripped LaTeX."""
     return bool(text and _LATEX_ARTIFACT_RE.search(text))
+
+
+def author_name_looks_broken(name: str | None) -> bool:
+    """Return True when a single author display name still looks like raw LaTeX."""
+    if not name:
+        return False
+    text = name.strip()
+    if _AUTHOR_BROKEN_RE.search(text):
+        return True
+    if text.count(",") >= 2:
+        return True
+    return False
+
+
+def authors_look_broken(authors: list[object] | None) -> bool:
+    """Return True when stored author records look like unparsed LaTeX author blocks."""
+    from backend.models import author_display_name
+
+    if not authors:
+        return False
+    names = [author_display_name(author) for author in authors]
+    names = [name for name in names if name]
+    if not names:
+        return False
+    if any(author_name_looks_broken(name) for name in names):
+        return True
+    if len(names) == 1 and len(names[0]) > 80:
+        return True
+    return False

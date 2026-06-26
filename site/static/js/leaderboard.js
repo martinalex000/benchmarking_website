@@ -245,6 +245,14 @@
     return value.toFixed(4);
   }
 
+  function _slugify(text) {
+    return String(text || "")
+      .toLowerCase()
+      .trim()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "");
+  }
+
   function _needsSciNotation(values) {
     return (values || []).some(function (v) {
       return typeof v === "number" && isFinite(v) && v !== 0 && Math.abs(v) < SCI_NOTATION_THRESHOLD;
@@ -482,6 +490,15 @@
 
     html += '<td class="col-paper mobile-details-hit" id="' + rowDetailsId + '" data-label="Paper">';
     html += '<div class="paper-cell-row"><div class="paper-title-wrap">';
+    var conferenceLabel = row.published_conference || row.published_venue || "";
+    var conferenceSlug = row.published_conference_slug || (
+      row.published_conference_short ? _slugify(row.published_conference_short) : _slugify(conferenceLabel)
+    );
+    if (conferenceLabel) {
+      html += '<a class="paper-conference-badge" href="' + _siteBasePath() + "/papers/?conference=" +
+        encodeURIComponent(conferenceSlug) + '" title="Filter papers by venue">' +
+        _escapeHtml(conferenceLabel) + "</a>";
+    }
     if (row.arxiv_id) {
       var paperHref = "papers/" + encodeURIComponent(row.arxiv_id) + "/";
       var paperTitle = row.title ? _truncateText(row.title, 96) : ("arXiv:" + row.arxiv_id);
@@ -591,6 +608,17 @@
     window.addEventListener("resize", function () {
       Object.values(charts).forEach(_positionChartToggles);
     });
+    if (window.matchMedia) {
+      var mobileChartQuery = window.matchMedia("(max-width: 980px)");
+      var syncMobileChartMode = function () {
+        Object.values(charts).forEach(_applyChartFilters);
+      };
+      if (mobileChartQuery.addEventListener) {
+        mobileChartQuery.addEventListener("change", syncMobileChartMode);
+      } else if (mobileChartQuery.addListener) {
+        mobileChartQuery.addListener(syncMobileChartMode);
+      }
+    }
     _syncSecondaryMetricsPlatform();
 
     window.addEventListener("sitethemechange", _refreshChartsForColorScheme);
@@ -970,6 +998,14 @@
     return window.matchMedia("(min-width: 981px)").matches;
   }
 
+  function _mobileFrontierChartOnly() {
+    return window.matchMedia("(max-width: 980px)").matches;
+  }
+
+  function _showRecordPoint(datum) {
+    return !!(datum && datum._isRecord);
+  }
+
   function _syncSecondaryMetricsPlatform() {
     if (!_secondaryMetricsDesktopOnly() && showSecondaryMetrics) {
       var hasFlat = document.querySelector(".dataset-flat-metrics");
@@ -1124,6 +1160,11 @@
 
   function _datumPassesFilters(datum, slug) {
     if (!datum) return false;
+    if (_mobileFrontierChartOnly()) {
+      if (!(datum._isRecord || datum._isSotaMatch)) {
+        return false;
+      }
+    }
     if (!showBaselines && datum.is_baseline && !datum._isRecord) {
       if (slug && _isTopNDatum(slug, datum, TOP_N_ALWAYS_VISIBLE)) {
         /* keep top-N table rows on chart */
@@ -1508,7 +1549,7 @@
 
     var badSide = higherIsBetter
       ? _quantile(allVals, 0.28)
-      : _quantile(allVals, 0.72);
+      : _quantile(allVals, 0.45);
     var goodTail = higherIsBetter
       ? _quantile(allVals, 0.97)
       : _quantile(allVals, 0.03);
@@ -1653,10 +1694,10 @@
     });
 
     chart.data.datasets[1].pointBackgroundColor = visibleRecord.map(function (d) {
-      return d && d._isRecord ? "#2563eb" : "transparent";
+      return _showRecordPoint(d) ? "#2563eb" : "transparent";
     });
     chart.data.datasets[1].pointRadius = visibleRecord.map(function (d) {
-      return d && d._isRecord ? 7 : 0;
+      return _showRecordPoint(d) ? 7 : 0;
     });
 
     if (chart._highlightedPoint) {
@@ -1878,8 +1919,8 @@
       : _computeFocusedYBounds(scatterData, recordData, scaleReferences, higherIsBetter);
 
     // ── Per-point styling for records line ────────────────────────────
-    var recordBg = recordData.map(function (d) { return d._isRecord ? "#2563eb" : "transparent"; });
-    var recordRadius = recordData.map(function (d) { return d._isRecord ? 7 : 0; });
+    var recordBg = recordData.map(function (d) { return _showRecordPoint(d) ? "#2563eb" : "transparent"; });
+    var recordRadius = recordData.map(function (d) { return _showRecordPoint(d) ? 7 : 0; });
     var visibleScatterData = scatterData.filter(function (d) {
       return _isWithinYBounds(d.y, focusedYBounds) && (!d._isStdOutlier || d._isRecord);
     });
@@ -1945,33 +1986,101 @@
         ctx.textAlign = "left";
         var chartArea = chart.chartArea;
         var placedBoxes = [];
+        function overlapsAny(box) {
+          return placedBoxes.some(function (placed) {
+            return box.left < placed.right &&
+              box.right > placed.left &&
+              box.top < placed.bottom &&
+              box.bottom > placed.top;
+          });
+        }
+        function clampLabelBox(box) {
+          var dx = 0;
+          var dy = 0;
+          if (box.left < chartArea.left + 4) dx = chartArea.left + 4 - box.left;
+          if (box.right > chartArea.right - 4) dx = chartArea.right - 4 - box.right;
+          if (box.top < chartArea.top + 4) dy = chartArea.top + 4 - box.top;
+          if (box.bottom > chartArea.bottom - 4) dy = chartArea.bottom - 4 - box.bottom;
+          return {
+            x: box.x + dx,
+            y: box.y + dy,
+            left: box.left + dx,
+            right: box.right + dx,
+            top: box.top + dy,
+            bottom: box.bottom + dy,
+          };
+        }
+        function labelBox(x, y, width, height) {
+          return {
+            x: x,
+            y: y,
+            left: x,
+            right: x + width,
+            top: y - height,
+            bottom: y + 2,
+          };
+        }
+        function labelPenalty(box, point) {
+          var cx = (box.left + box.right) / 2;
+          var cy = (box.top + box.bottom) / 2;
+          var dx = cx - point.x;
+          var dy = cy - point.y;
+          return dx * dx + dy * dy;
+        }
+        function overlapArea(box) {
+          return placedBoxes.reduce(function (total, placed) {
+            var width = Math.max(0, Math.min(box.right, placed.right) - Math.max(box.left, placed.left));
+            var height = Math.max(0, Math.min(box.bottom, placed.bottom) - Math.max(box.top, placed.top));
+            return total + width * height;
+          }, 0);
+        }
         meta.data.forEach(function (point, i) {
           var pd = recordPoints[i];
-          if (!pd || !pd._isRecord || !pd.model) return;
+          if (!_showRecordPoint(pd) || !pd.model) return;
           var label = pd.model + " " + _formatMetricValue(pd.y);
-          var lx = Math.min(point.x + 5, chartArea.right - ctx.measureText(label).width - 6);
-          lx = Math.max(chartArea.left + 4, lx);
-          var ly = point.y - 8;
           var width = ctx.measureText(label).width;
           var height = 12;
-          if (ly - height < chartArea.top + 2) {
-            ly = Math.max(height + 2, chartArea.top - 6);
-          }
-          var guard = 0;
-          while (guard < 12) {
-            var overlaps = placedBoxes.some(function (box) {
-              return lx < box.right && lx + width > box.left && ly - height < box.bottom && ly > box.top;
-            });
-            if (!overlaps) break;
-            ly -= 13;
-            if (ly - height < chartArea.top + 2) {
-              ly = Math.min(chartArea.bottom - 4, point.y + 16 + guard * 13);
+          var candidates = [
+            labelBox(point.x + 7, point.y - 8, width, height),
+            labelBox(point.x - width - 7, point.y - 8, width, height),
+            labelBox(point.x + 7, point.y + height + 7, width, height),
+            labelBox(point.x - width - 7, point.y + height + 7, width, height),
+            labelBox(point.x - width / 2, point.y - 15, width, height),
+            labelBox(point.x - width / 2, point.y + height + 14, width, height),
+            labelBox(point.x + 14, point.y - 22, width, height),
+            labelBox(point.x - width - 14, point.y + height + 20, width, height),
+          ].map(clampLabelBox);
+          var chosen = null;
+          candidates.some(function (box) {
+            if (!overlapsAny(box)) {
+              chosen = box;
+              return true;
             }
-            guard += 1;
+            return false;
+          });
+          if (!chosen) {
+            chosen = candidates.slice().sort(function (a, b) {
+              var overlapA = overlapArea(a);
+              var overlapB = overlapArea(b);
+              if (overlapA !== overlapB) return overlapA - overlapB;
+              return labelPenalty(a, point) - labelPenalty(b, point);
+            })[0];
+          }
+          var labelCx = (chosen.left + chosen.right) / 2;
+          var labelCy = (chosen.top + chosen.bottom) / 2;
+          if (Math.abs(labelCx - point.x) > 16 || Math.abs(labelCy - point.y) > 16) {
+            ctx.save();
+            ctx.strokeStyle = "rgba(37,99,235,0.24)";
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(point.x, point.y);
+            ctx.lineTo(labelCx, labelCy);
+            ctx.stroke();
+            ctx.restore();
           }
           ctx.fillStyle = _chartTheme().blue;
-          ctx.fillText(label, lx, ly);
-          placedBoxes.push({ left: lx, right: lx + width, top: ly - height, bottom: ly + 2 });
+          ctx.fillText(label, chosen.x, chosen.y);
+          placedBoxes.push(chosen);
         });
         ctx.restore();
       },
@@ -2035,7 +2144,7 @@
         if (rm && !rm.hidden) {
           rm.data.forEach(function (point, i) {
             var d = recordPoints[i];
-            if (!d || !d._isRecord || !_shouldDrawDatumStd(chart, d)) return;
+            if (!_showRecordPoint(d) || !_shouldDrawDatumStd(chart, d)) return;
             _drawErrorBar(ctx, chartArea, point.x, yScale, d.y, d.std, "rgba(37,99,235,0.7)", 7);
           });
         }

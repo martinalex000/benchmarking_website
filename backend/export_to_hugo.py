@@ -112,6 +112,9 @@ def clear_export_caches() -> None:
     _DATASET_EXPORT_META_CACHE.clear()
     _BENCHMARK_EXPORTABLE_TOTALS = None
     _DATASET_PAPER_COUNT_CACHE.clear()
+    from backend.override_handler import clear_overrides_cache
+
+    clear_overrides_cache()
 
 
 _CONFERENCE_ALIASES: tuple[tuple[str, tuple[str, ...]], ...] = (
@@ -132,6 +135,7 @@ _CONFERENCE_ALIASES: tuple[tuple[str, tuple[str, ...]], ...] = (
     ),
     ("AAAI", ("aaai", "association for the advancement of artificial intelligence")),
     ("KDD", ("kdd", "sigkdd", "knowledge discovery and data mining")),
+    ("IJCAI", ("ijcai", "international joint conference on artificial intelligence")),
 )
 _SHORT_CONFERENCE_ALIASES = frozenset(
     alias for _label, aliases in _CONFERENCE_ALIASES for alias in aliases if len(alias) <= 5
@@ -1792,13 +1796,16 @@ def _compute_paper_mrr(
         return 0.0, 0.0, 0, proposed_models
 
     # Collect per-dataset best values for the primary proposed model only.
+    # Only the dataset's configured default metric counts; datasets without one are skipped.
     ds_info: dict[str, dict] = {}
     for r in results:
         dv = r.dataset_variant
         if not dv or not dv.dataset:
             continue
         ds = dv.dataset
-        primary_metric = ds.primary_metric or r.metric_name
+        primary_metric = ds.primary_metric
+        if not primary_metric:
+            continue
         if r.metric_name != primary_metric:
             continue
         model = r.model.canonical_name if r.model else None
@@ -2702,7 +2709,7 @@ def _dedup_shared_results(groups: list[dict], primary_metric: str) -> list[dict]
     )
 
     keep_indices: set[int] = set()
-    seen_model_vals: dict[str, list[tuple[float, float]]] = {}  # model → [(val, std), …]
+    seen_model_intervals: dict[str, list[tuple[float, float]]] = {}
 
     for orig_idx, g in date_sorted:
         model = g["model"]
@@ -2711,11 +2718,23 @@ def _dedup_shared_results(groups: list[dict], primary_metric: str) -> list[dict]
             keep_indices.add(orig_idx)
             continue
         std_f: float = std or 0.0
-        prev = seen_model_vals.get(model, [])
-        if any(abs(val - pv) <= std_f + ps for pv, ps in prev):
+        lo = val - std_f
+        hi = val + std_f
+        intervals = seen_model_intervals.setdefault(model, [])
+        insert_at = 0
+        duplicate = False
+        for idx, (prev_lo, prev_hi) in enumerate(intervals):
+            if prev_hi < lo:
+                insert_at = idx + 1
+                continue
+            if prev_lo > hi:
+                break
+            duplicate = True
+            break
+        if duplicate:
             continue  # duplicate — skip this paper's entry
         keep_indices.add(orig_idx)
-        seen_model_vals.setdefault(model, []).append((val, std_f))
+        intervals.insert(insert_at, (lo, hi))
 
     return [g for i, g in enumerate(groups) if i in keep_indices]
 
@@ -2756,15 +2775,40 @@ def _build_multi_metric_rows(
             break
 
     # Group by (canonical model identity, arxiv_id)
+    # Hoist paper-specific rename maps and caches to avoid recomputing them per result.
+    paper_renames: dict[str, dict[str, str]] = {}
+    _model_plain_cache: dict[str, str] = {}
+    _model_key_cache: dict[str, str] = {}
+    _arch_fields_cache: dict[tuple, dict[str, Any]] = {}
+
+    def _cached_plain(name: str) -> str:
+        if name not in _model_plain_cache:
+            _model_plain_cache[name] = _plain_model(name)
+        return _model_plain_cache[name]
+
+    def _cached_model_key(name: str) -> str:
+        if name not in _model_key_cache:
+            _model_key_cache[name] = _model_key(name)
+        return _model_key_cache[name]
+
+    def _cached_arch_fields(result: Any) -> dict[str, Any]:
+        key = (result.model.model_type if result.model else None,)
+        if key not in _arch_fields_cache:
+            _arch_fields_cache[key] = _result_architecture_fields(result)
+        return _arch_fields_cache[key]
+
     groups: dict[tuple, dict] = {}
     for r in all_results:
-        model_name = _sanitize_model(
-            r.model.canonical_name if r.model else "",
-            r.paper.arxiv_id if r.paper else None,
-        )
         paper = r.paper
         arxiv_id = paper.arxiv_id if paper else ""
-        group_model_key = _model_key(r.model.canonical_name if r.model else model_name)
+        canonical = r.model.canonical_name if r.model else ""
+
+        # Lazily build per-paper rename map (avoids calling load_overrides per result)
+        if arxiv_id not in paper_renames:
+            paper_renames[arxiv_id] = _paper_model_renames(arxiv_id)
+
+        model_name = _sanitize_model_text(canonical, remap=paper_renames.get(arxiv_id))
+        group_model_key = _cached_model_key(canonical or model_name)
         key = (group_model_key, arxiv_id)
         if key not in groups:
             conference_fields = _conference_export_fields(
@@ -2773,12 +2817,12 @@ def _build_multi_metric_rows(
             )
             groups[key] = {
                 "model": strip_implementation_marker(model_name) or model_name,
-                "model_plain": _plain_model(model_name),
+                "model_plain": _cached_plain(model_name),
                 "is_baseline": bool(r.is_baseline),
                 "is_overridden": bool(r.is_overridden),
                 "override_reason": r.override_reason or "",
                 "params_millions": _result_params_millions(r),
-                **_result_architecture_fields(r),
+                **_cached_arch_fields(r),
                 "arxiv_id": arxiv_id,
                 "title": _sanitize_title(paper.title if paper else ""),
                 "date": _fmt_date(paper.published_date) if paper else "",
@@ -2786,12 +2830,15 @@ def _build_multi_metric_rows(
                 "date_display": _fmt_month_year(paper.published_date) if paper else "",
                 "codebase_url": paper.codebase_url or "",
                 "published_conference": conference_fields["published_conference"],
+                "published_conference_short": conference_fields["published_conference_short"],
+                "published_conference_slug": conference_fields["published_conference_slug"],
+                "published_venue": paper.venue if paper else "",
                 "uses_external_data": None,
                 "_vals": {},
             }
         elif "*" in groups[key]["model"] and "*" not in model_name:
             groups[key]["model"] = strip_implementation_marker(model_name) or model_name
-            groups[key]["model_plain"] = _plain_model(model_name)
+            groups[key]["model_plain"] = _cached_plain(model_name)
         # uses_external_data: prefer True > False > None across metrics for this (model, paper)
         ued = r.uses_external_data
         if ued == 1:

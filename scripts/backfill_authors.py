@@ -26,8 +26,10 @@ sys.path.insert(0, str(_project_root))
 from backend.config import cfg  # noqa: E402
 from backend.db import init_db, session_scope  # noqa: E402
 from backend.llm_extractor import _extract_metadata_from_latex_cache  # noqa: E402
-from backend.models import Paper, Result, normalize_author_entry  # noqa: E402
-from backend.semantic_scholar import enrich_authors_from_latex_and_s2  # noqa: E402
+from backend.models import Paper, Result  # noqa: E402
+from backend.paper_storage import PaperStorage  # noqa: E402
+from backend.semantic_scholar import resolve_paper_authors  # noqa: E402
+from backend.text_cleanup import authors_look_broken  # noqa: E402
 
 _PROCESSED_STATUSES = {"extracted", "quarantined_yaml_parse", "quarantined_method_name"}
 
@@ -37,7 +39,7 @@ def _latex_dir_for(arxiv_id: str) -> Path:
 
 
 def _needs_backfill(paper: Paper) -> bool:
-    return not paper.authors
+    return not paper.authors or authors_look_broken(paper.authors)
 
 
 def _papers_needing_backfill(session, *, with_results_only: bool) -> list[Paper]:
@@ -52,17 +54,20 @@ def _papers_needing_backfill(session, *, with_results_only: bool) -> list[Paper]
 
 
 def _authors_for_paper(arxiv_id: str) -> list[dict[str, str | None]] | None:
+    latex_names: list[str] | None = None
     latex_dir = _latex_dir_for(arxiv_id)
-    if not latex_dir.exists():
-        return None
-    latex_meta = _extract_metadata_from_latex_cache(latex_dir)
-    latex_names = latex_meta.get("authors")
-    if not isinstance(latex_names, list) or not latex_names:
-        return None
+    if latex_dir.exists():
+        latex_meta = _extract_metadata_from_latex_cache(latex_dir)
+        raw_names = latex_meta.get("authors")
+        if isinstance(raw_names, list) and raw_names:
+            latex_names = [str(name) for name in raw_names if str(name).strip()]
     try:
-        return enrich_authors_from_latex_and_s2(arxiv_id, latex_names)
+        authors = resolve_paper_authors(arxiv_id, latex_names=latex_names)
+        if authors and not authors_look_broken(authors):
+            return authors
     except Exception:
-        return [normalize_author_entry(name) for name in latex_names]
+        return None
+    return None
 
 
 def probe(sample_size: int = 50, *, with_results_only: bool = True) -> None:
@@ -70,7 +75,7 @@ def probe(sample_size: int = 50, *, with_results_only: bool = True) -> None:
     with session_scope() as session:
         papers = _papers_needing_backfill(session, with_results_only=with_results_only)
         if not papers:
-            print("No processed papers with empty authors found.")
+            print("No processed papers with missing or broken authors found.")
             return
         if len(papers) > sample_size:
             random.shuffle(papers)
@@ -96,7 +101,7 @@ def probe(sample_size: int = 50, *, with_results_only: bool = True) -> None:
             time.sleep(1.1)
 
         total = len(papers)
-        print(f"Sampled {total} processed paper(s) with empty authors in DB")
+        print(f"Sampled {total} processed paper(s) needing author repair in DB")
         print(f"  LaTeX authors parseable: {latex_ok}/{total}")
         print(f"  S2 authorId matched:     {s2_match}/{latex_ok or 1}")
         print(f"  At least one ORCID:      {orcid_hits}/{latex_ok or 1}")
@@ -132,12 +137,13 @@ def backfill(
                     authors = _authors_for_paper(paper.arxiv_id)
                     if authors:
                         paper.authors = authors
+                        PaperStorage(paper.arxiv_id).update_metadata({"authors": authors})
                         updated += 1
                         pbar.set_description(f"{updated} updated, {skipped} skipped, success")
                     else:
                         skipped += 1
                         pbar.set_description(
-                            f"{updated} updated, {skipped} skipped, no latex authors"
+                            f"{updated} updated, {skipped} skipped, unresolved authors"
                         )
                 pbar.update()
                 time.sleep(1.1)

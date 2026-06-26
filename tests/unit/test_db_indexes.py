@@ -47,6 +47,27 @@ def test_init_db_creates_todo_queue_indexes_idempotently(monkeypatch, tmp_path):
     assert "idx_todo_seen_count" in index_names
 
 
+def test_init_db_creates_export_indexes_idempotently(monkeypatch, tmp_path):
+    _configure_temp_workspace(monkeypatch, tmp_path)
+
+    init_db()
+    init_db()
+
+    with get_engine().connect() as conn:
+        result_indexes = conn.exec_driver_sql("PRAGMA index_list(results)").fetchall()
+        variant_indexes = conn.exec_driver_sql("PRAGMA index_list(dataset_variants)").fetchall()
+
+    result_index_names = {row[1] for row in result_indexes}
+    variant_index_names = {row[1] for row in variant_indexes}
+
+    assert {
+        "idx_results_variant_problem_metric",
+        "idx_results_paper_problem_baseline",
+        "idx_results_metric_problem_variant",
+    } <= result_index_names
+    assert "idx_dataset_variants_dataset_standard" in variant_index_names
+
+
 def test_init_db_applies_tracked_migrations_to_legacy_schema(monkeypatch, tmp_path):
     _configure_temp_workspace(monkeypatch, tmp_path)
 
@@ -98,13 +119,13 @@ def test_init_db_applies_tracked_migrations_to_legacy_schema(monkeypatch, tmp_pa
         todo_columns = conn2.exec_driver_sql("PRAGMA table_info(todo_papers)").fetchall()
         pending_columns = conn2.exec_driver_sql("PRAGMA table_info(pending_datasets)").fetchall()
         result_columns = conn2.exec_driver_sql("PRAGMA table_info(results)").fetchall()
-        index_rows = conn2.exec_driver_sql("PRAGMA index_list(todo_papers)").fetchall()
+        todo_index_rows = conn2.exec_driver_sql("PRAGMA index_list(todo_papers)").fetchall()
 
     migration_names = [row[0] for row in migration_rows]
     todo_column_names = {row[1] for row in todo_columns}
     pending_column_names = {row[1] for row in pending_columns}
     result_column_names = {row[1] for row in result_columns}
-    index_names = {row[1] for row in index_rows}
+    todo_index_names = {row[1] for row in todo_index_rows}
 
     assert migration_names == [migration.name for migration in MIGRATIONS]
     assert "uses_external_data" in result_column_names
@@ -126,5 +147,5 @@ def test_init_db_applies_tracked_migrations_to_legacy_schema(monkeypatch, tmp_pa
         "first_seen_at",
         "is_manually_important",
     } <= todo_column_names
-    assert "idx_todo_created_at" in index_names
-    assert "idx_todo_seen_count" in index_names
+    assert "idx_todo_created_at" in todo_index_names
+    assert "idx_todo_seen_count" in todo_index_names

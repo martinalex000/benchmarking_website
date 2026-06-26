@@ -84,6 +84,10 @@ class Config:
     build_host: str = os.environ.get("BUILD_HOST", "")
     build_user: str = os.environ.get("BUILD_USER", "")
     build_project_root: str = os.environ.get("BUILD_PROJECT_ROOT", "")
+    # Fast local disk on the build host for Hugo output and deploy archives (e.g. /tmp/ritzert).
+    build_tmp_dir: str = os.environ.get("BUILD_TMP_DIR", "")
+    # Persistent deploy archives on the build host (default: BUILD_PROJECT_ROOT/deploy-archives).
+    build_archive_dir: str = os.environ.get("BUILD_ARCHIVE_DIR", "")
 
     # ── External APIs ──────────────────────────────────────────────────────
     semantic_scholar_api_key: str = os.environ.get("SEMANTIC_SCHOLAR_API_KEY", "")

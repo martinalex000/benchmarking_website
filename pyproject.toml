@@ -9,6 +9,7 @@ dependencies = [
     "arxiv>=2.1",
     "beautifulsoup4>=4.14.3",
     "defusedxml>=0.7.1",
+    "hugo>=0.163.2",
     "isort>=8.0.1",
     "lxml>=6.1.0",
     "openai>=2.35.1",

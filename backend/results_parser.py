@@ -48,7 +48,7 @@ from backend.override_handler import apply_overrides_to_db
 from backend.paper_storage import PaperStorage
 from backend.qm9_targets import is_qm9_dataset, normalize_qm9_metric
 from backend.repository_linking import find_verified_repository_link, repository_source_from_storage
-from backend.text_cleanup import abstract_has_latex_artifacts, clean_extracted_text
+from backend.text_cleanup import abstract_has_latex_artifacts, authors_look_broken, clean_extracted_text
 
 logger = logging.getLogger(__name__)
 
@@ -599,7 +599,15 @@ def _enrich_paper_metadata(arxiv_id: str, paper: Paper, storage: PaperStorage) -
         if metadata.get("published_date") and not paper.published_date:
             paper.published_date = metadata["published_date"]
         if metadata.get("authors") and not paper.authors:
-            paper.authors = metadata["authors"]
+            from backend.models import author_display_name, normalize_author_entry
+
+            normalized_authors = [
+                normalize_author_entry(entry)
+                for entry in metadata["authors"]
+                if author_display_name(entry)
+            ]
+            if normalized_authors and not authors_look_broken(normalized_authors):
+                paper.authors = normalized_authors
         if metadata.get("venue") and not paper.venue:
             paper.venue = metadata["venue"]
         if metadata.get("codebase_url") and not paper.codebase_url:
@@ -667,7 +675,16 @@ def _enrich_paper_metadata(arxiv_id: str, paper: Paper, storage: PaperStorage) -
 
         ss_meta = fetch_paper_metadata(arxiv_id)
         if ss_meta:
-            if _apply_remote_metadata(paper, ss_meta):
+            selective_meta = {
+                key: value
+                for key, value in ss_meta.items()
+                if (
+                    (key in {"title", "abstract"} and need_meta)
+                    or (key == "published_date" and need_daily_date)
+                    or (key == "venue" and need_venue)
+                )
+            }
+            if selective_meta and _apply_remote_metadata(paper, selective_meta):
                 abstract_has_artifacts = abstract_has_latex_artifacts(paper.abstract)
             need_meta = (
                 not paper.abstract or abstract_has_artifacts or _title_looks_corrupted(paper.title)
@@ -681,18 +698,38 @@ def _enrich_paper_metadata(arxiv_id: str, paper: Paper, storage: PaperStorage) -
                 }
             )
 
-        # arXiv Atom API only when S2 did not suffice and no API key (avoids slow retries).
-        if need_meta and not cfg.semantic_scholar_api_key:
+        # arXiv Atom API when date/abstract still missing after Semantic Scholar.
+        if (need_meta or need_daily_date) and (
+            not cfg.semantic_scholar_api_key or need_daily_date
+        ):
             from backend.llm_extractor import fetch_arxiv_metadata
 
             meta = fetch_arxiv_metadata(arxiv_id)
             if meta:
-                if _apply_remote_metadata(paper, meta):
+                selective_meta = {
+                    key: value
+                    for key, value in meta.items()
+                    if (
+                        (key in {"title", "abstract"} and need_meta)
+                        or (key == "published_date" and need_daily_date)
+                    )
+                }
+                if selective_meta and _apply_remote_metadata(paper, selective_meta):
                     abstract_has_artifacts = abstract_has_latex_artifacts(paper.abstract)
                 need_meta = (
                     not paper.abstract
                     or abstract_has_artifacts
                     or _title_looks_corrupted(paper.title)
+                )
+                need_daily_date = not paper.published_date or len(paper.published_date) < 10
+                storage.update_metadata(
+                    {
+                        **(
+                            {"published_date": paper.published_date}
+                            if paper.published_date
+                            else {}
+                        ),
+                    }
                 )
 
     # Fallback: derive date from arXiv ID (e.g. 2206.08164 → 2022-06)
@@ -744,22 +781,22 @@ def _enrich_paper_metadata(arxiv_id: str, paper: Paper, storage: PaperStorage) -
             paper.codebase_url = url
             logger.info("Set heuristic codebase_url=%s for arXiv:%s", url, arxiv_id)
 
-    if not paper.authors and storage.latex_dir.exists():
+    if not paper.authors or authors_look_broken(paper.authors):
         try:
-            from backend.llm_extractor import _extract_metadata_from_latex_cache
-            from backend.models import normalize_author_entry
-            from backend.semantic_scholar import enrich_authors_from_latex_and_s2
+            from backend.semantic_scholar import resolve_paper_authors
 
-            latex_meta = _extract_metadata_from_latex_cache(storage.latex_dir)
-            latex_names = latex_meta.get("authors")
-            if isinstance(latex_names, list) and latex_names:
-                try:
-                    paper.authors = enrich_authors_from_latex_and_s2(arxiv_id, latex_names)
-                except Exception as exc:
-                    logger.warning(
-                        "S2 author ORCID enrichment failed for arXiv:%s: %s", arxiv_id, exc
-                    )
-                    paper.authors = [normalize_author_entry(name) for name in latex_names]
+            latex_names: list[str] | None = None
+            if storage.latex_dir.exists():
+                from backend.llm_extractor import _extract_metadata_from_latex_cache
+
+                latex_meta = _extract_metadata_from_latex_cache(storage.latex_dir)
+                raw_names = latex_meta.get("authors")
+                if isinstance(raw_names, list) and raw_names:
+                    latex_names = [str(name) for name in raw_names if str(name).strip()]
+
+            resolved_authors = resolve_paper_authors(arxiv_id, latex_names=latex_names)
+            if resolved_authors and not authors_look_broken(resolved_authors):
+                paper.authors = resolved_authors
                 storage.update_metadata({"authors": paper.authors})
         except Exception as exc:
             logger.debug("Author extraction failed for arXiv:%s: %s", arxiv_id, exc)

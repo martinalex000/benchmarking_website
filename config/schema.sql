@@ -185,6 +185,10 @@ CREATE INDEX IF NOT EXISTS idx_papers_status         ON papers(extraction_status
 CREATE INDEX IF NOT EXISTS idx_results_paper         ON results(paper_id);
 CREATE INDEX IF NOT EXISTS idx_results_variant       ON results(dataset_variant_id);
 CREATE INDEX IF NOT EXISTS idx_results_model         ON results(model_id);
+CREATE INDEX IF NOT EXISTS idx_results_variant_problem_metric ON results(dataset_variant_id, is_problematic, metric_name);
+CREATE INDEX IF NOT EXISTS idx_results_paper_problem_baseline ON results(paper_id, is_problematic, is_baseline);
+CREATE INDEX IF NOT EXISTS idx_results_metric_problem_variant ON results(metric_name, is_problematic, dataset_variant_id);
+CREATE INDEX IF NOT EXISTS idx_dataset_variants_dataset_standard ON dataset_variants(dataset_id, is_standard, name);
 CREATE INDEX IF NOT EXISTS idx_pipeline_paper_stage  ON pipeline_runs(paper_id, stage);
 CREATE INDEX IF NOT EXISTS idx_model_aliases_alias   ON model_aliases(alias);
 CREATE INDEX IF NOT EXISTS idx_pending_status         ON pending_datasets(status);

@@ -8,6 +8,7 @@ import os
 import re
 import sqlite3
 import time
+from dataclasses import dataclass
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
@@ -15,10 +16,22 @@ from typing import Any
 import requests
 
 from backend.config import cfg
+from backend.sqlite_retry import (
+    configure_sqlite_connection,
+    is_sqlite_lock_error,
+    run_db_transaction,
+)
 
 logger = logging.getLogger(__name__)
 
 ARXIV_RE = re.compile(r"(\d{4}\.\d{4,5})(v\d+)?")
+_is_sqlite_lock_error = is_sqlite_lock_error
+
+
+@dataclass(frozen=True)
+class PaginatedFetchResult:
+    papers: list[dict[str, Any]]
+    complete: bool
 
 
 def utcnow_iso() -> str:
@@ -71,7 +84,7 @@ class S2Client:
         data = resp.json()
         return data.get("paperId")
 
-    def fetch_paginated(self, base_url: str, fields: str, limit: int) -> list[dict[str, Any]]:
+    def fetch_paginated(self, base_url: str, fields: str, limit: int) -> PaginatedFetchResult:
         results: list[dict[str, Any]] = []
         offset = 0
         page = min(limit, 500)
@@ -79,7 +92,7 @@ class S2Client:
             params = {"fields": fields, "limit": page, "offset": offset}
             resp = self._get(base_url, params)
             if resp is None:
-                break
+                return PaginatedFetchResult(results, complete=False)
             data = resp.json()
             batch = data.get("data") or []
             for entry in batch:
@@ -89,21 +102,20 @@ class S2Client:
                     results.append(entry.get("citedPaper") or entry.get("reference") or entry)
 
             if len(results) >= limit:
-                return results[:limit]
+                return PaginatedFetchResult(results[:limit], complete=True)
 
             next_offset = data.get("next")
             if not next_offset or len(batch) == 0:
-                break
+                return PaginatedFetchResult(results, complete=True)
             offset = next_offset
-        return results
 
-    def fetch_citations(self, paper_id: str, limit: int) -> list[dict[str, Any]]:
+    def fetch_citations(self, paper_id: str, limit: int) -> PaginatedFetchResult:
         url = f"https://api.semanticscholar.org/graph/v1/paper/{paper_id}/citations"
         return self.fetch_paginated(
             url, "paperId,title,authors,year,externalIds,publicationVenue,abstract,url", limit
         )
 
-    def fetch_references(self, paper_id: str, limit: int) -> list[dict[str, Any]]:
+    def fetch_references(self, paper_id: str, limit: int) -> PaginatedFetchResult:
         url = f"https://api.semanticscholar.org/graph/v1/paper/{paper_id}/references"
         return self.fetch_paginated(
             url, "paperId,title,authors,year,externalIds,publicationVenue,abstract,url", limit
@@ -128,62 +140,71 @@ def infer_arxiv_id_from_s2(paper: dict[str, Any]) -> str | None:
 
 
 def ensure_s2_tables(conn: sqlite3.Connection) -> None:
-    cur = conn.cursor()
-    cur.execute(
-        """
-        CREATE TABLE IF NOT EXISTS s2_crawl_state (
-            paper_id           TEXT PRIMARY KEY,
-            arxiv_id           TEXT,
-            seed_arxiv         TEXT,
-            crawled_at         TEXT,
-            citations_fetched  INTEGER NOT NULL DEFAULT 0,
-            references_fetched INTEGER NOT NULL DEFAULT 0,
-            citations_capped   INTEGER NOT NULL DEFAULT 0,
-            references_capped  INTEGER NOT NULL DEFAULT 0
+    def _write(cur: sqlite3.Cursor) -> None:
+        cur.execute(
+            """
+            CREATE TABLE IF NOT EXISTS s2_crawl_state (
+                paper_id           TEXT PRIMARY KEY,
+                arxiv_id           TEXT,
+                seed_arxiv         TEXT,
+                crawled_at         TEXT,
+                citations_fetched  INTEGER NOT NULL DEFAULT 0,
+                references_fetched INTEGER NOT NULL DEFAULT 0,
+                citations_capped   INTEGER NOT NULL DEFAULT 0,
+                references_capped  INTEGER NOT NULL DEFAULT 0,
+                crawl_complete     INTEGER NOT NULL DEFAULT 0
+            )
+            """
         )
-        """
-    )
-    cur.execute("PRAGMA table_info(s2_crawl_state)")
-    crawl_cols = {row[1] for row in cur.fetchall()}
-    for col, defn in [
-        ("citations_fetched", "INTEGER NOT NULL DEFAULT 0"),
-        ("references_fetched", "INTEGER NOT NULL DEFAULT 0"),
-        ("citations_capped", "INTEGER NOT NULL DEFAULT 0"),
-        ("references_capped", "INTEGER NOT NULL DEFAULT 0"),
-    ]:
-        if col not in crawl_cols:
-            cur.execute(f"ALTER TABLE s2_crawl_state ADD COLUMN {col} {defn}")
+        cur.execute("PRAGMA table_info(s2_crawl_state)")
+        crawl_cols = {row[1] for row in cur.fetchall()}
+        for col, defn in [
+            ("citations_fetched", "INTEGER NOT NULL DEFAULT 0"),
+            ("references_fetched", "INTEGER NOT NULL DEFAULT 0"),
+            ("citations_capped", "INTEGER NOT NULL DEFAULT 0"),
+            ("references_capped", "INTEGER NOT NULL DEFAULT 0"),
+            ("crawl_complete", "INTEGER NOT NULL DEFAULT 0"),
+        ]:
+            if col not in crawl_cols:
+                cur.execute(f"ALTER TABLE s2_crawl_state ADD COLUMN {col} {defn}")
 
-    cur.execute(
-        """
-        CREATE TABLE IF NOT EXISTS missing_papers (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            title TEXT,
-            observed_in TEXT,
-            payload TEXT,
-            first_seen_at TEXT
+        cur.execute(
+            "UPDATE s2_crawl_state SET crawl_complete = 1"
+            " WHERE crawl_complete = 0"
+            " AND citations_fetched > 0 AND references_fetched > 0"
         )
-        """
-    )
-    cur.execute(
-        """
-        CREATE TABLE IF NOT EXISTS local_corpus (
-            arxiv_id TEXT PRIMARY KEY,
-            meta TEXT
+
+        cur.execute(
+            """
+            CREATE TABLE IF NOT EXISTS missing_papers (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                title TEXT,
+                observed_in TEXT,
+                payload TEXT,
+                first_seen_at TEXT
+            )
+            """
         )
-        """
-    )
-    cur.execute("PRAGMA table_info(todo_papers)")
-    todo_cols = {row[1] for row in cur.fetchall()}
-    for col, defn in [
-        ("seen_count", "INTEGER NOT NULL DEFAULT 0"),
-        ("seen_from", "TEXT"),
-        ("first_seen_at", "TEXT"),
-        ("is_manually_important", "INTEGER NOT NULL DEFAULT 0"),
-    ]:
-        if col not in todo_cols:
-            cur.execute(f"ALTER TABLE todo_papers ADD COLUMN {col} {defn}")
-    conn.commit()
+        cur.execute(
+            """
+            CREATE TABLE IF NOT EXISTS local_corpus (
+                arxiv_id TEXT PRIMARY KEY,
+                meta TEXT
+            )
+            """
+        )
+        cur.execute("PRAGMA table_info(todo_papers)")
+        todo_cols = {row[1] for row in cur.fetchall()}
+        for col, defn in [
+            ("seen_count", "INTEGER NOT NULL DEFAULT 0"),
+            ("seen_from", "TEXT"),
+            ("first_seen_at", "TEXT"),
+            ("is_manually_important", "INTEGER NOT NULL DEFAULT 0"),
+        ]:
+            if col not in todo_cols:
+                cur.execute(f"ALTER TABLE todo_papers ADD COLUMN {col} {defn}")
+
+    run_db_transaction(conn, _write)
 
 
 def load_local_corpus_from_papers_table(conn: sqlite3.Connection) -> None:
@@ -193,13 +214,16 @@ def load_local_corpus_from_papers_table(conn: sqlite3.Connection) -> None:
         return
 
     logger.info("Loading local corpus from existing papers table")
-    cur.execute("SELECT arxiv_id FROM papers WHERE arxiv_id IS NOT NULL")
-    for (arxiv_id,) in cur.fetchall():
-        cur.execute(
-            "INSERT OR IGNORE INTO local_corpus(arxiv_id, meta) VALUES (?, ?)",
-            (arxiv_id, None),
-        )
-    conn.commit()
+    rows = conn.execute("SELECT arxiv_id FROM papers WHERE arxiv_id IS NOT NULL").fetchall()
+
+    def _write(cur: sqlite3.Cursor) -> None:
+        for (arxiv_id,) in rows:
+            cur.execute(
+                "INSERT OR IGNORE INTO local_corpus(arxiv_id, meta) VALUES (?, ?)",
+                (arxiv_id, None),
+            )
+
+    run_db_transaction(conn, _write)
 
 
 def _load_seen_sources(raw: str | None) -> list[str]:
@@ -239,78 +263,84 @@ def _directional_counts(seen_sources: list[str]) -> tuple[int, int]:
 
 def upsert_todo(conn: sqlite3.Connection, arxiv_id: str, title: str | None, seen_from: str) -> None:
     """Insert or update a todo_papers row from a unique citation/reference observation."""
-    cur = conn.cursor()
     now = utcnow_iso()
-    cur.execute(
-        "INSERT OR IGNORE INTO todo_papers"
-        "(arxiv_id, title, reason, added_by, status, attempts, cited_by_count,"
-        " cites_existing_count, created_at, seen_count, seen_from, first_seen_at)"
-        " VALUES (?, ?, 'semanticscholar', 's2_todo_crawl', 'pending', 0, 0, 0, ?, 1, ?, ?)",
-        (arxiv_id, title or "", now, json.dumps([seen_from]), now),
-    )
-    cur.execute("SELECT seen_from, title FROM todo_papers WHERE arxiv_id = ?", (arxiv_id,))
-    row = cur.fetchone()
-    if row:
-        seen_list = _unique_seen_sources(_load_seen_sources(row[0]) + [seen_from])
-        seen_count = len(seen_list)
-        cited_by_count, cites_existing_count = _directional_counts(seen_list)
-        effective_title = title or row[1] or ""
+
+    def _write(cur: sqlite3.Cursor) -> None:
         cur.execute(
-            "UPDATE todo_papers SET seen_count = ?, seen_from = ?, title = COALESCE(NULLIF(?, ''), title),"
-            " cited_by_count = ?, cites_existing_count = ?"
-            " WHERE arxiv_id = ?",
-            (
-                seen_count,
-                json.dumps(seen_list),
-                effective_title,
-                cited_by_count,
-                cites_existing_count,
-                arxiv_id,
-            ),
+            "INSERT OR IGNORE INTO todo_papers"
+            "(arxiv_id, title, reason, added_by, status, attempts, cited_by_count,"
+            " cites_existing_count, created_at, seen_count, seen_from, first_seen_at)"
+            " VALUES (?, ?, 'semanticscholar', 's2_todo_crawl', 'pending', 0, 0, 0, ?, 1, ?, ?)",
+            (arxiv_id, title or "", now, json.dumps([seen_from]), now),
         )
-    conn.commit()
+        cur.execute("SELECT seen_from, title FROM todo_papers WHERE arxiv_id = ?", (arxiv_id,))
+        row = cur.fetchone()
+        if row:
+            seen_list = _unique_seen_sources(_load_seen_sources(row[0]) + [seen_from])
+            seen_count = len(seen_list)
+            cited_by_count, cites_existing_count = _directional_counts(seen_list)
+            effective_title = title or row[1] or ""
+            cur.execute(
+                "UPDATE todo_papers SET seen_count = ?, seen_from = ?, title = COALESCE(NULLIF(?, ''), title),"
+                " cited_by_count = ?, cites_existing_count = ?"
+                " WHERE arxiv_id = ?",
+                (
+                    seen_count,
+                    json.dumps(seen_list),
+                    effective_title,
+                    cited_by_count,
+                    cites_existing_count,
+                    arxiv_id,
+                ),
+            )
+
+    run_db_transaction(conn, _write)
 
 
 def repair_todo_counts(conn: sqlite3.Connection) -> None:
-    cur = conn.cursor()
-    cur.execute("SELECT arxiv_id, seen_from FROM todo_papers")
-    for arxiv_id, seen_from in cur.fetchall():
-        seen_list = _unique_seen_sources(_load_seen_sources(seen_from))
-        seen_count = len(seen_list)
-        cited_by_count, cites_existing_count = _directional_counts(seen_list)
-        cur.execute(
-            "UPDATE todo_papers SET seen_count = ?, seen_from = ?, cited_by_count = ?, cites_existing_count = ?"
-            " WHERE arxiv_id = ?",
-            (
-                seen_count,
-                json.dumps(seen_list),
-                cited_by_count,
-                cites_existing_count,
-                arxiv_id,
-            ),
-        )
-    conn.commit()
+    rows = conn.execute("SELECT arxiv_id, seen_from FROM todo_papers").fetchall()
+
+    def _write(cur: sqlite3.Cursor) -> None:
+        for arxiv_id, seen_from in rows:
+            seen_list = _unique_seen_sources(_load_seen_sources(seen_from))
+            seen_count = len(seen_list)
+            cited_by_count, cites_existing_count = _directional_counts(seen_list)
+            cur.execute(
+                "UPDATE todo_papers SET seen_count = ?, seen_from = ?, cited_by_count = ?, cites_existing_count = ?"
+                " WHERE arxiv_id = ?",
+                (
+                    seen_count,
+                    json.dumps(seen_list),
+                    cited_by_count,
+                    cites_existing_count,
+                    arxiv_id,
+                ),
+            )
+
+    run_db_transaction(conn, _write)
 
 
 def sync_todo_status_with_local_corpus(conn: sqlite3.Connection) -> None:
-    cur = conn.cursor()
-    cur.execute(
-        "UPDATE todo_papers SET status = 'done'"
-        " WHERE arxiv_id IN (SELECT arxiv_id FROM local_corpus)"
-        " AND status IN ('pending', 'processing', 'failed')"
-    )
-    conn.commit()
+    def _write(cur: sqlite3.Cursor) -> None:
+        cur.execute(
+            "UPDATE todo_papers SET status = 'done'"
+            " WHERE arxiv_id IN (SELECT arxiv_id FROM local_corpus)"
+            " AND status IN ('pending', 'processing', 'failed')"
+        )
+
+    run_db_transaction(conn, _write)
 
 
 def insert_missing(
     conn: sqlite3.Connection, title: str | None, observed_in: str, payload: dict[str, Any]
 ) -> None:
-    cur = conn.cursor()
-    cur.execute(
-        "INSERT INTO missing_papers(title, observed_in, payload, first_seen_at) VALUES (?, ?, ?, ?)",
-        (title or "", observed_in, json.dumps(payload, ensure_ascii=False), utcnow_iso()),
-    )
-    conn.commit()
+    def _write(cur: sqlite3.Cursor) -> None:
+        cur.execute(
+            "INSERT INTO missing_papers(title, observed_in, payload, first_seen_at) VALUES (?, ?, ?, ?)",
+            (title or "", observed_in, json.dumps(payload, ensure_ascii=False), utcnow_iso()),
+        )
+
+    run_db_transaction(conn, _write)
 
 
 def mark_crawled(
@@ -324,33 +354,40 @@ def mark_crawled(
     citations_capped: bool = False,
     references_capped: bool = False,
 ) -> None:
-    cur = conn.cursor()
-    cur.execute(
-        "INSERT OR REPLACE INTO s2_crawl_state"
-        "(paper_id, arxiv_id, seed_arxiv, crawled_at,"
-        " citations_fetched, references_fetched, citations_capped, references_capped)"
-        " VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-        (
-            paper_id,
-            arxiv_id,
-            seed_arxiv,
-            utcnow_iso(),
-            citations_fetched,
-            references_fetched,
-            int(citations_capped),
-            int(references_capped),
-        ),
-    )
-    conn.commit()
+    def _write(cur: sqlite3.Cursor) -> None:
+        cur.execute(
+            "INSERT OR REPLACE INTO s2_crawl_state"
+            "(paper_id, arxiv_id, seed_arxiv, crawled_at,"
+            " citations_fetched, references_fetched, citations_capped, references_capped,"
+            " crawl_complete)"
+            " VALUES (?, ?, ?, ?, ?, ?, ?, ?, 1)",
+            (
+                paper_id,
+                arxiv_id,
+                seed_arxiv,
+                utcnow_iso(),
+                citations_fetched,
+                references_fetched,
+                int(citations_capped),
+                int(references_capped),
+            ),
+        )
+
+    run_db_transaction(conn, _write)
 
 
 def already_crawled(conn: sqlite3.Connection, paper_id: str) -> bool:
     cur = conn.cursor()
-    cur.execute("SELECT 1 FROM s2_crawl_state WHERE paper_id = ?", (paper_id,))
-    return cur.fetchone() is not None
+    cur.execute(
+        "SELECT crawl_complete FROM s2_crawl_state WHERE paper_id = ?",
+        (paper_id,),
+    )
+    row = cur.fetchone()
+    return bool(row and row[0])
 
 
 def get_uncrawled_seeds(conn: sqlite3.Connection) -> list[str]:
+    """Return DB papers that still need a complete Semantic Scholar crawl."""
     cur = conn.cursor()
     cur.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='papers'")
     if not cur.fetchone():
@@ -361,7 +398,8 @@ def get_uncrawled_seeds(conn: sqlite3.Connection) -> list[str]:
         FROM papers p
         WHERE p.arxiv_id IS NOT NULL
           AND NOT EXISTS (
-            SELECT 1 FROM s2_crawl_state cs WHERE cs.arxiv_id = p.arxiv_id
+            SELECT 1 FROM s2_crawl_state cs
+            WHERE cs.arxiv_id = p.arxiv_id AND cs.crawl_complete = 1
           )
         ORDER BY p.created_at
         """
@@ -400,19 +438,41 @@ def crawl_seed(
         "ref_added": 0,
         "cite_missing": 0,
         "ref_missing": 0,
+        "marked_complete": 0,
+        "metadata_filled": {"published_date": False, "venue": False, "authors": False},
     }
     paper_id = s2.paper_id_for_arxiv(seed_arxiv)
     if not paper_id:
         logger.warning("Could not resolve seed arXiv:%s on Semantic Scholar", seed_arxiv)
         return stats
 
+    try:
+        from backend.semantic_scholar import ensure_paper_metadata
+
+        stats["metadata_filled"] = ensure_paper_metadata(seed_arxiv)
+    except Exception as exc:
+        logger.warning("Paper metadata backfill failed for arXiv:%s: %s", seed_arxiv, exc)
+
     if not force and already_crawled(conn, paper_id):
         logger.info("Seed paperId %s already crawled — skipping", paper_id)
         return stats
 
-    citations = s2.fetch_citations(paper_id, limit)
-    stats["citations"] = len(citations)
-    for paper in citations:
+    citation_result = s2.fetch_citations(paper_id, limit)
+    reference_result = s2.fetch_references(paper_id, limit)
+    stats["citations"] = len(citation_result.papers)
+    stats["references"] = len(reference_result.papers)
+
+    if not citation_result.complete or not reference_result.complete:
+        logger.warning(
+            "Incomplete Semantic Scholar crawl for arXiv:%s "
+            "(citations complete=%s, references complete=%s) — not marking as crawled",
+            seed_arxiv,
+            citation_result.complete,
+            reference_result.complete,
+        )
+        return stats
+
+    for paper in citation_result.papers:
         arxiv_id = infer_arxiv_id_from_s2(paper)
         if arxiv_id:
             if not is_in_local_corpus(conn, arxiv_id):
@@ -422,9 +482,7 @@ def crawl_seed(
             insert_missing(conn, paper.get("title"), seed_arxiv, paper)
             stats["cite_missing"] += 1
 
-    references = s2.fetch_references(paper_id, limit)
-    stats["references"] = len(references)
-    for paper in references:
+    for paper in reference_result.papers:
         arxiv_id = infer_arxiv_id_from_s2(paper)
         if arxiv_id:
             if not is_in_local_corpus(conn, arxiv_id):
@@ -439,11 +497,12 @@ def crawl_seed(
         paper_id,
         seed_arxiv,
         seed_arxiv,
-        citations_fetched=len(citations),
-        references_fetched=len(references),
-        citations_capped=len(citations) >= limit,
-        references_capped=len(references) >= limit,
+        citations_fetched=len(citation_result.papers),
+        references_fetched=len(reference_result.papers),
+        citations_capped=len(citation_result.papers) >= limit,
+        references_capped=len(reference_result.papers) >= limit,
     )
+    stats["marked_complete"] = 1
     return stats
 
 
@@ -464,7 +523,7 @@ def enrich_todo_from_semantic_scholar(
 
     path = db_path or cfg.db_path
     conn = sqlite3.connect(str(path))
-    conn.execute("PRAGMA foreign_keys = ON")
+    configure_sqlite_connection(conn)
     try:
         ensure_s2_tables(conn)
         load_local_corpus_from_papers_table(conn)
@@ -483,11 +542,20 @@ def enrich_todo_from_semantic_scholar(
             cur.execute("SELECT 1 FROM todo_papers WHERE arxiv_id = ?", (aid,))
             return cur.fetchone() is not None
 
-        citations = s2.fetch_citations(paper_id, limit)
-        references = s2.fetch_references(paper_id, limit)
+        citation_result = s2.fetch_citations(paper_id, limit)
+        reference_result = s2.fetch_references(paper_id, limit)
+        if not citation_result.complete or not reference_result.complete:
+            logger.warning(
+                "Incomplete Semantic Scholar enrichment for arXiv:%s "
+                "(citations complete=%s, references complete=%s) — not marking as crawled",
+                arxiv_id,
+                citation_result.complete,
+                reference_result.complete,
+            )
+            return None
 
         incoming_added = incoming_no_arxiv = incoming_known = 0
-        for paper in citations:
+        for paper in citation_result.papers:
             aid = infer_arxiv_id_from_s2(paper)
             if not aid:
                 incoming_no_arxiv += 1
@@ -501,7 +569,7 @@ def enrich_todo_from_semantic_scholar(
                 incoming_added += 1
 
         outgoing_added = outgoing_no_arxiv = outgoing_known = 0
-        for paper in references:
+        for paper in reference_result.papers:
             aid = infer_arxiv_id_from_s2(paper)
             if not aid:
                 outgoing_no_arxiv += 1
@@ -519,20 +587,20 @@ def enrich_todo_from_semantic_scholar(
             paper_id,
             arxiv_id,
             arxiv_id,
-            citations_fetched=len(citations),
-            references_fetched=len(references),
-            citations_capped=len(citations) >= limit,
-            references_capped=len(references) >= limit,
+            citations_fetched=len(citation_result.papers),
+            references_fetched=len(reference_result.papers),
+            citations_capped=len(citation_result.papers) >= limit,
+            references_capped=len(reference_result.papers) >= limit,
         )
 
         cur.execute("SELECT COUNT(*) FROM todo_papers")
         after_todo = int(cur.fetchone()[0])
         return {
-            "incoming_citations": len(citations),
+            "incoming_citations": len(citation_result.papers),
             "incoming_added": incoming_added,
             "incoming_known": incoming_known,
             "incoming_no_arxiv": incoming_no_arxiv,
-            "outgoing_references": len(references),
+            "outgoing_references": len(reference_result.papers),
             "outgoing_added": outgoing_added,
             "outgoing_known": outgoing_known,
             "outgoing_no_arxiv": outgoing_no_arxiv,
@@ -543,8 +611,11 @@ def enrich_todo_from_semantic_scholar(
 
 
 __all__ = [
+    "PaginatedFetchResult",
     "S2Client",
+    "_is_sqlite_lock_error",
     "already_crawled",
+    "configure_sqlite_connection",
     "crawl_seed",
     "enrich_todo_from_semantic_scholar",
     "ensure_s2_tables",
@@ -555,6 +626,7 @@ __all__ = [
     "load_local_corpus_from_papers_table",
     "mark_crawled",
     "repair_todo_counts",
+    "run_db_transaction",
     "sync_todo_status_with_local_corpus",
     "upsert_todo",
 ]

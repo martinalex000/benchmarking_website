@@ -9,7 +9,9 @@ from backend.models import Paper, author_display_name, normalize_author_entry
 from backend.semantic_scholar import (
     fetch_author_external_ids,
     merge_latex_authors_with_s2,
+    resolve_paper_authors,
 )
+from backend.text_cleanup import author_name_looks_broken, authors_look_broken
 
 
 def test_parse_author_names_single_author():
@@ -25,6 +27,48 @@ def test_parse_author_names_with_and_separator():
 def test_parse_author_names_optional_short_argument():
     tex = r"\author[Short]{Alice Smith \and Bob Jones}"
     assert _parse_author_names_from_latex(tex) == ["Alice Smith", "Bob Jones"]
+
+
+def test_parse_author_names_comma_separated_with_affiliations():
+    tex = (
+        r"\author{Haiteng Zhao$^1$\thanks{Work done during internship} , "
+        r"Shuming Ma$^2$, Dongdong Zhang$^2$, Zhi-Hong Deng$^1$, Furu Wei$^2$\\"
+        r"$^1$ Peking University\\"
+        r"\texttt{\{zhaohaiteng,zhdeng\}@pku.edu.cn}\\"
+        r"\texttt{\{shumma,dozhang,fuwei\}@microsoft.com}\\"
+        r"}"
+    )
+    assert _parse_author_names_from_latex(tex) == [
+        "Haiteng Zhao",
+        "Shuming Ma",
+        "Dongdong Zhang",
+        "Zhi-Hong Deng",
+        "Furu Wei",
+    ]
+
+
+def test_authors_look_broken_detects_latex_blob():
+    blob = normalize_author_entry(
+        "Haiteng Zhao$^1$, Shuming Ma$^2$, Dongdong Zhang$^2$, "
+        "Zhi-Hong Deng$^1$, Furu Wei$^2$ $^1$ Peking University"
+    )
+    assert authors_look_broken([blob]) is True
+    assert author_name_looks_broken("Chendi Qian$^*$") is True
+
+
+def test_authors_look_broken_accepts_clean_records():
+    authors = [
+        normalize_author_entry("Alice Smith"),
+        normalize_author_entry(
+            {
+                "name": "Bob Jones",
+                "orcid": "0000-0001-2345-6789",
+                "s2_author_id": "1",
+                "s2_url": "https://www.semanticscholar.org/author/1",
+            }
+        ),
+    ]
+    assert authors_look_broken(authors) is False
 
 
 def test_extract_metadata_from_latex_cache_includes_authors(tmp_path):
@@ -98,7 +142,7 @@ def test_fetch_author_external_ids_parses_orcid(monkeypatch):
     assert result["1741101"]["url"] == "https://www.semanticscholar.org/author/1741101"
 
 
-def test_merge_latex_authors_with_s2_positional_match():
+def test_merge_latex_authors_with_s2_prefers_s2_names(monkeypatch):
     latex_names = ["Alice", "Bob"]
     s2_authors = [
         {"author_id": "1", "name": "Alice"},
@@ -108,6 +152,10 @@ def test_merge_latex_authors_with_s2_positional_match():
         "1": {"orcid": "0000-0001-2345-6789", "url": "https://www.semanticscholar.org/author/1"},
         "2": {"orcid": None, "url": "https://www.semanticscholar.org/author/2"},
     }
+    monkeypatch.setattr(
+        "backend.semantic_scholar.fetch_author_external_ids",
+        lambda _ids: s2_external,
+    )
 
     merged = merge_latex_authors_with_s2(latex_names, s2_authors, s2_external)
 
@@ -117,6 +165,44 @@ def test_merge_latex_authors_with_s2_positional_match():
     assert merged[1]["name"] == "Bob"
     assert merged[1]["orcid"] is None
     assert merged[1]["s2_url"] == "https://www.semanticscholar.org/author/2"
+
+
+def test_resolve_paper_authors_prefers_s2_over_latex_blob(monkeypatch):
+    latex_blob = [
+        "Haiteng Zhao$^1$, Shuming Ma$^2$, Dongdong Zhang$^2$, "
+        "Zhi-Hong Deng$^1$, Furu Wei$^2$ $^1$ Peking University"
+    ]
+    monkeypatch.setattr(
+        "backend.semantic_scholar.fetch_paper_author_ids",
+        lambda _arxiv_id: [
+            {"author_id": "2146233407", "name": "Haiteng Zhao"},
+            {"author_id": "2118866998", "name": "Shuming Ma"},
+            {"author_id": "40232931", "name": "Dongdong Zhang"},
+            {"author_id": "", "name": "Zhi-Hong Deng"},
+            {"author_id": "49807919", "name": "Furu Wei"},
+        ],
+    )
+    monkeypatch.setattr(
+        "backend.semantic_scholar.fetch_author_external_ids",
+        lambda _ids: {
+            "2146233407": {
+                "orcid": "0000-0001-2345-6789",
+                "url": "https://www.semanticscholar.org/author/2146233407",
+            }
+        },
+    )
+
+    authors = resolve_paper_authors("2303.00579", latex_names=latex_blob)
+
+    assert [author["name"] for author in authors] == [
+        "Haiteng Zhao",
+        "Shuming Ma",
+        "Dongdong Zhang",
+        "Zhi-Hong Deng",
+        "Furu Wei",
+    ]
+    assert authors[0]["orcid"] == "0000-0001-2345-6789"
+    assert authors_look_broken(authors) is False
 
 
 def test_enrich_paper_metadata_populates_authors_from_latex_and_s2(monkeypatch, tmp_path):
@@ -183,3 +269,64 @@ We benchmark graph models.
 
     metadata = json.loads(storage.metadata_path.read_text(encoding="utf-8"))
     assert len(metadata["authors"]) == 2
+
+
+def test_enrich_paper_metadata_repairs_broken_metadata_authors(monkeypatch, tmp_path):
+    from backend.config import cfg
+    from backend.models import Paper
+    from backend.paper_storage import PaperStorage
+    from backend.results_parser import _enrich_paper_metadata
+
+    root = tmp_path / "workspace"
+    papers_dir = root / "papers"
+    papers_dir.mkdir(parents=True)
+    monkeypatch.setattr(cfg, "project_root", root)
+    monkeypatch.setattr(cfg, "base_dir", root)
+    monkeypatch.setattr(cfg, "papers_dir", papers_dir)
+
+    storage = PaperStorage("2303.00579")
+    storage.ensure_dirs()
+    storage.update_metadata(
+        {
+            "authors": [
+                normalize_author_entry(
+                    "Haiteng Zhao$^1$, Shuming Ma$^2$, Dongdong Zhang$^2$, "
+                    "Zhi-Hong Deng$^1$, Furu Wei$^2$ $^1$ Peking University"
+                )
+            ]
+        }
+    )
+
+    paper = Paper(
+        arxiv_id="2303.00579",
+        title="Are More Layers Beneficial to Graph Transformers?",
+        abstract="Graph transformers.",
+    )
+
+    monkeypatch.setattr(
+        "backend.semantic_scholar.fetch_paper_author_ids",
+        lambda _arxiv_id: [
+            {"author_id": "2146233407", "name": "Haiteng Zhao"},
+            {"author_id": "2118866998", "name": "Shuming Ma"},
+            {"author_id": "40232931", "name": "Dongdong Zhang"},
+            {"author_id": "", "name": "Zhi-Hong Deng"},
+            {"author_id": "49807919", "name": "Furu Wei"},
+        ],
+    )
+    monkeypatch.setattr(
+        "backend.semantic_scholar.fetch_author_external_ids",
+        lambda _ids: {},
+    )
+    monkeypatch.setattr(
+        "backend.semantic_scholar.fetch_paper_metadata",
+        lambda _arxiv_id: {},
+    )
+
+    changed = _enrich_paper_metadata("2303.00579", paper, storage)
+
+    assert changed is True
+    assert len(paper.authors) == 5
+    assert paper.authors[0]["name"] == "Haiteng Zhao"
+    assert authors_look_broken(paper.authors) is False
+    metadata = json.loads(storage.metadata_path.read_text(encoding="utf-8"))
+    assert len(metadata["authors"]) == 5

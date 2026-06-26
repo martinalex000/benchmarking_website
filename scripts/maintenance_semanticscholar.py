@@ -33,7 +33,8 @@ if str(_PROJECT_ROOT) not in sys.path:
 from backend.config import cfg  # noqa: E402
 from backend.db import init_db, session_scope  # noqa: E402
 from backend.llm_extractor import _extract_metadata_from_latex_cache  # noqa: E402
-from backend.models import Paper, Result, normalize_author_entry  # noqa: E402
+from backend.models import Paper, Result  # noqa: E402
+from backend.paper_storage import PaperStorage  # noqa: E402
 from backend.s2_todo_crawl import (  # noqa: E402
     S2Client,
     crawl_seed,
@@ -45,9 +46,10 @@ from backend.s2_todo_crawl import (  # noqa: E402
     sync_todo_status_with_local_corpus,
 )
 from backend.semantic_scholar import (  # noqa: E402
-    enrich_authors_from_latex_and_s2,
     fetch_paper_metadata,
+    resolve_paper_authors,
 )
+from backend.text_cleanup import authors_look_broken  # noqa: E402
 
 _PROCESSED_STATUSES = {"extracted", "quarantined_yaml_parse", "quarantined_method_name"}
 
@@ -64,7 +66,20 @@ def _papers_needing_authors(session, *, with_results_only: bool) -> list[Paper]:
             .filter(or_(Result.is_problematic.is_(None), Result.is_problematic == 0))
             .distinct()
         )
-    return [paper for paper in query.all() if not paper.authors]
+    return [paper for paper in query.all() if not paper.authors or authors_look_broken(paper.authors)]
+
+
+def _count_papers_with_broken_authors(session, *, with_results_only: bool) -> int:
+    query = session.query(Paper).filter(Paper.extraction_status.in_(_PROCESSED_STATUSES))
+    if with_results_only:
+        query = (
+            query.join(Paper.results)
+            .filter(or_(Result.is_problematic.is_(None), Result.is_problematic == 0))
+            .distinct()
+        )
+    return sum(
+        1 for paper in query.all() if paper.authors and authors_look_broken(paper.authors)
+    )
 
 
 def _papers_needing_publication(session, *, with_results_only: bool) -> list[Paper]:
@@ -106,6 +121,9 @@ def print_info(*, db_path: Path | None, include_all: bool) -> None:
     with session_scope() as session:
         with_results_only = not include_all
         author_count = _count_papers_needing_authors(session, with_results_only=with_results_only)
+        broken_author_count = _count_papers_with_broken_authors(
+            session, with_results_only=with_results_only
+        )
         publication_count = _count_papers_needing_publication(
             session, with_results_only=with_results_only
         )
@@ -124,23 +142,27 @@ def print_info(*, db_path: Path | None, include_all: bool) -> None:
     scope = "processed papers with benchmark results" if not include_all else "processed papers"
     print("Semantic Scholar maintenance info")
     print(f"- authors backfill: {author_count} {scope} need author metadata")
+    print(f"- broken authors: {broken_author_count} {scope} have LaTeX-contaminated authors")
     print(f"- publication backfill: {publication_count} {scope} need venue/date metadata")
     print(f"- todo crawl: {todo_seeds} uncrawled DB seed paper(s) available")
     print(f"- todo_papers table: {todo_total} row(s) currently tracked")
 
 
 def _authors_for_paper(arxiv_id: str) -> list[dict[str, str | None]] | None:
+    latex_names: list[str] | None = None
     latex_dir = _latex_dir_for(arxiv_id)
-    if not latex_dir.exists():
-        return None
-    latex_meta = _extract_metadata_from_latex_cache(latex_dir)
-    latex_names = latex_meta.get("authors")
-    if not isinstance(latex_names, list) or not latex_names:
-        return None
+    if latex_dir.exists():
+        latex_meta = _extract_metadata_from_latex_cache(latex_dir)
+        raw_names = latex_meta.get("authors")
+        if isinstance(raw_names, list) and raw_names:
+            latex_names = [str(name) for name in raw_names if str(name).strip()]
     try:
-        return enrich_authors_from_latex_and_s2(arxiv_id, latex_names)
+        authors = resolve_paper_authors(arxiv_id, latex_names=latex_names)
+        if authors and not authors_look_broken(authors):
+            return authors
     except Exception:
-        return [normalize_author_entry(name) for name in latex_names]
+        return None
+    return None
 
 
 def backfill_authors(*, dry_run: bool, limit: int, with_results_only: bool) -> None:
@@ -168,12 +190,13 @@ def backfill_authors(*, dry_run: bool, limit: int, with_results_only: bool) -> N
                     authors = _authors_for_paper(paper.arxiv_id)
                     if authors:
                         paper.authors = authors
+                        PaperStorage(paper.arxiv_id).update_metadata({"authors": authors})
                         updated += 1
                         pbar.set_description(f"{updated} updated, {skipped} skipped, success")
                     else:
                         skipped += 1
                         pbar.set_description(
-                            f"{updated} updated, {skipped} skipped, no latex authors"
+                            f"{updated} updated, {skipped} skipped, unresolved authors"
                         )
                 pbar.update()
                 time.sleep(1.1)

@@ -2,7 +2,7 @@
 """Crawl Semantic Scholar to seed `todo_papers` in the SQLite DB.
 
 When --seed is omitted the script crawls ALL papers already in the `papers` table
-that have not yet been fully crawled (i.e. not present in `s2_crawl_state`).
+that do not yet have complete Semantic Scholar citation/reference data.
 """
 
 from __future__ import annotations
@@ -10,6 +10,8 @@ from __future__ import annotations
 import argparse
 import os
 import sqlite3
+import sys
+import time
 from collections.abc import Iterable
 from pathlib import Path
 
@@ -17,6 +19,7 @@ from rich.console import Console
 from rich.table import Table
 
 _PROJECT_ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(_PROJECT_ROOT))
 try:
     from dotenv import load_dotenv as _load_dotenv
 
@@ -26,6 +29,8 @@ except ImportError:
 
 from backend.s2_todo_crawl import (  # noqa: E402
     S2Client,
+    _is_sqlite_lock_error,
+    configure_sqlite_connection,
     crawl_seed,
     ensure_s2_tables,
     fetch_top_todo_rows,
@@ -55,9 +60,9 @@ def main(argv: Iterable[str] | None = None) -> None:
         description="Seed todo_papers via Semantic Scholar crawl",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=(
-            "When --seed is omitted, all papers already in the database are used as seeds\n"
-            "(except those already crawled). The API key is read from SEMANTIC_SCHOLAR_API_KEY\n"
-            "in the environment / .env file."
+            "When --seed is omitted, all DB papers missing complete Semantic Scholar data are\n"
+            "used as seeds (never crawled, or previously incomplete). The API key is read\n"
+            "from SEMANTIC_SCHOLAR_API_KEY in the environment / .env file."
         ),
     )
     parser.add_argument(
@@ -80,7 +85,7 @@ def main(argv: Iterable[str] | None = None) -> None:
     parser.add_argument(
         "--force",
         action="store_true",
-        help="Re-crawl seeds even if already recorded in s2_crawl_state",
+        help="Re-crawl seeds even if already marked complete in s2_crawl_state",
     )
     parser.add_argument(
         "--top", type=int, default=15, help="Show top-N todo papers after run (default: 15)"
@@ -99,7 +104,7 @@ def main(argv: Iterable[str] | None = None) -> None:
     console.print(f"Using DB: [cyan]{db_path}[/cyan]")
 
     conn = sqlite3.connect(str(db_path))
-    conn.execute("PRAGMA foreign_keys = ON")
+    configure_sqlite_connection(conn)
     ensure_s2_tables(conn)
     load_local_corpus_from_papers_table(conn)
     repair_todo_counts(conn)
@@ -109,10 +114,12 @@ def main(argv: Iterable[str] | None = None) -> None:
     if not seeds:
         seeds = get_uncrawled_seeds(conn)
         if seeds:
-            console.print(f"[dim]No --seed given: crawling {len(seeds)} uncrawled DB papers.[/dim]")
+            console.print(
+                f"[dim]No --seed given: crawling {len(seeds)} DB papers missing complete SS data.[/dim]"
+            )
         else:
             console.print(
-                "[yellow]No seeds given and no uncrawled papers in DB. Nothing to do.[/yellow]"
+                "[yellow]No seeds given and all DB papers already have complete SS data. Nothing to do.[/yellow]"
             )
             conn.close()
             return
@@ -120,7 +127,21 @@ def main(argv: Iterable[str] | None = None) -> None:
     s2 = S2Client(min_delay=1.0)
     for seed in seeds:
         console.print(f"\n[bold]Processing seed {seed.strip()} (limit={args.limit})[/bold]")
-        stats = crawl_seed(s2, conn, seed.strip(), args.limit, args.force)
+        stats = None
+        for attempt in range(12):
+            try:
+                stats = crawl_seed(s2, conn, seed.strip(), args.limit, args.force)
+                break
+            except sqlite3.OperationalError as exc:
+                if not _is_sqlite_lock_error(exc) or attempt + 1 >= 12:
+                    raise
+                wait = 0.25 * (2**attempt)
+                console.print(
+                    f"  [yellow]Database locked — retrying in {wait:.2f}s "
+                    f"(attempt {attempt + 1}/12)[/yellow]"
+                )
+                time.sleep(wait)
+        assert stats is not None
         console.print(
             f"  Citations: {stats['citations']} → {stats['cite_added']} added, "
             f"{stats['cite_missing']} missing arXiv IDs"
@@ -129,9 +150,36 @@ def main(argv: Iterable[str] | None = None) -> None:
             f"  References: {stats['references']} → {stats['ref_added']} added, "
             f"{stats['ref_missing']} missing arXiv IDs"
         )
+        metadata = stats.get("metadata_filled") or {}
+        if metadata:
+            filled_bits = [
+                key
+                for key in ("published_date", "venue", "authors")
+                if metadata.get(key)
+            ]
+            if filled_bits:
+                console.print(f"  Metadata filled: {', '.join(filled_bits)}")
+            else:
+                console.print("  [dim]Metadata already complete or unavailable from SS.[/dim]")
+        if not stats.get("marked_complete"):
+            console.print(
+                "  [yellow]Incomplete Semantic Scholar fetch — seed left uncrawled for retry.[/yellow]"
+            )
 
     repair_todo_counts(conn)
     sync_todo_status_with_local_corpus(conn)
+
+    from backend.semantic_scholar import backfill_missing_paper_metadata
+
+    metadata_counts = backfill_missing_paper_metadata()
+    if metadata_counts["processed"]:
+        console.print(
+            "\n[dim]Metadata backfill:[/dim] "
+            f"processed={metadata_counts['processed']} "
+            f"dates={metadata_counts['published_date']} "
+            f"venues={metadata_counts['venue']} "
+            f"authors={metadata_counts['authors']}"
+        )
 
     console.print("\n[green]Crawl complete.[/green]")
     _render_top_report(conn, args.top)

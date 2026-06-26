@@ -24,24 +24,40 @@ logger = logging.getLogger(__name__)
 # ── Loading ───────────────────────────────────────────────────────────────────
 
 
+_OVERRIDES_CACHE: dict[str, dict] = {}
+
+
+def clear_overrides_cache() -> None:
+    _OVERRIDES_CACHE.clear()
+
+
 def load_overrides(arxiv_id: str, papers_root: Path | None = None) -> dict:
     """Read overrides.yaml for the given paper.
 
+    Results are cached in memory for the duration of the process.
     Returns empty dict if the file does not exist or has no content.
     """
+    cached = _OVERRIDES_CACHE.get(arxiv_id)
+    if cached is not None:
+        return cached
+
     root = (papers_root or cfg.papers_dir) / arxiv_id
     path = root / "overrides.yaml"
     if not path.exists():
+        _OVERRIDES_CACHE[arxiv_id] = {}
         return {}
     try:
         content = path.read_text(encoding="utf-8")
         data = yaml.safe_load(content) or {}
         if not isinstance(data, dict):
             logger.warning("overrides.yaml for %s is not a mapping — ignoring", arxiv_id)
+            _OVERRIDES_CACHE[arxiv_id] = {}
             return {}
+        _OVERRIDES_CACHE[arxiv_id] = data
         return data
     except Exception as exc:
         logger.error("Failed to parse overrides.yaml for %s: %s", arxiv_id, exc)
+        _OVERRIDES_CACHE[arxiv_id] = {}
         return {}
 
 

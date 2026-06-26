@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import logging
 import re
 from collections.abc import Generator
 from contextlib import contextmanager
@@ -13,6 +14,9 @@ from sqlalchemy.orm import Session, sessionmaker
 
 from backend.config import cfg
 from backend.models import Base
+from backend.sqlite_retry import DB_BUSY_TIMEOUT_MS, commit_with_sqlite_retry
+
+logger = logging.getLogger(__name__)
 
 # Safe SQL identifier: starts with letter/underscore, then alphanumerics + underscores
 _SQL_IDENTIFIER_RE = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*$")
@@ -40,6 +44,7 @@ def _set_sqlite_pragmas(dbapi_conn, _connection_record):
     cursor = dbapi_conn.cursor()
     cursor.execute("PRAGMA foreign_keys = ON")
     cursor.execute("PRAGMA journal_mode = WAL")
+    cursor.execute(f"PRAGMA busy_timeout = {DB_BUSY_TIMEOUT_MS}")
     cursor.close()
 
 
@@ -138,6 +143,40 @@ def _migration_drop_models_size_params(engine: Engine) -> None:
             conn.commit()
 
 
+def _migration_export_indexes(engine: Engine) -> None:
+    result_columns = _table_columns(engine, "results")
+    if {"dataset_variant_id", "is_problematic", "metric_name"} <= result_columns:
+        _ensure_index(
+            engine,
+            "idx_results_variant_problem_metric",
+            "CREATE INDEX IF NOT EXISTS idx_results_variant_problem_metric "
+            "ON results(dataset_variant_id, is_problematic, metric_name)",
+        )
+    if {"paper_id", "is_problematic", "is_baseline"} <= result_columns:
+        _ensure_index(
+            engine,
+            "idx_results_paper_problem_baseline",
+            "CREATE INDEX IF NOT EXISTS idx_results_paper_problem_baseline "
+            "ON results(paper_id, is_problematic, is_baseline)",
+        )
+    if {"metric_name", "is_problematic", "dataset_variant_id"} <= result_columns:
+        _ensure_index(
+            engine,
+            "idx_results_metric_problem_variant",
+            "CREATE INDEX IF NOT EXISTS idx_results_metric_problem_variant "
+            "ON results(metric_name, is_problematic, dataset_variant_id)",
+        )
+
+    variant_columns = _table_columns(engine, "dataset_variants")
+    if {"dataset_id", "is_standard", "name"} <= variant_columns:
+        _ensure_index(
+            engine,
+            "idx_dataset_variants_dataset_standard",
+            "CREATE INDEX IF NOT EXISTS idx_dataset_variants_dataset_standard "
+            "ON dataset_variants(dataset_id, is_standard, name)",
+        )
+
+
 MIGRATIONS: tuple[Migration, ...] = (
     Migration("001_results_additional_columns", _migration_results_additional_columns),
     Migration("002_pending_datasets_columns", _migration_pending_datasets_columns),
@@ -148,6 +187,7 @@ MIGRATIONS: tuple[Migration, ...] = (
     Migration("007_benchmark_is_legacy", _migration_benchmark_is_legacy),
     Migration("008_todo_manual_importance", _migration_todo_manual_importance),
     Migration("009_drop_models_size_params", _migration_drop_models_size_params),
+    Migration("010_export_indexes", _migration_export_indexes),
 )
 
 
@@ -240,6 +280,24 @@ def _ensure_index(engine: Engine, index_name: str, create_sql: str) -> None:
             conn.commit()
 
 
+def _table_exists(engine: Engine, table_name: str) -> bool:
+    _validate_sql_identifier(table_name, "table")
+    with engine.connect() as conn:
+        row = conn.execute(
+            text("SELECT 1 FROM sqlite_master WHERE type='table' AND name = :name"),
+            {"name": table_name},
+        ).fetchone()
+    return row is not None
+
+
+def _table_columns(engine: Engine, table_name: str) -> set[str]:
+    if not _table_exists(engine, table_name):
+        return set()
+    with engine.connect() as conn:
+        rows = conn.execute(text(f"PRAGMA table_info({_validate_sql_identifier(table_name)})"))
+        return {row[1] for row in rows}
+
+
 def get_engine() -> Engine:
     if _engine is None:
         init_db()
@@ -264,7 +322,7 @@ def session_scope() -> Generator[Session, None, None]:
     session: Session = factory()
     try:
         yield session
-        session.commit()
+        commit_with_sqlite_retry(session.commit)
     except Exception:
         session.rollback()
         raise

@@ -13,9 +13,11 @@ from __future__ import annotations
 import argparse
 import faulthandler
 import logging
+import os
 import random
 import re
 import select
+import shutil
 import subprocess
 import sys
 import termios
@@ -23,13 +25,15 @@ import threading
 import time
 import tty
 from collections import deque
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 import yaml
+from rich.align import Align
 from rich.console import Group
+from rich.layout import Layout
 from rich.live import Live
 from rich.markup import escape
 from rich.panel import Panel
@@ -48,6 +52,18 @@ RESULTS_RE = re.compile(r"Results:\s*(\d+)")
 PROPOSED_RE = re.compile(r"Proposed:\s*([^\n]+)$")
 NEW_RESULTS_RE = re.compile(r"(\d+)\s+new result row")
 UPDATED_RESULTS_RE = re.compile(r"(\d+)\s+existing result row\(s\) updated")
+MOUSE_SGR_RE = re.compile(r"\[<(\d+);(\d+);(\d+)([Mm])")
+ARROW_SEQ_RE = re.compile(r"\x1b(?:O|\[[\d;]*)([ABCD])$")
+DONE_RULE_RE = re.compile(r"(?:^|─+|\s)done(?:\s|─+|$)", re.IGNORECASE)
+PEEK_OUTPUT_MAX_LINES = 60
+WORKER_OUTPUT_MAX_LINES = 800
+INPUT_ESCAPE_DEADLINE_S = 0.12
+# Screen row (1-based) of first worker row: header + keys + Workers + table header.
+WORKER_TABLE_FIRST_ROW = 5
+FINISHED_WINDOW_LINES = 12
+LOG_WINDOW_LINES = 16
+OVERLAY_HEIGHT_RATIO = 2 / 3
+OVERLAY_WIDTH_RATIO = 2 / 3
 DRAINED_ROW_TTL_S = 30.0
 STALE_UPDATE_SECONDS = 10.0
 EMPTY_CLAIM_RETRIES = 12
@@ -79,6 +95,7 @@ class WorkerState:
     failed: int = 0
     drained_at: float | None = None
     last_line: str = ""
+    output_log: list[str] = field(default_factory=list)
 
     def elapsed_s(self) -> float:
         if self.started_at <= 0:
@@ -136,6 +153,13 @@ class DashboardState:
         self.ui_last_render_at: float = time.monotonic()
         self.ui_loop_iterations: int = 0
         self.render_cache_uses: int = 0
+        self.peek_worker_id: int | None = None
+        self.selected_worker_index: int = 0
+        self.peek_tail_offset: int = 0
+        self.peek_follow_tail: bool = True
+        self.ui_focus: str = "workers"
+        self.worker_row_map: dict[int, int] = {}
+        self.worker_table_first_row: int = WORKER_TABLE_FIRST_ROW
         self._render_cache: dict = {
             "snapshot": [],
             "events": [],
@@ -148,7 +172,126 @@ class DashboardState:
             "queue_total": 0,
             "queue_max_refs": 0,
             "lock_contention_drops": 0,
+            "peek_worker_id": None,
+            "selected_worker_index": 0,
         }
+
+    def set_peek_worker(self, worker_id: int) -> None:
+        if self.lock.acquire(timeout=0.05):
+            try:
+                self.peek_worker_id = worker_id
+                self.peek_tail_offset = 0
+                self.peek_follow_tail = True
+            finally:
+                self.lock.release()
+
+    def clear_peek_worker(self) -> None:
+        if self.lock.acquire(timeout=0.05):
+            try:
+                self.peek_worker_id = None
+                self.peek_tail_offset = 0
+                self.peek_follow_tail = True
+            finally:
+                self.lock.release()
+
+    def scroll_peek_older(self, lines: int = 3) -> None:
+        """Scroll peek output toward older lines (away from tail)."""
+        if self.lock.acquire(timeout=0.05):
+            try:
+                self.peek_tail_offset += lines
+                self.peek_follow_tail = False
+            finally:
+                self.lock.release()
+
+    def scroll_peek_toward_tail(self, lines: int = 3) -> None:
+        if self.lock.acquire(timeout=0.05):
+            try:
+                self.peek_tail_offset = max(0, self.peek_tail_offset - lines)
+                if self.peek_tail_offset == 0:
+                    self.peek_follow_tail = True
+            finally:
+                self.lock.release()
+
+    def reset_peek_to_tail(self) -> None:
+        if self.lock.acquire(timeout=0.05):
+            try:
+                self.peek_tail_offset = 0
+                self.peek_follow_tail = True
+            finally:
+                self.lock.release()
+
+    def peek_worker_id_snapshot(self) -> int | None:
+        if self.lock.acquire(timeout=0.05):
+            try:
+                return self.peek_worker_id
+            finally:
+                self.lock.release()
+        cache = self._render_cache
+        peek = cache.get("peek_worker_id")
+        return int(peek) if peek is not None else None
+
+    def move_worker_selection(self, delta: int, worker_count: int) -> None:
+        if worker_count <= 0:
+            return
+        if self.lock.acquire(timeout=0.05):
+            try:
+                idx = self.selected_worker_index + delta
+                if idx < 0:
+                    idx = worker_count - 1
+                elif idx >= worker_count:
+                    idx = 0
+                self.selected_worker_index = idx
+                self.ui_focus = "workers"
+            finally:
+                self.lock.release()
+
+    def select_worker_index(self, index: int, worker_count: int) -> None:
+        if worker_count <= 0:
+            return
+        if self.lock.acquire(timeout=0.05):
+            try:
+                self.selected_worker_index = max(0, min(worker_count - 1, index))
+                self.ui_focus = "workers"
+            finally:
+                self.lock.release()
+
+    def select_first_worker(self, worker_count: int) -> None:
+        self.select_worker_index(0, worker_count)
+
+    def select_last_worker(self, worker_count: int) -> None:
+        if worker_count <= 0:
+            return
+        self.select_worker_index(worker_count - 1, worker_count)
+
+    def set_ui_focus(self, focus: str) -> None:
+        if focus not in {"workers", "finished"}:
+            return
+        if self.lock.acquire(timeout=0.05):
+            try:
+                self.ui_focus = focus
+            finally:
+                self.lock.release()
+
+    def ui_focus_snapshot(self) -> str:
+        if self.lock.acquire(timeout=0.05):
+            try:
+                return self.ui_focus
+            finally:
+                self.lock.release()
+        return str(self._render_cache.get("ui_focus", "workers"))
+
+    def open_peek_for_selected_worker(self, snapshot: list[WorkerState]) -> None:
+        if not snapshot:
+            return
+        if self.lock.acquire(timeout=0.05):
+            try:
+                idx = min(self.selected_worker_index, len(snapshot) - 1)
+                self.selected_worker_index = idx
+                self.peek_worker_id = snapshot[idx].worker_id
+                self.peek_tail_offset = 0
+                self.peek_follow_tail = True
+            finally:
+                self.lock.release()
 
     def add_event(self, message: str) -> None:
         if self.lock.acquire(timeout=0.05):
@@ -246,19 +389,27 @@ class DashboardState:
         cache = self._render_cache
         return int(cache.get("desired_workers", 0)), int(cache.get("drain_requests", 0))
 
+    def _visible_worker_states(self, now: float) -> list[WorkerState]:
+        return [
+            s
+            for s in self.worker_states
+            if not (
+                s.status == "drained"
+                and s.drained_at is not None
+                and (now - s.drained_at) >= DRAINED_ROW_TTL_S
+            )
+        ]
+
     def snapshot_for_render(self, now: float) -> tuple[dict, bool]:
         """Return a safe render snapshot without ever blocking the UI thread."""
         if self.lock.acquire(timeout=0.05):
             try:
-                snapshot = [
-                    WorkerState(**vars(s))
-                    for s in self.worker_states
-                    if not (
-                        s.status == "drained"
-                        and s.drained_at is not None
-                        and (now - s.drained_at) >= DRAINED_ROW_TTL_S
-                    )
-                ]
+                visible = self._visible_worker_states(now)
+                if visible:
+                    self.selected_worker_index = min(self.selected_worker_index, len(visible) - 1)
+                else:
+                    self.selected_worker_index = 0
+                snapshot = [WorkerState(**vars(s)) for s in visible]
                 data = {
                     "snapshot": snapshot,
                     "events": list(self.events),
@@ -271,6 +422,11 @@ class DashboardState:
                     "queue_total": self.queue_total,
                     "queue_max_refs": self.queue_max_refs,
                     "lock_contention_drops": self.lock_contention_drops,
+                    "peek_worker_id": self.peek_worker_id,
+                    "selected_worker_index": self.selected_worker_index,
+                    "peek_tail_offset": self.peek_tail_offset,
+                    "peek_follow_tail": self.peek_follow_tail,
+                    "ui_focus": self.ui_focus,
                 }
                 self._render_cache = data
                 return data, False
@@ -390,11 +546,65 @@ def _detect_status_from_line(line: str) -> str | None:
         return "extracting datasets"
     if "5. parse results" in low:
         return "parsing"
+    if "exporting datasets" in low:
+        return "exporting datasets"
+    if "exporting papers" in low:
+        return "exporting papers"
     if "6. build hugo pages" in low:
-        return "exporting"
-    if low == "done" or low.endswith(" done"):
+        if "skipped" in low:
+            if "skip-export" in low:
+                return "export skipped (--skip-export)"
+            return "export skipped (no changes)"
+        return "exporting hugo"
+    if DONE_RULE_RE.search(line) or low == "done" or low.endswith(" done"):
         return "done"
     return None
+
+
+def _worker_id_at_screen_row(row_map: dict[int, int], screen_row: int) -> int | None:
+    """Map a terminal row (1-based) to a worker id using the latest render map."""
+    if screen_row in row_map:
+        return row_map[screen_row]
+    for offset in (-1, 1, -2, 2):
+        candidate = row_map.get(screen_row + offset)
+        if candidate is not None:
+            return candidate
+    return None
+
+
+def _terminal_size() -> tuple[int, int]:
+    try:
+        size = shutil.get_terminal_size(fallback=(80, 24))
+        return max(40, size.columns), max(15, size.lines)
+    except OSError:
+        return 80, 24
+
+
+def _overlay_dimensions() -> tuple[int, int, int]:
+    """Return (overlay_width, overlay_height, main_visible_height)."""
+    term_w, term_h = _terminal_size()
+    overlay_h = max(8, int(term_h * OVERLAY_HEIGHT_RATIO))
+    overlay_w = max(40, int(term_w * OVERLAY_WIDTH_RATIO))
+    main_h = max(6, term_h - overlay_h)
+    return overlay_w, overlay_h, main_h
+
+
+def _build_worker_row_map(snapshot: list[WorkerState]) -> dict[int, int]:
+    return _build_worker_row_map_at(snapshot, WORKER_TABLE_FIRST_ROW)
+
+
+def _build_worker_row_map_at(snapshot: list[WorkerState], first_row: int) -> dict[int, int]:
+    row_map: dict[int, int] = {}
+    for i, st in enumerate(snapshot):
+        row_map[first_row + i] = st.worker_id
+    return row_map
+
+
+def _append_worker_output(state: WorkerState, line: str) -> None:
+    state.output_log.append(line)
+    overflow = len(state.output_log) - WORKER_OUTPUT_MAX_LINES
+    if overflow > 0:
+        del state.output_log[:overflow]
 
 
 def _parse_discovered_datasets(line: str) -> list[str]:
@@ -467,6 +677,73 @@ def _format_elapsed(seconds: float) -> str:
     return f"{mins:02d}:{secs:02d}"
 
 
+def _format_header_line(snap: dict) -> Text:
+    """Single stable status line (fixed layout; no per-frame counters that change width)."""
+    total_done = int(snap.get("total_done", 0))
+    total_failed = int(snap.get("total_failed", 0))
+    queue_total = int(snap.get("queue_total", 0))
+    queue_max_refs = int(snap.get("queue_max_refs", 0))
+    desired_workers = int(snap.get("desired_workers", 0))
+    drain = int(snap.get("drain_requests", 0))
+    focus = snap.get("ui_focus", "workers")
+    line = (
+        f"todo_queue  ok={total_done:4d} fail={total_failed:3d} "
+        f"q={queue_total:4d} refs={queue_max_refs:3d} "
+        f"w={desired_workers:2d} drain={drain:2d} focus={focus:8s}"
+    )
+    return Text(line, style="bold")
+
+
+def _format_keys_hint_line() -> Text:
+    """Static shortcuts line; never changes length."""
+    return Text(
+        "keys: w/f focus  arrows/n/p  1-9 enter peek  j/k scroll  +/- workers",
+        style="dim",
+    )
+
+
+def _dashboard_render_fingerprint(snap: dict, now: float) -> str:
+    """Fingerprint for throttling redraws; clocks bucketed to 1 Hz."""
+    clock_sec = int(now)
+    worker_bits: list[tuple] = []
+    for s in snap.get("snapshot", []):
+        started = float(getattr(s, "started_at", 0) or 0)
+        elapsed_bucket = clock_sec - int(started) if started > 0 else 0
+        last_upd = getattr(s, "last_update_at", None)
+        age_bucket = clock_sec - int(last_upd) if last_upd else -1
+        worker_bits.append(
+            (
+                getattr(s, "worker_id", 0),
+                getattr(s, "status", ""),
+                getattr(s, "arxiv_id", ""),
+                elapsed_bucket,
+                age_bucket,
+            )
+        )
+    events = snap.get("events", [])
+    last_event = events[-1] if events else ""
+    return repr(
+        (
+            clock_sec,
+            snap.get("total_done"),
+            snap.get("total_failed"),
+            snap.get("queue_total"),
+            snap.get("queue_max_refs"),
+            snap.get("desired_workers"),
+            snap.get("drain_requests"),
+            snap.get("selected_worker_index"),
+            snap.get("ui_focus"),
+            snap.get("peek_worker_id"),
+            snap.get("peek_tail_offset"),
+            snap.get("peek_follow_tail"),
+            snap.get("finished_scroll"),
+            len(snap.get("finished_lines", [])),
+            last_event,
+            tuple(worker_bits),
+        )
+    )
+
+
 def _format_age(seconds: float | None) -> str:
     if seconds is None or seconds < 0:
         return "--:--"
@@ -475,22 +752,65 @@ def _format_age(seconds: float | None) -> str:
     return f"{mins:02d}:{secs:02d}"
 
 
-def _render_dashboard(dash: DashboardState) -> Group:
-    now = time.time()
-    snap, using_cache = dash.snapshot_for_render(now)
+def _render_peek_overlay_panel(
+    snapshot: list[WorkerState],
+    worker_id: int,
+    overlay_w: int,
+    overlay_h: int,
+    *,
+    tail_offset: int = 0,
+    follow_tail: bool = True,
+) -> Panel:
+    worker = next((s for s in snapshot if s.worker_id == worker_id), None)
+    viewport_lines = max(3, overlay_h - 3)
+    if worker is None:
+        body = "(worker not found)"
+        title = f"Worker {worker_id}"
+    else:
+        lines = list(worker.output_log[-PEEK_OUTPUT_MAX_LINES:])
+        if not lines:
+            lines = ["(no output captured yet)"]
+        if worker.last_line and (not lines or lines[-1] != worker.last_line):
+            lines.append(f"— last: {worker.last_line}")
+
+        offset = 0 if follow_tail else tail_offset
+        end = max(0, len(lines) - offset)
+        start = max(0, end - viewport_lines)
+        visible = lines[start:end]
+        if start > 0:
+            visible.insert(0, f"… {start} older lines (j/k scroll) …")
+        if end < len(lines):
+            visible.append(f"… {len(lines) - end} newer …")
+
+        body = "\n".join(visible)
+        title = (
+            f"Worker {worker.worker_id}  {worker.arxiv_id}  [{worker.status}]"
+            "  esc/q close  j/k scroll"
+        )
+    return Panel(
+        Text(body),
+        title=title,
+        border_style="yellow on grey23",
+        width=overlay_w,
+        height=overlay_h,
+    )
+
+
+def _render_main_dashboard(
+    dash: DashboardState,
+    snap: dict,
+    now: float,
+) -> Group:
     snapshot = snap["snapshot"]
+    selected_worker_index = int(snap.get("selected_worker_index", 0))
+    ui_focus = snap.get("ui_focus", "workers")
     events = snap["events"]
     finished_lines = snap["finished_lines"]
     finished_scroll = snap["finished_scroll"]
-    total_done = snap["total_done"]
-    total_failed = snap["total_failed"]
-    desired_workers = snap["desired_workers"]
-    drain_requests = snap["drain_requests"]
-    queue_total = snap["queue_total"]
-    queue_max_refs = snap["queue_max_refs"]
-    contention_drops = snap.get("lock_contention_drops", 0)
+    dash.worker_table_first_row = WORKER_TABLE_FIRST_ROW
+    dash.worker_row_map = _build_worker_row_map(snapshot)
 
-    table = Table(expand=True)
+    table = Table(expand=True, box=None)
     table.add_column("W", width=3, justify="right", no_wrap=True)
     table.add_column("arXiv", width=12, no_wrap=True)
     table.add_column("Title", width=30, no_wrap=True)
@@ -499,7 +819,7 @@ def _render_dashboard(dash: DashboardState) -> Group:
     table.add_column("Upd", width=7, justify="right", no_wrap=True)
     table.add_column("Summary", ratio=1, min_width=20)
 
-    for st in snapshot:
+    for i, st in enumerate(snapshot):
         status_text = st.status
         if st.status == "idle":
             status_text = "idle / waiting"
@@ -520,6 +840,8 @@ def _render_dashboard(dash: DashboardState) -> Group:
                 "done",
                 "failed",
                 "rejected",
+                "export skipped (--skip-export)",
+                "export skipped (no changes)",
             }
         ):
             age_style = "yellow"
@@ -529,85 +851,283 @@ def _render_dashboard(dash: DashboardState) -> Group:
             status_cell.stylize("grey62")
         age_cell = Text(age_text, style=age_style)
 
+        row_style = "reverse" if i == selected_worker_index and ui_focus == "workers" else None
+        marker = ">" if i == selected_worker_index else " "
+
         table.add_row(
-            str(st.worker_id),
+            f"{marker}{st.worker_id}",
             escape(st.arxiv_id),
             escape(_trim(st.title_short(), 30)),
             status_cell,
             _format_elapsed(st.elapsed_s()),
             age_cell,
             Text(summary_text),
+            style=row_style,
         )
 
-    ui_tick = time.strftime("%H:%M:%S", time.localtime(now))
-    stale_note = "  [snapshot cached]" if using_cache else ""
-    if using_cache:
-        dash.render_cache_uses += 1
-    header = Text(
-        "todo_queue dashboard   "
-        f"ui_tick={ui_tick}{stale_note}   "
-        f"done={total_done}   failed={total_failed}   "
-        f"queue_total={queue_total}   queue_max_refs={queue_max_refs}   "
-        f"lock_drops={contention_drops} cache_uses={dash.render_cache_uses}   "
-        f"target_workers={desired_workers}   draining={drain_requests}   "
-        "ctrl+c stop   arrows/j,k scroll finished   +/- scale workers",
-        style="bold",
-    )
+    header = _format_header_line(snap)
+    keys_hint = _format_keys_hint_line()
 
-    finished_window_lines = 12
     finished_end = max(0, len(finished_lines) - finished_scroll)
-    finished_start = max(0, finished_end - finished_window_lines)
+    finished_start = max(0, finished_end - FINISHED_WINDOW_LINES)
     visible_finished = finished_lines[finished_start:finished_end]
     if not visible_finished:
         visible_finished = ["(no finished papers yet)"]
-    finished_title = f"Finished papers ({len(finished_lines)})" f"  scroll={finished_scroll}"
+    finished_title = f"Finished papers ({len(finished_lines)})  scroll={finished_scroll}"
+    finished_border = "bold green" if ui_focus == "finished" else "green"
     finished_panel = Panel(
         Text("\n".join(visible_finished)),
         title=finished_title,
-        border_style="green",
+        border_style=finished_border,
     )
 
-    log_lines = events[-16:] if events else ["(no worker log lines yet)"]
-    log_panel = Panel(Text("\n".join(log_lines)), title="Recent worker output", border_style="cyan")
+    log_lines = events[-LOG_WINDOW_LINES:] if events else ["(no worker log lines yet)"]
+    log_panel = Panel(
+        Text("\n".join(log_lines)),
+        title="Recent worker output",
+        border_style="cyan",
+    )
 
     workers_title = Text("Workers", style="bold")
-    return Group(header, workers_title, table, finished_panel, log_panel)
+    return Group(header, keys_hint, workers_title, table, finished_panel, log_panel)
 
 
-def _keyboard_listener(dash: DashboardState) -> None:
-    """Listen for arrow key input and scroll the finished-paper window.
+def _render_dashboard(dash: DashboardState) -> Group | Layout:
+    now = time.time()
+    snap, _ = dash.snapshot_for_render(now)
+    peek_worker_id = snap.get("peek_worker_id")
+    peek_tail_offset = int(snap.get("peek_tail_offset", 0))
+    peek_follow_tail = bool(snap.get("peek_follow_tail", True))
 
-    Keeps focus on the finished pane only; other panels ignore key input.
-    """
-    if not sys.stdin.isatty():
+    main = _render_main_dashboard(dash, snap, now)
+
+    if peek_worker_id is None:
+        return main
+
+    overlay_w, overlay_h, main_h = _overlay_dimensions()
+    peek_panel = _render_peek_overlay_panel(
+        snap["snapshot"],
+        int(peek_worker_id),
+        overlay_w,
+        overlay_h,
+        tail_offset=peek_tail_offset,
+        follow_tail=peek_follow_tail,
+    )
+
+    overlay_row = Layout(name="overlay_row")
+    overlay_row.split_row(
+        Layout(name="margin_left", ratio=1),
+        Layout(Align.center(peek_panel, vertical="middle"), name="peek", ratio=2),
+        Layout(name="margin_right", ratio=1),
+    )
+
+    root = Layout(name="root")
+    root.split_column(
+        Layout(main, name="main", size=main_h),
+        Layout(overlay_row, name="overlay", size=overlay_h),
+    )
+    return root
+
+
+def _enable_mouse_tracking() -> None:
+    if sys.stdout.isatty():
+        # 1000=click, 1002=drag, 1006=SGR coordinates, 1003=any-event (some terminals).
+        sys.stdout.write("\x1b[?1000h\x1b[?1002h\x1b[?1003h\x1b[?1006h")
+        sys.stdout.flush()
+
+
+def _disable_mouse_tracking() -> None:
+    if sys.stdout.isatty():
+        sys.stdout.write("\x1b[?1000l\x1b[?1002l\x1b[?1003l\x1b[?1006l")
+        sys.stdout.flush()
+
+
+def _read_terminal_input(fd: int, timeout: float = 0) -> str | None:
+    ready, _, _ = select.select([fd], [], [], timeout)
+    if not ready:
+        return None
+
+    first = os.read(fd, 1)
+    if not first:
+        return None
+
+    if first != b"\x1b":
+        return first.decode("utf-8", errors="replace")
+
+    seq = first
+    deadline = time.monotonic() + INPUT_ESCAPE_DEADLINE_S
+    while time.monotonic() < deadline:
+        ready, _, _ = select.select([fd], [], [], 0.02)
+        if not ready:
+            break
+        chunk = os.read(fd, 32)
+        if not chunk:
+            break
+        seq += chunk
+        text = seq.decode("utf-8", errors="replace")
+        if MOUSE_SGR_RE.search(text):
+            return text
+        if _arrow_direction(text) is not None:
+            return text
+        if _special_key(text) is not None:
+            return text
+        if "~" in text and "[" in text:
+            return text
+        if len(seq) > 48:
+            break
+    return seq.decode("utf-8", errors="replace")
+
+
+def _arrow_direction(inp: str) -> str | None:
+    if not inp.startswith("\x1b"):
+        return None
+    if inp in ("\x1bOA", "\x1b[A"):
+        return "arrow_up"
+    if inp in ("\x1bOB", "\x1b[B"):
+        return "arrow_down"
+    if inp in ("\x1bOC", "\x1b[C"):
+        return "arrow_right"
+    if inp in ("\x1bOD", "\x1b[D"):
+        return "arrow_left"
+    match = ARROW_SEQ_RE.search(inp)
+    if match is None:
+        return None
+    direction = match.group(1)
+    return {
+        "A": "arrow_up",
+        "B": "arrow_down",
+        "C": "arrow_right",
+        "D": "arrow_left",
+    }.get(direction)
+
+
+def _normalize_input(inp: str) -> str:
+    direction = _arrow_direction(inp)
+    if direction is not None:
+        return direction
+    return inp
+
+
+def _should_close_peek(inp: str) -> bool:
+    if inp in {"q", "Q"}:
+        return True
+    if inp == "\x1b":
+        return True
+    if inp in ("\x1b[", "\x1b\\"):
+        return True
+    if inp.startswith("\x1b[") and inp.endswith("Z"):
+        return True
+    return False
+
+
+def _special_key(inp: str) -> str | None:
+    if inp in ("\x1b[H", "\x1bOH", "\x1b[1~"):
+        return "home"
+    if inp in ("\x1b[F", "\x1bOF", "\x1b[4~"):
+        return "end"
+    return None
+
+
+def _handle_mouse_press(dash: DashboardState, seq: str) -> None:
+    if dash.peek_worker_id_snapshot() is not None:
+        return
+    match = MOUSE_SGR_RE.search(seq)
+    if match is None:
+        return
+    btn, _col, row, action = match.group(1), int(match.group(2)), int(match.group(3)), match.group(4)
+    if action not in {"M", "m"} or btn not in {"0", "32"}:
         return
 
-    fd = sys.stdin.fileno()
-    old_attrs = termios.tcgetattr(fd)
-    try:
-        tty.setcbreak(fd)
-        while not dash.stop_event.is_set():
-            ready, _, _ = select.select([sys.stdin], [], [], 0.2)
-            if not ready:
-                continue
+    worker_id = _worker_id_at_screen_row(dash.worker_row_map, row)
+    if worker_id is not None:
+        dash.set_ui_focus("workers")
+        dash.set_peek_worker(worker_id)
 
-            ch = sys.stdin.read(1)
-            if ch == "\x1b":
-                seq = sys.stdin.read(2)
-                if seq == "[A":
-                    dash.scroll_finished(+1)
-                elif seq == "[B":
-                    dash.scroll_finished(-1)
-            elif ch in {"k", "K"}:
-                dash.scroll_finished(+1)
-            elif ch in {"j", "J"}:
-                dash.scroll_finished(-1)
-            elif ch in {"+", "="}:
-                dash.request_scale_up()
-            elif ch in {"-", "_"}:
-                dash.request_scale_down()
-    finally:
-        termios.tcsetattr(fd, termios.TCSADRAIN, old_attrs)
+
+def _handle_dashboard_input(dash: DashboardState, inp: str) -> None:
+    norm = _normalize_input(inp)
+    special = _special_key(inp)
+    snap, _ = dash.snapshot_for_render(time.time())
+    worker_count = len(snap["snapshot"])
+    focus = snap.get("ui_focus", "workers")
+
+    if dash.peek_worker_id_snapshot() is not None:
+        if _should_close_peek(inp):
+            dash.clear_peek_worker()
+        elif norm in {"arrow_up", "k", "K"}:
+            dash.scroll_peek_toward_tail(3)
+        elif norm in {"arrow_down", "j", "J"}:
+            dash.scroll_peek_older(3)
+        return
+
+    if MOUSE_SGR_RE.search(inp):
+        _handle_mouse_press(dash, inp)
+        return
+
+    if inp in {"w", "W"}:
+        dash.set_ui_focus("workers")
+        return
+    if inp in {"f", "F"}:
+        dash.set_ui_focus("finished")
+        return
+
+    if focus == "finished":
+        if norm == "arrow_up" or inp in {"k", "K"}:
+            dash.scroll_finished(+1)
+        elif norm == "arrow_down" or inp in {"j", "J"}:
+            dash.scroll_finished(-1)
+        elif inp in {"\r", "\n"}:
+            dash.set_ui_focus("workers")
+        return
+
+    if special == "home":
+        dash.select_first_worker(worker_count)
+        return
+    if special == "end":
+        dash.select_last_worker(worker_count)
+        return
+
+    if inp in {"n", "N", "\t"}:
+        dash.move_worker_selection(+1, worker_count)
+        return
+    if inp in {"p", "P"}:
+        dash.move_worker_selection(-1, worker_count)
+        return
+    if inp.isdigit():
+        digit = int(inp)
+        row_idx = digit - 1 if digit > 0 else 9
+        dash.select_worker_index(row_idx, worker_count)
+        return
+
+    if norm == "arrow_up":
+        dash.move_worker_selection(-1, worker_count)
+    elif norm == "arrow_down":
+        dash.move_worker_selection(+1, worker_count)
+    elif inp in {"\r", "\n", "o", "O", " "}:
+        dash.open_peek_for_selected_worker(snap["snapshot"])
+    elif inp in {"k", "K"}:
+        dash.scroll_finished(+1)
+    elif inp in {"j", "J"}:
+        dash.scroll_finished(-1)
+    elif inp in {"+", "="}:
+        dash.request_scale_up()
+    elif inp in {"-", "_"}:
+        dash.request_scale_down()
+
+
+def _drain_terminal_input(dash: DashboardState, fd: int) -> None:
+    while True:
+        inp = _read_terminal_input(fd, timeout=0)
+        if inp is None:
+            break
+        _handle_dashboard_input(dash, inp)
+
+
+def _configure_terminal_input(fd: int) -> list:
+    """Return prior termios attrs; leave terminal in cbreak without echo."""
+    old_attrs = termios.tcgetattr(fd)
+    tty.setcbreak(fd)
+    return old_attrs
 
 
 def _run_manual_streaming(
@@ -661,6 +1181,7 @@ def _run_manual_streaming(
             output_lines.append(line)
 
             def _on_line(_line: str = line) -> None:
+                _append_worker_output(worker_state, _line)
                 _update_state_from_line(worker_state, _line)
                 worker_state.last_update_at = time.time()
                 dash.events.append(f"w{worker_state.worker_id} {arxiv_id}: {_line[:180]}")
@@ -708,11 +1229,27 @@ def _run_manual_streaming(
         output_lines.append(line)
 
         def _on_tail_line(_line: str = line) -> None:
+            _append_worker_output(worker_state, _line)
             _update_state_from_line(worker_state, _line)
             worker_state.last_update_at = time.time()
             dash.events.append(f"w{worker_state.worker_id} {arxiv_id}: {_line[:180]}")
 
         dash.mutate(_on_tail_line)
+
+    def _on_subprocess_exit() -> None:
+        if worker_state.status in {
+            "done",
+            "failed",
+            "rejected",
+            "timed out",
+            "export skipped (--skip-export)",
+            "export skipped (no changes)",
+        }:
+            return
+        worker_state.status = "finalizing (subprocess exit)"
+        worker_state.last_update_at = time.time()
+
+    dash.mutate(_on_subprocess_exit)
 
     stdout = "\n".join(output_lines)
     return TodoQueueRunResult(returncode=proc.returncode or 0, stdout=stdout, stderr="")
@@ -776,6 +1313,7 @@ def _worker_loop(
                 state.updated_results = 0
                 state.drained_at = None
                 state.last_line = ""
+                state.output_log.clear()
                 dash.events.append(f"w{worker_id} claimed {entry.arxiv_id}")
 
             dash.mutate(_start_update)
@@ -789,7 +1327,7 @@ def _worker_loop(
             )
 
         def _runner(arxiv_id: str, *, model: str, force: bool) -> TodoQueueRunResult:
-            return _run_manual_streaming(
+            result = _run_manual_streaming(
                 arxiv_id=arxiv_id,
                 model=model,
                 force=force,
@@ -797,6 +1335,15 @@ def _worker_loop(
                 worker_state=state,
                 dash=dash,
             )
+
+            def _on_db_finalize() -> None:
+                if state.status.startswith("done"):
+                    return
+                state.status = "finalizing (db)"
+                state.last_update_at = time.time()
+
+            dash.mutate(_on_db_finalize)
+            return result
 
         def _on_finish(_entry, status, _result, _index, _total):
             dataset_breakdown = _dataset_breakdown_from_output(state.arxiv_id)
@@ -1033,14 +1580,6 @@ def main(argv: list[str] | None = None) -> None:
     for idx in range(1, args.workers + 1):
         _spawn_worker(idx)
 
-    key_thread = threading.Thread(
-        target=_keyboard_listener,
-        kwargs={"dash": dash},
-        daemon=True,
-        name="todo-dashboard-keys",
-    )
-    key_thread.start()
-
     diag_thread = threading.Thread(
         target=_diagnostics_watchdog,
         kwargs={
@@ -1054,28 +1593,55 @@ def main(argv: list[str] | None = None) -> None:
     )
     diag_thread.start()
 
+    stdin_fd: int | None = None
+    stdin_old_attrs: list | None = None
+    if sys.stdin.isatty():
+        stdin_fd = sys.stdin.fileno()
+        stdin_old_attrs = _configure_terminal_input(stdin_fd)
+
     try:
         # Use manual refresh to avoid dependence on Live's internal refresh thread.
         # If that thread wedges under load, the UI can look frozen while work continues.
         with Live(
             _render_dashboard(dash),
-            refresh_per_second=4,
+            refresh_per_second=2,
             screen=True,
             auto_refresh=False,
         ) as live:
+            _enable_mouse_tracking()
+            last_fingerprint: str | None = None
+            force_redraw = True
+
             while True:
+                user_input = False
+                if stdin_fd is not None:
+                    inp = _read_terminal_input(stdin_fd, timeout=0.25)
+                    if inp is not None:
+                        user_input = True
+                        _handle_dashboard_input(dash, inp)
+                        _drain_terminal_input(dash, stdin_fd)
+                else:
+                    time.sleep(0.25)
+
                 for _ in range(dash.consume_scale_up_requests()):
                     new_worker_id = dash.reserve_new_worker_id()
                     if new_worker_id < 0:
                         continue
                     _spawn_worker(new_worker_id)
                     dash.add_event(f"w{new_worker_id} spawned")
+                    force_redraw = True
 
                 threads[:] = [t for t in threads if t.is_alive()]
 
-                live.update(_render_dashboard(dash), refresh=True)
-                dash.ui_last_render_at = time.monotonic()
-                dash.ui_loop_iterations += 1
+                now = time.time()
+                snap, _ = dash.snapshot_for_render(now)
+                fingerprint = _dashboard_render_fingerprint(snap, now)
+                if user_input or force_redraw or fingerprint != last_fingerprint:
+                    live.update(_render_dashboard(dash), refresh=True)
+                    last_fingerprint = fingerprint
+                    force_redraw = False
+                    dash.ui_last_render_at = time.monotonic()
+                    dash.ui_loop_iterations += 1
 
                 desired_workers, _ = dash.snapshot_counts()
                 if not threads and desired_workers <= 0:
@@ -1083,7 +1649,6 @@ def main(argv: list[str] | None = None) -> None:
                 if not threads and desired_workers > 0:
                     break
 
-                time.sleep(0.25)
             live.update(_render_dashboard(dash), refresh=True)
     except KeyboardInterrupt:
         dash.stop_event.set()
@@ -1092,8 +1657,10 @@ def main(argv: list[str] | None = None) -> None:
             t.join(timeout=1.0)
     finally:
         dash.stop_event.set()
-        key_thread.join(timeout=0.5)
         diag_thread.join(timeout=0.5)
+        _disable_mouse_tracking()
+        if stdin_fd is not None and stdin_old_attrs is not None:
+            termios.tcsetattr(stdin_fd, termios.TCSADRAIN, stdin_old_attrs)
         LOGGER.info("dashboard stopped")
 
 

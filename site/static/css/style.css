@@ -1621,11 +1621,11 @@ footer { max-width: 1100px; margin: 3rem auto 1rem; padding: 0 1.5rem; color: va
   box-shadow: 0 0 0 1px rgba(217, 119, 6, 0.25);
 }
 .paper-venue-btn {
-  background: transparent;
-  border-color: transparent;
-  color: var(--gray-600);
-  font-weight: 500;
-  padding: 0 0.15rem 0 0;
+  background: var(--gray-100);
+  border-color: var(--gray-300);
+  color: var(--gray-700);
+  font-weight: 600;
+  padding: 0.12rem 0.38rem;
   border-radius: var(--radius);
   position: relative;
   z-index: 1;
@@ -2857,6 +2857,29 @@ tr.row-global-top.row-best td { background: #e0f2fe; }
   vertical-align: bottom;
   min-width: 0;
 }
+.paper-conference-badge {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+  max-width: 9rem;
+  padding: 0.08rem 0.32rem;
+  border: 1px solid var(--gray-300);
+  border-radius: 4px;
+  background: var(--gray-100);
+  color: var(--gray-700);
+  font-size: 0.65rem;
+  font-weight: 700;
+  line-height: 1.15;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.paper-conference-badge:hover {
+  background: #eef2ff;
+  border-color: #c7d2fe;
+  color: #4338ca;
+  text-decoration: none;
+}
 .paper-cell-row {
   display: flex;
   align-items: baseline;
@@ -3144,6 +3167,11 @@ tr.row-global-top.row-best td { background: #e0f2fe; }
   .paper-link-mobile,
   .paper-venue-badge-mobile {
     display: inline;
+  }
+  .chart-baselines-toggle,
+  .leaderboard-badges .tag-baseline,
+  .leaderboard-badges .tag-proposed {
+    display: none !important;
   }
 }
 

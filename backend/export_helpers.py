@@ -93,24 +93,22 @@ def rank_for_value(
     if not model_key or candidate_value is None:
         return None
 
-    ranked_values: list[tuple[str, float]] = []
+    candidate = float(candidate_value)
     seen = False
+    rank = 1
     for row in global_rows:
         row_key = row.get("model_key", "")
         row_value = row.get("value")
         if row_value is None:
             continue
         if row_key == model_key:
-            ranked_values.append((model_key, float(candidate_value)))
             seen = True
-        else:
-            ranked_values.append((row_key, float(row_value)))
+            continue
+        value = float(row_value)
+        if higher_is_better:
+            if value > candidate or (not seen and value == candidate):
+                rank += 1
+        elif value < candidate or (not seen and value == candidate):
+            rank += 1
 
-    if not seen:
-        ranked_values.append((model_key, float(candidate_value)))
-
-    ranked_values.sort(key=lambda item: -item[1] if higher_is_better else item[1])
-    for rank, (row_key, _) in enumerate(ranked_values, start=1):
-        if row_key == model_key:
-            return rank
-    return None
+    return rank

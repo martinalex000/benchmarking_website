@@ -28,8 +28,10 @@ site/content/conferences/
 site/content/datasets/
 site/content/papers/
 site/static/data/datasets/
+site/static/figures/
 site/data/*.json
 .deploy*
+deploy-archives/
 
 # ── Papers: keep local workspace data out of git ────────────────────────────
 papers/*
@@ -58,4 +60,8 @@ Thumbs.db
 .kilo
 .vscode/settings.json
 .cache
+cache/
+hub/
 .pre-commit-cache
+papers.txt
+config/ogb_papers.txt

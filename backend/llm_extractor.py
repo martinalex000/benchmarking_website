@@ -320,6 +320,36 @@ def _extract_latex_braced_group(tex: str, open_brace_pos: int) -> str:
     return tex[open_brace_pos + 1 : pos - 1]
 
 
+def _prepare_author_body(body: str) -> str:
+    """Drop affiliation/email tails and inline footnotes from an \\author{...} body."""
+    body = re.split(r"\\\\", body, maxsplit=1)[0]
+    for _ in range(3):
+        body = re.sub(r"\\thanks\s*\{[^{}]*\}", "", body)
+        body = re.sub(r"\\texttt\s*\{[^{}]*\}", "", body)
+        body = re.sub(r"\$[^$]*\$", "", body)
+    return body
+
+
+def _split_author_parts(body: str) -> list[str]:
+    """Split an author block into individual name fragments."""
+    parts = re.split(r"\\(?:and|And|AND)\b", body)
+    if len(parts) == 1:
+        parts = re.split(r",\s*(?=[A-Z\\])", body)
+    return [part.strip() for part in parts if part.strip()]
+
+
+def _looks_like_affiliation(text: str) -> bool:
+    if "@" in text:
+        return True
+    return bool(
+        re.search(
+            r"\b(?:University|Universit[aà]|Research|Institute|Laboratory|Department|College|School)\b",
+            text,
+            flags=re.IGNORECASE,
+        )
+    )
+
+
 def _parse_author_names_from_latex(tex: str) -> list[str]:
     """Extract ordered author names from \\author{...} blocks in LaTeX source."""
     from backend.latex_source import _strip_latex
@@ -329,9 +359,9 @@ def _parse_author_names_from_latex(tex: str) -> list[str]:
         body = _extract_latex_braced_group(tex, match.end() - 1)
         if not body:
             continue
-        for part in re.split(r"\\and\b", body):
-            clean = _strip_latex(part).strip()
-            if clean:
+        for part in _split_author_parts(_prepare_author_body(body)):
+            clean = clean_extracted_text(_strip_latex(part).strip())
+            if clean and not _looks_like_affiliation(clean):
                 authors.append(clean)
     return authors
 
@@ -407,7 +437,15 @@ def fetch_arxiv_metadata(arxiv_id: str) -> dict[str, str]:
             published_date = ""
             if published_elem is not None and published_elem.text:
                 published_date = published_elem.text[:10]  # "YYYY-MM-DD"
-            return {"title": title, "abstract": abstract, "published_date": published_date}
+            authors = [
+                (author_elem.find("atom:name", _ARXIV_NS).text or "").strip()
+                for author_elem in entry.findall("atom:author", _ARXIV_NS)
+            ]
+            authors = [name for name in authors if name]
+            result = {"title": title, "abstract": abstract, "published_date": published_date}
+            if authors:
+                result["authors"] = authors
+            return result
         except urllib.error.HTTPError as exc:
             if exc.code == 429:
                 logger.warning(
@@ -437,6 +475,15 @@ def fetch_arxiv_metadata(arxiv_id: str) -> dict[str, str]:
             time.sleep(_RETRY_INTERVAL)
     logger.warning("arXiv API gave up after %d attempts for %s", _MAX_ATTEMPTS, arxiv_id)
     return {}
+
+
+def fetch_arxiv_authors(arxiv_id: str) -> list[str]:
+    """Fetch author names from the arXiv Atom API."""
+    metadata = fetch_arxiv_metadata(arxiv_id)
+    authors = metadata.get("authors")
+    if isinstance(authors, list):
+        return [str(name).strip() for name in authors if str(name).strip()]
+    return []
 
 
 _S2_API_URL = (
