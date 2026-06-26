@@ -27,7 +27,7 @@ uv run python -m backend.seed_db
 uv run vllm serve Qwen/Qwen3.6-35B-A3B-FP8   --tensor-parallel-size 2   --max-model-len 32768   --gpu-memory-utilization 0.96   --enable-chunked-prefill   --max-num-seqs 128   --reasoning-parser qwen3
 
 # this is the 4-bit version of the gemma4 model which can fit on a single gpu (~150t/s @8 parallel)
-uv run vllm serve QuantTrio/gemma-4-31B-it-AWQ --quantization awq_marlin --limit-mm-per-prompt '{"image": 0, "audio": 0}' --gpu-memory-utilization 0.96   --max-num-batched-tokens 4096 --max_model_len=50000 --port 8773
+uv run vllm serve QuantTrio/gemma-4-31B-it-AWQ --quantization awq_marlin --limit-mm-per-prompt '{"image": 0, "audio": 0, "video": 0}' --gpu-memory-utilization 0.96   --max-num-batched-tokens 4096 --max_model_len=50000 --port 8773
 
 # or on two gpus:
 uv run vllm serve QuantTrio/gemma-4-31B-it-AWQ \
@@ -40,7 +40,7 @@ uv run vllm serve QuantTrio/gemma-4-31B-it-AWQ \
   --port 8773
 
 # trying the MoE model
-uv run vllm serve cyankiwi/gemma-4-26B-A4B-it-AWQ-4bit --limit-mm-per-prompt '{"image": 0, "audio": 0}' --gpu-memory-utilization 0.96   --max-num-batched-tokens 4096 --max_model_len=50000 --port 8773   --tensor-parallel-size 2
+uv run vllm serve cyankiwi/gemma-4-26B-A4B-it-AWQ-4bit --limit-mm-per-prompt '{"image": 0, "audio": 0}' --gpu-memory-utilization 0.92   --max-num-batched-tokens 4096 --max_model_len=50000 --port 8773   --tensor-parallel-size 2
 
 # note that the model must match what has been started locally.
 uv run python scripts/run_manual.py 2206.08164 

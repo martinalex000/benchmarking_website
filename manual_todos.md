@@ -43,16 +43,6 @@ Make comparison fairness more explicit. Leaderboards should more clearly disting
 
 Explain ranking logic in simpler terms. “Adjusted MRR with a three-dataset floor” is not self-evident. It needs a plainer explanation and likely an alternate ranking/sorting mode that matches common researcher questions. This should be explained in more detail.
 
-The mobile view of the table is terrible. It is all squeezed together in a way that is not helpful instead of collapsing in a sensible way into a multiline-entry. 
-
-Remove or downplay pipeline-internal terminology. Labels like “Extracted with qwen…” and footer text about automatic extraction/overrides feel internal. Researchers care more about provenance, confidence, and curation quality than the extraction pipeline details.
-
-now the button to hide rows past row 50 is simply gone. Please bring it back.
-
-the names of methods are terribly inconsistent and way too often wrong. Lets manually re-evaluate the most obvious cases (there have been significant improvements to the prompt). 
-
-
-Improve homepage orientation. The homepage is too sparse: just a short blurb, counters, and two buttons. For researchers, it should surface starting points like benchmark families, task types, “recommended standard benchmarks,” recently updated benchmarks, and high-coverage / high-activity datasets.
 
 Add benchmark-selection support, not just leaderboards. Right now the site is better at showing scores than helping decide what to test on. Dataset pages should expose signals like:
 standard vs non-standard split
@@ -72,6 +62,18 @@ Improve metadata completeness on paper pages. Coverage is weak:
 Missing authors, venue, DOI/BibTeX, and code links makes pages less useful for literature review.
 
 shadcn/ui
+
+further tasks not yet included:
+- few shot learning
+- contrastive/embeddings
+- adverserial attacks
+
+MLP stärker in der Tabelle markieren
+
+Wisonsin und co nochmal genauer angucken, da wurden ganz viele GCN methoden nicht erfolgreich gejoined - warum? Und Angucken was die unterschiede waren anekdotisch
+
+
+
 
 
 ## Script cleanup backlog
