@@ -8,6 +8,7 @@ import sys
 from backend.benchmarks_db_checkpoint import (
     BENCHMARKS_DB_REL,
     is_benchmarks_db_sidecar,
+    is_git_lfs_pointer,
     wal_checkpoint_truncate,
 )
 from backend.config import cfg
@@ -50,6 +51,11 @@ def main() -> int:
 
     db_path = cfg.db_path
     if not db_path.is_file():
+        return 0
+
+    if is_git_lfs_pointer(db_path):
+        if BENCHMARKS_DB_REL in staged:
+            _restage_benchmarks_db()
         return 0
 
     wal_checkpoint_truncate(db_path)

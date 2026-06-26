@@ -6,6 +6,16 @@ import sqlite3
 from pathlib import Path
 
 BENCHMARKS_DB_REL = "data/benchmarks.db"
+GIT_LFS_POINTER_PREFIX = b"version https://git-lfs.github.com/spec/v1"
+
+
+def is_git_lfs_pointer(db_path: Path) -> bool:
+    """Return True when *db_path* is a Git LFS pointer instead of a SQLite file."""
+    try:
+        header = db_path.read_bytes()[: len(GIT_LFS_POINTER_PREFIX)]
+    except OSError:
+        return False
+    return header == GIT_LFS_POINTER_PREFIX
 
 
 def is_benchmarks_db_sidecar(git_path: str) -> bool:

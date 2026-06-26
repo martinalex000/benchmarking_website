@@ -7,9 +7,24 @@ from pathlib import Path
 
 from backend.benchmarks_db_checkpoint import (
     is_benchmarks_db_sidecar,
+    is_git_lfs_pointer,
     sidecar_paths,
     wal_checkpoint_truncate,
 )
+
+
+def test_is_git_lfs_pointer(tmp_path: Path):
+    pointer = tmp_path / "benchmarks.db"
+    pointer.write_text(
+        "version https://git-lfs.github.com/spec/v1\n" "oid sha256:deadbeef\n" "size 42\n"
+    )
+    assert is_git_lfs_pointer(pointer)
+
+    db_path = tmp_path / "real.db"
+    conn = sqlite3.connect(db_path)
+    conn.execute("CREATE TABLE t (id INTEGER)")
+    conn.close()
+    assert not is_git_lfs_pointer(db_path)
 
 
 def test_is_benchmarks_db_sidecar():
