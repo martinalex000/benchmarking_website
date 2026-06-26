@@ -30,7 +30,7 @@
 {{ $collapseAfter := .collapse_after | default 0 }}
 {{ $rowCount := .row_count | default (len $rows) }}
 {{ $rowsJson := .rows_json | default "" }}
-{{ if $rowsJson }}{{ $rowsJson = $rowsJson | relURL }}{{ end }}
+{{ if $rowsJson }}{{ $rowsJson = strings.TrimPrefix "/" $rowsJson | relURL }}{{ end }}
 {{ $tableId := cond $paperPage (printf "tbl-paper-%s" $slug) (printf "tbl-%s" $slug) }}
 
 {{ if $rows }}

@@ -205,6 +205,10 @@
 {{ range .Params.variants }}
   {{ $rowsJson := .rows_json | default "" }}
   {{ $chartJson := .chart_json | default "" }}
+  {{ $rowsJsonURL := "" }}
+  {{ $chartJsonURL := "" }}
+  {{ if $rowsJson }}{{ $rowsJsonURL = strings.TrimPrefix "/" $rowsJson | relURL }}{{ end }}
+  {{ if $chartJson }}{{ $chartJsonURL = strings.TrimPrefix "/" $chartJson | relURL }}{{ end }}
   {{ $cfgVariants = $cfgVariants | append (dict
     "slug" .slug
     "name" .name
@@ -216,8 +220,8 @@
     "metric_display_names" (.metric_display_names | default .metrics)
     "metric_counts" (.metric_counts | default slice)
     "row_count" (.row_count | default (len .rows))
-    "rows_json" (cond (ne $rowsJson "") ($rowsJson | relURL) "")
-    "chart_json" (cond (ne $chartJson "") ($chartJson | relURL) "")
+    "rows_json" $rowsJsonURL
+    "chart_json" $chartJsonURL
   ) }}
 {{ end }}
 <script>
