@@ -239,3 +239,14 @@ def test_ogb_ppa_exact_match():
     variant_id, reason = resolve_dataset_variant_with_reason("ogbg-ppa", None, variant_map)
     assert variant_id == 99
     assert reason == "dataset: exact match"
+
+
+def test_dataset_alias_normalization_in_resolve():
+    variant_map = {"amazon-computers": 67, "ogbn-arxiv": 47}
+    variant_id, reason = resolve_dataset_variant_with_reason("Computers", None, variant_map)
+    assert variant_id == 67
+    assert reason == "dataset: exact match"
+
+    variant_id, reason = resolve_dataset_variant_with_reason("arXiv", None, variant_map)
+    assert variant_id == 47
+    assert reason == "dataset: exact match"

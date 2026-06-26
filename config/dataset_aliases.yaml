@@ -19,6 +19,7 @@ aliases:
   Computer: Amazon-Computers
   Photo: Amazon-Photo
   Computers: Amazon-Computers
+  arXiv: ogbn-arxiv
   # Common plain-name variants
   Cifar10: CIFAR10
   Cifar100: CIFAR100

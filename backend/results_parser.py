@@ -17,12 +17,11 @@ import argparse
 import contextlib
 import json
 import logging
-
-import yaml
 import re
 from dataclasses import dataclass, field
 from typing import Any
 
+import yaml
 from thefuzz import fuzz as fuzz_lib
 from thefuzz import process as fuzz_process
 
@@ -48,7 +47,11 @@ from backend.override_handler import apply_overrides_to_db
 from backend.paper_storage import PaperStorage
 from backend.qm9_targets import is_qm9_dataset, normalize_qm9_metric
 from backend.repository_linking import find_verified_repository_link, repository_source_from_storage
-from backend.text_cleanup import abstract_has_latex_artifacts, authors_look_broken, clean_extracted_text
+from backend.text_cleanup import (
+    abstract_has_latex_artifacts,
+    authors_look_broken,
+    clean_extracted_text,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -348,6 +351,7 @@ def resolve_dataset_variant_with_reason(
     if variant_map is None:
         variant_map = _load_variant_map(session)
 
+    dataset_name = normalize_dataset_alias(dataset_name)
     key = dataset_name.strip().lower()
 
     if key == "zinc":
@@ -699,9 +703,7 @@ def _enrich_paper_metadata(arxiv_id: str, paper: Paper, storage: PaperStorage) -
             )
 
         # arXiv Atom API when date/abstract still missing after Semantic Scholar.
-        if (need_meta or need_daily_date) and (
-            not cfg.semantic_scholar_api_key or need_daily_date
-        ):
+        if (need_meta or need_daily_date) and (not cfg.semantic_scholar_api_key or need_daily_date):
             from backend.llm_extractor import fetch_arxiv_metadata
 
             meta = fetch_arxiv_metadata(arxiv_id)
@@ -725,9 +727,7 @@ def _enrich_paper_metadata(arxiv_id: str, paper: Paper, storage: PaperStorage) -
                 storage.update_metadata(
                     {
                         **(
-                            {"published_date": paper.published_date}
-                            if paper.published_date
-                            else {}
+                            {"published_date": paper.published_date} if paper.published_date else {}
                         ),
                     }
                 )

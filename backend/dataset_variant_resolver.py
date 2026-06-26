@@ -7,6 +7,7 @@ from typing import Any
 from thefuzz import process as fuzz_process
 
 from backend.models import DatasetVariant
+from backend.results_parser import normalize_dataset_alias
 
 
 def build_dataset_variant_lookup(session: Any) -> dict[str, DatasetVariant]:
@@ -24,6 +25,7 @@ def resolve_dataset_variant_quiet(
     dataset_lookup: dict[str, DatasetVariant],
 ) -> DatasetVariant | None:
     """Resolve a dataset name by exact or fuzzy match without logging."""
+    dataset_name = normalize_dataset_alias(dataset_name)
     key = dataset_name.strip().lower()
     if not key:
         return None
