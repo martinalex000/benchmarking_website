@@ -47,7 +47,7 @@
     <button type="button" class="secondary-metrics-expand-link">Show all results</button> to view the additional metrics
   </p>
   {{ end }}
-  <table class="result-table sortable{{ if $paperPage }} paper-results-table{{ end }}{{ if gt (len $metrics) 1 }}{{ if $paperPage }} paper-multi-metric-cols{{ else }} dataset-multi-metric-cols{{ if $showAllDesktop }} dataset-flat-metrics show-secondary-metrics{{ end }}{{ end }}{{ end }}" id="{{ $tableId }}" data-collapse-after="{{ $collapseAfter }}"{{ with $rowsJson }} data-rows-json="{{ . }}"{{ end }} data-row-count="{{ $rowCount }}" data-initial-rows="{{ len $rows }}"{{ if $showAllDesktop }} data-flat-metrics="1" data-default-metric="{{ $defaultMetric }}"{{ end }}>
+  <table class="result-table sortable{{ if $paperPage }} paper-results-table{{ end }}{{ if gt (len $metrics) 1 }}{{ if $paperPage }} paper-multi-metric-cols{{ else }} dataset-multi-metric-cols dataset-flat-metrics{{ if $showAllDesktop }} show-flat-all-metrics{{ end }}{{ end }}{{ end }}" id="{{ $tableId }}" data-collapse-after="{{ $collapseAfter }}"{{ with $rowsJson }} data-rows-json="{{ . }}"{{ end }} data-row-count="{{ $rowCount }}" data-initial-rows="{{ len $rows }}"{{ if not $paperPage }} data-flat-metrics="1" data-default-metric="{{ $defaultMetric }}"{{ if $showAllDesktop }} data-show-all-default="1"{{ end }}{{ end }}>
     <thead>
       <tr>
         <th class="col-rank">#</th>
@@ -213,9 +213,9 @@
             <div class="paper-title-wrap">
               {{ with $paperVenueLabel }}<a class="paper-conference-badge" href="{{ printf "papers/?conference=%s" $paperVenueSlug | relURL }}" title="Filter papers by venue">{{ . }}</a>{{ end }}
               {{ if $r.arxiv_id }}<a class="paper-title-link" href="{{ printf "papers/%s/" $r.arxiv_id | relURL }}" title="arXiv:{{ $r.arxiv_id }}{{ with $r.title }} — {{ . }}{{ end }}">{{ if $r.title }}{{ $r.title | truncate 96 }}{{ else }}arXiv:{{ $r.arxiv_id }}{{ end }}</a>{{ else }}—{{ end }}
+              {{ if $r.codebase_url }}<a class="paper-code-link" href="{{ $r.codebase_url }}" target="_blank" rel="noopener">code ↗</a>{{ else }}<span class="paper-code-missing" title="No code link available">no code</span>{{ end }}
             </div>
             <div class="paper-inline-meta">
-              {{ if $r.codebase_url }}<a class="paper-code-link" href="{{ $r.codebase_url }}" target="_blank" rel="noopener">code ↗</a>{{ else }}<span class="paper-code-missing" title="No code link available">no code</span>{{ end }}
               <span class="paper-date-inline paper-date-inline-full">{{ $dateDisplay }}</span>
               <span class="paper-date-inline paper-date-inline-short">{{ $mobileDate }}</span>
               <button type="button" class="mobile-details-toggle" aria-expanded="false" aria-controls="{{ $rowDetailsId }}" aria-label="Toggle details">▾</button>

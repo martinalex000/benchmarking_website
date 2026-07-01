@@ -29,6 +29,7 @@
   let showExternalData = true;
   let showNoCode = true;
   let activeVariant = null;
+  const variantTargetSelection = {};
   const variantMetricIndex = {};
   const variantLogScale = {};
   const SCI_NOTATION_THRESHOLD = 1e-4;
@@ -200,11 +201,17 @@
   function _scheduleChartBuild(canvas, slug, cfg) {
     var variant = (cfg.variants || []).find(function (v) { return v.slug === slug; }) || {};
     var defaultIdx = _defaultMetricIndex(variant);
-    variantMetricIndex[slug] = _readSessionInt(_sessionKey("metric", slug), defaultIdx);
-    variantLogScale[slug] = _readSessionBool(_sessionKey("log", slug), false);
-    var metricIndex = variantMetricIndex[slug];
+    var selection = variantTargetSelection[slug];
+    if (selection == null) {
+      selection = String(variantMetricIndex[slug] != null ? variantMetricIndex[slug] : defaultIdx);
+    }
+    selection = _normalizeTargetSelection(selection, variant);
+    var metricIndex = _targetMetricIndex(variant, selection);
+    variantTargetSelection[slug] = selection;
+    variantMetricIndex[slug] = metricIndex;
+    variantLogScale[slug] = _chartDefaultLogScale(variant) ||
+      _readSessionBool(_sessionKey("log", slug), false);
     var metrics = variant.metrics || [];
-    var metricKey = metrics[metricIndex];
     var milestones = _milestonesForTarget(canvas, variant, metricIndex);
     canvas.dataset.milestones = JSON.stringify(milestones);
     canvas.dataset.metric = _metricLabel(variant, metricIndex);
@@ -277,6 +284,28 @@
     return idx >= 0 ? idx : 0;
   }
 
+  function _isAllTargetSelection(selection) {
+    return String(selection || "") === "all";
+  }
+
+  function _normalizeTargetSelection(selection, variant) {
+    if (_isAllTargetSelection(selection)) return "all";
+    var metrics = variant.metrics || [];
+    var idx = parseInt(selection, 10);
+    if (isNaN(idx) || idx < 0 || idx >= metrics.length) {
+      return String(_defaultMetricIndex(variant));
+    }
+    return String(idx);
+  }
+
+  function _targetMetricIndex(variant, selection) {
+    if (_isAllTargetSelection(selection)) {
+      return _defaultMetricIndex(variant);
+    }
+    var idx = parseInt(selection, 10);
+    return isNaN(idx) ? _defaultMetricIndex(variant) : idx;
+  }
+
   function _milestonesForTarget(canvas, variant, metricIndex) {
     var metrics = variant.metrics || [];
     var metricKey = metrics[metricIndex];
@@ -321,15 +350,14 @@
   function _syncTargetPickerLabels(variant) {
     if (!variant || !variant.slug) return;
     var slug = variant.slug;
-    [document.getElementById("chart-target-" + slug), document.getElementById("mobile-target-" + slug), document.getElementById("desktop-target-" + slug)].forEach(
-      function (select) {
-        if (!select) return;
-        Array.from(select.options).forEach(function (opt) {
-          var idx = parseInt(opt.value, 10);
-          if (!isNaN(idx)) opt.textContent = _targetOptionLabel(variant, idx);
-        });
-      }
-    );
+    [document.getElementById("chart-target-" + slug)].forEach(function (select) {
+      if (!select) return;
+      Array.from(select.options).forEach(function (opt) {
+        if (_isAllTargetSelection(opt.value)) return;
+        var idx = parseInt(opt.value, 10);
+        if (!isNaN(idx)) opt.textContent = _targetOptionLabel(variant, idx);
+      });
+    });
   }
 
   function _valuesForMetric(rows, metricIndex) {
@@ -508,13 +536,13 @@
     } else {
       html += "—";
     }
-    html += '</div><div class="paper-inline-meta">';
     if (row.codebase_url) {
       html += '<a class="paper-code-link" href="' + _escapeHtml(row.codebase_url) +
         '" target="_blank" rel="noopener">code ↗</a>';
     } else {
       html += '<span class="paper-code-missing" title="No code link available">no code</span>';
     }
+    html += '</div><div class="paper-inline-meta">';
     html += '<span class="paper-date-inline paper-date-inline-full">' + _escapeHtml(dateDisplay) + "</span>";
     html += '<span class="paper-date-inline paper-date-inline-short">' + _escapeHtml(mobileDate) + "</span>";
     html += '<button type="button" class="mobile-details-toggle" aria-expanded="false" aria-controls="' +
@@ -554,7 +582,22 @@
       return Promise.resolve();
     }
     if (rowsJsonCache[url]) {
-      return Promise.resolve(rowsJsonCache[url]);
+      var cached = rowsJsonCache[url];
+      var cachedInitial = parseInt(table.dataset.initialRows || "0", 10);
+      var cachedCollapseAfter = parseInt(table.dataset.collapseAfter || "0", 10);
+      var cachedAllRows = cached && cached.rows ? cached.rows : [];
+      var cachedExtraRows = cachedAllRows.slice(cachedInitial);
+      _appendDatasetRows(table, cachedExtraRows, cachedInitial, cachedCollapseAfter);
+      table.dataset.rowsLoaded = "all";
+      var cachedSlug = (table.id || "").replace(/^tbl-/, "");
+      var cachedVariant = _getVariant(cachedSlug);
+      var cachedSelection = variantTargetSelection[cachedSlug];
+      if (cachedSelection != null) {
+        _applyTargetSelectionToTable(table, cachedSelection, cachedVariant);
+      } else {
+        _syncTableRows(table);
+      }
+      return Promise.resolve(cached);
     }
     return _fetchJson(url).then(function (payload) {
       rowsJsonCache[url] = payload;
@@ -564,6 +607,14 @@
       var extraRows = allRows.slice(initial);
       _appendDatasetRows(table, extraRows, initial, collapseAfter);
       table.dataset.rowsLoaded = "all";
+      var slug = (table.id || "").replace(/^tbl-/, "");
+      var variant = _getVariant(slug);
+      var selection = variantTargetSelection[slug];
+      if (selection != null) {
+        _applyTargetSelectionToTable(table, selection, variant);
+      } else {
+        _syncTableRows(table);
+      }
       return payload;
     });
   }
@@ -573,6 +624,8 @@
     const cfg = window.leaderboardConfig || {};
     const variants = cfg.variants || [];
     const showAllVariants = !!cfg.showAllVariants;
+
+    _initTargetPickers();
 
     variants.forEach(function (v) {
       const canvas = document.getElementById("chart-" + v.slug);
@@ -588,7 +641,6 @@
 
     _initChartToggles();
     _initFilterBar();
-    _initTargetPickers();
 
     // Set initial active variant (first standard one)
     const standard = variants.find(function (v) { return v.is_standard; }) || variants[0];
@@ -684,25 +736,57 @@
     };
   }
 
+  function _chartDefaultLogScale(variant) {
+    return !!(variant && variant.chart_default_log_scale);
+  }
+
+  function _chartHiddenModelSet(variant) {
+    var names = (variant && variant.chart_hidden_models) || [];
+    var hidden = {};
+    names.forEach(function (name) {
+      var key = String(name || "").trim().toLowerCase();
+      if (key) hidden[key] = true;
+    });
+    return hidden;
+  }
+
+  function _isChartHiddenModel(rowOrPoint, hiddenModels) {
+    if (!rowOrPoint || !hiddenModels) return false;
+    var names = [rowOrPoint.model_plain, rowOrPoint.model];
+    return names.some(function (name) {
+      var key = String(name || "").trim().toLowerCase();
+      return key && hiddenModels[key];
+    });
+  }
+
   function _chartValuesForTarget(slug, variant, metricIndex, chartPoints) {
+    var hiddenModels = _chartHiddenModelSet(variant);
     if (chartPoints) {
-      return chartPoints.map(function (p) { return p.value; }).filter(function (v) {
+      return chartPoints.filter(function (p) {
+        return !_isChartHiddenModel(p, hiddenModels);
+      }).map(function (p) { return p.value; }).filter(function (v) {
         return typeof v === "number" && isFinite(v);
       });
     }
     if (metricIndex === 0) {
       var chartJson = variant.chart_json || "";
       if (chartJson && chartPointsCache[chartJson]) {
-        return chartPointsCache[chartJson].map(function (p) { return p.value; }).filter(function (v) {
+        return chartPointsCache[chartJson].filter(function (p) {
+          return !_isChartHiddenModel(p, hiddenModels);
+        }).map(function (p) { return p.value; }).filter(function (v) {
           return typeof v === "number" && isFinite(v);
         });
       }
     }
     var rowsJson = variant.rows_json || "";
     if (rowsJson && rowsJsonCache[rowsJson] && rowsJsonCache[rowsJson].rows) {
-      return _valuesForMetric(rowsJsonCache[rowsJson].rows, metricIndex);
+      return _valuesForMetric(rowsJsonCache[rowsJson].rows.filter(function (row) {
+        return !_isChartHiddenModel(row, hiddenModels);
+      }), metricIndex);
     }
-    return _valuesForMetric(variant.rows || [], metricIndex);
+    return _valuesForMetric((variant.rows || []).filter(function (row) {
+      return !_isChartHiddenModel(row, hiddenModels);
+    }), metricIndex);
   }
 
   function _syncLogScaleToggle(slug, metricIndex) {
@@ -717,7 +801,9 @@
     milestones.forEach(function (m) {
       if (typeof m.value === "number" && isFinite(m.value)) values.push(m.value);
     });
-    var canLog = values.length > 0 && _needsSciNotation(values) && _allPositive(values);
+    var canLog = values.length > 0 &&
+      _allPositive(values) &&
+      (_needsSciNotation(values) || _chartDefaultLogScale(variant));
     btn.hidden = !canLog;
     if (!canLog) {
       variantLogScale[slug] = false;
@@ -733,11 +819,11 @@
 
   function _applyMobileTargetColumn(table, metricIndex, label) {
     if (!table) return;
-    table.querySelectorAll("td.col-value").forEach(function (td) {
-      var idx = parseInt(td.getAttribute("data-metric-index") || "0", 10);
+    table.querySelectorAll("th.col-value, td.col-value").forEach(function (cell) {
+      var idx = parseInt(cell.getAttribute("data-metric-index") || "0", 10);
       var show = idx === metricIndex;
-      td.classList.toggle("mobile-target-visible", show);
-      td.style.display = "";
+      cell.classList.toggle("mobile-target-visible", show);
+      cell.style.display = "";
     });
     var head = table.closest(".result-table-wrapper");
     head = head ? head.querySelector(".mobile-result-table-head span:nth-child(3)") : null;
@@ -768,6 +854,68 @@
       var raw = row.getAttribute("data-value-" + metricIndex);
       if (raw != null && raw !== "") row.dataset.value = raw;
     });
+  }
+
+  function _rowMetricValue(row, metricIndex) {
+    if (!row) return null;
+    var raw = row.getAttribute("data-value-" + metricIndex);
+    if (raw == null || raw === "") return null;
+    var parsed = parseFloat(raw);
+    return isNaN(parsed) ? null : parsed;
+  }
+
+  function _sortRowsForTarget(table, metricIndex, higherIsBetter) {
+    if (!table) return;
+    var tbody = table.querySelector("tbody");
+    if (!tbody) return;
+
+    var rows = Array.from(tbody.querySelectorAll("tr.result-row"));
+    rows.sort(function (a, b) {
+      var aVal = _rowMetricValue(a, metricIndex);
+      var bVal = _rowMetricValue(b, metricIndex);
+      var aMissing = aVal == null || !isFinite(aVal);
+      var bMissing = bVal == null || !isFinite(bVal);
+
+      if (aMissing && bMissing) {
+        return (parseInt(a.dataset.originalIndex || "0", 10) || 0) -
+          (parseInt(b.dataset.originalIndex || "0", 10) || 0);
+      }
+      if (aMissing) return 1;
+      if (bMissing) return -1;
+      if (aVal !== bVal) {
+        return higherIsBetter ? (bVal - aVal) : (aVal - bVal);
+      }
+      return (parseInt(a.dataset.originalIndex || "0", 10) || 0) -
+        (parseInt(b.dataset.originalIndex || "0", 10) || 0);
+    });
+
+    rows.forEach(function (row) {
+      tbody.appendChild(row);
+    });
+  }
+
+  function _applyTargetSelectionToTable(table, selection, variant) {
+    if (!table || !variant) return;
+    var normalizedSelection = _normalizeTargetSelection(selection, variant);
+    var metricIndex = _targetMetricIndex(variant, normalizedSelection);
+    var label = _metricLabel(variant, metricIndex);
+    var showAll = _isAllTargetSelection(normalizedSelection);
+
+    table.classList.toggle("show-flat-all-metrics", showAll);
+    table.classList.toggle("show-secondary-metrics", showAll);
+
+    if (showAll) {
+      table.querySelectorAll("th.col-value, td.col-value").forEach(function (cell) {
+        cell.classList.remove("flat-target-visible");
+        cell.classList.remove("mobile-target-visible");
+      });
+    } else {
+      _applyFlatTargetColumn(table, metricIndex);
+    }
+
+    _applyMobileTargetColumn(table, metricIndex, showAll ? "All" : label);
+    _sortRowsForTarget(table, metricIndex, variant.higher_is_better !== false);
+    _syncTableRows(table);
   }
 
   function _desktopTargetPickerGroup(slug) {
@@ -830,33 +978,24 @@
     _applyModelTooltips();
   }
 
-  function _syncTargetPickers(slug, metricIndex) {
+  function _syncTargetPickers(slug, selection) {
     var variant = _getVariant(slug);
+    var normalizedSelection = _normalizeTargetSelection(selection, variant);
+    var metricIndex = _targetMetricIndex(variant, normalizedSelection);
     var label = _metricLabel(variant, metricIndex);
-    variantMetricIndex[slug] = metricIndex;
-    _writeSession(_sessionKey("metric", slug), metricIndex);
 
-    var mobileSelect = document.getElementById("mobile-target-" + slug);
-    if (mobileSelect && mobileSelect.value !== String(metricIndex)) {
-      mobileSelect.value = String(metricIndex);
-    }
-    var desktopSelect = document.getElementById("desktop-target-" + slug);
-    if (desktopSelect && desktopSelect.value !== String(metricIndex)) {
-      desktopSelect.value = String(metricIndex);
-    }
+    variantTargetSelection[slug] = normalizedSelection;
+    variantMetricIndex[slug] = metricIndex;
+    _writeSession(_sessionKey("metric", slug), normalizedSelection);
+
     var chartSelect = document.getElementById("chart-target-" + slug);
-    if (chartSelect && chartSelect.value !== String(metricIndex)) {
-      chartSelect.value = String(metricIndex);
+    if (chartSelect && chartSelect.value !== normalizedSelection) {
+      chartSelect.value = normalizedSelection;
     }
 
     var table = document.getElementById("tbl-" + slug);
     if (table && table.dataset.flatMetrics === "1") {
-      if (table.classList.contains("show-flat-all-metrics")) {
-        _applyMobileTargetColumn(table, metricIndex, label);
-      } else {
-        _applyFlatTargetColumn(table, metricIndex);
-        _applyMobileTargetColumn(table, metricIndex, label);
-      }
+      _applyTargetSelectionToTable(table, normalizedSelection, variant);
     }
 
     var title = document.getElementById("chart-title-" + slug);
@@ -872,10 +1011,10 @@
     if (!canvas) return;
     var variant = _getVariant(slug);
     var cfg = window.leaderboardConfig || {};
-    var metricIndex = variantMetricIndex[slug];
-    if (metricIndex == null) metricIndex = _defaultMetricIndex(variant);
+    var selection = variantTargetSelection[slug];
+    if (selection == null) selection = String(variantMetricIndex[slug] != null ? variantMetricIndex[slug] : _defaultMetricIndex(variant));
+    var metricIndex = _targetMetricIndex(variant, selection);
     var metrics = variant.metrics || [];
-    var metricKey = metrics[metricIndex];
     var milestones = _milestonesForTarget(canvas, variant, metricIndex);
     canvas.dataset.milestones = JSON.stringify(milestones);
     canvas.dataset.metric = _metricLabel(variant, metricIndex);
@@ -894,10 +1033,23 @@
     buildChart(canvas, slug, cfg.higherIsBetter !== false, null, _chartBuildOptions(slug, variant));
   }
 
-  function _switchTarget(slug, metricIndex) {
-    _syncTargetPickers(slug, metricIndex);
-    _rebuildChartForTarget(slug);
-    _applyModelColumnWidths();
+  function _switchTarget(slug, selection) {
+    var table = document.getElementById("tbl-" + slug);
+    var applySelection = function () {
+      _syncTargetPickers(slug, selection);
+      _rebuildChartForTarget(slug);
+      _applyModelColumnWidths();
+    };
+
+    if (table && table.dataset.flatMetrics === "1") {
+      _ensureAllRowsLoaded(table).then(applySelection).catch(function (err) {
+        console.error("Failed to load leaderboard rows for target switch", err);
+        applySelection();
+      });
+      return;
+    }
+
+    applySelection();
   }
 
   function _initTargetPickers() {
@@ -906,49 +1058,37 @@
       var slug = variant.slug;
       if (!slug) return;
       var defaultIdx = _defaultMetricIndex(variant);
-      var storedIdx = _readSessionInt(_sessionKey("metric", slug), defaultIdx);
-      if (storedIdx < 0 || storedIdx >= (variant.metrics || []).length) storedIdx = defaultIdx;
-      variantMetricIndex[slug] = storedIdx;
-      variantLogScale[slug] = _readSessionBool(_sessionKey("log", slug), false);
-
-      var mobileSelect = document.getElementById("mobile-target-" + slug);
-      if (mobileSelect && !mobileSelect.dataset.bound) {
-        mobileSelect.dataset.bound = "1";
-        mobileSelect.addEventListener("change", function () {
-          _switchTarget(slug, parseInt(mobileSelect.value, 10) || 0);
-        });
+      var table = document.getElementById("tbl-" + slug);
+      var storedSelection = "";
+      try {
+        storedSelection = sessionStorage.getItem(_sessionKey("metric", slug)) || "";
+      } catch (e) {
+        storedSelection = "";
       }
-
-      var desktopSelect = document.getElementById("desktop-target-" + slug);
-      if (desktopSelect && !desktopSelect.dataset.bound) {
-        desktopSelect.dataset.bound = "1";
-        desktopSelect.addEventListener("change", function () {
-          _switchTarget(slug, parseInt(desktopSelect.value, 10) || 0);
-        });
+      if (!storedSelection) {
+        storedSelection = table && table.classList.contains("show-flat-all-metrics") ? "all" : String(defaultIdx);
       }
+      storedSelection = _normalizeTargetSelection(storedSelection, variant);
+      variantTargetSelection[slug] = storedSelection;
+      variantMetricIndex[slug] = _targetMetricIndex(variant, storedSelection);
+      variantLogScale[slug] = _chartDefaultLogScale(variant) ||
+        _readSessionBool(_sessionKey("log", slug), false);
 
       var chartSelect = document.getElementById("chart-target-" + slug);
       if (chartSelect && !chartSelect.dataset.bound) {
         chartSelect.dataset.bound = "1";
         chartSelect.addEventListener("change", function () {
-          _switchTarget(slug, parseInt(chartSelect.value, 10) || 0);
+          _switchTarget(slug, chartSelect.value);
         });
       }
 
-      var table = document.getElementById("tbl-" + slug);
       if (table && table.dataset.flatMetrics === "1") {
-        var storedFlatAll = _readSessionBool(_sessionKey("flatAll", slug), true);
-        showFlatAllMetrics = storedFlatAll;
-        _applyFlatMetricsMode(table, storedFlatAll, slug);
-        _applyMobileTargetColumn(table, storedIdx, _metricLabel(variant, storedIdx));
+        _syncTargetPickers(slug, storedSelection);
       }
 
       _syncTargetPickerLabels(variant);
-
-      if (chartSelect) chartSelect.value = String(storedIdx);
-      if (mobileSelect) mobileSelect.value = String(storedIdx);
-      if (desktopSelect) desktopSelect.value = String(storedIdx);
-      _syncLogScaleToggle(slug, storedIdx);
+      if (chartSelect) chartSelect.value = storedSelection;
+      _syncLogScaleToggle(slug, variantMetricIndex[slug]);
     });
   }
 
@@ -1582,6 +1722,51 @@
     };
   }
 
+  function _computeFocusedLogYBounds(scatterData, recordData, refs, higherIsBetter) {
+    var positiveScatter = (scatterData || []).map(function (d) {
+      return d && typeof d.y === "number" && isFinite(d.y) && d.y > 0 ? d.y : null;
+    }).filter(function (v) { return v != null; }).sort(function (a, b) { return a - b; });
+    var positiveFocus = []
+      .concat((recordData || []).map(function (d) {
+        return d && typeof d.y === "number" && isFinite(d.y) && d.y > 0 ? d.y : null;
+      }).filter(function (v) { return v != null; }))
+      .concat((refs || []).map(function (ref) {
+        return ref && typeof ref.value === "number" && isFinite(ref.value) && ref.value > 0
+          ? ref.value
+          : null;
+      }).filter(function (v) { return v != null; }));
+
+    if (!positiveScatter.length && !positiveFocus.length) return null;
+    if (!positiveFocus.length) positiveFocus = positiveScatter.slice();
+
+    var scatterLogs = positiveScatter.map(function (v) { return Math.log10(v); }).filter(function (v) {
+      return typeof v === "number" && isFinite(v);
+    });
+    var focusLogs = positiveFocus.map(function (v) { return Math.log10(v); }).filter(function (v) {
+      return typeof v === "number" && isFinite(v);
+    });
+    if (!focusLogs.length) return null;
+
+    var minLog = Math.min.apply(null, focusLogs);
+    var maxLog = Math.max.apply(null, focusLogs);
+    var lowTail = _quantile(scatterLogs, higherIsBetter ? 0.04 : 0.02);
+    var highTail = _quantile(scatterLogs, higherIsBetter ? 0.96 : 0.98);
+    if (lowTail != null) minLog = Math.min(minLog, lowTail);
+    if (highTail != null) maxLog = Math.max(maxLog, highTail);
+
+    if (!(minLog < maxLog) || !isFinite(minLog) || !isFinite(maxLog)) return null;
+
+    var pad = Math.min(0.22, Math.max((maxLog - minLog) * 0.06, 0.08));
+    var minVal = Math.pow(10, minLog - pad);
+    var maxVal = Math.pow(10, maxLog + pad);
+
+    if (!(minVal > 0) || !(maxVal > minVal)) return null;
+    return {
+      min: minVal,
+      max: maxVal,
+    };
+  }
+
   function _isWithinYBounds(value, bounds) {
     return !!bounds && typeof value === "number" && isFinite(value) &&
       value >= bounds.min && value <= bounds.max;
@@ -1745,8 +1930,12 @@
     const allRows = (chartPoints && metricIndex === 0 && !(variant.rows && variant.rows.length))
       ? _chartPointsToRows(chartPoints)
       : (variant.rows && variant.rows.length ? variant.rows : _chartPointsToRows(chartPoints || []));
+    const hiddenModels = _chartHiddenModelSet(variant);
+    const chartRows = allRows.filter(function (row) {
+      return !_isChartHiddenModel(row, hiddenModels);
+    });
 
-    if (!milestones.length && !allRows.length) return;
+    if (!milestones.length && !chartRows.length) return;
     if (typeof Chart === "undefined") return;
 
     var perfPrefix = "chart-" + slug + ":";
@@ -1776,16 +1965,21 @@
     }
 
     var titleByArxiv = {};
-    allRows.forEach(function (row) {
+    chartRows.forEach(function (row) {
       if (row.arxiv_id && row.title && !titleByArxiv[row.arxiv_id]) {
         titleByArxiv[row.arxiv_id] = row.title;
       }
     });
 
-    var gnnReference = _pickBestReference(allRows, higherIsBetter, ["gcn", "gin", "graphsage"], metricIndex);
-    var mlpReference = _pickBestReference(allRows, higherIsBetter, "mlp", metricIndex);
+    var gnnReference = _pickBestReference(chartRows, higherIsBetter, ["gcn", "gin", "graphsage"], metricIndex);
+    var mlpReference = hiddenModels.mlp
+      ? null
+      : _pickBestReference(chartRows, higherIsBetter, "mlp", metricIndex);
 
     var recordKeys = {};
+    milestones = milestones.filter(function (m) {
+      return !_isChartHiddenModel(m, hiddenModels);
+    });
     milestones.forEach(function (m) {
       var ts = dateTs(m.date);
       if (ts == null || m.value == null || !m.model || !m.arxiv_id) return;
@@ -1835,7 +2029,7 @@
     // ── Scatter dataset: all rows ─────────────────────────────────────
     var scatterData = [];
     var modelBaselineMap = {};
-    allRows.forEach(function (row) {
+    chartRows.forEach(function (row) {
       var val = row.metric_values && row.metric_values[metricIndex];
       var std = row.metric_stds && row.metric_stds[metricIndex];
       var ts = dateTs(row.date_iso || row.date);
@@ -1915,21 +2109,23 @@
     ].filter(Boolean);
     var scaleReferences = _referencesForYScale(references, scatterData, recordData, higherIsBetter);
     var focusedYBounds = useLogScale
-      ? null
+      ? _computeFocusedLogYBounds(scatterData, recordData, scaleReferences, higherIsBetter)
       : _computeFocusedYBounds(scatterData, recordData, scaleReferences, higherIsBetter);
 
     // ── Per-point styling for records line ────────────────────────────
     var recordBg = recordData.map(function (d) { return _showRecordPoint(d) ? "#2563eb" : "transparent"; });
     var recordRadius = recordData.map(function (d) { return _showRecordPoint(d) ? 7 : 0; });
     var visibleScatterData = scatterData.filter(function (d) {
-      return _isWithinYBounds(d.y, focusedYBounds) && (!d._isStdOutlier || d._isRecord);
+      return (!useLogScale || d.y > 0) &&
+        _isWithinYBounds(d.y, focusedYBounds) &&
+        (!d._isStdOutlier || d._isRecord);
     });
     visibleScatterData = visibleScatterData.filter(function (d) {
       return _datumPassesFilters(d, slug);
     });
     visibleScatterData = _sortScatterByPriority(visibleScatterData);
     var visibleRecordData = recordData.filter(function (d) {
-      return _isWithinYBounds(d.y, focusedYBounds);
+      return (!useLogScale || d.y > 0) && _isWithinYBounds(d.y, focusedYBounds);
     });
 
     if (_perfEnabled()) {
@@ -2041,14 +2237,14 @@
           var width = ctx.measureText(label).width;
           var height = 12;
           var candidates = [
+            labelBox(point.x - width - 12, point.y - 8, width, height),
+            labelBox(point.x - width - 12, point.y + height + 7, width, height),
+            labelBox(point.x - width / 2 - 8, point.y - 15, width, height),
+            labelBox(point.x - width / 2 - 8, point.y + height + 14, width, height),
+            labelBox(point.x - width - 18, point.y + height + 20, width, height),
             labelBox(point.x + 7, point.y - 8, width, height),
-            labelBox(point.x - width - 7, point.y - 8, width, height),
             labelBox(point.x + 7, point.y + height + 7, width, height),
-            labelBox(point.x - width - 7, point.y + height + 7, width, height),
-            labelBox(point.x - width / 2, point.y - 15, width, height),
-            labelBox(point.x - width / 2, point.y + height + 14, width, height),
             labelBox(point.x + 14, point.y - 22, width, height),
-            labelBox(point.x - width - 14, point.y + height + 20, width, height),
           ].map(clampLabelBox);
           var chosen = null;
           candidates.some(function (box) {
@@ -2066,18 +2262,8 @@
               return labelPenalty(a, point) - labelPenalty(b, point);
             })[0];
           }
-          var labelCx = (chosen.left + chosen.right) / 2;
-          var labelCy = (chosen.top + chosen.bottom) / 2;
-          if (Math.abs(labelCx - point.x) > 16 || Math.abs(labelCy - point.y) > 16) {
-            ctx.save();
-            ctx.strokeStyle = "rgba(37,99,235,0.24)";
-            ctx.lineWidth = 1;
-            ctx.beginPath();
-            ctx.moveTo(point.x, point.y);
-            ctx.lineTo(labelCx, labelCy);
-            ctx.stroke();
-            ctx.restore();
-          }
+          ctx.fillStyle = _chartTheme().labelBg;
+          ctx.fillRect(chosen.left - 2, chosen.top - 1, chosen.right - chosen.left + 4, chosen.bottom - chosen.top + 3);
           ctx.fillStyle = _chartTheme().blue;
           ctx.fillText(label, chosen.x, chosen.y);
           placedBoxes.push(chosen);
@@ -2322,8 +2508,8 @@
           },
           y: {
             type: useLogScale ? "logarithmic" : "linear",
-            min: useLogScale ? undefined : (focusedYBounds ? focusedYBounds.min : undefined),
-            max: useLogScale ? undefined : (focusedYBounds ? focusedYBounds.max : undefined),
+            min: focusedYBounds ? focusedYBounds.min : undefined,
+            max: focusedYBounds ? focusedYBounds.max : undefined,
             title: { display: true, text: metricLabel, color: _chartTheme().tick },
             ticks: {
               color: _chartTheme().tick,
@@ -2524,6 +2710,8 @@
     }
 
     document.querySelectorAll(".mobile-details-toggle").forEach(function (btn) {
+      if (btn.dataset.mobileDetailsBound === "1") return;
+      btn.dataset.mobileDetailsBound = "1";
       btn.addEventListener("click", function (event) {
         event.stopPropagation(); // prevent the row handler from double-firing
         var row = btn.closest("tr");
@@ -2532,6 +2720,8 @@
     });
 
     document.querySelectorAll(".result-table tbody tr.result-row").forEach(function (row) {
+      if (row.dataset.mobileDetailsBound === "1") return;
+      row.dataset.mobileDetailsBound = "1";
       row.addEventListener("click", function (event) {
         if (event.target.closest("a")) return; // let link clicks through
         var btn = row.querySelector(".mobile-details-toggle");

@@ -38,6 +38,8 @@ Respect the configured formatting and linting rules:
 - Python target: 3.12
 - Line length: 100
 
+For simply watching and summarizing terminal outputs: spin up simple models such as gpt-5.4-mini (in case you are gpt-5.4 or 5.5). 
+
 ## Repository layout
 
 - `backend/` — core extraction, parsing, storage, and export logic

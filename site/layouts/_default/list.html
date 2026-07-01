@@ -1,0 +1,21 @@
+{{ define "main" }}
+<section class="overview-section">
+  <h1>{{ .Title }}</h1>
+  {{ with .Description }}<p class="overview-section-intro">{{ . }}</p>{{ end }}
+
+  {{ with .Content }}
+  <div class="overview-section-intro">{{ . }}</div>
+  {{ end }}
+
+  {{ if .Pages }}
+  <div class="overview-grid">
+    {{ range .Pages.ByTitle }}
+    <article class="overview-card">
+      <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
+      {{ with .Description }}<p>{{ . }}</p>{{ end }}
+    </article>
+    {{ end }}
+  </div>
+  {{ end }}
+</section>
+{{ end }}

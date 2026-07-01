@@ -16,6 +16,8 @@ from backend.export_to_hugo import (
     _collect_dataset_papers,
     _comparison_source_date_label,
     _conference_export_fields,
+    _dataset_chart_default_log_scale,
+    _dataset_chart_hidden_models,
     _dataset_export_metadata,
     _dedup_result_rows,
     _description_class_target_count,
@@ -322,7 +324,12 @@ def test_fmt_date_uses_consistent_human_readable_output():
         ("International Conference on Machine Learning", "ICML"),
         ("Transactions on Machine Learning Research", "TMLR"),
         ("Trans. Mach. Learn. Res.", "TMLR"),
+        ("JMLR", "JMLR"),
+        ("Journal of machine learning research", "JMLR"),
         ("Graph Learning Conference", "LoG"),
+        ("The Web Conference", "WWW"),
+        ("World Wide Web Conference", "WWW"),
+        ("WWW2025", "WWW"),
         ("ACM SIGKDD Conference", "KDD"),
         ("Knowledge Discovery and Data Mining", "KDD"),
         ("AAAI 2025", "AAAI"),
@@ -343,6 +350,8 @@ def test_normalize_conference_maps_common_venues(venue, expected):
         ("International Conference on Learning Representations", "2024-05-07", "ICLR 2024"),
         ("NeurIPS 2024", "2024-12-10", "NeurIPS 2024"),
         ("International Conference on Machine Learning", "2023-07-01", "ICML 2023"),
+        ("Journal of machine learning research", "2023-01-01", "JMLR 2023"),
+        ("The Web Conference", "2020-02-05", "WWW 2020"),
         ("arXiv.org", "2024-01-01", ""),
         ("ICLR 2023", "2023", "ICLR 2023"),
     ],
@@ -1044,7 +1053,14 @@ def test_architecture_counts_and_dataset_papers_helpers():
     counts = _architecture_counts(rows)
     papers = _collect_dataset_papers(rows)
 
-    assert counts == {"gnn": 1, "hybrid": 1, "graph_transformer": 0, "llm": 0, "traditional": 1}
+    assert counts == {
+        "gnn": 1,
+        "hybrid": 1,
+        "graph_transformer": 0,
+        "llm": 0,
+        "walk": 0,
+        "traditional": 1,
+    }
     assert [p["arxiv_id"] for p in papers] == ["1", "2"]
 
 
@@ -1174,6 +1190,12 @@ def test_metrics_order_for_qm9_puts_gap_first():
     )
     assert ordered[0] == "gap"
     assert ordered.index("mu") < ordered.index("H")
+
+
+def test_qm9_chart_display_overrides():
+    clear_export_caches()
+    assert _dataset_chart_default_log_scale("QM9") is True
+    assert _dataset_chart_hidden_models("QM9") == ["MLP"]
 
 
 def test_build_multi_metric_rows_respects_metrics_order():

@@ -44,7 +44,6 @@ from backend.export_helpers import plain_model as _plain_model
 from backend.export_helpers import rank_for_value as _rank_for_value
 from backend.export_helpers import sanitize_model as _sanitize_model_text
 from backend.export_helpers import sanitize_title as _sanitize_title
-from backend.model_name_resolution import strip_implementation_marker
 from backend.leaderboard_compare import gap_magnitude as _gap_magnitude
 from backend.leaderboard_compare import is_value_better_than as _is_value_better_than
 from backend.leaderboard_compare import (
@@ -55,6 +54,7 @@ from backend.leaderboard_compare import (
     primary_proposed_from_results as _primary_proposed_from_results,
 )
 from backend.model_metadata import architecture_label, architecture_title
+from backend.model_name_resolution import strip_implementation_marker
 from backend.models import (
     Benchmark,
     Dataset,
@@ -124,6 +124,7 @@ _CONFERENCE_ALIASES: tuple[tuple[str, tuple[str, ...]], ...] = (
         "TMLR",
         ("tmlr", "transactions on machine learning research", "trans. mach. learn. res."),
     ),
+    ("JMLR", ("jmlr", "journal of machine learning research", "j. mach. learn. res.")),
     ("ICML", ("icml", "international conference on machine learning")),
     (
         "LoG",
@@ -131,6 +132,15 @@ _CONFERENCE_ALIASES: tuple[tuple[str, tuple[str, ...]], ...] = (
             "learning on graphs and geometry",
             "learning on graphs conference",
             "graph learning conference",
+        ),
+    ),
+    (
+        "WWW",
+        (
+            "www",
+            "the web conference",
+            "world wide web conference",
+            "world-wide web conference",
         ),
     ),
     ("AAAI", ("aaai", "association for the advancement of artificial intelligence")),
@@ -168,7 +178,10 @@ def _normalize_conference(venue: str | None) -> str:
     for label, aliases in _CONFERENCE_ALIASES:
         for alias in aliases:
             if alias in _SHORT_CONFERENCE_ALIASES:
-                if re.search(rf"\b{re.escape(alias)}\b", lowered):
+                if alias == "www":
+                    if re.search(r"\bwww(?:\s*[-/]?\s*\d{4})?\b", lowered):
+                        return label
+                elif re.search(rf"\b{re.escape(alias)}\b", lowered):
                     return label
             elif alias in lowered:
                 return label
@@ -697,6 +710,23 @@ def _dataset_show_all_metrics_desktop(dataset_name: str) -> bool:
     if not isinstance(ds_cfg, dict):
         return False
     return bool(ds_cfg.get("show_all_metrics_desktop"))
+
+
+def _dataset_chart_default_log_scale(dataset_name: str) -> bool:
+    ds_cfg = _load_dataset_overrides().get(dataset_name.strip().lower(), {})
+    if not isinstance(ds_cfg, dict):
+        return False
+    return bool(ds_cfg.get("chart_default_log_scale"))
+
+
+def _dataset_chart_hidden_models(dataset_name: str) -> list[str]:
+    ds_cfg = _load_dataset_overrides().get(dataset_name.strip().lower(), {})
+    if not isinstance(ds_cfg, dict):
+        return []
+    models = ds_cfg.get("chart_hidden_models")
+    if not isinstance(models, list):
+        return []
+    return [str(model).strip() for model in models if str(model).strip()]
 
 
 def _metric_display_names(
@@ -2950,6 +2980,8 @@ def _export_dataset_impl(session: Session, dataset_id: int) -> bool:
 
     force_export = _dataset_force_export(ds.name)
     papers_source_rows: list[dict[str, Any]] = []
+    chart_default_log_scale = _dataset_chart_default_log_scale(ds.name)
+    chart_hidden_models = _dataset_chart_hidden_models(ds.name)
 
     # Determine primary metric from the first variant that has results.
     # For forced empty exports, fall back to the dataset-level direction.
@@ -3066,6 +3098,8 @@ def _export_dataset_impl(session: Session, dataset_id: int) -> bool:
                 "metrics": metrics_ordered,
                 "metric_display_names": metric_display_names,
                 "show_all_metrics_desktop": show_all_metrics_desktop,
+                "chart_default_log_scale": chart_default_log_scale,
+                "chart_hidden_models": chart_hidden_models,
                 "rows": html_rows,
                 "row_count": len(rows),
                 "rows_json": rows_json if len(rows) > INITIAL_DATASET_HTML_ROWS else "",

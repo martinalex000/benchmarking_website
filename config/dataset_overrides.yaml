@@ -6,6 +6,8 @@
 #   metric_labels: map canonical metric keys to human-readable column headers.
 #   default_metric: default target for ranking, chart, and mobile picker.
 #   show_all_metrics_desktop: when true, show all metric columns on desktop (no "+ metrics" toggle).
+#   chart_default_log_scale: when true, default the leaderboard chart to a logarithmic y-axis.
+#   chart_hidden_models: model names to hide from the leaderboard chart only.
 #   export_without_results: set true to keep a dataset visible on the site even before
 #     benchmark results have been parsed into the DB.
 #
@@ -22,6 +24,9 @@ datasets:
   QM9:
     default_metric: gap
     show_all_metrics_desktop: true
+    chart_default_log_scale: true
+    chart_hidden_models:
+      - MLP
     display_metrics:
       - gap
       - mu

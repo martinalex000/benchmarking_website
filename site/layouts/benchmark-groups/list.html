@@ -55,7 +55,7 @@
       {{ end }}
     {{ end }}
     {{ $groupPaperCount := len ($groupPapers | uniq) }}
-    {{ $recentPerDataset := .recent_results_per_dataset | default 0 }}
+    {{ $recentPerDataset := float (.recent_results_per_dataset | default 0) }}
     {{ $totalResults := .total_result_count | default 0 }}
     {{ $introTitle := default .name .paper_title }}
     {{ $introDate := "" }}

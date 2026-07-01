@@ -1,23 +1,9 @@
 {{/*
   Partial: leaderboard-filters.html
   Context:
-    .secondary_metric_names – uniq list of non-primary metric names (may be empty)
     .rows                 – all leaderboard rows for this variant (for architecture counts)
-    .show_all_metrics_desktop – when true, all metrics visible on desktop (flat mode)
-    .metrics              – ordered metric keys
-    .metric_display_names – display labels parallel to metrics
-    .default_metric       – default target key for mobile picker
-    .variant_slug         – variant slug for picker ids
-    .metric_counts        – parallel counts of rows with values per metric
 */}}
-{{ $secondaryNames := .secondary_metric_names | default slice }}
 {{ $rows := .rows | default slice }}
-{{ $showAllDesktop := .show_all_metrics_desktop | default false }}
-{{ $metrics := .metrics | default slice }}
-{{ $metricLabels := .metric_display_names | default $metrics }}
-{{ $metricCounts := .metric_counts | default slice }}
-{{ $defaultMetric := .default_metric | default (index $metrics 0) }}
-{{ $variantSlug := .variant_slug | default "" }}
 {{ $archCounts := .arch_counts | default dict }}
 {{ $traditionalTypes := slice "svm_kernel" "random_forest" "decision_tree" "boosting" "other_traditional" }}
 
@@ -65,42 +51,9 @@
   {{ $tradCount = len $tradRows }}
 {{ end }}
 
-{{ $shownMetrics := first 3 $secondaryNames }}
-{{ $metricsLabel := delimit $shownMetrics ", " }}
-{{ if gt (len $secondaryNames) 3 }}{{ $metricsLabel = printf "%s, ..." $metricsLabel }}{{ end }}
-
 <div class="leaderboard-filter-bar" aria-label="Leaderboard filters">
-  {{ if and (not $showAllDesktop) (gt (len $secondaryNames) 0) }}
-  <p class="secondary-metrics-mobile-notice">Additional metrics are not supported on mobile yet.</p>
-  {{ end }}
-  {{ if and $showAllDesktop (gt (len $metrics) 1) }}
-  <div class="leaderboard-filter-group desktop-target-picker-group" hidden>
-    <label class="desktop-target-picker-label" for="desktop-target-{{ $variantSlug }}">Target</label>
-    <select id="desktop-target-{{ $variantSlug }}" class="desktop-target-select" data-variant="{{ $variantSlug }}" aria-label="Select target metric">
-      {{ range $j, $m := $metrics }}
-      {{ $metricCount := index $metricCounts $j }}
-      <option value="{{ $j }}" data-metric-key="{{ $m }}"{{ if eq $m $defaultMetric }} selected{{ end }}>{{ index $metricLabels $j | default $m }}{{ with $metricCount }} ({{ . }}){{ end }}</option>
-      {{ end }}
-    </select>
-  </div>
-  <div class="leaderboard-filter-group mobile-target-picker-group">
-    <label class="mobile-target-picker-label" for="mobile-target-{{ $variantSlug }}">Target</label>
-    <select id="mobile-target-{{ $variantSlug }}" class="mobile-target-select" data-variant="{{ $variantSlug }}" aria-label="Select target metric">
-      {{ range $j, $m := $metrics }}
-      {{ $metricCount := index $metricCounts $j }}
-      <option value="{{ $j }}" data-metric-key="{{ $m }}"{{ if eq $m $defaultMetric }} selected{{ end }}>{{ index $metricLabels $j | default $m }}{{ with $metricCount }} ({{ . }}){{ end }}</option>
-      {{ end }}
-    </select>
-  </div>
-  <div class="leaderboard-filter-group">
-    <button type="button" class="filter-bubble filter-bubble-neutral flat-metrics-toggle is-on" data-filter="flat-all-metrics" data-variant="{{ $variantSlug }}" aria-pressed="true" title="Show all target columns in the table">all metrics</button>
-  </div>
-  {{ end }}
   <div class="leaderboard-filter-group">
     <button type="button" class="filter-bubble filter-bubble-neutral is-on" data-filter="baselines" aria-pressed="true" title="Show baseline rows">baselines</button>
-    {{ if and (not $showAllDesktop) (gt (len $secondaryNames) 0) }}
-    <button type="button" class="filter-bubble filter-bubble-neutral secondary-metrics-desktop-only" data-filter="secondary-metrics" aria-pressed="false" title="Show additional metrics in table">+ metrics{{ if $metricsLabel }} [{{ $metricsLabel }}]{{ end }}</button>
-    {{ end }}
   </div>
   <div class="leaderboard-filter-group">
     <button type="button" class="filter-bubble filter-bubble-external is-on" data-filter="ext-data" aria-pressed="true" title="Show models trained with external data">ext data</button>

@@ -2,7 +2,7 @@
 {{ $allPapers := where .Site.RegularPages "Section" "papers" }}
 {{ $papers := where $allPapers "Params.has_results" true }}
 {{ $papersWithConferences := where $papers "Params.published_conference_short" "ne" "" }}
-{{ $conferenceOrder := slice "NeurIPS" "ICLR" "ICML" "LoG" "TMLR" "AAAI" "KDD" }}
+{{ $conferenceOrder := slice "NeurIPS" "ICLR" "ICML" "LoG" "WWW" "TMLR" "JMLR" "AAAI" "IJCAI" "KDD" }}
 {{ $conferenceCounts := dict }}
 {{ $yearCounts := dict }}
 {{ $conferenceYearCounts := dict }}
@@ -154,9 +154,9 @@
           {{ end }}
           <div class="dev-card-stats">
             {{ if gt $count 0 }}
-            <a class="badge dev-card-link" href="{{ "papers/" | relURL }}?conference={{ $conferenceSlug }}"><span class="stat-value">{{ $count }}</span> papers</a>
+            <a class="badge dev-card-link" href="{{ "papers/" | relURL }}?conference={{ $conferenceSlug }}"><span class="stat-value">{{ $count }}</span>&nbsp;papers</a>
             {{ else }}
-            <span class="badge"><span class="stat-value">{{ $count }}</span> papers</span>
+            <span class="badge"><span class="stat-value">{{ $count }}</span>&nbsp;papers</span>
             {{ end }}
           </div>
         </article>
@@ -183,7 +183,7 @@
         </div>
         {{ end }}
         <div class="dev-card-stats">
-          <span class="badge"><span class="stat-value">{{ $otherCount }}</span> papers</span>
+          <span class="badge"><span class="stat-value">{{ $otherCount }}</span>&nbsp;papers</span>
         </div>
       </article>
     </div>
