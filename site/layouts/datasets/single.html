@@ -2,25 +2,6 @@
 {{ $showAllVariants := gt (len .Params.variants) 1 }}
 <article class="dataset-page">
   <header class="dataset-header">
-    <div class="dataset-heading-line">
-      {{ with .Params.benchmark }}
-      <p class="dataset-benchmark-overline">{{ . }}</p>
-      {{ end }}
-      <h1>{{ .Title }}</h1>
-    </div>
-    {{ if or .Params.task_type .Params.pyg_url }}
-    <p class="paper-meta dataset-meta-line">
-      {{ with .Params.task_type }}<span class="badge">Task: {{ replace . "_" " " | title }}</span>{{ end }}
-      {{ with .Params.pyg_url }}
-      {{ $isPyg := or (in (lower .) "pytorch-geometric") (in (lower .) "pyg") }}
-      <a class="badge" href="{{ . }}" target="_blank" rel="noopener">{{ if $isPyg }}PyG dataset page ↗{{ else }}Dataset page ↗{{ end }}</a>
-      {{ end }}
-    </p>
-    {{ end }}
-    {{ with .Params.description }}
-    <p>{{ . }}</p>
-    {{ end }}
-
     {{/* Dataset statistics */}}
     {{ $isNodeOrLink := or (hasPrefix .Params.task_type "node_") (hasPrefix .Params.task_type "link_") }}
     {{ $paperList := .Params.papers | default slice }}
@@ -47,49 +28,71 @@
         {{ $hasStructuralStats = true }}
       {{ end }}
     {{ end }}
-    <div class="dataset-stat-blocks">
-      <section class="dataset-stat-group dataset-stat-group-summary">
-        <h2 class="dataset-stat-heading">Coverage</h2>
-        <div class="dataset-stats">
-          <div class="stat-item"><span class="stat-value">{{ .Params.result_count | default 0 }}</span><span class="stat-label">Results</span></div>
-          <div class="stat-item"><span class="stat-value">{{ len .Params.variants }}</span><span class="stat-label">Variants</span></div>
-          <details class="stat-item stat-item-interactive">
-            <summary><span class="stat-value">{{ len $paperList }}</span><span class="stat-label">Papers</span></summary>
-            <ul class="stat-paper-list">
-              {{ range $paperList }}
-              <li>
-                {{ $desktopTitle := .title }}
-                {{ if .venue }}
-                  {{ $desktopTitle = printf "%s: %s" .venue .title }}
-                {{ end }}
-                <a href="{{ printf "papers/%s/" .arxiv_id | relURL }}">
-                  <span class="paper-link-desktop">{{ $desktopTitle }}</span>
-                  <span class="paper-link-mobile">{{ .title }}</span>
-                </a>
-                {{ with .venue }}<span class="badge paper-venue-badge paper-venue-badge-mobile">{{ . }}</span>{{ end }}
-              </li>
-              {{ end }}
-            </ul>
-          </details>
-        </div>
-      </section>
-      {{ if $hasStructuralStats }}
-      <section class="dataset-stat-group dataset-stat-group-structure">
-        <h2 class="dataset-stat-heading">Structure</h2>
-        <div class="dataset-stats">
-          {{ with .Params.stats.num_graphs }}<div class="stat-item"><span class="stat-value">{{ lang.FormatNumberCustom 0 . "- . ," }}</span><span class="stat-label">Graphs</span></div>{{ end }}
-          {{ with .Params.stats.avg_nodes }}<div class="stat-item"><span class="stat-value">{{ lang.FormatNumberCustom 0 . "- . ," }}</span><span class="stat-label">Nodes</span></div>{{ end }}
-          {{ with .Params.stats.avg_edges }}<div class="stat-item"><span class="stat-value">{{ lang.FormatNumberCustom 0 . "- . ," }}</span><span class="stat-label">Edges</span></div>{{ end }}
-          {{ with .Params.stats.num_classes }}<div class="stat-item"><span class="stat-value">{{ . }}</span><span class="stat-label">Classes / Targets</span></div>{{ end }}
-          {{ with .Params.stats.extra_stats }}
-            {{ range $key, $value := . }}
-            <div class="stat-item"><span class="stat-value">{{ $value }}</span><span class="stat-label">{{ replace $key "_" " " | title }}</span></div>
-            {{ end }}
+    <div class="dataset-header-top">
+      <div class="dataset-heading-col">
+        <div class="dataset-heading-line">
+          {{ with .Params.benchmark }}
+          <p class="dataset-benchmark-overline">{{ . }}</p>
           {{ end }}
+          <h1>{{ .Title }}</h1>
         </div>
-      </section>
-      {{ end }}
+        {{ if or .Params.task_type .Params.pyg_url }}
+        <p class="paper-meta dataset-meta-line">
+          {{ with .Params.task_type }}<span class="badge">Task: {{ replace . "_" " " | title }}</span>{{ end }}
+          {{ with .Params.pyg_url }}
+          {{ $isPyg := or (in (lower .) "pytorch-geometric") (in (lower .) "pyg") }}
+          <a class="badge" href="{{ . }}" target="_blank" rel="noopener">{{ if $isPyg }}PyG dataset page ↗{{ else }}Dataset page ↗{{ end }}</a>
+          {{ end }}
+        </p>
+        {{ end }}
+      </div>
+      <div class="dataset-stat-blocks">
+        {{ if $hasStructuralStats }}
+        <section class="dataset-stat-group dataset-stat-group-structure">
+          <h2 class="dataset-stat-heading">Structure</h2>
+          <div class="dataset-stats">
+            {{ with .Params.stats.num_graphs }}<div class="stat-item"><span class="stat-value">{{ lang.FormatNumberCustom 0 . "- . ," }}</span><span class="stat-label">Graphs</span></div>{{ end }}
+            {{ with .Params.stats.avg_nodes }}<div class="stat-item"><span class="stat-value">{{ lang.FormatNumberCustom 0 . "- . ," }}</span><span class="stat-label">Nodes</span></div>{{ end }}
+            {{ with .Params.stats.avg_edges }}<div class="stat-item"><span class="stat-value">{{ lang.FormatNumberCustom 0 . "- . ," }}</span><span class="stat-label">Edges</span></div>{{ end }}
+            {{ with .Params.stats.num_classes }}<div class="stat-item"><span class="stat-value">{{ . }}</span><span class="stat-label">Classes</span></div>{{ end }}
+            {{ with .Params.stats.extra_stats }}
+              {{ range $key, $value := . }}
+              <div class="stat-item"><span class="stat-value">{{ $value }}</span><span class="stat-label">{{ replace $key "_" " " | title }}</span></div>
+              {{ end }}
+            {{ end }}
+          </div>
+        </section>
+        {{ end }}
+        <section class="dataset-stat-group dataset-stat-group-summary">
+          <h2 class="dataset-stat-heading">Coverage</h2>
+          <div class="dataset-stats">
+            <div class="stat-item"><span class="stat-value">{{ .Params.result_count | default 0 }}</span><span class="stat-label">Results</span></div>
+            <div class="stat-item"><span class="stat-value">{{ len .Params.variants }}</span><span class="stat-label">Variants</span></div>
+            <details class="stat-item stat-item-interactive">
+              <summary><span class="stat-value">{{ len $paperList }}</span><span class="stat-label">Papers</span></summary>
+              <ul class="stat-paper-list">
+                {{ range $paperList }}
+                <li>
+                  {{ $desktopTitle := .title }}
+                  {{ if .venue }}
+                    {{ $desktopTitle = printf "%s: %s" .venue .title }}
+                  {{ end }}
+                  <a href="{{ printf "papers/%s/" .arxiv_id | relURL }}">
+                    <span class="paper-link-desktop">{{ $desktopTitle }}</span>
+                    <span class="paper-link-mobile">{{ .title }}</span>
+                  </a>
+                  {{ with .venue }}<span class="badge paper-venue-badge paper-venue-badge-mobile">{{ . }}</span>{{ end }}
+                </li>
+                {{ end }}
+              </ul>
+            </details>
+          </div>
+        </section>
+      </div>
     </div>
+    {{ with .Params.description }}
+    <p class="dataset-description">{{ . }}</p>
+    {{ end }}
   </header>
 
   {{ if $showAllVariants }}
@@ -129,7 +132,7 @@
       </section>
       {{ end }}
       {{ with $variant.notes }}
-      <section class="dataset-stat-group dataset-stat-group-summary">
+      <section class="dataset-stat-group dataset-stat-group-summary variant-notes-block">
         <h2 class="dataset-stat-heading">Variant Notes</h2>
         <p>{{ . }}</p>
       </section>
