@@ -91,6 +91,15 @@ class Config:
 
     # ── External APIs ──────────────────────────────────────────────────────
     semantic_scholar_api_key: str = os.environ.get("SEMANTIC_SCHOLAR_API_KEY", "")
+    openreview_username: str = os.environ.get("OPENREVIEW_USERNAME", "")
+    openreview_password: str = os.environ.get("OPENREVIEW_PASSWORD", "")
+    openreview_token: str = os.environ.get("OPENREVIEW_TOKEN", "")
+    # When true, skip export.arxiv.org metadata calls (use S2/local/OpenReview only).
+    skip_arxiv_metadata_api: bool = os.environ.get("SKIP_ARXIV_METADATA_API", "").lower() in {
+        "1",
+        "true",
+        "yes",
+    }
 
     def model_for_tier(self, tier: str) -> str:
         """Return the model name for a given tier string.

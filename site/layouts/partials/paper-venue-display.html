@@ -1,0 +1,13 @@
+{{/*
+  Return a publication venue label safe to show in the UI (never arXiv-only).
+  Prefers published_conference, then published_venue.
+*/}}
+{{- $venue := .published_conference -}}
+{{- if not $venue }}{{ $venue = .published_venue }}{{ end -}}
+{{- if $venue -}}
+  {{- $vl := lower (strings.TrimSpace $venue) -}}
+  {{- if findRE `^(?:arxiv(?:\s*(?:org|e-prints?|preprints?|preprint))?|corr(?:\s*/\s*arxiv)?)$` $vl -}}
+    {{- $venue = "" -}}
+  {{- end -}}
+{{- end -}}
+{{- $venue -}}

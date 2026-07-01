@@ -207,7 +207,7 @@
           </div>
           {{ else }}
           <div class="paper-cell-row">
-            {{ $paperVenueLabel := default $r.published_venue $r.published_conference }}
+            {{ $paperVenueLabel := default $r.published_conference $r.published_venue }}
             {{ $paperVenueSlug := default ($r.published_conference_short | lower) $r.published_conference_slug }}
             {{ if and (not $paperVenueSlug) $paperVenueLabel }}{{ $paperVenueSlug = $paperVenueLabel | urlize }}{{ end }}
             <div class="paper-title-wrap">

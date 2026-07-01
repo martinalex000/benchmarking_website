@@ -1,0 +1,68 @@
+{{/*
+  Paper page benchmark table color legend — only entries for styles that appear on this page.
+  Context: the paper page (.).
+*/}}
+{{ $scratch := newScratch }}
+{{ $scratch.Set "best" false }}
+{{ $scratch.Set "proposed" false }}
+{{ $scratch.Set "baseline" false }}
+{{ $scratch.Set "global" false }}
+{{ $scratch.Set "at_pub" false }}
+{{ $scratch.Set "improved_at_pub" false }}
+{{ $scratch.Set "improved_surpassed" false }}
+{{ $scratch.Set "surpassed" false }}
+
+{{ if .Params.results_grouped }}
+  {{ range .Params.results_grouped }}
+    {{ range .datasets }}
+      {{ range .rows }}
+        {{ partial "paper-results-legend-scan-row.html" (dict "row" . "scratch" $scratch) }}
+      {{ end }}
+    {{ end }}
+  {{ end }}
+{{ else }}
+  {{ range .Params.results }}
+    {{ range .rows }}
+      {{ partial "paper-results-legend-scan-row.html" (dict "row" . "scratch" $scratch) }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+{{ $hasAny := or
+  ($scratch.Get "best")
+  ($scratch.Get "proposed")
+  ($scratch.Get "baseline")
+  ($scratch.Get "global")
+  ($scratch.Get "at_pub")
+  ($scratch.Get "improved_at_pub")
+  ($scratch.Get "improved_surpassed")
+  ($scratch.Get "surpassed")
+}}
+{{ if $hasAny }}
+<div class="table-explainer-legend paper-results-legend" aria-label="Table color legend">
+  {{ if $scratch.Get "best" }}
+  <span class="legend-item"><span class="legend-swatch swatch-best"></span><span>SOTA performance (within overlap)</span></span>
+  {{ end }}
+  {{ if $scratch.Get "proposed" }}
+  <span class="legend-item"><span class="legend-swatch swatch-proposed"></span><span>Proposed method (this paper)</span></span>
+  {{ end }}
+  {{ if $scratch.Get "baseline" }}
+  <span class="legend-item"><span class="legend-swatch swatch-baseline"></span><span>Baseline / comparison (this paper)</span></span>
+  {{ end }}
+  {{ if $scratch.Get "global" }}
+  <span class="legend-item"><span class="legend-swatch swatch-global"></span><span>Global context (other papers)</span></span>
+  {{ end }}
+  {{ if $scratch.Get "at_pub" }}
+  <span class="legend-item"><span class="legend-swatch swatch-at-pub"></span><span>Best at pub — reported result worse than the best known when published (true performance in green)</span></span>
+  {{ end }}
+  {{ if $scratch.Get "improved_at_pub" }}
+  <span class="legend-item"><span class="legend-swatch swatch-improved-at-pub"></span><span>Best at pub — reported value improved over the best known when published</span></span>
+  {{ end }}
+  {{ if $scratch.Get "improved_surpassed" }}
+  <span class="legend-item"><span class="legend-swatch swatch-improved-surpassed"></span><span>Improved at pub — later paper surpassed this result</span></span>
+  {{ end }}
+  {{ if $scratch.Get "surpassed" }}
+  <span class="legend-item"><span class="legend-swatch swatch-surpassed"></span><span>Best today — OK at publication; today's leaderboard best is elsewhere</span></span>
+  {{ end }}
+</div>
+{{ end }}

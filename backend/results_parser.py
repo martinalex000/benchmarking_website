@@ -52,6 +52,7 @@ from backend.text_cleanup import (
     authors_look_broken,
     clean_extracted_text,
 )
+from backend.venue import resolve_canonical_venue, venue_needs_resolution
 
 logger = logging.getLogger(__name__)
 
@@ -573,8 +574,8 @@ def _apply_remote_metadata(paper: Paper, meta: dict[str, str]) -> bool:
         abstract_changed = True
     if meta.get("published_date") and not paper.published_date:
         paper.published_date = meta["published_date"]
-    if meta.get("venue") and not paper.venue:
-        paper.venue = meta["venue"]
+    if meta.get("venue") and venue_needs_resolution(paper.venue):
+        paper.venue = resolve_canonical_venue(meta["venue"]) or meta["venue"]
     return abstract_changed
 
 
@@ -612,8 +613,8 @@ def _enrich_paper_metadata(arxiv_id: str, paper: Paper, storage: PaperStorage) -
             ]
             if normalized_authors and not authors_look_broken(normalized_authors):
                 paper.authors = normalized_authors
-        if metadata.get("venue") and not paper.venue:
-            paper.venue = metadata["venue"]
+        if metadata.get("venue") and venue_needs_resolution(paper.venue):
+            paper.venue = resolve_canonical_venue(metadata["venue"]) or metadata["venue"]
         if metadata.get("codebase_url") and not paper.codebase_url:
             paper.codebase_url = metadata["codebase_url"]
         repo_meta = metadata.get("repository")
@@ -673,11 +674,11 @@ def _enrich_paper_metadata(arxiv_id: str, paper: Paper, storage: PaperStorage) -
                 pass
 
     need_daily_date = not paper.published_date or len(paper.published_date) < 10
-    need_venue = not paper.venue
+    need_venue = venue_needs_resolution(paper.venue)
     if need_meta or need_daily_date or need_venue:
-        from backend.semantic_scholar import fetch_paper_metadata
+        from backend.semantic_scholar import fetch_paper_metadata, resolve_paper_venue
 
-        ss_meta = fetch_paper_metadata(arxiv_id)
+        ss_meta = fetch_paper_metadata(arxiv_id) or {}
         if ss_meta:
             selective_meta = {
                 key: value
@@ -685,7 +686,6 @@ def _enrich_paper_metadata(arxiv_id: str, paper: Paper, storage: PaperStorage) -
                 if (
                     (key in {"title", "abstract"} and need_meta)
                     or (key == "published_date" and need_daily_date)
-                    or (key == "venue" and need_venue)
                 )
             }
             if selective_meta and _apply_remote_metadata(paper, selective_meta):
@@ -694,7 +694,10 @@ def _enrich_paper_metadata(arxiv_id: str, paper: Paper, storage: PaperStorage) -
                 not paper.abstract or abstract_has_artifacts or _title_looks_corrupted(paper.title)
             )
             need_daily_date = not paper.published_date or len(paper.published_date) < 10
-            need_venue = not paper.venue
+        if need_venue:
+            resolved_venue = resolve_paper_venue(arxiv_id, ss_meta)
+            if resolved_venue:
+                paper.venue = resolved_venue
             storage.update_metadata(
                 {
                     **({"published_date": paper.published_date} if paper.published_date else {}),

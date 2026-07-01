@@ -1,6 +1,7 @@
 {{ define "main" }}
-{{ $venue := .Params.published_conference }}
-{{ $confSlug := default (.Params.published_conference_short | lower) .Params.published_conference_slug }}
+{{ $confLabel := .Params.published_conference }}
+{{ $confSlug := .Params.published_conference_slug }}
+{{ $hasRecognizedConference := and $confLabel $confSlug }}
 {{ $confPapersUrl := printf "papers/?conference=%s" $confSlug | relURL }}
 {{ $pageArxiv := .Params.arxiv_id }}
 {{ $collapseThreshold := 20 }}
@@ -11,72 +12,60 @@
     <a href="{{ "papers/" | relURL }}">← Papers</a>
   </nav>
 
+  {{ if $hasRecognizedConference }}
+  <p class="paper-venue-above-title">
+    <a href="{{ $confPapersUrl }}" class="paper-tag-btn paper-venue-btn">{{ $confLabel }}</a>
+  </p>
+  {{ end }}
+
   <div class="paper-sticky-title" id="paper-sticky-title" aria-hidden="true">
     <div class="paper-sticky-title-inner">
-      {{ with $venue }}
-      <a href="{{ $confPapersUrl }}" class="paper-tag-btn paper-venue-btn paper-sticky-venue">{{ . }}</a><span class="paper-venue-sep" aria-hidden="true">:</span>
+      {{ if $hasRecognizedConference }}
+      <a href="{{ $confPapersUrl }}" class="paper-tag-btn paper-venue-btn paper-sticky-venue">{{ $confLabel }}</a><span class="paper-venue-sep" aria-hidden="true">:</span>
       {{ end }}
       <span class="paper-title-text" title="{{ .Title }}">{{ .Title }}</span>
     </div>
   </div>
 
-  <header class="paper-header">
-    {{ with $venue }}
-    <p class="paper-venue-badge-row">
-      <a href="{{ $confPapersUrl }}" class="paper-tag-btn paper-venue-btn">{{ . }}</a>
-    </p>
-    {{ end }}
-    <h1 id="paper-page-title">
-      <span class="paper-title-text">{{ .Title }}</span>
-    </h1>
-    {{ with .Params.authors }}
-    {{ partial "paper-authors.html" . }}
-    {{ end }}
-  </header>
+  <div class="paper-intro">
+    {{ partial "paper-intro-meta.html" (dict
+      "published_date" .Params.published_date
+      "published_date_iso" .Params.published_date_iso
+      "source_url" .Params.source_url
+      "arxiv_id" .Params.arxiv_id
+      "codebase_url" .Params.codebase_url
+    ) }}
 
-  <div class="paper-hero{{ if not .Params.main_figure }} paper-hero-no-figure{{ end }}">
+    <header class="paper-header">
+      <h1 id="paper-page-title">
+        <span class="paper-title-text">{{ .Title }}</span>
+      </h1>
+      {{ with .Params.authors }}
+      {{ partial "paper-authors.html" . }}
+      {{ end }}
+    </header>
+  </div>
+
+  {{ with .Params.main_figure }}
+  <div class="paper-hero">
     <div class="paper-hero-stage">
-      <div class="paper-hero-cluster">
-        {{ with .Params.main_figure }}
-        <figure class="paper-figure">
-          {{ $figAlt := printf "Main figure for %s" $.Title }}
-          {{ if $.Params.source_url }}
-          <a href="{{ $.Params.source_url }}" target="_blank" rel="noopener noreferrer">
-            <img src="{{ strings.TrimPrefix "/" . | relURL }}" alt="{{ $figAlt }}" loading="lazy">
-          </a>
-          {{ else if $.Params.arxiv_id }}
-          <a href="https://arxiv.org/abs/{{ $.Params.arxiv_id }}" target="_blank" rel="noopener noreferrer">
-            <img src="{{ strings.TrimPrefix "/" . | relURL }}" alt="{{ $figAlt }}" loading="lazy">
-          </a>
-          {{ else }}
+      <figure class="paper-figure">
+        {{ $figAlt := printf "Main figure for %s" $.Title }}
+        {{ if $.Params.source_url }}
+        <a href="{{ $.Params.source_url }}" target="_blank" rel="noopener noreferrer">
           <img src="{{ strings.TrimPrefix "/" . | relURL }}" alt="{{ $figAlt }}" loading="lazy">
-          {{ end }}
-        </figure>
+        </a>
+        {{ else if $.Params.arxiv_id }}
+        <a href="https://arxiv.org/abs/{{ $.Params.arxiv_id }}" target="_blank" rel="noopener noreferrer">
+          <img src="{{ strings.TrimPrefix "/" . | relURL }}" alt="{{ $figAlt }}" loading="lazy">
+        </a>
+        {{ else }}
+        <img src="{{ strings.TrimPrefix "/" . | relURL }}" alt="{{ $figAlt }}" loading="lazy">
         {{ end }}
-        <aside class="paper-hero-aside">
-          {{ with .Params.published_date }}
-          <p class="paper-hero-date"><time datetime="{{ $.Params.published_date_iso }}">{{ . }}</time></p>
-          {{ end }}
-          {{ with .Params.source_url }}
-          <p class="paper-hero-link-row">
-            <a class="badge badge-external" href="{{ . }}" target="_blank" rel="noopener noreferrer">Paper ↗</a>
-          </p>
-          {{ else }}
-          {{ with .Params.arxiv_id }}
-          <p class="paper-hero-link-row">
-            <a class="badge badge-external" href="https://arxiv.org/abs/{{ . }}" target="_blank" rel="noopener noreferrer">arXiv:{{ . }} ↗</a>
-          </p>
-          {{ end }}
-          {{ end }}
-          {{ with .Params.codebase_url }}
-          <p class="paper-hero-link-row">
-            <a class="badge badge-external" href="{{ . }}" target="_blank" rel="noopener noreferrer">Code ↗</a>
-          </p>
-          {{ end }}
-        </aside>
-      </div>
+      </figure>
     </div>
   </div>
+  {{ end }}
 
   {{ with .Params.abstract }}
   <section class="abstract">
@@ -145,16 +134,7 @@
   <section class="results-section">
     <h2>Benchmark Results</h2>
 
-    <div class="table-explainer-legend paper-results-legend" aria-label="Table color legend">
-      <span class="legend-item"><span class="legend-swatch swatch-best"></span><span>SOTA performance (within overlap)</span></span>
-      <span class="legend-item"><span class="legend-swatch swatch-proposed"></span><span>Proposed method (this paper)</span></span>
-      <span class="legend-item"><span class="legend-swatch swatch-baseline"></span><span>Baseline / comparison (this paper)</span></span>
-      <span class="legend-item"><span class="legend-swatch swatch-global"></span><span>Global context (other papers)</span></span>
-      <span class="legend-item"><span class="legend-swatch swatch-at-pub"></span><span>Best at pub — reported result worse than the best known when published (true performance in green)</span></span>
-      <span class="legend-item"><span class="legend-swatch swatch-improved-at-pub"></span><span>Best at pub — reported value improved over the best known when published</span></span>
-      <span class="legend-item"><span class="legend-swatch swatch-improved-surpassed"></span><span>Improved at pub — later paper surpassed this result</span></span>
-      <span class="legend-item"><span class="legend-swatch swatch-surpassed"></span><span>Best today — OK at publication; today's leaderboard best is elsewhere</span></span>
-    </div>
+    {{ partial "paper-results-legend.html" . }}
 
     {{ with .Params.datasets_by_scope }}
     <div class="paper-results-anchor-nav-group" aria-label="Jump to datasets">

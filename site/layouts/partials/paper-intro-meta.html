@@ -1,0 +1,30 @@
+{{/*
+  Paper intro sidebar: date and external links.
+  Context: dict with published_date, source_url, arxiv_id, codebase_url.
+*/}}
+{{ $hasMeta := or .published_date .source_url .arxiv_id .codebase_url }}
+{{ if $hasMeta }}
+<aside class="paper-intro-meta" aria-label="Paper details">
+  {{ with .published_date }}
+  <p class="paper-intro-meta-row paper-intro-date">
+    <time datetime="{{ $.published_date_iso }}">{{ . }}</time>
+  </p>
+  {{ end }}
+  {{ with .source_url }}
+  <p class="paper-intro-meta-row">
+    <a class="badge badge-external" href="{{ . }}" target="_blank" rel="noopener noreferrer">Paper ↗</a>
+  </p>
+  {{ else }}
+  {{ with .arxiv_id }}
+  <p class="paper-intro-meta-row">
+    <a class="badge badge-external" href="https://arxiv.org/abs/{{ . }}" target="_blank" rel="noopener noreferrer">arXiv:{{ . }} ↗</a>
+  </p>
+  {{ end }}
+  {{ end }}
+  {{ with .codebase_url }}
+  <p class="paper-intro-meta-row">
+    <a class="badge badge-external" href="{{ . }}" target="_blank" rel="noopener noreferrer">Code ↗</a>
+  </p>
+  {{ end }}
+</aside>
+{{ end }}

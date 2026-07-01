@@ -43,10 +43,10 @@ from thefuzz import fuzz as fuzz_lib
 from thefuzz import process as fuzz_process
 
 from backend.config import cfg, normalize_arxiv_id
-from backend.llm_backends import client_params_for_model
 from backend.dataset_stats_parsing import format_stats_summary, is_statistics_table
 from backend.db import session_scope
 from backend.json_repair import parse_json_lenient
+from backend.llm_backends import client_params_for_model
 from backend.llm_model_options import (
     context_limits_for_model,
     display_name_for_model,
@@ -79,7 +79,10 @@ logger = logging.getLogger(__name__)
 _QM9_EXTRACT_MAX_TOKENS = 16_384
 
 _ARXIV_API = "https://export.arxiv.org/api/query?id_list={arxiv_id}"
-_ARXIV_NS = {"atom": "http://www.w3.org/2005/Atom"}
+_ARXIV_NS = {
+    "atom": "http://www.w3.org/2005/Atom",
+    "arxiv": "http://arxiv.org/schemas/atom",
+}
 _TOP_DATASETS_HINT_LIMIT = 50
 _DATASET_RG_MATCH_LIMIT = 80
 _DATASET_CONTEXT_WINDOW = 80
@@ -443,6 +446,12 @@ def fetch_arxiv_metadata(arxiv_id: str) -> dict[str, str]:
             ]
             authors = [name for name in authors if name]
             result = {"title": title, "abstract": abstract, "published_date": published_date}
+            comment_elem = entry.find("arxiv:comment", _ARXIV_NS)
+            if comment_elem is not None and comment_elem.text:
+                result["arxiv_comment"] = comment_elem.text.replace("\n", " ").strip()
+            journal_ref_elem = entry.find("arxiv:journal_ref", _ARXIV_NS)
+            if journal_ref_elem is not None and journal_ref_elem.text:
+                result["journal_ref"] = journal_ref_elem.text.replace("\n", " ").strip()
             if authors:
                 result["authors"] = authors
             return result
@@ -1138,9 +1147,7 @@ def _dedupe_result_entries(results: list[ResultEntry]) -> list[ResultEntry]:
             best[key] = result
             continue
         hib = result.higher_is_better
-        if hib and result.value > existing.value:
-            best[key] = result
-        elif not hib and result.value < existing.value:
+        if hib and result.value > existing.value or not hib and result.value < existing.value:
             best[key] = result
     return list(best.values())
 
@@ -4051,7 +4058,9 @@ def _apply_table_caption_policies(extraction: ExtractionOutput, tables: list) ->
     extraction.results = kept_results
 
     if dropped_ablation_tables:
-        note = f"Dropped {dropped_ablation_tables} row(s) from ablation/diagnostic tables (caption)."
+        note = (
+            f"Dropped {dropped_ablation_tables} row(s) from ablation/diagnostic tables (caption)."
+        )
         extraction.extraction_notes = f"{extraction.extraction_notes}\n{note}".strip()
 
     if default_policy is None:

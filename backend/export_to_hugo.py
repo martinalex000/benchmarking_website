@@ -66,6 +66,9 @@ from backend.override_handler import get_model_renames, load_overrides
 from backend.paper_storage import PaperStorage
 from backend.qm9_targets import QM9_METRIC_LABELS, is_qm9_dataset, order_qm9_metrics
 from backend.text_cleanup import clean_extracted_text
+from backend.venue import conference_export_fields as _conference_export_fields
+from backend.venue import export_published_venue
+from backend.venue import publication_year as _publication_year
 
 logger = logging.getLogger(__name__)
 
@@ -117,39 +120,6 @@ def clear_export_caches() -> None:
     clear_overrides_cache()
 
 
-_CONFERENCE_ALIASES: tuple[tuple[str, tuple[str, ...]], ...] = (
-    ("NeurIPS", ("neurips", "nips", "neural information processing systems")),
-    ("ICLR", ("iclr", "international conference on learning representations")),
-    (
-        "TMLR",
-        ("tmlr", "transactions on machine learning research", "trans. mach. learn. res."),
-    ),
-    ("JMLR", ("jmlr", "journal of machine learning research", "j. mach. learn. res.")),
-    ("ICML", ("icml", "international conference on machine learning")),
-    (
-        "LoG",
-        (
-            "learning on graphs and geometry",
-            "learning on graphs conference",
-            "graph learning conference",
-        ),
-    ),
-    (
-        "WWW",
-        (
-            "www",
-            "the web conference",
-            "world wide web conference",
-            "world-wide web conference",
-        ),
-    ),
-    ("AAAI", ("aaai", "association for the advancement of artificial intelligence")),
-    ("KDD", ("kdd", "sigkdd", "knowledge discovery and data mining")),
-    ("IJCAI", ("ijcai", "international joint conference on artificial intelligence")),
-)
-_SHORT_CONFERENCE_ALIASES = frozenset(
-    alias for _label, aliases in _CONFERENCE_ALIASES for alias in aliases if len(alias) <= 5
-)
 _BOUNDED_METRIC_SUBSTRINGS: tuple[str, ...] = (
     "accuracy",
     "acc",
@@ -168,50 +138,6 @@ _BOUNDED_METRIC_SUBSTRINGS: tuple[str, ...] = (
 def _slug(name: str) -> str:
     """Convert a string to a URL-safe slug."""
     return re.sub(r"[^a-z0-9]+", "-", name.strip().lower()).strip("-")
-
-
-def _normalize_conference(venue: str | None) -> str:
-    raw = " ".join(str(venue or "").split()).strip()
-    if not raw:
-        return ""
-    lowered = raw.lower()
-    for label, aliases in _CONFERENCE_ALIASES:
-        for alias in aliases:
-            if alias in _SHORT_CONFERENCE_ALIASES:
-                if alias == "www":
-                    if re.search(r"\bwww(?:\s*[-/]?\s*\d{4})?\b", lowered):
-                        return label
-                elif re.search(rf"\b{re.escape(alias)}\b", lowered):
-                    return label
-            elif alias in lowered:
-                return label
-    return ""
-
-
-def _publication_year(published_date: str | None) -> str:
-    raw = (published_date or "").strip()
-    if len(raw) >= 4 and raw[:4].isdigit():
-        year = int(raw[:4])
-        if 1990 <= year <= 2100:
-            return str(year)
-    return ""
-
-
-def _conference_export_fields(venue: str | None, published_date: str | None) -> dict[str, str]:
-    short = _normalize_conference(venue)
-    if not short:
-        return {
-            "published_conference": "",
-            "published_conference_short": "",
-            "published_conference_slug": "",
-        }
-    year = _publication_year(published_date)
-    label = f"{short} {year}" if year else short
-    return {
-        "published_conference": label,
-        "published_conference_short": short,
-        "published_conference_slug": _slug(short),
-    }
 
 
 def _comparison_source_date_label(venue: str | None, date_iso: str | None) -> str:
@@ -2343,7 +2269,10 @@ def _export_paper_impl(session: Session, arxiv_id: str) -> bool:
                 "date": _fmt_date(paper.published_date) if paper else "",
                 "date_display": _fmt_month_year(paper.published_date) if paper else "",
                 "date_iso": (paper.published_date[:10] if paper and paper.published_date else ""),
-                "published_venue": paper.venue if paper else "",
+                "published_venue": export_published_venue(
+                    paper.venue if paper else "",
+                    paper.published_date if paper else None,
+                ),
                 "published_conference": conference_fields["published_conference"],
             }
         )
@@ -2687,7 +2616,7 @@ def _export_paper_impl(session: Session, arxiv_id: str) -> bool:
         "authors": paper.authors or [],
         "published_date": _fmt_date(paper.published_date),
         "published_date_iso": (paper.published_date[:10] if paper.published_date else ""),
-        "published_venue": paper.venue or "",
+        "published_venue": export_published_venue(paper.venue, paper.published_date),
         **conference_fields,
         "abstract": _sanitize_abstract(clean_extracted_text(paper.abstract)),
         "codebase_url": paper.codebase_url or "",
@@ -2862,7 +2791,10 @@ def _build_multi_metric_rows(
                 "published_conference": conference_fields["published_conference"],
                 "published_conference_short": conference_fields["published_conference_short"],
                 "published_conference_slug": conference_fields["published_conference_slug"],
-                "published_venue": paper.venue if paper else "",
+                "published_venue": export_published_venue(
+                    paper.venue if paper else "",
+                    paper.published_date if paper else None,
+                ),
                 "uses_external_data": None,
                 "_vals": {},
             }

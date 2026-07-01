@@ -1,0 +1,21 @@
+{{/*
+  Update paper-results-legend scratch flags from one result row.
+  Context: dict with "row" and "scratch" (a Hugo scratch object).
+*/}}
+{{ $r := .row }}
+{{ $s := .scratch }}
+{{ $rowUnderperforming := $r.worse_than_at_pub }}
+{{ $rowImprovedAtPub := and $r.better_than_at_pub (not $r.surpassed_since_pub) }}
+{{ $rowImprovedSurpassedSince := and $r.better_than_at_pub $r.surpassed_since_pub }}
+{{ $rowSurpassedSince := and (not $r.worse_than_at_pub) (not $r.better_than_at_pub) $r.surpassed_since_pub }}
+{{ $hasSpecialTint := or $rowUnderperforming $rowImprovedAtPub $rowImprovedSurpassedSince $rowSurpassedSince }}
+
+{{ if $r.is_best }}{{ $s.Set "best" true }}{{ end }}
+{{ if $r.is_global_top }}{{ $s.Set "global" true }}{{ end }}
+{{ if $rowUnderperforming }}{{ $s.Set "at_pub" true }}{{ end }}
+{{ if $rowImprovedAtPub }}{{ $s.Set "improved_at_pub" true }}{{ end }}
+{{ if $rowImprovedSurpassedSince }}{{ $s.Set "improved_surpassed" true }}{{ end }}
+{{ if $rowSurpassedSince }}{{ $s.Set "surpassed" true }}{{ end }}
+{{ if and (not $r.is_global_top) (not $hasSpecialTint) }}
+  {{ if $r.is_baseline }}{{ $s.Set "baseline" true }}{{ else }}{{ $s.Set "proposed" true }}{{ end }}
+{{ end }}

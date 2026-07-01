@@ -1,0 +1,19 @@
+# OpenReview venue groups for graph-learning conferences.
+# Used by scripts/seed_openreview_venue.py to enqueue accepted papers.
+venues:
+  - id: logconference.io/LOG/2022/Conference
+    label: LoG 2022
+    canonical_venue: Learning on Graphs Conference
+    year: 2022
+  - id: logconference.io/LOG/2023/Conference
+    label: LoG 2023
+    canonical_venue: Learning on Graphs Conference
+    year: 2023
+  - id: logconference.io/LOG/2024/Conference
+    label: LoG 2024
+    canonical_venue: Learning on Graphs Conference
+    year: 2024
+  - id: logconference.io/LOG/2025/Conference
+    label: LoG 2025
+    canonical_venue: Learning on Graphs Conference
+    year: 2025

@@ -23,7 +23,12 @@ sys.path.insert(0, str(_project_root))
 
 from backend.db import init_db, session_scope  # noqa: E402
 from backend.models import Paper, Result  # noqa: E402
-from backend.semantic_scholar import _s2_headers  # noqa: E402
+from backend.semantic_scholar import (  # noqa: E402
+    _resolve_venue_from_s2,
+    _s2_headers,
+    resolve_paper_venue,
+)
+from backend.venue import venue_needs_resolution  # noqa: E402
 
 _S2_BASE = "https://api.semanticscholar.org/graph/v1"
 
@@ -76,21 +81,9 @@ def _fetch_metadata_individual(arxiv_id: str) -> dict[str, str] | None:
                 meta["published_date"] = f"{year:04d}-01-01"
             elif isinstance(year, str) and year.isdigit():
                 meta["published_date"] = f"{int(year):04d}-01-01"
-        venue = str(data.get("venue") or "").strip()
+        venue = _resolve_venue_from_s2(data)
         if not venue:
-            pub_venue = data.get("publicationVenue")
-            if isinstance(pub_venue, dict):
-                venue = str(pub_venue.get("name") or "").strip()
-                if not venue:
-                    venue = str(pub_venue.get("venue") or "").strip()
-            elif isinstance(pub_venue, str):
-                venue = pub_venue.strip()
-        if not venue:
-            journal = data.get("journal")
-            if isinstance(journal, dict):
-                venue = str(journal.get("name") or "").strip()
-            elif isinstance(journal, str):
-                venue = journal.strip()
+            venue = resolve_paper_venue(arxiv_id, {})
         if venue:
             meta["venue"] = venue
         if meta:
@@ -136,7 +129,7 @@ def backfill(
                     meta = _fetch_metadata_individual(paper.arxiv_id)
                     if meta:
                         changed = False
-                        if meta.get("venue") and not paper.venue:
+                        if meta.get("venue") and venue_needs_resolution(paper.venue):
                             paper.venue = meta["venue"]
                             changed = True
                         if meta.get("published_date") and (

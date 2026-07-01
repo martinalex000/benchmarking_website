@@ -11,7 +11,16 @@ from typing import Any
 import requests
 
 from backend.config import cfg
-from backend.models import AuthorRecord, normalize_author_entry
+from backend.models import AuthorRecord, author_display_name, normalize_author_entry
+from backend.venue import (
+    is_arxiv_only_venue,
+    is_untrusted_s2_publication_venue,
+    is_untrusted_venue,
+    resolve_canonical_venue,
+    venue_from_arxiv_comment,
+    venue_from_openreview_fields,
+    venue_needs_resolution,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -77,6 +86,171 @@ def _published_date_from_arxiv_id(arxiv_id: str) -> str:
     return ""
 
 
+def _named_object_field(value: object, *keys: str) -> str:
+    if isinstance(value, dict):
+        for key in keys:
+            text = str(value.get(key) or "").strip()
+            if text:
+                return text
+    elif isinstance(value, str):
+        return value.strip()
+    return ""
+
+
+def _resolve_venue_from_s2(data: dict[str, Any]) -> str:
+    """Prefer a real publication venue over arXiv-only labels from Semantic Scholar."""
+    pub_venue_obj = data.get("publicationVenue")
+    if is_untrusted_s2_publication_venue(pub_venue_obj):
+        return ""
+
+    top_venue = str(data.get("venue") or "").strip()
+    pub_venue = _named_object_field(pub_venue_obj, "name", "venue")
+    journal_venue = _named_object_field(data.get("journal"), "name")
+
+    if (
+        is_untrusted_venue(top_venue)
+        or is_untrusted_venue(pub_venue)
+        or is_untrusted_venue(journal_venue)
+    ):
+        return ""
+
+    if pub_venue and (not top_venue or is_arxiv_only_venue(top_venue)):
+        return resolve_canonical_venue(pub_venue)
+    if top_venue and not is_arxiv_only_venue(top_venue):
+        return resolve_canonical_venue(top_venue)
+    if pub_venue:
+        return resolve_canonical_venue(pub_venue)
+    if journal_venue:
+        return resolve_canonical_venue(journal_venue)
+    return ""
+
+
+def _venue_from_local_metadata(arxiv_id: str) -> str:
+    from backend.paper_storage import PaperStorage
+
+    meta = PaperStorage(arxiv_id).read_metadata()
+    if not meta:
+        return ""
+    for key in ("openreview_venue", "venue", "arxiv_comment", "journal_ref"):
+        raw = str(meta.get(key) or "").strip()
+        if not raw:
+            continue
+        venue = venue_from_openreview_fields(raw) or venue_from_arxiv_comment(raw)
+        if venue:
+            return venue
+    return ""
+
+
+def _venue_from_openreview_for_paper(arxiv_id: str) -> str:
+    if not (cfg.openreview_token or (cfg.openreview_username and cfg.openreview_password)):
+        return ""
+    from backend.db import session_scope
+    from backend.models import Paper
+    from backend.openreview_client import OpenReviewClient, OpenReviewError
+    from backend.paper_matching import author_last_names, author_overlap_score, titles_match
+
+    with session_scope() as session:
+        paper = session.query(Paper).filter_by(arxiv_id=arxiv_id).first()
+        if paper is None or not paper.title:
+            return ""
+        title = paper.title
+        authors = [author_display_name(author) for author in paper.authors or []]
+
+    try:
+        client = OpenReviewClient.from_config()
+    except OpenReviewError:
+        return ""
+
+    for year in (2025, 2024, 2023, 2022):
+        venue_group = f"logconference.io/LOG/{year}/Conference"
+        try:
+            candidates = client.search_submissions_by_title(venue_group, title)
+        except OpenReviewError as exc:
+            logger.debug("OpenReview title search failed for %s: %s", venue_group, exc)
+            continue
+        for candidate in candidates:
+            if not titles_match(title, candidate.title):
+                continue
+            if authors and candidate.authors:
+                from backend.paper_matching import author_last_names, author_overlap_score
+
+                overlap = author_overlap_score(
+                    author_last_names(authors), author_last_names(candidate.authors)
+                )
+                if overlap < 0.34:
+                    continue
+            venue = venue_from_openreview_fields(candidate.venue, candidate.venueid)
+            if venue:
+                _cache_venue_metadata(arxiv_id, venue, candidate.venue, candidate.venueid)
+                return venue
+    return ""
+
+
+def _cache_venue_metadata(
+    arxiv_id: str,
+    canonical_venue: str,
+    openreview_venue: str = "",
+    openreview_venueid: str = "",
+) -> None:
+    from backend.paper_storage import PaperStorage
+
+    updates: dict[str, str] = {"venue": canonical_venue}
+    if openreview_venue:
+        updates["openreview_venue"] = openreview_venue
+    if openreview_venueid:
+        updates["openreview_venueid"] = openreview_venueid
+    try:
+        PaperStorage(arxiv_id).update_metadata(updates)
+    except Exception as exc:
+        logger.debug("Could not cache venue metadata for %s: %s", arxiv_id, exc)
+
+
+def _venue_from_arxiv_metadata(arxiv_id: str) -> str:
+    if cfg.skip_arxiv_metadata_api:
+        return ""
+    from backend.llm_extractor import fetch_arxiv_metadata
+
+    arxiv_meta = fetch_arxiv_metadata(arxiv_id)
+    cache_updates: dict[str, str] = {}
+    resolved = ""
+    for key in ("arxiv_comment", "journal_ref"):
+        raw = str(arxiv_meta.get(key) or "").strip()
+        if raw:
+            cache_updates[key] = raw
+        venue = venue_from_arxiv_comment(raw)
+        if venue:
+            resolved = venue
+            break
+    if cache_updates or resolved:
+        cache_updates.update({"venue": resolved} if resolved else {})
+        try:
+            from backend.paper_storage import PaperStorage
+
+            PaperStorage(arxiv_id).update_metadata(cache_updates)
+        except Exception as exc:
+            logger.debug("Could not cache arXiv metadata for %s: %s", arxiv_id, exc)
+    return resolved
+
+
+def resolve_paper_venue(arxiv_id: str, ss_meta: dict[str, str] | None = None) -> str:
+    """Resolve a canonical venue string from S2 metadata with local/OpenReview fallbacks."""
+    meta = ss_meta if ss_meta is not None else fetch_paper_metadata(arxiv_id)
+    s2_venue = str(meta.get("venue") or "").strip()
+    if s2_venue and not is_untrusted_venue(s2_venue):
+        canonical = resolve_canonical_venue(s2_venue)
+        if canonical:
+            return canonical
+    for resolver in (
+        _venue_from_local_metadata,
+        _venue_from_openreview_for_paper,
+        _venue_from_arxiv_metadata,
+    ):
+        venue = resolver(arxiv_id)
+        if venue:
+            return venue
+    return ""
+
+
 def _paper_fields(data: dict[str, Any] | None) -> dict[str, str]:
     if not isinstance(data, dict):
         return {}
@@ -98,21 +272,7 @@ def _paper_fields(data: dict[str, Any] | None) -> dict[str, str]:
         elif isinstance(year, str) and year.isdigit():
             meta["published_date"] = f"{int(year):04d}-01-01"
 
-    venue = str(data.get("venue") or "").strip()
-    if not venue:
-        pub_venue = data.get("publicationVenue")
-        if isinstance(pub_venue, dict):
-            venue = str(pub_venue.get("name") or "").strip()
-            if not venue:
-                venue = str(pub_venue.get("venue") or "").strip()
-        elif isinstance(pub_venue, str):
-            venue = pub_venue.strip()
-    if not venue:
-        journal = data.get("journal")
-        if isinstance(journal, dict):
-            venue = str(journal.get("name") or "").strip()
-        elif isinstance(journal, str):
-            venue = journal.strip()
+    venue = _resolve_venue_from_s2(data)
     if venue:
         meta["venue"] = venue
     return meta
@@ -313,10 +473,12 @@ def ensure_paper_metadata(arxiv_id: str) -> dict[str, bool]:
                 filled["published_date"] = True
                 metadata_updates["published_date"] = resolved_date
 
-        if not paper.venue and ss_meta.get("venue"):
-            paper.venue = ss_meta["venue"]
-            filled["venue"] = True
-            metadata_updates["venue"] = paper.venue
+        if venue_needs_resolution(paper.venue):
+            resolved_venue = resolve_paper_venue(arxiv_id, ss_meta)
+            if resolved_venue:
+                paper.venue = resolved_venue
+                filled["venue"] = True
+                metadata_updates["venue"] = paper.venue
 
         from backend.text_cleanup import authors_look_broken
 
@@ -351,6 +513,7 @@ def papers_missing_metadata(arxiv_ids: list[str] | None = None) -> list[str]:
                 not paper.published_date
                 or len(paper.published_date) < 10
                 or not paper.venue
+                or venue_needs_resolution(paper.venue)
                 or not paper.authors
             ):
                 missing.append(paper.arxiv_id)
@@ -381,4 +544,5 @@ __all__ = [
     "fetch_paper_metadata_batch",
     "merge_latex_authors_with_s2",
     "resolve_paper_authors",
+    "resolve_paper_venue",
 ]
