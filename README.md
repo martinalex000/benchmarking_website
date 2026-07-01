@@ -45,6 +45,7 @@ uv run vllm serve cyankiwi/gemma-4-26B-A4B-it-AWQ-4bit --limit-mm-per-prompt '{"
 # note that the model must match what has been started locally.
 uv run python scripts/run_manual.py 2206.08164 
 uv run python scripts/run_manual.py 2406.08993
+uv run python scripts/run_manual.py 2411.05274  # DRAGON — tricky LRGB wrap-table / peptides extraction
 ```
 
 The repository now keeps `papers/` as a local workspace directory only. Generated
@@ -145,6 +146,22 @@ uv run python scripts/mark_priority_papers.py mark           # apply
 uv run python scripts/mark_priority_papers.py mark --requeue # also reset done/failed/rejected → pending
 uv run python scripts/mark_priority_papers.py mark --dry-run   # preview (18 papers)
 uv run python scripts/mark_priority_papers.py export         # refresh list from DB  
+
+### LaTeX table re-extraction (wraptable / sidewaystable parser fixes)
+Server runbook: `config/latex_table_reextract_server.txt`
+
+```bash
+# Scan papers/ for wraptable, sidewaystable, and unparsed tabular rows
+uv run python scripts/scan_latex_table_issues.py --write-list --export-json
+
+# Mark flagged papers for LLM re-extraction (not parse-only)
+uv run python scripts/mark_reextract_papers.py mark --requeue
+
+# Process with --force so existing llm_output is replaced
+uv run python scripts/todo_queue_dashboard.py --workers 10 --model primary --force
+```
+
+Development page: **Development → Problematic Papers** (after `export_to_hugo`).
 
 ---
 

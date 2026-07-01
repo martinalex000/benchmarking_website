@@ -1,0 +1,9 @@
+# Papers that need full LLM re-extraction after LaTeX table-parser fixes.
+# One arXiv ID per line. Used by scripts/mark_reextract_papers.py.
+#
+# Regenerate with:
+#   uv run python scripts/scan_latex_table_issues.py --write-list
+#
+# Last scan: 2026-07-01T12:14:57.545366+00:00
+
+2411.05274  # unparsed_tabular_lines, wraptable  # Distributed-Order Fractional Graph Operating Network

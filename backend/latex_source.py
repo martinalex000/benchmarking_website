@@ -3,7 +3,8 @@
 Downloads the LaTeX source tarball from arXiv, runs ``latexpand`` to flatten
 all ``\\input`` / ``\\include`` directives into a single file, then extracts:
 
-  - All ``table`` / ``table*`` / ``longtable`` environments with captions
+  - All ``table`` / ``table*`` / ``longtable`` / ``wraptable`` /
+    ``sidewaystable`` / ``sidewaystable*`` environments with captions
     (including appendix tables — missed by PDF/HTML extraction)
   - All section / subsection / subsubsection / paragraph headings and their
     content, with appendix-awareness
@@ -35,6 +36,7 @@ import tempfile
 import urllib.request
 from dataclasses import dataclass, field
 from pathlib import Path
+from typing import Literal
 
 from backend.text_cleanup import clean_extracted_text
 
@@ -441,20 +443,48 @@ def _parse_expanded(arxiv_id: str, tex: str) -> LatexPaper:
 
 # ── Table extraction ───────────────────────────────────────────────────────────
 
+# Longer names first so ``table*`` is not matched as ``table``.
+TABLE_ENV_NAMES: tuple[str, ...] = (
+    "sidewaystable*",
+    "sidewaystable",
+    "table*",
+    "table",
+    "longtable",
+    "wraptable",
+)
 
-def _extract_tables(tex: str) -> list[LatexTable]:
-    """Extract all table / table* / longtable environments."""
-    # Find where the appendix starts (tables after this are appendix tables)
+_TABLE_BEGIN_PAT = re.compile(
+    r"\\begin\{(" + "|".join(re.escape(name) for name in TABLE_ENV_NAMES) + r")\}"
+)
+
+
+@dataclass
+class LatexTableSpan:
+    """Character span of a parsed table-like LaTeX environment."""
+
+    env_name: str
+    start: int
+    end: int
+
+
+@dataclass
+class LatexTableDiagnostic:
+    """Heuristic LaTeX table-coverage issue for one paper."""
+
+    kind: Literal["wraptable", "sidewaystable", "unparsed_tabular_lines"]
+    detail: str
+    sample_lines: list[str] = field(default_factory=list)
+
+
+def _extract_tables_with_spans(tex: str) -> tuple[list[LatexTable], list[LatexTableSpan]]:
+    """Extract table-like environments and their source spans."""
     appendix_pos = _find_appendix_start(tex)
 
     tables: list[LatexTable] = []
+    spans: list[LatexTableSpan] = []
     table_number = 0
 
-    env_names = ("table*", "table", "longtable")
-    # Find all \begin{...} positions for table-like envs
-    begin_pat = re.compile(r"\\begin\{(" + "|".join(re.escape(e) for e in env_names) + r")\}")
-
-    for m in begin_pat.finditer(tex):
+    for m in _TABLE_BEGIN_PAT.finditer(tex):
         env_name = m.group(1)
         env_end = _find_matching_end(tex, m.start(), env_name)
         if env_end is None:
@@ -475,8 +505,104 @@ def _extract_tables(tex: str) -> list[LatexTable]:
                 in_appendix=m.start() >= appendix_pos,
             )
         )
+        spans.append(LatexTableSpan(env_name=env_name, start=m.start(), end=env_end))
 
+    return tables, spans
+
+
+def _extract_tables(tex: str) -> list[LatexTable]:
+    """Extract all supported table-like LaTeX environments."""
+    tables, _spans = _extract_tables_with_spans(tex)
     return tables
+
+
+def _blank_spans(tex: str, spans: list[LatexTableSpan]) -> str:
+    chars = list(tex)
+    for span in sorted(spans, key=lambda item: item.start, reverse=True):
+        for index in range(span.start, span.end):
+            chars[index] = " "
+    return "".join(chars)
+
+
+def _find_unparsed_tabular_lines(
+    tex: str,
+    spans: list[LatexTableSpan],
+    *,
+    min_ampersands: int = 2,
+    max_samples: int = 3,
+) -> list[str]:
+    """Return sample lines with column separators outside parsed table environments."""
+    uncovered = _blank_spans(tex, spans)
+    hits: list[str] = []
+    for line in uncovered.splitlines():
+        stripped = line.strip()
+        if not stripped or stripped.startswith("%"):
+            continue
+        if stripped.count("&") < min_ampersands:
+            continue
+        hits.append(stripped[:240])
+        if len(hits) >= max_samples:
+            break
+    return hits
+
+
+def diagnose_latex_table_coverage(tex: str) -> list[LatexTableDiagnostic]:
+    """Flag LaTeX sources whose benchmark tables may have been missed by the parser."""
+    tables, spans = _extract_tables_with_spans(tex)
+    diagnostics: list[LatexTableDiagnostic] = []
+
+    wrap_count = len(re.findall(r"\\begin\{wraptable\}", tex))
+    if wrap_count:
+        parsed_wrap = sum(1 for span in spans if span.env_name == "wraptable")
+        diagnostics.append(
+            LatexTableDiagnostic(
+                kind="wraptable",
+                detail=(
+                    f"Contains {wrap_count} wraptable environment(s); parsed {parsed_wrap}. "
+                    "Papers processed before wraptable support need full LLM re-extraction."
+                ),
+            )
+        )
+
+    sideways_count = len(re.findall(r"\\begin\{(?:sidewaystable\*?)\}", tex))
+    if sideways_count:
+        parsed_sideways = sum(
+            1 for span in spans if span.env_name in {"sidewaystable", "sidewaystable*"}
+        )
+        diagnostics.append(
+            LatexTableDiagnostic(
+                kind="sidewaystable",
+                detail=(
+                    f"Contains {sideways_count} sidewaystable environment(s); "
+                    f"parsed {parsed_sideways}. Rotated tables may need re-extraction "
+                    "if processed with an older parser."
+                ),
+            )
+        )
+
+    unparsed_lines = _find_unparsed_tabular_lines(tex, spans)
+    if unparsed_lines:
+        diagnostics.append(
+            LatexTableDiagnostic(
+                kind="unparsed_tabular_lines",
+                detail=(
+                    "Found lines with two or more '&' column separators outside parsed "
+                    "table environments (possible standalone tabular or unsupported layout)."
+                ),
+                sample_lines=unparsed_lines,
+            )
+        )
+
+    _ = tables
+    return diagnostics
+
+
+def scan_latex_source_file(path: Path) -> list[LatexTableDiagnostic]:
+    """Load expanded LaTeX from *path* and return table-coverage diagnostics."""
+    if not path.is_file():
+        return []
+    tex = path.read_text(encoding="utf-8", errors="replace")
+    return diagnose_latex_table_coverage(tex)
 
 
 def _find_appendix_start(tex: str) -> int:

@@ -15,6 +15,7 @@
 2106.13264  # Hypergraph Benchmarks
 2110.14446  # LINKX Benchmarks
 2206.08164  # LRGB
+2411.05274  # DRAGON (LRGB peptides wrap-table regression anchor)
 2312.16560  # Algorithmic Graph Tasks
 2503.09008  # City-Networks
 2506.08618  # HSG-12M
