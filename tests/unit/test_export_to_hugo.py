@@ -601,8 +601,9 @@ def test_dataset_export_metadata_uses_cache(monkeypatch):
     monkeypatch.setattr(
         export_to_hugo,
         "_dataset_page_export_metadata",
-        lambda _session, dataset_id: calls.append(dataset_id)
-        or {"exportable": True, "result_count": 1},
+        lambda _session, dataset_id: (
+            calls.append(dataset_id) or {"exportable": True, "result_count": 1}
+        ),
     )
     export_to_hugo._DATASET_EXPORT_META_CACHE[42] = {"exportable": True, "result_count": 99}
 
@@ -668,8 +669,9 @@ def test_benchmark_totals_exportable_uses_dataset_metadata_cache(monkeypatch):
     monkeypatch.setattr(
         export_to_hugo,
         "_dataset_page_export_metadata",
-        lambda _session, dataset_id: calls.append(dataset_id)
-        or {"exportable": True, "result_count": 1},
+        lambda _session, dataset_id: (
+            calls.append(dataset_id) or {"exportable": True, "result_count": 1}
+        ),
     )
     for did in (7, 8):
         export_to_hugo._DATASET_EXPORT_META_CACHE[did] = {"exportable": True, "result_count": 5}
@@ -1248,6 +1250,41 @@ def test_build_multi_metric_rows_respects_metrics_order():
     )
     assert metrics == ["gap", "mu"]
     assert rows[0]["metric_values"] == [0.05, 0.1]
+
+
+def test_build_multi_metric_rows_uses_override_std():
+    from types import SimpleNamespace
+
+    from backend.export_to_hugo import _build_multi_metric_rows
+
+    paper = SimpleNamespace(
+        arxiv_id="1234.5678",
+        title="Paper",
+        published_date="2024-01-01",
+        venue=None,
+        codebase_url="",
+    )
+    model = SimpleNamespace(canonical_name="GIN", model_type="gnn")
+    result = SimpleNamespace(
+        metric_name="gap",
+        metric_value=0.2,
+        metric_std=0.5,
+        display_value=0.1,
+        display_std=0.01,
+        higher_is_better=False,
+        is_baseline=True,
+        is_overridden=True,
+        override_reason="manual correction",
+        uses_external_data=0,
+        params_millions=None,
+        model=model,
+        paper=paper,
+    )
+
+    _metrics, _hib, rows = _build_multi_metric_rows([result], "gap")
+
+    assert rows[0]["metric_values"] == [0.1]
+    assert rows[0]["metric_stds"] == [0.01]
 
 
 def test_merged_metric_labels_for_qm9():

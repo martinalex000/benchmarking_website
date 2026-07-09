@@ -6,6 +6,9 @@ from backend.qm9_targets import normalize_qm9_metric
 from backend.results_parser import (
     _infer_zinc_variant,
     _load_variant_map,
+    normalize_percentage_metric,
+    parse_extracted_bool,
+    parse_optional_extracted_bool,
     parse_value_std,
     resolve_dataset_variant,
     resolve_dataset_variant_with_reason,
@@ -211,6 +214,35 @@ def test_infer_zinc_variant_uses_value_fallback_when_paper_mentions_both():
 def test_qm9_metric_normalization_via_module():
     assert normalize_qm9_metric("HOMO-LUMO gap") == "gap"
     assert normalize_qm9_metric("MAE") is None
+
+
+def test_percentage_normalization_does_not_treat_gap_as_ap():
+    val, std = normalize_percentage_metric("gap", 2.5, 0.1)
+    assert val == pytest.approx(2.5)
+    assert std == pytest.approx(0.1)
+
+
+@pytest.mark.parametrize(
+    ("metric", "value", "expected"),
+    [
+        ("AP", 44.2, 0.442),
+        ("mAP", 44.2, 0.442),
+        ("Accuracy", 91.0, 0.91),
+        ("Micro-F1", 72.5, 0.725),
+        ("Hits@50", 66.0, 0.66),
+    ],
+)
+def test_percentage_normalization_recognizes_percentage_metrics(metric, value, expected):
+    val, _std = normalize_percentage_metric(metric, value, None)
+    assert val == pytest.approx(expected)
+
+
+def test_parse_extracted_bool_handles_string_false():
+    assert parse_extracted_bool("False", default=True) is False
+    assert parse_extracted_bool("true", default=False) is True
+    assert parse_optional_extracted_bool("0") is False
+    assert parse_optional_extracted_bool("1") is True
+    assert parse_optional_extracted_bool("unknown") is None
 
 
 def test_ogb_dataset_alias_code2():

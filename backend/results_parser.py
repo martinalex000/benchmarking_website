@@ -85,18 +85,23 @@ def normalize_dataset_alias(dataset_name: str) -> str:
 # ── Metric normalisation ──────────────────────────────────────────────────────
 
 # Metrics that should be in [0, 1] but are sometimes reported as percentages
-# (e.g. 44.2 instead of 0.442).  Matched as a substring of the metric name,
-# case-insensitively.  MAE/RMSE/loss intentionally excluded.
-_PERCENTAGE_METRIC_SUBSTRINGS: tuple[str, ...] = (
-    "accuracy",
-    "acc",
-    "f1",
-    "ap",
-    "auc",  # covers AUC, ROC-AUC, AUC-ROC
-    "auroc",  # AUROC
-    "mrr",
-    "hits@",
+# (e.g. 44.2 instead of 0.442).  MAE/RMSE/loss intentionally excluded.
+_PERCENTAGE_METRIC_TOKENS: frozenset[str] = frozenset(
+    {
+        "accuracy",
+        "acc",
+        "f1",
+        "ap",
+        "map",
+        "auc",  # covers AUC, ROC-AUC, AUC-ROC
+        "auroc",  # AUROC
+        "mrr",
+    }
 )
+_PERCENTAGE_METRIC_PREFIXES: tuple[str, ...] = ("hits@",)
+
+_TRUE_STRINGS = frozenset({"true", "t", "yes", "y", "1"})
+_FALSE_STRINGS = frozenset({"false", "f", "no", "n", "0"})
 
 _ZINC_SUBSET_ALIASES: tuple[str, ...] = (
     "zinc",
@@ -160,7 +165,46 @@ class ParseStoreSummary:
 
 def _is_percentage_metric(metric_name: str) -> bool:
     key = metric_name.strip().lower()
-    return any(sub in key for sub in _PERCENTAGE_METRIC_SUBSTRINGS)
+    if any(key.startswith(prefix) for prefix in _PERCENTAGE_METRIC_PREFIXES):
+        return True
+    tokens = [token for token in re.split(r"[^a-z0-9@]+", key) if token]
+    return any(token in _PERCENTAGE_METRIC_TOKENS for token in tokens)
+
+
+def parse_extracted_bool(value: Any, *, default: bool) -> bool:
+    """Normalize bool-like extraction values without treating non-empty strings as true."""
+    if isinstance(value, bool):
+        return value
+    if value is None:
+        return default
+    if isinstance(value, (int, float)) and value in (0, 1):
+        return bool(value)
+    if isinstance(value, str):
+        key = value.strip().lower()
+        if key in _TRUE_STRINGS:
+            return True
+        if key in _FALSE_STRINGS:
+            return False
+    logger.warning("Could not parse boolean value %r; using default=%s", value, default)
+    return default
+
+
+def parse_optional_extracted_bool(value: Any) -> bool | None:
+    """Normalize optional bool-like extraction values; return None for unknown/missing."""
+    if value is None:
+        return None
+    if isinstance(value, bool):
+        return value
+    if isinstance(value, (int, float)) and value in (0, 1):
+        return bool(value)
+    if isinstance(value, str):
+        key = value.strip().lower()
+        if key in _TRUE_STRINGS:
+            return True
+        if key in _FALSE_STRINGS:
+            return False
+    logger.warning("Could not parse optional boolean value %r; using None", value)
+    return None
 
 
 def normalize_percentage_metric(
@@ -1012,9 +1056,16 @@ def parse_and_store_with_summary(arxiv_id: str) -> ParseStoreSummary:
                 type_lookup,
                 defaults=metadata_defaults,
             )
+            is_proposed = parse_extracted_bool(entry.get("is_proposed"), default=False)
+            uses_external_data = parse_optional_extracted_bool(entry.get("uses_external_data"))
+            higher_is_better = parse_extracted_bool(
+                entry.get("higher_is_better"),
+                default=True,
+            )
+
             model_id, created_model = resolve_or_create_model(
                 model_name,
-                is_proposed=entry.get("is_proposed", False),
+                is_proposed=is_proposed,
                 model_type=model_type,
                 session=session,
                 canonical_map=canonical_map,
@@ -1071,12 +1122,10 @@ def parse_and_store_with_summary(arxiv_id: str) -> ParseStoreSummary:
                 metric_name=metric_name,
                 metric_value=value,
                 metric_std=std,
-                higher_is_better=entry.get("higher_is_better", True),
-                is_baseline=not entry.get("is_proposed", False),
+                higher_is_better=higher_is_better,
+                is_baseline=not is_proposed,
                 uses_external_data=(
-                    1
-                    if entry.get("uses_external_data") is True
-                    else 0 if entry.get("uses_external_data") is False else None
+                    1 if uses_external_data is True else 0 if uses_external_data is False else None
                 ),
                 params_millions=params,
                 table_ref=entry.get("table_ref"),

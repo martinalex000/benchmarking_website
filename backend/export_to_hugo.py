@@ -67,7 +67,7 @@ from backend.paper_storage import PaperStorage
 from backend.qm9_targets import QM9_METRIC_LABELS, is_qm9_dataset, order_qm9_metrics
 from backend.text_cleanup import clean_extracted_text
 from backend.venue import conference_export_fields as _conference_export_fields
-from backend.venue import export_published_venue
+from backend.venue import export_published_venue, normalize_conference_short
 from backend.venue import publication_year as _publication_year
 
 logger = logging.getLogger(__name__)
@@ -146,6 +146,11 @@ def _comparison_source_date_label(venue: str | None, date_iso: str | None) -> st
     if conf["published_conference"]:
         return conf["published_conference"]
     return _publication_year(date_iso)
+
+
+def _normalize_conference(venue: str | None) -> str:
+    """Backward-compatible export helper for tests and scripts."""
+    return normalize_conference_short(venue)
 
 
 def _query_exportable_papers(session: Any, arxiv_ids: list[str] | None = None) -> list[Paper]:
@@ -2808,7 +2813,8 @@ def _build_multi_metric_rows(
         elif ued == 0 and groups[key]["uses_external_data"] is None:
             groups[key]["uses_external_data"] = False
         val = float(r.display_value) if r.display_value is not None else None
-        std = float(r.metric_std) if r.metric_std is not None else None
+        display_std = getattr(r, "display_std", r.metric_std)
+        std = float(display_std) if display_std is not None else None
         metric_name = r.metric_name
         existing = groups[key]["_vals"].get(metric_name)
         if existing is None:
