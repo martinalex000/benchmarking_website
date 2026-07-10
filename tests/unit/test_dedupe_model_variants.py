@@ -1,6 +1,7 @@
 """Tests for variant deduplication keyed by model identity."""
 
-from backend.llm_extractor import ResultEntry, _dedupe_result_entries
+from backend.llm_extractor import ResultEntry
+from backend.llm_postprocessing import _dedupe_result_entries
 
 
 def test_dedupe_keeps_distinct_proposed_models():

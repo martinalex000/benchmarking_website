@@ -20,7 +20,7 @@ if str(_PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(_PROJECT_ROOT))
 
 from backend.db import init_db, session_scope  # noqa: E402
-from backend.llm_extractor import fetch_semantic_scholar_published_date  # noqa: E402
+from backend.llm_metadata import fetch_semantic_scholar_published_date  # noqa: E402
 from backend.models import Paper  # noqa: E402
 
 logger = logging.getLogger(__name__)

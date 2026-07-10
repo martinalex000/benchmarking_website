@@ -6,7 +6,7 @@ import json
 from pathlib import Path
 
 from backend.config import cfg
-from backend.llm_extractor import _extract_metadata_from_latex_cache
+from backend.llm_metadata import _extract_metadata_from_latex_cache
 from backend.models import Paper
 from backend.paper_storage import PaperStorage
 from backend.results_parser import _enrich_paper_metadata
@@ -112,7 +112,7 @@ def test_enrich_paper_metadata_skips_arxiv_api_when_semantic_scholar_key_set(mon
         raise AssertionError("fetch_arxiv_metadata should not be called when S2 key is set")
 
     monkeypatch.setattr(
-        "backend.llm_extractor.fetch_arxiv_metadata",
+        "backend.llm_metadata.fetch_arxiv_metadata",
         _should_not_call,
     )
     monkeypatch.setattr(

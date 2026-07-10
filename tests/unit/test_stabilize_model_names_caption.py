@@ -1,6 +1,7 @@
 """Tests for caption-driven model variant merging during stabilization."""
 
-from backend.llm_extractor import ExtractionOutput, ResultEntry, _stabilize_model_names
+from backend.llm_extractor import ExtractionOutput, ResultEntry
+from backend.llm_postprocessing import _stabilize_model_names
 
 
 class _FakeTable:

@@ -2,12 +2,13 @@
 
 from types import SimpleNamespace
 
-from backend.llm_extractor import LLMExtractor, _sanitize_text
+from backend.llm_extractor import LLMExtractor
 from backend.llm_model_options import (
     context_limits_for_model,
     extraction_max_tokens_for_model,
     is_gpt_oss_model,
 )
+from backend.llm_postprocessing import _sanitize_text
 
 
 def test_is_gpt_oss_model_aliases():

@@ -9,7 +9,7 @@ from pathlib import Path
 from typing import Any
 
 from backend.config import cfg
-from backend.llm_extractor import (
+from backend.llm_postprocessing import (
     _canonical_model_name_key,
     _is_generic_proposed_name,
     _matches_proposed_model_name,

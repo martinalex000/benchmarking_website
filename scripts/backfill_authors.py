@@ -25,7 +25,7 @@ sys.path.insert(0, str(_project_root))
 
 from backend.config import cfg  # noqa: E402
 from backend.db import init_db, session_scope  # noqa: E402
-from backend.llm_extractor import _extract_metadata_from_latex_cache  # noqa: E402
+from backend.llm_metadata import _extract_metadata_from_latex_cache  # noqa: E402
 from backend.models import Paper, Result  # noqa: E402
 from backend.paper_storage import PaperStorage  # noqa: E402
 from backend.semantic_scholar import resolve_paper_authors  # noqa: E402

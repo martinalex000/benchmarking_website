@@ -3,10 +3,8 @@
 from types import SimpleNamespace
 
 from backend.dataset_stats_parsing import is_statistics_table
-from backend.llm_extractor import (
-    CallRecord,
-    DatasetInfo,
-    DatasetList,
+from backend.llm_extractor import CallRecord, DatasetInfo, DatasetList
+from backend.llm_tasks import (
     _dataset_statistics_extra_with_tables,
     _dataset_statistics_hint_block,
     _enrich_dataset_statistics_from_tables,

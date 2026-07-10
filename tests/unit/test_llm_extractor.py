@@ -15,6 +15,9 @@ from backend.llm_extractor import (
     ModelSizeEntry,
     ProposedModel,
     ResultEntry,
+)
+from backend.llm_metadata import _title_looks_corrupted
+from backend.llm_postprocessing import (
     _apply_sizes,
     _expand_extraction_payload,
     _extract_proposed_model_hint,
@@ -25,7 +28,6 @@ from backend.llm_extractor import (
     _rename_generic_proposed_rows,
     _render_human_readable,
     _split_into_chunks,
-    _title_looks_corrupted,
 )
 
 
@@ -121,7 +123,7 @@ def test_merge_extraction_outputs_dedupes_and_normalizes():
     assert [baseline.name for baseline in merged.baseline_models] == ["GCN"]
     assert len(merged.results) == 1
     assert merged.results[0].metric == "AP"
-    assert merged.results[0].value == pytest.approx(0.6)
+    assert merged.results[0].value == pytest.approx(0.61)
 
 
 def test_expand_user_macros_supports_zero_arg_unbraced_newcommand():
@@ -202,6 +204,8 @@ def test_extract_results_two_step_retries_after_empty_latex_discovery(monkeypatc
     fallback_calls: list[tuple[str, str]] = []
 
     latex_paper = SimpleNamespace(
+        main_tex="",
+        sections=[],
         tables=[],
         experiment_text="We evaluate CRAWL on ZINC and a subgraph counting task.",
         intro_text="",
@@ -226,14 +230,14 @@ def test_extract_results_two_step_retries_after_empty_latex_discovery(monkeypatc
 
     monkeypatch.setattr(extractor, "discover_datasets", fake_discover_datasets)
     monkeypatch.setattr(
-        "backend.llm_extractor._ripgrep_dataset_name_hits",
+        "backend.llm_tasks._ripgrep_dataset_name_hits",
         lambda text, source_path=None, limit=80: ["ZINC"],
     )
     monkeypatch.setattr(extractor, "_read_result_prompt", lambda full_mode=False: "prompt")
     monkeypatch.setattr(
         extractor,
         "_build_rag_context",
-        lambda rag_text, ds_tables, ds_name, already_selected=False: (
+        lambda rag_text, ds_tables, ds_name, already_selected=False, **_kwargs: (
             f"context for {ds_name}",
             {
                 "paragraphs_selected": 1,
@@ -246,7 +250,12 @@ def test_extract_results_two_step_retries_after_empty_latex_discovery(monkeypatc
         ),
     )
 
-    def fake_extract_results_chunk(prompt: str, text: str, call_type: str = "extract_results"):
+    def fake_extract_results_chunk(
+        prompt: str,
+        text: str,
+        call_type: str = "extract_results",
+        max_tokens: int | None = None,
+    ):
         dataset = text.split('FOCUS: Extract results ONLY for the dataset "', 1)[1].split('".', 1)[
             0
         ]

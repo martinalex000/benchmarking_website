@@ -54,11 +54,11 @@ from backend.llm_backends import (
 )
 from backend.llm_extractor import (
     CallRecord,
-    _print_call_progress,
     run_extraction,
     run_figure_detection,
 )
 from backend.llm_model_options import extra_body_for_model
+from backend.llm_tasks import _print_call_progress
 
 console = Console()
 
@@ -125,7 +125,9 @@ def _print_llm_backend_status(*, extraction_tier: str, do_screen: bool) -> None:
                 f"    [bold green]Local vLLM: reachable[/bold green] at "
                 f"[cyan]{local_probe.backend.endpoint}[/cyan]"
             )
-            console.print(f"    [green]Local models ({len(local_probe.model_ids)}):[/green] {model_list}")
+            console.print(
+                f"    [green]Local models ({len(local_probe.model_ids)}):[/green] {model_list}"
+            )
         else:
             console.print(
                 f"    [yellow]Local vLLM: not reachable at "
@@ -138,9 +140,7 @@ def _print_llm_backend_status(*, extraction_tier: str, do_screen: bool) -> None:
         if probe.backend.label == "local":
             continue
         status = "[green]reachable[/green]" if probe.reachable else "[yellow]not reachable[/yellow]"
-        console.print(
-            f"    External: {status} at [cyan]{probe.backend.endpoint}[/cyan]"
-        )
+        console.print(f"    External: {status} at [cyan]{probe.backend.endpoint}[/cyan]")
         if not probe.reachable and probe.error:
             console.print(f"    [dim]Reason: {probe.error}[/dim]")
 
@@ -279,7 +279,7 @@ def _pre_screen(arxiv_id: str, allow_arxiv_api: bool = True) -> bool:
         storage = PaperStorage(arxiv_id)
         if storage.latex_dir.exists():
             try:
-                from backend.llm_extractor import _extract_metadata_from_latex_cache
+                from backend.llm_metadata import _extract_metadata_from_latex_cache
 
                 meta = _extract_metadata_from_latex_cache(storage.latex_dir)
                 if meta.get("title"):
@@ -1340,7 +1340,7 @@ def main() -> None:
         s = PaperStorage(arxiv_id)
         if s.latex_dir.exists():
             try:
-                from backend.llm_extractor import _extract_metadata_from_latex_cache
+                from backend.llm_metadata import _extract_metadata_from_latex_cache
 
                 meta = _extract_metadata_from_latex_cache(s.latex_dir)
                 if meta.get("title"):

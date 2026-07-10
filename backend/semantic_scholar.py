@@ -208,7 +208,7 @@ def _cache_venue_metadata(
 def _venue_from_arxiv_metadata(arxiv_id: str) -> str:
     if cfg.skip_arxiv_metadata_api:
         return ""
-    from backend.llm_extractor import fetch_arxiv_metadata
+    from backend.llm_metadata import fetch_arxiv_metadata
 
     arxiv_meta = fetch_arxiv_metadata(arxiv_id)
     cache_updates: dict[str, str] = {}
@@ -399,7 +399,7 @@ def resolve_paper_authors(
         logger.warning("S2 author fetch failed for arXiv:%s: %s", arxiv_id, exc)
 
     try:
-        from backend.llm_extractor import fetch_arxiv_authors
+        from backend.llm_metadata import fetch_arxiv_authors
 
         arxiv_names = fetch_arxiv_authors(arxiv_id)
         if arxiv_names:
@@ -425,7 +425,7 @@ def _looks_like_latex_author_fallback(name: str) -> bool:
 def _resolve_authors(arxiv_id: str, storage) -> list[AuthorRecord]:
     latex_names: list[str] | None = None
     if storage.latex_dir.exists():
-        from backend.llm_extractor import _extract_metadata_from_latex_cache
+        from backend.llm_metadata import _extract_metadata_from_latex_cache
 
         latex_meta = _extract_metadata_from_latex_cache(storage.latex_dir)
         raw_names = latex_meta.get("authors")
@@ -440,7 +440,7 @@ def _resolve_published_date(arxiv_id: str, ss_meta: dict[str, str]) -> str:
     if published_date:
         return published_date[:10]
 
-    from backend.llm_extractor import fetch_arxiv_metadata
+    from backend.llm_metadata import fetch_arxiv_metadata
 
     arxiv_meta = fetch_arxiv_metadata(arxiv_id)
     published_date = str(arxiv_meta.get("published_date") or "").strip()

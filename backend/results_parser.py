@@ -679,7 +679,7 @@ def _enrich_paper_metadata(arxiv_id: str, paper: Paper, storage: PaperStorage) -
         except (ValueError, OSError):
             pass
 
-    from backend.llm_extractor import _title_looks_corrupted
+    from backend.llm_metadata import _title_looks_corrupted
 
     need_meta = not paper.abstract or abstract_has_artifacts or _title_looks_corrupted(paper.title)
 
@@ -706,7 +706,7 @@ def _enrich_paper_metadata(arxiv_id: str, paper: Paper, storage: PaperStorage) -
         # 2. Try cached LaTeX (expanded.tex)
         if need_meta and storage.latex_dir.exists():
             try:
-                from backend.llm_extractor import _extract_metadata_from_latex_cache
+                from backend.llm_metadata import _extract_metadata_from_latex_cache
 
                 latex_meta = _extract_metadata_from_latex_cache(storage.latex_dir)
                 if latex_meta.get("title"):
@@ -756,7 +756,7 @@ def _enrich_paper_metadata(arxiv_id: str, paper: Paper, storage: PaperStorage) -
 
         # arXiv Atom API when date/abstract still missing after Semantic Scholar.
         if (need_meta or need_daily_date) and (not cfg.semantic_scholar_api_key or need_daily_date):
-            from backend.llm_extractor import fetch_arxiv_metadata
+            from backend.llm_metadata import fetch_arxiv_metadata
 
             meta = fetch_arxiv_metadata(arxiv_id)
             if meta:
@@ -797,7 +797,7 @@ def _enrich_paper_metadata(arxiv_id: str, paper: Paper, storage: PaperStorage) -
         repo_source_text, repo_source_kind = repository_source_from_storage(storage)
         if repo_source_text:
             try:
-                from backend.llm_extractor import LLMExtractor
+                from backend.llm_tasks import LLMExtractor
 
                 verifier = (
                     LLMExtractor(model_tier="small")
@@ -839,7 +839,7 @@ def _enrich_paper_metadata(arxiv_id: str, paper: Paper, storage: PaperStorage) -
 
             latex_names: list[str] | None = None
             if storage.latex_dir.exists():
-                from backend.llm_extractor import _extract_metadata_from_latex_cache
+                from backend.llm_metadata import _extract_metadata_from_latex_cache
 
                 latex_meta = _extract_metadata_from_latex_cache(storage.latex_dir)
                 raw_names = latex_meta.get("authors")

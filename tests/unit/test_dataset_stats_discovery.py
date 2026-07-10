@@ -1,8 +1,7 @@
 """Unit tests for dataset statistics discovery helpers."""
 
-from backend.llm_extractor import (
-    DatasetInfo,
-    DatasetList,
+from backend.llm_extractor import DatasetInfo, DatasetList
+from backend.llm_tasks import (
     _apply_statistics_ripgrep_precheck,
     _merge_dataset_lists,
 )

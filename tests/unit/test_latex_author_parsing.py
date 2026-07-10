@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import json
 
-from backend.llm_extractor import _extract_metadata_from_latex_cache, _parse_author_names_from_latex
+from backend.llm_metadata import _extract_metadata_from_latex_cache, _parse_author_names_from_latex
 from backend.models import Paper, author_display_name, normalize_author_entry
 from backend.semantic_scholar import (
     fetch_author_external_ids,

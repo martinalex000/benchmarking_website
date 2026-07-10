@@ -60,9 +60,9 @@ from backend.llm_extractor import (
     ExtractionOutput,
     LLMExtractor,
     ResultEntry,
-    _dedupe_result_entries,
-    _slugify_label,
 )
+from backend.llm_postprocessing import _dedupe_result_entries
+from backend.llm_tasks import _slugify_label
 from backend.model_name_resolution import (
     normalize_model_name_for_resolution,
     strip_implementation_marker,
@@ -301,7 +301,7 @@ def _resolve_paper_title(arxiv_id: str) -> str:
 
     if storage.latex_dir.exists():
         try:
-            from backend.llm_extractor import _extract_metadata_from_latex_cache
+            from backend.llm_metadata import _extract_metadata_from_latex_cache
 
             meta = _extract_metadata_from_latex_cache(storage.latex_dir)
             title = str(meta.get("title") or "").strip()
@@ -321,7 +321,7 @@ def _resolve_paper_title(arxiv_id: str) -> str:
             pass
 
     try:
-        from backend.llm_extractor import fetch_arxiv_metadata
+        from backend.llm_metadata import fetch_arxiv_metadata
 
         meta = fetch_arxiv_metadata(arxiv_id)
         title = str(meta.get("title") or "").strip()
@@ -487,9 +487,7 @@ def _compare_experiment_label(model_id: str, *, oneshot: bool = False) -> str:
 
 def _compare_artifact_dir(arxiv_id: str, model_id: str, *, oneshot: bool = False) -> Path:
     label = _compare_experiment_label(model_id, oneshot=oneshot)
-    return (
-        PaperStorage(arxiv_id).extracted_dir / "experiments" / _slugify_label(label)
-    )
+    return PaperStorage(arxiv_id).extracted_dir / "experiments" / _slugify_label(label)
 
 
 def _read_llm_output_file(artifact_dir: Path) -> dict | None:
@@ -735,9 +733,13 @@ def _plan_compare_jobs(
     plan_rows: list[_RunPlanRow] = []
     cached_by_pair: set[tuple[str, str]] = set()
 
-    for pid, (paper_text, structured_tables, baseline, latex_paper, paper_title) in (
-        paper_inputs.items()
-    ):
+    for pid, (
+        paper_text,
+        structured_tables,
+        baseline,
+        latex_paper,
+        paper_title,
+    ) in paper_inputs.items():
         for model in test_models:
             forced = _model_is_forced(model, opts)
             hit = None if forced else _cache_hit(model, pid)
@@ -821,7 +823,9 @@ def _plan_compare_jobs(
     return llm_jobs, cached, plan_rows
 
 
-def _render_run_plan_table(plan_rows: list[_RunPlanRow], model_routes: dict[str, ModelRoute]) -> None:
+def _render_run_plan_table(
+    plan_rows: list[_RunPlanRow], model_routes: dict[str, ModelRoute]
+) -> None:
     if not plan_rows:
         return
     table = Table(title="Run plan", box=box.SIMPLE, show_header=True)
@@ -1194,9 +1198,7 @@ def _run_experiment_jobs(
     ctx = opts.baseline_ctx or _BaselineContext()
     opts.baseline_ctx = ctx
 
-    pool: list[tuple[str, _BaselineJob | CompareJob]] = [
-        ("baseline", job) for job in baseline_jobs
-    ]
+    pool: list[tuple[str, _BaselineJob | CompareJob]] = [("baseline", job) for job in baseline_jobs]
     for job in compare_jobs:
         pool.append(("compare", job))
 
@@ -1404,9 +1406,7 @@ def _run_full_extraction(
         figures_list,
         paper_title,
         paper_abstract,
-    ) = _load_extraction_context(
-        arxiv_id, paper_text, structured_tables, latex_paper, paper_title
-    )
+    ) = _load_extraction_context(arxiv_id, paper_text, structured_tables, latex_paper, paper_title)
 
     extractor = LLMExtractor.__new__(LLMExtractor)
     extractor.model_name = model_name
@@ -1444,7 +1444,14 @@ def _run_full_extraction(
         duration = time.perf_counter() - start
         out = _parse_extraction_output(output)
         if out is None:
-            return None, duration, "could not parse extraction output", extractor._call_log, None, None
+            return (
+                None,
+                duration,
+                "could not parse extraction output",
+                extractor._call_log,
+                None,
+                None,
+            )
         if experiment_label:
             artifact_dir = (
                 PaperStorage(arxiv_id).extracted_dir
@@ -2199,7 +2206,9 @@ def _format_backend_badge(backend: str) -> str:
     return "[cyan]external[/cyan]"
 
 
-def _print_models_grouped(model_ids: list[str], routes: dict[str, ModelRoute], *, title: str) -> None:
+def _print_models_grouped(
+    model_ids: list[str], routes: dict[str, ModelRoute], *, title: str
+) -> None:
     local_models = [m for m in model_ids if is_local_model(m, routes)]
     external_models = [m for m in model_ids if m in routes and not is_local_model(m, routes)]
 
@@ -2711,10 +2720,7 @@ def main(argv: list[str] | None = None) -> int:
             )
             for model in test_models
         ]
-        if len(paper_ids) == 1:
-            traces_header = f"Traces ({paper_ids[0]})"
-        else:
-            traces_header = "Traces (papers)"
+        traces_header = f"Traces ({paper_ids[0]})" if len(paper_ids) == 1 else "Traces (papers)"
         trace_footer = None
         if any(cell != "[dim]—[/dim]" for cell in trace_cells):
             trace_footer = (
@@ -2986,9 +2992,13 @@ def main(argv: list[str] | None = None) -> int:
     # ── Save JSON output ──────────────────────────────────────────────────
     out_path: Path | None = None
     if not args.no_output:
-        out_path = Path(args.output) if args.output else (
-            Path("experiments/compare_models")
-            / f"{datetime.now(UTC).strftime('%Y%m%dT%H%M%SZ')}.json"
+        out_path = (
+            Path(args.output)
+            if args.output
+            else (
+                Path("experiments/compare_models")
+                / f"{datetime.now(UTC).strftime('%Y%m%dT%H%M%SZ')}.json"
+            )
         )
     if out_path is not None:
         out_path.parent.mkdir(parents=True, exist_ok=True)

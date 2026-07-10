@@ -1,6 +1,7 @@
 """Tests for result-row deduplication after model-name normalization."""
 
-from backend.llm_extractor import ResultEntry, _dedupe_result_entries
+from backend.llm_extractor import ResultEntry
+from backend.llm_postprocessing import _dedupe_result_entries
 
 
 def test_dedupe_result_entries_keeps_better_value():

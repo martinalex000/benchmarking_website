@@ -34,7 +34,7 @@ if str(_PROJECT_ROOT) not in sys.path:
 
 from backend.config import cfg  # noqa: E402
 from backend.db import init_db, session_scope  # noqa: E402
-from backend.llm_extractor import _extract_metadata_from_latex_cache  # noqa: E402
+from backend.llm_metadata import _extract_metadata_from_latex_cache  # noqa: E402
 from backend.models import Paper, Result  # noqa: E402
 from backend.paper_storage import PaperStorage  # noqa: E402
 from backend.s2_todo_crawl import (  # noqa: E402

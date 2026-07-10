@@ -6,21 +6,18 @@ import logging
 from collections.abc import Callable
 from datetime import UTC, datetime
 
+from openai import APIStatusError, RateLimitError
+
 from backend.config import cfg
 from backend.db import init_db, session_scope
-from backend.llm_extractor import (
-    APIStatusError,
-    CallRecord,
-    FigureInfo,
-    LLMExtractor,
-    RateLimitError,
+from backend.llm_metadata import (
     _extract_metadata_from_latex_cache,
-    _print_call_progress,
     _title_looks_corrupted,
-    _update_status,
-    display_name_for_model,
     fetch_arxiv_metadata,
 )
+from backend.llm_model_options import display_name_for_model
+from backend.llm_tasks import LLMExtractor, _print_call_progress, _update_status
+from backend.llm_types import CallRecord, FigureInfo
 from backend.models import Paper, PipelineRun
 from backend.paper_storage import PaperStorage
 from backend.text_cleanup import abstract_has_latex_artifacts, clean_extracted_text
