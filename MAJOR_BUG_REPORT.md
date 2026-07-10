@@ -79,3 +79,33 @@ Tests: regression coverage added for replacing a bad stored codebase URL.
 Bug: value comparison checked each std independently rather than combined uncertainty.
 Fix: comparison now treats differences inside the summed uncertainty as not significant.
 Tests: regression coverage added for overlapping combined-std intervals.
+
+## 17. Empty dataset slugs can delete generated dataset content
+Bug: empty slugs let dataset export cleanup target generated dataset root directories.
+Fix: dataset/variant slugs now fall back to stable IDs, and cleanup refuses roots/invalid slugs.
+Tests: regression coverage added for root-deletion refusal, empty data slugs, and invalid JSON slugs.
+
+## 18. Re-parsing results preserves stale nullable fields
+Bug: duplicate result updates only filled nullable fields and preserved stale std/external-data/param values.
+Fix: duplicate updates now reflect current extraction values, including clearing stale nullable fields.
+Tests: regression coverage added for clearing std, external-data, and parameter fields.
+
+## 19. Database-backed arXiv IDs can still escape paper storage
+Bug: raw database/todo arXiv IDs could still be joined into `papers/` paths by shared storage helpers.
+Fix: `PaperStorage` now validates IDs at construction, and the dashboard uses it instead of manual path joins.
+Tests: regression coverage added for rejecting unsafe storage IDs and normalizing versioned IDs.
+
+## 20. Primary arXiv PDF downloader has no 200 MB limit
+Bug: the primary arXiv PDF downloader streamed unbounded responses to disk.
+Fix: PDF downloads now enforce a 200 MB `Content-Length` and streaming byte limit with partial-file cleanup.
+Tests: regression coverage added for declared and streamed over-limit PDF responses.
+
+## 21. LaTeX source downloader reads unbounded responses into memory
+Bug: LaTeX source downloads read the full response into memory without a limit.
+Fix: source downloads now use bounded chunked reads plus archive member and expanded-size limits.
+Tests: regression coverage added for declared and streamed over-limit source responses.
+
+## 22. PDF parsing extracts unbounded embedded images
+Bug: PDF parsing had no limits on PDF size, page count, image count, or extracted image bytes.
+Fix: parsing now enforces size/page/image-count/image-byte caps before continuing.
+Tests: regression coverage added for large-PDF and too-many-pages rejection.

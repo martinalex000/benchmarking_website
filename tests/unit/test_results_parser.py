@@ -2,10 +2,12 @@
 
 import pytest
 
+from backend.models import Result
 from backend.qm9_targets import normalize_qm9_metric
 from backend.results_parser import (
     _infer_zinc_variant,
     _load_variant_map,
+    _update_result,
     normalize_percentage_metric,
     parse_extracted_bool,
     parse_optional_extracted_bool,
@@ -42,6 +44,31 @@ def test_parse_none():
 def test_parse_invalid_string():
     val, std = parse_value_std("n/a")
     assert val is None
+
+
+def test_update_result_clears_stale_nullable_fields():
+    result = Result(
+        metric_value=0.8,
+        metric_std=0.02,
+        uses_external_data=1,
+        params_millions=12.5,
+        extraction_model="old-model",
+    )
+
+    changed = _update_result(
+        result,
+        {"value": 0.81, "uses_external_data": None},
+        "new-model",
+        params_millions=None,
+        params_present=True,
+    )
+
+    assert changed is True
+    assert result.metric_value == pytest.approx(0.81)
+    assert result.metric_std is None
+    assert result.uses_external_data is None
+    assert result.params_millions is None
+    assert result.extraction_model == "new-model"
 
 
 def test_parse_integer():

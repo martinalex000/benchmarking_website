@@ -27,7 +27,7 @@ from pathlib import Path
 
 import yaml
 
-from backend.config import cfg
+from backend.config import cfg, normalize_arxiv_id
 
 logger = logging.getLogger(__name__)
 
@@ -82,8 +82,8 @@ class PaperStorage:
     """Manages the folder structure for a single paper."""
 
     def __init__(self, arxiv_id: str, papers_root: Path | None = None) -> None:
-        self.arxiv_id = arxiv_id
-        self.root = (papers_root or cfg.papers_dir) / arxiv_id
+        self.arxiv_id = normalize_arxiv_id(arxiv_id)
+        self.root = (papers_root or cfg.papers_dir) / self.arxiv_id
         self.html_dir = self.root / "html"
         self.extracted_dir = self.root / "extracted"
         self.figures_dir = self.root / "figures"

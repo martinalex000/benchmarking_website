@@ -47,6 +47,10 @@ _REQUEST_HEADERS = {
     "User-Agent": "Mozilla/5.0 (compatible; GraphBenchBot/1.0)",
     "Accept-Encoding": "identity",  # prevent gzip so we can sniff magic bytes
 }
+MAX_SOURCE_DOWNLOAD_BYTES = 200 * 1024 * 1024
+MAX_EXPANDED_SOURCE_BYTES = 500 * 1024 * 1024
+MAX_SOURCE_ARCHIVE_MEMBERS = 5000
+_DOWNLOAD_CHUNK_SIZE = 1024 * 1024
 
 # Section levels we track, in order of specificity
 _SECTION_LEVELS = ("section", "subsection", "subsubsection", "paragraph")
@@ -235,7 +239,7 @@ def download_and_parse(
     try:
         req = urllib.request.Request(url, headers=_REQUEST_HEADERS)
         with urllib.request.urlopen(req, timeout=90) as resp:  # nosec B310
-            src_bytes = resp.read()
+            src_bytes = _read_limited_response(resp, arxiv_id)
     except Exception as exc:
         logger.warning("Could not download LaTeX source for %s: %s", arxiv_id, exc)
         return None
@@ -256,6 +260,33 @@ def download_and_parse(
 
 
 # ── Download helpers ───────────────────────────────────────────────────────────
+
+
+def _read_limited_response(resp, arxiv_id: str) -> bytes:
+    """Read an HTTP response with an explicit in-memory size limit."""
+    content_length = resp.headers.get("Content-Length")
+    if content_length is not None:
+        try:
+            if int(content_length) > MAX_SOURCE_DOWNLOAD_BYTES:
+                raise ValueError(f"LaTeX source for {arxiv_id} exceeds 200 MB download limit")
+        except ValueError as exc:
+            if "exceeds" in str(exc):
+                raise
+            logger.warning(
+                "Ignoring invalid source Content-Length for %s: %r", arxiv_id, content_length
+            )
+
+    chunks: list[bytes] = []
+    total = 0
+    while True:
+        chunk = resp.read(_DOWNLOAD_CHUNK_SIZE)
+        if not chunk:
+            break
+        total += len(chunk)
+        if total > MAX_SOURCE_DOWNLOAD_BYTES:
+            raise ValueError(f"LaTeX source for {arxiv_id} exceeds 200 MB download limit")
+        chunks.append(chunk)
+    return b"".join(chunks)
 
 
 def _expand_source(arxiv_id: str, src_bytes: bytes) -> str | None:
@@ -301,8 +332,16 @@ def _extract_tarball(src_bytes: bytes, dest: Path, arxiv_id: str) -> Path | None
     """Extract tarball to dest and return path to the main .tex file."""
     try:
         with tarfile.open(fileobj=io.BytesIO(src_bytes)) as tar:
+            members = tar.getmembers()
+            if len(members) > MAX_SOURCE_ARCHIVE_MEMBERS:
+                raise ValueError(
+                    f"Source archive for {arxiv_id} has too many files: {len(members)}"
+                )
+            total_size = sum(member.size for member in members if member.isfile())
+            if total_size > MAX_EXPANDED_SOURCE_BYTES:
+                raise ValueError(f"Source archive for {arxiv_id} expands beyond 500 MB")
             tar.extractall(dest, filter="data")  # Python 3.12+ safe extraction
-    except tarfile.TarError as exc:
+    except (tarfile.TarError, ValueError) as exc:
         logger.warning("Tarball extraction failed for %s: %s", arxiv_id, exc)
         return None
     return _find_main_tex(dest)

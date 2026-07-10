@@ -478,6 +478,7 @@ def _build_metadata_lookups(
         if not name:
             return
         key = name.strip().lower()
+        sizes_lookup[key] = None
         if params is not None:
             with contextlib.suppress(TypeError, ValueError):
                 sizes_lookup[key] = float(params)
@@ -1055,6 +1056,7 @@ def parse_and_store_with_summary(arxiv_id: str) -> ParseStoreSummary:
                 )
 
             params = sizes_lookup.get(model_name.lower())
+            params_present = model_name.lower() in sizes_lookup
             model_type = lookup_model_type(
                 model_name,
                 type_lookup,
@@ -1099,7 +1101,13 @@ def parse_and_store_with_summary(arxiv_id: str) -> ParseStoreSummary:
                 continue
             if existing:
                 # Update in-place
-                changed = _update_result(existing, entry, model_name_used, params_millions=params)
+                changed = _update_result(
+                    existing,
+                    entry,
+                    model_name_used,
+                    params_millions=params,
+                    params_present=params_present,
+                )
                 existing.variant_inference_reason = variant_reason
                 if changed:
                     summary.updated_results += 1
@@ -1202,22 +1210,25 @@ def _update_result(
     entry: dict,
     model_name_used: str,
     params_millions: float | None = None,
+    params_present: bool = False,
 ) -> bool:
     changed = False
     value, std = _parse_entry_value(entry)
     if value is not None and result.metric_value != value:
         result.metric_value = value
         changed = True
-    if std is not None and result.metric_std != std:
+    if value is not None and result.metric_std != std:
         result.metric_std = std
         changed = True
-    if "uses_external_data" in entry and result.uses_external_data is None:
-        ued = entry["uses_external_data"]
-        result.uses_external_data = 1 if ued is True else 0 if ued is False else None
+    if "uses_external_data" in entry:
+        ued = parse_optional_extracted_bool(entry.get("uses_external_data"))
+        new_uses_external_data = 1 if ued is True else 0 if ued is False else None
+        if result.uses_external_data != new_uses_external_data:
+            result.uses_external_data = new_uses_external_data
+            changed = True
+    if params_present and result.params_millions != params_millions:
         changed = True
-    if params_millions is not None and result.params_millions is None:
         result.params_millions = params_millions
-        changed = True
     if result.extraction_model != model_name_used:
         result.extraction_model = model_name_used
         changed = True

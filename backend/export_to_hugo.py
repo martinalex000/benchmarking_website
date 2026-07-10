@@ -140,6 +140,16 @@ def _slug(name: str) -> str:
     return re.sub(r"[^a-z0-9]+", "-", name.strip().lower()).strip("-")
 
 
+def _is_valid_slug(slug: str) -> bool:
+    return bool(slug) and re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", slug) is not None
+
+
+def _slug_or_fallback(name: str, fallback: str) -> str:
+    """Return a URL-safe slug, falling back for names with no slug-safe characters."""
+    slug = _slug(name)
+    return slug if _is_valid_slug(slug) else fallback
+
+
 def _comparison_source_date_label(venue: str | None, date_iso: str | None) -> str:
     """Parenthetical label for best-at-pub / best-today source papers, e.g. ``NeurIPS 2024``."""
     conf = _conference_export_fields(venue, date_iso)
@@ -1135,7 +1145,11 @@ def _is_relative_to(path: Path, parent: Path) -> bool:
 def _remove_hugo_content_dir(path: Path) -> bool:
     """Remove a generated Hugo content directory if it exists."""
     allowed_roots = (_CONTENT / "papers", _CONTENT / "datasets")
-    if not any(_is_relative_to(path, root) for root in allowed_roots):
+    resolved_path = path.resolve()
+    resolved_roots = tuple(root.resolve() for root in allowed_roots)
+    if resolved_path in resolved_roots or not any(
+        _is_relative_to(resolved_path, root) for root in resolved_roots
+    ):
         logger.warning("Refusing to remove path outside generated content roots: %s", path)
         return False
     if path.is_dir():
@@ -1146,6 +1160,9 @@ def _remove_hugo_content_dir(path: Path) -> bool:
 
 def _remove_dataset_data_dir(dataset_slug: str) -> None:
     """Remove exported JSON payloads for a dataset."""
+    if not _is_valid_slug(dataset_slug):
+        logger.warning("Refusing to remove dataset data dir for invalid slug: %r", dataset_slug)
+        return
     data_dir = _DATASETS_DATA_DIR / dataset_slug
     if not _is_relative_to(data_dir, _DATASETS_DATA_DIR):
         logger.warning("Refusing to remove dataset data dir outside data root: %s", data_dir)
@@ -1235,6 +1252,10 @@ def _write_dataset_variant_json_files(
     primary_metric: str,
     higher_is_better: bool,
 ) -> tuple[str, str]:
+    if not _is_valid_slug(dataset_slug):
+        raise ValueError(f"Invalid dataset slug: {dataset_slug!r}")
+    if not _is_valid_slug(variant_slug):
+        raise ValueError(f"Invalid dataset variant slug: {variant_slug!r}")
     out_dir = _DATASETS_DATA_DIR / dataset_slug
     out_dir.mkdir(parents=True, exist_ok=True)
     rows_rel = f"/data/datasets/{dataset_slug}/{variant_slug}-rows.json"
@@ -2911,7 +2932,7 @@ def _export_dataset_impl(session: Session, dataset_id: int) -> bool:
     if ds is None:
         return False
 
-    dataset_slug = _slug(ds.name)
+    dataset_slug = _slug_or_fallback(ds.name, f"dataset-{dataset_id}")
     out_dir = _CONTENT / "datasets" / dataset_slug
 
     variants = session.query(DatasetVariant).filter_by(dataset_id=dataset_id).all()
@@ -2960,9 +2981,10 @@ def _export_dataset_impl(session: Session, dataset_id: int) -> bool:
             continue
 
         if not all_results:
+            variant_slug = _slug_or_fallback(v.name, f"variant-{v.id}")
             variant_data.append(
                 {
-                    "slug": _slug(v.name),
+                    "slug": variant_slug,
                     "name": v.name,
                     "notes": v.notes or "",
                     "is_standard": bool(v.is_standard),
@@ -3029,10 +3051,11 @@ def _export_dataset_impl(session: Session, dataset_id: int) -> bool:
 
         rows_json = ""
         chart_json = ""
+        variant_slug = _slug_or_fallback(v.name, f"variant-{v.id}")
         if rows:
             rows_json, chart_json = _write_dataset_variant_json_files(
                 dataset_slug,
-                _slug(v.name),
+                variant_slug,
                 rows,
                 metrics_ordered,
                 metric,
@@ -3045,7 +3068,7 @@ def _export_dataset_impl(session: Session, dataset_id: int) -> bool:
 
         variant_data.append(
             {
-                "slug": _slug(v.name),
+                "slug": variant_slug,
                 "name": v.name,
                 "notes": v.notes or "",
                 "is_standard": bool(v.is_standard),
@@ -3201,11 +3224,14 @@ def _export_benchmarks_data_impl(session: Session) -> None:
             datasets_info.append(
                 {
                     "name": ds.name,
-                    "slug": _slug(ds.name),
+                    "slug": _slug_or_fallback(ds.name, f"dataset-{ds.id}"),
                     "task_type": ds.task_type or "",
                     "result_count": ds_result_counts.get(ds.id, 0),
                     "recent_result_count": ds_recent_result_counts.get(ds.id, 0),
-                    "variants": [{"name": v.name, "slug": _slug(v.name)} for v in variants],
+                    "variants": [
+                        {"name": v.name, "slug": _slug_or_fallback(v.name, f"variant-{v.id}")}
+                        for v in variants
+                    ],
                 }
             )
         data.append(
@@ -3319,7 +3345,7 @@ def export_all(
                 ds_ok += 1
                 ds = session.query(Dataset).filter_by(id=did).first()
                 if ds is not None:
-                    exported_dataset_slugs.add(_slug(ds.name))
+                    exported_dataset_slugs.add(_slug_or_fallback(ds.name, f"dataset-{ds.id}"))
         timings["datasets"] = time.perf_counter() - t0
 
         benchmarks = session.query(Benchmark).all()

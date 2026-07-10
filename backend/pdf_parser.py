@@ -13,6 +13,11 @@ from pathlib import Path
 
 logger = logging.getLogger(__name__)
 
+MAX_PDF_PARSE_BYTES = 200 * 1024 * 1024
+MAX_PDF_PARSE_PAGES = 200
+MAX_EXTRACTED_IMAGES = 200
+MAX_EXTRACTED_IMAGE_BYTES = 200 * 1024 * 1024
+
 
 @dataclass
 class ParsedPDFPaper:
@@ -33,9 +38,16 @@ def parse_pdf_paper(pdf_path: Path, images_dir: Path | None = None) -> ParsedPDF
         raise RuntimeError("PyMuPDF is not installed. Run: uv add pymupdf") from exc
 
     result = ParsedPDFPaper()
+    if pdf_path.stat().st_size > MAX_PDF_PARSE_BYTES:
+        raise ValueError(f"PDF exceeds 200 MB parse limit: {pdf_path}")
 
     doc = fitz.open(str(pdf_path))
+    if len(doc) > MAX_PDF_PARSE_PAGES:
+        doc.close()
+        raise ValueError(f"PDF exceeds {MAX_PDF_PARSE_PAGES} page parse limit: {pdf_path}")
     page_texts: list[str] = []
+    extracted_image_count = 0
+    extracted_image_bytes = 0
 
     for page_num, page in enumerate(doc):
         width = page.rect.width
@@ -74,14 +86,24 @@ def parse_pdf_paper(pdf_path: Path, images_dir: Path | None = None) -> ParsedPDF
             images_dir.mkdir(parents=True, exist_ok=True)
             image_list = page.get_images(full=True)
             for img_idx, img_info in enumerate(image_list):
+                if extracted_image_count >= MAX_EXTRACTED_IMAGES:
+                    doc.close()
+                    raise ValueError(f"PDF exceeds {MAX_EXTRACTED_IMAGES} embedded image limit")
                 xref = img_info[0]
                 try:
                     base_image = doc.extract_image(xref)
                     img_bytes = base_image["image"]
+                    extracted_image_bytes += len(img_bytes)
+                    if extracted_image_bytes > MAX_EXTRACTED_IMAGE_BYTES:
+                        raise ValueError("PDF embedded images exceed 200 MB extraction limit")
                     ext = base_image["ext"]
                     img_path = images_dir / f"page{page_num + 1:03d}_img{img_idx:02d}.{ext}"
                     img_path.write_bytes(img_bytes)
                     result.image_paths.append(img_path)
+                    extracted_image_count += 1
+                except ValueError:
+                    doc.close()
+                    raise
                 except Exception as exc:
                     logger.debug(
                         "Could not extract image xref=%d on page %d: %s", xref, page_num + 1, exc

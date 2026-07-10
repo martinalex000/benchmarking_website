@@ -35,6 +35,8 @@ HEADERS = {
     )
 }
 
+MAX_PDF_DOWNLOAD_BYTES = 200 * 1024 * 1024
+
 
 @retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=2, min=5, max=60), reraise=True)
 def _get(url: str, stream: bool = False, timeout: int = 60) -> requests.Response:
@@ -84,11 +86,33 @@ def _download_pdf(arxiv_id: str, storage: PaperStorage) -> int | None:
     url = ARXIV_PDF_URL.format(arxiv_id=arxiv_id)
     resp = _get(url, stream=True)
     version = _detect_version(resp)
+    content_length = resp.headers.get("Content-Length")
+    if content_length is not None:
+        try:
+            if int(content_length) > MAX_PDF_DOWNLOAD_BYTES:
+                raise ValueError(f"PDF for arXiv:{arxiv_id} exceeds 200 MB download limit")
+        except ValueError as exc:
+            if "exceeds" in str(exc):
+                raise
+            logger.warning(
+                "Ignoring invalid Content-Length for arXiv:%s: %r", arxiv_id, content_length
+            )
 
     storage.root.mkdir(parents=True, exist_ok=True)
-    with storage.pdf_path.open("wb") as fh:
-        for chunk in resp.iter_content(chunk_size=8192):
-            fh.write(chunk)
+    downloaded = 0
+    try:
+        with storage.pdf_path.open("wb") as fh:
+            for chunk in resp.iter_content(chunk_size=8192):
+                if not chunk:
+                    continue
+                downloaded += len(chunk)
+                if downloaded > MAX_PDF_DOWNLOAD_BYTES:
+                    raise ValueError(f"PDF for arXiv:{arxiv_id} exceeds 200 MB download limit")
+                fh.write(chunk)
+    except Exception:
+        if storage.pdf_path.exists():
+            storage.pdf_path.unlink()
+        raise
 
     size_kb = storage.pdf_path.stat().st_size // 1024
     logger.info("Downloaded PDF for arXiv:%s (%d KB, version=%s)", arxiv_id, size_kb, version)

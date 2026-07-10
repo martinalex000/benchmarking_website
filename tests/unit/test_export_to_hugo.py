@@ -36,6 +36,7 @@ from backend.export_to_hugo import (
     _plain_model,
     _publication_year,
     _rank_for_value,
+    _remove_dataset_data_dir,
     _remove_hugo_content_dir,
     _resolve_global_rank,
     _sanitize_model,
@@ -879,6 +880,41 @@ def test_remove_hugo_content_dir_refuses_paths_outside_content_roots(monkeypatch
 
     assert _remove_hugo_content_dir(outside) is False
     assert outside.exists()
+
+
+def test_remove_hugo_content_dir_refuses_generated_roots(monkeypatch, tmp_path):
+    content = tmp_path / "content"
+    datasets_root = content / "datasets"
+    datasets_root.mkdir(parents=True)
+    monkeypatch.setattr("backend.export_to_hugo._CONTENT", content)
+
+    assert _remove_hugo_content_dir(datasets_root) is False
+    assert datasets_root.exists()
+
+
+def test_remove_dataset_data_dir_refuses_empty_slug(monkeypatch, tmp_path):
+    datasets_root = tmp_path / "static" / "data" / "datasets"
+    datasets_root.mkdir(parents=True)
+    keep = datasets_root / "keep.json"
+    keep.write_text("{}", encoding="utf-8")
+    monkeypatch.setattr("backend.export_to_hugo._DATASETS_DATA_DIR", datasets_root)
+
+    _remove_dataset_data_dir("")
+
+    assert keep.exists()
+
+
+def test_write_dataset_variant_json_files_rejects_empty_slugs(monkeypatch, tmp_path):
+    monkeypatch.setattr(
+        "backend.export_to_hugo._DATASETS_DATA_DIR",
+        tmp_path / "static" / "data" / "datasets",
+    )
+
+    with pytest.raises(ValueError):
+        _write_dataset_variant_json_files("", "standard", [], ["Accuracy"], "Accuracy", True)
+
+    with pytest.raises(ValueError):
+        _write_dataset_variant_json_files("cora", "", [], ["Accuracy"], "Accuracy", True)
 
 
 def test_export_paper_removes_stale_content_when_no_results(monkeypatch, tmp_path):

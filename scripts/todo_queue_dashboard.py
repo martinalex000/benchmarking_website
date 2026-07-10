@@ -472,9 +472,12 @@ def _trim(text: str, max_len: int) -> str:
 
 def _dataset_breakdown_from_output(arxiv_id: str) -> str:
     """Return datasets sorted by extracted row count (descending)."""
-    output_path = (
-        Path(__file__).resolve().parents[1] / "papers" / arxiv_id / "extracted" / "llm_output.yaml"
-    )
+    try:
+        from backend.paper_storage import PaperStorage
+
+        output_path = PaperStorage(arxiv_id).llm_output_yaml_path
+    except ValueError:
+        return ""
     if not output_path.exists():
         return ""
 
@@ -1015,9 +1018,7 @@ def _should_close_peek(inp: str) -> bool:
         return True
     if inp in ("\x1b[", "\x1b\\"):
         return True
-    if inp.startswith("\x1b[") and inp.endswith("Z"):
-        return True
-    return False
+    return inp.startswith("\x1b[") and inp.endswith("Z")
 
 
 def _special_key(inp: str) -> str | None:
@@ -1034,7 +1035,12 @@ def _handle_mouse_press(dash: DashboardState, seq: str) -> None:
     match = MOUSE_SGR_RE.search(seq)
     if match is None:
         return
-    btn, _col, row, action = match.group(1), int(match.group(2)), int(match.group(3)), match.group(4)
+    btn, _col, row, action = (
+        match.group(1),
+        int(match.group(2)),
+        int(match.group(3)),
+        match.group(4),
+    )
     if action not in {"M", "m"} or btn not in {"0", "32"}:
         return
 
