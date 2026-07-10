@@ -58,3 +58,11 @@ def test_resolve_dataset_variant_quiet_supports_fuzzy_match():
 
 def test_resolve_dataset_variant_quiet_returns_none_for_unknown_dataset():
     assert resolve_dataset_variant_quiet("unknown dataset", {}) is None
+
+
+def test_resolve_dataset_variant_quiet_does_not_cross_ogb_graph_families():
+    molpcba = _FakeVariant("Standard split", "ogbg-molpcba")
+    citation2 = _FakeVariant("Standard split", "ogbl-citation2")
+
+    assert resolve_dataset_variant_quiet("ogbg-ppa", {"ogbg-molpcba": molpcba}) is None
+    assert resolve_dataset_variant_quiet("ogbl-ppa", {"ogbl-citation2": citation2}) is None

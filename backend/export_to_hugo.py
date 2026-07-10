@@ -37,7 +37,7 @@ from backend.at_pub_timeline import (
 )
 from backend.at_pub_timeline import model_key as _model_key
 from backend.baseline_aggregator import get_best_results_over_time_for_metrics
-from backend.config import cfg
+from backend.config import cfg, normalize_arxiv_id
 from backend.db import init_db, session_scope
 from backend.export_helpers import has_paper_value_gap as _has_paper_value_gap
 from backend.export_helpers import plain_model as _plain_model
@@ -1124,8 +1124,20 @@ def _write_md(path: Path, front_matter: dict, body: str = "") -> None:
     path.write_text(f"---\n{fm_str}---\n\n{body}", encoding="utf-8")
 
 
+def _is_relative_to(path: Path, parent: Path) -> bool:
+    try:
+        path.resolve().relative_to(parent.resolve())
+        return True
+    except ValueError:
+        return False
+
+
 def _remove_hugo_content_dir(path: Path) -> bool:
     """Remove a generated Hugo content directory if it exists."""
+    allowed_roots = (_CONTENT / "papers", _CONTENT / "datasets")
+    if not any(_is_relative_to(path, root) for root in allowed_roots):
+        logger.warning("Refusing to remove path outside generated content roots: %s", path)
+        return False
     if path.is_dir():
         shutil.rmtree(path)
         return True
@@ -1135,6 +1147,9 @@ def _remove_hugo_content_dir(path: Path) -> bool:
 def _remove_dataset_data_dir(dataset_slug: str) -> None:
     """Remove exported JSON payloads for a dataset."""
     data_dir = _DATASETS_DATA_DIR / dataset_slug
+    if not _is_relative_to(data_dir, _DATASETS_DATA_DIR):
+        logger.warning("Refusing to remove dataset data dir outside data root: %s", data_dir)
+        return
     if data_dir.is_dir():
         shutil.rmtree(data_dir)
 
@@ -2207,6 +2222,11 @@ def export_paper(arxiv_id: str, *, session: Session | None = None) -> bool:
 
 
 def _export_paper_impl(session: Session, arxiv_id: str) -> bool:
+    try:
+        arxiv_id = normalize_arxiv_id(arxiv_id)
+    except ValueError:
+        logger.warning("Refusing to export unsafe arXiv ID: %r", arxiv_id)
+        return False
     paper_dir = _CONTENT / "papers" / arxiv_id
     paper = session.query(Paper).filter_by(arxiv_id=arxiv_id).first()
     if paper is None:

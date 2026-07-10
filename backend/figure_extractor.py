@@ -15,12 +15,14 @@ from urllib.parse import urljoin
 import requests
 
 from backend.paper_storage import PaperStorage
+from backend.url_safety import validate_public_http_url
 
 logger = logging.getLogger(__name__)
+MAX_FIGURE_BYTES = 50 * 1024 * 1024
 
 HEADERS = {
     "User-Agent": (
-        "Mozilla/5.0 (compatible; GraphBenchBot/1.0; " "+https://github.com/benchmarking-website)"
+        "Mozilla/5.0 (compatible; GraphBenchBot/1.0; +https://github.com/benchmarking-website)"
     )
 }
 
@@ -38,11 +40,11 @@ def extract_from_html(
     """
     figures_dir = storage.figures_dir
     figures_dir.mkdir(parents=True, exist_ok=True)
-    dest = figures_dir / "main_figure_raw"
 
     # First check if the asset was already downloaded alongside the HTML
-    local_candidate = storage.html_dir / img_src
-    if local_candidate.exists():
+    local_candidate = (storage.html_dir / img_src).resolve()
+    html_root = storage.html_dir.resolve()
+    if local_candidate.is_relative_to(html_root) and local_candidate.exists():
         suffix = local_candidate.suffix.lower()
         final = figures_dir / f"main_figure{suffix}"
         shutil.copy2(local_candidate, final)
@@ -50,22 +52,32 @@ def extract_from_html(
         return final
 
     # Try downloading from absolute or composed URL
-    if base_url:
-        url = urljoin(base_url, img_src)
-    else:
-        url = img_src
+    url = urljoin(base_url, img_src) if base_url else img_src
 
-    if not url.startswith("http"):
+    try:
+        url = validate_public_http_url(url)
+    except ValueError:
         logger.warning("Cannot resolve img src '%s' for arXiv:%s", img_src, storage.arxiv_id)
         return None
 
     try:
-        resp = requests.get(url, headers=HEADERS, timeout=30)
+        resp = requests.get(url, headers=HEADERS, timeout=30, stream=True)
         resp.raise_for_status()
+        content_length = resp.headers.get("Content-Length")
+        if content_length and _parse_content_length(content_length) > MAX_FIGURE_BYTES:
+            raise ValueError(f"Figure exceeds {MAX_FIGURE_BYTES // (1024 * 1024)} MB limit")
         content_type = resp.headers.get("Content-Type", "")
         ext = _ext_from_content_type(content_type) or Path(url).suffix.lower() or ".png"
         final = figures_dir / f"main_figure{ext}"
-        final.write_bytes(resp.content)
+        total = 0
+        with final.open("wb") as fh:
+            for chunk in resp.iter_content(chunk_size=8192):
+                total += len(chunk)
+                if total > MAX_FIGURE_BYTES:
+                    fh.close()
+                    final.unlink(missing_ok=True)
+                    raise ValueError(f"Figure exceeds {MAX_FIGURE_BYTES // (1024 * 1024)} MB limit")
+                fh.write(chunk)
         logger.info("Downloaded main figure from %s → %s", url, final.name)
         return final
     except Exception as exc:
@@ -168,3 +180,10 @@ def _ext_from_content_type(ct: str) -> str:
         "image/webp": ".webp",
     }
     return mapping.get(ct, "")
+
+
+def _parse_content_length(raw: str) -> int:
+    try:
+        return int(raw)
+    except (TypeError, ValueError):
+        return 0

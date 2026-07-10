@@ -225,7 +225,7 @@ def _milestones_from_results(results: list) -> list[dict[str, Any]]:
             milestones.append(
                 {
                     "value": val,
-                    "std": float(r.metric_std) if r.metric_std else None,
+                    "std": float(r.display_std) if r.display_std is not None else None,
                     "model": r.model.canonical_name if r.model else "",
                     "arxiv_id": paper.arxiv_id if paper else "",
                     "title": _sanitize_title(paper.title if paper else ""),

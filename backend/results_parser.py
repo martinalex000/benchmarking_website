@@ -259,9 +259,10 @@ def normalize_dataset_scaled_metric(
 
 # ── Value parsing ─────────────────────────────────────────────────────────────
 
-_PLUSMINUS_RE = re.compile(r"([\d.]+)\s*[±]\s*([\d.]+)")
-_PAREN_STD_RE = re.compile(r"([\d.]+)\s*\(\s*([\d.]+)\s*\)")
-_PM_AFTER_RE = re.compile(r"([\d.]+)\s*±\s*([\d.]+)")
+_NUMBER_RE = r"[-+]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][-+]?\d+)?"
+_PAREN_STD_RE = re.compile(rf"({_NUMBER_RE})\s*\(\s*({_NUMBER_RE})\s*\)")
+_PM_AFTER_RE = re.compile(rf"({_NUMBER_RE})\s*±\s*({_NUMBER_RE})")
+_PLAIN_NUMBER_RE = re.compile(rf"^\s*({_NUMBER_RE})\s*$")
 
 
 def parse_value_std(raw: Any) -> tuple[float | None, float | None]:
@@ -283,10 +284,13 @@ def parse_value_std(raw: Any) -> tuple[float | None, float | None]:
         return float(m.group(1)), float(m.group(2))
 
     # plain number
-    try:
-        return float(re.sub(r"[^\d.\-]", "", s)), None
-    except (ValueError, TypeError):
-        return None, None
+    clean = s.replace(",", "")
+    if clean.endswith("%"):
+        clean = clean[:-1].strip()
+    m = _PLAIN_NUMBER_RE.match(clean)
+    if m:
+        return float(m.group(1)), None
+    return None, None
 
 
 # ── Dataset variant resolution ────────────────────────────────────────────────

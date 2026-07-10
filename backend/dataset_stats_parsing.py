@@ -33,6 +33,7 @@ _STAT_MARKERS = (
     "train/val/test",
     "train val test",
 )
+_NUMBER_RE = re.compile(r"[-+]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][-+]?\d+)?")
 
 STAT_TABLE_MARKERS = (
     "statistic",
@@ -113,7 +114,7 @@ def parse_number(raw: str | int | float | None) -> float | int | None:
     if not text or text.lower() in {"-", "—", "na", "n/a", "none"}:
         return None
     text = text.replace(",", "")
-    m = re.search(r"[-+]?\d*\.?\d+", text)
+    m = _NUMBER_RE.search(text)
     if not m:
         return None
     val = float(m.group(0))

@@ -4,8 +4,10 @@ from __future__ import annotations
 
 from typing import Any
 
+from thefuzz import fuzz as fuzz_lib
 from thefuzz import process as fuzz_process
 
+from backend.model_name_resolution import ogb_dataset_families_compatible
 from backend.models import DatasetVariant
 from backend.results_parser import normalize_dataset_alias
 
@@ -33,7 +35,11 @@ def resolve_dataset_variant_quiet(
         return dataset_lookup[key]
     if dataset_lookup:
         min_score = 85 if len(key) <= 6 else 75
-        best_match, score = fuzz_process.extractOne(key, list(dataset_lookup.keys()))
-        if score >= min_score:
+        best_match, score = fuzz_process.extractOne(
+            key,
+            list(dataset_lookup.keys()),
+            scorer=fuzz_lib.token_sort_ratio,
+        )
+        if score >= min_score and ogb_dataset_families_compatible(key, best_match):
             return dataset_lookup[best_match]
     return None

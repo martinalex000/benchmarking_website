@@ -1,86 +1,81 @@
-# Major Bug Report
+# Fixed Bug Summary
 
-This review found three high-impact bugs in the ingestion/export path. Two can silently corrupt leaderboard data; one currently prevents a focused test module from collecting.
+## 1. QM9 `gap` percentage normalization
+Bug: substring metric matching treated `gap` as `AP` and divided values by 100.
+Fix: percentage detection is now token-aware and keeps non-percentage `gap` values unchanged.
+Tests: regression coverage added for `gap`, `AP`, `mAP`, `Accuracy`, `Micro-F1`, and `Hits@K`.
 
-## 1. QM9 `gap` metrics are wrongly divided by 100
+## 2. Extracted boolean parsing
+Bug: string values like `"False"` were truthy and reversed lower-is-better rankings.
+Fix: extraction booleans are normalized with strict helpers before persistence.
+Tests: regression coverage added for string true/false and optional boolean fields.
 
-- Location: `backend/results_parser.py:90`, `backend/results_parser.py:161`, `backend/results_parser.py:1142`
-- Severity: High
-- Impact: Silent data corruption for QM9 gap results and any non-percentage metric containing `ap`.
+## 3. Dataset table override standard deviations
+Bug: dataset multi-metric rows used `display_value` but stale `metric_std`.
+Fix: dataset export now reads `display_std`, preserving manual std overrides.
+Tests: regression coverage added for overridden value/std rows.
 
-`_is_percentage_metric()` uses substring matching over `_PERCENTAGE_METRIC_SUBSTRINGS`. Because `"ap"` is in that list, the normalized QM9 target metric `"gap"` is treated as average precision and divided by 100 whenever the value is above 1.0.
+## 4. Timeline milestone override standard deviations
+Bug: milestone chart data used stale `metric_std` for overridden results.
+Fix: milestone generation now emits `display_std`.
+Tests: regression coverage added for overridden milestone stds.
 
-Observed behavior:
+## 5. Quiet OGB dataset fuzzy matching
+Bug: shared quiet resolver could fuzzy-match unrelated OGB datasets.
+Fix: quiet resolver now uses token-sort scoring plus OGB family compatibility checks.
+Tests: regression coverage added for `ogbg-ppa` and `ogbl-ppa` false positives.
 
-```text
-normalize_percentage_metric("gap", 2.5, 0.1) -> (0.025, 0.001)
-```
+## 6. arXiv ID path traversal
+Bug: `normalize_arxiv_id()` allowed malformed IDs like `../../tmp/ownedv1` into storage paths.
+Fix: arXiv IDs are now explicitly parsed and validated before use.
+Tests: regression coverage added for valid modern IDs and unsafe invalid inputs.
 
-That is incorrect for a metric named `gap`; it should remain `(2.5, 0.1)` unless the pipeline has dataset-specific evidence that the value is percentage-scaled.
+## 7. Hugo paper export path traversal and destructive delete
+Bug: paper export used raw `arxiv_id` path components for writes and removals.
+Fix: export now validates arXiv IDs and refuses deletion outside generated content roots.
+Tests: regression coverage added for refusing out-of-root Hugo content deletion.
 
-Recommended fix:
+## 8. Alternative downloader SSRF
+Bug: alternative PDF downloads accepted arbitrary URLs and followed redirects blindly.
+Fix: URL fetches now allow only public HTTP(S) targets and validate each redirect target.
+Tests: regression coverage added for private IP and private DNS-resolution rejection.
 
-- Replace broad substring matching with token-aware metric matching.
-- Treat `"ap"` as a standalone token or exact metric alias, not as any occurrence inside another word.
-- Add regression tests for `gap`, `mAP`, `AP`, `Accuracy`, and `Hits@K`.
+## 9. Alternative downloader unbounded download
+Bug: alternative PDF downloads accumulated unlimited response bodies in memory.
+Fix: PDF downloads now enforce a 200 MB `Content-Length` and streaming byte limit.
+Tests: regression coverage added for header-declared and streamed over-limit PDFs.
 
-## 2. String booleans reverse lower-is-better leaderboards
+## 10. Figure extractor local path traversal
+Bug: HTML image sources could escape the downloaded HTML directory via `../` paths.
+Fix: local image copies now require resolved paths to stay under the HTML asset root.
+Tests: regression coverage added for refusing `../secret.png` style traversal.
 
-- Location: `backend/results_parser.py:1074`; downstream examples at `backend/export_to_hugo.py:1531`, `backend/export_to_hugo.py:1773`, `backend/export_to_hugo.py:1895`, `backend/export_to_hugo.py:2048`
-- Severity: High
-- Impact: Lower-is-better metrics can be ranked and compared as higher-is-better when extraction payloads contain string booleans.
+## 11. Figure extractor SSRF and unbounded download
+Bug: HTML figure downloads accepted arbitrary HTTP URLs and wrote unbounded response bodies.
+Fix: figure downloads now use public HTTP(S) URL validation and a 50 MB streaming byte limit.
+Tests: regression coverage added for rejecting private figure URLs.
 
-The parser stores `higher_is_better=entry.get("higher_is_better", True)` directly. If an extraction payload contains `"False"` or `"false"` as a string, SQLAlchemy accepts it on the model object and downstream code repeatedly uses `bool(r.higher_is_better)`. Non-empty strings are truthy in Python:
+## 12. Scientific-notation result parsing
+Bug: result values like `1e-3` were skipped, and `1e-3 ± 2e-4` was corrupted.
+Fix: result value parsing now supports signed decimal scientific notation.
+Tests: regression coverage added for plain and plus-minus scientific notation.
 
-```text
-Result(higher_is_better="False")
-bool(result.higher_is_better) -> True
-```
+## 13. Dataset statistics exponent parsing
+Bug: dataset stats like `1e6` and `1.2e3` lost their exponents.
+Fix: dataset statistic number parsing now recognizes scientific notation.
+Tests: regression coverage added for exponent-form dataset statistics.
 
-That flips MAE/RMSE/loss-style metrics from ascending to descending order in export, comparisons, at-publication analysis, and baseline aggregation.
+## 14. Removed overrides remaining in DB
+Bug: deleting a result override from `overrides.yaml` did not clear prior DB override flags.
+Fix: override application now clears stale result override/problematic fields before applying current overrides.
+Tests: regression coverage added for clearing removed DB overrides.
 
-Recommended fix:
+## 15. Metadata override replacing bad codebase URLs
+Bug: `metadata_overrides.codebase_url` only applied when the DB field was empty.
+Fix: metadata overrides now replace an existing incorrect codebase URL.
+Tests: regression coverage added for replacing a bad stored codebase URL.
 
-- Normalize all extracted booleans at parser boundaries with a strict helper such as `parse_bool(value, default=True)`.
-- Accept only real booleans and common string forms (`"true"`, `"false"`, `"yes"`, `"no"`, `"1"`, `"0"`); warn or default for unknown values.
-- Add parser/export regression tests with `"higher_is_better": "False"` on an MAE metric.
-
-## 3. Dataset export ignores overridden standard deviations
-
-- Location: `backend/export_to_hugo.py:2810`
-- Severity: Medium-high
-- Impact: Dataset pages can display/use corrected values with stale uncertainty, making value-gap, duplicate, outlier, and “significant difference” annotations wrong after manual overrides.
-
-The multi-metric dataset export correctly uses `r.display_value`, which respects `override_value`, but reads the uncertainty from `r.metric_std` instead of `r.display_std`:
-
-```python
-val = float(r.display_value) if r.display_value is not None else None
-std = float(r.metric_std) if r.metric_std is not None else None
-```
-
-This is inconsistent with other export paths that use `display_std`. If a manual override corrects both value and std, the dataset leaderboard row gets the corrected value but the old standard deviation.
-
-Recommended fix:
-
-- Change this path to use `r.display_std`.
-- Add a regression test where `is_overridden=1`, `override_value`, and `override_std` differ from the original metric fields, then assert `metric_stds` uses the override.
-
-## Additional test-suite issue
-
-- Location: `tests/unit/test_export_to_hugo.py:32`
-- Impact: `uv run pytest tests/unit/test_export_to_hugo.py` cannot collect.
-
-The test imports `_normalize_conference` from `backend.export_to_hugo`, but that symbol no longer exists there. The venue normalization code now lives in `backend.venue` as `normalize_conference_short()` / `conference_export_fields()`.
-
-Observed command:
-
-```bash
-UV_CACHE_DIR=/tmp/uv-cache uv run pytest tests/unit/test_results_parser.py tests/unit/test_export_to_hugo.py -q
-```
-
-Observed failure:
-
-```text
-ImportError: cannot import name '_normalize_conference' from 'backend.export_to_hugo'
-```
-
+## 16. Uncertainty comparison overlap
+Bug: value comparison checked each std independently rather than combined uncertainty.
+Fix: comparison now treats differences inside the summed uncertainty as not significant.
+Tests: regression coverage added for overlapping combined-std intervals.

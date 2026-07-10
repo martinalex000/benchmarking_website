@@ -36,6 +36,7 @@ from backend.export_to_hugo import (
     _plain_model,
     _publication_year,
     _rank_for_value,
+    _remove_hugo_content_dir,
     _resolve_global_rank,
     _sanitize_model,
     _sanitize_title,
@@ -104,6 +105,7 @@ def test_collect_model_value_mismatches_includes_at_pub_fields():
 
 def test_is_value_worse_than_respects_std_overlap():
     assert _is_value_worse_than(0.80, 0.81, True, 0.02, 0.02) is False
+    assert _is_value_worse_than(0.78, 0.81, True, 0.02, 0.02) is False
     assert _is_value_worse_than(0.70, 0.81, True) is True
 
 
@@ -867,6 +869,16 @@ def test_cleanup_stale_hugo_content_removes_orphan_pages(monkeypatch, tmp_path):
     assert (content / "papers" / "keep-paper").exists()
     assert not (content / "datasets" / "stale-ds").exists()
     assert (content / "datasets" / "keep-ds").exists()
+
+
+def test_remove_hugo_content_dir_refuses_paths_outside_content_roots(monkeypatch, tmp_path):
+    content = tmp_path / "content"
+    outside = tmp_path / "outside"
+    outside.mkdir()
+    monkeypatch.setattr("backend.export_to_hugo._CONTENT", content)
+
+    assert _remove_hugo_content_dir(outside) is False
+    assert outside.exists()
 
 
 def test_export_paper_removes_stale_content_when_no_results(monkeypatch, tmp_path):

@@ -5,7 +5,9 @@ from pathlib import Path
 import yaml
 
 from backend.override_handler import (
+    apply_overrides_to_db,
     apply_overrides_to_results,
+    clear_overrides_cache,
     get_metadata_overrides,
     get_model_metadata_overrides,
     load_overrides,
@@ -101,3 +103,64 @@ def test_get_model_metadata_overrides():
     items = get_model_metadata_overrides(overrides)
     assert items[0]["model"] == "GraphGPS"
     assert items[0]["model_type"] == "hybrid"
+
+
+def test_apply_overrides_to_db_clears_removed_result_overrides(tmp_path, monkeypatch):
+    from backend.config import cfg
+    from backend.db import init_db, session_scope
+    from backend.models import Benchmark, Dataset, DatasetVariant, Model, Paper, Result
+
+    monkeypatch.setattr(cfg, "db_path", tmp_path / "benchmarks.db")
+    monkeypatch.setattr(cfg, "papers_dir", tmp_path / "papers")
+    import backend.db as db_module
+
+    db_module._engine = None
+    db_module._SessionFactory = None
+    init_db(str(cfg.db_path))
+
+    with session_scope() as session:
+        benchmark = Benchmark(name="Bench", short_name="bench")
+        session.add(benchmark)
+        session.flush()
+        dataset = Dataset(benchmark_id=benchmark.id, name="Cora", primary_metric="Accuracy")
+        session.add(dataset)
+        session.flush()
+        variant = DatasetVariant(dataset_id=dataset.id, name="Standard split")
+        model = Model(name="GCN", canonical_name="gcn")
+        paper = Paper(arxiv_id="2206.08164", title="Paper", codebase_url="https://bad.example")
+        session.add_all((variant, model, paper))
+        session.flush()
+        session.add(
+            Result(
+                paper_id=paper.id,
+                model_id=model.id,
+                dataset_variant_id=variant.id,
+                metric_name="Accuracy",
+                metric_value=0.8,
+                is_problematic=1,
+                problematic_reason="old",
+                is_overridden=1,
+                override_value=0.9,
+                override_std=0.1,
+                override_reason="old",
+                override_source="old",
+            )
+        )
+
+    make_overrides_file(
+        {"metadata_overrides": {"codebase_url": "https://github.com/example/repo"}},
+        cfg.papers_dir,
+    )
+    clear_overrides_cache()
+
+    apply_overrides_to_db("2206.08164")
+
+    with session_scope() as session:
+        result = session.query(Result).one()
+        paper = session.query(Paper).one()
+        assert result.is_problematic == 0
+        assert result.problematic_reason is None
+        assert result.is_overridden == 0
+        assert result.override_value is None
+        assert result.override_std is None
+        assert paper.codebase_url == "https://github.com/example/repo"

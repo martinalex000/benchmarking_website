@@ -9,6 +9,7 @@ All paths are absolute Path objects resolved relative to the project root.
 from __future__ import annotations
 
 import os
+import re
 from pathlib import Path
 
 import yaml
@@ -16,6 +17,7 @@ from dotenv import load_dotenv
 
 # ── Project root (two levels up from this file: backend/ → project root) ──────
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
+_ARXIV_ID_RE = re.compile(r"^(?:arXiv:)?(\d{4}\.\d{4,5})(?:v\d+)?$", re.IGNORECASE)
 
 # Load .env from project root (silently skip if not present)
 load_dotenv(PROJECT_ROOT / ".env", override=False)
@@ -121,7 +123,10 @@ class Config:
 
 def normalize_arxiv_id(raw: str) -> str:
     """Normalize an arXiv ID to canonical form (e.g., '2206.08164v1' → '2206.08164')."""
-    return raw.strip().lstrip("arXiv:").split("v")[0]
+    match = _ARXIV_ID_RE.fullmatch(str(raw or "").strip())
+    if not match:
+        raise ValueError(f"Invalid arXiv ID: {raw!r}")
+    return match.group(1)
 
 
 # Singleton instance — import and use directly

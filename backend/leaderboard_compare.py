@@ -37,9 +37,8 @@ def is_value_worse_than(
     if not worse:
         return False
     delta = abs(value - reference)
-    if value_std is not None and delta <= float(value_std):
-        return False
-    if reference_std is not None and delta <= float(reference_std):
+    combined_std = float(value_std or 0.0) + float(reference_std or 0.0)
+    if combined_std and delta <= combined_std:
         return False
     return delta > 1e-12
 

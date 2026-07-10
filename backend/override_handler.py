@@ -144,10 +144,10 @@ def apply_overrides_to_db(arxiv_id: str) -> int:
     from backend.models import Paper, Result
 
     overrides = load_overrides(arxiv_id)
-    if not overrides:
+    override_source = str(cfg.papers_dir / arxiv_id / "overrides.yaml")
+    if not overrides and not Path(override_source).exists():
         return 0
 
-    override_source = str(cfg.papers_dir / arxiv_id / "overrides.yaml")
     problematic_set = _build_lookup(overrides.get("problematic_results", []))
     override_map = _build_override_map(overrides.get("result_overrides", []))
 
@@ -169,6 +169,25 @@ def apply_overrides_to_db(arxiv_id: str) -> int:
             )
 
             changed = False
+
+            if result.is_problematic or result.problematic_reason:
+                result.is_problematic = 0
+                result.problematic_reason = None
+                changed = True
+
+            if (
+                result.is_overridden
+                or result.override_value is not None
+                or result.override_std is not None
+                or result.override_reason
+                or result.override_source
+            ):
+                result.is_overridden = 0
+                result.override_value = None
+                result.override_std = None
+                result.override_reason = None
+                result.override_source = None
+                changed = True
 
             if key in problematic_set:
                 result.is_problematic = 1
@@ -216,7 +235,7 @@ def apply_overrides_to_db(arxiv_id: str) -> int:
 
         # Apply metadata overrides to the paper itself
         meta_ov = get_metadata_overrides(overrides)
-        if meta_ov.get("codebase_url") and not paper.codebase_url:
+        if meta_ov.get("codebase_url") and paper.codebase_url != meta_ov["codebase_url"]:
             paper.codebase_url = meta_ov["codebase_url"]
 
     logger.info("Applied overrides for arXiv:%s — %d results affected", arxiv_id, affected)

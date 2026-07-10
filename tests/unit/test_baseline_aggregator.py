@@ -1,8 +1,14 @@
 """Unit tests for baseline aggregator helpers."""
 
+from types import SimpleNamespace
+
 import pytest
 
-from backend.baseline_aggregator import BaselineGroup, _merge_similar_groups
+from backend.baseline_aggregator import (
+    BaselineGroup,
+    _merge_similar_groups,
+    _milestones_from_results,
+)
 
 
 def make_group(name: str, values: list, model_id: int = 1, higher: bool = True) -> BaselineGroup:
@@ -74,3 +80,23 @@ def test_merge_combines_gcn_virt_spelling_variants():
     merged = _merge_similar_groups([g1, g2], threshold=85)
     assert len(merged) == 1
     assert len(merged[0].values) == 2
+
+
+def test_milestones_use_override_std():
+    result = SimpleNamespace(
+        higher_is_better=True,
+        display_value=0.9,
+        display_std=0.01,
+        metric_std=0.5,
+        paper=SimpleNamespace(
+            arxiv_id="2401.00001",
+            title="Paper",
+            published_date="2024-01-01",
+        ),
+        model=SimpleNamespace(canonical_name="GIN"),
+    )
+
+    milestones = _milestones_from_results([result])
+
+    assert milestones[0]["value"] == pytest.approx(0.9)
+    assert milestones[0]["std"] == pytest.approx(0.01)

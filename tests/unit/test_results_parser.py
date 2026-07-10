@@ -50,6 +50,16 @@ def test_parse_integer():
     assert std is None
 
 
+def test_parse_scientific_notation_values():
+    val, std = parse_value_std("1.2e-3")
+    assert val == pytest.approx(0.0012)
+    assert std is None
+
+    val, std = parse_value_std("1e-3 ± 2e-4")
+    assert val == pytest.approx(0.001)
+    assert std == pytest.approx(0.0002)
+
+
 def test_resolve_exact(tmp_path):
     """resolve_dataset_variant with exact match."""
     variant_map = {"peptides-func": 10, "standard split": 10}

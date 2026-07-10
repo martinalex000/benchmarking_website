@@ -12,7 +12,7 @@ from __future__ import annotations
 import argparse
 import logging
 import time
-from pathlib import Path
+from urllib.parse import urljoin
 
 import requests
 from tenacity import retry, stop_after_attempt, wait_exponential
@@ -21,8 +21,11 @@ from backend.config import cfg
 from backend.db import init_db, session_scope
 from backend.models import Paper, PipelineRun
 from backend.paper_storage import PaperStorage
+from backend.url_safety import UnsafeUrlError, validate_public_http_url
 
 logger = logging.getLogger(__name__)
+MAX_PDF_BYTES = 200 * 1024 * 1024
+_MAX_REDIRECTS = 5
 
 # Rotate user agents to reduce blocking on publisher sites
 _USER_AGENTS = [
@@ -43,8 +46,7 @@ def _next_ua() -> str:
 @retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=2, min=5, max=60), reraise=True)
 def _get_pdf(url: str) -> bytes:
     headers = {"User-Agent": _next_ua()}
-    resp = requests.get(url, headers=headers, timeout=90, allow_redirects=True, stream=True)
-    resp.raise_for_status()
+    resp = _safe_get(url, headers)
 
     content_type = resp.headers.get("Content-Type", "")
     if "pdf" not in content_type.lower() and not url.lower().endswith(".pdf"):
@@ -56,13 +58,46 @@ def _get_pdf(url: str) -> bytes:
         if not first_bytes.startswith(b"%PDF"):
             raise ValueError(f"URL does not appear to serve a PDF (Content-Type: {content_type})")
         # Reset by re-requesting — simpler than buffering
-        resp = requests.get(url, headers=headers, timeout=90, allow_redirects=True, stream=True)
-        resp.raise_for_status()
+        resp = _safe_get(url, headers)
 
-    chunks = []
+    chunks: list[bytes] = []
+    total = 0
     for chunk in resp.iter_content(chunk_size=8192):
+        total += len(chunk)
+        if total > MAX_PDF_BYTES:
+            raise ValueError(f"PDF exceeds {MAX_PDF_BYTES // (1024 * 1024)} MB limit")
         chunks.append(chunk)
     return b"".join(chunks)
+
+
+def _safe_get(url: str, headers: dict[str, str]) -> requests.Response:
+    current = validate_public_http_url(url)
+    for _ in range(_MAX_REDIRECTS + 1):
+        resp = requests.get(
+            current,
+            headers=headers,
+            timeout=90,
+            allow_redirects=False,
+            stream=True,
+        )
+        if not resp.is_redirect:
+            resp.raise_for_status()
+            content_length = resp.headers.get("Content-Length")
+            if content_length and _parse_content_length(content_length) > MAX_PDF_BYTES:
+                raise ValueError(f"PDF exceeds {MAX_PDF_BYTES // (1024 * 1024)} MB limit")
+            return resp
+        location = resp.headers.get("Location")
+        if not location:
+            raise UnsafeUrlError("Redirect response has no Location header")
+        current = validate_public_http_url(urljoin(current, location))
+    raise UnsafeUrlError(f"Too many redirects while fetching {url!r}")
+
+
+def _parse_content_length(raw: str) -> int:
+    try:
+        return int(raw)
+    except (TypeError, ValueError):
+        return 0
 
 
 def _detect_source(url: str) -> str:

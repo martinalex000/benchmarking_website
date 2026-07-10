@@ -6,6 +6,7 @@ from backend.dataset_stats_parser import (
     _zinc_variant_by_graph_count,
     parse_and_store_dataset_statistics,
 )
+from backend.dataset_stats_parsing import parse_number
 from backend.dataset_stats_storage import DatasetStatsStorage
 from backend.db import init_db, session_scope
 from backend.models import Benchmark, Dataset, DatasetVariant, Paper, PaperDatasetStatistics
@@ -52,6 +53,11 @@ def test_zinc_variant_by_graph_count():
     assert _zinc_variant_by_graph_count(ds, 250000).name == "Full"
     assert _zinc_variant_by_graph_count(ds, 12000).name == "Subset (12k)"
     assert _zinc_variant_by_graph_count(ds, 120000) is None
+
+
+def test_parse_number_supports_scientific_notation():
+    assert parse_number("1e6") == 1_000_000
+    assert parse_number("1.2e3") == 1200
 
 
 def test_parse_and_store_zinc_ambiguous_size_has_no_variant(tmp_path: Path, monkeypatch):
