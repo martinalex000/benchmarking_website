@@ -7,7 +7,6 @@ from typing import Any
 
 from sqlalchemy.orm import joinedload
 
-from backend.export_context import ExportContext
 from backend.export_helpers import plain_model, sanitize_model, sanitize_title
 from backend.leaderboard_compare import is_value_directionally_better
 from backend.models import Dataset, DatasetVariant, Result
@@ -150,24 +149,20 @@ def _at_pub_results_for_dataset_metric(session: Any, ds_name: str, metric: str) 
     if cached is not None:
         return cached
 
-    context = ExportContext.from_session(session)
-    if context is not None:
-        all_res = context.dataset_metric_results(ds_name, metric)
-    else:
-        all_res = (
-            session.query(Result)
-            .options(
-                joinedload(Result.model),
-                joinedload(Result.paper),
-                joinedload(Result.dataset_variant).joinedload(DatasetVariant.dataset),
-            )
-            .join(Result.dataset_variant)
-            .join(DatasetVariant.dataset)
-            .filter(Dataset.name == ds_name)
-            .filter(Result.metric_name == metric)
-            .filter(Result.is_problematic == 0)
-            .all()
+    all_res = (
+        session.query(Result)
+        .options(
+            joinedload(Result.model),
+            joinedload(Result.paper),
+            joinedload(Result.dataset_variant).joinedload(DatasetVariant.dataset),
         )
+        .join(Result.dataset_variant)
+        .join(DatasetVariant.dataset)
+        .filter(Dataset.name == ds_name)
+        .filter(Result.metric_name == metric)
+        .filter(Result.is_problematic.is_(None) | (Result.is_problematic == 0))
+        .all()
+    )
     _AT_PUB_ROWS_CACHE[rows_key] = all_res
     return all_res
 

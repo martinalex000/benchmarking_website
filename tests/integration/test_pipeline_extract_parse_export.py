@@ -201,7 +201,7 @@ def test_pipeline_extract_failure_records_failed_run(monkeypatch, tmp_path):
     assert {(run.stage, run.status) for run in runs} == {("extract", "failed")}
 
 
-def test_pipeline_parse_failure_still_exports_paper_page(monkeypatch, tmp_path):
+def test_pipeline_parse_failure_skips_paper_page_without_results(monkeypatch, tmp_path):
     _configure_temp_workspace(monkeypatch, tmp_path)
     init_db()
 
@@ -235,8 +235,7 @@ def test_pipeline_parse_failure_still_exports_paper_page(monkeypatch, tmp_path):
     assert ("parse", "failed") in {(run.stage, run.status) for run in runs}
 
     paper_page = cfg.site_dir / "content" / "papers" / "2402.04821" / "index.md"
-    assert paper_page.exists()
-    assert "has_results: false" in paper_page.read_text(encoding="utf-8")
+    assert not paper_page.exists()
 
 
 def test_export_paper_cleans_abstract_artifacts(monkeypatch, tmp_path):
@@ -244,19 +243,43 @@ def test_export_paper_cleans_abstract_artifacts(monkeypatch, tmp_path):
     init_db()
 
     with session_scope() as session:
+        benchmark = Benchmark(name="Abstract benchmark", short_name="abstract")
+        session.add(benchmark)
+        session.flush()
+        dataset = Dataset(
+            benchmark_id=benchmark.id,
+            name="Abstract dataset",
+            primary_metric="Accuracy",
+            higher_is_better=1,
+        )
+        session.add(dataset)
+        session.flush()
+        variant = DatasetVariant(dataset_id=dataset.id, name="Standard", is_standard=1)
+        paper = Paper(
+            arxiv_id="2407.18480",
+            title="Scalable Graph Compressed Convolutions",
+            abstract=(
+                "Designing effective graph neural networks~(GNNs) is challenging. "
+                r"GQT (\textbf{G}raph \textbf{Q}uantized \textbf{T}okenizer) improves "
+                r"results by 82.47\% over a 10\times range. Code is available "
+                "at~https://example.com."
+            ),
+            extraction_status="extracted",
+            discovery_source="integration-test",
+            published_date="2024-07-01",
+        )
+        session.add_all([variant, paper])
+        session.flush()
+        model = Model(name="Abstract model", canonical_name="Abstract model", paper_id=paper.id)
+        session.add(model)
+        session.flush()
         session.add(
-            Paper(
-                arxiv_id="2407.18480",
-                title="Scalable Graph Compressed Convolutions",
-                abstract=(
-                    "Designing effective graph neural networks~(GNNs) is challenging. "
-                    r"GQT (\textbf{G}raph \textbf{Q}uantized \textbf{T}okenizer) improves "
-                    r"results by 82.47\% over a 10\times range. Code is available "
-                    "at~https://example.com."
-                ),
-                extraction_status="extracted",
-                discovery_source="integration-test",
-                published_date="2024-07-01",
+            Result(
+                paper_id=paper.id,
+                model_id=model.id,
+                dataset_variant_id=variant.id,
+                metric_name="Accuracy",
+                metric_value=0.9,
             )
         )
 
