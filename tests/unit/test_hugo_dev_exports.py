@@ -38,6 +38,7 @@ def _configure_temp_workspace(monkeypatch, tmp_path: Path) -> None:
     monkeypatch.setattr(export_to_hugo, "_SITE_DIR", site_dir)
     monkeypatch.setattr(export_to_hugo, "_CONTENT", site_dir / "content")
     monkeypatch.setattr(export_to_hugo, "_DATA_DIR", site_dir / "data")
+    monkeypatch.setattr(export_to_hugo, "_STATIC", site_dir / "static")
     export_to_hugo.clear_export_caches()
 
 
@@ -126,3 +127,27 @@ def test_create_dev_pages_exports_sota_claims(monkeypatch, tmp_path):
     assert "All extracted claims" in body
     assert "Unrestricted claim audit" in body
     assert "state-of-the-art" in body
+
+
+def test_long_dev_tables_are_exported_as_lazy_json(monkeypatch, tmp_path):
+    import json
+
+    from backend import export_to_hugo
+
+    _configure_temp_workspace(monkeypatch, tmp_path)
+    dev_path = tmp_path / "workspace" / "site" / "content" / "dev" / "long-table.md"
+    lines = ["## Details", "", "| Name | Value |", "|---|---|"]
+    lines.extend(f"| item {index} | {index} |" for index in range(50))
+
+    export_to_hugo._write_md(dev_path, {"title": "Long table", "type": "dev"}, "\n".join(lines))
+
+    body = dev_path.read_text(encoding="utf-8")
+    payload_path = (
+        tmp_path / "workspace" / "site" / "static" / "data" / "development" / "long-table.json"
+    )
+    payload = json.loads(payload_path.read_text(encoding="utf-8"))
+
+    assert "dev_table_json" in body
+    assert "| item 0 |" not in body
+    assert payload["schema_version"] == 1
+    assert len(payload["tables"][0]["rows"]) == 50

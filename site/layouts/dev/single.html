@@ -4,6 +4,11 @@
   {{ if .Params.description }}<p class="lead">{{ .Params.description }}</p>{{ end }}
   
   {{ .Content }}
+  {{ with .Params.dev_table_json }}
+  <div class="dev-json-tables" data-src="{{ strings.TrimPrefix "/" . | relURL }}">
+    <p>Loading detailed tables…</p>
+  </div>
+  {{ end }}
 </div>
 
 <style>
@@ -19,5 +24,14 @@
 .status-badge.downloaded { background: #dbeafe; color: #1e40af; }
 .status-badge.pending { background: #fef3c7; color: #92400e; }
 .status-badge.failed { background: #fee2e2; color: #991b1b; }
+.dev-table-controls { display: flex; gap: .75rem; align-items: center; margin: 1rem 0; }
+.dev-table-search { min-width: min(100%, 22rem); padding: .45rem .6rem; }
+.dev-table-page { padding: .45rem .7rem; }
+.dev-table-meta { color: #666; font-size: .9rem; }
+.dev-table-scroll { overflow-x: auto; }
 </style>
+{{ end }}
+
+{{ define "scripts" }}
+{{ with .Params.dev_table_json }}<script src="{{ "js/dev-tables.js" | relURL }}?v={{ now.Unix }}"></script>{{ end }}
 {{ end }}

@@ -39,6 +39,7 @@ from backend.at_pub_timeline import model_key as _model_key
 from backend.baseline_aggregator import get_best_results_over_time_for_metrics
 from backend.config import cfg, normalize_arxiv_id
 from backend.db import init_db, session_scope
+from backend.export_context import ExportContext
 from backend.export_helpers import has_paper_value_gap as _has_paper_value_gap
 from backend.export_helpers import plain_model as _plain_model
 from backend.export_helpers import rank_for_value as _rank_for_value
@@ -953,6 +954,14 @@ def _dataset_paper_count_for_metric(session: Any, ds_name: str, primary_metric: 
     if cache_key in _DATASET_PAPER_COUNT_CACHE:
         return _DATASET_PAPER_COUNT_CACHE[cache_key]
 
+    context = ExportContext.from_session(session)
+    if context is not None:
+        paper_count = len(
+            {result.paper_id for result in context.dataset_metric_results(ds_name, primary_metric)}
+        )
+        _DATASET_PAPER_COUNT_CACHE[cache_key] = paper_count
+        return paper_count
+
     from sqlalchemy import func as _sqla_func
 
     paper_count = (
@@ -1128,8 +1137,93 @@ def _yaml_dump_front_matter(front_matter: dict) -> str:
     )
 
 
+_MARKDOWN_TABLE_SEPARATOR_RE = re.compile(r"^\s*\|(?:\s*:?-{3,}:?\s*\|)+\s*$")
+
+
+def _markdown_table_cell(value: str) -> str:
+    """Return a safe plaintext value from one generated Markdown table cell."""
+    value = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", value)
+    return re.sub(r"[*`_]", "", value).strip()
+
+
+def _dev_table_key(label: str, index: int) -> str:
+    key = _slug(label).replace("-", "_")
+    return key or f"column_{index + 1}"
+
+
+def _extract_long_dev_tables(body: str, page_name: str) -> tuple[str, dict[str, Any] | None]:
+    """Move long generated dev tables into one JSON payload for lazy rendering."""
+    lines = body.splitlines()
+    output: list[str] = []
+    tables: list[dict[str, Any]] = []
+    index = 0
+    while index < len(lines):
+        header = lines[index]
+        if (
+            index + 1 >= len(lines)
+            or not header.lstrip().startswith("|")
+            or not _MARKDOWN_TABLE_SEPARATOR_RE.match(lines[index + 1])
+        ):
+            output.append(header)
+            index += 1
+            continue
+
+        end = index + 2
+        while end < len(lines) and lines[end].lstrip().startswith("|"):
+            end += 1
+        data_lines = lines[index + 2 : end]
+        if len(data_lines) < INITIAL_DATASET_HTML_ROWS:
+            output.extend(lines[index:end])
+            index = end
+            continue
+
+        labels = [_markdown_table_cell(cell) for cell in header.strip().strip("|").split("|")]
+        keys: list[str] = []
+        for column_index, label in enumerate(labels):
+            key = _dev_table_key(label, column_index)
+            while key in keys:
+                key = f"{key}_{column_index + 1}"
+            keys.append(key)
+        rows = []
+        for line in data_lines:
+            cells = [_markdown_table_cell(cell) for cell in line.strip().strip("|").split("|")]
+            rows.append(
+                {
+                    key: cells[column_index] if column_index < len(cells) else ""
+                    for column_index, key in enumerate(keys)
+                }
+            )
+        tables.append(
+            {
+                "id": f"table-{len(tables) + 1}",
+                "columns": [
+                    {"key": key, "label": label} for key, label in zip(keys, labels, strict=True)
+                ],
+                "rows": rows,
+            }
+        )
+        output.extend(["", f"Detailed table: {len(rows)} rows (loaded below).", ""])
+        index = end
+
+    if not tables:
+        return body, None
+    return "\n".join(output), {"schema_version": 1, "tables": tables, "page": page_name}
+
+
 def _write_md(path: Path, front_matter: dict, body: str = "") -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
+    if path.parent == _CONTENT / "dev":
+        body, payload = _extract_long_dev_tables(body, path.stem)
+        dev_data_dir = _STATIC / "data" / "development"
+        json_path = dev_data_dir / f"{path.stem}.json"
+        if payload is not None:
+            dev_data_dir.mkdir(parents=True, exist_ok=True)
+            json_path.write_text(
+                json.dumps(payload, ensure_ascii=False, separators=(",", ":")), encoding="utf-8"
+            )
+            front_matter = {**front_matter, "dev_table_json": f"/data/development/{json_path.name}"}
+        elif json_path.exists():
+            json_path.unlink()
     fm_str = _yaml_dump_front_matter(front_matter)
     path.write_text(f"---\n{fm_str}---\n\n{body}", encoding="utf-8")
 
@@ -1515,20 +1609,24 @@ def _global_ranks_for_dataset(
     ``is_global_top=True`` and ``global_rank`` set — callers filter to models
     not already in the paper before adding them to the display list.
     """
-    all_res = (
-        session.query(Result)
-        .options(
-            joinedload(Result.model),
-            joinedload(Result.paper),
-            joinedload(Result.dataset_variant).joinedload(DatasetVariant.dataset),
+    context = ExportContext.from_session(session)
+    if context is not None:
+        all_res = context.dataset_metric_results(ds_name, primary_metric)
+    else:
+        all_res = (
+            session.query(Result)
+            .options(
+                joinedload(Result.model),
+                joinedload(Result.paper),
+                joinedload(Result.dataset_variant).joinedload(DatasetVariant.dataset),
+            )
+            .join(Result.dataset_variant)
+            .join(DatasetVariant.dataset)
+            .filter(Dataset.name == ds_name)
+            .filter(Result.metric_name == primary_metric)
+            .filter(Result.is_problematic == 0)
+            .all()
         )
-        .join(Result.dataset_variant)
-        .join(DatasetVariant.dataset)
-        .filter(Dataset.name == ds_name)
-        .filter(Result.metric_name == primary_metric)
-        .filter(Result.is_problematic.is_(None) | (Result.is_problematic == 0))
-        .all()
-    )
 
     # Keep the best value per canonical model name
     model_best: dict[str, tuple[float, Any]] = {}
@@ -1629,13 +1727,17 @@ def _non_problematic_results_query(session: Any):
 
 def _primary_metric_results(session: Any) -> list[Any]:
     """Non-problematic results on each dataset's primary metric."""
-    results = (
-        _non_problematic_results_query(session)
-        .join(Result.paper)
-        .join(Result.dataset_variant)
-        .join(DatasetVariant.dataset)
-        .all()
-    )
+    context = ExportContext.from_session(session)
+    if context is not None:
+        results = [result for rows in context.results_by_paper.values() for result in rows]
+    else:
+        results = (
+            _non_problematic_results_query(session)
+            .join(Result.paper)
+            .join(Result.dataset_variant)
+            .join(DatasetVariant.dataset)
+            .all()
+        )
     primary_rows: list[Any] = []
     for result in results:
         ds = result.dataset_variant.dataset if result.dataset_variant else None
@@ -1773,13 +1875,17 @@ def _compute_paper_mrr(
     Returns ``(None, None, 0, [])`` for pure benchmarking papers.
     Returns ``(0.0, 0.0, 0, names)`` when the paper has proposed models but none qualify.
     """
-    results = (
-        session.query(Result)
-        .options(*_PAPER_RESULT_LOAD_OPTIONS)
-        .filter_by(paper_id=paper.id, is_baseline=False)
-        .filter(Result.is_problematic.is_(None) | (Result.is_problematic == 0))
-        .all()
-    )
+    context = ExportContext.from_session(session)
+    if context is not None:
+        results = [result for result in context.paper_results(paper.id) if not result.is_baseline]
+    else:
+        results = (
+            session.query(Result)
+            .options(*_PAPER_RESULT_LOAD_OPTIONS)
+            .filter_by(paper_id=paper.id, is_baseline=False)
+            .filter(Result.is_problematic == 0)
+            .all()
+        )
     if not results:
         return None, None, 0, []
 
@@ -1846,7 +1952,11 @@ def _compute_paper_mrr(
 
 def _collect_result_anomalies(session: Any) -> list[dict[str, Any]]:
     """Return suspicious stored results for a development report."""
-    results = _non_problematic_results_query(session).all()
+    context = ExportContext.from_session(session)
+    if context is not None:
+        results = [result for rows in context.results_by_paper.values() for result in rows]
+    else:
+        results = _non_problematic_results_query(session).all()
 
     grouped: dict[tuple[str, str], list[Result]] = {}
     for result in results:
@@ -2255,13 +2365,17 @@ def _export_paper_impl(session: Session, arxiv_id: str) -> bool:
         _remove_hugo_content_dir(paper_dir)
         return False
 
-    results = (
-        session.query(Result)
-        .options(*_PAPER_RESULT_LOAD_OPTIONS)
-        .filter_by(paper_id=paper.id)
-        .filter(Result.is_problematic.is_(None) | (Result.is_problematic == 0))
-        .all()
-    )
+    context = ExportContext.from_session(session)
+    if context is not None:
+        results = context.paper_results(paper.id)
+    else:
+        results = (
+            session.query(Result)
+            .options(*_PAPER_RESULT_LOAD_OPTIONS)
+            .filter_by(paper_id=paper.id)
+            .filter(Result.is_problematic == 0)
+            .all()
+        )
     out_path = paper_dir / "index.md"
     if not results:
         _remove_hugo_content_dir(paper_dir)
@@ -2969,13 +3083,17 @@ def _export_dataset_impl(session: Session, dataset_id: int) -> bool:
 
     variant_data: list[dict] = []
     for v in variants:
-        all_results = (
-            session.query(Result)
-            .options(*_DATASET_RESULT_LOAD_OPTIONS)
-            .filter_by(dataset_variant_id=v.id)
-            .filter(Result.is_problematic.is_(None) | (Result.is_problematic == 0))
-            .all()
-        )
+        context = ExportContext.from_session(session)
+        if context is not None:
+            all_results = context.variant_results(v.id)
+        else:
+            all_results = (
+                session.query(Result)
+                .options(*_DATASET_RESULT_LOAD_OPTIONS)
+                .filter_by(dataset_variant_id=v.id)
+                .filter(Result.is_problematic == 0)
+                .all()
+            )
 
         if not all_results and not force_export:
             continue
@@ -3338,6 +3456,7 @@ def export_all(
     stale_removed = (0, 0)
 
     with session_scope() as session:
+        ExportContext.load(session).attach(session)
         ds_ok = 0
         t0 = time.perf_counter()
         for did in tqdm(dataset_ids, desc="Exporting datasets", unit="dataset", leave=True):

@@ -7,6 +7,7 @@ import logging
 import time
 from collections.abc import Iterator
 from contextlib import contextmanager
+from dataclasses import dataclass
 from typing import Any
 
 from sqlalchemy.orm import Session, joinedload
@@ -33,6 +34,31 @@ from backend.sota_claim_verifier import is_unrestricted_claim, verify_unrestrict
 logger = logging.getLogger(__name__)
 
 TODO_EXPORT_LIMIT = 500
+
+
+@dataclass
+class DevExportSnapshot:
+    """Rows shared by development summaries and pages in one export run."""
+
+    papers: list[Paper]
+    stage1_skipped: list[PaperCandidate]
+    stage2_skipped: list[PaperCandidate]
+    todo_rows: list[TodoPaper]
+
+    @classmethod
+    def load(cls, session: Session) -> DevExportSnapshot:
+        return cls(
+            papers=session.query(Paper).all(),
+            stage1_skipped=session.query(PaperCandidate)
+            .filter(PaperCandidate.stage1_passed == 0)
+            .all(),
+            stage2_skipped=session.query(PaperCandidate)
+            .filter(PaperCandidate.stage2_passed == 0)
+            .all(),
+            todo_rows=session.query(TodoPaper)
+            .order_by(TodoPaper.is_manually_important.desc(), TodoPaper.seen_count.desc())
+            .all(),
+        )
 
 
 def _dev_line_start(text: str) -> None:
@@ -81,20 +107,17 @@ def export_development_data(*, session: Session | None = None) -> dict[str, int]
 
 def _export_development_data_impl(session: Session, hugo: Any) -> dict[str, int]:
     data_files = 0
+    snapshot = DevExportSnapshot.load(session)
     with _dev_export_step("development JSON"):
         status_counts: dict[str, int] = {}
-        papers = session.query(Paper).all()
+        papers = snapshot.papers
         for paper in papers:
             status_counts[paper.extraction_status] = (
                 status_counts.get(paper.extraction_status, 0) + 1
             )
 
-        skipped_papers = (
-            session.query(PaperCandidate).filter(PaperCandidate.stage1_passed == 0).all()
-        )
-        stage2_skipped = (
-            session.query(PaperCandidate).filter(PaperCandidate.stage2_passed == 0).all()
-        )
+        skipped_papers = snapshot.stage1_skipped
+        stage2_skipped = snapshot.stage2_skipped
 
         missing_daily = sum(
             1 for p in papers if not p.published_date or len(p.published_date.strip()) < 10
@@ -117,18 +140,7 @@ def _export_development_data_impl(session: Session, hugo: Any) -> dict[str, int]
         data_files += 1
 
         try:
-            from sqlalchemy import func
-
-            todo_total = session.query(func.count(TodoPaper.id)).scalar() or 0
-            todo_rows = (
-                session.query(TodoPaper)
-                .order_by(
-                    TodoPaper.is_manually_important.desc(),
-                    TodoPaper.seen_count.desc(),
-                )
-                .limit(TODO_EXPORT_LIMIT)
-                .all()
-            )
+            todo_rows = snapshot.todo_rows[:TODO_EXPORT_LIMIT]
             todo_list = []
             for row in todo_rows:
                 todo_list.append(
@@ -145,7 +157,7 @@ def _export_development_data_impl(session: Session, hugo: Any) -> dict[str, int]
             (hugo._DATA_DIR / "todo_papers.json").write_text(
                 json.dumps(
                     {
-                        "total_count": int(todo_total),
+                        "total_count": len(snapshot.todo_rows),
                         "exported_count": len(todo_list),
                         "limit": TODO_EXPORT_LIMIT,
                         "papers": todo_list,
@@ -159,11 +171,13 @@ def _export_development_data_impl(session: Session, hugo: Any) -> dict[str, int]
         except Exception:
             logger.exception("Failed to export todo_papers.json")
 
-    pages = create_dev_pages(session=session)
+    pages = create_dev_pages(session=session, snapshot=snapshot)
     return {"pages": pages, "data_files": data_files}
 
 
-def create_dev_pages(*, session: Session | None = None) -> int:
+def create_dev_pages(
+    *, session: Session | None = None, snapshot: DevExportSnapshot | None = None
+) -> int:
     """Generate development/admin pages. Returns number of markdown pages written."""
     from backend import export_to_hugo as hugo
 
@@ -172,7 +186,9 @@ def create_dev_pages(*, session: Session | None = None) -> int:
 
     def _run(sess: Session) -> int:
         with _dev_export_step("development pages"):
-            return _create_dev_pages_impl(sess, hugo, content_dev)
+            return _create_dev_pages_impl(
+                sess, hugo, content_dev, snapshot or DevExportSnapshot.load(sess)
+            )
 
     if session is not None:
         return _run(session)
@@ -276,13 +292,15 @@ def create_conferences_page(*, session: Session | None = None) -> int:
     return 1
 
 
-def _create_dev_pages_impl(session: Session, hugo: Any, content_dev: Any) -> int:
+def _create_dev_pages_impl(
+    session: Session, hugo: Any, content_dev: Any, snapshot: DevExportSnapshot
+) -> int:
     pages_written = 0
     primary_metric_results: list[Any] | None = None
     hugo._write_md(content_dev / "_index.md", {"title": "Development", "type": "dev"}, "")
     pages_written += 1
 
-    papers = session.query(Paper).all()
+    papers = snapshot.papers
     by_status: dict[str, list[Paper]] = {}
     for paper in papers:
         by_status.setdefault(paper.extraction_status, []).append(paper)
@@ -338,8 +356,8 @@ def _create_dev_pages_impl(session: Session, hugo: Any, content_dev: Any) -> int
         "\n".join(lines),
     )
 
-    skipped_s1 = session.query(PaperCandidate).filter(PaperCandidate.stage1_passed == 0).all()
-    skipped_s2 = session.query(PaperCandidate).filter(PaperCandidate.stage2_passed == 0).all()
+    skipped_s1 = snapshot.stage1_skipped
+    skipped_s2 = snapshot.stage2_skipped
 
     zero_dataset_candidates = []
     for candidate in skipped_s2:
@@ -997,14 +1015,7 @@ def _create_dev_pages_impl(session: Session, hugo: Any, content_dev: Any) -> int
         logger.exception("Failed to create baseline-improvements dev page")
 
     try:
-        todo_rows = (
-            session.query(TodoPaper)
-            .order_by(
-                TodoPaper.is_manually_important.desc(),
-                TodoPaper.seen_count.desc(),
-            )
-            .all()
-        )
+        todo_rows = snapshot.todo_rows
         lines = ["## Todo Papers (priority queue)", ""]
         lines.append(f"**Total:** {len(todo_rows)} entries")
         lines.append("")
