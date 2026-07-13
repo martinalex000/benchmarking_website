@@ -93,6 +93,14 @@
     {{ with .Params.description }}
     <p class="dataset-description">{{ . }}</p>
     {{ end }}
+    {{/* For single-variant datasets, surface the variant note as a dataset comment paragraph */}}
+    {{ if not $showAllVariants }}
+      {{ with index .Params.variants 0 }}
+        {{ with .notes }}
+    <p class="dataset-description dataset-comment">{{ . }}</p>
+        {{ end }}
+      {{ end }}
+    {{ end }}
   </header>
 
   {{ if $showAllVariants }}
@@ -114,7 +122,7 @@
         {{ $hasVariantStats = true }}
       {{ end }}
     {{ end }}
-    {{ if or $variant.notes (and $showAllVariants $hasVariantStats) }}
+    {{ if and $showAllVariants (or $variant.notes $hasVariantStats) }}
     <div class="dataset-stat-blocks" style="margin-bottom: 1rem;">
       {{ if and $showAllVariants $hasVariantStats }}
       <section class="dataset-stat-group dataset-stat-group-structure">

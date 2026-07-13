@@ -1,8 +1,10 @@
 # My personal todo list for the benchmarks leaderboard webpage. 
 
 ## Small tasks for now
-- make sure all the papers I used to have locally are also processed on the server
 - not all benchmark groups (and benchmarks) have a date and a paper
+- there is still some overlap for the conference badge and the date. 
+- there should be LoG papers in the database
+
 
 ## Larger tasks to do later:
 - copy ogb results. Its important that everything from the ogb website will also appear on my leaderboard.

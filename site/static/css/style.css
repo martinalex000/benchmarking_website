@@ -2377,6 +2377,67 @@ a.mini-badge-code:focus-visible,
 .dataset-stat-group .dataset-stats {
   margin: 0;
 }
+/* Compact "label: value" summarized form for the dataset stat boxes (all viewports) */
+.dataset-page .dataset-stat-group .dataset-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 0.08rem;
+  margin: 0;
+  align-items: stretch;
+}
+.dataset-page .dataset-stat-group .stat-item:not(.stat-item-interactive) {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.45rem;
+  background: transparent;
+  border: none;
+  padding: 0;
+  min-width: 0;
+  width: 100%;
+}
+.dataset-page .dataset-stat-group .stat-item-interactive {
+  display: block;
+  background: transparent;
+  border: none;
+  padding: 0;
+  min-width: 0;
+  width: 100%;
+}
+.dataset-page .dataset-stat-group .stat-item-interactive summary {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.45rem;
+  width: 100%;
+}
+.dataset-page .dataset-stat-group .stat-label {
+  margin: 0;
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 0.72rem;
+  color: var(--gray-600);
+  white-space: nowrap;
+}
+.dataset-page .dataset-stat-group .stat-label::after {
+  content: ":";
+}
+.dataset-page .dataset-stat-group .stat-value {
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.dataset-page .dataset-stat-group-structure .stat-value {
+  color: var(--stat-structure-fg);
+}
+.dataset-page .dataset-stat-group-structure .stat-item {
+  background: transparent;
+  border: none;
+}
 .dataset-stat-group-structure {
   border-color: var(--stat-structure-border);
   background: var(--stat-structure-bg);
@@ -2441,6 +2502,7 @@ a.mini-badge-code:focus-visible,
 }
 .dataset-header .dataset-stat-blocks {
   order: 4;
+  align-items: stretch;
 }
 .dataset-header .dataset-heading-line h1 {
   margin: 0;
@@ -3140,66 +3202,7 @@ tr.row-global-top.row-best td { background: #e0f2fe; }
   .dataset-page .dataset-stat-group {
     padding: 0.35rem 0.5rem;
   }
-  .dataset-page .dataset-stat-group .dataset-stats {
-    display: flex;
-    flex-direction: column;
-    gap: 0.08rem;
-    margin: 0;
-    align-items: stretch;
-  }
-  .dataset-page .dataset-stat-group .stat-item:not(.stat-item-interactive) {
-    display: flex;
-    flex-direction: row-reverse;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 0.45rem;
-    background: transparent;
-    border: none;
-    padding: 0;
-    min-width: 0;
-    width: 100%;
-  }
-  .dataset-page .dataset-stat-group .stat-item-interactive {
-    display: block;
-    background: transparent;
-    border: none;
-    padding: 0;
-    min-width: 0;
-    width: 100%;
-  }
-  .dataset-page .dataset-stat-group .stat-item-interactive summary {
-    display: flex;
-    flex-direction: row-reverse;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 0.45rem;
-    width: 100%;
-  }
-  .dataset-page .dataset-stat-group .stat-label {
-    margin: 0;
-    text-transform: none;
-    letter-spacing: 0;
-    font-size: 0.72rem;
-    color: var(--gray-600);
-    white-space: nowrap;
-  }
-  .dataset-page .dataset-stat-group .stat-label::after {
-    content: ":";
-  }
-  .dataset-page .dataset-stat-group .stat-value {
-    font-size: 0.72rem;
-    font-weight: 700;
-    line-height: 1.2;
-    text-align: right;
-    font-variant-numeric: tabular-nums;
-  }
-  .dataset-page .dataset-stat-group-structure .stat-value {
-    color: var(--stat-structure-fg);
-  }
-  .dataset-page .dataset-stat-group-structure .stat-item {
-    background: transparent;
-    border: none;
-  }
+  /* Compact "label: value" list styling is shared with desktop; see base rules. */
   .dataset-page .dataset-stats .stat-item {
     flex: none;
   }

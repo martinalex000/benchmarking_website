@@ -65,9 +65,9 @@
       {{ end }}
     {{ end }}
   {{ end }}
-  {{ $confLabel := default .Params.published_venue .Params.published_conference }}
-  {{ $confSlug := default (.Params.published_conference_short | lower) .Params.published_conference_slug }}
-  {{ if and (not $confSlug) $confLabel }}{{ $confSlug = $confLabel | urlize }}{{ end }}
+  {{ $confLabel := .Params.published_conference }}
+  {{ $confSlug := .Params.published_conference_slug }}
+  {{ $hasRecognizedConference := and $confLabel $confSlug }}
   <article class="paper-list-item"
        data-paper-search="{{ $searchText }}"
        data-rank-score="{{ default -1 .Params.adjusted_mrr }}"
@@ -77,8 +77,8 @@
        data-paper-conference="{{ $confSlug }}">
     <header class="paper-card-header">
       <h3 class="paper-card-title">
-        {{ with $confLabel }}
-        <button type="button" class="paper-tag-btn paper-venue-btn" data-conference-tag="{{ $confSlug }}">{{ . }}</button><span class="paper-venue-sep" aria-hidden="true">:</span>
+        {{ if $hasRecognizedConference }}
+        <button type="button" class="paper-tag-btn paper-venue-btn" data-conference-tag="{{ $confSlug }}">{{ $confLabel }}</button><span class="paper-venue-sep" aria-hidden="true">:</span>
         {{ end }}
         <a class="paper-card-title-link" href="{{ .RelPermalink }}"><span class="paper-title-text">{{ .Title }}</span></a>
       </h3>
