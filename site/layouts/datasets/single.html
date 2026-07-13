@@ -38,10 +38,10 @@
         </div>
         {{ if or .Params.task_type .Params.pyg_url }}
         <p class="paper-meta dataset-meta-line">
-          {{ with .Params.task_type }}<span class="badge">Task: {{ replace . "_" " " | title }}</span>{{ end }}
+          {{ with .Params.task_type }}<span class="badge">{{ replace . "_" " " | title }}</span>{{ end }}
           {{ with .Params.pyg_url }}
           {{ $isPyg := or (in (lower .) "pytorch-geometric") (in (lower .) "pyg") }}
-          <a class="badge" href="{{ . }}" target="_blank" rel="noopener">{{ if $isPyg }}PyG dataset page ↗{{ else }}Dataset page ↗{{ end }}</a>
+          <a class="badge" href="{{ . }}" target="_blank" rel="noopener">{{ if $isPyg }}<span class="pyg-label-full">PyG dataset page ↗</span><span class="pyg-label-mobile">PyG ↗</span>{{ else }}Dataset page ↗{{ end }}</a>
           {{ end }}
         </p>
         {{ end }}
@@ -150,25 +150,21 @@
     {{ $variantLabels := $variant.metric_display_names | default $variant.metrics }}
     {{ $defaultMetric := $variant.default_metric | default $variant.primary_metric }}
     {{ $showAllDesktop := $variant.show_all_metrics_desktop | default false }}
-    {{ $defaultMetricLabel := $defaultMetric }}
-    {{ range $j, $m := $variant.metrics }}
-      {{ if eq $m $defaultMetric }}
-        {{ $defaultMetricLabel = index $variantLabels $j | default $m }}
-      {{ end }}
-    {{ end }}
     <div class="chart-container" data-variant="{{ $variant.slug }}">
       <div class="chart-heading-row">
-        <h2 class="chart-title" id="chart-title-{{ $variant.slug }}">Best {{ $defaultMetricLabel }} over time — {{ $variant.name }}</h2>
+        <h2 class="chart-title" id="chart-title-{{ $variant.slug }}">SOTA Progression</h2>
         {{ if gt (len $variant.metrics) 1 }}
-        <label class="chart-target-picker-label" for="chart-target-{{ $variant.slug }}">Target</label>
-        {{ $metricCounts := $variant.metric_counts | default slice }}
-        <select id="chart-target-{{ $variant.slug }}" class="chart-target-select" data-variant="{{ $variant.slug }}" aria-label="Chart target metric">
-          <option value="all"{{ if $showAllDesktop }} selected{{ end }}>All</option>
-          {{ range $j, $m := $variant.metrics }}
-          {{ $metricCount := index $metricCounts $j }}
-          <option value="{{ $j }}" data-metric-key="{{ $m }}"{{ if and (not $showAllDesktop) (eq $m $defaultMetric) }} selected{{ end }}>{{ index $variantLabels $j | default $m }}{{ with $metricCount }} ({{ . }}){{ end }}</option>
-          {{ end }}
-        </select>
+        <div class="chart-target-picker">
+          <label class="chart-target-picker-label" for="chart-target-{{ $variant.slug }}">Target</label>
+          {{ $metricCounts := $variant.metric_counts | default slice }}
+          <select id="chart-target-{{ $variant.slug }}" class="chart-target-select" data-variant="{{ $variant.slug }}" aria-label="Chart target metric">
+            <option value="all"{{ if $showAllDesktop }} selected{{ end }}>All</option>
+            {{ range $j, $m := $variant.metrics }}
+            {{ $metricCount := index $metricCounts $j }}
+            <option value="{{ $j }}" data-metric-key="{{ $m }}"{{ if and (not $showAllDesktop) (eq $m $defaultMetric) }} selected{{ end }}>{{ index $variantLabels $j | default $m }}{{ with $metricCount }} ({{ . }}){{ end }}</option>
+            {{ end }}
+          </select>
+        </div>
         {{ end }}
       </div>
       <div class="chart-plot-wrap{{ if not $variant.higher_is_better }} chart-plot-wrap-lower-is-better{{ end }}">
@@ -194,7 +190,7 @@
     </div>
 
     <div class="leaderboard-section" data-variant="{{ $variant.slug }}">
-      <h2>Leaderboard — {{ $variant.name }}</h2>
+      <h2>Leaderboard{{ if $showAllVariants }} — {{ $variant.name }}{{ end }}</h2>
       {{ $rowsLen := len $variant.rows }}
       {{ $totalRows := $variant.row_count | default $rowsLen }}
       {{ partial "leaderboard-filters.html" (dict "rows" $variant.rows "arch_counts" $variant.arch_counts) }}

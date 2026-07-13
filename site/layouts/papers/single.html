@@ -68,13 +68,16 @@
   {{ end }}
 
   {{ with .Params.abstract }}
-  <section class="abstract">
+  <section class="abstract paper-abstract">
     <h2>Abstract</h2>
     {{ $linked := . }}
     {{ $linked = replaceRE "(https?://[A-Za-z0-9_./?#%&=-]+)([.,;:!?]+)$" "<a href=\"$1\" target=\"_blank\" rel=\"noopener noreferrer\">$1</a>$2" $linked }}
     {{ $linked = replaceRE "(https?://[A-Za-z0-9_./?#%&=-]+) " "<a href=\"$1\" target=\"_blank\" rel=\"noopener noreferrer\">$1</a> " $linked }}
     {{ $linked = replaceRE "(https?://[A-Za-z0-9_./?#%&=-]+)$" "<a href=\"$1\" target=\"_blank\" rel=\"noopener noreferrer\">$1</a>" $linked }}
-    <p>{{ $linked | safeHTML }}</p>
+    <div class="paper-abstract-copy">
+      <p class="paper-abstract-text">{{ $linked | safeHTML }}</p>
+      <button class="paper-abstract-toggle" type="button" aria-expanded="false" hidden>Read more</button>
+    </div>
   </section>
   {{ end }}
 
@@ -133,27 +136,41 @@
   {{ if .Params.results }}
   <section class="results-section">
     <h2>Benchmark Results</h2>
-
-    {{ partial "paper-results-legend.html" . }}
+    {{ partial "paper-results-summary.html" . }}
+    <p class="paper-results-context">Tables show presented results in global context (best 3 papers + GCN + MLP).</p>
 
     {{ with .Params.datasets_by_scope }}
     <div class="paper-results-anchor-nav-group" aria-label="Jump to datasets">
       {{ range . }}
       <nav class="paper-results-anchor-nav">
         <span class="paper-anchor-scope">{{ .label }}</span>
+        <div class="paper-anchor-datasets">
         {{ range .benchmarks }}
         {{ $bmSlug := .benchmark_slug }}
         <span class="paper-anchor-benchmark">{{ .benchmark }}</span>
         {{ range .datasets }}
-        <a href="#paper-ds-{{ $bmSlug }}-{{ .dataset_slug }}">{{ .dataset }}</a>
+        {{ $datasetSlug := .dataset_slug }}
+        {{ $reachedSota := false }}
+        {{ range $.Params.results_grouped }}
+          {{ range .datasets }}
+            {{ if eq .dataset_slug $datasetSlug }}
+              {{ range .rows }}
+                {{ if and (not .is_baseline) (not .is_global_top) .better_than_at_pub }}{{ $reachedSota = true }}{{ end }}
+              {{ end }}
+            {{ end }}
+          {{ end }}
+        {{ end }}
+        <a class="{{ if $reachedSota }}paper-anchor-sota{{ end }}" href="#paper-ds-{{ $bmSlug }}-{{ $datasetSlug }}">{{ .dataset }}</a>
         {{ end }}
         {{ end }}
+        </div>
       </nav>
       {{ end }}
     </div>
     {{ else }}
     {{ if $.Params.results_grouped }}
     <nav class="paper-results-anchor-nav" aria-label="Jump to datasets">
+      <div class="paper-anchor-datasets">
       {{ range $.Params.results_grouped }}
       {{ $bmSlug := .benchmark | urlize }}
       <span class="paper-anchor-benchmark">{{ .benchmark }}</span>
@@ -161,6 +178,7 @@
       <a href="#paper-ds-{{ $bmSlug }}-{{ .dataset | urlize }}">{{ .dataset }}</a>
       {{ end }}
       {{ end }}
+      </div>
     </nav>
     {{ end }}
     {{ end }}
@@ -181,8 +199,8 @@
               <a href="{{ printf "datasets/%s/" $dsSlug | relURL }}">{{ $group.dataset }}</a>
             </h4>
             <a class="paper-dataset-leaderboard-link" href="{{ printf "datasets/%s/" $dsSlug | relURL }}">Global leaderboard →</a>
+            {{ partial "paper-dataset-metric-notice.html" (dict "group" $group) }}
           </div>
-          {{ partial "paper-dataset-metric-notice.html" (dict "group" $group) }}
           {{ if $group.uses_non_primary_metric }}
           <p class="paper-dataset-help">Sorted by {{ $group.metric }}. Highlighted rows are from other papers.</p>
           {{ end }}
@@ -208,8 +226,8 @@
             <a href="{{ printf "datasets/%s/" $dsSlug | relURL }}">{{ $group.dataset }}</a>
           </h3>
           <a class="paper-dataset-leaderboard-link" href="{{ printf "datasets/%s/" $dsSlug | relURL }}">Global leaderboard →</a>
+          {{ partial "paper-dataset-metric-notice.html" (dict "group" $group) }}
         </div>
-        {{ partial "paper-dataset-metric-notice.html" (dict "group" $group) }}
         {{ if $group.uses_non_primary_metric }}
         <p class="paper-dataset-help">Sorted by {{ $group.metric }}. Highlighted rows are from other papers.</p>
         {{ end }}
@@ -222,6 +240,8 @@
       </section>
       {{ end }}
     {{ end }}
+
+    {{ partial "paper-results-legend.html" . }}
   </section>
   {{ end }}
 

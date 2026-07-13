@@ -6,15 +6,25 @@
 {{ $g := .group }}
 {{ $default := $g.dataset_primary_metric | default $g.primary_metric }}
 {{ $display := $g.metric | default $g.primary_metric }}
-{{ if $g.uses_non_primary_metric }}
+{{ if $g.is_multi_metric }}
+{{ $lastMetricIndex := sub (len $g.metrics) 1 }}
+<p class="paper-metric-summary">
+  Default metric is <span class="paper-metric-em">{{ $default }}</span>.
+  The paper reports
+  {{ range $i, $metric := $g.metrics }}
+    {{ $count := 0 }}
+    {{ range $g.rows }}
+      {{ if and (not .is_global_top) (ne (index .metric_values $i) nil) }}{{ $count = add $count 1 }}{{ end }}
+    {{ end }}
+    {{ if gt $i 0 }}{{ if eq $i $lastMetricIndex }} and {{ else }}, {{ end }}{{ end }}
+    {{ $count }} {{ if eq $count 1 }}value{{ else }}values{{ end }} on <span class="paper-metric-em">{{ $metric }}</span>
+  {{ end }}.
+</p>
+{{ else if $g.uses_non_primary_metric }}
 <div class="paper-metric-alert paper-metric-alert-warning" role="status">
   <strong>Non-default metric.</strong>
   This paper reports <span class="paper-metric-em">{{ $display }}</span>;
   the dataset default is <span class="paper-metric-em">{{ $default }}</span>.
   Values below use <span class="paper-metric-em">{{ $display }}</span> only.
-</div>
-{{ else if $g.is_multi_metric }}
-<div class="paper-metric-alert paper-metric-alert-info" role="status">
-  Dataset default metric: <span class="paper-metric-em">{{ $default }}</span>
 </div>
 {{ end }}

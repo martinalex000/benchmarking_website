@@ -4,10 +4,24 @@
 
   var PAGE_SIZE = 100;
 
-  function cell(value) {
+  function cell(value, label) {
     var td = document.createElement("td");
     td.textContent = value == null ? "" : String(value);
+    td.dataset.label = label;
     return td;
+  }
+
+  function labelStaticTables() {
+    document.querySelectorAll(".dev-page table").forEach(function (table) {
+      var labels = Array.from(table.querySelectorAll("thead th")).map(function (th) {
+        return th.textContent.trim();
+      });
+      table.querySelectorAll("tbody tr").forEach(function (row) {
+        Array.from(row.cells).forEach(function (td, index) {
+          if (labels[index]) td.dataset.label = labels[index];
+        });
+      });
+    });
   }
 
   function renderTable(host, table) {
@@ -58,7 +72,9 @@
       body.replaceChildren();
       filtered.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE).forEach(function (row) {
         var tr = document.createElement("tr");
-        columns.forEach(function (column) { tr.appendChild(cell(row[column.key])); });
+        columns.forEach(function (column) {
+          tr.appendChild(cell(row[column.key], column.label || column.key));
+        });
         body.appendChild(tr);
       });
       meta.textContent = filtered.length + " matching rows";
@@ -86,6 +102,7 @@
   }
 
   document.addEventListener("DOMContentLoaded", function () {
+    labelStaticTables();
     document.querySelectorAll(".dev-json-tables[data-src]").forEach(function (host) {
       fetch(host.dataset.src, { credentials: "same-origin" })
         .then(function (response) {

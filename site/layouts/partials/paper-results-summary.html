@@ -1,0 +1,36 @@
+{{/* Compact, dataset-level summary for an individual paper's benchmark results. */}}
+{{ $datasetCount := 0 }}
+{{ $sotaDatasetCount := 0 }}
+{{ $lowBaselineCount := 0 }}
+{{ $nonStandardMetricCount := 0 }}
+{{ range .Params.results_grouped }}
+  {{ range .datasets }}
+    {{ $datasetCount = add $datasetCount 1 }}
+    {{ if .uses_non_primary_metric }}{{ $nonStandardMetricCount = add $nonStandardMetricCount 1 }}{{ end }}
+    {{ $reachedSota := false }}
+    {{ range .rows }}
+      {{ if and (not .is_baseline) (not .is_global_top) .better_than_at_pub }}
+        {{ $reachedSota = true }}
+      {{ end }}
+      {{ if and .is_baseline .worse_than_at_pub }}
+        {{ $lowBaselineCount = add $lowBaselineCount 1 }}
+      {{ end }}
+    {{ end }}
+    {{ if $reachedSota }}{{ $sotaDatasetCount = add $sotaDatasetCount 1 }}{{ end }}
+  {{ end }}
+{{ end }}
+<p class="paper-results-summary">
+  Tested on {{ $datasetCount }} {{ if eq $datasetCount 1 }}dataset{{ else }}datasets{{ end }}
+  {{ if gt $sotaDatasetCount 0 }}
+  <span aria-hidden="true">·</span>
+  SOTA at publication on {{ $sotaDatasetCount }}
+  {{ end }}
+  {{ if gt $lowBaselineCount 0 }}
+  <span aria-hidden="true">·</span>
+  {{ $lowBaselineCount }} {{ if eq $lowBaselineCount 1 }}baseline value{{ else }}baseline values{{ end }} reported too low
+  {{ end }}
+  {{ if gt $nonStandardMetricCount 0 }}
+  <span aria-hidden="true">·</span>
+  Non-standard metric on {{ $nonStandardMetricCount }} {{ if eq $nonStandardMetricCount 1 }}dataset{{ else }}datasets{{ end }}
+  {{ end }}
+</p>

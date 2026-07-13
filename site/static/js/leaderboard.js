@@ -543,6 +543,11 @@
       html += '<span class="paper-code-missing" title="No code link available">no code</span>';
     }
     html += '</div><div class="paper-inline-meta">';
+    if (conferenceLabel) {
+      html += '<a class="paper-conference-badge paper-conference-badge-mobile" href="' +
+        _siteBasePath() + "/papers/?conference=" + encodeURIComponent(conferenceSlug) +
+        '" title="Filter papers by venue">' + _escapeHtml(conferenceLabel) + "</a>";
+    }
     html += '<span class="paper-date-inline paper-date-inline-full">' + _escapeHtml(dateDisplay) + "</span>";
     html += '<span class="paper-date-inline paper-date-inline-short">' + _escapeHtml(mobileDate) + "</span>";
     html += '<button type="button" class="mobile-details-toggle" aria-expanded="false" aria-controls="' +
@@ -982,7 +987,6 @@
     var variant = _getVariant(slug);
     var normalizedSelection = _normalizeTargetSelection(selection, variant);
     var metricIndex = _targetMetricIndex(variant, normalizedSelection);
-    var label = _metricLabel(variant, metricIndex);
 
     variantTargetSelection[slug] = normalizedSelection;
     variantMetricIndex[slug] = metricIndex;
@@ -1000,7 +1004,7 @@
 
     var title = document.getElementById("chart-title-" + slug);
     if (title) {
-      title.textContent = "Best " + label + " over time — " + (variant.name || "");
+      title.textContent = "SOTA Progression";
     }
 
     _syncLogScaleToggle(slug, metricIndex);
@@ -1166,6 +1170,13 @@
   }
 
   function _tableShowsSecondaryCols(table) {
+    // Paper pages always render every reported metric. Treat genuinely wide
+    // multi-metric tables like the dataset page's expanded metric view.
+    if (_secondaryMetricsDesktopOnly() &&
+        table.classList.contains("paper-multi-metric-cols") &&
+        table.querySelectorAll("thead th.col-value").length > 3) {
+      return true;
+    }
     if (_secondaryMetricsDesktopOnly() && table.classList.contains("dataset-flat-metrics")) {
       return table.classList.contains("show-flat-all-metrics");
     }
@@ -1187,7 +1198,8 @@
       table.classList.remove("secondary-metrics-blocked");
       if (notice) notice.hidden = true;
       table.querySelectorAll(".secondary-metrics").forEach(function (block) {
-        block.hidden = true;
+        // CSS reveals this content only when its mobile row is expanded.
+        block.hidden = false;
         block.classList.remove("is-visible");
       });
       return;
@@ -2094,14 +2106,14 @@
     var references = [
       gnnReference ? {
         value: gnnReference.value,
-        color: "rgba(15,118,110,0.9)",
+        color: _chartCssVar("--chart-reference-gnn", "rgba(15,118,110,0.9)"),
         dash: [8, 4],
         label: gnnReference.label + " " + _formatMetricValue(gnnReference.value),
         position: "below",
       } : null,
       mlpReference ? {
         value: mlpReference.value,
-        color: "rgba(107,114,128,0.9)",
+        color: _chartCssVar("--chart-reference-mlp", "rgba(107,114,128,0.9)"),
         dash: [3, 4],
         label: mlpReference.label + " " + _formatMetricValue(mlpReference.value),
         position: "above",
@@ -2481,7 +2493,11 @@
             type: "linear",
             min: xMinPad,
             max: xMaxPad,
-            title: { display: true, text: "Date", color: _chartTheme().tick },
+            title: {
+              display: !_mobileFrontierChartOnly(),
+              text: "Date",
+              color: _chartTheme().tick,
+            },
             grid: { color: _chartTheme().grid },
             afterBuildTicks: function (scale) {
               var min = scale.min;
@@ -2771,7 +2787,15 @@
       var wrapper = table.closest(".result-table-wrapper");
       if (!wrapper) return;
 
-      var tableWide = _tableShowsSecondaryCols(table);
+      var tableWide = !wrapper.classList.contains("paper-table-narrow-mode") &&
+        _tableShowsSecondaryCols(table);
+      var isWidePaperMetrics = table.classList.contains("paper-multi-metric-cols") && tableWide;
+      // Apply wide-mode sizing before measuring. Otherwise the first pass uses
+      // the generic 18ch metric tracks and keeps that excess width cached.
+      wrapper.classList.toggle("wide-table-mode", tableWide);
+      if (tableWide) {
+        wrapper.style.removeProperty("--wide-table-width");
+      }
       var isFlatAllMetrics = table.classList.contains("dataset-flat-metrics") &&
         table.classList.contains("show-flat-all-metrics");
 
@@ -2824,12 +2848,12 @@
       _applyRankColumnWidth(table);
 
       if (tableWide) {
-        wrapper.classList.add("wide-table-mode");
-
         var viewportCap = Math.max(320, window.innerWidth - 56);
         var fitCap = Math.max(300, viewportCap - 8);
-        var minPaper = 24;
-        var minModel = 7;
+        // Paper result tables have no room to hide the model name: prefer a
+        // shorter paper-title column over collapsing it to a handful of glyphs.
+        var minPaper = isWidePaperMetrics ? 15 : 24;
+        var minModel = isWidePaperMetrics ? 12 : 7;
         var minValue = 7;
         var guard = 0;
 
@@ -2848,13 +2872,17 @@
             guard += 1;
           }
 
-          // Give paper any spare viewport width freed by a narrower model column.
-          var maxPaper = Math.max(paperChars + 48, 80);
-          guard = 0;
-          while (table.scrollWidth < fitCap - 2 && paperChars < maxPaper && guard < 96) {
-            paperChars += 1;
-            table.style.setProperty("--paper-col-width", paperChars + "ch");
-            guard += 1;
+          // Dataset tables benefit from using spare room for their paper title.
+          // Paper result tables instead keep natural metric widths so a wide
+          // view is centered around the content rather than filling the viewport.
+          if (!isWidePaperMetrics) {
+            var maxPaper = Math.max(paperChars + 48, 80);
+            guard = 0;
+            while (table.scrollWidth < fitCap - 2 && paperChars < maxPaper && guard < 96) {
+              paperChars += 1;
+              table.style.setProperty("--paper-col-width", paperChars + "ch");
+              guard += 1;
+            }
           }
 
           guard = 0;
@@ -2868,7 +2896,6 @@
         var needed = Math.min(viewportCap, table.scrollWidth + 1);
         wrapper.style.setProperty("--wide-table-width", needed + "px");
       } else {
-        wrapper.classList.remove("wide-table-mode");
         wrapper.style.removeProperty("--wide-table-width");
       }
     });
@@ -3003,6 +3030,30 @@
     });
   }
 
+  function _initPaperTableWidthControls() {
+    document.querySelectorAll(".paper-table-width-toggle").forEach(function (btn) {
+      if (btn.dataset.widthToggleBound) return;
+      btn.dataset.widthToggleBound = "1";
+
+      var wrapper = btn.closest(".result-table-wrapper");
+      if (!wrapper) return;
+
+      function sync() {
+        var narrow = wrapper.classList.contains("paper-table-narrow-mode");
+        btn.textContent = narrow ? "Wide view" : "Narrow view";
+        btn.setAttribute("aria-pressed", narrow ? "false" : "true");
+      }
+
+      btn.addEventListener("click", function () {
+        wrapper.classList.toggle("paper-table-narrow-mode");
+        _applyModelColumnWidths();
+        _applyModelTooltips();
+        sync();
+      });
+      sync();
+    });
+  }
+
   function _applyModelTooltips() {
     document.querySelectorAll(".result-table tbody td.col-model").forEach(function (td) {
       var row = td.closest("tr");
@@ -3028,8 +3079,13 @@
     _initTableExpanders();
     _initSecondaryMetricsNotices();
     _initMobileRowDetails();
+    _initPaperTableWidthControls();
+    _applyModelColumnWidths();
     _applyModelTooltips();
-    window.addEventListener("resize", _applyModelTooltips);
+    window.addEventListener("resize", function () {
+      _applyModelColumnWidths();
+      _applyModelTooltips();
+    });
   }
 
   /* ── Public API ─────────────────────────────────────────────────────── */

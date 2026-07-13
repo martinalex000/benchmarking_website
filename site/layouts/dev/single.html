@@ -14,11 +14,11 @@
 <style>
 .dev-page { max-width: 1100px; margin: 0 auto; padding: 1.5rem; }
 .dev-page h1 { margin-bottom: 0.5rem; }
-.dev-page .lead { color: #666; font-size: 1.05rem; margin-bottom: 2rem; }
+.dev-page .lead { color: var(--gray-600); font-size: 1.05rem; margin-bottom: 2rem; }
 .dev-page table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
-.dev-page table th, .dev-page table td { padding: 0.75rem; text-align: left; border-bottom: 1px solid #ddd; }
-.dev-page table th { background: #f3f4f6; font-weight: 600; }
-.dev-page table tr:hover { background: #fafafa; }
+.dev-page table th, .dev-page table td { padding: 0.75rem; text-align: left; border-bottom: 1px solid var(--gray-300); }
+.dev-page table th { background: var(--gray-100); font-weight: 600; }
+.dev-page table tr:hover { background: var(--bg-muted); }
 .dev-page .status-badge { display: inline-block; padding: 0.25rem 0.6rem; border-radius: 3px; font-size: 0.85rem; font-weight: 500; }
 .status-badge.extracted { background: #d1fae5; color: #065f46; }
 .status-badge.downloaded { background: #dbeafe; color: #1e40af; }
@@ -27,11 +27,49 @@
 .dev-table-controls { display: flex; gap: .75rem; align-items: center; margin: 1rem 0; }
 .dev-table-search { min-width: min(100%, 22rem); padding: .45rem .6rem; }
 .dev-table-page { padding: .45rem .7rem; }
-.dev-table-meta { color: #666; font-size: .9rem; }
+.dev-table-meta { color: var(--gray-600); font-size: .9rem; }
 .dev-table-scroll { overflow-x: auto; }
+
+@media (max-width: 720px) {
+  .dev-page { padding: 1rem; }
+  .dev-page table,
+  .dev-page table tbody,
+  .dev-page table tr,
+  .dev-page table td { display: block; width: 100%; }
+  .dev-page table thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+  }
+  .dev-page table { margin: 1rem 0; }
+  .dev-page table tbody { display: grid; gap: 0.65rem; }
+  .dev-page table tr {
+    border: 1px solid var(--gray-300);
+    border-radius: var(--radius);
+    background: var(--surface);
+    padding: 0.2rem 0.7rem;
+  }
+  .dev-page table td {
+    display: grid;
+    grid-template-columns: minmax(6rem, 8rem) minmax(0, 1fr);
+    gap: 0.5rem;
+    padding: 0.55rem 0;
+    overflow-wrap: anywhere;
+  }
+  .dev-page table td::before {
+    content: attr(data-label);
+    color: var(--gray-600);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
+}
 </style>
 {{ end }}
 
 {{ define "scripts" }}
-{{ with .Params.dev_table_json }}<script src="{{ "js/dev-tables.js" | relURL }}?v={{ now.Unix }}"></script>{{ end }}
+<script src="{{ "js/dev-tables.js" | relURL }}?v={{ now.Unix }}"></script>
 {{ end }}

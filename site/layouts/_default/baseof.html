@@ -68,7 +68,7 @@
     </ul>
     {{ if .Site.GetPage "section" "dev" }}
     <div class="site-nav-utility">
-      <a class="site-dev-link" href="{{ "dev/" | relURL }}">Development</a>
+      <a class="site-dev-link" href="{{ "dev/" | relURL }}"><span class="site-dev-label-full">Development</span><span class="site-dev-label-short">Dev</span></a>
     </div>
     {{ end }}
   </nav>

@@ -65,11 +65,61 @@
     });
   }
 
+  function initAbstractToggle() {
+    var abstract = document.querySelector(".paper-abstract");
+    if (!abstract) {
+      return;
+    }
+
+    var copy = abstract.querySelector(".paper-abstract-copy");
+    var text = abstract.querySelector(".paper-abstract-text");
+    var button = abstract.querySelector(".paper-abstract-toggle");
+    var mobileQuery = window.matchMedia("(max-width: 720px)");
+    if (!copy || !text || !button) {
+      return;
+    }
+
+    function updateToggle() {
+      if (!mobileQuery.matches) {
+        copy.classList.remove("is-expanded");
+        button.hidden = true;
+        button.setAttribute("aria-expanded", "false");
+        return;
+      }
+
+      if (copy.classList.contains("is-expanded")) {
+        button.hidden = false;
+        return;
+      }
+      button.hidden = text.scrollHeight <= text.clientHeight + 1;
+    }
+
+    function toggle() {
+      if (!mobileQuery.matches || button.hidden) {
+        return;
+      }
+      var expanded = copy.classList.toggle("is-expanded");
+      button.textContent = expanded ? "Show less" : "Read more";
+      button.setAttribute("aria-expanded", String(expanded));
+    }
+
+    abstract.addEventListener("click", function (event) {
+      if (event.target.closest("a")) {
+        return;
+      }
+      toggle();
+    });
+    mobileQuery.addEventListener("change", updateToggle);
+    window.addEventListener("resize", updateToggle);
+    requestAnimationFrame(updateToggle);
+  }
+
   document.addEventListener("DOMContentLoaded", function () {
     if (!document.querySelector(".paper-page")) {
       return;
     }
     initStickyPaperTitle();
     initMrrPopover();
+    initAbstractToggle();
   });
 })();
