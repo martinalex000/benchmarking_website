@@ -166,6 +166,7 @@ class ExtractionOutput(BaseModel):
     results: list[ResultEntry] = Field(default_factory=list)
     extraction_confidence: str = "LOW"
     extraction_notes: str = ""
+    task_mismatch: bool = False
     discovered_datasets: list[DatasetInfo] = Field(default_factory=list)
     paper_has_statistics: bool = False
 

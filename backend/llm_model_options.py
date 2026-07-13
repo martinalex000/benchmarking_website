@@ -8,8 +8,8 @@ _DEFAULT_CONTEXT_TABLE_CHARS = 10_000
 _GPT_OSS_CONTEXT_TEXT_CHARS = 6_000
 _GPT_OSS_CONTEXT_TABLE_CHARS = 6_000
 
-_DEFAULT_EXTRACT_MAX_TOKENS = 8192
-_GPT_OSS_EXTRACT_MAX_TOKENS = 16_384
+_DEFAULT_EXTRACT_MAX_TOKENS = 50_000
+_GPT_OSS_EXTRACT_MAX_TOKENS = 50_000
 
 # Mapping from internal API alias → human-readable display name stored in the DB.
 # Keys are lowercased for case-insensitive matching.
@@ -54,11 +54,11 @@ def strict_no_reasoning_required(model_name: str | None) -> bool:
     model = (model_name or "").lower()
     if "qwen3" in model:
         return True
+    if "glm" in model or is_gpt_oss_model(model_name):
+        return True
     if "kimi" in model or "alias-huge" in model or "bubble" in model:
         return True
-    if "minimax" in model:
-        return True
-    return False
+    return "minimax" in model
 
 
 def _minimax_no_thinking_extra_body() -> dict:
@@ -87,10 +87,13 @@ def extra_body_for_model(model_name: str | None) -> dict | None:
     model = (model_name or "").lower()
 
     if is_gpt_oss_model(model_name):
-        return {"chat_template_kwargs": {"reasoning_effort": "low"}}
+        return {"reasoning_effort": "none"}
 
     # Qwen3 via compatible gateways.
     if "qwen3" in model:
+        return {"chat_template_kwargs": {"enable_thinking": False}}
+
+    if "glm" in model:
         return {"chat_template_kwargs": {"enable_thinking": False}}
 
     # MiniMax and Kimi/Moonshot families.

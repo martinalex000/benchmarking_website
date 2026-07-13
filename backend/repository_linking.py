@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import base64
 import logging
+import os
 import re
 from typing import Any
 from urllib.parse import urlparse, urlunparse
@@ -44,6 +45,8 @@ _GITHUB_API_HEADERS = {
     "Accept": "application/vnd.github+json",
     "User-Agent": "Mozilla/5.0 (compatible; GraphBenchBot/1.0)",
 }
+if os.environ.get("GITHUB_TOKEN"):
+    _GITHUB_API_HEADERS["Authorization"] = f"Bearer {os.environ['GITHUB_TOKEN']}"
 _WEB_HEADERS = {"User-Agent": "Mozilla/5.0 (compatible; GraphBenchBot/1.0)"}
 _KNOWN_REPO_HOSTS = frozenset(
     {
@@ -197,6 +200,9 @@ def extract_repository_candidates(
     if not text:
         return []
 
+    # URLs in LaTeX often escape underscores (``Graph\_Toolformer``).  Scan
+    # the rendered URL rather than truncating it at the backslash.
+    text = text.replace(r"\_", "_")
     candidates: dict[str, dict[str, Any]] = {}
     for match in _URL_RE.finditer(text):
         raw_url = match.group(0)
@@ -291,6 +297,38 @@ def _github_owner_repo(repo_url: str) -> tuple[str, str] | None:
     if len(parts) != 2:
         return None
     return parts[0], parts[1]
+
+
+def repository_url_exists(repo_url: str) -> bool | None:
+    """Return whether a repository URL is live, or ``None`` when uncheckable.
+
+    A failed network request must not erase a valid stored URL.  GitHub exposes
+    a reliable API status, so missing GitHub repositories can be rejected
+    deterministically while other hosts remain unchanged until verified.
+    """
+    owner_repo = _github_owner_repo(repo_url)
+    try:
+        if owner_repo is not None:
+            owner, repo = owner_repo
+            response = requests.get(
+                f"https://api.github.com/repos/{owner}/{repo}",
+                headers=_GITHUB_API_HEADERS,
+                timeout=20,
+            )
+        else:
+            response = requests.get(repo_url, headers=_WEB_HEADERS, timeout=20, stream=True)
+    except Exception as exc:
+        logger.info("Repository availability check failed for %s: %s", repo_url, exc)
+        return None
+    finally:
+        if "response" in locals():
+            response.close()
+
+    if response.status_code in range(200, 400):
+        return True
+    if response.status_code in {404, 410}:
+        return False
+    return None
 
 
 def fetch_github_repo_profile(repo_url: str) -> dict[str, str]:
@@ -601,11 +639,15 @@ def find_verified_repository_link(
             readme=evidence,
         )
         result["checked_candidates"].append(verdict)
-        if verdict["belongs_to_paper"] and verdict["confidence"] >= _MIN_VERIFICATION_CONFIDENCE:
-            if best_verified is None or float(verdict["confidence"]) > float(
-                best_verified["confidence"]
-            ):
-                best_verified = verdict
+        if (
+            verdict["belongs_to_paper"]
+            and verdict["confidence"] >= _MIN_VERIFICATION_CONFIDENCE
+            and (
+                best_verified is None
+                or float(verdict["confidence"]) > float(best_verified["confidence"])
+            )
+        ):
+            best_verified = verdict
 
     if best_verified is not None:
         result["verified_url"] = best_verified["url"]

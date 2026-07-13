@@ -359,6 +359,107 @@ def _dataset_statistics_hint_block(datasets: list[DatasetInfo]) -> str:
     )
 
 
+def _known_dataset_context(datasets: list[DatasetInfo], arxiv_id: str) -> dict[str, str]:
+    """Return canonical task metadata and reference baselines for known datasets."""
+    if not datasets:
+        return {}
+
+    try:
+        from sqlalchemy import func
+
+        from backend.db import get_session_factory
+        from backend.models import Dataset as DatasetModel
+        from backend.models import DatasetVariant, Model, Paper, Result
+
+        names = {dataset.name.casefold() for dataset in datasets if dataset.name}
+        session_factory = get_session_factory()
+        with session_factory() as session:
+            known = (
+                session.query(DatasetModel).filter(func.lower(DatasetModel.name).in_(names)).all()
+            )
+            by_name = {dataset.name.casefold(): dataset for dataset in known}
+            dataset_ids = [dataset.id for dataset in known]
+            if not dataset_ids:
+                return {}
+
+            rows = (
+                session.query(Result, DatasetVariant, DatasetModel, Model)
+                .join(DatasetVariant, Result.dataset_variant_id == DatasetVariant.id)
+                .join(DatasetModel, DatasetVariant.dataset_id == DatasetModel.id)
+                .join(Model, Result.model_id == Model.id)
+                .join(Paper, Result.paper_id == Paper.id)
+                .filter(
+                    DatasetModel.id.in_(dataset_ids),
+                    DatasetVariant.is_standard == 1,
+                    Result.is_problematic == 0,
+                    Model.canonical_name.in_(("gcn", "gin", "graphgps")),
+                )
+            )
+            if arxiv_id:
+                rows = rows.filter(Paper.arxiv_id != arxiv_id)
+
+            best: dict[tuple[int, str], float] = {}
+            for result, _variant, dataset, model in rows:
+                if result.metric_name != dataset.primary_metric:
+                    continue
+                key = (dataset.id, model.canonical_name)
+                current = best.get(key)
+                if current is None or bool(dataset.higher_is_better) == (
+                    result.metric_value > current
+                ):
+                    best[key] = result.metric_value
+
+            context: dict[str, str] = {}
+            for name, dataset in by_name.items():
+                task_type = dataset.task_type or "unknown"
+                primary_metric = dataset.primary_metric or "unknown"
+                fields = [
+                    f'CANONICAL DATASET RECORD: task_type="{task_type}"',
+                    f'primary_metric="{primary_metric}"',
+                ]
+                references = [
+                    f"{model.upper()}={best[(dataset.id, model)]:.6g}"
+                    for model in ("gcn", "gin", "graphgps")
+                    if (dataset.id, model) in best
+                ]
+                if references:
+                    fields.append("stored reference performance: " + ", ".join(references))
+                fields.append(
+                    "Use this only to identify the canonical task and metric; never copy these "
+                    "reference values into the extraction. Reject results for a different task."
+                )
+                context[name] = "\n".join(fields)
+            return context
+    except Exception as exc:
+        logger.debug("Canonical dataset context lookup skipped: %s", exc)
+        return {}
+
+
+def _tables_conflict_with_canonical_task(canonical_context: str, tables: list) -> bool:
+    """Detect the explicit link-prediction/node-classification mismatch."""
+    if 'task_type="node_classification"' not in canonical_context or not tables:
+        return False
+
+    link_task_markers = (
+        "link prediction",
+        "existence prediction",
+        "direction prediction",
+        "three classes link",
+    )
+    table_texts = [
+        " ".join(
+            (
+                getattr(table, "caption", "") or "",
+                getattr(table, "markdown", "") or str(table),
+            )
+        ).casefold()
+        for table in tables
+    ]
+    return all(
+        any(marker in table_text for marker in link_task_markers) for table_text in table_texts
+    )
+
+
 def _statistics_table_summaries(tables: list) -> list[dict[str, Any]]:
     summaries: list[dict[str, Any]] = []
     for table in tables:
@@ -1189,6 +1290,7 @@ class LLMExtractor(LLMClientMixin):
         *,
         intro_model_hint: str | None,
         metric_constraint: str,
+        canonical_context: str = "",
     ) -> str:
         return (
             f'FOCUS: Extract results ONLY for the dataset "{dataset_name}".\n'
@@ -1204,6 +1306,7 @@ class LLMExtractor(LLMClientMixin):
                 else ""
             )
             + f"{metric_constraint}\n"
+            + (f"\n{canonical_context}\n" if canonical_context else "")
         )
 
     def _extract_dataset_with_retries(
@@ -1218,9 +1321,14 @@ class LLMExtractor(LLMClientMixin):
         call_type: str,
         max_tokens: int | None = None,
         max_table_chars: int,
+        single_pass: bool = False,
     ) -> ExtractionOutput:
-        """Extract one dataset with tables-only and per-table retries on empty output."""
+        """Extract one dataset, optionally making exactly one model call."""
         effective_max = max_tokens or extraction_max_tokens_for_model(self.model_name)
+        if single_pass:
+            # A focused per-dataset answer is small.  This prevents one malformed
+            # response from consuming the complete 50k request budget.
+            effective_max = min(effective_max, 8_192)
         tables_only = self._build_tables_only_context(ds_tables, max_table_chars)
 
         def _run(content: str, suffix: str) -> ExtractionOutput:
@@ -1245,9 +1353,17 @@ class LLMExtractor(LLMClientMixin):
             if tables_only:
                 attempts.append((":tables_only", tables_only))
 
+        if single_pass:
+            # Benchmark runs need stable, comparable call counts.  Tables-only
+            # context is both shorter and less likely to mix in another task.
+            suffix, context = attempts[-1] if tables_only else attempts[0]
+            return _run(_sanitize_text(focus_prefix + context), suffix)
+
         out = ExtractionOutput(results=[])
         for suffix, ctx in attempts:
             out = _run(_sanitize_text(focus_prefix + ctx), suffix)
+            if out.task_mismatch:
+                return out
             if out.results and not self._completion_likely_truncated(effective_max):
                 return out
 
@@ -1296,6 +1412,9 @@ class LLMExtractor(LLMClientMixin):
         tables: list,
         latex_paper: Any = None,
         paper_title: str = "",
+        target_datasets: set[str] | None = None,
+        arxiv_id: str = "",
+        single_pass: bool = False,
     ) -> ExtractionOutput:
         """Two-step extraction: first discover datasets, then extract per dataset.
 
@@ -1386,6 +1505,21 @@ class LLMExtractor(LLMClientMixin):
                 extraction_confidence="low",
             )
 
+        if target_datasets:
+            target_names = {name.casefold() for name in target_datasets}
+            datasets.datasets = [
+                dataset for dataset in datasets.datasets if dataset.name.casefold() in target_names
+            ]
+            if not datasets.datasets:
+                logger.warning(
+                    "None of the requested datasets were discovered: %s", target_datasets
+                )
+                return ExtractionOutput(
+                    results=[],
+                    extraction_notes="None of the requested datasets were discovered.",
+                    extraction_confidence="low",
+                )
+
         stats_precheck_text = rag_text
         if latex_paper is not None:
             stats_precheck_text = "\n\n".join(
@@ -1438,6 +1572,8 @@ class LLMExtractor(LLMClientMixin):
                     ds.primary_metric = QM9_DEFAULT_METRIC
         except Exception as _exc:
             logger.debug("DB primary_metric lookup skipped: %s", _exc)
+
+        canonical_contexts = _known_dataset_context(datasets.datasets, arxiv_id)
 
         # Step 2: per-dataset focused extraction
         prompt = self._read_result_prompt()
@@ -1509,6 +1645,7 @@ class LLMExtractor(LLMClientMixin):
                 ds.name,
                 intro_model_hint=intro_model_hint,
                 metric_constraint=metric_constraint,
+                canonical_context=canonical_contexts.get(ds.name.casefold(), ""),
             )
             dataset_context = context + setup_prose_excerpt
             logger.info(
@@ -1570,7 +1707,19 @@ class LLMExtractor(LLMClientMixin):
                         call_type=f"extract_dataset:{ds.name}",
                         max_tokens=extract_max_tokens,
                         max_table_chars=max_table_chars,
+                        single_pass=single_pass,
                     )
+                    canonical_context = canonical_contexts.get(ds.name.casefold(), "")
+                    if _tables_conflict_with_canonical_task(canonical_context, ds_tables):
+                        out = ExtractionOutput(
+                            results=[],
+                            task_mismatch=True,
+                            extraction_confidence="HIGH",
+                            extraction_notes=(
+                                "Selected tables explicitly report link prediction, which conflicts "
+                                "with the canonical node_classification task."
+                            ),
+                        )
                     all_results.extend(out.results)
                     if out.proposed_model and proposed is None:
                         proposed = out.proposed_model
@@ -2073,6 +2222,8 @@ class LLMExtractor(LLMClientMixin):
         latex_paper: Any = None,
         extraction_strategy: str = "auto",
         experiment_label: str | None = None,
+        target_datasets: set[str] | None = None,
+        extraction_only: bool = False,
     ) -> dict:
         """Run all extraction tasks and save outputs.
 
@@ -2101,19 +2252,25 @@ class LLMExtractor(LLMClientMixin):
                 [],
                 latex_paper=latex_paper,
                 paper_title=paper_title,
+                target_datasets=target_datasets,
+                arxiv_id=arxiv_id,
+                single_pass=extraction_only,
             )
         elif structured_tables is not None:
             results_out = self.extract_results_two_step(
                 paper_text,
                 structured_tables,
                 paper_title=paper_title,
+                target_datasets=target_datasets,
+                arxiv_id=arxiv_id,
+                single_pass=extraction_only,
             )
         else:
             results_out = self.extract_results(paper_text, tables_text)
 
         # Task 1b: Dataset statistics — separate workspace from benchmark results
         stats_out = DatasetStatisticsOutput()
-        if results_out.paper_has_statistics:
+        if not extraction_only and results_out.paper_has_statistics:
             stats_tables = (
                 list(latex_paper.tables) if latex_paper is not None else (structured_tables or [])
             )
@@ -2144,7 +2301,7 @@ class LLMExtractor(LLMClientMixin):
 
         sota_out = SotaClaimOutput()
         scoped_prose = main_body_prose_text(paper_text=paper_text, latex_paper=latex_paper)
-        if text_has_sota_markers(scoped_prose):
+        if not extraction_only and text_has_sota_markers(scoped_prose):
             sota_out = self.extract_sota_claims(
                 scoped_prose,
                 results_out.discovered_datasets,
@@ -2179,15 +2336,15 @@ class LLMExtractor(LLMClientMixin):
             figure_out = FigureInfo()
 
         # Task 3: Model sizes — broad pass then guided pass for result-table names
-        sizes = self.extract_model_sizes(paper_text)
+        sizes = [] if extraction_only else self.extract_model_sizes(paper_text)
         model_names = sorted({r.model for r in results_out.results if r.model})
-        if model_names:
+        if not extraction_only and model_names:
             guided_sizes = self.extract_model_sizes(paper_text, model_names=model_names)
             sizes = _merge_size_entries(sizes, guided_sizes)
         _apply_sizes(results_out, sizes)
 
         metadata_enrichment_out = ModelMetadataEnrichmentOutput()
-        if scoped_prose.strip():
+        if not extraction_only and scoped_prose.strip():
             metadata_enrichment_out = self.enrich_model_metadata(scoped_prose, results_out)
             _apply_metadata_enrichment(results_out, metadata_enrichment_out)
             if metadata_enrichment_out.notes:
@@ -2223,33 +2380,34 @@ class LLMExtractor(LLMClientMixin):
             "candidate_urls": [],
             "checked_candidates": [],
         }
-        try:
-            from backend.repository_linking import find_verified_repository_link
+        if not extraction_only:
+            try:
+                from backend.repository_linking import find_verified_repository_link
 
-            repo_source_text = latex_paper.main_tex if latex_paper is not None else paper_text
-            repo_source_kind = "latex" if latex_paper is not None else "paper_text"
-            if repo_source_text.strip():
-                repo_verifier = (
-                    LLMExtractor(model_tier="small", streaming=self.streaming)
-                    if cfg.llm_endpoint and cfg.llm_api_key
-                    else None
-                )
-                repository_out = find_verified_repository_link(
-                    llm_verifier=repo_verifier,
-                    arxiv_id=arxiv_id,
-                    paper_title=paper_title,
-                    paper_abstract=paper_abstract,
-                    source_text=repo_source_text,
-                    source_kind=repo_source_kind,
-                )
-                if repo_verifier is not None:
-                    self._call_log.extend(repo_verifier._call_log)
-                storage_updates = {"repository": repository_out}
-                if repository_out.get("verified_url"):
-                    storage_updates["codebase_url"] = repository_out["verified_url"]
-                storage.update_metadata(storage_updates)
-        except Exception as exc:
-            logger.warning("Repository verification failed for %s: %s", arxiv_id, exc)
+                repo_source_text = latex_paper.main_tex if latex_paper is not None else paper_text
+                repo_source_kind = "latex" if latex_paper is not None else "paper_text"
+                if repo_source_text.strip():
+                    repo_verifier = (
+                        LLMExtractor(model_tier="small", streaming=self.streaming)
+                        if cfg.llm_endpoint and cfg.llm_api_key
+                        else None
+                    )
+                    repository_out = find_verified_repository_link(
+                        llm_verifier=repo_verifier,
+                        arxiv_id=arxiv_id,
+                        paper_title=paper_title,
+                        paper_abstract=paper_abstract,
+                        source_text=repo_source_text,
+                        source_kind=repo_source_kind,
+                    )
+                    if repo_verifier is not None:
+                        self._call_log.extend(repo_verifier._call_log)
+                    storage_updates = {"repository": repository_out}
+                    if repository_out.get("verified_url"):
+                        storage_updates["codebase_url"] = repository_out["verified_url"]
+                    storage.update_metadata(storage_updates)
+            except Exception as exc:
+                logger.warning("Repository verification failed for %s: %s", arxiv_id, exc)
 
         usage_summary = _summarize_call_usage(self._call_log, self._probe_usage_limits())
 

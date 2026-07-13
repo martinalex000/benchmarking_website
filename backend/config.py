@@ -70,7 +70,8 @@ class Config:
     model_small: str = os.environ.get("LLM_MODEL_SMALL", _DEFAULT_MODEL_SMALL)
 
     # ── LLM generation parameters ──────────────────────────────────────────
-    llm_max_tokens: int = int(_llm_cfg.get("max_tokens", 8192))
+    llm_max_tokens: int = int(_llm_cfg.get("max_tokens", 50_000))
+    llm_max_total_tokens: int = int(_llm_cfg.get("max_total_tokens", 50_000))
     llm_temperature: float = float(_llm_cfg.get("temperature", 0.1))
     llm_timeout: int = int(_llm_cfg.get("timeout_seconds", 120))
     llm_max_retries: int = int(_llm_cfg.get("max_retries", 3))

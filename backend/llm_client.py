@@ -22,6 +22,11 @@ from backend.llm_types import CallRecord
 logger = logging.getLogger(__name__)
 
 
+def _estimated_tokens(text: str) -> int:
+    """Conservative token estimate used to keep requests below the global budget."""
+    return max(1, (len(text) + 2) // 3)
+
+
 class LLMClientMixin:
     """Internal transport methods shared by the extraction task class."""
 
@@ -96,6 +101,18 @@ class LLMClientMixin:
         call_type: str = "llm",
         call_extra: dict | None = None,
     ) -> str:
+        requested_max_tokens = max_tokens or cfg.llm_max_tokens
+        estimated_prompt_tokens = _estimated_tokens(system_prompt) + _estimated_tokens(user_content)
+        completion_budget = min(
+            requested_max_tokens,
+            cfg.llm_max_total_tokens - estimated_prompt_tokens,
+        )
+        if completion_budget < 1:
+            raise ValueError(
+                "LLM prompt exceeds the configured total token budget "
+                f"({cfg.llm_max_total_tokens:,} estimated tokens)."
+            )
+
         request_start = time.perf_counter()
         first_token_time: float | None = None
         chunks: list[str] = []
@@ -111,7 +128,7 @@ class LLMClientMixin:
                         {"role": "system", "content": system_prompt},
                         {"role": "user", "content": user_content},
                     ],
-                    max_tokens=max_tokens or cfg.llm_max_tokens,
+                    max_tokens=completion_budget,
                     temperature=cfg.llm_temperature,
                     stream=True,
                     stream_options={"include_usage": True},
@@ -137,7 +154,7 @@ class LLMClientMixin:
                         {"role": "system", "content": system_prompt},
                         {"role": "user", "content": user_content},
                     ],
-                    max_tokens=max_tokens or cfg.llm_max_tokens,
+                    max_tokens=completion_budget,
                     temperature=cfg.llm_temperature,
                     extra_body=extra_body,
                 )
@@ -314,6 +331,7 @@ class LLMClientMixin:
                 }
         return result
 
+    @staticmethod
     def _read_prompt(filename: str) -> str:
         path = cfg.prompts_dir / filename
         if not path.exists():

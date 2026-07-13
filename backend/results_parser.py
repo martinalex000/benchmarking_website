@@ -46,7 +46,11 @@ from backend.models import (
 from backend.override_handler import apply_overrides_to_db
 from backend.paper_storage import PaperStorage
 from backend.qm9_targets import is_qm9_dataset, normalize_qm9_metric
-from backend.repository_linking import find_verified_repository_link, repository_source_from_storage
+from backend.repository_linking import (
+    find_verified_repository_link,
+    repository_source_from_storage,
+    repository_url_exists,
+)
 from backend.text_cleanup import (
     abstract_has_latex_artifacts,
     authors_look_broken,
@@ -641,6 +645,16 @@ def _enrich_paper_metadata(arxiv_id: str, paper: Paper, storage: PaperStorage) -
         paper.codebase_url,
     )
     metadata = storage.read_metadata()
+    if paper.codebase_url and repository_url_exists(paper.codebase_url) is False:
+        stale_url = paper.codebase_url
+        paper.codebase_url = None
+        storage.update_metadata({"codebase_url": ""})
+        logger.warning("Discarded unavailable codebase_url=%s for arXiv:%s", stale_url, arxiv_id)
+
+    def _usable_repository_url(value: Any) -> str:
+        url = str(value or "").strip()
+        return url if url and repository_url_exists(url) is not False else ""
+
     if metadata:
         if metadata.get("title"):
             paper.title = metadata["title"]
@@ -665,17 +679,17 @@ def _enrich_paper_metadata(arxiv_id: str, paper: Paper, storage: PaperStorage) -
         if metadata.get("venue") and venue_needs_resolution(paper.venue):
             paper.venue = resolve_canonical_venue(metadata["venue"]) or metadata["venue"]
         if metadata.get("codebase_url") and not paper.codebase_url:
-            paper.codebase_url = metadata["codebase_url"]
+            paper.codebase_url = _usable_repository_url(metadata["codebase_url"])
         repo_meta = metadata.get("repository")
         if isinstance(repo_meta, dict) and repo_meta.get("verified_url") and not paper.codebase_url:
-            paper.codebase_url = str(repo_meta["verified_url"]).strip()
+            paper.codebase_url = _usable_repository_url(repo_meta["verified_url"])
 
     if not paper.codebase_url and storage.llm_output_path.exists():
         try:
             raw_output = storage.load_llm_output()
             repository = raw_output.get("repository")
             if isinstance(repository, dict) and repository.get("verified_url"):
-                paper.codebase_url = str(repository["verified_url"]).strip()
+                paper.codebase_url = _usable_repository_url(repository["verified_url"])
         except (ValueError, OSError):
             pass
 
