@@ -3035,7 +3035,7 @@
       if (btn.dataset.widthToggleBound) return;
       btn.dataset.widthToggleBound = "1";
 
-      var wrapper = btn.closest(".result-table-wrapper");
+      var wrapper = btn.closest(".result-table-outer")?.querySelector(".result-table-wrapper");
       if (!wrapper) return;
 
       function sync() {

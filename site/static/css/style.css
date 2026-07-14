@@ -3099,7 +3099,7 @@ tr.row-global-top.row-best td { background: #e0f2fe; }
 .paper-table-width-controls {
   display: flex;
   justify-content: flex-end;
-  margin: 0 0 0.35rem;
+  margin: 0.15rem 0 0.35rem;
 }
 
 .paper-table-width-toggle {
@@ -3116,6 +3116,16 @@ tr.row-global-top.row-best td { background: #e0f2fe; }
 
 .paper-table-width-toggle:hover {
   background: var(--bg-muted);
+}
+
+@media (max-width: 980px) {
+  .paper-table-width-controls {
+    display: none;
+  }
+}
+
+.paper-mobile-metrics-details {
+  display: none;
 }
 
 @media (min-width: 981px) {
@@ -4552,10 +4562,44 @@ tr.row-global-top.row-best td { background: #e0f2fe; }
     visibility: visible;
   }
 
+  .paper-page .paper-multi-metric-cols tbody tr td.col-value:not(.col-rank-metric) {
+    display: none !important;
+  }
+
   .paper-page .paper-cell-details-full {
     display: none;
     width: 100%;
     min-width: 0;
+  }
+
+  .paper-page .paper-mobile-metrics-details {
+    display: block;
+    width: 100%;
+    margin: 0 0 0.2rem;
+    padding: 0.12rem 0 0.16rem;
+    border-top: 1px solid var(--gray-200);
+    border-bottom: 1px solid var(--gray-200);
+  }
+
+  .paper-page .paper-mobile-metric-detail {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 0.08rem 0;
+    font-size: 0.68rem;
+    line-height: 1.25;
+  }
+
+  .paper-page .paper-mobile-metric-detail-label {
+    color: var(--gray-600);
+  }
+
+  .paper-page .paper-mobile-metric-detail-value {
+    color: var(--gray-800);
+    font-weight: 700;
+    text-align: right;
+    white-space: nowrap;
   }
 
   .paper-page tr.mobile-details-open .paper-cell-details-full {
@@ -4773,6 +4817,10 @@ tr.row-global-top.row-best td { background: #e0f2fe; }
   .paper-page tr.mobile-details-open .paper-cell-details-full .paper-source-this {
     font-size: 0.68rem;
     line-height: 1.32;
+  }
+
+  .paper-page tr.mobile-details-open .paper-cell-details-full .paper-source-this::before {
+    content: "Source: ";
   }
 
   .paper-page tr.mobile-details-open .paper-row-expand-btn {

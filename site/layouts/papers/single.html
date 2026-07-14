@@ -201,7 +201,7 @@
             <a class="paper-dataset-leaderboard-link" href="{{ printf "datasets/%s/" $dsSlug | relURL }}">Global leaderboard →</a>
             {{ partial "paper-dataset-metric-notice.html" (dict "group" $group) }}
           </div>
-          {{ if $group.uses_non_primary_metric }}
+          {{ if and $group.uses_non_primary_metric (gt (len $group.rows) 1) }}
           <p class="paper-dataset-help">Sorted by {{ $group.metric }}. Highlighted rows are from other papers.</p>
           {{ end }}
           {{ $partialCtx := dict "rows" $group.rows "metrics" $group.metrics "primary_metric" $group.primary_metric "rank_metric" ($group.rank_metric | default $group.primary_metric) "dataset_primary_metric" ($group.dataset_primary_metric | default $group.primary_metric) "metric" $group.metric "higher_is_better" $group.higher_is_better "dataset_variant" $dsSlug "collapse_after" $collapseAfter "paper_page" true }}
@@ -228,7 +228,7 @@
           <a class="paper-dataset-leaderboard-link" href="{{ printf "datasets/%s/" $dsSlug | relURL }}">Global leaderboard →</a>
           {{ partial "paper-dataset-metric-notice.html" (dict "group" $group) }}
         </div>
-        {{ if $group.uses_non_primary_metric }}
+        {{ if and $group.uses_non_primary_metric (gt (len $group.rows) 1) }}
         <p class="paper-dataset-help">Sorted by {{ $group.metric }}. Highlighted rows are from other papers.</p>
         {{ end }}
         {{ $partialCtx := dict "rows" $group.rows "metrics" $group.metrics "primary_metric" $group.primary_metric "rank_metric" ($group.rank_metric | default $group.primary_metric) "dataset_primary_metric" ($group.dataset_primary_metric | default $group.primary_metric) "metric" $group.metric "higher_is_better" $group.higher_is_better "dataset_variant" $dsSlug "collapse_after" $collapseAfter "paper_page" true }}

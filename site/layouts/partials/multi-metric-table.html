@@ -35,16 +35,16 @@
 
 {{ if $rows }}
 <div class="result-table-outer">
-<div class="result-table-wrapper{{ if $paperPage }} paper-results-table-wrapper{{ end }}{{ if and $paperPage (gt (len $metrics) 3) }} paper-table-narrow-mode{{ end }}" data-variant="{{ $slug }}">
   {{ if and $paperPage (gt (len $metrics) 3) }}
   <div class="paper-table-width-controls">
     <button type="button" class="paper-table-width-toggle" aria-pressed="false">Wide view</button>
   </div>
   {{ end }}
+<div class="result-table-wrapper{{ if $paperPage }} paper-results-table-wrapper{{ end }}{{ if and $paperPage (gt (len $metrics) 3) }} paper-table-narrow-mode{{ end }}" data-variant="{{ $slug }}">
   <div class="mobile-result-table-head{{ if $paperPage }} paper-mobile-table-head{{ else if $hideMeta }} mobile-result-table-head-no-paper{{ end }}" aria-hidden="true">
     <span>#</span>
     <span>Model</span>
-    <span>{{ index $metricLabels 0 | default $primary }}</span>
+    <span>{{ index $metricLabels $rankIdx | default $rankMetric }}</span>
     {{ if and (not $hideMeta) (not $paperPage) }}<span>Date</span>{{ end }}
   </div>
   {{ if and (not $paperPage) (gt (len $metrics) 1) (gt $collapseAfter 0) (gt (len $rows) $collapseAfter) }}
@@ -84,7 +84,10 @@
         {{ $rowInsignificantGap := and $paperPage $r.insignificant_value_gap }}
         {{ $rowInsignificantImprovement := and $paperPage $r.insignificant_improvement_at_pub }}
         {{ $paperMobileExpand := false }}
-        {{ if $paperPage }}{{ $paperMobileExpand = eq (partial "paper-table-mobile-expandable.html" (dict "row" $r) | strings.TrimSpace) "1" }}{{ end }}
+        {{ if $paperPage }}
+          {{ $paperMobileExpand = gt (len $metrics) 1 }}
+          {{ if not $paperMobileExpand }}{{ $paperMobileExpand = eq (partial "paper-table-mobile-expandable.html" (dict "row" $r) | strings.TrimSpace) "1" }}{{ end }}
+        {{ end }}
         <tr class="result-row {{ if $r.is_baseline }}row-baseline{{ else }}row-proposed{{ end }} {{ if $r.is_overridden }}row-overridden{{ end }}{{ if $r.is_best }} row-best{{ end }}{{ if eq $i 0 }} row-current-sota{{ end }}{{ if $r.is_global_top }} row-global-top{{ end }}{{ if and $paperPage $rowUnderperforming }} row-underperforming{{ end }}{{ if and $paperPage $rowImprovedAtPub }} row-improved-at-pub{{ end }}{{ if and $paperPage $rowImprovedSurpassedSince }} row-improved-surpassed-since{{ end }}{{ if and $paperPage $rowSurpassedSince }} row-surpassed-since{{ end }}{{ if $rowInsignificantGap }} row-insignificant-gap{{ end }}{{ if $rowInsignificantImprovement }} row-insignificant-improvement-at-pub{{ end }}{{ if and $paperPage $paperMobileExpand }} row-mobile-expandable{{ end }}{{ if and (gt $collapseAfter 0) (ge $i $collapseAfter) }} row-collapsed{{ end }}"
           data-original-index="{{ $i }}"
           data-model="{{ $r.model_plain | default $r.model }}"
@@ -204,6 +207,23 @@
         <td class="col-paper mobile-details-hit" id="{{ $rowDetailsId }}" data-label="Paper">
           {{ if $paperPage }}
           <div class="paper-cell-details-full">
+            {{ if and (gt (len $metrics) 1) $paperPage }}
+            <div class="paper-mobile-metrics-details" aria-label="Additional reported metrics">
+              {{ range $k, $detailMetric := $metrics }}
+              {{ if ne $k $rankIdx }}
+              {{ $detailVal := index $r.metric_values $k }}
+              {{ $detailStd := index $r.metric_stds $k }}
+              <div class="paper-mobile-metric-detail">
+                <span class="paper-mobile-metric-detail-label">{{ index $metricLabels $k | default $detailMetric }}</span>
+                <span class="paper-mobile-metric-detail-value">
+                  {{ if ne $detailVal nil }}{{ partial "format-metric-value.html" (dict "value" $detailVal) }}{{ else }}—{{ end }}
+                  {{ if ne $detailStd nil }}<span class="inline-std">±{{ partial "format-metric-value.html" (dict "value" $detailStd) }}</span>{{ end }}
+                </span>
+              </div>
+              {{ end }}
+              {{ end }}
+            </div>
+            {{ end }}
             {{ if $r.has_value_gap }}
             <div class="paper-mobile-only-gap-meta">
               <div class="paper-gap-summary-row">
