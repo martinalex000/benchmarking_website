@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+from types import SimpleNamespace
 
 import pytest
 import yaml
@@ -12,7 +13,10 @@ from backend.config import cfg
 from backend.db import init_db, session_scope
 from backend.models import Benchmark, Dataset, DatasetVariant, Model, Paper, Result
 from backend.paper_storage import PaperStorage
-from backend.results_parser import parse_and_store_with_summary
+from backend.results_parser import (
+    parse_and_store_with_summary,
+    source_indicates_incompatible_protocol,
+)
 
 
 def _configure_temp_workspace(monkeypatch, tmp_path: Path) -> None:
@@ -235,6 +239,26 @@ def test_versioned_extraction_rejects_link_prediction_for_node_classification(
     with session_scope() as session:
         paper = session.query(Paper).filter_by(arxiv_id="2402.14802").one()
         assert session.query(Result).filter_by(paper_id=paper.id).count() == 0
+
+
+@pytest.mark.parametrize(
+    "source_marker",
+    [
+        "out-of-distribution generalization",
+        "negative transfer from a source graph",
+        "backdoor attack success rate",
+        "synthetic graph generation",
+        "molecular generation with a docking score",
+    ],
+)
+def test_source_protocol_backstop_rejects_noncanonical_experiment_families(source_marker):
+    variant = SimpleNamespace(dataset=SimpleNamespace(task_type="node_classification"))
+
+    assert source_indicates_incompatible_protocol(
+        {"metric": "Accuracy", "evaluation_task": "node_classification"},
+        variant,
+        f"This paper studies {source_marker}.",
+    )
 
 
 def test_parse_and_store_persists_model_metadata(monkeypatch, tmp_path):

@@ -302,6 +302,19 @@ def source_indicates_incompatible_protocol(
             "all-node",
             "prompt augmented by chatgpt",
             "graph reasoning ability via prompt",
+            "out-of-distribution generalization",
+            "ood generalization",
+            "negative transfer",
+            "cross-graph transfer",
+            "domain adaptation",
+            "backdoor attack",
+            "attack success rate",
+            "synthetic graph",
+            "generated graph",
+            "graph generation",
+            "molecular generation",
+            "docking benchmark",
+            "docking score",
         )
     )
 

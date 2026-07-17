@@ -6,6 +6,13 @@ exclude_all_results:
   "2308.16800": "All-node fitting has no held-out benchmark split."
   "2401.13200": "Continual-learning scores are not static benchmark results."
   "2312.14439": "Continual graph-learning scores are not static benchmark results."
+  "2102.09548": "TDC molecular-generation/docking objectives are not ZINC graph-regression MAE."
+  "2302.08051": "Adversarial-immunization robustness results are not canonical classification results."
+  "2310.13833": "Synthetic graph-generation utility evaluation is not a canonical node-classification protocol."
+  "2402.08228": "OOD benchmark variants are not the canonical dataset protocols."
+  "2402.08907": "Cross-graph transfer-learning results are not canonical target-dataset results."
+  "2502.18771": "Custom-split, instruction-tuned LLM benchmark is not the canonical OGB protocol."
+  "2510.22555": "Backdoor-attack and poisoned-graph results are not canonical benchmark results."
 
 # These link-prediction papers may retain genuine link-prediction benchmark rows,
 # but must never populate node-classification leaderboards.
