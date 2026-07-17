@@ -13,6 +13,13 @@ exclude_all_results:
   "2402.08907": "Cross-graph transfer-learning results are not canonical target-dataset results."
   "2502.18771": "Custom-split, instruction-tuned LLM benchmark is not the canonical OGB protocol."
   "2510.22555": "Backdoor-attack and poisoned-graph results are not canonical benchmark results."
+  "2111.10657": "OOD graph classification uses shifted train/test domains, not canonical splits."
+  "2301.12230": "Continual-learning survey results are not static benchmark results."
+  "2304.04168": "Adversarial-robustness evaluation is not the canonical clean benchmark protocol."
+  "2311.01196": "Robust link-prediction results are not node-classification benchmark results."
+  "2503.06337": "Molecular-generation reward optimization is not supervised property-prediction evaluation."
+  "2505.17293": "Graph domain-adaptation splits are not canonical graph-classification protocols."
+  "2507.11710": "OOD link-prediction experiments are not canonical link-prediction protocols."
 
 # These link-prediction papers may retain genuine link-prediction benchmark rows,
 # but must never populate node-classification leaderboards.
