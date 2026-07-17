@@ -63,6 +63,7 @@ logger = logging.getLogger(__name__)
 # ── Dataset alias normalisation (post-extraction) ─────────────────────────────
 
 _DATASET_ALIAS_MAP: dict[str, str] | None = None
+_PROTOCOL_EXCLUSIONS: dict[str, Any] | None = None
 
 
 def _load_dataset_alias_map() -> dict[str, str]:
@@ -84,6 +85,26 @@ def normalize_dataset_alias(dataset_name: str) -> str:
     """Return the canonical dataset name if an alias is defined, else unchanged."""
     key = dataset_name.strip().lower()
     return _load_dataset_alias_map().get(key, dataset_name)
+
+
+def _load_protocol_exclusions() -> dict[str, Any]:
+    global _PROTOCOL_EXCLUSIONS
+    if _PROTOCOL_EXCLUSIONS is None:
+        path = cfg.config_dir / "protocol_exclusions.yaml"
+        if path.exists():
+            with path.open(encoding="utf-8") as fh:
+                _PROTOCOL_EXCLUSIONS = yaml.safe_load(fh) or {}
+        else:
+            _PROTOCOL_EXCLUSIONS = {}
+    return _PROTOCOL_EXCLUSIONS
+
+
+def _allowed_by_protocol_curation(arxiv_id: str, variant: DatasetVariant) -> bool:
+    exclusions = _load_protocol_exclusions()
+    if arxiv_id in (exclusions.get("exclude_all_results") or {}):
+        return False
+    allowed_tasks = (exclusions.get("allowed_dataset_tasks") or {}).get(arxiv_id)
+    return not allowed_tasks or variant.dataset.task_type in allowed_tasks
 
 
 # ── Metric normalisation ──────────────────────────────────────────────────────
@@ -156,8 +177,10 @@ class ParseStoreSummary:
     extraction_model: str = "unknown"
     new_results: int = 0
     updated_results: int = 0
+    replaced_results: int = 0
     skipped_unknown_datasets: list[str] = field(default_factory=list)
     skipped_invalid_values: list[str] = field(default_factory=list)
+    skipped_protocol_mismatches: list[str] = field(default_factory=list)
     created_models: list[str] = field(default_factory=list)
     created_stub_paper: bool = False
     metadata_changed: bool = False
@@ -209,6 +232,78 @@ def parse_optional_extracted_bool(value: Any) -> bool | None:
             return False
     logger.warning("Could not parse optional boolean value %r; using None", value)
     return None
+
+
+_TASK_TYPE_ALIASES: dict[str, str] = {
+    "node classification": "node_classification",
+    "node-classification": "node_classification",
+    "graph classification": "graph_classification",
+    "graph-classification": "graph_classification",
+    "graph regression": "graph_regression",
+    "graph-regression": "graph_regression",
+    "node regression": "node_regression",
+    "node-regression": "node_regression",
+    "link prediction": "link_prediction",
+    "link-prediction": "link_prediction",
+    "edge prediction": "link_prediction",
+    "edge-prediction": "link_prediction",
+}
+
+
+def _normalized_evaluation_task(value: Any) -> str:
+    task = str(value or "").strip().casefold().replace("_", " ")
+    return _TASK_TYPE_ALIASES.get(task, task.replace(" ", "_"))
+
+
+def _protocol_compatible_with_variant(entry: dict[str, Any], variant: DatasetVariant) -> bool:
+    """Whether a versioned extraction explicitly supports this canonical variant."""
+    expected_task = _normalized_evaluation_task(variant.dataset.task_type)
+    actual_task = _normalized_evaluation_task(entry.get("evaluation_task"))
+    return (
+        bool(entry.get("uses_standard_protocol"))
+        and bool(actual_task)
+        and actual_task == expected_task
+    )
+
+
+def source_indicates_incompatible_protocol(
+    entry: dict[str, Any], variant: DatasetVariant, paper_text: str
+) -> bool:
+    """Conservatively reject known non-standard protocols from source evidence.
+
+    This backstop matters when an extractor incorrectly calls a table standard.
+    It intentionally prefers a false negative (omitting a questionable row) to
+    contaminating a canonical leaderboard with a different experimental task.
+    """
+    expected_task = _normalized_evaluation_task(variant.dataset.task_type)
+    source = paper_text.casefold()
+    actual_task = _normalized_evaluation_task(entry.get("evaluation_task"))
+    metric = str(entry.get("metric") or "").casefold()
+    link_metrics = ("auc", "ap", "mrr", "hits", "hit@")
+    if expected_task != "link_prediction" and (
+        actual_task == "link_prediction"
+        or (
+            any(
+                marker in source
+                for marker in ("link prediction", "link-prediction", "edge prediction")
+            )
+            and any(marker in metric for marker in link_metrics)
+        )
+    ):
+        return True
+    return expected_task in {"node_classification", "graph_classification"} and any(
+        marker in source
+        for marker in (
+            "continual learning",
+            "continual graph learning",
+            "class-incremental",
+            "task-incremental",
+            "all nodes",
+            "all-node",
+            "prompt augmented by chatgpt",
+            "graph reasoning ability via prompt",
+        )
+    )
 
 
 def normalize_percentage_metric(
@@ -892,7 +987,9 @@ def _is_fatal_extraction_parse_failure(entry: str) -> bool:
     )
 
 
-def parse_and_store_with_summary(arxiv_id: str) -> ParseStoreSummary:
+def parse_and_store_with_summary(
+    arxiv_id: str, *, replace_existing: bool = False
+) -> ParseStoreSummary:
     """Parse LLM output for a paper and report the side effects explicitly."""
     init_db()
     storage = PaperStorage(arxiv_id)
@@ -904,6 +1001,7 @@ def parse_and_store_with_summary(arxiv_id: str) -> ParseStoreSummary:
 
     raw = storage.load_llm_output()
     extraction = raw.get("results", {})
+    protocol_validation_version = int(extraction.get("protocol_validation_version") or 0)
     model_name_used = raw.get("model_used", "unknown")
     summary.extraction_model = model_name_used
 
@@ -958,12 +1056,31 @@ def parse_and_store_with_summary(arxiv_id: str) -> ParseStoreSummary:
         )
 
     if not result_entries:
+        if replace_existing:
+            with session_scope() as session:
+                paper = session.query(Paper).filter_by(arxiv_id=arxiv_id).first()
+                if paper is not None:
+                    summary.replaced_results = (
+                        session.query(Result)
+                        .filter_by(paper_id=paper.id)
+                        .delete(synchronize_session=False)
+                    )
+            if summary.replaced_results:
+                logger.info(
+                    "Removed %d stale Result row(s) for arXiv:%s",
+                    summary.replaced_results,
+                    arxiv_id,
+                )
         logger.warning("No result entries in LLM output for arXiv:%s", arxiv_id)
         return summary
 
     paper_text = ""
     if storage.text_path.exists():
         paper_text = storage.text_path.read_text(encoding="utf-8", errors="ignore")
+    elif (storage.latex_dir / "expanded.tex").exists():
+        paper_text = (storage.latex_dir / "expanded.tex").read_text(
+            encoding="utf-8", errors="ignore"
+        )
 
     # Build a sizes lookup from baseline info
     sizes_lookup, type_lookup = _build_metadata_lookups(
@@ -1020,6 +1137,11 @@ def parse_and_store_with_summary(arxiv_id: str) -> ParseStoreSummary:
             )
             return summary
 
+        if replace_existing:
+            summary.replaced_results = (
+                session.query(Result).filter_by(paper_id=paper.id).delete(synchronize_session=False)
+            )
+
         paper.extraction_status = "extracted"
 
         variant_map = _load_variant_map(session)
@@ -1059,6 +1181,38 @@ def parse_and_store_with_summary(arxiv_id: str) -> ParseStoreSummary:
                 )
                 if dataset_name and dataset_name not in summary.skipped_unknown_datasets:
                     summary.skipped_unknown_datasets.append(dataset_name)
+                continue
+            variant = session.get(DatasetVariant, variant_id)
+            if variant is None or not _allowed_by_protocol_curation(arxiv_id, variant):
+                detail = f"{model_name} / {dataset_name} / {metric_name} (curation exclusion)"
+                logger.warning(
+                    "Skipping protocol-excluded result for arXiv:%s: %s", arxiv_id, detail
+                )
+                summary.skipped_protocol_mismatches.append(detail)
+                continue
+            if source_indicates_incompatible_protocol(entry, variant, paper_text):
+                detail = f"{model_name} / {dataset_name} / {metric_name} (source protocol evidence)"
+                logger.warning(
+                    "Skipping source-incompatible result for arXiv:%s: %s", arxiv_id, detail
+                )
+                summary.skipped_protocol_mismatches.append(detail)
+                continue
+            if protocol_validation_version >= 1 and not _protocol_compatible_with_variant(
+                entry, variant
+            ):
+                expected_task = _normalized_evaluation_task(variant.dataset.task_type)
+                actual_task = _normalized_evaluation_task(entry.get("evaluation_task"))
+                detail = (
+                    f"{model_name} / {dataset_name} / {metric_name} "
+                    f"(expected {expected_task}; got {actual_task or 'missing'}; "
+                    f"standard={entry.get('uses_standard_protocol')!r})"
+                )
+                logger.warning(
+                    "Skipping result with incompatible evaluation protocol for arXiv:%s: %s",
+                    arxiv_id,
+                    detail,
+                )
+                summary.skipped_protocol_mismatches.append(detail)
                 continue
             if dataset_name.strip().lower() == "zinc":
                 logger.info(

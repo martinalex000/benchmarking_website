@@ -2412,6 +2412,11 @@ class LLMExtractor(LLMClientMixin):
         usage_summary = _summarize_call_usage(self._call_log, self._probe_usage_limits())
 
         # Compose full output
+        results_payload = results_out.model_dump()
+        if strategy != "guided-table":
+            # New LLM extractions must carry per-row task/protocol declarations.
+            # The parser rejects rows that do not match the canonical dataset task.
+            results_payload["protocol_validation_version"] = 1
         output = {
             "arxiv_id": arxiv_id,
             "model_used": display_name_for_model(self.model_name),
@@ -2421,7 +2426,7 @@ class LLMExtractor(LLMClientMixin):
                 "strategy": strategy,
                 "result_output_format": self.result_output_format,
             },
-            "results": results_out.model_dump(),
+            "results": results_payload,
             "sota_claims": sota_out.model_dump(),
             "figure": figure_out.model_dump(),
             "repository": repository_out,

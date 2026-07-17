@@ -25,10 +25,18 @@ results:
     e: <true|false|null>
     t: <table ref or null>
     r: <source ref or this paper>
+    q: <node_classification|node_regression|graph_classification|graph_regression|link_prediction|other>
+    z: <true only for the canonical task and standard protocol; otherwise false>
+    n: <short protocol evidence>
 confidence: <HIGH|MEDIUM|LOW>
 notes: <brief ambiguity notes>
 
 Rules:
+- Protocol gate (mandatory for EVERY row): set `q` to the actual task and `z=true`
+  ONLY for the canonical dataset task and standard benchmark protocol. Set `z=false` for
+  link/edge prediction on node datasets, continual/streaming/incremental learning,
+  all-node fitting without a held-out split, generated prompt/API tasks, custom random
+  splits, or another non-comparable protocol.
 - Extract ONLY main benchmark comparison results on standard datasets.
 - Do NOT extract ablations, component removals, hyperparameter sweeps, sensitivity studies,
   runtime-only tables, or appendix-only diagnostics.
@@ -41,6 +49,10 @@ Rules:
   the paper clearly states a different final method name.
 - Never import proposed-model names from unrelated papers or benchmark context.
 - Use test-set benchmark values only.
+- Match the experiment task to the canonical dataset task supplied in the user context. For
+  example, do not report Cora/PubMed link-prediction AUC/AP tables as node-classification
+  results just because the dataset names are familiar. If the paper only evaluates a different
+  task, return an empty `results` list and explain the mismatch briefly in `notes`.
 - If you are unsure whether a row is proposed, set `p=false`.
 - If a field is unknown, use null or an empty list/string as appropriate.
 - Never output a bare list. Always output the compact YAML object.

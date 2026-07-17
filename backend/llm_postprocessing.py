@@ -297,6 +297,9 @@ def _expand_compact_result_entry(entry: Any) -> Any:
         "uses_external_data": entry.get("e"),
         "table_ref": entry.get("t"),
         "source_ref": entry.get("r", "this paper"),
+        "evaluation_task": entry.get("q"),
+        "uses_standard_protocol": entry.get("z"),
+        "protocol_note": entry.get("n"),
     }
 
 

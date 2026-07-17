@@ -1,0 +1,15 @@
+# Confirmed task/protocol mismatches. These rules also protect legacy extraction
+# artifacts that predate protocol_validation_version.
+exclude_all_results:
+  "2402.14802": "Link-prediction experiments mapped to node-classification datasets."
+  "2304.11116": "Prompt/API graph reasoning is not a canonical benchmark protocol."
+  "2308.16800": "All-node fitting has no held-out benchmark split."
+  "2401.13200": "Continual-learning scores are not static benchmark results."
+  "2312.14439": "Continual graph-learning scores are not static benchmark results."
+
+# These link-prediction papers may retain genuine link-prediction benchmark rows,
+# but must never populate node-classification leaderboards.
+allowed_dataset_tasks:
+  "2303.08958": ["link_prediction"]
+  "2210.05801": ["link_prediction"]
+  "2211.14394": ["link_prediction"]

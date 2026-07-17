@@ -760,6 +760,13 @@ def _print_parse_summary(summary) -> None:
     else:
         console.print("  [yellow]0[/yellow] new result row(s) stored.")
 
+    replaced_results = getattr(summary, "replaced_results", 0)
+    if replaced_results:
+        console.print(
+            f"  [yellow]{replaced_results}[/yellow] prior result row(s) removed "
+            "before parsing this forced re-extraction."
+        )
+
     if total_processed:
         console.print(
             f"  [dim]Parsed {total_processed} extracted row(s): "
@@ -773,6 +780,12 @@ def _print_parse_summary(summary) -> None:
         skipped = ", ".join(summary.skipped_invalid_values[:8])
         suffix = " ..." if len(summary.skipped_invalid_values) > 8 else ""
         console.print(f"  [dim]Skipped invalid value(s): {skipped}{suffix}[/dim]")
+    if getattr(summary, "skipped_protocol_mismatches", []):
+        skipped = "; ".join(summary.skipped_protocol_mismatches[:3])
+        suffix = " ..." if len(summary.skipped_protocol_mismatches) > 3 else ""
+        console.print(
+            f"  [yellow]Rejected protocol-mismatched result(s): {skipped}{suffix}[/yellow]"
+        )
 
 
 # ── Compare-models helper ─────────────────────────────────────────────────────
@@ -1504,12 +1517,15 @@ def main() -> None:
 
     from backend.results_parser import parse_and_store_with_summary
 
-    summary = parse_and_store_with_summary(arxiv_id)
+    summary = parse_and_store_with_summary(arxiv_id, replace_existing=force_extract)
     _print_parse_summary(summary)
 
     # ── 6. Export ─────────────────────────────────────────────────────────
     changes_detected = (
-        summary.new_results > 0 or summary.updated_results > 0 or summary.overrides_applied > 0
+        summary.new_results > 0
+        or summary.updated_results > 0
+        or summary.replaced_results > 0
+        or summary.overrides_applied > 0
     )
     if summary.quarantined or summary.metadata_changed:
         changes_detected = True

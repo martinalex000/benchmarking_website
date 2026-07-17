@@ -69,6 +69,9 @@ class ResultEntry(BaseModel):
     uses_external_data: bool | None = None
     table_ref: str | None = None
     source_ref: str | None = "this paper"
+    evaluation_task: str | None = None
+    uses_standard_protocol: bool | None = None
+    protocol_note: str | None = None
 
     @field_validator("value", "std", mode="before")
     @classmethod

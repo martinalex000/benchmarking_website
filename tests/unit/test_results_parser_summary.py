@@ -36,9 +36,11 @@ def _configure_temp_workspace(monkeypatch, tmp_path: Path) -> None:
     monkeypatch.setattr(cfg, "db_path", data_dir / "benchmarks.db")
 
     import backend.db as db_module
+    import backend.results_parser as results_parser_module
 
     db_module._engine = None
     db_module._SessionFactory = None
+    results_parser_module._PROTOCOL_EXCLUSIONS = None
 
 
 def test_parse_and_store_with_summary_reports_side_effects(monkeypatch, tmp_path):
@@ -127,6 +129,112 @@ def test_parse_and_store_with_summary_reports_side_effects(monkeypatch, tmp_path
 
     assert paper.title == "Summary Test Paper"
     assert paper.codebase_url == "https://github.com/example/project"
+
+
+def test_forced_reparse_removes_existing_rows_when_extraction_has_no_results(monkeypatch, tmp_path):
+    _configure_temp_workspace(monkeypatch, tmp_path)
+    init_db()
+
+    with session_scope() as session:
+        paper = Paper(arxiv_id="2110.04375", title="Stale results")
+        model = Model(name="Old model", canonical_name="Old model")
+        benchmark = Benchmark(name="Citation Benchmark", short_name="citation")
+        session.add_all([paper, model, benchmark])
+        session.flush()
+        dataset = Dataset(
+            benchmark_id=benchmark.id,
+            name="Cora",
+            task_type="node_classification",
+            primary_metric="Accuracy",
+            higher_is_better=1,
+        )
+        session.add(dataset)
+        session.flush()
+        variant = DatasetVariant(dataset_id=dataset.id, name="Standard", is_standard=1)
+        session.add(variant)
+        session.flush()
+        session.add(
+            Result(
+                paper_id=paper.id,
+                model_id=model.id,
+                dataset_variant_id=variant.id,
+                metric_name="Accuracy",
+                metric_value=0.9,
+                higher_is_better=1,
+            )
+        )
+
+    storage = PaperStorage("2110.04375")
+    storage.ensure_dirs()
+    storage.llm_output_path.write_text(
+        json.dumps({"model_used": "fake-primary", "results": {"results": []}}),
+        encoding="utf-8",
+    )
+
+    summary = parse_and_store_with_summary("2110.04375", replace_existing=True)
+
+    assert summary.replaced_results == 1
+    with session_scope() as session:
+        paper = session.query(Paper).filter_by(arxiv_id="2110.04375").one()
+        assert session.query(Result).filter_by(paper_id=paper.id).count() == 0
+
+
+def test_versioned_extraction_rejects_link_prediction_for_node_classification(
+    monkeypatch, tmp_path
+):
+    _configure_temp_workspace(monkeypatch, tmp_path)
+    init_db()
+
+    with session_scope() as session:
+        benchmark = Benchmark(name="Citation Benchmark", short_name="citation")
+        session.add(benchmark)
+        session.flush()
+        dataset = Dataset(
+            benchmark_id=benchmark.id,
+            name="Cora",
+            task_type="node_classification",
+            primary_metric="Accuracy",
+            higher_is_better=1,
+        )
+        session.add(dataset)
+        session.flush()
+        session.add(DatasetVariant(dataset_id=dataset.id, name="Standard", is_standard=1))
+
+    storage = PaperStorage("2402.14802")
+    storage.ensure_dirs()
+    storage.llm_output_path.write_text(
+        json.dumps(
+            {
+                "model_used": "fake-primary",
+                "results": {
+                    "protocol_validation_version": 1,
+                    "proposed_model": {"name": "GRAFF-LP"},
+                    "results": [
+                        {
+                            "model": "GRAFF-LP",
+                            "is_proposed": True,
+                            "dataset": "Cora",
+                            "metric": "AUC",
+                            "value": 0.99,
+                            "higher_is_better": True,
+                            "evaluation_task": "link_prediction",
+                            "uses_standard_protocol": False,
+                            "protocol_note": "Custom edge split.",
+                        }
+                    ],
+                },
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    summary = parse_and_store_with_summary("2402.14802")
+
+    assert summary.new_results == 0
+    assert len(summary.skipped_protocol_mismatches) == 1
+    with session_scope() as session:
+        paper = session.query(Paper).filter_by(arxiv_id="2402.14802").one()
+        assert session.query(Result).filter_by(paper_id=paper.id).count() == 0
 
 
 def test_parse_and_store_persists_model_metadata(monkeypatch, tmp_path):
