@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import sqlite3
 from dataclasses import dataclass
+from datetime import UTC, datetime, timedelta
 
 import pytest
 
@@ -51,14 +52,20 @@ class FakeS2Client:
     paper_id: str = "s2-paper-1"
     citations: PaginatedFetchResult = PaginatedFetchResult([], complete=True)
     references: PaginatedFetchResult = PaginatedFetchResult([], complete=True)
+    paper_id_calls: int = 0
+    citation_calls: int = 0
+    reference_calls: int = 0
 
     def paper_id_for_arxiv(self, arxiv_id: str) -> str | None:
+        self.paper_id_calls += 1
         return self.paper_id
 
     def fetch_citations(self, paper_id: str, limit: int) -> PaginatedFetchResult:
+        self.citation_calls += 1
         return self.citations
 
     def fetch_references(self, paper_id: str, limit: int) -> PaginatedFetchResult:
+        self.reference_calls += 1
         return self.references
 
 
@@ -77,13 +84,17 @@ def test_get_uncrawled_seeds_includes_never_crawled_and_incomplete_rows():
         references_fetched=0,
     )
     conn.execute(
-        "UPDATE s2_crawl_state SET crawl_complete = 0 WHERE paper_id = 's2-paper-1'"
+        "UPDATE s2_crawl_state SET crawl_complete = 0, references_complete = 0"
+        " WHERE paper_id = 's2-paper-1'"
     )
     conn.commit()
 
     assert get_uncrawled_seeds(conn) == ["2206.08164"]
 
-    conn.execute("UPDATE s2_crawl_state SET crawl_complete = 1 WHERE paper_id = 's2-paper-1'")
+    conn.execute(
+        "UPDATE s2_crawl_state SET crawl_complete = 1, references_complete = 1"
+        " WHERE paper_id = 's2-paper-1'"
+    )
     conn.commit()
     assert get_uncrawled_seeds(conn) == []
 
@@ -117,6 +128,54 @@ def test_crawl_seed_marks_complete_fetch():
 
     assert stats["marked_complete"] == 1
     assert already_crawled(conn, "s2-paper-1") is True
+
+
+@pytest.mark.parametrize(
+    ("citations_at", "citations_complete", "references_complete", "expected_calls"),
+    [
+        (None, None, None, (1, 1)),
+        (None, True, False, (1, 1)),
+        ("fresh", True, True, (0, 0)),
+        ("overdue", True, True, (1, 0)),
+    ],
+)
+def test_crawl_seed_uses_directional_freshness_cache(
+    citations_at, citations_complete, references_complete, expected_calls
+):
+    conn = sqlite3.connect(":memory:")
+    _setup_seed_db(conn)
+    s2 = FakeS2Client()
+    if citations_complete is not None:
+        timestamp = (
+            datetime.now(UTC) - (timedelta(days=31) if citations_at == "overdue" else timedelta(days=1))
+        ).strftime("%Y-%m-%dT%H:%M:%SZ")
+        mark_crawled(
+            conn,
+            s2.paper_id,
+            "2206.08164",
+            "2206.08164",
+            citations_complete=citations_complete,
+            references_complete=references_complete,
+            citations_fetched_at=timestamp,
+            references_fetched_at=timestamp,
+        )
+
+    crawl_seed(s2, conn, "2206.08164", limit=100, force=False)
+
+    assert (s2.citation_calls, s2.reference_calls) == expected_calls
+    assert s2.paper_id_calls == (1 if citations_complete is None else 0)
+
+
+def test_crawl_seed_force_refreshes_both_directions():
+    conn = sqlite3.connect(":memory:")
+    _setup_seed_db(conn)
+    s2 = FakeS2Client()
+    mark_crawled(conn, s2.paper_id, "2206.08164", "2206.08164")
+
+    crawl_seed(s2, conn, "2206.08164", limit=100, force=True)
+
+    assert (s2.citation_calls, s2.reference_calls) == (1, 1)
+    assert s2.paper_id_calls == 0
 
 
 def test_run_db_transaction_retries_on_database_locked(monkeypatch):

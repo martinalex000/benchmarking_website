@@ -6,6 +6,7 @@ import json
 from pathlib import Path
 
 from backend.config import cfg
+from backend.db import init_db, session_scope
 from backend.llm_metadata import _extract_metadata_from_latex_cache
 from backend.models import Paper
 from backend.paper_storage import PaperStorage
@@ -132,6 +133,36 @@ def test_enrich_paper_metadata_skips_arxiv_api_when_semantic_scholar_key_set(mon
     assert "benchmark" in paper.abstract
     assert paper.published_date == "2024-02-15"
     assert paper.venue == "ICLR"
+
+
+def test_stable_paper_date_and_venue_bypass_s2_metadata(monkeypatch, tmp_path):
+    _configure_temp_workspace(monkeypatch, tmp_path)
+    init_db(str(cfg.db_path))
+    arxiv_id = "2402.08170"
+    with session_scope() as session:
+        session.add(
+            Paper(
+                arxiv_id=arxiv_id,
+                title="Example",
+                abstract="Abstract",
+                published_date="2024-02-15",
+                venue="ICLR",
+                authors=[{"name": "Ada Lovelace"}],
+            )
+        )
+
+    def _should_not_call(_arxiv_id: str) -> dict:
+        raise AssertionError("stable date and venue should not query S2 metadata")
+
+    monkeypatch.setattr("backend.semantic_scholar.fetch_paper_metadata", _should_not_call)
+
+    from backend.semantic_scholar import ensure_paper_metadata
+
+    assert ensure_paper_metadata(arxiv_id) == {
+        "published_date": False,
+        "venue": False,
+        "authors": False,
+    }
 
 
 def test_clean_extracted_text_removes_inline_latex_formatting():

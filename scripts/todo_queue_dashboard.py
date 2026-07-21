@@ -1141,6 +1141,7 @@ def _run_manual_streaming(
     arxiv_id: str,
     model: str,
     force: bool,
+    skip_screen: bool,
     inactivity_timeout_s: float | None,
     worker_state: WorkerState,
     dash: DashboardState,
@@ -1155,6 +1156,8 @@ def _run_manual_streaming(
     ]
     if force:
         cmd.append("--force")
+    if skip_screen:
+        cmd.append("--skip-screen")
 
     proc = subprocess.Popen(
         cmd,
@@ -1267,6 +1270,7 @@ def _worker_loop(
     dash: DashboardState,
     model: str,
     force: bool,
+    skip_screen: bool,
     max_attempts: int,
     max_papers: int,
     inactivity_timeout_s: float | None,
@@ -1337,6 +1341,7 @@ def _worker_loop(
                 arxiv_id=arxiv_id,
                 model=model,
                 force=force,
+                skip_screen=skip_screen,
                 inactivity_timeout_s=inactivity_timeout_s,
                 worker_state=state,
                 dash=dash,
@@ -1459,11 +1464,14 @@ def build_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument("--force", action="store_true", help="Pass --force to run_manual.py")
     parser.add_argument(
+        "--skip-screen", action="store_true", help="Pass --skip-screen to run_manual.py"
+    )
+    parser.add_argument(
         "--max-attempts",
         type=int,
-        default=3,
+        default=10,
         metavar="N",
-        help="Skip papers already attempted N times (default: 3)",
+        help="Skip papers already attempted N times (default: 10)",
     )
     parser.add_argument(
         "--max-papers-per-worker",
@@ -1573,6 +1581,7 @@ def main(argv: list[str] | None = None) -> None:
                 "dash": dash,
                 "model": args.model,
                 "force": args.force,
+                "skip_screen": args.skip_screen,
                 "max_attempts": args.max_attempts,
                 "max_papers": args.max_papers_per_worker,
                 "inactivity_timeout_s": inactivity_timeout_s,

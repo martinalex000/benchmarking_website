@@ -457,7 +457,17 @@ def ensure_paper_metadata(arxiv_id: str) -> dict[str, bool]:
 
     filled = {"published_date": False, "venue": False, "authors": False}
     storage = PaperStorage(arxiv_id)
-    ss_meta = fetch_paper_metadata(arxiv_id)
+
+    # Read local state before asking S2. Publication date and a real venue are
+    # stable once known, and author resolution does not need the metadata endpoint.
+    with session_scope() as session:
+        paper = session.query(Paper).filter_by(arxiv_id=arxiv_id).first()
+        if paper is None:
+            return filled
+        need_date = not paper.published_date or len(paper.published_date) < 10
+        need_venue = venue_needs_resolution(paper.venue)
+
+    ss_meta = fetch_paper_metadata(arxiv_id) if need_date or need_venue else {}
 
     with session_scope() as session:
         paper = session.query(Paper).filter_by(arxiv_id=arxiv_id).first()
@@ -466,14 +476,14 @@ def ensure_paper_metadata(arxiv_id: str) -> dict[str, bool]:
 
         metadata_updates: dict[str, object] = {}
 
-        if not paper.published_date or len(paper.published_date) < 10:
+        if need_date:
             resolved_date = _resolve_published_date(arxiv_id, ss_meta)
             if resolved_date:
                 paper.published_date = resolved_date
                 filled["published_date"] = True
                 metadata_updates["published_date"] = resolved_date
 
-        if venue_needs_resolution(paper.venue):
+        if need_venue:
             resolved_venue = resolve_paper_venue(arxiv_id, ss_meta)
             if resolved_venue:
                 paper.venue = resolved_venue

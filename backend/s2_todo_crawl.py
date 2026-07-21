@@ -25,6 +25,7 @@ from backend.sqlite_retry import (
 logger = logging.getLogger(__name__)
 
 ARXIV_RE = re.compile(r"(\d{4}\.\d{4,5})(v\d+)?")
+_CITATION_FRESHNESS_SECONDS = 30 * 24 * 60 * 60
 _is_sqlite_lock_error = is_sqlite_lock_error
 
 
@@ -152,7 +153,11 @@ def ensure_s2_tables(conn: sqlite3.Connection) -> None:
                 references_fetched INTEGER NOT NULL DEFAULT 0,
                 citations_capped   INTEGER NOT NULL DEFAULT 0,
                 references_capped  INTEGER NOT NULL DEFAULT 0,
-                crawl_complete     INTEGER NOT NULL DEFAULT 0
+                crawl_complete     INTEGER NOT NULL DEFAULT 0,
+                citations_fetched_at TEXT,
+                references_fetched_at TEXT,
+                citations_complete INTEGER NOT NULL DEFAULT 0,
+                references_complete INTEGER NOT NULL DEFAULT 0
             )
             """
         )
@@ -164,6 +169,10 @@ def ensure_s2_tables(conn: sqlite3.Connection) -> None:
             ("citations_capped", "INTEGER NOT NULL DEFAULT 0"),
             ("references_capped", "INTEGER NOT NULL DEFAULT 0"),
             ("crawl_complete", "INTEGER NOT NULL DEFAULT 0"),
+            ("citations_fetched_at", "TEXT"),
+            ("references_fetched_at", "TEXT"),
+            ("citations_complete", "INTEGER NOT NULL DEFAULT 0"),
+            ("references_complete", "INTEGER NOT NULL DEFAULT 0"),
         ]:
             if col not in crawl_cols:
                 cur.execute(f"ALTER TABLE s2_crawl_state ADD COLUMN {col} {defn}")
@@ -172,6 +181,14 @@ def ensure_s2_tables(conn: sqlite3.Connection) -> None:
             "UPDATE s2_crawl_state SET crawl_complete = 1"
             " WHERE crawl_complete = 0"
             " AND citations_fetched > 0 AND references_fetched > 0"
+        )
+        # Historical rows only recorded a successful crawl as a single event.
+        # A completed legacy crawl therefore represents both complete directions.
+        cur.execute(
+            "UPDATE s2_crawl_state SET citations_complete = 1, references_complete = 1,"
+            " citations_fetched_at = COALESCE(citations_fetched_at, crawled_at),"
+            " references_fetched_at = COALESCE(references_fetched_at, crawled_at)"
+            " WHERE crawl_complete = 1"
         )
 
         cur.execute(
@@ -353,27 +370,86 @@ def mark_crawled(
     references_fetched: int = 0,
     citations_capped: bool = False,
     references_capped: bool = False,
+    citations_complete: bool = True,
+    references_complete: bool = True,
+    citations_fetched_at: str | None = None,
+    references_fetched_at: str | None = None,
 ) -> None:
     def _write(cur: sqlite3.Cursor) -> None:
+        now = utcnow_iso()
+        citation_timestamp = (
+            citations_fetched_at if citations_fetched_at is not None else (now if citations_complete else None)
+        )
+        reference_timestamp = (
+            references_fetched_at if references_fetched_at is not None else (now if references_complete else None)
+        )
         cur.execute(
-            "INSERT OR REPLACE INTO s2_crawl_state"
+            "INSERT INTO s2_crawl_state"
             "(paper_id, arxiv_id, seed_arxiv, crawled_at,"
             " citations_fetched, references_fetched, citations_capped, references_capped,"
-            " crawl_complete)"
-            " VALUES (?, ?, ?, ?, ?, ?, ?, ?, 1)",
+            " crawl_complete, citations_fetched_at, references_fetched_at,"
+            " citations_complete, references_complete)"
+            " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+            " ON CONFLICT(paper_id) DO UPDATE SET"
+            " arxiv_id = excluded.arxiv_id, seed_arxiv = excluded.seed_arxiv,"
+            " crawled_at = excluded.crawled_at, citations_fetched = excluded.citations_fetched,"
+            " references_fetched = excluded.references_fetched,"
+            " citations_capped = excluded.citations_capped,"
+            " references_capped = excluded.references_capped,"
+            " crawl_complete = excluded.crawl_complete,"
+            " citations_fetched_at = excluded.citations_fetched_at,"
+            " references_fetched_at = excluded.references_fetched_at,"
+            " citations_complete = excluded.citations_complete,"
+            " references_complete = excluded.references_complete",
             (
                 paper_id,
                 arxiv_id,
                 seed_arxiv,
-                utcnow_iso(),
+                now,
                 citations_fetched,
                 references_fetched,
                 int(citations_capped),
                 int(references_capped),
+                int(citations_complete and references_complete),
+                citation_timestamp,
+                reference_timestamp,
+                int(citations_complete),
+                int(references_complete),
             ),
         )
 
     run_db_transaction(conn, _write)
+
+
+def _crawl_state_for_arxiv(conn: sqlite3.Connection, arxiv_id: str) -> dict[str, Any] | None:
+    cur = conn.execute(
+        "SELECT * FROM s2_crawl_state WHERE arxiv_id = ? OR seed_arxiv = ?"
+        " ORDER BY crawled_at DESC LIMIT 1",
+        (arxiv_id, arxiv_id),
+    )
+    row = cur.fetchone()
+    if row is None:
+        return None
+    return dict(zip((column[0] for column in cur.description), row, strict=True))
+
+
+def _citation_is_fresh(fetched_at: str | None) -> bool:
+    if not fetched_at:
+        return False
+    try:
+        fetched = datetime.fromisoformat(fetched_at.replace("Z", "+00:00"))
+    except ValueError:
+        return False
+    return (datetime.now(UTC) - fetched).total_seconds() < _CITATION_FRESHNESS_SECONDS
+
+
+def _s2_fetch_plan(state: dict[str, Any] | None, *, force: bool) -> tuple[bool, bool]:
+    """Return (fetch_citations, fetch_references) for one S2 crawl."""
+    if force or state is None:
+        return True, True
+    if not state["citations_complete"] or not state["references_complete"]:
+        return True, True
+    return not _citation_is_fresh(state["citations_fetched_at"]), False
 
 
 def already_crawled(conn: sqlite3.Connection, paper_id: str) -> bool:
@@ -387,24 +463,17 @@ def already_crawled(conn: sqlite3.Connection, paper_id: str) -> bool:
 
 
 def get_uncrawled_seeds(conn: sqlite3.Connection) -> list[str]:
-    """Return DB papers that still need a complete Semantic Scholar crawl."""
+    """Return DB papers needing an incomplete crawl or a citation refresh."""
     cur = conn.cursor()
     cur.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='papers'")
     if not cur.fetchone():
         return []
-    cur.execute(
-        """
-        SELECT p.arxiv_id
-        FROM papers p
-        WHERE p.arxiv_id IS NOT NULL
-          AND NOT EXISTS (
-            SELECT 1 FROM s2_crawl_state cs
-            WHERE cs.arxiv_id = p.arxiv_id AND cs.crawl_complete = 1
-          )
-        ORDER BY p.created_at
-        """
-    )
-    return [row[0] for row in cur.fetchall()]
+    cur.execute("SELECT arxiv_id FROM papers WHERE arxiv_id IS NOT NULL ORDER BY created_at")
+    seeds: list[str] = []
+    for (arxiv_id,) in cur.fetchall():
+        if any(_s2_fetch_plan(_crawl_state_for_arxiv(conn, arxiv_id), force=False)):
+            seeds.append(arxiv_id)
+    return seeds
 
 
 def is_in_local_corpus(conn: sqlite3.Connection, arxiv_id: str) -> bool:
@@ -441,7 +510,8 @@ def crawl_seed(
         "marked_complete": 0,
         "metadata_filled": {"published_date": False, "venue": False, "authors": False},
     }
-    paper_id = s2.paper_id_for_arxiv(seed_arxiv)
+    state = _crawl_state_for_arxiv(conn, seed_arxiv)
+    paper_id = str(state["paper_id"]) if state else s2.paper_id_for_arxiv(seed_arxiv)
     if not paper_id:
         logger.warning("Could not resolve seed arXiv:%s on Semantic Scholar", seed_arxiv)
         return stats
@@ -453,26 +523,17 @@ def crawl_seed(
     except Exception as exc:
         logger.warning("Paper metadata backfill failed for arXiv:%s: %s", seed_arxiv, exc)
 
-    if not force and already_crawled(conn, paper_id):
-        logger.info("Seed paperId %s already crawled — skipping", paper_id)
+    fetch_citations, fetch_references = _s2_fetch_plan(state, force=force)
+    if not fetch_citations and not fetch_references:
+        logger.info("Seed paperId %s has fresh citations and complete references — skipping", paper_id)
         return stats
 
-    citation_result = s2.fetch_citations(paper_id, limit)
-    reference_result = s2.fetch_references(paper_id, limit)
-    stats["citations"] = len(citation_result.papers)
-    stats["references"] = len(reference_result.papers)
+    citation_result = s2.fetch_citations(paper_id, limit) if fetch_citations else None
+    reference_result = s2.fetch_references(paper_id, limit) if fetch_references else None
+    stats["citations"] = len(citation_result.papers) if citation_result else 0
+    stats["references"] = len(reference_result.papers) if reference_result else 0
 
-    if not citation_result.complete or not reference_result.complete:
-        logger.warning(
-            "Incomplete Semantic Scholar crawl for arXiv:%s "
-            "(citations complete=%s, references complete=%s) — not marking as crawled",
-            seed_arxiv,
-            citation_result.complete,
-            reference_result.complete,
-        )
-        return stats
-
-    for paper in citation_result.papers:
+    for paper in citation_result.papers if citation_result and citation_result.complete else []:
         arxiv_id = infer_arxiv_id_from_s2(paper)
         if arxiv_id:
             if not is_in_local_corpus(conn, arxiv_id):
@@ -482,7 +543,7 @@ def crawl_seed(
             insert_missing(conn, paper.get("title"), seed_arxiv, paper)
             stats["cite_missing"] += 1
 
-    for paper in reference_result.papers:
+    for paper in reference_result.papers if reference_result and reference_result.complete else []:
         arxiv_id = infer_arxiv_id_from_s2(paper)
         if arxiv_id:
             if not is_in_local_corpus(conn, arxiv_id):
@@ -492,17 +553,34 @@ def crawl_seed(
             insert_missing(conn, paper.get("title"), seed_arxiv, paper)
             stats["ref_missing"] += 1
 
+    citations_complete = (
+        citation_result.complete if citation_result else bool(state and state["citations_complete"])
+    )
+    references_complete = (
+        reference_result.complete if reference_result else bool(state and state["references_complete"])
+    )
+    if not citations_complete or not references_complete:
+        logger.warning("Incomplete Semantic Scholar crawl for arXiv:%s", seed_arxiv)
+
     mark_crawled(
         conn,
         paper_id,
         seed_arxiv,
         seed_arxiv,
-        citations_fetched=len(citation_result.papers),
-        references_fetched=len(reference_result.papers),
-        citations_capped=len(citation_result.papers) >= limit,
-        references_capped=len(reference_result.papers) >= limit,
+        citations_fetched=len(citation_result.papers) if citation_result else int(state["citations_fetched"]),
+        references_fetched=(
+            len(reference_result.papers) if reference_result else int(state["references_fetched"])
+        ),
+        citations_capped=(len(citation_result.papers) >= limit if citation_result else bool(state["citations_capped"])),
+        references_capped=(
+            len(reference_result.papers) >= limit if reference_result else bool(state["references_capped"])
+        ),
+        citations_complete=citations_complete,
+        references_complete=references_complete,
+        citations_fetched_at=(utcnow_iso() if citation_result and citation_result.complete else (state["citations_fetched_at"] if state else None)),
+        references_fetched_at=(utcnow_iso() if reference_result and reference_result.complete else (state["references_fetched_at"] if state else None)),
     )
-    stats["marked_complete"] = 1
+    stats["marked_complete"] = int(citations_complete and references_complete)
     return stats
 
 
@@ -528,8 +606,9 @@ def enrich_todo_from_semantic_scholar(
         ensure_s2_tables(conn)
         load_local_corpus_from_papers_table(conn)
 
+        state = _crawl_state_for_arxiv(conn, arxiv_id)
         s2 = S2Client(min_delay=1.0)
-        paper_id = s2.paper_id_for_arxiv(arxiv_id)
+        paper_id = str(state["paper_id"]) if state else s2.paper_id_for_arxiv(arxiv_id)
         if not paper_id:
             logger.info("Semantic Scholar has no paperId for arXiv:%s", arxiv_id)
             return None
@@ -542,20 +621,12 @@ def enrich_todo_from_semantic_scholar(
             cur.execute("SELECT 1 FROM todo_papers WHERE arxiv_id = ?", (aid,))
             return cur.fetchone() is not None
 
-        citation_result = s2.fetch_citations(paper_id, limit)
-        reference_result = s2.fetch_references(paper_id, limit)
-        if not citation_result.complete or not reference_result.complete:
-            logger.warning(
-                "Incomplete Semantic Scholar enrichment for arXiv:%s "
-                "(citations complete=%s, references complete=%s) — not marking as crawled",
-                arxiv_id,
-                citation_result.complete,
-                reference_result.complete,
-            )
-            return None
+        fetch_citations, fetch_references = _s2_fetch_plan(state, force=False)
+        citation_result = s2.fetch_citations(paper_id, limit) if fetch_citations else None
+        reference_result = s2.fetch_references(paper_id, limit) if fetch_references else None
 
         incoming_added = incoming_no_arxiv = incoming_known = 0
-        for paper in citation_result.papers:
+        for paper in citation_result.papers if citation_result and citation_result.complete else []:
             aid = infer_arxiv_id_from_s2(paper)
             if not aid:
                 incoming_no_arxiv += 1
@@ -569,7 +640,7 @@ def enrich_todo_from_semantic_scholar(
                 incoming_added += 1
 
         outgoing_added = outgoing_no_arxiv = outgoing_known = 0
-        for paper in reference_result.papers:
+        for paper in reference_result.papers if reference_result and reference_result.complete else []:
             aid = infer_arxiv_id_from_s2(paper)
             if not aid:
                 outgoing_no_arxiv += 1
@@ -582,25 +653,47 @@ def enrich_todo_from_semantic_scholar(
             if not existed:
                 outgoing_added += 1
 
+        citations_complete = (
+            citation_result.complete if citation_result else bool(state and state["citations_complete"])
+        )
+        references_complete = (
+            reference_result.complete if reference_result else bool(state and state["references_complete"])
+        )
         mark_crawled(
             conn,
             paper_id,
             arxiv_id,
             arxiv_id,
-            citations_fetched=len(citation_result.papers),
-            references_fetched=len(reference_result.papers),
-            citations_capped=len(citation_result.papers) >= limit,
-            references_capped=len(reference_result.papers) >= limit,
+            citations_fetched=(
+                len(citation_result.papers) if citation_result else int(state["citations_fetched"])
+            ),
+            references_fetched=(
+                len(reference_result.papers) if reference_result else int(state["references_fetched"])
+            ),
+            citations_capped=(
+                len(citation_result.papers) >= limit
+                if citation_result
+                else bool(state["citations_capped"])
+            ),
+            references_capped=(
+                len(reference_result.papers) >= limit
+                if reference_result
+                else bool(state["references_capped"])
+            ),
+            citations_complete=citations_complete,
+            references_complete=references_complete,
+            citations_fetched_at=(utcnow_iso() if citation_result and citation_result.complete else (state["citations_fetched_at"] if state else None)),
+            references_fetched_at=(utcnow_iso() if reference_result and reference_result.complete else (state["references_fetched_at"] if state else None)),
         )
 
         cur.execute("SELECT COUNT(*) FROM todo_papers")
         after_todo = int(cur.fetchone()[0])
         return {
-            "incoming_citations": len(citation_result.papers),
+            "incoming_citations": len(citation_result.papers) if citation_result else 0,
             "incoming_added": incoming_added,
             "incoming_known": incoming_known,
             "incoming_no_arxiv": incoming_no_arxiv,
-            "outgoing_references": len(reference_result.papers),
+            "outgoing_references": len(reference_result.papers) if reference_result else 0,
             "outgoing_added": outgoing_added,
             "outgoing_known": outgoing_known,
             "outgoing_no_arxiv": outgoing_no_arxiv,

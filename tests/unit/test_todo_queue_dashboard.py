@@ -2,6 +2,8 @@ import importlib.util
 import sys
 from pathlib import Path
 
+import pytest
+
 _ROOT = Path(__file__).resolve().parents[2]
 _DASHBOARD_PATH = _ROOT / "scripts" / "todo_queue_dashboard.py"
 
@@ -21,6 +23,28 @@ def test_detect_status_skip_export_not_exporting():
         "6. Build Hugo Pages — skipped (--skip-export)"
     )
     assert status == "export skipped (--skip-export)"
+
+
+def test_dashboard_forwards_skip_screen_to_manual_runner(monkeypatch):
+    dash = _load_dashboard()
+    captured = {}
+
+    def _popen(cmd, **_kwargs):
+        captured["cmd"] = cmd
+        raise RuntimeError("stop after command construction")
+
+    monkeypatch.setattr(dash.subprocess, "Popen", _popen)
+    with pytest.raises(RuntimeError, match="stop after command construction"):
+        dash._run_manual_streaming(
+            arxiv_id="2206.08164",
+            model="primary",
+            force=False,
+            skip_screen=True,
+            inactivity_timeout_s=None,
+            worker_state=dash.WorkerState(worker_id=1),
+            dash=dash.DashboardState(workers=1),
+        )
+    assert "--skip-screen" in captured["cmd"]
 
 
 def test_detect_status_real_export():
