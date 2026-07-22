@@ -16,6 +16,7 @@ from backend.s2_todo_crawl import (
     ensure_s2_tables,
     get_uncrawled_seeds,
     infer_arxiv_id_from_s2,
+    load_cached_s2_metadata,
     mark_crawled,
     run_db_transaction,
 )
@@ -32,9 +33,7 @@ def test_infer_arxiv_id_from_url_fallback():
 
 
 def _setup_seed_db(conn: sqlite3.Connection, arxiv_id: str = "2206.08164") -> None:
-    conn.execute(
-        "CREATE TABLE papers (id INTEGER PRIMARY KEY, arxiv_id TEXT, created_at TEXT)"
-    )
+    conn.execute("CREATE TABLE papers (id INTEGER PRIMARY KEY, arxiv_id TEXT, created_at TEXT)")
     conn.execute(
         "CREATE TABLE todo_papers (id INTEGER PRIMARY KEY, arxiv_id TEXT UNIQUE, title TEXT,"
         " reason TEXT, added_by TEXT, status TEXT, attempts INTEGER, cited_by_count INTEGER,"
@@ -128,6 +127,7 @@ def test_crawl_seed_marks_complete_fetch():
 
     assert stats["marked_complete"] == 1
     assert already_crawled(conn, "s2-paper-1") is True
+    assert load_cached_s2_metadata(conn, "2406.08993") == {"title": "Citer"}
 
 
 @pytest.mark.parametrize(
@@ -147,7 +147,8 @@ def test_crawl_seed_uses_directional_freshness_cache(
     s2 = FakeS2Client()
     if citations_complete is not None:
         timestamp = (
-            datetime.now(UTC) - (timedelta(days=31) if citations_at == "overdue" else timedelta(days=1))
+            datetime.now(UTC)
+            - (timedelta(days=31) if citations_at == "overdue" else timedelta(days=1))
         ).strftime("%Y-%m-%dT%H:%M:%SZ")
         mark_crawled(
             conn,
@@ -176,6 +177,26 @@ def test_crawl_seed_force_refreshes_both_directions():
 
     assert (s2.citation_calls, s2.reference_calls) == (1, 1)
     assert s2.paper_id_calls == 0
+
+
+def test_cached_paper_metadata_avoids_second_s2_request(tmp_path, monkeypatch):
+    from backend import semantic_scholar
+    from backend.config import cfg
+
+    monkeypatch.setattr(cfg, "db_path", tmp_path / "cache.db")
+    calls = {"count": 0}
+
+    def fake_fetch(_arxiv_id: str) -> dict[str, str]:
+        calls["count"] += 1
+        return {"title": "Cached paper", "abstract": "Stable abstract"}
+
+    monkeypatch.setattr(semantic_scholar, "fetch_paper_metadata", fake_fetch)
+
+    assert semantic_scholar.fetch_cached_paper_metadata("2406.08993")["title"] == "Cached paper"
+    assert (
+        semantic_scholar.fetch_cached_paper_metadata("2406.08993")["abstract"] == "Stable abstract"
+    )
+    assert calls["count"] == 1
 
 
 def test_run_db_transaction_retries_on_database_locked(monkeypatch):

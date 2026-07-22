@@ -87,8 +87,7 @@ def _format_model_route(model_id: str, routes: dict[str, ModelRoute]) -> str:
             f"[green]local[/green] @ [cyan]{route.backend.endpoint}[/cyan]"
         )
     return (
-        f"[cyan]{route.model_id}[/cyan] "
-        f"[dim]external[/dim] @ [cyan]{route.backend.endpoint}[/cyan]"
+        f"[cyan]{route.model_id}[/cyan] [dim]external[/dim] @ [cyan]{route.backend.endpoint}[/cyan]"
     )
 
 
@@ -108,8 +107,7 @@ def _print_llm_backend_status(*, extraction_tier: str, do_screen: bool) -> None:
 
     if not local_configured:
         console.print(
-            "    [dim]Local vLLM: not configured "
-            "(set LLM_LOCAL_ENDPOINT in .env to enable)[/dim]"
+            "    [dim]Local vLLM: not configured (set LLM_LOCAL_ENDPOINT in .env to enable)[/dim]"
         )
     else:
         local_probe = next((p for p in probes if p.backend.label == "local"), None)
@@ -173,9 +171,9 @@ def _semantic_scholar_published_date(meta: dict[str, object]) -> str:
 
 def _fetch_semantic_scholar_metadata(arxiv_id: str) -> dict[str, str]:
     """Fetch paper metadata from Semantic Scholar using the arXiv ID."""
-    from backend.semantic_scholar import fetch_paper_metadata
+    from backend.semantic_scholar import fetch_cached_paper_metadata
 
-    return fetch_paper_metadata(arxiv_id)
+    return fetch_cached_paper_metadata(arxiv_id)
 
 
 def _fetch_best_metadata(arxiv_id: str, allow_arxiv_api: bool = True) -> dict[str, str]:

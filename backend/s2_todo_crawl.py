@@ -142,8 +142,7 @@ def infer_arxiv_id_from_s2(paper: dict[str, Any]) -> str | None:
 
 def ensure_s2_tables(conn: sqlite3.Connection) -> None:
     def _write(cur: sqlite3.Cursor) -> None:
-        cur.execute(
-            """
+        cur.execute("""
             CREATE TABLE IF NOT EXISTS s2_crawl_state (
                 paper_id           TEXT PRIMARY KEY,
                 arxiv_id           TEXT,
@@ -159,8 +158,7 @@ def ensure_s2_tables(conn: sqlite3.Connection) -> None:
                 citations_complete INTEGER NOT NULL DEFAULT 0,
                 references_complete INTEGER NOT NULL DEFAULT 0
             )
-            """
-        )
+            """)
         cur.execute("PRAGMA table_info(s2_crawl_state)")
         crawl_cols = {row[1] for row in cur.fetchall()}
         for col, defn in [
@@ -191,8 +189,7 @@ def ensure_s2_tables(conn: sqlite3.Connection) -> None:
             " WHERE crawl_complete = 1"
         )
 
-        cur.execute(
-            """
+        cur.execute("""
             CREATE TABLE IF NOT EXISTS missing_papers (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 title TEXT,
@@ -200,28 +197,62 @@ def ensure_s2_tables(conn: sqlite3.Connection) -> None:
                 payload TEXT,
                 first_seen_at TEXT
             )
-            """
-        )
-        cur.execute(
-            """
+            """)
+        cur.execute("""
             CREATE TABLE IF NOT EXISTS local_corpus (
                 arxiv_id TEXT PRIMARY KEY,
                 meta TEXT
             )
-            """
-        )
+            """)
+        cur.execute("""
+            CREATE TABLE IF NOT EXISTS s2_metadata_cache (
+                arxiv_id TEXT PRIMARY KEY,
+                metadata TEXT NOT NULL,
+                fetched_at TEXT NOT NULL
+            )
+            """)
         cur.execute("PRAGMA table_info(todo_papers)")
         todo_cols = {row[1] for row in cur.fetchall()}
-        for col, defn in [
-            ("seen_count", "INTEGER NOT NULL DEFAULT 0"),
-            ("seen_from", "TEXT"),
-            ("first_seen_at", "TEXT"),
-            ("is_manually_important", "INTEGER NOT NULL DEFAULT 0"),
-        ]:
-            if col not in todo_cols:
-                cur.execute(f"ALTER TABLE todo_papers ADD COLUMN {col} {defn}")
+        if todo_cols:
+            for col, defn in [
+                ("seen_count", "INTEGER NOT NULL DEFAULT 0"),
+                ("seen_from", "TEXT"),
+                ("first_seen_at", "TEXT"),
+                ("is_manually_important", "INTEGER NOT NULL DEFAULT 0"),
+            ]:
+                if col not in todo_cols:
+                    cur.execute(f"ALTER TABLE todo_papers ADD COLUMN {col} {defn}")
 
     run_db_transaction(conn, _write)
+
+
+def cache_s2_metadata(conn: sqlite3.Connection, arxiv_id: str, metadata: dict[str, Any]) -> None:
+    """Persist normalized S2 metadata for reuse by extraction and maintenance paths."""
+    if not arxiv_id or not metadata:
+        return
+    ensure_s2_tables(conn)
+    conn.execute(
+        "INSERT INTO s2_metadata_cache(arxiv_id, metadata, fetched_at) VALUES (?, ?, ?)"
+        " ON CONFLICT(arxiv_id) DO UPDATE SET metadata = excluded.metadata,"
+        " fetched_at = excluded.fetched_at",
+        (arxiv_id, json.dumps(metadata, ensure_ascii=False), utcnow_iso()),
+    )
+    conn.commit()
+
+
+def load_cached_s2_metadata(conn: sqlite3.Connection, arxiv_id: str) -> dict[str, Any] | None:
+    """Load cached S2 metadata without applying a freshness policy."""
+    ensure_s2_tables(conn)
+    row = conn.execute(
+        "SELECT metadata FROM s2_metadata_cache WHERE arxiv_id = ?", (arxiv_id,)
+    ).fetchone()
+    if row is None:
+        return None
+    try:
+        value = json.loads(row[0])
+    except (TypeError, ValueError):
+        return None
+    return value if isinstance(value, dict) else None
 
 
 def load_local_corpus_from_papers_table(conn: sqlite3.Connection) -> None:
@@ -378,10 +409,14 @@ def mark_crawled(
     def _write(cur: sqlite3.Cursor) -> None:
         now = utcnow_iso()
         citation_timestamp = (
-            citations_fetched_at if citations_fetched_at is not None else (now if citations_complete else None)
+            citations_fetched_at
+            if citations_fetched_at is not None
+            else (now if citations_complete else None)
         )
         reference_timestamp = (
-            references_fetched_at if references_fetched_at is not None else (now if references_complete else None)
+            references_fetched_at
+            if references_fetched_at is not None
+            else (now if references_complete else None)
         )
         cur.execute(
             "INSERT INTO s2_crawl_state"
@@ -517,7 +552,7 @@ def crawl_seed(
         return stats
 
     try:
-        from backend.semantic_scholar import ensure_paper_metadata
+        from backend.semantic_scholar import ensure_paper_metadata, normalize_s2_metadata
 
         stats["metadata_filled"] = ensure_paper_metadata(seed_arxiv)
     except Exception as exc:
@@ -525,7 +560,9 @@ def crawl_seed(
 
     fetch_citations, fetch_references = _s2_fetch_plan(state, force=force)
     if not fetch_citations and not fetch_references:
-        logger.info("Seed paperId %s has fresh citations and complete references — skipping", paper_id)
+        logger.info(
+            "Seed paperId %s has fresh citations and complete references — skipping", paper_id
+        )
         return stats
 
     citation_result = s2.fetch_citations(paper_id, limit) if fetch_citations else None
@@ -536,6 +573,7 @@ def crawl_seed(
     for paper in citation_result.papers if citation_result and citation_result.complete else []:
         arxiv_id = infer_arxiv_id_from_s2(paper)
         if arxiv_id:
+            cache_s2_metadata(conn, arxiv_id, normalize_s2_metadata(paper))
             if not is_in_local_corpus(conn, arxiv_id):
                 upsert_todo(conn, arxiv_id, paper.get("title"), f"cited_by:{seed_arxiv}")
                 stats["cite_added"] += 1
@@ -546,6 +584,7 @@ def crawl_seed(
     for paper in reference_result.papers if reference_result and reference_result.complete else []:
         arxiv_id = infer_arxiv_id_from_s2(paper)
         if arxiv_id:
+            cache_s2_metadata(conn, arxiv_id, normalize_s2_metadata(paper))
             if not is_in_local_corpus(conn, arxiv_id):
                 upsert_todo(conn, arxiv_id, paper.get("title"), f"references_from:{seed_arxiv}")
                 stats["ref_added"] += 1
@@ -557,7 +596,9 @@ def crawl_seed(
         citation_result.complete if citation_result else bool(state and state["citations_complete"])
     )
     references_complete = (
-        reference_result.complete if reference_result else bool(state and state["references_complete"])
+        reference_result.complete
+        if reference_result
+        else bool(state and state["references_complete"])
     )
     if not citations_complete or not references_complete:
         logger.warning("Incomplete Semantic Scholar crawl for arXiv:%s", seed_arxiv)
@@ -567,18 +608,34 @@ def crawl_seed(
         paper_id,
         seed_arxiv,
         seed_arxiv,
-        citations_fetched=len(citation_result.papers) if citation_result else int(state["citations_fetched"]),
+        citations_fetched=(
+            len(citation_result.papers) if citation_result else int(state["citations_fetched"])
+        ),
         references_fetched=(
             len(reference_result.papers) if reference_result else int(state["references_fetched"])
         ),
-        citations_capped=(len(citation_result.papers) >= limit if citation_result else bool(state["citations_capped"])),
+        citations_capped=(
+            len(citation_result.papers) >= limit
+            if citation_result
+            else bool(state["citations_capped"])
+        ),
         references_capped=(
-            len(reference_result.papers) >= limit if reference_result else bool(state["references_capped"])
+            len(reference_result.papers) >= limit
+            if reference_result
+            else bool(state["references_capped"])
         ),
         citations_complete=citations_complete,
         references_complete=references_complete,
-        citations_fetched_at=(utcnow_iso() if citation_result and citation_result.complete else (state["citations_fetched_at"] if state else None)),
-        references_fetched_at=(utcnow_iso() if reference_result and reference_result.complete else (state["references_fetched_at"] if state else None)),
+        citations_fetched_at=(
+            utcnow_iso()
+            if citation_result and citation_result.complete
+            else (state["citations_fetched_at"] if state else None)
+        ),
+        references_fetched_at=(
+            utcnow_iso()
+            if reference_result and reference_result.complete
+            else (state["references_fetched_at"] if state else None)
+        ),
     )
     stats["marked_complete"] = int(citations_complete and references_complete)
     return stats
@@ -631,6 +688,9 @@ def enrich_todo_from_semantic_scholar(
             if not aid:
                 incoming_no_arxiv += 1
                 continue
+            from backend.semantic_scholar import normalize_s2_metadata
+
+            cache_s2_metadata(conn, aid, normalize_s2_metadata(paper))
             if is_in_local_corpus(conn, aid):
                 incoming_known += 1
                 continue
@@ -640,11 +700,14 @@ def enrich_todo_from_semantic_scholar(
                 incoming_added += 1
 
         outgoing_added = outgoing_no_arxiv = outgoing_known = 0
-        for paper in reference_result.papers if reference_result and reference_result.complete else []:
+        for paper in (
+            reference_result.papers if reference_result and reference_result.complete else []
+        ):
             aid = infer_arxiv_id_from_s2(paper)
             if not aid:
                 outgoing_no_arxiv += 1
                 continue
+            cache_s2_metadata(conn, aid, normalize_s2_metadata(paper))
             if is_in_local_corpus(conn, aid):
                 outgoing_known += 1
                 continue
@@ -654,10 +717,14 @@ def enrich_todo_from_semantic_scholar(
                 outgoing_added += 1
 
         citations_complete = (
-            citation_result.complete if citation_result else bool(state and state["citations_complete"])
+            citation_result.complete
+            if citation_result
+            else bool(state and state["citations_complete"])
         )
         references_complete = (
-            reference_result.complete if reference_result else bool(state and state["references_complete"])
+            reference_result.complete
+            if reference_result
+            else bool(state and state["references_complete"])
         )
         mark_crawled(
             conn,
@@ -668,7 +735,9 @@ def enrich_todo_from_semantic_scholar(
                 len(citation_result.papers) if citation_result else int(state["citations_fetched"])
             ),
             references_fetched=(
-                len(reference_result.papers) if reference_result else int(state["references_fetched"])
+                len(reference_result.papers)
+                if reference_result
+                else int(state["references_fetched"])
             ),
             citations_capped=(
                 len(citation_result.papers) >= limit
@@ -682,8 +751,16 @@ def enrich_todo_from_semantic_scholar(
             ),
             citations_complete=citations_complete,
             references_complete=references_complete,
-            citations_fetched_at=(utcnow_iso() if citation_result and citation_result.complete else (state["citations_fetched_at"] if state else None)),
-            references_fetched_at=(utcnow_iso() if reference_result and reference_result.complete else (state["references_fetched_at"] if state else None)),
+            citations_fetched_at=(
+                utcnow_iso()
+                if citation_result and citation_result.complete
+                else (state["citations_fetched_at"] if state else None)
+            ),
+            references_fetched_at=(
+                utcnow_iso()
+                if reference_result and reference_result.complete
+                else (state["references_fetched_at"] if state else None)
+            ),
         )
 
         cur.execute("SELECT COUNT(*) FROM todo_papers")

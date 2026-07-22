@@ -5,6 +5,7 @@ from __future__ import annotations
 import json
 import logging
 import re
+import sqlite3
 import time
 from typing import Any
 
@@ -278,6 +279,52 @@ def _paper_fields(data: dict[str, Any] | None) -> dict[str, str]:
     return meta
 
 
+def normalize_s2_metadata(data: dict[str, Any] | None) -> dict[str, str]:
+    """Normalize an S2 API payload for the shared metadata cache."""
+    return _paper_fields(data)
+
+
+def fetch_cached_paper_metadata(arxiv_id: str) -> dict[str, str]:
+    """Read immutable S2 metadata from the DB, fetching it only when absent."""
+    from backend.s2_todo_crawl import (
+        cache_s2_metadata,
+        configure_sqlite_connection,
+        ensure_s2_tables,
+        load_cached_s2_metadata,
+    )
+
+    conn = sqlite3.connect(str(cfg.db_path))
+    configure_sqlite_connection(conn)
+    try:
+        ensure_s2_tables(conn)
+        cached = load_cached_s2_metadata(conn, arxiv_id)
+        if cached:
+            return {str(key): str(value) for key, value in cached.items()}
+        metadata = fetch_paper_metadata(arxiv_id)
+        if metadata:
+            cache_s2_metadata(conn, arxiv_id, metadata)
+        return metadata
+    finally:
+        conn.close()
+
+
+def cache_paper_metadata(arxiv_id: str, metadata: dict[str, str]) -> None:
+    """Write normalized S2 metadata to the shared database cache."""
+    from backend.s2_todo_crawl import (
+        cache_s2_metadata,
+        configure_sqlite_connection,
+        ensure_s2_tables,
+    )
+
+    conn = sqlite3.connect(str(cfg.db_path))
+    configure_sqlite_connection(conn)
+    try:
+        ensure_s2_tables(conn)
+        cache_s2_metadata(conn, arxiv_id, metadata)
+    finally:
+        conn.close()
+
+
 def fetch_paper_metadata(arxiv_id: str) -> dict[str, str]:
     url = f"{_S2_BASE}/paper/ARXIV:{arxiv_id}"
     data = _s2_request(url, {"fields": _S2_FIELDS})
@@ -467,7 +514,7 @@ def ensure_paper_metadata(arxiv_id: str) -> dict[str, bool]:
         need_date = not paper.published_date or len(paper.published_date) < 10
         need_venue = venue_needs_resolution(paper.venue)
 
-    ss_meta = fetch_paper_metadata(arxiv_id) if need_date or need_venue else {}
+    ss_meta = fetch_cached_paper_metadata(arxiv_id) if need_date or need_venue else {}
 
     with session_scope() as session:
         paper = session.query(Paper).filter_by(arxiv_id=arxiv_id).first()
