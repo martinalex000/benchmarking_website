@@ -38,11 +38,14 @@ def test_sanitize_text_strips_control_chars():
 
 def test_build_rag_context_sanitizes_table_markdown():
     table = SimpleNamespace(
+        number=3,
+        label="tab:cora-results",
         caption="Results",
         markdown="GCN\x0c | 0.85",
     )
     context, stats = LLMExtractor._build_rag_context(
-        "Intro mentions Cora dataset.\n\n",
+        "Intro mentions Cora dataset.\n\nTable~3 uses the standard node split.\n\n"
+        "This paragraph discusses unrelated link prediction.\n\n",
         [table],
         "Cora",
         max_text_chars=1000,
@@ -50,6 +53,7 @@ def test_build_rag_context_sanitizes_table_markdown():
     )
     assert "\x0c" not in context
     assert "0.85" in context
+    assert "standard node split" in context
     assert stats["dataset"] == "Cora"
 
 

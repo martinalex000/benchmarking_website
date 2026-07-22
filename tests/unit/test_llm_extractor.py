@@ -322,6 +322,29 @@ def test_extract_results_chunk_falls_back_between_yaml_and_json(monkeypatch):
     assert result.results[0].dataset == "Peptides-func"
 
 
+def test_extract_results_chunk_wraps_top_level_result_rows(monkeypatch):
+    extractor = LLMExtractor(result_output_format="json")
+
+    monkeypatch.setattr(
+        extractor,
+        "_call_structured",
+        lambda *_args, **_kwargs: [
+            {
+                "model": "GraphGPS",
+                "dataset": "Cora",
+                "metric": "Accuracy",
+                "value": 0.81,
+            }
+        ],
+    )
+
+    result = extractor._extract_results_chunk("prompt", "paper text", call_type="extract_dataset")
+
+    assert len(result.results) == 1
+    assert result.results[0].dataset == "Cora"
+    assert result.results[0].value == pytest.approx(0.81)
+
+
 def test_apply_sizes_merges_proposed_and_baselines():
     extraction = ExtractionOutput(
         proposed_model=ProposedModel(name="GraphGPS"),

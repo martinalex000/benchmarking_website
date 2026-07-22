@@ -169,6 +169,7 @@ _OGB_DATASET_ALIASES: dict[str, str] = {
 # obvious variants like punctuation or spacing changes without collapsing short
 # families such as GCN into unrelated names like GatedGCN.
 _MODEL_FUZZY_MATCH_MIN_SCORE = 88
+_MIN_REPLACEMENT_COVERAGE = 0.5
 
 
 @dataclass
@@ -177,10 +178,12 @@ class ParseStoreSummary:
     extraction_model: str = "unknown"
     new_results: int = 0
     updated_results: int = 0
+    candidate_results: int = 0
     replaced_results: int = 0
     skipped_unknown_datasets: list[str] = field(default_factory=list)
     skipped_invalid_values: list[str] = field(default_factory=list)
     skipped_protocol_mismatches: list[str] = field(default_factory=list)
+    uncertain_protocol_results: list[str] = field(default_factory=list)
     created_models: list[str] = field(default_factory=list)
     created_stub_paper: bool = False
     metadata_changed: bool = False
@@ -256,67 +259,52 @@ def _normalized_evaluation_task(value: Any) -> str:
 
 
 def _protocol_compatible_with_variant(entry: dict[str, Any], variant: DatasetVariant) -> bool:
-    """Whether a versioned extraction explicitly supports this canonical variant."""
+    """Whether a versioned extraction explicitly contradicts the canonical task.
+
+    Missing protocol fields are treated as unknown rather than incompatible.
+    This is intentionally recall-oriented: older models and partially upgraded
+    prompts may omit the declaration even when the extracted result is valid.
+    """
     expected_task = _normalized_evaluation_task(variant.dataset.task_type)
     actual_task = _normalized_evaluation_task(entry.get("evaluation_task"))
-    return (
-        bool(entry.get("uses_standard_protocol"))
-        and bool(actual_task)
-        and actual_task == expected_task
-    )
+    return not actual_task or actual_task == expected_task
+
+
+def _protocol_decision(entry: dict[str, Any], variant: DatasetVariant) -> str:
+    """Normalize the LLM protocol decision with a safe legacy fallback."""
+    expected_task = _normalized_evaluation_task(variant.dataset.task_type)
+    actual_task = _normalized_evaluation_task(entry.get("evaluation_task"))
+    if actual_task and actual_task != expected_task:
+        return "nonstandard"
+
+    decision = str(entry.get("protocol_decision") or "").strip().casefold()
+    if decision in {"standard", "nonstandard", "uncertain"}:
+        return decision
+
+    standard = parse_optional_extracted_bool(entry.get("uses_standard_protocol"))
+    if standard is True and actual_task == expected_task:
+        return "standard"
+    # A false legacy boolean is not enough to distinguish a clearly
+    # non-standard experiment from an uncertain/omitted declaration.
+    return "uncertain"
 
 
 def source_indicates_incompatible_protocol(
     entry: dict[str, Any], variant: DatasetVariant, paper_text: str
 ) -> bool:
-    """Conservatively reject known non-standard protocols from source evidence.
+    """Reject explicit row-local protocol mismatches.
 
-    This backstop matters when an extractor incorrectly calls a table standard.
-    It intentionally prefers a false negative (omitting a questionable row) to
-    contaminating a canonical leaderboard with a different experimental task.
+    Protocol evidence must be attached to the extracted row (normally via the
+    table caption/header or ``protocol_note``). Scanning the whole paper is
+    unsafe for multi-task benchmarks such as LRGB: a paper can legitimately
+    discuss link prediction for PCQM-Contact while reporting graph or node
+    classification results for other datasets.
+
+    ``paper_text`` remains in the signature for compatibility, but is
+    intentionally not used as row-level evidence.
     """
-    expected_task = _normalized_evaluation_task(variant.dataset.task_type)
-    source = paper_text.casefold()
-    actual_task = _normalized_evaluation_task(entry.get("evaluation_task"))
-    metric = str(entry.get("metric") or "").casefold()
-    link_metrics = ("auc", "ap", "mrr", "hits", "hit@")
-    if expected_task != "link_prediction" and (
-        actual_task == "link_prediction"
-        or (
-            any(
-                marker in source
-                for marker in ("link prediction", "link-prediction", "edge prediction")
-            )
-            and any(marker in metric for marker in link_metrics)
-        )
-    ):
-        return True
-    return expected_task in {"node_classification", "graph_classification"} and any(
-        marker in source
-        for marker in (
-            "continual learning",
-            "continual graph learning",
-            "class-incremental",
-            "task-incremental",
-            "all nodes",
-            "all-node",
-            "prompt augmented by chatgpt",
-            "graph reasoning ability via prompt",
-            "out-of-distribution generalization",
-            "ood generalization",
-            "negative transfer",
-            "cross-graph transfer",
-            "domain adaptation",
-            "backdoor attack",
-            "attack success rate",
-            "synthetic graph",
-            "generated graph",
-            "graph generation",
-            "molecular generation",
-            "docking benchmark",
-            "docking score",
-        )
-    )
+    del paper_text
+    return _protocol_decision(entry, variant) == "nonstandard"
 
 
 def normalize_percentage_metric(
@@ -1014,7 +1002,7 @@ def parse_and_store_with_summary(
 
     raw = storage.load_llm_output()
     extraction = raw.get("results", {})
-    protocol_validation_version = int(extraction.get("protocol_validation_version") or 0)
+    coverage_assessment = str(extraction.get("coverage_assessment") or "unknown").casefold()
     model_name_used = raw.get("model_used", "unknown")
     summary.extraction_model = model_name_used
 
@@ -1069,22 +1057,10 @@ def parse_and_store_with_summary(
         )
 
     if not result_entries:
-        if replace_existing:
-            with session_scope() as session:
-                paper = session.query(Paper).filter_by(arxiv_id=arxiv_id).first()
-                if paper is not None:
-                    summary.replaced_results = (
-                        session.query(Result)
-                        .filter_by(paper_id=paper.id)
-                        .delete(synchronize_session=False)
-                    )
-            if summary.replaced_results:
-                logger.info(
-                    "Removed %d stale Result row(s) for arXiv:%s",
-                    summary.replaced_results,
-                    arxiv_id,
-                )
-        logger.warning("No result entries in LLM output for arXiv:%s", arxiv_id)
+        logger.warning(
+            "No result entries in LLM output for arXiv:%s; existing rows were retained",
+            arxiv_id,
+        )
         return summary
 
     paper_text = ""
@@ -1150,10 +1126,15 @@ def parse_and_store_with_summary(
             )
             return summary
 
-        if replace_existing:
-            summary.replaced_results = (
-                session.query(Result).filter_by(paper_id=paper.id).delete(synchronize_session=False)
-            )
+        previous_results = (
+            session.query(Result).filter_by(paper_id=paper.id).all() if replace_existing else []
+        )
+        previous_result_ids = {result.id for result in previous_results}
+        retained_existing_ids: set[int] = {
+            result.id for result in previous_results if result.is_overridden
+        }
+        pending_updates: list[tuple[Result, dict[str, Any], float | None, bool, str, str]] = []
+        pending_new_by_key: dict[tuple[int, int, str], Result] = {}
 
         paper.extraction_status = "extracted"
 
@@ -1203,30 +1184,27 @@ def parse_and_store_with_summary(
                 )
                 summary.skipped_protocol_mismatches.append(detail)
                 continue
-            if source_indicates_incompatible_protocol(entry, variant, paper_text):
-                detail = f"{model_name} / {dataset_name} / {metric_name} (source protocol evidence)"
-                logger.warning(
-                    "Skipping source-incompatible result for arXiv:%s: %s", arxiv_id, detail
-                )
-                summary.skipped_protocol_mismatches.append(detail)
-                continue
-            if protocol_validation_version >= 1 and not _protocol_compatible_with_variant(
-                entry, variant
-            ):
+            decision = _protocol_decision(entry, variant)
+            if decision == "nonstandard":
                 expected_task = _normalized_evaluation_task(variant.dataset.task_type)
                 actual_task = _normalized_evaluation_task(entry.get("evaluation_task"))
                 detail = (
                     f"{model_name} / {dataset_name} / {metric_name} "
-                    f"(expected {expected_task}; got {actual_task or 'missing'}; "
-                    f"standard={entry.get('uses_standard_protocol')!r})"
+                    f"(decision=nonstandard; expected {expected_task}; "
+                    f"got {actual_task or 'unknown'}; "
+                    f"note={entry.get('protocol_note') or 'none'})"
                 )
                 logger.warning(
-                    "Skipping result with incompatible evaluation protocol for arXiv:%s: %s",
+                    "Skipping explicitly non-standard result for arXiv:%s: %s",
                     arxiv_id,
                     detail,
                 )
                 summary.skipped_protocol_mismatches.append(detail)
                 continue
+            if decision == "uncertain":
+                summary.uncertain_protocol_results.append(
+                    f"{model_name} / {dataset_name} / {metric_name}"
+                )
             if dataset_name.strip().lower() == "zinc":
                 logger.info(
                     "Resolved ZINC variant for arXiv:%s model=%s metric=%s via %s",
@@ -1279,19 +1257,16 @@ def parse_and_store_with_summary(
                     dataset_name,
                     metric_name,
                 )
+                retained_existing_ids.add(existing.id)
                 continue
             if existing:
-                # Update in-place
-                changed = _update_result(
-                    existing,
-                    entry,
-                    model_name_used,
-                    params_millions=params,
-                    params_present=params_present,
+                # Do not mutate an existing row until every candidate entry has
+                # passed validation. This keeps a failed/partial replacement
+                # from leaving a paper half-updated inside a long parse.
+                pending_updates.append(
+                    (existing, entry, params, params_present, variant_reason, decision)
                 )
-                existing.variant_inference_reason = variant_reason
-                if changed:
-                    summary.updated_results += 1
+                retained_existing_ids.add(existing.id)
                 continue
 
             # Parse value/std
@@ -1308,26 +1283,94 @@ def parse_and_store_with_summary(
                 )
                 continue
 
-            result = Result(
-                paper_id=paper.id,
-                dataset_variant_id=variant_id,
-                model_id=model_id,
-                metric_name=metric_name,
-                metric_value=value,
-                metric_std=std,
-                higher_is_better=higher_is_better,
-                is_baseline=not is_proposed,
-                uses_external_data=(
-                    1 if uses_external_data is True else 0 if uses_external_data is False else None
-                ),
-                params_millions=params,
-                table_ref=entry.get("table_ref"),
-                source_ref=entry.get("source_ref", "this paper"),
-                extraction_model=model_name_used,
-                variant_inference_reason=variant_reason,
+            key = (variant_id, model_id, metric_name)
+            result = pending_new_by_key.get(key)
+            if result is None:
+                result = Result(
+                    paper_id=paper.id,
+                    dataset_variant_id=variant_id,
+                    model_id=model_id,
+                    metric_name=metric_name,
+                    metric_value=value,
+                    metric_std=std,
+                    higher_is_better=higher_is_better,
+                    is_baseline=not is_proposed,
+                    uses_external_data=(
+                        1
+                        if uses_external_data is True
+                        else 0
+                        if uses_external_data is False
+                        else None
+                    ),
+                    params_millions=params,
+                    table_ref=entry.get("table_ref"),
+                    source_ref=entry.get("source_ref", "this paper"),
+                    extraction_model=model_name_used,
+                    variant_inference_reason=variant_reason,
+                    evaluation_task=entry.get("evaluation_task"),
+                    protocol_decision=decision,
+                    protocol_note=entry.get("protocol_note"),
+                )
+                pending_new_by_key[key] = result
+
+        # Candidate construction and validation are complete. Only now mutate
+        # existing rows. The surrounding session_scope transaction rolls back
+        # all changes if replacement or insertion fails below.
+        pending_new_results = list(pending_new_by_key.values())
+
+        if previous_results:
+            candidate_count = len(retained_existing_ids) + len(pending_new_results)
+            summary.candidate_results = candidate_count
+            minimum_count = max(
+                1,
+                int(len(previous_results) * _MIN_REPLACEMENT_COVERAGE + 0.999999),
             )
+            stale_ids = previous_result_ids - retained_existing_ids
+            explicit_decisions = all(
+                str(entry.get("protocol_decision") or "").casefold()
+                in {"standard", "nonstandard", "uncertain"}
+                for entry in result_entries
+            )
+            complete_review = coverage_assessment == "complete" and explicit_decisions
+            if candidate_count >= minimum_count or complete_review:
+                summary.replaced_results = (
+                    session.query(Result)
+                    .filter(Result.id.in_(stale_ids), Result.is_overridden == 0)
+                    .delete(synchronize_session=False)
+                    if stale_ids
+                    else 0
+                )
+            else:
+                logger.warning(
+                    "Keeping %d existing result(s) for arXiv:%s: candidate extraction "
+                    "contains %d row(s), below replacement threshold %d/%d",
+                    len(stale_ids),
+                    arxiv_id,
+                    candidate_count,
+                    minimum_count,
+                    len(previous_results),
+                )
+
+        for existing, entry, params, params_present, variant_reason, decision in pending_updates:
+            changed = _update_result(
+                existing,
+                entry,
+                model_name_used,
+                params_millions=params,
+                params_present=params_present,
+            )
+            existing.variant_inference_reason = variant_reason
+            existing.evaluation_task = entry.get("evaluation_task")
+            existing.protocol_decision = decision
+            existing.protocol_note = entry.get("protocol_note")
+            if changed:
+                summary.updated_results += 1
+
+        for result in pending_new_results:
             session.add(result)
-            summary.new_results += 1
+        summary.new_results = len(pending_new_results)
+        if not previous_results:
+            summary.candidate_results = summary.new_results
 
         param_lookup = {k: float(v) for k, v in sizes_lookup.items() if v is not None}
         if param_lookup:

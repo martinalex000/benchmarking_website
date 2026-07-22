@@ -33,24 +33,31 @@ Output schema:
       "higher_is_better": <true|false>,
       "uses_external_data": <true|false|null>,
       "table_ref": "<e.g. Table 1, Table 3>",
-      "source_ref": "<if baseline from another paper: Author Year; else 'this paper'>"
+      "source_ref": "<if baseline from another paper: Author Year; else 'this paper'>",
       "evaluation_task": "<node_classification|node_regression|graph_classification|graph_regression|link_prediction|other>",
+      "protocol_decision": "<standard|nonstandard|uncertain>",
       "uses_standard_protocol": "<true only for the dataset's canonical task and standard split; otherwise false>",
       "protocol_note": "<short evidence from caption/setup describing the task and split>"
     }
   ],
   "extraction_confidence": "<HIGH|MEDIUM|LOW>",
+  "coverage_assessment": "<complete|partial|uncertain>",
   "extraction_notes": "<describe any ambiguities, unclear values, or tables that could not be parsed>"
 }
 
 Rules:
-- Protocol gate (mandatory for EVERY row): identify the actual evaluation task from the table
-  caption and experimental setup. `uses_standard_protocol` is true ONLY when the result uses
-  the canonical task and standard benchmark protocol for the named dataset. Set it false for
-  link/edge prediction on a node-classification dataset, continual/streaming/incremental
-  learning, all-node fitting without a held-out split, generated prompt/API tasks, custom
-  random splits, or any other non-comparable experiment. When false, still report the row so
-  it can be audited, but never call it standard.
+- Protocol decision (mandatory for EVERY row): decide from the focused table, its caption, and
+  the nearby experiment paragraphs whether the row uses the canonical task and standard split
+  for the named dataset. Use `standard` for a matching protocol, `nonstandard` only when the
+  table evidence clearly shows a different task or non-comparable experiment, and `uncertain`
+  when the evidence is incomplete or ambiguous. `uses_standard_protocol` mirrors this decision
+  for compatibility: true for standard, false for nonstandard, null for uncertain.
+- Do not use mentions elsewhere in the paper as evidence against the current table. For example,
+  link prediction elsewhere is harmless; link prediction on the current node-classification
+  dataset/table is nonstandard. Report nonstandard rows too so the exclusion is auditable.
+- `coverage_assessment` describes whether the supplied selected tables were sufficient to account
+  for all main benchmark rows: complete, partial, or uncertain. Use complete only after reviewing
+  every relevant selected table and its referenced setup paragraphs.
 - Include ALL rows from the MAIN benchmark comparison tables for standard datasets.
 - Do NOT extract ablation studies, component-removal tables, hyperparameter sweeps, sensitivity
   analyses, efficiency-only tables, or appendix-only diagnostics. Use the table caption to

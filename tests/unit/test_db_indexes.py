@@ -131,6 +131,7 @@ def test_init_db_applies_tracked_migrations_to_legacy_schema(monkeypatch, tmp_pa
     assert "uses_external_data" in result_column_names
     assert "params_millions" in result_column_names
     assert "variant_inference_reason" in result_column_names
+    assert {"evaluation_task", "protocol_decision", "protocol_note"} <= result_column_names
     assert {
         "paper_title",
         "metrics_seen",

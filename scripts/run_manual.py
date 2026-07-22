@@ -747,7 +747,11 @@ def _print_parse_summary(summary) -> None:
             console.print("  [dim]Reasons: " + "; ".join(summary.quarantine_reasons) + "[/dim]")
         return
 
-    total_processed = summary.new_results + summary.updated_results
+    total_processed = getattr(
+        summary,
+        "candidate_results",
+        summary.new_results + summary.updated_results,
+    )
     if summary.new_results:
         console.print(f"  [green]{summary.new_results}[/green] new result row(s) stored.")
     elif summary.updated_results:
@@ -762,7 +766,7 @@ def _print_parse_summary(summary) -> None:
     if replaced_results:
         console.print(
             f"  [yellow]{replaced_results}[/yellow] prior result row(s) removed "
-            "before parsing this forced re-extraction."
+            "after complete candidate validation."
         )
 
     if total_processed:
@@ -783,6 +787,11 @@ def _print_parse_summary(summary) -> None:
         suffix = " ..." if len(summary.skipped_protocol_mismatches) > 3 else ""
         console.print(
             f"  [yellow]Rejected protocol-mismatched result(s): {skipped}{suffix}[/yellow]"
+        )
+    if getattr(summary, "uncertain_protocol_results", []):
+        console.print(
+            f"  [dim]{len(summary.uncertain_protocol_results)} row(s) retained with "
+            "uncertain protocol decisions for review.[/dim]"
         )
 
 

@@ -70,6 +70,7 @@ class ResultEntry(BaseModel):
     table_ref: str | None = None
     source_ref: str | None = "this paper"
     evaluation_task: str | None = None
+    protocol_decision: str | None = None
     uses_standard_protocol: bool | None = None
     protocol_note: str | None = None
 
@@ -169,6 +170,7 @@ class ExtractionOutput(BaseModel):
     results: list[ResultEntry] = Field(default_factory=list)
     extraction_confidence: str = "LOW"
     extraction_notes: str = ""
+    coverage_assessment: str = "unknown"
     task_mismatch: bool = False
     discovered_datasets: list[DatasetInfo] = Field(default_factory=list)
     paper_has_statistics: bool = False

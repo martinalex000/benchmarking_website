@@ -64,6 +64,12 @@ def _migration_results_additional_columns(engine: Engine) -> None:
     _add_column_if_missing(engine, "results", "variant_inference_reason", "TEXT")
 
 
+def _migration_results_protocol_metadata(engine: Engine) -> None:
+    _add_column_if_missing(engine, "results", "evaluation_task", "TEXT")
+    _add_column_if_missing(engine, "results", "protocol_decision", "TEXT")
+    _add_column_if_missing(engine, "results", "protocol_note", "TEXT")
+
+
 def _migration_pending_datasets_columns(engine: Engine) -> None:
     _add_column_if_missing(engine, "pending_datasets", "paper_title", "TEXT")
     _add_column_if_missing(engine, "pending_datasets", "metrics_seen", "TEXT")
@@ -188,6 +194,7 @@ MIGRATIONS: tuple[Migration, ...] = (
     Migration("008_todo_manual_importance", _migration_todo_manual_importance),
     Migration("009_drop_models_size_params", _migration_drop_models_size_params),
     Migration("010_export_indexes", _migration_export_indexes),
+    Migration("011_results_protocol_metadata", _migration_results_protocol_metadata),
 )
 
 

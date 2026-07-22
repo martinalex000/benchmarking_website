@@ -402,6 +402,9 @@ class Result(Base):
     source_ref = Column(String)  # "this paper" or "Author Year"
     extraction_model = Column(String)  # model that extracted this result
     variant_inference_reason = Column(Text)
+    evaluation_task = Column(String)
+    protocol_decision = Column(String)
+    protocol_note = Column(Text)
     uses_external_data = Column(Integer)  # 1=yes, 0=no, NULL=unknown
     params_millions = Column(Float)  # paper-local parameter count in millions
     # Human correction columns

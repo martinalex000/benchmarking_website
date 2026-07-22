@@ -128,6 +128,9 @@ CREATE TABLE IF NOT EXISTS results (
     source_ref          TEXT,               -- "this paper" or "Author Year"
     extraction_model    TEXT,               -- model name used to extract this result
     variant_inference_reason TEXT,          -- why this dataset variant was selected
+    evaluation_task      TEXT,              -- LLM-reported task for this result
+    protocol_decision    TEXT,              -- standard | nonstandard | uncertain
+    protocol_note        TEXT,              -- focused evidence supplied by the LLM
     uses_external_data  INTEGER,            -- 1=yes, 0=no, NULL=unknown
     params_millions     REAL,               -- paper-local parameter count in millions
     -- Human correction system

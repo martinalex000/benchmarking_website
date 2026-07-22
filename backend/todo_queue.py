@@ -218,7 +218,7 @@ def set_todo_paper_importance(
         return True, f"{arxiv_id} {action} (status={row.status})"
 
 
-def build_queue_report(limit: int = 10, max_attempts: int = 3) -> TodoQueueReport:
+def build_queue_report(limit: int = 10, max_attempts: int = 10) -> TodoQueueReport:
     init_db()
     with session_scope() as session:
         rows = session.query(TodoPaper).all()
@@ -333,7 +333,7 @@ def release_stale_processing_papers(stale_minutes: int = WORKER_LOCK_TIMEOUT_MIN
         return len(stale_rows)
 
 
-def count_pending_important(*, max_attempts: int = 3) -> int:
+def count_pending_important(*, max_attempts: int = 10) -> int:
     init_db()
     with session_scope() as session:
         return (
@@ -421,7 +421,7 @@ def process_queue(
     limit: int = 5,
     model: str = "primary",
     force: bool = False,
-    max_attempts: int = 3,
+    max_attempts: int = 10,
     dry_run: bool = False,
     refresh_dev_exports: bool = True,
     important_only: bool = False,

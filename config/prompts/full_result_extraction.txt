@@ -24,20 +24,23 @@ Compact output schema:
       "t": "<table ref or null>",
       "r": "<source ref or 'this paper'>",
       "q": "<node_classification|node_regression|graph_classification|graph_regression|link_prediction|other>",
+      "u": "<standard|nonstandard|uncertain>",
       "z": "<true only for the canonical task and standard protocol; otherwise false>",
       "n": "<short protocol evidence>"
     }
   ],
   "confidence": "<HIGH|MEDIUM|LOW>",
+  "coverage_assessment": "<complete|partial|uncertain>",
   "notes": "<brief ambiguity notes>"
 }
 
 Rules:
-- Protocol gate (mandatory for EVERY row): set `q` to the actual task and `z=true`
-  ONLY for the canonical dataset task and standard benchmark protocol. Set `z=false` for
-  link/edge prediction on node datasets, continual/streaming/incremental learning,
-  all-node fitting without a held-out split, generated prompt/API tasks, custom random
-  splits, or another non-comparable protocol.
+- Protocol decision (mandatory for EVERY row): use `u=standard` only when the focused table,
+  caption, and nearby experiment paragraphs support the canonical task and standard split.
+  Use `u=nonstandard` only for clear evidence of another task or non-comparable protocol, and
+  `u=uncertain` when evidence is incomplete. Set `z=true`, false, or null accordingly.
+- Do not treat unrelated mentions elsewhere in the paper as evidence against the current table.
+- `coverage_assessment` is complete only when all relevant result tables were reviewed.
 - Extract ONLY main benchmark comparison results on standard datasets.
 - Do NOT extract ablations, component removals, hyperparameter sweeps, sensitivity studies,
   runtime-only tables, or appendix-only diagnostics. Skip tables whose captions identify them

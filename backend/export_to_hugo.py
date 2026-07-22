@@ -2397,6 +2397,9 @@ def _export_paper_impl(session: Session, arxiv_id: str) -> bool:
                 "table_ref": r.table_ref or "",
                 "source_ref": r.source_ref or "",
                 "variant_inference_reason": r.variant_inference_reason or "",
+                "evaluation_task": r.evaluation_task or "",
+                "protocol_decision": r.protocol_decision or "uncertain",
+                "protocol_note": r.protocol_note or "",
                 "date": _fmt_date(paper.published_date) if paper else "",
                 "date_display": _fmt_month_year(paper.published_date) if paper else "",
                 "date_iso": (paper.published_date[:10] if paper and paper.published_date else ""),
@@ -3338,6 +3341,50 @@ def _export_benchmarks_data_impl(session: Session) -> None:
     )
 
 
+def _export_snapshot_payload(
+    dataset_metadata: dict[int, dict[str, Any]], *, paper_count: int, generated_at: str
+) -> dict[str, Any]:
+    """Describe the single, public leaderboard snapshot produced by an export."""
+    exportable = [meta for meta in dataset_metadata.values() if meta.get("exportable")]
+    return {
+        "schema_version": 1,
+        "generated_at": generated_at,
+        "definition": (
+            "Standard-variant leaderboard rows after protocol/display filtering, "
+            "deduplication, and exclusion of rows marked problematic."
+        ),
+        "counts": {
+            "papers": paper_count,
+            "datasets": len(exportable),
+            "results": sum(int(meta.get("result_count", 0)) for meta in exportable),
+        },
+    }
+
+
+def export_snapshot_data(*, session: Session | None = None, paper_count: int) -> None:
+    """Write the shared public-count snapshot consumed by overview pages."""
+    _DATA_DIR.mkdir(parents=True, exist_ok=True)
+
+    def _write(sess: Session) -> None:
+        metadata = {
+            ds.id: _dataset_export_metadata(sess, ds.id) for ds in sess.query(Dataset).all()
+        }
+        payload = _export_snapshot_payload(
+            metadata,
+            paper_count=paper_count,
+            generated_at=datetime.now().astimezone().isoformat(timespec="seconds"),
+        )
+        (_DATA_DIR / "export_snapshot.json").write_text(
+            json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
+        )
+
+    if session is not None:
+        _write(session)
+    else:
+        with session_scope() as scoped:
+            _write(scoped)
+
+
 def export_development_data(*, session: Session | None = None) -> dict[str, int]:
     """Write development data files for debugging/admin purposes."""
     from backend.hugo_dev_exports import export_development_data as _export_development_data
@@ -3439,6 +3486,8 @@ def export_all(
         t0 = time.perf_counter()
         export_benchmarks_data(session=session)
         timings["benchmarks"] = time.perf_counter() - t0
+
+        export_snapshot_data(session=session, paper_count=len(paper_ids))
 
         papers_ok = 0
         t0 = time.perf_counter()

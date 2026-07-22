@@ -135,6 +135,16 @@ def _collapse_confidence_levels(confidence_levels: list[str]) -> str:
     return "LOW"
 
 
+def _collapse_coverage_assessments(assessments: list[str]) -> str:
+    """Aggregate partial extraction coverage conservatively."""
+    normalized = {str(value or "unknown").casefold() for value in assessments}
+    if not normalized:
+        return "unknown"
+    if "partial" in normalized or "uncertain" in normalized or "unknown" in normalized:
+        return "partial" if "partial" in normalized else "uncertain"
+    return "complete" if normalized == {"complete"} else "uncertain"
+
+
 def _merge_extraction_outputs(
     *,
     proposed_model: ProposedModel | None,
@@ -142,6 +152,7 @@ def _merge_extraction_outputs(
     results: list[ResultEntry],
     confidence_levels: list[str],
     notes_parts: list[str],
+    coverage_assessments: list[str] | None = None,
     normalise_metrics: bool = False,
     discovered_datasets: list[DatasetInfo] | None = None,
 ) -> ExtractionOutput:
@@ -153,6 +164,7 @@ def _merge_extraction_outputs(
         baseline_models=_dedupe_baselines(baselines),
         results=_dedupe_result_entries(merged_results),
         extraction_confidence=_collapse_confidence_levels(confidence_levels),
+        coverage_assessment=_collapse_coverage_assessments(coverage_assessments or []),
         extraction_notes="\n".join(notes_parts),
         discovered_datasets=ds_list,
         paper_has_statistics=any(ds.statistics_mentioned for ds in ds_list),
@@ -277,6 +289,7 @@ def _expand_extraction_payload(raw: Any) -> Any:
         "baseline_models": baseline_models,
         "results": [_expand_compact_result_entry(item) for item in raw.get("results", [])],
         "extraction_confidence": raw.get("confidence", "LOW"),
+        "coverage_assessment": raw.get("coverage_assessment", "unknown"),
         "extraction_notes": raw.get("notes", ""),
     }
 
@@ -298,6 +311,7 @@ def _expand_compact_result_entry(entry: Any) -> Any:
         "table_ref": entry.get("t"),
         "source_ref": entry.get("r", "this paper"),
         "evaluation_task": entry.get("q"),
+        "protocol_decision": entry.get("u"),
         "uses_standard_protocol": entry.get("z"),
         "protocol_note": entry.get("n"),
     }

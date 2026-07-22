@@ -123,6 +123,7 @@ def test_parse_and_store_with_summary_reports_side_effects(monkeypatch, tmp_path
     assert summary.metadata_changed is True
     assert summary.new_results == 1
     assert summary.updated_results == 0
+    assert summary.candidate_results == 1
     assert summary.created_models == ["GraphGPS"]
     assert summary.skipped_unknown_datasets == []
     assert summary.skipped_invalid_values == []
@@ -130,12 +131,14 @@ def test_parse_and_store_with_summary_reports_side_effects(monkeypatch, tmp_path
 
     with session_scope() as session:
         paper = session.query(Paper).filter_by(arxiv_id="2401.17791").one()
+        stored_result = session.query(Result).filter_by(paper_id=paper.id).one()
 
     assert paper.title == "Summary Test Paper"
     assert paper.codebase_url == "https://github.com/example/project"
+    assert stored_result.protocol_decision == "uncertain"
 
 
-def test_forced_reparse_removes_existing_rows_when_extraction_has_no_results(monkeypatch, tmp_path):
+def test_forced_reparse_retains_existing_rows_when_extraction_has_no_results(monkeypatch, tmp_path):
     _configure_temp_workspace(monkeypatch, tmp_path)
     init_db()
 
@@ -177,10 +180,11 @@ def test_forced_reparse_removes_existing_rows_when_extraction_has_no_results(mon
 
     summary = parse_and_store_with_summary("2110.04375", replace_existing=True)
 
-    assert summary.replaced_results == 1
+    assert summary.replaced_results == 0
+    assert summary.candidate_results == 0
     with session_scope() as session:
         paper = session.query(Paper).filter_by(arxiv_id="2110.04375").one()
-        assert session.query(Result).filter_by(paper_id=paper.id).count() == 0
+        assert session.query(Result).filter_by(paper_id=paper.id).count() == 1
 
 
 def test_versioned_extraction_rejects_link_prediction_for_node_classification(
@@ -241,23 +245,72 @@ def test_versioned_extraction_rejects_link_prediction_for_node_classification(
         assert session.query(Result).filter_by(paper_id=paper.id).count() == 0
 
 
-@pytest.mark.parametrize(
-    "source_marker",
-    [
-        "out-of-distribution generalization",
-        "negative transfer from a source graph",
-        "backdoor attack success rate",
-        "synthetic graph generation",
-        "molecular generation with a docking score",
-    ],
-)
-def test_source_protocol_backstop_rejects_noncanonical_experiment_families(source_marker):
+@pytest.mark.parametrize("source_marker", ["out-of-distribution generalization", "backdoor attack"])
+def test_source_protocol_backstop_keeps_ambiguous_non_task_evidence(source_marker):
+    variant = SimpleNamespace(dataset=SimpleNamespace(task_type="node_classification"))
+
+    assert not source_indicates_incompatible_protocol(
+        {
+            "metric": "Accuracy",
+            "evaluation_task": "node_classification",
+            "protocol_note": f"This table reports {source_marker}.",
+        },
+        variant,
+        "The paper also discusses several unrelated benchmark tasks.",
+    )
+
+
+def test_source_protocol_backstop_does_not_scan_unrelated_paper_text():
+    variant = SimpleNamespace(dataset=SimpleNamespace(task_type="graph_classification"))
+
+    assert not source_indicates_incompatible_protocol(
+        {
+            "metric": "AP",
+            "evaluation_task": "graph_classification",
+            "uses_standard_protocol": True,
+            "protocol_note": "Standard Peptides-func benchmark split.",
+        },
+        variant,
+        "The same paper also reports PCQM-Contact link prediction.",
+    )
+
+
+def test_source_protocol_backstop_rejects_explicit_task_mismatch():
     variant = SimpleNamespace(dataset=SimpleNamespace(task_type="node_classification"))
 
     assert source_indicates_incompatible_protocol(
-        {"metric": "Accuracy", "evaluation_task": "node_classification"},
+        {
+            "metric": "AUC",
+            "evaluation_task": "link_prediction",
+            "uses_standard_protocol": False,
+            "protocol_note": "Custom edge split for link prediction.",
+        },
         variant,
-        f"This paper studies {source_marker}.",
+        "",
+    )
+
+
+def test_source_protocol_backstop_rejects_llm_nonstandard_decision():
+    variant = SimpleNamespace(dataset=SimpleNamespace(task_type="graph_classification"))
+
+    assert source_indicates_incompatible_protocol(
+        {
+            "evaluation_task": "graph_classification",
+            "protocol_decision": "nonstandard",
+            "protocol_note": "Link prediction results using an edge split.",
+        },
+        variant,
+        "",
+    )
+
+
+def test_versioned_protocol_fields_are_optional_when_task_is_missing():
+    variant = SimpleNamespace(dataset=SimpleNamespace(task_type="graph_classification"))
+
+    assert not source_indicates_incompatible_protocol(
+        {"metric": "AP", "uses_standard_protocol": False},
+        variant,
+        "",
     )
 
 

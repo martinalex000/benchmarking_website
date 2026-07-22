@@ -29,6 +29,7 @@ from openai import OpenAI
 from backend.config import cfg, normalize_arxiv_id
 from backend.dataset_stats_parsing import format_stats_summary, is_statistics_table
 from backend.db import session_scope
+from backend.guided_table import GuidedDiscovery, extract_guided_results
 from backend.json_repair import parse_json_lenient
 from backend.llm_backends import client_params_for_model
 from backend.llm_client import LLMClientMixin
@@ -414,7 +415,7 @@ def _known_dataset_context(datasets: list[DatasetInfo], arxiv_id: str) -> dict[s
                 task_type = dataset.task_type or "unknown"
                 primary_metric = dataset.primary_metric or "unknown"
                 fields = [
-                    f'CANONICAL DATASET RECORD: task_type="{task_type}"',
+                    f'CANONICAL DATASET RECORD: dataset_name="{name}" task_type="{task_type}"',
                     f'primary_metric="{primary_metric}"',
                 ]
                 references = [
@@ -433,31 +434,6 @@ def _known_dataset_context(datasets: list[DatasetInfo], arxiv_id: str) -> dict[s
     except Exception as exc:
         logger.debug("Canonical dataset context lookup skipped: %s", exc)
         return {}
-
-
-def _tables_conflict_with_canonical_task(canonical_context: str, tables: list) -> bool:
-    """Detect the explicit link-prediction/node-classification mismatch."""
-    if 'task_type="node_classification"' not in canonical_context or not tables:
-        return False
-
-    link_task_markers = (
-        "link prediction",
-        "existence prediction",
-        "direction prediction",
-        "three classes link",
-    )
-    table_texts = [
-        " ".join(
-            (
-                getattr(table, "caption", "") or "",
-                getattr(table, "markdown", "") or str(table),
-            )
-        ).casefold()
-        for table in tables
-    ]
-    return all(
-        any(marker in table_text for marker in link_task_markers) for table_text in table_texts
-    )
 
 
 def _statistics_table_summaries(tables: list) -> list[dict[str, Any]]:
@@ -882,6 +858,72 @@ class LLMExtractor(LLMClientMixin):
             )
         return merged
 
+    def extract_results_guided_table(
+        self,
+        paper_text: str,
+        latex_paper: Any,
+        *,
+        paper_title: str = "",
+        paper_abstract: str = "",
+        arxiv_id: str = "",
+    ) -> ExtractionOutput:
+        """Discover selections with the LLM, then read values directly from LaTeX."""
+        from backend.sota_claim_parsing import main_body_prose_text
+
+        tables = [table for table in latex_paper.tables if self._is_real_table(table)]
+        table_blocks = []
+        for table in tables:
+            appendix = " [appendix]" if table.in_appendix else ""
+            table_blocks.append(
+                f"=== Table {table.number}{appendix} ({table.label or 'no label'}) ===\n"
+                f"CAPTION: {table.caption}\n{table.body}"
+            )
+        setup = main_body_prose_text(paper_text=paper_text, latex_paper=latex_paper)
+        context_excerpt = (latex_paper.intro_text + "\n\n" + setup)[:24000]
+        user_content = (
+            f"=== TITLE ===\n{paper_title}\n\n"
+            f"=== ABSTRACT ===\n{paper_abstract}\n\n"
+            f"=== INTRODUCTION / EXPERIMENT CONTEXT ===\n"
+            f"{context_excerpt}\n\n"
+            f"=== COMPLETE LATEX TABLES ===\n" + "\n\n".join(table_blocks)
+        )
+        prompt = self._read_prompt("guided_table_discovery.txt")
+        try:
+            raw = self._call_structured(
+                prompt,
+                user_content,
+                call_type="guided_table_discovery",
+                output_format="json",
+                max_tokens=cfg.llm_max_tokens,
+            )
+            discovery = GuidedDiscovery.model_validate(raw)
+            if self._call_log:
+                self._call_log[-1].extra = {
+                    **self._call_log[-1].extra,
+                    "guided_tables": [table.table_ref for table in discovery.tables],
+                    "guided_method_renames": {
+                        table.table_ref: [method.model_dump() for method in table.methods]
+                        for table in discovery.tables
+                    },
+                }
+            self._fire_progress()
+        except Exception as exc:
+            logger.warning("Guided-table discovery failed: %s", exc)
+            self._fire_progress()
+            return ExtractionOutput(
+                extraction_confidence="LOW",
+                extraction_notes=f"Guided-table discovery failed: {exc}",
+            )
+
+        output = extract_guided_results(latex_paper.tables, discovery, arxiv_id=arxiv_id)
+        if self._call_log:
+            self._call_log[-1].extra = {
+                **self._call_log[-1].extra,
+                "guided_result_count": len(output.results),
+                "guided_discovered_datasets": [item.name for item in output.discovered_datasets],
+            }
+        return output
+
     @staticmethod
     def _table_header(table: Any) -> str:
         """Extract first data row (column headers) from any supported table type."""
@@ -1175,13 +1217,31 @@ class LLMExtractor(LLMClientMixin):
         """
         paper_text = _sanitize_text(paper_text)
 
-        # ── RAG: find paragraphs that mention this dataset ────────────────
+        # ── RAG: find dataset/table-local experiment paragraphs ──────────
         dataset_lower = dataset_name.lower()
         paragraphs = paper_text.split("\n\n")
         selected_indices: set[int] = set()
+        table_reference_tokens: set[str] = set()
+        for table in tables:
+            number = getattr(table, "number", None)
+            label = (getattr(table, "label", "") or "").strip().lower()
+            if number is not None:
+                table_reference_tokens.update(
+                    {
+                        f"table {number}",
+                        f"table~{number}",
+                        f"table\\nobreakspace {number}",
+                    }
+                )
+            if label:
+                table_reference_tokens.update({label, f"ref{{{label}}}"})
         for i, para in enumerate(paragraphs):
-            if dataset_lower in para.lower():
-                # include the paragraph itself plus one before and after
+            para_lower = para.lower()
+            if dataset_lower in para_lower or any(
+                token in para_lower for token in table_reference_tokens
+            ):
+                # Include the paragraph itself plus one before and after so
+                # task/split descriptions adjacent to the table are visible.
                 for j in range(max(0, i - 1), min(len(paragraphs), i + 2)):
                     selected_indices.add(j)
 
@@ -1240,7 +1300,10 @@ class LLMExtractor(LLMClientMixin):
 
         parts: list[str] = []
         if rag_text:
-            parts.append(f"=== PAPER TEXT (sections mentioning '{dataset_name}') ===\n{rag_text}")
+            parts.append(
+                f"=== FOCUSED EXPERIMENT PARAGRAPHS for '{dataset_name}' and selected tables ===\n"
+                f"{rag_text}"
+            )
         if tables_str:
             parts.append(f"=== TABLES (directly pasted) ===\n{tables_str}")
         context_str = "\n\n".join(parts)
@@ -1255,6 +1318,7 @@ class LLMExtractor(LLMClientMixin):
             "tables_selected": len(relevant_table_captions) if tables else 0,
             "table_selection_mode": table_selection_mode,
             "selected_table_captions": relevant_table_captions,
+            "table_reference_tokens": sorted(table_reference_tokens),
             "tables_truncated": tables_truncated if tables else False,
             "context_total_chars": len(context_str),
         }
@@ -1373,6 +1437,7 @@ class LLMExtractor(LLMClientMixin):
             baselines: list[BaselineModelInfo] = []
             notes_parts: list[str] = []
             confidence_levels: list[str] = []
+            coverage_assessments: list[str] = []
             for idx, table in enumerate(ds_tables):
                 single_ctx = self._build_single_table_context(table, max_table_chars)
                 try:
@@ -1390,6 +1455,7 @@ class LLMExtractor(LLMClientMixin):
                 if table_out.extraction_notes:
                     notes_parts.append(table_out.extraction_notes)
                 confidence_levels.append(table_out.extraction_confidence)
+                coverage_assessments.append(table_out.coverage_assessment)
             if merged_results:
                 if self._call_log:
                     self._call_log[-1].extra = {
@@ -1402,6 +1468,7 @@ class LLMExtractor(LLMClientMixin):
                     results=merged_results,
                     confidence_levels=confidence_levels,
                     notes_parts=notes_parts,
+                    coverage_assessments=coverage_assessments,
                 )
 
         return out
@@ -1413,6 +1480,7 @@ class LLMExtractor(LLMClientMixin):
         latex_paper: Any = None,
         paper_title: str = "",
         target_datasets: set[str] | None = None,
+        known_datasets: list[DatasetInfo] | None = None,
         arxiv_id: str = "",
         single_pass: bool = False,
     ) -> ExtractionOutput:
@@ -1475,7 +1543,14 @@ class LLMExtractor(LLMClientMixin):
         max_text_chars, max_table_chars = context_limits_for_model(self.model_name)
 
         # ── Step 1: discover datasets ──────────────────────────────────────
-        if latex_paper is not None:
+        # Validation runs provide a fixed dataset manifest so every model sees
+        # exactly the same per-dataset workload.  Normal extraction retains
+        # the discovery call and its fallback behavior.
+        if known_datasets is not None:
+            datasets = DatasetList(
+                datasets=[dataset.model_copy(deep=True) for dataset in known_datasets]
+            )
+        elif latex_paper is not None:
             datasets = self.discover_datasets_from_latex(latex_paper)
             if not datasets.datasets:
                 logger.warning(
@@ -1520,25 +1595,28 @@ class LLMExtractor(LLMClientMixin):
                     extraction_confidence="low",
                 )
 
-        stats_precheck_text = rag_text
-        if latex_paper is not None:
-            stats_precheck_text = "\n\n".join(
-                part
-                for part in [
-                    latex_paper.intro_text,
-                    latex_paper.experiment_text,
-                    latex_paper.all_table_captions,
-                    rag_text,
-                ]
-                if part and part.strip()
+        if known_datasets is None:
+            stats_precheck_text = rag_text
+            if latex_paper is not None:
+                stats_precheck_text = "\n\n".join(
+                    part
+                    for part in [
+                        latex_paper.intro_text,
+                        latex_paper.experiment_text,
+                        latex_paper.all_table_captions,
+                        rag_text,
+                    ]
+                    if part and part.strip()
+                )
+            datasets = _apply_statistics_ripgrep_precheck(datasets, stats_precheck_text)
+            _enrich_dataset_statistics_from_tables(datasets, effective_tables)
+            stat_table_summaries = _statistics_table_summaries(effective_tables)
+            self._emit_discovery_statistics_summary(
+                datasets.datasets,
+                stat_table_summaries=stat_table_summaries,
             )
-        datasets = _apply_statistics_ripgrep_precheck(datasets, stats_precheck_text)
-        _enrich_dataset_statistics_from_tables(datasets, effective_tables)
-        stat_table_summaries = _statistics_table_summaries(effective_tables)
-        self._emit_discovery_statistics_summary(
-            datasets.datasets,
-            stat_table_summaries=stat_table_summaries,
-        )
+        else:
+            stat_table_summaries = []
 
         # Override primary_metric from the DB when available.
         # The discovery LLM may return "Hits@K" for PCQM-Contact while the DB
@@ -1582,6 +1660,7 @@ class LLMExtractor(LLMClientMixin):
         baselines: list[BaselineModelInfo] = []
         notes_parts: list[str] = []
         confidence_levels: list[str] = []
+        coverage_assessments: list[str] = []
 
         # One merged LLM call to select tables for ALL datasets at once
         if effective_tables and len(effective_tables) > self._TABLE_SELECTION_THRESHOLD:
@@ -1607,6 +1686,10 @@ class LLMExtractor(LLMClientMixin):
 
         for ds in datasets.datasets:
             ds_tables = tables_per_dataset.get(ds.name, effective_tables)
+            # Table selection is only a recall-oriented candidate step. The
+            # per-row LLM protocol decision receives the table and local prose
+            # and is authoritative; deterministic task keywords never discard
+            # a table before that decision.
 
             context, rag_stats = self._build_rag_context(
                 rag_text,
@@ -1696,6 +1779,7 @@ class LLMExtractor(LLMClientMixin):
                                 f"[{ds.name} g{group_idx + 1}] {out.extraction_notes}"
                             )
                         confidence_levels.append(out.extraction_confidence)
+                        coverage_assessments.append(out.coverage_assessment)
                 else:
                     out = self._extract_dataset_with_retries(
                         prompt,
@@ -1709,17 +1793,6 @@ class LLMExtractor(LLMClientMixin):
                         max_table_chars=max_table_chars,
                         single_pass=single_pass,
                     )
-                    canonical_context = canonical_contexts.get(ds.name.casefold(), "")
-                    if _tables_conflict_with_canonical_task(canonical_context, ds_tables):
-                        out = ExtractionOutput(
-                            results=[],
-                            task_mismatch=True,
-                            extraction_confidence="HIGH",
-                            extraction_notes=(
-                                "Selected tables explicitly report link prediction, which conflicts "
-                                "with the canonical node_classification task."
-                            ),
-                        )
                     all_results.extend(out.results)
                     if out.proposed_model and proposed is None:
                         proposed = out.proposed_model
@@ -1727,6 +1800,7 @@ class LLMExtractor(LLMClientMixin):
                     if out.extraction_notes:
                         notes_parts.append(f"[{ds.name}] {out.extraction_notes}")
                     confidence_levels.append(out.extraction_confidence)
+                    coverage_assessments.append(out.coverage_assessment)
             except Exception as exc:
                 logger.warning("Per-dataset extraction for %r failed: %s", ds.name, exc)
                 self._fire_progress()
@@ -1738,6 +1812,7 @@ class LLMExtractor(LLMClientMixin):
             results=all_results,
             confidence_levels=confidence_levels,
             notes_parts=notes_parts,
+            coverage_assessments=coverage_assessments,
             normalise_metrics=True,
             discovered_datasets=list(datasets.datasets),
         )
@@ -2022,6 +2097,7 @@ class LLMExtractor(LLMClientMixin):
         baselines: list[BaselineModelInfo] = []
         notes_parts: list[str] = []
         confidence_levels = []
+        coverage_assessments: list[str] = []
 
         for i, chunk in enumerate(chunks):
             logger.debug("Extracting chunk %d/%d", i + 1, len(chunks))
@@ -2036,6 +2112,7 @@ class LLMExtractor(LLMClientMixin):
                 if chunk_out.extraction_notes:
                     notes_parts.append(f"[Chunk {i + 1}] {chunk_out.extraction_notes}")
                 confidence_levels.append(chunk_out.extraction_confidence)
+                coverage_assessments.append(chunk_out.coverage_assessment)
             except Exception as exc:
                 logger.warning("Chunk %d extraction failed: %s", i + 1, exc)
                 notes_parts.append(f"[Chunk {i + 1}] Extraction failed: {exc}")
@@ -2046,6 +2123,7 @@ class LLMExtractor(LLMClientMixin):
             results=all_results,
             confidence_levels=confidence_levels,
             notes_parts=notes_parts,
+            coverage_assessments=coverage_assessments,
         )
 
     def _completion_likely_truncated(self, max_tokens: int) -> bool:
@@ -2085,6 +2163,12 @@ class LLMExtractor(LLMClientMixin):
                         **self._call_log[-1].extra,
                         "completion_truncated": True,
                     }
+                # Some OpenAI-compatible aliases ignore the requested wrapper
+                # schema and return the result rows as a top-level list.  A
+                # list of row-shaped mappings is unambiguous and can be
+                # normalized without discarding the entire dataset extraction.
+                if isinstance(raw, list) and all(isinstance(item, dict) for item in raw):
+                    raw = {"results": raw}
                 raw = _expand_extraction_payload(raw)
                 raw = _sanitize_extraction_payload(raw)
                 if not isinstance(raw, dict):
@@ -2129,6 +2213,7 @@ class LLMExtractor(LLMClientMixin):
         baselines: list[BaselineModelInfo] = []
         notes_parts: list[str] = []
         confidence_levels: list[str] = []
+        coverage_assessments: list[str] = []
 
         # Append the HTML-extracted tables to the last section so that
         # cleaned table markup is always present in at least one call.
@@ -2148,6 +2233,7 @@ class LLMExtractor(LLMClientMixin):
                 if out.extraction_notes:
                     notes_parts.append(f"[Section {i + 1}] {out.extraction_notes}")
                 confidence_levels.append(out.extraction_confidence)
+                coverage_assessments.append(out.coverage_assessment)
             except Exception as exc:
                 logger.warning("Section %d extraction failed: %s", i + 1, exc)
                 notes_parts.append(f"[Section {i + 1}] failed: {exc}")
@@ -2158,6 +2244,7 @@ class LLMExtractor(LLMClientMixin):
             results=all_results,
             confidence_levels=confidence_levels,
             notes_parts=notes_parts,
+            coverage_assessments=coverage_assessments,
         )
 
     def detect_figure(self, paper_text: str, figures_list: list[dict]) -> FigureInfo:
@@ -2223,6 +2310,7 @@ class LLMExtractor(LLMClientMixin):
         extraction_strategy: str = "auto",
         experiment_label: str | None = None,
         target_datasets: set[str] | None = None,
+        known_datasets: list[DatasetInfo] | None = None,
         extraction_only: bool = False,
     ) -> dict:
         """Run all extraction tasks and save outputs.
@@ -2246,6 +2334,33 @@ class LLMExtractor(LLMClientMixin):
         # Task 1: Results — prefer LaTeX source, then HTML tables, then legacy path
         if strategy == "full":
             results_out = self.extract_results(paper_text, tables_text)
+        elif strategy == "guided-table":
+            if latex_paper is not None:
+                results_out = self.extract_results_guided_table(
+                    paper_text,
+                    latex_paper,
+                    paper_title=paper_title,
+                    paper_abstract=paper_abstract,
+                    arxiv_id=arxiv_id,
+                )
+            else:
+                logger.warning(
+                    "guided-table requested for %s without expanded LaTeX; falling back to two-step",
+                    arxiv_id,
+                )
+                results_out = self.extract_results_two_step(
+                    paper_text,
+                    structured_tables or [],
+                    paper_title=paper_title,
+                    target_datasets=target_datasets,
+                    known_datasets=known_datasets,
+                    arxiv_id=arxiv_id,
+                    single_pass=extraction_only,
+                )
+                results_out.extraction_notes = (
+                    "guided-table unavailable without expanded LaTeX; used two-step fallback.\n"
+                    + results_out.extraction_notes
+                ).strip()
         elif latex_paper is not None:
             results_out = self.extract_results_two_step(
                 paper_text,
@@ -2253,6 +2368,7 @@ class LLMExtractor(LLMClientMixin):
                 latex_paper=latex_paper,
                 paper_title=paper_title,
                 target_datasets=target_datasets,
+                known_datasets=known_datasets,
                 arxiv_id=arxiv_id,
                 single_pass=extraction_only,
             )
@@ -2262,6 +2378,7 @@ class LLMExtractor(LLMClientMixin):
                 structured_tables,
                 paper_title=paper_title,
                 target_datasets=target_datasets,
+                known_datasets=known_datasets,
                 arxiv_id=arxiv_id,
                 single_pass=extraction_only,
             )
@@ -2414,8 +2531,9 @@ class LLMExtractor(LLMClientMixin):
         # Compose full output
         results_payload = results_out.model_dump()
         if strategy != "guided-table":
-            # New LLM extractions must carry per-row task/protocol declarations.
-            # The parser rejects rows that do not match the canonical dataset task.
+            # New LLM extractions carry per-row task/protocol declarations when
+            # available; the parser rejects explicit contradictions but keeps
+            # rows whose declarations are missing or ambiguous for review.
             results_payload["protocol_validation_version"] = 1
         output = {
             "arxiv_id": arxiv_id,
@@ -2549,9 +2667,9 @@ def _build_parser() -> argparse.ArgumentParser:
     )
     p.add_argument(
         "--strategy",
-        choices=["auto", "two-step", "full"],
+        choices=["auto", "two-step", "guided-table", "full"],
         default="auto",
-        help="Extraction strategy: auto/two-step/full (default: auto)",
+        help="Extraction strategy: auto/two-step/guided-table/full (default: auto)",
     )
     p.add_argument(
         "--result-output-format",
