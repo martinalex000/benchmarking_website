@@ -958,7 +958,8 @@ def run_remote_build(
     remote_shell = (
         f'cd {shlex.quote(project_root)} || {{ echo "ERROR: cannot cd to {project_root}" >&2; exit 1; }} && '
         f"{export_cmd}"
-        f"nice -n -3 uv run --no-sync python {script_q} "
+        # A positive niceness lowers CPU priority on the remote build host.
+        f"nice -n 10 uv run --no-sync python {script_q} "
         f"--build-only --staging-dir {staging_q}{deploy_flags}"
     )
     ssh_run(build_ssh_dest, remote_shell)
