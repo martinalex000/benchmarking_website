@@ -406,6 +406,8 @@ class Result(Base):
     protocol_decision = Column(String)
     protocol_note = Column(Text)
     uses_external_data = Column(Integer)  # 1=yes, 0=no, NULL=unknown
+    input_feature_source = Column(String)
+    feature_source_evidence = Column(Text)
     params_millions = Column(Float)  # paper-local parameter count in millions
     # Human correction columns
     is_problematic = Column(Integer, nullable=False, default=0)

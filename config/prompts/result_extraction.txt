@@ -32,6 +32,8 @@ Output schema:
       "std": <float or null>,
       "higher_is_better": <true|false>,
       "uses_external_data": <true|false|null>,
+      "input_feature_source": "<raw_features|llm_features|other_external_features|mixed|unknown|null>",
+      "feature_source_evidence": "<short quote or explanation, else null>",
       "table_ref": "<e.g. Table 1, Table 3>",
       "source_ref": "<if baseline from another paper: Author Year; else 'this paper'>",
       "evaluation_task": "<node_classification|node_regression|graph_classification|graph_regression|link_prediction|other>",
@@ -149,6 +151,15 @@ Rules:
     • training from scratch on the benchmark train set with no external pretraining
   null only when the paper gives no signal for that specific model row; do not guess from
   model family names alone. A baseline may use external data while the proposed method does not.
+- input_feature_source (per result row): identify the features consumed by the reported model,
+  not the model's internal classifier head. Use `llm_features` for features produced by or
+  initialized with an LM/LLM/PLM/SLM (including BERT, DeBERTa, TAPE, SimTeG, GIANT-XRT, or
+  LLM-generated text/annotations). Use `raw_features` for dataset-provided features and ordinary
+  non-LM representations such as bag-of-words, TF-IDF, GloVe, word2vec, or standard positional
+  encodings. Use `other_external_features` for external pretrained features that are not language
+  model features, `mixed` when both sources are essential, and `unknown` when the paper is unclear.
+  Read table group headers and nearby setup prose: the same displayed model can have different
+  feature sources in different rows. Preserve those rows as separate variants.
 - `is_proposed`: mark true ONLY for the paper's main proposed method(s). Most papers have one main
   method, sometimes two. Do NOT mark every tuned, starred, or improved baseline variant as proposed.
 - If a table contains several tuned variants (for example `GCN*`, `GraphSAGE*`, `GAT*`) but the

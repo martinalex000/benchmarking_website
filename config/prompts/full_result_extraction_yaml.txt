@@ -23,6 +23,8 @@ results:
     s: <float or null>
     h: <true|false>
     e: <true|false|null>
+    f: <raw_features|llm_features|other_external_features|mixed|unknown|null>
+    x: <short feature-source evidence, else null>
     t: <table ref or null>
     r: <source ref or this paper>
     q: <node_classification|node_regression|graph_classification|graph_regression|link_prediction|other>
@@ -67,3 +69,11 @@ Rules:
   outside the benchmark train split (external graphs, LLM/PLM features, transferred weights, etc.).
   false if only benchmark training data is used (including PEs computed on the same graph).
   null when unclear for that specific model row. Flag each row independently.
+- input feature source (`f`, per row): identify the features consumed by the reported model.
+  Use `llm_features` for features produced by or initialized with an LM/LLM/PLM/SLM, including
+  BERT, DeBERTa, TAPE, SimTeG, GIANT-XRT, and LLM-generated text or annotations. Use
+  `raw_features` for dataset-provided features and ordinary non-LM representations such as
+  bag-of-words, TF-IDF, GloVe, word2vec, and standard positional encodings. Use
+  `other_external_features`, `mixed`, or `unknown` as appropriate. Read table group headers and
+  nearby setup prose; the same displayed model may have different feature sources in different
+  rows, so preserve those rows as separate variants.

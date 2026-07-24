@@ -22,6 +22,7 @@ from backend.llm_types import (
     ModelSizeEntry,
     ProposedModel,
     ResultEntry,
+    normalize_input_feature_source,
 )
 from backend.model_metadata import normalize_architecture_type
 from backend.model_name_resolution import normalize_model_name_for_resolution
@@ -102,6 +103,7 @@ def _dedupe_result_entries(results: list[ResultEntry]) -> list[ResultEntry]:
             _canonical_model_name_key(result.model),
             result.dataset.lower(),
             result.metric.lower(),
+            result.input_feature_source or "",
         )
         existing = best.get(key)
         if existing is None:
@@ -111,6 +113,28 @@ def _dedupe_result_entries(results: list[ResultEntry]) -> list[ResultEntry]:
         if hib and result.value > existing.value or not hib and result.value < existing.value:
             best[key] = result
     return list(best.values())
+
+
+def _is_plain_mlp_name(name: str) -> bool:
+    """Return whether a row is the generic MLP baseline, not an MLP variant."""
+    clean = _normalise_model_name_text(name)
+    clean = re.sub(r"\s*\(\s*tuned\s*\)\s*$", "", clean, flags=re.IGNORECASE)
+    clean = clean.rstrip("*").strip().casefold()
+    return clean in {"mlp", "mlp (tuned)"}
+
+
+def _apply_feature_source_model_names(results: list[ResultEntry]) -> None:
+    """Separate generic MLP rows that consume language-model features.
+
+    This intentionally runs before result deduplication. Feature provenance is a
+    row property, so it cannot be inferred safely from the global model record or
+    from ``uses_external_data``.
+    """
+    for result in results:
+        source = normalize_input_feature_source(result.input_feature_source)
+        result.input_feature_source = source
+        if source == "llm_features" and _is_plain_mlp_name(result.model):
+            result.model = "MLP+LLM_features"
 
 
 def _dedupe_baselines(baselines: list[BaselineModelInfo]) -> list[BaselineModelInfo]:
@@ -158,6 +182,7 @@ def _merge_extraction_outputs(
 ) -> ExtractionOutput:
     """Build a single ExtractionOutput from partial extraction fragments."""
     merged_results = _normalise_metrics(results) if normalise_metrics else results
+    _apply_feature_source_model_names(merged_results)
     ds_list = discovered_datasets or []
     return ExtractionOutput(
         proposed_model=proposed_model,
@@ -308,6 +333,8 @@ def _expand_compact_result_entry(entry: Any) -> Any:
         "std": entry.get("s"),
         "higher_is_better": entry.get("h", True),
         "uses_external_data": entry.get("e"),
+        "input_feature_source": entry.get("f"),
+        "feature_source_evidence": entry.get("x"),
         "table_ref": entry.get("t"),
         "source_ref": entry.get("r", "this paper"),
         "evaluation_task": entry.get("q"),
@@ -811,6 +838,10 @@ def _stabilize_model_names(
     """Normalise model names, drop ablations, and stabilize the main proposed model."""
     if tables:
         _apply_table_caption_policies(extraction, tables)
+
+    # Apply feature-based names before any model/dataset/metric deduplication.
+    # Otherwise a raw-feature MLP row can hide an LLM-feature MLP row.
+    _apply_feature_source_model_names(extraction.results)
 
     if extraction.proposed_model is not None:
         extraction.proposed_model.name = normalize_model_name_for_resolution(

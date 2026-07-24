@@ -11,6 +11,36 @@ from pydantic import BaseModel, Field, field_validator
 
 from backend.model_metadata import normalize_architecture_type
 
+INPUT_FEATURE_SOURCE_VALUES = frozenset(
+    {
+        "raw_features",
+        "llm_features",
+        "other_external_features",
+        "mixed",
+        "unknown",
+    }
+)
+
+
+def normalize_input_feature_source(value: Any) -> str | None:
+    """Normalize the feature provenance emitted by an extraction model."""
+    if value is None:
+        return None
+    normalized = str(value).strip().casefold().replace("-", "_").replace(" ", "_")
+    aliases = {
+        "raw": "raw_features",
+        "dataset_features": "raw_features",
+        "llm": "llm_features",
+        "lm_features": "llm_features",
+        "plm_features": "llm_features",
+        "slm_features": "llm_features",
+        "external_features": "other_external_features",
+        "other_external": "other_external_features",
+        "unclear": "unknown",
+    }
+    normalized = aliases.get(normalized, normalized)
+    return normalized if normalized in INPUT_FEATURE_SOURCE_VALUES else "unknown"
+
 
 @dataclass
 class CallRecord:
@@ -67,12 +97,19 @@ class ResultEntry(BaseModel):
     std: float | None = None
     higher_is_better: bool = True
     uses_external_data: bool | None = None
+    input_feature_source: str | None = None
+    feature_source_evidence: str | None = None
     table_ref: str | None = None
     source_ref: str | None = "this paper"
     evaluation_task: str | None = None
     protocol_decision: str | None = None
     uses_standard_protocol: bool | None = None
     protocol_note: str | None = None
+
+    @field_validator("input_feature_source", mode="before")
+    @classmethod
+    def _normalize_input_feature_source(cls, value: Any) -> str | None:
+        return normalize_input_feature_source(value)
 
     @field_validator("value", "std", mode="before")
     @classmethod

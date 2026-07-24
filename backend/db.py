@@ -70,6 +70,11 @@ def _migration_results_protocol_metadata(engine: Engine) -> None:
     _add_column_if_missing(engine, "results", "protocol_note", "TEXT")
 
 
+def _migration_results_feature_provenance(engine: Engine) -> None:
+    _add_column_if_missing(engine, "results", "input_feature_source", "TEXT")
+    _add_column_if_missing(engine, "results", "feature_source_evidence", "TEXT")
+
+
 def _migration_pending_datasets_columns(engine: Engine) -> None:
     _add_column_if_missing(engine, "pending_datasets", "paper_title", "TEXT")
     _add_column_if_missing(engine, "pending_datasets", "metrics_seen", "TEXT")
@@ -195,6 +200,7 @@ MIGRATIONS: tuple[Migration, ...] = (
     Migration("009_drop_models_size_params", _migration_drop_models_size_params),
     Migration("010_export_indexes", _migration_export_indexes),
     Migration("011_results_protocol_metadata", _migration_results_protocol_metadata),
+    Migration("013_results_feature_provenance", _migration_results_feature_provenance),
 )
 
 

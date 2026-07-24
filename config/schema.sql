@@ -132,6 +132,8 @@ CREATE TABLE IF NOT EXISTS results (
     protocol_decision    TEXT,              -- standard | nonstandard | uncertain
     protocol_note        TEXT,              -- focused evidence supplied by the LLM
     uses_external_data  INTEGER,            -- 1=yes, 0=no, NULL=unknown
+    input_feature_source VARCHAR,           -- raw_features/llm_features/other_external_features/...
+    feature_source_evidence TEXT,
     params_millions     REAL,               -- paper-local parameter count in millions
     -- Human correction system
     is_problematic      INTEGER NOT NULL DEFAULT 0,  -- shown in grey on leaderboard

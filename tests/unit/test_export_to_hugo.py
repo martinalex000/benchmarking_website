@@ -32,6 +32,7 @@ from backend.export_to_hugo import (
     _normalize_conference,
     _normalize_model_family,
     _paper_dataset_export_meta,
+    _pivot_paper_rows,
     _plain_core_baseline_kind,
     _plain_model,
     _publication_year,
@@ -46,6 +47,30 @@ from backend.export_to_hugo import (
     clear_export_caches,
 )
 from backend.leaderboard_compare import has_paper_value_difference
+
+def test_paper_export_keeps_raw_and_llm_mlp_rows_separate():
+    rows = [
+        {
+            "model": "MLP",
+            "model_key": "mlp",
+            "model_plain": "MLP",
+            "metric": "Accuracy",
+            "value": 0.71,
+            "std": None,
+        },
+        {
+            "model": "MLP+LLM_features",
+            "model_key": "mlp+llm_features",
+            "model_plain": "MLP+LLM_features",
+            "metric": "Accuracy",
+            "value": 0.83,
+            "std": None,
+        },
+    ]
+
+    pivoted = _pivot_paper_rows(rows, "Accuracy")
+
+    assert {row["model"] for row in pivoted["rows"]} == {"MLP", "MLP+LLM_features"}
 
 
 def test_sanitize_title_replaces_linebreaks_and_strips_commands():

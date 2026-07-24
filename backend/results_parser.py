@@ -27,6 +27,7 @@ from thefuzz import process as fuzz_process
 
 from backend.config import cfg, normalize_arxiv_id
 from backend.db import init_db, session_scope
+from backend.llm_types import normalize_input_feature_source
 from backend.method_name_audit import audit_extraction_payload
 from backend.model_metadata import normalize_architecture_type
 from backend.model_metadata_defaults import load_model_metadata_defaults, lookup_model_type
@@ -59,6 +60,21 @@ from backend.text_cleanup import (
 from backend.venue import resolve_canonical_venue, venue_needs_resolution
 
 logger = logging.getLogger(__name__)
+
+
+def _apply_feature_source_model_name(entry: dict[str, Any]) -> None:
+    """Apply the stable MLP display name even when parsing an older artifact."""
+    source = normalize_input_feature_source(entry.get("input_feature_source", entry.get("f")))
+    entry["input_feature_source"] = source
+    if "feature_source_evidence" not in entry and "x" in entry:
+        entry["feature_source_evidence"] = entry.get("x")
+    if source != "llm_features":
+        return
+    model = str(entry.get("model") or "").strip()
+    base = re.sub(r"\s*\([^)]*\)\s*$", "", model.rstrip("*")).strip().casefold()
+    if base == "mlp":
+        entry["model"] = "MLP+LLM_features"
+
 
 # ── Dataset alias normalisation (post-extraction) ─────────────────────────────
 
@@ -1019,6 +1035,9 @@ def parse_and_store_with_summary(
             parse_failures.append(f"{call_type}: {parse_error}")
 
     result_entries: list[dict] = extraction.get("results", [])
+    for entry in result_entries:
+        if isinstance(entry, dict):
+            _apply_feature_source_model_name(entry)
     fatal_parse_failures = [f for f in parse_failures if _is_fatal_extraction_parse_failure(f)]
 
     if fatal_parse_failures and not result_entries:
@@ -1223,6 +1242,7 @@ def parse_and_store_with_summary(
             )
             is_proposed = parse_extracted_bool(entry.get("is_proposed"), default=False)
             uses_external_data = parse_optional_extracted_bool(entry.get("uses_external_data"))
+            input_feature_source = normalize_input_feature_source(entry.get("input_feature_source"))
             higher_is_better = parse_extracted_bool(
                 entry.get("higher_is_better"),
                 default=True,
@@ -1302,6 +1322,8 @@ def parse_and_store_with_summary(
                         if uses_external_data is False
                         else None
                     ),
+                    input_feature_source=input_feature_source,
+                    feature_source_evidence=entry.get("feature_source_evidence"),
                     params_millions=params,
                     table_ref=entry.get("table_ref"),
                     source_ref=entry.get("source_ref", "this paper"),
@@ -1449,6 +1471,16 @@ def _update_result(
         new_uses_external_data = 1 if ued is True else 0 if ued is False else None
         if result.uses_external_data != new_uses_external_data:
             result.uses_external_data = new_uses_external_data
+            changed = True
+    if "input_feature_source" in entry:
+        new_source = normalize_input_feature_source(entry.get("input_feature_source"))
+        if result.input_feature_source != new_source:
+            result.input_feature_source = new_source
+            changed = True
+    if "feature_source_evidence" in entry:
+        evidence = entry.get("feature_source_evidence")
+        if result.feature_source_evidence != evidence:
+            result.feature_source_evidence = evidence
             changed = True
     if params_present and result.params_millions != params_millions:
         changed = True

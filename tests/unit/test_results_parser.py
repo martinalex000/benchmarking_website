@@ -5,6 +5,7 @@ import pytest
 from backend.models import Result
 from backend.qm9_targets import normalize_qm9_metric
 from backend.results_parser import (
+    _apply_feature_source_model_name,
     _infer_zinc_variant,
     _load_variant_map,
     _update_result,
@@ -69,6 +70,33 @@ def test_update_result_clears_stale_nullable_fields():
     assert result.uses_external_data is None
     assert result.params_millions is None
     assert result.extraction_model == "new-model"
+
+def test_update_result_persists_feature_provenance():
+    result = Result(input_feature_source="raw_features")
+
+    changed = _update_result(
+        result,
+        {
+            "input_feature_source": "llm_features",
+            "feature_source_evidence": "DeBERTa embeddings",
+        },
+        "new-model",
+    )
+
+    assert changed is True
+    assert result.input_feature_source == "llm_features"
+    assert result.feature_source_evidence == "DeBERTa embeddings"
+
+
+def test_compact_feature_provenance_renames_mlp():
+    entry = {"model": "MLP", "f": "slm_features", "x": "DeBERTa embeddings"}
+
+    _apply_feature_source_model_name(entry)
+
+    assert entry["model"] == "MLP+LLM_features"
+    assert entry["input_feature_source"] == "llm_features"
+    assert entry["feature_source_evidence"] == "DeBERTa embeddings"
+
 
 
 def test_parse_integer():

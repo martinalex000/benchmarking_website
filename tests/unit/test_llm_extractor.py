@@ -126,6 +126,64 @@ def test_merge_extraction_outputs_dedupes_and_normalizes():
     assert merged.results[0].value == pytest.approx(0.61)
 
 
+def test_merge_extraction_outputs_separates_mlp_feature_sources():
+    merged = _merge_extraction_outputs(
+        proposed_model=ProposedModel(name="Method"),
+        baselines=[],
+        results=[
+            ResultEntry(
+                model="MLP",
+                dataset="Cora",
+                metric="Accuracy",
+                value=0.71,
+                input_feature_source="raw_features",
+            ),
+            ResultEntry(
+                model="MLP",
+                dataset="Cora",
+                metric="Accuracy",
+                value=0.83,
+                input_feature_source="llm_features",
+                feature_source_evidence="BERT embeddings used for all baselines",
+            ),
+        ],
+        confidence_levels=["HIGH"],
+        notes_parts=[],
+    )
+
+    assert len(merged.results) == 2
+    by_source = {result.input_feature_source: result for result in merged.results}
+    assert by_source["raw_features"].model == "MLP"
+    assert by_source["llm_features"].model == "MLP+LLM_features"
+
+
+def test_mlp_name_is_not_renamed_for_non_llm_external_features():
+    merged = _merge_extraction_outputs(
+        proposed_model=ProposedModel(name="Method"),
+        baselines=[],
+        results=[
+            ResultEntry(
+                model="MLP (tuned)",
+                dataset="Cora",
+                metric="Accuracy",
+                value=0.71,
+                input_feature_source="other_external_features",
+            ),
+            ResultEntry(
+                model="MLP+C&S",
+                dataset="Cora",
+                metric="Accuracy",
+                value=0.8,
+                input_feature_source="llm_features",
+            ),
+        ],
+        confidence_levels=["HIGH"],
+        notes_parts=[],
+    )
+
+    assert [result.model for result in merged.results] == ["MLP (tuned)", "MLP+C&S"]
+
+
 def test_expand_user_macros_supports_zero_arg_unbraced_newcommand():
     tex, macro_map = _expand_user_macros(
         r"\newcommand\modelname[0]{FPS-T}\nThe method is \modelname{}."
