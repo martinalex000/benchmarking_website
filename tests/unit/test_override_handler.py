@@ -1,6 +1,7 @@
 """Unit tests for override_handler."""
 
 from pathlib import Path
+from types import SimpleNamespace
 
 import yaml
 
@@ -12,6 +13,22 @@ from backend.override_handler import (
     get_model_metadata_overrides,
     load_overrides,
 )
+
+
+def test_model_metadata_override_can_be_dataset_specific():
+    from backend.override_handler import _model_metadata_matches
+
+    molpcba = SimpleNamespace(
+        dataset_variant=SimpleNamespace(dataset=SimpleNamespace(name="ogbg-molpcba"))
+    )
+    code2 = SimpleNamespace(
+        dataset_variant=SimpleNamespace(dataset=SimpleNamespace(name="ogbg-code2"))
+    )
+    override = {"dataset": "ogbg-molpcba"}
+
+    assert _model_metadata_matches(molpcba, override)
+    assert not _model_metadata_matches(code2, override)
+    assert _model_metadata_matches(code2, {})
 
 
 def make_overrides_file(content: dict, tmpdir: Path) -> Path:

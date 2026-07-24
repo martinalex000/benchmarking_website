@@ -8,7 +8,7 @@ from dataclasses import dataclass, field
 from backend.db import init_db, session_scope
 from backend.models import Paper, Result
 from backend.paper_storage import PaperStorage
-from backend.results_parser import _build_metadata_lookups
+from backend.parameter_lookup import build_dataset_param_lookup, build_metadata_lookups
 
 logger = logging.getLogger(__name__)
 
@@ -23,7 +23,9 @@ class ParamsBackfillSummary:
     errors: list[str] = field(default_factory=list)
 
 
-def _params_lookup_for_paper(arxiv_id: str) -> dict[str, float] | None:
+def _params_lookup_for_paper(
+    arxiv_id: str,
+) -> tuple[dict[str, float], dict[tuple[str, str], float]] | None:
     storage = PaperStorage(arxiv_id)
     if not storage.llm_output_path.exists():
         return None
@@ -40,8 +42,11 @@ def _params_lookup_for_paper(arxiv_id: str) -> dict[str, float] | None:
     if model_sizes is None:
         model_sizes = raw.get("model_sizes")
 
-    sizes_lookup, _ = _build_metadata_lookups(extraction, model_sizes)
-    return {k: float(v) for k, v in sizes_lookup.items() if v is not None}
+    sizes_lookup, _ = build_metadata_lookups(extraction, model_sizes)
+    return (
+        {k: float(v) for k, v in sizes_lookup.items() if v is not None},
+        build_dataset_param_lookup(model_sizes),
+    )
 
 
 def _lookup_params(
@@ -63,6 +68,7 @@ def backfill_paper_params_millions(
     paper: Paper,
     *,
     lookup: dict[str, float] | None = None,
+    dataset_lookup: dict[tuple[str, str], float] | None = None,
     sanitize_model=None,
     dry_run: bool = False,
 ) -> tuple[int, int]:
@@ -77,8 +83,11 @@ def backfill_paper_params_millions(
         return 0, 0
 
     if lookup is None:
-        lookup = _params_lookup_for_paper(paper.arxiv_id)
-    if not lookup:
+        paper_lookups = _params_lookup_for_paper(paper.arxiv_id)
+        if paper_lookups is None:
+            return 0, len(rows)
+        lookup, dataset_lookup = paper_lookups
+    if not lookup and not dataset_lookup:
         return 0, len(rows)
 
     updated = 0
@@ -88,7 +97,13 @@ def backfill_paper_params_millions(
         rendered = None
         if sanitize_model and canonical:
             rendered = sanitize_model(canonical, paper.arxiv_id)
-        params = _lookup_params(lookup, canonical, rendered)
+        model_key = str(canonical or rendered or "").strip().casefold()
+        variant = getattr(result, "dataset_variant", None)
+        dataset = variant.dataset if variant else None
+        dataset_key = str(dataset.name if dataset else "").strip().casefold()
+        params = (dataset_lookup or {}).get((dataset_key, model_key))
+        if params is None:
+            params = _lookup_params(lookup or {}, canonical, rendered)
         if params is not None:
             if not dry_run:
                 result.params_millions = params
@@ -123,8 +138,8 @@ def backfill_all_result_params_millions(
 
         for paper in tqdm(papers, desc="Backfill params_millions", unit="paper"):
             summary.papers_seen += 1
-            lookup = _params_lookup_for_paper(paper.arxiv_id)
-            if lookup is None:
+            paper_lookups = _params_lookup_for_paper(paper.arxiv_id)
+            if paper_lookups is None:
                 summary.papers_without_yaml += 1
                 null_count = (
                     session.query(Result)
@@ -136,10 +151,12 @@ def backfill_all_result_params_millions(
                 continue
 
             summary.papers_with_yaml += 1
+            lookup, dataset_lookup = paper_lookups
             updated, still_null = backfill_paper_params_millions(
                 session,
                 paper,
                 lookup=lookup,
+                dataset_lookup=dataset_lookup,
                 sanitize_model=_sanitize_model,
                 dry_run=dry_run,
             )

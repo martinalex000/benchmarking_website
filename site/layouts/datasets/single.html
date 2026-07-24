@@ -103,6 +103,13 @@
     {{ end }}
   </header>
 
+  {{ if eq .Params.benchmark "OGB" }}
+  {{ partial "site-banner.html" (dict
+    "variant" "info"
+    "message" "<strong>OGB coverage note:</strong> We have not copied the official OGB leaderboard yet. Where possible, we locate the corresponding papers on arXiv and parse their reported results, so some entries may be missing. We plan to integrate the complete leaderboard soon."
+  ) }}
+  {{ end }}
+
   {{ if $showAllVariants }}
   <nav class="variant-anchor-nav" aria-label="Dataset variants">
     <span class="variant-anchor-label">Variants:</span>

@@ -1,13 +1,17 @@
 """Unit tests for results_parser value parsing and fuzzy matching."""
 
+from types import SimpleNamespace
+
 import pytest
 
 from backend.models import Result
 from backend.qm9_targets import normalize_qm9_metric
 from backend.results_parser import (
     _apply_feature_source_model_name,
+    _dataset_metric_value_is_valid,
     _infer_zinc_variant,
     _load_variant_map,
+    _protocol_decision,
     _update_result,
     normalize_percentage_metric,
     parse_extracted_bool,
@@ -71,6 +75,7 @@ def test_update_result_clears_stale_nullable_fields():
     assert result.params_millions is None
     assert result.extraction_model == "new-model"
 
+
 def test_update_result_persists_feature_provenance():
     result = Result(input_feature_source="raw_features")
 
@@ -96,7 +101,6 @@ def test_compact_feature_provenance_renames_mlp():
     assert entry["model"] == "MLP+LLM_features"
     assert entry["input_feature_source"] == "llm_features"
     assert entry["feature_source_evidence"] == "DeBERTa embeddings"
-
 
 
 def test_parse_integer():
@@ -167,10 +171,11 @@ class _FakeDataset:
 
 
 class _FakeVariant:
-    def __init__(self, variant_id: int, name: str, dataset_name: str):
+    def __init__(self, variant_id: int, name: str, dataset_name: str, is_standard: bool = False):
         self.id = variant_id
         self.name = name
         self.dataset = _FakeDataset(dataset_name)
+        self.is_standard = is_standard
 
 
 class _FakeSessionWithVariants:
@@ -197,6 +202,19 @@ def test_load_variant_map_prefers_zinc_subset_for_plain_name():
     assert variant_map["zinc"] == 21
     assert variant_map["zinc subset"] == 21
     assert variant_map["zinc full"] == 22
+
+
+def test_load_variant_map_prefers_standard_variant_for_plain_dataset_name():
+    session = _FakeSessionWithVariants(
+        [
+            _FakeVariant(60, "Random 10-fold", "Cora", is_standard=False),
+            _FakeVariant(59, "Planetoid split", "Cora", is_standard=True),
+        ]
+    )
+
+    variant_map = _load_variant_map(session)
+
+    assert variant_map["cora"] == 59
 
 
 def test_resolve_zinc_plain_name_uses_subset_variant():
@@ -345,5 +363,50 @@ def test_dataset_alias_normalization_in_resolve():
     assert reason == "dataset: exact match"
 
     variant_id, reason = resolve_dataset_variant_with_reason("arXiv", None, variant_map)
-    assert variant_id == 47
-    assert reason == "dataset: exact match"
+    assert variant_id is None
+    assert reason == "dataset: ambiguous arXiv label"
+
+
+def test_dataset_variant_resolution_rejects_conflicting_full_qualifier():
+    variant_id, reason = resolve_dataset_variant_with_reason(
+        "CiteSeer-Full", None, {"citeseer": 41, "planetoid split": 41}
+    )
+
+    assert variant_id is None
+    assert reason == "dataset: unresolved"
+
+
+def test_protocol_contract_requires_canonical_split_evidence():
+    variant = SimpleNamespace(
+        is_standard=True,
+        split_type="fixed",
+        dataset=SimpleNamespace(name="CiteSeer", task_type="node_classification"),
+    )
+
+    assert (
+        _protocol_decision(
+            {
+                "evaluation_task": "node_classification",
+                "protocol_decision": "standard",
+                "protocol_note": "Planetoid fixed split from Yang et al.",
+            },
+            variant,
+        )
+        == "standard"
+    )
+    assert (
+        _protocol_decision(
+            {
+                "evaluation_task": "node_classification",
+                "protocol_decision": "standard",
+                "protocol_note": "Five-fold cross-validation.",
+            },
+            variant,
+        )
+        == "nonstandard"
+    )
+
+
+def test_qm9_gap_zero_is_rejected_but_positive_gap_is_valid():
+    assert not _dataset_metric_value_is_valid("QM9", "gap", 0.0)
+    assert _dataset_metric_value_is_valid("QM9", "gap", 0.043)

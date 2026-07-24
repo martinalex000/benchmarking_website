@@ -7,7 +7,8 @@ INCLUDE a table if it:
 - Reports model performance scores on the target dataset (by name or common abbreviation)
 - Compares multiple models on a benchmark that includes the target dataset
 
-PREFER the main benchmark table over appendix tables, ablation tables, and diagnostic tables.
+Appendix benchmark tables are first-class sources and may contain the paper's complete or
+summarized results. Do not exclude or deprioritize a table merely because it is in the appendix.
 
 EXCLUDE a table if it:
 - Describes dataset statistics (size, splits, number of graphs/nodes) — no model scores
@@ -20,8 +21,12 @@ EXCLUDE a table if it:
   (e.g., different graph construction formats, SLIC values, resolution variants)
   when a main results table already covers the standard configuration
 
-Output a JSON object ONLY — no markdown fences, no explanation:
-{"relevant_table_numbers": [<integer>, ...]}
+Output a JSON object ONLY — no markdown fences or prose outside the JSON object:
+{"relevant_table_numbers": [<integer>, ...], "explanation": "<why any selected table without a dataset-name match is correct>"}
+
+The supplied deterministic dataset-match block is a conservative constraint. Prefer tables with
+an exact or fuzzy dataset-name match. A selected table without such a match is allowed only when
+the explanation is non-empty and states why the table is nevertheless the correct result table.
 
 If genuinely unsure between a main benchmark table and an ablation/diagnostic table, keep only the
 main benchmark table.

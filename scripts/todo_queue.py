@@ -28,6 +28,7 @@ from backend.todo_queue import (
     process_queue,
     recompute_queue_counts,
     release_stale_processing_papers,
+    requeue_todo_papers,
     set_todo_paper_importance,
 )
 
@@ -173,9 +174,9 @@ def cmd_process(args: argparse.Namespace) -> None:
 def cmd_worker(args: argparse.Namespace) -> None:
     """Process exactly one top-priority pending paper and exit.
 
-    Safe to run in parallel: papers are claimed atomically so two concurrent
-    workers will never process the same paper.  Papers that have been stuck in
-    'processing' for more than WORKER_LOCK_TIMEOUT_MINUTES minutes are
+    Safe to run in parallel: papers are claimed atomically and kept alive with
+    a heartbeat so active workers do not get reclaimed. Papers that have been
+    stuck in 'processing' for more than WORKER_LOCK_TIMEOUT_MINUTES minutes are
     automatically released back to 'pending' before the claim is attempted.
     """
     released = release_stale_processing_papers()
@@ -234,6 +235,17 @@ def cmd_add(args: argparse.Namespace) -> None:
     )
     color = "green" if created else "yellow"
     console.print(f"[{color}]{message}[/{color}]")
+
+
+def cmd_requeue(args: argparse.Namespace) -> None:
+    results = requeue_todo_papers(args.arxiv_ids)
+    has_errors = False
+    for result in results:
+        color = "green" if result.changed else "yellow" if result.ok else "red"
+        console.print(f"[{color}]{result.message}[/{color}]")
+        has_errors |= not result.ok
+    if has_errors:
+        sys.exit(1)
 
 
 def cmd_mark_important(args: argparse.Namespace) -> None:
@@ -302,9 +314,9 @@ def build_parser() -> argparse.ArgumentParser:
     process_parser.add_argument(
         "--max-attempts",
         type=int,
-        default=3,
+        default=10,
         metavar="N",
-        help="Skip papers that have already failed this many times (default: 3)",
+        help="Skip papers that have already failed this many times (default: 10)",
     )
     process_parser.add_argument(
         "--dry-run",
@@ -344,9 +356,9 @@ def build_parser() -> argparse.ArgumentParser:
     worker_parser.add_argument(
         "--max-attempts",
         type=int,
-        default=3,
+        default=10,
         metavar="N",
-        help="Skip papers that have already failed this many times (default: 3)",
+        help="Skip papers that have already failed this many times (default: 10)",
     )
     worker_parser.add_argument(
         "--dry-run",
@@ -371,9 +383,9 @@ def build_parser() -> argparse.ArgumentParser:
     report_parser.add_argument(
         "--max-attempts",
         type=int,
-        default=3,
+        default=10,
         metavar="N",
-        help="Treat papers with ≥ N attempts as exhausted (default: 3)",
+        help="Treat papers with ≥ N attempts as exhausted (default: 10)",
     )
 
     list_parser = sub.add_parser("list", help="Show raw queue rows")
@@ -407,6 +419,17 @@ def build_parser() -> argparse.ArgumentParser:
         "--requeue",
         action="store_true",
         help="When upgrading an existing row, reset done/failed/rejected back to pending",
+    )
+
+    requeue_parser = sub.add_parser(
+        "requeue",
+        help="Requeue existing papers without marking them manually important",
+    )
+    requeue_parser.add_argument(
+        "arxiv_ids",
+        nargs="+",
+        metavar="ARXIV_ID",
+        help="One or more arXiv IDs to move back to pending",
     )
 
     mark_parser = sub.add_parser(
@@ -450,6 +473,8 @@ def main(argv: list[str] | None = None) -> None:
         cmd_list(args)
     elif command == "add":
         cmd_add(args)
+    elif command == "requeue":
+        cmd_requeue(args)
     elif command == "mark-important":
         cmd_mark_important(args)
     elif command == "unmark-important":

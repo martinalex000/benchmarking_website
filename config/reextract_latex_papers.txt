@@ -4,6 +4,1491 @@
 # Regenerate with:
 #   uv run python scripts/scan_latex_table_issues.py --write-list
 #
-# Last scan: 2026-07-01T12:14:57.545366+00:00
+# Last scan: 2026-07-01T12:19:26.517465+00:00
 
+0711.0189  # unparsed_tabular_lines
+0906.0612  # unparsed_tabular_lines
+0910.1019  # unparsed_tabular_lines
+0912.3848  # unparsed_tabular_lines
+1102.2166  # unparsed_tabular_lines  # Social Structure of Facebook Networks
+1109.2618  # unparsed_tabular_lines  # Fast and accurate modeling of molecular atomization energies with machine learning.
+1206.5538  # unparsed_tabular_lines
+1209.3140  # unparsed_tabular_lines  # On representing chemical environments
+1210.4752  # unparsed_tabular_lines  # Discrete Signal Processing on Graphs
+1211.0053  # unparsed_tabular_lines
+1308.3432  # unparsed_tabular_lines
+1311.2901  # unparsed_tabular_lines
+1403.6652  # unparsed_tabular_lines  # DeepWalk: Online Learning of Social Representations
+1409.3215  # unparsed_tabular_lines
+1410.3314  # unparsed_tabular_lines  # Propagation Kernels
+1410.8516  # unparsed_tabular_lines
+1412.6572  # unparsed_tabular_lines
+1502.01852  # unparsed_tabular_lines
+1502.03167  # unparsed_tabular_lines
+1503.00759  # unparsed_tabular_lines
+1503.02406  # unparsed_tabular_lines
+1503.03585  # unparsed_tabular_lines
+1503.03832  # unparsed_tabular_lines
+1505.07818  # unparsed_tabular_lines
+1511.05493  # unparsed_tabular_lines  # Gated Graph Sequence Neural Network s
+1511.06335  # unparsed_tabular_lines
+1511.06391  # unparsed_tabular_lines  # Order Matters: Sequence to sequence for sets
+1512.03385  # unparsed_tabular_lines
+1602.07576  # unparsed_tabular_lines
+1603.02754  # unparsed_tabular_lines
+1603.05629  # unparsed_tabular_lines  # Discriminative Embeddings of Latent Variable Models for Structured Data
+1603.08861  # unparsed_tabular_lines  # Revisiting Semi-Supervised Learning with Graph Embeddings
+1605.05273  # unparsed_tabular_lines  # Learning Convolutional Neural Networks for Graphs
+1605.07736  # unparsed_tabular_lines
+1605.08803  # unparsed_tabular_lines
+1606.00709  # unparsed_tabular_lines
+1606.04080  # unparsed_tabular_lines
+1606.06357  # unparsed_tabular_lines  # Complex Embeddings for Simple Link Prediction
+1606.09375  # unparsed_tabular_lines  # Convolutional Neural Networks on Graphs with Fast Localized Spectral Filtering
+1607.00653  # unparsed_tabular_lines  # node2vec: Scalable Feature Learning for Networks
+1607.06450  # unparsed_tabular_lines
+1609.04508  # unparsed_tabular_lines  # Column Networks for Collective Classification
+1611.00712  # unparsed_tabular_lines  # The Concrete Distribution: A Continuous Relaxation of Discrete Random Variables
+1611.01144  # unparsed_tabular_lines
+1611.08402  # unparsed_tabular_lines  # Geometric deep learning on graphs and manifolds using mixture model CNNs
+1612.00222  # unparsed_tabular_lines  # Interaction Networks for Learning about Objects, Relations and Physics
+1612.00410  # unparsed_tabular_lines
+1612.08447  # unparsed_tabular_lines
+1612.08498  # unparsed_tabular_lines
+1703.06114  # unparsed_tabular_lines, wraptable
+1703.10146  # unparsed_tabular_lines
+1704.01665  # unparsed_tabular_lines  # Learning Combinatorial Optimization Algorithms over Graphs
+1704.02685  # unparsed_tabular_lines
+1704.04675  # unparsed_tabular_lines  # Graph Convolutional Encoders for Syntax-aware Neural Machine Translation
+1704.06199  # unparsed_tabular_lines  # Dynamic Graph Convolutional Networks
+1704.06803  # unparsed_tabular_lines  # Geometric Matrix Completion with Recurrent Multi-Graph Neural Networks
+1705.05742  # unparsed_tabular_lines
+1705.07664  # unparsed_tabular_lines  # CayleyNets: Graph Convolutional Neural Networks with Complex Rational Spectral Filters
+1705.07874  # unparsed_tabular_lines
+1705.09037  # unparsed_tabular_lines  # Deriving Neural Architectures from Sequence and Graph Kernels
+1706.02263  # unparsed_tabular_lines
+1706.06083  # unparsed_tabular_lines
+1707.01476  # unparsed_tabular_lines  # Convolutional 2D Knowledge Graph Embeddings
+1707.09571  # unparsed_tabular_lines  # Deep Potential Molecular Dynamics: a scalable model with the accuracy of quantum mechanics
+1709.04555  # unparsed_tabular_lines  # Predicting Organic Reaction Outcomes with Weisfeiler-Lehman Network
+1709.07871  # unparsed_tabular_lines
+1710.09412  # unparsed_tabular_lines
+1710.10324  # unparsed_tabular_lines  # Crystal Graph Convolutional Neural Networks for an Accurate and Interpretable Prediction of Material Properties
+1710.10370  # unparsed_tabular_lines  # Topology Adaptive Graph Convolutional Networks
+1711.00740  # unparsed_tabular_lines  # Learning to Represent Programs with Graphs
+1711.04043  # unparsed_tabular_lines  # Few-Shot Learning with Graph Neural Networks
+1711.07553  # unparsed_tabular_lines
+1711.10730  # unparsed_tabular_lines  # Heterogeneous Information Network Embedding for Recommendation
+1712.00468  # unparsed_tabular_lines
+1801.02144  # unparsed_tabular_lines  # Covariant Compositional Networks for Learning Graphs
+1801.04062  # unparsed_tabular_lines
+1801.10130  # unparsed_tabular_lines  # Spherical CNNs
+1801.10247  # unparsed_tabular_lines  # FastGCN: Fast Learning with Graph Convolutional Networks via Importance Sampling
+1802.01572  # unparsed_tabular_lines  # MotifNet: a motif-based Graph Convolutional Network for directed graphs
+1802.04364  # unparsed_tabular_lines  # Junction Tree Variational Autoencoder for Molecular Graph Generation
+1802.04687  # unparsed_tabular_lines
+1802.05283  # unparsed_tabular_lines  # NeVAE: A Deep Generative Model for Molecular Graphs$^*$
+1802.08219  # unparsed_tabular_lines, wraptable  # Tensor field networks: Rotation- and translation-equivariant neural networks for 3D point clouds
+1802.08786  # unparsed_tabular_lines  # Syntax-Directed Variational Autoencoder for Structured Data
+1802.08888  # unparsed_tabular_lines  # N-GCN: Multi-scale Graph Convolution for Semi-supervised Node Classification
+1802.09691  # wraptable  # Link Prediction Based on Graph Neural Networks
+1803.00816  # unparsed_tabular_lines  # NetGAN: Generating Graphs via Random Walks
+1803.03324  # unparsed_tabular_lines  # Learning Deep Generative Models of Graphs
+1803.03735  # unparsed_tabular_lines  # Attention-based Graph Neural Network for Semi-supervised Learning
+1803.07294  # unparsed_tabular_lines  # GaAN: Gated Attention Networks for Learning on Large and Spatiotemporal Graphs
+1805.07984  # unparsed_tabular_lines  # Adversarial Attacks on Neural Networks for Graph Data
+1805.08090  # unparsed_tabular_lines  # Graph Capsule Convolutional Neural Networks
+1805.09076  # unparsed_tabular_lines
+1806.01242  # unparsed_tabular_lines  # arXiv:1806.01242
+1806.01261  # unparsed_tabular_lines
+1806.02371  # unparsed_tabular_lines
+1806.07366  # unparsed_tabular_lines, wraptable
+1806.09231  # unparsed_tabular_lines
+1807.05520  # unparsed_tabular_lines
+1807.07984  # unparsed_tabular_lines
+1807.09596  # unparsed_tabular_lines
+1809.01072  # unparsed_tabular_lines  # SchNetPack: A Deep Learning Toolbox For Atomistic Systems
+1809.02630  # unparsed_tabular_lines  # Constrained Generation of Semantically Valid Graphs via Regularizing Variational Autoencoders
+1809.05343  # unparsed_tabular_lines  # Adaptive Sampling Towards Fast Graph Representation Learning
+1809.09401  # unparsed_tabular_lines  # Hypergraph Neural Networks
+1810.02244  # unparsed_tabular_lines  # Weisfeiler and Leman Go Neural: Higher-order Graph Neural Networks
+1810.08678  # unparsed_tabular_lines  # Optimization of Molecules via Deep Reinforcement Learning
+1811.01287  # unparsed_tabular_lines  # Towards Sparse Hierarchical Graph Classifiers
+1811.09766  # unparsed_tabular_lines  # DEFactor: Differentiable Edge Factorization-based Probabilistic Graph Generation
+1812.01070  # unparsed_tabular_lines  # Learning Multimodal Graph-to-Graph Translation for Molecular Optimization
+1812.09441  # unparsed_tabular_lines  # Graph Transformation Policy Network for Chemical Reaction Prediction
+1812.09902  # unparsed_tabular_lines, wraptable  # Invariant and Equivariant Graph Networks
+1812.10528  # unparsed_tabular_lines
+1901.08296  # unparsed_tabular_lines  # Deep Learning on Attributed Graphs: A Journey from Graphs to Their Embeddings and Back
+1901.09342  # unparsed_tabular_lines, wraptable
+1901.09993  # unparsed_tabular_lines
+1902.02119  # unparsed_tabular_lines  # Mol-CycleGAN - a generative model for molecular optimization
+1902.06673  # unparsed_tabular_lines  # Fake News Detection on Social Media using Geometric Deep Learning
+1902.07153  # unparsed_tabular_lines  # Simplifying Graph Convolutional Networks
+1902.08226  # unparsed_tabular_lines  # Graph Adversarial Training: Dynamically Regularizing Based on Graph Structure
+1902.08412  # unparsed_tabular_lines  # Adversarial Attacks on Graph Neural Networks via Meta Learning
+1903.02541  # unparsed_tabular_lines
+1903.11835  # sidewaystable  # A Survey on Graph Kernels
+1904.05003  # unparsed_tabular_lines
+1904.06690  # unparsed_tabular_lines
+1904.11088  # wraptable  # D-VAE: A Variational Autoencoder for Directed Acyclic Graphs
+1904.12787  # unparsed_tabular_lines  # Graph Matching Networks for Learning the Similarity of Graph Structured Objects
+1905.00067  # unparsed_tabular_lines  # MixHop: Higher-Order Graph Convolutional Architectures via Sparsified Neighborhood Mixing
+1905.01004  # unparsed_tabular_lines
+1905.02850  # unparsed_tabular_lines, wraptable  # Understanding Attention and Generalization in Graph Neural Networks
+1905.04497  # unparsed_tabular_lines
+1905.04579  # wraptable
+1905.04943  # unparsed_tabular_lines
+1905.05178  # unparsed_tabular_lines  # Graph U-Nets
+1905.06214  # unparsed_tabular_lines  # GMNN: Graph Markov Neural Networks
+1905.06922  # unparsed_tabular_lines
+1905.07854  # unparsed_tabular_lines  # KGAT: Knowledge Graph Attention Network for Recommendation
+1905.07953  # unparsed_tabular_lines  # Cluster-GCN: An Efficient Algorithm for Training Deep and Large Graph Convolutional Networks
+1905.08108  # unparsed_tabular_lines  # Neural Graph Collaborative Filtering
+1905.10029  # unparsed_tabular_lines
+1905.10261  # unparsed_tabular_lines
+1905.10881  # unparsed_tabular_lines
+1905.11136  # unparsed_tabular_lines, wraptable  # Provably Powerful Graph Networks
+1905.11460  # unparsed_tabular_lines
+1905.11485  # unparsed_tabular_lines
+1905.11577  # unparsed_tabular_lines  # Towards Interpretable Sparse Graph Representation Learning with Laplacian Pooling
+1905.11600  # wraptable  # GraphNVP: An Invertible Flow Model for Generating Molecular Graphs
+1905.12560  # unparsed_tabular_lines  # On the Equivalence between Graph Isomorphism Testing and Function Approximation with GNNs
+1905.13211  # unparsed_tabular_lines
+1905.13372  # unparsed_tabular_lines  # MolecularRNN: Generating realistic molecular graphs with optimized properties
+1906.01277  # unparsed_tabular_lines
+1906.02174  # unparsed_tabular_lines  # Break the Ceiling: Stronger Multi-scale Deep Graph Convolutional Networks
+1906.05849  # unparsed_tabular_lines
+1906.08237  # unparsed_tabular_lines
+1906.10033  # unparsed_tabular_lines  # Unifying machine learning and quantum chemistry -- a deep neural network for molecular wavefunctions
+1906.11081  # unparsed_tabular_lines  # Molecular Property Prediction: A Multilevel Quantum Interactions Modeling Perspective
+1906.12192  # unparsed_tabular_lines  # GNN-FiLM: Graph Neural Networks with Feature-wise Linear Modulation
+1906.12269  # unparsed_tabular_lines
+1907.02893  # unparsed_tabular_lines
+1907.05008  # unparsed_tabular_lines  # Understanding the Representation Power of Graph Neural Networks in Learning Graph Topology
+1907.10903  # unparsed_tabular_lines  # DropEdge: Towards Deep Graph Convolutional Networks on Node Classification
+1907.11223  # unparsed_tabular_lines  # Hierarchical Graph-to-Graph Translation for Molecules
+1907.12972  # unparsed_tabular_lines
+1907.13625  # unparsed_tabular_lines
+1908.01297  # unparsed_tabular_lines  # A Restricted Black-box Adversarial Framework Towards Attacking Graph Embedding Models
+1908.01425  # unparsed_tabular_lines  # ChemBO: Bayesian Optimization of Small Organic Molecules with Synthesizable Recommendations
+1908.05081  # wraptable
+1908.07078  # wraptable  # Semi-Implicit Graph Variational Auto-Encoders
+1909.01315  # unparsed_tabular_lines
+1909.01946  # unparsed_tabular_lines  # FCHL revisited: faster and more accurate quantum machine learning
+1909.03211  # unparsed_tabular_lines  # Measuring and Relieving the Over-smoothing Problem for Graph Neural Networks from the Topological View
+1909.04246  # unparsed_tabular_lines
+1909.11715  # unparsed_tabular_lines, wraptable  # GraphMix: Improved Training of GNNs for Semi-Supervised Learning
+1909.11855  # unparsed_tabular_lines
+1910.00760  # unparsed_tabular_lines  # Efficient Graph Generation with Graph Recurrent Attention Networks
+1910.02421  # unparsed_tabular_lines
+1910.06849  # unparsed_tabular_lines  # DeepGCNs: Making GCNs Go as Deep as CNNs
+1910.10593  # unparsed_tabular_lines  # Neural Execution of Graph Algorithms
+1910.14356  # unparsed_tabular_lines  # arXiv:1910.14356
+1911.05722  # unparsed_tabular_lines
+1911.05954  # unparsed_tabular_lines  # Hierarchical Graph Pooling with Structure Learning
+1911.06962  # unparsed_tabular_lines  # arXiv:1911.06962
+1911.07123  # unparsed_tabular_lines  # Graph-Revised Convolutional Network
+1911.07532  # unparsed_tabular_lines  # Graph Neural Ordinary Differential Equations
+1912.09893  # sidewaystable  # A Fair Comparison of Graph Neural Networks for Graph Classification
+2001.04451  # unparsed_tabular_lines
+2001.08361  # unparsed_tabular_lines
+2001.09382  # unparsed_tabular_lines  # GraphAF: a Flow-based Autoregressive Model for Molecular Graph Generation
+2002.00388  # unparsed_tabular_lines
+2002.01169  # unparsed_tabular_lines  # Graph Representation Learning via Graphical Mutual Information Maximization
+2002.02126  # unparsed_tabular_lines  # LightGCN: Simplifying and Powering Graph Convolution Network for Recommendation
+2002.03155  # unparsed_tabular_lines  # Random Features Strengthen Graph Neural Networks
+2002.03230  # unparsed_tabular_lines  # Hierarchical Generation of Molecular Graphs using Structural Motifs
+2002.03244  # unparsed_tabular_lines  # Composing Molecules with Multiple Property Constraints
+2002.04025  # unparsed_tabular_lines  # Can Graph Neural Networks Count Substructures?
+2002.04999  # unparsed_tabular_lines  # Differentiable Graph Module (DGM) for Graph Convolutional Networks
+2002.06157  # unparsed_tabular_lines
+2002.06755  # unparsed_tabular_lines  # Unifying Graph Convolutional Neural Networks and Label Propagation
+2002.07962  # unparsed_tabular_lines  # Inductive representation learning on temporal graphs
+2002.09405  # unparsed_tabular_lines  # Learning to Simulate Complex Physics with Graph Networks
+2002.10306  # unparsed_tabular_lines
+2002.10413  # unparsed_tabular_lines, wraptable
+2002.12880  # unparsed_tabular_lines  # Generalizing Convolutional Neural Networks for Equivariance to Lie Groups on Arbitrary Continuous Data
+2003.00688  # unparsed_tabular_lines
+2003.00911  # unparsed_tabular_lines
+2003.00982  # unparsed_tabular_lines  # Benchmarking Graph Neural Networks
+2003.01332  # unparsed_tabular_lines  # Heterogeneous Graph Transformer
+2003.02228  # unparsed_tabular_lines
+2003.03123  # unparsed_tabular_lines  # Directional Message Passing for Molecular Graphs
+2003.04078  # unparsed_tabular_lines
+2003.08414  # unparsed_tabular_lines, wraptable  # Scattering GCN: Overcoming Oversmoothness in Graph Convolutional Networks
+2003.11702  # unparsed_tabular_lines  # Bridging the Gap Between Spectral and Spatial Domains in Graph Neural Networks
+2003.13606  # unparsed_tabular_lines  # L$^2$-GCN: Layer-Wise and Learned Efficient Training of Graph Convolutional Networks
+2003.13663  # unparsed_tabular_lines  # Revisiting Oversmoothing in Deep GCNs
+2004.05718  # unparsed_tabular_lines
+2004.11198  # unparsed_tabular_lines  # SIGN: Scalable Inception Graph Neural Networks
+2004.11362  # unparsed_tabular_lines
+2004.13825  # unparsed_tabular_lines  # Scalable Attack on Graph Data by Injecting Vicious Nodes
+2004.13970  # unparsed_tabular_lines
+2005.01214  # unparsed_tabular_lines
+2005.07496  # unparsed_tabular_lines
+2005.09863  # unparsed_tabular_lines
+2005.10242  # unparsed_tabular_lines
+2005.10243  # unparsed_tabular_lines
+2005.11079  # unparsed_tabular_lines  # Graph Random Neural Networks for Semi-Supervised Learning on Graphs
+2005.13607  # unparsed_tabular_lines
+2005.14165  # unparsed_tabular_lines
+2006.02425  # unparsed_tabular_lines  # Equivariant Flows: exact likelihood generative learning for symmetric densities
+2006.02587  # unparsed_tabular_lines  # XGNN: Towards Model-Level Explanations of Graph Neural Networks
+2006.03589  # unparsed_tabular_lines  # Higher-Order Explanations of Graph Neural Networks via Relevant Walks
+2006.03654  # unparsed_tabular_lines
+2006.03814  # wraptable
+2006.04064  # unparsed_tabular_lines  # Bayesian Graph Neural Networks with Adaptive Connection Sampling
+2006.04804  # unparsed_tabular_lines
+2006.05205  # unparsed_tabular_lines  # On the Bottleneck of Graph Neural Networks and its Practical Implications
+2006.05531  # unparsed_tabular_lines  # GEOM: Energy-annotated molecular conformations for property prediction and molecular generation
+2006.05535  # unparsed_tabular_lines
+2006.05929  # unparsed_tabular_lines
+2006.07846  # wraptable
+2006.07889  # unparsed_tabular_lines  # Graph Meta Learning via Local Subgraphs
+2006.08550  # unparsed_tabular_lines
+2006.09136  # unparsed_tabular_lines  # When Does Self-Supervision Help Graph Convolutional Networks?
+2006.09790  # unparsed_tabular_lines  # Categorical Normalizing Flows via Continuous Transformations
+2006.09882  # unparsed_tabular_lines
+2006.09963  # unparsed_tabular_lines  # GCC: Graph Contrastive Coding for Graph Neural Network Pre-Training
+2006.10503  # unparsed_tabular_lines, wraptable
+2006.10637  # unparsed_tabular_lines, wraptable  # Temporal Graph Networks for Deep Learning on Dynamic Graphs
+2006.11239  # unparsed_tabular_lines
+2006.13009  # wraptable  # Iterative Deep Graph Learning for Graph Neural Networks: Better and Robust Node Embeddings
+2006.15107  # unparsed_tabular_lines  # Building powerful and equivariant graph neural networks with structural message-passing
+2006.15646  # unparsed_tabular_lines  # Expressive Power of Invariant and Equivariant Graph Neural Networks
+2006.16904  # unparsed_tabular_lines  # Graph Clustering with Graph Neural Networks
+2007.01570  # unparsed_tabular_lines
+2007.01594  # unparsed_tabular_lines  # Adaptive Graph Encoder for Attributed Graph Embedding
+2007.01764  # unparsed_tabular_lines  # Disentangled Graph Collaborative Filtering
+2007.02901  # unparsed_tabular_lines  # Wiki-CS: A Wikipedia-Based Benchmark for Graph Neural Networks
+2007.04897  # unparsed_tabular_lines  # Guiding Deep Molecular Optimization with Genetic Exploration
+2007.06686  # unparsed_tabular_lines  # A Systematic Survey on Deep Generative Models for Graph Generation
+2007.08026  # unparsed_tabular_lines  # OrbNet: Deep Learning for Quantum Chemistry Using Symmetry-Adapted Atomic-Orbital Features
+2007.08294  # unparsed_tabular_lines  # Self-supervised Auxiliary Learning with Meta-paths for Heterogeneous Graphs
+2007.08349  # wraptable
+2007.09296  # unparsed_tabular_lines  # Towards Deeper Graph Neural Networks
+2007.09593  # unparsed_tabular_lines  # On the role of gradients for machine learning of molecular energies and forces
+2007.10467  # unparsed_tabular_lines  # Second-Order Pooling for Graph Neural Networks
+2007.11202  # unparsed_tabular_lines  # MathNet: Haar-Like Wavelet Multiresolution-Analysis for Graph Representation and Learning
+2007.13681  # unparsed_tabular_lines  # arXiv:2007.13681
+2007.14062  # unparsed_tabular_lines, wraptable
+2007.16002  # unparsed_tabular_lines
+2008.05000  # unparsed_tabular_lines  # Degree-Quant: Quantization-Aware Training for Graph Neural Networks
+2008.05089  # unparsed_tabular_lines
+2008.07873  # unparsed_tabular_lines
+2008.08461  # unparsed_tabular_lines  # Relevance of Rotationally Equivariant Convolutions for Predicting Molecular Properties
+2008.08692  # unparsed_tabular_lines  # Enhancing Graph Neural Network-based Fraud Detectors against Camouflaged Fraudsters
+2008.09864  # unparsed_tabular_lines  # Tackling Over-Smoothing for General Graph Convolutional Networks
+2009.00142  # unparsed_tabular_lines
+2009.01411  # unparsed_tabular_lines  # Learning from Protein Structure with Geometric Vector Perceptrons
+2009.02562  # unparsed_tabular_lines
+2009.06211  # unparsed_tabular_lines  # Implicit Graph Neural Networks
+2009.06946  # unparsed_tabular_lines
+2009.10564  # unparsed_tabular_lines  # GraphCrop: Subgraph Cropping for Graph Classification
+2010.00238  # unparsed_tabular_lines
+2010.00577  # unparsed_tabular_lines, wraptable  # Interpreting Graph Neural Networks for NLP With Differentiable Edge Masking
+2010.01804  # unparsed_tabular_lines  # Graph Cross Networks with Vertex Infomax Pooling
+2010.02318  # unparsed_tabular_lines  # MIMOSA: Multi-constraint Molecule Sampling for Molecule Optimization
+2010.02863  # unparsed_tabular_lines
+2010.03409  # unparsed_tabular_lines  # Learning Mesh-Based Simulation with Graph Networks
+2010.03633  # unparsed_tabular_lines
+2010.04592  # unparsed_tabular_lines, wraptable
+2010.05234  # unparsed_tabular_lines, wraptable  # A Practical Tutorial on Graph Neural Networks
+2010.05563  # wraptable  # Graph Information Bottleneck for Subgraph Recognition
+2010.05761  # unparsed_tabular_lines
+2010.07067  # unparsed_tabular_lines
+2010.07249  # unparsed_tabular_lines
+2010.08853  # unparsed_tabular_lines  # From Local Structures to Size Generalization in Graph Neural Networks
+2010.09834  # unparsed_tabular_lines  # Topology-Aware Graph Pooling Networks
+2010.10046  # unparsed_tabular_lines  # Line Graph Neural Networks for Link Prediction
+2010.10783  # unparsed_tabular_lines  # Self-supervised Graph Learning for Recommendation
+2010.11418  # wraptable  # Rethinking pooling in graph neural networks
+2010.11929  # unparsed_tabular_lines
+2010.12408  # unparsed_tabular_lines  # On the Equivalence of Decoupled Graph Convolution Network and Label Propagation
+2010.13902  # wraptable  # Graph Contrastive Learning with Augmentations
+2010.13993  # unparsed_tabular_lines, wraptable  # Combining Label Propagation and Simple Models out-performs Graph Neural Networks
+2011.02260  # unparsed_tabular_lines
+2011.03854  # unparsed_tabular_lines
+2011.07457  # unparsed_tabular_lines  # Molecular Mechanics-Driven Graph Neural Network with Multiplex Graph for Molecular Structures
+2011.07682  # unparsed_tabular_lines
+2011.09679  # wraptable  # Scalable Graph Neural Networks for Heterogeneous Graphs
+2011.10566  # unparsed_tabular_lines
+2011.10988  # unparsed_tabular_lines
+2011.13456  # unparsed_tabular_lines
+2012.01981  # unparsed_tabular_lines  # Advanced Graph and Sequence Neural Networks for Molecular Property Prediction and Drug Discovery
+2012.02486  # unparsed_tabular_lines  # Unsupervised Adversarially Robust Representation Learning on Graphs
+2012.03174  # unparsed_tabular_lines, wraptable
+2012.03476  # unparsed_tabular_lines  # NCGNN: Node-Level Capsule Graph Neural Network for Semisupervised Classification
+2012.05442  # unparsed_tabular_lines  # Bipartite Graph Embedding via Mutual Information Maximization
+2012.06002  # unparsed_tabular_lines
+2012.06922  # unparsed_tabular_lines  # Decimated Framelet System on Graphs and Fast $ $-Framelet Transforms
+2012.07064  # unparsed_tabular_lines  # Pre-Training Graph Neural Networks for Cold-Start Users and Items Representation
+2012.07219  # unparsed_tabular_lines
+2012.07437  # unparsed_tabular_lines
+2012.07690  # unparsed_tabular_lines  # A PAC-Bayesian Approach to Generalization Bounds for Graph Neural Networks
+2012.08752  # unparsed_tabular_lines
+2012.09600  # unparsed_tabular_lines
+2012.09699  # unparsed_tabular_lines  # A Generalization of Transformer Networks to Graphs
+2012.10885  # unparsed_tabular_lines  # arXiv:2012.10885
+2012.15544  # unparsed_tabular_lines
+2101.00797  # unparsed_tabular_lines  # Beyond Low-frequency Information in Graph Convolutional Networks
+2101.05974  # unparsed_tabular_lines  # Inductive Representation Learning in Temporal Networks via Causal Anonymous Walks
+2101.10320  # unparsed_tabular_lines
+2101.11525  # unparsed_tabular_lines  # Calibrating and Improving Graph Contrastive Learning
+2102.00546  # wraptable  # GraphEBM: Molecular Graph Generation with Energy-Based Models
+2102.01189  # unparsed_tabular_lines  # GraphDF: A Discrete Flow Model for Molecular Graph Generation
+2102.01350  # unparsed_tabular_lines, wraptable
+2102.05013  # wraptable
+2102.05034  # wraptable  # SLAPS: Self-Supervision Improves Structure Learning for Graph Neural Networks
+2102.05152  # unparsed_tabular_lines  # On Explainability of Graph Neural Networks via Subgraph Explorations
+2102.06321  # sidewaystable, unparsed_tabular_lines
+2102.06462  # sidewaystable, unparsed_tabular_lines, wraptable  # Two Sides of the Same Coin: Heterophily and Oversmoothing in Graph Convolutional Neural Networks
+2102.06790  # unparsed_tabular_lines  # arXiv:2102.06790
+2102.06966  # unparsed_tabular_lines
+2102.06986  # unparsed_tabular_lines  # How Framelets Enhance Graph Neural Networks
+2102.07057  # unparsed_tabular_lines  # Learning Intents behind Interactions with Knowledge Graph for Recommendation
+2102.07916  # unparsed_tabular_lines
+2102.09544  # unparsed_tabular_lines
+2102.09548  # unparsed_tabular_lines  # Therapeutics Data Commons 20 Machine Learning Datasets and Tasks for Drug Discovery and Development
+2102.09844  # unparsed_tabular_lines  # E(n) Equivariant Graph Neural Networks
+2102.10739  # unparsed_tabular_lines, wraptable  # Dissecting the Diffusion Process in Linear Graph Convolutional Networks
+2102.10757  # unparsed_tabular_lines  # Self-Supervised Learning of Graph Neural Networks: A Unified Review
+2102.11391  # unparsed_tabular_lines  # MagNet: A Neural Network for Directed Graphs
+2102.11533  # unparsed_tabular_lines, wraptable  # Accurate Learning of Graph Representations with Graph Multiset Pooling
+2103.00111  # unparsed_tabular_lines  # Graph Self-Supervised Learning: A Survey
+2103.01436  # unparsed_tabular_lines  # ForceNet: A Graph Neural Network for Large-Scale Quantum Calculations
+2103.03212  # unparsed_tabular_lines  # Weisfeiler and Lehman Go Topological: Message Passing Simplicial Networks
+2103.03864  # unparsed_tabular_lines, wraptable  # Learning to Extend Molecular Scaffolds with Structural Motifs
+2103.05045  # unparsed_tabular_lines  # Size-Invariant Graph Representations for Graph Classification Extrapolations
+2103.05872  # unparsed_tabular_lines  # Sampling methods for efficient training of graph convolutional networks: A survey
+2103.06064  # unparsed_tabular_lines  # Graph Neural Networks Inspired by Classical Iterative Algorithms
+2103.08827  # unparsed_tabular_lines
+2103.09430  # unparsed_tabular_lines
+2103.13355  # unparsed_tabular_lines  # Bag of Tricks for Node Classification with Graph Neural Networks
+2103.14187  # unparsed_tabular_lines  # Beyond Low-Pass Filters: Adaptive Feature Propagation on Graphs
+2104.01404  # unparsed_tabular_lines  # New Benchmarks for Learning on Non-Homophilous Graphs
+2104.01481  # wraptable  # Do We Need Anisotropic Graph Neural Networks?
+2104.05960  # unparsed_tabular_lines
+2104.07886  # sidewaystable  # Reinforced Neighborhood Selection Guided Multi-Relational Graph Neural Networks
+2104.09376  # unparsed_tabular_lines  # Scalable and Adaptive Graph Neural Networks with Self-Label-Enhanced Training
+2104.10482  # unparsed_tabular_lines  # GraphSVX: Shapley Value Explanations for Graph Neural Networks
+2104.13030  # unparsed_tabular_lines
+2104.13478  # unparsed_tabular_lines
+2105.00304  # unparsed_tabular_lines  # SpookyNet: Learning force fields with electronic degrees of freedom and nonlocal effects
+2105.00696  # unparsed_tabular_lines
+2105.04550  # unparsed_tabular_lines
+2105.07264  # unparsed_tabular_lines
+2105.08330  # unparsed_tabular_lines
+2105.08621  # unparsed_tabular_lines
+2105.09016  # unparsed_tabular_lines  # E(n) Equivariant Normalizing Flows
+2105.11016  # unparsed_tabular_lines
+2105.11118  # unparsed_tabular_lines  # Dorylus: Affordable, Scalable, and Accurate GNN Training with Distributed CPU Servers and Serverless Threads
+2105.12419  # unparsed_tabular_lines  # Adversarial Attack Framework on Graph Embedding Models with Limited Knowledge
+2105.14491  # unparsed_tabular_lines  # How Attentive are Graph Attention Networks?
+2106.00967  # unparsed_tabular_lines  # Multiresolution equivariant graph variational autoencoder
+2106.03843  # unparsed_tabular_lines  # arXiv:2106.03843
+2106.04319  # unparsed_tabular_lines  # Breaking the Limits of Message Passing Graph Neural Networks
+2106.04399  # unparsed_tabular_lines
+2106.04509  # unparsed_tabular_lines  # MoCL: Data-driven Molecular Fingerprint via Knowledge-aware Contrastive Learning from Molecular Graph
+2106.05609  # unparsed_tabular_lines
+2106.06134  # wraptable  # Is Homophily a Necessity for Graph Neural Networks?
+2106.06218  # unparsed_tabular_lines  # Graph Transformer Networks: Learning Meta-path Graphs to Improve GNNs
+2106.06607  # unparsed_tabular_lines
+2106.06610  # unparsed_tabular_lines
+2106.06663  # unparsed_tabular_lines  # TDGIA: Effective Injection Attacks on Graph Neural Networks
+2106.06935  # unparsed_tabular_lines  # Neural Bellman-Ford Networks: A General Graph Neural Network Framework for Link Prediction
+2106.07594  # unparsed_tabular_lines  # Graph Contrastive Learning Automated
+2106.07767  # unparsed_tabular_lines  # How does Heterophily Impact the Robustness of Graph Neural Networks? Theoretical Connections and Practical Implications
+2106.07802  # unparsed_tabular_lines  # $GeoMol$: Torsional Geometric Generation of Molecular 3D Conformer Ensembles
+2106.08903  # wraptable  # GemNet: Universal Directional Graph Neural Networks for Molecules
+2106.09078  # unparsed_tabular_lines  # Probing GNN Explainers: A Rigorous Theoretical and Empirical Analysis of GNN Explanation Methods
+2106.09553  # unparsed_tabular_lines  # How Much Structural Information Large Scale Molecular Language Representations Can Capture?
+2106.10866  # unparsed_tabular_lines
+2106.12484  # unparsed_tabular_lines
+2106.12575  # wraptable  # Weisfeiler and Lehman Go Cellular: CW Networks
+2106.15845  # unparsed_tabular_lines, wraptable  # Edge Representation Learning with Hypergraphs
+2107.03006  # unparsed_tabular_lines  # Structured Denoising Diffusion Models in Discrete State-Spaces
+2107.03029  # unparsed_tabular_lines
+2107.04086  # unparsed_tabular_lines  # Robust Counterfactual Explanations on Graph Neural Networks
+2107.07994  # unparsed_tabular_lines
+2107.08562  # unparsed_tabular_lines
+2107.10234  # unparsed_tabular_lines
+2107.11789  # unparsed_tabular_lines  # ROD: Reception-aware Online Distillation for Sparse Graphs
+2108.06208  # unparsed_tabular_lines
+2108.07567  # unparsed_tabular_lines  # How Powerful is Graph Convolution for Recommendation?
+2108.13555  # unparsed_tabular_lines, wraptable  # Adaptive Label Smoothing To Regularize Large-Scale Graph Training
+2108.13624  # unparsed_tabular_lines
+2109.01116  # wraptable  # An Empirical Study of Graph Contrastive Learning
+2109.03856  # unparsed_tabular_lines  # Local Augmentation for Graph Neural Networks
+2109.04824  # unparsed_tabular_lines  # Inverse design of 3d molecular structures with conditional generative neural networks
+2109.05641  # unparsed_tabular_lines  # Is Heterophily A Real Nightmare For Graph Neural Networks To Do Node Classification?
+2109.09587  # unparsed_tabular_lines  # Recommender systems based on graph embedding techniques: A comprehensive review
+2109.10469  # unparsed_tabular_lines  # Differentiable Scaffolding Tree for Molecular Optimization
+2109.14285  # unparsed_tabular_lines, wraptable
+2110.00987  # wraptable  # Motif-based Graph Self-Supervised Learning for Molecular Property Prediction
+2110.01717  # unparsed_tabular_lines, wraptable  # Molecule3D: A Benchmark for Predicting 3D Geometries from Molecular Graphs
+2110.02096  # unparsed_tabular_lines  # Top-N: Equivariant set and graph generation without exchangeability
+2110.02905  # unparsed_tabular_lines  # Geometric and Physical Quantities improve E($3$) Equivariant Message Passing
+2110.02910  # wraptable  # Equivariant Subgraph Aggregation Networks
+2110.03336  # unparsed_tabular_lines, wraptable  # Frame Averaging for Invariant and Equivariant Network Design
+2110.03753  # wraptable  # From Stars to Subgraphs: Uplifting Any GNN with Local Structure Awareness
+2110.03987  # unparsed_tabular_lines  # Knowledge-aware Coupled Graph Neural Network for Social Recommendation
+2110.04375  # unparsed_tabular_lines  # Neural Link Prediction with Walk Pooling
+2110.04383  # wraptable  # Learning 3D Representations of Molecular Chirality with Invariance to Bond Rotations
+2110.07141  # unparsed_tabular_lines
+2110.07580  # unparsed_tabular_lines
+2110.07728  # wraptable  # 16 Pre-training Molecular Graph Representation with 3D Geometry
+2110.07875  # unparsed_tabular_lines  # Graph Neural Networks with Learnable Structural and Positional Representations
+2110.08128  # unparsed_tabular_lines  # Label-Wise Graph Convolutional Network for Heterophilic Graphs
+2110.08727  # unparsed_tabular_lines  # Graph-less Neural Networks: Teaching Old MLPs New Tricks via Distillation
+2110.09344  # unparsed_tabular_lines  # ifMixup: Interpolating Graph Pair to Regularize Graph Classification
+2110.09443  # unparsed_tabular_lines, wraptable  # Beltrami Flow and Neural Diffusion on Graphs
+2110.13197  # wraptable  # Nested Graph Neural Networks
+2110.14012  # unparsed_tabular_lines  # Graph Posterior Network: Bayesian Predictive Uncertainty for Node Classification
+2110.14038  # sidewaystable, unparsed_tabular_lines, wraptable  # Robustness of Graph Neural Networks at Scale
+2110.14363  # unparsed_tabular_lines  # VQ-GNN: A Universal Framework to Scale-up Graph Neural Networks using Vector Quantization
+2110.14377  # unparsed_tabular_lines  # Node Dependent Local Smoothing for Scalable Graph Learning
+2110.14446  # unparsed_tabular_lines  # Large Scale Learning on Non-Homophilous Graphs: New Benchmarks and Strong Simple Methods
+2110.14811  # unparsed_tabular_lines  # SE(3) Equivariant Graph Neural Networks with Complete Local Frames
+2110.15114  # unparsed_tabular_lines  # UltraGCN: Ultra Simplification of Graph Convolutional Networks for Recommendation
+2110.15174  # unparsed_tabular_lines, wraptable  # On Provable Benefits of Depth in Training Graph Convolutional Networks
+2110.15529  # unparsed_tabular_lines
+2110.15742  # unparsed_tabular_lines  # Barlow Graph Auto-Encoder for Unsupervised Network Embedding
+2111.00396  # unparsed_tabular_lines
+2111.03264  # unparsed_tabular_lines
+2111.04314  # wraptable  # Graph Robustness Benchmark: Benchmarking the Adversarial Robustness of Graph Machine Learning
+2111.04718  # wraptable  # Directional Message Passing on Molecular Graphs via Synthetic Coordinates
+2111.04840  # unparsed_tabular_lines  # Cold Brew: Distilling Graph Node Representations with Incomplete or Missing Neighborhoods
+2111.05639  # unparsed_tabular_lines  # Graph Transplant: Node Saliency-Guided Graph Mixup with Local Structure Preservation
+2111.06377  # unparsed_tabular_lines
+2111.06483  # unparsed_tabular_lines  # arXiv:2111.06483
+2111.06592  # unparsed_tabular_lines  # Implicit vs Unfolded Graph Neural Networks
+2111.11840  # sidewaystable, unparsed_tabular_lines
+2111.12128  # unparsed_tabular_lines  # On the Unreasonable Effectiveness of Feature Propagation in Learning on Graphs with Missing Node Features
+2111.14522  # unparsed_tabular_lines, wraptable
+2111.15367  # unparsed_tabular_lines
+2112.02275  # unparsed_tabular_lines  # A Multi-Strategy based Pre-Training Method for Cold-Start Recommendation
+2112.03041  # unparsed_tabular_lines  # Keeping it Simple: Language Models can learn Complex Molecular Distributions
+2112.03499  # unparsed_tabular_lines
+2112.03806  # unparsed_tabular_lines  # OOD-GNN: Out-of-Distribution Generalized Graph Neural Network
+2112.03968  # unparsed_tabular_lines
+2112.04319  # unparsed_tabular_lines, wraptable  # SCR: Training Graph Neural Networks with Consistency Regularization
+2112.07160  # unparsed_tabular_lines  # A New Perspective on the Effects of Spectrum in Graph Neural Networks
+2112.07191  # unparsed_tabular_lines  # An Adaptive Graph Pre-training Framework for Localized Collaborative Filtering
+2112.08331  # unparsed_tabular_lines  # Model Stealing Attacks Against Inductive Graph Neural Networks
+2112.09899  # unparsed_tabular_lines  # Improving Subgraph Recognition with Variational Graph Information Bottleneck
+2112.10558  # sidewaystable  # Lifelong Learning on Evolving Graphs Under the Constraints of Imbalanced Classes and New Classes
+2112.10752  # unparsed_tabular_lines
+2112.14531  # unparsed_tabular_lines  # Designing the Topology of Graph Neural Networks: A Novel Feature Fusion Perspective
+2112.14772  # unparsed_tabular_lines
+2112.14936  # unparsed_tabular_lines  # Are we really making much progress? Revisiting, benchmarking, and refining heterogeneous graph neural networks
+2201.01702  # unparsed_tabular_lines  # Bringing Your Own View: Graph Contrastive Learning without Prefabricated Data Augmentations
+2201.06367  # unparsed_tabular_lines  # Towards Unsupervised Deep Graph Structure Learning
+2201.07858  # wraptable  # Decoupling the Depth and Scope of Graph Neural Networks
+2201.08557  # unparsed_tabular_lines  # Toward Enhanced Robustness in Unsupervised Graph Representation Learning: A Graph Information Bottleneck Perspective
+2201.08802  # unparsed_tabular_lines
+2201.09332  # unparsed_tabular_lines  # How Expressive are Transformers in Spectral Domain for Graphs?
+2201.12176  # unparsed_tabular_lines
+2201.12872  # unparsed_tabular_lines  # Discovering Invariant Rationales for Graph Neural Networks
+2201.12994  # unparsed_tabular_lines  # MGNN: Graph Neural Networks Inspired by Distance Geometry Problem
+2202.00645  # unparsed_tabular_lines
+2202.00961  # unparsed_tabular_lines  # Modularity-Aware Graph Autoencoders for Joint Community Detection and Link Prediction
+2202.02296  # unparsed_tabular_lines  # Graph-Coupled Oscillator Networks
+2202.02450  # unparsed_tabular_lines  # A Universal Graph Deep Learning Interatomic Potential for the Periodic Table
+2202.02466  # unparsed_tabular_lines  # Handling Distribution Shifts on Graphs: An Invariance Perspective
+2202.02514  # unparsed_tabular_lines, wraptable  # Score-based Generative Modeling of Graphs via the System of Stochastic Differential Equations
+2202.02989  # unparsed_tabular_lines, wraptable  # Graph Self-supervised Learning with Accurate Discrepancy Learning
+2202.03104  # unparsed_tabular_lines  # SimGRACE: A Simple Framework for Graph Contrastive Learning without Data Augmentation
+2202.03341  # unparsed_tabular_lines  # Neighbor2Seq: Deep Learning on Massive Graphs by Transforming Neighbors to Sequences
+2202.03580  # unparsed_tabular_lines, wraptable  # Convolutional Neural Networks on Graphs with Chebyshev Approximation, Revisited
+2202.04187  # unparsed_tabular_lines
+2202.04579  # unparsed_tabular_lines
+2202.05146  # unparsed_tabular_lines
+2202.05441  # unparsed_tabular_lines, wraptable  # Learning Causally Invariant Representations for Out-of-Distribution Generalization on Graphs
+2202.06241  # unparsed_tabular_lines
+2202.06491  # unparsed_tabular_lines  # Adversarial Graph Contrastive Learning with Information Regularization
+2202.07179  # unparsed_tabular_lines, wraptable  # G-Mixup: Graph Data Augmentation for Graph Classification
+2202.07230  # unparsed_tabular_lines
+2202.07893  # unparsed_tabular_lines
+2202.08057  # unparsed_tabular_lines  # Understanding and Improving Graph Injection Attack by Promoting Unnoticeability
+2202.08333  # unparsed_tabular_lines  # Self-Supervised Representation Learning via Latent Graph Prediction
+2202.08480  # unparsed_tabular_lines
+2202.08816  # unparsed_tabular_lines  # Learning and Evaluating Graph Neural Network Explanations based on Counterfactual and Factual Reasoning
+2202.08833  # unparsed_tabular_lines
+2202.10107  # unparsed_tabular_lines  # Model-Agnostic Augmentation for Accurate Graph Classification
+2202.10156  # unparsed_tabular_lines
+2202.10643  # unparsed_tabular_lines, wraptable  # Formatting Instructions For NeurIPS 2022
+2202.10720  # unparsed_tabular_lines, wraptable
+2202.10793  # unparsed_tabular_lines, wraptable
+2202.11245  # unparsed_tabular_lines  # Exploring Edge Disentanglement for Node Classification
+2202.12533  # unparsed_tabular_lines
+2202.13013  # unparsed_tabular_lines  # Sign and Basis Invariant Networks for Spectral Graph Representation Learning
+2202.13060  # unparsed_tabular_lines
+2202.13538  # unparsed_tabular_lines  # Algorithm and System Co-design for Efficient Subgraph-based Graph Representation Learning
+2203.00199  # unparsed_tabular_lines  # Equivariant and Stable Positional Encoding for More Powerful Graph Neural Networks
+2203.02923  # wraptable  # GeoDiff: a Geometric Diffusion Model for Molecular Conformation Generation
+2203.03762  # unparsed_tabular_lines  # Defending Graph Convolutional Networks against Dynamic Graph Perturbations via Bayesian Self-supervision
+2203.06125  # wraptable  # Protein Representation Learning by Geometric Structure Pretraining
+2203.06389  # unparsed_tabular_lines  # GRAND+: Scalable Graph Random Neural Networks
+2203.06442  # wraptable  # Equivariant Graph Mechanics Networks with Constraints
+2203.09141  # wraptable
+2203.10280  # unparsed_tabular_lines  # Meta-Weight Graph Neural Network: Push the Limits Beyond Global Homophily
+2203.10480  # unparsed_tabular_lines
+2203.12265  # unparsed_tabular_lines
+2203.12852  # unparsed_tabular_lines
+2203.13913  # unparsed_tabular_lines  # SpeqNets: Sparsity-aware Permutation-equivariant Graph Networks
+2203.14303  # unparsed_tabular_lines
+2203.15876  # unparsed_tabular_lines  # Self-Supervised Learning for Recommender Systems: A Survey
+2203.16205  # unparsed_tabular_lines  # Automatic Identification of Chemical Moieties
+2204.01613  # unparsed_tabular_lines  # SPECTRE : Spectral Conditioning Helps to Overcome the Expressivity Limits of One-shot Graph Generators
+2204.01855  # unparsed_tabular_lines
+2204.04661  # unparsed_tabular_lines
+2204.04874  # unparsed_tabular_lines, wraptable  # Augmentation-Free Graph Contrastive Learning with Performance Guarantee
+2204.05249  # unparsed_tabular_lines  # Learning Local Equivariant Representations for Large-Scale Atomistic Dynamics
+2204.07697  # unparsed_tabular_lines
+2204.09297  # unparsed_tabular_lines
+2204.09410  # unparsed_tabular_lines  # Generating 3D Molecules for Target Protein Binding
+2204.11028  # unparsed_tabular_lines  # Reinforced Causal Explainer for Graph Neural Networks
+2204.12200  # unparsed_tabular_lines  # Hypergraph Contrastive Collaborative Filtering
+2205.00354  # unparsed_tabular_lines
+2205.06643  # unparsed_tabular_lines  # The design space of E(3)-equivariant atom-centred interatomic potentials
+2205.07309  # unparsed_tabular_lines  # 3DLinker: An E(3) Equivariant Variational Autoencoder for Molecular Linker Design
+2205.07865  # unparsed_tabular_lines  # Simple Contrastive Graph Clustering
+2205.09335  # unparsed_tabular_lines
+2205.09389  # unparsed_tabular_lines, wraptable
+2205.09702  # unparsed_tabular_lines
+2205.10053  # unparsed_tabular_lines
+2205.10803  # unparsed_tabular_lines  # GraphMAE: Self-Supervised Masked Graph Autoencoders
+2205.11172  # unparsed_tabular_lines  # How Powerful are Spectral Graph Neural Networks
+2205.12454  # unparsed_tabular_lines  # Recipe for a General, Powerful, Scalable Graph Transformer
+2205.13328  # unparsed_tabular_lines, wraptable  # How Powerful are $K$-hop Message Passing Graph Neural Networks
+2205.13401  # unparsed_tabular_lines
+2205.13892  # unparsed_tabular_lines  # EvenNet: Ignoring Odd-Hop Neighbors Improves Robustness of Graph Neural Networks
+2205.14276  # unparsed_tabular_lines  # So3krates: Equivariant attention for interactions on arbitrary length-scales in molecular systems
+2205.14368  # unparsed_tabular_lines  # Going Deeper into Permutation-Sensitive Graph Neural Networks
+2205.15117  # unparsed_tabular_lines  # OOD Link Prediction Generalization Capabilities of Message-Passing GNNs in Larger Test Graphs
+2205.15127  # unparsed_tabular_lines, wraptable  # Universal Deep GNNs: Rethinking Residual Connection in GNNs from a Path Decomposition Perspective for Preventing the Over-smoothing
+2205.15653  # unparsed_tabular_lines  # Label-Enhanced Graph Neural Network for Semi-supervised Node Classification
+2205.15733  # wraptable
+2205.15746  # unparsed_tabular_lines  # Omni-Granular Ego-Semantic Propagation for Self-Supervised Graph Representation Learning
+2206.00133  # wraptable  # Pre-training via Denoising for Molecular Property Prediction
+2206.00619  # unparsed_tabular_lines
+2206.01003  # unparsed_tabular_lines  # Shortest Path Networks for Graph Property Prediction
+2206.01535  # unparsed_tabular_lines, wraptable  # Rethinking and Scaling Up Graph Contrastive Learning: An Extremely Efficient Approach with Group Discrimination
+2206.01729  # unparsed_tabular_lines, wraptable  # Torsional Diffusion for Molecular Conformer Generation
+2206.01874  # unparsed_tabular_lines  # An Unpooling Layer for Graph Generation
+2206.02059  # wraptable  # Empowering GNNs via Edge-Aware Weisfeiler-Leman Algorithm
+2206.02386  # unparsed_tabular_lines  # Restructuring Graphs for Higher Homophily via Adaptive Spectral Clustering
+2206.02789  # unparsed_tabular_lines  # Efficient and Accurate Physics-aware Multiplex Graph Neural Networks for 3D Small Molecules and Macromolecule Complexes
+2206.02849  # unparsed_tabular_lines
+2206.03601  # wraptable  # Decoupled Self-supervised Learning for Non-Homophilou Graphs
+2206.03638  # unparsed_tabular_lines  # Alternately Optimized Graph Neural Networks
+2206.04216  # unparsed_tabular_lines
+2206.04471  # unparsed_tabular_lines  # Towards Understanding Graph Neural Networks: An Algorithm Unrolling Perspective
+2206.04726  # unparsed_tabular_lines  # COSTA: Covariance-Preserving Feature Augmentation for Graph Contrastive Learning
+2206.04739  # unparsed_tabular_lines
+2206.04910  # unparsed_tabular_lines  # NAGphormer: A Tokenized Graph Transformer for Node Classification in Large Graphs
+2206.05416  # unparsed_tabular_lines
+2206.05437  # unparsed_tabular_lines  # ACMP: Allen-Cahn Message Passing with Attractive and Repulsive Forces for Graph Neural Networks
+2206.07161  # unparsed_tabular_lines  # arXiv:2206.07161
+2206.07369  # unparsed_tabular_lines  # DiffWire: Inductive Graph Rewiring via the Lovász Bound
+2206.07632  # unparsed_tabular_lines  # Exploring Chemical Space with Score-based Out-of-distribution Generation
+2206.07729  # unparsed_tabular_lines  # Taxonomy of Benchmarks in Graph Representation Learning
+2206.07869  # unparsed_tabular_lines  # Let Invariant Rationale Discovery Inspire Graph Contrastive Learning
+2206.08005  # wraptable  # Evaluating Self-Supervised Learning for Molecular Graph Embeddings
+2206.08181  # unparsed_tabular_lines
+2206.08515  # unparsed_tabular_lines, wraptable  # ComENet: Towards Complete and Efficient Message Passing for 3D Molecular Graphs
+2206.08917  # unparsed_tabular_lines  # The Open Catalyst 2022 (OC22) Dataset and Challenges for Oxide Electrocatalysts
+2206.09345  # unparsed_tabular_lines, wraptable  # Finding Diverse and Predictable Subgraphs for Graph Domain Generalization
+2206.10206  # unparsed_tabular_lines, wraptable
+2206.10991  # unparsed_tabular_lines, wraptable  # Understanding convolution on graphs via energies
+2206.11010  # wraptable  # Agent-based Graph Neural Networks
+2206.11140  # unparsed_tabular_lines, wraptable  # Understanding and Extending Subgraph GNNs by Rethinking Their Symmetries
+2206.11941  # wraptable
+2206.11990  # unparsed_tabular_lines
+2206.12547  # unparsed_tabular_lines  # Geometry Contrastive Learning on Heterogeneous Graphs
+2206.13602  # wraptable  # Molecular Geometry Pretraining with SE(3)-Invariant Denoising Distance Matching
+2206.14331  # unparsed_tabular_lines  # Spherical Channels for Modeling Atomic Interactions
+2206.14418  # unparsed_tabular_lines  # Optimization-Induced Graph Implicit Nonlinear Diffusion
+2207.02505  # unparsed_tabular_lines  # Pure Transformers are Powerful Graph Learners
+2207.03584  # unparsed_tabular_lines
+2207.07888  # wraptable  # SizeShiftReg: a Regularization Method for Improving Size-Generalization in Graph Neural Networks
+2207.08629  # unparsed_tabular_lines  # Comprehensive Graph Gradual Pruning for Sparse Training in Graph Neural Networks
+2207.08824  # unparsed_tabular_lines  # Energy-Motivated Equivariant Pretraining for 3D Molecular Graphs
+2207.09453  # unparsed_tabular_lines
+2207.11996  # unparsed_tabular_lines  # Generative Subgraph Contrast for Self-Supervised Graph Representation Learning
+2207.12600  # unparsed_tabular_lines, wraptable  # Learning Hierarchical Protein Representations via Complete 3D Graph Networks
+2207.12931  # unparsed_tabular_lines
+2208.00716  # unparsed_tabular_lines  # Graph Neural Network with Local Frame for Molecular Potential Energy Surface
+2208.02810  # unparsed_tabular_lines, wraptable
+2208.03471  # unparsed_tabular_lines
+2208.06956  # unparsed_tabular_lines  # ArieL: Adversarial Graph Contrastive Learning
+2208.10010  # wraptable
+2208.10493  # unparsed_tabular_lines
+2208.12126  # unparsed_tabular_lines
+2208.14073  # unparsed_tabular_lines
+2209.00865  # unparsed_tabular_lines  # Diffusion-based Molecule Generation with Informative Prior Bridges
+2209.02544  # unparsed_tabular_lines  # XSimGCL: Towards Extremely Simple Graph Contrastive Learning for Recommendation
+2209.03473  # unparsed_tabular_lines
+2209.05582  # unparsed_tabular_lines
+2209.05710  # unparsed_tabular_lines  # MDM: Molecular Diffusion Model for 3D Molecule Generation
+2209.06177  # wraptable  # Characterizing Graph Datasets for Node Classification: Homophily--Heterophily Dichotomy and Beyond
+2209.06560  # unparsed_tabular_lines, wraptable  # Graph Contrastive Learning with Personalized Augmentation
+2209.06589  # unparsed_tabular_lines  # Towards Better Generalization with Flexible Representation of Multi-Module Graph Neural Networks
+2209.07807  # unparsed_tabular_lines  # Model Inversion Attacks against Graph Neural Networks
+2209.08264  # unparsed_tabular_lines  # Make Heterophily Graphs Better Fit GNN: A Graph Rewiring Approach
+2209.10818  # unparsed_tabular_lines
+2209.11807  # wraptable  # Periodic Graph Transformers for Crystal Material Property Prediction
+2209.12487  # unparsed_tabular_lines, wraptable  # T ARTARUS: A Benchmarking Platform for Realistic And Practical Inverse Molecular Design
+2209.14402  # unparsed_tabular_lines  # L2XGNN: Learning to Explain Graph Neural Networks
+2209.14734  # unparsed_tabular_lines  # DiGress: Discrete Denoising diffusion for graph generation
+2209.14865  # unparsed_tabular_lines  # Accurate global machine learning force fields for molecules with hundreds of atoms
+2209.15059  # unparsed_tabular_lines  # Provably expressive temporal graph networks
+2209.15101  # wraptable  # Improving Molecular Pretraining with Complementary Featurizations
+2209.15240  # unparsed_tabular_lines  # Universal Prompt Tuning for Graph Neural Networks
+2209.15408  # unparsed_tabular_lines  # Equivariant Energy-Guided SDE for Inverse Molecular Design
+2209.15486  # wraptable  # Graph Neural Networks for Link Prediction with Subgraph Sketching
+2210.00084  # unparsed_tabular_lines
+2210.00102  # wraptable  # MLPInit: Embarrassingly Simple GNN Training Acceleration with MLP Initialization
+2210.00513  # unparsed_tabular_lines, wraptable  # Gradient Gating for Deep Multi-Rate Learning on Graphs
+2210.01002  # unparsed_tabular_lines  # ASGNN: Graph Neural Networks with Adaptive Structure
+2210.01765  # unparsed_tabular_lines  # One Transformer Can Understand Both 2D & 3D Molecular Data
+2210.01906  # wraptable
+2210.01974  # unparsed_tabular_lines  # Towards Prototype-Based Self-Explainable Graph Neural Network
+2210.02016  # unparsed_tabular_lines  # Multi-task Self-supervised Graph Neural Networks Enable Stronger Task Generalization
+2210.02099  # unparsed_tabular_lines
+2210.02330  # unparsed_tabular_lines  # Revisiting Graph Contrastive Learning from the Perspective of Graph Spectrum
+2210.02636  # wraptable  # Geodesic Graph Neural Network for Efficient Graph Representation Learning
+2210.02997  # unparsed_tabular_lines  # Expander Graph Propagation
+2210.03801  # wraptable  # Augmentations in Hypergraph Contrastive Learning: Fabricated and Generative
+2210.03930  # wraptable  # Hierarchical Graph Transformer with Adaptive Node Sampling
+2210.03990  # unparsed_tabular_lines
+2210.04081  # unparsed_tabular_lines
+2210.05382  # unparsed_tabular_lines  # Uplifting Message Passing Neural Network with Graph Original Information
+2210.05801  # unparsed_tabular_lines  # Linkless Link Prediction via Relational Distillation
+2210.05920  # unparsed_tabular_lines
+2210.06032  # unparsed_tabular_lines  # Modular Flows: Differential Molecular Generation
+2210.07494  # unparsed_tabular_lines, wraptable  # A Comprehensive Study on Large-Scale Graph Training: Benchmarking and Rethinking
+2210.07606  # unparsed_tabular_lines
+2210.07715  # unparsed_tabular_lines
+2210.08122  # unparsed_tabular_lines  # Old can be Gold: Better Gradient Flow can Make Vanilla-GCNs Great Again
+2210.09521  # wraptable  # A Practical, Progressively-Expressive GNN
+2210.11790  # unparsed_tabular_lines  # FoSR: First-order Spectral Rewiring for addressing Oversquashing in GNNs
+2210.11879  # unparsed_tabular_lines
+2210.12130  # unparsed_tabular_lines
+2210.13014  # unparsed_tabular_lines  # Geometric Knowledge Distillation: Topology Compression for Graph Neural Networks
+2210.13148  # unparsed_tabular_lines  # Transformers over Directed Acyclic Graphs
+2210.13695  # unparsed_tabular_lines, wraptable  # Structure-based drug design with equivariant diffusion models
+2210.13978  # unparsed_tabular_lines  # Boosting the Cycle Counting Power of Graph Neural Networks with I$^2$-GNNs
+2210.14843  # unparsed_tabular_lines  # TuneUp: A Simple Improved Training Strategy for Graph Neural Networks
+2210.16508  # unparsed_tabular_lines  # Clenshaw Graph Neural Networks
+2210.16518  # unparsed_tabular_lines  # ViSNet: an equivariant geometry-enhanced graph neural network with vector-scalar interactive message passing for molecules
+2210.17224  # unparsed_tabular_lines  # Improving Graph Neural Networks with Learnable Propagation Operators
+2211.00216  # unparsed_tabular_lines
+2211.00550  # unparsed_tabular_lines
+2211.00692  # unparsed_tabular_lines
+2211.02504  # unparsed_tabular_lines  # Geometry-complete perceptron networks for 3D molecular graphs
+2211.02843  # unparsed_tabular_lines  # Unleashing the Power of Graph Data Augmentation on Covariate Distribution Shift
+2211.03232  # unparsed_tabular_lines
+2211.06218  # unparsed_tabular_lines
+2211.06489  # unparsed_tabular_lines
+2211.06605  # unparsed_tabular_lines  # Comprehensive Analysis of Over-smoothing in Graph Neural Networks from Markov Chains Perspective
+2211.08854  # unparsed_tabular_lines
+2211.10738  # unparsed_tabular_lines  # Knowledge Graph Contrastive Learning based on Relation-Symmetrical Structure
+2211.10890  # unparsed_tabular_lines  # Single-Pass Contrastive Learning Can Work for Both Homophilic and Heterophilic Graph
+2211.10929  # unparsed_tabular_lines
+2211.11853  # unparsed_tabular_lines, wraptable
+2211.12875  # unparsed_tabular_lines
+2211.13979  # sidewaystable
+2211.14208  # unparsed_tabular_lines  # GREAD: Graph Neural Reaction-Diffusion Networks
+2211.14383  # unparsed_tabular_lines
+2211.14425  # unparsed_tabular_lines
+2211.14568  # unparsed_tabular_lines  # BeGin: Extensive Benchmark Scenarios and An Easy-to-use Framework for Graph Continual Learning
+2211.14732  # unparsed_tabular_lines
+2211.14906  # sidewaystable, unparsed_tabular_lines, wraptable  # Beyond 1-WL with Local Ego-Network Encodings
+2211.15081  # unparsed_tabular_lines
+2211.15335  # unparsed_tabular_lines
+2211.15779  # unparsed_tabular_lines  # Revisiting Over-smoothing and Over-squashing using Ollivier's Ricci Curvature
+2211.16199  # unparsed_tabular_lines  # Latent Graph Inference using Product Manifolds
+2211.16494  # unparsed_tabular_lines  # On the Ability of Graph Neural Networks to Model Interactions Between Vertices
+2211.16508  # unparsed_tabular_lines  # Reinforced Genetic Algorithm for Structure-based Drug Design
+2211.17113  # unparsed_tabular_lines
+2212.02229  # unparsed_tabular_lines  # GPS++: An Optimised Hybrid MPNN/Transformer for Molecular Property Prediction
+2212.03559  # unparsed_tabular_lines  # GraphLearner: Graph Node Clustering with Fully Learnable Augmentation
+2212.03654  # unparsed_tabular_lines  # Node-oriented Spectral Filtering for Graph Neural Networks
+2212.04481  # unparsed_tabular_lines  # A Survey of Graph Neural Networks for Social Recommender Systems
+2212.04604  # unparsed_tabular_lines  # Localized Graph Contrastive Learning
+2212.05767  # unparsed_tabular_lines
+2212.08665  # unparsed_tabular_lines  # Hard Sample Aware Network for Contrastive Deep Graph Clustering [5]
+2212.08966  # unparsed_tabular_lines
+2212.10701  # unparsed_tabular_lines
+2212.10789  # unparsed_tabular_lines  # Multi-modal Molecule Structure-text Model for Text-based Retrieval and Editing
+2212.12488  # unparsed_tabular_lines
+2212.12691  # unparsed_tabular_lines
+2212.13350  # unparsed_tabular_lines  # A Generalization of ViT/MLP-Mixer to Graphs
+2301.00427  # unparsed_tabular_lines  # Conditional Diffusion Based on Discrete Graph Structures for Molecular Graph Generation
+2301.01642  # unparsed_tabular_lines  # CI-GNN: A Granger Causality-Inspired Graph Neural Network for Interpretable Brain Network-Based Psychiatric Diagnosis
+2301.08210  # unparsed_tabular_lines
+2301.08893  # wraptable  # Spatial Attention Kinetic Network with E(n)-Equivariance
+2301.09308  # unparsed_tabular_lines  # On the Expressive Power of Geometric Graph Neural Networks
+2301.09474  # unparsed_tabular_lines  # Discovering Data Geometry: Energy-Driven Neural Diffusion
+2301.09505  # unparsed_tabular_lines, wraptable  # Rethinking the Expressive Power of GNNs via Graph Biconnectivity
+2301.10536  # unparsed_tabular_lines
+2301.10857  # unparsed_tabular_lines
+2301.10956  # unparsed_tabular_lines  # Graph Neural Networks can Recover the Hidden Features Solely from the Graph Structure
+2301.11039  # unparsed_tabular_lines  # WL meet VC
+2301.11163  # unparsed_tabular_lines  # arXiv:2301.11163
+2301.11259  # unparsed_tabular_lines, wraptable
+2301.11956  # unparsed_tabular_lines  # On the Connection Between MPNN and Graph Transformer
+2301.12906  # wraptable
+2302.00049  # unparsed_tabular_lines
+2302.00873  # unparsed_tabular_lines  # Predicting the Silent Majority on Graphs: Knowledge Transferable Graph Neural Network
+2302.00890  # wraptable  # Neural Common Neighbor with Completion for Link Prediction
+2302.00924  # unparsed_tabular_lines, wraptable
+2302.01129  # unparsed_tabular_lines  # De Novo Molecular Generation via Connection-aware Motif Mining
+2302.01313  # unparsed_tabular_lines
+2302.01524  # unparsed_tabular_lines, wraptable  # Ordered GNN: Ordering Message Passing to Deal with Heterophily and Over-smoothing
+2302.02209  # unparsed_tabular_lines
+2302.02369  # unparsed_tabular_lines
+2302.02922  # unparsed_tabular_lines
+2302.02941  # unparsed_tabular_lines
+2302.02947  # unparsed_tabular_lines  # GPS++: Reviving the Art of Message Passing for Molecular Property Prediction
+2302.03596  # unparsed_tabular_lines, wraptable  # Graph Generation with Diffusion Mixture
+2302.03655  # unparsed_tabular_lines  # Reducing SO(3) Convolutions to SO(2) for Efficient Equivariant GNNs
+2302.04451  # unparsed_tabular_lines  # Generalization in Graph Neural Networks: Improved PAC-Bayesian Bounds on Graph Diffusion
+2302.04626  # unparsed_tabular_lines
+2302.05428  # unparsed_tabular_lines  # Sterling: Synergistic Representation Learning on Bipartite Graphs
+2302.05743  # unparsed_tabular_lines  # Is Distance Matrix Enough for Geometric Deep Learning?
+2302.06835  # unparsed_tabular_lines
+2302.07090  # unparsed_tabular_lines
+2302.07491  # unparsed_tabular_lines
+2302.08048  # unparsed_tabular_lines  # Robust Mid-Pass Filtering Graph Convolutional Networks
+2302.08191  # unparsed_tabular_lines  # LightGCL: Simple Yet Effective Graph Contrastive Learning for Recommendation
+2302.08811  # unparsed_tabular_lines  # G-Signatures: Global Graph Propagation With Randomized Signatures
+2302.09755  # unparsed_tabular_lines
+2302.10506  # unparsed_tabular_lines, wraptable
+2302.11556  # unparsed_tabular_lines  # Equivariant Polynomials for Graph Neural Networks
+2302.11636  # unparsed_tabular_lines  # Do We Really Need Complicated Model Architectures For Temporal Networks?
+2302.11640  # wraptable  # A critical look at the evaluation of GNNs under heterophily: Are we really making progress?
+2302.12432  # unparsed_tabular_lines  # Graph Neural Networks with Learnable and Optimal Polynomial Bases
+2302.13971  # unparsed_tabular_lines
+2303.00579  # unparsed_tabular_lines  # Are More Layers Beneficial to Graph Transformers?
+2303.00613  # unparsed_tabular_lines
+2303.01265  # unparsed_tabular_lines  # Steering Graph Neural Networks with Pinning Control
+2303.02448  # unparsed_tabular_lines  # DAG Matters! GFlowNets Enhanced Explainer for Graph Neural Networks
+2303.03543  # unparsed_tabular_lines  # 3D Equivariant Diffusion for Target-Aware Molecule Generation and Affinity Prediction
+2303.06344  # unparsed_tabular_lines  # Graph Contrastive Learning under Heterophily via Graph Filters
+2303.08958  # wraptable  # NESS: Node Embeddings from Static SubGraphs
+2303.09778  # unparsed_tabular_lines  # SE-GSL: A General and Effective Graph Structure Learning Framework through Structural Entropy Optimization
+2303.09902  # unparsed_tabular_lines
+2303.10993  # unparsed_tabular_lines
+2303.13047  # unparsed_tabular_lines  # Towards Better Dynamic Graph Learning: New Architecture and Unified Library
+2303.14617  # unparsed_tabular_lines, wraptable
+2303.14859  # unparsed_tabular_lines  # Mind the Label Shift of Augmentation-based Graph OOD Generalization
+2304.01391  # unparsed_tabular_lines
+2304.03724  # unparsed_tabular_lines, wraptable  # Predicting quantum chemical property with easy-to-obtain geometry via positional denoising
+2304.04168  # unparsed_tabular_lines  # Adversarially Robust Neural Architecture Search for Graph Neural Networks
+2304.04757  # unparsed_tabular_lines  # A new perspective on building efficient and expressive 3D equivariant graph neural networks
+2304.05055  # unparsed_tabular_lines
+2304.05729  # unparsed_tabular_lines
+2304.07702  # unparsed_tabular_lines  # An Empirical Study of Realized GNN Expressiveness
+2304.10933  # unparsed_tabular_lines, wraptable  # Self-Attention in Colors: Another Take on Encoding Graph Structure in Transformers
+2304.11116  # unparsed_tabular_lines  # Graph-ToolFormer: To Empower LLMs with Graph Reasoning Ability via Prompt Augmented by ChatGPT
+2304.13542  # unparsed_tabular_lines  # Long-Short-Range Message-Passing: A Physics-Informed Framework to Capture Non-Local Interaction for Scalable Molecular Dynamics Simulation
+2304.14621  # unparsed_tabular_lines, wraptable  # MUDiff: Unified Diffusion for Complete Molecule Generation
+2305.00139  # unparsed_tabular_lines  # Leveraging Label Non-Uniformity for Node Classification in Graph Neural Networks
+2305.01140  # unparsed_tabular_lines
+2305.02759  # unparsed_tabular_lines  # Disentangled Contrastive Collaborative Filtering
+2305.02931  # unparsed_tabular_lines  # Beyond Homophily: Reconstructing Structure for Graph-agnostic Clustering
+2305.06142  # unparsed_tabular_lines  # arXiv:2305.06142
+2305.07100  # unparsed_tabular_lines  # arXiv:2305.07100
+2305.08048  # unparsed_tabular_lines  # Towards Understanding the Generalization of Graph Neural Networks
+2305.09887  # unparsed_tabular_lines  # Simplifying Distributed Neural Network Training on Massive Graphs: Randomized Partitions Improve Model Aggregation
+2305.10037  # unparsed_tabular_lines, wraptable  # Can Language Models Solve Graph Problems in Natural Language?
+2305.10329  # wraptable
+2305.10673  # unparsed_tabular_lines  # Less Can Be More: Unsupervised Graph Pruning for Large-scale Dynamic Graphs
+2305.11141  # unparsed_tabular_lines, wraptable  # Clifford Group Equivariant Neural Networks
+2305.12347  # unparsed_tabular_lines  # Learning Joint 2D & 3D Diffusion Models for Complete Molecule Generation
+2305.12677  # unparsed_tabular_lines  # Tokenized Graph Transformer with Neighborhood Augmentation for Node Classification in Large Graphs
+2305.13084  # unparsed_tabular_lines  # A Fractional Graph Laplacian Approach to Oversmoothing
+2305.13266  # unparsed_tabular_lines  # Coarse-to-Fine: a Hierarchical Diffusion Model for Molecule Generation in 3D
+2305.13315  # wraptable
+2305.13825  # unparsed_tabular_lines
+2305.13997  # unparsed_tabular_lines  # Learning Subpocket Prototypes for Generalizable Structure-based Drug Design
+2305.14247  # unparsed_tabular_lines  # Evaluation of the MACE Force Field Architecture: from Medicinal Chemistry to Materials Science
+2305.15639  # unparsed_tabular_lines  # Revisiting Generalized p-Laplacian Regularized Framelet GCNs: Convergence, Energy Dynamic and Training with Non-Linear Diffusion
+2305.16102  # unparsed_tabular_lines
+2305.17284  # unparsed_tabular_lines
+2305.18405  # unparsed_tabular_lines  # Dink-Net: Neural Clustering on Large Graphs
+2305.18407  # unparsed_tabular_lines
+2305.18457  # unparsed_tabular_lines  # Learning Strong Graph Neural Networks with Weak Information
+2305.18622  # unparsed_tabular_lines  # Instant Representation Learning for Recommendation over Large Dynamic Graphs
+2305.18758  # unparsed_tabular_lines
+2305.18965  # unparsed_tabular_lines
+2305.19302  # unparsed_tabular_lines  # Smooth, exact rotational symmetrization for deep learning on point clouds
+2305.19337  # unparsed_tabular_lines
+2305.19598  # unparsed_tabular_lines  # Towards Semi-supervised Universal Graph Classification
+2306.01103  # wraptable  # Joint Learning of Label and Environment Causal Independence for Graph Out-of-Distribution Generalization
+2306.01323  # unparsed_tabular_lines, wraptable  # Demystifying Structural Disparity in Graph Neural Networks: Can One Size Fit All?
+2306.01474  # unparsed_tabular_lines, wraptable  # Generalist Equivariant Transformer Towards 3D Molecular Interaction Learning
+2306.02376  # unparsed_tabular_lines  # Towards Deep Attention in Graph Neural Networks: Problems and Remedies
+2306.02866  # unparsed_tabular_lines  # Learning Probabilistic Symmetrization for Architecture Agnostic Equivariance
+2306.03266  # wraptable  # Extending the Design Space of Graph Neural Networks by Rethinking Folklore Weisfeiler-Lehman
+2306.03506  # unparsed_tabular_lines
+2306.03561  # unparsed_tabular_lines  # CIN++: Enhancing Topological Message Passing
+2306.03589  # unparsed_tabular_lines  # How does over-squashing affect the power of GNNs?
+2306.03624  # unparsed_tabular_lines  # On Manipulating Signals of User-Item Graph: A Jacobi Polynomial-based Graph Collaborative Filtering
+2306.03698  # unparsed_tabular_lines
+2306.04004  # unparsed_tabular_lines  # Randomized Schur Complement Views for Graph Contrastive Learning
+2306.04107  # unparsed_tabular_lines  # BeMap: Balanced Message Passing for Fair Graph Neural Network
+2306.04265  # unparsed_tabular_lines  # Permutation Equivariant Graph Framelets for Heterophilous Graph Learning
+2306.04922  # unparsed_tabular_lines, wraptable  # arXiv:2306.04922
+2306.05344  # wraptable
+2306.05557  # unparsed_tabular_lines
+2306.06482  # unparsed_tabular_lines  # TensorNet: Cartesian Tensor Representations for Efficient Learning of Molecular Potentials
+2306.06788  # unparsed_tabular_lines
+2306.06936  # unparsed_tabular_lines  # CARL-G: Clustering-Accelerated Representation Learning on Graphs
+2306.07608  # unparsed_tabular_lines  # Finding the Missing-half: Graph Complementary Learning for Homophily-prone and Heterophily-prone Graphs
+2306.08076  # unparsed_tabular_lines  # Graph Structure and Feature Extrapolation for Out-of-Distribution Generalization
+2306.08277  # unparsed_tabular_lines  # Frigate: Frugal Spatio-temporal Forecasting on Road Networks
+2306.08385  # unparsed_tabular_lines  # NodeFormer: A Scalable Graph Structure Learning Transformer for Node Classification
+2306.09375  # unparsed_tabular_lines, wraptable  # Symmetry-Informed Geometric Representation for Molecules, Proteins, and Crystalline Materials
+2306.10045  # unparsed_tabular_lines, wraptable  # Efficient Approximations of Complete Interatomic Potentials for Crystal Property Prediction
+2306.10453  # wraptable  # Evaluating Graph Neural Networks for Link Prediction: Current Pitfalls and New Benchmarking
+2306.10505  # unparsed_tabular_lines
+2306.10759  # unparsed_tabular_lines  # Simplifying and Empowering Transformers for Large-Graph Representations
+2306.10767  # unparsed_tabular_lines
+2306.11147  # unparsed_tabular_lines
+2306.11768  # unparsed_tabular_lines  # Geometric Deep Learning for Structure-Based Drug Design: A Survey
+2306.12059  # unparsed_tabular_lines  # EquiformerV2: Improved Equivariant Transformer for Scaling to Higher-Degree Representations
+2306.12091  # unparsed_tabular_lines
+2306.12251  # unparsed_tabular_lines
+2306.12640  # unparsed_tabular_lines
+2306.13089  # unparsed_tabular_lines  # gimlet: A Unified Graph-Text Model for Instruction-Based Molecule Zero-Shot Learning
+2306.13210  # unparsed_tabular_lines  # Directional diffusion models for graph representation learning
+2306.13532  # unparsed_tabular_lines
+2306.13769  # unparsed_tabular_lines  # Functional-Group-Based Diffusion for Pocket-Specific Molecule Generation and Elaboration
+2306.13854  # unparsed_tabular_lines  # arXiv:2306.13854
+2306.14852  # unparsed_tabular_lines  # CoarsenConf: Equivariant Coarsening with Aggregated Attention for Molecular Conformer Generation
+2306.15902  # unparsed_tabular_lines  # Individual and Structural Graph Information Bottlenecks for Out-of-Distribution Generalization
+2306.16976  # unparsed_tabular_lines
+2307.01180  # wraptable  # PlanE: Representation Learning over Planar Graphs
+2307.06046  # wraptable
+2307.06631  # unparsed_tabular_lines  # Frameless Graph Knowledge Distillation
+2307.07832  # unparsed_tabular_lines  # MixupExplainer: Generalizing Explanations for Graph Neural Networks with Data Augmentation
+2307.07840  # unparsed_tabular_lines  # RegExplainer: Generating Explanations for Graph Neural Networks in Regression Tasks
+2307.08423  # unparsed_tabular_lines  # Artificial Intelligence for Science in Quantum, Atomistic, and Continuum Systems
+2307.09660  # unparsed_tabular_lines  # Neural Priority Queues for Graph Neural Networks
+2307.09768  # unparsed_tabular_lines
+2307.10683  # unparsed_tabular_lines  # Fractional Denoising for 3D Molecular Pre-training
+2307.11981  # unparsed_tabular_lines  # Collaborative Graph Neural Networks for Attributed Network Embedding
+2307.13055  # unparsed_tabular_lines  # MARIO: Model Agnostic Recipe for Improving OOD Generalization of Graph Contrastive Learning
+2307.16092  # unparsed_tabular_lines  # Feature Transportation Improves Graph Neural Networks
+2308.00887  # unparsed_tabular_lines  # Factor Graph Neural Networks
+2308.02117  # wraptable  # VQGraph: Rethinking Graph Representation Space for Bridging GNNs and MLPs
+2308.06827  # unparsed_tabular_lines
+2308.07134  # unparsed_tabular_lines  # Language is All a Graph Needs
+2308.09570  # unparsed_tabular_lines  # Investigating the Interplay between Features and Structures in Graph Learning
+2308.10051  # unparsed_tabular_lines
+2308.10077  # sidewaystable  # Contrastive Learning for Non-Local Graphs with Multi-Resolution Structural Views
+2308.10436  # unparsed_tabular_lines
+2308.11127  # unparsed_tabular_lines  # How Expressive are Graph Neural Networks in Recommendation?
+2308.14181  # unparsed_tabular_lines
+2308.15568  # unparsed_tabular_lines
+2308.15614  # unparsed_tabular_lines  # Everything Perturbed All at Once: Enabling Differentiable Graph Attacks
+2308.16406  # unparsed_tabular_lines
+2308.16800  # unparsed_tabular_lines  # Rank Collapse Causes Over-Smoothing and Over-Correlation in Graph Neural Networks
+2309.00367  # unparsed_tabular_lines  # Where Did the Gap Go? Reassessing the Long-Range Graph Benchmark
+2309.00976  # unparsed_tabular_lines  # Pure Message Passing Can Estimate Common Neighbor for Link Prediction
+2309.03523  # unparsed_tabular_lines  # DGC: Training Dynamic Graphs with Spatio-Temporal Non-Uniformity using Graph Partitioning by Chunks
+2309.04082  # unparsed_tabular_lines  # Curve Your Attention: Mixed-Curvature Transformers for Graph Representation Learning
+2309.04475  # unparsed_tabular_lines, wraptable  # Crystal Structure Prediction by Joint Equivariant Diffusion
+2309.04941  # unparsed_tabular_lines, wraptable  # Distance-Restricted Folklore Weisfeiler-Leman GNNs with Provable Cycle Counting Power
+2309.09384  # unparsed_tabular_lines  # Mitigating Over-Smoothing and Over-Squashing using Augmentations of Forman-Ricci Curvature
+2309.09455  # unparsed_tabular_lines
+2309.13599  # unparsed_tabular_lines  # From Cluster Assumption to Graph Convolution: Graph-based Semi-Supervised Learning Revisited
+2309.13944  # unparsed_tabular_lines, wraptable
+2309.14907  # unparsed_tabular_lines
+2309.15126  # unparsed_tabular_lines  # From Peptides to Nanostructures: A Euclidean Transformer for Fast and Stable Machine Learned Force Fields
+2310.00149  # unparsed_tabular_lines, wraptable  # One for All: Towards Training One Graph Model for All Classification Tasks
+2310.00183  # wraptable  # On the Equivalence of Graph Convolution and Mixup
+2310.00793  # unparsed_tabular_lines  # Revisiting Link Prediction: a data perspective
+2310.00800  # wraptable  # GraphPatcher: Mitigating Degree Bias for Graph Neural Networks via Test-time Augmentation
+2310.00841  # unparsed_tabular_lines  # Drug Discovery with Dynamic Goal-aware Fragments
+2310.01267  # wraptable  # Cooperative Graph Neural Networks
+2310.01618  # unparsed_tabular_lines  # Operator Learning Meets Numerical Analysis: Improving Neural Networks through Iterative Methods
+2310.01668  # wraptable
+2310.01820  # unparsed_tabular_lines  # Towards Robust Fidelity for Evaluating Explainability of Graph Neural Networks
+2310.02156  # sidewaystable  # Probabilistically Rewired Message-Passing Neural Networks
+2310.02232  # unparsed_tabular_lines
+2310.02970  # unparsed_tabular_lines  # Fast, Expressive SE$(n)$ Equivariant Networks through Weight-Sharing in Position-Orientation Space
+2310.03274  # unparsed_tabular_lines  # Fragment-based Pretraining and Finetuning on Molecular Graphs
+2310.04560  # unparsed_tabular_lines  # Talk like a Graph: Encoding Graphs for Large Language Models
+2310.04668  # unparsed_tabular_lines  # Label-free Node Classification on Graphs with Large Language Models (LLMs)
+2310.04944  # unparsed_tabular_lines
+2310.05105  # unparsed_tabular_lines  # How Graph Neural Networks Learn: Lessons from Training Dynamics in Function Space
+2310.05296  # unparsed_tabular_lines  # Tailoring Self-Attention for Graph via Rooted Subtrees
+2310.05845  # wraptable  # GraphLLM: Boosting Graph Reasoning Ability of Large Language Model
+2310.06396  # unparsed_tabular_lines  # Adversarial Robustness in Graph Neural Networks: A Hamiltonian Approach
+2310.07235  # unparsed_tabular_lines  # Are GATs Out of Balance?
+2310.07430  # unparsed_tabular_lines
+2310.09192  # unparsed_tabular_lines  # Does Graph Distillation See Like Vision Dataset Counterpart?
+2310.09516  # unparsed_tabular_lines  # Efficient Link Prediction via GNN Layers Induced by Negative Sampling
+2310.11829  # unparsed_tabular_lines
+2310.12798  # unparsed_tabular_lines  # MolCA: Molecular Graph-Language Modeling with Cross-Modal Projector and Uni-Modal Adapter
+2310.14170  # wraptable  # Learning Invariant Molecular Representation in Latent Discrete Space
+2310.14216  # wraptable  # UniMAP: Universal SMILES-Graph Representation Learning
+2310.14753  # unparsed_tabular_lines  # Rethinking Tokenizer and Decoder in Masked Graph Modeling for Molecules
+2310.15318  # unparsed_tabular_lines  # HetGPT: Harnessing the Power of Prompt Tuning in Pre-Trained Heterogeneous Graph Neural Networks
+2310.15543  # unparsed_tabular_lines  # Symmetry-preserving graph attention network to solve routing problems at multiple resolutions
+2310.15978  # unparsed_tabular_lines  # Graph Deep Learning for Time Series Forecasting
+2310.16401  # unparsed_tabular_lines
+2310.16520  # wraptable  # Towards Self-Interpretable Graph-Level Anomaly Detection
+2310.16802  # wraptable  # From Molecules to Materials: Pre-training Large Generalizable Models for Atomic Property Prediction
+2310.18777  # unparsed_tabular_lines  # Improving Compositional Generalization using Iterated Learning and Simplicial Embeddings
+2310.18884  # wraptable  # Simple and Asymmetric Graph Contrastive Learning without Augmentations
+2310.19035  # unparsed_tabular_lines, wraptable  # Does Invariant Graph Learning via Environment Augmentation Learn Invariance?
+2310.19142  # wraptable  # MAG-GNN: Reinforcement Learning Boosted Graph Neural Network
+2310.19263  # unparsed_tabular_lines
+2310.19285  # unparsed_tabular_lines
+2310.19321  # unparsed_tabular_lines  # D4Explainer: In-Distribution GNN Explanations via Discrete Denoising Diffusion
+2310.19324  # wraptable  # TempME: Towards the Explainability of Temporal Graph Neural Networks via Motif Discovery
+2310.19906  # unparsed_tabular_lines, wraptable
+2310.20082  # unparsed_tabular_lines, wraptable  # Efficient Subgraph GNNs by Learning Effective Selection Policies
+2310.20519  # unparsed_tabular_lines  # Enhancing Graph Neural Networks with Quantum Computed Encodings
+2311.01038  # wraptable  # Better with Less: A Data-Active Perspective on Pre-Training Graph Neural Networks
+2311.01196  # unparsed_tabular_lines
+2311.02124  # unparsed_tabular_lines  # Sliced Denoising: A Physics-Informed Molecular Pre-Training Method
+2311.02687  # wraptable  # Architecture Matters: Uncovering Implicit Mechanisms in Graph Contrastive Learning
+2311.04837  # unparsed_tabular_lines  # Identifying Semantic Component for Robust Molecular Property Prediction
+2311.05185  # unparsed_tabular_lines, wraptable  # Mixture of Weak & Strong Experts on Graphs
+2311.05767  # unparsed_tabular_lines  # Dirichlet Energy Enhancement of Graph Neural Networks by Framelet Augmentation
+2311.07073  # unparsed_tabular_lines
+2311.07929  # unparsed_tabular_lines
+2311.11759  # unparsed_tabular_lines
+2311.14324  # unparsed_tabular_lines  # Large Language Models as Topological Structure Enhancers for Text-Attributed Graphs
+2311.14333  # unparsed_tabular_lines
+2311.14994  # unparsed_tabular_lines
+2311.16139  # unparsed_tabular_lines  # GNNBleed: Inference Attacks to Unveil Private Edges in Graphs with Realistic Access to GNN Models
+2311.17327  # unparsed_tabular_lines
+2311.17781  # unparsed_tabular_lines
+2311.17932  # unparsed_tabular_lines  # arXiv:2311.17932
+2312.00752  # unparsed_tabular_lines
+2312.01538  # unparsed_tabular_lines  # Recurrent Distance Filtering for Graph Representation Learning
+2312.02230  # unparsed_tabular_lines, wraptable  # A Simple and Scalable Representation for Graph Generation
+2312.02339  # unparsed_tabular_lines, wraptable  # Expressive Sign Equivariant Networks for Spectral Geometric Learning
+2312.02783  # unparsed_tabular_lines
+2312.04234  # unparsed_tabular_lines, wraptable  # Graph Convolutions Enrich the Self-Attention in Transformers!
+2312.05596  # unparsed_tabular_lines  # Factorized Explainer for Graph Neural Networks
+2312.07633  # unparsed_tabular_lines  # SE(3)-Invariant Multiparameter Persistent Homology for Chiral-Sensitive Molecular Property Prediction
+2312.08221  # sidewaystable, unparsed_tabular_lines
+2312.08616  # unparsed_tabular_lines
+2312.08671  # unparsed_tabular_lines
+2312.08852  # unparsed_tabular_lines  # ERASE: Error-Resilient Representation Learning on Graphs for Label Noise Tolerance
+2312.09676  # unparsed_tabular_lines  # arXiv:2312.09676
+2312.11109  # unparsed_tabular_lines  # Graph Transformers for Large Graphs
+2312.12477  # unparsed_tabular_lines  # arXiv:2312.12477
+2312.14438  # unparsed_tabular_lines  # PC-Conv: Unifying Homophily and Heterophily with Two-fold Filtering
+2312.15492  # unparsed_tabular_lines  # DPA-2: a large atomic model as a multi-task learner
+2312.16560  # unparsed_tabular_lines  # Adaptive Message Passing: A General Framework to Mitigate Oversmoothing, Oversquashing, and Underreaching
+2401.02143  # unparsed_tabular_lines
+2401.03597  # unparsed_tabular_lines  # Few-Shot Causal Representation Learning for Out-of-Distribution Generalization on Heterogeneous Graphs
+2401.08514  # unparsed_tabular_lines
+2401.09071  # unparsed_tabular_lines
+2401.09125  # unparsed_tabular_lines  # arXiv:2401.09125
+2401.10119  # unparsed_tabular_lines
+2401.10216  # unparsed_tabular_lines  # Enabling efficient equivariant operations in the Fourier basis via Gaunt Tensor Products
+2401.11074  # unparsed_tabular_lines  # On The Temporal Domain of Differential Equation Inspired Graph Neural Networks
+2401.13200  # unparsed_tabular_lines
+2401.13858  # wraptable  # Graph Diffusion Transformers for Multi-Conditional Molecular Generation
+2401.14155  # unparsed_tabular_lines  # Alleviating Structural Distribution Shift in Graph Anomaly Detection
+2401.14578  # unparsed_tabular_lines  # GOAt: Explaining Graph Neural Networks via Graph Output Attribution
+2401.15203  # unparsed_tabular_lines
+2401.15617  # unparsed_tabular_lines
+2401.17580  # unparsed_tabular_lines  # Graph Contrastive Learning with Cohesive Subgraph Awareness
+2401.17752  # wraptable
+2401.17791  # unparsed_tabular_lines  # Graph Transformers without Positional Encodings
+2402.02005  # unparsed_tabular_lines
+2402.02130  # unparsed_tabular_lines, wraptable
+2402.02484  # unparsed_tabular_lines  # arXiv:2402.02484
+2402.02518  # unparsed_tabular_lines, wraptable  # Unifying Generation and Prediction on Graphs with Latent Graph Diffusion
+2402.04621  # unparsed_tabular_lines  # Feature Distribution on Graph Topology Mediates the Effect of Graph Convolution: Homophily Perspective
+2402.04710  # unparsed_tabular_lines  # Incorporating Retrieval-based Causal Learning with Information Bottlenecks for Interpretable Graph Neural Networks
+2402.04821  # unparsed_tabular_lines  # E(3)-Equivariant Mesh Neural Networks
+2402.04836  # unparsed_tabular_lines  # On the Completeness of Invariant Geometric Deep Learning Models
+2402.05039  # unparsed_tabular_lines  # PAC Learnability under Explanation-Preserving Graph Perturbations
+2402.06128  # unparsed_tabular_lines  # Rethinking Node-wise Propagation for Large-scale Graph Learning
+2402.07025  # unparsed_tabular_lines
+2402.07191  # unparsed_tabular_lines  # Improving Subgraph Extraction for Graph Invariant Learning via Graph Sinkhorn Attention
+2402.07568  # unparsed_tabular_lines  # --Leman at the margin: When more expressivity matters
+2402.08085  # unparsed_tabular_lines
+2402.08450  # unparsed_tabular_lines  # Subgraphormer: Unifying Subgraph GNNs and Graph Transformers via Graph Products
+2402.08678  # unparsed_tabular_lines  # Graph Mamba: Towards Learning on Graphs with State Space Models
+2402.08907  # unparsed_tabular_lines  # Subgraph Pooling: Tackling Negative Transfer on Graphs
+2402.09711  # wraptable  # Node Duplication Improves Cold-start Link Prediction
+2402.09834  # unparsed_tabular_lines  # All in One and One for All: A Simple yet Effective Method towards Cross-domain Graph Pretraining
+2402.10011  # unparsed_tabular_lines  # Clifford Group Equivariant Simplicial Message Passing Networks
+2402.11339  # unparsed_tabular_lines
+2402.11565  # unparsed_tabular_lines
+2402.13630  # unparsed_tabular_lines  # UniGraph: Learning a Unified Cross-Domain Foundation Model for Text-Attributed Graphs
+2402.13973  # unparsed_tabular_lines
+2402.14202  # unparsed_tabular_lines
+2402.14393  # wraptable  # Graph Parsing Networks
+2402.14802  # unparsed_tabular_lines
+2402.15270  # wraptable  # Smoothed Graph Contrastive Learning via Seamless Proximity Integration
+2402.15326  # unparsed_tabular_lines  # Understanding Oversmoothing in Diffusion-Based GNNs From the Perspective of Operator Semigroup Theory
+2402.16024  # unparsed_tabular_lines  # HiGPT: Heterogeneous Graph Language Model
+2402.16302  # wraptable  # Graph Diffusion Policy Optimization
+2402.16346  # unparsed_tabular_lines, wraptable
+2402.16402  # unparsed_tabular_lines  # Graph Learning with Distributional Edge Layouts
+2402.18974  # unparsed_tabular_lines  # Generating Graphs via Spectral Diffusion
+2403.01071  # wraptable  # GraphRCG: Self-Conditioned Graph Generation
+2403.01092  # unparsed_tabular_lines
+2403.01400  # wraptable  # Decoupling Weighing and Selecting for Integrating Multiple Graph Pre-training Tasks
+2403.03483  # unparsed_tabular_lines
+2403.03659  # unparsed_tabular_lines
+2403.03666  # unparsed_tabular_lines  # Provable Filter for Real-world Graph Clustering
+2403.03676  # unparsed_tabular_lines  # Simplified PCNet with Robustness
+2403.04763  # unparsed_tabular_lines
+2403.06080  # unparsed_tabular_lines
+2403.07902  # unparsed_tabular_lines  # arXiv:2403.07902
+2403.07943  # unparsed_tabular_lines  # Revisiting Edge Perturbation for Graph Neural Network in Graph Data Augmentation and Attack
+2403.07954  # unparsed_tabular_lines  # Optimizing Polynomial Graph Filters: A Novel Adaptive Krylov Subspace Approach
+2403.10543  # unparsed_tabular_lines
+2403.11857  # wraptable  # Complete and Efficient Graph Transformers for Crystal Material Property Prediction
+2403.13749  # unparsed_tabular_lines, wraptable  # Weisfeiler and Leman Go Loopy: A New Hierarchy for Graph Representational Learning
+2403.15520  # unparsed_tabular_lines
+2403.16030  # wraptable  # VCR-Graphormer: A Mini-batch Graph Transformer via Virtual Connections
+2403.16846  # unparsed_tabular_lines  # arXiv:2403.16846
+2403.17416  # unparsed_tabular_lines  # AFDGCF: Adaptive Feature De-correlation Graph Collaborative Filtering for Recommendations
+2403.20221  # unparsed_tabular_lines  # Graph Neural Aggregation-diffusion with Metastability
+2404.01039  # unparsed_tabular_lines
+2404.03380  # unparsed_tabular_lines  # On the Theoretical Expressive Power and the Design Space of Higher-Order Graph Transformers
+2404.04559  # unparsed_tabular_lines
+2404.06492  # sidewaystable
+2404.07194  # unparsed_tabular_lines
+2404.08660  # wraptable  # How Does Message Passing Improve Collaborative Filtering?
+2404.09774  # unparsed_tabular_lines  # RandAlign: A Parameter-Free Method for Regularizing Graph Convolutional Networks
+2404.10935  # unparsed_tabular_lines  # Molecular relaxation by reverse diffusion with time step prediction
+2404.11032  # unparsed_tabular_lines  # CORE: Data Augmentation for Link Prediction via Information Bottleneck
+2404.13344  # unparsed_tabular_lines, wraptable  # GRANOLA: Adaptive Normalization for Graph Neural Networks
+2404.15625  # unparsed_tabular_lines
+2404.15806  # unparsed_tabular_lines  # Where to Mask: Structure-Guided Masking for Graph Masked Autoencoders
+2404.17099  # unparsed_tabular_lines  # Unleashing the Potential of Fractional Calculus in Graph Neural Networks with FROND
+2404.18211  # unparsed_tabular_lines
+2404.19288  # unparsed_tabular_lines  # Training-free Graph Neural Networks and the Power of Labels as Features
+2405.01009  # unparsed_tabular_lines  # On Oversquashing in Graph Neural Networks Through the Lens of Dynamical Systems
+2405.01663  # sidewaystable, unparsed_tabular_lines  # Oversmoothing alleviation in graph neural networks: a survey and unified view
+2405.01927  # unparsed_tabular_lines  # arXiv:2405.01927
+2405.02795  # unparsed_tabular_lines  # Graph as Point Set
+2405.02845  # unparsed_tabular_lines  # Data-Efficient Molecular Generation with Hierarchical Textual Inversion
+2405.04114  # unparsed_tabular_lines
+2405.05665  # unparsed_tabular_lines  # SubGDiff: A Subgraph Diffusion Model to Improve Molecular Representation Learning
+2405.11416  # unparsed_tabular_lines, wraptable  # Discrete-state Continuous-time Diffusion for Graph Generation
+2405.11951  # unparsed_tabular_lines  # Distinguished In Uniform: Self Attention Vs. Virtual Nodes
+2405.11968  # unparsed_tabular_lines
+2405.12474  # unparsed_tabular_lines  # How Universal Polynomial Bases Enhance Spectral Graph Neural Networks: Heterophily, Over-smoothing, and Over-squashing
+2405.13526  # unparsed_tabular_lines
+2405.13806  # unparsed_tabular_lines  # A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition
+2405.14094  # unparsed_tabular_lines
+2405.14246  # wraptable
+2405.14253  # unparsed_tabular_lines  # Higher-Rank Irreducible Cartesian Tensors for Equivariant Message Passing
+2405.14260  # unparsed_tabular_lines  # Graph Sparsification via Mixture of Graphs
+2405.14352  # unparsed_tabular_lines  # Explaining Graph Neural Networks via Structure-aware Interaction Index
+2405.15429  # wraptable  # E(n) Equivariant Topological Neural Networks
+2405.15540  # unparsed_tabular_lines, wraptable  # Bundle Neural Networks for message diffusion on graphs
+2405.15564  # unparsed_tabular_lines  # Rethinking Independent Cross-Entropy Loss For Graph-Structured Data
+2405.16185  # unparsed_tabular_lines, wraptable  # Differentiable Cluster Graph Neural Network
+2405.16489  # wraptable
+2405.16771  # unparsed_tabular_lines, wraptable  # ARC: A Generalist Graph Anomaly Detector with In-Context Learning
+2405.17311  # sidewaystable, unparsed_tabular_lines  # Probabilistic Graph Rewiring via Virtual Nodes
+2405.17404  # unparsed_tabular_lines  # Spectral Greedy Coresets for Graph Neural Networks
+2405.17768  # unparsed_tabular_lines  # Revisiting the Message Passing in Heterophilous Graph Neural Networks
+2405.18378  # unparsed_tabular_lines, wraptable
+2405.18581  # wraptable
+2405.19121  # unparsed_tabular_lines, wraptable  # Spatio-Spectral Graph Neural Networks
+2405.20652  # unparsed_tabular_lines
+2405.20724  # unparsed_tabular_lines, wraptable  # on Large Graphs using Intersecting Communities
+2406.00418  # unparsed_tabular_lines  # GATE: How to Keep Out Intrusive Neighbors
+2406.01249  # unparsed_tabular_lines, wraptable  # Equivariant Machine Learning on Graphs with Nonlinear Spectral Filters
+2406.01899  # wraptable  # Cross-Domain Graph Data Scaling: A Showcase with Diffusion Models
+2406.01977  # unparsed_tabular_lines  # What Improves the Generalization of Graph Transformers? A Theoretical Dive into the Self-attention and Positional Encoding
+2406.02059  # unparsed_tabular_lines  # Graph Adversarial Diffusion Convolution
+2406.02732  # unparsed_tabular_lines
+2406.02997  # unparsed_tabular_lines
+2406.03145  # unparsed_tabular_lines
+2406.03164  # unparsed_tabular_lines
+2406.03671  # unparsed_tabular_lines  # PANDA: Expanded Width-Aware Message Passing Beyond Rewiring
+2406.03794  # unparsed_tabular_lines
+2406.04336  # unparsed_tabular_lines
+2406.04601  # unparsed_tabular_lines  # Enhancing Size Generalization in Graph Neural Networks through Disentangled Representation Learning
+2406.04843  # unparsed_tabular_lines  # Variational Flow Matching for Graph Generation
+2406.05346  # unparsed_tabular_lines  # ProG: A Graph Prompt Learning Benchmark
+2406.05482  # unparsed_tabular_lines  # Efficient Topology-aware Data Augmentation for High-Degree Graph Neural Networks
+2406.05815  # wraptable  # What Can We Learn from State Space Models for Machine Learning on Graphs?
+2406.06449  # unparsed_tabular_lines, wraptable  # Cometh: A continuous-time discrete-state graph diffusion model
+2406.06984  # unparsed_tabular_lines, wraptable  # On the Hölder Stability of Multiset and Graph Neural Networks
+2406.07598  # unparsed_tabular_lines  # Equivariance via Minimal Frame Averaging for More Symmetries and Efficiency
+2406.07955  # unparsed_tabular_lines  # How Interpretable Are Interpretable Graph Neural Networks?
+2406.08210  # unparsed_tabular_lines, wraptable  # arXiv:2406.08210
+2406.08897  # wraptable  # Motif-driven Subgraph Structure Learning for Graph Classification
+2406.08993  # unparsed_tabular_lines  # Classic GNNs are Strong Baselines: Reassessing GNNs for Node Classification
+2406.09031  # unparsed_tabular_lines  # A Comprehensive Graph Pooling Benchmark: Effectiveness, Robustness and Generalizability
+2406.09291  # unparsed_tabular_lines, wraptable  # A Flexible, Equivariant Framework for Subgraph GNNs via Graph Products and Graph Coarsening
+2406.09639  # unparsed_tabular_lines  # TGB 2.0: A Benchmark for Learning on Temporal Knowledge Graphs and Heterogeneous Graphs
+2406.09675  # unparsed_tabular_lines
+2406.10513  # unparsed_tabular_lines, wraptable  # Lift Your Molecules: Molecular Graph Generation in Latent Euclidean Space
+2406.10727  # unparsed_tabular_lines, wraptable  # Text-space Graph Foundation Models: Comprehensive Benchmarks and New Insights
+2406.10871  # unparsed_tabular_lines  # Graph Neural Reaction Diffusion Models Submitted to the editors June 2023. Accepted in March 2024.
+2406.12059  # unparsed_tabular_lines, wraptable
+2406.12072  # wraptable  # DTGB: A Comprehensive Benchmark for Dynamic Text-Attributed Graphs
+2406.12539  # unparsed_tabular_lines  # The Heterophilic Snowflake Hypothesis: Training and Empowering GNNs for Heterophilic Graphs
+2406.12841  # unparsed_tabular_lines
+2406.13265  # unparsed_tabular_lines  # Molecule Graph Networks with Many-body Equivariant Interactions
+2406.13873  # unparsed_tabular_lines  # A Pure Transformer Pretraining Framework on Text-attributed Graphs
+2406.14347  # unparsed_tabular_lines
+2406.15156  # unparsed_tabular_lines  # Perks and Pitfalls of Faithfulness in Regular, Self-Explainable and Domain Invariant GNNs
+2406.15797  # unparsed_tabular_lines
+2406.16715  # unparsed_tabular_lines  # GC4NC: A Benchmark Framework for Graph Condensation on Node Classification with New Insights
+2406.16722  # unparsed_tabular_lines
+2406.16853  # unparsed_tabular_lines  # GeoMFormer: A General Architecture for Geometric Molecular Representation Learning
+2406.17251  # unparsed_tabular_lines
+2407.00494  # unparsed_tabular_lines  # Graph Neural Networks Gone Hogwild
+2407.01214  # unparsed_tabular_lines  # Revisiting Random Walks for Learning on Graphs
+2407.01635  # unparsed_tabular_lines
+2407.02013  # unparsed_tabular_lines, wraptable  # DiGRAF: Diffeomorphic Graph-Adaptive Activation Function
+2407.02758  # unparsed_tabular_lines  # Differential Encoding for Improved Representation Learning Over Graphs
+2407.03125  # unparsed_tabular_lines
+2407.04236  # unparsed_tabular_lines  # Graph Pooling via Ricci Flow
+2407.07639  # unparsed_tabular_lines  # Explaining Graph Neural Networks for Node Similarity on Graphs
+2407.09709  # wraptable  # GOFA: A Generative One-For-All Model for Joint Graph Language Modeling
+2407.11086  # unparsed_tabular_lines  # Pre-training with fractional denoising to enhance molecular property prediction
+2407.11876  # unparsed_tabular_lines
+2407.11907  # wraptable  # GraphFM: A generalist graph transformer that learns transferable representations across diverse domains
+2407.12419  # unparsed_tabular_lines  # arXiv:2407.12419
+2407.14732  # unparsed_tabular_lines
+2407.14996  # unparsed_tabular_lines
+2407.15620  # unparsed_tabular_lines
+2407.16726  # unparsed_tabular_lines
+2407.17234  # unparsed_tabular_lines  # Intent-guided Heterogeneous Graph Contrastive Learning for Recommendation
+2407.19420  # unparsed_tabular_lines
+2407.20912  # unparsed_tabular_lines
+2408.00295  # unparsed_tabular_lines
+2408.00490  # unparsed_tabular_lines  # Graph Representation Learning via Causal Diffusion for Out-of-Distribution Recommendation
+2408.03152  # unparsed_tabular_lines
+2408.05391  # unparsed_tabular_lines  # arXiv:2408.05391
+2408.05822  # unparsed_tabular_lines  # Sampling Foundational Transformer: A Theoretical Perspective
+2408.06966  # unparsed_tabular_lines, wraptable
+2408.07191  # wraptable  # Joint Graph Rewiring and Feature Denoising via Spectral Resonance
+2408.07624  # unparsed_tabular_lines  # Battery GraphNets: Relational Learning for Lithium-ion Batteries(LiBs) Life Estimation
+2408.08231  # unparsed_tabular_lines  # DaRec: A Disentangled Alignment Framework for Large Language Model and Recommender System
+2408.08685  # unparsed_tabular_lines  # Can Large Language Models Improve the Adversarial Robustness of Graph Neural Networks?
+2408.09896  # unparsed_tabular_lines  # Instruction-Based Molecular Graph Generation with Unified Text-Graph Diffusion Model
+2408.11351  # unparsed_tabular_lines
+2408.11370  # unparsed_tabular_lines, wraptable
+2408.17198  # unparsed_tabular_lines  # Towards Symbolic XAI -- Explanation Through Human Understandable Logical Relationships Between Features
+2409.00687  # unparsed_tabular_lines  # When Heterophily Meets Heterogeneous Graphs: Latent Graphs Guided Unsupervised Representation Learning
+2409.01931  # unparsed_tabular_lines
+2409.05573  # unparsed_tabular_lines  # Learning to Model Graph Structural Information on MLPs via Graph Structure Self-Contrasting
+2409.06998  # wraptable  # Mixture of Scope Experts at Test: Generalizing Deeper Graph Neural Networks with Shallow Variants
+2409.08676  # unparsed_tabular_lines
+2409.09111  # unparsed_tabular_lines  # Transformers from Diffusion: A Unified Framework for Neural Message Passing
+2409.11504  # unparsed_tabular_lines  # Preventing Representational Rank Collapse in MPNNs by Splitting the Computational Graph
+2409.17986  # unparsed_tabular_lines
+2409.19117  # unparsed_tabular_lines  # Range-aware Positional Encoding via High-order Pretraining: Theory and Practice
+2409.19169  # unparsed_tabular_lines
+2409.19414  # unparsed_tabular_lines  # Sequential Signal Mixing Aggregation for Message Passing Graph Neural Networks
+2410.00626  # unparsed_tabular_lines  # arXiv:2410.00626
+2410.01367  # unparsed_tabular_lines
+2410.01778  # wraptable
+2410.02158  # unparsed_tabular_lines  # SCNode: Spatial and Contextual Coordinates for Graph Representation Learning
+2410.02622  # wraptable
+2410.03424  # wraptable  # Cayley Graph Propagation
+2410.03655  # unparsed_tabular_lines  # arXiv:2410.03655
+2410.04692  # unparsed_tabular_lines  # A Clifford Algebraic Approach to E(n)-Equivariant High-order Graph Neural Networks
+2410.05499  # unparsed_tabular_lines  # Unitary convolutions for learning on graphs and groups
+2410.06460  # unparsed_tabular_lines, wraptable  # A Benchmark on Directed Graph Representation Learning in Hardware Designs
+2410.06530  # unparsed_tabular_lines
+2410.06746  # unparsed_tabular_lines  # Cluster-wise Graph Transformer with Dual-granularity Kernelized Attention
+2410.06976  # unparsed_tabular_lines
+2410.08473  # unparsed_tabular_lines
+2410.10329  # unparsed_tabular_lines  # GraphCLIP: Enhancing Transferability in Graph Foundation Models for Text-Attributed Graphs
+2410.10365  # unparsed_tabular_lines
+2410.13027  # wraptable  # Geometric Trajectory Diffusion Models
+2410.13761  # unparsed_tabular_lines
+2410.13798  # wraptable  # Learning Graph Quantized Tokenizers
+2410.14109  # unparsed_tabular_lines, wraptable  # Improving Graph Neural Networks by Learning Continuous Edge Directions
+2410.16606  # unparsed_tabular_lines
+2410.17878  # unparsed_tabular_lines, wraptable  # Relaxed Equivariance via Multitask Learning
+2410.18676  # unparsed_tabular_lines  # Homomorphism Counts as Structural Encodings for Graph Learning
+2410.19723  # unparsed_tabular_lines  # Sparse Decomposition of Graph Neural Networks
+2410.20516  # unparsed_tabular_lines  # A Cosmic-Scale Benchmark for Symmetry-Preserving Data Processing
+2410.21006  # unparsed_tabular_lines
+2410.21043  # unparsed_tabular_lines  # Disentangled and Self-Explainable Node Representation Learning
+2410.22388  # unparsed_tabular_lines  # ET-Flow: Equivariant Flow-Matching for Molecular Conformer Generation
+2410.23686  # unparsed_tabular_lines  # Towards Dynamic Message Passing on Graphs
+2410.24012  # unparsed_tabular_lines  # Diffusion Twigs with Loop Guidance for Conditional Graph Generation
+2410.24220  # unparsed_tabular_lines  # Bridging Geometric States via Geometric Diffusion Bridge
+2411.00287  # unparsed_tabular_lines  # MbExplainer: Multilevel bandit-based explanations for downstream models with augmented graph embeddings
+2411.01158  # unparsed_tabular_lines
+2411.01410  # unparsed_tabular_lines, wraptable  # PageRank Bandits for Link Prediction
+2411.04219  # unparsed_tabular_lines  # Equivariant Graph Network Approximations of High-Degree Polynomials for Force Field Prediction
 2411.05274  # unparsed_tabular_lines, wraptable  # Distributed-Order Fractional Graph Operating Network
+2411.06070  # unparsed_tabular_lines, wraptable  # GFT: Graph Foundation Model with Transferable Tree Vocabulary
+2411.06427  # unparsed_tabular_lines, wraptable
+2411.09429  # unparsed_tabular_lines
+2411.10000  # unparsed_tabular_lines, wraptable  # DuSEGO: Dual Second-order Equivariant Graph Ordinary Differential Equation
+2411.12330  # wraptable
+2411.16278  # unparsed_tabular_lines
+2411.17676  # unparsed_tabular_lines, wraptable
+2411.19392  # unparsed_tabular_lines
+2411.19513  # wraptable  # ContextGNN: Beyond Two-Tower Recommendation Systems
+2412.00020  # unparsed_tabular_lines  # Partitioning Message Passing for Graph Fraud Detection
+2412.00462  # unparsed_tabular_lines  # Signals on Graphs Over Time: Methodologies, Applications, and Challenges
+2412.00521  # unparsed_tabular_lines, wraptable  # A Self-Explainable Heterogeneous GNN for Relational Deep Learning
+2412.00742  # unparsed_tabular_lines  # Revisiting Self-Supervised Heterogeneous Graph Learning from Spectral Clustering Perspective
+2412.01519  # unparsed_tabular_lines  # ReHub: Linear Complexity Graph Transformers with Adaptive Hub-Spoke Reassignment
+2412.01849  # unparsed_tabular_lines
+2412.03783  # wraptable  # Expressivity of Representation Learning on Continuous-Time Dynamic Graphs: An Information-Flow Centric Review
+2412.07188  # unparsed_tabular_lines  # Graph Neural Networks Are More Than Filters: Revisiting and Benchmarking from A Spectral Perspective
+2412.07407  # unparsed_tabular_lines  # Towards Graph Foundation Models: A Study on the Generalization of Positional and Structural Encodings
+2412.09805  # unparsed_tabular_lines, wraptable  # Making Classic GNNs Strong Baselines Across Varying Homophily: A Smoothness–Generalization Perspective
+2412.11180  # unparsed_tabular_lines
+2412.15589  # unparsed_tabular_lines
+2412.17734  # unparsed_tabular_lines  # LASE: Learned Adjacency Spectral Embeddings
+2412.17856  # unparsed_tabular_lines
+2412.17961  # unparsed_tabular_lines  # Extending Graph Condensation to Multi-Label Datasets: A Benchmark Study
+2412.18731  # unparsed_tabular_lines  # Position-aware Graph Transformer for Recommendation
+2412.19419  # unparsed_tabular_lines
+2501.01073  # unparsed_tabular_lines  # Graph Generative Pre-trained Transformer
+2501.02526  # unparsed_tabular_lines  # Unified Guidance for Geometry-Conditioned Molecular Generation
+2501.03113  # unparsed_tabular_lines  # Balancing Efficiency and Expressiveness: Subgraph GNNs with Walk-Based Centrality
+2501.09821  # unparsed_tabular_lines  # BN-Pool: Bayesian Nonparametric Pooling for Graphs
+2501.13456  # unparsed_tabular_lines
+2501.14964  # unparsed_tabular_lines  # Personalized Layer Selection for Graph Neural Networks
+2501.16002  # unparsed_tabular_lines  # ScaDyG: A New Paradigm for Large-scale Dynamic Graph Learning
+2501.16944  # unparsed_tabular_lines  # Exact Computation of Any-Order Shapley Interactions for Graph Neural Networks
+2501.19089  # unparsed_tabular_lines  # Resolving Oversmoothing with Opinion Dissensus
+2501.19216  # unparsed_tabular_lines  # E2Former: An Efficient and Equivariant Transformer with Linear-Scaling Tensor Products
+2502.01122  # unparsed_tabular_lines  # Learning Efficient Positional Encodings with Graph Neural Networks
+2502.02016  # unparsed_tabular_lines, wraptable  # A Periodic Bayesian Flow for Material Generation
+2502.02216  # wraptable  # Flatten Graphs as Sequences: Transformers are Scalable Graph Generators
+2502.02379  # unparsed_tabular_lines  # No Metric to Rule Them All: Toward Principled Evaluations of Graph-Learning Datasets
+2502.02415  # unparsed_tabular_lines  # Fast Graph Generation via Autoregressive Noisy Filtration Modeling
+2502.04308  # unparsed_tabular_lines, wraptable  # HOG-Diff: Higher-Order Guided Diffusion for Graph Generation
+2502.04591  # unparsed_tabular_lines
+2502.04891  # unparsed_tabular_lines  # GNNs Getting ComFy: Community and Feature Similarity Guided Rewiring
+2502.05724  # unparsed_tabular_lines
+2502.07968  # wraptable
+2502.08071  # unparsed_tabular_lines
+2502.08209  # unparsed_tabular_lines  # Equivariant Masked position prediction for efficient molecular representation
+2502.09263  # unparsed_tabular_lines  # Can Classic GNNs Be Strong Baselines for Graph-level Tasks? Simple Architectures Meet Excellence
+2502.09365  # unparsed_tabular_lines
+2502.10818  # wraptable  # On Vanishing Gradients, Over-Smoothing, and Over-Squashing in GNNs: Bridging Recurrent and Graph Learning
+2502.11394  # unparsed_tabular_lines, wraptable
+2502.11836  # unparsed_tabular_lines  # Model Generalization on Text Attribute Graphs: Principles with Large Language Models
+2502.12638  # unparsed_tabular_lines, wraptable  # NExT-Mol: 3D Diffusion Meets 1D Language Modeling for 3D Molecule Generation
+2502.13555  # unparsed_tabular_lines  # Democratizing Large Language Model-Based Graph Data Augmentation via Latent Knowledge Graphs
+2502.15805  # unparsed_tabular_lines
+2502.16233  # unparsed_tabular_lines  # Graph Self-Supervised Learning with Learnable Structural and Positional Encodings
+2502.16284  # wraptable  # MolSpectra: Pre-training 3D Molecular Representation with Multi-modal Energy Spectra
+2502.18771  # unparsed_tabular_lines
+2502.19227  # unparsed_tabular_lines, wraptable  # Enhancing the Scalability and Applicability of Kohn-Sham Hamiltonians for Molecular Systems
+2502.21185  # unparsed_tabular_lines
+2503.01431  # unparsed_tabular_lines  # How simple can you go? An off-the-shelf transformer approach to molecular dynamics
+2503.01488  # wraptable  # InversionGNN: A Dual Path Network for Multi-Property Molecular Optimization
+2503.06441  # unparsed_tabular_lines  # Identifying Evidence Subgraphs for Financial Risk Detection via Graph Counterfactual and Factual Reasoning
+2503.09008  # unparsed_tabular_lines  # Towards Quantifying Long-Range Interactions in Graph Machine Learning: A Large Graph Dataset and a Measurement
+2503.11086  # unparsed_tabular_lines
+2503.12156  # unparsed_tabular_lines
+2503.14411  # wraptable  # Unifying Text Semantics and Graph Structures for Temporal Text-attributed Graphs with Large Language Models
+2503.19382  # unparsed_tabular_lines  # Causal invariant geographic network representations with feature and structural distribution shifts
+2503.19666  # unparsed_tabular_lines  # Towards Efficient Training of Graph Neural Networks: A Multiscale Approach
+2503.21985  # unparsed_tabular_lines, wraptable  # Improving Equivariant Networks with Probabilistic Symmetry Breaking
+2504.00328  # unparsed_tabular_lines  # Simple yet Effective Node Property Prediction on Edge Streams under Distribution Shifts
+2504.06193  # unparsed_tabular_lines
+2504.06312  # unparsed_tabular_lines, wraptable  # DMol: A Highly Efficient and Chemical Motif-Preserving Molecule Generation Platform
+2504.08802  # unparsed_tabular_lines  # InfoGain Wavelets: Furthering the Design of Graph Diffusion Wavelets
+2504.09970  # unparsed_tabular_lines
+2504.10499  # unparsed_tabular_lines
+2504.12011  # unparsed_tabular_lines  # Balancing Graph Embedding Smoothness in Self-Supervised Learning via Information-Theoretic Decomposition
+2504.13426  # unparsed_tabular_lines
+2504.18273  # unparsed_tabular_lines
+2504.19785  # unparsed_tabular_lines  # Heterophily-informed Message Passing
+2504.20430  # unparsed_tabular_lines  # Learning Laplacian Positional Encodings for Heterophilous Graphs
+2505.00552  # unparsed_tabular_lines  # Graph Spectral Filtering with Chebyshev Interpolation for Recommendation
+2505.04956  # unparsed_tabular_lines
+2505.05533  # unparsed_tabular_lines
+2505.09361  # unparsed_tabular_lines
+2505.11298  # wraptable  # Graph Representational Learning: When Does More Expressivity Hurt Generalization?
+2505.11346  # unparsed_tabular_lines  # What Can We Learn From MIMO Graph Convolutions?
+2505.12880  # unparsed_tabular_lines, wraptable  # AdS-GNN - a Conformally Equivariant Graph Neural Network
+2505.13087  # wraptable
+2505.16130  # unparsed_tabular_lines, wraptable  # Generative Graph Pattern Machine
+2505.16790  # unparsed_tabular_lines, wraptable  # Learning Flexible Forward Trajectories for Masked Molecular Diffusion
+2505.16860  # unparsed_tabular_lines
+2505.17939  # unparsed_tabular_lines
+2505.18289  # unparsed_tabular_lines  # Convexified Message-Passing Graph Neural Networks
+2505.18728  # unparsed_tabular_lines, wraptable  # Message-Passing State-Space Models: Improving Graph Learning with Modern Sequence Modeling
+2505.18999  # unparsed_tabular_lines
+2505.19188  # unparsed_tabular_lines
+2505.20034  # unparsed_tabular_lines  # Graph Wave Networks
+2505.20089  # unparsed_tabular_lines
+2505.20215  # unparsed_tabular_lines  # Dependency Parsing is More Parameter-Efficient with Normalization
+2505.20807  # unparsed_tabular_lines
+2505.20853  # unparsed_tabular_lines  # Cooperation of Experts: Fusing Heterogeneous Information with Large Margin
+2505.21285  # unparsed_tabular_lines  # Learnable Kernel Density Estimation for Graphs
+2505.22402  # unparsed_tabular_lines
+2505.23014  # unparsed_tabular_lines  # Hyperbolic-PDE GNN: Spectral Graph Neural Networks in the Perspective of A System of Hyperbolic Partial Differential Equations
+2505.23086  # unparsed_tabular_lines
+2505.23185  # unparsed_tabular_lines  # Improving the Effective Receptive Field of Message-Passing Neural Networks
+2505.23875  # wraptable  # A Benchmark Dataset for Graph Regression with Homogeneous and Multi-Relational Variants
+2506.00808  # unparsed_tabular_lines
+2506.01231  # unparsed_tabular_lines  # Towards Efficient Few-shot Graph Neural Architecture Search via Partitioning Gradient Contribution
+2506.01728  # unparsed_tabular_lines  # Principled Data Augmentation for Learning to Solve Quadratic Programming Problems
+2506.05039  # unparsed_tabular_lines
+2506.05393  # wraptable  # Are Large Language Models Good Temporal Graph Learners?
+2506.05530  # unparsed_tabular_lines, wraptable
+2506.05814  # unparsed_tabular_lines
+2506.05957  # wraptable  # Pruning Spurious Subgraphs for Graph Out-of-Distribution Generalization
+2506.05971  # unparsed_tabular_lines  # On Measuring Long-Range Interactions in Graph Neural Networks
+2506.06212  # wraptable  # Model-Driven Graph Contrastive Learning
+2506.06571  # unparsed_tabular_lines
+2506.06582  # unparsed_tabular_lines
+2506.07168  # unparsed_tabular_lines  # Efficient Text-Attributed Graph Learning through Selective Annotation and Graph Alignment
+2506.08298  # unparsed_tabular_lines, wraptable  # H$ $GFM: Towards unifying Homogeneity and Heterogeneity on Text-Attributed Graphs
+2506.08309  # unparsed_tabular_lines
+2506.08618  # unparsed_tabular_lines  # HSG-12M: A Large-Scale Benchmark of Spatial Multigraphs from the Energy Spectra of Non-Hermitian Crystals
+2506.08743  # wraptable
+2506.08871  # unparsed_tabular_lines
+2506.13099  # wraptable
+2506.13174  # unparsed_tabular_lines, wraptable  # GeoRecon: Graph-Level Representation Learning for 3D Molecules via Reconstruction-Based Pretraining
+2506.13911  # unparsed_tabular_lines
+2506.14020  # unparsed_tabular_lines, wraptable  # Bures-Wasserstein Flow Matching for Graph Generation
+2506.14291  # unparsed_tabular_lines
+2506.15378  # unparsed_tabular_lines  # Sampling 3D Molecular Conformers with Diffusion Transformers
+2506.15448  # wraptable
+2506.15507  # unparsed_tabular_lines, wraptable  # Over-squashing in Spatiotemporal Graph Neural Networks
+2506.16110  # unparsed_tabular_lines
+2506.16404  # unparsed_tabular_lines, wraptable  # Generating Directed Graphs with Dual Attention and Asymmetric Encoding
+2506.19862  # wraptable  # DualEquiNet: A Dual-Space Hierarchical Equivariant Network for Large Biomolecules
+2506.20324  # wraptable  # Permutation Equivariant Neural Controlled Differential Equations for Dynamic Graph Representation Learning
+2506.24018  # wraptable  # Bridging Theory and Practice in Link Representation with Graph Neural Networks
+2507.00407  # wraptable
+2507.00647  # wraptable  # Cooperative Sheaf Neural Networks
+2507.01131  # wraptable  # Tensor Decomposition Networks for Fast Machine Learning Interatomic Potential Computations
+2507.05533  # unparsed_tabular_lines
+2507.11710  # wraptable  # Subgraph Generation for Generalizing on Out-of-Distribution Links
+2507.12380  # unparsed_tabular_lines, wraptable
+2507.20127  # unparsed_tabular_lines  # Aggregation-aware MLP: An Unsupervised Approach for Graph Message-passing
+2508.05070  # unparsed_tabular_lines, wraptable  # TANGO: Graph Neural Dynamics via Learned Energy and Tangential Flows
+2508.07117  # unparsed_tabular_lines  # From Nodes to Narratives: Explaining Graph Neural Networks with LLMs and Graph Context
+2508.09097  # unparsed_tabular_lines
+2508.09320  # unparsed_tabular_lines
+2508.09427  # unparsed_tabular_lines
+2508.10651  # unparsed_tabular_lines  # Graph Learning via Logic-Based Weisfeiler-Leman Variants and Tabularization
+2508.14338  # unparsed_tabular_lines
+2508.16829  # unparsed_tabular_lines
+2508.16995  # unparsed_tabular_lines
+2508.17815  # wraptable  # Multi-domain Distribution Learning for De Novo Drug Design
+2508.19352  # wraptable
+2508.19641  # unparsed_tabular_lines
+2509.01254  # unparsed_tabular_lines, wraptable  # What Expressivity Theory Misses: Message Passing Complexity for GNNs
+2509.02803  # unparsed_tabular_lines
+2509.06743  # wraptable  # Long-Range Graph Wavelet Networks
+2509.10337  # unparsed_tabular_lines
+2509.12530  # unparsed_tabular_lines
+2509.13735  # unparsed_tabular_lines
+2509.22100  # unparsed_tabular_lines  # SHAKE-GNN: Scalable Hierarchical Kirchhoff-Forest Graph Neural Network
+2509.24886  # wraptable  # Adaptive Canonicalization with Application to Invariant Anisotropic Geometric Networks
+2510.01510  # unparsed_tabular_lines, wraptable
+2510.02565  # wraptable  # On The Expressive Power of GNN Derivatives
+2510.04522  # unparsed_tabular_lines  # Toward a Unified Geometry Understanding: Riemannian Diffusion Framework for Graph Generation and Prediction
+2510.07716  # wraptable  # Computationally-efficient Graph Modeling with Refined Graph Random Features
+2510.08450  # unparsed_tabular_lines, wraptable
+2510.09767  # unparsed_tabular_lines
+2510.10116  # unparsed_tabular_lines
+2510.10211  # unparsed_tabular_lines
+2510.10402  # unparsed_tabular_lines  # Controllable Graph Generation with Diffusion Models via Inference-Time Tree Search Guidance
+2510.10849  # wraptable
+2510.11903  # wraptable
+2510.12111  # unparsed_tabular_lines  # Chimera: State Space Models Beyond Sequences
+2510.12140  # wraptable
+2510.12233  # unparsed_tabular_lines  # Unveiling the Vulnerability of Graph-LLMs: An Interpretable Multi-Dimensional Adversarial Attack on TAGs
+2510.13615  # unparsed_tabular_lines
+2510.16780  # unparsed_tabular_lines, wraptable  # 3D-GSRD: 3D Molecular Graph Auto-Encoder with Selective Re-mask Decoding
+2510.16824  # wraptable
+2510.17457  # unparsed_tabular_lines, wraptable  # Deeper with Riemannian Geometry: Overcoming Oversmoothing and Oversquashing for Graph Foundation Models
+2510.21267  # unparsed_tabular_lines
+2510.22289  # unparsed_tabular_lines
+2510.22451  # wraptable
+2510.22520  # wraptable  # Random Search Neural Networks for Efficient and Expressive Graph Learning
+2510.22599  # unparsed_tabular_lines
+2510.22643  # unparsed_tabular_lines  # Enhancing Graph Classification Robustness with Singular Pooling
+2511.02354  # unparsed_tabular_lines  # Evolving Graph Learning for Out-of-Distribution Generalization in Non-stationary Environments
+2511.08028  # unparsed_tabular_lines  # Generalizable Insights for Graph Transformers in Theory and Practice
+2511.08185  # unparsed_tabular_lines
+2511.13010  # unparsed_tabular_lines
+2511.13937  # unparsed_tabular_lines
+2511.17923  # unparsed_tabular_lines  # Towards Efficient LLM-aware Heterogeneous Graph Learning
+2512.00242  # unparsed_tabular_lines
+2512.04475  # unparsed_tabular_lines  # : Next-generation graph learning benchmarking
+2512.04530  # unparsed_tabular_lines  # Explainable Graph Representation Learning via Graph Pattern Analysis
+2512.06154  # unparsed_tabular_lines  # Learning Invariant Graph Representations Through Redundant Information
+2512.14619  # unparsed_tabular_lines  # ParaFormer: A Generalized PageRank Graph Transformer for Graph Representation Learning
+2512.17762  # wraptable  # Can You Hear Me Now? A Benchmark for Long-Range Graph Propagation
+2512.21106  # wraptable  # Semantic Refinement with LLMs for Graph Representations
+2601.00229  # unparsed_tabular_lines
+2601.01123  # wraptable  # Learning from Historical Activations in Graph Neural Networks
+2601.01207  # unparsed_tabular_lines
+2601.02662  # unparsed_tabular_lines
+2601.08033  # wraptable
+2601.13780  # unparsed_tabular_lines, wraptable  # Principled Latent Diffusion for Graphs via Laplacian Autoencoders
+2601.18917  # sidewaystable, unparsed_tabular_lines  # arXiv:2601.18917
+2601.19094  # unparsed_tabular_lines  # FloydNet: A Learning Paradigm for Global Relational Reasoning
+2601.20815  # wraptable  # GNN Explanations that do not Explain and How to find Them
+2601.22454  # unparsed_tabular_lines  # Temporal Graph Pattern Machine
+2601.22593  # unparsed_tabular_lines  # arXiv:2601.22593
+2602.01771  # wraptable
+2602.04244  # unparsed_tabular_lines  # GraphVec: Cross-Domain Graph Vectorization for Graph-Level Representation Learning
+2602.04768  # unparsed_tabular_lines  # Billion-Scale Graph Foundation Models
+2602.05358  # wraptable
+2602.07256  # unparsed_tabular_lines, wraptable  # Graph homophily booster: Reimagining the role of discrete features in heterophilic graph learning
+2602.10031  # unparsed_tabular_lines
+2602.12613  # unparsed_tabular_lines  # Coden: Efficient Temporal Graph Neural Networks for Continuous Prediction
+2602.13075  # unparsed_tabular_lines  # Unified Multi-Domain Graph Pre-training for Homogeneous and Heterogeneous Graphs via Domain-Specific Expert Encoding
+2602.15239  # unparsed_tabular_lines  # Size Transferability of Graph Transformers with Convolutional Positional Encodings
+2602.17893  # unparsed_tabular_lines  # COMBA: Cross Batch Aggregation for Learning Large Graphs with Context Gating State Space Models
+2602.18141  # unparsed_tabular_lines, wraptable
+2602.18837  # unparsed_tabular_lines  # L2G-Net: Local to Global Spectral Graph Neural Networks via Cauchy Factorizations
+2602.19240  # wraptable
+2603.00568  # unparsed_tabular_lines, wraptable  # Enhancing Molecular Property Predictions by Learning from Bond Modelling and Interactions
+2603.00599  # unparsed_tabular_lines  # Heterophily-Agnostic Hypergraph Neural Networks with Riemannian Local Exchanger
+2603.01388  # unparsed_tabular_lines
+2603.01626  # unparsed_tabular_lines  # Towards OOD Generalization in Dynamic Graphs via Causal Invariant Learning
+2603.02938  # unparsed_tabular_lines
+2603.05004  # unparsed_tabular_lines, wraptable
+2603.13434  # unparsed_tabular_lines, wraptable  # Modality-free Graph In-context Alignment
+2603.19596  # unparsed_tabular_lines  # CO-EVOLVE: Bidirectional Co-Evolution of Graph Structure and Semantics for Heterophilous Learning
+2603.24304  # unparsed_tabular_lines
+2603.29644  # unparsed_tabular_lines  # Disentangled Graph Prompting for Out-Of-Distribution Detection
+2604.00199  # unparsed_tabular_lines, wraptable  # arXiv:2604.00199
+2604.03815  # unparsed_tabular_lines  # k-Maximum Inner Product Attention for Graph Transformers and the Expressive Power of GraphGPS
+2604.08553  # unparsed_tabular_lines, wraptable
+2604.08980  # unparsed_tabular_lines  # Neighbourhood Transformer: Switchable Attention for Monophily-Aware Graph Learning
+2604.19028  # unparsed_tabular_lines, wraptable  # Learning Posterior Predictive Distributions for Node Classification from Synthetic Graph Priors
+2604.22549  # unparsed_tabular_lines
+2604.27786  # unparsed_tabular_lines
+2605.03076  # unparsed_tabular_lines
+2605.04834  # unparsed_tabular_lines, wraptable  # Bridging Input Feature Spaces Towards Graph Foundation Models
+2605.05534  # wraptable  # Adversarial Graph Neural Network Benchmarks: Towards Practical and Fair Evaluation
+2605.07357  # wraptable
+2605.08679  # sidewaystable, unparsed_tabular_lines
+2605.09308  # unparsed_tabular_lines  # Hierarchical Attention-based Graph Neural Network with Relevance-driven Pruning
+2605.12358  # unparsed_tabular_lines
+2605.16527  # unparsed_tabular_lines
+2605.19050  # unparsed_tabular_lines
+2605.23446  # unparsed_tabular_lines
+2606.00757  # unparsed_tabular_lines  # RADE: Random Add-Drop Edge as a Regularizer
+2606.05046  # unparsed_tabular_lines  # Graph Cascades: Contagion-Based Mesoscopic Rewiring for Structure-Aware Graph Machine Learning

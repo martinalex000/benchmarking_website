@@ -784,7 +784,7 @@ def _create_dev_pages_impl(
             "## Page of Shame: Papers Using Wrong Model Values",
             "",
             "This page lists papers whose reported primary-metric value for a model disagrees with "
-            "**true performance** (today's global best on the leaderboard) by more than the reported "
+            "**best reported** performance (today's global best on the leaderboard) by more than the reported "
             "std, or differs at all when no std is given.",
             "",
             "Each row also compares against the **best known at publication** (best result for that "
@@ -794,7 +794,7 @@ def _create_dev_pages_impl(
             "the paper came out (fair criticism; red on paper pages).",
             "- **Best today** (surpassed since publication only) — OK vs the at-publication best, but "
             "today's leaderboard best is better (orange on paper pages).",
-            "- **True performance** — current leaderboard best (used for rank and the green value).",
+            "- **Best reported performance** — current leaderboard best (used for rank and the green value).",
             "",
             "### Summary",
             "",
@@ -810,7 +810,7 @@ def _create_dev_pages_impl(
             "",
             "### Today's best source timing",
             "",
-            "When the **true performance** holder published relative to the viewing paper:",
+            "When the **best reported** holder published relative to the viewing paper:",
             "",
             "| Timing | Rows |",
             "|---|---:|",
@@ -897,7 +897,7 @@ def _create_dev_pages_impl(
             {
                 "title": "Page of Shame",
                 "type": "dev",
-                "description": "Papers whose reported model values disagree with true performance (today) and at-publication bests",
+                "description": "Papers whose reported model values disagree with best reported performance (today) and at-publication bests",
             },
             "\n".join(lines),
         )

@@ -57,6 +57,7 @@ from backend.llm_backends import (
 )
 from backend.llm_extractor import (
     CallRecord,
+    DatasetInfo,
     ExtractionOutput,
     LLMExtractor,
     ResultEntry,
@@ -1390,6 +1391,8 @@ def _run_full_extraction(
     api_key: str | None = None,
     experiment_label: str | None = None,
     extraction_strategy: str = "auto",
+    known_datasets: list[DatasetInfo] | None = None,
+    extraction_only: bool = False,
 ) -> tuple[
     ExtractionOutput | None,
     float,
@@ -1440,6 +1443,8 @@ def _run_full_extraction(
             paper_abstract=paper_abstract,
             extraction_strategy=extraction_strategy,
             experiment_label=experiment_label,
+            known_datasets=known_datasets,
+            extraction_only=extraction_only,
         )
         duration = time.perf_counter() - start
         out = _parse_extraction_output(output)
@@ -1949,7 +1954,11 @@ def _print_call_verbose(
         tok_str = (
             f"prompt={rec.prompt_tokens or '?'}  " f"completion={rec.completion_tokens or '?'}  "
         )
-    status = "[green]✓[/green]" if rec.success else "[red]✗[/red]"
+    status = (
+        "[yellow]⚠[/yellow]"
+        if rec.parse_error
+        else ("[green]✓[/green]" if rec.success else "[red]✗[/red]")
+    )
     call_label = f"Call {call_index}" if total_calls is None else f"Call {call_index}/{total_calls}"
     _safe_print(
         f"  {prefix}{status} {call_label} "

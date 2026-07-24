@@ -20,6 +20,55 @@ exclude_all_results:
   "2503.06337": "Molecular-generation reward optimization is not supervised property-prediction evaluation."
   "2505.17293": "Graph domain-adaptation splits are not canonical graph-classification protocols."
   "2507.11710": "OOD link-prediction experiments are not canonical link-prediction protocols."
+  "2402.06737": "Self-supervised pretraining and linear-probing results are not the standard supervised node-classification protocol."
+
+# Dataset-specific exclusions for papers that also contain valid results on
+# other benchmarks.
+exclude_datasets:
+  "2010.08853":
+    ogbg-molpcba: "Eight selected balanced tasks rather than all 128 tasks on the canonical OGB scaffold split."
+  "2306.06063":
+    Cora: "Few-shot 2-way/5-shot node classification is not the canonical supervised Cora task."
+  "2208.14073":
+    Cora: "Temporal Cora evaluation with chronological splits and self/supervised variants is not the canonical Planetoid task."
+  "2211.14568":
+    Cora: "Task-IL/Class-IL continual-learning results are not the canonical static Cora node-classification task."
+  "2106.07971":
+    QM9: "QM9 electronic-property rows contain failed unit conversion/zero gap values."
+  "2409.15800":
+    QM9: "QM9 extraction was truncated and synthesized representative values were stored."
+  "2407.11025":
+    CiteSeer: "Backdoor attack success rates were stored as CiteSeer Accuracy."
+  "2406.02997":
+    CiteSeer: "Five-fold cross-validation is not the canonical CiteSeer Planetoid split."
+  "2505.22362":
+    CiteSeer: "Citeseer-Full was incorrectly fuzzy-mapped to canonical CiteSeer."
+  "2209.00793":
+    CiteSeer: "Variable label-budget results are not the canonical fixed CiteSeer protocol."
+  "2602.01771":
+    PubMed: "No canonical PubMed split evidence was provided for the stored result."
+  "2406.13250":
+    PubMed: "Random 60/20/20 PubMed split is not the canonical Planetoid split."
+  "2410.02296":
+    PubMed: "Random 60/20/20 PubMed split is not the canonical Planetoid split."
+  "2402.05894":
+    PubMed: "Custom 6:2:2 PubMed split is not the canonical Planetoid split."
+  "2310.16421":
+    PubMed: "Random 60/20/20 PubMed split is not the canonical Planetoid split."
+  "2502.11394":
+    ogbn-arxiv: "Stored value came from an unrelated CSBM appendix rather than the OGB table."
+  "2205.07308":
+    ogbn-arxiv: "Penn94 value was incorrectly mapped from generic arXiv context."
+  "2507.19526":
+    ogbn-arxiv: "Few-shot random-task results are not the full official OGB task."
+  "2202.04936":
+    ogbn-arxiv: "Attack/attribute-injection results use a non-canonical metric and setting."
+  "2509.24886":
+    PROTEINS: "Random repeated 80/10/10 splits are not the canonical TU 10-fold protocol."
+  "2009.05923":
+    PROTEINS: "Random repeated 80/10/10 splits are not the canonical TU 10-fold protocol."
+  "2406.01249":
+    PROTEINS: "Random repeated 80/10/10 splits are not the canonical TU 10-fold protocol."
 
 # These link-prediction papers may retain genuine link-prediction benchmark rows,
 # but must never populate node-classification leaderboards.
@@ -27,3 +76,11 @@ allowed_dataset_tasks:
   "2303.08958": ["link_prediction"]
   "2210.05801": ["link_prediction"]
   "2211.14394": ["link_prediction"]
+
+# Row-level exclusions are used when a paper has valid rows for the same
+# dataset but a subset of models was shifted from an adjacent table column.
+exclude_results:
+  "2409.06998":
+    ogbn-arxiv:
+      models: [GMoE, Mowst]
+      reason: "Values copied from the adjacent genius column; the OGB-arxiv column reports different values."

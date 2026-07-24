@@ -12,6 +12,7 @@ the curated data to the site.
 - Use `uv` for package and environment management.
 - Install dependencies with `uv sync --group dev`.
 - Run commands with `uv run ...` instead of calling local Python tooling directly.
+- In this sandbox, prefix `uv` commands with `UV_CACHE_DIR=/tmp/benchmarking-uv-cache` so uv does not try to write its cache under the read-only home directory.
 - Prefer small, focused, regular git commits over large batches of unrelated work.
 - Keep changes clean and reviewable; do not leave the tree in a half-finished state.
 

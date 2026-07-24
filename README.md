@@ -277,8 +277,11 @@ uv run python scripts/todo_queue.py add 2406.08993 --reason "found via citation 
 # Add with manual priority (processed before papers with higher seen_count)
 uv run python scripts/todo_queue.py add 2406.08993 --important --reason "OGB leaderboard"
 
-# Mark an existing queue row as manually important (optionally requeue done/failed rows)
-uv run python scripts/todo_queue.py mark-important 2406.08993 --requeue
+# Requeue existing terminal rows without marking them important
+uv run python scripts/todo_queue.py requeue 2406.08993 2407.02263
+
+# Mark an existing queue row as manually important (always requeues terminal rows and forces re-evaluation)
+uv run python scripts/todo_queue.py mark-important 2406.08993
 uv run python scripts/todo_queue.py unmark-important 2406.08993
 
 # Process only manually important papers (until the important queue is empty)
@@ -290,15 +293,23 @@ uv run python scripts/todo_queue.py list --status all
 
 Queue priority order: **`is_manually_important DESC`, then `seen_count DESC`, then oldest first**.
 Manually important papers (marked via `--important` or `mark-important`) are always
-claimed before papers discovered only via Semantic Scholar link density.
+claimed before papers discovered only via Semantic Scholar link density and are
+processed with `--force`, so existing extraction is re-evaluated.
+
+The `requeue` command moves existing `done`, `failed`, or `rejected` rows back to
+`pending` and resets their queue attempt count without changing manual importance.
+Run the dashboard with `--force` when these papers should be re-evaluated from
+existing extraction artifacts.
 
 #### Running many workers in parallel
 
 Use the `worker` subcommand to saturate your GPU with concurrent extractions.
 Each worker atomically claims exactly one pending paper before starting, so no
-two workers will ever process the same paper.  Workers that crash or are killed
-leave papers in a `processing` state; these are automatically released back to
-`pending` after 15 minutes so the next worker can retry them.
+two active workers will process the same paper.  Processing claims have a
+heartbeat and an ownership token. Workers that crash or are killed leave papers
+in a `processing` state; these are automatically released back to `pending`
+after 15 minutes so the next worker can retry them. A worker that loses its
+claim cannot finalize over the newer owner.
 
 ```bash
 # Launch 10 parallel workers, each writing its own log file
@@ -431,6 +442,31 @@ with a compare-specific ``comparison.json``. On-disk results are reused automati
 and labeled ``[cached]`` or ``[auto-included]`` in the summary tables; ``--interactive``
 model selection re-runs selected models.
 
+### `scripts/validate_extraction.py` — fixed dataset-only validation
+
+Runs the publication validation cohort in `config/extraction_validation.yaml` without
+benchmarking dataset discovery. Every model receives the same manifest-defined datasets;
+the manifest fixes the exact model roster, model roles, comparison reference, and validation
+revision. The runner refuses to start if any required model is unavailable. Reports, incremental
+run state, and manual-review matrices are written under `experiments/extraction_validation/`.
+
+```bash
+UV_CACHE_DIR=/tmp/benchmarking-uv-cache uv run python scripts/validate_extraction.py
+
+# Check that the exact required roster is reachable without starting the experiment
+UV_CACHE_DIR=/tmp/benchmarking-uv-cache uv run python scripts/validate_extraction.py \
+  --preflight-only
+
+# Override the default of three simultaneous paper jobs for each model
+UV_CACHE_DIR=/tmp/benchmarking-uv-cache uv run python scripts/validate_extraction.py \
+  --workers-per-model 2
+```
+
+Use `--force` to ignore validation caches. Caches are isolated by the manifest digest, which
+includes its explicit validation revision; main website extraction artifacts are never reused or
+overwritten. Failures are recorded without stopping unrelated jobs, and cause a nonzero exit after
+the partial report has been written.
+
 ---
 
 ### `scripts/set_dataset_stats.py` — update dataset statistics in the DB
@@ -486,14 +522,12 @@ uv run -m backend.seed_db
 
 # 5. Build local generated state (note the "-m")
 uv run -m backend.export_to_hugo
-hugo --source site
 
 # 6. Run one paper as a smoke test
 uv run scripts/run_manual.py 2206.08164
 
 # 7. Re-export and rebuild the site after extraction
 uv run -m backend.export_to_hugo
-hugo --source site
 ```
 
 Notes:
@@ -502,7 +536,8 @@ Notes:
 - `papers/` is intentionally git-ignored; this is where downloads, extraction artifacts,
   and local overrides live on the server.
 - The normal refresh loop is: crawl or process papers, run parsing/extraction, then
-  `uv run python -m backend.export_to_hugo` and `hugo --source site`.
+  `uv run python -m backend.export_to_hugo`; a full export also runs Hugo with
+  `--cleanDestinationDir` automatically.
 - `uv run python -m backend.seed_db` is safe to re-run after dataset changes; it now also
   imports legacy pending-dataset YAML entries (if present) and marks DB-backed pending rows
   as `resolved` once they map to canonical datasets.

@@ -70,6 +70,14 @@ paper_arxiv_id: "{arxiv_id}"
 # metadata_overrides:
 #   codebase_url: "https://github.com/example/repo"
 
+# Correct model metadata. Add `dataset` when the paper uses different model
+# sizes for the same model name on different benchmarks.
+# model_metadata_overrides:
+#   - model: "GatedGCN-VN"
+#     dataset: "ogbg-molpcba"
+#     params_millions: 57.0
+#     reason: "See the dataset-specific configuration table in the paper"
+
 # Notes about non-standard splits used in this paper.
 # dataset_split_notes:
 #   - dataset: "Cora"

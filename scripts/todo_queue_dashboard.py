@@ -42,11 +42,15 @@ from rich.text import Text
 from sqlalchemy import func
 
 from backend.db import session_scope
-from backend.models import TodoPaper
+from backend.models import TodoPaper, TodoPaperStatus
 from backend.todo_queue import TodoQueueRunResult, process_queue
 
 ANSI_RE = re.compile(r"\x1B\[[0-?]*[ -/]*[@-~]")
 EXTRACT_DATASET_RE = re.compile(r"extract_dataset:([^\s]+)")
+EXTRACT_DATASET_VARIANT_RE = re.compile(
+    r"^(?P<name>.+?):(?:(?:g|table)\d+|tables_only|tables_first)$",
+    re.IGNORECASE,
+)
 CONFIDENCE_RE = re.compile(r"Confidence:\s*([^\s]+)")
 RESULTS_RE = re.compile(r"Results:\s*(\d+)")
 PROPOSED_RE = re.compile(r"Proposed:\s*([^\n]+)$")
@@ -79,6 +83,7 @@ class WorkerState:
     title: str = ""
     status: str = "idle"
     dataset_current: str = ""
+    dataset_names: list[str] = field(default_factory=list)
     dataset_index: int = 0
     dataset_total: int = 0
     confidence: str = ""
@@ -149,6 +154,7 @@ class DashboardState:
         self.total_failed = 0
         self.queue_total: int = 0
         self.queue_max_refs: int = 0
+        self.queue_failed_total: int = 0
         self.lock_contention_drops: int = 0
         self.ui_last_render_at: float = time.monotonic()
         self.ui_loop_iterations: int = 0
@@ -171,6 +177,7 @@ class DashboardState:
             "drain_requests": 0,
             "queue_total": 0,
             "queue_max_refs": 0,
+            "queue_failed_total": 0,
             "lock_contention_drops": 0,
             "peek_worker_id": None,
             "selected_worker_index": 0,
@@ -421,6 +428,7 @@ class DashboardState:
                     "drain_requests": self.drain_requests,
                     "queue_total": self.queue_total,
                     "queue_max_refs": self.queue_max_refs,
+                    "queue_failed_total": self.queue_failed_total,
                     "lock_contention_drops": self.lock_contention_drops,
                     "peek_worker_id": self.peek_worker_id,
                     "selected_worker_index": self.selected_worker_index,
@@ -505,15 +513,35 @@ def _dataset_breakdown_from_output(arxiv_id: str) -> str:
         return ""
 
 
-def _queue_stats_snapshot() -> tuple[int, int]:
-    """Return (total rows in queue, max seen_count)."""
+def _queue_stats_snapshot() -> tuple[int, int, int]:
+    """Return (open rows, max seen_count among open rows, total failed rows)."""
     try:
         with session_scope() as session:
-            total_rows = int(session.query(func.count(TodoPaper.id)).scalar() or 0)
-            max_refs = int(session.query(func.max(TodoPaper.seen_count)).scalar() or 0)
-        return total_rows, max_refs
+            open_statuses = [
+                TodoPaperStatus.PENDING.value,
+                TodoPaperStatus.PROCESSING.value,
+            ]
+            failed_statuses = [
+                TodoPaperStatus.FAILED.value,
+                TodoPaperStatus.REJECTED.value,
+            ]
+            open_query = session.query(TodoPaper).filter(TodoPaper.status.in_(open_statuses))
+            open_rows = int(open_query.count())
+            max_refs = int(
+                session.query(func.max(TodoPaper.seen_count))
+                .filter(TodoPaper.status.in_(open_statuses))
+                .scalar()
+                or 0
+            )
+            failed_total = int(
+                session.query(func.count(TodoPaper.id))
+                .filter(TodoPaper.status.in_(failed_statuses))
+                .scalar()
+                or 0
+            )
+        return open_rows, max_refs, failed_total
     except Exception:
-        return 0, 0
+        return 0, 0, 0
 
 
 def _pending_ready_count(max_attempts: int) -> int:
@@ -625,6 +653,38 @@ def _parse_discovered_datasets(line: str) -> list[str]:
     return names
 
 
+def _unique_dataset_names(names: list[str]) -> list[str]:
+    unique: list[str] = []
+    seen: set[str] = set()
+    for name in names:
+        normalized = name.strip()
+        key = normalized.casefold()
+        if normalized and key not in seen:
+            seen.add(key)
+            unique.append(normalized)
+    return unique
+
+
+def _normalize_extracted_dataset(raw_name: str) -> str:
+    """Strip retry, group, and per-table suffixes from an extraction call name."""
+    name = raw_name.strip()
+    while True:
+        match = EXTRACT_DATASET_VARIANT_RE.match(name)
+        if match is None:
+            return name
+        name = match.group("name")
+
+
+def _dataset_position(state: WorkerState, dataset_name: str) -> int:
+    key = dataset_name.casefold()
+    for index, known_name in enumerate(state.dataset_names, start=1):
+        if known_name.casefold() == key:
+            return index
+
+    state.dataset_names.append(dataset_name)
+    return len(state.dataset_names)
+
+
 def _update_state_from_line(state: WorkerState, line: str) -> None:
     state.last_line = line
 
@@ -657,18 +717,19 @@ def _update_state_from_line(state: WorkerState, line: str) -> None:
 
     datasets = _parse_discovered_datasets(line)
     if datasets:
-        state.dataset_total = max(state.dataset_total, len(datasets))
+        state.dataset_names = _unique_dataset_names(state.dataset_names + datasets)
+        state.dataset_total = len(state.dataset_names)
 
     match = EXTRACT_DATASET_RE.search(line)
     if match:
-        ds_name = match.group(1)
-        if ds_name and ds_name != state.dataset_current:
-            state.dataset_index += 1
+        ds_name = _normalize_extracted_dataset(match.group(1))
+        if ds_name:
+            state.dataset_index = _dataset_position(state, ds_name)
             state.dataset_current = ds_name
+            state.dataset_total = max(state.dataset_total, len(state.dataset_names))
         if state.dataset_total > 0:
             state.status = (
-                f"dataset {state.dataset_index}/{state.dataset_total}: "
-                f"{state.dataset_current[:22]}"
+                f"dataset {state.dataset_index}/{state.dataset_total}: {state.dataset_current[:22]}"
             )
         else:
             state.status = f"dataset {state.dataset_index}: {state.dataset_current[:22]}"
@@ -686,13 +747,13 @@ def _format_header_line(snap: dict) -> Text:
     total_failed = int(snap.get("total_failed", 0))
     queue_total = int(snap.get("queue_total", 0))
     queue_max_refs = int(snap.get("queue_max_refs", 0))
+    queue_failed_total = int(snap.get("queue_failed_total", 0))
     desired_workers = int(snap.get("desired_workers", 0))
     drain = int(snap.get("drain_requests", 0))
-    focus = snap.get("ui_focus", "workers")
     line = (
-        f"todo_queue  ok={total_done:4d} fail={total_failed:3d} "
+        f"todo_queue  ok={total_done:4d} fail={total_failed:3d}/{queue_failed_total:4d} "
         f"q={queue_total:4d} refs={queue_max_refs:3d} "
-        f"w={desired_workers:2d} drain={drain:2d} focus={focus:8s}"
+        f"w={desired_workers:2d} drain={drain:2d}"
     )
     return Text(line, style="bold")
 
@@ -732,6 +793,7 @@ def _dashboard_render_fingerprint(snap: dict, now: float) -> str:
             snap.get("total_failed"),
             snap.get("queue_total"),
             snap.get("queue_max_refs"),
+            snap.get("queue_failed_total"),
             snap.get("desired_workers"),
             snap.get("drain_requests"),
             snap.get("selected_worker_index"),
@@ -1300,17 +1362,19 @@ def _worker_loop(
             return
 
         def _on_start(entry, _index, _total):
-            queue_total, queue_max_refs = _queue_stats_snapshot()
+            queue_total, queue_max_refs, queue_failed_total = _queue_stats_snapshot()
 
             def _start_update() -> None:
                 dash.queue_total = queue_total
                 dash.queue_max_refs = queue_max_refs
+                dash.queue_failed_total = queue_failed_total
                 state.arxiv_id = entry.arxiv_id
                 state.title = entry.title or ""
                 state.status = "claimed"
                 state.started_at = time.time()
                 state.last_update_at = state.started_at
                 state.dataset_current = ""
+                state.dataset_names = []
                 state.dataset_index = 0
                 state.dataset_total = 0
                 state.confidence = ""
@@ -1328,12 +1392,14 @@ def _worker_loop(
 
             dash.mutate(_start_update)
             LOGGER.info(
-                "worker=%s claimed arxiv=%s refs_at_start=%s queue_total=%s queue_max_refs=%s",
+                "worker=%s claimed arxiv=%s refs_at_start=%s queue_total=%s queue_max_refs=%s "
+                "queue_failed_total=%s",
                 worker_id,
                 entry.arxiv_id,
                 entry.seen_count or 0,
                 queue_total,
                 queue_max_refs,
+                queue_failed_total,
             )
 
         def _runner(arxiv_id: str, *, model: str, force: bool) -> TodoQueueRunResult:
@@ -1358,6 +1424,7 @@ def _worker_loop(
 
         def _on_finish(_entry, status, _result, _index, _total):
             dataset_breakdown = _dataset_breakdown_from_output(state.arxiv_id)
+            queue_total, queue_max_refs, queue_failed_total = _queue_stats_snapshot()
 
             def _finish_update() -> None:
                 if status == "done":
@@ -1368,6 +1435,9 @@ def _worker_loop(
                     dash.total_failed += 1
                     state.failed += 1
                     state.status = status
+                dash.queue_total = queue_total
+                dash.queue_max_refs = queue_max_refs
+                dash.queue_failed_total = queue_failed_total
                 state.dataset_breakdown = dataset_breakdown
                 state.last_update_at = time.time()
                 dash.events.append(f"w{worker_id} finished {state.arxiv_id} => {status}")

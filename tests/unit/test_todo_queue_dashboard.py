@@ -19,9 +19,7 @@ def _load_dashboard():
 
 def test_detect_status_skip_export_not_exporting():
     dash = _load_dashboard()
-    status = dash._detect_status_from_line(
-        "6. Build Hugo Pages — skipped (--skip-export)"
-    )
+    status = dash._detect_status_from_line("6. Build Hugo Pages — skipped (--skip-export)")
     assert status == "export skipped (--skip-export)"
 
 
@@ -53,9 +51,41 @@ def test_detect_status_real_export():
     assert dash._detect_status_from_line("Exporting datasets:  12%|") == "exporting datasets"
 
 
+def test_dataset_progress_counts_unique_datasets_not_call_variants():
+    dash = _load_dashboard()
+    state = dash.WorkerState(worker_id=1)
+
+    dash._update_state_from_line(state, "Datasets: Actor, Elliptic")
+    dash._update_state_from_line(state, "Call 1 extract_dataset:Actor")
+    assert state.status == "dataset 1/2: Actor"
+
+    dash._update_state_from_line(state, "Call 2 extract_dataset:Actor:g1")
+    dash._update_state_from_line(state, "Call 3 extract_dataset:Actor:table2")
+    assert state.status == "dataset 1/2: Actor"
+
+    dash._update_state_from_line(state, "Call 4 extract_dataset:Elliptic:tables_only")
+    assert state.status == "dataset 2/2: Elliptic"
+
+
+def test_dataset_progress_never_exceeds_discovered_total():
+    dash = _load_dashboard()
+    state = dash.WorkerState(worker_id=1)
+
+    dash._update_state_from_line(state, "Datasets: A, B, C")
+    for index in range(100):
+        dash._update_state_from_line(state, f"Call {index} extract_dataset:B:g{index + 1}")
+
+    assert state.dataset_total == 3
+    assert state.dataset_index == 2
+    assert state.status == "dataset 2/3: B"
+
+
 def test_detect_status_done_rule():
     dash = _load_dashboard()
-    assert dash._detect_status_from_line("──────────────────────── Done ────────────────────────") == "done"
+    assert (
+        dash._detect_status_from_line("──────────────────────── Done ────────────────────────")
+        == "done"
+    )
 
 
 def test_worker_id_at_screen_row():
@@ -103,6 +133,7 @@ def test_header_line_stable_width():
         "total_failed": 0,
         "queue_total": 10,
         "queue_max_refs": 5,
+        "queue_failed_total": 8,
         "desired_workers": 3,
         "drain_requests": 0,
         "ui_focus": "workers",
@@ -111,6 +142,26 @@ def test_header_line_stable_width():
     snap["total_done"] = 9999
     line_b = dash._format_header_line(snap).plain
     assert len(line_a) == len(line_b)
+
+
+def test_header_line_shows_session_and_total_failures_without_focus():
+    dash = _load_dashboard()
+    line = dash._format_header_line(
+        {
+            "total_done": 3,
+            "total_failed": 2,
+            "queue_failed_total": 8,
+            "queue_total": 10,
+            "queue_max_refs": 5,
+            "desired_workers": 3,
+            "drain_requests": 0,
+        }
+    ).plain
+    assert "ok=   3" in line
+    assert "fail=  2/   8" in line
+    assert "q=  10 refs=  5" in line
+    assert "focus" not in line
+
     dash_mod = _load_dashboard()
     state = dash_mod.DashboardState(workers=3)
     state.select_worker_index(2, 3)

@@ -41,11 +41,30 @@ extraction_confidence: <HIGH|MEDIUM|LOW>
 coverage_assessment: <complete|partial|uncertain>
 extraction_notes: <describe any ambiguities, unclear values, or tables that could not be parsed>
 
+DATASET/TABLE SCOPE RULES:
+- Extract only explicit result entries for the focused dataset named in the supplied FOCUS block.
+- If no explicit table entry exists for that dataset, return no results.
+- Never copy a column or row belonging to another dataset, even when the table contains several datasets.
+- A table that does not name the focused dataset may be used only when the supplied selection rationale
+  explains why it is the correct table.
+
 Rules:
 - Protocol decision (mandatory for EVERY row): decide from the focused table, its caption, and
   the nearby experiment paragraphs whether the row uses the canonical task and standard split
   for the named dataset. Use `standard`, `nonstandard`, or `uncertain` as described by the JSON
   prompt. Report nonstandard rows for audit, but never treat them as leaderboard results.
+- Treat a result as `nonstandard` when it evaluates only a subset of a multi-task benchmark,
+  changes the benchmark's train/validation/test construction, or uses a custom/OOD/size-based
+  split. For OGB datasets, the official default split and full task set are part of the canonical
+  protocol: "selected balanced tasks" is not a standard OGB result.
+- A `standard` decision requires row-local evidence in `protocol_note` for the canonical task
+  and split; do not infer it merely from the dataset name or an "OGB" citation.
+- For canonical standard rows, name the dataset-specific split in `protocol_note`: QM9's
+  published train/validation/test split, Planetoid for Cora/CiteSeer/PubMed, the official
+  OGB split for OGB datasets, or the canonical 10-fold protocol for TU graph datasets.
+- Never emit benchmark rows when the extraction is partial/uncertain or when values are
+  described as truncated, synthesized, representative, fabricated, or otherwise incomplete;
+  return the ambiguity in `extraction_notes` instead.
 - Do not use unrelated mentions elsewhere in the paper as evidence against the current table.
 - `coverage_assessment` is `complete` only when all relevant selected tables and setup paragraphs
   have been reviewed; otherwise use `partial` or `uncertain`.
@@ -64,6 +83,13 @@ Rules:
   "v2", "++", or "(ours)" when they are part of the displayed row label.
 - Never replace a specific model name with a generic family name. Example: keep "GraphGPS"
   as "GraphGPS", not "Graph Transformer"; keep "GINE + RWSE" as "GINE + RWSE", not "GINE".
+- Treat any table label beginning with "our" or "ours" as the paper's proposed result. Use the
+  early proposed-model identification and supporting sentence supplied in the input to resolve
+  placeholders such as "Our(GCN)" and "Ours(3-hop)" to the underlying method name. Own
+  configuration variants are the same underlying method unless the paper explicitly defines
+  separate methods. Normalize the specific qualifier "MLP (tuned)" to "MLP".
+- Do not strip arbitrary parentheses: preserve scientific notation and equivariant names such
+  as SE(3)-DDM, SO(3), and related architecture terminology.
 - `proposed_model.name` must be the paper's actual proposed method name, not a generic model type.
 - Determine `proposed_model.name` from explicit self-identification in THIS paper
   (title, abstract, intro, or method sections with phrases like "we propose",

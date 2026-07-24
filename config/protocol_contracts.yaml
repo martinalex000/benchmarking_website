@@ -1,0 +1,43 @@
+# Positive evidence required before rows can enter a standard leaderboard.
+# These are intentionally conservative: an undocumented protocol is not
+# comparable merely because the dataset name and task type match.
+datasets:
+  qm9:
+    required_any:
+      - "(?:0\\.8\\s*/\\s*0\\.1\\s*/\\s*0\\.1|80\\s*/\\s*10\\s*/\\s*10)"
+      - "(?:110(?:,000)?\\s*/\\s*10(?:,000)?\\s*/\\s*10(?:,000)?)"
+    forbidden_any:
+      - "\\b(?:truncated|synthesi[sz]ed|representative|fabricated|incomplete)\\b"
+  citeseer:
+    required_any:
+      - "\\bplanetoid\\b"
+      - "\\bfixed\\s+(?:planetoid\\s+)?split\\b"
+      - "\\byang\\s+et\\s+al\\.?[^.]{0,40}\\b(?:fixed|split)\\b"
+    forbidden_any:
+      - "\\b(?:5[- ]fold|k[- ]fold|cross[- ]validation|few[- ]shot|label budget|labels?\\s+per\\s+class)\\b"
+      - "\\b(?:attack|backdoor|poison|asr|attack success|cta|robustness)\\b"
+      - "\\b(?:random|temporal|continual|ood|out[- ]of[- ]distribution)\\b[^.]{0,30}\\bsplit\\b"
+  pubmed:
+    required_any:
+      - "\\bplanetoid\\b"
+      - "\\bfixed\\s+(?:planetoid\\s+)?split\\b"
+      - "\\byang\\s+et\\s+al\\.?[^.]{0,40}\\b(?:fixed|split)\\b"
+    forbidden_any:
+      - "\\b(?:random|custom|temporal|continual|few[- ]shot|ood|out[- ]of[- ]distribution)\\b[^.]{0,30}\\b(?:split|partition|setting)\\b"
+      - "\\b\\d+\\s*/\\s*\\d+\\s*/\\s*\\d+\\s*%?\\b"
+  ogbn-arxiv:
+    required_any:
+      - "\\bofficial\\b[^.]{0,40}\\b(?:ogb|split)\\b"
+      - "\\bogb\\b[^.]{0,40}\\b(?:official|default|split)\\b"
+      - "\\btransductive\\b[^.]{0,40}\\b(?:ogb|official)\\b"
+    forbidden_any:
+      - "\\b(?:few[- ]shot|5[- ]way|prompt tuning|linear probing|attack|backdoor|poison|meta[- ]attack|attribute injection|auroc|penn94|csbm)\\b"
+      - "\\b(?:selected|balanced|subset|random)\\s+tasks?\\b"
+  proteins:
+    required_any:
+      - "\\b10[- ]fold(?:\\s+cross[- ]validation)?\\b"
+      - "\\bten[- ]fold(?:\\s+cross[- ]validation)?\\b"
+      - "\\bxu\\s+et\\s+al\\.?[^.]{0,60}\\b(?:split|protocol)\\b"
+    forbidden_any:
+      - "\\b(?:random\\s+)?(?:80\\s*/\\s*10\\s*/\\s*10|80/10/10)\\s*%?\\b"
+      - "\\b(?:random|custom|few[- ]shot|linear probing|temporal|continual)\\b[^.]{0,30}\\b(?:split|partition|setting)\\b"

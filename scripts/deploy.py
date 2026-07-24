@@ -91,8 +91,7 @@ def _validate_remote_staging_dir(path: str, *, parent: str) -> str:
     parent_norm = _normalize_remote_path(parent)
     if not normalized.startswith(f"{parent_norm}/"):
         sys.exit(
-            f"ERROR: Refusing remote staging cleanup: {normalized!r} "
-            f"is not under {parent_norm!r}."
+            f"ERROR: Refusing remote staging cleanup: {normalized!r} is not under {parent_norm!r}."
         )
     if normalized == parent_norm:
         sys.exit(f"ERROR: Refusing remote staging cleanup: path equals parent {parent_norm!r}.")
@@ -526,7 +525,17 @@ def local_host_id() -> str:
 
 
 def run_hugo_build(project_dir: Path, build_dir: str | Path, *, hugo_base_url: str) -> None:
-    hugo_cmd = ["uv", "run", "hugo", "--minify", "--source", "site", "-d", str(build_dir)]
+    hugo_cmd = [
+        "uv",
+        "run",
+        "hugo",
+        "--minify",
+        "--cleanDestinationDir",
+        "--source",
+        "site",
+        "-d",
+        str(build_dir),
+    ]
     if hugo_base_url:
         hugo_cmd.extend(["--baseURL", hugo_base_url])
     subprocess.run(hugo_cmd, check=True, cwd=project_dir)
@@ -829,7 +838,11 @@ def prepare_hugo_content(
         )
 
     print("Exporting Hugo content from database (includes site/content/dev)...")
-    subprocess.run([sys.executable, "-m", "backend.export_to_hugo"], check=True, cwd=project_dir)
+    subprocess.run(
+        [sys.executable, "-m", "backend.export_to_hugo", "--skip-build"],
+        check=True,
+        cwd=project_dir,
+    )
     persist_export_snapshot(project_dir, host_id)
 
 

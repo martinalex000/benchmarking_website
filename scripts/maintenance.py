@@ -48,6 +48,7 @@ from backend.s2_todo_crawl import (  # noqa: E402
     sync_todo_status_with_local_corpus,
 )
 from backend.semantic_scholar import (  # noqa: E402
+    cache_paper_metadata,
     fetch_paper_metadata,
     resolve_paper_authors,
     resolve_paper_venue,
@@ -289,6 +290,7 @@ def backfill_publication(*, dry_run: bool, limit: int, with_results_only: bool) 
                 else:
                     meta = fetch_paper_metadata(paper.arxiv_id)
                     if meta:
+                        cache_paper_metadata(paper.arxiv_id, meta)
                         changed = False
                         if venue_needs_resolution(paper.venue):
                             resolved_venue = resolve_paper_venue(paper.arxiv_id, meta)

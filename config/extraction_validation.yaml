@@ -1,0 +1,47 @@
+# Fixed cohort for the publication-facing, dataset-by-dataset extraction validation.
+# Result counts are the current non-problematic parsed rows in benchmarks.db.
+revision: "dataset-extraction-v2"
+
+models:
+  - model_id: "zai-org/GLM-5.2-FP8"
+    role: reference
+  - model_id: "cyankiwi/gemma-4-26B-A4B-it-AWQ-4bit"
+    role: local
+  - model_id: "google/gemma-4-31B-it"
+    role: advanced
+  - model_id: "moonshotai/Kimi-K2.7-Code"
+    role: advanced
+  - model_id: "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+    role: advanced
+  - model_id: "openai/gpt-oss-120b"
+    role: advanced
+  - model_id: "MiniMaxAI/MiniMax-M3-MXFP8"
+    role: advanced
+  - model_id: "meta-llama/Llama-3.3-70B-Instruct"
+    role: advanced
+  - model_id: "meta-llama/Llama-3.1-8B-Instruct"
+    role: weak_baseline
+
+papers:
+  - arxiv_id: "2110.14446"
+    datasets: [Penn94, Pokec, arxiv-year, snap-patents, twitch-gamers, Texas, Wisconsin, Actor, Squirrel, Chameleon, Cornell, CiteSeer, PubMed, Cora, ogbn-arxiv]
+  - arxiv_id: "2205.12454"
+    datasets: [ZINC, MNIST, CIFAR10, PATTERN, CLUSTER, ogbg-ppa, Code, PCQM4Mv2, MalNet-Tiny, PCQM-Contact]
+  - arxiv_id: "2305.08018"
+    datasets: [Peptides-func, Peptides-struct, PCQM-Contact, PascalVOC-SP, QM9]
+  - arxiv_id: "2305.13315"
+    datasets: [BBBP, Tox21, ToxCast, SIDER, ClinTox, BACE, ESOL, Lipophilicity]
+  - arxiv_id: "2305.18407"
+    datasets: [QM9, MD17, Tox21, BACE]
+  - arxiv_id: "2306.16976"
+    datasets: [Texas, Wisconsin, Cornell, Actor, Squirrel, Chameleon, CiteSeer, PubMed, Cora, Penn94, arxiv-year, ogbn-arxiv]
+  - arxiv_id: "2405.02795"
+    datasets: [QM9, ZINC, PascalVOC-SP, Peptides-func, Peptides-struct, MUTAG, PROTEINS]
+  - arxiv_id: "2405.16435"
+    datasets: [Cora, CiteSeer, PubMed, Amazon-Computers, Amazon-Photo, Coauthor-Physics, WikiCS, Squirrel, Chameleon, Questions, ogbn-proteins, ogbn-arxiv, ogbn-products, Pokec, ogbl-collab, Tox21, ToxCast, SIDER, ClinTox, BBBP, BACE]
+  - arxiv_id: "2502.09263"
+    datasets: [ZINC, MNIST, CIFAR10, PATTERN, CLUSTER, Peptides-func, Peptides-struct, PascalVOC-SP, COCO-SP, MalNet-Tiny, ogbg-molhiv, ogbg-molpcba, ogbg-ppa, Code, COLLAB, MUTAG]
+  - arxiv_id: "2506.04765"
+    datasets: [Cora, CiteSeer, PubMed, Chameleon, Squirrel, Actor, Cornell, Texas, Wisconsin, ogbg-molhiv, ogbg-molpcba, Peptides-func, Peptides-struct, ZINC]
+
+manual_review_papers: ["2506.04765", "2405.16435", "2305.08018"]

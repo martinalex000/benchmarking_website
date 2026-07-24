@@ -217,7 +217,11 @@ def stage_extract(args: argparse.Namespace) -> None:
             continue
         try:
             result = run_extraction(
-                p.arxiv_id, model_tier=model_tier, screen_first=screen_first, verbose=False
+                p.arxiv_id,
+                model_tier=model_tier,
+                screen_first=screen_first,
+                extraction_strategy=getattr(args, "strategy", "auto"),
+                verbose=False,
             )
             status = "success" if result else "failed"
         except KeyboardInterrupt:
@@ -269,7 +273,7 @@ def stage_parse(args: argparse.Namespace) -> None:
             summary = parse_and_store_with_summary(p.arxiv_id)
             stats_summary = parse_and_store_dataset_statistics(p.arxiv_id)
             sota_summary = parse_and_store_sota_claims(p.arxiv_id)
-            n = summary.new_results
+            n = summary.candidate_results
             if summary.quarantined:
                 status = "failed"
                 tqdm.write(
@@ -393,6 +397,12 @@ def _build_parser() -> argparse.ArgumentParser:
     ex = sub.add_parser("extract", help="Run LLM extraction")
     ex.add_argument(
         "--model", "-m", default="primary", help="Model tier (primary/fallback/small) or model name"
+    )
+    ex.add_argument(
+        "--strategy",
+        choices=["auto", "two-step", "guided-table", "full"],
+        default="auto",
+        help="Extraction strategy (default: auto)",
     )
     ex.add_argument("--paper", nargs="+", metavar="ARXIV_ID")
     ex.add_argument("--force", action="store_true")

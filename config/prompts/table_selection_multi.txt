@@ -7,7 +7,8 @@ INCLUDE a table for a dataset if it:
 - Reports model performance scores on that dataset (by name or common abbreviation)
 - Compares multiple models on a benchmark that includes that dataset
 
-PREFER the main benchmark table over appendix tables, ablation tables, and diagnostic tables.
+Appendix benchmark tables are first-class sources and may contain the paper's complete or
+summarized results. Do not exclude or deprioritize a table merely because it is in the appendix.
 
 EXCLUDE a table for a dataset if it:
 - Describes dataset statistics only (no model scores)
@@ -20,9 +21,11 @@ EXCLUDE a table for a dataset if it:
   (e.g., different graph construction formats, SLIC values, resolution variants)
   when a main results table already covers the standard configuration
 
-Output a JSON object ONLY — no markdown fences, no explanation.
+Output a JSON object ONLY — no markdown fences or prose outside the JSON object.
 The keys are exact dataset names from the TARGET DATASETS list.
-Each value is a list of integer table numbers.
+Each value is either a list of integer table numbers (legacy format), or an object with
+`relevant_table_numbers` and an `explanation` string. The explanation must be non-empty when
+the selected table lacks a deterministic dataset-name match.
 
 Example output (do not copy verbatim):
 {"Dataset-A": [3, 4], "Dataset-B": [3], "Dataset-C": [5, 6]}
@@ -30,3 +33,7 @@ Example output (do not copy verbatim):
 If genuinely unsure between a main benchmark table and an ablation/diagnostic table, keep only the
 main benchmark table.
 Use an empty list [] only if you are certain no table contains results for that dataset.
+
+The supplied deterministic dataset-match block is a conservative constraint. Prefer tables with
+an exact or fuzzy dataset-name match. A selected table without such a match is allowed only when
+the explanation is non-empty and states why the table is nevertheless the correct result table.

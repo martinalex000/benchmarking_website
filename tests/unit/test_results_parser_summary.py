@@ -14,9 +14,44 @@ from backend.db import init_db, session_scope
 from backend.models import Benchmark, Dataset, DatasetVariant, Model, Paper, Result
 from backend.paper_storage import PaperStorage
 from backend.results_parser import (
+    _build_dataset_param_lookup,
+    _extraction_quality_issues,
+    _protocol_decision,
+    _protocol_result_is_eligible,
     parse_and_store_with_summary,
     source_indicates_incompatible_protocol,
 )
+
+
+def test_extraction_quality_quarantines_partial_or_synthesized_output():
+    assert _extraction_quality_issues(
+        {
+            "coverage_assessment": "partial",
+            "extraction_notes": "Table was truncated; representative values were synthesized.",
+        },
+        [],
+    )
+    assert _extraction_quality_issues({"coverage_assessment": "complete"}, []) == []
+
+
+def test_dataset_param_lookup_does_not_collapse_model_counts():
+    lookup = _build_dataset_param_lookup(
+        [
+            {
+                "model_name": "GatedGCN-VN",
+                "dataset": "LRGB",
+                "params_millions": 0.5,
+            },
+            {
+                "model_name": "GatedGCN-VN",
+                "dataset": "ogbg-molpcba",
+                "params_millions": 57.0,
+            },
+        ]
+    )
+
+    assert lookup[("lrgb", "gatedgcn-vn")] == pytest.approx(0.5)
+    assert lookup[("ogbg-molpcba", "gatedgcn-vn")] == pytest.approx(57.0)
 
 
 def _configure_temp_workspace(monkeypatch, tmp_path: Path) -> None:
@@ -45,6 +80,7 @@ def _configure_temp_workspace(monkeypatch, tmp_path: Path) -> None:
     db_module._engine = None
     db_module._SessionFactory = None
     results_parser_module._PROTOCOL_EXCLUSIONS = None
+    results_parser_module._PROTOCOL_CONTRACTS = None
 
 
 def test_parse_and_store_with_summary_reports_side_effects(monkeypatch, tmp_path):
@@ -187,6 +223,52 @@ def test_forced_reparse_retains_existing_rows_when_extraction_has_no_results(mon
         assert session.query(Result).filter_by(paper_id=paper.id).count() == 1
 
 
+def test_curated_excluded_paper_clears_existing_rows(monkeypatch, tmp_path):
+    _configure_temp_workspace(monkeypatch, tmp_path)
+    (tmp_path / "workspace" / "config" / "protocol_exclusions.yaml").write_text(
+        "exclude_all_results:\n  '2402.06737': 'SSL protocol'\n",
+        encoding="utf-8",
+    )
+    init_db()
+
+    with session_scope() as session:
+        benchmark = Benchmark(name="Citation Benchmark", short_name="citation")
+        session.add(benchmark)
+        session.flush()
+        dataset = Dataset(
+            benchmark_id=benchmark.id,
+            name="Cora",
+            task_type="node_classification",
+            primary_metric="Accuracy",
+            higher_is_better=1,
+        )
+        session.add(dataset)
+        session.flush()
+        variant = DatasetVariant(dataset_id=dataset.id, name="Planetoid split", is_standard=1)
+        model = Model(name="ExGRG", canonical_name="ExGRG")
+        paper = Paper(arxiv_id="2402.06737", title="SSL paper")
+        session.add_all((variant, model, paper))
+        session.flush()
+        session.add(
+            Result(
+                paper_id=paper.id,
+                model_id=model.id,
+                dataset_variant_id=variant.id,
+                metric_name="Accuracy",
+                metric_value=0.82,
+                higher_is_better=1,
+            )
+        )
+
+    summary = parse_and_store_with_summary("2402.06737")
+
+    assert summary.new_results == 0
+    assert summary.replaced_results == 1
+    with session_scope() as session:
+        paper = session.query(Paper).filter_by(arxiv_id="2402.06737").one()
+        assert session.query(Result).filter_by(paper_id=paper.id).count() == 0
+
+
 def test_versioned_extraction_rejects_link_prediction_for_node_classification(
     monkeypatch, tmp_path
 ):
@@ -245,7 +327,7 @@ def test_versioned_extraction_rejects_link_prediction_for_node_classification(
         assert session.query(Result).filter_by(paper_id=paper.id).count() == 0
 
 
-@pytest.mark.parametrize("source_marker", ["out-of-distribution generalization", "backdoor attack"])
+@pytest.mark.parametrize("source_marker", ["out-of-distribution generalization"])
 def test_source_protocol_backstop_keeps_ambiguous_non_task_evidence(source_marker):
     variant = SimpleNamespace(dataset=SimpleNamespace(task_type="node_classification"))
 
@@ -257,6 +339,20 @@ def test_source_protocol_backstop_keeps_ambiguous_non_task_evidence(source_marke
         },
         variant,
         "The paper also discusses several unrelated benchmark tasks.",
+    )
+
+
+def test_source_protocol_backstop_rejects_attack_rows():
+    variant = SimpleNamespace(dataset=SimpleNamespace(task_type="node_classification"))
+
+    assert source_indicates_incompatible_protocol(
+        {
+            "metric": "Accuracy",
+            "evaluation_task": "node_classification",
+            "protocol_note": "This table reports backdoor attack success.",
+        },
+        variant,
+        "",
     )
 
 
@@ -302,6 +398,43 @@ def test_source_protocol_backstop_rejects_llm_nonstandard_decision():
         variant,
         "",
     )
+
+
+def test_source_protocol_backstop_rejects_selected_ogb_tasks_even_when_marked_standard():
+    variant = SimpleNamespace(
+        is_standard=True,
+        split_type="scaffold",
+        dataset=SimpleNamespace(task_type="graph_classification"),
+    )
+
+    assert source_indicates_incompatible_protocol(
+        {
+            "evaluation_task": "graph_classification",
+            "protocol_decision": "standard",
+            "protocol_note": "Average AP across selected balanced tasks; 8 of 128 tasks.",
+        },
+        variant,
+        "",
+    )
+
+
+def test_declared_split_requires_protocol_evidence_for_standard_result():
+    variant = SimpleNamespace(
+        is_standard=True,
+        split_type="scaffold",
+        dataset=SimpleNamespace(task_type="graph_classification"),
+    )
+
+    decision = _protocol_decision(
+        {
+            "evaluation_task": "graph_classification",
+            "protocol_decision": "standard",
+        },
+        variant,
+    )
+
+    assert decision == "uncertain"
+    assert not _protocol_result_is_eligible(decision, variant)
 
 
 def test_versioned_protocol_fields_are_optional_when_task_is_missing():

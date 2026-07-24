@@ -10,12 +10,7 @@
   {{ $papers := where .Site.RegularPages "Section" "papers" }}
   {{ $papersWithResults := where $papers "Params.has_results" true }}
   {{ $benchmarks := hugo.Data.benchmarks }}
-  {{ $resultCount := 0 }}
-  {{ range $datasets }}
-    {{ with .Params.result_count }}
-      {{ $resultCount = add $resultCount . }}
-    {{ end }}
-  {{ end }}
+  {{ $snapshot := hugo.Data.export_snapshot }}
   {{ $benchmarkCount := 0 }}
   {{ if $benchmarks }}
     {{ $benchmarkCount = len $benchmarks }}
@@ -31,9 +26,10 @@
   <div class="dataset-stats home-overview-links">
     <a class="stat-item stat-link" href="{{ "benchmark-groups/" | relURL }}"><span class="stat-value">{{ $benchmarkCount }}</span><span class="stat-label">benchmark groups</span></a>
     <a class="stat-item stat-link" href="{{ "datasets/" | relURL }}"><span class="stat-value">{{ len $datasets }}</span><span class="stat-label">datasets</span></a>
-    <a class="stat-item stat-link" href="{{ "papers-overview/" | relURL }}"><span class="stat-value">{{ len $papersWithResults }}</span><span class="stat-label">papers</span></a>
-    <a class="stat-item stat-link" href="{{ "results/" | relURL }}"><span class="stat-value">{{ $resultCount }}</span><span class="stat-label">results</span></a>
+    <a class="stat-item stat-link" href="{{ "papers-overview/" | relURL }}"><span class="stat-value">{{ $snapshot.counts.papers | default (len $papersWithResults) }}</span><span class="stat-label">papers</span></a>
+    <a class="stat-item stat-link" href="{{ "results/" | relURL }}"><span class="stat-value">{{ $snapshot.counts.results | default 0 }}</span><span class="stat-label">results</span></a>
   </div>
+  {{ with $snapshot }}<p class="home-snapshot-note">Leaderboard snapshot: {{ .generated_at }}. Counts use protocol-compatible standardized rows.</p>{{ end }}
   
   <div class="home-nav">
     <a href="{{ "datasets/" | relURL }}" class="btn-primary">Browse Datasets</a>

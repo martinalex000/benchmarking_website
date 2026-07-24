@@ -14,9 +14,9 @@ Usage::
 from __future__ import annotations
 
 import argparse
-import contextlib
 import json
 import logging
+import math
 import re
 from dataclasses import dataclass, field
 from typing import Any
@@ -46,6 +46,10 @@ from backend.models import (
 )
 from backend.override_handler import apply_overrides_to_db
 from backend.paper_storage import PaperStorage
+from backend.parameter_lookup import (
+    build_dataset_param_lookup as _build_dataset_param_lookup,
+)
+from backend.parameter_lookup import build_metadata_lookups as _build_metadata_lookups
 from backend.qm9_targets import is_qm9_dataset, normalize_qm9_metric
 from backend.repository_linking import (
     find_verified_repository_link,
@@ -80,6 +84,7 @@ def _apply_feature_source_model_name(entry: dict[str, Any]) -> None:
 
 _DATASET_ALIAS_MAP: dict[str, str] | None = None
 _PROTOCOL_EXCLUSIONS: dict[str, Any] | None = None
+_PROTOCOL_CONTRACTS: dict[str, Any] | None = None
 
 
 def _load_dataset_alias_map() -> dict[str, str]:
@@ -115,12 +120,55 @@ def _load_protocol_exclusions() -> dict[str, Any]:
     return _PROTOCOL_EXCLUSIONS
 
 
-def _allowed_by_protocol_curation(arxiv_id: str, variant: DatasetVariant) -> bool:
+def _load_protocol_contracts() -> dict[str, Any]:
+    global _PROTOCOL_CONTRACTS
+    if _PROTOCOL_CONTRACTS is None:
+        path = cfg.config_dir / "protocol_contracts.yaml"
+        if path.exists():
+            with path.open(encoding="utf-8") as fh:
+                _PROTOCOL_CONTRACTS = yaml.safe_load(fh) or {}
+        else:
+            _PROTOCOL_CONTRACTS = {}
+    return _PROTOCOL_CONTRACTS
+
+
+def _allowed_by_protocol_curation(
+    arxiv_id: str,
+    variant: DatasetVariant,
+    model_name: str | None = None,
+    metric_name: str | None = None,
+) -> bool:
     exclusions = _load_protocol_exclusions()
     if arxiv_id in (exclusions.get("exclude_all_results") or {}):
         return False
+    excluded_datasets = (exclusions.get("exclude_datasets") or {}).get(arxiv_id) or {}
+    if isinstance(excluded_datasets, dict):
+        excluded_names = {str(name).strip().casefold() for name in excluded_datasets}
+    else:
+        excluded_names = {str(name).strip().casefold() for name in excluded_datasets}
+    if (variant.dataset.name or "").strip().casefold() in excluded_names:
+        return False
+    row_rules = (exclusions.get("exclude_results") or {}).get(arxiv_id) or {}
+    dataset_rules = row_rules.get((variant.dataset.name or "").strip())
+    if dataset_rules is None:
+        dataset_rules = row_rules.get((variant.dataset.name or "").strip().casefold())
+    if isinstance(dataset_rules, dict):
+        excluded_models = {
+            str(name).strip().casefold() for name in (dataset_rules.get("models") or [])
+        }
+        excluded_metrics = {
+            str(name).strip().casefold() for name in (dataset_rules.get("metrics") or [])
+        }
+        if model_name and str(model_name).strip().casefold() in excluded_models:
+            return False
+        if metric_name and str(metric_name).strip().casefold() in excluded_metrics:
+            return False
     allowed_tasks = (exclusions.get("allowed_dataset_tasks") or {}).get(arxiv_id)
     return not allowed_tasks or variant.dataset.task_type in allowed_tasks
+
+
+def _curation_excludes_all_results(arxiv_id: str) -> bool:
+    return arxiv_id in (_load_protocol_exclusions().get("exclude_all_results") or {})
 
 
 # ── Metric normalisation ──────────────────────────────────────────────────────
@@ -180,6 +228,10 @@ _OGB_DATASET_ALIASES: dict[str, str] = {
     "ogbg-code": "code",
     "ogbg-moltox21": "tox21",
 }
+_DATASET_VARIANT_QUALIFIER_RE = re.compile(
+    r"\b(?:full|subset|random|temporal|continual|few[- ]shot|large|small|ca)\b",
+    re.IGNORECASE,
+)
 
 # token_sort_ratio >= 88 matched the current model set well enough to reuse
 # obvious variants like punctuation or spacing changes without collapsing short
@@ -268,6 +320,63 @@ _TASK_TYPE_ALIASES: dict[str, str] = {
     "edge-prediction": "link_prediction",
 }
 
+_NONSTANDARD_PROTOCOL_CUE_RE = re.compile(
+    r"\b(?:"
+    r"selected\s+(?:balanced\s+)?tasks?|"
+    r"(?:balanced|hand[- ]picked|chosen|selected)\s+(?:task|label)s?|"
+    r"most\s+balanced\s+(?:task|label)s?|"
+    r"subset(?:\s+of)?\s+(?:the\s+)?(?:\d+\s+)?tasks?|"
+    r"(?:only|just)\s+\d+\s+tasks?|"
+    r"(?:not|fewer\s+than|less\s+than)\s+(?:all|the\s+full)\s+\d*\s*tasks?|"
+    r"(?:custom|non[- ]standard|random|stratified|temporal|time[- ]based|"
+    r"size[- ]based|scaffold[- ]free|ood|out[- ]of[- ]distribution)\s+split|"
+    r"different\s+split|"
+    r"largest\s+\d+%\s+of\s+(?:graphs|molecules)|"
+    r"\b(?:few[- ]shot|linear[- ]probe|linear probing|continual|"
+    r"attack|backdoor|poison|asr|attack success|cta|meta[- ]attack|"
+    r"attribute injection|robustness)\b"
+    r")\b",
+    re.IGNORECASE,
+)
+
+
+def _protocol_contract_for_variant(variant: DatasetVariant) -> dict[str, Any]:
+    contracts = _load_protocol_contracts().get("datasets") or {}
+    dataset_name = getattr(variant.dataset, "name", "") or ""
+    return contracts.get(str(dataset_name).strip().casefold()) or {}
+
+
+def _contract_patterns_match(patterns: Any, note: str) -> bool:
+    return any(re.search(str(pattern), note, re.IGNORECASE) for pattern in (patterns or []))
+
+
+def _protocol_contract_disallows(entry: dict[str, Any], variant: DatasetVariant) -> bool:
+    contract = _protocol_contract_for_variant(variant)
+    note = str(entry.get("protocol_note") or "").strip()
+    return bool(note and _contract_patterns_match(contract.get("forbidden_any"), note))
+
+
+def _protocol_contract_has_evidence(entry: dict[str, Any], variant: DatasetVariant) -> bool:
+    contract = _protocol_contract_for_variant(variant)
+    required = contract.get("required_any")
+    if not required:
+        return True
+    note = str(entry.get("protocol_note") or "").strip()
+    return bool(note and _contract_patterns_match(required, note))
+
+
+def _requires_explicit_protocol_evidence(variant: DatasetVariant) -> bool:
+    """Return whether this canonical variant has a declared split contract."""
+    return bool(
+        getattr(variant, "is_standard", False)
+        and (getattr(variant, "split_type", None) or _protocol_contract_for_variant(variant))
+    )
+
+
+def _protocol_note_indicates_nonstandard(entry: dict[str, Any]) -> bool:
+    note = str(entry.get("protocol_note") or "").strip()
+    return bool(note and _NONSTANDARD_PROTOCOL_CUE_RE.search(note))
+
 
 def _normalized_evaluation_task(value: Any) -> str:
     task = str(value or "").strip().casefold().replace("_", " ")
@@ -293,8 +402,28 @@ def _protocol_decision(entry: dict[str, Any], variant: DatasetVariant) -> str:
     if actual_task and actual_task != expected_task:
         return "nonstandard"
 
+    # A row-local note describing a subset or custom split overrides an
+    # overconfident LLM decision. This is the backstop for papers that call a
+    # dataset "OGB" while evaluating only a hand-picked subset of its tasks.
+    if _protocol_note_indicates_nonstandard(entry):
+        return "nonstandard"
+    if _protocol_contract_disallows(entry, variant):
+        return "nonstandard"
+
     decision = str(entry.get("protocol_decision") or "").strip().casefold()
+    if decision == "nonstandard":
+        return decision
+    if _requires_explicit_protocol_evidence(variant) and not _protocol_contract_has_evidence(
+        entry, variant
+    ):
+        return "uncertain"
     if decision in {"standard", "nonstandard", "uncertain"}:
+        if (
+            decision == "standard"
+            and _requires_explicit_protocol_evidence(variant)
+            and not str(entry.get("protocol_note") or "").strip()
+        ):
+            return "uncertain"
         return decision
 
     standard = parse_optional_extracted_bool(entry.get("uses_standard_protocol"))
@@ -303,6 +432,13 @@ def _protocol_decision(entry: dict[str, Any], variant: DatasetVariant) -> str:
     # A false legacy boolean is not enough to distinguish a clearly
     # non-standard experiment from an uncertain/omitted declaration.
     return "uncertain"
+
+
+def _protocol_result_is_eligible(decision: str, variant: DatasetVariant) -> bool:
+    """Return whether a parsed row may become a canonical benchmark result."""
+    if decision == "nonstandard":
+        return False
+    return not (decision == "uncertain" and _requires_explicit_protocol_evidence(variant))
 
 
 def source_indicates_incompatible_protocol(
@@ -373,6 +509,15 @@ def normalize_dataset_scaled_metric(
     return value, std
 
 
+def _dataset_metric_value_is_valid(dataset_name: str, metric_name: str, value: float) -> bool:
+    """Reject values that violate an unambiguous dataset/metric invariant."""
+    if not math.isfinite(value):
+        return False
+    # The QM9 HOMO-LUMO gap is strictly positive. Zero values in the audit were
+    # produced by a failed meV-to-eV conversion and are never valid results.
+    return not (is_qm9_dataset(dataset_name) and metric_name.casefold() == "gap" and value <= 0)
+
+
 # ── Value parsing ─────────────────────────────────────────────────────────────
 
 _NUMBER_RE = r"[-+]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][-+]?\d+)?"
@@ -419,7 +564,11 @@ def _load_variant_map(session) -> dict[str, int]:
     for v in session.query(DatasetVariant).all():
         mapping[v.name.lower()] = v.id
         dataset_key = v.dataset.name.lower()
-        mapping[dataset_key] = v.id
+        # A bare dataset name means the canonical/default benchmark.  Do not
+        # let a later non-standard variant (e.g. Cora's random 10-fold split)
+        # silently replace the standard variant in this lookup.
+        if dataset_key not in mapping or v.is_standard:
+            mapping[dataset_key] = v.id
         if dataset_key == "zinc":
             variant_key = v.name.lower()
             zinc_variants[variant_key] = v.id
@@ -516,6 +665,11 @@ def resolve_dataset_variant_with_reason(
     if variant_map is None:
         variant_map = _load_variant_map(session)
 
+    raw_key = str(dataset_name or "").strip().casefold()
+    if raw_key in {"arxiv", "arxiv dataset"}:
+        logger.warning("Ambiguous dataset label '%s' is not treated as ogbn-arxiv", dataset_name)
+        return None, "dataset: ambiguous arXiv label"
+
     dataset_name = normalize_dataset_alias(dataset_name)
     key = dataset_name.strip().lower()
 
@@ -536,7 +690,14 @@ def resolve_dataset_variant_with_reason(
             list(variant_map.keys()),
             scorer=fuzz_lib.token_sort_ratio,
         )
-        if score >= min_score and ogb_dataset_families_compatible(key, best_match):
+        raw_qualifiers = set(_DATASET_VARIANT_QUALIFIER_RE.findall(key.casefold()))
+        match_qualifiers = set(_DATASET_VARIANT_QUALIFIER_RE.findall(best_match.casefold()))
+        conflicting_qualifier = raw_qualifiers - match_qualifiers
+        if (
+            score >= min_score
+            and not conflicting_qualifier
+            and ogb_dataset_families_compatible(key, best_match)
+        ):
             logger.debug(
                 "Fuzzy-matched dataset '%s' → '%s' (score=%d)", dataset_name, best_match, score
             )
@@ -580,45 +741,6 @@ def _load_model_map(session) -> tuple[dict[str, int], dict[str, int]]:
     for a in session.query(ModelAlias).all():
         aliases[a.alias.lower()] = a.model_id
     return canonical, aliases
-
-
-def _build_metadata_lookups(
-    extraction: dict[str, Any],
-    model_sizes: list[Any] | None = None,
-) -> tuple[dict[str, float | None], dict[str, str | None]]:
-    """Build paper-local parameter and architecture lookups keyed by lowercased model name."""
-    sizes_lookup: dict[str, float | None] = {}
-    type_lookup: dict[str, str | None] = {}
-
-    def _add(name: str | None, params: Any, model_type: Any) -> None:
-        if not name:
-            return
-        key = name.strip().lower()
-        sizes_lookup[key] = None
-        if params is not None:
-            with contextlib.suppress(TypeError, ValueError):
-                sizes_lookup[key] = float(params)
-        normalized_type = normalize_architecture_type(
-            str(model_type) if model_type is not None else None
-        )
-        if normalized_type is not None:
-            type_lookup[key] = normalized_type
-
-    proposed = extraction.get("proposed_model") or {}
-    if isinstance(proposed, dict):
-        _add(proposed.get("name"), proposed.get("params_millions"), proposed.get("model_type"))
-
-    for baseline in extraction.get("baseline_models") or []:
-        if isinstance(baseline, dict):
-            _add(baseline.get("name"), baseline.get("params_millions"), baseline.get("model_type"))
-
-    for item in model_sizes or []:
-        if not isinstance(item, dict):
-            continue
-        name = item.get("matched_result_name") or item.get("model_name")
-        _add(name, item.get("params_millions"), None)
-
-    return sizes_lookup, type_lookup
 
 
 def _update_model_metadata(model: Model, model_type: str | None) -> None:
@@ -993,6 +1115,12 @@ def _enrich_paper_metadata(arxiv_id: str, paper: Paper, storage: PaperStorage) -
 # Extraction call types whose parse failures should not block DB ingest.
 _NON_FATAL_EXTRACT_CALL_PREFIXES: tuple[str, ...] = ("extract_dataset_statistics",)
 
+_SUSPICIOUS_EXTRACTION_NOTE_RE = re.compile(
+    r"\b(?:truncated|synthesi[sz]ed|fabricated|representative\s+values?|"
+    r"partial\s+(?:table|results?)|incomplete\s+(?:table|results?))\b",
+    re.IGNORECASE,
+)
+
 
 def _is_fatal_extraction_parse_failure(entry: str) -> bool:
     call_type = entry.split(":", 1)[0].strip()
@@ -1004,6 +1132,20 @@ def _is_fatal_extraction_parse_failure(entry: str) -> bool:
     )
 
 
+def _extraction_quality_issues(
+    extraction: dict[str, Any], fatal_parse_failures: list[str]
+) -> list[str]:
+    """Return reasons why an extraction is unsafe to merge into the database."""
+    issues = list(fatal_parse_failures)
+    coverage = str(extraction.get("coverage_assessment") or "").casefold()
+    if coverage in {"partial", "uncertain", "incomplete"}:
+        issues.append(f"coverage_assessment={coverage}")
+    notes = str(extraction.get("extraction_notes") or "").strip()
+    if _SUSPICIOUS_EXTRACTION_NOTE_RE.search(notes):
+        issues.append(f"extraction_notes contain incomplete/synthetic wording: {notes}")
+    return issues
+
+
 def parse_and_store_with_summary(
     arxiv_id: str, *, replace_existing: bool = False
 ) -> ParseStoreSummary:
@@ -1011,6 +1153,30 @@ def parse_and_store_with_summary(
     init_db()
     storage = PaperStorage(arxiv_id)
     summary = ParseStoreSummary(arxiv_id=arxiv_id)
+
+    # Curation exclusions are authoritative. Clear any legacy rows before
+    # checking the extraction artifact so a normal reparse cannot leave a
+    # previously exported paper result set behind.
+    if _curation_excludes_all_results(arxiv_id):
+        with session_scope() as session:
+            paper = session.query(Paper).filter_by(arxiv_id=arxiv_id).first()
+            if paper is not None:
+                deleted = (
+                    session.query(Result)
+                    .filter_by(paper_id=paper.id)
+                    .delete(synchronize_session=False)
+                )
+                summary.replaced_results = deleted
+                if deleted:
+                    logger.info(
+                        "Deleted %d curated-exclusion result row(s) for arXiv:%s",
+                        deleted,
+                        arxiv_id,
+                    )
+        summary.skipped_protocol_mismatches.append(
+            f"all results excluded by protocol curation: {arxiv_id}"
+        )
+        return summary
 
     if not storage.llm_output_path.exists():
         logger.error("No LLM output found for arXiv:%s — run extractor first", arxiv_id)
@@ -1039,8 +1205,9 @@ def parse_and_store_with_summary(
         if isinstance(entry, dict):
             _apply_feature_source_model_name(entry)
     fatal_parse_failures = [f for f in parse_failures if _is_fatal_extraction_parse_failure(f)]
+    quality_issues = _extraction_quality_issues(extraction, fatal_parse_failures)
 
-    if fatal_parse_failures and not result_entries:
+    if quality_issues:
         with session_scope() as session:
             paper = session.query(Paper).filter_by(arxiv_id=arxiv_id).first()
             if paper is None:
@@ -1055,25 +1222,16 @@ def parse_and_store_with_summary(
                 summary.created_stub_paper = True
 
             paper.extraction_model = model_name_used
-            paper.extraction_status = "quarantined_yaml_parse"
+            paper.extraction_status = "quarantined_extraction_quality"
 
         summary.quarantined = True
-        summary.quarantine_reasons = fatal_parse_failures[:5]
+        summary.quarantine_reasons = quality_issues[:5]
         logger.warning(
-            "Quarantining arXiv:%s due to structured YAML parse failure(s): %s",
+            "Quarantining arXiv:%s due to extraction-quality issue(s): %s",
             arxiv_id,
-            "; ".join(fatal_parse_failures[:2]),
+            "; ".join(quality_issues[:2]),
         )
         return summary
-
-    if fatal_parse_failures and result_entries:
-        logger.warning(
-            "Ignoring non-fatal extraction parse failure(s) for arXiv:%s because "
-            "%d result row(s) were recovered: %s",
-            arxiv_id,
-            len(result_entries),
-            "; ".join(fatal_parse_failures[:2]),
-        )
 
     if not result_entries:
         logger.warning(
@@ -1095,6 +1253,7 @@ def parse_and_store_with_summary(
         extraction,
         model_sizes=raw.get("model_sizes"),
     )
+    dataset_param_lookup = _build_dataset_param_lookup(raw.get("model_sizes"))
     metadata_defaults = load_model_metadata_defaults()
 
     with session_scope() as session:
@@ -1196,7 +1355,9 @@ def parse_and_store_with_summary(
                     summary.skipped_unknown_datasets.append(dataset_name)
                 continue
             variant = session.get(DatasetVariant, variant_id)
-            if variant is None or not _allowed_by_protocol_curation(arxiv_id, variant):
+            if variant is None or not _allowed_by_protocol_curation(
+                arxiv_id, variant, model_name=model_name, metric_name=metric_name
+            ):
                 detail = f"{model_name} / {dataset_name} / {metric_name} (curation exclusion)"
                 logger.warning(
                     "Skipping protocol-excluded result for arXiv:%s: %s", arxiv_id, detail
@@ -1204,17 +1365,17 @@ def parse_and_store_with_summary(
                 summary.skipped_protocol_mismatches.append(detail)
                 continue
             decision = _protocol_decision(entry, variant)
-            if decision == "nonstandard":
+            if not _protocol_result_is_eligible(decision, variant):
                 expected_task = _normalized_evaluation_task(variant.dataset.task_type)
                 actual_task = _normalized_evaluation_task(entry.get("evaluation_task"))
                 detail = (
                     f"{model_name} / {dataset_name} / {metric_name} "
-                    f"(decision=nonstandard; expected {expected_task}; "
+                    f"(decision={decision}; expected {expected_task}; "
                     f"got {actual_task or 'unknown'}; "
                     f"note={entry.get('protocol_note') or 'none'})"
                 )
                 logger.warning(
-                    "Skipping explicitly non-standard result for arXiv:%s: %s",
+                    "Skipping protocol-ineligible result for arXiv:%s: %s",
                     arxiv_id,
                     detail,
                 )
@@ -1224,6 +1385,20 @@ def parse_and_store_with_summary(
                 summary.uncertain_protocol_results.append(
                     f"{model_name} / {dataset_name} / {metric_name}"
                 )
+            value, std = _parse_entry_value(entry)
+            if value is None or not _dataset_metric_value_is_valid(
+                dataset_name, metric_name, value
+            ):
+                logger.warning(
+                    "Could not parse valid value for %s / %s / %s — skipping",
+                    model_name,
+                    dataset_name,
+                    metric_name,
+                )
+                summary.skipped_invalid_values.append(
+                    f"{model_name} / {dataset_name} / {metric_name}"
+                )
+                continue
             if dataset_name.strip().lower() == "zinc":
                 logger.info(
                     "Resolved ZINC variant for arXiv:%s model=%s metric=%s via %s",
@@ -1233,8 +1408,12 @@ def parse_and_store_with_summary(
                     variant_reason,
                 )
 
-            params = sizes_lookup.get(model_name.lower())
-            params_present = model_name.lower() in sizes_lookup
+            model_key = model_name.strip().lower()
+            params = dataset_param_lookup.get((dataset_name.strip().casefold(), model_key))
+            params_present = params is not None
+            if not params_present:
+                params = sizes_lookup.get(model_key)
+                params_present = model_key in sizes_lookup
             model_type = lookup_model_type(
                 model_name,
                 type_lookup,
@@ -1287,20 +1466,6 @@ def parse_and_store_with_summary(
                     (existing, entry, params, params_present, variant_reason, decision)
                 )
                 retained_existing_ids.add(existing.id)
-                continue
-
-            # Parse value/std
-            value, std = _parse_entry_value(entry)
-            if value is None:
-                logger.warning(
-                    "Could not parse value for %s / %s / %s — skipping",
-                    model_name,
-                    dataset_name,
-                    metric_name,
-                )
-                summary.skipped_invalid_values.append(
-                    f"{model_name} / {dataset_name} / {metric_name}"
-                )
                 continue
 
             key = (variant_id, model_id, metric_name)

@@ -1,0 +1,30 @@
+You identify the paper's proposed model before benchmark-table extraction.
+
+Return one JSON object only:
+{
+  "proposed_model": {
+    "name": "the paper's actual proposed method name",
+    "supporting_sentence": "one exact or near-exact sentence from the supplied paper text that identifies it",
+    "params_millions": null,
+    "params_exact": null,
+    "model_type": null
+  }
+}
+
+Rules:
+- Use the paper title, abstract, introduction, method/setup prose, and table row labels.
+- Prefer the method's explicit name from this paper, especially phrases such as "we propose",
+  "we introduce", "we call", "named", or "our method".
+- When the paper explicitly defines an acronym, prefer the acronym used in the result tables
+  as the returned name (for example, return "A-DGN" rather than the expanded
+  "Anti-Symmetric Deep Graph Network").
+- Resolve table placeholders such as "Our", "Ours", "Our(GCN)", and "Ours(3-hop)"
+  to the underlying method name. A row beginning with "our" or "ours" always denotes a
+  proposed result, even when the table label is generic.
+- Keep meaningful method qualifiers when they define separate methods, but do not mistake
+  scientific notation such as SE(3), SO(3), or equivariance names for missed model variants.
+- If the paper is primarily a benchmark/re-evaluation paper and does not propose a method,
+  return null for proposed_model rather than promoting a baseline.
+- The supporting_sentence must justify the selected name, not merely mention a benchmark.
+- Never use "Our", "Ours", "our method", or "proposed model" as the returned name when a
+  paper-defined name can be found.

@@ -223,6 +223,7 @@ class TodoPaper(Base):
     )  # pending | processing | done | failed | rejected
     attempts = Column(Integer, nullable=False, default=0)
     last_attempt_at = Column(String)
+    processing_token = Column(String)
     note = Column(Text)
     created_at = Column(String, nullable=False, default=_utcnow)
     cited_by_count = Column(Integer, nullable=False, default=0)

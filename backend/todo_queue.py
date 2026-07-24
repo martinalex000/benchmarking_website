@@ -3,13 +3,17 @@
 from __future__ import annotations
 
 import logging
+import secrets
 import subprocess
 import sys
+import threading
 import time
+from collections.abc import Iterable
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
 from pathlib import Path
 
+from sqlalchemy import or_
 from sqlalchemy import text as _sql_text
 
 from backend.db import get_engine, init_db, session_scope
@@ -42,6 +46,21 @@ class TodoQueueEntry:
     reason: str
     last_attempt_at: str | None
     is_manually_important: bool = False
+
+
+@dataclass(frozen=True)
+class TodoQueueClaim:
+    todo_id: int
+    processing_token: str
+
+
+@dataclass(frozen=True)
+class TodoQueueRequeueResult:
+    arxiv_id: str
+    status: str | None
+    changed: bool
+    ok: bool
+    message: str
 
 
 _REQUEUEABLE_STATUSES = frozenset(
@@ -178,7 +197,10 @@ def add_todo_paper(
                 existing.reason = reason
             if added_by:
                 existing.added_by = added_by
-            if requeue and existing.status in _REQUEUEABLE_STATUSES:
+            # Importance means the paper must be evaluated again, even when it
+            # was already handled by the queue.  Keep ``requeue`` in the API
+            # for callers that still pass it, but it is intentionally redundant.
+            if existing.status in _REQUEUEABLE_STATUSES:
                 existing.status = TodoPaperStatus.PENDING.value
             return True, f"Marked {arxiv_id} as manually important (status={existing.status})"
 
@@ -198,6 +220,78 @@ def add_todo_paper(
     return True, f"Added {arxiv_id} to todo queue{suffix}"
 
 
+def requeue_todo_papers(arxiv_ids: Iterable[str]) -> list[TodoQueueRequeueResult]:
+    """Move existing terminal queue rows back to pending without changing importance."""
+    ordered_ids = list(dict.fromkeys(arxiv_ids))
+    if not ordered_ids:
+        return []
+
+    init_db()
+    with session_scope() as session:
+        rows = session.query(TodoPaper).filter(TodoPaper.arxiv_id.in_(ordered_ids)).all()
+        rows_by_arxiv_id = {row.arxiv_id: row for row in rows}
+        results: list[TodoQueueRequeueResult] = []
+
+        for arxiv_id in ordered_ids:
+            row = rows_by_arxiv_id.get(arxiv_id)
+            if row is None:
+                results.append(
+                    TodoQueueRequeueResult(
+                        arxiv_id=arxiv_id,
+                        status=None,
+                        changed=False,
+                        ok=False,
+                        message=f"Not in todo queue: {arxiv_id}",
+                    )
+                )
+                continue
+
+            if row.status in _REQUEUEABLE_STATUSES:
+                row.status = TodoPaperStatus.PENDING.value
+                row.attempts = 0
+                results.append(
+                    TodoQueueRequeueResult(
+                        arxiv_id=arxiv_id,
+                        status=row.status,
+                        changed=True,
+                        ok=True,
+                        message=f"Requeued {arxiv_id} (status=pending, attempts=0)",
+                    )
+                )
+            elif row.status == TodoPaperStatus.PENDING.value:
+                results.append(
+                    TodoQueueRequeueResult(
+                        arxiv_id=arxiv_id,
+                        status=row.status,
+                        changed=False,
+                        ok=True,
+                        message=f"Already pending: {arxiv_id}",
+                    )
+                )
+            elif row.status == TodoPaperStatus.PROCESSING.value:
+                results.append(
+                    TodoQueueRequeueResult(
+                        arxiv_id=arxiv_id,
+                        status=row.status,
+                        changed=False,
+                        ok=False,
+                        message=f"Cannot requeue {arxiv_id} while it is processing",
+                    )
+                )
+            else:
+                results.append(
+                    TodoQueueRequeueResult(
+                        arxiv_id=arxiv_id,
+                        status=row.status,
+                        changed=False,
+                        ok=False,
+                        message=f"Cannot requeue {arxiv_id} (status={row.status})",
+                    )
+                )
+
+    return results
+
+
 def set_todo_paper_importance(
     arxiv_id: str,
     *,
@@ -211,7 +305,10 @@ def set_todo_paper_importance(
             return False, f"Not in todo queue: {arxiv_id}"
 
         row.is_manually_important = 1 if important else 0
-        if requeue and important and row.status in _REQUEUEABLE_STATUSES:
+        # Marking a paper important always schedules a fresh evaluation.  The
+        # ``requeue`` argument remains for backwards compatibility with older
+        # callers, but is no longer required.
+        if important and row.status in _REQUEUEABLE_STATUSES:
             row.status = TodoPaperStatus.PENDING.value
 
         action = "marked as manually important" if important else "unmarked as manually important"
@@ -301,6 +398,7 @@ def _mark_processing(todo_id: int) -> None:
 
 
 WORKER_LOCK_TIMEOUT_MINUTES = 15
+WORKER_HEARTBEAT_SECONDS = 60.0
 _CLAIM_RACE_RETRY_LIMIT = 24
 _PROCESS_QUEUE_EMPTY_RETRIES = 8
 _PROCESS_QUEUE_EMPTY_RETRY_SLEEP_S = 0.25
@@ -320,17 +418,23 @@ def release_stale_processing_papers(stale_minutes: int = WORKER_LOCK_TIMEOUT_MIN
     init_db()
     cutoff = (datetime.now(UTC) - timedelta(minutes=stale_minutes)).strftime("%Y-%m-%dT%H:%M:%SZ")
     with session_scope() as session:
-        stale_rows = (
-            session.query(TodoPaper)
-            .filter(
-                TodoPaper.status == TodoPaperStatus.PROCESSING.value,
+        stale_query = session.query(TodoPaper).filter(
+            TodoPaper.status == TodoPaperStatus.PROCESSING.value,
+            or_(
+                TodoPaper.last_attempt_at.is_(None),
                 TodoPaper.last_attempt_at < cutoff,
-            )
-            .all()
+            ),
         )
-        for row in stale_rows:
-            row.status = TodoPaperStatus.PENDING.value
-        return len(stale_rows)
+        return int(
+            stale_query.update(
+                {
+                    TodoPaper.status: TodoPaperStatus.PENDING.value,
+                    TodoPaper.processing_token: None,
+                },
+                synchronize_session=False,
+            )
+            or 0
+        )
 
 
 def count_pending_important(*, max_attempts: int = 10) -> int:
@@ -347,8 +451,8 @@ def count_pending_important(*, max_attempts: int = 10) -> int:
         )
 
 
-def _claim_one_pending(max_attempts: int, *, important_only: bool = False) -> int | None:
-    """Atomically claim the top-priority pending paper. Returns the claimed row ID or None.
+def _claim_one_pending(max_attempts: int, *, important_only: bool = False) -> TodoQueueClaim | None:
+    """Atomically claim the top-priority pending paper.
 
     Uses a raw SQL UPDATE with a WHERE status='pending' guard so that concurrent
     workers (multiple processes) cannot both claim the same paper.  SQLite
@@ -356,6 +460,7 @@ def _claim_one_pending(max_attempts: int, *, important_only: bool = False) -> in
     """
     engine = get_engine()
     now_iso = _utcnow_iso()
+    processing_token = secrets.token_urlsafe(24)
 
     important_filter = " AND is_manually_important = 1" if important_only else ""
 
@@ -371,16 +476,24 @@ def _claim_one_pending(max_attempts: int, *, important_only: bool = False) -> in
                     "  LIMIT 1"
                     ") "
                     "UPDATE todo_papers "
-                    "SET status = 'processing', attempts = attempts + 1, last_attempt_at = :now "
+                    "SET status = 'processing', attempts = attempts + 1, "
+                    "last_attempt_at = :now, processing_token = :processing_token "
                     "WHERE id = (SELECT id FROM candidate) AND status = 'pending' "
                     "RETURNING id"
                 ),
-                {"max_attempts": max_attempts, "now": now_iso},
+                {
+                    "max_attempts": max_attempts,
+                    "now": now_iso,
+                    "processing_token": processing_token,
+                },
             ).first()
             conn.commit()
 
             if row is not None:
-                return int(row[0])
+                return TodoQueueClaim(
+                    todo_id=int(row[0]),
+                    processing_token=processing_token,
+                )
 
         return None
 
@@ -406,14 +519,85 @@ def _get_entry_by_id(todo_id: int) -> TodoQueueEntry | None:
         return _row_to_entry(row) if row else None
 
 
-def _finalize_todo(todo_id: int, status: TodoPaperStatus, note: str) -> None:
+def _heartbeat_processing(todo_id: int, processing_token: str) -> bool:
+    """Refresh a claim lease, returning false when ownership has been lost."""
     with session_scope() as session:
-        row = session.query(TodoPaper).filter_by(id=todo_id).first()
+        row = (
+            session.query(TodoPaper)
+            .filter(
+                TodoPaper.id == todo_id,
+                TodoPaper.status == TodoPaperStatus.PROCESSING.value,
+                TodoPaper.processing_token == processing_token,
+            )
+            .first()
+        )
         if row is None:
-            return
+            return False
+        row.last_attempt_at = _utcnow_iso()
+        return True
+
+
+class _ProcessingLease:
+    """Refresh a processing claim independently of runner output."""
+
+    def __init__(self, todo_id: int, processing_token: str) -> None:
+        self.todo_id = todo_id
+        self.processing_token = processing_token
+        self._stop_event = threading.Event()
+        self._thread: threading.Thread | None = None
+
+    def __enter__(self) -> _ProcessingLease:
+        self._thread = threading.Thread(
+            target=self._run,
+            name=f"todo-lease-{self.todo_id}",
+            daemon=True,
+        )
+        self._thread.start()
+        return self
+
+    def __exit__(self, _exc_type, _exc_value, _traceback) -> None:
+        self._stop_event.set()
+        if self._thread is not None:
+            self._thread.join(timeout=WORKER_HEARTBEAT_SECONDS)
+
+    def _run(self) -> None:
+        while not self._stop_event.wait(WORKER_HEARTBEAT_SECONDS):
+            try:
+                owns_lease = _heartbeat_processing(self.todo_id, self.processing_token)
+            except Exception:  # pragma: no cover - defensive background-thread guard
+                logger.exception(
+                    "Failed to refresh processing lease for todo paper id=%s", self.todo_id
+                )
+                continue
+            if not owns_lease:
+                logger.warning("Lost processing lease for todo paper id=%s", self.todo_id)
+                return
+
+
+def _finalize_todo(
+    todo_id: int,
+    status: TodoPaperStatus,
+    note: str,
+    *,
+    processing_token: str,
+) -> bool:
+    with session_scope() as session:
+        row = (
+            session.query(TodoPaper)
+            .filter(
+                TodoPaper.id == todo_id,
+                TodoPaper.status == TodoPaperStatus.PROCESSING.value,
+                TodoPaper.processing_token == processing_token,
+            )
+            .first()
+        )
+        if row is None:
+            return False
         row.status = status.value
         row.last_attempt_at = _utcnow_iso()
+        row.processing_token = None
         row.note = note
+        return True
 
 
 def process_queue(
@@ -450,8 +634,8 @@ def process_queue(
     empty_retries = 0
     while processed_count < limit:
         # Atomically claim the next pending paper; safe across concurrent workers
-        candidate_id = _claim_one_pending(max_attempts, important_only=important_only)
-        if candidate_id is None:
+        claim = _claim_one_pending(max_attempts, important_only=important_only)
+        if claim is None:
             # Avoid false "queue empty" under high contention by retrying when
             # pending rows still exist but another worker won this instant.
             if empty_retries < _PROCESS_QUEUE_EMPTY_RETRIES and _has_pending_candidates(
@@ -464,7 +648,7 @@ def process_queue(
 
         empty_retries = 0
 
-        entry = _get_entry_by_id(candidate_id)
+        entry = _get_entry_by_id(claim.todo_id)
         if entry is None:
             continue  # Shouldn't happen; skip defensively
 
@@ -474,22 +658,40 @@ def process_queue(
         if on_start:
             on_start(entry, processed_count, limit)
 
-        try:
-            result = runner(entry.arxiv_id, model=model, force=force)
-            status = todo_paper_status_from_exit_code(result.returncode)
-            excerpt = _tail_text(result.stderr or result.stdout)
-            note = f"processed by todo_queue.py at {_utcnow_iso()}"
-            if excerpt:
-                note = f"{note}\n{excerpt}"
-        except KeyboardInterrupt:
-            raise
-        except Exception as exc:  # pragma: no cover - defensive wrapper
-            logger.exception("Todo queue runner failed for %s", entry.arxiv_id)
-            result = TodoQueueRunResult(returncode=1, stderr=str(exc))
-            status = TodoPaperStatus.FAILED
-            note = f"processed by todo_queue.py at {_utcnow_iso()}\n{type(exc).__name__}: {exc}"
+        with _ProcessingLease(entry.id, claim.processing_token):
+            try:
+                # Manually important papers are explicit requests for a fresh
+                # evaluation, so they imply run_manual.py's --force behavior.
+                result = runner(
+                    entry.arxiv_id,
+                    model=model,
+                    force=force or entry.is_manually_important,
+                )
+                status = todo_paper_status_from_exit_code(result.returncode)
+                excerpt = _tail_text(result.stderr or result.stdout)
+                note = f"processed by todo_queue.py at {_utcnow_iso()}"
+                if excerpt:
+                    note = f"{note}\n{excerpt}"
+            except KeyboardInterrupt:
+                raise
+            except Exception as exc:  # pragma: no cover - defensive wrapper
+                logger.exception("Todo queue runner failed for %s", entry.arxiv_id)
+                result = TodoQueueRunResult(returncode=1, stderr=str(exc))
+                status = TodoPaperStatus.FAILED
+                note = f"processed by todo_queue.py at {_utcnow_iso()}\n{type(exc).__name__}: {exc}"
 
-        _finalize_todo(entry.id, status, note)
+            finalized = _finalize_todo(
+                entry.id,
+                status,
+                note,
+                processing_token=claim.processing_token,
+            )
+
+        if not finalized:
+            logger.warning(
+                "Skipping outcome for %s because its processing lease was lost", entry.arxiv_id
+            )
+            continue
         summary.counts[status.value] = summary.counts.get(status.value, 0) + 1
         summary.items.append(
             TodoQueueProcessItem(arxiv_id=entry.arxiv_id, status=status.value, note=note)
@@ -512,15 +714,19 @@ def process_queue(
 __all__ = [
     "TODO_PAPER_FILTER_VALUES",
     "WORKER_LOCK_TIMEOUT_MINUTES",
+    "WORKER_HEARTBEAT_SECONDS",
     "TodoQueueEntry",
+    "TodoQueueClaim",
     "TodoQueueProcessSummary",
     "TodoQueueReport",
+    "TodoQueueRequeueResult",
     "TodoQueueRunResult",
     "add_todo_paper",
     "build_queue_report",
     "count_pending_important",
     "load_queue_entries",
     "process_queue",
+    "requeue_todo_papers",
     "recompute_queue_counts",
     "release_stale_processing_papers",
     "run_manual_subprocess",

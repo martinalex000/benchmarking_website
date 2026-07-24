@@ -20,6 +20,7 @@ import logging
 import re
 import shutil
 import statistics
+import subprocess
 from datetime import date, datetime, timedelta
 from pathlib import Path
 from typing import Any
@@ -961,6 +962,8 @@ def _dataset_paper_count_for_metric(session: Any, ds_name: str, primary_metric: 
         .join(DatasetVariant.dataset)
         .filter(Dataset.name == ds_name)
         .filter(Result.metric_name == primary_metric)
+        .filter(DatasetVariant.is_standard == 1)
+        .filter(Result.protocol_decision == "standard")
         .filter(Result.is_problematic.is_(None) | (Result.is_problematic == 0))
         .scalar()
     ) or 0
@@ -1613,6 +1616,8 @@ def _global_ranks_for_dataset(
         .join(DatasetVariant.dataset)
         .filter(Dataset.name == ds_name)
         .filter(Result.metric_name == primary_metric)
+        .filter(DatasetVariant.is_standard == 1)
+        .filter(Result.protocol_decision == "standard")
         .filter(Result.is_problematic.is_(None) | (Result.is_problematic == 0))
         .all()
     )
@@ -1670,10 +1675,10 @@ def _global_ranks_for_dataset(
             "date_display": _fmt_month_year(p.published_date) if p else "",
             "date_iso": (p.published_date[:10] if p and p.published_date else ""),
             "venue": p.venue if p else "",
-            "input_feature_source": r.input_feature_source,
-            "feature_source_evidence": r.feature_source_evidence or "",
             "codebase_url": p.codebase_url or "" if p else "",
             "uses_external_data": (True if ued == 1 else (False if ued == 0 else None)),
+            "input_feature_source": r.input_feature_source,
+            "feature_source_evidence": r.feature_source_evidence or "",
             "is_global_top": True,
             "global_rank": model_to_rank.get(model_key),
             "sort_value": val,
@@ -2394,12 +2399,12 @@ def _export_paper_impl(session: Session, arxiv_id: str) -> bool:
                 "higher_is_better": bool(r.higher_is_better),
                 "is_baseline": bool(r.is_baseline),
                 "is_overridden": bool(r.is_overridden),
-                "input_feature_source": r.input_feature_source,
-                "feature_source_evidence": r.feature_source_evidence or "",
                 "override_reason": r.override_reason or "",
                 "params_millions": _result_params_millions(r),
                 **_result_architecture_fields(r),
                 "uses_external_data": r.uses_external_data,
+                "input_feature_source": r.input_feature_source,
+                "feature_source_evidence": r.feature_source_evidence or "",
                 "table_ref": r.table_ref or "",
                 "source_ref": r.source_ref or "",
                 "variant_inference_reason": r.variant_inference_reason or "",
@@ -3466,7 +3471,13 @@ def export_all(
     clear_export_caches()
 
     with session_scope() as session:
-        papers = _query_exportable_papers(session, arxiv_ids=arxiv_ids)
+        # Targeted exports must include papers with zero exportable rows so
+        # export_paper() can remove stale generated pages after a curation
+        # exclusion or result cleanup.
+        if arxiv_ids:
+            papers = session.query(Paper).filter(Paper.arxiv_id.in_(arxiv_ids)).all()
+        else:
+            papers = _query_exportable_papers(session)
         paper_ids = [p.arxiv_id for p in papers]
         dataset_ids = [ds.id for ds in session.query(Dataset).all()]
 
@@ -3538,6 +3549,20 @@ def export_all(
     )
 
 
+def _build_hugo_site() -> None:
+    """Build the complete site and remove stale output from the destination."""
+    command = [
+        "uv",
+        "run",
+        "hugo",
+        "--cleanDestinationDir",
+        "--source",
+        str(_SITE_DIR),
+    ]
+    logger.info("Building Hugo site with stale-destination cleanup")
+    subprocess.run(command, check=True, cwd=cfg.project_root)
+
+
 # ── CLI ───────────────────────────────────────────────────────────────────────
 
 
@@ -3552,8 +3577,15 @@ def main(argv: list[str] | None = None) -> None:
         action="store_true",
         help="Skip development/admin Hugo data export",
     )
+    parser.add_argument(
+        "--skip-build",
+        action="store_true",
+        help="Only write Hugo source files; do not run the full Hugo build",
+    )
     args = parser.parse_args(argv)
     export_all(arxiv_ids=args.paper, skip_development=args.skip_dev)
+    if args.paper is None and not args.skip_build:
+        _build_hugo_site()
 
 
 if __name__ == "__main__":

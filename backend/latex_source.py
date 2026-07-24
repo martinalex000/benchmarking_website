@@ -230,7 +230,9 @@ def download_and_parse(
 
     if not force and expanded_path.exists() and expanded_path.stat().st_size > 100:
         logger.info("Using cached LaTeX source for arXiv:%s", arxiv_id)
-        tex = expanded_path.read_text(encoding="utf-8", errors="replace")
+        tex = _strip_comment_environments(
+            expanded_path.read_text(encoding="utf-8", errors="replace")
+        )
         return _parse_expanded(arxiv_id, tex)
 
     # ── Download ───────────────────────────────────────────────────────────
@@ -364,7 +366,7 @@ def _find_main_tex(root: Path) -> Path | None:
 
 
 def _run_latexpand(main_tex: Path, cwd: Path, arxiv_id: str) -> str:
-    """Run latexpand on *main_tex*; fall back to plain read on failure."""
+    """Run latexpand on *main_tex* and remove explicit comment environments."""
     try:
         result = subprocess.run(
             ["perl", str(_LATEXPAND), str(main_tex)],
@@ -375,7 +377,7 @@ def _run_latexpand(main_tex: Path, cwd: Path, arxiv_id: str) -> str:
         )
         if result.returncode == 0 and result.stdout.strip():
             logger.debug("latexpand succeeded for %s (%d chars)", arxiv_id, len(result.stdout))
-            return result.stdout
+            return _strip_comment_environments(result.stdout)
         logger.warning(
             "latexpand returned exit %d for %s: %s",
             result.returncode,
@@ -386,7 +388,60 @@ def _run_latexpand(main_tex: Path, cwd: Path, arxiv_id: str) -> str:
         logger.warning("latexpand unavailable/timed out for %s: %s", arxiv_id, exc)
 
     # Fallback: read the main file directly (\\input directives will be unresolved)
-    return main_tex.read_text(encoding="utf-8", errors="replace")
+    return _strip_comment_environments(main_tex.read_text(encoding="utf-8", errors="replace"))
+
+
+_COMMENT_BEGIN_LINE = re.compile(r"^[ \t]*\\begin\{comment\}[ \t]*$")
+_COMMENT_END_LINE = re.compile(r"^[ \t]*\\end\{comment\}(?=[ \t]|$)")
+
+
+def _strip_comment_environments(tex: str) -> str:
+    """Remove balanced, line-oriented ``comment`` environments conservatively.
+
+    The bundled latexpand removes percent comments but intentionally does not
+    interpret the ``comment`` package.  Only standalone begin/end lines are
+    recognized here.  If a block is unbalanced, it is preserved rather than
+    risking removal of real document content.
+    """
+    output: list[str] = []
+    block: list[str] = []
+    depth = 0
+
+    for line in tex.splitlines(keepends=True):
+        line_without_newline = line.rstrip("\r\n")
+        if _COMMENT_BEGIN_LINE.fullmatch(line_without_newline):
+            if depth == 0:
+                block = []
+            block.append(line)
+            depth += 1
+            continue
+
+        if depth:
+            end_match = _COMMENT_END_LINE.match(line_without_newline)
+            if end_match:
+                depth -= 1
+                suffix = line[end_match.end() :]
+                if depth == 0:
+                    block = []
+                    if suffix.strip():
+                        output.append(suffix)
+                else:
+                    if suffix.strip():
+                        block.append(suffix)
+                continue
+
+            block.append(line)
+            continue
+
+        output.append(line)
+
+    if depth:
+        logger.warning(
+            "Unbalanced \\begin{comment} environment in expanded LaTeX; preserving its content"
+        )
+        output.extend(block)
+
+    return "".join(output)
 
 
 # ── User macro expansion ───────────────────────────────────────────────────────
@@ -644,10 +699,30 @@ def scan_latex_source_file(path: Path) -> list[LatexTableDiagnostic]:
     return diagnose_latex_table_coverage(tex)
 
 
+_APPENDIX_HEADING_RE = re.compile(
+    r"^(?:appendix|appendices|supplement(?:ary)?(?:\s+(?:material|information))?"
+    r"|supplemental(?:\s+(?:material|information))?)\b",
+    re.IGNORECASE,
+)
+_SECTION_HEADING_RE = re.compile(
+    r"\\(?:part|chapter|section|subsection|subsubsection|paragraph)\s*\*?\s*\{([^}]*)\}",
+    re.DOTALL,
+)
+
+
 def _find_appendix_start(tex: str) -> int:
-    """Return the character position of \\appendix (or len(tex) if absent)."""
-    m = re.search(r"\\appendix\b", tex)
-    return m.start() if m else len(tex)
+    """Return the first explicit appendix/supplement boundary, if any."""
+    positions: list[int] = []
+    directive = re.search(r"\\appendix\b", tex)
+    if directive:
+        positions.append(directive.start())
+
+    for heading in _SECTION_HEADING_RE.finditer(tex):
+        title = _strip_latex(heading.group(1)).strip()
+        if _APPENDIX_HEADING_RE.match(title):
+            positions.append(heading.start())
+
+    return min(positions) if positions else len(tex)
 
 
 def _find_matching_end(tex: str, begin_pos: int, env_name: str) -> int | None:

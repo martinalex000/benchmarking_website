@@ -65,6 +65,7 @@ class CallRecord:
 
 class ProposedModel(BaseModel):
     name: str
+    supporting_sentence: str | None = None
     params_millions: float | None = None
     params_exact: int | None = None
     model_type: str | None = None
@@ -235,6 +236,7 @@ class FigureInfo(BaseModel):
 class ModelSizeEntry(BaseModel):
     model_name: str
     matched_result_name: str | None = None
+    dataset: str | None = None
     params_millions: float | None = None
     params_exact: int | None = None
     source_text: str | None = None

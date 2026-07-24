@@ -12,9 +12,10 @@ class _FakeDataset:
 
 
 class _FakeVariant:
-    def __init__(self, name: str, dataset_name: str):
+    def __init__(self, name: str, dataset_name: str, is_standard: bool = False):
         self.name = name
         self.dataset = _FakeDataset(dataset_name)
+        self.is_standard = is_standard
 
 
 class _FakeSession:
@@ -35,6 +36,19 @@ def test_build_dataset_variant_lookup_includes_variant_and_dataset_names():
 
     assert lookup["standard split"].name == "Standard split"
     assert lookup["peptides-func"].name == "Standard split"
+
+
+def test_build_dataset_variant_lookup_prefers_standard_dataset_variant():
+    lookup = build_dataset_variant_lookup(
+        _FakeSession(
+            [
+                _FakeVariant("Random 10-fold", "Cora"),
+                _FakeVariant("Planetoid split", "Cora", is_standard=True),
+            ]
+        )
+    )
+
+    assert lookup["cora"].name == "Planetoid split"
 
 
 def test_resolve_dataset_variant_quiet_prefers_exact_match():

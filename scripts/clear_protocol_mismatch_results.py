@@ -21,7 +21,9 @@ from backend.db import init_db, session_scope
 from backend.models import Dataset, DatasetVariant, Paper, Result
 
 
-def _load_rules() -> tuple[dict[str, str], dict[str, set[str]]]:
+def _load_rules() -> tuple[
+    dict[str, str], dict[str, set[str]], dict[str, set[str]], dict[str, dict[str, dict]]
+]:
     path = cfg.config_dir / "protocol_exclusions.yaml"
     payload = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
     exclude_all = {
@@ -32,11 +34,23 @@ def _load_rules() -> tuple[dict[str, str], dict[str, set[str]]]:
         str(arxiv_id): {str(task) for task in tasks}
         for arxiv_id, tasks in (payload.get("allowed_dataset_tasks") or {}).items()
     }
-    return exclude_all, allowed_tasks
+    excluded_datasets = {
+        str(arxiv_id): {str(dataset).strip().casefold() for dataset in datasets}
+        for arxiv_id, datasets in (payload.get("exclude_datasets") or {}).items()
+    }
+    exclude_results = {
+        str(arxiv_id): {
+            str(dataset).strip().casefold(): rule
+            for dataset, rule in (rules or {}).items()
+            if isinstance(rule, dict)
+        }
+        for arxiv_id, rules in (payload.get("exclude_results") or {}).items()
+    }
+    return exclude_all, allowed_tasks, excluded_datasets, exclude_results
 
 
 def _matching_results() -> list[tuple[int, str, str, str]]:
-    exclude_all, allowed_tasks = _load_rules()
+    exclude_all, allowed_tasks, excluded_datasets, exclude_results = _load_rules()
     with session_scope() as session:
         rows = (
             session.query(Result)
@@ -54,11 +68,27 @@ def _matching_results() -> list[tuple[int, str, str, str]]:
             )
             for row in rows
             if row.paper.arxiv_id in exclude_all
+            or row.dataset_variant.dataset.name.strip().casefold()
+            in excluded_datasets.get(row.paper.arxiv_id, set())
             or (
                 row.paper.arxiv_id in allowed_tasks
                 and row.dataset_variant.dataset.task_type not in allowed_tasks[row.paper.arxiv_id]
             )
+            or _matches_row_rule(row, exclude_results)
         ]
+
+
+def _matches_row_rule(row: Result, exclude_results: dict[str, dict[str, dict]]) -> bool:
+    dataset_rules = exclude_results.get(row.paper.arxiv_id, {}).get(
+        row.dataset_variant.dataset.name.strip().casefold()
+    )
+    if not dataset_rules:
+        return False
+    model_names = {str(name).strip().casefold() for name in (dataset_rules.get("models") or [])}
+    metric_names = {str(name).strip().casefold() for name in (dataset_rules.get("metrics") or [])}
+    return (bool(model_names) and row.model.name.strip().casefold() in model_names) or (
+        bool(metric_names) and row.metric_name.strip().casefold() in metric_names
+    )
 
 
 def clear(*, dry_run: bool) -> int:

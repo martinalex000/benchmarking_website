@@ -18,7 +18,13 @@ def build_dataset_variant_lookup(session: Any) -> dict[str, DatasetVariant]:
     for variant in session.query(DatasetVariant).all():
         lookup.setdefault(variant.name.lower(), variant)
         if variant.dataset:
-            lookup.setdefault(variant.dataset.name.lower(), variant)
+            dataset_key = variant.dataset.name.lower()
+            existing = lookup.get(dataset_key)
+            if existing is None or (
+                getattr(variant, "is_standard", False)
+                and not getattr(existing, "is_standard", False)
+            ):
+                lookup[dataset_key] = variant
     return lookup
 
 

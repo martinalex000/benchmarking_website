@@ -121,15 +121,31 @@ def get_model_metadata_overrides(overrides: dict) -> list[dict]:
     return items if isinstance(items, list) else []
 
 
-def _build_model_metadata_map(items: list[Any]) -> dict[str, dict]:
-    mapping: dict[str, dict] = {}
+def _build_model_metadata_map(items: list[Any]) -> dict[str, list[dict]]:
+    mapping: dict[str, list[dict]] = {}
     for item in items:
         if not isinstance(item, dict):
             continue
         name = str(item.get("model") or "").strip().lower()
         if name:
-            mapping[name] = item
+            mapping.setdefault(name, []).append(item)
     return mapping
+
+
+def _model_metadata_matches(result: Any, override: dict[str, Any]) -> bool:
+    """Return whether a model metadata override applies to a result.
+
+    Metadata is usually model-wide, but parameter counts can be dataset-specific
+    when a paper changes the model width or depth between benchmarks.  A missing
+    dataset keeps the historical model-wide behavior.
+    """
+    dataset_name = str(override.get("dataset") or "").strip().casefold()
+    if not dataset_name:
+        return True
+    result_dataset = getattr(result, "dataset_variant", None)
+    result_dataset = getattr(result_dataset, "dataset", None)
+    result_name = str(getattr(result_dataset, "name", "") or "").strip().casefold()
+    return result_name == dataset_name
 
 
 # ── DB application ────────────────────────────────────────────────────────────
@@ -214,22 +230,31 @@ def apply_overrides_to_db(arxiv_id: str) -> int:
         if model_meta_map:
             for result in results:
                 model_name = (result.model.name if result.model else "").strip().lower()
-                ov = model_meta_map.get(model_name)
-                if not ov:
+                overrides_for_model = model_meta_map.get(model_name, [])
+                matching_overrides = [
+                    ov for ov in overrides_for_model if _model_metadata_matches(result, ov)
+                ]
+                if not matching_overrides:
                     continue
                 changed_meta = False
-                if ov.get("params_millions") is not None:
-                    result.params_millions = float(ov["params_millions"])
-                    changed_meta = True
-                if "uses_external_data" in ov:
-                    ued = ov["uses_external_data"]
-                    result.uses_external_data = 1 if ued is True else 0 if ued is False else None
-                    changed_meta = True
-                if result.model is not None:
-                    model_type = normalize_architecture_type(ov.get("model_type"))
-                    if model_type:
-                        result.model.model_type = model_type
+                # Apply a model-wide correction first, then let a
+                # dataset-specific correction take precedence.
+                matching_overrides.sort(key=lambda ov: bool(ov.get("dataset")))
+                for ov in matching_overrides:
+                    if ov.get("params_millions") is not None:
+                        result.params_millions = float(ov["params_millions"])
                         changed_meta = True
+                    if "uses_external_data" in ov:
+                        ued = ov["uses_external_data"]
+                        result.uses_external_data = (
+                            1 if ued is True else 0 if ued is False else None
+                        )
+                        changed_meta = True
+                    if result.model is not None:
+                        model_type = normalize_architecture_type(ov.get("model_type"))
+                        if model_type:
+                            result.model.model_type = model_type
+                            changed_meta = True
                 if changed_meta:
                     affected += 1
 

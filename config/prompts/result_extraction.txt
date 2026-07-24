@@ -5,6 +5,13 @@ Focus on benchmark datasets (LRGB, OGB, Cora, ZINC, QM9, etc.).
 
 Output a single JSON object ONLY — no markdown fences, no prose explanation.
 
+DATASET/TABLE SCOPE RULES:
+- Extract only explicit result entries for the focused dataset named in the supplied FOCUS block.
+- If no explicit table entry exists for that dataset, return no results.
+- Never copy a column or row belonging to another dataset, even when the table contains several datasets.
+- A table that does not name the focused dataset may be used only when the supplied selection rationale
+  explains why it is the correct table.
+
 Output schema:
 {
   "proposed_model": {
@@ -54,6 +61,18 @@ Rules:
   table evidence clearly shows a different task or non-comparable experiment, and `uncertain`
   when the evidence is incomplete or ambiguous. `uses_standard_protocol` mirrors this decision
   for compatibility: true for standard, false for nonstandard, null for uncertain.
+- Treat a result as `nonstandard` when it evaluates only a subset of a multi-task benchmark,
+  changes the benchmark's train/validation/test construction, or uses a custom/OOD/size-based
+  split. For OGB datasets, the official default split and full task set are part of the canonical
+  protocol: a statement such as "selected balanced tasks" is not a standard OGB result.
+- A `standard` decision requires row-local evidence in `protocol_note` for the canonical task
+  and split. Do not infer standard status merely because the dataset name or "OGB" appears.
+- For canonical standard rows, name the dataset-specific split in `protocol_note`: QM9's
+  published train/validation/test split, Planetoid for Cora/CiteSeer/PubMed, the official
+  OGB split for OGB datasets, or the canonical 10-fold protocol for TU graph datasets.
+- Never emit benchmark rows when the extraction is partial/uncertain or when values are
+  described as truncated, synthesized, representative, fabricated, or otherwise incomplete;
+  return the ambiguity in `extraction_notes` instead.
 - Do not use mentions elsewhere in the paper as evidence against the current table. For example,
   link prediction elsewhere is harmless; link prediction on the current node-classification
   dataset/table is nonstandard. Report nonstandard rows too so the exclusion is auditable.
@@ -77,6 +96,13 @@ Rules:
   "v2", "++", or "(ours)" when they are part of the displayed row label.
 - Never replace a specific model name with a generic family name. Example: keep "GraphGPS"
   as "GraphGPS", not "Graph Transformer"; keep "GINE + RWSE" as "GINE + RWSE", not "GINE".
+- Treat any table label beginning with "our" or "ours" as the paper's proposed result. Use the
+  early proposed-model identification and supporting sentence supplied in the input to resolve
+  placeholders such as "Our(GCN)" and "Ours(3-hop)" to the underlying method name. Own
+  configuration variants are the same underlying method unless the paper explicitly defines
+  separate methods. Normalize the specific qualifier "MLP (tuned)" to "MLP".
+- Do not strip arbitrary parentheses: preserve scientific notation and equivariant names such
+  as SE(3)-DDM, SO(3), and related architecture terminology.
 - `proposed_model.name` must be the paper's actual proposed method name, not a generic model type.
 - `baseline_models[].name` should list distinct baseline names exactly as they appear in the
   result tables or nearby explanatory text.

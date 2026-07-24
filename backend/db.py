@@ -118,6 +118,10 @@ def _migration_todo_queue_indexes(engine: Engine) -> None:
     )
 
 
+def _migration_todo_processing_tokens(engine: Engine) -> None:
+    _add_column_if_missing(engine, "todo_papers", "processing_token", "TEXT")
+
+
 def _migration_results_model_metadata(engine: Engine) -> None:
     _add_column_if_missing(engine, "results", "params_millions", "REAL")
 
@@ -200,6 +204,7 @@ MIGRATIONS: tuple[Migration, ...] = (
     Migration("009_drop_models_size_params", _migration_drop_models_size_params),
     Migration("010_export_indexes", _migration_export_indexes),
     Migration("011_results_protocol_metadata", _migration_results_protocol_metadata),
+    Migration("012_todo_processing_tokens", _migration_todo_processing_tokens),
     Migration("013_results_feature_provenance", _migration_results_feature_provenance),
 )
 
@@ -229,14 +234,12 @@ def _apply_migrations(engine: Engine) -> None:
 def _ensure_migration_table(engine: Engine) -> None:
     with engine.connect() as conn:
         conn.execute(
-            text(
-                """
+            text("""
                 CREATE TABLE IF NOT EXISTS schema_migrations (
                     name TEXT PRIMARY KEY,
                     applied_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%SZ', 'now'))
                 )
-                """
-            )
+                """)
         )
         conn.commit()
 

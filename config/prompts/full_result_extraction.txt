@@ -3,6 +3,13 @@ You are extracting benchmark results from the WHOLE text of a graph learning pap
 The paper text may be long. Return a COMPACT JSON object ONLY. Never return a top-level array.
 No markdown fences, no prose explanation.
 
+DATASET/TABLE SCOPE RULES:
+- When a FOCUS block is supplied, extract only explicit result entries for that focused dataset.
+- If no explicit table entry exists for that dataset, return no results.
+- Never copy a column or row belonging to another dataset, even when the table contains several datasets.
+- A table that does not name the focused dataset may be used only when the supplied selection rationale
+  explains why it is the correct table.
+
 Compact output schema:
 {
   "proposed_model_name": "<exact main model name or null>",
@@ -41,6 +48,17 @@ Rules:
   caption, and nearby experiment paragraphs support the canonical task and standard split.
   Use `u=nonstandard` only for clear evidence of another task or non-comparable protocol, and
   `u=uncertain` when evidence is incomplete. Set `z=true`, false, or null accordingly.
+- Mark `u=nonstandard` for subset-only multi-task evaluations, custom train/validation/test
+  construction, or custom/OOD/size-based splits. For OGB, the official default split and full
+  task set are required; "selected balanced tasks" is not a standard OGB result.
+- Mark `u=standard` only when the row-local evidence in `n` supports the canonical task and
+  split. Do not infer standard status from the dataset name or an OGB citation alone.
+- For canonical standard rows, name the dataset-specific split in `n`: QM9's published
+  train/validation/test split, Planetoid for Cora/CiteSeer/PubMed, the official OGB split
+  for OGB datasets, or the canonical 10-fold protocol for TU graph datasets.
+- Never emit benchmark rows when coverage is partial/uncertain or values are described as
+  truncated, synthesized, representative, fabricated, or otherwise incomplete; report the
+  ambiguity in `notes` instead.
 - Do not treat unrelated mentions elsewhere in the paper as evidence against the current table.
 - `coverage_assessment` is complete only when all relevant result tables were reviewed.
 - Extract ONLY main benchmark comparison results on standard datasets.
@@ -51,6 +69,10 @@ Rules:
   for each main proposed method. When several rows are variants of the same method name family,
   output one row per (that method, dataset, metric) with the best score — not one row total per
   dataset.
+- Treat any row label beginning with "our" or "ours" as proposed and resolve it with the early
+  proposed-model identification block and supporting sentence. Own variants share the underlying
+  method name unless explicitly defined as separate methods. Normalize "MLP (tuned)" to "MLP".
+  Preserve scientific notation such as SE(3)-DDM and SO(3); do not strip arbitrary parentheses.
 - Do NOT mark all tuned or starred baseline variants as proposed.
 - Copy model and dataset names verbatim from the paper when possible.
 - Use test-set benchmark values only.

@@ -7,6 +7,7 @@ import pytest
 from backend.latex_source import _expand_user_macros
 from backend.llm_extractor import (
     BaselineModelInfo,
+    CallRecord,
     DatasetInfo,
     DatasetList,
     ExtractionOutput,
@@ -18,17 +19,20 @@ from backend.llm_extractor import (
 )
 from backend.llm_metadata import _title_looks_corrupted
 from backend.llm_postprocessing import (
+    _apply_identified_proposed_model,
     _apply_sizes,
     _expand_extraction_payload,
     _extract_proposed_model_hint,
     _matches_proposed_model_name,
     _merge_extraction_outputs,
     _merge_size_entries,
+    _normalise_known_model_qualifiers,
     _normalise_model_name_text,
     _rename_generic_proposed_rows,
     _render_human_readable,
     _split_into_chunks,
 )
+from backend.llm_tasks import _prefer_method_acronym, _proposed_model_context
 
 
 def test_split_into_chunks_small():
@@ -242,6 +246,188 @@ def test_rename_generic_proposed_rows_uses_intro_hint():
     assert extraction.results[0].model == "GraphMinNet"
 
 
+def test_identified_proposed_model_resolves_our_variants_and_keeps_scientific_parentheses():
+    extraction = ExtractionOutput(
+        results=[
+            ResultEntry(
+                model="Our(GCN)",
+                dataset="Wisconsin",
+                metric="Accuracy",
+                value=0.87,
+            ),
+            ResultEntry(
+                model="Ours(3-hop)",
+                dataset="Wisconsin",
+                metric="Accuracy",
+                value=0.88,
+            ),
+            ResultEntry(
+                model="MLP (tuned)",
+                dataset="Cora",
+                metric="Accuracy",
+                value=0.69,
+            ),
+            ResultEntry(
+                model="SE(3)-DDM",
+                dataset="QM9",
+                metric="MAE",
+                value=0.1,
+            ),
+        ]
+    )
+
+    _apply_identified_proposed_model(
+        extraction,
+        ProposedModel(
+            name="FSGNN",
+            supporting_sentence="We propose Feature Selection Graph Neural Network (FSGNN).",
+        ),
+    )
+
+    assert [row.model for row in extraction.results] == ["FSGNN", "FSGNN", "MLP", "SE(3)-DDM"]
+    assert [row.is_proposed for row in extraction.results] == [True, True, False, False]
+    assert extraction.proposed_model is not None
+    assert extraction.proposed_model.supporting_sentence.startswith("We propose")
+
+
+def test_tuned_qualifier_normalization_is_specific():
+    assert _normalise_known_model_qualifiers("MLP (tuned)") == "MLP"
+    assert _normalise_known_model_qualifiers("SE(3)-DDM") == "SE(3)-DDM"
+
+
+def test_proposed_model_context_contains_name_and_evidence():
+    context = _proposed_model_context(
+        ProposedModel(name="A-DGN", supporting_sentence="We call our method A-DGN.")
+    )
+    assert "Paper-defined proposed model: A-DGN" in context
+    assert "Supporting sentence: We call our method A-DGN." in context
+
+
+def test_prefer_method_acronym_uses_explicit_paper_abbreviation():
+    assert (
+        _prefer_method_acronym(
+            "Anti-Symmetric Deep Graph Network",
+            "We present Anti-Symmetric Deep Graph Networks (A-DGNs).",
+        )
+        == "A-DGN"
+    )
+    assert _prefer_method_acronym("SE(3)-DDM", "We compare SE(3)-DDM.") == "SE(3)-DDM"
+
+
+def test_deterministic_table_matching_uses_caption_header_and_body_and_fuzzy_fallback():
+    tables = [
+        SimpleNamespace(number=3, caption="Results for the Actor benchmark", header=[], body=""),
+        SimpleNamespace(number=4, caption="Results for Roman Empire", header=[], body=""),
+        SimpleNamespace(
+            number=6,
+            caption="Main benchmark results",
+            header=["Dataset", "Actor", "Accuracy"],
+            body="GCN | 0.82",
+        ),
+    ]
+
+    numbers, fields = LLMExtractor._deterministic_table_matches("Actor", tables)
+
+    assert numbers == [3, 6]
+    assert fields == {3: ["caption"], 6: ["header"]}
+
+    fuzzy_table = SimpleNamespace(number=7, caption="Results for Peptid-func", header=[], body="")
+    assert LLMExtractor._deterministic_table_matches("Peptides-func", [fuzzy_table])[0] == [7]
+
+
+def test_table_selection_falls_back_to_deterministic_matches_and_records_metadata(monkeypatch):
+    extractor = LLMExtractor()
+    tables = [
+        SimpleNamespace(number=3, caption="Actor results", header=[], body=""),
+        SimpleNamespace(number=4, caption="Roman Empire results", header=[], body=""),
+        SimpleNamespace(number=5, caption="Other results", header=[], body=""),
+        SimpleNamespace(number=6, caption="More results", header=[], body=""),
+        SimpleNamespace(number=7, caption="Appendix", header=[], body=""),
+    ]
+
+    def fake_call_json(*_args, **_kwargs):
+        extractor._call_log.append(
+            CallRecord(call_type="select_tables:all", system_prompt="", user_content="")
+        )
+        return {"Actor": []}
+
+    monkeypatch.setattr(extractor, "_call_json", fake_call_json)
+    selected = extractor.select_tables_for_all_datasets([DatasetInfo(name="Actor")], tables)
+
+    assert [table.number for table in selected["Actor"]] == [3]
+    assert extractor._call_log[-1].extra["deterministic_table_matches"] == {"Actor": [3]}
+
+
+def test_unexplained_nonmatching_selection_is_discarded_but_explained_override_is_allowed(
+    monkeypatch,
+):
+    extractor = LLMExtractor()
+    tables = [
+        SimpleNamespace(number=3, caption="Actor results", header=[], body=""),
+        SimpleNamespace(number=4, caption="Roman Empire results", header=[], body=""),
+        SimpleNamespace(number=5, caption="Other results", header=[], body=""),
+        SimpleNamespace(number=6, caption="More results", header=[], body=""),
+        SimpleNamespace(number=7, caption="Appendix", header=[], body=""),
+    ]
+    responses = iter(
+        [
+            {"Actor": {"relevant_table_numbers": [4], "explanation": ""}},
+            {
+                "Actor": {
+                    "relevant_table_numbers": [4],
+                    "explanation": "The caption is omitted because this is the Actor table.",
+                }
+            },
+        ]
+    )
+
+    monkeypatch.setattr(extractor, "_call_json", lambda *_args, **_kwargs: next(responses))
+    assert (
+        extractor.select_tables_for_all_datasets([DatasetInfo(name="Actor")], tables)["Actor"] == []
+    )
+    assert extractor.select_tables_for_all_datasets([DatasetInfo(name="Actor")], tables)[
+        "Actor"
+    ] == [tables[1]]
+
+
+def test_empty_selected_tables_skip_all_extraction_calls(monkeypatch):
+    extractor = LLMExtractor()
+    calls = 0
+
+    monkeypatch.setattr(extractor, "_read_result_prompt", lambda *_args, **_kwargs: "prompt")
+
+    def fake_extract(*_args, **_kwargs):
+        nonlocal calls
+        calls += 1
+        return ExtractionOutput()
+
+    monkeypatch.setattr(extractor, "_extract_dataset_with_retries", fake_extract)
+    output = extractor.extract_results_two_step(
+        "paper text",
+        [SimpleNamespace(number=1, caption="Results for Roman Empire", markdown="scores")],
+        known_datasets=[DatasetInfo(name="Actor")],
+    )
+
+    assert output.results == []
+    assert calls == 0
+    assert "No tables were selected" in output.extraction_notes
+
+
+def test_dataset_focus_prefix_contains_selection_rationale_rules():
+    extractor = LLMExtractor()
+    prefix = extractor._dataset_focus_prefix(
+        "Actor",
+        intro_model_hint=None,
+        identified_proposed_model=None,
+        metric_constraint="",
+        selection_rationale="Actor appears in tables: 3\nMODEL SELECTION EXPLANATION: renamed table",
+    )
+    assert "extract only explicit entries" in prefix.lower()
+    assert "return no results" in prefix.lower()
+    assert "do not copy" in prefix.lower()
+    assert "MODEL SELECTION EXPLANATION: renamed table" in prefix
+
+
 @pytest.mark.parametrize(
     ("title", "expected"),
     [
@@ -334,8 +520,8 @@ def test_extract_results_two_step_retries_after_empty_latex_discovery(monkeypatc
     )
 
     assert len(fallback_calls) == 1
-    assert {entry.dataset for entry in result.results} == {"ZINC", "subgraph counting"}
-    assert result.extraction_notes != "Dataset discovery returned no datasets."
+    assert result.results == []
+    assert "No tables were selected" in result.extraction_notes
 
 
 def test_extract_results_chunk_falls_back_between_yaml_and_json(monkeypatch):
@@ -437,6 +623,30 @@ def test_merge_size_entries_prefers_existing_then_fills_gaps():
     assert by_name["graphgps"].params_millions == pytest.approx(6.9)
     assert by_name["graphgps"].params_exact == 6_900_000
     assert by_name["gcn"].params_millions == pytest.approx(1.2)
+
+
+def test_merge_size_entries_keeps_dataset_specific_counts_separate():
+    entries = _merge_size_entries(
+        [
+            ModelSizeEntry(
+                model_name="GatedGCN-VN",
+                dataset="LRGB",
+                params_millions=0.5,
+            )
+        ],
+        [
+            ModelSizeEntry(
+                model_name="GatedGCN-VN",
+                dataset="ogbg-molpcba",
+                params_millions=57.0,
+            )
+        ],
+    )
+
+    assert {(entry.dataset, entry.params_millions) for entry in entries} == {
+        ("LRGB", 0.5),
+        ("ogbg-molpcba", 57.0),
+    }
 
 
 def test_expand_extraction_payload_includes_compact_model_metadata():

@@ -369,7 +369,9 @@ benchmarks:
     num_classes: 2
     variants:
     - name: Standard split
+      split_type: scaffold
       is_standard: true
+      notes: OGB scaffold split; use the official default task and features.
   - name: ogbg-molpcba
     task_type: graph_classification
     description: Multi-label classification (128 tasks) on PubChem BioAssay.
@@ -383,7 +385,9 @@ benchmarks:
     num_classes: 128
     variants:
     - name: Standard split
+      split_type: scaffold
       is_standard: true
+      notes: OGB scaffold split; AP is averaged across all 128 tasks.
   - name: ogbg-ppa
     task_type: graph_classification
     description: Protein-protein association subgraph classification (37 taxonomic groups).
@@ -397,7 +401,9 @@ benchmarks:
     num_classes: 37
     variants:
     - name: Standard split
+      split_type: species
       is_standard: true
+      notes: OGB species split.
   - name: Code
     task_type: graph_classification
     description: Code AST-level method name prediction (ogbg-code2). 143k Python snippets.
@@ -411,7 +417,9 @@ benchmarks:
     num_classes: 1
     variants:
     - name: Standard split
+      split_type: project
       is_standard: true
+      notes: OGB project split.
   - name: ogbn-arxiv
     task_type: node_classification
     description: Node classification on arXiv citation network (40 subject areas).
@@ -424,6 +432,7 @@ benchmarks:
     num_classes: 1
     variants:
     - name: Standard split
+      split_type: fixed
       is_standard: true
   - name: ogbn-proteins
     task_type: node_classification
@@ -614,6 +623,7 @@ benchmarks:
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.Planetoid.html
     variants:
     - name: Planetoid split
+      split_type: fixed
       is_standard: true
       notes: Yang et al. 2016 fixed split.
   - name: PubMed
@@ -625,6 +635,7 @@ benchmarks:
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.Planetoid.html
     variants:
     - name: Planetoid split
+      split_type: fixed
       is_standard: true
       notes: Yang et al. 2016 fixed split.
   - name: Coauthor-CS
@@ -637,6 +648,7 @@ benchmarks:
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.Coauthor.html
     variants:
     - name: Standard split
+      split_type: fixed
       is_standard: true
   - name: Coauthor-Physics
     task_type: node_classification
@@ -749,6 +761,7 @@ benchmarks:
     num_classes: 2
     variants:
     - name: 10-fold CV
+      split_type: ten_fold
       is_standard: true
   - name: D&D
     task_type: graph_classification
@@ -1319,6 +1332,7 @@ benchmarks:
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.QM9.html
     variants:
     - name: Standard split
+      split_type: random
       is_standard: true
   - name: QM7b
     task_type: graph_regression

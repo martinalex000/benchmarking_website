@@ -1,0 +1,5 @@
+# Reviewed corpus for guided-table comparison.
+# Add at least 30 papers with >=20 expected plain benchmark result entries each.
+# The evaluator deliberately refuses to run as a passing evaluation until this
+# corpus has been populated and each paper has a guided-table output.
+papers: []

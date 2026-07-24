@@ -494,10 +494,10 @@ def _lookup_size_entry(name: str, size_map: dict[str, ModelSizeEntry]) -> ModelS
 def _merge_size_entries(
     primary: list[ModelSizeEntry], secondary: list[ModelSizeEntry]
 ) -> list[ModelSizeEntry]:
-    merged: dict[str, ModelSizeEntry] = {}
+    merged: dict[tuple[str, str], ModelSizeEntry] = {}
     for entry in primary + secondary:
-        key = _size_lookup_key(entry)
-        if not key:
+        key = (_size_lookup_key(entry), (entry.dataset or "").strip().lower())
+        if not key[0]:
             continue
         existing = merged.get(key)
         if existing is None:
@@ -527,7 +527,10 @@ def _apply_sizes(extraction: ExtractionOutput, sizes: list[ModelSizeEntry]) -> N
     """Merge model size data back into the extraction output."""
     if not sizes:
         return
-    size_map = {_size_lookup_key(s): s for s in sizes if _size_lookup_key(s)}
+    # Proposed/baseline metadata has no dataset dimension. Only apply an
+    # explicitly global size there; dataset-specific entries remain available
+    # in the raw output for the result parser.
+    size_map = {_size_lookup_key(s): s for s in sizes if _size_lookup_key(s) and not s.dataset}
 
     if extraction.proposed_model is not None:
         _apply_size_to_model_info(extraction.proposed_model, size_map)
@@ -737,10 +740,8 @@ def _rename_generic_model_name(name: str, proposed_hint: str) -> str | None:
     if not clean:
         return None
     lowered = clean.lower()
-    if clean == "\\modelname{}" or lowered == "ours":
+    if clean == "\\modelname{}" or _is_our_model_label(clean):
         return proposed_hint
-    if lowered.startswith("ours("):
-        return proposed_hint + clean[4:]
     if lowered.startswith("ours "):
         remainder = clean[5:].strip()
         if remainder.startswith("(") and remainder.endswith(")"):
@@ -753,10 +754,68 @@ def _rename_generic_model_name(name: str, proposed_hint: str) -> str | None:
     return None
 
 
+def _is_our_model_label(name: str) -> bool:
+    """Return whether a table label explicitly identifies an authors' result."""
+    clean = _normalise_model_name_text(name or "")
+    return bool(re.match(r"^ours?(?=$|[^a-z])", clean, flags=re.IGNORECASE))
+
+
+def _normalise_known_model_qualifiers(name: str) -> str:
+    """Normalize known provenance qualifiers without stripping arbitrary parentheses."""
+    clean = _normalise_model_name_text(name or "")
+    return re.sub(r"\s*\(\s*tuned\s*\)\s*$", "", clean, flags=re.IGNORECASE).strip()
+
+
+def _apply_identified_proposed_model(
+    extraction: ExtractionOutput,
+    identified: ProposedModel | None,
+) -> None:
+    """Apply the early proposed-model decision to generic author-role rows."""
+    extracted_proposed_key = (
+        _canonical_model_name_key(extraction.proposed_model.name)
+        if extraction.proposed_model is not None
+        else ""
+    )
+    for result in extraction.results:
+        result.model = _normalise_known_model_qualifiers(result.model)
+        if _is_our_model_label(result.model):
+            result.is_proposed = True
+            if identified is not None:
+                result.model = identified.name
+        elif (
+            identified is not None
+            and result.is_proposed
+            and extracted_proposed_key
+            and _canonical_model_name_key(result.model) == extracted_proposed_key
+        ):
+            result.model = identified.name
+
+    for baseline in extraction.baseline_models:
+        baseline.name = _normalise_known_model_qualifiers(baseline.name)
+
+    if extraction.proposed_model is not None:
+        extraction.proposed_model.name = _normalise_known_model_qualifiers(
+            extraction.proposed_model.name
+        )
+
+    if identified is None:
+        return
+
+    identified = identified.model_copy(deep=True)
+    identified.name = _normalise_known_model_qualifiers(identified.name)
+    extraction.proposed_model = identified
+    extraction.baseline_models = [
+        baseline
+        for baseline in extraction.baseline_models
+        if _canonical_model_name_key(baseline.name) != _canonical_model_name_key(identified.name)
+    ]
+
+
 def _rename_generic_proposed_rows(extraction: ExtractionOutput, proposed_hint: str | None) -> None:
     if not proposed_hint:
         return
     for result in extraction.results:
+        result.model = _normalise_known_model_qualifiers(result.model)
         if not result.is_proposed:
             continue
         renamed = _rename_generic_model_name(result.model, proposed_hint)
@@ -844,11 +903,15 @@ def _stabilize_model_names(
     _apply_feature_source_model_names(extraction.results)
 
     if extraction.proposed_model is not None:
+        extraction.proposed_model.name = _normalise_known_model_qualifiers(
+            extraction.proposed_model.name
+        )
         extraction.proposed_model.name = normalize_model_name_for_resolution(
             _normalise_model_name_text(extraction.proposed_model.name)
         )
 
     for baseline in extraction.baseline_models:
+        baseline.name = _normalise_known_model_qualifiers(baseline.name)
         baseline.name = normalize_model_name_for_resolution(
             _normalise_model_name_text(baseline.name)
         )
@@ -856,6 +919,9 @@ def _stabilize_model_names(
     filtered_results: list[ResultEntry] = []
     dropped_ablation_rows = 0
     for result in extraction.results:
+        result.model = _normalise_known_model_qualifiers(result.model)
+        if _is_our_model_label(result.model):
+            result.is_proposed = True
         result.model = normalize_model_name_for_resolution(_normalise_model_name_text(result.model))
         if _looks_like_ablation_model(result.model):
             dropped_ablation_rows += 1

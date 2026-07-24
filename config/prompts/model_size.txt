@@ -9,6 +9,7 @@ Output schema:
   {
     "model_name": "<model name as stated in paper>",
     "matched_result_name": "<exact result-table name this maps to, or same as model_name>",
+    "dataset": "<canonical dataset name if this count is dataset/configuration-specific, else null>",
     "params_millions": <float or null>,
     "params_exact": <int or null>,
     "source_text": "<verbatim snippet from paper where this was found>"
@@ -20,6 +21,10 @@ Rules:
 - params_millions: always convert to millions (e.g. 6,900,000 -> 6.9).
 - params_exact: exact integer count if the paper gives it (else null).
 - Include the proposed model AND all baseline models if their sizes are mentioned.
+- If the same model has different parameter counts for different datasets or configurations,
+  emit one entry per dataset/configuration and fill in `dataset` for each. Do not collapse those
+  entries into one model-wide count. Use the dataset name from the result table when available.
+- A count that is explicitly shared across all datasets may use `dataset: null`.
 - Search tables for columns like #Params, Parameters, Model size, # parameters.
 - ONLY extract sizes explicitly stated in this paper for that exact model.
 - Accept sizes from configuration tables when the paper states total params OR gives layer

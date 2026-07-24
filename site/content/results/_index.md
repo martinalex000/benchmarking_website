@@ -1,6 +1,6 @@
 ---
 title: "Result Statistics"
-description: "Monthly result counts split between proposed and baseline rows."
+description: "A dated, protocol-compatible snapshot of the public leaderboard."
 ---
 
-This page shows how many result rows were extracted per month. Use the toggle to switch between proposed and baseline results.
+This page reports the dated, protocol-compatible leaderboard snapshot used throughout the site.

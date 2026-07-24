@@ -22,6 +22,7 @@ from backend.export_to_hugo import (
     _dedup_result_rows,
     _description_class_target_count,
     _enrich_paper_result_row,
+    _export_snapshot_payload,
     _fmt_date,
     _gap_magnitude,
     _global_ranks_cached,
@@ -47,6 +48,21 @@ from backend.export_to_hugo import (
     clear_export_caches,
 )
 from backend.leaderboard_compare import has_paper_value_difference
+
+
+def test_export_snapshot_uses_only_exportable_dataset_counts():
+    payload = _export_snapshot_payload(
+        {
+            1: {"exportable": True, "result_count": 4},
+            2: {"exportable": False, "result_count": 99},
+            3: {"exportable": True, "result_count": 7},
+        },
+        paper_count=3,
+        generated_at="2026-07-20T12:00:00+00:00",
+    )
+
+    assert payload["counts"] == {"papers": 3, "datasets": 2, "results": 11}
+
 
 def test_paper_export_keeps_raw_and_llm_mlp_rows_separate():
     rows = [
@@ -1088,6 +1104,38 @@ def test_export_all_removes_stale_paper_pages_on_full_export(monkeypatch, tmp_pa
     assert not (content / "datasets" / "stale-dataset").exists()
     assert (content / "papers" / "2401.17791" / "index.md").exists()
     assert (content / "datasets" / "ogbn-arxiv" / "index.md").exists()
+
+
+def test_hugo_build_cleans_destination_directory(monkeypatch, tmp_path):
+    from backend import export_to_hugo
+
+    site_dir = tmp_path / "site"
+    project_root = tmp_path / "project"
+    calls = []
+
+    monkeypatch.setattr(export_to_hugo, "_SITE_DIR", site_dir)
+    monkeypatch.setattr(export_to_hugo.cfg, "project_root", project_root)
+    monkeypatch.setattr(
+        export_to_hugo.subprocess,
+        "run",
+        lambda command, **kwargs: calls.append((command, kwargs)),
+    )
+
+    export_to_hugo._build_hugo_site()
+
+    assert calls == [
+        (
+            [
+                "uv",
+                "run",
+                "hugo",
+                "--cleanDestinationDir",
+                "--source",
+                str(site_dir),
+            ],
+            {"check": True, "cwd": project_root},
+        )
+    ]
 
 
 def test_build_chart_points_uses_primary_metric_only():

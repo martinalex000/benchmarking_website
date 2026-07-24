@@ -25,7 +25,9 @@ Guidelines:
 - Use the exact name as it appears in the paper (e.g. keep "Peptides-func" not "Peptides").
 - If the user content provides canonical dataset names already known to the website, prefer that canonical name when it clearly refers to the same benchmark.
 - table_refs: which MAIN benchmark table numbers contain results for this dataset (best guess from context).
-- Do NOT prefer ablation, appendix, or diagnostic tables when a main benchmark table exists.
+- Appendix tables are first-class sources and may contain the paper's complete or summarized
+  benchmark results. Do not exclude a dataset merely because its results appear in an appendix.
+- Do not prefer ablation or diagnostic tables when a main benchmark table exists.
 - Combine sub-tasks into one entry if they belong to the same benchmark
   (e.g. "Peptides-func" and "Peptides-struct" are separate entries).
 - primary_metric: the main comparison metric. Use standard abbreviations:
