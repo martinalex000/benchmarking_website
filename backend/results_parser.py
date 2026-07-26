@@ -83,6 +83,7 @@ def _apply_feature_source_model_name(entry: dict[str, Any]) -> None:
 # ── Dataset alias normalisation (post-extraction) ─────────────────────────────
 
 _DATASET_ALIAS_MAP: dict[str, str] | None = None
+_AMBIGUOUS_DATASET_NAMES: set[str] | None = None
 _PROTOCOL_EXCLUSIONS: dict[str, Any] | None = None
 _PROTOCOL_CONTRACTS: dict[str, Any] | None = None
 
@@ -106,6 +107,22 @@ def normalize_dataset_alias(dataset_name: str) -> str:
     """Return the canonical dataset name if an alias is defined, else unchanged."""
     key = dataset_name.strip().lower()
     return _load_dataset_alias_map().get(key, dataset_name)
+
+
+def is_ambiguous_dataset_name(dataset_name: str) -> bool:
+    """Return whether a generic name is unsafe to resolve by fuzzy matching."""
+    global _AMBIGUOUS_DATASET_NAMES
+    if _AMBIGUOUS_DATASET_NAMES is None:
+        path = cfg.config_dir / "dataset_aliases.yaml"
+        if path.exists():
+            with path.open(encoding="utf-8") as fh:
+                data = yaml.safe_load(fh) or {}
+            _AMBIGUOUS_DATASET_NAMES = {
+                str(name).strip().casefold() for name in (data.get("ambiguous_names") or [])
+            }
+        else:
+            _AMBIGUOUS_DATASET_NAMES = set()
+    return dataset_name.strip().casefold() in _AMBIGUOUS_DATASET_NAMES
 
 
 def _load_protocol_exclusions() -> dict[str, Any]:
@@ -229,7 +246,8 @@ _OGB_DATASET_ALIASES: dict[str, str] = {
     "ogbg-moltox21": "tox21",
 }
 _DATASET_VARIANT_QUALIFIER_RE = re.compile(
-    r"\b(?:full|subset|random|temporal|continual|few[- ]shot|large|small|ca)\b",
+    r"\b(?:full|subset|random|temporal|continual|few[- ]shot|test[- ](?:dev|challenge)|"
+    r"challenge|competition|large|small|ca)\b",
     re.IGNORECASE,
 )
 
@@ -328,13 +346,14 @@ _NONSTANDARD_PROTOCOL_CUE_RE = re.compile(
     r"subset(?:\s+of)?\s+(?:the\s+)?(?:\d+\s+)?tasks?|"
     r"(?:only|just)\s+\d+\s+tasks?|"
     r"(?:not|fewer\s+than|less\s+than)\s+(?:all|the\s+full)\s+\d*\s*tasks?|"
-    r"(?:custom|non[- ]standard|random|stratified|temporal|time[- ]based|"
+    r"(?:custom|non[- ]standard|random|stratified|temporal|time[- ]based|chronological|"
     r"size[- ]based|scaffold[- ]free|ood|out[- ]of[- ]distribution)\s+split|"
     r"different\s+split|"
     r"largest\s+\d+%\s+of\s+(?:graphs|molecules)|"
     r"\b(?:few[- ]shot|linear[- ]probe|linear probing|continual|"
     r"attack|backdoor|poison|asr|attack success|cta|meta[- ]attack|"
-    r"attribute injection|robustness)\b"
+    r"attribute injection|robustness|training accuracy|validation accuracy|"
+    r"accuracy ratio|correlation coefficient|correlation between|tgb|dynamic destination)\b"
     r")\b",
     re.IGNORECASE,
 )
@@ -378,6 +397,19 @@ def _protocol_note_indicates_nonstandard(entry: dict[str, Any]) -> bool:
     return bool(note and _NONSTANDARD_PROTOCOL_CUE_RE.search(note))
 
 
+def _protocol_note_indicates_metric_mismatch(entry: dict[str, Any], variant: DatasetVariant) -> bool:
+    """Reject rows whose local evidence names a different reported metric."""
+    note = str(entry.get("protocol_note") or "").casefold()
+    metric = str(entry.get("metric") or "").strip().casefold()
+    if not note or not metric:
+        return False
+    if metric == "mrr" and re.search(r"\bhits?\s*@?\s*\d+\b", note):
+        return True
+    return metric in {"accuracy", "acc"} and bool(
+        re.search(r"\b(?:accuracy\s+ratio|correlation(?:\s+coefficient)?|pearson)\b", note)
+    )
+
+
 def _normalized_evaluation_task(value: Any) -> str:
     task = str(value or "").strip().casefold().replace("_", " ")
     return _TASK_TYPE_ALIASES.get(task, task.replace(" ", "_"))
@@ -402,13 +434,26 @@ def _protocol_decision(entry: dict[str, Any], variant: DatasetVariant) -> str:
     if actual_task and actual_task != expected_task:
         return "nonstandard"
 
-    # A row-local note describing a subset or custom split overrides an
-    # overconfident LLM decision. This is the backstop for papers that call a
-    # dataset "OGB" while evaluating only a hand-picked subset of its tasks.
-    if _protocol_note_indicates_nonstandard(entry):
-        return "nonstandard"
     if _protocol_contract_disallows(entry, variant):
         return "nonstandard"
+
+    if _protocol_note_indicates_metric_mismatch(entry, variant):
+        return "nonstandard"
+
+    # A row-local note describing a subset or custom split overrides an
+    # overconfident LLM decision. Wisconsin is the one deliberate exception:
+    # the canonical Geom-GCN masks are sometimes described as random splits,
+    # so the cited Pei/Geom-GCN or PyG evidence must be considered first.
+    if _protocol_note_indicates_nonstandard(entry):
+        contract = _protocol_contract_for_variant(variant)
+        note = str(entry.get("protocol_note") or "")
+        canonical_random_split = bool(
+            contract.get("allow_canonical_random_split")
+            and re.search(r"\brandom\b[^.]{0,40}\bsplits?\b", note, re.IGNORECASE)
+            and _protocol_contract_has_evidence(entry, variant)
+        )
+        if not canonical_random_split:
+            return "nonstandard"
 
     decision = str(entry.get("protocol_decision") or "").strip().casefold()
     if decision == "nonstandard":
@@ -436,9 +481,57 @@ def _protocol_decision(entry: dict[str, Any], variant: DatasetVariant) -> str:
 
 def _protocol_result_is_eligible(decision: str, variant: DatasetVariant) -> bool:
     """Return whether a parsed row may become a canonical benchmark result."""
-    if decision == "nonstandard":
+    if decision == "nonstandard" or not getattr(variant, "is_standard", True):
         return False
     return not (decision == "uncertain" and _requires_explicit_protocol_evidence(variant))
+
+
+def _manual_protocol_note(arxiv_id: str, dataset_name: str) -> str | None:
+    notes = (_load_protocol_exclusions().get("manual_protocol_notes") or {}).get(arxiv_id) or {}
+    if not isinstance(notes, dict):
+        return None
+    dataset_key = str(dataset_name or "").strip().casefold()
+    for name, note in notes.items():
+        if str(name).strip().casefold() == dataset_key and str(note).strip():
+            return str(note).strip()
+    return None
+
+
+def result_is_leaderboard_eligible(result: Result) -> bool:
+    """Apply the current protocol contract to a stored result row.
+
+    Parsing enforces this before insertion, but legacy rows predate the
+    contracts. Export paths must apply the same rule so unsupported historical
+    rows cannot re-enter a final comparison merely because they still exist in
+    the database.
+    """
+    variant = result.dataset_variant
+    if variant is None:
+        return True
+    if not variant.is_standard:
+        return False
+    contract = _protocol_contract_for_variant(variant)
+    if not contract and not getattr(variant, "split_type", None):
+        # Preserve legacy datasets that have no declared contract at all. The
+        # strict path applies to contracted or explicitly split variants.
+        return True
+    paper = result.paper
+    arxiv_id = paper.arxiv_id if paper else ""
+    if not _allowed_by_protocol_curation(
+        arxiv_id,
+        variant,
+        model_name=result.effective_model_name,
+        metric_name=result.metric_name,
+    ):
+        return False
+    note = _manual_protocol_note(arxiv_id, variant.dataset.name) or result.protocol_note
+    entry = {
+        "evaluation_task": result.evaluation_task,
+        "protocol_decision": result.protocol_decision,
+        "protocol_note": note,
+        "uses_standard_protocol": True,
+    }
+    return _protocol_decision(entry, variant) == "standard"
 
 
 def source_indicates_incompatible_protocol(
@@ -512,6 +605,15 @@ def normalize_dataset_scaled_metric(
 def _dataset_metric_value_is_valid(dataset_name: str, metric_name: str, value: float) -> bool:
     """Reject values that violate an unambiguous dataset/metric invariant."""
     if not math.isfinite(value):
+        return False
+    metric_key = metric_name.strip().casefold()
+    if _is_percentage_metric(metric_name) and not 0.0 <= value <= 1.0:
+        # Accuracy-like metrics are normalised to [0, 1]. This also blocks
+        # negative sentinels such as -1.0 from becoming artificial SOTA rows.
+        return False
+    if any(token in metric_key for token in ("mae", "rmse", "mse", "error", "loss")) and value < 0:
+        # Error metrics are non-negative; negative values are almost always a
+        # missing-value sentinel or a column/metric mismatch.
         return False
     # The QM9 HOMO-LUMO gap is strictly positive. Zero values in the audit were
     # produced by a failed meV-to-eV conversion and are never valid results.
@@ -676,8 +778,22 @@ def resolve_dataset_variant_with_reason(
     if key == "zinc":
         return _infer_zinc_variant(entry or {"dataset": dataset_name}, variant_map, paper_text)
 
+    if key == "pcqm4mv2":
+        context = " ".join(
+            str((entry or {}).get(field) or "")
+            for field in ("table_ref", "source_ref", "protocol_note", "notes")
+        ).casefold()
+        if re.search(r"test[- ]challenge|challenge\s+(?:split|set)|competition", context):
+            challenge_id = variant_map.get("test challenge")
+            if challenge_id is not None:
+                return challenge_id, "PCQM4Mv2: test-challenge cue"
+
     if key in variant_map:
         return variant_map[key], "dataset: exact match"
+
+    if is_ambiguous_dataset_name(dataset_name):
+        logger.warning("Ambiguous dataset label '%s' is not fuzzy-matched", dataset_name)
+        return None, "dataset: ambiguous generic name"
 
     alias_target = _OGB_DATASET_ALIASES.get(key)
     if alias_target is not None and alias_target in variant_map:
@@ -1364,6 +1480,10 @@ def parse_and_store_with_summary(
                 )
                 summary.skipped_protocol_mismatches.append(detail)
                 continue
+            manual_note = _manual_protocol_note(arxiv_id, variant.dataset.name)
+            if manual_note:
+                entry = dict(entry)
+                entry["protocol_note"] = manual_note
             decision = _protocol_decision(entry, variant)
             if not _protocol_result_is_eligible(decision, variant):
                 expected_task = _normalized_evaluation_task(variant.dataset.task_type)

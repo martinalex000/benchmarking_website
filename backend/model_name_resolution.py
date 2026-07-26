@@ -69,6 +69,12 @@ def ogb_dataset_family(name: str) -> str | None:
 
 def ogb_dataset_families_compatible(name_a: str, name_b: str) -> bool:
     """Block fuzzy matches across ogbg / ogbn / ogbl families."""
+    temporal_a = bool(re.search(r"\btgbl\b", name_a, re.IGNORECASE))
+    temporal_b = bool(re.search(r"\btgbl\b", name_b, re.IGNORECASE))
+    ogb_link_a = bool(re.search(r"\bogbl\b", name_a, re.IGNORECASE))
+    ogb_link_b = bool(re.search(r"\bogbl\b", name_b, re.IGNORECASE))
+    if temporal_a != temporal_b or (temporal_a and ogb_link_b) or (temporal_b and ogb_link_a):
+        return False
     fam_a = ogb_dataset_family(name_a)
     fam_b = ogb_dataset_family(name_b)
     if fam_a is None or fam_b is None:

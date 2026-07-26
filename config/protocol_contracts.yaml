@@ -33,6 +33,10 @@ datasets:
     forbidden_any:
       - "\\b(?:few[- ]shot|5[- ]way|prompt tuning|linear probing|attack|backdoor|poison|meta[- ]attack|attribute injection|auroc|penn94|csbm)\\b"
       - "\\b(?:selected|balanced|subset|random)\\s+tasks?\\b"
+  arxiv-year:
+    forbidden_any:
+      - "\\b(?:he[_ -]?arxiv|heterogeneous\\s+arxiv|he[_ -]?croval)\\b"
+      - "\\b(?:few[- ]shot|zero[- ]shot|co[- ]training|cross[- ]training|linear probing)\\b"
   proteins:
     required_any:
       - "\\b10[- ]fold(?:\\s+cross[- ]validation)?\\b"
@@ -41,3 +45,17 @@ datasets:
     forbidden_any:
       - "\\b(?:random\\s+)?(?:80\\s*/\\s*10\\s*/\\s*10|80/10/10)\\s*%?\\b"
       - "\\b(?:random|custom|few[- ]shot|linear probing|temporal|continual)\\b[^.]{0,30}\\b(?:split|partition|setting)\\b"
+  wisconsin:
+    # WebKB/Wisconsin is comparable only on the public Geom-GCN masks. Some
+    # papers call these masks random because they were generated from random
+    # seeds; the Pei/Geom-GCN or PyG reference is what distinguishes them from
+    # a new random split.
+    required_any:
+      - "\\b(?:geom[- ]?gcn|geomgcn|pei(?:20(?:19|20))?|pei\\s+et\\s+al\\.?|pytorch\\s+geometric|pyg)\\b[^.]{0,120}\\b(?:fixed|public|random)?\\s*(?:10\\s+)?(?:splits?|seeds?)\\b"
+      - "\\b(?:fixed|public|random)?\\s*(?:10\\s+)?(?:splits?|seeds?)\\b[^.]{0,120}\\b(?:geom[- ]?gcn|geomgcn|pei(?:20(?:19|20))?|pei\\s+et\\s+al\\.?|pytorch\\s+geometric|pyg)\\b"
+      - "\\b(?:10\\s+)?public\\s+splits?\\b[^.]{0,80}\\b48\\s*%?\\s*/\\s*32\\s*%?\\s*/\\s*20\\s*%?\\b"
+    forbidden_any:
+      - "\\b60\\s*%?\\s*/\\s*20\\s*%?\\s*/\\s*20\\s*%?\\b"
+      - "\\b(?:1[- ]shot|few[- ]shot|90\\s*%\\s*test|cross[- ]validation)\\b"
+      - "\\b(?:custom|temporal|continual|ood|out[- ]of[- ]distribution)\\b[^.]{0,40}\\b(?:split|partition|setting)\\b"
+    allow_canonical_random_split: true

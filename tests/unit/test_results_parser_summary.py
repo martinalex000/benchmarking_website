@@ -356,6 +356,42 @@ def test_source_protocol_backstop_rejects_attack_rows():
     )
 
 
+@pytest.mark.parametrize(
+    "metric,note",
+    [
+        ("Accuracy", "Accuracy ratio between 2 and 24 layers."),
+        ("Accuracy", "Correlation coefficient between accuracy and depth."),
+        ("Accuracy", "Training accuracy for the interpreted classifier."),
+        ("MRR", "Inductive Hit@10 percentages from Table 1."),
+        ("MRR", "TGB chronological split for dynamic destination prediction."),
+    ],
+)
+def test_source_protocol_backstop_rejects_auxiliary_or_wrong_metric_rows(metric, note):
+    variant = SimpleNamespace(
+        dataset=SimpleNamespace(task_type="node_classification", primary_metric=metric)
+    )
+
+    assert source_indicates_incompatible_protocol(
+        {
+            "metric": metric,
+            "evaluation_task": "node_classification",
+            "protocol_decision": "standard",
+            "protocol_note": note,
+        },
+        variant,
+        "",
+    )
+
+
+def test_pcqm_test_challenge_is_nonstandard_variant_when_explicitly_selected():
+    variant = SimpleNamespace(
+        is_standard=False,
+        split_type="challenge",
+        dataset=SimpleNamespace(task_type="graph_regression", name="PCQM4Mv2"),
+    )
+    assert not _protocol_result_is_eligible("standard", variant)
+
+
 def test_source_protocol_backstop_does_not_scan_unrelated_paper_text():
     variant = SimpleNamespace(dataset=SimpleNamespace(task_type="graph_classification"))
 

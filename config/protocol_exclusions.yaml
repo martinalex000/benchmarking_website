@@ -1,6 +1,10 @@
 # Confirmed task/protocol mismatches. These rules also protect legacy extraction
 # artifacts that predate protocol_validation_version.
 exclude_all_results:
+  "2110.04375": "Link-prediction experiments were misclassified as canonical node-classification results."
+  "2402.08824": "Custom 5/10/85 split and backbone-ablation rows are not canonical benchmark protocols."
+  "2408.14134": "Custom text-attributed graphs and random splits are not canonical heterophilic benchmark protocols."
+  "2503.04822": "Custom HeTGB graphs and random splits are not canonical heterophilic benchmark protocols."
   "2402.14802": "Link-prediction experiments mapped to node-classification datasets."
   "2304.11116": "Prompt/API graph reasoning is not a canonical benchmark protocol."
   "2308.16800": "All-node fitting has no held-out benchmark split."
@@ -25,6 +29,20 @@ exclude_all_results:
 # Dataset-specific exclusions for papers that also contain valid results on
 # other benchmarks.
 exclude_datasets:
+  "2407.14732":
+    Amazon-ratings: "Source tables are Amazon-Clothing/Electronics few-shot evaluations, not the canonical full-task Amazon-ratings benchmark."
+  "2506.08298":
+    arxiv-year: "The extracted value is from the He_Arxiv co-training table, not canonical OGB arxiv-year."
+  "2307.01026":
+    ogbl-wikikg2: "The source evaluates TGB tgbl-wiki temporal destination prediction, not OGB ogbl-wikikg2."
+  "2006.02587":
+    MUTAG: "The extracted accuracy is training accuracy for an interpretation model, not test-set graph classification."
+  "2106.04509":
+    BBBP: "The driver is linear evaluation of pretrained representations, not the canonical supervised scaffold comparison."
+  "2006.09963":
+    RDT-B: "The driver uses graph pretraining/external data and is excluded from the strict from-scratch comparison."
+  "2106.05819":
+    ClinTox: "The driver uses ZINC-2M external pretraining and is excluded from the strict supervised comparison."
   "2010.08853":
     ogbg-molpcba: "Eight selected balanced tasks rather than all 128 tasks on the canonical OGB scaffold split."
   "2306.06063":
@@ -69,6 +87,38 @@ exclude_datasets:
     PROTEINS: "Random repeated 80/10/10 splits are not the canonical TU 10-fold protocol."
   "2406.01249":
     PROTEINS: "Random repeated 80/10/10 splits are not the canonical TU 10-fold protocol."
+  "2309.12971":
+    Wisconsin: "Random 60/20/20 splits are not the canonical Geom-GCN fixed-10-split protocol."
+  "2505.20034":
+    Wisconsin: "The reported 48/32/20 Wisconsin rows are random split results, not the fixed Geom-GCN splits."
+  "2603.09195":
+    Wisconsin: "The extracted main-table rows use random 60/20/20 splits; the canonical fixed-split appendix table was not extracted."
+  "2302.14806":
+    Wisconsin: "The paper does not document a canonical Geom-GCN split; its high scores and baselines align with the random-split results cluster."
+  "2307.06631":
+    Wisconsin: "The paper reports a 60/20/20 public split rather than the canonical Geom-GCN fixed-10-split protocol."
+  "2307.09768":
+    Wisconsin: "The reported Wisconsin scores align with the noncanonical random-split cluster; no fixed Geom-GCN split evidence is provided."
+  "2405.16185":
+    Wisconsin: "The Wisconsin protocol is undocumented and its baselines reproduce the noncanonical 48/32/20 random-split table."
+  "2406.05346":
+    Wisconsin: "1-shot node classification with 90% test nodes is not the canonical supervised Wisconsin benchmark."
+  "2604.01878":
+    Wisconsin: "The paper explicitly uses random 60/20/20 train/validation/test splits; the extracted Geom-GCN note is contradicted by the experimental setup."
+  "2403.20221":
+    Wisconsin: "The source reports 100 random train-validation-test splits, not the public Geom-GCN fixed masks."
+
+# Verified paper-level protocol notes for legacy rows whose extraction note lost
+# the split evidence. These are deliberately narrow exceptions, not defaults.
+manual_protocol_notes:
+  "2504.19785":
+    Wisconsin: "Fixed 10 seeds from Geom-GCN for the Wisconsin node-classification comparison."
+  "2404.17099":
+    Wisconsin: "GREAD setting: 10 fixed train/validation/test splits from Pei et al. (Geom-GCN)."
+  "2605.21247":
+    Wisconsin: "10 runs with fixed splits following Geom-GCN."
+  "2406.10863":
+    Wisconsin: "10 public Geom-GCN/Pei splits with 48/32/20 train/validation/test proportions."
 
 # These link-prediction papers may retain genuine link-prediction benchmark rows,
 # but must never populate node-classification leaderboards.
@@ -80,6 +130,29 @@ allowed_dataset_tasks:
 # Row-level exclusions are used when a paper has valid rows for the same
 # dataset but a subset of models was shifted from an adjacent table column.
 exclude_results:
+  "2502.04591":
+    Amazon-ratings:
+      models: [GCN]
+      reason: "The value is an accuracy ratio from an oversmoothing correlation table, not benchmark test accuracy."
+  "2210.02636":
+    FB15k-237:
+      metrics: [MRR]
+      reason: "Stored values came from the inductive Hit@10 table but were labeled MRR; the transductive MRR table has different values."
+    WN18RR:
+      metrics: [MRR]
+      reason: "Stored values came from the inductive Hit@10 table but were labeled MRR; the transductive MRR table has different values."
+  "2304.04757":
+    MD17:
+      models: [GemNet (T/Q)]
+      reason: "The source contains a dash for an unreported GemNet energy value; -1.0 is an invalid MAE sentinel."
+  "2212.02229":
+    PCQM4Mv2:
+      models: [All (Ensemble)]
+      reason: "The value is from the test-challenge competition split, not the canonical test-dev comparison."
+  "2412.04064":
+    Wisconsin:
+      models: [5-HiGCN]
+      reason: "Copied from the Papers with Code leaderboard and traced to a noncanonical random-split HiGCN result."
   "2409.06998":
     ogbn-arxiv:
       models: [GMoE, Mowst]

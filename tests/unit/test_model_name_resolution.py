@@ -56,3 +56,8 @@ def test_ogb_dataset_family_guard():
     assert not ogb_dataset_families_compatible("ogbg-ppa", "ogbl-ppa")
     assert not ogb_dataset_families_compatible("ogbn-arxiv", "ogbg-molpcba")
     assert ogb_dataset_families_compatible("ogbg-ppa", "ogbg-molhiv")
+
+
+def test_temporal_tgb_datasets_do_not_fuzzy_match_ogb_link_datasets():
+    assert not ogb_dataset_families_compatible("tgbl-wiki", "ogbl-wikikg2")
+    assert ogb_dataset_families_compatible("tgbl-wiki", "tgbl-flight")

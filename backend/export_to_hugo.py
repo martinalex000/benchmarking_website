@@ -66,6 +66,7 @@ from backend.models import (
 from backend.override_handler import get_model_renames, load_overrides
 from backend.paper_storage import PaperStorage
 from backend.qm9_targets import QM9_METRIC_LABELS, is_qm9_dataset, order_qm9_metrics
+from backend.results_parser import result_is_leaderboard_eligible
 from backend.text_cleanup import clean_extracted_text
 from backend.venue import conference_export_fields as _conference_export_fields
 from backend.venue import export_published_venue, normalize_conference_short
@@ -104,6 +105,11 @@ def _recent_results_cutoff_iso() -> str:
 def _count_recent_leaderboard_rows(rows: list[dict[str, Any]]) -> int:
     cutoff = _recent_results_cutoff_iso()
     return sum(1 for row in rows if (row.get("date_iso") or "") >= cutoff)
+
+
+def _final_comparison_results(results: list[Result]) -> list[Result]:
+    """Keep only rows eligible for the configured standard comparison."""
+    return [result for result in results if result_is_leaderboard_eligible(result)]
 
 
 def clear_export_caches() -> None:
@@ -822,7 +828,7 @@ def _dataset_page_export_metadata(session: Any, dataset_id: int) -> dict[str, An
     primary_metric = ds.primary_metric or ""
 
     for v in variants:
-        all_results = (
+        all_results = _final_comparison_results(
             session.query(Result)
             .filter_by(dataset_variant_id=v.id)
             .filter(Result.is_problematic.is_(None) | (Result.is_problematic == 0))
@@ -954,10 +960,8 @@ def _dataset_paper_count_for_metric(session: Any, ds_name: str, primary_metric: 
     if cache_key in _DATASET_PAPER_COUNT_CACHE:
         return _DATASET_PAPER_COUNT_CACHE[cache_key]
 
-    from sqlalchemy import func as _sqla_func
-
-    paper_count = (
-        session.query(_sqla_func.count(Result.paper_id.distinct()))
+    paper_rows = (
+        session.query(Result)
         .join(Result.dataset_variant)
         .join(DatasetVariant.dataset)
         .filter(Dataset.name == ds_name)
@@ -965,10 +969,13 @@ def _dataset_paper_count_for_metric(session: Any, ds_name: str, primary_metric: 
         .filter(DatasetVariant.is_standard == 1)
         .filter(Result.protocol_decision == "standard")
         .filter(Result.is_problematic.is_(None) | (Result.is_problematic == 0))
-        .scalar()
-    ) or 0
-    _DATASET_PAPER_COUNT_CACHE[cache_key] = int(paper_count)
-    return int(paper_count)
+        .all()
+    )
+    paper_count = len(
+        {result.paper_id for result in paper_rows if result_is_leaderboard_eligible(result)}
+    )
+    _DATASET_PAPER_COUNT_CACHE[cache_key] = paper_count
+    return paper_count
 
 
 def _benchmark_coverage_entries(
@@ -1621,11 +1628,13 @@ def _global_ranks_for_dataset(
         .filter(Result.is_problematic.is_(None) | (Result.is_problematic == 0))
         .all()
     )
+    all_res = _final_comparison_results(all_res)
 
     # Keep the best value per canonical model name
     model_best: dict[str, tuple[float, Any]] = {}
     for r in all_res:
-        model_key = _model_key(r.model.canonical_name if r.model else "")
+        model_name = r.effective_model_name
+        model_key = _model_key(model_name)
         if not model_key:
             continue
         v = float(r.display_value) if r.display_value is not None else None
@@ -1651,7 +1660,7 @@ def _global_ranks_for_dataset(
         p = r.paper
         ued = r.uses_external_data
         rendered_name = _sanitize_model(
-            (r.model.canonical_name if r.model else "") or "",
+            model_name,
             p.arxiv_id if p else None,
         )
         row = {
@@ -1723,7 +1732,7 @@ def _non_problematic_results_query(session: Any):
 
 def _primary_metric_results(session: Any) -> list[Any]:
     """Non-problematic results on each dataset's primary metric."""
-    results = (
+    results = _final_comparison_results(
         _non_problematic_results_query(session)
         .join(Result.paper)
         .join(Result.dataset_variant)
@@ -1878,7 +1887,7 @@ def _compute_paper_mrr(
         return None, None, 0, []
 
     proposed_models: list[str] = list(
-        dict.fromkeys(r.model.canonical_name for r in results if r.model and r.model.canonical_name)
+        dict.fromkeys(r.effective_model_name for r in results if r.effective_model_name)
     )
 
     primary_proposed = _primary_proposed_from_results(results, proposed_models)
@@ -1899,7 +1908,7 @@ def _compute_paper_mrr(
             continue
         if r.metric_name != primary_metric:
             continue
-        model = r.model.canonical_name if r.model else None
+        model = r.effective_model_name or None
         if model != primary_proposed:
             continue  # only track the primary proposed model
         val = float(r.display_value) if r.display_value is not None else None
@@ -1940,7 +1949,7 @@ def _compute_paper_mrr(
 
 def _collect_result_anomalies(session: Any) -> list[dict[str, Any]]:
     """Return suspicious stored results for a development report."""
-    results = _non_problematic_results_query(session).all()
+    results = _final_comparison_results(_non_problematic_results_query(session).all())
 
     grouped: dict[tuple[str, str], list[Result]] = {}
     for result in results:
@@ -2117,7 +2126,7 @@ def _collect_model_value_mismatches(
                 "paper_date_iso": paper_date_iso,
                 "dataset": ds.name,
                 "metric": primary_metric,
-                "model": _sanitize_model(model.canonical_name, paper.arxiv_id),
+                "model": _sanitize_model(result.effective_model_name, paper.arxiv_id),
                 "is_baseline": bool(result.is_baseline),
                 "paper_value": paper_value,
                 "paper_std": paper_std,
@@ -2253,7 +2262,7 @@ def _collect_at_pub_improvements(
                 "paper_year": _publication_year(paper.published_date),
                 "paper_conference": paper_conf.get("published_conference", ""),
                 "dataset": ds.name,
-                "model": _sanitize_model(model.canonical_name, paper.arxiv_id),
+                "model": _sanitize_model(result.effective_model_name, paper.arxiv_id),
                 "is_baseline": bool(result.is_baseline),
                 "paper_value": paper_value,
                 "at_pub_value": float(at_pub_value),
@@ -2356,6 +2365,7 @@ def _export_paper_impl(session: Session, arxiv_id: str) -> bool:
         .filter(Result.is_problematic.is_(None) | (Result.is_problematic == 0))
         .all()
     )
+    results = _final_comparison_results(results)
     out_path = paper_dir / "index.md"
     if not results:
         _remove_hugo_content_dir(paper_dir)
@@ -2380,16 +2390,16 @@ def _export_paper_impl(session: Session, arxiv_id: str) -> bool:
                 "metric": primary,
                 "higher_is_better": bool(r.higher_is_better),
             }
-        rendered_model = _sanitize_model(
-            r.model.canonical_name if r.model else "",
-            paper.arxiv_id,
+        effective_model = getattr(r, "effective_model_name", None) or (
+            r.model.canonical_name if r.model else ""
         )
+        rendered_model = _sanitize_model(effective_model, paper.arxiv_id)
         display_value = float(r.display_value) if r.display_value is not None else None
         display_std = float(r.display_std) if r.display_std is not None else None
         result_groups.setdefault(ds_name, []).append(
             {
                 "model": rendered_model,
-                "model_key": _model_key(r.model.canonical_name if r.model else rendered_model),
+                "model_key": _model_key(effective_model or rendered_model),
                 "model_plain": _plain_model(rendered_model),
                 "value": display_value,
                 "std": display_std,
@@ -2905,7 +2915,9 @@ def _build_multi_metric_rows(
     for r in all_results:
         paper = r.paper
         arxiv_id = paper.arxiv_id if paper else ""
-        canonical = r.model.canonical_name if r.model else ""
+        canonical = getattr(r, "effective_model_name", None) or (
+            r.model.canonical_name if r.model else ""
+        )
 
         # Lazily build per-paper rename map (avoids calling load_overrides per result)
         if arxiv_id not in paper_renames:
@@ -3068,7 +3080,7 @@ def _export_dataset_impl(session: Session, dataset_id: int) -> bool:
 
     variant_data: list[dict] = []
     for v in variants:
-        all_results = (
+        all_results = _final_comparison_results(
             session.query(Result)
             .options(*_DATASET_RESULT_LOAD_OPTIONS)
             .filter_by(dataset_variant_id=v.id)

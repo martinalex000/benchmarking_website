@@ -1095,6 +1095,9 @@ def test_export_all_removes_stale_paper_pages_on_full_export(monkeypatch, tmp_pa
                 metric_value=0.75,
                 higher_is_better=1,
                 is_baseline=1,
+                evaluation_task="node_classification",
+                protocol_decision="standard",
+                protocol_note="Official OGB split.",
             )
         )
 

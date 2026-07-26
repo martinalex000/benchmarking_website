@@ -19,6 +19,7 @@ from backend.results_parser import (
     parse_value_std,
     resolve_dataset_variant,
     resolve_dataset_variant_with_reason,
+    result_is_leaderboard_eligible,
 )
 
 
@@ -367,6 +368,17 @@ def test_dataset_alias_normalization_in_resolve():
     assert reason == "dataset: ambiguous arXiv label"
 
 
+def test_ambiguous_generic_dataset_name_is_not_fuzzy_matched():
+    variant_id, reason = resolve_dataset_variant_with_reason(
+        "Amazon",
+        None,
+        {"amazon2m": 12, "amazon-ratings": 13},
+    )
+
+    assert variant_id is None
+    assert reason == "dataset: ambiguous generic name"
+
+
 def test_dataset_variant_resolution_rejects_conflicting_full_qualifier():
     variant_id, reason = resolve_dataset_variant_with_reason(
         "CiteSeer-Full", None, {"citeseer": 41, "planetoid split": 41}
@@ -407,6 +419,90 @@ def test_protocol_contract_requires_canonical_split_evidence():
     )
 
 
+def test_wisconsin_contract_distinguishes_geom_masks_from_new_random_splits():
+    variant = SimpleNamespace(
+        is_standard=True,
+        split_type="fixed",
+        dataset=SimpleNamespace(name="Wisconsin", task_type="node_classification"),
+    )
+
+    assert (
+        _protocol_decision(
+            {
+                "evaluation_task": "node_classification",
+                "protocol_decision": "standard",
+                "protocol_note": (
+                    "10 random splits from Pei et al. 2020 with 48/32/20 train/validation/test"
+                ),
+            },
+            variant,
+        )
+        == "standard"
+    )
+    assert (
+        _protocol_decision(
+            {
+                "evaluation_task": "node_classification",
+                "protocol_decision": "standard",
+                "protocol_note": "10 random splits with 60%/20%/20% partitions",
+            },
+            variant,
+        )
+        == "nonstandard"
+    )
+    assert (
+        _protocol_decision(
+            {
+                "evaluation_task": "node_classification",
+                "protocol_decision": "standard",
+                "protocol_note": "Standard node classification task on Wisconsin.",
+            },
+            variant,
+        )
+        == "uncertain"
+    )
+
+
+def test_stored_wisconsin_rows_apply_manual_curation_and_audited_notes():
+    variant = SimpleNamespace(
+        is_standard=True,
+        split_type="fixed",
+        dataset=SimpleNamespace(name="Wisconsin", task_type="node_classification"),
+    )
+    common = {
+        "dataset_variant": variant,
+        "effective_model_name": "Model",
+        "metric_name": "Accuracy",
+        "evaluation_task": "node_classification",
+        "protocol_decision": "standard",
+        "protocol_note": "Standard node classification task.",
+    }
+
+    valid = SimpleNamespace(
+        **common,
+        paper=SimpleNamespace(arxiv_id="2504.19785"),
+    )
+    excluded = SimpleNamespace(
+        **common,
+        paper=SimpleNamespace(arxiv_id="2604.01878"),
+    )
+
+    assert result_is_leaderboard_eligible(valid)
+    assert not result_is_leaderboard_eligible(excluded)
+
+
 def test_qm9_gap_zero_is_rejected_but_positive_gap_is_valid():
     assert not _dataset_metric_value_is_valid("QM9", "gap", 0.0)
     assert _dataset_metric_value_is_valid("QM9", "gap", 0.043)
+
+
+def test_percentage_metrics_reject_negative_sentinels():
+    assert not _dataset_metric_value_is_valid("MUTAG", "Accuracy", -1.0)
+    assert not _dataset_metric_value_is_valid("Cora", "Accuracy", 1.01)
+    assert _dataset_metric_value_is_valid("Cora", "Accuracy", 0.91)
+
+
+def test_error_metrics_reject_negative_missing_value_sentinels():
+    assert not _dataset_metric_value_is_valid("MD17", "MAE", -1.0)
+    assert not _dataset_metric_value_is_valid("ZINC", "RMSE", -0.1)
+    assert _dataset_metric_value_is_valid("MD17", "MAE", 0.145)

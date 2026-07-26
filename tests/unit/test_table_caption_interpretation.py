@@ -59,6 +59,11 @@ def test_ablation_caption_flagged():
     assert policy.is_ablation_or_diagnostic
 
 
+def test_auxiliary_metric_caption_flagged():
+    policy = interpret_table_caption("Correlation between accuracy and depth; accuracy ratio")
+    assert policy.is_ablation_or_diagnostic
+
+
 def test_is_ablation_table_ref():
     tables = [_FakeTable(5, "Ablation study on Cora")]
     policies = build_table_caption_policy_map(tables)

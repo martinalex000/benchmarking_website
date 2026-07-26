@@ -61,6 +61,11 @@ _ABLATION_OR_DIAGNOSTIC_CAPTION_RE = re.compile(
     r"|without\s+(?:the\s+)?(?:\w+\s+){0,3}(?:layer|block|module|component|head|encoder|decoder)",
     re.IGNORECASE,
 )
+_NON_BENCHMARK_DIAGNOSTIC_CAPTION_RE = re.compile(
+    r"accuracy\s+ratio|correlation(?:\s+coefficient)?|pearson\s+correlation|"
+    r"training\s+accuracy|validation\s+accuracy|diagnostic\s+analysis",
+    re.IGNORECASE,
+)
 def normalize_caption_text(caption: str) -> str:
     """Unify unicode footnote symbols for pattern matching."""
     return (
@@ -103,9 +108,12 @@ def interpret_table_caption(caption: str) -> TableCaptionPolicy:
         markers.add("*")
 
     percent = bool(_PERCENT_VALUES_RE.search(lower))
-    ablation = bool(_ABLATION_OR_DIAGNOSTIC_CAPTION_RE.search(lower))
+    ablation = bool(
+        _ABLATION_OR_DIAGNOSTIC_CAPTION_RE.search(lower)
+        or _NON_BENCHMARK_DIAGNOSTIC_CAPTION_RE.search(lower)
+    )
     if ablation:
-        notes.append("ablation or diagnostic table")
+        notes.append("ablation or non-benchmark diagnostic table")
 
     snippet = raw[:160] + ("…" if len(raw) > 160 else "")
 

@@ -27,3 +27,10 @@ aliases:
   Ppi: PPI
   Reddit: REDDIT
   Physics: Coauthor-Physics
+
+# Generic names that are too ambiguous for fuzzy matching. They must either
+# match a canonical dataset exactly or be resolved by an explicit alias.
+ambiguous_names:
+  - Amazon
+  - He_Arxiv
+  - He_Croval

@@ -59,9 +59,19 @@ Rules:
   protocol: "selected balanced tasks" is not a standard OGB result.
 - A `standard` decision requires row-local evidence in `protocol_note` for the canonical task
   and split; do not infer it merely from the dataset name or an "OGB" citation.
+- `protocol_note` must name the exact task, split, and metric column used by the row. If the
+  column is an accuracy ratio, correlation coefficient, Hit@K, training/validation score,
+  or another auxiliary diagnostic rather than the requested primary metric, set
+  `protocol_decision: nonstandard` and do not emit it as a canonical result.
 - For canonical standard rows, name the dataset-specific split in `protocol_note`: QM9's
   published train/validation/test split, Planetoid for Cora/CiteSeer/PubMed, the official
   OGB split for OGB datasets, or the canonical 10-fold protocol for TU graph datasets.
+- For Wisconsin (and the Cornell/Texas WebKB family), standard means the public Geom-GCN
+  masks: the 10 fixed/public splits associated with Pei et al. (usually 48/32/20 train/
+  validation/test). A new random 60/20/20 split, a random split without the Pei/Geom-GCN
+  or PyG reference, 1-shot evaluation, or a 90%-test setup is nonstandard. Never infer
+  the protocol from a Geom-GCN baseline row; inspect the experiment setup and record its
+  evidence in `protocol_note`.
 - Never emit benchmark rows when the extraction is partial/uncertain or when values are
   described as truncated, synthesized, representative, fabricated, or otherwise incomplete;
   return the ambiguity in `extraction_notes` instead.
@@ -146,6 +156,11 @@ Rules:
   output one row per (model, dataset, metric) with the canonical name WITHOUT the marker
   and the BEST value across duplicate variants. Always set `table_ref` (e.g. "Table 2").
 - For std/error: parse "0.653 ± 0.004", "(±0.004)", "(0.004)" -> value=0.653, std=0.004.
+- Never treat a dash, blank cell, N/A, or omitted result as a number or sentinel
+  such as -1. Return no row for missing values. Never take an accuracy ratio,
+  correlation coefficient, training accuracy, validation accuracy, ablation score,
+  or auxiliary diagnostic from a table whose column is not the requested test-set
+  benchmark metric.
 - If a value appears bold (indicating best), still extract it normally; do not skip it.
 - Metric names: normalise to the most common abbreviation (Accuracy not Acc., MAE not mean abs. error).
 - higher_is_better: true for Accuracy/F1/AP/ROC-AUC/Hits@K; false for MAE/RMSE/loss.

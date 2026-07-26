@@ -42,6 +42,11 @@ _NON_TEST_PATTERN = re.compile(
     r"\b(?:train|training|val|valid|validation)\b",
     re.IGNORECASE,
 )
+_AUXILIARY_METRIC_PATTERN = re.compile(
+    r"\b(?:accuracy\s+ratio|correlation(?:\s+coefficient)?|pearson\s+correlation|"
+    r"training\s+accuracy|validation\s+accuracy)\b",
+    re.IGNORECASE,
+)
 
 _TABLE_ENV_RE = re.compile(
     r"\\begin\{(table\*?|longtable)\}.*?\\end\{\1\}",
@@ -72,6 +77,10 @@ def _normalise_metrics(results: list[ResultEntry]) -> list[ResultEntry]:
     for r in results:
         original = r.metric.strip()
         original_lower = original.lower()
+
+        if _AUXILIARY_METRIC_PATTERN.search(original_lower):
+            logger.debug("Dropping auxiliary diagnostic metric entry: %r", original)
+            continue
 
         # Detect split type from the original name
         is_train_val = bool(_NON_TEST_PATTERN.search(original_lower))
