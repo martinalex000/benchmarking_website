@@ -108,7 +108,7 @@ def load_all_tables(conn, tables, DATA_DIR, save_csv=False, limit=None):
 
 # --- Data fetching ---
 
-def fetch_data_by_dataset(DB_PATH, datasets):
+def fetch_data_by_dataset(DB_PATH, datasets, start_date=None, end_date=None):
     """Fetch rows for the given datasets.
 
     Parameters
@@ -117,6 +117,10 @@ def fetch_data_by_dataset(DB_PATH, datasets):
         Path to the SQLite database.
     datasets : list[str]
         Dataset names to filter on (``datasets.name``).
+    start_date : str, optional
+        ISO format start date (e.g., ``"2017-01-01"``).
+    end_date : str, optional
+        ISO format end date (e.g., ``"2025-12-31"``).
 
     Returns
     -------
@@ -126,6 +130,19 @@ def fetch_data_by_dataset(DB_PATH, datasets):
     """
     conn = sqlite3.connect(str(DB_PATH))
     placeholders = ", ".join(["?"] * len(datasets))
+
+    conditions = [f"d.name IN ({placeholders})"]
+    params = list(datasets)
+
+    if start_date:
+        conditions.append("p.published_date >= ?")
+        params.append(start_date)
+    if end_date:
+        conditions.append("p.published_date <= ?")
+        params.append(end_date)
+
+    where_clause = " AND ".join(conditions)
+
     sql = f"""
         SELECT
             d.name            AS dataset_name,
@@ -136,14 +153,14 @@ def fetch_data_by_dataset(DB_PATH, datasets):
         JOIN dataset_variants dv ON r.dataset_variant_id = dv.id
         JOIN datasets d          ON dv.dataset_id        = d.id
         JOIN papers p            ON r.paper_id          = p.id
-        WHERE d.name IN ({placeholders})
+        WHERE {where_clause}
     """
-    df = pd.read_sql_query(sql, conn, params=datasets)
+    df = pd.read_sql_query(sql, conn, params=params)
     conn.close()
     return df
 
 
-def fetch_data_by_benchmarkgroup(DB_PATH, benchmark_names):
+def fetch_data_by_benchmarkgroup(DB_PATH, benchmark_names, start_date=None, end_date=None):
     """Fetch rows for the given benchmark groups.
 
     Parameters
@@ -152,6 +169,10 @@ def fetch_data_by_benchmarkgroup(DB_PATH, benchmark_names):
         Path to the SQLite database.
     benchmark_names : list[str]
         Benchmark names to filter on (``benchmarks.name``).
+    start_date : str, optional
+        ISO format start date (e.g., ``"2017-01-01"``).
+    end_date : str, optional
+        ISO format end date (e.g., ``"2025-12-31"``).
 
     Returns
     -------
@@ -161,6 +182,19 @@ def fetch_data_by_benchmarkgroup(DB_PATH, benchmark_names):
     """
     conn = sqlite3.connect(str(DB_PATH))
     placeholders = ", ".join(["?"] * len(benchmark_names))
+
+    conditions = [f"b.name IN ({placeholders})"]
+    params = list(benchmark_names)
+
+    if start_date:
+        conditions.append("p.published_date >= ?")
+        params.append(start_date)
+    if end_date:
+        conditions.append("p.published_date <= ?")
+        params.append(end_date)
+
+    where_clause = " AND ".join(conditions)
+
     sql = f"""
         SELECT
             b.name            AS benchmark_name,
@@ -172,9 +206,9 @@ def fetch_data_by_benchmarkgroup(DB_PATH, benchmark_names):
         JOIN datasets d          ON dv.dataset_id        = d.id
         JOIN benchmarks b        ON d.benchmark_id       = b.id
         JOIN papers p            ON r.paper_id          = p.id
-        WHERE b.name IN ({placeholders})
+        WHERE {where_clause}
     """
-    df = pd.read_sql_query(sql, conn, params=benchmark_names)
+    df = pd.read_sql_query(sql, conn, params=params)
     conn.close()
     return df
 
