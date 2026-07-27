@@ -82,6 +82,7 @@ _baseline_cache: dict[str, list[dict]] = {}
 
 _COMPARE_EXPERIMENT_PREFIX = "compare-models"
 _COMPARE_RESULT_OUTPUT_FORMAT = "json"
+_DEFAULT_EXPERIMENT_DIR = Path("experiments/extraction")
 CompareSource = Literal["fresh", "cached", "auto_included"]
 
 # ── Tolerance for value matching ──────────────────────────────────────────────
@@ -2537,9 +2538,9 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument(
         "--log-dir",
         metavar="DIR",
-        default="experiments/logs",
+        default=str(_DEFAULT_EXPERIMENT_DIR / "logs"),
         help="Directory to save per-(model,paper) conversation logs as Markdown "
-        "(default: experiments/logs)",
+        "(default: experiments/extraction/logs)",
     )
     p.add_argument("--no-logs", action="store_true", help="Disable conversation log file saving")
     p.add_argument(
@@ -3004,10 +3005,7 @@ def main(argv: list[str] | None = None) -> int:
         out_path = (
             Path(args.output)
             if args.output
-            else (
-                Path("experiments/compare_models")
-                / f"{datetime.now(UTC).strftime('%Y%m%dT%H%M%SZ')}.json"
-            )
+            else (_DEFAULT_EXPERIMENT_DIR / f"{datetime.now(UTC).strftime('%Y%m%dT%H%M%SZ')}.json")
         )
     if out_path is not None:
         out_path.parent.mkdir(parents=True, exist_ok=True)

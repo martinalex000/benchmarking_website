@@ -14,6 +14,7 @@ _ENTRY_RE = re.compile(
     r"|\s+baseline=([+-]?\d*\.?\d+(?:[eE][+-]?\d+)?)\s+candidate=([+-]?\d*\.?\d+(?:[eE][+-]?\d+)?)"
     r")"
 )
+_DEFAULT_EXPERIMENT_DIR = Path("experiments/extraction")
 
 
 def _parse_log_section(text: str, heading: str) -> list[tuple[str, float]]:
@@ -41,10 +42,21 @@ def _normalize_key(key: str) -> str:
 def main() -> None:
     p = argparse.ArgumentParser()
     p.add_argument("arxiv_id")
-    p.add_argument("--log-dir", type=Path, default=Path("experiments/logs"))
+    p.add_argument(
+        "--log-dir",
+        type=Path,
+        default=_DEFAULT_EXPERIMENT_DIR / "logs",
+        help="Directory containing model comparison logs",
+    )
     p.add_argument("--models", nargs="+", required=True)
-    p.add_argument("--output", type=Path, required=True)
+    p.add_argument(
+        "--output",
+        type=Path,
+        default=None,
+        help="Output report path (default: experiments/extraction/)",
+    )
     args = p.parse_args()
+    output = args.output or _DEFAULT_EXPERIMENT_DIR / f"baseline_disagreements_{args.arxiv_id}.md"
 
     model_data: dict[str, dict] = {}
     for model in args.models:
@@ -132,9 +144,9 @@ def main() -> None:
                 lines.append(f"- `{k}`")
         lines.append("")
 
-    args.output.parent.mkdir(parents=True, exist_ok=True)
-    args.output.write_text("\n".join(lines) + "\n", encoding="utf-8")
-    print(args.output)
+    output.parent.mkdir(parents=True, exist_ok=True)
+    output.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    print(output)
 
 
 if __name__ == "__main__":

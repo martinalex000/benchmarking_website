@@ -425,13 +425,13 @@ uv run python scripts/compare_models.py --skip-model teuken-7b-instruct-research
 
 # Save detailed results + full conversation logs
 uv run python scripts/compare_models.py \
-    --output experiments/comparison.json \
-    --log-dir experiments/logs
+    --output experiments/extraction/comparison.json \
+    --log-dir experiments/extraction/logs
 
 # Re-run planned models even when cached artifacts exist
 uv run python scripts/compare_models.py --force
 
-# Full runs also write aggregate JSON by default under experiments/compare_models/
+# Full runs also write aggregate JSON by default under experiments/extraction/
 # Use --no-output to skip that file (paper artifacts are still saved)
 ```
 
