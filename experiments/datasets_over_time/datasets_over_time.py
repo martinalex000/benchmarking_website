@@ -1,12 +1,22 @@
-import sqlite3, sys
+import sqlite3
+import sys
 from pathlib import Path
-from helpers import list_tables, load_all_tables, fetch_data_by_dataset, fetch_data_by_benchmarkgroup, compute_percentages_and_counts, plot_stacked_bar_charts
+
+from datasets_over_time_helpers import (
+    compute_percentages_and_counts,
+    fetch_data_by_benchmarkgroup,
+    fetch_data_by_dataset,
+    list_tables,
+    load_all_tables,
+    plot_stacked_bar_charts,
+)
 
 # --- Configuration ---
 BASE_DIR = Path(__file__).parent
+PROJECT_ROOT = BASE_DIR.parents[1]
 DATA_DIR = BASE_DIR / "data"
 PLOT_DIR = BASE_DIR / "plots"
-DB_PATH = DATA_DIR / "benchmarks.db"
+DB_PATH = PROJECT_ROOT / "data" / "benchmarks.db"
 
 for d in (DATA_DIR, PLOT_DIR):
     d.mkdir(parents=True, exist_ok=True)

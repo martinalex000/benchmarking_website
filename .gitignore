@@ -46,6 +46,10 @@ experiments/*
 !experiments/mlp_baseline_comparison/
 experiments/mlp_baseline_comparison/*
 !experiments/mlp_baseline_comparison/compare_mlp_baseline.py
+!experiments/datasets_over_time/
+experiments/datasets_over_time/*
+!experiments/datasets_over_time/datasets_over_time.py
+!experiments/datasets_over_time/datasets_over_time_helpers.py
 
 # ── Dataset statistics workspace (derived from paper extraction) ─────────────
 datasets/*
