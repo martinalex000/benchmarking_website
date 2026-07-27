@@ -954,6 +954,44 @@ def _benchmark_totals_exportable(session: Any, benchmarks: list[Benchmark]) -> d
     return totals
 
 
+def _dataset_paper_ids(session: Any, dataset_ids: set[int] | None = None) -> dict[int, set[int]]:
+    """Return distinct eligible paper IDs for each dataset."""
+    query = (
+        session.query(Dataset.id, Result)
+        .join(Dataset.variants)
+        .join(DatasetVariant.results)
+        .options(
+            joinedload(Result.dataset_variant).joinedload(DatasetVariant.dataset),
+            joinedload(Result.model),
+            joinedload(Result.paper),
+        )
+        .filter(Result.is_problematic.is_(None) | (Result.is_problematic == 0))
+    )
+    if dataset_ids is not None:
+        query = query.filter(Dataset.id.in_(dataset_ids))
+
+    paper_ids: dict[int, set[int]] = {}
+    for dataset_id, result in query.all():
+        if result.paper_id is None or not result_is_leaderboard_eligible(result):
+            continue
+        paper_ids.setdefault(dataset_id, set()).add(result.paper_id)
+    return paper_ids
+
+
+def _benchmark_paper_ids(
+    benchmarks: list[Benchmark], dataset_paper_ids: dict[int, set[int]]
+) -> dict[int, set[int]]:
+    """Return the distinct papers using each benchmark group."""
+    return {
+        benchmark.id: {
+            paper_id
+            for dataset in benchmark.datasets
+            for paper_id in dataset_paper_ids.get(dataset.id, set())
+        }
+        for benchmark in benchmarks
+    }
+
+
 def _dataset_paper_count_for_metric(session: Any, ds_name: str, primary_metric: str) -> int:
     """Distinct papers with results on a dataset/metric (cached per export run)."""
     cache_key = (ds_name, primary_metric)
@@ -2680,30 +2718,25 @@ def _export_paper_impl(session: Session, arxiv_id: str) -> bool:
             )
 
     # Group paper results by benchmark first, using the same benchmark/dataset ordering
-    # strategy as the dataset overview page (result-count driven).
-    from sqlalchemy import func
-
-    ds_result_counts: dict[int, int] = dict(
-        session.query(Dataset.id, func.count(Result.id))
-        .join(Dataset.variants)
-        .join(DatasetVariant.results)
-        .filter(Result.is_problematic.is_(None) | (Result.is_problematic == 0))
-        .group_by(Dataset.id)
-        .all()
-    )
-
+    # strategy as the dataset overview page (distinct-paper-count driven).
     benchmarks = session.query(Benchmark).all()
+    dataset_paper_ids = _dataset_paper_ids(session)
+    benchmark_paper_ids = _benchmark_paper_ids(benchmarks, dataset_paper_ids)
 
-    def _bm_total(b: Benchmark) -> int:
-        return sum(ds_result_counts.get(ds.id, 0) for ds in b.datasets)
-
-    benchmarks = sorted(benchmarks, key=_bm_total, reverse=True)
+    benchmarks = sorted(
+        benchmarks,
+        key=lambda benchmark: len(benchmark_paper_ids.get(benchmark.id, set())),
+        reverse=True,
+    )
     benchmark_rank: dict[str, int] = {}
     dataset_rank: dict[tuple[str, str], int] = {}
     dataset_to_benchmark: dict[str, str] = {}
     for bi, b in enumerate(benchmarks):
         benchmark_rank[b.name] = bi
-        sorted_datasets = sorted(b.datasets, key=lambda ds: -ds_result_counts.get(ds.id, 0))
+        sorted_datasets = sorted(
+            b.datasets,
+            key=lambda ds: -len(dataset_paper_ids.get(ds.id, set())),
+        )
         for di, ds in enumerate(sorted_datasets):
             dataset_rank[(b.name, ds.name)] = di
             dataset_to_benchmark[ds.name] = b.name
@@ -3280,6 +3313,53 @@ def export_benchmarks_data(*, session: Session | None = None) -> None:
         _export_benchmarks_data_impl(scoped)
 
 
+def _benchmark_source_papers(session: Session, benchmark: Benchmark) -> list[dict[str, Any]]:
+    """Return ordered, link-safe source papers for a benchmark group."""
+    try:
+        configured = json.loads(benchmark.source_papers or "[]")
+    except (TypeError, ValueError):
+        configured = []
+    if not isinstance(configured, list):
+        configured = []
+    if not configured and benchmark.paper is not None and benchmark.paper.arxiv_id:
+        configured = [{"arxiv_id": benchmark.paper.arxiv_id, "role": "Benchmark paper"}]
+
+    papers_by_arxiv = {
+        paper.arxiv_id: paper
+        for paper in session.query(Paper).filter(Paper.arxiv_id.is_not(None)).all()
+    }
+    sources: list[dict[str, Any]] = []
+    seen: set[str] = set()
+    for item in configured:
+        if not isinstance(item, dict):
+            continue
+        arxiv_id = str(item.get("arxiv_id") or "").strip()
+        external_url = str(
+            item.get("url") or (f"https://arxiv.org/abs/{arxiv_id}" if arxiv_id else "")
+        ).strip()
+        dedupe_key = arxiv_id or external_url
+        if not dedupe_key or dedupe_key in seen:
+            continue
+        seen.add(dedupe_key)
+        paper = papers_by_arxiv.get(arxiv_id)
+        title = _sanitize_title((paper.title if paper else None) or item.get("title"))
+        if not title:
+            title = f"arXiv:{arxiv_id}"
+        local_page = _CONTENT / "papers" / arxiv_id / "index.md" if arxiv_id else None
+        sources.append(
+            {
+                "arxiv_id": arxiv_id,
+                "title": title,
+                "role": str(item.get("role") or "Source paper").strip(),
+                "url": (
+                    f"/papers/{arxiv_id}/" if local_page and local_page.exists() else external_url
+                ),
+                "is_local": bool(local_page and local_page.exists()),
+            }
+        )
+    return sources
+
+
 def _export_benchmarks_data_impl(session: Session) -> None:
     # Result count per dataset aligned with exported dataset pages.
     dataset_export_metadata: dict[int, dict[str, Any]] = {
@@ -3297,6 +3377,9 @@ def _export_benchmarks_data_impl(session: Session) -> None:
     }
 
     benchmarks = session.query(Benchmark).all()
+    exportable_dataset_ids = set(ds_result_counts)
+    dataset_paper_ids = _dataset_paper_ids(session, exportable_dataset_ids)
+    benchmark_paper_ids = _benchmark_paper_ids(benchmarks, dataset_paper_ids)
 
     def _bm_recent_per_dataset(b: Benchmark) -> float:
         exportable = [
@@ -3313,22 +3396,26 @@ def _export_benchmarks_data_impl(session: Session) -> None:
         ]
         return sum(ds_result_counts.get(ds.id, 0) for ds in exportable)
 
-    def _bm_sort_key_recent(b: Benchmark) -> tuple[bool, float]:
-        return (bool(b.is_legacy), -_bm_recent_per_dataset(b))
+    def _bm_paper_count(b: Benchmark) -> int:
+        return len(benchmark_paper_ids.get(b.id, set()))
 
-    benchmarks = sorted(benchmarks, key=_bm_sort_key_recent)
+    benchmarks = sorted(
+        benchmarks,
+        key=lambda b: (bool(b.is_legacy), -_bm_paper_count(b)),
+    )
 
     data: list[dict] = []
     for b in benchmarks:
-        # Sort datasets within this benchmark by cumulated result count (descending)
+        # Sort datasets within this benchmark by distinct paper count (descending)
         sorted_datasets = sorted(
             [ds for ds in b.datasets if dataset_export_metadata.get(ds.id, {}).get("exportable")],
-            key=lambda ds: -ds_result_counts.get(ds.id, 0),
+            key=lambda ds: -len(dataset_paper_ids.get(ds.id, set())),
         )
         if not sorted_datasets:
             continue
         recent_per_dataset = _bm_recent_per_dataset(b)
         total_result_count = _bm_total_results(b)
+        source_papers = _benchmark_source_papers(session, b)
         datasets_info = []
         for ds in sorted_datasets:
             variants = ds.variants  # all variants (not just standard)
@@ -3337,6 +3424,7 @@ def _export_benchmarks_data_impl(session: Session) -> None:
                     "name": ds.name,
                     "slug": _slug_or_fallback(ds.name, f"dataset-{ds.id}"),
                     "task_type": ds.task_type or "",
+                    "paper_count": len(dataset_paper_ids.get(ds.id, set())),
                     "result_count": ds_result_counts.get(ds.id, 0),
                     "recent_result_count": ds_recent_result_counts.get(ds.id, 0),
                     "variants": [
@@ -3352,7 +3440,10 @@ def _export_benchmarks_data_impl(session: Session) -> None:
                 "description": b.description or "",
                 "arxiv_id": b.paper.arxiv_id if b.paper else "",
                 "paper_title": _sanitize_title(b.paper.title) if b.paper else "",
+                "source_papers": source_papers,
+                "no_single_introduction_paper": not source_papers,
                 "is_legacy": bool(b.is_legacy),
+                "paper_count": _bm_paper_count(b),
                 "recent_results_per_dataset": round(recent_per_dataset, 1),
                 "total_result_count": total_result_count,
                 "datasets": datasets_info,

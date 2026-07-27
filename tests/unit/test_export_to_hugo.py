@@ -5,12 +5,15 @@ from pathlib import Path
 
 import pytest
 
+import backend.export_to_hugo as export_to_hugo
 from backend.at_pub_timeline import AtPubEvent, AtPubTimeline, global_best_per_model_as_of_date
 from backend.export_helpers import truncate_words as _truncate_words
 from backend.export_to_hugo import (
     INITIAL_DATASET_HTML_ROWS,
     _architecture_counts,
     _benchmark_coverage_entries,
+    _benchmark_paper_ids,
+    _benchmark_source_papers,
     _build_chart_points,
     _cleanup_stale_hugo_content,
     _collect_dataset_papers,
@@ -48,6 +51,45 @@ from backend.export_to_hugo import (
     clear_export_caches,
 )
 from backend.leaderboard_compare import has_paper_value_difference
+
+
+def test_benchmark_source_papers_use_local_pages_or_external_fallback(tmp_path, monkeypatch):
+    import json
+
+    from sqlalchemy import create_engine
+    from sqlalchemy.orm import Session
+
+    from backend.models import Base, Benchmark, Paper
+
+    content = tmp_path / "content"
+    local_paper = content / "papers" / "2401.00001"
+    local_paper.mkdir(parents=True)
+    (local_paper / "index.md").write_text("---\ntitle: Local\n---\n", encoding="utf-8")
+    monkeypatch.setattr(export_to_hugo, "_CONTENT", content)
+
+    engine = create_engine("sqlite:///:memory:")
+    Base.metadata.create_all(engine)
+    with Session(engine) as session:
+        session.add(Paper(arxiv_id="2401.00001", title="Local source", is_benchmark_paper=1))
+        benchmark = Benchmark(
+            name="Test benchmark",
+            short_name="test-benchmark",
+            source_papers=json.dumps(
+                [
+                    {"arxiv_id": "2401.00001", "url": "https://example.invalid/local"},
+                    {"arxiv_id": "2401.00002", "url": "https://example.invalid/external"},
+                ]
+            ),
+        )
+        session.add(benchmark)
+        session.commit()
+
+        sources = _benchmark_source_papers(session, benchmark)
+
+    assert sources[0]["url"] == "/papers/2401.00001/"
+    assert sources[0]["is_local"] is True
+    assert sources[1]["url"] == "https://example.invalid/external"
+    assert sources[1]["is_local"] is False
 
 
 def test_export_snapshot_uses_only_exportable_dataset_counts():
@@ -737,6 +779,25 @@ def test_benchmark_totals_exportable_uses_dataset_metadata_cache(monkeypatch):
     totals_again = export_to_hugo._benchmark_totals_exportable(object(), benchmarks)
     assert totals_again == {"GNN": 2}
     assert calls == []
+
+
+def test_benchmark_paper_counts_deduplicate_papers_across_datasets():
+    from types import SimpleNamespace
+
+    benchmark = SimpleNamespace(
+        id=1,
+        datasets=[SimpleNamespace(id=10), SimpleNamespace(id=11)],
+    )
+
+    counts = _benchmark_paper_ids(
+        [benchmark],
+        {
+            10: {101, 102},
+            11: {102, 103},
+        },
+    )
+
+    assert counts == {1: {101, 102, 103}}
 
 
 def test_primary_proposed_from_results_prefers_primary_metric_rows():

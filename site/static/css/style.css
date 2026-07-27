@@ -1778,6 +1778,21 @@ footer { max-width: 1100px; margin: 3rem auto 1rem; padding: 0 1.5rem; color: va
 .benchmark-header h2 { margin: 0; }
 .benchmark-paper { font-size: 0.85rem; color: var(--gray-600); }
 .benchmark-sort-bar { margin-bottom: 1.25rem; }
+.benchmark-index {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem 1rem;
+  margin: 1.25rem 0 1.5rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--gray-300);
+  border-radius: 0.6rem;
+  background: var(--gray-100);
+}
+.benchmark-index-label,
+.benchmark-index-heading { font-weight: 700; }
+.benchmark-index-section { display: flex; flex-wrap: wrap; gap: 0.35rem 0.75rem; align-items: baseline; }
+.benchmark-index-section a { white-space: nowrap; }
 .legacy-badge {
   background: var(--gray-100);
   color: var(--gray-600);

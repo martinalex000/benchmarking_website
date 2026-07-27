@@ -77,7 +77,7 @@
   {{ block "main" . }}{{ end }}
 </main>
 <footer>
-  <p>Data extracted automatically and may contain mistakes. <a href="{{ .Site.Params.repoURL }}">Source</a> · Built by <a href="https://www.martinalex.de">Martin Ritzert</a> · Feedback or collaboration: <a href="mailto:graphlearningbenchmarks@proton.me">graphlearningbenchmarks@proton.me</a></p>
+  <p>Data extracted automatically and may contain mistakes.{{/* <a href="{{ .Site.Params.repoURL }}">Source</a> · Built by <a href="https://www.martinalex.de">Martin Ritzert</a> · */}} Feedback or collaboration: <a href="mailto:graphlearningbenchmarks@proton.me">graphlearningbenchmarks@proton.me</a></p>
 </footer>
 <script src="{{ "js/theme.js" | relURL }}?v={{ now.Unix }}"></script>
 <script src="{{ .Site.Params.chartjsCDN }}/dist/chart.umd.min.js"></script>

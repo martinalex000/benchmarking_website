@@ -1,7 +1,7 @@
 {{ define "main" }}
 <div class="home-hero">
   <h1>Datasets</h1>
-  <p>Benchmark families are grouped by source benchmark, while each card links to a dataset page with the best model and result count. Use the filters to focus on one problem type or dataset name.</p>
+  <p>Browse current and legacy datasets by benchmark group; linked dataset pages include result tables and SOTA progression plots.</p>
   {{ $datasets := where .Site.RegularPages "Section" "datasets" }}
   {{ $stats := newScratch }}
   {{ $stats.Set "resultCount" 0 }}
@@ -16,6 +16,22 @@
     <a class="stat-item stat-link" href="{{ "results/" | relURL }}"><span class="stat-value">{{ $stats.Get "resultCount" }}</span><span class="stat-label">results</span></a>
   </div>
 </div>
+
+<nav class="benchmark-index" aria-label="Benchmark group index">
+  <span class="benchmark-index-label">Jump to:</span>
+  <div class="benchmark-index-section">
+    <span class="benchmark-index-heading">Current</span>
+    {{ range hugo.Data.benchmarks }}
+    {{ if not .is_legacy }}<a href="#benchmark-{{ .slug }}">{{ .name }}</a>{{ end }}
+    {{ end }}
+  </div>
+  <div class="benchmark-index-section">
+    <span class="benchmark-index-heading">Legacy</span>
+    {{ range hugo.Data.benchmarks }}
+    {{ if .is_legacy }}<a href="#benchmark-{{ .slug }}">{{ .name }}</a>{{ end }}
+    {{ end }}
+  </div>
+</nav>
 
 {{/* Collect distinct task types across all dataset pages */}}
 {{ $tasks := slice }}
@@ -39,27 +55,20 @@
   <input id="dataset-search" type="search" placeholder="Type a dataset name..." autocomplete="off">
 </div>
 
-{{ partial "benchmark-group-sort-toolbar.html" . }}
-
 <div id="benchmark-groups-container" data-benchmark-item=".benchmark-group">
 {{ range hugo.Data.benchmarks }}
-{{ if .datasets }}
 <section class="benchmark-group benchmark-sort-item" id="benchmark-{{ .slug }}"
-  data-is-legacy="{{ if .is_legacy }}1{{ else }}0{{ end }}"
-  data-recent-per-dataset="{{ .recent_results_per_dataset | default 0 }}"
-  data-total-results="{{ .total_result_count | default 0 }}">
+  data-is-legacy="{{ if .is_legacy }}1{{ else }}0{{ end }}">
   <div class="benchmark-header">
     <h2>{{ .name }}</h2>
     {{ if .is_legacy }}<span class="badge legacy-badge" title="Established benchmark suite with less recent leaderboard activity">Legacy</span>{{ end }}
-    {{ if .arxiv_id }}
+    {{ if and .source_papers (le (len .source_papers) 3) }}
     <span class="benchmark-paper">
-      Introduced in:
-      {{ if .paper_title }}
-      <a href="{{ printf "papers/%s/" .arxiv_id | relURL }}">{{ .paper_title }}</a>
-      {{ else }}
-      <a href="{{ printf "papers/%s/" .arxiv_id | relURL }}">arXiv:{{ .arxiv_id }}</a>
-      {{ end }}
+      Sources:
+      {{ range $index, $source := .source_papers }}{{ if gt $index 0 }}, {{ end }}<a href="{{ if $source.is_local }}{{ $source.url | relURL }}{{ else }}{{ $source.url }}{{ end }}" title="{{ $source.role }}">{{ $source.title }}</a>{{ end }}
     </span>
+    {{ else if .no_single_introduction_paper }}
+    <span class="benchmark-paper">No single introduction paper</span>
     {{ end }}
   </div>
   <div class="dataset-grid">
@@ -105,7 +114,6 @@
   </div>
 </section>
 {{ end }}
-{{ end }}
 </div>
 
 {{ end }}
@@ -150,5 +158,4 @@
   }
 })();
 </script>
-{{ partial "benchmark-group-sort-script.html" . }}
 {{ end }}

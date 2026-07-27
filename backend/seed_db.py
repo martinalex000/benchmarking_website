@@ -22,7 +22,15 @@ from backend.dataset_variant_resolver import (
     resolve_dataset_variant_quiet,
 )
 from backend.db import init_db, session_scope
-from backend.models import Benchmark, Dataset, DatasetVariant, Paper, PendingDataset
+from backend.models import (
+    Benchmark,
+    Dataset,
+    DatasetVariant,
+    Paper,
+    PaperDatasetStatistics,
+    PendingDataset,
+    Result,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -170,6 +178,180 @@ def _prune_pending_datasets(session) -> int:
     return updated
 
 
+def _merge_film_alias_dataset(session) -> None:
+    """Merge the heterophilic Film alias into Actor and preserve MovieLens Film."""
+    film = session.query(Dataset).filter_by(name="Film").first()
+    actor = session.query(Dataset).filter_by(name="Actor").first()
+    movielens = session.query(Dataset).filter_by(name="MovieLens Film").first()
+    if film is None or actor is None or movielens is None:
+        return
+
+    actor_variant = (
+        session.query(DatasetVariant).filter_by(dataset_id=actor.id, name="Standard split").first()
+    )
+    movie_variant = (
+        session.query(DatasetVariant)
+        .filter_by(dataset_id=movielens.id, name="Standard split")
+        .first()
+    )
+    if actor_variant is None or movie_variant is None:
+        return
+
+    moved = 0
+    for variant in list(film.variants):
+        for result in list(variant.results):
+            target_variant = (
+                movie_variant if result.paper.arxiv_id == "1609.04508" else actor_variant
+            )
+            duplicate = (
+                session.query(Result)
+                .filter_by(
+                    paper_id=result.paper_id,
+                    model_id=result.model_id,
+                    dataset_variant_id=target_variant.id,
+                    metric_name=result.metric_name,
+                )
+                .first()
+            )
+            if duplicate is not None:
+                logger.info(
+                    "Dropping duplicate Film result %s while merging into %s",
+                    result.id,
+                    target_variant.dataset.name,
+                )
+                session.delete(result)
+            else:
+                result.dataset_variant = target_variant
+                moved += 1
+
+        stats = (
+            session.query(PaperDatasetStatistics)
+            .filter_by(dataset_id=film.id, dataset_variant_id=variant.id)
+            .all()
+        )
+        for stat in stats:
+            target_dataset = movie_variant.dataset if stat.paper.arxiv_id == "1609.04508" else actor
+            target_variant = movie_variant if target_dataset is movielens else actor_variant
+            duplicate = (
+                session.query(PaperDatasetStatistics)
+                .filter_by(paper_id=stat.paper_id, dataset_id=target_dataset.id)
+                .first()
+            )
+            if duplicate is not None:
+                session.delete(stat)
+            else:
+                stat.dataset = target_dataset
+                stat.dataset_variant = target_variant
+
+    session.flush()
+    logger.info("Merged %d Film result rows into Actor/MovieLens Film", moved)
+    session.delete(film)
+    session.flush()
+
+
+def _move_dataset_to_benchmark(
+    session, dataset_name: str, source_name: str, target_name: str
+) -> None:
+    """Move a named dataset when a seed group was corrected after initial import."""
+    source = session.query(Benchmark).filter_by(name=source_name).first()
+    target = session.query(Benchmark).filter_by(name=target_name).first()
+    if target is None:
+        return
+    if source is None:
+        dataset = (
+            session.query(Dataset).filter_by(name=dataset_name, benchmark_id=target.id).first()
+        )
+        if dataset is not None and dataset_name == "Deezer":
+            dataset.description = (
+                "Deezer Europe user friendship graph binary node classification (like/dislike), "
+                "used in LINKX-style non-homophily evaluations."
+            )
+        return
+    dataset = session.query(Dataset).filter_by(name=dataset_name, benchmark_id=source.id).first()
+    if dataset is None:
+        dataset = (
+            session.query(Dataset).filter_by(name=dataset_name, benchmark_id=target.id).first()
+        )
+        if dataset is not None and dataset_name == "Deezer":
+            dataset.description = (
+                "Deezer Europe user friendship graph binary node classification (like/dislike), "
+                "used in LINKX-style non-homophily evaluations."
+            )
+        return
+    existing = session.query(Dataset).filter_by(name=dataset_name, benchmark_id=target.id).first()
+    if existing is None:
+        dataset.benchmark_id = target.id
+        if dataset_name == "Deezer":
+            dataset.description = (
+                "Deezer Europe user friendship graph binary node classification (like/dislike), "
+                "used in LINKX-style non-homophily evaluations."
+            )
+        logger.info("Moved dataset %s from %s to %s", dataset_name, source_name, target_name)
+    else:
+        logger.warning(
+            "Keeping existing %s under %s; stale %s remains under %s",
+            dataset_name,
+            target_name,
+            dataset_name,
+            source_name,
+        )
+
+
+def _remove_empty_dataset(session, dataset_name: str, benchmark_name: str) -> None:
+    """Remove a stale empty duplicate that would collide on the public slug."""
+    benchmark = session.query(Benchmark).filter_by(name=benchmark_name).first()
+    if benchmark is None:
+        return
+    dataset = session.query(Dataset).filter_by(name=dataset_name, benchmark_id=benchmark.id).first()
+    if dataset is None:
+        return
+    has_results = (
+        session.query(Result)
+        .join(DatasetVariant, Result.dataset_variant_id == DatasetVariant.id)
+        .filter(DatasetVariant.dataset_id == dataset.id)
+        .first()
+        is not None
+    )
+    has_stats = session.query(PaperDatasetStatistics).filter_by(dataset_id=dataset.id).first()
+    if not has_results and has_stats is None:
+        logger.info("Removing empty duplicate dataset %s from %s", dataset_name, benchmark_name)
+        session.delete(dataset)
+
+
+def _upsert_seed_dataset(
+    session,
+    benchmark: Benchmark,
+    ds_data: dict,
+    defaults: dict,
+    move_from_benchmark: str | None = None,
+) -> Dataset:
+    """Create/update a dataset, optionally moving it from an old benchmark group."""
+    dataset_name = ds_data["name"]
+    ds = session.query(Dataset).filter_by(name=dataset_name, benchmark_id=benchmark.id).first()
+    if ds is None and move_from_benchmark:
+        source = session.query(Benchmark).filter_by(name=move_from_benchmark).first()
+        if source is not None:
+            ds = session.query(Dataset).filter_by(name=dataset_name, benchmark_id=source.id).first()
+            if ds is not None:
+                logger.info(
+                    "Moving dataset %s from benchmark %s to %s",
+                    dataset_name,
+                    source.name,
+                    benchmark.name,
+                )
+                ds.benchmark_id = benchmark.id
+
+    if ds is None:
+        ds = Dataset(name=dataset_name, benchmark_id=benchmark.id, **defaults)
+        session.add(ds)
+        session.flush()
+    else:
+        for key, value in defaults.items():
+            if value is not None:
+                setattr(ds, key, value)
+    return ds
+
+
 def seed(dry_run: bool = False) -> None:
     init_db()
 
@@ -181,6 +363,7 @@ def seed(dry_run: bool = False) -> None:
             bm_defaults = {
                 "url": bm_data.get("url"),
                 "description": bm_data.get("description"),
+                "source_papers": json.dumps(bm_data.get("source_papers", []), ensure_ascii=False),
                 "short_name": short_name,
                 "is_legacy": 1 if bm_data.get("is_legacy") else 0,
             }
@@ -195,6 +378,16 @@ def seed(dry_run: bool = False) -> None:
                 bm.paper_id = paper.id
                 session.flush()
 
+            for source in bm_data.get("source_papers", []):
+                source_arxiv_id = str(source.get("arxiv_id") or "").strip()
+                if not source_arxiv_id:
+                    continue
+                paper_defaults = {
+                    "title": str(source.get("title") or bm.name),
+                    "is_benchmark_paper": 1,
+                }
+                _upsert(session, Paper, {"arxiv_id": source_arxiv_id}, paper_defaults)
+
             for ds_data in bm_data.get("datasets", []):
                 ds_defaults = {
                     "task_type": ds_data.get("task_type"),
@@ -208,8 +401,12 @@ def seed(dry_run: bool = False) -> None:
                     "avg_edges": ds_data.get("avg_edges"),
                     "num_classes": ds_data.get("num_classes"),
                 }
-                ds = _upsert(
-                    session, Dataset, {"name": ds_data["name"], "benchmark_id": bm.id}, ds_defaults
+                ds = _upsert_seed_dataset(
+                    session,
+                    bm,
+                    ds_data,
+                    ds_defaults,
+                    bm_data.get("move_datasets_from"),
                 )
                 logger.info("  Dataset: %s (id=%s)", ds.name, ds.id)
 
@@ -240,6 +437,9 @@ def seed(dry_run: bool = False) -> None:
                         session.delete(existing_variant)
 
         _merge_benchmark_aliases(session, {"TUDataset": "TU Dortmund"})
+        _move_dataset_to_benchmark(session, "Deezer", "Heterophilic Graphs", "LINKX Benchmarks")
+        _remove_empty_dataset(session, "Deezer", "Hypergraph Benchmarks")
+        _merge_film_alias_dataset(session)
         session.flush()
 
         if not dry_run:

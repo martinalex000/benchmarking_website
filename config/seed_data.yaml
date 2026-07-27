@@ -975,9 +975,16 @@ benchmarks:
 - name: Heterophilic Graphs
   arxiv_id: '2110.14446'
   url: https://arxiv.org/abs/2110.14446
+  source_papers:
+  - arxiv_id: '2002.05287'
+    url: https://arxiv.org/abs/2002.05287
+    role: Original six-dataset benchmark (Geom-GCN)
+  - arxiv_id: '2110.14446'
+    url: https://arxiv.org/abs/2110.14446
+    role: Large-scale heterophily benchmark context (LINKX)
   is_legacy: true
-  description: Non-homophilous node classification benchmarks (WebKB, Wikipedia, LINKX,
-    and related).
+  description: Legacy heterophilic node classification benchmarks with known evaluation
+    problems (WebKB, Wikipedia, and the five-class Actor graph).
   datasets:
   - name: Texas
     task_type: node_classification
@@ -1015,7 +1022,7 @@ benchmarks:
   - name: Actor
     task_type: node_classification
     description: Actor co-occurrence node classification (5 classes) from the Geom-GCN
-      paper.
+      paper. Also called Film in papers using the same graph.
     primary_metric: Accuracy
     higher_is_better: true
     domain: social
@@ -1060,6 +1067,17 @@ benchmarks:
     avg_nodes: 5201
     avg_edges: 217073
     num_classes: 5
+- name: Heterophily Benchmark
+  arxiv_id: '2302.11640'
+  url: https://arxiv.org/abs/2302.11640
+  source_papers:
+  - arxiv_id: '2302.11640'
+    url: https://arxiv.org/abs/2302.11640
+    role: Replacement five-dataset benchmark
+  move_datasets_from: Heterophilic Graphs
+  description: Five replacement datasets proposed for more reliable evaluation under
+    graph heterophily.
+  datasets:
   - name: Roman-empire
     task_type: node_classification
     description: Wikipedia Roman Empire article node classification (18 syntactic
@@ -1119,37 +1137,16 @@ benchmarks:
     variants:
     - name: Standard split
       is_standard: true
-  - name: Deezer
-    task_type: node_classification
-    description: Deezer Europe user friendship graph binary node classification (like/dislike)
-      from the heterophilic benchmark.
-    primary_metric: ROC-AUC
-    higher_is_better: true
-    domain: social
-    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.HeterophilousGraphDataset.html
-    variants:
-    - name: Standard split
-      is_standard: true
-    num_graphs: 1
-    avg_nodes: 28281
-    avg_edges: 1650703
-    num_classes: 2
-  - name: Film
-    task_type: node_classification
-    description: Film (Actor) co-occurrence node classification (5 classes). Same
-      graph as Actor; referred to as "Film" in some papers.
-    primary_metric: Accuracy
-    higher_is_better: true
-    domain: social
-    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.Actor.html
-    variants:
-    - name: Standard split
-      is_standard: true
-      notes: Geom-GCN 10 fixed splits.
 - name: LINKX Benchmarks
   arxiv_id: '2110.14446'
   url: https://arxiv.org/abs/2110.14446
-  description: Large-scale non-homophilous graph benchmarks from the LINKX paper.
+  source_papers:
+  - arxiv_id: '2110.14446'
+    url: https://arxiv.org/abs/2110.14446
+    role: Benchmark introduction
+  move_datasets_from: Heterophilic Graphs
+  description: Large-scale non-homophilous graph benchmarks from LINKX and related
+    evaluations.
   datasets:
   - name: Penn94
     task_type: node_classification
@@ -1225,7 +1222,7 @@ benchmarks:
     num_classes: 40
 - name: MoleculeNet
   arxiv_id: '1703.00564'
-  url: https://moleculenet.org/
+  url: https://arxiv.org/abs/1703.00564
   description: MoleculeNet — benchmark collection for molecular machine learning.
   datasets:
   - name: BBBP
@@ -1362,8 +1359,15 @@ benchmarks:
     - name: Standard split
       is_standard: true
 - name: Heterogeneous Graph Benchmarks
-  arxiv_id: '2002.01680'
-  url: https://arxiv.org/abs/2002.01680
+  arxiv_id: '2112.14936'
+  url: https://arxiv.org/abs/2112.14936
+  source_papers:
+  - arxiv_id: '2112.14936'
+    url: https://arxiv.org/abs/2112.14936
+    role: Heterogeneous Graph Benchmark (HGB) introduction
+  - arxiv_id: '2002.01680'
+    url: https://arxiv.org/abs/2002.01680
+    role: MAGNN dataset provenance
   description: Heterogeneous graph datasets from the MAGNN and HGB benchmark papers.
   datasets:
   - name: DBLP
@@ -1490,6 +1494,21 @@ benchmarks:
     - name: Standard split
       is_standard: true
     num_graphs: 1
+    num_classes: 2
+  - name: Deezer
+    task_type: node_classification
+    description: Deezer Europe user friendship graph binary node classification (like/dislike),
+      used in LINKX-style non-homophily evaluations.
+    primary_metric: ROC-AUC
+    higher_is_better: true
+    domain: social
+    pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.HeterophilousGraphDataset.html
+    variants:
+    - name: Standard split
+      is_standard: true
+    num_graphs: 1
+    avg_nodes: 28281
+    avg_edges: 1650703
     num_classes: 2
   - name: House
     task_type: node_classification
@@ -1677,6 +1696,20 @@ benchmarks:
     num_graphs: 1
     avg_nodes: 2000000
     avg_edges: 61000000
+  - name: MovieLens Film
+    task_type: node_classification
+    description: Movie graph with genre labels from the MovieLens/IMDb film benchmark;
+      distinct from the five-class Actor graph sometimes called Film.
+    primary_metric: Micro-F1
+    higher_is_better: true
+    domain: social
+    variants:
+    - name: Standard split
+      is_standard: true
+      notes: MovieLens/IMDb film graph used by Bruna et al. 2016.
+    num_graphs: 1
+    avg_nodes: 18352
+    num_classes: 9
 - name: Algorithmic Graph Tasks
   arxiv_id: '2312.16560'
   url: https://arxiv.org/abs/2312.16560
@@ -1950,6 +1983,10 @@ benchmarks:
 - name: LRIM Graph Benchmark
   arxiv_id: null
   url: https://openreview.net/forum?id=IAZXEX1dVV
+  source_papers:
+  - title: Long-Range Ising Model Graph Benchmark
+    url: https://openreview.net/forum?id=IAZXEX1dVV
+    role: Benchmark introduction
   description: 'LRIM — the Long-Range Ising Model Graph Benchmark, a physics-grounded suite
     for controlled long-range graph learning evaluation across ten datasets spanning multiple
     graph sizes and difficulty levels.

@@ -37,61 +37,27 @@
   </div>
 </div>
 
-{{ partial "benchmark-group-sort-toolbar.html" . }}
-
 <section class="overview-section">
   <div class="overview-grid" id="benchmark-groups-container" data-benchmark-item=".benchmark-overview-card">
     {{ range $groups }}
-    {{ $groupPapers := slice }}
-    {{ range .datasets }}
-      {{ with index $datasetPages .slug }}
-        {{ range .Params.variants }}
-          {{ range .rows }}
-            {{ with .arxiv_id }}
-              {{ $groupPapers = $groupPapers | append . }}
-            {{ end }}
-          {{ end }}
-        {{ end }}
-      {{ end }}
-    {{ end }}
-    {{ $groupPaperCount := len ($groupPapers | uniq) }}
     {{ $recentPerDataset := float (.recent_results_per_dataset | default 0) }}
     {{ $totalResults := .total_result_count | default 0 }}
-    {{ $introTitle := default .name .paper_title }}
-    {{ $introDate := "" }}
-    {{ $introLink := "" }}
-    {{ with .arxiv_id }}
-      {{ with $.Site.GetPage (printf "papers/%s" .) }}
-        {{ $introLink = .RelPermalink }}
-        {{ with .Params.published_date }}{{ $introDate = . }}{{ end }}
-        {{ with .Title }}{{ $introTitle = . }}{{ end }}
-      {{ else }}
-        {{ $introLink = printf "papers/%s/" . | relURL }}
-      {{ end }}
-    {{ end }}
     <article class="overview-card benchmark-overview-card benchmark-sort-item"
-      data-is-legacy="{{ if .is_legacy }}1{{ else }}0{{ end }}"
-      data-recent-per-dataset="{{ $recentPerDataset }}"
-      data-total-results="{{ $totalResults }}">
+      data-is-legacy="{{ if .is_legacy }}1{{ else }}0{{ end }}">
       <h2>{{ .name }}{{ if .is_legacy }} <span class="badge legacy-badge" title="Established benchmark suite with less recent leaderboard activity">Legacy</span>{{ end }}</h2>
       {{ with .description }}<p class="overview-card-copy">{{ . }}</p>{{ end }}
       <div class="overview-card-meta">
         <span class="badge muted">{{ len .datasets }} dataset{{ if ne (len .datasets) 1 }}s{{ end }}</span>
-        <span class="badge muted">{{ $groupPaperCount }} papers</span>
         <span class="badge muted">{{ printf "%.1f" $recentPerDataset }} recent results per dataset</span>
         <span class="badge muted">{{ $totalResults }} total results</span>
-        {{ if $introDate }}<span class="badge">{{ $introDate }}</span>{{ end }}
       </div>
-      {{ if $introTitle }}
+      {{ if and .source_papers (le (len .source_papers) 3) }}
       <p class="overview-card-intro">
-        Introduced in
-        {{ if $introLink }}
-        <a href="{{ $introLink }}"><strong>{{ $introTitle }}</strong></a>
-        {{ else }}
-        <strong>{{ $introTitle }}</strong>
-        {{ end }}
-        {{ if $introDate }} · {{ $introDate }}{{ end }}.
+        Sources:
+        {{ range $index, $source := .source_papers }}{{ if gt $index 0 }}, {{ end }}<a href="{{ if $source.is_local }}{{ $source.url | relURL }}{{ else }}{{ $source.url }}{{ end }}" title="{{ $source.role }}"><strong>{{ $source.title }}</strong></a>{{ end }}.
       </p>
+      {{ else if .no_single_introduction_paper }}
+      <p class="overview-card-intro">No single introduction paper.</p>
       {{ end }}
       <p class="home-benchmark-datasets">
         {{ range $index, $dataset := first 4 .datasets }}{{ if gt $index 0 }}, {{ end }}<a href="{{ printf "datasets/%s/" $dataset.slug | relURL }}">{{ $dataset.name }}</a>{{ end }}
@@ -104,5 +70,4 @@
 {{ end }}
 
 {{ define "scripts" }}
-{{ partial "benchmark-group-sort-script.html" . }}
 {{ end }}

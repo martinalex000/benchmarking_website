@@ -4,7 +4,7 @@
   var container = document.getElementById("benchmark-groups-container");
   if (!sortButtons.length || !container) return;
 
-  var sortMode = "recent";
+  var sortMode = "papers";
   var itemSelector = container.dataset.benchmarkItem || ".benchmark-sort-item";
 
   function parseNum(value) {
@@ -17,18 +17,15 @@
     items.sort(function (a, b) {
       var legacyA = a.dataset.isLegacy === "1";
       var legacyB = b.dataset.isLegacy === "1";
-      if (sortMode === "recent") {
-        if (legacyA !== legacyB) return legacyA ? 1 : -1;
-        return parseNum(b.dataset.recentPerDataset) - parseNum(a.dataset.recentPerDataset);
-      }
-      return parseNum(b.dataset.totalResults) - parseNum(a.dataset.totalResults);
+      if (legacyA !== legacyB) return legacyA ? 1 : -1;
+      return parseNum(b.dataset.paperCount) - parseNum(a.dataset.paperCount);
     });
     items.forEach(function (el) { container.appendChild(el); });
   }
 
   sortButtons.forEach(function (btn) {
     btn.addEventListener("click", function () {
-      sortMode = btn.dataset.benchmarkSort || "recent";
+      sortMode = btn.dataset.benchmarkSort || "papers";
       sortButtons.forEach(function (b) {
         var active = b === btn;
         b.classList.toggle("active", active);
