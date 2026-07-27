@@ -1,0 +1,318 @@
+"""
+Helpers for loading benchmark data from SQLite and producing
+stacked-bar charts of paper counts per period.
+
+The database schema (simplified):
+
+    benchmarks ─┐
+                ├─< datasets  ─┐
+                │              ├─< dataset_variants  ─┐
+                │              │                      ├─< results >─ papers
+                └──────────────┘                      │
+                                                      │
+Each ``results`` row links a paper to a dataset variant.
+"""
+
+import sqlite3
+import sys
+
+import pandas as pd
+import seaborn as sns
+import numpy as np
+import matplotlib.pyplot as plt
+
+
+# --- Database introspection ---
+
+def list_tables(conn):
+    """Return the names of all tables in the database.
+
+    Parameters
+    ----------
+    conn : sqlite3.Connection
+        Open SQLite connection.
+
+    Returns
+    -------
+    list[str]
+        Sorted list of table names.
+    """
+    cur = conn.execute(
+        "SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;"
+    )
+    return [row[0] for row in cur.fetchall()]
+
+
+def load_table(conn, table_name, limit=None):
+    """Load one table into a pandas DataFrame.
+
+    Parameters
+    ----------
+    conn : sqlite3.Connection
+        Open SQLite connection.
+    table_name : str
+        Name of the table to read.
+    limit : int | None, optional
+        If given, adds a ``LIMIT <limit>`` clause – useful for huge tables.
+
+    Returns
+    -------
+    pd.DataFrame
+        The full (or limited) contents of *table_name*.
+    """
+    sql = f"SELECT * FROM {table_name}"
+    if limit is not None:
+        sql += f" LIMIT {limit}"
+    sql += ";"
+    return pd.read_sql_query(sql, conn)
+
+
+def load_all_tables(conn, tables, DATA_DIR, save_csv=False, limit=None):
+    """Load every table listed in *tables* into a dict of DataFrames.
+
+    Parameters
+    ----------
+    conn : sqlite3.Connection
+        Open SQLite connection.
+    tables : list[str]
+        Table names to load.
+    DATA_DIR : pathlib.Path
+        Directory where CSV files are saved (used when *save_csv* is True).
+    save_csv : bool, optional
+        If True, write each table to ``<data_dir>/<table>.csv``.
+    limit : int | None, optional
+        Row limit passed to :func:`load_table`.
+
+    Returns
+    -------
+    dict[str, pd.DataFrame]
+        Mapping from table name to DataFrame.  Empty dict if *tables*
+        is empty (the process also exits with status 1).
+    """
+    if not tables:
+        print("No tables found in the database.")
+        conn.close()
+        sys.exit(1)
+        return {}
+
+    print(f"\nFound {len(tables)} table(s): {', '.join(tables)}\n")
+    dataframes: dict[str, pd.DataFrame] = {}
+    for tbl in tables:
+        df = load_table(conn, tbl, limit=limit)
+        dataframes[tbl] = df
+        if save_csv:
+            csv_path = DATA_DIR / f"{tbl}.csv"
+            df.to_csv(csv_path, index=False)
+    return dataframes
+
+
+# --- Data fetching ---
+
+def fetch_data_by_dataset(DB_PATH, datasets):
+    """Fetch rows for the given datasets.
+
+    Parameters
+    ----------
+    DB_PATH : pathlib.Path | str
+        Path to the SQLite database.
+    datasets : list[str]
+        Dataset names to filter on (``datasets.name``).
+
+    Returns
+    -------
+    pd.DataFrame
+        Columns: ``dataset_name``, ``paper_timestamp``,
+        ``paper_id``, ``paper_title``.
+    """
+    conn = sqlite3.connect(str(DB_PATH))
+    placeholders = ", ".join(["?"] * len(datasets))
+    sql = f"""
+        SELECT
+            d.name            AS dataset_name,
+            p.published_date  AS paper_timestamp,
+            r.paper_id,
+            p.title           AS paper_title
+        FROM results r
+        JOIN dataset_variants dv ON r.dataset_variant_id = dv.id
+        JOIN datasets d          ON dv.dataset_id        = d.id
+        JOIN papers p            ON r.paper_id          = p.id
+        WHERE d.name IN ({placeholders})
+    """
+    df = pd.read_sql_query(sql, conn, params=datasets)
+    conn.close()
+    return df
+
+
+def fetch_data_by_benchmarkgroup(DB_PATH, benchmark_names):
+    """Fetch rows for the given benchmark groups.
+
+    Parameters
+    ----------
+    DB_PATH : pathlib.Path | str
+        Path to the SQLite database.
+    benchmark_names : list[str]
+        Benchmark names to filter on (``benchmarks.name``).
+
+    Returns
+    -------
+    pd.DataFrame
+        Columns: ``benchmark_name``, ``paper_timestamp``,
+        ``paper_id``, ``paper_title``.
+    """
+    conn = sqlite3.connect(str(DB_PATH))
+    placeholders = ", ".join(["?"] * len(benchmark_names))
+    sql = f"""
+        SELECT
+            b.name            AS benchmark_name,
+            p.published_date  AS paper_timestamp,
+            r.paper_id,
+            p.title           AS paper_title
+        FROM results r
+        JOIN dataset_variants dv ON r.dataset_variant_id = dv.id
+        JOIN datasets d          ON dv.dataset_id        = d.id
+        JOIN benchmarks b        ON d.benchmark_id       = b.id
+        JOIN papers p            ON r.paper_id          = p.id
+        WHERE b.name IN ({placeholders})
+    """
+    df = pd.read_sql_query(sql, conn, params=benchmark_names)
+    conn.close()
+    return df
+
+
+# --- Aggregation & plotting ---
+
+def compute_percentages_and_counts(df, group, DATA_DIR, time_step,
+                                   save_csv=False, print_info=True):
+    """Compute per-period paper counts and percentage shares.
+
+    The DataFrame is deduplicated on ``(paper_id, <group>_name,
+    period)`` so that each paper contributes at most once per
+    group per period.
+
+    Parameters
+    ----------
+    df : pd.DataFrame
+        Must contain ``paper_timestamp``, ``paper_id``, and a
+        column named ``<group>_name``.
+    group : str
+        Grouping key, e.g. ``"benchmark"`` or ``"dataset"``.
+        The corresponding column is expected to be
+        ``<group>_name``.
+    DATA_DIR : pathlib.Path
+        Directory for optional CSV export.
+    time_step : str
+        Pandas period frequency, e.g. ``"Y"``, ``"M"``,
+        ``"3M"``.
+    save_csv : bool, optional
+        Write the deduplicated table to
+        ``<DATA_DIR>/joint_<group>_table.csv``.
+    print_info : bool, optional
+        Print the share and count pivot tables.
+
+    Returns
+    -------
+    pivot_share : pd.DataFrame
+        Wide-format table with percentage shares per group
+        per period.
+    pivot_cnt : pd.DataFrame
+        Wide-format table with raw integer paper counts per
+        group per period.
+    """
+    group_name = group + "_name"
+
+    # Deduplicate: one row per paper per group per period
+    df["paper_timestamp"] = pd.to_datetime(df["paper_timestamp"],
+                                           format="mixed")
+    df["period"] = df["paper_timestamp"].dt.to_period(time_step)
+    df = df.drop_duplicates(subset=["paper_id", group_name, "period"])
+    df = df.sort_values("paper_timestamp")
+
+    if save_csv:
+        csv_path = DATA_DIR / f"joint_{group}_table.csv"
+        df.to_csv(csv_path, index=False)
+
+    # Count papers per (period, group)
+    counts = (
+        df
+        .groupby(["period", group_name])
+        .size()
+        .reset_index(name="paper_cnt")
+    )
+
+    # Compute percentage share of each group within the period
+    total_per_period = counts.groupby("period")["paper_cnt"].transform("sum")
+    counts["share"] = counts["paper_cnt"] / total_per_period * 100
+
+    # Pivot to wide format: one column per group
+    pivot_share = (
+        counts
+        .pivot(index="period", columns=group_name, values="share")
+        .fillna(0)
+        .sort_index()
+    )
+    pivot_cnt = (
+        counts
+        .pivot(index="period", columns=group_name, values="paper_cnt")
+        .fillna(0)
+        .astype(int)
+        .sort_index()
+    )
+
+    if print_info:
+        print("\n=== SHARE (percentage) table ===")
+        print(pivot_share)
+        print("\n=== COUNT (raw paper count) table ===")
+        print(pivot_cnt)
+
+    return pivot_share, pivot_cnt
+
+
+def plot_stacked_bar_charts(pivot_cnt, plot_name, PLOT_DIR):
+    """Draw a stacked bar chart of paper counts per period.
+
+    Parameters
+    ----------
+    pivot_cnt : pd.DataFrame
+        Wide-format count table (rows = periods, columns =
+        groups).  Produced by
+        :func:`compute_percentages_and_counts`.
+    plot_name : str
+        Name of the png file that the plot is saved as.
+    PLOT_DIR : pathlib.Path
+        Directory where the figure is saved.
+
+    Returns
+    -------
+    None
+        The figure is saved to disk; nothing is returned.
+    """
+    fig, ax = plt.subplots(figsize=(12, 6))
+
+    colors = sns.color_palette(n_colors=len(pivot_cnt.columns))
+
+    bottom = np.zeros(len(pivot_cnt))
+    x = np.arange(len(pivot_cnt))
+
+    for i, col in enumerate(pivot_cnt.columns):
+        heights = pivot_cnt[col].values
+        ax.bar(x, heights, bottom=bottom, label=col,
+               color=colors[i], edgecolor="white", linewidth=0.5)
+        bottom = bottom + heights
+
+    # Add n= above each bar
+    period_totals = bottom
+    for j, total in enumerate(period_totals):
+        ax.text(x[j], total + 0.5, f"n={int(total)}",
+                ha="center", va="bottom", fontsize=14)
+        
+    ax.set_ylabel("Number of papers", fontsize=20)
+    ax.set_xlabel("Period", fontsize=20)
+    ax.set_xticks(x)
+    ax.set_xticklabels(pivot_cnt.index.astype(str), rotation=45, ha="right")
+    ax.tick_params(axis='both', labelsize=18)
+    ax.legend(loc="upper left", fontsize=16)
+    ax.set_ylim(0, period_totals.max() * 1.1) # Add headroom for the n= labels
+
+    fig.savefig(PLOT_DIR / f"{plot_name}s.png", dpi=150, bbox_inches="tight")
+
+    return
