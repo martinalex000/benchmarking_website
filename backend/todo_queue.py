@@ -376,6 +376,7 @@ def run_manual_subprocess(arxiv_id: str, *, model: str, force: bool) -> TodoQueu
         "--model",
         model,
         "--skip-export",  # workers never trigger Hugo export; run export_to_hugo separately
+        "--queue-managed",
     ]
     if force:
         cmd.append("--force")
@@ -594,6 +595,19 @@ def _finalize_todo(
         if row is None:
             return False
         row.status = status.value
+        row.last_attempt_at = _utcnow_iso()
+        row.processing_token = None
+        row.note = note
+        return True
+
+
+def mark_todo_paper_done(arxiv_id: str, note: str) -> bool:
+    """Mark a todo paper done after a successful direct manual run."""
+    with session_scope() as session:
+        row = session.query(TodoPaper).filter_by(arxiv_id=arxiv_id).first()
+        if row is None:
+            return False
+        row.status = TodoPaperStatus.DONE.value
         row.last_attempt_at = _utcnow_iso()
         row.processing_token = None
         row.note = note

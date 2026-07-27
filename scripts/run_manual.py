@@ -37,6 +37,7 @@ import json
 import logging
 import re
 import sys
+from datetime import UTC, datetime
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -913,7 +914,19 @@ def _collect_unknown_datasets(arxiv_id: str, paper_title: str = "") -> int:
     from backend.db import init_db, session_scope
     from backend.models import PendingDataset
     from backend.paper_storage import PaperStorage
-    from backend.results_parser import _load_variant_map, resolve_dataset_variant
+    from backend.results_parser import (
+        _curation_excludes_all_results,
+        _load_variant_map,
+        resolve_dataset_variant,
+    )
+
+    if _curation_excludes_all_results(arxiv_id):
+        init_db()
+        with session_scope() as session:
+            session.query(PendingDataset).filter_by(arxiv_id=arxiv_id).delete(
+                synchronize_session=False
+            )
+        return 0
 
     storage = PaperStorage(arxiv_id)
     if not storage.llm_output_path.exists():
@@ -1277,6 +1290,7 @@ def main() -> None:
         action="store_true",
         help="Skip the Hugo export step (useful for batch runs)",
     )
+    parser.add_argument("--queue-managed", action="store_true", help=argparse.SUPPRESS)
     args = parser.parse_args()
 
     # ── Import-pending mode (no paper required) ───────────────────────────
@@ -1395,6 +1409,8 @@ def main() -> None:
             console.print("  [red]Figure detection failed.[/red]")
             sys.exit(1)
         console.rule("[green]Done[/green]")
+        if not args.queue_managed:
+            _mark_todo_done(arxiv_id, "figure detection completed by run_manual.py")
         return
 
     # ── Download ───────────────────────────────────────────────────────────
@@ -1475,6 +1491,8 @@ def main() -> None:
         for tier in ("primary", "fallback", "small"):
             _run_for_tier(arxiv_id, tier, force=force_extract)
         console.rule("[green]Comparison done[/green]")
+        if not args.queue_managed:
+            _mark_todo_done(arxiv_id, "model comparison completed by run_manual.py")
         return
 
     # ── 3/4. Extraction ───────────────────────────────────────────────────
@@ -1551,6 +1569,18 @@ def main() -> None:
 
     console.rule("[green]Done[/green]")
     console.print("Preview: [bold]cd site && /snap/bin/hugo server[/bold]")
+    if not args.queue_managed:
+        _mark_todo_done(arxiv_id, "processed by run_manual.py")
+
+
+def _mark_todo_done(arxiv_id: str, note: str) -> None:
+    """Mark a matching todo row done after a successful direct manual run."""
+    from backend.todo_queue import mark_todo_paper_done
+
+    mark_todo_paper_done(
+        arxiv_id,
+        f"{note} at {datetime.now(UTC).strftime('%Y-%m-%dT%H:%M:%SZ')}",
+    )
 
 
 if __name__ == "__main__":

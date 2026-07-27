@@ -3,6 +3,9 @@ import sys
 import types
 from types import SimpleNamespace
 
+import backend.db as db_module
+import backend.results_parser as results_parser_module
+
 
 def _load_run_manual():
     sys.modules.setdefault("defusedxml", types.ModuleType("defusedxml"))
@@ -28,6 +31,27 @@ def test_print_parse_summary_reports_existing_updates(capsys):
     assert "0" in captured
     assert "existing result row(s) updated" in captured
     assert "Parsed 8 extracted row(s): 0 new, 8 updated." in captured
+
+
+def test_excluded_paper_drops_pending_unknown_datasets(monkeypatch, tmp_path):
+    run_manual = _load_run_manual()
+    from backend.config import cfg
+    from backend.db import init_db, session_scope
+    from backend.models import PendingDataset
+
+    monkeypatch.setattr(cfg, "db_path", tmp_path / "benchmarks.db")
+    db_module._engine = None
+    db_module._SessionFactory = None
+    results_parser_module._PROTOCOL_EXCLUSIONS = None
+    init_db()
+
+    with session_scope() as session:
+        session.add(PendingDataset(arxiv_id="2402.08824", dataset_name="BlogCatalog"))
+
+    assert run_manual._collect_unknown_datasets("2402.08824") == 0
+
+    with session_scope() as session:
+        assert session.query(PendingDataset).filter_by(arxiv_id="2402.08824").count() == 0
 
 
 def test_should_run_pre_screen_skips_when_force_or_existing(monkeypatch, tmp_path):

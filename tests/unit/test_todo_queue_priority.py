@@ -20,6 +20,7 @@ from backend.todo_queue import (
     add_todo_paper,
     count_pending_important,
     load_queue_entries,
+    mark_todo_paper_done,
     process_queue,
     requeue_todo_papers,
     set_todo_paper_importance,
@@ -353,6 +354,19 @@ def test_set_importance_missing_row_returns_false(monkeypatch, tmp_path):
 
     assert ok is False
     assert "Not in todo queue" in message
+
+
+def test_direct_manual_run_can_mark_todo_paper_done(monkeypatch, tmp_path):
+    _configure_temp_db(monkeypatch, tmp_path)
+    _insert_todo("8888.0001", status=TodoPaperStatus.PENDING.value)
+
+    assert mark_todo_paper_done("8888.0001", "processed directly") is True
+
+    with session_scope() as session:
+        row = session.query(TodoPaper).filter_by(arxiv_id="8888.0001").one()
+        assert row.status == TodoPaperStatus.DONE.value
+        assert row.processing_token is None
+        assert row.note == "processed directly"
 
 
 def test_todo_queue_unmark_important_exits_on_failure(monkeypatch):

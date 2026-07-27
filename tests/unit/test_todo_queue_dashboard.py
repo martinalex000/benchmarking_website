@@ -43,6 +43,7 @@ def test_dashboard_forwards_skip_screen_to_manual_runner(monkeypatch):
             dash=dash.DashboardState(workers=1),
         )
     assert "--skip-screen" in captured["cmd"]
+    assert "--queue-managed" in captured["cmd"]
 
 
 def test_detect_status_real_export():

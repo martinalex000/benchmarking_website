@@ -1215,6 +1215,7 @@ def _run_manual_streaming(
         "--model",
         model,
         "--skip-export",
+        "--queue-managed",
     ]
     if force:
         cmd.append("--force")
