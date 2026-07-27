@@ -10,7 +10,7 @@ import yaml
 from backend.extraction_validation import load_manifest, pairwise_disagreements
 from backend.llm_backends import LlmBackend, ModelRoute
 from backend.llm_extractor import DatasetInfo, ExtractionOutput, LLMExtractor, ResultEntry
-from scripts import validate_extraction as validation
+from experiments.extraction import validate_extraction as validation
 
 
 def test_manifest_has_fixed_cohort_and_manual_review_papers() -> None:

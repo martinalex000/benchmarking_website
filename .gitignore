@@ -40,7 +40,12 @@ papers/.*
 !papers/.gitkeep
 
 # ── Local model-comparison experiments ───────────────────────────────────────
-experiments/
+experiments/*
+!experiments/extraction/
+!experiments/extraction/validate_extraction.py
+!experiments/mlp_baseline_comparison/
+experiments/mlp_baseline_comparison/*
+!experiments/mlp_baseline_comparison/compare_mlp_baseline.py
 
 # ── Dataset statistics workspace (derived from paper extraction) ─────────────
 datasets/*

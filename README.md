@@ -442,23 +442,44 @@ with a compare-specific ``comparison.json``. On-disk results are reused automati
 and labeled ``[cached]`` or ``[auto-included]`` in the summary tables; ``--interactive``
 model selection re-runs selected models.
 
-### `scripts/validate_extraction.py` — fixed dataset-only validation
+### `scripts/compare_mlp_baseline.py` — compare node methods with MLP
 
-Runs the publication validation cohort in `config/extraction_validation.yaml` without
-benchmarking dataset discovery. Every model receives the same manifest-defined datasets;
+Builds a reproducible comparison using standard, non-problematic node-classification or
+node-regression results. Plain MLP rows are curated through the shared leaderboard eligibility
+rules; LLM-augmented MLPs and confirmed noncanonical rows are excluded. Each paper contributes
+its best eligible non-MLP result, including baseline methods.
+
+```bash
+UV_CACHE_DIR=/tmp/benchmarking-uv-cache uv run python scripts/compare_mlp_baseline.py
+```
+
+The default output directory is `experiments/mlp_baseline_comparison/` and contains the
+reproducibility script `compare_mlp_baseline.py`, JSON/CSV records, a plain text summary, and
+updated `better_tied_worse.png`/`.pdf` figures. No significance test is applied. Run the
+adjacent script to regenerate exactly those outputs:
+
+```bash
+UV_CACHE_DIR=/tmp/benchmarking-uv-cache uv run python experiments/mlp_baseline_comparison/compare_mlp_baseline.py
+```
+
+### `experiments/extraction/validate_extraction.py` — fixed dataset-only validation
+
+Runs the publication validation cohort in `config/extraction_validation.yaml` using only
+the two-step RAG extraction path, without benchmarking dataset discovery. Every model receives
+the same manifest-defined datasets;
 the manifest fixes the exact model roster, model roles, comparison reference, and validation
 revision. The runner refuses to start if any required model is unavailable. Reports, incremental
 run state, and manual-review matrices are written under `experiments/extraction_validation/`.
 
 ```bash
-UV_CACHE_DIR=/tmp/benchmarking-uv-cache uv run python scripts/validate_extraction.py
+UV_CACHE_DIR=/tmp/benchmarking-uv-cache uv run python experiments/extraction/validate_extraction.py
 
 # Check that the exact required roster is reachable without starting the experiment
-UV_CACHE_DIR=/tmp/benchmarking-uv-cache uv run python scripts/validate_extraction.py \
+UV_CACHE_DIR=/tmp/benchmarking-uv-cache uv run python experiments/extraction/validate_extraction.py \
   --preflight-only
 
 # Override the default of three simultaneous paper jobs for each model
-UV_CACHE_DIR=/tmp/benchmarking-uv-cache uv run python scripts/validate_extraction.py \
+UV_CACHE_DIR=/tmp/benchmarking-uv-cache uv run python experiments/extraction/validate_extraction.py \
   --workers-per-model 2
 ```
 

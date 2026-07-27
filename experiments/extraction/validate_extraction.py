@@ -17,7 +17,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
 from backend.extraction_validation import (
     ValidationManifest,
@@ -217,6 +217,7 @@ def _run_job(
         endpoint=route.backend.endpoint,
         api_key=route.backend.api_key,
         experiment_label=_validation_label(manifest, model),
+        extraction_strategy="two-step",
         known_datasets=paper_inputs.paper.dataset_info(),
         extraction_only=True,
     )

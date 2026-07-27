@@ -15,6 +15,7 @@ the curated data to the site.
 - In this sandbox, prefix `uv` commands with `UV_CACHE_DIR=/tmp/benchmarking-uv-cache` so uv does not try to write its cache under the read-only home directory.
 - Prefer small, focused, regular git commits over large batches of unrelated work.
 - Keep changes clean and reviewable; do not leave the tree in a half-finished state.
+- For paper analysis, always inspect the locally downloaded `.tex` source first and treat it as authoritative; use web lookup only if the local source is unavailable or insufficient. For example, inspect `papers/2312.04111/latex/expanded.tex` before searching for arXiv:2312.04111 online. Almost all arXiv papers are available locally.
 
 ## Code quality expectations
 
