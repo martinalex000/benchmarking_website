@@ -56,9 +56,8 @@ def is_comparison_eligible(result: Any) -> bool:
     dataset = variant.dataset if variant else None
     if not dataset or dataset.task_type not in NODE_TASKS:
         return False
-    if _normalized_task(getattr(result, "evaluation_task", None)) != _normalized_task(
-        dataset.task_type
-    ):
+    evaluation_task = getattr(result, "evaluation_task", None)
+    if evaluation_task and _normalized_task(evaluation_task) != _normalized_task(dataset.task_type):
         return False
     return bool(
         result_is_leaderboard_eligible(result)
@@ -112,11 +111,13 @@ def _source(result: Any) -> dict[str, Any]:
     }
 
 
-def compare_results(results: Iterable[Result]) -> list[dict[str, Any]]:
+def compare_results(results: Iterable[Result], *, min_papers: int = 10) -> list[dict[str, Any]]:
     """Build one descriptive comparison row per eligible dataset.
 
     The reference is the best eligible plain MLP. The comparison population is
-    the best eligible non-MLP result from each paper, including baselines.
+    the best eligible non-MLP result from each paper, including baselines. Datasets
+    need results from at least ``min_papers`` distinct papers to avoid unstable
+    comparisons of sparsely evaluated benchmarks.
     """
     grouped: defaultdict[tuple[str, str], list[Any]] = defaultdict(list)
     for result in results:
@@ -164,12 +165,33 @@ def compare_results(results: Iterable[Result]) -> list[dict[str, Any]]:
         }
         if not best_by_paper:
             continue
+        if len(best_by_paper) < min_papers:
+            continue
+
+        non_mlp_by_method: defaultdict[str, list[Any]] = defaultdict(list)
+        for result in dataset_results:
+            method_key = _method_key(_model_name(result))
+            if method_key != "mlp":
+                non_mlp_by_method[method_key].append(result)
+        best_by_method = {
+            method_key: max(
+                method_results,
+                key=lambda result: (
+                    _result_value(result) if higher_is_better else -_result_value(result)
+                ),
+            )
+            for method_key, method_results in non_mlp_by_method.items()
+        }
+        method_keys = {
+            _method_key(_model_name(result))
+            for result in dataset_results
+            if _method_key(_model_name(result)) != "mlp"
+        }
 
         counts = {"better": 0, "tied": 0, "worse": 0}
         paper_rows: list[dict[str, Any]] = []
         for paper_id, result in sorted(best_by_paper.items()):
             classification = _comparison_class(result, best_mlp, higher_is_better)
-            counts[classification] += 1
             paper_rows.append(
                 {
                     "paper": paper_id,
@@ -177,6 +199,9 @@ def compare_results(results: Iterable[Result]) -> list[dict[str, Any]]:
                     "source": _source(result),
                 }
             )
+
+        for result in best_by_method.values():
+            counts[_comparison_class(result, best_mlp, higher_is_better)] += 1
 
         sota = best_mlp
         for result in best_by_paper.values():
@@ -198,6 +223,7 @@ def compare_results(results: Iterable[Result]) -> list[dict[str, Any]]:
                 "higher_is_better": higher_is_better,
                 "reference_type": "best_non_mlp_result_per_paper",
                 "paper_count": len(paper_rows),
+                "method_count": len(method_keys),
                 "better_count": counts["better"],
                 "tied_count": counts["tied"],
                 "worse_count": counts["worse"],
@@ -317,13 +343,16 @@ def write_comparison_figures(
         totals = [row["paper_count"] for row in rows]
         denominators = [max(total, 1) for total in totals]
         better = [
-            100 * row["better_count"] / denominator for row, denominator in zip(rows, denominators)
+            100 * row["better_count"] / denominator
+            for row, denominator in zip(rows, denominators, strict=True)
         ]
         tied = [
-            100 * row["tied_count"] / denominator for row, denominator in zip(rows, denominators)
+            100 * row["tied_count"] / denominator
+            for row, denominator in zip(rows, denominators, strict=True)
         ]
         worse = [
-            100 * row["worse_count"] / denominator for row, denominator in zip(rows, denominators)
+            100 * row["worse_count"] / denominator
+            for row, denominator in zip(rows, denominators, strict=True)
         ]
         positions = list(range(len(rows)))
         first = axis.barh(positions, better, color=colors["better"], label="Better than MLP")
@@ -333,7 +362,10 @@ def write_comparison_figures(
         third = axis.barh(
             positions,
             worse,
-            left=[better_value + tied_value for better_value, tied_value in zip(better, tied)],
+            left=[
+                better_value + tied_value
+                for better_value, tied_value in zip(better, tied, strict=True)
+            ],
             color=colors["worse"],
             label="Worse than MLP",
         )
@@ -345,7 +377,7 @@ def write_comparison_figures(
         axis.grid(axis="x", alpha=0.2)
         axis.set_axisbelow(True)
         axis.tick_params(axis="x", labelsize=8)
-        for position, total in zip(positions, totals):
+        for position, total in zip(positions, totals, strict=True):
             axis.text(101, position, f"n={total}", va="center", fontsize=7, clip_on=False)
 
     for axis in axes.flat[len(group_names) :]:

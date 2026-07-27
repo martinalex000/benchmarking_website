@@ -541,7 +541,7 @@ def result_is_leaderboard_eligible(result: Result) -> bool:
         if result.protocol_decision == "nonstandard":
             return False
         return _protocol_compatible_with_variant(
-            {"evaluation_task": result.evaluation_task}, variant
+            {"evaluation_task": getattr(result, "evaluation_task", None)}, variant
         )
     note = _manual_protocol_note(arxiv_id, variant.dataset.name) or result.protocol_note
     entry = {
