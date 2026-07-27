@@ -17,7 +17,6 @@ import sqlite3
 import sys
 
 import pandas as pd
-import seaborn as sns
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -322,7 +321,8 @@ def plot_stacked_bar_charts(pivot_cnt, plot_name, PLOT_DIR):
     """
     fig, ax = plt.subplots(figsize=(12, 6))
 
-    colors = sns.color_palette(n_colors=len(pivot_cnt.columns))
+    prop_cycle = plt.rcParams['axes.prop_cycle']
+    colors = prop_cycle.by_key()['color']
 
     bottom = np.zeros(len(pivot_cnt))
     x = np.arange(len(pivot_cnt))
