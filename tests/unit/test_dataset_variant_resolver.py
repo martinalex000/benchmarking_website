@@ -80,3 +80,9 @@ def test_resolve_dataset_variant_quiet_does_not_cross_ogb_graph_families():
 
     assert resolve_dataset_variant_quiet("ogbg-ppa", {"ogbg-molpcba": molpcba}) is None
     assert resolve_dataset_variant_quiet("ogbl-ppa", {"ogbl-citation2": citation2}) is None
+
+
+def test_resolve_dataset_variant_quiet_does_not_fuzzy_match_generic_amazon():
+    amazon = _FakeVariant("Standard split", "Amazon2M")
+
+    assert resolve_dataset_variant_quiet("Amazon", {"amazon2m": amazon}) is None

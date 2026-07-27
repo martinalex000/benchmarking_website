@@ -122,6 +122,25 @@ def test_get_model_metadata_overrides():
     assert items[0]["model_type"] == "hybrid"
 
 
+def test_model_rename_overrides_support_dataset_scope():
+    from backend.override_handler import _effective_model_name_for_result
+
+    result = SimpleNamespace(
+        model=SimpleNamespace(name="MLP"),
+        dataset_variant=SimpleNamespace(dataset=SimpleNamespace(name="ogbn-products")),
+    )
+    overrides = {
+        "model_renames": {"MLP": "MLP+global"},
+        "model_rename_overrides": [
+            {"model": "MLP", "dataset": "ogbn-products", "renamed_model": "MLP+C&S"}
+        ],
+    }
+
+    assert _effective_model_name_for_result(result, overrides) == "MLP+C&S"
+    result.dataset_variant.dataset.name = "ogbn-arxiv"
+    assert _effective_model_name_for_result(result, overrides) == "MLP+global"
+
+
 def test_apply_overrides_to_db_clears_removed_result_overrides(tmp_path, monkeypatch):
     from backend.config import cfg
     from backend.db import init_db, session_scope

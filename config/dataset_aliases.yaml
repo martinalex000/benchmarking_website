@@ -27,6 +27,18 @@ aliases:
   Ppi: PPI
   Reddit: REDDIT
   Physics: Coauthor-Physics
+  # The Geom-GCN heterophilic graph is called Actor in the dataset release and
+  # Film in parts of the literature.  A paper-specific override below keeps the
+  # unrelated MovieLens film graph separate.
+  Film: Actor
+  Film (Actor): Actor
+  Actor (Film): Actor
+
+paper_aliases:
+  # This paper uses a different film graph: movies are nodes, with nine genre
+  # labels, rather than the five-class Actor/Film co-occurrence graph.
+  "1609.04508":
+    Film: MovieLens Film
 
 # Generic names that are too ambiguous for fuzzy matching. They must either
 # match a canonical dataset exactly or be resolved by an explicit alias.

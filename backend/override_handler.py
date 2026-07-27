@@ -43,7 +43,16 @@ def load_overrides(arxiv_id: str, papers_root: Path | None = None) -> dict:
 
     root = (papers_root or cfg.papers_dir) / arxiv_id
     path = root / "overrides.yaml"
-    if not path.exists():
+    try:
+        exists = path.exists()
+    except OSError as exc:
+        # Paper workspaces may contain a partially materialized or unavailable
+        # optional override file. Treat that file as absent so exports remain
+        # usable; the next run can retry the read.
+        logger.warning("Could not inspect overrides.yaml for %s: %s", arxiv_id, exc)
+        _OVERRIDES_CACHE[arxiv_id] = {}
+        return {}
+    if not exists:
         _OVERRIDES_CACHE[arxiv_id] = {}
         return {}
     try:
@@ -113,6 +122,40 @@ def get_model_renames(overrides: dict) -> dict[str, str]:
     """Extract model_renames mapping (raw model name -> cleaned display name)."""
     mapping = overrides.get("model_renames") or {}
     return mapping if isinstance(mapping, dict) else {}
+
+
+def get_model_rename_overrides(overrides: dict) -> list[dict[str, str]]:
+    """Return optional dataset-scoped model rename rules from an override file."""
+    rules = overrides.get("model_rename_overrides") or []
+    if not isinstance(rules, list):
+        return []
+    normalized: list[dict[str, str]] = []
+    for rule in rules:
+        if not isinstance(rule, dict):
+            continue
+        model = str(rule.get("model") or "").strip()
+        dataset = str(rule.get("dataset") or "").strip()
+        renamed = str(rule.get("renamed_model") or "").strip()
+        if model and dataset and renamed:
+            normalized.append({"model": model, "dataset": dataset, "renamed_model": renamed})
+    return normalized
+
+
+def _effective_model_name_for_result(result: Any, overrides: dict) -> str | None:
+    """Resolve a paper override without changing the raw extracted model name."""
+    raw_model = str(result.model.name if result.model else "").strip()
+    dataset = str(result.dataset_variant.dataset.name if result.dataset_variant else "").strip()
+    raw_key = raw_model.casefold()
+    dataset_key = dataset.casefold()
+
+    for rule in get_model_rename_overrides(overrides):
+        if rule["model"].casefold() == raw_key and rule["dataset"].casefold() == dataset_key:
+            return rule["renamed_model"]
+
+    for source, target in get_model_renames(overrides).items():
+        if str(source).strip().casefold() == raw_key:
+            return str(target).strip()
+    return None
 
 
 def get_model_metadata_overrides(overrides: dict) -> list[dict]:
@@ -185,6 +228,11 @@ def apply_overrides_to_db(arxiv_id: str) -> int:
             )
 
             changed = False
+
+            effective_model_name = _effective_model_name_for_result(result, overrides)
+            if result.model_name_override != effective_model_name:
+                result.model_name_override = effective_model_name
+                changed = True
 
             if result.is_problematic or result.problematic_reason:
                 result.is_problematic = 0

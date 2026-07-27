@@ -23,7 +23,8 @@ from thefuzz import fuzz as _fuzz
 
 from backend.db import init_db, session_scope
 from backend.model_name_resolution import model_names_fuzzy_compatible
-from backend.models import Model, Result
+from backend.models import Result
+from backend.results_parser import result_is_leaderboard_eligible
 
 logger = logging.getLogger(__name__)
 
@@ -137,25 +138,22 @@ def get_baseline_summary(
         if baselines_only:
             query = query.filter_by(is_baseline=1)
 
-        results = query.all()
+        results = [result for result in query.all() if result_is_leaderboard_eligible(result)]
 
         if not results:
             return []
 
-        # Load all canonical model names for fuzzy comparison
-        models = {m.id: m.canonical_name for m in session.query(Model).all()}
-
         # Group results
-        groups: dict[int, BaselineGroup] = {}
+        groups: dict[str, BaselineGroup] = {}
         for r in results:
-            model_id = r.model_id
-            if model_id not in groups:
-                groups[model_id] = BaselineGroup(
-                    canonical_name=models.get(model_id, f"Model#{model_id}"),
-                    model_id=model_id,
+            canonical_name = r.effective_model_name or f"Model#{r.model_id}"
+            if canonical_name not in groups:
+                groups[canonical_name] = BaselineGroup(
+                    canonical_name=canonical_name,
+                    model_id=r.model_id,
                     higher_is_better=bool(r.higher_is_better),
                 )
-            g = groups[model_id]
+            g = groups[canonical_name]
             effective_value = r.display_value
             if effective_value is not None:
                 g.values.append(float(effective_value))
@@ -251,7 +249,7 @@ def get_best_results_over_time(
     """
 
     def _fetch(sess: Any) -> list:
-        return (
+        rows = (
             sess.query(Result)
             .options(joinedload(Result.paper), joinedload(Result.model))
             .filter_by(dataset_variant_id=dataset_variant_id, metric_name=metric_name)
@@ -260,6 +258,7 @@ def get_best_results_over_time(
             .order_by(text("papers.published_date"))
             .all()
         )
+        return [result for result in rows if result_is_leaderboard_eligible(result)]
 
     if session is not None:
         return _milestones_from_results(_fetch(session))
@@ -280,7 +279,7 @@ def get_best_results_over_time_for_metrics(
         return {}
 
     def _fetch_all(sess: Any) -> list:
-        return (
+        rows = (
             sess.query(Result)
             .options(joinedload(Result.paper), joinedload(Result.model))
             .filter_by(dataset_variant_id=dataset_variant_id)
@@ -291,6 +290,7 @@ def get_best_results_over_time_for_metrics(
             .order_by(text("papers.published_date"))
             .all()
         )
+        return [result for result in rows if result_is_leaderboard_eligible(result)]
 
     if session is not None:
         all_results = _fetch_all(session)

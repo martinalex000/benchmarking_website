@@ -1,6 +1,18 @@
 # Confirmed task/protocol mismatches. These rules also protect legacy extraction
 # artifacts that predate protocol_validation_version.
 exclude_all_results:
+  "2511.16767": "The paper uses an 80/20 split for its LLM/semantic-embedding experiments rather than the canonical dataset protocols."
+  "2302.01524": "The paper follows Pei et al. with 10 random data splits rather than the canonical benchmark masks."
+  "2306.16976": "The paper uses the Pei/Geom-GCN 48/32/20 splits rather than the canonical benchmark masks."
+  "2202.04579": "The paper uses Pei et al.'s 48/32/20 splits rather than the canonical benchmark masks."
+  "2205.13892": "The paper uses a 10/10/80 split for its real-world benchmarks rather than the canonical benchmark masks."
+  "2102.06462": "The paper uses Pei et al.'s 48/32/20 splits rather than the canonical benchmark masks."
+  "2305.13084": "The paper uses Pei et al.'s 48/32/20 splits rather than the canonical benchmark masks."
+  "2410.14109": "The paper uses Geom-GCN's 10 fixed 48/32/20 splits rather than the canonical benchmark masks."
+  "2106.10994": "The paper uses full-supervised random 60/20/20 splits rather than the canonical benchmark masks."
+  "2309.12971": "The paper uses random 60/20/20 splits repeated 100 times rather than the canonical benchmark splits."
+  "2210.16508": "The paper uses 20 random 60/20/20 splits for the citation benchmarks rather than the canonical Planetoid split."
+  "2307.07956": "The paper uses random 10/10/80 and 48/32/32 splits rather than the canonical benchmark protocols."
   "2110.04375": "Link-prediction experiments were misclassified as canonical node-classification results."
   "2402.08824": "Custom 5/10/85 split and backbone-ablation rows are not canonical benchmark protocols."
   "2408.14134": "Custom text-attributed graphs and random splits are not canonical heterophilic benchmark protocols."
@@ -25,6 +37,7 @@ exclude_all_results:
   "2505.17293": "Graph domain-adaptation splits are not canonical graph-classification protocols."
   "2507.11710": "OOD link-prediction experiments are not canonical link-prediction protocols."
   "2402.06737": "Self-supervised pretraining and linear-probing results are not the standard supervised node-classification protocol."
+  "2502.04591": "The paper reports oversmoothing accuracy-ratio analysis rather than canonical benchmark test accuracy."
 
 # Dataset-specific exclusions for papers that also contain valid results on
 # other benchmarks.
@@ -55,10 +68,34 @@ exclude_datasets:
     QM9: "QM9 electronic-property rows contain failed unit conversion/zero gap values."
   "2409.15800":
     QM9: "QM9 extraction was truncated and synthesized representative values were stored."
+  "1801.02144":
+    QM9: "Ten stratified train/validation/test splits are not the canonical QM9 comparison."
+  "1906.04015":
+    QM9: "The paper uses a 100k/10%/remaining random split rather than the canonical benchmark split."
+  "1909.01946":
+    QM9: "QM9 rows use nonstandard 75k/20k training-size evaluations."
+  "2203.16205":
+    QM9: "Linear evaluation of molecular representations is not the canonical supervised benchmark."
+  "2305.12347":
+    QM9: "Conditional generation MAE is not supervised QM9 property prediction."
+  "2310.04292":
+    QM9: "The paper reports a standalone QM9 test evaluation without canonical split evidence."
+  "2510.04522":
+    QM9: "Conditional generation results are not supervised QM9 property prediction."
+  "2510.10402":
+    QM9: "In-distribution graph-generation results are not the canonical supervised benchmark."
+  "2510.16780":
+    QM9: "The paper uses an 11k/1k/10,831 split rather than the canonical QM9 split."
+  "2604.15699":
+    QM9: "Transfer-learning results are not the from-scratch supervised benchmark."
   "2407.11025":
     CiteSeer: "Backdoor attack success rates were stored as CiteSeer Accuracy."
   "2406.02997":
     CiteSeer: "Five-fold cross-validation is not the canonical CiteSeer Planetoid split."
+  "2206.10991":
+    Cora: "The source uses Pei et al. splits rather than the canonical Planetoid Cora split."
+    CiteSeer: "The source uses Pei et al. splits rather than the canonical Planetoid CiteSeer split."
+    PubMed: "The source uses Pei et al. splits rather than the canonical Planetoid PubMed split."
   "2505.22362":
     CiteSeer: "Citeseer-Full was incorrectly fuzzy-mapped to canonical CiteSeer."
   "2209.00793":
@@ -130,6 +167,13 @@ allowed_dataset_tasks:
 # Row-level exclusions are used when a paper has valid rows for the same
 # dataset but a subset of models was shifted from an adjacent table column.
 exclude_results:
+  "2308.10737":
+    CiteSeer:
+      models: [MLP]
+      reason: "This MLP row is the encoder component inside a learned-graph ablation, not a feature-only MLP baseline."
+    PubMed:
+      models: [MLP]
+      reason: "This MLP row is the encoder component inside a learned-graph ablation, not a feature-only MLP baseline."
   "2502.04591":
     Amazon-ratings:
       models: [GCN]

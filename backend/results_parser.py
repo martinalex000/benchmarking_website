@@ -46,9 +46,7 @@ from backend.models import (
 )
 from backend.override_handler import apply_overrides_to_db
 from backend.paper_storage import PaperStorage
-from backend.parameter_lookup import (
-    build_dataset_param_lookup as _build_dataset_param_lookup,
-)
+from backend.parameter_lookup import build_dataset_param_lookup as _build_dataset_param_lookup
 from backend.parameter_lookup import build_metadata_lookups as _build_metadata_lookups
 from backend.qm9_targets import is_qm9_dataset, normalize_qm9_metric
 from backend.repository_linking import (
@@ -103,8 +101,19 @@ def _load_dataset_alias_map() -> dict[str, str]:
     return _DATASET_ALIAS_MAP
 
 
-def normalize_dataset_alias(dataset_name: str) -> str:
-    """Return the canonical dataset name if an alias is defined, else unchanged."""
+def normalize_dataset_alias(dataset_name: str, arxiv_id: str | None = None) -> str:
+    """Return the canonical dataset name, honoring narrow paper-specific aliases."""
+    path = cfg.config_dir / "dataset_aliases.yaml"
+    if path.exists() and arxiv_id:
+        with path.open(encoding="utf-8") as fh:
+            data = yaml.safe_load(fh) or {}
+        paper_map = (data.get("paper_aliases") or {}).get(str(arxiv_id).strip(), {})
+        if isinstance(paper_map, dict):
+            target = {
+                str(key).strip().casefold(): str(value).strip() for key, value in paper_map.items()
+            }.get(dataset_name.strip().casefold())
+            if target:
+                return target
     key = dataset_name.strip().lower()
     return _load_dataset_alias_map().get(key, dataset_name)
 
@@ -397,7 +406,9 @@ def _protocol_note_indicates_nonstandard(entry: dict[str, Any]) -> bool:
     return bool(note and _NONSTANDARD_PROTOCOL_CUE_RE.search(note))
 
 
-def _protocol_note_indicates_metric_mismatch(entry: dict[str, Any], variant: DatasetVariant) -> bool:
+def _protocol_note_indicates_metric_mismatch(
+    entry: dict[str, Any], variant: DatasetVariant
+) -> bool:
     """Reject rows whose local evidence names a different reported metric."""
     note = str(entry.get("protocol_note") or "").casefold()
     metric = str(entry.get("metric") or "").strip().casefold()
@@ -461,6 +472,9 @@ def _protocol_decision(entry: dict[str, Any], variant: DatasetVariant) -> str:
     if _requires_explicit_protocol_evidence(variant) and not _protocol_contract_has_evidence(
         entry, variant
     ):
+        contract = _protocol_contract_for_variant(variant)
+        if decision == "standard" and contract.get("allow_standard_decision_without_evidence"):
+            return "standard"
         return "uncertain"
     if decision in {"standard", "nonstandard", "uncertain"}:
         if (
@@ -510,11 +524,6 @@ def result_is_leaderboard_eligible(result: Result) -> bool:
         return True
     if not variant.is_standard:
         return False
-    contract = _protocol_contract_for_variant(variant)
-    if not contract and not getattr(variant, "split_type", None):
-        # Preserve legacy datasets that have no declared contract at all. The
-        # strict path applies to contracted or explicitly split variants.
-        return True
     paper = result.paper
     arxiv_id = paper.arxiv_id if paper else ""
     if not _allowed_by_protocol_curation(
@@ -524,6 +533,16 @@ def result_is_leaderboard_eligible(result: Result) -> bool:
         metric_name=result.metric_name,
     ):
         return False
+    contract = _protocol_contract_for_variant(variant)
+    if not contract and not getattr(variant, "split_type", None):
+        # Preserve legacy datasets that have no declared contract at all, while
+        # still honoring explicit task/protocol contradictions and the global
+        # curation exclusions above.
+        if result.protocol_decision == "nonstandard":
+            return False
+        return _protocol_compatible_with_variant(
+            {"evaluation_task": result.evaluation_task}, variant
+        )
     note = _manual_protocol_note(arxiv_id, variant.dataset.name) or result.protocol_note
     entry = {
         "evaluation_task": result.evaluation_task,
@@ -763,6 +782,7 @@ def resolve_dataset_variant_with_reason(
     variant_map: dict[str, int] | None = None,
     entry: dict[str, Any] | None = None,
     paper_text: str | None = None,
+    arxiv_id: str | None = None,
 ) -> tuple[int | None, str]:
     if variant_map is None:
         variant_map = _load_variant_map(session)
@@ -772,7 +792,7 @@ def resolve_dataset_variant_with_reason(
         logger.warning("Ambiguous dataset label '%s' is not treated as ogbn-arxiv", dataset_name)
         return None, "dataset: ambiguous arXiv label"
 
-    dataset_name = normalize_dataset_alias(dataset_name)
+    dataset_name = normalize_dataset_alias(dataset_name, arxiv_id=arxiv_id)
     key = dataset_name.strip().lower()
 
     if key == "zinc":
@@ -829,6 +849,7 @@ def resolve_dataset_variant(
     variant_map: dict[str, int] | None = None,
     entry: dict[str, Any] | None = None,
     paper_text: str | None = None,
+    arxiv_id: str | None = None,
 ) -> int | None:
     """Return the DatasetVariant.id best matching dataset_name.
 
@@ -841,6 +862,7 @@ def resolve_dataset_variant(
         variant_map,
         entry=entry,
         paper_text=paper_text,
+        arxiv_id=arxiv_id,
     )
     return variant_id
 
@@ -1436,7 +1458,7 @@ def parse_and_store_with_summary(
         canonical_map, alias_map = _load_model_map(session)
 
         for entry in result_entries:
-            dataset_name = normalize_dataset_alias(entry.get("dataset", ""))
+            dataset_name = normalize_dataset_alias(entry.get("dataset", ""), arxiv_id=arxiv_id)
             model_name = entry.get("model", "")
             metric_name = entry.get("metric", "")
             if is_qm9_dataset(dataset_name):
@@ -1460,6 +1482,7 @@ def parse_and_store_with_summary(
                 variant_map,
                 entry=entry,
                 paper_text=paper_text,
+                arxiv_id=arxiv_id,
             )
             if variant_id is None:
                 logger.warning(
@@ -1603,9 +1626,7 @@ def parse_and_store_with_summary(
                     uses_external_data=(
                         1
                         if uses_external_data is True
-                        else 0
-                        if uses_external_data is False
-                        else None
+                        else 0 if uses_external_data is False else None
                     ),
                     input_feature_source=input_feature_source,
                     feature_source_evidence=entry.get("feature_source_evidence"),

@@ -52,6 +52,8 @@ def reapply_all(arxiv_ids: list[str] | None = None) -> dict[str, int]:
                             "result_overrides",
                             "metadata_overrides",
                             "model_metadata_overrides",
+                            "model_renames",
+                            "model_rename_overrides",
                         )
                     )
                     if has_content:

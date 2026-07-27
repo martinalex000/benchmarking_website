@@ -10,6 +10,7 @@ from sqlalchemy.orm import joinedload
 from backend.export_helpers import plain_model, sanitize_model, sanitize_title
 from backend.leaderboard_compare import is_value_directionally_better
 from backend.models import Dataset, DatasetVariant, Result
+from backend.results_parser import result_is_leaderboard_eligible
 
 _AT_PUB_ROWS_CACHE: dict[tuple[str, str], list[Any]] = {}
 _AT_PUB_TIMELINE_CACHE: dict[tuple[str, str, bool], Any] = {}
@@ -149,20 +150,24 @@ def _at_pub_results_for_dataset_metric(session: Any, ds_name: str, metric: str) 
     if cached is not None:
         return cached
 
-    all_res = (
-        session.query(Result)
-        .options(
-            joinedload(Result.model),
-            joinedload(Result.paper),
-            joinedload(Result.dataset_variant).joinedload(DatasetVariant.dataset),
+    all_res = [
+        result
+        for result in (
+            session.query(Result)
+            .options(
+                joinedload(Result.model),
+                joinedload(Result.paper),
+                joinedload(Result.dataset_variant).joinedload(DatasetVariant.dataset),
+            )
+            .join(Result.dataset_variant)
+            .join(DatasetVariant.dataset)
+            .filter(Dataset.name == ds_name)
+            .filter(Result.metric_name == metric)
+            .filter(Result.is_problematic.is_(None) | (Result.is_problematic == 0))
+            .all()
         )
-        .join(Result.dataset_variant)
-        .join(DatasetVariant.dataset)
-        .filter(Dataset.name == ds_name)
-        .filter(Result.metric_name == metric)
-        .filter(Result.is_problematic.is_(None) | (Result.is_problematic == 0))
-        .all()
-    )
+        if result_is_leaderboard_eligible(result)
+    ]
     _AT_PUB_ROWS_CACHE[rows_key] = all_res
     return all_res
 

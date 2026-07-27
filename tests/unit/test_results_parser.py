@@ -13,6 +13,7 @@ from backend.results_parser import (
     _load_variant_map,
     _protocol_decision,
     _update_result,
+    normalize_dataset_alias,
     normalize_percentage_metric,
     parse_extracted_bool,
     parse_optional_extracted_bool,
@@ -394,7 +395,6 @@ def test_protocol_contract_requires_canonical_split_evidence():
         split_type="fixed",
         dataset=SimpleNamespace(name="CiteSeer", task_type="node_classification"),
     )
-
     assert (
         _protocol_decision(
             {
@@ -417,6 +417,31 @@ def test_protocol_contract_requires_canonical_split_evidence():
         )
         == "nonstandard"
     )
+
+
+def test_qm9_explicit_standard_decision_preserves_legacy_rows_without_split_note():
+    variant = SimpleNamespace(
+        is_standard=True,
+        split_type="random",
+        dataset=SimpleNamespace(name="QM9", task_type="graph_regression"),
+    )
+
+    assert (
+        _protocol_decision(
+            {
+                "evaluation_task": "graph_regression",
+                "protocol_decision": "standard",
+                "protocol_note": "MAE on QM9 targets.",
+            },
+            variant,
+        )
+        == "standard"
+    )
+
+
+def test_film_alias_uses_movie_lens_exception_for_its_distinct_graph():
+    assert normalize_dataset_alias("Film") == "Actor"
+    assert normalize_dataset_alias("Film", arxiv_id="1609.04508") == "MovieLens Film"
 
 
 def test_wisconsin_contract_distinguishes_geom_masks_from_new_random_splits():

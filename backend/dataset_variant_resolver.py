@@ -9,7 +9,7 @@ from thefuzz import process as fuzz_process
 
 from backend.model_name_resolution import ogb_dataset_families_compatible
 from backend.models import DatasetVariant
-from backend.results_parser import normalize_dataset_alias
+from backend.results_parser import is_ambiguous_dataset_name, normalize_dataset_alias
 
 
 def build_dataset_variant_lookup(session: Any) -> dict[str, DatasetVariant]:
@@ -39,6 +39,8 @@ def resolve_dataset_variant_quiet(
         return None
     if key in dataset_lookup:
         return dataset_lookup[key]
+    if is_ambiguous_dataset_name(dataset_name):
+        return None
     if dataset_lookup:
         min_score = 85 if len(key) <= 6 else 75
         best_match, score = fuzz_process.extractOne(

@@ -101,6 +101,46 @@ The variant was named `10-fold CV` but had no machine-readable split contract, s
 80/10/10 results were treated as canonical. Row extraction often preserved task type but
 not the paper-level split protocol.
 
+## Wisconsin follow-up
+
+Wisconsin is a WebKB heterophily benchmark. The comparable supervised node-classification
+protocol is the public Geom-GCN/Pei et al. split set: ten fixed/public masks, conventionally
+described as 48/32/20 train/validation/test. Papers sometimes call these masks “random”
+because the masks were generated from seeds; that wording is acceptable only when the paper
+ties the splits to Pei/Geom-GCN or the corresponding PyG files. A newly generated random
+60/20/20 split, an unreferenced random split, 1-shot evaluation, or a 90%-test setup is not
+comparable.
+
+The next five distinct high-scoring papers were checked against their local TeX sources:
+
+| Paper | Stored Wisconsin result | Finding |
+| --- | --- | --- |
+| [2504.19785](papers/2504.19785/) | ACM-GCN `0.958` | Retained. The source specifies fixed ten Geom-GCN seeds, although the stored extraction note only said “comparison with other heterophily-aware GNNs.” |
+| [2404.17099](papers/2404.17099/) | F-GREAD-BS `0.9059` | Retained. The GREAD comparison follows the GREAD setting; the cited GREAD source documents ten repetitions on the Pei/Geom-GCN splits. The row note was too generic. |
+| [2604.01878](papers/2604.01878/) | ASPECT `0.9003` | **Accidental inclusion.** The paper explicitly uses random 60/20/20 partitions. The stored note incorrectly claimed “Geom-GCN 10 fixed splits,” apparently confusing a baseline/table cue with the actual setup. Wisconsin is manually excluded. |
+| [2403.20221](papers/2403.20221/) | 12 Wisconsin rows | **Accidental inclusion.** The source reports 100 random train/validation/test splits, not the public Geom-GCN masks. The rows were manually removed from the database and Wisconsin is excluded for this paper. |
+| [2605.21247](papers/2605.21247/) | GNSN `0.9002` | Retained. The experiment section explicitly says ten runs with fixed splits following Geom-GCN; the extracted note retained only “ten independent trials.” |
+| [2406.10863](papers/2406.10863/) | GLGCNII `0.8972` | Retained. The source uses the ten Pei/Geom-GCN splits with 48/32/20 proportions; “random” here refers to the published mask set, not a newly sampled protocol. |
+
+### Wisconsin failure pattern
+
+The Wisconsin variant had no protocol contract when these rows were extracted. As a result:
+
+- generic notes such as “standard node classification” or “ten independent trials” were
+  accepted as `standard`;
+- the extractor could lose valid setup evidence even when the paper stated it clearly;
+- a false row note could override the actual paper setup, as in ASPECT;
+- papers using 100 random splits or random 60/20/20 partitions formed a high-scoring cluster;
+- export code trusted legacy `protocol_decision=standard` rows and did not re-apply the
+  contract before building the final comparison.
+
+The remediation is now explicit: Wisconsin has a conservative contract in
+`config/protocol_contracts.yaml`, all result-extraction prompts require Pei/Geom-GCN evidence
+and warn against reading the protocol from a baseline row, audited legacy exceptions are
+recorded in `config/protocol_exclusions.yaml`, and final leaderboard exports re-check stored
+rows against the contract. Unsupported legacy rows therefore remain auditable on paper pages
+but cannot enter the final standard comparison.
+
 ## General remediation
 
 The repeated failure is not primarily a paper-specific error. The standard leaderboard

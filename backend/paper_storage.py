@@ -78,6 +78,15 @@ paper_arxiv_id: "{arxiv_id}"
 #     params_millions: 57.0
 #     reason: "See the dataset-specific configuration table in the paper"
 
+# Rename a model for all datasets in this paper, or only selected datasets.
+# model_renames:
+#   "MLP": "MLP+C&S"
+# model_rename_overrides:
+#   - model: "MLP"
+#     dataset: "ogbn-products"
+#     renamed_model: "MLP+C&S"
+#     reason: "The reported row includes Correct & Smooth post-processing"
+
 # Notes about non-standard splits used in this paper.
 # dataset_split_notes:
 #   - dataset: "Cora"

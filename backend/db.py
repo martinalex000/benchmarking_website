@@ -75,6 +75,10 @@ def _migration_results_feature_provenance(engine: Engine) -> None:
     _add_column_if_missing(engine, "results", "feature_source_evidence", "TEXT")
 
 
+def _migration_results_model_name_override(engine: Engine) -> None:
+    _add_column_if_missing(engine, "results", "model_name_override", "TEXT")
+
+
 def _migration_pending_datasets_columns(engine: Engine) -> None:
     _add_column_if_missing(engine, "pending_datasets", "paper_title", "TEXT")
     _add_column_if_missing(engine, "pending_datasets", "metrics_seen", "TEXT")
@@ -143,6 +147,10 @@ def _migration_benchmark_is_legacy(engine: Engine) -> None:
         conn.commit()
 
 
+def _migration_benchmark_source_papers(engine: Engine) -> None:
+    _add_column_if_missing(engine, "benchmarks", "source_papers", "TEXT")
+
+
 def _migration_todo_manual_importance(engine: Engine) -> None:
     # Added after 003 was already applied on some DBs without this column.
     _add_column_if_missing(
@@ -206,6 +214,8 @@ MIGRATIONS: tuple[Migration, ...] = (
     Migration("011_results_protocol_metadata", _migration_results_protocol_metadata),
     Migration("012_todo_processing_tokens", _migration_todo_processing_tokens),
     Migration("013_results_feature_provenance", _migration_results_feature_provenance),
+    Migration("014_results_model_name_override", _migration_results_model_name_override),
+    Migration("015_benchmark_source_papers", _migration_benchmark_source_papers),
 )
 
 
@@ -233,14 +243,12 @@ def _apply_migrations(engine: Engine) -> None:
 
 def _ensure_migration_table(engine: Engine) -> None:
     with engine.connect() as conn:
-        conn.execute(
-            text("""
+        conn.execute(text("""
                 CREATE TABLE IF NOT EXISTS schema_migrations (
                     name TEXT PRIMARY KEY,
                     applied_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%SZ', 'now'))
                 )
-                """)
-        )
+                """))
         conn.commit()
 
 

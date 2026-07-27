@@ -86,6 +86,7 @@ class Benchmark(Base):
     paper_id = Column(Integer, ForeignKey("papers.id", ondelete="SET NULL"), nullable=True)
     description = Column(Text)
     url = Column(String)
+    source_papers = Column(Text)  # JSON list of benchmark/dataset source papers
     is_legacy = Column(Integer, nullable=False, default=0)
     created_at = Column(String, nullable=False, default=_utcnow)
 
@@ -409,6 +410,7 @@ class Result(Base):
     uses_external_data = Column(Integer)  # 1=yes, 0=no, NULL=unknown
     input_feature_source = Column(String)
     feature_source_evidence = Column(Text)
+    model_name_override = Column(String)
     params_millions = Column(Float)  # paper-local parameter count in millions
     # Human correction columns
     is_problematic = Column(Integer, nullable=False, default=0)
@@ -438,6 +440,11 @@ class Result(Base):
     def display_std(self) -> float | None:
         """Return override_std if overridden, else metric_std."""
         return self.override_std if self.is_overridden else self.metric_std
+
+    @property
+    def effective_model_name(self) -> str:
+        """Return the curated model name used for grouping and comparisons."""
+        return self.model_name_override or (self.model.canonical_name if self.model else "")
 
 
 # ─────────────────────────────────────────────────────────────────────────────

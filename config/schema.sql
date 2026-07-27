@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS benchmarks (
     paper_id    INTEGER REFERENCES papers(id) ON DELETE SET NULL,
     description TEXT,
     url         TEXT,
+    source_papers TEXT,  -- JSON list of benchmark/dataset source papers
     is_legacy   INTEGER NOT NULL DEFAULT 0,  -- 1=established suite, deprioritized in recent sort
     created_at  TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%SZ', 'now'))
 );
@@ -134,6 +135,7 @@ CREATE TABLE IF NOT EXISTS results (
     uses_external_data  INTEGER,            -- 1=yes, 0=no, NULL=unknown
     input_feature_source VARCHAR,           -- raw_features/llm_features/other_external_features/...
     feature_source_evidence TEXT,
+    model_name_override TEXT,               -- effective curated name from paper overrides
     params_millions     REAL,               -- paper-local parameter count in millions
     -- Human correction system
     is_problematic      INTEGER NOT NULL DEFAULT 0,  -- shown in grey on leaderboard
