@@ -704,6 +704,7 @@ def _plot_selected_dataset_counts(
             fontsize=8.5,
             fontweight="bold",
             color="#4f5965",
+            clip_on=False,
         )
     ax.spines[["top", "right"]].set_visible(False)
     fig.legend(
