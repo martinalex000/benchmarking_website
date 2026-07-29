@@ -27,6 +27,7 @@ def row(
     std: float | None = None,
     higher: bool = True,
     level: str | None = "node",
+    model: str | None = None,
 ) -> AnalysisRow:
     return AnalysisRow(
         dataset_id=dataset_id,
@@ -38,7 +39,7 @@ def row(
         paper_id=paper_id,
         arxiv_id=f"{paper_id:04d}.0001",
         paper_date=date.fromisoformat(published),
-        model=f"model-{paper_id}",
+        model=model or f"model-{paper_id}",
         model_type=model_type,
         model_type_before_override=model_type,
         task_level=level,
@@ -120,16 +121,35 @@ def test_monthly_cutoffs_end_at_latest_partial_month():
     ]
 
 
-def test_tied_winner_weight_is_split_by_category():
+def test_tied_winner_weight_is_split_by_model():
     rows = [
         row(1, "Cora", 1, "2020-01-01", 0.8, "gnn", std=0.02),
         row(1, "Cora", 2, "2020-02-01", 0.79, "hybrid", std=0.02),
-        row(1, "Cora", 3, "2020-03-01", 0.6, "gnn"),
+        row(1, "Cora", 3, "2020-03-01", 0.78, "gnn", std=0.02),
     ]
     snapshots = analyze_snapshots(
         rows, cutoffs=[date(2020, 12, 31)], min_papers=3, weight="uniform"
     )
     snapshot = snapshots[0]
+    assert snapshot.shares["gnn"] == pytest.approx(2 / 3)
+    assert snapshot.shares["transformer_involving"] == pytest.approx(1 / 3)
+
+
+def test_repeated_winning_rows_for_same_model_receive_one_share():
+    rows = [
+        row(1, "Cora", 1, "2020-01-01", 0.8, "gnn", std=0.02, model="Repeated GNN"),
+        row(1, "Cora", 2, "2020-02-01", 0.8, "gnn", std=0.02, model="Repeated GNN"),
+        row(1, "Cora", 3, "2020-03-01", 0.79, "hybrid", std=0.02, model="GT"),
+    ]
+
+    snapshot = analyze_snapshots(
+        rows, cutoffs=[date(2020, 12, 31)], min_papers=3, weight="uniform"
+    )[0]
+
+    assert snapshot.ownership[0].winner_model_types == (
+        ("GT", "transformer_involving"),
+        ("Repeated GNN", "gnn"),
+    )
     assert snapshot.shares["gnn"] == pytest.approx(0.5)
     assert snapshot.shares["transformer_involving"] == pytest.approx(0.5)
 

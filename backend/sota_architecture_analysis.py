@@ -81,6 +81,7 @@ class DatasetOwnership:
     paper_count: int
     weight: float
     winner_models: tuple[str, ...]
+    winner_model_types: tuple[tuple[str, str], ...]
     winner_types: tuple[str, ...]
     known_winner_types: tuple[str, ...]
     winner_arxiv_ids: tuple[str, ...]
@@ -374,15 +375,26 @@ def _ownership_for_dataset(
     if paper_count < min_papers:
         return None
     winners = _winner_rows(current, winner_policy=winner_policy)
-    known_types = tuple(sorted({row.category for row in winners if row.category != "unknown"}))
+    model_types: dict[str, str] = {}
+    for winner in winners:
+        existing_type = model_types.setdefault(winner.model, winner.category)
+        if existing_type != winner.category:
+            raise ValueError(
+                f"Winning model {winner.model!r} has conflicting architecture categories "
+                f"{existing_type!r} and {winner.category!r}"
+            )
+    winner_model_types = tuple(sorted(model_types.items()))
+    winner_types = tuple(sorted(set(model_types.values())))
+    known_types = tuple(category for category in winner_types if category != "unknown")
     return DatasetOwnership(
         dataset_id=dataset_rows[0].dataset_id,
         dataset=dataset_rows[0].dataset,
         cutoff=cutoff,
         paper_count=paper_count,
         weight=float(weight_fn(paper_count)),
-        winner_models=tuple(sorted({row.model for row in winners})),
-        winner_types=tuple(sorted({row.category for row in winners})),
+        winner_models=tuple(model for model, _category in winner_model_types),
+        winner_model_types=winner_model_types,
+        winner_types=winner_types,
         known_winner_types=known_types,
         winner_arxiv_ids=tuple(sorted({row.arxiv_id for row in winners})),
     )
@@ -428,11 +440,11 @@ def analyze_snapshots(
             item = _ownership_for_dataset(
                 dataset_rows, cutoff, min_papers, weight_fn, winner_policy=winner_policy
             )
-            if item is None or not item.winner_types:
+            if item is None or not item.winner_model_types:
                 continue
             ownership.append(item)
-            allocation = item.weight / len(item.winner_types)
-            for category in item.winner_types:
+            allocation = item.weight / len(item.winner_model_types)
+            for _model, category in item.winner_model_types:
                 category_weights[category] += allocation
         total_weight = sum(category_weights.values())
         snapshots.append(
