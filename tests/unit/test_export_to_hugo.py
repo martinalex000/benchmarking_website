@@ -22,6 +22,7 @@ from backend.export_to_hugo import (
     _dataset_chart_default_log_scale,
     _dataset_chart_hidden_models,
     _dataset_export_metadata,
+    _dataset_paper_ids,
     _dedup_result_rows,
     _description_class_target_count,
     _enrich_paper_result_row,
@@ -798,6 +799,44 @@ def test_benchmark_paper_counts_deduplicate_papers_across_datasets():
     )
 
     assert counts == {1: {101, 102, 103}}
+
+
+def test_dataset_paper_ids_are_cached_and_support_subsets(monkeypatch):
+    clear_export_caches()
+
+    class FakeResult:
+        def __init__(self, paper_id: int):
+            self.paper_id = paper_id
+
+    result_a = FakeResult(101)
+    result_b = FakeResult(102)
+    query_calls = 0
+
+    class FakeQuery:
+        def join(self, *_args, **_kwargs):
+            return self
+
+        def options(self, *_args, **_kwargs):
+            return self
+
+        def filter(self, *_args, **_kwargs):
+            return self
+
+        def all(self):
+            nonlocal query_calls
+            query_calls += 1
+            return [(10, result_a), (11, result_b)]
+
+    class FakeSession:
+        def query(self, *_args, **_kwargs):
+            return FakeQuery()
+
+    monkeypatch.setattr(export_to_hugo, "result_is_leaderboard_eligible", lambda _result: True)
+
+    assert _dataset_paper_ids(FakeSession(), {10}) == {10: {101}}
+    assert _dataset_paper_ids(FakeSession()) == {10: {101}, 11: {102}}
+    assert _dataset_paper_ids(FakeSession(), {11, 99}) == {11: {102}}
+    assert query_calls == 1
 
 
 def test_primary_proposed_from_results_prefers_primary_metric_rows():
