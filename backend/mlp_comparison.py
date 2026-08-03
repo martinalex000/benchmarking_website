@@ -5,6 +5,7 @@ from __future__ import annotations
 import csv
 import json
 import math
+import tempfile
 from collections import defaultdict
 from collections.abc import Iterable
 from pathlib import Path
@@ -308,8 +309,7 @@ def write_comparison_figures(
     """Write grouped landscape better/tied/worse figures in PNG and PDF formats."""
     import os
 
-    mpl_config_dir = Path("/tmp/benchmarking-mlp-matplotlib")
-    mpl_config_dir.mkdir(parents=True, exist_ok=True)
+    mpl_config_dir = Path(tempfile.mkdtemp(prefix="benchmarking-mlp-matplotlib-"))
     os.environ.setdefault("MPLCONFIGDIR", str(mpl_config_dir))
     import matplotlib
 
