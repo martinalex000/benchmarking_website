@@ -14,8 +14,6 @@
     <a class="stat-item stat-link" href="{{ "papers/" | relURL }}"><span class="stat-value">{{ $paperCount }}</span><span class="stat-label">papers</span></a>
   </div>
 </div>
-{{ with $snapshot }}<p class="overview-intro">Snapshot generated {{ .generated_at }}. {{ .definition }}</p>{{ end }}
-
 <section class="overview-section">
   <p>Monthly trends are withheld until they can be generated from this same protocol-compatible snapshot.</p>
 </section>
