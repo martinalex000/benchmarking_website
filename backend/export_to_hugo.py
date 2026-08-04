@@ -88,6 +88,7 @@ _GLOBAL_RANKS_CACHE: dict[
 _DATASET_EXPORT_META_CACHE: dict[int, dict[str, Any]] = {}
 _BENCHMARK_EXPORTABLE_TOTALS: dict[str, int] | None = None
 _DATASET_PAPER_COUNT_CACHE: dict[tuple[str, str], int] = {}
+_DATASET_PAPER_IDS_CACHE: dict[int, set[int]] | None = None
 
 RECENT_RESULTS_MONTHS = 12
 INITIAL_DATASET_HTML_ROWS = 50
@@ -114,7 +115,7 @@ def _final_comparison_results(results: list[Result]) -> list[Result]:
 
 def clear_export_caches() -> None:
     """Reset per-export-run caches (call at the start of a full or partial export)."""
-    global _BENCHMARK_EXPORTABLE_TOTALS
+    global _BENCHMARK_EXPORTABLE_TOTALS, _DATASET_PAPER_IDS_CACHE
     _MODEL_RENAME_CACHE.clear()
     _DATASET_OVERRIDE_CACHE.clear()
     _GLOBAL_RANKS_CACHE.clear()
@@ -122,6 +123,7 @@ def clear_export_caches() -> None:
     _DATASET_EXPORT_META_CACHE.clear()
     _BENCHMARK_EXPORTABLE_TOTALS = None
     _DATASET_PAPER_COUNT_CACHE.clear()
+    _DATASET_PAPER_IDS_CACHE = None
     from backend.override_handler import clear_overrides_cache
 
     clear_overrides_cache()
@@ -956,26 +958,36 @@ def _benchmark_totals_exportable(session: Any, benchmarks: list[Benchmark]) -> d
 
 def _dataset_paper_ids(session: Any, dataset_ids: set[int] | None = None) -> dict[int, set[int]]:
     """Return distinct eligible paper IDs for each dataset."""
-    query = (
-        session.query(Dataset.id, Result)
-        .join(Dataset.variants)
-        .join(DatasetVariant.results)
-        .options(
-            joinedload(Result.dataset_variant).joinedload(DatasetVariant.dataset),
-            joinedload(Result.model),
-            joinedload(Result.paper),
-        )
-        .filter(Result.is_problematic.is_(None) | (Result.is_problematic == 0))
-    )
-    if dataset_ids is not None:
-        query = query.filter(Dataset.id.in_(dataset_ids))
+    global _DATASET_PAPER_IDS_CACHE
 
-    paper_ids: dict[int, set[int]] = {}
-    for dataset_id, result in query.all():
-        if result.paper_id is None or not result_is_leaderboard_eligible(result):
-            continue
-        paper_ids.setdefault(dataset_id, set()).add(result.paper_id)
-    return paper_ids
+    if _DATASET_PAPER_IDS_CACHE is None:
+        query = (
+            session.query(Dataset.id, Result)
+            .join(Dataset.variants)
+            .join(DatasetVariant.results)
+            .options(
+                joinedload(Result.dataset_variant).joinedload(DatasetVariant.dataset),
+                joinedload(Result.model),
+                joinedload(Result.paper),
+            )
+            .filter(Result.is_problematic.is_(None) | (Result.is_problematic == 0))
+        )
+
+        paper_ids: dict[int, set[int]] = {}
+        for dataset_id, result in query.all():
+            if result.paper_id is None or not result_is_leaderboard_eligible(result):
+                continue
+            paper_ids.setdefault(dataset_id, set()).add(result.paper_id)
+        _DATASET_PAPER_IDS_CACHE = paper_ids
+
+    if dataset_ids is None:
+        return _DATASET_PAPER_IDS_CACHE
+
+    return {
+        dataset_id: _DATASET_PAPER_IDS_CACHE[dataset_id]
+        for dataset_id in dataset_ids
+        if dataset_id in _DATASET_PAPER_IDS_CACHE
+    }
 
 
 def _benchmark_paper_ids(

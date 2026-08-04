@@ -5,7 +5,9 @@ from __future__ import annotations
 
 import argparse
 import time
-from urllib.request import urlopen
+from urllib.parse import urlparse
+
+import requests
 
 DEFAULT_ENDPOINT = "http://127.0.0.1:8773/metrics"
 
@@ -34,10 +36,12 @@ def metric_values(metrics: str, metric: str, required_label: str | None = None) 
 
 
 def fetch_snapshot(endpoint: str) -> dict[str, float]:
-    with urlopen(
-        endpoint, timeout=5
-    ) as response:  # noqa: S310 - endpoint is an explicit CLI option
-        metrics = response.read().decode()
+    parsed = urlparse(endpoint)
+    if parsed.scheme not in {"http", "https"} or not parsed.netloc:
+        raise ValueError("metrics endpoint must be an HTTP(S) URL")
+    response = requests.get(endpoint, timeout=5)
+    response.raise_for_status()
+    metrics = response.text
     return {
         "input": metric_sum(metrics, "vllm:prompt_tokens_total"),
         "input_computed": metric_sum(

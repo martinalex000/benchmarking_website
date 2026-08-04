@@ -1,6 +1,71 @@
 # Hugo export performance
 
-Last updated: **2026-06-03** (batched DB sessions, line_profiler on datasets + papers).
+## Current re-profile: 2026-08-03
+
+Caching the dataset-to-paper mapping fixed the dominant paper-path regression. The
+remaining paper cost is now concentrated in first-touch ranking, at-publication history,
+and MRR queries.
+
+### Evidence
+
+The production-order harness was run against the current database (2,740 papers, 1,341
+exportable papers, 64,413 result rows), using the same 50-paper sample before and after
+the cache change:
+
+| Measurement | Before cache | After cache |
+|---|---:|---:|
+| Result-bearing papers | 25 | 25 |
+| Paper phase total | 51.90 s | 6.28 s |
+| Mean / median | 2.08 s / 2.49 s | 0.25 s / 0.074 s |
+| P90 / maximum | 3.30 s / 4.07 s | 0.54 s / 2.50 s |
+
+The cache adds a one-time 3.12 s benchmark-phase cost to build the mapping. That is a
+single export-run cost instead of a repeated cost for every paper.
+
+The production-warm instrumentation run for paper `2310.13845` fell from 4.42 s to
+2.43 s. The cached paper-path breakdown is:
+
+| Component | Calls | Time | Finding |
+|---|---:|---:|---|
+| `_dataset_paper_ids` | 1 | ~0 s | Cache hit; the mapping is built once in the benchmark phase |
+| `_global_ranks_for_dataset` | 7 | 0.74 s | First-touch global model rankings |
+| `_global_best_per_model_as_of_date_excluding_paper` | 7 | 0.94 s | Reads/builds at-publication timelines |
+| `_dataset_paper_count_for_metric` | 7 | 0.69 s | Additional full result queries used by MRR |
+| `_compute_paper_mrr` | 1 | 0.70 s | Includes the per-dataset MRR queries above |
+| `_write_md` | 1 | 0.02 s | YAML front matter is not the current dominant cost |
+
+The component timings overlap when nested, so they must not be summed. A cProfile run
+confirms the original shape: `_dataset_paper_ids` was the largest single operation,
+followed by ORM result loading and `result_is_leaderboard_eligible` evaluation. It is
+now cached at the existing export-cache boundary. The call originates from
+[`_export_paper_impl`](../backend/export_to_hugo.py) while building benchmark/dataset
+ordering, near line 2723.
+
+### What slows it down
+
+1. The first paper touching each dataset/metric pays for global ranking and
+   at-publication history queries. These are cached across the run, but the caches are
+   not precomputed and the MRR path also issues per-dataset paper-count queries.
+2. The historical YAML bottleneck remains relevant for large dataset pages, as recorded
+   below, but it does not explain the current paper slowdown.
+
+### Recommended fix order
+
+1. Reduce the one-time paper-ID query to scalar `dataset_id, paper_id` rows and push the stable filters
+   (`is_standard`, `protocol_decision`, problematic status) into SQL. Preserve the
+   remaining curation rules in a narrowly scoped eligibility pass.
+2. Precompute/cache dataset paper counts and, if paper export remains expensive after
+   that, prewarm global ranks and at-publication timelines once per dataset/metric.
+3. Keep YAML optimizations as a separate dataset-page project; they are not the first
+   lever for the current paper regression.
+
+The older profiling harness output in `logs/export_profile_final_20260711.json` reported
+a much lower median because it included many papers with no exportable results and came
+from before the current paper-ordering work. It should not be used as the current
+per-paper baseline.
+
+Historical baseline last updated: **2026-06-03** (batched DB sessions, line_profiler on
+datasets + papers).
 
 ## Production export order
 
