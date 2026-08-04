@@ -245,6 +245,47 @@ def test_store_compare_extraction_result_waits_for_baseline(tmp_path: Path, monk
     assert pending == [extraction]
 
 
+def test_store_compare_extraction_result_without_baseline_is_extraction_only(
+    tmp_path: Path, monkeypatch
+) -> None:
+    monkeypatch.setattr(cfg, "papers_dir", tmp_path)
+    artifact_dir = tmp_path / "artifact"
+    extraction = cm._CompareExtractionResult(
+        job=cm.CompareJob(
+            model="qwen3.5-27b",
+            endpoint="http://example",
+            api_key="k",
+            backend="external",
+            arxiv_id="2206.08164",
+            paper_title="Test Paper",
+            paper_text="paper text",
+            structured_tables=[],
+            baseline=[],
+            latex_paper=None,
+        ),
+        out=ExtractionOutput(results=[]),
+        duration_s=1.0,
+        error=None,
+        call_log=[],
+        source="fresh",
+        artifact_path=artifact_dir,
+        extracted_at="2026-01-01T00:00:00+00:00",
+    )
+    opts = cm._ProcessOptions(
+        baseline_model_id="glm-4.7",
+        ensure_baseline=False,
+    )
+    pending: list[cm._CompareExtractionResult] = []
+    results: list[cm.PaperComparison] = []
+
+    cm._store_compare_extraction_result(extraction, opts, pending=pending, results=results)
+
+    assert pending == []
+    assert len(results) == 1
+    assert results[0].error == "comparison skipped: no baseline available"
+    assert results[0].artifact_path == artifact_dir
+
+
 def test_flush_pending_for_paper_writes_comparison_json(tmp_path: Path, monkeypatch) -> None:
     monkeypatch.setattr(cfg, "papers_dir", tmp_path)
     arxiv_id = "2206.08164"
@@ -333,7 +374,9 @@ def test_load_baseline_reads_main_extracted_artifact(tmp_path: Path, monkeypatch
     assert baseline[0]["dataset"] == "Cora"
 
 
-def test_load_baseline_collapses_implementation_marker_variants(tmp_path: Path, monkeypatch) -> None:
+def test_load_baseline_collapses_implementation_marker_variants(
+    tmp_path: Path, monkeypatch
+) -> None:
     monkeypatch.setattr(cfg, "papers_dir", tmp_path)
     arxiv_id = "2406.08993"
     extracted = tmp_path / arxiv_id / "extracted"
@@ -357,7 +400,9 @@ def test_load_baseline_collapses_implementation_marker_variants(tmp_path: Path, 
     assert baseline[0]["value"] == 0.9179
 
 
-def test_compare_matches_unstarred_candidate_to_starred_baseline(tmp_path: Path, monkeypatch) -> None:
+def test_compare_matches_unstarred_candidate_to_starred_baseline(
+    tmp_path: Path, monkeypatch
+) -> None:
     monkeypatch.setattr(cfg, "papers_dir", tmp_path)
     baseline = [
         {"model": "GraphGPS", "dataset": "Cora", "metric": "Accuracy", "value": 0.9179},
