@@ -11,7 +11,7 @@ from typing import Any
 
 import yaml
 from openai import APIStatusError, RateLimitError
-from tenacity import retry, stop_after_attempt, wait_exponential
+from tenacity import Retrying, stop_after_attempt, wait_exponential
 
 from backend.config import cfg
 from backend.json_repair import parse_json_lenient
@@ -88,11 +88,6 @@ class LLMClientMixin:
             )
         return snapshot
 
-    @retry(
-        stop=stop_after_attempt(3),
-        wait=wait_exponential(multiplier=2, min=5, max=60),
-        reraise=True,
-    )
     def _call(
         self,
         system_prompt: str,
@@ -101,6 +96,30 @@ class LLMClientMixin:
         call_type: str = "llm",
         call_extra: dict | None = None,
     ) -> str:
+        retryer = Retrying(
+            sleep=time.sleep,
+            stop=stop_after_attempt(cfg.llm_max_retries + 1),
+            wait=wait_exponential(multiplier=cfg.llm_retry_base_delay, max=60),
+            reraise=True,
+        )
+        return retryer(
+            self._call_once,
+            system_prompt,
+            user_content,
+            max_tokens=max_tokens,
+            call_type=call_type,
+            call_extra=call_extra,
+        )
+
+    def _call_once(
+        self,
+        system_prompt: str,
+        user_content: str,
+        max_tokens: int | None = None,
+        call_type: str = "llm",
+        call_extra: dict | None = None,
+    ) -> str:
+        """Perform one LLM request; retrying is configured by ``_call``."""
         requested_max_tokens = max_tokens or cfg.llm_max_tokens
         estimated_prompt_tokens = _estimated_tokens(system_prompt) + _estimated_tokens(user_content)
         completion_budget = min(
@@ -170,7 +189,7 @@ class LLMClientMixin:
             exc_type = type(exc).__name__
             if isinstance(exc, RateLimitError):
                 logger.warning(
-                    "LLM request to %r rate limited (429): %s — will retry with backoff",
+                    "LLM request to %r rate limited (429): %s",
                     self.model_name,
                     exc,
                 )
@@ -178,21 +197,21 @@ class LLMClientMixin:
                 status = exc.status_code
                 if status >= 500:
                     logger.warning(
-                        "LLM endpoint error (HTTP %d) for %r: %s — will retry",
+                        "LLM endpoint error (HTTP %d) for %r: %s",
                         status,
                         self.model_name,
                         exc,
                     )
                 else:
                     logger.warning(
-                        "LLM API error (HTTP %d) for %r: %s — will retry",
+                        "LLM API error (HTTP %d) for %r: %s",
                         status,
                         self.model_name,
                         exc,
                     )
             else:
                 logger.warning(
-                    "LLM request to %r failed in %.2f s (%s): %s — will retry",
+                    "LLM request to %r failed in %.2f s (%s): %s",
                     self.model_name,
                     elapsed,
                     exc_type,
@@ -233,10 +252,10 @@ class LLMClientMixin:
         if not content:
             # Some endpoints return HTTP 200 with an empty body when
             # rate-limiting or encountering a transient error.  Raising here
-            # allows the @retry decorator on _call() to back off and retry.
+            # lets _call() apply its configured retry policy.
             logger.warning(
                 "Model %r returned empty content "
-                "(input_chars=%d, duration=%.2f s) — likely rate limit or quota issue, will retry",
+                "(input_chars=%d, duration=%.2f s) — likely rate limit or quota issue",
                 self.model_name,
                 record.input_chars,
                 total_s,
@@ -315,7 +334,8 @@ class LLMClientMixin:
                 logger.debug("Raw LLM response (first 500 chars): %s", raw[:500])
                 logger.error("JSON parse error from %r", self.model_name)
                 if self._call_log:
-                    self._call_log[-1].parse_error = (
+                    call_record = self._call_log[-1]
+                    call_record.parse_error = (
                         f"JSON parse failed — raw (first 200 chars): {raw[:200]}"
                     )
                 raise ValueError(  # noqa: B904

@@ -44,7 +44,7 @@ from backend.models import (
     Paper,
     Result,
 )
-from backend.override_handler import apply_overrides_to_db
+from backend.override_handler import apply_overrides_to_db, get_result_override
 from backend.paper_storage import PaperStorage
 from backend.parameter_lookup import build_dataset_param_lookup as _build_dataset_param_lookup
 from backend.parameter_lookup import build_metadata_lookups as _build_metadata_lookups
@@ -1461,6 +1461,10 @@ def parse_and_store_with_summary(
             dataset_name = normalize_dataset_alias(entry.get("dataset", ""), arxiv_id=arxiv_id)
             model_name = entry.get("model", "")
             metric_name = entry.get("metric", "")
+            result_override = get_result_override(overrides, model_name, dataset_name, metric_name)
+            corrected_metric = str((result_override or {}).get("correct_metric") or "").strip()
+            if corrected_metric:
+                metric_name = corrected_metric
             if is_qm9_dataset(dataset_name):
                 normalized_target = normalize_qm9_metric(metric_name)
                 if normalized_target is None:

@@ -16,6 +16,57 @@ from backend.models import Dataset, DatasetVariant, Result
 from backend.results_parser import result_is_leaderboard_eligible
 
 NODE_TASKS = frozenset({"node_classification", "node_regression"})
+HETEROPHILY_BENCHMARKS = frozenset({"Heterophilic Graphs", "Heterophily Benchmark"})
+MLP_CITATION_DATASETS = frozenset({"Cora", "CiteSeer", "PubMed"})
+MLP_FIGURE_GROUP_ORDER = (
+    "Citation",
+    "Classic",
+    "Heterophilic Graphs (legacy)",
+    "Heterophily Benchmark (non-legacy)",
+    "OGB",
+)
+MLP_FIGURE_GROUP_LABELS = {
+    "Heterophilic Graphs (legacy)": "Legacy heterophilic",
+    "Heterophily Benchmark (non-legacy)": "Modern heterophilic",
+}
+MLP_FIGURE_DATASET_ORDER = {
+    dataset: index
+    for index, dataset in enumerate(
+        (
+            "Cora",
+            "CiteSeer",
+            "PubMed",
+            "Amazon-Photo",
+            "Amazon-Computers",
+            "Coauthor-CS",
+            "WikiCS",
+            "Reddit",
+            "Coauthor-Physics",
+            "Wisconsin",
+            "Squirrel",
+            "Chameleon",
+            "Texas",
+            "Cornell",
+            "Roman-empire",
+            "Actor",
+            "Tolokers",
+            "Amazon-ratings",
+            "Film",
+            "Questions",
+            "Minesweeper",
+            "ogbn-arxiv",
+            "ogbn-products",
+            "ogbn-papers100M",
+            "ogbn-mag",
+            "ogbn-proteins",
+        )
+    )
+}
+MLP_COMPARISON_COLORS = {
+    "better": "#2F6690",
+    "tied": "#F2A541",
+    "worse": "#c43d4b",
+}
 
 
 def _result_value(result: Any) -> float | None:
@@ -25,7 +76,7 @@ def _result_value(result: Any) -> float | None:
 
 def _result_std(result: Any) -> float | None:
     value = result.display_std
-    return float(value) if value is not None else None
+    return float(value) if value is not None and math.isfinite(float(value)) else None
 
 
 def _model_name(result: Any) -> str:
@@ -88,9 +139,26 @@ def _comparison_class(result: Any, mlp: Any, higher_is_better: bool) -> str:
     reference = _result_value(mlp)
     if value is None or reference is None or math.isclose(value, reference, abs_tol=1e-12):
         return "tied"
+    combined_std = (_result_std(result) or 0.0) + (_result_std(mlp) or 0.0)
+    if abs(value - reference) <= combined_std:
+        return "tied"
     if higher_is_better:
         return "better" if value > reference else "worse"
     return "better" if value < reference else "worse"
+
+
+def _classification_counts(rows: Iterable[dict[str, Any]]) -> dict[str, int]:
+    counts = dict.fromkeys(("better", "tied", "worse"), 0)
+    for row in rows:
+        classification = row.get("classification")
+        if classification in counts:
+            counts[classification] += 1
+    return counts
+
+
+def _worse_share(counts: dict[str, int]) -> float:
+    total = sum(counts.values())
+    return 100 * counts["worse"] / total if total else 0.0
 
 
 def _paper_id(result: Any) -> str:
@@ -110,6 +178,17 @@ def _source(result: Any) -> dict[str, Any]:
         "source_ref": str(getattr(result, "source_ref", "") or ""),
         "protocol_note": str(getattr(result, "protocol_note", "") or ""),
     }
+
+
+def _benchmark_group_label(dataset: Any) -> str:
+    benchmark = getattr(dataset, "benchmark", None)
+    benchmark_name = str(getattr(benchmark, "name", "") or "").strip()
+    if not benchmark_name:
+        return "Other benchmarks"
+    if benchmark_name in HETEROPHILY_BENCHMARKS:
+        status = "legacy" if bool(getattr(benchmark, "is_legacy", False)) else "non-legacy"
+        return f"{benchmark_name} ({status})"
+    return benchmark_name
 
 
 def compare_results(results: Iterable[Result], *, min_papers: int = 10) -> list[dict[str, Any]]:
@@ -215,11 +294,7 @@ def compare_results(results: Iterable[Result], *, min_papers: int = 10) -> list[
         comparisons.append(
             {
                 "dataset": dataset_name,
-                "group": (
-                    dataset.benchmark.name
-                    if getattr(dataset, "benchmark", None)
-                    else "Other benchmarks"
-                ),
+                "group": _benchmark_group_label(dataset),
                 "metric": metric_name,
                 "higher_is_better": higher_is_better,
                 "reference_type": "best_non_mlp_result_per_paper",
@@ -305,111 +380,184 @@ def write_comparison_outputs(
 
 def write_comparison_figures(
     comparisons: list[dict[str, Any]], output_dir: Path
-) -> tuple[Path, Path]:
-    """Write grouped landscape better/tied/worse figures in PNG and PDF formats."""
+) -> tuple[Path, Path, Path, Path]:
+    """Write matching method-level and per-paper comparison figures."""
     import os
 
     mpl_config_dir = Path(tempfile.mkdtemp(prefix="benchmarking-mlp-matplotlib-"))
     os.environ.setdefault("MPLCONFIGDIR", str(mpl_config_dir))
     import matplotlib
+    from matplotlib.font_manager import FontProperties
+    from matplotlib.transforms import ScaledTranslation
 
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
 
     output_dir.mkdir(parents=True, exist_ok=True)
-    grouped: defaultdict[str, list[dict[str, Any]]] = defaultdict(list)
-    for row in comparisons:
-        grouped[row["group"]].append(row)
-    group_names = sorted(grouped, key=lambda group: (-len(grouped[group]), group))
-    columns = 3
-    panel_rows = (len(group_names) + columns - 1) // columns
-    figure, axes = plt.subplots(
-        panel_rows,
-        columns,
-        figsize=(18, max(10.5, panel_rows * 3.2)),
-        squeeze=False,
-        sharex=True,
-    )
-    colors = {
-        "better": "#2F6690",
-        "tied": "#F2A541",
-        "worse": "#8F4068",
-    }
-    legend_handles = None
-    for panel_index, group_name in enumerate(group_names):
-        axis = axes[panel_index // columns][panel_index % columns]
-        rows = sorted(grouped[group_name], key=lambda row: (-row["paper_count"], row["dataset"]))
-        labels = [row["dataset"] for row in rows]
-        totals = [row["paper_count"] for row in rows]
-        denominators = [max(total, 1) for total in totals]
-        better = [
-            100 * row["better_count"] / denominator
-            for row, denominator in zip(rows, denominators, strict=True)
-        ]
-        tied = [
-            100 * row["tied_count"] / denominator
-            for row, denominator in zip(rows, denominators, strict=True)
-        ]
-        worse = [
-            100 * row["worse_count"] / denominator
-            for row, denominator in zip(rows, denominators, strict=True)
-        ]
-        positions = list(range(len(rows)))
-        first = axis.barh(positions, better, color=colors["better"], label="Better than MLP")
-        second = axis.barh(
-            positions, tied, left=better, color=colors["tied"], label="Tied with MLP"
-        )
-        third = axis.barh(
-            positions,
-            worse,
-            left=[
-                better_value + tied_value
-                for better_value, tied_value in zip(better, tied, strict=True)
-            ],
-            color=colors["worse"],
-            label="Worse than MLP",
-        )
-        legend_handles = (first, second, third)
-        axis.set_yticks(positions, labels, fontsize=8)
-        axis.set_title(group_name, loc="left", fontsize=11, fontweight="bold")
-        axis.set_xlim(0, 100)
-        axis.invert_yaxis()
-        axis.grid(axis="x", alpha=0.2)
-        axis.set_axisbelow(True)
-        axis.tick_params(axis="x", labelsize=8)
-        for position, total in zip(positions, totals, strict=True):
-            axis.text(101, position, f"n={total}", va="center", fontsize=7, clip_on=False)
+    colors = MLP_COMPARISON_COLORS
 
-    for axis in axes.flat[len(group_names) :]:
-        axis.set_visible(False)
-    for axis in axes[-1]:
-        if axis.get_visible():
-            axis.set_xlabel("Share of eligible papers (%)", fontsize=9)
-    figure.suptitle("MLP baseline comparison grouped by benchmark family", fontsize=16, y=0.995)
-    figure.text(
-        0.5,
-        0.965,
-        "Each bar sums to 100%; n is the number of eligible papers contributing a non-MLP result.",
-        ha="center",
-        fontsize=10,
-    )
-    if legend_handles:
+    def render_figure(level: str, png_name: str, pdf_name: str) -> tuple[Path, Path]:
+        figure_rows: list[dict[str, Any]] = []
+        for row in comparisons:
+            if level == "method":
+                figure_row = row
+            else:
+                paper_counts = _classification_counts(row["paper_results"])
+                figure_row = {
+                    **row,
+                    **{f"{category}_count": count for category, count in paper_counts.items()},
+                    "paper_count": sum(paper_counts.values()),
+                }
+            figure_rows.append(figure_row)
+
+        grouped: defaultdict[str, list[dict[str, Any]]] = defaultdict(list)
+        for row in figure_rows:
+            group_name = row["group"]
+            if group_name == "Classic" and row["dataset"] in MLP_CITATION_DATASETS:
+                group_name = "Citation"
+            if group_name in MLP_FIGURE_GROUP_ORDER:
+                grouped[group_name].append(row)
+        group_names = [group for group in MLP_FIGURE_GROUP_ORDER if grouped[group]]
+        if not group_names and figure_rows:
+            for row in figure_rows:
+                grouped[row["group"]].append(row)
+            group_names = sorted(grouped)
+
+        figure, axis = plt.subplots(figsize=(9.8, 4.0))
+        labels = []
+        positions = []
+        group_spans = []
+        position = 0
+        sort_field = "method_count" if level == "method" else "paper_count"
+        for group_name in group_names:
+            rows = sorted(
+                grouped[group_name],
+                key=lambda row: (-row[sort_field], row["dataset"]),
+            )
+            group_start = position
+            for row in rows:
+                positions.append(position)
+                labels.append(row["dataset"])
+                position += 1
+            group_spans.append((group_name, group_start, position - 1))
+            position += 0.375
+
+        row_by_dataset = {row["dataset"]: row for group in group_names for row in grouped[group]}
+        bottom = [0.0] * len(positions)
+        segment_values = {}
+        legend_handles = []
+        category_labels = {
+            "better": "Better than MLP",
+            "tied": "Tied with MLP",
+            "worse": "Worse than MLP",
+        }
+        for category in ("better", "tied", "worse"):
+            values = [row_by_dataset[label][f"{category}_count"] for label in labels]
+            segment_values[category] = values
+            bars = axis.bar(
+                positions,
+                values,
+                bottom=bottom,
+                color=colors[category],
+                width=0.78,
+                label=category_labels[category],
+            )
+            legend_handles.append(bars)
+            bottom = [current + value for current, value in zip(bottom, values, strict=True)]
+
+        max_total = max(bottom, default=1)
+        for group_name, start, end in group_spans:
+            center = (start + end) / 2
+            axis.text(
+                center,
+                1.005,
+                MLP_FIGURE_GROUP_LABELS.get(group_name, group_name),
+                transform=axis.get_xaxis_transform(),
+                ha="center",
+                va="bottom",
+                fontweight="bold",
+                fontsize=8.5,
+                color="#4f5965",
+                clip_on=False,
+            )
+
+        axis.set_ylabel("Unique methods" if level == "method" else "Eligible papers")
+        display_labels = [label.removeprefix("ogbn-") for label in labels]
+        axis.set_xticks(positions, display_labels)
+        axis.tick_params(axis="x", length=0, pad=3)
+        plt.setp(axis.get_xticklabels(), rotation=55, ha="right", rotation_mode="anchor")
+        x_shift = ScaledTranslation(-3 / 72, 0, figure.dpi_scale_trans)
+        for label in axis.get_xticklabels():
+            label.set_transform(label.get_transform() + x_shift)
+        if "Cora" in row_by_dataset:
+            cora_total = sum(
+                row_by_dataset["Cora"][f"{category}_count"]
+                for category in ("better", "tied", "worse")
+            )
+            y_max = cora_total * 1.045
+        else:
+            y_max = max_total * 1.045
+        axis.set_ylim(0, y_max)
+
+        percentage_font = FontProperties(family="DejaVu Sans", stretch="condensed", size=6.5)
+        pixels_per_data_unit = abs(
+            axis.transData.transform((0, 1))[1] - axis.transData.transform((0, 0))[1]
+        )
+        label_height = percentage_font.get_size_in_points() * figure.dpi / 72 * 1.2
+        centered_height = label_height / pixels_per_data_unit
+        for x, better, tied, worse in zip(
+            positions,
+            segment_values["better"],
+            segment_values["tied"],
+            segment_values["worse"],
+            strict=True,
+        ):
+            total = better + tied + worse
+            if not worse or not total:
+                continue
+            centered = worse >= centered_height
+            axis.text(
+                x,
+                better + tied + worse / 2 if centered else better + tied + worse,
+                f"{_worse_share({'better': better, 'tied': tied, 'worse': worse}):.0f}%",
+                ha="center",
+                va="center" if centered else "top",
+                fontproperties=percentage_font,
+                color="white",
+                clip_on=False,
+            )
+
+        within_group_gap = 1.0 - 0.78
+        axis.set_xlim(
+            positions[0] - 0.78 / 2 - within_group_gap,
+            positions[-1] + 0.78 / 2,
+        )
+        axis.grid(axis="y", color="#dce1e6", linewidth=0.7)
+        axis.set_axisbelow(True)
+        axis.spines[["top", "right"]].set_visible(False)
         figure.legend(
             legend_handles,
             ["Better than MLP", "Tied with MLP", "Worse than MLP"],
             loc="lower center",
-            ncol=3,
-            bbox_to_anchor=(0.5, 0.005),
+            bbox_to_anchor=(0.5, 0.035),
             frameon=False,
+            fontsize=9.5,
+            ncol=3,
         )
-    figure.tight_layout(rect=(0, 0.04, 1, 0.95))
+        figure.subplots_adjust(left=0.08, right=0.98, bottom=0.36, top=0.82)
 
-    png_path = output_dir / "better_tied_worse.png"
-    pdf_path = output_dir / "better_tied_worse.pdf"
-    figure.savefig(png_path, dpi=180)
-    figure.savefig(pdf_path)
-    plt.close(figure)
-    return png_path, pdf_path
+        png_path = output_dir / png_name
+        pdf_path = output_dir / pdf_name
+        figure.savefig(png_path, dpi=180)
+        figure.savefig(pdf_path)
+        plt.close(figure)
+        return png_path, pdf_path
+
+    method_paths = render_figure("method", "better_tied_worse.png", "better_tied_worse.pdf")
+    paper_paths = render_figure(
+        "paper", "better_tied_worse_per_paper.png", "better_tied_worse_per_paper.pdf"
+    )
+    return (*method_paths, *paper_paths)
 
 
 def load_comparison_results() -> list[Result]:

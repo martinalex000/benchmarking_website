@@ -7,6 +7,8 @@ import logging
 import re
 import sqlite3
 import time
+from collections.abc import Iterator
+from dataclasses import dataclass
 from typing import Any
 
 import requests
@@ -27,8 +29,23 @@ logger = logging.getLogger(__name__)
 
 _S2_BASE = "https://api.semanticscholar.org/graph/v1"
 _S2_FIELDS = "title,abstract,year,publicationDate,venue,publicationVenue,journal,externalIds"
+_S2_BULK_SEARCH_FIELDS = "title,venue,year,externalIds"
 _ORCID_RE = re.compile(r"(\d{4}-\d{4}-\d{4}-\d{3}[\dX])")
 _ARXIV_DATE_RE = re.compile(r"^(\d{2})(\d{2})\.\d+")
+
+
+class SemanticScholarAPIError(RuntimeError):
+    """Raised when a Semantic Scholar response cannot support a complete result."""
+
+
+@dataclass(frozen=True)
+class SemanticScholarBulkPage:
+    """One page returned by the Semantic Scholar bulk search endpoint."""
+
+    papers: tuple[dict[str, Any], ...]
+    next_token: str
+    estimated_total: int | None
+    page_number: int
 
 
 def _s2_headers() -> dict[str, str]:
@@ -43,15 +60,17 @@ def _s2_request(
     payload: dict[str, Any] | None = None,
     *,
     is_batch: bool = False,
+    include_api_key: bool = True,
     max_retries: int = 5,
 ) -> dict[str, Any] | list[dict[str, Any]] | None:
     """Send a request to the Semantic Scholar API with retries."""
+    headers = _s2_headers() if include_api_key else {"Accept": "application/json"}
     for attempt in range(max_retries):
         try:
             if is_batch:
-                resp = requests.post(url, json=payload, headers=_s2_headers(), timeout=30)
+                resp = requests.post(url, json=payload, headers=headers, timeout=30)
             else:
-                resp = requests.get(url, headers=_s2_headers(), params=payload, timeout=30)
+                resp = requests.get(url, headers=headers, params=payload, timeout=30)
         except requests.RequestException as exc:
             logger.warning("Semantic Scholar request error for %s: %s — retrying", url, exc)
             time.sleep(2**attempt)
@@ -347,6 +366,108 @@ def fetch_paper_metadata_batch(arxiv_ids: list[str]) -> dict[str, dict[str, str]
     return results
 
 
+def iter_papers_bulk(
+    venue: str,
+    year: int,
+    *,
+    page_size: int = 1000,
+    continuation_token: str | None = None,
+    seen_paper_ids: set[str] | None = None,
+    starting_page: int = 0,
+) -> Iterator[SemanticScholarBulkPage]:
+    """Yield pages for every paper matching a venue and year from S2 bulk search.
+
+    The bulk endpoint uses continuation tokens rather than offsets. The returned records are
+    intentionally kept raw because experiments may need fields that are not part of the shared
+    metadata cache.
+    """
+    venue = str(venue or "").strip()
+    if not venue:
+        raise ValueError("Semantic Scholar venue must not be empty")
+    if not 1 <= page_size <= 1000:
+        raise ValueError("Semantic Scholar bulk page size must be between 1 and 1000")
+
+    url = f"{_S2_BASE}/paper/search/bulk"
+    params: dict[str, Any] = {
+        "venue": venue,
+        "year": str(year),
+        "limit": page_size,
+        "fields": _S2_BULK_SEARCH_FIELDS,
+    }
+    if continuation_token:
+        params["token"] = continuation_token
+    papers: list[dict[str, Any]] = []
+    seen_paper_ids = set(seen_paper_ids or ())
+    seen_tokens: set[str] = {continuation_token} if continuation_token else set()
+    page_number = starting_page
+
+    while True:
+        response = _s2_request(url, params, include_api_key=False)
+        if not isinstance(response, dict):
+            raise SemanticScholarAPIError(
+                f"Semantic Scholar bulk search returned no usable response for {venue} {year}"
+            )
+
+        data = response.get("data")
+        if not isinstance(data, list):
+            raise SemanticScholarAPIError(
+                f"Semantic Scholar bulk search response has no data list for {venue} {year}"
+            )
+        for paper in data:
+            if not isinstance(paper, dict):
+                raise SemanticScholarAPIError(
+                    f"Semantic Scholar bulk search returned a malformed paper for {venue} {year}"
+                )
+            paper_id = str(paper.get("paperId") or "").strip()
+            if not paper_id:
+                raise SemanticScholarAPIError(
+                    f"Semantic Scholar bulk search returned a paper without paperId for {venue} "
+                    f"{year}"
+                )
+            if paper_id not in seen_paper_ids:
+                seen_paper_ids.add(paper_id)
+                papers.append(paper)
+
+        token = str(response.get("token") or response.get("next") or "").strip()
+        if token in seen_tokens:
+            raise SemanticScholarAPIError(
+                f"Semantic Scholar bulk search repeated continuation token for {venue} {year}"
+            )
+        if token:
+            seen_tokens.add(token)
+            params["token"] = token
+
+        raw_total = response.get("estimatedTotal") or response.get("total")
+        try:
+            estimated_total = int(raw_total) if raw_total is not None else None
+        except (TypeError, ValueError):
+            estimated_total = None
+
+        page_number += 1
+        yield SemanticScholarBulkPage(
+            papers=tuple(papers),
+            next_token=token,
+            estimated_total=estimated_total,
+            page_number=page_number,
+        )
+        papers.clear()
+        if not token:
+            return
+
+
+def fetch_papers_bulk(
+    venue: str,
+    year: int,
+    *,
+    page_size: int = 1000,
+) -> list[dict[str, Any]]:
+    """Fetch every paper matching a venue and year from S2 bulk search."""
+    papers: list[dict[str, Any]] = []
+    for page in iter_papers_bulk(venue, year, page_size=page_size):
+        papers.extend(page.papers)
+    return papers
+
+
 def fetch_paper_author_ids(arxiv_id: str) -> list[dict[str, str]]:
     url = f"{_S2_BASE}/paper/ARXIV:{arxiv_id}"
     data = _s2_request(url, {"fields": "authors"})
@@ -591,6 +712,8 @@ def backfill_missing_paper_metadata(arxiv_ids: list[str] | None = None) -> dict[
 
 
 __all__ = [
+    "SemanticScholarAPIError",
+    "SemanticScholarBulkPage",
     "authors_from_s2_only",
     "backfill_missing_paper_metadata",
     "ensure_paper_metadata",
@@ -599,6 +722,8 @@ __all__ = [
     "fetch_paper_author_ids",
     "fetch_paper_metadata",
     "fetch_paper_metadata_batch",
+    "fetch_papers_bulk",
+    "iter_papers_bulk",
     "merge_latex_authors_with_s2",
     "resolve_paper_authors",
     "resolve_paper_venue",

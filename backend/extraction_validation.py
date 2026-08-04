@@ -58,6 +58,100 @@ class ValidationManifest:
         ]
 
 
+@dataclass(frozen=True)
+class ExactValueMatchStats:
+    """Counts exact value matches for rows whose full key is absent elsewhere."""
+
+    total_values: int
+    shared_key_values: int
+    key_unmatched_values: int
+    exact_value_matches: int
+    exact_value_unmatched: int
+    duplicate_keys: int
+
+    @property
+    def exact_match_fraction(self) -> float:
+        return (
+            self.exact_value_matches / self.key_unmatched_values
+            if self.key_unmatched_values
+            else 0.0
+        )
+
+
+def normalized_result_key(result: Any) -> tuple[str, str, str]:
+    """Return the row identity used by the validation comparison."""
+    return (
+        result.model.strip().lower(),
+        normalize_dataset_alias(result.dataset).strip().lower(),
+        result.metric.strip().lower(),
+    )
+
+
+def normalized_result_value(result: Any) -> Any:
+    """Return an exact, scale-normalized decimal representation of a result value."""
+    from decimal import Decimal
+
+    dataset = normalize_dataset_alias(result.dataset)
+    metric = result.metric.strip()
+    value = Decimal(str(result.value))
+    normalized_value, _ = normalize_percentage_metric(metric, float(value), None)
+    if normalized_value != float(value):
+        value /= Decimal("100")
+    if (
+        dataset.strip().lower() == "peptides-struct"
+        and metric.lower() == "mae"
+        and value > Decimal("2")
+    ):
+        value /= Decimal("100")
+    return value.normalize()
+
+
+def exact_value_match_stats(
+    target: ExtractionOutput,
+    other_outputs: list[ExtractionOutput],
+) -> ExactValueMatchStats:
+    """Match target values against other models from the same paper.
+
+    Full row keys include model, dataset, and metric. For key-unmatched values,
+    value matching intentionally ignores model name and metric, but remains scoped
+    to the canonical dataset. Each extracted result entry counts independently.
+    """
+    other_keys: set[tuple[str, str, str]] = set()
+    other_values_by_dataset: dict[str, set[Any]] = {}
+    for output in other_outputs:
+        for result in output.results:
+            other_keys.add(normalized_result_key(result))
+            dataset = normalize_dataset_alias(result.dataset).strip().lower()
+            other_values_by_dataset.setdefault(dataset, set()).add(normalized_result_value(result))
+
+    key_counts: dict[tuple[str, str, str], int] = {}
+    for result in target.results:
+        key = normalized_result_key(result)
+        key_counts[key] = key_counts.get(key, 0) + 1
+
+    shared = 0
+    exact = 0
+    for result in target.results:
+        key = normalized_result_key(result)
+        if key in other_keys:
+            shared += 1
+            continue
+        dataset = normalize_dataset_alias(result.dataset).strip().lower()
+        if normalized_result_value(result) in other_values_by_dataset.get(dataset, set()):
+            exact += 1
+
+    total = len(target.results)
+    key_unmatched = total - shared
+    return ExactValueMatchStats(
+        total_values=total,
+        shared_key_values=shared,
+        key_unmatched_values=key_unmatched,
+        exact_value_matches=exact,
+        exact_value_unmatched=key_unmatched - exact,
+        duplicate_keys=sum(count > 1 for count in key_counts.values()),
+    )
+
+
 def load_manifest(path: Path) -> ValidationManifest:
     """Load and validate the fixed validation cohort."""
     raw = yaml.safe_load(path.read_text(encoding="utf-8")) or {}

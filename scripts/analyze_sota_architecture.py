@@ -15,6 +15,7 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
+from pdfCropMargins import pdfCropMargins
 
 _PROJECT_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(_PROJECT_ROOT))
@@ -99,8 +100,25 @@ def _postprocess_output(raw_path: Path, final_path: Path, tool: str, args: list[
         shutil.copyfile(raw_path, final_path)
 
 
+def _crop_pdf(raw_path: Path, final_path: Path) -> None:
+    """Crop a generated PDF in-process, retaining none of its detected margins."""
+    try:
+        _, exit_code, _, stderr = pdfCropMargins.crop(
+            ["-p", "0", str(raw_path), "-o", str(final_path)],
+            quiet=True,
+        )
+        if exit_code not in (None, 0) or not final_path.is_file():
+            detail = stderr.strip() if stderr else f"exit code {exit_code}"
+            raise RuntimeError(detail)
+    except Exception as exc:
+        logger.warning(
+            "pdfCropMargins failed for %s; keeping uncropped output: %s", final_path.name, exc
+        )
+        shutil.copyfile(raw_path, final_path)
+
+
 def _save_cropped_figure(fig: plt.Figure, output_dir: Path, filename_stem: str) -> Path:
-    """Save PNG/PDF outputs and crop them when the external tools are available."""
+    """Save PNG/PDF outputs, cropping their margins as part of figure generation."""
     output_dir.mkdir(parents=True, exist_ok=True)
     raw_png = output_dir / f".{filename_stem}.raw.png"
     raw_pdf = output_dir / f".{filename_stem}.raw.pdf"
@@ -115,7 +133,7 @@ def _save_cropped_figure(fig: plt.Figure, output_dir: Path, filename_stem: str) 
             "convert",
             [str(raw_png), "-trim", "+repage", str(png_path)],
         )
-        _postprocess_output(raw_pdf, pdf_path, "pdfcrop", [str(raw_pdf), str(pdf_path)])
+        _crop_pdf(raw_pdf, pdf_path)
     finally:
         raw_png.unlink(missing_ok=True)
         raw_pdf.unlink(missing_ok=True)

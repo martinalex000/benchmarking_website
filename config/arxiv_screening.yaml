@@ -1,0 +1,55 @@
+# Initial lexical vocabulary for the arXiv metadata recall analysis.
+#
+# These are deliberately recall-oriented.  They are measured independently so
+# that broad families (for example, molecular terms) do not hide which terms
+# are responsible for a match.  Matching is case-insensitive and performed on
+# title, abstract, and their concatenation by the analysis tool.
+machine_learning_categories:
+  - cs.LG
+  - stat.ML
+
+keyword_families:
+  graph:
+    - "\\bgraphs?\\b"
+  gnn:
+    - "\\bgnns?\\b"
+  graph_neural_network:
+    - "\\bgraph[- ]neural[- ]networks?\\b"
+  graph_convolution_attention:
+    - "\\bgraph[- ]convolutional[- ]networks?\\b"
+    - "\\bgraph[- ]attention[- ]networks?\\b"
+    - "\\bgcns?\\b"
+    - "\\bgats?\\b"
+  message_passing:
+    - "\\bmessage[- ]passing\\b"
+    - "\\bmessage[- ]passing[- ]neural[- ]networks?\\b"
+    - "\\bmpnns?\\b"
+  graph_transformer:
+    - "\\bgraph[- ]transformers?\\b"
+    - "\\bgraphormer\\b"
+  geometric_deep_learning:
+    - "\\bgeometric[- ]deep[- ]learning\\b"
+  node_tasks:
+    - "\\bnode[- ]classification\\b"
+    - "\\bnode[- ]regression\\b"
+    - "\\bnode[- ]prediction\\b"
+    - "\\bnode[- ]representation[- ]learning\\b"
+  link_edge_tasks:
+    - "\\blink[- ]prediction\\b"
+    - "\\bedge[- ]prediction\\b"
+    - "\\bedge[- ]classification\\b"
+    - "\\bknowledge[- ]graph[- ]completion\\b"
+  knowledge_graph:
+    - "\\bknowledge[- ]graphs?\\b"
+  molecular_atomistic:
+    - "\\bmolecules?\\b"
+    - "\\bmolecular\\b"
+    - "\\batomistic\\b"
+    - "\\bneural[- ]network[- ]potentials?\\b"
+    - "\\binteratomic[- ]potentials?\\b"
+  equivariance:
+    - "\\bequivariant\\b"
+    - "\\bequivariance\\b"
+    - "\\be\\s*\\(\\s*n\\s*\\)\\b"
+    - "\\be\\s*\\(\\s*3\\s*\\)\\b"
+    - "\\bse\\s*\\(\\s*3\\s*\\)\\b"

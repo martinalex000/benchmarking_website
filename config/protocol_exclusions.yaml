@@ -1,6 +1,8 @@
 # Confirmed task/protocol mismatches. These rules also protect legacy extraction
 # artifacts that predate protocol_validation_version.
 exclude_all_results:
+  "2411.06427": "UniGAD evaluates anomaly-detection variants of Questions, not the canonical node-classification dataset."
+  "2210.08443": "CLEAR uses a random 60/20/20 split for ogbg-molhiv rather than the canonical OGB scaffold split."
   "2511.16767": "The paper uses an 80/20 split for its LLM/semantic-embedding experiments rather than the canonical dataset protocols."
   "2302.01524": "The paper follows Pei et al. with 10 random data splits rather than the canonical benchmark masks."
   "2306.16976": "The paper uses the Pei/Geom-GCN 48/32/20 splits rather than the canonical benchmark masks."

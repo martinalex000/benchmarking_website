@@ -17,15 +17,18 @@ from __future__ import annotations
 import argparse
 import json
 import logging
+import os
 import re
 import shutil
 import statistics
 import subprocess
+import tempfile
 from datetime import date, datetime, timedelta
 from pathlib import Path
 from typing import Any
 
 import yaml
+from PIL import Image, ImageOps
 from sqlalchemy.orm import Session, joinedload
 
 from backend.at_pub_timeline import AtPubTimeline as _AtPubTimeline
@@ -78,6 +81,8 @@ _SITE_DIR = cfg.base_dir / "site"
 _CONTENT = _SITE_DIR / "content"
 _DATA_DIR = _SITE_DIR / "data"
 _STATIC = _SITE_DIR / "static"
+_FIGURE_SHORT_SIDE = 512
+_FIGURE_JPEG_QUALITY = 85
 _DATASET_OVERRIDES_FILE = cfg.base_dir / "config" / "dataset_overrides.yaml"
 
 _MODEL_RENAME_CACHE: dict[str, dict[str, str]] = {}
@@ -557,12 +562,59 @@ def _result_params_millions(result: Result | None) -> float | None:
     return None
 
 
-def _copy_main_figure_if_newer(src: Path, dest: Path) -> None:
-    """Copy paper main figure to Hugo static dir when missing or source is newer."""
+def _copy_main_figure_if_newer(src: Path, dest: Path) -> bool:
+    """Write a web-sized JPEG when missing or the source is newer."""
     if dest.exists() and dest.stat().st_mtime >= src.stat().st_mtime:
-        return
+        return True
+
     dest.parent.mkdir(parents=True, exist_ok=True)
-    shutil.copy2(src, dest)
+    try:
+        with Image.open(src) as source:
+            image = ImageOps.exif_transpose(source)
+            if image.mode in ("RGBA", "LA") or "transparency" in image.info:
+                rgba = image.convert("RGBA")
+                background = Image.new("RGB", rgba.size, "white")
+                background.paste(rgba, mask=rgba.getchannel("A"))
+                image = background
+            else:
+                image = image.convert("RGB")
+
+            short_side = min(image.size)
+            if short_side > _FIGURE_SHORT_SIDE:
+                scale = _FIGURE_SHORT_SIDE / short_side
+                size = tuple(round(length * scale) for length in image.size)
+                image = image.resize(size, Image.Resampling.LANCZOS)
+
+            with tempfile.NamedTemporaryFile(
+                dir=dest.parent,
+                prefix=f".{dest.stem}.",
+                suffix=dest.suffix,
+                delete=False,
+            ) as temporary:
+                temporary_path = Path(temporary.name)
+            try:
+                image.save(
+                    temporary_path,
+                    format="JPEG",
+                    quality=_FIGURE_JPEG_QUALITY,
+                    optimize=True,
+                    progressive=True,
+                )
+                os.replace(temporary_path, dest)
+            finally:
+                temporary_path.unlink(missing_ok=True)
+    except (OSError, ValueError) as exc:
+        logger.warning("Could not convert main figure %s to JPEG: %s", src, exc)
+        return False
+
+    return True
+
+
+def _remove_legacy_main_figures(figure_dir: Path, keep: Path) -> None:
+    """Remove old per-paper figure formats after the JPEG export succeeds."""
+    for path in figure_dir.glob("main_figure.*"):
+        if path != keep:
+            path.unlink(missing_ok=True)
 
 
 _PAPER_RESULT_LOAD_OPTIONS = (
@@ -2777,9 +2829,10 @@ def _export_paper_impl(session: Session, arxiv_id: str) -> bool:
     paper_metadata = storage.read_metadata()
     main_figure_hugo: str | None = None
     if storage.main_figure_path and storage.main_figure_path.exists():
-        dest = _STATIC / "figures" / arxiv_id / storage.main_figure_path.name
-        _copy_main_figure_if_newer(storage.main_figure_path, dest)
-        main_figure_hugo = f"/figures/{arxiv_id}/{storage.main_figure_path.name}"
+        dest = _STATIC / "figures" / arxiv_id / "main_figure.jpg"
+        if _copy_main_figure_if_newer(storage.main_figure_path, dest):
+            _remove_legacy_main_figures(dest.parent, keep=dest)
+            main_figure_hugo = f"/figures/{arxiv_id}/{dest.name}"
 
     mrr, adjusted_mrr, mrr_dataset_count, proposed_models = _compute_paper_mrr(session, paper)
     has_results = bool(results_for_fm)

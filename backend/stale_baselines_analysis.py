@@ -25,6 +25,8 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
+from matplotlib.font_manager import FontProperties
+from matplotlib.ticker import MaxNLocator, PercentFormatter, ScalarFormatter
 from matplotlib.transforms import ScaledTranslation
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -65,6 +67,9 @@ SELECTED_DATASET_GROUPS = (
     ),
     ("LRGB", ("COCO-SP", "PCQM-Contact", "PascalVOC-SP", "Peptides-func", "Peptides-struct")),
 )
+SELECTED_DATASET_NAMES = frozenset(
+    dataset for _, datasets in SELECTED_DATASET_GROUPS for dataset in datasets
+)
 SELECTED_DATASET_LABELS = {
     "ogbg-molhiv": "molhiv",
     "ogbg-molpcba": "molpcba",
@@ -79,9 +84,10 @@ CATEGORY_LABELS = {
 }
 CATEGORY_COLORS = {
     "prior_better": "#c43d4b",
-    "future_only": "#e7a33e",
+    "future_only": "#c47a00",
     "no_gap": "#c5ccd3",
 }
+GAP_CLOSURE_BINS = np.arange(0, 101, 10)
 
 
 def _ro_session(db_path: Path):
@@ -144,6 +150,20 @@ def _materially_worse(
     return shortfall > combined_std and shortfall > 1e-12
 
 
+def _gap_closed_percentage(
+    reported: float | None,
+    prior: float | None,
+    sota: float | None,
+    higher_is_better: bool,
+) -> float | None:
+    """Return the better baseline result's share of the dataset SOTA gap."""
+    prior_gap = _directional_shortfall(reported, prior, higher_is_better)
+    sota_gap = _directional_shortfall(reported, sota, higher_is_better)
+    if prior_gap is None or sota_gap is None or sota_gap <= 1e-12:
+        return None
+    return max(0.0, min(100.0, 100.0 * prior_gap / sota_gap))
+
+
 def _benchmark_label(result: Result) -> str:
     dataset = result.dataset_variant.dataset
     benchmark = dataset.benchmark
@@ -164,6 +184,7 @@ def _comparison_row(
     *,
     today_truth: dict[str, Any],
     prior_truth: dict[str, Any] | None,
+    sota_truth: dict[str, Any],
 ) -> dict[str, Any] | None:
     paper = result.paper
     dataset = result.dataset_variant.dataset
@@ -171,6 +192,8 @@ def _comparison_row(
     reported_std = _finite(result.display_std)
     today_value = _finite(today_truth.get("value"))
     today_std = _finite(today_truth.get("std"))
+    sota_value = _finite(sota_truth.get("value"))
+    sota_std = _finite(sota_truth.get("std"))
     paper_date = _date_text(paper.published_date if paper else "")
     prior_value = _finite(prior_truth.get("value")) if prior_truth else None
     prior_std = _finite(prior_truth.get("std")) if prior_truth else None
@@ -188,6 +211,9 @@ def _comparison_row(
     today_date = _date_text(today_truth.get("date_iso"))
     prior_shortfall = _directional_shortfall(reported, prior_value, higher)
     today_shortfall = _directional_shortfall(reported, today_value, higher)
+    gap_closed_pct = (
+        _gap_closed_percentage(reported, prior_value, sota_value, higher) if prior_better else None
+    )
     relative_gap = (
         100.0 * prior_shortfall / abs(prior_value)
         if prior_shortfall is not None and prior_value and prior_value != 0
@@ -217,12 +243,17 @@ def _comparison_row(
         "today_std": today_std,
         "today_source_paper": today_truth.get("arxiv_id", ""),
         "today_source_date": today_date,
+        "sota_value": sota_value,
+        "sota_std": sota_std,
+        "sota_source_paper": sota_truth.get("arxiv_id", ""),
+        "sota_source_date": _date_text(sota_truth.get("date_iso")),
         "prior_better": prior_better,
         "today_better": today_better,
         "category": category,
         "prior_shortfall": prior_shortfall,
         "today_shortfall": today_shortfall,
         "relative_gap_pct": relative_gap,
+        "gap_closed_pct": gap_closed_pct,
     }
 
 
@@ -240,6 +271,7 @@ def load_analysis_rows(db_path: Path) -> tuple[list[dict[str, Any]], dict[str, A
             skipped_no_value = 0
             timeline_cache: dict[tuple[str, str, bool], Any] = {}
             truth_cache: dict[tuple[str, str, bool], dict[str, dict[str, Any]]] = {}
+            sota_cache: dict[tuple[str, str, bool], dict[str, Any] | None] = {}
             for result in baseline_results:
                 reported = _finite(result.display_value)
                 if reported is None:
@@ -250,11 +282,13 @@ def load_analysis_rows(db_path: Path) -> tuple[list[dict[str, Any]], dict[str, A
                 higher = bool(result.higher_is_better)
                 cache_key = (dataset.name, metric, higher)
                 if cache_key not in truth_cache:
-                    _, _, truth = _global_ranks_cached(session, *cache_key)
+                    _, global_rows, truth = _global_ranks_cached(session, *cache_key)
                     truth_cache[cache_key] = truth
+                    sota_cache[cache_key] = global_rows[0] if global_rows else None
                 model_key = _model_key(result.effective_model_name)
                 today_truth = truth_cache[cache_key].get(model_key)
-                if not today_truth:
+                sota_truth = sota_cache[cache_key]
+                if not today_truth or not sota_truth:
                     skipped_no_truth += 1
                     continue
                 if cache_key not in timeline_cache:
@@ -267,7 +301,12 @@ def load_analysis_rows(db_path: Path) -> tuple[list[dict[str, Any]], dict[str, A
                     paper_date,
                     exclude_arxiv=result.paper.arxiv_id if result.paper else "",
                 )
-                row = _comparison_row(result, today_truth=today_truth, prior_truth=prior_truth)
+                row = _comparison_row(
+                    result,
+                    today_truth=today_truth,
+                    prior_truth=prior_truth,
+                    sota_truth=sota_truth,
+                )
                 if row:
                     rows.append(row)
             metadata = {
@@ -421,6 +460,13 @@ def _absolute_counts(group_rows: list[dict[str, Any]], unit: str) -> dict[str, i
     return {category: categories.count(category) for category in CATEGORY_LABELS}
 
 
+def _normalized_category_values(counts: dict[str, int]) -> dict[str, float]:
+    total = counts["total"]
+    return {
+        category: 100 * counts[category] / total if total else 0.0 for category in CATEGORY_LABELS
+    }
+
+
 def _grouped_counts(
     rows: list[dict[str, Any]], *, dimension: str, unit: str, min_papers: int = 0
 ) -> dict[str, dict[str, int]]:
@@ -488,6 +534,29 @@ def _ordered_selected_dataset_groups(
         )
         for group_name, datasets in groups
     ]
+
+
+def _selected_dataset_plot_layout(
+    counts: dict[str, dict[str, int]], groups: list[tuple[str, list[str]]]
+) -> tuple[list[str], np.ndarray, list[tuple[str, float, float]]]:
+    dataset_groups = [
+        (name, datasets)
+        for name, datasets in _ordered_selected_dataset_groups(counts, groups)
+        if datasets
+    ]
+    positions: list[float] = []
+    section_spans: list[tuple[str, float, float]] = []
+    group_gap = 0.375
+    for group_index, (group_name, datasets) in enumerate(dataset_groups):
+        start = len(positions) + group_index * group_gap
+        group_positions = [start + offset for offset in range(len(datasets))]
+        positions.extend(group_positions)
+        section_spans.append((group_name, group_positions[0], group_positions[-1]))
+    return (
+        [dataset for _, datasets in dataset_groups for dataset in datasets],
+        np.array(positions),
+        section_spans,
+    )
 
 
 def _plot_absolute_stacked(
@@ -598,24 +667,10 @@ def _plot_selected_dataset_counts(
     stem: str,
 ) -> list[Path]:
     counts, groups = _selected_dataset_paper_counts(rows, unit=unit)
-    dataset_groups = [
-        (name, datasets)
-        for name, datasets in _ordered_selected_dataset_groups(counts, groups)
-        if datasets
-    ]
-    positions: list[float] = []
-    section_spans: list[tuple[str, float, float]] = []
-    group_gap = 1.2
-    for group_index, (group_name, datasets) in enumerate(dataset_groups):
-        start = len(positions) + group_index * group_gap
-        group_positions = [start + offset for offset in range(len(datasets))]
-        positions.extend(group_positions)
-        section_spans.append((group_name, group_positions[0], group_positions[-1]))
-
-    labels = [dataset for _, datasets in dataset_groups for dataset in datasets]
-    x = np.array(positions)
+    labels, x, section_spans = _selected_dataset_plot_layout(counts, groups)
     fig, ax = plt.subplots(figsize=(9.8, 4.0))
     bottom = np.zeros(len(labels))
+    bar_width = 0.78
     for category in CATEGORY_LABELS:
         values = np.array([counts[dataset][category] for dataset in labels])
         ax.bar(
@@ -624,10 +679,12 @@ def _plot_selected_dataset_counts(
             bottom=bottom,
             color=CATEGORY_COLORS[category],
             label=CATEGORY_LABELS[category],
-            width=0.78,
+            width=bar_width,
         )
         bottom += values
     ax.set_xticks(x, [SELECTED_DATASET_LABELS.get(dataset, dataset) for dataset in labels])
+    within_group_gap = 1.0 - bar_width
+    ax.set_xlim(x[0] - bar_width / 2 - within_group_gap, x[-1] + bar_width / 2)
     ax.tick_params(axis="x", length=0, pad=3)
     plt.setp(ax.get_xticklabels(), rotation=55, ha="right", rotation_mode="anchor")
     x_shift = ScaledTranslation(-3 / 72, 0, fig.dpi_scale_trans)
@@ -638,65 +695,58 @@ def _plot_selected_dataset_counts(
     ax.set_ylabel(f"Number of {unit_label}")
     ax.grid(axis="y", color="#dce1e6", linewidth=0.7)
     ax.set_axisbelow(True)
-    outside_annotations: list[tuple[float, int, float, float]] = []
     segment_threshold = max_total * 0.045
+    percentage_font = FontProperties(family="DejaVu Sans", stretch="condensed", size=6.5)
+    label_step = max_total * 0.05
+    percentage_labels: list[tuple[float, float, str, str]] = []
     for index, dataset in enumerate(labels):
         total = counts[dataset]["total"]
         prior_count = counts[dataset]["prior_better"]
         future_count = counts[dataset]["future_only"]
         prior_pct = 100 * counts[dataset]["prior_better"] / total if total else 0
         future_pct = 100 * counts[dataset]["future_only"] / total if total else 0
-        if prior_count >= segment_threshold and future_count >= segment_threshold:
-            ax.text(
-                x[index],
-                prior_count / 2,
-                f"{prior_pct:.0f}%",
-                ha="center",
-                va="center",
-                fontsize=6.5,
-                color="white",
-            )
-            ax.text(
-                x[index],
-                prior_count + future_count / 2,
-                f"{future_pct:.0f}%",
-                ha="center",
-                va="center",
-                fontsize=6.5,
-                color="#242b33",
+        fallback: list[tuple[str, float, str]] = []
+        if prior_count >= segment_threshold:
+            percentage_labels.append((x[index], prior_count / 2, f"{prior_pct:.0f}%", "white"))
+        else:
+            fallback.append(("prior", prior_pct, CATEGORY_COLORS["prior_better"]))
+        if future_count >= segment_threshold:
+            percentage_labels.append(
+                (
+                    x[index],
+                    prior_count + future_count / 2,
+                    f"{future_pct:.0f}%",
+                    "#242b33",
+                )
             )
         else:
-            outside_annotations.append((x[index], total, prior_pct, future_pct))
-    annotation_step = max_total * 0.021
-    for x_position, total, prior_pct, future_pct in outside_annotations:
+            fallback.append(("future", future_pct, CATEGORY_COLORS["future_only"]))
+        if fallback:
+            gray_start = prior_count + future_count
+            for line, (_, percentage, color) in enumerate(fallback):
+                percentage_labels.append(
+                    (
+                        x[index],
+                        gray_start + (line + 0.5) * label_step,
+                        f"{percentage:.0f}%",
+                        color,
+                    )
+                )
+    for x_position, y_position, label, color in percentage_labels:
         ax.text(
             x_position,
-            total + annotation_step,
-            f"{prior_pct:.0f}%",
+            y_position,
+            label,
             ha="center",
-            va="bottom",
-            fontsize=5.5,
-            color=CATEGORY_COLORS["prior_better"],
+            va="center",
+            fontproperties=percentage_font,
+            color=color,
         )
-        ax.text(
-            x_position,
-            total + 2 * annotation_step,
-            f"{future_pct:.0f}%",
-            ha="center",
-            va="bottom",
-            fontsize=5.5,
-            color=CATEGORY_COLORS["future_only"],
-        )
-    if outside_annotations:
-        highest_annotation = max(
-            total + 2 * annotation_step for _, total, _, _ in outside_annotations
-        )
-        ax.set_ylim(0, max(max_total * 1.045, highest_annotation + annotation_step))
     for group_name, start, end in section_spans:
         midpoint = (start + end) / 2
         ax.text(
             midpoint,
-            0.995,
+            1.005,
             group_name,
             transform=ax.get_xaxis_transform(),
             ha="center",
@@ -735,6 +785,217 @@ def plot_selected_dataset_result_counts(rows: list[dict[str, Any]], output_dir: 
         unit="entries",
         unit_label="results",
         stem="figure_7_stale_baselines_selected_dataset_results",
+    )
+
+
+def _plot_selected_dataset_percentage_counts(
+    rows: list[dict[str, Any]],
+    output_dir: Path,
+    *,
+    unit: str,
+    unit_label: str,
+    stem: str,
+) -> list[Path]:
+    counts, groups = _selected_dataset_paper_counts(rows, unit=unit)
+    labels, x, section_spans = _selected_dataset_plot_layout(counts, groups)
+    fig, ax = plt.subplots(figsize=(9.8, 4.0))
+    bar_width = 0.78
+    bottom = np.zeros(len(labels))
+    percentage_font = FontProperties(family="DejaVu Sans", stretch="condensed", size=6.5)
+    text_colors = {
+        "prior_better": "white",
+        "future_only": "#242b33",
+        "no_gap": "#242b33",
+    }
+    for category in CATEGORY_LABELS:
+        values = np.array(
+            [_normalized_category_values(counts[dataset])[category] for dataset in labels]
+        )
+        ax.bar(
+            x,
+            values,
+            bottom=bottom,
+            color=CATEGORY_COLORS[category],
+            label=CATEGORY_LABELS[category],
+            width=bar_width,
+        )
+        for index, value in enumerate(values):
+            if category == "future_only" and value < 5:
+                normalized_counts = _normalized_category_values(counts[labels[index]])
+                gray_start = normalized_counts["prior_better"] + normalized_counts["future_only"]
+                gray_height = normalized_counts["no_gap"]
+                if gray_height:
+                    y_position = gray_start + min(2.5, gray_height / 2)
+                else:
+                    y_position = bottom[index] + value / 2
+                text_color = CATEGORY_COLORS["future_only"]
+            elif value >= 5:
+                y_position = bottom[index] + value / 2
+                text_color = text_colors[category]
+            else:
+                y_position = None
+            if y_position is not None:
+                ax.text(
+                    x[index],
+                    y_position,
+                    f"{value:.0f}%",
+                    ha="center",
+                    va="center",
+                    fontproperties=percentage_font,
+                    color=text_color,
+                )
+        bottom += values
+    within_group_gap = 1.0 - bar_width
+    ax.set_xlim(x[0] - bar_width / 2 - within_group_gap, x[-1] + bar_width / 2)
+    ax.set_ylim(0, 100)
+    ax.set_xticks(x, [SELECTED_DATASET_LABELS.get(dataset, dataset) for dataset in labels])
+    ax.tick_params(axis="x", length=0, pad=3)
+    plt.setp(ax.get_xticklabels(), rotation=55, ha="right", rotation_mode="anchor")
+    x_shift = ScaledTranslation(-3 / 72, 0, fig.dpi_scale_trans)
+    for label in ax.get_xticklabels():
+        label.set_transform(label.get_transform() + x_shift)
+    ax.set_ylabel(f"Share of {unit_label}")
+    ax.set_yticks([0, 25, 50, 75, 100], ["0%", "25%", "50%", "75%", "100%"])
+    ax.grid(axis="y", color="#dce1e6", linewidth=0.7)
+    ax.set_axisbelow(True)
+    for group_name, start, end in section_spans:
+        ax.text(
+            (start + end) / 2,
+            1.005,
+            group_name,
+            transform=ax.get_xaxis_transform(),
+            ha="center",
+            va="bottom",
+            fontsize=8.5,
+            fontweight="bold",
+            color="#4f5965",
+            clip_on=False,
+        )
+    ax.spines[["top", "right"]].set_visible(False)
+    fig.legend(
+        loc="lower center",
+        bbox_to_anchor=(0.5, 0.035),
+        frameon=False,
+        fontsize=9.5,
+        ncol=3,
+    )
+    fig.subplots_adjust(left=0.08, right=0.98, bottom=0.36, top=0.82)
+    return _save_figure(fig, output_dir, stem, tight=False)
+
+
+def plot_selected_dataset_paper_percentages(
+    rows: list[dict[str, Any]], output_dir: Path
+) -> list[Path]:
+    return _plot_selected_dataset_percentage_counts(
+        rows,
+        output_dir,
+        unit="papers",
+        unit_label="papers",
+        stem="figure_8_stale_baselines_selected_dataset_paper_percentages",
+    )
+
+
+def plot_selected_dataset_result_percentages(
+    rows: list[dict[str, Any]], output_dir: Path
+) -> list[Path]:
+    return _plot_selected_dataset_percentage_counts(
+        rows,
+        output_dir,
+        unit="entries",
+        unit_label="results",
+        stem="figure_9_stale_baselines_selected_dataset_result_percentages",
+    )
+
+
+def _selected_gap_closure_values(
+    rows: list[dict[str, Any]], datasets: Iterable[str] | None = None
+) -> list[float]:
+    selected = set(datasets) if datasets is not None else SELECTED_DATASET_NAMES
+    return [
+        float(row["gap_closed_pct"])
+        for row in rows
+        if row["category"] == "prior_better"
+        and row.get("gap_closed_pct") is not None
+        and (selected is None or row["dataset"] in selected)
+    ]
+
+
+def _style_gap_closure_axis(ax: Any) -> None:
+    ax.set_xlim(0, 100)
+    ax.set_xticks(np.arange(0, 101, 20), [f"{value}%" for value in range(0, 101, 20)])
+    ax.yaxis.set_major_formatter(PercentFormatter(xmax=100))
+    ax.grid(axis="y", color="#dce1e6", linewidth=0.7)
+    ax.set_axisbelow(True)
+    ax.spines[["top", "right"]].set_visible(False)
+
+
+def _histogram_percentage_weights(values: list[float]) -> np.ndarray:
+    return np.full(len(values), 100.0 / len(values)) if values else np.array([])
+
+
+def _plot_gap_closure_histogram(values: list[float], output_dir: Path, stem: str) -> list[Path]:
+    fig, ax = plt.subplots(figsize=(4.2, 2.8))
+    ax.hist(
+        values,
+        bins=GAP_CLOSURE_BINS,
+        color=CATEGORY_COLORS["prior_better"],
+        edgecolor="white",
+        linewidth=0.6,
+    )
+    _style_gap_closure_axis(ax)
+    ax.yaxis.set_major_formatter(ScalarFormatter())
+    ax.yaxis.set_major_locator(MaxNLocator(integer=True))
+    ax.set_xlabel("Share of gap to current SOTA closed at publication", fontsize=9)
+    ax.set_ylabel("Number of results", fontsize=10)
+    fig.subplots_adjust(left=0.21, right=0.95, bottom=0.23, top=0.96)
+    return _save_figure(fig, output_dir, stem, tight=False)
+
+
+def plot_selected_gap_closure_histogram(rows: list[dict[str, Any]], output_dir: Path) -> list[Path]:
+    return _plot_gap_closure_histogram(
+        _selected_gap_closure_values(rows),
+        output_dir,
+        "figure_10_stale_baseline_gap_closure_selected_results",
+    )
+
+
+def plot_selected_gap_closure_group_histograms(
+    rows: list[dict[str, Any]], output_dir: Path
+) -> list[Path]:
+    counts, groups = _selected_dataset_paper_counts(rows, unit="papers")
+    groups = [
+        (group_name, datasets)
+        for group_name, datasets in _ordered_selected_dataset_groups(counts, groups)
+        if datasets
+    ]
+
+    fig, axes = plt.subplots(2, 3, figsize=(9.8, 5.0), sharex=True, sharey=True)
+    axes_flat = axes.flat
+    for ax, (group_name, datasets) in zip(axes_flat, groups, strict=True):
+        values = _selected_gap_closure_values(rows, datasets)
+        ax.hist(
+            values,
+            bins=GAP_CLOSURE_BINS,
+            weights=_histogram_percentage_weights(values),
+            color=CATEGORY_COLORS["prior_better"],
+            edgecolor="white",
+            linewidth=0.6,
+        )
+        _style_gap_closure_axis(ax)
+        ax.set_title(group_name, fontsize=9, fontweight="bold", color="#4f5965", pad=5)
+
+    for ax in axes[0, :]:
+        ax.tick_params(labelbottom=False)
+    for ax in axes[:, 1:].flat:
+        ax.tick_params(labelleft=False)
+    fig.supxlabel("Share of gap to current SOTA closed at publication", y=0.04)
+    fig.supylabel("Share of results", x=0.012)
+    fig.subplots_adjust(left=0.08, right=0.99, bottom=0.15, top=0.91, wspace=0.18, hspace=0.34)
+    return _save_figure(
+        fig,
+        output_dir,
+        "figure_11_stale_baseline_gap_closure_selected_groups",
+        tight=False,
     )
 
 
@@ -825,6 +1086,10 @@ def write_outputs(
         *plot_dataset_entry_counts(rows, output_dir),
         *plot_selected_dataset_paper_counts(rows, output_dir),
         *plot_selected_dataset_result_counts(rows, output_dir),
+        *plot_selected_dataset_paper_percentages(rows, output_dir),
+        *plot_selected_dataset_result_percentages(rows, output_dir),
+        *plot_selected_gap_closure_histogram(rows, output_dir),
+        *plot_selected_gap_closure_group_histograms(rows, output_dir),
         *plot_availability_lag(rows, output_dir),
     ]
     return [rows_path, summary_path, *figure_paths]
@@ -897,7 +1162,13 @@ def write_report(
         "the requested citation, OGB, heterophilic, LRGB, and TU dataset blocks.",
         "6. **Selected result-level appendix:** use `figure_7_stale_baselines_selected_dataset_results` for "
         "the same dataset families while counting every comparable baseline result.",
-        "7. **Availability lag:** use `figure_5_stale_baseline_availability_lag_all_benchmarks` for the lag "
+        "7. **Selected paper percentages:** use `figure_8_stale_baselines_selected_dataset_paper_percentages` "
+        "for the normalized paper-level comparison.",
+        "8. **Selected result percentages:** use `figure_9_stale_baselines_selected_dataset_result_percentages` "
+        "for the normalized result-level comparison.",
+        "9. **Gap closure:** use `figure_10_stale_baseline_gap_closure_selected_results` for the pooled "
+        "distribution and `figure_11_stale_baseline_gap_closure_selected_groups` for the grouped distributions.",
+        "10. **Availability lag:** use `figure_5_stale_baseline_availability_lag_all_benchmarks` for the lag "
         "distribution across all benchmark groups. Groups with fewer than five stale entries are omitted.",
         "",
         "## Definition and caveats",
@@ -906,6 +1177,9 @@ def write_report(
         "current leaderboard eligibility contract.",
         "- `prior_better`: the reported value is worse than the best result from another paper published on or "
         "before the evaluated paper, after accounting for both reported standard deviations when present.",
+        "- Gap closure is the fraction of the reported-result-to-dataset-SOTA gap covered by the better "
+        "baseline result available at publication. The gap-closure histograms include only `prior_better` "
+        "results; future-only results have no publication-time reference and are excluded.",
         "- The evaluated paper is explicitly excluded from the prior reference. This is stricter than the "
         "existing page-of-shame display and avoids self-comparison artifacts.",
         "- Model names are compared after the repository's canonicalization and implementation-marker cleanup. "

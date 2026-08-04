@@ -60,6 +60,8 @@ datasets/.*
 data/benchmarks.db-wal
 data/benchmarks.db-shm
 data/benchmarks.db-*
+data/benchmarks-current.db-*
+data2/
 
 # ── OS / Editor ─────────────────────────────────────────────────────────────
 .DS_Store
@@ -73,5 +75,7 @@ Thumbs.db
 cache/
 hub/
 .pre-commit-cache
+.agent_harnesses.json
+/.Trash-*/
 papers.txt
 config/ogb_papers.txt

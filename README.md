@@ -52,6 +52,23 @@ The repository now keeps `papers/` as a local workspace directory only. Generate
 downloads, extracted artifacts, and overrides live there on each instance, but are
 not committed to git.
 
+### arXiv metadata statistics
+
+Download the Cornell/Kaggle metadata snapshot and generate category, keyword, and
+database-recall reports. The snapshot and reports are stored under
+`papers/arxiv-metadata/` and remain untracked.
+
+```bash
+UV_CACHE_DIR=/tmp/benchmarking-uv-cache uv run python scripts/arxiv_metadata.py all
+```
+
+For very large snapshots, process line chunks separately and merge them:
+
+```bash
+UV_CACHE_DIR=/tmp/benchmarking-uv-cache uv run python scripts/arxiv_metadata.py merge \
+  --input-dir /tmp/arxiv-reports-20260730
+```
+
 ---
 
 ## LLM configuration
@@ -455,7 +472,9 @@ UV_CACHE_DIR=/tmp/benchmarking-uv-cache uv run python scripts/compare_mlp_baseli
 
 The default output directory is `experiments/mlp_baseline_comparison/` and contains the
 reproducibility script `compare_mlp_baseline.py`, JSON/CSV records, a plain text summary, and
-updated `better_tied_worse.png`/`.pdf` figures. No significance test is applied. Run the
+updated `better_tied_worse.png`/`.pdf` figures. Reported standard deviations are used only as a
+combined uncertainty tolerance for better/tied/worse classification; no significance test is
+applied. Run the
 adjacent script to regenerate exactly those outputs:
 
 ```bash
@@ -487,6 +506,18 @@ Use `--force` to ignore validation caches. Caches are isolated by the manifest d
 includes its explicit validation revision; main website extraction artifacts are never reused or
 overwritten. Failures are recorded without stopping unrelated jobs, and cause a nonzero exit after
 the partial report has been written.
+
+To audit exact values in rows whose full model/dataset/metric key is absent from every other
+model, run the paper-ready value-matching analysis against an existing validation run:
+
+```bash
+UV_CACHE_DIR=/tmp/benchmarking-uv-cache uv run python experiments/extraction/plot_validation.py \
+  --run-dir experiments/extraction_validation/20260724T161948Z
+```
+
+The analysis keeps the same-paper and same-dataset scope, ignores metric and model name during
+value lookup, and compares exact values after the repository's known scale normalization. It
+writes PDF/PNG figures plus CSV and LaTeX summaries alongside the validation report.
 
 ---
 

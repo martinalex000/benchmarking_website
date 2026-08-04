@@ -1,9 +1,9 @@
 """Focused regression tests for export helper behavior."""
 
-import shutil
 from pathlib import Path
 
 import pytest
+from PIL import Image
 
 import backend.export_to_hugo as export_to_hugo
 from backend.at_pub_timeline import AtPubEvent, AtPubTimeline, global_best_per_model_as_of_date
@@ -870,21 +870,25 @@ def test_primary_proposed_from_results_prefers_primary_metric_rows():
     assert chosen == "MainMethod"
 
 
-def test_copy_main_figure_if_newer_skips_unchanged(tmp_path):
+def test_copy_main_figure_if_newer_converts_and_skips_unchanged(tmp_path):
     from backend.export_to_hugo import _copy_main_figure_if_newer
 
     src = tmp_path / "fig.png"
-    dest = tmp_path / "out" / "fig.png"
-    src.write_bytes(b"source")
-    dest.parent.mkdir(parents=True)
-    shutil.copy2(src, dest)
+    dest = tmp_path / "out" / "fig.jpg"
+    Image.new("RGBA", (1200, 800), (255, 0, 0, 128)).save(src)
+    assert _copy_main_figure_if_newer(src, dest)
+    with Image.open(dest) as image:
+        assert image.format == "JPEG"
+        assert image.size == (768, 512)
+
     import os
     import time
 
     time.sleep(0.05)
     os.utime(dest, (time.time(), time.time()))
-    _copy_main_figure_if_newer(src, dest)
-    assert dest.read_bytes() == b"source"
+    original = dest.read_bytes()
+    assert _copy_main_figure_if_newer(src, dest)
+    assert dest.read_bytes() == original
 
 
 def test_global_ranks_cached_reuses_module_cache(monkeypatch):

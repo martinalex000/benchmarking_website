@@ -99,6 +99,8 @@ def apply_overrides_to_results(
 
         if key in override_map:
             ov = override_map[key]
+            if ov.get("correct_metric"):
+                r["metric"] = str(ov["correct_metric"]).strip()
             r["is_overridden"] = True
             r["override_value"] = ov.get("correct_value")
             r["override_std"] = ov.get("correct_std")
@@ -106,6 +108,14 @@ def apply_overrides_to_results(
             r["override_source"] = override_source
 
     return results
+
+
+def get_result_override(
+    overrides: dict, model: str, dataset: str, metric: str
+) -> dict[str, Any] | None:
+    """Return the matching result override for an extracted row, if any."""
+    key = _result_key(model, dataset, metric)
+    return _build_override_map(overrides.get("result_overrides", [])).get(key)
 
 
 def get_metadata_overrides(overrides: dict) -> dict:
@@ -260,6 +270,9 @@ def apply_overrides_to_db(arxiv_id: str) -> int:
 
             if key in override_map:
                 ov = override_map[key]
+                corrected_metric = str(ov.get("correct_metric") or "").strip()
+                if corrected_metric and result.metric_name != corrected_metric:
+                    result.metric_name = corrected_metric
                 result.is_overridden = 1
                 result.override_value = ov.get("correct_value")
                 result.override_std = ov.get("correct_std")
@@ -340,7 +353,11 @@ def _build_lookup(items: list[Any]) -> dict[tuple, str]:
 
 
 def _build_override_map(items: list[Any]) -> dict[tuple, dict]:
-    """Build a {(model, dataset, metric) → override_dict} map."""
+    """Build a {(model, dataset, metric) → override_dict} map.
+
+    A corrected metric is also indexed so reapplying an override remains
+    idempotent after the stored result has been renamed.
+    """
     result: dict[tuple, dict] = {}
     if not isinstance(items, list):
         return result
@@ -353,4 +370,12 @@ def _build_override_map(items: list[Any]) -> dict[tuple, dict]:
             item.get("metric", ""),
         )
         result[key] = item
+        corrected_metric = str(item.get("correct_metric") or "").strip()
+        if corrected_metric:
+            corrected_key = _result_key(
+                item.get("model", ""),
+                item.get("dataset", ""),
+                corrected_metric,
+            )
+            result.setdefault(corrected_key, item)
     return result

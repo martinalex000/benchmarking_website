@@ -62,6 +62,7 @@ paper_arxiv_id: "{arxiv_id}"
 #   - model: "GraphGPS"
 #     dataset: "Peptides-func"
 #     metric: "AP"
+#     correct_metric: "Average Precision"
 #     correct_value: 0.6534
 #     correct_std: 0.0042
 #     reason: "LLM read wrong table row — see Table 3 in paper"

@@ -11,6 +11,7 @@ from backend.override_handler import (
     clear_overrides_cache,
     get_metadata_overrides,
     get_model_metadata_overrides,
+    get_result_override,
     load_overrides,
 )
 
@@ -70,6 +71,41 @@ def test_apply_overrides_to_results_value():
     assert out[0]["is_overridden"] is True
     assert out[0]["override_value"] == 0.9
     assert "Typo" in out[0]["override_reason"]
+
+
+def test_apply_overrides_to_results_can_correct_metric():
+    results = [{"model": "MLP", "dataset": "Questions", "metric": "ROC-AUC"}]
+    overrides = {
+        "result_overrides": [
+            {
+                "model": "MLP",
+                "dataset": "Questions",
+                "metric": "ROC-AUC",
+                "correct_metric": "Accuracy",
+            }
+        ]
+    }
+
+    out = apply_overrides_to_results(results, overrides)
+
+    assert out[0]["metric"] == "Accuracy"
+    assert out[0]["is_overridden"] is True
+
+
+def test_get_result_override_matches_corrected_metric_after_reapply():
+    overrides = {
+        "result_overrides": [
+            {
+                "model": "MLP",
+                "dataset": "Questions",
+                "metric": "ROC-AUC",
+                "correct_metric": "Accuracy",
+            }
+        ]
+    }
+
+    assert get_result_override(overrides, "MLP", "Questions", "ROC-AUC")
+    assert get_result_override(overrides, "MLP", "Questions", "Accuracy")
 
 
 def test_apply_overrides_marks_problematic():

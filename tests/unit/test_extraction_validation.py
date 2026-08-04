@@ -7,7 +7,12 @@ from pathlib import Path
 
 import yaml
 
-from backend.extraction_validation import load_manifest, pairwise_disagreements
+from backend.extraction_validation import (
+    exact_value_match_stats,
+    load_manifest,
+    normalized_result_value,
+    pairwise_disagreements,
+)
 from backend.llm_backends import LlmBackend, ModelRoute
 from backend.llm_extractor import DatasetInfo, ExtractionOutput, LLMExtractor, ResultEntry
 from experiments.extraction import validate_extraction as validation
@@ -50,6 +55,84 @@ def test_pairwise_disagreements_ignores_scale_and_rounding_but_reports_missing_r
     assert len(differences) == 1
     assert differences[0]["kind"] == "presence"
     assert differences[0]["key"] == "gat / cora / accuracy"
+
+
+def test_exact_value_matching_ignores_model_and_metric_but_stays_on_dataset() -> None:
+    target = ExtractionOutput(
+        results=[
+            ResultEntry(model="NewName", dataset="Cora", metric="Accuracy", value=0.91),
+            ResultEntry(model="NewName", dataset="Cora", metric="F1", value=0.8),
+            ResultEntry(model="NewName", dataset="PubMed", metric="Accuracy", value=0.8),
+        ]
+    )
+    other = ExtractionOutput(
+        results=[
+            ResultEntry(model="OldName", dataset="Cora", metric="ROC-AUC", value=80.0),
+            ResultEntry(model="Different", dataset="PubMed", metric="MAE", value=0.8001),
+        ]
+    )
+
+    stats = exact_value_match_stats(target, [other])
+
+    assert stats.total_values == 3
+    assert stats.shared_key_values == 0
+    assert stats.key_unmatched_values == 3
+    assert stats.exact_value_matches == 1
+    assert stats.exact_value_unmatched == 2
+    assert stats.exact_match_fraction == 1 / 3
+
+
+def test_exact_value_matching_normalizes_percentage_scale() -> None:
+    target = ExtractionOutput(
+        results=[ResultEntry(model="NewName", dataset="Cora", metric="Accuracy", value=91.0)]
+    )
+    other = ExtractionOutput(
+        results=[ResultEntry(model="OldName", dataset="Cora", metric="Accuracy", value=0.91)]
+    )
+
+    stats = exact_value_match_stats(target, [other])
+
+    assert stats.exact_value_matches == 1
+    assert normalized_result_value(target.results[0]) == normalized_result_value(other.results[0])
+
+
+def test_exact_value_matching_uses_decimal_percentage_scaling() -> None:
+    target = ResultEntry(model="NewName", dataset="Arxiv-year", metric="Accuracy", value=36.7)
+    other = ResultEntry(model="OldName", dataset="arXiv-year", metric="Accuracy", value=0.367)
+
+    assert normalized_result_value(target) == normalized_result_value(other)
+
+def test_exact_value_matching_requires_exact_normalized_value() -> None:
+    target = ExtractionOutput(
+        results=[ResultEntry(model="NewName", dataset="Cora", metric="Accuracy", value=0.9001)]
+    )
+    other = ExtractionOutput(
+        results=[ResultEntry(model="OldName", dataset="Cora", metric="Accuracy", value=0.9)]
+    )
+
+    stats = exact_value_match_stats(target, [other])
+
+    assert stats.exact_value_matches == 0
+    assert stats.exact_value_unmatched == 1
+
+
+def test_exact_value_matching_preserves_duplicate_target_entries() -> None:
+    target = ExtractionOutput(
+        results=[
+            ResultEntry(model="PST", dataset="QM9", metric="mu", value=0.23),
+            ResultEntry(model="PST", dataset="QM9", metric="mu", value=0.023),
+        ]
+    )
+    other = ExtractionOutput(
+        results=[ResultEntry(model="Other", dataset="QM9", metric="gap", value=0.23)]
+    )
+
+    stats = exact_value_match_stats(target, [other])
+
+    assert stats.total_values == 2
+    assert stats.duplicate_keys == 1
+    assert stats.exact_value_matches == 1
+    assert stats.exact_value_unmatched == 1
 
 
 def test_known_datasets_skip_discovery_and_skip_extraction_without_selected_tables(
