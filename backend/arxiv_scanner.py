@@ -19,7 +19,7 @@ import json
 import logging
 import time
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 
 import arxiv  # type: ignore[import-untyped]
 from openai import OpenAI
@@ -91,7 +91,7 @@ def _call_llm(client: OpenAI, model: str, system_prompt: str, user_content: str)
     )
     raw = response.choices[0].message.content or ""
     # Strip accidental markdown fences
-    raw = raw.strip().lstrip("```json").lstrip("```").rstrip("```").strip()
+    raw = raw.strip().removeprefix("```json").removeprefix("```").removesuffix("```").strip()
     return json.loads(raw)
 
 
@@ -119,7 +119,7 @@ def stage2_benchmark_check(result: ScanResult, client: OpenAI, model: str, promp
         result.has_new_benchmark = bool(parsed.get("has_new_benchmark", False))
         result.datasets_mentioned = parsed.get("datasets_mentioned", [])
         result.stage2_confidence = float(parsed.get("confidence", 0.0))
-        result.stage2_reason = str(parsed.get("reason", ""))
+        result.stage2_reason = str(parsed.get("notes", parsed.get("reason", "")))
         return result.has_benchmark_results or result.has_new_benchmark
     except Exception as exc:
         logger.warning("Stage-2 LLM error for %s: %s", result.arxiv_id, exc)
@@ -133,7 +133,7 @@ def fetch_arxiv_papers(
     max_results: int = 500,
 ) -> list[ScanResult]:
     """Fetch recent arXiv papers from the given categories."""
-    cutoff = datetime.now(timezone.utc) - timedelta(days=days)
+    cutoff = datetime.now(UTC) - timedelta(days=days)
     query = " OR ".join(f"cat:{c}" for c in categories)
 
     client_arxiv = arxiv.Client(page_size=100, delay_seconds=3)
@@ -146,7 +146,7 @@ def fetch_arxiv_papers(
 
     results: list[ScanResult] = []
     for paper in client_arxiv.results(search):
-        if paper.published and paper.published.replace(tzinfo=timezone.utc) < cutoff:
+        if paper.published and paper.published.replace(tzinfo=UTC) < cutoff:
             break
         arxiv_id = paper.entry_id.split("/abs/")[-1].split("v")[0]
         results.append(

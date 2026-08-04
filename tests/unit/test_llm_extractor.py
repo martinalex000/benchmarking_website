@@ -5,6 +5,7 @@ from types import SimpleNamespace
 import pytest
 
 from backend.latex_source import _expand_user_macros
+from backend.llm_client import LLMWallClockTimeout
 from backend.llm_extractor import (
     BaselineModelInfo,
     CallRecord,
@@ -32,7 +33,13 @@ from backend.llm_postprocessing import (
     _render_human_readable,
     _split_into_chunks,
 )
-from backend.llm_tasks import _prefer_method_acronym, _proposed_model_context
+from backend.llm_tasks import (
+    _dataset_checkpoint_fingerprint,
+    _load_dataset_checkpoint,
+    _prefer_method_acronym,
+    _proposed_model_context,
+    _save_dataset_checkpoint,
+)
 
 
 def test_split_into_chunks_small():
@@ -103,6 +110,85 @@ def test_result_entry_coerces_string_value():
 def test_result_entry_coerces_none_std():
     r = ResultEntry(model="M", dataset="D", metric="AP", value=0.5, std=None)
     assert r.std is None
+
+
+def test_dataset_checkpoint_round_trip_and_fingerprint_validation(tmp_path):
+    output = ExtractionOutput(
+        results=[ResultEntry(model="GNN", dataset="Cora", metric="Accuracy", value=0.81)]
+    )
+    fingerprint = _dataset_checkpoint_fingerprint(
+        model_name="gemma",
+        output_format="yaml",
+        prompt="prompt",
+        user_content="Cora context",
+    )
+
+    _save_dataset_checkpoint(
+        tmp_path,
+        "Cora",
+        fingerprint=fingerprint,
+        output=output,
+    )
+
+    loaded = _load_dataset_checkpoint(tmp_path, "Cora", fingerprint=fingerprint)
+    assert loaded is not None
+    assert loaded.results[0].value == pytest.approx(0.81)
+    assert _load_dataset_checkpoint(tmp_path, "Cora", fingerprint="changed") is None
+
+
+def test_streaming_call_enforces_total_wall_clock_timeout(monkeypatch):
+    class FakeStream:
+        def __init__(self):
+            self.closed = False
+
+        def __iter__(self):
+            yield SimpleNamespace(usage=None, choices=[])
+
+        def close(self):
+            self.closed = True
+
+    stream = FakeStream()
+    create_calls = []
+
+    def create(**kwargs):
+        create_calls.append(kwargs)
+        return stream
+
+    extractor = object.__new__(LLMExtractor)
+    extractor.model_name = "gemma"
+    extractor.streaming = True
+    extractor._call_log = []
+    extractor._client = SimpleNamespace(
+        chat=SimpleNamespace(completions=SimpleNamespace(create=create))
+    )
+    times = iter([0.0, 121.0, 122.0])
+    monkeypatch.setattr("backend.llm_client.time.perf_counter", lambda: next(times))
+    monkeypatch.setattr("backend.llm_client.cfg.llm_timeout", 120)
+
+    with pytest.raises(LLMWallClockTimeout, match="120s"):
+        extractor._call("system", "user")
+
+    assert len(create_calls) == 1
+    assert stream.closed is True
+
+
+def test_screen_paper_can_raise_instead_of_failing_open(monkeypatch):
+    extractor = object.__new__(LLMExtractor)
+    extractor._progress_callback = None
+    extractor._call_log = []
+    monkeypatch.setattr(extractor, "_read_prompt", lambda _filename: "prompt")
+    monkeypatch.setattr(
+        extractor,
+        "_call_json",
+        lambda *_args, **_kwargs: (_ for _ in ()).throw(RuntimeError("unavailable")),
+    )
+
+    with pytest.raises(RuntimeError, match="unavailable"):
+        extractor.screen_paper("title", "abstract", fail_open=False)
+
+    result = extractor.screen_paper("title", "abstract")
+    assert result.has_benchmark_results is True
+    assert result.has_new_benchmark is True
 
 
 def test_merge_extraction_outputs_dedupes_and_normalizes():
@@ -413,6 +499,33 @@ def test_empty_selected_tables_skip_all_extraction_calls(monkeypatch):
     assert "No tables were selected" in output.extraction_notes
 
 
+def test_single_pass_dataset_extraction_keeps_experiment_context(monkeypatch):
+    extractor = LLMExtractor()
+    captured: list[str] = []
+
+    def fake_extract(_prompt, content, **_kwargs):
+        captured.append(content)
+        return ExtractionOutput()
+
+    monkeypatch.setattr(extractor, "_extract_results_chunk", fake_extract)
+    monkeypatch.setattr(extractor, "_fire_progress", lambda: None)
+
+    extractor._extract_dataset_with_retries(
+        "prompt",
+        dataset_name="CiteSeer",
+        ds_tables=[SimpleNamespace(caption="CiteSeer results", markdown="scores")],
+        focus_prefix="FOCUS\n",
+        full_context="EXPERIMENT PROSE: this is a clustering task\nTABLE: scores",
+        rag_stats={},
+        call_type="extract_dataset:CiteSeer",
+        max_table_chars=1_000,
+        single_pass=True,
+    )
+
+    assert len(captured) == 1
+    assert "this is a clustering task" in captured[0]
+
+
 def test_dataset_focus_prefix_contains_selection_rationale_rules():
     extractor = LLMExtractor()
     prefix = extractor._dataset_focus_prefix(
@@ -564,6 +677,22 @@ def test_extract_results_chunk_falls_back_between_yaml_and_json(monkeypatch):
     assert result.proposed_model is not None
     assert result.proposed_model.name == "GraphGPS"
     assert result.results[0].dataset == "Peptides-func"
+
+
+def test_extract_results_chunk_does_not_retry_format_after_transport_timeout(monkeypatch):
+    extractor = LLMExtractor(result_output_format="yaml")
+    call_formats: list[str] = []
+
+    def fake_call_structured(*_args, output_format="json", **_kwargs):
+        call_formats.append(output_format)
+        raise LLMWallClockTimeout("timed out")
+
+    monkeypatch.setattr(extractor, "_call_structured", fake_call_structured)
+
+    with pytest.raises(LLMWallClockTimeout, match="timed out"):
+        extractor._extract_results_chunk("prompt", "paper text")
+
+    assert call_formats == ["yaml"]
 
 
 def test_extract_results_chunk_wraps_top_level_result_rows(monkeypatch):

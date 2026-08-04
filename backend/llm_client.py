@@ -9,9 +9,10 @@ import time
 from datetime import UTC, datetime
 from typing import Any
 
+import httpx
 import yaml
-from openai import APIStatusError, RateLimitError
-from tenacity import retry, stop_after_attempt, wait_exponential
+from openai import APIStatusError, APITimeoutError, RateLimitError
+from tenacity import retry, retry_if_not_exception_type, stop_after_attempt, wait_exponential
 
 from backend.config import cfg
 from backend.json_repair import parse_json_lenient
@@ -20,6 +21,10 @@ from backend.llm_model_options import extra_body_for_model
 from backend.llm_types import CallRecord
 
 logger = logging.getLogger(__name__)
+
+
+class LLMWallClockTimeout(TimeoutError):
+    """Raised when one LLM request exceeds its total wall-clock budget."""
 
 
 def _estimated_tokens(text: str) -> int:
@@ -91,6 +96,7 @@ class LLMClientMixin:
     @retry(
         stop=stop_after_attempt(3),
         wait=wait_exponential(multiplier=2, min=5, max=60),
+        retry=retry_if_not_exception_type((LLMWallClockTimeout, APITimeoutError)),
         reraise=True,
     )
     def _call(
@@ -119,6 +125,10 @@ class LLMClientMixin:
         prompt_tokens: int | None = None
         completion_tokens: int | None = None
         extra_body = self._extra_body()
+        request_timeout = httpx.Timeout(
+            cfg.llm_timeout,
+            read=min(30.0, float(cfg.llm_timeout)),
+        )
         try:
             if self.streaming:
                 # Streaming path: captures TTFT and tokens/sec
@@ -133,8 +143,15 @@ class LLMClientMixin:
                     stream=True,
                     stream_options={"include_usage": True},
                     extra_body=extra_body,
+                    timeout=request_timeout,
                 )
                 for chunk in stream:
+                    elapsed = time.perf_counter() - request_start
+                    if elapsed > cfg.llm_timeout:
+                        stream.close()
+                        raise LLMWallClockTimeout(
+                            f"LLM request exceeded {cfg.llm_timeout}s wall-clock limit"
+                        )
                     if getattr(chunk, "usage", None) is not None:
                         prompt_tokens = chunk.usage.prompt_tokens
                         completion_tokens = chunk.usage.completion_tokens
@@ -157,6 +174,7 @@ class LLMClientMixin:
                     max_tokens=completion_budget,
                     temperature=cfg.llm_temperature,
                     extra_body=extra_body,
+                    timeout=request_timeout,
                 )
                 choice = response.choices[0]
                 content = (choice.message.content or "").strip()
@@ -168,7 +186,14 @@ class LLMClientMixin:
             elapsed = time.perf_counter() - request_start
             # Better error classification for debugging
             exc_type = type(exc).__name__
-            if isinstance(exc, RateLimitError):
+            if isinstance(exc, (LLMWallClockTimeout, APITimeoutError)):
+                logger.warning(
+                    "LLM request to %r timed out after %.2f s: %s — not retrying",
+                    self.model_name,
+                    elapsed,
+                    exc,
+                )
+            elif isinstance(exc, RateLimitError):
                 logger.warning(
                     "LLM request to %r rate limited (429): %s — will retry with backoff",
                     self.model_name,

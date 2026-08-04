@@ -18,13 +18,15 @@ Usage::
 from __future__ import annotations
 
 import argparse
+import hashlib
 import logging
 import re
 from datetime import UTC, datetime
+from pathlib import Path
 from typing import Any
 
 import yaml
-from openai import OpenAI
+from openai import APIError, OpenAI
 from thefuzz import fuzz as fuzz_lib
 
 from backend.config import cfg, normalize_arxiv_id
@@ -33,7 +35,7 @@ from backend.db import session_scope
 from backend.guided_table import GuidedDiscovery, extract_guided_results
 from backend.json_repair import parse_json_lenient
 from backend.llm_backends import client_params_for_model
-from backend.llm_client import LLMClientMixin
+from backend.llm_client import LLMClientMixin, LLMWallClockTimeout
 from backend.llm_metadata import (
     _discovery_text_excerpts,
     _get_known_dataset_names_hint,
@@ -93,6 +95,70 @@ from backend.qm9_targets import (
     is_qm9_dataset,
     qm9_extract_metric_constraint,
 )
+
+_DATASET_CHECKPOINT_VERSION = 2
+
+
+def _dataset_checkpoint_fingerprint(
+    *, model_name: str, output_format: str, prompt: str, user_content: str
+) -> str:
+    payload = "\0".join((model_name, output_format, prompt, user_content))
+    return hashlib.sha256(payload.encode("utf-8")).hexdigest()
+
+
+def _dataset_checkpoint_path(checkpoint_dir: Path, dataset_key: str) -> Path:
+    return checkpoint_dir / f"{_slugify_label(dataset_key)}.yaml"
+
+
+def _load_dataset_checkpoint(
+    checkpoint_dir: Path | None,
+    dataset_key: str,
+    *,
+    fingerprint: str,
+) -> ExtractionOutput | None:
+    if checkpoint_dir is None:
+        return None
+    path = _dataset_checkpoint_path(checkpoint_dir, dataset_key)
+    if not path.exists():
+        return None
+    try:
+        payload = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+        if (
+            payload.get("version") != _DATASET_CHECKPOINT_VERSION
+            or payload.get("fingerprint") != fingerprint
+        ):
+            return None
+        return ExtractionOutput.model_validate(payload.get("output") or {})
+    except Exception as exc:
+        logger.warning("Ignoring invalid dataset checkpoint %s: %s", path, exc)
+        return None
+
+
+def _save_dataset_checkpoint(
+    checkpoint_dir: Path | None,
+    dataset_key: str,
+    *,
+    fingerprint: str,
+    output: ExtractionOutput,
+) -> None:
+    if checkpoint_dir is None:
+        return
+    checkpoint_dir.mkdir(parents=True, exist_ok=True)
+    path = _dataset_checkpoint_path(checkpoint_dir, dataset_key)
+    tmp_path = path.with_suffix(".yaml.tmp")
+    payload = {
+        "version": _DATASET_CHECKPOINT_VERSION,
+        "dataset": dataset_key,
+        "fingerprint": fingerprint,
+        "completed_at": datetime.now(UTC).isoformat(),
+        "output": output.model_dump(mode="json"),
+    }
+    tmp_path.write_text(
+        yaml.safe_dump(payload, allow_unicode=True, sort_keys=False),
+        encoding="utf-8",
+    )
+    tmp_path.replace(path)
+
 
 # ParsedTable is imported lazily inside run_extraction to avoid slow startup,
 # but type-annotated here for clarity.
@@ -575,9 +641,7 @@ def _proposed_model_context(proposed_model: ProposedModel | None) -> str:
 def _prefer_method_acronym(name: str, source: str) -> str:
     """Prefer a paper-defined acronym when it is explicitly paired with the method name."""
     name_tokens = {
-        token.casefold()
-        for token in re.findall(r"[A-Za-z][A-Za-z0-9-]+", name)
-        if len(token) >= 3
+        token.casefold() for token in re.findall(r"[A-Za-z][A-Za-z0-9-]+", name) if len(token) >= 3
     }
     if len(name_tokens) < 2:
         return name
@@ -703,8 +767,18 @@ class LLMExtractor(LLMClientMixin):
 
     # ── Extraction tasks ───────────────────────────────────────────────────
 
-    def screen_paper(self, title: str, abstract: str) -> ScreenResult:
-        """Stage 1: decide from title+abstract whether a full extraction is warranted."""
+    def screen_paper(
+        self,
+        title: str,
+        abstract: str,
+        *,
+        fail_open: bool = True,
+    ) -> ScreenResult:
+        """Decide from title and abstract whether a full extraction is warranted.
+
+        Interactive extraction historically proceeds when screening is unavailable. Batch
+        callers can disable that behavior so transport and parsing failures remain retryable.
+        """
         prompt = self._read_prompt("benchmark_check.txt")
         user_content = f"Title: {title}\n\nAbstract:\n{abstract}"
         try:
@@ -715,6 +789,8 @@ class LLMExtractor(LLMClientMixin):
         except Exception as exc:
             logger.warning("Abstract screening failed: %s", exc)
             self._fire_progress()
+            if not fail_open:
+                raise
             # Fail open: if screening errors, proceed with full extraction
             return ScreenResult(
                 has_benchmark_results=True,
@@ -739,9 +815,7 @@ class LLMExtractor(LLMClientMixin):
             for table in getattr(latex_paper, "tables", []):
                 first_column = self._table_first_column(table)
                 if first_column:
-                    method_rows.append(
-                        f"Table {getattr(table, 'number', '?')}: {first_column}"
-                    )
+                    method_rows.append(f"Table {getattr(table, 'number', '?')}: {first_column}")
             table_context = "\n".join(method_rows[:80])
             setup = getattr(latex_paper, "experiment_text", "") or ""
         else:
@@ -1008,8 +1082,7 @@ class LLMExtractor(LLMClientMixin):
         setup = main_body_prose_text(paper_text=paper_text, latex_paper=latex_paper)
         context_excerpt = (latex_paper.intro_text + "\n\n" + setup)[:24000]
         user_content = (
-            _proposed_model_context(identified_proposed_model)
-            + "\n"
+            _proposed_model_context(identified_proposed_model) + "\n"
             f"=== TITLE ===\n{paper_title}\n\n"
             f"=== ABSTRACT ===\n{paper_abstract}\n\n"
             f"=== INTRODUCTION / EXPERIMENT CONTEXT ===\n"
@@ -1276,9 +1349,11 @@ class LLMExtractor(LLMClientMixin):
     ) -> list:
         """Apply deterministic constraints while allowing explained overrides."""
         available = {
-            getattr(table, "number", None)
-            if getattr(table, "number", None) is not None
-            else index + 1: table
+            (
+                getattr(table, "number", None)
+                if getattr(table, "number", None) is not None
+                else index + 1
+            ): table
             for index, table in enumerate(tables)
         }
         selected_numbers = {int(number) for number in numbers if str(number).lstrip("-").isdigit()}
@@ -1824,10 +1899,10 @@ class LLMExtractor(LLMClientMixin):
                 attempts.append((":tables_only", tables_only))
 
         if single_pass:
-            # Benchmark runs need stable, comparable call counts.  Tables-only
-            # context is both shorter and less likely to mix in another task.
-            suffix, context = attempts[-1] if tables_only else attempts[0]
-            return _run(_sanitize_text(focus_prefix + context), suffix)
+            # Keep one stable call, but retain experiment/setup prose needed to
+            # distinguish canonical tasks from clustering, transfer, attacks,
+            # and other non-comparable protocols.
+            return _run(_sanitize_text(focus_prefix + full_context), "")
 
         out = ExtractionOutput(results=[])
         for suffix, ctx in attempts:
@@ -1890,6 +1965,7 @@ class LLMExtractor(LLMClientMixin):
         arxiv_id: str = "",
         single_pass: bool = False,
         identified_proposed_model: ProposedModel | None = None,
+        checkpoint_dir: Path | None = None,
     ) -> ExtractionOutput:
         """Two-step extraction: first discover datasets, then extract per dataset.
 
@@ -2069,6 +2145,17 @@ class LLMExtractor(LLMClientMixin):
         confidence_levels: list[str] = []
         coverage_assessments: list[str] = []
 
+        def collect_output(output: ExtractionOutput, note_label: str) -> None:
+            nonlocal proposed
+            all_results.extend(output.results)
+            if output.proposed_model and proposed is None:
+                proposed = output.proposed_model
+            baselines.extend(output.baseline_models)
+            if output.extraction_notes:
+                notes_parts.append(f"[{note_label}] {output.extraction_notes}")
+            confidence_levels.append(output.extraction_confidence)
+            coverage_assessments.append(output.coverage_assessment)
+
         # One merged LLM call to select tables for ALL datasets at once
         if effective_tables:
             tables_per_dataset = self.select_tables_for_all_datasets(
@@ -2163,9 +2250,25 @@ class LLMExtractor(LLMClientMixin):
                 if is_qm9_dataset(ds.name):
                     base_user_content = _sanitize_text(focus_prefix + dataset_context)
                     for group_idx, targets in enumerate(QM9_EXTRACT_TARGET_GROUPS):
+                        checkpoint_key = f"{ds.name}-g{group_idx + 1}"
                         group_content = (
                             base_user_content + "\n" + qm9_extract_metric_constraint(targets)
                         )
+                        fingerprint = _dataset_checkpoint_fingerprint(
+                            model_name=self.model_name,
+                            output_format=self.result_output_format,
+                            prompt=prompt,
+                            user_content=group_content,
+                        )
+                        out = _load_dataset_checkpoint(
+                            checkpoint_dir,
+                            checkpoint_key,
+                            fingerprint=fingerprint,
+                        )
+                        if out is not None:
+                            notes_parts.append(f"[{checkpoint_key}] resumed from checkpoint.")
+                            collect_output(out, checkpoint_key)
+                            continue
                         try:
                             out = self._extract_results_chunk(
                                 prompt,
@@ -2185,6 +2288,12 @@ class LLMExtractor(LLMClientMixin):
                             notes_parts.append(f"[{ds.name} g{group_idx + 1}] failed: {group_exc}")
                             self._fire_progress()
                             continue
+                        _save_dataset_checkpoint(
+                            checkpoint_dir,
+                            checkpoint_key,
+                            fingerprint=fingerprint,
+                            output=out,
+                        )
                         if self._call_log:
                             self._call_log[-1].extra = {
                                 **self._call_log[-1].extra,
@@ -2192,38 +2301,43 @@ class LLMExtractor(LLMClientMixin):
                                 "qm9_targets": list(targets),
                             }
                         self._fire_progress()
-                        all_results.extend(out.results)
-                        if out.proposed_model and proposed is None:
-                            proposed = out.proposed_model
-                        baselines.extend(out.baseline_models)
-                        if out.extraction_notes:
-                            notes_parts.append(
-                                f"[{ds.name} g{group_idx + 1}] {out.extraction_notes}"
-                            )
-                        confidence_levels.append(out.extraction_confidence)
-                        coverage_assessments.append(out.coverage_assessment)
+                        collect_output(out, checkpoint_key)
                 else:
-                    out = self._extract_dataset_with_retries(
-                        prompt,
-                        dataset_name=ds.name,
-                        ds_tables=ds_tables,
-                        focus_prefix=focus_prefix,
-                        full_context=dataset_context,
-                        rag_stats=rag_stats,
-                        selection_rationale=selection_rationale,
-                        call_type=f"extract_dataset:{ds.name}",
-                        max_tokens=extract_max_tokens,
-                        max_table_chars=max_table_chars,
-                        single_pass=single_pass,
+                    user_content = _sanitize_text(focus_prefix + dataset_context)
+                    fingerprint = _dataset_checkpoint_fingerprint(
+                        model_name=self.model_name,
+                        output_format=self.result_output_format,
+                        prompt=prompt,
+                        user_content=user_content,
                     )
-                    all_results.extend(out.results)
-                    if out.proposed_model and proposed is None:
-                        proposed = out.proposed_model
-                    baselines.extend(out.baseline_models)
-                    if out.extraction_notes:
-                        notes_parts.append(f"[{ds.name}] {out.extraction_notes}")
-                    confidence_levels.append(out.extraction_confidence)
-                    coverage_assessments.append(out.coverage_assessment)
+                    out = _load_dataset_checkpoint(
+                        checkpoint_dir,
+                        ds.name,
+                        fingerprint=fingerprint,
+                    )
+                    if out is None:
+                        out = self._extract_dataset_with_retries(
+                            prompt,
+                            dataset_name=ds.name,
+                            ds_tables=ds_tables,
+                            focus_prefix=focus_prefix,
+                            full_context=dataset_context,
+                            rag_stats=rag_stats,
+                            selection_rationale=selection_rationale,
+                            call_type=f"extract_dataset:{ds.name}",
+                            max_tokens=extract_max_tokens,
+                            max_table_chars=max_table_chars,
+                            single_pass=single_pass,
+                        )
+                        _save_dataset_checkpoint(
+                            checkpoint_dir,
+                            ds.name,
+                            fingerprint=fingerprint,
+                            output=out,
+                        )
+                    else:
+                        notes_parts.append(f"[{ds.name}] resumed from checkpoint.")
+                    collect_output(out, ds.name)
             except Exception as exc:
                 logger.warning("Per-dataset extraction for %r failed: %s", ds.name, exc)
                 self._fire_progress()
@@ -2633,6 +2747,9 @@ class LLMExtractor(LLMClientMixin):
                         ),
                     }
                 return ExtractionOutput.model_validate(raw)
+            except (APIError, LLMWallClockTimeout):
+                # Alternate JSON/YAML formatting cannot repair a transport failure.
+                raise
             except Exception as exc:
                 parse_errors.append(f"{output_format}: {exc}")
                 logger.warning(
@@ -2776,15 +2893,25 @@ class LLMExtractor(LLMClientMixin):
         """
         storage = PaperStorage(arxiv_id)
         storage.extracted_dir.mkdir(parents=True, exist_ok=True)
+        if experiment_label:
+            artifact_dir = storage.extracted_dir / "experiments" / _slugify_label(experiment_label)
+        else:
+            artifact_dir = storage.extracted_dir
+        checkpoint_dir = artifact_dir / "dataset_checkpoints"
 
         logger.info("Extracting results for arXiv:%s with model=%s", arxiv_id, self.model_name)
 
-        identified_proposed_model = self.identify_proposed_model(
-            paper_title=paper_title,
-            paper_abstract=paper_abstract,
-            paper_text=paper_text,
-            latex_paper=latex_paper,
-        )
+        try:
+            identified_proposed_model = self.identify_proposed_model(
+                paper_title=paper_title,
+                paper_abstract=paper_abstract,
+                paper_text=paper_text,
+                latex_paper=latex_paper,
+            )
+        except Exception as exc:
+            logger.warning("Proposed-model identification failed for %s: %s", arxiv_id, exc)
+            identified_proposed_model = None
+            self._fire_progress()
         strategy = extraction_strategy.lower()
 
         # Task 1: Results — prefer LaTeX source, then HTML tables, then legacy path
@@ -2818,6 +2945,7 @@ class LLMExtractor(LLMClientMixin):
                     arxiv_id=arxiv_id,
                     single_pass=extraction_only,
                     identified_proposed_model=identified_proposed_model,
+                    checkpoint_dir=checkpoint_dir,
                 )
                 results_out.extraction_notes = (
                     "guided-table unavailable without expanded LaTeX; used two-step fallback.\n"
@@ -2834,6 +2962,7 @@ class LLMExtractor(LLMClientMixin):
                 arxiv_id=arxiv_id,
                 single_pass=extraction_only,
                 identified_proposed_model=identified_proposed_model,
+                checkpoint_dir=checkpoint_dir,
             )
         elif structured_tables is not None:
             results_out = self.extract_results_two_step(
@@ -2845,6 +2974,7 @@ class LLMExtractor(LLMClientMixin):
                 arxiv_id=arxiv_id,
                 single_pass=extraction_only,
                 identified_proposed_model=identified_proposed_model,
+                checkpoint_dir=checkpoint_dir,
             )
         else:
             results_out = self.extract_results(
@@ -3021,10 +3151,6 @@ class LLMExtractor(LLMClientMixin):
             "usage": usage_summary,
         }
 
-        if experiment_label:
-            artifact_dir = storage.extracted_dir / "experiments" / _slugify_label(experiment_label)
-        else:
-            artifact_dir = storage.extracted_dir
         artifact_dir.mkdir(parents=True, exist_ok=True)
         llm_output_path = artifact_dir / "llm_output.yaml"
         human_readable_path = artifact_dir / "results_human_readable.md"
