@@ -32,6 +32,7 @@ def test_extraction_quality_quarantines_partial_or_synthesized_output():
         [],
     )
     assert _extraction_quality_issues({"coverage_assessment": "complete"}, []) == []
+    assert _extraction_quality_issues({"coverage_assessment": "uncertain"}, []) == []
 
 
 def test_dataset_param_lookup_does_not_collapse_model_counts():
@@ -221,6 +222,141 @@ def test_forced_reparse_retains_existing_rows_when_extraction_has_no_results(mon
     with session_scope() as session:
         paper = session.query(Paper).filter_by(arxiv_id="2110.04375").one()
         assert session.query(Result).filter_by(paper_id=paper.id).count() == 1
+
+
+def test_forced_reparse_retains_existing_rows_for_partial_extraction(monkeypatch, tmp_path):
+    _configure_temp_workspace(monkeypatch, tmp_path)
+    init_db()
+
+    with session_scope() as session:
+        paper = Paper(arxiv_id="2110.04377", title="Partial results")
+        model = Model(name="Old model", canonical_name="Old model")
+        benchmark = Benchmark(name="Citation Benchmark", short_name="citation")
+        session.add_all([paper, model, benchmark])
+        session.flush()
+        dataset = Dataset(
+            benchmark_id=benchmark.id,
+            name="Cora",
+            task_type="node_classification",
+            primary_metric="Accuracy",
+            higher_is_better=1,
+        )
+        session.add(dataset)
+        session.flush()
+        variant = DatasetVariant(dataset_id=dataset.id, name="Standard", is_standard=1)
+        session.add(variant)
+        session.flush()
+        session.add(
+            Result(
+                paper_id=paper.id,
+                model_id=model.id,
+                dataset_variant_id=variant.id,
+                metric_name="Accuracy",
+                metric_value=0.9,
+                higher_is_better=1,
+            )
+        )
+
+    storage = PaperStorage("2110.04377")
+    storage.ensure_dirs()
+    storage.llm_output_path.write_text(
+        json.dumps(
+            {
+                "model_used": "fake-primary",
+                "results": {
+                    "coverage_assessment": "partial",
+                    "results": [
+                        {
+                            "model": "Old model",
+                            "dataset": "Cora",
+                            "metric": "Accuracy",
+                            "value": 0.95,
+                        }
+                    ],
+                },
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    summary = parse_and_store_with_summary("2110.04377", replace_existing=True)
+
+    assert summary.quarantined is True
+    assert summary.replaced_results == 0
+    with session_scope() as session:
+        paper = session.query(Paper).filter_by(arxiv_id="2110.04377").one()
+        assert session.query(Result).filter_by(paper_id=paper.id).count() == 1
+
+
+def test_forced_reparse_replaces_stale_rows_without_coverage_threshold(monkeypatch, tmp_path):
+    _configure_temp_workspace(monkeypatch, tmp_path)
+    init_db()
+    monkeypatch.setattr("backend.results_parser._enrich_paper_metadata", lambda *args: False)
+
+    with session_scope() as session:
+        benchmark = Benchmark(name="Citation Benchmark", short_name="citation")
+        paper = Paper(arxiv_id="2110.04376", title="Replacement test")
+        models = [Model(name=name, canonical_name=name) for name in ("Keep", "Stale 1", "Stale 2")]
+        session.add_all([benchmark, paper, *models])
+        session.flush()
+        dataset = Dataset(
+            benchmark_id=benchmark.id,
+            name="Cora",
+            task_type="node_classification",
+            primary_metric="Accuracy",
+            higher_is_better=1,
+        )
+        session.add(dataset)
+        session.flush()
+        variant = DatasetVariant(dataset_id=dataset.id, name="Standard", is_standard=1)
+        session.add(variant)
+        session.flush()
+        session.add_all(
+            [
+                Result(
+                    paper_id=paper.id,
+                    model_id=model.id,
+                    dataset_variant_id=variant.id,
+                    metric_name="Accuracy",
+                    metric_value=0.9,
+                    higher_is_better=1,
+                )
+                for model in models
+            ]
+        )
+
+    storage = PaperStorage("2110.04376")
+    storage.ensure_dirs()
+    storage.llm_output_path.write_text(
+        json.dumps(
+            {
+                "model_used": "fake-primary",
+                "results": {
+                    "coverage_assessment": "uncertain",
+                    "results": [
+                        {
+                            "model": "Keep",
+                            "dataset": "Cora",
+                            "metric": "Accuracy",
+                            "value": 0.95,
+                            "higher_is_better": True,
+                        }
+                    ],
+                },
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    summary = parse_and_store_with_summary("2110.04376", replace_existing=True)
+
+    assert summary.candidate_results == 1
+    assert summary.replaced_results == 2
+    with session_scope() as session:
+        paper = session.query(Paper).filter_by(arxiv_id="2110.04376").one()
+        rows = session.query(Result).filter_by(paper_id=paper.id).all()
+        assert len(rows) == 1
+        assert rows[0].metric_value == pytest.approx(0.95)
 
 
 def test_curated_excluded_paper_clears_existing_rows(monkeypatch, tmp_path):
