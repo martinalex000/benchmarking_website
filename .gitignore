@@ -33,6 +33,7 @@ site/static/figures/
 site/data/*.json
 .deploy*
 deploy-archives/
+.github-pages/
 
 # ── Papers: keep local workspace data out of git ────────────────────────────
 papers/*

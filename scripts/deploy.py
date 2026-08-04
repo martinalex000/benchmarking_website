@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build and deploy the Hugo site via zstd tar archives over ssh/rsync."""
+"""Build and deploy the Hugo site via SSH archives or GitHub Pages."""
 
 from __future__ import annotations
 
@@ -40,6 +40,15 @@ SSH_OPTS = [
     "WarnWeakCrypto=no",
 ]
 DEPLOY_FILE_MODE = 0o755
+GITHUB_PAGES_BRANCH_DEFAULT = "main"
+GITHUB_PAGES_COMMIT_MESSAGE_DEFAULT = "Deploy Hugo site"
+GITHUB_PAGES_REPO_DEFAULT = (
+    "https://github.com/graphlearningbenchmarks/graphlearningbenchmarks.github.io"
+)
+GITHUB_PAGES_SSH_KEY_DEFAULT = Path.home() / ".ssh" / "graphlearningbenchmarks"
+JPEGOPTIM_MARKER = ".jpegoptim"
+MAX_IMAGE_SHORT_EDGE = 768
+IMAGE_SUFFIXES = frozenset({".png", ".jpg", ".jpeg", ".webp"})
 FIGURES_NAME_RE = re.compile(r"^-(\d{12})-figures\.tar\.zst$")
 EXPORT_NAME_RE = re.compile(r"^-(\d{12})-export\.tar\.zst$")
 INCREMENT_NAME_RE = re.compile(r"^-(\d{12})-increment\.tar\.zst$")
@@ -539,6 +548,244 @@ def run_hugo_build(project_dir: Path, build_dir: str | Path, *, hugo_base_url: s
     if hugo_base_url:
         hugo_cmd.extend(["--baseURL", hugo_base_url])
     subprocess.run(hugo_cmd, check=True, cwd=project_dir)
+
+
+def _image_dimensions(path: Path) -> tuple[int, int]:
+    result = subprocess.run(
+        ["magick", str(path), "-auto-orient", "-format", "%w %h", "info:"],
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+    try:
+        width, height = (int(value) for value in result.stdout.split())
+    except ValueError as exc:
+        raise RuntimeError(f"Could not read dimensions for {path}") from exc
+    return width, height
+
+
+def _image_target_dimensions(width: int, height: int) -> tuple[int, int]:
+    short_edge = min(width, height)
+    if short_edge <= MAX_IMAGE_SHORT_EDGE:
+        return width, height
+    scale = MAX_IMAGE_SHORT_EDGE / short_edge
+    return max(1, round(width * scale)), max(1, round(height * scale))
+
+
+def normalize_image_tree(figures_dir: Path) -> dict[str, str]:
+    """Convert figures to marked JPEGs and return old-to-new relative URL mappings.
+
+    The marker in the filename makes this operation idempotent: a later deployment
+    will not invoke jpegoptim again for an image that has already been processed.
+    Smaller images are not upscaled; larger images have their short edge reduced to
+    768 pixels.
+    """
+    require_cmd("magick")
+    require_cmd("jpegoptim")
+    if not figures_dir.is_dir():
+        return {}
+
+    replacements: dict[str, str] = {}
+    normalized_count = 0
+    reused_count = 0
+    for source in sorted(figures_dir.rglob("*")):
+        if not source.is_file() or source.suffix.lower() not in IMAGE_SUFFIXES:
+            continue
+        if source.suffix.lower() == ".jpg" and source.stem.endswith(JPEGOPTIM_MARKER):
+            continue
+
+        target = source.with_name(f"{source.stem}{JPEGOPTIM_MARKER}.jpg")
+        if target.exists() and target.stat().st_mtime >= source.stat().st_mtime:
+            reused_count += 1
+            replacements["/" + source.relative_to(figures_dir.parent).as_posix()] = (
+                "/" + target.relative_to(figures_dir.parent).as_posix()
+            )
+            source.unlink()
+            continue
+
+        width, height = _image_dimensions(source)
+        target_width, target_height = _image_target_dimensions(width, height)
+        temporary = target.with_name(f".{target.stem}.tmp.jpg")
+        try:
+            subprocess.run(
+                [
+                    "magick",
+                    str(source),
+                    "-auto-orient",
+                    "-resize",
+                    f"{target_width}x{target_height}!",
+                    "-background",
+                    "white",
+                    "-alpha",
+                    "remove",
+                    "-alpha",
+                    "off",
+                    "-colorspace",
+                    "sRGB",
+                    "-quality",
+                    "88",
+                    str(temporary),
+                ],
+                check=True,
+            )
+            subprocess.run(
+                ["jpegoptim", "--strip-all", "--max=88", "--quiet", str(temporary)],
+                check=True,
+            )
+            temporary.replace(target)
+        finally:
+            temporary.unlink(missing_ok=True)
+
+        old_url = "/" + source.relative_to(figures_dir.parent).as_posix()
+        new_url = "/" + target.relative_to(figures_dir.parent).as_posix()
+        replacements[old_url] = new_url
+        source.unlink()
+        normalized_count += 1
+
+    print(
+        f"Normalized {normalized_count} images in {figures_dir} "
+        f"({reused_count} existing marked outputs reused)."
+    )
+    return replacements
+
+
+def rewrite_image_references(root: Path, replacements: dict[str, str]) -> int:
+    """Update text references after image filenames are normalized."""
+    if not replacements or not root.exists():
+        return 0
+    text_suffixes = {".html", ".md", ".json", ".xml", ".txt", ".css", ".js"}
+    changed_files = 0
+    for path in root.rglob("*"):
+        if not path.is_file() or path.suffix.lower() not in text_suffixes:
+            continue
+        try:
+            content = path.read_text(encoding="utf-8")
+        except UnicodeDecodeError:
+            continue
+        updated = content
+        for old_url, new_url in replacements.items():
+            updated = updated.replace(old_url, new_url)
+            updated = updated.replace(old_url.removeprefix("/"), new_url.removeprefix("/"))
+        if updated != content:
+            path.write_text(updated, encoding="utf-8")
+            changed_files += 1
+    return changed_files
+
+
+def github_pages_git_env() -> dict[str, str]:
+    key = Path(
+        os.environ.get("GITHUB_PAGES_SSH_KEY", str(GITHUB_PAGES_SSH_KEY_DEFAULT))
+    ).expanduser()
+    if not key.is_file():
+        sys.exit(f"ERROR: GitHub Pages SSH key not found: {key}")
+    env = os.environ.copy()
+    env["GIT_SSH_COMMAND"] = shlex.join(["ssh", "-i", str(key), "-o", "IdentitiesOnly=yes"])
+    return env
+
+
+def github_pages_git_remote(repo_url: str) -> str:
+    """Use the SSH transport for GitHub URLs so the configured deploy key is used."""
+    prefix = "https://github.com/"
+    if repo_url.startswith(prefix):
+        return f"git@github.com:{repo_url.removeprefix(prefix).removesuffix('.git')}.git"
+    return repo_url
+
+
+def _git(
+    project_dir: Path, *args: str, capture_output: bool = False
+) -> subprocess.CompletedProcess[str]:
+    return subprocess.run(
+        ["git", *args],
+        cwd=project_dir,
+        check=True,
+        capture_output=capture_output,
+        text=True if capture_output else None,
+        env=github_pages_git_env(),
+    )
+
+
+def github_pages_checkout(project_dir: Path) -> tuple[Path, str]:
+    repo_url = os.environ.get("GITHUB_PAGES_REPO", GITHUB_PAGES_REPO_DEFAULT).strip()
+    repo = github_pages_git_remote(repo_url)
+    branch = os.environ.get("GITHUB_PAGES_BRANCH", GITHUB_PAGES_BRANCH_DEFAULT).strip()
+    checkout = Path(
+        os.environ.get("GITHUB_PAGES_DIR", str(project_dir / ".github-pages")).strip()
+    ).expanduser()
+    if checkout.resolve() == project_dir.resolve():
+        sys.exit("ERROR: GITHUB_PAGES_DIR must be separate from the source checkout.")
+
+    if not checkout.exists():
+        checkout.parent.mkdir(parents=True, exist_ok=True)
+        subprocess.run(
+            ["git", "clone", "--branch", branch, "--single-branch", repo, str(checkout)],
+            check=True,
+            env=github_pages_git_env(),
+        )
+    elif not (checkout / ".git").exists():
+        sys.exit(f"ERROR: GITHUB_PAGES_DIR is not a Git checkout: {checkout}")
+    else:
+        status = _git(checkout, "status", "--porcelain", capture_output=True).stdout
+        if status.strip():
+            sys.exit(f"ERROR: GitHub Pages checkout has local changes: {checkout}")
+        _git(checkout, "fetch", "origin", branch)
+        _git(checkout, "checkout", branch)
+        _git(checkout, "pull", "--ff-only", "origin", branch)
+    return checkout, branch
+
+
+def deploy_github_pages(project_dir: Path, *, skip_export: bool) -> None:
+    """Push the prepared Hugo source tree to a separate github.io checkout."""
+    require_cmd("git")
+    require_cmd("rsync")
+    checkout, branch = github_pages_checkout(project_dir)
+    with tempfile.TemporaryDirectory(
+        prefix=".github-pages-source-", dir=build_work_parent(project_dir)
+    ) as tmp:
+        source_dir = Path(tmp)
+        prepare_hugo_content(project_dir, local_host_id(), skip_export=skip_export)
+        shutil.copytree(
+            project_dir / "site",
+            source_dir,
+            ignore=shutil.ignore_patterns("public", "resources", ".hugo_build.lock"),
+            dirs_exist_ok=True,
+        )
+        figures_dir = source_dir / "static" / "figures"
+        replacements = normalize_image_tree(figures_dir)
+        changed_references = rewrite_image_references(source_dir / "content", replacements)
+        print(f"Updated image references in {changed_references} generated files.")
+
+        subprocess.run(
+            [
+                "rsync",
+                "-a",
+                "--delete",
+                "--exclude=.git/",
+                "--exclude=.github/",
+                "--exclude=CNAME",
+                f"{source_dir}/",
+                f"{checkout}/",
+            ],
+            check=True,
+        )
+
+    status = _git(checkout, "status", "--porcelain", capture_output=True).stdout
+    if not status.strip():
+        print("GitHub Pages output is unchanged; no commit or push needed.")
+        return
+
+    _git(checkout, "add", "-A")
+    staged = subprocess.run(["git", "diff", "--cached", "--quiet"], cwd=checkout, check=False)
+    if staged.returncode == 0:
+        print("GitHub Pages index is unchanged after staging; no commit or push needed.")
+        return
+    if staged.returncode != 1:
+        sys.exit("ERROR: Could not inspect staged GitHub Pages changes.")
+    commit_message = os.environ.get(
+        "GITHUB_PAGES_COMMIT_MESSAGE", GITHUB_PAGES_COMMIT_MESSAGE_DEFAULT
+    )
+    _git(checkout, "commit", "-m", commit_message)
+    _git(checkout, "push", "origin", branch)
+    print(f"GitHub Pages deploy complete: {checkout} ({branch}).")
 
 
 def archive_names(host_id: str, stamp: str | None = None) -> tuple[str, str, str]:
@@ -1172,6 +1419,11 @@ def main() -> None:
         help="Upload increment only (default).",
     )
     parser.add_argument(
+        "--github-pages",
+        action="store_true",
+        help="Build and push the site to a separate GitHub Pages checkout.",
+    )
+    parser.add_argument(
         "--skip-export",
         action="store_true",
         help=(
@@ -1203,9 +1455,20 @@ def main() -> None:
         sys.exit("ERROR: --upload-only cannot be used with --build-only.")
     if args.upload_only and args.skip_export:
         sys.exit("ERROR: --upload-only cannot be used with --skip-export.")
+    if args.github_pages and (
+        args.full or args.incremental or args.upload_only or args.build_only or args.staging_dir
+    ):
+        sys.exit(
+            "ERROR: --github-pages cannot be combined with --full, --incremental, "
+            "--upload-only, --build-only, or --staging-dir."
+        )
 
     full = args.full
     hugo_base_url = os.environ.get("HUGO_BASE_URL", "")
+
+    if args.github_pages:
+        deploy_github_pages(cfg.base_dir, skip_export=args.skip_export)
+        return
 
     if args.build_only:
         if not args.staging_dir:
