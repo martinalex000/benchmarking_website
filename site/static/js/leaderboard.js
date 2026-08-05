@@ -662,9 +662,6 @@
     window.addEventListener("resize", _applyModelColumnWidths);
     window.addEventListener("resize", _applyModelTooltips);
     window.addEventListener("resize", _syncSecondaryMetricsPlatform);
-    window.addEventListener("resize", function () {
-      Object.values(charts).forEach(_positionChartToggles);
-    });
     if (window.matchMedia) {
       var mobileChartQuery = window.matchMedia("(max-width: 980px)");
       var syncMobileChartMode = function () {
@@ -706,29 +703,6 @@
       btn.classList.toggle("is-on", !!isOn);
       btn.setAttribute("aria-pressed", isOn ? "true" : "false");
     });
-  }
-
-  function _positionChartToggles(chart) {
-    if (!chart || !chart.canvas || !chart.chartArea) return;
-    var canvas = chart.canvas;
-    var wrap = canvas.closest(".chart-plot-wrap");
-    var toggles = wrap ? wrap.querySelector(".chart-plot-toggles") : null;
-    if (!toggles) return;
-
-    var area = chart.chartArea;
-    var scaleX = canvas.offsetWidth / chart.width;
-    var scaleY = canvas.offsetHeight / chart.height;
-    var inset = 8;
-    var lower = wrap.classList.contains("chart-plot-wrap-lower-is-better");
-
-    toggles.style.top = area.top * scaleY + inset + "px";
-    if (lower) {
-      toggles.style.left = "auto";
-      toggles.style.right = (chart.width - area.right) * scaleX + inset + "px";
-    } else {
-      toggles.style.right = "auto";
-      toggles.style.left = area.left * scaleX + inset + "px";
-    }
   }
 
   function _chartBuildOptions(slug, variant) {
@@ -1142,10 +1116,6 @@
     return window.matchMedia("(min-width: 981px)").matches;
   }
 
-  function _mobileFrontierChartOnly() {
-    return window.matchMedia("(max-width: 980px)").matches;
-  }
-
   function _showRecordPoint(datum) {
     return !!(datum && datum._isRecord);
   }
@@ -1312,11 +1282,6 @@
 
   function _datumPassesFilters(datum, slug) {
     if (!datum) return false;
-    if (_mobileFrontierChartOnly()) {
-      if (!(datum._isRecord || datum._isSotaMatch)) {
-        return false;
-      }
-    }
     if (!showBaselines && datum.is_baseline && !datum._isRecord) {
       if (slug && _isTopNDatum(slug, datum, TOP_N_ALWAYS_VISIBLE)) {
         /* keep top-N table rows on chart */
@@ -1807,10 +1772,18 @@
       };
     }
     return {
-      fill: "rgba(209,213,219,0.78)",
-      stroke: "rgba(156,163,175,0.9)",
-      error: "rgba(156,163,175,0.78)",
+      fill: "rgba(107,114,128,0.78)",
+      stroke: "rgba(75,85,99,0.9)",
+      error: "rgba(75,85,99,0.78)",
     };
+  }
+
+  function _scatterPointRadius(datum) {
+    return datum && (datum._isRecord || datum._isSotaMatch) ? 4 : 3;
+  }
+
+  function _scatterPointBorderWidth(datum) {
+    return datum && (datum._isRecord || datum._isSotaMatch) ? 2 : 0;
   }
 
   function _scatterPriority(datum) {
@@ -1889,6 +1862,11 @@
     chart.data.datasets[0].pointHoverBorderColor = visibleScatter.map(function (d) {
       return _semanticPointColors(d).stroke;
     });
+    chart.data.datasets[0].pointRadius = visibleScatter.map(_scatterPointRadius);
+    chart.data.datasets[0].pointHoverRadius = visibleScatter.map(function (d) {
+      return _scatterPointRadius(d) + 3;
+    });
+    chart.data.datasets[0].pointBorderWidth = visibleScatter.map(_scatterPointBorderWidth);
 
     chart.data.datasets[1].pointBackgroundColor = visibleRecord.map(function (d) {
       return _showRecordPoint(d) ? "#2563eb" : "transparent";
@@ -2144,13 +2122,6 @@
       performance.mark(perfPrefix + "parse-end");
       performance.measure(perfPrefix + "parse", perfPrefix + "parse-start", perfPrefix + "parse-end");
     }
-
-    var chartTogglePositionPlugin = {
-      id: "chartTogglePosition_" + slug,
-      afterLayout: function (chart) {
-        _positionChartToggles(chart);
-      },
-    };
 
     var yearLinesPlugin = {
       id: "yearLines_" + slug,
@@ -2450,8 +2421,11 @@
             borderColor: visibleScatterData.map(function (d) {
               return _semanticPointColors(d).stroke;
             }),
-            pointRadius: 4,
-            pointHoverRadius: 7,
+            pointRadius: visibleScatterData.map(_scatterPointRadius),
+            pointHoverRadius: visibleScatterData.map(function (d) {
+              return _scatterPointRadius(d) + 3;
+            }),
+            pointBorderWidth: visibleScatterData.map(_scatterPointBorderWidth),
             pointHoverBackgroundColor: visibleScatterData.map(function (d) {
               return _semanticPointColors(d).fill;
             }),
@@ -2483,6 +2457,7 @@
       },
       options: {
         responsive: true,
+        maintainAspectRatio: false,
         interaction: { mode: "nearest", intersect: true },
         plugins: {
           tooltip: { enabled: false },
@@ -2493,11 +2468,6 @@
             type: "linear",
             min: xMinPad,
             max: xMaxPad,
-            title: {
-              display: !_mobileFrontierChartOnly(),
-              text: "Date",
-              color: _chartTheme().tick,
-            },
             grid: { color: _chartTheme().grid },
             afterBuildTicks: function (scale) {
               var min = scale.min;
@@ -2544,7 +2514,6 @@
         },
       },
       plugins: [
-        chartTogglePositionPlugin,
         yearLinesPlugin,
         referenceLinesPlugin,
         errorBarsPlugin,

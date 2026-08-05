@@ -45,6 +45,11 @@ def _configure_temp_workspace(monkeypatch, tmp_path: Path) -> Path:
     monkeypatch.setattr(export_to_hugo, "_CONTENT", site_dir / "content")
     monkeypatch.setattr(export_to_hugo, "_DATA_DIR", site_dir / "data")
     monkeypatch.setattr(export_to_hugo, "_STATIC", site_dir / "static")
+    monkeypatch.setattr(
+        export_to_hugo,
+        "_DATASETS_DATA_DIR",
+        site_dir / "static" / "data" / "datasets",
+    )
     monkeypatch.setattr(export_to_hugo, "_DATASET_OVERRIDES_FILE", dataset_overrides)
     export_to_hugo.clear_export_caches()
 

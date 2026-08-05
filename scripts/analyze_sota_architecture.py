@@ -41,7 +41,7 @@ PAPER_FONTS = {
 }
 PLOT_CATEGORY_ORDER = (
     "MPGNN",
-    "Graph Transformer",
+    "Transformer",
     "LLM",
     "Walk",
     "Traditional",
@@ -49,7 +49,7 @@ PLOT_CATEGORY_ORDER = (
 )
 PLOT_CATEGORY_MAP = {
     "gnn": "MPGNN",
-    "transformer_involving": "Graph Transformer",
+    "transformer_involving": "Transformer",
     "llm": "LLM",
     "walk": "Walk",
     "unknown": "Unknown",
@@ -160,9 +160,7 @@ def _write_figure(snapshots: list[OwnershipSnapshot], output_dir: Path) -> Path:
         for category in categories
     ]
 
-    fig, (ax_share, ax_transformer) = plt.subplots(
-        2, 1, figsize=(11, 5.5), sharex=True, gridspec_kw={"height_ratios": [2, 1]}
-    )
+    fig, ax_share = plt.subplots(figsize=(7.0, 4.0))
     colors = plt.get_cmap("tab10").colors
     ax_share.stackplot(
         dates, ownership, labels=categories, colors=colors[: len(categories)], alpha=0.9
@@ -171,15 +169,8 @@ def _write_figure(snapshots: list[OwnershipSnapshot], output_dir: Path) -> Path:
     _style_date_axis(ax_share, plot_end)
     ax_share.set_ylabel("#Datasets")
     ax_share.legend(loc="upper left", ncol=3, fontsize=PAPER_FONTS["legend"])
-    transformer = [snapshot.shares.get("transformer_involving", 0.0) for snapshot in snapshots]
-    ax_transformer.plot(dates, transformer, color="#d62728", linewidth=2.5)
-    ax_transformer.fill_between(dates, transformer, color="#d62728", alpha=0.18)
-    ax_transformer.set_ylim(0, 1)
-    _style_date_axis(ax_transformer, plot_end)
-    ax_transformer.set_ylabel("Transformer share")
-    ax_transformer.grid(axis="y", alpha=0.25)
+    ax_share.grid(axis="y", alpha=0.25)
     _style_axes(ax_share)
-    _style_axes(ax_transformer)
     fig.tight_layout()
     output_path = _save_cropped_figure(fig, output_dir, "architecture_ownership_over_time")
     plt.close(fig)

@@ -4,6 +4,7 @@ from datetime import date
 
 import pytest
 
+from backend.model_metadata_defaults import lookup_default_model_type
 from backend.sota_architecture_analysis import (
     AnalysisRow,
     analyze_snapshots,
@@ -52,10 +53,14 @@ def test_architecture_category_combines_transformers():
     assert architecture_category(None) == "unknown"
 
 
+def test_gat_is_classified_as_message_passing_gnn():
+    assert lookup_default_model_type("GAT") == "gnn"
+
+
 def test_plot_category_labels_collapse_to_six_paper_labels():
     assert PLOT_CATEGORY_MAP == {
         "gnn": "MPGNN",
-        "transformer_involving": "Graph Transformer",
+        "transformer_involving": "Transformer",
         "llm": "LLM",
         "walk": "Walk",
         "svm_kernel": "Traditional",

@@ -264,7 +264,6 @@ _DATASET_VARIANT_QUALIFIER_RE = re.compile(
 # obvious variants like punctuation or spacing changes without collapsing short
 # families such as GCN into unrelated names like GatedGCN.
 _MODEL_FUZZY_MATCH_MIN_SCORE = 88
-_MIN_REPLACEMENT_COVERAGE = 0.5
 
 
 @dataclass
@@ -1276,7 +1275,7 @@ def _extraction_quality_issues(
     """Return reasons why an extraction is unsafe to merge into the database."""
     issues = list(fatal_parse_failures)
     coverage = str(extraction.get("coverage_assessment") or "").casefold()
-    if coverage in {"partial", "uncertain", "incomplete"}:
+    if coverage in {"partial", "incomplete"}:
         issues.append(f"coverage_assessment={coverage}")
     notes = str(extraction.get("extraction_notes") or "").strip()
     if _SUSPICIOUS_EXTRACTION_NOTE_RE.search(notes):
@@ -1322,7 +1321,6 @@ def parse_and_store_with_summary(
 
     raw = storage.load_llm_output()
     extraction = raw.get("results", {})
-    coverage_assessment = str(extraction.get("coverage_assessment") or "unknown").casefold()
     model_name_used = raw.get("model_used", "unknown")
     summary.extraction_model = model_name_used
 
@@ -1653,35 +1651,14 @@ def parse_and_store_with_summary(
         if previous_results:
             candidate_count = len(retained_existing_ids) + len(pending_new_results)
             summary.candidate_results = candidate_count
-            minimum_count = max(
-                1,
-                int(len(previous_results) * _MIN_REPLACEMENT_COVERAGE + 0.999999),
-            )
             stale_ids = previous_result_ids - retained_existing_ids
-            explicit_decisions = all(
-                str(entry.get("protocol_decision") or "").casefold()
-                in {"standard", "nonstandard", "uncertain"}
-                for entry in result_entries
+            summary.replaced_results = (
+                session.query(Result)
+                .filter(Result.id.in_(stale_ids), Result.is_overridden == 0)
+                .delete(synchronize_session=False)
+                if stale_ids
+                else 0
             )
-            complete_review = coverage_assessment == "complete" and explicit_decisions
-            if candidate_count >= minimum_count or complete_review:
-                summary.replaced_results = (
-                    session.query(Result)
-                    .filter(Result.id.in_(stale_ids), Result.is_overridden == 0)
-                    .delete(synchronize_session=False)
-                    if stale_ids
-                    else 0
-                )
-            else:
-                logger.warning(
-                    "Keeping %d existing result(s) for arXiv:%s: candidate extraction "
-                    "contains %d row(s), below replacement threshold %d/%d",
-                    len(stale_ids),
-                    arxiv_id,
-                    candidate_count,
-                    minimum_count,
-                    len(previous_results),
-                )
 
         for existing, entry, params, params_present, variant_reason, decision in pending_updates:
             changed = _update_result(

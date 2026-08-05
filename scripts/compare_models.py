@@ -1008,8 +1008,11 @@ def _finalize_compare_result(
             baseline_count=0,
             backend=job.backend,
             duration_s=extraction.duration_s,
-            error="no baseline available",
+            error=extraction.error or "comparison skipped: no baseline available",
             call_log=extraction.call_log,
+            source=extraction.source,
+            artifact_path=extraction.artifact_path,
+            extracted_at=extraction.extracted_at,
         )
 
     err = extraction.error
@@ -1157,7 +1160,7 @@ def _store_compare_extraction_result(
 ) -> None:
     """Write comparison artifacts as soon as the baseline for this paper is available."""
     job = extraction.job
-    needs_baseline = extraction.out is not None and not extraction.error
+    needs_baseline = opts.ensure_baseline and extraction.out is not None and not extraction.error
     if needs_baseline and not _baseline_for_paper(
         job.arxiv_id,
         opts.baseline_model_id,
@@ -1393,6 +1396,7 @@ def _run_full_extraction(
     experiment_label: str | None = None,
     extraction_strategy: str = "auto",
     known_datasets: list[DatasetInfo] | None = None,
+    target_datasets: set[str] | None = None,
     extraction_only: bool = False,
 ) -> tuple[
     ExtractionOutput | None,
@@ -1444,6 +1448,7 @@ def _run_full_extraction(
             paper_abstract=paper_abstract,
             extraction_strategy=extraction_strategy,
             experiment_label=experiment_label,
+            target_datasets=target_datasets,
             known_datasets=known_datasets,
             extraction_only=extraction_only,
         )
@@ -2799,11 +2804,6 @@ def main(argv: list[str] | None = None) -> int:
         baseline = _load_baseline(pid, baseline_model_id)
         paper_title = _resolve_paper_title(pid)
         paper_label = _format_paper_header(pid, paper_title)
-        if not baseline and not ensure_baseline:
-            console.print(
-                f"  [yellow]skip[/yellow] {paper_label} — no {baseline_model_id} baseline"
-            )
-            continue
         paper_text, structured_tables, latex_paper = _load_paper_inputs(pid)
         if not paper_text and not latex_paper:
             console.print(f"  [yellow]skip[/yellow] {paper_label} — no paper text or LaTeX source")
@@ -2813,7 +2813,11 @@ def main(argv: list[str] | None = None) -> int:
         baseline_note = (
             f"baseline={len(baseline)} entries"
             if baseline
-            else "[yellow]baseline will be generated[/yellow]"
+            else (
+                "[yellow]baseline will be generated[/yellow]"
+                if ensure_baseline
+                else "[dim]extraction only (no baseline)[/dim]"
+            )
         )
         latex_info = (
             (

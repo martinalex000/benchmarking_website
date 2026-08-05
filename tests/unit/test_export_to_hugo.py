@@ -1153,6 +1153,10 @@ def test_export_all_removes_stale_paper_pages_on_full_export(monkeypatch, tmp_pa
     monkeypatch.setattr("backend.export_to_hugo._DATA_DIR", data_dir)
     monkeypatch.setattr("backend.export_to_hugo._STATIC", site_dir / "static")
     monkeypatch.setattr(
+        "backend.export_to_hugo._DATASETS_DATA_DIR",
+        site_dir / "static" / "data" / "datasets",
+    )
+    monkeypatch.setattr(
         "backend.export_to_hugo._DATASET_OVERRIDES_FILE", config_dir / "dataset_overrides.yaml"
     )
     monkeypatch.setattr("backend.config.cfg.db_path", tmp_path / "benchmarks.db")

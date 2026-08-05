@@ -160,26 +160,28 @@
     <div class="chart-container" data-variant="{{ $variant.slug }}">
       <div class="chart-heading-row">
         <h2 class="chart-title" id="chart-title-{{ $variant.slug }}">SOTA Progression</h2>
-        {{ if gt (len $variant.metrics) 1 }}
-        <div class="chart-target-picker">
-          <label class="chart-target-picker-label" for="chart-target-{{ $variant.slug }}">Target</label>
-          {{ $metricCounts := $variant.metric_counts | default slice }}
-          <select id="chart-target-{{ $variant.slug }}" class="chart-target-select" data-variant="{{ $variant.slug }}" aria-label="Chart target metric">
-            <option value="all"{{ if $showAllDesktop }} selected{{ end }}>All</option>
-            {{ range $j, $m := $variant.metrics }}
-            {{ $metricCount := index $metricCounts $j }}
-            <option value="{{ $j }}" data-metric-key="{{ $m }}"{{ if and (not $showAllDesktop) (eq $m $defaultMetric) }} selected{{ end }}>{{ index $variantLabels $j | default $m }}{{ with $metricCount }} ({{ . }}){{ end }}</option>
-            {{ end }}
-          </select>
+        <div class="chart-heading-controls">
+          {{ if gt (len $variant.metrics) 1 }}
+          <div class="chart-target-picker">
+            <label class="chart-target-picker-label" for="chart-target-{{ $variant.slug }}">Target</label>
+            {{ $metricCounts := $variant.metric_counts | default slice }}
+            <select id="chart-target-{{ $variant.slug }}" class="chart-target-select" data-variant="{{ $variant.slug }}" aria-label="Chart target metric">
+              <option value="all"{{ if $showAllDesktop }} selected{{ end }}>All</option>
+              {{ range $j, $m := $variant.metrics }}
+              {{ $metricCount := index $metricCounts $j }}
+              <option value="{{ $j }}" data-metric-key="{{ $m }}"{{ if and (not $showAllDesktop) (eq $m $defaultMetric) }} selected{{ end }}>{{ index $variantLabels $j | default $m }}{{ with $metricCount }} ({{ . }}){{ end }}</option>
+              {{ end }}
+            </select>
+          </div>
+          {{ end }}
+          <div class="chart-controls">
+            <button type="button" class="filter-bubble filter-bubble-neutral chart-std-toggle is-on" data-std-toggle aria-pressed="true" title="Show standard deviation on chart">± std</button>
+            <button type="button" class="filter-bubble filter-bubble-neutral chart-baselines-toggle is-on" data-filter="baselines" aria-pressed="true" title="Show baseline results on chart">baselines</button>
+            <button type="button" class="filter-bubble filter-bubble-neutral chart-log-toggle" data-log-toggle aria-pressed="false" title="Use logarithmic y-axis" hidden>log scale</button>
+          </div>
         </div>
-        {{ end }}
       </div>
       <div class="chart-plot-wrap{{ if not $variant.higher_is_better }} chart-plot-wrap-lower-is-better{{ end }}">
-        <div class="chart-plot-toggles">
-          <button type="button" class="filter-bubble filter-bubble-neutral chart-std-toggle is-on" data-std-toggle aria-pressed="true" title="Show standard deviation on chart">± std</button>
-          <button type="button" class="filter-bubble filter-bubble-neutral chart-baselines-toggle is-on" data-filter="baselines" aria-pressed="true" title="Show baseline results on chart">baselines</button>
-          <button type="button" class="filter-bubble filter-bubble-neutral chart-log-toggle" data-log-toggle aria-pressed="false" title="Use logarithmic y-axis" hidden>log scale</button>
-        </div>
         <canvas id="chart-{{ $variant.slug }}" height="300"
           data-milestones='{{ $variant.milestones | jsonify }}'
           data-milestones-by-metric='{{ $variant.milestones_by_metric | jsonify }}'
@@ -197,10 +199,12 @@
     </div>
 
     <div class="leaderboard-section" data-variant="{{ $variant.slug }}">
-      <h2>Leaderboard{{ if $showAllVariants }} — {{ $variant.name }}{{ end }}</h2>
-      {{ $rowsLen := len $variant.rows }}
-      {{ $totalRows := $variant.row_count | default $rowsLen }}
-      {{ partial "leaderboard-filters.html" (dict "rows" $variant.rows "arch_counts" $variant.arch_counts) }}
+      <div class="leaderboard-heading-row">
+        <h2>Leaderboard{{ if $showAllVariants }} — {{ $variant.name }}{{ end }}</h2>
+        {{ $rowsLen := len $variant.rows }}
+        {{ $totalRows := $variant.row_count | default $rowsLen }}
+        {{ partial "leaderboard-filters.html" (dict "rows" $variant.rows "arch_counts" $variant.arch_counts) }}
+      </div>
       {{ partial "multi-metric-table.html" (dict "rows" $variant.rows "metrics" $variant.metrics "metric_display_names" $variantLabels "primary_metric" $variant.primary_metric "default_metric" $defaultMetric "show_all_metrics_desktop" $showAllDesktop "higher_is_better" $variant.higher_is_better "dataset_variant" $variant.slug "collapse_after" (cond (gt $totalRows 50) 50 0) "row_count" $totalRows "rows_json" $variant.rows_json) }}
       <div class="table-explainer-legend" aria-label="Table legend">
         <span class="legend-item"><span class="legend-swatch swatch-best"></span><span>SOTA performance</span></span>

@@ -693,6 +693,33 @@ hugo --baseURL "https://research.uni-leipzig.de/graphlearningbenchmarks/"
 scp -r public/* webspace:webdir/
 ```
 
+#### GitHub Pages deployment
+
+The same script has a separate GitHub Pages path. It prepares the Hugo source,
+converts figures to marked JPEGs, syncs a separate checkout, and pushes only when
+the checkout actually changed. GitHub Actions then runs Hugo and deploys the
+artifact. The repository defaults to
+`https://github.com/graphlearningbenchmarks/graphlearningbenchmarks.github.io`; override it
+only if needed. Configure these values in `.env`:
+
+```bash
+GITHUB_PAGES_REPO=https://github.com/YOUR_USER/YOUR_REPO
+GITHUB_PAGES_BRANCH=main
+GITHUB_PAGES_DIR=/path/to/your-user.github.io
+```
+
+The upload uses `~/.ssh/graphlearningbenchmarks` by default. Set
+`GITHUB_PAGES_SSH_KEY` if the key is stored elsewhere. Run it with:
+
+```bash
+uv run python scripts/deploy.py --github-pages
+uv run python scripts/deploy.py --github-pages --skip-export
+```
+
+`GITHUB_PAGES_DIR` must be a clean checkout separate from this repository. The
+deployment preserves its `.git/`, `.github/`, and `CNAME` entries while replacing
+the Hugo source files. The workflow should run Hugo from the repository root.
+
 
 
 
