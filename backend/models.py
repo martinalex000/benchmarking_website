@@ -251,6 +251,7 @@ class PendingDataset(Base):
     dataset_name = Column(String, nullable=False)
     metrics_seen = Column(Text)  # JSON list[str]
     suggestion = Column(Text)  # JSON object from dataset_autoseed prompt
+    discovery_payload = Column(Text)  # normalized DatasetInfo JSON observation
     status = Column(String, nullable=False, default="pending")
     resolved_dataset_id = Column(Integer, ForeignKey("datasets.id", ondelete="SET NULL"))
     created_at = Column(String, nullable=False, default=_utcnow)
@@ -289,6 +290,20 @@ class PendingDataset(Base):
     @suggestion_obj.setter
     def suggestion_obj(self, value: dict) -> None:
         self.suggestion = json.dumps(value, ensure_ascii=False)
+
+    @property
+    def discovery_payload_obj(self) -> dict:
+        if not self.discovery_payload:
+            return {}
+        try:
+            loaded = json.loads(self.discovery_payload)
+            return loaded if isinstance(loaded, dict) else {}
+        except (ValueError, TypeError):
+            return {}
+
+    @discovery_payload_obj.setter
+    def discovery_payload_obj(self, value: dict) -> None:
+        self.discovery_payload = json.dumps(value, ensure_ascii=False, sort_keys=True)
 
 
 # ─────────────────────────────────────────────────────────────────────────────

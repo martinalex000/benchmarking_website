@@ -30,6 +30,7 @@ from openai import APIError, OpenAI
 from thefuzz import fuzz as fuzz_lib
 
 from backend.config import cfg, normalize_arxiv_id
+from backend.dataset_discovery import classify_dataset_infos
 from backend.dataset_stats_parsing import format_stats_summary, is_statistics_table
 from backend.db import session_scope
 from backend.guided_table import GuidedDiscovery, extract_guided_results
@@ -38,7 +39,7 @@ from backend.llm_backends import client_params_for_model
 from backend.llm_client import LLMClientMixin, LLMWallClockTimeout
 from backend.llm_metadata import (
     _discovery_text_excerpts,
-    _get_known_dataset_names_hint,
+    _get_known_dataset_catalog_hint,
     _noncanonical_dataset_hints,
     _ripgrep_dataset_name_hits,
 )
@@ -387,6 +388,25 @@ def _merge_dataset_lists(*dataset_lists: DatasetList) -> DatasetList:
                 continue
             if ds.primary_metric and not existing.primary_metric:
                 existing.primary_metric = ds.primary_metric
+            if ds.description and not existing.description:
+                existing.description = ds.description
+            if ds.task_type and not existing.task_type:
+                existing.task_type = ds.task_type
+            if ds.variant_hint and not existing.variant_hint:
+                existing.variant_hint = ds.variant_hint
+            if ds.expected_model_count is not None:
+                if existing.expected_model_count is None:
+                    existing.expected_model_count = ds.expected_model_count
+                else:
+                    existing.expected_model_count = max(
+                        existing.expected_model_count, ds.expected_model_count
+                    )
+            for metric in ds.metrics_seen:
+                if metric not in existing.metrics_seen:
+                    existing.metrics_seen.append(metric)
+            for field_name in ("num_graphs", "avg_nodes", "avg_edges", "num_classes"):
+                if getattr(ds, field_name) is not None and getattr(existing, field_name) is None:
+                    setattr(existing, field_name, getattr(ds, field_name))
             for table_ref in ds.table_refs:
                 if table_ref not in existing.table_refs:
                     existing.table_refs.append(table_ref)
@@ -872,12 +892,13 @@ class LLMExtractor(LLMClientMixin):
                 "Use these as candidate dataset names when they correspond to real benchmark results in this paper.\n"
                 + "\n".join(f"- {name}" for name in precheck_hits)
             )
-        known_hint = _get_known_dataset_names_hint()
-        if known_hint:
+        catalog_hint = _get_known_dataset_catalog_hint()
+        if catalog_hint:
             parts.append(
-                "=== CANONICAL DATASET NAMES ALREADY IN OUR DATABASE ===\n"
-                "When the paper uses one of these datasets, return that canonical name exactly instead of inventing a variant spelling.\n"
-                f"{known_hint}"
+                "=== CANONICAL DATASET CATALOG (REFERENCE ONLY) ===\n"
+                "When the paper uses one of these datasets, return its canonical name exactly. "
+                "The catalog is not a request to omit unknown datasets or to classify tracking.\n"
+                f"{catalog_hint}"
             )
         user_content = "\n\n".join(parts)
         try:
@@ -970,12 +991,13 @@ class LLMExtractor(LLMClientMixin):
             if len(exp_excerpts) > 1:
                 parts.append(f"=== EXPERIMENT SECTION EXCERPT (tail) ===\n{exp_excerpts[1]}")
         # Inject known-dataset hints from the DB so the model matches canonical names.
-        known_hint = _get_known_dataset_names_hint()
-        if known_hint:
+        catalog_hint = _get_known_dataset_catalog_hint()
+        if catalog_hint:
             parts.append(
-                "=== CANONICAL DATASET NAMES ALREADY IN OUR DATABASE ===\n"
-                "When the paper uses one of these datasets, return that canonical name exactly instead of inventing a variant spelling.\n"
-                f"{known_hint}"
+                "=== CANONICAL DATASET CATALOG (REFERENCE ONLY) ===\n"
+                "When the paper uses one of these datasets, return its canonical name exactly. "
+                "Still return every quantitative dataset outside this catalog.\n"
+                f"{catalog_hint}"
             )
         user_content = "\n\n".join(parts)
         try:
@@ -2063,21 +2085,6 @@ class LLMExtractor(LLMClientMixin):
                 extraction_confidence="low",
             )
 
-        if target_datasets:
-            target_names = {name.casefold() for name in target_datasets}
-            datasets.datasets = [
-                dataset for dataset in datasets.datasets if dataset.name.casefold() in target_names
-            ]
-            if not datasets.datasets:
-                logger.warning(
-                    "None of the requested datasets were discovered: %s", target_datasets
-                )
-                return ExtractionOutput(
-                    results=[],
-                    extraction_notes="None of the requested datasets were discovered.",
-                    extraction_confidence="low",
-                )
-
         if known_datasets is None:
             stats_precheck_text = rag_text
             if latex_paper is not None:
@@ -2100,6 +2107,52 @@ class LLMExtractor(LLMClientMixin):
             )
         else:
             stat_table_summaries = []
+
+        discovered_manifest = [dataset.model_copy(deep=True) for dataset in datasets.datasets]
+
+        if known_datasets is None:
+            with session_scope() as session:
+                resolutions = classify_dataset_infos(
+                    session,
+                    datasets.datasets,
+                    arxiv_id=arxiv_id,
+                )
+            for resolution in resolutions:
+                if resolution.status != "tracked":
+                    logger.info(
+                        "Discovery excluded %r: %s (%s)",
+                        resolution.dataset_info.name,
+                        resolution.status,
+                        resolution.reason,
+                    )
+            datasets.datasets = [
+                resolution.dataset_info for resolution in resolutions if resolution.tracked
+            ]
+
+        if target_datasets:
+            target_names = {name.casefold() for name in target_datasets}
+            datasets.datasets = [
+                dataset for dataset in datasets.datasets if dataset.name.casefold() in target_names
+            ]
+            if not datasets.datasets:
+                logger.warning(
+                    "None of the requested datasets were discovered or tracked: %s",
+                    target_datasets,
+                )
+                return ExtractionOutput(
+                    results=[],
+                    extraction_notes="None of the requested datasets were discovered or tracked.",
+                    extraction_confidence="low",
+                    discovered_datasets=discovered_manifest,
+                )
+
+        if not datasets.datasets:
+            return ExtractionOutput(
+                results=[],
+                extraction_notes="No discovered datasets resolved to tracked catalog variants.",
+                extraction_confidence="low",
+                discovered_datasets=discovered_manifest,
+            )
 
         # Override primary_metric from the DB when available.
         # The discovery LLM may return "Hits@K" for PCQM-Contact while the DB
@@ -2351,7 +2404,7 @@ class LLMExtractor(LLMClientMixin):
             notes_parts=notes_parts,
             coverage_assessments=coverage_assessments,
             normalise_metrics=True,
-            discovered_datasets=list(datasets.datasets),
+            discovered_datasets=discovered_manifest,
         )
         _stabilize_model_names(merged, paper_title=paper_title, tables=effective_tables)
         return merged

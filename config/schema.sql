@@ -177,6 +177,7 @@ CREATE TABLE IF NOT EXISTS pending_datasets (
     dataset_name        TEXT NOT NULL,
     metrics_seen        TEXT,   -- JSON list
     suggestion          TEXT,   -- JSON object
+    discovery_payload   TEXT,   -- normalized DatasetInfo JSON observation
     status              TEXT NOT NULL DEFAULT 'pending', -- pending | approved | skipped | resolved
     resolved_dataset_id INTEGER REFERENCES datasets(id) ON DELETE SET NULL,
     created_at          TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%SZ', 'now')),
