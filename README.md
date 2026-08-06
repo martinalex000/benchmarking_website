@@ -670,6 +670,7 @@ uv run python scripts/deploy.py --full
 # Routine deploy: upload increment only (reuses latest figures archive on server)
 uv run python scripts/deploy.py
 uv run python scripts/deploy.py --skip-export   # Hugo rebuild only, no DB export
+uv run python scripts/deploy.py --local         # Export and serve locally until Ctrl+C
 ```
 
 `scripts/deploy.sh` is a thin wrapper around the same command.

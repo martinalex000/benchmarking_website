@@ -1093,6 +1093,23 @@ def prepare_hugo_content(
     persist_export_snapshot(project_dir, host_id)
 
 
+def run_local_server(project_dir: Path) -> None:
+    """Export the current data and serve the Hugo site until interrupted."""
+    print("Exporting Hugo content from database...")
+    subprocess.run(
+        [sys.executable, "-m", "backend.export_to_hugo", "--skip-build"],
+        check=True,
+        cwd=project_dir,
+    )
+
+    site_dir = project_dir / "site"
+    print(f"Starting Hugo server in {site_dir}. Press Ctrl+C to stop.")
+    try:
+        subprocess.run(["uv", "run", "hugo", "server"], check=True, cwd=site_dir)
+    except KeyboardInterrupt:
+        print("\nHugo server stopped.")
+
+
 def build_archives(
     project_dir: Path,
     staging_dir: Path,
@@ -1445,6 +1462,11 @@ def main() -> None:
         help="Build archives only; do not deploy (used on remote build hosts).",
     )
     parser.add_argument(
+        "--local",
+        action="store_true",
+        help="Export the site and run a local Hugo development server.",
+    )
+    parser.add_argument(
         "--staging-dir",
         type=Path,
         help="Directory for deploy archives (required with --build-only).",
@@ -1455,6 +1477,18 @@ def main() -> None:
         sys.exit("ERROR: --upload-only cannot be used with --build-only.")
     if args.upload_only and args.skip_export:
         sys.exit("ERROR: --upload-only cannot be used with --skip-export.")
+    if args.local and any(
+        (
+            args.full,
+            args.incremental,
+            args.github_pages,
+            args.skip_export,
+            args.upload_only,
+            args.build_only,
+            args.staging_dir,
+        )
+    ):
+        sys.exit("ERROR: --local cannot be combined with deployment, build, or export flags.")
     if args.github_pages and (
         args.full or args.incremental or args.upload_only or args.build_only or args.staging_dir
     ):
@@ -1465,6 +1499,11 @@ def main() -> None:
 
     full = args.full
     hugo_base_url = os.environ.get("HUGO_BASE_URL", "")
+
+    if args.local:
+        require_cmd("uv")
+        run_local_server(cfg.base_dir)
+        return
 
     if args.github_pages:
         deploy_github_pages(cfg.base_dir, skip_export=args.skip_export)
