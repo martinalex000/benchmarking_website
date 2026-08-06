@@ -544,7 +544,7 @@ def _queue_stats_snapshot() -> tuple[int, int, int]:
         return 0, 0, 0
 
 
-def _pending_ready_count(max_attempts: int) -> int:
+def _pending_ready_count() -> int:
     """Return number of currently claimable pending rows."""
     try:
         with session_scope() as session:
@@ -552,7 +552,6 @@ def _pending_ready_count(max_attempts: int) -> int:
                 session.query(func.count(TodoPaper.id))
                 .filter(
                     TodoPaper.status == "pending",
-                    TodoPaper.attempts < max_attempts,
                 )
                 .scalar()
                 or 0
@@ -1334,7 +1333,6 @@ def _worker_loop(
     model: str,
     force: bool,
     skip_screen: bool,
-    max_attempts: int,
     max_papers: int,
     inactivity_timeout_s: float | None,
 ) -> None:
@@ -1432,6 +1430,8 @@ def _worker_loop(
                     dash.total_done += 1
                     state.completed += 1
                     state.status = "done"
+                elif status == "pending":
+                    state.status = "retrying later"
                 else:
                     dash.total_failed += 1
                     state.failed += 1
@@ -1448,6 +1448,8 @@ def _worker_loop(
                     status_prefix = "REJECTED "
                 elif status == "failed":
                     status_prefix = "FAILED "
+                elif status == "pending":
+                    status_prefix = "RETRY "
                 finished_line = f"{state.arxiv_id:<12}  {(_trim(state.title, 30) or '-'):30}  {status_prefix}{finished_summary}"
                 dash.finished_lines.append(finished_line)
 
@@ -1464,7 +1466,6 @@ def _worker_loop(
             limit=1,
             model=model,
             force=force,
-            max_attempts=max_attempts,
             dry_run=False,
             refresh_dev_exports=False,
             runner=_runner,
@@ -1475,7 +1476,7 @@ def _worker_loop(
         if summary.total_selected == 0:
             empty_claims += 1
 
-            pending_ready = _pending_ready_count(max_attempts)
+            pending_ready = _pending_ready_count()
 
             def _waiting_update(_pending_ready: int = pending_ready) -> None:
                 if _pending_ready > 0:
@@ -1536,13 +1537,6 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--force", action="store_true", help="Pass --force to run_manual.py")
     parser.add_argument(
         "--skip-screen", action="store_true", help="Pass --skip-screen to run_manual.py"
-    )
-    parser.add_argument(
-        "--max-attempts",
-        type=int,
-        default=10,
-        metavar="N",
-        help="Skip papers already attempted N times (default: 10)",
     )
     parser.add_argument(
         "--max-papers-per-worker",
@@ -1626,10 +1620,9 @@ def main(argv: list[str] | None = None) -> None:
     args = build_parser().parse_args(argv)
     _configure_logger(args.diag_log_path)
     LOGGER.info(
-        "starting dashboard workers=%s model=%s max_attempts=%s inactivity_timeout_min=%s",
+        "starting dashboard workers=%s model=%s inactivity_timeout_min=%s",
         args.workers,
         args.model,
-        args.max_attempts,
         args.inactivity_timeout_min,
     )
 
@@ -1653,7 +1646,6 @@ def main(argv: list[str] | None = None) -> None:
                 "model": args.model,
                 "force": args.force,
                 "skip_screen": args.skip_screen,
-                "max_attempts": args.max_attempts,
                 "max_papers": args.max_papers_per_worker,
                 "inactivity_timeout_s": inactivity_timeout_s,
             },

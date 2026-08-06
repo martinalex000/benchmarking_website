@@ -13,6 +13,7 @@ from pathlib import Path
 from typing import Any
 
 import numpy as np
+import yaml
 from sklearn.cluster import HDBSCAN
 
 
@@ -57,7 +58,11 @@ class Observation:
     cluster_noise: bool = False
     minority_cluster: bool = False
     suspicious: bool = False
+    reviewed: bool = False
     reasons: list[str] | None = None
+
+
+_DEFAULT_REVIEWED_PATH = Path(__file__).resolve().parents[1] / "config" / "anomaly_reviewed.yaml"
 
 
 def _finite(value: Any) -> float | None:
@@ -291,6 +296,36 @@ def score_observations(
     return observations
 
 
+def _review_key(arxiv_id: str, dataset: str, metric: str) -> tuple[str, str, str]:
+    return (arxiv_id.strip(), dataset.strip().casefold(), metric.strip().casefold())
+
+
+def _load_reviewed_observations(path: Path | None) -> set[tuple[str, str, str]]:
+    review_path = path or _DEFAULT_REVIEWED_PATH
+    if not review_path.exists():
+        return set()
+    try:
+        payload = yaml.safe_load(review_path.read_text(encoding="utf-8")) or {}
+    except (OSError, yaml.YAMLError) as exc:
+        raise RuntimeError(
+            f"Could not load reviewed anomaly manifest {review_path}: {exc}"
+        ) from exc
+
+    reviewed = payload.get("reviewed", [])
+    if not isinstance(reviewed, list):
+        raise ValueError(f"Reviewed anomaly manifest must contain a list: {review_path}")
+    keys: set[tuple[str, str, str]] = set()
+    for item in reviewed:
+        if not isinstance(item, dict):
+            continue
+        arxiv_id = str(item.get("arxiv_id") or "").strip()
+        dataset = str(item.get("dataset") or "").strip()
+        metric = str(item.get("metric") or "").strip()
+        if arxiv_id and dataset and metric:
+            keys.add(_review_key(arxiv_id, dataset, metric))
+    return keys
+
+
 def _observation_score(observation: Observation, robust_threshold: float) -> float:
     robust_score = (observation.robust_distance or 0.0) / robust_threshold
     cluster_score = 1.0 if observation.cluster_noise else 0.0
@@ -361,6 +396,7 @@ def run(
     robust_threshold: float = 4.5,
     include_problematic: bool = False,
     include_cluster_only: bool = False,
+    reviewed_path: Path | None = None,
 ) -> dict[str, Any]:
     rows = _read_rows(db_path, include_problematic=include_problematic)
     observations = aggregate_rows(rows, min_results=min_results)
@@ -371,6 +407,14 @@ def run(
         robust_threshold=robust_threshold,
         include_cluster_only=include_cluster_only,
     )
+    reviewed_keys = _load_reviewed_observations(reviewed_path)
+    for observation in observations:
+        if (
+            _review_key(observation.arxiv_id, observation.dataset, observation.metric)
+            in reviewed_keys
+        ):
+            observation.reviewed = True
+            observation.suspicious = False
     config = {
         "db_path": str(db_path),
         "min_results": min_results,
@@ -379,6 +423,8 @@ def run(
         "robust_threshold": robust_threshold,
         "include_problematic": include_problematic,
         "include_cluster_only": include_cluster_only,
+        "reviewed_path": str(reviewed_path or _DEFAULT_REVIEWED_PATH),
+        "reviewed_observations": sum(item.reviewed for item in observations),
     }
     return build_report(observations, robust_threshold=robust_threshold, config=config)
 

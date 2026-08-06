@@ -12,12 +12,12 @@ from typing import Any
 import httpx
 import yaml
 from openai import APIStatusError, APITimeoutError, RateLimitError
-from tenacity import Retrying, retry_if_not_exception_type, stop_after_attempt, wait_exponential
+from tenacity import Retrying, retry_if_exception, stop_after_attempt, wait_exponential
 
 from backend.config import cfg
 from backend.json_repair import parse_json_lenient
 from backend.llm_metadata import _headers_to_dict
-from backend.llm_model_options import extra_body_for_model
+from backend.llm_model_options import extra_body_for_model, is_gemma_model
 from backend.llm_types import CallRecord
 
 logger = logging.getLogger(__name__)
@@ -25,6 +25,23 @@ logger = logging.getLogger(__name__)
 
 class LLMWallClockTimeout(TimeoutError):
     """Raised when one LLM request exceeds its total wall-clock budget."""
+
+
+def _is_retryable_llm_exception(exc: BaseException) -> bool:
+    """Retry transport/service failures, but not malformed prompts or responses."""
+    if isinstance(
+        exc,
+        (
+            LLMWallClockTimeout,
+            APITimeoutError,
+            RateLimitError,
+            httpx.TimeoutException,
+            httpx.NetworkError,
+            RuntimeError,
+        ),
+    ):
+        return True
+    return isinstance(exc, APIStatusError) and (exc.status_code == 429 or exc.status_code >= 500)
 
 
 def _estimated_tokens(text: str) -> int:
@@ -105,7 +122,7 @@ class LLMClientMixin:
             sleep=time.sleep,
             stop=stop_after_attempt(cfg.llm_max_retries + 1),
             wait=wait_exponential(multiplier=cfg.llm_retry_base_delay, max=60),
-            retry=retry_if_not_exception_type((LLMWallClockTimeout, APITimeoutError)),
+            retry=retry_if_exception(_is_retryable_llm_exception),
             reraise=True,
         )
         return retryer(
@@ -207,7 +224,7 @@ class LLMClientMixin:
             exc_type = type(exc).__name__
             if isinstance(exc, (LLMWallClockTimeout, APITimeoutError)):
                 logger.warning(
-                    "LLM request to %r timed out after %.2f s: %s — not retrying",
+                    "LLM request to %r timed out after %.2f s; retrying if budget remains: %s",
                     self.model_name,
                     elapsed,
                     exc,
@@ -385,6 +402,10 @@ class LLMClientMixin:
 
     def _read_result_prompt(self, full_mode: bool = False) -> str:
         if self.result_output_format == "yaml":
+            if is_gemma_model(self.model_name):
+                compact_path = cfg.prompts_dir / "gemma_result_extraction_yaml.txt"
+                if compact_path.exists():
+                    return compact_path.read_text(encoding="utf-8").strip()
             yaml_name = (
                 "full_result_extraction_yaml.txt" if full_mode else "result_extraction_yaml.txt"
             )

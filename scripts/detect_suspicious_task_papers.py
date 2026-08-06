@@ -58,6 +58,11 @@ def main() -> None:
     parser.add_argument("--robust-threshold", type=float, default=4.5)
     parser.add_argument("--include-problematic", action="store_true")
     parser.add_argument(
+        "--reviewed",
+        type=Path,
+        help="Reviewed-observation manifest (default: config/anomaly_reviewed.yaml)",
+    )
+    parser.add_argument(
         "--include-cluster-only",
         action="store_true",
         help="Also flag HDBSCAN noise/minority-cluster papers without a statistical signal",
@@ -82,6 +87,7 @@ def main() -> None:
         robust_threshold=args.robust_threshold,
         include_problematic=args.include_problematic,
         include_cluster_only=args.include_cluster_only,
+        reviewed_path=args.reviewed,
     )
     write_json_report(args.output, report)
     if args.csv:

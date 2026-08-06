@@ -1,0 +1,19 @@
+# Source-verified observations that should not be raised repeatedly by the
+# statistical detector. Keep the match specific to the reviewed task.
+reviewed:
+  - arxiv_id: "1810.00826"
+    dataset: "RDT-B"
+    metric: "Accuracy"
+    reason: "Values are explicitly reported in Table 1 for the mean-based models."
+  - arxiv_id: "2106.09553"
+    dataset: "BBBP"
+    metric: "ROC-AUC"
+    reason: "The 93.7 BBBP result is explicitly reported in the source table."
+  - arxiv_id: "2407.00494"
+    dataset: "Peptides-func"
+    metric: "AP"
+    reason: "The reported average-precision values match the source table."
+  - arxiv_id: "2601.19094"
+    dataset: "PCQM-Contact"
+    metric: "MRR"
+    reason: "Manually reviewed and confirmed as legitimate by the researcher."

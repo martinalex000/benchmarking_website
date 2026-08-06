@@ -41,6 +41,7 @@ def _configure_temp_db(monkeypatch, tmp_path):
 def _insert_todo(
     arxiv_id: str,
     *,
+    attempts: int = 0,
     seen_count: int = 0,
     status: str = TodoPaperStatus.PENDING.value,
     is_manually_important: bool = False,
@@ -50,6 +51,7 @@ def _insert_todo(
             TodoPaper(
                 arxiv_id=arxiv_id,
                 status=status,
+                attempts=attempts,
                 seen_count=seen_count,
                 is_manually_important=1 if is_manually_important else 0,
                 created_at="2024-01-01T00:00:00Z",
@@ -66,6 +68,35 @@ def test_manually_important_paper_sorted_before_higher_seen_count(monkeypatch, t
 
     assert [row.arxiv_id for row in rows] == ["2222.2222", "1111.1111"]
     assert rows[0].is_manually_important is True
+
+
+def test_queue_uses_four_fairness_buckets(monkeypatch, tmp_path):
+    _configure_temp_db(monkeypatch, tmp_path)
+    _insert_todo("ordinary-retry", attempts=1, seen_count=100)
+    _insert_todo("important-retry", attempts=1, is_manually_important=True)
+    _insert_todo("ordinary-first", seen_count=1)
+    _insert_todo("important-first", is_manually_important=True)
+
+    rows = load_queue_entries(status=TodoPaperStatus.PENDING.value, order="priority")
+
+    assert [row.arxiv_id for row in rows] == [
+        "important-first",
+        "ordinary-first",
+        "important-retry",
+        "ordinary-retry",
+    ]
+
+
+def test_ten_attempt_paper_remains_claimable(monkeypatch, tmp_path):
+    _configure_temp_db(monkeypatch, tmp_path)
+    _insert_todo("9999.0100", attempts=10)
+
+    claim = _claim_one_pending()
+
+    assert claim is not None
+    with session_scope() as session:
+        row = session.query(TodoPaper).filter_by(arxiv_id="9999.0100").one()
+        assert row.attempts == 11
 
 
 def test_add_important_upgrades_existing_row(monkeypatch, tmp_path):
@@ -91,6 +122,8 @@ def test_add_important_upgrades_existing_row(monkeypatch, tmp_path):
 def test_add_important_always_requeues_done_status(monkeypatch, tmp_path):
     _configure_temp_db(monkeypatch, tmp_path)
     _insert_todo("4444.4444", status=TodoPaperStatus.DONE.value)
+    with session_scope() as session:
+        session.query(TodoPaper).filter_by(arxiv_id="4444.4444").one().attempts = 10
 
     created, _message = add_todo_paper("4444.4444", is_manually_important=True)
 
@@ -99,6 +132,22 @@ def test_add_important_always_requeues_done_status(monkeypatch, tmp_path):
         row = session.query(TodoPaper).filter_by(arxiv_id="4444.4444").one()
         assert row.is_manually_important == 1
         assert row.status == TodoPaperStatus.PENDING.value
+        assert row.attempts == 0
+
+
+def test_mark_important_preserves_existing_attempt_count(monkeypatch, tmp_path):
+    _configure_temp_db(monkeypatch, tmp_path)
+    _insert_todo("4444.4445", status=TodoPaperStatus.PENDING.value)
+    with session_scope() as session:
+        session.query(TodoPaper).filter_by(arxiv_id="4444.4445").one().attempts = 10
+
+    marked, _message = set_todo_paper_importance("4444.4445", important=True)
+
+    assert marked is True
+    with session_scope() as session:
+        row = session.query(TodoPaper).filter_by(arxiv_id="4444.4445").one()
+        assert row.status == TodoPaperStatus.PENDING.value
+        assert row.attempts == 10
 
 
 def test_requeue_terminal_rows_resets_attempts_without_marking_important(monkeypatch, tmp_path):
@@ -259,11 +308,32 @@ def test_process_queue_forces_manually_important_papers(monkeypatch, tmp_path):
     assert force_values == [("9999.0001", True), ("9999.0002", False)]
 
 
+def test_process_queue_returns_transient_runner_failure_to_pending(monkeypatch, tmp_path):
+    _configure_temp_db(monkeypatch, tmp_path)
+    _insert_todo("9999.0003")
+
+    def runner(_arxiv_id, *, model, force):
+        return TodoQueueRunResult(returncode=1, stderr="HTTP 503 model not loaded")
+
+    summary = process_queue(
+        limit=1,
+        refresh_dev_exports=False,
+        runner=runner,
+    )
+
+    assert summary.counts[TodoPaperStatus.PENDING.value] == 1
+    with session_scope() as session:
+        row = session.query(TodoPaper).filter_by(arxiv_id="9999.0003").one()
+        assert row.status == TodoPaperStatus.PENDING.value
+        assert row.attempts == 1
+        assert "retryable failure: endpoint_unavailable" in row.note
+
+
 def test_processing_heartbeat_prevents_stale_reclaim(monkeypatch, tmp_path):
     _configure_temp_db(monkeypatch, tmp_path)
     _insert_todo("9999.0101")
 
-    claim = _claim_one_pending(max_attempts=10)
+    claim = _claim_one_pending()
     assert claim is not None
 
     with session_scope() as session:
@@ -295,7 +365,7 @@ def test_old_processing_owner_cannot_finalize_after_token_changes(monkeypatch, t
     _configure_temp_db(monkeypatch, tmp_path)
     _insert_todo("9999.0102")
 
-    claim = _claim_one_pending(max_attempts=10)
+    claim = _claim_one_pending()
     assert claim is not None
 
     assert (
@@ -331,7 +401,7 @@ def test_todo_queue_cli_important_only_resolves_limit(monkeypatch, tmp_path):
     _insert_todo("2222.2222", is_manually_important=True)
 
     module = _load_todo_queue_cli()
-    args = argparse.Namespace(limit=None, important_only=True, max_attempts=3)
+    args = argparse.Namespace(limit=None, important_only=True)
     assert module._resolve_process_limit(args) == 2
 
 

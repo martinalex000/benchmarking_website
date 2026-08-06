@@ -1545,6 +1545,24 @@ def main() -> None:
     summary = parse_and_store_with_summary(arxiv_id, replace_existing=force_extract)
     _print_parse_summary(summary)
 
+    # Queue workers must distinguish a transiently incomplete extraction from
+    # a permanent curation/method-name quarantine. Returning success here used
+    # to make quarantined papers look processed and prevented useful retries.
+    if args.queue_managed and summary.quarantined:
+        quarantine_text = " ".join(
+            [*summary.quarantine_reasons, *summary.quarantine_model_names]
+        ).casefold()
+        transient_markers = (
+            "timeout",
+            "timed out",
+            "rate limit",
+            "model not loaded",
+            "endpoint",
+            "connection",
+            "no module named",
+        )
+        sys.exit(1 if any(marker in quarantine_text for marker in transient_markers) else 2)
+
     # ── 6. Export ─────────────────────────────────────────────────────────
     changes_detected = (
         summary.new_results > 0

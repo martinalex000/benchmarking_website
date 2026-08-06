@@ -73,7 +73,7 @@ def _render_queue_table(rows, *, title: str) -> None:
 
 def _resolve_process_limit(args: argparse.Namespace) -> int:
     if args.important_only and args.limit is None:
-        return count_pending_important(max_attempts=args.max_attempts)
+        return count_pending_important()
     if args.limit is None:
         return 5
     return args.limit
@@ -84,7 +84,6 @@ def cmd_process(args: argparse.Namespace) -> None:
     selected = load_queue_entries(
         status=TodoPaperStatus.PENDING.value,
         limit=limit,
-        max_attempts=args.max_attempts,
         order="priority",
         important_only=args.important_only,
     )
@@ -134,7 +133,6 @@ def cmd_process(args: argparse.Namespace) -> None:
             limit=limit,
             model=args.model,
             force=args.force,
-            max_attempts=args.max_attempts,
             dry_run=False,
             refresh_dev_exports=not args.no_export,
             important_only=args.important_only,
@@ -144,6 +142,7 @@ def cmd_process(args: argparse.Namespace) -> None:
 
     console.print(
         "\n"
+        f"[cyan]{summary.counts['pending']} retryable[/cyan]  "
         f"[green]{summary.counts['done']} done[/green]  "
         f"[yellow]{summary.counts['rejected']} rejected[/yellow]  "
         f"[red]{summary.counts['failed']} failed[/red]"
@@ -190,7 +189,6 @@ def cmd_worker(args: argparse.Namespace) -> None:
         limit=1,
         model=args.model,
         force=args.force,
-        max_attempts=args.max_attempts,
         dry_run=args.dry_run,
         no_export=not args.export,
         important_only=args.important_only,
@@ -199,7 +197,7 @@ def cmd_worker(args: argparse.Namespace) -> None:
 
 
 def cmd_report(args: argparse.Namespace) -> None:
-    report = build_queue_report(limit=args.limit, max_attempts=args.max_attempts)
+    report = build_queue_report(limit=args.limit)
     console.print(
         f"[bold]Todo queue[/bold]  pending={report.counts.get('pending', 0)}  "
         f"processing={report.counts.get('processing', 0)}  done={report.counts.get('done', 0)}  "
@@ -312,13 +310,6 @@ def build_parser() -> argparse.ArgumentParser:
         "--force", action="store_true", help="Re-extract even if extraction already exists"
     )
     process_parser.add_argument(
-        "--max-attempts",
-        type=int,
-        default=10,
-        metavar="N",
-        help="Skip papers that have already failed this many times (default: 10)",
-    )
-    process_parser.add_argument(
         "--dry-run",
         action="store_true",
         help="Show what would be processed without running anything",
@@ -354,13 +345,6 @@ def build_parser() -> argparse.ArgumentParser:
         "--force", action="store_true", help="Re-extract even if extraction already exists"
     )
     worker_parser.add_argument(
-        "--max-attempts",
-        type=int,
-        default=10,
-        metavar="N",
-        help="Skip papers that have already failed this many times (default: 10)",
-    )
-    worker_parser.add_argument(
         "--dry-run",
         action="store_true",
         help="Show what would be processed without running anything",
@@ -379,13 +363,6 @@ def build_parser() -> argparse.ArgumentParser:
     report_parser = sub.add_parser("report", help="Show queue summary and top pending papers")
     report_parser.add_argument(
         "--limit", type=int, default=10, metavar="N", help="Number of rows to show (default: 10)"
-    )
-    report_parser.add_argument(
-        "--max-attempts",
-        type=int,
-        default=10,
-        metavar="N",
-        help="Treat papers with ≥ N attempts as exhausted (default: 10)",
     )
 
     list_parser = sub.add_parser("list", help="Show raw queue rows")
