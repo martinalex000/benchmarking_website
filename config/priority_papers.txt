@@ -1,8 +1,8 @@
 # Priority papers for todo_queue processing (one arXiv ID per line).
-# Used by scripts/mark_priority_papers.py — does not alter config/seed_data.yaml.
+# Used by scripts/queue_paper.py — does not alter config/seed_data.yaml.
 #
 # Regenerate from the DB with:
-#   uv run python scripts/mark_priority_papers.py export
+#   uv run python scripts/queue_paper.py export
 
 # --- papers table (benchmarks.db) ---
 1703.00564  # MoleculeNet

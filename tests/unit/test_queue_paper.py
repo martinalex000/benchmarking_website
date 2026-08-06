@@ -62,3 +62,24 @@ def test_dry_run_does_not_touch_queue(monkeypatch):
     )
 
     assert queue_paper.main(["2206.08164", "--dry-run"]) == 0
+
+
+def test_export_queue_file_writes_papers_and_important_rows(tmp_path, monkeypatch):
+    monkeypatch.setattr(
+        queue_paper,
+        "_paper_rows",
+        lambda: [("2206.08164", "Paper title")],
+    )
+    monkeypatch.setattr(
+        queue_paper,
+        "_important_rows",
+        lambda: [("2206.08164", "Paper title"), ("2406.08993", "Important paper")],
+    )
+
+    output = tmp_path / "priority.txt"
+    assert queue_paper.export_queue_file(output) == 3
+
+    content = output.read_text(encoding="utf-8")
+    assert "2206.08164  # Paper title" in content
+    assert "2406.08993  # Important paper" in content
+    assert "queue_paper.py --file" in content

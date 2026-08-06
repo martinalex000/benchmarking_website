@@ -6,6 +6,7 @@ Examples::
     uv run python scripts/queue_paper.py 2206.08164
     uv run python scripts/queue_paper.py 2206.08164 2406.08993 --important
     uv run python scripts/queue_paper.py --file config/priority_papers.txt --important
+    uv run python scripts/queue_paper.py export
 """
 
 from __future__ import annotations
@@ -21,9 +22,13 @@ from rich.console import Console
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from backend.config import normalize_arxiv_id
+from backend.db import init_db, session_scope
+from backend.models import Paper, TodoPaper
 from backend.todo_queue import add_todo_paper
 
 console = Console()
+
+_DEFAULT_LIST = Path(__file__).resolve().parent.parent / "config" / "priority_papers.txt"
 
 _ARXIV_URL = re.compile(
     r"https?://(?:www\.)?arxiv\.org/(?:abs|pdf)/([^/?#]+)(?:\.pdf)?/?$",
@@ -81,9 +86,67 @@ def collect_arxiv_ids(values: Sequence[str], file_path: Path | None) -> list[str
     return normalized
 
 
+def _paper_rows() -> list[tuple[str, str]]:
+    init_db()
+    with session_scope() as session:
+        return [
+            (row.arxiv_id, row.title or "")
+            for row in session.query(Paper).order_by(Paper.arxiv_id).all()
+            if row.arxiv_id
+        ]
+
+
+def _important_rows() -> list[tuple[str, str]]:
+    init_db()
+    with session_scope() as session:
+        return [
+            (row.arxiv_id, row.title or "")
+            for row in session.query(TodoPaper)
+            .filter(TodoPaper.is_manually_important == 1)
+            .order_by(TodoPaper.arxiv_id)
+            .all()
+            if row.arxiv_id
+        ]
+
+
+def export_queue_file(output: Path) -> int:
+    """Write the current paper and manually important queues to a list file."""
+    papers = _paper_rows()
+    important = _important_rows()
+    paper_ids = {arxiv_id for arxiv_id, _title in papers}
+
+    lines = [
+        "# Papers for queue_paper.py (one arXiv ID per line).",
+        "# This file does not alter config/seed_data.yaml.",
+        "#",
+        "# Queue these papers with:",
+        "#   uv run python scripts/queue_paper.py --file " f"{output} --important",
+        "",
+        "# --- papers table (benchmarks.db) ---",
+    ]
+    for arxiv_id, title in papers:
+        suffix = f"  # {title}" if title else ""
+        lines.append(f"{arxiv_id}{suffix}")
+
+    lines.extend(["", "# --- manually important (todo_papers.is_manually_important) ---"])
+    if important:
+        if {arxiv_id for arxiv_id, _title in important}.issubset(paper_ids):
+            lines.append("# Subset of the papers table; listed again for clarity.")
+        for arxiv_id, title in important:
+            suffix = f"  # {title}" if title else ""
+            lines.append(f"{arxiv_id}{suffix}")
+    else:
+        lines.append("# (none)")
+
+    output.parent.mkdir(parents=True, exist_ok=True)
+    output.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    return len(papers) + len(important)
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         description="Add arXiv papers to the shared processing queue.",
+        epilog=("Use 'export' to write the current database queues to " f"{_DEFAULT_LIST}."),
     )
     parser.add_argument("arxiv_ids", nargs="*", metavar="ARXIV_ID")
     parser.add_argument(
@@ -105,9 +168,31 @@ def build_parser() -> argparse.ArgumentParser:
     return parser
 
 
+def build_export_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(description="Export current queues to an arXiv list file.")
+    parser.add_argument(
+        "--output",
+        type=Path,
+        default=_DEFAULT_LIST,
+        help=f"Output path (default: {_DEFAULT_LIST})",
+    )
+    return parser
+
+
+def export_main(argv: Sequence[str]) -> int:
+    args = build_export_parser().parse_args(argv)
+    count = export_queue_file(args.output)
+    console.print(f"[green]Wrote {count} row(s) to {args.output}[/green]")
+    return 0
+
+
 def main(argv: Sequence[str] | None = None) -> int:
+    arguments = list(sys.argv[1:] if argv is None else argv)
+    if arguments and arguments[0] == "export":
+        return export_main(arguments[1:])
+
     parser = build_parser()
-    args = parser.parse_args(argv)
+    args = parser.parse_args(arguments)
     try:
         arxiv_ids = collect_arxiv_ids(args.arxiv_ids, args.file)
     except (OSError, ValueError) as exc:

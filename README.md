@@ -158,11 +158,14 @@ Cache semantics:
   run will intentionally skip overwriting it. If you want to force a new primary/qwen extraction for that paper,
   delete the main `papers/<id>/extracted/llm_output.json` first and rerun extraction.
 
-### mark_priority_papers (for "seeding" the database after the extraction pipeline has been modified)
-uv run python scripts/mark_priority_papers.py mark           # apply
-uv run python scripts/mark_priority_papers.py mark --requeue # also reset done/failed/rejected → pending
-uv run python scripts/mark_priority_papers.py mark --dry-run   # preview (18 papers)
-uv run python scripts/mark_priority_papers.py export         # refresh list from DB  
+### Paper processing
+
+```bash
+uv run python scripts/process_papers.py 2206.08164
+uv run python scripts/process_papers.py dashboard
+uv run python scripts/queue_paper.py 2206.08164
+uv run python scripts/queue_paper.py --file config/priority_papers.txt --important
+```
 
 ### LaTeX table re-extraction (wraptable / sidewaystable parser fixes)
 Server runbook: `config/latex_table_reextract_server.txt`
