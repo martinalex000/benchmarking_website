@@ -600,9 +600,9 @@
     "datasets": "ogbg-molhiv"
   },
   "GCN (node embedding)": {
-    "arxiv_id": "1609.02907",
-    "title": "Semi-Supervised Classification with Graph Convolutional Networks (via GCN)",
-    "year": 2017,
+    "arxiv_id": "2411.14711",
+    "title": "Can GNNs Learn Link Heuristics? A Concise Review and Evaluation of Link Prediction Methods",
+    "year": 2024,
     "datasets": "ogbl-ppa,ogbl-ddi"
   },
   "GCN + Heuristic Encoding": {
@@ -1398,8 +1398,8 @@
     "datasets": "ogbn-products,ogbn-arxiv"
   },
   "MPLP": {
-    "arxiv_id": "2303.06147",
-    "title": "MPLP: Multi-Aspect Graph Learning for Link Prediction",
+    "arxiv_id": "2309.00976",
+    "title": "Pure Message Passing Can Estimate Common Neighbor for Link Prediction",
     "year": 2023,
     "datasets": "ogbl-ppa,ogbl-citation2"
   },
@@ -1518,13 +1518,13 @@
     "datasets": "ogbg-molpcba"
   },
   "Neural Common Neighbor": {
-    "arxiv_id": "2305.17311",
+    "arxiv_id": "2302.00890",
     "title": "Neural Common Neighbor with Completion for Link Prediction",
     "year": 2023,
     "datasets": "ogbl-ppa"
   },
   "NeuralCommonNeighbor": {
-    "arxiv_id": "2305.17311",
+    "arxiv_id": "2302.00890",
     "title": "Neural Common Neighbor with Completion for Link Prediction",
     "year": 2023,
     "datasets": "ogbl-ddi"
@@ -1698,9 +1698,9 @@
     "datasets": "ogbg-molpcba"
   },
   "Refined-GAE": {
-    "arxiv_id": "1706.02216",
-    "title": "Inductive Representation Learning on Large Graphs (via GraphSAGE)",
-    "year": 2017,
+    "arxiv_id": "2411.03845",
+    "title": "Reconsidering the Performance of GAE in Link Prediction",
+    "year": 2024,
     "datasets": "ogbl-ppa,ogbl-collab,ogbl-ddi"
   },
   "RelEns": {
@@ -1847,24 +1847,6 @@
     "year": 2019,
     "datasets": "ogbn-papers100M,ogbl-vessel"
   },
-  "SIEG": {
-    "arxiv_id": "1706.02216",
-    "title": "Inductive Representation Learning on Large Graphs (via GraphSAGE)",
-    "year": 2017,
-    "datasets": "ogbl-ppa,ogbl-citation2,ogbl-vessel"
-  },
-  "SIEG w/o NF": {
-    "arxiv_id": "1706.02216",
-    "title": "Inductive Representation Learning on Large Graphs (via GraphSAGE)",
-    "year": 2017,
-    "datasets": "ogbl-vessel"
-  },
-  "SIEG(SPG)": {
-    "arxiv_id": "1706.02216",
-    "title": "Inductive Representation Learning on Large Graphs (via GraphSAGE)",
-    "year": 2017,
-    "datasets": "ogbl-vessel"
-  },
   "SIGN": {
     "arxiv_id": "2004.11197",
     "title": "SIGN: Scalable Inception Graph Neural Networks",
@@ -1884,9 +1866,9 @@
     "datasets": "ogbl-citation2"
   },
   "SUREL+": {
-    "arxiv_id": "2202.05184",
-    "title": "SUREL: Subgraph Representation Learning for Link Prediction",
-    "year": 2022,
+    "arxiv_id": "2303.03379",
+    "title": "Simplifying Subgraph Representation Learning for Scalable Link Prediction",
+    "year": 2023,
     "datasets": "ogbl-ppa,ogbl-vessel"
   },
   "SciBERT & EHGCN (use MAG data)": {

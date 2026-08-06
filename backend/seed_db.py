@@ -318,6 +318,70 @@ def _remove_empty_dataset(session, dataset_name: str, benchmark_name: str) -> No
         session.delete(dataset)
 
 
+def _cleanup_ogb_code_data(session) -> None:
+    """Keep only current OGB Code2 data after the old mixed seed."""
+    benchmark = session.query(Benchmark).filter_by(name="OGB").first()
+    code2 = (
+        session.query(Dataset).filter_by(name="ogbg-code2", benchmark_id=benchmark.id).first()
+        if benchmark
+        else None
+    )
+    old_code = (
+        session.query(Dataset).filter_by(name="Code", benchmark_id=benchmark.id).first()
+        if benchmark
+        else None
+    )
+    legacy = session.query(Dataset).filter_by(name="ogbg-code", benchmark_id=benchmark.id).first()
+    if old_code is not None and code2 is None:
+        old_code.name = "ogbg-code2"
+        code2 = old_code
+    if code2 is None:
+        return
+
+    code2_variant = next((v for v in code2.variants if v.is_standard), None)
+    if code2_variant is None:
+        return
+
+    # In the common upgrade path the new seed record already exists while the
+    # old ``Code`` record still owns the extracted rows. Move those rows to the
+    # new canonical variant before applying the special-case corrections below.
+    if old_code is not None and old_code.id != code2.id:
+        old_variant = next((v for v in old_code.variants if v.is_standard), None)
+        if old_variant is not None:
+            for result in list(old_variant.results):
+                duplicate = (
+                    session.query(Result)
+                    .filter_by(
+                        paper_id=result.paper_id,
+                        model_id=result.model_id,
+                        dataset_variant_id=code2_variant.id,
+                        metric_name=result.metric_name,
+                    )
+                    .first()
+                )
+                if duplicate is None:
+                    result.dataset_variant = code2_variant
+                else:
+                    session.delete(result)
+            session.delete(old_code)
+            session.flush()
+
+    # Deprecated Code is explicitly out of scope; cascading deletion removes
+    # its extracted results rather than mixing them into the current page.
+    if legacy is not None:
+        session.delete(legacy)
+
+    # GREA reports molecule AUCs; these rows were attached to Code by a bad
+    # extraction and belong to the existing ogbg-molhiv standard split.
+    molecule_paper = session.query(Paper).filter_by(arxiv_id="2206.02886").first()
+    hiv = session.query(Dataset).filter_by(name="ogbg-molhiv", benchmark_id=benchmark.id).first()
+    hiv_variant = next((v for v in hiv.variants if v.is_standard), None) if hiv else None
+    if molecule_paper is not None and hiv_variant is not None:
+        for result in list(code2_variant.results):
+            if result.paper_id == molecule_paper.id and result.metric_name == "ROC-AUC":
+                result.dataset_variant = hiv_variant
+
+
 def _upsert_seed_dataset(
     session,
     benchmark: Benchmark,
@@ -440,6 +504,7 @@ def seed(dry_run: bool = False) -> None:
         _move_dataset_to_benchmark(session, "Deezer", "Heterophilic Graphs", "LINKX Benchmarks")
         _remove_empty_dataset(session, "Deezer", "Hypergraph Benchmarks")
         _merge_film_alias_dataset(session)
+        _cleanup_ogb_code_data(session)
         session.flush()
 
         if not dry_run:

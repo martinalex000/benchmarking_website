@@ -1,6 +1,7 @@
 """Focused regression tests for export helper behavior."""
 
 from pathlib import Path
+from types import SimpleNamespace
 
 import pytest
 from PIL import Image
@@ -14,6 +15,7 @@ from backend.export_to_hugo import (
     _benchmark_coverage_entries,
     _benchmark_paper_ids,
     _benchmark_source_papers,
+    _best_results_by_model,
     _build_chart_points,
     _cleanup_stale_hugo_content,
     _collect_dataset_papers,
@@ -717,6 +719,28 @@ def test_at_pub_timeline_excludes_paper_and_respects_cutoff():
     assert excluding["gcn"]["value"] == 0.80
 
 
+def test_best_results_by_model_selects_highest_value_and_latest_tie():
+    def result(model: str, value: float, date: str):
+        paper = SimpleNamespace(published_date=date)
+        return SimpleNamespace(
+            effective_model_name=model,
+            display_value=value,
+            paper=paper,
+        )
+
+    best = _best_results_by_model(
+        [
+            result("SEAL", 0.3056, "2023-10-14"),
+            result("SEAL", 0.4974, "2024-06-24"),
+            result("SEAL", 0.4974, "2024-11-06"),
+        ],
+        higher_is_better=True,
+    )
+
+    assert best["seal"][0] == pytest.approx(0.4974)
+    assert best["seal"][1].paper.published_date == "2024-11-06"
+
+
 def test_global_best_per_model_reuses_dataset_metric_rows(monkeypatch):
     clear_export_caches()
     query_calls = 0
@@ -783,8 +807,6 @@ def test_benchmark_totals_exportable_uses_dataset_metadata_cache(monkeypatch):
 
 
 def test_benchmark_paper_counts_deduplicate_papers_across_datasets():
-    from types import SimpleNamespace
-
     benchmark = SimpleNamespace(
         id=1,
         datasets=[SimpleNamespace(id=10), SimpleNamespace(id=11)],

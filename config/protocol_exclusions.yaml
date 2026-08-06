@@ -1,6 +1,7 @@
 # Confirmed task/protocol mismatches. These rules also protect legacy extraction
 # artifacts that predate protocol_validation_version.
 exclude_all_results:
+  "2112.11628": "Extraction failed; the reported ogbl-ppa results are invalid and the remaining evaluations are non-standard."
   "2411.06427": "UniGAD evaluates anomaly-detection variants of Questions, not the canonical node-classification dataset."
   "2210.08443": "CLEAR uses a random 60/20/20 split for ogbg-molhiv rather than the canonical OGB scaffold split."
   "2511.16767": "The paper uses an 80/20 split for its LLM/semantic-embedding experiments rather than the canonical dataset protocols."
@@ -9,6 +10,8 @@ exclude_all_results:
   "2202.04579": "The paper uses Pei et al.'s 48/32/20 splits rather than the canonical benchmark masks."
   "2205.13892": "The paper uses a 10/10/80 split for its real-world benchmarks rather than the canonical benchmark masks."
   "2102.06462": "The paper uses Pei et al.'s 48/32/20 splits rather than the canonical benchmark masks."
+  "1912.10832": "The paper uses a random 80/10/10 split for its heterogeneous-graph benchmarks rather than the canonical benchmark protocols."
+  "2510.05750": "The paper reports systematic reproductions and retuned baselines under a unified protocol rather than comparable results from the original benchmark evaluations."
   "2305.13084": "The paper uses Pei et al.'s 48/32/20 splits rather than the canonical benchmark masks."
   "2410.14109": "The paper uses Geom-GCN's 10 fixed 48/32/20 splits rather than the canonical benchmark masks."
   "2106.10994": "The paper uses full-supervised random 60/20/20 splits rather than the canonical benchmark masks."
@@ -40,12 +43,83 @@ exclude_all_results:
   "2507.11710": "OOD link-prediction experiments are not canonical link-prediction protocols."
   "2402.06737": "Self-supervised pretraining and linear-probing results are not the standard supervised node-classification protocol."
   "2502.04591": "The paper reports oversmoothing accuracy-ratio analysis rather than canonical benchmark test accuracy."
+  # OOD/domain-shift and adversarial/attack evaluations are outside the current
+  # benchmark scope and are deferred rather than mixed into clean-protocol data.
+  "1908.01297": "Black-box adversarial attacks on graph embedding models are outside the current clean-benchmark scope."
+  "2105.12419": "Black-box adversarial attacks on graph embedding models are outside the current clean-benchmark scope."
+  "2202.04936": "Robust recovery from poisoned/local-corruption graph inputs is outside the current clean-benchmark scope."
+  "2202.08057": "Graph injection attack evaluation is outside the current clean-benchmark scope."
+  "2206.09345": "Graph domain-generalization evaluation is outside the current canonical benchmark scope."
+  "2208.06956": "Adversarially attacked graph evaluation is outside the current clean-benchmark scope."
+  "2308.08344": "Graph out-of-distribution generalization evaluation is outside the current canonical benchmark scope."
+  "2311.04837": "Molecular graph out-of-distribution generalization evaluation is outside the current canonical benchmark scope."
+  "2405.16489": "Graph architecture search under distribution shifts is outside the current canonical benchmark scope."
+  "2406.02059": "Adversarial graph-structure robustness evaluation is outside the current clean-benchmark scope."
+  "2407.11025": "Backdoor attack evaluation for graph condensation is outside the current clean-benchmark scope."
+  "2408.00295": "Adversarial-view perturbation and robustness evaluation is outside the current clean-benchmark scope."
+  "2502.02017": "Multi-domain transfer and unseen-domain generalization are outside the current canonical benchmark scope."
+  "2505.16860": "Continual adaptation across evolving out-of-distribution graph domains is outside the current canonical benchmark scope."
+  "2506.03674": "Out-of-distribution graph-model generalization and merging are outside the current canonical benchmark scope."
+  "2511.22435": "Graph out-of-distribution generalization evaluation is outside the current canonical benchmark scope."
+  "2603.29644": "Graph out-of-distribution detection is outside the current canonical benchmark scope."
+  "2605.05534": "Adversarial attack/defense benchmark evaluation is outside the current clean-benchmark scope."
+  # Non-canonical transfer, prompting, few-shot, graph-language, and domain-
+  # adaptation evaluations are not comparable with the standard supervised
+  # benchmark results currently published by the site.
+  "2404.19288": "Training-free label propagation and labels-as-features use a different transductive protocol from the standard GNN benchmark."
+  "2410.10329": "Text-attributed graph foundation-model transfer and zero/few-shot evaluation are outside the canonical supervised benchmark scope."
+  "2502.00806": "Multimodal graph foundation-model transfer is outside the canonical supervised benchmark scope."
+  "2601.02662": "Prompt tuning and pretrained spiking graph models use a non-canonical transfer protocol."
+  "2603.01941": "Few-shot graph learning is outside the canonical full-supervision benchmark scope."
+  "2605.07357": "LLM-style graph reasoning and retrieval evaluation is outside the canonical supervised benchmark scope."
+  "2407.09709": "Joint graph-language modeling evaluation is outside the canonical supervised benchmark scope."
+  "2510.16885": "Zero-shot graph generalization evaluation is outside the canonical supervised benchmark scope."
+  "2502.11836": "LLM-based text-attributed graph generalization is outside the canonical supervised benchmark scope."
+  "2505.17599": "LLM-based zero-shot inference on text-attributed graphs is outside the canonical supervised benchmark scope."
+  "2407.07457": "Graph-LLM benchmark evaluation is outside the canonical supervised benchmark scope."
+  "2603.01385": "Graph instruction tuning and graph-tokenizing LLM evaluation is outside the canonical supervised benchmark scope."
+  "2408.14512": "LLM zero-shot graph learning is outside the canonical supervised benchmark scope."
+  "2503.00750": "Graph prompt tuning is outside the canonical from-scratch supervised benchmark scope."
+  "2604.11257": "Graph prompt learning is outside the canonical from-scratch supervised benchmark scope."
+  "2602.07573": "Graph domain adaptation is outside the canonical same-domain benchmark scope."
+  "2505.20089": "Graph domain adaptation is outside the canonical same-domain benchmark scope."
+  "2602.04244": "Cross-domain graph vectorization is outside the canonical same-domain benchmark scope."
+  "2603.00618": "Graph foundation-model construction across domains is outside the canonical supervised benchmark scope."
+  "2106.05470": "Self-supervised pretraining evaluation is outside the canonical from-scratch supervised benchmark scope."
+  "2601.22327": "Function-space and low-label molecular transfer evaluation is outside the canonical supervised benchmark scope."
 
 # Dataset-specific exclusions for papers that also contain valid results on
 # other benchmarks.
 exclude_datasets:
+  "2602.19622":
+    Cora: "The source uses 60/20/20 train/validation/test splits for Cora rather than the canonical Planetoid split; its ID table is not comparable to the standard leaderboard."
+  "2403.07954":
+    Cora: "The source uses 10 random 60/20/20 train/validation/test splits rather than the canonical Planetoid Cora split."
+  "2210.03930":
+    Cora: "The source uses a random 60/20/20 train/validation/test split rather than the canonical Planetoid Cora split."
+  "2206.14418":
+    Cora: "The source follows Pei et al. with 10 random splits rather than the canonical Planetoid Cora split."
+  "2106.06134":
+    Cora: "The source uses 10 random 48/32/20 train/validation/test splits rather than the canonical Planetoid Cora split."
+  "2605.24867":
+    Cora: "The source uses a 6:2:2 split for Cora rather than the canonical Planetoid split."
+  "2512.08798":
+    Cora: "The source uses a 60/20/20 split for Cora rather than the canonical Planetoid split."
+  "2510.04567":
+    Cora: "The source evaluates 5-shot few-shot node classification rather than the canonical fully supervised Planetoid task."
+  "2211.15779":
+    Cora: "The source randomly resplits Cora for each of 100 trials rather than using the canonical Planetoid split."
+  "2210.05920":
+    Collab: "The paper uses a new random split and selects the top 5 results from 10 runs rather than the canonical graph-classification protocol."
+    IMDB: "The paper uses a new random split and selects the top 5 results from 10 runs rather than the canonical graph-classification protocol."
+    Enzymes: "The paper uses a new random split and selects the top 5 results from 10 runs rather than the canonical graph-classification protocol."
+    Amazon-Computers: "The paper uses a new random split and selects the top 5 results from 10 runs rather than the canonical benchmark protocol."
   "2407.14732":
     Amazon-ratings: "Source tables are Amazon-Clothing/Electronics few-shot evaluations, not the canonical full-task Amazon-ratings benchmark."
+  "2106.09553":
+    ESOL: "MoLFormer uses PubChem/ZINC pretraining; exclude from the strict supervised molecular comparison."
+    FreeSolv: "MoLFormer uses PubChem/ZINC pretraining; exclude from the strict supervised molecular comparison."
+    Lipophilicity: "MoLFormer uses PubChem/ZINC pretraining; exclude from the strict supervised molecular comparison."
   "2506.08298":
     arxiv-year: "The extracted value is from the He_Arxiv co-training table, not canonical OGB arxiv-year."
   "2307.01026":
@@ -83,6 +157,8 @@ exclude_datasets:
   "2310.04292":
     QM9: "The paper reports a standalone QM9 test evaluation without canonical split evidence."
   "2510.04522":
+    Amazon-Photo: "The source uses a 60/20/20 random split rather than the canonical standard Amazon-Photo split."
+    Coauthor-Physics: "The source uses a 60/20/20 random split rather than the canonical standard Coauthor-Physics split."
     QM9: "Conditional generation results are not supervised QM9 property prediction."
   "2510.10402":
     QM9: "In-distribution graph-generation results are not the canonical supervised benchmark."

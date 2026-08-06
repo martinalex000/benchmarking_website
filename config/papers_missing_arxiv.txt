@@ -1,6 +1,7 @@
 # Papers/methods without confirmed arXiv ID
 # method | title | date | datasets | notes
 AA-DC | Adamic-Adar with degree correction | Feb 2026 | ogbl-collab | Heuristic link-prediction baseline; no paper.
+SIEG | SIEG | 2023 | ogbl-ppa,ogbl-citation2,ogbl-vessel | OGB submission linked from the leaderboard; no arXiv paper was provided.
 BGN | BGN baseline | 2026 | pcqm4mv2 | OGB-LSC PCQM4Mv2 submission; no arXiv found.
 CoAtGIN-base | CoAtGIN base model | 2022 | pcqm4mv2 | bioRxiv preprint only (not arXiv); OGB-LSC submission.
 CoAtGIN-tiny | CoAtGIN tiny model | 2022 | pcqm4mv2 | bioRxiv preprint only (not arXiv); OGB-LSC submission.

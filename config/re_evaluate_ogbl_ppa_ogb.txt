@@ -1,0 +1,8 @@
+# OGB ogbl-ppa leaderboard papers requiring clean re-evaluation.
+2302.00890
+2303.03379
+2309.00976
+2401.00529
+2411.03845
+2411.14711
+2111.11638

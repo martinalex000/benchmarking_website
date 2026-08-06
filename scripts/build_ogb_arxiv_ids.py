@@ -774,25 +774,39 @@ def _add_known() -> None:
         "BUDDY": ("2202.02292", "BUDDY: A Scalable Link Prediction Framework", 2022),
         "ELPH": ("2107.02285", "ELPH: Efficient Link Prediction with Hashing", 2021),
         "Neural Common Neighbor": (
-            "2305.17311",
+            "2302.00890",
             "Neural Common Neighbor with Completion for Link Prediction",
             2023,
         ),
         "NeuralCommonNeighbor": (
-            "2305.17311",
+            "2302.00890",
             "Neural Common Neighbor with Completion for Link Prediction",
             2023,
         ),
-        "MPLP": ("2303.06147", "MPLP: Multi-Aspect Graph Learning for Link Prediction", 2023),
+        "MPLP": (
+            "2309.00976",
+            "Pure Message Passing Can Estimate Common Neighbor for Link Prediction",
+            2023,
+        ),
         "SUREL": (
             "2202.05184",
             "SUREL: Subgraph Representation Learning for Link Prediction",
             2022,
         ),
         "SUREL+": (
-            "2202.05184",
-            "SUREL: Subgraph Representation Learning for Link Prediction",
-            2022,
+            "2303.03379",
+            "Simplifying Subgraph Representation Learning for Scalable Link Prediction",
+            2023,
+        ),
+        "Refined-GAE": (
+            "2411.03845",
+            "Reconsidering the Performance of GAE in Link Prediction",
+            2024,
+        ),
+        "GCN (node embedding)": (
+            "2411.14711",
+            "Can GNNs Learn Link Heuristics? A Concise Review and Evaluation of Link Prediction Methods",
+            2024,
         ),
         "RotatE (250dim)": (
             "1902.10197",
@@ -1212,6 +1226,9 @@ NO_ARXIV = {
     "Spec-MLP-Wide + C&S",
     "HPE - Pre-trained Initialized",
     "TopoLink",
+    "SIEG",
+    "SIEG w/o NF",
+    "SIEG(SPG)",
     "LabelProp",
     "MLP-Fingerprint",
     "MDGNN (OGB-LSC'22 3rd)",
@@ -1402,6 +1419,11 @@ MISSING_META: dict[str, tuple[str, str, str]] = {
         "2023",
         "OGB submission for ogbl-vessel; no arXiv found.",
     ),
+    "SIEG": (
+        "SIEG",
+        "2023",
+        "OGB submission linked from the leaderboard; no arXiv paper was provided.",
+    ),
 }
 
 # Map variant method names to base KNOWN keys
@@ -1412,7 +1434,10 @@ BASE_MAP = {
     "NeighborSampling (SAGE aggr)": "GraphSAGE",
     "GraphSAGE (val as input)": "GraphSAGE",
     "GCN (val as input)": "GCN",
-    "GCN (node embedding)": "GCN",
+    # These leaderboard entries have dedicated papers; do not collapse them
+    # onto the original GCN/GraphSAGE papers during arXiv resolution.
+    "GCN (node embedding)": "GCN (node embedding)",
+    "Refined-GAE": "Refined-GAE",
     "GCN w/Node2Vec": "GCN",
     "GraphSAGE w/Node2VEc": "GraphSAGE",
     "GraphSAGE w/Node2Vec": "GraphSAGE",

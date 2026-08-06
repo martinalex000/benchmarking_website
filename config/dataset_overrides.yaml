@@ -17,6 +17,8 @@
 #     display_metrics: ["Accuracy"]
 
 datasets:
+  COVID:
+    default_metric: Avg.
   LRIM:
     export_without_results: true
   Texas:

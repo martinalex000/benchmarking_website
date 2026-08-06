@@ -101,11 +101,17 @@ def apply_overrides_to_results(
             ov = override_map[key]
             if ov.get("correct_metric"):
                 r["metric"] = str(ov["correct_metric"]).strip()
-            r["is_overridden"] = True
-            r["override_value"] = ov.get("correct_value")
-            r["override_std"] = ov.get("correct_std")
-            r["override_reason"] = ov.get("reason", "")
-            r["override_source"] = override_source
+            if ov.get("protocol_decision"):
+                r["protocol_decision"] = str(ov["protocol_decision"]).strip()
+            has_value_override = any(
+                ov.get(field) is not None for field in ("correct_value", "correct_std", "correct_metric")
+            )
+            if has_value_override:
+                r["is_overridden"] = True
+                r["override_value"] = ov.get("correct_value")
+                r["override_std"] = ov.get("correct_std")
+                r["override_reason"] = ov.get("reason", "")
+                r["override_source"] = override_source
 
     return results
 
@@ -273,12 +279,21 @@ def apply_overrides_to_db(arxiv_id: str) -> int:
                 corrected_metric = str(ov.get("correct_metric") or "").strip()
                 if corrected_metric and result.metric_name != corrected_metric:
                     result.metric_name = corrected_metric
-                result.is_overridden = 1
-                result.override_value = ov.get("correct_value")
-                result.override_std = ov.get("correct_std")
-                result.override_reason = ov.get("reason", "")
-                result.override_source = override_source
-                changed = True
+                corrected_protocol = str(ov.get("protocol_decision") or "").strip()
+                if corrected_protocol and result.protocol_decision != corrected_protocol:
+                    result.protocol_decision = corrected_protocol
+                    changed = True
+                has_value_override = any(
+                    ov.get(field) is not None
+                    for field in ("correct_value", "correct_std", "correct_metric")
+                )
+                if has_value_override:
+                    result.is_overridden = 1
+                    result.override_value = ov.get("correct_value")
+                    result.override_std = ov.get("correct_std")
+                    result.override_reason = ov.get("reason", "")
+                    result.override_source = override_source
+                    changed = True
 
             if overrides.get("mark_all_as_baseline") and not result.is_baseline:
                 result.is_baseline = 1

@@ -92,6 +92,31 @@ def test_apply_overrides_to_results_can_correct_metric():
     assert out[0]["is_overridden"] is True
 
 
+def test_apply_overrides_to_results_can_correct_protocol():
+    results = [
+        {
+            "model": "Optimized GAE",
+            "dataset": "ogbl-ppa",
+            "metric": "Hits@100",
+            "protocol_decision": None,
+        }
+    ]
+    overrides = {
+        "result_overrides": [
+            {
+                "model": "Optimized GAE",
+                "dataset": "ogbl-ppa",
+                "metric": "Hits@100",
+                "protocol_decision": "standard",
+            }
+        ]
+    }
+
+    out = apply_overrides_to_results(results, overrides)
+
+    assert out[0]["protocol_decision"] == "standard"
+
+
 def test_get_result_override_matches_corrected_metric_after_reapply():
     overrides = {
         "result_overrides": [

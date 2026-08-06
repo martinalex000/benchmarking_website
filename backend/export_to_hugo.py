@@ -1441,6 +1441,75 @@ def _collect_dataset_papers(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
     return sorted(by_arxiv.values(), key=lambda item: item["date_iso"], reverse=True)
 
 
+def _configured_leaderboard_papers(session: Session, dataset_name: str) -> list[dict[str, Any]]:
+    """Include configured leaderboard papers even before their rows are extracted."""
+    if dataset_name.casefold() != "ogbg-code2":
+        return []
+    try:
+        configured = json.loads((cfg.config_dir / "arxiv_ids.json").read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return []
+
+    configured_papers = {
+        str(entry.get("arxiv_id") or "").strip(): str(entry.get("title") or "").strip()
+        for entry in configured.values()
+        if isinstance(entry, dict) and "ogbg-code2" in str(entry.get("datasets") or "")
+    }
+    arxiv_ids = set(configured_papers)
+    papers = session.query(Paper).filter(Paper.arxiv_id.in_(arxiv_ids)).all()
+    return [
+        {
+            "arxiv_id": paper.arxiv_id,
+            "title": (
+                configured_papers.get(paper.arxiv_id)
+                if not paper.title or paper.title.startswith("arXiv:")
+                else paper.title
+            )
+            or f"arXiv:{paper.arxiv_id}",
+            "date_iso": (paper.published_date or "")[:10] or "0000-00-00",
+            "venue": paper.venue or "",
+        }
+        for paper in papers
+    ]
+
+
+def _export_leaderboard_only_paper(
+    paper: Paper, paper_dir: Path, configured: dict[str, Any]
+) -> bool:
+    """Write a discoverable paper page when no local result table exists yet."""
+    published_date = (paper.published_date or "")[:10]
+    _write_md(
+        paper_dir / "index.md",
+        {
+            "title": configured.get("title") or paper.title,
+            "arxiv_id": paper.arxiv_id,
+            "source_url": f"https://arxiv.org/abs/{paper.arxiv_id}",
+            "published_date_iso": published_date,
+            "published_date": _fmt_date(published_date),
+            "published_venue": paper.venue or "",
+            "abstract": paper.abstract or "",
+            "has_results": False,
+            "paper_type": "method",
+            "results": [],
+        },
+    )
+    return True
+
+
+def _dataset_papers(
+    session: Session, dataset_name: str, rows: list[dict[str, Any]]
+) -> list[dict[str, Any]]:
+    papers = _collect_dataset_papers(rows)
+    by_arxiv = {paper["arxiv_id"]: paper for paper in papers}
+    by_arxiv.update(
+        {
+            paper["arxiv_id"]: paper
+            for paper in _configured_leaderboard_papers(session, dataset_name)
+        }
+    )
+    return sorted(by_arxiv.values(), key=lambda item: item["date_iso"], reverse=True)
+
+
 def _write_dataset_variant_json_files(
     dataset_slug: str,
     variant_slug: str,
@@ -1726,29 +1795,12 @@ def _global_ranks_for_dataset(
         .filter(Dataset.name == ds_name)
         .filter(Result.metric_name == primary_metric)
         .filter(DatasetVariant.is_standard == 1)
-        .filter(Result.protocol_decision == "standard")
         .filter(Result.is_problematic.is_(None) | (Result.is_problematic == 0))
         .all()
     )
     all_res = _final_comparison_results(all_res)
 
-    # Keep the best value per canonical model name
-    model_best: dict[str, tuple[float, Any]] = {}
-    for r in all_res:
-        model_name = r.effective_model_name
-        model_key = _model_key(model_name)
-        if not model_key:
-            continue
-        v = float(r.display_value) if r.display_value is not None else None
-        if v is None:
-            continue
-        prev = model_best.get(model_key)
-        if (
-            prev is None
-            or (higher_is_better and v > prev[0])
-            or (not higher_is_better and v < prev[0])
-        ):
-            model_best[model_key] = (v, r)
+    model_best = _best_results_by_model(all_res, higher_is_better)
 
     sorted_items = sorted(
         model_best.items(),
@@ -1762,7 +1814,7 @@ def _global_ranks_for_dataset(
         p = r.paper
         ued = r.uses_external_data
         rendered_name = _sanitize_model(
-            model_name,
+            r.effective_model_name,
             p.arxiv_id if p else None,
         )
         row = {
@@ -1916,6 +1968,32 @@ def _select_global_context_rows(
         _add(mlp_row)
 
     return extras
+
+
+def _best_results_by_model(
+    results: list[Result], higher_is_better: bool
+) -> dict[str, tuple[float, Result]]:
+    """Select one best eligible result for each normalized model identity."""
+    best: dict[str, tuple[float, Result]] = {}
+    for result in results:
+        model_key = _model_key(result.effective_model_name)
+        if not model_key or result.display_value is None:
+            continue
+        value = float(result.display_value)
+        previous = best.get(model_key)
+        if previous is None:
+            best[model_key] = (value, result)
+            continue
+        previous_value, previous_result = previous
+        value_is_better = value > previous_value if higher_is_better else value < previous_value
+        same_value = value == previous_value
+        current_date = (result.paper.published_date if result.paper else "") or ""
+        previous_date = (
+            previous_result.paper.published_date if previous_result.paper else ""
+        ) or ""
+        if value_is_better or (same_value and current_date > previous_date):
+            best[model_key] = (value, result)
+    return best
 
 
 def _global_row_to_pivoted_extra(gr: dict, n_metrics: int) -> dict:
@@ -2470,6 +2548,16 @@ def _export_paper_impl(session: Session, arxiv_id: str) -> bool:
     results = _final_comparison_results(results)
     out_path = paper_dir / "index.md"
     if not results:
+        configured = next(
+            (
+                paper_entry
+                for paper_entry in _configured_leaderboard_papers(session, "ogbg-code2")
+                if paper_entry["arxiv_id"] == paper.arxiv_id
+            ),
+            None,
+        )
+        if configured is not None:
+            return _export_leaderboard_only_paper(paper, paper_dir, configured)
         _remove_hugo_content_dir(paper_dir)
         return False
 
@@ -3349,7 +3437,7 @@ def _export_dataset_impl(session: Session, dataset_id: int) -> bool:
         "stats": export_stats if has_stats else None,
         "result_count": result_count,
         "best_model": best_model_info,
-        "papers": _collect_dataset_papers(papers_source_rows),
+        "papers": _dataset_papers(session, ds.name, papers_source_rows),
         "variants": variant_data,
     }
 

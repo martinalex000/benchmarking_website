@@ -284,7 +284,6 @@ def get_best_results_over_time_for_metrics(
             .options(joinedload(Result.paper), joinedload(Result.model))
             .filter_by(dataset_variant_id=dataset_variant_id)
             .filter(Result.metric_name.in_(unique_metrics))
-            .filter(Result.protocol_decision == "standard")
             .filter(Result.is_problematic.is_(None) | (Result.is_problematic == 0))
             .join(Result.paper)
             .order_by(text("papers.published_date"))

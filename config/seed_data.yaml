@@ -404,9 +404,9 @@ benchmarks:
       split_type: species
       is_standard: true
       notes: OGB species split.
-  - name: Code
+  - name: ogbg-code2
     task_type: graph_classification
-    description: Code AST-level method name prediction (ogbg-code2). 143k Python snippets.
+    description: Code AST-level method name prediction (ogbg-code2). 452k Python snippets.
     primary_metric: F1
     higher_is_better: true
     domain: code
