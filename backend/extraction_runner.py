@@ -203,8 +203,6 @@ def run_extraction(
             return False
 
     paper_text = ""
-    tables_text = ""
-    structured_tables: list = []
     latex_paper = None
     figures_list = []
 
@@ -244,8 +242,6 @@ def run_extraction(
         parsed = parse_html_paper(storage.html_index_path)
         html_save(parsed, storage.text_path)
         paper_text = parsed.full_text
-        structured_tables = list(parsed.tables)
-        tables_text = "\n\n".join(t.markdown for t in parsed.tables)
         figures_list = [
             {"caption": f.caption, "src": f.src, "element_id": f.element_id} for f in parsed.figures
         ]
@@ -258,11 +254,7 @@ def run_extraction(
         logger.error("No text extracted for arXiv:%s", arxiv_id)
         return False
 
-    logger.info(
-        "Text extracted: %d chars%s",
-        len(paper_text),
-        f" + {len(tables_text)} chars in tables" if tables_text else "",
-    )
+    logger.info("Text extracted: %d chars", len(paper_text))
 
     extractor = LLMExtractor(model_tier=model_tier, result_output_format=result_output_format)
     if verbose:
@@ -296,8 +288,7 @@ def run_extraction(
         output = extractor.process_paper(
             arxiv_id=arxiv_id,
             paper_text=paper_text,
-            tables_text=tables_text,
-            structured_tables=structured_tables,
+            tables_text="",
             latex_paper=latex_paper,
             figures_list=figures_list,
             paper_title=paper_title,

@@ -21,6 +21,11 @@ Output schema:
 
 Guidelines:
 - Include ONLY datasets with actual numeric experiment tables comparing model performance.
+- Dataset names in result tables may be abbreviated or truncated (for example, "Cham." for
+  "Chameleon"). Match table labels to the full dataset names used in dataset descriptions,
+  captions, headers, or nearby prose before deciding whether they refer to the same benchmark.
+  Do not create a separate dataset entry for an abbreviation that clearly refers to a known
+  full dataset name.
 - Do NOT include datasets only mentioned in the introduction or related work.
 - Use the exact name as it appears in the paper (e.g. keep "Peptides-func" not "Peptides").
 - If the user content provides canonical dataset names already known to the website, prefer that canonical name when it clearly refers to the same benchmark.

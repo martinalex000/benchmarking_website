@@ -5,7 +5,7 @@ all ``\\input`` / ``\\include`` directives into a single file, then extracts:
 
   - All ``table`` / ``table*`` / ``longtable`` / ``wraptable`` /
     ``sidewaystable`` / ``sidewaystable*`` environments with captions
-    (including appendix tables — missed by PDF/HTML extraction)
+    (including appendix tables — missed by PDF extraction)
   - All section / subsection / subsubsection / paragraph headings and their
     content, with appendix-awareness
 

@@ -79,7 +79,8 @@ class ParsedLatexTable:
 _TABLE_REF_RE = re.compile(r"table\s*(\d+)", re.IGNORECASE)
 _TABULAR_RE = re.compile(
     r"\\begin\{(?:tabular\*?|tabularx|tabulary|tabu|longtable)\}"
-    r"(?:\s*\[[^]]*\])?\s*\{[^}]*\}(.*?)\\end\{(?:tabular\*?|tabularx|tabulary|tabu|longtable)\}",
+    r"(?:\s*\[[^]]*\])?\s*\{(?:[^{}]|\{[^{}]*\})*\}"
+    r"(.*?)\\end\{(?:tabular\*?|tabularx|tabulary|tabu|longtable)\}",
     re.DOTALL,
 )
 
@@ -112,7 +113,9 @@ def _strip_latex_cell(value: str) -> str:
     value = re.sub(r"%.*", "", value).strip()
     value = value.replace(r"\pm", "±").replace(r"\%", "%").replace(r"\times", "×")
     value = re.sub(
-        r"\\(?:textbf|mathbf|mathrm|textit|emph|underline|text|mbox)\s*\{([^{}]*)\}", r"\1", value
+        r"\\(?:textbf|mathbf|mathrm|textit|emph|underline|text|mbox)\s*\{([^{}]*)\}",
+        r"\1",
+        value,
     )
     value = re.sub(r"\\(?:footnotesize|scriptsize|small|large|centering|arraystretch)\b", "", value)
     value = re.sub(r"\\(?:[a-zA-Z]+|[^a-zA-Z\s])", "", value)
@@ -122,14 +125,68 @@ def _strip_latex_cell(value: str) -> str:
     return value.strip(" {}")
 
 
-def _expand_cell(cell: str) -> list[str]:
+def _local_latex_macros(body: str) -> dict[str, tuple[int, str]]:
+    """Collect simple braced-argument macros that expand table headers."""
+    macros: dict[str, tuple[int, str]] = {}
+    pattern = re.compile(
+        r"\\(?:newcommand|renewcommand)\s*\{\\(?P<name>[A-Za-z]+)\}"
+        r"\s*\[(?P<arity>\d+)\]\s*\{(?P<replacement>(?:[^{}]|\{[^{}]*\})*)\}",
+        re.DOTALL,
+    )
+    for match in pattern.finditer(body):
+        macros[match.group("name")] = (
+            int(match.group("arity")),
+            match.group("replacement"),
+        )
+    return macros
+
+
+def _braced_arguments(value: str, count: int) -> tuple[list[str], str] | None:
+    arguments: list[str] = []
+    position = 0
+    for _ in range(count):
+        while position < len(value) and value[position].isspace():
+            position += 1
+        if position >= len(value) or value[position] != "{":
+            return None
+        depth = 1
+        end = position + 1
+        while end < len(value) and depth:
+            if value[end] == "{":
+                depth += 1
+            elif value[end] == "}":
+                depth -= 1
+            end += 1
+        if depth:
+            return None
+        arguments.append(value[position + 1 : end - 1])
+        position = end
+    return arguments, value[position:].strip()
+
+
+def _expand_cell(cell: str, local_macros: dict[str, tuple[int, str]] | None = None) -> list[str]:
+    cell = cell.strip()
     match = re.match(r"\\multicolumn\s*\{(\d+)\}\s*\{[^}]*\}\s*\{(.*)\}\s*$", cell, re.DOTALL)
     if match:
         return [_strip_latex_cell(match.group(2))] + [""] * (int(match.group(1)) - 1)
+    if local_macros:
+        macro_match = re.match(r"\\(?P<name>[A-Za-z]+)(?P<arguments>.*)$", cell, re.DOTALL)
+        if macro_match and macro_match.group("name") in local_macros:
+            arity, replacement = local_macros[macro_match.group("name")]
+            parsed = _braced_arguments(macro_match.group("arguments"), arity)
+            if parsed is not None:
+                arguments, remainder = parsed
+                if not remainder:
+                    expanded = replacement
+                    for index, argument in enumerate(arguments, start=1):
+                        expanded = expanded.replace(f"#{index}", argument)
+                    return _expand_cell(expanded, local_macros)
     return [_strip_latex_cell(cell)]
 
 
-def _latex_rows(body: str) -> list[list[str]]:
+def _latex_rows(
+    body: str, local_macros: dict[str, tuple[int, str]] | None = None
+) -> list[list[str]]:
     rows: list[list[str]] = []
     # A row terminator is two literal backslashes.  Splitting with the generic
     # escaped-character scanner would mistake it for an escaped slash.
@@ -146,7 +203,7 @@ def _latex_rows(body: str) -> list[list[str]]:
             continue
         cells: list[str] = []
         for cell in _split_latex(row, "&"):
-            cells.extend(_expand_cell(cell))
+            cells.extend(_expand_cell(cell, local_macros))
         if cells and any(cell for cell in cells):
             rows.append(cells)
     width = max((len(row) for row in rows), default=0)
@@ -157,7 +214,7 @@ def parse_latex_table(table: Any) -> ParsedLatexTable:
     """Convert one ``LatexTable`` body into a DataFrame."""
     body = getattr(table, "body", "")
     match = _TABULAR_RE.search(body)
-    rows = _latex_rows(match.group(1) if match else body)
+    rows = _latex_rows(match.group(1) if match else body, _local_latex_macros(body))
     if not rows:
         raise ValueError("no tabular rows found")
     header = rows[0]
@@ -165,6 +222,68 @@ def parse_latex_table(table: Any) -> ParsedLatexTable:
     columns = _unique_columns(columns)
     frame = pd.DataFrame(rows[1:], columns=columns)
     return ParsedLatexTable(frame=frame, raw_rows=rows, table_ref=f"Table {table.number}")
+
+
+def build_table_column_guide(table: Any) -> str:
+    """Describe grouped header spans without extracting any numeric cells.
+
+    A flat DataFrame cannot represent a ``dataset × metric`` header.  This small
+    deterministic aid gives the extraction model the missing alignment while
+    leaving the complete raw table as the source of numeric values.
+    """
+    body = getattr(table, "body", "")
+    match = _TABULAR_RE.search(body)
+    rows = _latex_rows(match.group(1) if match else body, _local_latex_macros(body))
+    if not rows:
+        return ""
+
+    dataset_row = next(
+        (row for row in rows if row and row[0].casefold().strip() == "dataset"), None
+    )
+    metric_row = next((row for row in rows if row and row[0].casefold().strip() == "metric"), None)
+    if dataset_row is None or metric_row is None:
+        return ""
+
+    groups: list[tuple[str, int, int]] = []
+    current_dataset = ""
+    start = 0
+    width = max(len(dataset_row), len(metric_row))
+    for index in range(1, width):
+        cell = dataset_row[index] if index < len(dataset_row) else ""
+        if cell.strip():
+            if current_dataset:
+                end = index - 1
+                while end >= start and (end >= len(metric_row) or not metric_row[end].strip()):
+                    end -= 1
+                groups.append((current_dataset, start, end))
+            current_dataset = cell.strip()
+            start = index
+    if current_dataset:
+        end = width - 1
+        while end >= start and (end >= len(metric_row) or not metric_row[end].strip()):
+            end -= 1
+        groups.append((current_dataset, start, end))
+
+    # A useful guide requires an actual span and at least one metric label.
+    grouped = [group for group in groups if group[2] > group[1]]
+    if not grouped:
+        return ""
+
+    lines = [
+        "=== COLUMN GROUP GUIDE (header-only; read numeric values from the raw table) ===",
+        "Use the dataset span first, then the metric label within that span; do not flatten grouped columns.",
+    ]
+    for dataset, first, last in grouped:
+        metrics = [
+            metric_row[index].strip()
+            for index in range(first, min(last + 1, len(metric_row)))
+            if metric_row[index].strip()
+        ]
+        metric_text = ", ".join(metrics) or "metric labels unavailable"
+        lines.append(
+            f"- table columns {first + 1}-{last + 1}: dataset {dataset!r}; metrics: {metric_text}"
+        )
+    return "\n".join(lines)
 
 
 def _unique_columns(columns: list[str]) -> list[str]:

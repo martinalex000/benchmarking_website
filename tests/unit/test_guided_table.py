@@ -8,6 +8,7 @@ from backend.guided_table import (
     GuidedMethod,
     GuidedTableSpec,
     GuidedTask,
+    build_table_column_guide,
     extract_guided_results,
     parse_latex_table,
 )
@@ -18,7 +19,8 @@ def _table(body: str, number: int = 1, caption: str = "Main benchmark results"):
 
 
 def test_parse_latex_table_preserves_values_and_multicolumn_headers():
-    parsed = parse_latex_table(_table(r"""
+    parsed = parse_latex_table(
+        _table(r"""
             \begin{tabular}{lcc}
             \toprule
             Method & Cora & CiteSeer \\
@@ -26,9 +28,41 @@ def test_parse_latex_table_preserves_values_and_multicolumn_headers():
             GCN & 0.812e0 & 81.2 \\
             \bottomrule
             \end{tabular}
-            """))
+            """)
+    )
     assert list(parsed.frame.columns) == ["Method", "Cora", "CiteSeer"]
     assert parsed.frame.iloc[0].tolist() == ["GCN", "0.812e0", "81.2"]
+
+
+def test_table_column_guide_preserves_dataset_metric_groups_without_values():
+    table = _table(r"""
+        \newcommand{\grouphead}[2]{\multicolumn{3}{#1}{#2}}
+        \begin{tabular}{@{}l|ccc|ccc@{}}
+        \toprule
+        \textbf{Dataset} & \grouphead{c|}{\textbf{products}} & \grouphead{c}{\textbf{papers100m}} \\
+        \textbf{Metric} & \szs{Acc} & \szs{Time} & \szs{FLOPs}
+            & \szs{Acc} & \szs{Time} & \szs{FLOPs} \\
+        \midrule
+        SGC & 79.1 & 289.6 & 247.4+434.4 & 63.3 & 19212 & 17.7+253.6 \\
+        \bottomrule
+        \end{tabular}
+        """)
+    guide = build_table_column_guide(table)
+    assert "dataset 'products'" in guide
+    assert "dataset 'papers100m'" in guide
+    assert "metrics: Acc, Time, FLOPs" in guide
+    assert "79.1" not in guide
+    assert "63.3" not in guide
+
+
+def test_table_column_guide_is_absent_for_flat_tables():
+    table = _table(r"""
+        \begin{tabular}{lcc}
+        Method & Cora & CiteSeer \\
+        GCN & 81.2 & 72.1 \\
+        \end{tabular}
+        """)
+    assert build_table_column_guide(table) == ""
 
 
 def test_guided_extraction_renames_methods_and_normalizes_values(tmp_path, monkeypatch):

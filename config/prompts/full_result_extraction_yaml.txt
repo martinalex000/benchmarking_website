@@ -5,10 +5,24 @@ No markdown fences, no prose explanation.
 
 DATASET/TABLE SCOPE RULES:
 - When a FOCUS block is supplied, extract only explicit result entries for that focused dataset.
+- Dataset labels in tables may be abbreviated, truncated, punctuated, or shortened (for example,
+  "Cham." may mean "Chameleon"). Match table labels to the full dataset name using the paper's
+  dataset descriptions, captions, headers, and surrounding experiment prose. Treat a confirmed
+  abbreviation as the focused dataset, not as a separate benchmark, and preserve the canonical
+  focused dataset name in the output.
 - If no explicit table entry exists for that dataset, return no results.
 - Never copy a column or row belonging to another dataset, even when the table contains several datasets.
 - A table that does not name the focused dataset may be used only when the supplied selection rationale
   explains why it is the correct table.
+
+COLUMN ALIGNMENT FOR GROUPED TABLES:
+- Some tables use multiple header rows, with a dataset spanning several adjacent metric columns.
+- If a COLUMN GROUP GUIDE is supplied, use it as the column map: first identify the focused dataset's
+  span, then identify the requested metric within that span, and only then read the model row's value.
+- The guide contains header labels only; numeric values must always be copied from the complete raw table.
+- Never flatten repeated metric labels across datasets, and never shift a value into the neighboring
+  dataset merely because the same metric label repeats.
+
 If you need to include notes, keep them short or use a YAML block scalar (`|`) so colons and punctuation do not break parsing.
 
 Compact output schema:

@@ -25,6 +25,11 @@ def is_gpt_oss_model(model_name: str | None) -> bool:
     return "gpt-oss" in model or "gptoss" in model.replace("-", "")
 
 
+def is_gemma_model(model_name: str | None) -> bool:
+    """Return True for Gemma model IDs served by local or external backends."""
+    return "gemma" in (model_name or "").lower()
+
+
 def context_limits_for_model(model_name: str | None) -> tuple[int, int]:
     """Return (max_text_chars, max_table_chars) for per-dataset RAG context."""
     if is_gpt_oss_model(model_name):

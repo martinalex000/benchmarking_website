@@ -32,7 +32,7 @@ from thefuzz import fuzz as fuzz_lib
 from backend.config import cfg, normalize_arxiv_id
 from backend.dataset_stats_parsing import format_stats_summary, is_statistics_table
 from backend.db import session_scope
-from backend.guided_table import GuidedDiscovery, extract_guided_results
+from backend.guided_table import GuidedDiscovery, build_table_column_guide, extract_guided_results
 from backend.json_repair import parse_json_lenient
 from backend.llm_backends import client_params_for_model
 from backend.llm_client import LLMClientMixin, LLMWallClockTimeout
@@ -89,9 +89,11 @@ from backend.llm_types import (
 )
 from backend.models import Paper
 from backend.paper_storage import PaperStorage
+from backend.qm7b_targets import apply_qm7b_extraction_guard, is_qm7b_dataset
 from backend.qm9_targets import (
     QM9_DEFAULT_METRIC,
     QM9_EXTRACT_TARGET_GROUPS,
+    apply_qm9_extraction_guard,
     is_qm9_dataset,
     qm9_extract_metric_constraint,
 )
@@ -159,13 +161,6 @@ def _save_dataset_checkpoint(
     )
     tmp_path.replace(path)
 
-
-# ParsedTable is imported lazily inside run_extraction to avoid slow startup,
-# but type-annotated here for clarity.
-try:
-    from backend.html_parser import ParsedTable as _ParsedTable
-except ImportError:
-    _ParsedTable = None  # type: ignore[assignment,misc]
 
 logger = logging.getLogger(__name__)
 
@@ -855,8 +850,7 @@ class LLMExtractor(LLMClientMixin):
 
         Context sent to the model:
           - First _DISCOVERY_INTRO_CHARS of the paper (covers abstract + intro)
-          - Up to _TABLE_SECTION_SIZE chars of table content (structured markdown
-            for HTML papers, or table-section chunks for text-only papers)
+          - Up to _TABLE_SECTION_SIZE chars of table content
         """
         prompt = self._read_prompt("dataset_discovery.txt")
         intro = paper_text[:_DISCOVERY_INTRO_CHARS]
@@ -1133,7 +1127,7 @@ class LLMExtractor(LLMClientMixin):
         h = getattr(table, "header", None)
         if h:
             return h
-        # ParsedTable / any markdown table: find first non-separator line
+        # Markdown table fallback for callers that provide preformatted tables.
         md = getattr(table, "markdown", "") or ""
         for line in md.splitlines():
             stripped = line.strip()
@@ -1213,7 +1207,7 @@ class LLMExtractor(LLMClientMixin):
 
     # ── LLM-based table selection ─────────────────────────────────────────
 
-    _TABLE_SELECTION_THRESHOLD = 4  # min tables before we bother with an LLM call
+    _TABLE_SELECTION_THRESHOLD = 4  # at most this many tables are all passed to extraction
 
     @staticmethod
     def _normalise_table_match_text(value: Any) -> str:
@@ -1229,6 +1223,7 @@ class LLMExtractor(LLMClientMixin):
         """Return the caption, header, and full body text used for matching."""
         caption = getattr(table, "caption", "") or ""
         header = getattr(table, "header", None) or cls._table_header(table)
+        column_guide = build_table_column_guide(table)
         markdown = getattr(table, "markdown", "") or ""
         body = getattr(table, "body", "") or ""
         if markdown and body and body not in markdown:
@@ -1238,6 +1233,7 @@ class LLMExtractor(LLMClientMixin):
         return {
             "caption": cls._normalise_table_match_text(caption),
             "header": cls._normalise_table_match_text(header),
+            "column_guide": cls._normalise_table_match_text(column_guide),
             "body": cls._normalise_table_match_text(body),
         }
 
@@ -1270,6 +1266,29 @@ class LLMExtractor(LLMClientMixin):
         return False
 
     @classmethod
+    def _dataset_table_match_variants(cls, dataset_name: str) -> set[str]:
+        """Return OGB naming variants used for table matching.
+
+        OGB datasets are commonly written with a family prefix (``ogbg-``,
+        ``ogbn-``, ``ogbl-``, or plain ``ogb-``), but papers also often use
+        only the suffix, such as ``MolPCBA``.  The database name remains the
+        source of truth; these variants are only lookup aliases.
+        """
+        dataset = cls._normalise_table_match_text(dataset_name)
+        if not dataset:
+            return set()
+
+        variants = {dataset}
+        tokens = dataset.split()
+        if len(tokens) < 2 or not re.fullmatch(r"ogb[a-z]?", tokens[0]):
+            return variants
+
+        suffix = " ".join(tokens[1:])
+        variants.add(suffix)
+        variants.update(f"ogb{family} {suffix}" for family in "abcdefghijklmnopqrstuvwxyz")
+        return variants
+
+    @classmethod
     def _deterministic_table_matches(
         cls, dataset_name: str, tables: list
     ) -> tuple[list[int], dict[int, list[str]]]:
@@ -1279,8 +1298,8 @@ class LLMExtractor(LLMClientMixin):
         when no exact match exists, preventing a near match in an unrelated
         table from widening an otherwise precise candidate set.
         """
-        dataset = cls._normalise_table_match_text(dataset_name)
-        if not dataset:
+        dataset_variants = cls._dataset_table_match_variants(dataset_name)
+        if not dataset_variants:
             return [], {}
 
         exact_fields: dict[int, list[str]] = {}
@@ -1290,9 +1309,14 @@ class LLMExtractor(LLMClientMixin):
             number = number if number is not None else index + 1
             fields = cls._table_match_fields(table)
             for field_name, field_text in fields.items():
-                if cls._contains_dataset_tokens(field_text, dataset):
+                if any(
+                    cls._contains_dataset_tokens(field_text, variant)
+                    for variant in dataset_variants
+                ):
                     exact_fields.setdefault(number, []).append(field_name)
-                elif cls._fuzzy_contains_dataset(field_text, dataset):
+                elif any(
+                    cls._fuzzy_contains_dataset(field_text, variant) for variant in dataset_variants
+                ):
                     fuzzy_fields.setdefault(number, []).append(field_name)
 
         matches = exact_fields or fuzzy_fields
@@ -1306,6 +1330,13 @@ class LLMExtractor(LLMClientMixin):
     ) -> str:
         """Render deterministic matching evidence for selector and extractor prompts."""
         lines = ["=== DETERMINISTIC DATASET TABLE MATCHES ==="]
+        lines.append(
+            "Dataset names may be abbreviated, truncated, punctuated, or otherwise shortened "
+            "in tables (for example, 'Cham.' may mean 'Chameleon'). Resolve a table label to "
+            "the full target dataset by checking the paper's prose, captions, headers, and "
+            "dataset-description sections. A literal name miss is not proof that a table is "
+            "unrelated."
+        )
         for dataset_name in dataset_names:
             numbers = matches_per_dataset.get(dataset_name, [])
             number_text = ", ".join(str(number) for number in numbers) or "none"
@@ -1373,8 +1404,9 @@ class LLMExtractor(LLMClientMixin):
         """Ask the LLM to select which tables are relevant for *dataset_name*.
 
         Sends each table's number, caption, and first-row header to the model.
-        Returns a filtered list. Falls back only to deterministic dataset-name
-        matches on an error or empty response.
+        Returns a filtered list. For small table sets, returns every table
+        without calling the selector. Falls back only to deterministic
+        dataset-name matches on an error or empty response for larger sets.
         """
         if len(tables) <= self._TABLE_SELECTION_THRESHOLD:
             deterministic_numbers, deterministic_fields = self._deterministic_table_matches(
@@ -1386,10 +1418,9 @@ class LLMExtractor(LLMClientMixin):
                     {dataset_name: deterministic_numbers},
                     {dataset_name: deterministic_fields},
                 )
+                + f"\nTABLE SELECTION POLICY: all {len(tables)} tables passed directly to extraction."
             }
-            return self._resolve_selected_tables(
-                tables, deterministic_numbers, deterministic_numbers, ""
-            )
+            return list(tables)
 
         entries: list[str] = []
         for t in tables:
@@ -1398,12 +1429,15 @@ class LLMExtractor(LLMClientMixin):
                 num = tables.index(t) + 1
             caption = " ".join((getattr(t, "caption", "") or "").split())
             header = self._table_header(t)
+            column_guide = build_table_column_guide(t)
             first_row = self._table_first_data_row(t)
             first_col = self._table_first_column(t)
             appendix = " [appendix]" if getattr(t, "in_appendix", False) else ""
             entry = f"Table {num}{appendix}: {caption}"
             if header:
                 entry += f"\n  Columns: {header}"
+            if column_guide:
+                entry += f"\n  {column_guide}"
             if first_row:
                 entry += f"\n  First row: {first_row}"
             if first_col:
@@ -1510,7 +1544,8 @@ class LLMExtractor(LLMClientMixin):
 
         Returns a mapping dataset_name → filtered table list.
         Falls back only to deterministic dataset-name matches for each dataset.
-        Skips the LLM call when there are ≤ _TABLE_SELECTION_THRESHOLD tables.
+        When there are ≤ _TABLE_SELECTION_THRESHOLD tables, skips the LLM call and
+        passes every table to extraction for every dataset.
         """
         deterministic_matches: dict[str, list[int]] = {}
         deterministic_fields: dict[str, dict[int, list[str]]] = {}
@@ -1518,18 +1553,14 @@ class LLMExtractor(LLMClientMixin):
             numbers, fields = self._deterministic_table_matches(dataset.name, tables)
             deterministic_matches[dataset.name] = numbers
             deterministic_fields[dataset.name] = fields
-        fallback = {
-            ds.name: self._resolve_selected_tables(
-                tables, deterministic_matches[ds.name], deterministic_matches[ds.name], ""
-            )
-            for ds in datasets
-        }
+        fallback = {ds.name: list(tables) for ds in datasets}
         self._last_table_selection_rationales = {
             ds.name: self._table_selection_context(
                 [ds.name],
                 {ds.name: deterministic_matches[ds.name]},
                 {ds.name: deterministic_fields[ds.name]},
             )
+            + f"\nTABLE SELECTION POLICY: all {len(tables)} tables passed directly to extraction."
             for ds in datasets
         }
         if len(tables) <= self._TABLE_SELECTION_THRESHOLD:
@@ -1543,12 +1574,15 @@ class LLMExtractor(LLMClientMixin):
                 num = tables.index(t) + 1
             caption = " ".join((getattr(t, "caption", "") or "").split())
             header = self._table_header(t)
+            column_guide = build_table_column_guide(t)
             first_row = self._table_first_data_row(t)
             first_col = self._table_first_column(t)
             appendix = " [appendix]" if getattr(t, "in_appendix", False) else ""
             entry = f"Table {num}{appendix}: {caption}"
             if header:
                 entry += f"\n  Columns: {header}"
+            if column_guide:
+                entry += f"\n  {column_guide}"
             if first_row:
                 entry += f"\n  First row: {first_row}"
             if first_col:
@@ -1667,6 +1701,7 @@ class LLMExtractor(LLMClientMixin):
         max_text_chars: int = 10_000,
         max_table_chars: int = 10_000,
         already_selected: bool = False,
+        selection_rationale: str = "",
     ) -> tuple[str, dict]:
         """Build a dataset-focused context for per-dataset extraction.
 
@@ -1755,8 +1790,17 @@ class LLMExtractor(LLMClientMixin):
             for t in relevant:
                 cap = _caption(t)
                 md = _sanitize_text(_markdown(t))
+                column_guide = build_table_column_guide(t)
+                guide = f"{column_guide}\n" if column_guide else ""
                 header = f"[Caption: {cap[:120]}]\n" if cap else ""
-                table_parts.append(f"{header}{md}")
+                rationale = selection_rationale.strip() or (
+                    f"This table was retained for '{dataset_name}' by the table-selection "
+                    "stage; verify the dataset label and protocol against the surrounding prose."
+                )
+                table_parts.append(
+                    f"=== WHY THIS TABLE IS RELEVANT TO '{dataset_name}' ===\n"
+                    f"{rationale}\n{header}{guide}{md}"
+                )
             joined_tables = "\n\n---\n\n".join(table_parts)
             tables_truncated = len(joined_tables) > max_table_chars
             tables_str = joined_tables[:max_table_chars]
@@ -1790,7 +1834,9 @@ class LLMExtractor(LLMClientMixin):
         return context_str, rag_stats
 
     @staticmethod
-    def _build_tables_only_context(tables: list, max_table_chars: int) -> str:
+    def _build_tables_only_context(
+        tables: list, max_table_chars: int, selection_rationale: str = ""
+    ) -> str:
         """Build a tables-only context block for empty-result retries."""
         if not tables:
             return ""
@@ -1798,19 +1844,35 @@ class LLMExtractor(LLMClientMixin):
         for t in tables:
             cap = (getattr(t, "caption", None) or "").strip()
             md = _sanitize_text(getattr(t, "markdown", None) or str(t))
+            column_guide = build_table_column_guide(t)
+            guide = f"{column_guide}\n" if column_guide else ""
             header = f"[Caption: {cap[:120]}]\n" if cap else ""
-            parts.append(f"{header}{md}")
+            rationale = (
+                selection_rationale.strip()
+                or "The table was selected as relevant to the focused dataset."
+            )
+            parts.append(f"=== WHY THIS TABLE IS RELEVANT ===\n{rationale}\n{header}{guide}{md}")
         joined = "\n\n---\n\n".join(parts)
         if len(joined) <= max_table_chars:
             return f"=== TABLES (directly pasted) ===\n{joined}"
         return f"=== TABLES (directly pasted) ===\n{joined[:max_table_chars]}"
 
     @staticmethod
-    def _build_single_table_context(table: Any, max_table_chars: int) -> str:
+    def _build_single_table_context(
+        table: Any, max_table_chars: int, selection_rationale: str = ""
+    ) -> str:
         cap = (getattr(table, "caption", None) or "").strip()
         md = _sanitize_text(getattr(table, "markdown", None) or str(table))
+        column_guide = build_table_column_guide(table)
+        guide = f"{column_guide}\n" if column_guide else ""
         header = f"[Caption: {cap[:120]}]\n" if cap else ""
-        body = f"{header}{md}"[:max_table_chars]
+        rationale = (
+            selection_rationale.strip()
+            or "The table was selected as relevant to the focused dataset."
+        )
+        body = (f"=== WHY THIS TABLE IS RELEVANT ===\n{rationale}\n{header}{guide}{md}")[
+            :max_table_chars
+        ]
         return f"=== TABLE (directly pasted) ===\n{body}"
 
     def _dataset_focus_prefix(
@@ -1874,7 +1936,9 @@ class LLMExtractor(LLMClientMixin):
             # A focused per-dataset answer is small.  This prevents one malformed
             # response from consuming the complete 50k request budget.
             effective_max = min(effective_max, 8_192)
-        tables_only = self._build_tables_only_context(ds_tables, max_table_chars)
+        tables_only = self._build_tables_only_context(
+            ds_tables, max_table_chars, selection_rationale
+        )
 
         def _run(content: str, suffix: str) -> ExtractionOutput:
             out = self._extract_results_chunk(
@@ -1920,7 +1984,9 @@ class LLMExtractor(LLMClientMixin):
             confidence_levels: list[str] = []
             coverage_assessments: list[str] = []
             for idx, table in enumerate(ds_tables):
-                single_ctx = self._build_single_table_context(table, max_table_chars)
+                single_ctx = self._build_single_table_context(
+                    table, max_table_chars, selection_rationale
+                )
                 try:
                     table_out = _run(
                         _sanitize_text(focus_prefix + single_ctx),
@@ -1972,7 +2038,7 @@ class LLMExtractor(LLMClientMixin):
         Args:
             paper_text: Full plain-text content of the paper (used for text RAG
                 when no latex_paper is provided).
-            tables: List of ParsedTable / LatexTable objects.  When latex_paper
+            tables: List of table objects. When latex_paper
                 is provided this argument is ignored (latex_paper.tables is used
                 instead, which includes appendix tables).
             latex_paper: Optional ``LatexPaper`` from the LaTeX source download.
@@ -2049,8 +2115,8 @@ class LLMExtractor(LLMClientMixin):
             )
             datasets = self.discover_datasets(paper_text, tables_text)
         else:
-            # No HTML and no LaTeX: synthesise a table preview from table-section
-            # chunks in the plain text.
+            # No LaTeX: synthesise a table preview from table-section chunks in
+            # the plain text.
             table_sections = _split_into_table_sections(paper_text, _TABLE_SECTION_SIZE)
             tables_text = "\n\n---\n\n".join(table_sections[1:]) if len(table_sections) > 1 else ""
             datasets = self.discover_datasets(paper_text, tables_text)
@@ -2161,8 +2227,8 @@ class LLMExtractor(LLMClientMixin):
             tables_per_dataset = self.select_tables_for_all_datasets(
                 datasets.datasets, effective_tables
             )
-            llm_selected = len(effective_tables) > self._TABLE_SELECTION_THRESHOLD
-            if not llm_selected:
+            tables_preselected = True
+            if len(effective_tables) <= self._TABLE_SELECTION_THRESHOLD:
                 deterministic_matches = {
                     ds.name: [
                         getattr(table, "number", index + 1)
@@ -2180,7 +2246,7 @@ class LLMExtractor(LLMClientMixin):
                     selected_per_dataset=deterministic_matches,
                     note=(
                         f"Table selection LLM skipped (≤{self._TABLE_SELECTION_THRESHOLD} tables); "
-                        "using deterministic dataset-name matches"
+                        "all tables passed directly to extraction"
                     ),
                     stat_table_summaries=stat_table_summaries,
                     deterministic_matches=deterministic_matches,
@@ -2189,7 +2255,7 @@ class LLMExtractor(LLMClientMixin):
                 )
         else:
             tables_per_dataset = {ds.name: [] for ds in datasets.datasets}
-            llm_selected = False
+            tables_preselected = False
 
         for ds in datasets.datasets:
             ds_tables = tables_per_dataset.get(ds.name, [])
@@ -2204,7 +2270,8 @@ class LLMExtractor(LLMClientMixin):
                 ds.name,
                 max_text_chars=max_text_chars,
                 max_table_chars=max_table_chars,
-                already_selected=llm_selected,
+                already_selected=tables_preselected,
+                selection_rationale=selection_rationale,
             )
             logger.info(
                 "Step 2 RAG [%s]: %d/%d paragraphs, %d/%d tables (%s), context=%d chars",
@@ -2780,8 +2847,7 @@ class LLMExtractor(LLMClientMixin):
         confidence_levels: list[str] = []
         coverage_assessments: list[str] = []
 
-        # Append the HTML-extracted tables to the last section so that
-        # cleaned table markup is always present in at least one call.
+        # Append supplied table text to the last section so it is present in at least one call.
         for i, section in enumerate(sections):
             content = section
             if i == len(sections) - 1 and tables_section:
@@ -2872,7 +2938,6 @@ class LLMExtractor(LLMClientMixin):
         figures_list: list[dict],
         paper_title: str = "",
         paper_abstract: str = "",
-        structured_tables: list | None = None,
         latex_paper: Any = None,
         extraction_strategy: str = "auto",
         experiment_label: str | None = None,
@@ -2884,10 +2949,8 @@ class LLMExtractor(LLMClientMixin):
 
         When *latex_paper* (a ``LatexPaper``) is provided it is used for the
         two-step extraction path; its tables and experiment-section text give
-        much higher recall than PDF-derived plain text.  When only
-        *structured_tables* (HTML ``ParsedTable`` objects) are provided, those
-        are used instead.  If neither is given, the legacy single-shot / chunked
-        strategy is used.
+        much higher recall than PDF-derived plain text. If no LaTeX source is
+        available, the legacy single-shot / chunked strategy is used.
 
         Returns a combined dict with all extraction results.
         """
@@ -2914,7 +2977,7 @@ class LLMExtractor(LLMClientMixin):
             self._fire_progress()
         strategy = extraction_strategy.lower()
 
-        # Task 1: Results — prefer LaTeX source, then HTML tables, then legacy path
+        # Task 1: Results — prefer LaTeX source, then the legacy text path
         if strategy == "full":
             results_out = self.extract_results(
                 paper_text,
@@ -2938,7 +3001,7 @@ class LLMExtractor(LLMClientMixin):
                 )
                 results_out = self.extract_results_two_step(
                     paper_text,
-                    structured_tables or [],
+                    [],
                     paper_title=paper_title,
                     target_datasets=target_datasets,
                     known_datasets=known_datasets,
@@ -2964,18 +3027,6 @@ class LLMExtractor(LLMClientMixin):
                 identified_proposed_model=identified_proposed_model,
                 checkpoint_dir=checkpoint_dir,
             )
-        elif structured_tables is not None:
-            results_out = self.extract_results_two_step(
-                paper_text,
-                structured_tables,
-                paper_title=paper_title,
-                target_datasets=target_datasets,
-                known_datasets=known_datasets,
-                arxiv_id=arxiv_id,
-                single_pass=extraction_only,
-                identified_proposed_model=identified_proposed_model,
-                checkpoint_dir=checkpoint_dir,
-            )
         else:
             results_out = self.extract_results(
                 paper_text,
@@ -2983,12 +3034,68 @@ class LLMExtractor(LLMClientMixin):
                 identified_proposed_model=identified_proposed_model,
             )
 
+        # QM9 is unusually prone to unit and protocol hallucinations because
+        # papers mix meV/milli-units, auxiliary ratio tables, and generation
+        # evaluations with ordinary supervised MAE tables. Apply the guard at
+        # the common process boundary so every extraction strategy gets the
+        # same deterministic protection.
+        has_qm9_results = any(is_qm9_dataset(result.dataset) for result in results_out.results)
+        has_qm7b_results = any(is_qm7b_dataset(result.dataset) for result in results_out.results)
+        if has_qm9_results or has_qm7b_results:
+            source_parts = [paper_text]
+            if latex_paper is not None:
+                source_parts.extend(
+                    part
+                    for part in (
+                        getattr(latex_paper, "intro_text", ""),
+                        getattr(latex_paper, "experiment_text", ""),
+                    )
+                    if part
+                )
+            table_parts: list[str] = []
+            if latex_paper is not None:
+                qm_table_refs = {
+                    str(result.table_ref).strip().casefold()
+                    for result in results_out.results
+                    if (is_qm9_dataset(result.dataset) or is_qm7b_dataset(result.dataset))
+                    and result.table_ref
+                }
+                for table in latex_paper.tables:
+                    table_refs = {
+                        f"table {getattr(table, 'number', '')}".strip().casefold(),
+                        str(getattr(table, "number", "")).strip().casefold(),
+                        str(getattr(table, "label", "")).strip().casefold(),
+                    }
+                    if qm_table_refs and not qm_table_refs.intersection(table_refs):
+                        continue
+                    table_parts.extend(
+                        part
+                        for part in (
+                            getattr(table, "caption", ""),
+                            getattr(table, "header", ""),
+                            getattr(table, "body", ""),
+                        )
+                        if part
+                    )
+            guard_source = "\n".join(source_parts)
+            guard_tables = "\n".join(table_parts)
+            if has_qm9_results:
+                apply_qm9_extraction_guard(
+                    results_out,
+                    guard_source,
+                    table_text=guard_tables,
+                )
+            if has_qm7b_results:
+                apply_qm7b_extraction_guard(
+                    results_out,
+                    guard_source,
+                    table_text=guard_tables,
+                )
+
         # Task 1b: Dataset statistics — separate workspace from benchmark results
         stats_out = DatasetStatisticsOutput()
         if not extraction_only and results_out.paper_has_statistics:
-            stats_tables = (
-                list(latex_paper.tables) if latex_paper is not None else (structured_tables or [])
-            )
+            stats_tables = list(latex_paper.tables) if latex_paper is not None else []
             stats_out = self.extract_dataset_statistics(
                 results_out.discovered_datasets,
                 paper_text,
@@ -3079,8 +3186,6 @@ class LLMExtractor(LLMClientMixin):
         caption_tables: list = []
         if latex_paper is not None:
             caption_tables = list(latex_paper.tables)
-        elif structured_tables is not None:
-            caption_tables = list(structured_tables)
         _stabilize_model_names(
             results_out,
             paper_title=paper_title,

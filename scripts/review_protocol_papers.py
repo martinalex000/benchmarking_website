@@ -30,13 +30,12 @@ def _run_target(
     endpoint: str,
     api_key: str,
 ) -> dict:
-    paper_text, structured_tables, latex_paper = _load_paper_inputs(paper_id)
+    paper_text, latex_paper = _load_paper_inputs(paper_id)
     label = f"protocol-review-{_slugify_label(model)}-{_slugify_label(dataset)}"
     output, duration, error, _calls, artifact_dir, extracted_at = _run_full_extraction(
         paper_id,
         model,
         paper_text,
-        structured_tables,
         latex_paper=latex_paper,
         endpoint=endpoint,
         api_key=api_key,

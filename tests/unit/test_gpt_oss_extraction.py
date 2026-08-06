@@ -27,8 +27,8 @@ def test_context_limits_for_gpt_oss_are_tighter():
 
 
 def test_extraction_max_tokens_for_gpt_oss():
-    assert extraction_max_tokens_for_model("openai-gpt-oss-120b") > 8192
-    assert extraction_max_tokens_for_model("glm-4.7") == 8192
+    assert extraction_max_tokens_for_model("openai-gpt-oss-120b") == 50_000
+    assert extraction_max_tokens_for_model("glm-4.7") == 50_000
 
 
 def test_sanitize_text_strips_control_chars():
@@ -55,6 +55,20 @@ def test_build_rag_context_sanitizes_table_markdown():
     assert "0.85" in context
     assert "standard node split" in context
     assert stats["dataset"] == "Cora"
+
+
+def test_build_rag_context_puts_selection_reasoning_before_table():
+    table = SimpleNamespace(number=3, caption="Results", markdown="| Cham. | 0.85 |")
+    context, _ = LLMExtractor._build_rag_context(
+        "The paper defines Chameleon as the target dataset.",
+        [table],
+        "Chameleon",
+        max_text_chars=1000,
+        max_table_chars=1000,
+        already_selected=True,
+        selection_rationale="Table 3 reports the Chameleon benchmark; its abbreviated column is Cham.",
+    )
+    assert context.index("Table 3 reports the Chameleon benchmark") < context.index("| Cham. |")
 
 
 def test_build_tables_only_context():

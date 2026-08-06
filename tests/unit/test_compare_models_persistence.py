@@ -79,7 +79,7 @@ def test_plan_jobs_reuses_cache_when_not_forced(tmp_path: Path, monkeypatch) -> 
     backend = LlmBackend(label="external", endpoint="http://example", api_key="k")
     model_routes = {model: ModelRoute(model_id=model, backend=backend)}
     paper_inputs = {
-        arxiv_id: ("paper text", [], [], None, "Test Paper"),
+        arxiv_id: ("paper text", [], None, "Test Paper"),
     }
     opts = cm._ProcessOptions(
         baseline_model_id="glm-4.7",
@@ -111,7 +111,7 @@ def test_plan_jobs_force_all_runs_llm(tmp_path: Path, monkeypatch) -> None:
 
     backend = LlmBackend(label="external", endpoint="http://example", api_key="k")
     model_routes = {model: ModelRoute(model_id=model, backend=backend)}
-    paper_inputs = {arxiv_id: ("paper text", [], [], None, "Test Paper")}
+    paper_inputs = {arxiv_id: ("paper text", [], None, "Test Paper")}
     opts = cm._ProcessOptions(
         baseline_model_id="glm-4.7",
         model_routes=model_routes,
@@ -147,7 +147,7 @@ def test_plan_jobs_auto_includes_cached_model_outside_test_list(
         test_model: ModelRoute(model_id=test_model, backend=backend),
         cached_model: ModelRoute(model_id=cached_model, backend=backend),
     }
-    paper_inputs = {arxiv_id: ("paper text", [], [], None, "Test Paper")}
+    paper_inputs = {arxiv_id: ("paper text", [], None, "Test Paper")}
     opts = cm._ProcessOptions(baseline_model_id="glm-4.7", model_routes=model_routes)
     llm_jobs, cached, plan = cm._plan_compare_jobs(
         paper_inputs,
@@ -221,7 +221,6 @@ def test_store_compare_extraction_result_waits_for_baseline(tmp_path: Path, monk
         arxiv_id="2206.08164",
         paper_title="Test Paper",
         paper_text="paper text",
-        structured_tables=[],
         baseline=[],
         latex_paper=None,
     )
@@ -259,7 +258,6 @@ def test_store_compare_extraction_result_without_baseline_is_extraction_only(
             arxiv_id="2206.08164",
             paper_title="Test Paper",
             paper_text="paper text",
-            structured_tables=[],
             baseline=[],
             latex_paper=None,
         ),
@@ -319,7 +317,6 @@ def test_flush_pending_for_paper_writes_comparison_json(tmp_path: Path, monkeypa
             arxiv_id=arxiv_id,
             paper_title="Test Paper",
             paper_text="paper text",
-            structured_tables=[],
             baseline=[],
             latex_paper=None,
         ),

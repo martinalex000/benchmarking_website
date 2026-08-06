@@ -416,7 +416,7 @@ def _build_smart_excerpt(paper_text: str, tables_section: str) -> str:
     - The intro/abstract (first _SMART_INTRO_CHARS chars) for context.
     - All paragraphs that look like result tables or baseline comparisons
       (up to _SMART_TABLES_CHARS chars starting from the first result table).
-    - The tables_section (HTML-extracted markdown tables if available).
+    - The supplied tables_section, when available.
     """
     intro = paper_text[:_SMART_INTRO_CHARS]
 
@@ -780,6 +780,12 @@ def _apply_identified_proposed_model(
     identified: ProposedModel | None,
 ) -> None:
     """Apply the early proposed-model decision to generic author-role rows."""
+    explicit_name = None
+    if extraction.proposed_model is not None and not _is_generic_proposed_name(
+        extraction.proposed_model.name
+    ):
+        explicit_name = extraction.proposed_model.name
+    selected_name = explicit_name or (identified.name if identified is not None else None)
     extracted_proposed_key = (
         _canonical_model_name_key(extraction.proposed_model.name)
         if extraction.proposed_model is not None
@@ -789,15 +795,15 @@ def _apply_identified_proposed_model(
         result.model = _normalise_known_model_qualifiers(result.model)
         if _is_our_model_label(result.model):
             result.is_proposed = True
-            if identified is not None:
-                result.model = identified.name
+            if selected_name is not None:
+                result.model = selected_name
         elif (
-            identified is not None
+            selected_name is not None
             and result.is_proposed
             and extracted_proposed_key
             and _canonical_model_name_key(result.model) == extracted_proposed_key
         ):
-            result.model = identified.name
+            result.model = selected_name
 
     for baseline in extraction.baseline_models:
         baseline.name = _normalise_known_model_qualifiers(baseline.name)
@@ -811,7 +817,7 @@ def _apply_identified_proposed_model(
         return
 
     identified = identified.model_copy(deep=True)
-    identified.name = _normalise_known_model_qualifiers(identified.name)
+    identified.name = _normalise_known_model_qualifiers(selected_name or identified.name)
     extraction.proposed_model = identified
     extraction.baseline_models = [
         baseline

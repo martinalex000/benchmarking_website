@@ -191,7 +191,6 @@ class CompareJob:
     arxiv_id: str
     paper_title: str
     paper_text: str
-    structured_tables: list
     baseline: list[dict]
     latex_paper: Any = None
 
@@ -246,7 +245,6 @@ class _BaselineJob:
     arxiv_id: str
     paper_title: str
     paper_text: str
-    structured_tables: list
     latex_paper: Any
     model: str
     endpoint: str
@@ -659,7 +657,6 @@ def _load_cached_compare_extraction(
         arxiv_id=arxiv_id,
         paper_title=paper_title,
         paper_text="",
-        structured_tables=[],
         baseline=[],
         latex_paper=None,
     )
@@ -724,7 +721,7 @@ def _format_source_badge(source: CompareSource) -> str:
 
 
 def _plan_compare_jobs(
-    paper_inputs: dict[str, tuple[str, list, list[dict], Any, str]],
+    paper_inputs: dict[str, tuple[str, list[dict], Any, str]],
     test_models: list[str],
     model_routes: dict[str, ModelRoute],
     opts: _ProcessOptions,
@@ -735,13 +732,7 @@ def _plan_compare_jobs(
     plan_rows: list[_RunPlanRow] = []
     cached_by_pair: set[tuple[str, str]] = set()
 
-    for pid, (
-        paper_text,
-        structured_tables,
-        baseline,
-        latex_paper,
-        paper_title,
-    ) in paper_inputs.items():
+    for pid, (paper_text, baseline, latex_paper, paper_title) in paper_inputs.items():
         for model in test_models:
             forced = _model_is_forced(model, opts)
             hit = None if forced else _cache_hit(model, pid)
@@ -779,7 +770,6 @@ def _plan_compare_jobs(
                     arxiv_id=pid,
                     paper_title=paper_title,
                     paper_text=paper_text,
-                    structured_tables=structured_tables,
                     baseline=baseline,
                     latex_paper=latex_paper,
                 )
@@ -914,7 +904,6 @@ def _process_baseline_job(
             job.arxiv_id,
             job.model,
             job.paper_text,
-            job.structured_tables,
             latex_paper=job.latex_paper,
             paper_title=job.paper_title,
             output_prefix=prefix,
@@ -960,7 +949,6 @@ def _process_compare_extraction(
         job.arxiv_id,
         job.model,
         job.paper_text,
-        job.structured_tables,
         latex_paper=job.latex_paper,
         paper_title=job.paper_title,
         output_prefix=prefix,
@@ -1106,7 +1094,6 @@ def _finalize_compare_result(
             job.arxiv_id,
             job.model,
             job.paper_text,
-            job.structured_tables,
             latex_paper=job.latex_paper,
             paper_title=job.paper_title,
             output_prefix=prefix,
@@ -1229,7 +1216,10 @@ def _run_experiment_jobs(
                 )
             else:
                 extraction = _process_compare_extraction(
-                    job, opts, job_index, total_jobs  # type: ignore[arg-type]
+                    job,
+                    opts,
+                    job_index,
+                    total_jobs,  # type: ignore[arg-type]
                 )
                 _store_compare_extraction_result(
                     extraction,
@@ -1300,19 +1290,18 @@ def _run_experiment_jobs(
     return results
 
 
-def _load_paper_inputs(arxiv_id: str) -> tuple[str, list, Any]:
-    """Load paper content.  Returns (paper_text, structured_tables, latex_paper).
+def _load_paper_inputs(arxiv_id: str) -> tuple[str, Any]:
+    """Load paper content. Returns (paper_text, latex_paper).
 
     Priority:
       1. LaTeX source (best: all tables incl. appendix, section-aware text)
-      2. HTML (structured tables + clean text)
-      3. text.txt (PDF-extracted plain text, poorest for table extraction)
+      2. HTML clean text
+      3. text.txt (PDF-extracted plain text)
     """
     from backend.latex_source import download_and_parse as latex_download
     from backend.paper_storage import PaperStorage
 
     storage = PaperStorage(arxiv_id)
-    structured_tables: list = []
     paper_text = ""
     latex_paper = None
 
@@ -1321,27 +1310,25 @@ def _load_paper_inputs(arxiv_id: str) -> tuple[str, list, Any]:
 
         parsed = parse_html_paper(storage.html_index_path)
         paper_text = parsed.full_text
-        structured_tables = list(parsed.tables)
     elif storage.text_path.exists():
         paper_text = storage.text_path.read_text(encoding="utf-8", errors="replace")
 
-    # Always try LaTeX source; it augments/replaces structured_tables
+    # Always try LaTeX source when available.
     try:
         latex_paper = latex_download(arxiv_id, storage.latex_dir)
     except Exception as exc:
         logger.warning("LaTeX source load failed for %s: %s", arxiv_id, exc)
 
-    return paper_text, structured_tables, latex_paper
+    return paper_text, latex_paper
 
 
 def _load_extraction_context(
     arxiv_id: str,
     paper_text: str,
-    structured_tables: list,
     latex_paper: Any,
     paper_title: str,
-) -> tuple[str, str, list, list[dict], str, str]:
-    """Return (paper_text, tables_text, structured_tables, figures_list, title, abstract)."""
+) -> tuple[str, str, list[dict], str, str]:
+    """Return (paper_text, tables_text, figures_list, title, abstract)."""
     from backend.paper_storage import PaperStorage as _PS
 
     storage = _PS(arxiv_id)
@@ -1357,20 +1344,11 @@ def _load_extraction_context(
         parsed = parse_html_paper(storage.html_index_path)
         if not paper_text:
             paper_text = parsed.full_text
-        if not structured_tables:
-            structured_tables = list(parsed.tables)
-        tables_text = "\n\n".join(t.markdown for t in parsed.tables)
         figures_list = [
             {"caption": f.caption, "src": f.src, "element_id": f.element_id} for f in parsed.figures
         ]
         if (not paper_title or paper_title.startswith("arXiv:")) and parsed.title:
             paper_title = parsed.title
-    elif structured_tables:
-        tables_text = "\n\n".join(
-            f"[{getattr(t, 'caption', '') or ''}]\n{getattr(t, 'markdown', str(t))}"
-            for t in structured_tables
-        )
-
     paper_abstract = ""
     if storage.metadata_path.exists():
         try:
@@ -1379,14 +1357,13 @@ def _load_extraction_context(
         except (OSError, json.JSONDecodeError):
             pass
 
-    return paper_text, tables_text, structured_tables, figures_list, paper_title, paper_abstract
+    return paper_text, tables_text, figures_list, paper_title, paper_abstract
 
 
 def _run_full_extraction(
     arxiv_id: str,
     model_name: str,
     paper_text: str,
-    structured_tables: list,
     latex_paper: Any = None,
     paper_title: str = "",
     output_prefix: str = "",
@@ -1410,11 +1387,10 @@ def _run_full_extraction(
     (
         paper_text,
         tables_text,
-        structured_tables,
         figures_list,
         paper_title,
         paper_abstract,
-    ) = _load_extraction_context(arxiv_id, paper_text, structured_tables, latex_paper, paper_title)
+    ) = _load_extraction_context(arxiv_id, paper_text, latex_paper, paper_title)
 
     extractor = LLMExtractor.__new__(LLMExtractor)
     extractor.model_name = model_name
@@ -1441,7 +1417,6 @@ def _run_full_extraction(
             arxiv_id=arxiv_id,
             paper_text=paper_text,
             tables_text=tables_text,
-            structured_tables=structured_tables,
             latex_paper=latex_paper,
             figures_list=figures_list,
             paper_title=paper_title,
@@ -1509,7 +1484,6 @@ def _run_full_extraction(
 def _run_discovery_only(
     model_name: str,
     paper_text: str,
-    structured_tables: list,
     latex_paper: Any = None,
     output_prefix: str = "",
     *,
@@ -1540,12 +1514,6 @@ def _run_discovery_only(
     try:
         if latex_paper is not None:
             extractor.discover_datasets_from_latex(latex_paper)
-        elif structured_tables:
-            tables_text = "\n\n".join(
-                f"[{getattr(t, 'caption', '') or ''}]\n{getattr(t, 'markdown', str(t))}"
-                for t in structured_tables
-            )
-            extractor.discover_datasets(paper_text, tables_text)
         else:
             extractor.discover_datasets(paper_text, "")
         duration = time.perf_counter() - start
@@ -1824,8 +1792,7 @@ def analyze_multi_model_baseline(
             "count": len(both_miss),
             "ablation_like_count": len(both_miss_ablation_like),
             "interpretation": (
-                "GLM likely over-extracted or rows both models correctly skipped "
-                "(e.g. ablations)"
+                "GLM likely over-extracted or rows both models correctly skipped (e.g. ablations)"
             ),
             "keys": [
                 {
@@ -1860,7 +1827,7 @@ def _print_multi_model_baseline_analysis(
 ) -> None:
     _safe_print()
     _safe_print(
-        f"[bold]Baseline quality analysis[/bold] — {arxiv_id} " f"({', '.join(analysis['models'])})"
+        f"[bold]Baseline quality analysis[/bold] — {arxiv_id} ({', '.join(analysis['models'])})"
     )
     both_miss = analysis["both_models_miss"]
     both_hall = analysis["both_models_hallucinate"]
@@ -1870,7 +1837,7 @@ def _print_multi_model_baseline_analysis(
         f"[dim]{both_miss['interpretation']}[/dim]"
     )
     _safe_print(
-        f"  both hallucinate={both_hall['count']} → " f"[dim]{both_hall['interpretation']}[/dim]"
+        f"  both hallucinate={both_hall['count']} → [dim]{both_hall['interpretation']}[/dim]"
     )
     for model, metrics in analysis["adjusted_metrics"].items():
         _safe_print(
@@ -1957,9 +1924,7 @@ def _print_call_verbose(
     tps_str = f"{rec.tokens_per_sec:.0f} tok/s  " if rec.tokens_per_sec else ""
     tok_str = ""
     if rec.prompt_tokens or rec.completion_tokens:
-        tok_str = (
-            f"prompt={rec.prompt_tokens or '?'}  " f"completion={rec.completion_tokens or '?'}  "
-        )
+        tok_str = f"prompt={rec.prompt_tokens or '?'}  completion={rec.completion_tokens or '?'}  "
     status = (
         "[yellow]⚠[/yellow]"
         if rec.parse_error
@@ -2107,8 +2072,7 @@ def _render_log_markdown(
         tok_str = ""
         if rec.prompt_tokens or rec.completion_tokens:
             tok_str = (
-                f"  prompt_tokens={rec.prompt_tokens}  "
-                f"completion_tokens={rec.completion_tokens}"
+                f"  prompt_tokens={rec.prompt_tokens}  completion_tokens={rec.completion_tokens}"
             )
         status = "✓" if rec.success else "✗ FAILED"
 
@@ -2381,7 +2345,6 @@ def _process_discovery_job(
     duration, err, call_log = _run_discovery_only(
         job.model,
         job.paper_text,
-        job.structured_tables,
         latex_paper=job.latex_paper,
         output_prefix=prefix,
         endpoint=job.endpoint,
@@ -2799,17 +2762,17 @@ def main(argv: list[str] | None = None) -> int:
         return 1
 
     # ── Pre-load paper inputs ─────────────────────────────────────────────
-    paper_inputs: dict[str, tuple[str, list, list[dict], Any, str]] = {}
+    paper_inputs: dict[str, tuple[str, list[dict], Any, str]] = {}
     for pid in paper_ids:
         baseline = _load_baseline(pid, baseline_model_id)
         paper_title = _resolve_paper_title(pid)
         paper_label = _format_paper_header(pid, paper_title)
-        paper_text, structured_tables, latex_paper = _load_paper_inputs(pid)
+        paper_text, latex_paper = _load_paper_inputs(pid)
         if not paper_text and not latex_paper:
             console.print(f"  [yellow]skip[/yellow] {paper_label} — no paper text or LaTeX source")
             continue
-        paper_inputs[pid] = (paper_text, structured_tables, baseline, latex_paper, paper_title)
-        source = "HTML" if structured_tables else ("LaTeX" if latex_paper else "text.txt")
+        paper_inputs[pid] = (paper_text, baseline, latex_paper, paper_title)
+        source = "LaTeX" if latex_paper else "text.txt"
         baseline_note = (
             f"baseline={len(baseline)} entries"
             if baseline
@@ -2831,7 +2794,6 @@ def main(argv: list[str] | None = None) -> int:
         console.print(
             f"  [green]loaded[/green] {paper_label}  "
             f"text={len(paper_text):,} chars  "
-            f"tables={len(structured_tables)}  "
             f"{baseline_note}  "
             f"({source})"
         )
@@ -2844,13 +2806,7 @@ def main(argv: list[str] | None = None) -> int:
 
     baseline_jobs: list[_BaselineJob] = []
     if ensure_baseline and baseline_route is not None:
-        for pid, (
-            paper_text,
-            structured_tables,
-            baseline,
-            latex_paper,
-            paper_title,
-        ) in paper_inputs.items():
+        for pid, (paper_text, baseline, latex_paper, paper_title) in paper_inputs.items():
             if baseline:
                 continue
             baseline_jobs.append(
@@ -2858,7 +2814,6 @@ def main(argv: list[str] | None = None) -> int:
                     arxiv_id=pid,
                     paper_title=paper_title,
                     paper_text=paper_text,
-                    structured_tables=structured_tables,
                     latex_paper=latex_paper,
                     model=baseline_route.model_id,
                     endpoint=baseline_route.backend.endpoint,
@@ -2906,14 +2861,11 @@ def main(argv: list[str] | None = None) -> int:
                 arxiv_id=pid,
                 paper_title=paper_title,
                 paper_text=paper_text,
-                structured_tables=structured_tables,
                 baseline=baseline,
                 latex_paper=latex_paper,
             )
             for model in test_models
-            for pid, (paper_text, structured_tables, baseline, latex_paper, paper_title) in (
-                paper_inputs.items()
-            )
+            for pid, (paper_text, baseline, latex_paper, paper_title) in paper_inputs.items()
         ]
     else:
         compare_jobs, cached_extractions, plan_rows = _plan_compare_jobs(

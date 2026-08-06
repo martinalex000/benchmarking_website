@@ -49,6 +49,18 @@ def test_split_into_chunks_small():
     assert chunks[0] == text
 
 
+def test_gemma_yaml_extraction_uses_compact_result_prompt():
+    extractor = LLMExtractor.__new__(LLMExtractor)
+    extractor.model_name = "google/gemma-4-31B-it"
+    extractor.result_output_format = "yaml"
+
+    prompt = extractor._read_result_prompt()
+
+    assert "COLUMN GROUP GUIDE" in prompt
+    assert "m: <exact model name>" in prompt
+    assert "omit all other keys" in prompt
+
+
 def test_split_into_chunks_large():
     paragraphs = ["word " * 50] * 20
     text = "\n\n".join(paragraphs)
@@ -376,6 +388,27 @@ def test_identified_proposed_model_resolves_our_variants_and_keeps_scientific_pa
     assert extraction.proposed_model.supporting_sentence.startswith("We propose")
 
 
+def test_identified_hint_does_not_replace_explicit_proposed_model_name():
+    extraction = ExtractionOutput(
+        proposed_model=ProposedModel(name="Optimized GAE"),
+        results=[
+            ResultEntry(
+                model="Optimized GAE",
+                is_proposed=True,
+                dataset="ogbl-ddi",
+                metric="Hits@20",
+                value=0.9443,
+            )
+        ],
+    )
+
+    _apply_identified_proposed_model(extraction, ProposedModel(name="MPNN"))
+
+    assert extraction.proposed_model is not None
+    assert extraction.proposed_model.name == "Optimized GAE"
+    assert extraction.results[0].model == "Optimized GAE"
+
+
 def test_tuned_qualifier_normalization_is_specific():
     assert _normalise_known_model_qualifiers("MLP (tuned)") == "MLP"
     assert _normalise_known_model_qualifiers("SE(3)-DDM") == "SE(3)-DDM"
@@ -419,6 +452,76 @@ def test_deterministic_table_matching_uses_caption_header_and_body_and_fuzzy_fal
 
     fuzzy_table = SimpleNamespace(number=7, caption="Results for Peptid-func", header=[], body="")
     assert LLMExtractor._deterministic_table_matches("Peptides-func", [fuzzy_table])[0] == [7]
+
+
+@pytest.mark.parametrize(
+    ("dataset_name", "table_label"),
+    [
+        ("ogbg-molpcba", "OGB-MolPCBA"),
+        ("ogbn-products", "ogb-products"),
+        ("ogbl-citation2", "Citation2"),
+        ("ogbt-example", "ogbx-example"),
+    ],
+)
+def test_deterministic_table_matching_accepts_ogb_naming_variants(dataset_name, table_label):
+    table = SimpleNamespace(number=1, caption="", header=[table_label], body="")
+
+    numbers, fields = LLMExtractor._deterministic_table_matches(dataset_name, [table])
+
+    assert numbers == [1]
+    assert fields == {1: ["header"]}
+
+
+def test_normal_extraction_context_includes_grouped_column_guide_and_raw_table():
+    table_body = r"""
+        \begin{tabular}{@{}l|cc|cc@{}}
+        \toprule
+        Dataset & \multicolumn{2}{c|}{Cora} & \multicolumn{2}{c}{ogbn-papers100M} \\
+        Metric & Acc & Time & Acc & Time \\
+        \midrule
+        SGC & 85.8 & 0.13 & 63.3 & 19212 \\
+        \bottomrule
+        \end{tabular}
+    """
+    table = SimpleNamespace(
+        number=1,
+        caption="Main benchmark results",
+        body=table_body,
+        markdown=table_body,
+        label="tab:main",
+    )
+
+    context, _ = LLMExtractor._build_rag_context(
+        "The experiments use the standard split.",
+        [table],
+        "ogbn-papers100M",
+        already_selected=True,
+    )
+
+    guide_start = context.index("=== COLUMN GROUP GUIDE")
+    raw_table_start = context.index("\\begin{tabular}")
+    assert guide_start < raw_table_start
+    assert "dataset 'ogbn-papers100M'" in context
+    assert "63.3" in context
+
+
+def test_small_table_sets_pass_all_tables_without_selection(monkeypatch):
+    extractor = LLMExtractor()
+    tables = [
+        SimpleNamespace(number=3, caption="Actor results", header=[], body=""),
+        SimpleNamespace(number=4, caption="Roman Empire results", header=[], body=""),
+        SimpleNamespace(number=5, caption="Appendix results", header=[], body=""),
+    ]
+
+    def fail_call_json(*_args, **_kwargs):
+        raise AssertionError("selector was called")
+
+    monkeypatch.setattr(extractor, "_call_json", fail_call_json)
+
+    assert extractor.select_tables_for_dataset("Actor", tables) == tables
+    selected = extractor.select_tables_for_all_datasets([DatasetInfo(name="Actor")], tables)
+    assert selected["Actor"] == tables
+    assert "all 3 tables passed directly" in extractor._last_table_selection_rationales["Actor"]
 
 
 def test_table_selection_falls_back_to_deterministic_matches_and_records_metadata(monkeypatch):
@@ -476,27 +579,26 @@ def test_unexplained_nonmatching_selection_is_discarded_but_explained_override_i
     ] == [tables[1]]
 
 
-def test_empty_selected_tables_skip_all_extraction_calls(monkeypatch):
+def test_small_table_sets_extract_tables_without_dataset_name_match(monkeypatch):
     extractor = LLMExtractor()
-    calls = 0
+    extracted_tables = []
 
     monkeypatch.setattr(extractor, "_read_result_prompt", lambda *_args, **_kwargs: "prompt")
 
-    def fake_extract(*_args, **_kwargs):
-        nonlocal calls
-        calls += 1
+    def fake_extract(*_args, **kwargs):
+        extracted_tables.append(kwargs["ds_tables"])
         return ExtractionOutput()
 
     monkeypatch.setattr(extractor, "_extract_dataset_with_retries", fake_extract)
+    table = SimpleNamespace(number=1, caption="Results for Roman Empire", markdown="scores")
     output = extractor.extract_results_two_step(
         "paper text",
-        [SimpleNamespace(number=1, caption="Results for Roman Empire", markdown="scores")],
+        [table],
         known_datasets=[DatasetInfo(name="Actor")],
     )
 
     assert output.results == []
-    assert calls == 0
-    assert "No tables were selected" in output.extraction_notes
+    assert extracted_tables == [[table]]
 
 
 def test_single_pass_dataset_extraction_keeps_experiment_context(monkeypatch):

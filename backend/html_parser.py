@@ -1,7 +1,7 @@
-"""HTML paper parser — extracts text, tables (as Markdown), and figure info from arXiv HTML.
+"""HTML paper parser — extracts text and figure info from arXiv HTML.
 
 ArXiv HTML papers (ar5iv format) have well-structured HTML with identifiable
-sections, figure captions, and result tables.
+sections and figure captions.
 """
 
 from __future__ import annotations
@@ -21,14 +21,6 @@ logger = logging.getLogger(__name__)
 
 
 @dataclass
-class ParsedTable:
-    caption: str
-    markdown: str
-    element_id: str | None = None
-    section: str | None = None
-
-
-@dataclass
 class ParsedFigure:
     caption: str
     src: str | None = None  # relative src of the <img>
@@ -41,7 +33,6 @@ class ParsedPaper:
     title: str = ""
     abstract: str = ""
     sections: list[tuple[str, str]] = field(default_factory=list)  # (heading, text)
-    tables: list[ParsedTable] = field(default_factory=list)
     figures: list[ParsedFigure] = field(default_factory=list)
     references: list[str] = field(default_factory=list)
     full_text: str = ""
@@ -52,36 +43,6 @@ class ParsedPaper:
 
 def _tag_text(tag: Tag) -> str:
     return tag.get_text(separator=" ", strip=True)
-
-
-def _table_to_markdown(table_tag: Tag) -> str:
-    """Convert an HTML <table> to a Markdown table string."""
-    rows: list[list[str]] = []
-    for tr in table_tag.find_all("tr"):
-        cells = []
-        for cell in tr.find_all(["th", "td"]):
-            text = cell.get_text(separator=" ", strip=True)
-            # Collapse internal whitespace
-            text = re.sub(r"\s+", " ", text).replace("|", "\\|")
-            colspan = int(cell.get("colspan", 1))
-            cells.extend([text] + [""] * (colspan - 1))
-        if cells:
-            rows.append(cells)
-
-    if not rows:
-        return ""
-
-    # Normalise column count
-    ncols = max(len(r) for r in rows)
-    rows = [r + [""] * (ncols - len(r)) for r in rows]
-
-    lines = []
-    for i, row in enumerate(rows):
-        lines.append("| " + " | ".join(row) + " |")
-        if i == 0:
-            lines.append("| " + " | ".join(["---"] * ncols) + " |")
-
-    return "\n".join(lines)
 
 
 # ── Main parser ───────────────────────────────────────────────────────────────
@@ -112,7 +73,7 @@ def parse_html_paper(html_path: Path) -> ParsedPaper:
     section_texts: dict[str, list[str]] = {}
     text_blocks: list[str] = []
 
-    for tag in soup.find_all(["h1", "h2", "h3", "h4", "section", "p", "table", "figure"]):
+    for tag in soup.find_all(["h1", "h2", "h3", "h4", "section", "p", "figure"]):
         if tag.name in ("h1", "h2", "h3", "h4"):
             current_section = _tag_text(tag)
         elif tag.name == "p":
@@ -124,27 +85,6 @@ def parse_html_paper(html_path: Path) -> ParsedPaper:
     result.sections = [
         (heading, "\n".join(paragraphs)) for heading, paragraphs in section_texts.items()
     ]
-
-    # Tables
-    for table in soup.find_all("table"):
-        cap_tag = table.find_previous_sibling("caption") or table.find("caption")
-        if cap_tag is None:
-            # Look for a nearby figcaption or p.caption
-            parent = table.parent
-            cap_tag = parent.find("figcaption") if parent else None
-        caption = _tag_text(cap_tag) if cap_tag else ""
-        md = _table_to_markdown(table)
-        if md:
-            # Guess enclosing section
-            sec = _find_enclosing_section(table, soup)
-            result.tables.append(
-                ParsedTable(
-                    caption=caption,
-                    markdown=md,
-                    element_id=table.get("id"),
-                    section=sec,
-                )
-            )
 
     # Figures
     for fig in soup.find_all("figure"):
@@ -203,11 +143,6 @@ def save_text(paper: ParsedPaper, dest: Path) -> None:
 
     for heading, text in paper.sections:
         lines += [f"## {heading}", text, ""]
-
-    if paper.tables:
-        lines += ["## Tables", ""]
-        for i, tbl in enumerate(paper.tables, 1):
-            lines += [f"### Table {i}: {tbl.caption}", tbl.markdown, ""]
 
     if paper.figures:
         lines += ["## Figures", ""]

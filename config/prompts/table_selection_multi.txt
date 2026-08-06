@@ -7,6 +7,15 @@ INCLUDE a table for a dataset if it:
 - Reports model performance scores on that dataset (by name or common abbreviation)
 - Compares multiple models on a benchmark that includes that dataset
 
+DATASET NAME RESOLUTION:
+- Dataset labels in tables are sometimes abbreviated, truncated, punctuated, or shortened
+  (for example, "Cham." can mean "Chameleon"). Match such labels to the full dataset names
+  appearing elsewhere in the paper, including dataset descriptions, captions, headers, and
+  surrounding experiment prose. Do not reject a relevant table solely because it lacks the
+  exact full target-dataset string.
+- Use the exact target dataset names from the input as output keys; do not create a separate
+  dataset for an abbreviation that clearly refers to one of them.
+
 Appendix benchmark tables are first-class sources and may contain the paper's complete or
 summarized results. Do not exclude or deprioritize a table merely because it is in the appendix.
 

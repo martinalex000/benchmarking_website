@@ -43,10 +43,23 @@ extraction_notes: <describe any ambiguities, unclear values, or tables that coul
 
 DATASET/TABLE SCOPE RULES:
 - Extract only explicit result entries for the focused dataset named in the supplied FOCUS block.
+- Dataset labels in tables may be abbreviated, truncated, punctuated, or shortened (for example,
+  "Cham." may mean "Chameleon"). Match table labels to the full dataset name using the paper's
+  dataset descriptions, captions, headers, and surrounding experiment prose. Treat a confirmed
+  abbreviation as the focused dataset, not as a separate benchmark, and preserve the canonical
+  focused dataset name in the output.
 - If no explicit table entry exists for that dataset, return no results.
 - Never copy a column or row belonging to another dataset, even when the table contains several datasets.
 - A table that does not name the focused dataset may be used only when the supplied selection rationale
   explains why it is the correct table.
+
+COLUMN ALIGNMENT FOR GROUPED TABLES:
+- Some tables use multiple header rows, with a dataset spanning several adjacent metric columns.
+- If a COLUMN GROUP GUIDE is supplied, use it as the column map: first identify the focused dataset's
+  span, then identify the requested metric within that span, and only then read the model row's value.
+- The guide contains header labels only; numeric values must always be copied from the complete raw table.
+- Never flatten repeated metric labels across datasets, and never shift a value into the neighboring
+  dataset merely because the same metric label repeats.
 
 Rules:
 - Protocol decision (mandatory for EVERY row): decide from the focused table, its caption, and
@@ -206,6 +219,18 @@ Rules:
   at 0K), U, H (enthalpy), G (free energy), Cv (heat capacity), S (entropy), HOMO, LUMO,
   zpve, R2, omega1, and other QM9 property names when present. Do NOT use bare "MAE" as
   the metric — always specify the target property. Values are per-target MAE (lower is better).
+  Convert table units before output: energy/gap/HOMO/LUMO/ZPVE/U0/U/H/G to eV, mu to D,
+  alpha to a0^3, R2 to a0^2, and Cv to cal/mol K. Divide explicit meV/mD/milli-property
+  units by 1000. Reject error-ratio or chemical-accuracy-ratio tables, molecular-generation
+  evaluations, transfer/linear-probe/OOD/attack settings, and custom or size-based splits.
+  Keep QM9 rows only when the source supports the canonical 110k/10k/10k (or 80/10/10)
+  split; otherwise set protocol_decision to nonstandard and emit no canonical result.
+- QM7b is not QM7. Require the source table to explicitly name QM7b and document its
+  canonical random split. Extract supervised MAE only; reject MSE/RMSE, QM7-only rows,
+  scaffold/stratified/custom/size splits, transfer or pre-training evaluations, and
+  OOD/attack settings. QM7b has 14 heterogeneous targets: preserve a target-specific
+  metric when the table provides one, and never copy a generic MAE from a per-target
+  table without identifying the target. Do not invent unit conversions across targets.
 - split: report ONLY test-set results. Skip train and validation results entirely. If a
   table has columns like "Train F1 / Val F1 / Test F1", extract ONLY the "Test F1" column.
 - metric names: strip the split prefix when normalising. "Test F1" -> "F1", "Test MAE" -> "MAE".
