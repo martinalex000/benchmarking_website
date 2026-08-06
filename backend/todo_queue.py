@@ -26,6 +26,7 @@ from backend.models import (
     TodoPaperStatus,
     todo_paper_status_from_exit_code,
 )
+from backend.process_env import project_subprocess_env
 
 logger = logging.getLogger(__name__)
 
@@ -426,7 +427,14 @@ def run_manual_subprocess(arxiv_id: str, *, model: str, force: bool) -> TodoQueu
     ]
     if force:
         cmd.append("--force")
-    result = subprocess.run(cmd, capture_output=True, text=True)
+    project_root = script_path.parents[1]
+    result = subprocess.run(
+        cmd,
+        capture_output=True,
+        text=True,
+        cwd=str(project_root),
+        env=project_subprocess_env(project_root),
+    )
     return TodoQueueRunResult(
         returncode=result.returncode,
         stdout=result.stdout or "",

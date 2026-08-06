@@ -45,6 +45,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 from rich.console import Console
 from rich.table import Table
 
+import backend as _backend_package
 from backend.config import cfg, normalize_arxiv_id
 from backend.llm_backends import (
     ModelRoute,
@@ -60,6 +61,16 @@ from backend.llm_extractor import (
 )
 from backend.llm_model_options import extra_body_for_model
 from backend.llm_tasks import _print_call_progress
+
+# Queue workers may be started from outside the checkout. Verify that imports
+# resolve to this checkout instead of an installed or stale ``backend`` copy.
+_EXPECTED_BACKEND = Path(__file__).resolve().parent.parent / "backend"
+_ACTUAL_BACKEND = Path(_backend_package.__file__).resolve().parent
+if _EXPECTED_BACKEND.resolve() != _ACTUAL_BACKEND:
+    raise ImportError(
+        f"Wrong backend package loaded: {_ACTUAL_BACKEND}; expected {_EXPECTED_BACKEND}. "
+        "Run this command from the repository checkout or set PYTHONPATH to its root."
+    )
 
 console = Console()
 

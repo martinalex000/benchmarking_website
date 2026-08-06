@@ -43,6 +43,7 @@ from sqlalchemy import func
 
 from backend.db import session_scope
 from backend.models import TodoPaper, TodoPaperStatus
+from backend.process_env import project_subprocess_env
 from backend.todo_queue import TodoQueueRunResult, process_queue
 
 ANSI_RE = re.compile(r"\x1B\[[0-?]*[ -/]*[@-~]")
@@ -1221,6 +1222,7 @@ def _run_manual_streaming(
     if skip_screen:
         cmd.append("--skip-screen")
 
+    project_root = Path(__file__).resolve().parents[1]
     proc = subprocess.Popen(
         cmd,
         stdout=subprocess.PIPE,
@@ -1228,6 +1230,8 @@ def _run_manual_streaming(
         text=True,
         bufsize=1,
         universal_newlines=True,
+        cwd=str(project_root),
+        env=project_subprocess_env(project_root),
     )
 
     output_lines: list[str] = []
