@@ -40,7 +40,6 @@ from experiments.extraction import compare_models as cm
 class PaperInputs:
     paper: ValidationPaper
     paper_text: str
-    structured_tables: list[Any]
     latex_paper: Any
     title: str
 
@@ -147,7 +146,7 @@ def _load_inputs(manifest: ValidationManifest) -> tuple[list[PaperInputs], list[
     inputs: list[PaperInputs] = []
     failures: list[dict[str, Any]] = []
     for paper in manifest.papers:
-        paper_text, structured_tables, latex_paper = cm._load_paper_inputs(paper.arxiv_id)
+        paper_text, latex_paper = cm._load_paper_inputs(paper.arxiv_id)
         if not paper_text and latex_paper is None:
             for model in manifest.models:
                 failures.append(
@@ -173,7 +172,6 @@ def _load_inputs(manifest: ValidationManifest) -> tuple[list[PaperInputs], list[
             PaperInputs(
                 paper=paper,
                 paper_text=paper_text,
-                structured_tables=structured_tables,
                 latex_paper=latex_paper,
                 title=cm._resolve_paper_title(paper.arxiv_id),
             )
@@ -210,9 +208,8 @@ def _run_job(
         arxiv_id,
         model,
         paper_inputs.paper_text,
-        paper_inputs.structured_tables,
-        paper_inputs.latex_paper,
-        paper_inputs.title,
+        latex_paper=paper_inputs.latex_paper,
+        paper_title=paper_inputs.title,
         output_prefix=f"[{model} / {arxiv_id} / {worker}] ",
         endpoint=route.backend.endpoint,
         api_key=route.backend.api_key,
