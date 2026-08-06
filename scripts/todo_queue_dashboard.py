@@ -1525,7 +1525,7 @@ def _worker_loop(
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         description=(
-            "Run many todo_queue workers with a live dashboard. "
+            "Process the shared paper queue with a live dashboard. "
             "Each worker claims one paper at a time and updates a persistent status row."
         )
     )
@@ -1536,11 +1536,17 @@ def build_parser() -> argparse.ArgumentParser:
         "--model",
         default="primary",
         metavar="TIER",
-        help="LLM tier for run_manual.py (default: primary)",
+        help="LLM tier for paper processing (default: primary)",
     )
-    parser.add_argument("--force", action="store_true", help="Pass --force to run_manual.py")
     parser.add_argument(
-        "--skip-screen", action="store_true", help="Pass --skip-screen to run_manual.py"
+        "--force",
+        action="store_true",
+        help="Re-extract papers even when extraction output already exists",
+    )
+    parser.add_argument(
+        "--skip-screen",
+        action="store_true",
+        help="Skip abstract screening before paper extraction",
     )
     parser.add_argument(
         "--max-papers-per-worker",

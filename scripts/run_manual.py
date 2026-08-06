@@ -1238,7 +1238,7 @@ def _import_pending_datasets() -> None:
 # ── Main ──────────────────────────────────────────────────────────────────────
 
 
-def main() -> None:
+def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(
         description="Process a single arXiv paper manually end-to-end",
         formatter_class=argparse.RawDescriptionHelpFormatter,
@@ -1302,7 +1302,7 @@ def main() -> None:
         help="Skip the Hugo export step (useful for batch runs)",
     )
     parser.add_argument("--queue-managed", action="store_true", help=argparse.SUPPRESS)
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
 
     # ── Import-pending mode (no paper required) ───────────────────────────
     if args.import_pending:
