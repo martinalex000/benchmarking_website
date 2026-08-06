@@ -13,11 +13,8 @@ from typing import Any
 from sqlalchemy.orm import Session, joinedload
 
 from backend.config import cfg
+from backend.dataset_discovery import classify_dataset_info
 from backend.dataset_stats_parsing import format_stats_summary
-from backend.dataset_variant_resolver import (
-    build_dataset_variant_lookup,
-    resolve_dataset_variant_quiet,
-)
 from backend.db import session_scope
 from backend.export_helpers import sanitize_title
 from backend.models import (
@@ -29,6 +26,7 @@ from backend.models import (
     PendingDataset,
     TodoPaper,
 )
+from backend.pending_datasets import discovery_payload_dict
 from backend.sota_claim_verifier import is_unrestricted_claim, verify_unrestricted_claims
 
 logger = logging.getLogger(__name__)
@@ -450,45 +448,55 @@ def _create_dev_pages_impl(
     )
 
     pending_rows = session.query(PendingDataset).all()
-    dataset_lookup = build_dataset_variant_lookup(session)
-    unresolved_entries: list[dict[str, str]] = []
-    covered_entries: list[dict[str, str]] = []
+    unresolved_entries: list[dict[str, Any]] = []
+    covered_entries: list[dict[str, Any]] = []
     for row in pending_rows:
-        status = str(row.status or "pending")
-        dataset = str(row.dataset_name or "")
+        review_status = str(row.status or "pending")
+        payload = discovery_payload_dict(row)
+        try:
+            from backend.llm_types import DatasetInfo
+
+            info = DatasetInfo.model_validate(payload)
+        except (TypeError, ValueError):
+            info = DatasetInfo(name=str(row.dataset_name or ""), metrics_seen=row.metrics_seen_list)
+        resolution = classify_dataset_info(session, info)
+        dataset = info.name
         paper = str(row.arxiv_id or "")
-        metrics = ", ".join(row.metrics_seen_list)
-        suggestion = row.suggestion_obj
-        benchmark_name = str(suggestion.get("benchmark_name") or "")
-        pyg_url = str(suggestion.get("pyg_url") or "")
-        pyg_marker = "yes" if pyg_url else ""
-        resolved_variant = resolve_dataset_variant_quiet(dataset, dataset_lookup)
-        if resolved_variant is not None:
-            resolved_dataset = resolved_variant.dataset.name if resolved_variant.dataset else ""
-            resolved_benchmark = (
-                resolved_variant.dataset.benchmark.name
-                if resolved_variant.dataset and resolved_variant.dataset.benchmark
-                else ""
-            )
+        metrics = ", ".join(info.metrics_seen or row.metrics_seen_list)
+        if resolution.tracked:
             covered_entries.append(
                 {
-                    "status": status,
+                    "status": review_status,
                     "dataset": dataset,
                     "paper": paper,
                     "metrics": metrics,
-                    "resolved_dataset": resolved_dataset,
-                    "resolved_benchmark": resolved_benchmark,
+                    "resolved_dataset": resolution.dataset.name,
+                    "resolved_variant": resolution.variant.name,
                 }
             )
             continue
         unresolved_entries.append(
             {
-                "status": status,
+                "status": review_status,
                 "dataset": dataset,
                 "paper": paper,
                 "metrics": metrics,
-                "benchmark_name": benchmark_name,
-                "pyg_marker": pyg_marker,
+                "description": info.description or "",
+                "expected_model_count": info.expected_model_count or "",
+                "task_type": info.task_type or "",
+                "variant_hint": info.variant_hint or "",
+                "statistics": ", ".join(
+                    f"{label}={getattr(info, field_name)}"
+                    for label, field_name in (
+                        ("graphs", "num_graphs"),
+                        ("avg nodes", "avg_nodes"),
+                        ("avg edges", "avg_edges"),
+                        ("classes", "num_classes"),
+                    )
+                    if getattr(info, field_name) is not None
+                ),
+                "resolution_status": resolution.status,
+                "resolution_reason": resolution.reason,
             }
         )
 
@@ -516,11 +524,17 @@ def _create_dev_pages_impl(
     if unresolved_entries:
         lines.append("### Still unresolved")
         lines.append("")
-        lines.append("| Status | Dataset | Paper | Metrics Seen | Suggested Benchmark | PyG |")
-        lines.append("|--------|---------|-------|--------------|---------------------|-----|")
+        lines.append(
+            "| Status | Resolution | Dataset | Paper | Description | Models | Task | Metrics | Variant hint | Statistics | Reason |"
+        )
+        lines.append(
+            "|--------|------------|---------|-------|-------------|--------|------|---------|--------------|------------|--------|"
+        )
         for entry in unresolved_entries:
             lines.append(
-                f"| {entry['status']} | {entry['dataset']} | {entry['paper']} | {entry['metrics']} | {entry['benchmark_name']} | {entry['pyg_marker']} |"
+                f"| {entry['status']} | {entry['resolution_status']} | {entry['dataset']} | {entry['paper']} | "
+                f"{entry['description']} | {entry['expected_model_count']} | {entry['task_type']} | "
+                f"{entry['metrics']} | {entry['variant_hint']} | {entry['statistics']} | {entry['resolution_reason']} |"
             )
     if covered_entries:
         lines.extend(
@@ -530,13 +544,13 @@ def _create_dev_pages_impl(
                 "",
                 "These rows remain in pending_datasets, but they already resolve against the current DB and should not be treated as missing coverage.",
                 "",
-                "| Pending Name | Paper | Resolves To | Benchmark | Pending Status |",
-                "|--------------|-------|-------------|-----------|----------------|",
+                "| Pending Name | Paper | Resolves To | Variant | Pending Status |",
+                "|--------------|-------|-------------|---------|----------------|",
             ]
         )
         for entry in covered_entries:
             lines.append(
-                f"| {entry['dataset']} | {entry['paper']} | {entry['resolved_dataset']} | {entry['resolved_benchmark']} | {entry['status']} |"
+                f"| {entry['dataset']} | {entry['paper']} | {entry['resolved_dataset']} | {entry['resolved_variant']} | {entry['status']} |"
             )
 
     hugo._write_md(

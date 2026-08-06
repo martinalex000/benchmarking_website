@@ -10,8 +10,17 @@ Output schema:
   "datasets": [
     {
       "name": "<exact dataset name as used in the paper, e.g. 'Peptides-func', 'ogbg-molhiv', 'ZINC'>",
+      "description": "<brief paper-observed description, or null>",
+      "task_type": "<paper-observed task: node_classification, graph_classification, node_regression, graph_regression, link_prediction, or null>",
       "table_refs": ["<e.g. 'Table 1', 'Table 3'>"],
       "primary_metric": "<metric used for this dataset, e.g. 'AP', 'Accuracy', 'MAE', 'F1'>",
+      "metrics_seen": ["<all reported result metrics for this dataset>"],
+      "expected_model_count": <estimated number of distinct model rows reporting results, not metric cells or tables>,
+      "variant_hint": "<explicit split/size/variant name from the paper, or null>",
+      "num_graphs": <paper-reported graph/dataset count, or null>,
+      "avg_nodes": <paper-reported average node count, or null>,
+      "avg_edges": <paper-reported average edge count, or null>,
+      "num_classes": <paper-reported class count, or null>,
       "statistics_mentioned": <true|false>,
       "statistics_sources": ["<e.g. 'Table 2', 'Section 3.1', 'Appendix A'>"]
     }
@@ -26,6 +35,8 @@ Guidelines:
   captions, headers, or nearby prose before deciding whether they refer to the same benchmark.
   Do not create a separate dataset entry for an abbreviation that clearly refers to a known
   full dataset name.
+- Include every dataset with quantitative experiments, including datasets not in the catalog below.
+- Do not decide whether a dataset is tracked, known, supported, or suitable for extraction. That is resolved locally.
 - Do NOT include datasets only mentioned in the introduction or related work.
 - Use the exact name as it appears in the paper (e.g. keep "Peptides-func" not "Peptides").
 - If the user content provides canonical dataset names already known to the website, prefer that canonical name when it clearly refers to the same benchmark.
@@ -37,6 +48,9 @@ Guidelines:
   (e.g. "Peptides-func" and "Peptides-struct" are separate entries).
 - primary_metric: the main comparison metric. Use standard abbreviations:
   Accuracy, AP, MAE, F1, ROC-AUC, RMSE, Hits@50, MRR, etc.
+- metrics_seen: every distinct metric reported in quantitative result rows, including secondary metrics.
+- expected_model_count: count distinct model rows reporting results for this dataset. Do not count metric cells or tables.
+- variant_hint: only an explicit paper-observed split, size, or variant cue; leave null when absent.
 
 Dataset statistics (separate from benchmark results):
 - statistics_mentioned: true when the paper reports structural/dataset statistics for this dataset

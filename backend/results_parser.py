@@ -26,8 +26,9 @@ from thefuzz import fuzz as fuzz_lib
 from thefuzz import process as fuzz_process
 
 from backend.config import cfg, normalize_arxiv_id
+from backend.dataset_discovery import SUPPORTED_TASK_TYPES
 from backend.db import init_db, session_scope
-from backend.llm_types import normalize_input_feature_source
+from backend.llm_types import DatasetInfo, normalize_input_feature_source
 from backend.method_name_audit import audit_extraction_payload
 from backend.model_metadata import normalize_architecture_type
 from backend.model_metadata_defaults import load_model_metadata_defaults, lookup_model_type
@@ -1328,6 +1329,12 @@ def parse_and_store_with_summary(
     model_name_used = raw.get("model_used", "unknown")
     summary.extraction_model = model_name_used
 
+    # Discovery is an independent audit artifact. Persist unresolved dataset
+    # observations even when the result payload is empty or later quarantined.
+    from backend.pending_datasets import collect_pending_datasets
+
+    collect_pending_datasets(arxiv_id, raw)
+
     call_log = storage.load_llm_calls()
     parse_failures: list[str] = []
     for call in call_log:
@@ -1499,6 +1506,21 @@ def parse_and_store_with_summary(
         variant_map = _load_variant_map(session)
         canonical_map, alias_map = _load_model_map(session)
 
+        discovered_infos: list[DatasetInfo] = []
+        for value in extraction.get("discovered_datasets") or []:
+            try:
+                discovered_infos.append(DatasetInfo.model_validate(value))
+            except (TypeError, ValueError):
+                continue
+        allowed_discovered_variant_ids: set[int] | None = None
+        if discovered_infos:
+            from backend.dataset_discovery import classify_dataset_infos
+
+            resolutions = classify_dataset_infos(session, discovered_infos, arxiv_id=arxiv_id)
+            allowed_discovered_variant_ids = {
+                resolution.variant.id for resolution in resolutions if resolution.tracked
+            }
+
         for entry in result_entries:
             dataset_name = normalize_dataset_alias(entry.get("dataset", ""), arxiv_id=arxiv_id)
             # Code2 predicts method-name sub-tokens on whole AST graphs. Some
@@ -1540,6 +1562,17 @@ def parse_and_store_with_summary(
                 paper_text=paper_text,
                 arxiv_id=arxiv_id,
             )
+            if (
+                allowed_discovered_variant_ids is not None
+                and variant_id not in allowed_discovered_variant_ids
+            ):
+                logger.warning(
+                    "Skipping result for dataset outside the tracked discovery manifest: %s",
+                    dataset_name,
+                )
+                if dataset_name and dataset_name not in summary.skipped_unknown_datasets:
+                    summary.skipped_unknown_datasets.append(dataset_name)
+                continue
             if variant_id is None:
                 logger.warning(
                     "Skipping result (unknown dataset '%s') for arXiv:%s",
@@ -1550,6 +1583,22 @@ def parse_and_store_with_summary(
                     summary.skipped_unknown_datasets.append(dataset_name)
                 continue
             variant = session.get(DatasetVariant, variant_id)
+            canonical_task = (
+                _normalized_evaluation_task(variant.dataset.task_type) if variant else ""
+            )
+            observed_task = _normalized_evaluation_task(entry.get("evaluation_task"))
+            if canonical_task not in SUPPORTED_TASK_TYPES or (
+                observed_task and observed_task not in SUPPORTED_TASK_TYPES
+            ):
+                detail = (
+                    f"{model_name} / {dataset_name} / {metric_name} "
+                    f"(unsupported task: {observed_task or canonical_task or 'missing'})"
+                )
+                logger.warning(
+                    "Skipping unsupported-task result for arXiv:%s: %s", arxiv_id, detail
+                )
+                summary.skipped_protocol_mismatches.append(detail)
+                continue
             if variant is None or not _allowed_by_protocol_curation(
                 arxiv_id, variant, model_name=model_name, metric_name=metric_name
             ):
@@ -1693,7 +1742,7 @@ def parse_and_store_with_summary(
                     source_ref=entry.get("source_ref", "this paper"),
                     extraction_model=model_name_used,
                     variant_inference_reason=variant_reason,
-                    evaluation_task=entry.get("evaluation_task"),
+                    evaluation_task=entry.get("evaluation_task") or variant.dataset.task_type,
                     protocol_decision=decision,
                     protocol_note=entry.get("protocol_note"),
                 )
@@ -1725,7 +1774,7 @@ def parse_and_store_with_summary(
                 params_present=params_present,
             )
             existing.variant_inference_reason = variant_reason
-            existing.evaluation_task = entry.get("evaluation_task")
+            existing.evaluation_task = entry.get("evaluation_task") or variant.dataset.task_type
             existing.protocol_decision = decision
             existing.protocol_note = entry.get("protocol_note")
             if changed:
@@ -1772,6 +1821,16 @@ def parse_and_store(arxiv_id: str) -> int:
     Returns number of new Result rows created.
     """
     return parse_and_store_with_summary(arxiv_id).new_results
+
+
+def _collect_unknown_datasets(arxiv_id: str) -> int:
+    """Compatibility wrapper for the discovery-only pending-dataset collector."""
+    storage = PaperStorage(arxiv_id)
+    if not storage.llm_output_path.exists():
+        return 0
+    from backend.pending_datasets import collect_pending_datasets
+
+    return collect_pending_datasets(arxiv_id, storage.load_llm_output())
 
 
 def _parse_entry_value(entry: dict) -> tuple[float | None, float | None]:

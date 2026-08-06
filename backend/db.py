@@ -151,6 +151,10 @@ def _migration_benchmark_source_papers(engine: Engine) -> None:
     _add_column_if_missing(engine, "benchmarks", "source_papers", "TEXT")
 
 
+def _migration_pending_dataset_discovery_payload(engine: Engine) -> None:
+    _add_column_if_missing(engine, "pending_datasets", "discovery_payload", "TEXT")
+
+
 def _migration_todo_manual_importance(engine: Engine) -> None:
     # Added after 003 was already applied on some DBs without this column.
     _add_column_if_missing(
@@ -216,6 +220,9 @@ MIGRATIONS: tuple[Migration, ...] = (
     Migration("013_results_feature_provenance", _migration_results_feature_provenance),
     Migration("014_results_model_name_override", _migration_results_model_name_override),
     Migration("015_benchmark_source_papers", _migration_benchmark_source_papers),
+    Migration(
+        "016_pending_dataset_discovery_payload", _migration_pending_dataset_discovery_payload
+    ),
 )
 
 
@@ -243,12 +250,16 @@ def _apply_migrations(engine: Engine) -> None:
 
 def _ensure_migration_table(engine: Engine) -> None:
     with engine.connect() as conn:
-        conn.execute(text("""
+        conn.execute(
+            text(
+                """
                 CREATE TABLE IF NOT EXISTS schema_migrations (
                     name TEXT PRIMARY KEY,
                     applied_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%SZ', 'now'))
                 )
-                """))
+                """
+            )
+        )
         conn.commit()
 
 

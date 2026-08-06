@@ -155,6 +155,39 @@ def _get_known_dataset_names_hint(limit: int | None = None) -> str:
     return "\n".join(f"- {name}" for name in names)
 
 
+def _get_known_dataset_catalog_hint() -> str:
+    """Return canonical dataset metadata used as reference in discovery prompts."""
+    try:
+        from backend.db import session_scope
+        from backend.models import Dataset
+
+        with session_scope() as session:
+            datasets = session.query(Dataset).order_by(Dataset.name).all()
+            lines: list[str] = []
+            for dataset in datasets:
+                fields = [
+                    f'name="{dataset.name}"',
+                    f'default_task="{dataset.task_type or "unknown"}"',
+                    f'primary_metric="{dataset.primary_metric or "unknown"}"',
+                    f'canonical_stats="graphs={dataset.num_graphs}, avg_nodes={dataset.avg_nodes}, '
+                    f'avg_edges={dataset.avg_edges}, classes={dataset.num_classes}"',
+                ]
+                variants = []
+                for variant in dataset.variants:
+                    variants.append(
+                        f"{variant.name} [standard={bool(variant.is_standard)}, "
+                        f"graphs={variant.num_graphs}, avg_nodes={variant.avg_nodes}, "
+                        f"avg_edges={variant.avg_edges}]"
+                    )
+                if variants:
+                    fields.append("tracked_variants=" + "; ".join(variants))
+                lines.append("- " + " | ".join(fields))
+            return "\n".join(lines)
+    except Exception as exc:
+        logger.debug("Could not query canonical dataset catalog: %s", exc)
+        return ""
+
+
 def _ripgrep_dataset_name_hits(
     text: str, source_path: Path | None = None, limit: int = _DATASET_RG_MATCH_LIMIT
 ) -> list[str]:

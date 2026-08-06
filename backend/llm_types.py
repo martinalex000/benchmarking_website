@@ -134,10 +134,39 @@ class ScreenResult(BaseModel):
 
 class DatasetInfo(BaseModel):
     name: str
+    description: str | None = None
+    task_type: str | None = None
     table_refs: list[str] = Field(default_factory=list)
     primary_metric: str | None = None
+    metrics_seen: list[str] = Field(default_factory=list)
+    expected_model_count: int | None = None
+    variant_hint: str | None = None
+    num_graphs: int | None = None
+    avg_nodes: float | None = None
+    avg_edges: float | None = None
+    num_classes: int | None = None
     statistics_mentioned: bool = False
     statistics_sources: list[str] = Field(default_factory=list)
+
+    @field_validator("expected_model_count", "num_graphs", "num_classes", mode="before")
+    @classmethod
+    def _coerce_integer(cls, value: Any) -> int | None:
+        if value is None or value == "":
+            return None
+        try:
+            return int(round(float(value)))
+        except (TypeError, ValueError):
+            return None
+
+    @field_validator("avg_nodes", "avg_edges", mode="before")
+    @classmethod
+    def _coerce_float(cls, value: Any) -> float | None:
+        if value is None or value == "":
+            return None
+        try:
+            return float(value)
+        except (TypeError, ValueError):
+            return None
 
 
 class DatasetList(BaseModel):
