@@ -5,7 +5,7 @@ Runs multiple queue workers in parallel (without duplicate paper processing) and
 shows one persistent row per worker with live status updates.
 
 Example:
-    uv run python scripts/todo_queue_dashboard.py --workers 10 --model primary
+    uv run python scripts/process_papers.py dashboard --workers 10 --model primary
 """
 
 from __future__ import annotations
@@ -1210,7 +1210,7 @@ def _run_manual_streaming(
 ) -> TodoQueueRunResult:
     cmd = [
         sys.executable,
-        str(Path(__file__).resolve().parents[1] / "scripts" / "run_manual.py"),
+        str(Path(__file__).resolve().with_name("paper_processor.py")),
         arxiv_id,
         "--model",
         model,
@@ -1560,7 +1560,7 @@ def build_parser() -> argparse.ArgumentParser:
         type=float,
         default=20.0,
         metavar="MIN",
-        help="Terminate a worker's run_manual subprocess after MIN minutes without output (0 disables)",
+        help="Terminate a worker's paper-processing subprocess after MIN minutes without output (0 disables)",
     )
     parser.add_argument(
         "--diag-log-path",

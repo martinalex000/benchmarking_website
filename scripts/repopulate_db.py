@@ -27,7 +27,7 @@ Usage::
 
 After priming the queue, run the dashboard::
 
-    uv run python scripts/todo_queue_dashboard.py --workers 10
+    uv run python scripts/process_papers.py dashboard --workers 10
 """
 
 from __future__ import annotations
@@ -335,7 +335,7 @@ def _run_skip_extract_parse(only: list[str] | None) -> int:
 
 def _print_worker_instructions(model_tier: str) -> None:
     console.print("\n[bold]Next step — process the queue with the dashboard:[/bold]")
-    cmd = "uv run python scripts/todo_queue_dashboard.py --workers 10"
+    cmd = "uv run python scripts/process_papers.py dashboard --workers 10"
     if model_tier != "primary":
         cmd += f" --model {model_tier}"
     console.print(f"  {cmd}")

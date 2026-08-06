@@ -72,7 +72,7 @@ def main(argv: list[str] | None = None) -> int:
             print(f"  Row names:  {_format_names(finding.suspicious_result_names)}")
         print(f"  Reasons:    {'; '.join(finding.reasons)}")
         print(f"  Overrides:  {'has model_renames' if finding.has_model_renames else 'none'}")
-        print(f"  Re-run:     uv run python scripts/run_manual.py {finding.arxiv_id} --force")
+        print(f"  Re-run:     uv run python scripts/process_papers.py {finding.arxiv_id} --force")
     return 0
 
 

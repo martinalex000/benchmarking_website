@@ -43,13 +43,13 @@ def _print_help() -> None:
 
 
 def _run_paper(argv: list[str]) -> None:
-    from scripts.run_manual import main
+    from backend.paper_processor import main
 
     main(argv)
 
 
 def _run_dashboard(argv: list[str]) -> None:
-    from scripts.todo_queue_dashboard import main
+    from backend.queue_dashboard import main
 
     main(argv)
 
@@ -63,6 +63,10 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     if arguments[0] == "dashboard":
         _run_dashboard(arguments[1:])
+        return 0
+
+    if arguments[0] == "--import-pending":
+        _run_paper(arguments)
         return 0
 
     if arguments[0].startswith("-"):

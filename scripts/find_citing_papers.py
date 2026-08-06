@@ -5,7 +5,7 @@ Queries Semantic Scholar for citing papers, shows processing status against the
 local database, then interactively marks selected papers as manually important in
 `todo_papers`. Process them afterwards with:
 
-    uv run python scripts/todo_queue_dashboard.py --workers 10
+    uv run python scripts/process_papers.py dashboard --workers 10
 
 Usage::
     uv run python scripts/find_citing_papers.py 2206.08164
@@ -70,7 +70,7 @@ def _print_mark_summary(marked: int, examples: list[str]) -> None:
     console.rule(f"[green]Marked {marked} paper(s) as manually important[/green]")
     console.print(
         "\nProcess them with:\n"
-        "  [cyan]uv run python scripts/todo_queue_dashboard.py --workers 10[/cyan]"
+        "  [cyan]uv run python scripts/process_papers.py dashboard --workers 10[/cyan]"
     )
 
 

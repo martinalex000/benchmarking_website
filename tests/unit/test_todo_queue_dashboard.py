@@ -5,7 +5,7 @@ from pathlib import Path
 import pytest
 
 _ROOT = Path(__file__).resolve().parents[2]
-_DASHBOARD_PATH = _ROOT / "scripts" / "todo_queue_dashboard.py"
+_DASHBOARD_PATH = _ROOT / "backend" / "queue_dashboard.py"
 
 
 def _load_dashboard():

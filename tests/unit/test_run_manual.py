@@ -10,7 +10,7 @@ import backend.results_parser as results_parser_module
 def _load_run_manual():
     sys.modules.setdefault("defusedxml", types.ModuleType("defusedxml"))
     sys.modules.setdefault("defusedxml.ElementTree", types.ModuleType("defusedxml.ElementTree"))
-    return importlib.import_module("scripts.run_manual")
+    return importlib.import_module("backend.paper_processor")
 
 
 def test_print_parse_summary_reports_existing_updates(capsys):

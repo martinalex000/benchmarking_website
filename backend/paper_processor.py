@@ -1,20 +1,20 @@
 #!/usr/bin/env python3
-"""run_manual.py — process a single paper end-to-end.
+"""Internal single-paper processor used by ``scripts/process_papers.py``.
 
 Downloads the paper (LaTeX source + PDF), runs two-stage LLM extraction,
 parses results into the database, and re-exports the Hugo site.
 
 Usage::
-    uv run python scripts/run_manual.py 2206.08164
-    uv run python scripts/run_manual.py 2206.08164 --model fallback
-    uv run python scripts/run_manual.py 2206.08164 --force           # re-run extraction
-    uv run python scripts/run_manual.py 2206.08164 --force-download  # re-download files
-    uv run python scripts/run_manual.py 2206.08164 --skip-download
-    uv run python scripts/run_manual.py 2206.08164 --skip-extract
-    uv run python scripts/run_manual.py 2206.08164 --oneshot       # legacy single-shot extraction
-    uv run python scripts/run_manual.py 2206.08164 --compare-models # run all 3 tiers
-    uv run python scripts/run_manual.py 2206.08164 --skip-export
-    uv run python scripts/run_manual.py --import-pending           # review pending datasets
+    uv run python scripts/process_papers.py 2206.08164
+    uv run python scripts/process_papers.py 2206.08164 --model fallback
+    uv run python scripts/process_papers.py 2206.08164 --force
+    uv run python scripts/process_papers.py 2206.08164 --force-download
+    uv run python scripts/process_papers.py 2206.08164 --skip-download
+    uv run python scripts/process_papers.py 2206.08164 --skip-extract
+    uv run python scripts/process_papers.py 2206.08164 --oneshot
+    uv run python scripts/process_papers.py 2206.08164 --compare-models
+    uv run python scripts/process_papers.py 2206.08164 --skip-export
+    uv run python scripts/process_papers.py --import-pending
 
 Extraction is two-stage:
   Stage 1 (small model): screens title+abstract (Semantic Scholar, then local
@@ -252,7 +252,7 @@ def _record_candidate(
                 title=title or f"arXiv:{arxiv_id}",
                 abstract=abstract,
                 discovery_source=discovery_source,
-                discovery_detail="run_manual.py",
+                discovery_detail="process_papers.py",
             )
             _s.add(cand)
         cand.stage1_passed = stage1_passed
@@ -1047,7 +1047,7 @@ def _collect_unknown_datasets(arxiv_id: str, paper_title: str = "") -> int:
         console.print(
             "  Results for unknown datasets are [dim]skipped during parsing[/dim].\n"
             "  Review and import with: "
-            "[bold]uv run python scripts/run_manual.py --import-pending[/bold]"
+            "[bold]uv run python scripts/process_papers.py --import-pending[/bold]"
         )
     elif unknown:
         console.print(
@@ -1421,7 +1421,7 @@ def main(argv: list[str] | None = None) -> None:
             sys.exit(1)
         console.rule("[green]Done[/green]")
         if not args.queue_managed:
-            _mark_todo_done(arxiv_id, "figure detection completed by run_manual.py")
+            _mark_todo_done(arxiv_id, "figure detection completed by process_papers.py")
         return
 
     # ── Download ───────────────────────────────────────────────────────────
@@ -1503,7 +1503,7 @@ def main(argv: list[str] | None = None) -> None:
             _run_for_tier(arxiv_id, tier, force=force_extract)
         console.rule("[green]Comparison done[/green]")
         if not args.queue_managed:
-            _mark_todo_done(arxiv_id, "model comparison completed by run_manual.py")
+            _mark_todo_done(arxiv_id, "model comparison completed by process_papers.py")
         return
 
     # ── 3/4. Extraction ───────────────────────────────────────────────────
@@ -1599,7 +1599,7 @@ def main(argv: list[str] | None = None) -> None:
     console.rule("[green]Done[/green]")
     console.print("Preview: [bold]cd site && /snap/bin/hugo server[/bold]")
     if not args.queue_managed:
-        _mark_todo_done(arxiv_id, "processed by run_manual.py")
+        _mark_todo_done(arxiv_id, "processed by process_papers.py")
 
 
 def _mark_todo_done(arxiv_id: str, note: str) -> None:

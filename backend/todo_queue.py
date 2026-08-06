@@ -413,9 +413,9 @@ def recompute_queue_counts() -> int:
 
 
 def run_manual_subprocess(arxiv_id: str, *, model: str, force: bool) -> TodoQueueRunResult:
-    script_path = Path(__file__).resolve().parents[1] / "scripts" / "run_manual.py"
+    script_path = Path(__file__).resolve().with_name("paper_processor.py")
     if not script_path.exists():
-        raise FileNotFoundError(f"run_manual.py not found at expected path: {script_path}")
+        raise FileNotFoundError(f"paper_processor.py not found at expected path: {script_path}")
     cmd = [
         sys.executable,
         str(script_path),
@@ -729,7 +729,7 @@ def process_queue(
         with _ProcessingLease(entry.id, claim.processing_token):
             try:
                 # Manually important papers are explicit requests for a fresh
-                # evaluation, so they imply run_manual.py's --force behavior.
+                # evaluation, so they imply fresh extraction behavior.
                 result = runner(
                     entry.arxiv_id,
                     model=model,
