@@ -3,17 +3,29 @@
 # comparable merely because the dataset name and task type match.
 datasets:
   qm9:
-    # Historical QM9 extractions often recorded an explicit standard decision
-    # without copying the split sentence into every table row. Keep those
-    # rows eligible, while retaining the paper/row exclusions below for
-    # transfer, generation, and representation-learning evaluations.
-    allow_standard_decision_without_evidence: true
+    # QM9 has many superficially similar but non-comparable evaluations. A
+    # standard flag without row-local split evidence is not sufficient.
+    allow_standard_decision_without_evidence: false
     required_any:
       - "(?:0\\.8\\s*/\\s*0\\.1\\s*/\\s*0\\.1|80\\s*/\\s*10\\s*/\\s*10)"
-      - "(?:110(?:,000)?\\s*/\\s*10(?:,000)?\\s*/\\s*10(?:,000)?)"
+      - "(?:110(?:,000)?\\s*/\\s*10(?:,000)?\\s*/\\s*10(?:,000|831)?)"
+      - "(?:110(?:,000)?|110000).{0,80}(?:10(?:,000)?|10000).{0,80}(?:10(?:,000|831)?|10000|10831)"
+      - "(?:10(?:,000)?|10000).{0,80}(?:10(?:,831)?|10831).{0,80}(?:remaining|train|training)"
     forbidden_any:
       - "\\b(?:truncated|synthesi[sz]ed|representative|fabricated|incomplete)\\b"
       - "\\b(?:linear\\s+regression|conditional\\s+generation|transfer\\s+learning)\\b"
+  qm7b:
+    # QM7b is a distinct 14-target benchmark. QM7 rows and transfer-learning
+    # tables are not comparable to its random-split supervised evaluation.
+    allow_standard_decision_without_evidence: false
+    required_any:
+      - "\\bqm\\s*7\\s*b\\b[^.]{0,120}\\brandom(?:ly)?\\s+(?:split|splitting|partition|sample)"
+      - "\\brandom(?:ly)?\\s+(?:split|splitting|partition|sample)[^.]{0,120}\\bqm\\s*7\\s*b\\b"
+    forbidden_any:
+      - "\\b(?:mse|rmse|root\\s+mean\\s+squared\\s+error)\\b"
+      - "\\b(?:scaffold|stratified|chronological|time[- ]based|size[- ]based|custom)\\s+split\\b"
+      - "\\b(?:transfer\\s+learning|linear[- ]probe|linear\\s+probing|pre[- ]training|ood|out[- ]of[- ]distribution|attack|backdoor|poison)\\b"
+    allow_canonical_random_split: true
   citeseer:
     required_any:
       - "\\bplanetoid\\b"

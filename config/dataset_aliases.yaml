@@ -20,7 +20,11 @@ aliases:
   Photo: Amazon-Photo
   Computers: Amazon-Computers
   arXiv: ogbn-arxiv
+  # OGB's current code benchmark is explicitly code2; keep deprecated code
+  # separate so its leaked-target results cannot be mixed into the leaderboard.
+  code: ogbg-code2
   # Common plain-name variants
+  Cham.: Chameleon
   Cifar10: CIFAR10
   Cifar100: CIFAR100
   # Misc short-name normalisations
@@ -35,6 +39,17 @@ aliases:
   Actor (Film): Actor
 
 paper_aliases:
+  # The paper's generic extracted name "Amazon" refers to Amazon-Photo
+  # (7,650 nodes), not the separate Amazon2M benchmark.
+  "2412.21151":
+    Amazon: Amazon-Photo
+  # This paper also uses the 7,650-node Amazon-Photo graph, not Amazon2M.
+  "2112.08331":
+    Amazon: Amazon-Photo
+  # The extracted TorchMD-NET table is a QM9 downstream evaluation; the
+  # surrounding paper also mentions PCQM4Mv2 as its pre-training dataset.
+  "2206.00133":
+    PCQM4Mv2: QM9
   # This paper uses a different film graph: movies are nodes, with nine genre
   # labels, rather than the five-class Actor/Film co-occurrence graph.
   "1609.04508":
@@ -46,3 +61,6 @@ ambiguous_names:
   - Amazon
   - He_Arxiv
   - He_Croval
+  # QM7 and QM7b are distinct benchmarks; never fuzzy-match the former into
+  # the latter when the extraction omitted the trailing "b".
+  - QM7

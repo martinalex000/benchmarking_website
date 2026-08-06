@@ -224,6 +224,73 @@ def test_forced_reparse_retains_existing_rows_when_extraction_has_no_results(mon
         assert session.query(Result).filter_by(paper_id=paper.id).count() == 1
 
 
+def test_forced_reparse_removes_rejected_qm9_rows(monkeypatch, tmp_path):
+    _configure_temp_workspace(monkeypatch, tmp_path)
+    init_db()
+
+    with session_scope() as session:
+        paper = Paper(arxiv_id="2110.04376", title="Rejected QM9 results")
+        model = Model(name="Old model", canonical_name="Old model")
+        benchmark = Benchmark(name="QM9", short_name="qm9")
+        session.add_all([paper, model, benchmark])
+        session.flush()
+        dataset = Dataset(
+            benchmark_id=benchmark.id,
+            name="QM9",
+            task_type="graph_regression",
+            primary_metric="MAE",
+            higher_is_better=0,
+        )
+        session.add(dataset)
+        session.flush()
+        variant = DatasetVariant(dataset_id=dataset.id, name="Standard", is_standard=1)
+        session.add(variant)
+        session.flush()
+        session.add(
+            Result(
+                paper_id=paper.id,
+                model_id=model.id,
+                dataset_variant_id=variant.id,
+                metric_name="gap",
+                metric_value=0.01,
+                higher_is_better=0,
+            )
+        )
+
+    storage = PaperStorage("2110.04376")
+    storage.ensure_dirs()
+    (storage.latex_dir / "expanded.tex").write_text(
+        "We evaluate conditional generation of generated molecules on QM9.",
+        encoding="utf-8",
+    )
+    storage.llm_output_path.write_text(
+        json.dumps(
+            {
+                "model_used": "fake-primary",
+                "results": {
+                    "results": [
+                        {
+                            "model": "New model",
+                            "dataset": "QM9",
+                            "metric": "gap",
+                            "value": 0.01,
+                        }
+                    ]
+                },
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    summary = parse_and_store_with_summary("2110.04376", replace_existing=True)
+
+    assert summary.replaced_results == 1
+    with session_scope() as session:
+        paper = session.query(Paper).filter_by(arxiv_id="2110.04376").one()
+        assert session.query(Result).filter_by(paper_id=paper.id).count() == 0
+        assert paper.extraction_status == "extracted"
+
+
 def test_forced_reparse_retains_existing_rows_for_partial_extraction(monkeypatch, tmp_path):
     _configure_temp_workspace(monkeypatch, tmp_path)
     init_db()
@@ -781,6 +848,7 @@ def test_parse_and_store_ignores_dataset_statistics_parse_failure(monkeypatch, t
     assert _is_fatal_extraction_parse_failure("extract_dataset_statistics: boom") is False
     assert _is_fatal_extraction_parse_failure("extract_dataset:QM9:g1: boom") is True
 
+
     _configure_temp_workspace(monkeypatch, tmp_path)
     init_db()
 
@@ -843,3 +911,14 @@ def test_parse_and_store_ignores_dataset_statistics_parse_failure(monkeypatch, t
 
     assert summary.quarantined is False
     assert summary.new_results == 1
+
+
+def test_dropped_incomplete_result_row_does_not_quarantine_complete_extraction():
+    from backend.results_parser import _extraction_quality_issues
+
+    extraction = {
+        "coverage_assessment": "complete",
+        "extraction_notes": "Dropped 1 incomplete result row(s) before validation.",
+    }
+
+    assert _extraction_quality_issues(extraction, []) == []

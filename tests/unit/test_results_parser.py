@@ -331,17 +331,22 @@ def test_parse_extracted_bool_handles_string_false():
 
 
 def test_ogb_dataset_alias_code2():
-    variant_map = {"code": 45, "ogbg-molpcba": 24}
+    variant_map = {"ogbg-code2": 45, "ogbg-molpcba": 24}
     variant_id, reason = resolve_dataset_variant_with_reason("ogbg-code2", None, variant_map)
     assert variant_id == 45
-    assert "alias" in reason
+    assert reason == "dataset: exact match"
 
 
 def test_ogb_ppa_does_not_fuzzy_match_molpcba():
     variant_map = {"ogbg-molpcba": 24}
     variant_id, reason = resolve_dataset_variant_with_reason("ogbg-ppa", None, variant_map)
     assert variant_id is None
-    assert reason == "dataset: unresolved"
+
+
+def test_qm7_does_not_fuzzy_match_qm7b():
+    variant_id, reason = resolve_dataset_variant_with_reason("QM7", None, {"qm7b": 12})
+    assert variant_id is None
+    assert reason == "dataset: ambiguous generic name"
 
 
 def test_ogbl_ppa_does_not_fuzzy_match_citation2():
@@ -419,7 +424,7 @@ def test_protocol_contract_requires_canonical_split_evidence():
     )
 
 
-def test_qm9_explicit_standard_decision_preserves_legacy_rows_without_split_note():
+def test_qm9_requires_split_evidence_even_with_standard_decision():
     variant = SimpleNamespace(
         is_standard=True,
         split_type="random",
@@ -435,7 +440,7 @@ def test_qm9_explicit_standard_decision_preserves_legacy_rows_without_split_note
             },
             variant,
         )
-        == "standard"
+        == "uncertain"
     )
 
 

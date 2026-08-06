@@ -48,7 +48,12 @@ from backend.override_handler import apply_overrides_to_db, get_result_override
 from backend.paper_storage import PaperStorage
 from backend.parameter_lookup import build_dataset_param_lookup as _build_dataset_param_lookup
 from backend.parameter_lookup import build_metadata_lookups as _build_metadata_lookups
-from backend.qm9_targets import is_qm9_dataset, normalize_qm9_metric
+from backend.qm7b_targets import is_qm7b_dataset, normalize_qm7b_result_mapping
+from backend.qm9_targets import (
+    is_qm9_dataset,
+    normalize_qm9_metric,
+    normalize_qm9_result_mapping,
+)
 from backend.repository_linking import (
     find_verified_repository_link,
     repository_source_from_storage,
@@ -250,8 +255,7 @@ _ZINC_FULL_MAX_MAE = 0.06
 _ZINC_SUBSET_MIN_MAE = 0.07
 
 _OGB_DATASET_ALIASES: dict[str, str] = {
-    "ogbg-code2": "code",
-    "ogbg-code": "code",
+    "ogbg-code2": "ogbg-code2",
     "ogbg-moltox21": "tox21",
 }
 _DATASET_VARIANT_QUALIFIER_RE = re.compile(
@@ -1254,7 +1258,7 @@ _NON_FATAL_EXTRACT_CALL_PREFIXES: tuple[str, ...] = ("extract_dataset_statistics
 
 _SUSPICIOUS_EXTRACTION_NOTE_RE = re.compile(
     r"\b(?:truncated|synthesi[sz]ed|fabricated|representative\s+values?|"
-    r"partial\s+(?:table|results?)|incomplete\s+(?:table|results?))\b",
+    r"partial\s+(?:table|results?)|incomplete\s+(?:table|results?)(?!\s+row))\b",
     re.IGNORECASE,
 )
 
@@ -1336,10 +1340,39 @@ def parse_and_store_with_summary(
         ):
             parse_failures.append(f"{call_type}: {parse_error}")
 
-    result_entries: list[dict] = extraction.get("results", [])
+    paper_text = ""
+    if storage.text_path.exists():
+        paper_text = storage.text_path.read_text(encoding="utf-8", errors="ignore")
+    elif (storage.latex_dir / "expanded.tex").exists():
+        paper_text = (storage.latex_dir / "expanded.tex").read_text(
+            encoding="utf-8", errors="ignore"
+        )
+
+    result_entries: list[dict] = (
+        extraction.get("results", []) if isinstance(extraction, dict) else []
+    )
+    qm9_source_text = paper_text
+    expanded_source_path = storage.latex_dir / "expanded.tex"
+    if expanded_source_path.exists():
+        qm9_source_text += "\n" + expanded_source_path.read_text(encoding="utf-8", errors="ignore")
+
+    guarded_entries: list[dict] = []
+    molecular_guard_dropped = False
     for entry in result_entries:
         if isinstance(entry, dict):
             _apply_feature_source_model_name(entry)
+            if is_qm9_dataset(str(entry.get("dataset") or "")):
+                entry = normalize_qm9_result_mapping(entry, qm9_source_text)
+                if entry is None:
+                    molecular_guard_dropped = True
+                    continue
+            elif is_qm7b_dataset(str(entry.get("dataset") or "")):
+                entry = normalize_qm7b_result_mapping(entry, qm9_source_text)
+                if entry is None:
+                    molecular_guard_dropped = True
+                    continue
+        guarded_entries.append(entry)
+    result_entries = guarded_entries
     fatal_parse_failures = [f for f in parse_failures if _is_fatal_extraction_parse_failure(f)]
     quality_issues = _extraction_quality_issues(extraction, fatal_parse_failures)
 
@@ -1370,19 +1403,30 @@ def parse_and_store_with_summary(
         return summary
 
     if not result_entries:
+        if replace_existing and molecular_guard_dropped:
+            with session_scope() as session:
+                paper = session.query(Paper).filter_by(arxiv_id=arxiv_id).first()
+                if paper is not None:
+                    deleted = (
+                        session.query(Result)
+                        .filter_by(paper_id=paper.id, is_overridden=0)
+                        .delete(synchronize_session=False)
+                    )
+                    summary.replaced_results = deleted
+                    paper.extraction_model = model_name_used
+                    paper.extraction_status = "extracted"
+                    if deleted:
+                        logger.info(
+                            "Deleted %d rejected QM9 result row(s) for arXiv:%s",
+                            deleted,
+                            arxiv_id,
+                        )
+            return summary
         logger.warning(
             "No result entries in LLM output for arXiv:%s; existing rows were retained",
             arxiv_id,
         )
         return summary
-
-    paper_text = ""
-    if storage.text_path.exists():
-        paper_text = storage.text_path.read_text(encoding="utf-8", errors="ignore")
-    elif (storage.latex_dir / "expanded.tex").exists():
-        paper_text = (storage.latex_dir / "expanded.tex").read_text(
-            encoding="utf-8", errors="ignore"
-        )
 
     # Build a sizes lookup from baseline info
     sizes_lookup, type_lookup = _build_metadata_lookups(
@@ -1457,6 +1501,16 @@ def parse_and_store_with_summary(
 
         for entry in result_entries:
             dataset_name = normalize_dataset_alias(entry.get("dataset", ""), arxiv_id=arxiv_id)
+            # Code2 predicts method-name sub-tokens on whole AST graphs. Some
+            # older extraction outputs called this node classification, which
+            # incorrectly caused otherwise valid F1 rows to be rejected.
+            if (
+                dataset_name.strip().casefold() == "ogbg-code2"
+                and _normalized_evaluation_task(entry.get("evaluation_task"))
+                == "node_classification"
+            ):
+                entry = dict(entry)
+                entry["evaluation_task"] = "graph_classification"
             model_name = entry.get("model", "")
             metric_name = entry.get("metric", "")
             result_override = get_result_override(overrides, model_name, dataset_name, metric_name)
@@ -1628,7 +1682,9 @@ def parse_and_store_with_summary(
                     uses_external_data=(
                         1
                         if uses_external_data is True
-                        else 0 if uses_external_data is False else None
+                        else 0
+                        if uses_external_data is False
+                        else None
                     ),
                     input_feature_source=input_feature_source,
                     feature_source_evidence=entry.get("feature_source_evidence"),
