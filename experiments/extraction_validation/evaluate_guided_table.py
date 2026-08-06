@@ -5,15 +5,19 @@ refresh the reviewed corpus without changing parser behavior.
 
 Usage::
 
-    uv run python scripts/evaluate_guided_table.py --manifest config/guided_table_evaluation.yaml
+    uv run python experiments/extraction_validation/evaluate_guided_table.py \
+      --manifest config/guided_table_evaluation.yaml
 """
 
 from __future__ import annotations
 
 import argparse
+import sys
 from collections import Counter
 from pathlib import Path
 from typing import Any
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
 import yaml
 

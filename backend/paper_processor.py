@@ -26,7 +26,7 @@ table for later review. Use --import-pending to interactively add them to
 seed_data.yaml and reseed the DB.
 
 If a model is not found at the endpoint, run:
-    uv run python scripts/list_models.py
+    uv run python scripts/test_llms.py
 to see what is available.
 """
 
@@ -703,7 +703,7 @@ def _do_extract(
             f"    → run with [bold]--skip-screen[/bold] to bypass\n"
             f"  • Manual runs request [cyan]{_MANUAL_RESULT_OUTPUT_FORMAT}[/cyan] output from the model\n"
             f"  • Or check that [cyan]{model_name}[/cyan] is available:\n"
-            f"    [bold]uv run python scripts/list_models.py[/bold]\n"
+            f"    [bold]uv run python scripts/test_llms.py[/bold]\n"
             f"  • Try: [bold]--model fallback[/bold]  or  [bold]--model small[/bold]"
         )
         return False

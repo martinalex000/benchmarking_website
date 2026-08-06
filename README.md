@@ -99,8 +99,14 @@ Important: the configured `LLM_MODEL_*` values must match the exact model IDs re
 ### Verify your endpoint
 
 ```bash
-# List all models the endpoint serves and check your configured tiers
-uv run python scripts/list_models.py
+# List reachable models and check configured tiers
+uv run python scripts/test_llms.py
+
+# Probe reachable chat models and verify reasoning is disabled
+uv run python scripts/test_llms.py ping
+
+# Print current rate-limit headers from each reachable endpoint
+uv run python scripts/test_llms.py --rate-limits
 ```
 
 ---
@@ -426,7 +432,7 @@ uv run python -m backend.export_to_hugo
 
 ---
 
-### `scripts/compare_models.py` — benchmark LLM extraction quality
+### `experiments/extraction/compare_models.py` — benchmark LLM extraction quality
 
 Runs every available model on papers that have a known-good baseline extraction
 and measures hits, misses, value errors, and hallucination rate. Outputs a rich
@@ -434,22 +440,22 @@ recall/precision summary per model.
 
 ```bash
 # Run all models on all papers with a baseline
-uv run python scripts/compare_models.py
+uv run python experiments/extraction/compare_models.py
 
 # Limit to specific papers or models
-uv run python scripts/compare_models.py --paper 2206.08164 2309.00367
-uv run python scripts/compare_models.py --model gemma-3-27b-it qwen3.5-27b
+uv run python experiments/extraction/compare_models.py --paper 2206.08164 2309.00367
+uv run python experiments/extraction/compare_models.py --model gemma-3-27b-it qwen3.5-27b
 
 # Skip slow or irrelevant models
-uv run python scripts/compare_models.py --skip-model teuken-7b-instruct-research
+uv run python experiments/extraction/compare_models.py --skip-model teuken-7b-instruct-research
 
 # Save detailed results + full conversation logs
-uv run python scripts/compare_models.py \
+uv run python experiments/extraction/compare_models.py \
     --output experiments/extraction/comparison.json \
     --log-dir experiments/extraction/logs
 
 # Re-run planned models even when cached artifacts exist
-uv run python scripts/compare_models.py --force
+uv run python experiments/extraction/compare_models.py --force
 
 # Full runs also write aggregate JSON by default under experiments/extraction/
 # Use --no-output to skip that file (paper artifacts are still saved)
@@ -462,7 +468,7 @@ with a compare-specific ``comparison.json``. On-disk results are reused automati
 and labeled ``[cached]`` or ``[auto-included]`` in the summary tables; ``--interactive``
 model selection re-runs selected models.
 
-### `scripts/compare_mlp_baseline.py` — compare node methods with MLP
+### `experiments/mlp_baseline_comparison/compare_mlp_baseline.py` — compare node methods with MLP
 
 Builds a reproducible comparison using standard, non-problematic node-classification or
 node-regression results. Plain MLP rows are curated through the shared leaderboard eligibility
@@ -470,7 +476,7 @@ rules; LLM-augmented MLPs and confirmed noncanonical rows are excluded. Each pap
 its best eligible non-MLP result, including baseline methods.
 
 ```bash
-UV_CACHE_DIR=/tmp/benchmarking-uv-cache uv run python scripts/compare_mlp_baseline.py
+UV_CACHE_DIR=/tmp/benchmarking-uv-cache uv run python experiments/mlp_baseline_comparison/compare_mlp_baseline.py
 ```
 
 The default output directory is `experiments/mlp_baseline_comparison/` and contains the
@@ -538,25 +544,16 @@ uv run python scripts/set_dataset_stats.py --export
 
 ---
 
-### `scripts/list_models.py` — check available models at your endpoint
+### `scripts/test_llms.py` — check available models and endpoints
 
 ```bash
-uv run python scripts/list_models.py
+uv run python scripts/test_llms.py
+uv run python scripts/test_llms.py ping MODEL_NAME
+uv run python scripts/test_llms.py metrics
 ```
 
-Prints all model IDs from `GET /v1/models` and marks which configured tiers
-(primary / fallback / small) are present. Exits 1 if any are missing.
-
----
-
-### `scripts/test_model_ping.py` — low-level endpoint/model diagnostic
-
-Use this when a model appears reachable but returns empty content, unusual finish
-reasons, or suspicious rate-limit behavior.
-
-```bash
-uv run python scripts/test_model_ping.py MiniMaxAI/MiniMax-M2.5
-uv run python scripts/test_model_ping.py moonshotai/Kimi-K2.6
+Use `--rate-limits` with the default command or `ping` to print current endpoint
+rate-limit headers.
 
 ---
 
@@ -833,7 +830,7 @@ uv run python -m backend.export_to_hugo
 Or for a full comparison re-run:
 
 ```bash
-uv run python scripts/compare_models.py --paper 2206.08164 --force
+uv run python experiments/extraction/compare_models.py --paper 2206.08164 --force
 ```
 
 ---

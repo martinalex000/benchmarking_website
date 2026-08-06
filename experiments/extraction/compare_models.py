@@ -10,11 +10,11 @@ mode). Pass ``--force`` to re-run models even when cached artifacts exist.
 
 Usage::
 
-    python -m scripts.compare_models
-    python -m scripts.compare_models --paper 2206.08164
-    python -m scripts.compare_models --model gemma-3-27b-it --force
-    python -m scripts.compare_models --interactive
-    python -m scripts.compare_models --no-output
+    python experiments/extraction/compare_models.py
+    python experiments/extraction/compare_models.py --paper 2206.08164
+    python experiments/extraction/compare_models.py --model gemma-3-27b-it --force
+    python experiments/extraction/compare_models.py --interactive
+    python experiments/extraction/compare_models.py --no-output
 """
 
 from __future__ import annotations
@@ -35,7 +35,7 @@ from typing import Any, Literal
 import yaml
 
 # Allow running from project root without installing
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
 from openai import APIConnectionError, APIStatusError, OpenAI, RateLimitError
 from rich import box

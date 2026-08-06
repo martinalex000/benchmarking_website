@@ -2,7 +2,7 @@
 
 Usage::
 
-    uv run python scripts/validate_protocol_guard_models.py \
+    uv run python experiments/extraction_validation/validate_protocol_guard_models.py \
       google/gemma-4-31B-it Qwen/Qwen3-Coder-30B-A3B-Instruct \
       zai-org/GLM-5.2-FP8 openai/gpt-oss-120b
 """
@@ -13,7 +13,7 @@ import argparse
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
 from backend.config import cfg
 from backend.llm_tasks import LLMExtractor

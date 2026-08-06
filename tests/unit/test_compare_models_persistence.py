@@ -10,7 +10,7 @@ import yaml
 from backend.config import cfg
 from backend.llm_backends import LlmBackend, ModelRoute
 from backend.llm_extractor import ExtractionOutput, ResultEntry
-from scripts import compare_models as cm
+from experiments.extraction import compare_models as cm
 
 
 def _write_compare_artifact(

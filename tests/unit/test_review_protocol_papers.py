@@ -2,7 +2,7 @@ import argparse
 
 import pytest
 
-from scripts.review_protocol_papers import _parse_paper_target
+from experiments.extraction_validation.review_protocol_papers import _parse_paper_target
 
 
 def test_parse_paper_target():

@@ -33,7 +33,7 @@ from backend.llm_tasks import _slugify_label
 from backend.llm_types import CallRecord, ExtractionOutput
 from backend.paper_storage import PaperStorage
 from backend.results_parser import normalize_dataset_alias
-from scripts import compare_models as cm
+from experiments.extraction import compare_models as cm
 
 
 @dataclass(frozen=True)

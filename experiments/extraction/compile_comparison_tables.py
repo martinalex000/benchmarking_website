@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """Compile per-dataset comparison tables from compare_models artifacts."""
+
 from __future__ import annotations
 
 import json
-from pathlib import Path
 from collections import defaultdict
+from pathlib import Path
 
 
 def load_comparison(path: Path) -> dict:
@@ -16,7 +17,7 @@ def extract_model_name(path: Path) -> str:
     p = path.parent.name
     prefix = "compare-models-"
     if p.startswith(prefix):
-        return p[len(prefix):]
+        return p[len(prefix) :]
     return p
 
 
@@ -36,7 +37,7 @@ def compile_paper(paper_id: str) -> dict:
 
     # Gather all dataset keys (model / dataset / metric)
     all_keys = set()
-    for model, data in comparisons.items():
+    for _model, data in comparisons.items():
         for entry in data["details"].get("hits", []):
             all_keys.add(entry["key"])
         for entry in data["details"].get("value_errors", []):
@@ -58,8 +59,9 @@ def compile_paper(paper_id: str) -> dict:
 def build_tables(paper_id: str, comparisons: dict, models: list, by_dataset: dict) -> str:
     lines = [f"# {paper_id} — Per-Dataset Model Comparison\n"]
     lines.append(f"**Models evaluated:** {', '.join(models)}\n")
-    lines.append("Legend: baseline value in parens if known; "
-                 "✓=hit, ✗=miss, H=hllcn, VE=value error\n")
+    lines.append(
+        "Legend: baseline value in parens if known; " "✓=hit, ✗=miss, H=hllcn, VE=value error\n"
+    )
 
     for dataset in sorted(by_dataset):
         lines.append(f"## Dataset: {dataset}\n")
@@ -87,7 +89,7 @@ def build_tables(paper_id: str, comparisons: dict, models: list, by_dataset: dic
         lines.append("| Model | Metric | " + " | ".join(models) + " |")
         lines.append("|" + "|".join(["------"] * (2 + len(models))) + "|")
 
-        for (m_name, metric) in sorted(rows):
+        for m_name, metric in sorted(rows):
             row = [m_name, metric]
             for model in models:
                 if model not in rows[(m_name, metric)]:
@@ -112,7 +114,7 @@ def build_tables(paper_id: str, comparisons: dict, models: list, by_dataset: dic
 
 
 def main():
-    base = Path(f"{Path(__file__).parent.parent}")
+    base = Path(__file__).resolve().parents[2]
     out = base / "experiments/comparison_tables.md"
     out.parent.mkdir(parents=True, exist_ok=True)
 

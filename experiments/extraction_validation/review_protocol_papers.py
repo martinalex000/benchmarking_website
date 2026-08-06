@@ -5,14 +5,17 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import UTC, datetime
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+
 from backend.llm_backends import configured_backends
 from backend.llm_tasks import _slugify_label
 from backend.llm_types import DatasetInfo
-from scripts.compare_models import _load_paper_inputs, _run_full_extraction
+from experiments.extraction.compare_models import _load_paper_inputs, _run_full_extraction
 
 
 def _parse_paper_target(value: str) -> tuple[str, str]:
