@@ -176,6 +176,7 @@ def test_streaming_call_enforces_total_wall_clock_timeout(monkeypatch):
     times = iter([0.0, 121.0, 122.0])
     monkeypatch.setattr("backend.llm_client.time.perf_counter", lambda: next(times))
     monkeypatch.setattr("backend.llm_client.cfg.llm_timeout", 120)
+    monkeypatch.setattr("backend.llm_client.cfg.llm_max_retries", 0)
 
     with pytest.raises(LLMWallClockTimeout, match="120s"):
         extractor._call("system", "user")
