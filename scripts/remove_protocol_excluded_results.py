@@ -1,9 +1,9 @@
-"""Remove rows excluded by ``config/protocol_exclusions.yaml``.
+"""Remove database rows excluded by ``config/protocol_exclusions.yaml``.
 
 Usage::
 
-    uv run python scripts/clear_protocol_mismatch_results.py --dry-run
-    uv run python scripts/clear_protocol_mismatch_results.py --yes
+    uv run python scripts/remove_protocol_excluded_results.py --dry-run
+    uv run python scripts/remove_protocol_excluded_results.py --yes
 """
 
 from __future__ import annotations
@@ -21,9 +21,9 @@ from backend.db import init_db, session_scope
 from backend.models import Dataset, DatasetVariant, Paper, Result
 
 
-def _load_rules() -> tuple[
-    dict[str, str], dict[str, set[str]], dict[str, set[str]], dict[str, dict[str, dict]]
-]:
+def _load_rules() -> (
+    tuple[dict[str, str], dict[str, set[str]], dict[str, set[str]], dict[str, dict[str, dict]]]
+):
     path = cfg.config_dir / "protocol_exclusions.yaml"
     payload = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
     exclude_all = {
@@ -112,7 +112,9 @@ def clear(*, dry_run: bool) -> int:
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description=__doc__)
+    parser = argparse.ArgumentParser(
+        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
+    )
     parser.add_argument("--yes", action="store_true", help="Apply deletions")
     parser.add_argument("--dry-run", action="store_true", help="Show deletions without applying")
     args = parser.parse_args(argv)
