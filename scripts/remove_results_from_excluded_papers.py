@@ -2,8 +2,8 @@
 
 Usage::
 
-    uv run python scripts/remove_protocol_excluded_results.py --dry-run
-    uv run python scripts/remove_protocol_excluded_results.py --yes
+    uv run python scripts/remove_results_from_excluded_papers.py --dry-run
+    uv run python scripts/remove_results_from_excluded_papers.py --yes
 """
 
 from __future__ import annotations
