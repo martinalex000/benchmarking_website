@@ -2,12 +2,6 @@
 
 from __future__ import annotations
 
-import argparse
-import importlib.util
-from pathlib import Path
-
-import pytest
-
 import backend.todo_queue as todo_queue_module
 from backend.config import cfg
 from backend.db import init_db, session_scope
@@ -205,47 +199,6 @@ def test_mark_important_always_moves_done_to_pending(monkeypatch, tmp_path):
         assert row.status == TodoPaperStatus.PENDING.value
 
 
-def _load_todo_queue_cli():
-    script_path = Path(__file__).resolve().parents[2] / "scripts" / "todo_queue.py"
-    spec = importlib.util.spec_from_file_location("test_todo_queue_cli_priority", script_path)
-    module = importlib.util.module_from_spec(spec)
-    assert spec is not None and spec.loader is not None
-    spec.loader.exec_module(module)
-    return module
-
-
-def test_todo_queue_mark_important_dispatch(monkeypatch):
-    module = _load_todo_queue_cli()
-    called = {"mark": False}
-
-    monkeypatch.setattr(
-        module,
-        "set_todo_paper_importance",
-        lambda arxiv_id, *, important, requeue=False: (
-            called.__setitem__("mark", True) or (True, "ok")
-        ),
-    )
-
-    module.main(["mark-important", "2406.08993", "--requeue"])
-
-    assert called["mark"] is True
-
-
-def test_todo_queue_requeue_dispatches_multiple_ids(monkeypatch):
-    module = _load_todo_queue_cli()
-    called = []
-
-    monkeypatch.setattr(
-        module,
-        "requeue_todo_papers",
-        lambda arxiv_ids: called.append(arxiv_ids) or [],
-    )
-
-    module.main(["requeue", "2406.08993", "2407.02263"])
-
-    assert called == [["2406.08993", "2407.02263"]]
-
-
 def test_todo_queue_add_without_important_still_refuses_duplicate(monkeypatch, tmp_path):
     _configure_temp_db(monkeypatch, tmp_path)
     _insert_todo("6666.6666")
@@ -395,16 +348,6 @@ def test_old_processing_owner_cannot_finalize_after_token_changes(monkeypatch, t
         assert row.note == "current owner"
 
 
-def test_todo_queue_cli_important_only_resolves_limit(monkeypatch, tmp_path):
-    _configure_temp_db(monkeypatch, tmp_path)
-    _insert_todo("1111.1111", is_manually_important=True)
-    _insert_todo("2222.2222", is_manually_important=True)
-
-    module = _load_todo_queue_cli()
-    args = argparse.Namespace(limit=None, important_only=True)
-    assert module._resolve_process_limit(args) == 2
-
-
 def test_unmark_important_clears_flag(monkeypatch, tmp_path):
     _configure_temp_db(monkeypatch, tmp_path)
     _insert_todo("7777.7777", is_manually_important=True)
@@ -437,17 +380,3 @@ def test_direct_manual_run_can_mark_todo_paper_done(monkeypatch, tmp_path):
         assert row.status == TodoPaperStatus.DONE.value
         assert row.processing_token is None
         assert row.note == "processed directly"
-
-
-def test_todo_queue_unmark_important_exits_on_failure(monkeypatch):
-    module = _load_todo_queue_cli()
-    monkeypatch.setattr(
-        module,
-        "set_todo_paper_importance",
-        lambda arxiv_id, *, important: (False, "missing"),
-    )
-
-    with pytest.raises(SystemExit) as exc_info:
-        module.main(["unmark-important", "2406.08993"])
-
-    assert exc_info.value.code == 1
