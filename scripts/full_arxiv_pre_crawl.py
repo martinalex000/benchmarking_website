@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Download and analyze the Cornell arXiv metadata snapshot."""
+"""Download and analyze the Cornell arXiv metadata snapshot for a full pre-crawl."""
 
 from __future__ import annotations
 
