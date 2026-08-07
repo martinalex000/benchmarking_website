@@ -9,11 +9,10 @@ This script can:
 
 Usage examples::
 
-    uv run python scripts/maintenance_semanticscholar.py todo
-    uv run python scripts/maintenance_semanticscholar.py metadata
-    uv run python scripts/maintenance_semanticscholar.py repair-venues --dry-run
-    uv run python scripts/maintenance_semanticscholar.py all --limit 500
-    uv run python scripts/maintenance_semanticscholar.py todo --seed 2401.01234
+    uv run python scripts/maintenance.py todo
+    uv run python scripts/maintenance.py repair-venues --dry-run
+    uv run python scripts/maintenance.py all --limit 500
+    uv run python scripts/maintenance.py todo --seed 2401.01234 --force
 """
 
 from __future__ import annotations
@@ -39,6 +38,8 @@ from backend.models import Paper, Result  # noqa: E402
 from backend.paper_storage import PaperStorage  # noqa: E402
 from backend.s2_todo_crawl import (  # noqa: E402
     S2Client,
+    _is_sqlite_lock_error,
+    configure_sqlite_connection,
     crawl_seed,
     ensure_s2_tables,
     fetch_top_todo_rows,
@@ -379,9 +380,41 @@ def repair_venues(
     print(f"Done — updated: {updated}, skipped/unchanged: {skipped}")
 
 
-def backfill_todo(*, db_path: Path | None, limit: int, seed: list[str] | None, top: int) -> None:
+def _crawl_seed_with_retries(
+    client: S2Client,
+    connection: sqlite3.Connection,
+    seed: str,
+    limit: int,
+    force: bool,
+) -> dict:
+    """Crawl one seed, retrying transient SQLite contention from parallel workers."""
+    max_attempts = 12
+    for attempt in range(max_attempts):
+        try:
+            return crawl_seed(client, connection, seed, limit, force)
+        except sqlite3.OperationalError as exc:
+            if not _is_sqlite_lock_error(exc) or attempt + 1 >= max_attempts:
+                raise
+            wait = 0.25 * (2**attempt)
+            print(
+                f"  [yellow]Database locked — retrying in {wait:.2f}s "
+                f"(attempt {attempt + 1}/{max_attempts})[/yellow]"
+            )
+            time.sleep(wait)
+    raise AssertionError("unreachable")
+
+
+def backfill_todo(
+    *,
+    db_path: Path | None,
+    limit: int,
+    seed: list[str] | None,
+    top: int,
+    force: bool,
+) -> None:
     path = db_path or cfg.db_path
     conn = sqlite3.connect(str(path))
+    configure_sqlite_connection(conn)
     conn.execute("PRAGMA foreign_keys = ON")
     try:
         ensure_s2_tables(conn)
@@ -403,7 +436,7 @@ def backfill_todo(*, db_path: Path | None, limit: int, seed: list[str] | None, t
         s2 = S2Client(min_delay=1.0)
         for item in seeds:
             print(f"\n[bold]Processing seed {item.strip()} (limit={limit})[/bold]")
-            stats = crawl_seed(s2, conn, item.strip(), limit, False)
+            stats = _crawl_seed_with_retries(s2, conn, item.strip(), limit, force)
             print(
                 f"  Citations: {stats['citations']} → {stats['cite_added']} added, "
                 f"{stats['cite_missing']} missing arXiv IDs"
@@ -469,6 +502,9 @@ def main(argv: list[str] | None = None) -> int:
     p_todo.add_argument("--limit", "-n", type=int, default=5000, help="Max citations/references")
     p_todo.add_argument("--db-path", default=None, help="Path to SQLite DB")
     p_todo.add_argument("--top", type=int, default=15, help="Top-N todo rows to show")
+    p_todo.add_argument(
+        "--force", action="store_true", help="Re-crawl seeds already marked complete"
+    )
 
     p_info = subparsers.add_parser("info", help="Show maintenance impact statistics")
     p_info.add_argument(
@@ -484,6 +520,9 @@ def main(argv: list[str] | None = None) -> int:
     p_all.add_argument("--seed", "-s", action="append", default=None, help="Seed arXiv ID")
     p_all.add_argument("--db-path", default=None, help="Path to SQLite DB")
     p_all.add_argument("--top", type=int, default=15, help="Top-N todo rows to show")
+    p_all.add_argument(
+        "--force", action="store_true", help="Re-crawl seeds already marked complete"
+    )
 
     args = parser.parse_args(argv)
 
@@ -507,7 +546,13 @@ def main(argv: list[str] | None = None) -> int:
             include_known_wrong=args.include_known_wrong,
         )
     elif args.command == "todo":
-        backfill_todo(db_path=args.db_path, limit=args.limit, seed=args.seed, top=args.top)
+        backfill_todo(
+            db_path=args.db_path,
+            limit=args.limit,
+            seed=args.seed,
+            top=args.top,
+            force=args.force,
+        )
     elif args.command == "info":
         print_info(db_path=args.db_path, include_all=args.include_all)
     elif args.command == "all":
@@ -522,7 +567,19 @@ def main(argv: list[str] | None = None) -> int:
             limit=args.limit,
             with_results_only=not args.include_all,
         )
-        backfill_todo(db_path=args.db_path, limit=args.limit or 5000, seed=args.seed, top=args.top)
+        repair_venues(
+            dry_run=args.dry_run,
+            limit=args.limit,
+            with_results_only=not args.include_all,
+            include_known_wrong=False,
+        )
+        backfill_todo(
+            db_path=args.db_path,
+            limit=args.limit or 5000,
+            seed=args.seed,
+            top=args.top,
+            force=args.force,
+        )
     return 0
 
 
