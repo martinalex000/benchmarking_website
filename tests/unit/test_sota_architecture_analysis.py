@@ -14,7 +14,7 @@ from backend.sota_architecture_analysis import (
     monthly_cutoffs,
     square_root_weight,
 )
-from scripts.analyze_sota_architecture import PLOT_CATEGORY_MAP, _postprocess_output
+from experiments.analysis.analyze_sota_architecture import PLOT_CATEGORY_MAP, _postprocess_output
 
 
 def row(

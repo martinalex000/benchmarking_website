@@ -40,17 +40,19 @@ papers/*
 papers/.*
 !papers/.gitkeep
 
-# ── Local model-comparison experiments ───────────────────────────────────────
-experiments/*
-!experiments/extraction/
-!experiments/extraction/validate_extraction.py
-!experiments/mlp_baseline_comparison/
-experiments/mlp_baseline_comparison/*
-!experiments/mlp_baseline_comparison/compare_mlp_baseline.py
-!experiments/datasets_over_time/
-experiments/datasets_over_time/*
-!experiments/datasets_over_time/datasets_over_time.py
-!experiments/datasets_over_time/datasets_over_time_helpers.py
+# ── Experiment sources are tracked; generated outputs stay local ─────────────
+experiments/**/*.csv
+experiments/**/*.json
+experiments/**/*.log
+experiments/**/*.md
+experiments/**/*.pdf
+experiments/**/*.png
+experiments/**/*.svg
+experiments/**/*.tex
+experiments/**/*.txt
+experiments/**/*.yaml
+experiments/**/*.yml
+experiments/**/logs/
 
 # ── Dataset statistics workspace (derived from paper extraction) ─────────────
 datasets/*
