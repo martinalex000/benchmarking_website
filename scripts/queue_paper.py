@@ -5,7 +5,7 @@ Examples::
 
     uv run python scripts/queue_paper.py 2206.08164
     uv run python scripts/queue_paper.py 2206.08164 2406.08993 --important
-    uv run python scripts/queue_paper.py --file config/priority_papers.txt --important
+    uv run python scripts/queue_paper.py --file config/priority_papers.txt --important --yes
     uv run python scripts/queue_paper.py export
 """
 
@@ -96,6 +96,18 @@ def _paper_rows() -> list[tuple[str, str]]:
         ]
 
 
+def paper_titles(arxiv_ids: Sequence[str]) -> dict[str, str]:
+    """Return known database titles for the papers being queued."""
+    if not arxiv_ids:
+        return {}
+    init_db()
+    with session_scope() as session:
+        rows = (
+            session.query(Paper.arxiv_id, Paper.title).filter(Paper.arxiv_id.in_(arxiv_ids)).all()
+        )
+    return {arxiv_id: title or "" for arxiv_id, title in rows if arxiv_id}
+
+
 def _important_rows() -> list[tuple[str, str]]:
     init_db()
     with session_scope() as session:
@@ -120,7 +132,7 @@ def export_queue_file(output: Path) -> int:
         "# This file does not alter config/seed_data.yaml.",
         "#",
         "# Queue these papers with:",
-        "#   uv run python scripts/queue_paper.py --file " f"{output} --important",
+        f"#   uv run python scripts/queue_paper.py --file {output} --important --yes",
         "",
         "# --- papers table (benchmarks.db) ---",
     ]
@@ -146,7 +158,7 @@ def export_queue_file(output: Path) -> int:
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         description="Add arXiv papers to the shared processing queue.",
-        epilog=("Use 'export' to write the current database queues to " f"{_DEFAULT_LIST}."),
+        epilog=(f"Use 'export' to write the current database queues to {_DEFAULT_LIST}."),
     )
     parser.add_argument("arxiv_ids", nargs="*", metavar="ARXIV_ID")
     parser.add_argument(
@@ -164,6 +176,11 @@ def build_parser() -> argparse.ArgumentParser:
         "--dry-run",
         action="store_true",
         help="Validate and show papers without changing the queue",
+    )
+    parser.add_argument(
+        "--yes",
+        action="store_true",
+        help="Confirm queue changes supplied through --file or multiple IDs",
     )
     return parser
 
@@ -198,17 +215,25 @@ def main(argv: Sequence[str] | None = None) -> int:
     except (OSError, ValueError) as exc:
         parser.error(str(exc))
 
+    bulk_change = args.file is not None or len(arxiv_ids) > 1
+    if bulk_change and not args.dry_run and not args.yes:
+        parser.error("bulk queue changes require --yes (or use --dry-run first)")
+
+    titles = paper_titles(arxiv_ids)
     if args.dry_run:
         label = "important" if args.important else "normal priority"
         console.print(f"[bold]Would queue {len(arxiv_ids)} paper(s) ({label}):[/bold]")
         for arxiv_id in arxiv_ids:
-            console.print(f"  {arxiv_id}")
+            title = titles.get(arxiv_id)
+            suffix = f"  {title}" if title else ""
+            console.print(f"  {arxiv_id}{suffix}")
         return 0
 
     counts = {"added": 0, "updated": 0, "unchanged": 0}
     for arxiv_id in arxiv_ids:
         _changed, message = add_todo_paper(
             arxiv_id,
+            title=titles.get(arxiv_id) or None,
             added_by="queue_paper.py",
             is_manually_important=args.important,
         )

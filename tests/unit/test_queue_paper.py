@@ -31,12 +31,17 @@ def test_default_adds_normal_priority_paper(monkeypatch):
         return True, f"Added {arxiv_id} to todo queue"
 
     monkeypatch.setattr(queue_paper, "add_todo_paper", fake_add)
+    monkeypatch.setattr(queue_paper, "paper_titles", lambda _ids: {"2206.08164": "Paper title"})
 
     assert queue_paper.main(["2206.08164"]) == 0
     assert calls == [
         (
             "2206.08164",
-            {"added_by": "queue_paper.py", "is_manually_important": False},
+            {
+                "title": "Paper title",
+                "added_by": "queue_paper.py",
+                "is_manually_important": False,
+            },
         )
     ]
 
@@ -49,12 +54,14 @@ def test_important_flag_marks_paper_important(monkeypatch):
         return True, f"Added {arxiv_id} to todo queue (manually important)"
 
     monkeypatch.setattr(queue_paper, "add_todo_paper", fake_add)
+    monkeypatch.setattr(queue_paper, "paper_titles", lambda _ids: {})
 
     assert queue_paper.main(["2206.08164", "--important"]) == 0
     assert calls[0][1]["is_manually_important"] is True
 
 
 def test_dry_run_does_not_touch_queue(monkeypatch):
+    monkeypatch.setattr(queue_paper, "paper_titles", lambda _ids: {})
     monkeypatch.setattr(
         queue_paper,
         "add_todo_paper",
@@ -62,6 +69,37 @@ def test_dry_run_does_not_touch_queue(monkeypatch):
     )
 
     assert queue_paper.main(["2206.08164", "--dry-run"]) == 0
+
+
+def test_bulk_changes_require_confirmation(monkeypatch):
+    monkeypatch.setattr(queue_paper, "paper_titles", lambda _ids: {})
+    monkeypatch.setattr(
+        queue_paper,
+        "add_todo_paper",
+        lambda *_args, **_kwargs: pytest.fail("queue should not be changed"),
+    )
+
+    with pytest.raises(SystemExit):
+        queue_paper.main(["2206.08164", "2406.08993"])
+
+
+def test_confirmed_bulk_changes_pass_titles(monkeypatch):
+    calls = []
+
+    def fake_add(arxiv_id, **kwargs):
+        calls.append((arxiv_id, kwargs))
+        return True, f"Added {arxiv_id} to todo queue"
+
+    monkeypatch.setattr(queue_paper, "add_todo_paper", fake_add)
+    monkeypatch.setattr(
+        queue_paper,
+        "paper_titles",
+        lambda _ids: {"2206.08164": "Paper one", "2406.08993": "Paper two"},
+    )
+
+    assert queue_paper.main(["2206.08164", "2406.08993", "--yes"]) == 0
+    assert calls[0][1]["title"] == "Paper one"
+    assert calls[1][1]["title"] == "Paper two"
 
 
 def test_export_queue_file_writes_papers_and_important_rows(tmp_path, monkeypatch):
