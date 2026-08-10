@@ -24,6 +24,32 @@ def test_todo_dispatches_force_and_seed(monkeypatch):
     ]
 
 
+def test_exclusions_default_to_dry_run(monkeypatch):
+    calls = []
+    monkeypatch.setattr(
+        maintenance,
+        "clear_excluded_results",
+        lambda **kwargs: calls.append(kwargs),
+    )
+
+    assert maintenance.main(["exclusions"]) == 0
+
+    assert calls == [{"dry_run": True}]
+
+
+def test_exclusions_apply_only_with_yes(monkeypatch):
+    calls = []
+    monkeypatch.setattr(
+        maintenance,
+        "clear_excluded_results",
+        lambda **kwargs: calls.append(kwargs),
+    )
+
+    assert maintenance.main(["exclusions", "--yes"]) == 0
+
+    assert calls == [{"dry_run": False}]
+
+
 def test_all_runs_conservative_venue_repair(monkeypatch):
     events = []
     monkeypatch.setattr(

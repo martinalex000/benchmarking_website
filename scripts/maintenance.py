@@ -6,11 +6,13 @@ This script can:
 - backfill missing author metadata from LaTeX caches with S2 ORCID enrichment
 - backfill venue/date metadata from Semantic Scholar
 - repair untrusted or missing publication venues (e.g. bogus ``LOG IN`` journal matches)
+- remove stored result rows excluded by ``config/protocol_exclusions.yaml``
 
 Usage examples::
 
     uv run python scripts/maintenance.py todo
     uv run python scripts/maintenance.py repair-venues --dry-run
+    uv run python scripts/maintenance.py exclusions --dry-run
     uv run python scripts/maintenance.py all --limit 500
     uv run python scripts/maintenance.py todo --seed 2401.01234 --force
 """
@@ -24,6 +26,7 @@ import sys
 import time
 from pathlib import Path
 
+import yaml
 from sqlalchemy import or_
 from tqdm import tqdm
 
@@ -34,7 +37,7 @@ if str(_PROJECT_ROOT) not in sys.path:
 from backend.config import cfg  # noqa: E402
 from backend.db import init_db, session_scope  # noqa: E402
 from backend.llm_metadata import _extract_metadata_from_latex_cache  # noqa: E402
-from backend.models import Paper, Result  # noqa: E402
+from backend.models import Dataset, DatasetVariant, Paper, Result  # noqa: E402
 from backend.paper_storage import PaperStorage  # noqa: E402
 from backend.s2_todo_crawl import (  # noqa: E402
     S2Client,
@@ -61,6 +64,100 @@ from backend.venue import (  # noqa: E402
 )
 
 _PROCESSED_STATUSES = {"extracted", "quarantined_yaml_parse", "quarantined_method_name"}
+
+
+def _load_protocol_exclusion_rules() -> tuple[
+    dict[str, str], dict[str, set[str]], dict[str, set[str]], dict[str, dict[str, dict]]
+]:
+    path = cfg.config_dir / "protocol_exclusions.yaml"
+    payload = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+    exclude_all = {
+        str(arxiv_id): str(reason)
+        for arxiv_id, reason in (payload.get("exclude_all_results") or {}).items()
+    }
+    allowed_tasks = {
+        str(arxiv_id): {str(task) for task in tasks}
+        for arxiv_id, tasks in (payload.get("allowed_dataset_tasks") or {}).items()
+    }
+    excluded_datasets = {
+        str(arxiv_id): {str(dataset).strip().casefold() for dataset in datasets}
+        for arxiv_id, datasets in (payload.get("exclude_datasets") or {}).items()
+    }
+    exclude_results = {
+        str(arxiv_id): {
+            str(dataset).strip().casefold(): rule
+            for dataset, rule in (rules or {}).items()
+            if isinstance(rule, dict)
+        }
+        for arxiv_id, rules in (payload.get("exclude_results") or {}).items()
+    }
+    return exclude_all, allowed_tasks, excluded_datasets, exclude_results
+
+
+def _matching_excluded_results() -> list[tuple[int, str, str, str]]:
+    """Return stored result rows that no longer satisfy protocol curation rules."""
+    exclude_all, allowed_tasks, excluded_datasets, exclude_results = (
+        _load_protocol_exclusion_rules()
+    )
+    with session_scope() as session:
+        rows = (
+            session.query(Result)
+            .join(Paper, Result.paper_id == Paper.id)
+            .join(DatasetVariant, Result.dataset_variant_id == DatasetVariant.id)
+            .join(Dataset, DatasetVariant.dataset_id == Dataset.id)
+            .all()
+        )
+        return [
+            (
+                row.id,
+                row.paper.arxiv_id,
+                row.dataset_variant.dataset.name,
+                row.metric_name,
+            )
+            for row in rows
+            if row.paper.arxiv_id in exclude_all
+            or row.dataset_variant.dataset.name.strip().casefold()
+            in excluded_datasets.get(row.paper.arxiv_id, set())
+            or (
+                row.paper.arxiv_id in allowed_tasks
+                and row.dataset_variant.dataset.task_type not in allowed_tasks[row.paper.arxiv_id]
+            )
+            or _matches_excluded_result_rule(row, exclude_results)
+        ]
+
+
+def _matches_excluded_result_rule(row: Result, exclude_results: dict[str, dict[str, dict]]) -> bool:
+    dataset_rules = exclude_results.get(row.paper.arxiv_id, {}).get(
+        row.dataset_variant.dataset.name.strip().casefold()
+    )
+    if not dataset_rules:
+        return False
+    model_names = {str(name).strip().casefold() for name in (dataset_rules.get("models") or [])}
+    metric_names = {str(name).strip().casefold() for name in (dataset_rules.get("metrics") or [])}
+    return (bool(model_names) and row.model.name.strip().casefold() in model_names) or (
+        bool(metric_names) and row.metric_name.strip().casefold() in metric_names
+    )
+
+
+def clear_excluded_results(*, dry_run: bool) -> int:
+    """Remove stored result rows that violate the current protocol exclusions."""
+    init_db()
+    rows = _matching_excluded_results()
+    if dry_run:
+        for result_id, arxiv_id, dataset, metric in rows:
+            print(
+                f"would delete result={result_id} paper={arxiv_id} "
+                f"dataset={dataset} metric={metric}"
+            )
+        print(f"Would delete {len(rows)} result row(s).")
+        return len(rows)
+
+    ids = [result_id for result_id, _arxiv_id, _dataset, _metric in rows]
+    if ids:
+        with session_scope() as session:
+            session.query(Result).filter(Result.id.in_(ids)).delete(synchronize_session=False)
+    print(f"Deleted {len(ids)} protocol-mismatched result row(s).")
+    return len(ids)
 
 
 def _latex_dir_for(arxiv_id: str) -> Path:
@@ -497,6 +594,21 @@ def main(argv: list[str] | None = None) -> int:
     )
     p_repair_venues.add_argument("--dry-run", action="store_true", help="Do not write DB changes")
 
+    p_exclusions = subparsers.add_parser(
+        "exclusions",
+        help="Remove stored result rows excluded by protocol_exclusions.yaml",
+    )
+    p_exclusions.add_argument(
+        "--yes",
+        action="store_true",
+        help="Apply deletions; without this flag the command is a dry run",
+    )
+    p_exclusions.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="Show deletions without applying them",
+    )
+
     p_todo = subparsers.add_parser("todo", help="Seed and maintain todo_papers")
     p_todo.add_argument("--seed", "-s", action="append", default=None, help="Seed arXiv ID")
     p_todo.add_argument("--limit", "-n", type=int, default=5000, help="Max citations/references")
@@ -545,6 +657,8 @@ def main(argv: list[str] | None = None) -> int:
             with_results_only=not args.include_all,
             include_known_wrong=args.include_known_wrong,
         )
+    elif args.command == "exclusions":
+        clear_excluded_results(dry_run=args.dry_run or not args.yes)
     elif args.command == "todo":
         backfill_todo(
             db_path=args.db_path,
