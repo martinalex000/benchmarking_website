@@ -7,14 +7,14 @@ import backend.db as db_module
 import backend.results_parser as results_parser_module
 
 
-def _load_run_manual():
+def _load_paper_processor():
     sys.modules.setdefault("defusedxml", types.ModuleType("defusedxml"))
     sys.modules.setdefault("defusedxml.ElementTree", types.ModuleType("defusedxml.ElementTree"))
     return importlib.import_module("backend.paper_processor")
 
 
 def test_print_parse_summary_reports_existing_updates(capsys):
-    run_manual = _load_run_manual()
+    paper_processor = _load_paper_processor()
     summary = SimpleNamespace(
         quarantined=False,
         new_results=0,
@@ -25,7 +25,7 @@ def test_print_parse_summary_reports_existing_updates(capsys):
         quarantine_reasons=[],
     )
 
-    run_manual._print_parse_summary(summary)
+    paper_processor._print_parse_summary(summary)
 
     captured = capsys.readouterr().out
     assert "0" in captured
@@ -34,7 +34,7 @@ def test_print_parse_summary_reports_existing_updates(capsys):
 
 
 def test_excluded_paper_drops_pending_unknown_datasets(monkeypatch, tmp_path):
-    run_manual = _load_run_manual()
+    paper_processor = _load_paper_processor()
     from backend.config import cfg
     from backend.db import init_db, session_scope
     from backend.models import PendingDataset
@@ -48,14 +48,14 @@ def test_excluded_paper_drops_pending_unknown_datasets(monkeypatch, tmp_path):
     with session_scope() as session:
         session.add(PendingDataset(arxiv_id="2402.08824", dataset_name="BlogCatalog"))
 
-    assert run_manual._collect_unknown_datasets("2402.08824") == 0
+    assert paper_processor._collect_unknown_datasets("2402.08824") == 0
 
     with session_scope() as session:
         assert session.query(PendingDataset).filter_by(arxiv_id="2402.08824").count() == 0
 
 
 def test_should_run_pre_screen_skips_when_force_or_existing(monkeypatch, tmp_path):
-    run_manual = _load_run_manual()
+    paper_processor = _load_paper_processor()
     from backend.config import cfg
 
     paper_root = tmp_path / "papers" / "2402.08170"
@@ -64,7 +64,7 @@ def test_should_run_pre_screen_skips_when_force_or_existing(monkeypatch, tmp_pat
     monkeypatch.setattr(cfg, "papers_dir", tmp_path / "papers")
 
     assert (
-        run_manual._should_run_pre_screen(
+        paper_processor._should_run_pre_screen(
             "2402.08170",
             skip_screen=False,
             force_extract=True,
@@ -72,7 +72,7 @@ def test_should_run_pre_screen_skips_when_force_or_existing(monkeypatch, tmp_pat
         is False
     )
     assert (
-        run_manual._should_run_pre_screen(
+        paper_processor._should_run_pre_screen(
             "2402.08170",
             skip_screen=True,
             force_extract=False,
@@ -83,7 +83,7 @@ def test_should_run_pre_screen_skips_when_force_or_existing(monkeypatch, tmp_pat
     llm_out = extracted / "llm_output.yaml"
     llm_out.write_text("results: {}\n", encoding="utf-8")
     assert (
-        run_manual._should_run_pre_screen(
+        paper_processor._should_run_pre_screen(
             "2402.08170",
             skip_screen=False,
             force_extract=False,
@@ -93,7 +93,7 @@ def test_should_run_pre_screen_skips_when_force_or_existing(monkeypatch, tmp_pat
 
     llm_out.unlink()
     assert (
-        run_manual._should_run_pre_screen(
+        paper_processor._should_run_pre_screen(
             "2402.08170",
             skip_screen=False,
             force_extract=False,
@@ -103,9 +103,9 @@ def test_should_run_pre_screen_skips_when_force_or_existing(monkeypatch, tmp_pat
 
 
 def test_resolve_published_date_prefers_semantic_scholar(monkeypatch):
-    run_manual = _load_run_manual()
+    paper_processor = _load_paper_processor()
     monkeypatch.setattr(
-        run_manual,
+        paper_processor,
         "_fetch_semantic_scholar_metadata",
         lambda arxiv_id: {"published_date": "2024-03-15"},
     )
@@ -114,51 +114,51 @@ def test_resolve_published_date_prefers_semantic_scholar(monkeypatch):
         lambda arxiv_id: {"published_date": "2023-01-01"},
     )
 
-    assert run_manual._resolve_published_date("2403.00001") == "2024-03-15"
+    assert paper_processor._resolve_published_date("2403.00001") == "2024-03-15"
 
 
 def test_resolve_published_date_falls_back_to_arxiv_then_id(monkeypatch):
-    run_manual = _load_run_manual()
+    paper_processor = _load_paper_processor()
     from backend.config import cfg
 
     monkeypatch.setattr(cfg, "semantic_scholar_api_key", "")
-    monkeypatch.setattr(run_manual, "_fetch_semantic_scholar_metadata", lambda arxiv_id: {})
+    monkeypatch.setattr(paper_processor, "_fetch_semantic_scholar_metadata", lambda arxiv_id: {})
     monkeypatch.setattr(
         "backend.llm_extractor.fetch_arxiv_metadata",
         lambda arxiv_id: {"published_date": "2023-01-01"},
     )
 
-    assert run_manual._resolve_published_date("2403.00001") == "2023-01-01"
+    assert paper_processor._resolve_published_date("2403.00001") == "2023-01-01"
 
 
 def test_resolve_published_date_skips_arxiv_when_semantic_scholar_key_set(monkeypatch):
-    run_manual = _load_run_manual()
+    paper_processor = _load_paper_processor()
     from backend.config import cfg
 
     monkeypatch.setattr(cfg, "semantic_scholar_api_key", "test-key")
-    monkeypatch.setattr(run_manual, "_fetch_semantic_scholar_metadata", lambda arxiv_id: {})
+    monkeypatch.setattr(paper_processor, "_fetch_semantic_scholar_metadata", lambda arxiv_id: {})
 
     def _should_not_call(_arxiv_id: str) -> dict:
         raise AssertionError("fetch_arxiv_metadata should not be called when S2 key is set")
 
     monkeypatch.setattr("backend.llm_extractor.fetch_arxiv_metadata", _should_not_call)
 
-    assert run_manual._resolve_published_date("2403.00001") == "2024-03"
+    assert paper_processor._resolve_published_date("2403.00001") == "2024-03"
 
 
 def test_resolve_published_date_falls_back_to_arxiv_id(monkeypatch):
-    run_manual = _load_run_manual()
+    paper_processor = _load_paper_processor()
     from backend.config import cfg
 
     monkeypatch.setattr(cfg, "semantic_scholar_api_key", "")
-    monkeypatch.setattr(run_manual, "_fetch_semantic_scholar_metadata", lambda arxiv_id: {})
+    monkeypatch.setattr(paper_processor, "_fetch_semantic_scholar_metadata", lambda arxiv_id: {})
     monkeypatch.setattr("backend.llm_extractor.fetch_arxiv_metadata", lambda arxiv_id: {})
 
-    assert run_manual._resolve_published_date("2403.00001") == "2024-03"
+    assert paper_processor._resolve_published_date("2403.00001") == "2024-03"
 
 
 def test_print_llm_backend_status_reports_unreachable_local(monkeypatch, capsys):
-    run_manual = _load_run_manual()
+    paper_processor = _load_paper_processor()
     from backend.config import cfg
     from backend.llm_backends import BackendProbe, LlmBackend, ModelRoute
 
@@ -170,12 +170,12 @@ def test_print_llm_backend_status_reports_unreachable_local(monkeypatch, capsys)
     local = LlmBackend(label="local", endpoint="http://127.0.0.1:8000/v1", api_key="local")
     external = LlmBackend(label="external", endpoint="https://example.com/v1", api_key="external")
     monkeypatch.setattr(
-        run_manual,
+        paper_processor,
         "configured_backends",
         lambda: [local, external],
     )
     monkeypatch.setattr(
-        run_manual,
+        paper_processor,
         "probe_backends",
         lambda backends: [
             BackendProbe(local, False, error="connection refused"),
@@ -183,14 +183,14 @@ def test_print_llm_backend_status_reports_unreachable_local(monkeypatch, capsys)
         ],
     )
     monkeypatch.setattr(
-        run_manual,
+        paper_processor,
         "fetch_model_routes",
         lambda backends: {
             "small-model": ModelRoute("small-model", external),
         },
     )
 
-    run_manual._print_llm_backend_status(extraction_tier="primary", do_screen=True)
+    paper_processor._print_llm_backend_status(extraction_tier="primary", do_screen=True)
 
     captured = capsys.readouterr().out
     assert "Local vLLM: not reachable" in captured

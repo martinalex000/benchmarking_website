@@ -1,4 +1,4 @@
-"""Regenerate local paper and site figure assets from database paper context.
+"""Regenerate local paper screenshots and site assets from database context.
 
 This script does not run full LLM extraction. It uses the database to select
 papers, downloads the corresponding arXiv assets when needed, then recreates the

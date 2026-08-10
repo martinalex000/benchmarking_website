@@ -2,9 +2,9 @@
 """Measure the share of Semantic Scholar conference papers with an arXiv ID.
 
 Examples:
-    uv run python scripts/measure_ss_arxiv_share.py
-    uv run python scripts/measure_ss_arxiv_share.py --venue NeurIPS --years 2023-2025
-    uv run python scripts/measure_ss_arxiv_share.py --venue NeurIPS --venue ICML --year 2025
+    uv run python experiments/measure_ss_arxiv_share.py
+    uv run python experiments/measure_ss_arxiv_share.py --venue NeurIPS --years 2023-2025
+    uv run python experiments/measure_ss_arxiv_share.py --venue NeurIPS --venue ICML --year 2025
 
 The experiment is read-only and uses only Semantic Scholar metadata. It does not access the local
 database, paper workspace, arXiv, or OpenReview.
@@ -24,7 +24,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-_PROJECT_ROOT = Path(__file__).resolve().parent.parent
+_PROJECT_ROOT = Path(__file__).resolve().parents[1]
 if str(_PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(_PROJECT_ROOT))
 
