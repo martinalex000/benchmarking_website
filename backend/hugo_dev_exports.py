@@ -194,79 +194,6 @@ def create_dev_pages(
         return _run(scoped)
 
 
-def _write_problematic_latex_papers_page(hugo: Any, content_dev: Any) -> None:
-    """Render Development → Problematic Papers from scan JSON."""
-    json_path = hugo._DATA_DIR / "problematic_latex_papers.json"
-    payload: dict[str, Any] = {}
-    if json_path.is_file():
-        try:
-            payload = json.loads(json_path.read_text(encoding="utf-8"))
-        except (OSError, json.JSONDecodeError) as exc:
-            logger.warning("Could not read %s: %s", json_path, exc)
-
-    papers = payload.get("papers") or []
-    scanned_at = payload.get("scanned_at") or "—"
-    lines = [
-        "## Problematic Papers (LaTeX table coverage)",
-        "",
-        "Papers whose LaTeX source may have benchmark tables that were invisible to "
-        "the extractor: `wraptable`, `sidewaystable`, or tabular rows with multiple "
-        "`&` separators outside parsed table environments.",
-        "",
-        "Regenerate this list on the server with:",
-        "",
-        "```bash",
-        "uv run python scripts/scan_latex_table_issues.py --write-list --export-json",
-        "uv run python -m backend.export_to_hugo",
-        "```",
-        "",
-        "Re-extraction runbook: `config/latex_table_reextract_server.txt` in the repo.",
-        "",
-        f"**Last scan:** {scanned_at}",
-        f"**Flagged papers:** {len(papers)}",
-        "",
-    ]
-
-    if not papers:
-        lines.extend(
-            [
-                "No scan data yet. Run the scan script above on a machine that has "
-                "`papers/<id>/latex/expanded.tex` downloads, then re-export.",
-                "",
-            ]
-        )
-    else:
-        lines.append("| ArXiv | Title | Issues | Explanation | Sample unparsed line |")
-        lines.append("|-------|-------|--------|-------------|----------------------|")
-        for entry in papers:
-            arxiv_id = entry.get("arxiv_id") or "—"
-            title = hugo._truncate_words(entry.get("title") or "—", 10)
-            issues = entry.get("issues") or []
-            kinds = ", ".join(sorted({str(item.get("kind") or "") for item in issues if item}))
-            details = " ".join(
-                hugo._truncate_words(str(item.get("detail") or ""), 18) for item in issues[:2]
-            )
-            sample = "—"
-            for item in issues:
-                samples = item.get("sample_lines") or []
-                if samples:
-                    sample = hugo._truncate_words(str(samples[0]), 12)
-                    break
-            paper_link = hugo._paper_site_link(arxiv_id, title) if arxiv_id != "—" else title
-            lines.append(f"| {paper_link} | {title} | {kinds} | {details} | {sample} |")
-        lines.append("")
-
-    hugo._write_md(
-        content_dev / "problematic-papers.md",
-        {
-            "title": "Problematic Papers",
-            "type": "dev",
-            "description": "LaTeX table-parser blind spots requiring re-extraction",
-        },
-        "\n".join(lines),
-    )
-
-
 def create_conferences_page(*, session: Session | None = None) -> int:
     """Generate the public conferences overview section."""
     from backend import export_to_hugo as hugo
@@ -605,12 +532,6 @@ def _create_dev_pages_impl(
         )
     except Exception:
         logger.exception("Failed to create extraction-anomalies dev page")
-
-    try:
-        with _dev_export_step("dev page: problematic-papers"):
-            _write_problematic_latex_papers_page(hugo, content_dev)
-    except Exception:
-        logger.exception("Failed to create problematic-papers dev page")
 
     try:
         with _dev_export_step("dev page: page-of-shame"):
