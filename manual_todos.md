@@ -80,9 +80,11 @@ Wisonsin und co nochmal genauer angucken, da wurden ganz viele GCN methoden nich
 
 ## Script cleanup backlog
 
-- consolidate `scripts/find_todo_papers.py` and `scripts/process_todo_list.py` if both remain in use; right now the first is a manual queue manager while the second is the priority-queue batch runner
-- decide whether `scripts/test_model_ping.py` should stay as a committed diagnostic utility or move into docs-only troubleshooting notes once the endpoint/model situation stabilizes
-- review whether `scripts/run_pipeline.sh` should absorb the off-peak-hours scheduling logic directly, or whether that belongs in external cron/systemd config instead of the repo
+- keep the queue workflow centered on `scripts/queue_paper.py` and
+  `scripts/process_papers.py`; avoid adding another queue-specific wrapper
+- keep endpoint diagnostics in `scripts/test_llms.py`
+- keep off-peak scheduling in external cron/systemd configuration; invoke
+  `uv run python -m backend.pipeline run-all` from there when needed
 
 at some point in the future: add generation benchmarks/metrics etc. But this feels more like a paper than a normal benchmarking overview since everything is extremely scattered.
 
@@ -138,4 +140,3 @@ at some point in the future: add generation benchmarks/metrics etc. But this fee
 │ google/gemma-4-31B-it             │      1 │      327 │  314 │      0 │     13 │       35 │    96% │       90% │     10% │ 4459s │
 │ alias-huge-no-thinking            │      1 │      327 │  289 │      0 │     38 │      124 │    88% │       70% │     30% │ 2369s │
 │ alias-huge-no-thinking            │      1 │      327 │   70 │      0 │    257 │       10 │    21% │       88% │     12% │ 7521s │ - wtf...
-

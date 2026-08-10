@@ -1,6 +1,6 @@
 # Papers from the dataset SOTA concentration source audit.
 # Source: experiments/dataset_sota_concentration_audit.md
-# Mark with: uv run python scripts/mark_reextract_papers.py mark-list --file config/re_evaluate_sota_drivers.txt --yes --requeue --reason dataset_sota_concentration_audit
+# Mark with: uv run python scripts/queue_paper.py --file config/re_evaluate_sota_drivers.txt --important --yes
 # Generated at: 2026-07-26T19:44:07.572772+00:00
 
 1605.05273

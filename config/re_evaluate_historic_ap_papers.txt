@@ -3,8 +3,8 @@
 # Datasets: Peptides-func (LRGB), ogbg-molpcba (OGB).
 # Historical coverage: 105 papers, 1,038 result rows (739 Peptides-func + 299 ogbg-molpcba).
 # Mark with:
-#   UV_CACHE_DIR=/tmp/benchmarking-uv-cache uv run python scripts/mark_reextract_papers.py mark-list \
-#     --file config/re_evaluate_historic_ap_papers.txt --yes --requeue
+#   UV_CACHE_DIR=/tmp/benchmarking-uv-cache uv run python scripts/queue_paper.py \
+#     --file config/re_evaluate_historic_ap_papers.txt --important --yes
 
 2005.00687
 2010.08853

@@ -78,7 +78,7 @@ datasets + papers).
 
 Timing summary is printed via tqdm after each phase.
 
-**Deploy:** `scripts/deploy.sh` runs `uv run python -m backend.export_to_hugo` before `hugo` unless you pass `--skip-export`. Generated paths `site/content/dev/`, `site/content/papers/`, etc. are gitignored — deploy without export yields no dev pages.
+**Deploy:** `scripts/deploy.py` runs `uv run python -m backend.export_to_hugo` before `hugo` unless you pass `--skip-export`. Generated paths `site/content/dev/`, `site/content/papers/`, etc. are gitignored — deploy without export yields no dev pages.
 
 ## Line profiler: dataset export (bottlenecks)
 
@@ -131,8 +131,8 @@ uv sync --group dev
 # Full export (batched session + timing summary)
 uv run python -m backend.export_to_hugo
 
-# Backfill params (tqdm)
-uv run python scripts/backfill_result_params.py
+# Parameter backfill is handled by the parser through
+# `backend.result_params_backfill`.
 
 # Wall-clock (production order, all 140 datasets then paper sample)
 uv run python scripts/profile_export.py --papers 100 --seed 42 --skip-dev \

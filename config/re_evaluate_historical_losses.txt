@@ -5,7 +5,7 @@
 # Cohort: 1687 papers (1183 with zero current rows)
 # Generated at: 2026-07-22T14:58:53.447641+00:00
 # Mark with:
-#   UV_CACHE_DIR=/tmp/benchmarking-uv-cache uv run python scripts/mark_reextract_papers.py mark-list --file config/re_evaluate_historical_losses.txt --yes --requeue --reason historical_result_loss
+#   UV_CACHE_DIR=/tmp/benchmarking-uv-cache uv run python scripts/queue_paper.py --file config/re_evaluate_historical_losses.txt --important --yes
 
 1410.3314
 1603.05629

@@ -12,7 +12,7 @@
 # Values (right side) — canonical dataset names that the pipeline understands.
 #
 # Additions are safe: unknown aliases are simply left untouched.
-# Re-run ``scripts/run_manual.py`` or ``uv run python -m backend.results_parser <id>``
+# Re-run ``scripts/process_papers.py`` or ``uv run python -m backend.results_parser <id>``
 # after editing this file to test the effect on a specific paper.
 aliases:
   # Common Amazon datasets

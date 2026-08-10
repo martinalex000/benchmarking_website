@@ -101,7 +101,7 @@ CLI: `python -m backend.arxiv_scanner --days 7`
 ## Phase 5: Paper Acquisition & Storage [🟢 NOW]
 
 - `backend/paper_storage.py` — manages `papers/{arxiv_id}/` folder; auto-creates
-  `metadata.json` and `overrides.yaml` template (both tracked in git, never overwritten)
+  `metadata.json`; an `overrides.yaml` is created only when a paper needs a manual correction
 - `backend/arxiv_downloader.py` — HTML preferred + PDF always downloaded (TikZ extraction);
   records `arxiv_version`
 - `backend/alternative_downloader.py` — OpenReview/ACM/IEEE fallback
@@ -151,7 +151,7 @@ Model: openai-gpt-oss120b | Date: 2026-05-07 | Confidence: HIGH
 
 ## Phase 8: Override & Correction System [🟢 NOW]
 
-`papers/{arxiv_id}/overrides.yaml` — auto-created template, **never overwritten by pipeline**:
+`papers/{arxiv_id}/overrides.yaml` — optional manual corrections, **never overwritten by pipeline**:
 ```yaml
 problematic_results:
   - model: GraphGPS
@@ -229,10 +229,10 @@ max 3 retries with exponential backoff
 
 ## Phase 12: Automation Scripts [🟢 NOW]
 
-- `scripts/run_pipeline.sh` — cron-safe wrapper; loads `.env`; incremental `run-all`
-- `scripts/run_manual.py` — interactive `rich` menu
-- `scripts/deploy.sh` — `hugo -s site/`, rsync to server, pre-deploy `htmltest` validation
-- Cron: `0 3 * * 0 /path/scripts/run_pipeline.sh >> /path/logs/cron.log 2>&1`
+- `python -m backend.pipeline run-all` — canonical batch pipeline entry point
+- `scripts/process_papers.py` — direct paper processing and the live queue dashboard
+- `scripts/deploy.py` — Hugo export/build and deployment entry point
+- Cron should invoke `uv run python -m backend.pipeline run-all` from the repository root.
 
 ---
 
