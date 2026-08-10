@@ -2,7 +2,7 @@
 
 Each paper lives under  papers/{arxiv_id}/
   ├── metadata.json          ← tracked in git; written once, never overwritten
-  ├── overrides.yaml         ← tracked in git; human corrections; NEVER overwritten
+  ├── overrides.yaml         ← optional; tracked in git when human corrections exist
   ├── paper.pdf              ← gitignored (reproducible download)
   ├── html/                  ← gitignored (reproducible download)
   │   └── index.html (+ linked assets)
@@ -41,59 +41,6 @@ def load_yaml_dict(path: Path) -> dict | None:
     except Exception as exc:
         logger.warning("Failed to load %s: %s", path, exc)
         return None
-
-
-OVERRIDES_TEMPLATE = """\
-# overrides.yaml — edit this file to correct extraction errors.
-# This file is NEVER overwritten by the pipeline.
-# Re-run `python -m backend.reapply_overrides --paper {arxiv_id}` after editing.
-
-paper_arxiv_id: "{arxiv_id}"
-
-# Mark results as problematic (shown in grey on the leaderboard).
-# problematic_results:
-#   - model: "GraphGPS"
-#     dataset: "Peptides-func"
-#     metric: "AP"
-#     reason: "Uses non-standard evaluation protocol"
-
-# Override extracted values with correct ones.
-# result_overrides:
-#   - model: "GraphGPS"
-#     dataset: "Peptides-func"
-#     metric: "AP"
-#     correct_metric: "Average Precision"
-#     correct_value: 0.6534
-#     correct_std: 0.0042
-#     reason: "LLM read wrong table row — see Table 3 in paper"
-
-# Fix metadata (codebase URL, etc.).
-# metadata_overrides:
-#   codebase_url: "https://github.com/example/repo"
-
-# Correct model metadata. Add `dataset` when the paper uses different model
-# sizes for the same model name on different benchmarks.
-# model_metadata_overrides:
-#   - model: "GatedGCN-VN"
-#     dataset: "ogbg-molpcba"
-#     params_millions: 57.0
-#     reason: "See the dataset-specific configuration table in the paper"
-
-# Rename a model for all datasets in this paper, or only selected datasets.
-# model_renames:
-#   "MLP": "MLP+C&S"
-# model_rename_overrides:
-#   - model: "MLP"
-#     dataset: "ogbn-products"
-#     renamed_model: "MLP+C&S"
-#     reason: "The reported row includes Correct & Smooth post-processing"
-
-# Notes about non-standard splits used in this paper.
-# dataset_split_notes:
-#   - dataset: "Cora"
-#     is_standard_split: false
-#     note: "Uses random 10-fold split, not the Planetoid public split"
-"""
 
 
 class PaperStorage:
@@ -170,7 +117,7 @@ class PaperStorage:
             d.mkdir(parents=True, exist_ok=True)
 
     def init_paper(self, metadata: dict) -> None:
-        """Create metadata.json and overrides.yaml template on first setup.
+        """Create metadata.json on first setup.
 
         Idempotent — will not overwrite existing files.
         """
@@ -187,13 +134,6 @@ class PaperStorage:
                 json.dumps(meta, indent=2, ensure_ascii=False), encoding="utf-8"
             )
             logger.info("Created metadata.json for %s", self.arxiv_id)
-
-        # overrides.yaml — created once, NEVER overwritten
-        if not self.overrides_path.exists():
-            self.overrides_path.write_text(
-                OVERRIDES_TEMPLATE.format(arxiv_id=self.arxiv_id), encoding="utf-8"
-            )
-            logger.info("Created overrides.yaml template for %s", self.arxiv_id)
 
     def update_metadata(self, updates: dict) -> None:
         """Merge updates into metadata.json using atomic write to prevent corruption."""

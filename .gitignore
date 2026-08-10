@@ -39,6 +39,11 @@ deploy-archives/
 papers/*
 papers/.*
 !papers/.gitkeep
+# Keep human-authored per-paper corrections while ignoring PDFs, sources, and
+# other generated paper workspace files.
+!papers/*/
+papers/*/*
+!papers/*/overrides.yaml
 
 # ── Experiment sources are tracked; generated outputs stay local ─────────────
 experiments/**/*.csv

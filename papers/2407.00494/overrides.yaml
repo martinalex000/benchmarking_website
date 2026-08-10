@@ -1,0 +1,99 @@
+# overrides.yaml — edit this file to correct extraction errors.
+# This file is NEVER overwritten by the pipeline.
+# Re-run `python -m backend.reapply_overrides --paper 2407.00494` after editing.
+
+paper_arxiv_id: "2407.00494"
+
+# The benchmark tables label the proposed benchmark variant explicitly as
+# "Energy GNN (edge-wise)"; the extractor shortened it to "energy GNN".
+model_rename_overrides:
+  - model: "energy GNN"
+    dataset: "MUTAG"
+    renamed_model: "Energy GNN (edge-wise)"
+    reason: "Table 3 labels this benchmark variant Energy GNN (edge-wise)."
+  - model: "energy GNN"
+    dataset: "PROTEINS"
+    renamed_model: "Energy GNN (edge-wise)"
+    reason: "Table 3 labels this benchmark variant Energy GNN (edge-wise)."
+  - model: "energy GNN"
+    dataset: "PPI"
+    renamed_model: "Energy GNN (edge-wise)"
+    reason: "Table 4 labels this benchmark variant Energy GNN (edge-wise)."
+  - model: "energy GNN"
+    dataset: "Peptides-func"
+    renamed_model: "Energy GNN (edge-wise)"
+    reason: "Table 1 labels this benchmark variant Energy GNN (edge-wise)."
+  - model: "energy GNN"
+    dataset: "Peptides-struct"
+    renamed_model: "Energy GNN (edge-wise)"
+    reason: "Table 5 labels this benchmark variant Energy GNN (edge-wise)."
+
+problematic_results:
+  - model: "Energy GNN node-wise"
+    dataset: "Peptides-struct"
+    metric: "MAE"
+    reason: "The source's Peptides-struct table reports no node-wise Energy GNN row."
+
+result_overrides:
+  - model: "Energy GNN edge-wise"
+    dataset: "Peptides-struct"
+    metric: "MAE"
+    correct_value: 0.367
+    protocol_decision: standard
+    reason: "Correct value from the source Peptides-func/Peptides-struct results table."
+  - model: "Energy GNN + attention"
+    dataset: "Peptides-struct"
+    metric: "MAE"
+    correct_value: 0.402
+    protocol_decision: standard
+    reason: "Correct value from the source Peptides-func/Peptides-struct results table."
+  - model: "IGNN"
+    dataset: "Peptides-struct"
+    metric: "MAE"
+    correct_value: 0.426
+    protocol_decision: standard
+    reason: "Correct value from the source Peptides-func/Peptides-struct results table."
+  - model: "GSDGNN"
+    dataset: "Peptides-struct"
+    metric: "MAE"
+    correct_value: 0.375
+    protocol_decision: standard
+    reason: "Correct value from the source Peptides-func/Peptides-struct results table."
+  - model: "GCN"
+    dataset: "Peptides-struct"
+    metric: "MAE"
+    correct_value: 0.366
+    protocol_decision: standard
+    reason: "Correct value from the source Peptides-func/Peptides-struct results table."
+  - model: "GAT"
+    dataset: "Peptides-struct"
+    metric: "MAE"
+    correct_value: 0.335
+    protocol_decision: standard
+    reason: "Correct value from the source Peptides-func/Peptides-struct results table."
+
+# Mark results as problematic (shown in grey on the leaderboard).
+# problematic_results:
+#   - model: "GraphGPS"
+#     dataset: "Peptides-func"
+#     metric: "AP"
+#     reason: "Uses non-standard evaluation protocol"
+
+# Override extracted values with correct ones.
+# result_overrides:
+#   - model: "GraphGPS"
+#     dataset: "Peptides-func"
+#     metric: "AP"
+#     correct_value: 0.6534
+#     correct_std: 0.0042
+#     reason: "LLM read wrong table row — see Table 3 in paper"
+
+# Fix metadata (codebase URL, etc.).
+# metadata_overrides:
+#   codebase_url: "https://github.com/example/repo"
+
+# Notes about non-standard splits used in this paper.
+# dataset_split_notes:
+#   - dataset: "Cora"
+#     is_standard_split: false
+#     note: "Uses random 10-fold split, not the Planetoid public split"
