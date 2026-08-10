@@ -1435,10 +1435,16 @@ def main() -> None:
         action="store_true",
         help="Upload increment only (default).",
     )
-    parser.add_argument(
+    targets = parser.add_mutually_exclusive_group()
+    targets.add_argument(
         "--github-pages",
         action="store_true",
         help="Build and push the site to a separate GitHub Pages checkout.",
+    )
+    targets.add_argument(
+        "--both",
+        action="store_true",
+        help="Deploy to both the configured server and GitHub Pages.",
     )
     parser.add_argument(
         "--skip-export",
@@ -1482,6 +1488,7 @@ def main() -> None:
             args.full,
             args.incremental,
             args.github_pages,
+            args.both,
             args.skip_export,
             args.upload_only,
             args.build_only,
@@ -1495,6 +1502,10 @@ def main() -> None:
         sys.exit(
             "ERROR: --github-pages cannot be combined with --full, --incremental, "
             "--upload-only, --build-only, or --staging-dir."
+        )
+    if args.both and (args.upload_only or args.build_only or args.staging_dir):
+        sys.exit(
+            "ERROR: --both cannot be combined with --upload-only, --build-only, or --staging-dir."
         )
 
     full = args.full
@@ -1685,7 +1696,12 @@ def main() -> None:
             increment_archive=increment_archive,
         )
 
-    print("Deploy complete.")
+    if args.both:
+        print("Deploying to GitHub Pages...")
+        deploy_github_pages(cfg.base_dir, skip_export=args.skip_export)
+        print("Deploy complete to both the configured server and GitHub Pages.")
+    else:
+        print("Deploy complete.")
 
 
 if __name__ == "__main__":
