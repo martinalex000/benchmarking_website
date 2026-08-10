@@ -14,6 +14,10 @@ benchmarks:
     higher_is_better: true
     domain: chemistry
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.LRGBDataset.html
+    num_graphs: 15535
+    avg_nodes: 150.94
+    avg_edges: 307.30
+    num_classes: 10
     variants:
     - name: Standard split
       is_standard: true
@@ -25,6 +29,10 @@ benchmarks:
     higher_is_better: false
     domain: chemistry
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.LRGBDataset.html
+    num_graphs: 15535
+    avg_nodes: 150.94
+    avg_edges: 307.30
+    num_classes: 11
     variants:
     - name: Standard split
       is_standard: true
@@ -35,6 +43,10 @@ benchmarks:
     higher_is_better: true
     domain: computer_vision
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.LRGBDataset.html
+    num_graphs: 11355
+    avg_nodes: 479.40
+    avg_edges: 2710.48
+    num_classes: 21
     variants:
     - name: Standard split
       is_standard: true
@@ -45,6 +57,10 @@ benchmarks:
     higher_is_better: true
     domain: computer_vision
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.LRGBDataset.html
+    num_graphs: 123286
+    avg_nodes: 476.88
+    avg_edges: 2693.67
+    num_classes: 81
     variants:
     - name: Standard split
       is_standard: true
@@ -55,6 +71,10 @@ benchmarks:
     higher_is_better: true
     domain: chemistry
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.LRGBDataset.html
+    num_graphs: 529434
+    avg_nodes: 30.14
+    avg_edges: 61.09
+    num_classes: 1
     variants:
     - name: Standard split
       is_standard: true

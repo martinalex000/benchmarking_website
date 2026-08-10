@@ -13,6 +13,23 @@ def _benchmarks():
     }
 
 
+def test_lrgb_datasets_include_canonical_statistics():
+    datasets = {dataset["name"]: dataset for dataset in _benchmarks()["LRGB"]["datasets"]}
+
+    assert {
+        name: tuple(
+            dataset[field] for field in ("num_graphs", "avg_nodes", "avg_edges", "num_classes")
+        )
+        for name, dataset in datasets.items()
+    } == {
+        "Peptides-func": (15535, 150.94, 307.30, 10),
+        "Peptides-struct": (15535, 150.94, 307.30, 11),
+        "PascalVOC-SP": (11355, 479.40, 2710.48, 21),
+        "COCO-SP": (123286, 476.88, 2693.67, 81),
+        "PCQM-Contact": (529434, 30.14, 61.09, 1),
+    }
+
+
 def test_heterophily_groups_have_curated_membership_and_sources():
     benchmarks = _benchmarks()
 
