@@ -8,26 +8,31 @@ into memory. Final decisions are appended to a YAML document stream.
 Usage::
 
     UV_CACHE_DIR=/tmp/benchmarking-uv-cache uv run python \
-        scripts/prescreen_kaggle_arxiv.py --workers 8
+        scripts/prescreen_kaggle_arxiv.py screen --workers 8
 """
 
 from __future__ import annotations
 
 import argparse
+import contextlib
 import hashlib
 import json
 import os
 import re
+import shutil
 import sqlite3
 import sys
+import tempfile
 import threading
 import time
+import zipfile
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
+import requests
 import yaml
 from rich.console import Console
 from rich.table import Table
@@ -35,30 +40,36 @@ from tqdm import tqdm
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
+from backend.arxiv_metadata_analysis import (
+    DEFAULT_CONFIG_PATH,
+    DEFAULT_SNAPSHOT_PATH,
+    KeywordFamily,
+    KeywordMatcher,
+    ScreeningConfig,
+    analyze_snapshot,
+    compile_keyword_matcher,
+    download_manifest,
+    merge_reports,
+    write_reports,
+)
 from backend.config import cfg
 from backend.llm_extractor import LLMExtractor, ScreenResult
 
 console = Console()
 
-_DEFAULT_SOURCE = cfg.papers_dir / "arxiv-metadata-oai-snapshot.json"
+_DEFAULT_SOURCE = cfg.papers_dir / "arxiv-metadata" / DEFAULT_SNAPSHOT_PATH.name
 _DEFAULT_SCREENING_DIR = cfg.papers_dir / "screening"
 _DEFAULT_OUTPUT = _DEFAULT_SCREENING_DIR / "results.yaml"
 _DEFAULT_QUEUE = _DEFAULT_SCREENING_DIR / "queue.sqlite3"
-_DEFAULT_KEYWORDS = cfg.config_dir / "arxiv_prescreen_keywords.yaml"
-_GENERAL_GRAPH_PATTERN = re.compile(r"(?<!\w)graph(?!\w)", re.IGNORECASE)
+_DEFAULT_CONFIG = cfg.config_dir / DEFAULT_CONFIG_PATH.name
+_DEFAULT_DB = cfg.db_path
+_DEFAULT_REPORT_DIR = _DEFAULT_SOURCE.parent / "reports"
+DATASET_HANDLE = "Cornell-University/arxiv"
+SNAPSHOT_NAME = "arxiv-metadata-oai-snapshot.json"
 _INDEX_PROGRESS_INTERVAL = 10_000
 _SCHEMA_VERSION = 1
 _FAST_HASH_CHUNK_SIZE = 1 << 20
 _thread_state = threading.local()
-
-
-@dataclass(frozen=True)
-class KeywordMatcher:
-    """Compiled matchers for the specific and general screening tiers."""
-
-    specific: re.Pattern[str]
-    graph: re.Pattern[str]
-    canonical_keywords: dict[str, str]
 
 
 @dataclass(frozen=True)
@@ -147,7 +158,7 @@ class LLMUsage:
 
 
 def load_specific_keywords(path: Path) -> list[str]:
-    """Load a de-duplicated, ordered list of specific keywords."""
+    """Load the fast specific tier from the unified config."""
     payload = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
     raw_keywords = payload.get("specific_keywords")
     if not isinstance(raw_keywords, list) or not raw_keywords:
@@ -168,25 +179,14 @@ def load_specific_keywords(path: Path) -> list[str]:
 
 
 def compile_keyword_patterns(keywords: list[str]) -> KeywordMatcher:
-    """Compile one case-insensitive alternation for all specific keywords."""
-    unique_keywords = list(dict.fromkeys(keywords))
-    alternatives = []
-    canonical_keywords: dict[str, str] = {}
-    for keyword in unique_keywords:
-        escaped = re.escape(keyword).replace(r"\ ", r"\s+")
-        alternatives.append(escaped)
-        canonical_keywords[" ".join(keyword.casefold().split())] = keyword
+    """Compile the shared matcher for a list of specific terms.
 
-    # Longer alternatives first prevents a short phrase from winning when both match.
-    alternatives.sort(key=len, reverse=True)
-    specific = re.compile(
-        rf"(?<!\w)(?:{'|'.join(alternatives)})(?!\w)",
-        re.IGNORECASE,
-    )
-    return KeywordMatcher(
-        specific=specific,
-        graph=_GENERAL_GRAPH_PATTERN,
-        canonical_keywords=canonical_keywords,
+    This small compatibility wrapper is useful to callers that construct a
+    matcher directly; normal CLI operations compile it from ScreeningConfig.
+    """
+    return compile_keyword_matcher(
+        keywords,
+        (KeywordFamily("graph", (re.compile("graph", re.IGNORECASE),)),),
     )
 
 
@@ -196,20 +196,7 @@ def match_tier(
     matcher: KeywordMatcher,
 ) -> tuple[str, list[str]] | None:
     """Return the highest-priority matching tier and its keywords."""
-    text = f"{title}\n{abstract}"
-    matched: list[str] = []
-    seen: set[str] = set()
-    for found in matcher.specific.finditer(text):
-        normalized = " ".join(found.group(0).casefold().split())
-        keyword = matcher.canonical_keywords.get(normalized, found.group(0))
-        if keyword.casefold() not in seen:
-            seen.add(keyword.casefold())
-            matched.append(keyword)
-    if matched:
-        return "specific", matched
-    if matcher.graph.search(text):
-        return "graph", ["graph"]
-    return None
+    return matcher.match_tier(title, abstract)
 
 
 def processing_bucket(categories: str) -> str:
@@ -695,8 +682,14 @@ def run_screening(
     if not source.is_file():
         raise FileNotFoundError(f"Kaggle arXiv snapshot not found: {source}")
 
-    keywords = load_specific_keywords(keywords_path)
-    matcher = compile_keyword_patterns(keywords)
+    config_payload = yaml.safe_load(keywords_path.read_text(encoding="utf-8")) or {}
+    if config_payload.get("keyword_families"):
+        screening_config = ScreeningConfig.load(keywords_path)
+        keywords = list(screening_config.specific_keywords)
+        matcher = screening_config.matcher()
+    else:
+        keywords = load_specific_keywords(keywords_path)
+        matcher = compile_keyword_patterns(keywords)
     fingerprint = _source_fingerprint(source, keywords)
     queue = WorkQueue(queue_path)
     try:
@@ -793,6 +786,144 @@ def run_screening(
         queue.close()
 
 
+def _rooted(path: str | None, default: Path) -> Path:
+    candidate = Path(path) if path else default
+    return candidate if candidate.is_absolute() else cfg.project_root / candidate
+
+
+def _write_download_manifest(
+    snapshot: Path, requested_version: str | None, resolved_version: str | None
+) -> Path:
+    manifest_path = snapshot.parent / "download-manifest.json"
+    manifest = download_manifest(
+        snapshot,
+        source=DATASET_HANDLE,
+        version=requested_version,
+        resolved_version=resolved_version,
+    )
+    manifest_path.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
+    return manifest_path
+
+
+def download_snapshot(
+    snapshot: Path = _DEFAULT_SOURCE,
+    *,
+    version: str | None = None,
+    force: bool = False,
+) -> Path:
+    """Download the Kaggle snapshot atomically and write its manifest."""
+    snapshot.parent.mkdir(parents=True, exist_ok=True)
+    if snapshot.exists() and snapshot.stat().st_size > 0 and not force:
+        resolved_version = None
+        manifest_path = snapshot.parent / "download-manifest.json"
+        if manifest_path.exists():
+            with contextlib.suppress(OSError, json.JSONDecodeError):
+                resolved_version = json.loads(manifest_path.read_text()).get("resolved_version")
+        _write_download_manifest(snapshot, version, resolved_version)
+        print(f"Using existing snapshot: {snapshot}")
+        return snapshot
+
+    print(f"Downloading {DATASET_HANDLE}/{SNAPSHOT_NAME} …")
+    url = "https://www.kaggle.com/api/v1/datasets/download/Cornell-University/arxiv"
+    params: dict[str, str] = {"filename": SNAPSHOT_NAME}
+    if version:
+        params["datasetVersionNumber"] = version
+    headers = {}
+    token = os.environ.get("KAGGLE_API_TOKEN", "").strip()
+    if token:
+        headers["Authorization"] = f"Bearer {token}"
+
+    resolved_version = None
+    with tempfile.TemporaryDirectory(prefix="arxiv-kaggle-", dir=str(snapshot.parent)) as temp_dir:
+        payload_path = Path(temp_dir) / "arxiv.payload"
+        with requests.get(
+            url, params=params, headers=headers, stream=True, timeout=(30, 600)
+        ) as response:
+            response.raise_for_status()
+            version_match = re.search(r"/datasets/\d+/(\d+)/", response.url)
+            resolved_version = version_match.group(1) if version_match else version
+            with payload_path.open("wb") as payload:
+                for chunk in response.iter_content(chunk_size=1024 * 1024):
+                    if chunk:
+                        payload.write(chunk)
+
+        staged_path = Path(temp_dir) / SNAPSHOT_NAME
+        with payload_path.open("rb") as payload:
+            signature = payload.read(64).lstrip()
+        if signature.startswith(b"PK"):
+            with zipfile.ZipFile(payload_path) as archive:
+                members = [
+                    member for member in archive.namelist() if member.endswith(SNAPSHOT_NAME)
+                ]
+                if len(members) != 1:
+                    raise RuntimeError(
+                        f"Expected one {SNAPSHOT_NAME} in Kaggle archive, found {members}"
+                    )
+                with archive.open(members[0]) as source, staged_path.open("wb") as destination:
+                    shutil.copyfileobj(source, destination, length=1024 * 1024)
+        elif signature.startswith(b"{"):
+            os.replace(payload_path, staged_path)
+        else:
+            raise RuntimeError(f"Kaggle response is neither JSON nor ZIP (signature={signature!r})")
+        os.replace(staged_path, snapshot)
+
+    _write_download_manifest(snapshot, version, resolved_version)
+    print(f"Saved snapshot: {snapshot} ({snapshot.stat().st_size:,} bytes)")
+    return snapshot
+
+
+def _print_audit_summary(report: dict[str, Any], output_dir: Path) -> None:
+    recall = report["known_results_recall"]
+    print(
+        f"Records: {report['corpus']['records']:,}; "
+        f"known result papers: {recall['database_papers']:,}; "
+        f"combined pre-filter: {recall['combined_prefilter']:,} "
+        f"({recall['combined_recall_all']:.2%})"
+    )
+    print(f"Reports written to {output_dir}")
+
+
+def analyze_snapshot_cli(
+    snapshot: Path = _DEFAULT_SOURCE,
+    *,
+    db_path: Path = _DEFAULT_DB,
+    output_dir: Path = _DEFAULT_REPORT_DIR,
+    config_path: Path = _DEFAULT_CONFIG,
+) -> int:
+    if not snapshot.exists():
+        raise FileNotFoundError(f"Snapshot not found: {snapshot}; run the download command first")
+    config = ScreeningConfig.load(config_path)
+    print(f"Analyzing {snapshot} …")
+    report = analyze_snapshot(snapshot, db_path, config)
+    report["source"] = {
+        "snapshot": str(snapshot),
+        "database": str(db_path),
+        "config": str(config_path),
+    }
+    write_reports(report, output_dir, config)
+    _print_audit_summary(report, output_dir)
+    return 0
+
+
+def merge_snapshot_reports(
+    input_dir: Path,
+    *,
+    output_dir: Path = _DEFAULT_REPORT_DIR,
+    snapshot: Path = _DEFAULT_SOURCE,
+    db_path: Path = _DEFAULT_DB,
+    config_path: Path = _DEFAULT_CONFIG,
+) -> int:
+    config = ScreeningConfig.load(config_path)
+    paths = sorted(input_dir.glob("part-*/report.json"))
+    report = merge_reports(paths, output_dir, config)
+    report["source"].update(
+        {"snapshot": str(snapshot), "database": str(db_path), "config": str(config_path)}
+    )
+    write_reports(report, output_dir, config)
+    _print_audit_summary(report, output_dir)
+    return 0
+
+
 def _positive_int(value: str) -> int:
     parsed = int(value)
     if parsed < 1:
@@ -809,42 +940,95 @@ def _non_negative_int(value: str) -> int:
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        description="Pre-screen keyword-matched Kaggle arXiv papers with the fast model"
+        description="Download, audit, and screen the Kaggle arXiv metadata snapshot"
     )
-    parser.add_argument("--source", type=Path, default=_DEFAULT_SOURCE)
-    parser.add_argument("--output", type=Path, default=_DEFAULT_OUTPUT)
-    parser.add_argument("--queue", type=Path, default=_DEFAULT_QUEUE)
-    parser.add_argument("--keywords", type=Path, default=_DEFAULT_KEYWORDS)
-    parser.add_argument("--workers", type=_positive_int, default=1)
-    parser.add_argument("--progress-every", type=_positive_int, default=25, metavar="N")
-    parser.add_argument(
+    subparsers = parser.add_subparsers(dest="command", required=True)
+
+    def add_audit_options(command: argparse.ArgumentParser) -> None:
+        command.add_argument("--snapshot", type=Path, default=_DEFAULT_SOURCE)
+        command.add_argument("--db", type=Path, default=_DEFAULT_DB)
+        command.add_argument("--output-dir", type=Path, default=_DEFAULT_REPORT_DIR)
+        command.add_argument("--config", type=Path, default=_DEFAULT_CONFIG)
+
+    download = subparsers.add_parser("download", help="Download the Kaggle snapshot")
+    download.add_argument("--snapshot", type=Path, default=_DEFAULT_SOURCE)
+    download.add_argument("--version", help="Pin a Kaggle dataset version")
+    download.add_argument(
+        "--force",
+        "--force-download",
+        dest="force",
+        action="store_true",
+        help="Refresh an existing snapshot",
+    )
+
+    stats = subparsers.add_parser("stats", help="Analyze an existing snapshot")
+    add_audit_options(stats)
+
+    merge = subparsers.add_parser("merge", help="Merge line-chunk audit reports")
+    add_audit_options(merge)
+    merge.add_argument(
+        "--input-dir",
+        required=True,
+        type=Path,
+        help="Directory containing part-*/report.json files",
+    )
+
+    screen = subparsers.add_parser("screen", help="Run the resumable LLM screening workflow")
+    screen.add_argument("--snapshot", type=Path, default=_DEFAULT_SOURCE)
+    screen.add_argument("--output", type=Path, default=_DEFAULT_OUTPUT)
+    screen.add_argument("--queue", type=Path, default=_DEFAULT_QUEUE)
+    screen.add_argument("--config", type=Path, default=_DEFAULT_CONFIG)
+    screen.add_argument("--workers", type=_positive_int, default=1)
+    screen.add_argument("--progress-every", type=_positive_int, default=25, metavar="N")
+    screen.add_argument(
         "--max-papers",
         type=_non_negative_int,
         default=0,
         metavar="N",
         help="Stop after N requests in this run; 0 means unlimited",
     )
-    parser.add_argument(
-        "--reindex",
-        action="store_true",
-        help="Rebuild the derived keyword index even when the source is unchanged",
-    )
+    screen.add_argument("--reindex", action="store_true", help="Rebuild the derived keyword index")
     return parser
 
 
-def main(argv: list[str] | None = None) -> None:
+def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
-    run_screening(
-        source=args.source,
-        output=args.output,
-        queue_path=args.queue,
-        keywords_path=args.keywords,
-        workers=args.workers,
-        progress_every=args.progress_every,
-        max_papers=args.max_papers,
-        force_reindex=args.reindex,
-    )
+    try:
+        if args.command == "download":
+            download_snapshot(
+                _rooted(str(args.snapshot), _DEFAULT_SOURCE), version=args.version, force=args.force
+            )
+        elif args.command == "stats":
+            analyze_snapshot_cli(
+                _rooted(str(args.snapshot), _DEFAULT_SOURCE),
+                db_path=_rooted(str(args.db), _DEFAULT_DB),
+                output_dir=_rooted(str(args.output_dir), _DEFAULT_REPORT_DIR),
+                config_path=_rooted(str(args.config), _DEFAULT_CONFIG),
+            )
+        elif args.command == "merge":
+            merge_snapshot_reports(
+                _rooted(str(args.input_dir), cfg.project_root),
+                output_dir=_rooted(str(args.output_dir), _DEFAULT_REPORT_DIR),
+                snapshot=_rooted(str(args.snapshot), _DEFAULT_SOURCE),
+                db_path=_rooted(str(args.db), _DEFAULT_DB),
+                config_path=_rooted(str(args.config), _DEFAULT_CONFIG),
+            )
+        else:
+            run_screening(
+                source=_rooted(str(args.snapshot), _DEFAULT_SOURCE),
+                output=_rooted(str(args.output), _DEFAULT_OUTPUT),
+                queue_path=_rooted(str(args.queue), _DEFAULT_QUEUE),
+                keywords_path=_rooted(str(args.config), _DEFAULT_CONFIG),
+                workers=args.workers,
+                progress_every=args.progress_every,
+                max_papers=args.max_papers,
+                force_reindex=args.reindex,
+            )
+        return 0
+    except Exception as exc:
+        print(f"error: {exc}", file=sys.stderr)
+        return 1
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())

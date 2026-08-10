@@ -21,16 +21,70 @@ def _write_keywords(path: Path) -> None:
     path.write_text("specific_keywords:\n  - graph neural network\n  - gnn\n", encoding="utf-8")
 
 
-def test_match_tier_prefers_specific_and_uses_whole_word_graph():
+def test_match_tier_prefers_specific_and_uses_graph_substring_fallback():
     patterns = scanner.compile_keyword_patterns(["graph neural network", "gnn"])
 
     assert scanner.match_tier("A GNN Method", "", patterns) == ("specific", ["gnn"])
-    assert scanner.match_tier("Graphical models", "A paragraph.", patterns) is None
+    assert scanner.match_tier("Graphical models", "A paragraph.", patterns) == (
+        "graph",
+        ["graph"],
+    )
     assert scanner.match_tier("A graph method", "", patterns) == ("graph", ["graph"])
     assert scanner.match_tier("GNN and graph\nneural network", "", patterns) == (
         "specific",
         ["gnn", "graph neural network"],
     )
+
+
+def test_unified_matcher_covers_graph_terms_and_excludes_equivariance():
+    config = scanner.ScreeningConfig.load(Path("config/arxiv_screening.yaml"))
+    matcher = config.matcher()
+
+    for term in (
+        "GCN",
+        "GIN",
+        "GAT",
+        "Graphormer",
+        "message passing",
+        "node classification",
+        "edge prediction",
+    ):
+        assert scanner.match_tier(term, "", matcher)[0] == "specific"
+    assert scanner.match_tier("Equivariance and SE(3)", "", matcher) is None
+
+
+def test_parser_requires_a_unified_subcommand():
+    assert {action.dest for action in scanner.build_parser()._actions} >= {"command"}
+    assert scanner.build_parser().parse_args(["stats"]).command == "stats"
+
+
+def test_download_writes_manifest_for_json_payload(monkeypatch, tmp_path):
+    class FakeResponse:
+        url = "https://www.kaggle.com/datasets/123/7/"
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *_args):
+            return False
+
+        def raise_for_status(self):
+            return None
+
+        def iter_content(self, chunk_size):
+            del chunk_size
+            yield b'{"id": "2401.00001"}\n'
+
+    monkeypatch.setattr(scanner.requests, "get", lambda *args, **kwargs: FakeResponse())
+    snapshot = tmp_path / "arxiv-metadata-oai-snapshot.json"
+
+    scanner.download_snapshot(snapshot, version="7")
+
+    manifest = json.loads((tmp_path / "download-manifest.json").read_text())
+    assert snapshot.read_text() == '{"id": "2401.00001"}\n'
+    assert manifest["requested_version"] == "7"
+    assert manifest["resolved_version"] == "7"
+    assert manifest["bytes"] == snapshot.stat().st_size
 
 
 def test_source_fingerprint_ignores_mtime_when_content_is_unchanged(tmp_path):
