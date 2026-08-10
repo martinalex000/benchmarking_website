@@ -30,6 +30,7 @@ class OpenReviewPaper:
     venueid: str
     pdf_url: str
     invitation: str
+    abstract: str = ""
 
 
 class OpenReviewError(RuntimeError):
@@ -222,6 +223,7 @@ def parse_openreview_note(note: dict[str, Any]) -> OpenReviewPaper:
         venueid=venueid,
         pdf_url=pdf_url,
         invitation=str(note.get("invitation") or ""),
+        abstract=_content_value(content, "abstract"),
     )
 
 

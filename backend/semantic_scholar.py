@@ -29,7 +29,7 @@ logger = logging.getLogger(__name__)
 
 _S2_BASE = "https://api.semanticscholar.org/graph/v1"
 _S2_FIELDS = "title,abstract,year,publicationDate,venue,publicationVenue,journal,externalIds"
-_S2_BULK_SEARCH_FIELDS = "title,venue,year,externalIds"
+_S2_BULK_SEARCH_FIELDS = "title,abstract,venue,year,externalIds"
 _ORCID_RE = re.compile(r"(\d{4}-\d{4}-\d{4}-\d{3}[\dX])")
 _ARXIV_DATE_RE = re.compile(r"^(\d{2})(\d{2})\.\d+")
 

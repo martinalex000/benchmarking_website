@@ -5,7 +5,7 @@ from __future__ import annotations
 import pytest
 
 import backend.semantic_scholar as semantic_scholar
-import scripts.measure_ss_arxiv_share as experiment
+import experiments.measure_ss_arxiv_share as experiment
 
 
 def test_fetch_papers_bulk_follows_tokens_and_deduplicates(monkeypatch):
@@ -42,7 +42,7 @@ def test_fetch_papers_bulk_follows_tokens_and_deduplicates(monkeypatch):
         "venue": "NeurIPS",
         "year": "2025",
         "limit": 1000,
-        "fields": "title,venue,year,externalIds",
+        "fields": "title,abstract,venue,year,externalIds",
     }
     assert requests[0][2] == {"include_api_key": False}
     assert requests[1][1]["token"] == "next-page"
