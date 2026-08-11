@@ -61,6 +61,14 @@ We call our approach \Method~and release code at~https://example.com.
 
 def test_enrich_paper_metadata_reextracts_when_abstract_has_tilde_artifacts(monkeypatch, tmp_path):
     _configure_temp_workspace(monkeypatch, tmp_path)
+    monkeypatch.setattr("backend.llm_metadata.fetch_arxiv_metadata", lambda _arxiv_id: {})
+    monkeypatch.setattr("backend.semantic_scholar.fetch_paper_metadata", lambda _arxiv_id: {})
+    monkeypatch.setattr("backend.semantic_scholar.resolve_paper_venue", lambda *_args: "")
+    monkeypatch.setattr("backend.results_parser.repository_url_exists", lambda _url: True)
+    monkeypatch.setattr(
+        "backend.results_parser.find_verified_repository_link",
+        lambda **_kwargs: {"verified_url": None},
+    )
 
     storage = PaperStorage("2407.18480")
     storage.ensure_dirs()
@@ -84,11 +92,13 @@ Designing effective graph neural networks~(GNNs) is challenging.
 """.strip(),
         encoding="utf-8",
     )
-
     paper = Paper(
         arxiv_id="2407.18480",
         title="Scalable Graph Compressed Convolutions",
         abstract="Designing effective graph neural networks~(GNNs) is hard.",
+        published_date="2024-07-01",
+        venue="ICLR",
+        authors=[{"name": "Ada Lovelace"}],
     )
 
     changed = _enrich_paper_metadata("2407.18480", paper, storage)
@@ -124,6 +134,9 @@ def test_enrich_paper_metadata_skips_arxiv_api_when_semantic_scholar_key_set(mon
             "published_date": "2024-02-15",
             "venue": "ICLR",
         },
+    )
+    monkeypatch.setattr(
+        "backend.semantic_scholar.resolve_paper_authors", lambda *_args, **_kwargs: []
     )
 
     changed = _enrich_paper_metadata("2402.08170", paper, storage)

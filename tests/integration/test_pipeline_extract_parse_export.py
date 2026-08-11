@@ -36,10 +36,13 @@ def _configure_temp_workspace(monkeypatch, tmp_path: Path) -> Path:
     monkeypatch.setattr(cfg, "db_path", data_dir / "benchmarks.db")
 
     import backend.db as db_module
+    import backend.llm_metadata as llm_metadata
+    import backend.results_parser as results_parser
+    import backend.semantic_scholar as semantic_scholar
     from backend import export_to_hugo
 
-    db_module._engine = None
-    db_module._SessionFactory = None
+    monkeypatch.setattr(db_module, "_engine", None)
+    monkeypatch.setattr(db_module, "_SessionFactory", None)
 
     monkeypatch.setattr(export_to_hugo, "_SITE_DIR", site_dir)
     monkeypatch.setattr(export_to_hugo, "_CONTENT", site_dir / "content")
@@ -51,6 +54,15 @@ def _configure_temp_workspace(monkeypatch, tmp_path: Path) -> Path:
         site_dir / "static" / "data" / "datasets",
     )
     monkeypatch.setattr(export_to_hugo, "_DATASET_OVERRIDES_FILE", dataset_overrides)
+    # These tests exercise local extraction, parsing, and export behavior. Keep
+    # metadata enrichment deterministic and offline instead of contacting APIs.
+    monkeypatch.setattr(llm_metadata, "fetch_arxiv_metadata", lambda _arxiv_id: {})
+    monkeypatch.setattr(semantic_scholar, "fetch_paper_metadata", lambda _arxiv_id: {})
+    monkeypatch.setattr(semantic_scholar, "resolve_paper_venue", lambda *_args: "")
+    monkeypatch.setattr(results_parser, "_DATASET_ALIAS_MAP", None)
+    monkeypatch.setattr(results_parser, "_AMBIGUOUS_DATASET_NAMES", None)
+    monkeypatch.setattr(results_parser, "_PROTOCOL_EXCLUSIONS", None)
+    monkeypatch.setattr(results_parser, "_PROTOCOL_CONTRACTS", None)
     export_to_hugo.clear_export_caches()
 
     return root
@@ -84,6 +96,7 @@ def test_pipeline_extract_parse_export_flow(monkeypatch, tmp_path):
                 extraction_status="downloaded",
                 discovery_source="integration-test",
                 published_date="2024-01-01",
+                venue="Long Range Graph Benchmark",
             )
         )
 

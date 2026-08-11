@@ -102,6 +102,7 @@ def test_exact_value_matching_uses_decimal_percentage_scaling() -> None:
 
     assert normalized_result_value(target) == normalized_result_value(other)
 
+
 def test_exact_value_matching_requires_exact_normalized_value() -> None:
     target = ExtractionOutput(
         results=[ResultEntry(model="NewName", dataset="Cora", metric="Accuracy", value=0.9001)]
@@ -279,7 +280,13 @@ def test_three_workers_per_model_and_models_overlap(monkeypatch, tmp_path: Path)
     backend = LlmBackend(label="external", endpoint="http://example", api_key="key")
     routes = {model.model_id: ModelRoute(model.model_id, backend) for model in manifest.models}
     paper_inputs = [
-        validation.PaperInputs(paper, "text", [], None, paper.arxiv_id) for paper in manifest.papers
+        validation.PaperInputs(
+            paper=paper,
+            paper_text="text",
+            latex_paper=None,
+            title=paper.arxiv_id,
+        )
+        for paper in manifest.papers
     ]
     active = {model.model_id: 0 for model in manifest.models}
     peaks = {model.model_id: 0 for model in manifest.models}

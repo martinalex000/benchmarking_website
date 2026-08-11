@@ -31,9 +31,9 @@ def test_extra_body_for_minimax_disables_thinking():
     }
 
 
-def test_extra_body_for_gpt_oss_lowers_reasoning_effort():
+def test_extra_body_for_gpt_oss_disables_reasoning():
     extra = extra_body_for_model("openai/gpt-oss-120b")
-    assert extra == {"chat_template_kwargs": {"reasoning_effort": "low"}}
+    assert extra == {"reasoning_effort": "none"}
 
 
 def test_extra_body_for_plain_model_is_none():
@@ -45,4 +45,4 @@ def test_strict_no_reasoning_required_for_kimi_and_qwen3():
     assert strict_no_reasoning_required("alias-huge")
     assert strict_no_reasoning_required("Qwen/Qwen3-VL-8B-Instruct")
     assert strict_no_reasoning_required("MiniMaxAI/MiniMax-M2.7")
-    assert not strict_no_reasoning_required("openai/gpt-oss-120b")
+    assert strict_no_reasoning_required("openai/gpt-oss-120b")

@@ -82,6 +82,19 @@ def _configure_temp_workspace(monkeypatch, tmp_path: Path) -> None:
     db_module._SessionFactory = None
     results_parser_module._PROTOCOL_EXCLUSIONS = None
     results_parser_module._PROTOCOL_CONTRACTS = None
+    monkeypatch.setattr(
+        "backend.semantic_scholar.fetch_paper_metadata",
+        lambda _arxiv_id: {"published_date": "2024-01-01", "venue": "ICLR"},
+    )
+    monkeypatch.setattr("backend.semantic_scholar.resolve_paper_venue", lambda *_args: "ICLR")
+    monkeypatch.setattr(
+        "backend.semantic_scholar.resolve_paper_authors",
+        lambda *_args, **_kwargs: [{"name": "Test Author"}],
+    )
+    monkeypatch.setattr(
+        "backend.llm_metadata.fetch_arxiv_metadata",
+        lambda _arxiv_id: {"published_date": "2024-01-01"},
+    )
 
 
 def test_parse_and_store_with_summary_reports_side_effects(monkeypatch, tmp_path):
@@ -847,7 +860,6 @@ def test_parse_and_store_ignores_dataset_statistics_parse_failure(monkeypatch, t
 
     assert _is_fatal_extraction_parse_failure("extract_dataset_statistics: boom") is False
     assert _is_fatal_extraction_parse_failure("extract_dataset:QM9:g1: boom") is True
-
 
     _configure_temp_workspace(monkeypatch, tmp_path)
     init_db()

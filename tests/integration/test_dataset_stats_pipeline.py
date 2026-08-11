@@ -2,6 +2,7 @@
 
 from pathlib import Path
 
+import backend.db as db_module
 import backend.export_to_hugo as hugo_export
 from backend.config import cfg
 from backend.db import init_db, session_scope
@@ -26,10 +27,8 @@ def _configure_workspace(monkeypatch, tmp_path: Path) -> None:
     monkeypatch.setattr(hugo_export, "_CONTENT", site_dir / "content")
     monkeypatch.setattr(hugo_export, "_DATA_DIR", site_dir / "data")
 
-    import backend.db as db_module
-
-    db_module._engine = None
-    db_module._SessionFactory = None
+    monkeypatch.setattr(db_module, "_engine", None)
+    monkeypatch.setattr(db_module, "_SessionFactory", None)
 
 
 def test_build_export_stats_includes_extra_stats():

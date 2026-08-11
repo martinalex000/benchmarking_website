@@ -32,7 +32,10 @@ def test_sort_models_local_first() -> None:
     assert ordered == ["a-local", "z-local", "b-external"]
 
 
-def test_resolve_baseline_model_id_prefers_fallback_over_legacy() -> None:
+def test_resolve_baseline_model_id_prefers_fallback_over_legacy(monkeypatch) -> None:
+    from backend.config import cfg
+
+    monkeypatch.setattr(cfg, "model_fallback", "moonshotai/Kimi-K2.6")
     external = LlmBackend(
         label="external",
         endpoint="https://example.com/v1",

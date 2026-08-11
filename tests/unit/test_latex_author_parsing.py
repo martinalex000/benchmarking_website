@@ -235,6 +235,8 @@ We benchmark graph models.
         arxiv_id="2407.18480",
         title="Graph Paper",
         abstract="We benchmark graph models.",
+        published_date="2024-07-01",
+        venue="ICLR",
     )
 
     monkeypatch.setattr(
@@ -258,6 +260,7 @@ We benchmark graph models.
         "backend.semantic_scholar.fetch_paper_metadata",
         lambda _arxiv_id: {},
     )
+    monkeypatch.setattr("backend.semantic_scholar.resolve_paper_venue", lambda *_args: "")
 
     changed = _enrich_paper_metadata("2407.18480", paper, storage)
 
@@ -301,6 +304,8 @@ def test_enrich_paper_metadata_repairs_broken_metadata_authors(monkeypatch, tmp_
         arxiv_id="2303.00579",
         title="Are More Layers Beneficial to Graph Transformers?",
         abstract="Graph transformers.",
+        published_date="2023-03-01",
+        venue="ICLR",
     )
 
     monkeypatch.setattr(
@@ -321,6 +326,7 @@ def test_enrich_paper_metadata_repairs_broken_metadata_authors(monkeypatch, tmp_
         "backend.semantic_scholar.fetch_paper_metadata",
         lambda _arxiv_id: {},
     )
+    monkeypatch.setattr("backend.semantic_scholar.resolve_paper_venue", lambda *_args: "")
 
     changed = _enrich_paper_metadata("2303.00579", paper, storage)
 
