@@ -6,6 +6,7 @@ import logging
 import sqlite3
 import time
 from collections.abc import Callable
+from contextlib import suppress
 
 logger = logging.getLogger(__name__)
 
@@ -51,10 +52,8 @@ def run_db_transaction(
         except sqlite3.OperationalError as exc:
             if not is_sqlite_lock_error(exc):
                 raise
-            try:
+            with suppress(sqlite3.Error):
                 conn.rollback()
-            except sqlite3.Error:
-                pass
             if attempt + 1 >= max_retries:
                 raise
             wait = DB_LOCK_RETRY_BASE_SLEEP_S * (2**attempt)

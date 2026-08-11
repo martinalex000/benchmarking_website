@@ -95,6 +95,29 @@ uv run python scripts/test_llms.py --rate-limits
 ---
 ## Usage reference
 
+### Choose the workflow
+
+Use the script entry points for day-to-day, interactive work:
+
+- `scripts/process_papers.py` processes one paper or runs the queue dashboard.
+- `scripts/queue_paper.py` adds papers to the shared queue.
+- `scripts/maintenance.py` refreshes metadata and performs database maintenance.
+- `scripts/deploy.py` exports and builds the site, then optionally deploys it.
+
+Use `backend.pipeline` for unattended or stage-by-stage batch runs:
+
+```bash
+# Run discovery, download, extraction, parsing, export, and Hugo build
+uv run python -m backend.pipeline run-all --since 7d
+
+# Run individual batch stages when debugging or resuming a run
+uv run python -m backend.pipeline download
+uv run python -m backend.pipeline extract --model primary
+uv run python -m backend.pipeline parse
+uv run python -m backend.pipeline export
+uv run python -m backend.pipeline build
+```
+
 ### Paper processing
 
 ```bash
@@ -123,7 +146,6 @@ uv run python scripts/process_papers.py 2206.08164 --skip-screen
 
 # Use a different model or model tier
 uv run python scripts/process_papers.py 2206.08164 --model fallback
-uv run python scripts/process_papers.py 2206.08164 --model 
 ```
 
 If extraction fails, an `errors.log` entry and a full Markdown conversation log

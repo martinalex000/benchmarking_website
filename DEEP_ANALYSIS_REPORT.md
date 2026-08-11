@@ -1,5 +1,8 @@
 # Deep Analysis Report
 
+> This is an archival report from an earlier repository revision. Some script paths mentioned below
+> have since been removed or renamed; the findings and commands are retained as historical evidence.
+
 **Date:** 2026-05-29  
 **Branch:** `quixotic-pigeon` (merged into `main`)  
 **Scope:** `backend/*.py`, `scripts/*.py`  

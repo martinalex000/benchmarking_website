@@ -9,7 +9,7 @@ Stage names: discover | download | extract | parse | export
 from __future__ import annotations
 
 import logging
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from backend.db import session_scope
 from backend.models import PipelineRun
@@ -72,6 +72,6 @@ def record_run(
                 status=status,
                 model_used=model_used,
                 error_message=error_message,
-                started_at=datetime.now(timezone.utc),
+                started_at=datetime.now(UTC),
             )
         )

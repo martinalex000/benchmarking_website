@@ -46,9 +46,7 @@ def author_name_looks_broken(name: str | None) -> bool:
     text = name.strip()
     if _AUTHOR_BROKEN_RE.search(text):
         return True
-    if text.count(",") >= 2:
-        return True
-    return False
+    return text.count(",") >= 2
 
 
 def authors_look_broken(authors: list[object] | None) -> bool:
@@ -63,6 +61,4 @@ def authors_look_broken(authors: list[object] | None) -> bool:
         return False
     if any(author_name_looks_broken(name) for name in names):
         return True
-    if len(names) == 1 and len(names[0]) > 80:
-        return True
-    return False
+    return bool(len(names) == 1 and len(names[0]) > 80)

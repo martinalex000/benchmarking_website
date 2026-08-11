@@ -1,7 +1,7 @@
 [project]
 name = "benchmarking-website"
 version = "0.1.0"
-description = "Add your description here"
+description = "Self-hosted graph learning benchmarking website and paper-processing pipeline"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [

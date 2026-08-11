@@ -1,5 +1,8 @@
 # LRGB Re-evaluation Regression Report and Recovery Plan
 
+> This is an archival report from an earlier repository revision. Some script paths mentioned below
+> have since been removed or renamed; the commands are retained as historical evidence.
+
 ## Executive summary
 
 The LRGB collapse was introduced by the new re-evaluation path. It was not a

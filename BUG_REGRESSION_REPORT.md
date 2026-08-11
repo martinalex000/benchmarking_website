@@ -5,6 +5,9 @@
 **Date:** 2026-05-29  
 **Scope:** Full repository scan (backend, scripts, tests, site)
 
+> This is an archival report from an earlier repository revision. Some script paths mentioned below
+> have since been removed or renamed; the commands are retained as historical evidence.
+
 ---
 
 ## Executive Summary
