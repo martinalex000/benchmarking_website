@@ -29,6 +29,7 @@ site/content/datasets/
 site/content/papers/
 site/content/dev_profile_tmp/
 site/static/data/datasets/
+site/static/data/development/*.json
 site/static/figures/
 site/data/*.json
 .deploy*
