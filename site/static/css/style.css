@@ -2831,6 +2831,36 @@ tr.row-historical-sota-match .leaderboard-model-name::before {
 .result-table th.col-value {
   text-align: left;
 }
+@media (min-width: 981px) {
+  .dataset-page .result-table th.col-primary {
+    text-align: left;
+  }
+  .dataset-page .result-table th.col-primary .metric-primary-header-track {
+    display: grid;
+    grid-template-columns: minmax(6.1ch, auto) minmax(6.1ch, auto);
+    justify-content: end;
+    column-gap: 0.28rem;
+    width: 100%;
+    font-size: 0.9rem;
+  }
+  .dataset-page .result-table th.col-primary .metric-primary-header-label {
+    grid-column: 1;
+    justify-self: start;
+    font-size: 0.84rem;
+  }
+  .dataset-page .result-table th.col-primary.sort-asc::after,
+  .dataset-page .result-table th.col-primary.sort-desc::after {
+    content: none;
+  }
+  .dataset-page .result-table th.col-primary.sort-asc .metric-primary-header-label::after {
+    content: " ▲";
+    font-size: 0.75em;
+  }
+  .dataset-page .result-table th.col-primary.sort-desc .metric-primary-header-label::after {
+    content: " ▼";
+    font-size: 0.75em;
+  }
+}
 .result-table td.col-model {
   padding-left: 0.25rem;
 }

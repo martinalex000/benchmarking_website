@@ -62,10 +62,10 @@
         {{ $label := index $metricLabels $j | default $m }}
         {{ $metricHasStd := false }}
         {{ range $rows }}{{ if ne (index .metric_stds $j) nil }}{{ $metricHasStd = true }}{{ end }}{{ end }}
-        <th class="col-value{{ if not $metricHasStd }} col-no-std{{ end }}{{ if eq $j 0 }} col-primary{{ else if not $paperPage }} col-secondary-metric{{ end }}{{ if or (eq $j 0) $showAllDesktop $paperPage }} sortable-col{{ end }}{{ if and $paperPage (eq $j $rankIdx) }} col-rank-metric{{ end }}{{ if and $paperPage (eq $m $datasetDefault) }} col-metric-default{{ else if $paperPage }} col-non-default-metric{{ end }}" data-col="{{ if eq $j 0 }}value{{ else }}value-{{ $j }}{{ end }}" data-metric-index="{{ $j }}" data-metric-key="{{ $m }}">{{ $label }}{{ if or (eq $j 0) $paperPage $showAllDesktop }}{{ if $hib }} ↑{{ else }} ↓{{ end }}{{ end }}{{ if and $paperPage (eq $m $datasetDefault) }} <span class="metric-default-badge">default</span>{{ end }}</th>
+        <th class="col-value{{ if not $metricHasStd }} col-no-std{{ end }}{{ if eq $j 0 }} col-primary{{ else if not $paperPage }} col-secondary-metric{{ end }}{{ if or (eq $j 0) $showAllDesktop $paperPage }} sortable-col{{ end }}{{ if and $paperPage (eq $j $rankIdx) }} col-rank-metric{{ end }}{{ if and $paperPage (eq $m $datasetDefault) }} col-metric-default{{ else if $paperPage }} col-non-default-metric{{ end }}" data-col="{{ if eq $j 0 }}value{{ else }}value-{{ $j }}{{ end }}" data-metric-index="{{ $j }}" data-metric-key="{{ $m }}">{{ if eq $j 0 }}<span class="metric-primary-header-track"><span class="metric-primary-header-label">{{ end }}{{ $label }}{{ if or (eq $j 0) $paperPage $showAllDesktop }}{{ if $hib }} ↑{{ else }} ↓{{ end }}{{ end }}{{ if eq $j 0 }}</span></span>{{ end }}{{ if and $paperPage (eq $m $datasetDefault) }} <span class="metric-default-badge">default</span>{{ end }}</th>
         {{ end }}
         {{ else }}
-        <th class="col-value col-primary sortable-col" data-col="value">{{ $primary }}{{ if $hib }} ↑{{ else }} ↓{{ end }}</th>
+        <th class="col-value col-primary sortable-col" data-col="value"><span class="metric-primary-header-track"><span class="metric-primary-header-label">{{ $primary }}{{ if $hib }} ↑{{ else }} ↓{{ end }}</span></span></th>
         {{ end }}
         {{ if $showPaperCol }}<th class="col-paper{{ if not $paperPage }} sortable-col{{ end }}"{{ if not $paperPage }} data-col="date"{{ end }}>Paper</th>{{ end }}
       </tr>

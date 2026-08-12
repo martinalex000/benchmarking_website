@@ -34,7 +34,7 @@
       <tr>
         <th class="col-rank">#</th>
         <th class="col-model sortable-col" data-col="model">Model</th>
-        <th class="col-value sortable-col" data-col="value">{{ $metric }}{{ if $hib }} ↑{{ else }} ↓{{ end }}</th>
+        <th class="col-value sortable-col" data-col="value"><span class="metric-primary-header-track"><span class="metric-primary-header-label">{{ $metric }}{{ if $hib }} ↑{{ else }} ↓{{ end }}</span></span></th>
         {{ if not $paperPage }}<th class="col-comparison">Comparison</th>{{ end }}
         {{ if $showPaperCol }}<th class="col-paper">Paper</th>{{ end }}
         {{ if and (not $hideMeta) (not $paperPage) }}<th class="col-code">Code</th>{{ end }}
