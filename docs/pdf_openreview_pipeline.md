@@ -23,6 +23,7 @@ and never written directly to the leaderboard.
 - [x] Resolve exact normalized titles against the local arXiv metadata snapshot.
 - [x] Implement validated, atomic single-PDF staging and test representative venues.
 - [ ] Add batch staging driven directly by an exported source plan.
+- [ ] Validate redirects before following them in the PDF downloader.
 - [ ] Implement result-based processed-paper detection.
 - [ ] Implement PDF extraction as a first-class, staged pipeline source.
 - [x] Test read-only source planning on NeurIPS 2024.
@@ -43,6 +44,85 @@ Use this order for every candidate:
 
 Never process both the arXiv and OpenReview representations as separate papers. Source
 resolution and duplicate gating must happen before a paper enters the extraction queue.
+
+## Agent handoff: pipeline architecture
+
+The intended end-to-end flow is:
+
+```text
+OpenReview venue discovery
+  -> fast graph-paper prefilter
+  -> local/Semantic Scholar/arXiv-snapshot resolution
+  -> arXiv-first source plan
+  -> isolated source staging
+  -> Marker PDF-to-Markdown conversion (PDF-only branch)
+  -> configured-dataset result extraction
+  -> structural, numeric, and provenance validation
+  -> processed-paper/result-fingerprint duplicate gate
+  -> human-readable dry-run audit
+  -> explicit persistence and site export
+```
+
+The first four stages and single-PDF staging exist. The experiment proves the PDF conversion and
+Markdown-table adapter, but they are not yet promoted into the production pipeline. Batch plan
+export/staging, production Marker invocation, evidence-linked candidate storage, result-based
+deduplication, and audited persistence remain to be implemented.
+
+### Current components and ownership
+
+- `backend/openreview_client.py` fetches and normalizes OpenReview submissions. It supports API v2
+  and the API-v1 fallback needed by legacy ICLR `Blind_Submission` invitations.
+- `scripts/openreview_stats.py` is the read-only discovery and source-planning entry point. It
+  applies the fast filter, compares local and Semantic Scholar records, optionally scans the local
+  arXiv snapshot, constructs `SourceDecision` objects, and prints the dry-run plan.
+- `backend/openreview_pdf.py` validates URLs and atomically stages one OpenReview PDF. It does not
+  touch the database or queue.
+- `scripts/stage_openreview_pdf.py` is the manual CLI around that single-file downloader.
+- `experiments/marker_docling_bakeoff/` contains the selected converter evidence and the temporary
+  Markdown-table/downstream-comparison tools. These are experiment code, not production APIs.
+- `backend/paper_matching.py` supplies title normalization and author-overlap helpers used during
+  source resolution. Reuse its normalization rather than introducing a second title matcher.
+- `backend/results_parser.py`, `backend/extraction_validation.py`, and the existing result models
+  are the integration points for dataset restriction, normalized result keys/values, and final
+  validation. Inspect existing patterns before adding PDF-specific persistence.
+- `scripts/seed_openreview_venue.py` is an older mutating queue path. Do not route this new pipeline
+  through it until source resolution, duplicate gating, and dry-run auditing are complete.
+
+### Implemented source-decision contract
+
+`SourceDecision` currently contains `note_id`, `title`, `action`, `source_kind`, `venue_id`,
+`arxiv_id`, `pdf_url`, and an explainable `evidence` string. Its actions are:
+
+- `skip-processed`: a local title/ID match already has result rows.
+- `queue-arxiv`: use an arXiv source found in OpenReview, the local DB, Semantic Scholar, or the
+  exact-title snapshot resolver.
+- `queue-pdf`: no arXiv source was found and an OpenReview PDF is available.
+- `review`: at least one source matcher was ambiguous; do not download automatically.
+- `unavailable`: neither an arXiv source nor a PDF is available.
+
+Resolution precedence is encoded in `resolve_submission_sources()` and must remain arXiv-first:
+processed local paper, OpenReview arXiv ID, local arXiv match, Semantic Scholar arXiv match, exact
+snapshot match, ambiguity review, and only then OpenReview PDF. At present decisions exist only in
+memory and terminal output; there is no exported plan or stable resume manifest.
+
+### State and artifact boundaries
+
+- `.cache/openreview_stats/` holds untracked atomic JSON caches. Each cache wraps `version`,
+  `source`, `query`, `fetched_at`, and `data`. Snapshot-resolution cache keys include snapshot path,
+  size, mtime, and the normalized candidate set.
+- `.cache/openreview_pdf_staging/<safe-venue>/<safe-note-id>.pdf` is the staged PDF. Its adjacent
+  JSON sidecar records `note_id`, `venue_id`, source/final URLs, path, size, timestamp, and whether
+  an existing valid PDF was reused.
+- `.cache/pdf-table-bakeoff/` contains ignored converter and comparison output from the experiment.
+- `papers/<arxiv-id>/latex/expanded.tex` remains authoritative whenever an arXiv version exists.
+- `data/benchmarks.db`, the processing queue, and generated site data are outside the discovery and
+  staging boundary. No current PDF/OpenReview command is authorized to mutate them.
+
+Future batch work should export an immutable JSONL plan before downloading. Each row should retain
+all `SourceDecision` fields plus a plan version, generation timestamp, venue, filter category,
+source-resolution evidence, and enough snapshot/cache identity to reproduce the decision. Batch
+staging should consume only `queue-pdf` rows, checkpoint each outcome, and refuse `review` or
+`unavailable` rows. This proposed manifest does not exist yet.
 
 ## PDF backend decision
 
@@ -242,6 +322,142 @@ command exercised the idempotent reuse path. The first anonymous request receive
 left no staged file; authenticated access was then added and tested. Artifacts remain ignored
 under `.cache/openreview_pdf_staging/` and no queue or database rows were changed.
 
+## Operator workflow and reproducible commands
+
+Use `uv`, keep its cache outside the home directory, and run expensive scans/conversions at low
+priority. OpenReview access requires `OPENREVIEW_TOKEN`; obtain a short-lived token without storing
+the password by running:
+
+```bash
+UV_CACHE_DIR=/tmp/benchmarking-uv-cache uv run python scripts/openreview_login.py
+```
+
+Run source preflight with the local arXiv metadata snapshot. The snapshot scan is expensive, so
+keep `nice -6`; subsequent identical runs reuse the cache:
+
+```bash
+UV_CACHE_DIR=/tmp/benchmarking-uv-cache nice -6 uv run python \
+  scripts/openreview_stats.py \
+  --venue-id NeurIPS.cc/2024/Conference \
+  --s2-venue NeurIPS --s2-year 2024 \
+  --resolve-arxiv-snapshot --no-kaggle-categories \
+  --show-source-decisions 20
+```
+
+For the other validated venues, substitute these triples:
+
+```text
+ICLR.cc/2022/Conference                 ICLR                2022
+logconference.io/LOG/2022/Conference   Learning on Graphs  2022
+logconference.io/LOG/2023/Conference   Learning on Graphs  2023
+logconference.io/LOG/2024/Conference   Learning on Graphs  2024
+```
+
+Use `--refresh-cache` only for an intentional live refresh. `--no-cache` avoids both reads and
+writes. `--no-compare-s2` permits a local/OpenReview-only run when Semantic Scholar is unavailable,
+but its resulting PDF count is less reliable. `--no-filter` reports all venue submissions and must
+not be treated as the ingestion candidate set. The fast filter is only a discovery prefilter; the
+configured-dataset restriction still has to be enforced during extraction.
+
+Stage a single `queue-pdf` decision manually by copying its exact note ID, venue ID, and PDF URL
+from the source-decision report:
+
+```bash
+UV_CACHE_DIR=/tmp/benchmarking-uv-cache nice -6 uv run python \
+  scripts/stage_openreview_pdf.py \
+  --note-id oEKFPSOWpp \
+  --venue-id NeurIPS.cc/2024/Conference \
+  --pdf-url 'https://openreview.net/pdf?id=oEKFPSOWpp'
+```
+
+The downloader accepts only an initial HTTPS `openreview.net` URL, sends the bearer token when
+configured, limits downloads to 200 MB, checks the `%PDF-` signature, writes through `.pdf.part`,
+and atomically writes provenance JSON. `--force` re-downloads; otherwise an existing
+signature-valid PDF is reused. It currently validates only the header, not full PDF parseability;
+the live checks used an additional PDF parser manually.
+
+Before batch use, harden redirect handling. The current `requests.get(..., allow_redirects=True)`
+follows redirects and validates `response.url` afterward, so an off-host redirect is rejected only
+after the request has occurred. Replace this with redirect-by-redirect validation or disabled
+automatic redirects, and add a regression test. This is a known safety gap in
+`backend/openreview_pdf.py`.
+
+Convert a staged PDF with the selected Marker configuration:
+
+```bash
+nice -6 .cache/pdf-table-bakeoff-env/bin/marker_single \
+  .cache/openreview_pdf_staging/NeurIPS.cc_2024_Conference/oEKFPSOWpp.pdf \
+  --output_dir .cache/pdf_pipeline_markdown/oEKFPSOWpp \
+  --mode fast \
+  --ocr_equations false \
+  --ocr_inline_math false \
+  --disable_image_extraction \
+  --output_format markdown
+```
+
+The bake-off environment is local experimental state, not a declared project dependency. A
+production implementation must pin/install Marker through a deliberate dependency boundary and
+record converter name, version, flags, source PDF checksum, output checksum, runtime, and errors in
+the candidate provenance. Do not silently fall back to full OCR or Docling.
+
+For an arXiv/PDF comparison, use the scripts and exact examples in
+`experiments/marker_docling_bakeoff/RESULTS.md`. `compare_table_values.py` is deterministic;
+`run_source_extraction.py` calls the configured LLM endpoint and may be rate-limited. Neither
+script writes extracted results to the database.
+
+## Verification map
+
+Focused offline validation for the implemented components:
+
+```bash
+UV_CACHE_DIR=/tmp/benchmarking-uv-cache nice -6 uv run pytest -q \
+  tests/unit/test_openreview.py \
+  tests/unit/test_openreview_stats.py \
+  tests/unit/test_openreview_pdf.py \
+  tests/unit/test_compare_pdf_table_values.py \
+  tests/unit/test_pdf_source_extraction.py \
+  tests/unit/test_compare_pdf_source_results.py
+
+UV_CACHE_DIR=/tmp/benchmarking-uv-cache nice -6 uv run ruff check \
+  backend/openreview_client.py backend/openreview_pdf.py \
+  scripts/openreview_stats.py scripts/stage_openreview_pdf.py \
+  experiments/marker_docling_bakeoff
+```
+
+Normal tests must mock OpenReview and Semantic Scholar at shared request/fixture boundaries; they
+must not depend on DNS, credentials, or live venue state. Live validation is an explicit manual
+integration run and should record date, cache policy, venue ID, counts, and sampled note IDs here.
+Preserve unrelated local changes to the LFS-backed `data/benchmarks.db` during validation.
+
+## Recommended continuation slices
+
+Keep each slice independently testable and retain a no-database-write path throughout:
+
+1. **Export a source plan.** Add `--output-plan PATH` to `openreview_stats.py`, serialize a
+   versioned JSONL manifest atomically, and test stable ordering, complete evidence, ambiguity
+   preservation, and identical cached reruns. Do not download in this step.
+2. **Batch-stage only PDFs from a plan.** Add a separate CLI that accepts the manifest, refuses
+   non-`queue-pdf` actions, calls `stage_openreview_pdf()`, records per-row success/error/reuse, and
+   resumes without repeating completed items. First harden redirect handling; then test
+   interruption, off-host redirects, and corrupt/partial artifacts.
+3. **Promote PDF-to-Markdown conversion.** Wrap Marker in a backend module with an explicit command
+   builder, timeout, low-priority execution, version capture, checksums, atomic output, and a
+   per-paper provenance record. Promote the Markdown table adapter from the experiment rather than
+   importing experiment code in production.
+4. **Stage extraction candidates with evidence.** Restrict extraction to datasets already
+   configured in the database/config, attach table/caption/row/column evidence to every value, and
+   reject collapsed rows, missing values, unknown datasets, unit ambiguity, and range failures.
+   Produce an audit artifact; do not persist leaderboard rows.
+5. **Implement the processed-paper fingerprint gate.** Compare normalized result multisets and
+   emit an explainable match report using the thresholds below. Validate changed-title positives
+   and common-baseline negatives before allowing automatic skips/merges.
+6. **Run a dry ingestion audit.** Sample all three venue families, measure automatic acceptance,
+   review, rejection, and suspected false-positive rates, and manually inspect evidence. Only then
+   design the explicit database persistence step.
+
+The safest immediate next task is slice 1. It creates the stable handoff between read-only
+discovery and every later stage without committing to a storage schema or converter integration.
+
 ## Implementation sequence
 
 1. Add a source-resolution record that keeps OpenReview note ID, venue, PDF URL, resolved arXiv ID,
@@ -252,14 +468,15 @@ under `.cache/openreview_pdf_staging/` and no queue or database rows were change
    inspect per-paper evidence without downloading anything.
 3. Resolve provisional PDF candidates against the local arXiv metadata snapshot by normalized
    title, with ambiguity reported rather than guessed. **Completed.**
-4. Add a staged downloader with content validation and resumable, atomic files. **Single-file
-   atomic staging and idempotent reuse completed; batch resume remains pending.**
-5. Promote the Markdown table adapter from the experiment into a tested backend module.
-6. Add table-structure checks and evidence-linked result staging.
-7. Add the result-fingerprint matcher and an explainable match report.
-8. Run the three venue tests and inspect false matches and missed matches.
-9. Run extraction without database writes and manually audit a representative sample.
-10. Enable persistence only for candidates that pass all automatic gates or receive explicit
+4. Add a staged downloader with content validation and atomic files. **Single-file atomic staging
+   and idempotent reuse completed; batch resume remains pending.**
+5. Export a stable, versioned source-plan manifest. **Not started; recommended next step.**
+6. Add resumable batch staging driven only by approved manifest actions. **Not started.**
+7. Promote the Markdown table adapter and Marker wrapper into tested backend modules.
+8. Add table-structure checks and evidence-linked result staging.
+9. Add the result-fingerprint matcher and an explainable match report.
+10. Run extraction without database writes and manually audit a representative sample.
+11. Enable persistence only for candidates that pass all automatic gates or receive explicit
    approval.
 
 ## Existing experiment tooling
@@ -277,6 +494,12 @@ Relevant commits:
 
 - `cf09b1b` — add the PDF extraction bake-off harness.
 - `e54ef4e` — parse PDF Markdown tables for extraction comparison.
+- `c7869d8` — add arXiv-first read-only source planning.
+- `220a59f` — handle relative OpenReview PDF paths.
+- `bd7e769` — support legacy OpenReview API-v1 submissions.
+- `6518b01` — add exact-title local arXiv snapshot resolution.
+- `1ae63b2` — add validated, atomic single-PDF staging.
+- `71009d2` — consolidate Marker/Docling evidence and select Marker.
 
 The current source resolver lives in `scripts/openreview_stats.py`. Ambiguous local or Semantic
 Scholar matches block automatic PDF selection, even when an OpenReview PDF URL is present.
@@ -286,6 +509,9 @@ Scholar matches block automatic PDF selection, even when an OpenReview PDF URL i
 - Whether the staged downloader should use a new PDF-only candidate table or extend the existing
   paper candidate representation.
 - The exact minimum fingerprint evidence for papers containing only one configured dataset.
-- Whether Docling should be invoked automatically after a Marker structural-quality failure or
-  remain a manual diagnostic tool.
-- Which LoG years and OpenReview venue IDs should be included in the first live download test.
+- Whether the exported source plan should embed all OpenReview metadata or retain only the fields
+  required for reproducible source selection and staging.
+- Which PDF candidate/evidence records should be persistent database entities versus immutable
+  audit files. Do not decide this before the dry extraction artifact is understood.
+- Docling remains manual diagnostic tooling. Automatic fallback is out of scope until structural
+  quality can be measured reliably enough to prevent row-association errors.
