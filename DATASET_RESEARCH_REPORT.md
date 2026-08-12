@@ -10,9 +10,9 @@ presented as facts on the website.
 ## Current status
 
 - Dataset entries: 142
-- Fully researched: 4
+- Fully researched: 23
 - Partially researched: 1
-- Not yet researched: 137
+- Not yet researched: 118
 
 ## Successes
 
@@ -80,3 +80,28 @@ chain, confirmed facts, excluded claims, conflicts, and remaining questions.
   larger upstream collection and does not fully enumerate the released scalar feature encoding.
 - **Excluded:** no inferred subset-selection rule, feature vocabulary, or claim that predicted 3D
   structures are experimental ground truth.
+
+### LRGB family — complete
+
+- **Datasets:** Peptides-func, Peptides-struct, PascalVOC-SP, COCO-SP, and PCQM-Contact.
+- **Success:** the local expanded source and official releases document construction, feature fields,
+  targets, splits, and evaluation precisely. Upstream SATPdb, Pascal VOC, COCO, and PCQM4Mv2
+  provenance was traced separately.
+- **Challenges:** superpixel graph variants and the two PCQM tasks are easy to conflate; the public
+  text now names the exact default construction and distinguishes contact prediction from gap
+  regression.
+- **Remaining uncertainty:** SATPdb's constituent records do not share a single experimental assay
+  protocol; no such uniformity is claimed.
+
+### OGB family — complete
+
+- **Datasets:** all 16 OGB entries currently represented in the YAML, including graph, node, link,
+  knowledge-graph, and PCQM4Mv2 tasks.
+- **Success:** official OGB documentation and its upstream sources establish feature construction,
+  task-specific splits, sampled-negative semantics, missing-label treatment, and version history.
+- **Challenges:** several old and corrected artifacts have nearly identical names. The descriptions
+  explicitly separate ogbg-code2 from ogbg-code, ogbl-citation2 from ogbl-citation,
+  ogbl-wikikg2 from ogbl-wikikg, and PCQM4Mv2 from PCQM4M.
+- **Remaining uncertainty:** aggregate biomedical graphs inherit incomplete and sometimes
+  contradictory evidence from multiple repositories; absent edges and labels are not presented as
+  confirmed negatives.

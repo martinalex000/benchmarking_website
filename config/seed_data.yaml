@@ -37,8 +37,20 @@ benchmarks:
       is_standard: true
   - name: Peptides-struct
     task_type: graph_regression
-    description: Multi-task graph regression on peptide structural properties (11
-      targets).
+    description: Regression of 11 normalized 3D shape descriptors from heavy-atom peptide graphs that contain no 3D coordinates.
+    detailed_description:
+      task: Predict 11 graph-level geometric descriptors computed from each peptide's 3D structure. The targets cover three mass-weighted inertias, three valence-weighted inertias, three principal-axis lengths, sphericity, and distance from a best-fit plane; each target is standardized to zero mean and unit variance.
+      data: The 15,535 peptides are the same SATPdb-derived molecules used by Peptides-func. Nodes are non-hydrogen atoms and edges are covalent bonds, giving much larger molecular graphs than typical small-molecule benchmarks.
+      features: Inputs use OGB's nine categorical atom fields and three categorical bond fields derived from SMILES. Although the targets were computed from 3D peptide structures, neither coordinates nor other 2D/3D structural information are included in the input graphs.
+      splits_and_evaluation: Peptides-struct uses the same fixed 70%/15%/15% stratified split as Peptides-func, where stratification is based on pooled combinations of the functional labels. The primary score is the unweighted mean absolute error across the 11 standardized targets; per-target R-squared is supplementary.
+      quirks_and_pitfalls: The task asks a model to infer global 3D properties from covalent connectivity without a supplied conformation. Target standardization is part of the benchmark, so MAE on unstandardized physical quantities is not comparable. The split is stratified by function rather than structural scaffold, and correlated geometric targets must not be treated as independent datasets.
+    sources:
+    - title: Long Range Graph Benchmark
+      arxiv_id: '2206.08164'
+      kind: benchmark_definition
+    - title: SATPdb, a database of structurally annotated therapeutic peptides
+      url: https://pmc.ncbi.nlm.nih.gov/articles/PMC4702810/
+      kind: upstream_data_source
     primary_metric: MAE
     higher_is_better: false
     domain: chemistry
@@ -52,7 +64,20 @@ benchmarks:
       is_standard: true
   - name: PascalVOC-SP
     task_type: node_classification
-    description: Node classification on superpixel graphs derived from PascalVOC 2011.
+    description: Semantic segmentation of Pascal VOC 2011 images represented as sparse graphs of SLIC superpixels.
+    detailed_description:
+      task: Assign one of 21 semantic-segmentation labels, including background, to every superpixel node. A superpixel receives the ground-truth class of the pixel at the superpixel's center-of-mass coordinate.
+      data: Each of 11,355 images from the Semantic Boundaries Dataset augmentation of Pascal VOC 2011 becomes one graph. SLIC with compactness 30 produces at most 500 image regions, and two regions are connected when they share a boundary in the default region-adjacency graph.
+      features: Each node has 12 RGB summary values—the mean, standard deviation, maximum, and minimum in each channel—plus its two-dimensional center-of-mass coordinate. Each edge stores the average Sobel response and pixel count along the shared boundary.
+      splits_and_evaluation: The original training set remains training data. The original validation set is divided equally into validation and test subsets using a stratified image-level meta-label obtained by majority vote over non-background node labels, yielding 8,498/1,428/1,429 graphs. The score is class-weighted macro F1 over nodes.
+      quirks_and_pitfalls: This is not pixel-level segmentation; labels and predictions are quantized to superpixels, and labeling only from the center pixel can misrepresent mixed regions. LRGB also releases compactness-10 and 8-nearest-neighbor graph variants, whose structures and edge features differ from the default compactness-30 region-boundary version.
+    sources:
+    - title: Long Range Graph Benchmark
+      arxiv_id: '2206.08164'
+      kind: benchmark_definition
+    - title: The PASCAL Visual Object Classes Challenge
+      url: http://host.robots.ox.ac.uk/pascal/VOC/pubs/everingham10.pdf
+      kind: upstream_data_source
     primary_metric: F1
     higher_is_better: true
     domain: computer_vision
@@ -66,7 +91,20 @@ benchmarks:
       is_standard: true
   - name: COCO-SP
     task_type: node_classification
-    description: Node classification on superpixel graphs derived from MS-COCO.
+    description: Semantic segmentation of MS COCO images represented as sparse graphs of SLIC superpixels.
+    detailed_description:
+      task: Predict one of 81 semantic labels for each superpixel node. The assigned target is the pixel annotation at the mean coordinate of the superpixel region.
+      data: The benchmark converts 123,286 MS COCO images into graphs. Its default construction uses SLIC superpixels with compactness 30 and at most 500 regions per image, joined by edges when the regions share a boundary.
+      features: Nodes contain 12 per-region RGB statistics—mean, standard deviation, maximum, and minimum per channel—and two center-of-mass coordinates. Region-boundary edges contain the mean Sobel response and the number of boundary pixels.
+      splits_and_evaluation: The original COCO validation set becomes a 5,000-image test set; 5,000 images sampled from the original training set form validation, leaving 113,286 for training. The official score is class-weighted macro F1 over superpixel nodes.
+      quirks_and_pitfalls: The task differs from original COCO instance segmentation and inherits approximation error from superpixelization and center-pixel labels. Optional LRGB variants change SLIC compactness or replace region-boundary edges with coordinate- or feature-based 8-nearest-neighbor graphs; results across these graph constructions are not directly comparable.
+    sources:
+    - title: Long Range Graph Benchmark
+      arxiv_id: '2206.08164'
+      kind: benchmark_definition
+    - title: Microsoft COCO, Common Objects in Context
+      arxiv_id: '1405.0312'
+      kind: upstream_data_source
     primary_metric: F1
     higher_is_better: true
     domain: computer_vision
@@ -80,7 +118,21 @@ benchmarks:
       is_standard: true
   - name: PCQM-Contact
     task_type: link_prediction
-    description: Link prediction of spatial atom contacts in quantum chemistry molecules.
+    description: Inductive prediction of non-covalent 3D atom contacts from 2D molecular graphs derived from PCQM4Mv2.
+    detailed_description:
+      task: Rank atom pairs that are more than five covalent-bond hops apart but less than 3.5 angstrom apart in the molecule's computed 3D geometry. The benchmark frames this contact-map problem as link prediction on previously unseen molecules.
+      data: The 529,434 molecules come from PCQM4Mv2 training molecules with available 3D structures and at least one qualifying contact. Unlike most molecular graph benchmarks, hydrogen atoms are explicit nodes because hydrogen bonding is relevant to the contact target.
+      features: Inputs are 2D covalent graphs using the OGB nine-field atom encoder and three-field bond encoder. The 3D coordinates determine labels but are not input features, and the predicted contact itself has no edge type.
+      splits_and_evaluation: >-
+        Molecules are randomly divided 90%/5%/5% into 476,490 training, 26,472 validation, and 26,472 test graphs. Evaluation uses filtered MRR and Hits@1/3: when ranking a true contact, other known true contacts for the query atom are masked rather than counted as negatives.
+      quirks_and_pitfalls: Training supplies positive contacts without authoritative hard-negative labels; an unobserved pair is not necessarily a chemically meaningful negative. The random molecule split does not enforce scaffold separation. Results depend on filtered ranking and explicit hydrogens, and therefore are not comparable to generic binary link prediction or PCQM4Mv2 HOMO-LUMO regression.
+    sources:
+    - title: Long Range Graph Benchmark
+      arxiv_id: '2206.08164'
+      kind: benchmark_definition
+    - title: OGB-LSC, A Large-Scale Challenge for Machine Learning on Graphs
+      arxiv_id: '2103.09430'
+      kind: upstream_data_source
     primary_metric: MRR
     higher_is_better: true
     domain: chemistry
@@ -390,9 +442,23 @@ benchmarks:
   datasets:
   - name: ogbg-molhiv
     task_type: graph_classification
-    description: 'Binary graph classification on HIV inhibition (molecules). Highly
-      imbalanced dataset: only ~3.5% of molecules are active (HIV inhibitors). Evaluated
-      with ROC-AUC to account for class imbalance.'
+    description: Binary prediction of HIV replication inhibition from molecular graphs, using MoleculeNet assay labels and a scaffold split.
+    detailed_description:
+      task: Predict whether a compound inhibits HIV replication. This is one binary graph-classification task scored by ROC-AUC because active compounds are rare.
+      data: The 41,127 compounds are OGB's RDKit-processed version of the MoleculeNet HIV dataset. Each graph is one molecule, with atoms as nodes and covalent bonds as edges; the activity labels ultimately come from the Drug Therapeutics Program AIDS antiviral screen.
+      features: OGB converts SMILES into nine categorical atom fields, including atomic number, chirality, formal charge, aromaticity, and ring membership, and three categorical bond fields describing bond type, stereochemistry, and conjugation.
+      splits_and_evaluation: The official split separates compounds by Bemis-Murcko-style two-dimensional molecular scaffolds rather than assigning molecules independently at random. ROC-AUC is computed on the held-out scaffold groups.
+      quirks_and_pitfalls: The assay is highly imbalanced and a random split is easier because close structural analogues can occur on both sides. The label reports activity in a particular screening pipeline, not clinical efficacy, binding mechanism, or general antiviral action. RDKit parsing and OGB feature versions should be held fixed for comparison.
+    sources:
+    - title: Open Graph Benchmark
+      arxiv_id: '2005.00687'
+      kind: benchmark_definition
+    - title: OGB graph property prediction documentation
+      url: https://ogb.stanford.edu/docs/graphprop/#ogbg-mol
+      kind: official_documentation
+    - title: MoleculeNet
+      arxiv_id: '1703.00564'
+      kind: upstream_benchmark
     primary_metric: ROC-AUC
     higher_is_better: true
     domain: chemistry
@@ -408,7 +474,23 @@ benchmarks:
       notes: OGB scaffold split; use the official default task and features.
   - name: ogbg-molpcba
     task_type: graph_classification
-    description: Multi-label classification (128 tasks) on PubChem BioAssay.
+    description: Multi-task prediction of 128 PubChem bioassay outcomes from molecular graphs under a scaffold split.
+    detailed_description:
+      task: Predict activity separately for 128 PubChem BioAssay tasks. Labels are binary where measured, but many molecule-task pairs are unassayed and stored as missing rather than negative.
+      data: OGB adopts 437,929 RDKit-processable compounds from MoleculeNet's PCBA collection. Graphs represent atoms and covalent bonds; assay outcomes originate from PubChem's heterogeneous high-throughput screening records.
+      features: Inputs use the standard OGB nine-field categorical atom representation and three-field categorical bond representation generated from SMILES. Assay identifiers and labels are targets, not molecular input features.
+      splits_and_evaluation: Molecules are separated by two-dimensional scaffold into the official train, validation, and test sets. Average precision is calculated for each evaluable assay and averaged across the 128 tasks, ignoring missing labels.
+      quirks_and_pitfalls: Only about 1.4% of assigned labels are positive, so accuracy and unweighted treatment of missing labels are misleading. The assays measure different biological endpoints and have different coverage; a missing label means unknown, not inactive. Random splits and per-task metrics are not directly comparable to the official mean AP.
+    sources:
+    - title: Open Graph Benchmark
+      arxiv_id: '2005.00687'
+      kind: benchmark_definition
+    - title: OGB graph property prediction documentation
+      url: https://ogb.stanford.edu/docs/graphprop/#ogbg-mol
+      kind: official_documentation
+    - title: MoleculeNet
+      arxiv_id: '1703.00564'
+      kind: upstream_benchmark
     primary_metric: AP
     higher_is_better: true
     domain: chemistry
@@ -424,7 +506,23 @@ benchmarks:
       notes: OGB scaffold split; AP is averaged across all 128 tasks.
   - name: ogbg-ppa
     task_type: graph_classification
-    description: Protein-protein association subgraph classification (37 taxonomic groups).
+    description: Classification of STRING protein-association neighborhoods into 37 broad taxonomic groups, with held-out species.
+    detailed_description:
+      task: Given a protein-association neighborhood, predict the broad taxonomic group of its source species. The output is one of 37 classes and is scored by accuracy.
+      data: OGB samples 100 center proteins from each of 1,581 STRING species, extracts their two-hop association neighborhoods, removes the center, and subsamples graphs to fewer than 300 protein nodes. The resulting 158,100 graphs cover diverse branches of the tree of life.
+      features: Nodes carry no intrinsic biological feature in the standard artifact. Each association edge has seven confidence values for evidence channels such as co-expression, gene neighborhood, co-occurrence, and gene fusion.
+      splits_and_evaluation: Validation and test graphs come from species absent from training while remaining within the same 37 taxonomic groups. Accuracy therefore measures cross-species generalization rather than memorization of neighborhoods from the same organism.
+      quirks_and_pitfalls: The target is the graph's taxonomic origin, not a protein function. STRING edges mix experimental and computational evidence, and the seven confidence channels can encode species-specific collection patterns. Random graph splits would leak species identity and materially change the task.
+    sources:
+    - title: Open Graph Benchmark
+      arxiv_id: '2005.00687'
+      kind: benchmark_definition
+    - title: STRING v11
+      url: https://doi.org/10.1093/nar/gky1131
+      kind: upstream_data_source
+    - title: Evolution of resilience in protein interactomes across the tree of life
+      url: https://doi.org/10.1073/pnas.1818013116
+      kind: construction_source
     primary_metric: Accuracy
     higher_is_better: true
     domain: biology
@@ -472,7 +570,23 @@ benchmarks:
       notes: OGB project split.
   - name: ogbn-arxiv
     task_type: node_classification
-    description: Node classification on arXiv citation network (40 subject areas).
+    description: Time-split classification of computer-science arXiv papers into 40 primary subject areas on a MAG citation graph.
+    detailed_description:
+      task: Predict each paper's primary arXiv computer-science category from its content representation and citation context. The task is transductive 40-class node classification scored by accuracy.
+      data: The directed graph contains 169,343 arXiv CS papers indexed by Microsoft Academic Graph; a directed edge represents a citation. Labels are primary categories assigned through arXiv submission and moderation, and publication years accompany nodes.
+      features: Each paper has a 128-dimensional vector formed by averaging skip-gram word embeddings from its title and abstract, trained on the MAG corpus. Raw text is available separately but is not the standard node feature matrix.
+      splits_and_evaluation: Papers published through 2017 are training nodes, 2018 papers are validation, and papers from 2019 onward are test. The full graph is visible, so the protocol is transductive despite its temporal label split.
+      quirks_and_pitfalls: The label is only the primary category even when a paper has cross-lists. Reversing or symmetrizing citation edges changes the input graph and must be disclosed. Random splits remove the intended temporal shift, and newer MAG or arXiv snapshots are not the fixed OGB artifact.
+    sources:
+    - title: Open Graph Benchmark
+      arxiv_id: '2005.00687'
+      kind: benchmark_definition
+    - title: OGB node property prediction documentation
+      url: https://ogb.stanford.edu/docs/nodeprop/#ogbn-arxiv
+      kind: official_documentation
+    - title: Microsoft Academic Graph, When experts are not enough
+      url: https://doi.org/10.1162/qss_a_00021
+      kind: upstream_data_source
     primary_metric: Accuracy
     higher_is_better: true
     domain: citation_networks
@@ -486,8 +600,26 @@ benchmarks:
       is_standard: true
   - name: ogbn-proteins
     task_type: node_classification
-    description: Multi-label binary node classification on protein association network
-      (112 tasks).
+    description: Cross-species prediction of 112 protein functions on a weighted, multi-evidence STRING association graph.
+    detailed_description:
+      task: Predict all applicable Gene Ontology-derived function labels for each protein. This is 112-task multi-label node classification evaluated by mean ROC-AUC across tasks.
+      data: One undirected graph contains 132,534 proteins from eight species and biologically meaningful STRING associations including physical interaction, co-expression, and homology.
+      features: Edges have eight confidence values between zero and one, one per association evidence channel. The standard OGB baseline derives node inputs by aggregating incident edge features; users must not assume that independent sequence features are supplied.
+      splits_and_evaluation: Protein nodes are divided by species so validation and test require transfer to species not represented by training nodes. ROC-AUC is computed for each of the 112 function labels and then averaged.
+      quirks_and_pitfalls: Associations are evidence-weighted rather than verified physical contacts, and confidence channels can reflect database coverage. Function annotation is incomplete, so unannotated functions may not be true biological negatives. Random node splitting breaks the intended cross-species test.
+    sources:
+    - title: Open Graph Benchmark
+      arxiv_id: '2005.00687'
+      kind: benchmark_definition
+    - title: OGB node property prediction documentation
+      url: https://ogb.stanford.edu/docs/nodeprop/#ogbn-proteins
+      kind: official_documentation
+    - title: STRING v11
+      url: https://doi.org/10.1093/nar/gky1131
+      kind: upstream_data_source
+    - title: The Gene Ontology resource, 20 years and still GOing strong
+      url: https://doi.org/10.1093/nar/gky1055
+      kind: label_source
     primary_metric: ROC-AUC
     higher_is_better: true
     domain: biology
@@ -500,7 +632,24 @@ benchmarks:
       is_standard: true
   - name: ogbn-products
     task_type: node_classification
-    description: Node classification on Amazon product co-purchase graph (47 categories).
+    description: Popularity-split classification of Amazon products into 47 top-level categories on a co-purchase graph.
+    detailed_description:
+      task: Predict one of 47 top-level product categories for every product node using its description representation and co-purchase neighborhood. Accuracy is the official metric.
+      data: The undirected, unweighted graph contains 2,449,029 Amazon products; an edge indicates that two products are frequently purchased together. Categories and preprocessing follow the Cluster-GCN version of the source collection.
+      features: Product descriptions are converted to bag-of-words vectors and reduced by principal component analysis to 100 numeric node features. Sales rank is split metadata, not part of the standard feature vector.
+      splits_and_evaluation: >-
+        Products are sorted by sales rank: the most popular 8% train the model, the next 2% form validation, and the remaining 90% form test. This deliberately tests transfer from heavily labeled popular items to less popular ones.
+      quirks_and_pitfalls: The split is highly asymmetric and distribution-shifted; a conventional random 90/10 split is a different, easier protocol. The graph contains a very small number of repeated self-loops. Co-purchase edges reflect platform behavior and exposure as well as product similarity.
+    sources:
+    - title: Open Graph Benchmark
+      arxiv_id: '2005.00687'
+      kind: benchmark_definition
+    - title: OGB node property prediction documentation
+      url: https://ogb.stanford.edu/docs/nodeprop/#ogbn-products
+      kind: official_documentation
+    - title: Cluster-GCN
+      arxiv_id: '1905.07953'
+      kind: processing_source
     primary_metric: Accuracy
     higher_is_better: true
     domain: e_commerce
@@ -513,8 +662,24 @@ benchmarks:
       is_standard: true
   - name: ogbn-papers100M
     task_type: node_classification
-    description: Node classification on 111M academic paper citation network (172
-      subjects).
+    description: Time-split classification of arXiv papers into 172 subjects within a 111-million-paper MAG citation graph.
+    detailed_description:
+      task: Predict a primary arXiv subject area for the approximately 1.5 million labeled arXiv papers while using the full 111-million-node citation network. Accuracy over 172 classes is the official measure.
+      data: Nodes are papers indexed by Microsoft Academic Graph and directed edges are citations. Most nodes are not arXiv papers and have no class label, but remain available as unlabeled graph context.
+      features: As in ogbn-arxiv, every paper has a 128-dimensional average of skip-gram embeddings for title and abstract words. The fixed features and graph come from the released MAG snapshot.
+      splits_and_evaluation: Labeled arXiv papers through 2017 train the model, papers from 2018 validate it, and papers from 2019 onward form test. The task is transductive because features and topology for all nodes are supplied.
+      quirks_and_pitfalls: >-
+        Dataset scale makes full-batch processing impractical and often forces sampling or partitioning choices that affect results. The overwhelming majority of nodes are unlabeled. This is not simply a scaled ogbn-arxiv: it uses 172 subjects and a much broader MAG graph.
+    sources:
+    - title: Open Graph Benchmark
+      arxiv_id: '2005.00687'
+      kind: benchmark_definition
+    - title: OGB node property prediction documentation
+      url: https://ogb.stanford.edu/docs/nodeprop/#ogbn-papers100M
+      kind: official_documentation
+    - title: Microsoft Academic Graph, When experts are not enough
+      url: https://doi.org/10.1162/qss_a_00021
+      kind: upstream_data_source
     primary_metric: Accuracy
     higher_is_better: true
     domain: citation_networks
@@ -527,8 +692,23 @@ benchmarks:
       is_standard: true
   - name: ogbn-mag
     task_type: node_classification
-    description: Heterogeneous academic graph node classification (349 venue classes)
-      from OGB.
+    description: Time-split prediction of 349 publication venues for papers in a heterogeneous Microsoft Academic Graph subset.
+    detailed_description:
+      task: Predict the conference or journal of each paper using paper content, citations, authors, affiliations, and fields of study. It is a 349-class paper-node classification task scored by accuracy.
+      data: The heterogeneous graph has paper, author, institution, and field-of-study nodes, connected by writes, affiliation, citation, and topic relations. It contains 736,389 papers within 1,939,743 total entities.
+      features: Only paper nodes receive standard input features, each a 128-dimensional average word2vec representation of title and abstract. Other entity types must obtain representations from identifiers or graph structure rather than supplied content features.
+      splits_and_evaluation: Papers published before 2018 train the model, 2018 papers validate it, and papers from 2019 onward form test. The complete heterogeneous topology is present in the transductive graph.
+      quirks_and_pitfalls: Venue labels in MAG can be noisy or missing, and the graph snapshot is no longer a live reflection of the scholarly record. Collapsing relation or node types changes the benchmark. Methods using additional author, venue, or text metadata must distinguish it from the standard inputs.
+    sources:
+    - title: Open Graph Benchmark
+      arxiv_id: '2005.00687'
+      kind: benchmark_definition
+    - title: OGB node property prediction documentation
+      url: https://ogb.stanford.edu/docs/nodeprop/#ogbn-mag
+      kind: official_documentation
+    - title: Microsoft Academic Graph, When experts are not enough
+      url: https://doi.org/10.1162/qss_a_00021
+      kind: upstream_data_source
     primary_metric: Accuracy
     higher_is_better: true
     domain: citation_networks
@@ -541,7 +721,23 @@ benchmarks:
       is_standard: true
   - name: ogbl-collab
     task_type: link_prediction
-    description: Link prediction on academic collaboration network (author co-authorship).
+    description: Time-based prediction of future co-authorships in a Microsoft Academic Graph author network.
+    detailed_description:
+      task: Rank future author-author collaboration edges above sampled non-edges, given collaborations observed in earlier years. The official score is Hits@50 against 100,000 sampled negative pairs per positive edge.
+      data: The undirected graph is a MAG subset with 235,868 author nodes. Multiple collaborations between the same authors in different years remain separate temporal edges; edge weight records the number of jointly authored papers in that year.
+      features: Each author has a 128-dimensional vector obtained by averaging word embeddings over that author's papers. Edges carry year and collaboration-count metadata.
+      splits_and_evaluation: Edges through 2017 are training data, 2018 collaborations validate the model, and 2019 collaborations form test. OGB permits adding validation edges when making test predictions, so evaluation code must state which historical graph is used.
+      quirks_and_pitfalls: Sampled-negative Hits@50 is not equivalent to ranking every absent edge, and absence of an edge does not prove two authors will never collaborate. Treating yearly parallel edges as one static edge loses timing and weight information. Random edge splits leak future collaboration patterns.
+    sources:
+    - title: Open Graph Benchmark
+      arxiv_id: '2005.00687'
+      kind: benchmark_definition
+    - title: OGB link property prediction documentation
+      url: https://ogb.stanford.edu/docs/linkprop/#ogbl-collab
+      kind: official_documentation
+    - title: Microsoft Academic Graph, When experts are not enough
+      url: https://doi.org/10.1162/qss_a_00021
+      kind: upstream_data_source
     primary_metric: Hits@50
     higher_is_better: true
     domain: citation_networks
@@ -553,7 +749,23 @@ benchmarks:
       is_standard: true
   - name: ogbl-ppa
     task_type: link_prediction
-    description: Protein-protein association link prediction (Hits@100).
+    description: Prediction of low-throughput protein associations from a multi-species STRING graph and easier evidence channels.
+    detailed_description:
+      task: Predict held-out biologically meaningful protein-protein association edges. Each positive is ranked against three million sampled negative edges and evaluated by Hits@100.
+      data: The undirected graph contains 576,289 proteins from 58 species and STRING associations arising from physical interaction, co-expression, homology, genomic neighborhood, and other evidence.
+      features: Each node has only a 58-dimensional one-hot species indicator in the standard artifact. The released training graph contains training edges but excludes validation and test associations.
+      splits_and_evaluation: The biological-throughput split uses high-throughput experimental or computationally derived associations for training and reserves resource-intensive low-throughput experimental associations for validation and test.
+      quirks_and_pitfalls: STRING associations are broader than direct physical binding. Randomly sampled absent pairs may include unknown biology rather than confirmed negatives, while Hits@100 against millions of candidates is much stricter than ROC-AUC. A random edge split would discard the intended evidence-quality shift.
+    sources:
+    - title: Open Graph Benchmark
+      arxiv_id: '2005.00687'
+      kind: benchmark_definition
+    - title: OGB link property prediction documentation
+      url: https://ogb.stanford.edu/docs/linkprop/#ogbl-ppa
+      kind: official_documentation
+    - title: STRING v11
+      url: https://doi.org/10.1093/nar/gky1131
+      kind: upstream_data_source
     primary_metric: Hits@100
     higher_is_better: true
     domain: biology
@@ -565,7 +777,23 @@ benchmarks:
       is_standard: true
   - name: ogbl-ddi
     task_type: link_prediction
-    description: Drug-drug interaction link prediction (binary, homogeneous graph).
+    description: Protein-target-split prediction of interactions among FDA-approved and experimental drugs from DrugBank.
+    detailed_description:
+      task: Rank true drug-drug interaction edges above sampled non-interacting pairs. OGB reports Hits@20 with each positive ranked among approximately 100,000 random negatives.
+      data: The homogeneous, undirected, unweighted DrugBank graph contains 4,267 drugs. An edge means the combined effect of the drug pair differs substantially from the effect expected if the drugs acted independently.
+      features: The standard graph supplies topology but no intrinsic drug node features or typed interaction labels. Models using molecular structures, targets, or descriptions are adding external data.
+      splits_and_evaluation: OGB groups edges using drug protein targets so test drugs predominantly act on proteins different from those associated with train and validation drugs. This tests transfer across mechanisms of action rather than a random edge holdout.
+      quirks_and_pitfalls: No edge is not the same as a clinically verified safe combination, and DrugBank includes both approved and experimental compounds. The graph collapses interaction types and direction. External chemical features can radically change the task and must be reported.
+    sources:
+    - title: Open Graph Benchmark
+      arxiv_id: '2005.00687'
+      kind: benchmark_definition
+    - title: OGB link property prediction documentation
+      url: https://ogb.stanford.edu/docs/linkprop/#ogbl-ddi
+      kind: official_documentation
+    - title: DrugBank 5.0
+      url: https://doi.org/10.1093/nar/gkx1037
+      kind: upstream_data_source
     primary_metric: Hits@20
     higher_is_better: true
     domain: biology
@@ -577,7 +805,23 @@ benchmarks:
       is_standard: true
   - name: ogbl-citation2
     task_type: link_prediction
-    description: Citation link prediction on arXiv/PubMed papers (directed).
+    description: Time-based recommendation of missing references in a directed Microsoft Academic Graph citation network.
+    detailed_description:
+      task: For each 2019 source paper, rank a withheld true reference above 1,000 older, uncited candidate papers. Mean reciprocal rank is averaged over the source-paper queries.
+      data: The directed MAG subset contains 2,927,963 papers and 30,561,187 citation edges. Each node has its publication year and citations point from the citing paper to the referenced paper.
+      features: Papers have 128-dimensional averages of skip-gram embeddings from their titles and abstracts. Candidate negatives are restricted to previous papers not already cited by the source.
+      splits_and_evaluation: Two references are randomly removed from each eligible 2019 source paper, one for validation and one for test; all remaining citations train the model. Evaluation ranks each held-out target separately against its fixed negative candidates.
+      quirks_and_pitfalls: The deprecated ogbl-citation dataset had faulty negative sampling and must not be combined with ogbl-citation2. Sampled MRR is not full-corpus retrieval, and sampled uncited papers are not necessarily irrelevant. Edge direction and temporal eligibility are essential to the protocol.
+    sources:
+    - title: Open Graph Benchmark
+      arxiv_id: '2005.00687'
+      kind: benchmark_definition
+    - title: OGB link property prediction documentation
+      url: https://ogb.stanford.edu/docs/linkprop/#ogbl-citation2
+      kind: official_documentation
+    - title: Microsoft Academic Graph, When experts are not enough
+      url: https://doi.org/10.1162/qss_a_00021
+      kind: upstream_data_source
     primary_metric: MRR
     higher_is_better: true
     domain: citation_networks
@@ -589,7 +833,23 @@ benchmarks:
       is_standard: true
   - name: ogbl-wikikg2
     task_type: link_prediction
-    description: Knowledge graph link prediction on Wikidata (2.5M entities, 535 relations).
+    description: Time-split completion of 535 relation types in a 2.5-million-entity Wikidata knowledge graph.
+    detailed_description:
+      task: Predict missing heads or tails of Wikidata triples. Filtered MRR ranks each true entity against 500 sampled corrupt heads and 500 sampled corrupt tails that do not form known triples.
+      data: The graph contains 2,500,604 retained entities, 535 directed relation types, and 17,137,181 triples extracted from historical Wikidata dumps after filtering rare entities.
+      features: Entities are identifiers with learned representations in the standard task; no text or image features are supplied by the core artifact. Relations are typed directed edges.
+      splits_and_evaluation: Triples in the May 2015 snapshot train the model, additions present by August validate it, and additions by November form test. Only entities and relation types already present in May are retained.
+      quirks_and_pitfalls: Wikidata is incomplete and collaboratively edited, so an absent triple is not necessarily false. The predecessor ogbl-wikikg had a negative-sampling bug and is deprecated. Sampled MRR differs from ranking all entities, and inverse-relation augmentation changes the model input.
+    sources:
+    - title: Open Graph Benchmark
+      arxiv_id: '2005.00687'
+      kind: benchmark_definition
+    - title: OGB link property prediction documentation
+      url: https://ogb.stanford.edu/docs/linkprop/#ogbl-wikikg2
+      kind: official_documentation
+    - title: Wikidata, a free collaborative knowledgebase
+      url: https://doi.org/10.1145/2629489
+      kind: upstream_data_source
     primary_metric: MRR
     higher_is_better: true
     domain: knowledge_graphs
@@ -601,7 +861,20 @@ benchmarks:
       is_standard: true
   - name: ogbl-biokg
     task_type: link_prediction
-    description: Biological knowledge graph link prediction (5 entity types, 51 relations).
+    description: Typed completion of a heterogeneous biomedical knowledge graph with five entity types and 51 relations.
+    detailed_description:
+      task: Predict missing biomedical triples by ranking the true head or tail above sampled replacements of the same entity type. The official metric is filtered mean reciprocal rank.
+      data: The aggregate graph has 93,773 diseases, proteins, drugs, side effects, and protein functions joined by 51 directed relation types. These include 38 drug-drug and eight protein-protein relations plus drug-protein, drug-side-effect, and function relations.
+      features: The standard task provides entity types, relation types, and graph structure but no unified molecular, sequence, or textual node feature matrix. Same-type relations are represented symmetrically with both directions.
+      splits_and_evaluation: Triples are randomly split because reliable timestamps for the underlying experiments and observations could not be recovered. Negative heads and tails are sampled only from the correct entity type and filtered against known triples.
+      quirks_and_pitfalls: The source repositories mix experimental measurements, curated annotations, and automatically extracted metadata with different confidence and possible contradictions. Random splitting can place closely related evidence across splits, and missing facts are not reliable negatives. External biomedical features must be disclosed.
+    sources:
+    - title: Open Graph Benchmark
+      arxiv_id: '2005.00687'
+      kind: benchmark_definition
+    - title: OGB link property prediction documentation
+      url: https://ogb.stanford.edu/docs/linkprop/#ogbl-biokg
+      kind: official_documentation
     primary_metric: MRR
     higher_is_better: true
     domain: biology
@@ -613,8 +886,23 @@ benchmarks:
       is_standard: true
   - name: PCQM4Mv2
     task_type: graph_regression
-    description: Quantum chemistry graph regression — predict HOMO-LUMO gap of 3.8M
-      molecules.
+    description: Regression of DFT-computed HOMO-LUMO gaps for 3.75 million PubChemQC molecules from their molecular graphs.
+    detailed_description:
+      task: Predict each molecule's HOMO-LUMO energy gap, a continuous quantum-chemical property calculated with density functional theory. Mean absolute error in electron volts is the official metric.
+      data: PCQM4Mv2 contains 3,746,619 PubChemQC molecules. Training molecules also have DFT-optimized 3D structures, while SMILES describe the final optimized connectivity; test labels are held by OGB-LSC.
+      features: The default 2D graph conversion uses OGB's nine categorical atom and three categorical bond fields from SMILES. Coordinates are optional additional inputs for training molecules and are unavailable in the same form for blind test molecules.
+      splits_and_evaluation: Molecules are ordered and split by PubChem compound identifier into 90% train, 2% validation, 4% test-dev, and 4% test-challenge. Despite an original intention to use scaffolds, the released split is CID-based because of a preprocessing bug.
+      quirks_and_pitfalls: PCQM4Mv2 corrected an approximately 10% mismatch in PCQM4M between initial SMILES and gaps computed after geometry optimization, so the versions are not interchangeable. The CID split is not a scaffold split. Test-dev and test-challenge are distinct blind sets, and using supplied training coordinates creates an input-availability asymmetry.
+    sources:
+    - title: OGB-LSC
+      arxiv_id: '2103.09430'
+      kind: benchmark_definition
+    - title: Official PCQM4Mv2 documentation
+      url: https://ogb.stanford.edu/docs/lsc/pcqm4mv2/
+      kind: official_documentation
+    - title: PubChemQC project
+      url: https://doi.org/10.1021/acs.jcim.7b00083
+      kind: upstream_data_source
     primary_metric: MAE
     higher_is_better: false
     domain: chemistry
