@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from experiments.pdf_extraction.compare_table_values import (
+from experiments.marker_docling_bakeoff.compare_table_values import (
     _numbers,
     compare,
     markdown_tables,

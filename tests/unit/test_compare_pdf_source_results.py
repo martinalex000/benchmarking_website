@@ -1,5 +1,5 @@
 from backend.llm_extractor import ExtractionOutput, ResultEntry
-from experiments.pdf_extraction.compare_source_results import compare_outputs
+from experiments.marker_docling_bakeoff.compare_source_results import compare_outputs
 
 
 def test_compare_outputs_reports_strict_and_method_agnostic_matches() -> None:

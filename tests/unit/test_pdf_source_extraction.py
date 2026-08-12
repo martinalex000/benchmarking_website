@@ -1,6 +1,9 @@
 from pathlib import Path
 
-from experiments.pdf_extraction.run_source_extraction import _load_source, parse_markdown_tables
+from experiments.marker_docling_bakeoff.run_source_extraction import (
+    _load_source,
+    parse_markdown_tables,
+)
 
 
 def test_load_source_prefers_explicit_pdf_markdown(tmp_path: Path) -> None:

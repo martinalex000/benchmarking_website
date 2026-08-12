@@ -264,12 +264,14 @@ under `.cache/openreview_pdf_staging/` and no queue or database rows were change
 
 ## Existing experiment tooling
 
-- `experiments/pdf_extraction/compare_table_values.py`: deterministic LaTeX/Markdown numeric
+- `experiments/marker_docling_bakeoff/compare_table_values.py`: deterministic LaTeX/Markdown numeric
   pre-screen.
-- `experiments/pdf_extraction/run_source_extraction.py`: restricted downstream extraction over
+- `experiments/marker_docling_bakeoff/run_source_extraction.py`: restricted downstream extraction over
   LaTeX or parsed Markdown tables.
-- `experiments/pdf_extraction/compare_source_results.py`: strict and relaxed comparison of
+- `experiments/marker_docling_bakeoff/compare_source_results.py`: strict and relaxed comparison of
   downstream result rows.
+- `experiments/marker_docling_bakeoff/RESULTS.md`: reproducible configurations, measurements,
+  limitations, and the backend decision.
 
 Relevant commits:
 
