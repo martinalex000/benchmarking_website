@@ -2567,6 +2567,7 @@ a.mini-badge-code:focus-visible,
   font-size: 0.92rem;
 }
 .dataset-header .dataset-description p {
+  display: inline;
   margin: 0;
 }
 .dataset-card-summary {
@@ -2575,19 +2576,23 @@ a.mini-badge-code:focus-visible,
   white-space: nowrap;
 }
 .dataset-research {
-  order: 4;
-  margin-top: 0.75rem;
+  order: 3;
+  margin-top: 0.35rem;
 }
 .dataset-research-toggle {
   display: none;
-  padding: 0.45rem 0.75rem;
-  border: 1px solid var(--gray-300);
-  border-radius: 0.4rem;
+  margin-left: 0.3rem;
+  padding: 0;
+  border: 0;
   background: transparent;
-  color: inherit;
+  color: var(--blue-600, #2563eb);
   cursor: pointer;
   font: inherit;
   font-weight: 600;
+  text-decoration: none;
+}
+.dataset-research-toggle:hover {
+  text-decoration: underline;
 }
 .dataset-research.is-enhanced .dataset-research-toggle {
   display: inline-block;

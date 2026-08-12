@@ -90,14 +90,15 @@
         </section>
       </div>
     </div>
-    {{ with .Params.description }}
-    <div class="dataset-description">{{ . | markdownify }}</div>
-    {{ end }}
+    {{ $description := .Params.description }}
     {{ with .Params.detailed_description }}
     <section class="dataset-research" data-dataset-research>
-      <button class="dataset-research-toggle" type="button" aria-expanded="false" aria-controls="dataset-research-details">
-        Show dataset details
-      </button>
+      {{ with $description }}
+      <div class="dataset-description">
+        {{ . | markdownify }}
+        <button class="dataset-research-toggle" type="button" aria-expanded="false" aria-controls="dataset-research-details">Show details</button>
+      </div>
+      {{ end }}
       <div class="dataset-research-details" id="dataset-research-details" data-dataset-research-details>
         <h2>Dataset details</h2>
         {{ $sections := slice
@@ -129,6 +130,8 @@
         {{ end }}
       </div>
     </section>
+    {{ else }}
+      {{ with $description }}<div class="dataset-description">{{ . | markdownify }}</div>{{ end }}
     {{ end }}
     {{/* For single-variant datasets, surface the variant note as a dataset comment paragraph */}}
     {{ if not $showAllVariants }}

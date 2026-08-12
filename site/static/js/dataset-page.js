@@ -12,7 +12,7 @@
     button.addEventListener("click", function () {
       var expanded = button.getAttribute("aria-expanded") === "true";
       button.setAttribute("aria-expanded", String(!expanded));
-      button.textContent = expanded ? "Show dataset details" : "Hide dataset details";
+      button.textContent = expanded ? "Show details" : "Hide details";
       details.hidden = expanded;
     });
   });
