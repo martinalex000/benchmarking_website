@@ -19,6 +19,8 @@ COLUMN ALIGNMENT:
 VALUE RULES:
 - Output Accuracy, AUC, AP, F1, Recall, and similar percentage metrics as fractions between 0 and 1.
   For example, 82.68% becomes 0.8268.
+- For physical-unit benchmarks, copy the raw table value without conversion and put the exact
+  source unit or scaled header in `i`; deterministic post-processing owns conversion.
 - Preserve standard deviations in `s` using the same scale as `v`.
 - Use `null` for missing standard deviations. Never invent a value.
 
@@ -31,7 +33,7 @@ results:
   - m: <exact model name>
     d: <focused dataset name>
     k: <metric name>
-    v: <numeric value; for QM9 copy the raw table value>
+    v: <numeric value; for physical-unit benchmarks copy the raw table value>
     s: <standard deviation on the same source scale or null>
     i: <exact source-table unit or null>
     t: <table reference>

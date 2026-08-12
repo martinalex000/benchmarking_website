@@ -49,6 +49,10 @@ from backend.override_handler import apply_overrides_to_db, get_result_override
 from backend.paper_storage import PaperStorage
 from backend.parameter_lookup import build_dataset_param_lookup as _build_dataset_param_lookup
 from backend.parameter_lookup import build_metadata_lookups as _build_metadata_lookups
+from backend.physical_unit_targets import (
+    is_physical_unit_dataset,
+    normalize_physical_result_mapping,
+)
 from backend.qm7b_targets import is_qm7b_dataset, normalize_qm7b_result_mapping
 from backend.qm9_targets import (
     is_qm9_dataset,
@@ -1375,6 +1379,11 @@ def parse_and_store_with_summary(
                     continue
             elif is_qm7b_dataset(str(entry.get("dataset") or "")):
                 entry = normalize_qm7b_result_mapping(entry, qm9_source_text)
+                if entry is None:
+                    molecular_guard_dropped = True
+                    continue
+            elif is_physical_unit_dataset(str(entry.get("dataset") or "")):
+                entry = normalize_physical_result_mapping(entry, qm9_source_text)
                 if entry is None:
                     molecular_guard_dropped = True
                     continue

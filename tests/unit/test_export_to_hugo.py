@@ -1548,3 +1548,15 @@ def test_merged_metric_labels_for_qm9():
     display = _metric_display_names(["gap", "mu"], labels)
     assert display[0] == "HOMO-LUMO gap (eV)"
     assert display[1] == "Dipole moment (D)"
+
+
+def test_merged_metric_labels_for_other_physical_benchmarks():
+    from backend.export_to_hugo import _merged_metric_labels, _metric_display_names
+
+    pcqm = _metric_display_names(["MAE"], _merged_metric_labels("PCQM4Mv2"))
+    freesolv = _metric_display_names(["RMSE"], _merged_metric_labels("FreeSolv"))
+    qm7b = _metric_display_names(["HOMO_ZINDO"], _merged_metric_labels("QM7b"))
+
+    assert pcqm == ["HOMO-LUMO gap MAE (eV)"]
+    assert freesolv == ["Hydration free energy RMSE (kcal mol⁻¹)"]
+    assert qm7b == ["HOMO, ZINDO (eV)"]

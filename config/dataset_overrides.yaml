@@ -57,3 +57,78 @@ datasets:
       R2: "Electronic spatial extent (a₀²)"
       U: "Internal energy (U, eV)"
       omega1: "Highest vibrational frequency (cm⁻¹)"
+  QM7b:
+    default_metric: E_PBE0
+    chart_default_log_scale: true
+    display_metrics:
+      - E_PBE0
+      - Emax_ZINDO
+      - Imax_ZINDO
+      - HOMO_ZINDO
+      - LUMO_ZINDO
+      - E1_ZINDO
+      - IP_ZINDO
+      - EA_ZINDO
+      - HOMO_PBE0
+      - LUMO_PBE0
+      - HOMO_GW
+      - LUMO_GW
+      - alpha_PBE0
+      - alpha_SCS
+    metric_labels:
+      E_PBE0: "Atomization energy, PBE0 (eV)"
+      Emax_ZINDO: "Max absorption energy, ZINDO (eV)"
+      Imax_ZINDO: "Max absorption intensity, ZINDO"
+      HOMO_ZINDO: "HOMO, ZINDO (eV)"
+      LUMO_ZINDO: "LUMO, ZINDO (eV)"
+      E1_ZINDO: "First excitation energy, ZINDO (eV)"
+      IP_ZINDO: "Ionization potential, ZINDO (eV)"
+      EA_ZINDO: "Electron affinity, ZINDO (eV)"
+      HOMO_PBE0: "HOMO, PBE0 (eV)"
+      LUMO_PBE0: "LUMO, PBE0 (eV)"
+      HOMO_GW: "HOMO, GW (eV)"
+      LUMO_GW: "LUMO, GW (eV)"
+      alpha_PBE0: "Polarizability, PBE0 (Å³)"
+      alpha_SCS: "Polarizability, SCS (Å³)"
+  MD17:
+    chart_default_log_scale: true
+    metric_labels:
+      Energy: "Energy MAE (kcal mol⁻¹)"
+      Force: "Force MAE (kcal mol⁻¹ Å⁻¹)"
+      Aspirin Energy: "Aspirin energy MAE (kcal mol⁻¹)"
+      Aspirin Force: "Aspirin force MAE (kcal mol⁻¹ Å⁻¹)"
+      Benzene Energy: "Benzene energy MAE (kcal mol⁻¹)"
+      Benzene Force: "Benzene force MAE (kcal mol⁻¹ Å⁻¹)"
+      Ethanol Energy: "Ethanol energy MAE (kcal mol⁻¹)"
+      Ethanol Force: "Ethanol force MAE (kcal mol⁻¹ Å⁻¹)"
+      Malonaldehyde Energy: "Malonaldehyde energy MAE (kcal mol⁻¹)"
+      Malonaldehyde Force: "Malonaldehyde force MAE (kcal mol⁻¹ Å⁻¹)"
+      Naphthalene Energy: "Naphthalene energy MAE (kcal mol⁻¹)"
+      Naphthalene Force: "Naphthalene force MAE (kcal mol⁻¹ Å⁻¹)"
+      Salicylic acid Energy: "Salicylic acid energy MAE (kcal mol⁻¹)"
+      Salicylic acid Force: "Salicylic acid force MAE (kcal mol⁻¹ Å⁻¹)"
+      Toluene Energy: "Toluene energy MAE (kcal mol⁻¹)"
+      Toluene Force: "Toluene force MAE (kcal mol⁻¹ Å⁻¹)"
+      Uracil Energy: "Uracil energy MAE (kcal mol⁻¹)"
+      Uracil Force: "Uracil force MAE (kcal mol⁻¹ Å⁻¹)"
+  PCQM4Mv2:
+    metric_labels:
+      MAE: "HOMO-LUMO gap MAE (eV)"
+  FreeSolv:
+    metric_labels:
+      RMSE: "Hydration free energy RMSE (kcal mol⁻¹)"
+      MAE: "Hydration free energy MAE (kcal mol⁻¹)"
+  TorsionAngle:
+    default_metric: Circular MAE
+    metric_labels:
+      Circular MAE: "Circular MAE (degrees)"
+      alpha: "α circular MAE (degrees)"
+      beta: "β circular MAE (degrees)"
+      gamma: "γ circular MAE (degrees)"
+      delta: "δ circular MAE (degrees)"
+      epsilon: "ε circular MAE (degrees)"
+      zeta: "ζ circular MAE (degrees)"
+      chi: "χ circular MAE (degrees)"
+  ECHO-Charge:
+    metric_labels:
+      MAE: "Partial-charge MAE (e)"

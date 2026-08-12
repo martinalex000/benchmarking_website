@@ -146,6 +146,10 @@ exclude_datasets:
     QM9: "The paper reports unitless MAE-to-chemical-accuracy ratios, not physical-unit MAE values."
   "2305.08018":
     QM9: "The paper reports unitless normalized-target MAEs without enough information to recover physical units."
+  "2006.03814":
+    TorsionAngle: "The paper predates and does not evaluate the RNA TorsionAngle benchmark; the stored row is a dataset-name hallucination."
+  "2512.17762":
+    ECHO-Energy: "The benchmark paper does not state a physical unit for ECHO-Energy MAE, so values cannot be normalized safely."
   "2409.15800":
     QM9: "QM9 extraction was truncated and synthesized representative values were stored."
   "1801.02144":

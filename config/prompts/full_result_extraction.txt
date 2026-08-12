@@ -94,6 +94,8 @@ Rules:
   Preserve scientific notation such as SE(3)-DDM and SO(3); do not strip arbitrary parentheses.
 - Do NOT mark all tuned or starred baseline variants as proposed.
 - Copy model and dataset names verbatim from the paper when possible.
+- For physical quantities, copy the raw numeric value and standard deviation without conversion;
+  put the exact source unit or scaled header in `i`. Deterministic post-processing owns conversion.
 - Use test-set benchmark values only. Never treat a dash, blank cell, N/A, or
   omitted result as a number or sentinel such as -1. Never take an accuracy
   ratio, correlation coefficient, training/validation accuracy, ablation score,

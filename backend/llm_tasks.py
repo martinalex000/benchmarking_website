@@ -90,7 +90,17 @@ from backend.llm_types import (
 )
 from backend.models import Paper
 from backend.paper_storage import PaperStorage
-from backend.qm7b_targets import apply_qm7b_extraction_guard, is_qm7b_dataset
+from backend.physical_unit_targets import (
+    apply_physical_unit_guard,
+    is_physical_unit_dataset,
+    physical_unit_prompt_constraint,
+)
+from backend.qm7b_targets import (
+    QM7B_EXTRACT_TARGET_GROUPS,
+    apply_qm7b_extraction_guard,
+    is_qm7b_dataset,
+    qm7b_extract_metric_constraint,
+)
 from backend.qm9_targets import (
     QM9_DEFAULT_METRIC,
     QM9_EXTRACT_TARGET_GROUPS,
@@ -2340,9 +2350,16 @@ class LLMExtractor(LLMClientMixin):
             if is_qm9_dataset(ds.name):
                 metric_constraint = (
                     "QM9 is a multi-target benchmark. Extract per-target test MAE using "
-                    "canonical property keys (gap, mu, alpha, U0, H, G, Cv, S, HOMO, LUMO, "
+                    "canonical property keys (gap, mu, alpha, U0, H, G, Cv, HOMO, LUMO, "
                     'etc.) as the metric field — never bare "MAE".\n'
                 )
+            elif is_qm7b_dataset(ds.name):
+                metric_constraint = (
+                    "QM7b is a heterogeneous multi-target benchmark. Extract one test MAE row "
+                    "per model and canonical target; never emit aggregate or bare MAE.\n"
+                )
+            elif is_physical_unit_dataset(ds.name):
+                metric_constraint = physical_unit_prompt_constraint(ds.name)
             elif ds.primary_metric:
                 metric_constraint = (
                     f'PRIMARY METRIC: "{ds.primary_metric}". '
@@ -2367,13 +2384,20 @@ class LLMExtractor(LLMClientMixin):
             )
             extract_max_tokens = extraction_max_tokens_for_model(self.model_name)
             try:
+                target_groups = None
+                target_constraint = None
                 if is_qm9_dataset(ds.name):
+                    target_groups = QM9_EXTRACT_TARGET_GROUPS
+                    target_constraint = qm9_extract_metric_constraint
+                elif is_qm7b_dataset(ds.name):
+                    target_groups = QM7B_EXTRACT_TARGET_GROUPS
+                    target_constraint = qm7b_extract_metric_constraint
+
+                if target_groups is not None and target_constraint is not None:
                     base_user_content = _sanitize_text(focus_prefix + dataset_context)
-                    for group_idx, targets in enumerate(QM9_EXTRACT_TARGET_GROUPS):
+                    for group_idx, targets in enumerate(target_groups):
                         checkpoint_key = f"{ds.name}-g{group_idx + 1}"
-                        group_content = (
-                            base_user_content + "\n" + qm9_extract_metric_constraint(targets)
-                        )
+                        group_content = base_user_content + "\n" + target_constraint(targets)
                         fingerprint = _dataset_checkpoint_fingerprint(
                             model_name=self.model_name,
                             output_format=self.result_output_format,
@@ -2398,7 +2422,7 @@ class LLMExtractor(LLMClientMixin):
                             )
                         except Exception as group_exc:
                             logger.warning(
-                                "QM9 target-group extraction failed for %r group %d: %s",
+                                "Target-group extraction failed for %r group %d: %s",
                                 ds.name,
                                 group_idx + 1,
                                 group_exc,
@@ -2418,7 +2442,7 @@ class LLMExtractor(LLMClientMixin):
                             self._call_log[-1].extra = {
                                 **self._call_log[-1].extra,
                                 "rag": rag_stats,
-                                "qm9_targets": list(targets),
+                                "extraction_targets": list(targets),
                             }
                         self._fire_progress()
                         collect_output(out, checkpoint_key)
@@ -3094,7 +3118,10 @@ class LLMExtractor(LLMClientMixin):
         # same deterministic protection.
         has_qm9_results = any(is_qm9_dataset(result.dataset) for result in results_out.results)
         has_qm7b_results = any(is_qm7b_dataset(result.dataset) for result in results_out.results)
-        if has_qm9_results or has_qm7b_results:
+        has_physical_unit_results = any(
+            is_physical_unit_dataset(result.dataset) for result in results_out.results
+        )
+        if has_qm9_results or has_qm7b_results or has_physical_unit_results:
             source_parts = [paper_text]
             if latex_paper is not None:
                 source_parts.extend(
@@ -3110,7 +3137,11 @@ class LLMExtractor(LLMClientMixin):
                 qm_table_refs = {
                     str(result.table_ref).strip().casefold()
                     for result in results_out.results
-                    if (is_qm9_dataset(result.dataset) or is_qm7b_dataset(result.dataset))
+                    if (
+                        is_qm9_dataset(result.dataset)
+                        or is_qm7b_dataset(result.dataset)
+                        or is_physical_unit_dataset(result.dataset)
+                    )
                     and result.table_ref
                 }
                 for table in latex_paper.tables:
@@ -3140,6 +3171,12 @@ class LLMExtractor(LLMClientMixin):
                 )
             if has_qm7b_results:
                 apply_qm7b_extraction_guard(
+                    results_out,
+                    guard_source,
+                    table_text=guard_tables,
+                )
+            if has_physical_unit_results:
+                apply_physical_unit_guard(
                     results_out,
                     guard_source,
                     table_text=guard_tables,

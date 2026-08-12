@@ -90,6 +90,8 @@ Rules:
   Preserve scientific notation such as SE(3)-DDM and SO(3); do not strip arbitrary parentheses.
 - Do NOT mark all tuned or starred baseline variants as proposed.
 - Copy model and dataset names verbatim from the paper when possible.
+- For physical quantities, copy the raw numeric value and standard deviation without conversion;
+  put the exact source unit or scaled header in `i`. Deterministic post-processing owns conversion.
 - Determine `proposed_model_name` from explicit wording in THIS paper
   (title/abstract/intro/method phrases like "we propose", "we present", "called", "named").
 - If the title contains a specific method name, use that exact title name unless
