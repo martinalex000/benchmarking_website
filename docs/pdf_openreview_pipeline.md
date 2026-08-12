@@ -20,12 +20,13 @@ and never written directly to the leaderboard.
 - [x] Add a Markdown pipe-table adapter for the existing extraction pipeline.
 - [x] Select the initial PDF backend and settings.
 - [x] Implement read-only, arXiv-first source resolution and dry-run action counts.
+- [x] Resolve exact normalized titles against the local arXiv metadata snapshot.
 - [ ] Implement staged OpenReview PDF downloads.
 - [ ] Implement result-based processed-paper detection.
 - [ ] Implement PDF extraction as a first-class, staged pipeline source.
 - [x] Test read-only source planning on NeurIPS 2024.
 - [x] Test read-only source planning on ICLR 2022.
-- [ ] Test read-only source planning on LoG venues.
+- [x] Test read-only source planning on LoG 2022, 2023, and 2024.
 - [ ] Test staged downloads on NeurIPS 2024, ICLR 2022, and LoG venues.
 - [ ] Run a dry ingestion audit before enabling database writes.
 - [ ] Ingest approved PDF-only papers.
@@ -197,6 +198,33 @@ The initial API-v2-only query incorrectly returned zero submissions. Semantic Sc
 76 of the 324 filter hits, so an additional arXiv-resolution route should be evaluated before
 accepting all 240 records as genuinely PDF-only. No papers were downloaded.
 
+LoG source planning completed for all available conference years on 2026-08-12:
+
+- LoG 2022: 84 submissions; 81 filter hits; 5 processed; 12 arXiv recovered locally; 63
+  provisionally PDF-only; 1 unavailable.
+- LoG 2023: 70 submissions; 61 filter hits; 8 processed; 7 arXiv recovered locally; 46
+  provisionally PDF-only.
+- LoG 2024: 75 submissions; 72 filter hits; 10 processed; 3 arXiv recovered locally; 59
+  provisionally PDF-only.
+
+Semantic Scholar's `Learning on Graphs` venue/year bulk query returned no candidates for any of
+the three years. Therefore, these PDF counts are explicitly provisional. Add a local arXiv
+metadata title resolver before staged download testing so that available arXiv sources are not
+missed. No papers were downloaded.
+
+The exact-title arXiv snapshot resolver was subsequently applied. It does not fuzzy-guess and
+reports duplicate-title ambiguity instead of selecting a source. Final source-preflight counts are:
+
+- NeurIPS 2024: 35 processed, 361 planned arXiv, 123 planned PDF, 0 ambiguous.
+- ICLR 2022: 24 processed, 154 planned arXiv, 145 planned PDF, 1 ambiguous.
+- LoG 2022: 5 processed, 53 planned arXiv, 23 planned PDF, 0 ambiguous.
+- LoG 2023: 8 processed, 35 planned arXiv, 18 planned PDF, 0 ambiguous.
+- LoG 2024: 10 processed, 40 planned arXiv, 22 planned PDF, 0 ambiguous.
+
+Snapshot resolution is opt-in through `--resolve-arxiv-snapshot` because it streams the 5.4 GB
+metadata file. Results are cached by snapshot identity and candidate set. Use
+`--no-kaggle-categories` during source preflight to avoid a second optional metadata scan.
+
 ## Implementation sequence
 
 1. Add a source-resolution record that keeps OpenReview note ID, venue, PDF URL, resolved arXiv ID,
@@ -205,13 +233,15 @@ accepting all 240 records as genuinely PDF-only. No papers were downloaded.
    download counts. **Completed:** the report now distinguishes processed, planned arXiv, planned
    OpenReview PDF, review-required, and unavailable records. Use `--show-source-decisions [N]` to
    inspect per-paper evidence without downloading anything.
-3. Add a staged downloader with content validation and resumable, atomic files.
-4. Promote the Markdown table adapter from the experiment into a tested backend module.
-5. Add table-structure checks and evidence-linked result staging.
-6. Add the result-fingerprint matcher and an explainable match report.
-7. Run the three venue tests and inspect false matches and missed matches.
-8. Run extraction without database writes and manually audit a representative sample.
-9. Enable persistence only for candidates that pass all automatic gates or receive explicit
+3. Resolve provisional PDF candidates against the local arXiv metadata snapshot by normalized
+   title, with ambiguity reported rather than guessed. **Completed.**
+4. Add a staged downloader with content validation and resumable, atomic files.
+5. Promote the Markdown table adapter from the experiment into a tested backend module.
+6. Add table-structure checks and evidence-linked result staging.
+7. Add the result-fingerprint matcher and an explainable match report.
+8. Run the three venue tests and inspect false matches and missed matches.
+9. Run extraction without database writes and manually audit a representative sample.
+10. Enable persistence only for candidates that pass all automatic gates or receive explicit
    approval.
 
 ## Existing experiment tooling

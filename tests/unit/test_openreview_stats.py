@@ -260,6 +260,109 @@ def test_resolve_submission_sources_is_arxiv_first_and_blocks_ambiguity():
     )
 
 
+def test_compare_arxiv_snapshot_titles_resolves_unique_and_reports_ambiguity(tmp_path):
+    snapshot = tmp_path / "snapshot.json"
+    snapshot.write_text(
+        "\n".join(
+            [
+                json.dumps(
+                    {
+                        "id": "2501.00001",
+                        "title": "Exact  title",
+                        "authors": "Alice Example, Bob Person",
+                    }
+                ),
+                json.dumps(
+                    {
+                        "id": "2501.00002",
+                        "title": "Duplicate title",
+                        "authors": "Alice Example",
+                    }
+                ),
+                json.dumps(
+                    {
+                        "id": "2501.00003",
+                        "title": "Duplicate title",
+                        "authors": "Alice Example",
+                    }
+                ),
+            ]
+        ),
+        encoding="utf-8",
+    )
+    submissions = [
+        _paper("Exact title", note_id="exact"),
+        _paper("Duplicate title", note_id="ambiguous"),
+        _paper("Missing title", note_id="missing"),
+    ]
+
+    comparison = openreview_stats.compare_arxiv_snapshot_titles(submissions, snapshot)
+
+    assert comparison.available is True
+    assert comparison.matched == 1
+    assert comparison.ambiguous == 1
+    assert comparison.matches["exact"] == openreview_stats.SnapshotArxivMatch("exact", "2501.00001")
+    assert comparison.matches["ambiguous"].status == "ambiguous"
+    assert comparison.matches["missing"].status == "unmatched"
+
+
+def test_source_resolver_uses_snapshot_before_pdf():
+    submission = _paper(
+        "Snapshot paper",
+        pdf_url="/pdf/paper.pdf",
+        note_id="snapshot",
+    )
+    comparison = openreview_stats.SnapshotArxivComparison(
+        available=True,
+        matches={"snapshot": openreview_stats.SnapshotArxivMatch("exact", "2501.00001")},
+        considered=1,
+        matched=1,
+        ambiguous=0,
+    )
+
+    decisions = openreview_stats.resolve_submission_sources(
+        [submission],
+        local_comparison=None,
+        s2_comparison=None,
+        snapshot_comparison=comparison,
+    )
+
+    assert decisions[0].action == "queue-arxiv"
+    assert decisions[0].arxiv_id == "2501.00001"
+    assert decisions[0].evidence == "arxiv-snapshot-exact-title"
+
+
+def test_arxiv_snapshot_title_resolution_cache_reuses_scan(monkeypatch, tmp_path):
+    snapshot = tmp_path / "snapshot.json"
+    snapshot.write_text(
+        json.dumps({"id": "2501.00001", "title": "Cached title", "authors": "Alice Example"}),
+        encoding="utf-8",
+    )
+    submissions = [_paper("Cached title", note_id="cached")]
+    first = openreview_stats.load_or_compare_arxiv_snapshot_titles(
+        submissions,
+        snapshot,
+        cache_dir=tmp_path / "cache",
+        use_cache=True,
+        refresh_cache=False,
+    )
+    monkeypatch.setattr(
+        openreview_stats,
+        "compare_arxiv_snapshot_titles",
+        lambda *_args: (_ for _ in ()).throw(AssertionError("snapshot rescanned")),
+    )
+
+    second = openreview_stats.load_or_compare_arxiv_snapshot_titles(
+        submissions,
+        snapshot,
+        cache_dir=tmp_path / "cache",
+        use_cache=True,
+        refresh_cache=False,
+    )
+
+    assert second == first
+
+
 def test_compare_local_prefers_arxiv_then_title_author_and_reports_ambiguity():
     submissions = [
         _paper("Direct", arxiv_id="2501.00001"),
@@ -628,6 +731,35 @@ def test_main_can_show_read_only_source_decisions(monkeypatch, capsys):
     assert "Source plan (dry run): processed=0; arXiv=1; OpenReview PDF=1" in output
     assert "queue-arxiv" in output
     assert "queue-pdf" in output
+
+
+def test_main_can_skip_kaggle_category_lookup(monkeypatch):
+    submission = _paper("arXiv paper", arxiv_id="2501.00001")
+
+    class FakeClient:
+        @staticmethod
+        def fetch_venue_submissions(_venue_id):
+            return [submission]
+
+    monkeypatch.setattr(openreview_stats.OpenReviewClient, "from_config", lambda: FakeClient())
+    monkeypatch.setattr(
+        openreview_stats,
+        "lookup_kaggle_categories",
+        lambda *_args: (_ for _ in ()).throw(AssertionError("category lookup called")),
+    )
+
+    assert (
+        openreview_stats.main(
+            [
+                "--no-compare-local",
+                "--no-compare-s2",
+                "--no-filter",
+                "--no-cache",
+                "--no-kaggle-categories",
+            ]
+        )
+        == 0
+    )
 
 
 def test_main_defaults_to_neurips_2024(monkeypatch, capsys):

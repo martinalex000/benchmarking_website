@@ -28,6 +28,7 @@ import contextlib
 import hashlib
 import json
 import os
+import re
 import sqlite3
 import sys
 import tempfile
@@ -251,6 +252,22 @@ class SourcePlanStats:
     planned_openreview_pdf: int
     review_required: int
     unavailable: int
+
+
+@dataclass(frozen=True)
+class SnapshotArxivMatch:
+    status: str
+    arxiv_id: str = ""
+
+
+@dataclass(frozen=True)
+class SnapshotArxivComparison:
+    available: bool
+    matches: dict[str, SnapshotArxivMatch]
+    considered: int
+    matched: int
+    ambiguous: int
+    error: str = ""
 
 
 @dataclass(frozen=True)
@@ -929,10 +946,12 @@ def resolve_submission_sources(
     *,
     local_comparison: LocalComparison | None,
     s2_comparison: S2Comparison | None,
+    snapshot_comparison: SnapshotArxivComparison | None = None,
 ) -> list[SourceDecision]:
     """Choose an arXiv-first source without downloading or changing local state."""
     local_matches = local_comparison.matches if local_comparison else {}
     s2_matches = s2_comparison.matches if s2_comparison and s2_comparison.available else {}
+    snapshot_matches = snapshot_comparison.matches if snapshot_comparison else {}
     decisions: list[SourceDecision] = []
 
     for submission in submissions:
@@ -995,11 +1014,28 @@ def resolve_submission_sources(
             )
             continue
 
+        snapshot_match = snapshot_matches.get(submission.note_id)
+        if snapshot_match and snapshot_match.status == "exact" and snapshot_match.arxiv_id:
+            decisions.append(
+                SourceDecision(
+                    note_id=submission.note_id,
+                    title=submission.title,
+                    action="queue-arxiv",
+                    source_kind="arxiv",
+                    venue_id=submission.venueid or submission.venue,
+                    arxiv_id=snapshot_match.arxiv_id,
+                    evidence="arxiv-snapshot-exact-title",
+                )
+            )
+            continue
+
         ambiguity_sources: list[str] = []
         if local_match and local_match.status == "ambiguous":
             ambiguity_sources.append("local")
         if s2_match and s2_match.status == "ambiguous":
             ambiguity_sources.append("semantic-scholar")
+        if snapshot_match and snapshot_match.status == "ambiguous":
+            ambiguity_sources.append("arxiv-snapshot")
         if ambiguity_sources:
             decisions.append(
                 SourceDecision(
@@ -1053,6 +1089,152 @@ def summarize_source_plan(decisions: list[SourceDecision]) -> SourcePlanStats:
         review_required=actions["review"],
         unavailable=actions["unavailable"],
     )
+
+
+def compare_arxiv_snapshot_titles(
+    submissions: list[OpenReviewPaper], snapshot_path: Path
+) -> SnapshotArxivComparison:
+    """Resolve exact normalized titles from one streaming pass over arXiv metadata."""
+    if not snapshot_path.is_file():
+        return SnapshotArxivComparison(
+            available=False,
+            matches={},
+            considered=len(submissions),
+            matched=0,
+            ambiguous=0,
+            error=f"arXiv snapshot not found: {snapshot_path}",
+        )
+
+    targets: dict[str, list[OpenReviewPaper]] = {}
+    for submission in submissions:
+        title = normalize_paper_title(submission.title)
+        if title:
+            targets.setdefault(title, []).append(submission)
+
+    candidates: dict[str, list[tuple[str, set[str]]]] = {}
+    file_size = snapshot_path.stat().st_size
+    with (
+        snapshot_path.open("rb") as handle,
+        tqdm(
+            total=file_size,
+            desc="Resolving arXiv titles",
+            unit="B",
+            unit_scale=True,
+        ) as progress,
+    ):
+        for raw_line in handle:
+            progress.update(len(raw_line))
+            try:
+                record = json.loads(raw_line)
+            except json.JSONDecodeError:
+                continue
+            if not isinstance(record, dict):
+                continue
+            title = normalize_paper_title(record.get("title"))
+            if title not in targets:
+                continue
+            arxiv_id = _normalize_optional_arxiv_id(record.get("id"))
+            if not arxiv_id:
+                continue
+            raw_authors = str(record.get("authors") or "")
+            snapshot_authors = re.split(r"\s+and\s+|\s*,\s*", raw_authors)
+            candidates.setdefault(title, []).append((arxiv_id, author_last_names(snapshot_authors)))
+
+    matches: dict[str, SnapshotArxivMatch] = {}
+    for title, title_submissions in targets.items():
+        title_candidates = candidates.get(title, [])
+        for submission in title_submissions:
+            if len(title_candidates) == 1:
+                matches[submission.note_id] = SnapshotArxivMatch("exact", title_candidates[0][0])
+                continue
+            if not title_candidates:
+                matches[submission.note_id] = SnapshotArxivMatch("unmatched")
+                continue
+            submission_authors = author_last_names(submission.authors)
+            author_matches = [
+                arxiv_id
+                for arxiv_id, candidate_authors in title_candidates
+                if author_overlap_score(submission_authors, candidate_authors) >= 0.34
+            ]
+            if len(author_matches) == 1:
+                matches[submission.note_id] = SnapshotArxivMatch("exact", author_matches[0])
+            else:
+                matches[submission.note_id] = SnapshotArxivMatch("ambiguous")
+
+    return SnapshotArxivComparison(
+        available=True,
+        matches=matches,
+        considered=len(submissions),
+        matched=sum(match.status == "exact" for match in matches.values()),
+        ambiguous=sum(match.status == "ambiguous" for match in matches.values()),
+    )
+
+
+def load_or_compare_arxiv_snapshot_titles(
+    submissions: list[OpenReviewPaper],
+    snapshot_path: Path,
+    *,
+    cache_dir: Path,
+    use_cache: bool,
+    refresh_cache: bool,
+) -> SnapshotArxivComparison:
+    """Reuse exact-title resolutions when the snapshot and candidate set are unchanged."""
+    try:
+        snapshot_stat = snapshot_path.stat()
+    except OSError:
+        return compare_arxiv_snapshot_titles(submissions, snapshot_path)
+
+    query = {
+        "snapshot": str(snapshot_path.resolve()),
+        "snapshot_size": snapshot_stat.st_size,
+        "snapshot_mtime_ns": snapshot_stat.st_mtime_ns,
+        "submissions": [
+            {
+                "note_id": submission.note_id,
+                "title": normalize_paper_title(submission.title),
+                "authors": sorted(author_last_names(submission.authors)),
+            }
+            for submission in submissions
+        ],
+    }
+    cache_path = _cache_path(cache_dir, "arxiv-title-resolution", query)
+    if use_cache and not refresh_cache:
+        cached = _read_cache(cache_path, source="arxiv-title-resolution", query=query)
+        if isinstance(cached, dict) and isinstance(cached.get("matches"), dict):
+            try:
+                matches = {
+                    note_id: SnapshotArxivMatch(**match)
+                    for note_id, match in cached["matches"].items()
+                }
+                comparison = SnapshotArxivComparison(
+                    available=bool(cached["available"]),
+                    matches=matches,
+                    considered=int(cached["considered"]),
+                    matched=int(cached["matched"]),
+                    ambiguous=int(cached["ambiguous"]),
+                    error=str(cached.get("error") or ""),
+                )
+            except (KeyError, TypeError, ValueError):
+                comparison = None
+            if comparison is not None:
+                _status("Cache: using cached arXiv title resolutions")
+                return comparison
+
+    comparison = compare_arxiv_snapshot_titles(submissions, snapshot_path)
+    if use_cache and comparison.available:
+        _write_cache(
+            cache_path,
+            source="arxiv-title-resolution",
+            query=query,
+            data={
+                **asdict(comparison),
+                "matches": {
+                    note_id: asdict(match) for note_id, match in comparison.matches.items()
+                },
+            },
+        )
+        _status("Cache: saved arXiv title resolutions")
+    return comparison
 
 
 def summarize_conference_categories(
@@ -1238,6 +1420,7 @@ def _print_summary(
     source_decisions: list[SourceDecision],
     source_plan: SourcePlanStats,
     show_source_decisions: int,
+    snapshot_comparison: SnapshotArxivComparison | None,
 ) -> None:
     """Print one globally aligned specific/unspecific/total table."""
     console.print(f"\nSummary: {venue_id}")
@@ -1310,6 +1493,17 @@ def _print_summary(
         f"review={source_plan.review_required:,}; "
         f"unavailable={source_plan.unavailable:,}"
     )
+    if snapshot_comparison is not None:
+        if snapshot_comparison.available:
+            console.print(
+                "  arXiv snapshot title resolution: "
+                f"matched={snapshot_comparison.matched:,}; "
+                f"ambiguous={snapshot_comparison.ambiguous:,}"
+            )
+        else:
+            console.print(
+                f"  arXiv snapshot title resolution unavailable: {snapshot_comparison.error}"
+            )
     if show_source_decisions:
         console.print(f"  Source decisions (showing up to {show_source_decisions}; no downloads):")
         for decision in source_decisions[:show_source_decisions]:
@@ -1433,6 +1627,17 @@ def _build_parser() -> argparse.ArgumentParser:
         type=Path,
         default=_PROJECT_ROOT / "papers" / "arxiv-metadata" / "arxiv-metadata-oai-snapshot.json",
         help="Downloaded Kaggle arXiv metadata snapshot used for pending-paper categories",
+    )
+    parser.add_argument(
+        "--kaggle-categories",
+        action=argparse.BooleanOptionalAction,
+        default=True,
+        help="Look up categories for pending arXiv papers (enabled by default)",
+    )
+    parser.add_argument(
+        "--resolve-arxiv-snapshot",
+        action="store_true",
+        help="Scan the local arXiv snapshot for exact title matches before planning PDFs",
     )
     parser.add_argument(
         "--show-unprocessed",
@@ -1563,10 +1768,25 @@ def main(argv: list[str] | None = None) -> int:
         local_comparison=local_comparison,
         s2_comparison=s2_comparison,
     )
+    snapshot_comparison: SnapshotArxivComparison | None = None
+    if args.resolve_arxiv_snapshot:
+        _status("arXiv snapshot: resolving exact normalized titles")
+        snapshot_comparison = load_or_compare_arxiv_snapshot_titles(
+            matching_submissions,
+            args.kaggle_snapshot,
+            cache_dir=args.cache_dir,
+            use_cache=args.cache,
+            refresh_cache=args.refresh_cache,
+        )
+        if snapshot_comparison.available:
+            _status("arXiv snapshot: title resolution complete")
+        else:
+            _status(f"arXiv snapshot: resolution unavailable ({snapshot_comparison.error})")
     source_decisions = resolve_submission_sources(
         matching_submissions,
         local_comparison=local_comparison,
         s2_comparison=s2_comparison,
+        snapshot_comparison=snapshot_comparison,
     )
     source_plan = summarize_source_plan(source_decisions)
     pending_arxiv_papers = collect_unprocessed_arxiv_papers(
@@ -1576,7 +1796,7 @@ def main(argv: list[str] | None = None) -> int:
         s2_comparison=s2_comparison,
     )
     kaggle_summary: KaggleCategorySummary | None = None
-    if pending_arxiv_papers:
+    if pending_arxiv_papers and args.kaggle_categories:
         _status("Kaggle: looking up categories for unprocessed arXiv papers")
         try:
             kaggle_summary = lookup_kaggle_categories(
@@ -1604,6 +1824,7 @@ def main(argv: list[str] | None = None) -> int:
         source_decisions=source_decisions,
         source_plan=source_plan,
         show_source_decisions=args.show_source_decisions,
+        snapshot_comparison=snapshot_comparison,
     )
     return 0
 
