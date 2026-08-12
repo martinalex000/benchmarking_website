@@ -340,6 +340,7 @@ def _expand_compact_result_entry(entry: Any) -> Any:
         "metric": entry.get("k"),
         "value": entry.get("v"),
         "std": entry.get("s"),
+        "unit": entry.get("i"),
         "higher_is_better": entry.get("h", True),
         "uses_external_data": entry.get("e"),
         "input_feature_source": entry.get("f"),

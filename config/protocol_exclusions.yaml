@@ -142,6 +142,10 @@ exclude_datasets:
     Cora: "Task-IL/Class-IL continual-learning results are not the canonical static Cora node-classification task."
   "2106.07971":
     QM9: "QM9 electronic-property rows contain failed unit conversion/zero gap values."
+  "1704.01212":
+    QM9: "The paper reports unitless MAE-to-chemical-accuracy ratios, not physical-unit MAE values."
+  "2305.08018":
+    QM9: "The paper reports unitless normalized-target MAEs without enough information to recover physical units."
   "2409.15800":
     QM9: "QM9 extraction was truncated and synthesized representative values were stored."
   "1801.02144":

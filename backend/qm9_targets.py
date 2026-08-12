@@ -16,7 +16,6 @@ QM9_TARGETS: tuple[str, ...] = (
     "H",
     "G",
     "Cv",
-    "S",
     "HOMO",
     "LUMO",
     "zpve",
@@ -31,25 +30,24 @@ QM9_TARGETS: tuple[str, ...] = (
 )
 
 QM9_METRIC_LABELS: dict[str, str] = {
-    "gap": "HOMO-LUMO gap",
-    "mu": "Dipole moment",
-    "alpha": "Polarizability",
-    "U0": "Internal energy (U₀)",
-    "H": "Enthalpy (H)",
-    "G": "Free energy (G)",
-    "Cv": "Heat capacity (Cv)",
-    "S": "Entropy (S)",
-    "HOMO": "HOMO",
-    "LUMO": "LUMO",
-    "zpve": "Zero point vibrational energy",
-    "R2": "Electronic spatial extent (R²)",
-    "U": "Internal energy (U)",
-    "omega1": "Highest vibrational frequency",
-    "A": "Rotational constant A",
-    "B": "Rotational constant B",
-    "C": "Rotational constant C",
-    "mu_N": "Nuclear repulsion energy",
-    "R2_xyz": "R² (xyz)",
+    "gap": "HOMO-LUMO gap (eV)",
+    "mu": "Dipole moment (D)",
+    "alpha": "Polarizability (a₀³)",
+    "U0": "Internal energy (U₀, eV)",
+    "H": "Enthalpy (H, eV)",
+    "G": "Free energy (G, eV)",
+    "Cv": "Heat capacity (cal mol⁻¹ K⁻¹)",
+    "HOMO": "HOMO (eV)",
+    "LUMO": "LUMO (eV)",
+    "zpve": "Zero point vibrational energy (eV)",
+    "R2": "Electronic spatial extent (a₀²)",
+    "U": "Internal energy (U, eV)",
+    "omega1": "Highest vibrational frequency (cm⁻¹)",
+    "A": "Rotational constant A (GHz)",
+    "B": "Rotational constant B (GHz)",
+    "C": "Rotational constant C (GHz)",
+    "mu_N": "Nuclear repulsion energy (eV)",
+    "R2_xyz": "R² (xyz, a₀²)",
 }
 
 QM9_DEFAULT_METRIC = "gap"
@@ -57,7 +55,7 @@ QM9_DEFAULT_METRIC = "gap"
 # Target groups for chunked LLM extraction (keeps responses under token limits).
 QM9_EXTRACT_TARGET_GROUPS: tuple[tuple[str, ...], ...] = (
     ("gap", "mu", "alpha"),
-    ("U0", "H", "G", "Cv", "S"),
+    ("U0", "H", "G", "Cv"),
     ("HOMO", "LUMO", "zpve", "R2", "U", "omega1"),
 )
 
@@ -69,6 +67,26 @@ _BARE_METRIC_REJECT: frozenset[str] = frozenset({"mae", "rmse", "loss", "mse"})
 
 QM9_ENERGY_TARGETS: frozenset[str] = frozenset({"gap", "HOMO", "LUMO", "U0", "U", "H", "G", "zpve"})
 
+QM9_CANONICAL_UNITS: dict[str, str] = {
+    **dict.fromkeys(QM9_ENERGY_TARGETS, "eV"),
+    "mu": "D",
+    "alpha": "a0^3",
+    "R2": "a0^2",
+    "Cv": "cal/mol K",
+    "omega1": "cm^-1",
+    "A": "GHz",
+    "B": "GHz",
+    "C": "GHz",
+    "mu_N": "eV",
+    "R2_xyz": "a0^2",
+}
+
+_KCAL_MOL_TO_EV = 0.0433641153087705
+_HARTREE_TO_EV = 27.211386245988
+_ANGSTROM3_TO_BOHR3 = 6.748334494600374
+_ANGSTROM2_TO_BOHR2 = 3.571064826093132
+_JOULE_TO_CALORIE = 0.2390057361376673
+
 _QM9_TARGET_LINE_PATTERNS: dict[str, str] = {
     "gap": r"(?:homo\s*[- ]?\s*lumo|delta[_ ]?\\?epsilon|\\?Delta[_ ]?\\?epsilon|gap)",
     "mu": r"(?:\\?mu\b|dipole)",
@@ -78,7 +96,6 @@ _QM9_TARGET_LINE_PATTERNS: dict[str, str] = {
     "H": r"(?:^|[^a-z])h(?:$|[^a-z0-9])|enthalpy",
     "G": r"(?:^|[^a-z])g(?:$|[^a-z0-9])|free\s+energy|gibbs",
     "Cv": r"(?:c[_ ]?v|heat\s+capacity)",
-    "S": r"(?:^|[^a-z])s(?:$|[^a-z0-9])|entropy",
     "HOMO": r"(?:homo|highest\s+occupied)",
     "LUMO": r"(?:lumo|lowest\s+unoccupied)",
     "zpve": r"(?:zpve|zero\s+point)",
@@ -105,6 +122,18 @@ def _qm9_source_signals(source_text: str, *, result_table_text: str = "") -> QM9
         r"(?:error\s+ratio|ratio\s+of\s+(?:the\s+)?mae|"
         r"mae\s+(?:to|/)\s+chemical\s+accuracy|chemical\s+accuracy.{0,40}ratio)",
         signal_text,
+    ):
+        return QM9SourceSignals(
+            reject_reason="source reports an error ratio rather than test-set MAE"
+        )
+    # Some papers explain immediately outside the table that every displayed
+    # value is a ratio. Keep this deliberately strong to avoid rejecting a
+    # canonical table merely because related work mentions error ratios.
+    if re.search(
+        r"(?:in\s+all\s+of\s+our\s+tables|tables?\s+(?:show|report|display))"
+        r".{0,100}\bratio\s+of\s+(?:the\s+)?(?:mean\s+absolute\s+error|mae)\b",
+        text,
+        re.DOTALL,
     ):
         return QM9SourceSignals(
             reject_reason="source reports an error ratio rather than test-set MAE"
@@ -152,37 +181,114 @@ def _has_ev(text: str) -> bool:
     return bool(re.search(r"(?<!m)\bev\b", text, re.IGNORECASE))
 
 
-def _qm9_metric_scale(metric: str, value: float, source_text: str) -> float:
-    """Return the multiplier converting a source value to the site's units."""
+def _unit_key(unit: str) -> str:
+    """Return a compact comparison key for a source unit string."""
+    text = unit.casefold()
+    text = re.sub(r"\\(?:mathrm|text|operatorname)\{([^{}]*)\}", r"\1", text)
+    text = text.replace("Å", "angstrom").replace("å", "angstrom")
+    text = text.replace("⁻", "-").replace("³", "^3").replace("²", "^2")
+    text = text.replace("_{", "").replace("^{", "^").replace("}", "")
+    return re.sub(r"[\s$\\,_{}()]", "", text)
+
+
+def _explicit_unit_scale(metric: str, unit: str) -> float | None:
+    """Return the multiplier from an explicit source unit to the canonical unit."""
+    key = _unit_key(unit)
+    if metric in QM9_ENERGY_TARGETS or metric == "mu_N":
+        if key in {"ev", "electronvolt", "electronvolts"}:
+            return 1.0
+        if key in {"mev", "millielectronvolt", "millielectronvolts"}:
+            return 0.001
+        if "kcal/mol" in key or "kcalmol^-1" in key or "kcalmol-1" in key:
+            return _KCAL_MOL_TO_EV
+        if key in {"hartree", "eh", "e_h"}:
+            return _HARTREE_TO_EV
+    if metric == "mu":
+        if key in {"d", "debye"}:
+            return 1.0
+        if key in {"md", "millidebye"}:
+            return 0.001
+    if metric in {"alpha", "R2", "R2_xyz"}:
+        power = "3" if metric == "alpha" else "2"
+        if key in {f"a0^{power}", f"bohr^{power}"}:
+            return 1.0
+        # Many QM9 comparison tables repeat a known R² header typo as bohr³.
+        # The values are still the conventional spatial-extent MAE in bohr².
+        if metric in {"R2", "R2_xyz"} and key in {"a0^3", "bohr^3"}:
+            return 1.0
+        if key in {f"ma0^{power}", f"mbohr^{power}"}:
+            return 0.001
+        if key == f"angstrom^{power}":
+            return _ANGSTROM3_TO_BOHR3 if power == "3" else _ANGSTROM2_TO_BOHR2
+    if metric == "Cv":
+        if key in {"cal/molk", "calmol^-1k^-1", "calmol-1k-1"}:
+            return 1.0
+        if key in {"mcal/molk", "mcalmol^-1k^-1", "mcalmol-1k-1"}:
+            return 0.001
+        if key in {"j/molk", "jmol^-1k^-1", "jmol-1k-1"}:
+            return _JOULE_TO_CALORIE
+    if metric == "omega1" and key in {"cm^-1", "cm-1"}:
+        return 1.0
+    if metric in {"A", "B", "C"} and key == "ghz":
+        return 1.0
+    return None
+
+
+def _infer_legacy_unit(metric: str, value: float, source_text: str) -> str | None:
+    """Infer units for legacy outputs that predate the explicit ``unit`` field."""
     local = _qm9_target_context(metric, source_text)
     context = local or source_text
 
     if metric in QM9_ENERGY_TARGETS:
+        if re.search(r"\bkcal\s*(?:/|\s)\s*mol", local, re.IGNORECASE):
+            return "kcal/mol"
+        if re.search(r"\bhartree\b|\bE[_ ]?h\b", local, re.IGNORECASE):
+            return "hartree"
         if _has_mev(local) or (not local and _has_mev(source_text) and not _has_ev(source_text)):
-            return 0.001
+            # Old prompts sometimes converted before this guard. Values below
+            # one are therefore ambiguous and are left canonical rather than
+            # risking a second 1000x conversion. Re-extraction supplies units.
+            return "meV" if abs(value) >= 1.0 else "eV"
         if _has_ev(local):
-            return 1.0
+            return "eV"
         if re.search(r"energies?[^.\n]{0,80}\bmev\b", source_text, re.IGNORECASE):
-            return 0.001
+            return "meV" if abs(value) >= 1.0 else "eV"
         if re.search(r"energies?[^.\n]{0,80}(?<!m)\bev\b", source_text, re.IGNORECASE):
-            return 1.0
-        # Most QM9 energy tables omit units in the row labels but use the
-        # conventional meV scale. Explicit eV evidence above protects papers
-        # such as structural-transformer evaluations that genuinely report eV.
-        return 0.001 if abs(value) > 1.0 else 1.0
+            return "eV"
+        return None
 
-    if metric == "mu" and re.search(r"\bm\s*D\b", context, re.IGNORECASE):
-        return 0.001
-    if metric in {"alpha", "R2"} and re.search(
-        r"\bm\s*(?:\$)?\s*(?:a|bohr)(?:\s*\^?\s*\d)?"
-        r"(?:\s*[_\{]?\s*0)?",
-        context,
-        re.IGNORECASE,
+    if metric == "mu":
+        if re.search(r"\bm\s*D\b", context, re.IGNORECASE):
+            return "mD"
+        if re.search(r"\bdebye\b|(?:^|[&|])\s*D\s*(?:[&|]|$)", context, re.IGNORECASE):
+            return "D"
+    if metric in {"alpha", "R2"}:
+        power = "3" if metric == "alpha" else "2"
+        if re.search(
+            r"\bm\s*(?:\$)?\s*(?:a|bohr)(?:\s*\^?\s*\d)?"
+            r"(?:\s*[_\{]?\s*0)?",
+            context,
+            re.IGNORECASE,
+        ):
+            return f"m a0^{power}"
+        if re.search(
+            rf"\bbohr\b[^\n]{{0,20}}(?:\^|\{{){power}|a[_ ]?0[^\n]{{0,20}}{power}",
+            context,
+            re.IGNORECASE,
+        ):
+            return f"a0^{power}"
+    if metric == "Cv":
+        if re.search(r"\bm\s*cal", context, re.IGNORECASE):
+            return "mcal/mol K"
+        if re.search(r"\bcal(?:orie)?s?\b[^\n]{0,30}\bmol\b", context, re.IGNORECASE):
+            return "cal/mol K"
+        if re.search(r"\bjoules?\b|(?:^|[&|])\s*J\s*/?\s*mol", context, re.IGNORECASE):
+            return "J/mol K"
+    if metric == "omega1" and re.search(
+        r"\bcm\s*(?:\^?\s*[-−]?\s*1|\{\s*-1\s*\})", context, re.IGNORECASE
     ):
-        return 0.001
-    if metric == "Cv" and re.search(r"\bm\s*cal", context, re.IGNORECASE):
-        return 0.001
-    return 1.0
+        return "cm^-1"
+    return None
 
 
 def normalize_qm9_result_mapping(
@@ -219,7 +325,21 @@ def normalize_qm9_result_mapping(
     except (TypeError, ValueError):
         std = None
 
-    scale = _qm9_metric_scale(metric, value, combined_source)
+    repaired = False
+    if (
+        metric == "mu"
+        and value > 5.0
+        and re.search(_QM9_TARGET_LINE_PATTERNS["R2"], combined_source, re.IGNORECASE)
+    ):
+        metric = "R2"
+        repaired = True
+
+    explicit_unit = str(entry.get("unit") or "").strip()
+    source_unit = explicit_unit or _infer_legacy_unit(metric, value, combined_source)
+    canonical_unit = QM9_CANONICAL_UNITS.get(metric)
+    scale = _explicit_unit_scale(metric, source_unit) if source_unit else None
+    if canonical_unit is None or scale is None:
+        return None
     value *= scale
     if std is not None:
         std *= scale
@@ -229,6 +349,7 @@ def normalize_qm9_result_mapping(
         "metric": metric,
         "value": value,
         "std": std,
+        "unit": canonical_unit,
         # Every canonical QM9 target in this path is an error metric.
         "higher_is_better": False,
     }
@@ -237,17 +358,14 @@ def normalize_qm9_result_mapping(
     # Raw R² errors are much larger than dipole errors; after unit handling,
     # this repair is conservative and only activates when the source exposes
     # an R² target and the value is clearly outside dipole-error scale.
-    if (
-        metric == "mu"
-        and value > 5.0
-        and re.search(_QM9_TARGET_LINE_PATTERNS["R2"], combined_source, re.IGNORECASE)
-    ):
-        updates["metric"] = "R2"
-        updates["protocol_note"] = (
-            f"{entry.get('protocol_note') or ''} Source-column repair: value matched R², not mu."
-        ).strip()
-
     note = str(entry.get("protocol_note") or "").strip()
+    if repaired:
+        note = f"{note} Source-column repair: value matched R², not mu.".strip()
+    if explicit_unit:
+        if source_unit != canonical_unit:
+            note = f"{note} QM9 unit normalization: {source_unit} to {canonical_unit}.".strip()
+        elif "qm9 source unit:" not in note.casefold():
+            note = f"{note} QM9 source unit: {source_unit}.".strip()
     decision = str(entry.get("protocol_decision") or "").strip().casefold()
     if decision == "nonstandard":
         updates["protocol_decision"] = "nonstandard"
@@ -394,11 +512,6 @@ def _build_alias_map() -> None:
             "mae cv",
             "mae (cv)",
         ],
-        "S": [
-            "entropy",
-            "mae s",
-            "mae (s)",
-        ],
         "HOMO": [
             "homo",
             "highest occupied molecular orbital",
@@ -445,11 +558,10 @@ def qm9_extract_metric_constraint(targets: tuple[str, ...] | list[str]) -> str:
         "QM9 MULTI-TARGET: extract per-target test MAE for these properties ONLY: "
         f'{keys}. Use each property key exactly as metric (e.g. metric="gap" for '
         "HOMO-LUMO gap). Emit one results[] row per (model, property). "
-        'Do NOT use bare "MAE". All values must be converted to canonical units before output: '
-        "energies/gap/HOMO/LUMO/ZPVE/U0/U/H/G in eV, mu in D, alpha in a0^3, "
-        "R2 in a0^2, and Cv in cal/mol K. Divide meV, mD, m*a0^3, m*a0^2, and "
-        "mcal/mol K values by 1000. Never copy a raw table number when its header has a "
-        "milli-unit.\n"
+        'Do NOT use bare "MAE". Copy the raw numeric table value without converting it, '
+        "and set unit to the exact unit printed for that property (for example meV, eV, "
+        "kcal/mol, Hartree, D, bohr^3, or cal/mol K). The deterministic QM9 guard owns "
+        "all conversion to canonical units. If the source does not state a unit, set unit=null.\n"
         "Only extract supervised property-prediction test MAE on QM9's canonical split "
         "(normally 110k/10k/10k or 80/10/10). Skip error-ratio tables, chemical-accuracy "
         "ratios, generation/conditional-generation evaluations, transfer or linear-probe "

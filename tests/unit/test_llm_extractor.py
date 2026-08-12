@@ -119,6 +119,26 @@ def test_result_entry_coerces_string_value():
     assert r.value == pytest.approx(0.653)
 
 
+def test_compact_result_preserves_source_unit():
+    expanded = _expand_extraction_payload(
+        {
+            "confidence": "HIGH",
+            "results": [
+                {
+                    "m": "SchNet",
+                    "d": "QM9",
+                    "k": "HOMO",
+                    "v": 41,
+                    "s": 2,
+                    "i": "meV",
+                }
+            ],
+        }
+    )
+
+    assert expanded["results"][0]["unit"] == "meV"
+
+
 def test_result_entry_coerces_none_std():
     r = ResultEntry(model="M", dataset="D", metric="AP", value=0.5, std=None)
     assert r.std is None

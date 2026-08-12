@@ -899,6 +899,7 @@ def test_parse_and_store_ignores_dataset_statistics_parse_failure(monkeypatch, t
                             "dataset": "QM9",
                             "metric": "gap",
                             "value": 0.04,
+                            "unit": "eV",
                             "higher_is_better": False,
                         }
                     ],

@@ -31,7 +31,8 @@ results:
   - m: <exact model name>
     d: <focused dataset name>
     k: <metric name>
-    v: <normalized numeric value>
-    s: <normalized standard deviation or null>
+    v: <numeric value; for QM9 copy the raw table value>
+    s: <standard deviation on the same source scale or null>
+    i: <exact source-table unit or null>
     t: <table reference>
     h: <true if higher is better, otherwise false>

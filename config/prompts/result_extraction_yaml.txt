@@ -27,6 +27,7 @@ results:
     metric: <metric name, e.g. AP, Accuracy, MAE, F1, Hits@50, ROC-AUC>
     value: <float>
     std: <float or null>
+    unit: <exact source-table unit or null>
     higher_is_better: <true|false>
     uses_external_data: <true|false|null>
     input_feature_source: <raw_features|llm_features|other_external_features|mixed|unknown|null>
@@ -216,12 +217,12 @@ Rules:
 - QM9: this benchmark reports per-target MAE on molecular properties. Extract ONE result
   row per (model, target). Use canonical target keys as the metric field:
   gap (HOMO-LUMO gap), mu (dipole moment), alpha (polarizability), U0 (internal energy
-  at 0K), U, H (enthalpy), G (free energy), Cv (heat capacity), S (entropy), HOMO, LUMO,
+  at 0K), U, H (enthalpy), G (free energy), Cv (heat capacity), HOMO, LUMO,
   zpve, R2, omega1, and other QM9 property names when present. Do NOT use bare "MAE" as
   the metric — always specify the target property. Values are per-target MAE (lower is better).
-  Convert table units before output: energy/gap/HOMO/LUMO/ZPVE/U0/U/H/G to eV, mu to D,
-  alpha to a0^3, R2 to a0^2, and Cv to cal/mol K. Divide explicit meV/mD/milli-property
-  units by 1000. Reject error-ratio or chemical-accuracy-ratio tables, molecular-generation
+  Copy each raw numeric value without conversion and put the exact source-table unit in `unit`;
+  deterministic post-processing owns conversion. Use null only when no unit is stated. Reject
+  error-ratio or chemical-accuracy-ratio tables, molecular-generation
   evaluations, transfer/linear-probe/OOD/attack settings, and custom or size-based splits.
   Keep QM9 rows only when the source supports the canonical 110k/10k/10k (or 80/10/10)
   split; otherwise set protocol_decision to nonstandard and emit no canonical result.

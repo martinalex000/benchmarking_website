@@ -37,7 +37,6 @@ datasets:
       - H
       - G
       - Cv
-      - S
       - HOMO
       - LUMO
       - zpve
@@ -45,17 +44,16 @@ datasets:
       - U
       - omega1
     metric_labels:
-      gap: "HOMO-LUMO gap"
-      mu: "Dipole moment"
-      alpha: "Polarizability"
-      U0: "Internal energy (U₀)"
-      H: "Enthalpy (H)"
-      G: "Free energy (G)"
-      Cv: "Heat capacity (Cv)"
-      S: "Entropy (S)"
-      HOMO: "HOMO"
-      LUMO: "LUMO"
-      zpve: "Zero point vibrational energy"
-      R2: "Electronic spatial extent (R²)"
-      U: "Internal energy (U)"
-      omega1: "Highest vibrational frequency"
+      gap: "HOMO-LUMO gap (eV)"
+      mu: "Dipole moment (D)"
+      alpha: "Polarizability (a₀³)"
+      U0: "Internal energy (U₀, eV)"
+      H: "Enthalpy (H, eV)"
+      G: "Free energy (G, eV)"
+      Cv: "Heat capacity (cal mol⁻¹ K⁻¹)"
+      HOMO: "HOMO (eV)"
+      LUMO: "LUMO (eV)"
+      zpve: "Zero point vibrational energy (eV)"
+      R2: "Electronic spatial extent (a₀²)"
+      U: "Internal energy (U, eV)"
+      omega1: "Highest vibrational frequency (cm⁻¹)"

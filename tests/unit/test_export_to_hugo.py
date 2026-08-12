@@ -1546,5 +1546,5 @@ def test_merged_metric_labels_for_qm9():
 
     labels = _merged_metric_labels("QM9")
     display = _metric_display_names(["gap", "mu"], labels)
-    assert display[0] == "HOMO-LUMO gap"
-    assert display[1] == "Dipole moment"
+    assert display[0] == "HOMO-LUMO gap (eV)"
+    assert display[1] == "Dipole moment (D)"

@@ -96,6 +96,7 @@ class ResultEntry(BaseModel):
     metric: str
     value: float
     std: float | None = None
+    unit: str | None = None
     higher_is_better: bool = True
     uses_external_data: bool | None = None
     input_feature_source: str | None = None

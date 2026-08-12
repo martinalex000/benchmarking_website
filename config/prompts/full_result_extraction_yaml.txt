@@ -42,6 +42,7 @@ results:
     k: <metric>
     v: <float>
     s: <float or null>
+    i: <exact source-table unit or null>
     h: <true|false>
     e: <true|false|null>
     f: <raw_features|llm_features|other_external_features|mixed|unknown|null>
