@@ -23,7 +23,9 @@ and never written directly to the leaderboard.
 - [ ] Implement staged OpenReview PDF downloads.
 - [ ] Implement result-based processed-paper detection.
 - [ ] Implement PDF extraction as a first-class, staged pipeline source.
-- [ ] Test venue discovery and downloads on NeurIPS 2024, ICLR 2022, and LoG venues.
+- [x] Test read-only source planning on NeurIPS 2024.
+- [ ] Test read-only source planning on ICLR 2022 and LoG venues.
+- [ ] Test staged downloads on NeurIPS 2024, ICLR 2022, and LoG venues.
 - [ ] Run a dry ingestion audit before enabling database writes.
 - [ ] Ingest approved PDF-only papers.
 
@@ -163,6 +165,22 @@ For each venue, report before downloading:
 Download into a staging directory first. Test pagination, retries, size/content-type validation,
 partial-download cleanup, idempotency, and resume behavior. Network-facing tests should use mocked
 fixture boundaries in the normal test suite; live venue checks are explicit integration runs.
+
+### Live validation log
+
+NeurIPS 2024 source planning completed on 2026-08-12 using cached OpenReview and Semantic Scholar
+responses and the current fast prefilter:
+
+- 4,236 OpenReview submissions.
+- 519 fast-filter hits: 192 specific and 327 unspecific graph matches.
+- 35 already processed locally with results.
+- 310 planned arXiv sources.
+- 174 planned OpenReview PDF sources.
+- No ambiguous or unavailable source decisions in this run.
+
+These are discovery-stage counts, not final benchmark eligibility. Extraction remains restricted to
+the configured dataset allow-list. The first live detail report also found and fixed handling of
+relative OpenReview PDF paths in Rich terminal output; no papers were downloaded.
 
 ## Implementation sequence
 

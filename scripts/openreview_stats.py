@@ -1316,7 +1316,8 @@ def _print_summary(
             identifier = decision.arxiv_id or decision.pdf_url or "no source"
             console.print(
                 f"    {decision.action:<14} {decision.note_id}: {decision.title} "
-                f"[{identifier}; {decision.evidence}]"
+                f"[{identifier}; {decision.evidence}]",
+                markup=False,
             )
     if kaggle_summary is not None:
         category_by_match = kaggle_summary.category_counts_by_match_type

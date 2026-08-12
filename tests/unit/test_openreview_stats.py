@@ -548,7 +548,7 @@ def test_main_fetches_and_lists_submissions_without_database_or_download(monkeyp
 def test_main_can_show_read_only_source_decisions(monkeypatch, capsys):
     submissions = [
         _paper("arXiv paper", arxiv_id="2501.00001", note_id="arxiv"),
-        _paper("PDF paper", pdf_url="https://openreview.net/pdf?id=pdf", note_id="pdf"),
+        _paper("PDF paper", pdf_url="/pdf/paper.pdf", note_id="pdf"),
     ]
 
     class FakeClient:
