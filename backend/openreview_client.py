@@ -16,6 +16,7 @@ from backend.paper_matching import extract_arxiv_id_from_text
 logger = logging.getLogger(__name__)
 
 _API_BASE = "https://api2.openreview.net"
+_LEGACY_API_BASE = "https://api.openreview.net"
 _ARXIV_RE = re.compile(r"\b(\d{4}\.\d{4,5})(?:v\d+)?\b")
 
 
@@ -129,9 +130,11 @@ class OpenReviewClient:
         invitation: str | None = None,
         content: dict[str, Any] | None = None,
         limit: int = 1000,
+        baseurl: str | None = None,
     ) -> list[dict[str, Any]]:
         notes: list[dict[str, Any]] = []
         offset = 0
+        notes_baseurl = (baseurl or self.baseurl).rstrip("/")
         while True:
             params: dict[str, Any] = {"limit": limit, "offset": offset}
             if invitation:
@@ -139,7 +142,7 @@ class OpenReviewClient:
             if content:
                 params["content"] = json.dumps(content)
             response = self.session.get(
-                f"{self.baseurl}/notes",
+                f"{notes_baseurl}/notes",
                 params=params,
                 timeout=self.timeout,
             )
@@ -156,6 +159,13 @@ class OpenReviewClient:
     def fetch_venue_submissions(self, venue_group_id: str) -> list[OpenReviewPaper]:
         invitation = self.submission_invitation_for_venue(venue_group_id)
         notes = self.iter_notes(invitation=invitation)
+        if not notes and invitation == f"{venue_group_id}/-/Submission":
+            # Older venues such as ICLR 2022 expose submissions only through
+            # API v1 and the Blind_Submission invitation.
+            notes = self.iter_notes(
+                invitation=f"{venue_group_id}/-/Blind_Submission",
+                baseurl=_LEGACY_API_BASE,
+            )
         papers: list[OpenReviewPaper] = []
         for note in notes:
             parsed = parse_openreview_note(note)

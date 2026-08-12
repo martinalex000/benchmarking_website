@@ -24,7 +24,8 @@ and never written directly to the leaderboard.
 - [ ] Implement result-based processed-paper detection.
 - [ ] Implement PDF extraction as a first-class, staged pipeline source.
 - [x] Test read-only source planning on NeurIPS 2024.
-- [ ] Test read-only source planning on ICLR 2022 and LoG venues.
+- [x] Test read-only source planning on ICLR 2022.
+- [ ] Test read-only source planning on LoG venues.
 - [ ] Test staged downloads on NeurIPS 2024, ICLR 2022, and LoG venues.
 - [ ] Run a dry ingestion audit before enabling database writes.
 - [ ] Ingest approved PDF-only papers.
@@ -181,6 +182,20 @@ responses and the current fast prefilter:
 These are discovery-stage counts, not final benchmark eligibility. Extraction remains restricted to
 the configured dataset allow-list. The first live detail report also found and fixed handling of
 relative OpenReview PDF paths in Rich terminal output; no papers were downloaded.
+
+ICLR 2022 source planning completed on 2026-08-12 after adding an authenticated API-v1 fallback
+for legacy `Blind_Submission` invitations:
+
+- 2,617 OpenReview submissions.
+- 324 fast-filter hits: 193 specific and 131 unspecific graph matches.
+- 24 already processed locally with results.
+- 60 planned arXiv sources.
+- 240 planned OpenReview PDF sources.
+- No ambiguous or unavailable source decisions in this run.
+
+The initial API-v2-only query incorrectly returned zero submissions. Semantic Scholar matched only
+76 of the 324 filter hits, so an additional arXiv-resolution route should be evaluated before
+accepting all 240 records as genuinely PDF-only. No papers were downloaded.
 
 ## Implementation sequence
 

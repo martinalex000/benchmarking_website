@@ -101,6 +101,53 @@ def test_openreview_client_iterates_all_api_pages(monkeypatch):
     assert [request["params"]["offset"] for request in requests_seen] == [0, 2]
 
 
+def test_openreview_client_falls_back_to_legacy_blind_submissions(monkeypatch):
+    client = OpenReviewClient(token="test-token")
+    responses = iter(
+        [
+            {"groups": [{"id": "ICLR.cc/2022/Conference", "content": None}]},
+            {"notes": []},
+            {
+                "notes": [
+                    {
+                        "id": "legacy-note",
+                        "forum": "legacy-note",
+                        "invitation": "ICLR.cc/2022/Conference/-/Blind_Submission",
+                        "content": {
+                            "title": "Legacy paper",
+                            "authors": ["Alice Example"],
+                            "pdf": "/pdf/legacy.pdf",
+                        },
+                    }
+                ]
+            },
+        ]
+    )
+    requests_seen: list[dict[str, object]] = []
+
+    class FakeResponse:
+        status_code = 200
+
+        def __init__(self, payload):
+            self.payload = payload
+
+        def json(self):
+            return self.payload
+
+    def fake_get(url, *, params, timeout):
+        requests_seen.append({"url": url, "params": params, "timeout": timeout})
+        return FakeResponse(next(responses))
+
+    monkeypatch.setattr(client.session, "get", fake_get)
+
+    papers = client.fetch_venue_submissions("ICLR.cc/2022/Conference")
+
+    assert [paper.note_id for paper in papers] == ["legacy-note"]
+    assert requests_seen[1]["params"]["invitation"].endswith("/-/Submission")
+    assert requests_seen[2]["params"]["invitation"].endswith("/-/Blind_Submission")
+    assert requests_seen[2]["url"] == "https://api.openreview.net/notes"
+
+
 def test_load_local_papers_uses_read_only_database(tmp_path):
     db_path = tmp_path / "papers.db"
     connection = sqlite3.connect(db_path)
