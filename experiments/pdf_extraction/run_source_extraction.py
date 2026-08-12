@@ -5,7 +5,9 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import sys
+from dataclasses import dataclass
 from datetime import UTC, datetime
 from pathlib import Path
 
@@ -19,6 +21,60 @@ from backend.latex_source import _parse_expanded  # noqa: E402
 from backend.llm_extractor import DatasetInfo, LLMExtractor  # noqa: E402
 from backend.models import Paper  # noqa: E402
 
+_TABLE_SEPARATOR_RE = re.compile(r"^\s*\|(?:\s*:?-{3,}:?\s*\|)+\s*$")
+_TABLE_CAPTION_RE = re.compile(r"^\s*(?:<[^>]+>\s*)*Table\s+(\d+)[.:]\s*(.*)", re.IGNORECASE)
+
+
+@dataclass
+class MarkdownTable:
+    """Minimal table interface consumed by ``LLMExtractor``."""
+
+    number: int
+    caption: str
+    markdown: str
+    header: str
+    label: str = ""
+
+
+def parse_markdown_tables(text: str) -> list[MarkdownTable]:
+    """Extract pipe tables and their nearest preceding ``Table N`` caption."""
+    lines = text.splitlines()
+    tables: list[MarkdownTable] = []
+    index = 0
+    while index + 1 < len(lines):
+        if not lines[index].lstrip().startswith("|") or not _TABLE_SEPARATOR_RE.match(
+            lines[index + 1]
+        ):
+            index += 1
+            continue
+
+        end = index + 2
+        while end < len(lines) and lines[end].lstrip().startswith("|"):
+            end += 1
+
+        number = len(tables) + 1
+        caption = ""
+        for preceding in reversed(lines[max(0, index - 5) : index]):
+            candidate = preceding.strip()
+            if not candidate:
+                continue
+            match = _TABLE_CAPTION_RE.match(candidate)
+            if match:
+                number = int(match.group(1))
+                caption = match.group(2).strip()
+            break
+
+        tables.append(
+            MarkdownTable(
+                number=number,
+                caption=caption,
+                markdown="\n".join(lines[index:end]),
+                header=lines[index].strip(),
+            )
+        )
+        index = end
+    return tables
+
 
 def _paper_title(arxiv_id: str) -> str:
     with session_scope() as session:
@@ -28,17 +84,19 @@ def _paper_title(arxiv_id: str) -> str:
 
 def _load_source(
     arxiv_id: str, *, markdown_path: Path | None, papers_dir: Path
-) -> tuple[str, object | None, str]:
+) -> tuple[str, object | None, list[MarkdownTable], str]:
     if markdown_path is not None:
+        text = markdown_path.read_text(encoding="utf-8", errors="replace")
         return (
-            markdown_path.read_text(encoding="utf-8", errors="replace"),
+            text,
             None,
+            parse_markdown_tables(text),
             str(markdown_path),
         )
 
     expanded_path = papers_dir / arxiv_id / "latex" / "expanded.tex"
     text = expanded_path.read_text(encoding="utf-8", errors="replace")
-    return text, _parse_expanded(arxiv_id, text), str(expanded_path)
+    return text, _parse_expanded(arxiv_id, text), [], str(expanded_path)
 
 
 def run_source_extraction(
@@ -49,7 +107,7 @@ def run_source_extraction(
     markdown_path: Path | None,
     papers_dir: Path,
 ) -> dict:
-    paper_text, latex_paper, source = _load_source(
+    paper_text, latex_paper, markdown_tables, source = _load_source(
         arxiv_id,
         markdown_path=markdown_path,
         papers_dir=papers_dir,
@@ -61,7 +119,7 @@ def run_source_extraction(
     )
     output = extractor.extract_results_two_step(
         paper_text,
-        [],
+        markdown_tables,
         latex_paper=latex_paper,
         paper_title=_paper_title(arxiv_id),
         target_datasets=set(datasets),
