@@ -21,13 +21,15 @@ and never written directly to the leaderboard.
 - [x] Select the initial PDF backend and settings.
 - [x] Implement read-only, arXiv-first source resolution and dry-run action counts.
 - [x] Resolve exact normalized titles against the local arXiv metadata snapshot.
-- [ ] Implement staged OpenReview PDF downloads.
+- [x] Implement validated, atomic single-PDF staging and test representative venues.
+- [ ] Add batch staging driven directly by an exported source plan.
 - [ ] Implement result-based processed-paper detection.
 - [ ] Implement PDF extraction as a first-class, staged pipeline source.
 - [x] Test read-only source planning on NeurIPS 2024.
 - [x] Test read-only source planning on ICLR 2022.
 - [x] Test read-only source planning on LoG 2022, 2023, and 2024.
-- [ ] Test staged downloads on NeurIPS 2024, ICLR 2022, and LoG venues.
+- [x] Test one staged download from NeurIPS 2024, ICLR 2022, and LoG 2022.
+- [ ] Test batch staging, interruption, and resume behavior.
 - [ ] Run a dry ingestion audit before enabling database writes.
 - [ ] Ingest approved PDF-only papers.
 
@@ -225,6 +227,21 @@ Snapshot resolution is opt-in through `--resolve-arxiv-snapshot` because it stre
 metadata file. Results are cached by snapshot identity and candidate set. Use
 `--no-kaggle-categories` during source preflight to avoid a second optional metadata scan.
 
+### Staged download validation
+
+The isolated downloader was tested live on 2026-08-12. It accepts only HTTPS OpenReview hosts,
+uses the configured bearer token, enforces a 200 MB limit, validates the `%PDF-` signature, writes
+through a `.part` file, records sidecar provenance, and reuses an existing valid PDF.
+
+- NeurIPS 2024 `oEKFPSOWpp`: 15,651,340 bytes, 23 pages.
+- ICLR 2022 `2RNpZ8S4alJ`: 6,275,713 bytes, 15 pages.
+- LoG 2022 `oqf2GRYTET`: 312,453 bytes, 8 pages.
+
+All three parsed successfully as PDF 1.5 and no partial files remained. Repeating the NeurIPS
+command exercised the idempotent reuse path. The first anonymous request received HTTP 403 and
+left no staged file; authenticated access was then added and tested. Artifacts remain ignored
+under `.cache/openreview_pdf_staging/` and no queue or database rows were changed.
+
 ## Implementation sequence
 
 1. Add a source-resolution record that keeps OpenReview note ID, venue, PDF URL, resolved arXiv ID,
@@ -235,7 +252,8 @@ metadata file. Results are cached by snapshot identity and candidate set. Use
    inspect per-paper evidence without downloading anything.
 3. Resolve provisional PDF candidates against the local arXiv metadata snapshot by normalized
    title, with ambiguity reported rather than guessed. **Completed.**
-4. Add a staged downloader with content validation and resumable, atomic files.
+4. Add a staged downloader with content validation and resumable, atomic files. **Single-file
+   atomic staging and idempotent reuse completed; batch resume remains pending.**
 5. Promote the Markdown table adapter from the experiment into a tested backend module.
 6. Add table-structure checks and evidence-linked result staging.
 7. Add the result-fingerprint matcher and an explainable match report.
