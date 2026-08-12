@@ -10,14 +10,17 @@ presented as facts on the website.
 ## Current status
 
 - Dataset entries: 142
-- Fully researched: 40
-- Partially researched: 1
-- Not yet researched: 101
+- Entries with concise and five-section detailed metadata: 142
+- Entries with at least one resolvable source: 142
+- Extended multi-source provenance reviews: 40
+- Explicitly partial provenance reviews: 1 (Ribonanza-2k)
+- Entries awaiting deeper upstream-source tracing: 101
 
 ## Successes
 
 - The metadata schema, persistence path, website expansion control, and coverage audit have been
   established.
+- Every catalog entry now has task, data, feature, split/evaluation, pitfall, and source fields.
 - The pilot established provenance chains for Cora, Texas, Peptides-func, ogbg-code2, and
   Ribonanza-2k. Four could be documented completely enough for the public fields; Ribonanza-2k
   retains explicit reproducibility gaps.
@@ -29,6 +32,10 @@ presented as facts on the website.
 - A benchmark name can conceal multiple preprocessing, feature, and split variants.
 - Some benchmark papers repackage upstream scientific or molecular measurements without fully
   documenting how those measurements were originally produced.
+- For 101 entries, the current text is deliberately conservative and source-backed but has not yet
+  received the same multi-paper provenance audit as GraphBench, OGB, and LRGB. These entries are
+  complete enough for publication without unsupported claims, but upstream collection histories can
+  still be expanded.
 
 ## Dataset review ledger
 
@@ -123,3 +130,23 @@ chain, confirmed facts, excluded claims, conflicts, and remaining questions.
 - **Remaining uncertainty:** aggregate BA/ER/RB rows cover several problems and protocols. Their
   public descriptions require callers to name the optimization problem, size regime, and supervised
   or unsupervised setting rather than implying one universal result.
+
+### Remaining families — baseline source review complete
+
+- **Coverage:** Classic, TU Dortmund, GNNBenchmark, heterophily and LINKX, MoleculeNet, quantum
+  chemistry, heterogeneous and knowledge graphs, hypergraphs, and all newer scientific families now
+  have the full public metadata structure and resolvable references.
+- **Success:** family-level protocol hazards are recorded consistently, including non-canonical TU
+  splits, MoleculeNet missing labels and scaffold leakage, inverse-relation leakage in WN18/FB15k,
+  simulation leakage in cosmology, periodic-angle errors in RNA, and derived-target leakage in city
+  networks.
+- **Corrections:** SSSP, eccentricity, COVID, torsion-angle, and ECHO-Charge are node-level rather
+  than graph-level regressions. Power-flow cases are mixed bus/branch regression tasks despite the
+  catalog's single task-type field; their published threshold accuracy is not ordinary class
+  accuracy.
+- **Challenges:** several short names identify multiple processed artifacts (Film, Actor, Amazon,
+  Cora, IMDB, and 20News), while some recent benchmark papers are the only public documentation for
+  their generated data.
+- **Still missing:** the deepest upstream collection history for these 101 entries has not been
+  independently reconstructed record by record. The public descriptions therefore avoid claims
+  about undocumented acquisition, assay, annotation, or filtering procedures.

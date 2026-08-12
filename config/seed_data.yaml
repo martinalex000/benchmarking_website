@@ -285,8 +285,8 @@ benchmarks:
     - title: GraphBench
       arxiv_id: '2512.04475'
       kind: benchmark_definition
-    primary_metric: Accuracy
-    higher_is_better: true
+    primary_metric: MAE
+    higher_is_better: false
     domain: algorithms
     pyg_url: https://graphbench.github.io/website/datasets.html
     variants:
@@ -295,7 +295,7 @@ benchmarks:
   - name: Algorithmic Reasoning
     task_type: graph_classification
     description: 'Graphs from 6 generators with 7 algorithmic reasoning tasks (e.g.
-      MST). Size generalisation: train on size 16, test up to 2048 nodes.
+      MST). Size generalisation: train on size 16, test up to 512 nodes.
 
       '
     detailed_description:
@@ -1143,6 +1143,24 @@ benchmarks:
       notes: 10-fold cross-validation; results not directly comparable to Planetoid.
   - name: ZINC
     task_type: graph_regression
+    detailed_description:
+      task: >-
+        Molecular property regression (constrained solubility). The primary catalog metric is MAE.
+      data: >-
+        Molecular property regression (constrained solubility).
+      features: >-
+        The representation follows the cited PyG loader or benchmark release. Node and edge fields are dataset-specific; preprocessing, graph direction, and any feature normalization must be kept fixed when reproducing a result.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Subset (12k), Full. Evaluation uses MAE (lower is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        The same short dataset name is used for incompatible processed artifacts and split protocols. Report the loader/version, directedness, feature preprocessing, and exact masks; transductive results should not be described as inductive.
+    sources:
+    - title: Benchmarking Graph Neural Networks
+      arxiv_id: '2003.00982'
+      kind: benchmark_or_upstream_source
+    - title: PyTorch Geometric ZINC loader documentation
+      url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.ZINC.html
+      kind: implementation_documentation
     description: Molecular property regression (constrained solubility).
     primary_metric: MAE
     higher_is_better: false
@@ -1164,6 +1182,24 @@ benchmarks:
       notes: 250,000 train molecules. Much better quality expected compared to 12k subset.
   - name: CiteSeer
     task_type: node_classification
+    detailed_description:
+      task: >-
+        Citation network node classification (6 classes). The primary catalog metric is Accuracy.
+      data: >-
+        Citation network node classification (6 classes).
+      features: >-
+        The representation follows the cited PyG loader or benchmark release. Node and edge fields are dataset-specific; preprocessing, graph direction, and any feature normalization must be kept fixed when reproducing a result.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Planetoid split. Evaluation uses Accuracy (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        The same short dataset name is used for incompatible processed artifacts and split protocols. Report the loader/version, directedness, feature preprocessing, and exact masks; transductive results should not be described as inductive.
+    sources:
+    - title: Revisiting Semi-Supervised Learning with Graph Embeddings
+      arxiv_id: '1603.08861'
+      kind: benchmark_or_upstream_source
+    - title: PyTorch Geometric CiteSeer loader documentation
+      url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.Planetoid.html
+      kind: implementation_documentation
     description: Citation network node classification (6 classes).
     primary_metric: Accuracy
     higher_is_better: true
@@ -1176,6 +1212,24 @@ benchmarks:
       notes: Yang et al. 2016 fixed split.
   - name: PubMed
     task_type: node_classification
+    detailed_description:
+      task: >-
+        Citation network node classification (3 classes). The primary catalog metric is Accuracy.
+      data: >-
+        Citation network node classification (3 classes).
+      features: >-
+        The representation follows the cited PyG loader or benchmark release. Node and edge fields are dataset-specific; preprocessing, graph direction, and any feature normalization must be kept fixed when reproducing a result.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Planetoid split. Evaluation uses Accuracy (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        The same short dataset name is used for incompatible processed artifacts and split protocols. Report the loader/version, directedness, feature preprocessing, and exact masks; transductive results should not be described as inductive.
+    sources:
+    - title: Revisiting Semi-Supervised Learning with Graph Embeddings
+      arxiv_id: '1603.08861'
+      kind: benchmark_or_upstream_source
+    - title: PyTorch Geometric PubMed loader documentation
+      url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.Planetoid.html
+      kind: implementation_documentation
     description: Citation network node classification (3 classes).
     primary_metric: Accuracy
     higher_is_better: true
@@ -1188,6 +1242,24 @@ benchmarks:
       notes: Yang et al. 2016 fixed split.
   - name: Coauthor-CS
     task_type: node_classification
+    detailed_description:
+      task: >-
+        Co-authorship graph (CS) node classification from the "Pitfalls of Graph Neural Network Evaluation" paper. The primary catalog metric is Accuracy.
+      data: >-
+        Co-authorship graph (CS) node classification from the "Pitfalls of Graph Neural Network Evaluation" paper.
+      features: >-
+        The representation follows the cited PyG loader or benchmark release. Node and edge fields are dataset-specific; preprocessing, graph direction, and any feature normalization must be kept fixed when reproducing a result.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Standard split. Evaluation uses Accuracy (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        The same short dataset name is used for incompatible processed artifacts and split protocols. Report the loader/version, directedness, feature preprocessing, and exact masks; transductive results should not be described as inductive.
+    sources:
+    - title: Pitfalls of Graph Neural Network Evaluation
+      arxiv_id: '1811.05868'
+      kind: benchmark_or_upstream_source
+    - title: PyTorch Geometric Coauthor-CS loader documentation
+      url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.Coauthor.html
+      kind: implementation_documentation
     description: Co-authorship graph (CS) node classification from the "Pitfalls of
       Graph Neural Network Evaluation" paper.
     primary_metric: Accuracy
@@ -1200,6 +1272,24 @@ benchmarks:
       is_standard: true
   - name: Coauthor-Physics
     task_type: node_classification
+    detailed_description:
+      task: >-
+        Co-authorship graph (Physics) node classification from the "Pitfalls of Graph Neural Network Evaluation" paper. The primary catalog metric is Accuracy.
+      data: >-
+        Co-authorship graph (Physics) node classification from the "Pitfalls of Graph Neural Network Evaluation" paper.
+      features: >-
+        The representation follows the cited PyG loader or benchmark release. Node and edge fields are dataset-specific; preprocessing, graph direction, and any feature normalization must be kept fixed when reproducing a result.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Standard split. Evaluation uses Accuracy (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        The same short dataset name is used for incompatible processed artifacts and split protocols. Report the loader/version, directedness, feature preprocessing, and exact masks; transductive results should not be described as inductive.
+    sources:
+    - title: Pitfalls of Graph Neural Network Evaluation
+      arxiv_id: '1811.05868'
+      kind: benchmark_or_upstream_source
+    - title: PyTorch Geometric Coauthor-Physics loader documentation
+      url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.Coauthor.html
+      kind: implementation_documentation
     description: Co-authorship graph (Physics) node classification from the "Pitfalls
       of Graph Neural Network Evaluation" paper.
     primary_metric: Accuracy
@@ -1211,6 +1301,24 @@ benchmarks:
       is_standard: true
   - name: Amazon-Computers
     task_type: node_classification
+    detailed_description:
+      task: >-
+        Amazon co-purchase graph (Computers) node classification. The primary catalog metric is Accuracy.
+      data: >-
+        Amazon co-purchase graph (Computers) node classification.
+      features: >-
+        The representation follows the cited PyG loader or benchmark release. Node and edge fields are dataset-specific; preprocessing, graph direction, and any feature normalization must be kept fixed when reproducing a result.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Standard split. Evaluation uses Accuracy (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        The same short dataset name is used for incompatible processed artifacts and split protocols. Report the loader/version, directedness, feature preprocessing, and exact masks; transductive results should not be described as inductive.
+    sources:
+    - title: Pitfalls of Graph Neural Network Evaluation
+      arxiv_id: '1811.05868'
+      kind: benchmark_or_upstream_source
+    - title: PyTorch Geometric Amazon-Computers loader documentation
+      url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.Amazon.html
+      kind: implementation_documentation
     description: Amazon co-purchase graph (Computers) node classification.
     primary_metric: Accuracy
     higher_is_better: true
@@ -1221,6 +1329,24 @@ benchmarks:
       is_standard: true
   - name: Amazon-Photo
     task_type: node_classification
+    detailed_description:
+      task: >-
+        Amazon co-purchase graph (Photo) node classification. The primary catalog metric is Accuracy.
+      data: >-
+        Amazon co-purchase graph (Photo) node classification.
+      features: >-
+        The representation follows the cited PyG loader or benchmark release. Node and edge fields are dataset-specific; preprocessing, graph direction, and any feature normalization must be kept fixed when reproducing a result.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Standard split. Evaluation uses Accuracy (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        The same short dataset name is used for incompatible processed artifacts and split protocols. Report the loader/version, directedness, feature preprocessing, and exact masks; transductive results should not be described as inductive.
+    sources:
+    - title: Pitfalls of Graph Neural Network Evaluation
+      arxiv_id: '1811.05868'
+      kind: benchmark_or_upstream_source
+    - title: PyTorch Geometric Amazon-Photo loader documentation
+      url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.Amazon.html
+      kind: implementation_documentation
     description: Amazon co-purchase graph (Photo) node classification.
     primary_metric: Accuracy
     higher_is_better: true
@@ -1231,6 +1357,24 @@ benchmarks:
       is_standard: true
   - name: Reddit
     task_type: node_classification
+    detailed_description:
+      task: >-
+        Reddit posts node classification (41 community labels) from the GraphSAGE paper. The primary catalog metric is F1.
+      data: >-
+        Reddit posts node classification (41 community labels) from the GraphSAGE paper.
+      features: >-
+        The representation follows the cited PyG loader or benchmark release. Node and edge fields are dataset-specific; preprocessing, graph direction, and any feature normalization must be kept fixed when reproducing a result.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Standard split. Evaluation uses F1 (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        The same short dataset name is used for incompatible processed artifacts and split protocols. Report the loader/version, directedness, feature preprocessing, and exact masks; transductive results should not be described as inductive.
+    sources:
+    - title: Inductive Representation Learning on Large Graphs
+      arxiv_id: '1706.02216'
+      kind: benchmark_or_upstream_source
+    - title: PyTorch Geometric Reddit loader documentation
+      url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.Reddit.html
+      kind: implementation_documentation
     description: Reddit posts node classification (41 community labels) from the GraphSAGE
       paper.
     primary_metric: F1
@@ -1242,6 +1386,24 @@ benchmarks:
       is_standard: true
   - name: PPI
     task_type: node_classification
+    detailed_description:
+      task: >-
+        Protein-protein interaction node classification (121 GO labels, multi-label). The primary catalog metric is F1.
+      data: >-
+        Protein-protein interaction node classification (121 GO labels, multi-label).
+      features: >-
+        The representation follows the cited PyG loader or benchmark release. Node and edge fields are dataset-specific; preprocessing, graph direction, and any feature normalization must be kept fixed when reproducing a result.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Standard split. Evaluation uses F1 (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        The same short dataset name is used for incompatible processed artifacts and split protocols. Report the loader/version, directedness, feature preprocessing, and exact masks; transductive results should not be described as inductive.
+    sources:
+    - title: Inductive Representation Learning on Large Graphs
+      arxiv_id: '1706.02216'
+      kind: benchmark_or_upstream_source
+    - title: PyTorch Geometric PPI loader documentation
+      url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.PPI.html
+      kind: implementation_documentation
     description: Protein-protein interaction node classification (121 GO labels, multi-label).
     primary_metric: F1
     higher_is_better: true
@@ -1252,6 +1414,24 @@ benchmarks:
       is_standard: true
   - name: WikiCS
     task_type: node_classification
+    detailed_description:
+      task: >-
+        Wikipedia-based node classification (10 classes) with 20 train splits. The primary catalog metric is Accuracy.
+      data: >-
+        Wikipedia-based node classification (10 classes) with 20 train splits. The cataloged artifact reports 1 graphs, 10 target classes or tasks.
+      features: >-
+        The representation follows the cited PyG loader or benchmark release. Node and edge fields are dataset-specific; preprocessing, graph direction, and any feature normalization must be kept fixed when reproducing a result.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Standard split. Evaluation uses Accuracy (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        The same short dataset name is used for incompatible processed artifacts and split protocols. Report the loader/version, directedness, feature preprocessing, and exact masks; transductive results should not be described as inductive.
+    sources:
+    - title: 'Wiki-CS: A Wikipedia-Based Benchmark for Graph Neural Networks'
+      arxiv_id: '2007.02901'
+      kind: benchmark_or_upstream_source
+    - title: PyTorch Geometric WikiCS loader documentation
+      url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.WikiCS.html
+      kind: implementation_documentation
     description: Wikipedia-based node classification (10 classes) with 20 train splits.
     primary_metric: Accuracy
     higher_is_better: true
@@ -1266,6 +1446,24 @@ benchmarks:
     num_classes: 10
   - name: AQSOL
     task_type: graph_regression
+    detailed_description:
+      task: >-
+        Aqueous solubility regression on 9,982 molecular graphs from the LRGB paper. The primary catalog metric is MAE.
+      data: >-
+        Aqueous solubility regression on 9,982 molecular graphs from the LRGB paper.
+      features: >-
+        The representation follows the cited PyG loader or benchmark release. Node and edge fields are dataset-specific; preprocessing, graph direction, and any feature normalization must be kept fixed when reproducing a result.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Standard split. Evaluation uses MAE (lower is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        The same short dataset name is used for incompatible processed artifacts and split protocols. Report the loader/version, directedness, feature preprocessing, and exact masks; transductive results should not be described as inductive.
+    sources:
+    - title: AqSolDB, a curated reference set of aqueous solubility
+      url: https://doi.org/10.1038/s41597-019-0151-1
+      kind: benchmark_or_upstream_source
+    - title: PyTorch Geometric AQSOL loader documentation
+      url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.AQSOL.html
+      kind: implementation_documentation
     description: Aqueous solubility regression on 9,982 molecular graphs from the
       LRGB paper.
     primary_metric: MAE
@@ -1283,6 +1481,24 @@ benchmarks:
   datasets:
   - name: MUTAG
     task_type: graph_classification
+    detailed_description:
+      task: >-
+        Graph classification of mutagenic aromatic and heteroaromatic nitro compounds (2 classes). The primary catalog metric is Accuracy.
+      data: >-
+        Graph classification of mutagenic aromatic and heteroaromatic nitro compounds (2 classes). The cataloged artifact reports 188 graphs, 2 target classes or tasks.
+      features: >-
+        The TU text format may contain discrete node or edge labels and optional continuous attributes. Social-network datasets commonly have no intrinsic node attributes, so papers often add constant or degree features; that choice changes the input.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: 10-fold CV. Evaluation uses Accuracy (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        TU datasets have no canonical train/test split. Report cross-validation folds, seeds, feature construction, and whether duplicate or isomorphic graphs were removed; published results can otherwise differ for protocol rather than model quality.
+    sources:
+    - title: TU Dortmund benchmark
+      arxiv_id: '2007.08663'
+      kind: benchmark_or_upstream_source
+    - title: PyTorch Geometric MUTAG loader documentation
+      url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.TUDataset.html
+      kind: implementation_documentation
     description: Graph classification of mutagenic aromatic and heteroaromatic nitro
       compounds (2 classes).
     primary_metric: Accuracy
@@ -1298,6 +1514,24 @@ benchmarks:
       is_standard: true
   - name: PROTEINS
     task_type: graph_classification
+    detailed_description:
+      task: >-
+        Graph classification of proteins as enzyme or non-enzyme (2 classes). The primary catalog metric is Accuracy.
+      data: >-
+        Graph classification of proteins as enzyme or non-enzyme (2 classes). The cataloged artifact reports 1,113 graphs, 2 target classes or tasks.
+      features: >-
+        The TU text format may contain discrete node or edge labels and optional continuous attributes. Social-network datasets commonly have no intrinsic node attributes, so papers often add constant or degree features; that choice changes the input.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: 10-fold CV. Evaluation uses Accuracy (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        TU datasets have no canonical train/test split. Report cross-validation folds, seeds, feature construction, and whether duplicate or isomorphic graphs were removed; published results can otherwise differ for protocol rather than model quality.
+    sources:
+    - title: TU Dortmund benchmark
+      arxiv_id: '2007.08663'
+      kind: benchmark_or_upstream_source
+    - title: PyTorch Geometric PROTEINS loader documentation
+      url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.TUDataset.html
+      kind: implementation_documentation
     description: Graph classification of proteins as enzyme or non-enzyme (2 classes).
     primary_metric: Accuracy
     higher_is_better: true
@@ -1313,6 +1547,24 @@ benchmarks:
       is_standard: true
   - name: D&D
     task_type: graph_classification
+    detailed_description:
+      task: >-
+        Graph classification of proteins into enzymes and non-enzymes via D&D representation. The primary catalog metric is Accuracy.
+      data: >-
+        Graph classification of proteins into enzymes and non-enzymes via D&D representation. The cataloged artifact reports 1,178 graphs, 2 target classes or tasks.
+      features: >-
+        The TU text format may contain discrete node or edge labels and optional continuous attributes. Social-network datasets commonly have no intrinsic node attributes, so papers often add constant or degree features; that choice changes the input.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: 10-fold CV. Evaluation uses Accuracy (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        TU datasets have no canonical train/test split. Report cross-validation folds, seeds, feature construction, and whether duplicate or isomorphic graphs were removed; published results can otherwise differ for protocol rather than model quality.
+    sources:
+    - title: TU Dortmund benchmark
+      arxiv_id: '2007.08663'
+      kind: benchmark_or_upstream_source
+    - title: PyTorch Geometric D&D loader documentation
+      url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.TUDataset.html
+      kind: implementation_documentation
     description: Graph classification of proteins into enzymes and non-enzymes via
       D&D representation.
     primary_metric: Accuracy
@@ -1328,6 +1580,24 @@ benchmarks:
     num_classes: 2
   - name: NCI1
     task_type: graph_classification
+    detailed_description:
+      task: >-
+        Graph classification of chemical compounds screened for anti-cancer activity. The primary catalog metric is Accuracy.
+      data: >-
+        Graph classification of chemical compounds screened for anti-cancer activity. The cataloged artifact reports 4,110 graphs, 2 target classes or tasks.
+      features: >-
+        The TU text format may contain discrete node or edge labels and optional continuous attributes. Social-network datasets commonly have no intrinsic node attributes, so papers often add constant or degree features; that choice changes the input.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: 10-fold CV. Evaluation uses Accuracy (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        TU datasets have no canonical train/test split. Report cross-validation folds, seeds, feature construction, and whether duplicate or isomorphic graphs were removed; published results can otherwise differ for protocol rather than model quality.
+    sources:
+    - title: TU Dortmund benchmark
+      arxiv_id: '2007.08663'
+      kind: benchmark_or_upstream_source
+    - title: PyTorch Geometric NCI1 loader documentation
+      url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.TUDataset.html
+      kind: implementation_documentation
     description: Graph classification of chemical compounds screened for anti-cancer
       activity.
     primary_metric: Accuracy
@@ -1343,6 +1613,24 @@ benchmarks:
       is_standard: true
   - name: COLLAB
     task_type: graph_classification
+    detailed_description:
+      task: >-
+        Graph classification of scientific collaboration networks (3 classes). The primary catalog metric is Accuracy.
+      data: >-
+        Graph classification of scientific collaboration networks (3 classes). The cataloged artifact reports 5,000 graphs, 2 target classes or tasks.
+      features: >-
+        The TU text format may contain discrete node or edge labels and optional continuous attributes. Social-network datasets commonly have no intrinsic node attributes, so papers often add constant or degree features; that choice changes the input.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: 10-fold CV. Evaluation uses Accuracy (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        TU datasets have no canonical train/test split. Report cross-validation folds, seeds, feature construction, and whether duplicate or isomorphic graphs were removed; published results can otherwise differ for protocol rather than model quality.
+    sources:
+    - title: TU Dortmund benchmark
+      arxiv_id: '2007.08663'
+      kind: benchmark_or_upstream_source
+    - title: PyTorch Geometric COLLAB loader documentation
+      url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.TUDataset.html
+      kind: implementation_documentation
     description: Graph classification of scientific collaboration networks (3 classes).
     primary_metric: Accuracy
     higher_is_better: true
@@ -1357,6 +1645,24 @@ benchmarks:
     num_classes: 2
   - name: IMDB-BINARY
     task_type: graph_classification
+    detailed_description:
+      task: >-
+        Binary graph classification of movie collaboration networks (action vs. romance). The primary catalog metric is Accuracy.
+      data: >-
+        Binary graph classification of movie collaboration networks (action vs. romance). The cataloged artifact reports 1,000 graphs, 2 target classes or tasks.
+      features: >-
+        The TU text format may contain discrete node or edge labels and optional continuous attributes. Social-network datasets commonly have no intrinsic node attributes, so papers often add constant or degree features; that choice changes the input.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: 10-fold CV. Evaluation uses Accuracy (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        TU datasets have no canonical train/test split. Report cross-validation folds, seeds, feature construction, and whether duplicate or isomorphic graphs were removed; published results can otherwise differ for protocol rather than model quality.
+    sources:
+    - title: TU Dortmund benchmark
+      arxiv_id: '2007.08663'
+      kind: benchmark_or_upstream_source
+    - title: PyTorch Geometric IMDB-BINARY loader documentation
+      url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.TUDataset.html
+      kind: implementation_documentation
     description: Binary graph classification of movie collaboration networks (action
       vs. romance).
     primary_metric: Accuracy
@@ -1372,6 +1678,24 @@ benchmarks:
     num_classes: 2
   - name: IMDB-MULTI
     task_type: graph_classification
+    detailed_description:
+      task: >-
+        Multi-class graph classification of movie collaboration networks (3 genres). The primary catalog metric is Accuracy.
+      data: >-
+        Multi-class graph classification of movie collaboration networks (3 genres). The cataloged artifact reports 1,500 graphs, 3 target classes or tasks.
+      features: >-
+        The TU text format may contain discrete node or edge labels and optional continuous attributes. Social-network datasets commonly have no intrinsic node attributes, so papers often add constant or degree features; that choice changes the input.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: 10-fold CV. Evaluation uses Accuracy (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        TU datasets have no canonical train/test split. Report cross-validation folds, seeds, feature construction, and whether duplicate or isomorphic graphs were removed; published results can otherwise differ for protocol rather than model quality.
+    sources:
+    - title: TU Dortmund benchmark
+      arxiv_id: '2007.08663'
+      kind: benchmark_or_upstream_source
+    - title: PyTorch Geometric IMDB-MULTI loader documentation
+      url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.TUDataset.html
+      kind: implementation_documentation
     description: Multi-class graph classification of movie collaboration networks
       (3 genres).
     primary_metric: Accuracy
@@ -1387,6 +1711,24 @@ benchmarks:
     num_classes: 3
   - name: REDDIT-BINARY
     task_type: graph_classification
+    detailed_description:
+      task: >-
+        Binary graph classification of Reddit discussion threads (question-answering vs. online discussion). The primary catalog metric is Accuracy.
+      data: >-
+        Binary graph classification of Reddit discussion threads (question-answering vs. online discussion). The cataloged artifact reports 2,000 graphs, 2 target classes or tasks.
+      features: >-
+        The TU text format may contain discrete node or edge labels and optional continuous attributes. Social-network datasets commonly have no intrinsic node attributes, so papers often add constant or degree features; that choice changes the input.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: 10-fold CV. Evaluation uses Accuracy (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        TU datasets have no canonical train/test split. Report cross-validation folds, seeds, feature construction, and whether duplicate or isomorphic graphs were removed; published results can otherwise differ for protocol rather than model quality.
+    sources:
+    - title: TU Dortmund benchmark
+      arxiv_id: '2007.08663'
+      kind: benchmark_or_upstream_source
+    - title: PyTorch Geometric REDDIT-BINARY loader documentation
+      url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.TUDataset.html
+      kind: implementation_documentation
     description: Binary graph classification of Reddit discussion threads (question-answering
       vs. online discussion).
     primary_metric: Accuracy
@@ -1402,6 +1744,24 @@ benchmarks:
       is_standard: true
   - name: REDDIT-MULTI-5K
     task_type: graph_classification
+    detailed_description:
+      task: >-
+        Multi-class graph classification of Reddit discussion threads (5 subreddits). The primary catalog metric is Accuracy.
+      data: >-
+        Multi-class graph classification of Reddit discussion threads (5 subreddits). The cataloged artifact reports 4,999 graphs, 5 target classes or tasks.
+      features: >-
+        The TU text format may contain discrete node or edge labels and optional continuous attributes. Social-network datasets commonly have no intrinsic node attributes, so papers often add constant or degree features; that choice changes the input.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: 10-fold CV. Evaluation uses Accuracy (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        TU datasets have no canonical train/test split. Report cross-validation folds, seeds, feature construction, and whether duplicate or isomorphic graphs were removed; published results can otherwise differ for protocol rather than model quality.
+    sources:
+    - title: TU Dortmund benchmark
+      arxiv_id: '2007.08663'
+      kind: benchmark_or_upstream_source
+    - title: PyTorch Geometric REDDIT-MULTI-5K loader documentation
+      url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.TUDataset.html
+      kind: implementation_documentation
     description: Multi-class graph classification of Reddit discussion threads (5
       subreddits).
     primary_metric: Accuracy
@@ -1417,6 +1777,24 @@ benchmarks:
       is_standard: true
   - name: RDT-B
     task_type: graph_classification
+    detailed_description:
+      task: >-
+        Alias for REDDIT-BINARY in some papers. The primary catalog metric is Accuracy.
+      data: >-
+        Alias for REDDIT-BINARY in some papers. The cataloged artifact reports 2,000 graphs, 2 target classes or tasks.
+      features: >-
+        The TU text format may contain discrete node or edge labels and optional continuous attributes. Social-network datasets commonly have no intrinsic node attributes, so papers often add constant or degree features; that choice changes the input.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: 10-fold CV. Evaluation uses Accuracy (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        TU datasets have no canonical train/test split. Report cross-validation folds, seeds, feature construction, and whether duplicate or isomorphic graphs were removed; published results can otherwise differ for protocol rather than model quality.
+    sources:
+    - title: TU Dortmund benchmark
+      arxiv_id: '2007.08663'
+      kind: benchmark_or_upstream_source
+    - title: PyTorch Geometric RDT-B loader documentation
+      url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.TUDataset.html
+      kind: implementation_documentation
     description: Alias for REDDIT-BINARY in some papers.
     primary_metric: Accuracy
     higher_is_better: true
@@ -1431,6 +1809,24 @@ benchmarks:
       is_standard: true
   - name: ENZYMES
     task_type: graph_classification
+    detailed_description:
+      task: >-
+        TU Dortmund graph classification on 6 enzyme reaction classes (600 graphs, subset of BRENDA database). The primary catalog metric is Accuracy.
+      data: >-
+        TU Dortmund graph classification on 6 enzyme reaction classes (600 graphs, subset of BRENDA database). The cataloged artifact reports 600 graphs, 6 target classes or tasks.
+      features: >-
+        The TU text format may contain discrete node or edge labels and optional continuous attributes. Social-network datasets commonly have no intrinsic node attributes, so papers often add constant or degree features; that choice changes the input.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: 10-fold CV. Evaluation uses Accuracy (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        TU datasets have no canonical train/test split. Report cross-validation folds, seeds, feature construction, and whether duplicate or isomorphic graphs were removed; published results can otherwise differ for protocol rather than model quality.
+    sources:
+    - title: TU Dortmund benchmark
+      arxiv_id: '2007.08663'
+      kind: benchmark_or_upstream_source
+    - title: PyTorch Geometric ENZYMES loader documentation
+      url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.TUDataset.html
+      kind: implementation_documentation
     description: TU Dortmund graph classification on 6 enzyme reaction classes (600
       graphs, subset of BRENDA database).
     primary_metric: Accuracy
@@ -1452,6 +1848,24 @@ benchmarks:
   datasets:
   - name: MNIST
     task_type: graph_classification
+    detailed_description:
+      task: >-
+        Graph classification on MNIST superpixel graphs (10 digit classes, 70k graphs). The primary catalog metric is Accuracy.
+      data: >-
+        Graph classification on MNIST superpixel graphs (10 digit classes, 70k graphs).
+      features: >-
+        The benchmark release supplies fixed graph tensors and task-specific node or edge inputs. Image graphs use superpixel appearance and position, synthetic node tasks use generated signals, TSP uses coordinates, and CSL is intentionally featureless.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Standard split. Evaluation uses Accuracy (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        Use the released train/validation/test files rather than resplitting. These tasks were designed to expose specific architectural limitations, and preprocessing such as changing superpixels, adding positional encodings, or balancing edge labels changes the benchmark.
+    sources:
+    - title: GNNBenchmark benchmark
+      arxiv_id: '2003.00982'
+      kind: benchmark_or_upstream_source
+    - title: PyTorch Geometric MNIST loader documentation
+      url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.GNNBenchmarkDataset.html
+      kind: implementation_documentation
     description: Graph classification on MNIST superpixel graphs (10 digit classes,
       70k graphs).
     primary_metric: Accuracy
@@ -1463,6 +1877,24 @@ benchmarks:
       is_standard: true
   - name: CIFAR10
     task_type: graph_classification
+    detailed_description:
+      task: >-
+        Graph classification on CIFAR10 superpixel graphs (10 classes, 60k graphs). The primary catalog metric is Accuracy.
+      data: >-
+        Graph classification on CIFAR10 superpixel graphs (10 classes, 60k graphs).
+      features: >-
+        The benchmark release supplies fixed graph tensors and task-specific node or edge inputs. Image graphs use superpixel appearance and position, synthetic node tasks use generated signals, TSP uses coordinates, and CSL is intentionally featureless.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Standard split. Evaluation uses Accuracy (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        Use the released train/validation/test files rather than resplitting. These tasks were designed to expose specific architectural limitations, and preprocessing such as changing superpixels, adding positional encodings, or balancing edge labels changes the benchmark.
+    sources:
+    - title: GNNBenchmark benchmark
+      arxiv_id: '2003.00982'
+      kind: benchmark_or_upstream_source
+    - title: PyTorch Geometric CIFAR10 loader documentation
+      url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.GNNBenchmarkDataset.html
+      kind: implementation_documentation
     description: Graph classification on CIFAR10 superpixel graphs (10 classes, 60k
       graphs).
     primary_metric: Accuracy
@@ -1474,6 +1906,24 @@ benchmarks:
       is_standard: true
   - name: CLUSTER
     task_type: node_classification
+    detailed_description:
+      task: >-
+        Semi-supervised node classification on stochastic block model graphs (6 classes). The primary catalog metric is Accuracy.
+      data: >-
+        Semi-supervised node classification on stochastic block model graphs (6 classes).
+      features: >-
+        The benchmark release supplies fixed graph tensors and task-specific node or edge inputs. Image graphs use superpixel appearance and position, synthetic node tasks use generated signals, TSP uses coordinates, and CSL is intentionally featureless.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Standard split. Evaluation uses Accuracy (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        Use the released train/validation/test files rather than resplitting. These tasks were designed to expose specific architectural limitations, and preprocessing such as changing superpixels, adding positional encodings, or balancing edge labels changes the benchmark.
+    sources:
+    - title: GNNBenchmark benchmark
+      arxiv_id: '2003.00982'
+      kind: benchmark_or_upstream_source
+    - title: PyTorch Geometric CLUSTER loader documentation
+      url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.GNNBenchmarkDataset.html
+      kind: implementation_documentation
     description: Semi-supervised node classification on stochastic block model graphs
       (6 classes).
     primary_metric: Accuracy
@@ -1485,6 +1935,24 @@ benchmarks:
       is_standard: true
   - name: PATTERN
     task_type: node_classification
+    detailed_description:
+      task: >-
+        Semi-supervised node classification — detect specific graph patterns (2 classes). The primary catalog metric is Accuracy.
+      data: >-
+        Semi-supervised node classification — detect specific graph patterns (2 classes).
+      features: >-
+        The benchmark release supplies fixed graph tensors and task-specific node or edge inputs. Image graphs use superpixel appearance and position, synthetic node tasks use generated signals, TSP uses coordinates, and CSL is intentionally featureless.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Standard split. Evaluation uses Accuracy (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        Use the released train/validation/test files rather than resplitting. These tasks were designed to expose specific architectural limitations, and preprocessing such as changing superpixels, adding positional encodings, or balancing edge labels changes the benchmark.
+    sources:
+    - title: GNNBenchmark benchmark
+      arxiv_id: '2003.00982'
+      kind: benchmark_or_upstream_source
+    - title: PyTorch Geometric PATTERN loader documentation
+      url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.GNNBenchmarkDataset.html
+      kind: implementation_documentation
     description: Semi-supervised node classification — detect specific graph patterns
       (2 classes).
     primary_metric: Accuracy
@@ -1496,6 +1964,24 @@ benchmarks:
       is_standard: true
   - name: TSP
     task_type: link_prediction
+    detailed_description:
+      task: >-
+        Travelling salesman problem — edge classification (in/not in optimal tour). The primary catalog metric is F1.
+      data: >-
+        Travelling salesman problem — edge classification (in/not in optimal tour).
+      features: >-
+        The benchmark release supplies fixed graph tensors and task-specific node or edge inputs. Image graphs use superpixel appearance and position, synthetic node tasks use generated signals, TSP uses coordinates, and CSL is intentionally featureless.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Standard split. Evaluation uses F1 (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        Use the released train/validation/test files rather than resplitting. These tasks were designed to expose specific architectural limitations, and preprocessing such as changing superpixels, adding positional encodings, or balancing edge labels changes the benchmark.
+    sources:
+    - title: GNNBenchmark benchmark
+      arxiv_id: '2003.00982'
+      kind: benchmark_or_upstream_source
+    - title: PyTorch Geometric TSP loader documentation
+      url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.GNNBenchmarkDataset.html
+      kind: implementation_documentation
     description: Travelling salesman problem — edge classification (in/not in optimal
       tour).
     primary_metric: F1
@@ -1507,6 +1993,24 @@ benchmarks:
       is_standard: true
   - name: CSL
     task_type: graph_classification
+    detailed_description:
+      task: >-
+        Circular skip link graphs — tests graph isomorphism discrimination (10 classes). The primary catalog metric is Accuracy.
+      data: >-
+        Circular skip link graphs — tests graph isomorphism discrimination (10 classes).
+      features: >-
+        The benchmark release supplies fixed graph tensors and task-specific node or edge inputs. Image graphs use superpixel appearance and position, synthetic node tasks use generated signals, TSP uses coordinates, and CSL is intentionally featureless.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Standard split. Evaluation uses Accuracy (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        Use the released train/validation/test files rather than resplitting. These tasks were designed to expose specific architectural limitations, and preprocessing such as changing superpixels, adding positional encodings, or balancing edge labels changes the benchmark.
+    sources:
+    - title: GNNBenchmark benchmark
+      arxiv_id: '2003.00982'
+      kind: benchmark_or_upstream_source
+    - title: PyTorch Geometric CSL loader documentation
+      url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.GNNBenchmarkDataset.html
+      kind: implementation_documentation
     description: Circular skip link graphs — tests graph isomorphism discrimination
       (10 classes).
     primary_metric: Accuracy
@@ -1560,6 +2064,24 @@ benchmarks:
       notes: Geom-GCN 10 fixed splits; results typically averaged.
   - name: Wisconsin
     task_type: node_classification
+    detailed_description:
+      task: >-
+        WebKB node classification on Wisconsin university webpages (5 classes). The primary catalog metric is Accuracy.
+      data: >-
+        WebKB node classification on Wisconsin university webpages (5 classes).
+      features: >-
+        Features and edges follow the Geom-GCN/PyG artifact: WebKB uses webpage bag-of-words and hyperlinks, Actor uses film-page keywords and co-occurrence links, and WikipediaNetwork uses page features and hyperlinks.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Standard split. Evaluation uses Accuracy (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        These small or repurposed graphs have contested preprocessing and split conventions. Results across Geom-GCN, PyG, and corrected heterophily artifacts are not automatically comparable; class imbalance and high variance require multiple splits.
+    sources:
+    - title: Heterophilic Graphs benchmark
+      arxiv_id: '2110.14446'
+      kind: benchmark_or_upstream_source
+    - title: PyTorch Geometric Wisconsin loader documentation
+      url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.WebKB.html
+      kind: implementation_documentation
     description: WebKB node classification on Wisconsin university webpages (5 classes).
     primary_metric: Accuracy
     higher_is_better: true
@@ -1571,6 +2093,24 @@ benchmarks:
       notes: Geom-GCN 10 fixed splits.
   - name: Cornell
     task_type: node_classification
+    detailed_description:
+      task: >-
+        WebKB node classification on Cornell university webpages (5 classes). The primary catalog metric is Accuracy.
+      data: >-
+        WebKB node classification on Cornell university webpages (5 classes).
+      features: >-
+        Features and edges follow the Geom-GCN/PyG artifact: WebKB uses webpage bag-of-words and hyperlinks, Actor uses film-page keywords and co-occurrence links, and WikipediaNetwork uses page features and hyperlinks.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Standard split. Evaluation uses Accuracy (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        These small or repurposed graphs have contested preprocessing and split conventions. Results across Geom-GCN, PyG, and corrected heterophily artifacts are not automatically comparable; class imbalance and high variance require multiple splits.
+    sources:
+    - title: Heterophilic Graphs benchmark
+      arxiv_id: '2110.14446'
+      kind: benchmark_or_upstream_source
+    - title: PyTorch Geometric Cornell loader documentation
+      url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.WebKB.html
+      kind: implementation_documentation
     description: WebKB node classification on Cornell university webpages (5 classes).
     primary_metric: Accuracy
     higher_is_better: true
@@ -1582,6 +2122,24 @@ benchmarks:
       notes: Geom-GCN 10 fixed splits.
   - name: Actor
     task_type: node_classification
+    detailed_description:
+      task: >-
+        Actor co-occurrence node classification (5 classes) from the Geom-GCN paper. Also called Film in papers using the same graph. The primary catalog metric is Accuracy.
+      data: >-
+        Actor co-occurrence node classification (5 classes) from the Geom-GCN paper. Also called Film in papers using the same graph.
+      features: >-
+        Features and edges follow the Geom-GCN/PyG artifact: WebKB uses webpage bag-of-words and hyperlinks, Actor uses film-page keywords and co-occurrence links, and WikipediaNetwork uses page features and hyperlinks.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Standard split. Evaluation uses Accuracy (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        These small or repurposed graphs have contested preprocessing and split conventions. Results across Geom-GCN, PyG, and corrected heterophily artifacts are not automatically comparable; class imbalance and high variance require multiple splits.
+    sources:
+    - title: Heterophilic Graphs benchmark
+      arxiv_id: '2110.14446'
+      kind: benchmark_or_upstream_source
+    - title: PyTorch Geometric Actor loader documentation
+      url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.Actor.html
+      kind: implementation_documentation
     description: Actor co-occurrence node classification (5 classes) from the Geom-GCN
       paper. Also called Film in papers using the same graph.
     primary_metric: Accuracy
@@ -1594,6 +2152,24 @@ benchmarks:
       notes: Geom-GCN 10 fixed splits.
   - name: Chameleon
     task_type: node_classification
+    detailed_description:
+      task: >-
+        Wikipedia Chameleon page node classification (5 classes, heterophilic). The primary catalog metric is Accuracy.
+      data: >-
+        Wikipedia Chameleon page node classification (5 classes, heterophilic). The cataloged artifact reports 1 graphs, 5 target classes or tasks.
+      features: >-
+        Features and edges follow the Geom-GCN/PyG artifact: WebKB uses webpage bag-of-words and hyperlinks, Actor uses film-page keywords and co-occurrence links, and WikipediaNetwork uses page features and hyperlinks.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Standard split, Filtered split. Evaluation uses Accuracy (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        These small or repurposed graphs have contested preprocessing and split conventions. Results across Geom-GCN, PyG, and corrected heterophily artifacts are not automatically comparable; class imbalance and high variance require multiple splits.
+    sources:
+    - title: Heterophilic Graphs benchmark
+      arxiv_id: '2110.14446'
+      kind: benchmark_or_upstream_source
+    - title: PyTorch Geometric Chameleon loader documentation
+      url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.WikipediaNetwork.html
+      kind: implementation_documentation
     description: Wikipedia Chameleon page node classification (5 classes, heterophilic).
     primary_metric: Accuracy
     higher_is_better: true
@@ -1612,6 +2188,24 @@ benchmarks:
     num_classes: 5
   - name: Squirrel
     task_type: node_classification
+    detailed_description:
+      task: >-
+        Wikipedia Squirrel page node classification (5 classes, heterophilic). The primary catalog metric is Accuracy.
+      data: >-
+        Wikipedia Squirrel page node classification (5 classes, heterophilic). The cataloged artifact reports 1 graphs, 5 target classes or tasks.
+      features: >-
+        Features and edges follow the Geom-GCN/PyG artifact: WebKB uses webpage bag-of-words and hyperlinks, Actor uses film-page keywords and co-occurrence links, and WikipediaNetwork uses page features and hyperlinks.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Standard split, Filtered split. Evaluation uses Accuracy (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        These small or repurposed graphs have contested preprocessing and split conventions. Results across Geom-GCN, PyG, and corrected heterophily artifacts are not automatically comparable; class imbalance and high variance require multiple splits.
+    sources:
+    - title: Heterophilic Graphs benchmark
+      arxiv_id: '2110.14446'
+      kind: benchmark_or_upstream_source
+    - title: PyTorch Geometric Squirrel loader documentation
+      url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.WikipediaNetwork.html
+      kind: implementation_documentation
     description: Wikipedia Squirrel page node classification (5 classes, heterophilic).
     primary_metric: Accuracy
     higher_is_better: true
@@ -1641,6 +2235,24 @@ benchmarks:
   datasets:
   - name: Roman-empire
     task_type: node_classification
+    detailed_description:
+      task: >-
+        Wikipedia Roman Empire article node classification (18 syntactic roles) from the heterophilic benchmark. The primary catalog metric is Accuracy.
+      data: >-
+        Wikipedia Roman Empire article node classification (18 syntactic roles) from the heterophilic benchmark.
+      features: >-
+        The benchmark provides one fixed graph, node features, labels, and ten official splits per dataset. Features are dataset-specific and include text-derived, product, synthetic-grid, or platform-account attributes described by the release.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Standard split. Evaluation uses Accuracy (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        Use the corrected release and its ten masks. Several tasks are imbalanced and use ROC-AUC rather than accuracy; treating missing relationships as negative evidence or tuning on the test masks invalidates comparison.
+    sources:
+    - title: Heterophily Benchmark benchmark
+      arxiv_id: '2302.11640'
+      kind: benchmark_or_upstream_source
+    - title: PyTorch Geometric Roman-empire loader documentation
+      url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.HeterophilousGraphDataset.html
+      kind: implementation_documentation
     description: Wikipedia Roman Empire article node classification (18 syntactic
       roles) from the heterophilic benchmark.
     primary_metric: Accuracy
@@ -1652,6 +2264,24 @@ benchmarks:
       is_standard: true
   - name: Amazon-ratings
     task_type: node_classification
+    detailed_description:
+      task: >-
+        Amazon product co-purchase node classification (5 rating classes) from the heterophilic benchmark. The primary catalog metric is Accuracy.
+      data: >-
+        Amazon product co-purchase node classification (5 rating classes) from the heterophilic benchmark.
+      features: >-
+        The benchmark provides one fixed graph, node features, labels, and ten official splits per dataset. Features are dataset-specific and include text-derived, product, synthetic-grid, or platform-account attributes described by the release.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Standard split. Evaluation uses Accuracy (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        Use the corrected release and its ten masks. Several tasks are imbalanced and use ROC-AUC rather than accuracy; treating missing relationships as negative evidence or tuning on the test masks invalidates comparison.
+    sources:
+    - title: Heterophily Benchmark benchmark
+      arxiv_id: '2302.11640'
+      kind: benchmark_or_upstream_source
+    - title: PyTorch Geometric Amazon-ratings loader documentation
+      url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.HeterophilousGraphDataset.html
+      kind: implementation_documentation
     description: Amazon product co-purchase node classification (5 rating classes)
       from the heterophilic benchmark.
     primary_metric: Accuracy
@@ -1663,6 +2293,24 @@ benchmarks:
       is_standard: true
   - name: Minesweeper
     task_type: node_classification
+    detailed_description:
+      task: >-
+        Synthetic Minesweeper grid graph binary node classification from the heterophilic benchmark. The primary catalog metric is ROC-AUC.
+      data: >-
+        Synthetic Minesweeper grid graph binary node classification from the heterophilic benchmark.
+      features: >-
+        The benchmark provides one fixed graph, node features, labels, and ten official splits per dataset. Features are dataset-specific and include text-derived, product, synthetic-grid, or platform-account attributes described by the release.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Standard split. Evaluation uses ROC-AUC (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        Use the corrected release and its ten masks. Several tasks are imbalanced and use ROC-AUC rather than accuracy; treating missing relationships as negative evidence or tuning on the test masks invalidates comparison.
+    sources:
+    - title: Heterophily Benchmark benchmark
+      arxiv_id: '2302.11640'
+      kind: benchmark_or_upstream_source
+    - title: PyTorch Geometric Minesweeper loader documentation
+      url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.HeterophilousGraphDataset.html
+      kind: implementation_documentation
     description: Synthetic Minesweeper grid graph binary node classification from
       the heterophilic benchmark.
     primary_metric: ROC-AUC
@@ -1674,6 +2322,24 @@ benchmarks:
       is_standard: true
   - name: Tolokers
     task_type: node_classification
+    detailed_description:
+      task: >-
+        Yandex Toloka worker network binary node classification from the heterophilic benchmark. The primary catalog metric is ROC-AUC.
+      data: >-
+        Yandex Toloka worker network binary node classification from the heterophilic benchmark. The cataloged artifact reports 1 graphs, 2 target classes or tasks.
+      features: >-
+        The benchmark provides one fixed graph, node features, labels, and ten official splits per dataset. Features are dataset-specific and include text-derived, product, synthetic-grid, or platform-account attributes described by the release.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Standard split. Evaluation uses ROC-AUC (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        Use the corrected release and its ten masks. Several tasks are imbalanced and use ROC-AUC rather than accuracy; treating missing relationships as negative evidence or tuning on the test masks invalidates comparison.
+    sources:
+    - title: Heterophily Benchmark benchmark
+      arxiv_id: '2302.11640'
+      kind: benchmark_or_upstream_source
+    - title: PyTorch Geometric Tolokers loader documentation
+      url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.HeterophilousGraphDataset.html
+      kind: implementation_documentation
     description: Yandex Toloka worker network binary node classification from the
       heterophilic benchmark.
     primary_metric: ROC-AUC
@@ -1689,6 +2355,24 @@ benchmarks:
       is_standard: true
   - name: Questions
     task_type: node_classification
+    detailed_description:
+      task: >-
+        Yandex Q&A expert network binary node classification from the heterophilic benchmark. The primary catalog metric is ROC-AUC.
+      data: >-
+        Yandex Q&A expert network binary node classification from the heterophilic benchmark.
+      features: >-
+        The benchmark provides one fixed graph, node features, labels, and ten official splits per dataset. Features are dataset-specific and include text-derived, product, synthetic-grid, or platform-account attributes described by the release.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Standard split. Evaluation uses ROC-AUC (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        Use the corrected release and its ten masks. Several tasks are imbalanced and use ROC-AUC rather than accuracy; treating missing relationships as negative evidence or tuning on the test masks invalidates comparison.
+    sources:
+    - title: Heterophily Benchmark benchmark
+      arxiv_id: '2302.11640'
+      kind: benchmark_or_upstream_source
+    - title: PyTorch Geometric Questions loader documentation
+      url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.HeterophilousGraphDataset.html
+      kind: implementation_documentation
     description: Yandex Q&A expert network binary node classification from the heterophilic
       benchmark.
     primary_metric: ROC-AUC
@@ -1711,6 +2395,24 @@ benchmarks:
   datasets:
   - name: Penn94
     task_type: node_classification
+    detailed_description:
+      task: >-
+        Facebook100 Penn94 social network node classification (binary gender). The primary catalog metric is Accuracy.
+      data: >-
+        Facebook100 Penn94 social network node classification (binary gender). The cataloged artifact reports 1 graphs, 2 target classes or tasks.
+      features: >-
+        Each release supplies a sparse node-feature matrix, graph edges, and node labels. Feature meaning varies by source; structure and features are deliberately evaluated without assuming neighboring labels agree.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Standard split. Evaluation uses Accuracy (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        These are transductive single-graph tasks with fixed random splits. Label homophily is low and class balance varies; feature-only and structure-only baselines are essential, and similarly named OGB/source datasets may use different labels or splits.
+    sources:
+    - title: LINKX Benchmarks benchmark
+      arxiv_id: '2110.14446'
+      kind: benchmark_or_upstream_source
+    - title: PyTorch Geometric Penn94 loader documentation
+      url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.LINKXDataset.html
+      kind: implementation_documentation
     description: Facebook100 Penn94 social network node classification (binary gender).
     primary_metric: Accuracy
     higher_is_better: true
@@ -1725,6 +2427,24 @@ benchmarks:
     num_classes: 2
   - name: Pokec
     task_type: node_classification
+    detailed_description:
+      task: >-
+        Slovak social network Pokec node classification (binary gender, 1.6M nodes). The primary catalog metric is Accuracy.
+      data: >-
+        Slovak social network Pokec node classification (binary gender, 1.6M nodes). The cataloged artifact reports 1 graphs, 2 target classes or tasks.
+      features: >-
+        Each release supplies a sparse node-feature matrix, graph edges, and node labels. Feature meaning varies by source; structure and features are deliberately evaluated without assuming neighboring labels agree.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Standard split. Evaluation uses Accuracy (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        These are transductive single-graph tasks with fixed random splits. Label homophily is low and class balance varies; feature-only and structure-only baselines are essential, and similarly named OGB/source datasets may use different labels or splits.
+    sources:
+    - title: LINKX Benchmarks benchmark
+      arxiv_id: '2110.14446'
+      kind: benchmark_or_upstream_source
+    - title: PyTorch Geometric Pokec loader documentation
+      url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.LINKXDataset.html
+      kind: implementation_documentation
     description: Slovak social network Pokec node classification (binary gender, 1.6M
       nodes).
     primary_metric: Accuracy
@@ -1740,6 +2460,24 @@ benchmarks:
     num_classes: 2
   - name: snap-patents
     task_type: node_classification
+    detailed_description:
+      task: >-
+        USPTO patent citation graph node classification (5 time-based classes). The primary catalog metric is Accuracy.
+      data: >-
+        USPTO patent citation graph node classification (5 time-based classes). The cataloged artifact reports 1 graphs, 5 target classes or tasks.
+      features: >-
+        Each release supplies a sparse node-feature matrix, graph edges, and node labels. Feature meaning varies by source; structure and features are deliberately evaluated without assuming neighboring labels agree.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Standard split. Evaluation uses Accuracy (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        These are transductive single-graph tasks with fixed random splits. Label homophily is low and class balance varies; feature-only and structure-only baselines are essential, and similarly named OGB/source datasets may use different labels or splits.
+    sources:
+    - title: LINKX Benchmarks benchmark
+      arxiv_id: '2110.14446'
+      kind: benchmark_or_upstream_source
+    - title: PyTorch Geometric snap-patents loader documentation
+      url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.LINKXDataset.html
+      kind: implementation_documentation
     description: USPTO patent citation graph node classification (5 time-based classes).
     primary_metric: Accuracy
     higher_is_better: true
@@ -1754,6 +2492,24 @@ benchmarks:
     num_classes: 5
   - name: twitch-gamers
     task_type: node_classification
+    detailed_description:
+      task: >-
+        Twitch streamer network binary node classification (streaming language). The primary catalog metric is Accuracy.
+      data: >-
+        Twitch streamer network binary node classification (streaming language). The cataloged artifact reports 1 graphs, 2 target classes or tasks.
+      features: >-
+        Each release supplies a sparse node-feature matrix, graph edges, and node labels. Feature meaning varies by source; structure and features are deliberately evaluated without assuming neighboring labels agree.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Standard split. Evaluation uses Accuracy (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        These are transductive single-graph tasks with fixed random splits. Label homophily is low and class balance varies; feature-only and structure-only baselines are essential, and similarly named OGB/source datasets may use different labels or splits.
+    sources:
+    - title: LINKX Benchmarks benchmark
+      arxiv_id: '2110.14446'
+      kind: benchmark_or_upstream_source
+    - title: PyTorch Geometric twitch-gamers loader documentation
+      url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.LINKXDataset.html
+      kind: implementation_documentation
     description: Twitch streamer network binary node classification (streaming language).
     primary_metric: Accuracy
     higher_is_better: true
@@ -1768,6 +2524,25 @@ benchmarks:
     num_classes: 2
   - name: arxiv-year
     task_type: node_classification
+    detailed_description:
+      task: >-
+        OGB-arXiv node classification by publication year (5 classes, heterophilic variant). The primary catalog metric is Accuracy.
+      data: >-
+        The LINKX artifact relabels ogbn-arxiv papers into five publication-year bins on
+        the same citation graph.
+      features: >-
+        Each release supplies a sparse node-feature matrix, graph edges, and node labels. Feature meaning varies by source; structure and features are deliberately evaluated without assuming neighboring labels agree.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Standard split. Evaluation uses Accuracy (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        These are transductive single-graph tasks with fixed random splits. Label homophily is low and class balance varies; feature-only and structure-only baselines are essential, and similarly named OGB/source datasets may use different labels or splits.
+    sources:
+    - title: LINKX Benchmarks benchmark
+      arxiv_id: '2110.14446'
+      kind: benchmark_or_upstream_source
+    - title: PyTorch Geometric arxiv-year loader documentation
+      url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.LINKXDataset.html
+      kind: implementation_documentation
     description: OGB-arXiv node classification by publication year (5 classes, heterophilic
       variant).
     primary_metric: Accuracy
@@ -1780,7 +2555,7 @@ benchmarks:
     num_graphs: 1
     avg_nodes: 169343
     avg_edges: 1166243
-    num_classes: 40
+    num_classes: 5
 - name: MoleculeNet
   arxiv_id: '1703.00564'
   url: https://arxiv.org/abs/1703.00564
@@ -1788,6 +2563,24 @@ benchmarks:
   datasets:
   - name: BBBP
     task_type: graph_classification
+    detailed_description:
+      task: >-
+        Binary classification — blood-brain barrier permeability of molecules. The primary catalog metric is ROC-AUC.
+      data: >-
+        Binary classification — blood-brain barrier permeability of molecules.
+      features: >-
+        MoleculeNet distributes SMILES and targets, not one mandatory graph featurization. A graph implementation normally derives atom and bond fields with RDKit or DeepChem; results depend on featurizer, salt handling, stereochemistry, and invalid-molecule policy.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Scaffold split. Evaluation uses ROC-AUC (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        Small samples, imbalance, missing assay labels, duplicate compounds, and scaffold leakage are common. Missing labels are not negatives. Always report split algorithm, featurizer, metric aggregation, and dataset version; random and scaffold results are not comparable.
+    sources:
+    - title: MoleculeNet benchmark
+      arxiv_id: '1703.00564'
+      kind: benchmark_or_upstream_source
+    - title: PyTorch Geometric BBBP loader documentation
+      url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.MoleculeNet.html
+      kind: implementation_documentation
     description: Binary classification — blood-brain barrier permeability of molecules.
     primary_metric: ROC-AUC
     higher_is_better: true
@@ -1798,6 +2591,24 @@ benchmarks:
       is_standard: true
   - name: Tox21
     task_type: graph_classification
+    detailed_description:
+      task: >-
+        Multi-task toxicity prediction (12 tasks) on NCI Tox21 challenge compounds. The primary catalog metric is ROC-AUC.
+      data: >-
+        Multi-task toxicity prediction (12 tasks) on NCI Tox21 challenge compounds.
+      features: >-
+        MoleculeNet distributes SMILES and targets, not one mandatory graph featurization. A graph implementation normally derives atom and bond fields with RDKit or DeepChem; results depend on featurizer, salt handling, stereochemistry, and invalid-molecule policy.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Scaffold split. Evaluation uses ROC-AUC (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        Small samples, imbalance, missing assay labels, duplicate compounds, and scaffold leakage are common. Missing labels are not negatives. Always report split algorithm, featurizer, metric aggregation, and dataset version; random and scaffold results are not comparable.
+    sources:
+    - title: MoleculeNet benchmark
+      arxiv_id: '1703.00564'
+      kind: benchmark_or_upstream_source
+    - title: PyTorch Geometric Tox21 loader documentation
+      url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.MoleculeNet.html
+      kind: implementation_documentation
     description: Multi-task toxicity prediction (12 tasks) on NCI Tox21 challenge
       compounds.
     primary_metric: ROC-AUC
@@ -1809,6 +2620,24 @@ benchmarks:
       is_standard: true
   - name: ToxCast
     task_type: graph_classification
+    detailed_description:
+      task: >-
+        Multi-task toxicological profile prediction (617 tasks) from the EPA ToxCast program. The primary catalog metric is ROC-AUC.
+      data: >-
+        Multi-task toxicological profile prediction (617 tasks) from the EPA ToxCast program.
+      features: >-
+        MoleculeNet distributes SMILES and targets, not one mandatory graph featurization. A graph implementation normally derives atom and bond fields with RDKit or DeepChem; results depend on featurizer, salt handling, stereochemistry, and invalid-molecule policy.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Scaffold split. Evaluation uses ROC-AUC (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        Small samples, imbalance, missing assay labels, duplicate compounds, and scaffold leakage are common. Missing labels are not negatives. Always report split algorithm, featurizer, metric aggregation, and dataset version; random and scaffold results are not comparable.
+    sources:
+    - title: MoleculeNet benchmark
+      arxiv_id: '1703.00564'
+      kind: benchmark_or_upstream_source
+    - title: PyTorch Geometric ToxCast loader documentation
+      url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.MoleculeNet.html
+      kind: implementation_documentation
     description: Multi-task toxicological profile prediction (617 tasks) from the
       EPA ToxCast program.
     primary_metric: ROC-AUC
@@ -1820,6 +2649,24 @@ benchmarks:
       is_standard: true
   - name: BACE
     task_type: graph_classification
+    detailed_description:
+      task: >-
+        Binary classification — BACE-1 inhibitory activity (binding results for human beta-secretase 1). The primary catalog metric is ROC-AUC.
+      data: >-
+        Binary classification — BACE-1 inhibitory activity (binding results for human beta-secretase 1).
+      features: >-
+        MoleculeNet distributes SMILES and targets, not one mandatory graph featurization. A graph implementation normally derives atom and bond fields with RDKit or DeepChem; results depend on featurizer, salt handling, stereochemistry, and invalid-molecule policy.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Scaffold split. Evaluation uses ROC-AUC (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        Small samples, imbalance, missing assay labels, duplicate compounds, and scaffold leakage are common. Missing labels are not negatives. Always report split algorithm, featurizer, metric aggregation, and dataset version; random and scaffold results are not comparable.
+    sources:
+    - title: MoleculeNet benchmark
+      arxiv_id: '1703.00564'
+      kind: benchmark_or_upstream_source
+    - title: PyTorch Geometric BACE loader documentation
+      url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.MoleculeNet.html
+      kind: implementation_documentation
     description: Binary classification — BACE-1 inhibitory activity (binding results
       for human beta-secretase 1).
     primary_metric: ROC-AUC
@@ -1831,6 +2678,24 @@ benchmarks:
       is_standard: true
   - name: SIDER
     task_type: graph_classification
+    detailed_description:
+      task: >-
+        Multi-label classification of marketed drug side effects (27 tasks). The primary catalog metric is ROC-AUC.
+      data: >-
+        Multi-label classification of marketed drug side effects (27 tasks).
+      features: >-
+        MoleculeNet distributes SMILES and targets, not one mandatory graph featurization. A graph implementation normally derives atom and bond fields with RDKit or DeepChem; results depend on featurizer, salt handling, stereochemistry, and invalid-molecule policy.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Scaffold split. Evaluation uses ROC-AUC (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        Small samples, imbalance, missing assay labels, duplicate compounds, and scaffold leakage are common. Missing labels are not negatives. Always report split algorithm, featurizer, metric aggregation, and dataset version; random and scaffold results are not comparable.
+    sources:
+    - title: MoleculeNet benchmark
+      arxiv_id: '1703.00564'
+      kind: benchmark_or_upstream_source
+    - title: PyTorch Geometric SIDER loader documentation
+      url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.MoleculeNet.html
+      kind: implementation_documentation
     description: Multi-label classification of marketed drug side effects (27 tasks).
     primary_metric: ROC-AUC
     higher_is_better: true
@@ -1841,6 +2706,24 @@ benchmarks:
       is_standard: true
   - name: ClinTox
     task_type: graph_classification
+    detailed_description:
+      task: >-
+        Clinical toxicity prediction — FDA-approved vs. failed drugs (2 tasks). The primary catalog metric is ROC-AUC.
+      data: >-
+        Clinical toxicity prediction — FDA-approved vs. failed drugs (2 tasks).
+      features: >-
+        MoleculeNet distributes SMILES and targets, not one mandatory graph featurization. A graph implementation normally derives atom and bond fields with RDKit or DeepChem; results depend on featurizer, salt handling, stereochemistry, and invalid-molecule policy.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Scaffold split. Evaluation uses ROC-AUC (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        Small samples, imbalance, missing assay labels, duplicate compounds, and scaffold leakage are common. Missing labels are not negatives. Always report split algorithm, featurizer, metric aggregation, and dataset version; random and scaffold results are not comparable.
+    sources:
+    - title: MoleculeNet benchmark
+      arxiv_id: '1703.00564'
+      kind: benchmark_or_upstream_source
+    - title: PyTorch Geometric ClinTox loader documentation
+      url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.MoleculeNet.html
+      kind: implementation_documentation
     description: Clinical toxicity prediction — FDA-approved vs. failed drugs (2 tasks).
     primary_metric: ROC-AUC
     higher_is_better: true
@@ -1851,6 +2734,24 @@ benchmarks:
       is_standard: true
   - name: ESOL
     task_type: graph_regression
+    detailed_description:
+      task: >-
+        Aqueous solubility regression (log mol/L) on 1,128 molecules. The primary catalog metric is RMSE.
+      data: >-
+        Aqueous solubility regression (log mol/L) on 1,128 molecules.
+      features: >-
+        MoleculeNet distributes SMILES and targets, not one mandatory graph featurization. A graph implementation normally derives atom and bond fields with RDKit or DeepChem; results depend on featurizer, salt handling, stereochemistry, and invalid-molecule policy.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Scaffold split. Evaluation uses RMSE (lower is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        Small samples, imbalance, missing assay labels, duplicate compounds, and scaffold leakage are common. Missing labels are not negatives. Always report split algorithm, featurizer, metric aggregation, and dataset version; random and scaffold results are not comparable.
+    sources:
+    - title: MoleculeNet benchmark
+      arxiv_id: '1703.00564'
+      kind: benchmark_or_upstream_source
+    - title: PyTorch Geometric ESOL loader documentation
+      url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.MoleculeNet.html
+      kind: implementation_documentation
     description: Aqueous solubility regression (log mol/L) on 1,128 molecules.
     primary_metric: RMSE
     higher_is_better: false
@@ -1861,6 +2762,24 @@ benchmarks:
       is_standard: true
   - name: FreeSolv
     task_type: graph_regression
+    detailed_description:
+      task: >-
+        Hydration free energy regression (kcal/mol) on 642 molecules. The primary catalog metric is RMSE.
+      data: >-
+        Hydration free energy regression (kcal/mol) on 642 molecules.
+      features: >-
+        MoleculeNet distributes SMILES and targets, not one mandatory graph featurization. A graph implementation normally derives atom and bond fields with RDKit or DeepChem; results depend on featurizer, salt handling, stereochemistry, and invalid-molecule policy.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Scaffold split. Evaluation uses RMSE (lower is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        Small samples, imbalance, missing assay labels, duplicate compounds, and scaffold leakage are common. Missing labels are not negatives. Always report split algorithm, featurizer, metric aggregation, and dataset version; random and scaffold results are not comparable.
+    sources:
+    - title: MoleculeNet benchmark
+      arxiv_id: '1703.00564'
+      kind: benchmark_or_upstream_source
+    - title: PyTorch Geometric FreeSolv loader documentation
+      url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.MoleculeNet.html
+      kind: implementation_documentation
     description: Hydration free energy regression (kcal/mol) on 642 molecules.
     primary_metric: RMSE
     higher_is_better: false
@@ -1871,6 +2790,24 @@ benchmarks:
       is_standard: true
   - name: Lipophilicity
     task_type: graph_regression
+    detailed_description:
+      task: >-
+        Octanol/water distribution coefficient (logD) regression on 4,200 molecules. The primary catalog metric is RMSE.
+      data: >-
+        Octanol/water distribution coefficient (logD) regression on 4,200 molecules.
+      features: >-
+        MoleculeNet distributes SMILES and targets, not one mandatory graph featurization. A graph implementation normally derives atom and bond fields with RDKit or DeepChem; results depend on featurizer, salt handling, stereochemistry, and invalid-molecule policy.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Scaffold split. Evaluation uses RMSE (lower is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        Small samples, imbalance, missing assay labels, duplicate compounds, and scaffold leakage are common. Missing labels are not negatives. Always report split algorithm, featurizer, metric aggregation, and dataset version; random and scaffold results are not comparable.
+    sources:
+    - title: MoleculeNet benchmark
+      arxiv_id: '1703.00564'
+      kind: benchmark_or_upstream_source
+    - title: PyTorch Geometric Lipophilicity loader documentation
+      url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.MoleculeNet.html
+      kind: implementation_documentation
     description: Octanol/water distribution coefficient (logD) regression on 4,200
       molecules.
     primary_metric: RMSE
@@ -1887,6 +2824,24 @@ benchmarks:
   datasets:
   - name: QM9
     task_type: graph_regression
+    detailed_description:
+      task: >-
+        Multi-target quantum property regression on 130k drug-like organic molecules (19 targets). The primary catalog metric is gap.
+      data: >-
+        Multi-target quantum property regression on 130k drug-like organic molecules (19 targets).
+      features: >-
+        Atoms, nuclear species, and molecular geometries are the core inputs. Graph edges or neighbor lists are model preprocessing choices; energy units, force signs, target normalization, and coordinate conventions must match the release.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Standard split. Evaluation uses gap (lower is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        Near-duplicate conformations and molecule-wise versus conformation-wise splits can cause leakage. Units and reference-energy conventions differ across implementations, and MD trajectories are strongly autocorrelated.
+    sources:
+    - title: Quantum chemistry structures and properties of 134 kilo molecules
+      arxiv_id: '1409.6196'
+      kind: benchmark_or_upstream_source
+    - title: PyTorch Geometric QM9 loader documentation
+      url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.QM9.html
+      kind: implementation_documentation
     description: Multi-target quantum property regression on 130k drug-like organic
       molecules (19 targets).
     primary_metric: gap
@@ -1899,6 +2854,24 @@ benchmarks:
       is_standard: true
   - name: QM7b
     task_type: graph_regression
+    detailed_description:
+      task: >-
+        Quantum chemistry regression on 7,211 molecules (14 electronic and thermodynamic targets). The primary catalog metric is MAE.
+      data: >-
+        Quantum chemistry regression on 7,211 molecules (14 electronic and thermodynamic targets).
+      features: >-
+        Atoms, nuclear species, and molecular geometries are the core inputs. Graph edges or neighbor lists are model preprocessing choices; energy units, force signs, target normalization, and coordinate conventions must match the release.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Standard split. Evaluation uses MAE (lower is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        Near-duplicate conformations and molecule-wise versus conformation-wise splits can cause leakage. Units and reference-energy conventions differ across implementations, and MD trajectories are strongly autocorrelated.
+    sources:
+    - title: Machine learning of molecular electronic properties in chemical compound space
+      arxiv_id: '1302.0925'
+      kind: benchmark_or_upstream_source
+    - title: PyTorch Geometric QM7b loader documentation
+      url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.QM7b.html
+      kind: implementation_documentation
     description: Quantum chemistry regression on 7,211 molecules (14 electronic and
       thermodynamic targets).
     primary_metric: MAE
@@ -1910,6 +2883,24 @@ benchmarks:
       is_standard: true
   - name: MD17
     task_type: graph_regression
+    detailed_description:
+      task: >-
+        Ab-initio molecular dynamics — predict energy and forces for small organic molecules. The primary catalog metric is MAE.
+      data: >-
+        Ab-initio molecular dynamics — predict energy and forces for small organic molecules.
+      features: >-
+        Atoms, nuclear species, and molecular geometries are the core inputs. Graph edges or neighbor lists are model preprocessing choices; energy units, force signs, target normalization, and coordinate conventions must match the release.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Standard split. Evaluation uses MAE (lower is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        Near-duplicate conformations and molecule-wise versus conformation-wise splits can cause leakage. Units and reference-energy conventions differ across implementations, and MD trajectories are strongly autocorrelated.
+    sources:
+    - title: Machine Learning of Accurate Energy-Conserving Molecular Force Fields
+      arxiv_id: '1611.04678'
+      kind: benchmark_or_upstream_source
+    - title: PyTorch Geometric MD17 loader documentation
+      url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.MD17.html
+      kind: implementation_documentation
     description: Ab-initio molecular dynamics — predict energy and forces for small
       organic molecules.
     primary_metric: MAE
@@ -1933,6 +2924,24 @@ benchmarks:
   datasets:
   - name: DBLP
     task_type: node_classification
+    detailed_description:
+      task: >-
+        Heterogeneous academic graph — classify author nodes (4 research areas). The primary catalog metric is Micro-F1.
+      data: >-
+        Heterogeneous academic graph — classify author nodes (4 research areas). The cataloged artifact reports 1 graphs, 4 target classes or tasks.
+      features: >-
+        Inputs are typed graphs with relation-specific edges and type-specific feature matrices where available. Some node types lack native features, so learned embeddings or propagated features are modeling choices rather than measured attributes.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Standard split. Evaluation uses Micro-F1 (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        Schema, reverse-edge creation, feature propagation, and negative sampling materially affect results. Report the exact release and target type; random edge splits may leak future or reciprocal information.
+    sources:
+    - title: Heterogeneous Graph Benchmarks benchmark
+      arxiv_id: '2112.14936'
+      kind: benchmark_or_upstream_source
+    - title: PyTorch Geometric DBLP loader documentation
+      url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.DBLP.html
+      kind: implementation_documentation
     description: Heterogeneous academic graph — classify author nodes (4 research
       areas).
     primary_metric: Micro-F1
@@ -1946,6 +2955,24 @@ benchmarks:
     num_classes: 4
   - name: IMDB
     task_type: node_classification
+    detailed_description:
+      task: >-
+        Heterogeneous IMDB graph — classify movie nodes (3 genres). The primary catalog metric is Micro-F1.
+      data: >-
+        Heterogeneous IMDB graph — classify movie nodes (3 genres). The cataloged artifact reports 1 graphs, 3 target classes or tasks.
+      features: >-
+        Inputs are typed graphs with relation-specific edges and type-specific feature matrices where available. Some node types lack native features, so learned embeddings or propagated features are modeling choices rather than measured attributes.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Standard split. Evaluation uses Micro-F1 (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        Schema, reverse-edge creation, feature propagation, and negative sampling materially affect results. Report the exact release and target type; random edge splits may leak future or reciprocal information.
+    sources:
+    - title: Heterogeneous Graph Benchmarks benchmark
+      arxiv_id: '2112.14936'
+      kind: benchmark_or_upstream_source
+    - title: PyTorch Geometric IMDB loader documentation
+      url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.IMDB.html
+      kind: implementation_documentation
     description: Heterogeneous IMDB graph — classify movie nodes (3 genres).
     primary_metric: Micro-F1
     higher_is_better: true
@@ -1958,6 +2985,24 @@ benchmarks:
     num_classes: 3
   - name: ACM
     task_type: node_classification
+    detailed_description:
+      task: >-
+        Heterogeneous ACM academic graph — classify paper nodes (3 areas). The primary catalog metric is Micro-F1.
+      data: >-
+        Heterogeneous ACM academic graph — classify paper nodes (3 areas). The cataloged artifact reports 1 graphs, 3 target classes or tasks.
+      features: >-
+        Inputs are typed graphs with relation-specific edges and type-specific feature matrices where available. Some node types lack native features, so learned embeddings or propagated features are modeling choices rather than measured attributes.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Standard split. Evaluation uses Micro-F1 (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        Schema, reverse-edge creation, feature propagation, and negative sampling materially affect results. Report the exact release and target type; random edge splits may leak future or reciprocal information.
+    sources:
+    - title: Heterogeneous Graph Benchmarks benchmark
+      arxiv_id: '2112.14936'
+      kind: benchmark_or_upstream_source
+    - title: PyTorch Geometric ACM loader documentation
+      url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.HGBDataset.html
+      kind: implementation_documentation
     description: Heterogeneous ACM academic graph — classify paper nodes (3 areas).
     primary_metric: Micro-F1
     higher_is_better: true
@@ -1970,6 +3015,24 @@ benchmarks:
     num_classes: 3
   - name: Freebase
     task_type: node_classification
+    detailed_description:
+      task: >-
+        Heterogeneous Freebase knowledge graph node classification (8 entity types). The primary catalog metric is Macro-F1.
+      data: >-
+        Heterogeneous Freebase knowledge graph node classification (8 entity types).
+      features: >-
+        Inputs are typed graphs with relation-specific edges and type-specific feature matrices where available. Some node types lack native features, so learned embeddings or propagated features are modeling choices rather than measured attributes.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Standard split. Evaluation uses Macro-F1 (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        Schema, reverse-edge creation, feature propagation, and negative sampling materially affect results. Report the exact release and target type; random edge splits may leak future or reciprocal information.
+    sources:
+    - title: Heterogeneous Graph Benchmarks benchmark
+      arxiv_id: '2112.14936'
+      kind: benchmark_or_upstream_source
+    - title: PyTorch Geometric Freebase loader documentation
+      url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.HGBDataset.html
+      kind: implementation_documentation
     description: Heterogeneous Freebase knowledge graph node classification (8 entity
       types).
     primary_metric: Macro-F1
@@ -1981,6 +3044,24 @@ benchmarks:
       is_standard: true
   - name: RCDD
     task_type: link_prediction
+    detailed_description:
+      task: >-
+        Heterogeneous risk commodity detection — link prediction on Alibaba e-commerce graph. The primary catalog metric is MRR.
+      data: >-
+        Heterogeneous risk commodity detection — link prediction on Alibaba e-commerce graph.
+      features: >-
+        Inputs are typed graphs with relation-specific edges and type-specific feature matrices where available. Some node types lack native features, so learned embeddings or propagated features are modeling choices rather than measured attributes.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Standard split. Evaluation uses MRR (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        Schema, reverse-edge creation, feature propagation, and negative sampling materially affect results. Report the exact release and target type; random edge splits may leak future or reciprocal information.
+    sources:
+    - title: Heterogeneous Graph Benchmarks benchmark
+      arxiv_id: '2112.14936'
+      kind: benchmark_or_upstream_source
+    - title: PyTorch Geometric RCDD loader documentation
+      url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.RCDD.html
+      kind: implementation_documentation
     description: Heterogeneous risk commodity detection — link prediction on Alibaba
       e-commerce graph.
     primary_metric: MRR
@@ -1997,6 +3078,24 @@ benchmarks:
   datasets:
   - name: FB15k-237
     task_type: link_prediction
+    detailed_description:
+      task: >-
+        Knowledge graph link prediction on Freebase (14,541 entities, 237 relations). The primary catalog metric is MRR.
+      data: >-
+        Knowledge graph link prediction on Freebase (14,541 entities, 237 relations). The cataloged artifact reports 1 graphs, 237 target classes or tasks.
+      features: >-
+        The raw input is a set of directed subject-relation-object triples. Entity and relation embeddings are learned inputs; reciprocal edges, inverse relations, and filtered candidate sets are evaluation or preprocessing choices.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Standard split. Evaluation uses MRR (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        Filtered ranking removes other known true triples but the graph is incomplete, so sampled corruptions can be false negatives. WN18 and FB15k contain inverse-relation leakage; use WN18RR or FB15k-237 when evaluating relational generalization.
+    sources:
+    - title: Observed versus latent features for knowledge base and text inference
+      arxiv_id: '1506.00379'
+      kind: benchmark_or_upstream_source
+    - title: PyTorch Geometric FB15k-237 loader documentation
+      url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.FB15k_237.html
+      kind: implementation_documentation
     description: Knowledge graph link prediction on Freebase (14,541 entities, 237
       relations).
     primary_metric: MRR
@@ -2013,6 +3112,24 @@ benchmarks:
     num_classes: 237
   - name: WN18RR
     task_type: link_prediction
+    detailed_description:
+      task: >-
+        Knowledge graph link prediction on WordNet (40,943 entities, 11 relations). The primary catalog metric is MRR.
+      data: >-
+        Knowledge graph link prediction on WordNet (40,943 entities, 11 relations). The cataloged artifact reports 1 graphs, 11 target classes or tasks.
+      features: >-
+        The raw input is a set of directed subject-relation-object triples. Entity and relation embeddings are learned inputs; reciprocal edges, inverse relations, and filtered candidate sets are evaluation or preprocessing choices.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Standard split. Evaluation uses MRR (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        Filtered ranking removes other known true triples but the graph is incomplete, so sampled corruptions can be false negatives. WN18 and FB15k contain inverse-relation leakage; use WN18RR or FB15k-237 when evaluating relational generalization.
+    sources:
+    - title: Convolutional 2D Knowledge Graph Embeddings
+      arxiv_id: '1707.01476'
+      kind: benchmark_or_upstream_source
+    - title: PyTorch Geometric WN18RR loader documentation
+      url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.WordNet18RR.html
+      kind: implementation_documentation
     description: Knowledge graph link prediction on WordNet (40,943 entities, 11 relations).
     primary_metric: MRR
     higher_is_better: true
@@ -2027,6 +3144,24 @@ benchmarks:
     num_classes: 11
   - name: WN18
     task_type: link_prediction
+    detailed_description:
+      task: >-
+        Knowledge graph link prediction on WordNet (full, 18 relations). The primary catalog metric is MRR.
+      data: >-
+        Knowledge graph link prediction on WordNet (full, 18 relations).
+      features: >-
+        The raw input is a set of directed subject-relation-object triples. Entity and relation embeddings are learned inputs; reciprocal edges, inverse relations, and filtered candidate sets are evaluation or preprocessing choices.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Standard split. Evaluation uses MRR (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        Filtered ranking removes other known true triples but the graph is incomplete, so sampled corruptions can be false negatives. WN18 and FB15k contain inverse-relation leakage; use WN18RR or FB15k-237 when evaluating relational generalization.
+    sources:
+    - title: Translating Embeddings for Modeling Multi-relational Data
+      arxiv_id: '1301.3485'
+      kind: benchmark_or_upstream_source
+    - title: PyTorch Geometric WN18 loader documentation
+      url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.WordNet18.html
+      kind: implementation_documentation
     description: Knowledge graph link prediction on WordNet (full, 18 relations).
     primary_metric: MRR
     higher_is_better: true
@@ -2046,6 +3181,21 @@ benchmarks:
   datasets:
   - name: Congress
     task_type: node_classification
+    detailed_description:
+      task: >-
+        US Congress bill co-sponsorship hypergraph node classification (2 classes). The primary catalog metric is Accuracy.
+      data: >-
+        US Congress bill co-sponsorship hypergraph node classification (2 classes). The cataloged artifact reports 1 graphs, 2 target classes or tasks.
+      features: >-
+        The release represents higher-order membership with a node-hyperedge incidence relation and supplies node features where available. Some source datasets have no measured features and use documented synthetic features; clique expansion is an alternative representation that discards hyperedge identity.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Standard split. Evaluation uses Accuracy (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        Do not silently replace incidence propagation with clique expansion or merge distinct releases sharing a short name. Random synthetic features, split seeds, hyperedge multiplicity, and isolated-node handling can dominate results and must be reported.
+    sources:
+    - title: Hypergraph Benchmarks benchmark
+      arxiv_id: '2106.13264'
+      kind: benchmark_or_upstream_source
     description: US Congress bill co-sponsorship hypergraph node classification (2
       classes).
     primary_metric: Accuracy
@@ -2058,6 +3208,24 @@ benchmarks:
     num_classes: 2
   - name: Deezer
     task_type: node_classification
+    detailed_description:
+      task: >-
+        Deezer Europe user friendship graph binary node classification (like/dislike), used in LINKX-style non-homophily evaluations. The primary catalog metric is ROC-AUC.
+      data: >-
+        Deezer Europe user friendship graph binary node classification (like/dislike), used in LINKX-style non-homophily evaluations. The cataloged artifact reports 1 graphs, 2 target classes or tasks.
+      features: >-
+        The release represents higher-order membership with a node-hyperedge incidence relation and supplies node features where available. Some source datasets have no measured features and use documented synthetic features; clique expansion is an alternative representation that discards hyperedge identity.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Standard split. Evaluation uses ROC-AUC (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        Do not silently replace incidence propagation with clique expansion or merge distinct releases sharing a short name. Random synthetic features, split seeds, hyperedge multiplicity, and isolated-node handling can dominate results and must be reported.
+    sources:
+    - title: Hypergraph Benchmarks benchmark
+      arxiv_id: '2106.13264'
+      kind: benchmark_or_upstream_source
+    - title: PyTorch Geometric Deezer loader documentation
+      url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.HeterophilousGraphDataset.html
+      kind: implementation_documentation
     description: Deezer Europe user friendship graph binary node classification (like/dislike),
       used in LINKX-style non-homophily evaluations.
     primary_metric: ROC-AUC
@@ -2073,6 +3241,21 @@ benchmarks:
     num_classes: 2
   - name: House
     task_type: node_classification
+    detailed_description:
+      task: >-
+        US House of Representatives voting hypergraph node classification (2 classes). The primary catalog metric is Accuracy.
+      data: >-
+        US House of Representatives voting hypergraph node classification (2 classes). The cataloged artifact reports 1 graphs, 2 target classes or tasks.
+      features: >-
+        The release represents higher-order membership with a node-hyperedge incidence relation and supplies node features where available. Some source datasets have no measured features and use documented synthetic features; clique expansion is an alternative representation that discards hyperedge identity.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Standard split. Evaluation uses Accuracy (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        Do not silently replace incidence propagation with clique expansion or merge distinct releases sharing a short name. Random synthetic features, split seeds, hyperedge multiplicity, and isolated-node handling can dominate results and must be reported.
+    sources:
+    - title: Hypergraph Benchmarks benchmark
+      arxiv_id: '2106.13264'
+      kind: benchmark_or_upstream_source
     description: US House of Representatives voting hypergraph node classification
       (2 classes).
     primary_metric: Accuracy
@@ -2085,6 +3268,21 @@ benchmarks:
     num_classes: 2
   - name: Senate
     task_type: node_classification
+    detailed_description:
+      task: >-
+        US Senate voting hypergraph node classification (2 classes). The primary catalog metric is Accuracy.
+      data: >-
+        US Senate voting hypergraph node classification (2 classes). The cataloged artifact reports 1 graphs, 2 target classes or tasks.
+      features: >-
+        The release represents higher-order membership with a node-hyperedge incidence relation and supplies node features where available. Some source datasets have no measured features and use documented synthetic features; clique expansion is an alternative representation that discards hyperedge identity.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Standard split. Evaluation uses Accuracy (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        Do not silently replace incidence propagation with clique expansion or merge distinct releases sharing a short name. Random synthetic features, split seeds, hyperedge multiplicity, and isolated-node handling can dominate results and must be reported.
+    sources:
+    - title: Hypergraph Benchmarks benchmark
+      arxiv_id: '2106.13264'
+      kind: benchmark_or_upstream_source
     description: US Senate voting hypergraph node classification (2 classes).
     primary_metric: Accuracy
     higher_is_better: true
@@ -2096,6 +3294,21 @@ benchmarks:
     num_classes: 2
   - name: Walmart
     task_type: node_classification
+    detailed_description:
+      task: >-
+        Walmart co-purchase trip hypergraph node classification (product category, 11 classes). The primary catalog metric is Accuracy.
+      data: >-
+        Walmart co-purchase trip hypergraph node classification (product category, 11 classes). The cataloged artifact reports 1 graphs, 11 target classes or tasks.
+      features: >-
+        The release represents higher-order membership with a node-hyperedge incidence relation and supplies node features where available. Some source datasets have no measured features and use documented synthetic features; clique expansion is an alternative representation that discards hyperedge identity.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Standard split. Evaluation uses Accuracy (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        Do not silently replace incidence propagation with clique expansion or merge distinct releases sharing a short name. Random synthetic features, split seeds, hyperedge multiplicity, and isolated-node handling can dominate results and must be reported.
+    sources:
+    - title: Hypergraph Benchmarks benchmark
+      arxiv_id: '2106.13264'
+      kind: benchmark_or_upstream_source
     description: Walmart co-purchase trip hypergraph node classification (product
       category, 11 classes).
     primary_metric: Accuracy
@@ -2108,6 +3321,21 @@ benchmarks:
     num_classes: 11
   - name: BAT
     task_type: node_classification
+    detailed_description:
+      task: >-
+        Brazilian Airport Transactions hypergraph node classification (4 region classes, 131 nodes). The primary catalog metric is F1.
+      data: >-
+        Brazilian Airport Transactions hypergraph node classification (4 region classes, 131 nodes). The cataloged artifact reports 1 graphs, 4 target classes or tasks.
+      features: >-
+        The release represents higher-order membership with a node-hyperedge incidence relation and supplies node features where available. Some source datasets have no measured features and use documented synthetic features; clique expansion is an alternative representation that discards hyperedge identity.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Standard split. Evaluation uses F1 (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        Do not silently replace incidence propagation with clique expansion or merge distinct releases sharing a short name. Random synthetic features, split seeds, hyperedge multiplicity, and isolated-node handling can dominate results and must be reported.
+    sources:
+    - title: Hypergraph Benchmarks benchmark
+      arxiv_id: '2106.13264'
+      kind: benchmark_or_upstream_source
     description: Brazilian Airport Transactions hypergraph node classification (4
       region classes, 131 nodes).
     primary_metric: F1
@@ -2121,6 +3349,21 @@ benchmarks:
     num_classes: 4
   - name: UAT
     task_type: node_classification
+    detailed_description:
+      task: >-
+        US Airport Transactions hypergraph node classification (4 region classes, 1190 nodes). The primary catalog metric is F1.
+      data: >-
+        US Airport Transactions hypergraph node classification (4 region classes, 1190 nodes). The cataloged artifact reports 1 graphs, 4 target classes or tasks.
+      features: >-
+        The release represents higher-order membership with a node-hyperedge incidence relation and supplies node features where available. Some source datasets have no measured features and use documented synthetic features; clique expansion is an alternative representation that discards hyperedge identity.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Standard split. Evaluation uses F1 (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        Do not silently replace incidence propagation with clique expansion or merge distinct releases sharing a short name. Random synthetic features, split seeds, hyperedge multiplicity, and isolated-node handling can dominate results and must be reported.
+    sources:
+    - title: Hypergraph Benchmarks benchmark
+      arxiv_id: '2106.13264'
+      kind: benchmark_or_upstream_source
     description: US Airport Transactions hypergraph node classification (4 region
       classes, 1190 nodes).
     primary_metric: F1
@@ -2134,6 +3377,21 @@ benchmarks:
     num_classes: 4
   - name: EAT
     task_type: node_classification
+    detailed_description:
+      task: >-
+        European Airport Transactions hypergraph node classification (4 region classes, 399 nodes). The primary catalog metric is F1.
+      data: >-
+        European Airport Transactions hypergraph node classification (4 region classes, 399 nodes). The cataloged artifact reports 1 graphs, 4 target classes or tasks.
+      features: >-
+        The release represents higher-order membership with a node-hyperedge incidence relation and supplies node features where available. Some source datasets have no measured features and use documented synthetic features; clique expansion is an alternative representation that discards hyperedge identity.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Standard split. Evaluation uses F1 (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        Do not silently replace incidence propagation with clique expansion or merge distinct releases sharing a short name. Random synthetic features, split seeds, hyperedge multiplicity, and isolated-node handling can dominate results and must be reported.
+    sources:
+    - title: Hypergraph Benchmarks benchmark
+      arxiv_id: '2106.13264'
+      kind: benchmark_or_upstream_source
     description: European Airport Transactions hypergraph node classification (4 region
       classes, 399 nodes).
     primary_metric: F1
@@ -2147,6 +3405,24 @@ benchmarks:
     num_classes: 4
   - name: AMAP
     task_type: node_classification
+    detailed_description:
+      task: >-
+        Amazon Photography co-purchase hypergraph node classification (8 categories). The primary catalog metric is F1.
+      data: >-
+        Amazon Photography co-purchase hypergraph node classification (8 categories). The cataloged artifact reports 1 graphs, 8 target classes or tasks.
+      features: >-
+        The release represents higher-order membership with a node-hyperedge incidence relation and supplies node features where available. Some source datasets have no measured features and use documented synthetic features; clique expansion is an alternative representation that discards hyperedge identity.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Standard split. Evaluation uses F1 (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        Do not silently replace incidence propagation with clique expansion or merge distinct releases sharing a short name. Random synthetic features, split seeds, hyperedge multiplicity, and isolated-node handling can dominate results and must be reported.
+    sources:
+    - title: Hypergraph Benchmarks benchmark
+      arxiv_id: '2106.13264'
+      kind: benchmark_or_upstream_source
+    - title: PyTorch Geometric AMAP loader documentation
+      url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.Amazon.html
+      kind: implementation_documentation
     description: Amazon Photography co-purchase hypergraph node classification (8
       categories).
     primary_metric: F1
@@ -2160,6 +3436,21 @@ benchmarks:
     num_classes: 8
   - name: Cora-CA
     task_type: node_classification
+    detailed_description:
+      task: >-
+        Cora co-authorship hypergraph node classification (7 subject classes). The primary catalog metric is Accuracy.
+      data: >-
+        Cora co-authorship hypergraph node classification (7 subject classes). The cataloged artifact reports 1 graphs, 7 target classes or tasks.
+      features: >-
+        The release represents higher-order membership with a node-hyperedge incidence relation and supplies node features where available. Some source datasets have no measured features and use documented synthetic features; clique expansion is an alternative representation that discards hyperedge identity.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Standard split. Evaluation uses Accuracy (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        Do not silently replace incidence propagation with clique expansion or merge distinct releases sharing a short name. Random synthetic features, split seeds, hyperedge multiplicity, and isolated-node handling can dominate results and must be reported.
+    sources:
+    - title: Hypergraph Benchmarks benchmark
+      arxiv_id: '2106.13264'
+      kind: benchmark_or_upstream_source
     description: Cora co-authorship hypergraph node classification (7 subject classes).
     primary_metric: Accuracy
     higher_is_better: true
@@ -2171,6 +3462,21 @@ benchmarks:
     num_classes: 7
   - name: DBLP-CA
     task_type: node_classification
+    detailed_description:
+      task: >-
+        DBLP co-authorship hypergraph node classification (research area). The primary catalog metric is Accuracy.
+      data: >-
+        DBLP co-authorship hypergraph node classification (research area). The cataloged artifact reports 1 graphs.
+      features: >-
+        The release represents higher-order membership with a node-hyperedge incidence relation and supplies node features where available. Some source datasets have no measured features and use documented synthetic features; clique expansion is an alternative representation that discards hyperedge identity.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Standard split. Evaluation uses Accuracy (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        Do not silently replace incidence propagation with clique expansion or merge distinct releases sharing a short name. Random synthetic features, split seeds, hyperedge multiplicity, and isolated-node handling can dominate results and must be reported.
+    sources:
+    - title: Hypergraph Benchmarks benchmark
+      arxiv_id: '2106.13264'
+      kind: benchmark_or_upstream_source
     description: DBLP co-authorship hypergraph node classification (research area).
     primary_metric: Accuracy
     higher_is_better: true
@@ -2181,6 +3487,21 @@ benchmarks:
     num_graphs: 1
   - name: LEN
     task_type: node_classification
+    detailed_description:
+      task: >-
+        Labeled Entity Network — large-scale coordinated campaign detection graph for online social media analysis (node classification, 2 classes). The primary catalog metric is Accuracy.
+      data: >-
+        Labeled Entity Network — large-scale coordinated campaign detection graph for online social media analysis (node classification, 2 classes). The cataloged artifact reports 2 target classes or tasks.
+      features: >-
+        The release represents higher-order membership with a node-hyperedge incidence relation and supplies node features where available. Some source datasets have no measured features and use documented synthetic features; clique expansion is an alternative representation that discards hyperedge identity.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Standard split. Evaluation uses Accuracy (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        Do not silently replace incidence propagation with clique expansion or merge distinct releases sharing a short name. Random synthetic features, split seeds, hyperedge multiplicity, and isolated-node handling can dominate results and must be reported.
+    sources:
+    - title: Hypergraph Benchmarks benchmark
+      arxiv_id: '2106.13264'
+      kind: benchmark_or_upstream_source
     description: 'Labeled Entity Network — large-scale coordinated campaign detection
       graph for online social media analysis (node classification, 2 classes).
 
@@ -2202,6 +3523,24 @@ benchmarks:
   datasets:
   - name: MalNet-Tiny
     task_type: graph_classification
+    detailed_description:
+      task: >-
+        Malware detection graph classification on a tiny (balanced 5-class) subset of the MalNet-Large dataset. Graphs are function call graphs of Android apps. The primary catalog metric is Accuracy.
+      data: >-
+        Malware detection graph classification on a tiny (balanced 5-class) subset of the MalNet-Large dataset. Graphs are function call graphs of Android apps. The cataloged artifact reports 5,000 graphs, 5 target classes or tasks.
+      features: >-
+        Input construction is dataset-specific and follows the cited release: program call graphs, 3D point coordinates, text-derived vectors, product attributes, or movie metadata. Added edges, neighborhood graphs, and feature normalization are preprocessing choices.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Standard split. Evaluation uses Accuracy (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        These entries come from unrelated upstream benchmarks and have no shared protocol. Report the exact graph construction, split, feature pipeline, and label granularity; similarly named Film, Actor, IMDB, or Amazon artifacts are not interchangeable.
+    sources:
+    - title: MalNet, a large-scale cybersecurity graph database
+      arxiv_id: '2106.04590'
+      kind: benchmark_or_upstream_source
+    - title: PyTorch Geometric MalNet-Tiny loader documentation
+      url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.MalNetTiny.html
+      kind: implementation_documentation
     description: 'Malware detection graph classification on a tiny (balanced 5-class)
       subset of the MalNet-Large dataset. Graphs are function call graphs of Android
       apps.
@@ -2218,6 +3557,21 @@ benchmarks:
     num_classes: 5
   - name: ShapeNet-Part
     task_type: node_classification
+    detailed_description:
+      task: >-
+        3D point cloud part segmentation on ShapeNet objects. Graph-based part label prediction on point cloud graphs (16 object categories, 50 part classes). The primary catalog metric is F1.
+      data: >-
+        3D point cloud part segmentation on ShapeNet objects. Graph-based part label prediction on point cloud graphs (16 object categories, 50 part classes). The cataloged artifact reports 50 target classes or tasks.
+      features: >-
+        Input construction is dataset-specific and follows the cited release: program call graphs, 3D point coordinates, text-derived vectors, product attributes, or movie metadata. Added edges, neighborhood graphs, and feature normalization are preprocessing choices.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Standard split. Evaluation uses F1 (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        These entries come from unrelated upstream benchmarks and have no shared protocol. Report the exact graph construction, split, feature pipeline, and label granularity; similarly named Film, Actor, IMDB, or Amazon artifacts are not interchangeable.
+    sources:
+    - title: PointNet
+      arxiv_id: '1612.00593'
+      kind: benchmark_or_upstream_source
     description: '3D point cloud part segmentation on ShapeNet objects. Graph-based
       part label prediction on point cloud graphs (16 object categories, 50 part classes).
 
@@ -2231,6 +3585,21 @@ benchmarks:
     num_classes: 50
   - name: 20News
     task_type: graph_classification
+    detailed_description:
+      task: >-
+        20 Newsgroups text classification represented as a graph (nodes = documents, edges = TF-IDF similarity). 20 classes. The primary catalog metric is Accuracy.
+      data: >-
+        20 Newsgroups text classification represented as a graph (nodes = documents, edges = TF-IDF similarity). 20 classes. The cataloged artifact reports 20 target classes or tasks.
+      features: >-
+        Input construction is dataset-specific and follows the cited release: program call graphs, 3D point coordinates, text-derived vectors, product attributes, or movie metadata. Added edges, neighborhood graphs, and feature normalization are preprocessing choices.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Standard split. Evaluation uses Accuracy (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        These entries come from unrelated upstream benchmarks and have no shared protocol. Report the exact graph construction, split, feature pipeline, and label granularity; similarly named Film, Actor, IMDB, or Amazon artifacts are not interchangeable.
+    sources:
+    - title: 20 Newsgroups corpus documentation
+      url: https://scikit-learn.org/stable/modules/generated/sklearn.datasets.fetch_20newsgroups.html
+      kind: benchmark_or_upstream_source
     description: '20 Newsgroups text classification represented as a graph (nodes
       = documents, edges = TF-IDF similarity). 20 classes.
 
@@ -2244,6 +3613,21 @@ benchmarks:
     num_classes: 20
   - name: Amazon2M
     task_type: node_classification
+    detailed_description:
+      task: >-
+        Large-scale Amazon co-purchase graph with ~2M nodes. Node classification (product category). Used to benchmark scalable GNNs and graph transformers. The primary catalog metric is Accuracy.
+      data: >-
+        Large-scale Amazon co-purchase graph with ~2M nodes. Node classification (product category). Used to benchmark scalable GNNs and graph transformers. The cataloged artifact reports 1 graphs.
+      features: >-
+        Input construction is dataset-specific and follows the cited release: program call graphs, 3D point coordinates, text-derived vectors, product attributes, or movie metadata. Added edges, neighborhood graphs, and feature normalization are preprocessing choices.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Standard split. Evaluation uses Accuracy (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        These entries come from unrelated upstream benchmarks and have no shared protocol. Report the exact graph construction, split, feature pipeline, and label granularity; similarly named Film, Actor, IMDB, or Amazon artifacts are not interchangeable.
+    sources:
+    - title: Cluster-GCN
+      arxiv_id: '1905.07953'
+      kind: benchmark_or_upstream_source
     description: 'Large-scale Amazon co-purchase graph with ~2M nodes. Node classification
       (product category). Used to benchmark scalable GNNs and graph transformers.
 
@@ -2259,6 +3643,21 @@ benchmarks:
     avg_edges: 61000000
   - name: MovieLens Film
     task_type: node_classification
+    detailed_description:
+      task: >-
+        Movie graph with genre labels from the MovieLens/IMDb film benchmark; distinct from the five-class Actor graph sometimes called Film. The primary catalog metric is Micro-F1.
+      data: >-
+        Movie graph with genre labels from the MovieLens/IMDb film benchmark; distinct from the five-class Actor graph sometimes called Film. The cataloged artifact reports 1 graphs, 9 target classes or tasks.
+      features: >-
+        Input construction is dataset-specific and follows the cited release: program call graphs, 3D point coordinates, text-derived vectors, product attributes, or movie metadata. Added edges, neighborhood graphs, and feature normalization are preprocessing choices.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Standard split. Evaluation uses Micro-F1 (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        These entries come from unrelated upstream benchmarks and have no shared protocol. Report the exact graph construction, split, feature pipeline, and label granularity; similarly named Film, Actor, IMDB, or Amazon artifacts are not interchangeable.
+    sources:
+    - title: MovieLens datasets
+      url: https://grouplens.org/datasets/movielens/
+      kind: benchmark_or_upstream_source
     description: Movie graph with genre labels from the MovieLens/IMDb film benchmark;
       distinct from the five-class Actor graph sometimes called Film.
     primary_metric: Micro-F1
@@ -2280,7 +3679,24 @@ benchmarks:
     '
   datasets:
   - name: SSSP
-    task_type: graph_regression
+    task_type: node_regression
+    detailed_description:
+      task: >-
+        Single Source Shortest Path prediction on synthetic graphs (node-level distances). The primary catalog metric is MSE.
+      data: >-
+        The release has 7,040 synthetic graphs with 25--35 nodes sampled from multiple
+        graph generators: 5,120 train, 640 validation, and 1,280 test graphs.
+      features: >-
+        Synthetic graphs provide task-specific structural inputs such as a designated source. Targets are numeric node quantities computed by the reference algorithm; positional encodings or extra structural features are model additions.
+      splits_and_evaluation: >-
+        The fixed split is 5,120/640/1,280 graphs. The paper selects models by validation
+        MSE and reports mean log10(MSE) over 20 runs; lower is better.
+      quirks_and_pitfalls: >-
+        Targets are deterministic functions of generated topology, so generator overlap and size range determine difficulty. Random splits test interpolation; claims about algorithmic generalization require held-out sizes or graph families.
+    sources:
+    - title: Algorithmic Graph Tasks benchmark
+      arxiv_id: '2312.16560'
+      kind: benchmark_or_upstream_source
     description: Single Source Shortest Path prediction on synthetic graphs (node-level
       distances).
     primary_metric: MSE
@@ -2291,7 +3707,24 @@ benchmarks:
       is_standard: true
     num_graphs: 7040
   - name: Eccentricity
-    task_type: graph_regression
+    task_type: node_regression
+    detailed_description:
+      task: >-
+        Graph eccentricity prediction — node-level task predicting max distance to any other node. The primary catalog metric is MSE.
+      data: >-
+        The release has 7,040 synthetic graphs with 25--35 nodes sampled from multiple
+        graph generators: 5,120 train, 640 validation, and 1,280 test graphs.
+      features: >-
+        Synthetic graphs provide task-specific structural inputs such as a designated source. Targets are numeric node quantities computed by the reference algorithm; positional encodings or extra structural features are model additions.
+      splits_and_evaluation: >-
+        The fixed split is 5,120/640/1,280 graphs. The paper selects models by validation
+        MSE and reports mean log10(MSE) over 20 runs; lower is better.
+      quirks_and_pitfalls: >-
+        Targets are deterministic functions of generated topology, so generator overlap and size range determine difficulty. Random splits test interpolation; claims about algorithmic generalization require held-out sizes or graph families.
+    sources:
+    - title: Algorithmic Graph Tasks benchmark
+      arxiv_id: '2312.16560'
+      kind: benchmark_or_upstream_source
     description: Graph eccentricity prediction — node-level task predicting max distance
       to any other node.
     primary_metric: MSE
@@ -2311,11 +3744,33 @@ benchmarks:
   datasets:
   - name: HSG-12M
     task_type: graph_classification
-    description: Node classification on the HSG-12M large-scale heterogeneous spatial
-      graph (~12M edges).
+    detailed_description:
+      task: >-
+        Classify each Hamiltonian spectral graph into one of 1,401 characteristic-
+        polynomial classes. This is graph-level classification scored by top-1 accuracy.
+      data: >-
+        Poly2Graph converts complex energy-band spectra of one-dimensional non-Hermitian
+        crystal Hamiltonians into 11,601,681 static spatial multigraphs. Parallel curved
+        trajectories between the same endpoints are retained as distinct edges.
+      features: >-
+        The provided featurization includes multi-edge geometry such as curve length,
+        endpoint distance, midpoint, average spectral potential, and density of states.
+        The raw release also supports custom featurization.
+      splits_and_evaluation: >-
+        The official stratified random split is 80/10/10 and preserves class proportions.
+        Results are averaged over three seeds; the paper reports top-1 and top-10 accuracy.
+      quirks_and_pitfalls: >-
+        Collapsing parallel edges destroys information by design. Coefficients within a
+        class can generate deformed but related spectra, so a random split tests recognition
+        within the generated class distribution rather than transfer to unseen polynomials.
+    sources:
+    - title: HSG-12M benchmark
+      arxiv_id: '2506.08618'
+      kind: benchmark_or_upstream_source
+    description: Graph classification of 11.6 million non-Hermitian Hamiltonian spectral multigraphs into 1,401 characteristic-polynomial classes.
     primary_metric: Accuracy
     higher_is_better: true
-    domain: geospatial
+    domain: physics
     variants:
     - name: Standard split
       is_standard: true
@@ -2323,11 +3778,34 @@ benchmarks:
     num_classes: 1401
   - name: HSG-topology
     task_type: graph_classification
+    detailed_description:
+      task: >-
+        Classify each topology-deduplicated Hamiltonian spectral graph into one of 1,401
+        characteristic-polynomial classes.
+      data: >-
+        HSG-topology retains one representative of every graph-isomorphism class within
+        each polynomial class, leaving 1,812,325 spatial multigraphs with a largest-to-
+        smallest class-size ratio of 660.2.
+      features: >-
+        The variant is designed around unique connectivity patterns. Spatial multi-edge
+        information remains available in the HSG representation, but topology-only models
+        can deliberately omit it for the combinatorial experiment.
+      splits_and_evaluation: >-
+        The official stratified random split is 80/10/10 and evaluation reports accuracy
+        averaged over three seeds.
+      quirks_and_pitfalls: >-
+        This is the only deliberately imbalanced HSG static variant. Plain accuracy is
+        dominated by large classes; balanced metrics are useful diagnostics but are not the
+        published headline. Isomorphism filtering must be performed within each class.
+    sources:
+    - title: HSG-12M benchmark
+      arxiv_id: '2506.08618'
+      kind: benchmark_or_upstream_source
     description: Topology-based classification sub-task of the HSG-12M spatial graph
       benchmark.
     primary_metric: Accuracy
     higher_is_better: true
-    domain: geospatial
+    domain: physics
     variants:
     - name: Standard split
       is_standard: true
@@ -2343,7 +3821,26 @@ benchmarks:
     '
   datasets:
   - name: COVID
-    task_type: graph_regression
+    task_type: node_regression
+    detailed_description:
+      task: >-
+        Predict three nucleotide-level experimental signals: reactivity, degradation at
+        pH 10, and degradation with magnesium at pH 10. RMSE is lower-is-better.
+      data: >-
+        OpenVaccine contributes 4,082 synthetic RNA sequences of length 107--130. The
+        benchmark filters sequences with signal-to-noise ratio below one and predicts 3D
+        structures with RhoFold; those coordinates are not experimental structures.
+      features: >-
+        RNA samples include nucleotide identity, predicted or experimental 3D atomic coordinates as specified by the dataset, and task-specific scalar targets. Euclidean cutoff edges and spherical-harmonic neighborhoods are model construction, not additional measurements.
+      splits_and_evaluation: >-
+        DualEquiNet uses five independent random 80/10/10 train/validation/test splits,
+        selects by validation performance, and reports test RMSE.
+      quirks_and_pitfalls: >-
+        Predicted structures must not be described as experimental ground truth. Random sequence splits can place close motifs in train and test, circular angles require periodic losses, and experimental targets have assay-specific noise and missingness.
+    sources:
+    - title: DualEquiNet RNA Benchmarks benchmark
+      arxiv_id: '2506.19862'
+      kind: benchmark_or_upstream_source
     description: RNA structure prediction on the COVID-19 dataset from the EternaFold/Kaggle
       Ribonanza challenge (RMSE metric, lower is better).
     primary_metric: RMSE
@@ -2354,7 +3851,7 @@ benchmarks:
       is_standard: true
     num_graphs: 4082
   - name: Ribonanza
-    task_type: graph_regression
+    task_type: node_regression
     description: Nucleotide-level prediction of DMS and 2A3 chemical-mapping reactivity on the 2,260-sequence Ribonanza-2k benchmark.
     detailed_description:
       task: Predict two continuous reactivity values for each nucleotide, one measured with dimethyl sulfate (DMS) and one with 2-aminopyridine-3-carboxylic acid imidazolide (2A3). These chemical-mapping measurements probe nucleotide accessibility and flexibility and are evaluated with root mean squared error.
@@ -2381,6 +3878,21 @@ benchmarks:
     num_graphs: 2260
   - name: Tc-Ribo
     task_type: graph_regression
+    detailed_description:
+      task: >-
+        Thermostable ribosome structure prediction (graph regression, RMSE metric). The primary catalog metric is RMSE.
+      data: >-
+        Thermostable ribosome structure prediction (graph regression, RMSE metric). The cataloged artifact reports 355 graphs.
+      features: >-
+        RNA samples include nucleotide identity, predicted or experimental 3D atomic coordinates as specified by the dataset, and task-specific scalar targets. Euclidean cutoff edges and spherical-harmonic neighborhoods are model construction, not additional measurements.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Standard split. Evaluation uses RMSE (lower is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        Predicted structures must not be described as experimental ground truth. Random sequence splits can place close motifs in train and test, circular angles require periodic losses, and experimental targets have assay-specific noise and missingness.
+    sources:
+    - title: DualEquiNet RNA Benchmarks benchmark
+      arxiv_id: '2506.19862'
+      kind: benchmark_or_upstream_source
     description: Thermostable ribosome structure prediction (graph regression, RMSE
       metric).
     primary_metric: RMSE
@@ -2391,7 +3903,25 @@ benchmarks:
       is_standard: true
     num_graphs: 355
   - name: TorsionAngle
-    task_type: graph_regression
+    task_type: node_regression
+    detailed_description:
+      task: >-
+        Predict seven backbone and glycosidic dihedral angles per nucleotide: alpha, beta,
+        gamma, delta, epsilon, zeta, and chi. Circular MAE is lower-is-better.
+      data: >-
+        The benchmark derives angles from 1,018 RNASolo structures with DSSR and normalizes
+        every angle to the periodic interval from -180 to 180 degrees.
+      features: >-
+        RNA samples include nucleotide identity, predicted or experimental 3D atomic coordinates as specified by the dataset, and task-specific scalar targets. Euclidean cutoff edges and spherical-harmonic neighborhoods are model construction, not additional measurements.
+      splits_and_evaluation: >-
+        DualEquiNet uses five independent random 80/10/10 splits. Circular MAE computes the
+        shorter angular difference across the wraparound boundary.
+      quirks_and_pitfalls: >-
+        Predicted structures must not be described as experimental ground truth. Random sequence splits can place close motifs in train and test, circular angles require periodic losses, and experimental targets have assay-specific noise and missingness.
+    sources:
+    - title: DualEquiNet RNA Benchmarks benchmark
+      arxiv_id: '2506.19862'
+      kind: benchmark_or_upstream_source
     description: RNA backbone torsion angle prediction (circular regression task,
       Circular MAE metric).
     primary_metric: Circular MAE
@@ -2411,6 +3941,21 @@ benchmarks:
   datasets:
   - name: Quijote
     task_type: graph_regression
+    detailed_description:
+      task: >-
+        Cosmological parameter inference on Quijote N-body simulation data (graph regression, R² metric). The primary catalog metric is R^2.
+      data: >-
+        Cosmological parameter inference on Quijote N-body simulation data (graph regression, R² metric). The cataloged artifact reports 32,752 graphs.
+      features: >-
+        Inputs are graphs derived from cosmological simulations, with nodes representing simulated structures and attributes derived from their physical state or merger history. Graph construction and target normalization follow the benchmark release.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Standard split. Evaluation uses R^2 (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        All labels come from simulations and inherit simulator and cosmology assumptions. Splitting correlated snapshots, subvolumes, or branches across partitions leaks information; simulation suite, redshift, graph construction, and unit conventions must match.
+    sources:
+    - title: CosmoBench benchmark
+      arxiv_id: '2507.03707'
+      kind: benchmark_or_upstream_source
     description: Cosmological parameter inference on Quijote N-body simulation data
       (graph regression, R² metric).
     primary_metric: R^2
@@ -2422,6 +3967,21 @@ benchmarks:
     num_graphs: 32752
   - name: CAMELS-SAM
     task_type: graph_regression
+    detailed_description:
+      task: >-
+        Galaxy property regression on CAMELS Semi-Analytic Model simulation (R² metric). The primary catalog metric is R^2.
+      data: >-
+        Galaxy property regression on CAMELS Semi-Analytic Model simulation (R² metric). The cataloged artifact reports 1,000 graphs.
+      features: >-
+        Inputs are graphs derived from cosmological simulations, with nodes representing simulated structures and attributes derived from their physical state or merger history. Graph construction and target normalization follow the benchmark release.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Standard split. Evaluation uses R^2 (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        All labels come from simulations and inherit simulator and cosmology assumptions. Splitting correlated snapshots, subvolumes, or branches across partitions leaks information; simulation suite, redshift, graph construction, and unit conventions must match.
+    sources:
+    - title: CosmoBench benchmark
+      arxiv_id: '2507.03707'
+      kind: benchmark_or_upstream_source
     description: Galaxy property regression on CAMELS Semi-Analytic Model simulation
       (R² metric).
     primary_metric: R^2
@@ -2433,6 +3993,21 @@ benchmarks:
     num_graphs: 1000
   - name: CS-Trees
     task_type: graph_regression
+    detailed_description:
+      task: >-
+        Cosmic structure tree regression task from CosmoBench (R² metric). The primary catalog metric is R2.
+      data: >-
+        Cosmic structure tree regression task from CosmoBench (R² metric). The cataloged artifact reports 24,996 graphs.
+      features: >-
+        Inputs are graphs derived from cosmological simulations, with nodes representing simulated structures and attributes derived from their physical state or merger history. Graph construction and target normalization follow the benchmark release.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Standard split. Evaluation uses R2 (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        All labels come from simulations and inherit simulator and cosmology assumptions. Splitting correlated snapshots, subvolumes, or branches across partitions leaks information; simulation suite, redshift, graph construction, and unit conventions must match.
+    sources:
+    - title: CosmoBench benchmark
+      arxiv_id: '2507.03707'
+      kind: benchmark_or_upstream_source
     description: Cosmic structure tree regression task from CosmoBench (R² metric).
     primary_metric: R2
     higher_is_better: true
@@ -2443,6 +4018,21 @@ benchmarks:
     num_graphs: 24996
   - name: CS-Trees-200
     task_type: graph_classification
+    detailed_description:
+      task: >-
+        CS-Trees classification variant with 200-node graphs (Accuracy metric). The primary catalog metric is Accuracy.
+      data: >-
+        CS-Trees classification variant with 200-node graphs (Accuracy metric). The cataloged artifact reports 200 graphs.
+      features: >-
+        Inputs are graphs derived from cosmological simulations, with nodes representing simulated structures and attributes derived from their physical state or merger history. Graph construction and target normalization follow the benchmark release.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Standard split. Evaluation uses Accuracy (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        All labels come from simulations and inherit simulator and cosmology assumptions. Splitting correlated snapshots, subvolumes, or branches across partitions leaks information; simulation suite, redshift, graph construction, and unit conventions must match.
+    sources:
+    - title: CosmoBench benchmark
+      arxiv_id: '2507.03707'
+      kind: benchmark_or_upstream_source
     description: CS-Trees classification variant with 200-node graphs (Accuracy metric).
     primary_metric: Accuracy
     higher_is_better: true
@@ -2461,6 +4051,21 @@ benchmarks:
   datasets:
   - name: ECHO-Synth
     task_type: graph_regression
+    detailed_description:
+      task: >-
+        ECHO synthetic propagation task — node-level regression on synthetic long-range graphs. The primary catalog metric is MAE.
+      data: >-
+        ECHO synthetic propagation task — node-level regression on synthetic long-range graphs. The cataloged artifact reports 10,080 graphs.
+      features: >-
+        Each synthetic or physical graph supplies local node/edge state and a target created by controlled long-range propagation. The exact signal channels and propagation parameters are part of the named ECHO task and should not be mixed across variants.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Standard split. Evaluation uses MAE (lower is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        Performance is sensitive to propagation radius, graph size, and train/test distance regime. Randomly mixing configurations can turn a long-range extrapolation task into interpolation; report the named variant and fixed generation parameters.
+    sources:
+    - title: ECHO Benchmark benchmark
+      arxiv_id: '2512.17762'
+      kind: benchmark_or_upstream_source
     description: ECHO synthetic propagation task — node-level regression on synthetic
       long-range graphs.
     primary_metric: MAE
@@ -2471,7 +4076,22 @@ benchmarks:
       is_standard: true
     num_graphs: 10080
   - name: ECHO-Charge
-    task_type: graph_regression
+    task_type: node_regression
+    detailed_description:
+      task: >-
+        ECHO charge propagation task — predicting charge distribution on physical graphs. The primary catalog metric is MAE.
+      data: >-
+        ECHO charge propagation task — predicting charge distribution on physical graphs. The cataloged artifact reports 170,000 graphs.
+      features: >-
+        Each synthetic or physical graph supplies local node/edge state and a target created by controlled long-range propagation. The exact signal channels and propagation parameters are part of the named ECHO task and should not be mixed across variants.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Standard split. Evaluation uses MAE (lower is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        Performance is sensitive to propagation radius, graph size, and train/test distance regime. Randomly mixing configurations can turn a long-range extrapolation task into interpolation; report the named variant and fixed generation parameters.
+    sources:
+    - title: ECHO Benchmark benchmark
+      arxiv_id: '2512.17762'
+      kind: benchmark_or_upstream_source
     description: ECHO charge propagation task — predicting charge distribution on
       physical graphs.
     primary_metric: MAE
@@ -2483,6 +4103,21 @@ benchmarks:
     num_graphs: 170000
   - name: ECHO-Energy
     task_type: graph_regression
+    detailed_description:
+      task: >-
+        ECHO energy propagation task — predicting energy distribution on physical graphs. The primary catalog metric is MAE.
+      data: >-
+        ECHO energy propagation task — predicting energy distribution on physical graphs. The cataloged artifact reports 196,000 graphs.
+      features: >-
+        Each synthetic or physical graph supplies local node/edge state and a target created by controlled long-range propagation. The exact signal channels and propagation parameters are part of the named ECHO task and should not be mixed across variants.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Standard split. Evaluation uses MAE (lower is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        Performance is sensitive to propagation radius, graph size, and train/test distance regime. Randomly mixing configurations can turn a long-range extrapolation task into interpolation; report the named variant and fixed generation parameters.
+    sources:
+    - title: ECHO Benchmark benchmark
+      arxiv_id: '2512.17762'
+      kind: benchmark_or_upstream_source
     description: ECHO energy propagation task — predicting energy distribution on
       physical graphs.
     primary_metric: MAE
@@ -2502,6 +4137,24 @@ benchmarks:
   datasets:
   - name: Paris
     task_type: node_classification
+    detailed_description:
+      task: >-
+        Paris road-network node classification from the City-Networks benchmark. Labels are derived from long-range accessibility statistics on the city graph. The primary catalog metric is Accuracy.
+      data: >-
+        Paris road-network node classification from the City-Networks benchmark. Labels are derived from long-range accessibility statistics on the city graph. The cataloged artifact reports 1 graphs.
+      features: >-
+        Road-network intersections are nodes and street segments are edges. The release derives node inputs and accessibility-based labels from the embedded city network; adding coordinates, centralities, or external map attributes changes the feature set.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Standard split. Evaluation uses Accuracy (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        The four cities differ in topology, sampling, and label distribution, so they are separate datasets rather than interchangeable folds. Labels are derived from the same graph, creating a risk of target leakage through engineered centrality or accessibility features.
+    sources:
+    - title: City-Networks benchmark
+      arxiv_id: '2503.09008'
+      kind: benchmark_or_upstream_source
+    - title: PyTorch Geometric Paris loader documentation
+      url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.CityNetwork.html
+      kind: implementation_documentation
     description: Paris road-network node classification from the City-Networks benchmark.
       Labels are derived from long-range accessibility statistics on the city graph.
     primary_metric: Accuracy
@@ -2516,6 +4169,24 @@ benchmarks:
       is_standard: true
   - name: Shanghai
     task_type: node_classification
+    detailed_description:
+      task: >-
+        Shanghai road-network node classification from the City-Networks benchmark. Labels are derived from long-range accessibility statistics on the city graph. The primary catalog metric is Accuracy.
+      data: >-
+        Shanghai road-network node classification from the City-Networks benchmark. Labels are derived from long-range accessibility statistics on the city graph. The cataloged artifact reports 1 graphs.
+      features: >-
+        Road-network intersections are nodes and street segments are edges. The release derives node inputs and accessibility-based labels from the embedded city network; adding coordinates, centralities, or external map attributes changes the feature set.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Standard split. Evaluation uses Accuracy (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        The four cities differ in topology, sampling, and label distribution, so they are separate datasets rather than interchangeable folds. Labels are derived from the same graph, creating a risk of target leakage through engineered centrality or accessibility features.
+    sources:
+    - title: City-Networks benchmark
+      arxiv_id: '2503.09008'
+      kind: benchmark_or_upstream_source
+    - title: PyTorch Geometric Shanghai loader documentation
+      url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.CityNetwork.html
+      kind: implementation_documentation
     description: Shanghai road-network node classification from the City-Networks benchmark.
       Labels are derived from long-range accessibility statistics on the city graph.
     primary_metric: Accuracy
@@ -2530,6 +4201,24 @@ benchmarks:
       is_standard: true
   - name: Los Angeles
     task_type: node_classification
+    detailed_description:
+      task: >-
+        Los Angeles road-network node classification from the City-Networks benchmark. Labels are derived from long-range accessibility statistics on the city graph. The primary catalog metric is Accuracy.
+      data: >-
+        Los Angeles road-network node classification from the City-Networks benchmark. Labels are derived from long-range accessibility statistics on the city graph. The cataloged artifact reports 1 graphs.
+      features: >-
+        Road-network intersections are nodes and street segments are edges. The release derives node inputs and accessibility-based labels from the embedded city network; adding coordinates, centralities, or external map attributes changes the feature set.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Standard split. Evaluation uses Accuracy (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        The four cities differ in topology, sampling, and label distribution, so they are separate datasets rather than interchangeable folds. Labels are derived from the same graph, creating a risk of target leakage through engineered centrality or accessibility features.
+    sources:
+    - title: City-Networks benchmark
+      arxiv_id: '2503.09008'
+      kind: benchmark_or_upstream_source
+    - title: PyTorch Geometric Los Angeles loader documentation
+      url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.CityNetwork.html
+      kind: implementation_documentation
     description: Los Angeles road-network node classification from the City-Networks benchmark.
       Labels are derived from long-range accessibility statistics on the city graph.
     primary_metric: Accuracy
@@ -2544,6 +4233,24 @@ benchmarks:
       is_standard: true
   - name: London
     task_type: node_classification
+    detailed_description:
+      task: >-
+        London road-network node classification from the City-Networks benchmark. Labels are derived from long-range accessibility statistics on the city graph. The primary catalog metric is Accuracy.
+      data: >-
+        London road-network node classification from the City-Networks benchmark. Labels are derived from long-range accessibility statistics on the city graph. The cataloged artifact reports 1 graphs.
+      features: >-
+        Road-network intersections are nodes and street segments are edges. The release derives node inputs and accessibility-based labels from the embedded city network; adding coordinates, centralities, or external map attributes changes the feature set.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Standard split. Evaluation uses Accuracy (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        The four cities differ in topology, sampling, and label distribution, so they are separate datasets rather than interchangeable folds. Labels are derived from the same graph, creating a risk of target leakage through engineered centrality or accessibility features.
+    sources:
+    - title: City-Networks benchmark
+      arxiv_id: '2503.09008'
+      kind: benchmark_or_upstream_source
+    - title: PyTorch Geometric London loader documentation
+      url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.CityNetwork.html
+      kind: implementation_documentation
     description: London road-network node classification from the City-Networks benchmark.
       Labels are derived from long-range accessibility statistics on the city graph.
     primary_metric: Accuracy
@@ -2571,6 +4278,24 @@ benchmarks:
   datasets:
   - name: LRIM
     task_type: node_regression
+    detailed_description:
+      task: >-
+        Long-Range Ising Model benchmark for per-node energy prediction on periodic 2D grid graphs with controllable long-range interactions. The primary catalog metric is log-MSE.
+      data: >-
+        Long-Range Ising Model benchmark for per-node energy prediction on periodic 2D grid graphs with controllable long-range interactions. The cataloged artifact reports 100,000 graphs.
+      features: >-
+        Nodes occupy a periodic two-dimensional grid and carry spin/state inputs. Edges or interaction terms encode distance-dependent Ising couplings; the release controls interaction range and system size.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: LRIM-16-hard, LRIM-16-easy, LRIM-32-hard, LRIM-32-easy, LRIM-64-hard, LRIM-64-easy, LRIM-128-hard, LRIM-128-easy, LRIM-256-hard, LRIM-256-easy. Evaluation uses log-MSE (lower is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        Periodic boundaries and long-range couplings distinguish this benchmark from nearest-neighbor grids. Energy conventions, coupling normalization, lattice size, temperature sampling, and interaction cutoff must be reported.
+    sources:
+    - title: LRIM Graph Benchmark benchmark
+      url: https://openreview.net/forum?id=IAZXEX1dVV
+      kind: benchmark_or_upstream_source
+    - title: PyTorch Geometric LRIM loader documentation
+      url: https://lrim-graphbenchmark.com/
+      kind: implementation_documentation
     description: Long-Range Ising Model benchmark for per-node energy prediction on periodic
       2D grid graphs with controllable long-range interactions.
     primary_metric: log-MSE
@@ -2639,6 +4364,25 @@ benchmarks:
   datasets:
   - name: Case 1
     task_type: graph_regression
+    detailed_description:
+      task: >-
+        Jointly predict active power, reactive power, and voltage magnitude at buses plus
+        active and reactive flow in both directions on every branch. The headline accuracy
+        is the fraction of operating samples satisfying all stated error thresholds.
+      data: >-
+        Case I starts from the IEEE 39-bus, 46-branch system. Local Topology Slicing expands
+        5,000 selected operating scenarios into one million training subgraphs; separate
+        100,000-sample test, downscaled, and upscaled sets probe unseen operating conditions.
+      features: >-
+        Nodes represent buses with electrical quantities and edges represent transmission elements with network parameters. Inputs, targets, units, slack-bus treatment, and feasibility status follow the benchmark case generator.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Standard split. Evaluation uses Accuracy (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        Only converged, feasible operating points should be compared under the documented policy. Per-unit conventions, topology changes, solver tolerances, and bus-type handling can silently alter labels; these cases do not establish transfer to real grids.
+    sources:
+    - title: Power Flow Benchmarks benchmark
+      arxiv_id: '2601.01387'
+      kind: benchmark_or_upstream_source
     description: Power flow analysis on IEEE test case 1 (small power grid, node-level
       regression).
     primary_metric: Accuracy
@@ -2650,6 +4394,25 @@ benchmarks:
     num_graphs: 1000000
   - name: Case 2
     task_type: graph_regression
+    detailed_description:
+      task: >-
+        Jointly predict bus active/reactive power and voltage magnitude plus directional
+        branch active/reactive flows on a real provincial grid. Accuracy requires every
+        voltage and branch-error threshold to be met for a sample.
+      data: >-
+        Case II uses 366 days of operational data from an unnamed Chinese provincial grid.
+        The first 300 days generate 500,000 training and 100,000 test samples; the remaining
+        66 days yield about 150,000 generalization samples with 300--690 buses.
+      features: >-
+        Nodes represent buses with electrical quantities and edges represent transmission elements with network parameters. Inputs, targets, units, slack-bus treatment, and feasibility status follow the benchmark case generator.
+      splits_and_evaluation: >-
+        The catalog records these protocols or variants: Standard split. Evaluation uses Accuracy (higher is better). Exact masks or folds must come from the cited release.
+      quirks_and_pitfalls: >-
+        Only converged, feasible operating points should be compared under the documented policy. Per-unit conventions, topology changes, solver tolerances, and bus-type handling can silently alter labels; these cases do not establish transfer to real grids.
+    sources:
+    - title: Power Flow Benchmarks benchmark
+      arxiv_id: '2601.01387'
+      kind: benchmark_or_upstream_source
     description: Power flow analysis on IEEE test case 2 (medium power grid, node-level
       regression).
     primary_metric: Accuracy
