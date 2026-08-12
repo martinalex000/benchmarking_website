@@ -10,9 +10,9 @@ presented as facts on the website.
 ## Current status
 
 - Dataset entries: 142
-- Fully researched: 23
+- Fully researched: 40
 - Partially researched: 1
-- Not yet researched: 118
+- Not yet researched: 101
 
 ## Successes
 
@@ -105,3 +105,21 @@ chain, confirmed facts, excluded claims, conflicts, and remaining questions.
 - **Remaining uncertainty:** aggregate biomedical graphs inherit incomplete and sometimes
   contradictory evidence from multiple repositories; absent edges and labels are not presented as
   confirmed negatives.
+
+### GraphBench family — complete
+
+- **Datasets:** all 17 catalog entries, covering social engagement, hardware, circuits, SAT,
+  combinatorial optimization, algorithmic reasoning, and weather.
+- **Success:** task granularity, generator provenance, inputs, distribution shifts, evaluation, and
+  important label semantics were checked against the local expanded GraphBench source and upstream
+  sources such as ERA5, ABC, and NetworkX.
+- **Corrections:** BlueSky, electronic circuits, weather, and several algorithmic entries had the
+  wrong task type. RB is the RB random constraint model, not “random bipartite.” BA/ER/RB identify
+  optimization-instance generators rather than classification targets. The repeated 21-million
+  graph count was an aggregate across seven algorithm tasks and was removed from individual rows.
+- **Challenges:** the algorithm datasets jointly shift graph size and generator distribution;
+  exact-label scoring can penalize alternative valid topological orders, matchings, cliques, trees,
+  or approximate Steiner solutions.
+- **Remaining uncertainty:** aggregate BA/ER/RB rows cover several problems and protocols. Their
+  public descriptions require callers to name the optimization problem, size regime, and supervised
+  or unsupervised setting rather than implying one universal result.

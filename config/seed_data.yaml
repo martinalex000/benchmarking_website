@@ -154,11 +154,21 @@ benchmarks:
     '
   datasets:
   - name: BlueSky
-    task_type: node_classification
-    description: 'Dynamic directed graphs of Bluesky social network user interactions.
-      Node-level task: predict future engagement from past interactions and text embeddings.
-
-      '
+    task_type: node_regression
+    description: Temporal node regression of future Bluesky post engagement from directed interaction graphs and content embeddings.
+    detailed_description:
+      task: Predict each user's median likes, replies, and reposts on future posts using earlier posts and interactions. GraphBench reports MAE, R-squared, and Spearman correlation for separate quote-, reply-, and repost-edge graphs.
+      data: Users are nodes and a directed timestamped edge records that one user quoted, replied to, or reposted another user's post. The benchmark derives these graphs from the public Bluesky collection curated by Failla and colleagues.
+      features: User features aggregate modern language-model embeddings of posts written before the prediction cutoff. Targets aggregate engagement received on posts after that cutoff.
+      splits_and_evaluation: Four consecutive periods contain 55%, 15%, 15%, and 15% of posts. Training observes the first 55% and predicts the next 15%; validation and test advance the target window while accumulating interaction history from the collection start.
+      quirks_and_pitfalls: Users, content, and graph density change over time, so the task includes temporal and structural shift. Engagement is heavy-tailed and affected by seasonality and platform dynamics outside the graph. Source records may be updated for user erasure, so dataset versions may differ.
+    sources:
+    - title: GraphBench
+      arxiv_id: '2512.04475'
+      kind: benchmark_definition
+    - title: Bluesky dataset
+      url: https://zenodo.org/records/11082879
+      kind: upstream_data_source
     primary_metric: MAE
     higher_is_better: false
     domain: social
@@ -175,6 +185,19 @@ benchmarks:
       AIGs). Generation task: produce functionally equivalent, optimised circuits.
 
       '
+    detailed_description:
+      task: Generate a structurally efficient and-inverter graph implementing a supplied Boolean function while preserving the exact truth table. Quality must account for functional equivalence as well as circuit size or synthesis cost.
+      data: Samples are small directed acyclic logic circuits represented as and-inverter graphs. The benchmark uses functions and circuits produced with established logic-synthesis tooling rather than analog measurements.
+      features: Nodes denote primary inputs or logic gates and directed edges carry signals; complemented edges encode inversion in the AIG representation. The Boolean function is the conditioning target for generation.
+      splits_and_evaluation: GraphBench provides a fixed benchmark protocol and compares generated circuits with non-learning synthesis baselines. Exact equivalence checking is required; a visually or structurally similar graph is not sufficient.
+      quirks_and_pitfalls: Circuit minimization is NP-hard and many non-isomorphic circuits implement the same function, so supervised graph matching is not a complete quality measure. Generated DAG validity, truth-table equivalence, and optimization quality are distinct requirements. The benchmark paper reports no successful learned baseline for this task.
+    sources:
+    - title: GraphBench
+      arxiv_id: '2512.04475'
+      kind: benchmark_definition
+    - title: ABC, An Academic Industrial-Strength Verification Tool
+      url: https://people.eecs.berkeley.edu/~alanmi/publications/2007/cav07_abc.pdf
+      kind: synthesis_tool
     primary_metric: Accuracy
     higher_is_better: true
     domain: hardware
@@ -183,11 +206,24 @@ benchmarks:
     - name: Standard split
       is_standard: true
   - name: Electronic Circuits
-    task_type: graph_classification
+    task_type: graph_regression
     description: 'Analog circuit topology design. Graph-level task: predict 2 continuous
       performance metrics from graph structure across 3 circuit-size datasets.
 
       '
+    detailed_description:
+      task: Regress voltage conversion ratio and power conversion efficiency for a switched power-converter topology. Each target is evaluated separately with relative squared error.
+      data: Random valid, non-isomorphic converter topologies contain 5, 7, or 10 internal components and three terminal ports. NGSPICE simulations supply targets; circuits that fail simulation are discarded.
+      features: Nodes represent capacitors, inductors, two phase-specific switch types, input, output, and ground. Electrical connections are edges, and fixed component/operating parameters define the simulated circuit conditions.
+      splits_and_evaluation: The three component counts are distinct complexity datasets with fixed GraphBench splits. Evaluation uses simulation-derived ground truth under the stated fixed capacitance, inductance, voltage, frequency, and load settings.
+      quirks_and_pitfalls: Discarding invalid simulations conditions the dataset on simulator success. Larger topology spaces have proportionally less coverage, and predictions apply only to the fixed operating parameters. The original YAML incorrectly called this classification; it is two-target graph regression.
+    sources:
+    - title: GraphBench
+      arxiv_id: '2512.04475'
+      kind: benchmark_definition
+    - title: Graph Learning for Design of High-Performance Switching Converters
+      url: https://openreview.net/forum?id=GN3kExw2DB
+      kind: construction_source
     primary_metric: MAE
     higher_is_better: false
     domain: hardware
@@ -199,11 +235,24 @@ benchmarks:
     - name: Standard split
       is_standard: true
   - name: SAT Solving
-    task_type: node_classification
+    task_type: graph_classification
     description: 'SAT problem instances represented as graphs. Multi-level node/edge/graph-level
       tasks across 11 solvers and 3 instance-size scales.
 
       '
+    detailed_description:
+      task: GraphBench defines graph-level algorithm selection, choosing the fastest SAT solver for an instance, and empirical performance prediction, regressing individual solver runtime. These are separate classification and regression targets over the same formulas.
+      data: The collection combines SAT instances spanning several size regimes and records runtimes for multiple modern solvers. Formulas are available in literal-clause, variable-clause, and variable graph representations.
+      features: Nodes and edges encode variables, literals, clauses, polarity, and incidence or co-occurrence according to the chosen graph construction. Solver runtimes and best-solver identities are graph-level targets.
+      splits_and_evaluation: Fixed small, medium, and large configurations test both in-distribution performance and scale. Classification uses accuracy-like selection metrics; runtime prediction uses regression error as defined per solver.
+      quirks_and_pitfalls: Solver runtime is noisy and affected by hardware, limits, random seeds, and censored timeouts. Different formula graph encodings are not interchangeable. Large instances are expensive enough that some solver-derived features and targets cannot be produced uniformly.
+    sources:
+    - title: GraphBench
+      arxiv_id: '2512.04475'
+      kind: benchmark_definition
+    - title: AClib algorithm configuration scenarios
+      url: https://www.aclib.net/
+      kind: upstream_data_source
     primary_metric: Accuracy
     higher_is_better: true
     domain: algorithms
@@ -221,11 +270,21 @@ benchmarks:
     - name: Large
       is_standard: false
   - name: Combinatorial Optimization
-    task_type: node_classification
+    task_type: graph_regression
     description: 'Synthetically generated NP-hard optimization problems (3 families
       × 2 configs). Node/edge/graph-level prediction of optimal solution costs.
 
       '
+    detailed_description:
+      task: For maximum independent set, max-cut, and graph coloring instances, the supervised task predicts the optimal objective value with MAE. A separate unsupervised protocol learns variable scores, decodes them to a feasible solution, and evaluates the decoded objective.
+      data: Each problem is generated on Barabasi-Albert, Erdos-Renyi, and RB random graphs, with 50,000 instances per dataset and small/large configurations. Solver-generated optima provide supervised labels.
+      features: The generated graphs intentionally contain no node or edge features; graph topology defines the optimization instance. Unsupervised variants use problem-specific differentiable surrogate losses and feasibility-preserving decoders.
+      splits_and_evaluation: GraphBench fixes generation parameters and splits for each problem, graph family, and size configuration. Supervised MAE and decoded feasible-solution objective are different evaluation settings and must be reported separately.
+      quirks_and_pitfalls: Predicting an optimum value is not the same as constructing an optimal solution. Exact labels become expensive or infeasible as instances grow, and random-graph performance need not transfer to structured real-world optimization. The prior YAML incorrectly described the aggregate as node classification.
+    sources:
+    - title: GraphBench
+      arxiv_id: '2512.04475'
+      kind: benchmark_definition
     primary_metric: Accuracy
     higher_is_better: true
     domain: algorithms
@@ -239,6 +298,22 @@ benchmarks:
       MST). Size generalisation: train on size 16, test up to 2048 nodes.
 
       '
+    detailed_description:
+      task: >-
+        Simulate seven graph algorithms through node regression, node classification, or
+        edge classification: topological sorting, maximum flow, minimum spanning tree,
+        bridge finding, Steiner tree, maximum clique, and maximum matching.
+      data: Each algorithm has easy, medium, and hard synthetic datasets whose train and test graphs differ in generator distribution. Training graphs have 16 nodes while held-out graphs include 128 nodes, with additional size-generalization tests up to 512 nodes in the published experiments.
+      features: Inputs encode the graph, algorithm-specific weights or designated vertices, and task-relevant node or edge attributes. Unlike CLRS-style processor supervision, these datasets focus on final outputs rather than providing a full sequence of algorithmic hints.
+      splits_and_evaluation: Fixed 98%/1%/1% splits contain about one million graphs per difficulty for each algorithm. Classification tasks use accuracy and F1; flow and topological-order targets use MAE.
+      quirks_and_pitfalls: Difficulty changes both generator distribution and graph size, so failures cannot be attributed to only one axis. Edge tasks are transformed for some node-token baselines. The old YAML's 21-million count is the approximate total across seven tasks, not the size of every individual task.
+    sources:
+    - title: GraphBench
+      arxiv_id: '2512.04475'
+      kind: benchmark_definition
+    - title: The CLRS Algorithmic Reasoning Benchmark
+      arxiv_id: '2205.15659'
+      kind: related_protocol
     primary_metric: Accuracy
     higher_is_better: true
     domain: algorithms
@@ -247,11 +322,27 @@ benchmarks:
     - name: Standard split
       is_standard: true
   - name: Weather Forecasting
-    task_type: node_classification
+    task_type: node_regression
     description: 'ERA5 reanalysis data on a 64×32 icosahedron grid. Node-level task:
       predict 12h residual change in 11 atmospheric variables.
 
       '
+    detailed_description:
+      task: Predict the residual change in atmospheric state 12 hours ahead from the two preceding six-hour states. Training uses latitude-, variable-, and pressure-level-weighted MSE; evaluation reports per-variable unweighted MSE.
+      data: ERA5 reanalysis is processed through WeatherBench2 and conservatively downsampled to a 64 by 32 global grid at six-hour resolution. The representation includes the latitude-longitude grid, an icosahedral mesh, and mappings between them.
+      features: Grid nodes contain two consecutive weather states and static location information. The selected fields include five surface variables and six atmospheric variables across pressure levels, drawn from a larger 62-variable ERA5 state.
+      splits_and_evaluation: GraphBench follows chronological WeatherBench-style training and evaluation and uses a fixed 12-hour horizon. Area weighting corrects the unequal physical area of latitude-longitude grid cells during training.
+      quirks_and_pitfalls: ERA5 is a model-assisted reanalysis, not direct observation everywhere. Downsampling removes fine spatial structure, and weather preprocessing is substantial. A one-step 12-hour benchmark does not establish stable multi-day rollout or climate-regime generalization.
+    sources:
+    - title: GraphBench
+      arxiv_id: '2512.04475'
+      kind: benchmark_definition
+    - title: WeatherBench 2
+      arxiv_id: '2308.15560'
+      kind: processing_source
+    - title: ERA5 global reanalysis
+      url: https://doi.org/10.1002/qj.3803
+      kind: upstream_data_source
     primary_metric: MAE
     higher_is_better: false
     domain: earth_systems
@@ -263,58 +354,94 @@ benchmarks:
     - name: Standard split
       is_standard: true
   - name: BA graph
-    task_type: graph_classification
-    description: Graph classification on Barabási–Albert random graphs (GraphBench
-      algorithmic reasoning).
-    primary_metric: Accuracy
-    higher_is_better: true
+    task_type: graph_regression
+    description: Predict optimum values, or learn feasible solutions, for graph-optimization problems on synthetic Barabási–Albert graphs.
+    detailed_description:
+      task: Predict an optimal combinatorial-objective value in the supervised protocol, or learn node scores that a problem-specific decoder turns into a feasible solution in the unsupervised protocol. GraphBench covers maximum independent set, max-cut, and graph coloring.
+      data: Synthetic Barabási–Albert preferential-attachment graphs are generated in small and large regimes. The generator controls graph size and the number of edges attached by each newly added node; GraphBench reports 50,000 instances per dataset.
+      features: The released problem graphs contain no node or edge features. Their topology is the input; labels or training losses depend on the selected optimization problem and protocol.
+      splits_and_evaluation: Supervised experiments predict the solver-derived optimum and report MAE. Unsupervised experiments minimize a differentiable surrogate, decode node scores to a feasible solution, and evaluate that solution's objective value.
+      quirks_and_pitfalls: BA graph names a graph generator, not one classification target. Results must identify the optimization problem, small or large regime, and supervised or unsupervised protocol. Solver-derived labels become expensive and potentially status-dependent for hard instances.
+    sources:
+    - title: GraphBench
+      arxiv_id: '2512.04475'
+      kind: benchmark_definition
+    - title: Emergence of Scaling in Random Networks
+      url: https://doi.org/10.1126/science.286.5439.509
+      kind: generator_origin
+    primary_metric: MAE
+    higher_is_better: false
     domain: algorithms
     pyg_url: https://graphbench.github.io/website/datasets.html
-    num_graphs: 21000000
-    avg_nodes: 264.0
-    avg_edges: 3667.0
     variants:
     - name: Standard split
       is_standard: true
   - name: ER graph
-    task_type: graph_classification
-    description: Graph classification on Erdős–Rényi random graphs (GraphBench algorithmic
-      reasoning).
-    primary_metric: Accuracy
-    higher_is_better: true
+    task_type: graph_regression
+    description: Predict optimum values, or learn feasible solutions, for graph-optimization problems on synthetic Erdős–Rényi graphs.
+    detailed_description:
+      task: Predict an optimal combinatorial-objective value in the supervised protocol, or learn node scores decoded into feasible solutions in the unsupervised protocol. The included problems are maximum independent set, max-cut, and graph coloring.
+      data: Synthetic Erdős–Rényi graphs are sampled in small and large regimes by controlling node count and independent edge probability. GraphBench reports 50,000 instances per dataset.
+      features: Graphs have no supplied node or edge features, so topology is the model input. Targets and surrogate losses are problem-specific rather than properties of the ER generator itself.
+      splits_and_evaluation: The supervised benchmark reports MAE on optimum values obtained with conventional solvers. The unsupervised benchmark evaluates the objective value after a problem-specific decoder enforces feasibility.
+      quirks_and_pitfalls: ER graph is a generator family, not a single graph-classification dataset. Density strongly controls difficulty, and comparisons are meaningful only when problem, scale, generator parameters, split, and learning protocol match.
+    sources:
+    - title: GraphBench
+      arxiv_id: '2512.04475'
+      kind: benchmark_definition
+    - title: On Random Graphs I
+      url: https://doi.org/10.5486/PMD.1959.6.3-4.290
+      kind: generator_origin
+    primary_metric: MAE
+    higher_is_better: false
     domain: algorithms
     pyg_url: https://graphbench.github.io/website/datasets.html
-    num_graphs: 21000000
-    avg_nodes: 264.0
-    avg_edges: 3667.0
     variants:
     - name: Standard split
       is_standard: true
   - name: RB graph
-    task_type: graph_classification
-    description: Node classification on Random Bipartite graphs (GraphBench algorithmic
-      reasoning).
-    primary_metric: Accuracy
-    higher_is_better: true
+    task_type: graph_regression
+    description: Predict optimum values, or learn feasible solutions, for graph-optimization problems on synthetic RB-model graphs.
+    detailed_description:
+      task: Predict the optimal objective value for maximum independent set in the supervised setting, or train node scores with differentiable surrogates and feasibility-preserving decoders for maximum independent set, max-cut, and graph coloring.
+      data: RB-model instances contain n groups of k vertices and use a constraint-tightness parameter p; GraphBench rejection-samples to keep graph sizes in configured ranges and provides small and large variants with 50,000 instances per dataset.
+      features: The graphs contain no node or edge attributes. Topology encodes the optimization instance and solver outputs supply supervised optimum-value labels where available.
+      splits_and_evaluation: Supervised objective prediction is evaluated by MAE. In unsupervised runs, the decoded feasible solution is scored by its achieved objective rather than classification accuracy.
+      quirks_and_pitfalls: RB means the RB random constraint graph model, not random bipartite graph. Its planted group structure and tuned hardness parameters differ materially from ER and BA; report the problem, size regime, and learning protocol.
+    sources:
+    - title: GraphBench
+      arxiv_id: '2512.04475'
+      kind: benchmark_definition
+    - title: Many Hard Examples in Exact Phase Transitions with Application to Generating Hard Satisfiable Instances
+      url: https://doi.org/10.1016/S0004-3702(01)00125-3
+      kind: generator_origin
+    primary_metric: MAE
+    higher_is_better: false
     domain: algorithms
     pyg_url: https://graphbench.github.io/website/datasets.html
-    num_graphs: 21000000
-    avg_nodes: 264.0
-    avg_edges: 3667.0
     variants:
     - name: Standard split
       is_standard: true
   - name: MST
-    task_type: graph_classification
-    description: Minimum Spanning Tree edge prediction (GraphBench / CLRS-style algorithmic
-      reasoning).
+    task_type: edge_classification
+    description: Identify the edges in a minimum spanning tree of each weighted synthetic graph.
+    detailed_description:
+      task: Classify each edge according to whether it belongs to the NetworkX reference minimum spanning tree.
+      data: Unique synthetic graphs are drawn from ER, stochastic-block, power-law-cluster, Newman-Watts-Strogatz, BA, and dual-BA generators. Difficulty changes the train-versus-test generator mixture; MST also uses shifted generator parameters because the original setting generalized too easily.
+      features: Edge weights are provided as edge attributes. No general node features are supplied; models receive graph topology and the weighted edges needed to define the optimization problem.
+      splits_and_evaluation: Each difficulty has one million 16-node training graphs and 10,000 validation and 10,000 test graphs with 128 nodes, a fixed 98/1/1 split. Report edge accuracy and F1; GraphBench emphasizes F1.
+      quirks_and_pitfalls: The split changes size by eightfold and shifts generator mixture simultaneously. Multiple minimum spanning trees can exist when weights tie, so labels reflect the reference implementation's chosen solution. The optional tokenized edge representation is a model transform, not raw data.
+    sources:
+    - title: GraphBench
+      arxiv_id: '2512.04475'
+      kind: benchmark_definition
+    - title: The CLRS Algorithmic Reasoning Benchmark
+      arxiv_id: '2205.15659'
+      kind: related_protocol
     primary_metric: F1
     higher_is_better: true
     domain: algorithms
     pyg_url: https://graphbench.github.io/website/datasets.html
-    num_graphs: 21000000
-    avg_nodes: 264.0
-    avg_edges: 3667.0
     variants:
     - name: Standard split
       is_standard: true
@@ -325,15 +452,25 @@ benchmarks:
     - name: Hard
       is_standard: false
   - name: Bridges
-    task_type: graph_classification
-    description: Bridge edge detection (GraphBench / CLRS-style algorithmic reasoning).
+    task_type: edge_classification
+    description: Classify which edges are bridges whose removal increases the number of connected components.
+    detailed_description:
+      task: Predict a binary label for every edge indicating whether it is a graph bridge, using NetworkX outputs as ground truth.
+      data: Unique synthetic graphs come from mixtures of ER, stochastic-block, power-law-cluster, BA, and dual-BA generators; the bridge task omits Newman-Watts-Strogatz. Generator mixture differs across easy, medium, and hard train/test settings.
+      features: The task provides topology without task-specific node or edge attributes. Labels are edge-level structural properties of the complete graph.
+      splits_and_evaluation: Every difficulty includes one million 16-node training graphs plus 10,000 validation and 10,000 128-node test graphs. Edge accuracy and F1 are reported under the fixed 98/1/1 split.
+      quirks_and_pitfalls: Bridge edges may be rare, making accuracy misleading; F1 is the more diagnostic headline metric. Size and generator distribution shift together, and a tokenized edge representation used by some baselines changes the computational graph.
+    sources:
+    - title: GraphBench
+      arxiv_id: '2512.04475'
+      kind: benchmark_definition
+    - title: NetworkX bridges documentation
+      url: https://networkx.org/documentation/stable/reference/algorithms/generated/networkx.algorithms.bridges.bridges.html
+      kind: label_implementation
     primary_metric: F1
     higher_is_better: true
     domain: algorithms
     pyg_url: https://graphbench.github.io/website/datasets.html
-    num_graphs: 21000000
-    avg_nodes: 264.0
-    avg_edges: 3667.0
     variants:
     - name: Standard split
       is_standard: true
@@ -344,15 +481,25 @@ benchmarks:
     - name: Hard
       is_standard: false
   - name: Max Clique
-    task_type: graph_classification
-    description: Maximum clique node prediction (GraphBench algorithmic task).
+    task_type: node_classification
+    description: Classify the vertices selected by a reference maximum-clique solution on synthetic graphs.
+    detailed_description:
+      task: Predict a binary membership label for each node in a maximum clique selected by the reference solution procedure.
+      data: Unique synthetic graphs are generated from ER, stochastic-block, power-law-cluster, Newman-Watts-Strogatz, BA, and dual-BA families. Easy, medium, and hard settings alter which generators appear in training and evaluation.
+      features: GraphBench supplies no task-specific node features for maximum clique; topology is the input and the node labels encode one selected optimum clique.
+      splits_and_evaluation: Each difficulty uses one million 16-node training graphs, 10,000 validation graphs, and 10,000 128-node test graphs. Node accuracy and F1 are reported.
+      quirks_and_pitfalls: A graph can have several equally large cliques, while binary labels represent only one reference optimum; a different valid optimum can therefore be penalized. Positive-node imbalance and the joint size/distribution shift make accuracy alone insufficient.
+    sources:
+    - title: GraphBench
+      arxiv_id: '2512.04475'
+      kind: benchmark_definition
+    - title: NetworkX clique documentation
+      url: https://networkx.org/documentation/stable/reference/algorithms/clique.html
+      kind: label_implementation
     primary_metric: F1
     higher_is_better: true
     domain: algorithms
     pyg_url: https://graphbench.github.io/website/datasets.html
-    num_graphs: 21000000
-    avg_nodes: 264.0
-    avg_edges: 3667.0
     variants:
     - name: Easy
       is_standard: true
@@ -361,15 +508,25 @@ benchmarks:
     - name: Hard
       is_standard: false
   - name: Max Matching
-    task_type: graph_classification
-    description: Maximum matching edge prediction (GraphBench algorithmic task).
+    task_type: edge_classification
+    description: Classify the edges selected by a reference maximum bipartite matching algorithm.
+    detailed_description:
+      task: Predict binary edge membership in a maximum-cardinality bipartite matching computed by the reference algorithm.
+      data: Unique synthetic inputs are sampled from ER, stochastic-block, power-law-cluster, Newman-Watts-Strogatz, BA, and dual-BA generators, with easy, medium, and hard generator-mixture shifts.
+      features: Node features identify the bipartition required by the task; graph connectivity supplies the candidate edges. The target is an edge-level indicator for one reference matching.
+      splits_and_evaluation: Each difficulty provides one million 16-node training graphs and 10,000 validation and 10,000 test graphs with 128 nodes. Evaluation reports edge accuracy and F1.
+      quirks_and_pitfalls: Maximum matchings need not be unique, so exact edge-label scoring can reject an alternative optimum. Results also conflate an eightfold size shift with generator-mixture shift, and class imbalance can inflate accuracy.
+    sources:
+    - title: GraphBench
+      arxiv_id: '2512.04475'
+      kind: benchmark_definition
+    - title: An n5/2 Algorithm for Maximum Matchings in Bipartite Graphs
+      url: https://doi.org/10.1137/0202019
+      kind: algorithm_origin
     primary_metric: F1
     higher_is_better: true
     domain: algorithms
     pyg_url: https://graphbench.github.io/website/datasets.html
-    num_graphs: 21000000
-    avg_nodes: 264.0
-    avg_edges: 3667.0
     variants:
     - name: Easy
       is_standard: true
@@ -378,15 +535,25 @@ benchmarks:
     - name: Hard
       is_standard: false
   - name: Steiner Trees
-    task_type: graph_classification
-    description: Steiner tree node prediction (GraphBench algorithmic task).
+    task_type: edge_classification
+    description: Classify the edges selected for a reference Steiner tree connecting designated terminals.
+    detailed_description:
+      task: Predict a binary label for each edge indicating membership in the reference Steiner tree that connects the designated terminal nodes.
+      data: Unique weighted synthetic graphs are sampled from six standard random-graph generators. Easy, medium, and hard settings vary the train/test generator mixtures, with training on 16-node graphs and evaluation on 128-node graphs.
+      features: Node features designate the required terminals and edge attributes provide weights. These inputs distinguish Steiner tree from an unweighted connectivity task.
+      splits_and_evaluation: Each difficulty contains one million training graphs plus 10,000 validation and 10,000 test graphs under a fixed 98/1/1 split. Edge accuracy and F1 are reported.
+      quirks_and_pitfalls: This is edge classification, not node prediction. Steiner tree is NP-hard and the NetworkX routine is an approximation, so labels encode the reference heuristic rather than certified global optima. Equivalent or better trees can receive poor exact-edge scores.
+    sources:
+    - title: GraphBench
+      arxiv_id: '2512.04475'
+      kind: benchmark_definition
+    - title: A Fast Algorithm for Steiner Trees
+      url: https://doi.org/10.1007/BF00288961
+      kind: label_algorithm
     primary_metric: F1
     higher_is_better: true
     domain: algorithms
     pyg_url: https://graphbench.github.io/website/datasets.html
-    num_graphs: 21000000
-    avg_nodes: 264.0
-    avg_edges: 3667.0
     variants:
     - name: Easy
       is_standard: true
@@ -395,16 +562,25 @@ benchmarks:
     - name: Hard
       is_standard: false
   - name: Topological Sorting
-    task_type: node_classification
-    description: Topological ordering node rank regression on DAGs (GraphBench algorithmic
-      task).
+    task_type: node_regression
+    description: Regress each vertex's position in a reference topological ordering of a synthetic directed acyclic graph.
+    detailed_description:
+      task: Predict a real-valued ordering position for every node in a directed acyclic graph, matching the reference topological sort.
+      data: Unique synthetic graphs are drawn from six generator families and converted into valid task instances. Difficulty changes the generator mixture between train and evaluation; training graphs have 16 nodes and test graphs 128.
+      features: Task-specific node information is provided along with directed topology. The label is a node-level scalar rank rather than a graph class.
+      splits_and_evaluation: Each difficulty contains one million training examples and 10,000 examples in each validation and test split. Mean absolute error is reported; separate tests probe sizes from 128 through 512 nodes.
+      quirks_and_pitfalls: A DAG generally admits many valid topological orders, but pointwise MAE compares against one reference order and can penalize another valid ordering. Rank scale changes with graph size, complicating raw-MAE comparisons across size-generalization sets.
+    sources:
+    - title: GraphBench
+      arxiv_id: '2512.04475'
+      kind: benchmark_definition
+    - title: Topological sorting of large networks
+      url: https://doi.org/10.1145/368996.369025
+      kind: algorithm_origin
     primary_metric: MAE
     higher_is_better: false
     domain: algorithms
     pyg_url: https://graphbench.github.io/website/datasets.html
-    num_graphs: 21000000
-    avg_nodes: 264.0
-    avg_edges: 3667.0
     variants:
     - name: Easy
       is_standard: true
@@ -414,15 +590,26 @@ benchmarks:
       is_standard: false
   - name: Flow
     task_type: graph_regression
-    description: Network flow value prediction (GraphBench / CLRS-style algorithmic
-      reasoning).
+    description: Regress the maximum source-to-sink flow value of a weighted synthetic network.
+    detailed_description:
+      task: >-
+        Predict one scalar per graph: the maximum feasible flow between designated source
+        and sink vertices under the supplied edge capacities.
+      data: Unique synthetic graphs are drawn from ER, stochastic-block, power-law-cluster, Newman-Watts-Strogatz, BA, and dual-BA generators. Generator mixtures define easy, medium, and hard distribution shifts.
+      features: Edge attributes encode capacities or weights needed by the flow problem, while node information identifies source and sink. The target is the NetworkX reference maximum-flow value.
+      splits_and_evaluation: Each difficulty provides one million 16-node training graphs plus 10,000 validation and 10,000 128-node test graphs. Graph-level MAE is the metric under the fixed 98/1/1 split.
+      quirks_and_pitfalls: GraphBench omits flow from its 128-to-512-node size study because target magnitude, and therefore raw MAE, scales with network size. Capacity distribution and generator shift must be held fixed when comparing errors.
+    sources:
+    - title: GraphBench
+      arxiv_id: '2512.04475'
+      kind: benchmark_definition
+    - title: A New Approach to the Maximum-Flow Problem
+      url: https://doi.org/10.1145/12130.12144
+      kind: algorithm_source
     primary_metric: MAE
     higher_is_better: false
     domain: algorithms
     pyg_url: https://graphbench.github.io/website/datasets.html
-    num_graphs: 21000000
-    avg_nodes: 264.0
-    avg_edges: 3667.0
     variants:
     - name: Standard split
       is_standard: true
