@@ -836,6 +836,17 @@ def _extra_stats_dict(raw: str | None) -> dict[str, float | int]:
     return out
 
 
+def _json_metadata(raw: str | None, expected_type: type, fallback: Any) -> Any:
+    """Decode trusted seed metadata while tolerating legacy or malformed rows."""
+    if not raw:
+        return fallback
+    try:
+        loaded = json.loads(raw)
+    except (json.JSONDecodeError, TypeError):
+        return fallback
+    return loaded if isinstance(loaded, expected_type) else fallback
+
+
 def _build_export_stats(dataset: Dataset, variant: Any | None = None) -> dict[str, Any]:
     source = variant or dataset
     num_graphs = getattr(source, "num_graphs", None)
@@ -3431,6 +3442,8 @@ def _export_dataset_impl(session: Session, dataset_id: int) -> bool:
         "benchmark": benchmark_name,
         "task_type": ds.task_type or "",
         "description": ds.description or "",
+        "detailed_description": _json_metadata(ds.detailed_description, dict, {}),
+        "sources": _json_metadata(ds.sources, list, []),
         "primary_metric": primary_metric,
         "higher_is_better": higher_is_better,
         "pyg_url": ds.pyg_url or "",

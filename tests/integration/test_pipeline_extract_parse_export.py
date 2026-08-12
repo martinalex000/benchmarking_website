@@ -338,6 +338,15 @@ def test_dataset_export_sanitizes_summary_stats_and_benchmark_data(monkeypatch, 
             name="ogbn-arxiv",
             task_type="node_classification",
             description="Node classification on arXiv citation network (40 subject areas).",
+            detailed_description=json.dumps(
+                {
+                    "task": "Predict a subject area.",
+                    "features": "Paper text embeddings are used as node features.",
+                }
+            ),
+            sources=json.dumps(
+                [{"title": "Dataset documentation", "url": "https://example.com/dataset"}]
+            ),
             primary_metric="Accuracy",
             higher_is_better=1,
             num_graphs=169343,
@@ -394,6 +403,8 @@ def test_dataset_export_sanitizes_summary_stats_and_benchmark_data(monkeypatch, 
     dataset_text = dataset_page.read_text(encoding="utf-8")
     assert "num_classes: 40" in dataset_text
     assert "num_classes: 1" not in dataset_text
+    assert "task: Predict a subject area." in dataset_text
+    assert "title: Dataset documentation" in dataset_text
 
     data = json.loads(benchmarks_data.read_text(encoding="utf-8"))
     assert [dataset_info["name"] for dataset_info in data[0]["datasets"]] == ["ogbn-arxiv"]

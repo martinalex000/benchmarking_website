@@ -2566,6 +2566,46 @@ a.mini-badge-code:focus-visible,
   color: var(--gray-600);
   font-size: 0.92rem;
 }
+.dataset-research {
+  order: 4;
+  margin-top: 0.75rem;
+}
+.dataset-research-toggle {
+  display: none;
+  padding: 0.45rem 0.75rem;
+  border: 1px solid var(--gray-300);
+  border-radius: 0.4rem;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 600;
+}
+.dataset-research.is-enhanced .dataset-research-toggle {
+  display: inline-block;
+}
+.dataset-research-details {
+  max-width: 72rem;
+  margin-top: 0.75rem;
+  padding: 1rem;
+  border: 1px solid var(--gray-300);
+  border-radius: 0.5rem;
+}
+.dataset-research-details > h2 {
+  margin: 0 0 0.75rem;
+  font-size: 1.15rem;
+}
+.dataset-research-section + .dataset-research-section {
+  margin-top: 0.85rem;
+}
+.dataset-research-section h3 {
+  margin: 0 0 0.2rem;
+  font-size: 0.95rem;
+}
+.dataset-research-section p,
+.dataset-research-sources ul {
+  margin: 0;
+}
 .dataset-header .dataset-stat-blocks {
   flex: 0 0 auto;
   align-items: stretch;

@@ -118,17 +118,20 @@ def test_init_db_applies_tracked_migrations_to_legacy_schema(monkeypatch, tmp_pa
         ).fetchall()
         todo_columns = conn2.exec_driver_sql("PRAGMA table_info(todo_papers)").fetchall()
         pending_columns = conn2.exec_driver_sql("PRAGMA table_info(pending_datasets)").fetchall()
+        dataset_columns = conn2.exec_driver_sql("PRAGMA table_info(datasets)").fetchall()
         result_columns = conn2.exec_driver_sql("PRAGMA table_info(results)").fetchall()
         todo_index_rows = conn2.exec_driver_sql("PRAGMA index_list(todo_papers)").fetchall()
 
     migration_names = [row[0] for row in migration_rows]
     todo_column_names = {row[1] for row in todo_columns}
     pending_column_names = {row[1] for row in pending_columns}
+    dataset_column_names = {row[1] for row in dataset_columns}
     result_column_names = {row[1] for row in result_columns}
     todo_index_names = {row[1] for row in todo_index_rows}
 
     assert migration_names == [migration.name for migration in MIGRATIONS]
     assert "uses_external_data" in result_column_names
+    assert {"detailed_description", "sources"} <= dataset_column_names
     assert "params_millions" in result_column_names
     assert "variant_inference_reason" in result_column_names
     assert {"evaluation_task", "protocol_decision", "protocol_note"} <= result_column_names

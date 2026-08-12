@@ -102,6 +102,8 @@ class Dataset(Base):
     benchmark_id = Column(Integer, ForeignKey("benchmarks.id", ondelete="SET NULL"))
     name = Column(String, nullable=False)
     description = Column(Text)
+    detailed_description = Column(Text)  # JSON object of researched detail sections
+    sources = Column(Text)  # JSON list of source/provenance records
     domain = Column(String)  # chemistry, social, citation, computer_vision
     task_type = Column(String)  # node_classification, graph_classification, …
     primary_metric = Column(String)  # AP, Accuracy, MAE, F1

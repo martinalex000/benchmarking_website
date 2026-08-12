@@ -456,6 +456,10 @@ def seed(dry_run: bool = False) -> None:
                 ds_defaults = {
                     "task_type": ds_data.get("task_type"),
                     "description": ds_data.get("description"),
+                    "detailed_description": json.dumps(
+                        ds_data.get("detailed_description", {}), ensure_ascii=False
+                    ),
+                    "sources": json.dumps(ds_data.get("sources", []), ensure_ascii=False),
                     "primary_metric": ds_data.get("primary_metric"),
                     "higher_is_better": 1 if ds_data.get("higher_is_better", True) else 0,
                     "domain": ds_data.get("domain"),

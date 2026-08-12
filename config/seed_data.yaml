@@ -9,7 +9,21 @@ benchmarks:
   datasets:
   - name: Peptides-func
     task_type: graph_classification
-    description: Multi-label graph classification on peptide molecules (10 classes).
+    description: Multi-label prediction of 10 therapeutic peptide functions from heavy-atom molecular graphs derived from SATPdb.
+    detailed_description:
+      task: Predict all applicable therapeutic-function labels for each peptide. A peptide may have several of the 10 labels, so this is graph-level multi-label classification evaluated with the unweighted mean average precision across labels.
+      data: The benchmark contains 15,535 peptides selected from SATPdb, which itself aggregates and manually curates peptide records from 22 source databases. Each peptide is represented as a molecular graph whose nodes are non-hydrogen atoms and whose edges are covalent bonds.
+      features: >-
+        The graphs reuse OGB molecular featurization computed from SMILES: each atom has nine categorical feature fields and each bond has three. The benchmark deliberately omits peptide 2D folding and 3D conformation; its graph describes covalent connectivity rather than the peptide's folded spatial structure.
+      splits_and_evaluation: The fixed split is 70% training, 15% validation, and 15% test. It is stratified by the complete 10-label combination, with combinations occurring fewer than 10 times pooled into one meta-class. The labels are strongly imbalanced, which is why average precision rather than accuracy is the primary metric.
+      quirks_and_pitfalls: The 10 labels are correlated and non-exclusive; treating the task as single-label classification is incorrect. SATPdb combines records from many upstream databases, and many peptides have multiple functions. Randomly resplitting the data or adding predicted structural information changes the published LRGB protocol. The benchmark's long atom-level chains should not be mistaken for experimentally determined peptide conformations.
+    sources:
+    - title: Long Range Graph Benchmark
+      arxiv_id: '2206.08164'
+      kind: benchmark_definition
+    - title: SATPdb, a database of structurally annotated therapeutic peptides
+      url: https://pmc.ncbi.nlm.nih.gov/articles/PMC4702810/
+      kind: upstream_data_source
     primary_metric: AP
     higher_is_better: true
     domain: chemistry
@@ -426,7 +440,23 @@ benchmarks:
       notes: OGB species split.
   - name: ogbg-code2
     task_type: graph_classification
-    description: Code AST-level method name prediction (ogbg-code2). 452k Python snippets.
+    description: Method-name subtoken prediction from augmented abstract syntax trees of about 452,000 Python methods.
+    detailed_description:
+      task: Predict the subtokens in a Python method's name from the method body represented as an abstract syntax tree. The graph-level output is a sequence, but the official F1 score compares sets of predicted and reference subtokens and therefore does not reward the correct subtoken order.
+      data: The 452,741 methods originate from CodeSearchNet and were extracted from 13,587 popular GitHub repositories. OGB parses each method into an abstract syntax tree and augments the tree with next-token edges; inverse edges are normally added for bidirectional message passing.
+      features: AST nodes encode a node type drawn from 97 types, an attribute such as a variable name, depth, and preorder traversal position. The target method name on the root function-definition node, including recursive occurrences, is replaced with a special mask token to prevent direct target leakage. Edge features distinguish AST, next-token, and inverse-edge direction information.
+      splits_and_evaluation: The official project split assigns whole repositories to only one of training, validation, or test, testing transfer to unseen codebases. Targets are truncated to five subtokens for the published baseline setup, using a 5,000-subtoken vocabulary plus an unknown token. Performance is the F1 score over predicted and reference subtokens.
+      quirks_and_pitfalls: The predecessor ogbg-code dataset is deprecated because method names leaked through the input AST; results from it are not comparable to ogbg-code2. A random method-level split is substantially easier and permits project-specific naming conventions to cross split boundaries. The usual F1 metric is order-insensitive, so it does not fully measure method-name generation quality.
+    sources:
+    - title: Open Graph Benchmark
+      arxiv_id: '2005.00687'
+      kind: benchmark_definition
+    - title: OGB graph property prediction documentation
+      url: https://ogb.stanford.edu/docs/graphprop/#ogbg-code2
+      kind: official_documentation
+    - title: CodeSearchNet Challenge
+      arxiv_id: '1909.09436'
+      kind: upstream_data_source
     primary_metric: F1
     higher_is_better: true
     domain: code
@@ -605,7 +635,26 @@ benchmarks:
   datasets:
   - name: Cora
     task_type: node_classification
-    description: Citation network node classification (7 classes).
+    description: Transductive classification of machine-learning papers into seven topics using text features and citation links.
+    detailed_description:
+      task: Predict one of seven research-topic labels for every paper in a single citation network. The standard Planetoid formulation is transductive, so the features and graph position of validation and test nodes are available during training while their labels are withheld.
+      data: The commonly used Planetoid version contains 2,708 machine-learning papers connected by citation links. It is a processed subset of the larger Cora research-paper collection; other datasets called Cora, including citation-matching corpora and Cora-ML, are not interchangeable with it.
+      features: Each paper has a sparse 1,433-dimensional binary bag-of-words vector indicating selected vocabulary terms. PyG exposes 10,556 directed edge entries after processing the citation relations and reports seven classes.
+      splits_and_evaluation: The fixed public Planetoid split uses 20 labeled training nodes per class, 500 validation nodes, and 1,000 test nodes. Other common protocols include full-label, random, Geom-GCN, and cross-validation splits; their accuracy values should not be pooled with the public split.
+      quirks_and_pitfalls: Cora is small, highly reused, and sensitive to the exact preprocessing and split. Published work sometimes reports results for Cora-ML or a random split simply as Cora. The OGB benchmark paper also reports feature-label leakage and duplicate-node concerns in this processed dataset, reinforcing the need to state the loader and split precisely rather than treating all Cora results as comparable.
+    sources:
+    - title: Revisiting Semi-Supervised Learning with Graph Embeddings
+      arxiv_id: '1603.08861'
+      kind: split_definition
+    - title: PyTorch Geometric Planetoid documentation and loader
+      url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.Planetoid.html
+      kind: loader_documentation
+    - title: Andrew McCallum's Cora data page
+      url: https://people.cs.umass.edu/mccallum/data.html
+      kind: upstream_data_source
+    - title: Open Graph Benchmark
+      arxiv_id: '2005.00687'
+      kind: dataset_audit
     primary_metric: Accuracy
     higher_is_better: true
     domain: citation_networks
@@ -1008,7 +1057,24 @@ benchmarks:
   datasets:
   - name: Texas
     task_type: node_classification
-    description: WebKB node classification on Texas university webpages (5 classes).
+    description: Five-class node classification on a small hyperlink graph of University of Texas computer-science webpages.
+    detailed_description:
+      task: Classify each webpage as student, project, course, staff, or faculty using the page text and hyperlink graph. This is transductive node classification on one university-specific subgraph of WebKB.
+      data: Nodes are webpages collected from the University of Texas computer-science department and edges are hyperlinks between pages. The Geom-GCN/PyG processing used in graph-learning papers contains 183 nodes; it is only one processed subset of the broader seven-class, multi-university WebKB collection.
+      features: Each node has a 1,703-dimensional bag-of-words representation of its webpage content. The graph structure records hyperlinks rather than text similarity.
+      splits_and_evaluation: The standard graph-learning protocol uses the 10 fixed Geom-GCN train/validation/test splits and reports mean accuracy across them. Results from newly generated splits or from the larger WebKB/WebKB4 collections are not directly comparable.
+      quirks_and_pitfalls: >-
+        Texas is extremely small and severely class-imbalanced: one of its five classes contains only one node. Accuracy can therefore conceal poor minority-class behavior, and results have high variance across splits. The names WebKB, WebKB4, 4 Universities, and Texas refer to related but different selections and label sets, so the exact processed artifact must be stated.
+    sources:
+    - title: CMU Text Learning WebKB dataset description
+      url: https://www.cs.cmu.edu/~TextLearning/datasets.html
+      kind: upstream_data_source
+    - title: PyTorch Geometric WebKB documentation
+      url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.WebKB.html
+      kind: loader_documentation
+    - title: A critical look at the evaluation of GNNs under heterophily
+      arxiv_id: '2302.11640'
+      kind: dataset_audit
     primary_metric: Accuracy
     higher_is_better: true
     domain: web
@@ -1814,8 +1880,23 @@ benchmarks:
     num_graphs: 4082
   - name: Ribonanza
     task_type: graph_regression
-    description: RNA reactivity prediction on the Ribonanza benchmark (DMS/2A3 chemical
-      probing).
+    description: Nucleotide-level prediction of DMS and 2A3 chemical-mapping reactivity on the 2,260-sequence Ribonanza-2k benchmark.
+    detailed_description:
+      task: Predict two continuous reactivity values for each nucleotide, one measured with dimethyl sulfate (DMS) and one with 2-aminopyridine-3-carboxylic acid imidazolide (2A3). These chemical-mapping measurements probe nucleotide accessibility and flexibility and are evaluated with root mean squared error.
+      data: Ribonanza-2k contains 2,260 RNA sequences of about 177 nucleotides. It is a benchmark subset derived from the much larger Ribonanza collection of chemical-mapping measurements produced through Eterna and related crowdsourcing efforts, not the complete collection of roughly two million measured sequences.
+      features: In the DualEquiNet benchmark, each RNA sequence is supplied with an atom-level 3D structure predicted by RhoFold, and the models use geometric information including the RNA pseudotorsional backbone. The benchmark paper does not fully enumerate the released scalar feature encoding or document how the 2,260 sequences were selected from the upstream collection.
+      splits_and_evaluation: DualEquiNet evaluates five independent random 80%/10%/10% train/validation/test splits, selects hyperparameters on validation performance, and reports RMSE for DMS, 2A3, and their average. These results should not be mixed with the original Kaggle competition protocol or models trained on the full Ribonanza collection.
+      quirks_and_pitfalls: The benchmark combines experimental reactivity labels with predicted, rather than experimentally resolved, 3D structures, so structure-prediction error is part of the input pipeline. Chemical-probing profiles can be missing or low quality in the upstream data. The subset-selection and feature-generation details are insufficiently documented in the benchmark paper and require the exact released artifacts for reproducibility.
+    sources:
+    - title: DualEquiNet
+      arxiv_id: '2506.19862'
+      kind: benchmark_definition
+    - title: Ribonanza, deep learning of RNA structure through dual crowdsourcing
+      url: https://pmc.ncbi.nlm.nih.gov/articles/PMC10925082/
+      kind: upstream_data_source
+    - title: RibonanzaNet reference implementation
+      url: https://github.com/Shujun-He/RibonanzaNet
+      kind: upstream_implementation
     primary_metric: RMSE
     higher_is_better: false
     domain: biology

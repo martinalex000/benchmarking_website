@@ -93,6 +93,43 @@
     {{ with .Params.description }}
     <p class="dataset-description">{{ . }}</p>
     {{ end }}
+    {{ with .Params.detailed_description }}
+    <section class="dataset-research" data-dataset-research>
+      <button class="dataset-research-toggle" type="button" aria-expanded="false" aria-controls="dataset-research-details">
+        Show dataset details
+      </button>
+      <div class="dataset-research-details" id="dataset-research-details" data-dataset-research-details>
+        <h2>Dataset details</h2>
+        {{ $sections := slice
+          (dict "key" "task" "label" "Task")
+          (dict "key" "data" "label" "Data")
+          (dict "key" "features" "label" "Features")
+          (dict "key" "splits_and_evaluation" "label" "Splits and evaluation")
+          (dict "key" "quirks_and_pitfalls" "label" "Quirks and pitfalls")
+        }}
+        {{ range $section := $sections }}
+          {{ with index $.Params.detailed_description $section.key }}
+          <section class="dataset-research-section">
+            <h3>{{ $section.label }}</h3>
+            <div>{{ . | markdownify }}</div>
+          </section>
+          {{ end }}
+        {{ end }}
+        {{ with $.Params.sources }}
+        <section class="dataset-research-section dataset-research-sources">
+          <h3>Sources</h3>
+          <ul>
+            {{ range . }}
+              {{ $url := .url | default "" }}
+              {{ if and (not $url) .arxiv_id }}{{ $url = printf "https://arxiv.org/abs/%s" .arxiv_id }}{{ end }}
+              <li>{{ if $url }}<a href="{{ $url }}" target="_blank" rel="noopener">{{ .title }}</a>{{ else }}{{ .title }}{{ end }}</li>
+            {{ end }}
+          </ul>
+        </section>
+        {{ end }}
+      </div>
+    </section>
+    {{ end }}
     {{/* For single-variant datasets, surface the variant note as a dataset comment paragraph */}}
     {{ if not $showAllVariants }}
       {{ with index .Params.variants 0 }}
@@ -253,4 +290,5 @@ window.leaderboardConfig = {{ dict
   "showAllVariants" (gt (len .Params.variants) 1)
   | jsonify | safeJS }};
 </script>
+<script src="{{ "js/dataset-page.js" | relURL }}?v={{ now.Unix }}"></script>
 {{ end }}
